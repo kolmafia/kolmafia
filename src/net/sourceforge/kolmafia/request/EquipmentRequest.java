@@ -79,6 +79,8 @@ public class EquipmentRequest
 		Pattern.compile( "Weapon</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=weapon" );
 	private static final Pattern OFFHAND_PATTERN =
 		Pattern.compile( "Off-Hand</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>([^<]+)</b> *(<font[^>]*>[^<]*</font>)? *<a[^>]*unequip&type=offhand" );
+	private static final Pattern CONTAINER_PATTERN =
+		Pattern.compile( "Container</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=container" );
 	private static final Pattern SHIRT_PATTERN =
 		Pattern.compile( "Shirt</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=shirt" );
 	private static final Pattern PANTS_PATTERN =
@@ -137,6 +139,7 @@ public class EquipmentRequest
 		"hat",
 		"weapon",
 		"off-hand",
+		"container",
 		"shirt",
 		"pants",
 		"acc1",
@@ -155,6 +158,7 @@ public class EquipmentRequest
 		"hat",
 		"weapon",
 		"offhand",
+		"container",
 		"shirt",
 		"pants",
 		"acc1",
@@ -412,6 +416,13 @@ public class EquipmentRequest
 			}
 			break;
 
+		case EquipmentManager.CONTAINER:
+			if ( this.equipmentType == KoLConstants.EQUIP_CONTAINER )
+			{
+				return "equip";
+			}
+			break;
+
 		case EquipmentManager.SHIRT:
 			if ( this.equipmentType == KoLConstants.EQUIP_SHIRT )
 			{
@@ -486,17 +497,20 @@ public class EquipmentRequest
 		case KoLConstants.EQUIP_OFFHAND:
 			return EquipmentManager.OFFHAND;
 
+		case KoLConstants.EQUIP_CONTAINER:
+			return EquipmentManager.CONTAINER;
+
 		case KoLConstants.EQUIP_SHIRT:
 			return EquipmentManager.SHIRT;
 
 		case KoLConstants.EQUIP_PANTS:
 			return EquipmentManager.PANTS;
 
-		case KoLConstants.EQUIP_FAMILIAR:
-			return EquipmentManager.FAMILIAR;
-
 		case KoLConstants.EQUIP_ACCESSORY:
 			return EquipmentRequest.availableAccessory();
+
+		case KoLConstants.EQUIP_FAMILIAR:
+			return EquipmentManager.FAMILIAR;
 
 		case KoLConstants.CONSUME_STICKER:
 			return EquipmentRequest.availableSticker();
@@ -1087,6 +1101,9 @@ public class EquipmentRequest
 		EquipmentRequest.parseEquipment( responseText, equipment,
 						 "unequip&type=offhand", EquipmentRequest.OFFHAND_PATTERN,
 						 "Offhand: ", EquipmentManager.OFFHAND );
+		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "unequip&type=container", EquipmentRequest.CONTAINER_PATTERN,
+						 "Container: ", EquipmentManager.CONTAINER );
 		EquipmentRequest.parseEquipment( responseText, equipment,
 						 "unequip&type=shirt", EquipmentRequest.SHIRT_PATTERN,
 						 "Shirt: ", EquipmentManager.SHIRT );

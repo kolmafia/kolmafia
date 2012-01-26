@@ -773,6 +773,7 @@ public class UseItemRequest
 		case KoLConstants.EQUIP_FAMILIAR:
 		case KoLConstants.EQUIP_HAT:
 		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_CONTAINER:
 		case KoLConstants.EQUIP_SHIRT:
 		case KoLConstants.EQUIP_OFFHAND:
 			UseItemRequest.limiter = "slot";
@@ -917,6 +918,7 @@ public class UseItemRequest
 		case KoLConstants.EQUIP_OFFHAND:
 		case KoLConstants.EQUIP_SHIRT:
 		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_CONTAINER:
 		case KoLConstants.EQUIP_ACCESSORY:
 		case KoLConstants.EQUIP_FAMILIAR:
 			RequestThread.postRequest( new EquipmentRequest( this.itemUsed ) );

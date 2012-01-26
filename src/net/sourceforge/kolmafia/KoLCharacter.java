@@ -3807,6 +3807,9 @@ public abstract class KoLCharacter
 		case KoLConstants.EQUIP_PANTS:
 			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.PANTS );
 
+		case KoLConstants.EQUIP_CONTAINER:
+			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.CONTAINER );
+
 		case KoLConstants.EQUIP_ACCESSORY:
 			return	KoLCharacter.hasEquipped( equipment, item, EquipmentManager.ACCESSORY1 ) ||
 				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.ACCESSORY2 ) ||
@@ -3850,6 +3853,10 @@ public abstract class KoLCharacter
 		case KoLConstants.EQUIP_PANTS:
 			return KoLCharacter.hasEquipped( item, EquipmentManager.PANTS ) ?
 				EquipmentManager.PANTS : EquipmentManager.NONE;
+
+		case KoLConstants.EQUIP_CONTAINER:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.CONTAINER ) ?
+				EquipmentManager.CONTAINER : EquipmentManager.NONE;
 
 		case KoLConstants.EQUIP_ACCESSORY:
 			return KoLCharacter.hasEquipped( item, EquipmentManager.ACCESSORY1 ) ?

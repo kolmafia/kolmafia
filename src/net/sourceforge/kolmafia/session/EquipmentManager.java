@@ -84,25 +84,26 @@ public class EquipmentManager
 	public static final int HAT = 0;
 	public static final int WEAPON = 1;
 	public static final int OFFHAND = 2;
-	public static final int SHIRT = 3;
-	public static final int PANTS = 4;
-	public static final int ACCESSORY1 = 5;
-	public static final int ACCESSORY2 = 6;
-	public static final int ACCESSORY3 = 7;
-	public static final int FAMILIAR = 8;
+	public static final int CONTAINER = 3;
+	public static final int SHIRT = 4;
+	public static final int PANTS = 5;
+	public static final int ACCESSORY1 = 6;
+	public static final int ACCESSORY2 = 7;
+	public static final int ACCESSORY3 = 8;
+	public static final int FAMILIAR = 9;
 
 	// Count of real equipment slots: HAT to FAMILIAR
-	public static final int SLOTS = 9;
+	public static final int SLOTS = 10;
 
 	// Pseudo-equipment slots
-	public static final int STICKER1 = 9;
-	public static final int STICKER2 = 10;
-	public static final int STICKER3 = 11;
+	public static final int STICKER1 = 10;
+	public static final int STICKER2 = 11;
+	public static final int STICKER3 = 12;
 
 	// Count of all equipment slots: HAT to STICKER3
-	public static final int ALL_SLOTS = 12;
+	public static final int ALL_SLOTS = 13;
 
-	public static final int FAKEHAND = 12;
+	public static final int FAKEHAND = 13;
 
 	private static LockableListModel equipment = new LockableListModel();
 	private static final LockableListModel accessories = new SortedListModel();
@@ -1096,6 +1097,8 @@ public class EquipmentManager
 			return KoLConstants.EQUIP_SHIRT;
 		case EquipmentManager.PANTS:
 			return KoLConstants.EQUIP_PANTS;
+		case EquipmentManager.CONTAINER:
+			return KoLConstants.EQUIP_CONTAINER;
 		case EquipmentManager.ACCESSORY1:
 		case EquipmentManager.ACCESSORY2:
 		case EquipmentManager.ACCESSORY3:
@@ -1125,6 +1128,8 @@ public class EquipmentManager
 			return EquipmentManager.SHIRT;
 		case KoLConstants.EQUIP_PANTS:
 			return EquipmentManager.PANTS;
+		case KoLConstants.EQUIP_CONTAINER:
+			return EquipmentManager.CONTAINER;
 		case KoLConstants.EQUIP_ACCESSORY:
 			return EquipmentManager.ACCESSORY1;
 		case KoLConstants.EQUIP_FAMILIAR:
@@ -1589,6 +1594,7 @@ public class EquipmentManager
 		//    "acc1":"3337",
 		//    "acc2":"1232",
 		//    "acc3":"1226",
+		//    "container":"482",
 		//    "familiarequip":"3343",
 		//    "fake hands":0
 		// },

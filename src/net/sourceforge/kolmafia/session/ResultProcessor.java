@@ -985,7 +985,6 @@ public class ResultProcessor
 			// You can trade tokens for tickets
 		case ItemPool.TRANSPORTER_TRANSPONDER:
 			// You can go to spaaace with a transponder
-
 			CoinmastersFrame.externalUpdate();
 			break;
 		}

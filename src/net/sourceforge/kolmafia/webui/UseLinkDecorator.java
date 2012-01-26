@@ -747,6 +747,7 @@ public abstract class UseLinkDecorator
 		case KoLConstants.EQUIP_OFFHAND:
 		case KoLConstants.EQUIP_SHIRT:
 		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_CONTAINER:
 		case KoLConstants.EQUIP_ACCESSORY:
 		case KoLConstants.EQUIP_FAMILIAR:
 
