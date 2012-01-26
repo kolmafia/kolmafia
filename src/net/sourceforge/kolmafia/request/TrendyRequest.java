@@ -66,7 +66,7 @@ public class TrendyRequest
 		TrendyRequest.clanMap.clear();
 	}
 
-	public static void initialize()
+	public static synchronized void initialize()
 	{
 		if ( !TrendyRequest.initialized )
 		{
