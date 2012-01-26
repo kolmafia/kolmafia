@@ -932,7 +932,7 @@ public class Modifiers
 		int hpbase = rv[ Modifiers.BUFFED_MUS ];
 		double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
 		int hp = (int) Math.ceil( (hpbase + 3) * ( C + this.get( Modifiers.HP_PCT ) / 100.0f ) ) + (int) this.get( Modifiers.HP );
-		rv[ Modifiers.BUFFED_HP ] = (int) Math.max( hp , Math.floor( mus * C ) );
+		rv[ Modifiers.BUFFED_HP ] = (int) Math.max( hp , mus );
 
 		int mpbase = (int) rv[ Modifiers.BUFFED_MYS ];
 		if ( this.getBoolean( Modifiers.MOXIE_CONTROLS_MP ) ||
@@ -943,7 +943,7 @@ public class Modifiers
 		}
 		C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
 		int mp = (int) Math.ceil( mpbase * ( C + this.get( Modifiers.MP_PCT ) / 100.0f ) ) + (int) this.get( Modifiers.MP );
-		rv[ Modifiers.BUFFED_MP ] = (int) Math.max( mp , Math.floor( mys * C ) );
+		rv[ Modifiers.BUFFED_MP ] = (int) Math.max( mp , mys );
 
 		return rv;
 	}
