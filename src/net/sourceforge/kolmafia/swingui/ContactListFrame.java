@@ -80,7 +80,8 @@ public class ContactListFrame
 		this.setCenterComponent( new ContactListPanel( this.contactsDisplay ) );
 		this.getToolbar();
 
-		this.setSize( 200, 200 );
+		// Choose an appropriate size based on what is in the contact list
+		this.pack();
 	}
 
 	public JToolBar getToolbar()

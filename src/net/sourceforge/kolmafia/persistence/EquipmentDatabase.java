@@ -725,6 +725,11 @@ public class EquipmentDatabase
 		return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_SHIRT;
 	}
 
+	public static final boolean isContainer( final AdventureResult item )
+	{
+		return ItemDatabase.getConsumptionType( item.getItemId() ) == KoLConstants.EQUIP_CONTAINER;
+	}
+
 	public static final int getPulverization( final String itemName )
 	{
 		if ( itemName == null )

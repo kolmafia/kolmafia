@@ -232,9 +232,9 @@ public class GearChangeFrame
 	{
 		public EquipPanel()
 		{
-			super( "change gear", "save as outfit", new Dimension( 100, 21 ), new Dimension( 320, 21 ) );
+			super( "change gear", "save as outfit", new Dimension( 100, 22 ), new Dimension( 320, 22 ) );
 
-			VerifiableElement[] elements = new VerifiableElement[ 21 ];
+			VerifiableElement[] elements = new VerifiableElement[ 22 ];
 
 			elements[ 0 ] = new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] );
 			elements[ 1 ] = new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[ EquipmentManager.WEAPON ] );
@@ -279,37 +279,40 @@ public class GearChangeFrame
 			}
 			elements[ 4 ] = new VerifiableElement( "", radioPanel2 );
 
-			elements[ 5 ] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] );
-			elements[ 6 ] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] );
+			elements[ 5 ] = new VerifiableElement( "Container: ", GearChangeFrame.this.equipment[ EquipmentManager.CONTAINER ] );
 
-			elements[ 7 ] = new VerifiableElement();
+			elements[ 6 ] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] );
+			elements[ 7 ] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] );
 
-			elements[ 8 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] );
-			elements[ 9 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] );
-			elements[ 10 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] );
 
-			elements[ 11 ] = new VerifiableElement();
+			elements[ 8 ] = new VerifiableElement();
 
-			elements[ 12 ] = new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect );
-			elements[ 13 ] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] );
+			elements[ 9 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] );
+			elements[ 10 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] );
+			elements[ 11 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] );
+
+			elements[ 12 ] = new VerifiableElement();
+
+			elements[ 13 ] = new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect );
+			elements[ 14 ] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] );
 
 			GearChangeFrame.this.famLockCheckbox = new FamLockCheckbox();
 			JPanel boxholder = new JPanel( new BorderLayout() );
 			boxholder.add( GearChangeFrame.this.famLockCheckbox );
-			elements[ 14 ] = new VerifiableElement( "", boxholder );
+			elements[ 15 ] = new VerifiableElement( "", boxholder );
 			GearChangeFrame.updateFamiliarLock();
 
-			elements[ 15 ] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
-			elements[ 16 ] = new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect );
+			elements[ 16 ] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
+			elements[ 17 ] = new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect );
 
-			elements[ 17 ] = new VerifiableElement();
+			elements[ 18 ] = new VerifiableElement();
 
-			elements[ 18 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
-			GearChangeFrame.this.sticker1Label = elements[ 18 ].getLabel();
-			elements[ 19 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
-			GearChangeFrame.this.sticker2Label = elements[ 19 ].getLabel();
-			elements[ 20 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
-			GearChangeFrame.this.sticker3Label = elements[ 20 ].getLabel();
+			elements[ 19 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
+			GearChangeFrame.this.sticker1Label = elements[ 19 ].getLabel();
+			elements[ 20 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
+			GearChangeFrame.this.sticker2Label = elements[ 20 ].getLabel();
+			elements[ 21 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
+			GearChangeFrame.this.sticker3Label = elements[ 21 ].getLabel();
 
 			this.setContent( elements );
 			GearChangeFrame.this.outfitButton = this.cancelledButton;

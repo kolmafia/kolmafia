@@ -410,6 +410,7 @@ public class ItemManageFrame
 			case KoLConstants.EQUIP_HAT:
 			case KoLConstants.EQUIP_PANTS:
 			case KoLConstants.EQUIP_SHIRT:
+			case KoLConstants.EQUIP_CONTAINER:
 			case KoLConstants.EQUIP_WEAPON:
 			case KoLConstants.EQUIP_OFFHAND:
 				return 1;

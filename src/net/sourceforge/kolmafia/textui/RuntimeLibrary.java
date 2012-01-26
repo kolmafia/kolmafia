@@ -1978,6 +1978,8 @@ public abstract class RuntimeLibrary
 			return DataTypes.parseSlotValue( "shirt", true );
 		case KoLConstants.EQUIP_PANTS:
 			return DataTypes.parseSlotValue( "pants", true );
+		case KoLConstants.EQUIP_CONTAINER:
+			return DataTypes.parseSlotValue( "container", true );
 		case KoLConstants.EQUIP_FAMILIAR:
 			return DataTypes.parseSlotValue( "familiar", true );
 		case KoLConstants.EQUIP_ACCESSORY:

@@ -238,6 +238,12 @@ public class ShowDataCommand
 			desiredStream.println( "Shirt: " + EquipmentManager.getEquipment( EquipmentManager.SHIRT ) );
 			desiredStream.println( "Pants: " + EquipmentManager.getEquipment( EquipmentManager.PANTS ) );
 
+			AdventureResult container = EquipmentManager.getEquipment( EquipmentManager.CONTAINER );
+			if ( container != EquipmentRequest.UNEQUIP )
+			{
+				desiredStream.println( "Container: " + container );
+			}
+
 			desiredStream.println();
 
 			desiredStream.println( "Acc. 1: " + EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ) );

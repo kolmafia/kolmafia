@@ -194,6 +194,9 @@ public class ItemPool
 	public static final int DODECAGRAM = 479;
 	public static final int CANDLES = 480;
 	public static final int BUTTERKNIFE = 481;
+	public static final int MR_CONTAINER = 482;
+	public static final int NEWBIESPORT_BACKPACK = 483;
+	public static final int HEMP_BACKPACK = 484;
 	public static final int SNAKEHEAD_CHARM = 485;
 	public static final int TALISMAN = 486;
 	public static final int KETCHUP_HOUND = 493;
@@ -399,6 +402,7 @@ public class ItemPool
 	public static final int RUBBER_EMO_ROE = 1503;
 	public static final int VAMPIRE_HEART = 1518;
 	public static final int BAKULA = 1519;
+	public static final int RADIO_KOL_COFFEE_MUG = 1520;
 	public static final int SNOOTY_DISGUISE = 1526;
 	public static final int GIFTR = 1534;
 	public static final int WEEGEE_SQOUIJA = 1537;
@@ -1149,6 +1153,7 @@ public class ItemPool
 	public static final int TINY_FLY_GLASSES = 4566;
 	public static final int LEGENDARY_BEAT = 4573;
 	public static final int BUGGED_BEANIE = 4575;
+	public static final int BUGGED_BAIO = 4581;
 	public static final int PIXEL_WHIP = 4589;
 	public static final int PIXEL_CHAIN_WHIP = 4590;
 	public static final int PIXEL_MORNING_STAR = 4591;

@@ -225,6 +225,7 @@ public class ItemDatabase
 		ItemDatabase.definePrimaryUse( "accessory", KoLConstants.EQUIP_ACCESSORY );
 		ItemDatabase.definePrimaryUse( "hat", KoLConstants.EQUIP_HAT );
 		ItemDatabase.definePrimaryUse( "pants", KoLConstants.EQUIP_PANTS );
+		ItemDatabase.definePrimaryUse( "container", KoLConstants.EQUIP_CONTAINER );
 		ItemDatabase.definePrimaryUse( "shirt", KoLConstants.EQUIP_SHIRT );
 		ItemDatabase.definePrimaryUse( "weapon", KoLConstants.EQUIP_WEAPON );
 		ItemDatabase.definePrimaryUse( "offhand", KoLConstants.EQUIP_OFFHAND );
