@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
@@ -678,6 +679,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "tavern.php" ) )
 		{
 			TavernRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "town_altar.php" ) )
+		{
+			AltarOfLiteracyRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "town_right.php" ) )

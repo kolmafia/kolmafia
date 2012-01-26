@@ -44,7 +44,9 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
+
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -658,6 +660,7 @@ public abstract class KoLCharacter
 		MicroBreweryRequest.reset();
 		HellKitchenRequest.reset();
 
+		ChatManager.resetChatLiteracy();
 		ClanManager.clearCache();
 		DisplayCaseManager.clearCache();
 		DwarfFactoryRequest.reset();
