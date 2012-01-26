@@ -280,6 +280,13 @@ public class FaxRequestFrame
 
 	private static boolean canReceiveFax()
 	{
+		// Are you allowed to use chat?
+		if ( !ChatManager.chatLiterate() )
+		{
+			FaxRequestFrame.statusMessage = "You are not allowed to use chat.";
+			return false;
+		}
+
 		// Do you have a VIP key?
 		if ( !InventoryManager.hasItem( ClanLoungeRequest.VIP_KEY ) )
 		{
