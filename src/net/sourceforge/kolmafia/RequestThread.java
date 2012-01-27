@@ -41,12 +41,16 @@ import java.util.Set;
 
 import javax.swing.SwingUtilities;
 
+import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
+
+import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public abstract class RequestThread
 {
@@ -61,6 +65,34 @@ public abstract class RequestThread
 		// relay browser.  For now, just spawn a new thread.
 
 		new ThreadWrappedRunnable( action ).start();
+	}
+
+	public static final void postRequestAfterInitialization( final GenericRequest request )
+	{
+		RequestThread.runInParallel( new PostDelayedRequestRunnable( request ) );
+	}
+
+	private static class PostDelayedRequestRunnable
+		implements Runnable
+	{
+		private GenericRequest request;
+		private PauseObject pauser;
+
+		public PostDelayedRequestRunnable( GenericRequest request )
+		{
+			this.request = request;
+			this.pauser = new PauseObject();
+		}
+
+		public void run()
+		{
+			while ( KoLmafia.isRefreshing() )
+			{
+				this.pauser.pause( 200 );
+			}
+
+			RequestThread.postRequest( request );
+		}
 	}
 
 	/**

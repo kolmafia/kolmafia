@@ -1668,7 +1668,7 @@ public class GenericRequest
 		{
 			if ( LoginRequest.isInstanceRunning() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Redirected to a fight page." );
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, this.baseURLString + ": redirected to a fight page." );
 				FightRequest.initializeAfterFight();
 				return true;
 			}
@@ -1701,7 +1701,7 @@ public class GenericRequest
 		{
 			if ( LoginRequest.isInstanceRunning() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Redirected to a choice page." );
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, this.baseURLString + ": redirected to a choice page." );
 				ChoiceManager.initializeAfterChoice();
 				return true;
 			}
