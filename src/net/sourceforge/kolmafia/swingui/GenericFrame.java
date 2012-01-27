@@ -201,6 +201,11 @@ public abstract class GenericFrame
 		return this.framePanel.centerComponent;
 	}
 
+	public void removeCenterComponent()
+	{
+		this.framePanel.remove( this.framePanel.centerComponent );
+	}
+
 	public JPanel getFramePanel()
 	{
 		return this.framePanel;
