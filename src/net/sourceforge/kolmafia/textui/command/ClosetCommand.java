@@ -39,7 +39,9 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.request.ClosetRequest;
 
@@ -115,5 +117,14 @@ public class ClosetCommand
 		RequestThread.postRequest( new ClosetRequest(
 			parameters.startsWith( "take" ) ? ClosetRequest.CLOSET_TO_INVENTORY : ClosetRequest.INVENTORY_TO_CLOSET,
 			itemList ) );
+		
+		for ( int i = 0; i < itemList.length; ++i )
+		{
+			// update "Hatter" daily deed
+			if ( EquipmentDatabase.isHat( (AdventureResult) itemList[ i ] ) )
+			{
+				PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
+			}
+		}
 	}
 }

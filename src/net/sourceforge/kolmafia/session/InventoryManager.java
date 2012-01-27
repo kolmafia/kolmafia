@@ -60,10 +60,12 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
@@ -115,6 +117,8 @@ public abstract class InventoryManager
 			EquipmentManager.updateEquipmentLists();
 			ConcoctionDatabase.deferRefresh( false );
 			KoLmafia.setIsRefreshing( false );
+			// update "Hatter" daily deed
+			PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 		}
 	}
 
@@ -286,6 +290,10 @@ public abstract class InventoryManager
 		}
 		if ( rv.equals( "" ) )
 		{
+			if ( EquipmentDatabase.isHat( item ) )
+			{
+				PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
+			}
 			return true;
 		}
 		RequestLogger.printLine( "INTERNAL ERROR: retrieveItem returned string when not simulating!" );
