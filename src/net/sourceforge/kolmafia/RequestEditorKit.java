@@ -976,12 +976,6 @@ public class RequestEditorKit
 
 		if ( index == -1 )
 		{
-			test = "You can't get here without the proper transporter frequency.";
-			index = buffer.indexOf( test );
-		}
-
-		if ( index == -1 )
-		{
 			return;
 		}
 
