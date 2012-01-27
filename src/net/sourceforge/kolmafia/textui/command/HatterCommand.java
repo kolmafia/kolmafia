@@ -33,18 +33,66 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HatterCommand
 	extends AbstractCommand
 {
 	public HatterCommand()
 	{
-		this.usage = " - List effects you can get by wearing available hats at the hatter's tea party.";
+		this.usage = " [hat] - List effects you can get by wearing available hats at the hatter's tea party, or get a buff with a hat.";
 	}
 
 	public void run( final String cmd, final String parameters )
 	{
-		RabbitHoleManager.hatCommand();
+		if ( parameters.length() < 1 )
+		{
+			RabbitHoleManager.hatCommand();
+			return;
+		}
+		
+		if ( !RabbitHoleManager.teaPartyAvailable() )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You have already attended a Tea Party today." );
+			return;
+		}
+
+		String hat = parameters;
+
+		List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+		List matches = new ArrayList();
+
+		for ( int i = 0; i < hats.size(); ++i )
+		{
+			if ( StringUtilities.fuzzyMatches( hats.get( i ).toString(), hat ) )
+			{
+				matches.add( hats.get( i ) );
+			}
+		}
+
+		if ( matches.size() > 1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + hat + "] has too many matches." );
+			return;
+		}
+
+		if ( matches.size() == 0 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + hat + " for a hat." );
+			return;
+		}
+
+		RabbitHoleManager.getHatBuff( (AdventureResult) matches.get( 0 ) );
 	}
 }
