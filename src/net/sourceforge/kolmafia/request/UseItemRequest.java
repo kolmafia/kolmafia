@@ -1025,31 +1025,34 @@ public class UseItemRequest
 				AdventureResult phial = BasementRequest.ELEMENT_PHIALS[ i ];
 				if ( itemId != phial.getItemId() )
 				{
-					for ( int j = 0; j < BasementRequest.ELEMENT_FORMS.length; ++j )
+					continue;
+				}
+
+				// i is the index of the phial we are using
+				for ( int j = 0; j < BasementRequest.ELEMENT_FORMS.length; ++j )
+				{
+					if ( j == i )
 					{
-						if ( j == i )
-						{
-							continue;
-						}
+						continue;
+					}
 
-						AdventureResult form = BasementRequest.ELEMENT_FORMS[ j ];
-						if ( !KoLConstants.activeEffects.contains( form ) )
-						{
-							continue;
-						}
+					AdventureResult form = BasementRequest.ELEMENT_FORMS[ j ];
+					if ( !KoLConstants.activeEffects.contains( form ) )
+					{
+						continue;
+					}
 
-						RequestThread.postRequest( new UneffectRequest( form ) );
+					RequestThread.postRequest( new UneffectRequest( form ) );
 
-						if ( !KoLmafia.permitsContinue() )
-						{
-							return;
-						}
-
-						break;
+					if ( !KoLmafia.permitsContinue() )
+					{
+						return;
 					}
 
 					break;
 				}
+
+				break;
 			}
 			break;
 		}

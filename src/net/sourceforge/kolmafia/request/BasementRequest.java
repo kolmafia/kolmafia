@@ -127,6 +127,16 @@ public class BasementRequest
 
 	private static final Pattern BASEMENT_PATTERN = Pattern.compile( "Level ([\\d,]+)" );
 
+	public static final AdventureResult[] ELEMENT_PHIALS =
+		new AdventureResult[]
+	{
+		BasementRequest.HOT_PHIAL,
+		BasementRequest.COLD_PHIAL,
+		BasementRequest.SPOOKY_PHIAL,
+		BasementRequest.STENCH_PHIAL,
+		BasementRequest.SLEAZE_PHIAL
+	};
+
 	public static final AdventureResult[] ELEMENT_FORMS =
 		new AdventureResult[]
 	{
@@ -150,16 +160,6 @@ public class BasementRequest
 
 		return false;
 	}
-
-	public static final AdventureResult[] ELEMENT_PHIALS =
-		new AdventureResult[]
-	{
-		BasementRequest.HOT_PHIAL,
-		BasementRequest.COLD_PHIAL,
-		BasementRequest.SPOOKY_PHIAL,
-		BasementRequest.STENCH_PHIAL,
-		BasementRequest.SLEAZE_PHIAL
-	};
 
 	public static final FamiliarData SANDWORM =
 		new FamiliarData( FamiliarPool.SANDWORM );
