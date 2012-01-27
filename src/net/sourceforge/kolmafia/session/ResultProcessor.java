@@ -55,8 +55,10 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -996,7 +998,12 @@ public class ResultProcessor
 		{
 			return;
 		}
-
+		
+		if ( EquipmentDatabase.isHat( result ) )
+		{
+			PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
+		}
+		
 		switch ( result.getItemId() )
 		{
 		case ItemPool.ROASTED_MARSHMALLOW:

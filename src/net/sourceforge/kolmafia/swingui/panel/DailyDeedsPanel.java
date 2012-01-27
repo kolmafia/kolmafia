@@ -69,7 +69,9 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.TrendyRequest;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.RabbitHoleManager;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
@@ -205,6 +207,9 @@ public class DailyDeedsPanel
 		},
 		{
 			"Special", "Free Runaways",
+		},
+		{
+			"Special", "Hatter"
 		}
 	};
 
@@ -754,6 +759,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Free Runaways" ) )
 		{
 			this.add( new RunawaysDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Hatter" ) )
+		{
+			this.add( new HatterDaily() );
 		}
 		else
 		// you added a special deed to BUILTIN_DEEDS but didn't add a method call.
@@ -2420,5 +2429,124 @@ public class DailyDeedsPanel
 				KoLCharacter.canInteract());
 			this.setEnabled( !dun );
 		}
+	}
+
+	public static class HatterDaily
+		extends Daily
+	{
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn;
+		
+		static ArrayList effectHats = new ArrayList();
+		ArrayList effects = new ArrayList();
+		ArrayList modifiers = new ArrayList();
+
+		public HatterDaily()
+		{
+			this.effects.add( "Available Hatter Buffs: " );
+			this.modifiers.add( null );
+
+			this.addListener( "_madTeaParty" );
+			this.addListener( "(hats)" );
+			this.addListener( "kingLiberated" );
+
+			this.addItem( ItemPool.DRINK_ME_POTION );
+			this.addItem( ItemPool.VIP_LOUNGE_KEY );
+
+			box = this.addComboBox( this.effects.toArray(), this.modifiers, "Available Hatter Buffs: BLAH" );
+			box.addActionListener( new HatterComboListener() );
+			this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
+
+			// Initialize the GO button to do nothing.
+			btn = this.addComboButton( "", "Go!" );
+			update();
+		}
+
+		public void update()
+		{
+			this.box.removeAllItems();
+			
+			HatterDaily.effectHats = new ArrayList();
+			this.modifiers = new ArrayList();
+			box.addItem( "Available Hatter Buffs: " );
+			HatterDaily.effectHats.add( null );
+			this.modifiers.add( null );
+			
+			//build hat options here
+			List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+			Object[][] hat_data = RabbitHoleManager.HAT_DATA;
+			
+			//iterate across hatter buffs (i.e. hat character-lengths) first
+			if ( hats.size() > 0 )
+			{
+				for ( int i = 0; i < hat_data.length; ++i )
+				{
+					// iterate down inventory second
+					for ( int j = 0; j <= hats.size(); ++j )
+					{
+						AdventureResult ad = (AdventureResult) hats.get( j );
+
+						if ( ad != null && !ad.getName().equals( "(none)" ) )
+						{
+							if ( ( (Integer) hat_data[ i ][ 0 ] ).intValue() == RabbitHoleManager
+								.hatLength( ad.getName() ) )
+							{
+								HatterDaily.effectHats.add( ad.getName() );
+								box.addItem( hat_data[ i ][ 1 ], false );
+								modifiers.add( hat_data[ i ][ 2 ] );
+								break;
+							}
+						}
+					}
+				}
+			}
+			box.setTooltips( modifiers );
+			
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+
+			this.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
+			box.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
+
+			this.setShown( have && (!bm || kf ) );
+			
+			setComboTarget(btn, "");
+		}
+		
+		public static String getEffectHat( int index )
+		{
+			return (String) effectHats.get( index );
+		}
+
+		private class HatterComboListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+				
+				if ( cb.getItemCount() == 0 )
+				{
+					return;
+				}
+				
+				if ( cb.getSelectedIndex() == 0 )
+				{
+					setComboTarget( btn, "" );
+				}
+				else
+				{
+					String Choice = cb.getSelectedItem().toString();
+
+					if ( Choice != null )
+					{
+						setComboTarget( btn, "hatter " + HatterDaily.getEffectHat( cb.getSelectedIndex() ) );
+					}
+				}
+			}
+		}
+
+		
 	}
 }
