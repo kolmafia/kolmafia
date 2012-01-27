@@ -37,6 +37,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.session.ContactManager;
 
 public class ContactListRequest
@@ -54,6 +57,22 @@ public class ContactListRequest
 	protected boolean retryOnTimeout()
 	{
 		return true;
+	}
+
+	public void run()
+	{
+		// This is needed to get various lists for frame construction,
+		// which happens after we log in. However, if we are redirected
+		// to a fight or a choice during login, this request itself
+		// will be redirected.
+		if ( KoLmafia.isRefreshing() )
+		{
+
+			RequestThread.postRequestAfterInitialization( this );
+			return;
+		}
+
+		super.run();
 	}
 
 	public void processResults()

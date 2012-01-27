@@ -163,6 +163,7 @@ public abstract class ChatManager
 			KoLmafia.updateDisplay( "You cannot access chat until you complete the Altar of Literacy" );
 			return;
 		}
+
 		ChatManager.isRunning = true;
 
 		StyledChatBuffer.initializeHighlights();
@@ -212,9 +213,11 @@ public abstract class ChatManager
 
 	public static final void dispose()
 	{
-		ChatManager.isRunning = false;
-
-		ChatSender.sendMessage( null, "/exit", false );
+		if ( ChatManager.isRunning )
+		{
+			ChatManager.isRunning = false;
+			ChatSender.sendMessage( null, "/exit", false );
+		}
 
 		ChatManager.activeWindows.clear();
 		ChatManager.activeChannels.clear();
