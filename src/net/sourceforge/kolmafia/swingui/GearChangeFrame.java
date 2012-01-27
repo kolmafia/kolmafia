@@ -64,25 +64,40 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.preferences.PreferenceListener;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
+
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
+
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class GearChangeFrame
 	extends GenericFrame
+	implements PreferenceListener
 {
 	private static GearChangeFrame INSTANCE = null;
 
 	private boolean isEnabled;
 	private JButton outfitButton;
+
+	private static boolean showContainer;
 
 	private JRadioButton[] weaponTypes;
 	private JCheckBox weapon1H;
@@ -129,11 +144,28 @@ public class GearChangeFrame
 		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
 		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
+		GearChangeFrame.showContainer = Preferences.getBoolean( "showContainerDropdown" );
 		this.setCenterComponent( new JScrollPane( new EquipPanel() ) );
 
 		GearChangeFrame.INSTANCE = this;
 
+		PreferenceListenerRegistry.registerListener( "showContainerDropdown", this );
+
 		this.ensureValidSelections();
+	}
+
+	public void update()
+	{
+		boolean setting = Preferences.getBoolean( "showContainerDropdown" );
+		if ( GearChangeFrame.showContainer != setting )
+		{
+			GearChangeFrame.showContainer = setting;
+			this.removeCenterComponent();
+			this.setCenterComponent( new JScrollPane( new EquipPanel() ) );
+			this.invalidate();
+			this.validate();
+			this.doLayout();
+		}
 	}
 
 	public JTabbedPane getTabbedPane()
@@ -227,17 +259,26 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.modifiersLabel.setText( buff.toString() );
 	}
 
+	private static int equipmentRows()
+	{
+		return GearChangeFrame.showContainer ? 22 : 21;
+	}
+
 	private class EquipPanel
 		extends GenericPanel
 	{
 		public EquipPanel()
 		{
-			super( "change gear", "save as outfit", new Dimension( 100, 22 ), new Dimension( 320, 22 ) );
+			super( "change gear", "save as outfit",
+			       new Dimension( 100, GearChangeFrame.equipmentRows() ),
+			       new Dimension( 320, GearChangeFrame.equipmentRows() ) );
 
-			VerifiableElement[] elements = new VerifiableElement[ 22 ];
+			VerifiableElement[] elements = new VerifiableElement[ GearChangeFrame.equipmentRows() ];
 
-			elements[ 0 ] = new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] );
-			elements[ 1 ] = new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[ EquipmentManager.WEAPON ] );
+			int row = 0;
+
+			elements[ row++ ] = new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] );
+			elements[ row++ ] = new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[ EquipmentManager.WEAPON ] );
 
 			JPanel radioPanel1 = new JPanel( new GridLayout( 1, 4 ) );
 			ButtonGroup radioGroup1 = new ButtonGroup();
@@ -258,9 +299,9 @@ public class GearChangeFrame
 			radioPanel1.add( GearChangeFrame.this.weapon1H );
 			GearChangeFrame.this.weapon1H.addActionListener( new RefilterListener() );
 
-			elements[ 2 ] = new VerifiableElement( "", radioPanel1 );
+			elements[ row++ ] = new VerifiableElement( "", radioPanel1 );
 
-			elements[ 3 ] = new VerifiableElement( "Off-Hand: ", GearChangeFrame.this.equipment[ EquipmentManager.OFFHAND ] );
+			elements[ row++ ] = new VerifiableElement( "Off-Hand: ", GearChangeFrame.this.equipment[ EquipmentManager.OFFHAND ] );
 
 			JPanel radioPanel2 = new JPanel( new GridLayout( 1, 5 ) );
 			ButtonGroup radioGroup2 = new ButtonGroup();
@@ -277,44 +318,48 @@ public class GearChangeFrame
 				radioPanel2.add( GearChangeFrame.this.offhandTypes[ i ] );
 				GearChangeFrame.this.offhandTypes[ i ].addActionListener( new RefilterListener() );
 			}
-			elements[ 4 ] = new VerifiableElement( "", radioPanel2 );
+			elements[ row++ ] = new VerifiableElement( "", radioPanel2 );
 
-			elements[ 5 ] = new VerifiableElement( "Container: ", GearChangeFrame.this.equipment[ EquipmentManager.CONTAINER ] );
+			if ( GearChangeFrame.showContainer )
+			{
+				elements[ row++ ] = new VerifiableElement( "Container: ", GearChangeFrame.this.equipment[ EquipmentManager.CONTAINER ] );
+			}
 
-			elements[ 6 ] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] );
-			elements[ 7 ] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] );
+			elements[ row++ ] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] );
+			elements[ row++ ] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] );
 
 
-			elements[ 8 ] = new VerifiableElement();
+			elements[ row++ ] = new VerifiableElement();
 
-			elements[ 9 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] );
-			elements[ 10 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] );
-			elements[ 11 ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] );
+			elements[ row++ ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] );
+			elements[ row++ ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] );
+			elements[ row++ ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] );
 
-			elements[ 12 ] = new VerifiableElement();
+			elements[ row++ ] = new VerifiableElement();
 
-			elements[ 13 ] = new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect );
-			elements[ 14 ] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] );
+			elements[ row++ ] = new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect );
+			elements[ row++ ] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] );
 
 			GearChangeFrame.this.famLockCheckbox = new FamLockCheckbox();
 			JPanel boxholder = new JPanel( new BorderLayout() );
 			boxholder.add( GearChangeFrame.this.famLockCheckbox );
-			elements[ 15 ] = new VerifiableElement( "", boxholder );
+			elements[ row++ ] = new VerifiableElement( "", boxholder );
 			GearChangeFrame.updateFamiliarLock();
 
-			elements[ 16 ] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
-			elements[ 17 ] = new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect );
+			elements[ row++ ] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
+			elements[ row++ ] = new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect );
 
-			elements[ 18 ] = new VerifiableElement();
+			elements[ row++ ] = new VerifiableElement();
 
-			elements[ 19 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
-			GearChangeFrame.this.sticker1Label = elements[ 19 ].getLabel();
-			elements[ 20 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
-			GearChangeFrame.this.sticker2Label = elements[ 20 ].getLabel();
-			elements[ 21 ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
-			GearChangeFrame.this.sticker3Label = elements[ 21 ].getLabel();
+			elements[ row ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
+			GearChangeFrame.this.sticker1Label = elements[ row++ ].getLabel();
+			elements[ row ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
+			GearChangeFrame.this.sticker2Label = elements[ row++ ].getLabel();
+			elements[ row ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
+			GearChangeFrame.this.sticker3Label = elements[ row++ ].getLabel();
 
 			this.setContent( elements );
+
 			GearChangeFrame.this.outfitButton = this.cancelledButton;
 			GearChangeFrame.this.modifiersWidth =
 				this.eastContainer.getPreferredSize().width;
