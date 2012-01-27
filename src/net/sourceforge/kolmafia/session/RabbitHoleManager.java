@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -56,6 +58,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 
+import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1516,7 +1519,7 @@ public abstract class RabbitHoleManager
 		buffer.append( ending );
 	}
 	
-	public static final void hatCommand()
+	private static TreeMap getHatMap()
 	{
 		// Make a map of all hats indexed by length
 		List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
@@ -1532,7 +1535,7 @@ public abstract class RabbitHoleManager
 
 			String name = hat.getName();
 
-			Integer len = new Integer( RabbitHoleManager.HAT_CLEANER_PATTERN.matcher( name ).replaceAll( "" ).length() );
+			Integer len = new Integer( hatLength( name ) );
 			StringBuffer buffer = (StringBuffer) lengths.get( len );
 
 			if ( buffer == null )
@@ -1546,6 +1549,13 @@ public abstract class RabbitHoleManager
 			}
 			buffer.append( name );
 		}
+		
+		return lengths;
+	}
+	
+	public static final void hatCommand()
+	{
+		TreeMap lengths = getHatMap();
 
 		if ( lengths.size() == 0 )
 		{
@@ -1563,7 +1573,7 @@ public abstract class RabbitHoleManager
 		output.append( "</tr>" );
 		
 		// For each hat length, generate a table row
-		it = lengths.keySet().iterator();
+		Iterator it = lengths.keySet().iterator();
 		while ( it.hasNext() )
 		{
 			Integer key = (Integer) it.next();
@@ -1598,6 +1608,54 @@ public abstract class RabbitHoleManager
 
 		RequestLogger.printLine( output.toString() );
 		RequestLogger.printLine();
+	}
+	
+	public static boolean teaPartyAvailable()
+	{
+		return !Preferences.getBoolean( "_madTeaParty" );
+	}
+	
+	public static void getHatBuff( final AdventureResult hat )
+	{
+		AdventureResult oldHat = EquipmentManager.getEquipment( EquipmentManager.HAT );
+
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.DOWN_THE_RABBIT_HOLE ) ) )
+		{
+			InventoryManager.retrieveItem( ItemPool.get( ItemPool.DRINK_ME_POTION, 1 ) );
+			RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.DRINK_ME_POTION, 1 ) ) );
+		}
+
+		RequestThread.postRequest( new EquipmentRequest( hat, EquipmentManager.HAT ) );
+
+		String effectName = "", effectModifiers = "";
+		int len = hatLength( hat.getName() );
+		int allHatLen = HAT_DATA.length;
+
+		for ( int i=0; i <= allHatLen ; ++i )
+		{
+			if ( ( (Integer) HAT_DATA[i][0] ).intValue() == len )
+			{
+				effectName = (String) HAT_DATA[i][1];
+				effectModifiers = (String) HAT_DATA[i][2];
+				break;
+			}
+		}
+		
+		if ( effectName.equals( "" ) || effectModifiers.equals( "" ) )
+		{
+			return;
+		}
+
+		RequestLogger.printLine( "Getting " + effectName + " (" + effectModifiers + ") from the Mad Tea Party..." );
+		RequestThread.postRequest( new GenericRequest( "rabbithole.php?action=teaparty" ) );
+		RequestThread.postRequest( new GenericRequest( "choice.php?pwd&whichchoice=441&option=1", true ) );
+
+		RequestThread.postRequest( new EquipmentRequest( oldHat, EquipmentManager.HAT ) );
+	}
+
+	public static int hatLength( final String name )
+	{
+		return RabbitHoleManager.HAT_CLEANER_PATTERN.matcher( name ).replaceAll( "" ).length();
 	}
 
 	public static final boolean registerChessboardRequest( final String urlString )
