@@ -129,6 +129,16 @@ public abstract class ChatManager
 		ChatManager.checkedLiteracy = false;
 	}
 
+	public static final boolean checkedChatLiteracy()
+	{
+		return ChatManager.checkedLiteracy;
+	}
+
+	public static final boolean getChatLiteracy()
+	{
+		return ChatManager.chatLiterate;
+	}
+
 	public static final void setChatLiteracy( final boolean on )
 	{
 		ChatManager.checkedLiteracy = true;
