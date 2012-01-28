@@ -13,6 +13,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.chat.ChatManager;
+
 import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -143,7 +145,16 @@ public class ValhallaManager
 
 	public static void onAscension()
 	{
+		// Save and restore chat literacy, since you are allowed to chat while in Valhalla
+		boolean checkedLiteracy = ChatManager.checkedChatLiteracy();
+		boolean chatLiterate = ChatManager.getChatLiteracy();
+
 		KoLCharacter.reset();
+
+		if ( checkedLiteracy )
+		{
+			ChatManager.setChatLiteracy( chatLiterate );
+		}
 
 		Preferences.increment( "knownAscensions", 1 );
 		Preferences.setInteger( "lastBreakfast", -1 );
