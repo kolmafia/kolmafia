@@ -1693,7 +1693,7 @@ public class GenericRequest
 			// This is a request which should not have lead to a
 			// fight, but it did.  Notify the user.
 
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Redirected to a fight page." );
+			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, this.baseURLString + ": redirected to a fight page." );
 			return true;
 		}
 

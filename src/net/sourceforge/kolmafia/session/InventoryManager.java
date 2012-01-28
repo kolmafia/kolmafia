@@ -124,8 +124,11 @@ public abstract class InventoryManager
 
 	public static final int getCount( final int itemId )
 	{
-		AdventureResult item = ItemPool.get( itemId, 1 );
+		return InventoryManager.getCount( ItemPool.get( itemId, 1 ) );
+	}
 
+	public static final int getCount( final AdventureResult item )
+	{
 		return item.getCount( KoLConstants.inventory );
 	}
 
