@@ -189,7 +189,6 @@ public class LoginManager
 		{
 			PasswordHashRequest request = new PasswordHashRequest( "lchat.php" );
 			RequestThread.postRequest(  request );
-			return;
 		}
 
 		ContactManager.registerPlayerId( username, String.valueOf( KoLCharacter.getUserId() ) );

@@ -389,6 +389,12 @@ public class KoLmafiaGUI
 		}
 		else if ( frameClass == MuseumFrame.class )
 		{
+			if ( CharPaneRequest.inValhalla() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find your display case in Valhalla." );
+				return;
+			}
+
 			if ( !KoLCharacter.hasDisplayCase() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sorry, you don't have a display case." );
