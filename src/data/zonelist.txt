@@ -73,6 +73,8 @@ Sorceress	Unsorted	Sorceress Lair
 Holiday	Unsorted	Holiday Zones
 The Candy Diorama	Holiday	Christmas 2011
 
+Override	Unsorted	Discoveries
+
 Events	Unsorted	Events
 
 Removed	Removed	Removed Areas

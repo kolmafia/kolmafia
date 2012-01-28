@@ -53,9 +53,9 @@ public class RegisterAdventureCommand
 			return;
 		}
 
-		KoLAdventure adventure =
-			new KoLAdventure( "Holiday", "adventure.php", parameters.substring( 0, spaceIndex ), parameters.substring(
-				spaceIndex ).trim() );
+		KoLAdventure adventure = new KoLAdventure( "Override", "adventure.php",
+							   parameters.substring( 0, spaceIndex ),
+							   parameters.substring( spaceIndex ).trim() );
 
 		AdventureDatabase.addAdventure( adventure );
 	}
