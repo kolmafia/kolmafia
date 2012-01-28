@@ -41,11 +41,15 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -68,6 +72,7 @@ public class CharPaneRequest
 
 	private static boolean canInteract = false;
 	private static boolean inValhalla = false;
+	private static boolean checkNewLocation = false;
 
 	private static String lastResponse = "";
 	private static long lastResponseTimestamp = 0;
@@ -116,6 +121,11 @@ public class CharPaneRequest
 	public static final void setInteraction( final boolean interaction )
 	{
 		CharPaneRequest.canInteract = interaction;
+	}
+
+	public static final void setCheckNewLocation( final boolean check )
+	{
+		CharPaneRequest.checkNewLocation = check;
 	}
 
 	public void run()
@@ -192,6 +202,7 @@ public class CharPaneRequest
 			CharPaneRequest.handleExpandedMode( responseText );
 		}
 
+		CharPaneRequest.checkNewLocation( responseText );
 		CharPaneRequest.refreshEffects( responseText );
 		KoLCharacter.recalculateAdjustments();
 		CharPaneRequest.checkFamiliar( responseText );
@@ -458,29 +469,29 @@ public class CharPaneRequest
 
 		if ( !miscMatcher.find() )
 		{
-                        return;
-                }
+			return;
+		}
 
-                String currentHP = miscMatcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-                String maximumHP = miscMatcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+		String currentHP = miscMatcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+		String maximumHP = miscMatcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 
-                String currentMP = miscMatcher.group( 3 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-                String maximumMP = miscMatcher.group( 4 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+		String currentMP = miscMatcher.group( 3 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+		String maximumMP = miscMatcher.group( 4 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 
-                KoLCharacter.setHP( StringUtilities.parseInt( currentHP ),
-                                    StringUtilities.parseInt( maximumHP ),
-                                    StringUtilities.parseInt( maximumHP ) );
-                KoLCharacter.setMP( StringUtilities.parseInt( currentMP ),
-                                    StringUtilities.parseInt( maximumMP ),
-                                    StringUtilities.parseInt( maximumMP ) );
+		KoLCharacter.setHP( StringUtilities.parseInt( currentHP ),
+				    StringUtilities.parseInt( maximumHP ),
+				    StringUtilities.parseInt( maximumHP ) );
+		KoLCharacter.setMP( StringUtilities.parseInt( currentMP ),
+				    StringUtilities.parseInt( maximumMP ),
+				    StringUtilities.parseInt( maximumMP ) );
 
-                String availableMeat = miscMatcher.group( 5 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-                KoLCharacter.setAvailableMeat( StringUtilities.parseInt( availableMeat ) );
+		String availableMeat = miscMatcher.group( 5 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+		KoLCharacter.setAvailableMeat( StringUtilities.parseInt( availableMeat ) );
 
-                String adventuresLeft = miscMatcher.group( 6 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-                int oldAdventures = KoLCharacter.getAdventuresLeft();
-                int newAdventures = StringUtilities.parseInt( adventuresLeft );
-                ResultProcessor.processAdventuresLeft( newAdventures - oldAdventures );
+		String adventuresLeft = miscMatcher.group( 6 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+		int oldAdventures = KoLCharacter.getAdventuresLeft();
+		int newAdventures = StringUtilities.parseInt( adventuresLeft );
+		ResultProcessor.processAdventuresLeft( newAdventures - oldAdventures );
 	}
 
 	private static final void handleMindControl( final String text, final Pattern [] patterns )
@@ -697,6 +708,46 @@ public class CharPaneRequest
 		{
 			TurnCounter.startCounting( absintheCount - 1, "Wormwood loc=151 loc=152 loc=153 wormwood.php", "tinybottle.gif" );
 		}
+	}
+
+	private static Pattern compactLastAdventurePattern =
+		Pattern.compile( "<td align=right><a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"adventure.php\\?snarfblat=([\\d]+)\">.*?</a>:</td>" );
+	private static Pattern expandedLastAdventurePattern =
+		Pattern.compile( ">Last Adventure.*?<a.*? href=\"adventure.php\\?snarfblat=([^\"]+)\">(.*?)</a>.*?</table>" );
+
+	private static final void checkNewLocation( final String responseText )
+	{
+		if ( !CharPaneRequest.checkNewLocation )
+		{
+			return;
+		}
+
+		CharPaneRequest.checkNewLocation = false;
+
+		boolean compact = GenericRequest.compactCharacterPane;
+
+		Pattern pattern = compact ?
+			CharPaneRequest.compactLastAdventurePattern :
+			CharPaneRequest.expandedLastAdventurePattern;
+		Matcher lastAdventureMatcher = pattern.matcher( responseText );
+		if ( !lastAdventureMatcher.find() )
+		{
+			return;
+		}
+
+		String adventureName = compact ? lastAdventureMatcher.group( 1 ) : lastAdventureMatcher.group( 2 );
+		String adventureId = compact ? lastAdventureMatcher.group( 2 ) : lastAdventureMatcher.group( 1 );
+		String adventureURL = "adventure.php?snarfblat=" + adventureId;
+
+		// check if we already know this location
+		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
+		if ( adventure != null )
+		{
+			return;
+		}
+
+		RequestLogger.printLine( "Adding new location:  " + adventureName + " - adventure.php?snarfblat=" + adventureId );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "location", adventureId + " " + adventureName );
 	}
 
 	private static Pattern compactFamiliarPattern =

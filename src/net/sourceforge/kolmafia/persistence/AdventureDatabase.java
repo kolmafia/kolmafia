@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
@@ -659,6 +660,11 @@ public class AdventureDatabase
 			if ( urlString.indexOf( "snarfblat=122" ) != -1 )
 			{
 				return "Oasis in the Desert";
+			}
+			if ( urlString.indexOf( "snarfblat=" ) != -1 )
+			{
+				CharPaneRequest.setCheckNewLocation( true );
+				return "Unknown adventure";
 			}
 			return null;
 		}
