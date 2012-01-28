@@ -2333,19 +2333,47 @@ public abstract class KoLmafia
 		}
 	}
 
+	public static void about()
+	{
+		new LicenseDisplayListener().run();
+	}
+
 	public static void quit()
 	{
 		LogoutManager.logout();
 		System.exit( 0 );
 	}
 
-	public static void about()
+	public static void quitThreaded()
 	{
-		new LicenseDisplayListener().run();
+		RequestThread.runInParallel( new QuitRunnable() );
+	}
+
+	private static class QuitRunnable
+		implements Runnable
+	{
+		public void run()
+		{
+			KoLmafia.quit();
+		}
 	}
 
 	public static void preferences()
 	{
 		KoLmafiaGUI.constructFrame( "OptionsFrame" );
+	}
+
+	public static void preferencesThreaded()
+	{
+		RequestThread.runInParallel( new PreferencesRunnable() );
+	}
+
+	private static class PreferencesRunnable
+		implements Runnable
+	{
+		public void run()
+		{
+			KoLmafiaGUI.constructFrame( "OptionsFrame" );
+		}
 	}
 }
