@@ -548,9 +548,27 @@ public abstract class UseLinkDecorator
 
 		case KoLConstants.CONSUME_EAT:
 
-			if ( itemId == ItemPool.GOAT_CHEESE )
+			switch ( itemId )
 			{
+			case ItemPool.GOAT_CHEESE:
 				return new UseLink( itemId, InventoryManager.getCount( itemId ), "trapper.php" );
+
+			case ItemPool.FORTUNE_COOKIE: {
+				ArrayList uses = new ArrayList();
+
+				if ( KoLCharacter.canEat() )
+				{
+					uses.add( new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=" ) );
+				}
+
+				uses.add( new UseLink( itemId, itemCount, "smash", "inv_use.php?which=1&whichitem=" ) );
+				if  ( uses.size() == 1 )
+				{
+					return (UseLink) uses.get( 0 );
+				}
+
+				return new UsesLink( (UseLink[]) uses.toArray( new UseLink[ uses.size() ] ) );
+			}
 			}
 
 			if ( !KoLCharacter.canEat() )
@@ -1421,7 +1439,7 @@ public abstract class UseLinkDecorator
 	}
 	
 	public static class UsesLink
-	extends UseLink
+		extends UseLink
 	{
 		private UseLink[] links;
 		
