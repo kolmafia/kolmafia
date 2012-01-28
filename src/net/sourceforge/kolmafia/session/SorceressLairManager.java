@@ -2586,6 +2586,7 @@ public abstract class SorceressLairManager
 		{
 			// The following will try to train the familiar to 20 lb. It was very unpopular.
 			// FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false )
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Come back with a 20 pound " + race );
 			return;
 		}
 
