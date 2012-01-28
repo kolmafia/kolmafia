@@ -251,11 +251,11 @@ public class DailyDeedsPanel
 			RequestLogger.printLine( "Deeds updated.  Now version " + releaseVersion + "." );
 		}
 
-		this.populate();
+		RequestThread.executeMethodAfterInitialization( this, "populate" );
 		PreferenceListenerRegistry.registerListener( "dailyDeedsOptions", this );
 	}
 
-	private void populate()
+	public void populate()
 	{
 		// If we're not logged in, don't populate daily deeds.
 		if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )

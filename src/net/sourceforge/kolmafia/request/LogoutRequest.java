@@ -70,7 +70,7 @@ public class LogoutRequest
 
 		super.run();
 
-		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Logout request submitted." );
+		KoLmafia.updateDisplay( "Logout request submitted." );
 
 		LogoutRequest.isRunning = false;
 	}

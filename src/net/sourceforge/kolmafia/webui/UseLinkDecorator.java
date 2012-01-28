@@ -221,7 +221,7 @@ public abstract class UseLinkDecorator
 
 			// Possibly append a use link
 			int pos = buffer.length();
-			boolean link = UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, buffer );
+			boolean link = UseLinkDecorator.addUseLink( itemId, itemCount, location, useLinkMatcher, text, buffer );
 
 			// If we added no link, copy in the text verbatim
 			if ( !link )
@@ -297,7 +297,7 @@ public abstract class UseLinkDecorator
 			UseLinkDecorator.deferred.append( itemName );
 			UseLinkDecorator.deferred.append( "</b>" );
 
-			UseLink link = UseLinkDecorator.generateUseLink( itemId, 1, location );
+			UseLink link = UseLinkDecorator.generateUseLink( itemId, 1, location, text );
 
 			if ( link != null )
 			{
@@ -472,9 +472,9 @@ public abstract class UseLinkDecorator
 		return true;
 	}
 
-	private static final boolean addUseLink( int itemId, int itemCount, String location, Matcher useLinkMatcher, StringBuffer buffer )
+	private static final boolean addUseLink( int itemId, int itemCount, String location, Matcher useLinkMatcher, String text, StringBuffer buffer )
 	{
-		UseLink link = UseLinkDecorator.generateUseLink( itemId, itemCount, location );
+		UseLink link = UseLinkDecorator.generateUseLink( itemId, itemCount, location, text );
 
 		if ( link == null )
 		{
@@ -487,7 +487,7 @@ public abstract class UseLinkDecorator
 		return true;
 	}
 
-	private static final UseLink generateUseLink( int itemId, int itemCount, String location )
+	private static final UseLink generateUseLink( int itemId, int itemCount, String location, String text )
 	{
 		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
 		int mixingMethod = shouldAddCreateLink( itemId, location );
@@ -502,7 +502,7 @@ public abstract class UseLinkDecorator
 			return getNavigationLink( itemId, location );
 		}
 
-		return getUseLink( itemId, itemCount, location, consumeMethod );
+		return getUseLink( itemId, itemCount, location, consumeMethod, text );
 	}
 
 	private static final UseLink getCreateLink( final int itemId, final int itemCount, final int mixingMethod )
@@ -526,7 +526,7 @@ public abstract class UseLinkDecorator
 		return null;
 	}
 
-	private static final UseLink getUseLink( int itemId, int itemCount, String location, int consumeMethod )
+	private static final UseLink getUseLink( int itemId, int itemCount, String location, int consumeMethod, final String text )
 	{
 		String use;
 		
@@ -793,9 +793,9 @@ public abstract class UseLinkDecorator
 			ArrayList uses = new ArrayList();
 			
 			if ( consumeMethod == KoLConstants.EQUIP_ACCESSORY &&
-				!EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ).equals( EquipmentRequest.UNEQUIP ) && 
-				!EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ).equals( EquipmentRequest.UNEQUIP ) && 
-				!EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ).equals( EquipmentRequest.UNEQUIP ) )
+			     !EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ).equals( EquipmentRequest.UNEQUIP ) && 
+			     !EquipmentManager.getEquipment( EquipmentManager.ACCESSORY2 ).equals( EquipmentRequest.UNEQUIP ) && 
+			     !EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ).equals( EquipmentRequest.UNEQUIP ) )
 			{
 				uses.add( new UseLink( itemId, itemCount,
 					getEquipmentSpeculation( "acc1", itemId, 0,  EquipmentManager.ACCESSORY1 ),
@@ -812,6 +812,20 @@ public abstract class UseLinkDecorator
 				uses.add( new UseLink( itemId, itemCount,
 					getEquipmentSpeculation( "equip", itemId, consumeMethod, -1 ),
 					"inv_equip.php?which=2&action=equip&whichitem=" ) );
+
+				// Quietly, stealthily, you reach out and steal the pants from your
+				// unsuspecting self, and fade back into the mazy passages of the
+				// Sleazy Back Alley before you notice what has happened.
+				//
+				// Then you make your way back out of the Alley, clutching your pants
+				// triumphantly and trying really hard not to think about how oddly
+				// chilly it has suddenly become.
+
+				if ( consumeMethod == KoLConstants.EQUIP_PANTS &&
+				     text.indexOf( "steal the pants from your unsuspecting self" ) != -1 )
+				{
+					uses.add( new UseLink( itemId, "guild", "guild.php?place=challenge" ) );
+				}
 			}
 
 			if ( consumeMethod == KoLConstants.EQUIP_WEAPON &&

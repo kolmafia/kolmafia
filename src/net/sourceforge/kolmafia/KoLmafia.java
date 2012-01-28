@@ -902,7 +902,6 @@ public abstract class KoLmafia
 		KoLmafia.isRefreshing = false;
 
 		ConcoctionDatabase.refreshConcoctions( true );
-		GearChangeFrame.validateSelections();
 
 		// Visit lounge and report on whether you have a present waiting
 		ClanLoungeRequest.visitLounge();

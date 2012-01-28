@@ -152,7 +152,7 @@ public class GearChangeFrame
 
 		PreferenceListenerRegistry.registerListener( "showContainerDropdown", this );
 
-		this.ensureValidSelections();
+		RequestThread.executeMethodAfterInitialization( this, "validateSelections" );
 	}
 
 	public void update()

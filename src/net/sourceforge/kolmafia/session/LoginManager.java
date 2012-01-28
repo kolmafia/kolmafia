@@ -62,7 +62,8 @@ public class LoginManager
 	{
 		try
 		{
-			doLogin( username );
+			KoLmafia.forceContinue();
+			LoginManager.doLogin( username );
 		}
 		catch ( Exception e )
 		{

@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.lang.reflect.Method;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -92,6 +94,71 @@ public abstract class RequestThread
 			}
 
 			RequestThread.postRequest( request );
+		}
+	}
+
+	public static final void executeMethodAfterInitialization( final Object object, final String method  )
+	{
+		RequestThread.runInParallel( new ExecuteDelayedMethodRunnable( object, method ) );
+	}
+
+	private static class ExecuteDelayedMethodRunnable
+		implements Runnable
+	{
+		private Class objectClass;
+		private Object object;
+		private String methodName;
+		private Method method;
+		private PauseObject pauser;
+
+		public ExecuteDelayedMethodRunnable( final Object object, final String methodName )
+		{
+			if ( object instanceof Class )
+			{
+				this.objectClass = (Class) object;
+				this.object = null;
+			}
+			else
+			{
+				this.objectClass = object.getClass();
+				this.object = object;
+			}
+
+			this.methodName = methodName;
+			try
+			{
+				Class [] parameters = new Class[ 0 ] ;
+				this.method = objectClass.getMethod( methodName, parameters );
+			}
+			catch ( Exception e )
+			{
+				this.method = null;
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could note invoke " + this.objectClass + "." + this.methodName );
+			}
+
+			this.pauser = new PauseObject();
+		}
+
+		public void run()
+		{
+			if ( this.method == null )
+			{
+				return;
+			}
+
+			while ( KoLmafia.isRefreshing() )
+			{
+				this.pauser.pause( 200 );
+			}
+
+			try
+			{
+				Object [] args = new Object[ 0 ];
+				this.method.invoke( this.object, args );
+			}
+			catch ( Exception e )
+			{
+			}
 		}
 	}
 

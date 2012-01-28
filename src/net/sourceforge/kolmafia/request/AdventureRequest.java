@@ -240,7 +240,6 @@ public class AdventureRequest
 			this.addFormField( "action", "explore" );
 		}
 
-		this.override = -1;
 		super.run();
 
 		if ( this.responseCode != 200 )
