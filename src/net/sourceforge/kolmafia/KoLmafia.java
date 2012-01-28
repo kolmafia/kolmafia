@@ -118,6 +118,7 @@ import net.sourceforge.kolmafia.session.ValhallaManager;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
@@ -899,7 +900,9 @@ public abstract class KoLmafia
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
 		KoLmafia.isRefreshing = false;
+
 		ConcoctionDatabase.refreshConcoctions( true );
+		GearChangeFrame.validateSelections();
 
 		// Visit lounge and report on whether you have a present waiting
 		ClanLoungeRequest.visitLounge();
