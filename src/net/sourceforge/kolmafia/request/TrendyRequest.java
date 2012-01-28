@@ -53,6 +53,9 @@ public class TrendyRequest
 	private final static HashMap skillMap = new HashMap();
 	private final static HashMap clanMap = new HashMap();
 
+	private static final TrendyRequest INSTANCE = new TrendyRequest();
+	private static boolean running = false;
+
 	private static boolean initialized = false;
 
 	public static void reset()
@@ -70,7 +73,7 @@ public class TrendyRequest
 	{
 		if ( !TrendyRequest.initialized )
 		{
-			RequestThread.postRequest( new TrendyRequest() );
+			RequestThread.postRequest( TrendyRequest.INSTANCE );
 		}
 	}
 
@@ -110,8 +113,15 @@ public class TrendyRequest
 
 	public void run()
 	{
+		if ( TrendyRequest.running )
+		{
+			return;
+		}
+
+		TrendyRequest.running = true;
 		KoLmafia.updateDisplay( "Seeing what's still trendy today..." );
 		super.run();
+		TrendyRequest.running = false;
 	}
 
 	public void processResults()
@@ -187,7 +197,7 @@ public class TrendyRequest
 			return false;
 		}
 
-		// We don't really need to register this in the gCLI or the session log
+		// We don't need to register this in the gCLI or the session log
 		return true;
 	}
 }

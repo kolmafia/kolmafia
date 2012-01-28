@@ -877,7 +877,9 @@ public abstract class KoLCharacter
 	public static final int getGender()
 	{
 		// We can only ask for the gender if we are logged in
+		// Gender is meaningless if we are in Valhalla
 		if ( KoLCharacter.gender == 0 &&
+		     !CharPaneRequest.inValhalla() &&
 		     !GenericRequest.passwordHash.equals( "" ) )
 		{	// Can't tell?	Look at their vinyl boots!
 			String descId = ItemDatabase.getDescriptionId( ItemPool.VINYL_BOOTS );
@@ -3637,7 +3639,7 @@ public abstract class KoLCharacter
 	/**
 	 * Remove the given familiar from the list of available familiars.
 	 *
-	 * @param familiar The Id of the familiar to be added
+	 * @param familiar The Id of the familiar to be removed
 	 */
 
 	public static final void removeFamiliar( final FamiliarData familiar )

@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -462,6 +463,16 @@ public class GearChangeFrame
 		}
 	}
 
+	public static final void validateSelections()
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+
+		GearChangeFrame.INSTANCE.ensureValidSelections();
+	}
+
 	public static final void updateWeapons()
 	{
 		if ( GearChangeFrame.INSTANCE == null )
@@ -644,6 +655,12 @@ public class GearChangeFrame
 
 	private void ensureValidSelections()
 	{
+		// If we are still logging in, defer this
+		if ( KoLmafia.isRefreshing() )
+		{
+			return;
+		}
+
 		this.equipment[ EquipmentManager.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
 		AdventureResult weaponItem = (AdventureResult) this.equipment[ EquipmentManager.WEAPON ].getSelectedItem();
