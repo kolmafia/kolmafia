@@ -324,16 +324,9 @@ public class CreateFrameRunnable
 			// In the case of OSX, we'll also need a shutdown hook
 
 			boolean isUsingMac = System.getProperty( "os.name" ).startsWith( "Mac" );
-
 			if ( isUsingMac )
 			{
-				// Generate and register the OSXAdapter, passing it a hash of all the methods we wish to
-				// use as delegates for various com.apple.eawt.ApplicationListener methods
-
-				OSXAdapter.setQuitHandler( KoLmafia.class, KoLmafia.class.getDeclaredMethod( "quit", (Class[]) null ) );
-				OSXAdapter.setAboutHandler( KoLmafia.class, KoLmafia.class.getDeclaredMethod( "about", (Class[]) null ) );
-				OSXAdapter.setPreferencesHandler( KoLmafia.class, KoLmafia.class.getDeclaredMethod(
-					"preferences", (Class[]) null ) );
+				CreateFrameRunnable.addOSXMenuItems();
 			}
 		}
 		catch ( Exception e )
@@ -343,6 +336,29 @@ public class CreateFrameRunnable
 
 			StaticEntity.printStackTrace( e, frame.getClass().getName() + " could not be loaded" );
 		}
+	}
 
+	private static void addOSXMenuItems()
+	{
+		// Generate and register the OSXAdapter, passing it a hash of
+		// all the methods we wish to use as delegates for various
+		// com.apple.eawt.ApplicationListener methods
+
+		try
+		{
+			OSXAdapter.setQuitHandler( KoLmafia.class,
+						   KoLmafia.class.getDeclaredMethod( "quitThreaded", (Class[]) null ) );
+			OSXAdapter.setAboutHandler( KoLmafia.class,
+						    KoLmafia.class.getDeclaredMethod( "about", (Class[]) null ) );
+			OSXAdapter.setPreferencesHandler( KoLmafia.class,
+							  KoLmafia.class.getDeclaredMethod( "preferencesThreaded", (Class[]) null ) );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e, "Could not install OS/X menu hooks" );
+		}
 	}
 }
