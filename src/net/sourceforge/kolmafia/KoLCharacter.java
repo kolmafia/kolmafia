@@ -335,12 +335,12 @@ public abstract class KoLCharacter
 	// Familiar data for reference
 
 	public static final SortedListModel familiars = new SortedListModel();
-	private static boolean isUsingStabBat = false;
 	public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
 	public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
 	public static FamiliarData currentEnthroned = FamiliarData.NO_FAMILIAR;
-
 	private static int arenaWins = 0;
+	private static boolean isUsingStabBat = false;
+
 	private static int stillsAvailable = 0;
 	private static boolean tripleReagent = false;
 	private static boolean guildStoreStateKnown = false;
@@ -623,7 +623,9 @@ public abstract class KoLCharacter
 
 		KoLCharacter.familiars.clear();
 		KoLCharacter.familiars.add( FamiliarData.NO_FAMILIAR );
-
+		KoLCharacter.currentFamiliar = FamiliarData.NO_FAMILIAR;
+		KoLCharacter.effectiveFamiliar = FamiliarData.NO_FAMILIAR;
+		KoLCharacter.currentEnthroned = FamiliarData.NO_FAMILIAR;
 		KoLCharacter.arenaWins = 0;
 		KoLCharacter.isUsingStabBat = false;
 

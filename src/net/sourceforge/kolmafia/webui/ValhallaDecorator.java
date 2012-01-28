@@ -81,41 +81,9 @@ public class ValhallaDecorator
 		int startPoint = SkillDatabase.classSkillsBase();
 
 		StringBuffer reminders = new StringBuffer();
+
 		reminders.append( "<br><table>" );
-
-		reminders.append( "<tr><td><img id = 'current' src=\"http://images.kingdomofloathing.com/itemimages/" );
-		reminders.append( KoLCharacter.getFamiliar().getImageLocation() );
-		reminders.append( "\"></td><td><select id=\"familiar\" style=\"width: 250px\" onchange=\"var select = document.getElementById('familiar'); " );
-		reminders.append( "var option = select.options[select.selectedIndex]; " );
-		reminders.append( "top.charpane.document.location.href = '/KoLmafia/sideCommand?cmd=familiar+' + option.value + '&pwd=" );
-		reminders.append( GenericRequest.passwordHash );
-		reminders.append( "'; document.getElementById('current').src = 'http://images.kingdomofloathing.com/' + option.id; " );
-		reminders.append( "return true;\"><option value=\"none\">- No Familiar -</option>" );
-
-		Object[] familiars = KoLCharacter.getFamiliarList().toArray();
-
-		for ( int i = 1; i < familiars.length; ++i )
-		{
-			reminders.append( "<option id=\"" );
-			reminders.append( FamiliarDatabase.getFamiliarImageLocation( ( (FamiliarData) familiars[ i ] ).getId() ) );
-			reminders.append( "\" value=\"" );
-			reminders.append( StringUtilities.globalStringReplace( ( (FamiliarData) familiars[ i ] ).getRace(), " ", "+" ) );
-			reminders.append( "\"" );
-
-			if ( familiars[ i ].equals( KoLCharacter.getFamiliar() ) )
-			{
-				reminders.append( " selected" );
-			}
-
-			reminders.append( ">" );
-			reminders.append( ( (FamiliarData) familiars[ i ] ).getRace() );
-			reminders.append( " (" );
-			reminders.append( ( (FamiliarData) familiars[ i ] ).getWeight() );
-			reminders.append( " lbs.)" );
-			reminders.append( "</option>" );
-		}
-
-		reminders.append( "</select></td><td><input type=submit class=button value=\"Ascend\"><input type=hidden name=confirm value=on><input type=hidden name=confirm2 value=on></td></tr>" );
+		reminders.append( "<tr><td><input type=submit class=button value=\"Ascend\"><input type=hidden name=confirm value=on><input type=hidden name=confirm2 value=on></td></tr>" );
 		reminders.append( "</table>" );
 
 		reminders.append( "<br><table cellspacing=10 cellpadding=10><tr>" );
