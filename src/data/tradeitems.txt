@@ -5385,7 +5385,7 @@
 5376	tiny plastic Big Candy	accessory	all	0
 5377	The Groose in the Hoose	grow	all	0
 5378	spruce juice	familiar	all	75
-5379	groose grease	usable	all	0
+5379	groose grease	multiple	all	0
 5380	lollipop stick	none	all	50
 5381	bananagate	none, candy	all	300
 5382	pearidot	none, candy	all	300
@@ -5538,12 +5538,12 @@
 5529	berries of suffering	food	all	50
 5530	baobab sap	usable	all	30
 5531	cup of hickory chicory	usable, combat	all	15
-5532	magnolia blossom	usable, combat	all	10
+5532	magnolia blossom	multiple, combat	all	10
 5533	Mortimer's nostrum	usable	all	40
 5534	Barulio's bottle	drink	all	40
 5535	Marvin's marvelous pill	usable	all	20
 5536	Winifred's whistle	none, combat	all	100
-5537	purple prose pen	usable	all	50
+5537	purple prose pen	multiple	all	50
 5538	half-empty carton of milk	none, combat	all	15
 5539	glass of warm water	none, curse	all	5
 5540	desktop zen garden	usable	all	20
