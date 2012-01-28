@@ -5030,6 +5030,13 @@ public class UseItemRequest
 
 		case KoLConstants.CONSUME_EAT:
 
+			// Fortune cookies, for example
+			if ( urlString.startsWith( "inv_use" ) )
+			{
+				consumptionType = KoLConstants.CONSUME_USE;
+				break;
+			}
+
 			int fullness = ItemDatabase.getFullness( name );
 			if ( fullness <= 0 ) break;
 			int maxcount = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() + ( Preferences

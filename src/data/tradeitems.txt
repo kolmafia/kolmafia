@@ -67,7 +67,7 @@
 58	stone turtle	none	all	3
 59	slingshot	weapon	all	75
 60	Mace of the Tortoise	weapon	all	150
-61	fortune cookie	food	all	20
+61	fortune cookie	food, usable	all	20
 62	oriole-feather headdress	hat	all	1
 63	action figure body	none	none	0
 64	action figure head	none	none	0
