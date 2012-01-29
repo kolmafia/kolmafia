@@ -218,7 +218,9 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( ( "Romantic Arrow" ) ) )
+		if ( deed.equals( "Hatter" ) )
+			return 3;
+		else if ( deed.equals( ( "Romantic Arrow" ) ) )
 			return 2;
 		else if ( deed.equals( ( "Feast" ) ) )
 			return 1;
