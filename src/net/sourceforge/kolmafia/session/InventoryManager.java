@@ -686,7 +686,6 @@ public abstract class InventoryManager
 		case KoLConstants.PIXEL:
 		case KoLConstants.MALUS:
 		case KoLConstants.STAFF:
-		case KoLConstants.MULTI_USE:
 			scriptSaysBuy = true;
 			break;
 
