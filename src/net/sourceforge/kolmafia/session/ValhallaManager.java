@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AutoSellRequest;
@@ -211,6 +212,9 @@ public class ValhallaManager
 
 		// Pull a VIP key and report on whether a present is available
 		ClanLoungeRequest.visitLounge();
+		
+		//force rebuild of daily deeds panel
+		PreferenceListenerRegistry.firePreferenceChanged( "dailyDeedsOptions" );
 	}
 
 	private static final void logNewAscension()
