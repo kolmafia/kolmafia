@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.moods.MPRestoreItemList.MPRestoreItem;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -47,8 +48,11 @@ public class RecoveryManager
 
 	public static boolean isRecoveryPossible()
 	{
-		return !RecoveryManager.isRecoveryActive() && FightRequest.getCurrentRound() == 0 &&
-			!FightRequest.inMultiFight() && GenericRequest.choiceHandled;
+		return	!RecoveryManager.isRecoveryActive() &&
+			FightRequest.getCurrentRound() == 0 &&
+			!FightRequest.inMultiFight() &&	
+			GenericRequest.choiceHandled &&
+			!CharPaneRequest.inValhalla();
 	}
 
 	public static boolean runThresholdChecks()
