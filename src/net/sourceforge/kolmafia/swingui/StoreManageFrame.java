@@ -130,7 +130,7 @@ public class StoreManageFrame
 		{
 			super( "save prices", "auto reprice", true );
 
-			StoreManageFrame.this.addTable = new StoreListTable( null );
+			StoreManageFrame.this.addTable = new StoreAddTable();
 			GenericScrollPane addScroller = new GenericScrollPane( StoreManageFrame.this.addTable );
 
 			JComponentUtilities.setComponentSize( addScroller, 500, 50 );
@@ -139,7 +139,7 @@ public class StoreManageFrame
 			addPanel.add( StoreManageFrame.this.addTable.getTableHeader(), BorderLayout.NORTH );
 			addPanel.add( addScroller, BorderLayout.CENTER );
 
-			StoreManageFrame.this.manageTable = new StoreListTable( StoreManager.getSoldItemList() );
+			StoreManageFrame.this.manageTable = new StoreManageTable();
 			GenericScrollPane manageScroller = new GenericScrollPane( StoreManageFrame.this.manageTable );
 
 			JPanel managePanel = new JPanel( new BorderLayout() );
@@ -223,16 +223,11 @@ public class StoreManageFrame
 	private class StoreListTable
 		extends TransparentTable
 	{
-		public StoreListTable( final LockableListModel model )
+		public StoreListTable( final ListWrapperTableModel model, final boolean sortable )
 		{
-			super( model == null ? (ListWrapperTableModel) new StoreAddTableModel() : new StoreManageTableModel() );
+			super( model );
 
-			if ( model == null )
-			{
-				this.getColumnModel().getColumn( 0 ).setCellEditor(
-					new DefaultCellEditor( StoreManageFrame.this.sellingList ) );
-			}
-			else
+			if ( sortable )
 			{
 				this.setModel( new TableSorter( this.getModel(), this.getTableHeader() ) );
 			}
@@ -261,6 +256,16 @@ public class StoreManageFrame
 		}
 	}
 
+	private class StoreAddTable
+		extends StoreListTable
+	{
+		public StoreAddTable()
+		{
+			super( new StoreAddTableModel(), false );
+			this.getColumnModel().getColumn( 0 ).setCellEditor( new DefaultCellEditor( StoreManageFrame.this.sellingList ) );
+		}
+	}
+
 	private class StoreAddTableModel
 		extends ListWrapperTableModel
 	{
@@ -269,7 +274,8 @@ public class StoreManageFrame
 			super(
 				new String[] { "Item Name", "Price", " ", "Qty", "Lim", " ", " " },
 				new Class[] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
-				new boolean[] { true, true, false, true, true, false, false }, new LockableListModel() );
+				new boolean[] { true, true, false, true, true, false, false },
+				new LockableListModel() );
 
 			LockableListModel dataModel = KoLConstants.inventory.getMirrorImage( new TradeableItemFilter() );
 			StoreManageFrame.this.sellingList = new JComboBox( dataModel );
@@ -304,6 +310,15 @@ public class StoreManageFrame
 		}
 	}
 
+	private class StoreManageTable
+		extends StoreListTable
+	{
+		public StoreManageTable()
+		{
+			super( new StoreManageTableModel(), true );
+		}
+	}
+
 	private class StoreManageTableModel
 		extends ListWrapperTableModel
 	{
@@ -312,7 +327,8 @@ public class StoreManageFrame
 			super(
 				new String[] { "Item Name", "Price", "Lowest", "Qty", "Lim", " ", " " },
 				new Class[] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
-				new boolean[] { false, true, false, false, true, false, false }, StoreManager.getSoldItemList() );
+				new boolean[] { false, true, false, false, true, false, false },
+				StoreManager.getSoldItemList() );
 		}
 
 		public Vector constructVector( final Object o )
