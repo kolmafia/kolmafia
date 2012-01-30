@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -2506,12 +2507,14 @@ public class DailyDeedsPanel
 			
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
-			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean have = ( InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 )
+				|| ( InventoryManager.getCount( ItemPool.DRINK_ME_POTION ) > 0 );
+			boolean active = KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.DOWN_THE_RABBIT_HOLE ) );
 
 			this.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
 			box.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
 
-			this.setShown( have && (!bm || kf ) );
+			this.setShown( !KoLCharacter.isTrendy() && ( have || active ) && ( !bm || kf ) );
 			
 			setComboTarget(btn, "");
 		}
