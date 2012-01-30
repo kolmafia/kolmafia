@@ -4368,6 +4368,10 @@ public abstract class RuntimeLibrary
 		{
 			result = TavernManager.locateBaron();
 		}
+		else if ( goal.equalsIgnoreCase( "fight" ) )
+		{
+			result = TavernManager.fightBaron();
+		}
 		else if ( goal.equalsIgnoreCase( "explore" ) )
 		{
 			result = TavernManager.exploreTavern();
