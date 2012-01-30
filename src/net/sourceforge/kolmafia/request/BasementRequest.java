@@ -202,6 +202,7 @@ public class BasementRequest
 		this.addFormField( "action", BasementRequest.getBasementAction( this.responseText ) );
 
 		// Attempt to pass the test.
+		int lastBasementLevel = BasementRequest.basementLevel;
 
 		super.run();
 
@@ -224,8 +225,7 @@ public class BasementRequest
 
 		// See what basement level we are on now and fail if we've not advanced.
 
-		Matcher levelMatcher = BasementRequest.BASEMENT_PATTERN.matcher( this.responseText );
-		if ( !levelMatcher.find() || BasementRequest.basementLevel == StringUtilities.parseInt( levelMatcher.group( 1 ) ) )
+		if ( BasementRequest.basementLevel == lastBasementLevel )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to pass basement test." );
 		}
