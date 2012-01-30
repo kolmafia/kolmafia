@@ -1054,6 +1054,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "tavern", DataTypes.INT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "tavern", DataTypes.INT_TYPE, params ) );
+
 		// Arithmetic utility functions.
 
 		params = new Type[] { DataTypes.INT_TYPE };
@@ -4350,6 +4353,25 @@ public abstract class RuntimeLibrary
 	public static Value tavern()
 	{
 		int result = TavernManager.locateTavernFaucet();
+		return new Value( KoLmafia.permitsContinue() ? result : -1 );
+	}
+
+	public static Value tavern( final Value arg )
+	{
+		String goal = arg.toString();
+		int result = -1;
+		if ( goal.equalsIgnoreCase( "faucet" ) )
+		{
+			result = TavernManager.locateTavernFaucet();
+		}
+		else if ( goal.equalsIgnoreCase( "baron" ) )
+		{
+			result = TavernManager.locateBaron();
+		}
+		else if ( goal.equalsIgnoreCase( "explore" ) )
+		{
+			result = TavernManager.exploreTavern();
+		}
 		return new Value( KoLmafia.permitsContinue() ? result : -1 );
 	}
 
