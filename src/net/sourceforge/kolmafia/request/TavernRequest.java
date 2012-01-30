@@ -138,9 +138,7 @@ public class TavernRequest
 
 	private static final void parseCellarMap( final String text )
 	{
-		TavernRequest.validateFaucetQuest();
-
-		String oldLayout = Preferences.getString( "tavernLayout" );
+		String oldLayout = TavernRequest.tavernLayout();
 		StringBuffer layout = new StringBuffer( oldLayout );
 
 		Matcher matcher = TavernRequest.MAP_PATTERN.matcher( text );
@@ -150,19 +148,42 @@ public class TavernRequest
 			int row = StringUtilities.parseInt( matcher.group(3) );
 			int square = ( row - 1 ) * 5 + ( col - 1 );
 
-			if ( square < 0 || square >= 25 || layout.charAt( square ) != '0' )
+			if ( square < 0 || square >= 25 )
 			{
 				continue;
 			}
 
+			char code = layout.charAt( square );
 			String type = matcher.group(1);
-			char code =
-				type.startsWith( "Darkness" ) ? '0' :
-				type.startsWith( "Explored" ) ? '1' :
-				type.startsWith( "A Rat Faucet" ) ? '3' :
-				type.startsWith( "A Tiny Mansion" ) ? '4' :
-				type.startsWith( "Stairs Up" ) ? '1' :
-				'0';
+
+			if ( type.startsWith( "Darkness" ) )
+			{
+				code = '0';
+			}
+			else if ( type.startsWith( "Explored" ) )
+			{
+				if ( code == '1' || code == '2' || code == '5' )
+				{
+					continue;
+				}
+				code = '1';
+			}
+			else if ( type.startsWith( "A Rat Faucet" ) )
+			{
+				code = '3';
+			}
+			else if ( type.startsWith( "A Tiny Mansion" ) )
+			{
+				code = text.indexOf( "mansion2.gif" ) != -1 ? '6' : '4';
+			}
+			else if ( type.startsWith( "Stairs Up" ) )
+			{
+				code = '1';
+			}
+			else
+			{
+				continue;
+			}
 
 			layout.setCharAt( square, code );
 		}
@@ -215,6 +236,18 @@ public class TavernRequest
 			Preferences.setInteger( "lastTavernAscension", KoLCharacter.getAscensions() );
 			Preferences.setString( "tavernLayout", "0000000000000000000000000" );
 		}
+	}
+
+	public static final String tavernLayout()
+	{
+		TavernRequest.validateFaucetQuest();
+		String layout = Preferences.getString( "tavernLayout" );
+		if ( layout.length() != 25 )
+		{
+			layout = "0000000000000000000000000";
+			Preferences.setString( "tavernLayout", layout );
+		}
+		return layout;
 	}
 
 	public static final void preTavernVisit( final GenericRequest request )
@@ -281,6 +314,13 @@ public class TavernRequest
 			// Baron von Ratsworth
 			replacement = '4';
 		}
+		// The little mansion is silent and empty, you having slain the
+		// man... er... the rat of the house.
+		else if ( request.responseText.indexOf( "little mansion is silent and empty" ) != -1 )
+		{
+			// Defeated Baron von Ratsworth
+			replacement = '6';
+		}
 		else if ( request.responseText.indexOf( "whichchoice" ) != -1 )
 		{
 			// Various Barrels
@@ -291,10 +331,15 @@ public class TavernRequest
 		Preferences.setInteger( "lastTavernSquare", square );
 	}
 
+	public static final void addTavernLocation( final char value )
+	{
+		int square = Preferences.getInteger( "lastTavernSquare" );
+		TavernRequest.addTavernLocation( square, value );
+	}
+
 	private static final void addTavernLocation( final int square, final char value )
 	{
-		TavernRequest.validateFaucetQuest();
-		StringBuffer layout = new StringBuffer( Preferences.getString( "tavernLayout" ) );
+		StringBuffer layout = new StringBuffer( TavernRequest.tavernLayout() );
 		layout.setCharAt( square - 1, value );
 		Preferences.setString( "tavernLayout", layout.toString() );
 	}

@@ -2302,6 +2302,10 @@ public class FightRequest
 			{
 				HiddenCityRequest.addHiddenCityLocation( 'D' );
 			}
+			else if ( monster.equalsIgnoreCase( "Baron Von Ratsworth" ) )
+			{
+				TavernRequest.addTavernLocation( '6' );
+			}
 			else if ( monster.equalsIgnoreCase( "Wumpus" ) )
 			{
 				WumpusManager.reset();
