@@ -85,6 +85,12 @@ public class CompleteQuestCommand
 			return;
 		}
 
+		if ( command.equals( "baron" ) )
+		{
+			TavernManager.locateBaron();
+			return;
+		}
+
 		if ( command.equals( "dvorak" ) )
 		{
 			DvorakDecorator.solve();

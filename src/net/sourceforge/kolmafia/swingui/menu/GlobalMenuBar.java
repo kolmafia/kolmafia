@@ -167,7 +167,9 @@ public class GlobalMenuBar
 		this.add( questsMenu );
 
 		questsMenu.add( new InvocationMenuItem( "Unlock Guild", GuildUnlockManager.class, "unlockGuildStore" ) );
-		questsMenu.add( new InvocationMenuItem( "Tavern Quest", TavernManager.class, "locateTavernFaucet" ) );
+		questsMenu.add( new InvocationMenuItem( "Tavern Quest (faucet)", TavernManager.class, "locateTavernFaucet" ) );
+		questsMenu.add( new InvocationMenuItem( "Tavern Quest (baron)", TavernManager.class, "locateBaron" ) );
+		questsMenu.add( new InvocationMenuItem( "Tavern Quest (explore)", TavernManager.class, "exploreTavern" ) );
 
 		questsMenu.add( new JSeparator() );
 
