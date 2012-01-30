@@ -76,7 +76,26 @@ public class TavernManager
 		new Integer( 10 ), new Integer( 15 ), new Integer( 20 ),
 	};
 
+	private static final int FAUCET = 1;
+	private static final int BARON = 2;
+	private static final int EXPLORE = 3;
+
 	public static int locateTavernFaucet()
+	{
+		return TavernManager.exploreTavern( TavernManager.FAUCET );
+	}
+
+	public static int locateBaron()
+	{
+		return TavernManager.exploreTavern( TavernManager.BARON );
+	}
+
+	public static int exploreTavern()
+	{
+		return TavernManager.exploreTavern( TavernManager.EXPLORE );
+	}
+
+	private static int exploreTavern( final int goal )
 	{
 		if ( KoLCharacter.getLevel() < 3 )
 		{
@@ -84,23 +103,43 @@ public class TavernManager
 			return -1;
 		}
 
-		// See if we've already found the faucet within KoLmafia
+		// See if we've already found our goal within KoLmafia
 		TavernRequest.validateFaucetQuest();
 
 		String layout = Preferences.getString( "tavernLayout" );
 
 		int faucet = layout.indexOf( "3" );
-		int baron = layout.indexOf( "4" );
-
-		TavernManager.logSpecialSquares( faucet, baron );
-
-		if ( faucet != -1 )
+		if ( goal == TavernManager.FAUCET && faucet != -1 )
 		{
+			TavernManager.logFaucetSquare( faucet );
 			return faucet + 1;
 		}
 
+		int baron = layout.indexOf( "4" );
+		if ( goal == TavernManager.BARON && baron != -1 )
+		{
+			TavernManager.logBaronSquare( baron );
+			return baron + 1;
+		}
+
+		int unexplored = layout.indexOf( "0" );
+		if ( goal == TavernManager.EXPLORE && unexplored == -1 )
+		{
+			TavernManager.logFaucetSquare( faucet );
+			TavernManager.logBaronSquare( baron );
+			KoLmafia.updateDisplay( "Entire cellar explored" );
+			return 0;
+		}
+
 		// No. Go look for it.
-		KoLmafia.updateDisplay( "Searching for faucet..." );
+		String message =
+			goal == TavernManager.FAUCET ?
+			"Searching for faucet..." :
+			goal == TavernManager.BARON ?
+			"Searching for Baron von Ratsworth..." :
+			"Exploring rest of cellar...";
+
+		KoLmafia.updateDisplay( message );
 
 		// Make sure we have the quest from the council
 		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
@@ -115,51 +154,121 @@ public class TavernManager
 		// Refetch the current layout
 		layout = Preferences.getString( "tavernLayout" );
 
-		// Re-check faucet and baron
+		// See if we've already found the goal outside KoLmafia
 		faucet = layout.indexOf( "3" );
-		baron = layout.indexOf( "4" );
-
-		TavernManager.logSpecialSquares( faucet, baron );
-
-		// See if we've already found the faucet outside KoLmafia
-		if ( faucet != -1 )
+		if ( goal == TavernManager.FAUCET && faucet != -1 )
 		{
+			TavernManager.logFaucetSquare( faucet );
 			return faucet + 1;
 		}
 
-		// If the faucet has not yet been found, then go through
-		// the process of trying to locate it.
+		baron = layout.indexOf( "4" );
+		if ( goal == TavernManager.BARON && baron != -1	 )
+		{
+			TavernManager.logBaronSquare( baron );
+			return baron + 1;
+		}
+
+		unexplored = layout.indexOf( "0" );
+		if ( goal == TavernManager.EXPLORE && unexplored == -1 )
+		{
+			TavernManager.logFaucetSquare( faucet );
+			TavernManager.logBaronSquare( baron );
+			KoLmafia.updateDisplay( "Entire cellar explored" );
+			return 0;
+		}
+
+		// If the goal has not yet been found, then explore
 
 		AdventureRequest request = new AdventureRequest( "Typical Tavern Cellar", "cellar.php", "" );
 
-		while ( faucet == -1 &&
+		// Remember if we have already found the faucet
+		boolean hadFaucet = faucet != -1;
+
+		// Reset Baron's choice to automatically skip him, for now; let
+		// the player decide when and how to confront him
+		int baronSetting = Preferences.getInteger( "choiceAdventure511" );
+		if ( baronSetting != 2 )
+		{
+			Preferences.setInteger( "choiceAdventure511", 2 );
+		}
+
+		while ( ( goal == TavernManager.FAUCET && faucet == -1 ||
+			  goal == TavernManager.BARON && baron == -1 ||
+			  goal == TavernManager.EXPLORE && unexplored != -1 ) &&
 			KoLmafia.permitsContinue() &&
 			KoLCharacter.getCurrentHP() > 0 &&
 			KoLCharacter.getAdventuresLeft() > 0 )
 		{
-			// The request will visit the next unexplored square
+			// TavernRequest will visit the next unexplored square
 			RequestThread.postRequest( request );
+
+			// See what we discovered
 			faucet = Preferences.getString( "tavernLayout" ).indexOf( "3" );
+			baron = Preferences.getString( "tavernLayout" ).indexOf( "4" );
+			unexplored = Preferences.getString( "tavernLayout" ).indexOf( "0" );
+
+			// If we just found the faucet for the first time, visit Bart Ender to claim reward
+			if ( !hadFaucet && faucet != -1 )
+			{
+				RequestThread.postRequest( new GenericRequest( "tavern.php?place=barkeep" ) );
+				hadFaucet = true;
+			}
 		}
 
-		if ( faucet == -1 )
+		// Restore Baron choice option setting.
+		if ( baronSetting != 2 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to find faucet." );
-			return -1;
+			Preferences.setInteger( "choiceAdventure511", baronSetting );
 		}
 
-		// Otherwise, you've found it!
+		if ( goal == TavernManager.FAUCET )
+		{
+			if ( faucet == -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to find faucet." );
+				return -1;
+			}
 
-		// Visit Bart Ender to claim reward
-		RequestThread.postRequest( new GenericRequest( "tavern.php?place=barkeep" ) );
+			// Notify the user that the faucet has been found.
+			TavernManager.logFaucetSquare( faucet );
+			return faucet + 1;
+		}
 
-		// Notify the user that the faucet has been found.
-		TavernManager.logSpecialSquares( faucet, -1 );
+		if ( goal == TavernManager.BARON )
+		{
+			if ( baron == -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to find baron." );
+				return -1;
+			}
 
-		return faucet + 1;
+			// Notify the user that the baron has been found.
+			TavernManager.logBaronSquare( baron );
+			return baron + 1;
+		}
+
+		// Otherwise, we are exploring the rest of the tavern
+		if ( goal == TavernManager.EXPLORE )
+		{
+			if ( unexplored != -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to finish exploring cellar." );
+				return -1;
+			}
+
+			// Notify the user that we are done
+			TavernManager.logFaucetSquare( faucet );
+			TavernManager.logBaronSquare( baron );
+			KoLmafia.updateDisplay( "Done exploring." );
+			return 0;
+		}
+
+		// What were we doing?
+		return -1;
 	}
 
-	private static void logSpecialSquares( final int faucet, final int baron )
+	private static void logFaucetSquare( final int faucet )
 	{
 		if ( faucet != -1 )
 		{
@@ -168,7 +277,10 @@ public class TavernManager
 
 			KoLmafia.updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
 		}
+	}
 
+	private static void logBaronSquare( final int baron )
+	{
 		if ( baron != -1 )
 		{
 			int baronRow = baron / 5 + 1;
