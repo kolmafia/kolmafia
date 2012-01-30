@@ -76,9 +76,17 @@ public class TavernManager
 		new Integer( 10 ), new Integer( 15 ), new Integer( 20 ),
 	};
 
-	private static final int FAUCET = 1;
-	private static final int BARON = 2;
-	private static final int EXPLORE = 3;
+	private static final int EXPLORE = 1;
+	private static final int FAUCET = 2;
+	private static final int BARON = 3;
+	private static final int FIGHT_BARON = 4;
+
+	private static int overrideSquare = -1;
+
+	public static int exploreTavern()
+	{
+		return TavernManager.exploreTavern( TavernManager.EXPLORE );
+	}
 
 	public static int locateTavernFaucet()
 	{
@@ -90,9 +98,9 @@ public class TavernManager
 		return TavernManager.exploreTavern( TavernManager.BARON );
 	}
 
-	public static int exploreTavern()
+	public static int fightBaron()
 	{
-		return TavernManager.exploreTavern( TavernManager.EXPLORE );
+		return TavernManager.exploreTavern( TavernManager.FIGHT_BARON );
 	}
 
 	private static int exploreTavern( final int goal )
@@ -137,6 +145,8 @@ public class TavernManager
 			"Searching for faucet..." :
 			goal == TavernManager.BARON ?
 			"Searching for Baron von Ratsworth..." :
+			goal == TavernManager.FIGHT_BARON ?
+			"Going after Baron von Ratsworth..." :
 			"Exploring rest of cellar...";
 
 		KoLmafia.updateDisplay( message );
@@ -179,22 +189,21 @@ public class TavernManager
 		}
 
 		// If the goal has not yet been found, then explore
-
 		AdventureRequest request = new AdventureRequest( "Typical Tavern Cellar", "cellar.php", "" );
 
 		// Remember if we have already found the faucet
 		boolean hadFaucet = faucet != -1;
 
-		// Reset Baron's choice to automatically skip him, for now; let
-		// the player decide when and how to confront him
-		int baronSetting = Preferences.getInteger( "choiceAdventure511" );
-		if ( baronSetting != 2 )
+		// Reset Baron's choice to automatically skip him the first time we find him
+		int oldBaronSetting = Preferences.getInteger( "choiceAdventure511" );
+		if ( oldBaronSetting != 2 )
 		{
 			Preferences.setInteger( "choiceAdventure511", 2 );
 		}
 
 		while ( ( goal == TavernManager.FAUCET && faucet == -1 ||
 			  goal == TavernManager.BARON && baron == -1 ||
+			  goal == TavernManager.FIGHT_BARON && baron == -1 ||
 			  goal == TavernManager.EXPLORE && unexplored != -1 ) &&
 			KoLmafia.permitsContinue() &&
 			KoLCharacter.getCurrentHP() > 0 &&
@@ -217,9 +226,9 @@ public class TavernManager
 		}
 
 		// Restore Baron choice option setting.
-		if ( baronSetting != 2 )
+		if ( oldBaronSetting != 2 )
 		{
-			Preferences.setInteger( "choiceAdventure511", baronSetting );
+			Preferences.setInteger( "choiceAdventure511", oldBaronSetting );
 		}
 
 		if ( goal == TavernManager.FAUCET )
@@ -245,6 +254,33 @@ public class TavernManager
 
 			// Notify the user that the baron has been found.
 			TavernManager.logBaronSquare( baron );
+			return baron + 1;
+		}
+
+		if ( goal == TavernManager.FIGHT_BARON )
+		{
+			if ( baron == -1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to find baron." );
+				return -1;
+			}
+
+			// Go fight Baron von Ratsworth
+			if ( oldBaronSetting != 1 )
+			{
+				Preferences.setInteger( "choiceAdventure511", 1 );
+			}
+
+			TavernManager.logBaronSquare( baron );
+			TavernManager.overrideSquare = baron;
+			RequestThread.postRequest( request );
+			TavernManager.overrideSquare = -1;
+
+			if ( oldBaronSetting != 1 )
+			{
+				Preferences.setInteger( "choiceAdventure511", oldBaronSetting );
+			}
+
 			return baron + 1;
 		}
 
@@ -319,6 +355,11 @@ public class TavernManager
 
 	public static int recommendSquare()
 	{
+		if ( TavernManager.overrideSquare >= 0 )
+		{
+			return TavernManager.overrideSquare + 1;
+		}
+
 		if ( KoLCharacter.getLevel() < 3 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need to level up first." );
