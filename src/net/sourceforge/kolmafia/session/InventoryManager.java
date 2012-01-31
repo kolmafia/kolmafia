@@ -717,20 +717,46 @@ public abstract class InventoryManager
 
 		if ( creator != null && mixingMethod != KoLConstants.NOCREATE && !scriptSaysBuy )
 		{
-			if ( sim ) return "create";
-			creator.setQuantityNeeded( missingCount );
-			RequestThread.postRequest( creator );
-
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-			if ( missingCount <= 0 )
+			boolean makeFromComponents = true;
+			if ( isAutomated )
 			{
-				return "";
+				// Speculate on how much the items needed to make the creation would cost.
+				// Do not retrieve if the average meat spend to make one of the item
+				// exceeds the user's autoBuyPriceLimit.
+				float meatSpend = priceToMake( item, missingCount, 0, true, true ) / missingCount;
+				int autoBuyPriceLimit = Preferences.getInteger( "autoBuyPriceLimit" );
+				if ( meatSpend > autoBuyPriceLimit )
+				{
+					makeFromComponents = false;
+					KoLmafia.updateDisplay(
+						KoLConstants.ERROR_STATE,
+						"The average amount of meat spent on components ("
+							+ KoLConstants.COMMA_FORMAT.format( meatSpend )
+							+ ") for one " + item.getName() + " exceeds autoBuyPriceLimit ("
+							+ KoLConstants.COMMA_FORMAT.format( autoBuyPriceLimit ) + ")" );
+					// If making it from components was cheaper than buying the final product, and we
+					// couldn't afford to make it, don't bother trying to buy the final product.
+					shouldUseMall = false;
+				}
 			}
 
-			if ( !KoLmafia.permitsContinue() && isAutomated )
+			if ( makeFromComponents )
 			{
-				return null;
+				if ( sim ) return "create";
+				creator.setQuantityNeeded( missingCount );
+				RequestThread.postRequest( creator );
+
+				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+				if ( missingCount <= 0 )
+				{
+					return "";
+				}
+
+				if ( !KoLmafia.permitsContinue() && isAutomated )
+				{
+					return null;
+				}
 			}
 		}
 
@@ -1220,7 +1246,7 @@ public abstract class InventoryManager
 		return lower + (int)((upper - lower) * factor);
 	}
 
-	private static int priceToAcquire( AdventureResult item, int qty, int level, boolean exact )
+	private static int priceToAcquire( AdventureResult item, int qty, int level, boolean exact, boolean mallPriceOnly )
 	{
 		int price = 0;
 		int onhand = Math.min( qty, item.getCount( KoLConstants.inventory ) );
@@ -1228,7 +1254,7 @@ public abstract class InventoryManager
 		{
 			if ( item.getItemId() != ItemPool.PLASTIC_SWORD )
 			{
-				price = itemValue( item, exact );
+				price = mallPriceOnly ? 0 : itemValue( item, exact );
 			}
 			price *= onhand;
 			qty -= onhand;
@@ -1250,14 +1276,14 @@ public abstract class InventoryManager
 		{
 			mallprice += price;
 		}
-		int makeprice = priceToMake( item, qty, level, exact );
+		int makeprice = priceToMake( item, qty, level, exact, mallPriceOnly );
 		if ( makeprice != Integer.MAX_VALUE )
 		{
 			makeprice += price;
 		}
 		if ( !exact && mallprice / 2 < makeprice && makeprice / 2 < mallprice )
 		{	// Less than a 2:1 ratio, we should check more carefully
-			return priceToAcquire( item, qty, level, true );
+			return priceToAcquire( item, qty, level, true, mallPriceOnly );
 		}
 		if ( Preferences.getBoolean( "debugBuy" ) )
 		{
@@ -1266,7 +1292,7 @@ public abstract class InventoryManager
 		return Math.min( mallprice, makeprice );
 	}
 
-	private static int priceToMake( AdventureResult item, int qty, int level, boolean exact )
+	private static int priceToMake( AdventureResult item, int qty, int level, boolean exact, boolean mallPriceOnly )
 	{
 		int id = item.getItemId();
 		int meatCost = CombineMeatRequest.getCost( id );
@@ -1289,11 +1315,16 @@ public abstract class InventoryManager
 		{
 			AdventureResult ingr = ingrs[ i ];
 			int needed = ingr.getCount() * madeqty;
-			int ingrprice = priceToAcquire( ingr, needed, level + 1, exact );
+			int ingrprice = priceToAcquire( ingr, needed, level + 1, exact, mallPriceOnly );
 			if ( ingrprice == Integer.MAX_VALUE ) return ingrprice;
 			price += ingrprice;
 		}
 		return price * qty / (yield * madeqty);
+	}
+
+	private static int priceToMake( AdventureResult item, int qty, int level, boolean exact )
+	{
+		return priceToMake( item, qty, level, exact, false );
 	}
 
 	private static int getPurchaseCount( final int itemId, final int missingCount )
