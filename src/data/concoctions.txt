@@ -190,7 +190,7 @@ mysterious present	ACOMBINE	box	probability potion
 Russian Ice	MIX_FANCY	bottle of vodka	magical ice cubes
 boxing-glove-in-a-box	ACOMBINE	nothing-in-the-box	boxing glove
 innuendo	ACOMBINE	skeleton key	skate skates
-Salsa de las Epocas	SAUCE	scrumptious reagent	marzipan skull
+Salsa de las Epocas	COOK_FANCY	scrumptious reagent	marzipan skull
 creepy voodoo doll	ACOMBINE	wooden figurine	gob of wet hair
 s'more gun	ACOMBINE	fire flower	armgun
 popcorn	ACOMBINE	Knob Goblin firecracker	cob of corn
