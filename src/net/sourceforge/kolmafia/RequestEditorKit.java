@@ -127,6 +127,7 @@ import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 import net.sourceforge.kolmafia.webui.MineDecorator;
 import net.sourceforge.kolmafia.webui.MoneyMakingGameDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
+import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
@@ -513,6 +514,9 @@ public class RequestEditorKit
 
 		// Remove bogus <body> tag preceding <head> tag in topmenu
 		StringUtilities.singleStringReplace( buffer, "<body><head>", "<head>" );
+
+		// Stick in a <base> tag
+		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase() );
 
 		if ( addComplexFeatures )
 		{
