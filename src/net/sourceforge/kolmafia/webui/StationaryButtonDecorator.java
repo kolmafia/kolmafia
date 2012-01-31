@@ -451,7 +451,8 @@ public class StationaryButtonDecorator
 		String name = StationaryButtonDecorator.getActionName( action );
 		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
 
-		if ( urlString.startsWith( "choice.php" ) && response.indexOf( "choice.php" ) != -1 )
+		int body = response.indexOf( "<body>" );
+		if ( urlString.startsWith( "choice.php" ) && response.indexOf( "choice.php", body + 1 ) != -1 )
 		{
 			if ( forceFocus )
 			{
