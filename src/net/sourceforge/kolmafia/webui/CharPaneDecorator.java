@@ -523,7 +523,7 @@ public class CharPaneDecorator
 			for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
 			{
 				AdventureResult currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
-				if ( currentEffect.getCount() == Integer.MAX_VALUE &&
+				if ( currentEffect.getCount() != Integer.MAX_VALUE &&
 				     !MoodManager.getDefaultAction( "lose_effect", currentEffect.getName() ).equals( "" ) )
 				{
 					fontColor = "black";
