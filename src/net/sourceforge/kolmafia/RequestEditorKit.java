@@ -517,7 +517,7 @@ public class RequestEditorKit
 		StringUtilities.singleStringReplace( buffer, "<body><head>", "<head>" );
 
 		// Stick in a <base> tag
-		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase() );
+		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( location ) );
 
 		if ( addComplexFeatures )
 		{
