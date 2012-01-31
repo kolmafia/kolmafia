@@ -133,7 +133,7 @@ public abstract class RequestThread
 			catch ( Exception e )
 			{
 				this.method = null;
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could note invoke " + this.objectClass + "." + this.methodName );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not invoke " + this.objectClass + "." + this.methodName );
 			}
 
 			this.pauser = new PauseObject();

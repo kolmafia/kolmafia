@@ -238,6 +238,24 @@ public class Expression
 			case 'D':
 				v = KoLCharacter.getInebriety();
 				break;
+			case 'E':
+			{
+				int size = KoLConstants.activeEffects.size();
+				AdventureResult[] effectsArray = new AdventureResult[ size ];
+				KoLConstants.activeEffects.toArray( effectsArray );
+
+				v = 0;
+				for ( int i = 0; i < size; i++ )
+				{
+					AdventureResult effect = effectsArray[ i ];
+					int duration = effect.getCount();
+					if ( duration != Integer.MAX_VALUE )
+					{
+						v++;
+					}
+				}
+				break;
+			}
 			case 'F':
 				v = KoLCharacter.getFullness();
 				break;

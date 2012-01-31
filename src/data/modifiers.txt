@@ -16,20 +16,21 @@
 # Preferences function: pref(text)
 # There can be at most one of each text function in any single expression.
 # Upper-case letters are varying values:
-#	A - number of ascensions
+#	A - number of Ascensions
 #	B - Blood of Wereseal effect
-#	D - drunkenness
-#	F - fullness
+#	D - Drunkenness
+#	E - active (nonintrinsic) Effects
+#	F - Fullness
 #	G - Grimace darkness (0..5)
 #	H - Hobo Power
 #	J - 1 on Festival of Jarlsberg, 0 otherwise
-#	L - player level
-#	M - total moonlight (0..9)
-#	R - reagent potion duration
-#	S - spleenness
-#	T - turns remaining of this effect
-#	U - telescope upgrades
-#	W - familiar weight
+#	L - player Level
+#	M - total Moonlight (0..9)
+#	R - Reagent potion duration
+#	S - Spleenness
+#	T - Turns remaining of this effect
+#	U - telescope Upgrades
+#	W - familiar Weight
 #	X - gender (-1=male, 1=female)
 #
 # Items which "change with every new day":
@@ -480,7 +481,7 @@ Moonthril Cuirass	Monster Level: [10*G]
 Mr. Shirt	Muscle: +1, Mysticality: +1, Moxie: +1
 # Private Pepper's Lonely Hearts Club Jacket: 50% Discount on Gift Packages
 Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Single Equip
-Ultracolor&trade; shirt	Spooky Damage: +8, Stench Damage: +8, Hot Damage: +8, Cold Damage: +8, Sleaze Damage: +8
+Ultracolor&trade; shirt	Spooky Damage: [E], Stench Damage: [E], Hot Damage: [E], Cold Damage: [E], Sleaze Damage: [E]
 Ye Olde Navy Fleece	Meat Drop: +10
 anniversary safety glass vest	Muscle: +1, Mysticality: +1, Moxie: +1
 asbestos apron	Hot Resistance: +3
