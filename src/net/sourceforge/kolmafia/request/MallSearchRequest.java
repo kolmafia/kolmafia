@@ -520,4 +520,65 @@ public class MallSearchRequest
 
 		this.searchMall();
 	}
+
+	private static final Pattern NOBUYERS_PATTERN = Pattern.compile( "<td valign=\"center\" class=\"buyers\">&nbsp;</td>" );
+
+	public static void decorateMallSearch( StringBuffer buffer )
+	{
+		Matcher matcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher( buffer );
+		while ( matcher.find() )
+		{
+			String store = matcher.group( 0 );
+			Matcher nobuyersMatcher = MallSearchRequest.NOBUYERS_PATTERN.matcher( store );
+			if ( !nobuyersMatcher.find() )
+			{
+				// Good store which does not disable buying from search results
+				continue;
+			}
+
+			// Bad store which disables buying from the search results.
+
+			Matcher detailsMatcher = MallSearchRequest.LISTDETAIL_PATTERN.matcher( store );
+			if ( !detailsMatcher.find() )
+			{
+				continue;
+			}
+
+			String whichstore = detailsMatcher.group( 1 );
+			String searchitem = detailsMatcher.group( 2 );
+			int itemId = StringUtilities.parseInt( searchitem );
+ 			String searchprice = detailsMatcher.group( 3 );
+			int price = StringUtilities.parseInt( searchprice );
+
+			// Replace:
+			//   <td valign="center" class="buyers">&nbsp;</td>
+			// with:
+			//   <td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=3980000004455&ajax=1&pwd&whichstore=102069" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=3980000004455&ajax=1&pwd&whichstore=102069&quantity=" class="buysome">buy&nbsp;some</a>]</td>
+
+			String storeString = MallPurchaseRequest.getStoreString( itemId, price );
+
+			StringBuffer buyers = new StringBuffer();
+			buyers.append( "<td valign=\"center\" class=\"buyers\">" );
+			buyers.append( "[<a href=\"mallstore.php?buying=1&quantity=1&whichitem=" );
+			buyers.append( storeString );
+			buyers.append( "&ajax=1&pwd=" );
+			buyers.append( GenericRequest.passwordHash );
+			buyers.append( "&whichstore=" );
+			buyers.append( whichstore );
+			buyers.append( "\" class=\"buyone\">buy</a>]" );
+			buyers.append( "&nbsp;" );
+			buyers.append( "[<a href=\"#\" rel =\"mallstore.php?buying=1&whichitem=" );
+			buyers.append( storeString );
+			buyers.append( "&ajax=1&pwd=" );
+			buyers.append( GenericRequest.passwordHash );
+			buyers.append( "&whichstore=" );
+			buyers.append( whichstore );
+			buyers.append( "&quantity=\" class=\"buysome\">buy&nbsp;some</a>]" );
+			buyers.append( "</td>" );
+
+			buffer.replace( matcher.start() + nobuyersMatcher.start(),
+					matcher.start() + nobuyersMatcher.end(),
+					buyers.toString() );
+		}
+	}
 }

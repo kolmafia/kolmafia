@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
+import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -762,6 +763,10 @@ public class RequestEditorKit
 				buffer, "http.onreadystatechange", "executed = false; " );
 			StringUtilities.singleStringReplace(
 				buffer, "readyState==4) {", "readyState==4 && !executed) { executed = true;" );
+		}
+		else if ( location.startsWith( "mall.php" ) )
+		{
+			MallSearchRequest.decorateMallSearch( buffer );
 		}
 		else if ( location.startsWith( "manor2.php" ) )
 		{
