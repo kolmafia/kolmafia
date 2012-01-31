@@ -57,6 +57,7 @@ public class RelayServer
 
 	private ServerSocket serverSocket = null;
 	private static int port = 60080;
+	private static String base = RelayServer.setBase();
 	private static boolean listening = false;
 	private static boolean updateStatus = false;
 
@@ -101,6 +102,22 @@ public class RelayServer
 		return RelayServer.port;
 	}
 
+	private static final void setPort( final int port )
+	{
+		RelayServer.port = port;
+		RelayServer.base = RelayServer.setBase();
+	}
+
+	public static final String getBase()
+	{
+		return RelayServer.base;
+	}
+
+	private static final String setBase()
+	{
+		return "<base href=\"http://127.0.0.1:" + RelayServer.port + "/\">";
+	}
+
 	public static final boolean isRunning()
 	{
 		return RelayServer.listening;
@@ -113,12 +130,12 @@ public class RelayServer
 
 	public void run()
 	{
-		RelayServer.port = 60080;
+		RelayServer.setPort( 60080 );
 		while ( !this.openServerSocket() )
 		{
 			if ( RelayServer.port <= 60089 )
 			{
-				++RelayServer.port;
+				RelayServer.setPort( ++RelayServer.port );
 			}
 			else
 			{

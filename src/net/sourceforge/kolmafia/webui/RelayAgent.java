@@ -258,15 +258,6 @@ public class RelayAgent
 					}
 				}
 
-				// If we last ran a command, the browser will
-				// submit requests with a bogus root.
-				if ( referer.indexOf( "/KoLmafia" ) != -1 &&
-				     this.path.startsWith( "/KoLmafia" ) &&
-				     this.path.indexOf( ".php" ) != -1 )
-				{
-					this.path = this.path.substring( 9 );
-					this.request.constructURLString( this.path, usePostMethod );
-				}
 				continue;
 			}
 

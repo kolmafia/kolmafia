@@ -1317,10 +1317,17 @@ public class RelayRequest
 			submitCommand( this.getFormField( "cmd" ) );
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
-		else if ( path.endsWith( "executeCommand" ) )
+		else if ( path.endsWith( "parameterizedCommand" ) )
 		{
-			submitCommand( this.getFormField( "cmd" ) );
-			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
+			String command = this.getFormField( "cmd" );
+			String URL =  this.getURLString();
+			int pwdStart = URL.indexOf( "pwd" );
+			int pwdEnd = URL.indexOf( "&", pwdStart );
+			String parameters = pwdEnd == -1 ? "" : URL.substring( pwdEnd + 1 );
+			submitCommand( command + " " +  parameters );
+			this.contentType = "text/html";
+			this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
+			RelayRequest.specialCommandResponse = "";
 		}
 		else if ( path.endsWith( "specialCommand" ) )
 		{
@@ -1353,18 +1360,6 @@ public class RelayRequest
 				this.pseudoResponse( "HTTP/1.1 200 OK",
 					"<html><body>Automation complete.</body></html>)" );
 			}
-		}
-		else if ( path.endsWith( "parameterizedCommand" ) )
-		{
-			String command = this.getFormField( "cmd" );
-			String URL =  this.getURLString();
-			int pwdStart = URL.indexOf( "pwd" );
-			int pwdEnd = URL.indexOf( "&", pwdStart );
-			String parameters = pwdEnd == -1 ? "" : URL.substring( pwdEnd + 1 );
-			submitCommand( command + " " +  parameters );
-			this.contentType = "text/html";
-			this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
-			RelayRequest.specialCommandResponse = "";
 		}
 		else if ( path.endsWith( "redirectedCommand" ) )
 		{
