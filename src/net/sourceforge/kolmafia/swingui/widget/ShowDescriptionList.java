@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
@@ -147,6 +148,7 @@ public class ShowDescriptionList
 			this.contextMenu.add( new JSeparator() );
 
 			this.contextMenu.add( new ContextMenuItem( "Autosell selected", new AutoSellRunnable() ) );
+			this.contextMenu.add( new ContextMenuItem( "Add selected to mall", new AutoMallRunnable() ) );
 			this.contextMenu.add( new ContextMenuItem( "Consume selected", new ConsumeRunnable() ) );
 			this.contextMenu.add( new ContextMenuItem( "Pulverize selected", new PulverizeRunnable() ) );
 		}
@@ -762,6 +764,21 @@ public class ShowDescriptionList
 			}
 
 			RequestThread.postRequest( new AutoSellRequest(
+				ShowDescriptionList.this.getSelectedValues() ) );
+		}
+	}
+
+	private class AutoMallRunnable
+		extends ContextMenuListener
+	{
+		public void executeAction()
+		{
+			if ( !InputFieldUtilities.confirm( "Are you sure you would like to add the selected items to your store?" ) )
+			{
+				return;
+			}
+
+			RequestThread.postRequest( new AutoMallRequest(
 				ShowDescriptionList.this.getSelectedValues() ) );
 		}
 	}
