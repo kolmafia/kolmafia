@@ -657,6 +657,10 @@ public class AdventureDatabase
 	{
 		if ( urlString.startsWith( "adventure.php" ) )
 		{
+			if ( urlString.indexOf( "snarfblat=118" ) != -1 )
+			{
+				return null;
+			}
 			if ( urlString.indexOf( "snarfblat=122" ) != -1 )
 			{
 				return "Oasis in the Desert";

@@ -852,6 +852,11 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
 
+		case ItemPool.PALINDROME_BOOK:
+			RequestThread.postRequest( new GenericRequest( "diary.php?textversion=1" ) );
+			KoLmafia.updateDisplay( "Dr. Awkward's book has been read." );
+			return;
+
 		case ItemPool.PUZZLE_PIECE:
 			SorceressLairManager.completeHedgeMaze();
 			return;
