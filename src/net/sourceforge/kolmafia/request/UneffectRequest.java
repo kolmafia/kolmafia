@@ -256,15 +256,31 @@ public class UneffectRequest
 
 	public void run()
 	{
-		if ( !KoLConstants.activeEffects.contains( this.effect ) )
+		int index = KoLConstants.activeEffects.indexOf( this.effect );
+		if ( index == -1 )
 		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that effect." );
+			return;
+		}
+
+		AdventureResult effect = (AdventureResult) KoLConstants.activeEffects.get( index );
+
+		if ( !isRemovable( this.effectId ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, effect.getName() + " is unremovable." );
+			return;
+		}
+
+		if ( effect.getCount() == Integer.MAX_VALUE )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, effect.getName() + " is intrinsic and cannot be removed." );
 			return;
 		}
 
 		String action = MoodManager.getDefaultAction( "gain_effect", this.effect.getName() );
 
 		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) &&
-			!action.startsWith( "shrug" ) && !action.startsWith( "remedy" ) )
+		     !action.startsWith( "shrug" ) && !action.startsWith( "remedy" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
 			return;
@@ -309,13 +325,14 @@ public class UneffectRequest
 			return;
 		}
 
-		if ( !isRemovable( this.effectId ) )
+		int index = KoLConstants.activeEffects.indexOf( this.effect );
+		AdventureResult effect = index == -1 ? null : (AdventureResult) KoLConstants.activeEffects.get( index );
+
+		if ( effect == null || effect.getCount() == Integer.MAX_VALUE || !isRemovable( this.effectId ))
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to remove " + this.effect.getName() + "." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to remove " + effect.getName() + "." );
 			return;
 		}
-
-		// Assume it worked.
 
 		KoLConstants.activeEffects.remove( this.effect );
 

@@ -523,7 +523,8 @@ public class CharPaneDecorator
 			for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
 			{
 				AdventureResult currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
-				if ( !MoodManager.getDefaultAction( "lose_effect", currentEffect.getName() ).equals( "" ) )
+				if ( currentEffect.getCount() == Integer.MAX_VALUE &&
+				     !MoodManager.getDefaultAction( "lose_effect", currentEffect.getName() ).equals( "" ) )
 				{
 					fontColor = "black";
 					moodText = "save as mood";
@@ -780,12 +781,13 @@ public class CharPaneDecorator
 
 			boolean isShruggable = UneffectRequest.isShruggable( effectName );
 			boolean isTimer = effectName.startsWith( "Timer " );
+			boolean isIntrinsic = duration == Integer.MAX_VALUE;
 
 			// Add a removal link to the duration for buffs which
 			// can be removed.  This is either when the buff can be
 			// shrugged or the buff has a default removal method.
 
-			String removeAction = MoodManager.getDefaultAction( "gain_effect", effectName );
+			String removeAction = isIntrinsic? "" : MoodManager.getDefaultAction( "gain_effect", effectName );
 
 			if ( effectName.equalsIgnoreCase( "On the Trail" ) )
 			{

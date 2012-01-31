@@ -1225,6 +1225,7 @@ public class GenericRequest
 		if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=5" ) != -1 )
 		{
 			KoLConstants.activeEffects.clear();
+			// *** Do we retain intrinsic effects?
 		}
 
 		if ( urlString.startsWith( "ascend.php" ) && urlString.indexOf( "action=ascend" ) != -1 )
