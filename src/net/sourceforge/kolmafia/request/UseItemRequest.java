@@ -3308,16 +3308,16 @@ public class UseItemRequest
 
 			if ( responseText.indexOf( "hooks were still on" ) != -1 )
 			{
-				if ( KoLCharacter.inFistcore() )
-				{
-					// You lose your hooks
-					ResultProcessor.processItem( ItemPool.WORM_RIDING_HOOKS, -1 );
-				}
-				else
+				if ( KoLCharacter.hasEquipped( ItemPool.WORM_RIDING_HOOKS, EquipmentManager.WEAPON ) )
 				{
 					// You lose your weapon
 					EquipmentManager.discardEquipment( ItemPool.WORM_RIDING_HOOKS );
 					KoLmafia.updateDisplay( "Don't forget to equip a weapon!" );
+				}
+				else
+				{
+					// You lose your hooks
+					ResultProcessor.processItem( ItemPool.WORM_RIDING_HOOKS, -1 );
 				}
 				return;
 			}
