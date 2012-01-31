@@ -1054,8 +1054,6 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_GOD, -1 );
 			ResultProcessor.processItem( ItemPool.HARD_ROCK_CANDY, -1 );
 			ResultProcessor.processItem( ItemPool.OSTRICH_EGG, -1 );
-			// Automatically use the book to enable Mr. Alarm
-			RequestThread.postRequest( new UseItemRequest( result ) );
 			break;
 
 		case ItemPool.MEGA_GEM:
