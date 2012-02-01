@@ -244,6 +244,19 @@ public class ListCellRendererFactory
 					stringForm.append( " meat)" );
 				}
 			}
+			
+			int costForOne = icr.concoction.getAdventuresNeeded( 1 );
+			int costForTwo = icr.concoction.getAdventuresNeeded( 2 );
+			if ( costForOne > 0 )
+			{
+				stringForm.append( " (" );
+				stringForm.append( costForOne );
+				if ( costForTwo  > costForOne * 2 )
+				{
+					stringForm.append( "+" );
+				}
+				stringForm.append( " adv)" );
+			}
 
 			stringForm.append( " (" );
 			stringForm.append( KoLConstants.COMMA_FORMAT.format( icr.getQuantityPossible() ) );
@@ -461,6 +474,18 @@ public class ListCellRendererFactory
 				stringForm.append( " possible, " );
 				stringForm.append( initial );
 				stringForm.append( " current" );
+				int costForOne = item.getAdventuresNeeded( 1 );
+				int costForTwo = item.getAdventuresNeeded( 2 );
+				if( costForOne > 0 )
+				{
+					stringForm.append( ", " );
+					stringForm.append( costForOne );
+					if ( costForTwo > costForOne * 2 )
+					{
+						stringForm.append( "+" );
+					}
+					stringForm.append( " adv" );
+				}
 			}
 			else
 			{
