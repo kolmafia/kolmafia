@@ -516,9 +516,6 @@ public class RequestEditorKit
 		// Remove bogus <body> tag preceding <head> tag in topmenu
 		StringUtilities.singleStringReplace( buffer, "<body><head>", "<head>" );
 
-		// Stick in a <base> tag
-		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( location ) );
-
 		if ( addComplexFeatures )
 		{
 			StringUtilities.insertBefore(
@@ -927,6 +924,14 @@ public class RequestEditorKit
 		{
 			StringUtilities.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
 			StringUtilities.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
+		}
+
+		if ( buffer.indexOf( "/KoLmafia" ) != -1 )
+		{
+			// If we have our own commands on this page, stick in a
+			// <base> tag so that executing the command doesn't
+			// inspire the browser to munge up links in the result.
+			StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( location ) );
 		}
 	}
 

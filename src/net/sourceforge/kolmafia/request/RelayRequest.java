@@ -1307,7 +1307,7 @@ public class RelayRequest
 
 	private void handleCommand()
 	{
-		// None of the above checks wound up happening.	 So, do some
+		// None of the above checks wound up happening. So, do some
 		// special handling, catching any exceptions that happen to
 		// popup along the way.
 
@@ -1317,37 +1317,59 @@ public class RelayRequest
 			submitCommand( this.getFormField( "cmd" ) );
 			this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
-		else if ( path.endsWith( "parameterizedCommand" ) )
+		else if ( path.endsWith( "redirectedCommand" ) )
 		{
-			String command = this.getFormField( "cmd" );
-			String URL =  this.getURLString();
-			int pwdStart = URL.indexOf( "pwd" );
-			int pwdEnd = URL.indexOf( "&", pwdStart );
-			String parameters = pwdEnd == -1 ? "" : URL.substring( pwdEnd + 1 );
-			submitCommand( command + " " +  parameters );
-			this.contentType = "text/html";
-			this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
-			RelayRequest.specialCommandResponse = "";
+			submitCommand( this.getFormField( "cmd" ) );
+			this.pseudoResponse( "HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL );
 		}
-		else if ( path.endsWith( "specialCommand" ) )
+		else if ( path.endsWith( "sideCommand" ) )
+		{
+			submitCommand( this.getFormField( "cmd" ), true );
+			this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
+		}
+		else if ( path.endsWith( "specialCommand" ) ||
+			  path.endsWith( "parameterizedCommand" ) )
 		{
 			String cmd = this.getFormField( "cmd" );
 			if ( !cmd.equals( "wait" ) )
 			{
 				RelayRequest.specialCommandResponse = "";
 				RelayRequest.specialCommandStatus = "";
-				submitCommand( cmd, false, false );
+				if ( path.endsWith( "parameterizedCommand" ) )
+				{
+					String URL =  this.getURLString();
+					int pwdStart = URL.indexOf( "pwd" );
+					int pwdEnd = URL.indexOf( "&", pwdStart );
+					String parameters = pwdEnd == -1 ? "" : URL.substring( pwdEnd + 1 );
+					submitCommand( cmd + " " + parameters );
+				}
+				else
+				{
+					submitCommand( cmd, false, false );
+				}
 			}
 			this.contentType = "text/html";
 			if ( CommandDisplayFrame.hasQueuedCommands() )
 			{
 				String URL = "/KoLmafia/specialCommand?cmd=wait&pwd=" +
 					GenericRequest.passwordHash;
-				this.pseudoResponse( "HTTP/1.1 200 OK", "<html><head>" +
-					"<meta http-equiv=\"refresh\" content=\"1; URL=" + URL + "\">" +
-					"</head><body><a href=\"" + URL + "\">" +
-					"Automating (see CLI for details, click to refresh)...</a><p>" +
-					RelayRequest.specialCommandStatus + "</body></html>" );
+
+				StringBuffer buffer = new StringBuffer();
+				buffer.append( "<html><head>" );
+				buffer.append( RelayServer.getBase() );
+				buffer.append( "<meta http-equiv=\"refresh\" content=\"1; URL=" );
+				buffer.append( URL );
+				buffer.append( "\">" );
+				buffer.append( "</head><body>" );
+				buffer.append( "<a href=\"" );
+				buffer.append( URL );
+				buffer.append( "\">" );
+				buffer.append( "Automating (see CLI for details, click to refresh)..." );
+				buffer.append( "</a><p>" );
+				buffer.append( RelayRequest.specialCommandStatus );
+				buffer.append( "</body></html>" );
+
+				this.pseudoResponse( "HTTP/1.1 200 OK",	 buffer.toString() );
 			}
 			else if ( RelayRequest.specialCommandResponse.length() > 0 )
 			{
@@ -1360,16 +1382,6 @@ public class RelayRequest
 				this.pseudoResponse( "HTTP/1.1 200 OK",
 					"<html><body>Automation complete.</body></html>)" );
 			}
-		}
-		else if ( path.endsWith( "redirectedCommand" ) )
-		{
-			submitCommand( this.getFormField( "cmd" ) );
-			this.pseudoResponse( "HTTP/1.1 302 Found", RelayRequest.redirectedCommandURL );
-		}
-		else if ( path.endsWith( "sideCommand" ) )
-		{
-			submitCommand( this.getFormField( "cmd" ), true );
-			this.pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
 		}
 		else if ( path.endsWith( "logout" ) )
 		{
