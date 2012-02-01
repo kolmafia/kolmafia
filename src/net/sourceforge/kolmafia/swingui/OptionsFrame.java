@@ -398,7 +398,7 @@ public class OptionsFrame
 			{},
 			{ "useLastUserAgent", "(Debug) Use last browser's userAgent" },
 			{ "logBrowserInteractions", "(Debug) Verbosely log communication between KoLmafia and browser" },
-			{ "logCleanedHTML", "(Debug) Invoke HTML cleaner and log resulting tree" },
+			{ "logCleanedHTML", "(Debug) Log cleaned HTML tree of fight pages" },
 			{ "logDecoratedResponses", "(Debug) Log decorated responses in debug log" },
 			{ "logReadableHTML", "(Debug) Include line breaks in logged HTML" },
 		};

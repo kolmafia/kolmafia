@@ -1844,7 +1844,7 @@ public class FightRequest
 		// Preprocess results and register new items
 		ResultProcessor.registerNewItems( responseText );
 
-		// Experimental: clean HTML and process it
+		// Clean HTML and process it
 		FightRequest.processNormalResults( responseText, macroMatcher );
 
 		// Perform other processing for the final round
@@ -3614,6 +3614,8 @@ public class FightRequest
 		TagNode fight = parseFightHTML( text, true );
 		if ( fight == null )
 		{
+			// Do normal result processing and hope for the best.
+			FightRequest.shouldRefresh = ResultProcessor.processResults( true, text );
 			return;
 		}
 
