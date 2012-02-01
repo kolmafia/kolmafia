@@ -78,6 +78,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.GNOLL_EYE, 1 ),
 		ItemPool.get( ItemPool.KOL_CON_SIX_PACK, 1 ),
 		ItemPool.get( ItemPool.TRIVIAL_AVOCATIONS_GAME, 1 ),
+		ItemPool.get( ItemPool.CREEPY_VOODOO_DOLL, 1 ),
 	};
 
 	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
