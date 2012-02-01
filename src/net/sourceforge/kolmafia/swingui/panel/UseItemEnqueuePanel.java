@@ -34,11 +34,15 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -81,6 +85,11 @@ public class UseItemEnqueuePanel
 	public UseItemEnqueuePanel( final boolean food, final boolean booze, final boolean spleen, JTabbedPane queueTabs )
 	{
 		super( ConcoctionDatabase.getUsables(), true, true );
+		// Remove the default borders inherited from ScrollablePanel.
+		BorderLayout a = (BorderLayout) this.actualPanel.getLayout();
+		a.setVgap( 0 );
+		CardLayout b = (CardLayout) this.actualPanel.getParent().getLayout();
+		b.setVgap( 0 );
 
 		this.food = food;
 		this.booze = booze;
@@ -138,25 +147,42 @@ public class UseItemEnqueuePanel
 			this.listenToCheckBox( this.filters[ i ] );
 		}
 
+		JPanel filterPanel = new JPanel( new GridLayout() );
+		JPanel leftFilterPanel = new JPanel( new BorderLayout() );
+		JPanel centerFilterPanel = new JPanel( new BorderLayout() );
+		JPanel rightFilterPanel = new JPanel( new BorderLayout() );
+
+		leftFilterPanel.add( this.filters[ 0 ], BorderLayout.NORTH );
+		leftFilterPanel.add( this.filters[ 1 ], BorderLayout.CENTER );
+		centerFilterPanel.add( this.filters[ 2 ], BorderLayout.NORTH );
+		centerFilterPanel.add( this.filters[ 3 ], BorderLayout.CENTER );
+
 		if ( food || booze || spleen )
 		{
 			this.filters[ 4 ] = new ExperimentalCheckBox( food, booze );
 			this.filters[ 5 ] = new ByRoomCheckbox();
+			rightFilterPanel.add( this.filters[ 4 ], BorderLayout.NORTH );
+			rightFilterPanel.add( this.filters[ 5 ], BorderLayout.CENTER );
 		}
 		else
 		{
 			this.filters[ 4 ] = new ByRoomCheckbox();
+			rightFilterPanel.add( this.filters[ 4 ], BorderLayout.CENTER );
 		}
 
-		JPanel filterPanel = new JPanel();
-		for ( int i = 0; i < this.filters.length; ++i )
-		{
-			filterPanel.add( this.filters[ i ] );
-		}
+		filterPanel.add( leftFilterPanel );
+		filterPanel.add( centerFilterPanel );
+		filterPanel.add( rightFilterPanel );
+
+		// Set the height of the filter panel to be just a wee bit taller than two checkboxes need
+		filterPanel.setPreferredSize( new Dimension( 10,
+			(int) ( this.filters[ 0 ].getPreferredSize().height * 2.1f ) ) );
 
 		this.setEnabled( true );
 
 		this.northPanel.add( filterPanel, BorderLayout.NORTH );
+		// Restore the 10px border that we removed from the bottom.
+		this.actualPanel.add( Box.createVerticalStrut( 10 ), BorderLayout.SOUTH );
 
 		this.filterItems();
 	}

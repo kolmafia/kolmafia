@@ -34,9 +34,12 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.LayoutManager;
 
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
@@ -67,6 +70,14 @@ public class UseItemDequeuePanel
 	public UseItemDequeuePanel( final boolean food, final boolean booze, final boolean spleen )
 	{
 		super( ConcoctionDatabase.getUsables(), false, false );
+		// Remove the default borders inherited from ScrollablePanel.
+		BorderLayout a = (BorderLayout) this.actualPanel.getLayout();
+		a.setVgap( 0 );
+		CardLayout b = (CardLayout) this.actualPanel.getParent().getLayout();
+		b.setVgap( 0 );
+
+		// Add a 10px top border.
+		this.northPanel.add( Box.createVerticalStrut( 10 ), BorderLayout.NORTH );
 
 		this.food = food;
 		this.booze = booze;
