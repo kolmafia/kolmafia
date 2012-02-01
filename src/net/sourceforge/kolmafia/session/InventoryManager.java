@@ -718,7 +718,7 @@ public abstract class InventoryManager
 		if ( creator != null && mixingMethod != KoLConstants.NOCREATE && !scriptSaysBuy )
 		{
 			boolean makeFromComponents = true;
-			if ( isAutomated )
+			if ( isAutomated && creator.getQuantityPossible() > 0 )
 			{
 				// Speculate on how much the items needed to make the creation would cost.
 				// Do not retrieve if the average meat spend to make one of the item
