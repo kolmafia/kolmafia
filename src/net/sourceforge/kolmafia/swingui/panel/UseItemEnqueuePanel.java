@@ -135,44 +135,50 @@ public class UseItemEnqueuePanel
 		this.elementList.setVisibleRowCount( 6 );
 		this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
-		this.filters = new JCheckBox[ food || booze || spleen ? 6 : 5 ];
+		this.filters = new JCheckBox[ food || booze || spleen ? 8 : 7 ];
 
 		this.filters[ 0 ] = new JCheckBox( "no create" );
-		this.filters[ 1 ] = new JCheckBox( "+mus only" );
-		this.filters[ 2 ] = new JCheckBox( "+mys only" );
-		this.filters[ 3 ] = new JCheckBox( "+mox only" );
+		this.filters[ 1 ] = new JCheckBox( "turn-free" );
+		this.filters[ 2 ] = new JCheckBox( "no summon" );
+		this.filters[ 3 ] = new JCheckBox( "+mus only" );
+		this.filters[ 4 ] = new JCheckBox( "+mys only" );
+		this.filters[ 5 ] = new JCheckBox( "+mox only" );
 
-		for ( int i = 0; i < 4; ++i )
+		for ( int i = 0; i < 6; ++i )
 		{
 			this.listenToCheckBox( this.filters[ i ] );
 		}
 
 		JPanel filterPanel = new JPanel( new GridLayout() );
-		JPanel leftFilterPanel = new JPanel( new BorderLayout() );
-		JPanel centerFilterPanel = new JPanel( new BorderLayout() );
-		JPanel rightFilterPanel = new JPanel( new BorderLayout() );
+		JPanel column1 = new JPanel( new BorderLayout() );
+		JPanel column2 = new JPanel( new BorderLayout() );
+		JPanel column3 = new JPanel( new BorderLayout() );
+		JPanel column4 = new JPanel( new BorderLayout() );
 
-		leftFilterPanel.add( this.filters[ 0 ], BorderLayout.NORTH );
-		leftFilterPanel.add( this.filters[ 1 ], BorderLayout.CENTER );
-		centerFilterPanel.add( this.filters[ 2 ], BorderLayout.NORTH );
-		centerFilterPanel.add( this.filters[ 3 ], BorderLayout.CENTER );
+		column1.add( this.filters[ 0 ], BorderLayout.NORTH );
+		column1.add( this.filters[ 1 ], BorderLayout.CENTER );
+		column2.add( this.filters[ 2 ], BorderLayout.NORTH );
+		column2.add( this.filters[ 3 ], BorderLayout.CENTER );
+		column3.add( this.filters[ 4 ], BorderLayout.NORTH );
+		column3.add( this.filters[ 5 ], BorderLayout.CENTER );
 
 		if ( food || booze || spleen )
 		{
-			this.filters[ 4 ] = new ExperimentalCheckBox( food, booze );
-			this.filters[ 5 ] = new ByRoomCheckbox();
-			rightFilterPanel.add( this.filters[ 4 ], BorderLayout.NORTH );
-			rightFilterPanel.add( this.filters[ 5 ], BorderLayout.CENTER );
+			this.filters[ 6 ] = new ExperimentalCheckBox( food, booze );
+			this.filters[ 7 ] = new ByRoomCheckbox();
+			column4.add( this.filters[ 6 ], BorderLayout.NORTH );
+			column4.add( this.filters[ 7 ], BorderLayout.CENTER );
 		}
 		else
 		{
-			this.filters[ 4 ] = new ByRoomCheckbox();
-			rightFilterPanel.add( this.filters[ 4 ], BorderLayout.CENTER );
+			this.filters[ 6 ] = new ByRoomCheckbox();
+			column4.add( this.filters[ 6 ], BorderLayout.CENTER );
 		}
 
-		filterPanel.add( leftFilterPanel );
-		filterPanel.add( centerFilterPanel );
-		filterPanel.add( rightFilterPanel );
+		filterPanel.add( column1 );
+		filterPanel.add( column2 );
+		filterPanel.add( column3 );
+		filterPanel.add( column4 );
 
 		// Set the height of the filter panel to be just a wee bit taller than two checkboxes need
 		filterPanel.setPreferredSize( new Dimension( 10,
@@ -433,6 +439,7 @@ public class UseItemEnqueuePanel
 				return false;
 			}
 
+			// no create
 			if ( UseItemEnqueuePanel.this.filters[ 0 ].isSelected() )
 			{
 				AdventureResult item = creation.getItem();
@@ -516,7 +523,26 @@ public class UseItemEnqueuePanel
 				}
 			}
 
+			// turn-free
 			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )
+			{
+				AdventureResult item = creation.getItem();
+				if ( item != null && creation.getAdventuresNeeded( 1 ) > 0 )
+				{
+					return false;
+				}
+			}
+			// no summon
+			if ( UseItemEnqueuePanel.this.filters[ 2 ].isSelected() )
+			{
+				AdventureResult item = creation.getItem();
+				if ( item != null && 
+					( creation.getMixingMethod() & KoLConstants.CT_MASK ) == KoLConstants.CLIPART )
+				{
+					return false;
+				}
+			}
+			if ( UseItemEnqueuePanel.this.filters[ 3 ].isSelected() )
 			{
 				String range = ItemDatabase.getMuscleRange( creation.getName() );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
@@ -525,7 +551,7 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( UseItemEnqueuePanel.this.filters[ 2 ].isSelected() )
+			if ( UseItemEnqueuePanel.this.filters[ 4 ].isSelected() )
 			{
 				String range = ItemDatabase.getMysticalityRange( creation.getName() );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
@@ -534,7 +560,7 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( UseItemEnqueuePanel.this.filters[ 3 ].isSelected() )
+			if ( UseItemEnqueuePanel.this.filters[ 5 ].isSelected() )
 			{
 				String range = ItemDatabase.getMoxieRange( creation.getName() );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
