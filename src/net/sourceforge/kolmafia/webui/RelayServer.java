@@ -57,6 +57,7 @@ public class RelayServer
 
 	private ServerSocket serverSocket = null;
 	private static int port = 60080;
+	private static String lastBase = "";
 	private static boolean listening = false;
 	private static boolean updateStatus = false;
 
@@ -110,7 +111,13 @@ public class RelayServer
 	{
 		int index = location.indexOf( "?" );
 		String base = index == -1 ? location : location.substring( 0, index );
-		return "<base href=\"http://127.0.0.1:" + RelayServer.port + "/" + base + "\">";
+		RelayServer.lastBase = "<base href=\"http://127.0.0.1:" + RelayServer.port + "/" + base + "\">";
+		return RelayServer.lastBase;
+	}
+
+	public static final String getBase()
+	{
+		return RelayServer.lastBase;
 	}
 
 	public static final boolean isRunning()
