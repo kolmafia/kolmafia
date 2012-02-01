@@ -74,6 +74,11 @@ public class UseItemCommand
 
 	public static void use( final String command, String parameters )
 	{
+		if ( parameters.equals( "" ) )
+		{
+			return;
+		}
+
 		boolean either = parameters.startsWith( "either " );
 		if ( either )
 		{

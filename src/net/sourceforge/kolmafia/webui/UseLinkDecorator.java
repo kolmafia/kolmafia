@@ -760,6 +760,9 @@ public abstract class UseLinkDecorator
 					"inv_use.php?which=3&whichitem=" );
 			}
 
+		case KoLConstants.CONSUME_GUARDIAN:
+			return new UseLink( itemId, 1, "summon", "inv_use.php?which=3&whichitem=" );
+
 		case KoLConstants.EQUIP_HAT:
 		case KoLConstants.EQUIP_WEAPON:
 		case KoLConstants.EQUIP_OFFHAND:
