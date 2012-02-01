@@ -674,7 +674,7 @@ Quantum Mechanic	HP: 81 Def: 52 Atk: 61 P: humanoid	large box (40)	vorpal blade 
 Quiet Healer	HP: 90 Def: 95 Atk: 95 Init: 80 Meat: 92-138 P: humanoid	amulet of extreme plot significance (10)	scroll of drastic healing (30)	soft green echo eyedrop antidote (30)
 Racecar Bob	HP: 139 Def: 138 Atk: 144 Meat: 100-144 P: humanoid	enormous belt buckle (25)	leather chaps (15)	mesh cap (15)	stunt nuts (30)
 Raconteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-Raging Bull	HP: 20 Def: 25 Atk: 25 Meat: 24-36	pile of jumping beans (50)	can of Red Minotaur (30)	boxing glove (0)
+Raging Bull	HP: 20 Def: 25 Atk: 25 Meat: 24-36 P: humanoid	pile of jumping beans (50)	can of Red Minotaur (30)	boxing glove (0)
 Rampaging Adding Machine	HP: 70 Atk: 80 Def: 80 P: object
 Ratbat	HP: 22 Def: 25 Atk: 25 Meat: 18-28 P: beast	rat appendix (15)	ratgut (15)	ratarang (p5)	sonar-in-a-biscuit (15)
 Rattlin' Duck	HP: 203 Def: 173 Atk: 174 Meat: 131-162 E: stench P: beast	fetid feather (10)	duct tape (5)
