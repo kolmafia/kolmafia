@@ -1276,6 +1276,7 @@ public class ItemPool
 	public static final int ASTRAL_HOT_DOG = 5043;
 	public static final int ASTRAL_PILSNER = 5044;
 	public static final int LARS_THE_CYBERIAN = 5053;
+	public static final int CREEPY_VOODOO_DOLL = 5062;
 	public static final int TINY_BLACK_HOLE = 5069;
 	public static final int PEN_PAL_KIT = 5112;
 	public static final int AWOL_COMMENDATION = 5116;
