@@ -246,12 +246,13 @@ public class ListCellRendererFactory
 			}
 			
 			int costForOne = icr.concoction.getAdventuresNeeded( 1 );
-			int costForTwo = icr.concoction.getAdventuresNeeded( 2 );
+			int maxPossible = icr.getQuantityPossible();
+			int costForMax = icr.concoction.getAdventuresNeeded( maxPossible );
 			if ( costForOne > 0 )
 			{
 				stringForm.append( " (" );
 				stringForm.append( costForOne );
-				if ( costForTwo  > costForOne * 2 )
+				if ( costForMax  > costForOne * maxPossible )
 				{
 					stringForm.append( "+" );
 				}
@@ -475,12 +476,14 @@ public class ListCellRendererFactory
 				stringForm.append( initial );
 				stringForm.append( " current" );
 				int costForOne = item.getAdventuresNeeded( 1 );
-				int costForTwo = item.getAdventuresNeeded( 2 );
+				int maxPossible = modified;
+				int costForMax = item.getAdventuresNeeded( maxPossible );
+				
 				if( costForOne > 0 )
 				{
 					stringForm.append( ", " );
 					stringForm.append( costForOne );
-					if ( costForTwo > costForOne * 2 )
+					if ( costForMax  > costForOne * maxPossible )
 					{
 						stringForm.append( "+" );
 					}
