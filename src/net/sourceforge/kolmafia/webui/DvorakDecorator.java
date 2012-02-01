@@ -43,6 +43,10 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import net.sourceforge.kolmafia.webui.RelayServer;
+
 public abstract class DvorakDecorator
 {
 	public static final void decorate( final StringBuffer buffer )
@@ -179,6 +183,7 @@ public abstract class DvorakDecorator
 
 		StringBuffer buffer = new StringBuffer( request.responseText );
 		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer, true );
+		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( "adventure.php" ) );
 		RelayRequest.specialCommandResponse = buffer.toString();
 		DvorakDecorator.lastResponse = null;
 	}

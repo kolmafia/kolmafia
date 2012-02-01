@@ -115,7 +115,7 @@ public class RelayServer
 		return RelayServer.lastBase;
 	}
 
-	public static final String getBase()
+	public static final String getLastBase()
 	{
 		return RelayServer.lastBase;
 	}

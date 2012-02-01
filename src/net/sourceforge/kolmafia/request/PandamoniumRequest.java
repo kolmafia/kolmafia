@@ -53,6 +53,8 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import net.sourceforge.kolmafia.webui.RelayServer;
+
 public class PandamoniumRequest
 	extends GenericRequest
 {
@@ -528,6 +530,7 @@ public class PandamoniumRequest
 		{
 			StringBuffer buffer = new StringBuffer( request.responseText );
 			RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer, true );
+			StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( "pandamonium.php" ) );
 			response = buffer.toString();
 		}
 

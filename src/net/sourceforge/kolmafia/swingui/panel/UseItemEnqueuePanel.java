@@ -156,10 +156,10 @@ public class UseItemEnqueuePanel
 		JPanel column4 = new JPanel( new BorderLayout() );
 
 		column1.add( this.filters[ 0 ], BorderLayout.NORTH );
-		column1.add( this.filters[ 1 ], BorderLayout.CENTER );
-		column2.add( this.filters[ 2 ], BorderLayout.NORTH );
-		column2.add( this.filters[ 3 ], BorderLayout.CENTER );
-		column3.add( this.filters[ 4 ], BorderLayout.NORTH );
+		column2.add( this.filters[ 1 ], BorderLayout.NORTH );
+		column3.add( this.filters[ 2 ], BorderLayout.NORTH );
+		column1.add( this.filters[ 3 ], BorderLayout.CENTER );
+		column2.add( this.filters[ 4 ], BorderLayout.CENTER );
 		column3.add( this.filters[ 5 ], BorderLayout.CENTER );
 
 		if ( food || booze || spleen )
