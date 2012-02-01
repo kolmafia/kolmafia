@@ -1407,6 +1407,8 @@ public class ItemPool
 	public static final int PLANT_BOOK = 5546;
 	public static final int GHOST_BOOK = 5548;
 	public static final int TATTLE_BOOK = 5550;
+	public static final int RAIN_DOH_BOX = 5563;
+	public static final int RAIN_DOH_MONSTER = 5564;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

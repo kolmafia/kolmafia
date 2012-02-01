@@ -5303,6 +5303,7 @@ public class UseItemRequest
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 		case ItemPool.SPOOKY_PUTTY_MONSTER:
+		case ItemPool.RAIN_DOH_MONSTER:
 		case ItemPool.SHAKING_CAMERA:
 		case ItemPool.PHOTOCOPIED_MONSTER:
 		case ItemPool.DOLPHIN_WHISTLE:

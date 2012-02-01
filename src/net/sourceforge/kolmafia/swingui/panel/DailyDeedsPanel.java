@@ -2236,21 +2236,24 @@ public class DailyDeedsPanel
 		{
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean hc = KoLCharacter.isHardcore();
-			boolean have = InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_MITRE ) > 0
+			boolean have = Preferences.getInteger( "spookyPuttyCopiesMade" ) > 0;
+			boolean havePutty = InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_MITRE ) > 0
 				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_LEOTARD ) > 0
 				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_BALL ) > 0
 				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_SHEET ) > 0
 				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_SNAKE ) > 0
-				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_MONSTER ) > 0
-				|| Preferences.getInteger( "spookyPuttyCopiesMade" ) > 0;
-			String text = Preferences.getInteger( "spookyPuttyCopiesMade" ) +
-				"/5 putty uses";
+				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_MONSTER ) > 0;
+			boolean haveRainDoh = InventoryManager.getCount( ItemPool.RAIN_DOH_BOX ) > 0
+				|| InventoryManager.getCount( ItemPool.RAIN_DOH_MONSTER ) > 0;
+			String text = Preferences.getInteger( "spookyPuttyCopiesMade" ) + "/5 ";
+			if ( havePutty || ( !havePutty && !haveRainDoh && have ) ) text = text + "putty uses";
+			if ( !havePutty && haveRainDoh ) text = text + "rain-doh uses";
 			String monster = Preferences.getString( "spookyPuttyMonster" );
 			if ( !monster.equals( "" ) )
 			{
 				text = text + ", now " + monster;
 			}
-			this.setShown( ( kf || !hc ) && have );
+			this.setShown( ( kf || !hc ) && ( have || havePutty || haveRainDoh ) );
 			this.setText( text );
 		}
 	}

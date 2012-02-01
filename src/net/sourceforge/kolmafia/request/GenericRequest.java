@@ -2204,6 +2204,14 @@ public class GenericRequest
 			KoLmafia.ignoreSemirare();
 			break;
 
+		case ItemPool.RAIN_DOH_MONSTER:
+			itemName = "Rain-Doh box full of monster";
+			Preferences.setString( "spookyPuttyMonster", "" );
+			ResultProcessor.processItem( ItemPool.RAIN_DOH_BOX, 1 );
+			consumed = true;
+			KoLmafia.ignoreSemirare();
+			break;
+
 		case ItemPool.SHAKING_CAMERA:
 			itemName = "Shaking 4-D Camera";
 			Preferences.setString( "cameraMonster", "" );

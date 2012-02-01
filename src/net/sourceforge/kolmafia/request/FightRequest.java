@@ -203,6 +203,7 @@ public class FightRequest
 	public static final AdventureResult ANTIDOTE = ItemPool.get( ItemPool.ANTIDOTE, 1);
 	private static final AdventureResult EXTRACTOR = ItemPool.get( ItemPool.ODOR_EXTRACTOR, 1);
 	private static final AdventureResult PUTTY_SHEET = ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1);
+	private static final AdventureResult RAINDOH_BOX = ItemPool.get( ItemPool.RAIN_DOH_BOX, 1);
 	private static final AdventureResult CAMERA = ItemPool.get( ItemPool.CAMERA, 1);
 	private static final AdventureResult SHAKING_CAMERA = ItemPool.get( ItemPool.SHAKING_CAMERA, 1);
 	private static final AdventureResult PHOTOCOPIER = ItemPool.get( ItemPool.PHOTOCOPIER, 1);
@@ -2395,17 +2396,23 @@ public class FightRequest
 		{
 			haveItem = KoLConstants.inventory.contains( FightRequest.PUTTY_SHEET ) &&
 				Preferences.getInteger( "spookyPuttyCopiesMade" ) < 5;
-			boolean haveItem2 = KoLConstants.inventory.contains( FightRequest.CAMERA ) &&
+			boolean haveItem2 = KoLConstants.inventory.contains( FightRequest.RAINDOH_BOX ) &&
+				Preferences.getInteger( "spookyPuttyCopiesMade" ) < 5;
+			boolean haveItem3 = KoLConstants.inventory.contains( FightRequest.CAMERA ) &&
 				!KoLConstants.inventory.contains( FightRequest.SHAKING_CAMERA );
-			boolean haveItem3 = KoLConstants.inventory.contains( FightRequest.PHOTOCOPIER ) &&
+			boolean haveItem4 = KoLConstants.inventory.contains( FightRequest.PHOTOCOPIER ) &&
 				!KoLConstants.inventory.contains( FightRequest.PHOTOCOPIED_MONSTER );
-			if ( (haveItem || haveItem2 || haveItem3) && shouldTag( pref, "autoPutty triggered" ) )
+			if ( (haveItem || haveItem2 || haveItem3 || haveItem4 ) && shouldTag( pref, "autoPutty triggered" ) )
 			{
-				if (haveItem)
+				if ( haveItem )
 				{
 					items.add( String.valueOf( ItemPool.SPOOKY_PUTTY_SHEET ) );
 				}
-				else if (haveItem2)
+				else if ( haveItem2 )
+				{
+					items.add( String.valueOf( ItemPool.RAIN_DOH_BOX ) );
+				}
+				else if ( haveItem3 )
 				{
 					items.add( String.valueOf( ItemPool.CAMERA ) );
 				}
@@ -4714,6 +4721,21 @@ public class FightRequest
 			// him/her/it and make a perfect copy, which you shove
 			// into your sack. He doesn't seem to appreciate it too
 			// much...
+
+			if ( responseText.indexOf( "make a perfect copy" ) != -1 )
+			{
+				Preferences.increment( "spookyPuttyCopiesMade", 1 );
+				Preferences.setString( "spookyPuttyMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "autoPutty", "" );
+				return true;
+			}
+			if ( responseText.indexOf( "too scared to copy any more monsters today" ) != -1 )
+				Preferences.setInteger( "spookyPuttyCopiesMade", 5 );
+			return false;
+
+		case ItemPool.RAIN_DOH_BOX:
+
+			// ???
 
 			if ( responseText.indexOf( "make a perfect copy" ) != -1 )
 			{

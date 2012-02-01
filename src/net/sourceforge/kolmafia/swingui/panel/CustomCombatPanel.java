@@ -267,7 +267,7 @@ public class CustomCombatPanel
 
 			this.olfactItem = this.checkbox( this.specialPopup, listener, "One-time automatic Olfaction..." );
 			this.puttyItem =
-				this.checkbox( this.specialPopup, listener, "One-time automatic Spooky Putty/4-d camera..." );
+				this.checkbox( this.specialPopup, listener, "One-time automatic Spooky Putty/Rain-Doh box/4-d camera..." );
 			this.sphereItem = this.checkbox( this.specialPopup, listener, "Identify stone spheres" );
 			this.potionItem = this.checkbox( this.specialPopup, listener, "Identify bang potions" );
 			this.specialPopup.addSeparator();
@@ -336,7 +336,7 @@ public class CustomCombatPanel
 			pref = text.length() > 0;
 			this.puttyLabel.setVisible( pref );
 			this.puttyItem.setSelected( pref );
-			this.puttyLabel.setToolTipText( "<html>Automatic Spooky Putty sheet, 4-d camera or portable photocopier use: " + text + "<br>Requires 'special' action if a CCS is used.</html>" );
+			this.puttyLabel.setToolTipText( "<html>Automatic Spooky Putty sheet, Rain-Doh black box, 4-d camera or portable photocopier use: " + text + "<br>Requires 'special' action if a CCS is used.</html>" );
 			pref = Preferences.getBoolean( "autoSphereID" );
 			this.sphereLabel.setVisible( pref );
 			this.sphereItem.setSelected( pref );
@@ -450,7 +450,7 @@ public class CustomCombatPanel
 					}
 					String option =
 						!state ? null : InputFieldUtilities.input(
-							"Use Spooky Putty sheet, 4-d camera or portable photocopier when? (item, \"goals\", or \"monster\" plus name; add \"abort\" to stop adventuring)",
+							"Use Spooky Putty sheet, Rain-Doh black box, 4-d camera or portable photocopier when? (item, \"goals\", or \"monster\" plus name; add \"abort\" to stop adventuring)",
 							"goals abort" );
 
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "putty", option == null ? "none" : option );
