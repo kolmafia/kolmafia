@@ -887,5 +887,4 @@ public class ResponseTextParser
 		}
 		PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
 	}
-
 }
