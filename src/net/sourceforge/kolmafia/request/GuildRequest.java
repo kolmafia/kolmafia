@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -346,6 +347,7 @@ public class GuildRequest
 				{
 					ResultProcessor.processMeat( -cost );
 				}
+				ConcoctionDatabase.refreshConcoctions( true );
 			}
 			return;
 		}
