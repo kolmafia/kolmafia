@@ -1351,12 +1351,10 @@ public class RelayRequest
 			this.contentType = "text/html";
 			if ( CommandDisplayFrame.hasQueuedCommands() )
 			{
-				String URL = "/KoLmafia/specialCommand?cmd=wait&pwd=" +
-					GenericRequest.passwordHash;
+				String URL = "/KoLmafia/specialCommand?cmd=wait&pwd=" + GenericRequest.passwordHash;
 
 				StringBuffer buffer = new StringBuffer();
 				buffer.append( "<html><head>" );
-				buffer.append( RelayServer.getBase() );
 				buffer.append( "<meta http-equiv=\"refresh\" content=\"1; URL=" );
 				buffer.append( URL );
 				buffer.append( "\">" );
@@ -1377,8 +1375,10 @@ public class RelayRequest
 				RelayRequest.specialCommandResponse = "";
 				RelayRequest.specialCommandStatus = "";
 			}
-			else	// specialCommand invoked for command that doesn't
-			{		// specifically support it - we have no page to display.
+			else
+			{
+				// specialCommand invoked for command that doesn't
+				// specifically support it - we have no page to display.
 				this.pseudoResponse( "HTTP/1.1 200 OK",
 					"<html><body>Automation complete.</body></html>)" );
 			}

@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
+import net.sourceforge.kolmafia.webui.RelayServer;
 
 public abstract class ChoiceManager
 {
@@ -4875,6 +4876,7 @@ public abstract class ChoiceManager
 
 		StringBuffer buffer = new StringBuffer( request.responseText );
 		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer, true );
+		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( "choice.php" ) );
 		RelayRequest.specialCommandResponse = buffer.toString();
 	}
 

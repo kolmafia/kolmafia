@@ -62,6 +62,8 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import net.sourceforge.kolmafia.webui.RelayServer;
+
 public abstract class RabbitHoleManager
 {
 	public static final Pattern HAT_CLEANER_PATTERN = Pattern.compile( "\\s" );
@@ -1415,8 +1417,17 @@ public abstract class RabbitHoleManager
 		buffer.insert( index, button );
 	}
 
+	public static final String decorateChessPuzzleResponse( final String response )
+	{
+		StringBuffer buffer = new StringBuffer( response );
+		RequestEditorKit.getFeatureRichHTML( "choice.php", buffer, true );
+		RabbitHoleManager.decorateChessPuzzleResponse( buffer );
+		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( "inv_use.php" ) );
+		return buffer.toString();
+	}
+
 	private static final AdventureResult REFLECTION_OF_MAP = ItemPool.get( ItemPool.REFLECTION_OF_MAP, 1);
-        private static final String ADVENTURE_AGAIN = "<b>Adventure Again:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>";
+	private static final String ADVENTURE_AGAIN = "<b>Adventure Again:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>";
 
 	public static final void decorateChessPuzzleResponse( final StringBuffer buffer )
 	{
@@ -1435,14 +1446,6 @@ public abstract class RabbitHoleManager
 		index += RabbitHoleManager.ADVENTURE_AGAIN.length();
 		String link = "<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&whichitem=4509\">Use another reflection of a map</a><p>";
 		buffer.insert( index, link );
-	}
-
-	public static final String decorateChessPuzzleResponse( final String response )
-	{
-		StringBuffer buffer = new StringBuffer( response );
-		RequestEditorKit.getFeatureRichHTML( "choice.php", buffer, true );
-		RabbitHoleManager.decorateChessPuzzleResponse( buffer );
-		return buffer.toString();
 	}
 	
 	public static final Object[] getHatData( int length )
