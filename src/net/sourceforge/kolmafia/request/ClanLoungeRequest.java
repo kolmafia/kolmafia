@@ -497,6 +497,11 @@ public class ClanLoungeRequest
 			{
 				RequestLogger.printLine( "You decided not to play." );
 			}
+			// Those things are old news.  You only care about the <i>latest</i> gadgets.
+			else if ( responseText.indexOf( "Those things are old news" ) != -1 )
+			{
+				KoLmafia.updateDisplay( "Boring! Nobody plays <i>that</i> any more." );
+			}
 			else
 			{
 				RequestLogger.printLine( "Huh? Unknown response." );
@@ -527,6 +532,11 @@ public class ClanLoungeRequest
 			else if ( responseText.indexOf( "waiting for an important fax" ) != -1 )
 			{
 				KoLmafia.updateDisplay( "You already had a photocopied monster in your inventory." );
+			}
+			// Those things are old news.  You only care about the <i>latest</i> gadgets.
+			else if ( responseText.indexOf( "Those things are old news" ) != -1 )
+			{
+				KoLmafia.updateDisplay( "The fax machine is <i>so</i> last year." );
 			}
 			// You approach the fax machine.  Loathing wells up
 			// within you and fear clutches at your heart...  What
