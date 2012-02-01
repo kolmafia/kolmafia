@@ -614,6 +614,9 @@ PVC staff	Mysticality Percent: +15, Item Drop: +10, Cold Spell Damage: +60
 Pasta of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
 Periodical Paintbrush	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Softcore Only
 Radio Free Foil	Intrinsic Effect: "Shiny Happy Weapon"
+# Rain-Doh yellow laser gun: Super Accurate!
+Rain-Doh yellow laser gun	Weakens Monster, Softcore Only
+Rain-Doh violet bo	Sleaze Damage: +11, Moxie: +11, Softcore Only
 # Red Rover BB gun: You'll Put Your Eye Out!
 Red Rover BB gun	Critical: 3
 Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
@@ -1151,6 +1154,8 @@ Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Softc
 # Operation Patriot Shield	MP Regen Min: 5, MP Regen Max: 6, Spell Damage: +20
 Oscus's garbage can lid	Stench Damage: +20, Damage Reduction: 15
 # Raggedy Hippy doll
+# Rain-Doh green lantern: Makes Spells Smell Worse
+Rain-Doh green lantern	Maximum MP: +20, Softcore Only
 Sceptre of the Torremolinos Prince	Mysticality Percent: +12
 Seven Loco	Booze Drop: +5, Candy Drop: +5
 # Sinful Desires: All Spells Cast Are Sleazy
@@ -1549,6 +1554,7 @@ Radio KoL Flashlight	Mysticality: +15
 Radio KoL Keychain	Muscle: +15
 Radio KoL Maracas	Item Drop: +15
 Radio KoL Patch	Moxie: +15
+Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip
 Ring of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +40, Single Equip
 Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +40, Single Equip

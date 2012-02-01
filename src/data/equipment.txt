@@ -542,6 +542,8 @@ PVC staff	200	Mus: 85	2-handed staff
 Pasta of Peril	50	Mys: 10	1-handed utensil
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
 Radio Free Foil	150	Mus: 60	2-handed sword
+Rain-Doh yellow laser gun	100	Mox: 0	1-handed pistol
+Rain-Doh violet bo	100	Mus: 0	2-handed staff
 Red Rover BB gun	50	Mox: 10	2-handed gun
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Ruby Rod	120	Mus: 40	1-handed rod
@@ -1025,6 +1027,7 @@ Ol' Scratch's stove door	240	Mus: 200	shield
 Operation Patriot Shield	240	none	shield
 Oscus's garbage can lid	240	Mus: 200	shield
 Raggedy Hippy doll	10	none
+Rain-Doh green lantern	0	none
 Sceptre of the Torremolinos Prince	0	none
 Seven Loco	0	none
 Sinful Desires	30	none
@@ -1387,6 +1390,7 @@ Radio KoL Flashlight	0	none
 Radio KoL Keychain	0	none
 Radio KoL Maracas	0	none
 Radio KoL Patch	0	none
+Rain-Doh red wings	0	none
 Red Balloon of Valor	200	Mys: 85
 Ring of Fire	150	Mys: 60
 Ring of the Sewer Snake	150	Mys: 60

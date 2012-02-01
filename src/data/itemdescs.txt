@@ -5549,3 +5549,17 @@
 5548	729361892	origamimag.gif	Ghost Pinching Quarterly	copies of Ghost Pinching Quarterly
 5549
 5550	610147943	document.gif	The Snitch's Manifesto	copies of The Snitch's Manifesto
+5551
+5552
+5553	572522502	raindoh.gif	can of Rain-Doh	cans of Rain-Doh
+5554	817677410	raindohempty.gif	empty Rain-Doh can
+5555
+5556	233745367	raindohwings.gif	Rain-Doh red wings
+5557	631939931	raindohagent.gif	Rain-Doh orange agent
+5558	964864008	raindohgun.gif	Rain-Doh yellow laser gun
+5559	301700297	raindohlantern.gif	Rain-Doh green lantern
+5560	272738469	raindohballs.gif	Rain-Doh blue balls
+5561	652374390	raindohcup.gif	Rain-Doh indigo cup
+5562	345933889	raindohbo.gif	Rain-Doh violet bo
+5563	796678285	raindohbox.gif	Rain-Doh black box
+5564	965400716	raindohboxfull.gif	Rain-Doh box full of monster

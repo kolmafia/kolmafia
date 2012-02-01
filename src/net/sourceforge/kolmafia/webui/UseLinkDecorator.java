@@ -732,6 +732,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.DRUM_MACHINE:
 			case ItemPool.CARONCH_MAP:
 			case ItemPool.SPOOKY_PUTTY_MONSTER:
+			case ItemPool.RAIN_DOH_MONSTER:
 			case ItemPool.SHAKING_CAMERA:
 			case ItemPool.PHOTOCOPIED_MONSTER:
 			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
