@@ -935,6 +935,18 @@ public abstract class MoodManager
 			return "cast Disco Power Nap";
 		}
 
+		boolean tinyHouseClearable =
+			name.equals( "Beaten Up" ) ||
+			name.equals( "Confused" ) ||
+			name.equals( "Embarrassed" ) ||
+			name.equals( "Sunburned" ) ||
+			name.equals( "Wussiness" );
+
+		if ( tinyHouseClearable && ( KoLCharacter.canInteract() || InventoryManager.hasItem( UneffectRequest.TINY_HOUSE ) ) )
+		{
+			return "use 1 tiny house";
+		}
+
 		boolean forestTearsClearable =
 			name.equals( "Beaten Up" );
 
@@ -944,23 +956,7 @@ public abstract class MoodManager
 		}
 
 		boolean isRemovable = UneffectRequest.isRemovable( name );
-		if ( isRemovable && InventoryManager.hasItem( UneffectRequest.REMEDY ) )
-		{
-			return "uneffect " + name;
-		}
-
-		boolean tinyHouseClearable =
-			name.equals( "Beaten Up" ) ||
-			name.equals( "Confused" ) ||
-			name.equals( "Sunburned" ) ||
-			name.equals( "Wussiness" );
-
-		if ( tinyHouseClearable && ( KoLCharacter.canInteract() || InventoryManager.hasItem( UneffectRequest.TINY_HOUSE ) ) )
-		{
-			return "use 1 tiny house";
-		}
-
-		if ( isRemovable && KoLCharacter.canInteract() )
+		if ( isRemovable && ( KoLCharacter.canInteract() || InventoryManager.hasItem( UneffectRequest.REMEDY ) ) )
 		{
 			return "uneffect " + name;
 		}
