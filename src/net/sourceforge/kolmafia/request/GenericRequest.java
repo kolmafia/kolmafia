@@ -2103,6 +2103,22 @@ public class GenericRequest
 
 	public void processResults()
 	{
+		boolean externalUpdate = false;
+		String path = this.getPath();
+
+		if ( ResponseTextParser.hasResult( path ) && !path.startsWith( "fight.php" ) )
+		{
+			externalUpdate = true;
+		}
+		else if ( path.startsWith( "desc_" ) )
+		{
+			externalUpdate = true;
+		}
+
+		if ( externalUpdate )
+		{
+			ResponseTextParser.externalUpdate( this.getURLString(), this.responseText );
+		}
 	}
 
 	/*

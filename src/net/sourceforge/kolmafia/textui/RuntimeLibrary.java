@@ -1765,7 +1765,6 @@ public abstract class RuntimeLibrary
 			if ( RuntimeLibrary.VISITOR.responseText != null )
 			{
 				buffer.append( RuntimeLibrary.VISITOR.responseText );
-				ResponseTextParser.externalUpdate( location, RuntimeLibrary.VISITOR.responseText );
 			}
 		}
 		else

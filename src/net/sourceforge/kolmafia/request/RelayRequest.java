@@ -235,27 +235,6 @@ public class RelayRequest
 		return false;
 	}
 
-	public void processResults()
-	{
-		String path = this.getPath();
-
-		boolean externalUpdate = false;
-
-		if ( ResponseTextParser.hasResult( path ) && !path.startsWith( "fight.php" ) )
-		{
-			externalUpdate = true;
-		}
-		else if ( path.startsWith( "desc_" ) )
-		{
-			externalUpdate = true;
-		}
-
-		if ( externalUpdate )
-		{
-			ResponseTextParser.externalUpdate( this.getURLString(), this.responseText );
-		}
-	}
-
 	public void formatResponse()
 	{
 		this.statusLine = "HTTP/1.1 200 OK";

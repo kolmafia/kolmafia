@@ -134,7 +134,6 @@ public class QuarkCommand
 		GenericRequest visitor =
 			new GenericRequest( "craft.php?action=craft&mode=combine&ajax=1&pwd&qty=1&a=3743&b=" + item.getItemId() );
 		RequestThread.postRequest( visitor );
-		ResponseTextParser.externalUpdate( visitor.getURLString(), visitor.responseText );
 	}
 
 	private boolean isPasteable( final AdventureResult item )

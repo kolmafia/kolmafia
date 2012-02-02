@@ -833,7 +833,6 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( "Splitting bricks..." );
 			GenericRequest req = new GenericRequest( "inventory.php?action=breakbricko&pwd&whichitem=" + itemId );
 			RequestThread.postRequest( req );
-			ResponseTextParser.externalUpdate( req.getURLString(), req.responseText );
 			return;
 
 		case ItemPool.STICKER_SWORD:
@@ -3159,7 +3158,6 @@ public class UseItemRequest
 				GenericRequest req = new GenericRequest(
 					"desc_skill.php?whichskill=" + i + "&self=true" );
 				RequestThread.postRequest( req );
-				ResponseTextParser.externalUpdate( req.getURLString(), req.responseText );
 			}
 
 			// You can learn the appropriate skill up to 10 times.

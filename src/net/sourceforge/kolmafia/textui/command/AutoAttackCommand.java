@@ -127,7 +127,6 @@ public class AutoAttackCommand
 		{
 			AutoAttackCommand.AUTO_ATTACKER.addFormField( "value", String.valueOf( skillId ) );
 			RequestThread.postRequest( AutoAttackCommand.AUTO_ATTACKER );
-			ResponseTextParser.externalUpdate( AutoAttackCommand.AUTO_ATTACKER.getURLString(), AutoAttackCommand.AUTO_ATTACKER.responseText );
 		}
 		
 		return true;

@@ -94,8 +94,6 @@ public class SentMessageEntry
 			{
 				continue;
 			}
-
-			ResponseTextParser.externalUpdate( request.getURLString(), request.responseText );
 		}
 
 		dojax.reset();

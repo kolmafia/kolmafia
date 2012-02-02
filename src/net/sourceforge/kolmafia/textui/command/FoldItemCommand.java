@@ -210,7 +210,6 @@ public class FoldItemCommand
 
 			GenericRequest request = new GenericRequest( buf.toString(), false );
 			RequestThread.postRequest( request );
-			ResponseTextParser.externalUpdate( request.getURLString(), request.responseText );
 			return;
 		}
 
