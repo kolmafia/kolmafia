@@ -78,7 +78,9 @@ public class UseSkillRequest
 
 	private static final Pattern COUNT1_PATTERN = Pattern.compile( "bufftimes=([\\*\\d,]+)" );
 	private static final Pattern COUNT2_PATTERN = Pattern.compile( "quantity=([\\*\\d,]+)" );
-	private static final Pattern LIMITED_PATTERN = Pattern.compile( "<p>(\\d+) / [\\d+] casts used today\\.</td>");
+
+	// <p>1 / 50 casts used today.</td>
+	private static final Pattern LIMITED_PATTERN = Pattern.compile( "<p>(\\d+) / [\\d]+ casts used today\\.</td>", Pattern.DOTALL );
 
 	public static final String[] BREAKFAST_SKILLS =
 	{
@@ -1386,7 +1388,6 @@ public class UseSkillRequest
 				break;
 			}
 
-			return false;
 		}
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
