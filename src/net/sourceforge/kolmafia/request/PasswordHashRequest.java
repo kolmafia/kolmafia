@@ -50,6 +50,8 @@ public class PasswordHashRequest
 
 	public void processResults()
 	{
+		super.processResults();
+
 		if ( !GenericRequest.passwordHash.equals( "" ) )
 		{
 			return;

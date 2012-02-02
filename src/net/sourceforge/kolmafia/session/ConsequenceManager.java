@@ -210,7 +210,6 @@ public abstract class ConsequenceManager
 		GenericRequest req = new GenericRequest( (String)
 			ConsequenceManager.descriptions.get( seq % size ) );
 		RequestThread.postRequest( req );
-		ResponseTextParser.externalUpdate( req.getURLString(), req.responseText );
 	}
 
 	public static String disambiguateMonster( String monster, String responseText )

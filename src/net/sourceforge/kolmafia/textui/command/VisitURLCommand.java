@@ -27,7 +27,6 @@ public class VisitURLCommand
 		}
 
 		RequestThread.postRequest( visitor );
-		ResponseTextParser.externalUpdate( visitor.getURLString(), visitor.responseText );
 
 		if ( cmd.equals( "text" ) )
 		{

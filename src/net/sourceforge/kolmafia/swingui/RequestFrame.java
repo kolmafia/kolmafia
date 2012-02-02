@@ -267,10 +267,6 @@ public class RequestFrame
 				RequestFrame.this.mainDisplay.setText( "" );
 				return;
 			}
-
-			ResponseTextParser.externalUpdate( RequestFrame.this.currentLocation, this.request.responseText );
-
-			RequestFrame.this.showHTML( RequestFrame.this.currentLocation, this.request.responseText );
 		}
 	}
 
