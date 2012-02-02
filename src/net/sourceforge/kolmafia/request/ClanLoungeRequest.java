@@ -587,7 +587,10 @@ public class ClanLoungeRequest
 			}
 			break;
 		}
+	}
 
+	public void processResults()
+	{
 		ClanLoungeRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
