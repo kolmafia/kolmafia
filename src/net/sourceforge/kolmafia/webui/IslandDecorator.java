@@ -1154,6 +1154,8 @@ public class IslandDecorator
 
 		if ( responseText.indexOf( "Giant explosions in slow motion" ) != -1 )
 		{
+			// FightRequest can't handle this.
+			ResultProcessor.processResults( true, responseText );
 			IslandDecorator.handleEndOfWar( "both" );
 			return;
 		}
