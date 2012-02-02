@@ -4730,22 +4730,28 @@ public class FightRequest
 				return true;
 			}
 			if ( responseText.indexOf( "too scared to copy any more monsters today" ) != -1 )
+			{
 				Preferences.setInteger( "spookyPuttyCopiesMade", 5 );
+			}
 			return false;
 
 		case ItemPool.RAIN_DOH_BOX:
 
-			// ???
+			// You push the button on the side of the box.
+			// It makes a scary noise, and a tiny, ghostly image
+			// of your opponent appears inside it. 
 
-			if ( responseText.indexOf( "make a perfect copy" ) != -1 )
+			if ( responseText.indexOf( "ghostly image of your opponent" ) != -1 )
 			{
 				Preferences.increment( "spookyPuttyCopiesMade", 1 );
 				Preferences.setString( "spookyPuttyMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
-			if ( responseText.indexOf( "too scared to copy any more monsters today" ) != -1 )
+			if ( responseText.indexOf( "too scared to use this box anymore today" ) != -1 )
+			{
 				Preferences.setInteger( "spookyPuttyCopiesMade", 5 );
+			}
 			return false;
 
 		case ItemPool.CAMERA:
