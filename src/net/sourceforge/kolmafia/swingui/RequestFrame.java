@@ -267,6 +267,8 @@ public class RequestFrame
 				RequestFrame.this.mainDisplay.setText( "" );
 				return;
 			}
+	 
+			RequestFrame.this.showHTML( RequestFrame.this.currentLocation, this.request.responseText );
 		}
 	}
 
