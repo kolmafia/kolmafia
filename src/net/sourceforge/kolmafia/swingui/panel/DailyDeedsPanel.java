@@ -2074,47 +2074,53 @@ public class DailyDeedsPanel
 			buffer.append( "Drops: " );
 
 			FamiliarData pixie = KoLCharacter.findFamiliar( FamiliarPool.PIXIE );
-			if ( pixie != null && pixie.canEquip()  )
+			int absintheDrops = Preferences.getInteger( "_absintheDrops" );
+			if ( ( pixie != null && pixie.canEquip() ) || absintheDrops > 0  )
 			{
 				if ( shown ) buffer.append( ", " );
-				buffer.append( Preferences.getString( "_absintheDrops" ) );
+				buffer.append( absintheDrops );
 				buffer.append( " absinthe" );
 				shown = true;
 			}
 
 			FamiliarData sandworm = KoLCharacter.findFamiliar( FamiliarPool.SANDWORM );
-			if ( sandworm != null && sandworm.canEquip()  )
+			int aguaDrops = Preferences.getInteger( "_aguaDrops" );
+			if ( (sandworm != null && sandworm.canEquip() ) || aguaDrops > 0  )
 			{
 				if ( shown ) buffer.append( ", " );
-				buffer.append( Preferences.getString( "_aguaDrops" ) );
+				buffer.append( aguaDrops );
 				buffer.append( " agua" );
 				shown = true;
 			}
 
 			FamiliarData badger = KoLCharacter.findFamiliar( FamiliarPool.BADGER );
-			if ( badger != null && badger.canEquip() )
+			int badgerDrops = Preferences.getInteger( "_astralDrops" );
+			if ( ( badger != null && badger.canEquip() ) || badgerDrops > 0 )
 			{
 				if ( shown ) buffer.append( ", " );
-				buffer.append( Preferences.getString( "_astralDrops" ) );
+				buffer.append( badgerDrops );
 				buffer.append( " astral" );
 				shown = true;
 			}
 
 			FamiliarData llama = KoLCharacter.findFamiliar( FamiliarPool.LLAMA );
-			if ( llama != null && llama.canEquip() )
+			int gongDrops = Preferences.getInteger( "_gongDrops" );
+			if ( ( llama != null && llama.canEquip() ) || gongDrops > 0 )
 			{
 				if ( shown ) buffer.append( ", " );
-				buffer.append( Preferences.getString( "_gongDrops" ) );
+				buffer.append( gongDrops );
 				buffer.append( " gong" );
 				shown = true;
 			}
 
 			FamiliarData grinder = KoLCharacter.findFamiliar( FamiliarPool.GRINDER );
-			if ( grinder != null && grinder.canEquip() )
+			int pieDrops = Preferences.getInteger( "_pieDrops" );
+
+			if ( ( grinder != null && grinder.canEquip() ) || pieDrops > 0 )
 			{
 				if ( shown ) buffer.append( ", " );
-				buffer.append( Preferences.getString( "_pieDrops" ) );
-				if ( Preferences.getInteger( "_pieDrops" ) == 1 )
+				buffer.append( pieDrops );
+				if ( pieDrops == 1 )
 				{
 					buffer.append( " pie (" );
 				}
@@ -2128,19 +2134,21 @@ public class DailyDeedsPanel
 			}
 
 			FamiliarData tron = KoLCharacter.findFamiliar( FamiliarPool.TRON );
-			if ( tron != null && tron.canEquip() )
+			int tokenDrops = Preferences.getInteger( "_tokenDrops" );
+			if ( ( tron != null && tron.canEquip() ) || tokenDrops > 0 )
 			{
 				if ( shown ) buffer.append( ", " );
-				buffer.append( Preferences.getString( "_tokenDrops" ) );
+				buffer.append( tokenDrops );
 				buffer.append( " token" );
 				shown = true;
 			}
 
 			FamiliarData alien = KoLCharacter.findFamiliar( FamiliarPool.ALIEN );
-			if ( alien != null && alien.canEquip() )
+			int alienDrops = Preferences.getInteger( "_transponderDrops" );
+			if ( ( alien != null && alien.canEquip() ) || alienDrops > 0 )
 			{
 				if ( shown ) buffer.append( ", " );
-				buffer.append( Preferences.getString( "_transponderDrops" ) );
+				buffer.append( alienDrops );
 				buffer.append( " transponder" );
 				shown = true;
 			}
@@ -2157,19 +2165,21 @@ public class DailyDeedsPanel
 			}
 
 			FamiliarData groose = KoLCharacter.findFamiliar( FamiliarPool.GROOSE );
-			if ( groose != null && groose.canEquip() )
+			int grooseDrops = Preferences.getInteger( "_grooseDrops" );
+			if ( ( groose != null && groose.canEquip() ) || grooseDrops > 0 )
 			{
 				if ( shown ) buffer.append( ", " );
-				buffer.append( Preferences.getString( "_grooseDrops" ) );
+				buffer.append( grooseDrops );
 				buffer.append( " grease" );
 				shown = true;
 			}
 
 			FamiliarData kloop = KoLCharacter.findFamiliar( FamiliarPool.KLOOP );
-			if ( kloop != null && kloop.canEquip() )
+			int kloopDrops = Preferences.getInteger( "_kloopDrops" );
+			if ( ( kloop != null && kloop.canEquip() ) || kloopDrops > 0 )
 			{
 				if ( shown ) buffer.append( ", " );
-				buffer.append( Preferences.getString( "_kloopDrops" ) );
+				buffer.append( kloopDrops );
 				buffer.append( " folio" );
 				shown = true;
 			}
