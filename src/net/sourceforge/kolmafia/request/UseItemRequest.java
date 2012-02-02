@@ -91,8 +91,6 @@ public class UseItemRequest
 {
 	public static final AdventureResult INFERNAL_SEAL_CLAW = ItemPool.get( ItemPool.INFERNAL_SEAL_CLAW, 1 );
 
-	private static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
-
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	public static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
@@ -1633,11 +1631,11 @@ public class UseItemRequest
 		{
 			if ( this.redirectLocation.startsWith( "inventory" ) )
 			{
-				UseItemRequest.REDIRECT_REQUEST.constructURLString( this.redirectLocation ).run();
+				GenericRequest request = new GenericRequest( this.redirectLocation );
 				UseItemRequest.lastItemUsed = this.itemUsed;
-				UseItemRequest.parseConsumption( UseItemRequest.REDIRECT_REQUEST.responseText, true );
-				ResponseTextParser.learnRecipe( this.getURLString(), UseItemRequest.REDIRECT_REQUEST.responseText );
-				ConcoctionDatabase.refreshConcoctions( false );
+				request.run();
+				// GenericRequest.processResults will call UseItemRequest.parseConsumption.
+				ResponseTextParser.learnRecipe( this.getURLString(), request.responseText );
 			}
 			else if ( this.redirectLocation.startsWith( "choice.php" ) )
 			{
