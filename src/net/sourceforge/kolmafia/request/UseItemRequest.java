@@ -3650,30 +3650,6 @@ public class UseItemRequest
 
 			return;
 
-		case ItemPool.STEEL_STOMACH:
-
-			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
-			{
-				ResponseTextParser.learnSkill( "Stomach of Steel" );
-			}
-			return;
-
-		case ItemPool.STEEL_LIVER:
-
-			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
-			{
-				ResponseTextParser.learnSkill( "Liver of Steel" );
-			}
-			return;
-
-		case ItemPool.STEEL_SPLEEN:
-
-			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
-			{
-				ResponseTextParser.learnSkill( "Spleen of Steel" );
-			}
-			return;
-
 		case ItemPool.MOJO_FILTER:
 
 			// You strain some of the toxins out of your mojo, and
