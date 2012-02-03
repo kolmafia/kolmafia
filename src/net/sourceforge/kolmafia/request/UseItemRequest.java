@@ -3650,6 +3650,19 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.STEEL_STOMACH:
+		case ItemPool.STEEL_LIVER:
+			// Nothing to do for these.
+			return;
+
+		case ItemPool.STEEL_SPLEEN:
+
+			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+			{
+				ResponseTextParser.learnSkill( "Spleen of Steel" );
+			}
+			return;
+
 		case ItemPool.MOJO_FILTER:
 
 			// You strain some of the toxins out of your mojo, and
