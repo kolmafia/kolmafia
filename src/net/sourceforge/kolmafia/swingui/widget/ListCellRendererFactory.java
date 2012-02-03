@@ -245,14 +245,16 @@ public class ListCellRendererFactory
 				}
 			}
 			
-			int costForOne = icr.concoction.getAdventuresNeeded( 1 );
+			int costForOne = icr.concoction.getAdventuresNeeded( 1, true );
 			int maxPossible = icr.getQuantityPossible();
-			int costForMax = icr.concoction.getAdventuresNeeded( maxPossible );
+			int costForMax = icr.concoction.getAdventuresNeeded( maxPossible, true );
+			boolean futureCreationMoreExpensive = costForMax  > costForOne * maxPossible;
+
 			if ( costForOne > 0 )
 			{
 				stringForm.append( " (" );
 				stringForm.append( costForOne );
-				if ( costForMax  > costForOne * maxPossible )
+				if ( futureCreationMoreExpensive )
 				{
 					stringForm.append( "+" );
 				}
@@ -442,7 +444,8 @@ public class ListCellRendererFactory
 		{
 			if ( item.getItem() != null )
 			{
-				int modified = item.getAvailable();
+				boolean turnFreeOnly = Preferences.getBoolean( "showTurnFreeOnly" );
+				int modified = ( turnFreeOnly ? item.getTurnFreeAvailable() : item.getAvailable() );
 				int initial = item.getItem().getCount( KoLConstants.inventory );
 
 				if ( item.price > 0 )
@@ -475,15 +478,16 @@ public class ListCellRendererFactory
 				stringForm.append( " possible, " );
 				stringForm.append( initial );
 				stringForm.append( " current" );
-				int costForOne = item.getAdventuresNeeded( 1 );
+				int costForOne = item.getAdventuresNeeded( 1, true );
 				int maxPossible = modified;
-				int costForMax = item.getAdventuresNeeded( maxPossible );
-				
-				if( costForOne > 0 )
+				int costForMax = item.getAdventuresNeeded( maxPossible, true );
+				boolean futureCreationMoreExpensive = costForMax > costForOne * maxPossible;
+
+				if ( costForOne > 0 )
 				{
 					stringForm.append( ", " );
 					stringForm.append( costForOne );
-					if ( costForMax  > costForOne * maxPossible )
+					if ( futureCreationMoreExpensive )
 					{
 						stringForm.append( "+" );
 					}

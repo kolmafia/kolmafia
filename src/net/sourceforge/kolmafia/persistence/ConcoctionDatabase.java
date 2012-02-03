@@ -95,6 +95,7 @@ public class ConcoctionDatabase
 	public static int refreshLevel = 0;
 
 	public static int queuedAdventuresUsed = 0;
+	public static int queuedFreeCraftingTurns = 0;
 	public static int queuedStillsUsed = 0;
 	public static int queuedTomesUsed = 0;
 	public static int queuedPullsUsed = 0;
@@ -115,6 +116,7 @@ public class ConcoctionDatabase
 	public static final Concoction stillsLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 	public static final Concoction tomeLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 	public static final Concoction adventureLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
+	public static final Concoction turnFreeLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 	public static final Concoction meatLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 
 	public static final SortedListModelArray knownUses = new SortedListModelArray();
@@ -729,6 +731,7 @@ public class ConcoctionDatabase
 		}
 
 		int adventureChange = ConcoctionDatabase.queuedAdventuresUsed;
+		int freeCraftChange = ConcoctionDatabase.queuedFreeCraftingTurns;
 		int stillChange = ConcoctionDatabase.queuedStillsUsed;
 		int tomeChange = ConcoctionDatabase.queuedTomesUsed;
 		int pullChange = ConcoctionDatabase.queuedPullsUsed;
@@ -742,6 +745,13 @@ public class ConcoctionDatabase
 		{
 			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.ADV, adventureChange ) );
+		}
+		
+		freeCraftChange = ConcoctionDatabase.queuedFreeCraftingTurns - freeCraftChange;
+		if ( freeCraftChange != 0 )
+		{
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, freeCraftChange ) );
 		}
 
 		stillChange = ConcoctionDatabase.queuedStillsUsed - stillChange;
@@ -777,6 +787,7 @@ public class ConcoctionDatabase
 		queuedChanges.push( new Integer( tomeChange ) );
 		queuedChanges.push( new Integer( stillChange ) );
 		queuedChanges.push( new Integer( adventureChange ) );
+		queuedChanges.push( new Integer( freeCraftChange ) );
 
 		queuedChanges.push( ingredientChange );
 		queuedChanges.push( new Integer( quantity ) );
@@ -813,6 +824,7 @@ public class ConcoctionDatabase
 		Integer quantity = (Integer) queuedChanges.pop();
 		ArrayList ingredientChange = (ArrayList) queuedChanges.pop();
 
+		Integer freeCraftChange = (Integer) queuedChanges.pop();
 		Integer adventureChange = (Integer) queuedChanges.pop();
 		Integer stillChange = (Integer) queuedChanges.pop();
 		Integer tomeChange = (Integer) queuedChanges.pop();
@@ -825,6 +837,14 @@ public class ConcoctionDatabase
 		{
 			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, ( (AdventureResult) ingredientChange.get( i ) ).getNegation() );
+		}
+		
+		int free = freeCraftChange.intValue();
+		if ( free != 0 )
+		{
+			ConcoctionDatabase.queuedFreeCraftingTurns -= free;
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, -free ) );
 		}
 
 		int advs = adventureChange.intValue();
@@ -1333,6 +1353,7 @@ public class ConcoctionDatabase
 			Concoction item = (Concoction) it.next();
 
 			item.calculate2();
+			item.calculate3();
 		}
 
 		// Now, to update the list of creatables without removing
@@ -1474,11 +1495,18 @@ public class ConcoctionDatabase
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
 
-		ConcoctionDatabase.adventureLimit.total = KoLCharacter.getAdventuresLeft();
+		ConcoctionDatabase.adventureLimit.total = KoLCharacter.getAdventuresLeft() + ConcoctionDatabase.getFreeCraftingTurns();
 		ConcoctionDatabase.adventureLimit.initial =
 			ConcoctionDatabase.adventureLimit.total - ConcoctionDatabase.queuedAdventuresUsed;
 		ConcoctionDatabase.adventureLimit.creatable = 0;
 		ConcoctionDatabase.adventureLimit.visibleTotal = ConcoctionDatabase.adventureLimit.total;
+		
+		// If we want to do turn-free crafting, we can only use free turns in lieu of adventures.
+		
+		ConcoctionDatabase.turnFreeLimit.total = ConcoctionDatabase.getFreeCraftingTurns();
+		ConcoctionDatabase.turnFreeLimit.initial = ConcoctionDatabase.turnFreeLimit.total - ConcoctionDatabase.queuedFreeCraftingTurns;
+		ConcoctionDatabase.turnFreeLimit.creatable = 0;
+		ConcoctionDatabase.turnFreeLimit.visibleTotal = ConcoctionDatabase.turnFreeLimit.total;
 
 		// Stills are also considered Item #0 in the event that the
 		// concoction will use stills.
@@ -1515,7 +1543,7 @@ public class ConcoctionDatabase
 		Arrays.fill( ConcoctionDatabase.ADVENTURE_USAGE, 0 );
 		Arrays.fill( ConcoctionDatabase.CREATION_COST, 0 );
 		Arrays.fill( ConcoctionDatabase.EXCUSE, null );
-		int Inigo = ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5;
+		int Inigo = ConcoctionDatabase.getFreeCraftingTurns();
 
 		// It is never possible to create items which are flagged
 		// NOCREATE
@@ -1671,13 +1699,13 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] = null;
 		}
 		// If we don't have a chef, Inigo's makes cooking free
-		else if ( Inigo > 0 )
+/*		else if ( Inigo > 0 )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = true;
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 0;
 			ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
 			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] = null;
-		}
+		}*/
 		// We might not care if cooking takes adventures
 		else if ( Preferences.getBoolean( "requireBoxServants" ) )
 		{
@@ -1690,7 +1718,7 @@ public class ConcoctionDatabase
 		// Otherwise, spend those adventures!
 		else
 		{
-			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = KoLCharacter.getAdventuresLeft() > 0;
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.COOK_FANCY ] = KoLCharacter.getAdventuresLeft() + Inigo > 0;
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.COOK_FANCY ] = 1;
 			ConcoctionDatabase.CREATION_COST[ KoLConstants.COOK_FANCY ] = 0;
 			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] =
@@ -1760,13 +1788,13 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] = null;
 		}
 		// If we don't have a bartender, Inigo's makes mixing free
-		else if ( Inigo > 0 )
+/*		else if ( Inigo > 0 )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] = true;
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 0;
 			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
 			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] = null;
-		}
+		}*/
 		// We might not care if mixing takes adventures
 		else if ( Preferences.getBoolean( "requireBoxServants" ) )
 		{
@@ -1779,7 +1807,7 @@ public class ConcoctionDatabase
 		// Otherwise, spend those adventures!
 		else
 		{
-			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] = KoLCharacter.getAdventuresLeft() > 0;
+			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.MIX_FANCY ] = KoLCharacter.getAdventuresLeft() + Inigo > 0;
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.MIX_FANCY ] = 1;
 			ConcoctionDatabase.CREATION_COST[ KoLConstants.MIX_FANCY ] = 0;
 			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] =
@@ -1887,7 +1915,7 @@ public class ConcoctionDatabase
 			int adv = ConcoctionDatabase.ADVENTURE_USAGE[ i ];
 			if ( ConcoctionDatabase.PERMIT_METHOD[ i ] && adv > 0 )
 			{
-				if ( adv > KoLCharacter.getAdventuresLeft() )
+				if ( adv > KoLCharacter.getAdventuresLeft() + ConcoctionDatabase.getFreeCraftingTurns() )
 				{
 					ConcoctionDatabase.PERMIT_METHOD[ i ] = false;
 					ConcoctionDatabase.EXCUSE[ i ] = "You don't have enough adventures left to create that.";
@@ -1897,6 +1925,11 @@ public class ConcoctionDatabase
 		}
 
 		ConcoctionDatabase.creationFlags = flags;
+	}
+
+	public static int getFreeCraftingTurns()
+	{
+		return ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5;
 	}
 
 	private static final boolean isAvailable( final int servantId, final int clockworkId )

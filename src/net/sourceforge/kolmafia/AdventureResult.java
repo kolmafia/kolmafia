@@ -80,6 +80,7 @@ public class AdventureResult
 	public static final String HP = "HP";
 	public static final String MP = "MP";
 	public static final String ADV = "Adv";
+	public static final String FREE_CRAFT = "Free Craft";
 	public static final String CHOICE = "Choice";
 	public static final String AUTOSTOP = "Autostop";
 	public static final String DRUNK = "Drunk";
@@ -189,7 +190,8 @@ public class AdventureResult
 		     name.equals( AdventureResult.AUTOSTOP ) ||
 		     name.equals( AdventureResult.PULL ) ||
 		     name.equals( AdventureResult.STILL ) ||
-		     name.equals( AdventureResult.TOME ) )
+		     name.equals( AdventureResult.TOME )||
+		     name.equals( AdventureResult.FREE_CRAFT ) )
 		{
 			return AdventureResult.ADV_PRIORITY;
 		}
@@ -628,6 +630,11 @@ public class AdventureResult
 		if ( this.name.equals( AdventureResult.ADV ) )
 		{
 			return " Advs Used: " + KoLConstants.COMMA_FORMAT.format( this.count );
+		}
+		
+		if ( this.name.equals( AdventureResult.FREE_CRAFT ) )
+		{
+			return " Free Crafts: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.name.equals( AdventureResult.MEAT ) )

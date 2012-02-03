@@ -138,7 +138,7 @@ public class UseItemEnqueuePanel
 		this.filters = new JCheckBox[ food || booze || spleen ? 8 : 7 ];
 
 		this.filters[ 0 ] = new JCheckBox( "no create" );
-		this.filters[ 1 ] = new JCheckBox( "turn-free" );
+		this.filters[ 1 ] = new TurnFreeCheckbox();
 		this.filters[ 2 ] = new JCheckBox( "no summon" );
 		this.filters[ 3 ] = new JCheckBox( "+mus only" );
 		this.filters[ 4 ] = new JCheckBox( "+mys only" );
@@ -526,8 +526,7 @@ public class UseItemEnqueuePanel
 			// turn-free
 			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )
 			{
-				AdventureResult item = creation.getItem();
-				if ( item != null && creation.getAdventuresNeeded( 1 ) > 0 )
+				if ( creation.getTurnFreeAvailable() == 0 )
 				{
 					return false;
 				}
@@ -597,6 +596,22 @@ public class UseItemEnqueuePanel
 			super( "by room", "sortByRoom" );
 
 			this.setToolTipText( "Sort items you have no room for to the bottom" );
+		}
+
+		protected void handleClick()
+		{
+			ConcoctionDatabase.getUsables().sort();
+		}
+	}
+	
+	private static class TurnFreeCheckbox
+		extends PreferenceListenerCheckBox
+	{
+		public TurnFreeCheckbox()
+		{
+			super( "turn-free", "showTurnFreeOnly" );
+
+			this.setToolTipText( "Only show creations that will not take a turn" );
 		}
 
 		protected void handleClick()
