@@ -1560,6 +1560,7 @@ public class UseItemRequest
 
 		case KoLConstants.CONSUME_EAT:
 			this.addFormField( "which", "1" );
+			this.addFormField( "ajax", "1" );
 			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 			if ( this.queuedFoodHelper != null && this.queuedFoodHelperCount > 0 )
 			{
@@ -1586,6 +1587,7 @@ public class UseItemRequest
 
 		case KoLConstants.CONSUME_DRINK:
 			this.addFormField( "which", "1" );
+			this.addFormField( "ajax", "1" );
 			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 			if ( queuedDrinkHelper != null && queuedDrinkHelperCount > 0 )
 			{
@@ -1632,7 +1634,6 @@ public class UseItemRequest
 			if ( this.redirectLocation.startsWith( "inventory" ) )
 			{
 				GenericRequest request = new GenericRequest( this.redirectLocation );
-				UseItemRequest.lastItemUsed = this.itemUsed;
 				request.run();
 				// GenericRequest.processResults will call UseItemRequest.parseConsumption.
 				ResponseTextParser.learnRecipe( this.getURLString(), request.responseText );
@@ -3641,8 +3642,17 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.STEEL_STOMACH:
+			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+			{
+				ResponseTextParser.learnSkill( "Stomach of Steel" );
+			}
+			return;
+
 		case ItemPool.STEEL_LIVER:
-			// Nothing to do for these.
+			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+			{
+				ResponseTextParser.learnSkill( "Liver of Steel" );
+			}
 			return;
 
 		case ItemPool.STEEL_SPLEEN:
