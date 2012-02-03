@@ -2742,18 +2742,8 @@ public class UseItemRequest
 				return;
 			}
 
-			// This only works if you had a Reassembled Blackbird
-			// or Reconstituted Crow familiar. When it works, the
-			// familiar disappears.
-
 			FamiliarData blackbird = KoLCharacter.getFamiliar();
-			KoLCharacter.removeFamiliar( blackbird );
-
 			AdventureResult blackbirdItem = blackbird.getItem();
-			if ( blackbirdItem != null && !blackbirdItem.equals( EquipmentRequest.UNEQUIP ) )
-			{
-				AdventureResult.addResultToList( KoLConstants.inventory, blackbirdItem );
-			}
 
 			if ( !Preferences.getString( "preBlackbirdFamiliar" ).equals( "" ) )
 			{
