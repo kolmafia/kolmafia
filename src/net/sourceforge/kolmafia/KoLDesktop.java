@@ -46,6 +46,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -296,7 +297,16 @@ public class KoLDesktop
 			return false;
 		}
 
-		KoLDesktop.INSTANCE.tabs.setSelectedIndex( tabIndex );
+		int currentTabIndex = KoLDesktop.INSTANCE.tabs.getSelectedIndex();
+		if ( tabIndex == currentTabIndex )
+		{
+			JComponent selected = (JComponent)KoLDesktop.INSTANCE.tabs.getSelectedComponent();
+			selected.requestFocus();
+		}
+		else
+		{
+			KoLDesktop.INSTANCE.tabs.setSelectedIndex( tabIndex );
+		}
 
 		return true;
 	}
