@@ -572,7 +572,7 @@ public abstract class TransferItemRequest
 	}
 
 	public static final Pattern ITEM_PATTERN1 = Pattern.compile( "(.*?) \\((\\d+)\\)" );
-	public static final Pattern ITEM_PATTERN2 = Pattern.compile( "(\\d+) ([^,]*)" );
+	public static final Pattern ITEM_PATTERN2 = Pattern.compile( "^(\\d+) ([^,]*)" );
 
 	public static final ArrayList getItemList( final String responseText, final Pattern itemPattern )
 	{
