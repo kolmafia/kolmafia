@@ -830,7 +830,7 @@ public class ItemDatabase
 	private static final void calculateAdventureRange( final String name )
 	{
 		Concoction c = ConcoctionPool.get( name );
-		int advs = ( c == null ) ? 0 : c.getAdventuresNeeded( 1 );
+		int advs = ( c == null ) ? 0 : c.getAdventuresNeeded( 1, true );
 
 		int unitCost = ( (Integer) ItemDatabase.unitCostByName.get( name ) ).intValue();
 		int start = ( (Integer) ItemDatabase.advStartByName.get( name ) ).intValue();

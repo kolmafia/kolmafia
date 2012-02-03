@@ -102,6 +102,7 @@ public class Concoction
 	public int mallable;
 	public int total;
 	public int visibleTotal;
+	public int freeTotal;
 
 	private int fullness, inebriety, spleenhit;
 	private float mainstatGain;
@@ -387,6 +388,11 @@ public class Concoction
 	{
 		return this.visibleTotal;
 	}
+	
+	public int getTurnFreeAvailable()
+	{
+		return this.freeTotal;
+	}
 
 	public int getQueued()
 	{
@@ -513,7 +519,16 @@ public class Concoction
 		int advs = ConcoctionDatabase.ADVENTURE_USAGE[ method ] * overAmount;
 		if ( advs != 0 )
 		{
-			ConcoctionDatabase.queuedAdventuresUsed += advs;
+			for ( int i = 0; i < advs; ++i )
+			{
+				if ( ConcoctionDatabase.queuedFreeCraftingTurns < ConcoctionDatabase
+					.getFreeCraftingTurns() )
+				{
+					++ConcoctionDatabase.queuedFreeCraftingTurns;
+				}
+				else
+					++ConcoctionDatabase.queuedAdventuresUsed;
+			}
 		}
 
 		if ( method == KoLConstants.STILL_BOOZE || method == KoLConstants.STILL_MIXER )
@@ -733,6 +748,51 @@ public class Concoction
 		}
 		this.visibleTotal = this.total;
 	}
+	
+	// Like calculate2, but just calculates turn-free creations.
+	
+	public void calculate3()
+	{
+		int maxSuccess = this.initial;
+		int minFailure = Integer.MAX_VALUE;
+		int guess = maxSuccess + 1;
+		ArrayList visited = new ArrayList();
+		Iterator i;
+
+		while ( true )
+		{
+			int res = this.canMake( guess, visited, true );
+
+			if ( res >= guess )
+			{	
+				maxSuccess = guess;
+			}
+			else
+			{	
+				minFailure = guess;
+				res = Math.max( res, (maxSuccess + minFailure) / 2 );
+			}
+			if ( maxSuccess + 1 >= minFailure ) break;
+			guess = Math.min( Math.max( res, maxSuccess + 1 ), minFailure - 1 );
+
+			i = visited.iterator();
+			while ( i.hasNext() )
+			{	
+				Concoction c = (Concoction) i.next();
+				c.allocated = 0;
+			}
+		}
+
+		i = visited.iterator();
+		while ( i.hasNext() )
+		{	
+			Concoction c = (Concoction) i.next();
+			c.allocated = 0;
+			c.visited = false;
+		}
+
+		this.freeTotal = maxSuccess;
+	}
 
 	// Determine if the requested amount of this item can be made from
 	// available ingredients.  Return value must be >= requested if true,
@@ -742,6 +802,10 @@ public class Concoction
 	// values until some N is found to be possible, while N+1 is impossible.
 
 	private int canMake( int requested, ArrayList visited )
+	{
+		return canMake( requested, visited, false );
+	}
+	private int canMake( int requested, ArrayList visited, boolean turnFreeOnly )
 	{
 		if ( !this.visited )
 		{
@@ -761,7 +825,7 @@ public class Concoction
 		if ( needToMake > 0 && this.price > 0 )
 		{
 			Concoction c = ConcoctionDatabase.meatLimit;
-			int buyable = c.canMake( needToMake * this.price, visited ) / this.price;
+			int buyable = c.canMake( needToMake * this.price, visited, turnFreeOnly ) / this.price;
 			if ( Concoction.debug )
 			{
 				RequestLogger.printLine( "- " + this.name + " limited to " +
@@ -831,7 +895,7 @@ public class Concoction
 				len = 1;
 			}
 
-			minMake = Math.min( minMake, c.canMake( needToMake * count, visited ) / count );
+			minMake = Math.min( minMake, c.canMake( needToMake * count, visited, turnFreeOnly ) / count );
 			if ( Concoction.debug )
 			{
 				RequestLogger.printLine( "- " + this.name +
@@ -866,9 +930,9 @@ public class Concoction
 		int advs = ConcoctionDatabase.ADVENTURE_USAGE[ method ];
 		if ( minMake > 0 && advs != 0 )
 		{
-			Concoction c = ConcoctionDatabase.adventureLimit;
-			minMake = Math.min( minMake,
-				c.canMake( needToMake * advs, visited ) / advs );
+			// Free crafting turns are counted as implicit adventures in this step.
+			Concoction c = ( turnFreeOnly ? ConcoctionDatabase.turnFreeLimit : ConcoctionDatabase.adventureLimit );
+			minMake = Math.min( minMake, c.canMake( needToMake * advs, visited, turnFreeOnly ) / advs );
 			if ( Concoction.debug )
 			{
 				RequestLogger.printLine( "- " + this.name +
@@ -885,7 +949,7 @@ public class Concoction
 			method == KoLConstants.STILL_BOOZE) )
 		{
 			Concoction c = ConcoctionDatabase.stillsLimit;
-			minMake = Math.min( minMake, c.canMake( needToMake, visited ) );
+			minMake = Math.min( minMake, c.canMake( needToMake, visited, turnFreeOnly ) );
 			if ( Concoction.debug )
 			{
 				RequestLogger.printLine( "- " + this.name +
@@ -901,7 +965,7 @@ public class Concoction
 		if ( minMake > 0 && (method == KoLConstants.CLIPART) )
 		{
 			Concoction c = ConcoctionDatabase.tomeLimit;
-			minMake = Math.min( minMake, c.canMake( needToMake, visited ) );
+			minMake = Math.min( minMake, c.canMake( needToMake, visited, turnFreeOnly ) );
 			if ( Concoction.debug )
 			{
 				RequestLogger.printLine( "- " + this.name +
@@ -946,6 +1010,11 @@ public class Concoction
 
 	public int getAdventuresNeeded( final int quantityNeeded )
 	{
+		return getAdventuresNeeded( quantityNeeded, false );
+	}
+	
+	public int getAdventuresNeeded( final int quantityNeeded, boolean considerInigos )
+	{
 		// If we can't make this item, it costs no adventures to use
 		// the quantity on hand.
 		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
@@ -985,7 +1054,7 @@ public class Concoction
 			runningTotal += ingredient.getAdventuresNeeded( create );
 		}
 
-		return runningTotal;
+		return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), 0 );
 	}
 
 	/**

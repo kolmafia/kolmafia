@@ -587,6 +587,7 @@ user	semirareLocation
 user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	showGainsPerUnit	false
+user	showTurnFreeOnly	false
 user	sideDefeated	neither
 user	sidequestArenaCompleted	none
 user	sidequestFarmCompleted	none

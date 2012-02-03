@@ -1105,19 +1105,19 @@ public class CreateItemRequest
 		switch ( this.mixingMethod & KoLConstants.CT_MASK )
 		{
 		case KoLConstants.SMITH:
-			return KoLCharacter.knollAvailable() ? 0 : Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
+			return KoLCharacter.knollAvailable() ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
 		case KoLConstants.SSMITH:
-			return Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
+			return Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
 		case KoLConstants.JEWELRY:
-			return Math.max( 0, ( ( 3 * this.quantityNeeded ) - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
+			return Math.max( 0, ( ( 3 * this.quantityNeeded ) - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
 		case KoLConstants.COOK_FANCY:
-			return KoLCharacter.hasChef() ? 0 : Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
+			return KoLCharacter.hasChef() ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
 		case KoLConstants.MIX_FANCY:
-			return KoLCharacter.hasBartender() ? 0 : Math.max( 0, ( this.quantityNeeded - ( ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 ) ) );
+			return KoLCharacter.hasBartender() ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
 		case KoLConstants.WOK:
 			return this.quantityNeeded;
