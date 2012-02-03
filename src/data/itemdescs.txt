@@ -5230,7 +5230,7 @@
 5229	580600083	light.gif	unbearable light
 5230	734400982	snowflake.gif	oversized snowflake
 5231	364690120	crystalskull.gif	crystal skull
-5232	202359698	watch.gif	borrowed time
+5232	202359698	watch.gif	borrowed time	pieces of borrowed time
 5233	644838641	hammerbox.gif	box of hammers
 5234	256581155	lighthalo.gif	shining halo
 5235	942102010	furhalo.gif	furry halo

@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
@@ -1411,13 +1412,9 @@ public class RelayRequest
 		GenericRequest.suppressUpdate( suppressUpdate );
 		CommandDisplayFrame.executeCommand( command );
 
-		while ( CommandDisplayFrame.hasQueuedCommands() )
+		while ( waitForCompletion && CommandDisplayFrame.hasQueuedCommands() )
 		{
 			this.pauser.pause( 500 );
-			if ( !waitForCompletion )
-			{
-				break;
-			}
 		}
 		GenericRequest.suppressUpdate( false );
 	}
@@ -1726,14 +1723,17 @@ public class RelayRequest
 			adventure.getAdventureName() :
 			AdventureDatabase.getUnknownName( urlString );
 
-		if ( adventureName != null && this.getFormField( "confirm" ) == null )
+		if ( adventureName != null || EquipmentRequest.isEquipmentChange( path ) )
 		{
-			AreaCombatData areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
-
 			// Wait until any restoration scripts finish running
 			// before allowing an adventuring request to continue.
 
 			this.waitForRecoveryToComplete();
+		}
+
+		if ( adventureName != null && this.getFormField( "confirm" ) == null )
+		{
+			AreaCombatData areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
 
 			// Check for a 100% familiar run if the current familiar
 			// has zero combat experience.
@@ -1761,12 +1761,10 @@ public class RelayRequest
 			// Sometimes, people want the MCD rewards from various
 			// boss monsters.  Let's help out.
 
+			// This one's for the Boss Bat, who has special items at 4 and 8.
 			if ( path.startsWith( "adventure.php" ) )
 			{
 				String location = adventure == null ? null : adventure.getAdventureId();
-
-				// This one's for the Boss Bat, who has special
-				// items at 4 and 8.
 
 				if ( location != null && location.equals( "34" ) && KoLCharacter.mcdAvailable() )
 				{
@@ -1775,9 +1773,7 @@ public class RelayRequest
 				}
 			}
 
-			// More MCD rewards.  This one is for the Knob Goblin
-			// King, who has special items at 3 and 7.
-
+			// This one is for the Knob Goblin King, who has special items at 3 and 7.
 			else if ( path.startsWith( "cobbsknob.php" ) )
 			{
 				String action = this.getFormField( "action" );
@@ -1788,15 +1784,26 @@ public class RelayRequest
 				}
 			}
 
-			// More MCD rewards.  This one is for the Bonerdagon,
-			// who has special items at 5 and 10.
-
+			// This one is for the Bonerdagon, who has special items at 5 and 10.
 			else if ( path.startsWith( "crypt.php" ) )
 			{
 				String action = this.getFormField( "action" );
 				if ( action != null && action.equals( "heart" ) && KoLCharacter.mcdAvailable() )
 				{
 					this.sendBossWarning( "The Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
+					return;
+				}
+			}
+
+			// This one's for Baron von Ratsworth, who has special items at 2 and 9.
+			else if ( path.startsWith( "cellar.php" ) )
+			{
+				String action = this.getFormField( "action" );
+				String square = this.getFormField( "whichspot" );
+				String baron = TavernManager.baronSquare();
+				if ( action != null && action.equals( "explore" ) && square != null && square.equals( baron ) && KoLCharacter.mcdAvailable() )
+				{
+					this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif", 2, "moneyclip.gif", 9, "tophat.gif" );
 					return;
 				}
 			}
@@ -1913,15 +1920,6 @@ public class RelayRequest
 				this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif", 2, "moneyclip.gif", 9, "tophat.gif" );
 				return;
 			}
-		}
-
-		else if ( EquipmentRequest.isEquipmentChange( path ) )
-		{
-			// Wait until any restoration scripts finish running
-			// before allowing an equipment change, since such
-			// scripts can save and restore equipment
-
-			this.waitForRecoveryToComplete();
 		}
 
 		// If it gets this far, it's a normal file.  Go ahead and

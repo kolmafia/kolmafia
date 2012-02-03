@@ -103,6 +103,20 @@ public class TavernManager
 		return TavernManager.exploreTavern( TavernManager.FIGHT_BARON );
 	}
 
+	public static String faucetSquare()
+	{
+		String layout = TavernRequest.tavernLayout();
+		int faucet = layout.indexOf( "3" );
+		return faucet == -1 ? "" : String.valueOf( faucet + 1 );
+	}
+
+	public static String baronSquare()
+	{
+		String layout = TavernRequest.tavernLayout();
+		int baron = layout.indexOf( "4" );
+		return baron == -1 ? "" : String.valueOf( baron + 1 );
+	}
+
 	private static int exploreTavern( final int goal )
 	{
 		if ( KoLCharacter.getLevel() < 3 )
