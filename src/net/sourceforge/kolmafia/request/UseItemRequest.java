@@ -208,13 +208,12 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_GHOST:
 		case KoLConstants.CONSUME_SLIME:
 			return "familiarbinger.php";
-		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
-			return "multiuse.php";
 		case KoLConstants.CONSUME_SPHERE:
 			return "campground.php";
+		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
 			if ( item.getCount() > 1 )
 			{
 				return "multiuse.php";
@@ -1493,7 +1492,10 @@ public class UseItemRequest
 
 		switch ( this.consumptionType )
 		{
+		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.HP_RESTORE:
+		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
 			if ( this.itemUsed.getCount() > 1 )
 			{
 				this.addFormField( "action", "useitem" );
@@ -1504,13 +1506,6 @@ public class UseItemRequest
 				this.addFormField( "which", "3" );
 				this.addFormField( "ajax", "1" );
 			}
-			break;
-
-		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
-			this.addFormField( "action", "useitem" );
-			this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 			break;
 
 		case KoLConstants.CONSUME_HOBO:
