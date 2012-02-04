@@ -1723,6 +1723,21 @@ public class RelayRequest
 			adventure.getAdventureName() :
 			AdventureDatabase.getUnknownName( urlString );
 
+		if ( adventureName != null )
+		{
+			boolean canRecover = RecoveryManager.isRecoveryPossible();
+			boolean runBeforeBattleScript = Preferences.getBoolean( "relayRunsBeforeBattleScript" );
+			boolean maintainEffects = canRecover && Preferences.getBoolean( "relayMaintainsEffects" );
+			boolean maintainHealth = canRecover && Preferences.getBoolean( "relayMaintainsHealth" );
+			boolean maintainMana = canRecover && Preferences.getBoolean( "relayMaintainsMana" );
+
+			RecoveryManager.runBetweenBattleChecks(
+				runBeforeBattleScript,
+				maintainEffects,
+				maintainHealth,
+				maintainMana );
+		}
+
 		if ( adventureName != null || EquipmentRequest.isEquipmentChange( path ) )
 		{
 			// Wait until any restoration scripts finish running

@@ -141,6 +141,7 @@ global	relayMaintainsEffects	false
 global	relayMaintainsHealth	false
 global	relayMaintainsMana	false
 global	relayOverridesImages	false
+global	relayRunsBeforeBattleScript	false
 global	relaySkillButtonCount	5
 global	relayTextualizesEffects	false
 global	relayTrimsZapList	false
