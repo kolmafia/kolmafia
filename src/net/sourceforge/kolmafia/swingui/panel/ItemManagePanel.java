@@ -637,6 +637,11 @@ public class ItemManagePanel
 
 			return items;
 		}
+		
+		protected boolean retainFocus()
+		{
+			return true;
+		}
 	}
 
 	public class ConsumeListener
