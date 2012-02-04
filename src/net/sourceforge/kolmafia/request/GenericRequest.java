@@ -2346,7 +2346,10 @@ public class GenericRequest
 				return;
 			}
 			itemName = "d10";
-			consumed = true;
+			// The item IS consumed, but inv_use.php does not
+			// redirect to fight.php. Instead, the response text
+			// includes Javascript to request fight.php
+			consumed = false;
 			break;
 
 		default:
