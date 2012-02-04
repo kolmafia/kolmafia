@@ -1725,6 +1725,7 @@ public class RelayRequest
 
 		if ( adventureName != null && RecoveryManager.isRecoveryPossible() )
 		{
+			Preferences.setString( "lastAdventure", adventureName );
 			RecoveryManager.runBetweenBattleChecks(
 				Preferences.getBoolean( "relayRunsBeforeBattleScript" ),
 				Preferences.getBoolean( "relayMaintainsEffects" ),
