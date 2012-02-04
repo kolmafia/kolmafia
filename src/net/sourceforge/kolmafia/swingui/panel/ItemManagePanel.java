@@ -484,13 +484,17 @@ public class ItemManagePanel
 			break;
 
 		case TAKE_MULTIPLE:
-			quantity = InputFieldUtilities.getQuantity( message + " " + itemName + "...", itemCount );
-			if ( itemCount > 0 && quantity == 0 )
+		{
+			Integer value = InputFieldUtilities.getQuantity( message + " " + itemName + "...", itemCount );
+			if ( value == null )
 			{
 				return Integer.MIN_VALUE;
 			}
+				
+			quantity = value.intValue();
 
 			break;
+		}
 
 		case USE_MULTIPLE:
 
@@ -530,13 +534,15 @@ public class ItemManagePanel
 				standard = Math.min( standard, maximum );
 			}
 
-			quantity =
-				standard < 2 ? standard : InputFieldUtilities.getQuantity( message + " " + itemName + "...", itemCount, Math.min(
-					standard, itemCount ) );
-
-			if ( itemCount > 0 && quantity == 0 )
+			quantity = standard;
+			if ( standard >= 2 )
 			{
-				return Integer.MIN_VALUE;
+				Integer value = InputFieldUtilities.getQuantity( message + " " + itemName + "...", itemCount, Math.min( standard, itemCount ) );
+				if ( value == null )
+				{
+					return Integer.MIN_VALUE;
+				}
+				quantity = value.intValue();
 			}
 
 			break;

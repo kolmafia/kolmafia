@@ -127,10 +127,11 @@ public class CreateSpecialPanel
 		for ( int i = 0; i < 0*items.length; ++i )
 		{
 			CreateItemRequest selection = (CreateItemRequest) items[ i ];
-			int quantityDesired =
+			Integer value = 
 				InputFieldUtilities.getQuantity(
 					"Creating multiple " + selection.getName() + ", " + (selection.getQuantityPossible() + selection.getQuantityPullable())
 					+ " possible", selection.getQuantityPossible() + selection.getQuantityPullable(), 1 );
+			int quantityDesired = ( value == null ) ? 0 : value.intValue();
 			if ( quantityDesired < 1 )
 			{
 				continue;
@@ -164,10 +165,14 @@ public class CreateSpecialPanel
 
 			int itemId = selection.getItemId();
 			int maximum = UseItemRequest.maximumUses( itemId, ItemDatabase.getConsumptionType( itemId ) );
-			int quantityDesired =
-				maximum < 2 ? maximum : InputFieldUtilities.getQuantity(
+			int quantityDesired = maximum;
+			if ( maximum >= 2 )
+			{
+				Integer value = InputFieldUtilities.getQuantity(
 					"Creating " + selection.getName() + " for immediate use...", Math.min( maximum,
 						selection.getQuantityPossible() + selection.getQuantityPullable() ) );
+				quantityDesired = ( value == null ) ? 0 : value.intValue();
+			}
 
 			if ( quantityDesired < 1 )
 			{

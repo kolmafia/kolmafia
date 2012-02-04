@@ -403,19 +403,18 @@ public class ClanManageFrame
 						return;
 					}
 
-					AdventureResult currentItem;
-					int quantity =
-						InputFieldUtilities.getQuantity(
-							"Maximum number of each item allowed in the stash?", Integer.MAX_VALUE, 100 );
+					Integer value = InputFieldUtilities.getQuantity( "Maximum number of each item allowed in the stash?", Integer.MAX_VALUE, 100 );
+					int quantity = ( value == null ) ? 0 : value.intValue();
 
 					if ( quantity == 0 )
 					{
 						return;
 					}
 
+
 					for ( int i = 0; i < items.length; ++i )
 					{
-						currentItem = (AdventureResult) items[ i ];
+						AdventureResult currentItem = (AdventureResult) items[ i ];
 						items[ i ] = currentItem.getInstance( Math.max( 0, currentItem.getCount() - quantity ) );
 					}
 				}

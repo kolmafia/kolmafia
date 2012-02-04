@@ -472,7 +472,8 @@ public class FamiliarTrainingFrame
 				protected void execute()
 				{
 					// Prompt for goal
-					int goal = InputFieldUtilities.getQuantity( "Train up to what base weight?", 20, 20 );
+					Integer value = InputFieldUtilities.getQuantity( "Train up to what base weight?", 20, 20 );
+					int goal = ( value == null ) ? 0 : value.intValue();
 
 					// Quit if canceled
 					if ( goal == 0 )
@@ -492,7 +493,8 @@ public class FamiliarTrainingFrame
 				protected void execute()
 				{
 					// Prompt for goal
-					int goal = InputFieldUtilities.getQuantity( "Train up to what buffed weight?", 48, 20 );
+					Integer value = InputFieldUtilities.getQuantity( "Train up to what buffed weight?", 48, 20 );
+					int goal = ( value == null ) ? 0 : value.intValue();
 
 					// Quit if canceled
 					if ( goal == 0 )
@@ -512,7 +514,8 @@ public class FamiliarTrainingFrame
 				protected void execute()
 				{
 					// Prompt for goal
-					int goal = InputFieldUtilities.getQuantity( "Train for how many turns?", Integer.MAX_VALUE, 1 );
+					Integer value = InputFieldUtilities.getQuantity( "Train for how many turns?", Integer.MAX_VALUE, 1 );
+					int goal = ( value == null ) ? 0 : value.intValue();
 
 					// Quit if canceled
 					if ( goal == 0 )
@@ -578,7 +581,8 @@ public class FamiliarTrainingFrame
 					}
 
 					// Prompt for trials
-					int trials = InputFieldUtilities.getQuantity( "How many trials per event per rank?", 20, 3 );
+					Integer value = InputFieldUtilities.getQuantity( "How many trials per event per rank?", 20, 3 );
+					int trials = ( value == null ) ? 0 : value.intValue();
 
 					// Quit if canceled
 					if ( trials == 0 )
