@@ -258,17 +258,6 @@ public class RelayRequest
 				}
 			}
 
-			if ( Preferences.getBoolean( "relayAddsKoLSimulator" ) )
-			{
-				int linkIndex = responseBuffer.indexOf( "<a href" );
-				if ( linkIndex != -1 )
-				{
-					responseBuffer.insert(
-						linkIndex,
-						"<a href=\"simulator/index.html\" target=\"_blank\"><b>KoL Simulator</b></a></center><p>See what might happen before it happens!</p><center>" );
-				}
-			}
-
 			if ( Preferences.getBoolean( "relayUsesIntegratedChat" ) )
 			{
 				StringUtilities.singleStringReplace( responseBuffer, "lchat.php", "chat.html" );
@@ -567,13 +556,7 @@ public class RelayRequest
 
 		if ( override == null || !override.exists() )
 		{
-			if ( !filename.startsWith( "simulator/" ) )
-			{
-				this.sendNotFound();
-				return;
-			}
-
-			this.downloadSimulatorFile( filename.substring( filename.lastIndexOf( "/" ) + 1 ) );
+			this.sendNotFound();
 			return;
 		}
 
@@ -594,14 +577,6 @@ public class RelayRequest
 		}
 
 		StringBuffer replyBuffer = this.readContents( DataUtilities.getReader( override ) );
-
-		// Add Javascript to the KoL simulator pages so that
-		// everything loads correctly the first time.
-
-		if ( filename.endsWith( "simulator/index.html" ) )
-		{
-			this.handleSimulatorIndex( replyBuffer );
-		}
 
 		if ( filename.equals( "chat.html" ) )
 		{
@@ -626,168 +601,6 @@ public class RelayRequest
 		}
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
-	}
-
-	private static final String getSimulatorEffectName( final String effectName )
-	{
-		return RelayRequest.WHITESPACE_PATTERN.matcher( effectName ).replaceAll( "" ).toLowerCase();
-	}
-
-	private static final String getSimulatorEquipName( final int equipmentSlot )
-	{
-		AdventureResult item = EquipmentManager.getEquipment( equipmentSlot );
-
-		if ( equipmentSlot == EquipmentManager.FAMILIAR && item.getName().equals(
-			FamiliarDatabase.getFamiliarItem( KoLCharacter.getFamiliar().getId() ) ) )
-		{
-			return "familiar-specific +5 lbs.";
-		}
-
-		if ( item == EquipmentRequest.UNEQUIP )
-		{
-			return "(None)";
-		}
-
-		return item.getName();
-	}
-
-	private void handleSimulatorIndex( final StringBuffer replyBuffer )
-	{
-		StringBuffer scriptBuffer = new StringBuffer();
-		scriptBuffer.append( KoLConstants.LINE_BREAK );
-
-		scriptBuffer.append( "<script language=\"Javascript\">" );
-		scriptBuffer.append( KoLConstants.LINE_BREAK );
-		scriptBuffer.append( KoLConstants.LINE_BREAK );
-		scriptBuffer.append( "LoadKingdomStateLong( { " );
-
-		// This is the simple Javascript which can be added
-		// arbitrarily to the end without having to modify
-		// the underlying HTML.
-
-		int classIndex = -1;
-		for ( int i = 0; i < DataTypes.CLASSES.length; ++i )
-		{
-			if ( DataTypes.CLASSES[ i ].equalsIgnoreCase( KoLCharacter.getClassType() ) )
-			{
-				classIndex = i;
-			}
-		}
-
-		// Player state
-
-		scriptBuffer.append( "charclass: " );
-		scriptBuffer.append( classIndex );
-		scriptBuffer.append( ", mus: " );
-		scriptBuffer.append( KoLCharacter.getBaseMuscle() );
-		scriptBuffer.append( ", mys: " );
-		scriptBuffer.append( KoLCharacter.getBaseMysticality() );
-		scriptBuffer.append( ", mox: " );
-		scriptBuffer.append( KoLCharacter.getBaseMoxie() );
-		scriptBuffer.append( ", " );
-
-		// Current equipment
-
-		scriptBuffer.append( "hat: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.HAT ) );
-		scriptBuffer.append( "\", weapon: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.WEAPON ) );
-		scriptBuffer.append( "\", offhand: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.OFFHAND ) );
-		scriptBuffer.append( "\", shirt: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.SHIRT ) );
-		scriptBuffer.append( "\", pants: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.PANTS ) );
-		scriptBuffer.append( "\", acc1: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.ACCESSORY1 ) );
-		scriptBuffer.append( "\", acc2: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.ACCESSORY2 ) );
-		scriptBuffer.append( "\", acc3: \"" );
-		scriptBuffer.append( RelayRequest.getSimulatorEquipName( EquipmentManager.ACCESSORY3 ) );
-		scriptBuffer.append( "\", " );
-
-		// Current familiar
-
-		scriptBuffer.append( "familiar: \"" );
-		scriptBuffer.append( KoLCharacter.getFamiliar().getRace() );
-		scriptBuffer.append( "\", weight: " );
-		scriptBuffer.append( KoLCharacter.getFamiliar().getWeight() );
-		scriptBuffer.append( ", fameq: \"" );
-
-		String familiarEquipment = RelayRequest.getSimulatorEquipName( EquipmentManager.FAMILIAR );
-		if ( FamiliarData.itemWeightModifier( ItemDatabase.getItemId( familiarEquipment ) ) == 5 )
-		{
-			scriptBuffer.append( "familiar-specific +5 lbs." );
-		}
-		else
-		{
-			scriptBuffer.append( familiarEquipment );
-		}
-
-		// Status effects
-
-		scriptBuffer.append( "\", rockandroll: false, effects: [ " );
-		int effectCount = 0;
-
-		for ( int i = 0; i < KoLConstants.availableSkills.size(); ++i )
-		{
-			UseSkillRequest current = (UseSkillRequest) KoLConstants.availableSkills.get( i );
-			int skillId = current.getSkillId();
-
-			if ( SkillDatabase.getSkillType( skillId ) != SkillDatabase.PASSIVE )
-			{
-				continue;
-			}
-
-			if ( effectCount > 0 )
-			{
-				scriptBuffer.append( ',' );
-			}
-
-			++effectCount;
-			scriptBuffer.append( '\"' );
-			scriptBuffer.append( RelayRequest.getSimulatorEffectName( current.getSkillName() ) );
-			scriptBuffer.append( '\"' );
-		}
-
-		for ( int i = 0; i < KoLConstants.activeEffects.size(); ++i )
-		{
-			AdventureResult current = (AdventureResult) KoLConstants.activeEffects.get( i );
-			if ( effectCount > 0 )
-			{
-				scriptBuffer.append( ',' );
-			}
-
-			++effectCount;
-			scriptBuffer.append( '\"' );
-			scriptBuffer.append( RelayRequest.getSimulatorEffectName( current.getName() ) );
-			scriptBuffer.append( '\"' );
-		}
-
-		scriptBuffer.append( " ], " );
-
-		// Adventure modifiers
-
-		scriptBuffer.append( "zone: \"" );
-		scriptBuffer.append( Preferences.getString( "lastAdventure" ) );
-		scriptBuffer.append( "\", monster: \"" );
-		scriptBuffer.append( FightRequest.getCurrentKey() );
-		scriptBuffer.append( "\", mcd: " );
-		scriptBuffer.append( KoLCharacter.getMindControlLevel() );
-		scriptBuffer.append( ", " );
-
-		scriptBuffer.append( "moonphase: " );
-		scriptBuffer.append( (int) ( ( HolidayDatabase.getGrimacePhase() - 1 ) * 2 + Math.round( ( HolidayDatabase.getRonaldPhase() - 1 ) / 2.0f - Math.floor( ( HolidayDatabase.getRonaldPhase() - 1 ) / 2.0f ) ) ) );
-
-		scriptBuffer.append( ", moonminiphase: " );
-		scriptBuffer.append( HolidayDatabase.getHamburglarPosition( new Date() ) );
-		scriptBuffer.append( " } );" );
-
-		scriptBuffer.append( KoLConstants.LINE_BREAK );
-		scriptBuffer.append( KoLConstants.LINE_BREAK );
-		scriptBuffer.append( "</script>" );
-
-		this.insertAfterEnd( replyBuffer, scriptBuffer.toString() );
 	}
 
 	public void insertAfterEnd( final StringBuffer replyBuffer, final String contents )
@@ -1971,32 +1784,5 @@ public class RelayRequest
 			return false;
 		}
 		return true;
-	}
-
-	private void downloadSimulatorFile( final String filename )
-	{
-		try
-		{
-			BufferedReader reader = DataUtilities.getReader( "", "http://sol.kolmafia.us/" + filename );
-
-			String line;
-			StringBuffer contents = new StringBuffer();
-
-			while ( ( line = reader.readLine() ) != null )
-			{
-				contents.append( line );
-				contents.append( KoLConstants.LINE_BREAK );
-			}
-
-			StringUtilities.globalStringReplace( contents, "images/", "http://sol.kolmafia.us/images/" );
-
-			PrintStream writer = RequestLogger.openStream( "relay/simulator/" + filename, NullStream.INSTANCE, true );
-			writer.println( contents.toString() );
-			writer.close();
-		}
-		catch ( Exception e )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to create simulator file <" + filename + ">" );
-		}
 	}
 }
