@@ -558,8 +558,6 @@ public abstract class KoLmafia
 			{
 				outdated.delete();
 			}
-
-			KoLmafia.deleteDirectory( new File( KoLConstants.RELAY_LOCATION, "simulator" ) );
 		}
 	}
 

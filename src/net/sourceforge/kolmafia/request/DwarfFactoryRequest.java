@@ -784,6 +784,16 @@ public class DwarfFactoryRequest
 		return DwarfFactoryRequest.parseNumber( runes );
 	}
 
+	// A little light on your sporran lights up <color>
+	//
+	// Two little lights light up on your sporran -- a <color> one and a <color> one.
+	//
+	// Three little lights light up <color>, <color>, and <color> on your sporran.
+	//
+	// Your sporran lights up with a series of four little lights: <color>, <color>, <color>, and <color>.
+	//
+	// A bunch of little lights on your sporran start flashing random colors like there's a rave on your crotch.
+
 	public static final Pattern DWARF_KILT_PATTERN =
 		Pattern.compile( "<p>.*?our sporran.*?</p>" );
 
@@ -807,9 +817,6 @@ public class DwarfFactoryRequest
 
 	public static int deduceDefense( final Matcher kiltMatcher )
 	{
-		// A bunch of little lights on your sporran start flashing
-		// random colors like there's a rave on your crotch.
-
 		if ( kiltMatcher.group(0).indexOf( "rave on your crotch" ) != -1 )
 		{
 			return 99999;

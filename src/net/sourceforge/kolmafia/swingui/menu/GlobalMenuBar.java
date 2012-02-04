@@ -79,7 +79,7 @@ public class GlobalMenuBar
 
 		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", "RequestFrame" ) );
 		statusMenu.add( new RelayBrowserMenuItem() );
-		statusMenu.add( new RelayBrowserMenuItem( "KoLmafia Forums", "/simulator/index.html" ) );
+		statusMenu.add( new RelayBrowserMenuItem( "KoLmafia Forums", "http://kolmafia.us/" ) );
 
 		statusMenu.add( new JSeparator() );
 

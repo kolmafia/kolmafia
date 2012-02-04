@@ -263,7 +263,6 @@ public class OptionsFrame
 			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
 			{ "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" },
 			{ "relayAddsGraphicalCLI", "Add command-line interface to right side pane" },
-			{ "relayAddsKoLSimulator", "Add Ayvuir's Simulator of Loathing to right side pane" },
 			{},
 			{ "relayAddsUseLinks", "Add [use] links when receiving items" },
 			{ "relayUsesInlineLinks", "Force results to reload inline for [use] links" },

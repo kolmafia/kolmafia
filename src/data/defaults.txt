@@ -127,7 +127,6 @@ global	readManualSoftcore	true
 global	relayAddsCustomCombat	true
 global	relayAddsDiscoHelper	false
 global	relayAddsGraphicalCLI	false
-global	relayAddsKoLSimulator	false
 global	relayAddsQuickScripts	false
 global	relayAddsRestoreLinks	true
 global	relayAddsUpArrowLinks	true
