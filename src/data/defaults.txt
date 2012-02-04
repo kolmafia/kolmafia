@@ -566,6 +566,7 @@ user	prismaticSummons	0
 user	pyramidPosition	0
 user	pyramidBombUsed	false
 user	rageGlandVented	false
+user	rainDohMonster
 user	raveCombo1
 user	raveCombo2
 user	raveCombo3
