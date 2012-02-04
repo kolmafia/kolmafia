@@ -2813,6 +2813,15 @@ public class FightRequest
 			{
 				continue;
 			}
+
+			// KoL has a bug: if you initiate combat by using a
+			// d10, the number of d10s in the combat item dropdown
+			// will be incorrect. Therefore, don't believe it.
+			if ( itemId == ItemPool.D10 )
+			{
+				continue;
+			}
+
 			int actualQty = StringUtilities.parseInt( m.group( 2 ) );
 			AdventureResult ar = ItemPool.get( itemId, 1 );
 			int currentQty = ar.getCount( KoLConstants.inventory );
