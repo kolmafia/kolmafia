@@ -64,12 +64,10 @@ public class LootTrapperMenuItem
 
 			int selected = selectedValue.getItemId();
 			int maximumValue = Tr4pz0rRequest.YETI_FUR.getCount( KoLConstants.inventory );
-
 			String message = "(You have " + maximumValue + " furs available)";
-			int tradeCount =
-				InputFieldUtilities.getQuantity(
-					"How many " + selectedValue.getName() + " to get?\n" + message, maximumValue,
-					maximumValue );
+
+			Integer value = InputFieldUtilities.getQuantity( "How many " + selectedValue.getName() + " to get?\n" + message, maximumValue, maximumValue );
+			int tradeCount = ( value == null ) ? 0 : value.intValue();
 
 			if ( tradeCount == 0 )
 			{

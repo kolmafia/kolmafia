@@ -297,7 +297,8 @@ public class SendMessageFrame
 			for ( int i = 0; i < values.length; ++i )
 			{
 				current = (AdventureResult) values[ i ];
-				int amount = InputFieldUtilities.getQuantity( "How many " + current.getName() + " to send?", current.getCount() );
+				Integer value = InputFieldUtilities.getQuantity( "How many " + current.getName() + " to send?", current.getCount() );
+				int amount = ( value == null ) ? 0 : value.intValue();
 
 				if ( amount <= 0 )
 				{

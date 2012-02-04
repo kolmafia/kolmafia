@@ -54,8 +54,8 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 
-public class InputFieldUtilities {
-
+public class InputFieldUtilities
+{
 	private static GenericFrame activeWindow = null;
 
 	public static void setActiveWindow( GenericFrame activeWindow )
@@ -65,14 +65,11 @@ public class InputFieldUtilities {
 
 	public static final void alert(final String message)
 	{
-
-		JOptionPane.showMessageDialog(
-			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
+		JOptionPane.showMessageDialog( InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
 	}
 
 	public static final boolean confirm(final String message)
 	{
-
 		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(
 			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message), "",
 			JOptionPane.YES_NO_OPTION);
@@ -80,14 +77,11 @@ public class InputFieldUtilities {
 
 	public static final String input(final String message)
 	{
-
-		return JOptionPane.showInputDialog(
-			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
+		return JOptionPane.showInputDialog( InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
 	}
 
 	public static final String input(final String message, final String initial)
 	{
-
 		return JOptionPane.showInputDialog(
 			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message),
 			initial);
@@ -117,8 +111,8 @@ public class InputFieldUtilities {
 
 	public static final Object input(final String message, final Object[] inputs)
 	{
-
-		if (inputs == null || inputs.length == 0) {
+		if (inputs == null || inputs.length == 0)
+		{
 			return null;
 		}
 
@@ -127,8 +121,8 @@ public class InputFieldUtilities {
 
 	public static final Object input( final String message, final Object[] inputs, final Object initial)
 	{
-
-		if (inputs == null || inputs.length == 0) {
+		if (inputs == null || inputs.length == 0)
+		{
 			return null;
 		}
 
@@ -145,7 +139,6 @@ public class InputFieldUtilities {
 
 	public static final Object[] multiple( final String message, final LockableListModel inputs, final ListElementFilter filter )
 	{
-
 		JList selector = new JList(inputs);
 		selector.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
@@ -156,7 +149,7 @@ public class InputFieldUtilities {
 				{
 					return filter.isVisible( o ) && super.isVisible( o );
 				}			
-			}, BorderLayout.NORTH);
+			}, BorderLayout.NORTH );
 		inputs.updateFilter( false );
 		panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
 
@@ -175,14 +168,14 @@ public class InputFieldUtilities {
 	 * "0" is returned instead.
 	 */
 
-	public static final int getValue(final JTextField field) {
-
-		return InputFieldUtilities.getValue(field, 0);
+	public static final int getValue(final JTextField field)
+	{
+		return InputFieldUtilities.getValue( field, 0 );
 	}
 
-	public static final int getValue(final JSpinner field) {
-
-		return InputFieldUtilities.getValue(field, 0);
+	public static final int getValue(final JSpinner field)
+	{
+		return InputFieldUtilities.getValue( field, 0 );
 	}
 
 	/**
@@ -191,65 +184,66 @@ public class InputFieldUtilities {
 	 * value provided will be returned instead.
 	 */
 
-	public static final int getValue(
-		final JTextField field, final int defaultValue) {
-
+	public static final int getValue( final JTextField field, final int defaultValue)
+	{
 		String currentValue = field.getText();
 
-		if (currentValue == null || currentValue.length() == 0) {
+		if ( currentValue == null || currentValue.length() == 0 || currentValue.equals( "*" ) )
+		{
 			return defaultValue;
 		}
 
-		if (currentValue.equals("*")) {
-			return defaultValue;
-		}
-
-		int result = StringUtilities.parseIntInternal2(currentValue);
+		int result = StringUtilities.parseIntInternal2( currentValue );
 		return result == 0 ? defaultValue : result;
 	}
 
-	public static final int getValue(
-		final JSpinner field, final int defaultValue) {
-
-		if (!(field.getValue() instanceof Integer)) {
-			return defaultValue;
+	public static final int getValue( final JSpinner field, final int defaultValue)
+	{
+		if ( field.getValue() instanceof Integer )
+		{
+			return ( (Integer) field.getValue() ).intValue();
 		}
 
-		return ((Integer) field.getValue()).intValue();
+		return defaultValue;
 	}
 
-	public static final int getQuantity(
-		final String title, final int maximumValue) {
-
+	public static final Integer getQuantity( final String title, final int maximumValue)
+	{
 		return InputFieldUtilities.getQuantity(title, maximumValue, maximumValue);
 	}
 
-	public static final int getQuantity(
-		final String message, final int maximumValue, int defaultValue) {
-
+	public static final Integer getQuantity( final String message, final int maximumValue, int defaultValue)
+	{
 		// Check parameters; avoid programmer error.
-		if (defaultValue > maximumValue) {
+		if ( defaultValue > maximumValue )
+		{
 			defaultValue = maximumValue;
 		}
 
-		if (maximumValue == 1 && maximumValue == defaultValue) {
-			return 1;
+		if ( maximumValue == 1 && maximumValue == defaultValue )
+		{
+			return new Integer( 1 );
 		}
 
-		String currentValue =
-			InputFieldUtilities.input(
-				message, KoLConstants.COMMA_FORMAT.format(defaultValue));
-		if (currentValue == null) {
-			return 0;
+		String currentValue = InputFieldUtilities.input( message, KoLConstants.COMMA_FORMAT.format(defaultValue));
+
+		if ( currentValue == null )
+		{
+			return null;
 		}
 
-		if (currentValue.equals("*")) {
-			return maximumValue;
+		if ( currentValue.equals( "*" ) )
+		{
+			return new Integer( maximumValue );
 		}
 
 		int desiredValue = StringUtilities.parseIntInternal2(currentValue);
-		return desiredValue < 0 ? maximumValue - desiredValue : Math.min(
-			desiredValue, maximumValue);
+		if ( desiredValue < 0 )
+		{
+			return new Integer( maximumValue - desiredValue );
+		}
+
+		return new Integer( Math.min( desiredValue, maximumValue) );
 	}
 
 	public static boolean finalizeTable( final JTable table )
