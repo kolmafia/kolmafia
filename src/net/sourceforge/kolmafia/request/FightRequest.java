@@ -445,19 +445,10 @@ public class FightRequest
 		}
 
 		// Look for active buttons that allow you to summon
-		// ***
+		// <input type=hidden name=action value="summon">
 
-		// Can't have already summoned against this monster
-		if ( FightRequest.summonedGhost )
-		{
-			return false;
-		}
-
-		// Check daily summon limit
-		int summons = Preferences.getInteger( "pastamancerGhostSummons" );
-		int limit = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPAGHETTI_BANDOLIER, 1 ) ) ? 15 : 10;
-
-		return ( summons < limit );
+		String responseText = FightRequest.lastResponseText;
+		return responseText.indexOf( "<input type=hidden name=action value=\"summon\">" ) != -1;
 	}
 
 	public static final boolean wonInitiative()
