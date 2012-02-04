@@ -4744,7 +4744,7 @@ public class FightRequest
 			if ( responseText.indexOf( "ghostly image of your opponent" ) != -1 )
 			{
 				Preferences.increment( "spookyPuttyCopiesMade", 1 );
-				Preferences.setString( "spookyPuttyMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "rainDohMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}

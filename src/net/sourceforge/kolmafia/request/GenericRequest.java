@@ -2222,7 +2222,7 @@ public class GenericRequest
 
 		case ItemPool.RAIN_DOH_MONSTER:
 			itemName = "Rain-Doh box full of monster";
-			Preferences.setString( "spookyPuttyMonster", "" );
+			Preferences.setString( "rainDohMonster", "" );
 			ResultProcessor.processItem( ItemPool.RAIN_DOH_BOX, 1 );
 			consumed = true;
 			KoLmafia.ignoreSemirare();

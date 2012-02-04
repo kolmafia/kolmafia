@@ -310,8 +310,9 @@ public class ValhallaManager
 		Preferences.setInteger( "pendingMapReflections", 0 );
 		Preferences.setString( "violetFogLayout", "" );
 		Preferences.setString( "dolphinItem", "" );
-		Preferences.setString( "spookyPuttyMonster", "" );
 		Preferences.setString( "cameraMonster", "" );
+		Preferences.setString( "rainDohMonster", "" );
+		Preferences.setString( "spookyPuttyMonster", "" );
 		Preferences.setInteger( "parasolUsed", 0 );
 		Preferences.setString( "photocopyMonster", "" );
 		Preferences.setString( "telescope1", "" );
