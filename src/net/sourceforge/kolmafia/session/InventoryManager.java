@@ -355,6 +355,7 @@ public abstract class InventoryManager
 		boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Items", item.getName() );
 		CreateItemRequest creator = CreateItemRequest.getInstance( item );
 		Concoction concoction = ConcoctionPool.get( item.getName() );
+		boolean asked = false;
 
 		if ( itemId < 0 )
 		{
@@ -551,16 +552,6 @@ public abstract class InventoryManager
 			}
 		}
 
-		// Various steps below here can cost adventures. Make sure that's okay.
-
-		if ( isAutomated && creator != null && concoction.getAdventuresNeeded( item.getCount(), true ) > 0 )
-		{
-			if ( !allowTurnConsumption( creator, item.getCount() ) )
-			{
-				return null;
-			}
-		}
-
 		// Next, attempt to create the item from existing ingredients
 		// (if possible).
 
@@ -581,8 +572,20 @@ public abstract class InventoryManager
 
 			if ( !scriptSaysBuy )
 			{
+				// Prompt about adventures if we make it here.
 				creator.setQuantityNeeded(
 					Math.min( missingCount, creator.getQuantityPossible() ) );
+
+				if ( isAutomated && creator != null
+					&& concoction.getAdventuresNeeded( missingCount, true ) > 0 )
+				{
+					asked = true;
+					if ( !allowTurnConsumption( creator ) )
+					{
+						return null;
+					}
+				}
+
 				RequestThread.postRequest( creator );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
@@ -756,7 +759,19 @@ public abstract class InventoryManager
 			if ( makeFromComponents )
 			{
 				if ( sim ) return "create";
+				
+				// Second place to check for adventure usage.  Make sure we didn't already ask above.
 				creator.setQuantityNeeded( missingCount );
+
+				if ( !asked && isAutomated && creator != null
+					&& concoction.getAdventuresNeeded( missingCount, true ) > 0 )
+				{
+					asked = true;
+					if ( !allowTurnConsumption( creator ) )
+					{
+						return null;
+					}
+				}
 				RequestThread.postRequest( creator );
 
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
@@ -1626,14 +1641,14 @@ public abstract class InventoryManager
 		}
 	}
 
-	private static boolean allowTurnConsumption( CreateItemRequest creator, int needed )
+	private static boolean allowTurnConsumption( CreateItemRequest creator )
 	{
 		if ( !GenericFrame.instanceExists() )
 		{
 			return true;
 		}
 
-		if ( !InventoryManager.askAboutCrafting( creator, needed ) )
+		if ( !InventoryManager.askAboutCrafting( creator ) )
 		{
 			return false;
 		}
@@ -1641,9 +1656,14 @@ public abstract class InventoryManager
 		return true;
 	}
 
-	private static boolean askAboutCrafting( CreateItemRequest creator, int needed )
+	private static boolean askAboutCrafting( CreateItemRequest creator )
 	{
-		if ( needed < 1 )
+		if ( creator.getQuantityNeeded() < 1 )
+		{
+			return true;
+		}
+		// Allow the user to permanently squash this prompt.
+		if ( Preferences.getBoolean( "suppressCraftingPrompt" ) )
 		{
 			return true;
 		}
@@ -1656,6 +1676,8 @@ public abstract class InventoryManager
 
 		// See if we have enough free crafting turns available
 		int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
+		int needed = creator.concoction.getAdventuresNeeded( creator.getQuantityNeeded() );
+
 		if ( needed <= freeCrafts )
 		{
 			return true;

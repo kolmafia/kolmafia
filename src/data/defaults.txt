@@ -637,6 +637,7 @@ user	sugarCounter4181	0
 user	sugarCounter4182	0
 user	sugarCounter4183	0
 user	sugarCounter4191	0
+user	suppressCraftingPrompt	false
 user	tavernLayout	0000000000000000000000000
 user	telescope1
 user	telescope2
