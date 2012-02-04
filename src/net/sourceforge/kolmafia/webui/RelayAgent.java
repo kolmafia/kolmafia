@@ -412,18 +412,7 @@ public class RelayAgent
 
 		if ( this.path.startsWith( "/charpane.php" ) )
 		{
-			int initialCount = KoLCharacter.getAdventuresLeft();
-
 			new CharPaneRequest().run();
-
-			if ( RecoveryManager.isRecoveryPossible() && ( FightRequest.haveFought() || initialCount != KoLCharacter.getAdventuresLeft() ) )
-			{
-				RecoveryManager.runBetweenBattleChecks(
-					false,
-					Preferences.getBoolean( "relayMaintainsEffects" ),
-					Preferences.getBoolean( "relayMaintainsHealth" ),
-					Preferences.getBoolean( "relayMaintainsMana" ) );
-			}
 
 			String responseText = CharPaneRequest.getLastResponse();
 

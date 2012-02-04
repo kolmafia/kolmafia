@@ -927,19 +927,6 @@ public class KoLAdventure
 			{
 				return;
 			}
-
-			KoLAdventure.lastVisitedLocation = this;
-			if ( !Preferences.getString( "lastAdventure" ).equals( this.adventureName ) )
-			{
-				Preferences.setString( "lastAdventure", this.adventureName );
-				AdventureFrame.updateSelectedAdventure( this );
-			}
-			RecoveryManager.runBetweenBattleChecks( !this.isNonCombatsOnly() );
-
-			if ( !KoLmafia.permitsContinue() )
-			{
-				return;
-			}
 		}
 
 		this.validate( false );
@@ -957,6 +944,23 @@ public class KoLAdventure
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds for shore vacation." );
 			return;
+		}
+
+		KoLAdventure.lastVisitedLocation = this;
+		if ( !Preferences.getString( "lastAdventure" ).equals( this.adventureName ) )
+		{
+			Preferences.setString( "lastAdventure", this.adventureName );
+			AdventureFrame.updateSelectedAdventure( this );
+		}
+
+		if ( RecoveryManager.isRecoveryPossible() )
+		{
+			RecoveryManager.runBetweenBattleChecks( !this.isNonCombatsOnly() );
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				return;
+			}
 		}
 
 		String action = Preferences.getString( "battleAction" );
