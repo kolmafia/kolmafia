@@ -43,6 +43,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
@@ -209,9 +210,32 @@ public abstract class ThreadedListener
 		return this.mouseEvent;
 	}
 
+	protected JComponent getSource()
+	{
+		Object o = 
+			this.actionEvent != null ?
+			this.actionEvent.getSource() :
+			this.keyEvent != null ?
+			this.keyEvent.getSource() :
+			this.mouseEvent != null ?
+			this.mouseEvent.getSource() :
+			null;			
+		return ( o instanceof JComponent ) ? (JComponent) o : null;
+	}
+		
+	protected boolean retainFocus()
+	{
+		return false;
+	}
+
 	public final void run()
 	{
 		this.execute();
+
+		if ( this.retainFocus() )
+		{
+			this.getSource().grabFocus();
+		}
 
 		this.actionEvent = null;
 		this.keyEvent = null;
