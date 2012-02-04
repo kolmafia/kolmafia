@@ -80,9 +80,11 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.json.JSONException;
@@ -94,6 +96,7 @@ public abstract class InventoryManager
 	private static final GenericRequest FAMEQUIP_REMOVER = new GenericRequest( "familiar.php?pwd&action=unequip" );
 
 	private static final ArrayListArray listeners = new ArrayListArray();
+	private static int askedAboutCrafting = 0;
 
 	public static void resetInventory()
 	{
@@ -350,11 +353,12 @@ public abstract class InventoryManager
 	{
 		int itemId = item.getItemId();
 		boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Items", item.getName() );
+		CreateItemRequest creator = CreateItemRequest.getInstance( item );
+		Concoction concoction = ConcoctionPool.get( item.getName() );
 
 		if ( itemId < 0 )
 		{
 			// See if it is a Coin Master token.
-			Concoction concoction = ConcoctionPool.get( item.getName() );
 			String property = concoction != null ? concoction.property : null;
 			if ( property == null )
 			{
@@ -547,13 +551,22 @@ public abstract class InventoryManager
 			}
 		}
 
+		// Various steps below here can cost adventures. Make sure that's okay.
+
+		if ( isAutomated && creator != null && concoction.getAdventuresNeeded( item.getCount(), true ) > 0 )
+		{
+			if ( !allowTurnConsumption( creator, item.getCount() ) )
+			{
+				return null;
+			}
+		}
+
 		// Next, attempt to create the item from existing ingredients
 		// (if possible).
 
 		boolean shouldUseMall = shouldUseMall( item ) && trendy;
 		boolean scriptSaysBuy = false;
 
-		CreateItemRequest creator = CreateItemRequest.getInstance( item );
 		if ( creator != null && creator.getQuantityPossible() > 0 )
 		{
 			if ( sim ) return shouldUseMall ? "create or buy" : "create";
@@ -1611,5 +1624,54 @@ public abstract class InventoryManager
 			String race = matcher.group( 1 );
 			KoLCharacter.setEnthroned( KoLCharacter.findFamiliar( race ) );
 		}
+	}
+
+	private static boolean allowTurnConsumption( CreateItemRequest creator, int needed )
+	{
+		if ( !GenericFrame.instanceExists() )
+		{
+			return true;
+		}
+
+		if ( !InventoryManager.askAboutCrafting( creator, needed ) )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	private static boolean askAboutCrafting( CreateItemRequest creator, int needed )
+	{
+		if ( needed < 1 )
+		{
+			return true;
+		}
+		// If we've already nagged, don't nag. Unless the user wants us to nag. Then, nag.
+		if ( InventoryManager.askedAboutCrafting == KoLCharacter.getUserId()
+			&& !Preferences.getBoolean( "alwaysPromptAboutCrafting" ) )
+		{
+			return true;
+		}
+
+		// See if we have enough free crafting turns available
+		int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
+		if ( needed <= freeCrafts )
+		{
+			return true;
+		}
+
+		// We could cast Inigo's automatically here, but nah. Let the user do that.
+
+		String message = freeCrafts > 0 ? "You will run out of free crafting turns before you are finished. Are you sure?"
+			: "You are about to spend adventures crafting.  Are you sure?";
+		if ( !InputFieldUtilities.confirm( message ) )
+		{
+			return false;
+		}
+
+		InventoryManager.askedAboutCrafting = KoLCharacter.getUserId();
+
+		return true;
 	}
 }

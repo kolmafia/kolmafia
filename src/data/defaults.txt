@@ -183,6 +183,7 @@ global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
 
 user	addingScrolls	-1
+user	alwaysPromptAboutCrafting	false
 user	arcadeGameHints	false
 user	autoAbortThreshold	-0.05
 user	autoAntidote	0
