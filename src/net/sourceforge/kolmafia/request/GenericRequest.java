@@ -2362,6 +2362,7 @@ public class GenericRequest
 		KoLAdventure.lastLocationName = itemName;
 		KoLAdventure.lastLocationURL = location;
 		Preferences.setString( "lastAdventure", "None" );
+		KoLCharacter.updateSelectedLocation( null );
 
 		int adventure = KoLAdventure.getAdventureCount();
 		RequestLogger.printLine();

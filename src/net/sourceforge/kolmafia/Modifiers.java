@@ -2473,11 +2473,18 @@ public class Modifiers
 	
 	public static void setLocation( KoLAdventure location )
 	{
+		if ( location == null )
+		{
+			Modifiers.currentLocation = "";
+			Modifiers.currentZone = "";
+			Modifiers.currentML = 4.0f;
+			return;
+		}
+
 		Modifiers.currentLocation = location.getAdventureName().toLowerCase();
 		Modifiers.currentZone = location.getZone().toLowerCase();
 		AreaCombatData data = location.getAreaSummary();
-		Modifiers.currentML = Math.max( 4.0f,
-			data == null ? 0.0f : data.getAverageML() );
+		Modifiers.currentML = Math.max( 4.0f, data == null ? 0.0f : data.getAverageML() );
 	}
 
 	public static void setFamiliar( FamiliarData fam )
