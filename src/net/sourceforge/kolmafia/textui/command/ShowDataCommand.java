@@ -57,10 +57,10 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
+import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -291,7 +291,7 @@ public class ShowDataCommand
 
 		if ( desiredData.equals( "counters" ) )
 		{
-			desiredStream.println( UseItemRequest.lastSemirareMessage() );
+			desiredStream.println( EatItemRequest.lastSemirareMessage() );
 			desiredStream.println();
 
 			String counters = TurnCounter.getUnexpiredCounters();

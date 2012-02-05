@@ -1045,7 +1045,7 @@ public class ResultProcessor
 			// your forged identification documents
 			ResultProcessor.processItem( ItemPool.FORGED_ID_DOCUMENTS, -1 );
 			// Automatically use the diary to open zones
-			RequestThread.postRequest( new UseItemRequest( result ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( result ) );
 			break;
 
 		case ItemPool.PALINDROME_BOOK:

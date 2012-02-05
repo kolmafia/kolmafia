@@ -110,7 +110,7 @@ public class ValhallaManager
 			int count = item.getCount( KoLConstants.inventory );
 			if ( count > 0 )
 			{
-				RequestThread.postRequest( new UseItemRequest( item.getInstance( count ) ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( item.getInstance( count ) ) );
 			}
 		}
 

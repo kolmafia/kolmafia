@@ -229,7 +229,7 @@ public class HermitRequest
 		// If we have a hermit script, read it now
 		if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
 		{
-			RequestThread.postRequest( new UseItemRequest( HermitRequest.HACK_SCROLL ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.HACK_SCROLL ) );
 		}
 
 		// If we want to make a trade, fetch enough worthless items

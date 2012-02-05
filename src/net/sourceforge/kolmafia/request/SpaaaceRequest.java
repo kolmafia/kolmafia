@@ -94,7 +94,7 @@ public class SpaaaceRequest
 		SpaaaceRequest.update();
 		if ( !SpaaaceRequest.isTranspondent && SpaaaceRequest.hasTransponders )
 		{
-			UseItemRequest request = new UseItemRequest( SpaaaceRequest.TRANSPONDER );
+			UseItemRequest request = UseItemRequest.getInstance( SpaaaceRequest.TRANSPONDER );
 			RequestThread.postRequest( request );
 		}
 	}

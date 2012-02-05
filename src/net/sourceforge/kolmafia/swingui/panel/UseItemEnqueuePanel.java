@@ -392,7 +392,7 @@ public class UseItemEnqueuePanel
 		{
 			if ( UseItemEnqueuePanel.this.food )
 			{
-				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
 			}
 			else if ( UseItemEnqueuePanel.this.booze )
 			{
@@ -413,11 +413,11 @@ public class UseItemEnqueuePanel
 		{
 			if ( UseItemEnqueuePanel.this.booze )
 			{
-				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.SYNTHETIC_DOG_HAIR_PILL, 1 ) ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SYNTHETIC_DOG_HAIR_PILL, 1 ) ) );
 			}
 			else if ( UseItemEnqueuePanel.this.spleen )
 			{
-				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.MOJO_FILTER, 1 ) ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MOJO_FILTER, 1 ) ) );
 			}
 		}
 

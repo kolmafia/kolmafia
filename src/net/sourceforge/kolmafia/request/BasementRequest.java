@@ -636,7 +636,7 @@ public class BasementRequest
 		// do so.  Go ahead and use one, which will automatically
 		// uneffect any competing phials, first
 
-		RequestThread.postRequest( new UseItemRequest( BasementRequest.goodphial ) );
+		RequestThread.postRequest( UseItemRequest.getInstance( BasementRequest.goodphial ) );
 
 		float damage =
 			BasementRequest.expected1 >= BasementRequest.expected2 ? BasementRequest.expected2 : BasementRequest.expected1;

@@ -1265,7 +1265,7 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.greenHeartAvailable && FamiliarTrainingFrame.greenHeartActive == 0 && familiar.getModifiedWeight() + 3 >= weight )
 		{
-			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.GREEN_CANDY ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( FamiliarTrainingFrame.GREEN_CANDY ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1274,7 +1274,7 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.bestialAvailable && FamiliarTrainingFrame.bestialActive == 0 )
 		{
-			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.HALF_ORCHID ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( FamiliarTrainingFrame.HALF_ORCHID ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1283,7 +1283,7 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.heavyPettingAvailable && FamiliarTrainingFrame.heavyPettingActive == 0 )
 		{
-			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.BUFFING_SPRAY ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( FamiliarTrainingFrame.BUFFING_SPRAY ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1292,7 +1292,7 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.greenConeAvailable && FamiliarTrainingFrame.greenTongueActive == 0 )
 		{
-			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.GREEN_SNOWCONE ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( FamiliarTrainingFrame.GREEN_SNOWCONE ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1301,7 +1301,7 @@ public class FamiliarTrainingFrame
 
 		if ( !FamiliarTrainingFrame.greenConeAvailable && FamiliarTrainingFrame.greenTongueActive == 0 && FamiliarTrainingFrame.blackConeAvailable && FamiliarTrainingFrame.blackTongueActive == 0 )
 		{
-			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.BLACK_SNOWCONE ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( FamiliarTrainingFrame.BLACK_SNOWCONE ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;
@@ -1310,7 +1310,7 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.worstEnemyAvailable && FamiliarTrainingFrame.worstEnemyActive == 0 )
 		{
-			RequestThread.postRequest( new UseItemRequest( FamiliarTrainingFrame.SPIKY_COLLAR ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( FamiliarTrainingFrame.SPIKY_COLLAR ) );
 			if ( familiar.getModifiedWeight() >= weight )
 			{
 				return true;

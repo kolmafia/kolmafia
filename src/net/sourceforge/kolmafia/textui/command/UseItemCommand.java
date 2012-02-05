@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
+import net.sourceforge.kolmafia.request.DrinkItemRequest;
+import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 public class UseItemCommand
@@ -59,12 +61,12 @@ public class UseItemCommand
 	{
 		if ( command.equals( "overdrink" ) )
 		{
-			UseItemRequest.permitOverdrink();
+			DrinkItemRequest.permitOverdrink();
 			command = "drink";
 		}
 		else if ( command.equals( "eatsilent" ) )
 		{
-			UseItemRequest.ignoreMilkPrompt();
+			EatItemRequest.ignoreMilkPrompt();
 			command = "eat";
 		}
 		SpecialOutfit.createImplicitCheckpoint();
@@ -199,12 +201,12 @@ public class UseItemCommand
 					{
 						UseItemRequest request =
 							command.equals( "hobo" ) ?
-							new UseItemRequest( KoLConstants.CONSUME_HOBO, currentMatch ) :
+							UseItemRequest.getInstance( KoLConstants.CONSUME_HOBO, currentMatch ) :
 							command.equals( "ghost" ) ?
-							new UseItemRequest( KoLConstants.CONSUME_GHOST, currentMatch ) :
+							UseItemRequest.getInstance( KoLConstants.CONSUME_GHOST, currentMatch ) :
 							command.equals( "slimeling" ) ?
-							new UseItemRequest( KoLConstants.CONSUME_SLIME, currentMatch ) :
-							new UseItemRequest( currentMatch );
+							UseItemRequest.getInstance( KoLConstants.CONSUME_SLIME, currentMatch ) :
+							UseItemRequest.getInstance( currentMatch );
 						RequestThread.postRequest( request );
 					}
 

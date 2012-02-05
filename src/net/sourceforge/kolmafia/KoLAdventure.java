@@ -314,7 +314,7 @@ public class KoLAdventure
 				this.isValidAdventure = InventoryManager.retrieveItem( mushroom );
 				if ( this.isValidAdventure )
 				{
-					RequestThread.postRequest( new UseItemRequest( mushroom ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( mushroom ) );
 				}
 			}
 
@@ -348,7 +348,7 @@ public class KoLAdventure
 				{
 					// If we are in Beecore, we have to adventure to get
 					// the effect. Otherwise, we can use the item
-					RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.KNOB_GOBLIN_PERFUME, 1 ) ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.KNOB_GOBLIN_PERFUME ) );
 					this.isValidAdventure = true;
 					return;
 				}
@@ -409,7 +409,7 @@ public class KoLAdventure
 			// If we selected the harem girl outfit, use a perfume
 			if ( outfitId == 4 && !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) )
 			{
-				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.KNOB_GOBLIN_PERFUME, 1 ) ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.KNOB_GOBLIN_PERFUME ) );
 			}
 
 			this.isValidAdventure = true;
@@ -568,8 +568,7 @@ public class KoLAdventure
 			int astral = effect.getCount( KoLConstants.activeEffects );
 			if ( astral == 0 )
 			{
-				AdventureResult mushroom = ItemPool.get( ItemPool.ASTRAL_MUSHROOM, 1 );
-				RequestThread.postRequest( new UseItemRequest( mushroom ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.ASTRAL_MUSHROOM ) );
 				if ( !KoLmafia.permitsContinue() )
 				{
 					this.isValidAdventure = false;
@@ -640,8 +639,7 @@ public class KoLAdventure
 				return;
 			}
 
-			AdventureResult plans = ItemPool.get( ItemPool.DINGHY_PLANS, 1 );
-			RequestThread.postRequest( new UseItemRequest( plans ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.DINGHY_PLANS ) );
 
 			return;
 		}
@@ -671,7 +669,7 @@ public class KoLAdventure
 		{
 			if ( !InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) ) && InventoryManager.hasItem( ItemPool.get( ItemPool.GIANT_CASTLE_MAP, 1 ) ) )
 			{
-				RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.GIANT_CASTLE_MAP, 1 ) ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.GIANT_CASTLE_MAP ) );
 			}
 
 			this.isValidAdventure = InventoryManager.retrieveItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
@@ -819,7 +817,7 @@ public class KoLAdventure
 			AdventureResult sonar = ItemPool.get( ItemPool.SONAR, 1 );
 			sonarToUse = Math.min( sonarToUse, sonar.getCount( KoLConstants.inventory ) );
 
-			RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.SONAR, sonarToUse ) ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SONAR, sonarToUse ) ) );
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 
 			if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) )
@@ -1174,9 +1172,9 @@ public class KoLAdventure
 				     InventoryManager.hasItem( polish ) &&
 				     InventoryManager.hasItem( sham ) )
 				{
-					RequestThread.postRequest( new UseItemRequest( mop ) );
-					RequestThread.postRequest( new UseItemRequest( polish ) );
-					RequestThread.postRequest( new UseItemRequest( sham ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( mop ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( polish ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( sham ) );
 				}
 				break;
 			}

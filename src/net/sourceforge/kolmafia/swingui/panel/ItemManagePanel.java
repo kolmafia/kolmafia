@@ -529,7 +529,7 @@ public class ItemManagePanel
 					}
 				}
 
-				int maximum = UseItemRequest.maximumUses( itemName, false );
+				int maximum = UseItemRequest.maximumUses( itemName );
 
 				standard = Math.min( standard, maximum );
 			}
@@ -663,8 +663,7 @@ public class ItemManagePanel
 			for ( int i = 0; i < items.length; ++i )
 			{
 				AdventureResult item = (AdventureResult) items[ i ];
-				RequestThread.postRequest(
-					new UseItemRequest( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( (AdventureResult) items[ i ] ) );
 			}
 		}
 

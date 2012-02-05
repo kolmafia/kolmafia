@@ -518,7 +518,7 @@ public class CreateItemRequest
 		if ( InventoryManager.hasItem( tool ) )
 		{
 			KoLmafia.updateDisplay( "Using " + ItemDatabase.getItemName( tool ) + "..." );
-			new UseItemRequest( ItemPool.get( tool, 1 ) ).run();
+			UseItemRequest.getInstance( ItemPool.get( tool, 1 ) ).run();
 			return;
 		}
 
@@ -526,7 +526,7 @@ public class CreateItemRequest
 		// the dough by hand.
 
 		String name = ItemDatabase.getItemName( output );
-		UseItemRequest request = new UseItemRequest( ItemPool.get( input, 1 ) );
+		UseItemRequest request = UseItemRequest.getInstance( ItemPool.get( input, 1 ) );
 
 		for ( int i = 1; KoLmafia.permitsContinue() && i <= this.quantityNeeded; ++i )
 		{
@@ -815,7 +815,7 @@ public class CreateItemRequest
 				{
 					return false;
 				}
-				new UseItemRequest( ItemPool.get( ItemPool.RANGE, 1 ) ).run();
+				UseItemRequest.getInstance( ItemPool.get( ItemPool.RANGE, 1 ) ).run();
 			}
 
 			// If we have a chef, fancy cooking is now free
@@ -836,7 +836,7 @@ public class CreateItemRequest
 				{
 					return false;
 				}
-				new UseItemRequest( ItemPool.get( ItemPool.COCKTAIL_KIT, 1 ) ).run();
+				UseItemRequest.getInstance( ItemPool.get( ItemPool.COCKTAIL_KIT, 1 ) ).run();
 			}
 
 			// If we have a bartender, fancy mixing is now free
@@ -926,7 +926,7 @@ public class CreateItemRequest
 		// have the servant in your inventory, so attempt
 		// to repair the box servant.
 
-		new UseItemRequest( ItemPool.get( usedServant, 1 ) ).run();
+		UseItemRequest.getInstance( ItemPool.get( usedServant, 1 ) ).run();
 		return servant == ItemPool.CHEF ? KoLCharacter.hasChef() : KoLCharacter.hasBartender();
 	}
 

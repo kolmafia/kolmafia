@@ -242,7 +242,7 @@ public class MoodTrigger
 
 		if ( this.item != null )
 		{
-			RequestThread.postRequest( new UseItemRequest( this.item.getInstance( Math.max(
+			RequestThread.postRequest( UseItemRequest.getInstance( this.item.getInstance( Math.max(
 				this.count, this.count * multiplicity ) ) ) );
 
 			return;

@@ -236,7 +236,7 @@ public class GongCommand
 		{
 			BuyCommand.buy( "1 llama lama gong" );
 		}
-		RequestThread.postRequest( new UseItemRequest( gong ) );
+		RequestThread.postRequest( UseItemRequest.getInstance( gong ) );
 	}
 
 	private static int parse( final String[] parameters, final int pos, final String optionString )

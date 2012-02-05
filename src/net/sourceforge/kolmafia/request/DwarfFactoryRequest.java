@@ -919,7 +919,7 @@ public class DwarfFactoryRequest
 			return;
 		}
 
-		RequestThread.postRequest( new UseItemRequest( ItemPool.get( itemId, 1 ) ) );
+		RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( itemId, 1 ) ) );
 	}
 
 	public static void checkHopper( final int hopper, final boolean use, final StringBuffer output )
@@ -1044,7 +1044,7 @@ public class DwarfFactoryRequest
 
 		if ( InventoryManager.hasItem( itemId ) )
 		{
-			RequestThread.postRequest( new UseItemRequest( ItemPool.get( itemId, 1 ) ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( itemId, 1 ) ) );
 		}
 
 		return Preferences.getString( settingName );

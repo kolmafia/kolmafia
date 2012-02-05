@@ -121,7 +121,7 @@ public class BreakfastManager
 			int count = 3 - Preferences.getInteger( "_toastSummons" );
 			for ( int i = 0; i < count && KoLmafia.permitsContinue(); ++i )
 			{
-				RequestThread.postRequest( new UseItemRequest( toaster ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( toaster ) );
 			}
 
 			KoLmafia.forceContinue();
@@ -168,7 +168,7 @@ public class BreakfastManager
 
 		if ( InventoryManager.hasItem( manual ) )
 		{
-			RequestThread.postRequest( new UseItemRequest( manual ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( manual ) );
 			KoLmafia.forceContinue();
 		}
 	}
@@ -187,7 +187,7 @@ public class BreakfastManager
 				if ( InventoryManager.hasItem( toy ) )
 				{
 					int slot = KoLCharacter.equipmentSlot( toy );
-					RequestThread.postRequest( new UseItemRequest( toy ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( toy ) );
 					KoLmafia.forceContinue();
 					if ( slot != EquipmentManager.NONE && !KoLCharacter.hasEquipped( toy, slot ) )
 					{

@@ -258,7 +258,7 @@ public class InventoryPanel
 			{
 				AdventureResult item = (AdventureResult) items[ i ];
 
-				RequestThread.postRequest( new UseItemRequest( KoLConstants.CONSUME_SLIME, item ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( KoLConstants.CONSUME_SLIME, item ) );
 			}
 		}
 

@@ -946,7 +946,7 @@ public class ConcoctionDatabase
 
 				if ( consumptionType == KoLConstants.CONSUME_GHOST || consumptionType == KoLConstants.CONSUME_HOBO )
 				{
-					RequestThread.postRequest( new UseItemRequest( consumptionType, toConsume ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( consumptionType, toConsume ) );
 				}
 
 				continue;
@@ -968,7 +968,7 @@ public class ConcoctionDatabase
 		{
 			int initialConsume = Math.min( quantity, InventoryManager.getCount( item.getItemId() ) );
 
-			UseItemRequest request = new UseItemRequest( c.getItem().getInstance( initialConsume ) );
+			UseItemRequest request = UseItemRequest.getInstance( item.getInstance( initialConsume ) );
 			RequestThread.postRequest( request );
 
 			quantity -= initialConsume;
@@ -988,7 +988,7 @@ public class ConcoctionDatabase
 
 			if ( item.getItemId() > 0 )
 			{
-				UseItemRequest request = new UseItemRequest( item.getInstance( quantity ) );
+				UseItemRequest request = UseItemRequest.getInstance( item.getInstance( quantity ) );
 				RequestThread.postRequest( request );
 				return;
 			}

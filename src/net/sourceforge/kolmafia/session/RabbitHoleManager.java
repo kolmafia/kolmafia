@@ -1625,7 +1625,7 @@ public abstract class RabbitHoleManager
 		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.DOWN_THE_RABBIT_HOLE ) ) )
 		{
 			InventoryManager.retrieveItem( ItemPool.get( ItemPool.DRINK_ME_POTION, 1 ) );
-			RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.DRINK_ME_POTION, 1 ) ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.DRINK_ME_POTION, 1 ) ) );
 		}
 
 		RequestThread.postRequest( new EquipmentRequest( hat, EquipmentManager.HAT ) );

@@ -880,12 +880,12 @@ public abstract class InventoryManager
 		while ( count < needed && InventoryManager.hasItem( HermitRequest.SUMMON_SCROLL ) )
 		{
 			// Read a single 31337 scroll
-			RequestThread.postRequest( new UseItemRequest( HermitRequest.SUMMON_SCROLL ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.SUMMON_SCROLL ) );
 
 			// If we now have a hermit script in inventory, read it
 			if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
 			{
-				RequestThread.postRequest( new UseItemRequest( HermitRequest.HACK_SCROLL ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.HACK_SCROLL ) );
 			}
 
 			count = HermitRequest.getWorthlessItemCount();
@@ -926,7 +926,7 @@ public abstract class InventoryManager
 				if ( needed - count <= 3 )
 				{
 					transferWorthlessItems( true );
-					RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.CHEWING_GUM, totalGumCount ) ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.CHEWING_GUM, totalGumCount ) ) );
 				}
 				else
 				{
@@ -937,7 +937,7 @@ public abstract class InventoryManager
 						// Put the worthless items into the closet and then use the chewing gum
 
 						int closetCount = transferWorthlessItems( true );
-						RequestThread.postRequest( new UseItemRequest( ItemPool.get( ItemPool.CHEWING_GUM, gumCount ) ) );
+						RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.CHEWING_GUM, gumCount ) ) );
 
 						// Recalculate how many worthless items are still needed and how many starter
 						// items are now present in the inventory (if it's zero already, no additional
@@ -989,7 +989,7 @@ public abstract class InventoryManager
 					// the probability of you getting more) and then use the gum.
 
 					int closetCount = transferWorthlessItems( true );
-					RequestThread.postRequest( new UseItemRequest( gum ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( gum ) );
 					int inventoryCount = HermitRequest.getWorthlessItemCount();
 
 					count = inventoryCount + closetCount;

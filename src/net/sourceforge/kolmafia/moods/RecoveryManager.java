@@ -21,6 +21,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList.HPRestoreItem;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList.MPRestoreItem;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -428,7 +430,7 @@ public class RecoveryManager
 
 		if ( isNonCombatHealthRestore && KoLCharacter.getAvailableMeat() >= 30 )
 		{
-			RequestThread.postRequest( new UseItemRequest( new AdventureResult( 231, 1 ) ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.PUNGENT_UNGUENT ) );
 			return true;
 		}
 

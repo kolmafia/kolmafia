@@ -1004,7 +1004,7 @@ public class GenericRequest
 
 				if ( expired.getLabel().equals( "Fortune Cookie" ) )
 				{
-					message += " " + UseItemRequest.lastSemirareMessage();
+					message += " " + EatItemRequest.lastSemirareMessage();
 				}
 
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
@@ -1042,7 +1042,7 @@ public class GenericRequest
 				HermitRequest.ensureUpdatedHermit();
 				if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
 				{
-					RequestThread.postRequest( new UseItemRequest( HermitRequest.HACK_SCROLL ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.HACK_SCROLL ) );
 				}
 				else if ( !Preferences.getBoolean( "hermitHax0red" ) )
 				{
@@ -1077,7 +1077,7 @@ public class GenericRequest
 			       KoLCharacter.hasEquipped( hooks, EquipmentManager.WEAPON ) ) &&
 			     KoLConstants.inventory.contains( machine ) )
 			{
-				( new UseItemRequest( machine ) ).run();
+				( UseItemRequest.getInstance( machine ) ).run();
 			}
 		}
 		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
