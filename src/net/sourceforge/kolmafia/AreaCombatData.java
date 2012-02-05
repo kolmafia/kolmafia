@@ -618,6 +618,7 @@ public class AreaCombatData
 			float dropRate = Math.min( rawDropRate * itemModifier, 100.0f );
 			float effectiveDropRate = stealRate * 100.0f + ( 1.0f - stealRate ) * dropRate;
 
+			String rateRaw = this.format( rawDropRate );
 			String rate1 = this.format( dropRate );
 			String rate2 = this.format( effectiveDropRate );
 
@@ -642,6 +643,12 @@ public class AreaCombatData
 				buffer.append( " " );
 				buffer.append( rate1 );
 				buffer.append( "% (conditional)" );
+				break;
+				
+			case 'f':
+				buffer.append( " " );
+				buffer.append( rateRaw );
+				buffer.append( "% (no modifiers)" );
 				break;
 
 			case 'p':

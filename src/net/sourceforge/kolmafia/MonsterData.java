@@ -276,6 +276,7 @@ public class MonsterData
 				return true;
 			case 'n':
 			case 'c':
+			case 'f':
 			case 'b':
 				return false;
 			default:
@@ -349,6 +350,7 @@ public class MonsterData
 					break;
 				case 'n':
 				case 'c':
+				case 'f':
 				case 'b':
 					probability = 0.0f;
 					break;

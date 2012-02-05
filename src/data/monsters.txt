@@ -210,7 +210,7 @@ Boaraffe	HP: 145 Def: 145 Atk: 145 Meat: 83-116 P: beast	long pork (30)
 Bob Racecar	HP: 139 Def: 145 Atk: 138 Meat: 96-138 P: humanoid	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)
 Bolt-Cuttin' Elf	P: crimbo	elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
 Bookbat	HP: 55 Def: 49 Atk: 51 P: object	tattered scrap of paper (30)
-Booth Slime	HP: 150 Def: 140 Atk: 140 P: slime	vial of blue slime (0)
+Booth Slime	HP: 150 Def: 140 Atk: 140 P: slime	vial of blue slime (f66)
 Booty Crab	HP: 69 Def: 100 Atk: 102 Meat: 286-334 E: sleaze Phys: 25	Cap'm Caronch's nasty booty (100)
 Booze Giant	HP: 66 Def: 76 Atk: 76 P: demihuman	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)
 Bow-making Mummy		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
@@ -351,7 +351,7 @@ eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 74 Meat: 32-48 E: sleaze P: orc	e
 eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 38 E: sleaze Meat: 24-36 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-54 P: demon	evil golden arch (30)	infernal insoles (10)
 Family of Kobolds	Atk: 100000	kobold treasure hoard (100)
-Fan Slime	HP: 150 Def: 140 Atk: 140 P: slime	vial of yellow slime (66)
+Fan Slime	HP: 150 Def: 140 Atk: 140 P: slime	vial of yellow slime (f66)
 Fancy Bath Slug	HP: 100000 Def: 100000 Atk: 100000
 Fearsome Wacken	HP: 200 Def: 90 Atk: 90	Crazyleg's razor (100)
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky
@@ -891,7 +891,7 @@ Vampire Bat	HP: 10 Def: 16 Atk: 17 Meat: 34-54 P: beast	bat wing (15)	batgut (15
 Vampire Clam	HP: 14 Def: 19 Atk: 19 P: undead	vampire pearl (p35)
 Vampire Duck	HP: 198 Def: 175 Atk: 175 Meat: 131-165 E: spooky P: beast	frightful feather (10)	duct tape (5)	vampire glitter (c0)
 Vegetable Gremlin	HP: 170 Def: 172 Atk: 168 Meat: 40-60 P: demihuman	gremlin juice (3)	molybdenum screwdriver (c0)
-Vendor Slime	HP: 160 Def: 145 Atk: 145 P: slime	vial of red slime (0)
+Vendor Slime	HP: 160 Def: 145 Atk: 145 P: slime	vial of red slime (f66)
 Vengeful Turtle Spectre	HP: 18 Def: 21 Atk: 21 P: undead	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 Vicious Easel	HP: 100000 Def: 100000 Atk: 100000
 Vicious Gnauga	HP: 40 Def: 40 Atk: 45 P: beast	gnauga hide (10)

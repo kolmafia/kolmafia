@@ -1415,6 +1415,11 @@ public class RequestEditorKit
 					monsterData.append( rate );
 					monsterData.append( " cond)" );
 					break;
+				case 'f':
+					monsterData.append( " (" );
+					monsterData.append( rate );
+					monsterData.append( " no mod)" );
+					break;
 				default:
 					monsterData.append( " (" );
 					monsterData.append( rate );
