@@ -438,7 +438,7 @@ public class ResultProcessor
 
 			if ( effectName.equals( EffectPool.INIGO ) )
 			{
-				ConcoctionDatabase.setRefreshNeeded( false );
+				ConcoctionDatabase.setRefreshNeeded( true );
 			}
 
 			return true;
@@ -923,7 +923,7 @@ public class ResultProcessor
 						// If you lose Inigo's, what you can craft changes
 						if ( effect.getName().equals( EffectPool.INIGO ) )
 						{
-							ConcoctionDatabase.setRefreshNeeded( false );
+							ConcoctionDatabase.setRefreshNeeded( true );
 						}
 					}
 					else
