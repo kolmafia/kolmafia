@@ -19,6 +19,7 @@
 # c - conditional item drop (which implies no pickpocket) - basically a
 # reminder that you may need to do something (like talk to Grandpa) to
 # make this item eligible to drop.
+# f - fixed rate drop, +item modifiers have no effect.
 #
 # Questionable data:
 #
@@ -245,7 +246,7 @@ Cavewomyn Hippy	HP: 260 Def: 230 Atk: 250 E: stench P: hippy	handful of pine nee
 Cement Cobbler Penguin	P: penguin	cement sandals (0)	chunk of cement (c100)	Crimbuck (0)
 Chalkdust Wraith	HP: 10 Def: 20 Atk: 20 ED: spooky Phys: 100 P: undead	handful of hand chalk (100)
 Chatty Pirate	HP: 90 Def: 100 Atk: 100 Meat: 52-76 P: pirate
-Chester	HP: 8000 Def: 500 Atk: 500 E: sleaze	Chester's bag of candy (0)	Chester's Aquarius medallion (0)	Chester's moustache (0)	Chester's muscle shirt (c0)	Chester's sunglasses (0)	Chester's cutoffs (0)	extra-greasy slider (0)	extra-greasy slider (0)	Chorale of Companionship (0)
+Chester	HP: 8000 Def: 500 Atk: 500 E: sleaze	Chorale of Companionship (0)	extra-greasy slider (0)	Chester's bag of candy (0)	Chester's cutoffs (0)	Chester's moustache (0)	Chester's Aquarius medallion (f20)	Chester's muscle shirt (f20)	Chester's sunglasses (f20)
 CH Imp	HP: 61 Def: 62 Atk: 62 E: heat Init: 45 Meat: 26-36 P: demon	imp air (25)
 Chowder Golem	HP: 9 Def: 18 Atk: 18 Meat: 29-46 P: object
 Claw-foot Bathtub	HP: 100 Def: 100 Atk: 90 P: object	bottle of Monsieur Bubble (25)	fancy bath salts (35)
@@ -380,7 +381,7 @@ Four Skeleton Invaders	HP: 110 Def: 110 Atk: 110 Init: 65	bone chips (30)	bone c
 Frat Warrior Drill Sergeant	HP: 202 Atk: 175 E: sleaze P: orc	distressed denim pants (10)	bejeweled pledge pin (10)	beer helmet (10)
 French Guard turtle	HP: 140 Def: 140 Atk: 140	guard turtle shell (0)	guard turtle collar (0)
 Frog	HP: [3] Def: [3] Atk: [3] Meat: 8-12	squashed frog (100)
-Frosty	HP: 350 Def: 500 Atk: 500 E: cold	Benetton's Medley of Diversity (0)	Frosty's frosty mug (0)	Frosty's arm (0)	Frosty's carrot (0)	Frosty's iceball (0)	Frosty's nailbat (0)	Frosty's old silk hat (0)	Frosty's snowball sack (0)
+Frosty	HP: 350 Def: 500 Atk: 500 E: cold	Benetton's Medley of Diversity (0)	Frosty's frosty mug (0)	Frosty's carrot (0)	Frosty's nailbat (0)	Frosty's old silk hat (0)	Frosty's arm (f20)	Frosty's iceball (f20)	Frosty's snowball sack (f20)
 Frozen Duck	HP: 180 Def: 178 Atk: 170 Meat: 125-152 E: cold P: beast	frozen feather (10)	duct tape (5)
 Fruit Golem	HP: 46 Def: 56 Atk: 56 P: object	cherry (15)	orange (15)	lime (15)
 Fudge monkey	HP: 100 Def: 80 Atk: 80 P: humanoid	fudgecule (c100)
@@ -601,7 +602,7 @@ Monkey Wrenchin' Elf	P: crimbo	elf resistance button (100)	throwing wrench (0)	w
 Monty Basingstoke-Pratt, IV	HP: 240 Meat: 174-215 E: sleaze	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 Mortimer Strauss	HP: 0	jar full of wind (0)	jar full of wind (0)	Mortimer's nostrum (0)
 Mother hellseal	HP: 157 P: demon	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
-Mother Slime	HP: 2950 Atk: 11000 EA: slime
+Mother Slime	HP: 2950 Atk: 11000 EA: slime	hardened slime belt (0)	hardened slime hat (0)	hardened slime pants (0)	slime-soaked brain (0)	slime-soaked hypophysis (0)	slime-soaked sweat gland (0)	slimy alveolus (0)	chamoisole (n5)	caustic slime nodule (0)	caustic slime nodule (0)	squirming Slime larva (0)
 Mounted Lawn Gnome	HP: 95 Def: 60 Atk: 60 P: demihuman	pointy red hat (0)	lawnmower blade (0)	grass clippings (0)
 Mowing Lawn Gnome	HP: 85 Def: 55 Atk: 55 P: demihuman	lawnmower blade (0)	grass clippings (0)	pointy red hat (0)
 Mutant Circuit-Soldering Elf		elven moonshine (0)	miniature antlers (0)
@@ -627,7 +628,7 @@ Obese Tourist	HP: 200 Def: 150 Atk: 140 P: humanoid	cupcake-in-a-cup (0)	neurost
 Octopus Gardener	HP: 600 Def: 400 Atk: 425 Meat: 80-120 P: fish	octopus's spade (n2)	sea radish (c3)	soggy seed packet (n30)	straw hat (n2)
 Octorok	HP: 15 Def: 25 Atk: 25 P: beast	red pixel (70)	red pixel (70)	red pixel (70)
 Off-Duty Knob Goblin Elite Guard	HP: 30 Def: 25 Atk: 30 Meat: 40-60 P: goblin	Cobb's Knob Wurstbrau (15)	Knob Goblin elite pants (10)	Knob Goblin elite polearm (10)	Knob Goblin elite shirt (10)	knob bugle (10)
-Ol' Scratch	HP: 8000 Def: 500 Atk: 500 E: heat	Elron's Explosive Etude (0)	Ol' Scratch's salad fork (0)	Ol' Scratch's ash can (0)	Ol' Scratch's infernal pitchfork (0)	Ol' Scratch's manacles (0)	Ol' Scratch's ol' britches (0)	Ol' Scratch's stove door (0)	Ol' Scratch's stovepipe hat (0)
+Ol' Scratch	HP: 8000 Def: 500 Atk: 500 E: heat	Elron's Explosive Etude (0)	Ol' Scratch's salad fork (0)	Ol' Scratch's ash can (0)	Ol' Scratch's ol' britches (0)	Ol' Scratch's stovepipe hat (0)	Ol' Scratch's infernal pitchfork (f20)	Ol' Scratch's manacles (f20)	Ol' Scratch's stove door (f20)
 One-Eyed Gnoll	HP: 5 Def: 11 Atk: 11 Meat: 19-28 P: demihuman	eyepatch (5)	gnoll teeth (5)	glass gnoll eye (p5)
 One-Eyed Willie	HP: 150 Def: 150 Atk: 150 E: sleaze P: constellation	line (30)	line (30)	star (30)
 Orcish Frat Boy (Music Lover)	HP: 30 Def: 39 Atk: 39 E: sleaze Meat: 24-39 P: orc	Ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	roofie (25)	packet of beer nuts (p15)	empty aftershave bottle (b0)
@@ -636,7 +637,7 @@ Orcish Frat Boy (Pledge)	HP: 30 Def: 41 Atk: 41 E: sleaze Meat: 24-39 P: orc	bot
 Orcish Frat Boy Spy	HP: 180 Def: 170 Atk: 165 E: sleaze P: orc	beer helmet (30)	distressed denim pants (30)	bejeweled pledge pin (30)
 Orcish Frat Wannaboy	HP: 90 Def: 60 Atk: 40 E: sleaze P: orc	plastic cup of beer (100)
 Orcish Juvenile Delinquent	HP: 80 Def: 45 Atk: 35 E: sleaze P: orc	plastic cup of beer (100)
-Oscus	HP: 6500 Def: 500 Atk: 500 E: stench	The Ballad of Richie Thingfinder (0)	jar of fermented pickle juice (0)	Oscus's dumpster waders (0)	Oscus's flypaper pants (0)	Oscus's garbage can lid (0)	Oscus's neverending soda (0)	Oscus's pelt (0)	Wand of Oscus (0)
+Oscus	HP: 6500 Def: 500 Atk: 500 E: stench	The Ballad of Richie Thingfinder (0)	jar of fermented pickle juice (0)	Oscus's dumpster waders (0)	Oscus's pelt (0)	Wand of Oscus (0)	Oscus's flypaper pants (f20)	Oscus's garbage can lid (f20)	Oscus's neverending soda (f20)
 Overdone Flame-Broiled Meat Blob	HP: 2 Def: 2 Atk: 4 E: heat Meat: 16-24 P: slime	meat paste (40)	meat paste (40)	meat paste (40)
 P Imp	HP: 42 Def: 42 Atk: 42 E: heat Meat: 24-36 P: demon	Imp Ale (30)	hot wing (30)	diamond-studded cane (5)
 Panty Raider Frat Boy	HP: 250 Def: 200 Atk: 200 E: sleaze P: orc	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
@@ -877,7 +878,7 @@ Trophyfish	HP: 15000 Atk: 5600 Phys: 25
 Turtle trapper	HP: 110 Def: 95 Atk: 95 P: humanoid
 Two Skeleton Invaders	HP: 30 Def: 30 Atk: 30 Init: 50	bone chips (30)	bone chips (20)
 Tyrannosaurus Tex	HP: 100000 Def: 100000 Atk: 100000
-Uncle Hobo	HP: 15000 Def: 500 Atk: 500 Phys: 100	chocolate cigar (0)	Uncle Hobo's stocking cap (0)	Uncle Hobo's epic beard (0)	Uncle Hobo's gift baggy pants (0)	Uncle Hobo's fingerless tinsel gloves (0)	Uncle Hobo's highest bough (0)	Uncle Hobo's belt (0)
+Uncle Hobo	HP: 15000 Def: 500 Atk: 500 Phys: 100	Uncle Crimbo's Rations (100)	chocolate cigar (0)	Uncle Hobo's gift baggy pants (0)	Uncle Hobo's epic beard (0)	Uncle Hobo's stocking cap (0)	Uncle Hobo's fingerless tinsel gloves (f30)	Uncle Hobo's highest bough (f30)	Uncle Hobo's belt (f30)
 Undead Elbow Macaroni	HP: 1 Def: 2 Atk: 1 E: spooky Meat: 4-6 P: undead	magicalness-in-a-can (25)	quasi-ethereal macaroni fragments (c0)
 Undercover Penguin	P: penguin	cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
 Underworld Tree	HP: 0	Underworld acorn (100)	Underworld trunk (100)
@@ -965,7 +966,7 @@ Zobmie	HP: 10 Def: 18 Atk: 19 E: spooky Meat: 28-40 P: undead	cranberries (20)	c
 Zol	HP: 15 Def: 25 Atk: 25 P: slime	green pixel (70)	green pixel (70)	green pixel (70)
 Zombie Chef	HP: 4 Def: 5 Atk: 5 Meat: 6-8 P: undead	bottle of cooking sherry (30)	chef's hat (5)	fricasseed brains (20)	stale baguette (30)
 Zombie Duck	HP: 191 Def: 176 Atk: 171 Meat: 127-174 E: spooky P: beast	duct tape (5)	frightful feather (10)
-Zombo	HP: 10000 Def: 500 Atk: 500 E: spooky	Prelude of Precision (0)	voodoo snuff (0)	voodoo snuff (0)	Zombo's empty eye (0)	Zombo's skullcap (0)	Zombo's shield (0)	Zombo's shoulder blade (0)	Zombo's grievous greaves (0)	Zombo's skull ring (0)
+Zombo	HP: 10000 Def: 500 Atk: 500 E: spooky	Prelude of Precision (0)	voodoo snuff (0)	Zombo's grievous greaves (0)	Zombo's shield (0)	Zombo's skullcap (0)	Zombo's empty eye (f20)	Zombo's shoulder blade (f20)	Zombo's skull ring (f20)
 
 # Bees Hate You
 Beebee Gunners	HP: [ceil((MUS+ML)*15/28)] Def: [ceil((MUS+ML)*5/7)] Atk: [ceil((MOX+ML)*5/7)]	handful of honey (0)
