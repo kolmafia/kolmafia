@@ -685,6 +685,10 @@ public class RequestEditorKit
 		{
 			HobopolisDecorator.decorate( location, buffer );
 		}
+		else if ( location.startsWith( "crypt.php" ) )
+		{
+			RequestEditorKit.decorateCrypt( buffer );
+		}
 		else if ( location.startsWith( "dungeon.php" ) )
 		{
 			DungeonDecorator.decorate( buffer );
@@ -2138,6 +2142,90 @@ public class RequestEditorKit
 			SpaaaceRequest.decoratePorko( buffer );
 			break;
 		}
+	}
+
+	private static final void decorateCrypt( final StringBuffer buffer )
+	{
+		if ( Preferences.getInteger( "cyrptTotalEvilness") == 0 )
+		{
+			return;
+		}
+
+		int nookEvil = Preferences.getInteger( "cyrptNookEvilness" );
+		int nicheEvil = Preferences.getInteger( "cyrptCrannyEvilness" );
+		int crannyEvil = Preferences.getInteger( "cyrptCrannyEvilness" );
+		int alcoveEvil = Preferences.getInteger( "cyrptAlcoveEvilness" );
+
+		String nookColor = nookEvil > 25 ? "000000" : "FF0000";
+		String nookHint = nookEvil > 25 ? "Item Drop" : "<b>BOSS</b>";
+		String nicheColor = nicheEvil > 25 ? "000000" : "FF0000";
+		String nicheHint = nicheEvil > 25 ? "Sniff Dirty Lihc" : "<b>BOSS</b>";
+		String crannyColor = crannyEvil > 25 ? "000000" : "FF0000";
+		String crannyHint = crannyEvil > 25 ? "ML & Noncombat" : "<b>BOSS</b>";
+		String alcoveColor = alcoveEvil > 25 ? "000000" : "FF0000";
+		String alcoveHint = alcoveEvil > 25 ? "Initiative" : "<b>BOSS</b>";
+
+		StringBuffer evilometer = new StringBuffer();
+
+		evilometer.append( "<table cellpadding=0 cellspacing=0><tr><td colspan=3>" );
+		evilometer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/cyrpt/eo_top.gif\">" );
+		evilometer.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/otherimages/cyrpt/eo_left.gif\">" );
+		evilometer.append( "<td width=150><center>" );
+
+		if ( nookEvil > 0 )
+		{
+			evilometer.append( "<font size=2 color=\"#" );
+			evilometer.append( nookColor );
+			evilometer.append( "\"><b>Nook</b> - " );
+			evilometer.append( nookEvil );
+			evilometer.append( "<br><font size=1>" );
+			evilometer.append( nookHint );
+			evilometer.append( "<br></font></font>" );
+		}
+
+		if ( nicheEvil > 0 )
+		{
+			evilometer.append( "<font size=2 color=\"#" );
+			evilometer.append( nicheColor );
+			evilometer.append( "\"><b>Niche</b> - " );
+			evilometer.append( nicheEvil );
+			evilometer.append( "<br><font size=1>" );
+			evilometer.append( nicheHint );
+			evilometer.append( "<br></font></font>" );
+		}
+
+		if ( crannyEvil > 0 )
+		{
+			evilometer.append( "<font size=2 color=\"#" );
+			evilometer.append( crannyColor );
+			evilometer.append( "\"><b>Cranny</b> - " );
+			evilometer.append( crannyEvil );
+			evilometer.append( "<br><font size=1>" );
+			evilometer.append( crannyHint );
+			evilometer.append( "<br></font></font>" );
+		}
+		
+		if ( alcoveEvil > 0 )
+		{
+			evilometer.append( "<font size=2 color=\"#" );
+			evilometer.append( alcoveColor );
+			evilometer.append( "\"><b>Alcove</b> - " );
+			evilometer.append( alcoveEvil );
+			evilometer.append( "<br><font size=1>" );
+			evilometer.append( alcoveHint );
+			evilometer.append( "<br></font></font>" );
+		}
+
+		evilometer.append( "<td><img src=\"http://images.kingdomofloathing.com/otherimages/cyrpt/eo_right.gif\"><tr><td colspan=3>" );
+		evilometer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/cyrpt/eo_bottom.gif\"></table>" );
+
+		String selector = "</map><table";
+		int index = buffer.indexOf( selector );
+		buffer.insert( index + selector.length(), "><tr><td><table" );
+
+		index = buffer.indexOf( "</tr></table><p><center><A href=plains.php>" );
+		evilometer.insert( 0, "</table><td>" );
+		buffer.insert( index + 5, evilometer.toString() );
 	}
 
 	private static final void addBugReportWarning( final StringBuffer buffer )
