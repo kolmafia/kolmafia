@@ -183,7 +183,6 @@ global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
 
 user	addingScrolls	-1
-user	alwaysPromptAboutCrafting	false
 user	arcadeGameHints	false
 user	autoAbortThreshold	-0.05
 user	autoAntidote	0
@@ -562,6 +561,7 @@ user	postAscensionScript
 user	preAscensionScript
 user	preBlackbirdFamiliar
 user	prismaticSummons	0
+user	promptAboutCrafting	1
 user	pyramidPosition	0
 user	pyramidBombUsed	false
 user	rageGlandVented	false
@@ -636,7 +636,6 @@ user	sugarCounter4181	0
 user	sugarCounter4182	0
 user	sugarCounter4183	0
 user	sugarCounter4191	0
-user	suppressCraftingPrompt	false
 user	tavernLayout	0000000000000000000000000
 user	telescope1
 user	telescope2
