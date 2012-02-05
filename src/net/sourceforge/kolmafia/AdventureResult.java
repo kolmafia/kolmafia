@@ -580,7 +580,7 @@ public class AdventureResult
 	{
 		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
 
-		String name = parsedItem.nextToken().trim();
+		StringBuilder nameBuilder = new StringBuilder( parsedItem.nextToken().trim() );
 		int count = 1;
 		while ( parsedItem.hasMoreTokens() )
 		{
@@ -591,9 +591,11 @@ public class AdventureResult
 			}
 			else if ( !next.equals( "" ) )
 			{
-				name += " (" + next + ")";
+				nameBuilder.append( " (" + next + ")" );
 			}
 		}
+
+		String name = nameBuilder.toString();
 
 		if ( !pseudoAllowed )
 		{

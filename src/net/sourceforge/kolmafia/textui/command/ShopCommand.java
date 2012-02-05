@@ -178,13 +178,14 @@ public class ShopCommand
 		for ( int i = 0; i < itemNames.length; ++i )
 		{
 			item = ItemFinder.getFirstMatchingItem( itemNames[ i ], true );
-			itemId = item.getItemId();
 
 			if ( item == null )
 			{
 				RequestLogger.printLine( "Skipping '" + itemNames[ i ] + "'." );
 				continue;
 			}
+
+			itemId = item.getItemId();
 			
 			SoldItem it = new SoldItem( itemId, 0, 0, 0, 0 );
 			int index = list.indexOf( it );

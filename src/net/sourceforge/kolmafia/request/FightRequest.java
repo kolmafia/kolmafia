@@ -3970,17 +3970,17 @@ public class FightRequest
 			}
 
 			String src = inode.getAttributeByName( "src" );
-			String image = src == null ? null : src.substring( src.lastIndexOf( "/" ) + 1 );
 
-			if ( image != null )
+			if ( src == null ) return;
+
+			String image = src.substring( src.lastIndexOf( "/" ) + 1 );
+
+			// Attempt to identify combat items
+			String itemName = inode.getAttributeByName( "title" );
+			int itemId = ItemDatabase.getItemId( itemName );
+			if ( itemId != -1 && image.equals( ItemDatabase.getImage( itemId ) ) )
 			{
-				// Attempt to identify combat items
-				String itemName = inode.getAttributeByName( "title" );
-				int itemId = ItemDatabase.getItemId( itemName );
-				if ( itemId != -1 && image.equals( ItemDatabase.getImage( itemId ) ) )
-				{
-					status.lastCombatItem = itemId;
-				}
+				status.lastCombatItem = itemId;
 			}
 
 			if ( image.equals( "hp.gif" ) &&
@@ -4132,7 +4132,7 @@ public class FightRequest
 					return;
 				}
 
-				int itemId = ItemDatabase.getItemIdFromDescription( descid );
+				itemId = ItemDatabase.getItemIdFromDescription( descid );
 				if ( itemId == -1 )
 				{
 					return;

@@ -555,13 +555,13 @@ public class DwarfFactoryRequest
 	public static String getRunes( final String responseText )
 	{
 		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
-		String result = "";
+		StringBuilder resultBuilder = new StringBuilder();
 		while ( matcher.find() )
 		{
-			result += matcher.group( 2 );
+			resultBuilder.append(  matcher.group( 2 ) );
 		}
 
-		return result;
+		return resultBuilder.toString();
 	}
 
 	private static String getRune( final Matcher matcher )
@@ -613,7 +613,7 @@ public class DwarfFactoryRequest
 	public static void useUnlaminatedItem( final int itemId, final String responseText )
 	{
 		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
-		String runes = "";
+		StringBuilder runesBuilder = new StringBuilder();
 		int count = 0;
 
 		while ( matcher.find() )
@@ -623,7 +623,7 @@ public class DwarfFactoryRequest
 			if ( count++ == 0 )
 			{
 				DwarfFactoryRequest.setEquipmentRune( rune );
-				runes += rune;
+				runesBuilder.append ( rune );
 				continue;
 			}
 
@@ -631,17 +631,17 @@ public class DwarfFactoryRequest
 			if ( type.equals( "Word" ) )
 			{
 				DwarfFactoryRequest.setOreRune( rune );
-				runes += ',';
+				runesBuilder.append ( ',' );
 			}
-			runes += rune;
+			runesBuilder.append ( rune );
 		}
-		Preferences.setString( "lastDwarfOfficeItem" + itemId, runes );
+		Preferences.setString( "lastDwarfOfficeItem" + itemId, runesBuilder.toString() );
 	}
 
 	public static void useLaminatedItem( final int itemId, final String responseText )
 	{
 		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
-		String runes = "";
+		StringBuilder runesBuilder = new StringBuilder();
 		int count = 0;
 
 		while ( matcher.find() )
@@ -651,7 +651,7 @@ public class DwarfFactoryRequest
 			if ( count++ == 0 )
 			{
 				DwarfFactoryRequest.setOreRune( rune );
-				runes += rune;
+				runesBuilder.append( rune );
 				continue;
 			}
 
@@ -665,11 +665,11 @@ public class DwarfFactoryRequest
 			if ( type.equals( "Word" ) )
 			{
 				DwarfFactoryRequest.setEquipmentRune( rune );
-				runes += ',';
+				runesBuilder.append( ',' );
 			}
-			runes += rune;
+			runesBuilder.append( rune );
 		}
-		Preferences.setString( "lastDwarfOfficeItem" + itemId, runes );
+		Preferences.setString( "lastDwarfOfficeItem" + itemId, runesBuilder.toString() );
 	}
 
 	private static int getItemId( final String responseText )
@@ -1240,13 +1240,13 @@ public class DwarfFactoryRequest
 
 		public String digitString()
 		{
-			String val = "";
+			StringBuilder valueBuilder = new StringBuilder();
 			for ( int i = 0; i < 7; ++i )
 			{
 				Character code = (Character)this.charMap.get( new Integer( i ) );
-				val += code == null ? '-' : code.charValue();
+				valueBuilder.append( code == null ? '-' : code.charValue() );
 			}
-			return val;
+			return valueBuilder.toString();
 		}
 
 		public boolean valid()

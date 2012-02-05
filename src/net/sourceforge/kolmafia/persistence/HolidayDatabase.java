@@ -1102,7 +1102,7 @@ public class HolidayDatabase
 				return gameHoliday + " tomorrow";
 			}
 
-			for ( int i = 2; i < 96 && gameHoliday == null; ++i )
+			for ( int i = 2; i < 96; ++i )
 			{
 				calendarDayAsArray = HolidayDatabase.convertCalendarDayToArray( ( calendarDay + i ) % 96 );
 				gameHoliday = HolidayDatabase.HOLIDAYS[ calendarDayAsArray[ 0 ] ][ calendarDayAsArray[ 1 ] ];

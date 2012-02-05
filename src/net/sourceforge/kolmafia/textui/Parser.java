@@ -2570,7 +2570,7 @@ public class Parser
 			;
 		}
 
-		else if ( ( result = this.parseCall( scope, result ) ) != null )
+		else if ( ( result = this.parseCall( scope, null ) ) != null )
 		{
 			;
 		}

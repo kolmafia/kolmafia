@@ -134,7 +134,8 @@ public class CakeArenaFrame
 				for ( int j = 1; j <= 4; ++j )
 				{
 					Integer skill = FamiliarDatabase.getFamiliarSkill( opponentRace, j );
-					JButton opponentButton = new JButton( JComponentUtilities.getImage( ( skill == null ? "0" : skill.toString() ) + "star.gif" ) );
+					if ( skill == null ) skill = Integer.valueOf( 0 );
+					JButton opponentButton = new JButton( JComponentUtilities.getImage( skill.toString() + "star.gif" ) );
 					opponentButton.addMouseListener( new OpponentListener( i, j, skill ) );
 					opponentData[ i ][ j ] = opponentButton;
 				}
