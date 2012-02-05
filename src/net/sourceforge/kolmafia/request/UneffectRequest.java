@@ -330,7 +330,7 @@ public class UneffectRequest
 
 		if ( effect == null || effect.getCount() == Integer.MAX_VALUE || !isRemovable( this.effectId ))
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to remove " + effect.getName() + "." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to remove " + this.effect.getName() + "." );
 			return;
 		}
 

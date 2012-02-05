@@ -212,17 +212,17 @@ public class ChatParser
 				continue;
 			}
 
-			String currentLine = lines[ i ];
+			StringBuilder currentLineBuilder = new StringBuilder( lines[ i ] );
 
 			while ( ++nextLine < lines.length && lines[ nextLine ].indexOf( "<a" ) == -1 )
 			{
 				if ( lines[ nextLine ] != null && lines[ nextLine ].length() > 0 )
 				{
-					currentLine += "<br>" + lines[ nextLine ];
+					currentLineBuilder.append( "<br>" + lines[ nextLine ] );
 				}
 			}
 
-			ChatParser.parseLine( chatMessages, currentLine.trim() );
+			ChatParser.parseLine( chatMessages, currentLineBuilder.toString().trim() );
 		}
 	}
 
