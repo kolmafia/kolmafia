@@ -1663,13 +1663,13 @@ public abstract class InventoryManager
 			return true;
 		}
 		// Allow the user to permanently squash this prompt.
-		if ( Preferences.getBoolean( "suppressCraftingPrompt" ) )
+		if ( Preferences.getInteger( "promptAboutCrafting" ) < 1 )
 		{
 			return true;
 		}
 		// If we've already nagged, don't nag. Unless the user wants us to nag. Then, nag.
 		if ( InventoryManager.askedAboutCrafting == KoLCharacter.getUserId()
-			&& !Preferences.getBoolean( "alwaysPromptAboutCrafting" ) )
+			&& Preferences.getInteger( "promptAboutCrafting" ) < 2 )
 		{
 			return true;
 		}
