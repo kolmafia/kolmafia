@@ -3753,7 +3753,7 @@ public abstract class KoLCharacter
 			return null;
 		}
 
-		RequestThread.postRequest( new UseItemRequest( mimic ) );
+		RequestThread.postRequest( UseItemRequest.getInstance( mimic ) );
 
 		// Look for wand again
 

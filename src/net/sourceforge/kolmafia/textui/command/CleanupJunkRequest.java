@@ -141,7 +141,7 @@ public class CleanupJunkRequest
 				case 2512: // Hippy Army MPE
 				case 2536: // canopic jar
 				case 2612: // ancient vinyl coin purse
-					RequestThread.postRequest( new UseItemRequest( currentItem.getInstance( itemCount ) ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( currentItem.getInstance( itemCount ) ) );
 					break;
 				}
 			}

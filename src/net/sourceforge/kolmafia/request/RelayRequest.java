@@ -1491,7 +1491,7 @@ public class RelayRequest
 			if ( cookie )
 			{
 				msg.append( "<br><br>" );
-				msg.append( UseItemRequest.lastSemirareMessage() );
+				msg.append( EatItemRequest.lastSemirareMessage() );
 			}
 			this.sendGeneralWarning( image, msg.toString() );
 			return;

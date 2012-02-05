@@ -797,7 +797,7 @@ public class ShowDescriptionList
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new UseItemRequest( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( (AdventureResult) items[ i ] ) );
 			}
 		}
 	}

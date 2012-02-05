@@ -237,7 +237,7 @@ public class FoldItemCommand
 				RecoveryManager.recoverHP( damage );
 			}
 
-			RequestThread.postRequest( new UseItemRequest( item ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( item ) );
 		}
 	}
 }

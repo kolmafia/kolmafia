@@ -582,7 +582,7 @@ public abstract class SorceressLairManager
 
 		if ( !KoLCharacter.getFamiliarList().contains( SorceressLairManager.STARFISH ) )
 		{
-			RequestThread.postRequest( new UseItemRequest( SorceressLairManager.STARFISH_ITEM ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( SorceressLairManager.STARFISH_ITEM ) );
 			if ( !KoLmafia.permitsContinue() )
 			{
 				return false;
@@ -880,7 +880,7 @@ public abstract class SorceressLairManager
 				{
 					if ( InventoryManager.hasItem( UneffectRequest.TINY_HOUSE ) )
 					{
-						RequestThread.postRequest( new UseItemRequest( UneffectRequest.TINY_HOUSE ) );
+						RequestThread.postRequest( UseItemRequest.getInstance( UneffectRequest.TINY_HOUSE ) );
 					}
 				}
 
@@ -997,7 +997,7 @@ public abstract class SorceressLairManager
 		for ( int i = 0; i < requirements.size(); ++i )
 		{
 			AdventureResult item = (AdventureResult) requirements.get( i );
-			RequestThread.postRequest( new UseItemRequest( item ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( item ) );
 		}
 
 		// The gates should be passable. Visit them again.
@@ -1079,7 +1079,7 @@ public abstract class SorceressLairManager
 
 		if ( !SorceressLairManager.isItemAvailable( SorceressLairManager.SKELETON ) && SorceressLairManager.isItemAvailable( SorceressLairManager.KEY_RING ) )
 		{
-			RequestThread.postRequest( new UseItemRequest( SorceressLairManager.KEY_RING ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( SorceressLairManager.KEY_RING ) );
 		}
 
 		if ( !InventoryManager.retrieveItem( SorceressLairManager.SKELETON ) )

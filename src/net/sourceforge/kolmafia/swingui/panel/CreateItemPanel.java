@@ -181,8 +181,7 @@ public class CreateItemPanel
 				ConcoctionDatabase.setPullsBudgeted( newbudget );
 			}
 
-			RequestThread.postRequest( new UseItemRequest( new AdventureResult(
-				selection.getItemId(), quantityDesired ) ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( selection.getItemId(), quantityDesired ) ) );
 		}
 	}
 }

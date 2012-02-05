@@ -161,7 +161,7 @@ public class CafeRequest
 			return;
 		}
 
-		if ( this.inebriety > 0 && !UseItemRequest.allowBoozeConsumption( this.inebriety, 1 ) )
+		if ( this.inebriety > 0 && !DrinkItemRequest.allowBoozeConsumption( this.inebriety, 1 ) )
 		{
 			return;
 		}

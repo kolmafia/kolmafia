@@ -306,7 +306,7 @@ public abstract class MPRestoreItemList
 
 				if ( KoLConstants.inventory.contains( EXPRESS_CARD ) )
 				{
-					RequestThread.postRequest( new UseItemRequest( EXPRESS_CARD ) );
+					RequestThread.postRequest( UseItemRequest.getInstance( EXPRESS_CARD ) );
 					return;
 				}
 
@@ -327,7 +327,7 @@ public abstract class MPRestoreItemList
 
 				RequestThread.postRequest( new ClanStashRequest(
 					new Object[] { EXPRESS_CARD }, ClanStashRequest.STASH_TO_ITEMS ) );
-				RequestThread.postRequest( new UseItemRequest( EXPRESS_CARD ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( EXPRESS_CARD ) );
 				RequestThread.postRequest( new ClanStashRequest(
 					new Object[] { EXPRESS_CARD }, ClanStashRequest.ITEMS_TO_STASH ) );
 				return;
@@ -466,7 +466,7 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
-			RequestThread.postRequest( new UseItemRequest( this.itemUsed.getInstance( numberToUse ) ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( this.itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()

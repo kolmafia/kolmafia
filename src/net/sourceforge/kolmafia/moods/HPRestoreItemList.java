@@ -466,7 +466,7 @@ public abstract class HPRestoreItemList
 			}
 			else
 			{
-				RequestThread.postRequest( new UseItemRequest( this.itemUsed.getInstance( numberToUse ) ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( this.itemUsed.getInstance( numberToUse ) ) );
 			}
 		}
 
