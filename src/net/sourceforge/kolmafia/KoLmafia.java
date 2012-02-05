@@ -1044,7 +1044,7 @@ public abstract class KoLmafia
 
 		if ( concoctionRefreshNeeded )
 		{
-			ConcoctionDatabase.setRefreshNeeded( false );
+			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
 

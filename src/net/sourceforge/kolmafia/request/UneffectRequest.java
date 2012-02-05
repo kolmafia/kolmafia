@@ -339,7 +339,7 @@ public class UneffectRequest
 		// If you lose Inigo's, what you can craft changes
 		if ( this.effect.getName().equals( EffectPool.INIGO ) )
 		{
-			ConcoctionDatabase.setRefreshNeeded( false );
+			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 
 		KoLmafia.updateDisplay( this.effect.getName() + " removed." );
