@@ -2152,7 +2152,7 @@ public class RequestEditorKit
 		}
 
 		int nookEvil = Preferences.getInteger( "cyrptNookEvilness" );
-		int nicheEvil = Preferences.getInteger( "cyrptCrannyEvilness" );
+		int nicheEvil = Preferences.getInteger( "cyrptNicheEvilness" );
 		int crannyEvil = Preferences.getInteger( "cyrptCrannyEvilness" );
 		int alcoveEvil = Preferences.getInteger( "cyrptAlcoveEvilness" );
 
