@@ -1222,7 +1222,11 @@ public class SkillDatabase
 
 	public static void registerCasts( int skillId, int count )
 	{
-		Object oldCasts = (Object) SkillDatabase.castsById.get( new Integer( skillId ) );
+		Object oldCasts = SkillDatabase.castsById.get( new Integer( skillId ) );
+		if ( oldCasts == null )
+		{
+			return;
+		}
 		int newCasts = ( (Integer) oldCasts ).intValue() + count;
 		SkillDatabase.castsById.put( new Integer( skillId ), new Integer( newCasts ) );
 	}
