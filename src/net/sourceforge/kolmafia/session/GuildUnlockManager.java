@@ -33,66 +33,129 @@
 
 package net.sourceforge.kolmafia.session;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 
 public class GuildUnlockManager
 {
-	public static void unlockGuildStore()
+	public static void unlockGuild()
 	{
-		GuildUnlockManager.unlockGuildStore( false );
-	}
-
-	public static void unlockGuildStore( final boolean stopAtPaco )
-	{
-		GenericRequest guildVisit = new GuildRequest();
-
-		// The wiki claims that your prime stats are somehow connected,
-		// but the exact procedure is uncertain. Therefore, just allow
-		// the person to attempt to unlock their store, regardless of
-		// their current stats.
-
-		KoLmafia.updateDisplay( "Entering guild challenge area..." );
-		RequestThread.postRequest( guildVisit.constructURLString( "guild.php?place=challenge" ) );
-
-		boolean success =
-			stopAtPaco ? guildVisit.responseText.indexOf( "paco" ) != -1 : guildVisit.responseText.indexOf( "\"store.php" ) != -1;
-
-		guildVisit.constructURLString( "guild.php?action=chal" );
-		KoLmafia.updateDisplay( "Completing guild tasks..." );
-
-		for ( int i = 0; i < 6 && !success && KoLCharacter.getAdventuresLeft() > 0 && KoLmafia.permitsContinue(); ++i )
+		// See if we've already unlocked the Guild
+		if ( KoLCharacter.getGuildStoreOpen() )
 		{
-			RequestThread.postRequest( guildVisit );
+			KoLmafia.updateDisplay( "Guild already unlocked." );
+			return;
+		}
 
-			if ( guildVisit.responseText != null )
+		KoLmafia.updateDisplay( "Speaking to guild master..." );
+		GuildRequest master = new GuildRequest( "challenge" );
+		RequestThread.postRequest( master );
+
+		if ( KoLCharacter.getGuildStoreOpen() )
+		{
+			KoLmafia.updateDisplay( "Guild already unlocked." );
+			return;
+		}
+
+		KoLmafia.updateDisplay( "Completing guild task..." );
+
+		int stat = KoLCharacter.mainStat();
+
+		String locationName;
+		String snarfblat;
+		String choice;
+		AdventureResult item;
+
+		switch ( stat )
+		{
+		case KoLConstants.MUSCLE:
+			locationName = "Outskirts of The Knob";
+			snarfblat = AdventurePool.OUTSKIRTS_OF_THE_KNOB_ID;
+			choice = "543";
+			item = ItemPool.get( ItemPool.BIG_KNOB_SAUSAGE, 1 );
+			break;
+		case KoLConstants.MYSTICALITY:
+			locationName = "Haunted Pantry";
+			snarfblat = AdventurePool.HAUNTED_PANTRY_ID;
+			choice = "544";
+			item = ItemPool.get( ItemPool.EXORCISED_SANDWICH, 1 );
+			break;
+		case KoLConstants.MOXIE:
+			locationName = "Sleazy Back Alley";
+			snarfblat = AdventurePool.SLEAZY_BACK_ALLEY_ID;
+			choice = "542";
+			item = EquipmentManager.getEquipment( EquipmentManager.PANTS );
+			if ( item == EquipmentRequest.UNEQUIP )
 			{
-				success = stopAtPaco ? guildVisit.responseText.indexOf( "paco" ) != -1 :
-					guildVisit.responseText.indexOf( "You've already beaten" ) != -1;
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Put on some pants and try again." );
+				return;
 			}
+			break;
+		default:
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What class are you?" );
+			return;
 		}
 
-		if ( success )
+		// Make an adventure request
+		AdventureRequest request = new AdventureRequest( locationName, "adventure.php", snarfblat );
+
+		// Remember how many of the goal item we already have
+		int initialCount = item.getCount( KoLConstants.inventory );
+		int currentCount = initialCount;
+
+		// Enable the choice adventure
+		String setting = "choiceAdventure" + choice;
+		int oldChoice = Preferences.getInteger( setting );
+		Preferences.setInteger( setting, 1 );
+
+		while ( KoLmafia.permitsContinue() &&
+			KoLCharacter.getCurrentHP() > 0 &&
+			KoLCharacter.getAdventuresLeft() > 0 &&
+			currentCount == initialCount )
 		{
-			RequestThread.postRequest( guildVisit.constructURLString( "guild.php?place=paco" ) );
+			// Visit the adventure location
+			RequestThread.postRequest( request );
+
+			// See if the desired item is in inventory
+			currentCount = item.getCount( KoLConstants.inventory );
 		}
 
-		if ( success && stopAtPaco )
+		// Restore the choice adventure setting
+		Preferences.setInteger( setting, oldChoice );
+
+		// Put on your pants back on
+		if ( stat == KoLConstants.MOXIE )
 		{
-			KoLmafia.updateDisplay( "You have unlocked the guild meatcar quest." );
+			KoLmafia.updateDisplay( "Putting your pants back on..." );
+			RequestThread.postRequest( new EquipmentRequest( item ) );
 		}
-		else if ( success )
+
+		// See if we achieved our goal
+		if ( currentCount == initialCount )
 		{
-			KoLmafia.updateDisplay( "Guild store successfully unlocked." );
+			KoLmafia.updateDisplay( "Guild was not unlocked." );
+			return;
 		}
-		else
-		{
-			KoLmafia.updateDisplay( "Guild store was not unlocked." );
-		}
+
+		KoLmafia.updateDisplay( "Speaking to guild master again..." );
+		RequestThread.postRequest( master );
+
+		KoLmafia.updateDisplay( "Getting meatcar quest..." );
+		GuildRequest paco = new GuildRequest( "paco" );
+		RequestThread.postRequest( paco );
+
+		KoLmafia.updateDisplay( "Guild successfully unlocked." );
 	}
-
 }
