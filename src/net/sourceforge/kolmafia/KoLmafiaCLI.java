@@ -185,12 +185,11 @@ public class KoLmafiaCLI
 		if ( StaticEntity.getClient() == this )
 		{
 			RequestLogger.printLine();
-			System.out.print( " > " );
 		}
 
 		String line = null;
 
-		while ( KoLmafia.permitsContinue() && ( line = this.getNextLine() ) != null )
+		while ( KoLmafia.permitsContinue() && ( line = this.getNextLine( " > " ) ) != null )
 		{
 			if ( StaticEntity.getClient() == this )
 			{
@@ -204,7 +203,6 @@ public class KoLmafiaCLI
 			if ( StaticEntity.getClient() == this )
 			{
 				RequestLogger.printLine();
-				System.out.print( " > " );
 			}
 
 			if ( StaticEntity.getClient() == this )
@@ -227,10 +225,15 @@ public class KoLmafiaCLI
 		}
 	}
 
-	public String getNextLine()
+	public String getNextLine( String message )
 	{
 		try
 		{
+			if ( StaticEntity.getClient() == this && message != null && message.length() > 0 )
+			{
+				System.out.print( message );
+			}
+
 			String line;
 
 			do
@@ -459,11 +462,8 @@ public class KoLmafiaCLI
 				return "";
 			}
 
-			if ( StaticEntity.getClient() == this )
-			{
-				System.out.print( "+> " );
-			}
-			line = this.getNextLine();
+			line = this.getNextLine( "+> " );
+
 			if ( line == null )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unterminated conditional statement." );

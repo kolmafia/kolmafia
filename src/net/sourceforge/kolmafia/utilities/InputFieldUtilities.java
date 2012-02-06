@@ -35,6 +35,12 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.awt.BorderLayout;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -47,6 +53,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
@@ -63,43 +72,129 @@ public class InputFieldUtilities
 		InputFieldUtilities.activeWindow = activeWindow;
 	}
 
-	public static final void alert(final String message)
+	public static final void alert( final String message )
 	{
-		JOptionPane.showMessageDialog( InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
+		if ( StaticEntity.isHeadless() )
+		{
+			RequestLogger.printLine( message );
+			String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine( "Press enter to continue..." );
+
+			return;
+		}
+
+		JOptionPane.showMessageDialog( InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap( message ) );
 	}
 
-	public static final boolean confirm(final String message)
+	public static final boolean confirm( final String message )
 	{
+		if ( StaticEntity.isHeadless() )
+		{
+			RequestLogger.printLine( message );
+			RequestLogger.printLine( "(Y/N, leave blank to choose N)" );
+
+			String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine( " > " );
+
+			if ( reply.equalsIgnoreCase( "y" ) )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(
 			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message), "",
 			JOptionPane.YES_NO_OPTION);
 	}
 
-	public static final String input(final String message)
+	public static final String input( final String message )
 	{
-		return JOptionPane.showInputDialog( InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message));
+		if ( StaticEntity.isHeadless() )
+		{
+			RequestLogger.printLine( message );
+
+			String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine( " > " );
+
+			return reply;
+		}
+
+		return JOptionPane.showInputDialog( InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap( message ) );
 	}
 
-	public static final String input(final String message, final String initial)
+	public static final String input( final String message, final String initial )
 	{
+		if ( StaticEntity.isHeadless() )
+		{
+			RequestLogger.printLine( message );
+			RequestLogger.printLine( "(leave blank to use " + initial + ")" );
+
+			String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine( message + "\n(Leave blank to use " + initial + ")\n > " );
+
+			if ( reply.equals( "" ) )
+			{
+				reply = initial;
+			}
+
+			return reply;
+		}
+
 		return JOptionPane.showInputDialog(
-			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message),
-			initial);
+			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap( message ), initial );
 	}
 
 	public static final Object input( final String message, final LockableListModel inputs, final Object initial )
 	{
-		JList selector = new JList(inputs);
+		if ( StaticEntity.isHeadless() )
+		{
+			int initialIndex = 0;
+			RequestLogger.printLine( message );
 
-		JPanel panel = new JPanel(new BorderLayout());
+			for ( int i = 0; i < inputs.size(); ++i )
+			{
+				Object o = inputs.get( i );
+				RequestLogger.printLine( "  " + ( i + 1 ) + ": " + o );
+
+				if ( initial != null && initial.equals( o ) )
+				{
+					initialIndex = i;
+				}
+			}
+
+			RequestLogger.printLine( "(Enter a number from 1 to " + inputs.size() + ", leave blank to use " + ( initialIndex + 1 ) + ")" );
+
+			String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine( " > " );
+
+			if ( reply.equals( "" ) )
+			{
+				return initial;
+			}
+
+			int selectedIndex = StringUtilities.parseInt( reply ) - 1;
+
+			if ( selectedIndex > -1 && selectedIndex < inputs.size() )
+			{
+				return inputs.get( selectedIndex );
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		JList selector = new JList( inputs );
+
+		JPanel panel = new JPanel( new BorderLayout() );
 		panel.add( new AutoFilterTextField( selector, initial ), BorderLayout.NORTH );
-		panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
+		panel.add( new GenericScrollPane( selector ), BorderLayout.CENTER );
 
 		int option =
 			JOptionPane.showConfirmDialog(
 				InputFieldUtilities.activeWindow, panel,
-				StringUtilities.basicTextWrap(message),
-				JOptionPane.OK_CANCEL_OPTION);
+				StringUtilities.basicTextWrap( message ),
+				JOptionPane.OK_CANCEL_OPTION );
+
 		return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION 
 			? null : selector.getSelectedValue();
 	}
@@ -109,26 +204,24 @@ public class InputFieldUtilities
 		return InputFieldUtilities.input( message, inputs, null );
 	}
 
-	public static final Object input(final String message, final Object[] inputs)
+	public static final Object input(final String message, final Object[] inputs )
 	{
-		if (inputs == null || inputs.length == 0)
+		if ( inputs == null || inputs.length == 0 )
 		{
 			return null;
 		}
 
-		return InputFieldUtilities.input(message, inputs, inputs[0]);
+		return InputFieldUtilities.input( message, inputs, inputs[ 0 ] );
 	}
 
-	public static final Object input( final String message, final Object[] inputs, final Object initial)
+	public static final Object input( final String message, final Object[] inputs, final Object initial )
 	{
-		if (inputs == null || inputs.length == 0)
+		if ( inputs == null || inputs.length == 0 )
 		{
 			return null;
 		}
 
-		return JOptionPane.showInputDialog(
-			InputFieldUtilities.activeWindow, StringUtilities.basicTextWrap(message), "",
-			JOptionPane.INFORMATION_MESSAGE, null, inputs, initial);
+		return InputFieldUtilities.input( message, new LockableListModel( Arrays.asList( inputs ) ), initial );
 	}
 
 	public static final Object[] multiple( final String message, final LockableListModel inputs )
@@ -139,10 +232,47 @@ public class InputFieldUtilities
 
 	public static final Object[] multiple( final String message, final LockableListModel inputs, final ListElementFilter filter )
 	{
-		JList selector = new JList(inputs);
-		selector.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		if ( StaticEntity.isHeadless() )
+		{
+			RequestLogger.printLine( message );
+			List visibleInputs = new ArrayList();
 
-		JPanel panel = new JPanel(new BorderLayout());
+			for ( int i = 0; i < inputs.size(); ++i )
+			{
+				Object o = inputs.get( i );
+
+				if ( filter.isVisible( o ) )
+				{
+					visibleInputs.add( o );
+					RequestLogger.printLine( "  " + ( visibleInputs.size() ) + ": " + o );
+				}
+			}
+
+			RequestLogger.printLine( "(Enter a comma-delimited list of values from 1 to " + visibleInputs.size() + ")" );
+
+			String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine( " > " );
+
+			String[] replyList = reply.split( "\\s*,\\s*" );
+
+			Set selectedValues = new HashSet();
+
+			for ( int i = 0; i < replyList.length; ++i )
+			{
+				int selectedIndex = StringUtilities.parseInt( replyList[ i ] ) - 1;
+
+				if ( selectedIndex > -1 && selectedIndex < visibleInputs.size() )
+				{
+					selectedValues.add( visibleInputs.get( i ) );
+				}
+			}
+
+			return selectedValues.toArray();
+		}
+
+		JList selector = new JList( inputs );
+		selector.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+
+		JPanel panel = new JPanel( new BorderLayout() );
 		panel.add( filter == null ? new AutoFilterTextField( selector ) :
 			new AutoFilterTextField( selector ) {
 				public boolean isVisible( Object o )
@@ -151,13 +281,14 @@ public class InputFieldUtilities
 				}			
 			}, BorderLayout.NORTH );
 		inputs.updateFilter( false );
-		panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
+		panel.add( new GenericScrollPane( selector ), BorderLayout.CENTER );
 
 		int option =
 			JOptionPane.showConfirmDialog(
 				InputFieldUtilities.activeWindow, panel,
-				StringUtilities.basicTextWrap(message),
+				StringUtilities.basicTextWrap( message ),
 				JOptionPane.OK_CANCEL_OPTION);
+
 		return option == JOptionPane.CANCEL_OPTION || option == JOptionPane.CLOSED_OPTION
 			? new Object[0] : selector.getSelectedValues();
 	}
@@ -168,12 +299,12 @@ public class InputFieldUtilities
 	 * "0" is returned instead.
 	 */
 
-	public static final int getValue(final JTextField field)
+	public static final int getValue( final JTextField field )
 	{
 		return InputFieldUtilities.getValue( field, 0 );
 	}
 
-	public static final int getValue(final JSpinner field)
+	public static final int getValue( final JSpinner field )
 	{
 		return InputFieldUtilities.getValue( field, 0 );
 	}
