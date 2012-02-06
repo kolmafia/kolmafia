@@ -1,6 +1,7 @@
 doctorrotelle = DoctorRotelle <doctorrotelle@users.sourceforge.net>
 DoctorRotelle = DoctorRotelle <DoctorRotelle@users.sourceforge.net>
 grotfang = grotfang <grotfang@users.sourceforge.net>
+kirchoffjosephp = Rinn <kirchoffjosephp@users.sourceforge.net>
 jaadams5 = fronobulax <jaadams5@users.sourceforge.net>
 jasonharper = jasonharper <jasonharper@users.sourceforge.net>
 rgh42 = bigfreak <rgh42@users.sourceforge.net>
