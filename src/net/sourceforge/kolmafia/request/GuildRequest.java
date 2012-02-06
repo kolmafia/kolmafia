@@ -247,6 +247,11 @@ public class GuildRequest
 			return GuildRequest.getTrainerName();
 		}
 
+		if ( place.equals( "challenge" ) )
+		{
+			return GuildRequest.getMasterName();
+		}
+
 		return null;
 	}
 

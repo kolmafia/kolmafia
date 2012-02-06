@@ -69,7 +69,7 @@ public class CompleteQuestCommand
 
 		if ( command.equals( "guild" ) )
 		{
-			GuildUnlockManager.unlockGuildStore();
+			GuildUnlockManager.unlockGuild();
 			return;
 		}
 

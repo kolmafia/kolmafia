@@ -843,7 +843,7 @@ public class KoLAdventure
 
 			if ( !visitedCouncil && !this.isValidAdventure )
 			{
-				GuildUnlockManager.unlockGuildStore( true );
+				GuildUnlockManager.unlockGuild();
 				this.validate( true );
 			}
 
