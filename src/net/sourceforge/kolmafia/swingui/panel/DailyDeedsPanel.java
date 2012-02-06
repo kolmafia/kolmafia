@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -2490,6 +2491,13 @@ public class DailyDeedsPanel
 			
 			//build hat options here
 			List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliar();
+
+			if ( current.getItem() != null && EquipmentDatabase.isHat( current.getItem() ) )
+			{
+				hats.add( current.getItem() );
+			}
+
 			Object[][] hat_data = RabbitHoleManager.HAT_DATA;
 			
 			//iterate across hatter buffs (i.e. hat character-lengths) first
