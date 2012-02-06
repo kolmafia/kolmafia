@@ -1500,10 +1500,14 @@ public class UseSkillRequest
 			Preferences.increment( "_candySummons", 1 );
 			break;
 
+		case SkillDatabase.BRICKOS:
+			if ( responseText.indexOf( "BRICKO eye brick" ) != -1 )
+			{
+				Preferences.increment( "_brickoEyeSummons", 1 );
+			}
 		case SkillDatabase.CANDY_HEART:
 		case SkillDatabase.PARTY_FAVOR:
 		case SkillDatabase.LOVE_SONG:
-		case SkillDatabase.BRICKOS:
 		case SkillDatabase.DICE:
 		case SkillDatabase.RESOLUTIONS:
 			int cast = Preferences.getInteger( "libramSummons" );

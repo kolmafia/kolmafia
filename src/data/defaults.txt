@@ -691,6 +691,7 @@ user	_bootStomps	0
 user	_borrowedTimeUsed	false
 user	_boxingGloveArrows	0
 user	_brickoFights	0
+user	_brickoEyeSummons	0
 user	_cameraUsed	false
 user	_candySummons	0
 user	_carboLoaded	false
