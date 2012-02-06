@@ -350,11 +350,13 @@ public class AreaCombatData
 
 		buffer.append( "</style>" );
 
+		buffer.append( "</head><body>" );
+
 		this.getSummary( buffer, fullString );
 		buffer.append( "<br><br>" );
 		this.getMonsterData( buffer, fullString );
 
-		buffer.append( "</html>" );
+		buffer.append( "</body></html>" );
 		return buffer.toString();
 	}
 
