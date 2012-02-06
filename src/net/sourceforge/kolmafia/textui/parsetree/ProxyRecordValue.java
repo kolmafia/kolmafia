@@ -410,6 +410,8 @@ public class ProxyRecordValue
 			.add( "buff", DataTypes.BOOLEAN_TYPE )
 			.add( "combat", DataTypes.BOOLEAN_TYPE )
 			.add( "permable", DataTypes.BOOLEAN_TYPE )
+			.add( "dailylimit", DataTypes.INT_TYPE )
+			.add( "timescast", DataTypes.INT_TYPE )
 			.finish( "skill proxy" );
 
 		public SkillProxy( Value obj )
@@ -457,7 +459,15 @@ public class ProxyRecordValue
 		{
 			return SkillDatabase.isPermable( this.contentInt );
 		}
-	}		
+		public int get_dailylimit()
+		{
+			return SkillDatabase.getMaxCasts( this.contentInt );
+		}
+		public int get_timescast()
+		{
+			return SkillDatabase.getCasts( this.contentInt );
+		}
+	}
 
 	public static class EffectProxy
 		extends ProxyRecordValue

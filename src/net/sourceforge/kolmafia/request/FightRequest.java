@@ -4991,6 +4991,7 @@ public class FightRequest
 		{
 			ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
 		}
+		SkillDatabase.registerCasts( skillId, 1 );
 
 		// As you're preparing to use that skill, The Bonerdagon
 		// suddenly starts furiously beating its wings. You're knocked

@@ -1663,6 +1663,8 @@ public class UseSkillRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "cast " + count + " " + skillName );
+		
+		SkillDatabase.registerCasts( skillId, count );
 
 		return true;
 	}
