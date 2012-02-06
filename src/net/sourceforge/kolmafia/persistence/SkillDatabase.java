@@ -73,6 +73,7 @@ public class SkillDatabase
 	private static final Map skillTypeById = new TreeMap();
 	private static final Map durationById = new HashMap();
 	private static final Map levelById = new HashMap();
+	private static final Map castsById = new HashMap();
 
 	private static final Map skillsByCategory = new HashMap();
 	private static final Map skillCategoryById = new HashMap();
@@ -247,6 +248,8 @@ public class SkillDatabase
 
 		SkillDatabase.skillCategoryById.put( skillId, category );
 		( (ArrayList) SkillDatabase.skillsByCategory.get( category ) ).add( displayName );
+		
+		SkillDatabase.castsById.put( skillId, new Integer(0) );
 	}
 
 	public static final List getSkillsByCategory( String category )
@@ -1201,5 +1204,41 @@ public class SkillDatabase
 	public static final String getCombatSkillName( final String substring )
 	{
 		return getSkillName( substring, getSkillsByType( COMBAT ) );
+	}
+
+	/**
+	 * Utility method used to retrieve the maximum daily casts of a skill. Returns -1 if no limit.
+	 */
+
+	public static int getMaxCasts( int skillId )
+	{
+		int max = UseSkillRequest.getInstance( skillId ).getMaximumCast();
+		return ( max == Integer.MAX_VALUE ? -1 : max );
+	}
+
+	/**
+	 * Method that is called when we need to update the number of casts for a given skill.
+	 */
+
+	public static void registerCasts( int skillId, int count )
+	{
+		Object oldCasts = (Object) SkillDatabase.castsById.get( new Integer( skillId ) );
+		int newCasts = ( (Integer) oldCasts ).intValue() + count;
+		SkillDatabase.castsById.put( new Integer( skillId ), new Integer( newCasts ) );
+	}
+
+	/**
+	 * Utility method used to get the number of times a skill has been cast in the current session.
+	 */
+
+	public static int getCasts( int skillId )
+	{
+		Object casts = (Object) SkillDatabase.castsById.get( new Integer( skillId ) );
+
+		if ( casts == null )
+		{
+			return 0;
+		}
+		return ( (Integer) casts ).intValue();
 	}
 }
