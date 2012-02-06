@@ -37,46 +37,64 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.moods.MoodManager;
+import net.sourceforge.kolmafia.moods.MoodTrigger;
 
 public class EditMoodCommand
 	extends AbstractCommand
 {
 	public EditMoodCommand()
 	{
-		this.usage = " clear | autofill | [<type>,] <effect> [, <action>] - edit current mood";
+		this.usage = " list | clear | autofill | [<type>,] <effect> [, <action>] - edit current mood";
 		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
 	}
 
 	public void run( final String cmd, final String parameters )
 	{
+		if ( parameters.length() == 0 || parameters.equals( "list" ) )
+		{
+			RequestLogger.printList( MoodManager.getTriggers() );
+			return;
+		}
+
 		if ( parameters.equals( "clear" ) )
 		{
 			MoodManager.removeTriggers( MoodManager.getTriggers().toArray() );
 			MoodManager.saveSettings();
+			RequestLogger.printLine( "Cleared mood." );
+			return;
 		}
-		else if ( parameters.equals( "autofill" ) )
+
+		if ( parameters.equals( "autofill" ) )
 		{
 			MoodManager.maximalSet();
 			MoodManager.saveSettings();
+			RequestLogger.printList( MoodManager.getTriggers() );
+			return;
 		}
 
 		String[] split = parameters.split( "\\s*,\\s*" );
-		if ( split.length == 3 )
+
+		int index = 0;
+
+		String type = "lose_effect";
+
+		if ( ( split[ index ].equals( "lose_effect" ) || split[ index ].equals( "gain_effect" ) || split[ index ].equals( "unconditional" ) ) )
 		{
-			MoodManager.addTrigger( split[ 0 ], split[ 1 ], split[ 2 ] );
-			MoodManager.saveSettings();
-		}
-		else if ( split.length == 2 )
-		{
-			MoodManager.addTrigger( split[ 0 ], split[ 1 ], MoodManager.getDefaultAction( split[ 0 ], split[ 1 ] ) );
-			MoodManager.saveSettings();
-		}
-		else if ( split.length == 1 )
-		{
-			MoodManager.addTrigger( "lose_effect", split[ 0 ], MoodManager.getDefaultAction( "lose_effect", split[ 0 ] ) );
-			MoodManager.saveSettings();
+			type = split[ index++ ];
 		}
 
-		RequestLogger.printList( MoodManager.getTriggers() );
+		if ( index >= split.length )
+		{
+			RequestLogger.printLine( "Invalid command: " + cmd + " " + parameters );
+			return;
+		}
+
+		String name = split[ index++ ];
+		String action = ( index < split.length && split[ index ].length() > 0 ) ? split[ index++ ] : MoodManager.getDefaultAction( type, name );
+
+		MoodTrigger trigger = MoodManager.addTrigger( type, name, action );
+		MoodManager.saveSettings();
+
+		RequestLogger.printLine( "Set mood trigger: " + trigger.toString() );
 	}
 }

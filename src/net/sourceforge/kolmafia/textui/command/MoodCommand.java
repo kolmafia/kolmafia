@@ -47,17 +47,23 @@ public class MoodCommand
 	extends AbstractCommand
 {
 	{
-		this.usage = " clear | autofill | execute | repeat [<numTimes>] | <moodName> [<numTimes>] - mood management.";
+		this.usage = " list | clear | autofill | execute | repeat [<numTimes>] | <moodName> [<numTimes>] - mood management.";
 	}
 
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.toLowerCase();
 
-		if ( parameters.equals( "clear" ) )
+		if ( parameters.length() == 0 || parameters.equals( "list" ) )
+		{
+			RequestLogger.printList( MoodManager.getTriggers() );
+			return;
+		}
+		else if ( parameters.equals( "clear" ) )
 		{
 			MoodManager.removeTriggers( MoodManager.getTriggers().toArray() );
 			MoodManager.saveSettings();
+			RequestLogger.printLine( "Cleared mood." );
 		}
 		else if ( parameters.equals( "autofill" ) )
 		{
