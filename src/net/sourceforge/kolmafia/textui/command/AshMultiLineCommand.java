@@ -53,7 +53,7 @@ public class AshMultiLineCommand
 	{
 		ByteArrayStream ostream = new ByteArrayStream();
 
-		String currentLine = this.CLI.getNextLine();
+		String currentLine = this.CLI.getNextLine( null );
 
 		while ( currentLine != null && !currentLine.equals( "</inline-ash-script>" ) )
 		{
@@ -70,7 +70,7 @@ public class AshMultiLineCommand
 				StaticEntity.printStackTrace( e );
 			}
 
-			currentLine = this.CLI.getNextLine();
+			currentLine = this.CLI.getNextLine( null );
 		}
 
 		if ( currentLine == null )
