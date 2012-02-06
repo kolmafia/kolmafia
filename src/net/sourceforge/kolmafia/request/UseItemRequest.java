@@ -1099,6 +1099,9 @@ public class UseItemRequest
 
 		if ( this.getAdventuresUsed() > 0 )
 		{
+			// If we are about to use an item which can use adventures, set location to "None"
+			// for the benefit of betweenBattleScripts
+			Preferences.setString( "lastAdventure", "None" );
 			RecoveryManager.runBetweenBattleChecks( true );
 		}
 
@@ -4503,6 +4506,12 @@ public class UseItemRequest
 	public int getAdventuresUsed()
 	{
 		return UseItemRequest.getAdventuresUsedByItem( this.itemUsed );
+	}
+
+	public static int getAdventuresUsed( final String urlString )
+	{
+		AdventureResult item = UseItemRequest.extractItem( urlString );
+		return item == null ? 0 :  UseItemRequest.getAdventuresUsedByItem( item );
 	}
 
 	public static int getAdventuresUsedByItem( AdventureResult item )

@@ -1536,9 +1536,16 @@ public class RelayRequest
 			adventure.getAdventureName() :
 			AdventureDatabase.getUnknownName( urlString );
 
-		if ( adventureName != null && RecoveryManager.isRecoveryPossible() )
+		String nextAdventure = 
+			adventureName != null ?
+			adventureName :
+			UseItemRequest.getAdventuresUsed( urlString ) > 0 ?
+			"None" :
+			null;
+
+		if ( nextAdventure != null && RecoveryManager.isRecoveryPossible() )
 		{
-			Preferences.setString( "lastAdventure", adventureName );
+			Preferences.setString( "lastAdventure", nextAdventure );
 			RecoveryManager.runBetweenBattleChecks(
 				Preferences.getBoolean( "relayRunsBeforeBattleScript" ),
 				Preferences.getBoolean( "relayMaintainsEffects" ),
@@ -1546,7 +1553,7 @@ public class RelayRequest
 				Preferences.getBoolean( "relayMaintainsMana" ) );
 		}
 
-		if ( adventureName != null || EquipmentRequest.isEquipmentChange( path ) )
+		if ( nextAdventure != null || EquipmentRequest.isEquipmentChange( path ) )
 		{
 			// Wait until any restoration scripts finish running
 			// before allowing an adventuring request to continue.
