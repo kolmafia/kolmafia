@@ -259,7 +259,7 @@ public abstract class MoodManager
 	 * Adds a trigger to the temporary mood settings.
 	 */
 
-	public static final void addTrigger( final String type, final String name, final String action )
+	public static final MoodTrigger addTrigger( final String type, final String name, final String action )
 	{
 		MoodTrigger trigger = MoodTrigger.constructNode( type + " " + name + " => " + action );
 
@@ -268,6 +268,8 @@ public abstract class MoodManager
 			MoodManager.displayList.remove( trigger );
 			MoodManager.displayList.add( trigger );
 		}
+
+		return trigger;
 	}
 
 	/**
