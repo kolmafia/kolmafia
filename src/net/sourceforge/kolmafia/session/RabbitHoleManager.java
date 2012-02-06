@@ -42,6 +42,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -52,6 +53,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -1526,6 +1528,13 @@ public abstract class RabbitHoleManager
 	{
 		// Make a map of all hats indexed by length
 		List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+		FamiliarData current = (FamiliarData) KoLCharacter.getFamiliar();
+
+		if ( current.getItem() != null && EquipmentDatabase.isHat( current.getItem() ) )
+		{
+			hats.add( current.getItem() );
+		}
+
 		TreeMap lengths = new TreeMap();
 		Iterator it = hats.iterator();
 		while ( it.hasNext() )
