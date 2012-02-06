@@ -945,11 +945,9 @@ public class KoLAdventure
 		}
 
 		KoLAdventure.lastVisitedLocation = this;
-		if ( !Preferences.getString( "lastAdventure" ).equals( this.adventureName ) )
-		{
-			Preferences.setString( "lastAdventure", this.adventureName );
-			AdventureFrame.updateSelectedAdventure( this );
-		}
+
+		Preferences.setString( "lastAdventure", this.adventureName );
+		AdventureFrame.updateSelectedAdventure( this );
 
 		if ( RecoveryManager.isRecoveryPossible() )
 		{
@@ -1817,7 +1815,7 @@ public class KoLAdventure
 		// Update selected adventure information in order to
 		// keep the GUI synchronized.
 
-		if ( lastVisitedLocation != null && !Preferences.getString( "lastAdventure" ).equals( location ) )
+		if ( lastVisitedLocation != null )
 		{
 			Preferences.setString( "lastAdventure", location );
 			AdventureFrame.updateSelectedAdventure( lastVisitedLocation );
