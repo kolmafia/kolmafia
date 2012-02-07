@@ -265,11 +265,6 @@ public class RecoveryManager
 		int maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
 		int needed = (int) Math.min( maximum, Math.max( desired, setting * maximum + 1.0f ) );
 
-		if ( current >= needed )
-		{
-			return true;
-		}
-
 		// Next, check against the restore target to see how
 		// far you need to go.
 
@@ -279,6 +274,23 @@ public class RecoveryManager
 		if ( BuffBotHome.isBuffBotActive() || desired > maximum )
 		{
 			desired = maximum;
+		}
+
+		// Special handling of the Hidden Temple. Here, as
+		// long as your health is above zero, you're okay.
+
+		boolean isNonCombatHealthRestore =
+			settingName.startsWith( "hp" ) && KoLmafia.isAdventuring() && KoLmafia.currentAdventure.isNonCombatsOnly();
+
+		if ( isNonCombatHealthRestore )
+		{
+			needed = 1;
+			desired = 1;
+		}
+
+		if ( current >= needed )
+		{
+			return true;
 		}
 
 		// If it gets this far, then you should attempt to recover
@@ -329,38 +341,12 @@ public class RecoveryManager
 			}
 		}
 
-		int last = -1;
-
-		// Special handling of the Hidden Temple. Here, as
-		// long as your health is above zero, you're okay.
-
-		boolean isNonCombatHealthRestore =
-			settingName.startsWith( "hp" ) && KoLmafia.isAdventuring() && KoLmafia.currentAdventure.isNonCombatsOnly();
-
-		if ( isNonCombatHealthRestore )
-		{
-			if ( KoLCharacter.getCurrentHP() > 0 )
-			{
-				return true;
-			}
-
-			needed = 1;
-			desired = 1;
-		}
-
-		// Consider clearing beaten up if your restoration settings
-		// include the appropriate items.
-
-		if ( current >= needed )
-		{
-			return true;
-		}
-
 		HPRestoreItemList.setPurchaseBasedSort( false );
 		MPRestoreItemList.setPurchaseBasedSort( false );
 
-		// Next, use any available skills. This only applies to health
-		// restoration, since no MP-using skill restores MP.
+		// First, use any available skills. 
+
+		int last = -1;
 
 		if ( !possibleSkills.isEmpty() )
 		{
@@ -411,9 +397,10 @@ public class RecoveryManager
 				currentTechniqueName = possibleItems.get( i ).toString().toLowerCase();
 
 				RecoveryManager.recoverOnce( possibleItems.get( i ), currentTechniqueName, (int) desired, false );
-				current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 
+				current = ( (Number) currentMethod.invoke( null, empty ) ).intValue();
 				maximum = ( (Number) maximumMethod.invoke( null, empty ) ).intValue();
+
 				desired = Math.min( maximum, desired );
 				needed = Math.min( maximum, needed );
 			}
@@ -425,8 +412,8 @@ public class RecoveryManager
 			return false;
 		}
 
-		// For areas that are all noncombats, then you can go ahead
-		// and heal using only unguent.
+		// If we get here, we still need healing. For areas that are
+		// all noncombats, then you can heal using only unguent.
 
 		if ( isNonCombatHealthRestore && KoLCharacter.getAvailableMeat() >= 30 )
 		{
