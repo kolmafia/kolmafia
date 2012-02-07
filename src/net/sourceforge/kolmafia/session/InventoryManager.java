@@ -576,8 +576,8 @@ public abstract class InventoryManager
 				creator.setQuantityNeeded(
 					Math.min( missingCount, creator.getQuantityPossible() ) );
 
-				if ( isAutomated && creator != null
-					&& concoction.getAdventuresNeeded( missingCount, true ) > 0 )
+				if ( isAutomated && concoction != null &&
+				     concoction.getAdventuresNeeded( missingCount, true ) > 0 )
 				{
 					asked = true;
 					if ( !allowTurnConsumption( creator ) )
