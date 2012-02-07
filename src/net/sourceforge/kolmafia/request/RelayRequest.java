@@ -1537,12 +1537,20 @@ public class RelayRequest
 
 		if ( nextAdventure != null && RecoveryManager.isRecoveryPossible() )
 		{
+			KoLmafia.forceContinue();
+
 			Preferences.setString( "lastAdventure", nextAdventure );
 			RecoveryManager.runBetweenBattleChecks(
 				Preferences.getBoolean( "relayRunsBeforeBattleScript" ),
 				Preferences.getBoolean( "relayMaintainsEffects" ),
 				Preferences.getBoolean( "relayMaintainsHealth" ),
 				Preferences.getBoolean( "relayMaintainsMana" ) );
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				this.sendGeneralWarning( null, "Between battle actions failed." );
+				return;
+			}
 		}
 
 		if ( nextAdventure != null || EquipmentRequest.isEquipmentChange( path ) )
