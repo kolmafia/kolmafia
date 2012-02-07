@@ -297,6 +297,7 @@ public class GuildRequest
 			if ( InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
 			{
 				ResultProcessor.processItem( ItemPool.CITADEL_SATCHEL, -1 );
+				QuestLogRequest.setWhiteCitadelAvailable();
 			}
 
 			if ( InventoryManager.hasItem( ItemPool.THICK_PADDED_ENVELOPE ) )
