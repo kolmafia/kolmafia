@@ -94,14 +94,7 @@ public class InputFieldUtilities
 
 			String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine( " > " );
 
-			if ( reply.equalsIgnoreCase( "y" ) )
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return reply.equalsIgnoreCase( "y" );
 		}
 
 		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(
@@ -177,10 +170,8 @@ public class InputFieldUtilities
 			{
 				return inputs.get( selectedIndex );
 			}
-			else
-			{
-				return null;
-			}
+
+			return null;
 		}
 
 		JList selector = new JList( inputs );
@@ -211,7 +202,7 @@ public class InputFieldUtilities
 			return null;
 		}
 
-		return InputFieldUtilities.input( message, inputs, inputs[ 0 ] );
+		return InputFieldUtilities.input( message, inputs, null );
 	}
 
 	public static final Object input( final String message, final Object[] inputs, final Object initial )
@@ -219,6 +210,20 @@ public class InputFieldUtilities
 		if ( inputs == null || inputs.length == 0 )
 		{
 			return null;
+		}
+
+		// Keep simple input dialog (no AutoFilterTextField) if there
+		// are only a few input choices: booleans, stats, classes, ...
+		if ( inputs.length <= 7 )
+		{
+			return JOptionPane.showInputDialog(
+				InputFieldUtilities.activeWindow,
+				StringUtilities.basicTextWrap(message),
+				"",	 
+				JOptionPane.INFORMATION_MESSAGE,
+				null,
+				inputs,
+				initial);
 		}
 
 		return InputFieldUtilities.input( message, new LockableListModel( Arrays.asList( inputs ) ), initial );
