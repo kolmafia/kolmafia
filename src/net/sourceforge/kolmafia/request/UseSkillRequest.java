@@ -1178,6 +1178,7 @@ public class UseSkillRequest
 
 		if ( skillId == -1 )
 		{
+			UseSkillRequest.lastUpdate = "Skill ID not saved.";
 			return false;
 		}
 
@@ -1195,6 +1196,7 @@ public class UseSkillRequest
 				return false;
 			}
 
+			UseSkillRequest.lastUpdate = "KoL sent back a blank response, but consumed MP.";
 			return true;
 		}
 
@@ -1226,19 +1228,6 @@ public class UseSkillRequest
 		if ( skillId == SkillDatabase.CLIP_ART && responseText.indexOf( "You acquire" ) == -1 )
 		{
 			return false;
-		}
-
-		boolean exceeded = false;
-		if ( responseText.indexOf( "You can only conjure" ) != -1 ||
-		     responseText.indexOf( "You can only scrounge up" ) != -1 ||
-		     responseText.indexOf( "You can only summon" ) != -1 )
-		{
-			UseSkillRequest.lastUpdate = "Summon limit exceeded.";
-			exceeded = true;
-			// Must continue with parsing in this case, so that the
-			// cast counter can be incremented, in the hopes of
-			// eventually getting back in sync with the actual
-			// number of casts.
 		}
 
 		if ( responseText.indexOf( "too many songs" ) != -1 )
@@ -1297,6 +1286,14 @@ public class UseSkillRequest
 			return true;
 		}
 
+		// You think your stomach has had enough for one day.
+		if ( responseText.indexOf( "enough for one day" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "You can only do that once a day.";
+			Preferences.setBoolean( "_carboLoaded", true );
+			return false;
+		}
+
 		// You can't cast that many turns of that skill today. (You've used 5 casts today,
 		// and the limit of casts per day you have is 5.)
 		if ( responseText.indexOf( "You can't cast that many turns of that skill today" ) != -1 )
@@ -1334,14 +1331,6 @@ public class UseSkillRequest
 			default:
 				break;
 			}
-			return false;
-		}
-
-		// You think your stomach has had enough for one day.
-		if ( responseText.indexOf( "enough for one day" ) != -1 )
-		{
-			UseSkillRequest.lastUpdate = "You can only do that once a day.";
-			Preferences.setBoolean( "_carboLoaded", true );
 			return false;
 		}
 
@@ -1387,7 +1376,6 @@ public class UseSkillRequest
 				Preferences.setInteger( "_inigosCasts", casts );
 				break;
 			}
-
 		}
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
@@ -1407,8 +1395,13 @@ public class UseSkillRequest
 		}
 
 		int mpCost = SkillDatabase.getMPConsumptionById( skillId ) * count;
-		if ( exceeded )
+
+		if ( responseText.indexOf( "You can only conjure" ) != -1 ||
+		     responseText.indexOf( "You can only scrounge up" ) != -1 ||
+		     responseText.indexOf( "You can only summon" ) != -1 )
 		{
+			UseSkillRequest.lastUpdate = "Summon limit exceeded.";
+
 			// We're out of sync with the actual number of times
 			// this skill has been cast.  Adjust the counter by 1
 			// at a time.
