@@ -4047,6 +4047,8 @@ public class UseItemRequest
 	public static final AdventureResult extractItem( final String urlString )
 	{
 		if ( !urlString.startsWith( "inv_use.php" ) &&
+		     !urlString.startsWith( "inv_eat.php" ) &&
+		     !urlString.startsWith( "inv_drink.php" ) &&
 		     !urlString.startsWith( "multiuse.php" ) &&
 		     !urlString.startsWith( "inv_familiar.php" ) &&
 		     !(urlString.startsWith( "inventory.php" ) &&
