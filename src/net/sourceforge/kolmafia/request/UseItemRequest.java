@@ -476,6 +476,15 @@ public class UseItemRequest
 			UseItemRequest.limiter = "usability";
 			return 1;
 
+		case ItemPool.FIELD_GAR_POTION:
+			// Disallow using potion if already Gar-ish
+			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GARISH_ID ) ) )
+			{
+				UseItemRequest.limiter = "existing effect";
+				return 0;
+			}
+			return 1;
+
 		case ItemPool.TOASTER:
 			UseItemRequest.limiter = "usability";
 			return 3 - Preferences.getInteger( "_toastSummons" );
