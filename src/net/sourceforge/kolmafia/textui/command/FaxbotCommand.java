@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
+
 import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 
 public class FaxbotCommand

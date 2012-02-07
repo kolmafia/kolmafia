@@ -34,12 +34,13 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -48,11 +49,15 @@ import javax.swing.JScrollPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
+
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public class CommandDisplayPanel

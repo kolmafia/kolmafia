@@ -37,6 +37,7 @@ import com.sun.java.forums.CloseableTabbedPane;
 
 import java.awt.Dimension;
 import java.awt.Frame;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -55,16 +56,21 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.FlowerHunterFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SendMessageFrame;
+
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
+
 import net.sourceforge.kolmafia.swingui.listener.TabFocusingListener;
+
 import net.sourceforge.kolmafia.utilities.PauseObject;
+
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 import tab.CloseListener;

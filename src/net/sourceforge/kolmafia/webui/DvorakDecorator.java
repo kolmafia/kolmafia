@@ -45,8 +45,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import net.sourceforge.kolmafia.webui.RelayServer;
-
 public abstract class DvorakDecorator
 {
 	public static final void decorate( final StringBuffer buffer )

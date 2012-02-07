@@ -40,8 +40,6 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 
-import net.sourceforge.kolmafia.session.ResponseTextParser;
-
 
 public class SentMessageEntry
 	extends HistoryEntry

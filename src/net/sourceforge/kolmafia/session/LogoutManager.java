@@ -44,10 +44,14 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
+
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.LoginFrame;
 

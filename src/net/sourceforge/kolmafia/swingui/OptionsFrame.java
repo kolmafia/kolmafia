@@ -40,6 +40,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -63,6 +64,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
+
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
@@ -75,23 +77,31 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
+
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+
 import net.sourceforge.kolmafia.swingui.panel.AddCustomDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
+
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
 import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+
 import net.sourceforge.kolmafia.webui.RelayServer;
 
 import tab.CloseTabPaneEnhancedUI;

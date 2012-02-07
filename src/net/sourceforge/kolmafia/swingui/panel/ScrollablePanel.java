@@ -48,6 +48,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class ScrollablePanel

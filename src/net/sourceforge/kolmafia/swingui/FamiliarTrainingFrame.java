@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.TreeSet;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,12 +76,17 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
+
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -88,12 +95,18 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
+
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
 import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
+
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class FamiliarTrainingFrame

@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.session.LogoutManager;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class SystemTrayFrame

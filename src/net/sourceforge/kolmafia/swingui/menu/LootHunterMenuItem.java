@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import java.lang.StringBuffer;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -49,7 +47,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -59,6 +56,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;

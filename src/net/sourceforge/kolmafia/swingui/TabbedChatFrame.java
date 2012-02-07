@@ -42,9 +42,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.listener.TabFocusingListener;
+
 import net.sourceforge.kolmafia.swingui.panel.CommandDisplayPanel;
 
 import tab.CloseListener;

@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;

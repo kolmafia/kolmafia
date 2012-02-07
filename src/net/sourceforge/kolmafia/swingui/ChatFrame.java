@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -60,16 +61,24 @@ import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
+
 import net.sourceforge.kolmafia.session.ContactManager;
+
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class ChatFrame

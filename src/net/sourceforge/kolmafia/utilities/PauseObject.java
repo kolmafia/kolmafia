@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.utilities;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class PauseObject implements Runnable

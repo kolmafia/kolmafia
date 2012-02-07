@@ -58,6 +58,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
+
 import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 
 public interface KoLConstants

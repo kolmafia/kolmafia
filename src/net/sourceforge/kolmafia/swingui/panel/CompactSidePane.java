@@ -37,8 +37,10 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import java.util.Iterator;
 
 import javax.swing.Box;
@@ -51,20 +53,30 @@ import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
+
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+
 import net.sourceforge.kolmafia.swingui.button.RequestButton;
+
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
+
 import net.sourceforge.kolmafia.swingui.widget.UnanimatedLabel;
+
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class CompactSidePane

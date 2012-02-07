@@ -35,13 +35,16 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class QuestLogRequest

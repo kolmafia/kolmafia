@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -39,7 +39,9 @@ import javax.swing.JFileChooser;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 /**

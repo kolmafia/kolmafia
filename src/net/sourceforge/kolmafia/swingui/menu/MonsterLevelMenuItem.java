@@ -35,8 +35,11 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.request.MindControlRequest;
+
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

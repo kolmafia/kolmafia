@@ -38,9 +38,12 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -52,12 +55,18 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.MushroomManager;
+
 import net.sourceforge.kolmafia.swingui.MushroomFrame;
+
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MushroomScriptPanel

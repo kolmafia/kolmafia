@@ -37,8 +37,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
+
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class LootTrapperMenuItem

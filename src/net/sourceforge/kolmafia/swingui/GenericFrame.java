@@ -38,6 +38,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -78,17 +79,25 @@ import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.LogoutManager;
+
 import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
+
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
+
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
 import net.sourceforge.kolmafia.swingui.menu.ScriptMenu;
+
 import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
+
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
