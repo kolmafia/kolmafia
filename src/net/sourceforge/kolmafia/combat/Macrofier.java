@@ -57,7 +57,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 

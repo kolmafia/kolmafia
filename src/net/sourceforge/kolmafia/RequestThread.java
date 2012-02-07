@@ -43,13 +43,15 @@ import java.util.Set;
 
 import javax.swing.SwingUtilities;
 
-import net.sourceforge.kolmafia.KoLmafia;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.GenericRequest;
+
 import net.sourceforge.kolmafia.session.ResponseTextParser;
+
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 import net.sourceforge.kolmafia.utilities.PauseObject;

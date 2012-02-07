@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
 public class LogoutRequest

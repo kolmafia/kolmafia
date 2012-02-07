@@ -45,9 +45,6 @@ import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.QuestLogRequest;
-
-import net.sourceforge.kolmafia.session.ResponseTextParser;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

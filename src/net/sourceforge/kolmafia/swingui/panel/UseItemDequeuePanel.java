@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.LayoutManager;
 
 import java.awt.event.ActionListener;
 

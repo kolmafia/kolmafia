@@ -44,13 +44,17 @@ import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLAdventure;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 import net.sourceforge.kolmafia.swingui.panel.ChoiceOptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.CustomCombatPanel;
 import net.sourceforge.kolmafia.swingui.panel.MoodOptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.RestoreOptionsPanel;
+
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class AdventureFrame

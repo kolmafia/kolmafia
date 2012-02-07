@@ -34,9 +34,13 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import java.io.File;
+
 import java.util.LinkedList;
+
 import javax.swing.JComboBox;
+
 import net.sourceforge.kolmafia.KoLCharacter;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 /**
  * Maintains a most recently used list of scripts

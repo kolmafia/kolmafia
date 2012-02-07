@@ -40,7 +40,6 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 public class TrendyRequest
 	extends GenericRequest

@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
 import net.sourceforge.kolmafia.request.ChatRequest;
-import net.sourceforge.kolmafia.request.QuestLogRequest;
 
 import net.sourceforge.kolmafia.session.ContactManager;
 

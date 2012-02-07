@@ -56,7 +56,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.ResponseTextParser;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

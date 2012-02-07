@@ -34,16 +34,15 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HatterCommand

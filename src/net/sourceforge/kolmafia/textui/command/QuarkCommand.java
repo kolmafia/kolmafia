@@ -57,7 +57,6 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.ResponseTextParser;
 
 public class QuarkCommand
 	extends AbstractCommand

@@ -39,6 +39,7 @@ import java.awt.KeyboardFocusManager;
 
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class WorldPeaceListener

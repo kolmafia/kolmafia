@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 public class DebugLogMenuItem

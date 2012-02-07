@@ -33,11 +33,11 @@
 
 package net.sourceforge.kolmafia.swingui.listener;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class TabFocusingListener
 	implements ChangeListener

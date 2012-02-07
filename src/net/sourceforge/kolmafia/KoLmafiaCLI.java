@@ -46,6 +46,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.chat.ChatSender;
 
 import net.sourceforge.kolmafia.persistence.Aliases;
+
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.request.LoginRequest;

@@ -33,8 +33,9 @@
 
 package net.sourceforge.kolmafia.swingui.widget;
 
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import net.sourceforge.kolmafia.utilities.IntWrapper;
 
 /**

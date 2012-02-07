@@ -42,8 +42,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.swingui.listener.RelayBrowserListener;
 
 /**
