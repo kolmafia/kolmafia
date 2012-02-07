@@ -1708,7 +1708,7 @@ public class GenericRequest
 			}
 
 			GenericRequest.handlingChoices = true;
-			boolean containsUpdate = ChoiceManager.processChoiceAdventure();
+			ChoiceManager.processChoiceAdventure();
 			GenericRequest.handlingChoices = false;
 			return !LoginRequest.isInstanceRunning();
 		}
