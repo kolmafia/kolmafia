@@ -123,8 +123,7 @@ public class RecoveryManager
 		}
 
 		// First, run the between battle script defined by the
-		// user, which may make it so that none of the built
-		// in behavior needs to run.
+		// user, which may obviate the built in behavior.
 
 		RecoveryManager.recoveryActive = true;
 
@@ -164,7 +163,7 @@ public class RecoveryManager
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 
-		if ( KoLCharacter.getCurrentHP() == 0 )
+		if ( KoLmafia.permitsContinue() && KoLCharacter.getCurrentHP() == 0 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 		}
@@ -193,6 +192,11 @@ public class RecoveryManager
 
 	public static boolean recoverHP( final int recover )
 	{
+		if ( KoLmafia.refusesContinue() )
+		{
+			return false;
+		}
+
 		try
 		{
 			if ( Preferences.getBoolean( "removeMalignantEffects" ) )
@@ -234,6 +238,11 @@ public class RecoveryManager
 
 	public static boolean recoverMP( final int mpNeeded )
 	{
+		if ( KoLmafia.refusesContinue() )
+		{
+			return false;
+		}
+
 		try
 		{
 			MPRestoreItemList.updateManaRestored();

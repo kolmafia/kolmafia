@@ -59,6 +59,11 @@ public class ManaBurnManager
 {
 	public static final void burnExtraMana( final boolean isManualInvocation )
 	{
+		if ( KoLmafia.refusesContinue() )
+		{
+			return;
+		}
+
 		String nextBurnCast;
 		
 		float manaBurnTrigger = Preferences.getFloat( "manaBurningTrigger" );
