@@ -4167,6 +4167,39 @@ public abstract class ChoiceManager
 
 	private static final String specialChoiceDecision( final int choice, final String option, final String decision, final int stepCount, final String responseText )
 	{
+		// A few choices have non-standard options: 0 is not Manual Control
+		switch ( choice )
+		{
+		// Out in the Garden
+		case 89:
+
+			// Handle the maidens adventure in a less random
+			// fashion that's actually useful.
+
+			switch ( StringUtilities.parseInt( decision ) )
+			{
+			case 0:
+				return String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 );
+			case 1:
+			case 2:
+				return decision;
+			case 3:
+				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 ) : "3";
+			case 4:
+				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "1" : "3";
+			case 5:
+				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "2" : "3";
+			}
+			return decision;
+		}
+
+		// If the user wants manual control, let 'em have it.
+		if ( decision.equals( "0" ) )
+		{
+			return decision;
+		}
+
+		// Otherwise, modify the decision based on character state
 		switch ( choice )
 		{
 		// Heart of Very, Very Dark Darkness
@@ -4282,28 +4315,6 @@ public abstract class ChoiceManager
 
 			return decision;
 
-		// Out in the Garden
-		case 89:
-
-			// Handle the maidens adventure in a less random
-			// fashion that's actually useful.
-
-			switch ( StringUtilities.parseInt( decision ) )
-			{
-			case 0:
-				return String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 );
-			case 1:
-			case 2:
-				return decision;
-			case 3:
-				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? String.valueOf( KoLConstants.RNG.nextInt( 2 ) + 1 ) : "3";
-			case 4:
-				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "1" : "3";
-			case 5:
-				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "2" : "3";
-			}
-			return decision;
-
 		case 91:
 
 			// Sometimes, the choice adventure for the louvre
@@ -4403,14 +4414,16 @@ public abstract class ChoiceManager
 				return trink ? "2" : "4";
 			case 8:	// banish or mainstat
 				if ( trink ) return "2";
-				switch ( KoLCharacter.getPrimeIndex() )
+				switch ( KoLCharacter.mainStat() )
 				{
-				case 0:
+				case KoLConstants.MUSCLE:
 					return "3";
-				case 1:
+				case KoLConstants.MYSTICALITY:
 					return "4";
-				case 2:
+				case KoLConstants.MOXIE:
 					return "1";
+				default:
+					return "0";
 				}
 			}
 			return decision;
