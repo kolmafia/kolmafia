@@ -633,7 +633,7 @@ public class AdventureSelectPanel
 			this.setSafetyString();
 		}
 
-		private void setSafetyString()
+		private synchronized void setSafetyString()
 		{
 			KoLAdventure request = KoLCharacter.getSelectedLocation();
 
