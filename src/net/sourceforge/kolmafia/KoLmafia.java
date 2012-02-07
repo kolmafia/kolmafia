@@ -1840,6 +1840,7 @@ public abstract class KoLmafia
 			if ( InventoryManager.hasItem( ItemPool.HANG_GLIDER ) )
 			{
 				ResultProcessor.processItem( ItemPool.HANG_GLIDER, -1 );
+				QuestLogRequest.setWhiteCitadelAvailable();
 			}
 			return;
 		}

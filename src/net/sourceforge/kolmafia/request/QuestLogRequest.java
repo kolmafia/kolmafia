@@ -43,7 +43,9 @@ public class QuestLogRequest
 	extends GenericRequest
 {
 	private static final String GALAKTIK = "What's Up, Doc?";
-	private static final String CITADEL = "White Citadel";
+	private static final String CITADEL1 = "You have discovered the legendary White Citadel";
+	private static final String CITADEL2 = "You've got the Satisfaction Satchel";
+	private static final String CITADEL3 = "you can now shop at White Citadel";
 
 	private static final String FRIAR = "Trial By Friar";
 
@@ -217,7 +219,10 @@ public class QuestLogRequest
 			QuestLogRequest.finished = responseText;
 
 			GalaktikRequest.setDiscount( QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) );
-			QuestLogRequest.whiteCitadelAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL );
+			QuestLogRequest.whiteCitadelAvailable = 
+				QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL3 ) || 
+				QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL2 ) || 
+				QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL1 );
 			QuestLogRequest.friarsAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.FRIAR );
 
 
