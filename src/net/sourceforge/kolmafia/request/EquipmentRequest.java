@@ -860,11 +860,6 @@ public class EquipmentRequest
 			KoLmafia.updateDisplay( "Everything removed." );
 			break;
 		}
-
-		if ( !this.containsUpdate )
-		{
-			new CharPaneRequest().run();
-		}
 	}
 
 	public void processResults()
@@ -906,10 +901,6 @@ public class EquipmentRequest
 				if ( result.indexOf( "You put on part of" ) != -1 )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You only put on part of that outfit." );
-					if ( !this.containsUpdate )
-					{
-						new CharPaneRequest().run();
-					}
 					return;
 				}
 
