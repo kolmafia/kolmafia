@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -693,12 +694,26 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
 
 			case ItemPool.BLACK_MARKET_MAP: {
-				int item1 = KoLCharacter.inBeecore() ?
-					ItemPool.BUSTED_WINGS : ItemPool.BROKEN_WINGS;
-				int item2 = KoLCharacter.inBeecore() ?
-					ItemPool.BIRD_BRAIN : ItemPool.SUNKEN_EYES;
-				if ( !InventoryManager.hasItem( item1 ) ||
-				     !InventoryManager.hasItem( item2 ) )
+				int item1;
+				int item2;
+				int fam;
+
+				if ( KoLCharacter.inBeecore() )
+				{
+					item1 = ItemPool.BUSTED_WINGS;
+					item2 = ItemPool.BIRD_BRAIN;
+					fam = FamiliarPool.CROW;
+				}
+				else
+				{
+					item1 = ItemPool.BROKEN_WINGS;
+					item2 = ItemPool.SUNKEN_EYES;
+					fam = FamiliarPool.BLACKBIRD;
+				}
+
+				if ( KoLCharacter.findFamiliar( fam) == null &&
+				     ( !InventoryManager.hasItem( item1 ) ||
+				       !InventoryManager.hasItem( item2 ) ) )
 				{
 					return null;
 				}
