@@ -143,8 +143,6 @@ public class RequestEditorKit
 	private static final Pattern OUTFIT_FORM_PATTERN = Pattern.compile( "<form name=outfit.*?</form>", Pattern.DOTALL );
 	private static final Pattern OPTGROUP_PATTERN = Pattern.compile( "<optgroup label=['\"]([^']*)['\"]>(.*?)</optgroup>", Pattern.DOTALL );
 
-	private static final Pattern BOOKSHELF_PATTERN =
-		Pattern.compile( "onClick=\"location.href='(.*?)';\"", Pattern.DOTALL );
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
 	private static final Pattern ROUND_SEP_PATTERN = Pattern.compile( "<(?:b>Combat!</b>|hr.*?>)" );
 
@@ -214,231 +212,14 @@ public class RequestEditorKit
 		}
 	}
 
-	/**
-	 * Utility method which converts the given text into a form which can be displayed properly in a
-	 * <code>RequestPane</code>. This method is necessary primarily due to the bad HTML which is used but can still
-	 * be properly rendered by post-3.2 browsers.
-	 */
-
-	public static final String getDisplayHTML( final String location, final String responseText, boolean logIt )
+	public static final String getFeatureRichHTML( final String location, final String text )
 	{
-		logIt &= RequestLogger.isDebugging();
-
-		if ( responseText == null || responseText.length() == 0 )
-		{
-			return "";
-		}
-
-		if ( logIt )
-		{
-			RequestLogger.updateDebugLog( "Rendering hypertext..." );
-		}
-
-		String displayHTML = RequestEditorKit.getFeatureRichHTML( location, responseText, false );
-
-		// Switch all the <BR> tags that are not understood
-		// by the default Java browser to an understood form,
-		// and remove all <HR> tags.
-
-		displayHTML = KoLConstants.SCRIPT_PATTERN.matcher( displayHTML ).replaceAll( "" );
-		displayHTML = KoLConstants.STYLE_PATTERN.matcher( displayHTML ).replaceAll( "" );
-		displayHTML = KoLConstants.COMMENT_PATTERN.matcher( displayHTML ).replaceAll( "" );
-		displayHTML = KoLConstants.LINE_BREAK_PATTERN.matcher( displayHTML ).replaceAll( "" );
-
-		displayHTML = displayHTML.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" );
-		displayHTML = displayHTML.replaceAll( "<[Hh][Rr].*?>", "<br>" );
-
-		// The default Java browser doesn't display blank lines correctly
-
-		displayHTML = displayHTML.replaceAll( "<br><br>", "<br>&nbsp;<br>" );
-
-		// Fix all the tables which decide to put a row end,
-		// but no row beginning.
-
-		displayHTML = displayHTML.replaceAll( "</tr><td", "</tr><tr><td" );
-		displayHTML = displayHTML.replaceAll( "</tr><table", "</tr></table><table" );
-
-		// Fix all the super-small font displays used in the
-		// various KoL panes.
-
-		displayHTML = displayHTML.replaceAll( "font-size: .8em;", "" );
-		displayHTML = displayHTML.replaceAll( "<font size=[12]>", "" );
-		displayHTML = displayHTML.replaceAll( " class=small", "" );
-		displayHTML = displayHTML.replaceAll( " class=tiny", "" );
-
-		// This is to replace all the rows with a black background
-		// because they are not properly rendered.
-
-		displayHTML =
-			displayHTML.replaceAll(
-				"<td valign=center><table[^>]*?><tr><td([^>]*?) bgcolor=black([^>]*?)>.*?</table></td>", "" );
-
-		displayHTML = displayHTML.replaceAll( "<tr[^>]*?><td[^>]*bgcolor=\'?\"?black(.*?)</tr>", "" );
-		displayHTML = displayHTML.replaceAll( "<table[^>]*title=.*?</table>", "" );
-
-		// The default browser doesn't understand the table directive
-		// style="border: 1px solid black"; turn it into a simple "border=1"
-
-		displayHTML = displayHTML.replaceAll( "style=\"border: 1px solid black\"", "border=1" );
-
-		// turn:  <form...><td...>...</td></form>
-		// into:  <td...><form...>...</form></td>
-
-		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)?(<td[^>]*>)", "$4$1$2" );
-		displayHTML = displayHTML.replaceAll( "</td></form>", "</form></td>" );
-
-		// KoL also has really crazy nested Javascript links, and
-		// since the default browser doesn't recognize these, be
-		// sure to convert them to standard <A> tags linking to
-		// the correct document.
-
-		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\((?<!discardconf\\()[\'\"](.*?)[\'\"].*?>", "<a href=\"$1\">" );
-		displayHTML =
-			displayHTML.replaceAll(
-				"<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
-
-		// The search form for viewing players has an </html>
-		// tag appearing right after </style>, which may confuse
-		// the HTML parser.
-
-		displayHTML = displayHTML.replaceAll( "</style></html>", "</style>" );
-
-		// Image links are mangled a little bit because they use
-		// Javascript now -- fix them.
-
-		displayHTML =
-			displayHTML.replaceAll(
-				"<img([^>]*?) onClick=\'descitem\\((\\d+)\\);\'>",
-				"<a href=\"desc_item.php?whichitem=$2\"><img$1 border=0></a>" );
-
-		// The last thing to worry about is the problems in
-		// specific pages.
-
-		// The first of these is the familiar page, where the
-		// first "Take this one with you" link does not work.
-
-		displayHTML =
-			displayHTML.replaceFirst( "<input class=button type=submit value=\"Take this one with you\">", "" );
-
-		// The second of these is the betting page.  Here, the
-		// problem is an "onClick" in the input field, if the
-		// Hagnk option is available.
-
-		if ( displayHTML.indexOf( "whichbet" ) != -1 )
-		{
-			// Since the introduction of MMG bots, bets are usually
-			// placed and taken instantaneously.  Therefore, the
-			// search form is extraneous.
-
-			displayHTML = displayHTML.replaceAll( "<center><b>Search.*?<center>", "<center>" );
-
-			// Also, placing a bet is awkward through the KoLmafia
-			// interface.  Remove this capability.
-
-			displayHTML = displayHTML.replaceAll( "<center><b>Add.*?</form><br>", "<br>" );
-
-			// Checkboxes were a safety which were added server-side,
-			// but they do not really help anything and Java is not
-			// very good at rendering them -- remove it.
-
-			displayHTML = displayHTML.replaceFirst( "\\(confirm\\)", "" );
-			displayHTML =
-				displayHTML.replaceAll(
-					"<input type=checkbox name=confirm>", "<input type=hidden name=confirm value=on>" );
-
-			// In order to avoid the problem of having two submits,
-			// which confuses the built-in Java parser, remove one
-			// of the buttons and leave the one that makes sense.
-
-			if ( KoLCharacter.canInteract() )
-			{
-				displayHTML =
-					displayHTML.replaceAll(
-						"whichbet value='(\\d+)'><input type=hidden name=from value=0>.*?</td><td><input type=hidden",
-						"whichbet value='$1'><input type=hidden name=from value=0><input class=button type=submit value=\"On Hand\"><input type=hidden" );
-			}
-			else
-			{
-				displayHTML =
-					displayHTML.replaceAll(
-						"whichbet value='(\\d+)'><input type=hidden name=from value=0>.*?</td><td><input type=hidden",
-						"whichbet value='$1'><input type=hidden name=from value=1><input class=button type=submit value=\"In Hagnk's\"><input type=hidden" );
-			}
-		}
-
-		// The third of these is the outfit managing page,
-		// which requires that the form for the table be
-		// on the outside of the table.
-
-		if ( displayHTML.indexOf( "action=account_manageoutfits.php" ) != -1 )
-		{
-			// turn:  <center><table><form>...</center></td></tr></form></table>
-			// into:  <form><center><table>...</td></tr></table></center></form>
-
-			displayHTML = displayHTML.replaceAll( "<center>(<table[^>]*>)(<form[^>]*>)", "$2<center>$1" );
-			displayHTML =
-				displayHTML.replaceAll( "</center></td></tr></form></table>", "</td></tr></table></center></form>" );
-		}
-
-		// The fourth of these is the fight page, which is
-		// totally mixed up -- in addition to basic modifications,
-		// also resort the combat item list.
-
-		if ( displayHTML.indexOf( "action=fight.php" ) != -1 )
-		{
-			displayHTML = displayHTML.replaceAll( "<form(.*?)<tr><td([^>]*)>", "<tr><td$2><form$1" );
-			displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
-
-			// The following all appear when the WOWbar is active
-			// and are useless without Javascript.
-			displayHTML = displayHTML.replaceAll(  "<img.*?id='dragged'>", "" );
-			displayHTML = displayHTML.replaceAll( "<div class=contextmenu.*?</div>", "");
-			displayHTML = displayHTML.replaceAll( "<div id=topbar>?.*?</div>", "");
-			displayHTML = displayHTML.replaceAll( "<div id='fightform' class='hideform'>.*?</div>(<p><center>You win the fight!)", "$1" );
-		}
-
-		// Doc Galaktik's page is going to get completely
-		// killed, except for the main purchases.
-
-		if ( displayHTML.indexOf( "action=galaktik.php" ) != -1 )
-		{
-			displayHTML =
-				StringUtilities.globalStringReplace( displayHTML, "</tr><td valign=center>", "</tr><tr><td valign=center>" );
-			displayHTML = StringUtilities.globalStringReplace( displayHTML, "<td>", "</td><td>" );
-			displayHTML = StringUtilities.globalStringReplace( displayHTML, "</td></td>", "</td>" );
-
-			displayHTML =
-				displayHTML.replaceAll(
-					"<table><table>(.*?)(<form action=galaktik\\.php method=post><input[^>]+><input[^>]+>)",
-					"<table><tr><td>$2<table>$1<tr>" );
-		}
-
-		// The library bookshelf has some secretive Javascript
-		// which needs to be removed.
-
-		displayHTML = RequestEditorKit.BOOKSHELF_PATTERN.matcher( displayHTML ).replaceAll( "href=\"$1\"" );
-
-		if ( logIt )
-		{
-			// Print it to the debug log for reference purposes.
-			RequestLogger.updateDebugLog( displayHTML );
-		}
-
-		// All HTML is now properly rendered!  Return compiled string.
-
-		return displayHTML;
+		return RequestEditorKit.getFeatureRichHTML( location, text, true );
 	}
 
-	public static final String getFeatureRichHTML( final String location, final String text, final boolean addComplexFeatures )
+	public static final void getFeatureRichHTML( final String location, final StringBuffer buffer )
 	{
-		if ( text == null || text.length() == 0 )
-		{
-			return "";
-		}
-
-		StringBuffer buffer = new StringBuffer( text );
-		RequestEditorKit.getFeatureRichHTML( location, buffer, addComplexFeatures );
-		return buffer.toString();
+		RequestEditorKit.getFeatureRichHTML( location, buffer, true );
 	}
 
 	// You need a Hermit Permit, from the Market in Seaside Town, to trade
@@ -498,6 +279,18 @@ public class RequestEditorKit
 		RequestEditorKit.maps.add( "gnomes.php" );
 		RequestEditorKit.maps.add( "heydeze.php" );
 		RequestEditorKit.maps.add( "dwarffactory.php" );
+	}
+
+	public static final String getFeatureRichHTML( final String location, final String text, final boolean addComplexFeatures )
+	{
+		if ( text == null || text.length() == 0 )
+		{
+			return "";
+		}
+
+		StringBuffer buffer = new StringBuffer( text );
+		RequestEditorKit.getFeatureRichHTML( location, buffer, addComplexFeatures );
+		return buffer.toString();
 	}
 
 	public static final void getFeatureRichHTML( final String location, final StringBuffer buffer, final boolean addComplexFeatures )

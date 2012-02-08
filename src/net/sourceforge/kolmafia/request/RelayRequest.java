@@ -309,7 +309,7 @@ public class RelayRequest
 
 		try
 		{
-			RequestEditorKit.getFeatureRichHTML( this.getURLString(), responseBuffer, true );
+			RequestEditorKit.getFeatureRichHTML( this.getURLString(), responseBuffer );
 		}
 		catch ( Exception e )
 		{
