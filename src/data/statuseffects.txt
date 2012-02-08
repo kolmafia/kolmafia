@@ -712,7 +712,7 @@
 711	Cold-Blooded Warm Fuzzies	grinturtle.gif	86cb8548c2b3619029106f8bf8717b1c	#TT Nemesis quest
 712	Having a Ball!	plasticball.gif	b806c288732675bf60db7b948d748320	ballpit
 713	Simply Invisible	blank.gif	3563606030d2e7abf29128b1714dc309	use 1 invisibility potion
-714	Simply Irresistible	magnet.gif	cba956179bd0be43eb87e0f80fc6692c	use 1 irresistibillity potion
+714	Simply Irresistible	magnet.gif	cba956179bd0be43eb87e0f80fc6692c	use 1 irresistibility potion
 715	Simply Irritable	angry.gif	78f093b933f55e50f2cf8d8ee23451d6	use 1 irritability potion
 716	Inigo's Incantation of Inspiration	incantation.gif	13a38b36b281484553a9ea836fd3b2d8	cast 1 Inigo's Incantation of Inspiration|use 1 recording of Inigo's Incantation of Inspiration
 717	Red Misty-Eyed	eyeball.gif	820b089cdb98e5f389fb24448c4d6a37	use 1 sealhide seal doll

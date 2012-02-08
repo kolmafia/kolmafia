@@ -3966,7 +3966,7 @@ incense bath ball	Effect: "Incensed", Effect Duration: 10
 infant sandworm	Free Pull
 invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
-irresistibillity potion	Effect: "Simply Irresistible", Effect Duration: 20
+irresistibility potion	Effect: "Simply Irresistible", Effect Duration: 20
 irritability potion	Effect: "Simply Irritable", Effect Duration: 20
 jaba&ntilde;ero-flavored chewing gum	Effect: "Spicy Mouth", Effect Duration: 5
 jar of &quot;Creole Lady&quot; marrrmalade	Effect: "Savage Beast Inside", Effect Duration: 10

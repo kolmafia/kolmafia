@@ -4439,7 +4439,7 @@
 4430	teddybear backpack	accessory	none	45
 4431	NPZR chemistry set	multiple	all	0
 4432	invisibility potion	multiple	all	0
-4433	irresistibillity potion	multiple	all	0
+4433	irresistibility potion	multiple	all	0
 4434	irritability potion	multiple	all	0
 4435
 4436	strange cube	none	all	0

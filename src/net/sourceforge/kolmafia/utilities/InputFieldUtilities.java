@@ -214,7 +214,7 @@ public class InputFieldUtilities
 
 		// Keep simple input dialog (no AutoFilterTextField) if there
 		// are only a few input choices: booleans, stats, classes, ...
-		if ( inputs.length <= 7 )
+		if ( inputs.length <= 12 )
 		{
 			return JOptionPane.showInputDialog(
 				InputFieldUtilities.activeWindow,
