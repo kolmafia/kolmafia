@@ -130,6 +130,7 @@ import net.sourceforge.kolmafia.webui.MoneyMakingGameDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
+import net.sourceforge.kolmafia.webui.UseItemDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
 import net.sourceforge.kolmafia.webui.ValhallaDecorator;
 
@@ -505,6 +506,11 @@ public class RequestEditorKit
 		else if ( location.startsWith( "inventory.php" ) )
 		{
 			RequestEditorKit.decorateInventory( buffer, addComplexFeatures );
+			UseItemDecorator.decorate( location, buffer );
+		}
+		else if ( location.startsWith( "inv_use.php" ) )
+		{
+			UseItemDecorator.decorate( location, buffer );
 		}
 		else if ( location.startsWith( "lair1.php?action=gates" ) )
 		{
