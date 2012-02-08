@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.persistence;
 
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLDatabase;
 
@@ -58,160 +60,208 @@ public class QuestDatabase
 	public static final String STEP11 = "step11";
 	public static final String STEP12 = "step12";
 
-	private static final String[][] questNames =
+	public static final Pattern HTML_WHITESPACE = Pattern.compile( "<[^<]+?>|[\\s\\n]" );
+
+	private static final String[][] questLogData =
 	{
 		{
-			"questL02Larva", "Looking for a Larva in All the Wrong Places"
+			"questL02Larva",
+			"Looking for a Larva in All the Wrong Places",
+			"The Council of Loathing wants you to bring them a mosquito larva, for some reason. They told you to look for one in the Spooky Forest, in the Distant Woods.<p>How can a woods contain a forest? Suspension of disbelief, that's how.",
+			"You delivered a mosquito larva to the Council of Loathing. Nice work!"
 		},
 		{
-			"questL03Rat", "Ooh, I Think I Smell a Rat."
+			"questL03Rat", "Ooh, I Think I Smell a Rat.", "",
+			"You've solved the rat problem at the Typical Tavern. Way to go!",
 		},
 		{
-			"questL04Bat", "Ooh, I Think I Smell a Bat."
+			"questL04Bat", "Ooh, I Think I Smell a Bat.", "", "You have slain the Boss Bat. Huzzah!"
 		},
 		{
-			"questL05Goblin", "The Goblin Who Wouldn't Be King"
+			"questL05Goblin", "The Goblin Who Wouldn't Be King", "",
+			"You have slain the Goblin King. Good job!"
 		},
 		{
-			"questL06Friar", "Trial By Friar"
+			"questL06Friar", "Trial By Friar", "",
+			"You have cleansed the taint of the Deep Fat Friars. Congratulations!"
 		},
 		{
-			"questL07Cyrptic", "Cyrptic Emanations"
+			"questL07Cyrptic", "Cyrptic Emanations", "",
+			"You've undefiled the Cyrpt, and defeated the Bonerdagon. Hip, Hip, Hooray!"
 		},
 		{
-			"questL08Trapper", "Am I my Trapper's Keeper?"
+			"questL08Trapper", "Am I my Trapper's Keeper?", "",
+			"You have learned how to hunt Yetis from the L337 Tr4pz0r. Shazam!"
 		},
 		{
-			"questL09Lol", "A Quest, LOL"
+			"questL09Lol", "A Quest, LOL", "",
+			"You have helped the Baron Rof L'm Fao with his monster problem. w00t!"
 		},
 		{
-			"questL10Garbage", "The Rain on the Plains is Mainly Garbage"
+			"questL10Garbage", "The Rain on the Plains is Mainly Garbage", "",
+			"You have stopped the rain of giant garbage in the Nearby Plains. Slick!"
 		},
 		{
-			"questL11MacGuffin", "<Player Name> and the Quest for the Holy MacGuffin"
+			"questL11MacGuffin",
+			"<Player Name> and the Quest for the Holy MacGuffin",
+			"",
+			"You've handed the Holy MacGuffin over to the Council, and enjoyed a ticker-tape parade in your honor. That quest was so ridiculous, it wasn't even funny, and now it's over! Hooray!"
 		},
 		{
-			"questL11Worship", "Gotta Worship Them All"
+			"questL11Worship",
+			"Gotta Worship Them All",
+			"",
+			"You've defeated the ancient ghost of an ancient mummy of an ancient high priest and claimed his ancient amulet! Go you!"
 		},
 		{
-			"questL11Manor", "In a Manor of Spooking"
+			"questL11Manor", "In a Manor of Spooking", "",
+			"You've defeated Lord Spookyraven and claimed the Eye of Ed! Huzzah!"
 		},
 		{
-			"questL11Palindome", "Never Odd Or Even"
+			"questL11Palindome", "Never Odd Or Even", "",
+			"Congratulations, you've recovered the long-lost Staff of Fats!<p>Nice Work!"
 		},
 		{
-			"questL11Pyramid", "A Pyramid Scheme"
+			"questL11Pyramid",
+			"A Pyramid Scheme",
+			"",
+			"The mighty Ed the Undying has fallen! You recovered the Holy MacGuffin! Jolly good show, mate! "
 		},
 		{
-			"questL12War", "Make War, Not... Oh, Wait"
+			"questL12War", "Make War, Not... Oh, Wait", "",
+			"You led the Orcish frat boys to victory in the Great War. For The Horde!"
 		},
 		{
-			"questL13Final", "The Final Ultimate Epic Final Conflict"
-		},
-
-		{
-			"questG01Meatcar", "My Other Car Is Made of Meat"
-		},
-		{
-			"questG02Whitecastle", "<Player Name> and <Familiar Name> Go To White Citadel"
-		},
-		{
-			"questG03Ego", "The Wizard of Ego"
-		},
-		{
-			"questG04Nemesis", "Me and My Nemesis"
-		},
-		{
-			"questG05Dark", "A Dark and Dank and Sinister Quest"
-		},
-		{
-			"questG06Delivery", "<Player Name>'s Delivery Service"
-		},
-
-		{
-			"questM01Untinker", "Driven Crazy"
-		},
-		{
-			"questM02Artist", "Suffering For His Art"
-		},
-		{
-			"questM03Bugbear", "A Bugbear of a Problem"
-		},
-		{
-			"questM04Galaktic", "What's Up, Doc?"
-		},
-		{
-			"questM05Toot", "Toot!"
-		},
-		{
-			"questM06Gourd", "Out of Your Gourd"
-		},
-		{
-			"questM07Hammer", "Hammer Time"
-		},
-		{
-			"questM08Baker", "Baker, Baker"
-		},
-		{
-			"questM09Rocks", "When Rocks Attack"
-		},
-		{
-			"questM10Azazel", "Angry <Player Name>, this is Azazel in Hell."
-		},
-		{
-			"questM11Postal", "Going Postal"
-		},
-		{
-			"questM12Pirate", "I Rate, You Rate"
-		},
-		{
-			"questM13Escape", "The Pretty Good Escape"
-		},
-		{
-			"questM14Bounty", "A Bounty Hunter Is You!"
+			"questL13Final", "The Final Ultimate Epic Final Conflict", "",
+			"You have defeated the Naughty Sorceress and freed the King! What are you hanging around here for?"
 		},
 
 		{
-			"questS01OldGuy", "An Old Guy and The Ocean"
+			"questG01Meatcar", "My Other Car Is Made of Meat", "",
+			"You've built a new meat car from parts. Impressive!"
 		},
 		{
-			"questS02Monkees", "Hey, Hey, They're Sea Monkees"
+			"questG02Whitecastle",
+			"<Player Name> and <Familiar Name> Go To White Citadel",
+			"You've been charged by your Guild (sort of) with the task of bringing back a delicious meal from the legendary White Citadel. You've been told it's somewhere near Whitey's Grove, in the Distant Woods.",
+			"You've delivered a satchel of incredibly greasy food to someone you barely know. Plus, you can now shop at White Citadel whenever you want. Awesome!"
+		},
+		{
+			"questG03Ego",
+			"The Wizard of Ego",
+			"You've been tasked with digging up the grave of an ancient and powerful wizard and bringing back a key that was buried with him. What could possibly go wrong?",
+			"You've turned in the old book, and they said they didn't want it and for you to go away. A bit anticlimactic, but I suppose it still counts as a success. Congratulations!"
+		},
+		{
+			"questG04Nemesis", "Me and My Nemesis", "", ""
+		},
+		{
+			"questG05Dark",
+			"A Dark and Dank and Sinister Quest",
+			"",
+			"Your Nemesis has scuttled away in defeat, leaving you with a sweet Epic Hat and a feeling of smug superiority. Well done you!"
+		},
+		{
+			"questG06Delivery", "<Player Name>'s Delivery Service", "", ""
 		},
 
 		{
-			"questF01Primordial", "Primordial Fear"
+			"questM01Untinker",
+			"Driven Crazy",
+			"The Untinker in Seaside Town wants you to find his screwdriver. He thinks he left it at Degrassi Knoll, on the Nearby Plains.",
+			"You fetched the Untinker's screwdriver. Nice going!"
 		},
 		{
-			"questF02Hyboria", "Hyboria? I don't even..."
+			"questM02Artist",
+			"Suffering For His Art",
+			"The Pretentious Artist, who lives on the Wrong Side of the Tracks in Seaside Town, has lost his palette, his pail of paint, and his paintbrush.<p>He told you that he thinks the palette is in the Haunted Pantry, the pail of paint is somewhere near the Sleazy Back Alley, and the paintbrush was taken by a Knob Goblin.",
+			"You helped retrieve the Pretentious Artist's stuff. Excellent!"
 		},
 		{
-			"questF03Future", "Future"
+			"questM03Bugbear", "A Bugbear of a Problem", "",
+			"You've helped Mayor Zapruder of Degrassi Knoll with his spooky gravy fairy problem. Nice going!"
 		},
 		{
-			"questF04Elves", "The Quest for the Legendary Beat"
+			"questM04Galaktic",
+			"What's Up, Doc?",
+			"",
+			"You found some herbs for Doc Galaktik, and he rewarded you with a permanent discount on Curative Nostrums and Fizzy Invigorating Tonics. Nifty!"
+		},
+		{
+			"questM05Toot", "Toot!", "", "You have completed your training with the Toot Oriole. Groovy!"
+		},
+		{
+			"questM06Gourd", "Out of Your Gourd", "", ""
+		},
+		{
+			"questM07Hammer", "Hammer Time", "", ""
+		},
+		{
+			"questM08Baker", "Baker, Baker", "", ""
+		},
+		{
+			"questM09Rocks", "When Rocks Attack", "", ""
+		},
+		{
+			"questM10Azazel",
+			"Angry <Player Name>, this is Azazel in Hell.",
+			"",
+			"You've found Azazel's unicorn, his lollipop, and his tutu. This peek into the nature of evil is disturbing, but the reward was gratifying. Go you!"
+		},
+		{
+			"questM11Postal", "Going Postal", "", ""
+		},
+		{
+			"questM12Pirate", "I Rate, You Rate", "", ""
+		},
+		{
+			"questM13Escape", "The Pretty Good Escape", "", ""
+		},
+		{
+			"questM14Bounty", "A Bounty Hunter Is You!", "", ""
 		},
 
 		{
-			"questI01Scapegoat", "Scapegoat"
+			"questS01OldGuy", "An Old Guy and The Ocean", "", ""
 		},
 		{
-			"questI02Beat", "Repair the Elves' Shield Generator"
+			"questS02Monkees", "Hey, Hey, They're Sea Monkees", "", ""
+		},
+
+		{
+			"questF01Primordial", "Primordial Fear", "", ""
+		},
+		{
+			"questF02Hyboria", "Hyboria? I don't even...", "", ""
+		},
+		{
+			"questF03Future", "Future", "", ""
+		},
+		{
+			"questF04Elves", "The Quest for the Legendary Beat", "", ""
+		},
+
+		{
+			"questI01Scapegoat", "Scapegoat", "", ""
+		},
+		{
+			"questI02Beat", "Repair the Elves' Shield Generator", "", ""
 		},
 	};
 
 	static
 	{
-		for ( int i = 0; i < questNames.length; ++i )
+		for ( int i = 0; i < questLogData.length; ++i )
 		{
 			// Capitalize that name.
-			questNames[ i ][ 1 ] = questNames[ i ][ 1 ].replaceAll( "<Player\\sName>", KoLCharacter
+			questLogData[ i ][ 1 ] = questLogData[ i ][ 1 ].replaceAll( "<Player\\sName>", KoLCharacter
 				.getUserName().substring( 0, 1 ).toUpperCase()
 				+ KoLCharacter.getUserName().substring( 1 ) );
 		}
 
 	}
 
-	public static String titleToPreference( final String title )
+	public static String titleToPref( final String title )
 	{
 		if ( title.indexOf( "White Citadel" ) != -1 )
 		{
@@ -219,11 +269,25 @@ public class QuestDatabase
 			// deal with.
 			return "questG02Whitecastle";
 		}
-		for ( int i = 0; i < questNames.length; ++i )
+		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			if ( questNames[ i ][ 1 ].indexOf( title ) != -1 )
+			if ( questLogData[ i ][ 1 ].indexOf( title ) != -1 )
 			{
-				return questNames[ i ][ 0 ];
+				return questLogData[ i ][ 0 ];
+			}
+		}
+
+		// couldn't find a match
+		return "";
+	}
+
+	public static String prefToTitle( final String pref )
+	{
+		for ( int i = 0; i < questLogData.length; ++i )
+		{
+			if ( questLogData[ i ][ 0 ].indexOf( pref ) != -1 )
+			{
+				return questLogData[ i ][ 1 ];
 			}
 		}
 
@@ -233,9 +297,9 @@ public class QuestDatabase
 
 	public static int prefToIndex( final String pref )
 	{
-		for ( int i = 0; i < questNames.length; ++i )
+		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			if ( questNames[ i ][ 0 ].indexOf( pref ) != -1 )
+			if ( questLogData[ i ][ 0 ].indexOf( pref ) != -1 )
 			{
 				return i;
 			}
@@ -243,6 +307,92 @@ public class QuestDatabase
 
 		// couldn't find a match
 		return -1;
+	}
+
+	public static String findQuestProgress( String pref, String details )
+	{
+		// First thing to do is find which quest we're talking about.
+		int index = prefToIndex( pref );
+
+		if ( index == -1 )
+		{
+			return "";
+		}
+
+		// Next, find the number of quest steps
+		final int steps = questLogData[ index ].length - 2;
+
+		if ( steps < 1 )
+		{
+			return "";
+		}
+
+		// Now, try to see if we can find an exact match for response->step. This is often messed up by
+		// whitespace, html, and the like. We'll handle that below.
+		int foundAtStep = -1;
+
+		for ( int i = 2; i < questLogData[ index ].length; ++i )
+		{
+			if ( questLogData[ index ][ i ].indexOf( details ) != -1 )
+			{
+				foundAtStep = i - 2;
+				break;
+			}
+		}
+		if ( foundAtStep != -1 )
+		{
+			if ( foundAtStep == 0 )
+			{
+				return QuestDatabase.STARTED;
+			}
+			else if ( foundAtStep == steps -1 )
+			{
+				return QuestDatabase.FINISHED;
+			}
+			else
+			{
+				return "Step" + foundAtStep;
+			}
+		}
+
+		// Didn't manage to find an exact match. Now try stripping out all whitespace, newlines, and anything
+		// that looks like html from questData and response.
+		String cleanedResponse = QuestDatabase.HTML_WHITESPACE.matcher( details ).replaceAll( "" );
+		String cleanedQuest = "";
+		
+		// RequestLogger.printLine( cleanedResponse );
+
+		for ( int i = 2; i < questLogData[ index ].length; ++i )
+		{
+			cleanedQuest = QuestDatabase.HTML_WHITESPACE.matcher( questLogData[ index ][ i ] ).replaceAll(
+				"" );
+			//RequestLogger.printLine( cleanedQuest );
+			if ( cleanedQuest.indexOf( cleanedResponse ) != -1 )
+			{
+				foundAtStep = i - 2;
+				break;
+			}
+		}
+
+		if ( foundAtStep != -1 )
+		{
+			if ( foundAtStep == 0 )
+			{
+				return QuestDatabase.STARTED;
+			}
+			else if ( foundAtStep == steps - 1 )
+			{
+				return QuestDatabase.FINISHED;
+			}
+			else
+			{
+				return "Step" + foundAtStep;
+			}
+		}
+
+		// Well, that didn't work either. Punt.
+
+		return "";
 	}
 
 }

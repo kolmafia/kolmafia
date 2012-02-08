@@ -270,7 +270,7 @@ public class QuestLogRequest
 		{
 			map.put( new Integer( headers.end() ), headers.group( 1 ) );
 		}
-		
+
 		Iterator it = map.keySet().iterator();
 		while ( it.hasNext() )
 		{
@@ -306,66 +306,10 @@ public class QuestLogRequest
 		{
 			String title = body.group( 1 );
 			String details =  body.group( 2 );
-			String pref = QuestDatabase.titleToPreference( title );
+			String pref = QuestDatabase.titleToPref( title );
 			String status = "";
-			/*
-			 * questL02Larva
-			 * Looking for a Larva in All the Wrong Places
-			 * [Current] The Council of Loathing wants you to bring them a mosquito larva, for some reason.
-			 * They told you to look for one in the Spooky Forest, in the Distant Woods.
-			 * 
-			 * How can a woods contain a forest? Suspension of disbelief, that's how.
-			 * 
-			 * [Completed] You delivered a mosquito larva to the Council of Loathing. Nice work!
-			 */
-			if ( pref.equals( "questL02Larva" ) )
-			{
-				if ( source == 2)
-				{
-					status = QuestDatabase.FINISHED;
-				}
-				else if ( details.indexOf( "wants you to bring them a mosquito" ) != -1 )
-				{
-					status = QuestDatabase.STARTED;
-				}
-				else if ( details.indexOf( "delivered a mosquito larva" ) != -1 )
-				{
-					status = QuestDatabase.FINISHED;
-				}
-			}
 			
-
-			// questL03Rat
-			// else if...
-
-			// questL04Bat
-			// else if...
-
-			// questL05Goblin
-
-			// questL06Friar
-			
-			// questL07Cyrptic
-			
-			// questL08Trapper
-			
-			// questL09Lol
-			
-			// questL10Garbage
-			
-			// questL11MacGuffin
-			
-			// questL11Worship
-			
-			// questL11Manor
-			
-			// questL11Palindome
-			
-			// questL11Pyramid
-			
-			// questL12War
-			
-			// questL13Final
+			status = QuestDatabase.findQuestProgress( pref, details );
 			
 			// When we've implemented everything, do some error checking to make sure we handled everything
 			// successfully.
@@ -404,83 +348,10 @@ public class QuestLogRequest
 		{
 			String title = body.group( 1 );
 			String details =  body.group( 2 );
-			String pref = QuestDatabase.titleToPreference( title );
+			String pref = QuestDatabase.titleToPref( title );
 			String status = "";
 			
-			// questG01Meatcar
-			
-			/*
-			 * questG02Whitecastle
-			 * <Player Name> and <Familiar Name>/Kumar Go To White Citadel
-			 * 
-			 * [Current] You've been charged by your Guild (sort of) with the task of bringing back a
-			 * delicious meal from the legendary White Citadel. You've been told it's somewhere near
-			 * Whitey's Grove, in the Distant Woods.
-			 * (In between) You've discovered the road from Whitey's Grove to the legendary White Citadel.
-			 * You should explore it and see if you can find your way.
-			 * (In between) You're progressing down the road towards the White Citadel, but you'll need to
-			 * find something that can help you get past that stupid cheetah if you're going to make it any
-			 * further. Keep looking around.
-			 * (In between) You've made your way further down the Road to the White Citadel, but you still
-			 * haven't found it. Keep looking!
-			 * (In between) You've found the White Citadel, but it's at the bottom of a huge cliff. You
-			 * should keep messing around on the Road until you find a way to get down the cliff.
-			 * (In between) You have discovered the legendary White Citadel. You should probably go in there
-			 * and get the carryout order you were trying to get in the first place. Funny how things spiral
-			 * out of control, isn't it?
-			 * (In between) You've got the Satisfaction Satchel. Take it to your contact in your Guild for a
-			 * reward.
-			 * [Completed] You've delivered a satchel of incredibly greasy food to someone you barely know.
-			 * Plus, you can now shop at White Citadel whenever you want. Awesome!
-			 */
-			if ( pref.equals( "questG02Whitecastle" ) )
-			{
-				if ( source == 2)
-				{
-					status = QuestDatabase.FINISHED;
-				}
-				else if ( details.indexOf( "bringing back a delicious meal" ) != -1 )
-				{
-					status = QuestDatabase.STARTED;
-				}
-				else if ( details.indexOf( "You've discovered the road from Whitey's Grove"  ) != -1 )
-				{
-					status = QuestDatabase.STEP1;
-				}
-				else if ( details.indexOf( "You're progressing down the road towards the White Citadel"  ) != -1 )
-				{
-					status = QuestDatabase.STEP2;
-				}
-				else if ( details.indexOf( "You've made your way further down the Road to the White Citadel"  ) != -1 )
-				{
-					status = QuestDatabase.STEP3;
-				}
-				else if ( details.indexOf( "You've found the White Citadel, but it's at"  ) != -1 )
-				{
-					status = QuestDatabase.STEP4;
-				}
-				else if ( details.indexOf( "You have discovered the legendary White Citadel"  ) != -1 )
-				{
-					status = QuestDatabase.STEP5;
-				}
-				else if ( details.indexOf( "You've got the Satisfaction Satchel"  ) != -1 )
-				{
-					status = QuestDatabase.STEP7;
-				}
-				else if ( details.indexOf( "delivered a mosquito larva" ) != -1 )
-				{
-					status = QuestDatabase.FINISHED;
-				}
-			}
-			
-			
-			// questG03Ego
-
-			// questG04Nemesis
-
-			// questG05Dark
-
-			// questG06Delivery
+			status = QuestDatabase.findQuestProgress( pref, details );
 			
 			// When we've implemented everything, do some error checking to make sure we handled everything
 			// successfully.
