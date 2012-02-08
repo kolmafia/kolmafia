@@ -529,7 +529,7 @@ public class PandamoniumRequest
 		if ( request != null && request.responseText != null )
 		{
 			StringBuffer buffer = new StringBuffer( request.responseText );
-			RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer, true );
+			RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer );
 			StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( "pandamonium.php" ) );
 			response = buffer.toString();
 		}

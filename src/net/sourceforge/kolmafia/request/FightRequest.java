@@ -5172,10 +5172,10 @@ public class FightRequest
 		}
 
 		FightRequest.foundNextRound = false;
-		return RequestEditorKit.getFeatureRichHTML(
-			FightRequest.isTrackingFights ? "fight.php?action=script" : "fight.php?action=done",
-			FightRequest.lastResponseText,
-			true );
+
+		String location = FightRequest.isTrackingFights ? "fight.php?action=script" : "fight.php?action=done";
+		String responseText = FightRequest.lastResponseText;
+		return RequestEditorKit.getFeatureRichHTML( location, responseText );
 	}
 
 	public static final boolean inMultiFight()

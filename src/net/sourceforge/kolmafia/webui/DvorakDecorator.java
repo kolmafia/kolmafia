@@ -180,7 +180,7 @@ public abstract class DvorakDecorator
 		KoLmafia.updateDisplay( "Tile puzzle completed." );
 
 		StringBuffer buffer = new StringBuffer( request.responseText );
-		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer, true );
+		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer );
 		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( "adventure.php" ) );
 		RelayRequest.specialCommandResponse = buffer.toString();
 		DvorakDecorator.lastResponse = null;

@@ -91,8 +91,9 @@ public class CouncilFrame
 
 	public String getDisplayHTML( final String responseText )
 	{
-		return super.getDisplayHTML( responseText ).replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ).replaceFirst(
-			"table width=95%", "table width=100%" );
+		return super.getDisplayHTML( responseText )
+			.replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" )
+			.replaceFirst( "table width=95%", "table width=100%" );
 	}
 
 	public static final void handleQuestChange( final String location, final String responseText )

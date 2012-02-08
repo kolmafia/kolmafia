@@ -184,9 +184,4 @@ public class KoLMailMessage
 	{
 		return this.senderId;
 	}
-
-	public String getDisplayHTML()
-	{
-		return this.completeHTML;
-	}
 }
