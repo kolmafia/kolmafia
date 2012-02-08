@@ -235,7 +235,11 @@ public abstract class ThreadedListener
 
 		if ( this.retainFocus() )
 		{
-			this.getSource().grabFocus();
+			JComponent source = this.getSource();
+			if ( source != null )
+			{
+				source.grabFocus();
+			}
 		}
 
 		this.actionEvent = null;

@@ -4431,7 +4431,7 @@
 4430	233616866	bearpack.gif	teddybear backpack	teddybear backpack
 4431	196867588	chemset.gif	NPZR chemistry set	NPZR chemistry sets
 4432	570172940	testtube.gif	invisibility potion	invisibility potions
-4433	560133016	testtube.gif	irresistibillity potion	irresistibillity potions
+4433	560133016	testtube.gif	irresistibility potion	irresistibility potions
 4434	361569808	testtube.gif	irritability potion	irritability potions
 4435
 4436	999869987	15puzzle.gif	strange cube	strange cubes
