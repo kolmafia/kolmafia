@@ -306,29 +306,11 @@ public class RequestEditorKit
 			return;
 		}
 
-		// Remove bogus <body> tag preceding <head> tag in topmenu
+		// Remove bogus <body> tag preceding <head> tag.  topmenu has
+		// this, but don't assume other pages are flawless
 		StringUtilities.singleStringReplace( buffer, "<body><head>", "<head>" );
 
-		if ( addComplexFeatures )
-		{
-			StringUtilities.insertBefore(
-				buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script>" );
-
-			StringUtilities.insertBefore(
-				buffer, "</head>", "<link rel=\"stylesheet\" href=\"/basics.css\" />" );
-
-			if ( location.indexOf( "?" ) == -1 && RequestEditorKit.maps.contains( location ) )
-			{
-				buffer.insert(
-					buffer.indexOf( "</tr>" ),
-					"<td width=15 valign=bottom align=left bgcolor=blue><a style=\"color: white; font-weight: normal; font-size: small; text-decoration: underline\" href=\"javascript: attachSafetyText(); void(0);\">?</a>" );
-				buffer.insert( buffer.indexOf( "<td", buffer.indexOf( "</tr>" ) ) + 3, " colspan=2" );
-			}
-		}
-
-		// Make all the character pane adjustments first, since
-		// they only happen once and they occur frequently.
-
+		// Check for charpane first, since it occurs frequently.
 		if ( location.startsWith( "charpane.php" ) )
 		{
 			if ( addComplexFeatures )
@@ -338,6 +320,7 @@ public class RequestEditorKit
 			return;
 		}
 
+		// Handle topmenu
 		if ( location.indexOf( "menu.php" ) != -1 )
 		{
 			MoonPhaseRequest.decorate( buffer );
@@ -346,8 +329,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		// It's possible that clovers were auto-disassembled.
-		// Go ahead and make the updates.
+		// If clovers were auto-disassembled, show disassembled clovers
 
 		if ( ResultProcessor.disassembledClovers( location ) )
 		{
@@ -365,8 +347,7 @@ public class RequestEditorKit
 		// Override images, if requested
 		RelayRequest.overrideImages( buffer );
 
-		// Now handle the changes which only impact a single
-		// page one at a time.
+		// Make changes which only apply to a single page.
 
 		if ( location.startsWith( "account_combatmacros.php" ) )
 		{
@@ -419,6 +400,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "ascensionhistory.php" ) )
 		{
+			// No Javascript inn Java's HTML renderer
 			if ( addComplexFeatures )
 			{
 				StringUtilities.insertBefore(
@@ -629,9 +611,24 @@ public class RequestEditorKit
 			ZapRequest.decorate( buffer );
 		}
 
+		// Now do anything which doesn't work in Java's internal HTML renderer
 		if ( addComplexFeatures )
 		{
-			// Now handle all the changes which happen on a lot of
+			StringUtilities.insertBefore(
+				buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script>" );
+
+			StringUtilities.insertBefore(
+				buffer, "</head>", "<link rel=\"stylesheet\" href=\"/basics.css\" />" );
+
+			if ( location.indexOf( "?" ) == -1 && RequestEditorKit.maps.contains( location ) )
+			{
+				buffer.insert(
+					buffer.indexOf( "</tr>" ),
+					"<td width=15 valign=bottom align=left bgcolor=blue><a style=\"color: white; font-weight: normal; font-size: small; text-decoration: underline\" href=\"javascript: attachSafetyText(); void(0);\">?</a>" );
+				buffer.insert( buffer.indexOf( "<td", buffer.indexOf( "</tr>" ) ) + 3, " colspan=2" );
+			}
+
+			// Handle all the changes which happen on a lot of
 			// different pages rather than just one or two.
 
 			RequestEditorKit.changePotionImages( buffer );
@@ -644,7 +641,10 @@ public class RequestEditorKit
 				UseLinkDecorator.decorate( location, buffer );
 			}
 
-			if ( buffer.indexOf( "showplayer.php" ) != -1 && buffer.indexOf( "rcm.js" ) == -1 && buffer.indexOf( "rcm.2.js" ) == -1 && buffer.indexOf( "rcm.3.js" ) == -1 )
+			if ( buffer.indexOf( "showplayer.php" ) != -1 &&
+			     buffer.indexOf( "rcm.js" ) == -1 &&
+			     buffer.indexOf( "rcm.2.js" ) == -1 &&
+			     buffer.indexOf( "rcm.3.js" ) == -1 )
 			{
 				RequestEditorKit.addChatFeatures( buffer );
 			}
@@ -661,16 +661,11 @@ public class RequestEditorKit
 					StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/onfocus.js\"></script>" );
 				}
 			}
-		}
 
-		if ( addComplexFeatures )
-		{
 			Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( buffer.toString() );
-
-			boolean hasEvents = EventManager.hasEvents();
 			boolean showingEvents = eventMatcher.find();
 
-			if ( hasEvents && ( location.indexOf( "main.php" ) != -1 || showingEvents ) )
+			if ( EventManager.hasEvents() && ( location.indexOf( "main.php" ) != -1 || showingEvents ) )
 			{
 				int eventTableInsertIndex = 0;
 
@@ -716,6 +711,10 @@ public class RequestEditorKit
 			}
 		}
 
+		// Having done all the decoration on the page, do things that
+		// might modify or depend on those decorations
+
+		// Change border colors if the user wants something other than blue
 		String defaultColor = Preferences.getString( "defaultBorderColor" );
 		if ( !defaultColor.equals( "blue" ) )
 		{
@@ -723,11 +722,11 @@ public class RequestEditorKit
 			StringUtilities.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
 		}
 
+		// If we have our own commands on this page, stick in a <base> tag
+		// so that executing the command doesn't make the browser munge up
+		// links in the result.
 		if ( buffer.indexOf( "/KoLmafia" ) != -1 )
 		{
-			// If we have our own commands on this page, stick in a
-			// <base> tag so that executing the command doesn't
-			// inspire the browser to munge up links in the result.
 			StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( location ) );
 		}
 	}
