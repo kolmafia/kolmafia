@@ -141,6 +141,7 @@ public class UseItemRequest
 
 	protected static AdventureResult lastItemUsed = null;
 	protected static AdventureResult lastHelperUsed = null;
+	private static int currentItemId = -1;
 
 	public static final UseItemRequest getInstance( final int itemId )
 	{
@@ -248,6 +249,12 @@ public class UseItemRequest
 	public static void setLastItemUsed( final AdventureResult item )
 	{
 		UseItemRequest.lastItemUsed = item;
+		UseItemRequest.currentItemId = item.getItemId();
+	}
+
+	public static final int currentItemId()
+	{
+		return UseItemRequest.currentItemId;
 	}
 
 	private final boolean isBingeRequest()
@@ -303,11 +310,6 @@ public class UseItemRequest
 		}
 
 		return false;
-	}
-
-	public static final int currentItemId()
-	{
-		return UseItemRequest.lastItemUsed == null ? -1 : UseItemRequest.lastItemUsed.getItemId();
 	}
 
 	public int getConsumptionType()
@@ -1273,6 +1275,7 @@ public class UseItemRequest
 		}
 
 		UseItemRequest.lastItemUsed = this.itemUsed;
+		UseItemRequest.currentItemId = this.itemUsed.getItemId();
 		UseItemRequest.parseConsumption( this.responseText, true );
 		ResponseTextParser.learnRecipe( this.getURLString(), this.responseText );
 	}
@@ -4239,6 +4242,7 @@ public class UseItemRequest
 		{
 			return UseItemRequest.registerBingeRequest( urlString );
 		}
+		UseItemRequest.currentItemId = UseItemRequest.lastItemUsed.getItemId();
 
 		UseItemRequest.lastHelperUsed = UseItemRequest.extractHelper( urlString );
 		UseItemRequest.lastLook = urlString.indexOf( "action=look" ) != -1;

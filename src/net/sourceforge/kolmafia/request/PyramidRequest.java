@@ -287,6 +287,17 @@ public class PyramidRequest
 
 	}
 
+	public static final String getPyramidHTML()
+	{
+		// Make sure we know the current pyramid position
+		if ( PyramidRequest.getPyramidPosition() == 0 )
+		{
+			RequestThread.postRequest( PyramidRequest.PYRAMID );
+		}
+
+		return PyramidRequest.pyramidHTML( true );
+	}
+
 	private static final String pyramidHTML( final boolean link )
 	{
 		StringBuffer buffer = new StringBuffer();
