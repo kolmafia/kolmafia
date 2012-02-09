@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -2182,7 +2183,7 @@ public class UseItemRequest
 				Preferences.setString( "preBlackbirdFamiliar", "" );
 			}
 
-			QuestLogRequest.setBlackMarketAvailable();
+			QuestDatabase.setQuestProgress( QuestDatabase.MACGUFFIN, "step1" );
 			return;
 
 		case ItemPool.SPOOKY_MAP:

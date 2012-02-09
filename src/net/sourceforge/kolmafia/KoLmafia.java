@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.persistence.FlaggedItems;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -1838,7 +1839,7 @@ public abstract class KoLmafia
 			if ( InventoryManager.hasItem( ItemPool.HANG_GLIDER ) )
 			{
 				ResultProcessor.processItem( ItemPool.HANG_GLIDER, -1 );
-				QuestLogRequest.setWhiteCitadelAvailable();
+				QuestDatabase.setQuestProgress( QuestDatabase.CITADEL, "step5" );
 			}
 			return;
 		}
