@@ -380,6 +380,36 @@ public class UseItemRequest
 			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
 		}
 
+		switch ( itemId )
+		{
+		case ItemPool.BLACK_MARKET_MAP:
+		case ItemPool.BALL_POLISH:
+		case ItemPool.FRATHOUSE_BLUEPRINTS:
+			// These "B" items ARE usable in Beecore.
+		case ItemPool.ICE_BABY:
+		case ItemPool.JUGGLERS_BALLS:
+		case ItemPool.EYEBALL_PENDANT:
+		case ItemPool.SPOOKY_PUTTY_BALL:
+		case ItemPool.LOATHING_LEGION_ABACUS:
+		case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
+		case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
+		case ItemPool.LOATHING_LEGION_ROLLERBLADES:
+			// And so are these IOTM foldables
+			return Integer.MAX_VALUE;
+
+		case ItemPool.COBBS_KNOB_MAP:
+			UseItemRequest.limiter = "encryption key";
+			return InventoryManager.getCount( ItemPool.ENCRYPTION_KEY );
+
+		default:
+			if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( itemName ) )
+			{
+				UseItemRequest.limiter = "bees";
+				return 0;
+			}
+			break;
+		}
+
 		int spleenHit = ItemDatabase.getSpleenHit( itemName );
 		float hpRestored = HPRestoreItemList.getHealthRestored( itemName );
 		boolean restoresHP = hpRestored != Integer.MIN_VALUE;
@@ -423,36 +453,6 @@ public class UseItemRequest
 		if ( itemId <= 0 )
 		{
 			return Integer.MAX_VALUE;
-		}
-
-		switch ( itemId )
-		{
-		case ItemPool.BLACK_MARKET_MAP:
-		case ItemPool.BALL_POLISH:
-		case ItemPool.FRATHOUSE_BLUEPRINTS:
-			// These "B" items ARE usable in Beecore.
-		case ItemPool.ICE_BABY:
-		case ItemPool.JUGGLERS_BALLS:
-		case ItemPool.EYEBALL_PENDANT:
-		case ItemPool.SPOOKY_PUTTY_BALL:
-		case ItemPool.LOATHING_LEGION_ABACUS:
-		case ItemPool.LOATHING_LEGION_DEFIBRILLATOR:
-		case ItemPool.LOATHING_LEGION_DOUBLE_PRISM:
-		case ItemPool.LOATHING_LEGION_ROLLERBLADES:
-			// And so are these IOTM foldables
-			return Integer.MAX_VALUE;
-
-		case ItemPool.COBBS_KNOB_MAP:
-			UseItemRequest.limiter = "encryption key";
-			return InventoryManager.getCount( ItemPool.ENCRYPTION_KEY );
-
-		default:
-			if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( itemName ) )
-			{
-				UseItemRequest.limiter = "bees";
-				return 0;
-			}
-			break;
 		}
 
 		switch ( itemId )
