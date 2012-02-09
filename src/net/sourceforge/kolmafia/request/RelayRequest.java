@@ -1536,7 +1536,7 @@ public class RelayRequest
 			"None" :
 			null;
 
-		if ( nextAdventure != null && RecoveryManager.isRecoveryPossible() )
+		if ( nextAdventure != null && RecoveryManager.isRecoveryPossible() && this.getFormField( "confirm" ) == null )
 		{
 			boolean isScript = !isNonCombatsOnly && Preferences.getBoolean( "relayRunsBeforeBattleScript" );
 			boolean isMood = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsEffects" );
@@ -1550,7 +1550,7 @@ public class RelayRequest
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				this.sendGeneralWarning( null, "Between battle actions failed." );
+				this.sendGeneralWarning( "beatenup.gif", "Between battle actions failed. Click the image if you'd like to continue anyway." );
 				return;
 			}
 		}
