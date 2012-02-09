@@ -172,11 +172,15 @@ public class KoLAdventure
 		if ( adventureId == null )
 		{
 			this.isNonCombatsOnly = false;
-			return;
 		}
-
-		this.isNonCombatsOnly =
-			!( this.request instanceof AdventureRequest ) || this.areaSummary != null && this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0;
+		else if ( this.areaSummary != null )
+		{
+			this.isNonCombatsOnly = this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0;
+		}
+		else
+		{
+			this.isNonCombatsOnly = !( this.request instanceof AdventureRequest );
+		}
 	}
 
 	public String toLowerCaseString()
