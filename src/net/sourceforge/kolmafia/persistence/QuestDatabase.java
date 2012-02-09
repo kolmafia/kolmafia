@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 /**
  * Provides utility functions for dealing with quests.
@@ -45,20 +46,15 @@ import net.sourceforge.kolmafia.KoLDatabase;
 public class QuestDatabase
 	extends KoLDatabase
 {
+	public static final String UNSTARTED = "unstarted";
 	public static final String STARTED = "started";
 	public static final String FINISHED = "finished";
-	public static final String STEP1 = "step1";
-	public static final String STEP2 = "step2";
-	public static final String STEP3 = "step3";
-	public static final String STEP4 = "step4";
-	public static final String STEP5 = "step5";
-	public static final String STEP6 = "step6";
-	public static final String STEP7 = "step7";
-	public static final String STEP8 = "step8";
-	public static final String STEP9 = "step9";
-	public static final String STEP10 = "step10";
-	public static final String STEP11 = "step11";
-	public static final String STEP12 = "step12";
+
+	public static final String GALAKTIK = "questM04Galaktic";
+	public static final String FRIAR = "questL06Friar";
+	public static final String MACGUFFIN = "questL11MacGuffin";
+	public static final String ISLAND_WAR = "questL12War";
+	public static final String CITADEL = "questG02Whitecastle";
 
 	public static final Pattern HTML_WHITESPACE = Pattern.compile( "<[^<]+?>|[\\s\\n]" );
 
@@ -71,79 +67,157 @@ public class QuestDatabase
 			"You delivered a mosquito larva to the Council of Loathing. Nice work!"
 		},
 		{
-			"questL03Rat", "Ooh, I Think I Smell a Rat.", "",
+			"questL03Rat",
+			"Ooh, I Think I Smell a Rat.",
+			"The owner of the Typical Tavern is having a bit of a rat infestation problem.<p>The Tavern is in the Distant Woods.",
 			"You've solved the rat problem at the Typical Tavern. Way to go!",
 		},
 		{
-			"questL04Bat", "Ooh, I Think I Smell a Bat.", "", "You have slain the Boss Bat. Huzzah!"
+			"questL04Bat",
+			"Ooh, I Think I Smell a Bat.",
+			"The Council wants you to make your way to the chamber of the Boss Bat, and slay him.<p>His chamber can be found deep within the Bat Hole, in the Nearby Plains.",
+			"You're getting closer to the Boss Bat's chamber. Keep searching the Bat Hole until you find it.",
+			"You're getting very close to the Boss Bat's chamber. Keep exploring.",
+			"You've discovered the Boss Bat's chamber -- now go in there and clean his clock. Then beat him up. Unless he doesn't have a clock, in which case just go straight to the beating.",
+			"Now that you've defeated the Boss Bat, you should go back to the Council for your reward.",
+			"You have slain the Boss Bat. Huzzah!"
 		},
 		{
-			"questL05Goblin", "The Goblin Who Wouldn't Be King", "",
+			"questL05Goblin",
+			"The Goblin Who Wouldn't Be King",
+			"The Council of Loathing wants you to infiltrate Cobb's Knob and take out the Goblin King.<p>Kill him, that is. Not, like, take him out on a date.",
 			"You have slain the Goblin King. Good job!"
 		},
 		{
-			"questL06Friar", "Trial By Friar", "",
+			"questL06Friar",
+			"Trial By Friar",
+			"The Council of Loathing wants you to assist the Deep Fat Friars. They can be found in their copse in the Distant Woods.",
 			"You have cleansed the taint of the Deep Fat Friars. Congratulations!"
 		},
 		{
-			"questL07Cyrptic", "Cyrptic Emanations", "",
+			"questL07Cyrptic",
+			"Cyrptic Emanations",
+			"The Council of Loathing wants you to find the source of the extreme Spookiness emanating from the Cyrpt. You can find it in the Nearby Plains.",
+			"You've defeated the Bonerdagon -- now take his skull back to the Council, and claim your reward!",
 			"You've undefiled the Cyrpt, and defeated the Bonerdagon. Hip, Hip, Hooray!"
 		},
 		{
-			"questL08Trapper", "Am I my Trapper's Keeper?", "",
+			"questL08Trapper",
+			"Am I my Trapper's Keeper?",
+			"The Council of Loathing wants you to visit the L337 Tr4pz0r, who lives at the base of Mt. McLargeHuge, the tallest of the Big Mountains.",
+			"The Tr4pz0r wants you to infiltrate Itznotyerzitz Mine, and bring him back 3 chunks of ore.",
+			"The Tr4pz0r wants you to bring him 6 chunks of goat cheese from the Goatlet.",
+			"The Tr4pz0r wants you to find some way to protect yourself from the cold. If you can't find a way to do it magically, you can probably find some warm clothes on the eXtreme Slope of Mt. McLargeHuge.",
 			"You have learned how to hunt Yetis from the L337 Tr4pz0r. Shazam!"
 		},
 		{
-			"questL09Lol", "A Quest, LOL", "",
+			"questL09Lol",
+			"A Quest, LOL",
+			"The Council of Loathing wants you to assist the Baron Rof L'm Fao. You must find your way past the Orc Chasm in the Big Mountains to reach the Baron's valley.",
+			"Now that you've found your way to the Valley beyond the Orc Chasm, you must make your way to the gates of the Baron's fortress.",
 			"You have helped the Baron Rof L'm Fao with his monster problem. w00t!"
 		},
 		{
-			"questL10Garbage", "The Rain on the Plains is Mainly Garbage", "",
+			"questL10Garbage",
+			"The Rain on the Plains is Mainly Garbage",
+			"The Council of Loathing wants you to investigate the source of the giant garbage raining down on the Nearby Plains.",
 			"You have stopped the rain of giant garbage in the Nearby Plains. Slick!"
 		},
 		{
 			"questL11MacGuffin",
 			"<Player Name> and the Quest for the Holy MacGuffin",
-			"",
+			"The Council has instructed you to collect your father's archaeology notes from Distant Lands, and use them to hunt down the Holy MacGuffin. Your first step is to find the Black Market, to get some forged ID.",
+			"You've found the Black Market... now to hit the Travel Agency and get yourself on a slow boat to China. I mean, Distant Lands.",
+			"You've picked up your father's diary, and things just got a whole lot more complicated. Oh dear.",
 			"You've handed the Holy MacGuffin over to the Council, and enjoyed a ticker-tape parade in your honor. That quest was so ridiculous, it wasn't even funny, and now it's over! Hooray!"
 		},
 		{
 			"questL11Worship",
 			"Gotta Worship Them All",
-			"",
+			"You father seemed to think the hidden temple in the Distant Woods might be guarding part of the Staff of Ed. I hope you've got your lucky fedora with you.",
+			"You've cunningly evaded one of the Hidden Temple's traps. But what else lies in store? cue ominous music",
+			"Having proved that you ain't no hollaback girl, there's just one more trap to go. Pity dad never got around to translating that last passage...",
+			"Awesome, you've evaded all of the temple's traps! Of course, it turned out that getting the piece of the Staff of Ed isn't going to be nearly that easy, but you were probably expecting that anyway. If you weren't, well, sorry.",
 			"You've defeated the ancient ghost of an ancient mummy of an ancient high priest and claimed his ancient amulet! Go you!"
 		},
 		{
-			"questL11Manor", "In a Manor of Spooking", "",
+			"questL11Manor",
+			"In a Manor of Spooking",
+			"Your father's notes indicate that the gem from the Staff of Ed is probably hidden in a Seaside Town mansion. At a guess, you figure Spookyraven Manor is probably your best bet.",
+			"You've unlocked the wine cellar in Spookyraven Manor. What are the chances there's a secret door hidden somewhere? Yeah, probably about one in one.",
+			"You've found Lord Spookyraven's secret black magic laboratory. When you're done with him, he'll be doing black and blue magic.",
 			"You've defeated Lord Spookyraven and claimed the Eye of Ed! Huzzah!"
 		},
 		{
-			"questL11Palindome", "Never Odd Or Even", "",
+			"questL11Palindome",
+			"Never Odd Or Even",
+			"If you're going to get the Staff of Fats, it looks like the first step is to get into the Palindome. Maybe it has something to do with that amulet your father mentioned in his diary? That password looks important, too.",
+			"Congratulations, you've discovered the fabulous Palindome, rumored to be the final resting place of the legendary Staff of Fats! Now all you have to do is find it...",
+			"Well, you found the Staff of Fats, but then you lost it again. Good going. Looks like you're going to have to track down this Mr. Alarm guy for help...",
+			"Mr. Alan Alarm has agreed to help you nullify Dr. Awkward's ineptitude field (patent pending), but wants some wet stew in return. Those ingredients again: lion oil, a bird rib, and some stunt nuts. Sounds delicious!",
+			"Oh yeah, you've got the Mega Gem, and are ready to deliver some pain to Dr. Awkward. They call you the bus driver, because you're gonna beat the hell out of that guy.",
 			"Congratulations, you've recovered the long-lost Staff of Fats!<p>Nice Work!"
 		},
 		{
 			"questL11Pyramid",
 			"A Pyramid Scheme",
-			"",
+			"Your father's diary indicates that the key to finding the Holy MacGuffin is hidden somewhere in the desert. I hope you've got your walking shoes on.",
+			"You've managed to stumble upon a hidden oasis out in the desert. That should help make your desert explorations a little less... dry.",
+			"The fremegn leader Gnasir has tasked you with finding a stone rose, at his abandoned encampment near the oasis. Apparently it's an ancient symbol of his tribe or something, I dunno, whatever. He's not gonna help you unless you get it for him, though.",
+			"Gnasir has asked you to prove your honor and dedication to the tribe by painting his front door black. A menial task to be sure, but at least it's not dangerous.<p>Well, unless you're really allergic to paint fumes or something.",
+			"Gnasir seemed satisfied with the tasks you performed for his tribe, and has asked you to come back later.<p>...<p>Okay, that's probably long enough.",
+			"For your worm-riding training, you need to find a 'thumper', something that produces a rhythmic vibration to summon sandworms.<p>It's unlikely that we're talking about bunny rabbits here.",
+			"You need to find fifteen missing pages from Gnasir's worm-riding manual. Have fun!",
+			"One worm-riding manual page down, fourteen to go.",
+			"Two worm-riding manual pages down, thirteen to go. Sigh.",
+			"You've found all of Gnasir's missing manual pages. Time to take them back to the sietch.",
+			"You've earned your hooks and are ready to ride the worm. Literally, not in the South-of-the-Border sense.",
+			"One excitingly-described worm-ride later, you've found the little pyramid with the map of Seaside Town inside. Looks like you're going to need the Staff of Ed to get the location of the Holy MacGuffin's hiding place.",
+			"You've found the hidden buried pyramid that guards the Holy MacGuffin. You're so close you can almost taste it! (In a figurative sense, I mean -- I don't recommend you go around licking things you find in ancient tombs.)",
 			"The mighty Ed the Undying has fallen! You recovered the Holy MacGuffin! Jolly good show, mate! "
 		},
 		{
-			"questL12War", "Make War, Not... Oh, Wait", "",
-			"You led the Orcish frat boys to victory in the Great War. For The Horde!"
+			"questL12War",
+			"Make War, Not... Oh, Wait",
+			"The Council has gotten word of tensions building between the hippies and the frat boys on the Mysterious Island of Mystery.<p>They suspect that the two factions are about to go to war, and they want to make sure it's a big war. They want you to head down there and see if you can't stir up some trouble.",
+			"You've managed to get the war between the hippies and frat boys started, and now the Council wants you to finish it.<p>You can aid the war effort by fighting on the Battlefield, or you can help out some of the other residents of the island in the hopes that they'll aid the side you're fighting for.",
+			"You led the filthy hippies to victory in the Great War. For Gaia!",
+			"You led the Orcish frat boys to victory in the Great War. For The Horde!",
+			"You started a chain of events that led the pirates to annihilate both the hippies and the frat boys in the Great War. Toasty!"
 		},
 		{
-			"questL13Final", "The Final Ultimate Epic Final Conflict", "",
+			"questL13Final",
+			"The Final Ultimate Epic Final Conflict",
+			"The Council of Loathing has instructed you to make your way to the top of the Naughty Sorceress' Tower and defeat her.<p>Inside the entrance to the Lair, you've encountered three strange gates. An inscription provides a clue on how you might pass through them...",
+			"Having made it through the three gates, you've encountered a giant mirror that blocks your way deeper into the Lair.",
+			"You've come to an odd junction in the cave leading to the Sorceress' Lair. It seems that in order to proceed, you'll need to solve a really convoluted and contrived puzzle involving a cloud of gas, a locked door, and three statues of mariachis.",
+			"The Council of Loathing has instructed you to make your way to the top of the Naughty Sorceress' Tower and defeat her. Currently, you're stuck in a hedge maze, Don't beat around the bush, get through it!",
+			"You've passed through the gates, solved a fiendish puzzle, beat the hedge maze like a psychotic landscaper, and now you're facing a fiendish monster on the {level number} level of the sorceress's tower.",
+			"You've solved many puzzles, and now are confronted with the most frustrating puzzle yet. Can you figure out the code to get through the heavy door?",
+			"You're almost to the final epic showdown battle countdown of fate and destiny and whatnot! Get in there and kick some tail!",
+			"You thought you were finally going to fight the Sorceress, but you're still stuck battling her minions. This one seems to be a shadowy, evil version of you, except it doesn't have a goatee.",
+			"You find yourself fighting one of the Sorceress's freakishly overgrown familiars. What is she feeding them, anyway?",
+			"This is it, sparky -- the big showdown with the Naughty Sorceress. I just wanted to say, \"good luck - we're all counting on you.\"",
+			"You have defeated the Naughty Sorceress! Whoohoo! You left the king in his prism, though.",
 			"You have defeated the Naughty Sorceress and freed the King! What are you hanging around here for?"
 		},
 
 		{
-			"questG01Meatcar", "My Other Car Is Made of Meat", "",
+			"questG01Meatcar",
+			"My Other Car Is Made of Meat",
+			"Since your Guild's meat car has been lost due to somewhat sketchy circumstances, you need to build a new one. You might be able to find some parts at Degrassi Knoll.",
 			"You've built a new meat car from parts. Impressive!"
 		},
 		{
 			"questG02Whitecastle",
 			"<Player Name> and <Familiar Name> Go To White Citadel",
 			"You've been charged by your Guild (sort of) with the task of bringing back a delicious meal from the legendary White Citadel. You've been told it's somewhere near Whitey's Grove, in the Distant Woods.",
+			"You've discovered the road from Whitey's Grove to the legendary White Citadel. You should explore it and see if you can find your way.",
+			"You're progressing down the road towards the White Citadel, but you'll need to find something that can help you get past that stupid cheetah if you're going to make it any further. Keep looking around.",
+			"You've made your way further down the Road to the White Citadel, but you still haven't found it. Keep looking!",
+			"You've found the White Citadel, but it's at the bottom of a huge cliff. You should keep messing around on the Road until you find a way to get down the cliff.",
+			"You have discovered the legendary White Citadel. You should probably go in there and get the carryout order you were trying to get in the first place. Funny how things spiral out of control, isn't it?",
+			"You've got the Satisfaction Satchel. Take it to your contact in your Guild for a reward.",
 			"You've delivered a satchel of incredibly greasy food to someone you barely know. Plus, you can now shop at White Citadel whenever you want. Awesome!"
 		},
 		{
@@ -153,16 +227,27 @@ public class QuestDatabase
 			"You've turned in the old book, and they said they didn't want it and for you to go away. A bit anticlimactic, but I suppose it still counts as a success. Congratulations!"
 		},
 		{
-			"questG04Nemesis", "Me and My Nemesis", "", ""
+			"questG04Nemesis",
+			"Me and My Nemesis",
+			"One of your guild leaders has tasked you to recover a mysterious and unnamed artifact stolen by your Nemesis. Your first step is to smith an Epic Weapon.<p>Two parts of the Epic Weapon can be had from the two oldest and wisest men in the kingdom, one of whom runs the casino. You weren't told where the third part is.",
+			"Despite being aided by <demon name>, the Demonic Lord of Revenge, the Infernal Seal Gorgolok has fallen beneath your mighty assault. Never again will the people of the Frigid Northlands be terrorized by this foul beast! Your mother must be very proud of you. Well done!",
+			"Despite being aided by <demon name>, the Demonic Lord of Revenge, Stella the Turtle Poacher has fallen beneath your mighty assault. Never again will the helpless Testudines of the Kingdom be terrorized by her horrible poachery! Your mother must be very proud of you. Well done!",
+			"Despite being aided by <demon name>, the Demonic Lord of Revenge, the evil Spaghetti Elemental has fallen beneath your mighty assault. Never again will the people of the Kingdom of Loathing be terrorized by whatever it was that the Pasta Cult was actually doing (probably human sacrifices and stuff)! Your mother must be very proud of you. Well done!",
+			"Despite being aided by <demon name>, the Demonic Lord of Revenge, Lumpy the Sinister Sauceblob has fallen beneath your mighty assault. Now the people of the Kingdom of Loathing are safe from whatever horrible (and probably really gross) scheme it was that Lumpy had in store! Your mother must be very proud of you. Well done!",
+			"Despite being aided by <demon name>, the Demonic Lord of Revenge, the Spirit of New Wave has fallen beneath your mighty assault. Now the disco-loving people of the Kingdom of Loathing are free to groove the night away, safe from his insidious machinations! Your mother must be very proud of you. Well done!",
+			"Despite being aided by <demon name>, the Demonic Lord of Revenge, the dread mariachi Somerset Lopez has fallen beneath your mighty assault. Now the eons-long war between the Accordion Thieves and the mariachis is finally at an end, and the streets of the Kingdom of Loathing are safe for cat-burglars and sneak-thieves like yourself and your cronies! Your mother must be very proud of you. Well done!"
 		},
 		{
 			"questG05Dark",
 			"A Dark and Dank and Sinister Quest",
-			"",
+			"Finally it's time to meet this Nemesis you've been hearing so much about! The guy at your guild has marked your map with the location of a cave in the Big Mountains, where your Nemesis is supposedly hiding.",
 			"Your Nemesis has scuttled away in defeat, leaving you with a sweet Epic Hat and a feeling of smug superiority. Well done you!"
 		},
 		{
-			"questG06Delivery", "<Player Name>'s Delivery Service", "", ""
+			"questG06Delivery",
+			"<Player Name>'s Delivery Service",
+			"A guy in your guild has offered you some meat if you'll grab his package for him.<p>Oh stop laughing, you know perfectly well what I mean! Honestly...<p>Anyway, you should be able to find it in the 7-Foot Dwarves' factory complex, which can supposedly be reached through their mine.",
+			"You've successfully delivered a package, and been rewarded with an amount of meat that was more-or-less proportional to the difficulty of the task. Hooray! Of course, there's obviously a bit more going on in that factory, but whether or not you want to mess around with all that is up to you."
 		},
 
 		{
@@ -178,74 +263,135 @@ public class QuestDatabase
 			"You helped retrieve the Pretentious Artist's stuff. Excellent!"
 		},
 		{
-			"questM03Bugbear", "A Bugbear of a Problem", "",
+			"questM03Bugbear",
+			"A Bugbear of a Problem",
+			"Mayor Zapruder of Degrassi Knoll wants you to investigate the Gnolls' bugbear pens, located in the Distant Woods.",
+			"Mayor Zapruder wants you to find your way to the spooky gravy fairies' barrow, but first he needs you to bring him a flaming/frozen/stinky mushroom from the mushroom fields deep within Degrassi Knoll.",
+			"Now that you've got a powerful Gravy Fairy, Mayor Zapruder wants you to investigate the Spooky Gravy Barrow in the Distant Woods.",
+			"Now that you've slain Queen Felonia, you should go back to Mayor Zapruder for your reward.",
 			"You've helped Mayor Zapruder of Degrassi Knoll with his spooky gravy fairy problem. Nice going!"
 		},
 		{
 			"questM04Galaktic",
 			"What's Up, Doc?",
-			"",
+			"Doc Galaktik wants you to collect some herbs for him. This is what he told you:<p>\"First, I'll need three swindleblossoms. I'm not sure where they grow, but I know that the harem girls of Cobb's Knob like to wear them in their hair.<p>After that, I'll need three sprigs of fraudwort. It's used by ninja assassins from Hey Deze to make poisons.<p>Finally, I'll need three bundles of shysterweed -- it only grows near the graves of liars. Or so I've been told. The guy might've been lying, I guess.\"",
 			"You found some herbs for Doc Galaktik, and he rewarded you with a permanent discount on Curative Nostrums and Fizzy Invigorating Tonics. Nifty!"
 		},
 		{
-			"questM05Toot", "Toot!", "", "You have completed your training with the Toot Oriole. Groovy!"
+			"questM05Toot",
+			"Toot!",
+			"The Council of Loathing has suggested that you visit the Toot Oriole, on Mt. Noob, in the Big Mountains. You should probably listen to them.",
+			"You have completed your training with the Toot Oriole. Groovy!"
 		},
 		{
-			"questM06Gourd", "Out of Your Gourd", "", ""
+			"questM06Gourd",
+			"Out of Your Gourd",
+			"The Captain of the Gourd, on the Right Side of the Tracks in Seaside Town, needs you to help him defend the gourd. He's asking you to bring back 5 [Knob Goblin firecrackers|razor-sharp can lids|spider webs] from the [Outskirts of Cobb's Knob|Haunted Pantry|Sleazy Back Alley].",
+			"You've helped out the Captain of the Gourd. Urp!"
 		},
 		{
-			"questM07Hammer", "Hammer Time", "", ""
+			"questM07Hammer",
+			"Hammer Time",
+			"You were approached in the Sleazy Back Alley by a guy named Harold, who wants you to repair his favorite hammer for him.",
+			"You handily helped Harold with his hammer. Hallelujah!"
 		},
 		{
-			"questM08Baker", "Baker, Baker", "", ""
+			"questM08Baker",
+			"Baker, Baker",
+			"A guy near the Haunted Pantry gave you a cake, and asked if you could figure out some way to light the candles on it. He says that normal fire won't work, because they're \"hilarious\" novelty candles.",
+			"You helped the anonymous baker prepare his cake for Claude. What a Samaritan!"
 		},
 		{
-			"questM09Rocks", "When Rocks Attack", "", ""
+			"questM09Rocks",
+			"When Rocks Attack",
+			"A wounded guard near Cobb's Knob wants you to go to Doc Galaktik's Medicine Show, in the Market Square of Seaside Town, and get him a container of Doc Galaktik's Pungent Unguent.",
+			"You helped out a wounded Knob Goblin guard by bringing him some unguent. You're a regular Florence Nightingale Jr.!"
 		},
 		{
 			"questM10Azazel",
 			"Angry <Player Name>, this is Azazel in Hell.",
-			"",
+			"Azazel, one of the ArchDukes of Hey Deze, has \"lost\" several of the talismans of his evil power. If you find them, he'll probably reward you. Probably. He's kind of a jerk.<p>He lives in the City of Pandemonium, on the other side of the Deep Fat Friars' Gate in the Distant Woods.",
 			"You've found Azazel's unicorn, his lollipop, and his tutu. This peek into the nature of evil is disturbing, but the reward was gratifying. Go you!"
 		},
 		{
-			"questM11Postal", "Going Postal", "", ""
+			"questM11Postal",
+			"Going Postal",
+			"Gnorbert, elder of the gnomish gnomads, wants you to collect some comic books from a sk8 gnome named Gnathan, who usually hangs out at The eXtreme Slope.<p>Sounds pretty simple; this shouldn't take long.",
+			"You did it! You successfully returned the comic books and were rewarded with some sort of gnomitronic gizmo. All I can say is, it'd better be a damn good gizmo."
 		},
 		{
-			"questM12Pirate", "I Rate, You Rate", "", ""
+			"questM12Pirate",
+			"I Rate, You Rate",
+			"A salty old pirate named Cap'm Caronch has offered to let you join his crew if you find some treasure for him. He gave you a map, which causes you to wonder why he didn't just go dig it up himself, but oh well...",
+			"Now that you've found Cap'm Caronch's booty (and shaken it a few times), you should probably take it back to him.",
+			"Cap'm Caronch has given you a set of blueprints to the Orcish Frat House, and asked you to steal his dentures back from the Frat Orcs.<p>If you are caught or killed, the secretary will disavow any knowledge of your actions.",
+			"You have successfully swiped the Cap'm's teeth from the Frat Orcs -- time to take the nasty things back to him. And then wash your hands.",
+			"You've completed two of Cap'm Caronch's tasks, but (surprise surprise) he's got a third one for you before you can join his crew. Strange how these things always come in threes...<p>Anyway, the Cap'm wants you to defeat Old Don Rickets, the current champion of Insult Beer Pong, at his own game.",
+			"You have successfully joined Cap'm Caronch's crew! Unfortunately, you've been given crappy scutwork to do before you're a full-fledged pirate.<p>Your tasks: scrub the mizzenmast, polish the cannonballs, and shampoo the rigging.",
+			"Congratulations, you're a mighty pirate! Time to man the poop deck and sail the eleven seas!<p>Oh, and also you've managed to scam your way belowdecks, which is cool."
 		},
 		{
-			"questM13Escape", "The Pretty Good Escape", "", ""
+			"questM13Escape",
+			"The Pretty Good Escape",
+			"Subject 37, in the Cobb's Knob Menagerie wants you to find out what the scientists in the Cobb's Knob Laboratory are planning to do to him.",
+			"You've done a good turn, and helped Subject 37 make his escape from the Cobb's Knob Menagerie."
 		},
 		{
-			"questM14Bounty", "A Bounty Hunter Is You!", "", ""
-		},
-
-		{
-			"questS01OldGuy", "An Old Guy and The Ocean", "", ""
-		},
-		{
-			"questS02Monkees", "Hey, Hey, They're Sea Monkees", "", ""
-		},
-
-		{
-			"questF01Primordial", "Primordial Fear", "", ""
-		},
-		{
-			"questF02Hyboria", "Hyboria? I don't even...", "", ""
-		},
-		{
-			"questF03Future", "Future", "", ""
-		},
-		{
-			"questF04Elves", "The Quest for the Legendary Beat", "", ""
+			"questM14Bounty", "A Bounty Hunter Is You!",
+			"The bounty hunter hunter wants you to collect [amount] [item] from [monster] on [location].",
+			""
 		},
 
 		{
-			"questI01Scapegoat", "Scapegoat", "", ""
+			"questS01OldGuy",
+			"An Old Guy and The Ocean",
+			"The Old Man, by The Sea, wants you to retrieve his boot. He says he dropped it off the side of his boat while he was fishing.",
+			"You've bought the Old Man's boot back from Big Brother. You should take it back to him.",
+			"You helped the Old Man retrieve his boot from The Sea. Marvelous!"
 		},
 		{
-			"questI02Beat", "Repair the Elves' Shield Generator", "", ""
+			"questS02Monkees",
+			"Hey, Hey, They're Sea Monkees",
+			"You rescued a strange, monkey-like creature from a Neptune Flytrap. He marked the location of his sea-floor home on your map -- maybe you should go talk to him.",
+			""
+		},
+
+		{
+			"questF01Primordial", "Primordial Fear",
+			"You remember floating aimlessly in the Primordial Soup. You wanted to do it some more.",
+			"You remember creating an unstoppable supervirus. Congratulations!"
+		},
+		{
+			"questF02Hyboria",
+			"Hyboria? I don't even...",
+			"Your ancient ancestor, the mighty warrior Krakrox (and also, at the moment, yourself -- and I know that's confusing, but that's time-travel for you) is exploring the jungles of Loathing and an ancient city that has lain abandoned since even more ancient times. Sounds like good fun, eh?",
+			"You discovered and dug up the Pork Elves' reward to Krakrox in an abandoned lot at the Wrong Side of the Tracks. Congratulations! Ki'Rhuss's ruby eye was there as well, but your adventurer's intuition told you it was better left where it was."
+		},
+		{
+			"questF03Future",
+			"Future",
+			"You've journeyed through time to a future megalopolis, and found out you aren't the savior of mankind. Oh, well. Who needs that kind of responsibility?",
+			"You've used the power of all six elements to save the world, and came *this* close to makin' bacon with the Supreme Being. Congratulations! Check your inventory for a secret from the future!"
+		},
+		{
+			"questF04Elves", "Repair the Elves' Shield Generator",
+			"Explore Ronaldus and Grimacia to find out what happened to the elves.",
+			"Use the Maps you've found to search for missing scientists.", "Escort Axel around the moons.",
+			"Congratulations! You've saved a few of the elves!"
+		},
+
+		{
+			"questI01Scapegoat",
+			"Scapegoat",
+			"You must find and put a stop to whoever is controlling the army of lawn gnomes in The Landscaper's Lair.<p>You've got a hunch that it's probably somebody called The Landscaper, and that he probably lives in the hut marked \"The Landscaper's Hut\" on your map.<p>It's just a hunch, though.",
+			"You've defeated The Landscaper and claimed his obnoxious leafblower as your own."
+		},
+		{
+			"questI02Beat",
+			"The Quest for the Legendary Beat",
+			"You must defeat Professor Jacking in order to gain access to his laboratory and search for the Legendary Beat.",
+			"You've defeated Professor Jacking and gained unfettered access to his laboratory. Now... where's that Beat?",
+			"You've managed to find the Legendary Beat, which Professor Jacking had cleverly miniaturized and embedded in your own skin. Fresh!"
 		},
 	};
 
@@ -253,12 +399,10 @@ public class QuestDatabase
 	{
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			// Capitalize that name.
-			questLogData[ i ][ 1 ] = questLogData[ i ][ 1 ].replaceAll( "<Player\\sName>", KoLCharacter
-				.getUserName().substring( 0, 1 ).toUpperCase()
-				+ KoLCharacter.getUserName().substring( 1 ) );
+			// replace <player name> with player name.
+			questLogData[ i ][ 1 ] = questLogData[ i ][ 1 ].replaceAll( "<Player\\sName>",
+				KoLCharacter.getUserName() );
 		}
-
 	}
 
 	public static String titleToPref( final String title )
@@ -271,7 +415,7 @@ public class QuestDatabase
 		}
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			if ( questLogData[ i ][ 1 ].indexOf( title ) != -1 )
+			if ( questLogData[ i ][ 1 ].toLowerCase().indexOf( title.toLowerCase() ) != -1 )
 			{
 				return questLogData[ i ][ 0 ];
 			}
@@ -285,7 +429,7 @@ public class QuestDatabase
 	{
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			if ( questLogData[ i ][ 0 ].indexOf( pref ) != -1 )
+			if ( questLogData[ i ][ 0 ].toLowerCase().indexOf( pref.toLowerCase() ) != -1 )
 			{
 				return questLogData[ i ][ 1 ];
 			}
@@ -299,7 +443,7 @@ public class QuestDatabase
 	{
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
-			if ( questLogData[ i ][ 0 ].indexOf( pref ) != -1 )
+			if ( questLogData[ i ][ 0 ].toLowerCase().indexOf( pref.toLowerCase() ) != -1 )
 			{
 				return i;
 			}
@@ -311,6 +455,12 @@ public class QuestDatabase
 
 	public static String findQuestProgress( String pref, String details )
 	{
+		// Special handling due to multiple endings
+		if ( pref.equals( "questL12War" ) )
+		{
+			return handleWarStatus( details );
+		}
+
 		// First thing to do is find which quest we're talking about.
 		int index = prefToIndex( pref );
 
@@ -339,38 +489,28 @@ public class QuestDatabase
 				break;
 			}
 		}
-		if ( foundAtStep != -1 )
-		{
-			if ( foundAtStep == 0 )
-			{
-				return QuestDatabase.STARTED;
-			}
-			else if ( foundAtStep == steps -1 )
-			{
-				return QuestDatabase.FINISHED;
-			}
-			else
-			{
-				return "Step" + foundAtStep;
-			}
-		}
 
-		// Didn't manage to find an exact match. Now try stripping out all whitespace, newlines, and anything
-		// that looks like html from questData and response.
-		String cleanedResponse = QuestDatabase.HTML_WHITESPACE.matcher( details ).replaceAll( "" );
-		String cleanedQuest = "";
-		
-		// RequestLogger.printLine( cleanedResponse );
-
-		for ( int i = 2; i < questLogData[ index ].length; ++i )
+		if ( foundAtStep == -1 )
 		{
-			cleanedQuest = QuestDatabase.HTML_WHITESPACE.matcher( questLogData[ index ][ i ] ).replaceAll(
-				"" );
-			//RequestLogger.printLine( cleanedQuest );
-			if ( cleanedQuest.indexOf( cleanedResponse ) != -1 )
+			// Didn't manage to find an exact match. Now try stripping out all whitespace, newlines, and
+			// anything that looks like html from questData and response. And make everything lower case,
+			// because player names can be arbitrarily capitalized.
+			String cleanedResponse = QuestDatabase.HTML_WHITESPACE.matcher( details ).replaceAll( "" )
+				.toLowerCase();
+			String cleanedQuest = "";
+
+			// RequestLogger.printLine( cleanedResponse );
+
+			for ( int i = 2; i < questLogData[ index ].length; ++i )
 			{
-				foundAtStep = i - 2;
-				break;
+				cleanedQuest = QuestDatabase.HTML_WHITESPACE.matcher( questLogData[ index ][ i ] )
+					.replaceAll( "" ).toLowerCase();
+				// RequestLogger.printLine( cleanedQuest );
+				if ( cleanedQuest.indexOf( cleanedResponse ) != -1 )
+				{
+					foundAtStep = i - 2;
+					break;
+				}
 			}
 		}
 
@@ -386,13 +526,44 @@ public class QuestDatabase
 			}
 			else
 			{
-				return "Step" + foundAtStep;
+				return "step" + foundAtStep;
 			}
 		}
 
-		// Well, that didn't work either. Punt.
+		if ( pref.equals( "questG04Nemesis" ) && details.indexOf( "Demonic Lord of Revenge" ) != -1 )
+		{
+			// Hard code the end of the nemesis quest, for now. We could eventually programmatically handle
+			// the <demon name> in the response.
+			return QuestDatabase.FINISHED;
+		}
 
+		// Well, none of the above worked. Punt.
 		return "";
 	}
 
+	private static String handleWarStatus( String details )
+	{
+		if ( details.indexOf( "You led the filthy hippies to victory" ) != -1
+			|| details.indexOf( "You led the Orcish frat boys to victory" ) != -1
+			|| details.indexOf( "You started a chain of events" ) != -1 )
+		{
+			return QuestDatabase.FINISHED;
+		}
+		return "";
+	}
+
+	public static void setQuestProgress( String pref, String status )
+	{
+		if ( prefToIndex( pref ) == -1 )
+		{
+			return;
+		}
+
+		if ( !status.equals( QuestDatabase.STARTED ) && !status.equals( QuestDatabase.FINISHED )
+			&& status.indexOf( "step" ) == -1 )
+		{
+			return;
+		}
+		Preferences.setString( pref, status );
+	}
 }

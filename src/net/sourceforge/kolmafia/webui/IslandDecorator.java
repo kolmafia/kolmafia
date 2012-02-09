@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -1280,7 +1281,7 @@ public class IslandDecorator
 
 		Preferences.setString( "sideDefeated", loser );
 		Preferences.setString( "warProgress", "finished" );
-		QuestLogRequest.setHippyStoreAvailability( true );
+		QuestDatabase.setQuestProgress( QuestDatabase.ISLAND_WAR, QuestDatabase.FINISHED );
 		CoinmastersFrame.externalUpdate();
 	}
 

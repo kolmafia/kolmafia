@@ -40,7 +40,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -50,23 +49,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class QuestLogRequest
 	extends GenericRequest
 {
-	private static final String GALAKTIK = "What's Up, Doc?";
-	private static final String CITADEL1 = "You have discovered the legendary White Citadel";
-	private static final String CITADEL2 = "You've got the Satisfaction Satchel";
-	private static final String CITADEL3 = "you can now shop at White Citadel";
-
-	private static final String FRIAR = "Trial By Friar";
-
-	private static final String BLACK_MARKET_STRING_1 =
-		"now to hit the Travel Agency and get yourself on a slow boat to China";
-	private static final String BLACK_MARKET_STRING_2 =
-		"You've picked up your father's diary, and things just got a whole lot more complicated";
-	private static final String MACGUFFIN = "Quest for the Holy MacGuffin";
-
-	private static final String ISLAND_WAR = "Make War, Not...";
-	private static final String ISLAND_WAR_STRING =
-		"You've managed to get the war between the hippies and frat boys started, and now the Council wants you to finish it.";
-
 	private static final String ALTAR_OF_LITERACY =
 		"You have proven yourself literate.";
 	private static final String DUNGEONS_OF_DOOM =
@@ -74,17 +56,10 @@ public class QuestLogRequest
 	private static final String HAX0R =
 		"You have summoned the UB3r 31337 HaX0R";
 
-	private static String started = "";
-	private static String finished = "";
 	private static String other = "";
 
 	private static boolean dungeonOfDoomAvailable = false;
 
-	private static boolean whiteCitadelAvailable = false;
-	private static boolean friarsAvailable = false;
-	private static boolean blackMarketAvailable = false;
-	private static boolean hippyStoreAvailable = false;
-	
 	private static final Pattern HEADER_PATTERN = Pattern.compile(  "<b>([^<]*?[^>]*?)</b><p><blockquote>", Pattern.DOTALL );
 	private static final Pattern BODY_PATTERN = Pattern.compile( "(?<=<b>)(.*?[^<>]*?)</b><br>(.*?)(?=<p>)", Pattern.DOTALL );
 
@@ -93,14 +68,9 @@ public class QuestLogRequest
 		super( "questlog.php" );
 	}
 
-	private static final boolean startedQuest( final String quest )
+	private static final boolean finishedQuest( final String pref )
 	{
-		return QuestLogRequest.started.indexOf( quest ) != -1;
-	}
-
-	private static final boolean finishedQuest( final String quest )
-	{
-		return QuestLogRequest.finished.indexOf( quest ) != -1;
+		return Preferences.getString( pref ).equals( QuestDatabase.FINISHED );
 	}
 
 	public static final boolean galaktikCuresAvailable()
@@ -120,47 +90,29 @@ public class QuestLogRequest
 
 	public static final boolean isWhiteCitadelAvailable()
 	{
-		return QuestLogRequest.whiteCitadelAvailable;
-	}
-
-	public static final void setWhiteCitadelAvailable()
-	{
-		QuestLogRequest.whiteCitadelAvailable = true;
+		String pref = Preferences.getString( QuestDatabase.CITADEL );
+		return pref.equals( QuestDatabase.FINISHED ) || pref.equals( "step5" ) || pref.equals( "step6" );
 	}
 
 	public static final boolean areFriarsAvailable()
 	{
-		return QuestLogRequest.friarsAvailable;
-	}
-
-	public static final void setFriarsAvailable()
-	{
-		QuestLogRequest.friarsAvailable = true;
+		return Preferences.getString( QuestDatabase.FRIAR ).equals( QuestDatabase.FINISHED );
 	}
 
 	public static final boolean isBlackMarketAvailable()
 	{
 		if ( Preferences.getInteger( "lastWuTangDefeated" ) == KoLCharacter.getAscensions() )
 		{
-			QuestLogRequest.blackMarketAvailable = false;
+			return false;
 		}
+		String pref = Preferences.getString( QuestDatabase.MACGUFFIN );
 
-		return QuestLogRequest.blackMarketAvailable;
-	}
-
-	public static final void setBlackMarketAvailable()
-	{
-		QuestLogRequest.blackMarketAvailable = true;
+		return pref.equals( QuestDatabase.FINISHED ) || pref.indexOf( "step" ) != -1;
 	}
 
 	public static final boolean isHippyStoreAvailable()
 	{
-		return QuestLogRequest.hippyStoreAvailable;
-	}
-
-	public static final void setHippyStoreAvailability( final boolean available )
-	{
-		QuestLogRequest.hippyStoreAvailable = available;
+		return !Preferences.getString( QuestDatabase.ISLAND_WAR ).equals( "step1" );
 	}
 
 	public void run()
@@ -192,16 +144,6 @@ public class QuestLogRequest
 		{
 			QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
 		}
-
-		QuestLogRequest.blackMarketAvailable =
-			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_1 ) ||
-			QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_2 ) ||
-			QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
-		QuestLogRequest.hippyStoreAvailable =
-			!QuestLogRequest.startedQuest( QuestLogRequest.ISLAND_WAR_STRING ) ||
-			QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
-
-		QuestLogRequest.friarsAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.FRIAR );
 	}
 
 	protected boolean retryOnTimeout()
@@ -213,40 +155,14 @@ public class QuestLogRequest
 	{
 		if ( urlString.indexOf( "which=1" ) != -1 )
 		{
-			QuestLogRequest.started = responseText;
-
-			if ( isExternal )
-			{
-				QuestLogRequest.blackMarketAvailable |=
-					QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_1 ) ||
-					QuestLogRequest.startedQuest( QuestLogRequest.BLACK_MARKET_STRING_2 );
-				QuestLogRequest.hippyStoreAvailable &=
-					!QuestLogRequest.startedQuest( QuestLogRequest.ISLAND_WAR_STRING );
-			}
-			
 			parseResponse( responseText, 1 );
 		}
 
 		if ( urlString.indexOf( "which=2" ) != -1 )
 		{
-			QuestLogRequest.finished = responseText;
-
-			GalaktikRequest.setDiscount( QuestLogRequest.finishedQuest( QuestLogRequest.GALAKTIK ) );
-			QuestLogRequest.whiteCitadelAvailable = 
-				QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL3 ) || 
-				QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL2 ) || 
-				QuestLogRequest.finishedQuest( QuestLogRequest.CITADEL1 );
-			QuestLogRequest.friarsAvailable = QuestLogRequest.finishedQuest( QuestLogRequest.FRIAR );
-
-
-			if ( isExternal )
-			{
-				QuestLogRequest.blackMarketAvailable |=
-					QuestLogRequest.finishedQuest( QuestLogRequest.MACGUFFIN );
-				QuestLogRequest.hippyStoreAvailable |= QuestLogRequest.finishedQuest( QuestLogRequest.ISLAND_WAR );
-			}
-			
 			parseResponse( responseText, 2 );
+
+			GalaktikRequest.setDiscount( QuestLogRequest.finishedQuest( QuestDatabase.GALAKTIK ) );
 		}
 
 		if ( urlString.indexOf( "which=3" ) != -1 )
@@ -280,16 +196,15 @@ public class QuestLogRequest
 
 			if ( header.equals( "Council Quests:" ) )
 			{
-				handleCouncilQuestText( cut, source );
+				handleQuestText( cut, source );
 			}
 			else if ( header.equals( "Guild Quests:" ) )
 			{
-				handleGuildQuestText( cut, source );
+				handleQuestText( cut, source );
 			}
 			else if ( header.equals( "Miscellaneous Quests:" ) )
 			{
-				// Handling for Misc. here!
-
+				handleQuestText( cut, source );
 			}
 			else
 			{
@@ -298,78 +213,21 @@ public class QuestLogRequest
 		}
 	}
 
-	private static void handleCouncilQuestText( String response, int source )
+	private static void handleQuestText( String response, int source )
 	{
 		Matcher body = QuestLogRequest.BODY_PATTERN.matcher( response );
 		// Form of.. a regex! group(1) now contains the quest title and group(2) has the details.
 		while ( body.find() )
 		{
 			String title = body.group( 1 );
-			String details =  body.group( 2 );
+			String details = body.group( 2 );
 			String pref = QuestDatabase.titleToPref( title );
 			String status = "";
-			
+
 			status = QuestDatabase.findQuestProgress( pref, details );
-			
-			// When we've implemented everything, do some error checking to make sure we handled everything
-			// successfully.
-			
-/*			if ( pref.equals( "" ) || status.equals( "" ) )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Something went wrong while parsing questlog.php" );
-				return;
-			}
-			if ( source == 2 && !status.equals( "finished" ) )
-			{
-				//shouldn't happen.  We were parsing the completed quests page but somehow didn't set a quest to finished.
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Something went wrong while parsing completed quests" );
-				return;
-			}*/
-			
+
 			// Debugging
-			
-			/*if ( !pref.equals( "" ) )
-			{
-				RequestLogger.printLine( pref + " (" + status + ")" );
-			}
-			else
-			{
-				RequestLogger.printLine( "unhandled: " + title );
-			}*/			
-			// Finally, set preference.
-			// Preferences.setString( pref, status );
-		}
-	}
-	
-	private static void handleGuildQuestText( String response, int source )
-	{
-		Matcher body = QuestLogRequest.BODY_PATTERN.matcher( response );
-		while ( body.find() )
-		{
-			String title = body.group( 1 );
-			String details =  body.group( 2 );
-			String pref = QuestDatabase.titleToPref( title );
-			String status = "";
-			
-			status = QuestDatabase.findQuestProgress( pref, details );
-			
-			// When we've implemented everything, do some error checking to make sure we handled everything
-			// successfully.
-			
-/*			if ( pref.equals( "" ) || status.equals( "" ) )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Something went wrong while parsing questlog.php" );
-				return;
-			}
-			if ( source == 2 && !status.equals( "finished" ) )
-			{
-				//shouldn't happen.  We were parsing the completed quests page but somehow didn't set a quest to finished.
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Something went wrong while parsing completed quests" );
-				return;
-			}*/
-			
-			// Debugging
-			
+
 			/*if ( !pref.equals( "" ) )
 			{
 				RequestLogger.printLine( pref + " (" + status + ")" );
@@ -378,9 +236,34 @@ public class QuestLogRequest
 			{
 				RequestLogger.printLine( "unhandled: " + title );
 			}*/
-			
-			// Finally, set preference.
-			// Preferences.setString( pref, status );
+
+			// Once we've implemented everything, we can do some error checking to make sure we handled everything
+			// successfully.
+
+			if ( pref.equals( "" ) )
+			{
+				/*KoLmafia.updateDisplay( KoLConstants.CONTINUE_STATE,
+					"Unknown quest, or something went wrong while parsing questlog.php" );*/
+				continue;
+			}
+			if ( status.equals( "" ) )
+			{
+				/*KoLmafia.updateDisplay( KoLConstants.CONTINUE_STATE,
+					"Unknown quest status found while parsing questlog.php" );*/
+				continue;
+			}
+			/*
+			 * if ( source == 2 && !status.equals( "finished" ) )
+			 * {
+			 * // Probably shouldn't happen. We were parsing the completed quests page but somehow didn't set a quest
+			 * to finished.  Possible exception happens during nemesis quest.
+			 * KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+			 * "Something went wrong while parsing completed quests" );
+			 * return;
+			 * }
+			 */
+
+			QuestDatabase.setQuestProgress( pref, status );
 		}
 	}
 }

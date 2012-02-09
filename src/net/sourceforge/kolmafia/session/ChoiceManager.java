@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -2958,7 +2959,7 @@ public abstract class ChoiceManager
 		case 146:
 			if ( ChoiceManager.lastDecision == 3 )
 			{
-				QuestLogRequest.setHippyStoreAvailability( false );
+				QuestDatabase.setQuestProgress( QuestDatabase.ISLAND_WAR, "step1" );
 			}
 			break;
 
