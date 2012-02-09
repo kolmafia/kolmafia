@@ -1514,6 +1514,7 @@ public class RelayRequest
 		}
 
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
+		boolean isNonCombatsOnly = adventure != null && adventure.isNonCombatsOnly();
 
 		// Do some checks for the battlefield:
 		// - make sure player doesn't lose a Wossname by accident
@@ -1537,14 +1538,15 @@ public class RelayRequest
 
 		if ( nextAdventure != null && RecoveryManager.isRecoveryPossible() )
 		{
+			boolean isScript = !isNonCombatsOnly && Preferences.getBoolean( "relayRunsBeforeBattleScript" );
+			boolean isMood = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsEffects" );
+			boolean isHealth = Preferences.getBoolean( "relayMaintainsHealth" );
+			boolean isMana = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsMana" );
+
 			KoLmafia.forceContinue();
 
 			Preferences.setString( "lastAdventure", nextAdventure );
-			RecoveryManager.runBetweenBattleChecks(
-				Preferences.getBoolean( "relayRunsBeforeBattleScript" ),
-				Preferences.getBoolean( "relayMaintainsEffects" ),
-				Preferences.getBoolean( "relayMaintainsHealth" ),
-				Preferences.getBoolean( "relayMaintainsMana" ) );
+			RecoveryManager.runBetweenBattleChecks( isScript, isMood, isHealth, isMana );
 
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -1563,16 +1565,11 @@ public class RelayRequest
 
 		if ( adventureName != null && this.getFormField( "confirm" ) == null )
 		{
-			AreaCombatData areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
-
 			// Check for a 100% familiar run if the current familiar
 			// has zero combat experience.
 
-			boolean isPossibleCombatLocation =
-				this.data.isEmpty() && ( areaSummary == null || areaSummary.combats() > 0 || areaSummary.combats() == -1 );
-
-			if ( KoLCharacter.getFamiliar().isUnexpectedFamiliar() && isPossibleCombatLocation &&
-				 ( !KoLCharacter.kingLiberated() || KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT ) )
+			if ( KoLCharacter.getFamiliar().isUnexpectedFamiliar() && !isNonCombatsOnly &&
+			     ( !KoLCharacter.kingLiberated() || KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT ) )
 			{
 				this.sendFamiliarWarning();
 				return;
