@@ -40,6 +40,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class AutoHighlightSpinner
 	extends JSpinner
 {
@@ -110,7 +112,7 @@ public class AutoHighlightSpinner
 				try
 				{
 					String text = AutoHighlightNumberEditor.this.getText();
-					int value = Integer.parseInt( text );
+					int value = StringUtilities.parseInt( text );
 					AutoHighlightNumberEditor.this.changing = true;
 					AutoHighlightSpinner.this.setValue( new Integer( value ) );
 					AutoHighlightNumberEditor.this.changing = false;
