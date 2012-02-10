@@ -88,13 +88,7 @@ public class DrinkItemRequest
 
 	public static final int maximumUses( final int itemId, final String itemName, final int inebriety, final boolean allowOverDrink )
 	{
-		if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( itemName ) )
-		{
-			UseItemRequest.limiter = "bees";
-			return 0;
-		}
-
-		DrinkItemRequest.limiter = "inebriety";
+		UseItemRequest.limiter = "inebriety";
 		int limit = KoLCharacter.getInebrietyLimit();
 
 		// Green Beer allows drinking to limit + 10,
@@ -481,7 +475,7 @@ public class DrinkItemRequest
 			ResultProcessor.processResult( helper.getNegation() );
 		}
 
-		int consumptionType = DrinkItemRequest.getConsumptionType( item );
+		int consumptionType = UseItemRequest.getConsumptionType( item );
 
 		// Assume initially that this causes the item to disappear.
 		// In the event that the item is not used, then proceed to
@@ -526,30 +520,22 @@ public class DrinkItemRequest
 			{
 				ResponseTextParser.learnSkill( "Liver of Steel" );
 			}
-			break;
+			return;
 
 		case ItemPool.FERMENTED_PICKLE_JUICE:
 			Preferences.setInteger( "currentSpleenUse",
 				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) -
 					5 * item.getCount() ) );
 			KoLCharacter.updateStatus();
-			break;
+			return;
 		}
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public static final boolean registerRequest()
 	{
-		if ( !urlString.startsWith( "inv_booze.php" ) )
-		{
-			return false;
-		}
-
-		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString, true );
-		UseItemRequest.lastHelperUsed = UseItemRequest.extractHelper( urlString, true );
-
-		int itemId = DrinkItemRequest.lastItemUsed.getItemId();
-		int count = DrinkItemRequest.lastItemUsed.getCount();
-		String name = DrinkItemRequest.lastItemUsed.getName();
+		AdventureResult item = UseItemRequest.lastItemUsed;
+		int count = item.getCount();
+		String name = item.getName();
 
 		String useString = "drink " + count + " " + name ;
 
