@@ -219,12 +219,15 @@ public class SpleenItemRequest
 				Preferences.setInteger( "currentSpleenUse", estimatedSpleen );
 			}
 
+			KoLCharacter.updateStatus();
+
 			return;
 		}
 
 		// The spleen item was consumed successfully
 		Preferences.increment( "currentSpleenUse", spleenUse );
 		ResultProcessor.processResult( item.getNegation() );
+		KoLCharacter.updateStatus();
 
 		// Re-sort consumables list if needed
 		if ( Preferences.getBoolean( "sortByRoom" ) )
