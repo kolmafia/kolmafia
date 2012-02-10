@@ -74,11 +74,8 @@ public class ByteBufferUtilities
 		}
 		
 		ByteArrayOutputStream ostream = ByteBufferUtilities.getOutputStream();
-
 		ByteBufferUtilities.read( istream, ostream );
-		
 		byte[] data = ostream.toByteArray();
-		
 		ByteBufferUtilities.returnOutputStream( ostream );
 		
 		return data;
@@ -86,10 +83,14 @@ public class ByteBufferUtilities
 
 	public static void read( InputStream istream, OutputStream ostream )
 	{
-		byte[] buffer = ByteBufferUtilities.getBuffer();
+		if ( istream == null )
+		{
+			return;
+		}
 
+		byte[] buffer = ByteBufferUtilities.getBuffer();
 		int availableBytes = 0;
-		
+
 		try
 		{
 			while ( ( availableBytes = istream.read( buffer ) ) != -1 )
@@ -99,10 +100,17 @@ public class ByteBufferUtilities
 		}
 		catch ( IOException e )
 		{
-			
 		}
-		
+
 		ByteBufferUtilities.returnBuffer( buffer );
+
+		try
+		{
+			ostream.flush();
+		}
+		catch ( IOException e )
+		{
+		}
 		
 		try
 		{
@@ -110,16 +118,6 @@ public class ByteBufferUtilities
 		}
 		catch ( IOException e )
 		{
-			
-		}
-		
-		try
-		{
-			ostream.flush();
-		}
-		catch ( IOException e )
-		{
-			
 		}
 	}
 	

@@ -230,15 +230,13 @@ public class FileUtilities
 
 	public static final void downloadFile( final String remote, final File local )
 	{
-		if ( local.exists() )
+		// Assume that a file with content is good
+		if ( local.exists() && local.length() > 0 )
 		{
 			return;
 		}
 
-		OutputStream ostream = DataUtilities.getOutputStream( local );
-
 		URLConnection connection;
-
 		try
 		{
 			connection = new URL( null, remote ).openConnection();
@@ -257,34 +255,33 @@ public class FileUtilities
 					"Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group( 1 ) );
 			}
 		}
-
-		// If it's textual data, then go ahead and modify it so
-		// that all the variables point to KoLmafia.
 		
 		InputStream istream = null;
-		
 		try
 		{
 			istream = connection.getInputStream();
 		}
 		catch ( IOException e )
 		{
-		}
-
-		if ( !remote.endsWith( ".js" ) )
-		{
-			ByteBufferUtilities.read( istream, ostream );
 			return;
 		}
 
+		OutputStream ostream = DataUtilities.getOutputStream( local );
 		try
 		{
-			byte[] bytes = ByteBufferUtilities.read( istream ); 
-			
-			String text = new String( bytes );
-			text = StringUtilities.globalStringReplace( text, "location.hostname", "location.host" );
-
-			ostream.write( text.getBytes() );
+			// If it's Javascript, then modify it so that
+			// all the variables point to KoLmafia.
+			if ( remote.endsWith( ".js" ) )
+			{
+				byte[] bytes = ByteBufferUtilities.read( istream ); 
+				String text = new String( bytes );
+				text = StringUtilities.globalStringReplace( text, "location.hostname", "location.host" );
+				ostream.write( text.getBytes() );
+			}
+			else
+			{
+				ByteBufferUtilities.read( istream, ostream );
+			}
 		}
 		catch ( IOException e )
 		{
@@ -296,6 +293,12 @@ public class FileUtilities
 		}
 		catch ( IOException e )
 		{
+		}
+
+		// Don't keep a 0-length file
+		if ( local.exists() && local.length() == 0 )
+		{
+			local.delete();
 		}
 	}
 
