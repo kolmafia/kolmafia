@@ -164,9 +164,15 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_EAT:
 		case KoLConstants.CONSUME_FOOD_HELPER:
 			return new EatItemRequest( item );
-		default:
-			return new UseItemRequest( consumptionType, item );
 		}
+
+		int spleenHit = ItemDatabase.getSpleenHit( item.getName() );
+		if ( spleenHit > 0 )
+		{
+			return new SpleenItemRequest( item );
+		}
+
+		return new UseItemRequest( consumptionType, item );
 	}
 
 	protected UseItemRequest( final int consumptionType, final AdventureResult item )
@@ -355,31 +361,7 @@ public class UseItemRequest
 			return 0;
 		}
 
-		int inebriety = ItemDatabase.getInebriety( itemName );
-		if ( inebriety > 0 )
-		{
-			return DrinkItemRequest.maximumUses( itemId, itemName, inebriety, allowOverDrink );
-		}
-
-		int fullness = ItemDatabase.getFullness( itemName );
-		if ( fullness > 0 )
-		{
-			return EatItemRequest.maximumUses( itemId, itemName, fullness );
-		}
-
-		// Set reasonable default if the item fails to set a specific reason
-		UseItemRequest.limiter = "a wizard";
-		
-		switch ( consumptionType )
-		{
-		case KoLConstants.CONSUME_HOBO:
-		case KoLConstants.CONSUME_GHOST:
-		case KoLConstants.CONSUME_SLIME:
-			return Integer.MAX_VALUE;
-		case KoLConstants.CONSUME_GUARDIAN:
-			UseItemRequest.limiter = "character class";
-			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
-		}
+		// Beecore path check
 
 		switch ( itemId )
 		{
@@ -399,6 +381,7 @@ public class UseItemRequest
 			return Integer.MAX_VALUE;
 
 		case ItemPool.COBBS_KNOB_MAP:
+			// This "B" item IS usable in Beecore.
 			UseItemRequest.limiter = "encryption key";
 			return InventoryManager.getCount( ItemPool.ENCRYPTION_KEY );
 
@@ -411,50 +394,51 @@ public class UseItemRequest
 			break;
 		}
 
-		int spleenHit = ItemDatabase.getSpleenHit( itemName );
-		float hpRestored = HPRestoreItemList.getHealthRestored( itemName );
-		boolean restoresHP = hpRestored != Integer.MIN_VALUE;
-		float mpRestored = MPRestoreItemList.getManaRestored( itemName );
-		boolean restoresMP = mpRestored != Integer.MIN_VALUE;
+		// Delegate to specialized classes as appropriate
 
-		if ( restoresHP || restoresMP )
+		int inebriety = ItemDatabase.getInebriety( itemName );
+		if ( inebriety > 0 )
 		{
-			int maximumSuggested = 0;
-
-			if ( hpRestored != 0.0f )
-			{
-				float belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
-			}
-
-			if ( mpRestored != 0.0f )
-			{
-				float belowMax = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
-				maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / mpRestored ) );
-			}
-
-			UseItemRequest.limiter = "needed restoration";
-			if ( spleenHit > 0 )
-			{
-				UseItemRequest.limiter = "needed restoration or spleen";
-				maximumSuggested =
-					Math.min(
-						maximumSuggested, ( KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() ) / spleenHit );
-			}
-
-			return maximumSuggested;
+			return DrinkItemRequest.maximumUses( itemId, itemName, inebriety, allowOverDrink );
 		}
 
+		int fullness = ItemDatabase.getFullness( itemName );
+		if ( fullness > 0 )
+		{
+			return EatItemRequest.maximumUses( itemId, itemName, fullness );
+		}
+
+		int spleenHit = ItemDatabase.getSpleenHit( itemName );
 		if ( spleenHit > 0 )
 		{
-			UseItemRequest.limiter = "spleen";
-			return ( KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse() ) / spleenHit;
+			return SpleenItemRequest.maximumUses( itemId, itemName, spleenHit );
+		}
+
+		int restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
+		if ( restorationMaximum < Integer.MAX_VALUE )
+		{
+			UseItemRequest.limiter = "needed restoration";
+			return restorationMaximum;
+		}
+		
+		switch ( consumptionType )
+		{
+		case KoLConstants.CONSUME_HOBO:
+		case KoLConstants.CONSUME_GHOST:
+		case KoLConstants.CONSUME_SLIME:
+			return Integer.MAX_VALUE;
+		case KoLConstants.CONSUME_GUARDIAN:
+			UseItemRequest.limiter = "character class";
+			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
 		}
 
 		if ( itemId <= 0 )
 		{
 			return Integer.MAX_VALUE;
 		}
+
+		// Set reasonable default if the item fails to set a specific reason
+		UseItemRequest.limiter = "a wizard";
 
 		switch ( itemId )
 		{
@@ -750,6 +734,35 @@ public class UseItemRequest
 		}
 
 		return Integer.MAX_VALUE;
+	}
+
+	protected static int getRestorationMaximum( final String itemName )
+	{
+		float hpRestored = HPRestoreItemList.getHealthRestored( itemName );
+		boolean restoresHP = hpRestored != Integer.MIN_VALUE;
+		float mpRestored = MPRestoreItemList.getManaRestored( itemName );
+		boolean restoresMP = mpRestored != Integer.MIN_VALUE;
+
+		if ( !restoresHP && !restoresMP )
+		{
+			return Integer.MAX_VALUE;
+		}
+
+		int maximumSuggested = 0;
+
+		if ( hpRestored != 0.0f )
+		{
+			float belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
+			maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / hpRestored ) );
+		}
+
+		if ( mpRestored != 0.0f )
+		{
+			float belowMax = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
+			maximumSuggested = Math.max( maximumSuggested, (int) Math.ceil( belowMax / mpRestored ) );
+		}
+
+		return maximumSuggested;
 	}
 
 	public void run()
@@ -1388,6 +1401,13 @@ public class UseItemRequest
 			return;
 		}
 
+		int spleenHit = ItemDatabase.getSpleenHit( item.getName() );
+		if ( spleenHit > 0 )
+		{
+			SpleenItemRequest.parseConsumption( item, helper, responseText );
+			return;
+		}
+
 		// If you are in Beecore, certain items can't B used
 		// "You are too scared of Bs to xxx that item."
 		if ( KoLCharacter.inBeecore() &&
@@ -1395,16 +1415,6 @@ public class UseItemRequest
 		{
 			UseItemRequest.lastUpdate = "You are too scared of Bs";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			String name = item.getName();
-			int count = item.getCount();
-
-			int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
-			if ( spleenHit > 0 )
-			{
-				Preferences.increment( "currentSpleenUse", -spleenHit );
-			}
-
-			KoLCharacter.updateStatus();
 			return;
 		}
 
@@ -1412,16 +1422,6 @@ public class UseItemRequest
 		{
 			UseItemRequest.lastUpdate = "Item level too high.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			String name = item.getName();
-			int count = item.getCount();
-
-			int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
-			if ( spleenHit > 0 )
-			{
-				Preferences.increment( "currentSpleenUse", -spleenHit );
-			}
-
-			KoLCharacter.updateStatus();
 			return;
 		}
 
@@ -1599,29 +1599,6 @@ public class UseItemRequest
 			return;
 		}
 
-		if ( responseText.indexOf( "rupture" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Your spleen might go kablooie.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-
-			int spleenHit = ItemDatabase.getSpleenHit( item.getName() ) * item.getCount();
-
-			// Roll back what we did to spleen in registerRequest
-			Preferences.increment( "currentSpleenUse", -spleenHit );
-
-			int estimatedSpleen = KoLCharacter.getSpleenLimit() - spleenHit + 1;
-
-			if ( estimatedSpleen > KoLCharacter.getSpleenUse() )
-			{
-				Preferences.setInteger( "currentSpleenUse", estimatedSpleen );
-			}
-
-			ResultProcessor.processResult( item );
-			KoLCharacter.updateStatus();
-
-			return;
-		}
-
 		// Note that there is at least one item (memory of amino acids)
 		// that can fail with a "too full" message, even though it's
 		// not a food.
@@ -1631,18 +1608,6 @@ public class UseItemRequest
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			return;
-		}
-
-		// Re-sort consumables list if needed
-		switch ( consumptionType )
-		{
-		case KoLConstants.CONSUME_USE:
-		case KoLConstants.CONSUME_MULTIPLE:
-			if ( ItemDatabase.getSpleenHit( item.getName() ) != 0 &&
-			     Preferences.getBoolean( "sortByRoom" ) )
-			{
-				ConcoctionDatabase.getUsables().sort();
-			}
 		}
 
 		Matcher matcher;
@@ -3020,14 +2985,6 @@ public class UseItemRequest
 
 			return;
 
-		case ItemPool.STEEL_SPLEEN:
-
-			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
-			{
-				ResponseTextParser.learnSkill( "Spleen of Steel" );
-			}
-			return;
-
 		case ItemPool.MOJO_FILTER:
 
 			// You strain some of the toxins out of your mojo, and
@@ -4197,26 +4154,19 @@ public class UseItemRequest
 
 	public static boolean registerRequest( final String urlString )
 	{
-		if ( urlString.startsWith( "inv_booze.php" ) )
-		{
-			return DrinkItemRequest.registerRequest( urlString );
-		}
-
-		if ( urlString.startsWith( "inv_eat.php" ) )
-		{
-			return EatItemRequest.registerRequest( urlString );
-		}
+		// Don't overwrite lastItemUsed when restoratives are used from
+		// the Skills page or quickskills menu.	 The request was
+		// initially made to inv_use.php (and lastItemUsed was set at
+		// that time), which redirects to skills.php - but without
+		// enough information in the URL to determine exactly what was used.
 
 		if ( urlString.startsWith( "skills.php" ) )
 		{
-			// Don't overwrite lastItemUsed when restoratives are
-			// used from the Skills page or quickskills menu.  The
-			// request was initially made to inv_use.php (and
-			// lastItemUsed was set at that time), which redirects
-			// to skills.php - but without enough information in
-			// the URL to determine exactly what was used.
 			return true;
 		}
+
+		// If we are transfering to or from the closet from the
+		// inventory, we are not "using" the item
 
 		if ( urlString.indexOf( "action=closetpull" ) != -1 ||
 		     urlString.indexOf( "action=closetpush" ) != -1 )
@@ -4224,33 +4174,50 @@ public class UseItemRequest
 			return ClosetRequest.registerRequest( urlString );
 		}
 
-		// A. W. O. L. commendation
-		if ( urlString.indexOf( "whichitem=5116" ) != -1 )
-		{
-			UseItemRequest.lastItemUsed = null;
-			return AWOLQuartermasterRequest.registerRequest( urlString );
-		}
-
-		// wand of fudge control
-		if ( urlString.indexOf( "whichitem=5441" ) != -1 )
-		{
-			UseItemRequest.lastItemUsed = null;
-			return FudgeWandRequest.registerRequest( urlString );
-		}
-
-		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString );
-		if ( UseItemRequest.lastItemUsed == null )
+		AdventureResult item = UseItemRequest.extractItem( urlString );
+		if ( item == null )
 		{
 			return UseItemRequest.registerBingeRequest( urlString );
 		}
-		UseItemRequest.currentItemId = UseItemRequest.lastItemUsed.getItemId();
 
+		// Delegate to specialized classes as appropriate
+
+		int itemId = item.getItemId();
+
+		switch ( itemId )
+		{
+		case ItemPool.AWOL_COMMENDATION:
+			return AWOLQuartermasterRequest.registerRequest( urlString );
+
+		case ItemPool.FUDGE_WAND:
+			return FudgeWandRequest.registerRequest( urlString );
+		}
+
+		// Everything below here will work with the item we extracted
+
+		UseItemRequest.lastItemUsed = item;
+		UseItemRequest.currentItemId = itemId;
 		UseItemRequest.lastHelperUsed = UseItemRequest.extractHelper( urlString );
 		UseItemRequest.lastLook = urlString.indexOf( "action=look" ) != -1;
 
-		int itemId = UseItemRequest.lastItemUsed.getItemId();
-		int count = UseItemRequest.lastItemUsed.getCount();
-		String name = UseItemRequest.lastItemUsed.getName();
+		if ( urlString.startsWith( "inv_booze.php" ) )
+		{
+			return DrinkItemRequest.registerRequest();
+		}
+
+		if ( urlString.startsWith( "inv_eat.php" ) )
+		{
+			return EatItemRequest.registerRequest();
+		}
+
+		String name = item.getName();
+
+		if ( ItemDatabase.getSpleenHit( name ) > 0 )
+		{
+			return SpleenItemRequest.registerRequest();
+		}
+
+		int count = item.getCount();
 		int consumptionType = ItemDatabase.getConsumptionType( itemId );
 		String useString = null;
 
@@ -4499,12 +4466,6 @@ public class UseItemRequest
 				return true;
 			}
 			break;
-		}
-
-		int spleenHit = ItemDatabase.getSpleenHit( name ) * count;
-		if ( spleenHit > 0 && KoLCharacter.getSpleenUse() + spleenHit <= KoLCharacter.getSpleenLimit() )
-		{
-			Preferences.increment( "currentSpleenUse", spleenHit );
 		}
 
 		if ( useString == null )

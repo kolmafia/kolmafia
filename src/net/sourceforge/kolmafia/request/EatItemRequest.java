@@ -100,12 +100,6 @@ public class EatItemRequest
 
 	public static final int maximumUses( final int itemId, final String itemName, final int fullness )
 	{
-		if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( itemName ) )
-		{
-			UseItemRequest.limiter = "bees";
-			return 0;
-		}
-
 		int limit = KoLCharacter.getFullnessLimit();
 		int fullnessLeft = limit - KoLCharacter.getFullness();
 		if ( Preferences.getBoolean( "distentionPillActive" ) )
@@ -443,11 +437,7 @@ public class EatItemRequest
 			ResultProcessor.processResult( helper.getNegation() );
 		}
 
-		int consumptionType = EatItemRequest.getConsumptionType( item );
-
-		// Assume initially that this causes the item to disappear.
-		// In the event that the item is not used, then proceed to
-		// undo the consumption.
+		int consumptionType = UseItemRequest.getConsumptionType( item );
 
 		if ( consumptionType == KoLConstants.CONSUME_FOOD_HELPER )
 		{
@@ -477,9 +467,8 @@ public class EatItemRequest
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 
-			// If we have no fullness data for this item, we can't
-			// tell what, if anything, consumption did to our
-			// fullness.
+			// If we have no fullness data for this item, we can't tell what,
+			// if anything, consumption did to our fullness.
 			if ( fullness == 0 )
 			{
 				return;
@@ -510,7 +499,6 @@ public class EatItemRequest
 				Preferences.setInteger( "currentFullness", estimatedFullness );
 			}
 
-			ResultProcessor.processResult( item.getInstance( count - couldEat ) );
 			KoLCharacter.updateStatus();
 
 			return;
@@ -632,7 +620,7 @@ public class EatItemRequest
 				Math.max( 0, Preferences.getInteger( "currentSpleenUse" ) -
 					5 * item.getCount() ) );
 			KoLCharacter.updateStatus();
-			break;
+			return;
 		}
 	}
 
@@ -755,19 +743,11 @@ public class EatItemRequest
 		return "Last semirare found " + ( current - turns ) + " turns ago (on turn " + turns + ")" + loc;
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public static final boolean registerRequest()
 	{
-		if ( !urlString.startsWith( "inv_eat.php" ) )
-		{
-			return false;
-		}
-
-		UseItemRequest.lastItemUsed = UseItemRequest.extractItem( urlString, true );
-		UseItemRequest.lastHelperUsed = UseItemRequest.extractHelper( urlString, true );
-
-		int itemId = EatItemRequest.lastItemUsed.getItemId();
-		int count = EatItemRequest.lastItemUsed.getCount();
-		String name = EatItemRequest.lastItemUsed.getName();
+		AdventureResult item = UseItemRequest.lastItemUsed;
+		int count = item.getCount();
+		String name = item.getName();
 
 		int fullness = ItemDatabase.getFullness( name );
 		if ( fullness > 0 )
