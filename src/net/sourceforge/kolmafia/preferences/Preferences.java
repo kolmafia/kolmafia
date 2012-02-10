@@ -328,20 +328,20 @@ public class Preferences
 
 	public static final int increment( final String name )
 	{
-		return Preferences.increment( name, 1, 0, false );
+		return Preferences.increment( name, 1 );
 	}
 
-	public static final int increment( final String name, final int increment )
+	public static final int increment( final String name, final int delta )
 	{
-		return Preferences.increment( name, increment, 0, false );
+		return Preferences.increment( name, delta, 0, false );
 	}
 
-	public static final int increment( final String name, final int increment, final int max, final boolean mod )
+	public static final int increment( final String name, final int delta, final int max, final boolean mod )
 	{
 		int current = Preferences.getInteger( name );
-		if ( increment != 0 )
+		if ( delta != 0 )
 		{
-			current += increment;
+			current += delta;
 
 			if ( max > 0 && current > max )
 			{
@@ -351,6 +351,33 @@ public class Preferences
 			if ( mod && current >= max )
 			{
 				current %= max;
+			}
+
+			Preferences.setInteger( name, current );
+		}
+		return current;
+	}
+
+	public static final int decrement( final String name )
+	{
+		return Preferences.decrement( name, 1 );
+	}
+
+	public static final int decrement( final String name, final int delta )
+	{
+		return Preferences.decrement( name, delta, 0 );
+	}
+
+	public static final int decrement( final String name, final int delta, final int min )
+	{
+		int current = Preferences.getInteger( name );
+		if ( delta != 0 )
+		{
+			current -= delta;
+
+			if ( current < min )
+			{
+				current = min;
 			}
 
 			Preferences.setInteger( name, current );

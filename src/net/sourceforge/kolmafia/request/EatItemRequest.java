@@ -377,7 +377,6 @@ public class EatItemRequest
 		{
 			UseItemRequest.lastUpdate = "You are too scared of Bs";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			Preferences.increment( "currentFullness", -fullness * count );
 			return;
 		}
 
@@ -385,7 +384,13 @@ public class EatItemRequest
 		{
 			UseItemRequest.lastUpdate = "Item level too high.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			Preferences.increment( "currentFullness", -fullness * count );
+			return;
+		}
+
+		if ( responseText.indexOf( "You may not" ) != -1 )
+		{
+			UseItemRequest.lastUpdate = "Pathed ascension.";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			return;
 		}
 
@@ -429,7 +434,6 @@ public class EatItemRequest
 			{
 				UseItemRequest.lastUpdate = "Consumption helper failed.";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				Preferences.increment( "currentFullness", -fullness * count );
 				return;
 			}
 
@@ -454,14 +458,6 @@ public class EatItemRequest
 			Preferences.setInteger( "carboLoading", 0 );
 		}
 
-		if ( responseText.indexOf( "You may not" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Pathed ascension.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			Preferences.increment( "currentFullness", -fullness * count );
-			return;
-		}
-
 		if ( responseText.indexOf( "too full" ) != -1 )
 		{
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
@@ -474,9 +470,6 @@ public class EatItemRequest
 				return;
 			}
 
-			// Roll back what we did to fullness in registerRequest
-			Preferences.increment( "currentFullness", -fullness * count );
-
 			int maxFullness = KoLCharacter.getFullnessLimit();
 			int currentFullness = KoLCharacter.getFullness();
 
@@ -486,10 +479,12 @@ public class EatItemRequest
 
 			// We know that KoL did not let us eat as many as we
 			// requested, so adjust for how many we could eat.
-			int couldEat = Math.max( 0, Math.min( item.getCount() - 1, maxEat ) );
+			int couldEat = Math.max( 0, Math.min( count - 1, maxEat ) );
 			if ( couldEat > 0 )
 			{
 				Preferences.increment( "currentFullness", couldEat * fullness );
+				Preferences.decrement( "munchiesPillsUsed", couldEat );
+				ResultProcessor.processResult( item.getInstance( -couldEat ) );
 			}
 
 			int estimatedFullness = maxFullness - fullness + 1;
@@ -504,31 +499,37 @@ public class EatItemRequest
 			return;
 		}
 
+		int fullnessUsed = fullness * count;
+
 		// If we ate a distention pill, the next thing we eat should
 		// detect the extra message and decrement fullness by 1.
 		if ( responseText.indexOf( "feel your stomach shrink" ) != -1 )
 		{
 			// If we got this message, we definitely used a pill today.
-			Preferences.setBoolean( "_distentionPillUsed", true );
-			Preferences.setBoolean( "distentionPillActive", false );
-			Preferences.increment( "currentFullness", -1 );
-			String message = "Incrementing fullness by " + ( fullness * count - 1 )
-					+ " instead of " + ( fullness * count )
+			String message = "Incrementing fullness by " + ( fullnessUsed - 1 )
+					+ " instead of " + fullnessUsed
 					+ " because your stomach was distended.";
+			fullnessUsed--;
 			RequestLogger.updateSessionLog( message );
 			RequestLogger.printLine( message );
-			KoLCharacter.updateStatus();
+			Preferences.setBoolean( "_distentionPillUsed", true );
+			Preferences.setBoolean( "distentionPillActive", false );
 		}
 
-		// If we eat a non-zero fullness item and we DON'T get the shrinking message, we must be out of sync
-		// with KoL. Fix that.
+		// If we eat a non-zero fullness item and we DON'T get the
+		// shrinking message, we must be out of sync with KoL. Fix
+		// that.
 		else if ( Preferences.getBoolean( "distentionPillActive" ) )
 		{
 			Preferences.setBoolean( "distentionPillActive", false );
 		}
 
-		// Assume the food was removed
+		// The food was consumed successfully
+		Preferences.increment( "currentFullness", fullnessUsed );
+		Preferences.decrement( "munchiesPillsUsed", count );
+
 		ResultProcessor.processResult( item.getNegation() );
+		KoLCharacter.updateStatus();
 
 		// Re-sort consumables list if needed
 		if ( Preferences.getBoolean( "sortByRoom" ) )
@@ -748,27 +749,6 @@ public class EatItemRequest
 		AdventureResult item = UseItemRequest.lastItemUsed;
 		int count = item.getCount();
 		String name = item.getName();
-
-		int fullness = ItemDatabase.getFullness( name );
-		if ( fullness > 0 )
-		{
-			int limit = KoLCharacter.getFullnessLimit();
-			int fullnessLeft = limit - KoLCharacter.getFullness();
-			if ( Preferences.getBoolean( "distentionPillActive" ) )
-			{
-				fullnessLeft++;
-			}
-
-			int maxcount = fullnessLeft / fullness;
-			if ( count > maxcount )
-			{
-				count = maxcount;
-				UseItemRequest.lastItemUsed = UseItemRequest.lastItemUsed.getInstance( maxcount );
-			}
-
-			Preferences.increment( "currentFullness", fullness * count );
-			Preferences.setInteger( "munchiesPillsUsed", Math.max( Preferences.getInteger( "munchiesPillsUsed" ) - count, 0 ) );
-		}
 
 		String useString = "eat " + count + " " + name ;
 
