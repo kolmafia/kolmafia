@@ -377,7 +377,6 @@ user	knownAscensions	-1
 user	lastAdventure
 user	lastArcadeAscension	-1
 user	lastBadMoonReset	-1
-user	lastBarrelSmashed	0
 user	lastBangPotion819
 user	lastBangPotion820
 user	lastBangPotion821

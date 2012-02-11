@@ -102,11 +102,6 @@ public class EatItemRequest
 	{
 		int limit = KoLCharacter.getFullnessLimit();
 		int fullnessLeft = limit - KoLCharacter.getFullness();
-		if ( Preferences.getBoolean( "distentionPillActive" ) )
-		{
-			fullnessLeft++;
-		}
-
 		UseItemRequest.limiter = "fullness";
 		return fullnessLeft / fullness;
 	}

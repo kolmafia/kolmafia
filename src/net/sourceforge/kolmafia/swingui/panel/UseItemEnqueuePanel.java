@@ -116,6 +116,7 @@ public class UseItemEnqueuePanel
 		{
 			listeners.add( new BingeGhostListener() );
 			listeners.add( new MilkListener() );
+			listeners.add( new DistendListener() );
 		}
 		else if ( this.booze )
 		{
@@ -201,6 +202,19 @@ public class UseItemEnqueuePanel
 	public void setEnabled( final boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
+
+		// We gray out the distend button unless we have a pill, and
+		// haven't used one today.
+		if ( isEnabled && this.food )
+		{
+			// The "flush" listener is the last button
+			int flushIndex = this.buttons.length - 1;
+			boolean havepill = InventoryManager.getCount( ItemPool.DISTENTION_PILL ) > 0;
+			boolean activepill = Preferences.getBoolean( "distentionPillActive" );
+			boolean usedpill = Preferences.getBoolean( "_distentionPillUsed" );
+			boolean canFlush = ( havepill && !activepill && !usedpill );
+			this.buttons[ flushIndex ].setEnabled( canFlush );
+		}
 
 		// We gray out the dog hair button unless we have drunkenness,
 		// have a pill, and haven't used one today.
@@ -428,6 +442,20 @@ public class UseItemEnqueuePanel
 		}
 	}
 
+	private class DistendListener
+		extends ThreadedListener
+	{
+		protected void execute()
+		{
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.DISTENTION_PILL, 1 ) ) );
+		}
+
+		public String toString()
+		{
+			return "distend";
+		}
+	}
+
 	private class DogHairListener
 		extends ThreadedListener
 	{
@@ -438,7 +466,7 @@ public class UseItemEnqueuePanel
 
 		public String toString()
 		{
-			return"dog hair";
+			return "dog hair";
 		}
 	}
 
@@ -452,7 +480,7 @@ public class UseItemEnqueuePanel
 
 		public String toString()
 		{
-			return"flush mojo";
+			return "flush mojo";
 		}
 	}
 
