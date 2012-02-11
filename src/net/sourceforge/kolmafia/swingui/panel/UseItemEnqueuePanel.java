@@ -114,12 +114,12 @@ public class UseItemEnqueuePanel
 
 		if ( this.food )
 		{
-			listeners.add( new FamiliarFeedListener() );
+			listeners.add( new BingeGhostListener() );
 			listeners.add( new MilkListener() );
 		}
 		else if ( this.booze )
 		{
-			listeners.add( new FamiliarFeedListener() );
+			listeners.add( new BingeHoboListener() );
 			listeners.add( new OdeListener() );
 			listeners.add( new DogHairListener() );
 		}
@@ -324,34 +324,60 @@ public class UseItemEnqueuePanel
 		}
 	}
 
-	private class FamiliarFeedListener
-		extends ThreadedListener
+	private class BingeGhostListener
+		extends FamiliarFeedListener
 	{
-		private int consumptionType;
-
-		public FamiliarFeedListener()
+		public boolean warnBeforeConsume()
 		{
-			if ( UseItemEnqueuePanel.this.food )
-			{
-				this.consumptionType = KoLConstants.CONSUME_GHOST;
-			}
-			else if ( UseItemEnqueuePanel.this.booze )
-			{
-				this.consumptionType = KoLConstants.CONSUME_HOBO;
-			}
-			else
-			{
-				this.consumptionType = KoLConstants.NO_CONSUME;
-			}
+			return ConcoctionDatabase.getQueuedFullness() != 0;
 		}
 
+		public void handleQueue()
+		{
+			ConcoctionDatabase.handleQueue( true, false, false, KoLConstants.CONSUME_GHOST );
+		}
+
+		public String getTitle()
+		{
+			return ConcoctionDatabase.getQueuedFullness() + " Full Queued";
+		}
+
+		public String toString()
+		{
+			return "feed ghost";
+		}
+	}
+
+	private class BingeHoboListener
+		extends FamiliarFeedListener
+	{
+		public boolean warnBeforeConsume()
+		{
+			return ConcoctionDatabase.getQueuedInebriety() != 0;
+		}
+
+		public void handleQueue()
+		{
+			ConcoctionDatabase.handleQueue( false, true, false, KoLConstants.CONSUME_HOBO );
+		}
+
+		public String getTitle()
+		{
+			return ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued";
+		}
+
+		public String toString()
+		{
+			return "feed hobo";
+		}
+	}
+
+	private abstract class FamiliarFeedListener
+		extends ThreadedListener
+	{
 		protected void execute()
 		{
-			boolean warnFirst =
-				( UseItemEnqueuePanel.this.food && ConcoctionDatabase.getQueuedFullness() != 0 ) ||
-				( UseItemEnqueuePanel.this.booze && ConcoctionDatabase.getQueuedInebriety() != 0 );
-
-			if ( warnFirst && !InputFieldUtilities.confirm( "This action will also feed any queued items to your familiar.  Are you sure you wish to continue?" ) )
+			if ( this.warnBeforeConsume() && !InputFieldUtilities.confirm( "This action will also feed any queued items to your familiar. Are you sure you wish to continue?" ) )
 			{
 				return;
 			}
@@ -363,30 +389,15 @@ public class UseItemEnqueuePanel
 				return;
 			}
 
-			ConcoctionDatabase.handleQueue( UseItemEnqueuePanel.this.food, UseItemEnqueuePanel.this.booze, UseItemEnqueuePanel.this.spleen, consumptionType );
+			this.handleQueue();
 
-			if ( UseItemEnqueuePanel.this.food )
-			{
-				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
-			}
-			if ( UseItemEnqueuePanel.this.booze )
-			{
-				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
-			}
+			UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, this.getTitle() );
 		}
 
-		public String toString()
-		{
-			switch ( this.consumptionType )
-			{
-			case KoLConstants.CONSUME_GHOST:
-				return "feed ghost";
-			case KoLConstants.CONSUME_HOBO:
-				return "feed hobo";
-			default:
-				return "";
-			}
-		}
+		public abstract boolean warnBeforeConsume();
+		public abstract void handleQueue();
+		public abstract String getTitle();
+		public abstract String toString();
 	}
 
 	private class MilkListener

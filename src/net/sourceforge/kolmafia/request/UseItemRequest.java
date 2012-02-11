@@ -393,6 +393,18 @@ public class UseItemRequest
 			}
 			break;
 		}
+		
+		// Check binge requests before checking fullness or inebriety
+		switch ( consumptionType )
+		{
+		case KoLConstants.CONSUME_HOBO:
+		case KoLConstants.CONSUME_GHOST:
+		case KoLConstants.CONSUME_SLIME:
+			return Integer.MAX_VALUE;
+		case KoLConstants.CONSUME_GUARDIAN:
+			UseItemRequest.limiter = "character class";
+			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
+		}
 
 		// Delegate to specialized classes as appropriate
 
@@ -419,17 +431,6 @@ public class UseItemRequest
 		{
 			UseItemRequest.limiter = "needed restoration";
 			return restorationMaximum;
-		}
-		
-		switch ( consumptionType )
-		{
-		case KoLConstants.CONSUME_HOBO:
-		case KoLConstants.CONSUME_GHOST:
-		case KoLConstants.CONSUME_SLIME:
-			return Integer.MAX_VALUE;
-		case KoLConstants.CONSUME_GUARDIAN:
-			UseItemRequest.limiter = "character class";
-			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
 		}
 
 		if ( itemId <= 0 )
