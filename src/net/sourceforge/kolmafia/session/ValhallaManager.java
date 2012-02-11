@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -371,6 +372,7 @@ public class ValhallaManager
 		Preferences.setBoolean( "fistTeachingsNinjaSnowmen", false);
 		Preferences.setString( "plantingDate", "");
 		Preferences.setInteger( "plantingDay", -1);
+		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
 	}
 }
