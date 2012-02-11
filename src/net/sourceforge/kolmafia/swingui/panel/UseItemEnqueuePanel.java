@@ -112,15 +112,20 @@ public class UseItemEnqueuePanel
 
 		listeners.add( new ExecuteListener() );
 
-		if ( this.food || this.booze )
+		if ( this.food )
 		{
 			listeners.add( new FamiliarFeedListener() );
-			listeners.add( new BuffUpListener() );
+			listeners.add( new MilkListener() );
 		}
-
-		if ( this.booze || this.spleen )
+		else if ( this.booze )
 		{
-			listeners.add( new FlushListener() );
+			listeners.add( new FamiliarFeedListener() );
+			listeners.add( new OdeListener() );
+			listeners.add( new DogHairListener() );
+		}
+		else if (this.spleen )
+		{
+			listeners.add( new MojoListener() );
 		}
 
 		ActionListener [] listenerArray = new ActionListener[ listeners.size() ];
@@ -384,46 +389,59 @@ public class UseItemEnqueuePanel
 		}
 	}
 
-
-	private class BuffUpListener
+	private class MilkListener
 		extends ThreadedListener
 	{
 		protected void execute()
 		{
-			if ( UseItemEnqueuePanel.this.food )
-			{
-				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
-			}
-			else if ( UseItemEnqueuePanel.this.booze )
-			{
-				RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
-			}
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
 		}
 
 		public String toString()
 		{
-			return UseItemEnqueuePanel.this.food ? "use milk" : UseItemEnqueuePanel.this.booze ? "cast ode" : "" ;
+			return "use milk" ;
 		}
 	}
 
-	private class FlushListener
+	private class OdeListener
 		extends ThreadedListener
 	{
 		protected void execute()
 		{
-			if ( UseItemEnqueuePanel.this.booze )
-			{
-				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SYNTHETIC_DOG_HAIR_PILL, 1 ) ) );
-			}
-			else if ( UseItemEnqueuePanel.this.spleen )
-			{
-				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MOJO_FILTER, 1 ) ) );
-			}
+			RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
 		}
 
 		public String toString()
 		{
-			return UseItemEnqueuePanel.this.food ? "" : UseItemEnqueuePanel.this.booze ? "dog hair" : "flush mojo";
+			return "cast ode" ;
+		}
+	}
+
+	private class DogHairListener
+		extends ThreadedListener
+	{
+		protected void execute()
+		{
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SYNTHETIC_DOG_HAIR_PILL, 1 ) ) );
+		}
+
+		public String toString()
+		{
+			return"dog hair";
+		}
+	}
+
+	private class MojoListener
+		extends ThreadedListener
+	{
+		protected void execute()
+		{
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MOJO_FILTER, 1 ) ) );
+		}
+
+		public String toString()
+		{
+			return"flush mojo";
 		}
 	}
 
