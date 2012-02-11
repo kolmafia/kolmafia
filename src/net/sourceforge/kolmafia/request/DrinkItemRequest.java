@@ -233,7 +233,6 @@ public class DrinkItemRequest
 			return;
 		}
 
-		this.addFormField( "which", "1" );
 		this.addFormField( "ajax", "1" );
 		this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
 

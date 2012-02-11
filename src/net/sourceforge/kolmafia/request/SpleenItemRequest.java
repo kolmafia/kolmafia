@@ -162,11 +162,9 @@ public class SpleenItemRequest
 			{
 				this.addFormField( "action", "useitem" );
 				this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
-				break;
 			}
 			// Fall through
 		default:
-			this.addFormField( "which", "3" );
 			this.addFormField( "ajax", "1" );
 			break;
 		}

@@ -1183,11 +1183,9 @@ public class UseItemRequest
 			{
 				this.addFormField( "action", "useitem" );
 				this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
-				break;
 			}
 			// Fall through
 		default:
-			this.addFormField( "which", "3" );
 			this.addFormField( "ajax", "1" );
 			if ( UseItemRequest.needsConfirmation( this.itemUsed ) )
 			{
@@ -4009,7 +4007,7 @@ public class UseItemRequest
 	{
 		if ( !urlString.startsWith( "inv_use.php" ) &&
 		     !urlString.startsWith( "inv_eat.php" ) &&
-		     !urlString.startsWith( "inv_drink.php" ) &&
+		     !urlString.startsWith( "inv_booze.php" ) &&
 		     !urlString.startsWith( "multiuse.php" ) &&
 		     !urlString.startsWith( "inv_familiar.php" ) &&
 		     !(urlString.startsWith( "inventory.php" ) &&
@@ -4167,7 +4165,7 @@ public class UseItemRequest
 			return true;
 		}
 
-		// If we are transfering to or from the closet from the
+		// If we are transferring to or from the closet from the
 		// inventory, we are not "using" the item
 
 		if ( urlString.indexOf( "action=closetpull" ) != -1 ||
