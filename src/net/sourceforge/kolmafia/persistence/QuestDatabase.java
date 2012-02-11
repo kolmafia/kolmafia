@@ -54,12 +54,16 @@ public class QuestDatabase
 	public static final String RAT = "questL03Rat";
 	public static final String BAT = "questL04Bat";
 	public static final String GOBLIN = "questL05Goblin";
-	public static final String GALAKTIK = "questM04Galaktic";
 	public static final String FRIAR = "questL06Friar";
 	public static final String CYRPT = "questL07Cyrptic";
+	public static final String TRAPPER = "questL08Trapper";
+	public static final String LOL = "questL09Lol";
+	public static final String GARBAGE = "questL10Garbage";
 	public static final String MACGUFFIN = "questL11MacGuffin";
 	public static final String ISLAND_WAR = "questL12War";
+	public static final String FINAL = "questL13Final";
 	public static final String CITADEL = "questG02Whitecastle";
+	public static final String GALAKTIK = "questM04Galaktic";
 
 	public static final Pattern HTML_WHITESPACE = Pattern.compile( "<[^<]+?>|[\\s\\n]" );
 
@@ -400,6 +404,59 @@ public class QuestDatabase
 		},
 	};
 
+	private static final String[][] councilData =
+	{
+		{
+			QuestDatabase.LARVA,
+			QuestDatabase.STARTED,
+			"We require your aid, Adventurer. We need a mosquito larva. Don't ask why, because we won't tell you. In any case, the best place to find a mosquito larva is in the Spooky Forest, which is found in the Distant Woods. We'll mark it on your map for you.",
+			"We still need a mosquito larva, Adventurer. Please find us one, in the Spooky Forest."
+		},
+		{
+			QuestDatabase.LARVA,
+			QuestDatabase.FINISHED,
+			"Thanks for the larva, Adventurer. Er, actually, y'know what? You look pretty lonely. Maybe you should hatch this larva and keep the mosquito as a pet.<p>To do so, you'll need a Familiar-Gro™ Terrarium at your campsite. You can use this Meat to buy one, if you don't already have one.",
+			"Thanks for the larva, Adventurer. We'll put this to good use. Have some Meat for your troubles."
+		},
+		{
+			QuestDatabase.RAT,
+			QuestDatabase.STARTED,
+			"We've received word that the owner of The Typical Tavern, in The Distant Woods, is having a bit of a rat problem. I'm sure he'd reward you if you took care of it for him.",
+			"The owner of the Typical Tavern is still bugging us about his rat problems. Perhaps you could help him?"
+		},
+		{
+			QuestDatabase.BAT,
+			QuestDatabase.STARTED,
+			"The Council requires another task of you, Adventurer. You must slay the Boss Bat. He can be found in the deepest part of the Bat Hole, in the Nearby Plains. Slay him, and return to us with proof of your conquest.",
+			"You have not yet slain the Boss Bat. He can be found in the Bat Hole, in the Nearby Plains."
+		},
+		{
+			QuestDatabase.BAT, QuestDatabase.FINISHED,
+			"Well done! You have slain the Boss Bat. As a reward, we present you with this belt made from his skin."
+		},
+		{
+			QuestDatabase.GOBLIN,
+			QuestDatabase.STARTED,
+			"We've gotten word, Adventurer, that the Knob Goblins, who normally keep to themselves over at Cobb's Knob, are planning a major military action against Seaside Town.<p>We need for you to go deep into the Knob, and nip this problem in the bud, so to speak, by neutralizing the Goblin King.<p>Our spies have determined that there is a secret entrance that will allow you to access the inside of the Knob. They recovered this map, but nobody knows how to read it.<p>You'll need to figure out how to decrypt the symbols on it if you're going to find that entrance. And be careful with it, Adventurer. Many Bothans died to... oh, wait, never mind. That was something else.",
+			"You need to find your way into Cobb's Knob, Adventurer. Try looking around the Outskirts for a clue that might help you figure out that map we gave you.",
+			"We still need you to neutralize the Goblin King, Adventurer."
+		},
+		{
+			QuestDatabase.GOBLIN, QuestDatabase.FINISHED,
+			"Thank you for slaying the Goblin King, Adventurer."
+		},
+		{
+			QuestDatabase.FINAL,
+			QuestDatabase.STARTED,
+			"Now that you have proven yourself, the Council has deemed that it is time for you to embark upon your final quest. Seek out and destroy the Naughty Sorceress, who has plagued these lands for so long, and rescue King Ralph XI, whom she has imprismed.<p>Go forth to her Lair, east of the Nearby Plains! Beat her down!",
+			"Be strong, Adventurer! You must defeat the Naughty Sorceress! You'll find her Lair just east of the Nearby Plains."
+		},
+		{
+			QuestDatabase.FINAL,
+			QuestDatabase.FINISHED,
+			"Congratulations, Adventurer! It's the end of your quest as we know it. Don't worry, we feel fine. You've freed the king and made us obsolete. Ah, well. Hail to the king, baby."
+		}
+	};
 	static
 	{
 		for ( int i = 0; i < questLogData.length; ++i )
@@ -577,6 +634,36 @@ public class QuestDatabase
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
 			QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
+		}
+	}
+
+	public static void handleCouncilText( String responseText )
+	{
+		String cleanedResponse = QuestDatabase.HTML_WHITESPACE.matcher( responseText ).replaceAll( "" )
+			.toLowerCase();
+		String cleanedQuest = "";
+
+		String pref = "";
+		String status = "";
+
+		boolean found = false;
+		for ( int i = 0; i < councilData.length && !found; ++i )
+		{
+			for ( int j = 2; j < councilData[ i ].length && !found; ++j )
+			{
+				cleanedQuest = QuestDatabase.HTML_WHITESPACE.matcher( councilData[ i ][ j ] )
+					.replaceAll( "" ).toLowerCase();
+				if ( cleanedResponse.indexOf( cleanedQuest ) != -1 )
+				{
+					pref = councilData[ i ][ 0 ];
+					status = councilData[ i ][ 1 ];
+					found = true;
+				}
+			}
+		}
+		if ( found )
+		{
+			QuestDatabase.setQuestProgress( pref, status );
 		}
 	}
 }

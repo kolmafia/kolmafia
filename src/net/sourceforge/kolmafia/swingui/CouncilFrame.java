@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TavernManager;
 
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
@@ -147,6 +148,10 @@ public class CouncilFrame
 		else if ( location.startsWith( "postwarisland" ) )
 		{
 			IslandDecorator.parsePostwarIsland( location, responseText );
+		}
+		else if ( location.startsWith( "tavern" ) )
+		{
+			TavernManager.handleTavernChange( responseText );
 		}
 		else if ( location.startsWith( "trapper" ) )
 		{
@@ -267,6 +272,7 @@ public class CouncilFrame
 		{
 			ResultProcessor.processItem( ItemPool.BRIDGE, -1 );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have bridged the Orc Chasm." );
+			QuestDatabase.setQuestProgress( QuestDatabase.LOL, "step1" );
 		}
 	}
 
@@ -291,6 +297,7 @@ public class CouncilFrame
 		if ( oreMatcher.find() )
 		{
 			Preferences.setString( "trapperOre", oreMatcher.group( 1 ) + " ore" );
+			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, "step1" );
 		}
 
 		if ( responseText.indexOf( "Thanks for yer help, Adventurer" ) != -1 ||
@@ -298,6 +305,7 @@ public class CouncilFrame
 		     responseText.indexOf( "Yeti furs, eh?" ) != -1 )
 		{
 			Preferences.setInteger( "lastTr4pz0rQuest", KoLCharacter.getAscensions() );
+			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, QuestDatabase.FINISHED );
 		}
 
 		// If you receive items from the trapper, then you
@@ -311,18 +319,22 @@ public class CouncilFrame
 		if ( responseText.indexOf( "asbestos" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "asbestos ore", -3, false ) );
+			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, "step2" );
 		}
 		else if ( responseText.indexOf( "linoleum" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "linoleum ore", -3, false ) );
+			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, "step2" );
 		}
 		else if ( responseText.indexOf( "chrome" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "chrome ore", -3, false ) );
+			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, "step2" );
 		}
 		else if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "goat cheese", -6, false ) );
+			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, "step3" );
 		}
 	}
 
@@ -383,17 +395,16 @@ public class CouncilFrame
 		if ( responseText.indexOf( "500" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "mosquito larva", -1, false ) );
-			QuestDatabase.setQuestProgress( QuestDatabase.LARVA, QuestDatabase.FINISHED );
 		}
 		if ( responseText.indexOf( "batskin belt" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
-			QuestDatabase.setQuestProgress( QuestDatabase.BAT, QuestDatabase.FINISHED );
 		}
 		if ( responseText.indexOf( "dragonbone belt buckle" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "skull of the bonerdagon", -1, false ) );
 			QuestDatabase.setQuestProgress( QuestDatabase.CYRPT, QuestDatabase.FINISHED );
 		}
+		QuestDatabase.handleCouncilText( responseText );
 	}
 }
