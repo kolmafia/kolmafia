@@ -850,6 +850,11 @@ public abstract class KoLCharacter
 	public static final void setAvatar( final String avatar )
 	{
 		KoLCharacter.avatar = avatar;
+		if ( !avatar.equals( "" ) )
+		{
+			String prefix = "http://images.kingdomofloathing.com/";
+			FileUtilities.downloadImage( prefix + KoLCharacter.avatar );
+		}
 		if ( avatar.endsWith( "_f.gif" ) )
 		{
 			KoLCharacter.setGender( KoLCharacter.FEMALE );
@@ -867,7 +872,6 @@ public abstract class KoLCharacter
 
 	public static final String getAvatar()
 	{
-		FileUtilities.downloadImage( KoLCharacter.avatar );
 		return KoLCharacter.avatar;
 	}
 

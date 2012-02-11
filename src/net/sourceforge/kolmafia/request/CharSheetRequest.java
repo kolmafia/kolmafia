@@ -61,7 +61,7 @@ public class CharSheetRequest
 {
 	private static final Pattern BASE_PATTERN = Pattern.compile( " \\(base: ([\\d,]+)\\)" );
 	private static final Pattern AVATAR_PATTERN =
-		Pattern.compile( "<img src=\"(http://images\\.kingdomofloathing\\.com/[^>\'\"\\s]+)" );
+		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^>\'\"\\s]+)" );
 
 	/**
 	 * Constructs a new <code>CharSheetRequest</code>. The data in the KoLCharacter entity will be overridden over
@@ -109,7 +109,6 @@ public class CharSheetRequest
 
 		if ( avatarMatcher.find() )
 		{
-			FileUtilities.downloadImage( avatarMatcher.group( 1 ) );
 			KoLCharacter.setAvatar( avatarMatcher.group( 1 ) );
 		}
 
