@@ -2457,8 +2457,8 @@ public class DailyDeedsPanel
 		static ArrayList effectHats = new ArrayList();
 		ArrayList effects = new ArrayList();
 		ArrayList modifiers = new ArrayList();
-		
-		boolean initialUpdate = true;
+				
+		HatterComboListener listener = new HatterComboListener();
 
 		public HatterDaily()
 		{
@@ -2472,7 +2472,6 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 
 			box = this.addComboBox( this.effects.toArray(), this.modifiers, "Available Hatter Buffs: BLAH" );
-			box.addActionListener( new HatterComboListener() );
 			this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
 
 			// Initialize the GO button to do nothing.
@@ -2482,11 +2481,9 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			if ( !this.initialUpdate )
-			{
-				this.box.removeAllItems();
-			}
-			this.initialUpdate = false;
+			box.removeActionListener( listener );
+			this.box.removeAllItems();
+			box.addActionListener( listener );
 			
 			HatterDaily.effectHats = new ArrayList();
 			this.modifiers = new ArrayList();
