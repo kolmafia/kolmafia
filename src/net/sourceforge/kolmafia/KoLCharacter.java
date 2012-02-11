@@ -268,7 +268,7 @@ public abstract class KoLCharacter
 	public static final int FEMALE = 1;
 
 	private static String username = "";
-	private static String avatar = "otherimages/discobandit_f.gif";
+	private static String avatar = "";
 	private static int userId = 0;
 	private static String playerId = "0";
 	private static String classname = "";
@@ -867,7 +867,7 @@ public abstract class KoLCharacter
 
 	public static final String getAvatar()
 	{
-		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + KoLCharacter.avatar );
+		FileUtilities.downloadImage( KoLCharacter.avatar );
 		return KoLCharacter.avatar;
 	}
 
