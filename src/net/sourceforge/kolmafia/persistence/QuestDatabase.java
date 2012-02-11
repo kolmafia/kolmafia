@@ -50,8 +50,13 @@ public class QuestDatabase
 	public static final String STARTED = "started";
 	public static final String FINISHED = "finished";
 
+	public static final String LARVA = "questL02Larva";
+	public static final String RAT = "questL03Rat";
+	public static final String BAT = "questL04Bat";
+	public static final String GOBLIN = "questL05Goblin";
 	public static final String GALAKTIK = "questM04Galaktic";
 	public static final String FRIAR = "questL06Friar";
+	public static final String CYRPT = "questL07Cyrptic";
 	public static final String MACGUFFIN = "questL11MacGuffin";
 	public static final String ISLAND_WAR = "questL12War";
 	public static final String CITADEL = "questG02Whitecastle";
@@ -560,10 +565,18 @@ public class QuestDatabase
 		}
 
 		if ( !status.equals( QuestDatabase.STARTED ) && !status.equals( QuestDatabase.FINISHED )
-			&& status.indexOf( "step" ) == -1 )
+			&& status.indexOf( "step" ) == -1 && !status.equals( QuestDatabase.UNSTARTED ) )
 		{
 			return;
 		}
 		Preferences.setString( pref, status );
+	}
+
+	public static void resetQuests()
+	{
+		for ( int i = 0; i < questLogData.length; ++i )
+		{
+			QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
+		}
 	}
 }

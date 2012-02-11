@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -251,6 +252,7 @@ public class CouncilFrame
 			ResultProcessor.processItem( ItemPool.BUTTERKNIFE, -1 );
 			int knownAscensions = Preferences.getInteger( "knownAscensions" );
 			Preferences.setInteger( "lastFriarCeremonyAscension", knownAscensions );
+			QuestDatabase.setQuestProgress( QuestDatabase.FRIAR, QuestDatabase.FINISHED );
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Taint cleansed." );
 		}
 	}
@@ -381,14 +383,17 @@ public class CouncilFrame
 		if ( responseText.indexOf( "500" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "mosquito larva", -1, false ) );
+			QuestDatabase.setQuestProgress( QuestDatabase.LARVA, QuestDatabase.FINISHED );
 		}
 		if ( responseText.indexOf( "batskin belt" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
+			QuestDatabase.setQuestProgress( QuestDatabase.BAT, QuestDatabase.FINISHED );
 		}
 		if ( responseText.indexOf( "dragonbone belt buckle" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "skull of the bonerdagon", -1, false ) );
+			QuestDatabase.setQuestProgress( QuestDatabase.CYRPT, QuestDatabase.FINISHED );
 		}
 	}
 }
