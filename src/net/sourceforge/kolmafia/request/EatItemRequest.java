@@ -371,26 +371,44 @@ public class EatItemRequest
 		int fullness = ItemDatabase.getFullness( item.getName() );
 		int count = item.getCount();
 
-		// If you are in Beecore, certain items can't B used
-		// "You are too scared of Bs to xxx that item."
-		if ( KoLCharacter.inBeecore() && responseText.indexOf( "You are too scared of Bs" ) != -1 )
+		if ( responseText.indexOf( "too full" ) != -1 )
 		{
-			UseItemRequest.lastUpdate = "You are too scared of Bs";
+			UseItemRequest.lastUpdate = "Consumption limit reached.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return;
-		}
 
-		if ( responseText.indexOf( "be at least level" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Item level too high.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return;
-		}
+			// If we have no fullness data for this item, we can't tell what,
+			// if anything, consumption did to our fullness.
+			if ( fullness == 0 )
+			{
+				return;
+			}
 
-		if ( responseText.indexOf( "You may not" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Pathed ascension.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			int maxFullness = KoLCharacter.getFullnessLimit();
+			int currentFullness = KoLCharacter.getFullness();
+
+			// Based on what we think our current fullness is,
+			// calculate how many of this item we have room for.
+			int maxEat = (maxFullness - currentFullness) / fullness;
+
+			// We know that KoL did not let us eat as many as we
+			// requested, so adjust for how many we could eat.
+			int couldEat = Math.max( 0, Math.min( count - 1, maxEat ) );
+			if ( couldEat > 0 )
+			{
+				Preferences.increment( "currentFullness", couldEat * fullness );
+				Preferences.decrement( "munchiesPillsUsed", couldEat );
+				ResultProcessor.processResult( item.getInstance( -couldEat ) );
+			}
+
+			int estimatedFullness = maxFullness - fullness + 1;
+
+			if ( estimatedFullness > KoLCharacter.getFullness() )
+			{
+				Preferences.setInteger( "currentFullness", estimatedFullness );
+			}
+
+			KoLCharacter.updateStatus();
+
 			return;
 		}
 
@@ -456,47 +474,6 @@ public class EatItemRequest
 		     responseText.indexOf( "feel suddenly bloated" ) != -1 )
 		{
 			Preferences.setInteger( "carboLoading", 0 );
-		}
-
-		if ( responseText.indexOf( "too full" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Consumption limit reached.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-
-			// If we have no fullness data for this item, we can't tell what,
-			// if anything, consumption did to our fullness.
-			if ( fullness == 0 )
-			{
-				return;
-			}
-
-			int maxFullness = KoLCharacter.getFullnessLimit();
-			int currentFullness = KoLCharacter.getFullness();
-
-			// Based on what we think our current fullness is,
-			// calculate how many of this item we have room for.
-			int maxEat = (maxFullness - currentFullness) / fullness;
-
-			// We know that KoL did not let us eat as many as we
-			// requested, so adjust for how many we could eat.
-			int couldEat = Math.max( 0, Math.min( count - 1, maxEat ) );
-			if ( couldEat > 0 )
-			{
-				Preferences.increment( "currentFullness", couldEat * fullness );
-				Preferences.decrement( "munchiesPillsUsed", couldEat );
-				ResultProcessor.processResult( item.getInstance( -couldEat ) );
-			}
-
-			int estimatedFullness = maxFullness - fullness + 1;
-
-			if ( estimatedFullness > KoLCharacter.getFullness() )
-			{
-				Preferences.setInteger( "currentFullness", estimatedFullness );
-			}
-
-			KoLCharacter.updateStatus();
-
-			return;
 		}
 
 		int fullnessUsed = fullness * count;

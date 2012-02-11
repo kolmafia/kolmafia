@@ -1382,6 +1382,30 @@ public class UseItemRequest
 		UseItemRequest.lastItemUsed = null;
 		UseItemRequest.lastHelperUsed = null;
 
+		// If you are in Beecore, certain items can't B used
+		// "You are too scared of Bs to xxx that item."
+		if ( KoLCharacter.inBeecore() &&
+		     responseText.indexOf( "You are too scared of Bs" ) != -1 )
+		{
+			UseItemRequest.lastUpdate = "You are too scared of Bs";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			return;
+		}
+
+		if ( responseText.indexOf( "be at least level" ) != -1 )
+		{
+			UseItemRequest.lastUpdate = "Item level too high.";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			return;
+		}
+
+		if ( responseText.indexOf( "You may not" ) != -1 )
+		{
+			UseItemRequest.lastUpdate = "Pathed ascension.";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			return;
+		}
+
 		int consumptionType = UseItemRequest.getConsumptionType( item );
 		switch ( consumptionType )
 		{
@@ -1400,23 +1424,6 @@ public class UseItemRequest
 		if ( spleenHit > 0 )
 		{
 			SpleenItemRequest.parseConsumption( item, helper, responseText );
-			return;
-		}
-
-		// If you are in Beecore, certain items can't B used
-		// "You are too scared of Bs to xxx that item."
-		if ( KoLCharacter.inBeecore() &&
-		     responseText.indexOf( "You are too scared of Bs" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "You are too scared of Bs";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return;
-		}
-
-		if ( responseText.indexOf( "be at least level" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Item level too high.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			return;
 		}
 
