@@ -91,12 +91,19 @@ public class DrinkItemRequest
 		UseItemRequest.limiter = "inebriety";
 		int limit = KoLCharacter.getInebrietyLimit();
 
-		// Green Beer allows drinking to limit + 10,
-		// but only on SSPD. For now, always allow
-
-		if ( itemId == ItemPool.GREEN_BEER )
+		switch ( itemId )
 		{
+		case ItemPool.GREEN_BEER:
+			// Green Beer allows drinking to limit + 10,
+			// but only on SSPD. For now, always allow
 			limit += 10;
+			break;
+
+		case ItemPool.RED_DRUNKI_BEAR:
+		case ItemPool.GREEN_DRUNKI_BEAR:
+		case ItemPool.YELLOW_DRUNKI_BEAR:
+			// drunki-bears give inebriety but are limited by your fullness.
+			return EatItemRequest.maximumUses( itemId, itemName, 4 );
 		}
 
 		int inebrietyLeft = limit - KoLCharacter.getInebriety();

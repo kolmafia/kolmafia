@@ -1397,6 +1397,9 @@ public class ItemPool
 	public static final int FUDGE_CUBE = 5461;
 	public static final int RESOLUTION_ADVENTUROUS = 5471;
 	public static final int RESOLUTION_BOOK = 5463;
+	public static final int RED_DRUNKI_BEAR = 5482;
+	public static final int GREEN_DRUNKI_BEAR = 5483;
+	public static final int YELLOW_DRUNKI_BEAR = 5484;
 	public static final int ALL_YEAR_SUCKER = 5497;
 	public static final int DARK_CHOCOLATE_HEART = 5498;
 	public static final int JACKASS_PLUMBER_GAME = 5501;
