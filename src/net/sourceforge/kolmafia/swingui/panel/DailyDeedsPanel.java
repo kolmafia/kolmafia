@@ -2457,10 +2457,11 @@ public class DailyDeedsPanel
 		static ArrayList effectHats = new ArrayList();
 		ArrayList effects = new ArrayList();
 		ArrayList modifiers = new ArrayList();
+		
+		boolean initialUpdate = true;
 
 		public HatterDaily()
 		{
-			this.effects.add( "Available Hatter Buffs: " );
 			this.modifiers.add( null );
 
 			this.addListener( "_madTeaParty" );
@@ -2481,7 +2482,11 @@ public class DailyDeedsPanel
 
 		public void update()
 		{
-			this.box.removeAllItems();
+			if ( !this.initialUpdate )
+			{
+				this.box.removeAllItems();
+			}
+			this.initialUpdate = false;
 			
 			HatterDaily.effectHats = new ArrayList();
 			this.modifiers = new ArrayList();
