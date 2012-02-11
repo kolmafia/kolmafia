@@ -731,16 +731,25 @@ public abstract class KoLCharacter
 		{
 			return 0;
 		}
-		else if ( KoLCharacter.inBeecore() )
-		{
-			return 15;
-		}
-		else if ( KoLCharacter.isTrendy() )
-		{
-			return 15;
-		}
 
 		int baseFullness = 15;
+		if ( Preferences.getBoolean( "distentionPillActive" ) )
+		{
+			baseFullness++;
+		}
+
+		// Challenge paths preclude Stomach of Steel and Feast of Boris
+		if ( KoLCharacter.inBeecore() )
+		{
+			// Today is the Feast of B... Aww, crap.
+			return baseFullness;
+		}
+
+		if ( KoLCharacter.isTrendy() )
+		{
+			// Today is the Feast of Boris. More like the Feast of Boring... Pass.
+			return baseFullness;
+		}
 
 		if ( KoLCharacter.inBadMoon() )
 		{
