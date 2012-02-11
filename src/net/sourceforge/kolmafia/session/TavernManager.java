@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
@@ -436,5 +437,13 @@ public class TavernManager
 
 		// That's the square we will visit.
 		return searchIndex.intValue();
+	}
+
+	public static void handleTavernChange( String responseText )
+	{
+		if ( responseText.indexOf( "have a few drinks on the house" ) != -1 )
+		{
+			QuestDatabase.setQuestProgress( QuestDatabase.RAT, QuestDatabase.FINISHED );
+		}
 	}
 }
