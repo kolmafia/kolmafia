@@ -152,9 +152,24 @@ public class SpleenItemRequest
 			return;
 		}
 
-		this.addFormField( "which", "1" );
-		this.addFormField( "ajax", "1" );
-		this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
+		switch ( this.consumptionType )
+		{
+		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.HP_RESTORE:
+		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
+			if ( this.itemUsed.getCount() > 1 )
+			{
+				this.addFormField( "action", "useitem" );
+				this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
+				break;
+			}
+			// Fall through
+		default:
+			this.addFormField( "which", "3" );
+			this.addFormField( "ajax", "1" );
+			break;
+		}
 
 		super.runOneIteration( currentIteration, totalIterations, useTypeAsString );
 	}

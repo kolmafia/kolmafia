@@ -1130,22 +1130,6 @@ public class UseItemRequest
 
 		switch ( this.consumptionType )
 		{
-		case KoLConstants.CONSUME_MULTIPLE:
-		case KoLConstants.HP_RESTORE:
-		case KoLConstants.MP_RESTORE:
-		case KoLConstants.HPMP_RESTORE:
-			if ( this.itemUsed.getCount() > 1 )
-			{
-				this.addFormField( "action", "useitem" );
-				this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
-			}
-			else
-			{
-				this.addFormField( "which", "3" );
-				this.addFormField( "ajax", "1" );
-			}
-			break;
-
 		case KoLConstants.CONSUME_HOBO:
 			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.HOBO )
 			{
@@ -1191,6 +1175,17 @@ public class UseItemRequest
 			useTypeAsString = "Feeding stocking mimic with";
 			break;
 
+		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.HP_RESTORE:
+		case KoLConstants.MP_RESTORE:
+		case KoLConstants.HPMP_RESTORE:
+			if ( this.itemUsed.getCount() > 1 )
+			{
+				this.addFormField( "action", "useitem" );
+				this.addFormField( "quantity", String.valueOf( this.itemUsed.getCount() ) );
+				break;
+			}
+			// Fall through
 		default:
 			this.addFormField( "which", "3" );
 			this.addFormField( "ajax", "1" );
