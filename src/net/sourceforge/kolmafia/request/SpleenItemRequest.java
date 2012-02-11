@@ -186,31 +186,15 @@ public class SpleenItemRequest
 
 	public static final void parseConsumption( final AdventureResult item, final AdventureResult helper, final String responseText )
 	{
-		int spleenHit = ItemDatabase.getSpleenHit( item.getName() );
-		int count = item.getCount();
-		int spleenUse = spleenHit * count;
-
-		// If you are in Beecore, certain items can't B used
-		// "You are too scared of Bs to xxx that item."
-		if ( KoLCharacter.inBeecore() && responseText.indexOf( "You are too scared of Bs" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "You are too scared of Bs";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return;
-		}
-
-		if ( responseText.indexOf( "be at least level" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Item level too high.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return;
-		}
-
 		if ( responseText.indexOf( "That item isn't usable in quantity" ) != -1 )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal data error: item incorrectly flagged as multi-usable." );
 			return;
 		}
+
+		int spleenHit = ItemDatabase.getSpleenHit( item.getName() );
+		int count = item.getCount();
+		int spleenUse = spleenHit * count;
 
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
@@ -241,6 +225,7 @@ public class SpleenItemRequest
 
 		// The spleen item was consumed successfully
 		Preferences.increment( "currentSpleenUse", spleenUse );
+
 		ResultProcessor.processResult( item.getNegation() );
 		KoLCharacter.updateStatus();
 

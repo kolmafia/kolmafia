@@ -417,18 +417,9 @@ public class DrinkItemRequest
 
 	public static final void parseConsumption( final AdventureResult item, final AdventureResult helper, final String responseText )
 	{
-		// If you are in Beecore, certain items can't B used
-		// "You are too scared of Bs to xxx that item."
-		if ( KoLCharacter.inBeecore() && responseText.indexOf( "You are too scared of Bs" ) != -1 )
+		if ( responseText.indexOf( "too drunk" ) != -1 )
 		{
-			UseItemRequest.lastUpdate = "You are too scared of Bs";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return;
-		}
-
-		if ( responseText.indexOf( "be at least level" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Item level too high.";
+			UseItemRequest.lastUpdate = "Inebriety limit reached.";
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 			return;
 		}
@@ -495,22 +486,9 @@ public class DrinkItemRequest
 			return;
 		}
 
-		if ( responseText.indexOf( "You may not" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Pathed ascension.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return;
-		}
-
-		if ( responseText.indexOf( "too drunk" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Inebriety limit reached.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return;
-		}
-
-		// Assume the drink was removed
+		// The drink was consumed successfully
 		ResultProcessor.processResult( item.getNegation() );
+		KoLCharacter.updateStatus();
 
 		// Re-sort consumables list if needed
 		if ( Preferences.getBoolean( "sortByRoom" ) )
