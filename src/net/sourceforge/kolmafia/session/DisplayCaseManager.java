@@ -244,6 +244,9 @@ public abstract class DisplayCaseManager
 				shelf );
 		}
 
+		// Finally, we can account for Golden Mr. A's in your display case
+		InventoryManager.countGoldenMrAccesories();
+
 		DisplayCaseManager.collectionRetrieved = true;
 	}
 

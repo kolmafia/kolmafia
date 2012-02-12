@@ -415,6 +415,13 @@ public class UseSkillRequest
 
 		switch ( this.skillId )
 		{
+		// The Smile of Mr. A can be used five times per day per Golden
+		// Mr. Accessory you own
+		case SkillDatabase.SMILE_OF_MR_A:
+			maximumCast =
+				Preferences.getInteger( "goldenMrAccessories" ) -
+				Preferences.getInteger( "_smilesOfMrA" );
+			break;
 
 		// Vent Rage Gland can be used once per day
 		case SkillDatabase.RAGE_GLAND:
@@ -1423,6 +1430,10 @@ public class UseSkillRequest
 		case UseSkillRequest.DISCO_NAP:
 		case UseSkillRequest.POWER_NAP:
 			KoLConstants.activeEffects.clear();
+			break;
+
+		case SkillDatabase.SMILE_OF_MR_A:
+			Preferences.increment( "_smilesOfMrA" );
 			break;
 
 		case SkillDatabase.RAGE_GLAND:
