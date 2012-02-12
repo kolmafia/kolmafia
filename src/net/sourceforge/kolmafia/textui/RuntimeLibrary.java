@@ -74,7 +74,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.ModifierExpression;
@@ -1475,29 +1474,32 @@ public abstract class RuntimeLibrary
 
 	public static Value get_path()
 	{
-		if ( KoLmafiaASH.relayScript == null )
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		if ( relayRequest == null )
 		{
 			return DataTypes.STRING_INIT;
 		}
-		return new Value( KoLmafiaASH.relayRequest.getBasePath() );
+		return new Value( relayRequest.getBasePath() );
 	}
 
 	public static Value get_path_full()
 	{
-		if ( KoLmafiaASH.relayScript == null )
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		if ( relayRequest == null )
 		{
 			return DataTypes.STRING_INIT;
 		}
-		return new Value( KoLmafiaASH.relayRequest.getPath() );
+		return new Value( relayRequest.getPath() );
 	}
 
 	public static Value get_path_variables()
 	{
-		if ( KoLmafiaASH.relayScript == null )
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		if ( relayRequest == null )
 		{
 			return DataTypes.STRING_INIT;
 		}
-		String value = KoLmafiaASH.relayRequest.getPath();
+		String value = relayRequest.getPath();
 		int quest = value.indexOf( "?" );
 		return quest == -1 ? DataTypes.STRING_INIT : new Value( value.substring( 1, quest ) );
 	}
@@ -1632,35 +1634,40 @@ public abstract class RuntimeLibrary
 
 	public static Value write( final Value string )
 	{
-		if ( KoLmafiaASH.relayScript == null )
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		if ( relayRequest == null )
 		{
 			return DataTypes.VOID_VALUE;
 		}
 
-		KoLmafiaASH.serverReplyBuffer.append( string.toString() );
+		StringBuffer serverReplyBuffer = LibraryFunction.interpreter.getServerReplyBuffer();
+		serverReplyBuffer.append( string.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value writeln( final Value string )
 	{
-		if ( KoLmafiaASH.relayScript == null )
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		if ( relayRequest == null )
 		{
 			return DataTypes.VOID_VALUE;
 		}
 
-		RuntimeLibrary.write( string );
-		KoLmafiaASH.serverReplyBuffer.append( KoLConstants.LINE_BREAK );
+		StringBuffer serverReplyBuffer = LibraryFunction.interpreter.getServerReplyBuffer();
+		serverReplyBuffer.append( string.toString() );
+		serverReplyBuffer.append( KoLConstants.LINE_BREAK );
 		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value form_field( final Value key )
 	{
-		if ( KoLmafiaASH.relayScript == null )
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		if ( relayRequest == null )
 		{
 			return DataTypes.STRING_INIT;
 		}
 
-		String value = KoLmafiaASH.relayRequest.getFormField( key.toString() );
+		String value = relayRequest.getFormField( key.toString() );
 		return value == null ? DataTypes.STRING_INIT : new Value( value );
 	}
 
@@ -1668,12 +1675,14 @@ public abstract class RuntimeLibrary
 	{
 		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, DataTypes.STRING_TYPE );
 		MapValue value = new MapValue( type );
-		if ( KoLmafiaASH.relayScript == null )
+
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		if ( relayRequest == null )
 		{
 			return value;
 		}
 
-		Iterator i = KoLmafiaASH.relayRequest.getFormFields().iterator();
+		Iterator i = relayRequest.getFormFields().iterator();
 		while ( i.hasNext() )
 		{
 			String field = (String) i.next();
@@ -1704,17 +1713,18 @@ public abstract class RuntimeLibrary
 
 	public static Value visit_url()
 	{
-		if ( KoLmafiaASH.relayScript == null )
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		if ( relayRequest == null )
 		{
 			return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer() );
 		}
 
-		RequestThread.postRequest( KoLmafiaASH.relayRequest );
+		RequestThread.postRequest( relayRequest );
 
 		StringBuffer buffer = new StringBuffer();
-		if ( KoLmafiaASH.relayRequest.responseText != null )
+		if ( relayRequest.responseText != null )
 		{
-			buffer.append( KoLmafiaASH.relayRequest.responseText );
+			buffer.append( relayRequest.responseText );
 		}
 		return new Value( DataTypes.BUFFER_TYPE, "", buffer );
 	}
@@ -1750,7 +1760,8 @@ public abstract class RuntimeLibrary
 			return returnValue;
 		}
 
-		if ( KoLmafiaASH.relayScript == null )
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		if ( relayRequest == null )
 		{
 			if ( RuntimeLibrary.VISITOR.getPath().equals( "fight.php" ) )
 			{
@@ -3452,9 +3463,11 @@ public abstract class RuntimeLibrary
 
 	public static Value run_combat()
 	{
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+
 		RequestThread.postRequest( FightRequest.INSTANCE );
-		String response =
-			KoLmafiaASH.relayScript == null ? FightRequest.lastResponseText : FightRequest.getNextTrackedRound();
+		String response = relayRequest == null ?
+			FightRequest.lastResponseText : FightRequest.getNextTrackedRound();
 
 		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
 	}

@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -95,6 +96,10 @@ public class Interpreter
 	// For use by RuntimeLibrary's CLI command batching feature
 	LinkedHashMap batched;
 
+	// For use in ASH relay scripts
+	private RelayRequest relayRequest = null;
+	private StringBuffer serverReplyBuffer = null;
+
 	public Interpreter()
 	{
 		this.parser = new Parser();
@@ -107,6 +112,35 @@ public class Interpreter
 		this.parser = new Parser( scriptFile, null, source.getImports() );
 		this.scope = source.scope;
 		this.hadPendingState = false;
+	}
+
+	public void initializeRelayScript( final RelayRequest request )
+	{
+		this.relayRequest = request;
+		if ( this.serverReplyBuffer == null )
+		{
+			this.serverReplyBuffer = new StringBuffer();
+		}
+		else
+		{
+			this.serverReplyBuffer.setLength( 0 );
+		}
+	}
+
+	public RelayRequest getRelayRequest()
+	{
+		return this.relayRequest;
+	}
+
+	public StringBuffer getServerReplyBuffer()
+	{
+		return this.serverReplyBuffer;
+	}
+
+	public void finishRelayScript()
+	{
+		this.relayRequest = null;
+		this.serverReplyBuffer.setLength( 0 );
 	}
 
 	public Parser getParser()
