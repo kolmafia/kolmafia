@@ -4523,9 +4523,11 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.DRUM_MACHINE:
-			// Drum machine doesn't take a turn if you have worm-riding hooks equipped.
+			// Drum machine doesn't take a turn if you have
+			// worm-riding hooks in inventory or equipped.
 			AdventureResult hooks = ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 );
-			turns = KoLCharacter.hasEquipped( hooks ) ? 0 : 1;
+			turns = ( KoLConstants.inventory.contains( hooks ) ||
+				  KoLCharacter.hasEquipped( hooks, EquipmentManager.WEAPON ) ) ? 0 : 1;
 			break;
 
 		case ItemPool.GONG:
