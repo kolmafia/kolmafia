@@ -371,6 +371,12 @@ public class TavernRequest
 			RequestLogger.updateSessionLog();
 			message = "Visiting the suspicious looking guy";
 		}
+		else if ( urlString.indexOf( "place=barkeep" ) != -1 )
+		{
+			RequestLogger.printLine( "" );
+			RequestLogger.updateSessionLog();
+			message = "Visiting Bart Ender";
+		}
 		else
 		{
 			return false;

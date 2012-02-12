@@ -391,6 +391,11 @@ public class AdventureDatabase
 			return null;
 		}
 
+		if ( adventureURL.startsWith( "cellar.php" ) )
+		{
+			return null;
+		}
+
 		if ( adventureURL.startsWith( "dungeon.php" ) )
 		{
 			return null;

@@ -35,15 +35,17 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
 
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 
@@ -177,7 +179,8 @@ public class TavernManager
 		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
 		// Make sure Bart Ender has given us access to the cellar
-		RequestThread.postRequest( new GenericRequest( "tavern.php?place=barkeep" ) );
+		GenericRequest barkeep = new GenericRequest( "tavern.php?place=barkeep" );
+		RequestThread.postRequest( barkeep );
 		// *** Should look at response and make sure we got there
 
 		// Visit the tavern cellar to update the layout
@@ -220,7 +223,7 @@ public class TavernManager
 		}
 
 		// If the goal has not yet been found, then explore
-		AdventureRequest request = new AdventureRequest( "Typical Tavern Cellar", "cellar.php", "" );
+		KoLAdventure adventure = AdventureDatabase.getAdventure( "Tavern Cellar" );
 
 		// Remember if we have already found the faucet
 		boolean hadFaucet = faucet != -1;
@@ -241,7 +244,7 @@ public class TavernManager
 			KoLCharacter.getAdventuresLeft() > 0 )
 		{
 			// TavernRequest will visit the next unexplored square
-			RequestThread.postRequest( request );
+			RequestThread.postRequest( adventure );
 
 			// See what we discovered
 			layout = TavernRequest.tavernLayout();
@@ -252,7 +255,7 @@ public class TavernManager
 			// If we just found the faucet for the first time, visit Bart Ender to claim reward
 			if ( !hadFaucet && faucet != -1 )
 			{
-				RequestThread.postRequest( new GenericRequest( "tavern.php?place=barkeep" ) );
+				RequestThread.postRequest( barkeep );
 				hadFaucet = true;
 			}
 		}
@@ -305,7 +308,7 @@ public class TavernManager
 
 			TavernManager.logBaronSquare( baron );
 			TavernManager.overrideSquare = baron;
-			RequestThread.postRequest( request );
+			RequestThread.postRequest( adventure );
 			TavernManager.overrideSquare = -1;
 
 			if ( oldBaronSetting != 1 )
