@@ -56,10 +56,6 @@ public abstract class KoLmafiaASH
 {
 	private static final HashMap relayScriptMap = new HashMap();
 
-	public static Interpreter relayScript = null;
-	public static final RelayRequest relayRequest = new RelayRequest( false );
-	public static final StringBuffer serverReplyBuffer = new StringBuffer();
-
 	private static final HashMap TIMESTAMPS = new HashMap();
 	private static final HashMap INTERPRETERS = new HashMap();
 
@@ -97,68 +93,74 @@ public abstract class KoLmafiaASH
 
 	private static final boolean getClientHTML( final RelayRequest request, final File toExecute )
 	{
-		synchronized ( KoLmafiaASH.serverReplyBuffer )
+		Interpreter relayScript = KoLmafiaASH.getInterpreter( toExecute );
+		if ( relayScript == null )
 		{
-			KoLmafiaASH.relayScript = KoLmafiaASH.getInterpreter( toExecute );
-			if ( KoLmafiaASH.relayScript == null )
+			return false;
+		}
+
+		synchronized ( relayScript )
+		{
+			RelayRequest relayRequest = new RelayRequest( false );
+			relayRequest.cloneURLString( request );
+
+			relayScript.initializeRelayScript( relayRequest );
+
+			relayScript.execute( "main", null );
+
+			StringBuffer serverReplyBuffer = relayScript.getServerReplyBuffer();
+
+			if ( serverReplyBuffer.length() == 0 )
 			{
-				return false;
-			}
-
-			KoLmafiaASH.serverReplyBuffer.setLength( 0 );
-
-			KoLmafiaASH.relayRequest.cloneURLString( request );
-
-			KoLmafiaASH.relayScript.execute( "main", null );
-
-			if ( KoLmafiaASH.serverReplyBuffer.length() == 0 )
-			{
-				if ( KoLmafiaASH.relayRequest.responseText != null && KoLmafiaASH.relayRequest.responseText.length() != 0 )
+				if ( relayRequest.responseText != null && relayRequest.responseText.length() != 0 )
 				{
-					KoLmafiaASH.serverReplyBuffer.append( KoLmafiaASH.relayRequest.responseText );
+					serverReplyBuffer.append( relayRequest.responseText );
 				}
 			}
 
-			if ( KoLmafiaASH.serverReplyBuffer.length() != 0 )
+			int written = serverReplyBuffer.length();
+			if ( written != 0 )
 			{
-				String response = KoLmafiaASH.serverReplyBuffer.toString();
+				String response = serverReplyBuffer.toString();
 				request.pseudoResponse( "HTTP/1.1 200 OK", response );
 			}
 
-			KoLmafiaASH.relayScript = null;
+			relayScript.finishRelayScript();
 
-			return KoLmafiaASH.serverReplyBuffer.length() != 0;
+			return written != 0;
 		}
 	}
 
-	public static final String getScriptHTML( final Interpreter interp, final String serverFunc, final String path )
+	public static final String getScriptHTML( final Interpreter relayScript, final String serverFunc, final String path )
 	{
-		synchronized ( KoLmafiaASH.serverReplyBuffer )
+		synchronized( relayScript )
 		{
-			KoLmafiaASH.relayScript = interp;
-			KoLmafiaASH.serverReplyBuffer.setLength( 0 );
+			RelayRequest relayRequest = new RelayRequest( false );
+			relayRequest.constructURLString( path );
 
-			KoLmafiaASH.relayRequest.constructURLString( path );
+			relayScript.initializeRelayScript( relayRequest );
 
 			String script = Preferences.getString( "masterRelayOverride" );
-
-			if ( script.length() == 0 || KoLmafiaASH.relayRequest.getPath().startsWith( "relay_" ) )
+			if ( script.length() == 0 || relayRequest.getPath().startsWith( "relay_" ) )
 			{
-				script = KoLmafiaASH.relayRequest.getBasePath();
+				script = relayRequest.getBasePath();
 			}
 
 			int slashpos = script.lastIndexOf( "/" );
-			interp.execute( serverFunc, new String[] {
-				script.substring( slashpos + 1 ) }, false );
+			relayScript.execute( serverFunc,
+					     new String[] { script.substring( slashpos + 1 ) },
+					     false );
 
-			if ( KoLmafiaASH.serverReplyBuffer.length() == 0 )
+			StringBuffer serverReplyBuffer = relayScript.getServerReplyBuffer();
+			if ( serverReplyBuffer.length() == 0 )
 			{
-				KoLmafiaASH.serverReplyBuffer.append( "<html><body>Script failed to write any output!</body></html>" );
+				serverReplyBuffer.append( "<html><body>Script failed to write any output!</body></html>" );
 			}
 
-			KoLmafiaASH.relayScript = null;
+			String response = serverReplyBuffer.toString();
+			relayScript.finishRelayScript();
 
-			return KoLmafiaASH.serverReplyBuffer.toString();
+			return response;
 		}
 	}
 
