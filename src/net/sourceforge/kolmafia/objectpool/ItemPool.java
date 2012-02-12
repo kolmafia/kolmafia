@@ -296,6 +296,7 @@ public class ItemPool
 	public static final int CUMMERBUND = 778;
 	public static final int MAFIA_ARIA = 781;
 	public static final int RAFFLE_TICKET = 785;
+	public static final int GOLDEN_MR_ACCESSORY = 792;
 	public static final int PLUS_SIGN = 818;
 	public static final int MILKY_POTION = 819;
 	public static final int SWIRLY_POTION = 820;

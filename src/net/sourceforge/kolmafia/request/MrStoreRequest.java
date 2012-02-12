@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MrStoreRequest
@@ -180,6 +182,9 @@ public class MrStoreRequest
 		}
 
 		CoinMasterRequest.parseResponse( data, urlString, responseText );
+
+		// If we bought a Golden Mr. Accessory, it is now in inventory
+		InventoryManager.countGoldenMrAccesories();
 	}
 
 	public static boolean registerRequest( final String urlString )

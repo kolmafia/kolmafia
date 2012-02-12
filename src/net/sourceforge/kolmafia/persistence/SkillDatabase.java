@@ -102,6 +102,7 @@ public class SkillDatabase
 	public static final int TASTEFUL = 8201;
 	public static final int CARDS = 8202;
 
+	public static final int SMILE_OF_MR_A = 3;
 	public static final int OLFACTION = 19;
 	public static final int RAINBOW = 44;
 	public static final int RAGE_GLAND = 45;

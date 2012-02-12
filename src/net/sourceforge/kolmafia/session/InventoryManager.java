@@ -219,15 +219,7 @@ public abstract class InventoryManager
 			}
 		}
 
-		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
-		{
-			AdventureResult equipment = EquipmentManager.getEquipment( i );
-
-			if ( equipment != null && equipment.getItemId() == item.getItemId() )
-			{
-				++count;
-			}
-		}
+		count += InventoryManager.getEquippedCount( item );
 
 		for ( int i = 0; i < KoLCharacter.getFamiliarList().size(); ++i )
 		{
@@ -240,6 +232,20 @@ public abstract class InventoryManager
 			}
 		}
 
+		return count;
+	}
+
+	public static final int getEquippedCount( final AdventureResult item )
+	{
+		int count = 0;
+		for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
+		{
+			AdventureResult equipment = EquipmentManager.getEquipment( i );
+			if ( equipment != null && equipment.getItemId() == item.getItemId() )
+			{
+				++count;
+			}
+		}
 		return count;
 	}
 
@@ -1639,6 +1645,25 @@ public abstract class InventoryManager
 		{
 			String race = matcher.group( 1 );
 			KoLCharacter.setEnthroned( KoLCharacter.findFamiliar( race ) );
+		}
+	}
+
+	private static final AdventureResult GOLDEN_MR_ACCESSORY = ItemPool.get( ItemPool.GOLDEN_MR_ACCESSORY, 1 );
+
+	public static void countGoldenMrAccesories()
+	{
+		int oldCount = Preferences.getInteger( "goldenMrAccessories" );
+		int newCount =
+			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.inventory ) + 
+			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.closet ) +
+			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.storage ) +
+			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.collection ) +
+			InventoryManager.getEquippedCount( InventoryManager.GOLDEN_MR_ACCESSORY );
+		// A Golden Mr. Accessory cannot be traded or discarded. Once
+		// you purchase one, it's yours forever more.
+		if ( newCount > oldCount )
+		{
+			Preferences.setInteger( "goldenMrAccessories", newCount );
 		}
 	}
 

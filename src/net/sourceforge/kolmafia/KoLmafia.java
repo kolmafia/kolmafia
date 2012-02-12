@@ -894,6 +894,9 @@ public abstract class KoLmafia
 		// equipped, see which familiar is sitting in it, if any.
 		InventoryManager.checkCrownOfThrones();
 
+		// Make sure that we know about the easy to see Golden Mr. A's, at least
+		InventoryManager.countGoldenMrAccesories();
+
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
 		KoLmafia.isRefreshing = false;

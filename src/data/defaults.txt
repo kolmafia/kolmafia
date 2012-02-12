@@ -353,6 +353,7 @@ user	fossilS	0
 user	fossilW	0
 user	fratboysDefeated	0
 user	friarsBlessingReceived	false
+user	goldenMrAccessories	0
 user	gongPath	0
 user	gourdItemCount	5
 user	grimoire1Summons	0
@@ -789,6 +790,7 @@ user	_skateBuff2	false
 user	_skateBuff3	false
 user	_skateBuff4	false
 user	_skateBuff5	false
+user	_smilesOfMrA	0
 user	_stinkyCheeseCount	0
 user	_stressBallSqueezes	0
 user	_syntheticDogHairPillUsed	false
