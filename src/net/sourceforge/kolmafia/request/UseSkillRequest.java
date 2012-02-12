@@ -419,7 +419,7 @@ public class UseSkillRequest
 		// Mr. Accessory you own
 		case SkillDatabase.SMILE_OF_MR_A:
 			maximumCast =
-				Preferences.getInteger( "goldenMrAccessories" ) -
+				Preferences.getInteger( "goldenMrAccessories" ) * 5 -
 				Preferences.getInteger( "_smilesOfMrA" );
 			break;
 
