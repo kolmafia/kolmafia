@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /**
  * Provides utility functions for dealing with quests.
@@ -446,6 +447,63 @@ public class QuestDatabase
 			"Thank you for slaying the Goblin King, Adventurer."
 		},
 		{
+			QuestDatabase.FRIAR,
+			QuestDatabase.STARTED,
+			"Please, Adventurer, help us! We were performing a ritual at our Infernal Gate, and Brother Starfish dropped the butterknife. All of the infernal creatures escaped our grasp, and have tainted our grove. Please clean the taint! Collect the three items necessary to perform the ritual which will banish these fiends back to their own realm.<p>The first item can probably be found in The Dark Neck of the Woods.<p>The second item was last seen in The Dark Heart of the Woods.<p>The third item was stolen near The Dark Elbow of the Woods.",
+			"You don't appear to have all of the elements necessary to perform the ritual.",
+			"You've got all three of the ritual items, Adventurer! Hurry to the center of the circle, and perform the ritual!"
+		},
+		{
+			QuestDatabase.CYRPT,
+			QuestDatabase.STARTED,
+			"Recently, an aura of extreme Spookiness has begun to emanate from within the Cyrpt, near the Misspelled Cemetary. We fear that some horrible monster has taken up residence there, and begun to rile up the local undead.<p>Would you be so good as to investigate? This device should help:",
+			"The Spookiness still emanates from the Cyrpt, Adventurer. See if you can find and destroy the source, and bring us back proof of your conquest."
+		},
+		{
+			QuestDatabase.CYRPT,
+			QuestDatabase.FINISHED,
+			"Aha! So the Spookiness was coming from this abominable creature, was it? Well, you have our thanks, Adventurer, for your courageous act of undefilement.<p>Please, allow us to fashion that skull into something a little flashier."
+		},
+		{
+			QuestDatabase.TRAPPER,
+			QuestDatabase.STARTED,
+			"Adventurer! We've received an urgent letter from the L337 Tr4pz0r, requesting our assistance. We're, like, really busy right now, so we were hoping you could go out to his place and see what he wants.<p>He lives at the base of Mt. McLargeHuge, the tallest of the Big Mountains. We'll mark it on your map for you.",
+			"You still have unfinished business with the L337 Tr4pz0r, Adventurer."
+		},
+		{
+			QuestDatabase.LOL,
+			QuestDatabase.STARTED,
+			"Adventurer! We've just received an urgent message from the Baron Rof L'm Fao. His Valley, beyond the Orc Chasm in the Big Mountains, has been invaded! You must help him!",
+			"The Baron Rof L'm Fao still needs your help, Adventurer! You can find his valley beyond the Orc Chasm, in the Big Mountains.<p>If you're having trouble getting past the Chasm, the pirates on the Mysterious Island of Mystery might have something that will help you."
+		},
+		{
+			QuestDatabase.LOL,
+			"step1",
+			"Now that you've found your way into the Valley beyond the Orc Chasm, you'll have to find the gates of the Baron's keep. They're cleverly hidden, though. You'll need your wits and your arithmetic skills about you if you're going to find them."
+		},
+		{
+			QuestDatabase.GARBAGE,
+			QuestDatabase.STARTED,
+			"Something is amiss, Adventurer. The Nearby Plains are filling up with giant piles of garbage, and despite our best efforts, it keeps falling from the sky faster than we can clean it up. We need you to figure out where it's coming from, and put a stop to it.",
+			"Please try to figure out where this garbage is coming from, Adventurer! Perhaps you can find a clue by poking around the Nearby Plains."
+		},
+		{
+			QuestDatabase.GARBAGE,
+			QuestDatabase.FINISHED,
+			"We're not sure what you did, Adventurer, but the garbage finally stopped falling. Thanks a lot!<p>Oh, by the way -- we found this in the garbage when we were cleaning up, and thought you might have some use for it."
+		},
+		{
+			QuestDatabase.MACGUFFIN,
+			QuestDatabase.STARTED,
+			"You can travel there from the Travel Agency at The Shore, but there's a slight hitch -- the area you're going to requires a passport for entry, and our passport offices are temporarily closed due to a tiny photograph shortage. You'll need to acquire some forged identification documents from the Black Market instead, but we're not entirely sure where the Black Market actually is. It's probably near the Black Forest, though, and we'll mark that on your map for you.",
+			"Any luck getting your father's diary and recovering the Holy MacGuffin? It's a pretty important whatchamacallit, so we'd apprecate it if you'd get on that right away."
+		},
+		{
+			QuestDatabase.MACGUFFIN,
+			QuestDatabase.FINISHED,
+			"And one quick (though enjoyable) tickertape parade later, you're standing back in front of the Council Hall, picking bits of confetti out of your hair and wondering what you should do next."
+		},
+		{
 			QuestDatabase.FINAL,
 			QuestDatabase.STARTED,
 			"Now that you have proven yourself, the Council has deemed that it is time for you to embark upon your final quest. Seek out and destroy the Naughty Sorceress, who has plagued these lands for so long, and rescue King Ralph XI, whom she has imprismed.<p>Go forth to her Lair, east of the Nearby Plains! Beat her down!",
@@ -662,6 +720,62 @@ public class QuestDatabase
 			}
 		}
 		if ( found )
+		{
+			setQuestIfBetter( pref, status );
+		}
+	}
+
+	private static void setQuestIfBetter( String pref, String status )
+	{
+		String currentStatus = Preferences.getString( pref );
+		boolean shouldSet = false;
+
+		if ( currentStatus.equals( QuestDatabase.UNSTARTED ) )
+		{
+			shouldSet = true;
+		}
+		else if ( currentStatus.equals( QuestDatabase.STARTED ) )
+		{
+			if ( status.startsWith( "step" ) || status.equals( QuestDatabase.FINISHED ) )
+			{
+				shouldSet = true;
+			}
+		}
+		else if ( currentStatus.startsWith( "step" ) )
+		{
+			if ( status.equals( QuestDatabase.FINISHED ) )
+			{
+				shouldSet = true;
+			}
+			else if ( status.startsWith( "step" ) )
+			{
+				try
+				{
+					int currentStep = StringUtilities.parseInt( currentStatus.substring( 4 ) );
+					int nextStep = StringUtilities.parseInt( status.substring( 4 ) );
+
+					if ( nextStep > currentStep )
+					{
+						shouldSet = true;
+					}
+				}
+				catch ( NumberFormatException e )
+				{
+					shouldSet = true;
+				}
+			}
+		}
+		else if ( currentStatus.equals( QuestDatabase.FINISHED ) )
+		{
+			shouldSet = false;
+		}
+		else
+		{
+			// there was something garbled in the preference. overwrite it.
+			shouldSet = true;
+		}
+		
+		if ( shouldSet )
 		{
 			QuestDatabase.setQuestProgress( pref, status );
 		}
