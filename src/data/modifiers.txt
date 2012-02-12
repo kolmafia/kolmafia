@@ -2382,8 +2382,8 @@ Throne:Psychedelic Bear	Meat Drop: +20
 Throne:Purse Rat	Experience: +2
 Throne:Pygmy Bugbear Shaman	Experience (Mysticality): +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne:Ragamuffin Imp	Mysticality Percent: +15
-Throne:Reassembled Blackbird	Item Drop: +15
-Throne:Reconstituted Crow	Item Drop: +15
+Throne:Reassembled Blackbird	Item Drop: +10
+Throne:Reconstituted Crow	Item Drop: +10
 Throne:RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Rock Lobster	Spell Damage Percent: +15, MP Regen Min: 11, MP Regen Max: 15
