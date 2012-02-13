@@ -5563,11 +5563,11 @@
 5554	empty Rain-Doh can	none	display	0
 5555
 5556	Rain-Doh red wings	accessory	none	0
-5557	Rain-Doh orange agent	none, combat	none	0
+5557	Rain-Doh orange agent	none, combat reusable	none	0
 5558	Rain-Doh yellow laser gun	weapon	none	0
 5559	Rain-Doh green lantern	offhand	none	0
-5560	Rain-Doh blue balls	none, combat	none	0
-5561	Rain-Doh indigo cup	none, combat	none	0
+5560	Rain-Doh blue balls	none, combat reusable	none	0
+5561	Rain-Doh indigo cup	none, combat reusable	none	0
 5562	Rain-Doh violet bo	weapon	none	0
 5563	Rain-Doh black box	none, combat	none	0
 5564	Rain-Doh box full of monster	usable	none	0
