@@ -820,6 +820,12 @@ public class UseItemRequest
 
 		case ItemPool.MACGUFFIN_DIARY:
 			RequestThread.postRequest( new GenericRequest( "diary.php?textversion=1" ) );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.MACGUFFIN, "step2" );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.MANOR, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.WORSHIP, QuestDatabase.STARTED );
+
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
 

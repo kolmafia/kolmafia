@@ -66,6 +66,10 @@ public class QuestDatabase
 	public static final String LOL = "questL09Lol";
 	public static final String GARBAGE = "questL10Garbage";
 	public static final String MACGUFFIN = "questL11MacGuffin";
+	public static final String WORSHIP = "questL11Worship";
+	public static final String MANOR = "questL11Manor";
+	public static final String PYRAMID = "questL11Pyramid";
+	public static final String PALINDOME = "questL11Palindome";
 	public static final String ISLAND_WAR = "questL12War";
 	public static final String FINAL = "questL13Final";
 	public static final String CITADEL = "questG02Whitecastle";
@@ -327,7 +331,7 @@ public class QuestDatabase
 		}
 	}
 
-	private static void setQuestIfBetter( String pref, String status )
+	public static void setQuestIfBetter( String pref, String status )
 	{
 		String currentStatus = Preferences.getString( pref );
 		boolean shouldSet = false;

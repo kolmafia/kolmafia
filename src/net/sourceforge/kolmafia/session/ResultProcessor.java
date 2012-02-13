@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1204,6 +1205,9 @@ public class ResultProcessor
 			ResultProcessor.receivedDisassembledClover = true;
 			break;
 
+		case ItemPool.BAT_BANDANA:
+			QuestDatabase.setQuestProgress( QuestDatabase.BAT, "step4" );
+
 		case ItemPool.BATSKIN_BELT:
 		case ItemPool.DRAGONBONE_BELT_BUCKLE:
 			ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
@@ -1216,6 +1220,10 @@ public class ResultProcessor
 		case ItemPool.HEMP_STRING:
 		case ItemPool.BONERDAGON_VERTEBRA:
 			ResultProcessor.autoCreate( ItemPool.BONERDAGON_NECKLACE );
+			break;
+			
+		case ItemPool.BONERDAGON_CHEST:
+			QuestDatabase.setQuestProgress( QuestDatabase.CYRPT, "step1" );
 			break;
 
 		case ItemPool.SNAKEHEAD_CHARM:
