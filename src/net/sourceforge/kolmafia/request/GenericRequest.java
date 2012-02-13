@@ -945,7 +945,7 @@ public class GenericRequest
 		}
 
 		// Between-battle checks could have failed.
-		return !KoLmafia.permitsContinue();
+		return KoLmafia.refusesContinue();
 	}
 
 	private boolean invokeCounterScript( TurnCounter expired )

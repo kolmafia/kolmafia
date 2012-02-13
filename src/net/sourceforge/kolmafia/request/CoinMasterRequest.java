@@ -334,7 +334,7 @@ public class CoinMasterRequest
 
 			if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that item.." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that item." );
 				return;
 			}
 
