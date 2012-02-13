@@ -2204,7 +2204,7 @@ public class GenericRequest
 		}
 	}
 
-	public static final void checkItemRedirection( final String location )
+	private static final void checkItemRedirection( final String location )
 	{
 		AdventureResult item = UseItemRequest.extractItem( location );
 		GenericRequest.itemMonster = null;
@@ -2292,6 +2292,10 @@ public class GenericRequest
 			KoLmafia.ignoreSemirare();
 			break;
 
+
+		case ItemPool.DEPLETED_URANIUM_SEAL:
+			Preferences.increment( "_sealFigurineUses", 1 );
+			// Fall through. Why do we count usages of this item?
 		case ItemPool.WRETCHED_SEAL:
 		case ItemPool.CUTE_BABY_SEAL:
 		case ItemPool.ARMORED_SEAL:
@@ -2304,13 +2308,6 @@ public class GenericRequest
 		case ItemPool.SLIPPERY_SEAL:
 			itemName = "Infernal Seal Ritual";
 			consumed = true;
-			Preferences.increment( "_sealsSummoned", 1 );
-			ResultProcessor.processResult( sealRitualCandles( itemId ) );
-			break;
-
-		case ItemPool.DEPLETED_URANIUM_SEAL:
-			itemName = "Infernal Seal Ritual";
-			Preferences.increment( "_sealFigurineUses", 1 );
 			Preferences.increment( "_sealsSummoned", 1 );
 			ResultProcessor.processResult( sealRitualCandles( itemId ) );
 			break;
@@ -2410,7 +2407,7 @@ public class GenericRequest
 		}
 
 		KoLAdventure.lastVisitedLocation = null;
-		KoLAdventure.lastLocationName = itemName;
+		KoLAdventure.lastLocationName = null;
 		KoLAdventure.lastLocationURL = location;
 		Preferences.setString( "lastAdventure", "None" );
 		KoLCharacter.updateSelectedLocation( null );

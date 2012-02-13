@@ -553,7 +553,8 @@ public class AdventureRequest
 
 	private static final String translateGenericType( final String encounter, final String responseText )
 	{
-		if ( KoLAdventure.lastLocationName.startsWith( "Fernswarthy's Basement" ) )
+		if ( KoLAdventure.lastLocationName != null &&
+		     KoLAdventure.lastLocationName.startsWith( "Fernswarthy's Basement" ) )
 		{
 			return BasementRequest.basementMonster;
 		}
