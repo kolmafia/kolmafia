@@ -203,10 +203,16 @@ public class UseItemEnqueuePanel
 	{
 		super.setEnabled( isEnabled );
 
-		// We gray out the distend button unless we have a pill, and
-		// haven't used one today.
 		if ( isEnabled && this.food )
 		{
+			// The "binge" listener is the third button
+			int bingeIndex = 2;
+			boolean haveGhost = KoLCharacter.findFamiliar( FamiliarPool.GHOST ) != null;
+			this.buttons[ bingeIndex ].setEnabled( haveGhost );
+
+			// We gray out the distend button unless we have a
+			// pill, and haven't used one today.
+			//
 			// The "flush" listener is the last button
 			int flushIndex = this.buttons.length - 1;
 			boolean havepill = InventoryManager.getCount( ItemPool.DISTENTION_PILL ) > 0;
@@ -216,10 +222,16 @@ public class UseItemEnqueuePanel
 			this.buttons[ flushIndex ].setEnabled( canFlush );
 		}
 
-		// We gray out the dog hair button unless we have drunkenness,
-		// have a pill, and haven't used one today.
 		if ( isEnabled && this.booze )
 		{
+			// The "binge" listener is the third button
+			int bingeIndex = 2;
+			boolean haveHobo = KoLCharacter.findFamiliar( FamiliarPool.HOBO ) != null;
+			this.buttons[ bingeIndex ].setEnabled( haveHobo );
+
+			// We gray out the dog hair button unless we have
+			// inebriety, have a pill, and haven't used one today.
+			//
 			// The "flush" listener is the last button
 			int flushIndex = this.buttons.length - 1;
 			boolean havedrunk = KoLCharacter.getInebriety() > 0;
