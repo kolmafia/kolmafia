@@ -203,10 +203,11 @@ public class UseItemEnqueuePanel
 	{
 		super.setEnabled( isEnabled );
 
+		// The "binge" listener is the second or third button
+		int bingeIndex = Preferences.getBoolean( "addCreationQueue" ) ? 2 : 1;
+
 		if ( isEnabled && this.food )
 		{
-			// The "binge" listener is the third button
-			int bingeIndex = 2;
 			boolean haveGhost = KoLCharacter.findFamiliar( FamiliarPool.GHOST ) != null;
 			this.buttons[ bingeIndex ].setEnabled( haveGhost );
 
@@ -224,8 +225,6 @@ public class UseItemEnqueuePanel
 
 		if ( isEnabled && this.booze )
 		{
-			// The "binge" listener is the third button
-			int bingeIndex = 2;
 			boolean haveHobo = KoLCharacter.findFamiliar( FamiliarPool.HOBO ) != null;
 			this.buttons[ bingeIndex ].setEnabled( haveHobo );
 
