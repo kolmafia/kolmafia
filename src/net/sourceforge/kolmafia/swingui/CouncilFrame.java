@@ -403,7 +403,6 @@ public class CouncilFrame
 		if ( responseText.indexOf( "dragonbone belt buckle" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "skull of the bonerdagon", -1, false ) );
-			QuestDatabase.setQuestProgress( QuestDatabase.CYRPT, QuestDatabase.FINISHED );
 		}
 		QuestDatabase.handleCouncilText( responseText );
 	}
