@@ -1754,36 +1754,33 @@ public abstract class RuntimeLibrary
 		StringBuffer buffer = new StringBuffer();
 		Value returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
 
-		RuntimeLibrary.VISITOR.constructURLString( location, usePostMethod, encoded );
-		if ( GenericRequest.shouldIgnore( RuntimeLibrary.VISITOR ) )
+		// See if we are inside a relay override
+		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+
+		// If so, use a RelayRequest rather than a GenericRequest
+		GenericRequest request = ( relayRequest == null ) ? 
+			RuntimeLibrary.VISITOR : RuntimeLibrary.RELAYER;
+
+		// Build the desired URL
+		request.constructURLString( location, usePostMethod, encoded );
+		if ( GenericRequest.shouldIgnore( request ) )
 		{
 			return returnValue;
 		}
 
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
-		if ( relayRequest == null )
+		// If we are not in a relay script, ignore a request to an unstarted fight
+		if ( relayRequest == null &&
+		     request.getPath().equals( "fight.php" ) &&
+		     FightRequest.getCurrentRound() == 0 )
 		{
-			if ( RuntimeLibrary.VISITOR.getPath().equals( "fight.php" ) )
-			{
-				if ( FightRequest.getCurrentRound() == 0 )
-				{
-					return returnValue;
-				}
-			}
-
-			RequestThread.postRequest( RuntimeLibrary.VISITOR );
-			if ( RuntimeLibrary.VISITOR.responseText != null )
-			{
-				buffer.append( RuntimeLibrary.VISITOR.responseText );
-			}
+			return returnValue;
 		}
-		else
+
+		// Post the request and get the response!
+		RequestThread.postRequest( request );
+		if ( request.responseText != null )
 		{
-			RequestThread.postRequest( RuntimeLibrary.RELAYER.constructURLString( location, usePostMethod, encoded ) );
-			if ( RuntimeLibrary.RELAYER.responseText != null )
-			{
-				buffer.append( RuntimeLibrary.RELAYER.responseText );
-			}
+			buffer.append( request.responseText );
 		}
 
 		return returnValue;
