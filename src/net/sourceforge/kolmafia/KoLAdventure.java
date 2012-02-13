@@ -948,21 +948,6 @@ public class KoLAdventure
 			return;
 		}
 
-		KoLAdventure.lastVisitedLocation = this;
-
-		Preferences.setString( "lastAdventure", this.adventureName );
-		AdventureFrame.updateSelectedAdventure( this );
-
-		if ( RecoveryManager.isRecoveryPossible() )
-		{
-			RecoveryManager.runBetweenBattleChecks( !this.isNonCombatsOnly() );
-
-			if ( !KoLmafia.permitsContinue() )
-			{
-				return;
-			}
-		}
-
 		String action = Preferences.getString( "battleAction" );
 
 		if ( this.request instanceof AdventureRequest && !this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) )
@@ -1041,10 +1026,32 @@ public class KoLAdventure
 			KoLmafia.protectClovers();
 		}
 
-		// If the test is successful, then it is safe to run the
-		// request (without spamming the server).
+		// If we get this far, then it is safe to run the request
+		// (without spamming the server).
+
+		KoLAdventure.setNextLocation( this, this.adventureName );
+
+		if ( RecoveryManager.isRecoveryPossible() )
+		{
+			RecoveryManager.runBetweenBattleChecks( !this.isNonCombatsOnly() );
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				return;
+			}
+		}
 
 		RequestThread.postRequest( this.request );
+	}
+
+	public static final void setNextLocation( final KoLAdventure location, final String name )
+	{
+		KoLAdventure.lastVisitedLocation = location;
+		Preferences.setString( "lastAdventure", name );
+		if ( location != null )
+		{
+			AdventureFrame.updateSelectedAdventure( location );
+		}
 	}
 
 	public static final KoLAdventure lastVisitedLocation()
@@ -1779,7 +1786,7 @@ public class KoLAdventure
 			// See if there is an "adventure again" link, and if
 			// so, whether it points to where we thought we went.
 			KoLAdventure again = KoLAdventure.findAdventureAgain( responseText );
-			if ( again != null && again != lastVisitedLocation )
+			if ( again != null && again != KoLAdventure.lastVisitedLocation )
 			{
 				location = again.adventureName;
 				KoLAdventure.lastVisitedLocation = again;
@@ -1819,12 +1826,7 @@ public class KoLAdventure
 		// Update selected adventure information in order to
 		// keep the GUI synchronized.
 
-		if ( lastVisitedLocation != null )
-		{
-			Preferences.setString( "lastAdventure", location );
-			AdventureFrame.updateSelectedAdventure( lastVisitedLocation );
-		}
-
+		KoLAdventure.setNextLocation( KoLAdventure.lastVisitedLocation, location );
 		StaticEntity.getClient().registerAdventure( location );
 
 		String message = "[" + KoLAdventure.getAdventureCount() + "] " + location;

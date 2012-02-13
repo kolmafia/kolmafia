@@ -1429,7 +1429,8 @@ public class RelayRequest
 
 		TurnCounter expired = TurnCounter.getExpiredCounter( this, true );
 		while ( expired != null )
-		{ // Read and discard expired informational counters
+		{
+			// Read and discard expired informational counters
 			expired = TurnCounter.getExpiredCounter( this, true );
 		}
 

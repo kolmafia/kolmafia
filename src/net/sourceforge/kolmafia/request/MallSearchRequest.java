@@ -222,7 +222,7 @@ public class MallSearchRequest
 				break;
 			}
 
-			if ( !KoLmafia.permitsContinue() )
+			if ( this.responseText == null || !KoLmafia.permitsContinue() )
 			{
 				return;
 			}

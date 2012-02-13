@@ -77,8 +77,11 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.InternalMessage;
 
+import net.sourceforge.kolmafia.moods.RecoveryManager;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -866,6 +869,85 @@ public class GenericRequest
 		return RequestLogger.isDebugging() && !this.isChatRequest;
 	}
 
+	private boolean stopForCounters()
+	{
+		while ( true )
+		{
+			TurnCounter expired = TurnCounter.getExpiredCounter( this, true );
+			while ( expired != null )
+			{
+				// Process all expiring informational counters
+				// first.  This strategy has the best chance of
+				// not screwing everything up totally if both
+				// informational and aborting counters expire
+				// on the same turn.
+				KoLmafia.updateDisplay( "(" + expired.getLabel() + " counter expired)" );
+				this.invokeCounterScript( expired );
+				expired = TurnCounter.getExpiredCounter( this, true );
+			}
+
+			expired = TurnCounter.getExpiredCounter( this, false );
+			if ( expired == null )
+			{
+				break;
+			}
+
+			int remain = expired.getTurnsRemaining();
+			if ( remain < 0 )
+			{
+				continue;
+			}
+
+			TurnCounter also;
+			while ( ( also = TurnCounter.getExpiredCounter( this, false ) ) != null )
+			{
+				if ( also.getTurnsRemaining() < 0 )
+				{
+					continue;
+				}
+				if ( also.getLabel().equals( "Fortune Cookie" ) )
+				{
+					KoLmafia.updateDisplay( "(" + expired.getLabel() + " counter discarded due to conflict)" );
+					expired = also;
+				}
+				else
+				{
+					KoLmafia.updateDisplay( "(" + also.getLabel() + " counter discarded due to conflict)" );
+				}
+			}
+
+			if ( this.invokeCounterScript( expired ) )
+			{
+				if ( !KoLmafia.permitsContinue() )
+				{
+					return true;
+				}
+				continue;
+			}
+
+			String message;
+			if ( remain == 0 )
+			{
+				message = expired.getLabel() + " counter expired.";
+			}
+			else
+			{
+				message = expired.getLabel() + " counter will expire after " + remain + " more turn" + ((remain == 1) ? "." : "s.");
+			}
+
+			if ( expired.getLabel().equals( "Fortune Cookie" ) )
+			{
+				message += " " + EatItemRequest.lastSemirareMessage();
+			}
+
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+			return true;
+		}
+
+		// Between-battle checks could have failed.
+		return !KoLmafia.permitsContinue();
+	}
+
 	private boolean invokeCounterScript( TurnCounter expired )
 	{
 		String scriptName = Preferences.getString( "counterScript" );
@@ -873,17 +955,34 @@ public class GenericRequest
 		{
 			return false;
 		}
-		Interpreter interpreter = KoLmafiaASH.getInterpreter(
-			KoLmafiaCLI.findScriptFile( scriptName ) );
+
+		Interpreter interpreter =
+			KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 		if ( interpreter != null )
 		{
+			String pref = Preferences.getString( "lastAdventure" );
+			KoLAdventure nextLocation = AdventureDatabase.getAdventure( pref );
+			int oldTurns = KoLCharacter.getCurrentRun();
+
 			Value v = interpreter.execute( "main", new String[]
 			{
 				expired.getLabel(),
 				String.valueOf( expired.getTurnsRemaining() )
 			} );
+
+			// If the counter script used adventures, we need to
+			// run between-battle actions for the next adventure,
+			// in order to maintain moods
+
+			if ( KoLCharacter.getCurrentRun() != oldTurns )
+			{
+				KoLAdventure.setNextLocation( nextLocation, pref );
+				RecoveryManager.runBetweenBattleChecks( true );
+			}
+
 			return v != null && v.intValue() != 0;
 		}
+
 		return false;
 	}
 
@@ -957,59 +1056,9 @@ public class GenericRequest
 			}
 		}
 
-		if ( ResponseTextParser.hasResult( this.formURLString ) )
+		if ( ResponseTextParser.hasResult( this.formURLString ) && this.stopForCounters() )
 		{
-			while ( true )
-			{
-				TurnCounter expired = TurnCounter.getExpiredCounter( this, true );
-				while ( expired != null )
-				{	// Process all expiring informational counters first.
-					// This strategy has the best chance of not screwing
-					// everything up totally if both informational and
-					// aborting counters expire on the same turn.
-					KoLmafia.updateDisplay( "(" + expired.getLabel() + " counter expired)" );
-					this.invokeCounterScript( expired );
-					expired = TurnCounter.getExpiredCounter( this, true );
-				}
-
-				expired = TurnCounter.getExpiredCounter( this, false );
-				if ( expired == null ) break;
-				int remain = expired.getTurnsRemaining();
-				if ( remain < 0 ) continue;
-				TurnCounter also;
-				while ( (also = TurnCounter.getExpiredCounter( this, false )) != null )
-				{
-					if ( also.getTurnsRemaining() < 0 ) continue;
-					if ( also.getLabel().equals( "Fortune Cookie" ) )
-					{
-						KoLmafia.updateDisplay( "(" + expired.getLabel() + " counter discarded due to conflict)" );
-						expired = also;
-					}
-					else
-					{
-						KoLmafia.updateDisplay( "(" + also.getLabel() + " counter discarded due to conflict)" );
-					}
-				}
-				if ( this.invokeCounterScript( expired ) ) continue;
-
-				String message;
-				if ( remain == 0 )
-				{
-					message = expired.getLabel() + " counter expired.";
-				}
-				else
-				{
-					message = expired.getLabel() + " counter will expire after " + remain + " more turn" + ((remain == 1) ? "." : "s.");
-				}
-
-				if ( expired.getLabel().equals( "Fortune Cookie" ) )
-				{
-					message += " " + EatItemRequest.lastSemirareMessage();
-				}
-
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
-				return;
-			}
+			return;
 		}
 
 		if ( this.shouldUpdateDebugLog() )
@@ -2173,7 +2222,6 @@ public class GenericRequest
 		{
 		case ItemPool.BLACK_PUDDING:
 			itemName = "Black Pudding";
-			Preferences.increment( "currentFullness", -3 );
 			consumed = true;
 			break;
 

@@ -543,6 +543,19 @@ public class EatItemRequest
 				return;
 			}
 
+			// If we are actually redirected to a fight, the item
+			// is consumed elsewhere. Eating a black pudding via
+			// the in-line ajax support no longer redirects to a
+			// fight. Instead, the fight is forced by a script:
+			//
+			// <script type="text/javascript">top.mainpane.document.location = "fight.php";</script>
+			//
+			// If we got here, we removed it above and incremented
+			// our fullness, but it wasn't actually consumed.
+
+			ResultProcessor.processResult( item );
+			Preferences.increment( "currentFullness", -3 );
+
 			// "You don't have time to properly enjoy a black
 			// pudding right now."
 			if ( responseText.indexOf( "don't have time" ) != -1 )
@@ -560,22 +573,6 @@ public class EatItemRequest
 			if ( !UseItemRequest.lastUpdate.equals( "" ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			}
-
-			// If we are redirected to a fight, the item is
-			// consumed elsewhere. If we got here, we removed it
-			// above, but it wasn't actually consumed
-
-			// Eating a black pudding via the in-line ajax support
-			// no longer redirects to a fight. Instead, the fight
-			// is forced by a script:
-
-			// <script type="text/javascript">top.mainpane.document.location = "fight.php";</script>
-
-			if ( responseText.indexOf( "fight.php" ) == -1 )
-			{
-				Preferences.increment( "currentFullness", -3 );
-				ResultProcessor.processResult( item );
 			}
 
 			return;
