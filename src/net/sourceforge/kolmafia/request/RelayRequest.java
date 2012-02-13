@@ -1206,6 +1206,11 @@ public class RelayRequest
 
 	private void submitCommand( String command, boolean suppressUpdate, boolean waitForCompletion )
 	{
+		// Wait until any restoration scripts finish running before
+		// submitting a command to the CLI
+
+		this.waitForRecoveryToComplete();
+
 		try
 		{
 			command = URLDecoder.decode( command, "UTF-8" );
@@ -1221,6 +1226,7 @@ public class RelayRequest
 		{
 			this.pauser.pause( 500 );
 		}
+
 		GenericRequest.suppressUpdate( false );
 	}
 
@@ -1769,7 +1775,7 @@ public class RelayRequest
 	{
 		while ( RecoveryManager.isRecoveryActive() )
 		{
-			this.pauser.pause( 200 );
+			this.pauser.pause( 100 );
 		}
 	}
 
