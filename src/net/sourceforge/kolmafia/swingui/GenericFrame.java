@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -587,39 +588,34 @@ public abstract class GenericFrame
 		// the current display state -- but only if the
 		// compact pane has already been constructed.
 
+		Color color;
+		boolean enabled;
+
 		switch ( displayState )
 		{
 		case KoLConstants.ABORT_STATE:
 		case KoLConstants.ERROR_STATE:
-
-			if ( this.sidepane != null )
-			{
-				this.sidepane.setBackground( KoLConstants.ERROR_COLOR );
-			}
-
-			this.setEnabled( true );
+			color = KoLConstants.ERROR_COLOR;
+			enabled = true;
 			break;
 
 		case KoLConstants.ENABLE_STATE:
-
-			if ( this.sidepane != null )
-			{
-				this.sidepane.setBackground( KoLConstants.ENABLED_COLOR );
-			}
-
-			this.setEnabled( true );
+			color = KoLConstants.ENABLED_COLOR;
+			enabled = true;
 			break;
 
 		default:
-
-			if ( this.sidepane != null )
-			{
-				this.sidepane.setBackground( KoLConstants.DISABLED_COLOR );
-			}
-
-			this.setEnabled( false );
+			color = KoLConstants.DISABLED_COLOR;
+			enabled = false;
 			break;
 		}
+
+		if ( this.sidepane != null )
+		{
+			this.sidepane.setBackground( color );
+		}
+
+		this.setEnabled( enabled );
 	}
 
 	/**
