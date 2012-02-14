@@ -154,9 +154,19 @@ public class CommandDisplayFrame
 					CommandDisplayFrame.pauser.pause( 200 );
 				}
 
-				int requestId = RequestThread.openRequestSequence();
-				this.handleQueue();
-				RequestThread.closeRequestSequence( requestId );
+				Integer requestId = RequestThread.openRequestSequence();
+				try
+				{
+					this.handleQueue();
+				}
+				catch ( Exception e )
+				{
+					StaticEntity.printStackTrace( e );
+				}
+				finally
+				{
+					RequestThread.closeRequestSequence( requestId );
+				}
 			}
 		}
 

@@ -482,7 +482,7 @@ public class KoLmafiaCLI
 
 	public void executeCommand( String command, String parameters )
 	{
-		int requestId = RequestThread.openRequestSequence();
+		Integer requestId = RequestThread.openRequestSequence();
 
 		try
 		{
@@ -492,8 +492,10 @@ public class KoLmafiaCLI
 		{
 			StaticEntity.printStackTrace( e );
 		}
-
-		RequestThread.closeRequestSequence( requestId );
+		finally
+		{
+			RequestThread.closeRequestSequence( requestId );
+		}
 	}
 
 	public void doExecuteCommand( String command, String parameters )
