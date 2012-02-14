@@ -1731,7 +1731,7 @@ public abstract class KoLCharacter
 			begin = 160;
 			end = 200;
 		}
-		TurnCounter.startCounting( begin + 1, "Semirare window begin loc=*", "lparen.gif" );
+		TurnCounter.startCounting( begin + 1, "Semirare window begin", "lparen.gif" );
 		TurnCounter.startCounting( end + 1, "Semirare window end loc=*", "rparen.gif" );
 	}
 
