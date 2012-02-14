@@ -417,13 +417,11 @@ public abstract class StaticEntity
 
 		if ( cause == null || !printOnlyCause )
 		{
-			StaticEntity.printStackTrace( t, message, System.err );
 			StaticEntity.printStackTrace( t, message, RequestLogger.getDebugStream() );
 		}
 
 		if ( cause != null )
 		{
-			StaticEntity.printStackTrace( cause, message, System.err );
 			StaticEntity.printStackTrace( cause, message, RequestLogger.getDebugStream() );
 		}
 

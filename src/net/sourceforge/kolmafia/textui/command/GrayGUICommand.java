@@ -45,7 +45,28 @@ public class GrayGUICommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		RequestThread.checkOpenRequestSequences();
-	}
+		String[] split = parameters.split( " " );
+		String command = split[ 0 ];
+		boolean force = command.equals( "force" );
 
+		// We are going to open a request sequence of our own. If we
+		// are told to "force" the GUI to be enabled, we will shut down
+		// all other sequences, and when we close this one, we will
+		// enable the display.
+
+		Integer requestId = force ? RequestThread.openRequestSequence( true ) : null;
+
+		try
+		{
+			RequestThread.checkOpenRequestSequences( force );
+		}
+		catch ( Exception e )
+		{
+		}
+
+		if ( force )
+		{
+			RequestThread.closeRequestSequence( requestId );
+		}
+	}
 }

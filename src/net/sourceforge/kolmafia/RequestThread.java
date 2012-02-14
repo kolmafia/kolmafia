@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.lang.reflect.Method;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -230,30 +231,51 @@ public abstract class RequestThread
 		}
 	}
 
-	public static synchronized final void checkOpenRequestSequences()
+	public static synchronized final void checkOpenRequestSequences( final boolean flush )
 	{
-		Iterator threadIterator = threadMap.entrySet().iterator();
 		Thread currentThread = Thread.currentThread();
-		int openSequenceCount = 0;
+		Set sequenceSet = new HashSet();
 
+		// Iterate over all threads, storing every requestId claimed by
+		// a thread other than this one.
+
+		Iterator threadIterator = threadMap.entrySet().iterator();
 		while ( threadIterator.hasNext() )
 		{
 			Entry entry = (Entry) threadIterator.next();
+			Thread thread = (Thread) entry.getValue();
 
-			if ( entry.getValue() == currentThread )
+			if ( thread == currentThread )
 			{
 				continue;
 			}
 
-			Object requestId = entry.getKey();
+			Integer requestIdObj = (Integer) entry.getKey();
+			String message = "Sequence #" + requestIdObj + " (" + thread.getName() + ")";
 
-			Exception e = (Exception) requestMap.get( requestId );
-			StaticEntity.printStackTrace( e, "Open request sequence" );
+			sequenceSet.add( requestIdObj );
 
-			openSequenceCount++;
+			Exception e = (Exception) requestMap.get( requestIdObj );
+			StaticEntity.printStackTrace( e, message );
 		}
 
-		KoLmafia.updateDisplay( openSequenceCount + " open request sequences" );
+		int openSequences = sequenceSet.size();
+
+		KoLmafia.updateDisplay( openSequences + " open request sequences" );
+
+		if ( openSequences == 0 || !flush )
+		{
+			return;
+		}
+
+		// If we are directed to flush sequences, do it
+		Iterator requestIdIterator = sequenceSet.iterator();
+		while ( requestIdIterator.hasNext() )
+		{
+			Integer requestIdObj = (Integer) requestIdIterator.next();
+			KoLmafia.updateDisplay( "Closing sequence #" + requestIdObj );
+			closeRequestSequence( requestIdObj );
+		}
 	}
 
 	public static synchronized final boolean hasOpenRequestSequences()
@@ -266,7 +288,7 @@ public abstract class RequestThread
 		return RequestThread.openRequestSequence( RequestThread.requestMap.isEmpty() );
 	}
 
-	private static synchronized final Integer openRequestSequence( boolean forceContinue )
+	public static synchronized final Integer openRequestSequence( boolean forceContinue )
 	{
 		if ( forceContinue )
 		{
