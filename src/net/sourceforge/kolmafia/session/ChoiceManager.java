@@ -3602,7 +3602,7 @@ public abstract class ChoiceManager
 			break;
 		case 517:
 			// Mr. Alarm, I presarm
-			QuestDatabase.setQuestIfBetter( QuestDatabase.WORSHIP, "step3" );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, "step3" );
 			break;
 
 		case 518:
