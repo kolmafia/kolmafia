@@ -1280,8 +1280,20 @@ public class GenericRequest
 		if ( urlString.startsWith( "ascend.php" ) && urlString.indexOf( "action=ascend" ) != -1 )
 		{
 			GenericRequest.ascending = true;
+			KoLmafia.forceContinue();
 			ValhallaManager.preAscension();
 			GenericRequest.ascending = false;
+
+			// If the preAscension script explicitly aborted, don't
+			// jump into the gash. Let the user fix the problem.
+			if ( KoLmafia.refusesContinue() )
+			{
+				return;
+			}
+
+			// Set preference so we call ValhallaManager.onAscension()
+			// when we reach the afterlife.
+			Preferences.setInteger( "lastBreakfast", 0 );
 		}
 
 		if ( urlString.startsWith( "afterlife.php" ) && Preferences.getInteger( "lastBreakfast" ) != -1 )
