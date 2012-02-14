@@ -170,12 +170,9 @@ public class ValhallaManager
 		// Harvest your garden
 		CampgroundRequest.harvestCrop();
 
-		// User-defined actions:
+		// As the final action before we enter the gash, run a user supplied script
+		// If script aborts, we will not jump.
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "preAscensionScript" ) );
-
-		// GenericRequest keys on the following preference to decide
-		// whether to call ValhallaManager.onAscension()
-		Preferences.setInteger( "lastBreakfast", 0 );
 	}
 
 	public static void onAscension()
