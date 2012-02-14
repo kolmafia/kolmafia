@@ -183,14 +183,6 @@ public class CompositeReference
 			if ( result == null )
 			{
 				result = this.slice.initialValue( this.index );
-
-				// If the result is a composite, store it back,
-				// since if the user modifies it, we'll want to
-				// get the modified version back again.
-				if ( result instanceof CompositeValue )
-				{
-					this.slice.aset( this.index, result, interpreter );
-				}
 			}
 
 			interpreter.traceIndent();
