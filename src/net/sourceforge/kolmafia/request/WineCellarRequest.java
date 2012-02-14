@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -185,5 +186,13 @@ public class WineCellarRequest
 		}
 
 		return true;
+	}
+
+	public static void handleCellarChange( String responseText )
+	{
+		if ( responseText.indexOf( "place=chamber" ) != -1 )
+		{
+			QuestDatabase.setQuestIfBetter( QuestDatabase.MANOR, "step2" );
+		}
 	}
 }

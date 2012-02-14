@@ -507,6 +507,7 @@ public class ItemPool
 	public static final int SMOOTH_STONE_SPHERE = 2175;
 	public static final int CRACKED_STONE_SPHERE = 2176;
 	public static final int ROUGH_STONE_SPHERE = 2177;
+	public static final int ANCIENT_AMULET = 2180;
 	public static final int HAROLDS_HAMMER = 2184;
 	public static final int ANCIENT_CAROLS = 2191;
 	public static final int SHEET_MUSIC = 2192;
@@ -524,6 +525,7 @@ public class ItemPool
 	public static final int OSTRICH_EGG = 2261;
 	public static final int WET_STUNT_NUT_STEW = 2266;
 	public static final int MEGA_GEM = 2267;
+	public static final int STAFF_OF_FATS = 2268;
 	public static final int DUSTY_BOTTLE_OF_MERLOT = 2271;
 	public static final int DUSTY_BOTTLE_OF_PORT = 2272;
 	public static final int DUSTY_BOTTLE_OF_PINOT_NOIR = 2273;

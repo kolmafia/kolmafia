@@ -3471,6 +3471,20 @@ public abstract class ChoiceManager
 				InventoryManager.retrieveItem( ItemPool.get( ItemPool.HAROLDS_HAMMER, 1 ) );
 			}
 			break;
+		case 123:
+			// At least it's not full of trash
+			if ( ChoiceManager.lastDecision == 1 && KoLmafia.isAdventuring() )
+			{
+				QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, "step1" );
+			}
+			break;
+		case 125:
+			// No visible means of support
+			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
+			{
+				QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, "step3" );
+			}
+			break;
 
 		case 162:
 			// Between a Rock and Some Other Rocks
@@ -3585,6 +3599,10 @@ public abstract class ChoiceManager
 				// Option 6 does not consume the map. Others do.
 				ResultProcessor.processItem( ItemPool.REFLECTION_OF_MAP, -1 );
 			}
+			break;
+		case 517:
+			// Mr. Alarm, I presarm
+			QuestDatabase.setQuestIfBetter( QuestDatabase.WORSHIP, "step3" );
 			break;
 
 		case 518:

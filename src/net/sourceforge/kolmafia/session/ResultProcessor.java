@@ -1055,12 +1055,14 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_GOD, -1 );
 			ResultProcessor.processItem( ItemPool.HARD_ROCK_CANDY, -1 );
 			ResultProcessor.processItem( ItemPool.OSTRICH_EGG, -1 );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.WORSHIP, "step2" );
 			break;
 
 		case ItemPool.MEGA_GEM:
 			// If you get the Mega Gem, you lose your wet stunt nut
 			// stew
 			ResultProcessor.processItem( ItemPool.WET_STUNT_NUT_STEW, -1 );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.WORSHIP, "step4" );
 			break;
 
 		case ItemPool.CONFETTI:
@@ -1231,6 +1233,22 @@ public class ResultProcessor
 			{
 				ResultProcessor.autoCreate( ItemPool.TALISMAN );
 			}
+			break;
+			
+		case ItemPool.TALISMAN:
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, "step1" );
+			break;
+
+		case ItemPool.EYE_OF_ED:
+			QuestDatabase.setQuestProgress( QuestDatabase.MANOR, QuestDatabase.FINISHED );
+			break;
+			
+		case ItemPool.ANCIENT_AMULET:
+			QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, QuestDatabase.FINISHED );
+			break;
+			
+		case ItemPool.STAFF_OF_FATS:
+			QuestDatabase.setQuestProgress( QuestDatabase.PALINDOME, QuestDatabase.FINISHED );
 			break;
 
 		case ItemPool.WORM_RIDING_HOOKS:

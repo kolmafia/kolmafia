@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -720,6 +721,17 @@ public class AdventureRequest
 			int area = parseArea( urlString );
 			switch ( area )
 			{
+			case 17:
+				// Hidden Temple
+				// Dvorak's revenge
+				// You jump to the last letter, and put your pom-poms down with a sign of relief --
+				// thank goodness that's over. Worst. Spelling bee. Ever.
+				if ( responseText.indexOf ( "put your pom-poms down" ) != -1 )
+				{
+					QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, "step2" );
+				}
+				break;
+				
 			case 19:
 				// Limerick Dungeon
 				for ( int i = 0; i < LIMERICKS.length; ++i )
@@ -731,6 +743,16 @@ public class AdventureRequest
 				}
 				return "Unrecognized Limerick";
 
+			case 109:
+				// Haunted Ballroom
+				// We'll all be flat
+				// You make your way to the pipe organ at the end of the ballroom. You straighten your
+				// coat, crack your knuckles, and begin to play the sheet music from the diary.
+				if ( responseText.indexOf ( "You make your way to the pipe organ" ) != -1 )
+				{
+					QuestDatabase.setQuestProgress( QuestDatabase.MANOR, "step1" );
+				}
+				break;
 			case 114:	// Outskirts of The Knob
 				// Unstubbed
 				// You go back to the tree where the wounded Knob Goblin guard was resting,

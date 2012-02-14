@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.WineCellarRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -140,6 +141,10 @@ public class CouncilFrame
 		else if ( location.startsWith( "mountains" ) )
 		{
 			CouncilFrame.handleMountainsChange( responseText );
+		}
+		else if ( location.startsWith( "manor3" ) )
+		{
+			WineCellarRequest.handleCellarChange( responseText );
 		}
 		else if ( location.startsWith( "plains" ) )
 		{
