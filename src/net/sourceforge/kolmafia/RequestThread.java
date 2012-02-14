@@ -92,7 +92,7 @@ public abstract class RequestThread
 		{
 			while ( KoLmafia.isRefreshing() )
 			{
-				this.pauser.pause( 200 );
+				this.pauser.pause( 100 );
 			}
 
 			RequestThread.postRequest( request );
@@ -150,7 +150,7 @@ public abstract class RequestThread
 
 			while ( KoLmafia.isRefreshing() )
 			{
-				this.pauser.pause( 200 );
+				this.pauser.pause( 100 );
 			}
 
 			try
@@ -165,7 +165,8 @@ public abstract class RequestThread
 	}
 
 	/**
-	 * Posts a single request one time without forcing concurrency. The display will be enabled if there is no sequence.
+	 * Posts a single request one time without forcing concurrency. The
+	 * display will be enabled if there is no sequence.
 	 */
 
 	public static final void postRequest( final GenericRequest request )
@@ -176,26 +177,11 @@ public abstract class RequestThread
 		}
 
 		// Make sure there is a URL string in the request
-
 		request.reconstructFields();
 
-		int requestId = RequestThread.openRequestSequence( RequestThread.requestMap.isEmpty() && ResponseTextParser.hasResult( request.getURLString() ) );
-
-		try
-		{
-			if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) && SwingUtilities.isEventDispatchThread() )
-			{
-				StaticEntity.printStackTrace( "Runnable in event dispatch thread" );
-			}
-
-			request.run();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-
-		RequestThread.closeRequestSequence( requestId );
+		boolean force = RequestThread.requestMap.isEmpty() &&
+			ResponseTextParser.hasResult( request.getURLString() );
+		RequestThread.postRequest( force, request );
 	}
 
 	public static final void postRequest( final KoLAdventure request )
@@ -205,23 +191,8 @@ public abstract class RequestThread
 			return;
 		}
 
-		int requestId = RequestThread.openRequestSequence( true );
-
-		try
-		{
-			if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) && SwingUtilities.isEventDispatchThread() )
-			{
-				StaticEntity.printStackTrace( "Runnable in event dispatch thread" );
-			}
-
-			request.run();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
-
-		RequestThread.closeRequestSequence( requestId );
+		boolean force = true;
+		RequestThread.postRequest( force, request );
 	}
 
 	public static final void postRequest( final Runnable request )
@@ -231,14 +202,18 @@ public abstract class RequestThread
 			return;
 		}
 
-		int requestId = RequestThread.openRequestSequence();
+		boolean force = RequestThread.requestMap.isEmpty();
+		RequestThread.postRequest( force, request );
+	}
 
-		// If you're not in the event dispatch thread, you can run
-		// without posting to a separate thread.
+	private static final void postRequest( final boolean force, final Runnable request )
+	{
+		Integer requestId = RequestThread.openRequestSequence( force );
 
 		try
 		{
-			if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) && SwingUtilities.isEventDispatchThread() )
+			if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) &&
+			     SwingUtilities.isEventDispatchThread() )
 			{
 				StaticEntity.printStackTrace( "Runnable in event dispatch thread" );
 			}
@@ -249,23 +224,21 @@ public abstract class RequestThread
 		{
 			StaticEntity.printStackTrace( e );
 		}
-
-		RequestThread.closeRequestSequence( requestId );
+		finally
+		{
+			RequestThread.closeRequestSequence( requestId );
+		}
 	}
 
 	public static synchronized final void checkOpenRequestSequences()
 	{
-		int openSequenceCount = 0;
-
-		Set threads = threadMap.entrySet();
+		Iterator threadIterator = threadMap.entrySet().iterator();
 		Thread currentThread = Thread.currentThread();
-
-		Iterator threadIterator = threads.iterator();
+		int openSequenceCount = 0;
 
 		while ( threadIterator.hasNext() )
 		{
 			Entry entry = (Entry) threadIterator.next();
-
 
 			if ( entry.getValue() == currentThread )
 			{
@@ -275,8 +248,9 @@ public abstract class RequestThread
 			Object requestId = entry.getKey();
 
 			Exception e = (Exception) requestMap.get( requestId );
-
 			StaticEntity.printStackTrace( e, "Open request sequence" );
+
+			openSequenceCount++;
 		}
 
 		KoLmafia.updateDisplay( openSequenceCount + " open request sequences" );
@@ -287,12 +261,12 @@ public abstract class RequestThread
 		return !threadMap.isEmpty();
 	}
 
-	public static synchronized final int openRequestSequence()
+	public static synchronized final Integer openRequestSequence()
 	{
 		return RequestThread.openRequestSequence( RequestThread.requestMap.isEmpty() );
 	}
 
-	private static synchronized final int openRequestSequence( boolean forceContinue )
+	private static synchronized final Integer openRequestSequence( boolean forceContinue )
 	{
 		if ( forceContinue )
 		{
@@ -305,13 +279,11 @@ public abstract class RequestThread
 		RequestThread.requestMap.put( requestIdObj, new Exception( "request sequence " + requestId ) );
 		RequestThread.threadMap.put( requestIdObj, Thread.currentThread() );
 
-		return requestId;
+		return requestIdObj;
 	}
 
-	public static synchronized final void closeRequestSequence( int requestId )
+	public static synchronized final void closeRequestSequence( Integer requestIdObj )
 	{
-		Integer requestIdObj = new Integer( requestId );
-
 		RequestThread.requestMap.remove( requestIdObj );
 		RequestThread.threadMap.remove( requestIdObj );
 
@@ -334,8 +306,9 @@ public abstract class RequestThread
 	}
 
 	/**
-	 * Declare world peace. This causes all pending requests and queued commands to be cleared, along with all currently
-	 * running requests to be notified that they should stop as soon as possible.
+	 * Declare world peace. This causes all pending requests and queued
+	 * commands to be cleared, along with all currently running requests to
+	 * be notified that they should stop as soon as possible.
 	 */
 
 	public static final void declareWorldPeace()
@@ -357,7 +330,7 @@ public abstract class RequestThread
 
 		public void run()
 		{
-			int requestId = RequestThread.openRequestSequence();
+			Integer requestId = RequestThread.openRequestSequence();
 
 			try
 			{
@@ -367,8 +340,10 @@ public abstract class RequestThread
 			{
 				StaticEntity.printStackTrace( e );
 			}
-
-			RequestThread.closeRequestSequence( requestId );
+			finally
+			{
+				RequestThread.closeRequestSequence( requestId );
+			}
 		}
 	}
 }
