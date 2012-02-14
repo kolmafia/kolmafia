@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -56,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -80,6 +82,9 @@ public class CreateItemRequest
 		Pattern.compile( "<!-- ?cr:(\\d+)x(-?\\d+),(-?\\d+)=(\\d+) ?-->" );
 	// 1=quantity, 2,3=items used, 4=result (redundant)
 	public static final Pattern DISCOVERY_PATTERN = Pattern.compile( "descitem\\((\\d+)\\);" );
+
+	public static final AdventureResult TENDER_HAMMER = ItemPool.get( ItemPool.TENDER_HAMMER, 1 );
+	public static final AdventureResult GRIMACITE_HAMMER = ItemPool.get( ItemPool.GRIMACITE_HAMMER, 1 );
 
 	public Concoction concoction;
 	public AdventureResult createdItem;
@@ -148,7 +153,8 @@ public class CreateItemRequest
 				formSource = "knoll.php";
 				action = "combine";
 			}
-			else if ( method == KoLConstants.SMITH )
+			else if ( method == KoLConstants.SMITH &&
+				  ( this.mixingMethod & KoLConstants.CR_GRIMACITE ) == 0 )
 			{
 				formSource = "knoll.php";
 				action = "smith";
@@ -379,8 +385,7 @@ public class CreateItemRequest
 			return;
 		}
 
-		// Validate the ingredients once for the item
-		// creation process.
+		// Acquire all needed ingredients
 
 		int method = this.mixingMethod & KoLConstants.CT_MASK;
 		if ( method != KoLConstants.SUBCLASS &&
@@ -390,6 +395,10 @@ public class CreateItemRequest
 			return;
 		}
 
+		// Save outfit in case we need to equip something - like a Grimacite hammer
+
+		SpecialOutfit.createImplicitCheckpoint();
+
 		int createdQuantity = 0;
 
 		do
@@ -397,7 +406,7 @@ public class CreateItemRequest
 			if ( !this.autoRepairBoxServant() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Auto-repair was unsuccessful." );
-				return;
+				break;
 			}
 
 			this.reconstructFields();
@@ -437,25 +446,26 @@ public class CreateItemRequest
 
 			createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
 
-			// If we created none, set error state so iteration stops.
+			// If we created none, log error and stop iterating
 
 			if ( createdQuantity == 0 )
 			{
-				// If the subclass didn't detect the failure,
-				// do so here.
+				// If the subclass didn't detect the failure, do so here.
 
 				if ( KoLmafia.permitsContinue() )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
 				}
 
-				return;
+				break;
 			}
 
 			KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
 			this.quantityNeeded -= createdQuantity;
 		}
 		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() );
+
+		SpecialOutfit.restoreImplicitCheckpoint();
 	}
 
 	public boolean noCreation()
@@ -789,15 +799,24 @@ public class CreateItemRequest
 		}
 
 		if ( ( mixingMethod & KoLConstants.CR_HAMMER) != 0 &&
-		     !InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER ) )
+		     !InventoryManager.retrieveItem( CreateItemRequest.TENDER_HAMMER ) )
 		{
 			return false;
 		}
 
-		if ( ( mixingMethod & KoLConstants.CR_GRIMACITE) != 0 &&
-		     !InventoryManager.retrieveItem( ItemPool.GRIMACITE_HAMMER ) )
+		if ( ( mixingMethod & KoLConstants.CR_GRIMACITE) != 0 )
 		{
-			return false;
+			AdventureResult hammer = CreateItemRequest.GRIMACITE_HAMMER;
+			int slot = EquipmentManager.WEAPON;
+
+			if ( !KoLCharacter.hasEquipped( hammer, slot ) &&
+			     EquipmentManager.canEquip( hammer ) &&
+			     InventoryManager.retrieveItem( hammer ) )
+			{
+				( new EquipmentRequest( hammer, slot ) ).run();
+			}
+			
+			return KoLCharacter.hasEquipped( hammer, slot );
 		}
 
 		// If we are not cooking or mixing, or if we already have the
@@ -848,11 +867,11 @@ public class CreateItemRequest
 
 		case KoLConstants.SMITH:
 
-			return KoLCharacter.knollAvailable() || InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER );
+			return KoLCharacter.knollAvailable() || InventoryManager.retrieveItem( CreateItemRequest.TENDER_HAMMER );
 
 		case KoLConstants.SSMITH:
 
-			return InventoryManager.retrieveItem( ItemPool.TENDER_HAMMER );
+			return InventoryManager.retrieveItem( CreateItemRequest.TENDER_HAMMER );
 
 		default:
 			return true;
