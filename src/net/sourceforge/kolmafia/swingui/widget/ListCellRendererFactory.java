@@ -321,7 +321,7 @@ public class ListCellRendererFactory
 			}
 
 			stringForm.append( "<b>" );
-			stringForm.append( name );
+			stringForm.append( item.toString() );
 
 			stringForm.append( " (" );
 			boolean pulling = this.appendAmount( stringForm, item );

@@ -341,9 +341,15 @@ public class RequestEditorKit
 			StringUtilities.singleStringReplace( buffer, "370834526", "328909735" );
 		}
 
-		// Change El Vibrato punchcard names wherever they are found
+		// Handle changes which happen on a lot of different pages
+		// rather than just one or two.
 
 		RequestEditorKit.changePunchcardNames( buffer );
+		RequestEditorKit.identifyDustyBottles( buffer );
+		RequestEditorKit.changePotionImages( buffer );
+		RequestEditorKit.decorateLevelGain( buffer );
+		RequestEditorKit.addTransponderLink( buffer );
+		RequestEditorKit.addFolioLink( buffer );
 
 		// Override images, if requested
 		RelayRequest.overrideImages( buffer );
@@ -633,14 +639,6 @@ public class RequestEditorKit
 					"<td width=15 valign=bottom align=left bgcolor=blue><a style=\"color: white; font-weight: normal; font-size: small; text-decoration: underline\" href=\"javascript: attachSafetyText(); void(0);\">?</a>" );
 				buffer.insert( buffer.indexOf( "<td", buffer.indexOf( "</tr>" ) ) + 3, " colspan=2" );
 			}
-
-			// Handle all the changes which happen on a lot of
-			// different pages rather than just one or two.
-
-			RequestEditorKit.changePotionImages( buffer );
-			RequestEditorKit.decorateLevelGain( buffer );
-			RequestEditorKit.addTransponderLink( buffer );
-			RequestEditorKit.addFolioLink( buffer );
 
 			if ( Preferences.getBoolean( "relayAddsUseLinks" ) )
 			{
@@ -1301,10 +1299,34 @@ public class RequestEditorKit
 		CellarDecorator.decorate( buffer );
 	}
 
+	private static final void identifyDustyBottles( final StringBuffer buffer )
+	{
+		if ( buffer.indexOf( "wine2.gif" ) == -1 )
+		{
+			return;
+		}
+
+		for ( int i = 2271; i <= 2276; ++i )
+		{
+			String oldName = ItemDatabase.getItemName( i );
+			if ( buffer.indexOf( oldName ) == -1 )
+			{
+				continue;
+			}
+
+			String type = ItemDatabase.shortDustyBottleType( i );
+			String newName = oldName.replace( " of", " of " + type );
+			String oldPlural = ItemDatabase.getPluralById( i );
+			String newPlural = oldPlural.replace( " of", " of " + type );
+			StringUtilities.globalStringReplace( buffer, oldName + "</b>", newName + "</b>" );
+			StringUtilities.globalStringReplace( buffer, oldPlural + "</b>", newPlural + "</b>" );
+		}
+	}
+
 	private static final void changePotionImages( final StringBuffer buffer )
 	{
 		if ( buffer.indexOf( "exclam.gif" ) == -1 &&
-			buffer.indexOf( "vial.gif" ) == -1)
+		     buffer.indexOf( "vial.gif" ) == -1)
 		{
 			return;
 		}
