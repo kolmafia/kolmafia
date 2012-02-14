@@ -1063,6 +1063,6 @@ public class Concoction
 
 	public String toString()
 	{
-		return this.name;
+		return concoction == null ? this.name : this.concoction.getName();
 	}
 }

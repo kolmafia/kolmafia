@@ -410,6 +410,15 @@ public class AdventureResult
 	{
 		switch ( this.itemId )
 		{
+		case ItemPool.DUSTY_BOTTLE_OF_MERLOT:
+		case ItemPool.DUSTY_BOTTLE_OF_PORT:
+		case ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR:
+		case ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL:
+		case ItemPool.DUSTY_BOTTLE_OF_MARSALA:
+		case ItemPool.DUSTY_BOTTLE_OF_MUSCAT:
+
+			return AdventureResult.dustyBottleName( this.itemId );
+
 		case ItemPool.MILKY_POTION:
 		case ItemPool.SWIRLY_POTION:
 		case ItemPool.BUBBLY_POTION:
@@ -1051,6 +1060,19 @@ public class AdventureResult
 		}
 
 		return itemName + " of " + effect;
+	}
+
+	public static final String dustyBottleName( final int itemId )
+	{
+		String itemName = ItemDatabase.getItemName( itemId );
+
+		int glyph = Preferences.getInteger( "lastDustyBottle" + itemId );
+		if ( glyph == 0 )
+		{
+			return itemName;
+		}
+
+		return itemName.replace( " of", " of " + ItemDatabase.glyphType( glyph ) );
 	}
 
 	public static final String slimeVialName( final int itemId )

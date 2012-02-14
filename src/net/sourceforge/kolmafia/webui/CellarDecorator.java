@@ -143,14 +143,14 @@ public abstract class CellarDecorator
 	{
 		int[] wines = compute();
 
-		String[] names = (String[]) SHORTNAMES.clone();
+		String[] names = new String[ 6 ];
 		for ( int i = 0; i < 6; ++i )
 		{
 			int glyph = Preferences.getInteger( "lastDustyBottle" + (2271 + i) );
 			if ( glyph >= 1 && glyph <= 6 )
 			{
-				names[ i ] = "<span title=\"" + names[ i ] + "\">" +
-					GLYPHNAMES[ glyph - 1 ] + "</span>";
+				String tag = GLYPHNAMES[ glyph - 1 ] + " " + SHORTNAMES[ glyph - 1 ];
+				names[ i ] = "<span>" + tag + "</span>";
 			}
 		}
 
@@ -180,10 +180,12 @@ public abstract class CellarDecorator
 				lContent = getCornerData( wines[ 2 ], wines[ 4 ], names );
 				rContent = getCornerData( wines[ 3 ], wines[ 4 ], names );
 			}
-			row.appendReplacement( buffer, "<tr><td width=100 height=100 " +
-				"align=right valign=center>" + lContent + "</td>" + cell.group( 0 )
-				+ "<td width=100 height=100 align=left valign=center>" +
-				rContent + "</td></tr>" );
+			row.appendReplacement( buffer,
+					       "<tr><td width=120 height=100 align=right valign=center>" +
+					       lContent + "</td>" +
+					       cell.group( 0 ) +
+					       "<td width=120 height=100 align=left valign=center>" +
+					       rContent + "</td></tr>" );
 		}
 		row.appendTail( buffer );
 	}
@@ -210,7 +212,7 @@ public abstract class CellarDecorator
 			}
 			if ( !first )
 			{
-				buffer.append( ", " );
+				buffer.append( ",<br>" );
 			}
 			first = false;
 			boolean wanted = GoalManager.hasGoal( DUSTYWINES[ i ] );

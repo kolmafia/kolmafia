@@ -524,6 +524,12 @@ public class ItemPool
 	public static final int OSTRICH_EGG = 2261;
 	public static final int WET_STUNT_NUT_STEW = 2266;
 	public static final int MEGA_GEM = 2267;
+	public static final int DUSTY_BOTTLE_OF_MERLOT = 2271;
+	public static final int DUSTY_BOTTLE_OF_PORT = 2272;
+	public static final int DUSTY_BOTTLE_OF_PINOT_NOIR = 2273;
+	public static final int DUSTY_BOTTLE_OF_ZINFANDEL = 2274;
+	public static final int DUSTY_BOTTLE_OF_MARSALA = 2275;
+	public static final int DUSTY_BOTTLE_OF_MUSCAT = 2276;
 	public static final int FERNSWARTHYS_KEY = 2277;
 	public static final int DUSTY_BOOK = 2279;
 	public static final int MUS_MANUAL = 2280;

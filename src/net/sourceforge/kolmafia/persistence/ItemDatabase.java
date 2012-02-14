@@ -2373,6 +2373,8 @@ public class ItemDatabase
 	private static final void setDustyBottle( final int itemId )
 	{
 		int glyph = Preferences.getInteger( "lastDustyBottle" + itemId );
+		String type = "dusty";
+
 		switch ( glyph )
 		{
 		case 0:
@@ -2383,12 +2385,14 @@ public class ItemDatabase
 			// "You drink the wine. You've had better, but you've
 			// had worse."
 			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "5-10", "5-10", "5-10", null );
+			type = "average";
 			break;
 		case 2:
 			// "You guzzle the entire bottle of wine before you
 			// realize that it has turned into vinegar. Bleeah."
 			ItemDatabase.setDustyBottle( itemId, 0, "0", "0", "0", "0",
 				"10 Full of Vinegar (+weapon damage)" );
+			type = "vinegar";
 			break;
 		case 3: // "Widget"
 			// "You drink the bottle of wine, then belch up a cloud
@@ -2396,11 +2400,13 @@ public class ItemDatabase
 			// was infused with wormwood. Spoooooooky."
 			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "3-6", "15-20", "3-6",
 				"10 Kiss of the Black Fairy (+spooky damage)" );
+			type = "spooky";
 			break;
 		case 4: // "Snake"
 			// "This wine is fantastic! You gulp down the entire
 			// bottle, and feel great!"
 			ItemDatabase.setDustyBottle( itemId, 2, "5-7", "10-15", "10-15", "10-15", null );
+			type = "great";
 			break;
 		case 5: // "Pitchfork"
 			// "You drink the wine. It tastes pretty good, but when
@@ -2408,6 +2414,7 @@ public class ItemDatabase
 			// turns out to be powdered glass. Ow."
 			ItemDatabase.setDustyBottle( itemId, 2, "3-4", "5-10", "5-10", "5-10",
 				"lose 60-70% HP" );
+			type = "glassy";
 			break;
 		case 6:
 			// "You drink the wine, but it seems to have gone
@@ -2416,7 +2423,15 @@ public class ItemDatabase
 			// violence against you on the inside."
 			ItemDatabase.setDustyBottle( itemId, 2, "0", "0", "0", "0",
 				"lose 80-90% HP" );
+			type = "bad";
 			break;
+		}
+
+		if ( !type.equals( "dusty" ) )
+		{
+			String name = ItemDatabase.getItemName( itemId ).replace( " of", " of " + type );
+			String plural = ItemDatabase.getPluralById( itemId ).replace( " of", " of " + type );
+			ItemDatabase.registerItemAlias( itemId, name, plural );
 		}
 	}
 
@@ -2447,5 +2462,37 @@ public class ItemDatabase
 			return "bad wine";
 		}
 		return "";
+	}
+
+	public static final String glyphType( final int glyph )
+	{
+		switch ( glyph )
+		{
+		case 1:
+			return "average";
+		case 2:
+			return "vinegar";
+		case 3:
+			return "spooky";
+		case 4:
+			return "great";
+		case 5:
+			return "glassy";
+		case 6:
+			return "bad";
+		}
+		return "dusty";
+	}
+
+	public static final String shortDustyBottleType( final int itemId )
+	{
+		return ItemDatabase.glyphType( Preferences.getInteger( "lastDustyBottle" + itemId ) );
+	}
+
+	public static final String dustyBottleName( final int itemId )
+	{
+		String type = ItemDatabase.shortDustyBottleType( itemId );
+		String name = ItemDatabase.getItemName( itemId );
+		return type.equals( "dusty" ) ? name : name.replace( " of", " of " + type );
 	}
 }
