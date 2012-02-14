@@ -481,7 +481,7 @@ public class CampgroundRequest
 		Matcher m = HOUSING_PATTERN.matcher( responseText );
 		if ( !m.find() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unable to parse housing!" );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to parse housing!" );
 			return;
 		}
 
@@ -530,7 +530,7 @@ public class CampgroundRequest
 			itemId = ItemPool.GINORMOUS_PUMPKIN;
 			break;
 		default:
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
 			break;
 		}
 

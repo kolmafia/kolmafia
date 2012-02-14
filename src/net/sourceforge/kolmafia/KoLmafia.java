@@ -626,8 +626,7 @@ public abstract class KoLmafia
 
 	private static final void updateDisplayState( final int state, final String message )
 	{
-		// Next, update all of the panels with the
-		// desired update message.
+		// Update all panels and frames with the message.
 
 		String unicodeMessage = StringUtilities.getEntityDecode( message, false );
 		ActionPanel[] panels = StaticEntity.getExistingPanels();

@@ -164,7 +164,7 @@ public class FaxRequestFrame
 			{
 				FaxRequestFrame.statusMessage = botName + " is online.";
 			}
-			KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+			KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
 		}
 
 	}
@@ -174,14 +174,14 @@ public class FaxRequestFrame
 		// Validate ability to receive a fax
 		if ( !FaxRequestFrame.canReceiveFax() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+			KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
 			return;
 		}
 
 		// Make sure FaxBot is online
 		if ( !FaxRequestFrame.isBotOnline( botName ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+			KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
 			return;
 		}
 
@@ -189,7 +189,7 @@ public class FaxRequestFrame
 		if ( !( ChatManager.isRunning() || true ) )
 		{
 			FaxRequestFrame.statusMessage = "You must be in chat so we can receive messages from " + botName;
-			KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+			KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
 			return;
 		}
 
@@ -206,7 +206,7 @@ public class FaxRequestFrame
 			if ( !InputFieldUtilities.confirm( "You have a photocopied " + current + " in your inventory. Dump it?" ) )
 			{
 				FaxRequestFrame.statusMessage = "You need to dispose of your photocopied " + current + " before you can receive a fax.";
-				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+				KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
 				return;
 			}
 
@@ -257,7 +257,7 @@ public class FaxRequestFrame
 			if ( response == null )
 			{
 				FaxRequestFrame.statusMessage = "No response from " + botName + " after " + LIMIT + " seconds.";
-				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+				KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
 				return;
 			}
 
@@ -265,7 +265,7 @@ public class FaxRequestFrame
 			if ( response.indexOf( "just delivered a fax" ) != -1 )
 			{
 				FaxRequestFrame.statusMessage = botName + " recently delivered another fax. Retrying in one minute.";
-				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+				KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
 				KoLmafia.forceContinue();
 				StaticEntity.executeCountdown( "Countdown: ", 60 );
 
@@ -275,7 +275,7 @@ public class FaxRequestFrame
 			// parse FaxBot's response
 			if ( !FaxRequestFrame.faxAvailable( botName, response ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ENABLE_STATE, FaxRequestFrame.statusMessage );
+				KoLmafia.updateDisplay( FaxRequestFrame.statusMessage );
 				return;
 			}
 

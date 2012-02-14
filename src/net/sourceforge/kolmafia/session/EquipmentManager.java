@@ -554,8 +554,7 @@ public class EquipmentManager
 			RequestThread.postRequest( new EquipmentRequest( prev, slot ) );
 			return;
 		}
-		KoLmafia.updateDisplay( KoLConstants.PENDING_STATE,
-			msg + "  No previous item to equip." );
+		KoLmafia.updateDisplay( msg + "  No previous item to equip." );
 	}
 
 	public static final void checkFamiliar( final int slot )

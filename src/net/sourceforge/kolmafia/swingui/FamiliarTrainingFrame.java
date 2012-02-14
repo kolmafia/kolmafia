@@ -229,24 +229,7 @@ public class FamiliarTrainingFrame
 
 	public void updateDisplayState( final int displayState )
 	{
-		// Change the background of the frame based on
-		// the current display state -- but only if the
-		// compact pane has already been constructed.
-
-		switch ( displayState )
-		{
-		case KoLConstants.ABORT_STATE:
-		case KoLConstants.ERROR_STATE:
-		case KoLConstants.ENABLE_STATE:
-
-			this.training.setEnabled( true );
-			break;
-
-		default:
-
-			this.training.setEnabled( false );
-			break;
-		}
+		this.training.setEnabled( displayState != KoLConstants.CONTINUE_STATE );
 	}
 
 	public void dispose()
@@ -330,6 +313,18 @@ public class FamiliarTrainingFrame
 			this.add( new StatusPanel(), BorderLayout.SOUTH );
 		}
 
+		public void setEnabled( final boolean isEnabled )
+		{
+			if ( this.buttonPanel == null || this.familiars == null )
+			{
+				return;
+			}
+
+			super.setEnabled( isEnabled );
+			this.buttonPanel.setEnabled( isEnabled );
+			this.familiars.setEnabled( isEnabled );
+		}
+
 		private class TotalWeightRefresher
 			implements Runnable
 		{
@@ -364,18 +359,6 @@ public class FamiliarTrainingFrame
 
 				FamiliarTrainingPanel.this.totalWeight.setText( totalTerrariumWeight + " lb. terrarium" );
 			}
-		}
-
-		public void setEnabled( final boolean isEnabled )
-		{
-			if ( this.buttonPanel == null || this.familiars == null )
-			{
-				return;
-			}
-
-			super.setEnabled( isEnabled );
-			this.buttonPanel.setEnabled( isEnabled );
-			this.familiars.setEnabled( isEnabled );
 		}
 
 		private class OpponentsPanel
@@ -467,16 +450,37 @@ public class FamiliarTrainingFrame
 
 			public void setEnabled( final boolean isEnabled )
 			{
-				if ( this.base == null || this.buffed == null || this.turns == null || this.save == null )
-				{
-					return;
-				}
-
 				super.setEnabled( isEnabled );
-				this.base.setEnabled( isEnabled );
-				this.buffed.setEnabled( isEnabled );
-				this.turns.setEnabled( isEnabled );
-				this.save.setEnabled( isEnabled );
+
+				if ( this.matchup != null )
+				{
+					this.matchup.setEnabled( isEnabled );
+				}
+				if ( this.base != null )
+				{
+					this.base.setEnabled( isEnabled );
+				}
+				if ( this.buffed != null )
+				{
+					this.buffed.setEnabled( isEnabled );
+				}
+				if ( this.turns != null )
+				{
+					this.turns.setEnabled( isEnabled );
+				}
+				// this.stop is always enabled
+				if ( this.save != null )
+				{
+					this.save.setEnabled( isEnabled );
+				}
+				if ( this.learn != null )
+				{
+					this.learn.setEnabled( isEnabled );
+				}
+				if ( this.equip != null )
+				{
+					this.equip.setEnabled( isEnabled );
+				}
 			}
 
 			private class BaseListener
