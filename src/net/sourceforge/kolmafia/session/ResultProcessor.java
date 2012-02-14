@@ -1055,14 +1055,14 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_GOD, -1 );
 			ResultProcessor.processItem( ItemPool.HARD_ROCK_CANDY, -1 );
 			ResultProcessor.processItem( ItemPool.OSTRICH_EGG, -1 );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.WORSHIP, "step2" );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, "step2" );
 			break;
 
 		case ItemPool.MEGA_GEM:
 			// If you get the Mega Gem, you lose your wet stunt nut
 			// stew
 			ResultProcessor.processItem( ItemPool.WET_STUNT_NUT_STEW, -1 );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.WORSHIP, "step4" );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, "step4" );
 			break;
 
 		case ItemPool.CONFETTI:
