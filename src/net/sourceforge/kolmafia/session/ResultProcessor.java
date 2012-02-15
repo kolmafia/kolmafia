@@ -1064,12 +1064,21 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.WET_STUNT_NUT_STEW, -1 );
 			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, "step4" );
 			break;
+			
+		case ItemPool.HOLY_MACGUFFIN:
+			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, QuestDatabase.FINISHED );
+			break;
 
 		case ItemPool.CONFETTI:
 			// If you get the confetti, you lose the Holy MacGuffin
 			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.HOLY_MACGUFFIN, 1 ) ) )
 			{
 				ResultProcessor.processItem( ItemPool.HOLY_MACGUFFIN, -1 );
+				QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( QuestDatabase.MANOR, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( QuestDatabase.PALINDOME, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( QuestDatabase.MACGUFFIN, QuestDatabase.FINISHED );
 			}
 			break;
 
@@ -1250,11 +1259,24 @@ public class ResultProcessor
 		case ItemPool.STAFF_OF_FATS:
 			QuestDatabase.setQuestProgress( QuestDatabase.PALINDOME, QuestDatabase.FINISHED );
 			break;
+			
+		case ItemPool.WORM_RIDING_MANUAL_1:
+			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step7" );
+			break;
+			
+		case ItemPool.WORM_RIDING_MANUAL_2:
+			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step8" );
+			break;
+			
+		case ItemPool.WORM_RIDING_MANUAL_3_15:
+			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step9" );
+			break;
 
 		case ItemPool.WORM_RIDING_HOOKS:
 			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_1, -1 );
 			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_2, -1 );
 			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_3_15, -1 );
+			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step10" );
 			break;
 
 		case ItemPool.DAS_BOOT:

@@ -3485,6 +3485,14 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, "step3" );
 			}
 			break;
+			
+		case 132:
+			// Let's Make a Deal!
+			if ( ChoiceManager.lastDecision == 1 && KoLmafia.isAdventuring() )
+			{
+				QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step1" );
+			}
+			break;
 
 		case 162:
 			// Between a Rock and Some Other Rocks

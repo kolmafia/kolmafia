@@ -2657,6 +2657,8 @@ public class UseItemRequest
 					// You lose your hooks
 					ResultProcessor.processItem( ItemPool.WORM_RIDING_HOOKS, -1 );
 				}
+
+				QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step11" );
 				return;
 			}
 
