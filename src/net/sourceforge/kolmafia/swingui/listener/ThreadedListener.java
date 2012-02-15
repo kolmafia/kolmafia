@@ -123,6 +123,11 @@ public abstract class ThreadedListener
 		}
 	}
 
+	protected boolean isValidKeyCode( int keyCode )
+	{
+		return keyCode == KeyEvent.VK_ENTER;
+	}
+
 	public void keyPressed( final KeyEvent e )
 	{
 	}
@@ -134,7 +139,7 @@ public abstract class ThreadedListener
 			return;
 		}
 
-		if ( e.getKeyCode() != KeyEvent.VK_ENTER )
+		if ( !this.isValidKeyCode( e.getKeyCode() ) )
 		{
 			return;
 		}

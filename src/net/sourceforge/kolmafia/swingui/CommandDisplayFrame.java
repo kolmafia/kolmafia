@@ -108,6 +108,12 @@ public class CommandDisplayFrame
 			return;
 		}
 
+		if ( command.startsWith( "jstack" ) || command.startsWith( "graygui" ) || command.startsWith( "greygui" ) )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
+			return;
+		}
+
 		if ( !CommandDisplayFrame.commandQueue.isEmpty() )
 		{
 			RequestLogger.printLine();

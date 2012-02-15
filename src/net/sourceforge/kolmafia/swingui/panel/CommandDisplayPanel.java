@@ -35,11 +35,8 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
@@ -54,6 +51,7 @@ import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -108,22 +106,18 @@ public class CommandDisplayPanel
 	}
 
 	private class CommandEntryListener
-		extends KeyAdapter
-		implements ActionListener
+		extends ThreadedListener
 	{
-		public void actionPerformed( final ActionEvent e )
+		protected boolean isValidKeyCode( int keyCode )
 		{
-			this.submitCommand();
+			return keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_ENTER;
 		}
 
-		public void keyReleased( final KeyEvent e )
+		protected void execute()
 		{
-			if ( e.isConsumed() )
-			{
-				return;
-			}
+			int keyCode = getKeyCode();
 
-			if ( e.getKeyCode() == KeyEvent.VK_UP )
+			if ( keyCode == KeyEvent.VK_UP )
 			{
 				if ( CommandDisplayPanel.this.commandIndex <= 0 )
 				{
@@ -131,9 +125,8 @@ public class CommandDisplayPanel
 				}
 
 				CommandDisplayPanel.this.entryField.setText( (String) CommandDisplayPanel.this.commandHistory.get( --CommandDisplayPanel.this.commandIndex ) );
-				e.consume();
 			}
-			else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
+			else if ( keyCode == KeyEvent.VK_DOWN )
 			{
 				if ( CommandDisplayPanel.this.commandIndex + 1 >= CommandDisplayPanel.this.commandHistory.size() )
 				{
@@ -141,24 +134,17 @@ public class CommandDisplayPanel
 				}
 
 				CommandDisplayPanel.this.entryField.setText( (String) CommandDisplayPanel.this.commandHistory.get( ++CommandDisplayPanel.this.commandIndex ) );
-				e.consume();
 			}
-			else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+			else if ( keyCode == KeyEvent.VK_ENTER )
 			{
-				this.submitCommand();
-				e.consume();
+				String command = CommandDisplayPanel.this.entryField.getText().trim();
+				CommandDisplayPanel.this.entryField.setText( "" );
+
+				CommandDisplayPanel.this.commandHistory.add( command );
+
+				CommandDisplayPanel.this.commandIndex = CommandDisplayPanel.this.commandHistory.size();
+				CommandDisplayFrame.executeCommand( command );
 			}
-		}
-
-		private void submitCommand()
-		{
-			String command = CommandDisplayPanel.this.entryField.getText().trim();
-			CommandDisplayPanel.this.entryField.setText( "" );
-
-			CommandDisplayPanel.this.commandHistory.add( command );
-
-			CommandDisplayPanel.this.commandIndex = CommandDisplayPanel.this.commandHistory.size();
-			CommandDisplayFrame.executeCommand( command );
 		}
 	}
 }
