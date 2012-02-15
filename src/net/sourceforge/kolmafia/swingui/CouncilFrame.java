@@ -154,6 +154,10 @@ public class CouncilFrame
 		{
 			IslandDecorator.parsePostwarIsland( location, responseText );
 		}
+		else if ( location.startsWith( "beach.php?action=woodencity" ) )
+		{
+			CouncilFrame.parsePyramidChange( responseText );
+		}
 		else if ( location.startsWith( "tavern" ) )
 		{
 			TavernManager.handleTavernChange( responseText );
@@ -190,6 +194,20 @@ public class CouncilFrame
 			{
 				ResultProcessor.processItem( ItemPool.STRANGE_CUBE, -1 );
 			}
+		}
+	}
+
+	private static void parsePyramidChange( String responseText )
+	{
+		// Suddenly, the model bursts into flames and is quickly consumed, leaving behind a pile of ash and a
+		// large hidden trapdoor. You open the trapdoor to find a flight of stone stairs, which appear to
+		// descend into an ancient buried pyramid.
+
+		// Well, /that/ wasn't quite what you expected.
+		
+		if ( responseText.indexOf( "the model bursts into flames and is quickly consumed" ) != -1 )
+		{
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step12" );
 		}
 	}
 

@@ -764,6 +764,52 @@ public class AdventureRequest
 					ResultProcessor.processItem( ItemPool.PUNGENT_UNGUENT, -1 );
 				}
 				break;
+			case 121:
+				// Arid desert, ultrahydrated
+
+				// A sietch in time
+				// You tramp through the desert for a while, not finding anything that looks like a
+				// pyramid. However, you do see what looks like a collection of small buildings off in
+				// the distance, and start heading toward them.
+
+				if ( responseText.indexOf( "do see what looks like a collection of small buildings" ) != -1 )
+				{
+					QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step2" );
+				}
+
+				// No Colors Anymore
+				// no black paint: "Okay, fine," you sigh, and trudge off to find some black paint.
+				else if ( responseText.indexOf( "trudge off to find some black paint" ) != -1 )
+				{
+					QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step3" );
+				}
+
+				// with black paint: "Okay, fine," you sigh, and pull a can of black paint out of your
+				// pack. Gnasir lends you a brush, and you paint the door black as night, black as coal.
+
+				// Also occurs in Still No Colors Anymore
+				else if ( responseText.indexOf( "you paint the door black as night, black as coal" ) != -1 )
+				{
+					QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step4" );
+				}
+
+				// Walk Without Rhythm
+
+				// no drum machine: Grumbling, you head back toward the oasis.
+				else if ( responseText.indexOf( "Grumbling, you head back toward the oasis" ) != -1 )
+				{
+					QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step5" );
+				}
+				
+				// with drum machine: ... show your drum machine to
+				// Gnasir. He nods approvingly. "Well chosen. This thumper will serve you well.
+				
+				// also happens in Walk Without Rhythm 2
+				else if ( responseText.indexOf( "This thumper will serve you well" ) != -1 )
+				{
+					QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step6" );
+				}
+				break;
 			}
 		}
 		else if ( urlString.startsWith( "barrel.php" ) )
