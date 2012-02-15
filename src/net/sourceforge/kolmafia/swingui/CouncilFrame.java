@@ -138,6 +138,10 @@ public class CouncilFrame
 				AWOLQuartermasterRequest.parseResponse( location, responseText );
 			}
 		}
+		else if ( location.startsWith( "lair" ) )
+		{
+			SorceressLairManager.handleQuestChange( location, responseText );
+		}
 		else if ( location.startsWith( "mountains" ) )
 		{
 			CouncilFrame.handleMountainsChange( responseText );
