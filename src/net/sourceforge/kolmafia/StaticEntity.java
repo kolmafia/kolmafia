@@ -448,8 +448,57 @@ public abstract class StaticEntity
 		ostream.println( message );
 	}
 
+	private static File getJDKWorkingDirectory()
+	{
+		File currentJavaHome = new File( System.getProperty( "java.home" ) );
+
+		if ( StaticEntity.hasJDKBinaries( currentJavaHome ) )
+		{
+			return currentJavaHome;
+		}
+
+		File javaInstallFolder = currentJavaHome.getParentFile();
+
+		if ( StaticEntity.hasJDKBinaries( javaInstallFolder ) )
+		{
+			return javaInstallFolder;
+		}
+
+		File[] possibleJavaHomes = javaInstallFolder.listFiles();
+
+		for ( int i = 0; i < possibleJavaHomes.length; ++i )
+		{
+			if ( StaticEntity.hasJDKBinaries( possibleJavaHomes[ i ] ) )
+			{
+				return possibleJavaHomes[ i ];
+			}
+		}
+
+		return null;
+	}
+
+	private static boolean hasJDKBinaries( File javaHome )
+	{
+		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+		{
+			return new File( javaHome, "bin/javac.exe" ).exists();
+		}
+		else
+		{
+			return new File( javaHome, "bin/javac" ).exists();
+		}
+	}
+
 	public static final void printThreadDump()
 	{
+		File javaHome = StaticEntity.getJDKWorkingDirectory();
+
+		if ( javaHome == null )
+		{
+			KoLmafia.updateDisplay( "To use this feature, you must run KoLmafia with a JDK instead of a JRE." );
+			return;
+		}
+
 		Runtime runtime = Runtime.getRuntime();
 
 		StringBuffer sb = new StringBuffer();
@@ -457,7 +506,16 @@ public abstract class StaticEntity
 		try
 		{
 			String[] command = new String[ 2 ];
-			command[ 0 ] = "jps";
+
+			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+			{
+				command[ 0 ] = new File( javaHome, "bin/jps.exe" ).getPath();
+			}
+			else
+			{
+				command[ 0 ] = new File( javaHome, "bin/jps" ).getPath();
+			}
+
 			command[ 1 ] = "-l";
 
 			Process process = runtime.exec( command );
@@ -474,7 +532,7 @@ public abstract class StaticEntity
 				{
 					String pid = line.substring( 0, line.indexOf( ' ' ) );
 
-					StaticEntity.printThreadDump( pid );
+					StaticEntity.printThreadDump( javaHome, pid );
 				}
 			}
 
@@ -483,6 +541,12 @@ public abstract class StaticEntity
 		catch ( IOException e )
 		{
 			e.printStackTrace();
+		}
+
+		if ( sb.length() == 0 )
+		{
+			KoLmafia.updateDisplay( "Unable to determine KoLmafia process id." );
+			return;
 		}
 
 		boolean shouldOpenStream = !RequestLogger.isDebugging();
@@ -498,11 +562,9 @@ public abstract class StaticEntity
 		{
 			RequestLogger.closeDebugLog();
 		}
-
-		KoLmafia.updateDisplay( "Unable to determine KoLmafia process id." );
 	}
 
-	public static final void printThreadDump( final String pid )
+	public static final void printThreadDump( final File javaHome, final String pid )
 	{
 		KoLmafia.updateDisplay( "Generating thread dump for KoLmafia process id " + pid + "..." );
 
@@ -513,7 +575,16 @@ public abstract class StaticEntity
 		try
 		{
 			String[] command = new String[ 2 ];
-			command[ 0 ] = "jstack";
+
+			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+			{
+				command[ 0 ] = new File( javaHome, "bin/jstack.exe" ).getPath();
+			}
+			else
+			{
+				command[ 0 ] = new File( javaHome, "bin/jstack" ).getPath();
+			}
+
 			command[ 1 ] = pid;
 
 			Process process = runtime.exec( command );
