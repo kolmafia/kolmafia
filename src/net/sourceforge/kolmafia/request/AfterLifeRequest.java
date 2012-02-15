@@ -405,6 +405,9 @@ public class AfterLifeRequest
 			case 6:
 				buffer.append( "Accordion Thief" );
 				break;
+			case 11:
+				buffer.append( "Avatar of Boris" );
+				break;
 			default:
 				buffer.append( "(Class " );
 				buffer.append( String.valueOf( pclass ) );
@@ -469,6 +472,9 @@ public class AfterLifeRequest
 				break;
 			case 7:
 				buffer.append( "a Trendy" );
+				break;
+			case 8:
+				buffer.append( "an Avatar of Boris" );
 				break;
 			default:
 				buffer.append( "(Path " );

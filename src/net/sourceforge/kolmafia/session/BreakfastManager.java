@@ -153,6 +153,12 @@ public class BreakfastManager
 			return;
 		}
 
+		if ( KoLCharacter.isAvatarOfBoris() )
+		{
+			// Can't even get a Guild Manual in AxeCore
+			return;
+		}
+
 		if ( KoLCharacter.isMuscleClass() && KoLCharacter.inBeecore () )
 		{
 			// Can't use "Manual of Labor" in Beecore.

@@ -368,10 +368,14 @@ public class CharSheetRequest
 				case SkillDatabase.BRICKOS:
 				case SkillDatabase.DICE:
 				case SkillDatabase.RESOLUTIONS:
-					shouldAddSkill = !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated();
+					shouldAddSkill =
+						( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
+						KoLCharacter.kingLiberated();
 					break;
 				case SkillDatabase.OLFACTION:
-					shouldAddSkill = !KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled();
+					shouldAddSkill =
+						( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
+						KoLCharacter.skillsRecalled();
 					break;
 				}
 

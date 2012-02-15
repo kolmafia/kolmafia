@@ -169,7 +169,8 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "3" ) )
 		{
-			return (KoLCharacter.isMuscleClass() || classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9) &&
+			return ( ( KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris() ) ||
+				 ( classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9 ) ) &&
 				KoLCharacter.getGuildStoreOpen();
 		}
 		else if ( storeId.equals( "a" ) )

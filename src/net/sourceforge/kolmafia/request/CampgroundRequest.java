@@ -781,10 +781,13 @@ public class CampgroundRequest
 
 	private static void parseBookTitles( final String responseText )
 	{
-		// You can't use Mr. Skills in bad moon, so don't check
-
-		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated() )
+		if ( ( KoLCharacter.inBadMoon() || KoLCharacter.inAxecore() ) &&
+		     !KoLCharacter.kingLiberated() )
+		{
+			// You can't use Mr. Skills in Bad Moon
+			// You can't use Mr. Skills as an Avatar of Boris
 			return;
+		}
 
 		String libram = null;
 		for ( int i = 0; i < BOOKS.length; ++i )

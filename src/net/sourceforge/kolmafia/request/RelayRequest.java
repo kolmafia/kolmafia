@@ -1575,7 +1575,9 @@ public class RelayRequest
 			// Check for a 100% familiar run if the current familiar
 			// has zero combat experience.
 
-			if ( KoLCharacter.getFamiliar().isUnexpectedFamiliar() && !isNonCombatsOnly &&
+			if ( !KoLCharacter.inAxecore() &&
+			     KoLCharacter.getFamiliar().isUnexpectedFamiliar() &&
+			     !isNonCombatsOnly &&
 			     ( !KoLCharacter.kingLiberated() || KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT ) )
 			{
 				this.sendFamiliarWarning();

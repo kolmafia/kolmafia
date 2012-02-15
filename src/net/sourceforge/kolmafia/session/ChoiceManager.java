@@ -2110,6 +2110,9 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Suburbs", "choiceAdventure569", "The Glacier of Jerks",
 			new String[] { "head towards boss", "skip adventure" } ),
+
+		// Choice 571 is Your Minstrel Vamps
+		// Choice 574 is The Minstrel Cycle Begins
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
