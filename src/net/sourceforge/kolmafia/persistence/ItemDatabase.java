@@ -85,6 +85,7 @@ public class ItemDatabase
 {
 	public static final AdventureResult ODE = EffectPool.get( EffectPool.ODE );
 	public static final AdventureResult MILK = EffectPool.get( EffectPool.MILK );
+	public static final AdventureResult GLORIOUS_LUNCH = EffectPool.get( EffectPool.GLORIOUS_LUNCH );
 
 	private static int maxItemId = 0;
 
@@ -1698,7 +1699,9 @@ public class ItemDatabase
 		if ( ItemDatabase.getFullness( name ) > 0 )
 		{
 			boolean sushi = (ConcoctionDatabase.getMixingMethod( cname ) & KoLConstants.CT_MASK) == KoLConstants.SUSHI;
-			boolean milkEffect = !sushi && KoLConstants.activeEffects.contains( ItemDatabase.MILK );
+			boolean milkEffect = !sushi &&
+				( KoLConstants.activeEffects.contains( ItemDatabase.MILK ) ||
+				  KoLConstants.activeEffects.contains( ItemDatabase.GLORIOUS_LUNCH ) );
 			boolean munchiesEffect = !sushi && Preferences.getInteger( "munchiesPillsUsed" ) > 0;
 			range = (Float) ItemDatabase.getAdventureMap(
 				perUnit, milkEffect, munchiesEffect ).get( cname );

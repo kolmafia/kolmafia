@@ -1003,3 +1003,4 @@
 1002	Vanity Rage	handmirror.gif	8013791092bfc2ae26faf70a0381e091
 1003	Just the Best Anapests	anapests.gif	31af96775c5acc17d1a13643209f38c8	use 1 groose grease
 1004	You're In Trouble	waterglass.gif	48ab070676e3c10517ed995178037f73
+1005	Song of Glorious Lunch	song_lunch.gif	7b264e29b6b609413606658dfd8817a7	cast 1 Song of the Glorious Lunch

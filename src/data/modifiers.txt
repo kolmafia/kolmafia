@@ -3221,6 +3221,7 @@ Solar Flair	Hot Damage: +20
 Sole Soul	Item Drop: [min(300,T)]
 Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
+# Song of Glorious Lunch: Food Sounds Great!
 # Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3

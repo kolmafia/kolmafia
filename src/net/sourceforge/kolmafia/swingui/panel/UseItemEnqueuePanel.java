@@ -430,12 +430,20 @@ public class UseItemEnqueuePanel
 	{
 		protected void execute()
 		{
-			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
+			if ( KoLCharacter.hasSkill( "Song of the Glorious Lunch" ) )
+			{
+				RequestThread.postRequest( UseSkillRequest.getInstance( "Song of the Glorious Lunch", 1 ) );
+			}
+			else
+			{
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
+			}
 		}
 
 		public String toString()
 		{
-			return "use milk" ;
+			return KoLCharacter.hasSkill( "Song of the Glorious Lunch" ) ?
+				"glorious lunch" : "use milk" ;
 		}
 	}
 
