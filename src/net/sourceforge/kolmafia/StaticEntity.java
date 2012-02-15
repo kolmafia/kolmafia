@@ -36,7 +36,10 @@ package net.sourceforge.kolmafia;
 import java.awt.Container;
 import java.awt.Frame;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
@@ -60,7 +63,6 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 
 public abstract class StaticEntity
 {
@@ -385,10 +387,10 @@ public abstract class StaticEntity
 
 	public static final void printStackTrace( final Throwable t, final String message )
 	{
-		printStackTrace( t, message, false );
+		StaticEntity.printStackTrace( t, message, false );
 	}
 
-	public static final void printStackTrace( final Throwable t, final String message, boolean printOnlyCause )
+	public static final void printStackTrace( final Throwable t, final String message, final boolean printOnlyCause )
 	{
 		// Next, print all the information to the debug log so that
 		// it can be sent.
@@ -444,6 +446,107 @@ public abstract class StaticEntity
 		ostream.println( t.getClass() + ": " + t.getMessage() );
 		t.printStackTrace( ostream );
 		ostream.println( message );
+	}
+
+	public static final void printThreadDump()
+	{
+		Runtime runtime = Runtime.getRuntime();
+
+		StringBuffer sb = new StringBuffer();
+
+		try
+		{
+			String[] command = new String[ 2 ];
+			command[ 0 ] = "jps";
+			command[ 1 ] = "-l";
+
+			Process process = runtime.exec( command );
+			BufferedReader reader = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+
+			String line;
+
+			while ( ( line = reader.readLine() ) != null )
+			{
+				sb.append( line );
+				sb.append( KoLConstants.LINE_BREAK );
+
+				if ( line.indexOf( "KoLmafia" ) != -1 )
+				{
+					String pid = line.substring( 0, line.indexOf( ' ' ) );
+
+					StaticEntity.printThreadDump( pid );
+				}
+			}
+
+			reader.close();
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+		}
+
+		boolean shouldOpenStream = !RequestLogger.isDebugging();
+
+		if ( shouldOpenStream )
+		{
+			RequestLogger.openDebugLog();
+		}
+
+		RequestLogger.getDebugStream().println( sb.toString() );
+
+		if ( shouldOpenStream )
+		{
+			RequestLogger.closeDebugLog();
+		}
+
+		KoLmafia.updateDisplay( "Unable to determine KoLmafia process id." );
+	}
+
+	public static final void printThreadDump( final String pid )
+	{
+		KoLmafia.updateDisplay( "Generating thread dump for KoLmafia process id " + pid + "..." );
+
+		Runtime runtime = Runtime.getRuntime();
+
+		StringBuffer sb = new StringBuffer();
+
+		try
+		{
+			String[] command = new String[ 2 ];
+			command[ 0 ] = "jstack";
+			command[ 1 ] = pid;
+
+			Process process = runtime.exec( command );
+			BufferedReader reader = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+
+			String line;
+
+			while ( ( line = reader.readLine() ) != null )
+			{
+				sb.append( line );
+				sb.append( KoLConstants.LINE_BREAK );
+			}
+
+			reader.close();
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+		}
+
+		boolean shouldOpenStream = !RequestLogger.isDebugging();
+
+		if ( shouldOpenStream )
+		{
+			RequestLogger.openDebugLog();
+		}
+
+		RequestLogger.getDebugStream().println( sb.toString() );
+
+		if ( shouldOpenStream )
+		{
+			RequestLogger.closeDebugLog();
+		}
 	}
 
 	public static final void printRequestData( final GenericRequest request )

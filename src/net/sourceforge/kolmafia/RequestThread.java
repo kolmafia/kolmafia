@@ -38,7 +38,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.SwingUtilities;
 
@@ -58,7 +57,6 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 public abstract class RequestThread
 {
 	private static int nextRequestId = 0;
-	private static Map requestMap = new HashMap();
 	private static Map threadMap = new HashMap();
 
 	public static final void runInParallel( final Runnable action )
@@ -178,8 +176,9 @@ public abstract class RequestThread
 		// Make sure there is a URL string in the request
 		request.reconstructFields();
 
-		boolean force = RequestThread.requestMap.isEmpty() &&
+		boolean force = RequestThread.threadMap.isEmpty() &&
 			ResponseTextParser.hasResult( request.getURLString() );
+
 		RequestThread.postRequest( force, request );
 	}
 
@@ -201,7 +200,7 @@ public abstract class RequestThread
 			return;
 		}
 
-		boolean force = RequestThread.requestMap.isEmpty();
+		boolean force = RequestThread.threadMap.isEmpty();
 		RequestThread.postRequest( force, request );
 	}
 
@@ -234,60 +233,31 @@ public abstract class RequestThread
 		int openSequences = 0;
 		Thread currentThread = Thread.currentThread();
 
-		// Iterate over all threads, storing every requestId claimed by
-		// a thread other than this one.
+		Iterator threadIterator = RequestThread.threadMap.values().iterator();
 
-		Iterator threadIterator = RequestThread.threadMap.entrySet().iterator();
 		while ( threadIterator.hasNext() )
 		{
-			Entry entry = (Entry) threadIterator.next();
-			Thread thread = (Thread) entry.getValue();
+			Thread thread = (Thread) threadIterator.next();
 
-			if ( thread == currentThread )
+			if ( thread != currentThread )
 			{
-				continue;
-			}
-
-			Integer requestIdObj = (Integer) entry.getKey();
-			StringBuilder message = new StringBuilder();
-
-			if ( flush )
-			{
-				message.append( "Closing sequence #" );
-			}
-			else
-			{
-				message.append( "Sequence #" );
-			}
-
-			message.append( requestIdObj );
-			message.append( " (" );
-			message.append( thread.getName() );
-			message.append( ")" );
-
-			++openSequences;
-
-			Exception e = (Exception) RequestThread.requestMap.get( requestIdObj );
-			StaticEntity.printStackTrace( e, message.toString() );
-
-			if ( flush )
-			{
-				thread.interrupt();
+				++openSequences;
 			}
 		}
 
 		if ( flush )
 		{
-			RequestThread.requestMap.clear();
 			RequestThread.threadMap.clear();
 
-			KoLmafia.updateDisplay( openSequences + " request sequences have been closed." );
+			KoLmafia.updateDisplay( openSequences + " request sequences will be ignored." );
 			KoLmafia.enableDisplay();
 		}
 		else
 		{
 			KoLmafia.updateDisplay( openSequences + " open request sequences detected." );
 		}
+
+		StaticEntity.printThreadDump();
 	}
 
 	public static synchronized final boolean hasOpenRequestSequences()
@@ -297,7 +267,7 @@ public abstract class RequestThread
 
 	public static synchronized final Integer openRequestSequence()
 	{
-		return RequestThread.openRequestSequence( RequestThread.requestMap.isEmpty() );
+		return RequestThread.openRequestSequence( RequestThread.threadMap.isEmpty() );
 	}
 
 	public static synchronized final Integer openRequestSequence( final boolean forceContinue )
@@ -310,7 +280,6 @@ public abstract class RequestThread
 		int requestId = ++RequestThread.nextRequestId;
 		Integer requestIdObj = new Integer( requestId );
 
-		RequestThread.requestMap.put( requestIdObj, new Exception( "request sequence " + requestId ) );
 		RequestThread.threadMap.put( requestIdObj, Thread.currentThread() );
 
 		return requestIdObj;
@@ -318,10 +287,9 @@ public abstract class RequestThread
 
 	public static synchronized final void closeRequestSequence( final Integer requestIdObj )
 	{
-		RequestThread.requestMap.remove( requestIdObj );
-		RequestThread.threadMap.remove( requestIdObj );
+		Thread thread = (Thread) RequestThread.threadMap.remove( requestIdObj );
 
-		if ( !RequestThread.requestMap.isEmpty() )
+		if ( thread == null || !RequestThread.threadMap.isEmpty() )
 		{
 			return;
 		}
