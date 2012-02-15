@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -2748,5 +2749,40 @@ public abstract class SorceressLairManager
 		StringUtilities.insertAfter( buffer, "its... er... grin.", " <font color=#DD00FF>Levitating Potato needed</font>" );
 		StringUtilities.insertAfter( buffer, "snip-snap your neck.", " <font color=#DD00FF>Mosquito needed</font>" );
 		StringUtilities.insertAfter( buffer, "proboscis at the ready.", " <font color=#DD00FF>Sabre-Toothed Lime needed</font>" );
+	}
+
+	public static void handleQuestChange( String location, String responseText )
+	{
+		// lair.php and lair1-6.php all can check for the same things.
+		// Work backwards from the end to see what zones are unlocked.
+		
+		if ( responseText.indexOf( "ascend.php" ) != -1 )
+		{
+			QuestDatabase.setQuestProgress( QuestDatabase.FINAL, QuestDatabase.FINISHED );
+		}
+		else if ( responseText.indexOf( "lair6.php" ) != -1 )
+		{
+			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step5" );
+		}
+		else if ( responseText.indexOf( "lair5.php" ) != -1 )
+		{
+			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step4" );
+		}
+		else if ( responseText.indexOf( "lair4.php" ) != -1 )
+		{
+			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step4" );
+		}
+		else if ( responseText.indexOf( "lair3.php" ) != -1 )
+		{
+			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step3" );
+		}
+		else if ( responseText.indexOf( "lair2.php" ) != -1 )
+		{
+			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step2" );
+		}
+		else if ( responseText.indexOf( "lair1.php" ) != -1 )
+		{
+			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step1" );
+		}
 	}
 }
