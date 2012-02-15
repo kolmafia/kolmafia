@@ -760,7 +760,7 @@ public class KoLmafiaCLI
 		new SpeculateCommand().register( "speculate" ).register( "whatif" );
 		new StickersCommand().registerPrefix( "sticker" );
 		new StorageCommand().register( "hagnk" ).register( "pull" );
-		new GrayGUICommand().register( "graygui" ).register( "greygui" );
+		new GrayGUICommand().register( "graygui" ).register( "greygui" ).register( "jstack" );
 		new StyxPixieCommand().register( "styx" );
 		new SubmitSpadeDataCommand().register( "spade" );
 		new SummonDemonCommand().register( "summon" );
