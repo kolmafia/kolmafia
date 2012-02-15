@@ -100,8 +100,12 @@ public abstract class CellarDecorator
 		"average", "vinegar", "spooky", "great", "glassy", "bad"
 	};
 	private static final AdventureResult[] DUSTYWINES = new AdventureResult[] {
-		ItemPool.get( 2271, 1 ), ItemPool.get( 2272, 1 ), ItemPool.get( 2273, 1 ),
-		ItemPool.get( 2274, 1 ), ItemPool.get( 2275, 1 ), ItemPool.get( 2276, 1 )
+		ItemPool.get( ItemPool.DUSTY_BOTTLE_OF_MERLOT, 1 ),
+		ItemPool.get( ItemPool.DUSTY_BOTTLE_OF_PORT, 1 ),
+		ItemPool.get( ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR, 1 ),
+		ItemPool.get( ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL, 1 ),
+		ItemPool.get( ItemPool.DUSTY_BOTTLE_OF_MARSALA, 1 ),
+		ItemPool.get( ItemPool.DUSTY_BOTTLE_OF_MUSCAT, 1 )
 	};
 
 	private static final int[] compute()
@@ -149,7 +153,7 @@ public abstract class CellarDecorator
 			int glyph = Preferences.getInteger( "lastDustyBottle" + (2271 + i) );
 			if ( glyph >= 1 && glyph <= 6 )
 			{
-				String tag = GLYPHNAMES[ glyph - 1 ] + " " + SHORTNAMES[ glyph - 1 ];
+				String tag = GLYPHNAMES[ glyph - 1 ] + " " + SHORTNAMES[ i ];
 				names[ i ] = "<span>" + tag + "</span>";
 			}
 		}
