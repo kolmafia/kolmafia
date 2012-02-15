@@ -312,6 +312,13 @@ public class FaxRequestFrame
 			return false;
 		}
 
+		// Are you an Avatar of Boris?
+		if ( KoLCharacter.inAxecore() )
+		{
+			FaxRequestFrame.statusMessage = "Boris sneered at technology.";
+			return false;
+		}
+
 		// Try to visit the fax machine
 		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE );
 		RequestThread.postRequest( request );

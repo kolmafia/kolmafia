@@ -282,6 +282,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Trendy " );
 		}
+		else if ( KoLCharacter.inAxecore() )
+		{
+			sessionStream.print( "Avatar of Boris " );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );
@@ -299,7 +303,11 @@ public class ValhallaManager
 			sessionStream.print( "Oxygenarian " );
 		}
 
-		sessionStream.println( KoLCharacter.getClassType() );
+		if ( !KoLCharacter.inAxecore() )
+		{
+			sessionStream.println( KoLCharacter.getClassType() );
+		}
+
 		sessionStream.println( KoLCharacter.getSign() );
 		sessionStream.println();
 		sessionStream.println();

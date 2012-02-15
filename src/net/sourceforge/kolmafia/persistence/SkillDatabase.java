@@ -115,18 +115,23 @@ public class SkillDatabase
 	private static final String MR_SKILLS = "mr. skills";
 	private static final String GNOME_SKILLS = "gnome trainer";
 	private static final String BAD_MOON = "bad moon";
+	private static final String AVATAR_OF_BORIS = "avatar of Boris";
 
 	private static final String[] CATEGORIES = new String[]
 	{
 		SkillDatabase.UNCATEGORIZED,
-		"seal clubber",
-		"turtle tamer",
-		"pastamancer",
-		"sauceror",
-		"disco bandit",
-		"accordion thief",
-		SkillDatabase.CONDITIONAL,
-		SkillDatabase.MR_SKILLS,
+		"seal clubber",			// 1xxx
+		"turtle tamer",			// 2xxx
+		"pastamancer",			// 3xxx
+		"sauceror",			// 4xxx
+		"disco bandit",			// 5xxx
+		"accordion thief",		// 6xxx
+		SkillDatabase.CONDITIONAL,	// 7xxx
+		SkillDatabase.MR_SKILLS,	// 8xxx
+		"9XXX",				// 9xxx
+		"10XXX",			// 10xxx
+		SkillDatabase.AVATAR_OF_BORIS,	// 11xxx
+		// The following are convenience categories, not implied by skill id
 		SkillDatabase.GNOME_SKILLS,
 		SkillDatabase.BAD_MOON
 	};
@@ -140,7 +145,8 @@ public class SkillDatabase
 
 		for ( int i = 0; i < SkillDatabase.CATEGORIES.length; ++i )
 		{
-			SkillDatabase.skillsByCategory.put( SkillDatabase.CATEGORIES[ i ], new ArrayList() );
+			String category = SkillDatabase.CATEGORIES[ i ];
+			SkillDatabase.skillsByCategory.put( category, new ArrayList() );
 		}
 
 		BufferedReader reader = FileUtilities.getVersionedReader( "classskills.txt", KoLConstants.CLASSSKILLS_VERSION );

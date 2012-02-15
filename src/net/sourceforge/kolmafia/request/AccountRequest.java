@@ -311,6 +311,8 @@ public class AccountRequest
 			"Way of the Surprising Fist" :
 			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Trendy\">" ) != -1 ?
 			"Trendy" :
+			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Avatar of Boris\">" ) != -1 ?
+			"Avatar of Boris" :
 			"None";
 
 		KoLCharacter.setPath( path );
@@ -498,6 +500,41 @@ public class AccountRequest
 			return;
 		}
 
+		// account.php?actions[]=unpath&action=Drop+Bees+Hate+You&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Way+of+the+Surprising+Fist&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Trendy&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Avatar+of_Boris&unpathconfirm=1&tab=account&pwd
+		if ( action.equals( "Drop+Bees+Hate+You" ) ||
+		     action.equals( "Drop+Way+of+the+Surprising+Fist" ) ||
+		     action.equals( "Drop+Trendy" )  ||
+		     action.equals( "Drop+Avatar+of+Boris" ) )
+		{
+			if ( location.indexOf( "unpathconfirm=1" ) != -1 )
+			{
+				// Dropping challenge path
+				String oldPath = KoLCharacter.getPath();
+				KoLCharacter.setPath( "None" );
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Dropped " + oldPath );
+				RequestLogger.updateSessionLog();
+
+				// If we were in Beecore, we need to check the Telescope again
+				if ( oldPath.equals( "Bees Hate You" ) )
+				{
+					Preferences.setInteger( "lastTelescopeReset", -1 );
+					KoLCharacter.checkTelescope();
+				}
+
+				// If we were an Avatar of Boris, what happens?
+				else if ( oldPath.equals( "Avatar of Boris" ) )
+				{
+					RequestThread.postRequest( new FamiliarRequest() );
+					RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+				}
+			}
+			return;
+		}
+
 		// <input type=hidden name="actions[]" value="unhardcore">
 		// <input class=button name="action" type=submit value="Drop Hardcore">
 		// <input type="checkbox" class="confirm" name="unhardcoreconfirm" value="1">
@@ -603,6 +640,10 @@ public class AccountRequest
 		else if ( path.equals( "7" ) )
 		{
 			path = "Trendy";
+		}
+		else if ( path.equals( "8" ) )
+		{
+			path = "Avatar of Boris";
 		}
 		KoLCharacter.setPath( path );
 

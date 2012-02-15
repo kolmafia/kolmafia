@@ -576,6 +576,7 @@ The Necbromancer's Wizard Staff	10	Mys: 200	1-handed chefstaff
 The Trickster's Trikitixa	200	Mox: 60	2-handed accordion
 Totally Gay Claymore	69	Mus: 19	2-handed sword
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
+Trusty	100	Mus: 0	2-handed axe
 Uncle Hobo's highest bough	200	Mus: 200	1-handed club
 Underworld flail	200	Mox: 150	2-handed flail
 Underworld truncheon	200	Mus: 150	2-handed club

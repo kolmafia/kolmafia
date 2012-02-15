@@ -725,6 +725,13 @@ public class GearChangeFrame
 			return items;
 		}
 
+		if ( KoLCharacter.inAxecore() )
+		{
+			items.add( EquipmentRequest.UNEQUIP );
+			items.add( EquipmentRequest.TRUSTY );
+			return items;
+		}
+
 		// Search inventory for weapons
 
 		int equipStat;
@@ -802,7 +809,9 @@ public class GearChangeFrame
 	{
 		List items = new ArrayList();
 
-		if ( KoLCharacter.inFistcore() )
+		// In Fistcore, you must have both hands free.
+		// In Axecore, you can equip only Trusty, a two-handed axe
+		if ( KoLCharacter.inFistcore() || KoLCharacter.inAxecore() )
 		{
 			items.add( EquipmentRequest.UNEQUIP );
 			return items;

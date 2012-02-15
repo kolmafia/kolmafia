@@ -143,6 +143,12 @@ public class FamiliarData
 
 	public final boolean canEquip()
 	{
+		// Familiars cannot be equipped in when you are an Avatar of Boris
+		if ( KoLCharacter.inAxecore() )
+		{
+			return false;
+		}
+
 		// Familiars with a "B" in their race cannot be equipped in Beecore
 		if ( KoLCharacter.inBeecore() && this.beeware )
 		{

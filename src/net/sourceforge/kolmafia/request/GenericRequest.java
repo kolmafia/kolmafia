@@ -1310,7 +1310,10 @@ public class GenericRequest
 		}
 		while ( !this.postClientData() && !this.retrieveServerReply() && this.timeoutCount < GenericRequest.TIMEOUT_LIMIT );
 
-		ConcoctionDatabase.refreshConcoctions( false );
+		if ( !LoginRequest.isInstanceRunning() )
+		{
+			ConcoctionDatabase.refreshConcoctions( false );
+		}
 	}
 
 	public static final boolean shouldIgnore( final GenericRequest request )

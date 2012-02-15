@@ -155,7 +155,7 @@ public class CleanupJunkRequest
 
 		if ( KoLCharacter.hasSkill( "Pulverize" ) )
 		{
-			boolean hasMalusAccess = KoLCharacter.isMuscleClass();
+			boolean hasMalusAccess = KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris();
 
 			for ( int i = 0; i < items.length; ++i )
 			{

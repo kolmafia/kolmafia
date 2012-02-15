@@ -102,7 +102,8 @@ public class DataTypes
 		KoLCharacter.PASTAMANCER,
 		KoLCharacter.SAUCEROR,
 		KoLCharacter.DISCO_BANDIT,
-		KoLCharacter.ACCORDION_THIEF
+		KoLCharacter.ACCORDION_THIEF,
+		KoLCharacter.AVATAR_OF_BORIS
 	};
 
 	public static final Type ANY_TYPE = new Type( "any", DataTypes.TYPE_ANY );

@@ -115,6 +115,7 @@ public abstract class KoLCharacter
 	private static final Pattern B_PATTERN = Pattern.compile( "[Bb]" );
 
 	public static final String ASTRAL_SPIRIT = "Astral Spirit";
+	public static final String AVATAR_OF_BORIS = "Avatar of Boris";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List SEAL_CLUBBER_RANKS = new ArrayList();
@@ -272,7 +273,7 @@ public abstract class KoLCharacter
 	private static int userId = 0;
 	private static String playerId = "0";
 	private static String classname = "";
-	private static String classtype = "";
+	private static String classtype = null;
 	private static int currentLevel = 1;
 	private static long decrementPrime = 0;
 	private static long incrementPrime = 25;
@@ -557,7 +558,7 @@ public abstract class KoLCharacter
 	public static final void reset()
 	{
 		KoLCharacter.classname = "";
-		KoLCharacter.classtype = "";
+		KoLCharacter.classtype = null;
 
 		KoLCharacter.gender = 0;
 		KoLCharacter.currentLevel = 1;
@@ -733,6 +734,13 @@ public abstract class KoLCharacter
 		}
 
 		int baseFullness = 15;
+
+		// If you are an Avatar of Boris, you are a hearty eater
+		if ( KoLCharacter.inAxecore() )
+		{
+			baseFullness = 20;
+		}
+
 		if ( Preferences.getBoolean( "distentionPillActive" ) )
 		{
 			baseFullness++;
@@ -782,7 +790,10 @@ public abstract class KoLCharacter
 
 	public static final int getInebrietyLimit()
 	{
-		return KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 : KoLCharacter.canDrink() ? 14 : 0;
+		return	KoLCharacter.inAxecore() ? 5 :
+			KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 :
+			KoLCharacter.canDrink() ? 14 :
+			0;
 	}
 
 	public static final boolean isFallingDown()
@@ -917,7 +928,17 @@ public abstract class KoLCharacter
 
 	public static final int getPrimeIndex()
 	{
-		return KoLCharacter.classtype.startsWith( "Se" ) || KoLCharacter.classtype.startsWith( "Tu" ) ? 0 : KoLCharacter.classtype.startsWith( "Sa" ) || KoLCharacter.classtype.startsWith( "Pa" ) ? 1 : 2;
+		return	KoLCharacter.classtype == KoLCharacter.SEAL_CLUBBER ||
+			KoLCharacter.classtype == KoLCharacter.TURTLE_TAMER ||
+			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS ?
+			0 :
+			KoLCharacter.classtype == KoLCharacter.SAUCEROR ||
+			KoLCharacter.classtype == KoLCharacter.PASTAMANCER ?
+			1 :
+			KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT ||
+			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ?
+			2 :
+			0;
 	}
 
 	/**
@@ -983,26 +1004,27 @@ public abstract class KoLCharacter
 
 	public static final void setClassType( final int classtype )
 	{
-		String classname =
-			classtype == 1 ? "Seal Clubber" :
-			classtype == 2 ? "Turtle Tamer" :
-			classtype == 3 ? "Pastamancer" :
-			classtype == 4 ? "Sauceror" :
-			classtype == 5 ? "Disco Bandit" :
-			classtype == 6 ? "Accordion Thief" :
+		String	classname =
+			classtype == 1 ? KoLCharacter.SEAL_CLUBBER :
+			classtype == 2 ? KoLCharacter.TURTLE_TAMER :
+			classtype == 3 ? KoLCharacter.PASTAMANCER :
+			classtype == 4 ? KoLCharacter.SAUCEROR :
+			classtype == 5 ? KoLCharacter.DISCO_BANDIT :
+			classtype == 6 ? KoLCharacter.ACCORDION_THIEF :
+			classtype == 11 ? KoLCharacter.AVATAR_OF_BORIS :
 			"Unknown";
 
-		setClassName( classname );
+		KoLCharacter.classtype = classname;
+		KoLCharacter.setClassName( classname );
 	}
 
 	public static final void setClassName( final String classname )
 	{
 		KoLCharacter.classname = classname;
-		KoLCharacter.classtype = null;
-		KoLCharacter.getClassType();
-		KoLCharacter.tripleReagent = KoLCharacter.classtype.equals( KoLCharacter.SAUCEROR );
+		KoLCharacter.classtype = KoLCharacter.getClassType();
+		KoLCharacter.tripleReagent = KoLCharacter.classtype == KoLCharacter.SAUCEROR;
 
-		if ( KoLCharacter.classtype.equals( KoLCharacter.ASTRAL_SPIRIT ) )
+		if ( KoLCharacter.classtype == KoLCharacter.ASTRAL_SPIRIT )
 		{
 			return;
 		}
@@ -1058,7 +1080,8 @@ public abstract class KoLCharacter
 
 	public static final String getClassType( final String classname )
 	{
-		return KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
+		return	classname.equals( KoLCharacter.AVATAR_OF_BORIS ) ? KoLCharacter.AVATAR_OF_BORIS :
+			KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
 			KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER :
 			KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER :
 			KoLCharacter.SAUCEROR_RANKS.contains( classname ) ? KoLCharacter.SAUCEROR :
@@ -1069,22 +1092,31 @@ public abstract class KoLCharacter
 
 	public static final boolean isMuscleClass()
 	{
-		return KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) || KoLCharacter.classtype.equals( KoLCharacter.TURTLE_TAMER );
+		return	KoLCharacter.classtype == KoLCharacter.SEAL_CLUBBER ||
+			KoLCharacter.classtype == KoLCharacter.TURTLE_TAMER ||
+			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS;
+	}
+
+	public static final boolean isAvatarOfBoris()
+	{
+		return KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS;
 	}
 
 	public static final boolean isMysticalityClass()
 	{
-		return KoLCharacter.classtype.equals( KoLCharacter.PASTAMANCER ) || KoLCharacter.classtype.equals( KoLCharacter.SAUCEROR );
+		return	KoLCharacter.classtype == KoLCharacter.PASTAMANCER ||
+			KoLCharacter.classtype == KoLCharacter.SAUCEROR;
 	}
 
 	public static final boolean isMoxieClass()
 	{
-		return KoLCharacter.classtype.equals( KoLCharacter.DISCO_BANDIT ) || KoLCharacter.classtype.equals( KoLCharacter.ACCORDION_THIEF );
+		return	KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT ||
+			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF;
 	}
 
 	public static final int mainStat()
 	{
-		return KoLCharacter.isMuscleClass() ? KoLConstants.MUSCLE :
+		return  KoLCharacter.isMuscleClass() ? KoLConstants.MUSCLE :
 			KoLCharacter.isMysticalityClass() ? KoLConstants.MYSTICALITY :
 			KoLCharacter.isMoxieClass() ? KoLConstants.MOXIE :
 			KoLConstants.NONE;
@@ -2736,6 +2768,12 @@ public abstract class KoLCharacter
 			KoLCharacter.ascensionPath.equals( "Trendy" );
 	}
 
+	public static final boolean inAxecore()
+	{
+		// Which, if any, Axecore restrictions are lifted when you free the king?
+		return KoLCharacter.ascensionPath.equals( "Avatar of Boris" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
@@ -3509,7 +3547,7 @@ public abstract class KoLCharacter
 
 	public static final boolean canUseMalus()
 	{
-		return KoLCharacter.hasSkill( "Pulverize" ) && KoLCharacter.isMuscleClass();
+		return KoLCharacter.hasSkill( "Pulverize" ) && KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris();
 	}
 
 	/**

@@ -654,6 +654,7 @@ The Necbromancer's Wizard Staff	Spell Damage Percent: +200, Sleaze Spell Damage:
 The Trickster's Trikitixa	Moxie: +15, Ranged Damage: +23, Item Drop: +11, Class: "Accordion Thief"
 # Totally Gay Claymore
 Tropical Crimbo Sword	Weapon Damage: +5
+Trusty	Muscle: +5
 Uncle Hobo's highest bough	Muscle Percent: +15, HP Regen Min: 15, HP Regen Max: 30, MP Regen Min: 15, MP Regen Max: 30
 Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent: +10
 Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscle Percent: +10
