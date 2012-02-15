@@ -453,4 +453,4 @@
 11030	Gourmand	0	0	0	10
 
 # Healing
-11031	Laugh It Off	0	0	0
+11031	Laugh It Off	2	1	0

@@ -770,7 +770,13 @@ public abstract class KoLCharacter
 				baseFullness += 2;
 			}
 		}
-		else if ( KoLCharacter.hasSkill( "Stomach of Steel" ) )
+
+		if ( KoLCharacter.hasSkill( "Stomach of Steel" ) )
+		{
+			baseFullness += 5;
+		}
+
+		if ( KoLCharacter.hasSkill( "Legendary Appetite" ) )
 		{
 			baseFullness += 5;
 		}
