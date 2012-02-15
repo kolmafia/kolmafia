@@ -790,7 +790,7 @@ public abstract class KoLCharacter
 
 	public static final int getInebrietyLimit()
 	{
-		return	KoLCharacter.inAxecore() ? 5 :
+		return	KoLCharacter.inAxecore() ? 4 :
 			KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 :
 			KoLCharacter.canDrink() ? 14 :
 			0;

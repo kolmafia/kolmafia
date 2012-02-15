@@ -2112,6 +2112,7 @@ public abstract class ChoiceManager
 			new String[] { "head towards boss", "skip adventure" } ),
 
 		// Choice 571 is Your Minstrel Vamps
+		// Choice 572 is Your Minstrel Clamps
 		// Choice 574 is The Minstrel Cycle Begins
 	};
 
