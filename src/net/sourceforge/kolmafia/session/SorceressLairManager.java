@@ -1909,15 +1909,37 @@ public abstract class SorceressLairManager
 
 	public static final int fightAllTowerGuardians()
 	{
-		return SorceressLairManager.fightTowerGuardians( true );
+		FamiliarData oldFamiliar = KoLCharacter.getFamiliar();
+
+		int itemId = SorceressLairManager.fightTowerGuardians( true );
+
+		FamiliarData newFamiliar = KoLCharacter.getFamiliar();
+
+		if ( oldFamiliar.getId() != newFamiliar.getId() )
+		{
+			RequestThread.postRequest( new FamiliarRequest( oldFamiliar ) );
+		}
+
+		return itemId;
 	}
 
 	public static final int fightMostTowerGuardians()
 	{
-		return SorceressLairManager.fightTowerGuardians( false );
+		FamiliarData oldFamiliar = KoLCharacter.getFamiliar();
+
+		int itemId = SorceressLairManager.fightTowerGuardians( false );
+
+		FamiliarData newFamiliar = KoLCharacter.getFamiliar();
+
+		if ( oldFamiliar.getId() != newFamiliar.getId() )
+		{
+			RequestThread.postRequest( new FamiliarRequest( oldFamiliar ) );
+		}
+
+		return itemId;
 	}
 
-	public static final int fightTowerGuardians( boolean fightFamiliarGuardians )
+	private static final int fightTowerGuardians( boolean fightFamiliarGuardians )
 	{
 		if ( !SorceressLairManager.checkPrerequisites( 4, 6 ) )
 		{
@@ -2021,21 +2043,28 @@ public abstract class SorceressLairManager
 		if ( n == 0 )
 		{
 			RequestThread.postRequest( new CharPaneRequest() );
+
+			SorceressLairManager.findDoorCode();
+
+			if ( KoLmafia.permitsContinue() )
+			{
+				++n;
+			}
+			else
+			{
+				return -1;
+			}
 		}
 
-		for ( ; n < 2 && KoLmafia.permitsContinue(); ++n )
+		if ( n == 1 )
 		{
-			switch ( n )
-			{
-			case 0:
-				SorceressLairManager.findDoorCode();
-				break;
-			case 1:
-				SorceressLairManager.reflectEnergyBolt();
-				break;
-			}
+			SorceressLairManager.reflectEnergyBolt();
 
-			if ( !KoLmafia.permitsContinue() )
+			if ( KoLmafia.permitsContinue() )
+			{
+				++n;
+			}
+			else
 			{
 				return -1;
 			}
@@ -2047,34 +2076,49 @@ public abstract class SorceressLairManager
 			return -1;
 		}
 
-		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
-
-		for ( ; n < 5 && KoLmafia.permitsContinue(); ++n )
+		if ( n == 2 )
 		{
-			switch ( n )
+			SorceressLairManager.fightShadow();
+
+			if ( KoLmafia.permitsContinue() )
 			{
-			case 2:
-				SorceressLairManager.fightShadow();
-				break;
-			case 3:
-				SorceressLairManager.familiarBattle( 3 );
-				break;
-			case 4:
-				SorceressLairManager.familiarBattle( 4 );
-				break;
+				++n;
+			}
+			else
+			{
+				return -1;
 			}
 		}
 
-		if ( originalFamiliar.getId() != KoLCharacter.getFamiliar().getId() )
+		if ( n == 3 )
 		{
-			RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
+			SorceressLairManager.familiarBattle( 3 );
+
+			if ( KoLmafia.permitsContinue() )
+			{
+				++n;
+			}
+			else
+			{
+				return -1;
+			}
 		}
 
-		if ( KoLmafia.permitsContinue() )
+		if ( n == 4 )
 		{
-			KoLmafia.updateDisplay( "Her Naughtiness awaits." );
+			SorceressLairManager.familiarBattle( 4 );
+
+			if ( KoLmafia.permitsContinue() )
+			{
+				++n;
+			}
+			else
+			{
+				return -1;
+			}
 		}
 
+		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 		return -1;
 	}
 
