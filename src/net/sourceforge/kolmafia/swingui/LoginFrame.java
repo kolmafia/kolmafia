@@ -145,7 +145,7 @@ public class LoginFrame
 	{
 		if ( !LoginRequest.isInstanceRunning() )
 		{
-			System.exit( 0 );
+			KoLmafia.quit();
 		}
 	}
 

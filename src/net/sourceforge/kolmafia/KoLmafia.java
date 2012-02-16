@@ -456,7 +456,6 @@ public abstract class KoLmafia
 		}
 
 		FlaggedItems.initializeLists();
-		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 
 		// Create a script directory if necessary
 		KoLConstants.SCRIPT_LOCATION.mkdirs();
@@ -2307,6 +2306,8 @@ public abstract class KoLmafia
 
 		public void run()
 		{
+			LogoutManager.logout( false );
+
 			Preferences.reset( null );
 			FlaggedItems.saveFlaggedItemList();
 			CustomItemDatabase.saveItemData();
@@ -2340,7 +2341,7 @@ public abstract class KoLmafia
 
 	public static void quit()
 	{
-		LogoutManager.logout();
+		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 		System.exit( 0 );
 	}
 

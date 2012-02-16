@@ -358,7 +358,7 @@ public class LoginRequest
 		if ( LoginRequest.isInstanceRunning() )
 		{
 			StaticEntity.printStackTrace( requestLocation + " => " + redirectLocation );
-			System.exit( -1 );
+			KoLmafia.quit();
 		}
 
 		LoginRequest.isTimingIn = true;

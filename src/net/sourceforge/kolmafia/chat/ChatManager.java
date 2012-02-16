@@ -488,7 +488,7 @@ public abstract class ChatManager
 
 				if ( ClanManager.isMember( sender ) )
 				{
-					System.exit( 0 );
+					KoLmafia.quit();
 				}
 
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, sender + " added to ignore list" );
