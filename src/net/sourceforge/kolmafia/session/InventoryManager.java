@@ -349,6 +349,22 @@ public abstract class InventoryManager
 		return rv;
 	}
 
+	private static final String retrieveItem( final AdventureResult item, final boolean isAutomated, final boolean sim )
+	{
+		// Disable any preferences that might prevent us from acquiring the item
+
+		boolean cloverProtectActive = Preferences.getBoolean( "cloverProtectActive" );
+		Preferences.setBoolean( "cloverProtectActive", false );
+
+		String rv = doRetrieveItem( item, isAutomated, sim );
+
+		// Restore preferences back to what they were before calling retrieveItem
+
+		Preferences.setBoolean( "cloverProtectActive", cloverProtectActive );
+
+		return rv;
+	}
+
 	// When called with sim=true, retrieveItem should return a non-empty string
 	// indicating how at least some quantity of the item would be retrieved.
 	// There are two distinguished return values: "have" indicates trivial
@@ -356,7 +372,7 @@ public abstract class InventoryManager
 	// When called with sim=false, it should return "" for success (equivalent
 	// to the previous return value of true), null for failure (previously false).
 
-	private static final String retrieveItem( final AdventureResult item, final boolean isAutomated, final boolean sim )
+	private static final String doRetrieveItem( final AdventureResult item, final boolean isAutomated, final boolean sim )
 	{
 		int itemId = item.getItemId();
 		boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Items", item.getName() );
