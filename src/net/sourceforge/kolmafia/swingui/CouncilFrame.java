@@ -150,6 +150,11 @@ public class CouncilFrame
 		{
 			WineCellarRequest.handleCellarChange( responseText );
 		}
+		else if ( location.startsWith( "pandamonium" ) )
+		{
+			// Quest starts the very instant you click on pandamonium.php
+			QuestDatabase.setQuestIfBetter( QuestDatabase.AZAZEL, QuestDatabase.STARTED );
+		}
 		else if ( location.startsWith( "plains" ) )
 		{
 			CouncilFrame.handlePlainsChange( responseText );
