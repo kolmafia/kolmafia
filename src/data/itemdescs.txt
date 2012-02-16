@@ -5549,7 +5549,7 @@
 5548	729361892	origamimag.gif	Ghost Pinching Quarterly	copies of Ghost Pinching Quarterly
 5549	335081557	clancy_crumhorn.gif	Clancy's crumhorn
 5550	610147943	document.gif	The Snitch's Manifesto	copies of The Snitch's Manifesto
-5551
+5551	900706537	clancy_lute.gif	Clancy's lute
 5552	846990311	trusty.gif	Trusty
 5553	572522502	raindoh.gif	can of Rain-Doh	cans of Rain-Doh
 5554	817677410	raindohempty.gif	empty Rain-Doh can
