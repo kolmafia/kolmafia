@@ -631,7 +631,7 @@ public class KoLmafiaCLI
 		new ClanSofaCommand().register( "sofa" ).register( "sleep" );
 		new ClanStashCommand().register( "stash" );
 		new CleanupJunkRequest().register( "junk" ).register( "cleanup" );
-		new ClearBufferCommand().register( "clear" ).register( "cls" );
+		new ClearBufferCommand().register( "clear" ).register( "cls" ).register( "reset" );
 		new CliRefCommand().register( "help" );
 		new ClosetCommand().register( "closet" );
 		new ColorEchoCommand().register( "colorecho" ).register( "cecho" );
