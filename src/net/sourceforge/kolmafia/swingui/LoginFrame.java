@@ -471,7 +471,7 @@ public class LoginFrame
 
 		public ConnectionOptionsPanel()
 		{
-			super( "Connection Options", new Dimension( 20, 20 ), new Dimension( 380, 20 ) );
+			super( new Dimension( 20, 20 ), new Dimension( 380, 20 ) );
 
 			LoginFrame.this.servers = new JComboBox();
 			LoginFrame.this.servers.addItem( "Attempt to use dev.kingdomofloathing.com" );

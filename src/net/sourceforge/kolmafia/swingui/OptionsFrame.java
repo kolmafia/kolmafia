@@ -63,6 +63,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import javax.swing.event.ListDataEvent;
@@ -91,6 +93,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 
 import net.sourceforge.kolmafia.swingui.panel.AddCustomDeedsPanel;
+import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
@@ -113,58 +116,47 @@ public class OptionsFrame
 	{
 		super( "Preferences" );
 
-		JPanel generalPanel = new JPanel();
-		generalPanel.setLayout( new BoxLayout( generalPanel, BoxLayout.Y_AXIS ) );
-		generalPanel.add( new GeneralOptionsPanel() );
-		generalPanel.add( new EditorPanel() );
-		this.addTab( "General", generalPanel );
+		CardLayoutSelectorPanel selectorPanel = new CardLayoutSelectorPanel();
 
-		JPanel browserPanel = new JPanel();
-		browserPanel.setLayout( new BoxLayout( browserPanel, BoxLayout.Y_AXIS ) );
-		browserPanel.add( new BrowserPanel() );
-		browserPanel.add( new RelayOptionsPanel() );
-		this.addTab( "Browser", browserPanel );
-
-		this.addTab( "Main Tabs", new StartupFramesPanel() );
-		this.addTab( "Look & Feel", new UserInterfacePanel() );
+		selectorPanel.addPanel( "General", new GeneralOptionsPanel() );
+		selectorPanel.addPanel( " - Debugging", new DebugOptionsPanel() );
+		selectorPanel.addPanel( " - Editors", new EditorPanel() );
+		selectorPanel.addPanel( "Relay Browser", new RelayOptionsPanel() );
+		selectorPanel.addPanel( " - Browser", new BrowserPanel() );
+		selectorPanel.addPanel( "Look & Feel", new UserInterfacePanel() );
+		selectorPanel.addPanel( " - Main Tabs", new StartupFramesPanel() );
 
 		JPanel breakfastPanel = new JPanel();
 		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
-
 		breakfastPanel.add( new ScriptPanel() );
 		breakfastPanel.add( new BreakfastPanel( "Ronin-Clear Characters", "Softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "In-Ronin Characters", "Hardcore" ) );
-
-		this.addTab( "Breakfast", breakfastPanel );
+		selectorPanel.addPanel( "Breakfast", breakfastPanel );
 
 		JPanel customDeedPanel = new JPanel();
 		customDeedPanel.setLayout( new BoxLayout( customDeedPanel, BoxLayout.Y_AXIS ) );
 		customDeedPanel.add( new CustomizeDailyDeedsPanel( "Message" ) );
 		customDeedPanel.add( new CustomizeDailyDeedsPanel() );
+		selectorPanel.addPanel( " - Daily Deeds", customDeedPanel );
 
-		this.addTab( "Daily Deeds", customDeedPanel );
+		selectorPanel.addPanel( "Script Buttons", new ScriptButtonPanel() );
+		selectorPanel.addPanel( "Bookmarks", new BookmarkManagePanel() );
+		selectorPanel.addPanel( "Session Logs", new SessionLogOptionsPanel() );
+		selectorPanel.addPanel( "Chat Options", new ChatOptionsPanel() );
 
-		JPanel addonPanel = new JPanel( new GridLayout( 2, 1, 10, 10 ) );
-		addonPanel.add( new ScriptButtonPanel() );
-		addonPanel.add( new BookmarkManagePanel() );
-		this.addTab( "Shortcuts", addonPanel );
-
-		this.addTab( "Session Logs", new SessionLogOptionsPanel() );
-		this.addTab( "Chat Options", new ChatOptionsPanel() );
-
-		this.setCenterComponent( this.tabs );
+		this.setCenterComponent( selectorPanel );
 
 		if ( !Preferences.getBoolean( "customizedTabs" ) )
 		{
-			this.tabs.setSelectedIndex( 2 );
+			selectorPanel.setSelectedIndex( 5 );
 		}
 		else if ( RelayServer.isRunning() )
 		{
-			this.tabs.setSelectedIndex( 1 );
+			selectorPanel.setSelectedIndex( 4 );
 		}
 		else
 		{
-			this.tabs.setSelectedIndex( 0 );
+			selectorPanel.setSelectedIndex( 0 );
 		}
 	}
 
@@ -189,13 +181,13 @@ public class OptionsFrame
 		};
 
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their
-		 * desired server and for them to modify any applicable proxy settings.
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
+		 * server and for them to modify any applicable proxy settings.
 		 */
 
 		public SessionLogOptionsPanel()
 		{
-			super( "Session Log", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
+			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 			VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
@@ -207,8 +199,8 @@ public class OptionsFrame
 				this.optionBoxes[ i ] = optionBox;
 				elements[ i ] =
 					option.length == 0 ?
-					new VerifiableElement() :
-					new VerifiableElement( option[ 1 ], JLabel.LEFT, optionBox );
+						new VerifiableElement() :
+						new VerifiableElement( option[ 1 ], SwingConstants.LEFT, optionBox );
 			}
 
 			this.actionCancelled();
@@ -285,13 +277,13 @@ public class OptionsFrame
 		};
 
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their
-		 * desired server and for them to modify any applicable proxy settings.
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
+		 * server and for them to modify any applicable proxy settings.
 		 */
 
 		public RelayOptionsPanel()
 		{
-			super( "Relay Browser", new Dimension( 16, 16 ), new Dimension( 370, 16 ) );
+			super( new Dimension( 16, 16 ), new Dimension( 370, 16 ) );
 			VerifiableElement[] elements = new VerifiableElement[ this.options.length + 1 ];
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
@@ -303,14 +295,14 @@ public class OptionsFrame
 				this.optionBoxes[ i ] = optionBox;
 				elements[ i ] =
 					option.length == 0 ?
-					new VerifiableElement() :
-					new VerifiableElement( option[ 1 ], JLabel.LEFT, optionBox );
+						new VerifiableElement() :
+						new VerifiableElement( option[ 1 ], SwingConstants.LEFT, optionBox );
 			}
 
 			this.colorChanger = new ColorChooser( "defaultBorderColor" );
 			elements[ this.options.length ] =
 				new VerifiableElement(
-					"Change the color for tables in the browser interface", JLabel.LEFT, this.colorChanger );
+					"Change the color for tables in the browser interface", SwingConstants.LEFT, this.colorChanger );
 
 			this.setContent( elements );
 			this.actionCancelled();
@@ -404,23 +396,16 @@ public class OptionsFrame
 			{},
 
 			{ "sharePriceData", "Share recent Mall price data with other users" },
-
-			{},
-			{ "useLastUserAgent", "(Debug) Use last browser's userAgent" },
-			{ "logBrowserInteractions", "(Debug) Verbosely log communication between KoLmafia and browser" },
-			{ "logCleanedHTML", "(Debug) Log cleaned HTML tree of fight pages" },
-			{ "logDecoratedResponses", "(Debug) Log decorated responses in debug log" },
-			{ "logReadableHTML", "(Debug) Include line breaks in logged HTML" },
 		};
 
 		/**
-		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their
-		 * desired server and for them to modify any applicable proxy settings.
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
+		 * server and for them to modify any applicable proxy settings.
 		 */
 
 		public GeneralOptionsPanel()
 		{
-			super( "General Options", new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
+			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 			VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
 
 			this.optionBoxes = new JCheckBox[ this.options.length ];
@@ -429,14 +414,14 @@ public class OptionsFrame
 			{
 				String[] option = this.options[ i ];
 				JCheckBox optionBox =
-					( option.length < 3 ) ?
-					new JCheckBox() :
-					new CreationSettingCheckBox( option[ 0 ] );
+					option.length < 3 ?
+						new JCheckBox() :
+						new CreationSettingCheckBox( option[ 0 ] );
 				this.optionBoxes[ i ] = optionBox;
 				elements[ i ] =
 					option.length == 0 ?
-					new VerifiableElement() :
-					new VerifiableElement( option[ 1 ], JLabel.LEFT, optionBox );
+						new VerifiableElement() :
+						new VerifiableElement( option[ 1 ], SwingConstants.LEFT, optionBox );
 			}
 
 			this.setContent( elements );
@@ -475,6 +460,77 @@ public class OptionsFrame
 		}
 	}
 
+	private class DebugOptionsPanel
+		extends OptionsPanel
+	{
+		private final JCheckBox[] optionBoxes;
+
+		private final String[][] options =
+		{
+			{ "useLastUserAgent", "Use last browser's userAgent" },
+			{ "logBrowserInteractions", "Verbosely log communication between KoLmafia and browser" },
+			{ "logCleanedHTML", "Log cleaned HTML tree of fight pages" },
+			{ "logDecoratedResponses", "Log decorated responses in debug log" },
+			{ "logReadableHTML", "Include line breaks in logged HTML" },
+		};
+
+		/**
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
+		 * server and for them to modify any applicable proxy settings.
+		 */
+
+		public DebugOptionsPanel()
+		{
+			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
+			VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
+
+			this.optionBoxes = new JCheckBox[ this.options.length ];
+
+			for ( int i = 0; i < this.options.length; ++i )
+			{
+				String[] option = this.options[ i ];
+				this.optionBoxes[ i ] = new JCheckBox();
+				elements[ i ] =
+					option.length == 0 ?
+						new VerifiableElement() :
+						new VerifiableElement( option[ 1 ], SwingConstants.LEFT, this.optionBoxes[ i ] );
+			}
+
+			this.setContent( elements );
+			this.actionCancelled();
+		}
+
+		public void actionConfirmed()
+		{
+			for ( int i = 0; i < this.options.length; ++i )
+			{
+				String[] option = this.options[ i ];
+				if ( option.length == 0 )
+				{
+					continue;
+				}
+				JCheckBox optionBox = this.optionBoxes[ i ];
+				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
+			}
+
+			this.actionCancelled();
+		}
+
+		public void actionCancelled()
+		{
+			for ( int i = 0; i < this.options.length; ++i )
+			{
+				String[] option = this.options[ i ];
+				if ( option.length == 0 )
+				{
+					continue;
+				}
+				JCheckBox optionBox = this.optionBoxes[ i ];
+				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
+			}
+		}
+	}
+
 	private abstract class ShiftableOrderPanel
 		extends ScrollablePanel
 		implements ListDataListener
@@ -495,7 +551,7 @@ public class OptionsFrame
 
 		public void dispose()
 		{
-			list.removeListDataListener( this );
+			this.list.removeListDataListener( this );
 			super.dispose();
 		}
 
@@ -694,11 +750,12 @@ public class OptionsFrame
 			VerifiableElement[] elements = new VerifiableElement[ 4 + this.options.length + 3 ];
 
 			elements[ 0 ] =
-				new VerifiableElement( "Use small fonts in hypertext displays", JLabel.LEFT, this.fontSizes[ 0 ] );
+				new VerifiableElement( "Use small fonts in hypertext displays", SwingConstants.LEFT, this.fontSizes[ 0 ] );
 			elements[ 1 ] =
-				new VerifiableElement( "Use medium fonts in hypertext displays", JLabel.LEFT, this.fontSizes[ 1 ] );
+				new VerifiableElement(
+					"Use medium fonts in hypertext displays", SwingConstants.LEFT, this.fontSizes[ 1 ] );
 			elements[ 2 ] =
-				new VerifiableElement( "Use large fonts in hypertext displays", JLabel.LEFT, this.fontSizes[ 2 ] );
+				new VerifiableElement( "Use large fonts in hypertext displays", SwingConstants.LEFT, this.fontSizes[ 2 ] );
 
 			elements[ 3 ] = new VerifiableElement();
 
@@ -710,8 +767,8 @@ public class OptionsFrame
 
 				elements[ i + 4 ] =
 					option.length == 0 ?
-					new VerifiableElement() :
-					new VerifiableElement( option[ 1 ], JLabel.LEFT, optionBox );
+						new VerifiableElement() :
+						new VerifiableElement( option[ 1 ], SwingConstants.LEFT, optionBox );
 			}
 
 			int tabCount = this.options.length + 4;
@@ -721,12 +778,12 @@ public class OptionsFrame
 			this.outerGradient = new TabColorChanger( "outerChatColor" );
 			elements[ tabCount++ ] =
 				new VerifiableElement(
-					"Change the outer portion of highlighted tab gradient", JLabel.LEFT, this.outerGradient );
+					"Change the outer portion of highlighted tab gradient", SwingConstants.LEFT, this.outerGradient );
 
 			this.innerGradient = new TabColorChanger( "innerChatColor" );
 			elements[ tabCount++ ] =
 				new VerifiableElement(
-					"Change the inner portion of highlighted tab gradient", JLabel.LEFT, this.innerGradient );
+					"Change the inner portion of highlighted tab gradient", SwingConstants.LEFT, this.innerGradient );
 
 			this.setContent( elements );
 			this.actionCancelled();
@@ -922,7 +979,7 @@ public class OptionsFrame
 				new JTextArea(
 					"These are the global settings for what shows up when KoLmafia successfully logs into the Kingdom of Loathing.  You can drag and drop options in the lists below to customize what will show up.\n\n" +
 
-					"When you place the Local Relay Server into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the Contact List into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.\n" );
+						"When you place the Local Relay Server into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the Contact List into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.\n" );
 
 			message.setColumns( 40 );
 			message.setLineWrap( true );
@@ -1022,7 +1079,7 @@ public class OptionsFrame
 			{
 				this.startupList.removeAll( this.desktopList );
 			}
-			else if (src == this.completeList )
+			else if ( src == this.completeList )
 			{
 				Object item = this.completeList.get( e.getIndex0() );
 				this.desktopList.remove( item );
@@ -1106,7 +1163,7 @@ public class OptionsFrame
 			else
 			{
 				JFrame builderFrame = new JFrame( "Building Custom Deed" );
-				AddCustomDeedsPanel deedPanel = new AddCustomDeedsPanel();
+				new AddCustomDeedsPanel();
 
 				builderFrame.getContentPane().add( AddCustomDeedsPanel.selectorPanel );
 				builderFrame.pack();
@@ -1148,47 +1205,48 @@ public class OptionsFrame
 
 			public HelpRunnable()
 			{
-				String message = "<html><table width=750><tr><td>All deeds are specified by one comma-delimited preference \"dailyDeedsOptions\".  Order matters.  Built-in deeds are simply called by referring to their built-in name; these are viewable by pulling up the Daily Deeds tab and looking in the \"Built-in Deeds\" list."
-					+ "<h3><b>Custom Deeds</b></h3>"
-					+ "Custom deeds provide the user with a way of adding buttons or text to their daily deeds panel that is not natively provided for.  All deeds start with the keyword <b>$CUSTOM</b> followed by a pipe (|) symbol.  As you are constructing a custom deed, you separate the different arguments with pipes.<br>"
-					+ "<br>"
-					+ "All deed types except for Text require a preference to track.  If you want to add a button that is always enabled, you will have to create a dummy preference that is always false.<br>"
-					+ "<br>"
-					+ "There are currently 5 different types of custom deeds.  Remember that all of these \"acceptable forms\" are prefaced by $CUSTOM|.<br>"
-					+ "<br>"
-					+ "<b>Command</b> - execute a command with a button press<br>"
-					+ "acceptable forms:"
-					+ "<br>Command|displayText|preference<br>"
-					+ "Command|displayText|preference|command<br>"
-					+ "Command|displayText|preference|command|maxUses<br>"
-					+ "<br>"
-					+ "displayText - the text that will be displayed on the button<br>"
-					+ "preference - the preference to track.  The button will be enabled when the preference is less than maxUses (default 1).<br>"
-					+ "command - the command to execute.  If not specified, will default to displayText.<br>"
-					+ "maxUses - an arbitrary integer.  Specifies a threshold to disable the button at.  A counter in the form of &lt;preference&gt;/&lt;maxUses&gt; will be displayed to the right of the button.<br>"
-					+ "<br>"
-					+ "<b>Item</b> - this button will use fuzzy matching to find the name of the item specified.  Will execute \"use &lt;itemName&gt;\" when clicked.  Will only be visible when you possess one or more of the item.<br>"
-					+ "acceptable forms:<br>"
-					+ "Item|displayText|preference<br>"
-					+ "Item|displayText|preference|itemName<br>"
-					+ "Item|displayText|preference|itemName|maxUses<br>"
-					+ "<br>"
-					+ "itemName - the name of the item that will be used.  If not specified, will default to displayText.<br>"
-					+ "<br>"
-					+ "<b>Skill</b> - cast a skill that is tracked by a boolean or int preference.  Will execute \"cast &lt;skillName&gt;\" when clicked.  Will not be visible if you don't know the skill.<br>"
-					+ "acceptable forms:<br>"
-					+ "Skill|displayText|preference<br>"
-					+ "Skill|displayText|preference|skillName<br>"
-					+ "Skill|displayText|preference|skillName|maxCasts<br>"
-					+ "<br>"
-					+ "skillName- the name of the skill that will be cast.  If not specified, will default to displayText.  Must be specified if maxCasts are specified.<br>"
-					+ "maxCasts - an arbitrary integer.  Specifies a threshold to disable the button at.  A counter in the form of &lt;preference&gt;/&lt;maxCasts&gt; will be displayed to the right of the button.<br>"
-					+ "<br>"
-					+ "<b>Text</b><br>"
-					+ "acceptable forms:<br>"
-					+ "Text|pretty much anything.<br>"
-					+ "<br>"
-					+ "You can supply as many arguments as you want to a Text deed.  Any argument that uniquely matches a preference will be replaced by that preference's value.  If you want to use a comma in your text, immediately follow the comma with a pipe character so it will not be parsed as the end of the Text deed.</td></tr></table></html>";
+				String message =
+					"<html><table width=750><tr><td>All deeds are specified by one comma-delimited preference \"dailyDeedsOptions\".  Order matters.  Built-in deeds are simply called by referring to their built-in name; these are viewable by pulling up the Daily Deeds tab and looking in the \"Built-in Deeds\" list."
+						+ "<h3><b>Custom Deeds</b></h3>"
+						+ "Custom deeds provide the user with a way of adding buttons or text to their daily deeds panel that is not natively provided for.  All deeds start with the keyword <b>$CUSTOM</b> followed by a pipe (|) symbol.  As you are constructing a custom deed, you separate the different arguments with pipes.<br>"
+						+ "<br>"
+						+ "All deed types except for Text require a preference to track.  If you want to add a button that is always enabled, you will have to create a dummy preference that is always false.<br>"
+						+ "<br>"
+						+ "There are currently 5 different types of custom deeds.  Remember that all of these \"acceptable forms\" are prefaced by $CUSTOM|.<br>"
+						+ "<br>"
+						+ "<b>Command</b> - execute a command with a button press<br>"
+						+ "acceptable forms:"
+						+ "<br>Command|displayText|preference<br>"
+						+ "Command|displayText|preference|command<br>"
+						+ "Command|displayText|preference|command|maxUses<br>"
+						+ "<br>"
+						+ "displayText - the text that will be displayed on the button<br>"
+						+ "preference - the preference to track.  The button will be enabled when the preference is less than maxUses (default 1).<br>"
+						+ "command - the command to execute.  If not specified, will default to displayText.<br>"
+						+ "maxUses - an arbitrary integer.  Specifies a threshold to disable the button at.  A counter in the form of &lt;preference&gt;/&lt;maxUses&gt; will be displayed to the right of the button.<br>"
+						+ "<br>"
+						+ "<b>Item</b> - this button will use fuzzy matching to find the name of the item specified.  Will execute \"use &lt;itemName&gt;\" when clicked.  Will only be visible when you possess one or more of the item.<br>"
+						+ "acceptable forms:<br>"
+						+ "Item|displayText|preference<br>"
+						+ "Item|displayText|preference|itemName<br>"
+						+ "Item|displayText|preference|itemName|maxUses<br>"
+						+ "<br>"
+						+ "itemName - the name of the item that will be used.  If not specified, will default to displayText.<br>"
+						+ "<br>"
+						+ "<b>Skill</b> - cast a skill that is tracked by a boolean or int preference.  Will execute \"cast &lt;skillName&gt;\" when clicked.  Will not be visible if you don't know the skill.<br>"
+						+ "acceptable forms:<br>"
+						+ "Skill|displayText|preference<br>"
+						+ "Skill|displayText|preference|skillName<br>"
+						+ "Skill|displayText|preference|skillName|maxCasts<br>"
+						+ "<br>"
+						+ "skillName- the name of the skill that will be cast.  If not specified, will default to displayText.  Must be specified if maxCasts are specified.<br>"
+						+ "maxCasts - an arbitrary integer.  Specifies a threshold to disable the button at.  A counter in the form of &lt;preference&gt;/&lt;maxCasts&gt; will be displayed to the right of the button.<br>"
+						+ "<br>"
+						+ "<b>Text</b><br>"
+						+ "acceptable forms:<br>"
+						+ "Text|pretty much anything.<br>"
+						+ "<br>"
+						+ "You can supply as many arguments as you want to a Text deed.  Any argument that uniquely matches a preference will be replaced by that preference's value.  If you want to use a comma in your text, immediately follow the comma with a pipe character so it will not be parsed as the end of the Text deed.</td></tr></table></html>";
 
 				JTextPane textPane = new JTextPane();
 				textPane.setContentType( "text/html" );
@@ -1200,7 +1258,7 @@ public class OptionsFrame
 
 				JScrollPane scrollPane = new JScrollPane( textPane );
 				scrollPane.setPreferredSize( new Dimension( 800, 550 ) );
-				scrollPane.setHorizontalScrollBarPolicy( JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+				scrollPane.setHorizontalScrollBarPolicy( ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
 
 				this.pane = new JOptionPane( scrollPane, JOptionPane.PLAIN_MESSAGE );
 			}
@@ -1225,9 +1283,9 @@ public class OptionsFrame
 	{
 		private boolean isRefreshing = false;
 
-		private LockableListModel builtInsList = new LockableListModel();
-		private LockableListModel deedsList = new LockableListModel();
-		private LockableListModel customList = new LockableListModel();
+		private final LockableListModel builtInsList = new LockableListModel();
+		private final LockableListModel deedsList = new LockableListModel();
+		private final LockableListModel customList = new LockableListModel();
 
 		public CustomizeDailyDeedsPanel()
 		{
@@ -1264,18 +1322,18 @@ public class OptionsFrame
 			PreferenceListenerRegistry.registerListener( "dailyDeedsOptions", this );
 		}
 
-		public CustomizeDailyDeedsPanel( String string )
+		public CustomizeDailyDeedsPanel( final String string )
 		{
 			super( new Dimension( 2, 2 ), new Dimension( 2, 2 ) );
 			this.setContent( null );
 
 			JTextArea message = new JTextArea(
 				"Edit the appearance of your daily deeds panel.\n\n"
-				+ "Drag built-in deeds into the 'Current Deeds' box down below to include, "
-				+ "and delete them from there to exclude.  Drag and drop to rearrange. "
-				+ "Note that some deeds added to the 'Current Deeds' box may still remain hidden "
-				+ "once you add them depending on whether you posess certain "
-				+ "items, skills, and/or access to zones." );
+					+ "Drag built-in deeds into the 'Current Deeds' box down below to include, "
+					+ "and delete them from there to exclude.  Drag and drop to rearrange. "
+					+ "Note that some deeds added to the 'Current Deeds' box may still remain hidden "
+					+ "once you add them depending on whether you posess certain "
+					+ "items, skills, and/or access to zones." );
 
 			message.setColumns( 40 );
 			message.setLineWrap( true );
@@ -1317,7 +1375,7 @@ public class OptionsFrame
 				for ( int j = 0; j < DailyDeedsPanel.BUILTIN_DEEDS.length; ++j )
 				{
 					if ( !this.deedsList.contains( DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] )
-							&& DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ].equals( pieces[ i ] ) )
+						&& DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ].equals( pieces[ i ] ) )
 					{
 						this.deedsList.add( DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] );
 					}
@@ -1378,7 +1436,7 @@ public class OptionsFrame
 				for ( int j = 0; j < DailyDeedsPanel.BUILTIN_DEEDS.length; ++j )
 				{
 					if ( this.deedsList.getElementAt( i ).equals(
-							DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] ) )
+						DailyDeedsPanel.BUILTIN_DEEDS[ j ][ 1 ] ) )
 					{
 						if ( frameString.length() != 0 )
 						{
@@ -1419,51 +1477,51 @@ public class OptionsFrame
 
 			System.getProperty( "os.name" ).startsWith( "Windows" ) ?
 
-			new String [][]
-			{
-				{ "guiUsesOneWindow", "Restrict interface to a single window" },
-				{ "useSystemTrayIcon", "Minimize main interface to system tray" },
-				{ "addCreationQueue", "Add creation queueing interface to item manager" },
-				{ "addStatusBarToFrames", "Add a status line to independent windows" },
-				{ "autoHighlightOnFocus", "Highlight text fields when selected" },
-				{},
-				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
-				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
-			}
+				new String[][]
+				{
+					{ "guiUsesOneWindow", "Restrict interface to a single window" },
+					{ "useSystemTrayIcon", "Minimize main interface to system tray" },
+					{ "addCreationQueue", "Add creation queueing interface to item manager" },
+					{ "addStatusBarToFrames", "Add a status line to independent windows" },
+					{ "autoHighlightOnFocus", "Highlight text fields when selected" },
+					{},
+					{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
+					{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+				}
 
-			: System.getProperty( "os.name" ).startsWith( "Mac" ) ?
+				: System.getProperty( "os.name" ).startsWith( "Mac" ) ?
 
-			new String [][]
-			{
-				{ "guiUsesOneWindow", "Restrict interface to a single window" },
-				{ "useDockIconBadge", "Show turns remaining on Dock icon (OSX 10.5+)" },
-				{ "addCreationQueue", "Add creation queueing interface to item manager" },
-				{ "addStatusBarToFrames", "Add a status line to independent windows" },
-				{ "autoHighlightOnFocus", "Highlight text fields when selected" },
-				{},
-				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
-				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
-			}
+					new String[][]
+					{
+						{ "guiUsesOneWindow", "Restrict interface to a single window" },
+						{ "useDockIconBadge", "Show turns remaining on Dock icon (OSX 10.5+)" },
+						{ "addCreationQueue", "Add creation queueing interface to item manager" },
+						{ "addStatusBarToFrames", "Add a status line to independent windows" },
+						{ "autoHighlightOnFocus", "Highlight text fields when selected" },
+						{},
+						{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
+						{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+					}
 
-			:
+					:
 
-			new String [][]
-			{
-				{ "guiUsesOneWindow", "Restrict interface to a single window" },
-				{ "addCreationQueue", "Add creation queueing interface to item manager" },
-				{ "addStatusBarToFrames", "Add a status line to independent windows" },
-				{ "autoHighlightOnFocus", "Highlight text fields when selected" },
-				{},
-				{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
-				{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
-			};
+					new String[][]
+					{
+						{ "guiUsesOneWindow", "Restrict interface to a single window" },
+						{ "addCreationQueue", "Add creation queueing interface to item manager" },
+						{ "addStatusBarToFrames", "Add a status line to independent windows" },
+						{ "autoHighlightOnFocus", "Highlight text fields when selected" },
+						{},
+						{ "useDecoratedTabs", "Use shiny decorated tabs instead of OS default" },
+						{ "allowCloseableDesktopTabs", "Allow tabs on main window to be closed" },
+					};
 
 		private final JComboBox looks, toolbars, scripts;
 		private String defaultLookAndFeel;
 
 		public UserInterfacePanel()
 		{
-			super( "", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
+			super( new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
 
 			UIManager.LookAndFeelInfo[] installed = UIManager.getInstalledLookAndFeels();
 			Object[] installedLooks = new Object[ installed.length + 1 ];
@@ -1477,7 +1535,8 @@ public class OptionsFrame
 
 			this.looks = new JComboBox( installedLooks );
 
-			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith( "Win" ) )
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith(
+				"Win" ) )
 			{
 				this.defaultLookAndFeel = UIManager.getSystemLookAndFeelClassName();
 			}
@@ -1574,8 +1633,8 @@ public class OptionsFrame
 					UserInterfacePanel.this.optionBoxes[ i ] = optionBox;
 					elements[ i ] =
 						option.length == 0 ?
-						new VerifiableElement() :
-						new VerifiableElement( option[ 1 ], JLabel.LEFT, optionBox );
+							new VerifiableElement() :
+							new VerifiableElement( option[ 1 ], SwingConstants.LEFT, optionBox );
 				}
 
 				elements[ UserInterfacePanel.this.options.length ] = new VerifiableElement();
@@ -1583,12 +1642,14 @@ public class OptionsFrame
 				this.outerGradient = new TabColorChanger( "outerTabColor" );
 				elements[ UserInterfacePanel.this.options.length + 1 ] =
 					new VerifiableElement(
-						"Change the outer portion of the tab gradient (shiny tabs)", JLabel.LEFT, this.outerGradient );
+						"Change the outer portion of the tab gradient (shiny tabs)", SwingConstants.LEFT,
+						this.outerGradient );
 
 				this.innerGradient = new TabColorChanger( "innerTabColor" );
 				elements[ UserInterfacePanel.this.options.length + 2 ] =
 					new VerifiableElement(
-						"Change the inner portion of the tab gradient (shiny tabs)", JLabel.LEFT, this.innerGradient );
+						"Change the inner portion of the tab gradient (shiny tabs)", SwingConstants.LEFT,
+						this.innerGradient );
 
 				this.actionCancelled();
 				this.setContent( elements );
@@ -1647,8 +1708,6 @@ public class OptionsFrame
 					{
 						CloseTabPaneEnhancedUI.selectedB = InterfaceCheckboxPanel.this.outerGradient.getBackground();
 					}
-
-					OptionsFrame.this.tabs.repaint();
 				}
 			}
 		}
@@ -1661,8 +1720,6 @@ public class OptionsFrame
 
 		public BrowserPanel()
 		{
-			super( "Preferred Web Browser" );
-
 			AutoHighlightTextField textField = new AutoHighlightTextField();
 			boolean button = true;
 			String helpText = "";
@@ -1672,19 +1729,23 @@ public class OptionsFrame
 			{
 				button = false;
 				path = "/Applications";
-				helpText = "If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. The browser must be in your Applications directory";
+				helpText =
+					"If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. The browser must be in your Applications directory";
 			}
 			else if ( UtilityConstants.USE_LINUX_STYLE_DIRECTORIES )
 			{
 				button = true;
 				path = "/";
-				helpText = "If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. If that doesn't work, click the button and browse to the location of your browser.";
+				helpText =
+					"If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. If that doesn't work, click the button and browse to the location of your browser.";
 			}
-			else	// Windows
+			else
+			// Windows
 			{
 				button = true;
 				path = "";
-				helpText = "If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. If that doesn't work, click the button and browse to the location of your browser.";
+				helpText =
+					"If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. If that doesn't work, click the button and browse to the location of your browser.";
 			}
 
 			this.preferredWebBrowser = new FileSelectPanel( textField, button );
@@ -1729,8 +1790,6 @@ public class OptionsFrame
 
 		public EditorPanel()
 		{
-			super( "External Script Editor" );
-
 			AutoHighlightTextField textField = new AutoHighlightTextField();
 			boolean button = true;
 			String helpText = "";
@@ -1785,8 +1844,6 @@ public class OptionsFrame
 
 		public ScriptPanel()
 		{
-			super( "Miscellaneous Scripts" );
-
 			this.loginScript = new ScriptSelectPanel( new AutoHighlightTextField() );
 			this.logoutScript = new ScriptSelectPanel( new AutoHighlightTextField() );
 
@@ -1837,14 +1894,15 @@ public class OptionsFrame
 		private final SkillMenu libramSkills;
 		private final SkillMenu grimoireSkills;
 
-		private final CropMenu	cropsMenu;
+		private final CropMenu cropsMenu;
 
 		public BreakfastPanel( final String title, final String breakfastType )
 		{
 			super( new BorderLayout() );
 
 			this.add(
-				JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+				JComponentUtilities.createLabel( title, SwingConstants.CENTER, Color.black, Color.white ),
+				BorderLayout.NORTH );
 
 			JPanel centerPanel = new JPanel( new GridLayout( 4, 3 ) );
 
@@ -1894,15 +1952,19 @@ public class OptionsFrame
 
 			centerPanel = new JPanel( new GridLayout( 1, 3 ) );
 
-			this.tomeSkills = new SkillMenu( "Tome Skills", UseSkillRequest.TOME_SKILLS, "tomeSkills" + this.breakfastType );
+			this.tomeSkills =
+				new SkillMenu( "Tome Skills", UseSkillRequest.TOME_SKILLS, "tomeSkills" + this.breakfastType );
 			this.tomeSkills.addActionListener( this );
 			centerPanel.add( this.tomeSkills );
 
-			this.libramSkills = new SkillMenu( "Libram Skills", UseSkillRequest.LIBRAM_SKILLS, "libramSkills" + this.breakfastType );
+			this.libramSkills =
+				new SkillMenu( "Libram Skills", UseSkillRequest.LIBRAM_SKILLS, "libramSkills" + this.breakfastType );
 			this.libramSkills.addActionListener( this );
 			centerPanel.add( this.libramSkills );
 
-			this.grimoireSkills = new SkillMenu( "Grimoire Skills", UseSkillRequest.GRIMOIRE_SKILLS, "grimoireSkills" + this.breakfastType );
+			this.grimoireSkills =
+				new SkillMenu(
+					"Grimoire Skills", UseSkillRequest.GRIMOIRE_SKILLS, "grimoireSkills" + this.breakfastType );
 			this.grimoireSkills.addActionListener( this );
 			centerPanel.add( this.grimoireSkills );
 
@@ -2004,9 +2066,9 @@ public class OptionsFrame
 			super();
 			this.addItem( "No " + name );
 			this.addItem( "All " + name );
-			for ( int i = 0; i < skills.length; ++ i )
+			for ( int i = 0; i < skills.length; ++i )
 			{
-				this.addItem( skills[i] );
+				this.addItem( skills[ i ] );
 			}
 
 			this.preference = preference;
@@ -2065,9 +2127,9 @@ public class OptionsFrame
 		{
 			super();
 			this.addItem( "Harvest Nothing" );
-			for ( int i = 0; i < crops.length; ++ i )
+			for ( int i = 0; i < crops.length; ++i )
 			{
-				this.addItem( crops[i].getName() );
+				this.addItem( crops[ i ].getName() );
 			}
 
 			this.preference = preference;

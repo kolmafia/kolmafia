@@ -71,12 +71,17 @@ public class CardLayoutSelectorPanel
 	private final JPanel mainPanel = new JPanel( this.panelCards );
 	protected ChangeListener changeListener = null;
 
-	public CardLayoutSelectorPanel( String indexPreference )
+	public CardLayoutSelectorPanel()
+	{
+		this( null );
+	}
+
+	public CardLayoutSelectorPanel( final String indexPreference )
 	{
 		this( indexPreference, "ABCDEFGHIJKLM" );
 	}
 
-	public CardLayoutSelectorPanel( String indexPreference, String prototype )
+	public CardLayoutSelectorPanel( final String indexPreference, final String prototype )
 	{
 		super( new BorderLayout() );
 
@@ -93,12 +98,12 @@ public class CardLayoutSelectorPanel
 		this.add( this.mainPanel, BorderLayout.CENTER );
 	}
 
-	public void addChangeListener( ChangeListener changeListener )
+	public void addChangeListener( final ChangeListener changeListener )
 	{
 		this.changeListener = changeListener;
 	}
 
-	public void setSelectedIndex( int selectedIndex )
+	public void setSelectedIndex( final int selectedIndex )
 	{
 		this.panelList.setSelectedIndex( selectedIndex );
 	}
@@ -135,7 +140,7 @@ public class CardLayoutSelectorPanel
 	public JComponent currentPanel()
 	{
 		int cardIndex = CardLayoutSelectorPanel.this.panelList.getSelectedIndex();
-		return (JComponent)( this.panels.get( cardIndex ) );
+		return (JComponent) this.panels.get( cardIndex );
 	}
 
 	private class CardSwitchListener
@@ -150,12 +155,13 @@ public class CardLayoutSelectorPanel
 				return;
 			}
 
-			if ( indexPreference != null )
+			if ( CardLayoutSelectorPanel.this.indexPreference != null )
 			{
-				Preferences.setInteger( indexPreference, cardIndex );
+				Preferences.setInteger( CardLayoutSelectorPanel.this.indexPreference, cardIndex );
 			}
 
-			CardLayoutSelectorPanel.this.panelCards.show( CardLayoutSelectorPanel.this.mainPanel, String.valueOf( cardIndex + 1 ) );
+			CardLayoutSelectorPanel.this.panelCards.show(
+				CardLayoutSelectorPanel.this.mainPanel, String.valueOf( cardIndex + 1 ) );
 
 			if ( CardLayoutSelectorPanel.this.changeListener != null )
 			{

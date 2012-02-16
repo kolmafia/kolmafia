@@ -42,26 +42,16 @@ import java.awt.Dimension;
  */
 
 public abstract class OptionsPanel
-	extends LabeledPanel
+	extends GenericPanel
 {
 	public OptionsPanel()
 	{
 		this( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
 	}
 
-	public OptionsPanel( final String panelTitle )
-	{
-		this( panelTitle, new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
-	}
-
 	public OptionsPanel( final Dimension left, final Dimension right )
 	{
-		this( null, left, right );
-	}
-
-	public OptionsPanel( final String panelTitle, final Dimension left, final Dimension right )
-	{
-		super( panelTitle, left, right );
+		super( left, right );
 	}
 
 	public void setEnabled( final boolean isEnabled )
