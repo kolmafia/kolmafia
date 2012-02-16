@@ -5572,4 +5572,5 @@
 5563	Rain-Doh black box	none, combat	none	0
 5564	Rain-Doh box full of monster	usable	none	0
 5565	PB&amp;BP	food	display	5
-5566	club sandwich	food	all	0
+5566	club sandwich	food	display	5
+5567	corned-beef Reuben	food	display	5
