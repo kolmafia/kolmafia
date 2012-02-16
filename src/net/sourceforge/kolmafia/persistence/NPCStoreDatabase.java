@@ -302,6 +302,10 @@ public class NPCStoreDatabase
 		{
 			return KoLCharacter.gnomadsAvailable();
 		}
+		else if ( storeId.equals( "v" ) )
+		{
+			return QuestLogRequest.isTavernAvailable();
+		}
 		else if ( storeId.equals( "w" ) )
 		{
 			return QuestLogRequest.isWhiteCitadelAvailable();
