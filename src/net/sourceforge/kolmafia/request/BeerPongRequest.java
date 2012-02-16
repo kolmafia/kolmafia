@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -272,6 +273,12 @@ public class BeerPongRequest
 		if ( !urlString.startsWith( "beerpong.php" ) )
 		{
 			return;
+		}
+		
+		// winwinwin
+		if ( responseText.indexOf( "After a few victory laps atop the ocean of revelers" ) != -1 )
+		{
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PIRATE, "step5" );
 		}
 
 		// See if Rickets is offering an insult

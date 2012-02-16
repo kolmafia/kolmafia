@@ -73,7 +73,10 @@ public class QuestDatabase
 	public static final String ISLAND_WAR = "questL12War";
 	public static final String FINAL = "questL13Final";
 	public static final String CITADEL = "questG02Whitecastle";
+	public static final String ARTIST = "questM02Artist";
 	public static final String GALAKTIK = "questM04Galaktic";
+	public static final String AZAZEL = "questM10Azazel";
+	public static final String PIRATE = "questM12Pirate";
 
 	public static final Pattern HTML_WHITESPACE = Pattern.compile( "<[^<]+?>|[\\s\\n]" );
 

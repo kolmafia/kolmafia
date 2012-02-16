@@ -1851,6 +1851,7 @@ public abstract class KoLmafia
 			if ( InventoryManager.hasItem( ItemPool.CARONCH_DENTURES ) )
 			{
 				ResultProcessor.processItem( ItemPool.CARONCH_DENTURES, -1 );
+				QuestDatabase.setQuestIfBetter( QuestDatabase.PIRATE, "step4" );
 			}
 
 			if ( InventoryManager.hasItem( ItemPool.FRATHOUSE_BLUEPRINTS ) )

@@ -1039,6 +1039,7 @@ public class ResultProcessor
 				// but there is no message about donating it.
 				KoLCharacter.makeCharitableDonation( 3000 );
 			}
+			QuestDatabase.setQuestProgress( QuestDatabase.PIRATE, QuestDatabase.FINISHED );
 			break;
 
 		case ItemPool.MACGUFFIN_DIARY:
@@ -1206,6 +1207,11 @@ public class ResultProcessor
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 			ResultProcessor.processItem( ItemPool.CARONCH_MAP, -1 );
 			ResultProcessor.processItem( ItemPool.CARONCH_NASTY_BOOTY, -1 );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PIRATE, "step2" );
+			break;
+			
+		case ItemPool.CARONCH_DENTURES:
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PIRATE, "step3" );
 			break;
 
 		case ItemPool.TEN_LEAF_CLOVER:
@@ -1277,6 +1283,20 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_2, -1 );
 			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_3_15, -1 );
 			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step10" );
+			break;
+			
+		case ItemPool.CARONCH_MAP:
+			QuestDatabase.setQuestProgress( QuestDatabase.PIRATE, QuestDatabase.STARTED );
+			break;
+			
+		case ItemPool.CARONCH_NASTY_BOOTY:
+			QuestDatabase.setQuestIfBetter( QuestDatabase.PIRATE, "step1" );
+			break;
+			
+		case ItemPool.STEEL_LIVER:
+		case ItemPool.STEEL_STOMACH:
+		case ItemPool.STEEL_SPLEEN:
+			QuestDatabase.setQuestProgress( QuestDatabase.AZAZEL, QuestDatabase.FINISHED );
 			break;
 
 		case ItemPool.DAS_BOOT:
