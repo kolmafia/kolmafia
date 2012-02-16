@@ -266,4 +266,14 @@ public class QuestLogRequest
 			QuestDatabase.setQuestProgress( pref, status );
 		}
 	}
+
+	public static boolean isTavernAvailable()
+	{
+		if ( Preferences.getString( QuestDatabase.RAT ).equals( QuestDatabase.STARTED )
+			|| Preferences.getString( QuestDatabase.RAT ).equals( QuestDatabase.FINISHED ) )
+		{
+			return true;
+		}
+		return false;
+	}
 }
