@@ -167,7 +167,7 @@ public class CreateFrameRunnable
 		}
 	}
 
-	public JFrame createFrame( boolean appearsInTab )
+	public JFrame createFrame( final boolean appearsInTab )
 	{
 		// Make the frame for the first time
 
@@ -296,7 +296,7 @@ public class CreateFrameRunnable
 		CreateFrameRunnable.decorate( this.creation );
 	}
 
-	public static void decorate( JFrame frame )
+	public static void decorate( final JFrame frame )
 	{
 		// Load the KoL frame to the appropriate location
 		// on the screen now that the frame has been packed
@@ -347,11 +347,11 @@ public class CreateFrameRunnable
 		try
 		{
 			OSXAdapter.setQuitHandler( KoLmafia.class,
-						   KoLmafia.class.getDeclaredMethod( "quitThreaded", (Class[]) null ) );
+				KoLmafia.class.getDeclaredMethod( "quit", (Class[]) null ) );
 			OSXAdapter.setAboutHandler( KoLmafia.class,
-						    KoLmafia.class.getDeclaredMethod( "about", (Class[]) null ) );
+				KoLmafia.class.getDeclaredMethod( "about", (Class[]) null ) );
 			OSXAdapter.setPreferencesHandler( KoLmafia.class,
-							  KoLmafia.class.getDeclaredMethod( "preferencesThreaded", (Class[]) null ) );
+				KoLmafia.class.getDeclaredMethod( "preferencesThreaded", (Class[]) null ) );
 		}
 		catch ( Exception e )
 		{
