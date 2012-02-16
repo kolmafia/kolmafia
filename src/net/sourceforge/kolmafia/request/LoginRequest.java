@@ -413,6 +413,12 @@ public class LoginRequest
 		// If login is successful, notify client of success.
 
 		String name = request.getFormField( "loginname" );
+
+		if ( name == null )
+		{
+			return;
+		}
+
 		if ( name.endsWith( "/q" ) )
 		{
 			name = name.substring( 0, name.length() - 2 ).trim();
