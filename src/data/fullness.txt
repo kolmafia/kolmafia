@@ -107,6 +107,7 @@ cool cat claw	1	4	awesome	3-5	0	0	45-75	30 Feline Ferocity (+100% weapon dmg)
 cool jelly donut	1	4	awesome	3-5	0	0	40-60	30 Filled With Magic (+100% spell dmg)
 cool mushroom	2	1	decent	2-3	0	12-15	0
 cool mushroom casserole	4	1	decent	4-12	0	35-40	0
+corned-beef Reuben	3	9	awesome	0	0	0	0
 cranberries	1	1	crappy	1	0	0	0
 crazy little turkish delight	1	2	decent	1-3	0	30-40	0
 cream of pointy mushroom soup	2	1	decent	2-5	0	0	35-40	lose 3 HP
