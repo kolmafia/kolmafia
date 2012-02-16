@@ -632,7 +632,7 @@ public class KoLmafiaCLI
 		new ClanStashCommand().register( "stash" );
 		new CleanupJunkRequest().register( "junk" ).register( "cleanup" );
 		new ClearBufferCommand().register( "clear" ).register( "cls" ).register( "reset" );
-		new CliRefCommand().register( "help" );
+		new CliRefCommand().register( "help" ).register( "which" );
 		new ClosetCommand().register( "closet" );
 		new ColorEchoCommand().register( "colorecho" ).register( "cecho" );
 		new ComparisonShopCommand().register( "cheapest" ).register( "expensive" );
