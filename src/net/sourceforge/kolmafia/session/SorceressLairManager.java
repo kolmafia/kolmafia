@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
+import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -2626,13 +2627,16 @@ public abstract class SorceressLairManager
 			RequestThread.postRequest( new FamiliarRequest( familiar ) );
 		}
 
-		// If we can buff it to 20 pounds, try again.
-		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
+		// If we can buff it to above 20 pounds, try again.
+		if ( familiar.getModifiedWeight() < 20 )
 		{
-			// The following will try to train the familiar to 20 lb. It was very unpopular.
-			// FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false )
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Come back with a 20 pound " + race );
-			return;
+			MaximizerFrame.maximize( "familiar weight -tie", 0, 0, false );
+
+			if ( familiar.getModifiedWeight() < 20 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Come back with a 20 pound " + race );
+				return;
+			}
 		}
 
 		// We're good to go. Fight!
