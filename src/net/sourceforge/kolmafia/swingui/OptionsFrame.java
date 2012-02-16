@@ -118,31 +118,31 @@ public class OptionsFrame
 
 		CardLayoutSelectorPanel selectorPanel = new CardLayoutSelectorPanel();
 
-		selectorPanel.addPanel( "General", new GeneralOptionsPanel() );
-		selectorPanel.addPanel( " - Debugging", new DebugOptionsPanel() );
-		selectorPanel.addPanel( " - Editors", new EditorPanel() );
-		selectorPanel.addPanel( "Relay Browser", new RelayOptionsPanel() );
-		selectorPanel.addPanel( " - Browser", new BrowserPanel() );
-		selectorPanel.addPanel( "Look & Feel", new UserInterfacePanel() );
-		selectorPanel.addPanel( " - Main Tabs", new StartupFramesPanel() );
+		selectorPanel.addPanel( "General", new GeneralOptionsPanel(), true );
+		selectorPanel.addPanel( " - Debugging", new DebugOptionsPanel(), true );
+		selectorPanel.addPanel( " - Editors", new EditorPanel(), true );
+		selectorPanel.addPanel( "Relay Browser", new RelayOptionsPanel(), true );
+		selectorPanel.addPanel( " - Browser", new BrowserPanel(), true );
+		selectorPanel.addPanel( "Look & Feel", new UserInterfacePanel(), true );
+		selectorPanel.addPanel( " - Main Tabs", new StartupFramesPanel(), true );
 
 		JPanel breakfastPanel = new JPanel();
 		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
 		breakfastPanel.add( new ScriptPanel() );
 		breakfastPanel.add( new BreakfastPanel( "Ronin-Clear Characters", "Softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "In-Ronin Characters", "Hardcore" ) );
-		selectorPanel.addPanel( "Breakfast", breakfastPanel );
+		selectorPanel.addPanel( "Breakfast", breakfastPanel, true );
 
 		JPanel customDeedPanel = new JPanel();
 		customDeedPanel.setLayout( new BoxLayout( customDeedPanel, BoxLayout.Y_AXIS ) );
 		customDeedPanel.add( new CustomizeDailyDeedsPanel( "Message" ) );
 		customDeedPanel.add( new CustomizeDailyDeedsPanel() );
-		selectorPanel.addPanel( " - Daily Deeds", customDeedPanel );
+		selectorPanel.addPanel( " - Daily Deeds", customDeedPanel, true );
 
-		selectorPanel.addPanel( "Script Buttons", new ScriptButtonPanel() );
-		selectorPanel.addPanel( "Bookmarks", new BookmarkManagePanel() );
-		selectorPanel.addPanel( "Session Logs", new SessionLogOptionsPanel() );
-		selectorPanel.addPanel( "Chat Options", new ChatOptionsPanel() );
+		selectorPanel.addPanel( "Script Buttons", new ScriptButtonPanel(), true );
+		selectorPanel.addPanel( "Bookmarks", new BookmarkManagePanel(), true );
+		selectorPanel.addPanel( "Session Logs", new SessionLogOptionsPanel(), true );
+		selectorPanel.addPanel( "Chat Options", new ChatOptionsPanel(), true );
 
 		this.setCenterComponent( selectorPanel );
 
