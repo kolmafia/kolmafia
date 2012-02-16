@@ -4336,25 +4336,25 @@ public abstract class RuntimeLibrary
 
 	public static Value entryway()
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "entryway", "" );
+		SorceressLairManager.completeCloverlessEntryway();
 		return RuntimeLibrary.continueValue();
 	}
 
 	public static Value hedgemaze()
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "hedgemaze", "" );
+		SorceressLairManager.completeHedgeMaze();
 		return RuntimeLibrary.continueValue();
 	}
 
 	public static Value guardians()
 	{
-		int itemId = SorceressLairManager.fightTowerGuardians( true );
+		int itemId = SorceressLairManager.fightAllTowerGuardians();
 		return DataTypes.makeItemValue( itemId );
 	}
 
 	public static Value chamber()
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "chamber", "" );
+		SorceressLairManager.fightAllTowerGuardians();
 		return RuntimeLibrary.continueValue();
 	}
 
