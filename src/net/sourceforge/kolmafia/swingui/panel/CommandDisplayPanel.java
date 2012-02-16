@@ -115,6 +115,12 @@ public class CommandDisplayPanel
 
 		protected void execute()
 		{
+			if ( this.isAction() )
+			{
+				this.submitCommand();
+				return;
+			}
+
 			int keyCode = getKeyCode();
 
 			if ( keyCode == KeyEvent.VK_UP )
@@ -137,14 +143,19 @@ public class CommandDisplayPanel
 			}
 			else if ( keyCode == KeyEvent.VK_ENTER )
 			{
-				String command = CommandDisplayPanel.this.entryField.getText().trim();
-				CommandDisplayPanel.this.entryField.setText( "" );
-
-				CommandDisplayPanel.this.commandHistory.add( command );
-
-				CommandDisplayPanel.this.commandIndex = CommandDisplayPanel.this.commandHistory.size();
-				CommandDisplayFrame.executeCommand( command );
+				this.submitCommand();
 			}
+		}
+
+		private void submitCommand()
+		{
+			String command = CommandDisplayPanel.this.entryField.getText().trim();
+			CommandDisplayPanel.this.entryField.setText( "" );
+
+			CommandDisplayPanel.this.commandHistory.add( command );
+
+			CommandDisplayPanel.this.commandIndex = CommandDisplayPanel.this.commandHistory.size();
+			CommandDisplayFrame.executeCommand( command );
 		}
 	}
 }
