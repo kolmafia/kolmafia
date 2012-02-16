@@ -53,6 +53,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -110,7 +111,19 @@ public class CardLayoutSelectorPanel
 
 	public void addPanel( final String name, final JComponent panel )
 	{
+		this.addPanel( name, panel, false );
+	}
+
+	public void addPanel( final String name, JComponent panel, boolean addScrollPane )
+	{
 		this.panelNames.add( name );
+
+		if ( addScrollPane )
+		{
+			panel = new GenericScrollPane( panel );
+			JComponentUtilities.setComponentSize( panel, 560, 400 );
+		}
+
 		this.panels.add( panel );
 		this.mainPanel.add( panel, String.valueOf( this.panelNames.size() ) );
 	}
