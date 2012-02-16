@@ -744,6 +744,7 @@ user	_chipBags	0
 user	_crimboTree	false
 user	_darkChocolateHeart	false
 user	_deluxeKlawSummons	0
+user	_demandSandwich	0
 user	_distentionPillUsed	false
 user	_donhosCasts	0
 user	_elronsCasts	0

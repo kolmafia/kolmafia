@@ -131,6 +131,7 @@ public class UseSkillRequest
 	private static final int PRECISION = 6024;
 	private static final int DONHOS = 6026;
 	private static final int INIGOS = 6028;
+	private static final int DEMAND_SANDWICH = 11021;
 
 	public static String lastUpdate = "";
 	public static int lastSkillUsed = -1;
@@ -548,6 +549,10 @@ public class UseSkillRequest
 
 		case UseSkillRequest.INIGOS:
 			maximumCast = Math.max( 5 - Preferences.getInteger( "_inigosCasts" ), 0 );
+			break;
+
+		case UseSkillRequest.DEMAND_SANDWICH:
+			maximumCast = Math.max( 3 - Preferences.getInteger( "_demandSandwich" ), 0 );
 			break;
 		}
 
@@ -1478,6 +1483,10 @@ public class UseSkillRequest
 
 		case 5014:
 			Preferences.increment( "cocktailSummons", count );
+			break;
+
+		case UseSkillRequest.DEMAND_SANDWICH:
+			Preferences.increment( "_demandSandwich", count );
 			break;
 
 		case SkillDatabase.SNOWCONE:

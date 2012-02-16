@@ -5557,7 +5557,7 @@
 5548	Ghost Pinching Quarterly	usable	all	0
 5549	Clancy's crumhorn	usable	none	0
 5550	The Snitch's Manifesto	usable	all	0
-5551
+5551	Clancy's lute	usable	none	0
 5552	Trusty	weapon	none	0
 5553	can of Rain-Doh	usable	all	0
 5554	empty Rain-Doh can	none	display	0
