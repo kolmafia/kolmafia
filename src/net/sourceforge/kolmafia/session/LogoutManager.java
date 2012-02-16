@@ -59,6 +59,26 @@ public class LogoutManager
 {
 	public static void logout()
 	{
+		LogoutManager.logout( true );
+	}
+
+	public static void logout( boolean prepareNextLogin )
+	{
+		if ( prepareNextLogin )
+		{
+			LogoutManager.prepareNextLogin();
+		}
+
+		String userName = KoLCharacter.getUserName();
+
+		if ( userName != null && !userName.equals( "" ) )
+		{
+			LogoutManager.prepareLogout();
+		}
+	}
+
+	private static void prepareNextLogin()
+	{
 		// Create login frame to ensure that there is an active frame.
 
 		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
@@ -88,7 +108,10 @@ public class LogoutManager
 				frames[ i ].dispose();
 			}
 		}
+	}
 
+	private static void prepareLogout()
+	{
 		// Shut down chat-related activity
 
 		BuffBotHome.setBuffBotActive( false );

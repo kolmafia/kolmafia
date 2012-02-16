@@ -41,6 +41,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -141,7 +142,7 @@ public class RelayServer
 			}
 			else
 			{
-				System.exit( -1 );
+				KoLmafia.quit();
 			}
 		}
 
