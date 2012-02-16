@@ -57,5 +57,10 @@ public abstract class OptionsPanel
 	public void setEnabled( final boolean isEnabled )
 	{
 	}
+
+	public boolean shouldAddStatusLabel()
+	{
+		return false;
+	}
 }
 
