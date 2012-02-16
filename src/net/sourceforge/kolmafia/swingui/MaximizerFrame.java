@@ -2060,8 +2060,18 @@ public class MaximizerFrame
 						if ( hands == 1 )
 						{
 							slot = Evaluator.WEAPON_1H;
-							if ( !type.equals( "chefstaff" ) &&
-								!this.requireShield )
+							if ( type.equals( "chefstaff" ) )
+							{	// Don't allow chefstaves to displace other
+								// 1H weapons from the shortlist if you can't
+								// equip them anyway.
+								if ( !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) &&
+									!KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+								{
+									continue;
+								}
+								// In any case, don't put this in an aux slot.
+							}
+							else if ( !this.requireShield )
 							{
 								switch ( stat )
 								{
@@ -2587,13 +2597,44 @@ public class MaximizerFrame
 					}
 					if ( count <= 0 ) continue;
 					this.equipment[ EquipmentManager.FAMILIAR ] = item;
-					this.tryAccessories( possibles, 0 );
+					this.tryContainers( possibles );
 					any = true;
 					this.restore( mark );
 				}
 
 				if ( any ) return;
 				this.equipment[ EquipmentManager.FAMILIAR ] = EquipmentRequest.UNEQUIP;
+			}
+
+			this.tryContainers( possibles );
+			this.restore( mark );
+		}
+
+		public void tryContainers( ArrayList[] possibles )
+			throws MaximizerInterruptedException
+		{
+			Object mark = this.mark();
+			if ( this.equipment[ EquipmentManager.CONTAINER ] == null )
+			{
+				ArrayList possible = possibles[ EquipmentManager.CONTAINER ];
+				boolean any = false;
+				for ( int pos = 0; pos < possible.size(); ++pos )
+				{
+					AdventureResult item = (AdventureResult) possible.get( pos );
+					int count = item.getCount() & Evaluator.TOTAL_MASK;
+					//if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+					//{
+					//	--count;
+					//}
+					//if ( count <= 0 ) continue;
+					this.equipment[ EquipmentManager.CONTAINER ] = item;
+					this.tryAccessories( possibles, 0 );
+					any = true;
+					this.restore( mark );
+				}
+
+				if ( any ) return;
+				this.equipment[ EquipmentManager.CONTAINER ] = EquipmentRequest.UNEQUIP;
 			}
 
 			this.tryAccessories( possibles, 0 );
