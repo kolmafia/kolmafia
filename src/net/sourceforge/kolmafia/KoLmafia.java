@@ -166,6 +166,7 @@ public abstract class KoLmafia
 	private static FileLock SESSION_HOLDER = null;
 	private static FileChannel SESSION_CHANNEL = null;
 	private static File SESSION_FILE = null;
+	private static boolean SESSION_ENDING = false;
 
 	public static KoLAdventure currentAdventure;
 	public static String statDay;
@@ -2341,6 +2342,12 @@ public abstract class KoLmafia
 
 	public static void quit()
 	{
+		if ( KoLmafia.SESSION_ENDING )
+		{
+			return;
+		}
+
+		KoLmafia.SESSION_ENDING = true;
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
 		System.exit( 0 );
 	}
