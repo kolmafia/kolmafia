@@ -66,31 +66,32 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CharPaneRequest
-	extends RelayRequest
+	extends GenericRequest
 {
 	private static final AdventureResult ABSINTHE = new AdventureResult( "Absinthe-Minded", 1, true );
 
+	private static long lastResponseTimestamp = 0;
+	private static String lastResponse = "";
+
 	private static boolean canInteract = false;
+	private static int turnsThisRun = 0;
+
 	private static boolean inValhalla = false;
 	private static boolean checkNewLocation = false;
 
-	private static String lastResponse = "";
-	private static long lastResponseTimestamp = 0;
-
-	private static int turnsThisRun = 0;
-
 	public CharPaneRequest()
 	{
-		super( true );
-
-		this.constructURLString( "charpane.php", false );
+		super( "charpane.php" );
 	}
 
 	public static final void reset()
 	{
+		CharPaneRequest.lastResponseTimestamp = 0;
 		CharPaneRequest.lastResponse = "";
 		CharPaneRequest.canInteract = false;
 		CharPaneRequest.turnsThisRun = 0;
+		CharPaneRequest.inValhalla = false;
+		CharPaneRequest.checkNewLocation = false;
 	}
 
 	protected boolean retryOnTimeout()
@@ -128,16 +129,6 @@ public class CharPaneRequest
 		CharPaneRequest.checkNewLocation = check;
 	}
 
-	public void run()
-	{
-		super.run();
-
-		if ( this.responseCode == 200 )
-		{
-			CharPaneRequest.lastResponse = responseText;
-		}
-	}
-
 	public static boolean processResults( long responseTimestamp, String responseText )
 	{
 		if ( CharPaneRequest.lastResponseTimestamp > responseTimestamp )
@@ -146,6 +137,7 @@ public class CharPaneRequest
 		}
 
 		CharPaneRequest.lastResponseTimestamp = responseTimestamp;
+		CharPaneRequest.lastResponse = responseText;
 
 		// We can deduce whether we are in compact charpane mode
 
