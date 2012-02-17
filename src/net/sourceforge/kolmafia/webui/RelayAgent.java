@@ -414,27 +414,7 @@ public class RelayAgent
 			}
 		}
 
-		if ( this.path.startsWith( "/charpane.php" ) )
-		{
-			new CharPaneRequest().run();
-
-			String responseText = CharPaneRequest.getLastResponse();
-
-			// Load image files locally to reduce bandwidth
-			// and improve mini-browser performance.
-
-			if ( Preferences.getBoolean( "relayUsesCachedImages" ) )
-			{
-				responseText = StringUtilities.globalStringReplace( responseText, "http://images.kingdomofloathing.com", "/images" );
-			}
-			else
-			{
-				responseText = StringUtilities.globalStringReplace( responseText, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
-			}
-
-			this.request.pseudoResponse( "HTTP/1.1 200 OK", responseText );
-		}
-		else if ( this.path.equals( "/fight.php?action=custom" ) )
+		if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
 			RelayAgent.COMBAT_THREAD.wake( null );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
