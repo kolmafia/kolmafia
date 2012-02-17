@@ -633,7 +633,7 @@ public abstract class CombatActionManager
 			if ( combo == null )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Invalid combo '" + name + "' requested" );
-				Macrofier.setMacroOverride( null );
+				Macrofier.resetMacroOverride();
 				return "skip";
 			}
 			return "combo " + combo;
