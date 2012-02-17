@@ -293,30 +293,6 @@ public class AccountRequest
 
 	private static final void parseAccountOptions( final String responseText )
 	{
-		// Consumption restrictions are also found here through the
-		// presence of buttons.
-		//
-		// <input class=button name="action" type="submit" value="Drop Oxygenarian">
-
-		String path =
-			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Oxygenarian\">" ) != -1 ?
-			"Oxygenarian" :
-			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Boozetafarian\">" ) != -1 ?
-			"Boozetafarian" :
-			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Teetotaler\">" ) != -1 ?
-			"Teetotaler" :
-			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Bees Hate You\">" ) != -1 ?
-			"Bees Hate You" :
-			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Way of the Surprising Fist\">" ) != -1 ?
-			"Way of the Surprising Fist" :
-			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Trendy\">" ) != -1 ?
-			"Trendy" :
-			responseText.indexOf( "<input class=button name=\"action\" type=\"submit\" value=\"Drop Avatar of Boris\">" ) != -1 ?
-			"Avatar of Boris" :
-			"None";
-
-		KoLCharacter.setPath( path );
-
 		// Whether or not a player is currently in Bad Moon or hardcore
 		// is also found here through the presence of buttons.
 
@@ -503,11 +479,9 @@ public class AccountRequest
 		// account.php?actions[]=unpath&action=Drop+Bees+Hate+You&unpathconfirm=1&tab=account&pwd
 		// account.php?actions[]=unpath&action=Drop+Way+of+the+Surprising+Fist&unpathconfirm=1&tab=account&pwd
 		// account.php?actions[]=unpath&action=Drop+Trendy&unpathconfirm=1&tab=account&pwd
-		// account.php?actions[]=unpath&action=Drop+Avatar+of_Boris&unpathconfirm=1&tab=account&pwd
 		if ( action.equals( "Drop+Bees+Hate+You" ) ||
 		     action.equals( "Drop+Way+of+the+Surprising+Fist" ) ||
-		     action.equals( "Drop+Trendy" )  ||
-		     action.equals( "Drop+Avatar+of+Boris" ) )
+		     action.equals( "Drop+Trendy" ) )
 		{
 			if ( location.indexOf( "unpathconfirm=1" ) != -1 )
 			{
@@ -523,13 +497,6 @@ public class AccountRequest
 				{
 					Preferences.setInteger( "lastTelescopeReset", -1 );
 					KoLCharacter.checkTelescope();
-				}
-
-				// If we were an Avatar of Boris, what happens?
-				else if ( oldPath.equals( "Avatar of Boris" ) )
-				{
-					RequestThread.postRequest( new FamiliarRequest() );
-					RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 				}
 			}
 			return;
