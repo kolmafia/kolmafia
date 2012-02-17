@@ -172,9 +172,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class RuntimeLibrary
 {
-	private static final GenericRequest VISITOR = new GenericRequest( "" );
-	private static final RelayRequest RELAYER = new RelayRequest( false );
-
 	private static final RecordType itemDropRec = new RecordType(
 		"{item drop; int rate; string type;}",
 		new String[] { "drop", "rate", "type" },
@@ -1422,14 +1419,14 @@ public abstract class RuntimeLibrary
 
 	// Support for batching of server requests
 
-	private static void batchCommand( String cmd, String params )
+	private static void batchCommand( Interpreter interpreter, String cmd, String params )
 	{
-		RuntimeLibrary.batchCommand( cmd, null, params );
+		RuntimeLibrary.batchCommand( interpreter, cmd, null, params );
 	}
 
-	private static void batchCommand( String cmd, String prefix, String params )
+	private static void batchCommand( Interpreter interpreter, String cmd, String prefix, String params )
 	{
-		LinkedHashMap batched = LibraryFunction.interpreter.batched;
+		LinkedHashMap batched = interpreter.batched;
 		if ( batched == null )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd,
@@ -1462,19 +1459,19 @@ public abstract class RuntimeLibrary
 		}
 	}
 
-	public static Value get_version()
+	public static Value get_version( Interpreter interpreter )
 	{
 		return new Value( KoLConstants.VERSION_NAME );
 	}
 
-	public static Value get_revision()
+	public static Value get_revision( Interpreter interpreter )
 	{
 		return new Value( StaticEntity.getRevision() );
 	}
 
-	public static Value get_path()
+	public static Value get_path( Interpreter interpreter )
 	{
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		RelayRequest relayRequest = interpreter.getRelayRequest();
 		if ( relayRequest == null )
 		{
 			return DataTypes.STRING_INIT;
@@ -1482,9 +1479,9 @@ public abstract class RuntimeLibrary
 		return new Value( relayRequest.getBasePath() );
 	}
 
-	public static Value get_path_full()
+	public static Value get_path_full( Interpreter interpreter )
 	{
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		RelayRequest relayRequest = interpreter.getRelayRequest();
 		if ( relayRequest == null )
 		{
 			return DataTypes.STRING_INIT;
@@ -1492,9 +1489,9 @@ public abstract class RuntimeLibrary
 		return new Value( relayRequest.getPath() );
 	}
 
-	public static Value get_path_variables()
+	public static Value get_path_variables( Interpreter interpreter )
 	{
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		RelayRequest relayRequest = interpreter.getRelayRequest();
 		if ( relayRequest == null )
 		{
 			return DataTypes.STRING_INIT;
@@ -1504,19 +1501,18 @@ public abstract class RuntimeLibrary
 		return quest == -1 ? DataTypes.STRING_INIT : new Value( value.substring( 1, quest ) );
 	}
 
-	public static Value batch_open()
+	public static Value batch_open( Interpreter interpreter )
 	{
-		if ( LibraryFunction.interpreter.batched == null )
+		if ( interpreter.batched == null )
 		{
-			LibraryFunction.interpreter.batched = new LinkedHashMap();
+			interpreter.batched = new LinkedHashMap();
 		}
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value batch_close()
+	public static Value batch_close( Interpreter interpreter )
 	{
-		Interpreter terp = LibraryFunction.interpreter;
-		LinkedHashMap batched = terp.batched;
+		LinkedHashMap batched = interpreter.batched;
 		if ( batched != null )
 		{
 			Iterator i = batched.entrySet().iterator();
@@ -1527,7 +1523,7 @@ public abstract class RuntimeLibrary
 					((StringBuffer) e.getValue()).toString() );
 				if ( !KoLmafia.permitsContinue() ) break;
 			}
-			terp.batched = null;
+			interpreter.batched = null;
 		}
 
 		return RuntimeLibrary.continueValue();
@@ -1535,24 +1531,24 @@ public abstract class RuntimeLibrary
 	// Basic utility functions which print information
 	// or allow for easy testing.
 
-	public static Value enable( final Value name )
+	public static Value enable( Interpreter interpreter, final Value name )
 	{
 		StaticEntity.enable( name.toString().toLowerCase() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value disable( final Value name )
+	public static Value disable( Interpreter interpreter, final Value name )
 	{
 		StaticEntity.disable( name.toString().toLowerCase() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value user_confirm( final Value message )
+	public static Value user_confirm( Interpreter interpreter, final Value message )
 	{
 		return DataTypes.makeBooleanValue( InputFieldUtilities.confirm( message.toString() ) );
 	}
 
-	public static Value logprint( final Value string )
+	public static Value logprint( Interpreter interpreter, final Value string )
 	{
 		String parameters = string.toString();
 
@@ -1563,7 +1559,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value print( final Value string )
+	public static Value print( Interpreter interpreter, final Value string )
 	{
 		String parameters = string.toString();
 
@@ -1576,7 +1572,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value print( final Value string, final Value color )
+	public static Value print( Interpreter interpreter, final Value string, final Value color )
 	{
 		String parameters = string.toString();
 
@@ -1592,31 +1588,31 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value print_html( final Value string )
+	public static Value print_html( Interpreter interpreter, final Value string )
 	{
 		RequestLogger.printLine( string.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value abort()
+	public static Value abort( Interpreter interpreter )
 	{
 		RequestThread.declareWorldPeace();
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value abort( final Value string )
+	public static Value abort( Interpreter interpreter, final Value string )
 	{
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, string.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value cli_execute( final Value string )
+	public static Value cli_execute( Interpreter interpreter, final Value string )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value load_html( final Value string )
+	public static Value load_html( Interpreter interpreter, final Value string )
 	{
 		StringBuffer buffer = new StringBuffer();
 		Value returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
@@ -1632,36 +1628,36 @@ public abstract class RuntimeLibrary
 		return returnValue;
 	}
 
-	public static Value write( final Value string )
+	public static Value write( Interpreter interpreter, final Value string )
 	{
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		RelayRequest relayRequest = interpreter.getRelayRequest();
 		if ( relayRequest == null )
 		{
 			return DataTypes.VOID_VALUE;
 		}
 
-		StringBuffer serverReplyBuffer = LibraryFunction.interpreter.getServerReplyBuffer();
+		StringBuffer serverReplyBuffer = interpreter.getServerReplyBuffer();
 		serverReplyBuffer.append( string.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value writeln( final Value string )
+	public static Value writeln( Interpreter interpreter, final Value string )
 	{
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		RelayRequest relayRequest = interpreter.getRelayRequest();
 		if ( relayRequest == null )
 		{
 			return DataTypes.VOID_VALUE;
 		}
 
-		StringBuffer serverReplyBuffer = LibraryFunction.interpreter.getServerReplyBuffer();
+		StringBuffer serverReplyBuffer = interpreter.getServerReplyBuffer();
 		serverReplyBuffer.append( string.toString() );
 		serverReplyBuffer.append( KoLConstants.LINE_BREAK );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value form_field( final Value key )
+	public static Value form_field( Interpreter interpreter, final Value key )
 	{
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		RelayRequest relayRequest = interpreter.getRelayRequest();
 		if ( relayRequest == null )
 		{
 			return DataTypes.STRING_INIT;
@@ -1671,12 +1667,12 @@ public abstract class RuntimeLibrary
 		return value == null ? DataTypes.STRING_INIT : new Value( value );
 	}
 
-	public static Value form_fields()
+	public static Value form_fields( Interpreter interpreter )
 	{
 		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, DataTypes.STRING_TYPE );
 		MapValue value = new MapValue( type );
 
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		RelayRequest relayRequest = interpreter.getRelayRequest();
 		if ( relayRequest == null )
 		{
 			return value;
@@ -1711,9 +1707,9 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value visit_url()
+	public static Value visit_url( Interpreter interpreter )
 	{
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		RelayRequest relayRequest = interpreter.getRelayRequest();
 		if ( relayRequest == null )
 		{
 			return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer() );
@@ -1729,37 +1725,37 @@ public abstract class RuntimeLibrary
 		return new Value( DataTypes.BUFFER_TYPE, "", buffer );
 	}
 
-	public static Value visit_url( final Value string )
+	public static Value visit_url( Interpreter interpreter, final Value string )
 	{
-		return RuntimeLibrary.visit_url( string.toString(), true, false );
+		return RuntimeLibrary.visit_url( interpreter, string.toString(), true, false );
 	}
 
-	public static Value visit_url( final Value string, final Value usePostMethod )
+	public static Value visit_url( Interpreter interpreter, final Value string, final Value usePostMethod )
 	{
-		return RuntimeLibrary.visit_url( string.toString(), usePostMethod.intValue() == 1, false );
+		return RuntimeLibrary.visit_url( interpreter, string.toString(), usePostMethod.intValue() == 1, false );
 	}
 
-	public static Value visit_url( final Value string, final Value usePostMethod, final Value encoded )
+	public static Value visit_url( Interpreter interpreter, final Value string, final Value usePostMethod, final Value encoded )
 	{
-		return RuntimeLibrary.visit_url( string.toString(), usePostMethod.intValue() == 1, encoded.intValue() == 1 );
+		return RuntimeLibrary.visit_url( interpreter, string.toString(), usePostMethod.intValue() == 1, encoded.intValue() == 1 );
 	}
 
-	private static Value visit_url( final String location )
+	private static Value visit_url( Interpreter interpreter, final String location )
 	{
-		return RuntimeLibrary.visit_url( location, true, false );
+		return RuntimeLibrary.visit_url( interpreter, location, true, false );
 	}
 
-	private static Value visit_url( final String location, final boolean usePostMethod, final boolean encoded )
+	private static Value visit_url( Interpreter interpreter, final String location, final boolean usePostMethod, final boolean encoded )
 	{
 		StringBuffer buffer = new StringBuffer();
 		Value returnValue = new Value( DataTypes.BUFFER_TYPE, "", buffer );
 
 		// See if we are inside a relay override
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		RelayRequest relayRequest = interpreter.getRelayRequest();
 
 		// If so, use a RelayRequest rather than a GenericRequest
 		GenericRequest request = ( relayRequest == null ) ? 
-			RuntimeLibrary.VISITOR : RuntimeLibrary.RELAYER;
+			new GenericRequest( "" ) : new RelayRequest( false );
 
 		// Build the desired URL
 		request.constructURLString( location, usePostMethod, encoded );
@@ -1786,22 +1782,23 @@ public abstract class RuntimeLibrary
 		return returnValue;
 	}
 
-	public static Value make_url( final Value arg1, final Value arg2, final Value arg3 )
+	public static Value make_url( Interpreter interpreter, final Value arg1, final Value arg2, final Value arg3 )
 	{
 		String location = arg1.toString();
 		boolean usePostMethod = arg2.intValue() == 1;
 		boolean encoded = arg3.intValue() == 1;
-		RuntimeLibrary.VISITOR.constructURLString( location, usePostMethod, encoded );
-		return new Value( RuntimeLibrary.VISITOR.getURLString() );
+		GenericRequest request = new GenericRequest( "" );
+		request.constructURLString( location, usePostMethod, encoded );
+		return new Value( request.getURLString() );
 	}
 
-	public static Value wait( final Value delay )
+	public static Value wait( Interpreter interpreter, final Value delay )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "wait", delay.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value waitq( final Value delay )
+	public static Value waitq( Interpreter interpreter, final Value delay )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "waitq", delay.toString() );
 		return DataTypes.VOID_VALUE;
@@ -1810,7 +1807,7 @@ public abstract class RuntimeLibrary
 	// Type conversion functions which allow conversion
 	// of one data format to another.
 
-	public static Value to_string( Value val )
+	public static Value to_string( Interpreter interpreter, Value val )
 	{
 		// This function previously just returned val, except in the
 		// case of buffers in which case it's necessary to capture the
@@ -1822,12 +1819,12 @@ public abstract class RuntimeLibrary
 		return val.toStringValue();
 	}
 
-	public static Value to_boolean( final Value value )
+	public static Value to_boolean( Interpreter interpreter, final Value value )
 	{
 		return DataTypes.makeBooleanValue( ( value.intValue() != 0 || value.toString().equalsIgnoreCase( "true" ) ) );
 	}
 
-	public static Value to_int( final Value value )
+	public static Value to_int( Interpreter interpreter, final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_STRING ) )
 		{
@@ -1845,14 +1842,14 @@ public abstract class RuntimeLibrary
 			try
 			{
 				int retval = StringUtilities.parseIntInternal2( string );
-				Exception ex = LibraryFunction.interpreter.runtimeException( "The string \"" + string + "\" is not an integer; returning " + retval );
+				Exception ex = interpreter.runtimeException( "The string \"" + string + "\" is not an integer; returning " + retval );
 				RequestLogger.printLine( ex.getMessage() );
 				return new Value( retval );
 			}
 			catch ( NumberFormatException e )
 			{
 				// Even with lax parsing, we failed.
-				Exception ex = LibraryFunction.interpreter.runtimeException( "The string \"" + string + "\" does not look like an integer; returning 0" );
+				Exception ex = interpreter.runtimeException( "The string \"" + string + "\" does not look like an integer; returning 0" );
 				RequestLogger.printLine( ex.getMessage() );
 				return DataTypes.ZERO_VALUE;
 			}
@@ -1861,7 +1858,7 @@ public abstract class RuntimeLibrary
 		return new Value( value.intValue() );
 	}
 
-	public static Value to_float( final Value value )
+	public static Value to_float( Interpreter interpreter, final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_STRING ) )
 		{
@@ -1872,7 +1869,7 @@ public abstract class RuntimeLibrary
 			}
 			catch ( NumberFormatException e )
 			{
-				Exception ex = LibraryFunction.interpreter.runtimeException( "The string \"" + string + "\" is not a float; returning 0.0" );
+				Exception ex = interpreter.runtimeException( "The string \"" + string + "\" is not a float; returning 0.0" );
 				RequestLogger.printLine( ex.getMessage() );
 				return DataTypes.ZERO_FLOAT_VALUE;
 			}
@@ -1886,7 +1883,7 @@ public abstract class RuntimeLibrary
 		return new Value( value.floatValue() );
 	}
 
-	public static Value to_item( final Value value )
+	public static Value to_item( Interpreter interpreter, final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
@@ -1896,23 +1893,23 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseItemValue( value.toString(), true );
 	}
 
-	public static Value to_item( final Value name, final Value count )
+	public static Value to_item( Interpreter interpreter, final Value name, final Value count )
 	{
 		return DataTypes.makeItemValue( ItemDatabase.getItemId(
 			name.toString(), count.intValue() ) );
 	}
 
-	public static Value to_class( final Value value )
+	public static Value to_class( Interpreter interpreter, final Value value )
 	{
 		return DataTypes.parseClassValue( value.toString(), true );
 	}
 
-	public static Value to_stat( final Value value )
+	public static Value to_stat( Interpreter interpreter, final Value value )
 	{
 		return DataTypes.parseStatValue( value.toString(), true );
 	}
 
-	public static Value to_skill( final Value value )
+	public static Value to_skill( Interpreter interpreter, final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
@@ -1927,7 +1924,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseSkillValue( value.toString(), true );
 	}
 
-	public static Value to_effect( final Value value )
+	public static Value to_effect( Interpreter interpreter, final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
@@ -1942,7 +1939,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseEffectValue( value.toString(), true );
 	}
 
-	public static Value to_location( final Value value )
+	public static Value to_location( Interpreter interpreter, final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
@@ -1954,7 +1951,7 @@ public abstract class RuntimeLibrary
 		}
 	}
 
-	public static Value to_familiar( final Value value )
+	public static Value to_familiar( Interpreter interpreter, final Value value )
 	{
 		if ( value.getType().equals( DataTypes.TYPE_INT ) )
 		{
@@ -1964,12 +1961,12 @@ public abstract class RuntimeLibrary
 		return DataTypes.parseFamiliarValue( value.toString(), true );
 	}
 
-	public static Value to_monster( final Value value )
+	public static Value to_monster( Interpreter interpreter, final Value value )
 	{
 		return DataTypes.parseMonsterValue( value.toString(), true );
 	}
 
-	public static Value to_slot( final Value item )
+	public static Value to_slot( Interpreter interpreter, final Value item )
 	{
 		if ( !item.getType().equals( DataTypes.TYPE_ITEM ) )
 		{
@@ -1998,26 +1995,26 @@ public abstract class RuntimeLibrary
 		}
 	}
 
-	public static Value to_element( final Value value )
+	public static Value to_element( Interpreter interpreter, final Value value )
 	{
 		return DataTypes.parseElementValue( value.toString(), true );
 	}
 
-	public static Value to_coinmaster( final Value value )
+	public static Value to_coinmaster( Interpreter interpreter, final Value value )
 	{
 		return DataTypes.parseCoinmasterValue( value.toString(), true );
 	}
 
-	public static Value to_phylum( final Value value )
+	public static Value to_phylum( Interpreter interpreter, final Value value )
 	{
 		return DataTypes.parsePhylumValue( value.toString(), true );
 	}
 
-	public static Value to_plural( final Value item ) {
+	public static Value to_plural( Interpreter interpreter, final Value item ) {
 		return new Value( ItemDatabase.getPluralName( item.intValue() ) );
 	}
 
-	public static Value to_url( final Value value )
+	public static Value to_url( Interpreter interpreter, final Value value )
 	{
 		KoLAdventure adventure = (KoLAdventure) value.rawValue();
 		return new Value( adventure.getRequest().getURLString() );
@@ -2026,25 +2023,25 @@ public abstract class RuntimeLibrary
 	// Functions related to daily information which get
 	// updated usually once per day.
 
-	public static Value today_to_string()
+	public static Value today_to_string( Interpreter interpreter )
 	{
 		return new Value( KoLConstants.DAILY_FORMAT.format( new Date() ) );
 	}
 
-	public static Value time_to_string()
+	public static Value time_to_string( Interpreter interpreter )
 	{
 		Calendar timestamp = new GregorianCalendar();
 		return new Value( KoLConstants.TIME_FORMAT.format( timestamp.getTime() ) );
 	}
 
-	public static Value now_to_string( Value dateFormatValue )
+	public static Value now_to_string( Interpreter interpreter, Value dateFormatValue )
 	{
 		Calendar timestamp = new GregorianCalendar();
 		SimpleDateFormat dateFormat = new SimpleDateFormat( dateFormatValue.toString() );
 		return new Value( dateFormat.format( timestamp.getTime() ) );
 	}
 
-	public static Value format_date_time( Value inFormat, Value dateTimeString, Value outFormat )
+	public static Value format_date_time( Interpreter interpreter, Value inFormat, Value dateTimeString, Value outFormat )
 	{
 		Date inDate = null;
 		SimpleDateFormat dateFormat = null;
@@ -2065,32 +2062,32 @@ public abstract class RuntimeLibrary
 		return retVal;
 	}
 
-	public static Value gameday_to_string()
+	public static Value gameday_to_string( Interpreter interpreter )
 	{
 		return new Value( HolidayDatabase.getCalendarDayAsString( HolidayDatabase.getCalendarDay( new Date() ) ) );
 	}
 
-	public static Value gameday_to_int()
+	public static Value gameday_to_int( Interpreter interpreter )
 	{
 		return new Value( HolidayDatabase.getCalendarDay( new Date() ) );
 	}
 
-	public static Value gametime_to_int()
+	public static Value gametime_to_int( Interpreter interpreter )
 	{
 		return new Value( HolidayDatabase.getTimeDifference( new Date() ) );
 	}
 
-	public static Value moon_phase()
+	public static Value moon_phase( Interpreter interpreter )
 	{
 		return new Value( HolidayDatabase.getPhaseStep() );
 	}
 
-	public static Value moon_light()
+	public static Value moon_light( Interpreter interpreter )
 	{
 		return new Value( HolidayDatabase.getMoonlight() );
 	}
 
-	public static Value stat_bonus_today()
+	public static Value stat_bonus_today( Interpreter interpreter )
 	{
 		if ( ConditionalStatement.test( "today is muscle day" ) )
 		{
@@ -2110,7 +2107,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.STAT_INIT;
 	}
 
-	public static Value stat_bonus_tomorrow()
+	public static Value stat_bonus_tomorrow( Interpreter interpreter )
 	{
 		if ( ConditionalStatement.test( "tomorrow is muscle day" ) )
 		{
@@ -2130,17 +2127,17 @@ public abstract class RuntimeLibrary
 		return DataTypes.STAT_INIT;
 	}
 
-	public static Value session_logs( final Value dayCount )
+	public static Value session_logs( Interpreter interpreter, final Value dayCount )
 	{
-		return RuntimeLibrary.getSessionLogs( KoLCharacter.getUserName(), dayCount.intValue() );
+		return RuntimeLibrary.getSessionLogs( interpreter, KoLCharacter.getUserName(), dayCount.intValue() );
 	}
 
-	public static Value session_logs( final Value player, final Value dayCount )
+	public static Value session_logs( Interpreter interpreter, final Value player, final Value dayCount )
 	{
-		return RuntimeLibrary.getSessionLogs( player.toString(), dayCount.intValue() );
+		return RuntimeLibrary.getSessionLogs( interpreter, player.toString(), dayCount.intValue() );
 	}
 
-	private static Value getSessionLogs( final String name, final int dayCount )
+	private static Value getSessionLogs( Interpreter interpreter, final String name, final int dayCount )
 	{
 		String[] files = new String[ dayCount ];
 
@@ -2190,7 +2187,7 @@ public abstract class RuntimeLibrary
 	// Major functions related to adventuring and
 	// item management.
 
-	public static Value adventure( final Value countValue, final Value locationValue )
+	public static Value adventure( Interpreter interpreter, final Value countValue, final Value locationValue )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2202,22 +2199,22 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value adventure( final Value countValue, final Value locationValue, final Value filterFunction )
+	public static Value adventure( Interpreter interpreter, final Value countValue, final Value locationValue, final Value filterFunction )
 	{
 		try
 		{
 			String filter = filterFunction.toString();
-			Macrofier.setMacroOverride( filter );
+			Macrofier.setMacroOverride( filter, interpreter );
 
-			return RuntimeLibrary.adventure( countValue, locationValue );
+			return RuntimeLibrary.adventure( interpreter, countValue, locationValue );
 		}
 		finally
 		{
-			Macrofier.setMacroOverride( null );
+			Macrofier.resetMacroOverride();
 		}
 	}
 
-	public static Value adv1( final Value locationValue, final Value adventuresUsedValue, final Value filterFunction )
+	public static Value adv1( Interpreter interpreter, final Value locationValue, final Value adventuresUsedValue, final Value filterFunction )
 	{
 		KoLAdventure adventure = (KoLAdventure) locationValue.rawValue();
 
@@ -2231,7 +2228,7 @@ public abstract class RuntimeLibrary
 			adventure.overrideAdventuresUsed( adventuresUsedValue.intValue() );
 
 			String filter = filterFunction.toString();
-			Macrofier.setMacroOverride( filter );
+			Macrofier.setMacroOverride( filter, interpreter );
 
 			KoLmafia.redoSkippedAdventures = false;
 
@@ -2240,7 +2237,7 @@ public abstract class RuntimeLibrary
 		finally
 		{
 			KoLmafia.redoSkippedAdventures = true;
-			Macrofier.setMacroOverride( null );
+			Macrofier.resetMacroOverride();
 
 			adventure.overrideAdventuresUsed( -1 );
 		}
@@ -2248,14 +2245,14 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value get_ccs_action( final Value index )
+	public static Value get_ccs_action( Interpreter interpreter, final Value index )
 	{
 		return new Value(
 			CombatActionManager.getCombatAction(
 				FightRequest.getCurrentKey(), index.intValue(), true ) );
 	}
 
-	public static Value add_item_condition( final Value countValue, final Value item )
+	public static Value add_item_condition( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2267,7 +2264,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value remove_item_condition( final Value countValue, final Value item )
+	public static Value remove_item_condition( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2279,12 +2276,12 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value is_goal( final Value item )
+	public static Value is_goal( Interpreter interpreter, final Value item )
 	{
 		return DataTypes.makeBooleanValue( GoalManager.hasItemGoal( item.intValue() ) );
 	}
 
-	public static Value buy( final Value countValue, final Value item )
+	public static Value buy( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2298,11 +2295,11 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( initialAmount + count == itemToBuy.getCount( KoLConstants.inventory ) );
 	}
 
-	public static Value buy( final Value arg1, final Value arg2, final Value arg3 )
+	public static Value buy( Interpreter interpreter, final Value arg1, final Value arg2, final Value arg3 )
 	{
 		if ( arg1.getType().equals( DataTypes.TYPE_COINMASTER ) )
 		{
-			return coinmaster_buy( arg1, arg2, arg3 );
+			return RuntimeLibrary.coinmaster_buy( interpreter, arg1, arg2, arg3 );
 		}
 
 		int count = arg1.intValue();
@@ -2321,27 +2318,27 @@ public abstract class RuntimeLibrary
 
 	// Coinmaster functions
 
-	public static Value is_accessible( final Value master )
+	public static Value is_accessible( Interpreter interpreter, final Value master )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		return DataTypes.makeBooleanValue( data != null && CoinMasterRequest.accessible( data ) == null );
 	}
 
-	public static Value inaccessible_reason( final Value master )
+	public static Value inaccessible_reason( Interpreter interpreter, final Value master )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		String reason = data != null ? CoinMasterRequest.accessible( data ) : null;
 		return new Value( reason != null ? reason : "" );
 	}
 
-	public static Value visit( final Value master )
+	public static Value visit( Interpreter interpreter, final Value master )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		CoinMasterRequest.visit( data );
 		return RuntimeLibrary.continueValue();
 	}
 
-	private static Value coinmaster_buy( final Value master, final Value countValue, final Value itemValue )
+	private static Value coinmaster_buy( Interpreter interpreter, final Value master, final Value countValue, final Value itemValue )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2355,7 +2352,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( initialAmount + count == item.getCount( KoLConstants.inventory ) );
 	}
 
-	public static Value sell( final Value master, final Value countValue, final Value itemValue )
+	public static Value sell( Interpreter interpreter, final Value master, final Value countValue, final Value itemValue )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		int count = countValue.intValue();
@@ -2368,7 +2365,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value craft( final Value modeValue, final Value countValue, final Value item1, final Value item2 )
+	public static Value craft( Interpreter interpreter, final Value modeValue, final Value countValue, final Value item1, final Value item2 )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2385,7 +2382,7 @@ public abstract class RuntimeLibrary
 		return new Value( req.created() );
 	}
 
-	public static Value create( final Value countValue, final Value item )
+	public static Value create( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2397,7 +2394,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value use( final Value countValue, final Value item )
+	public static Value use( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2409,7 +2406,7 @@ public abstract class RuntimeLibrary
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static Value eat( final Value countValue, final Value item )
+	public static Value eat( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2421,7 +2418,7 @@ public abstract class RuntimeLibrary
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static Value eatsilent( final Value countValue, final Value item )
+	public static Value eatsilent( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2433,7 +2430,7 @@ public abstract class RuntimeLibrary
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static Value drink( final Value countValue, final Value item )
+	public static Value drink( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2445,7 +2442,7 @@ public abstract class RuntimeLibrary
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static Value overdrink( final Value countValue, final Value item )
+	public static Value overdrink( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2457,18 +2454,18 @@ public abstract class RuntimeLibrary
 		return UseItemRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static Value last_item_message()
+	public static Value last_item_message( Interpreter interpreter )
 	{
 		return new Value( UseItemRequest.lastUpdate );
 	}
 
-	public static Value empty_closet()
+	public static Value empty_closet( Interpreter interpreter )
 	{
-		RuntimeLibrary.batchCommand( "closet", "empty" );
+		RuntimeLibrary.batchCommand( interpreter, "closet", "empty" );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_closet( final Value countValue, final Value item )
+	public static Value put_closet( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2476,11 +2473,11 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( "closet", "put", count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( interpreter, "closet", "put", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_closet( final Value meatValue )
+	public static Value put_closet( Interpreter interpreter, final Value meatValue )
 	{
 		int meat = meatValue.intValue();
 		if ( meat <= 0 )
@@ -2492,16 +2489,16 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_shop( final Value priceValue, final Value limitValue, final Value item )
+	public static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value item )
 	{
 		int price = priceValue.intValue();
 		int limit = limitValue.intValue();
 
-		RuntimeLibrary.batchCommand( "shop", "put", "* \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
+		RuntimeLibrary.batchCommand( interpreter, "shop", "put", "* \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_shop( final Value priceValue, final Value limitValue, final Value qtyValue, final Value item )
+	public static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value qtyValue, final Value item )
 	{
 		int price = priceValue.intValue();
 		int limit = limitValue.intValue();
@@ -2511,11 +2508,11 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( "shop", "put", qty + " \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
+		RuntimeLibrary.batchCommand( interpreter, "shop", "put", qty + " \u00B6" + item.intValue() + " @ " + price + " limit " + limit );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_stash( final Value countValue, final Value item )
+	public static Value put_stash( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2523,11 +2520,11 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( "stash", "put", count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( interpreter, "stash", "put", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value put_display( final Value countValue, final Value item )
+	public static Value put_display( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2535,11 +2532,11 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( "display", "put", count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( interpreter, "display", "put", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_closet( final Value countValue, final Value item )
+	public static Value take_closet( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2547,11 +2544,11 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( "closet", "take", count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( interpreter, "closet", "take", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_closet( final Value meatValue )
+	public static Value take_closet( Interpreter interpreter, final Value meatValue )
 	{
 		int meat = meatValue.intValue();
 		if ( meat <= 0 )
@@ -2563,18 +2560,18 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_shop( final Value item )
+	public static Value take_shop( Interpreter interpreter, final Value item )
 	{
-		return RuntimeLibrary.take_shop( item, DataTypes.TRUE_VALUE );
+		return RuntimeLibrary.take_shop( interpreter, item, DataTypes.TRUE_VALUE );
 	}
 
-	public static Value take_shop( final Value item, final Value takeAll )
+	public static Value take_shop( Interpreter interpreter, final Value item, final Value takeAll )
 	{
-		RuntimeLibrary.batchCommand( "shop", "take", ( takeAll.intValue() == 1 ? "all " : "" ) + "\u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( interpreter, "shop", "take", ( takeAll.intValue() == 1 ? "all " : "" ) + "\u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_storage( final Value countValue, final Value item )
+	public static Value take_storage( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2582,11 +2579,11 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( "hagnk", count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( interpreter, "hagnk", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_display( final Value countValue, final Value item )
+	public static Value take_display( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2594,11 +2591,11 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( "display", "take", count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( interpreter, "display", "take", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_stash( final Value countValue, final Value item )
+	public static Value take_stash( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2606,11 +2603,11 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( "stash", "take", count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( interpreter, "stash", "take", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value autosell( final Value countValue, final Value item )
+	public static Value autosell( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2618,11 +2615,11 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
-		RuntimeLibrary.batchCommand( "sell", count + " \u00B6" + item.intValue() );
+		RuntimeLibrary.batchCommand( interpreter, "sell", count + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value hermit( final Value countValue, final Value item )
+	public static Value hermit( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2634,7 +2631,7 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value retrieve_item( final Value countValue, final Value item )
+	public static Value retrieve_item( Interpreter interpreter, final Value countValue, final Value item )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -2648,7 +2645,7 @@ public abstract class RuntimeLibrary
 	// Major functions which provide item-related
 	// information.
 
-	public static Value get_inventory()
+	public static Value get_inventory( Interpreter interpreter )
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
@@ -2665,7 +2662,7 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value get_campground()
+	public static Value get_campground( Interpreter interpreter )
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
@@ -2682,7 +2679,7 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value get_dwelling()
+	public static Value get_dwelling( Interpreter interpreter )
 	{
 		return DataTypes.makeItemValue( CampgroundRequest.getCurrentDwelling().getItemId() );
 	}
@@ -2691,7 +2688,7 @@ public abstract class RuntimeLibrary
 	private static int WAD2NUGGET = -6;
 	private static int WAD2GEM = 1321;
 
-	public static Value get_related( Value item, Value type )
+	public static Value get_related( Interpreter interpreter, Value item, Value type )
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 		String which = type.toString();
@@ -2843,43 +2840,43 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value is_tradeable( final Value item )
+	public static Value is_tradeable( Interpreter interpreter, final Value item )
 	{
 		return DataTypes.makeBooleanValue( ItemDatabase.isTradeable( item.intValue() ) );
 	}
 
-	public static Value is_giftable( final Value item )
+	public static Value is_giftable( Interpreter interpreter, final Value item )
 	{
 		return DataTypes.makeBooleanValue( ItemDatabase.isGiftable( item.intValue() ) );
 	}
 
-	public static Value is_displayable( final Value item )
+	public static Value is_displayable( Interpreter interpreter, final Value item )
 	{
 		return DataTypes.makeBooleanValue( ItemDatabase.isDisplayable( item.intValue() ) );
 	}
 
-	public static Value is_npc_item( final Value item )
+	public static Value is_npc_item( Interpreter interpreter, final Value item )
 	{
 		return DataTypes.makeBooleanValue( NPCStoreDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) );
 	}
 
-	public static Value is_coinmaster_item( final Value item )
+	public static Value is_coinmaster_item( Interpreter interpreter, final Value item )
 	{
 		return DataTypes.makeBooleanValue( CoinmastersDatabase.contains( ItemDatabase.getItemName( item.intValue() ), false ) );
 	}
 
-	public static Value autosell_price( final Value item )
+	public static Value autosell_price( Interpreter interpreter, final Value item )
 	{
 		return new Value( ItemDatabase.getPriceById( item.intValue() ) );
 	}
 
-	public static Value mall_price( final Value item )
+	public static Value mall_price( Interpreter interpreter, final Value item )
 	{
 		return new Value( StoreManager.getMallPrice(
 			new AdventureResult( item.intValue(), 0 ) ) );
 	}
 
-	public static Value npc_price( final Value item )
+	public static Value npc_price( Interpreter interpreter, final Value item )
 	{
 		String it = ItemDatabase.getItemName( item.intValue() );
 		return new Value(
@@ -2889,45 +2886,45 @@ public abstract class RuntimeLibrary
 
 	// Coinmaster functions
 
-	public static Value buys_item( final Value master, final Value item )
+	public static Value buys_item( Interpreter interpreter, final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		String itemName = ItemDatabase.getItemName( item.intValue() );
 		return DataTypes.makeBooleanValue( data != null && data.canSellItem( itemName ) );
 	}
 
-	public static Value buy_price( final Value master, final Value item )
+	public static Value buy_price( Interpreter interpreter, final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		String itemName = ItemDatabase.getItemName( item.intValue() );
 		return DataTypes.makeIntValue( data != null ? data.getSellPrice( itemName ) : 0 );
 	}
 
-	public static Value sells_item( final Value master, final Value item )
+	public static Value sells_item( Interpreter interpreter, final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		String itemName = ItemDatabase.getItemName( item.intValue() );
 		return DataTypes.makeBooleanValue( data != null && data.canBuyItem( itemName ) );
 	}
 
-	public static Value sell_price( final Value master, final Value item )
+	public static Value sell_price( Interpreter interpreter, final Value master, final Value item )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
 		String itemName = ItemDatabase.getItemName( item.intValue() );
 		return DataTypes.makeIntValue( data != null ? data.getBuyPrice( itemName ) : 0 );
 	}
 
-	public static Value historical_price( final Value item )
+	public static Value historical_price( Interpreter interpreter, final Value item )
 	{
 		return new Value( MallPriceDatabase.getPrice( item.intValue() ) );
 	}
 
-	public static Value historical_age( final Value item )
+	public static Value historical_age( Interpreter interpreter, final Value item )
 	{
 		return new Value( MallPriceDatabase.getAge( item.intValue() ) );
 	}
 
-	public static Value daily_special()
+	public static Value daily_special( Interpreter interpreter )
 	{
 		AdventureResult special =
 			KoLCharacter.gnomadsAvailable() ? MicroBreweryRequest.getDailySpecial() : KoLCharacter.canadiaAvailable() ? ChezSnooteeRequest.getDailySpecial() : null;
@@ -2935,31 +2932,31 @@ public abstract class RuntimeLibrary
 		return special == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( special.getName(), true );
 	}
 
-	public static Value refresh_stash()
+	public static Value refresh_stash( Interpreter interpreter )
 	{
 		RequestThread.postRequest( new ClanStashRequest() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value available_amount( final Value arg )
+	public static Value available_amount( Interpreter interpreter, final Value arg )
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return DataTypes.makeIntValue( InventoryManager.getAccessibleCount( item ) );
 	}
 
-	public static Value item_amount( final Value arg )
+	public static Value item_amount( Interpreter interpreter, final Value arg )
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return new Value( item.getCount( KoLConstants.inventory ) );
 	}
 
-	public static Value closet_amount( final Value arg )
+	public static Value closet_amount( Interpreter interpreter, final Value arg )
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return new Value( item.getCount( KoLConstants.closet ) );
 	}
 
-	public static Value equipped_amount( final Value arg )
+	public static Value equipped_amount( Interpreter interpreter, final Value arg )
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		int runningTotal = 0;
@@ -2975,13 +2972,13 @@ public abstract class RuntimeLibrary
 		return new Value( runningTotal );
 	}
 
-	public static Value creatable_amount( final Value arg )
+	public static Value creatable_amount( Interpreter interpreter, final Value arg )
 	{
 		CreateItemRequest item = CreateItemRequest.getInstance( arg.intValue() );
 		return new Value( item == null ? 0 : item.getQuantityPossible() );
 	}
 
-	public static Value get_ingredients( final Value arg )
+	public static Value get_ingredients( Interpreter interpreter, final Value arg )
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
@@ -3007,13 +3004,13 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value storage_amount( final Value arg )
+	public static Value storage_amount( Interpreter interpreter, final Value arg )
 	{
 		AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 		return new Value( item.getCount( KoLConstants.storage ) );
 	}
 
-	public static Value display_amount( final Value arg )
+	public static Value display_amount( Interpreter interpreter, final Value arg )
 	{
 		if ( !KoLCharacter.hasDisplayCase() )
 		{
@@ -3029,7 +3026,7 @@ public abstract class RuntimeLibrary
 		return new Value( item.getCount( KoLConstants.collection ) );
 	}
 
-	public static Value shop_amount( final Value arg )
+	public static Value shop_amount( Interpreter interpreter, final Value arg )
 	{
 		if ( !KoLCharacter.hasStore() )
 		{
@@ -3055,7 +3052,7 @@ public abstract class RuntimeLibrary
 		return new Value( item.getQuantity() );
 	}
 
-	public static Value stash_amount( final Value arg )
+	public static Value stash_amount( Interpreter interpreter, final Value arg )
 	{
 		if ( !ClanManager.stashRetrieved )
 		{
@@ -3068,17 +3065,17 @@ public abstract class RuntimeLibrary
 		return new Value( item.getCount( stash ) );
 	}
 
-	public static Value pulls_remaining()
+	public static Value pulls_remaining( Interpreter interpreter )
 	{
 		return new Value( ConcoctionDatabase.getPullsRemaining() );
 	}
 
-	public static Value stills_available()
+	public static Value stills_available( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getStillsAvailable() );
 	}
 
-	public static Value have_mushroom_plot()
+	public static Value have_mushroom_plot( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( MushroomManager.ownsPlot() );
 	}
@@ -3086,104 +3083,104 @@ public abstract class RuntimeLibrary
 	// The following functions pertain to providing updated
 	// information relating to the player.
 
-	public static Value refresh_status()
+	public static Value refresh_status( Interpreter interpreter )
 	{
 		RequestThread.postRequest( new CharPaneRequest() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value restore_hp( final Value amount )
+	public static Value restore_hp( Interpreter interpreter, final Value amount )
 	{
 		return DataTypes.makeBooleanValue( RecoveryManager.recoverHP( amount.intValue() ) );
 	}
 
-	public static Value restore_mp( final Value amount )
+	public static Value restore_mp( Interpreter interpreter, final Value amount )
 	{
 		return DataTypes.makeBooleanValue( RecoveryManager.recoverMP( amount.intValue() ) );
 	}
 
-	public static Value my_name()
+	public static Value my_name( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getUserName() );
 	}
 
-	public static Value my_id()
+	public static Value my_id( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getPlayerId() );
 	}
 
-	public static Value my_hash()
+	public static Value my_hash( Interpreter interpreter )
 	{
 		return new Value( GenericRequest.passwordHash );
 	}
 
-	public static Value my_sign()
+	public static Value my_sign( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getSign() );
 	}
 
-	public static Value my_path()
+	public static Value my_path( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getPath() );
 	}
 
-	public static Value in_muscle_sign()
+	public static Value in_muscle_sign( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.inMuscleSign() );
 	}
 
-	public static Value in_mysticality_sign()
+	public static Value in_mysticality_sign( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.inMysticalitySign() );
 	}
 
-	public static Value in_moxie_sign()
+	public static Value in_moxie_sign( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.inMoxieSign() );
 	}
 
-	public static Value in_bad_moon()
+	public static Value in_bad_moon( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.inBadMoon() );
 	}
 
-	public static Value my_class()
+	public static Value my_class( Interpreter interpreter )
 	{
 		return DataTypes.makeClassValue( KoLCharacter.getClassType() );
 	}
 
-	public static Value my_level()
+	public static Value my_level( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getLevel() );
 	}
 
-	public static Value my_hp()
+	public static Value my_hp( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getCurrentHP() );
 	}
 
-	public static Value my_maxhp()
+	public static Value my_maxhp( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getMaximumHP() );
 	}
 
-	public static Value my_mp()
+	public static Value my_mp( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getCurrentMP() );
 	}
 
-	public static Value my_maxmp()
+	public static Value my_maxmp( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getMaximumMP() );
 	}
 
-	public static Value my_primestat()
+	public static Value my_primestat( Interpreter interpreter )
 	{
 		int primeIndex = KoLCharacter.getPrimeIndex();
 		return primeIndex == 0 ? DataTypes.MUSCLE_VALUE : primeIndex == 1 ? DataTypes.MYSTICALITY_VALUE : DataTypes.MOXIE_VALUE;
 	}
 
-	public static Value my_basestat( final Value arg )
+	public static Value my_basestat( Interpreter interpreter, final Value arg )
 	{
 		int stat = arg.intValue();
 
@@ -3216,7 +3213,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.ZERO_VALUE;
 	}
 
-	public static Value my_buffedstat( final Value arg )
+	public static Value my_buffedstat( Interpreter interpreter, final Value arg )
 	{
 		int stat = arg.intValue();
 
@@ -3236,87 +3233,87 @@ public abstract class RuntimeLibrary
 		return DataTypes.ZERO_VALUE;
 	}
 
-	public static Value my_meat()
+	public static Value my_meat( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getAvailableMeat() );
 	}
 
-	public static Value my_closet_meat()
+	public static Value my_closet_meat( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getClosetMeat() );
 	}
 
-	public static Value my_adventures()
+	public static Value my_adventures( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getAdventuresLeft() );
 	}
 
-	public static Value my_daycount()
+	public static Value my_daycount( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getCurrentDays() );
 	}
 
-	public static Value my_turncount()
+	public static Value my_turncount( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getCurrentRun() );
 	}
 
-	public static Value my_fullness()
+	public static Value my_fullness( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getFullness() );
 	}
 
-	public static Value fullness_limit()
+	public static Value fullness_limit( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getFullnessLimit() );
 	}
 
-	public static Value my_inebriety()
+	public static Value my_inebriety( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getInebriety() );
 	}
 
-	public static Value inebriety_limit()
+	public static Value inebriety_limit( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getInebrietyLimit() );
 	}
 
-	public static Value my_spleen_use()
+	public static Value my_spleen_use( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getSpleenUse() );
 	}
 
-	public static Value spleen_limit()
+	public static Value spleen_limit( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getSpleenLimit() );
 	}
 
-	public static Value can_eat()
+	public static Value can_eat( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.canEat() );
 	}
 
-	public static Value can_drink()
+	public static Value can_drink( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.canDrink() );
 	}
 
-	public static Value turns_played()
+	public static Value turns_played( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getCurrentRun() );
 	}
 
-	public static Value my_ascensions()
+	public static Value my_ascensions( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getAscensions() );
 	}
 
-	public static Value can_interact()
+	public static Value can_interact( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.canInteract() );
 	}
 
-	public static Value in_hardcore()
+	public static Value in_hardcore( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.isHardcore() );
 	}
@@ -3324,22 +3321,22 @@ public abstract class RuntimeLibrary
 	// Basic skill and effect functions, including those used
 	// in custom combat consult scripts.
 
-	public static Value have_skill( final Value arg )
+	public static Value have_skill( Interpreter interpreter, final Value arg )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.hasSkill( arg.intValue() ) );
 	}
 
-	public static Value mp_cost( final Value skill )
+	public static Value mp_cost( Interpreter interpreter, final Value skill )
 	{
 		return new Value( SkillDatabase.getMPConsumptionById( skill.intValue() ) );
 	}
 
-	public static Value turns_per_cast( final Value skill )
+	public static Value turns_per_cast( Interpreter interpreter, final Value skill )
 	{
 		return new Value( SkillDatabase.getEffectDuration( skill.intValue() ) );
 	}
 
-	public static Value have_effect( final Value arg )
+	public static Value have_effect( Interpreter interpreter, final Value arg )
 	{
 		List potentialEffects = EffectDatabase.getMatchingNames( arg.toString() );
 		AdventureResult effect =
@@ -3347,7 +3344,7 @@ public abstract class RuntimeLibrary
 		return effect == null ? DataTypes.ZERO_VALUE : new Value( effect.getCount( KoLConstants.activeEffects ) );
 	}
 
-	public static Value use_skill( final Value countValue, final Value skill )
+	public static Value use_skill( Interpreter interpreter, final Value countValue, final Value skill )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -3362,7 +3359,7 @@ public abstract class RuntimeLibrary
 		{
 			for ( int i = 0; i < count && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
 			{
-				RuntimeLibrary.use_skill( skill );
+				RuntimeLibrary.use_skill( interpreter, skill );
 			}
 
 			return DataTypes.TRUE_VALUE;
@@ -3372,21 +3369,21 @@ public abstract class RuntimeLibrary
 		return UseSkillRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static Value use_skill( final Value skill )
+	public static Value use_skill( Interpreter interpreter, final Value skill )
 	{
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
 
 		if ( SkillDatabase.isCombat( skill.intValue() ) )
 		{
-			return RuntimeLibrary.visit_url( "fight.php?action=skill&whichskill=" + skill.intValue() );
+			return RuntimeLibrary.visit_url( interpreter, "fight.php?action=skill&whichskill=" + skill.intValue() );
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", "1 " + SkillDatabase.getSkillName( skill.intValue() ) );
 		return new Value( UseSkillRequest.lastUpdate );
 	}
 
-	public static Value use_skill( final Value countValue, final Value skill, final Value target )
+	public static Value use_skill( Interpreter interpreter, final Value countValue, final Value skill, final Value target )
 	{
 		int count = countValue.intValue();
 		if ( count <= 0 )
@@ -3401,7 +3398,7 @@ public abstract class RuntimeLibrary
 		{
 			for ( int i = 0; i < count; ++i )
 			{
-				RuntimeLibrary.use_skill( skill );
+				RuntimeLibrary.use_skill( interpreter, skill );
 			}
 
 			return DataTypes.TRUE_VALUE;
@@ -3411,56 +3408,56 @@ public abstract class RuntimeLibrary
 		return UseSkillRequest.lastUpdate.equals( "" ) ? RuntimeLibrary.continueValue() : DataTypes.FALSE_VALUE;
 	}
 
-	public static Value last_skill_message()
+	public static Value last_skill_message( Interpreter interpreter )
 	{
 		return new Value( UseSkillRequest.lastUpdate );
 	}
 
-	public static Value get_auto_attack()
+	public static Value get_auto_attack( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getAutoAttackAction() );
 	}
 
-	public static Value set_auto_attack( Value attackValue )
+	public static Value set_auto_attack( Interpreter interpreter, Value attackValue )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "autoattack", String.valueOf( attackValue.intValue() ) );
 
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value attack()
+	public static Value attack( Interpreter interpreter )
 	{
-		return RuntimeLibrary.visit_url( "fight.php?action=attack" );
+		return RuntimeLibrary.visit_url( interpreter, "fight.php?action=attack" );
 	}
 
-	public static Value steal()
+	public static Value steal( Interpreter interpreter )
 	{
 		if ( !FightRequest.canStillSteal() )
 		{
-			return RuntimeLibrary.attack();
+			return RuntimeLibrary.attack( interpreter );
 		}
 
-		return RuntimeLibrary.visit_url( "fight.php?action=steal" );
+		return RuntimeLibrary.visit_url( interpreter, "fight.php?action=steal" );
 	}
 
-	public static Value runaway()
+	public static Value runaway( Interpreter interpreter )
 	{
-		return RuntimeLibrary.visit_url( "fight.php?action=runaway" );
+		return RuntimeLibrary.visit_url( interpreter, "fight.php?action=runaway" );
 	}
 
-	public static Value throw_item( final Value item )
+	public static Value throw_item( Interpreter interpreter, final Value item )
 	{
-		return RuntimeLibrary.visit_url( "fight.php?action=useitem&whichitem=" + item.intValue() );
+		return RuntimeLibrary.visit_url( interpreter, "fight.php?action=useitem&whichitem=" + item.intValue() );
 	}
 
-	public static Value throw_items( final Value item1, final Value item2 )
+	public static Value throw_items( Interpreter interpreter, final Value item1, final Value item2 )
 	{
-		return RuntimeLibrary.visit_url( "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
+		return RuntimeLibrary.visit_url( interpreter, "fight.php?action=useitem&whichitem=" + item1.intValue() + "&whichitem2=" + item2.intValue() );
 	}
 
-	public static Value run_combat()
+	public static Value run_combat( Interpreter interpreter )
 	{
-		RelayRequest relayRequest = LibraryFunction.interpreter.getRelayRequest();
+		RelayRequest relayRequest = interpreter.getRelayRequest();
 
 		RequestThread.postRequest( FightRequest.INSTANCE );
 		String response = relayRequest == null ?
@@ -3471,18 +3468,18 @@ public abstract class RuntimeLibrary
 
 	// Equipment functions.
 
-	public static Value can_equip( final Value item )
+	public static Value can_equip( Interpreter interpreter, final Value item )
 	{
 		return DataTypes.makeBooleanValue( EquipmentManager.canEquip( ItemDatabase.getItemName( item.intValue() ) ) );
 	}
 
-	public static Value equip( final Value item )
+	public static Value equip( Interpreter interpreter, final Value item )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "equip", "\u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value equip( final Value slotValue, final Value item )
+	public static Value equip( Interpreter interpreter, final Value slotValue, final Value item )
 	{
 		String slot = slotValue.toString();
 		if ( item.equals( DataTypes.ITEM_INIT ) )
@@ -3497,23 +3494,23 @@ public abstract class RuntimeLibrary
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value equipped_item( final Value slot )
+	public static Value equipped_item( Interpreter interpreter, final Value slot )
 	{
 		return DataTypes.makeItemValue( EquipmentManager.getEquipment( slot.intValue() ).getName() );
 	}
 
-	public static Value have_equipped( final Value item )
+	public static Value have_equipped( Interpreter interpreter, final Value item )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) );
 	}
 
-	public static Value outfit( final Value outfit )
+	public static Value outfit( Interpreter interpreter, final Value outfit )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "outfit", outfit.toString() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value have_outfit( final Value outfit )
+	public static Value have_outfit( Interpreter interpreter, final Value outfit )
 	{
 		SpecialOutfit so = EquipmentManager.getMatchingOutfit( outfit.toString() );
 
@@ -3525,7 +3522,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( EquipmentManager.hasOutfit( so.getOutfitId() ) );
 	}
 
-	public static Value outfit_pieces( final Value outfit )
+	public static Value outfit_pieces( Interpreter interpreter, final Value outfit )
 	{
 		SpecialOutfit so = EquipmentManager.getMatchingOutfit( outfit.toString() );
 		if ( so == null )
@@ -3547,74 +3544,74 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value weapon_hands( final Value item )
+	public static Value weapon_hands( Interpreter interpreter, final Value item )
 	{
 		return new Value( EquipmentDatabase.getHands( item.intValue() ) );
 	}
 
-	public static Value item_type( final Value item )
+	public static Value item_type( Interpreter interpreter, final Value item )
 	{
 		String type = EquipmentDatabase.getItemType( item.intValue() );
 		return new Value( type );
 	}
 
-	public static Value weapon_type( final Value item )
+	public static Value weapon_type( Interpreter interpreter, final Value item )
 	{
 		int stat = EquipmentDatabase.getWeaponStat( item.intValue() );
 		return stat == KoLConstants.MUSCLE ? DataTypes.MUSCLE_VALUE : stat == KoLConstants.MYSTICALITY ? DataTypes.MYSTICALITY_VALUE :
 			stat == KoLConstants.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.STAT_INIT;
 	}
 
-	public static Value get_power( final Value item )
+	public static Value get_power( Interpreter interpreter, final Value item )
 	{
 		return new Value( EquipmentDatabase.getPower( item.intValue() ) );
 	}
 
-	public static Value my_familiar()
+	public static Value my_familiar( Interpreter interpreter )
 	{
 		return DataTypes.makeFamiliarValue( KoLCharacter.getFamiliar().getId() );
 	}
 
-	public static Value my_effective_familiar()
+	public static Value my_effective_familiar( Interpreter interpreter )
 	{
 		return DataTypes.makeFamiliarValue( KoLCharacter.getEffectiveFamiliar().getId() );
 	}
 
-	public static Value my_enthroned_familiar()
+	public static Value my_enthroned_familiar( Interpreter interpreter )
 	{
 		return DataTypes.makeFamiliarValue( KoLCharacter.getEnthroned().getId() );
 	}
 
-	public static Value have_familiar( final Value familiar )
+	public static Value have_familiar( Interpreter interpreter, final Value familiar )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.findFamiliar( familiar.toString() ) != null );
 	}
 
-	public static Value use_familiar( final Value familiar )
+	public static Value use_familiar( Interpreter interpreter, final Value familiar )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "familiar", familiar.toString() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value enthrone_familiar( final Value familiar )
+	public static Value enthrone_familiar( Interpreter interpreter, final Value familiar )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "enthrone", familiar.toString() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value familiar_equipment( final Value familiar )
+	public static Value familiar_equipment( Interpreter interpreter, final Value familiar )
 	{
 		return DataTypes.parseItemValue( FamiliarDatabase.getFamiliarItem( familiar.intValue() ), true );
 	}
 
-	public static Value familiar_equipped_equipment( final Value familiar )
+	public static Value familiar_equipped_equipment( Interpreter interpreter, final Value familiar )
 	{
 		FamiliarData fam = KoLCharacter.findFamiliar( familiar.toString() );
 		AdventureResult item = fam == null ? EquipmentRequest.UNEQUIP : fam.getItem();
 		return item == EquipmentRequest.UNEQUIP ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( item.getName(), true );
 	}
 
-	public static Value familiar_weight( final Value familiar )
+	public static Value familiar_weight( Interpreter interpreter, final Value familiar )
 	{
 		FamiliarData fam = KoLCharacter.findFamiliar( familiar.toString() );
 		return fam == null ? DataTypes.ZERO_VALUE : new Value( fam.getWeight() );
@@ -3623,61 +3620,61 @@ public abstract class RuntimeLibrary
 	// Random other functions related to current in-game
 	// state, not directly tied to the character.
 
-	public static Value council()
+	public static Value council( Interpreter interpreter )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "council", "" );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value current_mcd()
+	public static Value current_mcd( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getMindControlLevel() );
 	}
 
-	public static Value change_mcd( final Value level )
+	public static Value change_mcd( Interpreter interpreter, final Value level )
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "mcd", level.toString() );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value have_chef()
+	public static Value have_chef( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.hasChef() );
 	}
 
-	public static Value have_bartender()
+	public static Value have_bartender( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.hasBartender() );
 	}
 
-	public static Value have_shop()
+	public static Value have_shop( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.hasStore() );
 	}
 
-	public static Value have_display()
+	public static Value have_display( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.hasDisplayCase() );
 	}
 
-	public static Value get_counters( final Value label, final Value min, final Value max )
+	public static Value get_counters( Interpreter interpreter, final Value label, final Value min, final Value max )
 	{
 		return new Value( TurnCounter.getCounters( label.toString(), min.intValue(), max.intValue() ) );
 	}
 
 	// String parsing functions.
 
-	public static Value is_integer( final Value string )
+	public static Value is_integer( Interpreter interpreter, final Value string )
 	{
 		return DataTypes.makeBooleanValue( StringUtilities.isNumeric( string.toString() ) );
 	}
 
-	public static Value contains_text( final Value source, final Value search )
+	public static Value contains_text( Interpreter interpreter, final Value source, final Value search )
 	{
 		return DataTypes.makeBooleanValue( source.toString().indexOf( search.toString() ) != -1 );
 	}
 
-	public static Value extract_meat( final Value string )
+	public static Value extract_meat( Interpreter interpreter, final Value string )
 	{
 		ArrayList data = new ArrayList();
 		ResultProcessor.processResults( false,
@@ -3698,7 +3695,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.ZERO_VALUE;
 	}
 
-	public static Value extract_items( final Value string )
+	public static Value extract_items( Interpreter interpreter, final Value string )
 	{
 		ArrayList data = new ArrayList();
 		ResultProcessor.processResults( false,
@@ -3722,30 +3719,30 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value length( final Value string )
+	public static Value length( Interpreter interpreter, final Value string )
 	{
 		return new Value( string.toString().length() );
 	}
 
-	public static Value char_at( final Value source, final Value index )
+	public static Value char_at( Interpreter interpreter, final Value source, final Value index )
 	{
 		String string = source.toString();
 		int offset = index.intValue();
 		if ( offset < 0 || offset >= string.length() )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Offset " + offset + " out of bounds" );
+			throw interpreter.runtimeException( "Offset " + offset + " out of bounds" );
 		}
 		return new Value( Character.toString( string.charAt( offset ) ) );
 	}
 
-	public static Value index_of( final Value source, final Value search )
+	public static Value index_of( Interpreter interpreter, final Value source, final Value search )
 	{
 		String string = source.toString();
 		String substring = search.toString();
 		return new Value( string.indexOf( substring ) );
 	}
 
-	public static Value index_of( final Value source, final Value search,
+	public static Value index_of( Interpreter interpreter, final Value source, final Value search,
 		final Value start )
 	{
 		String string = source.toString();
@@ -3753,19 +3750,19 @@ public abstract class RuntimeLibrary
 		int begin = start.intValue();
 		if ( begin < 0 || begin > string.length() )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
+			throw interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
 		}
 		return new Value( string.indexOf( substring, begin ) );
 	}
 
-	public static Value last_index_of( final Value source, final Value search )
+	public static Value last_index_of( Interpreter interpreter, final Value source, final Value search )
 	{
 		String string = source.toString();
 		String substring = search.toString();
 		return new Value( string.lastIndexOf( substring ) );
 	}
 
-	public static Value last_index_of( final Value source, final Value search,
+	public static Value last_index_of( Interpreter interpreter, final Value source, final Value search,
 		final Value start )
 	{
 		String string = source.toString();
@@ -3773,68 +3770,68 @@ public abstract class RuntimeLibrary
 		int begin = start.intValue();
 		if ( begin < 0 || begin > string.length() )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
+			throw interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
 		}
 		return new Value( string.lastIndexOf( substring, begin ) );
 	}
 
-	public static Value substring( final Value source, final Value start )
+	public static Value substring( Interpreter interpreter, final Value source, final Value start )
 	{
 		String string = source.toString();
 		int begin = start.intValue();
 		if ( begin < 0 || begin > string.length() )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
+			throw interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
 		}
 		return new Value( string.substring( begin ) );
 	}
 
-	public static Value substring( final Value source, final Value start,
+	public static Value substring( Interpreter interpreter, final Value source, final Value start,
 		final Value finish )
 	{
 		String string = source.toString();
 		int begin = start.intValue();
 		if ( begin < 0 )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
+			throw interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
 		}
 		int end = finish.intValue();
 		if ( end > string.length() )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "End index " + end + " out of bounds" );
+			throw interpreter.runtimeException( "End index " + end + " out of bounds" );
 		}
 		if ( begin > end )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Begin index " + begin + " greater than end index " + end );
+			throw interpreter.runtimeException( "Begin index " + begin + " greater than end index " + end );
 		}
 		return new Value( string.substring( begin, end ) );
 	}
 
-	public static Value to_upper_case( final Value string )
+	public static Value to_upper_case( Interpreter interpreter, final Value string )
 	{
 		return new Value( string.toString().toUpperCase() );
 	}
 
-	public static Value to_lower_case( final Value string )
+	public static Value to_lower_case( Interpreter interpreter, final Value string )
 	{
 		return new Value( string.toString().toLowerCase() );
 	}
 
-	public static Value append( final Value buffer, final Value s )
+	public static Value append( Interpreter interpreter, final Value buffer, final Value s )
 	{
 		StringBuffer current = (StringBuffer) buffer.rawValue();
 		current.append( s.toString() );
 		return buffer;
 	}
 
-	public static Value insert( final Value buffer, final Value index, final Value s )
+	public static Value insert( Interpreter interpreter, final Value buffer, final Value index, final Value s )
 	{
 		StringBuffer current = (StringBuffer) buffer.rawValue();
 		current.insert( index.intValue(), s.toString() );
 		return buffer;
 	}
 
-	public static Value replace( final Value buffer, final Value start, final Value end,
+	public static Value replace( Interpreter interpreter, final Value buffer, final Value start, final Value end,
 		final Value s )
 	{
 		StringBuffer current = (StringBuffer) buffer.rawValue();
@@ -3842,21 +3839,21 @@ public abstract class RuntimeLibrary
 		return buffer;
 	}
 
-	public static Value delete( final Value buffer, final Value start, final Value end )
+	public static Value delete( Interpreter interpreter, final Value buffer, final Value start, final Value end )
 	{
 		StringBuffer current = (StringBuffer) buffer.rawValue();
 		current.delete( start.intValue(), end.intValue() );
 		return buffer;
 	}
 
-	public static Value set_length( final Value buffer, final Value i )
+	public static Value set_length( Interpreter interpreter, final Value buffer, final Value i )
 	{
 		StringBuffer current = (StringBuffer) buffer.rawValue();
 		current.setLength( i.intValue() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value append_tail( final Value matcher, final Value buffer )
+	public static Value append_tail( Interpreter interpreter, final Value matcher, final Value buffer )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		StringBuffer current = (StringBuffer) buffer.rawValue();
@@ -3864,7 +3861,7 @@ public abstract class RuntimeLibrary
 		return buffer;
 	}
 
-	public static Value append_replacement( final Value matcher, final Value buffer, final Value replacement )
+	public static Value append_replacement( Interpreter interpreter, final Value matcher, final Value buffer, final Value replacement )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		StringBuffer current = (StringBuffer) buffer.rawValue();
@@ -3872,7 +3869,7 @@ public abstract class RuntimeLibrary
 		return buffer;
 	}
 
-	public static Value create_matcher( final Value patternValue, final Value stringValue )
+	public static Value create_matcher( Interpreter interpreter, final Value patternValue, final Value stringValue )
 	{
 		String pattern = patternValue.toString();
 		String string = stringValue.toString();
@@ -3885,7 +3882,7 @@ public abstract class RuntimeLibrary
 			}
 			catch ( PatternSyntaxException e )
 			{
-				throw LibraryFunction.interpreter.runtimeException( "Invalid pattern syntax" );
+				throw interpreter.runtimeException( "Invalid pattern syntax" );
 			}
 		}
 
@@ -3893,13 +3890,13 @@ public abstract class RuntimeLibrary
 		return new Value( DataTypes.MATCHER_TYPE, pattern, p.matcher( string ) );
 	}
 
-	public static Value find( final Value matcher )
+	public static Value find( Interpreter interpreter, final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		return DataTypes.makeBooleanValue( m.find() );
 	}
 
-	public static Value start( final Value matcher )
+	public static Value start( Interpreter interpreter, final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		try
@@ -3908,11 +3905,11 @@ public abstract class RuntimeLibrary
 		}
 		catch ( IllegalStateException e )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+			throw interpreter.runtimeException( "No match attempted or previous match failed" );
 		}
 	}
 
-	public static Value start( final Value matcher, final Value group )
+	public static Value start( Interpreter interpreter, final Value matcher, final Value group )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		int index = group.intValue();
@@ -3922,15 +3919,15 @@ public abstract class RuntimeLibrary
 		}
 		catch ( IllegalStateException e )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+			throw interpreter.runtimeException( "No match attempted or previous match failed" );
 		}
 		catch ( IndexOutOfBoundsException e )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
+			throw interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
 		}
 	}
 
-	public static Value end( final Value matcher )
+	public static Value end( Interpreter interpreter, final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		try
@@ -3939,11 +3936,11 @@ public abstract class RuntimeLibrary
 		}
 		catch ( IllegalStateException e )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+			throw interpreter.runtimeException( "No match attempted or previous match failed" );
 		}
 	}
 
-	public static Value end( final Value matcher, final Value group )
+	public static Value end( Interpreter interpreter, final Value matcher, final Value group )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		int index = group.intValue();
@@ -3953,15 +3950,15 @@ public abstract class RuntimeLibrary
 		}
 		catch ( IllegalStateException e )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+			throw interpreter.runtimeException( "No match attempted or previous match failed" );
 		}
 		catch ( IndexOutOfBoundsException e )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
+			throw interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
 		}
 	}
 
-	public static Value group( final Value matcher )
+	public static Value group( Interpreter interpreter, final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		try
@@ -3970,11 +3967,11 @@ public abstract class RuntimeLibrary
 		}
 		catch ( IllegalStateException e )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+			throw interpreter.runtimeException( "No match attempted or previous match failed" );
 		}
 	}
 
-	public static Value group( final Value matcher, final Value group )
+	public static Value group( Interpreter interpreter, final Value matcher, final Value group )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		int index = group.intValue();
@@ -3984,47 +3981,47 @@ public abstract class RuntimeLibrary
 		}
 		catch ( IllegalStateException e )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "No match attempted or previous match failed" );
+			throw interpreter.runtimeException( "No match attempted or previous match failed" );
 		}
 		catch ( IndexOutOfBoundsException e )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
+			throw interpreter.runtimeException( "Group " + index + " requested, but pattern only has " + m.groupCount() + " groups" );
 		}
 	}
 
-	public static Value group_count( final Value matcher )
+	public static Value group_count( Interpreter interpreter, final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		return new Value( m.groupCount() );
 	}
 
-	public static Value replace_first( final Value matcher, final Value replacement )
+	public static Value replace_first( Interpreter interpreter, final Value matcher, final Value replacement )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		return new Value( m.replaceFirst( replacement.toString() ) );
 	}
 
-	public static Value replace_all( final Value matcher, final Value replacement )
+	public static Value replace_all( Interpreter interpreter, final Value matcher, final Value replacement )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		return new Value( m.replaceAll( replacement.toString() ) );
 	}
 
-	public static Value reset( final Value matcher )
+	public static Value reset( Interpreter interpreter, final Value matcher )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		m.reset();
 		return matcher;
 	}
 
-	public static Value reset( final Value matcher, final Value input )
+	public static Value reset( Interpreter interpreter, final Value matcher, final Value input )
 	{
 		Matcher m = (Matcher) matcher.rawValue();
 		m.reset( input.toString() );
 		return matcher;
 	}
 
-	public static Value replace_string( final Value source,
+	public static Value replace_string( Interpreter interpreter, final Value source,
 					    final Value searchValue,
 					    final Value replaceValue )
 	{
@@ -4049,7 +4046,7 @@ public abstract class RuntimeLibrary
 		return returnValue;
 	}
 
-	public static Value split_string( final Value string )
+	public static Value split_string( Interpreter interpreter, final Value string )
 	{
 		String[] pieces = string.toString().split( KoLConstants.LINE_BREAK );
 
@@ -4064,7 +4061,7 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value split_string( final Value string, final Value regex )
+	public static Value split_string( Interpreter interpreter, final Value string, final Value regex )
 	{
 		Pattern p;
 		if ( regex.rawValue() instanceof Pattern )
@@ -4083,7 +4080,7 @@ public abstract class RuntimeLibrary
 			}
 			catch ( PatternSyntaxException e )
 			{
-				throw LibraryFunction.interpreter.runtimeException( "Invalid pattern syntax" );
+				throw interpreter.runtimeException( "Invalid pattern syntax" );
 			}
 		}
 		String[] pieces = p.split( string.toString() );
@@ -4099,7 +4096,7 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value group_string( final Value string, final Value regex )
+	public static Value group_string( Interpreter interpreter, final Value string, final Value regex )
 	{
 		Pattern p;
 		if ( regex.rawValue() instanceof Pattern )
@@ -4118,7 +4115,7 @@ public abstract class RuntimeLibrary
 			}
 			catch ( PatternSyntaxException e )
 			{
-				throw LibraryFunction.interpreter.runtimeException( "Invalid pattern syntax" );
+				throw interpreter.runtimeException( "Invalid pattern syntax" );
 			}
 		}
 		Matcher userPatternMatcher = p.matcher( string.toString() );
@@ -4164,7 +4161,7 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value expression_eval( final Value expr )
+	public static Value expression_eval( Interpreter interpreter, final Value expr )
 	{
 		Expression e;
 		if ( expr.content instanceof Expression )
@@ -4182,7 +4179,7 @@ public abstract class RuntimeLibrary
 		return new Value( e.eval() );
 	}
 
-	public static Value modifier_eval( final Value expr )
+	public static Value modifier_eval( Interpreter interpreter, final Value expr )
 	{
 		ModifierExpression e;
 		if ( expr.content instanceof ModifierExpression )
@@ -4200,12 +4197,12 @@ public abstract class RuntimeLibrary
 		return new Value( e.eval() );
 	}
 
-	public static Value maximize( final Value maximizerStringValue, final Value isSpeculateOnlyValue )
+	public static Value maximize( Interpreter interpreter, final Value maximizerStringValue, final Value isSpeculateOnlyValue )
 	{
-		return maximize( maximizerStringValue, DataTypes.ZERO_VALUE, DataTypes.ZERO_VALUE, isSpeculateOnlyValue );
+		return maximize( interpreter, maximizerStringValue, DataTypes.ZERO_VALUE, DataTypes.ZERO_VALUE, isSpeculateOnlyValue );
 	}
 
-	public static Value maximize( final Value maximizerStringValue, final Value maxPriceValue, final Value priceLevelValue, final Value isSpeculateOnlyValue )
+	public static Value maximize( Interpreter interpreter, final Value maximizerStringValue, final Value maxPriceValue, final Value priceLevelValue, final Value isSpeculateOnlyValue )
 	{
 		String maximizerString = maximizerStringValue.toString();
 		int maxPrice = maxPriceValue.intValue();
@@ -4215,7 +4212,7 @@ public abstract class RuntimeLibrary
 		return new Value( MaximizerFrame.maximize( maximizerString, maxPrice, priceLevel, isSpeculateOnly ) );
 	}
 
-	public static Value monster_eval( final Value expr )
+	public static Value monster_eval( Interpreter interpreter, final Value expr )
 	{
 		MonsterExpression e;
 		if ( expr.content instanceof MonsterExpression )
@@ -4233,13 +4230,13 @@ public abstract class RuntimeLibrary
 		return new Value( e.eval() );
 	}
 
-	public static Value is_online( final Value arg )
+	public static Value is_online( Interpreter interpreter, final Value arg )
 	{
 		String name = arg.toString();
 		return DataTypes.makeBooleanValue( KoLmafia.isPlayerOnline( name ) );
 	}
 
-	public static Value chat_macro( final Value macroValue )
+	public static Value chat_macro( Interpreter interpreter, final Value macroValue )
 	{
 		String macro = macroValue.toString().trim();
 
@@ -4248,7 +4245,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value chat_clan( final Value messageValue )
+	public static Value chat_clan( Interpreter interpreter, final Value messageValue )
 	{
 		String channel = "/clan";
 		String message = messageValue.toString().trim();
@@ -4257,7 +4254,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value chat_clan( final Value messageValue, final Value recipientValue )
+	public static Value chat_clan( Interpreter interpreter, final Value messageValue, final Value recipientValue )
 	{
 		String channel = "/" + recipientValue.toString().trim();
 		String message = messageValue.toString().trim();
@@ -4266,7 +4263,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value chat_private( final Value recipientValue, final Value messageValue )
+	public static Value chat_private( Interpreter interpreter, final Value recipientValue, final Value messageValue )
 	{
 		String recipient = recipientValue.toString();
 
@@ -4282,7 +4279,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value chat_notify( final Value messageValue, final Value colorValue )
+	public static Value chat_notify( Interpreter interpreter, final Value messageValue, final Value colorValue )
 	{
 		String messageString = StringUtilities.globalStringReplace( messageValue.toString(), "<", "&lt;" );
 
@@ -4296,7 +4293,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value who_clan()
+	public static Value who_clan( Interpreter interpreter )
 	{
 		List chatMessages = new LinkedList();
 
@@ -4334,37 +4331,37 @@ public abstract class RuntimeLibrary
 
 	// Quest completion functions.
 
-	public static Value entryway()
+	public static Value entryway( Interpreter interpreter )
 	{
 		SorceressLairManager.completeCloverlessEntryway();
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value hedgemaze()
+	public static Value hedgemaze( Interpreter interpreter )
 	{
 		SorceressLairManager.completeHedgeMaze();
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value guardians()
+	public static Value guardians( Interpreter interpreter )
 	{
 		int itemId = SorceressLairManager.fightAllTowerGuardians();
 		return DataTypes.makeItemValue( itemId );
 	}
 
-	public static Value chamber()
+	public static Value chamber( Interpreter interpreter )
 	{
 		SorceressLairManager.fightAllTowerGuardians();
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value tavern()
+	public static Value tavern( Interpreter interpreter )
 	{
 		int result = TavernManager.locateTavernFaucet();
 		return new Value( KoLmafia.permitsContinue() ? result : -1 );
 	}
 
-	public static Value tavern( final Value arg )
+	public static Value tavern( Interpreter interpreter, final Value arg )
 	{
 		String goal = arg.toString();
 		int result = -1;
@@ -4389,47 +4386,47 @@ public abstract class RuntimeLibrary
 
 	// Arithmetic utility functions.
 
-	public static Value random( final Value arg )
+	public static Value random( Interpreter interpreter, final Value arg )
 	{
 		int range = arg.intValue();
 		if ( range < 2 )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Random range must be at least 2" );
+			throw interpreter.runtimeException( "Random range must be at least 2" );
 		}
 		return new Value( KoLConstants.RNG.nextInt( range ) );
 	}
 
-	public static Value round( final Value arg )
+	public static Value round( Interpreter interpreter, final Value arg )
 	{
 		return new Value( (int) Math.round( arg.floatValue() ) );
 	}
 
-	public static Value truncate( final Value arg )
+	public static Value truncate( Interpreter interpreter, final Value arg )
 	{
 		return new Value( (int) arg.floatValue() );
 	}
 
-	public static Value floor( final Value arg )
+	public static Value floor( Interpreter interpreter, final Value arg )
 	{
 		return new Value( (int) Math.floor( arg.floatValue() ) );
 	}
 
-	public static Value ceil( final Value arg )
+	public static Value ceil( Interpreter interpreter, final Value arg )
 	{
 		return new Value( (int) Math.ceil( arg.floatValue() ) );
 	}
 
-	public static Value square_root( final Value val )
+	public static Value square_root( Interpreter interpreter, final Value val )
 	{
 		float value = val.floatValue();
 		if ( value < 0.0f )
 		{
-			throw LibraryFunction.interpreter.runtimeException( "Can't take square root of a negative value" );
+			throw interpreter.runtimeException( "Can't take square root of a negative value" );
 		}
 		return new Value( (float) Math.sqrt( value ) );
 	}
 
-	public static Value min( final Value arg1, final Value arg2 )
+	public static Value min( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
 		if ( arg1.getType() == DataTypes.INT_TYPE && arg2.getType() == DataTypes.INT_TYPE )
 		{
@@ -4441,7 +4438,7 @@ public abstract class RuntimeLibrary
 
 	}
 
-	public static Value max( final Value arg1, final Value arg2 )
+	public static Value max( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
 		if ( arg1.getType() == DataTypes.INT_TYPE && arg2.getType() == DataTypes.INT_TYPE )
 		{
@@ -4455,38 +4452,38 @@ public abstract class RuntimeLibrary
 
 	// Settings-type functions.
 
-	public static Value url_encode( final Value arg )
+	public static Value url_encode( Interpreter interpreter, final Value arg )
 		throws UnsupportedEncodingException
 	{
 		return new Value( URLEncoder.encode( arg.toString(), "UTF-8" ) );
 	}
 
-	public static Value url_decode( final Value arg )
+	public static Value url_decode( Interpreter interpreter, final Value arg )
 		throws UnsupportedEncodingException
 	{
 		return new Value( URLDecoder.decode( arg.toString(), "UTF-8" ) );
 	}
 
-	public static Value entity_encode( final Value arg )
+	public static Value entity_encode( Interpreter interpreter, final Value arg )
 		throws UnsupportedEncodingException
 	{
 		return new Value( CharacterEntities.escape( arg.toString() ) );
 	}
 
-	public static Value entity_decode( final Value arg )
+	public static Value entity_decode( Interpreter interpreter, final Value arg )
 		throws UnsupportedEncodingException
 	{
 		return new Value( CharacterEntities.unescape( arg.toString() ) );
 	}
 
-	public static Value get_property( final Value name )
+	public static Value get_property( Interpreter interpreter, final Value name )
 	{
 		String property = name.toString();
 		return !Preferences.isUserEditable( property ) ? DataTypes.STRING_INIT :
 			new Value( Preferences.getString( property ) );
 	}
 
-	public static Value set_property( final Value name, final Value value )
+	public static Value set_property( Interpreter interpreter, final Value name, final Value value )
 	{
 		// In order to avoid code duplication for combat
 		// related settings, use the shell.
@@ -4498,23 +4495,23 @@ public abstract class RuntimeLibrary
 
 	// Functions for aggregates.
 
-	public static Value count( final Value arg )
+	public static Value count( Interpreter interpreter, final Value arg )
 	{
 		return new Value( arg.count() );
 	}
 
-	public static Value clear( final Value arg )
+	public static Value clear( Interpreter interpreter, final Value arg )
 	{
 		arg.clear();
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value file_to_map( final Value var1, final Value var2 )
+	public static Value file_to_map( Interpreter interpreter, final Value var1, final Value var2 )
 	{
-		return file_to_map( var1, var2, DataTypes.TRUE_VALUE );
+		return file_to_map( interpreter, var1, var2, DataTypes.TRUE_VALUE );
 	}
 
-	public static Value file_to_map( final Value var1, final Value var2, final Value var3 )
+	public static Value file_to_map( Interpreter interpreter, final Value var1, final Value var2, final Value var3 )
 	{
 		String filename = var1.toString();
 		CompositeValue result = (CompositeValue) var2;
@@ -4557,7 +4554,7 @@ public abstract class RuntimeLibrary
 			}
 
 			// Print the bad data that caused the error
-			Exception ex = LibraryFunction.interpreter.runtimeException( buffer.toString() );
+			Exception ex = interpreter.runtimeException( buffer.toString() );
 
 			// If it's a ScriptException, we generated it ourself
 			if ( e instanceof ScriptException )
@@ -4587,12 +4584,12 @@ public abstract class RuntimeLibrary
 		return DataTypes.TRUE_VALUE;
 	}
 
-	public static Value map_to_file( final Value var1, final Value var2 )
+	public static Value map_to_file( Interpreter interpreter, final Value var1, final Value var2 )
 	{
-		return map_to_file( var1, var2, DataTypes.TRUE_VALUE );
+		return map_to_file( interpreter, var1, var2, DataTypes.TRUE_VALUE );
 	}
 
-	public static Value map_to_file( final Value var1, final Value var2, final Value var3 )
+	public static Value map_to_file( Interpreter interpreter, final Value var1, final Value var2, final Value var3 )
 	{
 		CompositeValue map_variable = (CompositeValue) var1;
 		String filename = var2.toString();
@@ -4610,13 +4607,13 @@ public abstract class RuntimeLibrary
 
 	// Custom combat helper functions.
 
-	public static Value my_location()
+	public static Value my_location( Interpreter interpreter )
 	{
 		String location = Preferences.getString( "lastAdventure" );
 		return location.equals( "" ) ? DataTypes.parseLocationValue( "Rest", true ) : DataTypes.parseLocationValue( location, true );
 	}
 
-	public static Value set_location( final Value location )
+	public static Value set_location( Interpreter interpreter, final Value location )
 	{
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
 		if ( adventure != null &&
@@ -4628,14 +4625,14 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value last_monster()
+	public static Value last_monster( Interpreter interpreter )
 	{
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		return DataTypes.parseMonsterValue(
 			monster != null ? monster.getName() : "none", true );
 	}
 
-	public static Value get_monsters( final Value location )
+	public static Value get_monsters( Interpreter interpreter, final Value location )
 	{
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
 		AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
@@ -4654,7 +4651,7 @@ public abstract class RuntimeLibrary
 
 	}
 
-	public static Value appearance_rates( final Value location )
+	public static Value appearance_rates( Interpreter interpreter, final Value location )
 	{
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
 		AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
@@ -4679,17 +4676,17 @@ public abstract class RuntimeLibrary
 
 	}
 
-	public static Value expected_damage()
+	public static Value expected_damage( Interpreter interpreter )
 	{
-		return expected_damage( MonsterStatusTracker.getLastMonster(), MonsterStatusTracker.getMonsterAttackModifier() );
+		return expected_damage( interpreter, MonsterStatusTracker.getLastMonster(), MonsterStatusTracker.getMonsterAttackModifier() );
 	}
 
-	public static Value expected_damage( final Value arg )
+	public static Value expected_damage( Interpreter interpreter, final Value arg )
 	{
-		return expected_damage( (MonsterData) arg.rawValue(), 0 );
+		return expected_damage( interpreter, (MonsterData) arg.rawValue(), 0 );
 	}
 
-	private static Value expected_damage( MonsterData monster, int attackModifier )
+	private static Value expected_damage( Interpreter interpreter, MonsterData monster, int attackModifier )
 	{
 		if ( monster == null )
 		{
@@ -4717,32 +4714,32 @@ public abstract class RuntimeLibrary
 		return new Value( (int) Math.ceil( baseValue * damageAbsorb * elementAbsorb ) );
 	}
 
-	public static Value monster_level_adjustment()
+	public static Value monster_level_adjustment( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getMonsterLevelAdjustment() );
 	}
 
-	public static Value weight_adjustment()
+	public static Value weight_adjustment( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getFamiliarWeightAdjustment() );
 	}
 
-	public static Value mana_cost_modifier()
+	public static Value mana_cost_modifier( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getManaCostAdjustment() );
 	}
 
-	public static Value combat_mana_cost_modifier()
+	public static Value combat_mana_cost_modifier( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getManaCostAdjustment( true ) );
 	}
 
-	public static Value raw_damage_absorption()
+	public static Value raw_damage_absorption( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getDamageAbsorption() );
 	}
 
-	public static Value damage_absorption_percent()
+	public static Value damage_absorption_percent( Interpreter interpreter )
 	{
 		int raw = Math.min( 1000, KoLCharacter.getDamageAbsorption() );
 		if ( raw == 0 )
@@ -4757,17 +4754,17 @@ public abstract class RuntimeLibrary
 		return new Value( (float) percent );
 	}
 
-	public static Value damage_reduction()
+	public static Value damage_reduction( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getDamageReduction() );
 	}
 
-	public static Value elemental_resistance()
+	public static Value elemental_resistance( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getElementalResistance( MonsterStatusTracker.getMonsterAttackElement() ) );
 	}
 
-	public static Value elemental_resistance( final Value arg )
+	public static Value elemental_resistance( Interpreter interpreter, final Value arg )
 	{
 		if ( arg.getType().equals( DataTypes.TYPE_ELEMENT ) )
 		{
@@ -4783,49 +4780,49 @@ public abstract class RuntimeLibrary
 		return new Value( KoLCharacter.getElementalResistance( monster.getAttackElement() ) );
 	}
 
-	public static Value combat_rate_modifier()
+	public static Value combat_rate_modifier( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getCombatRateAdjustment() );
 	}
 
-	public static Value initiative_modifier()
+	public static Value initiative_modifier( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getInitiativeAdjustment() );
 	}
 
-	public static Value experience_bonus()
+	public static Value experience_bonus( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getExperienceAdjustment() );
 	}
 
-	public static Value meat_drop_modifier()
+	public static Value meat_drop_modifier( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getMeatDropPercentAdjustment() );
 	}
 
-	public static Value item_drop_modifier()
+	public static Value item_drop_modifier( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getItemDropPercentAdjustment() );
 	}
 
-	public static Value buffed_hit_stat()
+	public static Value buffed_hit_stat( Interpreter interpreter )
 	{
 		int hitStat = EquipmentManager.getAdjustedHitStat();
 		return new Value( hitStat );
 	}
 
-	public static Value current_hit_stat()
+	public static Value current_hit_stat( Interpreter interpreter )
 	{
 		return EquipmentManager.getHitStatType() == KoLConstants.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.MUSCLE_VALUE;
 	}
 
-	public static Value monster_element()
+	public static Value monster_element( Interpreter interpreter )
 	{
 		int element = MonsterStatusTracker.getMonsterDefenseElement();
 		return new Value( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
 	}
 
-	public static Value monster_element( final Value arg )
+	public static Value monster_element( Interpreter interpreter, final Value arg )
 	{
 		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
@@ -4837,12 +4834,12 @@ public abstract class RuntimeLibrary
 		return new Value( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
 	}
 
-	public static Value monster_attack()
+	public static Value monster_attack( Interpreter interpreter )
 	{
 		return new Value( MonsterStatusTracker.getMonsterAttack() );
 	}
 
-	public static Value monster_attack( final Value arg )
+	public static Value monster_attack( Interpreter interpreter, final Value arg )
 	{
 		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
@@ -4853,12 +4850,12 @@ public abstract class RuntimeLibrary
 		return new Value( monster.getAttack() );
 	}
 
-	public static Value monster_defense()
+	public static Value monster_defense( Interpreter interpreter )
 	{
 		return new Value( MonsterStatusTracker.getMonsterDefense() );
 	}
 
-	public static Value monster_defense( final Value arg )
+	public static Value monster_defense( Interpreter interpreter, final Value arg )
 	{
 		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
@@ -4869,12 +4866,12 @@ public abstract class RuntimeLibrary
 		return new Value( monster.getDefense() );
 	}
 
-	public static Value monster_hp()
+	public static Value monster_hp( Interpreter interpreter )
 	{
 		return new Value( MonsterStatusTracker.getMonsterHealth() );
 	}
 
-	public static Value monster_hp( final Value arg )
+	public static Value monster_hp( Interpreter interpreter, final Value arg )
 	{
 		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
@@ -4885,13 +4882,13 @@ public abstract class RuntimeLibrary
 		return new Value( monster.getHP() );
 	}
 
-	public static Value monster_phylum()
+	public static Value monster_phylum( Interpreter interpreter )
 	{
 		int phylum = MonsterStatusTracker.getMonsterPhylum();
 		return new Value( DataTypes.PHYLUM_TYPE, phylum, MonsterDatabase.phylumNames[ phylum ] );
 	}
 
-	public static Value monster_phylum( final Value arg )
+	public static Value monster_phylum( Interpreter interpreter, final Value arg )
 	{
 		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
@@ -4903,7 +4900,7 @@ public abstract class RuntimeLibrary
 		return new Value( DataTypes.PHYLUM_TYPE, phylum, MonsterDatabase.phylumNames[ phylum ] );
 	}
 
-	public static Value item_drops()
+	public static Value item_drops( Interpreter interpreter )
 	{
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		List data = monster == null ? new ArrayList() : monster.getItems();
@@ -4922,7 +4919,7 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value item_drops( final Value arg )
+	public static Value item_drops( Interpreter interpreter, final Value arg )
 	{
 		MonsterData monster = (MonsterData) arg.rawValue();
 		List data = monster == null ? new ArrayList() : monster.getItems();
@@ -4941,17 +4938,17 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value item_drops_array()
+	public static Value item_drops_array( Interpreter interpreter )
 	{
-		return item_drops_array( MonsterStatusTracker.getLastMonster() );
+		return item_drops_array( interpreter, MonsterStatusTracker.getLastMonster() );
 	}
 
-	public static Value item_drops_array( final Value arg )
+	public static Value item_drops_array( Interpreter interpreter, final Value arg )
 	{
-		return item_drops_array( (MonsterData) arg.rawValue() );
+		return item_drops_array( interpreter, (MonsterData) arg.rawValue() );
 	}
 
-	public static Value item_drops_array( MonsterData monster )
+	public static Value item_drops_array( Interpreter interpreter, MonsterData monster )
 	{
 		List data = monster == null ? new ArrayList() : monster.getItems();
 		int dropCount = data.size();
@@ -4975,7 +4972,7 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value meat_drop()
+	public static Value meat_drop( Interpreter interpreter )
 	{
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		if ( monster == null )
@@ -4986,7 +4983,7 @@ public abstract class RuntimeLibrary
 		return new Value( (monster.getMinMeat() +monster.getMaxMeat()) / 2 );
 	}
 
-	public static Value meat_drop( final Value arg )
+	public static Value meat_drop( Interpreter interpreter, final Value arg )
 	{
 		MonsterData monster = (MonsterData) arg.rawValue();
 		if ( monster == null )
@@ -4997,30 +4994,30 @@ public abstract class RuntimeLibrary
 		return new Value( (monster.getMinMeat() +monster.getMaxMeat()) / 2 );
 	}
 
-	public static Value will_usually_dodge()
+	public static Value will_usually_dodge( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( MonsterStatusTracker.willUsuallyDodge() );
 	}
 
-	public static Value will_usually_miss()
+	public static Value will_usually_miss( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( MonsterStatusTracker.willUsuallyMiss() );
 	}
 
-	public static Value numeric_modifier( final Value modifier )
+	public static Value numeric_modifier( Interpreter interpreter, final Value modifier )
 	{
 		String mod = modifier.toString();
 		return new Value( KoLCharacter.currentNumericModifier( mod ) );
 	}
 
-	public static Value numeric_modifier( final Value arg, final Value modifier )
+	public static Value numeric_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return new Value( Modifiers.getNumericModifier( name, mod ) );
 	}
 
-	public static Value numeric_modifier( final Value familiar, final Value modifier, final Value weight, final Value item )
+	public static Value numeric_modifier( Interpreter interpreter, final Value familiar, final Value modifier, final Value weight, final Value item )
 	{
 		FamiliarData fam = new FamiliarData( familiar.intValue() );
 		String mod = modifier.toString();
@@ -5030,111 +5027,111 @@ public abstract class RuntimeLibrary
 		return new Value( Modifiers.getNumericModifier( fam, mod, w, it ) );
 	}
 
-	public static Value boolean_modifier( final Value modifier )
+	public static Value boolean_modifier( Interpreter interpreter, final Value modifier )
 	{
 		String mod = modifier.toString();
 		return DataTypes.makeBooleanValue( KoLCharacter.currentBooleanModifier( mod ) );
 	}
 
-	public static Value boolean_modifier( final Value arg, final Value modifier )
+	public static Value boolean_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return DataTypes.makeBooleanValue( Modifiers.getBooleanModifier( name, mod ) );
 	}
 
-	public static Value string_modifier( final Value modifier )
+	public static Value string_modifier( Interpreter interpreter, final Value modifier )
 	{
 		String mod = modifier.toString();
 		return new Value( KoLCharacter.currentStringModifier( mod ) );
 	}
 
-	public static Value string_modifier( final Value arg, final Value modifier )
+	public static Value string_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return new Value( Modifiers.getStringModifier( name, mod ) );
 	}
 
-	public static Value effect_modifier( final Value arg, final Value modifier )
+	public static Value effect_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return new Value( DataTypes.parseEffectValue( Modifiers.getStringModifier( name, mod ), true ) );
 	}
 
-	public static Value class_modifier( final Value arg, final Value modifier )
+	public static Value class_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return new Value( DataTypes.parseClassValue( Modifiers.getStringModifier( name, mod ), true ) );
 	}
 
-	public static Value stat_modifier( final Value arg, final Value modifier )
+	public static Value stat_modifier( Interpreter interpreter, final Value arg, final Value modifier )
 	{
 		String name = arg.toString();
 		String mod = modifier.toString();
 		return new Value( DataTypes.parseStatValue( Modifiers.getStringModifier( name, mod ), true ) );
 	}
 
-	public static Value galaktik_cures_discounted()
+	public static Value galaktik_cures_discounted( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.galaktikCuresAvailable() );
 	}
 
-	public static Value white_citadel_available()
+	public static Value white_citadel_available( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.isWhiteCitadelAvailable() );
 	}
 
-	public static Value friars_available()
+	public static Value friars_available( Interpreter interpreter )
 	{
 		if ( QuestLogRequest.areFriarsAvailable() )
 			Preferences.setInteger( "lastFriarCeremonyAscension", Preferences.getInteger( "knownAscensions" ));
 		return DataTypes.makeBooleanValue( QuestLogRequest.areFriarsAvailable() );
 	}
 
-	public static Value black_market_available()
+	public static Value black_market_available( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.isBlackMarketAvailable() );
 	}
 
-	public static Value hippy_store_available()
+	public static Value hippy_store_available( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( QuestLogRequest.isHippyStoreAvailable() );
 	}
 
-	public static Value dispensary_available()
+	public static Value dispensary_available( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getDispensaryOpen() );
 	}
 
-	public static Value guild_store_available()
+	public static Value guild_store_available( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getGuildStoreOpen() );
 	}
 
-	public static Value hidden_temple_unlocked()
+	public static Value hidden_temple_unlocked( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getTempleUnlocked() );
 	}
 
-	public static Value knoll_available()
+	public static Value knoll_available( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.knollAvailable() );
 	}
 
-	public static Value canadia_available()
+	public static Value canadia_available( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.canadiaAvailable() );
 	}
 
-	public static Value gnomads_available()
+	public static Value gnomads_available( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.gnomadsAvailable() );
 	}
 
-	public static Value is_trendy( final Value thing )
+	public static Value is_trendy( Interpreter interpreter, final Value thing )
 	{
 		// Types: "Items", "Campground", Bookshelf", "Familiars", "Skills", "Clan Item".
 		String key = thing.toString();
@@ -5180,13 +5177,13 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( result );
 	}
 
-	public static Value mmg_visit()
+	public static Value mmg_visit( Interpreter interpreter )
 	{
 		RequestThread.postRequest( new MoneyMakingGameRequest() );
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value mmg_search( final Value arg1, final Value arg2 )
+	public static Value mmg_search( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
 		int lower = arg1.intValue();
 		int higher = arg2.intValue();
@@ -5194,7 +5191,7 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value mmg_make_bet( final Value arg, final Value source )
+	public static Value mmg_make_bet( Interpreter interpreter, final Value arg, final Value source )
 	{
 		int amount = arg.intValue();
 		int storage = source.intValue();
@@ -5202,14 +5199,14 @@ public abstract class RuntimeLibrary
 		return new Value( MoneyMakingGameManager.getLastBetId() );
 	}
 
-	public static Value mmg_retract_bet( final Value arg )
+	public static Value mmg_retract_bet( Interpreter interpreter, final Value arg )
 	{
 		int id = arg.intValue();
 		RequestThread.postRequest( new MoneyMakingGameRequest( MoneyMakingGameRequest.RETRACT_BET, id ) );
 		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value mmg_take_bet( final Value arg, final Value source )
+	public static Value mmg_take_bet( Interpreter interpreter, final Value arg, final Value source )
 	{
 		int betId = arg.intValue();
 		int storage = source.intValue();
@@ -5217,7 +5214,7 @@ public abstract class RuntimeLibrary
 		return new Value( MoneyMakingGameManager.getLastWinnings() );
 	}
 
-	public static Value mmg_my_bets()
+	public static Value mmg_my_bets( Interpreter interpreter )
 	{
 		int[] bets = MoneyMakingGameManager.getActiveBets();
 
@@ -5232,7 +5229,7 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value mmg_offered_bets()
+	public static Value mmg_offered_bets( Interpreter interpreter )
 	{
 		int[] bets = MoneyMakingGameManager.getOfferedBets();
 
@@ -5247,41 +5244,41 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
-	public static Value mmg_bet_owner( final Value arg )
+	public static Value mmg_bet_owner( Interpreter interpreter, final Value arg )
 	{
 		int id = arg.intValue();
 		return new Value( MoneyMakingGameManager.betOwner( id ) );
 	}
 
-	public static Value mmg_bet_owner_id( final Value arg )
+	public static Value mmg_bet_owner_id( Interpreter interpreter, final Value arg )
 	{
 		int id = arg.intValue();
 		return new Value( MoneyMakingGameManager.betOwnerId( id ) );
 	}
 
-	public static Value mmg_bet_amount( final Value arg )
+	public static Value mmg_bet_amount( Interpreter interpreter, final Value arg )
 	{
 		int id = arg.intValue();
 		return new Value( MoneyMakingGameManager.betAmount( id ) );
 	}
 
-	public static Value mmg_wait_event( final Value arg )
+	public static Value mmg_wait_event( Interpreter interpreter, final Value arg )
 	{
 		int seconds = arg.intValue();
 		return new Value( MoneyMakingGameManager.getNextEvent( seconds ) );
 	}
 
-	public static Value mmg_bet_taker()
+	public static Value mmg_bet_taker( Interpreter interpreter )
 	{
 		return new Value( MoneyMakingGameManager.getLastEventPlayer() );
 	}
 
-	public static Value mmg_bet_taker_id()
+	public static Value mmg_bet_taker_id( Interpreter interpreter )
 	{
 		return new Value( MoneyMakingGameManager.getLastEventPlayerId() );
 	}
 
-	public static Value mmg_bet_winnings()
+	public static Value mmg_bet_winnings( Interpreter interpreter )
 	{
 		return new Value( MoneyMakingGameManager.getLastEventWinnings() );
 	}

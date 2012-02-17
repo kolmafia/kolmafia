@@ -75,7 +75,13 @@ public class Macrofier
 	private static final Pattern ALLCALLS_PATTERN = Pattern.compile( "call (\\w+)" );
 	private static final Pattern ALLSUBS_PATTERN = Pattern.compile( "sub (\\w+)([\\s;\\n]+endsub)?" );
 
-	public static void setMacroOverride( String macroOverride )
+	public static void resetMacroOverride()
+	{
+		Macrofier.macroOverride = null;
+		Macrofier.macroInterpreter = null;
+	}
+
+	public static void setMacroOverride( String macroOverride, Interpreter interpreter )
 	{
 		if ( macroOverride == null || macroOverride.length() == 0 )
 		{
@@ -90,7 +96,7 @@ public class Macrofier
 		else
 		{
 			Macrofier.macroOverride = macroOverride;
-			Macrofier.macroInterpreter = LibraryFunction.interpreter;
+			Macrofier.macroInterpreter = interpreter;
 		}
 	}
 
