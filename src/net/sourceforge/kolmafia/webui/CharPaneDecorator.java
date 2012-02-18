@@ -65,11 +65,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CharPaneDecorator
 {
-	private static final Pattern COLOR_PATTERN = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" );
-	private static final Pattern LASTADV_PATTERN = Pattern.compile(
-		">Last Adventure.*?<font[^>]*>(.*?)<br></font>.*?</table>" );
-	private static final Pattern COMPACT_LASTADV_PATTERN = Pattern.compile(
-		"<td align=right>(<a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"([^\"]+)\">.*?</a>:)</td>" );
 	private static final Pattern EFFECT_PATTERN = Pattern.compile(
 		"onClick='eff\\(.*?(\\d+)(?:</a>)?\\)" );
 	private static final Pattern FONT_TAG_PATTERN = Pattern.compile(
@@ -77,7 +72,8 @@ public class CharPaneDecorator
 
 	private static final ArrayList recentLocations = new ArrayList();
 
-	private static final String[][] BIRDFORM_STRINGS = {
+	private static final String[][] BIRDFORM_STRINGS =
+	{
 		{
 			"birdformStench",
 			"<span title=\"stinkbug->Statue Treatment->buzzard->+meat\"><font color=green>",
@@ -112,11 +108,305 @@ public class CharPaneDecorator
 
 	public static final void decorate( final StringBuffer buffer )
 	{
-		if ( Preferences.getBoolean( "relayAddsRestoreLinks" ) )
+		// We are interested in the following sections of the CharPane:
+		//
+		// Status (HP/MP)
+		// Last Adventure
+		// Familiar or Minstrel
+		// Effects
+		// Intrinsics
+		//
+		// Two interface settings affect the appearance and/or order of
+		// these sections:
+		//
+		// CharPaneRequest.compactCharacterPane
+		// CharPaneRequest.familiarBelowEffects
+
+		// Decorate the various sections
+		CharPaneDecorator.decorateStatus( buffer );
+		CharPaneDecorator.decorateLastAdventure( buffer );
+		CharPaneDecorator.decorateFamiliar( buffer );
+		CharPaneDecorator.decorateEffects( buffer );
+		CharPaneDecorator.decorateIntrinsics( buffer );
+
+		// Update the safety text every time we load the charpane
+		StringUtilities.singleStringReplace( buffer, "<body", "<body onload=\"updateSafetyText();\"" );
+		// Add a "refresh" link at the end
+		StringUtilities.singleStringReplace( buffer, "</body>",
+		"<center><font size=1>[<a href=\"charpane.php\">refresh</a>]</font></center></body>" );
+	}
+
+	public static final void decorateStatus( final StringBuffer buffer )
+	{
+		if ( !Preferences.getBoolean( "relayAddsRestoreLinks" ) )
 		{
-			CharPaneDecorator.addRestoreLinks( buffer );
+			return;
 		}
 
+		if ( buffer.indexOf( "Astral Spirit" ) != -1 )
+		{	// No restoration needed in Valhalla!
+			return;
+		}
+
+		// First, replace HP information with a restore HP link, if necessary
+
+		float current = KoLCharacter.getCurrentHP();
+		float maximum = KoLCharacter.getMaximumHP();
+		float target = Preferences.getFloat( "hpAutoRecoveryTarget" );
+		float threshold = maximum; // * target
+		float dangerous = maximum * Preferences.getFloat( "hpAutoRecovery" );
+
+		CharPaneDecorator.addRestoreLink( buffer, true, current, threshold, dangerous );
+
+		// Next, replace MP information with a restore MP link, if necessary
+
+		current = KoLCharacter.getCurrentMP();
+		maximum = KoLCharacter.getMaximumMP();
+		target = Preferences.getFloat( "mpAutoRecoveryTarget" );
+		threshold = maximum; // * target
+		dangerous = maximum * Preferences.getFloat( "mpAutoRecovery" );
+
+		CharPaneDecorator.addRestoreLink( buffer, false, current, threshold, dangerous );
+	}
+
+	// Normal:
+	//
+	//     <td align=center><img src="http://images.kingdomofloathing.com/itemimages/hp.gif" class=hand onclick='doc("hp");' title="Hit Points" alt="Hit Points"><br><span class=black>219&nbsp;/&nbsp;238</span></td>
+	//     <td align=center><img src="http://images.kingdomofloathing.com/itemimages/mp.gif" class=hand onclick='doc("mp");' title="Muscularity Points" alt="Muscularity Points"><br><span class=black>44&nbsp;/&nbsp;54</span></td>
+	// 
+	// Compact:
+	//
+	//   <tr><td align=right>HP:</td><td align=left><b><font color=black>792/792</font></b></td></tr>
+	//   <tr><td align=right>MP:</td><td align=left><b>1398/1628</b></td></tr>
+
+	private static final Pattern POINTS_PATTERN = Pattern.compile( "(<td.*?<br><span.*?>)([\\d,]+)(&nbsp;.*?</td>)" );
+	private static final Pattern COMPACT_POINTS_PATTERN = Pattern.compile( "(<td.*?<b>)(?:<font.*?>)?(\\d+)(.*?(?:</font>)?</b></td>)" );
+
+	private static final void addRestoreLink( final StringBuffer buffer, final boolean hp, final float current, final float threshold, final float dangerous )
+	{
+		// If we don't need restoration, do nothing
+		if ( current >= threshold )
+		{
+			return;
+		}
+
+		// Locate current value
+		String text = hp ?
+			CharPaneDecorator.getHPDatum( buffer ) :
+			CharPaneDecorator.getMPDatum( buffer );
+
+		Matcher matcher = CharPaneRequest.compactCharacterPane ? 
+			CharPaneDecorator.COMPACT_POINTS_PATTERN.matcher( text ) :
+			CharPaneDecorator.POINTS_PATTERN.matcher( text );
+
+		if ( matcher.find() )
+		{
+			// Craft a replacement for the current value
+			StringBuffer rep = new StringBuffer();
+
+			rep.append( matcher.group( 1 ) );
+			rep.append( "<a style=\"color:" );
+			rep.append( current <= dangerous ? "red" : "black" );
+			rep.append( "\" title=\"Restore your " );
+			rep.append( hp ? "HP" : "MP" );
+			rep.append( "\" href=\"/KoLmafia/sideCommand?cmd=restore+" );
+			rep.append( hp ? "hp" : "mp" );
+			rep.append( "&pwd=" );
+			rep.append( GenericRequest.passwordHash );
+			rep.append( "\">" );
+			rep.append( matcher.group( 2 ) );
+			rep.append( "</a>" );
+			rep.append( matcher.group( 3 ) );
+
+			// Replace the original text with the replacement
+			StringUtilities.singleStringReplace( buffer, text, rep.toString() );
+		}
+	}
+
+	private static final String getHPDatum( final StringBuffer buffer )
+	{
+		int startIndex, endIndex;
+
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			startIndex = buffer.indexOf( "<td align=right>HP:" );
+			endIndex = buffer.indexOf( "</tr>", startIndex );
+		}
+		else
+		{
+			startIndex = buffer.indexOf( "<td align=center><img src=\"http://images.kingdomofloathing.com/itemimages/hp.gif" );
+			endIndex = buffer.indexOf( "</td>", startIndex ) + 5;
+		}
+
+		return startIndex < 0 ? "" : buffer.substring( startIndex, endIndex );
+	}
+
+	private static final String getMPDatum( final StringBuffer buffer )
+	{
+		int startIndex, endIndex;
+
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			startIndex = buffer.indexOf( "<td align=right>MP:" );
+			endIndex = buffer.indexOf( "</tr>", startIndex );
+		}
+		else
+		{
+			startIndex = buffer.indexOf( "<td align=center><img src=\"http://images.kingdomofloathing.com/itemimages/mp.gif" );
+			endIndex = buffer.indexOf( "</td>", startIndex ) + 5;
+		}
+
+		return startIndex < 0 ? "" : buffer.substring( startIndex, endIndex );
+	}
+
+	private static final Pattern LASTADV_PATTERN = Pattern.compile(
+		">Last Adventure.*?<font[^>]*>(.*?)<br></font>.*?</table>" );
+	private static final Pattern COMPACT_LASTADV_PATTERN = Pattern.compile(
+		"<td align=right>(<a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"([^\"]+)\">.*?</a>:)</td>" );
+
+	public static final void decorateLastAdventure( final StringBuffer buffer )
+	{
+		int nLinks = Preferences.getInteger( "recentLocations" );
+
+		if ( nLinks <= 1 )
+		{
+			return;
+		}
+
+		Pattern pattern = CharPaneRequest.compactCharacterPane ? COMPACT_LASTADV_PATTERN : LASTADV_PATTERN;
+		Matcher matcher = pattern.matcher( buffer );
+
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		// group(1) is the link itself, end() is the insertion point for the recent list
+
+		String link;
+
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			link = "<a onclick='if (top.mainpane.focus) top.mainpane.focus();' target=mainpane href=\"" + matcher.group( 3 ) + "\">" + matcher.group( 2 ) + "</a>";
+		}
+		else
+		{
+			link = matcher.group( 1 );
+		}
+
+		if ( CharPaneDecorator.recentLocations.size() == 0 )
+		{
+			CharPaneDecorator.recentLocations.add( link );
+			return;
+		}
+
+		if ( !CharPaneDecorator.recentLocations.get( 0 ).equals( link ) )
+		{
+			CharPaneDecorator.recentLocations.remove( link );
+			CharPaneDecorator.recentLocations.add( 0, link );
+
+			while ( CharPaneDecorator.recentLocations.size() > nLinks )
+			{
+				CharPaneDecorator.recentLocations.remove( nLinks );
+			}
+
+		}
+
+		if ( CharPaneDecorator.recentLocations.size() <= 1 )
+		{
+			return;
+		}
+
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			StringBuffer linkBuffer = new StringBuffer();
+
+			linkBuffer.append( "<td>" );
+
+			linkBuffer.append( "<span onmouseover=\"document.getElementById('lastadvmenu').style.display = 'inline';\" onmouseout=\"document.getElementById('lastadvmenu').style.display = 'none';\">" );
+
+			linkBuffer.append( "<div style=\"text-align: right\">" );
+
+			linkBuffer.append( matcher.group( 1 ) );
+
+			linkBuffer.append( "</div>" );
+
+			linkBuffer.append( "<span id=\"lastadvmenu\"" );
+			linkBuffer.append( " style=\"position: absolute; padding: 5px 5px 5px 5px; background: #f5f5f5; display: none\">" );
+
+			linkBuffer.append( "<font size=1>" );
+
+			for ( int i = 0; i < CharPaneDecorator.recentLocations.size(); ++i )
+			{
+				if ( i > 0 )
+				{
+					linkBuffer.append( "<br/>" );
+				}
+
+				linkBuffer.append( "<nobr>" );
+				linkBuffer.append( CharPaneDecorator.recentLocations.get( i ) );
+				linkBuffer.append( "</nobr>" );
+			}
+
+			linkBuffer.append( "</font>" );
+
+			linkBuffer.append( "</span>" );
+			linkBuffer.append( "</span>" );
+			linkBuffer.append( "</td>" );
+
+			buffer.delete( matcher.start(), matcher.end() );
+			buffer.insert( matcher.start(), linkBuffer.toString() );
+		}
+		else
+		{
+			StringBuffer linkBuffer = new StringBuffer();
+
+			linkBuffer.append( "<font size=1>" );
+
+			for ( int i = 1; i < CharPaneDecorator.recentLocations.size(); ++i )
+			{
+				if ( i > 1 )
+				{
+					linkBuffer.append( "<br/>" );
+				}
+
+				linkBuffer.append( "<nobr>" );
+				linkBuffer.append( CharPaneDecorator.recentLocations.get( i ) );
+				linkBuffer.append( "</nobr>" );
+			}
+
+			linkBuffer.append( "</font>" );
+			buffer.insert( matcher.end(), linkBuffer.toString() );
+		}
+	}
+
+	public static final void decorateFamiliar( final StringBuffer buffer )
+	{
+		StringBuffer annotations = CharPaneDecorator.getFamiliarAnnotation();
+		if ( annotations == null )
+		{
+			return;
+		}
+
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			int pos = buffer.indexOf( "<a target=mainpane href=\"familiar.php\"" );
+			if ( pos == -1 ) return;
+			annotations.append( "<br>" );
+			buffer.insert( pos, annotations );
+		}
+		else
+		{
+			int pos = buffer.indexOf( "<b>Familiar:</b>" );
+			if ( pos == -1 ) return;
+			annotations.insert( 0, "<br>(" );
+			annotations.append( ")" );
+			buffer.insert( pos + 16, annotations );
+		}
+	}
+
+	public static final void decorateEffects( final StringBuffer buffer )
+	{
 		if ( Preferences.getBoolean( "relayAddsUpArrowLinks" ) )
 		{
 			CharPaneDecorator.addUpArrowLinks( buffer );
@@ -128,109 +418,146 @@ public class CharPaneDecorator
 			CharPaneDecorator.addCounters( buffer, it );
 		}
 
-		if ( Preferences.getInteger( "recentLocations" ) >= 1 )
-		{
-			CharPaneDecorator.addRecentLocations( buffer, GenericRequest.compactCharacterPane );
-		}
-
-		CharPaneDecorator.addFamiliarAnnotation( buffer,
-			CharPaneDecorator.getFamiliarAnnotation(),
-			GenericRequest.compactCharacterPane );
-
 		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Yellow","<font size=2 color=olive>Everything Looks Yellow" );
 		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Red","<font size=2 color=red>Everything Looks Red" );
 		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Blue","<font size=2 color=blue>Everything Looks Blue" );
+	}
 
-		StringUtilities.singleStringReplace( buffer, "<body", "<body onload=\"updateSafetyText();\"" );
-		StringUtilities.singleStringReplace( buffer, "</body>",
-		"<center><font size=1>[<a href=\"charpane.php\">refresh</a>]</font></center></body>" );
+	public static final void decorateIntrinsics( final StringBuffer buffer )
+	{
 	}
 	
-	public static final String getFamiliarAnnotation()
+	public static final StringBuffer getFamiliarAnnotation()
 	{
-		FamiliarData fam = KoLCharacter.getEffectiveFamiliar();
-		switch ( fam != null ? fam.getId() : -1 )
+		FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
+		if ( familiar == null )
+		{
+			return null;
+		}
+
+		StringBuffer buffer = new StringBuffer();
+		switch ( familiar.getId() )
 		{
 		case FamiliarPool.TRON:
-			return Preferences.getInteger( "_tokenDrops" ) + "/5";
+			buffer.append( Preferences.getString( "_tokenDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
 		case FamiliarPool.SANDWORM:
-			return Preferences.getInteger( "_aguaDrops" ) + "/5";
+			buffer.append( Preferences.getString( "_aguaDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
 		case FamiliarPool.LLAMA:
-			return Preferences.getInteger( "_gongDrops" ) + "/5";
+			buffer.append( Preferences.getString( "_gongDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
 		case FamiliarPool.PIXIE:
-			return Preferences.getInteger( "_absintheDrops" ) + "/5";
+			buffer.append( Preferences.getString( "_absintheDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
 		case FamiliarPool.BADGER:
-			return Preferences.getInteger( "_astralDrops" ) + "/5";
+			buffer.append( Preferences.getString( "_astralDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
 		case FamiliarPool.BANDER:
-			return Preferences.getInteger( "_banderRunaways" ) + "/" +
-				fam.getModifiedWeight() / 5;
+			buffer.append( Preferences.getString( "_banderRunaways" ) );
+			buffer.append( "/" );
+			buffer.append( String.valueOf( familiar.getModifiedWeight() / 5 ) );
+			return buffer;
+
 		case FamiliarPool.BOOTS:
-			return Preferences.getInteger( "_banderRunaways" ) + "/" +
-				fam.getModifiedWeight() / 5 + " runs" +
-				"<br>" +
-				Preferences.getInteger( "_bootStomps" ) + "/7 " +
-				( Preferences.getInteger( "_bootStomps" ) == 1 ? " stomp" : " stomps" ) +
-				( Preferences.getBoolean( "bootsCharged" ) ? "!" : "" );
+			buffer.append( Preferences.getString( "_banderRunaways" ) );
+			buffer.append( "/" );
+			buffer.append( String.valueOf( familiar.getModifiedWeight() / 5 ) );
+			buffer.append( " runs" );
+			buffer.append( "<br>" );
+			buffer.append( Preferences.getString( "_bootStomps" ) );
+			buffer.append( "/7 " );
+			buffer.append( " stomp" );
+			if ( Preferences.getInteger( "_bootStomps" ) != 1  )
+			{
+				buffer.append( "s" );
+			}
+			if ( Preferences.getBoolean( "bootsCharged" ) )
+			{
+				buffer.append( "!" );
+			}
+			return buffer;
+
 		case FamiliarPool.GIBBERER:
 		case FamiliarPool.HARE:
-			return ( Preferences.getInteger( "extraRolloverAdventures" ) - Preferences.getInteger( "_resolutionAdv" ) ) + " adv";
-		case FamiliarPool.SLIMELING:
-			return "~" + Preferences.getFloat( "slimelingFullness" ) + " full" + getSlimelingStacksAnnotation();
-		case FamiliarPool.HIPSTER:
-			return Preferences.getInteger( "_hipsterAdv" ) + "/7";
-		case FamiliarPool.GRINDER:
-			return Preferences.getString( "_pieDrops" ) +
-				( Preferences.getInteger( "_pieDrops" ) == 1 ? " pie" : " pies" ) +
-				"<br>" +
-				Preferences.getString( "_piePartsCount" ) +
-				( Preferences.getInteger( "_piePartsCount" ) == 1 ? " part" : " parts" );
-		case FamiliarPool.ALIEN:
-			return Preferences.getInteger( "_transponderDrops" ) + "/5";
-		case FamiliarPool.GROOSE:
-			return Preferences.getInteger( "_grooseDrops" ) + "/5";
-		case FamiliarPool.KLOOP:
-			return Preferences.getInteger( "_kloopDrops" ) + "/5";
-		}
-		return null;
-	}
+			buffer.append( String.valueOf( Preferences.getInteger( "extraRolloverAdventures" ) - Preferences.getInteger( "_resolutionAdv" ) ) );
+			buffer.append( " adv" );
+			return buffer;
 
-	private static String getSlimelingStacksAnnotation()
-	{
-		int due = Preferences.getInteger( "slimelingStacksDue" );
-		int got = Preferences.getInteger( "slimelingStacksDropped" );
-		
-		if ( due > got )
+		case FamiliarPool.SLIMELING:
 		{
-			// N stacks drop in N * (N + 1)/2 combats according to
-			// <http://ben.bloomroad.com/kol/tower_monsters.html>
-			// free runaways do not count
-			// each stack drops on the turn it's expected to with
-			// no variance
-			// int expectedTurns = ( got + 1 ) * ( got // + 2 ) / 2;
+			buffer.append( "~" );
+			buffer.append( String.valueOf( Preferences.getFloat( "slimelingFullness" ) ) );
+			buffer.append( " full" );
+
+			int due = Preferences.getInteger( "slimelingStacksDue" );
+			int got = Preferences.getInteger( "slimelingStacksDropped" );
+			if ( due > got )
+			{
+				// N stacks drop in N * (N + 1)/2 combats according to
+				// <http://ben.bloomroad.com/kol/tower_monsters.html>
+				// free runaways do not count
+				// each stack drops on the turn it's expected to with
+				// no variance
+				// int expectedTurns = ( got + 1 ) * ( got // + 2 ) / 2;
 			
-			return "; " + got + "/" + due + " stacks";
+				buffer.append( "; " );
+				buffer.append( String.valueOf( got ) );
+				buffer.append( "/" );
+				buffer.append( String.valueOf( due ) );
+				buffer.append( " stacks" );
+			}
+			return buffer;
 		}
-		
-		return "";
-	}
-	
-	private static final void addFamiliarAnnotation( StringBuffer buffer, String text, boolean compact )
-	{
-		if ( text == null ) return;
-		int pos;
-		if ( compact )
-		{
-			text = text + "<br>";
-			pos = buffer.indexOf( "<a target=mainpane href=\"familiar.php\"" );
-			if ( pos == -1 ) return;
-			buffer.insert( pos, text );
+
+		case FamiliarPool.HIPSTER:
+			buffer.append( Preferences.getString( "_hipsterAdv" ) );
+			buffer.append( "/7" );
+			return buffer;
+
+		case FamiliarPool.GRINDER:
+			buffer.append( Preferences.getString( "_pieDrops" ) );
+			buffer.append( " pie" );
+			if ( Preferences.getInteger( "_pieDrops" ) != 1 )
+			{
+				buffer.append( "s" );
+			}
+			buffer.append( "<br>" );
+			buffer.append( Preferences.getString( "_piePartsCount" ) );
+			buffer.append( " part" );
+			if ( Preferences.getInteger( "_piePartsCount" ) != 1 )
+			{
+				buffer.append( "s" );
+			}
+			return buffer;
+
+		case FamiliarPool.ALIEN:
+			buffer.append( Preferences.getString( "_transponderDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
+		case FamiliarPool.GROOSE:
+			buffer.append( Preferences.getString( "_grooseDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
+		case FamiliarPool.KLOOP:
+			buffer.append( Preferences.getString( "_kloopDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
 		}
-		else
-		{
-			pos = buffer.indexOf( "<b>Familiar:</b>" );
-			if ( pos == -1 ) return;
-			buffer.insert( pos + 16, "<br>(" + text + ")" );
-		}
+
+		return null;
 	}
 
 	public static final void addCounters( final StringBuffer buffer, Iterator it )
@@ -246,7 +573,7 @@ public class CharPaneDecorator
 		buffer.setLength( 0 );
 		int lastPos = 0;
 		int insPos;
-		boolean compact = GenericRequest.compactCharacterPane;
+		boolean compact = CharPaneRequest.compactCharacterPane;
 		Matcher m = CharPaneDecorator.EFFECT_PATTERN.matcher( text );
 		while ( m.find() )
 		{
@@ -305,7 +632,7 @@ public class CharPaneDecorator
 	{
 		String url = current.imageURL();
 
-		if ( compact )
+		if ( CharPaneRequest.compactCharacterPane )
 		{
 			Matcher m = CharPaneDecorator.FONT_TAG_PATTERN.matcher( current.getLabel() );
 			m.find();	// this cannot fail, group 2 matches anything
@@ -361,132 +688,6 @@ public class CharPaneDecorator
 		}
 	}
 
-	public static final void addRestoreLinks( final StringBuffer buffer )
-	{
-		String text = buffer.toString();
-		if ( text.indexOf( "Astral Spirit" ) != -1 )
-		{	// No restoration needed in Valhalla!
-			return;
-		}
-		buffer.setLength( 0 );
-
-		String fontTag = "";
-
-		int startingIndex = 0;
-		int lastAppendIndex = 0;
-
-		// First, locate your HP information inside of the response
-		// text and replace it with a restore HP link.
-
-		float threshold = /* Preferences.getFloat( "hpAutoRecoveryTarget" ) * (float) */
-			KoLCharacter.getMaximumHP();
-		float dangerous = Preferences.getFloat( "hpAutoRecovery" ) * (float) KoLCharacter.getMaximumHP();
-
-		if ( KoLCharacter.getCurrentHP() < threshold )
-		{
-			if ( GenericRequest.compactCharacterPane )
-			{
-				startingIndex = text.indexOf( "<td align=right>HP:", startingIndex );
-				startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
-
-				fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
-				if ( KoLCharacter.getCurrentHP() < dangerous )
-				{
-					fontTag = "<font color=red>";
-				}
-			}
-			else
-			{
-				startingIndex = text.indexOf( "doc(\"hp\")", startingIndex );
-				startingIndex = text.indexOf( "<br>", startingIndex ) + 4;
-
-				fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
-				if ( KoLCharacter.getCurrentHP() < dangerous )
-				{
-					fontTag = "<span class=red>";
-				}
-			}
-
-			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
-			lastAppendIndex = startingIndex;
-
-			startingIndex = text.indexOf( ">", startingIndex ) + 1;
-			lastAppendIndex = startingIndex;
-
-			startingIndex = text.indexOf( GenericRequest.compactCharacterPane ? "/" : "&", startingIndex );
-
-			if ( !GenericRequest.compactCharacterPane )
-			{
-				buffer.append( fontTag );
-			}
-
-			buffer.append( "<a title=\"Restore your HP\" href=\"/KoLmafia/sideCommand?cmd=restore+hp&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\" style=\"color:" );
-
-			Matcher colorMatcher = CharPaneDecorator.COLOR_PATTERN.matcher( fontTag );
-			if ( colorMatcher.find() )
-			{
-				buffer.append( colorMatcher.group( 2 ) + "\">" );
-			}
-			else
-			{
-				buffer.append( "black\"><b>" );
-			}
-
-			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
-			lastAppendIndex = startingIndex;
-
-			buffer.append( "</a>" );
-			if ( !GenericRequest.compactCharacterPane )
-			{
-				buffer.append( "</span>" );
-			}
-
-			buffer.append( fontTag );
-		}
-
-		// Next, locate your MP information inside of the response
-		// text and replace it with a restore MP link.
-
-		threshold = /*Preferences.getFloat( "mpAutoRecoveryTarget" ) * (float) */
-			KoLCharacter.getMaximumMP();
-		dangerous = Preferences.getFloat( "mpAutoRecovery" ) * (float) KoLCharacter.getMaximumMP();
-
-		if ( KoLCharacter.getCurrentMP() < threshold )
-		{
-			if ( GenericRequest.compactCharacterPane )
-			{
-				startingIndex = text.indexOf( "<td align=right>MP:", startingIndex );
-				startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
-			}
-			else
-			{
-
-				startingIndex = text.indexOf( "doc(\"mp\")", startingIndex );
-				startingIndex = text.indexOf( "<br>", startingIndex ) + 4;
-				startingIndex = text.indexOf( ">", startingIndex ) + 1;
-			}
-
-			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
-			lastAppendIndex = startingIndex;
-
-			buffer.append( "<a style=\"color:" );
-			buffer.append( KoLCharacter.getCurrentMP() < dangerous ? "red" : "black" );
-			buffer.append( "\" title=\"Restore your MP\" href=\"/KoLmafia/sideCommand?cmd=restore+mp&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">" );
-			startingIndex =
-				GenericRequest.compactCharacterPane ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
-			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
-			lastAppendIndex = startingIndex;
-
-			buffer.append( "</a>" );
-		}
-
-		buffer.append( text.substring( lastAppendIndex ) );
-	}
-
 	public static final void addUpArrowLinks( final StringBuffer buffer )
 	{
 		String text = buffer.toString();
@@ -539,7 +740,7 @@ public class CharPaneDecorator
 			// effects that will get saved to a mood, and there's
 			// nothing that can be maintained.
 		}
-		else if ( GenericRequest.compactCharacterPane )
+		else if ( CharPaneRequest.compactCharacterPane )
 		{
 			int effectIndex = text.indexOf( "eff(", startingIndex );
 			boolean shouldAddDivider = effectIndex == -1;
@@ -674,7 +875,7 @@ public class CharPaneDecorator
 
 				buffer.append( "<tr>" );
 
-				if ( !GenericRequest.compactCharacterPane || !Preferences.getBoolean( "relayTextualizesEffects" ) )
+				if ( !CharPaneRequest.compactCharacterPane || !Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><img src=\"" );
 					buffer.append( EffectDatabase.getImage( effectId ) );
@@ -685,7 +886,7 @@ public class CharPaneDecorator
 					buffer.append( "\" onClick='eff(\"" + descriptionId + "\");'></td>" );
 				}
 
-				if ( !GenericRequest.compactCharacterPane || Preferences.getBoolean( "relayTextualizesEffects" ) )
+				if ( !CharPaneRequest.compactCharacterPane || Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
 					buffer.append( "<td><font size=2>" );
 					buffer.append( escapedEffectName );
@@ -738,7 +939,7 @@ public class CharPaneDecorator
 			buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
 			lastAppendIndex = nextAppendIndex;
 
-			if ( GenericRequest.compactCharacterPane )
+			if ( CharPaneRequest.compactCharacterPane )
 			{
 				if ( Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
@@ -901,121 +1102,6 @@ public class CharPaneDecorator
 		}
 
 		buffer.append( text.substring( lastAppendIndex ) );
-	}
-
-	private static final void addRecentLocations( final StringBuffer buffer, final boolean compact )
-	{
-		int nLinks = Preferences.getInteger( "recentLocations" );
-
-		if ( nLinks <= 1 )
-		{
-			return;
-		}
-
-		Matcher matcher = (compact ? COMPACT_LASTADV_PATTERN : LASTADV_PATTERN).matcher( buffer );
-
-		if ( !matcher.find() )
-		{
-			return;
-		}
-
-		// group(1) is the link itself, end() is the insertion point for the recent list
-
-		String link;
-
-		if ( compact )
-		{
-			link = "<a onclick='if (top.mainpane.focus) top.mainpane.focus();' target=mainpane href=\"" + matcher.group( 3 ) + "\">" + matcher.group( 2 ) + "</a>";
-		}
-		else
-		{
-			link = matcher.group( 1 );
-		}
-
-		if ( CharPaneDecorator.recentLocations.size() == 0 )
-		{
-			CharPaneDecorator.recentLocations.add( link );
-			return;
-		}
-
-		if ( !CharPaneDecorator.recentLocations.get( 0 ).equals( link ) )
-		{
-			CharPaneDecorator.recentLocations.remove( link );
-			CharPaneDecorator.recentLocations.add( 0, link );
-
-			while ( CharPaneDecorator.recentLocations.size() > nLinks )
-			{
-				CharPaneDecorator.recentLocations.remove( nLinks );
-			}
-
-		}
-
-		if ( CharPaneDecorator.recentLocations.size() <= 1 )
-		{
-			return;
-		}
-
-		if ( compact )
-		{
-			StringBuffer linkBuffer = new StringBuffer();
-
-			linkBuffer.append( "<td>" );
-
-			linkBuffer.append( "<span onmouseover=\"document.getElementById('lastadvmenu').style.display = 'inline';\" onmouseout=\"document.getElementById('lastadvmenu').style.display = 'none';\">" );
-
-			linkBuffer.append( "<div style=\"text-align: right\">" );
-
-			linkBuffer.append( matcher.group( 1 ) );
-
-			linkBuffer.append( "</div>" );
-
-			linkBuffer.append( "<span id=\"lastadvmenu\"" );
-			linkBuffer.append( " style=\"position: absolute; padding: 5px 5px 5px 5px; background: #f5f5f5; display: none\">" );
-
-			linkBuffer.append( "<font size=1>" );
-
-			for ( int i = 0; i < CharPaneDecorator.recentLocations.size(); ++i )
-			{
-				if ( i > 0 )
-				{
-					linkBuffer.append( "<br/>" );
-				}
-
-				linkBuffer.append( "<nobr>" );
-				linkBuffer.append( CharPaneDecorator.recentLocations.get( i ) );
-				linkBuffer.append( "</nobr>" );
-			}
-
-			linkBuffer.append( "</font>" );
-
-			linkBuffer.append( "</span>" );
-			linkBuffer.append( "</span>" );
-			linkBuffer.append( "</td>" );
-
-			buffer.delete( matcher.start(), matcher.end() );
-			buffer.insert( matcher.start(), linkBuffer.toString() );
-		}
-		else
-		{
-			StringBuffer linkBuffer = new StringBuffer();
-
-			linkBuffer.append( "<font size=1>" );
-
-			for ( int i = 1; i < CharPaneDecorator.recentLocations.size(); ++i )
-			{
-				if ( i > 1 )
-				{
-					linkBuffer.append( "<br/>" );
-				}
-
-				linkBuffer.append( "<nobr>" );
-				linkBuffer.append( CharPaneDecorator.recentLocations.get( i ) );
-				linkBuffer.append( "</nobr>" );
-			}
-
-			linkBuffer.append( "</font>" );
-			buffer.insert( matcher.end(), linkBuffer.toString() );
-		}
 	}
 
 	public static final void updateFromPreferences()

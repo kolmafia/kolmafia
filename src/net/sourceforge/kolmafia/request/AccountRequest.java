@@ -248,13 +248,17 @@ public class AccountRequest
 			GenericRequest.MENU_COMPACT :
 			GenericRequest.MENU_NORMAL;
 
-		// Remember if the sidepane is in compact mode
-		GenericRequest.compactCharacterPane = AccountRequest.getCheckbox( "flag_compactchar", responseText );
+		boolean checked;
+		checked = AccountRequest.getCheckbox( "flag_compactchar", responseText );
+		CharPaneRequest.compactCharacterPane = checked;
+		checked = AccountRequest.getCheckbox( "flag_swapfam", responseText );
+		CharPaneRequest.familiarBelowEffects = checked;
 	}
 
 	private static final void parseInventoryOptions( final String responseText )
 	{
-		boolean checked = AccountRequest.getCheckbox( "flag_sellstuffugly", responseText );
+		boolean checked;
+		checked = AccountRequest.getCheckbox( "flag_sellstuffugly", responseText );
 		KoLCharacter.setAutosellMode( checked ? "compact" : "detailed" );
 		checked = AccountRequest.getCheckbox( "flag_unfamequip", responseText );
 		KoLCharacter.setUnequipFamiliar( checked );
@@ -374,7 +378,14 @@ public class AccountRequest
 		if ( action.equals( "flag_compactchar" ) )
 		{
 			boolean checked = valueString.equals( "1" );
-			GenericRequest.compactCharacterPane = checked;
+			CharPaneRequest.compactCharacterPane = checked;
+			return;
+		}
+
+		if ( action.equals( "flag_swapfam" ) )
+		{
+			boolean checked = valueString.equals( "1" );
+			CharPaneRequest.familiarBelowEffects = checked;
 			return;
 		}
 
@@ -557,12 +568,16 @@ public class AccountRequest
 			GenericRequest.MENU_NORMAL;
 
 		checked = flags.getInt( "compactchar" ) == 1;
-		GenericRequest.compactCharacterPane = checked;
+		CharPaneRequest.compactCharacterPane = checked;
+
+		checked = flags.getInt( "swapfam" ) == 1;
+		CharPaneRequest.familiarBelowEffects = checked;
 
 		// Inventory options
 
 		checked = flags.getInt( "sellstuffugly" ) == 1;
 		KoLCharacter.setAutosellMode( checked ? "compact" : "detailed" );
+
 		checked = flags.getInt( "unfamequip" ) == 1;
 		KoLCharacter.setUnequipFamiliar( checked );
 

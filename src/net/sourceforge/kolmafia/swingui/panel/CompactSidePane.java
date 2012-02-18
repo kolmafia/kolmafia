@@ -738,14 +738,14 @@ public class CompactSidePane
 		}
 		else
 		{
-			String anno = CharPaneDecorator.getFamiliarAnnotation();
+			StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
 			ImageIcon icon = FamiliarDatabase.getFamiliarImage( id );
 			this.familiarLabel.setIcon( icon );
 			icon.setImageObserver( this );
 			int weight = current.getModifiedWeight();
 			this.familiarLabel.setText( "<HTML><center>" + weight +
 				( weight == 1 ? " lb." : " lbs." ) +
-				( anno == null ? "" : ", " + anno ) + "</center></HTML>" );
+				( anno == null ? "" : ", " + anno.toString() ) + "</center></HTML>" );
 		}
 		this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
