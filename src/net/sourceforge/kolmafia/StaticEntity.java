@@ -148,6 +148,15 @@ public abstract class StaticEntity
 		}
 	}
 
+	public static final void unregisterPanel( final ActionPanel panel )
+	{
+		synchronized ( StaticEntity.existingPanels )
+		{
+			StaticEntity.existingPanels.remove( panel );
+			StaticEntity.getExistingPanels();
+		}
+	}
+
 	public static final void unregisterPanels( final Container container )
 	{
 		boolean removedPanel = false;

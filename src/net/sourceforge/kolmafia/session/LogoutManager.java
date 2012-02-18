@@ -64,29 +64,13 @@ public class LogoutManager
 
 	public static void logout( boolean prepareNextLogin )
 	{
-		if ( prepareNextLogin )
-		{
-			LogoutManager.prepareNextLogin();
-		}
+		// If you need to allow for another login, create a login frame
+		// to ensure that there is an active frame to display messages.
 
-		String userName = KoLCharacter.getUserName();
-
-		if ( userName != null && !userName.equals( "" ) )
-		{
-			LogoutManager.prepareLogout();
-		}
-	}
-
-	private static void prepareNextLogin()
-	{
-		// Create login frame to ensure that there is an active frame.
-
-		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
+		if ( prepareNextLogin && StaticEntity.getClient() instanceof KoLmafiaGUI )
 		{
 			GenericFrame.createDisplay( LoginFrame.class );
 		}
-
-		KoLmafia.updateDisplay( "Preparing for logout..." );
 
 		// Shut down main frame
 
@@ -108,10 +92,18 @@ public class LogoutManager
 				frames[ i ].dispose();
 			}
 		}
-	}
 
-	private static void prepareLogout()
-	{
+		// If there's no user to worry about, we're done now.
+
+		String userName = KoLCharacter.getUserName();
+
+		if ( userName == null || userName.equals( "" ) )
+		{
+			return;
+		}
+
+		KoLmafia.updateDisplay( "Preparing for logout..." );
+
 		// Shut down chat-related activity
 
 		BuffBotHome.setBuffBotActive( false );
