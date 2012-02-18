@@ -615,7 +615,12 @@ public abstract class KoLmafia
 		}
 
 		RequestLogger.printLine( state, message );
-		SystemTrayFrame.updateToolTip( message );
+
+		if ( !KoLmafia.SESSION_ENDING )
+		{
+			SystemTrayFrame.updateToolTip( message );
+		}
+
 		KoLmafia.lastMessage = message;
 
 		if ( message.indexOf( KoLConstants.LINE_BREAK ) == -1 )
@@ -628,34 +633,37 @@ public abstract class KoLmafia
 	{
 		// Update all panels and frames with the message.
 
-		String unicodeMessage = StringUtilities.getEntityDecode( message, false );
-		ActionPanel[] panels = StaticEntity.getExistingPanels();
-
-		for ( int i = 0; i < panels.length; ++i )
+		if ( !KoLmafia.SESSION_ENDING )
 		{
-			if ( panels[ i ] instanceof GenericPanel )
+			String unicodeMessage = StringUtilities.getEntityDecode( message, false );
+			ActionPanel[] panels = StaticEntity.getExistingPanels();
+
+			for ( int i = 0; i < panels.length; ++i )
 			{
-				( (GenericPanel) panels[ i ] ).setStatusMessage( unicodeMessage );
+				if ( panels[ i ] instanceof GenericPanel )
+				{
+					( (GenericPanel) panels[ i ] ).setStatusMessage( unicodeMessage );
+				}
+
+				panels[ i ].setEnabled( state != KoLConstants.CONTINUE_STATE );
 			}
 
-			panels[ i ].setEnabled( state != KoLConstants.CONTINUE_STATE );
-		}
-
-		Frame [] frames = Frame.getFrames();
-		for ( int i = 0; i < frames.length; ++i )
-		{
-			if ( frames[ i ] instanceof GenericFrame )
+			Frame [] frames = Frame.getFrames();
+			for ( int i = 0; i < frames.length; ++i )
 			{
-				GenericFrame frame = (GenericFrame) frames[ i ];
+				if ( frames[ i ] instanceof GenericFrame )
+				{
+					GenericFrame frame = (GenericFrame) frames[ i ];
 
-				frame.setStatusMessage( unicodeMessage );
-				frame.updateDisplayState( state );
+					frame.setStatusMessage( unicodeMessage );
+					frame.updateDisplayState( state );
+				}
 			}
-		}
 
-		if ( KoLDesktop.instanceExists() )
-		{
-			KoLDesktop.getInstance().updateDisplayState( state );
+			if ( KoLDesktop.instanceExists() )
+			{
+				KoLDesktop.getInstance().updateDisplayState( state );
+			}
 		}
 
 		KoLmafia.displayState = state;
