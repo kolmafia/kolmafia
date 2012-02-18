@@ -153,37 +153,39 @@ public class ResponseTextParser
 	public static boolean hasResult( final String location )
 	{
 		if ( location.startsWith( "http:" ) ||
-			 location.startsWith( "https:" ) )
+		     location.startsWith( "https:" ) )
 		{
 			return false;
 		}
 
 		if ( location.startsWith( "chat.php" ) ||
-			 location.startsWith( "newchatmessages.php" ) ||
-			 location.startsWith( "submitnewchat.php" ) )
+		     location.startsWith( "lchat.php" ) ||
+		     location.startsWith( "newchatmessages.php" ) ||
+		     location.startsWith( "submitnewchat.php" ) )
 		{
 			return false;
 		}
 
 		if ( location.endsWith( "menu.php") ||
-			 location.startsWith( "actionbar" ) )
+		     location.startsWith( "actionbar" ) )
 		{
 			return false;
 		}
 
 		if ( location.startsWith( "api.php" ) ||
-			 location.startsWith( "charpane" ) ||
-			 location.startsWith( "desc" ) ||
-			 location.startsWith( "quest" ) ) {
+		     location.startsWith( "game.php" ) ||
+		     location.startsWith( "charpane" ) ||
+		     location.startsWith( "desc" ) ||
+		     location.startsWith( "quest" ) ) {
 
 			return false;
 		}
 
 		if ( location.startsWith( "makeoffer" ) ||
-			 location.startsWith( "message" ) ||
-			 location.startsWith( "display" ) ||
-			 location.startsWith( "search" ) ||
-			 location.startsWith( "show" ) )
+		     location.startsWith( "message" ) ||
+		     location.startsWith( "display" ) ||
+		     location.startsWith( "search" ) ||
+		     location.startsWith( "show" ) )
 		{
 			return false;
 		}
@@ -203,7 +205,7 @@ public class ResponseTextParser
 		}
 
 		if ( location.startsWith( "login.php" ) ||
-			 location.startsWith( "logout.php" ) )
+		     location.startsWith( "logout.php" ) )
 		{
 			return false;
 		}

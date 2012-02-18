@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -126,8 +127,14 @@ public class RelayAgent
 				this.pauser.pause();
 			}
 
-			this.performRelay();
-			this.closeRelay();
+			try
+			{
+				this.performRelay();
+			}
+			finally
+			{
+				this.closeRelay();
+			}
 		}
 	}
 
@@ -154,6 +161,10 @@ public class RelayAgent
 		}
 		catch ( IOException e )
 		{
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( "horrible relay failure" );
 		}
 	}
 
@@ -234,17 +245,14 @@ public class RelayAgent
 							{
 								validHost = false;
 							}
+							else if ( InetAddress.getByName( refererHost ).isLoopbackAddress() )
+							{
+								validRefererHosts.add( refererHost );
+							}
 							else
 							{
-								if ( InetAddress.getByName( refererHost ).isLoopbackAddress() )
-								{
-									validRefererHosts.add( refererHost );
-								}
-								else
-								{
-									invalidRefererHosts.add( refererHost );
-									validHost = false;
-								}
+								invalidRefererHosts.add( refererHost );
+								validHost = false;
 							}
 						}
 					}
