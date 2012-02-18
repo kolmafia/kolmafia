@@ -2115,6 +2115,7 @@ public abstract class ChoiceManager
 		// Choice 572 is Your Minstrel Clamps
 		// Choice 573 is Your Minstrel Stamps
 		// Choice 574 is The Minstrel Cycle Begins
+		// Choice 576 is Your Minstrel Camps
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

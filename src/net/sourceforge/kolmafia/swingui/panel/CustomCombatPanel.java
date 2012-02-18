@@ -228,6 +228,7 @@ public class CustomCombatPanel
 		private final JCheckBoxMenuItem potionItem, sphereItem, olfactItem, puttyItem;
 		private final JCheckBoxMenuItem restoreItem;
 		private final JMenu poisonItem;
+		private boolean updating = true;
 
 		public SpecialActionsPanel()
 		{
@@ -318,6 +319,8 @@ public class CustomCombatPanel
 
 		public void update()
 		{
+			this.updating = true;
+
 			CustomCombatPanel.this.actionSelect.setSelectedItem( Preferences.getString( "battleAction" ) );
 
 			if ( KoLCharacter.hasSkill( "Entangling Noodles" ) )
@@ -365,6 +368,8 @@ public class CustomCombatPanel
 			pref = Preferences.getBoolean( "autoManaRestore" );
 			this.restoreLabel.setVisible( pref );
 			this.restoreItem.setSelected( pref );
+
+			this.updating = false;
 		}
 
 		private JLabel label( final JPanel special, final MouseListener listener, final ImageIcon img,
@@ -410,6 +415,14 @@ public class CustomCombatPanel
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				// Don't set preferences from widgets when we
+				// are in the middle of loading widgets from
+				// preferences.
+				if ( SpecialActionsPanel.this.updating )
+				{
+					return;
+				}
+
 				String value = (String) CustomCombatPanel.this.actionSelect.getSelectedItem();
 
 				if ( value != null )
@@ -430,6 +443,14 @@ public class CustomCombatPanel
 
 			public void itemStateChanged( final ItemEvent e )
 			{
+				// Don't set preferences from widgets when we
+				// are in the middle of loading widgets from
+				// preferences.
+				if ( SpecialActionsPanel.this.updating )
+				{
+					return;
+				}
+
 				boolean state = e.getStateChange() == ItemEvent.SELECTED;
 				JMenuItem source = (JMenuItem) e.getItemSelectable();
 				if ( source == SpecialActionsPanel.this.stealItem )
