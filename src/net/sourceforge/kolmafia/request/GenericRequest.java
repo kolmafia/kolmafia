@@ -138,8 +138,6 @@ public class GenericRequest
 
 	protected String encounter = "";
 
-	public static boolean compactCharacterPane = false;
-
 	public static final int MENU_FANCY = 1;
 	public static final int MENU_COMPACT = 2;
 	public static final int MENU_NORMAL = 3;

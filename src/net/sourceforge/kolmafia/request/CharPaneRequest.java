@@ -79,6 +79,9 @@ public class CharPaneRequest
 	private static boolean inValhalla = false;
 	private static boolean checkNewLocation = false;
 
+	public static boolean compactCharacterPane = false;
+	public static boolean familiarBelowEffects = false;
+
 	public CharPaneRequest()
 	{
 		super( "charpane.php" );
@@ -141,7 +144,7 @@ public class CharPaneRequest
 
 		// We can deduce whether we are in compact charpane mode
 
-		GenericRequest.compactCharacterPane = responseText.indexOf( "<br>Lvl. " ) != -1;
+		CharPaneRequest.compactCharacterPane = responseText.indexOf( "<br>Lvl. " ) != -1;
 
 		// If we are in Valhalla, do special processing
 		if ( responseText.indexOf( "otherimages/spirit.gif" ) != -1 ||
@@ -185,7 +188,7 @@ public class CharPaneRequest
 		// synchronization is the modified stat values, health and
 		// mana.
 
-		if ( GenericRequest.compactCharacterPane )
+		if ( CharPaneRequest.compactCharacterPane )
 		{
 			CharPaneRequest.handleCompactMode( responseText );
 		}
@@ -246,7 +249,7 @@ public class CharPaneRequest
 		CharPaneRequest.setInteraction( false );
 
 		// You do, however, have Karma available to spend in Valhalla.
-		Pattern pattern = GenericRequest.compactCharacterPane ?
+		Pattern pattern = CharPaneRequest.compactCharacterPane ?
 			CharPaneRequest.KARMA_PATTERN_COMPACT :
 			CharPaneRequest.KARMA_PATTERN ;
 		Matcher matcher = pattern.matcher( responseText );
@@ -572,7 +575,7 @@ public class CharPaneRequest
 		String effectName = null;
 		int durationIndex = -1;
 
-		if ( GenericRequest.compactCharacterPane )
+		if ( CharPaneRequest.compactCharacterPane )
 		{
 			int startIndex = responseText.indexOf( "alt=\"", searchIndex ) + 5;
 			effectName = responseText.substring( startIndex, responseText.indexOf( "\"", startIndex ) );
@@ -716,7 +719,7 @@ public class CharPaneRequest
 
 		CharPaneRequest.checkNewLocation = false;
 
-		boolean compact = GenericRequest.compactCharacterPane;
+		boolean compact = CharPaneRequest.compactCharacterPane;
 
 		Pattern pattern = compact ?
 			CharPaneRequest.compactLastAdventurePattern :
@@ -749,7 +752,7 @@ public class CharPaneRequest
 
 	private static final void checkFamiliar( final String responseText )
 	{
-		Pattern pattern = GenericRequest.compactCharacterPane ?
+		Pattern pattern = CharPaneRequest.compactCharacterPane ?
 			CharPaneRequest.compactFamiliarPattern :
 			CharPaneRequest.expandedFamiliarPattern;
 		Matcher familiarMatcher = pattern.matcher( responseText );
