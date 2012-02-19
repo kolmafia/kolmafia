@@ -194,19 +194,22 @@ public class CharPaneDecorator
 		String text = hp ?
 			CharPaneDecorator.getHPDatum( buffer ) :
 			CharPaneDecorator.getMPDatum( buffer );
-
+		
 		Matcher matcher = CharPaneRequest.compactCharacterPane ? 
 			CharPaneDecorator.COMPACT_POINTS_PATTERN.matcher( text ) :
 			CharPaneDecorator.POINTS_PATTERN.matcher( text );
 
 		if ( matcher.find() )
 		{
+			String color = text.indexOf( "red" ) != -1 || current <= dangerous ?
+				"red" : "black";
+
 			// Craft a replacement for the current value
 			StringBuffer rep = new StringBuffer();
 
 			rep.append( matcher.group( 1 ) );
 			rep.append( "<a style=\"color:" );
-			rep.append( current <= dangerous ? "red" : "black" );
+			rep.append( color );
 			rep.append( "\" title=\"Restore your " );
 			rep.append( hp ? "HP" : "MP" );
 			rep.append( "\" href=\"/KoLmafia/sideCommand?cmd=restore+" );
@@ -611,7 +614,7 @@ public class CharPaneDecorator
 				return null;
 			}
 
-			startIndex = buffer.lastIndexOf( "<table", effectIndex );
+			startIndex = buffer.lastIndexOf( "<hr width=50%>", effectIndex );
 		}
 		else
 		{
@@ -636,12 +639,17 @@ public class CharPaneDecorator
 
 	public static final int chooseEffectTableIndex( final StringBuffer buffer )
 	{
+		int index;
+
 		if ( CharPaneRequest.compactCharacterPane )
 		{
-			return buffer.lastIndexOf( "</table>" ) + 8;
+			index = buffer.lastIndexOf( "<hr width=50%>" ) ;
+		}
+		else
+		{
+			index = buffer.lastIndexOf( "<table" );
 		}
 
-		int index = buffer.lastIndexOf( "<table" );
 		if ( index < buffer.lastIndexOf( "target=mainpane" ) )
 		{
 			index = buffer.lastIndexOf( "</center>" );
@@ -729,8 +737,8 @@ public class CharPaneDecorator
 		else
 		{
 			effects.append( "<center><p><b><font size=2>Effects:</font></b></p></center>" );
-			effects.append( "<table></table>" );
 		}
+		effects.append( "<table></table>" );
 
 		return effects.toString();
 	}
@@ -743,7 +751,7 @@ public class CharPaneDecorator
 			int index = buffer.indexOf( test ) + test.length();
 			buffer.insert( index, moodText );
 			index += moodText.length();
-			buffer.append( "<br><br>" );
+			buffer.insert( index, "<br><br>" );
 		}
 		else
 		{
