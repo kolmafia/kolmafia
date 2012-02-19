@@ -2514,7 +2514,9 @@ public abstract class KoLCharacter
 	{
 		if ( !KoLCharacter.kingLiberated() )
 		{
-			boolean wasInHardcore = KoLCharacter.isHardcore();
+			boolean wasInHardcore = KoLCharacter.isHardcore;
+			String oldPath = KoLCharacter.ascensionPath;
+
 			Preferences.setBoolean( "kingLiberated", true );
 
 			// We are no longer in Hardcore
@@ -2522,6 +2524,12 @@ public abstract class KoLCharacter
 
 			// We are no longer subject to path restrictions
 			KoLCharacter.setPath( "None" );
+
+			if ( oldPath.equals( "Avatar of Boris" ) )
+			{
+				int borisPoints = wasInHardcore ? 2 : 1;
+				Preferences.increment( "borisPoints", borisPoints );
+			}
 
 			// Ronin is lifted and we can interact freely with the Kingdom
 			KoLCharacter.setRonin( false );

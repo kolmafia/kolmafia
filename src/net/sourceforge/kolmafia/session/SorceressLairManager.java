@@ -1157,6 +1157,8 @@ public abstract class SorceressLairManager
 
 		List requirements = new ArrayList();
 		boolean inFistcore = KoLCharacter.inFistcore();
+		boolean inAxecore = KoLCharacter.inAxecore();
+		boolean needWeapon = !inFistcore && !inAxecore;
 
 		if ( SorceressLairManager.isItemAvailable( SorceressLairManager.STRUMMING ) )
 		{
@@ -1175,7 +1177,7 @@ public abstract class SorceressLairManager
 
 		AdventureResult starWeapon = null;
 
-		if ( !inFistcore )
+		if ( needWeapon )
 		{
 			// See which ones are available
 
@@ -1260,7 +1262,7 @@ public abstract class SorceressLairManager
 		// If you can't equip the appropriate weapon and buckler,
 		// then tell the player they lack the required stats.
 
-		if ( !inFistcore && !EquipmentManager.canEquip( starWeapon.getName() ) )
+		if ( needWeapon && !EquipmentManager.canEquip( starWeapon.getName() ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Stats too low to equip a star weapon." );
 			return requirements;
@@ -1300,7 +1302,7 @@ public abstract class SorceressLairManager
 				return requirements;
 			}
 		}
-		else
+		else if ( needWeapon )
 		{
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) );
 			RequestThread.postRequest( new EquipmentRequest( starWeapon, EquipmentManager.WEAPON ) );
@@ -2335,8 +2337,10 @@ public abstract class SorceressLairManager
 	private static final void reflectEnergyBolt()
 	{
 		boolean inFistcore = KoLCharacter.inFistcore();
+		boolean inAxecore = KoLCharacter.inAxecore();
+		boolean needWeapon = !inFistcore && !inAxecore;
 
-		if ( !inFistcore )
+		if ( needWeapon )
 		{
 			// Get current equipment
 			SpecialOutfit.createImplicitCheckpoint();
@@ -2349,7 +2353,7 @@ public abstract class SorceressLairManager
 		KoLmafia.updateDisplay( "Reflecting energy bolt..." );
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair6.php?place=1" ) );
 
-		if ( !inFistcore )
+		if ( needWeapon )
 		{
 			// If we unequipped anything, equip it again
 			SpecialOutfit.restoreImplicitCheckpoint();
@@ -2537,6 +2541,13 @@ public abstract class SorceressLairManager
 
 	private static final void familiarBattle( final int n )
 	{
+		// If you are an Avatar of Boris, you don't need - and can't use - familiars
+		if ( KoLCharacter.inAxecore() )
+		{
+			SorceressLairManager.familiarBattle( n, false );
+			return;
+		}
+
 		// Abort if you cannot heal to greater than 50 HP
 
 		RecoveryManager.recoverHP( 51 );
