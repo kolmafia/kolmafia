@@ -136,7 +136,7 @@ public class CharPaneDecorator
 		"<center><font size=1>[<a href=\"charpane.php\">refresh</a>]</font></center></body>" );
 	}
 
-	public static final void decorateStatus( final StringBuffer buffer )
+	private static final void decorateStatus( final StringBuffer buffer )
 	{
 		if ( !Preferences.getBoolean( "relayAddsRestoreLinks" ) )
 		{
@@ -267,7 +267,7 @@ public class CharPaneDecorator
 	private static final Pattern COMPACT_LASTADV_PATTERN = Pattern.compile(
 		"<td align=right>(<a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"([^\"]+)\">.*?</a>:)</td>" );
 
-	public static final void decorateLastAdventure( final StringBuffer buffer )
+	private static final void decorateLastAdventure( final StringBuffer buffer )
 	{
 		int nLinks = Preferences.getInteger( "recentLocations" );
 
@@ -383,7 +383,7 @@ public class CharPaneDecorator
 		}
 	}
 
-	public static final void decorateFamiliar( final StringBuffer buffer )
+	private static final void decorateFamiliar( final StringBuffer buffer )
 	{
 		StringBuffer annotations = CharPaneDecorator.getFamiliarAnnotation();
 		if ( annotations == null )
@@ -541,7 +541,7 @@ public class CharPaneDecorator
 		return null;
 	}
 
-	public static final void decorateEffects( final StringBuffer buffer )
+	private static final void decorateEffects( final StringBuffer buffer )
 	{
 		String effectText = CharPaneDecorator.getEffectText( buffer );
 		String moodText = CharPaneDecorator.getMoodText();
@@ -601,15 +601,46 @@ public class CharPaneDecorator
 		}
 	}
 
-	public static final String getEffectText( final StringBuffer buffer )
+	private static final int getIntrinsicIndex( final StringBuffer buffer )
+	{
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			int index = buffer.indexOf( "&infin;" );
+			return index < 0 ? -1 : buffer.lastIndexOf( "<hr width=50%>", index );
+		}
+
+		return buffer.indexOf( "<center><p><b><font size=2>Intrinsics:" );
+	}
+
+	private static final int getFamiliarIndex( final StringBuffer buffer )
+	{
+		int index = KoLCharacter.inAxecore() ?
+			buffer.indexOf( "otherimages/clancy" ) :
+			buffer.indexOf( "familiar.php" );
+
+		if ( index < 0 )
+		{
+			return buffer.lastIndexOf( "</center>" );
+		}
+
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			return buffer.lastIndexOf( "<hr width=50%>", index ) ;
+		}
+
+		return buffer.lastIndexOf( KoLCharacter.inAxecore() ? "<center" : "<table", index );
+	}
+
+	private static final String getEffectText( final StringBuffer buffer )
 	{
 		int startIndex;
 
 		if ( CharPaneRequest.compactCharacterPane )
 		{
+			int intrinsics = CharPaneDecorator.getIntrinsicIndex( buffer );
 			int effectIndex = buffer.indexOf( "eff(" );
 
-			if ( effectIndex == -1 )
+			if ( effectIndex == -1 || effectIndex > intrinsics )
 			{
 				return null;
 			}
@@ -637,28 +668,33 @@ public class CharPaneDecorator
 		return buffer.substring( startIndex, endIndex );
 	}
 
-	public static final int chooseEffectTableIndex( final StringBuffer buffer )
+	private static final int chooseEffectTableIndex( final StringBuffer buffer )
 	{
-		int index;
+		// There are no effects currently on the charpane. Choose where
+		// to place the table we constructed.
 
-		if ( CharPaneRequest.compactCharacterPane )
+		// If there are Intrinsics, place effects before them
+		int intrinsics = CharPaneDecorator.getIntrinsicIndex( buffer );
+		if ( intrinsics != -1 )
 		{
-			index = buffer.lastIndexOf( "<hr width=50%>" ) ;
-		}
-		else
-		{
-			index = buffer.lastIndexOf( "<table" );
-		}
-
-		if ( index < buffer.lastIndexOf( "target=mainpane" ) )
-		{
-			index = buffer.lastIndexOf( "</center>" );
+			return intrinsics;
 		}
 
-		return index;
+		// If familiar goes below effects, place above familiar
+		if ( CharPaneRequest.familiarBelowEffects )
+		{
+			int familiar = CharPaneDecorator.getFamiliarIndex( buffer );
+			if ( familiar != -1 )
+			{
+				return familiar;
+			}
+		}
+
+		// Otherwise, place at the end.
+		return buffer.lastIndexOf( "</center>" );
 	}
 
-	public static final String getMoodText()
+	private static final String getMoodText()
 	{
 		String fontColor = null;
 		String moodText = null;
@@ -726,7 +762,7 @@ public class CharPaneDecorator
 		return buffer.toString();
 	}
 
-	public static final String dummyEffectTable()
+	private static final String dummyEffectTable()
 	{
 		StringBuffer effects = new StringBuffer();
 
@@ -743,7 +779,7 @@ public class CharPaneDecorator
 		return effects.toString();
 	}
 
-	public static final void addMoodText( final StringBuffer buffer, final String moodText )
+	private static final void addMoodText( final StringBuffer buffer, final String moodText )
 	{
 		if ( CharPaneRequest.compactCharacterPane )
 		{
@@ -764,7 +800,7 @@ public class CharPaneDecorator
 		}
 	}
 
-	public static final void addUpArrowLinks( final StringBuffer buffer )
+	private static final void addUpArrowLinks( final StringBuffer buffer )
 	{
 		String text = buffer.toString();
 		buffer.setLength( 0 );
@@ -1029,7 +1065,7 @@ public class CharPaneDecorator
 		buffer.append( text.substring( lastAppendIndex ) );
 	}
 
-	public static final void addCounters( final StringBuffer buffer )
+	private static final void addCounters( final StringBuffer buffer )
 	{
 		Iterator it = TurnCounter.iterator();
 		if ( it.hasNext() )
@@ -1038,7 +1074,7 @@ public class CharPaneDecorator
 		}
 	}
 
-	public static final void addCounters( final StringBuffer buffer, Iterator it )
+	private static final void addCounters( final StringBuffer buffer, Iterator it )
 	{
 		TurnCounter current = (TurnCounter) it.next();
 		while ( current.getTurnsRemaining() < 0 )
@@ -1167,7 +1203,7 @@ public class CharPaneDecorator
 		}
 	}
 
-	public static final void decorateIntrinsics( final StringBuffer buffer )
+	private static final void decorateIntrinsics( final StringBuffer buffer )
 	{
 	}
 
