@@ -64,12 +64,25 @@ public class AshSingleLineCommand
 
 		Interpreter interpreter = new Interpreter();
 		interpreter.validate( null, istream );
-		Value rv = interpreter.execute( "main", null );
+		Value rv;
+
+		try
+		{
+			interpreter.cloneRelayScript( this.CLI.interpreter );
+			rv = interpreter.execute( "main", null );
+		}
+		finally
+		{
+			interpreter.finishRelayScript();
+		}
+
 		if ( cmd.endsWith( "q" ) )
 		{
 			return;
 		}
+
 		KoLmafia.updateDisplay( "Returned: " + rv );
+
 		rv = Value.asProxy( rv );
 		if ( rv instanceof CompositeValue )
 		{

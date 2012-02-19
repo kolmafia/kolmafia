@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.request.LoginRequest;
 
+import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.command.*;
 
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -74,6 +75,7 @@ public class KoLmafiaCLI
 	private boolean elseRuns = false;
 
 	public static boolean isExecutingCheckOnlyCommand = false;
+	public Interpreter interpreter = null;
 
 	// Flag values for Commands:
 	public static int FULL_LINE_CMD = 1;
@@ -265,6 +267,11 @@ public class KoLmafiaCLI
 
 	public void executeLine( String line )
 	{
+		this.executeLine( line, null );
+	}
+
+	public void executeLine( String line, final Interpreter interpreter )
+	{
 		if ( line == null || KoLmafia.refusesContinue() )
 		{
 			return;
@@ -392,7 +399,7 @@ public class KoLmafiaCLI
 				return;
 			}
 
-			this.executeCommand( command, trimmed );
+			this.executeCommand( command, trimmed, interpreter );
 			KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 		}
 
@@ -482,10 +489,16 @@ public class KoLmafiaCLI
 
 	public void executeCommand( String command, String parameters )
 	{
+		this.executeCommand( command, parameters, null );
+	}
+
+	private void executeCommand( String command, String parameters, Interpreter interpreter )
+	{
 		Integer requestId = RequestThread.openRequestSequence();
 
 		try
 		{
+			this.interpreter = interpreter;
 			this.doExecuteCommand( command, parameters );
 		}
 		catch ( Exception e )
@@ -494,11 +507,12 @@ public class KoLmafiaCLI
 		}
 		finally
 		{
+			this.interpreter = null;
 			RequestThread.closeRequestSequence( requestId );
 		}
 	}
 
-	public void doExecuteCommand( String command, String parameters )
+	private void doExecuteCommand( String command, String parameters )
 	{
 		String lcommand = command.toLowerCase();
 
@@ -541,7 +555,7 @@ public class KoLmafiaCLI
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
-		CallScriptCommand.call( "call", command + " " + parameters );
+		CallScriptCommand.call( "call", command + " " + parameters, this.interpreter );
 	}
 
 	public void elseRuns( final boolean shouldRun )

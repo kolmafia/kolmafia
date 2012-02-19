@@ -140,7 +140,17 @@ public class Interpreter
 	public void finishRelayScript()
 	{
 		this.relayRequest = null;
-		this.serverReplyBuffer.setLength( 0 );
+		this.serverReplyBuffer = null;
+	}
+
+	public void cloneRelayScript( final Interpreter caller )
+	{
+		this.finishRelayScript();
+		if ( caller != null )
+		{
+			this.relayRequest = caller.getRelayRequest();
+			this.serverReplyBuffer = caller.getServerReplyBuffer();
+		}
 	}
 
 	public Parser getParser()
