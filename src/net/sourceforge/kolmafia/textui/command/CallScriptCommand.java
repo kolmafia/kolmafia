@@ -67,10 +67,10 @@ public class CallScriptCommand
 
 	public void run( final String command, final String parameters )
 	{
-		CallScriptCommand.call( command, parameters );
+		CallScriptCommand.call( command, parameters, this.CLI.interpreter );
 	}
 
-	public static void call( final String command, String parameters )
+	public static void call( final String command, String parameters, Interpreter caller )
 	{
 		try
 		{
@@ -202,9 +202,17 @@ public class CallScriptCommand
 				Interpreter interpreter = KoLmafiaASH.getInterpreter( scriptFile );
 				if ( interpreter != null )
 				{
-					for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
+					try
 					{
-						interpreter.execute( "main", arguments );
+						interpreter.cloneRelayScript( caller );
+						for ( int i = 0; i < runCount && KoLmafia.permitsContinue(); ++i )
+						{
+							interpreter.execute( "main", arguments );
+						}
+					}
+					finally
+					{
+						interpreter.finishRelayScript();
 					}
 				}
 			}

@@ -81,6 +81,15 @@ public class AshMultiLineCommand
 
 		Interpreter interpreter = new Interpreter();
 		interpreter.validate( null, ostream.getByteArrayInputStream() );
-		interpreter.execute( "main", null );
+
+		try
+		{
+			interpreter.cloneRelayScript( this.CLI.interpreter );
+			interpreter.execute( "main", null );
+		}
+		finally
+		{
+			interpreter.finishRelayScript();
+		}
 	}
 }

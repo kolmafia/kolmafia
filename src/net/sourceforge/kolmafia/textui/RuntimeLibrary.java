@@ -1608,7 +1608,7 @@ public abstract class RuntimeLibrary
 
 	public static Value cli_execute( Interpreter interpreter, final Value string )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( string.toString(), interpreter );
 		return RuntimeLibrary.continueValue();
 	}
 
