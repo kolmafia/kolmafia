@@ -916,6 +916,7 @@ public class GenericRequest
 
 			if ( this.invokeCounterScript( expired ) )
 			{
+				// Abort if between battle actions fail
 				if ( !KoLmafia.permitsContinue() )
 				{
 					return true;
@@ -942,8 +943,7 @@ public class GenericRequest
 			return true;
 		}
 
-		// Between-battle checks could have failed.
-		return KoLmafia.refusesContinue();
+		return false;
 	}
 
 	private boolean invokeCounterScript( TurnCounter expired )
@@ -958,6 +958,10 @@ public class GenericRequest
 			KoLmafiaASH.getInterpreter( KoLmafiaCLI.findScriptFile( scriptName ) );
 		if ( interpreter != null )
 		{
+			// Clear abort state so counter script and between
+			// battle actions are not hindered.
+			KoLmafia.forceContinue();
+
 			String pref = Preferences.getString( "lastAdventure" );
 			KoLAdventure nextLocation = AdventureDatabase.getAdventure( pref );
 			int oldTurns = KoLCharacter.getCurrentRun();
