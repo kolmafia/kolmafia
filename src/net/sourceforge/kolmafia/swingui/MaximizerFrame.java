@@ -418,137 +418,24 @@ public class MaximizerFrame
 				MaximizerFrame.boosts.add( new Boost( "", "<font color=red>(interrupted, optimality not guaranteed)</font>", -1, null, 0.0f ) );
 			}
 			Spec.showProgress();
+			
+			boolean[] alreadyDone = new boolean[ EquipmentManager.ALL_SLOTS ];
+			
+			for ( int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; ++slot )
+			{
+				if ( MaximizerFrame.best.equipment[ slot ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE &&
+					EquipmentManager.getEquipment( slot ).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )
+				{
+					equipLevel = emitSlot( slot, equipLevel, maxPrice, priceLevel, current );
+					alreadyDone[ slot ] = true;
+				}
+			}
 
 			for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
 			{
-				if ( slot == EquipmentManager.FAMILIAR )
-				{	// Insert any familiar switch at this point
-					FamiliarData fam = MaximizerFrame.best.getFamiliar();
-					if ( !fam.equals( KoLCharacter.getFamiliar() ) )
-					{
-						Spec spec = new Spec();
-						spec.setFamiliar( fam );
-						float delta = spec.getScore() - current;
-						String cmd, text;
-						cmd = "familiar " + fam.getRace();
-						text = cmd + " (" +
-							KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
-
-						Boost boost = new Boost( cmd, text, fam, delta );
-						if ( equipLevel == -1 )
-						{	// called from CLI
-							boost.execute( true );
-							if ( !KoLmafia.permitsContinue() ) equipLevel = 1;
-						}
-						else
-						{
-							MaximizerFrame.boosts.add( boost );
-						}
-					}
-				}
-
-				String slotname = EquipmentRequest.slotNames[ slot ];
-				AdventureResult item = MaximizerFrame.best.equipment[ slot ];
-				AdventureResult curr = EquipmentManager.getEquipment( slot );
-				if ( curr.equals( item ) )
+				if ( !alreadyDone[ slot ] )
 				{
-					if ( slot >= EquipmentManager.STICKER1 ||
-						curr.equals( EquipmentRequest.UNEQUIP ) ||
-						equipLevel == -1 )
-					{
-						continue;
-					}
-					MaximizerFrame.boosts.add( new Boost( "", "keep " + slotname + ": " + item.getName(), -1, item, 0.0f ) );
-					continue;
-				}
-				Spec spec = new Spec();
-				spec.equip( slot, item );
-				float delta = spec.getScore() - current;
-				String cmd, text;
-				if ( item == null || item.equals( EquipmentRequest.UNEQUIP ) )
-				{
-					item = curr;
-					cmd = "unequip " + slotname;
-					text = cmd + " (" + curr.getName() + ", " +
-						KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
-				}
-				else
-				{
-					cmd = "equip " + slotname + " " + item.getName();
-					text = cmd + " (";
-					int count = item.getCount();
-					int price = 0;
-
-					// The "initial" quantity comes from
-					// InventoryManager.getAccessibleCount.
-					// It can include inventory, closet, and
-					// storage.  However, anything that is included should
-					// also be supported by retrieveItem(), so we don't need
-					// to take any special action here.  Displaying the method
-					// that will be used would still be useful, though.
-					if ( ((count >> Evaluator.INITIAL_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
-					{
-						String method = InventoryManager.simRetrieveItem(
-							item.getInstance( 1 ) );
-						if ( !method.equals( "have" ) )
-						{
-							text = method + " & " + text;
-						}
-					}
-					else if ( ((count >> Evaluator.CREATABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
-					{
-						text = "make & " + text;
-					}
-					else if ( ((count >> Evaluator.NPCBUYABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
-					{
-						text = "buy & " + text;
-						cmd = "buy 1 \u00B6" + item.getItemId() +
-								";" + cmd;
-						price = ConcoctionPool.get( item ).price;
-					}
-					else if ( ((count >> Evaluator.FOLDABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
-					{
-						text = "fold & " + text;
-						cmd = "fold \u00B6" + item.getItemId() +
-								";" + cmd;
-					}
-					else if ( ((count >> Evaluator.PULLABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
-					{
-						text = "pull & " + text;
-						cmd = "pull 1 \u00B6" + item.getItemId() +
-								";" + cmd;
-					}
-					else 	// Mall buyable
-					{
-						text = "acquire & " + text;
-						if ( priceLevel > 0 )
-						{
-							price = StoreManager.getMallPrice( item );
-						}
-					}
-
-					if ( price > 0 )
-					{
-						text = text + KoLConstants.COMMA_FORMAT.format( price ) +
-							" meat, ";
-					}
-					text = text + KoLConstants.MODIFIER_FORMAT.format(
-						delta ) + ")";
-				}
-
-				Boost boost = new Boost( cmd, text, slot, item, delta );
-				if ( equipLevel == -1 )
-				{	// called from CLI
-					boost.execute( true );
-					if ( !KoLmafia.permitsContinue() )
-					{
-						equipLevel = 1;
-						MaximizerFrame.boosts.add( boost );
-					}
-				}
-				else
-				{
-					MaximizerFrame.boosts.add( boost );
+					equipLevel = emitSlot( slot, equipLevel, maxPrice, priceLevel, current );
 				}
 			}
 		}
@@ -993,6 +880,140 @@ public class MaximizerFrame
 		MaximizerFrame.boosts.sort();
 	}
 
+	static private int emitSlot( int slot, int equipLevel, int maxPrice, int priceLevel, float current )
+	{
+		if ( slot == EquipmentManager.FAMILIAR )
+		{	// Insert any familiar switch at this point
+			FamiliarData fam = MaximizerFrame.best.getFamiliar();
+			if ( !fam.equals( KoLCharacter.getFamiliar() ) )
+			{
+				Spec spec = new Spec();
+				spec.setFamiliar( fam );
+				float delta = spec.getScore() - current;
+				String cmd, text;
+				cmd = "familiar " + fam.getRace();
+				text = cmd + " (" +
+					KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
+
+				Boost boost = new Boost( cmd, text, fam, delta );
+				if ( equipLevel == -1 )
+				{	// called from CLI
+					boost.execute( true );
+					if ( !KoLmafia.permitsContinue() ) equipLevel = 1;
+				}
+				else
+				{
+					MaximizerFrame.boosts.add( boost );
+				}
+			}
+		}
+
+		String slotname = EquipmentRequest.slotNames[ slot ];
+		AdventureResult item = MaximizerFrame.best.equipment[ slot ];
+		AdventureResult curr = EquipmentManager.getEquipment( slot );
+		if ( curr.equals( item ) )
+		{
+			if ( slot >= EquipmentManager.STICKER1 ||
+				curr.equals( EquipmentRequest.UNEQUIP ) ||
+				equipLevel == -1 )
+			{
+				return equipLevel;
+			}
+			MaximizerFrame.boosts.add( new Boost( "", "keep " + slotname + ": " + item.getName(), -1, item, 0.0f ) );
+			return equipLevel;
+		}
+		Spec spec = new Spec();
+		spec.equip( slot, item );
+		float delta = spec.getScore() - current;
+		String cmd, text;
+		if ( item == null || item.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			item = curr;
+			cmd = "unequip " + slotname;
+			text = cmd + " (" + curr.getName() + ", " +
+				KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
+		}
+		else
+		{
+			cmd = "equip " + slotname + " " + item.getName();
+			text = cmd + " (";
+			int count = item.getCount();
+			int price = 0;
+
+			// The "initial" quantity comes from
+			// InventoryManager.getAccessibleCount.
+			// It can include inventory, closet, and
+			// storage.  However, anything that is included should
+			// also be supported by retrieveItem(), so we don't need
+			// to take any special action here.  Displaying the method
+			// that will be used would still be useful, though.
+			if ( ((count >> Evaluator.INITIAL_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+			{
+				String method = InventoryManager.simRetrieveItem(
+					item.getInstance( 1 ) );
+				if ( !method.equals( "have" ) )
+				{
+					text = method + " & " + text;
+				}
+			}
+			else if ( ((count >> Evaluator.CREATABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+			{
+				text = "make & " + text;
+			}
+			else if ( ((count >> Evaluator.NPCBUYABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+			{
+				text = "buy & " + text;
+				cmd = "buy 1 \u00B6" + item.getItemId() +
+						";" + cmd;
+				price = ConcoctionPool.get( item ).price;
+			}
+			else if ( ((count >> Evaluator.FOLDABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+			{
+				text = "fold & " + text;
+				cmd = "fold \u00B6" + item.getItemId() +
+						";" + cmd;
+			}
+			else if ( ((count >> Evaluator.PULLABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+			{
+				text = "pull & " + text;
+				cmd = "pull 1 \u00B6" + item.getItemId() +
+						";" + cmd;
+			}
+			else 	// Mall buyable
+			{
+				text = "acquire & " + text;
+				if ( priceLevel > 0 )
+				{
+					price = StoreManager.getMallPrice( item );
+				}
+			}
+
+			if ( price > 0 )
+			{
+				text = text + KoLConstants.COMMA_FORMAT.format( price ) +
+					" meat, ";
+			}
+			text = text + KoLConstants.MODIFIER_FORMAT.format(
+				delta ) + ")";
+		}
+
+		Boost boost = new Boost( cmd, text, slot, item, delta );
+		if ( equipLevel == -1 )
+		{	// called from CLI
+			boost.execute( true );
+			if ( !KoLmafia.permitsContinue() )
+			{
+				equipLevel = 1;
+				MaximizerFrame.boosts.add( boost );
+			}
+		}
+		else
+		{
+			MaximizerFrame.boosts.add( boost );
+		}
+		return equipLevel;
+	}
+
 	public static class MaximizerInterruptedException
 		extends Exception
 	{
@@ -1164,13 +1185,13 @@ public class MaximizerFrame
 		private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 		String weaponType = null;
 		int hands = 0;
-		int melee = 0;
+		int melee = 0;	// +/-2 or higher: require, +/-1: disallow other type
 		boolean requireShield = false;
 		boolean noTiebreaker = false;
 		HashSet posOutfits, negOutfits;
 		TreeSet posEquip, negEquip;
 
-		private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*((?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
+		private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
 		// Groups: 1=sign 2=weight 3=keyword
 
 		// The counts of possible equipment items are overloaded:
@@ -1303,6 +1324,10 @@ public class MaximizerFrame
 						: m.group( 1 ) + m.group( 2 ) );
 
 				String keyword = m.group( 3 ).trim();
+				if ( keyword.startsWith( "\"" ) && keyword.endsWith( "\"" ) )
+				{
+					keyword = keyword.substring( 1, keyword.length() - 1 ).trim();
+				}
 				if ( keyword.equals( "min" ) )
 				{
 					if ( index >= 0 )
@@ -1359,7 +1384,7 @@ public class MaximizerFrame
 				}
 				else if ( keyword.equals( "melee" ) )
 				{
-					this.melee = (int) weight;
+					this.melee = (int) (weight * 2.0f);
 					continue;
 				}
 				else if ( keyword.equals( "empty" ) )
@@ -1979,6 +2004,10 @@ public class MaximizerFrame
 				}
 			}
 
+			// This relies on the special sauce glove having a lower ID
+			// than any chefstaff.
+			boolean gloveAvailable = false;
+			
 			int id = 0;
 			while ( (id = EquipmentDatabase.nextEquipmentItemId( id )) != -1 )
 			{
@@ -2065,7 +2094,7 @@ public class MaximizerFrame
 								// 1H weapons from the shortlist if you can't
 								// equip them anyway.
 								if ( !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) &&
-									!KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+									!(KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) && gloveAvailable) )
 								{
 									continue;
 								}
@@ -2092,18 +2121,28 @@ public class MaximizerFrame
 						{
 							continue;
 						}
-						if ( id == ItemPool.SPECIAL_SAUCE_GLOVE &&
-							KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR )
-							&& !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) )
-						{
-							item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
-							break gotItem;
-						}
 						if ( hoboPowerUseful && name.startsWith( "Hodgman's" ) )
 						{
 							Modifiers.hoboPower = 100.0f;
 							count |= Evaluator.AUTOMATIC_FLAG;
 							item = item.getInstance( count );
+						}
+						break;
+						
+					case EquipmentManager.ACCESSORY1:
+						if ( id == ItemPool.SPECIAL_SAUCE_GLOVE &&
+							KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR )
+							&& !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) )
+						{
+							item = this.validateItem( item, maxPrice, priceLevel );
+							count = item.getCount();
+							if ( (count & Evaluator.TOTAL_MASK) == 0 )
+							{
+								continue;
+							}
+							item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+							gloveAvailable = true;
+							break gotItem;
 						}
 						break;
 					}
@@ -2818,6 +2857,14 @@ public class MaximizerFrame
 			throws MaximizerInterruptedException
 		{
 			Object mark = this.mark();
+			boolean chefstaffable = KoLCharacter.hasSkill( "Spirit of Rigatoni" );
+			if ( !chefstaffable && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
+			{
+				chefstaffable =
+					this.equipment[ EquipmentManager.ACCESSORY1 ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE ||
+					this.equipment[ EquipmentManager.ACCESSORY2 ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE ||
+					this.equipment[ EquipmentManager.ACCESSORY3 ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE;
+			}
 			if ( this.equipment[ EquipmentManager.WEAPON ] == null )
 			{
 				ArrayList possible = possibles[ EquipmentManager.WEAPON ];
@@ -2825,6 +2872,11 @@ public class MaximizerFrame
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
+					if ( !chefstaffable &&
+						EquipmentDatabase.getItemType( item.getItemId() ).equals( "chefstaff" ) )
+					{
+						continue;
+					}
 					int count = item.getCount() & Evaluator.TOTAL_MASK;
 					if ( item.equals( this.equipment[ EquipmentManager.OFFHAND ] ) )
 					{
@@ -2842,7 +2894,16 @@ public class MaximizerFrame
 				}
 
 				// if ( any && <no unarmed items in shortlists> ) return;
+				if ( MaximizerFrame.eval.melee < -1 || MaximizerFrame.eval.melee > 1 )
+				{
+					return;
+				}
 				this.equipment[ EquipmentManager.WEAPON ] = EquipmentRequest.UNEQUIP;
+			}
+			else if ( !chefstaffable && 
+				EquipmentDatabase.getItemType( this.equipment[ EquipmentManager.WEAPON ].getItemId() ).equals( "chefstaff" ) )
+			{
+				return;
 			}
 
 			this.tryOffhands( possibles );
@@ -2854,32 +2915,15 @@ public class MaximizerFrame
 		{
 			Object mark = this.mark();
 			int weapon = this.equipment[ EquipmentManager.WEAPON ].getItemId();
-			boolean requireGlove = false;
-			int weaponType = -1;
 			if ( EquipmentDatabase.getHands( weapon ) > 1 )
 			{
 				this.equipment[ EquipmentManager.OFFHAND ] = EquipmentRequest.UNEQUIP;
-			}
-			else if ( EquipmentDatabase.getItemType( weapon ).equals( "chefstaff" ) &&
-				!KoLCharacter.hasSkill( "Spirit of Rigatoni" ) )
-			{
-				if ( !KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
-				{	// This can't work.
-					return;
-				}
-				requireGlove = true;
-			}
-
-			if ( !requireGlove &&
-				KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) )
-			{
-				weaponType = EquipmentDatabase.getWeaponType( weapon );
 			}
 
 			if ( this.equipment[ EquipmentManager.OFFHAND ] == null )
 			{
 				ArrayList possible;
-				switch ( weaponType )
+				switch ( EquipmentDatabase.getWeaponType( weapon ) )
 				{
 				case KoLConstants.MELEE:
 					possible = possibles[ Evaluator.OFFHAND_MELEE ];
@@ -2895,11 +2939,6 @@ public class MaximizerFrame
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
-					if ( requireGlove &&
-						item.getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )
-					{
-						continue;
-					}
 					int count = item.getCount() & Evaluator.TOTAL_MASK;
 					if ( item.equals( this.equipment[ EquipmentManager.WEAPON ] ) )
 					{
@@ -2916,13 +2955,8 @@ public class MaximizerFrame
 					this.restore( mark );
 				}
 
-				if ( requireGlove ) return;
 				if ( any && weapon > 0 ) return;
 				this.equipment[ EquipmentManager.OFFHAND ] = EquipmentRequest.UNEQUIP;
-			}
-			else if ( requireGlove && this.equipment[ EquipmentManager.OFFHAND ].getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )
-			{
-				return;
 			}
 
 			// doit

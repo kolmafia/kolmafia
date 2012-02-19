@@ -4113,6 +4113,9 @@ public abstract class KoLCharacter
 				case KoLConstants.EQUIP_WEAPON:
 					// Disembodied Hand weapons don't give all enchantments
 					onHand = true;
+					newModifiers.add( Modifiers.WEAPON_DAMAGE,
+						EquipmentDatabase.getPower( id ) * 0.15f,
+						"15% weapon power" );
 					break;
 				}
 			}
@@ -4141,6 +4144,18 @@ public abstract class KoLCharacter
 
 			switch ( slot )
 			{
+			case EquipmentManager.OFFHAND:
+				if ( ItemDatabase.getConsumptionType( id ) != KoLConstants.EQUIP_WEAPON )
+				{
+					break;
+				}
+				/*FALLTHRU*/
+			case EquipmentManager.WEAPON:
+				newModifiers.add( Modifiers.WEAPON_DAMAGE,
+					EquipmentDatabase.getPower( id ) * 0.15f,
+					"15% weapon power" );
+				break;
+
 			case EquipmentManager.HAT:
 				if ( id == ItemPool.HATSEAT )
 				{
@@ -4150,12 +4165,12 @@ public abstract class KoLCharacter
 				/*FALLTHRU*/
 			case EquipmentManager.PANTS:
 				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, taoFactor *
-					EquipmentDatabase.getPower( item.getItemId() ), "hat/pants power" );
+					EquipmentDatabase.getPower( id ), "hat/pants power" );
 				break;
 
 			case EquipmentManager.SHIRT:
 				newModifiers.add( Modifiers.DAMAGE_ABSORPTION,
-					EquipmentDatabase.getPower( item.getItemId() ), "shirt power" );
+					EquipmentDatabase.getPower( id ), "shirt power" );
 				break;
 			}
 		}
