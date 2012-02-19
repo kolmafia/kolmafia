@@ -2923,7 +2923,12 @@ public class MaximizerFrame
 			if ( this.equipment[ EquipmentManager.OFFHAND ] == null )
 			{
 				ArrayList possible;
-				switch ( EquipmentDatabase.getWeaponType( weapon ) )
+				int weaponType = -1;
+				if ( KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) )
+				{
+					weaponType = EquipmentDatabase.getWeaponType( weapon );
+				}
+				switch ( weaponType )
 				{
 				case KoLConstants.MELEE:
 					possible = possibles[ Evaluator.OFFHAND_MELEE ];
