@@ -52,6 +52,13 @@ public class GuildUnlockManager
 {
 	public static void unlockGuild()
 	{
+		// Don't even try in Axecore
+		if ( KoLCharacter.inAxecore() )
+		{
+			KoLmafia.updateDisplay( "Boris needed no guild. Why would you?" );
+			return;
+		}
+
 		// See if we've already unlocked the Guild
 		if ( KoLCharacter.getGuildStoreOpen() )
 		{
