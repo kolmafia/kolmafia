@@ -2139,6 +2139,14 @@ public class UseItemRequest
 				return;
 			}
 
+			QuestDatabase.setQuestProgress( QuestDatabase.MACGUFFIN, "step1" );
+
+			// Boris didn't need no stinkin' familiars
+			if ( KoLCharacter.inAxecore() )
+			{
+				return;
+			}
+
 			FamiliarData blackbird = KoLCharacter.getFamiliar();
 			AdventureResult blackbirdItem = blackbird.getItem();
 
@@ -2155,7 +2163,6 @@ public class UseItemRequest
 				Preferences.setString( "preBlackbirdFamiliar", "" );
 			}
 
-			QuestDatabase.setQuestProgress( QuestDatabase.MACGUFFIN, "step1" );
 			return;
 
 		case ItemPool.SPOOKY_MAP:
@@ -4296,16 +4303,30 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.BLACK_MARKET_MAP: {
+
+			// As an Avatar of Boris, you can't use a blackbird,
+			// but you must have the hatchling in your inventory.
+			if ( KoLCharacter.inAxecore() )
+			{
+				if ( !InventoryManager.retrieveItem( ItemPool.REASSEMBLED_BLACKBIRD ) )
+				{
+					return true;
+				}
+
+				// We are good to go.
+				break;
+			}
+
 			int needed = KoLCharacter.inBeecore() ?
 				FamiliarPool.CROW : FamiliarPool.BLACKBIRD;
 			int hatchling = needed == FamiliarPool.CROW ?
 				ItemPool.RECONSTITUTED_CROW : ItemPool.REASSEMBLED_BLACKBIRD;
+
 			if ( KoLCharacter.getFamiliar().getId() != needed )
 			{
 				AdventureResult map = UseItemRequest.lastItemUsed;
 
-				// Get the player's current blackbird, complete
-				// with whatever name it's been given.
+				// Get the player's current blackbird.
 				FamiliarData blackbird = KoLCharacter.findFamiliar( needed );
 
 				// If there is no blackbird in the terrarium,
