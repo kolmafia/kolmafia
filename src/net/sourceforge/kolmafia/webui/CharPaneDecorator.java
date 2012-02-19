@@ -404,28 +404,6 @@ public class CharPaneDecorator
 			buffer.insert( pos + 16, annotations );
 		}
 	}
-
-	public static final void decorateEffects( final StringBuffer buffer )
-	{
-		if ( Preferences.getBoolean( "relayAddsUpArrowLinks" ) )
-		{
-			CharPaneDecorator.addUpArrowLinks( buffer );
-		}
-
-		Iterator it = TurnCounter.iterator();
-		if ( it.hasNext() )
-		{
-			CharPaneDecorator.addCounters( buffer, it );
-		}
-
-		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Yellow","<font size=2 color=olive>Everything Looks Yellow" );
-		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Red","<font size=2 color=red>Everything Looks Red" );
-		StringUtilities.singleStringReplace( buffer, "<font size=2>Everything Looks Blue","<font size=2 color=blue>Everything Looks Blue" );
-	}
-
-	public static final void decorateIntrinsics( final StringBuffer buffer )
-	{
-	}
 	
 	public static final StringBuffer getFamiliarAnnotation()
 	{
@@ -560,147 +538,120 @@ public class CharPaneDecorator
 		return null;
 	}
 
-	public static final void addCounters( final StringBuffer buffer, Iterator it )
+	public static final void decorateEffects( final StringBuffer buffer )
 	{
-		TurnCounter current = (TurnCounter) it.next();
-		while ( current.getTurnsRemaining() < 0 )
-		{	// Skip any expired informational counters that are
-			// still pending delivery to a counterScript.
-			if ( !it.hasNext() ) return;
-			current = (TurnCounter) it.next();
-		}
-		String text = buffer.toString();
-		buffer.setLength( 0 );
-		int lastPos = 0;
-		int insPos;
-		boolean compact = CharPaneRequest.compactCharacterPane;
-		Matcher m = CharPaneDecorator.EFFECT_PATTERN.matcher( text );
-		while ( m.find() )
+		String effectText = CharPaneDecorator.getEffectText( buffer );
+		String moodText = CharPaneDecorator.getMoodText();
+		int counters = TurnCounter.count();
+
+		// If there are no effects on the charpane, no active mood, and
+		// no active counters, nothing to do.
+		if ( effectText == null && moodText == null && counters == 0 )
 		{
-			int duration = StringUtilities.parseInt( m.group( 1 ) );
-			if ( duration >= current.getTurnsRemaining() )
-			{
-				insPos = text.lastIndexOf( "<tr>", m.start( 0 ) );
-				buffer.append( text.substring( lastPos, insPos ) );
-				lastPos = insPos;
-				do
-				{
-					CharPaneDecorator.addOneCounter( buffer, current, compact );
-					if ( !it.hasNext() )
-					{
-						buffer.append( text.substring( lastPos ) );
-						return;
-					}
-					current = (TurnCounter) it.next();
-				}
-				while ( duration >= current.getTurnsRemaining() );
-			}
+			return;
 		}
 
-		// If we've gotten this far, there are counters that are higher
-		// than any effect duration.  Insert them at the very end, but
-		// before any intrinsics.
+		// Otherwise, make a buffer to manipulate effect text in
+		StringBuffer effects = new StringBuffer( effectText != null ? effectText : CharPaneDecorator.dummyEffectTable() );
 
-		insPos = text.lastIndexOf( "&infin;" );
-		if ( insPos != -1 )
+		if ( moodText != null )
 		{
-			insPos = text.lastIndexOf( "</table>", insPos );
+			CharPaneDecorator.addMoodText( effects, moodText );
+		}
+
+		// Add links to effects
+		if ( effectText != null && Preferences.getBoolean( "relayAddsUpArrowLinks" ) )
+		{
+			CharPaneDecorator.addUpArrowLinks( effects );
+		}
+
+		// Interpolate counters with effects
+		if ( counters > 0 )
+		{
+			CharPaneDecorator.addCounters( effects );
+		}
+
+		// Colorize certain effects
+		if ( effectText != null )
+		{
+			StringUtilities.singleStringReplace( effects,
+							     "<font size=2>Everything Looks Yellow",
+							     "<font size=2 color=olive>Everything Looks Yellow" );
+			StringUtilities.singleStringReplace( effects,
+							     "<font size=2>Everything Looks Red",
+							     "<font size=2 color=red>Everything Looks Red" );
+			StringUtilities.singleStringReplace( effects,
+							     "<font size=2>Everything Looks Blue",
+							     "<font size=2 color=blue>Everything Looks Blue" );
+		}
+
+		if ( effectText != null )
+		{
+			// Replace existing effects table with what we generated
+			StringUtilities.singleStringReplace( buffer, effectText, effects.toString() );
 		}
 		else
 		{
-			insPos = text.lastIndexOf( "</table>" );
-		}
-		if ( insPos == -1 )
-		{	// something is very wrong
-			insPos = text.length();
-		}
-		buffer.append( text.substring( lastPos, insPos ) );
-		lastPos = insPos;
-		while ( true )
-		{
-			CharPaneDecorator.addOneCounter( buffer, current, compact );
-			if ( !it.hasNext() )
-			{
-				buffer.append( text.substring( lastPos ) );
-				return;
-			}
-			current = (TurnCounter) it.next();
+			// Figure out where to insert it
+			int index = CharPaneDecorator.chooseEffectTableIndex( buffer );
+			buffer.insert( index, effects.toString() );
 		}
 	}
 
-	private static final void addOneCounter( StringBuffer buffer, TurnCounter current, boolean compact )
+	public static final String getEffectText( final StringBuffer buffer )
 	{
-		String url = current.imageURL();
+		int startIndex;
 
 		if ( CharPaneRequest.compactCharacterPane )
 		{
-			Matcher m = CharPaneDecorator.FONT_TAG_PATTERN.matcher( current.getLabel() );
-			m.find();	// this cannot fail, group 2 matches anything
-			buffer.append( "<tr><td>" );
-			if ( url != null )
+			int effectIndex = buffer.indexOf( "eff(" );
+
+			if ( effectIndex == -1 )
 			{
-				buffer.append( "<a href=\"" + url + "\" target=\"mainpane\">" );
+				return null;
 			}
-			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
-			buffer.append( current.getImage() );
-			buffer.append( "\" title=\"" );
-			buffer.append( m.group( 2 ) );
-			buffer.append( "\">" );
-			if ( url != null )
-			{
-				buffer.append( "</a>" );
-			}
-			buffer.append ("</td><td>" );
-			buffer.append( m.group( 1 ) );
-			buffer.append ("(<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
-			buffer.append( System.identityHashCode( current ) );
-			buffer.append( "&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">" );
-			buffer.append( current.getTurnsRemaining() );
-			buffer.append( "</a>)" );
-			buffer.append( m.group( 3 ) );
-			buffer.append( "</td></tr>" );
+
+			startIndex = buffer.lastIndexOf( "<table", effectIndex );
 		}
-		else	// !compact
+		else
 		{
-			buffer.append( "<tr><td>" );
-			if ( url != null )
+			int effectIndex = buffer.indexOf( "<center><p><b><font size=2>Effects:</font></b>" );
+			if ( effectIndex == -1 )
 			{
-				buffer.append( "<a href=\"" + url + "\" target=\"mainpane\">" );
+				return null;
 			}
-			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
-			buffer.append( current.getImage() );
-			buffer.append( "\">" );
-			if ( url != null )
-			{
-				buffer.append( "</a>" );
-			}
-			buffer.append( "</td><td valign=center><font size=2>" );
-			buffer.append( current.getLabel() );
-			buffer.append( " (<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
-			buffer.append( System.identityHashCode( current ) );
-			buffer.append( "&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">" );
-			buffer.append( current.getTurnsRemaining() );
-			buffer.append( "</a>)</td></tr>" );
+
+			startIndex = effectIndex;
 		}
+
+		int endIndex = buffer.indexOf( "</table>", startIndex );
+		if ( endIndex == -1 )
+		{
+			return null;
+		}
+		endIndex += 8;
+
+		return buffer.substring( startIndex, endIndex );
 	}
 
-	public static final void addUpArrowLinks( final StringBuffer buffer )
+	public static final int chooseEffectTableIndex( final StringBuffer buffer )
 	{
-		String text = buffer.toString();
-		buffer.setLength( 0 );
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			return buffer.lastIndexOf( "</table>" ) + 8;
+		}
 
-		String fontTag = "";
+		int index = buffer.lastIndexOf( "<table" );
+		if ( index < buffer.lastIndexOf( "target=mainpane" ) )
+		{
+			index = buffer.lastIndexOf( "</center>" );
+		}
 
-		int startingIndex = 0;
-		int lastAppendIndex = 0;
+		return index;
+	}
 
-		// First, add in a link to the sidepane which matches the
-		// player's current situation.
-
+	public static final String getMoodText()
+	{
 		String fontColor = null;
 		String moodText = null;
 
@@ -736,116 +687,82 @@ public class CharPaneDecorator
 
 		if ( moodText == null )
 		{
-			// In this case, do nothing, since there aren't any
-			// effects that will get saved to a mood, and there's
-			// nothing that can be maintained.
+			return null;
 		}
-		else if ( CharPaneRequest.compactCharacterPane )
+
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( "<font size=2 color=" );
+		buffer.append( fontColor );
+
+		buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=" );
+
+		if ( moodText.startsWith( "mood" ) )
 		{
-			int effectIndex = text.indexOf( "eff(", startingIndex );
-			boolean shouldAddDivider = effectIndex == -1;
-
-			if ( shouldAddDivider )
-			{
-				startingIndex = text.lastIndexOf( "</table>" ) + 8;
-			}
-			else
-			{
-				startingIndex = text.lastIndexOf( "<table", effectIndex );
-			}
-
-			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
-			lastAppendIndex = startingIndex;
-
-			if ( shouldAddDivider )
-			{
-				buffer.append( "<hr width=50%>" );
-			}
-
-			buffer.append( "<font size=2 color=" );
-			buffer.append( fontColor );
-
-			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=" );
-
-			if ( moodText.startsWith( "mood" ) )
-			{
-				buffer.append( "mood+execute" );
-			}
-			else
-			{
-				buffer.append( StringUtilities.getURLEncode( moodText ) );
-			}
-
-			buffer.append( "&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\" style=\"color:" );
-			buffer.append( fontColor );
-			buffer.append( "\">" );
-
-			buffer.append( moodText );
-			buffer.append( "</a>]</font><br><br>" );
+			buffer.append( "mood+execute" );
 		}
 		else
 		{
-			int effectIndex = text.indexOf( "Effects:</font></b>", startingIndex );
-			boolean shouldAddDivider = effectIndex == -1;
-			boolean shouldAddTable = false;
-
-			if ( shouldAddDivider )
-			{
-				startingIndex = text.lastIndexOf( "<table" );
-				if ( startingIndex < text.lastIndexOf( "target=mainpane" ) )
-				{
-					startingIndex = text.lastIndexOf( "</center>" );
-					shouldAddTable = true;
-				}
-			}
-			else
-			{
-				startingIndex = text.indexOf( "<br>", effectIndex );
-			}
-
-			buffer.append( text.substring( lastAppendIndex, startingIndex ) );
-			lastAppendIndex = startingIndex;
-
-			if ( shouldAddDivider )
-			{
-				buffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
-			}
-
-			buffer.append( "<br><font size=2 color=" );
-			buffer.append( fontColor );
-
-			buffer.append( ">[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=" );
-
-			if ( moodText.startsWith( "mood" ) )
-			{
-				buffer.append( "mood+execute" );
-			}
-			else
-			{
-				buffer.append( StringUtilities.getURLEncode( moodText ) );
-			}
-
-			buffer.append( "&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\" style=\"color:" );
-			buffer.append( fontColor );
-			buffer.append( "\">" );
-
-			buffer.append( moodText );
-			buffer.append( "</a>]</font>" );
-
-			if ( shouldAddDivider )
-			{
-				buffer.append( "</p></center>" );
-			}
-
-			if ( shouldAddTable )
-			{
-				buffer.append( "<table></table>" );
-			}
+			buffer.append( StringUtilities.getURLEncode( moodText ) );
 		}
+
+		buffer.append( "&pwd=" );
+		buffer.append( GenericRequest.passwordHash );
+		buffer.append( "\" style=\"color:" );
+		buffer.append( fontColor );
+		buffer.append( "\">" );
+
+		buffer.append( moodText );
+		buffer.append( "</a>]</font>" );
+
+		return buffer.toString();
+	}
+
+	public static final String dummyEffectTable()
+	{
+		StringBuffer effects = new StringBuffer();
+
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			effects.append( "<hr width=50%>" );
+		}
+		else
+		{
+			effects.append( "<center><p><b><font size=2>Effects:</font></b></p></center>" );
+			effects.append( "<table></table>" );
+		}
+
+		return effects.toString();
+	}
+
+	public static final void addMoodText( final StringBuffer buffer, final String moodText )
+	{
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			String test = "<hr width=50%>";
+			int index = buffer.indexOf( test ) + test.length();
+			buffer.insert( index, moodText );
+			index += moodText.length();
+			buffer.append( "<br><br>" );
+		}
+		else
+		{
+			String test = "</b>";
+			int index = buffer.indexOf( test ) + test.length();
+			buffer.insert( index, "<br>" );
+			index += 4;
+			buffer.insert( index, moodText );
+			index += moodText.length();
+		}
+	}
+
+	public static final void addUpArrowLinks( final StringBuffer buffer )
+	{
+		String text = buffer.toString();
+		buffer.setLength( 0 );
+
+		int startingIndex = 0;
+		int lastAppendIndex = 0;
 
 		// Insert any effects which are in your maintenance list which
 		// have already run out.
@@ -1102,6 +1019,148 @@ public class CharPaneDecorator
 		}
 
 		buffer.append( text.substring( lastAppendIndex ) );
+	}
+
+	public static final void addCounters( final StringBuffer buffer )
+	{
+		Iterator it = TurnCounter.iterator();
+		if ( it.hasNext() )
+		{
+			CharPaneDecorator.addCounters( buffer, it );
+		}
+	}
+
+	public static final void addCounters( final StringBuffer buffer, Iterator it )
+	{
+		TurnCounter current = (TurnCounter) it.next();
+		while ( current.getTurnsRemaining() < 0 )
+		{
+			// Skip expired informational counters that are still
+			// pending delivery to a counterScript.
+			if ( !it.hasNext() ) return;
+			current = (TurnCounter) it.next();
+		}
+		String text = buffer.toString();
+		buffer.setLength( 0 );
+		int lastPos = 0;
+		int insPos;
+		boolean compact = CharPaneRequest.compactCharacterPane;
+		Matcher m = CharPaneDecorator.EFFECT_PATTERN.matcher( text );
+		while ( m.find() )
+		{
+			int duration = StringUtilities.parseInt( m.group( 1 ) );
+			if ( duration >= current.getTurnsRemaining() )
+			{
+				insPos = text.lastIndexOf( "<tr>", m.start( 0 ) );
+				buffer.append( text.substring( lastPos, insPos ) );
+				lastPos = insPos;
+				do
+				{
+					CharPaneDecorator.addOneCounter( buffer, current, compact );
+					if ( !it.hasNext() )
+					{
+						buffer.append( text.substring( lastPos ) );
+						return;
+					}
+					current = (TurnCounter) it.next();
+				}
+				while ( duration >= current.getTurnsRemaining() );
+			}
+		}
+
+		// If we've gotten this far, there are counters that are higher
+		// than any effect duration.  Insert them at the very end, but
+		// before any intrinsics.
+
+		insPos = text.lastIndexOf( "&infin;" );
+		if ( insPos != -1 )
+		{
+			insPos = text.lastIndexOf( "</table>", insPos );
+		}
+		else
+		{
+			insPos = text.lastIndexOf( "</table>" );
+		}
+		if ( insPos == -1 )
+		{	// something is very wrong
+			insPos = text.length();
+		}
+		buffer.append( text.substring( lastPos, insPos ) );
+		lastPos = insPos;
+		while ( true )
+		{
+			CharPaneDecorator.addOneCounter( buffer, current, compact );
+			if ( !it.hasNext() )
+			{
+				buffer.append( text.substring( lastPos ) );
+				return;
+			}
+			current = (TurnCounter) it.next();
+		}
+	}
+
+	private static final void addOneCounter( StringBuffer buffer, TurnCounter current, boolean compact )
+	{
+		String url = current.imageURL();
+
+		if ( CharPaneRequest.compactCharacterPane )
+		{
+			Matcher m = CharPaneDecorator.FONT_TAG_PATTERN.matcher( current.getLabel() );
+			m.find();	// this cannot fail, group 2 matches anything
+			buffer.append( "<tr><td>" );
+			if ( url != null )
+			{
+				buffer.append( "<a href=\"" + url + "\" target=\"mainpane\">" );
+			}
+			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			buffer.append( current.getImage() );
+			buffer.append( "\" title=\"" );
+			buffer.append( m.group( 2 ) );
+			buffer.append( "\">" );
+			if ( url != null )
+			{
+				buffer.append( "</a>" );
+			}
+			buffer.append ("</td><td>" );
+			buffer.append( m.group( 1 ) );
+			buffer.append ("(<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
+			buffer.append( System.identityHashCode( current ) );
+			buffer.append( "&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">" );
+			buffer.append( current.getTurnsRemaining() );
+			buffer.append( "</a>)" );
+			buffer.append( m.group( 3 ) );
+			buffer.append( "</td></tr>" );
+		}
+		else	// !compact
+		{
+			buffer.append( "<tr><td>" );
+			if ( url != null )
+			{
+				buffer.append( "<a href=\"" + url + "\" target=\"mainpane\">" );
+			}
+			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			buffer.append( current.getImage() );
+			buffer.append( "\">" );
+			if ( url != null )
+			{
+				buffer.append( "</a>" );
+			}
+			buffer.append( "</td><td valign=center><font size=2>" );
+			buffer.append( current.getLabel() );
+			buffer.append( " (<a href=\"/KoLmafia/sideCommand?cmd=counters+deletehash+" );
+			buffer.append( System.identityHashCode( current ) );
+			buffer.append( "&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">" );
+			buffer.append( current.getTurnsRemaining() );
+			buffer.append( "</a>)</td></tr>" );
+		}
+	}
+
+	public static final void decorateIntrinsics( final StringBuffer buffer )
+	{
 	}
 
 	public static final void updateFromPreferences()
