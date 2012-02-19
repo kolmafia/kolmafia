@@ -1649,12 +1649,6 @@ public class RelayRequest
 
 			else if ( path.startsWith( "lair6.php" ) )
 			{
-				// As of NS 13,they need not have it
-				// equipped. In fact, there are far better
-				// weapons to equip for the battle. But, just
-				// in case, check current equipment as well as
-				// inventory.
-
 				String place = this.getFormField( "place" );
 
 				if ( place != null && place.equals( "5" ) )
@@ -1663,8 +1657,13 @@ public class RelayRequest
 						new StringBuffer(
 							"It's possible there is something very important you're forgetting to do.<br>You lack:" );
 
+					if ( KoLCharacter.inAxecore() )
+					{
+						// The Avatar of Boris needs no wand
+					}
+
 					// You need the Antique hand mirror in Beecore
-					if ( KoLCharacter.inBeecore() )
+					else if ( KoLCharacter.inBeecore() )
 					{
 						if ( !InventoryManager.retrieveItem( ItemPool.ANTIQUE_HAND_MIRROR ) )
 						{
@@ -1673,6 +1672,7 @@ public class RelayRequest
 							return;
 						}
 					}
+
 					else if ( !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) && !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
 					{
 						if ( !InventoryManager.hasItem( ItemPool.WA ) )
@@ -1704,6 +1704,7 @@ public class RelayRequest
 								warning.append( " <span title=\"Castle\">D</span>" );
 							}
 						}
+
 						this.sendGeneralWarning( "wand.gif", warning.toString() );
 						return;
 					}

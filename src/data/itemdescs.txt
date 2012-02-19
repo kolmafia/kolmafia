@@ -5566,3 +5566,8 @@
 5565	660831377	sammich.gif	PB&amp;BP	PB&amp;BPs
 5566	232765592	sammich.gif	club sandwich	club sandwiches
 5567	978545620	sammich.gif	corned-beef Reuben
+5568
+5569
+5570
+5571
+5572	497799983	thwaitbeetle.gif	Thwaitgold stag beetle statuette
