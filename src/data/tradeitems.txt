@@ -5574,3 +5574,8 @@
 5565	PB&amp;BP	food	display	5
 5566	club sandwich	food	display	5
 5567	corned-beef Reuben	food	display	5
+5568
+5569
+5570
+5571
+5572	Thwaitgold stag beetle statuette	none	display	0
