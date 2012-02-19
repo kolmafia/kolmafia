@@ -408,6 +408,12 @@ public class ItemManagePanel
 
 		for ( int i = 0; i < items.length; ++i )
 		{
+			if ( items[i] == null )
+			{
+				--neededSize;
+				continue;
+			}
+
 			if ( items[ i ] instanceof AdventureResult )
 			{
 				itemName = ( (AdventureResult) items[ i ] ).getName();
