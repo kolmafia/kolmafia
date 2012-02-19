@@ -535,6 +535,11 @@ public class TurnCounter
 		TurnCounter.saveCounters();
 	}
 
+	public static final int count()
+	{
+		return TurnCounter.relayCounters.size();
+	}
+
 	public static final Iterator iterator()
 	{
 		Collections.sort( TurnCounter.relayCounters );
