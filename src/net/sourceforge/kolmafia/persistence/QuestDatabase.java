@@ -189,6 +189,12 @@ public class QuestDatabase
 		{
 			return handleWarStatus( details );
 		}
+		if ( pref.equals( "questG04Nemesis" ) && details.indexOf( "Demonic Lord of Revenge" ) != -1 )
+		{
+			// Hard code the end of the nemesis quest, for now. We could eventually programmatically handle
+			// the <demon name> in the response.
+			return QuestDatabase.FINISHED;
+		}
 
 		// First thing to do is find which quest we're talking about.
 		int index = prefToIndex( pref );
@@ -228,14 +234,46 @@ public class QuestDatabase
 				.toLowerCase();
 			String cleanedQuest = "";
 
-			// RequestLogger.printLine( cleanedResponse );
+			for ( int i = 2; i < questLogData[ index ].length; ++i )
+			{
+				cleanedQuest = QuestDatabase.HTML_WHITESPACE.matcher( questLogData[ index ][ i ] )
+					.replaceAll( "" ).toLowerCase();
+				if ( cleanedQuest.indexOf( cleanedResponse ) != -1 )
+				{
+					foundAtStep = i - 2;
+					break;
+				}
+			}
+		}
+		
+		if ( foundAtStep == -1 )
+		{
+			// STILL haven't found a match. Try reversing the match, and chopping up the quest data into
+			// substrings.
+			String cleanedResponse = QuestDatabase.HTML_WHITESPACE.matcher( details ).replaceAll( "" )
+				.toLowerCase();
+			String cleanedQuest = "";
+			String questStart = "";
+			String questEnd = "";
 
 			for ( int i = 2; i < questLogData[ index ].length; ++i )
 			{
 				cleanedQuest = QuestDatabase.HTML_WHITESPACE.matcher( questLogData[ index ][ i ] )
 					.replaceAll( "" ).toLowerCase();
-				// RequestLogger.printLine( cleanedQuest );
-				if ( cleanedQuest.indexOf( cleanedResponse ) != -1 )
+
+				if ( cleanedQuest.length() <= 100 )
+				{
+					questStart = cleanedQuest;
+					questEnd = cleanedQuest;
+				}
+				else
+				{
+					questStart = cleanedQuest.substring( 0, 100 );
+					questEnd = cleanedQuest.substring( cleanedQuest.length() - 100 );
+				}
+
+				if ( cleanedResponse.indexOf( questStart ) != -1
+					|| cleanedResponse.indexOf( questEnd ) != -1 )
 				{
 					foundAtStep = i - 2;
 					break;
@@ -257,13 +295,6 @@ public class QuestDatabase
 			{
 				return "step" + foundAtStep;
 			}
-		}
-
-		if ( pref.equals( "questG04Nemesis" ) && details.indexOf( "Demonic Lord of Revenge" ) != -1 )
-		{
-			// Hard code the end of the nemesis quest, for now. We could eventually programmatically handle
-			// the <demon name> in the response.
-			return QuestDatabase.FINISHED;
 		}
 
 		// Well, none of the above worked. Punt.
@@ -328,6 +359,40 @@ public class QuestDatabase
 				}
 			}
 		}
+
+		if ( !found )
+		{
+			String questStart = "";
+			String questEnd = "";
+
+			for ( int i = 0; i < councilData.length && !found; ++i )
+			{
+				for ( int j = 2; j < councilData[ i ].length && !found; ++j )
+				{
+					cleanedQuest = QuestDatabase.HTML_WHITESPACE.matcher( councilData[ i ][ j ] )
+						.replaceAll( "" ).toLowerCase();
+					if ( cleanedQuest.length() <= 100 )
+					{
+						questStart = cleanedQuest;
+						questEnd = cleanedQuest;
+					}
+					else
+					{
+						questStart = cleanedQuest.substring( 0, 100 );
+						questEnd = cleanedQuest.substring( cleanedQuest.length() - 100 );
+					}
+
+					if ( cleanedResponse.indexOf( questStart ) != -1
+						|| cleanedResponse.indexOf( questEnd ) != -1 )
+					{
+						pref = councilData[ i ][ 0 ];
+						status = councilData[ i ][ 1 ];
+						found = true;
+					}
+				}
+			}
+		}
+
 		if ( found )
 		{
 			setQuestIfBetter( pref, status );
