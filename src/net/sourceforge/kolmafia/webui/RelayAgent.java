@@ -164,7 +164,7 @@ public class RelayAgent
 		}
 		catch ( Exception e )
 		{
-			StaticEntity.printStackTrace( "horrible relay failure" );
+			StaticEntity.printStackTrace( e, "Horrible relay failure" );
 		}
 	}
 
