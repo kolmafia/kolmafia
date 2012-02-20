@@ -3410,10 +3410,10 @@
 3409	874739671	picker.gif	Hodgman's garbage sticker	Hodgman's garbage stickers
 3410	986607676	mdetector.gif	Hodgman's metal detector	Hodgman's metal detectors
 3411	753829066	cane.gif	Hodgman's cane	Hodgman's canes
-3412	443125100	blacknotebook.gif	Hodgman's journal #1:  The Lean Times	copies of Hodgman's journal #1
-3413	359048124	blacknotebook.gif	Hodgman's journal #2:  Entrepreneurythmics	copies of Hodgman's journal #2
-3414	456659256	blacknotebook.gif	Hodgman's journal #3:  Pumping Tin	copies of Hodgman's journal #3
-3415	435985770	blacknotebook.gif	Hodgman's journal #4:  View From The Big Top	copies of Hodgman's journal #4
+3412	443125100	blacknotebook.gif	Hodgman's journal #1: The Lean Times	copies of Hodgman's journal #1
+3413	359048124	blacknotebook.gif	Hodgman's journal #2: Entrepreneurythmics	copies of Hodgman's journal #2
+3414	456659256	blacknotebook.gif	Hodgman's journal #3: Pumping Tin	copies of Hodgman's journal #3
+3415	435985770	blacknotebook.gif	Hodgman's journal #4: View From The Big Top	copies of Hodgman's journal #4
 3416	128693993	blueprint.gif	hobo fortress blueprints	sets of hobo fortress blueprints
 3417
 3418
@@ -5509,10 +5509,10 @@
 5508	740355922	tinybook.gif	Uncle Greenspan's Bathroom Finance Guide
 5509	487627345	bubblebottle.gif	bottle of bubbles	bottles of bubbles
 5510	148288267	windupcar.gif	wind-up meatcar
-5511	642614129	triviacard.gif	Trivial Avocations Card:  What?	Trivial Avocations Cards:  What?
-5512	420955512	triviacard.gif	Trivial Avocations Card:  When?	Trivial Avocations Cards:  When?
-5513	741577631	triviacard.gif	Trivial Avocations Card:  Who?	Trivial Avocations Cards:  Who?
-5514	190904588	triviacard.gif	Trivial Avocations Card:  Where?	Trivial Avocations Cards:  Where?
+5511	642614129	triviacard.gif	Trivial Avocations Card: What?	Trivial Avocations Cards: What?
+5512	420955512	triviacard.gif	Trivial Avocations Card: When?	Trivial Avocations Cards: When?
+5513	741577631	triviacard.gif	Trivial Avocations Card: Who?	Trivial Avocations Cards: Who?
+5514	190904588	triviacard.gif	Trivial Avocations Card: Where?	Trivial Avocations Cards: Where?
 5515	563905506	pog.gif	pog #01 (spider)	pog #01s (spider)
 5516	939238261	pog.gif	pog #02 (Knob goblin)	pog #02s (Knob goblin)
 5517	198603287	pog.gif	pog #03 (warwelf)	pog #03s (warwelf)
