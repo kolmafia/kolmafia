@@ -2320,7 +2320,7 @@ public abstract class KoLmafia
 
 		public void run()
 		{
-			LogoutManager.logout( false );
+			LogoutManager.logout();
 
 			Preferences.reset( null );
 			FlaggedItems.saveFlaggedItemList();
