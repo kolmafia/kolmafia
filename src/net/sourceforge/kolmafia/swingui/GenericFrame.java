@@ -450,9 +450,7 @@ public abstract class GenericFrame
 		{
 			this.exists = false;
 			--GenericFrame.existingFrameCount;
-
 			KoLConstants.existingFrames.remove( this.getFrameName() );
-			this.checkForLogout();
 		}
 
 		// Remove listeners from interface elements
@@ -494,6 +492,7 @@ public abstract class GenericFrame
 		else
 		{
 			super.dispose();
+			this.checkForLogout();
 		}
 	}
 
