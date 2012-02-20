@@ -47,6 +47,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -116,22 +117,28 @@ public class OptionsFrame
 	{
 		super( "Preferences" );
 
-		CardLayoutSelectorPanel selectorPanel = new CardLayoutSelectorPanel();
+		CardLayoutSelectorPanel selectorPanel = new CardLayoutSelectorPanel( null, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
 		selectorPanel.addPanel( "General", new GeneralOptionsPanel(), true );
-		selectorPanel.addPanel( " - Debugging", new DebugOptionsPanel(), true );
-		selectorPanel.addPanel( " - Editors", new EditorPanel(), true );
-		selectorPanel.addPanel( "Relay Browser", new RelayOptionsPanel(), true );
-		selectorPanel.addPanel( " - Browser", new BrowserPanel(), true );
-		selectorPanel.addPanel( "Look & Feel", new UserInterfacePanel(), true );
-		selectorPanel.addPanel( " - Main Tabs", new StartupFramesPanel(), true );
+		selectorPanel.addPanel( " - Item Acquisition", new ItemOptionsPanel(), true );
+		selectorPanel.addPanel( " - Session Logs", new SessionLogOptionsPanel(), true );
+		selectorPanel.addPanel( " - Extra Debugging", new DebugOptionsPanel(), true );
 
-		JPanel breakfastPanel = new JPanel();
-		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
-		breakfastPanel.add( new ScriptPanel() );
-		breakfastPanel.add( new BreakfastPanel( "Ronin-Clear Characters", "Softcore" ) );
-		breakfastPanel.add( new BreakfastPanel( "In-Ronin Characters", "Hardcore" ) );
-		selectorPanel.addPanel( "Breakfast", breakfastPanel, true );
+		JPanel programsPanel = new JPanel();
+		programsPanel.setLayout( new BoxLayout( programsPanel, BoxLayout.Y_AXIS ) );
+		programsPanel.add( new EditorPanel() );
+		programsPanel.add( new BrowserPanel() );
+		programsPanel.add( Box.createVerticalGlue() );
+		selectorPanel.addPanel( " - External Programs", programsPanel, true );
+
+		selectorPanel.addPanel( "Look & Feel", new UserInterfacePanel(), true );
+		selectorPanel.addPanel( " - Main Interface", new StartupFramesPanel(), true );
+		selectorPanel.addPanel( " - Chat Options", new ChatOptionsPanel(), true );
+		selectorPanel.addPanel( " - Relay Browser", new RelayOptionsPanel(), true );
+
+		selectorPanel.addPanel( "Login and Logout", new ScriptPanel(), true );
+		selectorPanel.addPanel( " - In Ronin", new BreakfastPanel( "Hardcore" ), true );
+		selectorPanel.addPanel( " - After Ronin", new BreakfastPanel( "Softcore" ), true );
 
 		JPanel customDeedPanel = new JPanel();
 		customDeedPanel.setLayout( new BoxLayout( customDeedPanel, BoxLayout.Y_AXIS ) );
@@ -141,8 +148,6 @@ public class OptionsFrame
 
 		selectorPanel.addPanel( "Script Buttons", new ScriptButtonPanel(), true );
 		selectorPanel.addPanel( "Bookmarks", new BookmarkManagePanel(), true );
-		selectorPanel.addPanel( "Session Logs", new SessionLogOptionsPanel(), true );
-		selectorPanel.addPanel( "Chat Options", new ChatOptionsPanel(), true );
 
 		this.setCenterComponent( selectorPanel );
 
@@ -152,7 +157,7 @@ public class OptionsFrame
 		}
 		else if ( RelayServer.isRunning() )
 		{
-			selectorPanel.setSelectedIndex( 4 );
+			selectorPanel.setSelectedIndex( 8 );
 		}
 		else
 		{
@@ -163,23 +168,6 @@ public class OptionsFrame
 	private class SessionLogOptionsPanel
 		extends OptionsPanel
 	{
-		private final JCheckBox[] optionBoxes;
-
-		private final String[][] options =
-		{
-			{ "logStatusOnLogin", "Session log records your player's state on login" },
-			{ "logReverseOrder", "Log adventures left instead of adventures used" },
-			{},
-			{ "logBattleAction", "Session log records attacks for each round" },
-			{ "logFamiliarActions", "Session log records actions made by familiars" },
-			{ "logMonsterHealth", "Session log records monster health changes" },
-			{},
-			{ "logGainMessages", "Session log records HP/MP/meat changes" },
-			{ "logStatGains", "Session log records stat gains" },
-			{ "logAcquiredItems", "Session log records items acquired" },
-			{ "logStatusEffects", "Session log records status effects gained" }
-		};
-
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
 		 * server and for them to modify any applicable proxy settings.
@@ -188,93 +176,30 @@ public class OptionsFrame
 		public SessionLogOptionsPanel()
 		{
 			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
 
-			this.optionBoxes = new JCheckBox[ this.options.length ];
-
-			for ( int i = 0; i < this.options.length; ++i )
+			String[][] options =
 			{
-				String[] option = this.options[ i ];
-				JCheckBox optionBox = new JCheckBox();
-				this.optionBoxes[ i ] = optionBox;
-				elements[ i ] =
-					option.length == 0 ?
-						new VerifiableElement() :
-						new VerifiableElement( option[ 1 ], SwingConstants.LEFT, optionBox );
-			}
+				{ "logStatusOnLogin", "Session log records your player's state on login" },
+				{ "logReverseOrder", "Log adventures left instead of adventures used" },
+				{},
+				{ "logBattleAction", "Session log records attacks for each round" },
+				{ "logFamiliarActions", "Session log records actions made by familiars" },
+				{ "logMonsterHealth", "Session log records monster health changes" },
+				{},
+				{ "logGainMessages", "Session log records HP/MP/meat changes" },
+				{ "logStatGains", "Session log records stat gains" },
+				{ "logAcquiredItems", "Session log records items acquired" },
+				{ "logStatusEffects", "Session log records status effects gained" }
+			};
 
-			this.actionCancelled();
-			this.setContent( elements );
-		}
-
-		public void actionConfirmed()
-		{
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				String[] option = this.options[ i ];
-				if ( option.length == 0 )
-				{
-					continue;
-				}
-				JCheckBox optionBox = this.optionBoxes[ i ];
-				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
-			}
-		}
-
-		public void actionCancelled()
-		{
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				String[] option = this.options[ i ];
-				if ( option.length == 0 )
-				{
-					continue;
-				}
-				JCheckBox optionBox = this.optionBoxes[ i ];
-				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
-			}
+			this.setOptions( options );
 		}
 	}
 
 	private class RelayOptionsPanel
 		extends OptionsPanel
 	{
-		private final JLabel colorChanger;
-		private final JCheckBox[] optionBoxes;
-		private final String[][] options =
-		{
-			{ "relayAllowsOverrides", "Enable user-scripted relay browser overrides" },
-			{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
-			{ "relayOverridesImages", "Override certain KoL images" },
-			{},
-			{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
-			{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
-			{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
-			{},
-			{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
-			{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
-			{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
-			{ "relayAddsDiscoHelper", "Add Disco Bandit helper to fights" },
-			{ "macroLens", "Show Combat Macro helper during fights" },
-			{},
-			{ "relayRunsBeforeBattleScript", "Run betweenBattleScript before manual adventures" },
-			{ "relayMaintainsEffects", "Run moods before manual adventures" },
-			{ "relayMaintainsHealth", "Maintain health before manual adventures" },
-			{ "relayMaintainsMana", "Maintain mana before manual adventures" },
-			{},
-			{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
-			{ "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" },
-			{ "relayAddsGraphicalCLI", "Add command-line interface to right side pane" },
-			{},
-			{ "relayAddsUseLinks", "Add [use] links when receiving items" },
-			{ "relayUsesInlineLinks", "Force results to reload inline for [use] links" },
-			{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
-			{ "relayTrimsZapList", "Trim zap list to show only known zappable items" },
-			{},
-			{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
-			{ "arcadeGameHints", "Provide hints for Arcade games" },
-			{ "relayShowSpoilers", "Show blatant spoilers for choices and puzzles" },
-		};
+		private JLabel colorChanger;
 
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
@@ -284,43 +209,64 @@ public class OptionsFrame
 		public RelayOptionsPanel()
 		{
 			super( new Dimension( 16, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement[] elements = new VerifiableElement[ this.options.length + 1 ];
 
-			this.optionBoxes = new JCheckBox[ this.options.length ];
-
-			for ( int i = 0; i < this.options.length; ++i )
+			String[][] options =
 			{
-				String[] option = this.options[ i ];
-				JCheckBox optionBox = new JCheckBox();
-				this.optionBoxes[ i ] = optionBox;
-				elements[ i ] =
-					option.length == 0 ?
-						new VerifiableElement() :
-						new VerifiableElement( option[ 1 ], SwingConstants.LEFT, optionBox );
-			}
+				{ "relayAllowsOverrides", "Enable user-scripted relay browser overrides" },
+				{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
+				{ "relayOverridesImages", "Override certain KoL images" },
+				{},
+				{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
+				{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
+				{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
+				{},
+				{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
+				{ "relayAddsUpArrowLinks", "Add buff maintenance links to left side pane" },
+				{ "relayTextualizesEffects", "Textualize effect links in left side pane" },
+				{ "relayAddsDiscoHelper", "Add Disco Bandit helper to fights" },
+				{ "macroLens", "Show Combat Macro helper during fights" },
+				{},
+				{ "relayRunsBeforeBattleScript", "Run betweenBattleScript before manual adventures" },
+				{ "relayMaintainsEffects", "Run moods before manual adventures" },
+				{ "relayMaintainsHealth", "Maintain health before manual adventures" },
+				{ "relayMaintainsMana", "Maintain mana before manual adventures" },
+				{},
+				{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
+				{ "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" },
+				{ "relayAddsGraphicalCLI", "Add command-line interface to right side pane" },
+				{},
+				{ "relayAddsUseLinks", "Add [use] links when receiving items" },
+				{ "relayUsesInlineLinks", "Force results to reload inline for [use] links" },
+				{ "relayHidesJunkMallItems", "Hide junk and overpriced items in PC stores" },
+				{ "relayTrimsZapList", "Trim zap list to show only known zappable items" },
+				{},
+				{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
+				{ "arcadeGameHints", "Provide hints for Arcade games" },
+				{ "relayShowSpoilers", "Show blatant spoilers for choices and puzzles" },
+			};
+
+			this.setOptions( options );
+		}
+
+		public void setContent( VerifiableElement[] elements )
+		{
+			VerifiableElement[] newElements = new VerifiableElement[ elements.length + 1 ];
+
+			System.arraycopy( elements, 0, newElements, 0, elements.length );
 
 			this.colorChanger = new ColorChooser( "defaultBorderColor" );
-			elements[ this.options.length ] =
-				new VerifiableElement(
-					"Change the color for tables in the browser interface", SwingConstants.LEFT, this.colorChanger );
 
-			this.setContent( elements );
-			this.actionCancelled();
+			newElements[ elements.length ] = new VerifiableElement(
+				"Change the color for tables in the browser interface", SwingConstants.LEFT, this.colorChanger );
+
+			super.setContent( newElements );
 		}
 
 		public void actionConfirmed()
 		{
 			boolean overrideImages = Preferences.getBoolean( "relayOverridesImages" );
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				String[] option = this.options[ i ];
-				if ( option.length == 0 )
-				{
-					continue;
-				}
-				JCheckBox optionBox = this.optionBoxes[ i ];
-				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
-			}
+
+			super.actionConfirmed();
 
 			if ( overrideImages != Preferences.getBoolean( "relayOverridesImages" ) )
 			{
@@ -331,6 +277,7 @@ public class OptionsFrame
 		public void actionCancelled()
 		{
 			String color = Preferences.getString( "defaultBorderColor" );
+
 			if ( color.equals( "blue" ) )
 			{
 				this.colorChanger.setBackground( Color.blue );
@@ -340,64 +287,13 @@ public class OptionsFrame
 				this.colorChanger.setBackground( DataUtilities.toColor( color ) );
 			}
 
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				String[] option = this.options[ i ];
-				if ( option.length == 0 )
-				{
-					continue;
-				}
-				JCheckBox optionBox = this.optionBoxes[ i ];
-				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
-			}
+			super.actionCancelled();
 		}
 	}
 
 	private class GeneralOptionsPanel
 		extends OptionsPanel
 	{
-		private final JCheckBox[] optionBoxes;
-
-		private final String[][] options =
-		{
-			{ "showAllRequests", "Show all requests in a mini-browser window" },
-			{ "showExceptionalRequests", "Automatically load 'click here to load in relay browser' in mini-browser" },
-
-			{},
-
-			{ "useZoneComboBox", "Use zone selection instead of adventure name filter" },
-			{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
-			{ "saveSettingsOnSet", "Save options to disk whenever they change" },
-
-			{},
-
-			{ "removeMalignantEffects", "Auto-remove malignant status effects" },
-			{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
-			{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
-			{ "allowSummonBurning", "Cast summoning skills during buff balancing" },
-
-			{},
-
-			{ "cloverProtectActive", "Protect against accidental ten-leaf clover usage" },
-			{ "requireSewerTestItems", "Require appropriate test items to adventure in clan sewers " },
-			{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
-
-			{},
-
-			{ "allowNegativeTally", "Allow item counts in session results to go negative" },
-			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed", "yes" },
-			{ "autoSatisfyWithStorage", "If you are out of Ronin, pull items from storage whenever needed", "yes" },
-			{ "autoSatisfyWithCoinmasters", "Buy items with tokens at coin masters whenever needed", "yes" },
-			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
-			{ "autoSatisfyWithCloset", "Take items from the closet whenever needed", "yes" },
-			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" },
-			{ "mmgAutoConfirmBets", "Auto-confirm bets in the MMG" },
-
-			{},
-
-			{ "sharePriceData", "Share recent Mall price data with other users" },
-		};
-
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
 		 * server and for them to modify any applicable proxy settings.
@@ -406,74 +302,77 @@ public class OptionsFrame
 		public GeneralOptionsPanel()
 		{
 			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
 
-			this.optionBoxes = new JCheckBox[ this.options.length ];
-
-			for ( int i = 0; i < this.options.length; ++i )
+			String[][] options =
 			{
-				String[] option = this.options[ i ];
-				JCheckBox optionBox =
-					option.length < 3 ?
-						new JCheckBox() :
-						new CreationSettingCheckBox( option[ 0 ] );
-				this.optionBoxes[ i ] = optionBox;
-				elements[ i ] =
-					option.length == 0 ?
-						new VerifiableElement() :
-						new VerifiableElement( option[ 1 ], SwingConstants.LEFT, optionBox );
-			}
+				{ "showAllRequests", "Show all requests in a mini-browser window" },
+				{ "showExceptionalRequests", "Automatically load 'click here to load in relay browser' in mini-browser" },
 
-			this.setContent( elements );
-			this.actionCancelled();
+				{},
+
+				{ "useZoneComboBox", "Use zone selection instead of adventure name filter" },
+				{ "cacheMallSearches", "Cache mall search terms in mall search interface" },
+				{ "saveSettingsOnSet", "Save options to disk whenever they change" },
+
+				{},
+
+				{ "removeMalignantEffects", "Auto-remove malignant status effects" },
+				{ "switchEquipmentForBuffs", "Allow equipment changing when casting buffs" },
+				{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
+				{ "allowSummonBurning", "Cast summoning skills during buff balancing" },
+
+				{},
+
+				{ "requireSewerTestItems", "Require appropriate test items to adventure in clan sewers " },
+				{ "mmgAutoConfirmBets", "Auto-confirm bets in the MMG" },
+
+				{},
+
+				{ "sharePriceData", "Share recent Mall price data with other users" },
+			};
+
+			this.setOptions( options );
 		}
+	}
 
-		public void actionConfirmed()
+	private class ItemOptionsPanel
+		extends OptionsPanel
+	{
+		/**
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
+		 * server and for them to modify any applicable proxy settings.
+		 */
+
+		public ItemOptionsPanel()
 		{
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				String[] option = this.options[ i ];
-				if ( option.length == 0 )
-				{
-					continue;
-				}
-				JCheckBox optionBox = this.optionBoxes[ i ];
-				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
-			}
+			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 
-			this.actionCancelled();
-			ConcoctionDatabase.refreshConcoctions( true );
-		}
-
-		public void actionCancelled()
-		{
-			for ( int i = 0; i < this.options.length; ++i )
+			String[][] options =
 			{
-				String[] option = this.options[ i ];
-				if ( option.length == 0 )
-				{
-					continue;
-				}
-				JCheckBox optionBox = this.optionBoxes[ i ];
-				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
-			}
+				{ "allowNegativeTally", "Allow item counts in session results to go negative" },
+
+				{},
+
+				{ "cloverProtectActive", "Protect against accidental ten-leaf clover usage" },
+				{ "mementoListActive", "Prevent accidental destruction of 'memento' items" },
+
+				{},
+
+				{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed", "yes" },
+				{ "autoSatisfyWithStorage", "If you are out of Ronin, pull items from storage whenever needed", "yes" },
+				{ "autoSatisfyWithCoinmasters", "Buy items with tokens at coin masters whenever needed", "yes" },
+				{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
+				{ "autoSatisfyWithCloset", "Take items from the closet whenever needed", "yes" },
+				{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" },
+			};
+
+			this.setOptions( options );
 		}
 	}
 
 	private class DebugOptionsPanel
 		extends OptionsPanel
 	{
-		private final JCheckBox[] optionBoxes;
-
-		private final String[][] options =
-		{
-			{ "useLastUserAgent", "Use last browser's userAgent" },
-			{ "logBrowserInteractions", "Verbosely log communication between KoLmafia and browser" },
-			{ "logCleanedHTML", "Log cleaned HTML tree of fight pages" },
-			{ "logDecoratedResponses", "Log decorated responses in debug log" },
-			{ "logReadableHTML", "Include line breaks in logged HTML" },
-		};
-
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a place for the users to select their desired
 		 * server and for them to modify any applicable proxy settings.
@@ -482,52 +381,17 @@ public class OptionsFrame
 		public DebugOptionsPanel()
 		{
 			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
-			VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
 
-			this.optionBoxes = new JCheckBox[ this.options.length ];
-
-			for ( int i = 0; i < this.options.length; ++i )
+			String[][] options =
 			{
-				String[] option = this.options[ i ];
-				this.optionBoxes[ i ] = new JCheckBox();
-				elements[ i ] =
-					option.length == 0 ?
-						new VerifiableElement() :
-						new VerifiableElement( option[ 1 ], SwingConstants.LEFT, this.optionBoxes[ i ] );
-			}
+				{ "useLastUserAgent", "Use last browser's userAgent" },
+				{ "logBrowserInteractions", "Verbosely log communication between KoLmafia and browser" },
+				{ "logCleanedHTML", "Log cleaned HTML tree of fight pages" },
+				{ "logDecoratedResponses", "Log decorated responses in debug log" },
+				{ "logReadableHTML", "Include line breaks in logged HTML" },
+			};
 
-			this.setContent( elements );
-			this.actionCancelled();
-		}
-
-		public void actionConfirmed()
-		{
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				String[] option = this.options[ i ];
-				if ( option.length == 0 )
-				{
-					continue;
-				}
-				JCheckBox optionBox = this.optionBoxes[ i ];
-				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
-			}
-
-			this.actionCancelled();
-		}
-
-		public void actionCancelled()
-		{
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				String[] option = this.options[ i ];
-				if ( option.length == 0 )
-				{
-					continue;
-				}
-				JCheckBox optionBox = this.optionBoxes[ i ];
-				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
-			}
+			this.setOptions( options );
 		}
 	}
 
@@ -712,31 +576,34 @@ public class OptionsFrame
 	private class ChatOptionsPanel
 		extends OptionsPanel
 	{
-		private final String[][] options =
-		{
-			{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
-			{ "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" },
-			{ "addChatCommandLine", "Add a graphical CLI to tabbed chat" },
-			{},
-			{ "useContactsFrame", "Use a popup window for /friends and /who" },
-			{ "chatLinksUseRelay", "Use the relay browser when clicking on chat links" },
-			{ "useChatToolbar", "Add a toolbar to chat windows for special commands" },
-			{},
-			{ "mergeHobopolisChat", "Merge clan dungeon channel displays into /clan" },
-			{ "greenScreenProtection", "Ignore event messages in KoLmafia chat" },
-			{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
-		};
-
-		private final ButtonGroup fontSizeGroup;
-		private final JRadioButton[] fontSizes;
-
-		private final JCheckBox[] optionBoxes;
-		private final JLabel innerGradient, outerGradient;
+		private ButtonGroup fontSizeGroup;
+		private JRadioButton[] fontSizes;
+		private JLabel innerGradient, outerGradient;
 
 		public ChatOptionsPanel()
 		{
-			super( new Dimension( 30, 16 ), new Dimension( 370, 16 ) );
+			super( new Dimension( 30, 16 ), new Dimension( 470, 16 ) );
 
+			String[][] options =
+			{
+				{ "useTabbedChatFrame", "Use tabbed, rather than multi-window, chat" },
+				{ "useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat" },
+				{ "addChatCommandLine", "Add a graphical CLI to tabbed chat" },
+				{},
+				{ "useContactsFrame", "Use a popup window for /friends and /who" },
+				{ "chatLinksUseRelay", "Use the relay browser when clicking on chat links" },
+				{ "useChatToolbar", "Add a toolbar to chat windows for special commands" },
+				{},
+				{ "mergeHobopolisChat", "Merge clan dungeon channel displays into /clan" },
+				{ "greenScreenProtection", "Ignore event messages in KoLmafia chat" },
+				{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
+			};
+
+			this.setOptions( options );
+		}
+
+		public void setContent( VerifiableElement[] elements )
+		{
 			this.fontSizeGroup = new ButtonGroup();
 			this.fontSizes = new JRadioButton[ 3 ];
 			for ( int i = 0; i < 3; ++i )
@@ -745,62 +612,37 @@ public class OptionsFrame
 				this.fontSizeGroup.add( this.fontSizes[ i ] );
 			}
 
-			this.optionBoxes = new JCheckBox[ this.options.length ];
+			VerifiableElement[] newElements = new VerifiableElement[ elements.length + 7 ];
 
-			VerifiableElement[] elements = new VerifiableElement[ 4 + this.options.length + 3 ];
+			newElements[ 0 ] = new VerifiableElement(
+				"Use small fonts in hypertext displays", SwingConstants.LEFT, this.fontSizes[ 0 ] );
+			newElements[ 1 ] = new VerifiableElement(
+				"Use medium fonts in hypertext displays", SwingConstants.LEFT, this.fontSizes[ 1 ] );
+			newElements[ 2 ] = new VerifiableElement(
+				"Use large fonts in hypertext displays", SwingConstants.LEFT, this.fontSizes[ 2 ] );
 
-			elements[ 0 ] =
-				new VerifiableElement( "Use small fonts in hypertext displays", SwingConstants.LEFT, this.fontSizes[ 0 ] );
-			elements[ 1 ] =
-				new VerifiableElement(
-					"Use medium fonts in hypertext displays", SwingConstants.LEFT, this.fontSizes[ 1 ] );
-			elements[ 2 ] =
-				new VerifiableElement( "Use large fonts in hypertext displays", SwingConstants.LEFT, this.fontSizes[ 2 ] );
+			newElements[ 3 ] = new VerifiableElement();
 
-			elements[ 3 ] = new VerifiableElement();
+			System.arraycopy( elements, 0, newElements, 4, elements.length );
 
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				String[] option = this.options[ i ];
-				JCheckBox optionBox = new JCheckBox();
-				this.optionBoxes[ i ] = optionBox;
+			int tabCount = elements.length + 4;
 
-				elements[ i + 4 ] =
-					option.length == 0 ?
-						new VerifiableElement() :
-						new VerifiableElement( option[ 1 ], SwingConstants.LEFT, optionBox );
-			}
-
-			int tabCount = this.options.length + 4;
-
-			elements[ tabCount++ ] = new VerifiableElement();
+			newElements[ tabCount++ ] = new VerifiableElement();
 
 			this.outerGradient = new TabColorChanger( "outerChatColor" );
-			elements[ tabCount++ ] =
-				new VerifiableElement(
-					"Change the outer portion of highlighted tab gradient", SwingConstants.LEFT, this.outerGradient );
+			newElements[ tabCount++ ] = new VerifiableElement(
+				"Change the outer portion of highlighted tab gradient", SwingConstants.LEFT, this.outerGradient );
 
 			this.innerGradient = new TabColorChanger( "innerChatColor" );
-			elements[ tabCount++ ] =
-				new VerifiableElement(
-					"Change the inner portion of highlighted tab gradient", SwingConstants.LEFT, this.innerGradient );
+			newElements[ tabCount++ ] = new VerifiableElement(
+				"Change the inner portion of highlighted tab gradient", SwingConstants.LEFT, this.innerGradient );
 
-			this.setContent( elements );
-			this.actionCancelled();
+			super.setContent( newElements );
 		}
 
 		public void actionConfirmed()
 		{
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				String[] option = this.options[ i ];
-				if ( option.length == 0 )
-				{
-					continue;
-				}
-				JCheckBox optionBox = this.optionBoxes[ i ];
-				Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
-			}
+			super.actionConfirmed();
 
 			if ( this.fontSizes[ 0 ].isSelected() )
 			{
@@ -820,16 +662,7 @@ public class OptionsFrame
 
 		public void actionCancelled()
 		{
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				String[] option = this.options[ i ];
-				if ( option.length == 0 )
-				{
-					continue;
-				}
-				JCheckBox optionBox = this.optionBoxes[ i ];
-				optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
-			}
+			super.actionCancelled();
 
 			this.innerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedA );
 			this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.notifiedB );
@@ -1896,15 +1729,16 @@ public class OptionsFrame
 
 		private final CropMenu cropsMenu;
 
-		public BreakfastPanel( final String title, final String breakfastType )
+		public BreakfastPanel( final String breakfastType )
 		{
-			super( new BorderLayout() );
+			super( new CardLayout( 10, 10 ) );
 
-			this.add(
-				JComponentUtilities.createLabel( title, SwingConstants.CENTER, Color.black, Color.white ),
-				BorderLayout.NORTH );
+			JPanel centerContainer = new JPanel();
+			centerContainer.setLayout( new BoxLayout( centerContainer, BoxLayout.Y_AXIS ) );
 
-			JPanel centerPanel = new JPanel( new GridLayout( 4, 3 ) );
+			int rows = ( UseSkillRequest.BREAKFAST_SKILLS.length + 8 ) / 2 + 1;
+
+			JPanel centerPanel = new JPanel( new GridLayout( rows, 2 ) );
 
 			this.loginRecovery = new JCheckBox( "enable auto-recovery" );
 			this.loginRecovery.addActionListener( this );
@@ -1947,10 +1781,10 @@ public class OptionsFrame
 			this.useCrimboToys.addActionListener( this );
 			centerPanel.add( this.useCrimboToys );
 
-			JPanel centerHolder = new JPanel( new BorderLayout() );
-			centerHolder.add( centerPanel, BorderLayout.NORTH );
+			centerContainer.add( centerPanel );
+			centerContainer.add( Box.createVerticalStrut( 10 ) );
 
-			centerPanel = new JPanel( new GridLayout( 1, 3 ) );
+			centerPanel = new JPanel( new GridLayout( 4, 1 ) );
 
 			this.tomeSkills =
 				new SkillMenu( "Tome Skills", UseSkillRequest.TOME_SKILLS, "tomeSkills" + this.breakfastType );
@@ -1968,21 +1802,14 @@ public class OptionsFrame
 			this.grimoireSkills.addActionListener( this );
 			centerPanel.add( this.grimoireSkills );
 
-			centerHolder.add( centerPanel, BorderLayout.CENTER );
-
-			centerPanel = new JPanel( new GridLayout( 1, 3 ) );
 			this.cropsMenu = new CropMenu( CampgroundRequest.CROPS, "harvestGarden" + this.breakfastType );
 			this.cropsMenu.addActionListener( this );
-			centerPanel.add( new JLabel() );
 			centerPanel.add( this.cropsMenu );
-			centerPanel.add( new JLabel() );
 
-			centerHolder.add( centerPanel, BorderLayout.SOUTH );
+			centerContainer.add( centerPanel );
+			centerContainer.add( Box.createVerticalGlue() );
 
-			JPanel centerContainer = new JPanel( new CardLayout( 10, 10 ) );
-			centerContainer.add( centerHolder, "" );
-
-			this.add( centerContainer, BorderLayout.CENTER );
+			this.add( centerContainer, "" );
 
 			this.actionCancelled();
 		}

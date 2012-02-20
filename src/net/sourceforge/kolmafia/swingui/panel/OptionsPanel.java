@@ -35,6 +35,15 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.Dimension;
 
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
+
 /**
  * A generic panel which adds a label to the bottom of the KoLPanel to update the panel's status. It also provides a
  * thread which is guaranteed to be a daemon thread for updating the frame which also retrieves a reference to the
@@ -44,6 +53,10 @@ import java.awt.Dimension;
 public abstract class OptionsPanel
 	extends GenericPanel
 {
+	private String[][] options;
+	private JCheckBox[] optionBoxes;
+	private boolean refreshConcoctions;
+
 	public OptionsPanel()
 	{
 		this( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
@@ -52,6 +65,41 @@ public abstract class OptionsPanel
 	public OptionsPanel( final Dimension left, final Dimension right )
 	{
 		super( left, right );
+
+		this.refreshConcoctions = false;
+	}
+
+	public void setOptions( String[][] options )
+	{
+		this.options = options;
+
+		VerifiableElement[] elements = new VerifiableElement[ this.options.length ];
+
+		this.optionBoxes = new JCheckBox[ this.options.length ];
+
+		for ( int i = 0; i < this.options.length; ++i )
+		{
+			String[] option = this.options[ i ];
+
+			if ( option.length == 0 )
+			{
+				elements[ i ] = new VerifiableElement();
+			}
+			else if ( option.length < 3 )
+			{
+				this.optionBoxes[ i ] = new JCheckBox();
+				elements[ i ] = new VerifiableElement( option[ 1 ], SwingConstants.LEFT, this.optionBoxes[ i ] );
+			}
+			else
+			{
+				this.refreshConcoctions = true;
+				this.optionBoxes[ i ] = new CreationSettingCheckBox( option[ 0 ] );
+				elements[ i ] = new VerifiableElement( option[ 1 ], SwingConstants.LEFT, this.optionBoxes[ i ] );
+			}
+		}
+
+		this.setContent( elements );
+		this.actionCancelled();
 	}
 
 	public void setEnabled( final boolean isEnabled )
@@ -62,5 +110,51 @@ public abstract class OptionsPanel
 	{
 		return false;
 	}
-}
 
+	public void actionConfirmed()
+	{
+		if ( this.optionBoxes == null )
+		{
+			return;
+		}
+
+		for ( int i = 0; i < this.options.length; ++i )
+		{
+			String[] option = this.options[ i ];
+
+			if ( option.length == 0 )
+			{
+				continue;
+			}
+
+			JCheckBox optionBox = this.optionBoxes[ i ];
+			Preferences.setBoolean( option[ 0 ], optionBox.isSelected() );
+		}
+
+		if ( this.refreshConcoctions )
+		{
+			ConcoctionDatabase.refreshConcoctions( true );
+		}
+	}
+
+	public void actionCancelled()
+	{
+		if ( this.optionBoxes == null )
+		{
+			return;
+		}
+
+		for ( int i = 0; i < this.options.length; ++i )
+		{
+			String[] option = this.options[ i ];
+
+			if ( option.length == 0 )
+			{
+				continue;
+			}
+
+			JCheckBox optionBox = this.optionBoxes[ i ];
+			optionBox.setSelected( Preferences.getBoolean( option[ 0 ] ) );
+		}
+	}
+}
