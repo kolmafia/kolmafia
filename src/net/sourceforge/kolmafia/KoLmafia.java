@@ -2361,22 +2361,11 @@ public abstract class KoLmafia
 		}
 
 		KoLmafia.SESSION_ENDING = true;
+
+		LogoutManager.prepare();
 		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
+
 		System.exit( 0 );
-	}
-
-	public static void quitThreaded()
-	{
-		RequestThread.runInParallel( new QuitRunnable() );
-	}
-
-	private static class QuitRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			KoLmafia.quit();
-		}
 	}
 
 	public static void preferences()

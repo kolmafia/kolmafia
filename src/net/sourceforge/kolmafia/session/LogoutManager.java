@@ -59,15 +59,8 @@ public class LogoutManager
 {
 	private static boolean isRunning = false;
 
-	public static void logout()
+	public static void prepare()
 	{
-		if ( LogoutManager.isRunning )
-		{
-			return;
-		}
-
-		LogoutManager.isRunning = true;
-
 		boolean isSessionEnding = KoLmafia.isSessionEnding();
 
 		// If you need to allow for another login, create a login frame
@@ -111,6 +104,21 @@ public class LogoutManager
 					frames[ i ].dispose();
 				}
 			}
+		}
+	}
+
+	public static void logout()
+	{
+		if ( LogoutManager.isRunning )
+		{
+			return;
+		}
+
+		LogoutManager.isRunning = true;
+
+		if ( !KoLmafia.isSessionEnding() )
+		{
+			LogoutManager.prepare();
 		}
 
 		// If there's no user to worry about, we're done now.
