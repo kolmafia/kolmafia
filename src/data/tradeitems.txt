@@ -3418,10 +3418,10 @@
 3409	Hodgman's garbage sticker	offhand	display	0
 3410	Hodgman's metal detector	offhand	display	0
 3411	Hodgman's cane	offhand	display	0
-3412	Hodgman's journal #1:  The Lean Times	usable	all	0
-3413	Hodgman's journal #2:  Entrepreneurythmics	usable	all	0
-3414	Hodgman's journal #3:  Pumping Tin	usable	all	0
-3415	Hodgman's journal #4:  View From The Big Top	usable	all	0
+3412	Hodgman's journal #1: The Lean Times	usable	all	0
+3413	Hodgman's journal #2: Entrepreneurythmics	usable	all	0
+3414	Hodgman's journal #3: Pumping Tin	usable	all	0
+3415	Hodgman's journal #4: View From The Big Top	usable	all	0
 3416	hobo fortress blueprints	usable	all	0
 3417
 3418
@@ -5517,10 +5517,10 @@
 5508	Uncle Greenspan's Bathroom Finance Guide	usable	all	0
 5509	bottle of bubbles	usable	all	0
 5510	wind-up meatcar	usable	all	0
-5511	Trivial Avocations Card:  What?	usable	all	0
-5512	Trivial Avocations Card:  When?	usable	all	0
-5513	Trivial Avocations Card:  Who?	usable	all	0
-5514	Trivial Avocations Card:  Where?	usable	all	0
+5511	Trivial Avocations Card: What?	usable	all	0
+5512	Trivial Avocations Card: When?	usable	all	0
+5513	Trivial Avocations Card: Who?	usable	all	0
+5514	Trivial Avocations Card: Where?	usable	all	0
 5515	pog #01 (spider)	none, combat	all	0
 5516	pog #02 (Knob goblin)	none, combat	all	0
 5517	pog #03 (warwelf)	none, combat	all	0
