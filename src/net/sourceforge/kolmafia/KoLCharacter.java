@@ -1755,21 +1755,35 @@ public abstract class KoLCharacter
 	public static final void registerSemirare()
 	{
 		KoLCharacter.ensureUpdatedAscensionCounters();
+
 		Preferences.setInteger( "semirareCounter", KoLCharacter.currentRun + 1 );
 		KoLAdventure location = KoLAdventure.lastVisitedLocation();
+
 		String loc = ( location == null ) ? "" : location.getAdventureName();
 		Preferences.setString( "semirareLocation", loc );
+
 		TurnCounter.stopCounting( "Fortune Cookie" );
 		TurnCounter.stopCounting( "Semirare window begin" );
 		TurnCounter.stopCounting( "Semirare window end" );
+
 		int begin = 100;
 		int end = 120;
+
 		if ( KoLCharacter.canEat() || KoLCharacter.canDrink() )
 		{
 			begin = 160;
 			end = 200;
 		}
-		TurnCounter.startCounting( begin + 1, "Semirare window begin", "lparen.gif" );
+
+		StringBuffer beginType = new StringBuffer();
+		beginType.append( "Semirare window begin" );
+
+		if ( !KoLCharacter.isHardcore() )
+		{
+			beginType.append( " loc=*" );
+		}
+
+		TurnCounter.startCounting( begin + 1, beginType.toString(), "lparen.gif" );
 		TurnCounter.startCounting( end + 1, "Semirare window end loc=*", "rparen.gif" );
 	}
 
