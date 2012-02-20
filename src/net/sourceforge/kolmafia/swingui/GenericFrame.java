@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDesktop;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -486,7 +487,14 @@ public abstract class GenericFrame
 
 		this.menuBar.dispose();
 
-		super.dispose();
+		if ( KoLmafia.isSessionEnding() )
+		{
+			super.setVisible( false );
+		}
+		else
+		{
+			super.dispose();
+		}
 	}
 
 	public boolean exists()
