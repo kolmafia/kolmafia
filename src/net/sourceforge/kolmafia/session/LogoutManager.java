@@ -57,17 +57,21 @@ import net.sourceforge.kolmafia.swingui.LoginFrame;
 
 public class LogoutManager
 {
+	private static boolean isRunning = false;
+
 	public static void logout()
 	{
-		LogoutManager.logout( true );
-	}
+		if ( LogoutManager.isRunning )
+		{
+			return;
+		}
 
-	public static void logout( boolean prepareNextLogin )
-	{
+		LogoutManager.isRunning = true;
+
 		// If you need to allow for another login, create a login frame
 		// to ensure that there is an active frame to display messages.
 
-		if ( prepareNextLogin && StaticEntity.getClient() instanceof KoLmafiaGUI )
+		if ( !KoLmafia.isSessionEnding() && StaticEntity.getClient() instanceof KoLmafiaGUI )
 		{
 			GenericFrame.createDisplay( LoginFrame.class );
 		}
@@ -138,5 +142,7 @@ public class LogoutManager
 		KoLmafia.updateDisplay( "Logout completed." );
 
 		RequestLogger.closeDebugLog();
+
+		LogoutManager.isRunning = false;
 	}
 }
