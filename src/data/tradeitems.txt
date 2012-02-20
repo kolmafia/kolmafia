@@ -5545,7 +5545,7 @@
 5536	Winifred's whistle	none, combat	all	100
 5537	purple prose pen	multiple	all	50
 5538	half-empty carton of milk	none, combat	all	15
-5539	glass of warm water	none, curse	all	5
+5539	glass of warm water	none, curse	all	0
 5540	desktop zen garden	usable	all	20
 5541	Vivian's Vitamin	usable	all	75
 5542	pink-belly slapper	none, combat	all	80

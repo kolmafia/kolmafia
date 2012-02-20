@@ -2115,7 +2115,10 @@ public abstract class ChoiceManager
 		// Choice 572 is Your Minstrel Clamps
 		// Choice 573 is Your Minstrel Stamps
 		// Choice 574 is The Minstrel Cycle Begins
+		// Choice 575 is unknown
 		// Choice 576 is Your Minstrel Camps
+		// Choice 577 is unknown
+		// Choice 578 is End of the Boris Road
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
