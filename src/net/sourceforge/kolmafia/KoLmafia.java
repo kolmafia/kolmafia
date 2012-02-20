@@ -584,6 +584,11 @@ public abstract class KoLmafia
 	{
 	}
 
+	public static boolean isSessionEnding()
+	{
+		return KoLmafia.SESSION_ENDING;
+	}
+
 	public static final String getLastMessage()
 	{
 		return KoLmafia.lastMessage;
