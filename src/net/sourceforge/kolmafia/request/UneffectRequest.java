@@ -33,6 +33,13 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,10 +53,15 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -62,14 +74,11 @@ public class UneffectRequest
 	extends GenericRequest
 {
 	private final int effectId;
-	private boolean force;
 	private boolean isShruggable;
 	private boolean isTimer;
 	private final AdventureResult effect;
 
-	public static final AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", 1 );
-	public static final AdventureResult TINY_HOUSE = new AdventureResult( "tiny house", 1 );
-	public static final AdventureResult FOREST_TEARS = new AdventureResult( "forest tears", 1 );
+	private static final AdventureResult USED_REMEDY = ItemPool.get( ItemPool.REMEDY, -1 );
 
 	private static final Pattern ID1_PATTERN = Pattern.compile( "whicheffect=(\\d+)" );
 	private static final Pattern ID2_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
@@ -150,14 +159,7 @@ public class UneffectRequest
 
 	public UneffectRequest( final AdventureResult effect )
 	{
-		this( effect, true );
-	}
-
-	public UneffectRequest( final AdventureResult effect, final boolean force )
-	{
 		super( UneffectRequest.isShruggable( effect.getName() ) ? "charsheet.php" : "uneffect.php" );
-
-		this.force = force;
 
 		this.effect = effect;
 		String name = effect.getName();
@@ -183,6 +185,22 @@ public class UneffectRequest
 		return true;
 	}
 
+	public static final boolean isRemovable( final int effectId )
+	{
+		switch ( effectId )
+		{
+		case -1:
+		case EffectPool.GOOFBALL_WITHDRAWAL_ID:
+		case EffectPool.EAU_DE_TORTUE_ID:
+		case EffectPool.CURSED_BY_RNG_ID:
+		case EffectPool.FORM_OF_BIRD_ID:
+		case EffectPool.COVERED_IN_SLIME_ID:
+			return false;
+		default:
+			return true;
+		}
+	}
+
 	public static final boolean isShruggable( final String effectName )
 	{
 		if ( effectName.startsWith( "Timer " ) )
@@ -197,26 +215,6 @@ public class UneffectRequest
 
 		int id = SkillDatabase.getSkillId( UneffectRequest.effectToSkill( effectName ) );
 		return id != -1 && SkillDatabase.isBuff( id );
-	}
-
-	public static final boolean isRemovable( final String effectName )
-	{
-		int id = EffectDatabase.getEffectId( effectName );
-		return id != -1 && UneffectRequest.isRemovable( id );
-	}
-
-	public static final boolean isRemovable( final int id )
-	{
-		switch ( id )
-		{
-		case EffectPool.GOOFBALL_WITHDRAWAL_ID:
-		case EffectPool.EAU_DE_TORTUE_ID:
-		case EffectPool.CURSED_BY_RNG_ID:
-		case EffectPool.FORM_OF_BIRD_ID:
-		case EffectPool.COVERED_IN_SLIME_ID:
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -254,6 +252,151 @@ public class UneffectRequest
 		return skillName;
 	}
 
+	private static Set REMOVABLE_EFFECTS;
+
+	static
+	{
+		Map skillRemoveMap = new LinkedHashMap();
+
+		Set removableEffects = new HashSet();
+		skillRemoveMap.put( "use 1 anti-anti-antidote", removableEffects );
+		removableEffects.add( "Hardly Poisoned at All" );
+		removableEffects.add( "Majorly Poisoned" );
+		removableEffects.add( "A Little Bit Poisoned" );
+		removableEffects.add( "Somewhat Poisoned" );
+		removableEffects.add( "Really Quite Poisoned" );
+
+		removableEffects = new HashSet();
+		skillRemoveMap.put( "cast Tongue of the Otter", removableEffects );
+		removableEffects.add( "Beaten Up" );
+
+		removableEffects = new HashSet();
+		skillRemoveMap.put( "cast Tongue of the Walrus", removableEffects );
+		removableEffects.add( "Axe Wound" );
+		removableEffects.add( "Beaten Up" );
+		removableEffects.add( "Grilled" );
+		removableEffects.add( "Half Eaten Brain" );
+		removableEffects.add( "Missing Fingers" );
+		removableEffects.add( "Sunburned" );
+
+		removableEffects = new HashSet();
+		skillRemoveMap.put( "cast Disco Nap", removableEffects );
+		removableEffects.add( "Confused" );
+		removableEffects.add( "Embarrassed" );
+		removableEffects.add( "Sleepy" );
+		removableEffects.add( "Sunburned" );
+		removableEffects.add( "Wussiness" );
+
+		removableEffects = new HashSet();
+		skillRemoveMap.put( "cast Disco Power Nap", removableEffects );
+		removableEffects.add( "Affronted Decency" );
+		removableEffects.add( "Apathy" );
+		removableEffects.add( "Confused" );
+		removableEffects.add( "Cunctatitis" );
+		removableEffects.add( "Embarrassed" );
+		removableEffects.add( "Easily Embarrassed" );
+		removableEffects.add( "Existential Torment" );
+		removableEffects.add( "Light Headed" );
+		removableEffects.add( "Prestidigysfunction" );
+		removableEffects.add( "Rainy Soul Miasma" );
+		removableEffects.add( "Sleepy" );
+		removableEffects.add( "Socialismydia" );
+		removableEffects.add( "Sunburned" );
+		removableEffects.add( "Tenuous Grip on Reality" );
+		removableEffects.add( "Tetanus" );
+		removableEffects.add( "The Colors..." );
+		removableEffects.add( "\"The Disease\"" );
+		removableEffects.add( "Wussiness" );
+
+		removableEffects = new HashSet();
+		skillRemoveMap.put( "use 1 tiny house", removableEffects );
+		removableEffects.add( "Beaten Up" );
+		removableEffects.add( "Confused" );
+		removableEffects.add( "Embarrassed" );
+		removableEffects.add( "Sunburned" );
+		removableEffects.add( "Wussiness" );
+
+		removableEffects = new HashSet();
+		skillRemoveMap.put( "use 1 forest tears", removableEffects );
+		removableEffects.add( "Beaten Up" );
+
+		UneffectRequest.REMOVABLE_EFFECTS = skillRemoveMap.entrySet();
+	}
+
+	private String getAction()
+	{
+		String name = this.effect.getName();
+
+		// If there's an action defined in your mood, use it.
+
+		String action = MoodManager.getDefaultAction( "gain_effect", name );
+
+		if ( !action.equals( "" ) && !action.startsWith( "uneffect " ) )
+		{
+			return action;
+		}
+
+		// If it's shruggable, then the cleanest way is to just shrug it.
+
+		if ( this.isShruggable )
+		{
+			return "uneffect " + name;
+		}
+
+		// Iterate over the effects that can be removed with skills or items
+		// other than remedies.
+
+		boolean hasRemedy = InventoryManager.hasItem( ItemPool.REMEDY );
+
+		Iterator removableIterator = UneffectRequest.REMOVABLE_EFFECTS.iterator();
+
+		while ( removableIterator.hasNext() )
+		{
+			Entry removable = (Entry) removableIterator.next();
+			Set removables = (Set) removable.getValue();
+
+			if ( !removables.contains( name ) )
+			{
+				continue;
+			}
+
+			String remover = (String) removable.getKey();
+
+			if ( remover.startsWith( "cast " ) )
+			{
+				String skillName = remover.substring( 5 );
+
+				if ( KoLCharacter.hasSkill( skillName ) )
+				{
+					return remover;
+				}
+			}
+			else if ( remover.startsWith( "use 1 " ) );
+			{
+				String itemName = remover.substring( 6 );
+
+				int itemId = ItemDatabase.getItemId( itemName );
+
+				if ( InventoryManager.hasItem( itemId ) )
+				{
+					return remover;
+				}
+				else if ( Preferences.getBoolean( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( itemName ) )
+				{
+					return remover;
+				}
+				else if ( !hasRemedy && KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
+				{
+					return remover;
+				}
+			}
+		}
+
+		// Default to using a remedy.
+
+		return "uneffect " + name;
+	}
+
 	public void run()
 	{
 		int index = KoLConstants.activeEffects.indexOf( this.effect );
@@ -265,7 +408,7 @@ public class UneffectRequest
 
 		AdventureResult effect = (AdventureResult) KoLConstants.activeEffects.get( index );
 
-		if ( !isRemovable( this.effectId ) )
+		if ( !UneffectRequest.isRemovable( this.effectId ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, effect.getName() + " is unremovable." );
 			return;
@@ -277,7 +420,7 @@ public class UneffectRequest
 			return;
 		}
 
-		String action = MoodManager.getDefaultAction( "gain_effect", this.effect.getName() );
+		String action = this.getAction();
 
 		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) &&
 		     !action.startsWith( "shrug" ) && !action.startsWith( "remedy" ) )
@@ -286,22 +429,9 @@ public class UneffectRequest
 			return;
 		}
 
-		if ( !this.force )
+		if ( !this.isShruggable && !InventoryManager.retrieveItem( ItemPool.REMEDY ) )
 		{
 			return;
-		}
-
-		if ( !this.isShruggable )
-		{
-			if ( KoLCharacter.canInteract() )
-			{
-				InventoryManager.retrieveItem( UneffectRequest.REMEDY.getName() );
-			}
-
-			if ( !KoLConstants.inventory.contains( UneffectRequest.REMEDY ) )
-			{
-				return;
-			}
 		}
 
 		KoLmafia.updateDisplay( this.isTimer ? "Canceling your timer..." :
@@ -322,15 +452,6 @@ public class UneffectRequest
 		if ( this.responseText == null )
 		{
 			// What's wrong?
-			return;
-		}
-
-		int index = KoLConstants.activeEffects.indexOf( this.effect );
-		AdventureResult effect = index == -1 ? null : (AdventureResult) KoLConstants.activeEffects.get( index );
-
-		if ( effect == null || effect.getCount() == Integer.MAX_VALUE || !isRemovable( this.effectId ))
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to remove " + this.effect.getName() + "." );
 			return;
 		}
 
@@ -369,9 +490,9 @@ public class UneffectRequest
 		int id = StringUtilities.parseInt( idMatcher.group( 1 ) );
 		String name = EffectDatabase.getEffectName( id );
 
-		if ( isRemovable( id ) && location.startsWith( "uneffect" ) )
+		if ( UneffectRequest.isRemovable( id ) && location.startsWith( "uneffect" ) )
 		{
-			ResultProcessor.processResult( UneffectRequest.REMEDY.getNegation() );
+			ResultProcessor.processResult( UneffectRequest.USED_REMEDY );
 		}
 
 		RequestLogger.updateSessionLog();
