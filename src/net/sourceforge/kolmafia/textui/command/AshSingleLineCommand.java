@@ -68,7 +68,7 @@ public class AshSingleLineCommand
 
 		try
 		{
-			interpreter.cloneRelayScript( this.CLI.interpreter );
+			interpreter.cloneRelayScript( this.interpreter );
 			rv = interpreter.execute( "main", null );
 		}
 		finally
