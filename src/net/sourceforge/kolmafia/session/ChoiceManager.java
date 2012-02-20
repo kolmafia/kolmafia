@@ -2117,7 +2117,7 @@ public abstract class ChoiceManager
 		// Choice 574 is The Minstrel Cycle Begins
 		// Choice 575 is unknown
 		// Choice 576 is Your Minstrel Camps
-		// Choice 577 is unknown
+		// Choice 577 is Your Minstrel Scamp
 		// Choice 578 is End of the Boris Road
 	};
 

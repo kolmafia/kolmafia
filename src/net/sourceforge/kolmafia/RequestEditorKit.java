@@ -740,13 +740,44 @@ public class RequestEditorKit
 		String test = "<b>You gain a Level!</b>";
 		int index = buffer.indexOf( test );
 
-		if ( index == -1 || KoLCharacter.kingLiberated() )
+		if ( index == -1 )
 		{
 			return;
 		}
 
-		String link = " <font size=1>[<a href=\"council.php\">council</a>]</font>";
-		buffer.insert( index + test.length(), link );
+		StringBuffer links = new StringBuffer();
+		boolean haveLinks = false;
+		int newLevel = KoLCharacter.getLevel();
+
+		links.append( " <font size=1>" );
+
+		// If we are an Avatar of Boris, we can learn a new skill
+		if ( KoLCharacter.inAxecore() && newLevel <= 30)
+		{
+			links.append( "[<a href=\"da.php?place=gate1\">boris</a>]" );
+			haveLinks = true;
+		}
+
+		// Otherwise, if we are level 15 or less, the guild might have a skill for us
+		else if ( newLevel <= 15 )
+		{
+			links.append( "[<a href=\"guild.php\">guild</a>]" );
+			haveLinks = true;
+		}
+
+		// If we are Level 13 or less, the Council might have quests for us
+		else if ( newLevel <= 13 )
+		{
+			links.append( "[<a href=\"council.php\">council</a>]" );
+			haveLinks = true;
+		}
+
+		links.append( "</font>" );
+
+		if ( haveLinks )
+		{
+			buffer.insert( index + test.length(), links.toString() );
+		}
 	}
 
 	private static final void addTransponderLink( final StringBuffer buffer )
