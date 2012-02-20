@@ -1778,7 +1778,7 @@ public abstract class KoLCharacter
 		StringBuffer beginType = new StringBuffer();
 		beginType.append( "Semirare window begin" );
 
-		if ( !KoLCharacter.isHardcore() || KoLCharacter.kingLiberated() )
+		if ( KoLCharacter.kingLiberated() )
 		{
 			beginType.append( " loc=*" );
 		}
