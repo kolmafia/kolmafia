@@ -871,27 +871,20 @@ public abstract class SorceressLairManager
 			{
 				// We want to remove unpleasant effects created by
 				// consuming items used to pass the gates.
-				//
-				// Wussiness - removed by tiny house
-				// Hardly Poisoned at All - removed by tiny house
-				//
-				// Teleportitis - removed by universal remedy
 
-				if ( KoLConstants.activeEffects.contains( SorceressLairManager.WUSSINESS ) ||
-				     KoLConstants.activeEffects.contains( SorceressLairManager.HARDLY_POISONED ) )
+				if ( KoLConstants.activeEffects.contains( SorceressLairManager.WUSSINESS ) )
 				{
-					if ( InventoryManager.hasItem( UneffectRequest.TINY_HOUSE ) )
-					{
-						RequestThread.postRequest( UseItemRequest.getInstance( UneffectRequest.TINY_HOUSE ) );
-					}
+					RequestThread.postRequest( new UneffectRequest( SorceressLairManager.WUSSINESS ) );
+				}
+
+				if ( KoLConstants.activeEffects.contains( SorceressLairManager.HARDLY_POISONED ) )
+				{
+					RequestThread.postRequest( new UneffectRequest( SorceressLairManager.HARDLY_POISONED ) );
 				}
 
 				if ( KoLConstants.activeEffects.contains( SorceressLairManager.TELEPORTITIS ) )
 				{
-					if ( InventoryManager.hasItem( UneffectRequest.REMEDY ) )
-					{
-						RequestThread.postRequest( new UneffectRequest( SorceressLairManager.TELEPORTITIS ) );
-					}
+					RequestThread.postRequest( new UneffectRequest( SorceressLairManager.TELEPORTITIS ) );
 				}
 			}
 		}

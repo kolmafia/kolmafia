@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -650,26 +651,13 @@ public abstract class MoodManager
 
 	public static final void removeMalignantEffects()
 	{
-		String action;
-
 		for ( int i = 0; i < MoodManager.AUTO_CLEAR.length; ++i )
 		{
-			if ( KoLConstants.activeEffects.contains( MoodManager.AUTO_CLEAR[ i ] ) )
-			{
-				action = MoodManager.getDefaultAction( "gain_effect", MoodManager.AUTO_CLEAR[ i ].getName() );
+			AdventureResult effect = MoodManager.AUTO_CLEAR[ i ];
 
-				if ( action.startsWith( "cast" ) )
-				{
-					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
-				}
-				else if ( action.startsWith( "use" ) )
-				{
-					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
-				}
-				else if ( KoLCharacter.canInteract() )
-				{
-					KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
-				}
+			if ( KoLConstants.activeEffects.contains( effect ) )
+			{
+				RequestThread.postRequest( new UneffectRequest( effect ) );
 			}
 		}
 	}
@@ -831,7 +819,7 @@ public abstract class MoodManager
 		// your current mood.  That way, the "default action" is
 		// considered whatever your current mood says it is.
 
-		String strictAction = "";
+		String action = "";
 
 		List triggers = MoodManager.currentMood.getTriggers();
 		Iterator triggerIterator = triggers.iterator();
@@ -842,128 +830,37 @@ public abstract class MoodManager
 
 			if ( current.getType().equals( type ) && current.getName().equals( name ) )
 			{
-				strictAction = current.getAction();
+				action = current.getAction();
 			}
 		}
 
 		if ( type.equals( "unconditional" ) )
 		{
-			return strictAction;
+			return action;
 		}
-
-		if ( type.equals( "lose_effect" ) )
+		else if ( type.equals( "lose_effect" ) )
 		{
-			if ( !strictAction.equals( "" ) )
+			if ( action.equals( "" ) )
 			{
-				return strictAction;
+				action = EffectDatabase.getDefaultAction( name );
+
+				if ( action == null )
+				{
+					action = "";
+				}
 			}
 
-			String action = EffectDatabase.getDefaultAction( name );
-			if ( action != null )
+			return action;
+		}
+		else
+		{
+			if ( action.equals( "" ) )
 			{
-				return action;
+				action = "uneffect " + name;
 			}
 
-			return strictAction;
+			return action;
 		}
-
-		// gain_effect from here on
-
-		if ( UneffectRequest.isShruggable( name ) )
-		{
-			return "uneffect " + name;
-		}
-
-		if ( name.indexOf( "Poisoned" ) != -1 )
-		{
-			return "use anti-anti-antidote";
-		}
-
-		boolean otterTongueClearable =
-			name.equals( "Beaten Up" );
-
-		if ( otterTongueClearable && KoLCharacter.hasSkill( "Tongue of the Otter" ) )
-		{
-			return "cast Tongue of the Otter";
-		}
-
-		boolean walrusTongueClearable =
-			name.equals( "Axe Wound" ) ||
-			name.equals( "Beaten Up" ) ||
-			name.equals( "Grilled" ) ||
-			name.equals( "Half Eaten Brain" ) ||
-			name.equals( "Missing Fingers" ) ||
-			name.equals( "Sunburned" );
-
-		if ( walrusTongueClearable && KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
-		{
-			return "cast Tongue of the Walrus";
-		}
-
-		boolean discoNapClearable =
-			name.equals( "Confused" ) ||
-			name.equals( "Embarrassed" ) ||
-			name.equals( "Sleepy" ) ||
-			name.equals( "Sunburned" ) ||
-			name.equals( "Wussiness" );
-
-		if ( discoNapClearable && KoLCharacter.hasSkill( "Disco Nap" ) )
-		{
-			return "cast Disco Nap";
-		}
-
-		boolean powerNapClearable =
-			name.equals( "Affronted Decency" ) ||
-			name.equals( "Apathy" ) ||
-			name.equals( "Confused" ) ||
-			name.equals( "Cunctatitis" ) ||
-			name.equals( "Embarrassed" ) ||
-			name.equals( "Easily Embarrassed" ) ||
-			name.equals( "Existential Torment" ) ||
-			name.equals( "Light Headed" ) ||
-			name.equals( "Prestidigysfunction" ) ||
-			name.equals( "Rainy Soul Miasma" ) ||
-			name.equals( "Sleepy" ) ||
-			name.equals( "Socialismydia" ) ||
-			name.equals( "Sunburned" ) ||
-			name.equals( "Tenuous Grip on Reality" ) ||
-			name.equals( "Tetanus" ) ||
-			name.equals( "The Colors..." ) ||
-			name.equals( "\"The Disease\"" ) ||
-			name.equals( "Wussiness" );
-
-		if ( powerNapClearable && KoLCharacter.hasSkill( "Disco Power Nap" ) )
-		{
-			return "cast Disco Power Nap";
-		}
-
-		boolean tinyHouseClearable =
-			name.equals( "Beaten Up" ) ||
-			name.equals( "Confused" ) ||
-			name.equals( "Embarrassed" ) ||
-			name.equals( "Sunburned" ) ||
-			name.equals( "Wussiness" );
-
-		if ( tinyHouseClearable && ( KoLCharacter.canInteract() || InventoryManager.hasItem( UneffectRequest.TINY_HOUSE ) ) )
-		{
-			return "use 1 tiny house";
-		}
-
-		boolean forestTearsClearable =
-			name.equals( "Beaten Up" );
-
-		if ( forestTearsClearable && InventoryManager.hasItem( UneffectRequest.FOREST_TEARS ) )
-		{
-			return "use 1 forest tears";
-		}
-
-		boolean isRemovable = UneffectRequest.isRemovable( name );
-		if ( isRemovable && ( KoLCharacter.canInteract() || InventoryManager.hasItem( UneffectRequest.REMEDY ) ) )
-		{
-			return "uneffect " + name;
-		}
-
-		return strictAction;
 	}
 
 	public static final boolean currentlyExecutable( final AdventureResult effect, final String action )
