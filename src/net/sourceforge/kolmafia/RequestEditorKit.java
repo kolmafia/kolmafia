@@ -467,6 +467,10 @@ public class RequestEditorKit
 		{
 			HobopolisDecorator.decorate( location, buffer );
 		}
+		else if ( location.startsWith( "council.php" ) )
+		{
+			RequestEditorKit.decorateCouncil( buffer );
+		}
 		else if ( location.startsWith( "crypt.php" ) )
 		{
 			RequestEditorKit.decorateCrypt( buffer );
@@ -1992,6 +1996,20 @@ public class RequestEditorKit
 			// Big-Time Generator
 			SpaaaceRequest.decoratePorko( buffer );
 			break;
+		}
+	}
+
+	private static final void decorateCouncil( final StringBuffer buffer )
+	{
+		if ( !KoLCharacter.inAxecore() )
+		{
+			return;
+		}
+
+		int index = buffer.lastIndexOf( "<p>" );
+		if ( index != -1 )
+		{
+			buffer.insert( index + 3, "<center><a href=\"da.php?place=gate1\">Bask in the Glory of Boris</a></center>" );
 		}
 	}
 
