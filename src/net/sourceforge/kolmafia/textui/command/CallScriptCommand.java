@@ -67,7 +67,7 @@ public class CallScriptCommand
 
 	public void run( final String command, final String parameters )
 	{
-		CallScriptCommand.call( command, parameters, this.CLI.interpreter );
+		CallScriptCommand.call( command, parameters, this.interpreter );
 	}
 
 	public static void call( final String command, String parameters, Interpreter caller )

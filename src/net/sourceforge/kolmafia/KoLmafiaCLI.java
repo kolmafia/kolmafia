@@ -75,7 +75,6 @@ public class KoLmafiaCLI
 	private boolean elseRuns = false;
 
 	public static boolean isExecutingCheckOnlyCommand = false;
-	public Interpreter interpreter = null;
 
 	// Flag values for Commands:
 	public static int FULL_LINE_CMD = 1;
@@ -498,8 +497,7 @@ public class KoLmafiaCLI
 
 		try
 		{
-			this.interpreter = interpreter;
-			this.doExecuteCommand( command, parameters );
+			this.doExecuteCommand( command, parameters, interpreter );
 		}
 		catch ( Exception e )
 		{
@@ -507,12 +505,11 @@ public class KoLmafiaCLI
 		}
 		finally
 		{
-			this.interpreter = null;
 			RequestThread.closeRequestSequence( requestId );
 		}
 	}
 
-	private void doExecuteCommand( String command, String parameters )
+	private void doExecuteCommand( String command, String parameters, Interpreter interpreter )
 	{
 		String lcommand = command.toLowerCase();
 
@@ -546,8 +543,10 @@ public class KoLmafiaCLI
 			}
 
 			handler.CLI = this;
+			handler.interpreter = interpreter;
 			handler.run( lcommand, parameters );
 			handler.CLI = null;
+			handler.interpreter = null;
 
 			return;
 		}
@@ -555,7 +554,7 @@ public class KoLmafiaCLI
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
-		CallScriptCommand.call( "call", command + " " + parameters, this.interpreter );
+		CallScriptCommand.call( "call", command + " " + parameters, interpreter );
 	}
 
 	public void elseRuns( final boolean shouldRun )

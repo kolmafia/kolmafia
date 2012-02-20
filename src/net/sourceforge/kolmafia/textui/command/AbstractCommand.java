@@ -42,6 +42,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.textui.Interpreter;
+
 import net.sourceforge.kolmafia.utilities.PrefixMap;
 
 public abstract class AbstractCommand
@@ -78,6 +80,11 @@ public abstract class AbstractCommand
 	{
 		return this.usage;
 	}
+
+	// If the command is being called from an ASH Interpreter, here is
+	// where it will be.
+
+	public Interpreter interpreter = null;
 
 	// Override one of run(cmd, parameters), run(cmd, parameters[]), or
 	// run(cmd) to specify the command's action, with different levels of
