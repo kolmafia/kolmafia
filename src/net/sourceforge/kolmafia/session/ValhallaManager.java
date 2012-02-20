@@ -220,7 +220,15 @@ public class ValhallaManager
 		ValhallaManager.logNewAscension();
 
 		// The semirare counter is set in Valhalla.
-		TurnCounter.startCounting( 70, "Semirare window begin", "lparen.gif" );
+		StringBuffer beginType = new StringBuffer();
+		beginType.append( "Semirare window begin" );
+
+		if ( !KoLCharacter.isHardcore() )
+		{
+			beginType.append( " loc=*" );
+		}
+
+		TurnCounter.startCounting( 70, beginType.toString(), "lparen.gif" );
 		TurnCounter.startCounting( 80, "Semirare window end loc=*", "rparen.gif" );
 
 		// If you are in Beecore, watch out for wandering bees!
