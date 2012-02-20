@@ -223,7 +223,7 @@ public class ValhallaManager
 		StringBuffer beginType = new StringBuffer();
 		beginType.append( "Semirare window begin" );
 
-		if ( !KoLCharacter.isHardcore() )
+		if ( !KoLCharacter.isHardcore() || KoLCharacter.kingLiberated() )
 		{
 			beginType.append( " loc=*" );
 		}
