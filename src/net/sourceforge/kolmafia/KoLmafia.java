@@ -54,6 +54,7 @@ import java.util.TimeZone;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
@@ -2310,14 +2311,48 @@ public abstract class KoLmafia
 		}
 	}
 
-	private static class ShutdownThread
-		extends Thread
+	public static void about()
 	{
-		public ShutdownThread()
+		new LicenseDisplayListener().run();
+	}
+
+	public static void quit()
+	{
+		if ( KoLmafia.SESSION_ENDING )
 		{
-			super( "ShutdownThread" );
+			return;
 		}
 
+		KoLmafia.SESSION_ENDING = true;
+
+		LogoutManager.prepare();
+
+		QuitRunnable quitRunnable = new QuitRunnable();
+
+		if ( SwingUtilities.isEventDispatchThread() )
+		{
+			Thread quitThread = new Thread( quitRunnable );
+			quitThread.start();
+
+			try
+			{
+				quitThread.join();
+			}
+			catch ( InterruptedException e )
+			{
+			}
+		}
+		else
+		{
+			quitRunnable.run();
+		}
+
+		System.exit( 0 );
+	}
+
+	private static class QuitRunnable
+		implements Runnable
+	{
 		public void run()
 		{
 			LogoutManager.logout();
@@ -2346,26 +2381,6 @@ public abstract class KoLmafia
 				// Ignore and fall through.
 			}
 		}
-	}
-
-	public static void about()
-	{
-		new LicenseDisplayListener().run();
-	}
-
-	public static void quit()
-	{
-		if ( KoLmafia.SESSION_ENDING )
-		{
-			return;
-		}
-
-		KoLmafia.SESSION_ENDING = true;
-
-		LogoutManager.prepare();
-		Runtime.getRuntime().addShutdownHook( new ShutdownThread() );
-
-		System.exit( 0 );
 	}
 
 	public static void preferences()
