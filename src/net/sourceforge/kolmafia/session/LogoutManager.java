@@ -68,10 +68,12 @@ public class LogoutManager
 
 		LogoutManager.isRunning = true;
 
+		boolean isSessionEnding = KoLmafia.isSessionEnding();
+
 		// If you need to allow for another login, create a login frame
 		// to ensure that there is an active frame to display messages.
 
-		if ( !KoLmafia.isSessionEnding() && StaticEntity.getClient() instanceof KoLmafiaGUI )
+		if ( !isSessionEnding && StaticEntity.getClient() instanceof KoLmafiaGUI )
 		{
 			GenericFrame.createDisplay( LoginFrame.class );
 		}
@@ -80,7 +82,14 @@ public class LogoutManager
 
 		if ( KoLDesktop.instanceExists() )
 		{
-			KoLDesktop.getInstance().dispose();
+			if ( isSessionEnding )
+			{
+				KoLDesktop.getInstance().setVisible( false );
+			}
+			else
+			{
+				KoLDesktop.getInstance().dispose();
+			}
 		}
 
 		// Close down any other active frames.	Since
@@ -93,7 +102,14 @@ public class LogoutManager
 		{
 			if ( frames[ i ].getClass() != LoginFrame.class )
 			{
-				frames[ i ].dispose();
+				if ( isSessionEnding )
+				{
+					frames[ i ].setVisible( false );
+				}
+				else
+				{
+					frames[ i ].dispose();
+				}
 			}
 		}
 
