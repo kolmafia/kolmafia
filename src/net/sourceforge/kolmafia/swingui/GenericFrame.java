@@ -485,15 +485,8 @@ public abstract class GenericFrame
 
 		this.menuBar.dispose();
 
-		if ( KoLmafia.isSessionEnding() )
-		{
-			super.setVisible( false );
-		}
-		else
-		{
-			super.dispose();
-			this.checkForLogout();
-		}
+		super.dispose();
+		this.checkForLogout();
 	}
 
 	public boolean exists()
@@ -666,27 +659,26 @@ public abstract class GenericFrame
 			this.rememberPosition();
 		}
 
-		if ( isVisible )
-		{
-			try
-			{
-				if ( SwingUtilities.isEventDispatchThread() )
-				{
-					this.run();
-				}
-				else
-				{
-					SwingUtilities.invokeAndWait( this );
-				}
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
-		}
-		else
+		if ( !isVisible )
 		{
 			super.setVisible( false );
+			return;
+		}
+
+		try
+		{
+			if ( SwingUtilities.isEventDispatchThread() )
+			{
+				this.run();
+			}
+			else
+			{
+				SwingUtilities.invokeAndWait( this );
+			}
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
