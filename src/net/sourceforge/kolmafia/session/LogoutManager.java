@@ -117,6 +117,11 @@ public class LogoutManager
 			return;
 		}
 
+		if ( !KoLmafia.isSessionEnding() )
+		{
+			LogoutManager.prepare();
+		}
+
 		KoLmafia.updateDisplay( "Preparing for logout..." );
 
 		// Shut down chat-related activity
