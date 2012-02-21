@@ -250,7 +250,8 @@ public class NPCPurchaseRequest
 		{
 			// Normal NPC stores say "You spent xxx Meat" and we
 			// have already parsed that.
-			if ( !urlString.startsWith( "store.php" ) )
+			if ( !urlString.startsWith( "store.php" ) &&
+			     !urlString.startsWith( "galaktik.php" ) )
 			{
 				ResultProcessor.processMeat( -1 * this.getPrice() * quantityAcquired );
 				KoLCharacter.updateStatus();
