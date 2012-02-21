@@ -1007,4 +1007,4 @@
 1006	Song of Accompaniment	chorale.gif	aaac7e8fb34094b6e0f5936ffcaa2006	cast 1 Song of Accompaniment
 1007	Song of Solitude	song_sol.gif	3a770513b2384ce932540148ce62d15c	cast 1 Song of Solitude
 1008	Song of Fortune	song_fortune.gif	cdaee15d53f7213c399b787f8c3d6621	cast 1 Song of Fortune
-1009	Song of Battle	song_battle.gif		cast 1 Song of Battle
+1009	Song of Battle	song_battle.gif	986de352c714a738a61e074a991c9310	cast 1 Song of Battle
