@@ -820,6 +820,14 @@ public abstract class UseLinkDecorator
 				break;
 			}
 
+			// Don't offer an "equip" link for weapons or offhands
+			// in Fistcore or Axecore
+			if ( ( consumeMethod == KoLConstants.EQUIP_WEAPON || consumeMethod == KoLConstants.EQUIP_OFFHAND ) &&
+			     ( KoLCharacter.inFistcore() || KoLCharacter.inAxecore() ) )
+			{
+				return null;
+			}
+
 			int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
 
 			if ( outfit != -1 && EquipmentManager.hasOutfit( outfit ) )
