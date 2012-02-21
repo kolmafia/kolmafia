@@ -1479,6 +1479,12 @@ public class EquipmentManager
 		{
 			return false;
 		}
+
+		if ( KoLCharacter.inAxecore() &&
+		     ( type == KoLConstants.EQUIP_WEAPON || type == KoLConstants.EQUIP_OFFHAND ) )
+		{
+			return itemId == ItemPool.TRUSTY;
+		}
 		
 		if ( KoLCharacter.isHardcore() )
 		{
