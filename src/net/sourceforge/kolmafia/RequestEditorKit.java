@@ -341,16 +341,6 @@ public class RequestEditorKit
 			StringUtilities.singleStringReplace( buffer, "370834526", "328909735" );
 		}
 
-		// Handle changes which happen on a lot of different pages
-		// rather than just one or two.
-
-		RequestEditorKit.changePunchcardNames( buffer );
-		RequestEditorKit.identifyDustyBottles( buffer );
-		RequestEditorKit.changePotionImages( buffer );
-		RequestEditorKit.decorateLevelGain( buffer );
-		RequestEditorKit.addTransponderLink( buffer );
-		RequestEditorKit.addFolioLink( buffer );
-
 		// Override images, if requested
 		RelayRequest.overrideImages( buffer );
 
@@ -626,6 +616,16 @@ public class RequestEditorKit
 		{
 			ZapRequest.decorate( buffer );
 		}
+
+		// Handle changes which happen on a lot of different pages
+		// rather than just one or two.
+
+		RequestEditorKit.changePunchcardNames( buffer );
+		RequestEditorKit.identifyDustyBottles( buffer );
+		RequestEditorKit.changePotionImages( buffer );
+		RequestEditorKit.decorateLevelGain( buffer );
+		RequestEditorKit.addTransponderLink( buffer );
+		RequestEditorKit.addFolioLink( buffer );
 
 		// Now do anything which doesn't work in Java's internal HTML renderer
 		if ( addComplexFeatures )
