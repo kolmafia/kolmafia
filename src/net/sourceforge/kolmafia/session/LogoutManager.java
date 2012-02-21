@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
 
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.LoginFrame;
 
 public class LogoutManager
@@ -61,28 +60,19 @@ public class LogoutManager
 
 	public static void prepare()
 	{
-		boolean isSessionEnding = KoLmafia.isSessionEnding();
-
 		// If you need to allow for another login, create a login frame
 		// to ensure that there is an active frame to display messages.
 
-		if ( !isSessionEnding && StaticEntity.getClient() instanceof KoLmafiaGUI )
+		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
 		{
-			GenericFrame.createDisplay( LoginFrame.class );
+			KoLmafiaGUI.constructFrame( LoginFrame.class );
 		}
 
 		// Shut down main frame
 
 		if ( KoLDesktop.instanceExists() )
 		{
-			if ( isSessionEnding )
-			{
-				KoLDesktop.getInstance().setVisible( false );
-			}
-			else
-			{
-				KoLDesktop.getInstance().dispose();
-			}
+			KoLDesktop.getInstance().dispose();
 		}
 
 		// Close down any other active frames.	Since
@@ -95,14 +85,7 @@ public class LogoutManager
 		{
 			if ( frames[ i ].getClass() != LoginFrame.class )
 			{
-				if ( isSessionEnding )
-				{
-					frames[ i ].setVisible( false );
-				}
-				else
-				{
-					frames[ i ].dispose();
-				}
+				frames[ i ].dispose();
 			}
 		}
 	}
@@ -115,11 +98,6 @@ public class LogoutManager
 		}
 
 		LogoutManager.isRunning = true;
-
-		if ( !KoLmafia.isSessionEnding() )
-		{
-			LogoutManager.prepare();
-		}
 
 		// If there's no user to worry about, we're done now.
 

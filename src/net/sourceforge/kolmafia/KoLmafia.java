@@ -161,6 +161,7 @@ public abstract class KoLmafia
 	public static boolean isMakingRequest = false;
 	public static int continuationState = KoLConstants.CONTINUE_STATE;
 	public static int displayState = KoLConstants.ENABLE_STATE;
+	private static boolean allowDisplayUpdate = true;
 
 	public static final int[] initialStats = new int[ 3 ];
 
@@ -585,11 +586,6 @@ public abstract class KoLmafia
 	{
 	}
 
-	public static boolean isSessionEnding()
-	{
-		return KoLmafia.SESSION_ENDING;
-	}
-
 	public static final String getLastMessage()
 	{
 		return KoLmafia.lastMessage;
@@ -622,7 +618,7 @@ public abstract class KoLmafia
 
 		RequestLogger.printLine( state, message );
 
-		if ( !KoLmafia.SESSION_ENDING )
+		if ( KoLmafia.allowDisplayUpdate )
 		{
 			SystemTrayFrame.updateToolTip( message );
 		}
@@ -639,7 +635,7 @@ public abstract class KoLmafia
 	{
 		// Update all panels and frames with the message.
 
-		if ( !KoLmafia.SESSION_ENDING )
+		if ( KoLmafia.allowDisplayUpdate )
 		{
 			String unicodeMessage = StringUtilities.getEntityDecode( message, false );
 			ActionPanel[] panels = StaticEntity.getExistingPanels();
@@ -2331,6 +2327,9 @@ public abstract class KoLmafia
 
 		if ( SwingUtilities.isEventDispatchThread() )
 		{
+			KoLmafia.updateDisplay( "Logout in progress (interface will be unresponsive)..." );
+			KoLmafia.allowDisplayUpdate = false;
+
 			Thread quitThread = new Thread( quitRunnable );
 			quitThread.start();
 
