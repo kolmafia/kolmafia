@@ -109,6 +109,11 @@ public class CreateFrameRunnable
 
 	public void run()
 	{
+		if ( KoLmafia.isSessionEnding() && this.creationType != LoginFrame.class )
+		{
+			return;
+		}
+
 		String searchString = this.creationType.toString();
 		searchString = searchString.substring( searchString.lastIndexOf( "." ) + 1 );
 
