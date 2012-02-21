@@ -60,6 +60,15 @@ public class LogoutManager
 
 	public static void prepare()
 	{
+		// If there's no user to worry about, we're done now.
+
+		String userName = KoLCharacter.getUserName();
+
+		if ( userName == null || userName.equals( "" ) )
+		{
+			return;
+		}
+
 		// If you need to allow for another login, create a login frame
 		// to ensure that there is an active frame to display messages.
 
