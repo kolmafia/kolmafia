@@ -3777,6 +3777,46 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.LOLLIPOP_STICK, -amount );
 			}
 			break;
+
+		case 578:
+		{
+			// End of the Boris Road
+			String newClass = "Unknown";
+			switch ( ChoiceManager.lastDecision )
+			{
+			case 1:
+				newClass = "Seal Clubber";
+				break;
+			case 2:
+				newClass = "Turtle Tamer";
+				break;
+			case 3:
+				newClass = "Pastamancer";
+				break;
+			case 4:
+				newClass = "Sauceror";
+				break;
+			case 5:
+				newClass = "Disco Bandit";
+				break;
+			case 6:
+				newClass = "Accordion Thief";
+				break;
+			}
+
+			StringBuffer buffer = new StringBuffer();
+			buffer.append( "Now walking on the " );
+			buffer.append( newClass );
+			buffer.append( " road." );
+
+			String message = buffer.toString();
+
+			KoLmafia.updateDisplay( message );
+			RequestLogger.updateSessionLog( message );
+
+			KoLmafia.resetAfterAvatar();
+			break;
+		}
 		}
 
 		if ( ChoiceManager.initializeAfterChoice && text.indexOf( "choice.php" ) == -1 )

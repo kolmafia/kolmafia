@@ -931,6 +931,43 @@ public abstract class KoLmafia
 		KoLmafia.isRefreshing = isRefreshing;
 	}
 
+	public static final void resetAfterAvatar()
+	{
+		KoLmafia.isRefreshing = true;
+
+		// Start out fetching the status using the KoL API. This
+		// provides data from a lot of different standard pages
+
+		GenericRequest request = new ApiRequest( "status" );
+		RequestThread.postRequest( request );
+
+		// Retrieve the character sheet. It's necessary to do this
+		// before concoctions have a chance to get refreshed.
+
+		request = new CharSheetRequest();
+		RequestThread.postRequest( request );
+
+		// Hermit items depend on character class
+
+		HermitRequest.reset();
+
+		// Retrieve the contents of the inventory, since quest items
+		// may disappear.
+		InventoryManager.refresh();
+
+		// Retrieve the Terrarium
+
+		RequestThread.postRequest( new FamiliarRequest() );
+
+		// Retrieve the bookshelf
+		RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+
+		KoLmafia.isRefreshing = false;
+
+		// Finally, update available concoctions
+		ConcoctionDatabase.refreshConcoctions( true );
+	}
+
 	/**
 	 * Used to reset the session tally to its original values.
 	 */
