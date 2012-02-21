@@ -114,7 +114,7 @@ public class ItemDatabase
 	private static final Map notesByName = new HashMap();
 	private static final Map foldGroupsByName = new HashMap();
 
-	private static final Map[][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ];
+	private static final Map[][][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ][ 2 ];
 	private static final Map advRangeByName = new HashMap();
 	private static final Map unitCostByName = new HashMap();
 	private static final Map advStartByName = new HashMap();
@@ -131,15 +131,22 @@ public class ItemDatabase
 
 	static
 	{
-		ItemDatabase.advsByName[ 0 ][ 0 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 0 ][ 0 ][ 1 ] = new HashMap();
-		ItemDatabase.advsByName[ 0 ][ 1 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 0 ][ 1 ][ 1 ] = new HashMap();
-
-		ItemDatabase.advsByName[ 1 ][ 0 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 1 ][ 0 ][ 1 ] = new HashMap();
-		ItemDatabase.advsByName[ 1 ][ 1 ][ 0 ] = new HashMap();
-		ItemDatabase.advsByName[ 1 ][ 1 ][ 1 ] = new HashMap();
+		for ( int i1 = 0; i1 <= 1; ++i1 )
+		{
+			for ( int i2 = 0; i2 <= 1; ++i2 )
+			{
+				for ( int i3 = 0; i3 <= 1; ++i3 )
+				{
+					for ( int i4 = 0; i4 <= 1; ++i4 )
+					{
+						for ( int i5 = 0; i5 <= 1; ++i5 )
+						{
+							ItemDatabase.advsByName[ i1 ][ i2 ][ i3 ][ i4 ][ i5 ] = new HashMap();
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	private static Object[][] ALIASES = {
@@ -830,6 +837,11 @@ public class ItemDatabase
 
 	private static final void calculateAdventureRange( final String name )
 	{
+		ItemDatabase.calculateAdventureRange( name, ItemDatabase.getFullness( name ) > 0 );
+	}
+
+	private static final void calculateAdventureRange( final String name, final boolean isFood )
+	{
 		Concoction c = ConcoctionPool.get( name );
 		int advs = ( c == null ) ? 0 : c.getAdventuresNeeded( 1, true );
 
@@ -840,35 +852,69 @@ public class ItemDatabase
 		// Adventure gain modifier #1 is ode or milk, which adds
 		// unitCost adventures to the result.
 
-		// Adventure gain modifier #2 is the munchies pill, which adds
+		// Adventure gain modifier #2 is Song of the Glorious Lunch, which adds
+		// unitCost adventures to the result.
+
+		// Adventure gain modifier #3 is Gourmand, which adds
+		// unitCost adventures to the result.
+
+		// Adventure gain modifier #4 is the munchies pill, which adds
 		// 1-3 adventures
 
 		float average = ( start + end ) / 2.0f - advs;
 
-		// With neither effect active, average
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, average );
+		// With no effects active, average
+		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, false, average );
 
-		// With only ode or milk, average + unitCost
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, average + unitCost );
+		// With only one effect, average + unitCost
+		ItemDatabase.addAdventureRange( name, unitCost, true, false, false, false, average + unitCost );
+
+		// Only foods have effects 2-4
+		if ( !isFood )
+		{
+			return;
+		}
+
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, false, average + unitCost );
+		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, false, average + unitCost );
+
+		// With two effects, average + unitCost * 2
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, false, false, average + unitCost * 2 );
+		ItemDatabase.addAdventureRange( name, unitCost, true, false, true, false, average + unitCost * 2 );
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, true, false, average + unitCost * 2 );
+
+		// With three effects, average + unitCost * 3
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, false, average + unitCost * 3 );
 
 		// With only munchies pill, average + 2
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, average + 2.0f );
+		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, true, average + 2.0f );
 
-		// With both effects, average + unitCost + 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, average + unitCost + 2.0f );
+		// With one effect and munchies pill, average + unitCost + 2
+		ItemDatabase.addAdventureRange( name, unitCost, true, false, false, true, average + unitCost + 2.0f );
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, true, average + unitCost + 2.0f );
+		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, true, average + unitCost + 2.0f );
+
+		// With two effects and munchies pill, average + unitCost * 2 + 2
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, false, true, average + unitCost * 2 + 2.0f );
+		ItemDatabase.addAdventureRange( name, unitCost, true, false, true, true, average + unitCost * 2 + 2.0f );
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, true, true, average + unitCost * 2 + 2.0f );
+
+		// With three effects and munchies pill, average + unitCost * 3 + 2
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, true, average + unitCost * 3 + 2.0f );
 	}
 
-	private static final void addAdventureRange( final String name, final int unitCost, final boolean gainEffect1, final boolean gainEffect2, final float result )
+	private static final void addAdventureRange( final String name, final int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final float result )
 	{
 		// Remove adventure gains from zodiac signs
-		ItemDatabase.getAdventureMap( false, gainEffect1, gainEffect2 ).put( name, new Float( result ) );
-		ItemDatabase.getAdventureMap( true, gainEffect1, gainEffect2 ).put( name, new Float( result / unitCost ) );
+		ItemDatabase.getAdventureMap( false, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Float( result ) );
+		ItemDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Float( result / unitCost ) );
 	}
 
 	private static final Map getAdventureMap( final boolean perUnit,
-		final boolean gainEffect1, final boolean gainEffect2 )
+						  final boolean gainEffect1, final boolean gainEffect2,
+						  final boolean gainEffect3, final boolean gainEffect4)
 	{
-		return ItemDatabase.advsByName[ perUnit ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ];
+		return ItemDatabase.advsByName[ perUnit ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ][ gainEffect3 ? 1 : 0 ][ gainEffect4 ? 1 : 0 ];
 	}
 
 	private static final String extractStatRange( String range, float statFactor )
@@ -1699,23 +1745,26 @@ public class ItemDatabase
 		if ( ItemDatabase.getFullness( name ) > 0 )
 		{
 			boolean sushi = (ConcoctionDatabase.getMixingMethod( cname ) & KoLConstants.CT_MASK) == KoLConstants.SUSHI;
-			boolean milkEffect = !sushi &&
-				( KoLConstants.activeEffects.contains( ItemDatabase.MILK ) ||
-				  KoLConstants.activeEffects.contains( ItemDatabase.GLORIOUS_LUNCH ) );
-			boolean munchiesEffect = !sushi && Preferences.getInteger( "munchiesPillsUsed" ) > 0;
-			range = (Float) ItemDatabase.getAdventureMap(
-				perUnit, milkEffect, munchiesEffect ).get( cname );
+			boolean milk = KoLConstants.activeEffects.contains( ItemDatabase.MILK );
+			boolean lunch = KoLConstants.activeEffects.contains( ItemDatabase.GLORIOUS_LUNCH );
+			boolean gourmand = KoLCharacter.hasSkill( "Gourmand" );
+			boolean munchies = Preferences.getInteger( "munchiesPillsUsed" ) > 0;
+			range = (Float) ItemDatabase.getAdventureMap( perUnit,
+								      !sushi && milk,
+								      !sushi && lunch,
+								      !sushi && gourmand,
+								      !sushi && munchies ).get( cname );
 		}
 		else if ( ItemDatabase.getInebriety( name ) > 0 )
 		{
 			boolean odeEffect = KoLConstants.activeEffects.contains( ItemDatabase.ODE );
 			range = (Float) ItemDatabase.getAdventureMap(
-				perUnit, odeEffect, false ).get( cname );
+				perUnit, odeEffect, false, false, false ).get( cname );
 		}
 		else if ( ItemDatabase.getSpleenHit( name ) > 0 )
 		{
 			range = (Float) ItemDatabase.getAdventureMap(
-				perUnit, false, false ).get( cname );
+				perUnit, false, false, false, false ).get( cname );
 		}
 
 		if ( range == null )
