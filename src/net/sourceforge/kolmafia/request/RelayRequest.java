@@ -412,7 +412,7 @@ public class RelayRequest
 		{
 			this.responseCode = 200;
 
-			if ( responseText.length() == 0 )
+			if ( responseText == null || responseText.length() == 0 )
 			{
 				this.responseText = " ";
 			}
