@@ -753,26 +753,26 @@ public class RequestEditorKit
 		boolean haveLinks = false;
 		int newLevel = KoLCharacter.getLevel();
 
-		links.append( " <font size=1>" );
+		links.append( "<font size=1>" );
 
 		// If we are an Avatar of Boris, we can learn a new skill
-		if ( KoLCharacter.inAxecore() && newLevel <= 30)
+		if ( KoLCharacter.inAxecore() && newLevel <= 15)
 		{
-			links.append( "[<a href=\"da.php?place=gate1\">boris</a>]" );
+			links.append( " [<a href=\"da.php?place=gate1\">boris</a>]" );
 			haveLinks = true;
 		}
 
 		// Otherwise, if we are level 15 or less, the guild might have a skill for us
 		else if ( newLevel <= 15 )
 		{
-			links.append( "[<a href=\"guild.php\">guild</a>]" );
+			links.append( " [<a href=\"guild.php\">guild</a>]" );
 			haveLinks = true;
 		}
 
 		// If we are Level 13 or less, the Council might have quests for us
-		else if ( newLevel <= 13 )
+		if ( newLevel <= 13 )
 		{
-			links.append( "[<a href=\"council.php\">council</a>]" );
+			links.append( " [<a href=\"council.php\">council</a>]" );
 			haveLinks = true;
 		}
 
