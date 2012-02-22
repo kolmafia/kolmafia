@@ -125,7 +125,7 @@ public class GenericRequest
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
 
-	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)\\/(login\\.php.*)", Pattern.DOTALL );
+	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]*)\\/(login\\.php.*)", Pattern.DOTALL );
 	public static final Pattern JS_REDIRECT_PATTERN = Pattern.compile( ">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";" );
 
 	public static boolean isRatQuest = false;
@@ -1649,8 +1649,12 @@ public class GenericRequest
 			Matcher matcher = GenericRequest.REDIRECT_PATTERN.matcher( this.redirectLocation );
 			if ( matcher.find() )
 			{
-				RequestLogger.printLine( "Redirected to " + matcher.group(1) + "..." );
-				GenericRequest.setLoginServer( matcher.group( 1 ) );
+				String server = matcher.group(1);
+				if ( !server.equals( "" ) )
+				{
+					RequestLogger.printLine( "Redirected to " + server + "..." );
+					GenericRequest.setLoginServer( server );
+				}
 				this.constructURLString( matcher.group(2), false );
 				return false;
 			}
