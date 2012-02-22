@@ -362,6 +362,15 @@ public class EatItemRequest
 
 	public static final void parseConsumption( final AdventureResult item, final AdventureResult helper, final String responseText )
 	{
+		// Special handling for fortune cookies, since you can smash
+		// them, as well as eat them
+		if ( item.getItemId() == ItemPool.FORTUNE_COOKIE &&
+		     responseText.indexOf( "You brutally smash the fortune cookie" ) != -1 )
+		{
+			ResultProcessor.processResult( item.getNegation() );
+			return;
+		}
+
 		int fullness = ItemDatabase.getFullness( item.getName() );
 		int count = item.getCount();
 
