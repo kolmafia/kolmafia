@@ -1634,6 +1634,11 @@ public abstract class RabbitHoleManager
 
 		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.DOWN_THE_RABBIT_HOLE ) ) )
 		{
+			if ( !InventoryManager.hasItem( ItemPool.DRINK_ME_POTION ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need a DRINK ME! potion to get a hatter buff." );
+				return;
+			}
 			InventoryManager.retrieveItem( ItemPool.get( ItemPool.DRINK_ME_POTION, 1 ) );
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.DRINK_ME_POTION, 1 ) ) );
 		}
