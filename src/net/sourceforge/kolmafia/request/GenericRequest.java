@@ -315,7 +315,7 @@ public class GenericRequest
 
 		try
 		{
-			GenericRequest.KOL_SECURE_ROOT = new URL( "https", root, 80, "/" );
+			GenericRequest.KOL_SECURE_ROOT = new URL( "https", root, 443, "/" );
 		}
 		catch ( IOException e )
 		{
@@ -2578,7 +2578,7 @@ public class GenericRequest
 	public void printRequestProperties()
 	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Requesting: http://" + GenericRequest.KOL_HOST + "/" + this.getDisplayURLString() );
+		RequestLogger.updateDebugLog( "Requesting: " + this.formURL.getProtocol() + "://" + GenericRequest.KOL_HOST + "/" + this.getDisplayURLString() );
 
 		Map requestProperties = this.formConnection.getRequestProperties();
 		RequestLogger.updateDebugLog( requestProperties.size() + " request properties" );
@@ -2597,7 +2597,7 @@ public class GenericRequest
 	public void printHeaderFields()
 	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Retrieved: http://" + GenericRequest.KOL_HOST + "/" + this.getDisplayURLString() );
+		RequestLogger.updateDebugLog( "Retrieved: " + this.formURL.getProtocol() + "://" + GenericRequest.KOL_HOST + "/" + this.getDisplayURLString() );
 		RequestLogger.updateDebugLog();
 
 		Map headerFields = this.formConnection.getHeaderFields();
