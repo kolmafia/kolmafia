@@ -151,6 +151,7 @@ public class GenericRequest
 
 	public static String KOL_HOST = GenericRequest.SERVERS[ 1 ][ 0 ];
 	public static URL KOL_ROOT = null;
+	public static URL KOL_SECURE_ROOT = null;
 
 	private URL formURL;
 	private String currentHost;
@@ -307,6 +308,15 @@ public class GenericRequest
 		try
 		{
 			GenericRequest.KOL_ROOT = new URL( "http", root, 80, "/" );
+		}
+		catch ( IOException e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+
+		try
+		{
+			GenericRequest.KOL_SECURE_ROOT = new URL( "https", root, 80, "/" );
 		}
 		catch ( IOException e )
 		{
@@ -1353,10 +1363,6 @@ public class GenericRequest
 
 		try
 		{
-			// For now, because there isn't HTTPS support, just
-			// open the connection and directly cast it into an
-			// HttpURLConnection
-
 			this.formURL = this.buildURL();
 			this.formConnection = (HttpURLConnection) this.formURL.openConnection();
 		}
@@ -1416,7 +1422,20 @@ public class GenericRequest
 
 		this.currentHost = GenericRequest.KOL_HOST;
 		String urlString = this.formURLString;
-		URL context = urlString.startsWith( "http:" ) || urlString.startsWith( "https:" ) ? null : GenericRequest.KOL_ROOT;
+
+		URL context = null;
+
+		if ( !urlString.startsWith( "http:" ) && !urlString.startsWith( "https:" ) )
+		{
+			if ( urlString.contains("login.php") )
+			{
+				context = GenericRequest.KOL_SECURE_ROOT;
+			}
+			else
+			{
+				context = GenericRequest.KOL_ROOT;
+			}
+		}
 
 		if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "afterlife.php" ) )
 		{
@@ -1435,6 +1454,7 @@ public class GenericRequest
 			}
 
 			HttpTimeoutClient.setHttpTimeout( timeout );
+
 			return new URL( context, urlString, HttpTimeoutHandler.getInstance() );
 		}
 
