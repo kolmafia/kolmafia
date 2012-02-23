@@ -87,6 +87,13 @@ public abstract class GenericPanel
 	public JPanel actionStatusPanel;
 	public StatusLabel actionStatusLabel;
 
+	public GenericPanel()
+	{
+		super();
+		this.setListeners( CONFIRM_LISTENER, CANCEL_LISTENER );
+		StaticEntity.registerPanel( this );
+	}
+
 	public GenericPanel( final Dimension left, final Dimension right )
 	{
 		super( left, right );

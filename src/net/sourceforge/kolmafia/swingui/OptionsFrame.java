@@ -117,7 +117,7 @@ public class OptionsFrame
 	{
 		super( "Preferences" );
 
-		CardLayoutSelectorPanel selectorPanel = new CardLayoutSelectorPanel( null, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+		CardLayoutSelectorPanel selectorPanel = new CardLayoutSelectorPanel( null, "mmmmmmmmmmmm" );
 
 		selectorPanel.addPanel( "General", new GeneralOptionsPanel(), true );
 		selectorPanel.addPanel( " - Item Acquisition", new ItemOptionsPanel(), true );
@@ -795,7 +795,7 @@ public class OptionsFrame
 
 		public StartupFramesPanel()
 		{
-			super( new Dimension( 100, 20 ), new Dimension( 300, 20 ) );
+			super();
 			this.setContent( null );
 
 			for ( int i = 0; i < KoLConstants.FRAME_NAMES.length; ++i )
@@ -803,7 +803,7 @@ public class OptionsFrame
 				this.completeList.add( KoLConstants.FRAME_NAMES[ i ][ 0 ] );
 			}
 
-			JPanel optionPanel = new JPanel( new GridLayout( 1, 3, 10, 10 ) );
+			JPanel optionPanel = new JPanel( new GridLayout( 1, 3 ) );
 			optionPanel.add( new ScrollablePanel( "Complete List", new JDnDList( this.completeList ) ) );
 			optionPanel.add( new ScrollablePanel( "Startup as Window", new JDnDList( this.startupList ) ) );
 			optionPanel.add( new ScrollablePanel( "Startup in Tabs", new JDnDList( this.desktopList ) ) );
@@ -814,7 +814,7 @@ public class OptionsFrame
 
 						"When you place the Local Relay Server into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the Contact List into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.\n" );
 
-			message.setColumns( 40 );
+			// message.setColumns( 32 );
 			message.setLineWrap( true );
 			message.setWrapStyleWord( true );
 			message.setEditable( false );

@@ -37,8 +37,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 
-import java.util.ArrayList;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
@@ -47,11 +45,14 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.ScrollPaneConstants;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import java.util.ArrayList;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -120,8 +121,8 @@ public class CardLayoutSelectorPanel
 
 		if ( addScrollPane )
 		{
-			panel = new GenericScrollPane( panel );
-			JComponentUtilities.setComponentSize( panel, 560, 400 );
+			panel = new GenericScrollPane( panel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
+			JComponentUtilities.setComponentSize( panel, 500, 400 );
 		}
 
 		this.panels.add( panel );
