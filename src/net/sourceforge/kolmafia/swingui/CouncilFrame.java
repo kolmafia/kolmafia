@@ -402,6 +402,13 @@ public class CouncilFrame
 			return;
 		}
 
+		if ( KoLCharacter.inAxecore() )
+		{
+			// No outfit needed; just take option #3
+			RequestThread.postRequest( goatlet );
+			return;
+		}
+
 		if ( !EquipmentManager.hasOutfit( 8 ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You need a mining outfit to continue." );
