@@ -764,7 +764,7 @@ user	_iceballUses	0
 user	_inigosCasts	0
 user	_ironicMoustache	false
 user	_kloopDrops	0
-user	_jackassePlumberGame	false
+user	_jackassPlumberGame	false
 user	_klawSummons	0
 user	_lastZomboEye	0
 user	_leafblowerML	1

@@ -693,7 +693,7 @@ public class UseItemRequest
 
 		case ItemPool.JACKASS_PLUMBER_GAME:
 			UseItemRequest.limiter = "daily limit";
-			return Preferences.getBoolean( "_jackassePlumberGame" ) ? 0 : 1;
+			return Preferences.getBoolean( "_jackassPlumberGame" ) ? 0 : 1;
 
 		case ItemPool.TRIVIAL_AVOCATIONS_GAME:
 			UseItemRequest.limiter = "daily limit";
@@ -3726,7 +3726,7 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.JACKASS_PLUMBER_GAME:
-			Preferences.setBoolean( "_jackassePlumberGame", true );
+			Preferences.setBoolean( "_jackassPlumberGame", true );
 			return;
 
 		case ItemPool.TRIVIAL_AVOCATIONS_GAME:
