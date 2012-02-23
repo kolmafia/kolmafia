@@ -2317,8 +2317,13 @@ public class GenericRequest
 
 
 		case ItemPool.DEPLETED_URANIUM_SEAL:
+			itemName = "Infernal Seal Ritual";
+			Preferences.increment( "_sealsSummoned", 1 );
+			ResultProcessor.processResult( sealRitualCandles( itemId ) );
+			// Why do we count this?
 			Preferences.increment( "_sealFigurineUses", 1 );
-			// Fall through. Why do we count usages of this item?
+			break;
+
 		case ItemPool.WRETCHED_SEAL:
 		case ItemPool.CUTE_BABY_SEAL:
 		case ItemPool.ARMORED_SEAL:
