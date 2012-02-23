@@ -4442,10 +4442,16 @@ public abstract class ChoiceManager
 		// Choice 162 is Between a Rock and Some Other Rocks
 		case 162:
 
-			// Auto-skip the goatlet adventure if you're not wearing
-			// the mining outfit so it can be tried again later.
+			// If you are wearing the outfit, have Worldpunch, or
+			// are in Axecore, take the appropriate decision.
+			// Otherwise, auto-skip the goatlet adventure so it can
+			// be tried again later.
 
-			return ( EquipmentManager.isWearingOutfit( 8 ) || KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) ) ? decision : "2";
+			return decision.equals( "2" ) ? "2" :
+				EquipmentManager.isWearingOutfit( 8 ) ? "1" :
+				KoLCharacter.inFistcore() && KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST )  ? "1" :
+				KoLCharacter.inAxecore() ? "3" :
+				"2";
 
 		// That Explains All The Eyepatches
 		case 184:
