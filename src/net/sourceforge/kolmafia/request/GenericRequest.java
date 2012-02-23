@@ -126,7 +126,8 @@ public class GenericRequest
 	private static final int TIMEOUT_LIMIT = 3;
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]*)\\/(login\\.php.*)", Pattern.DOTALL );
-	public static final Pattern JS_REDIRECT_PATTERN = Pattern.compile( ">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";" );
+	public static final Pattern JS_REDIRECT_PATTERN =
+		Pattern.compile( ">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";" );
 
 	public static boolean isRatQuest = false;
 	public static boolean isBarrelSmash = false;
@@ -195,10 +196,9 @@ public class GenericRequest
 	}
 
 	/**
-	 * static final method called when <code>GenericRequest</code> is first
-	 * instantiated or whenever the settings have changed. This initializes
-	 * the login server to the one stored in the user's settings, as well
-	 * as initializes the user's proxy settings.
+	 * static final method called when <code>GenericRequest</code> is first instantiated or whenever the settings have
+	 * changed. This initializes the login server to the one stored in the user's settings, as well as initializes the
+	 * user's proxy settings.
 	 */
 
 	public static final void applySettings()
@@ -274,10 +274,9 @@ public class GenericRequest
 	}
 
 	/**
-	 * static final method used to manually set the server to be used as
-	 * the root for all requests by all KoLmafia clients running on the
-	 * current JVM instance.
-	 *
+	 * static final method used to manually set the server to be used as the root for all requests by all KoLmafia
+	 * clients running on the current JVM instance.
+	 * 
 	 * @param server The hostname of the server to be used.
 	 */
 
@@ -291,7 +290,7 @@ public class GenericRequest
 		for ( int i = 0; i < GenericRequest.SERVERS.length; ++i )
 		{
 			if ( GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 0 ] ) ||
-			     GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 1 ] ) )
+				GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 1 ] ) )
 			{
 				GenericRequest.setLoginServer( i );
 				return;
@@ -327,11 +326,9 @@ public class GenericRequest
 		System.setProperty( "http.referer", "http://" + GenericRequest.KOL_HOST + "/game.php" );
 	}
 
-	private static int retryServer = 0;
-
 	/**
 	 * static final method used to return the server currently used by this KoLmafia session.
-	 *
+	 * 
 	 * @return The host name for the current server
 	 */
 
@@ -341,9 +338,9 @@ public class GenericRequest
 	}
 
 	/**
-	 * Constructs a new GenericRequest which will notify the given client
-	 * of any changes and will use the given URL for data submission.
-	 *
+	 * Constructs a new GenericRequest which will notify the given client of any changes and will use the given URL for
+	 * data submission.
+	 * 
 	 * @param formURLString The form to be used in posting data
 	 */
 
@@ -358,7 +355,7 @@ public class GenericRequest
 
 	public GenericRequest( final String newURLString )
 	{
-                this( newURLString, true );
+		this( newURLString, true );
 	}
 
 	public static void suppressUpdate( final boolean suppressUpdate )
@@ -379,12 +376,12 @@ public class GenericRequest
 		return this.constructURLString( newURLString, true, false );
 	}
 
-	public GenericRequest constructURLString( String newURLString, boolean usePostMethod )
+	public GenericRequest constructURLString( final String newURLString, final boolean usePostMethod )
 	{
 		return this.constructURLString( newURLString, usePostMethod, false );
 	}
 
-	public GenericRequest constructURLString( String newURLString, boolean usePostMethod, boolean encoded )
+	public GenericRequest constructURLString( String newURLString, final boolean usePostMethod, final boolean encoded )
 	{
 		this.responseText = null;
 		this.dataChanged = true;
@@ -425,8 +422,8 @@ public class GenericRequest
 
 		this.isChatRequest =
 			this.formURLString.startsWith( "chat.php" ) ||
-			this.formURLString.startsWith( "newchatmessages.php" ) ||
-			this.formURLString.startsWith( "submitnewchat.php" );
+				this.formURLString.startsWith( "newchatmessages.php" ) ||
+				this.formURLString.startsWith( "submitnewchat.php" );
 
 		return this;
 	}
@@ -452,14 +449,13 @@ public class GenericRequest
 	public String getDisplayURLString()
 	{
 		return this.data.isEmpty() ?
-			StringUtilities.singleStringReplace ( this.formURLString, GenericRequest.passwordHashValue, "" ) :
+			StringUtilities.singleStringReplace( this.formURLString, GenericRequest.passwordHashValue, "" ) :
 			this.formURLString + "?" + this.getDisplayDataString();
 	}
 
 	/**
-	 * Clears the data fields so that the descending class can have a fresh
-	 * set of data fields. This allows requests with variable numbers of
-	 * parameters to be reused.
+	 * Clears the data fields so that the descending class can have a fresh set of data fields. This allows requests
+	 * with variable numbers of parameters to be reused.
 	 */
 
 	public void clearDataFields()
@@ -498,17 +494,16 @@ public class GenericRequest
 	}
 
 	/**
-	 * Adds the given form field to the GenericRequest. Descendant classes
-	 * should use this method if they plan on submitting forms to Kingdom
-	 * of Loathing before a call to the <code>super.run()</code>
-	 * method. Ideally, these fields can be added at construction time.
-	 *
+	 * Adds the given form field to the GenericRequest. Descendant classes should use this method if they plan on
+	 * submitting forms to Kingdom of Loathing before a call to the <code>super.run()</code> method. Ideally, these
+	 * fields can be added at construction time.
+	 * 
 	 * @param name The name of the field to be added
 	 * @param value The value of the field to be added
 	 * @param allowDuplicates true if duplicate names are OK
 	 */
 
-	public void addFormField( final String name, final String value, boolean allowDuplicates )
+	public void addFormField( final String name, final String value, final boolean allowDuplicates )
 	{
 		this.dataChanged = true;
 
@@ -551,7 +546,7 @@ public class GenericRequest
 
 	/**
 	 * Adds the given form field to the GenericRequest.
-	 *
+	 * 
 	 * @param element The field to be added
 	 */
 
@@ -571,7 +566,7 @@ public class GenericRequest
 
 	/**
 	 * Adds an already encoded form field to the GenericRequest.
-	 *
+	 * 
 	 * @param element The field to be added
 	 */
 
@@ -768,7 +763,7 @@ public class GenericRequest
 
 	public String getBasePath()
 	{
-		String path =  this.formURLString;
+		String path = this.formURLString;
 		if ( path == null )
 		{
 			return null;
@@ -941,7 +936,8 @@ public class GenericRequest
 			}
 			else
 			{
-				message = expired.getLabel() + " counter will expire after " + remain + " more turn" + ((remain == 1) ? "." : "s.");
+				message =
+					expired.getLabel() + " counter will expire after " + remain + " more turn" + ( remain == 1 ? "." : "s." );
 			}
 
 			if ( expired.getLabel().equals( "Fortune Cookie" ) )
@@ -956,7 +952,7 @@ public class GenericRequest
 		return false;
 	}
 
-	private boolean invokeCounterScript( TurnCounter expired )
+	private boolean invokeCounterScript( final TurnCounter expired )
 	{
 		String scriptName = Preferences.getString( "counterScript" );
 		if ( scriptName.length() == 0 )
@@ -1000,26 +996,27 @@ public class GenericRequest
 
 	public static String getAction( final String urlString )
 	{
-		Matcher matcher = ACTION_PATTERN.matcher( urlString );
-		return matcher.find() ? matcher.group(1) : null;
+		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
+		return matcher.find() ? matcher.group( 1 ) : null;
 	}
 
 	public static String getPlace( final String urlString )
 	{
-		Matcher matcher = PLACE_PATTERN.matcher( urlString );
-		return matcher.find() ? matcher.group(1) : null;
+		Matcher matcher = GenericRequest.PLACE_PATTERN.matcher( urlString );
+		return matcher.find() ? matcher.group( 1 ) : null;
 	}
 
 	public static final Pattern HOWMUCH_PATTERN = Pattern.compile( "howmuch=([^&]*)" );
+
 	public static final int getHowMuch( final String urlString )
 	{
-		Matcher matcher = HOWMUCH_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.HOWMUCH_PATTERN.matcher( urlString );
 		if ( matcher.find() )
 		{
 			// KoL allows any old crap in the input field. It
 			// strips out non-numeric characters and treats the
 			// rest as an integer.
-			String field = GenericRequest.decodeURL( matcher.group(1) );
+			String field = GenericRequest.decodeURL( matcher.group( 1 ) );
 			try
 			{
 				return StringUtilities.parseIntInternal2( field );
@@ -1044,8 +1041,8 @@ public class GenericRequest
 	public void run()
 	{
 		if ( GenericRequest.serverCookie == null &&
-		     !( this instanceof LoginRequest ) &&
-		     !( this instanceof LogoutRequest ))
+			!( this instanceof LoginRequest ) &&
+			!( this instanceof LogoutRequest ) )
 		{
 			return;
 		}
@@ -1135,10 +1132,10 @@ public class GenericRequest
 			AdventureResult hooks = ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 );
 			AdventureResult machine = ItemPool.get( ItemPool.DRUM_MACHINE, 1 );
 			if ( ( KoLConstants.inventory.contains( hooks ) ||
-			       KoLCharacter.hasEquipped( hooks, EquipmentManager.WEAPON ) ) &&
-			     KoLConstants.inventory.contains( machine ) )
+				KoLCharacter.hasEquipped( hooks, EquipmentManager.WEAPON ) ) &&
+				KoLConstants.inventory.contains( machine ) )
 			{
-				( UseItemRequest.getInstance( machine ) ).run();
+				UseItemRequest.getInstance( machine ).run();
 			}
 		}
 		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
@@ -1152,7 +1149,7 @@ public class GenericRequest
 
 			String comedy;
 			boolean offhand = false;
-			switch( comedyItemID )
+			switch ( comedyItemID )
 			{
 			case ItemPool.INSULT_PUPPET:
 				comedy = "insult";
@@ -1165,7 +1162,9 @@ public class GenericRequest
 				comedy = "prop";
 				break;
 			default:
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "\""+ comedyItemID +"\" is not a comedy item number that Mafia recognizes." );
+				KoLmafia.updateDisplay(
+					KoLConstants.ABORT_STATE,
+					"\"" + comedyItemID + "\" is not a comedy item number that Mafia recognizes." );
 				return;
 			}
 
@@ -1181,11 +1180,11 @@ public class GenericRequest
 					int hands = EquipmentDatabase.getHands( weapon.getItemId() );
 					if ( hands > 1 )
 					{
-						( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON ) ).run();
+						new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON ).run();
 					}
 				}
 
-				( new EquipmentRequest( comedyItem ) ).run();
+				new EquipmentRequest( comedyItem ).run();
 			}
 
 			String text = null;
@@ -1224,7 +1223,9 @@ public class GenericRequest
 
 		if ( this.responseText == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Server " + KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
+			KoLmafia.updateDisplay(
+				KoLConstants.ABORT_STATE,
+				"Server " + GenericRequest.KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
 			return;
 		}
 
@@ -1342,7 +1343,7 @@ public class GenericRequest
 	/**
 	 * Utility method used to prepare the connection for input and output (if output is necessary). The method attempts
 	 * to open the connection, and then apply the needed settings.
-	 *
+	 * 
 	 * @return <code>true</code> if the connection was successfully prepared
 	 */
 
@@ -1427,7 +1428,7 @@ public class GenericRequest
 
 		if ( !urlString.startsWith( "http:" ) && !urlString.startsWith( "https:" ) )
 		{
-			if ( urlString.contains("login.php") )
+			if ( urlString.contains( "login.php" ) )
 			{
 				context = GenericRequest.KOL_SECURE_ROOT;
 			}
@@ -1441,7 +1442,7 @@ public class GenericRequest
 		{
 			int timeout;
 			if ( !urlString.startsWith( "login.php" ) ||
-			     LoginRequest.playersOnline > 500 )
+				LoginRequest.playersOnline > 500 )
 			{
 				// 24 seconds is the default timeout
 				timeout = 24000;
@@ -1464,7 +1465,7 @@ public class GenericRequest
 	/**
 	 * Utility method used to post the client's data to the Kingdom of Loathing server. The method grabs all form fields
 	 * added so far and posts them using the traditional ampersand style of HTTP requests.
-	 *
+	 * 
 	 * @return <code>true</code> if all data was successfully posted
 	 */
 
@@ -1512,7 +1513,7 @@ public class GenericRequest
 	 * Utility method used to retrieve the server's reply. This method detects the nature of the reply via the response
 	 * code provided by the server, and also detects the unusual states of server maintenance and session timeout. All
 	 * data retrieved by this method is stored in the instance variables for this class.
-	 *
+	 * 
 	 * @return <code>true</code> if the data was successfully retrieved
 	 */
 
@@ -1671,13 +1672,13 @@ public class GenericRequest
 			Matcher matcher = GenericRequest.REDIRECT_PATTERN.matcher( this.redirectLocation );
 			if ( matcher.find() )
 			{
-				String server = matcher.group(1);
+				String server = matcher.group( 1 );
 				if ( !server.equals( "" ) )
 				{
 					RequestLogger.printLine( "Redirected to " + server + "..." );
 					GenericRequest.setLoginServer( server );
 				}
-				this.constructURLString( matcher.group(2), false );
+				this.constructURLString( matcher.group( 2 ), false );
 				return false;
 			}
 
@@ -1770,9 +1771,9 @@ public class GenericRequest
 			// to complete the fight before you can continue.
 
 			if ( this == ChoiceManager.CHOICE_HANDLER ||
-			     this instanceof AdventureRequest ||
-			     this instanceof BasementRequest ||
-			     this instanceof HiddenCityRequest )
+				this instanceof AdventureRequest ||
+				this instanceof BasementRequest ||
+				this instanceof HiddenCityRequest )
 			{
 				int pos = this.redirectLocation.indexOf( "ireallymeanit=" );
 				if ( pos != -1 )
@@ -1816,8 +1817,8 @@ public class GenericRequest
 			String redirect = this.redirectLocation;
 			String newMode =
 				redirect.startsWith( "sellstuff.php" ) ? "compact" :
-				redirect.startsWith( "sellstuff_ugly.php" ) ? "detailed" :
-				null;
+					redirect.startsWith( "sellstuff_ugly.php" ) ? "detailed" :
+						null;
 
 			if ( newMode != null )
 			{
@@ -1951,7 +1952,7 @@ public class GenericRequest
 		}
 
 		if ( urlString.startsWith( "fight.php" ) )
-		{	// This has to be done after parseResults() to properly
+		{ // This has to be done after parseResults() to properly
 			// deal with combat items received during combat.
 			FightRequest.parseCombatItems( this.responseText );
 			FightRequest.parseConditionalCombatSkills( this.responseText );
@@ -2016,9 +2017,8 @@ public class GenericRequest
 
 	/**
 	 * Utility method used to skip the given number of tokens within the provided <code>StringTokenizer</code>. This
-	 * method is used in order to clarify what's being done, rather than calling <code>st.nextToken()</code>
-	 * repeatedly.
-	 *
+	 * method is used in order to clarify what's being done, rather than calling <code>st.nextToken()</code> repeatedly.
+	 * 
 	 * @param st The <code>StringTokenizer</code> whose tokens are to be skipped
 	 * @param tokenCount The number of tokens to skip
 	 */
@@ -2035,7 +2035,7 @@ public class GenericRequest
 	 * Utility method used to transform the next token on the given <code>StringTokenizer</code> into an integer.
 	 * Because this is used repeatedly in parsing, its functionality is provided globally to all instances of
 	 * <code>GenericRequest</code>.
-	 *
+	 * 
 	 * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
 	 * @return The integer token, if it exists, or 0, if the token was not a number
 	 */
@@ -2050,7 +2050,7 @@ public class GenericRequest
 	 * however, this differs in the single-argument version in that only a part of the next token is needed. Because
 	 * this is also used repeatedly in parsing, its functionality is provided globally to all instances of
 	 * <code>GenericRequest</code>.
-	 *
+	 * 
 	 * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
 	 * @param fromStart The index at which the integer to parse begins
 	 * @return The integer token, if it exists, or 0, if the token was not a number
@@ -2067,7 +2067,7 @@ public class GenericRequest
 	 * integer. This differs from the two-argument in that part of the end of the string is expected to contain
 	 * non-numeric values as well. Because this is also repeatedly in parsing, its functionality is provided globally to
 	 * all instances of <code>GenericRequest</code>.
-	 *
+	 * 
 	 * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
 	 * @param fromStart The index at which the integer to parse begins
 	 * @param fromEnd The distance from the end at which the first non-numeric character is found
@@ -2085,7 +2085,7 @@ public class GenericRequest
 	 * An alternative method to doing adventure calculation is determining how many adventures are used by the given
 	 * request, and subtract them after the request is done. This number defaults to <code>zero</code>; overriding
 	 * classes should change this value to the appropriate amount.
-	 *
+	 * 
 	 * @return The number of adventures used by this request.
 	 */
 
@@ -2115,37 +2115,37 @@ public class GenericRequest
 		// is "Like the smoke your ten-leaf clover disappears in a puff of"
 
 		if ( this.responseText.indexOf( "clover" ) != -1 &&
-		     ( this.responseText.indexOf( " puff of smoke" ) != -1 ||
-		       this.responseText.indexOf( "into the leprechaun's pocket" ) != -1 ||
-		       this.responseText.indexOf( "disappears in a puff of" ) != -1 ) )
+			( this.responseText.indexOf( " puff of smoke" ) != -1 ||
+				this.responseText.indexOf( "into the leprechaun's pocket" ) != -1 ||
+			this.responseText.indexOf( "disappears in a puff of" ) != -1 ) )
 		{
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
 
 		if ( urlString.startsWith( "dungeon.php" ) &&
-                     this.responseText.indexOf( "key breaks off in the lock" ) != -1 )
+			this.responseText.indexOf( "key breaks off in the lock" ) != -1 )
 		{
 			// Unfortunately, the key breaks off in the lock.
-                        ResultProcessor.processItem( ItemPool.SKELETON_KEY, -1 );
+			ResultProcessor.processItem( ItemPool.SKELETON_KEY, -1 );
 		}
 
 		if ( this.responseText.indexOf( "You break the bottle on the ground" ) != -1 )
 		{
-                        // You break the bottle on the ground, and stomp it to powder
+			// You break the bottle on the ground, and stomp it to powder
 			ResultProcessor.processItem( ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE, -1 );
 		}
 
 		if ( this.responseText.indexOf( "FARQUAR" ) != -1 ||
-		     this.responseText.indexOf( "Sleeping Near the Enemy" ) != -1 )
+			this.responseText.indexOf( "Sleeping Near the Enemy" ) != -1 )
 		{
-                        // The password to the Dispensary is known!
+			// The password to the Dispensary is known!
 			Preferences.setInteger( "lastDispensaryOpen", KoLCharacter.getAscensions() );
 		}
 
 		if ( urlString.startsWith( "mall.php" ) ||
-		     urlString.startsWith( "searchmall.php" ) ||
-		     urlString.startsWith( "account.php" ) ||
-		     urlString.startsWith( "records.php" ) )
+			urlString.startsWith( "searchmall.php" ) ||
+			urlString.startsWith( "account.php" ) ||
+			urlString.startsWith( "records.php" ) )
 		{
 			// These pages cannot possibly contain an actual item
 			// drop, but may have a bogus "You acquire an item:" as
@@ -2168,8 +2168,10 @@ public class GenericRequest
 			// Mall stores themselves can only contain processable
 			// results when actually buying an item, and then only
 			// at the very top of the page.
-			this.containsUpdate = this.getFormField( "whichitem" ) != null &&
-				ResultProcessor.processResults( false, this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
+			this.containsUpdate =
+				this.getFormField( "whichitem" ) != null &&
+					ResultProcessor.processResults(
+						false, this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
 		}
 		else if ( urlString.startsWith( "fight.php" ) )
 		{
@@ -2218,7 +2220,7 @@ public class GenericRequest
 	 * finishing, show only exceptional requests
 	 */
 
-	public void showInBrowser( boolean exceptional )
+	public void showInBrowser( final boolean exceptional )
 	{
 		if ( !exceptional && !Preferences.getBoolean( "showAllRequests" ) )
 		{
@@ -2230,7 +2232,7 @@ public class GenericRequest
 
 		boolean showRequestSync =
 			Preferences.getBoolean( "showAllRequests" ) ||
-				( exceptional && Preferences.getBoolean( "showExceptionalRequests" ) );
+				exceptional && Preferences.getBoolean( "showExceptionalRequests" );
 
 		if ( showRequestSync )
 		{
@@ -2241,7 +2243,8 @@ public class GenericRequest
 		{
 			RelayAgent.setErrorRequest( this );
 
-			String linkHTML = "<a href=main.php target=mainpane class=error>Click here to continue in the relay browser.</a>";
+			String linkHTML =
+				"<a href=main.php target=mainpane class=error>Click here to continue in the relay browser.</a>";
 			InternalMessage message = new InternalMessage( linkHTML, null );
 			ChatPoller.addEntry( message );
 		}
@@ -2283,7 +2286,7 @@ public class GenericRequest
 				String stolen = Preferences.getString( "dolphinItem" );
 				if ( stolen.length() > 0 )
 				{
-					m.addItem( ItemPool.get( stolen, (100 << 16) | 'n' ) );
+					m.addItem( ItemPool.get( stolen, 100 << 16 | 'n' ) );
 				}
 				m.doneWithItems();
 			}
@@ -2335,11 +2338,10 @@ public class GenericRequest
 			KoLmafia.ignoreSemirare();
 			break;
 
-
 		case ItemPool.DEPLETED_URANIUM_SEAL:
 			itemName = "Infernal Seal Ritual";
 			Preferences.increment( "_sealsSummoned", 1 );
-			ResultProcessor.processResult( sealRitualCandles( itemId ) );
+			ResultProcessor.processResult( GenericRequest.sealRitualCandles( itemId ) );
 			// Why do we count this?
 			Preferences.increment( "_sealFigurineUses", 1 );
 			break;
@@ -2357,7 +2359,7 @@ public class GenericRequest
 			itemName = "Infernal Seal Ritual";
 			consumed = true;
 			Preferences.increment( "_sealsSummoned", 1 );
-			ResultProcessor.processResult( sealRitualCandles( itemId ) );
+			ResultProcessor.processResult( GenericRequest.sealRitualCandles( itemId ) );
 			break;
 
 		case ItemPool.BRICKO_OOZE:
