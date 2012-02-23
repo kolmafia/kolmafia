@@ -1323,6 +1323,8 @@ public class GenericRequest
 		return request.formURLString == null ||
 			// Disallow mall searches
 			request.formURLString.indexOf( "mall.php" ) != -1 ||
+			request.formURLString.indexOf( "manageprices.php" ) != -1 ||
+			request.formURLString.indexOf( "managestore.php" ) != -1 ||
 			// Disallow anything to do with chat
 			request.isChatRequest;
 	}
