@@ -1996,7 +1996,58 @@ public class RequestEditorKit
 			// Big-Time Generator
 			SpaaaceRequest.decoratePorko( buffer );
 			break;
+
+		case 571:
+			// Your Minstrel Vamps
+			RequestEditorKit.addNavigationLink( buffer, "Go to the Typical Tavern", "tavern.php" );
+			break;
+
+		case 572:
+			// Your Minstrel Clamps
+			RequestEditorKit.addNavigationLink( buffer, "Go to the Knob Shaft", "adventure.php?snarfblat=101" );
+			break;
+
+		case 573:
+			// Your Minstrel Stamps
+			// Add a link to the Luter's Grave
+			RequestEditorKit.addNavigationLink( buffer, "Go to the Luter's Grave", "plains.php?action=lutergrave" );
+			break;
+
+		case 576:
+			// Your Minstrel Camps
+			RequestEditorKit.addNavigationLink( buffer, "Go to the Icy Peak", "adventure.php?snarfblat=110" );
+			break;
+
+		case 577:
+			// Your Minstrel Scamp
+			RequestEditorKit.addNavigationLink( buffer, "Go to the Ancient Buried Pyramid", "pyramid.php" );
+			break;
 		}
+	}
+
+	private static final void addNavigationLink( final StringBuffer buffer, final String tag, final String url )
+	{
+		int index = buffer.lastIndexOf( "<tr><td height=4></td></tr></table>" );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		index = buffer.lastIndexOf( "</table>", index );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		StringBuffer link = new StringBuffer();
+
+		link.append( "<tr><td><center><p><a href=\"" );
+		link.append( url );
+		link.append( "\">" );
+		link.append( tag );
+		link.append( "</a></center></td></tr>" );
+
+		buffer.insert( index, link.toString()  );
 	}
 
 	private static final void decorateCouncil( final StringBuffer buffer )
