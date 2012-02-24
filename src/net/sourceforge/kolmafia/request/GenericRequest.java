@@ -260,7 +260,7 @@ public class GenericRequest
 		if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) )
 		{
 			systemProperties.remove( "http.proxyHost" );
-			systemProperties.remove( "http.proxyHost" );
+			systemProperties.remove( "http.proxyPort" );
 		}
 		else
 		{
@@ -277,7 +277,7 @@ public class GenericRequest
 			}
 
 			systemProperties.put( "http.proxyHost", proxyHost );
-			systemProperties.put( "http.proxyPort", proxyHost );
+			systemProperties.put( "http.proxyPort", proxyPort );
 		}
 
 		// Remove the proxy user from the system properties
