@@ -151,7 +151,6 @@ public abstract class KoLmafia
 
 		JEditorPane.registerEditorKitForContentType( "text/html", RequestEditorKit.class.getName() );
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
-		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 	}
 
 	public static String currentIterationString = "";

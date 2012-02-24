@@ -33,9 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import com.velocityreviews.forums.HttpTimeoutClient;
-import com.velocityreviews.forums.HttpTimeoutHandler;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -145,13 +142,13 @@ public class GenericRequest
 	public static final int MENU_NORMAL = 3;
 	public static int topMenuStyle = 0;
 
-	public static final String[][] SERVERS =
+	public static final String[] SERVERS =
 	{
-		{ "dev.kingdomofloathing.com", "69.16.150.202" },
-		{ "www.kingdomofloathing.com", "69.16.150.211" }
+		"dev.kingdomofloathing.com",
+		"www.kingdomofloathing.com"
 	};
 
-	public static String KOL_HOST = GenericRequest.SERVERS[ 1 ][ 0 ];
+	public static String KOL_HOST = GenericRequest.SERVERS[ 1 ];
 	public static URL KOL_ROOT = null;
 	public static URL KOL_SECURE_ROOT = null;
 
@@ -204,6 +201,11 @@ public class GenericRequest
 
 	public static final void applySettings()
 	{
+		Properties systemProperties = System.getProperties();
+
+		systemProperties.put( "java.net.preferIPv4Stack", "true" );
+		systemProperties.put( "networkaddress.cache.ttl", "true" );
+
 		GenericRequest.applyProxySettings();
 
 		int defaultLoginServer = Preferences.getInteger( "defaultLoginServer" );
@@ -212,7 +214,27 @@ public class GenericRequest
 			defaultLoginServer = 0;
 		}
 
-		GenericRequest.setLoginServer( GenericRequest.SERVERS[ defaultLoginServer ][ 0 ] );
+		GenericRequest.setLoginServer( GenericRequest.SERVERS[ defaultLoginServer ] );
+
+		if ( Preferences.getBoolean( "allowSocketTimeout" ) )
+		{
+			systemProperties.put( "sun.net.client.defaultConnectTimeout", "10000" );
+			systemProperties.put( "sun.net.client.defaultReadTimeout", "120000" );
+		}
+		else
+		{
+			systemProperties.remove( "sun.net.client.defaultConnectTimeout" );
+			systemProperties.remove( "sun.net.client.defaultReadTimeout" );
+		}
+
+		if ( Preferences.getBoolean( "useSecureLogin" ) )
+		{
+			systemProperties.put( "http.referer", "https://" + GenericRequest.KOL_HOST + "/game.php" );
+		}
+		else
+		{
+			systemProperties.put( "http.referer", "http://" + GenericRequest.KOL_HOST + "/game.php" );
+		}
 	}
 
 	private static final void applyProxySettings()
@@ -238,9 +260,7 @@ public class GenericRequest
 		if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) )
 		{
 			systemProperties.remove( "http.proxyHost" );
-			systemProperties.remove( "https.proxyHost" );
 			systemProperties.remove( "http.proxyHost" );
-			systemProperties.remove( "https.proxyPort" );
 		}
 		else
 		{
@@ -257,9 +277,7 @@ public class GenericRequest
 			}
 
 			systemProperties.put( "http.proxyHost", proxyHost );
-			systemProperties.put( "https.proxyHost", proxyHost );
 			systemProperties.put( "http.proxyPort", proxyHost );
-			systemProperties.put( "https.proxyPort", proxyPort );
 		}
 
 		// Remove the proxy user from the system properties
@@ -268,16 +286,12 @@ public class GenericRequest
 		if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) || proxyUser.equals( "" ) )
 		{
 			systemProperties.remove( "http.proxyUser" );
-			systemProperties.remove( "https.proxyUser" );
 			systemProperties.remove( "http.proxyPassword" );
-			systemProperties.remove( "https.proxyPassword" );
 		}
 		else
 		{
 			systemProperties.put( "http.proxyUser", proxyUser );
-			systemProperties.put( "https.proxyUser", proxyUser );
 			systemProperties.put( "http.proxyPassword", proxyPassword );
-			systemProperties.put( "https.proxyPassword", proxyPassword );
 		}
 	}
 
@@ -302,8 +316,7 @@ public class GenericRequest
 
 		for ( int i = 0; i < GenericRequest.SERVERS.length; ++i )
 		{
-			if ( GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 0 ] ) ||
-				GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ][ 1 ] ) )
+			if ( GenericRequest.substringMatches( server, GenericRequest.SERVERS[ i ] ) )
 			{
 				GenericRequest.setLoginServer( i );
 				return;
@@ -313,18 +326,11 @@ public class GenericRequest
 
 	private static final void setLoginServer( final int serverIndex )
 	{
-		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ][ 0 ];
+		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ];
 
 		try
 		{
-			if ( Preferences.getBoolean( "connectViaAddress" ) )
-			{
-				GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.SERVERS[ serverIndex ][ 1 ], 80, "/" );
-			}
-			else
-			{
-				GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.SERVERS[ serverIndex ][ 0 ], 80, "/" );
-			}
+			GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.KOL_HOST, 80, "/" );
 		}
 		catch ( IOException e )
 		{
@@ -333,7 +339,7 @@ public class GenericRequest
 
 		try
 		{
-			GenericRequest.KOL_SECURE_ROOT = new URL( "https", GenericRequest.SERVERS[ serverIndex ][ 0 ], 443, "/" );
+			GenericRequest.KOL_SECURE_ROOT = new URL( "https", GenericRequest.KOL_HOST, 443, "/" );
 		}
 		catch ( IOException e )
 		{
@@ -341,7 +347,6 @@ public class GenericRequest
 		}
 
 		Preferences.setString( "loginServerName", GenericRequest.KOL_HOST );
-		System.setProperty( "http.referer", "http://" + GenericRequest.KOL_HOST + "/game.php" );
 	}
 
 	/**
@@ -1454,26 +1459,6 @@ public class GenericRequest
 			{
 				context = GenericRequest.KOL_ROOT;
 			}
-		}
-
-		if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "afterlife.php" ) )
-		{
-			int timeout;
-			if ( !urlString.startsWith( "login.php" ) || LoginRequest.playersOnline > 500 )
-			{
-				// 24 seconds is the default timeout
-				timeout = 24000;
-			}
-			else
-			{
-				// If we are logging in right after rollover,
-				// cut KoL some more slack and wait 120 seconds
-				timeout = 120000;
-			}
-
-			HttpTimeoutClient.setHttpTimeout( timeout );
-
-			return new URL( context, urlString, HttpTimeoutHandler.getInstance() );
 		}
 
 		return new URL( context, urlString );
