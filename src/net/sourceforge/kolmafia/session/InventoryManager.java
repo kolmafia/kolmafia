@@ -725,7 +725,7 @@ public abstract class InventoryManager
 		case KoLConstants.PIXEL:
 		case KoLConstants.MALUS:
 		case KoLConstants.STAFF:
-			scriptSaysBuy = true;
+			scriptSaysBuy = ItemDatabase.isTradeable( itemId );
 			break;
 
 		default:
@@ -1237,6 +1237,11 @@ public abstract class InventoryManager
 
 	private static boolean cheaperToBuy( AdventureResult item, int qty )
 	{
+		if ( !ItemDatabase.isTradeable( item.getItemId() ) )
+		{
+			return false;
+		}
+
 		int mallprice = StoreManager.getMallPrice( item, 7.0f ) * qty;
 		if ( mallprice <= 0 )
 		{
