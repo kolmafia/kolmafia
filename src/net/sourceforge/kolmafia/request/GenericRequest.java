@@ -56,6 +56,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import java.util.regex.Matcher;
@@ -221,9 +222,13 @@ public class GenericRequest
 			return;
 		}
 
+		Properties systemProperties = System.getProperties();
+
 		String proxySet = Preferences.getString( "proxySet" );
 		String proxyHost = Preferences.getString( "http.proxyHost" );
+		String proxyPort = Preferences.getString( "http.proxyPort" );
 		String proxyUser = Preferences.getString( "http.proxyUser" );
+		String proxyPassword = Preferences.getString( "http.proxyPassword" );
 
 		System.setProperty( "proxySet", proxySet );
 
@@ -232,14 +237,16 @@ public class GenericRequest
 
 		if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) )
 		{
-			System.getProperties().remove( "http.proxyHost" );
-			System.getProperties().remove( "http.proxyPort" );
+			systemProperties.remove( "http.proxyHost" );
+			systemProperties.remove( "https.proxyHost" );
+			systemProperties.remove( "http.proxyHost" );
+			systemProperties.remove( "https.proxyPort" );
 		}
 		else
 		{
 			try
 			{
-				System.setProperty( "http.proxyHost", InetAddress.getByName( proxyHost ).getHostAddress() );
+				proxyHost = InetAddress.getByName( proxyHost ).getHostAddress();
 			}
 			catch ( UnknownHostException e )
 			{
@@ -247,10 +254,12 @@ public class GenericRequest
 				// a stack trace for debug purposes.
 
 				StaticEntity.printStackTrace( e, "Error in proxy setup" );
-				System.setProperty( "http.proxyHost", proxyHost );
 			}
 
-			System.setProperty( "http.proxyPort", Preferences.getString( "http.proxyPort" ) );
+			systemProperties.put( "http.proxyHost", proxyHost );
+			systemProperties.put( "https.proxyHost", proxyHost );
+			systemProperties.put( "http.proxyPort", proxyHost );
+			systemProperties.put( "https.proxyPort", proxyPort );
 		}
 
 		// Remove the proxy user from the system properties
@@ -258,13 +267,17 @@ public class GenericRequest
 
 		if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) || proxyUser.equals( "" ) )
 		{
-			System.getProperties().remove( "http.proxyUser" );
-			System.getProperties().remove( "http.proxyPassword" );
+			systemProperties.remove( "http.proxyUser" );
+			systemProperties.remove( "https.proxyUser" );
+			systemProperties.remove( "http.proxyPassword" );
+			systemProperties.remove( "https.proxyPassword" );
 		}
 		else
 		{
-			System.setProperty( "http.proxyUser", proxyUser );
-			System.setProperty( "http.proxyPassword", Preferences.getString( "http.proxyPassword" ) );
+			systemProperties.put( "http.proxyUser", proxyUser );
+			systemProperties.put( "https.proxyUser", proxyUser );
+			systemProperties.put( "http.proxyPassword", proxyPassword );
+			systemProperties.put( "https.proxyPassword", proxyPassword );
 		}
 	}
 
@@ -302,11 +315,16 @@ public class GenericRequest
 	{
 		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ][ 0 ];
 
-		String root = GenericRequest.SERVERS[ serverIndex ][ Preferences.getBoolean( "connectViaAddress" ) ? 1 : 0 ];
-
 		try
 		{
-			GenericRequest.KOL_ROOT = new URL( "http", root, 80, "/" );
+			if ( Preferences.getBoolean( "connectViaAddress" ) )
+			{
+				GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.SERVERS[ serverIndex ][ 1 ], 80, "/" );
+			}
+			else
+			{
+				GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.SERVERS[ serverIndex ][ 0 ], 80, "/" );
+			}
 		}
 		catch ( IOException e )
 		{
@@ -315,7 +333,7 @@ public class GenericRequest
 
 		try
 		{
-			GenericRequest.KOL_SECURE_ROOT = new URL( "https", root, 443, "/" );
+			GenericRequest.KOL_SECURE_ROOT = new URL( "https", GenericRequest.SERVERS[ serverIndex ][ 0 ], 443, "/" );
 		}
 		catch ( IOException e )
 		{
@@ -1428,7 +1446,7 @@ public class GenericRequest
 
 		if ( !urlString.startsWith( "http:" ) && !urlString.startsWith( "https:" ) )
 		{
-			if ( urlString.contains( "login.php" ) && Preferences.getBoolean( "useSecureLogin" ) )
+			if ( Preferences.getBoolean( "useSecureLogin" ) )
 			{
 				context = GenericRequest.KOL_SECURE_ROOT;
 			}
@@ -1441,8 +1459,7 @@ public class GenericRequest
 		if ( Preferences.getBoolean( "allowSocketTimeout" ) && !urlString.startsWith( "afterlife.php" ) )
 		{
 			int timeout;
-			if ( !urlString.startsWith( "login.php" ) ||
-				LoginRequest.playersOnline > 500 )
+			if ( !urlString.startsWith( "login.php" ) || LoginRequest.playersOnline > 500 )
 			{
 				// 24 seconds is the default timeout
 				timeout = 24000;
