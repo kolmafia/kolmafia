@@ -259,6 +259,8 @@ public class GenericRequest
 		{
 			systemProperties.remove( "http.proxyHost" );
 			systemProperties.remove( "http.proxyPort" );
+			systemProperties.remove( "https.proxyHost" );
+			systemProperties.remove( "https.proxyPort" );
 		}
 		else
 		{
@@ -276,6 +278,8 @@ public class GenericRequest
 
 			systemProperties.put( "http.proxyHost", proxyHost );
 			systemProperties.put( "http.proxyPort", proxyPort );
+			systemProperties.put( "https.proxyHost", proxyHost );
+			systemProperties.put( "https.proxyPort", proxyPort );
 		}
 
 		// Remove the proxy user from the system properties
@@ -285,11 +289,15 @@ public class GenericRequest
 		{
 			systemProperties.remove( "http.proxyUser" );
 			systemProperties.remove( "http.proxyPassword" );
+			systemProperties.remove( "https.proxyUser" );
+			systemProperties.remove( "https.proxyPassword" );
 		}
 		else
 		{
 			systemProperties.put( "http.proxyUser", proxyUser );
 			systemProperties.put( "http.proxyPassword", proxyPassword );
+			systemProperties.put( "https.proxyUser", proxyUser );
+			systemProperties.put( "https.proxyPassword", proxyPassword );
 		}
 	}
 
