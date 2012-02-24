@@ -86,6 +86,8 @@ public class DailyDeedsPanel
 	public static final AdventureResult GREAT_PANTS = ItemPool.get( ItemPool.GREAT_PANTS, 1 );
 	public static final AdventureResult INFERNAL_SEAL_CLAW = ItemPool.get( ItemPool.INFERNAL_SEAL_CLAW, 1 );
 	public static final AdventureResult NAVEL_RING = ItemPool.get( ItemPool.NAVEL_RING, 1 );
+	
+	private static int simpleCount = 0;
 
 	/*
 	 * Built-in deeds. {Type, Name, ...otherArgs}
@@ -228,7 +230,7 @@ public class DailyDeedsPanel
 			return 1;
 		else
 			return 0;
-	};
+	}
 
 	public DailyDeedsPanel()
 	{
@@ -266,6 +268,8 @@ public class DailyDeedsPanel
 		{
 			return;
 		}
+		
+		int sCount = 0;
 
 		String[][] fullDeedsList = DailyDeedsPanel.BUILTIN_DEEDS;
 		String deedsString = Preferences.getString( "dailyDeedsOptions" );
@@ -353,8 +357,14 @@ public class DailyDeedsPanel
 				{
 					parseComboDeed( customPieces );
 				}
+				else if ( customPieces[ 0 ].equalsIgnoreCase( "Simple" ) )
+				{
+					parseSimpleDeed( customPieces, sCount );
+					++sCount;
+				}
 			}
 		}
+		DailyDeedsPanel.simpleCount = sCount;
 	}
 
 	private void parseComboDeed( String[] deedsString )
@@ -641,6 +651,58 @@ public class DailyDeedsPanel
 			}
 		}
 	}
+	private void parseSimpleDeed( String[] deedsString, int sCount )
+	{
+		if ( deedsString.length < 2 || deedsString.length > 4 )
+		{
+			RequestLogger
+				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Simple. (2, 3, or 4)" );
+			return;
+		}
+
+		if ( deedsString.length == 2 )
+		{
+			/*
+			 * Simple|displayText
+			 * command is the same as displayText
+			 */
+			// Use the display text for the command if none was specified
+			String command = deedsString[ 1 ];
+
+			this.add( new SimpleDaily( command, sCount ) );
+		}
+		else if ( deedsString.length == 3 )
+		{
+			/*
+			 * Simple|displayText|command
+			 */
+			String displayText = deedsString[ 1 ];
+			String command = deedsString[ 2 ];
+
+			this.add( new SimpleDaily( displayText, command, sCount ) );
+		}
+		else if ( deedsString.length == 4 )
+		{
+			/*
+			 * Simple|displayText|command|maxPref
+			 */
+
+			String displayText = deedsString[ 1 ];
+			String command = deedsString[ 2 ];
+			try
+			{
+				int maxPref = Integer.parseInt( deedsString[ 3 ] );
+
+				this.add( new SimpleDaily( displayText, command, maxPref, sCount ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: Simple deeds require an int for the fourth parameter." );
+			}
+		}
+	}
+
 	private void parseSpecialDeed( String[] deedsString )
 	{
 		if ( deedsString[ 1 ].equals( "Submit Spading Data" ) )
@@ -1272,6 +1334,111 @@ public class DailyDeedsPanel
 					String[] item = (String[]) packedDeed.get( choice - 1 );
 					setComboTarget( btn, item[ 3 ] );
 				}
+			}
+		}
+	}
+
+	public static class SimpleDaily
+		extends Daily
+	{
+		String preference;
+		int maxPref = 1;
+
+		/**
+		 * @param command
+		 *                the command to execute. This will also be the displayed button text.
+		 * @param sCount 
+		 */
+
+		public SimpleDaily( String command, int sCount )
+		{
+			this.preference = "_simpleDeed" + sCount;
+			this.addListener( preference );
+			JButton button = this.addButton( command );
+			button.addActionListener( new SimpleListener( this.preference ) );
+		}
+
+		/**
+		 * @param displayText
+		 *                the text that will be displayed on the button
+		 * @param command
+		 *                the command to execute.
+		 * @param sCount 
+		 */
+
+		public SimpleDaily( String displayText, String command, int sCount )
+		{
+			this.preference = "_simpleDeed" + sCount;
+			this.addListener( preference );
+			JButton button = this.addComboButton( command, displayText );
+			button.addActionListener( new SimpleListener( this.preference ) );
+		}
+
+		/**
+		 * @param displayText
+		 *                the text that will be displayed on the button
+		 * @param command
+		 *                the command to execute.
+		 * @param maxPref
+		 *                the integer at which to disable the button.
+		 * @param sCount 
+		 */
+		public SimpleDaily( String displayText, String command, int maxPref, int sCount )
+		{
+			this.preference = "_simpleDeed" + sCount;
+			this.maxPref = maxPref;
+			this.addListener( preference );
+			JButton button = this.addComboButton( command, displayText );
+			button.addActionListener( new SimpleListener( this.preference ) );
+			this.addLabel( "" );
+		}
+
+		private int getSimpleCount()
+		{
+			return DailyDeedsPanel.simpleCount;
+		}
+
+		public void update()
+		{
+			int prefToInt = 1;
+			String pref = Preferences.getString( this.preference );
+			if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
+				|| pref.equalsIgnoreCase( "" ) )
+			{
+				prefToInt = pref.equalsIgnoreCase( "true" ) ? 1 : 0;
+			}
+			else
+			{
+				try
+				{
+					prefToInt = Integer.parseInt( pref );
+				}
+				catch ( NumberFormatException e )
+				{
+				}
+			}
+			this.setEnabled( prefToInt < this.maxPref );
+			if ( this.maxPref > 1 )
+			{
+				this.setText( prefToInt + "/" + this.maxPref );
+			}
+		}
+
+		private class SimpleListener
+			implements ActionListener
+		{
+			String preference;
+
+			public SimpleListener( String pref )
+			{
+				this.preference = pref;
+			}
+
+			public void actionPerformed( ActionEvent arg0 )
+			{
+				String pref = this.preference;
+				int value = Preferences.getInteger( pref );
+				Preferences.setInteger( pref, ++value );
 			}
 		}
 	}
