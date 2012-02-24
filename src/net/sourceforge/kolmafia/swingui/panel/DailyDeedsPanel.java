@@ -86,8 +86,6 @@ public class DailyDeedsPanel
 	public static final AdventureResult GREAT_PANTS = ItemPool.get( ItemPool.GREAT_PANTS, 1 );
 	public static final AdventureResult INFERNAL_SEAL_CLAW = ItemPool.get( ItemPool.INFERNAL_SEAL_CLAW, 1 );
 	public static final AdventureResult NAVEL_RING = ItemPool.get( ItemPool.NAVEL_RING, 1 );
-	
-	private static int simpleCount = 0;
 
 	/*
 	 * Built-in deeds. {Type, Name, ...otherArgs}
@@ -364,7 +362,6 @@ public class DailyDeedsPanel
 				}
 			}
 		}
-		DailyDeedsPanel.simpleCount = sCount;
 	}
 
 	private void parseComboDeed( String[] deedsString )
@@ -1391,11 +1388,6 @@ public class DailyDeedsPanel
 			JButton button = this.addComboButton( command, displayText );
 			button.addActionListener( new SimpleListener( this.preference ) );
 			this.addLabel( "" );
-		}
-
-		private int getSimpleCount()
-		{
-			return DailyDeedsPanel.simpleCount;
 		}
 
 		public void update()
