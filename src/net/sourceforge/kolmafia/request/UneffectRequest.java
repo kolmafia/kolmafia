@@ -333,7 +333,7 @@ public class UneffectRequest
 
 		if ( action.startsWith( "cast " ) )
 		{
-			String skillName = remover.substring( 5 );
+			String skillName = action.substring( 5 );
 
 			if ( !KoLCharacter.hasSkill( skillName ) )
 			{
@@ -342,7 +342,7 @@ public class UneffectRequest
 		}
 		else if ( action.startsWith( "skill " ) )
 		{
-			String skillName = remover.substring( 6 );
+			String skillName = action.substring( 6 );
 
 			if ( !KoLCharacter.hasSkill( skillName ) )
 			{
