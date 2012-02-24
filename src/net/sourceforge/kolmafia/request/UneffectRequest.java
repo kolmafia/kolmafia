@@ -333,6 +333,8 @@ public class UneffectRequest
 
 		if ( !action.equals( "" ) && !action.startsWith( "uneffect " ) )
 		{
+			KoLmafia.updateDisplay( name + " will be removed via pre-defined trigger (" + action + ")..." );
+
 			return action;
 		}
 
@@ -368,6 +370,8 @@ public class UneffectRequest
 
 				if ( KoLCharacter.hasSkill( skillName ) )
 				{
+					KoLmafia.updateDisplay( name + " will be removed by " + skillName + "..." );
+
 					return remover;
 				}
 			}
@@ -377,22 +381,20 @@ public class UneffectRequest
 
 				int itemId = ItemDatabase.getItemId( itemName );
 
-				if ( InventoryManager.hasItem( itemId ) )
+				if ( InventoryManager.hasItem( itemId ) ||
+					Preferences.getBoolean( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( itemName ) ||
+					!hasRemedy && KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
 				{
-					return remover;
-				}
-				else if ( Preferences.getBoolean( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( itemName ) )
-				{
-					return remover;
-				}
-				else if ( !hasRemedy && KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
-				{
+					KoLmafia.updateDisplay( name + " will be removed by " + itemName + "..." );
+
 					return remover;
 				}
 			}
 		}
 
 		// Default to using a remedy.
+
+		KoLmafia.updateDisplay( name + " cannot be removed with an available item or skill..." );
 
 		return "uneffect " + name;
 	}
@@ -429,14 +431,22 @@ public class UneffectRequest
 			return;
 		}
 
-		if ( !this.isShruggable && !InventoryManager.retrieveItem( ItemPool.REMEDY ) )
+		if ( this.isTimer )
+		{
+			KoLmafia.updateDisplay( "Canceling your timer..." );
+		}
+		else if ( this.isShruggable )
+		{
+			KoLmafia.updateDisplay( "Shrugging off your buff..." );
+		}
+		else if ( InventoryManager.retrieveItem( ItemPool.REMEDY ) )
+		{
+			KoLmafia.updateDisplay( "Using soft green whatever..." );
+		}
+		else
 		{
 			return;
 		}
-
-		KoLmafia.updateDisplay( this.isTimer ? "Canceling your timer..." :
-					this.isShruggable ? "Shrugging off your buff..." :
-					"Using soft green whatever..." );
 
 		super.run();
 	}

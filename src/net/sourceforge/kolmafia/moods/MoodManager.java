@@ -651,7 +651,7 @@ public abstract class MoodManager
 
 	public static final void removeMalignantEffects()
 	{
-		for ( int i = 0; i < MoodManager.AUTO_CLEAR.length; ++i )
+		for ( int i = 0; i < MoodManager.AUTO_CLEAR.length && KoLmafia.permitsContinue(); ++i )
 		{
 			AdventureResult effect = MoodManager.AUTO_CLEAR[ i ];
 
