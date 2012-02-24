@@ -2027,13 +2027,13 @@ public class RequestEditorKit
 
 	private static final void addNavigationLink( final StringBuffer buffer, final String tag, final String url )
 	{
-		int index = buffer.lastIndexOf( "<tr><td height=4></td></tr></table>" );
+		int index = buffer.indexOf( "<b>Results:</b>" );
 		if ( index == -1 )
 		{
 			return;
 		}
 
-		index = buffer.lastIndexOf( "</table>", index );
+		index = buffer.indexOf( "</table>", index );
 		if ( index == -1 )
 		{
 			return;
