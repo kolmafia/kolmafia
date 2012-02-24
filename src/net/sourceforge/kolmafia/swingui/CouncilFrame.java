@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
 
@@ -162,6 +163,10 @@ public class CouncilFrame
 		else if ( location.startsWith( "postwarisland" ) )
 		{
 			IslandDecorator.parsePostwarIsland( location, responseText );
+		}
+		else if ( location.startsWith( "questlog" ) )
+		{
+			QuestLogRequest.registerQuests( false, location, responseText );
 		}
 		else if ( location.startsWith( "beach.php?action=woodencity" ) )
 		{

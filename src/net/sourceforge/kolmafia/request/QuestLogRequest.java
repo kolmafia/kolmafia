@@ -124,26 +124,12 @@ public class QuestLogRequest
 		this.addFormField( "which", "3" );
 		super.run();
 
-		if ( this.responseText != null )
-		{
-			QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
-		}
-
 		this.addFormField( "which", "2" );
 		super.run();
-
-		if ( this.responseText != null )
-		{
-			QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
-		}
 
 		this.addFormField( "which", "1" );
 		super.run();
 
-		if ( this.responseText != null )
-		{
-			QuestLogRequest.registerQuests( false, this.getURLString(), this.responseText );
-		}
 	}
 
 	protected boolean retryOnTimeout()
