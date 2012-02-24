@@ -293,7 +293,7 @@ Decal-applying Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthet
 Decent Lumberjack	HP: 35 Def: 35 Atk: 35 Meat: 16-24 P: humanoid	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
 Decent White Shark	HP: 600 Def: 375 Atk: 425 Meat: 192-288 P: fish	dull fish scale (n15)	shark cartilage (c10)	shark jumper (c3)	shark tooth (n2)	shark tooth (n1)
 Demonic Icebox	HP: 5 Def: 5 Atk: 4 Meat: 4-6 P: demon	accidental cider (0)	ancient frozen dinner (30)	dire fudgesicle (0)	leftovers of indeterminate origin (40)	hand grenegg (p20)
-Demoninja	HP: 48 Def: 30 Atk: 48 E: heat Meat: 40-60 P: demon	fraudwort (c50)	hot katana blade (30)	ninja hot pants (5)
+Demoninja	HP: 48 Def: 30 Atk: 48 E: heat Meat: 40-60 P: demon	demon skin (15)	fraudwort (c50)	hot katana blade (30)	ninja hot pants (5)
 Dirty Hippy	HP: 30 Def: 40 Atk: 40 E: stench P: hippy	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (2)	hippy bongo (0)	Spanish fly (c25)
 Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench P: hippy	beach glass bead (10)	clay peace-sign bead (10)	filthy corduroys (5)	filthy knitted dread sack (2)	hemp string (30)	hippy bongo (0)	phat turquoise bead (10)	reodorant (5)	Spanish fly (c25)
 Dirty Hippy Vegan Chef	HP: 30 Def: 40 Atk: 40 E: stench P: hippy	carob chunks (30)	double-barreled sling (0)	filthy knitted dread sack (5)	Uncle Jick's Brownie Mix (30)	reodorant (5)	filthy corduroys (2)	filthy pestle (5)	Spanish fly (c25)
@@ -350,7 +350,7 @@ Evil Vihuela-playing Mariachi	HP: 21 Def: 24 Atk: 24 P: humanoid	a creased paper
 eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench P: hippy	eXtreme mittens (5)	eXtreme scarf (10)	Mountain Stream soda (30)	enchanted handwarmer (p5)
 eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 74 Meat: 32-48 E: sleaze P: orc	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p5)	eXtreme Bi-Polar Fleece Vest (c5)
 eXtreme Sports Orcs	HP: 30 Def: 38 Atk: 38 E: sleaze Meat: 24-36 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
-Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-54 P: demon	evil golden arch (30)	infernal insoles (10)
+Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat Meat: 36-54 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)
 Family of Kobolds	Atk: 100000	kobold treasure hoard (100)
 Fan Slime	HP: 150 Def: 140 Atk: 140 P: slime	vial of yellow slime (f66)
 Fancy Bath Slug	HP: 100000 Def: 100000 Atk: 100000
