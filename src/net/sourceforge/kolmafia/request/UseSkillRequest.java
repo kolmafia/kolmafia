@@ -1429,12 +1429,9 @@ public class UseSkillRequest
 
 		case UseSkillRequest.OTTER_TONGUE:
 		case UseSkillRequest.WALRUS_TONGUE:
-			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
-			break;
-
 		case UseSkillRequest.DISCO_NAP:
 		case UseSkillRequest.POWER_NAP:
-			KoLConstants.activeEffects.clear();
+			UneffectRequest.removeEffectsWithSkill( skillId );
 			break;
 
 		case SkillDatabase.SMILE_OF_MR_A:

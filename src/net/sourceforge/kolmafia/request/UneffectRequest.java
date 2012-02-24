@@ -253,11 +253,10 @@ public class UneffectRequest
 	}
 
 	private static Set REMOVABLE_EFFECTS;
+	private static Map skillRemoveMap = new LinkedHashMap();
 
 	static
 	{
-		Map skillRemoveMap = new LinkedHashMap();
-
 		Set removableEffects = new HashSet();
 		skillRemoveMap.put( "use 1 anti-anti-antidote", removableEffects );
 		removableEffects.add( "Hardly Poisoned at All" );
@@ -321,6 +320,48 @@ public class UneffectRequest
 		removableEffects.add( "Beaten Up" );
 
 		UneffectRequest.REMOVABLE_EFFECTS = skillRemoveMap.entrySet();
+	}
+
+	public static void removeEffectsWithItem( final int itemId )
+	{
+		String itemName = ItemDatabase.getItemName( itemId );
+		if ( itemName == null )
+		{
+			return;
+		}
+
+		String remover = "use 1 " + itemName;
+		HashSet effects = (HashSet)UneffectRequest.skillRemoveMap.get( remover );
+		UneffectRequest.removeEffects( effects );
+	}
+
+	public static void removeEffectsWithSkill( final int skillId )
+	{
+		String skillName = SkillDatabase.getSkillName( skillId );
+		if ( skillName == null )
+		{
+			return;
+		}
+
+		String remover = "cast " + skillName;
+		HashSet effects = (HashSet)UneffectRequest.skillRemoveMap.get( remover );
+		UneffectRequest.removeEffects( effects );
+	}
+
+	private static void removeEffects( final HashSet effects )
+	{
+		if ( effects == null )
+		{
+			return;
+		}
+
+		Iterator it = effects.iterator();
+		while ( it.hasNext() )
+		{
+			String name = (String)it.next();
+			AdventureResult effect = new AdventureResult( name, 1, true );
+			KoLConstants.activeEffects.remove( effect );
+		}
 	}
 
 	private String getAction()
