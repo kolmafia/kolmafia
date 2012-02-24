@@ -116,6 +116,11 @@ public class LoginRequest
 
 		GenericRequest.applySettings();
 
+		if ( Preferences.getBoolean( "useSecureLogin" ) )
+		{
+			return false;
+		}
+
 		String lowercase = this.username.toLowerCase();
 
 		// This used to automatically force a "whitelist" of other
@@ -166,17 +171,12 @@ public class LoginRequest
 			KoLmafia.updateDisplay( LoginRequest.playersOnline + " players online." );
 		}
 
+		String challenge = challengeMatcher.group( 1 );
+		String response = null;
+
 		try
 		{
-			this.constructURLString( "login.php" );
-			String challenge = challengeMatcher.group( 1 );
-
-			this.addFormField( "secure", "0" );
-			this.addFormField( "password", this.password );
-			this.addFormField( "challenge", challenge );
-			this.addFormField( "response", "" );
-
-			return true;
+			response = LoginRequest.digestPassword( password, challenge );
 		}
 		catch ( Exception e )
 		{
@@ -185,6 +185,15 @@ public class LoginRequest
 
 			return false;
 		}
+
+		this.constructURLString( "login.php" );
+
+		this.addFormField( "password", "" );
+		this.addFormField( "challenge", challenge );
+		this.addFormField( "response", response );
+		this.addFormField( "secure", "1" );
+
+		return true;
 	}
 
 	private static final String digestPassword( final String password, final String challenge )
@@ -246,19 +255,18 @@ public class LoginRequest
 
 		KoLmafia.forceContinue();
 
-		String loginName = Preferences.getBoolean( "stealthLogin" ) ? this.username + "/q" : this.username;
-		if ( this.detectChallenge() )
+		if ( !this.detectChallenge() )
 		{
-			this.addFormField( "loginname", loginName );
-		}
-		else
-		{
+			this.constructURLString( "login.php" );
 			this.clearDataFields();
-			this.addFormField( "loginname", loginName );
+
 			this.addFormField( "password", this.password );
+			this.addFormField( "secure", "0" );
 		}
 
+		this.addFormField( "loginname", Preferences.getBoolean( "stealthLogin" ) ? this.username + "/q" : this.username );
 		this.addFormField( "loggingin", "Yup." );
+
 		KoLmafia.updateDisplay( "Sending login request..." );
 
 		super.run();
