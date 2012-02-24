@@ -331,6 +331,25 @@ public class UneffectRequest
 
 		String action = MoodManager.getDefaultAction( "gain_effect", name );
 
+		if ( action.startsWith( "cast " ) )
+		{
+			String skillName = remover.substring( 5 );
+
+			if ( !KoLCharacter.hasSkill( skillName ) )
+			{
+				action = "";
+			}
+		}
+		else if ( action.startsWith( "skill " ) )
+		{
+			String skillName = remover.substring( 6 );
+
+			if ( !KoLCharacter.hasSkill( skillName ) )
+			{
+				action = "";
+			}
+		}
+
 		if ( !action.equals( "" ) && !action.startsWith( "uneffect " ) )
 		{
 			KoLmafia.updateDisplay( name + " will be removed via pre-defined trigger (" + action + ")..." );
