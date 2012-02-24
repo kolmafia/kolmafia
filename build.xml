@@ -64,10 +64,14 @@
 	<!--  guesses the SVN revision of the local repository  -->
 	<!-- ================================================== -->
 
-	<target name="version" depends="svn-version,gitsvn-version">
+	<target name="version" depends="svn-version,gitsvn-version" if="revision">
 
-		<property name="revision" value="0" />
 		<echo message="Current revision: ${revision}" />
+
+		<replace
+			file="${KoLConstants}"
+			token="REVISION = null"
+			value="REVISION = &quot;${revision}&quot;" />
 
 	</target>
 
@@ -94,6 +98,19 @@
 			<arg value="-c" />
 			<arg value="git svn info | grep '^Revision: [0-9]*$' | awk '{ print $2 }'" />
 		</exec>
+
+	</target>
+
+	<!-- ======================================================== -->
+	<!--  reverts any changes involved with setting the revision  -->
+	<!-- ======================================================== -->
+
+	<target name="unversion" depends="svn-version,gitsvn-version" if="revision">
+
+		<replace
+			file="${KoLConstants}"
+			token="REVISION = &quot;${revision}&quot;"
+			value="REVISION = null" />
 
 	</target>
 
@@ -147,7 +164,7 @@
 	<!--  generate class files  -->
 	<!-- ====================== -->
 
-	<target name="compile" depends="init,jikeshome,javahome,version">
+	<target name="compile" depends="init,jikeshome,javahome">
 
 		<echo message="Using ${build.compiler} compiler" />
 
@@ -174,10 +191,7 @@
 			</fileset>
 		</copy>
 
-		<replace
-			file="${KoLConstants}"
-			token="REVISION = null"
-			value="REVISION = &quot;${revision}&quot;" />
+		<antcall target="version" />
 
 		<javac
 			compiler="${build.compiler}"
@@ -193,19 +207,16 @@
 			includeantruntime="false"
 			errorProperty="compile.failed" />
 
+		<antcall target="unversion" />
+
+		<fail if="compile.failed" message="Failed to compile KoLmafia source code" />
+
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${src}">
 				<exclude name="**/*.jar" />
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
-
-		<replace
-			file="${KoLConstants}"
-			token="REVISION = &quot;${revision}&quot;"
-			value="REVISION = null" />
-
-		<fail if="compile.failed" message="Failed to compile KoLmafia source code" />
 
 	</target>
 
