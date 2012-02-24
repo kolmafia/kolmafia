@@ -129,13 +129,13 @@
 
 		<delete dir="${appfile}" failonerror="false" />
 
-		<delete failonerror="false">
-			<fileset dir="${build}" defaultexcludes="no" followsymlinks="false" includes="**/**" />
-			<fileset dir="${docs}" defaultexcludes="no" followsymlinks="false" includes="**/**" />
-			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" includes="**/**.jar" />
-			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" includes="**/**.tar.gz" />
-			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" includes="**/**.exe" />
-			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="false" includes="**/**.deb" />
+		<delete failonerror="false" includeemptydirs="true">
+			<fileset dir="${build}" defaultexcludes="no" followsymlinks="true" includes="**/*" />
+			<fileset dir="${docs}" defaultexcludes="no" followsymlinks="true" includes="**/*" />
+			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="true" includes="*.jar" />
+			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="true" includes="*.tar.gz" />
+			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="true" includes="*.exe" />
+			<fileset dir="${dist}" defaultexcludes="no" followsymlinks="true" includes="*.deb" />
 		</delete>
 
 	</target>
