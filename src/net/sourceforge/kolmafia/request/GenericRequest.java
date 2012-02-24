@@ -252,8 +252,6 @@ public class GenericRequest
 		String proxyUser = Preferences.getString( "http.proxyUser" );
 		String proxyPassword = Preferences.getString( "http.proxyPassword" );
 
-		System.setProperty( "proxySet", proxySet );
-
 		// Remove the proxy host from the system properties
 		// if one isn't specified, or proxy setting is off.
 
