@@ -179,7 +179,7 @@ public interface KoLConstants
 			"CommandDisplayFrame"
 		},
 		{
-			"Player Status",
+			"Daily Deeds",
 			"CharSheetFrame"
 		},
 		{

@@ -375,7 +375,7 @@ public class KoLDesktop
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new DisplayFrameButton( "Player Status", "hp.gif", "CharSheetFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Daily Deeds", "hp.gif", "CharSheetFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", "ItemManageFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", "equipment.gif", "GearChangeFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", "StoreManageFrame" ) );
