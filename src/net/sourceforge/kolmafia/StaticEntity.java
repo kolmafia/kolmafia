@@ -436,17 +436,9 @@ public abstract class StaticEntity
 			StaticEntity.printStackTrace( cause, message, RequestLogger.getDebugStream() );
 		}
 
-		try
+		if ( shouldOpenStream )
 		{
-			if ( shouldOpenStream )
-			{
-				RequestLogger.closeDebugLog();
-			}
-		}
-		catch ( Exception e )
-		{
-			// Okay, since you're in the middle of handling an
-			// exception and got a new one, just return from here.
+			RequestLogger.closeDebugLog();
 		}
 	}
 

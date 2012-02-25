@@ -39,12 +39,16 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
+
+import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class TestCommand
 	extends AbstractCommand
@@ -87,6 +91,33 @@ public class TestCommand
 		if ( TestCommand.contents == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "no HTML loaded." );
+		}
+
+		if ( command.equals( "charpane" ) )
+		{
+			StringBuffer buffer = new StringBuffer( TestCommand.contents );
+			boolean oldCompact  = CharPaneRequest.compactCharacterPane;
+			boolean oldFamiliar  = CharPaneRequest.familiarBelowEffects;
+
+			CharPaneRequest.compactCharacterPane = true;
+			CharPaneRequest.familiarBelowEffects = false;
+			CharPaneDecorator.decorate( buffer );
+			CharPaneRequest.compactCharacterPane = oldCompact;
+			CharPaneRequest.familiarBelowEffects = oldFamiliar;
+
+			boolean shouldOpenStream = !RequestLogger.isDebugging();
+			if ( shouldOpenStream )
+			{
+				RequestLogger.openDebugLog();
+			}
+			RequestLogger.updateDebugLog( buffer.toString() );
+			if ( shouldOpenStream )
+			{
+				RequestLogger.closeDebugLog();
+			}
+
+			TestCommand.contents = null;
+			return;
 		}
 
 		if ( command.equals( "equipment" ) )

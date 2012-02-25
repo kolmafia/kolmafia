@@ -637,10 +637,14 @@ public class CharPaneDecorator
 
 		if ( CharPaneRequest.compactCharacterPane )
 		{
-			int intrinsics = CharPaneDecorator.getIntrinsicIndex( buffer );
 			int effectIndex = buffer.indexOf( "eff(" );
+			if ( effectIndex == -1 )
+			{
+				return null;
+			}
 
-			if ( effectIndex == -1 || effectIndex > intrinsics )
+			int intrinsics = CharPaneDecorator.getIntrinsicIndex( buffer );
+			if ( intrinsics != -1 && effectIndex > intrinsics )
 			{
 				return null;
 			}
