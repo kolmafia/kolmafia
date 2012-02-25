@@ -1759,6 +1759,19 @@ public class RelayRequest
 			}
 		}
 
+		// If the person is unlocking the easter egg balloon, retrieve a balloon
+		// monkey first
+
+		else if ( path.startsWith( "lair2.php" ) )
+		{
+			String key = this.getFormField( "whichkey" );
+
+			if ( key != null && key.equals( "436" ) )
+			{
+				InventoryManager.retrieveItem( ItemPool.BALLOON_MONKEY );
+			}
+		}
+
 		// If it gets this far, it's a normal file.  Go ahead and
 		// process it accordingly.
 
