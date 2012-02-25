@@ -334,7 +334,7 @@ public class CouncilFrame
 		if ( oreMatcher.find() )
 		{
 			Preferences.setString( "trapperOre", oreMatcher.group( 1 ) + " ore" );
-			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, "step1" );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.TRAPPER, "step1" );
 		}
 
 		if ( responseText.indexOf( "Thanks for yer help, Adventurer" ) != -1 ||
@@ -356,22 +356,22 @@ public class CouncilFrame
 		if ( responseText.indexOf( "asbestos" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "asbestos ore", -3, false ) );
-			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, "step2" );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.TRAPPER, "step2" );
 		}
 		else if ( responseText.indexOf( "linoleum" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "linoleum ore", -3, false ) );
-			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, "step2" );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.TRAPPER, "step2" );
 		}
 		else if ( responseText.indexOf( "chrome" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "chrome ore", -3, false ) );
-			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, "step2" );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.TRAPPER, "step2" );
 		}
 		else if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "goat cheese", -6, false ) );
-			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, "step3" );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.TRAPPER, "step3" );
 		}
 	}
 
