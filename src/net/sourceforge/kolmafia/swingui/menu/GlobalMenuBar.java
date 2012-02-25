@@ -83,7 +83,7 @@ public class GlobalMenuBar
 
 		statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayFrameMenuItem( "Player Status", "CharSheetFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Daily Deeds", "CharSheetFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", "ItemManageFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", "GearChangeFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Skill Casting", "SkillBuffFrame" ) );

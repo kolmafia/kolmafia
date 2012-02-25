@@ -65,7 +65,7 @@ public class CharSheetFrame
 
 	public CharSheetFrame()
 	{
-		super( "Player Status" );
+		super( "Daily Deeds" );
 
 		JPanel statusPanel = new JPanel( new BorderLayout( 10, 10 ) );
 
@@ -101,7 +101,7 @@ public class CharSheetFrame
 
 	public boolean useSidePane()
 	{
-		return true;
+		return false;
 	}
 
 	/**
