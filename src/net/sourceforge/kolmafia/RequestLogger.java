@@ -425,8 +425,14 @@ public class RequestLogger
 
 	public static final void closeDebugLog()
 	{
-		RequestLogger.debugStream.close();
-		RequestLogger.debugStream = NullStream.INSTANCE;
+		try
+		{
+			RequestLogger.debugStream.close();
+			RequestLogger.debugStream = NullStream.INSTANCE;
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	public static final void updateDebugLog()
