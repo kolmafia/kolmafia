@@ -3496,6 +3496,12 @@ public abstract class KoLCharacter
 		{
 			return 0;
 		}
+		
+		if ( !KoLCharacter.getGuildStoreOpen() )
+		{
+			// If we haven't unlocked the guild, the still isn't available.
+			return 0;
+		}
 
 		if ( KoLCharacter.stillsAvailable == -1 )
 		{
