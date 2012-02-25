@@ -1269,7 +1269,7 @@ public abstract class SorceressLairManager
 
 		FamiliarData starfish = KoLCharacter.findFamiliar( "Star Starfish" );
 
-		if ( starfish == null )
+		if ( !KoLCharacter.inAxecore() && starfish == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't own a Star Starfish!" );
 			return requirements;
@@ -1300,8 +1300,13 @@ public abstract class SorceressLairManager
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) );
 			RequestThread.postRequest( new EquipmentRequest( starWeapon, EquipmentManager.WEAPON ) );
 		}
+
 		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.STAR_HAT, EquipmentManager.HAT ) );
-		RequestThread.postRequest( new FamiliarRequest( starfish ) );
+
+		if ( !KoLCharacter.inAxecore() )
+		{
+			RequestThread.postRequest( new FamiliarRequest( starfish ) );
+		}
 
 		KoLmafia.updateDisplay( "Inserting Richard's star key..." );
 		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SorceressLairManager.RICHARD.getItemId() ) );
