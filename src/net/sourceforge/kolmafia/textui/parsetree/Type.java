@@ -336,6 +336,11 @@ public class Type
 	{
 		return false;
 	}
+	
+	public Value execute( final Interpreter interpreter )
+	{
+		return null;
+	}
 
 	public void print( final PrintStream stream, final int indent )
 	{

@@ -109,4 +109,27 @@ public class If
 			currentElse.print( stream, indent );
 		}
 	}
+	
+	public boolean assertReturn()
+	{	// Summary: an If returns if every contained block of code
+		// returns, and the final block is an Else (not an ElseIf).
+		if ( !this.getScope().assertReturn() )
+		{
+			return false;
+		}
+		
+		Iterator it = this.elseLoops.iterator();
+		Conditional elseLoop = null;
+
+		while ( it.hasNext() )
+		{
+			elseLoop = (Conditional) it.next();
+			if ( !elseLoop.getScope().assertReturn() )
+			{
+				return false;
+			}
+		}
+	
+		return elseLoop instanceof Else;
+	}
 }

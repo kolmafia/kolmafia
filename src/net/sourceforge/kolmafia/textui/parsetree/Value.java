@@ -39,7 +39,8 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class Value
-	implements ParseTreeNode, Comparable
+	extends ParseTreeNode
+	implements Comparable
 {
 	public Type type;
 

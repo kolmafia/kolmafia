@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class SortBy
-	implements ParseTreeNode
+	extends ParseTreeNode
 {
 	private final VariableReference aggregate;
 	private final Variable indexvar, valuevar;

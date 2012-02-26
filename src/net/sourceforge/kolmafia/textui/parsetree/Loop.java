@@ -39,7 +39,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public abstract class Loop
-	implements ParseTreeNode
+	extends ParseTreeNode
 {
 	private Scope scope;
 

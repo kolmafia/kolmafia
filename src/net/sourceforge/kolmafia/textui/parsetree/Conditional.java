@@ -39,7 +39,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public abstract class Conditional
-	implements ParseTreeNode
+	extends ParseTreeNode
 {
 	public Scope scope;
 	private final Value condition;

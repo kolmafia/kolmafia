@@ -48,4 +48,9 @@ public class ScriptExit
 		super.execute( interpreter );
 		return null;
 	}
+	
+	public boolean assertReturn()
+	{
+		return true;
+	}
 }

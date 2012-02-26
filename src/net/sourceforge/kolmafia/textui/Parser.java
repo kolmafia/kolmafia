@@ -704,7 +704,7 @@ public class Parser
 		     // The following clause can't be correct. I think it
 		     // depends on the various conditional & loop constructs
 		     // returning a boolean. Or something. But without it,
-		     // existing scripts break. Aargh!
+		     // existing scripts break. Aargh!!!
 		     && !functionType.equals( DataTypes.TYPE_BOOLEAN )
 		   )
 		{

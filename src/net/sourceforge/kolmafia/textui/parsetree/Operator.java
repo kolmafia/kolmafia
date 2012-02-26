@@ -40,7 +40,7 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;
 
 public class Operator
-	implements ParseTreeNode
+	extends ParseTreeNode
 {
 	String operator;
 

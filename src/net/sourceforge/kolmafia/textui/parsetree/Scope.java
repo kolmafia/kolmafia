@@ -82,11 +82,7 @@ public class Scope
 		{
 			return false;
 		}
-		if ( this.commands.get( size - 1 ) instanceof FunctionReturn )
-		{
-			return true;
-		}
-		return false;
+		return this.commands.get( size - 1 ).assertReturn();
 	}
 }
 

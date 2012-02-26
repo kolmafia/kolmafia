@@ -41,7 +41,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class FunctionReturn
-	implements ParseTreeNode
+	extends ParseTreeNode
 {
 	private final Value returnValue;
 	private final Type expectedType;
@@ -151,5 +151,10 @@ public class FunctionReturn
 		{
 			this.returnValue.print( stream, indent + 1 );
 		}
+	}
+	
+	public boolean assertReturn()
+	{
+		return true;
 	}
 }
