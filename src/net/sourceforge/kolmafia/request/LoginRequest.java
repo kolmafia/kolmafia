@@ -116,22 +116,18 @@ public class LoginRequest
 
 		GenericRequest.applySettings();
 
-		if ( Preferences.getBoolean( "useSecureLogin" ) )
-		{
-			return false;
-		}
-
 		String lowercase = this.username.toLowerCase();
 
-		// This used to automatically force a "whitelist" of other
-		// developers - holatuwol, hogulus, armak - to the dev server
-		// as well, but when the code running on the dev server was
-		// sufficiently changed that KoLmafia couldn't parse the
-		// inventory anymore, Armak called for help.
+		// If this is a devster, login to the dev server.
 
 		if ( lowercase.startsWith( "devster" ) )
 		{
 			GenericRequest.setLoginServer( "dev.kingdomofloathing.com" );
+		}
+
+		if ( Preferences.getBoolean( "useSecureLogin" ) )
+		{
+			return false;
 		}
 
 		KoLmafia.updateDisplay( "Validating login server (" + GenericRequest.KOL_HOST + ")..." );

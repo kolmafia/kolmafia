@@ -42,8 +42,6 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -63,6 +61,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LoginRequest;
 
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
+import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
@@ -78,14 +77,9 @@ public class LoginFrame
 {
 	private static LoginFrame INSTANCE = null;
 
-	private String username;
-	private JComboBox servers;
-	private JComponent usernameField;
-
-	private AutoHighlightTextField proxyHost;
-	private AutoHighlightTextField proxyPort;
-	private AutoHighlightTextField proxyLogin;
-	private AutoHighlightTextField proxyPassword;
+	private LoginPanel loginPanel = new LoginPanel();
+	private ProxyOptionsPanel httpProxyOptions = new ProxyOptionsPanel( "http" );
+	private ProxyOptionsPanel httpsProxyOptions = new ProxyOptionsPanel( "https" );
 
 	public LoginFrame()
 	{
@@ -96,7 +90,8 @@ public class LoginFrame
 		JPanel connectPanel = new JPanel();
 		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
 		connectPanel.add( new ConnectionOptionsPanel() );
-		connectPanel.add( new ProxyOptionsPanel() );
+		connectPanel.add( httpProxyOptions );
+		connectPanel.add( httpsProxyOptions );
 
 		this.tabs.addTab( "Connection", connectPanel );
 
@@ -105,7 +100,7 @@ public class LoginFrame
 		LoginFrame.INSTANCE = this;
 
 		this.setFocusCycleRoot( true );
-		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.usernameField ) );
+		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( loginPanel.usernameField ) );
 	}
 
 	public boolean shouldAddStatusBar()
@@ -137,8 +132,26 @@ public class LoginFrame
 
 	public void dispose()
 	{
-		this.honorProxySettings();
 		super.dispose();
+
+		this.honorProxySettings();
+
+		this.loginPanel = null;
+		this.httpProxyOptions = null;
+		this.httpsProxyOptions = null;
+	}
+
+	private void honorProxySettings()
+	{
+		if ( this.httpProxyOptions != null )
+		{
+			this.httpProxyOptions.actionConfirmed();
+		}
+
+		if ( this.httpsProxyOptions != null )
+		{
+			this.httpsProxyOptions.actionConfirmed();
+		}
 	}
 
 	protected void checkForLogout()
@@ -167,7 +180,7 @@ public class LoginFrame
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
 		containerPanel.add( imagePanel, BorderLayout.NORTH );
-		containerPanel.add( new LoginPanel(), BorderLayout.CENTER );
+		containerPanel.add( this.loginPanel, BorderLayout.CENTER );
 		return containerPanel;
 	}
 
@@ -178,10 +191,11 @@ public class LoginFrame
 	private class LoginPanel
 		extends GenericPanel
 	{
+		private LoginNameComboBox usernameField;
 		private final JPasswordField passwordField;
 
+		private final JCheckBox stealthLoginCheckBox;
 		private final JCheckBox savePasswordCheckBox;
-		private final JCheckBox autoLoginCheckBox;
 		private final JCheckBox getBreakfastCheckBox;
 
 		/**
@@ -194,52 +208,38 @@ public class LoginFrame
 		{
 			super( "login" );
 
-			boolean useTextField = KoLConstants.saveStateNames.isEmpty();
-			LoginFrame.this.usernameField =
-				useTextField ? (JComponent) new AutoHighlightTextField() : (JComponent) new LoginNameComboBox();
+			this.usernameField = new LoginNameComboBox();
 			this.passwordField = new JPasswordField();
 
 			this.savePasswordCheckBox = new JCheckBox();
-			this.autoLoginCheckBox = new JCheckBox();
+			this.stealthLoginCheckBox = new JCheckBox();
 			this.getBreakfastCheckBox = new JCheckBox();
+
+			VerifiableElement[] elements = new VerifiableElement[ 2 ];
+			elements[ 0 ] = new VerifiableElement( "Login: ", this.usernameField );
+			elements[ 1 ] = new VerifiableElement( "Password: ", this.passwordField );
+
+			this.setContent( elements );
 
 			JPanel checkBoxPanels = new JPanel();
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
 			checkBoxPanels.add( new JLabel( "Save Password: " ), "" );
 			checkBoxPanels.add( this.savePasswordCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
-			checkBoxPanels.add( new JLabel( "Auto-Login: " ), "" );
-			checkBoxPanels.add( this.autoLoginCheckBox );
+			checkBoxPanels.add( new JLabel( "Stealth Login: " ), "" );
+			checkBoxPanels.add( this.stealthLoginCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
 			checkBoxPanels.add( new JLabel( "Breakfast: " ), "" );
 			checkBoxPanels.add( this.getBreakfastCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
 
-			VerifiableElement[] elements = new VerifiableElement[ 2 ];
-			elements[ 0 ] = new VerifiableElement( "Login: ", LoginFrame.this.usernameField );
-			elements[ 1 ] = new VerifiableElement( "Password: ", this.passwordField );
-
-			this.setContent( elements );
-
 			this.actionStatusPanel.add( new JLabel( " ", SwingConstants.CENTER ), BorderLayout.CENTER );
 			this.actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
 
-			String autoLoginSetting = Preferences.getString( "autoLogin" );
-			if ( autoLoginSetting.equals( "" ) )
-			{
-				autoLoginSetting = Preferences.getString( "lastUsername" );
-			}
-			else
-			{
-				this.autoLoginCheckBox.setSelected( true );
-			}
+			String lastUsername = Preferences.getString( "lastUsername" );
+			this.usernameField.setSelectedItem( lastUsername );
 
-			if ( LoginFrame.this.usernameField instanceof LoginNameComboBox )
-			{
-				( (LoginNameComboBox) LoginFrame.this.usernameField ).setSelectedItem( autoLoginSetting );
-			}
-
-			String passwordSetting = KoLmafia.getSaveState( autoLoginSetting );
+			String passwordSetting = KoLmafia.getSaveState( lastUsername );
 
 			if ( passwordSetting != null )
 			{
@@ -247,10 +247,10 @@ public class LoginFrame
 				this.savePasswordCheckBox.setSelected( true );
 			}
 
-			this.getBreakfastCheckBox.setSelected( Preferences.getBoolean( "alwaysGetBreakfast" ) );
 			this.getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
-			this.autoLoginCheckBox.addActionListener( new AutoLoginListener() );
 			this.savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
+
+			LoginPanel.this.stealthLoginCheckBox.setSelected( Preferences.getBoolean( "stealthLogin" ) );
 
 			String holiday = HolidayDatabase.getHoliday( true );
 			String moonEffect = HolidayDatabase.getMoonEffect();
@@ -272,19 +272,19 @@ public class LoginFrame
 
 		public void setEnabled( final boolean isEnabled )
 		{
-			if ( LoginFrame.this.usernameField == null || this.passwordField == null )
+			if ( this.usernameField == null || this.passwordField == null )
 			{
 				return;
 			}
 
-			if ( this.savePasswordCheckBox == null || this.autoLoginCheckBox == null || this.getBreakfastCheckBox == null )
+			if ( this.savePasswordCheckBox == null || this.getBreakfastCheckBox == null )
 			{
 				return;
 			}
 
 			super.setEnabled( isEnabled );
 
-			LoginFrame.this.usernameField.setEnabled( isEnabled );
+			this.usernameField.setEnabled( isEnabled );
 			this.passwordField.setEnabled( isEnabled );
 		}
 
@@ -303,83 +303,55 @@ public class LoginFrame
 			}
 		}
 
+		private String getUsername()
+		{
+			if ( this.usernameField.getSelectedItem() != null )
+			{
+				return (String) this.usernameField.getSelectedItem();
+			}
+
+			return (String) this.usernameField.currentMatch;
+
+		}
+
 		private void doLogin()
 		{
-			Preferences.setBoolean( "alwaysGetBreakfast", this.getBreakfastCheckBox.isSelected() );
-
-			LoginFrame.this.username = null;
-
-			if ( LoginFrame.this.usernameField instanceof AutoHighlightTextField )
-			{
-				LoginFrame.this.username = ( (AutoHighlightTextField) LoginFrame.this.usernameField ).getText();
-			}
-			else if ( ( (LoginNameComboBox) LoginFrame.this.usernameField ).getSelectedItem() != null )
-			{
-				LoginFrame.this.username =
-					(String) ( (LoginNameComboBox) LoginFrame.this.usernameField ).getSelectedItem();
-			}
-			else
-			{
-				LoginFrame.this.username = (String) ( (LoginNameComboBox) LoginFrame.this.usernameField ).currentMatch;
-			}
-
+			String username = getUsername();
 			String password = new String( this.passwordField.getPassword() );
 
-			if ( LoginFrame.this.username == null || LoginFrame.this.username.equals( "" ) || password.equals( "" ) )
+			if ( username == null || username.equals( "" ) || password.equals( "" ) )
 			{
 				this.setStatusMessage( "Invalid login." );
 				return;
 			}
 
-			if ( this.autoLoginCheckBox.isSelected() )
-			{
-				Preferences.setString( "autoLogin", LoginFrame.this.username );
-			}
-			else
-			{
-				Preferences.setString( "autoLogin", "" );
-			}
-
 			Preferences.setBoolean(
-				LoginFrame.this.username, "getBreakfast", this.getBreakfastCheckBox.isSelected() );
+				username, "getBreakfast", this.getBreakfastCheckBox.isSelected() );
+
+			Preferences.setBoolean( "stealthLogin", LoginPanel.this.stealthLoginCheckBox.isSelected() );
 
 			LoginFrame.this.honorProxySettings();
-			RequestThread.postRequest( new LoginRequest( LoginFrame.this.username, password ) );
-		}
 
-		private class AutoLoginListener
-			implements ActionListener
-		{
-			public void actionPerformed( final ActionEvent e )
-			{
-				if ( LoginPanel.this.autoLoginCheckBox.isSelected() )
-				{
-					LoginPanel.this.actionConfirmed();
-				}
-				else
-				{
-					Preferences.setString( "autoLogin", "" );
-				}
-			}
+			RequestThread.postRequest( new LoginRequest( username, password ) );
 		}
 
 		private class GetBreakfastListener
-			implements ActionListener
+			extends ThreadedListener
 		{
-			public void actionPerformed( final ActionEvent e )
+			protected void execute()
 			{
 				Preferences.setBoolean(
-					LoginFrame.this.username, "getBreakfast",
+					getUsername(), "getBreakfast",
 					LoginPanel.this.getBreakfastCheckBox.isSelected() );
 			}
 		}
 
 		private class RemovePasswordListener
-			implements ActionListener
+			extends ThreadedListener
 		{
-			public void actionPerformed( final ActionEvent e )
+			protected void execute()
 			{
-				if ( !LoginPanel.this.savePasswordCheckBox.isSelected() && LoginFrame.this.usernameField instanceof JComboBox )
+				if ( !LoginPanel.this.savePasswordCheckBox.isSelected() )
 				{
 					String value = (String) KoLConstants.saveStateNames.getSelectedItem();
 					if ( value == null )
@@ -459,84 +431,41 @@ public class LoginFrame
 	private class ConnectionOptionsPanel
 		extends OptionsPanel
 	{
-		private final JCheckBox[] optionBoxes;
-
 		private final String[][] options =
 		{
-			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" },
+			{ "proxySet", "KoLmafia needs to connect through a proxy server" },
 			{ "useSecureLogin", "Switch to HTTPS for login (development in progress)" },
 			{ "allowSocketTimeout", "Improve handling of semi-random lag spikes" },
-			{ "stealthLogin", "Log in with /q to suppress your login announcement" },
 		};
 
 		public ConnectionOptionsPanel()
 		{
 			super( new Dimension( 20, 20 ), new Dimension( 380, 20 ) );
 
-			LoginFrame.this.servers = new JComboBox();
-			LoginFrame.this.servers.addItem( "Attempt to use dev.kingdomofloathing.com" );
-			LoginFrame.this.servers.addItem( "Attempt to use www.kingdomofloathing.com" );
+			this.setOptions( this.options );
 
-			this.optionBoxes = new JCheckBox[ this.options.length ];
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				this.optionBoxes[ i ] = new JCheckBox();
-			}
+			String httpHost = System.getProperty( "http.proxyHost" );
+			String httpsHost = System.getProperty( "https.proxyHost" );
 
-			VerifiableElement[] elements = new VerifiableElement[ 2 + this.options.length ];
+			boolean proxySet = httpHost != null && httpHost.length() > 0 || httpsHost != null && httpsHost.length() > 0;
 
-			elements[ 0 ] = new VerifiableElement( LoginFrame.this.servers );
-			elements[ 1 ] = new VerifiableElement();
-
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				elements[ i + 2 ] =
-					new VerifiableElement( this.options[ i ][ 1 ], SwingConstants.LEFT, this.optionBoxes[ i ] );
-			}
+			this.optionBoxes[ 0 ].setSelected( proxySet );
 
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 			{
-				String proxySet = System.getProperty( "proxySet" );
-				this.optionBoxes[ 0 ].setSelected( proxySet != null && proxySet.equals( "true" ) );
 				this.optionBoxes[ 0 ].setEnabled( false );
-			}
-
-			this.actionCancelled();
-			this.setContent( elements );
-		}
-
-		public void actionConfirmed()
-		{
-			Preferences.setInteger(
-				"defaultLoginServer", LoginFrame.this.servers.getSelectedIndex() );
-
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				Preferences.setBoolean(
-					this.options[ i ][ 0 ], this.optionBoxes[ i ].isSelected() );
-			}
-		}
-
-		public void actionCancelled()
-		{
-			LoginFrame.this.servers.setSelectedIndex( Preferences.getInteger( "defaultLoginServer" ) );
-			for ( int i = 0; i < this.options.length; ++i )
-			{
-				this.optionBoxes[ i ].setSelected( Preferences.getBoolean( this.options[ i ][ 0 ] ) );
 			}
 		}
 
 		public void setEnabled( final boolean isEnabled )
 		{
-		}
-	}
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			{
+				return;
+			}
 
-	public void honorProxySettings()
-	{
-		Preferences.setString( "http.proxyHost", this.proxyHost.getText() );
-		Preferences.setString( "http.proxyPort", this.proxyPort.getText() );
-		Preferences.setString( "http.proxyUser", this.proxyLogin.getText() );
-		Preferences.setString( "http.proxyPassword", this.proxyPassword.getText() );
+			super.setEnabled( isEnabled );
+		}
 	}
 
 	/**
@@ -546,25 +475,32 @@ public class LoginFrame
 	private class ProxyOptionsPanel
 		extends LabeledPanel
 	{
+		private String protocol;
+
+		private AutoHighlightTextField proxyHost;
+		private AutoHighlightTextField proxyPort;
+		private AutoHighlightTextField proxyLogin;
+		private AutoHighlightTextField proxyPassword;
+
 		/**
 		 * Constructs a new <code>ProxyOptionsPanel</code>, containing a place for the users to select their desired
 		 * server and for them to modify any applicable proxy settings.
 		 */
 
-		public ProxyOptionsPanel()
+		public ProxyOptionsPanel( String protocol )
 		{
-			super( "Proxy Settings", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Proxy Settings: " + protocol, new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			LoginFrame.this.proxyHost = new AutoHighlightTextField();
-			LoginFrame.this.proxyPort = new AutoHighlightTextField();
-			LoginFrame.this.proxyLogin = new AutoHighlightTextField();
-			LoginFrame.this.proxyPassword = new AutoHighlightTextField();
+			this.proxyHost = new AutoHighlightTextField();
+			this.proxyPort = new AutoHighlightTextField();
+			this.proxyLogin = new AutoHighlightTextField();
+			this.proxyPassword = new AutoHighlightTextField();
 
 			VerifiableElement[] elements = new VerifiableElement[ 4 ];
-			elements[ 0 ] = new VerifiableElement( "Host: ", LoginFrame.this.proxyHost );
-			elements[ 1 ] = new VerifiableElement( "Port: ", LoginFrame.this.proxyPort );
-			elements[ 2 ] = new VerifiableElement( "Login: ", LoginFrame.this.proxyLogin );
-			elements[ 3 ] = new VerifiableElement( "Password: ", LoginFrame.this.proxyPassword );
+			elements[ 0 ] = new VerifiableElement( "Host: ", this.proxyHost );
+			elements[ 1 ] = new VerifiableElement( "Port: ", this.proxyPort );
+			elements[ 2 ] = new VerifiableElement( "Login: ", this.proxyLogin );
+			elements[ 3 ] = new VerifiableElement( "Password: ", this.proxyPassword );
 
 			this.actionCancelled();
 			this.setContent( elements );
@@ -572,33 +508,53 @@ public class LoginFrame
 
 		public void actionConfirmed()
 		{
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			{
+				return;
+			}
+
+			Preferences.setString( this.protocol + ".proxyHost", this.proxyHost.getText() );
+			Preferences.setString( this.protocol + ".proxyPort", this.proxyPort.getText() );
+			Preferences.setString( this.protocol + ".proxyUser", this.proxyLogin.getText() );
+			Preferences.setString( this.protocol + ".proxyPassword", this.proxyPassword.getText() );
 		}
 
 		public void actionCancelled()
 		{
-			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
-			{
-				LoginFrame.this.proxyHost.setText( System.getProperty( "http.proxyHost" ) );
-				LoginFrame.this.proxyPort.setText( System.getProperty( "http.proxyPort" ) );
-				LoginFrame.this.proxyLogin.setText( System.getProperty( "http.proxyUser" ) );
-				LoginFrame.this.proxyPassword.setText( System.getProperty( "http.proxyPassword" ) );
+			String proxyHost = System.getProperty( this.protocol + ".proxyHost" );
 
-				LoginFrame.this.proxyHost.setEnabled( false );
-				LoginFrame.this.proxyPort.setEnabled( false );
-				LoginFrame.this.proxyLogin.setEnabled( false );
-				LoginFrame.this.proxyPassword.setEnabled( false );
+			if ( proxyHost != null && proxyHost.length() != 0 || System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			{
+				this.proxyHost.setText( System.getProperty( this.protocol + ".proxyHost" ) );
+				this.proxyPort.setText( System.getProperty( this.protocol + ".proxyPort" ) );
+				this.proxyLogin.setText( System.getProperty( this.protocol + ".proxyUser" ) );
+				this.proxyPassword.setText( System.getProperty( this.protocol + ".proxyPassword" ) );
 			}
 			else
 			{
-				LoginFrame.this.proxyHost.setText( Preferences.getString( "http.proxyHost" ) );
-				LoginFrame.this.proxyPort.setText( Preferences.getString( "http.proxyPort" ) );
-				LoginFrame.this.proxyLogin.setText( Preferences.getString( "http.proxyUser" ) );
-				LoginFrame.this.proxyPassword.setText( Preferences.getString( "http.proxyPassword" ) );
+				this.proxyHost.setText( Preferences.getString( this.protocol + ".proxyHost" ) );
+				this.proxyPort.setText( Preferences.getString( this.protocol + ".proxyPort" ) );
+				this.proxyLogin.setText( Preferences.getString( this.protocol + ".proxyUser" ) );
+				this.proxyPassword.setText( Preferences.getString( this.protocol + ".proxyPassword" ) );
+			}
+
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			{
+				this.proxyHost.setEnabled( false );
+				this.proxyPort.setEnabled( false );
+				this.proxyLogin.setEnabled( false );
+				this.proxyPassword.setEnabled( false );
 			}
 		}
 
 		public void setEnabled( final boolean isEnabled )
 		{
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			{
+				return;
+			}
+
+			super.setEnabled( isEnabled );
 		}
 	}
 }

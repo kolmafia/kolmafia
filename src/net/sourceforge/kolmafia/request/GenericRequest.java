@@ -239,6 +239,12 @@ public class GenericRequest
 
 	private static final void applyProxySettings()
 	{
+		GenericRequest.applyProxySettings( "http" );
+		GenericRequest.applyProxySettings( "https" );
+	}
+
+	private static final void applyProxySettings( String protocol )
+	{
 		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 		{
 			return;
@@ -247,20 +253,18 @@ public class GenericRequest
 		Properties systemProperties = System.getProperties();
 
 		String proxySet = Preferences.getString( "proxySet" );
-		String proxyHost = Preferences.getString( "http.proxyHost" );
-		String proxyPort = Preferences.getString( "http.proxyPort" );
-		String proxyUser = Preferences.getString( "http.proxyUser" );
-		String proxyPassword = Preferences.getString( "http.proxyPassword" );
+		String proxyHost = Preferences.getString( protocol + ".proxyHost" );
+		String proxyPort = Preferences.getString( protocol + ".proxyPort" );
+		String proxyUser = Preferences.getString( protocol + ".proxyUser" );
+		String proxyPassword = Preferences.getString( protocol + ".proxyPassword" );
 
 		// Remove the proxy host from the system properties
 		// if one isn't specified, or proxy setting is off.
 
 		if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) )
 		{
-			systemProperties.remove( "http.proxyHost" );
-			systemProperties.remove( "http.proxyPort" );
-			systemProperties.remove( "https.proxyHost" );
-			systemProperties.remove( "https.proxyPort" );
+			systemProperties.remove( protocol + ".proxyHost" );
+			systemProperties.remove( protocol + ".proxyPort" );
 		}
 		else
 		{
@@ -276,10 +280,8 @@ public class GenericRequest
 				StaticEntity.printStackTrace( e, "Error in proxy setup" );
 			}
 
-			systemProperties.put( "http.proxyHost", proxyHost );
-			systemProperties.put( "http.proxyPort", proxyPort );
-			systemProperties.put( "https.proxyHost", proxyHost );
-			systemProperties.put( "https.proxyPort", proxyPort );
+			systemProperties.put( protocol + ".proxyHost", proxyHost );
+			systemProperties.put( protocol + ".proxyPort", proxyPort );
 		}
 
 		// Remove the proxy user from the system properties
@@ -287,17 +289,13 @@ public class GenericRequest
 
 		if ( proxySet.equals( "false" ) || proxyHost.equals( "" ) || proxyUser.equals( "" ) )
 		{
-			systemProperties.remove( "http.proxyUser" );
-			systemProperties.remove( "http.proxyPassword" );
-			systemProperties.remove( "https.proxyUser" );
-			systemProperties.remove( "https.proxyPassword" );
+			systemProperties.remove( protocol + ".proxyUser" );
+			systemProperties.remove( protocol + ".proxyPassword" );
 		}
 		else
 		{
-			systemProperties.put( "http.proxyUser", proxyUser );
-			systemProperties.put( "http.proxyPassword", proxyPassword );
-			systemProperties.put( "https.proxyUser", proxyUser );
-			systemProperties.put( "https.proxyPassword", proxyPassword );
+			systemProperties.put( protocol + ".proxyUser", proxyUser );
+			systemProperties.put( protocol + ".proxyPassword", proxyPassword );
 		}
 	}
 
