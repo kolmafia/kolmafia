@@ -715,28 +715,17 @@ public abstract class InventoryManager
 		}
 
 		int mixingMethod = ConcoctionDatabase.getMixingMethod( item ) & KoLConstants.CT_MASK;
-		switch ( mixingMethod )
+
+		switch ( itemId )
 		{
-		// Sub-ingredients for star charts, pixels and malus
-		// ingredients can get very expensive. Therefore, skip over
-		// them in this step.
-
-		case KoLConstants.NOCREATE:
-		case KoLConstants.STARCHART:
-		case KoLConstants.PIXEL:
-		case KoLConstants.MALUS:
-		case KoLConstants.STAFF:
-			scriptSaysBuy = ItemDatabase.isTradeable( itemId );
+		case ItemPool.DOUGH:
+		case ItemPool.DISASSEMBLED_CLOVER:
+		case ItemPool.JOLLY_BRACELET:
+			scriptSaysBuy = true;
 			break;
-
 		default:
-			// Break creation loops - one item from every loop
-			// (preferrably the cheapest one) must be indicated as
-			// buyable, to avoid infinite recursion.
-			scriptSaysBuy = itemId == ItemPool.DOUGH ||
-				itemId == ItemPool.DISASSEMBLED_CLOVER ||
-				itemId == ItemPool.JOLLY_BRACELET ||
-				creator == null;
+			scriptSaysBuy = creator == null || mixingMethod == KoLConstants.NOCREATE;
+			break;
 		}
 
 		if ( creator != null && mixingMethod != KoLConstants.NOCREATE )
