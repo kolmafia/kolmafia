@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -261,7 +263,47 @@ public class KoLAdventure
 
 	public boolean isNonCombatsOnly()
 	{
-		return this.isNonCombatsOnly;
+		return this.isNonCombatsOnly && !this.hasWanderingMonsters();
+	}
+
+	private boolean hasWanderingMonsters()
+	{
+		if ( !this.formSource.equals( "adventure.php" ) )
+		{
+			return false;
+		}
+
+		// Romantic targets.
+
+		String romanticTarget = Preferences.getString( "romanticTarget" );
+
+		if ( romanticTarget != null && !romanticTarget.equals( "" ) )
+		{
+			return true;
+		}
+
+		// Holidays.
+
+		String holiday = HolidayDatabase.getHoliday();
+
+		if ( holiday.equals( "El Dia De Los Muertos Borrachos" ) ||
+			holiday.equals( "Feast of Boris" ) ||
+			holiday.equals( "Talk Like a Pirate Day" ) )
+		{
+			return true;
+		}
+
+		// Nemesis assassins also qualify, but until we track quest progress for it,
+		// there's no real way to do checks.  Instead, the wiki doesn't make it sound
+		// like you lose the volcano map, so we'll use that as the check.  If this is
+		// incorrect, hopefully someone who knows more will read this comment...
+
+		if ( !InventoryManager.hasItem( ItemPool.VOLCANO_MAP ) )
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
