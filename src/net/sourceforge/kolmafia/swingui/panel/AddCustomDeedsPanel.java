@@ -970,7 +970,8 @@ public class AddCustomDeedsPanel
 			boolean field1empty = getField( ITEM_FIELD_1 ).getText().equalsIgnoreCase( "" );
 			boolean field3empty = getField( ITEM_FIELD_3 ).getText().equalsIgnoreCase( "" );
 			boolean field1matching = ItemDatabase.getItemId( getField( ITEM_FIELD_1 ).getText() ) != -1;
-			boolean field3matching = ItemDatabase.getItemId( getField( ITEM_FIELD_3 ).getText() ) != -1;
+			boolean field3matching = ItemDatabase
+				.getItemId( getField( ITEM_FIELD_3 ).getText().split( ";" )[ 0 ] ) != -1;
 
 			/*
 			 * Since the states of field 1 and field 3 depend on each other, set the states of both
