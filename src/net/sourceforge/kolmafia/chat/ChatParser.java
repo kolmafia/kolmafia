@@ -212,7 +212,7 @@ public class ChatParser
 				continue;
 			}
 
-			StringBuilder currentLineBuilder = new StringBuilder( lines[ i ] );
+			StringBuffer currentLineBuilder = new StringBuffer( lines[ i ] );
 
 			while ( ++nextLine < lines.length && lines[ nextLine ].indexOf( "<a" ) == -1 )
 			{

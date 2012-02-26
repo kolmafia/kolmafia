@@ -555,7 +555,7 @@ public class DwarfFactoryRequest
 	public static String getRunes( final String responseText )
 	{
 		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
-		StringBuilder resultBuilder = new StringBuilder();
+		StringBuffer resultBuilder = new StringBuffer();
 		while ( matcher.find() )
 		{
 			resultBuilder.append(  matcher.group( 2 ) );
@@ -613,7 +613,7 @@ public class DwarfFactoryRequest
 	public static void useUnlaminatedItem( final int itemId, final String responseText )
 	{
 		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
-		StringBuilder runesBuilder = new StringBuilder();
+		StringBuffer runesBuilder = new StringBuffer();
 		int count = 0;
 
 		while ( matcher.find() )
@@ -641,7 +641,7 @@ public class DwarfFactoryRequest
 	public static void useLaminatedItem( final int itemId, final String responseText )
 	{
 		Matcher matcher = DwarfFactoryRequest.getRuneMatcher( responseText );
-		StringBuilder runesBuilder = new StringBuilder();
+		StringBuffer runesBuilder = new StringBuffer();
 		int count = 0;
 
 		while ( matcher.find() )
@@ -1240,7 +1240,7 @@ public class DwarfFactoryRequest
 
 		public String digitString()
 		{
-			StringBuilder valueBuilder = new StringBuilder();
+			StringBuffer valueBuilder = new StringBuffer();
 			for ( int i = 0; i < 7; ++i )
 			{
 				Character code = (Character)this.charMap.get( new Integer( i ) );
