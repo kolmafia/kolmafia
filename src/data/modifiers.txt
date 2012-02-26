@@ -3075,6 +3075,7 @@ Orange Tongue	Experience: +3
 Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
 Oriental Mysticism	Mysticality Percent: +5
 Over the Ocean	Experience: [min(100,T/5)]
+Overconfident	Monster Level: +30
 # Oversaturated Palate: Blech
 Overstimulated	Experience (Muscle): +5
 Oxygenated Blood	Adventure Underwater
@@ -3228,7 +3229,14 @@ Solar Flair	Hot Damage: +20
 Sole Soul	Item Drop: [min(300,T)]
 Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
+Song of Accompaniment	Minstrel Level: +3
+# Song of Battle: Combat Rate: +???, Never Miss
+Song of Battle	Weapon Damage Percent: +100
+Song of Cockiness	Monster Level: +30
+# Song of Fortune: first blow is always critical
+Song of Fortune	Item Drop: +25, Meat Drop: +50
 # Song of Glorious Lunch: Food Sounds Great!
+Song of Solitude	Combat Rate: -20
 # Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
@@ -3440,6 +3448,9 @@ Abs of Tin	Maximum HP Percent: +10
 # Ambidextrous Funkslinging
 Amphibian Sympathy	Familiar Weight: +5
 # Armorcraftiness
+Barrel Chested	Muscle Percent: +50
+Big Boned	Maximum HP Percent: +30
+Big Lungs	HP Regen Min: 8, HP Regen Max: 10
 Claws of the Otter	Weapon Damage: +3
 Claws of the Walrus	Weapon Damage: +4
 Cold-Blooded Fearlessness	Spooky Resistance: +2
@@ -3451,19 +3462,30 @@ Disco Fever	Ranged Damage: [min(L,15)]
 Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 # Eye of the Stoat	+0.5X critical hits, improve smacks
 Fashionably Late	Adventures: +1
+Ferocity	Critical: 5
 # Flavour of Magic
 Gnefarious Pickpocketing	Meat Drop: +10
 Gnomish Hardigness	Maximum HP Percent: +5
+# Good Singing Voice: Doubles duration of Boris songs
+# Gourmand: Increases adventures from food
 Heart of Polyester	Sleaze Resistance: +2
 # Hero of the Half-Shell
 Hide of the Otter	Damage Absorption: +20
 Hide of the Walrus	Damage Absorption: +40
+Hungry Eyes	Food Drop: +100
 # Immaculate Seasoning: auto-choose hot vs. cold
 # Impetuous Sauciness: +5 reagent potion duration
 Intrinsic Spiciness	Spell Damage: [min(L,10)]
+# Legendary Appetite: Increase stomach capacity by 5
+Legendary Bravado	Muscle: +10, Mysticality: +10, Moxie: +10
+Legendary Girth	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
+Legendary Impatience	Initiative: +100
+# Legendary Luck: Critical hits are even criticaler!
 # Liver of Steel
+# Louder Bellows: Improves Intimidating Bellow
 Mad Looting Skillz	Item Drop: +20
 Marginally Insane	Maximum MP Percent: +10
+More to Love	Minstrel Level: +3
 Natural Born Scrabbler	Item Drop: +5
 Nimble Fingers	Meat Drop: +20
 Northern Exposure	Cold Resistance: +2
@@ -3472,6 +3494,7 @@ Powers of Observatiogn	Item Drop: +10
 # Pulverize
 # Really Expensive Jewelrycrafting
 # Salacious Cocktailcrafting
+Sick Pythons	Weapon Damage: +20
 Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 Slimy Shoulders	Initiative: [pref(skillLevel48)]
 Slimy Sinews	Maximum HP: [pref(skillLevel46)]
