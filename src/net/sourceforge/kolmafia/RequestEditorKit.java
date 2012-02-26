@@ -1350,9 +1350,9 @@ public class RequestEditorKit
 			}
 
 			String type = ItemDatabase.shortDustyBottleType( i );
-			String newName = oldName.replace( " of", " of " + type );
+			String newName = StringUtilities.globalStringReplace( oldName, " of", " of " + type );
 			String oldPlural = ItemDatabase.getPluralById( i );
-			String newPlural = oldPlural.replace( " of", " of " + type );
+			String newPlural = StringUtilities.globalStringReplace( oldPlural, " of", " of " + type );
 			StringUtilities.globalStringReplace( buffer, oldName + "</b>", newName + "</b>" );
 			StringUtilities.globalStringReplace( buffer, oldPlural + "</b>", newPlural + "</b>" );
 		}

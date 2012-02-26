@@ -2481,8 +2481,8 @@ public class ItemDatabase
 
 		if ( !type.equals( "dusty" ) )
 		{
-			String name = ItemDatabase.getItemName( itemId ).replace( " of", " of " + type );
-			String plural = ItemDatabase.getPluralById( itemId ).replace( " of", " of " + type );
+			String name = StringUtilities.globalStringReplace( ItemDatabase.getItemName( itemId ), " of", " of " + type );
+			String plural = StringUtilities.globalStringReplace( ItemDatabase.getPluralById( itemId ), " of", " of " + type );
 			ItemDatabase.registerItemAlias( itemId, name, plural );
 		}
 	}
@@ -2545,6 +2545,6 @@ public class ItemDatabase
 	{
 		String type = ItemDatabase.shortDustyBottleType( itemId );
 		String name = ItemDatabase.getItemName( itemId );
-		return type.equals( "dusty" ) ? name : name.replace( " of", " of " + type );
+		return type.equals( "dusty" ) ? name : StringUtilities.globalStringReplace( name, " of", " of " + type );
 	}
 }

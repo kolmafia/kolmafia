@@ -591,7 +591,7 @@ public class AdventureResult
 	{
 		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
 
-		StringBuilder nameBuilder = new StringBuilder( parsedItem.nextToken().trim() );
+		StringBuffer nameBuilder = new StringBuffer( parsedItem.nextToken().trim() );
 		int count = 1;
 		while ( parsedItem.hasMoreTokens() )
 		{
@@ -1072,7 +1072,7 @@ public class AdventureResult
 			return itemName;
 		}
 
-		return itemName.replace( " of", " of " + ItemDatabase.glyphType( glyph ) );
+		return StringUtilities.globalStringReplace( itemName, " of", " of " + ItemDatabase.glyphType( glyph ) );
 	}
 
 	public static final String slimeVialName( final int itemId )
