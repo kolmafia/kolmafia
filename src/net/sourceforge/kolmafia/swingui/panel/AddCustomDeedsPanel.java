@@ -1610,15 +1610,22 @@ public class AddCustomDeedsPanel
 			for ( int i = 0; i < buffer.size(); ++i )
 			{
 				piece = (String) buffer.get( i );
-				piece = piece.replaceAll( "\\|", "" );
+				String[] pieces = piece.split( "\\|" );
 
-				if ( Preferences.getString( piece ).equals( "" ) )
+				for ( int j = 0; j < pieces.length; ++j )
 				{
-					display += piece;
-				}
-				else
-				{
-					display += Preferences.getString( piece );
+					if ( pieces[ j ].equals( null ) || pieces[ j ].equals( "" ) )
+					{
+						continue;
+					}
+					if ( Preferences.getString( pieces[ j ] ).equals( "" ) )
+					{
+						display += pieces[ j ];
+					}
+					else
+					{
+						display += Preferences.getString( pieces[ j ] );
+					}
 				}
 			}
 
