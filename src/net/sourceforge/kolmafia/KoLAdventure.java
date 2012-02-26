@@ -311,7 +311,7 @@ public class KoLAdventure
 		// Mini-Hipster
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();
-		if ( familiar != null && familiar.getId() == FamiliarPool.HIPSTER )
+		if ( familiar != null && familiar.getId() == FamiliarPool.HIPSTER && Preferences.getInteger( "_hipsterAdv" ) < 7 )
 		{
 			return true;
 		}
