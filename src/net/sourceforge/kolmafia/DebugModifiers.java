@@ -38,7 +38,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 
 public class DebugModifiers
 	extends Modifiers
@@ -55,7 +56,7 @@ public class DebugModifiers
 			String name = Modifiers.getModifierName( i );
 			if ( name.toLowerCase().indexOf( parameters ) != -1 )
 			{
-				DebugModifiers.wanted.put( IntegerCache.valueOf( i ),
+				DebugModifiers.wanted.put( IntegerPool.get( i ),
 					"<td colspan=2>" + name + "</td>" );
 			}
 		}
@@ -97,7 +98,7 @@ public class DebugModifiers
 		
 		super.add( index, mod, desc );
 		
-		Integer key = IntegerCache.valueOf( index );
+		Integer key = IntegerPool.get( index );
 		if ( ! DebugModifiers.wanted.containsKey( key ) )
 		{
 			return;

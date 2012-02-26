@@ -40,13 +40,13 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class ShrineRequest
 	extends GenericRequest
@@ -58,21 +58,21 @@ public class ShrineRequest
 	public static final Object[][] SHRINE_DATA =
 	{
 		{
-			IntegerCache.valueOf( ShrineRequest.BORIS ),
+			IntegerPool.get( ShrineRequest.BORIS ),
 			"boris",
 			"Statue of Boris",
 			"heroDonationBoris",
 			ItemPool.get( ItemPool.BORIS_KEY, 1 ),
 		},
 		{
-			IntegerCache.valueOf( ShrineRequest.JARLSBERG ),
+			IntegerPool.get( ShrineRequest.JARLSBERG ),
 			"jarlsberg",
 			"Statue of Jarlsberg",
 			"heroDonationJarlsberg",
 			ItemPool.get( ItemPool.JARLSBERG_KEY, 1 ),
 		},
 		{
-			IntegerCache.valueOf( ShrineRequest.PETE ),
+			IntegerPool.get( ShrineRequest.PETE ),
 			"sneakypete",
 			"Statue of Sneaky Pete",
 			"heroDonationSneakyPete",

@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -57,7 +58,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DwarfFactoryRequest
@@ -1219,7 +1219,7 @@ public class DwarfFactoryRequest
 		private void mapCharacter( final char c, final int i )
 		{
 			Character code = new Character( Character.toUpperCase( c ) );
-			Integer val = IntegerCache.valueOf( i );
+			Integer val = IntegerPool.get( i );
 			this.mapCharacter( code, val );
 		}
 
@@ -1244,7 +1244,7 @@ public class DwarfFactoryRequest
 			StringBuffer valueBuilder = new StringBuffer();
 			for ( int i = 0; i < 7; ++i )
 			{
-				Character code = (Character)this.charMap.get( IntegerCache.valueOf( i ) );
+				Character code = (Character)this.charMap.get( IntegerPool.get( i ) );
 				valueBuilder.append( code == null ? '-' : code.charValue() );
 			}
 			return valueBuilder.toString();
@@ -1543,7 +1543,7 @@ public class DwarfFactoryRequest
 			// If we know the character that goes in this position,
 			// generate only the permutations that have that
 			// character in that position.
-			Character val = (Character) this.charMap.get( IntegerCache.valueOf( index ) );
+			Character val = (Character) this.charMap.get( IntegerPool.get( index ) );
 			if ( val != null )
 			{
 				this.generatePermutations( prefix + val.charValue() );
@@ -2054,7 +2054,7 @@ public class DwarfFactoryRequest
 				if ( value.length() == 1 )
 				{
 					Character rune = new Character( value.charAt( 0 ) );
-					Integer id = IntegerCache.valueOf( itemId );
+					Integer id = IntegerPool.get( itemId );
 					this.itemMap.put( rune, id );
 					this.runeMap.put( id, rune );
 				}
@@ -2186,7 +2186,7 @@ public class DwarfFactoryRequest
 
 		private char findRune( final int itemId )
 		{
-			Character val = (Character) this.runeMap.get( IntegerCache.valueOf( itemId ) );
+			Character val = (Character) this.runeMap.get( IntegerPool.get( itemId ) );
 			return val == null ? 0 : val.charValue();
 		}
 

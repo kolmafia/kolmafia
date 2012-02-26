@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -54,7 +55,6 @@ import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanLoungeRequest
@@ -100,19 +100,19 @@ public class ClanLoungeRequest
 			"aggressive",
 			"muscle",
 			"billiards belligerence",
-			IntegerCache.valueOf( AGGRESSIVE_STANCE )
+			IntegerPool.get( AGGRESSIVE_STANCE )
 		},
 		{
 			"strategic",
 			"mysticality",
 			"mental a-cue-ity",
-			IntegerCache.valueOf( STRATEGIC_STANCE )
+			IntegerPool.get( STRATEGIC_STANCE )
 		},
 		{
 			"stylish",
 			"moxie",
 			"hustlin'",
-			IntegerCache.valueOf( STYLISH_STANCE )
+			IntegerPool.get( STYLISH_STANCE )
 		},
 	};
 
@@ -121,12 +121,12 @@ public class ClanLoungeRequest
 		{
 			"send",
 			"put",
-			IntegerCache.valueOf( SEND_FAX )
+			IntegerPool.get( SEND_FAX )
 		},
 		{
 			"receive",
 			"get",
-			IntegerCache.valueOf( RECEIVE_FAX )
+			IntegerPool.get( RECEIVE_FAX )
 		},
 	};
 
@@ -135,27 +135,27 @@ public class ClanLoungeRequest
 		{
 			"cold",
 			"ice",
-			IntegerCache.valueOf( COLD_SHOWER )
+			IntegerPool.get( COLD_SHOWER )
 		},
 		{
 			"cool",
 			"moxie",
-			IntegerCache.valueOf( COOL_SHOWER )
+			IntegerPool.get( COOL_SHOWER )
 		},
 		{
 			"lukewarm",
 			"mysticality",
-			IntegerCache.valueOf( LUKEWARM_SHOWER )
+			IntegerPool.get( LUKEWARM_SHOWER )
 		},
 		{
 			"warm",
 			"muscle",
-			IntegerCache.valueOf( WARM_SHOWER )
+			IntegerPool.get( WARM_SHOWER )
 		},
 		{
 			"hot",
 			"mp",
-			IntegerCache.valueOf( HOT_SHOWER )
+			IntegerPool.get( HOT_SHOWER )
 		},
 	};
 

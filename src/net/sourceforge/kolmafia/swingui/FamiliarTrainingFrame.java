@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -108,7 +109,6 @@ import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class FamiliarTrainingFrame
 	extends GenericFrame
@@ -2144,17 +2144,17 @@ public class FamiliarTrainingFrame
 			// Add weight with helmet
 			if ( this.pithHelmet )
 			{
-				this.weights.add( IntegerCache.valueOf( Math.max( weight + 5, 1 ) ) );
+				this.weights.add( IntegerPool.get( Math.max( weight + 5, 1 ) ) );
 			}
 
 			// Add weight with fedora
 			if ( this.crumpledFedora )
 			{
-				this.weights.add( IntegerCache.valueOf( Math.max( weight + 10, 1 ) ) );
+				this.weights.add( IntegerPool.get( Math.max( weight + 10, 1 ) ) );
 			}
 
 			// Add weight with no helmet
-			this.weights.add( IntegerCache.valueOf( Math.max( weight, 1 ) ) );
+			this.weights.add( IntegerPool.get( Math.max( weight, 1 ) ) );
 		}
 
 		/** *********************************************************** */

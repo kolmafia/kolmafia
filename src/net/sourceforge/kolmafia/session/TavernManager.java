@@ -41,6 +41,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
@@ -51,7 +53,6 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class TavernManager
 {
@@ -71,14 +72,14 @@ public class TavernManager
 
 	private static Integer [] searchOrder = {
 		// PrimitiveAutoBoxCache.valueOf(  5 ),
-		IntegerCache.valueOf(  4 ), IntegerCache.valueOf(  3 ), IntegerCache.valueOf(  2 ),
-		IntegerCache.valueOf(  1 ), IntegerCache.valueOf(  6 ), IntegerCache.valueOf( 11 ),
-		IntegerCache.valueOf( 16 ), IntegerCache.valueOf( 21 ), IntegerCache.valueOf( 22 ),
-		IntegerCache.valueOf( 17 ), IntegerCache.valueOf( 23 ), IntegerCache.valueOf( 24 ),
-		IntegerCache.valueOf( 25 ), IntegerCache.valueOf( 12 ), IntegerCache.valueOf(  7 ),
-		IntegerCache.valueOf(  8 ), IntegerCache.valueOf( 13 ), IntegerCache.valueOf( 18 ),
-		IntegerCache.valueOf( 19 ), IntegerCache.valueOf( 14 ), IntegerCache.valueOf(  9 ),
-		IntegerCache.valueOf( 10 ), IntegerCache.valueOf( 15 ), IntegerCache.valueOf( 20 ),
+		IntegerPool.get(  4 ), IntegerPool.get(  3 ), IntegerPool.get(  2 ),
+		IntegerPool.get(  1 ), IntegerPool.get(  6 ), IntegerPool.get( 11 ),
+		IntegerPool.get( 16 ), IntegerPool.get( 21 ), IntegerPool.get( 22 ),
+		IntegerPool.get( 17 ), IntegerPool.get( 23 ), IntegerPool.get( 24 ),
+		IntegerPool.get( 25 ), IntegerPool.get( 12 ), IntegerPool.get(  7 ),
+		IntegerPool.get(  8 ), IntegerPool.get( 13 ), IntegerPool.get( 18 ),
+		IntegerPool.get( 19 ), IntegerPool.get( 14 ), IntegerPool.get(  9 ),
+		IntegerPool.get( 10 ), IntegerPool.get( 15 ), IntegerPool.get( 20 ),
 	};
 
 	private static final int EXPLORE = 1;
@@ -395,7 +396,7 @@ public class TavernManager
 			}
 
 			// Remove explored square from searchlist
-			int index = searchList.indexOf( IntegerCache.valueOf( i + 1 ) );
+			int index = searchList.indexOf( IntegerPool.get( i + 1 ) );
 			if ( index != -1 )
 			{
 				searchList.remove( index );

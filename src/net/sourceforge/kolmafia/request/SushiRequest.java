@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -52,7 +53,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SushiRequest
@@ -133,12 +133,12 @@ public class SushiRequest
 
 	private static final Object[][] BASE_SUSHI =
 	{
-		{ IntegerCache.valueOf(1), "beefy nigiri" },
-		{ IntegerCache.valueOf(2), "glistening nigiri" },
-		{ IntegerCache.valueOf(3), "slick nigiri" },
-		{ IntegerCache.valueOf(4), "beefy maki" },
-		{ IntegerCache.valueOf(5), "glistening maki" },
-		{ IntegerCache.valueOf(6), "slick maki" },
+		{ IntegerPool.get(1), "beefy nigiri" },
+		{ IntegerPool.get(2), "glistening nigiri" },
+		{ IntegerPool.get(3), "slick nigiri" },
+		{ IntegerPool.get(4), "beefy maki" },
+		{ IntegerPool.get(5), "glistening maki" },
+		{ IntegerPool.get(6), "slick maki" },
 	};
 
 	private static String idToName( final int id )
@@ -197,9 +197,9 @@ public class SushiRequest
 
 	private static final Object[][] TOPPING =
 	{
-		{ "salty", IntegerCache.valueOf( ItemPool.SEA_SALT_CRYSTAL ) },
-		{ "magical", IntegerCache.valueOf( ItemPool.DRAGONFISH_CAVIAR ) },
-		{ "electric", IntegerCache.valueOf( ItemPool.EEL_SAUCE ) },
+		{ "salty", IntegerPool.get( ItemPool.SEA_SALT_CRYSTAL ) },
+		{ "magical", IntegerPool.get( ItemPool.DRAGONFISH_CAVIAR ) },
+		{ "electric", IntegerPool.get( ItemPool.EEL_SAUCE ) },
 	};
 
 	private static String toppingToName( final String baseName, final int topping )
@@ -233,31 +233,31 @@ public class SushiRequest
 	private static final Object[][] FILLING1 =
 	{
 		{ "giant dragon roll",
-		  "beefy maki", IntegerCache.valueOf( ItemPool.SEA_CUCUMBER ) },
+		  "beefy maki", IntegerPool.get( ItemPool.SEA_CUCUMBER ) },
 		{ "musclebound rabbit roll",
-		  "beefy maki", IntegerCache.valueOf( ItemPool.SEA_CARROT ) },
+		  "beefy maki", IntegerPool.get( ItemPool.SEA_CARROT ) },
 		{ "python roll",
-		  "beefy maki", IntegerCache.valueOf( ItemPool.SEA_AVOCADO ) },
+		  "beefy maki", IntegerPool.get( ItemPool.SEA_AVOCADO ) },
 		{ "jack lalanne roll",
-		  "beefy maki", IntegerCache.valueOf( ItemPool.SEA_RADISH ) },
+		  "beefy maki", IntegerPool.get( ItemPool.SEA_RADISH ) },
 
 		{ "wise dragon roll",
-		  "glistening maki", IntegerCache.valueOf( ItemPool.SEA_CUCUMBER ) },
+		  "glistening maki", IntegerPool.get( ItemPool.SEA_CUCUMBER ) },
 		{ "white rabbit roll",
-		  "glistening maki", IntegerCache.valueOf( ItemPool.SEA_CARROT ) },
+		  "glistening maki", IntegerPool.get( ItemPool.SEA_CARROT ) },
 		{ "ancient serpent roll",
-		  "glistening maki", IntegerCache.valueOf( ItemPool.SEA_AVOCADO ) },
+		  "glistening maki", IntegerPool.get( ItemPool.SEA_AVOCADO ) },
 		{ "wizened master roll",
-		  "glistening maki", IntegerCache.valueOf( ItemPool.SEA_RADISH ) },
+		  "glistening maki", IntegerPool.get( ItemPool.SEA_RADISH ) },
 
 		{ "tricky dragon roll",
-		  "slick maki", IntegerCache.valueOf( ItemPool.SEA_CUCUMBER ) },
+		  "slick maki", IntegerPool.get( ItemPool.SEA_CUCUMBER ) },
 		{ "sneaky rabbit roll",
-		  "slick maki", IntegerCache.valueOf( ItemPool.SEA_CARROT ) },
+		  "slick maki", IntegerPool.get( ItemPool.SEA_CARROT ) },
 		{ "slippery snake roll",
-		  "slick maki", IntegerCache.valueOf( ItemPool.SEA_AVOCADO ) },
+		  "slick maki", IntegerPool.get( ItemPool.SEA_AVOCADO ) },
 		{ "eleven oceans roll",
-		  "slick maki", IntegerCache.valueOf( ItemPool.SEA_RADISH ) },
+		  "slick maki", IntegerPool.get( ItemPool.SEA_RADISH ) },
 	};
 
 	private static String filling1ToName( final String baseName, final int filling1 )

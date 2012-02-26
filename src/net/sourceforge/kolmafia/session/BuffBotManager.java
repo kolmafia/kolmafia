@@ -61,6 +61,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -72,7 +74,6 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BuffBotManager
@@ -180,7 +181,7 @@ public abstract class BuffBotManager
 			return;
 		}
 
-		Integer newPrice = IntegerCache.valueOf( price );
+		Integer newPrice = IntegerPool.get( price );
 
 		// Because the new concept allows multiple buffs
 		// to have the same price, store things in a list.
@@ -230,7 +231,7 @@ public abstract class BuffBotManager
 			removedOne = true;
 			toRemove = (Offering) buffs[ i ];
 			BuffBotManager.buffCostTable.remove( toRemove );
-			BuffBotManager.buffCostMap.remove( IntegerCache.valueOf( toRemove.getPrice() ) );
+			BuffBotManager.buffCostMap.remove( IntegerPool.get( toRemove.getPrice() ) );
 		}
 
 		if ( removedOne )
@@ -551,7 +552,7 @@ public abstract class BuffBotManager
 
 	private static final Offering extractRequest( final KoLMailMessage message, final int meatSent )
 	{
-		Offering castList = (Offering) BuffBotManager.buffCostMap.get( IntegerCache.valueOf( meatSent ) );
+		Offering castList = (Offering) BuffBotManager.buffCostMap.get( IntegerPool.get( meatSent ) );
 
 		// If what is sent does not match anything in the buff table,
 		// handle it.  Once it gets beyond this point, it is known to

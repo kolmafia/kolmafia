@@ -57,13 +57,13 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -219,7 +219,7 @@ public class EquipmentDatabase
 				outfitList.set( arrayIndex, outfit );
 
 				String[] pieces = data[ 2 ].split( "\\s*,\\s*" );
-				Integer id = IntegerCache.valueOf( outfitId );
+				Integer id = IntegerPool.get( outfitId );
 				for ( int i = 0; i < pieces.length; ++i )
 				{
 					String name = pieces[ i ];

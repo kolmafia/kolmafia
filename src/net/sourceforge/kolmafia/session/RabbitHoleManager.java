@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -63,7 +64,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -74,132 +74,132 @@ public abstract class RabbitHoleManager
 	public final static Object [][] HAT_DATA =
 	{
 		{
-			IntegerCache.valueOf( 4 ),
+			IntegerPool.get( 4 ),
 			"Assaulted with Pepper",
 			"Monster Level +20",
 		},
 		{
-			IntegerCache.valueOf( 6 ),
+			IntegerPool.get( 6 ),
 			"Three Days Slow",
 			"Familiar Experience +3",
 		},
 		{
-			IntegerCache.valueOf( 7 ),
+			IntegerPool.get( 7 ),
 			"Cat-Alyzed",
 			"Moxie +10",
 		},
 		{
-			IntegerCache.valueOf( 8 ),
+			IntegerPool.get( 8 ),
 			"Anytwo Five Elevenis?",
 			"Muscle +10",
 		},
 		{
-			IntegerCache.valueOf( 9 ),
+			IntegerPool.get( 9 ),
 			"Coated Arms",
 			"Weapon Damage +15",
 		},
 		{
-			IntegerCache.valueOf( 10 ),
+			IntegerPool.get( 10 ),
 			"Smoky Third Eye",
 			"Mysticality +10",
 		},
 		{
-			IntegerCache.valueOf( 11 ),
+			IntegerPool.get( 11 ),
 			"Full Bottle in front of Me",
 			"Spell Damage +30%",
 		},
 		{
-			IntegerCache.valueOf( 12 ),
+			IntegerPool.get( 12 ),
 			"Thick-Skinned",
 			"Maximum HP +50",
 		},
 		{
-			IntegerCache.valueOf( 13 ),
+			IntegerPool.get( 13 ),
 			"20-20 Second Sight",
 			"Maximum MP +25",
 		},
 		{
-			IntegerCache.valueOf( 14 ),
+			IntegerPool.get( 14 ),
 			"Slimy Hands",
 			"+10 Sleaze Damage",
 		},
 		{
-			IntegerCache.valueOf( 15 ),
+			IntegerPool.get( 15 ),
 			"Bottle in front of Me",
 			"Spell Damage +15",
 		},
 		{
-			IntegerCache.valueOf( 16 ),
+			IntegerPool.get( 16 ),
 			"Fan-Cooled",
 			"+10 Cold Damage",
 		},
 		{
-			IntegerCache.valueOf( 17 ),
+			IntegerPool.get( 17 ),
 			"Ginger Snapped",
 			"+10 Spooky Damage",
 		},
 		{
-			IntegerCache.valueOf( 18 ),
+			IntegerPool.get( 18 ),
 			"Egg on your Face",
 			"+10 Stench Damage",
 		},
 		{
-			IntegerCache.valueOf( 19 ),
+			IntegerPool.get( 19 ),
 			"Pockets of Fire",
 			"+10 Hot Damage",
 		},
 		{
-			IntegerCache.valueOf( 20 ),
+			IntegerPool.get( 20 ),
 			"Weapon of Mass Destruction",
 			"Weapon Damage +30%",
 		},
 		{
-			IntegerCache.valueOf( 21 ),
+			IntegerPool.get( 21 ),
 			"Orchid Blood",
 			"Regenerate 5-10 MP per Adventure",
 		},
 		{
-			IntegerCache.valueOf( 22 ),
+			IntegerPool.get( 22 ),
 			"Dances with Tweedles",
 			"+40% Meat from Monsters",
 		},
 		{
-			IntegerCache.valueOf( 23 ),
+			IntegerPool.get( 23 ),
 			"Patched In",
 			"Mysticality +20%",
 		},
 		{
-			IntegerCache.valueOf( 24 ),
+			IntegerPool.get( 24 ),
 			"You Can Really Taste the Dormouse",
 			"+5 to Familiar Weight",
 		},
 		{
-			IntegerCache.valueOf( 25 ),
+			IntegerPool.get( 25 ),
 			"Turtle Titters",
 			"+3 Stat Gains from Fights",
 		},
 		{
-			IntegerCache.valueOf( 26 ),
+			IntegerPool.get( 26 ),
 			"Cat Class, Cat Style",
 			"Moxie +20%",
 		},
 		{
-			IntegerCache.valueOf( 27 ),
+			IntegerPool.get( 27 ),
 			"Surreally Buff",
 			"Muscle +20%",
 		},
 		{
-			IntegerCache.valueOf( 28 ),
+			IntegerPool.get( 28 ),
 			"Quadrilled",
 			"+20% Items from Monsters",
 		},
 		{
-			IntegerCache.valueOf( 29 ),
+			IntegerPool.get( 29 ),
 			"Coming Up Roses",
 			"Regenerate 10-20 MP per Adventure",
 		},
 		{
-			IntegerCache.valueOf( 30 ),
+			IntegerPool.get( 30 ),
 			"Oleaginous Soles",
 			"+40% Combat Initiative",
 		},
@@ -995,7 +995,7 @@ public abstract class RabbitHoleManager
 			}
 
 			// Otherwise, tally the move and succeed
-			list.add( IntegerCache.valueOf( square ) );
+			list.add( IntegerPool.get( square ) );
 			return true;
 		}
 
@@ -1378,7 +1378,7 @@ public abstract class RabbitHoleManager
 
 		public void add( final int square )
 		{
-			list.add( IntegerCache.valueOf( square ) );
+			list.add( IntegerPool.get( square ) );
 		}
 
 		public void remove()
@@ -1508,7 +1508,7 @@ public abstract class RabbitHoleManager
 			buf.append( ": " );
 			buf.append( RabbitHoleManager.getHatDescription( len ) );
 			buf.append( "</option>" );
-			options.put( IntegerCache.valueOf( (len << 24) | hat.getItemId() ),
+			options.put( IntegerPool.get( (len << 24) | hat.getItemId() ),
 				buf.toString() );
 		}
 		
@@ -1549,7 +1549,7 @@ public abstract class RabbitHoleManager
 
 			String name = hat.getName();
 
-			Integer len = IntegerCache.valueOf( hatLength( name ) );
+			Integer len = IntegerPool.get( hatLength( name ) );
 			StringBuffer buffer = (StringBuffer) lengths.get( len );
 
 			if ( buffer == null )

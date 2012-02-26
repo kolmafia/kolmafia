@@ -41,13 +41,14 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
@@ -68,9 +69,9 @@ public class TestCommand
 
 		if ( command.equals( "intcache" ) )
 		{
-			int cacheHits = IntegerCache.getCacheHits();
-			int cacheMissLows = IntegerCache.getCacheMissLows();
-			int cacheMissHighs = IntegerCache.getCacheMissHighs();
+			int cacheHits = IntegerPool.getCacheHits();
+			int cacheMissLows = IntegerPool.getCacheMissLows();
+			int cacheMissHighs = IntegerPool.getCacheMissHighs();
 			int totalAccesses = cacheHits + cacheMissLows + cacheMissHighs;
 
 			float successRate = 0.0f;

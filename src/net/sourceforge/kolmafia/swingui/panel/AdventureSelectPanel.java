@@ -76,6 +76,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -98,7 +100,6 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class AdventureSelectPanel
 	extends JPanel
@@ -696,18 +697,18 @@ public class AdventureSelectPanel
 			int maximum = KoLCharacter.getAdventuresLeft();
 			if ( maximum == 0 )
 			{
-				this.setValue( IntegerCache.valueOf( 0 ) );
+				this.setValue( IntegerPool.get( 0 ) );
 				return;
 			}
 
 			int desired = InputFieldUtilities.getValue( this, maximum );
 			if ( desired == maximum + 1 )
 			{
-				this.setValue( IntegerCache.valueOf( 1 ) );
+				this.setValue( IntegerPool.get( 1 ) );
 			}
 			else if ( desired <= 0 || desired > maximum )
 			{
-				this.setValue( IntegerCache.valueOf( maximum ) );
+				this.setValue( IntegerPool.get( maximum ) );
 			}
 		}
 	}

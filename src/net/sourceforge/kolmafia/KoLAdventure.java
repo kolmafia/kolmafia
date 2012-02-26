@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -74,7 +75,6 @@ import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
@@ -1275,8 +1275,8 @@ public class KoLAdventure
 	// PENDING only when the script could not have known that the attempt
 	// would fail.
 
-	private static final Integer ERROR = IntegerCache.valueOf( KoLConstants.ERROR_STATE );
-	private static final Integer PENDING = IntegerCache.valueOf( KoLConstants.PENDING_STATE );
+	private static final Integer ERROR = IntegerPool.get( KoLConstants.ERROR_STATE );
+	private static final Integer PENDING = IntegerPool.get( KoLConstants.PENDING_STATE );
 
 	private static final Object [][] ADVENTURE_FAILURES =
 	{

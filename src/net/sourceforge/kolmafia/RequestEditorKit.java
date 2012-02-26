@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -112,7 +113,6 @@ import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -1470,49 +1470,49 @@ public class RequestEditorKit
 	public static Object[][] PUNCHCARDS =
 	{
 		// Verbs
-		{ IntegerCache.valueOf( 3146 ),
+		{ IntegerPool.get( 3146 ),
 		  "El Vibrato punchcard (115 holes)",
 		  "El Vibrato punchcard (ATTACK)"
 		},
-		{ IntegerCache.valueOf( 3147 ),
+		{ IntegerPool.get( 3147 ),
 		  "El Vibrato punchcard (97 holes)",
 		  "El Vibrato punchcard (REPAIR)"
 		},
-		{ IntegerCache.valueOf( 3148 ),
+		{ IntegerPool.get( 3148 ),
 		  "El Vibrato punchcard (129 holes)",
 		  "El Vibrato punchcard (BUFF)"
 		},
-		{ IntegerCache.valueOf( 3149 ),
+		{ IntegerPool.get( 3149 ),
 		  "El Vibrato punchcard (213 holes)",
 		  "El Vibrato punchcard (MODIFY)"
 		},
-		{ IntegerCache.valueOf( 3150 ),
+		{ IntegerPool.get( 3150 ),
 		  "El Vibrato punchcard (165 holes)",
 		  "El Vibrato punchcard (BUILD)"
 		},
 
 		// Objects
-		{ IntegerCache.valueOf( 3151 ),
+		{ IntegerPool.get( 3151 ),
 		  "El Vibrato punchcard (142 holes)",
 		  "El Vibrato punchcard (TARGET)"
 		},
-		{ IntegerCache.valueOf( 3152 ),
+		{ IntegerPool.get( 3152 ),
 		  "El Vibrato punchcard (216 holes)",
 		  "El Vibrato punchcard (SELF)"
 		},
-		{ IntegerCache.valueOf( 3153 ),
+		{ IntegerPool.get( 3153 ),
 		  "El Vibrato punchcard (88 holes)",
 		  "El Vibrato punchcard (FLOOR)"
 		},
-		{ IntegerCache.valueOf( 3154 ),
+		{ IntegerPool.get( 3154 ),
 		  "El Vibrato punchcard (182 holes)",
 		  "El Vibrato punchcard (DRONE)"
 		},
-		{ IntegerCache.valueOf( 3155 ),
+		{ IntegerPool.get( 3155 ),
 		  "El Vibrato punchcard (176 holes)",
 		  "El Vibrato punchcard (WALL)"
 		},
-		{ IntegerCache.valueOf( 3156 ),
+		{ IntegerPool.get( 3156 ),
 		  "El Vibrato punchcard (104 holes)",
 		  "El Vibrato punchcard (SPHERE)"
 		},

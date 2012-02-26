@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class ItemPool
 {
@@ -1616,7 +1615,7 @@ public class ItemPool
 			{
 				continue;	// can't identify yet
 			}
-			possible.add( IntegerCache.valueOf( i | Math.min( count, 127 ) << 24 ) );
+			possible.add( IntegerPool.get( i | Math.min( count, 127 ) << 24 ) );
 		}
 		count = possible.size();
 		if ( count == 0 )

@@ -77,13 +77,14 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.request.TrophyRequest;
 import net.sourceforge.kolmafia.request.TrophyRequest.Trophy;
 
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class TrophyFrame
 	extends GenericFrame
@@ -464,7 +465,7 @@ public class TrophyFrame
 			Integer key, rv;
 			int id1 = this.trophy.id;
 			int id2 = other.trophy.id;
-			key = IntegerCache.valueOf( id1 < id2 ? (id1 << 16 ) | id2 :
+			key = IntegerPool.get( id1 < id2 ? (id1 << 16 ) | id2 :
 				(id2 << 16) | id1 );
 			rv = (Integer) DraggableTrophy.similarities.get( key );
 			if ( rv != null ) return rv.intValue();
@@ -476,7 +477,7 @@ public class TrophyFrame
 				score += Math.abs( (img1[ i ] & 0xFF) - (img2[ i ] & 0xFF) );			
 			}
 			
-			DraggableTrophy.similarities.put( key, IntegerCache.valueOf( score ) );
+			DraggableTrophy.similarities.put( key, IntegerPool.get( score ) );
 			return score;
 		}
 		

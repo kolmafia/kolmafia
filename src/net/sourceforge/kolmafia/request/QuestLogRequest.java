@@ -43,11 +43,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class QuestLogRequest
 	extends GenericRequest
@@ -173,7 +174,7 @@ public class QuestLogRequest
 
 		while ( headers.find() )
 		{
-			map.put( IntegerCache.valueOf( headers.end() ), headers.group( 1 ) );
+			map.put( IntegerPool.get( headers.end() ), headers.group( 1 ) );
 		}
 
 		Iterator it = map.keySet().iterator();

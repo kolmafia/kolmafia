@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
@@ -99,7 +100,6 @@ import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.textui.DataFileCache;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 
@@ -381,7 +381,7 @@ public abstract class KoLCharacter
 		// (Haiku summoning)
 		{
 			"Undead Elbow Macaroni",
-			IntegerCache.valueOf( ItemPool.MACARONI_FRAGMENTS ),
+			IntegerPool.get( ItemPool.MACARONI_FRAGMENTS ),
 			// "<name>. My name is <name>."
 			Pattern.compile( "My name is ([^.]*)\\." ),
 			// You focus your thoughts and call out to <name>. He
@@ -392,7 +392,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Spice Ghost",
-			IntegerCache.valueOf( ItemPool.SCINTILLATING_POWDER ),
+			IntegerPool.get( ItemPool.SCINTILLATING_POWDER ),
 			// My name is <name>, and I am in your debt.
 			Pattern.compile( "My name is ([^,]*), and I am in your debt\\." ),
 			// You conjure up a swirling cloud of spicy dried
@@ -406,7 +406,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Angel Hair Wisp",
-			IntegerCache.valueOf( ItemPool.SHIMMERING_TENDRILS ),
+			IntegerPool.get( ItemPool.SHIMMERING_TENDRILS ),
 			// "You must call me <name>. You must give me form. I
 			// must live."
 			Pattern.compile( "You must call me ([^.]*])\\." ),
@@ -419,7 +419,7 @@ public abstract class KoLCharacter
 
 		{
 			"Lasagmbie",
-			IntegerCache.valueOf( ItemPool.PARANORMAL_RICOTTA ),
+			IntegerPool.get( ItemPool.PARANORMAL_RICOTTA ),
 			// Okay. See you on the other side, <name>.
 			Pattern.compile( "See you on the other side, (.*?)\\." ),
 			// You conjure up a good-sized sheet of lasagna, and
@@ -429,7 +429,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Vermincelli",
-			IntegerCache.valueOf( ItemPool.CRUMBLING_RAT_SKULL ),
+			IntegerPool.get( ItemPool.CRUMBLING_RAT_SKULL ),
 			Pattern.compile( "I think little (.*?) will be the best helper\\." ),
 			// You summon a tangled mass of noodles. There is a
 			// rustling sound as <name> chews his way into the
@@ -439,7 +439,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Boba Fettucini",
-			IntegerCache.valueOf( ItemPool.TWITCHING_TRIGGER_FINGER ),
+			IntegerPool.get( ItemPool.TWITCHING_TRIGGER_FINGER ),
 			// You decide to name it <name>.
 			Pattern.compile( "You decide to name it ([^.]*)\\." ),
 			// <i>pew pew pew!&quot;</i> <name> shouts excitedly,
@@ -450,7 +450,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Penne Dreadful",
-			IntegerCache.valueOf( ItemPool.WINE_SOAKED_BONE_CHIPS ),
+			IntegerPool.get( ItemPool.WINE_SOAKED_BONE_CHIPS ),
 			// "All right, palookah," the private eye says, opening
 			// his mouth for the first time, "the name's
 			// <name>. I'm a gumshoe. You know, a shamus, a
@@ -464,7 +464,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Vampieroghi",
-			IntegerCache.valueOf( ItemPool.VAMPIRE_GLITTER ),
+			IntegerPool.get( ItemPool.VAMPIRE_GLITTER ),
 			// My name is written in blood across the history of
 			// time . . . but you can call me <name>.
 			Pattern.compile( "but you can call me ([^.]*)\\." ),
@@ -475,7 +475,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Bow Tie Bat",
-			IntegerCache.valueOf( ItemPool.SMOKING_TALON ),
+			IntegerPool.get( ItemPool.SMOKING_TALON ),
 			// Ugh. I'll take that guano as a yes? You'll need a
 			// name. Let's call you..." You glance around, hoping
 			// for some inspiration. "How about... <name>."
@@ -488,7 +488,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Spaghetti Elemental",
-			IntegerCache.valueOf( ItemPool.DECODED_CULT_DOCUMENTS ),
+			IntegerPool.get( ItemPool.DECODED_CULT_DOCUMENTS ),
 			// "I guess you need a name, huh?" you reply. "I'll
 			// call you... um... SshoKodo. That'll do."
 			Pattern.compile( "I'll call you... *um... *([^.]*). * That'll do." ),

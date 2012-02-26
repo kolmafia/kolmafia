@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.request.MushroomRequest;
@@ -58,7 +60,6 @@ import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.swingui.MushroomFrame;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
@@ -116,26 +117,26 @@ public abstract class MushroomManager
 	public static final Object [][] MUSHROOMS =
 	{
 		// Sprout and emptiness
-		{ IntegerCache.valueOf( EMPTY ), "dirt1.gif", "__", "__", IntegerCache.valueOf( 0 ), "empty" },
-		{ IntegerCache.valueOf( SPROUT ), "mushsprout.gif", "..", "..", IntegerCache.valueOf( 0 ), "unknown" },
+		{ IntegerPool.get( EMPTY ), "dirt1.gif", "__", "__", IntegerPool.get( 0 ), "empty" },
+		{ IntegerPool.get( SPROUT ), "mushsprout.gif", "..", "..", IntegerPool.get( 0 ), "unknown" },
 
 		// First generation mushrooms
-		{ IntegerCache.valueOf( KNOB ), "mushroom.gif", "kb", "KB", IntegerCache.valueOf( 1 ), "knob" },
-		{ IntegerCache.valueOf( KNOLL ), "bmushroom.gif", "kn", "KN", IntegerCache.valueOf( 2 ), "knoll" },
-		{ IntegerCache.valueOf( SPOOKY ), "spooshroom.gif", "sp", "SP", IntegerCache.valueOf( 3 ), "spooky" },
+		{ IntegerPool.get( KNOB ), "mushroom.gif", "kb", "KB", IntegerPool.get( 1 ), "knob" },
+		{ IntegerPool.get( KNOLL ), "bmushroom.gif", "kn", "KN", IntegerPool.get( 2 ), "knoll" },
+		{ IntegerPool.get( SPOOKY ), "spooshroom.gif", "sp", "SP", IntegerPool.get( 3 ), "spooky" },
 
 		// Second generation mushrooms
-		{ IntegerCache.valueOf( WARM ), "flatshroom.gif", "wa", "WA", IntegerCache.valueOf( 4 ), "warm" },
-		{ IntegerCache.valueOf( COOL ), "plaidroom.gif", "co", "CO", IntegerCache.valueOf( 5 ), "cool" },
-		{ IntegerCache.valueOf( POINTY ), "tallshroom.gif", "po", "PO", IntegerCache.valueOf( 6 ), "pointy" },
+		{ IntegerPool.get( WARM ), "flatshroom.gif", "wa", "WA", IntegerPool.get( 4 ), "warm" },
+		{ IntegerPool.get( COOL ), "plaidroom.gif", "co", "CO", IntegerPool.get( 5 ), "cool" },
+		{ IntegerPool.get( POINTY ), "tallshroom.gif", "po", "PO", IntegerPool.get( 6 ), "pointy" },
 
 		// Third generation mushrooms
-		{ IntegerCache.valueOf( FLAMING ), "fireshroom.gif", "fl", "FL", IntegerCache.valueOf( 7 ), "flaming" },
-		{ IntegerCache.valueOf( FROZEN ), "iceshroom.gif", "fr", "FR", IntegerCache.valueOf( 8 ), "frozen" },
-		{ IntegerCache.valueOf( STINKY ), "stinkshroo.gif", "st", "ST", IntegerCache.valueOf( 9 ), "stinky" },
+		{ IntegerPool.get( FLAMING ), "fireshroom.gif", "fl", "FL", IntegerPool.get( 7 ), "flaming" },
+		{ IntegerPool.get( FROZEN ), "iceshroom.gif", "fr", "FR", IntegerPool.get( 8 ), "frozen" },
+		{ IntegerPool.get( STINKY ), "stinkshroo.gif", "st", "ST", IntegerPool.get( 9 ), "stinky" },
 
 		// Special mushrooms
-		{ IntegerCache.valueOf( GLOOMY ), "blackshroo.gif", "gl", "GL", IntegerCache.valueOf( 10 ), "gloomy" },
+		{ IntegerPool.get( GLOOMY ), "blackshroo.gif", "gl", "GL", IntegerPool.get( 10 ), "gloomy" },
 	};
 
 	public static final int [][] BREEDING =
