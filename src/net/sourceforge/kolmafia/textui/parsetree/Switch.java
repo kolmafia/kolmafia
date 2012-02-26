@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class Switch
-	implements ParseTreeNode
+	extends ParseTreeNode
 {
 	private final Value condition;
 	private final Value [] tests;
@@ -182,5 +182,14 @@ public class Switch
 		stream.println( "<SWITCH" + (labels != null ? " (OPTIMIZED)" : "" ) + ">" );
 		this.getCondition().print( stream, indent + 1 );
 		this.getScope().print( stream, indent + 1, tests, offsets, defaultIndex );
+	}
+	
+	public boolean assertReturn()
+	{
+		if ( this.defaultIndex == -1 )
+		{
+			return false;
+		}
+		return false;	// for now
 	}
 }

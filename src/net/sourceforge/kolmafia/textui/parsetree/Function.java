@@ -45,7 +45,6 @@ import net.sourceforge.kolmafia.textui.Parser;
 
 public abstract class Function
 	extends Symbol
-	implements ParseTreeNode
 {
 	public Type type;
 	public VariableReferenceList variableReferences;

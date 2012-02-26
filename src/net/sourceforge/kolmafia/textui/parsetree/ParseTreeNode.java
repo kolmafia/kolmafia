@@ -37,8 +37,13 @@ import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 
-public interface ParseTreeNode
+public abstract class ParseTreeNode
 {
-	public Value execute( final Interpreter interpreter );
-	public void print( final PrintStream stream, final int indent );
+	public abstract Value execute( final Interpreter interpreter );
+	public abstract void print( final PrintStream stream, final int indent );
+	
+	public boolean assertReturn()
+	{
+		return false;
+	}
 }

@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.textui.ScriptException;
 
 public class Variable
 	extends Symbol
-	implements ParseTreeNode
 {
 	Type type;
 	Value content;

@@ -41,7 +41,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class Try
-	implements ParseTreeNode
+	extends ParseTreeNode
 {
 	private final Scope body, finalClause;
 

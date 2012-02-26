@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 
 public class BasicScript
-	implements ParseTreeNode
+	extends ParseTreeNode
 {
 	private final ByteArrayStream data;
 

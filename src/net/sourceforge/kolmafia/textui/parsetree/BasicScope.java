@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public abstract class BasicScope
-	implements ParseTreeNode
+	extends ParseTreeNode
 {
 	private final PauseObject pauser = new PauseObject();
 	private static long nextPause = System.currentTimeMillis();

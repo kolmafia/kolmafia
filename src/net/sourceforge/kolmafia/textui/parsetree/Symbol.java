@@ -33,7 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-public class Symbol
+public abstract class Symbol
+	extends ParseTreeNode
 	implements Comparable
 {
 	public String name;
