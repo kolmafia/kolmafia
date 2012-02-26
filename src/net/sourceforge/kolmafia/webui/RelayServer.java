@@ -58,7 +58,6 @@ public class RelayServer
 
 	private ServerSocket serverSocket = null;
 	private static int port = 60080;
-	private static String baseTag = null;
 	private static boolean listening = false;
 	private static boolean updateStatus = false;
 
@@ -103,11 +102,6 @@ public class RelayServer
 		return RelayServer.port;
 	}
 
-	public static final String getBase()
-	{
-		return RelayServer.baseTag;
-	}
-
 	public static final boolean isRunning()
 	{
 		return RelayServer.listening;
@@ -133,7 +127,6 @@ public class RelayServer
 			}
 		}
 
-		RelayServer.baseTag = "<base href=\"http://127.0.0.1:" + RelayServer.port + "/game.php\">";
 		RelayServer.listening = true;
 
 		while ( RelayServer.listening )

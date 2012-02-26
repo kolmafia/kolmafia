@@ -1143,7 +1143,6 @@ public class RelayRequest
 
 				StringBuffer buffer = new StringBuffer();
 				buffer.append( "<html><head>" );
-				buffer.append( RelayServer.getBase() );
 				buffer.append( "<meta http-equiv=\"refresh\" content=\"1; URL=" );
 				buffer.append( refreshURL );
 				buffer.append( "\">" );
@@ -1161,17 +1160,12 @@ public class RelayRequest
 			else if ( RelayRequest.specialCommandResponse.length() > 0 )
 			{
 				StringBuffer buffer = new StringBuffer( RelayRequest.specialCommandResponse );
+				StringUtilities.globalStringReplace( buffer, ".href=\"", ".href=\"/" );
+
 				RelayRequest.specialCommandResponse = "";
-
-				if ( buffer.indexOf( "<head>" ) == -1 )
-				{
-					StringUtilities.insertAfter( buffer, "<html>", "<head></head>" );
-				}
-
-				StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase() );
-				this.pseudoResponse( "HTTP/1.1 200 OK", buffer.toString() );
-
 				RelayRequest.specialCommandStatus = "";
+
+				this.pseudoResponse( "HTTP/1.1 200 OK", buffer.toString() );
 			}
 			else
 			{
