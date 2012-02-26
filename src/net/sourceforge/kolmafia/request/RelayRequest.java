@@ -1143,7 +1143,7 @@ public class RelayRequest
 
 				StringBuffer buffer = new StringBuffer();
 				buffer.append( "<html><head>" );
-				buffer.append( RelayServer.getBase( "game.php" ) );
+				buffer.append( RelayServer.getBase() );
 				buffer.append( "<meta http-equiv=\"refresh\" content=\"1; URL=" );
 				buffer.append( refreshURL );
 				buffer.append( "\">" );
@@ -1160,8 +1160,17 @@ public class RelayRequest
 			}
 			else if ( RelayRequest.specialCommandResponse.length() > 0 )
 			{
-				this.pseudoResponse( "HTTP/1.1 200 OK", RelayRequest.specialCommandResponse );
+				StringBuffer buffer = new StringBuffer( RelayRequest.specialCommandResponse );
 				RelayRequest.specialCommandResponse = "";
+
+				if ( buffer.indexOf( "<head>" ) == -1 )
+				{
+					StringUtilities.insertAfter( buffer, "<html>", "<head></head>" );
+				}
+
+				StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase() );
+				this.pseudoResponse( "HTTP/1.1 200 OK", buffer.toString() );
+
 				RelayRequest.specialCommandStatus = "";
 			}
 			else

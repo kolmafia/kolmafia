@@ -1426,7 +1426,6 @@ public abstract class RabbitHoleManager
 		StringBuffer buffer = new StringBuffer( response );
 		RequestEditorKit.getFeatureRichHTML( "choice.php", buffer );
 		RabbitHoleManager.decorateChessPuzzleResponse( buffer );
-		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( "inv_use.php" ) );
 		return buffer.toString();
 	}
 
