@@ -90,6 +90,11 @@ public class ClanStashRequest
 		this.destination = new ArrayList();
 	}
 
+	public ClanStashRequest( Object attachment, final int moveType )
+	{
+		this( new Object[] { attachment }, moveType );
+	}
+
 	/**
 	 * Constructs a new <code>ClanStashRequest</code>.
 	 *

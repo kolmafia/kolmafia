@@ -147,7 +147,12 @@ public class UseItemRequest
 
 	public static final UseItemRequest getInstance( final int itemId )
 	{
-		return UseItemRequest.getInstance( ItemPool.get( itemId, 1 ) );
+		return UseItemRequest.getInstance( itemId, 1 );
+	}
+
+	public static final UseItemRequest getInstance( final int itemId, int itemCount )
+	{
+		return UseItemRequest.getInstance( ItemPool.get( itemId, itemCount ) );
 	}
 
 	public static final UseItemRequest getInstance( final AdventureResult item )
