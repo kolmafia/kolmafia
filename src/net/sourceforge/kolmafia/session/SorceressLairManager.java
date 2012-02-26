@@ -1297,6 +1297,14 @@ public abstract class SorceressLairManager
 				return requirements;
 			}
 		}
+		else if ( inAxecore )
+		{
+			// You have to have Trusty equipped
+			if ( !KoLCharacter.hasEquipped( EquipmentRequest.TRUSTY, EquipmentManager.WEAPON ) )
+			{
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.TRUSTY, EquipmentManager.WEAPON ) );
+			}
+		}
 		else if ( needWeapon )
 		{
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) );
