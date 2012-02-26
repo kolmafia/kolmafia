@@ -1120,12 +1120,14 @@ public class RelayRequest
 			{
 				RelayRequest.specialCommandResponse = "";
 				RelayRequest.specialCommandStatus = "";
+
 				if ( path.endsWith( "parameterizedCommand" ) )
 				{
-					String URL =  this.getURLString();
-					int pwdStart = URL.indexOf( "pwd" );
-					int pwdEnd = URL.indexOf( "&", pwdStart );
-					String parameters = pwdEnd == -1 ? "" : URL.substring( pwdEnd + 1 );
+					String commandURL =  this.getURLString();
+					int pwdStart = commandURL.indexOf( "pwd" );
+					int pwdEnd = commandURL.indexOf( "&", pwdStart );
+
+					String parameters = pwdEnd == -1 ? "" : commandURL.substring( pwdEnd + 1 );
 					submitCommand( cmd + " " + parameters );
 				}
 				else
@@ -1133,24 +1135,26 @@ public class RelayRequest
 					submitCommand( cmd, false, false );
 				}
 			}
+
 			this.contentType = "text/html";
 			if ( CommandDisplayFrame.hasQueuedCommands() )
 			{
-				String URL = "/KoLmafia/specialCommand?cmd=wait&pwd=" + GenericRequest.passwordHash;
+				String refreshURL = "/KoLmafia/specialCommand?cmd=wait&pwd=" + GenericRequest.passwordHash;
 
 				StringBuffer buffer = new StringBuffer();
 				buffer.append( "<html><head>" );
+				buffer.append( RelayServer.getBase( "game.php" ) );
 				buffer.append( "<meta http-equiv=\"refresh\" content=\"1; URL=" );
-				buffer.append( URL );
+				buffer.append( refreshURL );
 				buffer.append( "\">" );
 				buffer.append( "</head><body>" );
 				buffer.append( "<a href=\"" );
-				buffer.append( URL );
+				buffer.append( refreshURL );
 				buffer.append( "\">" );
 				buffer.append( "Automating (see CLI for details, click to refresh)..." );
 				buffer.append( "</a><p>" );
 				buffer.append( RelayRequest.specialCommandStatus );
-				buffer.append( "</body></html>" );
+				buffer.append( "</p></body></html>" );
 
 				this.pseudoResponse( "HTTP/1.1 200 OK",	 buffer.toString() );
 			}

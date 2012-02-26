@@ -730,11 +730,6 @@ public class RequestEditorKit
 			StringUtilities.globalStringReplace( buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"" );
 			StringUtilities.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
 		}
-
-		// Stick in a <base> tag so that executing KoLmafia commands doesn't
-		// make the browser munge up links in the result.
-
-		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( location ) );
 	}
 
 	private static final void decorateLevelGain( final StringBuffer buffer )
