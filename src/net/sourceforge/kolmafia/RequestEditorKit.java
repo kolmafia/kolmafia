@@ -731,13 +731,10 @@ public class RequestEditorKit
 			StringUtilities.globalStringReplace( buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor );
 		}
 
-		// If we have our own commands on this page, stick in a <base> tag
-		// so that executing the command doesn't make the browser munge up
-		// links in the result.
-		if ( buffer.indexOf( "/KoLmafia" ) != -1 )
-		{
-			StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( location ) );
-		}
+		// Stick in a <base> tag so that executing KoLmafia commands doesn't
+		// make the browser munge up links in the result.
+
+		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( location ) );
 	}
 
 	private static final void decorateLevelGain( final StringBuffer buffer )
