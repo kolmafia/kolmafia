@@ -152,7 +152,7 @@ public class XPather {
                     Collection secondObject = evaluateAgainst(filterSource, from + 1, to, false, position, last, isFilterContext, filterSource);
                     logicValue = evaluateLogic(object, secondObject, tokenArray[from]);
                 }
-                return singleton(new Boolean(logicValue));
+                return singleton(Boolean.valueOf(logicValue));
             } else if (isToken("/", from)) {    // children of the node
                 boolean goRecursive = isToken("/", from + 1);
                 if (goRecursive) {
