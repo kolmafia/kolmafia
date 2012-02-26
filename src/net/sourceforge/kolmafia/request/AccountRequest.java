@@ -490,9 +490,11 @@ public class AccountRequest
 		// account.php?actions[]=unpath&action=Drop+Bees+Hate+You&unpathconfirm=1&tab=account&pwd
 		// account.php?actions[]=unpath&action=Drop+Way+of+the+Surprising+Fist&unpathconfirm=1&tab=account&pwd
 		// account.php?actions[]=unpath&action=Drop+Trendy&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Avatar+of+Boris&unpathconfirm=1&tab=account&pwd
 		if ( action.equals( "Drop+Bees+Hate+You" ) ||
 		     action.equals( "Drop+Way+of+the+Surprising+Fist" ) ||
-		     action.equals( "Drop+Trendy" ) )
+		     action.equals( "Drop+Trendy" ) ||
+		     action.equals( "Drop+Avatar+of+Boris" ) )
 		{
 			if ( location.indexOf( "unpathconfirm=1" ) != -1 )
 			{
@@ -509,6 +511,10 @@ public class AccountRequest
 					Preferences.setInteger( "lastTelescopeReset", -1 );
 					KoLCharacter.checkTelescope();
 				}
+
+				// If we drop Avatar of Boris, do we get here,
+				// or are we redirected to the "End of the
+				// Boris Road" choice adventure?
 			}
 			return;
 		}
