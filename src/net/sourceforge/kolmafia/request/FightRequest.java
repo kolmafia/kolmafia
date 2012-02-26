@@ -2423,13 +2423,18 @@ public class FightRequest
 			ItemPool.suggestIdentify( items, 819, 827, "lastBangPotion" );
 		}
 
-		switch ( items.size() )
+		int itemsSize = items.size();
+		boolean haveFunkslinging = KoLCharacter.hasSkill( "Ambidextrous Funkslinging" );
+		if ( itemsSize == 0 )
 		{
-		case 0:
 			return null;
-		case 1:
+		}
+		else if ( itemsSize == 1 || !haveFunkslinging )
+		{
 			return (String) items.get( 0 );
-		default:
+		}
+		else
+		{
 			return (String) items.get( 0 ) + "," + (String) items.get( 1 );
 		}
 	}
