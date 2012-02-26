@@ -50,6 +50,10 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.ImageIcon;
+
+import net.java.dev.spellcast.utilities.JComponentUtilities;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -1624,6 +1628,23 @@ public class ItemDatabase
 	public static final void setImage( final int itemId, final String image )
 	{
 		imageById.set( itemId, image );
+	}
+
+	public static final String getItemImageLocation( final int itemId )
+	{
+		String location = ItemDatabase.getImage( itemId );
+		return ( location != null ) ? location : "debug.gif";
+	}
+
+	private static final void downloadItemImage( final int itemId )
+	{
+		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + ItemDatabase.getItemImageLocation( itemId ) );
+	}
+
+	public static final ImageIcon getItemImage( final int itemId )
+	{
+		ItemDatabase.downloadItemImage( itemId );
+		return JComponentUtilities.getImage( "itemimages/" + ItemDatabase.getItemImageLocation( itemId ) );
 	}
 
 	public static final Integer getLevelReqByName( final String name )

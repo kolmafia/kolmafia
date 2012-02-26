@@ -3777,6 +3777,12 @@ public class UseItemRequest
 			}
 
 			return;
+
+		case ItemPool.CLANCY_SACKBUT:
+		case ItemPool.CLANCY_CRUMHORN:
+		case ItemPool.CLANCY_LUTE:
+			KoLCharacter.setCurrentInstrument( item );
+			return;
 		}
 	}
 
