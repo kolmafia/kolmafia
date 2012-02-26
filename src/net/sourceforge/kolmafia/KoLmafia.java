@@ -1130,7 +1130,7 @@ public abstract class KoLmafia
 					return;
 				}
 
-				if ( KoLCharacter.getCurrentHP() == 0 )
+				if ( KoLCharacter.getCurrentHP() == 0 && !KoLmafia.currentAdventure.isNonCombatsOnly() )
 				{
 					RecoveryManager.recoverHP();
 				}
