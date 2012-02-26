@@ -346,7 +346,7 @@ public class CoinMasterRequest
 		}
 		while ( KoLmafia.permitsContinue() && ++i <= visits );
 
-		if ( KoLmafia.permitsContinue() )
+		if ( KoLmafia.permitsContinue() && this.action != null )
 		{
 			KoLmafia.updateDisplay( master + " successfully looted!" );
 		}
