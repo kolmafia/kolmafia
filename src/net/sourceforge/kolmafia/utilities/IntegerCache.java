@@ -42,6 +42,10 @@ public class IntegerCache
 
 	private static final Integer[] CACHE = new Integer[ IntegerCache.RANGE ];
 
+	private static int cacheHits = 0;
+	private static int cacheMissHighs = 0;
+	private static int cacheMissLows = 0;
+
 	static
 	{
 		for ( int i = 0; i < IntegerCache.RANGE; ++i )
@@ -50,18 +54,36 @@ public class IntegerCache
 		}
 	}
 
+	public static final int getCacheHits()
+	{
+		return IntegerCache.cacheHits;
+	}
+
+	public static final int getCacheMissLows()
+	{
+		return IntegerCache.cacheMissLows;
+	}
+
+	public static final int getCacheMissHighs()
+	{
+		return IntegerCache.cacheMissHighs;
+	}
+
 	public static final Integer valueOf( int i )
 	{
 		if ( i < IntegerCache.MIN_VALUE )
 		{
+			++cacheMissLows;
 			return new Integer( i );
 		}
 
 		if ( i > IntegerCache.MAX_VALUE )
 		{
+			++cacheMissHighs;
 			return new Integer( i );
 		}
 
+		++cacheHits;
 		return IntegerCache.CACHE[ i - IntegerCache.MIN_VALUE ];
 	}
 }

@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
@@ -64,6 +65,28 @@ public class TestCommand
 	{
 		String[] split = parameters.split( " " );
 		String command = split[ 0 ];
+
+		if ( command.equals( "intcache" ) )
+		{
+			int cacheHits = IntegerCache.getCacheHits();
+			int cacheMissLows = IntegerCache.getCacheMissLows();
+			int cacheMissHighs = IntegerCache.getCacheMissHighs();
+			int totalAccesses = cacheHits + cacheMissLows + cacheMissHighs;
+
+			float successRate = 0.0f;
+
+			if ( totalAccesses != 0 )
+			{
+				successRate = (float) cacheHits / (float) totalAccesses * 100.0f;
+			}
+
+			RequestLogger.printLine( "cache hits: " + cacheHits );
+			RequestLogger.printLine( "cache misses (too low): " + cacheMissLows );
+			RequestLogger.printLine( "cache misses (too high): " + cacheMissHighs );
+			RequestLogger.printLine( "success rate: " + successRate + " %" );
+
+			return;
+		}
 
 		if ( command.equals( "load" ) )
 		{
