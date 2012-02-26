@@ -786,7 +786,10 @@ public abstract class SorceressLairManager
 		requirements.addAll( SorceressLairManager.retrieveSqueezings() );
 		requirements.addAll( SorceressLairManager.retrieveScubaGear() );
 
-		RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
+		if ( !KoLCharacter.inAxecore() )
+		{
+			RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
+		}
 
 		if ( !KoLmafia.checkRequirements( requirements ) || KoLmafia.refusesContinue() )
 		{
@@ -1251,7 +1254,7 @@ public abstract class SorceressLairManager
 			return requirements;
 		}
 
-		// If you can't equip the appropriate weapon and buckler,
+		// If you can't equip the appropriate weapon and hat,
 		// then tell the player they lack the required stats.
 
 		if ( needWeapon && !EquipmentManager.canEquip( starWeapon.getName() ) )
@@ -1327,12 +1330,12 @@ public abstract class SorceressLairManager
 			}
 
 			// "A fragment of a line hits you really hard
-			// on the arm, and it knocks you back into the
+			// in the face, and it knocks you back into the
 			// main cavern."
 
 			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "knocks you back" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to equip star buckler." );
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to equip star hat." );
 			}
 
 			// "Trog creeps toward the pedestal, but is

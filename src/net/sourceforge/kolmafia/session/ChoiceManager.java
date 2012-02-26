@@ -4267,6 +4267,27 @@ public abstract class ChoiceManager
 				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "2" : "3";
 			}
 			return decision;
+
+		case 92: case 93: case 94: case 95: case 96:
+		case 97: case 98: case 99: case 100: case 101:
+		case 102: case 103: case 104:
+			// Choices in the Louvre
+
+			if ( decision.equals( "" ) )
+			{
+				return LouvreManager.handleChoice( choice, stepCount );
+			}
+
+			return decision;
+
+		// Dungeon Fist!
+		case 486:
+			if ( !ChoiceManager.initializeAfterChoice )
+			{	// Don't automate this if we logged in in the middle of the game -
+				// the auto script isn't robust enough to handle arbitrary starting points.
+				return ArcadeRequest.autoDungeonFist( stepCount );
+			}
+			return decision;
 		}
 
 		// If the user wants manual control, let 'em have it.
@@ -4398,18 +4419,6 @@ public abstract class ChoiceManager
 
 			LouvreManager.resetDecisions();
 			return Preferences.getInteger( "louvreGoal" ) != 0 ? "1" : "2";
-
-		case 92: case 93: case 94: case 95: case 96:
-		case 97: case 98: case 99: case 100: case 101:
-		case 102: case 103: case 104:
-			// Choices in the Louvre
-
-			if ( decision.equals( "" ) )
-			{
-				return LouvreManager.handleChoice( choice, stepCount );
-			}
-
-			return decision;
 
 		// No sir, away! A papaya war is on!
 		case 127:
@@ -4556,15 +4565,6 @@ public abstract class ChoiceManager
 			if ( decision.equals( "1" ) && Preferences.getInteger( "seaodesFound" ) == 3 )
 			{
 				return "2";
-			}
-			return decision;
-
-		// Dungeon Fist!
-		case 486:
-			if ( !ChoiceManager.initializeAfterChoice )
-			{	// Don't automate this if we logged in in the middle of the game -
-				// the auto script isn't robust enough to handle arbitrary starting points.
-				return ArcadeRequest.autoDungeonFist( stepCount );
 			}
 			return decision;
 
