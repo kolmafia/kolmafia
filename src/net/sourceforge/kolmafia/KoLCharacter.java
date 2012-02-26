@@ -334,7 +334,7 @@ public abstract class KoLCharacter
 	private static boolean hasBookshelf = false;
 	private static int telescopeUpgrades = 0;
 
-	// Familiar data for reference
+	// Familiar data
 
 	public static final SortedListModel familiars = new SortedListModel();
 	public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
@@ -342,6 +342,10 @@ public abstract class KoLCharacter
 	public static FamiliarData currentEnthroned = FamiliarData.NO_FAMILIAR;
 	private static int arenaWins = 0;
 	private static boolean isUsingStabBat = false;
+
+	// Minstrel data
+	public static AdventureResult currentInstrument = null;
+	public static int minstrelLevel = 0;
 
 	private static int stillsAvailable = 0;
 	private static boolean tripleReagent = false;
@@ -3477,6 +3481,49 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to get Clancy's current instrument
+	 *
+	 * @return AdventureResult The current instrument
+	 */
+
+	public static final AdventureResult getCurrentInstrument()
+	{
+		return KoLCharacter.currentInstrument;
+	}
+
+	public static final void setCurrentInstrument(	AdventureResult instrument )
+	{
+		KoLCharacter.currentInstrument = instrument;
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
+	}
+
+	public static final int getMinstrelLevel()
+	{
+		return KoLCharacter.minstrelLevel;
+	}
+
+	public static final void setMinstrelLevel( int minstrelLevel )
+	{
+		KoLCharacter.minstrelLevel = minstrelLevel;
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
+	}
+
+	public static final int getMinstrelLevelAdjustment()
+	{
+		return (int) KoLCharacter.currentModifiers.get( Modifiers.MINSTREL_LEVEL );
+	}
+
+	public static final void setClancy( final int level, final AdventureResult instrument, final boolean attention )
+	{
+		KoLCharacter.minstrelLevel = level;
+		KoLCharacter.currentInstrument = instrument;
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
+	}
+
+	/**
 	 * Accessor method to get arena wins
 	 *
 	 * @return The number of arena wins
@@ -4291,8 +4338,7 @@ public abstract class KoLCharacter
 
 		// Add familiar effects based on calculated weight adjustment.
 
-		newModifiers.applyFamiliarModifiers( familiar,
-			equipment[ EquipmentManager.FAMILIAR ] );
+		newModifiers.applyFamiliarModifiers( familiar, equipment[ EquipmentManager.FAMILIAR ] );
 
 		// Add in strung-up quartet.
 
@@ -4325,6 +4371,11 @@ public abstract class KoLCharacter
 				newModifiers.add( Modifiers.MONSTER_LEVEL,
 					Math.min( 1000, 15 * hatred * (hatred + 2) ), "slime hatred" );
 			}
+		}
+
+		if ( KoLCharacter.inAxecore() && KoLCharacter.currentInstrument != null )
+		{
+			newModifiers.applyMinstrelModifiers( KoLCharacter.minstrelLevel, KoLCharacter.currentInstrument );
 		}
 
 		// Lastly, experience adjustment also implicitly depends on

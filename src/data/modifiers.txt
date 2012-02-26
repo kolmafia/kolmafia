@@ -18,6 +18,7 @@
 # Upper-case letters are varying values:
 #	A - number of Ascensions
 #	B - Blood of Wereseal effect
+#	C - Clancy's level
 #	D - Drunkenness
 #	E - active (nonintrinsic) Effects
 #	F - Fullness
@@ -2256,7 +2257,13 @@ wax lips	Experience: +3, Softcore Only, Generic
 woolen cravat	Familiar Weight: +5
 # zen motorcycle: Makes Llama Lamas friendlier
 
+# Minstrel section of modifiers.txt
+
 # Familiars section of modifiers.txt
+
+Clancy's sackbut	HP Regen Min: [C], HP Regen Max: [C*2], MP Regen Min: [C], MP Regen Max: [C*2]
+Clancy's crumhorn	Volleyball: [C]
+Clancy's lute	Fairy: [C]
 
 # Familiars with standard abilities don't need to appear here -
 # familiar.txt types of stat0, stat1, item0, meat0 correspond to

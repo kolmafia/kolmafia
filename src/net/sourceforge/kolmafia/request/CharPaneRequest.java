@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
@@ -199,10 +201,15 @@ public class CharPaneRequest
 
 		CharPaneRequest.checkNewLocation( responseText );
 		CharPaneRequest.refreshEffects( responseText );
-		KoLCharacter.recalculateAdjustments();
 		CharPaneRequest.checkFamiliar( responseText );
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
 
+		if ( KoLCharacter.inAxecore() )
+		{
+			CharPaneRequest.checkClancy( responseText );
+		}
+
+		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 
 		// Mana cost adjustment may have changed
@@ -761,6 +768,35 @@ public class CharPaneRequest
 			int weight = StringUtilities.parseInt( familiarMatcher.group(1) );
 			boolean feasted = responseText.indexOf( "well-fed" ) != -1;
 			KoLCharacter.getFamiliar().checkWeight( weight, feasted );
+		}
+	}
+
+	private static Pattern compactClancyPattern =
+		Pattern.compile( "otherimages/clancy_([123])(_att)?.gif.*?L\\. (\\d+)", Pattern.DOTALL );
+	private static Pattern expandedClancyPattern =
+		Pattern.compile( "<b>Clancy</b>.*?Level <b>(\\d+)</b>.*?otherimages/clancy_([123])(_att)?.gif", Pattern.DOTALL );
+
+	public static AdventureResult SACKBUT = ItemPool.get( ItemPool.CLANCY_SACKBUT, 1 );
+	public static AdventureResult CRUMHORN = ItemPool.get( ItemPool.CLANCY_CRUMHORN, 1 );
+	public static AdventureResult LUTE = ItemPool.get( ItemPool.CLANCY_LUTE, 1 );
+
+	private static final void checkClancy( final String responseText )
+	{
+		Pattern pattern = CharPaneRequest.compactCharacterPane ?
+			CharPaneRequest.compactClancyPattern :
+			CharPaneRequest.expandedClancyPattern;
+		Matcher clancyMatcher = pattern.matcher( responseText );
+		if ( clancyMatcher.find() )
+		{
+			String level = clancyMatcher.group( CharPaneRequest.compactCharacterPane ? 3 : 1 );
+			String image = clancyMatcher.group( CharPaneRequest.compactCharacterPane ? 1 : 2 );
+			boolean att = clancyMatcher.group( CharPaneRequest.compactCharacterPane ? 2 : 3 ) != null;
+			AdventureResult instrument =
+				image.equals( "1" ) ? CharPaneRequest.SACKBUT :
+				image.equals( "2" ) ? CharPaneRequest.CRUMHORN :
+				image.equals( "3" ) ? CharPaneRequest.LUTE :
+				null;
+			KoLCharacter.setClancy( StringUtilities.parseInt( level ), instrument, att );
 		}
 	}
 

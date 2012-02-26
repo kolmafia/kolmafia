@@ -197,6 +197,7 @@ public class Modifiers
 	public static final int MUS_EXPERIENCE_PCT = 96;
 	public static final int MYS_EXPERIENCE_PCT = 97;
 	public static final int MOX_EXPERIENCE_PCT = 98;
+	public static final int MINSTREL_LEVEL = 99;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -639,6 +640,10 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+)% to all Moxie Gains" ),
 		  Pattern.compile( "Experience Percent \\(Moxie\\): " + EXPR ),
 		  "Experience Percent (Moxie)"
+		},
+		{ "Minstrel Level",
+		  Pattern.compile( "Minstrel Level ([+-]\\d+)" ),
+		  Pattern.compile( "Minstrel Level: " + EXPR )
 		},
 	};
 
@@ -2049,6 +2054,31 @@ public class Modifiers
 	{
 		return (String) Modifiers.familiarEffectByName.get( 
 			StringUtilities.getCanonicalName( itemName ) );
+	}
+
+	public void applyMinstrelModifiers( final int level, AdventureResult instrument )
+	{
+		String name = instrument.getName();
+		Modifiers imods = Modifiers.getModifiers( name );
+
+		double effective = imods.get( Modifiers.VOLLEYBALL_WEIGHT );
+		if ( effective != 0.0 )
+		{
+			double factor = Math.sqrt( effective );
+			this.add( Modifiers.EXPERIENCE, factor, name );
+		}
+
+		effective = imods.get( Modifiers.FAIRY_WEIGHT );
+		if ( effective != 0.0 )
+		{
+			double factor = Math.sqrt( 55 * effective ) + effective - 3;
+			this.add( Modifiers.ITEMDROP, factor, name );
+		}
+
+		this.add( Modifiers.HP_REGEN_MIN, imods.get( Modifiers.HP_REGEN_MIN ), name );
+		this.add( Modifiers.HP_REGEN_MAX, imods.get( Modifiers.HP_REGEN_MAX ), name );
+		this.add( Modifiers.MP_REGEN_MIN, imods.get( Modifiers.MP_REGEN_MIN ), name );
+		this.add( Modifiers.MP_REGEN_MAX, imods.get( Modifiers.MP_REGEN_MAX ), name );
 	}
 
 

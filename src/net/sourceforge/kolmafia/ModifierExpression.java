@@ -55,7 +55,7 @@ public class ModifierExpression
 
 	protected String validBytecodes()
 	{
-		return super.validBytecodes() + "ABDEFGHJLMRSTUWX";
+		return super.validBytecodes() + "ABCDEFGHJLMRSTUWX";
 	}
 
 	protected String function()

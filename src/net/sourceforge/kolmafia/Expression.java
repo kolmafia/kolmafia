@@ -235,6 +235,9 @@ public class Expression
 			case 'B':
 				v = HolidayDatabase.getBloodEffect();
 				break;
+			case 'C':
+				v = KoLCharacter.getMinstrelLevel();
+				break;
 			case 'D':
 				v = KoLCharacter.getInebriety();
 				break;

@@ -859,6 +859,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "get_power", DataTypes.INT_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "minstrel_level", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "minstrel_instrument", DataTypes.ITEM_TYPE, params ) );
+
 		// Random other functions related to current in-game
 		// state, not directly tied to the character.
 
@@ -3616,6 +3622,17 @@ public abstract class RuntimeLibrary
 	{
 		FamiliarData fam = KoLCharacter.findFamiliar( familiar.toString() );
 		return fam == null ? DataTypes.ZERO_VALUE : new Value( fam.getWeight() );
+	}
+
+	public static Value minstrel_level( Interpreter interpreter )
+	{
+		return DataTypes.makeIntValue( KoLCharacter.getMinstrelLevel() );
+	}
+
+	public static Value minstrel_instrument( Interpreter interpreter )
+	{
+		AdventureResult item = KoLCharacter.getCurrentInstrument();
+		return item == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( item.getName(), true );
 	}
 
 	// Random other functions related to current in-game

@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -278,6 +279,39 @@ public class CompactSidePane
 		public void mousePressed( MouseEvent e )
 		{
 			JPopupMenu famPopup = new JPopupMenu();
+			if ( KoLCharacter.inAxecore() )
+			{
+				this.addInstruments( famPopup );
+			}
+			else
+			{
+				this.addFamiliars( famPopup );
+			}
+
+			famPopup.show( e.getComponent(), e.getX(), e.getY() );
+		}
+
+		private void addInstruments( JPopupMenu famPopup )
+		{
+			AdventureResult item = CharPaneRequest.SACKBUT;
+			if ( item.getCount( KoLConstants.inventory ) > 0 )
+			{
+				famPopup.add( new InstrumentMenuItem( item ) );
+			}
+			item = CharPaneRequest.CRUMHORN;
+			if ( item.getCount( KoLConstants.inventory ) > 0 )
+			{
+				famPopup.add( new InstrumentMenuItem( item ) );
+			}
+			item = CharPaneRequest.LUTE;
+			if ( item.getCount( KoLConstants.inventory ) > 0 )
+			{
+				famPopup.add( new InstrumentMenuItem( item ) );
+			}
+		}
+
+		private void addFamiliars( JPopupMenu famPopup )
+		{
 			JMenu stat = new JMenu( "statgain" );
 			JMenu item = new JMenu( "itemdrop" );
 			JMenu meat = new JMenu( "meatdrop" );
@@ -386,8 +420,6 @@ public class CompactSidePane
 			}
 
 			famPopup.add( other );
-
-			famPopup.show( e.getComponent(), e.getX(), e.getY() );
 		}
 	}
 
@@ -420,6 +452,34 @@ public class CompactSidePane
 		protected void execute()
 		{
 			CommandDisplayFrame.executeCommand( "familiar " + this.familiar.getRace() );
+		}
+	}
+
+	private static class InstrumentMenuItem
+		extends ThreadedMenuItem
+	{
+		public InstrumentMenuItem( final AdventureResult item )
+		{
+			super( item.getName(), new UseItemListener( item ) );
+			ImageIcon icon = ItemDatabase.getItemImage( item.getItemId() );
+			this.setIcon( icon );
+			icon.setImageObserver( this );
+		}
+	}
+
+	private static class UseItemListener
+		extends ThreadedListener
+	{
+		private String command;
+
+		public UseItemListener( AdventureResult item )
+		{
+			this.command = "use " + item.getName();
+		}
+
+		protected void execute()
+		{
+			CommandDisplayFrame.executeCommand( this.command );
 		}
 	}
 
@@ -727,26 +787,46 @@ public class CompactSidePane
 
 		this.levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" + KoLConstants.COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 
-		FamiliarData current = KoLCharacter.getFamiliar();
-		FamiliarData effective = KoLCharacter.getEffectiveFamiliar();
-		int id = effective == null ? -1 : effective.getId();
-
-		if ( id == -1 )
+		if ( KoLCharacter.inAxecore() )
 		{
-			this.familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
-			this.familiarLabel.setText( "0 lbs." );
+			AdventureResult item = KoLCharacter.getCurrentInstrument();
+			if ( item == null )
+			{
+				this.familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
+			}
+			else
+			{
+				ImageIcon icon = ItemDatabase.getItemImage( item.getItemId() );
+				this.familiarLabel.setIcon( icon );
+				icon.setImageObserver( this );
+			}
+			int level = KoLCharacter.getMinstrelLevel();
+			this.familiarLabel.setText( "Level " + level );
 		}
 		else
 		{
-			StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
-			ImageIcon icon = FamiliarDatabase.getFamiliarImage( id );
-			this.familiarLabel.setIcon( icon );
-			icon.setImageObserver( this );
-			int weight = current.getModifiedWeight();
-			this.familiarLabel.setText( "<HTML><center>" + weight +
-				( weight == 1 ? " lb." : " lbs." ) +
-				( anno == null ? "" : ", " + anno.toString() ) + "</center></HTML>" );
+			FamiliarData current = KoLCharacter.getFamiliar();
+			FamiliarData effective = KoLCharacter.getEffectiveFamiliar();
+			int id = effective == null ? -1 : effective.getId();
+
+			if ( id == -1 )
+			{
+				this.familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
+				this.familiarLabel.setText( "0 lbs." );
+			}
+			else
+			{
+				StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
+				ImageIcon icon = FamiliarDatabase.getFamiliarImage( id );
+				this.familiarLabel.setIcon( icon );
+				icon.setImageObserver( this );
+				int weight = current.getModifiedWeight();
+				this.familiarLabel.setText( "<HTML><center>" + weight +
+							    ( weight == 1 ? " lb." : " lbs." ) +
+							    ( anno == null ? "" : ", " + anno.toString() ) + "</center></HTML>" );
+			}
 		}
+
 		this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
 	}
