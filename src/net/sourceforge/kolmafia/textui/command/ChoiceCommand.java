@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ChoiceCommand
@@ -89,7 +90,7 @@ public class ChoiceCommand
 			}
 		}
 		
-		if ( !choices.containsKey( new Integer( decision ) ) )
+		if ( !choices.containsKey( IntegerCache.valueOf( decision ) ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That isn't one of your choices." );
 		}
@@ -121,7 +122,7 @@ public class ChoiceCommand
 			{
 				text = text + " (" + possibleDecisions[ 2 ][ decision - 1 ] + ")";
 			}
-			rv.put( new Integer( decision ), text );
+			rv.put( IntegerCache.valueOf( decision ), text );
 		}
 		return rv;
 	}

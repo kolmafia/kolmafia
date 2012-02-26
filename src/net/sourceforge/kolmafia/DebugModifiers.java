@@ -38,6 +38,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
+
 public class DebugModifiers
 	extends Modifiers
 {
@@ -53,7 +55,7 @@ public class DebugModifiers
 			String name = Modifiers.getModifierName( i );
 			if ( name.toLowerCase().indexOf( parameters ) != -1 )
 			{
-				DebugModifiers.wanted.put( new Integer( i ),
+				DebugModifiers.wanted.put( IntegerCache.valueOf( i ),
 					"<td colspan=2>" + name + "</td>" );
 			}
 		}
@@ -95,7 +97,7 @@ public class DebugModifiers
 		
 		super.add( index, mod, desc );
 		
-		Integer key = new Integer( index );
+		Integer key = IntegerCache.valueOf( index );
 		if ( ! DebugModifiers.wanted.containsKey( key ) )
 		{
 			return;

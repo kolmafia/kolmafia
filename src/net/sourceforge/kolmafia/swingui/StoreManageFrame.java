@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.swingui.table.TransparentTable;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StoreManageFrame
@@ -290,9 +291,9 @@ public class StoreManageFrame
 
 			Vector value = new Vector();
 			value.add( "- select an item -" );
-			value.add( new Integer( 0 ) );
-			value.add( new Integer( 0 ) );
-			value.add( new Integer( 0 ) );
+			value.add( IntegerCache.valueOf( 0 ) );
+			value.add( IntegerCache.valueOf( 0 ) );
+			value.add( IntegerCache.valueOf( 0 ) );
 			value.add( Boolean.FALSE );
 
 			this.listModel.add( value );
@@ -391,8 +392,8 @@ public class StoreManageFrame
 			soldItem = new AdventureResult( soldItem.getItemId(), quantity );
 
 			StoreManageFrame.this.addTable.setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
-			StoreManageFrame.this.addTable.setValueAt( new Integer( 0 ), 0, 1 );
-			StoreManageFrame.this.addTable.setValueAt( new Integer( 0 ), 0, 3 );
+			StoreManageFrame.this.addTable.setValueAt( IntegerCache.valueOf( 0 ), 0, 1 );
+			StoreManageFrame.this.addTable.setValueAt( IntegerCache.valueOf( 0 ), 0, 3 );
 
 			RequestThread.postRequest( new AutoMallRequest( soldItem, price, limit ) );
 		}

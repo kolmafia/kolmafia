@@ -57,6 +57,8 @@ import net.sourceforge.kolmafia.session.ContactManager;
 
 import net.sourceforge.kolmafia.swingui.BuffBotFrame;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
+
 public class BuffBotHome
 {
 	private static final DateFormat TIMESTAMP_FORMAT =
@@ -127,7 +129,7 @@ public class BuffBotHome
 
 	private static final List getPastRecipients( final int meatSent )
 	{
-		Integer key = new Integer( meatSent );
+		Integer key = IntegerCache.valueOf( meatSent );
 		if ( !BuffBotHome.pastRecipients.containsKey( key ) )
 		{
 			BuffBotHome.pastRecipients.put( key, new SortedListModel() );

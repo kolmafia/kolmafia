@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -73,132 +74,132 @@ public abstract class RabbitHoleManager
 	public final static Object [][] HAT_DATA =
 	{
 		{
-			new Integer( 4 ),
+			IntegerCache.valueOf( 4 ),
 			"Assaulted with Pepper",
 			"Monster Level +20",
 		},
 		{
-			new Integer( 6 ),
+			IntegerCache.valueOf( 6 ),
 			"Three Days Slow",
 			"Familiar Experience +3",
 		},
 		{
-			new Integer( 7 ),
+			IntegerCache.valueOf( 7 ),
 			"Cat-Alyzed",
 			"Moxie +10",
 		},
 		{
-			new Integer( 8 ),
+			IntegerCache.valueOf( 8 ),
 			"Anytwo Five Elevenis?",
 			"Muscle +10",
 		},
 		{
-			new Integer( 9 ),
+			IntegerCache.valueOf( 9 ),
 			"Coated Arms",
 			"Weapon Damage +15",
 		},
 		{
-			new Integer( 10 ),
+			IntegerCache.valueOf( 10 ),
 			"Smoky Third Eye",
 			"Mysticality +10",
 		},
 		{
-			new Integer( 11 ),
+			IntegerCache.valueOf( 11 ),
 			"Full Bottle in front of Me",
 			"Spell Damage +30%",
 		},
 		{
-			new Integer( 12 ),
+			IntegerCache.valueOf( 12 ),
 			"Thick-Skinned",
 			"Maximum HP +50",
 		},
 		{
-			new Integer( 13 ),
+			IntegerCache.valueOf( 13 ),
 			"20-20 Second Sight",
 			"Maximum MP +25",
 		},
 		{
-			new Integer( 14 ),
+			IntegerCache.valueOf( 14 ),
 			"Slimy Hands",
 			"+10 Sleaze Damage",
 		},
 		{
-			new Integer( 15 ),
+			IntegerCache.valueOf( 15 ),
 			"Bottle in front of Me",
 			"Spell Damage +15",
 		},
 		{
-			new Integer( 16 ),
+			IntegerCache.valueOf( 16 ),
 			"Fan-Cooled",
 			"+10 Cold Damage",
 		},
 		{
-			new Integer( 17 ),
+			IntegerCache.valueOf( 17 ),
 			"Ginger Snapped",
 			"+10 Spooky Damage",
 		},
 		{
-			new Integer( 18 ),
+			IntegerCache.valueOf( 18 ),
 			"Egg on your Face",
 			"+10 Stench Damage",
 		},
 		{
-			new Integer( 19 ),
+			IntegerCache.valueOf( 19 ),
 			"Pockets of Fire",
 			"+10 Hot Damage",
 		},
 		{
-			new Integer( 20 ),
+			IntegerCache.valueOf( 20 ),
 			"Weapon of Mass Destruction",
 			"Weapon Damage +30%",
 		},
 		{
-			new Integer( 21 ),
+			IntegerCache.valueOf( 21 ),
 			"Orchid Blood",
 			"Regenerate 5-10 MP per Adventure",
 		},
 		{
-			new Integer( 22 ),
+			IntegerCache.valueOf( 22 ),
 			"Dances with Tweedles",
 			"+40% Meat from Monsters",
 		},
 		{
-			new Integer( 23 ),
+			IntegerCache.valueOf( 23 ),
 			"Patched In",
 			"Mysticality +20%",
 		},
 		{
-			new Integer( 24 ),
+			IntegerCache.valueOf( 24 ),
 			"You Can Really Taste the Dormouse",
 			"+5 to Familiar Weight",
 		},
 		{
-			new Integer( 25 ),
+			IntegerCache.valueOf( 25 ),
 			"Turtle Titters",
 			"+3 Stat Gains from Fights",
 		},
 		{
-			new Integer( 26 ),
+			IntegerCache.valueOf( 26 ),
 			"Cat Class, Cat Style",
 			"Moxie +20%",
 		},
 		{
-			new Integer( 27 ),
+			IntegerCache.valueOf( 27 ),
 			"Surreally Buff",
 			"Muscle +20%",
 		},
 		{
-			new Integer( 28 ),
+			IntegerCache.valueOf( 28 ),
 			"Quadrilled",
 			"+20% Items from Monsters",
 		},
 		{
-			new Integer( 29 ),
+			IntegerCache.valueOf( 29 ),
 			"Coming Up Roses",
 			"Regenerate 10-20 MP per Adventure",
 		},
 		{
-			new Integer( 30 ),
+			IntegerCache.valueOf( 30 ),
 			"Oleaginous Soles",
 			"+40% Combat Initiative",
 		},
@@ -994,7 +995,7 @@ public abstract class RabbitHoleManager
 			}
 
 			// Otherwise, tally the move and succeed
-			list.add( new Integer( square ) );
+			list.add( IntegerCache.valueOf( square ) );
 			return true;
 		}
 
@@ -1377,7 +1378,7 @@ public abstract class RabbitHoleManager
 
 		public void add( final int square )
 		{
-			list.add( new Integer( square ) );
+			list.add( IntegerCache.valueOf( square ) );
 		}
 
 		public void remove()
@@ -1507,7 +1508,7 @@ public abstract class RabbitHoleManager
 			buf.append( ": " );
 			buf.append( RabbitHoleManager.getHatDescription( len ) );
 			buf.append( "</option>" );
-			options.put( new Integer( (len << 24) | hat.getItemId() ),
+			options.put( IntegerCache.valueOf( (len << 24) | hat.getItemId() ),
 				buf.toString() );
 		}
 		
@@ -1548,7 +1549,7 @@ public abstract class RabbitHoleManager
 
 			String name = hat.getName();
 
-			Integer len = new Integer( hatLength( name ) );
+			Integer len = IntegerCache.valueOf( hatLength( name ) );
 			StringBuffer buffer = (StringBuffer) lengths.get( len );
 
 			if ( buffer == null )

@@ -40,11 +40,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class QuestLogRequest
 	extends GenericRequest
@@ -170,7 +173,7 @@ public class QuestLogRequest
 
 		while ( headers.find() )
 		{
-			map.put( new Integer( headers.end() ), headers.group( 1 ) );
+			map.put( IntegerCache.valueOf( headers.end() ), headers.group( 1 ) );
 		}
 
 		Iterator it = map.keySet().iterator();

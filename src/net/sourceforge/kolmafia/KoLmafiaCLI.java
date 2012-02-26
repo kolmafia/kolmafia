@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.request.LoginRequest;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
+
 import net.sourceforge.kolmafia.textui.command.*;
 
 import net.sourceforge.kolmafia.utilities.CharacterEntities;

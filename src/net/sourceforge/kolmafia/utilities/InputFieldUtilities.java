@@ -358,7 +358,7 @@ public class InputFieldUtilities
 
 		if ( maximumValue == 1 && maximumValue == defaultValue )
 		{
-			return new Integer( 1 );
+			return IntegerCache.valueOf( 1 );
 		}
 
 		String currentValue = InputFieldUtilities.input( message, KoLConstants.COMMA_FORMAT.format(defaultValue));
@@ -370,16 +370,16 @@ public class InputFieldUtilities
 
 		if ( currentValue.equals( "*" ) )
 		{
-			return new Integer( maximumValue );
+			return IntegerCache.valueOf( maximumValue );
 		}
 
 		int desiredValue = StringUtilities.parseIntInternal2(currentValue);
 		if ( desiredValue < 0 )
 		{
-			return new Integer( maximumValue - desiredValue );
+			return IntegerCache.valueOf( maximumValue - desiredValue );
 		}
 
-		return new Integer( Math.min( desiredValue, maximumValue) );
+		return IntegerCache.valueOf( Math.min( desiredValue, maximumValue) );
 	}
 
 	public static boolean finalizeTable( final JTable table )

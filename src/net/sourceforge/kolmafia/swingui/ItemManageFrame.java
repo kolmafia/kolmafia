@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.textui.command.AutoMallCommand;
 import net.sourceforge.kolmafia.textui.command.CleanupJunkRequest;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemManageFrame
@@ -235,8 +236,8 @@ public class ItemManageFrame
 
 	public static void updatePullsBudgeted( final int pullsBudgeted )
 	{
-		ItemManageFrame.pullBudgetSpinner1.setValue( new Integer( pullsBudgeted ) );
-		ItemManageFrame.pullBudgetSpinner2.setValue( new Integer( pullsBudgeted ) );
+		ItemManageFrame.pullBudgetSpinner1.setValue( IntegerCache.valueOf( pullsBudgeted ) );
+		ItemManageFrame.pullBudgetSpinner2.setValue( IntegerCache.valueOf( pullsBudgeted ) );
 	}
 
 	private class JunkItemsPanel

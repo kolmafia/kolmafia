@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.textui.DataFileCache;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 
@@ -380,7 +381,7 @@ public abstract class KoLCharacter
 		// (Haiku summoning)
 		{
 			"Undead Elbow Macaroni",
-			new Integer( ItemPool.MACARONI_FRAGMENTS ),
+			IntegerCache.valueOf( ItemPool.MACARONI_FRAGMENTS ),
 			// "<name>. My name is <name>."
 			Pattern.compile( "My name is ([^.]*)\\." ),
 			// You focus your thoughts and call out to <name>. He
@@ -391,7 +392,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Spice Ghost",
-			new Integer( ItemPool.SCINTILLATING_POWDER ),
+			IntegerCache.valueOf( ItemPool.SCINTILLATING_POWDER ),
 			// My name is <name>, and I am in your debt.
 			Pattern.compile( "My name is ([^,]*), and I am in your debt\\." ),
 			// You conjure up a swirling cloud of spicy dried
@@ -405,7 +406,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Angel Hair Wisp",
-			new Integer( ItemPool.SHIMMERING_TENDRILS ),
+			IntegerCache.valueOf( ItemPool.SHIMMERING_TENDRILS ),
 			// "You must call me <name>. You must give me form. I
 			// must live."
 			Pattern.compile( "You must call me ([^.]*])\\." ),
@@ -418,7 +419,7 @@ public abstract class KoLCharacter
 
 		{
 			"Lasagmbie",
-			new Integer( ItemPool.PARANORMAL_RICOTTA ),
+			IntegerCache.valueOf( ItemPool.PARANORMAL_RICOTTA ),
 			// Okay. See you on the other side, <name>.
 			Pattern.compile( "See you on the other side, (.*?)\\." ),
 			// You conjure up a good-sized sheet of lasagna, and
@@ -428,7 +429,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Vermincelli",
-			new Integer( ItemPool.CRUMBLING_RAT_SKULL ),
+			IntegerCache.valueOf( ItemPool.CRUMBLING_RAT_SKULL ),
 			Pattern.compile( "I think little (.*?) will be the best helper\\." ),
 			// You summon a tangled mass of noodles. There is a
 			// rustling sound as <name> chews his way into the
@@ -438,7 +439,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Boba Fettucini",
-			new Integer( ItemPool.TWITCHING_TRIGGER_FINGER ),
+			IntegerCache.valueOf( ItemPool.TWITCHING_TRIGGER_FINGER ),
 			// You decide to name it <name>.
 			Pattern.compile( "You decide to name it ([^.]*)\\." ),
 			// <i>pew pew pew!&quot;</i> <name> shouts excitedly,
@@ -449,7 +450,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Penne Dreadful",
-			new Integer( ItemPool.WINE_SOAKED_BONE_CHIPS ),
+			IntegerCache.valueOf( ItemPool.WINE_SOAKED_BONE_CHIPS ),
 			// "All right, palookah," the private eye says, opening
 			// his mouth for the first time, "the name's
 			// <name>. I'm a gumshoe. You know, a shamus, a
@@ -463,7 +464,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Vampieroghi",
-			new Integer( ItemPool.VAMPIRE_GLITTER ),
+			IntegerCache.valueOf( ItemPool.VAMPIRE_GLITTER ),
 			// My name is written in blood across the history of
 			// time . . . but you can call me <name>.
 			Pattern.compile( "but you can call me ([^.]*)\\." ),
@@ -474,7 +475,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Bow Tie Bat",
-			new Integer( ItemPool.SMOKING_TALON ),
+			IntegerCache.valueOf( ItemPool.SMOKING_TALON ),
 			// Ugh. I'll take that guano as a yes? You'll need a
 			// name. Let's call you..." You glance around, hoping
 			// for some inspiration. "How about... <name>."
@@ -487,7 +488,7 @@ public abstract class KoLCharacter
 		},
 		{
 			"Spaghetti Elemental",
-			new Integer( ItemPool.DECODED_CULT_DOCUMENTS ),
+			IntegerCache.valueOf( ItemPool.DECODED_CULT_DOCUMENTS ),
 			// "I guess you need a name, huh?" you reply. "I'll
 			// call you... um... SshoKodo. That'll do."
 			Pattern.compile( "I'll call you... *um... *([^.]*). * That'll do." ),

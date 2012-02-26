@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EffectDatabase
@@ -113,7 +114,7 @@ public class EffectDatabase
 					// activeEffects, since the intrinsic &
 					// normal versions stack.
 					EffectDatabase.addToDatabase(
-						new Integer( -2 ),
+						IntegerCache.valueOf( -2 ),
 						"Temporary Blindness (intrinsic)",
 						image, null, defaultAction );
 				}
@@ -224,14 +225,14 @@ public class EffectDatabase
 	{
 		return effectId == -1 ?
 			"Unknown effect" :
-			StringUtilities.getDisplayName( (String) EffectDatabase.nameById.get( new Integer( effectId ) ) );
+			StringUtilities.getDisplayName( (String) EffectDatabase.nameById.get( IntegerCache.valueOf( effectId ) ) );
 	}
 
 	public static final String getEffectDataName( final int effectId )
 	{
 		return effectId == -1 ?
 			null:
-			(String) EffectDatabase.dataNameById.get( new Integer( effectId ) );
+			(String) EffectDatabase.dataNameById.get( IntegerCache.valueOf( effectId ) );
 	}
 
 	public static final String getEffectName( final String descriptionId )
@@ -248,7 +249,7 @@ public class EffectDatabase
 
 	public static final String getDescriptionId( final int effectId )
 	{
-		return (String) EffectDatabase.descriptionById.get( new Integer( effectId ) );
+		return (String) EffectDatabase.descriptionById.get( IntegerCache.valueOf( effectId ) );
 	}
 
 	public static final Set descriptionIdKeySet()
@@ -289,7 +290,7 @@ public class EffectDatabase
 
 	public static final String getImage( final int effectId )
 	{
-		Object imageName = effectId == -1 ? null : EffectDatabase.imageById.get( new Integer( effectId ) );
+		Object imageName = effectId == -1 ? null : EffectDatabase.imageById.get( IntegerCache.valueOf( effectId ) );
 		return imageName == null ? "/images/debug.gif" : "http://images.kingdomofloathing.com/itemimages/" + imageName;
 	}
 
@@ -370,7 +371,7 @@ public class EffectDatabase
 
 		String canonicalName = StringUtilities.getCanonicalName( name );
 		String displayName = StringUtilities.getDisplayName( name );
-		Integer id = new Integer( effectId );
+		Integer id = IntegerCache.valueOf( effectId );
 
 		EffectDatabase.nameById.put( id, displayName );
 		EffectDatabase.dataNameById.put( id, name );

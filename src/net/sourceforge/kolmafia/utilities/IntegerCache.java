@@ -31,67 +31,37 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.swingui.table;
+package net.sourceforge.kolmafia.utilities;
 
-import java.awt.Component;
-
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
-
-import net.sourceforge.kolmafia.KoLConstants;
-
-import net.sourceforge.kolmafia.utilities.IntegerCache;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-public class TransparentTable
-	extends JTable
+public class IntegerCache
 {
-	public TransparentTable( final TableModel t )
-	{
-		super( t );
+	private static final int MIN_VALUE = -2;
+	private static final int MAX_VALUE = 12000;
 
-		this.setDefaultEditor( Integer.class, new IntegerEditor() );
-		this.setDefaultRenderer( Integer.class, new IntegerRenderer() );
-		this.setDefaultRenderer( JButton.class, new ButtonRenderer() );
+	private static final int RANGE = ( IntegerCache.MAX_VALUE - IntegerCache.MIN_VALUE ) + 1;
+
+	private static final Integer[] CACHE = new Integer[ IntegerCache.RANGE ];
+
+	static
+	{
+		for ( int i = 0; i < IntegerCache.RANGE; ++i )
+		{
+			IntegerCache.CACHE[ i ] = new Integer( IntegerCache.MIN_VALUE + i );
+		}
 	}
 
-	public Component prepareRenderer( final TableCellRenderer renderer, final int row, final int column )
+	public static final Integer valueOf( int i )
 	{
-		Component c = super.prepareRenderer( renderer, row, column );
-		if ( c instanceof JComponent )
+		if ( i < IntegerCache.MIN_VALUE )
 		{
-			( (JComponent) c ).setOpaque( false );
+			return new Integer( i );
 		}
 
-		return c;
-	}
-
-	public void changeSelection( final int row, final int column, final boolean toggle, final boolean extend )
-	{
-		super.changeSelection( row, column, toggle, extend );
-
-		if ( !this.editCellAt( row, column ) )
+		if ( i > IntegerCache.MAX_VALUE )
 		{
-			return;
+			return new Integer( i );
 		}
 
-		Component editor = this.getEditorComponent();
-		if ( !( editor instanceof JTextField ) )
-		{
-			return;
-		}
-
-		JTextField field = (JTextField) this.getEditorComponent();
-
-		if ( getColumnClass( column ) == Integer.class )
-		{
-			field.setText( KoLConstants.COMMA_FORMAT.format(
-				StringUtilities.parseInt( field.getText() ) ) );
-		}
+		return IntegerCache.CACHE[ i - IntegerCache.MIN_VALUE ];
 	}
 }

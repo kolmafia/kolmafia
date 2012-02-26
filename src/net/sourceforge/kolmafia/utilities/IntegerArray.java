@@ -59,10 +59,10 @@ public class IntegerArray
 	{
 		while ( index >= this.internalList.size() )
 		{
-			this.internalList.add( new Integer( 0 ) );
+			this.internalList.add( IntegerCache.valueOf( 0 ) );
 		}
 
-		this.internalList.set( index, new Integer( value ) );
+		this.internalList.set( index, IntegerCache.valueOf( value ) );
 	}
 
 	public int size()

@@ -112,6 +112,7 @@ import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -1472,49 +1473,49 @@ public class RequestEditorKit
 	public static Object[][] PUNCHCARDS =
 	{
 		// Verbs
-		{ new Integer( 3146 ),
+		{ IntegerCache.valueOf( 3146 ),
 		  "El Vibrato punchcard (115 holes)",
 		  "El Vibrato punchcard (ATTACK)"
 		},
-		{ new Integer( 3147 ),
+		{ IntegerCache.valueOf( 3147 ),
 		  "El Vibrato punchcard (97 holes)",
 		  "El Vibrato punchcard (REPAIR)"
 		},
-		{ new Integer( 3148 ),
+		{ IntegerCache.valueOf( 3148 ),
 		  "El Vibrato punchcard (129 holes)",
 		  "El Vibrato punchcard (BUFF)"
 		},
-		{ new Integer( 3149 ),
+		{ IntegerCache.valueOf( 3149 ),
 		  "El Vibrato punchcard (213 holes)",
 		  "El Vibrato punchcard (MODIFY)"
 		},
-		{ new Integer( 3150 ),
+		{ IntegerCache.valueOf( 3150 ),
 		  "El Vibrato punchcard (165 holes)",
 		  "El Vibrato punchcard (BUILD)"
 		},
 
 		// Objects
-		{ new Integer( 3151 ),
+		{ IntegerCache.valueOf( 3151 ),
 		  "El Vibrato punchcard (142 holes)",
 		  "El Vibrato punchcard (TARGET)"
 		},
-		{ new Integer( 3152 ),
+		{ IntegerCache.valueOf( 3152 ),
 		  "El Vibrato punchcard (216 holes)",
 		  "El Vibrato punchcard (SELF)"
 		},
-		{ new Integer( 3153 ),
+		{ IntegerCache.valueOf( 3153 ),
 		  "El Vibrato punchcard (88 holes)",
 		  "El Vibrato punchcard (FLOOR)"
 		},
-		{ new Integer( 3154 ),
+		{ IntegerCache.valueOf( 3154 ),
 		  "El Vibrato punchcard (182 holes)",
 		  "El Vibrato punchcard (DRONE)"
 		},
-		{ new Integer( 3155 ),
+		{ IntegerCache.valueOf( 3155 ),
 		  "El Vibrato punchcard (176 holes)",
 		  "El Vibrato punchcard (WALL)"
 		},
-		{ new Integer( 3156 ),
+		{ IntegerCache.valueOf( 3156 ),
 		  "El Vibrato punchcard (104 holes)",
 		  "El Vibrato punchcard (SPHERE)"
 		},

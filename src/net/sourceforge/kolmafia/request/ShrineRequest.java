@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
+
 public class ShrineRequest
 	extends GenericRequest
 {
@@ -56,21 +58,21 @@ public class ShrineRequest
 	public static final Object[][] SHRINE_DATA =
 	{
 		{
-			new Integer( ShrineRequest.BORIS ),
+			IntegerCache.valueOf( ShrineRequest.BORIS ),
 			"boris",
 			"Statue of Boris",
 			"heroDonationBoris",
 			ItemPool.get( ItemPool.BORIS_KEY, 1 ),
 		},
 		{
-			new Integer( ShrineRequest.JARLSBERG ),
+			IntegerCache.valueOf( ShrineRequest.JARLSBERG ),
 			"jarlsberg",
 			"Statue of Jarlsberg",
 			"heroDonationJarlsberg",
 			ItemPool.get( ItemPool.JARLSBERG_KEY, 1 ),
 		},
 		{
-			new Integer( ShrineRequest.PETE ),
+			IntegerCache.valueOf( ShrineRequest.PETE ),
 			"sneakypete",
 			"Statue of Sneaky Pete",
 			"heroDonationSneakyPete",

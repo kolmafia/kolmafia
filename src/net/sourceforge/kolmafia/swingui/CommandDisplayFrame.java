@@ -38,7 +38,6 @@ import java.util.LinkedList;
 
 import javax.swing.JTabbedPane;
 
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;

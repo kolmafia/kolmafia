@@ -42,8 +42,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 public class UseItemDecorator
 {
 	public static final void decorate( final String location, final StringBuffer buffer )

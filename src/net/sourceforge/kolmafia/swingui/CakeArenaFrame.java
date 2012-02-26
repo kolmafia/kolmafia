@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CakeArenaFrame
@@ -138,7 +139,7 @@ public class CakeArenaFrame
 				for ( int j = 1; j <= 4; ++j )
 				{
 					Integer skill = FamiliarDatabase.getFamiliarSkill( opponentRace, j );
-					if ( skill == null ) skill = new Integer( 0 );
+					if ( skill == null ) skill = IntegerCache.valueOf( 0 );
 					JButton opponentButton = new JButton( JComponentUtilities.getImage( skill.toString() + "star.gif" ) );
 					opponentButton.addMouseListener( new OpponentListener( i, j, skill ) );
 					opponentData[ i ][ j ] = opponentButton;

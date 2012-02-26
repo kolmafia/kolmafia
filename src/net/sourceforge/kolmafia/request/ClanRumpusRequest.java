@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanRumpusRequest
@@ -68,9 +69,9 @@ public class ClanRumpusRequest
 
 	public static final Object [][] CHIP_FLAVORS = new Object[][]
 	{
-		{ "radium", new Integer( RADIUM ) },
-		{ "wintergreen", new Integer( WINTERGREEN ) },
-		{ "ennui", new Integer( ENNUI ) },
+		{ "radium", IntegerCache.valueOf( RADIUM ) },
+		{ "wintergreen", IntegerCache.valueOf( WINTERGREEN ) },
+		{ "ennui", IntegerCache.valueOf( ENNUI ) },
 	};
 
 	public static final int findChips( final String name )

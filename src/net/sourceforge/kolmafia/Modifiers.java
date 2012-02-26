@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Modifiers
@@ -2558,7 +2559,7 @@ public class Modifiers
 					mask |= emask;
 				}
 				Modifiers.synergies.add( name );
-				Modifiers.synergies.add( new Integer( mask ) );
+				Modifiers.synergies.add( IntegerCache.valueOf( mask ) );
 			}
 			else if ( name.startsWith( "mutex" ) )
 			{

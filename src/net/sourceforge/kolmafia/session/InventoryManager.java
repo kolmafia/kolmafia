@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.json.JSONException;
@@ -1442,7 +1443,7 @@ public abstract class InventoryManager
 			}
 		}
 
-		Integer key = new Integer( itemId );
+		Integer key = IntegerCache.valueOf( itemId );
 		if ( seen == null )
 		{
 			seen = new HashSet();

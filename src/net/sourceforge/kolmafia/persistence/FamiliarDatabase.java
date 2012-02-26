@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarDatabase
@@ -119,7 +120,7 @@ public class FamiliarDatabase
 					FamiliarDatabase.maxFamiliarId = id;
 				}
 
-				Integer familiarId = new Integer( id );
+				Integer familiarId = IntegerCache.valueOf( id );
 				String familiarName = StringUtilities.getDisplayName( data[ 1 ] );
 				String familiarImage = new String( data[ 2 ] );
 				String familiarType = new String( data[ 3 ] );
@@ -178,7 +179,7 @@ public class FamiliarDatabase
 	 * whenever KoLmafia encounters an unknown familiar on login
 	 */
 
-	private static Integer ZERO = new Integer( 0 );
+	private static Integer ZERO = IntegerCache.valueOf( 0 );
 	public static final void registerFamiliar( final int familiarId, final String familiarName, final String image )
 	{
 		FamiliarDatabase.registerFamiliar( familiarId, familiarName, image, FamiliarDatabase.ZERO );
@@ -215,7 +216,7 @@ public class FamiliarDatabase
 			FamiliarDatabase.maxFamiliarId = familiarId;
 		}
 
-		Integer dummyId = new Integer( familiarId );
+		Integer dummyId = IntegerCache.valueOf( familiarId );
 
 		FamiliarDatabase.familiarById.put( dummyId, familiarName );
 		FamiliarDatabase.familiarByName.put( canon, dummyId );
@@ -240,7 +241,7 @@ public class FamiliarDatabase
 
 	public static final String getFamiliarName( final int familiarId )
 	{
-		return FamiliarDatabase.getFamiliarName( new Integer( familiarId ) );
+		return FamiliarDatabase.getFamiliarName( IntegerCache.valueOf( familiarId ) );
 	}
 
 	public static final String getFamiliarName( final Integer familiarId )
@@ -257,7 +258,7 @@ public class FamiliarDatabase
 
 	public static final FamiliarData growFamiliarLarva( final int larvaId )
 	{
-		Object familiarId = FamiliarDatabase.familiarByLarva.get( new Integer( larvaId ) );
+		Object familiarId = FamiliarDatabase.familiarByLarva.get( IntegerCache.valueOf( larvaId ) );
 		return familiarId == null ? null : new FamiliarData( ( (Integer) familiarId ).intValue() );
 	}
 
@@ -319,7 +320,7 @@ public class FamiliarDatabase
 
 	public static final String getFamiliarItem( final int familiarId )
 	{
-		return FamiliarDatabase.getFamiliarItem( new Integer( familiarId ) );
+		return FamiliarDatabase.getFamiliarItem( IntegerCache.valueOf( familiarId ) );
 	}
 
 	public static final String getFamiliarItem( final Integer familiarId )
@@ -329,7 +330,7 @@ public class FamiliarDatabase
 
 	public static final int getFamiliarItemId( final int familiarId )
 	{
-		return FamiliarDatabase.getFamiliarItemId( new Integer( familiarId ) );
+		return FamiliarDatabase.getFamiliarItemId( IntegerCache.valueOf( familiarId ) );
 	}
 
 	public static final int getFamiliarItemId( final Integer familiarId )
@@ -346,7 +347,7 @@ public class FamiliarDatabase
 
 	public static final int getFamiliarLarva( final int familiarId )
 	{
-		return FamiliarDatabase.getFamiliarLarva( new Integer( familiarId ) );
+		return FamiliarDatabase.getFamiliarLarva( IntegerCache.valueOf( familiarId ) );
 	}
 
 	public static final int getFamiliarLarva( final Integer familiarId )
@@ -398,12 +399,12 @@ public class FamiliarDatabase
 
 	public static final void setFamiliarImageLocation( final int familiarId, final String location )
 	{
-		FamiliarDatabase.familiarImageById.put( new Integer( familiarId ), location );
+		FamiliarDatabase.familiarImageById.put( IntegerCache.valueOf( familiarId ), location );
 	}
 
 	public static final String getFamiliarImageLocation( final int familiarId )
 	{
-		String location = (String) FamiliarDatabase.familiarImageById.get( new Integer( familiarId ) );
+		String location = (String) FamiliarDatabase.familiarImageById.get( IntegerCache.valueOf( familiarId ) );
 		return ( location != null ) ? location : "debug.gif";
 	}
 
@@ -448,7 +449,7 @@ public class FamiliarDatabase
 
 	public static final int[] getFamiliarSkills( final int id )
 	{
-		return FamiliarDatabase.getFamiliarSkills( new Integer( id ) );
+		return FamiliarDatabase.getFamiliarSkills( IntegerCache.valueOf( id ) );
 	}
 
 	public static final int[] getFamiliarSkills( final Integer id )
@@ -467,7 +468,7 @@ public class FamiliarDatabase
 		String canon = StringUtilities.getCanonicalName( name );
 		for ( int i = 0; i < 4; ++i )
 		{
-			FamiliarDatabase.eventSkillByName[ i ].put( canon, new Integer( skills[ i ] ) );
+			FamiliarDatabase.eventSkillByName[ i ].put( canon, IntegerCache.valueOf( skills[ i ] ) );
 		}
 		FamiliarDatabase.newFamiliars = true;
 		FamiliarDatabase.saveDataOverride();

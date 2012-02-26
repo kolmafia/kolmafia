@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -821,57 +822,57 @@ public class AdventureDatabase
 		// Setting
 		{
 			"Haiku Dungeon",
-			new Integer( AdventurePool.HAIKU_DUNGEON ),
+			IntegerCache.valueOf( AdventurePool.HAIKU_DUNGEON ),
 			"fistTeachingsHaikuDungeon",
 		},
 		{
 			"The Poker Room",
-			new Integer( AdventurePool.POKER_ROOM ),
+			IntegerCache.valueOf( AdventurePool.POKER_ROOM ),
 			"fistTeachingsPokerRoom",
 		},
 		{
 			"A Barroom Brawl",
-			new Integer( AdventurePool.BARROOM_BRAWL ),
+			IntegerCache.valueOf( AdventurePool.BARROOM_BRAWL ),
 			"fistTeachingsBarroomBrawl",
 		},
 		{
 			"Haunted Conservatory",
-			new Integer( AdventurePool.HAUNTED_CONSERVATORY ),
+			IntegerCache.valueOf( AdventurePool.HAUNTED_CONSERVATORY ),
 			"fistTeachingsConservatory",
 		},
 		{
 			"Bat Hole Entryway",
-			new Integer( AdventurePool.BAT_HOLE_ENTRYWAY ),
+			IntegerCache.valueOf( AdventurePool.BAT_HOLE_ENTRYWAY ),
 			"fistTeachingsBatHole",
 		},
 		{
 			"The \"Fun\" House",
-			new Integer( AdventurePool.FUN_HOUSE ),
+			IntegerCache.valueOf( AdventurePool.FUN_HOUSE ),
 			"fistTeachingsFunHouse",
 		},
 		{
 			"Cobb's Knob Menagerie Level 2",
-			new Integer( AdventurePool.MENAGERIE_LEVEL_2 ),
+			IntegerCache.valueOf( AdventurePool.MENAGERIE_LEVEL_2 ),
 			"fistTeachingsMenagerie",
 		},
 		{
 			"Pandamonium Slums",
-			new Integer( AdventurePool.PANDAMONIUM_SLUMS ),
+			IntegerCache.valueOf( AdventurePool.PANDAMONIUM_SLUMS ),
 			"fistTeachingsSlums",
 		},
 		{
 			"Frat House",
-			new Integer( AdventurePool.FRAT_HOUSE ),
+			IntegerCache.valueOf( AdventurePool.FRAT_HOUSE ),
 			"fistTeachingsFratHouse",
 		},
 		{
 			"Road to the White Citadel",
-			new Integer( AdventurePool.ROAD_TO_WHITE_CITADEL ),
+			IntegerCache.valueOf( AdventurePool.ROAD_TO_WHITE_CITADEL ),
 			"fistTeachingsRoad",
 		},
 		{
 			"Ninja Snowmen",
-			new Integer( AdventurePool.NINJA_SNOWMEN ),
+			IntegerCache.valueOf( AdventurePool.NINJA_SNOWMEN ),
 			"fistTeachingsNinjaSnowmen",
 		},
 	};

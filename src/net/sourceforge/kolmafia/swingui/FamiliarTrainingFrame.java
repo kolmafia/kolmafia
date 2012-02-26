@@ -108,6 +108,7 @@ import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class FamiliarTrainingFrame
 	extends GenericFrame
@@ -2143,17 +2144,17 @@ public class FamiliarTrainingFrame
 			// Add weight with helmet
 			if ( this.pithHelmet )
 			{
-				this.weights.add( new Integer( Math.max( weight + 5, 1 ) ) );
+				this.weights.add( IntegerCache.valueOf( Math.max( weight + 5, 1 ) ) );
 			}
 
 			// Add weight with fedora
 			if ( this.crumpledFedora )
 			{
-				this.weights.add( new Integer( Math.max( weight + 10, 1 ) ) );
+				this.weights.add( IntegerCache.valueOf( Math.max( weight + 10, 1 ) ) );
 			}
 
 			// Add weight with no helmet
-			this.weights.add( new Integer( Math.max( weight, 1 ) ) );
+			this.weights.add( IntegerCache.valueOf( Math.max( weight, 1 ) ) );
 		}
 
 		/** *********************************************************** */

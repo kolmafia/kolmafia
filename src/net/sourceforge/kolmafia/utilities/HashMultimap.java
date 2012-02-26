@@ -49,7 +49,7 @@ public class HashMultimap
 {
 	public final void put( int key, Object value )
 	{
-		Integer okey = new Integer( key );
+		Integer okey = IntegerCache.valueOf( key );
 		ArrayList curr = (ArrayList) super.get( okey );
 
 		if ( curr == null )
@@ -64,6 +64,6 @@ public class HashMultimap
 
 	public final ArrayList get( int key )
 	{
-		return (ArrayList) super.get( new Integer( key ) );
+		return (ArrayList) super.get( IntegerCache.valueOf( key ) );
 	}
 }

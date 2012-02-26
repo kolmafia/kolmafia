@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class AdventureSelectPanel
 	extends JPanel
@@ -695,18 +696,18 @@ public class AdventureSelectPanel
 			int maximum = KoLCharacter.getAdventuresLeft();
 			if ( maximum == 0 )
 			{
-				this.setValue( new Integer( 0 ) );
+				this.setValue( IntegerCache.valueOf( 0 ) );
 				return;
 			}
 
 			int desired = InputFieldUtilities.getValue( this, maximum );
 			if ( desired == maximum + 1 )
 			{
-				this.setValue( new Integer( 1 ) );
+				this.setValue( IntegerCache.valueOf( 1 ) );
 			}
 			else if ( desired <= 0 || desired > maximum )
 			{
-				this.setValue( new Integer( maximum ) );
+				this.setValue( IntegerCache.valueOf( maximum ) );
 			}
 		}
 	}

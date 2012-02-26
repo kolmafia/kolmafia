@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class StoreManager
@@ -414,7 +415,7 @@ public abstract class StoreManager
 			return new ArrayList();
 		}
 
-		Integer id = new Integer( itemId );
+		Integer id = IntegerCache.valueOf( itemId );
 		String name = ItemDatabase.getItemDataName( id );
 
 		StoreManager.flushCache();
@@ -484,16 +485,16 @@ public abstract class StoreManager
 
 		for ( int i = 0; i < resultsArray.length; ++i )
 		{
-			currentPrice = new Integer( resultsArray[ i ].getPrice() );
+			currentPrice = IntegerCache.valueOf( resultsArray[ i ].getPrice() );
 			currentQuantity = (Integer) prices.get( currentPrice );
 
 			if ( currentQuantity == null )
 			{
-				prices.put( currentPrice, new Integer( resultsArray[ i ].getLimit() ) );
+				prices.put( currentPrice, IntegerCache.valueOf( resultsArray[ i ].getLimit() ) );
 			}
 			else
 			{
-				prices.put( currentPrice, new Integer( currentQuantity.intValue() + resultsArray[ i ].getLimit() ) );
+				prices.put( currentPrice, IntegerCache.valueOf( currentQuantity.intValue() + resultsArray[ i ].getLimit() ) );
 			}
 		}
 
@@ -585,9 +586,9 @@ public abstract class StoreManager
 			this.lowest = lowest;
 
 			super.add( this.itemName );
-			super.add( new Integer( price ) );
-			super.add( new Integer( lowest ) );
-			super.add( new Integer( quantity ) );
+			super.add( IntegerCache.valueOf( price ) );
+			super.add( IntegerCache.valueOf( lowest ) );
+			super.add( IntegerCache.valueOf( quantity ) );
 			super.add( limit != 0 ? Boolean.TRUE : Boolean.FALSE );
 		}
 

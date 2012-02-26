@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class CreateSpecialPanel
 	extends InventoryPanel
@@ -214,10 +215,10 @@ public class CreateSpecialPanel
 			this.setMinorTickSpacing( 1 );
 			this.setMajorTickSpacing( 5 );
 			Hashtable h = new Hashtable();
-			h.put( new Integer( 0 ), new JLabel( "Free" ) );
-			h.put( new Integer( 10 ), new JLabel( "Autosell price" ) );
-			h.put( new Integer( 20 ), new JLabel( "Mall (or autosell if min-priced)" ) );
-			h.put( new Integer( 30 ), new JLabel( "Mall price" ) );
+			h.put( IntegerCache.valueOf( 0 ), new JLabel( "Free" ) );
+			h.put( IntegerCache.valueOf( 10 ), new JLabel( "Autosell price" ) );
+			h.put( IntegerCache.valueOf( 20 ), new JLabel( "Mall (or autosell if min-priced)" ) );
+			h.put( IntegerCache.valueOf( 30 ), new JLabel( "Mall price" ) );
 			this.setLabelTable( h );
 			this.setPaintTicks( true );
 			this.setSnapToTicks( true );
