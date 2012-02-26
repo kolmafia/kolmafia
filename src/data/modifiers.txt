@@ -2262,8 +2262,8 @@ woolen cravat	Familiar Weight: +5
 # Familiars section of modifiers.txt
 
 Clancy's sackbut	HP Regen Min: [C], HP Regen Max: [C*2], MP Regen Min: [C], MP Regen Max: [C*2]
-Clancy's crumhorn	Volleyball: [C]
-Clancy's lute	Fairy: [C]
+Clancy's crumhorn	Volleyball: [5*C]
+Clancy's lute	Fairy: [5*C]
 
 # Familiars with standard abilities don't need to appear here -
 # familiar.txt types of stat0, stat1, item0, meat0 correspond to
