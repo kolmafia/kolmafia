@@ -58,6 +58,7 @@ public class RelayServer
 
 	private ServerSocket serverSocket = null;
 	private static int port = 60080;
+	private static String baseTag = null;
 	private static boolean listening = false;
 	private static boolean updateStatus = false;
 
@@ -102,27 +103,9 @@ public class RelayServer
 		return RelayServer.port;
 	}
 
-	private static final void setPort( final int port )
+	public static final String getBase()
 	{
-		RelayServer.port = port;
-	}
-
-	public static final String getBase( final String location )
-	{
-		int index = location.indexOf( "?" );
-		String base = index == -1 ? location : location.substring( 0, index );
-
-		while ( base.length() > 0 && base.charAt( 0 ) == '/' )
-		{
-			base = base.substring( 1 );
-		}
-
-		if ( base.startsWith( "KoLmafia" ) )
-		{
-			base = "";
-		}
-
-		return "<base href=\"http://127.0.0.1:" + RelayServer.port + "/" + base + "\">";
+		return RelayServer.baseTag;
 	}
 
 	public static final boolean isRunning()
@@ -150,6 +133,7 @@ public class RelayServer
 			}
 		}
 
+		RelayServer.baseTag = "<base href=\"http://127.0.0.1:" + RelayServer.port + "/game.php\">";
 		RelayServer.listening = true;
 
 		while ( RelayServer.listening )

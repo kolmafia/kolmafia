@@ -4971,7 +4971,6 @@ public abstract class ChoiceManager
 
 		StringBuffer buffer = new StringBuffer( request.responseText );
 		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer );
-		StringUtilities.insertAfter( buffer, "<head>", RelayServer.getBase( "choice.php" ) );
 		RelayRequest.specialCommandResponse = buffer.toString();
 	}
 
