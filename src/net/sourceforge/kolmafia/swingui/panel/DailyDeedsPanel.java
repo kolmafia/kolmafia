@@ -534,8 +534,16 @@ public class DailyDeedsPanel
 			String displayText = deedsString[ 1 ];
 			// Use the substring matching of getItemId because itemName may not
 			// be the canonical name of the item
-			int itemId = ItemDatabase.getItemId( deedsString[ 3 ] );
+			String split = deedsString[ 3 ].split( ";" )[ 0 ];
+			int itemId = ItemDatabase.getItemId( split );
 			String item = ItemDatabase.getItemName( itemId );
+			if ( deedsString[ 3 ].split( ";" ).length > 1 )
+			{
+				for ( int i = 1; i < deedsString[ 3 ].split( ";" ).length; ++i )
+				{
+					item += ";" + deedsString[ 3 ].split( ";" )[ i ];
+				}
+			}
 
 			if ( itemId == -1 )
 			{
@@ -549,14 +557,22 @@ public class DailyDeedsPanel
 		else if ( deedsString.length == 5 )
 		{
 			/*
-			 * BooleanItem|displayText|preference|itemName
+			 * BooleanItem|displayText|preference|itemName|maxUses
 			 * itemId is found from itemName
 			 */
 			String displayText = deedsString[ 1 ];
 			// Use the substring matching of getItemId because itemName may not
 			// be the canonical name of the item
-			int itemId = ItemDatabase.getItemId( deedsString[ 3 ] );
+			String split = deedsString[ 3 ].split( ";" )[ 0 ];
+			int itemId = ItemDatabase.getItemId( split );
 			String item = ItemDatabase.getItemName( itemId );
+			if ( deedsString[ 3 ].split( ";" ).length > 1 )
+			{
+				for ( int i = 1; i < deedsString[ 3 ].split( ";" ).length; ++i )
+				{
+					item += ";" + deedsString[ 3 ].split( ";" )[ i ];
+				}
+			}
 
 			if ( itemId == -1 )
 			{
