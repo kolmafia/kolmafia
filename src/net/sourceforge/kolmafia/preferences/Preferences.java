@@ -83,9 +83,6 @@ public class Preferences
 	private static final TreeMap globalValues = new TreeMap();
 	private static File globalPropertiesFile = null;
 
-	private static Boolean TRUE = new Boolean( true );
-	private static Boolean FALSE = new Boolean( false );
-
 	static
 	{
 		initializeMaps();
@@ -487,7 +484,7 @@ public class Preferences
 		boolean old = Preferences.getBoolean( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, value ? "true" : "false", value ? Preferences.TRUE : Preferences.FALSE );
+			Preferences.setObject( user, name, value ? "true" : "false", Boolean.valueOf( value ) );
 		}
 	}
 

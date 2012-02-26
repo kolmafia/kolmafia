@@ -183,7 +183,7 @@ public class TrendyRequest
 			for ( int i = 0; i < splits.length; ++i )
 			{
 				String object = splits[ i ].trim().toLowerCase();
-				map.put( object, new Boolean( available ) );
+				map.put( object, Boolean.valueOf( available ) );
 			}
 		}
 

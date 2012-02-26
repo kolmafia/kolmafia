@@ -524,7 +524,7 @@ public class CloseableTabbedPane
 			boolean doPaintCloseIcon = true;
 			try
 			{
-				// JComponent.putClientProperty("isClosable", new Boolean(false));
+				// JComponent.putClientProperty("isClosable", Boolean.FALSE);
 				JTabbedPane tabbedpane = (JTabbedPane) c;
 				int tabNumber = tabbedpane.getUI().tabForCoordinate( tabbedpane, x, y );
 				JComponent curPanel = (JComponent) tabbedpane.getComponentAt( tabNumber );

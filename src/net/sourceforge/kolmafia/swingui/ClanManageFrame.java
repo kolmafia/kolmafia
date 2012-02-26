@@ -544,7 +544,7 @@ public class ClanManageFrame
 			value.add( p.getPlayerName() );
 			value.add( p.getTitle() );
 			value.add( p.getKarma() );
-			value.add( new Boolean( false ) );
+			value.add( Boolean.FALSE );
 
 			return value;
 		}
