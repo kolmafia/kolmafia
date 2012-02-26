@@ -142,7 +142,7 @@ public abstract class InventoryManager
 		return InventoryManager.hasItem( itemId, false );
 	}
 
-	public static final boolean hasItem( final int itemId, boolean shouldCreate )
+	public static final boolean hasItem( final int itemId, final boolean shouldCreate )
 	{
 		return InventoryManager.hasItem( ItemPool.get( itemId, 1 ), shouldCreate );
 	}
@@ -227,7 +227,7 @@ public abstract class InventoryManager
 			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliarList().get( i );
 
 			if ( !current.equals( KoLCharacter.getFamiliar() ) &&
-			     current.getItem() != null && current.getItem().equals( item ) )
+				current.getItem() != null && current.getItem().equals( item ) )
 			{
 				++count;
 			}
@@ -252,52 +252,52 @@ public abstract class InventoryManager
 
 	public static final boolean retrieveItem( final int itemId )
 	{
-		return retrieveItem( ItemPool.get( itemId, 1 ), true );
+		return InventoryManager.retrieveItem( ItemPool.get( itemId, 1 ), true );
 	}
 
 	public static final boolean retrieveItem( final int itemId, final boolean isAutomated )
 	{
-		return retrieveItem( ItemPool.get( itemId, 1 ), isAutomated );
+		return InventoryManager.retrieveItem( ItemPool.get( itemId, 1 ), isAutomated );
 	}
 
-	public static final boolean retrieveItem( final int itemId, int count )
+	public static final boolean retrieveItem( final int itemId, final int count )
 	{
-		return retrieveItem( ItemPool.get( itemId, count ), true );
+		return InventoryManager.retrieveItem( ItemPool.get( itemId, count ), true );
 	}
 
-	public static final boolean retrieveItem( final int itemId, int count, final boolean isAutomated )
+	public static final boolean retrieveItem( final int itemId, final int count, final boolean isAutomated )
 	{
-		return retrieveItem( ItemPool.get( itemId, count ), isAutomated );
+		return InventoryManager.retrieveItem( ItemPool.get( itemId, count ), isAutomated );
 	}
 
 	public static final boolean retrieveItem( final String itemName )
 	{
-		return retrieveItem( ItemPool.get( itemName, 1 ), true );
+		return InventoryManager.retrieveItem( ItemPool.get( itemName, 1 ), true );
 	}
 
 	public static final boolean retrieveItem( final String itemName, final boolean isAutomated )
 	{
-		return retrieveItem( ItemPool.get( itemName, 1 ), isAutomated );
+		return InventoryManager.retrieveItem( ItemPool.get( itemName, 1 ), isAutomated );
 	}
 
-	public static final boolean retrieveItem( final String itemName, int count )
+	public static final boolean retrieveItem( final String itemName, final int count )
 	{
-		return retrieveItem( ItemPool.get( itemName, count ), true );
+		return InventoryManager.retrieveItem( ItemPool.get( itemName, count ), true );
 	}
 
-	public static final boolean retrieveItem( final String itemName, int count, final boolean isAutomated )
+	public static final boolean retrieveItem( final String itemName, final int count, final boolean isAutomated )
 	{
-		return retrieveItem( ItemPool.get( itemName, count ), isAutomated );
+		return InventoryManager.retrieveItem( ItemPool.get( itemName, count ), isAutomated );
 	}
 
 	public static final boolean retrieveItem( final AdventureResult item )
 	{
-		return retrieveItem( item, true );
+		return InventoryManager.retrieveItem( item, true );
 	}
 
 	public static final boolean retrieveItem( final AdventureResult item, final boolean isAutomated )
 	{
-		String rv = retrieveItem( item, isAutomated, false );
+		String rv = InventoryManager.retrieveItem( item, isAutomated, false );
 		if ( rv == null )
 		{
 			return false;
@@ -316,32 +316,32 @@ public abstract class InventoryManager
 
 	public static final String simRetrieveItem( final int itemId )
 	{
-		return simRetrieveItem( ItemPool.get( itemId, 1 ), true );
+		return InventoryManager.simRetrieveItem( ItemPool.get( itemId, 1 ), true );
 	}
 
 	public static final String simRetrieveItem( final int itemId, final boolean isAutomated )
 	{
-		return simRetrieveItem( ItemPool.get( itemId, 1 ), isAutomated );
+		return InventoryManager.simRetrieveItem( ItemPool.get( itemId, 1 ), isAutomated );
 	}
 
 	public static final String simRetrieveItem( final String itemName )
 	{
-		return simRetrieveItem( ItemPool.get( itemName, 1 ), true );
+		return InventoryManager.simRetrieveItem( ItemPool.get( itemName, 1 ), true );
 	}
 
 	public static final String simRetrieveItem( final String itemName, final boolean isAutomated )
 	{
-		return simRetrieveItem( ItemPool.get( itemName, 1 ), isAutomated );
+		return InventoryManager.simRetrieveItem( ItemPool.get( itemName, 1 ), isAutomated );
 	}
 
 	public static final String simRetrieveItem( final AdventureResult item )
 	{
-		return simRetrieveItem( item, true );
+		return InventoryManager.simRetrieveItem( item, true );
 	}
 
 	public static final String simRetrieveItem( final AdventureResult item, final boolean isAutomated )
 	{
-		String rv = retrieveItem( item, isAutomated, true );
+		String rv = InventoryManager.retrieveItem( item, isAutomated, true );
 		if ( rv == null || rv.equals( "" ) )
 		{
 			RequestLogger.printLine( "INTERNAL ERROR: retrieveItem didn't return string when simulating!" );
@@ -357,7 +357,7 @@ public abstract class InventoryManager
 		boolean cloverProtectActive = Preferences.getBoolean( "cloverProtectActive" );
 		Preferences.setBoolean( "cloverProtectActive", false );
 
-		String rv = doRetrieveItem( item, isAutomated, sim );
+		String rv = InventoryManager.doRetrieveItem( item, isAutomated, sim );
 
 		// Restore preferences back to what they were before calling retrieveItem
 
@@ -387,7 +387,11 @@ public abstract class InventoryManager
 			String property = concoction != null ? concoction.property : null;
 			if ( property == null )
 			{
-				if ( sim ) return "fail";
+				if ( sim )
+				{
+					return "fail";
+				}
+
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE, "Don't know how to retrieve a " + item.getName() );
 				return null;
@@ -397,26 +401,42 @@ public abstract class InventoryManager
 			int need = item.getCount() - have;
 			if ( need > 0 )
 			{
-				if ( sim ) return "fail";
+				if ( sim )
+				{
+					return "fail";
+				}
+
 				KoLmafia.updateDisplay(
 					KoLConstants.ERROR_STATE, "You need " + need + " more " + item.getName() + " to continue." );
 				return null;
 			}
 
-			if ( sim ) return "have";
+			if ( sim )
+			{
+				return "have";
+			}
+
 			return "";
 		}
 
 		if ( itemId == 0 )
 		{
-			if ( sim ) return "pretend to have";
+			if ( sim )
+			{
+				return "pretend to have";
+			}
+
 			return "";
 		}
 
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
 			// Retrieve worthless items using special techniques.
-			if ( sim ) return "chewing gum";
+			if ( sim )
+			{
+				return "chewing gum";
+			}
+
 			return InventoryManager.retrieveWorthlessItems( item ) ? "" : null;
 		}
 
@@ -428,7 +448,11 @@ public abstract class InventoryManager
 
 		if ( missingCount <= 0 )
 		{
-			if ( sim ) return "have";
+			if ( sim )
+			{
+				return "have";
+			}
+
 			return "";
 		}
 
@@ -436,10 +460,15 @@ public abstract class InventoryManager
 		{
 			if ( EquipmentManager.getEquipment( i ).equals( item ) )
 			{
-				if ( sim ) return "remove";
+				if ( sim )
+				{
+					return "remove";
+				}
+
 				SpecialOutfit.forgetEquipment( item );
 				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
 				--missingCount;
+
 				if ( missingCount <= 0 )
 				{
 					return "";
@@ -453,7 +482,11 @@ public abstract class InventoryManager
 
 			if ( current.getItem() != null && current.getItem().equals( item ) )
 			{
-				if ( sim ) return "steal";
+				if ( sim )
+				{
+					return "steal";
+				}
+
 				KoLmafia.updateDisplay( "Stealing " + item.getName() + " from " + current.getName() + " the " + current.getRace() + "..." );
 				InventoryManager.FAMEQUIP_REMOVER.addFormField( "famid", String.valueOf( current.getId() ) );
 				RequestThread.postRequest( InventoryManager.FAMEQUIP_REMOVER );
@@ -473,10 +506,19 @@ public abstract class InventoryManager
 		{
 			if ( InventoryManager.hasItem( ItemPool.ABRIDGED ) )
 			{
-				if ( sim ) return "untinker";
+				if ( sim )
+				{
+					return "untinker";
+				}
+
 				RequestThread.postRequest( new UntinkerRequest( ItemPool.ABRIDGED, 1 ) );
 			}
-			if ( sim ) return "fail";
+
+			if ( sim )
+			{
+				return "fail";
+			}
+
 			return item.getCount( KoLConstants.inventory ) > 0 ? "" : null;
 		}
 
@@ -492,11 +534,14 @@ public abstract class InventoryManager
 
 			if ( itemCount > 0 )
 			{
-				if ( sim ) return "uncloset";
+				if ( sim )
+				{
+					return "uncloset";
+				}
+
+				int retrieveCount = Math.min( itemCount, missingCount );
 				RequestThread.postRequest( new ClosetRequest(
-					ClosetRequest.CLOSET_TO_INVENTORY, new AdventureResult[] {
-						item.getInstance( Math.min( itemCount, missingCount ) ) }
-					) );
+					ClosetRequest.CLOSET_TO_INVENTORY, item.getInstance( retrieveCount ) ) );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 				if ( missingCount <= 0 )
@@ -513,10 +558,14 @@ public abstract class InventoryManager
 
 		if ( itemCount > 0 && trendy )
 		{
-			if ( sim ) return "free pull";
+			if ( sim )
+			{
+				return "free pull";
+			}
+
+			int retrieveCount = Math.min( itemCount, missingCount );
 			RequestThread.postRequest( new StorageRequest(
-				StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { item.getInstance( Math.min(
-					itemCount, missingCount ) ) } ) );
+				StorageRequest.STORAGE_TO_INVENTORY, item.getInstance( retrieveCount ) ) );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			if ( missingCount <= 0 )
@@ -536,11 +585,15 @@ public abstract class InventoryManager
 
 			if ( itemCount > 0 )
 			{
-				if ( sim ) return "pull";
-				RequestThread.postRequest( new StorageRequest(
-					StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { item.getInstance( itemCount ) } ) );
+				if ( sim )
+				{
+					return "pull";
+				}
 
+				RequestThread.postRequest( new StorageRequest(
+					StorageRequest.STORAGE_TO_INVENTORY, item.getInstance( itemCount ) ) );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
 				if ( missingCount <= 0 )
 				{
 					return "";
@@ -560,13 +613,17 @@ public abstract class InventoryManager
 			}
 
 			itemCount = item.getCount( ClanManager.getStash() );
+
 			if ( itemCount > 0 )
 			{
-				if ( sim ) return "unstash";
-				RequestThread.postRequest( new ClanStashRequest(
-					new AdventureResult[] { item.getInstance( Math.min( itemCount, getPurchaseCount(
-						itemId, missingCount ) ) ) }, ClanStashRequest.STASH_TO_ITEMS ) );
+				if ( sim )
+				{
+					return "unstash";
+				}
 
+				int retrieveCount = Math.min( itemCount, InventoryManager.getPurchaseCount( itemId, missingCount ) );
+				RequestThread.postRequest( new ClanStashRequest(
+					item.getInstance( retrieveCount ), ClanStashRequest.STASH_TO_ITEMS ) );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 				if ( missingCount <= 0 )
@@ -579,14 +636,18 @@ public abstract class InventoryManager
 		// Next, attempt to create the item from existing ingredients
 		// (if possible).
 
-		boolean shouldUseMall = shouldUseMall( item ) && trendy;
+		boolean shouldUseMall = InventoryManager.shouldUseMall( item ) && trendy;
 		boolean scriptSaysBuy = false;
 
 		if ( creator != null && creator.getQuantityPossible() > 0 )
 		{
-			if ( sim ) return shouldUseMall ? "create or buy" : "create";
-			scriptSaysBuy = invokeBuyScript( item, missingCount, 2,
-				( shouldUseMall && cheaperToBuy( item, missingCount ) ) );
+			if ( sim )
+			{
+				return shouldUseMall ? "create or buy" : "create";
+			}
+
+			boolean defaultBuy = shouldUseMall && InventoryManager.cheaperToBuy( item, missingCount );
+			scriptSaysBuy = InventoryManager.invokeBuyScript( item, missingCount, 2, defaultBuy );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			if ( missingCount <= 0 )
@@ -601,10 +662,11 @@ public abstract class InventoryManager
 					Math.min( missingCount, creator.getQuantityPossible() ) );
 
 				if ( isAutomated && concoction != null &&
-				     concoction.getAdventuresNeeded( missingCount, true ) > 0 )
+					concoction.getAdventuresNeeded( missingCount, true ) > 0 )
 				{
 					asked = true;
-					if ( !allowTurnConsumption( creator ) )
+
+					if ( !InventoryManager.allowTurnConsumption( creator ) )
 					{
 						return null;
 					}
@@ -641,8 +703,8 @@ public abstract class InventoryManager
 					return "hermit";
 				}
 
-				int needed = Math.min( itemCount, missingCount );
-				RequestThread.postRequest( new HermitRequest( itemId, needed ) );
+				int retrieveCount = Math.min( itemCount, missingCount );
+				RequestThread.postRequest( new HermitRequest( itemId, retrieveCount ) );
 			}
 
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
@@ -656,30 +718,44 @@ public abstract class InventoryManager
 		// to autosatisfy through purchases, and the item is not
 		// creatable through combines.
 
-		if ( !scriptSaysBuy && shouldUseMall && !hasAnyIngredient( itemId ) )
+		if ( !scriptSaysBuy && shouldUseMall && !InventoryManager.hasAnyIngredient( itemId ) )
 		{
-			if ( sim ) return "create or buy";
-			scriptSaysBuy = creator == null ||
-				invokeBuyScript( item, missingCount, 0,
-					( shouldUseMall && cheaperToBuy( item, missingCount ) ) );
-			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
-
-			if ( missingCount <= 0 )
+			if ( sim )
 			{
-				return "";
+				return "create or buy";
+			}
+
+			if ( creator == null )
+			{
+				scriptSaysBuy = true;
+			}
+			else
+			{
+				boolean defaultBuy = shouldUseMall && InventoryManager.cheaperToBuy( item, missingCount );
+				scriptSaysBuy = InventoryManager.invokeBuyScript( item, missingCount, 0, defaultBuy );
+				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
+				if ( missingCount <= 0 )
+				{
+					return "";
+				}
 			}
 		}
 
 		boolean shouldUseNPCStore =
 			Preferences.getBoolean( "autoSatisfyWithNPCs" ) &&
-			NPCStoreDatabase.contains( item.getName() );
+				NPCStoreDatabase.contains( item.getName() );
 
 		if ( shouldUseNPCStore || scriptSaysBuy )
 		{
-			if ( sim ) return "buy";
+			if ( sim )
+			{
+				return "buy";
+			}
+
 			ArrayList results = StoreManager.searchMall( item );
 			StaticEntity.getClient().makePurchases(
-				results, results.toArray(), getPurchaseCount( itemId, missingCount ), isAutomated );
+				results, results.toArray(), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
 			StoreManager.updateMallPrice( item, results );
 
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
@@ -696,17 +772,22 @@ public abstract class InventoryManager
 		{
 			int pullCount = Math.min( item.getCount( KoLConstants.storage ),
 				ConcoctionDatabase.getPullsBudgeted() );
+
 			if ( pullCount > 0 )
 			{
-				if ( sim ) return "pull";
+				if ( sim )
+				{
+					return "pull";
+				}
+
 				pullCount = Math.min( pullCount, item.getCount() );
 				int newbudget = ConcoctionDatabase.getPullsBudgeted() - pullCount;
-				RequestThread.postRequest( new StorageRequest(
-					StorageRequest.STORAGE_TO_INVENTORY,
-					new AdventureResult[] { item.getInstance( pullCount ) } ) );
-				ConcoctionDatabase.setPullsBudgeted( newbudget );
 
+				RequestThread.postRequest( new StorageRequest(
+					StorageRequest.STORAGE_TO_INVENTORY, item.getInstance( pullCount ) ) );
+				ConcoctionDatabase.setPullsBudgeted( newbudget );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
+
 				if ( missingCount <= 0 )
 				{
 					return "";
@@ -730,9 +811,13 @@ public abstract class InventoryManager
 
 		if ( creator != null && mixingMethod != KoLConstants.NOCREATE )
 		{
-			if ( sim ) return shouldUseMall ? "create or buy" : "create";
-			scriptSaysBuy = invokeBuyScript( item, missingCount, 1,
-				scriptSaysBuy || ( shouldUseMall && cheaperToBuy( item, missingCount ) ) );
+			if ( sim )
+			{
+				return shouldUseMall ? "create or buy" : "create";
+			}
+
+			boolean defaultBuy = scriptSaysBuy || shouldUseMall && InventoryManager.cheaperToBuy( item, missingCount );
+			scriptSaysBuy = InventoryManager.invokeBuyScript( item, missingCount, 1, defaultBuy );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			if ( missingCount <= 0 )
@@ -752,7 +837,7 @@ public abstract class InventoryManager
 				// Speculate on how much the items needed to make the creation would cost.
 				// Do not retrieve if the average meat spend to make one of the item
 				// exceeds the user's autoBuyPriceLimit.
-				float meatSpend = priceToMake( item, missingCount, 0, true, true ) / missingCount;
+				float meatSpend = InventoryManager.priceToMake( item, missingCount, 0, true, true ) / missingCount;
 				int autoBuyPriceLimit = Preferences.getInteger( "autoBuyPriceLimit" );
 				if ( meatSpend > autoBuyPriceLimit )
 				{
@@ -763,6 +848,7 @@ public abstract class InventoryManager
 							+ KoLConstants.COMMA_FORMAT.format( meatSpend )
 							+ ") for one " + item.getName() + " exceeds autoBuyPriceLimit ("
 							+ KoLConstants.COMMA_FORMAT.format( autoBuyPriceLimit ) + ")" );
+
 					// If making it from components was cheaper than buying the final product, and we
 					// couldn't afford to make it, don't bother trying to buy the final product.
 					shouldUseMall = false;
@@ -771,22 +857,25 @@ public abstract class InventoryManager
 
 			if ( makeFromComponents )
 			{
-				if ( sim ) return "create";
-				
+				if ( sim )
+				{
+					return "create";
+				}
+
 				// Second place to check for adventure usage.  Make sure we didn't already ask above.
 				creator.setQuantityNeeded( missingCount );
 
-				if ( !asked && isAutomated && creator != null
-					&& concoction.getAdventuresNeeded( missingCount, true ) > 0 )
+				if ( !asked && isAutomated && creator != null &&
+					concoction.getAdventuresNeeded( missingCount, true ) > 0 )
 				{
 					asked = true;
-					if ( !allowTurnConsumption( creator ) )
+					if ( !InventoryManager.allowTurnConsumption( creator ) )
 					{
 						return null;
 					}
 				}
-				RequestThread.postRequest( creator );
 
+				RequestThread.postRequest( creator );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 				if ( missingCount <= 0 )
@@ -803,12 +892,15 @@ public abstract class InventoryManager
 
 		if ( shouldUseMall )
 		{
-			if ( sim ) return "buy";
+			if ( sim )
+			{
+				return "buy";
+			}
+
 			ArrayList results = StoreManager.searchMall( item );
 			StaticEntity.getClient().makePurchases(
-				results, results.toArray(), getPurchaseCount( itemId, missingCount ), isAutomated );
+				results, results.toArray(), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
 			StoreManager.updateMallPrice( item, results );
-
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 			if ( missingCount <= 0 )
@@ -821,7 +913,11 @@ public abstract class InventoryManager
 		// then notify the user that there aren't enough items
 		// available to continue and cancel the request.
 
-		if ( sim ) return "fail";
+		if ( sim )
+		{
+			return "fail";
+		}
+
 		KoLmafia.updateDisplay(
 			KoLConstants.ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 
@@ -830,14 +926,14 @@ public abstract class InventoryManager
 
 	// *** Start of worthless item handling
 
-	private static final AdventureResult [] WORTHLESS_ITEMS = new AdventureResult []
+	private static final AdventureResult[] WORTHLESS_ITEMS = new AdventureResult[]
 	{
 		ItemPool.get( ItemPool.WORTHLESS_TRINKET, 1 ),
 		ItemPool.get( ItemPool.WORTHLESS_GEWGAW, 1 ),
 		ItemPool.get( ItemPool.WORTHLESS_KNICK_KNACK, 1 ),
 	};
 
-	private static final AdventureResult [] STARTER_ITEMS = new AdventureResult []
+	private static final AdventureResult[] STARTER_ITEMS = new AdventureResult[]
 	{
 		// A hat and a weapon for all six classes
 		ItemPool.get( ItemPool.SEAL_HELMET, 1 ),
@@ -919,7 +1015,7 @@ public abstract class InventoryManager
 
 		if ( missingStarterItemCount > 0 )
 		{
-			transferChewingGumItems( InventoryManager.STARTER_ITEMS, true, false );
+			InventoryManager.transferChewingGumItems( InventoryManager.STARTER_ITEMS, true, false );
 			missingStarterItemCount = InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
 		}
 
@@ -932,25 +1028,26 @@ public abstract class InventoryManager
 			// To save server hits, retrieve all the gum needed rather than constantly
 			// purchase small amounts of gum.
 
-			int totalGumCount = missingStarterItemCount + ( needed - count );
+			int totalGumCount = missingStarterItemCount + needed - count;
 
 			if ( InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, totalGumCount ) )
 			{
 				if ( needed - count <= 3 )
 				{
-					transferWorthlessItems( true );
-					RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.CHEWING_GUM, totalGumCount ) ) );
+					InventoryManager.transferWorthlessItems( true );
+					RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.CHEWING_GUM, totalGumCount ) );
 				}
 				else
 				{
 					while ( needed - count > 0 )
 					{
-						int gumCount = missingStarterItemCount == 0 ? Math.min( needed - count, 3 ) : missingStarterItemCount + 3;
+						int gumCount =
+							missingStarterItemCount == 0 ? Math.min( needed - count, 3 ) : missingStarterItemCount + 3;
 
 						// Put the worthless items into the closet and then use the chewing gum
 
-						int closetCount = transferWorthlessItems( true );
-						RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.CHEWING_GUM, gumCount ) ) );
+						int closetCount = InventoryManager.transferWorthlessItems( true );
+						RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.CHEWING_GUM, gumCount ) );
 
 						// Recalculate how many worthless items are still needed and how many starter
 						// items are now present in the inventory (if it's zero already, no additional
@@ -961,14 +1058,15 @@ public abstract class InventoryManager
 
 						if ( missingStarterItemCount != 0 )
 						{
-							missingStarterItemCount = InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
+							missingStarterItemCount =
+								InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
 						}
 					}
 				}
 
 				// Pull the worthless items back out of the closet.
 
-				count = transferWorthlessItems( false );
+				count = InventoryManager.transferWorthlessItems( false );
 			}
 		}
 
@@ -993,7 +1091,8 @@ public abstract class InventoryManager
 
 					AdventureResult gum = ItemPool.get( ItemPool.CHEWING_GUM, gumUseCount );
 
-					if ( gum.getCount( KoLConstants.inventory ) < gum.getCount() && !InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, needed - count ) )
+					if ( gum.getCount( KoLConstants.inventory ) < gumUseCount &&
+						!InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, needed - count ) )
 					{
 						break;
 					}
@@ -1001,7 +1100,7 @@ public abstract class InventoryManager
 					// Closet your existing worthless items (since they will reduce
 					// the probability of you getting more) and then use the gum.
 
-					int closetCount = transferWorthlessItems( true );
+					int closetCount = InventoryManager.transferWorthlessItems( true );
 					RequestThread.postRequest( UseItemRequest.getInstance( gum ) );
 					int inventoryCount = HermitRequest.getWorthlessItemCount();
 
@@ -1010,7 +1109,7 @@ public abstract class InventoryManager
 
 				// Pull the worthless items back out of the closet.
 
-				count = transferWorthlessItems( false );
+				count = InventoryManager.transferWorthlessItems( false );
 			}
 		}
 
@@ -1042,7 +1141,8 @@ public abstract class InventoryManager
 		return starterItemCount;
 	}
 
-	private static void transferChewingGumItems( AdventureResult [] items, boolean moveOne, boolean moveToCloset )
+	private static void transferChewingGumItems(
+		final AdventureResult[] items, final boolean moveOne, final boolean moveToCloset )
 	{
 		List source = moveToCloset ? KoLConstants.inventory : KoLConstants.closet;
 		List destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
@@ -1073,9 +1173,9 @@ public abstract class InventoryManager
 		}
 	}
 
-	private static int transferWorthlessItems( boolean moveToCloset )
+	private static int transferWorthlessItems( final boolean moveToCloset )
 	{
-		transferChewingGumItems( InventoryManager.WORTHLESS_ITEMS, false, moveToCloset );
+		InventoryManager.transferChewingGumItems( InventoryManager.WORTHLESS_ITEMS, false, moveToCloset );
 
 		List destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
 
@@ -1093,11 +1193,12 @@ public abstract class InventoryManager
 		int knickKnackCount = HermitRequest.KNICK_KNACK.getCount( KoLConstants.storage );
 
 		AdventureResult[] items =
-			new AdventureResult[] {
+			new AdventureResult[]
+			{
 				HermitRequest.TRINKET.getInstance( trinketCount ),
 				HermitRequest.GEWGAW.getInstance( gewgawCount ),
 				HermitRequest.KNICK_KNACK.getInstance( knickKnackCount )
-		};
+			};
 
 		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
 
@@ -1197,13 +1298,13 @@ public abstract class InventoryManager
 	public static int currentWorthlessItemCost()
 	{
 		int x = InventoryManager.getStarterItemCount();
-		return (int)Math.ceil( 12.5 * ( 17 - x ) );
+		return (int) Math.ceil( 12.5 * ( 17 - x ) );
 	}
 
 	// *** End of worthless item handling
 
-	private static boolean invokeBuyScript( AdventureResult item, int qty,
-		int ingredientLevel, boolean defaultBuy )
+	private static boolean invokeBuyScript(
+		final AdventureResult item, final int quantity, final int ingredientLevel, final boolean defaultBuy )
 	{
 		String scriptName = Preferences.getString( "buyScript" );
 		if ( scriptName.length() == 0 )
@@ -1217,7 +1318,7 @@ public abstract class InventoryManager
 			return interpreter.execute( "main", new String[]
 			{
 				item.getName(),
-				String.valueOf( qty ),
+				String.valueOf( quantity ),
 				String.valueOf( ingredientLevel ),
 				String.valueOf( defaultBuy )
 			} ).intValue() != 0;
@@ -1225,126 +1326,149 @@ public abstract class InventoryManager
 		return defaultBuy;
 	}
 
-	private static boolean cheaperToBuy( AdventureResult item, int qty )
+	private static boolean cheaperToBuy( final AdventureResult item, final int quantity )
 	{
 		if ( !ItemDatabase.isTradeable( item.getItemId() ) )
 		{
 			return false;
 		}
 
-		int mallprice = StoreManager.getMallPrice( item, 7.0f ) * qty;
-		if ( mallprice <= 0 )
+		int mallPrice = StoreManager.getMallPrice( item, 7.0f ) * quantity;
+		if ( mallPrice <= 0 )
 		{
 			return false;
 		}
-		int makeprice = priceToMake( item, qty, 0, false );
-		if ( makeprice == Integer.MAX_VALUE )
+
+		int makePrice = InventoryManager.priceToMake( item, quantity, 0, false );
+		if ( makePrice == Integer.MAX_VALUE )
 		{
 			return true;
 		}
-		if ( mallprice / 2 < makeprice && makeprice / 2 < mallprice )
-		{	// Less than a 2:1 ratio, we should check more carefully
-			mallprice = StoreManager.getMallPrice( item ) * qty;
-			if ( mallprice <= 0 )
+
+		if ( mallPrice / 2 < makePrice && makePrice / 2 < mallPrice )
+		{
+			// Less than a 2:1 ratio, we should check more carefully
+			mallPrice = StoreManager.getMallPrice( item ) * quantity;
+			if ( mallPrice <= 0 )
 			{
 				return false;
 			}
-			makeprice = priceToMake( item, qty, 0, true );
-			if ( makeprice == Integer.MAX_VALUE )
+
+			makePrice = InventoryManager.priceToMake( item, quantity, 0, true );
+			if ( makePrice == Integer.MAX_VALUE )
 			{
 				return true;
 			}
 		}
+
 		if ( Preferences.getBoolean( "debugBuy" ) )
 		{
-			RequestLogger.printLine( "\u262F " + item.getInstance( qty ) + " mall=" + mallprice + " make=" + makeprice );
+			RequestLogger.printLine( "\u262F " + item.getInstance( quantity ) + " mall=" + mallPrice + " make=" + makePrice );
 		}
-		return mallprice < makeprice;
+
+		return mallPrice < makePrice;
 	}
 
-	private static int itemValue( AdventureResult item, boolean exact )
+	private static int itemValue( final AdventureResult item, final boolean exact )
 	{
 		float factor = Preferences.getFloat( "valueOfInventory" );
 		if ( factor <= 0.0f )
 		{
 			return 0;
 		}
+
 		int lower = 0;
 		int autosell = ItemDatabase.getPriceById( item.getItemId() );
 		int upper = Math.max( 0, autosell );
+
 		if ( factor <= 1.0f )
 		{
-			return lower + (int)((upper - lower) * factor);
+			return lower + (int) ( ( upper - lower ) * factor );
 		}
+
 		factor -= 1.0f;
 		lower = upper;
+
 		int mall = StoreManager.getMallPrice( item, exact ? 0.0f : 7.0f );
 		if ( mall > Math.max( 100, 2 * Math.abs( autosell ) ) )
 		{
 			upper = Math.max( lower, mall );
 		}
+
 		if ( factor <= 1.0f )
 		{
-			return lower + (int)((upper - lower) * factor);
+			return lower + (int) ( ( upper - lower ) * factor );
 		}
+
 		factor -= 1.0f;
 		upper = Math.max( lower, mall );
-		return lower + (int)((upper - lower) * factor);
+		return lower + (int) ( ( upper - lower ) * factor );
 	}
 
-	private static int priceToAcquire( AdventureResult item, int qty, int level, boolean exact, boolean mallPriceOnly )
+	private static int priceToAcquire(
+		final AdventureResult item, int quantity, final int level, final boolean exact, final boolean mallPriceOnly )
 	{
 		int price = 0;
-		int onhand = Math.min( qty, item.getCount( KoLConstants.inventory ) );
+		int onhand = Math.min( quantity, item.getCount( KoLConstants.inventory ) );
 		if ( onhand > 0 )
 		{
 			if ( item.getItemId() != ItemPool.PLASTIC_SWORD )
 			{
-				price = mallPriceOnly ? 0 : itemValue( item, exact );
+				price = mallPriceOnly ? 0 : InventoryManager.itemValue( item, exact );
 			}
+
 			price *= onhand;
-			qty -= onhand;
-			if ( qty == 0 )
+			quantity -= onhand;
+
+			if ( quantity == 0 )
 			{
 				if ( Preferences.getBoolean( "debugBuy" ) )
 				{
 					RequestLogger.printLine( "\u262F " + item.getInstance( onhand ) + " onhand=" + price );
 				}
+
 				return price;
 			}
 		}
-		int mallprice = StoreManager.getMallPrice( item, exact ? 0.0f : 7.0f ) * qty;
-		if ( mallprice <= 0 )
+
+		int mallPrice = StoreManager.getMallPrice( item, exact ? 0.0f : 7.0f ) * quantity;
+		if ( mallPrice <= 0 )
 		{
-			mallprice = Integer.MAX_VALUE;
+			mallPrice = Integer.MAX_VALUE;
 		}
 		else
 		{
-			mallprice += price;
+			mallPrice += price;
 		}
-		int makeprice = priceToMake( item, qty, level, exact, mallPriceOnly );
-		if ( makeprice != Integer.MAX_VALUE )
+
+		int makePrice = InventoryManager.priceToMake( item, quantity, level, exact, mallPriceOnly );
+		if ( makePrice != Integer.MAX_VALUE )
 		{
-			makeprice += price;
+			makePrice += price;
 		}
-		if ( !exact && mallprice / 2 < makeprice && makeprice / 2 < mallprice )
-		{	// Less than a 2:1 ratio, we should check more carefully
-			return priceToAcquire( item, qty, level, true, mallPriceOnly );
+
+		if ( !exact && mallPrice / 2 < makePrice && makePrice / 2 < mallPrice )
+		{
+			// Less than a 2:1 ratio, we should check more carefully
+			return InventoryManager.priceToAcquire( item, quantity, level, true, mallPriceOnly );
 		}
+
 		if ( Preferences.getBoolean( "debugBuy" ) )
 		{
-			RequestLogger.printLine( "\u262F " + item.getInstance( qty ) + " mall=" + mallprice + " make=" + makeprice );
+			RequestLogger.printLine( "\u262F " + item.getInstance( quantity ) + " mall=" + mallPrice + " make=" + makePrice );
 		}
-		return Math.min( mallprice, makeprice );
+
+		return Math.min( mallPrice, makePrice );
 	}
 
-	private static int priceToMake( AdventureResult item, int qty, int level, boolean exact, boolean mallPriceOnly )
+	private static int priceToMake(
+		final AdventureResult item, final int quantity, final int level, final boolean exact, final boolean mallPriceOnly )
 	{
 		int id = item.getItemId();
 		int meatCost = CombineMeatRequest.getCost( id );
 		if ( meatCost > 0 )
 		{
-			return meatCost * qty;
+			return meatCost * quantity;
 		}
 
 		int method = ConcoctionDatabase.getMixingMethod( item );
@@ -1355,22 +1479,31 @@ public abstract class InventoryManager
 
 		int price = ConcoctionDatabase.CREATION_COST[ method & KoLConstants.CT_MASK ];
 		int yield = ConcoctionDatabase.getYield( id );
-		int madeqty = (qty + yield - 1) / yield;
-		AdventureResult ingrs[] = ConcoctionDatabase.getIngredients( id );
-		for ( int i = 0; i < ingrs.length; ++i )
+		int madeQuantity = ( quantity + yield - 1 ) / yield;
+
+		AdventureResult ingredients[] = ConcoctionDatabase.getIngredients( id );
+
+		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			AdventureResult ingr = ingrs[ i ];
-			int needed = ingr.getCount() * madeqty;
-			int ingrprice = priceToAcquire( ingr, needed, level + 1, exact, mallPriceOnly );
-			if ( ingrprice == Integer.MAX_VALUE ) return ingrprice;
-			price += ingrprice;
+			AdventureResult ingredient = ingredients[ i ];
+			int needed = ingredient.getCount() * madeQuantity;
+
+			int ingredientPrice = InventoryManager.priceToAcquire( ingredient, needed, level + 1, exact, mallPriceOnly );
+
+			if ( ingredientPrice == Integer.MAX_VALUE )
+			{
+				return ingredientPrice;
+			}
+
+			price += ingredientPrice;
 		}
-		return price * qty / (yield * madeqty);
+
+		return price * quantity / ( yield * madeQuantity );
 	}
 
-	private static int priceToMake( AdventureResult item, int qty, int level, boolean exact )
+	private static int priceToMake( final AdventureResult item, final int qty, final int level, final boolean exact )
 	{
-		return priceToMake( item, qty, level, exact, false );
+		return InventoryManager.priceToMake( item, qty, level, exact, false );
 	}
 
 	private static int getPurchaseCount( final int itemId, final int missingCount )
@@ -1392,7 +1525,7 @@ public abstract class InventoryManager
 
 	private static final boolean hasAnyIngredient( final int itemId )
 	{
-		return hasAnyIngredient( itemId, null );
+		return InventoryManager.hasAnyIngredient( itemId, null );
 	}
 
 	private static final boolean hasAnyIngredient( final int itemId, HashSet seen )
@@ -1433,6 +1566,7 @@ public abstract class InventoryManager
 		}
 
 		Integer key = IntegerCache.valueOf( itemId );
+
 		if ( seen == null )
 		{
 			seen = new HashSet();
@@ -1441,6 +1575,7 @@ public abstract class InventoryManager
 		{
 			return false;
 		}
+
 		seen.add( key );
 
 		for ( int i = 0; i < ingredients.length; ++i )
@@ -1512,9 +1647,13 @@ public abstract class InventoryManager
 		return true;
 	}
 
-	public static final void registerListener( int itemId, PreferenceListener listener )
+	public static final void registerListener( final int itemId, final PreferenceListener listener )
 	{
-		if ( itemId < 1 ) return;
+		if ( itemId < 1 )
+		{
+			return;
+		}
+
 		ArrayList list = InventoryManager.listeners.get( itemId );
 		if ( list == null )
 		{
@@ -1525,7 +1664,7 @@ public abstract class InventoryManager
 		list.add( new WeakReference( listener ) );
 	}
 
-	public static final void fireInventoryChanged( int itemId )
+	public static final void fireInventoryChanged( final int itemId )
 	{
 		ArrayList list = InventoryManager.listeners.get( itemId );
 		if ( list != null )
@@ -1540,16 +1679,19 @@ public abstract class InventoryManager
 				{
 					i.remove();
 				}
-				else try
+				else
 				{
-					listener.update();
-				}
-				catch ( Exception e )
-				{
-					// Don't let a botched listener interfere with
-					// the code that modified the inventory.
+					try
+					{
+						listener.update();
+					}
+					catch ( Exception e )
+					{
+						// Don't let a botched listener interfere with
+						// the code that modified the inventory.
 
-					StaticEntity.printStackTrace( e );
+						StaticEntity.printStackTrace( e );
+					}
 				}
 			}
 		}
@@ -1581,11 +1723,6 @@ public abstract class InventoryManager
 		public void set( final int index, final ArrayList value )
 		{
 			this.internalList.set( index, value );
-		}
-
-		public int size()
-		{
-			return this.internalList.size();
 		}
 	}
 
@@ -1621,7 +1758,7 @@ public abstract class InventoryManager
 		}
 	}
 
-	private static Pattern COT_PATTERN = Pattern.compile( "Current Occupant:.*?<b>.* the (.*?)</b>");
+	private static Pattern COT_PATTERN = Pattern.compile( "Current Occupant:.*?<b>.* the (.*?)</b>" );
 	public static final AdventureResult CROWN_OF_THRONES = ItemPool.get( ItemPool.HATSEAT, 1 );
 
 	public static final void checkCrownOfThrones()
@@ -1651,7 +1788,8 @@ public abstract class InventoryManager
 		String descId = ItemDatabase.getDescriptionId( ItemPool.HATSEAT );
 		GenericRequest req = new GenericRequest( "desc_item.php?whichitem=" + descId );
 		RequestThread.postRequest( req );
-		Matcher matcher = COT_PATTERN.matcher( req.responseText );
+
+		Matcher matcher = InventoryManager.COT_PATTERN.matcher( req.responseText );
 		if ( matcher.find() )
 		{
 			String race = matcher.group( 1 );
@@ -1665,20 +1803,22 @@ public abstract class InventoryManager
 	{
 		int oldCount = Preferences.getInteger( "goldenMrAccessories" );
 		int newCount =
-			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.inventory ) + 
-			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.closet ) +
-			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.storage ) +
-			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.collection ) +
-			InventoryManager.getEquippedCount( InventoryManager.GOLDEN_MR_ACCESSORY );
+			InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.inventory ) +
+				InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.closet ) +
+				InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.storage ) +
+				InventoryManager.GOLDEN_MR_ACCESSORY.getCount( KoLConstants.collection ) +
+				InventoryManager.getEquippedCount( InventoryManager.GOLDEN_MR_ACCESSORY );
+
 		// A Golden Mr. Accessory cannot be traded or discarded. Once
 		// you purchase one, it's yours forever more.
+
 		if ( newCount > oldCount )
 		{
 			Preferences.setInteger( "goldenMrAccessories", newCount );
 		}
 	}
 
-	private static boolean allowTurnConsumption( CreateItemRequest creator )
+	private static boolean allowTurnConsumption( final CreateItemRequest creator )
 	{
 		if ( !GenericFrame.instanceExists() )
 		{
@@ -1693,7 +1833,7 @@ public abstract class InventoryManager
 		return true;
 	}
 
-	private static boolean askAboutCrafting( CreateItemRequest creator )
+	private static boolean askAboutCrafting( final CreateItemRequest creator )
 	{
 		if ( creator.getQuantityNeeded() < 1 )
 		{
@@ -1705,8 +1845,8 @@ public abstract class InventoryManager
 			return true;
 		}
 		// If we've already nagged, don't nag. Unless the user wants us to nag. Then, nag.
-		if ( InventoryManager.askedAboutCrafting == KoLCharacter.getUserId()
-			&& Preferences.getInteger( "promptAboutCrafting" ) < 2 )
+		if ( InventoryManager.askedAboutCrafting == KoLCharacter.getUserId() &&
+			Preferences.getInteger( "promptAboutCrafting" ) < 2 )
 		{
 			return true;
 		}
@@ -1722,8 +1862,10 @@ public abstract class InventoryManager
 
 		// We could cast Inigo's automatically here, but nah. Let the user do that.
 
-		String message = freeCrafts > 0 ? "You will run out of free crafting turns before you are finished. Are you sure?"
-			: "You are about to spend adventures crafting.  Are you sure?";
+		String message =
+			freeCrafts > 0 ? "You will run out of free crafting turns before you are finished. Are you sure?"
+				: "You are about to spend adventures crafting.  Are you sure?";
+
 		if ( !InputFieldUtilities.confirm( message ) )
 		{
 			return false;

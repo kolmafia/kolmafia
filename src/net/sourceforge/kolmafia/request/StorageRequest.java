@@ -89,7 +89,12 @@ public class StorageRequest
 
 	public StorageRequest( final int moveType, final int amount )
 	{
-		this( moveType, new Object[] { new AdventureResult( AdventureResult.MEAT, amount ) } );
+		this( moveType, new AdventureResult( AdventureResult.MEAT, amount ) );
+	}
+
+	public StorageRequest( final int moveType, final Object attachment )
+	{
+		this( moveType, new Object[] { attachment } );
 	}
 
 	public StorageRequest( final int moveType, final Object[] attachments )
