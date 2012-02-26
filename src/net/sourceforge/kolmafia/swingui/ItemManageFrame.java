@@ -58,6 +58,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -91,7 +93,6 @@ import net.sourceforge.kolmafia.textui.command.AutoMallCommand;
 import net.sourceforge.kolmafia.textui.command.CleanupJunkRequest;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemManageFrame
@@ -236,8 +237,8 @@ public class ItemManageFrame
 
 	public static void updatePullsBudgeted( final int pullsBudgeted )
 	{
-		ItemManageFrame.pullBudgetSpinner1.setValue( IntegerCache.valueOf( pullsBudgeted ) );
-		ItemManageFrame.pullBudgetSpinner2.setValue( IntegerCache.valueOf( pullsBudgeted ) );
+		ItemManageFrame.pullBudgetSpinner1.setValue( IntegerPool.get( pullsBudgeted ) );
+		ItemManageFrame.pullBudgetSpinner2.setValue( IntegerPool.get( pullsBudgeted ) );
 	}
 
 	private class JunkItemsPanel

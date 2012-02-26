@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -58,7 +59,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HermitRequest
@@ -110,7 +110,7 @@ public class HermitRequest
 	public static final AdventureResult SUMMON_SCROLL = ItemPool.get( ItemPool.ELITE_SCROLL, 1 );
 
 	private static boolean checkedForClovers = false;
-	private static final Integer ONE = IntegerCache.valueOf( 1 );
+	private static final Integer ONE = IntegerPool.get( 1 );
 
 	/**
 	 * Constructs a new <code>HermitRequest</code> that simply checks what items the hermit has available.

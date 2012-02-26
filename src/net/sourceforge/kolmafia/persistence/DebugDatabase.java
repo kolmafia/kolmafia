@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
@@ -71,7 +72,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -251,7 +251,7 @@ public class DebugDatabase
 
 	private static final void checkItem( final int itemId, final PrintStream report )
 	{
-		Integer id = IntegerCache.valueOf( itemId );
+		Integer id = IntegerPool.get( itemId );
 
 		String name = ItemDatabase.getItemDataName( id );
 		if ( name == null )
@@ -384,7 +384,7 @@ public class DebugDatabase
 
 	public static final String rawItemDescriptionText( final int itemId, boolean forceReload )
 	{
-		Integer id = IntegerCache.valueOf( itemId );
+		Integer id = IntegerPool.get( itemId );
 		String descId = ItemDatabase.getDescriptionId( id );
 		if ( descId == null || descId.equals( "" ) )
 		{
@@ -1328,7 +1328,7 @@ public class DebugDatabase
 
 	private static final void checkPlural( final int itemId, final PrintStream report )
 	{
-		Integer id = IntegerCache.valueOf( itemId );
+		Integer id = IntegerPool.get( itemId );
 
 		String name = ItemDatabase.getItemDataName( id );
 		if ( name == null )
@@ -1919,7 +1919,7 @@ public class DebugDatabase
 		for ( int id = 1; id <= ItemDatabase.maxItemId(); ++id )
 		{
 			int pulver = EquipmentDatabase.getPulverization( id );
-			if ( pulver != -1 && !seen.contains( IntegerCache.valueOf( id ) ) )
+			if ( pulver != -1 && !seen.contains( IntegerPool.get( id ) ) )
 			{
 				String name = ItemDatabase.getItemName( id );
 				writer.println( name + ": not listed in anvil" );
@@ -1968,7 +1968,7 @@ public class DebugDatabase
 			else if ( tag.equals( "kolid" ) )
 			{
 				id = StringUtilities.parseInt( DebugDatabase.getNumericValue( child ) );
-				seen.add( IntegerCache.valueOf( id ) );
+				seen.add( IntegerPool.get( id ) );
 			}
 			else if ( tag.equals( "yield" ) )
 			{

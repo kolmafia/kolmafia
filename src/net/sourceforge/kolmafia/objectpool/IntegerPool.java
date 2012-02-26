@@ -31,16 +31,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.utilities;
+package net.sourceforge.kolmafia.objectpool;
 
-public class IntegerCache
+public class IntegerPool
 {
 	private static final int MIN_VALUE = -2;
 	private static final int MAX_VALUE = 12000;
 
-	private static final int RANGE = ( IntegerCache.MAX_VALUE - IntegerCache.MIN_VALUE ) + 1;
+	private static final int RANGE = ( IntegerPool.MAX_VALUE - IntegerPool.MIN_VALUE ) + 1;
 
-	private static final Integer[] CACHE = new Integer[ IntegerCache.RANGE ];
+	private static final Integer[] CACHE = new Integer[ IntegerPool.RANGE ];
 
 	private static int cacheHits = 0;
 	private static int cacheMissHighs = 0;
@@ -48,42 +48,42 @@ public class IntegerCache
 
 	static
 	{
-		for ( int i = 0; i < IntegerCache.RANGE; ++i )
+		for ( int i = 0; i < IntegerPool.RANGE; ++i )
 		{
-			IntegerCache.CACHE[ i ] = new Integer( IntegerCache.MIN_VALUE + i );
+			IntegerPool.CACHE[ i ] = new Integer( IntegerPool.MIN_VALUE + i );
 		}
 	}
 
 	public static final int getCacheHits()
 	{
-		return IntegerCache.cacheHits;
+		return IntegerPool.cacheHits;
 	}
 
 	public static final int getCacheMissLows()
 	{
-		return IntegerCache.cacheMissLows;
+		return IntegerPool.cacheMissLows;
 	}
 
 	public static final int getCacheMissHighs()
 	{
-		return IntegerCache.cacheMissHighs;
+		return IntegerPool.cacheMissHighs;
 	}
 
-	public static final Integer valueOf( int i )
+	public static final Integer get( int i )
 	{
-		if ( i < IntegerCache.MIN_VALUE )
+		if ( i < IntegerPool.MIN_VALUE )
 		{
 			++cacheMissLows;
 			return new Integer( i );
 		}
 
-		if ( i > IntegerCache.MAX_VALUE )
+		if ( i > IntegerPool.MAX_VALUE )
 		{
 			++cacheMissHighs;
 			return new Integer( i );
 		}
 
 		++cacheHits;
-		return IntegerCache.CACHE[ i - IntegerCache.MIN_VALUE ];
+		return IntegerPool.CACHE[ i - IntegerPool.MIN_VALUE ];
 	}
 }

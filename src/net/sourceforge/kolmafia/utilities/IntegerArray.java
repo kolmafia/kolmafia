@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.utilities;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 /**
  * Internal class which functions exactly an array of integers, except it uses "sets" and "gets" like a list. This
  * could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
@@ -59,10 +61,10 @@ public class IntegerArray
 	{
 		while ( index >= this.internalList.size() )
 		{
-			this.internalList.add( IntegerCache.valueOf( 0 ) );
+			this.internalList.add( IntegerPool.get( 0 ) );
 		}
 
-		this.internalList.set( index, IntegerCache.valueOf( value ) );
+		this.internalList.set( index, IntegerPool.get( value ) );
 	}
 
 	public int size()

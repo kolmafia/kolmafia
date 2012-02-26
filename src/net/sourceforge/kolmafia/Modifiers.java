@@ -51,6 +51,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -69,7 +70,6 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Modifiers
@@ -2559,7 +2559,7 @@ public class Modifiers
 					mask |= emask;
 				}
 				Modifiers.synergies.add( name );
-				Modifiers.synergies.add( IntegerCache.valueOf( mask ) );
+				Modifiers.synergies.add( IntegerPool.get( mask ) );
 			}
 			else if ( name.startsWith( "mutex" ) )
 			{

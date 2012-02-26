@@ -45,7 +45,8 @@ import javax.swing.table.TableModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TransparentTable

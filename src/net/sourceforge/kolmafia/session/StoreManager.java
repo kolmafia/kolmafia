@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -64,7 +66,6 @@ import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.PauseObject;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class StoreManager
@@ -415,7 +416,7 @@ public abstract class StoreManager
 			return new ArrayList();
 		}
 
-		Integer id = IntegerCache.valueOf( itemId );
+		Integer id = IntegerPool.get( itemId );
 		String name = ItemDatabase.getItemDataName( id );
 
 		StoreManager.flushCache();
@@ -485,16 +486,16 @@ public abstract class StoreManager
 
 		for ( int i = 0; i < resultsArray.length; ++i )
 		{
-			currentPrice = IntegerCache.valueOf( resultsArray[ i ].getPrice() );
+			currentPrice = IntegerPool.get( resultsArray[ i ].getPrice() );
 			currentQuantity = (Integer) prices.get( currentPrice );
 
 			if ( currentQuantity == null )
 			{
-				prices.put( currentPrice, IntegerCache.valueOf( resultsArray[ i ].getLimit() ) );
+				prices.put( currentPrice, IntegerPool.get( resultsArray[ i ].getLimit() ) );
 			}
 			else
 			{
-				prices.put( currentPrice, IntegerCache.valueOf( currentQuantity.intValue() + resultsArray[ i ].getLimit() ) );
+				prices.put( currentPrice, IntegerPool.get( currentQuantity.intValue() + resultsArray[ i ].getLimit() ) );
 			}
 		}
 
@@ -586,9 +587,9 @@ public abstract class StoreManager
 			this.lowest = lowest;
 
 			super.add( this.itemName );
-			super.add( IntegerCache.valueOf( price ) );
-			super.add( IntegerCache.valueOf( lowest ) );
-			super.add( IntegerCache.valueOf( quantity ) );
+			super.add( IntegerPool.get( price ) );
+			super.add( IntegerPool.get( lowest ) );
+			super.add( IntegerPool.get( quantity ) );
 			super.add( limit != 0 ? Boolean.TRUE : Boolean.FALSE );
 		}
 

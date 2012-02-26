@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
@@ -96,7 +98,6 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableReferenceList;
 import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Parser
@@ -1460,7 +1461,7 @@ public class Parser
 
 				if ( currentInteger == null )
 				{
-					currentInteger = IntegerCache.valueOf( currentIndex );
+					currentInteger = IntegerPool.get( currentIndex );
 				}
 
 				if ( test.getClass() == Value.class )

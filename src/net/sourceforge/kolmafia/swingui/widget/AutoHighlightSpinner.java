@@ -40,7 +40,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutoHighlightSpinner
@@ -57,7 +58,7 @@ public class AutoHighlightSpinner
 
 	public void setValue( int value )
 	{
-		this.setValue( IntegerCache.valueOf( value ) );
+		this.setValue( IntegerPool.get( value ) );
 	}
 
 	public void setHorizontalAlignment( int alignment )
@@ -115,7 +116,7 @@ public class AutoHighlightSpinner
 					String text = AutoHighlightNumberEditor.this.getText();
 					int value = StringUtilities.parseInt( text );
 					AutoHighlightNumberEditor.this.changing = true;
-					AutoHighlightSpinner.this.setValue( IntegerCache.valueOf( value ) );
+					AutoHighlightSpinner.this.setValue( IntegerPool.get( value ) );
 					AutoHighlightNumberEditor.this.changing = false;
 				}
 				catch ( NumberFormatException e )

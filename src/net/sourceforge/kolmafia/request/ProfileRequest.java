@@ -47,13 +47,14 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ProfileRequest
@@ -103,10 +104,10 @@ public class ProfileRequest
 
 		this.addFormField( "who", this.playerId );
 
-		this.muscle = IntegerCache.valueOf( 0 );
-		this.mysticism = IntegerCache.valueOf( 0 );
-		this.moxie = IntegerCache.valueOf( 0 );
-		this.karma = IntegerCache.valueOf( 0 );
+		this.muscle = IntegerPool.get( 0 );
+		this.mysticism = IntegerPool.get( 0 );
+		this.moxie = IntegerPool.get( 0 );
+		this.karma = IntegerPool.get( 0 );
 	}
 
 	protected boolean retryOnTimeout()
@@ -137,16 +138,16 @@ public class ProfileRequest
 
 		String token = st.nextToken();
 
-		this.playerLevel = IntegerCache.valueOf( 0 );
+		this.playerLevel = IntegerPool.get( 0 );
 		this.classType = "Recent Ascension";
-		this.currentMeat = IntegerCache.valueOf( 0 );
-		this.ascensionCount = IntegerCache.valueOf( 0 );
-		this.turnsPlayed = IntegerCache.valueOf( 0 );
+		this.currentMeat = IntegerPool.get( 0 );
+		this.ascensionCount = IntegerPool.get( 0 );
+		this.turnsPlayed = IntegerPool.get( 0 );
 		this.created = new Date();
 		this.lastLogin = new Date();
 		this.food = "none";
 		this.drink = "none";
-		this.pvpRank = IntegerCache.valueOf( 0 );
+		this.pvpRank = IntegerPool.get( 0 );
 
 		if ( cleanHTML.indexOf( "\nClass:" ) != -1 )
 		{	// has custom title
@@ -161,7 +162,7 @@ public class ProfileRequest
 			token = st.nextToken();
 			if ( token.startsWith( "(Level" ) )
 			{
-				this.playerLevel = IntegerCache.valueOf(
+				this.playerLevel = IntegerPool.get(
 					StringUtilities.parseInt( token.substring( 6 ).trim() ) );
 			}
 			else
@@ -171,7 +172,7 @@ public class ProfileRequest
 				Matcher m = ProfileRequest.NUMERIC_PATTERN.matcher( title );
 				if ( m.find() && m.group().length() < 5 )
 				{
-					this.playerLevel = IntegerCache.valueOf(
+					this.playerLevel = IntegerPool.get(
 						StringUtilities.parseInt( m.group() ) );
 				}
 			}
@@ -194,7 +195,7 @@ public class ProfileRequest
 				token = st.nextToken();
 			}
 	
-			this.playerLevel = IntegerCache.valueOf( 
+			this.playerLevel = IntegerPool.get( 
 				StringUtilities.parseInt( token.substring( 5 ).trim() ) );
 			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
 		}
@@ -218,7 +219,7 @@ public class ProfileRequest
 			{
 				;
 			}
-			this.currentMeat = IntegerCache.valueOf( StringUtilities.parseInt( st.nextToken().trim() ) );
+			this.currentMeat = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 
 		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
@@ -228,18 +229,18 @@ public class ProfileRequest
 				;
 			}
 			st.nextToken();
-			this.ascensionCount = IntegerCache.valueOf( StringUtilities.parseInt( st.nextToken().trim() ) );
+			this.ascensionCount = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 		else
 		{
-			this.ascensionCount = IntegerCache.valueOf( 0 );
+			this.ascensionCount = IntegerPool.get( 0 );
 		}
 
 		while ( !st.nextToken().startsWith( "Turns" ) )
 		{
 			;
 		}
-		this.turnsPlayed = IntegerCache.valueOf( StringUtilities.parseInt( st.nextToken().trim() ) );
+		this.turnsPlayed = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 
 		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
 		{
@@ -247,7 +248,7 @@ public class ProfileRequest
 			{
 				;
 			}
-			this.currentRun = IntegerCache.valueOf( StringUtilities.parseInt( st.nextToken().trim() ) );
+			this.currentRun = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 		else
 		{
@@ -318,11 +319,11 @@ public class ProfileRequest
 			{
 				;
 			}
-			this.pvpRank = IntegerCache.valueOf( StringUtilities.parseInt( st.nextToken().trim() ) );
+			this.pvpRank = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 		else
 		{
-			this.pvpRank = IntegerCache.valueOf( 0 );
+			this.pvpRank = IntegerPool.get( 0 );
 		}
 
 		this.equipmentPower = 0;
@@ -391,7 +392,7 @@ public class ProfileRequest
 
 		if ( playerLevel == null )
 		{
-			instance.playerLevel = IntegerCache.valueOf( 0 ); 
+			instance.playerLevel = IntegerPool.get( 0 ); 
 		}
 		else
 		{
@@ -410,12 +411,12 @@ public class ProfileRequest
 
 		if ( rosterRow == null )
 		{
-			instance.muscle = IntegerCache.valueOf( 0 );
-			instance.mysticism = IntegerCache.valueOf( 0 );
-			instance.moxie = IntegerCache.valueOf( 0 );
+			instance.muscle = IntegerPool.get( 0 );
+			instance.mysticism = IntegerPool.get( 0 );
+			instance.moxie = IntegerPool.get( 0 );
 			
 			instance.rank = "";
-			instance.karma = IntegerCache.valueOf( 0 );
+			instance.karma = IntegerPool.get( 0 );
 		}
 		else
 		{
@@ -436,13 +437,13 @@ public class ProfileRequest
 			// the next three fields of the table.
 	
 			dataMatcher.find();
-			instance.muscle = IntegerCache.valueOf( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
+			instance.muscle = IntegerPool.get( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
 	
 			dataMatcher.find();
-			instance.mysticism = IntegerCache.valueOf( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
+			instance.mysticism = IntegerPool.get( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
 	
 			dataMatcher.find();
-			instance.moxie = IntegerCache.valueOf( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
+			instance.moxie = IntegerPool.get( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
 	
 			// The next field contains the total power,
 			// and since this is calculated, it can be
@@ -468,7 +469,7 @@ public class ProfileRequest
 			// accumulated by this player.
 	
 			dataMatcher.find();
-			instance.karma = IntegerCache.valueOf( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
+			instance.karma = IntegerPool.get( StringUtilities.parseInt( dataMatcher.group( 1 ) ) );
 		}
 
 		return instance;
@@ -639,13 +640,13 @@ public class ProfileRequest
 	public Integer getPower()
 	{
 		this.initialize();
-		return IntegerCache.valueOf( this.muscle.intValue() + this.mysticism.intValue() + this.moxie.intValue() );
+		return IntegerPool.get( this.muscle.intValue() + this.mysticism.intValue() + this.moxie.intValue() );
 	}
 
 	public Integer getEquipmentPower()
 	{
 		this.initialize();
-		return IntegerCache.valueOf( this.equipmentPower );
+		return IntegerPool.get( this.equipmentPower );
 	}
 
 	public String getTitle()

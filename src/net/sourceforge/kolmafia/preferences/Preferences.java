@@ -58,13 +58,14 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 
 import net.sourceforge.kolmafia.moods.MoodManager;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
@@ -429,7 +430,7 @@ public class Preferences
 
 		if ( !(value instanceof Integer) )
 		{
-			value = IntegerCache.valueOf( StringUtilities.parseInt( value.toString() ) );
+			value = IntegerPool.get( StringUtilities.parseInt( value.toString() ) );
 			map.put( name, value );
 		}
 
@@ -494,7 +495,7 @@ public class Preferences
 		int old = Preferences.getInteger( user, name );
 		if ( old != value )
 		{
-			Preferences.setObject( user, name, String.valueOf( value ), IntegerCache.valueOf( value ) );
+			Preferences.setObject( user, name, String.valueOf( value ), IntegerPool.get( value ) );
 		}
 	}
 

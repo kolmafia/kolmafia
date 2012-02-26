@@ -53,11 +53,12 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.session.ContactManager;
 
 import net.sourceforge.kolmafia.swingui.BuffBotFrame;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public class BuffBotHome
 {
@@ -129,7 +130,7 @@ public class BuffBotHome
 
 	private static final List getPastRecipients( final int meatSent )
 	{
-		Integer key = IntegerCache.valueOf( meatSent );
+		Integer key = IntegerPool.get( meatSent );
 		if ( !BuffBotHome.pastRecipients.containsKey( key ) )
 		{
 			BuffBotHome.pastRecipients.put( key, new SortedListModel() );

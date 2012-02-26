@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -74,7 +75,6 @@ import net.sourceforge.kolmafia.request.SushiRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -151,11 +151,11 @@ public class ItemDatabase
 	}
 	
 	private static Object[][] ALIASES = {
-		{ IntegerCache.valueOf( 4577 ), "bugged bonnet" },
-		{ IntegerCache.valueOf( 4578 ), "bugged meat stabbing club" },
-		{ IntegerCache.valueOf( 4579 ), "bugged Knob Goblin love potion" },
-		{ IntegerCache.valueOf( 4580 ), "bugged old school Mafia knickerbockers" },
-		{ IntegerCache.valueOf( 4581 ), "bugged Talisman of Baio" },
+		{ IntegerPool.get( 4577 ), "bugged bonnet" },
+		{ IntegerPool.get( 4578 ), "bugged meat stabbing club" },
+		{ IntegerPool.get( 4579 ), "bugged Knob Goblin love potion" },
+		{ IntegerPool.get( 4580 ), "bugged old school Mafia knickerbockers" },
+		{ IntegerPool.get( 4581 ), "bugged Talisman of Baio" },
 	};
 
 	private static final String[] ACCESS =
@@ -209,14 +209,14 @@ public class ItemDatabase
 
 	private static void definePrimaryUse( final String key, final int usage )
 	{
-		Integer val = IntegerCache.valueOf( usage );
+		Integer val = IntegerPool.get( usage );
 		PRIMARY_USE.put( key, val );
 		INVERSE_PRIMARY_USE.put( val, key );
 	}
 
 	private static void defineSecondaryUse( final String key, final int usage )
 	{
-		Integer val = IntegerCache.valueOf( usage );
+		Integer val = IntegerPool.get( usage );
 		SECONDARY_USE.put( key, val );
 		INVERSE_SECONDARY_USE.put( val, key );
 	}
@@ -315,7 +315,7 @@ public class ItemDatabase
 			int itemId = StringUtilities.parseInt( data[ 0 ] );
 			String canonicalName = StringUtilities.getCanonicalName( data[1] );
 
-			Integer id = IntegerCache.valueOf( itemId );
+			Integer id = IntegerPool.get( itemId );
 			ItemDatabase.itemIdByName.put( canonicalName, id );
 		}
 
@@ -376,7 +376,7 @@ public class ItemDatabase
 			String access = ItemDatabase.parseAccess( data[ 3 ] );
 			int price = StringUtilities.parseInt( data[ 4 ] );
 
-			Integer id = IntegerCache.valueOf( itemId );
+			Integer id = IntegerPool.get( itemId );
 			String displayName = StringUtilities.getDisplayName( name );
 			String canonicalName = StringUtilities.getCanonicalName( name );
 			
@@ -575,7 +575,7 @@ public class ItemDatabase
 			}
 
 			int itemId = StringUtilities.parseInt( data[ 0 ].trim() );
-			Integer id = IntegerCache.valueOf( itemId );
+			Integer id = IntegerPool.get( itemId );
 			String descId = data[1];
 
 			if ( StringUtilities.isNumeric( descId ) )
@@ -687,7 +687,7 @@ public class ItemDatabase
 			}
 
 			ArrayList group = new ArrayList();
-			group.add( IntegerCache.valueOf( StringUtilities.parseInt( data[ 0 ] ) ) );
+			group.add( IntegerPool.get( StringUtilities.parseInt( data[ 0 ] ) ) );
 			for ( int i = 1; i < data.length; ++i )
 			{
 				String name = StringUtilities.getCanonicalName( data[ i ] );
@@ -714,7 +714,7 @@ public class ItemDatabase
 
 	private static final void addPseudoItems()
 	{
-		Integer id = IntegerCache.valueOf( 13 );
+		Integer id = IntegerPool.get( 13 );
 
 		ItemDatabase.dataNameById.put( id, "worthless item" );
 		ItemDatabase.nameById.put( id, "worthless item" );
@@ -733,7 +733,7 @@ public class ItemDatabase
 		}
 
 		// Add names of all the sushi
-		id = IntegerCache.valueOf( -1 );
+		id = IntegerPool.get( -1 );
 		for ( int i = 0; i < SushiRequest.SUSHI.length; ++i )
 		{
 			String name = StringUtilities.getCanonicalName( SushiRequest.SUSHI[i] );
@@ -803,9 +803,9 @@ public class ItemDatabase
 		int start = StringUtilities.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
 		int end = dashIndex == -1 ? start : StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
 		ItemDatabase.advRangeByName.put( name, range );
-		ItemDatabase.unitCostByName.put( name, IntegerCache.valueOf( unitCost ) );
-		ItemDatabase.advStartByName.put( name, IntegerCache.valueOf( start ) );
-		ItemDatabase.advEndByName.put( name, IntegerCache.valueOf( end ) );
+		ItemDatabase.unitCostByName.put( name, IntegerPool.get( unitCost ) );
+		ItemDatabase.advStartByName.put( name, IntegerPool.get( start ) );
+		ItemDatabase.advEndByName.put( name, IntegerPool.get( end ) );
 		ItemDatabase.advNames = null;
 	}
 
@@ -1167,7 +1167,7 @@ public class ItemDatabase
 			ItemDatabase.maxItemId = itemId;
 		}
 
-		Integer id = IntegerCache.valueOf( itemId );
+		Integer id = IntegerPool.get( itemId );
 
 		ItemDatabase.nameById.put( id, StringUtilities.getDisplayName( itemName ) );
 		ItemDatabase.dataNameById.put( id, itemName );
@@ -1267,7 +1267,7 @@ public class ItemDatabase
 
 	public static void registerItemAlias( final int itemId, final String itemName, final String plural )
 	{
-		Integer id = IntegerCache.valueOf( itemId );
+		Integer id = IntegerPool.get( itemId );
 
 		String canonical = StringUtilities.getCanonicalName( itemName );
 		ItemDatabase.itemIdByName.put( canonical, id );
@@ -1336,7 +1336,7 @@ public class ItemDatabase
 
 	public static String getCanonicalName( final int itemId )
 	{
-		return ItemDatabase.getCanonicalName( IntegerCache.valueOf( itemId ) );
+		return ItemDatabase.getCanonicalName( IntegerPool.get( itemId ) );
 	}
 
 	public static String getCanonicalName( final Integer itemId )
@@ -1985,12 +1985,12 @@ public class ItemDatabase
 
 	public static final String getItemName( final int itemId )
 	{
-		return (String) ItemDatabase.nameById.get( IntegerCache.valueOf( itemId ) );
+		return (String) ItemDatabase.nameById.get( IntegerPool.get( itemId ) );
 	}
 
 	public static final String getItemDataName( final int itemId )
 	{
-		return (String) ItemDatabase.dataNameById.get( IntegerCache.valueOf( itemId ) );
+		return (String) ItemDatabase.dataNameById.get( IntegerPool.get( itemId ) );
 	}
 
 	public static final String getItemDataName( final Integer itemId )
@@ -2198,7 +2198,7 @@ public class ItemDatabase
 
 	public static final String typeToPrimaryUsage( final int type )
 	{
-		return (String) ItemDatabase.INVERSE_PRIMARY_USE.get( IntegerCache.valueOf( type ) );
+		return (String) ItemDatabase.INVERSE_PRIMARY_USE.get( IntegerPool.get( type ) );
 	}
 
 	public static final int getConsumptionType( final String itemName )
@@ -2220,7 +2220,7 @@ public class ItemDatabase
 
 	public static final String getDescriptionId( final int itemId )
 	{
-		return ItemDatabase.getDescriptionId( IntegerCache.valueOf( itemId ) );
+		return ItemDatabase.getDescriptionId( IntegerPool.get( itemId ) );
 	}
 
 	public static final String getDescriptionId( final Integer itemId )
@@ -2491,8 +2491,8 @@ public class ItemDatabase
 	private static final void setDustyBottle( final int itemId, final int inebriety, final String adventures,
 		final String muscle, final String mysticality, final String moxie, final String note )
 	{
-		String name = StringUtilities.getCanonicalName( (String) ItemDatabase.dataNameById.get( IntegerCache.valueOf( itemId ) ) );
-		ItemDatabase.inebrietyByName.put( name, IntegerCache.valueOf( inebriety ) );
+		String name = StringUtilities.getCanonicalName( (String) ItemDatabase.dataNameById.get( IntegerPool.get( itemId ) ) );
+		ItemDatabase.inebrietyByName.put( name, IntegerPool.get( inebriety ) );
 		ItemDatabase.setConsumptionData( name, inebriety, adventures, muscle, mysticality, moxie, note );
 	}
 

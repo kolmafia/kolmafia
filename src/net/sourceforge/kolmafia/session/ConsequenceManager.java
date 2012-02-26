@@ -50,6 +50,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -60,7 +62,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public abstract class ConsequenceManager
 {
@@ -142,7 +143,7 @@ public abstract class ConsequenceManager
 			}
 			else
 			{
-				cons.register( ConsequenceManager.skillDescs, IntegerCache.valueOf( id ) );
+				cons.register( ConsequenceManager.skillDescs, IntegerPool.get( id ) );
 				ConsequenceManager.descriptions.add( "desc_skill.php?whichskill="
 					+ id + "&self=true" );
 			}
@@ -174,7 +175,7 @@ public abstract class ConsequenceManager
 	public static void parseSkillDesc( int id, String responseText )
 	{
 		Consequence cons = (Consequence) ConsequenceManager.skillDescs.get(
-			IntegerCache.valueOf( id ) );
+			IntegerPool.get( id ) );
 		if ( cons != null )
 		{
 			cons.test( responseText );

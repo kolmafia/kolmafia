@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -71,7 +72,6 @@ import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
@@ -268,7 +268,7 @@ public abstract class ChoiceManager
 			new String[] { "denim axe", "skip adventure" },
 			new String[] { "499", "292" } ),
 		// Denim Axes Examined
-		new Object[]{ IntegerCache.valueOf(2), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(2), IntegerPool.get(1),
 		  new AdventureResult( "rubber axe", -1 ) },
 
 		// The Oracle Will See You Now
@@ -282,9 +282,9 @@ public abstract class ChoiceManager
 			new String[] { "small meat boost", "try for poultrygeist", "skip adventure" },
 			new String[] { null, "1164", null } ),
 		// Finger-Lickin'... Death.
-		new Object[]{ IntegerCache.valueOf(4), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(4), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
-		new Object[]{ IntegerCache.valueOf(4), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(4), IntegerPool.get(2),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Heart of Very, Very Dark Darkness
@@ -373,7 +373,7 @@ public abstract class ChoiceManager
 			"Town", "choiceAdventure21", "Sleazy Back Alley",
 			new String[] { "switch genders", "skip adventure" } ),
 		// Under the Knife
-		new Object[]{ IntegerCache.valueOf(21), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(21), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// The Arrrbitrator
@@ -402,9 +402,9 @@ public abstract class ChoiceManager
 			new String[] { "magic lamp", "dead mimic", "skip adventure" },
 			new String[] { "1273", "1267", null } ),
 		// Ouch! You bump into a door!
-		new Object[]{ IntegerCache.valueOf(25), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(25), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -50 ) },
-		new Object[]{ IntegerCache.valueOf(25), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(25), IntegerPool.get(2),
 		  new AdventureResult( AdventureResult.MEAT, -5000 ) },
 
 		// A Three-Tined Fork
@@ -469,7 +469,7 @@ public abstract class ChoiceManager
 		// Have a Heart
 		// This trades all vampire hearts for an equal number of
 		// bottles of used blood.
-		new Object[]{ IntegerCache.valueOf(47), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(47), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.VAMPIRE_HEART, 1 ) },
 
 		// Choices 48 - 70 are violet fog adventures
@@ -482,7 +482,7 @@ public abstract class ChoiceManager
 		// Lording Over The Flies
 		// This trades all Spanish flies for around the worlds,
 		// in multiples of 5.  Excess flies are left in inventory.
-		new Object[]{ IntegerCache.valueOf(72), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(72), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.SPANISH_FLY, 5 ) },
 
 		// Don't Fence Me In
@@ -694,7 +694,7 @@ public abstract class ChoiceManager
 			new String[] { "3 papayas", "trade 3 papayas for stats", "stats" },
 			new String[] { "498", null, null } ),
 		// No sir, away!  A papaya war is on!
-		new Object[]{ IntegerCache.valueOf(127), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(127), IntegerPool.get(2),
 		  ItemPool.get( ItemPool.PAPAYA, -3 ) },
 
 		// Choice 128 is unknown
@@ -705,7 +705,7 @@ public abstract class ChoiceManager
 			new String[] { "photograph of God", "skip adventure" },
 			new String[] { "2259", null } ),
 		// Do Geese See God?
-		new Object[]{ IntegerCache.valueOf(129), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(129), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Rod Nevada, Vendor
@@ -714,7 +714,7 @@ public abstract class ChoiceManager
 			new String[] { "hard rock candy", "skip adventure" },
 			new String[] { "2260", null } ),
 		// Rod Nevada, Vendor
-		new Object[]{ IntegerCache.valueOf(130), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(130), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
 
 		// Choice 131 is Dr. Awkward
@@ -725,7 +725,7 @@ public abstract class ChoiceManager
 			new String[] { "broken carburetor", "Unlock Oasis" },
 			new String[] { "2316", null } ),
 		// Let's Make a Deal!
-		new Object[]{ IntegerCache.valueOf(132), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(132), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -5000 ) },
 
 		// Choice 133 is unknown
@@ -964,13 +964,13 @@ public abstract class ChoiceManager
 			new String[] { "blackberry slippers", "blackberry moccasins", "blackberry combat boots", "blackberry galoshes", "skip adventure" },
 			new String[] { "2705", "2706", "2707", "4659", null } ),
 		// The Blackberry Cobbler
-		new Object[]{ IntegerCache.valueOf(177), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(177), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
-		new Object[]{ IntegerCache.valueOf(177), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(177), IntegerPool.get(2),
 		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
-		new Object[]{ IntegerCache.valueOf(177), IntegerCache.valueOf(3),
+		new Object[]{ IntegerPool.get(177), IntegerPool.get(3),
 		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
-		new Object[]{ IntegerCache.valueOf(177), IntegerCache.valueOf(4),
+		new Object[]{ IntegerPool.get(177), IntegerPool.get(4),
 		  ItemPool.get( ItemPool.BLACKBERRY, -10 ) },
 
 		// Hammering the Armory
@@ -995,7 +995,7 @@ public abstract class ChoiceManager
 		// Chieftain of the Flies
 		// This trades all Spanish flies for around the worlds,
 		// in multiples of 5.  Excess flies are left in inventory.
-		new Object[]{ IntegerCache.valueOf(181), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(181), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.SPANISH_FLY, 5 ) },
 
 		// Random Lack of an Encounter
@@ -1028,7 +1028,7 @@ public abstract class ChoiceManager
 			new String[] { "frat boy ensemble", "mullet wig and briefcase", "frilly skirt and hot wings" } ),
 
 		//  O Cap'm, My Cap'm
-		new Object[]{ IntegerCache.valueOf(189), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(189), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -977 ) },
 
 		// Choice 190 is unknown
@@ -1191,7 +1191,7 @@ public abstract class ChoiceManager
 			new String[] { "hobo code binder", "skip adventure" },
 			new String[] { "3220", null } ),
 		// Mind Yer Binder
-		new Object[]{ IntegerCache.valueOf(230), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(230), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -30 ) },
 
 		// Choices 231-271 are subchoices of Choice 272
@@ -1207,7 +1207,7 @@ public abstract class ChoiceManager
 			new String[] { "muscle booze", "mysticality booze", "moxie booze" } ),
 
 		// The Guy Who Carves Driftwood Animals
-		new Object[]{ IntegerCache.valueOf(247), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(247), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
 
 		// A Hattery
@@ -1216,11 +1216,11 @@ public abstract class ChoiceManager
 			new String[] { "crumpled felt fedora", "battered old top-hat", "shapeless wide-brimmed hat" },
 			new String[] { "3328", "3329", "3330" } ),
 		// A Hattery
-		new Object[]{ IntegerCache.valueOf(250), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(250), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
-		new Object[]{ IntegerCache.valueOf(250), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(250), IntegerPool.get(2),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
-		new Object[]{ IntegerCache.valueOf(250), IntegerCache.valueOf(3),
+		new Object[]{ IntegerPool.get(250), IntegerPool.get(3),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
 
 		// A Pantry
@@ -1229,11 +1229,11 @@ public abstract class ChoiceManager
 			new String[] { "mostly rat-hide leggings", "hobo dungarees", "old patched suit-pants" },
 			new String[] { "3331", "3332", "3333" } ),
 		// A Pantry
-		new Object[]{ IntegerCache.valueOf(251), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(251), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
-		new Object[]{ IntegerCache.valueOf(251), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(251), IntegerPool.get(2),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
-		new Object[]{ IntegerCache.valueOf(251), IntegerCache.valueOf(3),
+		new Object[]{ IntegerPool.get(251), IntegerPool.get(3),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
 
 		// Hobo Blanket Bingo
@@ -1242,11 +1242,11 @@ public abstract class ChoiceManager
 			new String[] { "old soft shoes", "hobo stogie", "rope with some soap on it" },
 			new String[] { "3140", "3334", "3335" } ),
 		// Hobo Blanket Bingo
-		new Object[]{ IntegerCache.valueOf(252), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(252), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -250 ) },
-		new Object[]{ IntegerCache.valueOf(252), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(252), IntegerPool.get(2),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -200 ) },
-		new Object[]{ IntegerCache.valueOf(252), IntegerCache.valueOf(3),
+		new Object[]{ IntegerPool.get(252), IntegerPool.get(3),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -150 ) },
 
 		// Black-and-Blue-and-Decker
@@ -1255,15 +1255,15 @@ public abstract class ChoiceManager
 			new String[] { "sharpened hubcap", "very large caltrop", "The Six-Pack of Pain" },
 			new String[] { "3339", "3340", "3341" } ),
 		// Black-and-Blue-and-Decker
-		new Object[]{ IntegerCache.valueOf(255), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(255), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
-		new Object[]{ IntegerCache.valueOf(255), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(255), IntegerPool.get(2),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
-		new Object[]{ IntegerCache.valueOf(255), IntegerCache.valueOf(3),
+		new Object[]{ IntegerPool.get(255), IntegerPool.get(3),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
 
 		// Instru-mental
-		new Object[]{ IntegerCache.valueOf(258), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(258), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -99 ) },
 
 		// We'll Make Great...
@@ -1272,7 +1272,7 @@ public abstract class ChoiceManager
 			new String[] { "hobo monkey", "stats", "enter combat" } ),
 
 		// Everybody's Got Something To Hide
-		new Object[]{ IntegerCache.valueOf(261), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(261), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -1000 ) },
 
 		// Tanning Salon
@@ -1280,9 +1280,9 @@ public abstract class ChoiceManager
 			"choiceAdventure264", "Hobopolis Marketplace",
 			new String[] { "20 adv of +50% moxie", "20 adv of +50% mysticality" } ),
 		// Tanning Salon
-		new Object[]{ IntegerCache.valueOf(264), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(264), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-		new Object[]{ IntegerCache.valueOf(264), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(264), IntegerPool.get(2),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Let's All Go To The Movies
@@ -1290,9 +1290,9 @@ public abstract class ChoiceManager
 			"choiceAdventure267", "Hobopolis Marketplace",
 			new String[] { "20 adv of +5 spooky resistance", "20 adv of +5 sleaze resistance" } ),
 		// Let's All Go To The Movies
-		new Object[]{ IntegerCache.valueOf(267), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(267), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-		new Object[]{ IntegerCache.valueOf(267), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(267), IntegerPool.get(2),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// It's Fun To Stay There
@@ -1300,9 +1300,9 @@ public abstract class ChoiceManager
 			"choiceAdventure268", "Hobopolis Marketplace",
 			new String[] { "20 adv of +5 stench resistance", "20 adv of +50% muscle" } ),
 		// It's Fun To Stay There
-		new Object[]{ IntegerCache.valueOf(268), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(268), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
-		new Object[]{ IntegerCache.valueOf(268), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(268), IntegerPool.get(2),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Marketplace Entrance
@@ -1322,7 +1322,7 @@ public abstract class ChoiceManager
 		// Choice 275 is Triangle, Man, a subchoice of Choice 272 when
 		// you've already purchased your class instrument
 		// Triangle, Man
-		new Object[]{ IntegerCache.valueOf(275), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(275), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -10 ) },
 
 		// Choices 278-290 are llama lama gong related choices
@@ -1408,7 +1408,7 @@ public abstract class ChoiceManager
 			new String[] { "jar of squeeze", "skip adventure" },
 			new String[] { "3399", null } ),
 		// A Tight Squeeze - jar of squeeze
-		new Object[]{ IntegerCache.valueOf(291), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(291), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Cold Comfort
@@ -1417,7 +1417,7 @@ public abstract class ChoiceManager
 			new String[] { "bowl of fishysoisse", "skip adventure" },
 			new String[] { "3400", null } ),
 		// Cold Comfort - bowl of fishysoisse
-		new Object[]{ IntegerCache.valueOf(292), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(292), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Flowers for You
@@ -1426,7 +1426,7 @@ public abstract class ChoiceManager
 			new String[] { "deadly lampshade", "skip adventure" },
 			new String[] { "3401", null } ),
 		// Flowers for You - deadly lampshade
-		new Object[]{ IntegerCache.valueOf(293), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(293), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Maybe It's a Sexy Snake!
@@ -1435,7 +1435,7 @@ public abstract class ChoiceManager
 			new String[] { "lewd playing card", "skip adventure" },
 			new String[] { "3403", null } ),
 		// Maybe It's a Sexy Snake! - lewd playing card
-		new Object[]{ IntegerCache.valueOf(294), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(294), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Juicy!
@@ -1444,7 +1444,7 @@ public abstract class ChoiceManager
 			new String[] { "concentrated garbage juice", "skip adventure" },
 			new String[] { "3402", null } ),
 		// Juicy! - concentrated garbage juice
-		new Object[]{ IntegerCache.valueOf(295), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(295), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -5 ) },
 
 		// Choice 296 is Pop!
@@ -1476,7 +1476,7 @@ public abstract class ChoiceManager
 			new String[] { "bubbling tempura batter", "skip adventure" },
 			new String[] { "3681", null } ),
 		// A Vent Horizon
-		new Object[]{ IntegerCache.valueOf(304), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(304), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MP, -200 ) },
 
 		// There is Sauce at the Bottom of the Ocean
@@ -1485,7 +1485,7 @@ public abstract class ChoiceManager
 			new String[] { "globe of Deep Sauce", "skip adventure" },
 			new String[] { "3682", null } ),
 		// There is Sauce at the Bottom of the Ocean
-		new Object[]{ IntegerCache.valueOf(305), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(305), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.MERKIN_PRESSUREGLOBE, -1 ) },
 
 		// Choice 306 is [Grandpa Mine Choice]
@@ -1505,9 +1505,9 @@ public abstract class ChoiceManager
 			new String[] { "3487", "3488", null } ),
 		// The Economist of Scales
 		// This trades 10 dull fish scales in.
-		new Object[]{ IntegerCache.valueOf(310), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(310), IntegerPool.get(1),
 		  new AdventureResult( "dull fish scale", -10 ) },
-		new Object[]{ IntegerCache.valueOf(310), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(310), IntegerPool.get(2),
 		  new AdventureResult( "rough fish scale", -10 ) },
 
 		// Heavily Invested in Pun Futures
@@ -1729,7 +1729,7 @@ public abstract class ChoiceManager
 		// Choice 437 is Flying In Circles
 
 		// From Little Acorns...
-		new Object[]{ IntegerCache.valueOf(438), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(438), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.UNDERWORLD_ACORN, -1 ) },
 
 		// Choice 439 is unknown
@@ -1873,11 +1873,11 @@ public abstract class ChoiceManager
 			new String[] { "bar skin", "bar skins", "buy spooky sapling", "skip adventure" },
 			new String[] { "70", "70", "75", null } ),
 		// Tree's Last Stand
-		new Object[]{ IntegerCache.valueOf(504), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(504), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.BAR_SKIN, -1 ) },
-		new Object[]{ IntegerCache.valueOf(504), IntegerCache.valueOf(2),
+		new Object[]{ IntegerPool.get(504), IntegerPool.get(2),
 		  ItemPool.get( ItemPool.BAR_SKIN, 1 ) },
-		new Object[]{ IntegerCache.valueOf(504), IntegerCache.valueOf(3),
+		new Object[]{ IntegerPool.get(504), IntegerPool.get(3),
 		  new AdventureResult( AdventureResult.MEAT, -100 ) },
 
 		// Consciousness of a Stream
@@ -1898,7 +1898,7 @@ public abstract class ChoiceManager
 			new String[] { "gain Spooky Temple map", "skip adventure", "skip adventure" },
 			new String[] { null, null, null } ),
 		// O Lith, Mon
-		new Object[]{ IntegerCache.valueOf(507), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(507), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.TREE_HOLED_COIN, -1 ) },
 
 		// Choice 508 is Pants-Gazing
@@ -1936,7 +1936,7 @@ public abstract class ChoiceManager
 			new String[] { "gift-a-pult", "skip adventure" },
 			new String[] { "4852", null } ),
 		// What a Tosser - gift-a-pult
-		new Object[]{ IntegerCache.valueOf(519), IntegerCache.valueOf(1),
+		new Object[]{ IntegerPool.get(519), IntegerPool.get(1),
 		  ItemPool.get( ItemPool.HOBO_NICKEL, -50 ) },
 
 		// Choice 520 is A Show-ho-ho-down

@@ -51,13 +51,13 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmastersDatabase
@@ -151,7 +151,7 @@ public class CoinmastersDatabase
 				String master = data[ 0 ];
 				String type = data[ 1 ];
 				int price = StringUtilities.parseInt( data[ 2 ] );
-				Integer iprice = IntegerCache.valueOf( price );
+				Integer iprice = IntegerPool.get( price );
 				String rname = data[ 3 ];
 				String name = StringUtilities.getCanonicalName( rname );
 				AdventureResult item = new AdventureResult( name, PurchaseRequest.MAX_QUANTITY, false );
@@ -262,7 +262,7 @@ public class CoinmastersDatabase
 	{
 		// Register a purchase request
 		CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest( data, itemId, price, quantity );
-		CoinmastersDatabase.COINMASTER_ITEMS.put( IntegerCache.valueOf( itemId ), request );
+		CoinmastersDatabase.COINMASTER_ITEMS.put( IntegerPool.get( itemId ), request );
 
 		// Register this in the Concoction for the item
 
@@ -294,7 +294,7 @@ public class CoinmastersDatabase
 
 	public static final CoinMasterPurchaseRequest getPurchaseRequest( final String itemName )
 	{
-		Integer id = IntegerCache.valueOf( ItemDatabase.getItemId( itemName, 1, false ) );
+		Integer id = IntegerPool.get( ItemDatabase.getItemId( itemName, 1, false ) );
 		CoinMasterPurchaseRequest request =  (CoinMasterPurchaseRequest) CoinmastersDatabase.COINMASTER_ITEMS.get(  id );
 
 		if ( request == null )

@@ -38,9 +38,10 @@ import java.util.regex.Matcher;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CrimboCafeRequest
@@ -53,33 +54,33 @@ public class CrimboCafeRequest
 		// Item, itemID, price
 		{
 			"Brussels Sprout Stir-Fry",
-			IntegerCache.valueOf( -79 ),
-			IntegerCache.valueOf( 50 ),
+			IntegerPool.get( -79 ),
+			IntegerPool.get( 50 ),
 		},
 		{
 			"Carrot, Cabbage, and Kale Pizza",
-			IntegerCache.valueOf( -80 ),
-			IntegerCache.valueOf( 75 ),
+			IntegerPool.get( -80 ),
+			IntegerPool.get( 75 ),
 		},
 		{
 			"Turnip and Rutabaga Pie",
-			IntegerCache.valueOf( -81 ),
-			IntegerCache.valueOf( 100 ),
+			IntegerPool.get( -81 ),
+			IntegerPool.get( 100 ),
 		},
 		{
 			"Desert Island Iced Tea",
-			IntegerCache.valueOf( -84 ),
-			IntegerCache.valueOf( 100 ),
+			IntegerPool.get( -84 ),
+			IntegerPool.get( 100 ),
 		},
 		{
 			"Jerkitini",
-			IntegerCache.valueOf( -83 ),
-			IntegerCache.valueOf( 100 ),
+			IntegerPool.get( -83 ),
+			IntegerPool.get( 100 ),
 		},
 		{
 			"Horseradish-infused Vodka",
-			IntegerCache.valueOf( -82 ),
-			IntegerCache.valueOf( 100 ),
+			IntegerPool.get( -82 ),
+			IntegerPool.get( 100 ),
 		},
 	};
 

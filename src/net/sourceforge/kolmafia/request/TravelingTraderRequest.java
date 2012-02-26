@@ -45,12 +45,12 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TravelingTraderRequest
@@ -248,7 +248,7 @@ public class TravelingTraderRequest
 			// Add it to the Traveling Trader inventory
 			AdventureResult offering = ItemPool.get( id, 1 );
 			String cname = StringUtilities.getCanonicalName( name );
-			Integer iprice = IntegerCache.valueOf( price );
+			Integer iprice = IntegerPool.get( price );
 			items.add( offering );
 			prices.put( cname, iprice );
 		}

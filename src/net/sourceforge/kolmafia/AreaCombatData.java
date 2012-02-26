@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
@@ -45,7 +46,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AreaCombatData
@@ -171,7 +171,7 @@ public class AreaCombatData
 
 		this.monsters.add( monster );
 		this.poison = Math.min( this.poison, monster.getPoison() );
-		this.weightings.add( IntegerCache.valueOf( (weighting << WEIGHT_SHIFT) | flags ) );
+		this.weightings.add( IntegerPool.get( (weighting << WEIGHT_SHIFT) | flags ) );
 
 		// Don't let ultra-rare monsters skew hit and evade numbers -
 		// or anything else.

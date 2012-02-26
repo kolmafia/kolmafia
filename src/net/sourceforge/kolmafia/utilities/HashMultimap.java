@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.utilities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 /**
  * This is a basic implementation of a non-shrinking, order-preserving multimap.
  * put() takes an int key, and an arbitrary Object.
@@ -49,7 +51,7 @@ public class HashMultimap
 {
 	public final void put( int key, Object value )
 	{
-		Integer okey = IntegerCache.valueOf( key );
+		Integer okey = IntegerPool.get( key );
 		ArrayList curr = (ArrayList) super.get( okey );
 
 		if ( curr == null )
@@ -64,6 +66,6 @@ public class HashMultimap
 
 	public final ArrayList get( int key )
 	{
-		return (ArrayList) super.get( IntegerCache.valueOf( key ) );
+		return (ArrayList) super.get( IntegerPool.get( key ) );
 	}
 }

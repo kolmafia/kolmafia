@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -83,7 +84,6 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.command.ZapCommand;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UseItemRequest
@@ -124,11 +124,11 @@ public class UseItemRequest
 
 	static
 	{
-		UseItemRequest.LIMITED_USES.put( IntegerCache.valueOf( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( EffectPool.HALF_ASTRAL ) );
+		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( EffectPool.HALF_ASTRAL ) );
 
-		UseItemRequest.LIMITED_USES.put( IntegerCache.valueOf( ItemPool.ABSINTHE ), EffectPool.get( EffectPool.ABSINTHE ) );
+		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.ABSINTHE ), EffectPool.get( EffectPool.ABSINTHE ) );
 
-		UseItemRequest.LIMITED_USES.put( IntegerCache.valueOf( ItemPool.TURTLE_PHEROMONES ), EffectPool.get( EffectPool.EAU_DE_TORTUE ) );
+		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.TURTLE_PHEROMONES ), EffectPool.get( EffectPool.EAU_DE_TORTUE ) );
 	}
 
 	public static String lastUpdate = "";
@@ -732,7 +732,7 @@ public class UseItemRequest
 			return 3;
 		}
 
-		Integer key = IntegerCache.valueOf( itemId );
+		Integer key = IntegerPool.get( itemId );
 
 		if ( UseItemRequest.LIMITED_USES.containsKey( key ) )
 		{

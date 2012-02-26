@@ -49,8 +49,9 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterDatabase
@@ -522,7 +523,7 @@ public class MonsterDatabase
 		String value = tokens.nextToken();
 		if ( !value.startsWith( "[" ) )
 		{
-			return IntegerCache.valueOf( StringUtilities.parseInt( value ) );
+			return IntegerPool.get( StringUtilities.parseInt( value ) );
 		}
 		// Must paste the entire expression back together, since we're
 		// splitting the tokens on spaces.

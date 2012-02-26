@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -60,7 +61,6 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SkillDatabase
@@ -257,7 +257,7 @@ public class SkillDatabase
 		SkillDatabase.skillCategoryById.put( skillId, category );
 		( (ArrayList) SkillDatabase.skillsByCategory.get( category ) ).add( displayName );
 		
-		SkillDatabase.castsById.put( skillId, IntegerCache.valueOf(0) );
+		SkillDatabase.castsById.put( skillId, IntegerPool.get(0) );
 	}
 
 	public static final List getSkillsByCategory( String category )
@@ -305,14 +305,14 @@ public class SkillDatabase
 
 	public static final String getSkillName( final int skillId )
 	{
-		return (String) SkillDatabase.skillById.get( IntegerCache.valueOf( skillId ) );
+		return (String) SkillDatabase.skillById.get( IntegerPool.get( skillId ) );
 	}
 
 	public static final String getSkillDataName( final int skillId )
 	{
 		return skillId == -1 ?
 			null:
-			(String) SkillDatabase.dataNameById.get( IntegerCache.valueOf( skillId ) );
+			(String) SkillDatabase.dataNameById.get( IntegerPool.get( skillId ) );
 	}
 
 	/**
@@ -324,7 +324,7 @@ public class SkillDatabase
 
 	public static final int getSkillLevel( final int skillId )
 	{
-		Object level = SkillDatabase.levelById.get( IntegerCache.valueOf( skillId ) );
+		Object level = SkillDatabase.levelById.get( IntegerPool.get( skillId ) );
 		return level == null ? -1 : ( (Integer) level ).intValue();
 	}
 
@@ -408,13 +408,13 @@ public class SkillDatabase
 
 	public static final int getSkillType( final int skillId )
 	{
-		Object skillType = SkillDatabase.skillTypeById.get( IntegerCache.valueOf( skillId ) );
+		Object skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
 		return skillType == null ? -1 : ( (Integer) skillType ).intValue();
 	}
 
 	public static final String getSkillCategory( final int skillId )
 	{
-		Object cat = SkillDatabase.skillCategoryById.get( IntegerCache.valueOf( skillId ) );
+		Object cat = SkillDatabase.skillCategoryById.get( IntegerPool.get( skillId ) );
 		return cat == null ? "" : (String) cat;
 	}
 
@@ -486,7 +486,7 @@ public class SkillDatabase
 			return 0;
 		}
 
-		Object mpConsumption = SkillDatabase.mpConsumptionById.get( IntegerCache.valueOf( skillId ) );
+		Object mpConsumption = SkillDatabase.mpConsumptionById.get( IntegerPool.get( skillId ) );
 
 		if ( mpConsumption == null )
 		{
@@ -653,7 +653,7 @@ public class SkillDatabase
 
 	public static final int getEffectDuration( final int skillId )
 	{
-		Object duration = SkillDatabase.durationById.get( IntegerCache.valueOf( skillId ) );
+		Object duration = SkillDatabase.durationById.get( IntegerPool.get( skillId ) );
 		if ( duration == null )
 		{
 			return 0;
@@ -719,7 +719,7 @@ public class SkillDatabase
 
 	public static final boolean isNormal( final int skillId )
 	{
-		Object skillType = SkillDatabase.skillTypeById.get( IntegerCache.valueOf( skillId ) );
+		Object skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
 		if ( skillType == null )
 			return false;
 		int type = ( (Integer) skillType ).intValue();
@@ -765,7 +765,7 @@ public class SkillDatabase
 
 	private static final boolean isType( final int skillId, final int type )
 	{
-		Object skillType = SkillDatabase.skillTypeById.get( IntegerCache.valueOf( skillId ) );
+		Object skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
 		return skillType == null ? false : ( (Integer) skillType ).intValue() == type;
 	}
 
@@ -1230,13 +1230,13 @@ public class SkillDatabase
 
 	public static void registerCasts( int skillId, int count )
 	{
-		Object oldCasts = SkillDatabase.castsById.get( IntegerCache.valueOf( skillId ) );
+		Object oldCasts = SkillDatabase.castsById.get( IntegerPool.get( skillId ) );
 		if ( oldCasts == null )
 		{
 			return;
 		}
 		int newCasts = ( (Integer) oldCasts ).intValue() + count;
-		SkillDatabase.castsById.put( IntegerCache.valueOf( skillId ), IntegerCache.valueOf( newCasts ) );
+		SkillDatabase.castsById.put( IntegerPool.get( skillId ), IntegerPool.get( newCasts ) );
 	}
 
 	/**
@@ -1245,7 +1245,7 @@ public class SkillDatabase
 
 	public static int getCasts( int skillId )
 	{
-		Object casts = (Object) SkillDatabase.castsById.get( IntegerCache.valueOf( skillId ) );
+		Object casts = (Object) SkillDatabase.castsById.get( IntegerPool.get( skillId ) );
 
 		if ( casts == null )
 		{

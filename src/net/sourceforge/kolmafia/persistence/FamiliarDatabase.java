@@ -57,9 +57,10 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarDatabase
@@ -120,7 +121,7 @@ public class FamiliarDatabase
 					FamiliarDatabase.maxFamiliarId = id;
 				}
 
-				Integer familiarId = IntegerCache.valueOf( id );
+				Integer familiarId = IntegerPool.get( id );
 				String familiarName = StringUtilities.getDisplayName( data[ 1 ] );
 				String familiarImage = new String( data[ 2 ] );
 				String familiarType = new String( data[ 3 ] );
@@ -179,7 +180,7 @@ public class FamiliarDatabase
 	 * whenever KoLmafia encounters an unknown familiar on login
 	 */
 
-	private static Integer ZERO = IntegerCache.valueOf( 0 );
+	private static Integer ZERO = IntegerPool.get( 0 );
 	public static final void registerFamiliar( final int familiarId, final String familiarName, final String image )
 	{
 		FamiliarDatabase.registerFamiliar( familiarId, familiarName, image, FamiliarDatabase.ZERO );
@@ -216,7 +217,7 @@ public class FamiliarDatabase
 			FamiliarDatabase.maxFamiliarId = familiarId;
 		}
 
-		Integer dummyId = IntegerCache.valueOf( familiarId );
+		Integer dummyId = IntegerPool.get( familiarId );
 
 		FamiliarDatabase.familiarById.put( dummyId, familiarName );
 		FamiliarDatabase.familiarByName.put( canon, dummyId );
@@ -241,7 +242,7 @@ public class FamiliarDatabase
 
 	public static final String getFamiliarName( final int familiarId )
 	{
-		return FamiliarDatabase.getFamiliarName( IntegerCache.valueOf( familiarId ) );
+		return FamiliarDatabase.getFamiliarName( IntegerPool.get( familiarId ) );
 	}
 
 	public static final String getFamiliarName( final Integer familiarId )
@@ -258,7 +259,7 @@ public class FamiliarDatabase
 
 	public static final FamiliarData growFamiliarLarva( final int larvaId )
 	{
-		Object familiarId = FamiliarDatabase.familiarByLarva.get( IntegerCache.valueOf( larvaId ) );
+		Object familiarId = FamiliarDatabase.familiarByLarva.get( IntegerPool.get( larvaId ) );
 		return familiarId == null ? null : new FamiliarData( ( (Integer) familiarId ).intValue() );
 	}
 
@@ -320,7 +321,7 @@ public class FamiliarDatabase
 
 	public static final String getFamiliarItem( final int familiarId )
 	{
-		return FamiliarDatabase.getFamiliarItem( IntegerCache.valueOf( familiarId ) );
+		return FamiliarDatabase.getFamiliarItem( IntegerPool.get( familiarId ) );
 	}
 
 	public static final String getFamiliarItem( final Integer familiarId )
@@ -330,7 +331,7 @@ public class FamiliarDatabase
 
 	public static final int getFamiliarItemId( final int familiarId )
 	{
-		return FamiliarDatabase.getFamiliarItemId( IntegerCache.valueOf( familiarId ) );
+		return FamiliarDatabase.getFamiliarItemId( IntegerPool.get( familiarId ) );
 	}
 
 	public static final int getFamiliarItemId( final Integer familiarId )
@@ -347,7 +348,7 @@ public class FamiliarDatabase
 
 	public static final int getFamiliarLarva( final int familiarId )
 	{
-		return FamiliarDatabase.getFamiliarLarva( IntegerCache.valueOf( familiarId ) );
+		return FamiliarDatabase.getFamiliarLarva( IntegerPool.get( familiarId ) );
 	}
 
 	public static final int getFamiliarLarva( final Integer familiarId )
@@ -399,12 +400,12 @@ public class FamiliarDatabase
 
 	public static final void setFamiliarImageLocation( final int familiarId, final String location )
 	{
-		FamiliarDatabase.familiarImageById.put( IntegerCache.valueOf( familiarId ), location );
+		FamiliarDatabase.familiarImageById.put( IntegerPool.get( familiarId ), location );
 	}
 
 	public static final String getFamiliarImageLocation( final int familiarId )
 	{
-		String location = (String) FamiliarDatabase.familiarImageById.get( IntegerCache.valueOf( familiarId ) );
+		String location = (String) FamiliarDatabase.familiarImageById.get( IntegerPool.get( familiarId ) );
 		return ( location != null ) ? location : "debug.gif";
 	}
 
@@ -449,7 +450,7 @@ public class FamiliarDatabase
 
 	public static final int[] getFamiliarSkills( final int id )
 	{
-		return FamiliarDatabase.getFamiliarSkills( IntegerCache.valueOf( id ) );
+		return FamiliarDatabase.getFamiliarSkills( IntegerPool.get( id ) );
 	}
 
 	public static final int[] getFamiliarSkills( final Integer id )
@@ -468,7 +469,7 @@ public class FamiliarDatabase
 		String canon = StringUtilities.getCanonicalName( name );
 		for ( int i = 0; i < 4; ++i )
 		{
-			FamiliarDatabase.eventSkillByName[ i ].put( canon, IntegerCache.valueOf( skills[ i ] ) );
+			FamiliarDatabase.eventSkillByName[ i ].put( canon, IntegerPool.get( skills[ i ] ) );
 		}
 		FamiliarDatabase.newFamiliars = true;
 		FamiliarDatabase.saveDataOverride();

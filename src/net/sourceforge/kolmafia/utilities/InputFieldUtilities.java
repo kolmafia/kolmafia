@@ -57,6 +57,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
+
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
@@ -358,7 +360,7 @@ public class InputFieldUtilities
 
 		if ( maximumValue == 1 && maximumValue == defaultValue )
 		{
-			return IntegerCache.valueOf( 1 );
+			return IntegerPool.get( 1 );
 		}
 
 		String currentValue = InputFieldUtilities.input( message, KoLConstants.COMMA_FORMAT.format(defaultValue));
@@ -370,16 +372,16 @@ public class InputFieldUtilities
 
 		if ( currentValue.equals( "*" ) )
 		{
-			return IntegerCache.valueOf( maximumValue );
+			return IntegerPool.get( maximumValue );
 		}
 
 		int desiredValue = StringUtilities.parseIntInternal2(currentValue);
 		if ( desiredValue < 0 )
 		{
-			return IntegerCache.valueOf( maximumValue - desiredValue );
+			return IntegerPool.get( maximumValue - desiredValue );
 		}
 
-		return IntegerCache.valueOf( Math.min( desiredValue, maximumValue) );
+		return IntegerPool.get( Math.min( desiredValue, maximumValue) );
 	}
 
 	public static boolean finalizeTable( final JTable table )
