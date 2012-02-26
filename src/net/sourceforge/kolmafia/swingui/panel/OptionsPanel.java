@@ -54,8 +54,8 @@ public abstract class OptionsPanel
 	extends GenericPanel
 {
 	private String[][] options;
-	private JCheckBox[] optionBoxes;
-	private boolean refreshConcoctions;
+	protected JCheckBox[] optionBoxes;
+	protected boolean refreshConcoctions;
 
 	public OptionsPanel()
 	{
