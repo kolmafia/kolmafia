@@ -2058,7 +2058,7 @@ public class RequestEditorKit
 		int index = buffer.lastIndexOf( "<p>" );
 		if ( index != -1 )
 		{
-			buffer.insert( index + 3, "<center><a href=\"da.php?place=gate1\">Bask in the Glory of Boris</a></center>" );
+			buffer.insert( index + 3, "<center><a href=\"da.php?place=gate1\">Bask in the Glory of Boris</a></center><br>" );
 		}
 	}
 

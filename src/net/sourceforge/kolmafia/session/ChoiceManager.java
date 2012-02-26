@@ -2785,7 +2785,7 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		for ( int stepCount = 0; request.responseText.indexOf( "choice.php" ) != -1; ++stepCount )
+		for ( int stepCount = 0; request.responseText.indexOf( "action=choice.php" ) != -1; ++stepCount )
 		{
 			Matcher choiceMatcher = ChoiceManager.CHOICE_PATTERN.matcher( request.responseText );
 

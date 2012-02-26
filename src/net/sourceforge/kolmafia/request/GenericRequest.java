@@ -1456,7 +1456,7 @@ public class GenericRequest
 
 		if ( !urlString.startsWith( "http:" ) && !urlString.startsWith( "https:" ) )
 		{
-			if ( Preferences.getBoolean( "useSecureLogin" ) )
+			if ( Preferences.getBoolean( "useSecureLogin" ) && urlString.indexOf( "login.php" ) != -1 )
 			{
 				context = GenericRequest.KOL_SECURE_ROOT;
 			}
