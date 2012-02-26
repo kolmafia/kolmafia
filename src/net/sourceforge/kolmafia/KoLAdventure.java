@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -293,12 +294,24 @@ public class KoLAdventure
 			return true;
 		}
 
-		// Nemesis assassins also qualify, but until we track quest progress for it,
-		// there's no real way to do checks.  Instead, the wiki doesn't make it sound
-		// like you lose the volcano map, so we'll use that as the check.  If this is
-		// incorrect, hopefully someone who knows more will read this comment...
+		// Nemesis assassins.
 
 		if ( !InventoryManager.hasItem( ItemPool.VOLCANO_MAP ) )
+		{
+			return true;
+		}
+
+		// Beecore.
+
+		if ( KoLCharacter.inBeecore() )
+		{
+			return true;
+		}
+
+		// Mini-Hipster
+
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		if ( familiar != null && familiar.getId() == FamiliarPool.HIPSTER )
 		{
 			return true;
 		}
