@@ -168,6 +168,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class RuntimeLibrary
@@ -2734,27 +2735,27 @@ public abstract class RuntimeLibrary
 			ArrayList elems = new ArrayList();
 			if ( (pulver & EquipmentDatabase.ELEM_HOT) != 0 )
 			{
-				elems.add( new Integer( ItemPool.HOT_WAD ) );
+				elems.add( IntegerCache.valueOf( ItemPool.HOT_WAD ) );
 			}
 			if ( (pulver & EquipmentDatabase.ELEM_COLD) != 0 )
 			{
-				elems.add( new Integer( ItemPool.COLD_WAD ) );
+				elems.add( IntegerCache.valueOf( ItemPool.COLD_WAD ) );
 			}
 			if ( (pulver & EquipmentDatabase.ELEM_STENCH) != 0 )
 			{
-				elems.add( new Integer( ItemPool.STENCH_WAD ) );
+				elems.add( IntegerCache.valueOf( ItemPool.STENCH_WAD ) );
 			}
 			if ( (pulver & EquipmentDatabase.ELEM_SPOOKY) != 0 )
 			{
-				elems.add( new Integer( ItemPool.SPOOKY_WAD ) );
+				elems.add( IntegerCache.valueOf( ItemPool.SPOOKY_WAD ) );
 			}
 			if ( (pulver & EquipmentDatabase.ELEM_SLEAZE) != 0 )
 			{
-				elems.add( new Integer( ItemPool.SLEAZE_WAD ) );
+				elems.add( IntegerCache.valueOf( ItemPool.SLEAZE_WAD ) );
 			}
 			if ( (pulver & EquipmentDatabase.ELEM_TWINKLY) != 0 )
 			{	// Important: twinkly must be last
-				elems.add( new Integer( ItemPool.TWINKLY_WAD ) );
+				elems.add( IntegerCache.valueOf( ItemPool.TWINKLY_WAD ) );
 			}
 			int nelems = elems.size();
 			if ( nelems == 0 )

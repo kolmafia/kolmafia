@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CrimboCafeRequest
@@ -52,33 +53,33 @@ public class CrimboCafeRequest
 		// Item, itemID, price
 		{
 			"Brussels Sprout Stir-Fry",
-			new Integer( -79 ),
-			new Integer( 50 ),
+			IntegerCache.valueOf( -79 ),
+			IntegerCache.valueOf( 50 ),
 		},
 		{
 			"Carrot, Cabbage, and Kale Pizza",
-			new Integer( -80 ),
-			new Integer( 75 ),
+			IntegerCache.valueOf( -80 ),
+			IntegerCache.valueOf( 75 ),
 		},
 		{
 			"Turnip and Rutabaga Pie",
-			new Integer( -81 ),
-			new Integer( 100 ),
+			IntegerCache.valueOf( -81 ),
+			IntegerCache.valueOf( 100 ),
 		},
 		{
 			"Desert Island Iced Tea",
-			new Integer( -84 ),
-			new Integer( 100 ),
+			IntegerCache.valueOf( -84 ),
+			IntegerCache.valueOf( 100 ),
 		},
 		{
 			"Jerkitini",
-			new Integer( -83 ),
-			new Integer( 100 ),
+			IntegerCache.valueOf( -83 ),
+			IntegerCache.valueOf( 100 ),
 		},
 		{
 			"Horseradish-infused Vodka",
-			new Integer( -82 ),
-			new Integer( 100 ),
+			IntegerCache.valueOf( -82 ),
+			IntegerCache.valueOf( 100 ),
 		},
 	};
 

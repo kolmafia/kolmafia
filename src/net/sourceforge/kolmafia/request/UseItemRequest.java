@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.command.ZapCommand;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UseItemRequest
@@ -123,11 +124,11 @@ public class UseItemRequest
 
 	static
 	{
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( EffectPool.HALF_ASTRAL ) );
+		UseItemRequest.LIMITED_USES.put( IntegerCache.valueOf( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( EffectPool.HALF_ASTRAL ) );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.ABSINTHE ), EffectPool.get( EffectPool.ABSINTHE ) );
+		UseItemRequest.LIMITED_USES.put( IntegerCache.valueOf( ItemPool.ABSINTHE ), EffectPool.get( EffectPool.ABSINTHE ) );
 
-		UseItemRequest.LIMITED_USES.put( new Integer( ItemPool.TURTLE_PHEROMONES ), EffectPool.get( EffectPool.EAU_DE_TORTUE ) );
+		UseItemRequest.LIMITED_USES.put( IntegerCache.valueOf( ItemPool.TURTLE_PHEROMONES ), EffectPool.get( EffectPool.EAU_DE_TORTUE ) );
 	}
 
 	public static String lastUpdate = "";
@@ -726,7 +727,7 @@ public class UseItemRequest
 			return 3;
 		}
 
-		Integer key = new Integer( itemId );
+		Integer key = IntegerCache.valueOf( itemId );
 
 		if ( UseItemRequest.LIMITED_USES.containsKey( key ) )
 		{

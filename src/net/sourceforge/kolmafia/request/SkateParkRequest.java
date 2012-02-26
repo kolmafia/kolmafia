@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
+
 public class SkateParkRequest
 	extends GenericRequest
 {
@@ -58,7 +60,7 @@ public class SkateParkRequest
 			"Lutz, the Ice Skate",
 			"lutz, the ice skate",
 			"state2buff1",
-			new Integer( SkateParkRequest.LUTZ ),
+			IntegerCache.valueOf( SkateParkRequest.LUTZ ),
 			"_skateBuff1",
 			"You've already dined with Lutz",
 			"ice",
@@ -67,7 +69,7 @@ public class SkateParkRequest
 			"Comet, the Roller Skate",
 			"comet, the roller skate",
 			"state3buff1",
-			new Integer( SkateParkRequest.COMET ),
+			IntegerCache.valueOf( SkateParkRequest.COMET ),
 			"_skateBuff2",
 			"You should probably leave Comet alone for the rest of the day",
 			"roller",
@@ -76,7 +78,7 @@ public class SkateParkRequest
 			"the Band Shell",
 			"the band shell",
 			"state4buff1",
-			new Integer( SkateParkRequest.BAND_SHELL ),
+			IntegerCache.valueOf( SkateParkRequest.BAND_SHELL ),
 			"_skateBuff3",
 			"You've had about all of that crap you can stand today",
 			"peace",
@@ -85,7 +87,7 @@ public class SkateParkRequest
 			"the Eclectic Eels",
 			"the eclectic eels",
 			"state4buff2",
-			new Integer( SkateParkRequest.ECLECTIC_EELS ),
+			IntegerCache.valueOf( SkateParkRequest.ECLECTIC_EELS ),
 			"_skateBuff4",
 			"You should probably leave those guys alone until tomorrow",
 			"peace",
@@ -94,7 +96,7 @@ public class SkateParkRequest
 			"the Merry-Go-Round",
 			"the merry-go-round",
 			"state4buff3",
-			new Integer( SkateParkRequest.MERRY_GO_ROUND ),
+			IntegerCache.valueOf( SkateParkRequest.MERRY_GO_ROUND ),
 			"_skateBuff5",
 			"Wait until tomorrow",
 			"peace",

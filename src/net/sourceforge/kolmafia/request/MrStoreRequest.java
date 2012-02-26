@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MrStoreRequest
@@ -160,7 +161,7 @@ public class MrStoreRequest
 			// Add it to the Mr. Store inventory
 			AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
 			String name = StringUtilities.getCanonicalName( itemName );
-			Integer iprice = new Integer( price );
+			Integer iprice = IntegerCache.valueOf( price );
 			items.add( item );
 			prices.put( name, iprice );
 		}

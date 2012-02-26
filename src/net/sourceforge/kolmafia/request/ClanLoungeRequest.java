@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanLoungeRequest
@@ -99,19 +100,19 @@ public class ClanLoungeRequest
 			"aggressive",
 			"muscle",
 			"billiards belligerence",
-			new Integer( AGGRESSIVE_STANCE )
+			IntegerCache.valueOf( AGGRESSIVE_STANCE )
 		},
 		{
 			"strategic",
 			"mysticality",
 			"mental a-cue-ity",
-			new Integer( STRATEGIC_STANCE )
+			IntegerCache.valueOf( STRATEGIC_STANCE )
 		},
 		{
 			"stylish",
 			"moxie",
 			"hustlin'",
-			new Integer( STYLISH_STANCE )
+			IntegerCache.valueOf( STYLISH_STANCE )
 		},
 	};
 
@@ -120,12 +121,12 @@ public class ClanLoungeRequest
 		{
 			"send",
 			"put",
-			new Integer( SEND_FAX )
+			IntegerCache.valueOf( SEND_FAX )
 		},
 		{
 			"receive",
 			"get",
-			new Integer( RECEIVE_FAX )
+			IntegerCache.valueOf( RECEIVE_FAX )
 		},
 	};
 
@@ -134,27 +135,27 @@ public class ClanLoungeRequest
 		{
 			"cold",
 			"ice",
-			new Integer( COLD_SHOWER )
+			IntegerCache.valueOf( COLD_SHOWER )
 		},
 		{
 			"cool",
 			"moxie",
-			new Integer( COOL_SHOWER )
+			IntegerCache.valueOf( COOL_SHOWER )
 		},
 		{
 			"lukewarm",
 			"mysticality",
-			new Integer( LUKEWARM_SHOWER )
+			IntegerCache.valueOf( LUKEWARM_SHOWER )
 		},
 		{
 			"warm",
 			"muscle",
-			new Integer( WARM_SHOWER )
+			IntegerCache.valueOf( WARM_SHOWER )
 		},
 		{
 			"hot",
 			"mp",
-			new Integer( HOT_SHOWER )
+			IntegerCache.valueOf( HOT_SHOWER )
 		},
 	};
 

@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableReferenceList;
 import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Parser
@@ -1459,7 +1460,7 @@ public class Parser
 
 				if ( currentInteger == null )
 				{
-					currentInteger = new Integer( currentIndex );
+					currentInteger = IntegerCache.valueOf( currentIndex );
 				}
 
 				if ( test.getClass() == Value.class )

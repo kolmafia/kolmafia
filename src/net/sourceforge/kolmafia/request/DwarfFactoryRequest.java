@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DwarfFactoryRequest
@@ -1218,7 +1219,7 @@ public class DwarfFactoryRequest
 		private void mapCharacter( final char c, final int i )
 		{
 			Character code = new Character( Character.toUpperCase( c ) );
-			Integer val = new Integer( i );
+			Integer val = IntegerCache.valueOf( i );
 			this.mapCharacter( code, val );
 		}
 
@@ -1243,7 +1244,7 @@ public class DwarfFactoryRequest
 			StringBuffer valueBuilder = new StringBuffer();
 			for ( int i = 0; i < 7; ++i )
 			{
-				Character code = (Character)this.charMap.get( new Integer( i ) );
+				Character code = (Character)this.charMap.get( IntegerCache.valueOf( i ) );
 				valueBuilder.append( code == null ? '-' : code.charValue() );
 			}
 			return valueBuilder.toString();
@@ -1542,7 +1543,7 @@ public class DwarfFactoryRequest
 			// If we know the character that goes in this position,
 			// generate only the permutations that have that
 			// character in that position.
-			Character val = (Character) this.charMap.get( new Integer( index ) );
+			Character val = (Character) this.charMap.get( IntegerCache.valueOf( index ) );
 			if ( val != null )
 			{
 				this.generatePermutations( prefix + val.charValue() );
@@ -1665,7 +1666,7 @@ public class DwarfFactoryRequest
 			// Find the digit we have not identified
 			for ( int i = 0; i < 7; ++i )
 			{
-				Integer val = new Integer( i );
+				Integer val = PrimitiveAutoBoxCache.valueOf( i );
 				if ( this.charMap.get( val ) == null )
 				{
 					this.mapCharacter( code, val );
@@ -1686,7 +1687,7 @@ public class DwarfFactoryRequest
 			{
 				// The digit for zero is special: a roll of
 				// "00" equals 49
-				Character z = (Character)this.charMap.get( new Integer( 0 ) );
+				Character z = (Character)this.charMap.get( PrimitiveAutoBoxCache.valueOf( 0 ) );
 				LinearSystem system = this.makeSystem( z );
 				if ( system != null )
 				{
@@ -2009,7 +2010,7 @@ public class DwarfFactoryRequest
 				if ( valid && index != -1 )
 				{
 					Character digit = this.variables[index];
-					Integer val = new Integer( row1[ncols] / row1[index] );
+					Integer val = PrimitiveAutoBoxCache.valueOf( row1[ncols] / row1[index] );
 					DwarfNumberTranslator.this.mapCharacter( digit, val );
 				}
 			}
@@ -2053,7 +2054,7 @@ public class DwarfFactoryRequest
 				if ( value.length() == 1 )
 				{
 					Character rune = new Character( value.charAt( 0 ) );
-					Integer id = new Integer( itemId );
+					Integer id = IntegerCache.valueOf( itemId );
 					this.itemMap.put( rune, id );
 					this.runeMap.put( id, rune );
 				}
@@ -2185,7 +2186,7 @@ public class DwarfFactoryRequest
 
 		private char findRune( final int itemId )
 		{
-			Character val = (Character) this.runeMap.get( new Integer( itemId ) );
+			Character val = (Character) this.runeMap.get( IntegerCache.valueOf( itemId ) );
 			return val == null ? 0 : val.charValue();
 		}
 

@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
 import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public abstract class RequestThread
 {
@@ -278,7 +279,7 @@ public abstract class RequestThread
 		}
 
 		int requestId = ++RequestThread.nextRequestId;
-		Integer requestIdObj = new Integer( requestId );
+		Integer requestIdObj = IntegerCache.valueOf( requestId );
 
 		RequestThread.threadMap.put( requestIdObj, Thread.currentThread() );
 

@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
+
 public class TavernManager
 {
 	/**
@@ -68,15 +70,15 @@ public class TavernManager
 	// 21->22  23->24->25
 
 	private static Integer [] searchOrder = {
-		// new Integer(  5 ),
-		new Integer(  4 ), new Integer(  3 ), new Integer(  2 ),
-		new Integer(  1 ), new Integer(  6 ), new Integer( 11 ),
-		new Integer( 16 ), new Integer( 21 ), new Integer( 22 ),
-		new Integer( 17 ), new Integer( 23 ), new Integer( 24 ),
-		new Integer( 25 ), new Integer( 12 ), new Integer(  7 ),
-		new Integer(  8 ), new Integer( 13 ), new Integer( 18 ),
-		new Integer( 19 ), new Integer( 14 ), new Integer(  9 ),
-		new Integer( 10 ), new Integer( 15 ), new Integer( 20 ),
+		// PrimitiveAutoBoxCache.valueOf(  5 ),
+		IntegerCache.valueOf(  4 ), IntegerCache.valueOf(  3 ), IntegerCache.valueOf(  2 ),
+		IntegerCache.valueOf(  1 ), IntegerCache.valueOf(  6 ), IntegerCache.valueOf( 11 ),
+		IntegerCache.valueOf( 16 ), IntegerCache.valueOf( 21 ), IntegerCache.valueOf( 22 ),
+		IntegerCache.valueOf( 17 ), IntegerCache.valueOf( 23 ), IntegerCache.valueOf( 24 ),
+		IntegerCache.valueOf( 25 ), IntegerCache.valueOf( 12 ), IntegerCache.valueOf(  7 ),
+		IntegerCache.valueOf(  8 ), IntegerCache.valueOf( 13 ), IntegerCache.valueOf( 18 ),
+		IntegerCache.valueOf( 19 ), IntegerCache.valueOf( 14 ), IntegerCache.valueOf(  9 ),
+		IntegerCache.valueOf( 10 ), IntegerCache.valueOf( 15 ), IntegerCache.valueOf( 20 ),
 	};
 
 	private static final int EXPLORE = 1;
@@ -393,7 +395,7 @@ public class TavernManager
 			}
 
 			// Remove explored square from searchlist
-			int index = searchList.indexOf( new Integer( i + 1 ) );
+			int index = searchList.indexOf( IntegerCache.valueOf( i + 1 ) );
 			if ( index != -1 )
 			{
 				searchList.remove( index );

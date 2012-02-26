@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 
 public abstract class ConsequenceManager
 {
@@ -141,7 +142,7 @@ public abstract class ConsequenceManager
 			}
 			else
 			{
-				cons.register( ConsequenceManager.skillDescs, new Integer( id ) );
+				cons.register( ConsequenceManager.skillDescs, IntegerCache.valueOf( id ) );
 				ConsequenceManager.descriptions.add( "desc_skill.php?whichskill="
 					+ id + "&self=true" );
 			}
@@ -173,7 +174,7 @@ public abstract class ConsequenceManager
 	public static void parseSkillDesc( int id, String responseText )
 	{
 		Consequence cons = (Consequence) ConsequenceManager.skillDescs.get(
-			new Integer( id ) );
+			IntegerCache.valueOf( id ) );
 		if ( cons != null )
 		{
 			cons.test( responseText );

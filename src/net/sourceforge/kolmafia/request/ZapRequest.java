@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ZapRequest
@@ -110,7 +111,7 @@ public class ZapRequest
 					int itemId = ItemDatabase.getItemId( name );
 					ZapRequest.zappableItems.add( new AdventureResult( itemId, 1 ) );
 					ZapRequest.isZappable.set( itemId, true );
-					ZapRequest.zapGroups.put( new Integer( itemId ), list );
+					ZapRequest.zapGroups.put( IntegerCache.valueOf( itemId ), list );
 				}
 			}
 		}
@@ -135,7 +136,7 @@ public class ZapRequest
 	{
 		ZapRequest.initializeList();
 
-		String[] rv = (String[]) ZapRequest.zapGroups.get( new Integer( itemId ) );
+		String[] rv = (String[]) ZapRequest.zapGroups.get( IntegerCache.valueOf( itemId ) );
 		if ( rv == null ) return new String[ 0 ];
 		return rv;
 	}

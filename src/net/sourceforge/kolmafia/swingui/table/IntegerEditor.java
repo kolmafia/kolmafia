@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 
+import net.sourceforge.kolmafia.utilities.IntegerCache;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class IntegerEditor
@@ -54,7 +55,7 @@ public class IntegerEditor
 		AutoHighlightTextField field = (AutoHighlightTextField) getComponent();
 		int value = StringUtilities.parseInt( field.getText() );
 
-		return new Integer( value );
+		return IntegerCache.valueOf( value );
 	}
 
 	public boolean stopCellEditing()
