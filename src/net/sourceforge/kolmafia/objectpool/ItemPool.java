@@ -1221,6 +1221,7 @@ public class ItemPool
 	public static final int DEAD_PIE = 4728;
 	public static final int THROBBING_PIE = 4729;
 	public static final int BONE_CHIPS = 4743;
+	public static final int PUMPKIN_SEEDS = 4760;
 	public static final int PUMPKIN = 4761;
 	public static final int HUGE_PUMPKIN = 4762;
 	public static final int PUMPKIN_BOMB = 4766;
@@ -1392,6 +1393,7 @@ public class ItemPool
 	public static final int PEPPERMINT_SPROUT = 5395;
 	public static final int PEPPERMINT_PARASOL = 5401;
 	public static final int GIANT_CANDY_CANE = 5402;
+	public static final int PEPPERMINT_PACKET = 5404;
 	public static final int FUDGECULE = 5435;
 	public static final int FUDGE_WAND = 5441;
 	public static final int DEVILISH_FOLIO = 5444;
