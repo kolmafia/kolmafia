@@ -107,6 +107,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.NaiveSecureSocketLayer;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -226,6 +227,8 @@ public class GenericRequest
 			systemProperties.remove( "sun.net.client.defaultConnectTimeout" );
 			systemProperties.remove( "sun.net.client.defaultReadTimeout" );
 		}
+
+		NaiveSecureSocketLayer.initialize();
 
 		if ( Preferences.getBoolean( "useSecureLogin" ) )
 		{
