@@ -226,6 +226,7 @@ public class OptionsFrame
 				{ "relayMaintainsEffects", "Run moods before manual adventures" },
 				{ "relayMaintainsHealth", "Maintain health before manual adventures" },
 				{ "relayMaintainsMana", "Maintain mana before manual adventures" },
+				{ "relayWarnOnRecoverFailure", "Show a warning if any of the above maintenances fails" },
 				{},
 				{ "relayUsesIntegratedChat", "Integrate chat and relay browser gCLI interfaces" },
 				{ "relayFormatsChatText", "Reformat incoming chat HTML to conform to web standards" },

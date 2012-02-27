@@ -1579,7 +1579,7 @@ public class RelayRequest
 			Preferences.setString( "lastAdventure", nextAdventure );
 			RecoveryManager.runBetweenBattleChecks( isScript, isMood, isHealth, isMana );
 
-			if ( !KoLmafia.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() && Preferences.getBoolean( "relayWarnOnRecoverFailure" ) )
 			{
 				this.sendGeneralWarning( "beatenup.gif", "Between battle actions failed. Click the image if you'd like to continue anyway." );
 				return;
