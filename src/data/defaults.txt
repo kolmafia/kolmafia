@@ -146,6 +146,7 @@ global	relayUsesCachedImages	false
 global	relayUsesInlineLinks	true
 global	relayUsesIntegratedChat	false
 global	relayViewsCustomItems	false
+global	relayWarnOnRecoverFailure	true
 global	removeMalignantEffects	false
 global	saveSettingsOnSet	true
 global	saveState
