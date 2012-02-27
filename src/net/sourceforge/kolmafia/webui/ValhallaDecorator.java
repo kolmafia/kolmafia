@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 
@@ -50,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -546,6 +548,8 @@ public class ValhallaDecorator
 		ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_EMO_ROE, "Veracity" );
 		ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_WWTNSD_BRACELET, "Veracity" );
 		ValhallaDecorator.developerGift( buffer, ItemPool.STUFFED_COCOABO, "holatuwol" );
+
+		ValhallaDecorator.switchSeeds( buffer );
 	}
 
 	private static final void developerGift( final StringBuffer buffer, final int itemId, final String developer )
@@ -576,5 +580,44 @@ public class ValhallaDecorator
 		buffer.append( " to " );
 		buffer.append( developer );
 		buffer.append( "</a></nobr><br>" );
+	}
+	
+	private static final void switchSeeds( final StringBuffer buffer )
+	{
+		boolean havePumpkin = InventoryManager.hasItem( ItemPool.PUMPKIN_SEEDS );
+		boolean havePeppermint = InventoryManager.hasItem( ItemPool.PEPPERMINT_PACKET );
+		if ( !havePumpkin && !havePeppermint )
+		{
+			return;
+		}
+		buffer.append( "Garden: " );
+		if ( havePumpkin )
+		{
+			buffer.append( "plant <a href=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+pumpkin+seeds;" );
+			buffer.append( "+use+packet+of+pumpkin+seeds&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">pumpkin</a>" );
+
+		}
+		if ( havePumpkin && havePeppermint )
+		{
+			buffer.append( "; " );
+		}
+		if ( havePeppermint )
+		{
+			buffer.append( "plant <a href=\"/KoLmafia/redirectedCommand?cmd=acquire+Peppermint+Pip+Packet;" );
+			buffer.append( "+use+Peppermint+Pip+Packet&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">peppermint</a>" );
+		}
+		if ( CampgroundRequest.getCrop() != null )
+		{
+			AdventureResult crop = CampgroundRequest.getCrop();
+			String cropString = ( crop.getName().indexOf( "peppermint" ) != -1 
+				|| crop.getName().indexOf( "candy cane" ) != -1 ) ? "Peppermint"
+				: ( crop.getName().indexOf( "pumpkin" ) != -1 ) ? "Pumpkin" : "Unknown";
+			buffer.append( " (currently " + cropString + ")" );
+		}
+		buffer.append( "<br>" );
 	}
 }
