@@ -1008,3 +1008,4 @@
 1007	Song of Solitude	song_sol.gif	3a770513b2384ce932540148ce62d15c	cast 1 Song of Solitude
 1008	Song of Fortune	song_fortune.gif	cdaee15d53f7213c399b787f8c3d6621	cast 1 Song of Fortune
 1009	Song of Battle	song_battle.gif	986de352c714a738a61e074a991c9310	cast 1 Song of Battle
+1010	Song of Cockiness	superiority.gif	34de64fcea8f9614e236a7f9cbadf376	cast 1 Song of Cockiness
