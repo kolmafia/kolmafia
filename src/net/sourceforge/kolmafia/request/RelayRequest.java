@@ -121,7 +121,7 @@ public class RelayRequest
 		Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
-	private static final Pattern BASE_LINK_PATTERN = Pattern.compile( "(src|href|action)=\"?([^\\/][^\\s\"]+)\"?" );
+	private static final Pattern BASE_LINK_PATTERN = Pattern.compile( "(src|href|action)=(\"?)([^\\/\"][^\\s\"]+)" );
 
 	private static KoLAdventure lastSafety = null;
 
@@ -1160,8 +1160,26 @@ public class RelayRequest
 			}
 			else if ( RelayRequest.specialCommandResponse.length() > 0 )
 			{
+				StringBuffer buffer = new StringBuffer();
 				Matcher matcher = RelayRequest.BASE_LINK_PATTERN.matcher( RelayRequest.specialCommandResponse );
-				this.pseudoResponse( "HTTP/1.1 200 OK", matcher.replaceAll( "$1=\"$2\"" ) );
+
+				while ( matcher.find() )
+				{
+					String location = matcher.group( 3 );
+
+					if ( location.startsWith( "http" ) )
+					{
+						buffer.append( matcher.group( 0 ) );
+					}
+					else
+					{
+						matcher.appendReplacement( buffer, "$1=$2/$3" );
+					}
+				}
+
+				matcher.appendTail( buffer );
+
+				this.pseudoResponse( "HTTP/1.1 200 OK", buffer.toString() );
 
 				RelayRequest.specialCommandResponse = "";
 				RelayRequest.specialCommandStatus = "";
