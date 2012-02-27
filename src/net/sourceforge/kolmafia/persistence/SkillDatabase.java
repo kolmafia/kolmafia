@@ -395,6 +395,10 @@ public class SkillDatabase
 		{
 			return 6000;
 		}
+		if ( name == KoLCharacter.AVATAR_OF_BORIS )
+		{
+			return 11000;
+		}
 
 		return 0;
 	}
