@@ -1571,7 +1571,7 @@ public class RelayRequest
 		{
 			boolean isScript = !isNonCombatsOnly && Preferences.getBoolean( "relayRunsBeforeBattleScript" );
 			boolean isMood = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsEffects" );
-			boolean isHealth = Preferences.getBoolean( "relayMaintainsHealth" );
+			boolean isHealth = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsHealth" );
 			boolean isMana = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsMana" );
 
 			KoLmafia.forceContinue();
