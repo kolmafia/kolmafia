@@ -68,6 +68,7 @@ public class EatItemRequest
 
 	private static int ignoreMilkPrompt = 0;
 	private static int askedAboutMilk = 0;
+	private static int askedAboutLunch = 0;
 	private static AdventureResult queuedFoodHelper = null;
 	private static int queuedFoodHelperCount = 0;
 
@@ -317,44 +318,86 @@ public class EatItemRequest
 
 	private final boolean askAboutMilk()
 	{
-		// If we've already asked about milk, don't nag
-		if ( EatItemRequest.askedAboutMilk == KoLCharacter.getUserId() )
-		{
-			return true;
-		}
-
 		// If user specifically said not to worry about milk, don't nag
-		if ( EatItemRequest.ignoreMilkPrompt == KoLCharacter.getUserId() )
+		int myUserId = KoLCharacter.getUserId();
+		if ( EatItemRequest.ignoreMilkPrompt == myUserId )
 		{
 			return true;
 		}
 
-		// See if already have enough of the Got Milk effect
-		int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
+		// If we are not in Axecore, don't even consider Lunch
+		if ( !KoLCharacter.inAxecore() )
+		{
+			EatItemRequest.askedAboutLunch = myUserId;
+		}
+
+		boolean skipMilkNag = ( EatItemRequest.askedAboutMilk == myUserId );
+		boolean skipLunchNag = ( EatItemRequest.askedAboutLunch == myUserId );
+
+		// If we've already asked about milk and/or lunch, don't nag
+		if ( skipMilkNag && skipLunchNag )
+		{
+			return true;
+		}
+
+		// See if the character can cast Song of the Glorious Lunch
+		UseSkillRequest lunch = UseSkillRequest.getInstance( "Song of the Glorious Lunch" );
+		boolean canLunch = KoLCharacter.inAxecore() && KoLConstants.availableSkills.contains( lunch );
+
+		// See if the character can has (or can buy) a milk of magnesium.
+		boolean canMilk = InventoryManager.hasItem( ItemPool.MILK_OF_MAGNESIUM, true) || KoLCharacter.canInteract();
+
+		// If you either can't get or don't care about both effects, don't nag
+		if ( ( !canLunch || skipLunchNag ) && ( !canMilk || skipMilkNag ) )
+		{
+			return true;
+		}
+
+		// Calculate how much fullness we are about to add
+
 		String name = this.itemUsed.getName();
 		int fullness = ItemDatabase.getFullness( name );
 		int count = this.itemUsed.getCount();
 		int consumptionTurns = count * fullness - ( Preferences.getBoolean( "distentionPillActive" ) ? 1 : 0 );
 
-		if ( consumptionTurns <= milkyTurns )
+		// Check for Glorious Lunch
+		if ( !skipLunchNag && canLunch )
 		{
-			return true;
+			// See if already have enough of the Glorious Lunch effect
+			int lunchTurns = ItemDatabase.GLORIOUS_LUNCH.getCount( KoLConstants.activeEffects );
+
+			if ( lunchTurns < consumptionTurns )
+			{
+				String message = lunchTurns > 0 ?
+					"Song of the Glorious Lunch will run out before you finish eating that. Are you sure?" :
+					"Are you sure you want to eat without Glorious Lunch?";
+				if ( !InputFieldUtilities.confirm( message ) )
+				{
+					return false;
+				}
+
+				EatItemRequest.askedAboutLunch = KoLCharacter.getUserId();
+			}
 		}
 
-		// Has (or can create) a milk of magnesium.
-		boolean canMilk = InventoryManager.hasItem( ItemPool.MILK_OF_MAGNESIUM, true) || KoLCharacter.canInteract();
-
-		if ( canMilk )
+		// Check for Got Milk
+		if ( !skipMilkNag && canMilk )
 		{
-			String message = milkyTurns > 0 ?
-				"Got Milk will run out before you finish eating that. Are you sure?" :
-				"Are you sure you want to eat without milk?";
-			if ( !InputFieldUtilities.confirm( message ) )
-			{
-				return false;
-			}
+			// See if already have enough of the Got Milk effect
+			int milkyTurns = ItemDatabase.MILK.getCount( KoLConstants.activeEffects );
 
-			EatItemRequest.askedAboutMilk = KoLCharacter.getUserId();
+			if ( milkyTurns < consumptionTurns )
+			{
+				String message = milkyTurns > 0 ?
+					"Got Milk will run out before you finish eating that. Are you sure?" :
+					"Are you sure you want to eat without milk?";
+				if ( !InputFieldUtilities.confirm( message ) )
+				{
+					return false;
+				}
+
+				EatItemRequest.askedAboutMilk = KoLCharacter.getUserId();
+			}
 		}
 
 		return true;
