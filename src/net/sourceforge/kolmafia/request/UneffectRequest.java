@@ -78,6 +78,8 @@ public class UneffectRequest
 	private boolean isTimer;
 	private final AdventureResult effect;
 
+	private static final Set currentEffectRemovals = new HashSet();
+
 	private static final AdventureResult USED_REMEDY = ItemPool.get( ItemPool.REMEDY, -1 );
 
 	private static final Pattern ID1_PATTERN = Pattern.compile( "whicheffect=(\\d+)" );
@@ -482,14 +484,20 @@ public class UneffectRequest
 			return;
 		}
 
-		String action = this.getAction();
-
-		if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) &&
-		     !action.startsWith( "shrug" ) && !action.startsWith( "remedy" ) )
+		if ( !UneffectRequest.currentEffectRemovals.contains( effect ) )
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
-			return;
+			UneffectRequest.currentEffectRemovals.add( effect );
+			String action = this.getAction();
+
+			if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) &&
+			     !action.startsWith( "shrug" ) && !action.startsWith( "remedy" ) )
+			{
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
+				return;
+			}
 		}
+
+		UneffectRequest.currentEffectRemovals.remove( effect );
 
 		if ( this.isTimer )
 		{

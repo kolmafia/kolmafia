@@ -794,6 +794,16 @@ public class AdventureResult
 			this.name.equalsIgnoreCase( ar.name );
 	}
 
+	public int hashCode()
+	{
+		if ( this.name == null )
+		{
+			return 0;
+		}
+
+		return this.name.hashCode();
+	}
+
 	/**
 	 * Compares the <code>AdventureResult</code> with the given object for name equality and priority differences.
 	 * Return values are consistent with the rules laid out in {@link java.lang.Comparable#compareTo(Object)}.
