@@ -866,13 +866,26 @@ public class ItemDatabase
 		// Adventure gain modifier #4 is the munchies pill, which adds
 		// 1-3 adventures
 
+		// Consumables that generate no adventures do not benefit from ode or milk.
+		boolean benefit = ( end - start ) > 0;
+
 		float average = ( start + end ) / 2.0f - advs;
 
+		float gain0 = benefit ? ( average ) : 0.0f;
+		float gain1 = benefit ? ( average + unitCost ) : 0.0f;
+		float gain2 = benefit ? ( average + unitCost * 2.0f ) : 0.0f;
+		float gain3 = benefit ? ( average + unitCost * 3.0f ) : 0.0f;
+
+		float gain0a = benefit ? ( average + 2.0f ) : 0.0f;
+		float gain1a = benefit ? ( average + unitCost + 2.0f ) : 0.0f;
+		float gain2a = benefit ? ( average + unitCost * 2.0f + 2.0f ) : 0.0f;
+		float gain3a = benefit ? ( average + unitCost * 3.0f + 2.0f ) : 0.0f;
+
 		// With no effects active, average
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, false, average );
+		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, false, gain0 );
 
 		// With only one effect, average + unitCost
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, false, false, average + unitCost );
+		ItemDatabase.addAdventureRange( name, unitCost, true, false, false, false, gain1 );
 
 		// Only foods have effects 2-4
 		if ( !isFood )
@@ -880,32 +893,32 @@ public class ItemDatabase
 			return;
 		}
 
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, false, average + unitCost );
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, false, average + unitCost );
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, false, gain1 );
+		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, false, gain1 );
 
 		// With two effects, average + unitCost * 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, false, false, average + unitCost * 2 );
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, true, false, average + unitCost * 2 );
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, true, false, average + unitCost * 2 );
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, false, false, gain2 );
+		ItemDatabase.addAdventureRange( name, unitCost, true, false, true, false, gain2 );
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, true, false, gain2 );
 
 		// With three effects, average + unitCost * 3
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, false, average + unitCost * 3 );
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, false, gain3 );
 
 		// With only munchies pill, average + 2
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, true, average + 2.0f );
+		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, true, gain0a );
 
 		// With one effect and munchies pill, average + unitCost + 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, false, true, average + unitCost + 2.0f );
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, true, average + unitCost + 2.0f );
-		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, true, average + unitCost + 2.0f );
+		ItemDatabase.addAdventureRange( name, unitCost, true, false, false, true, gain1a );
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, true, gain1a );
+		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, true, gain1a );
 
 		// With two effects and munchies pill, average + unitCost * 2 + 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, false, true, average + unitCost * 2 + 2.0f );
-		ItemDatabase.addAdventureRange( name, unitCost, true, false, true, true, average + unitCost * 2 + 2.0f );
-		ItemDatabase.addAdventureRange( name, unitCost, false, true, true, true, average + unitCost * 2 + 2.0f );
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, false, true, gain2a );
+		ItemDatabase.addAdventureRange( name, unitCost, true, false, true, true, gain2a );
+		ItemDatabase.addAdventureRange( name, unitCost, false, true, true, true, gain2a );
 
 		// With three effects and munchies pill, average + unitCost * 3 + 2
-		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, true, average + unitCost * 3 + 2.0f );
+		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, true, gain3a );
 	}
 
 	private static final void addAdventureRange( final String name, final int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final float result )
