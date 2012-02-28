@@ -333,7 +333,7 @@ public class AdventureDatabase
 			}
 
 			String adventureName = (String) bountyEntry.getKey();
-			KoLAdventure adventure = (KoLAdventure) AdventureDatabase.adventureLookup.get( adventureName );
+			KoLAdventure adventure = AdventureDatabase.getAdventure( adventureName );
 			AdventureDatabase.locationByBounty.put( bounty, adventure );
 		}
 	}
