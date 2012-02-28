@@ -134,8 +134,6 @@ public class LoginFrame
 	{
 		super.dispose();
 
-		this.honorProxySettings();
-
 		this.loginPanel = null;
 		this.httpProxyOptions = null;
 		this.httpsProxyOptions = null;
@@ -156,6 +154,8 @@ public class LoginFrame
 
 	protected void checkForLogout()
 	{
+		this.honorProxySettings();
+
 		if ( !LoginRequest.isInstanceRunning() )
 		{
 			KoLmafia.quit();
@@ -449,11 +449,15 @@ public class LoginFrame
 
 			boolean proxySet = httpHost != null && httpHost.length() > 0 || httpsHost != null && httpsHost.length() > 0;
 
-			this.optionBoxes[ 0 ].setSelected( proxySet );
-
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 			{
+				this.optionBoxes[ 0 ].setSelected( proxySet );
 				this.optionBoxes[ 0 ].setEnabled( false );
+			}
+			else
+			{
+				proxySet |= Preferences.getBoolean( "proxySet" );
+				this.optionBoxes[ 0 ].setSelected( proxySet );
 			}
 		}
 
@@ -490,6 +494,8 @@ public class LoginFrame
 		public ProxyOptionsPanel( String protocol )
 		{
 			super( "Proxy Settings: " + protocol, new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+
+			this.protocol = protocol;
 
 			this.proxyHost = new AutoHighlightTextField();
 			this.proxyPort = new AutoHighlightTextField();

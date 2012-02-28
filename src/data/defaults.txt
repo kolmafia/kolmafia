@@ -73,6 +73,10 @@ global	http.proxyHost
 global	http.proxyPassword
 global	http.proxyPort
 global	http.proxyUser
+global	https.proxyHost
+global	https.proxyPassword
+global	https.proxyPort
+global	https.proxyUser
 global	initialDesktop	AdventureFrame,CommandDisplayFrame,MallSearchFrame,GearChangeFrame,SkillBuffFrame
 global	initialFrames
 global	innerChatColor	#ffa98c
