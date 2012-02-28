@@ -899,10 +899,6 @@ public abstract class KoLmafia
 			CafeRequest.pullLARPCard();
 		}
 
-		// *** We can remove this when api.php?what=status gets
-		// *** "feastedfamiliar" and "intrinsics"
-		RequestThread.postRequest( new CharPaneRequest() );
-
 		// If we have a Crown of Thrones available and it's not
 		// equipped, see which familiar is sitting in it, if any.
 		InventoryManager.checkCrownOfThrones();

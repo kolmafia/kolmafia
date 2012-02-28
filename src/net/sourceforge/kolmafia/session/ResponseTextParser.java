@@ -175,6 +175,7 @@ public class ResponseTextParser
 		if ( location.startsWith( "api.php" ) ||
 		     location.startsWith( "game.php" ) ||
 		     location.startsWith( "charpane" ) ||
+		     location.startsWith( "charsheet" ) ||
 		     location.startsWith( "desc" ) ||
 		     location.startsWith( "quest" ) ) {
 
