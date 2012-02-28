@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -51,7 +52,7 @@ public class RefreshStatusCommand
 {
 	public RefreshStatusCommand()
 	{
-		this.usage = " all | status | equip | inv | storage | familiar | stickers - resynchronize with KoL.";
+		this.usage = " all | status | equip | inv | storage | familiar | stickers | quests - resynchronize with KoL.";
 	}
 
 	public void run( final String cmd, String parameters )
@@ -94,6 +95,11 @@ public class RefreshStatusCommand
 		{
 			parameters = "familiars";
 			RequestThread.postRequest( new FamiliarRequest() );
+		}
+		else if ( parameters.equals( "quests" ) )
+		{
+			RequestThread.postRequest( new QuestLogRequest() );
+			return;
 		}
 		else
 		{
