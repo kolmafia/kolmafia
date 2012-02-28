@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -52,6 +53,11 @@ public class ApiRequest
 	private String what;
 	private String id;
 	public JSONObject JSON;
+
+	public ApiRequest()
+	{
+		this( "status" );
+	}
 
 	public ApiRequest( final String what )
 	{
@@ -294,6 +300,15 @@ public class ApiRequest
 		catch ( JSONException e )
 		{
 			ApiRequest.reportParseError( "status", JSON.toString(), e );
+		}
+		finally
+		{
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+
+			// Mana cost adjustment may have changed
+			KoLConstants.summoningSkills.sort();
+			KoLConstants.usableSkills.sort();
 		}
 	}
 

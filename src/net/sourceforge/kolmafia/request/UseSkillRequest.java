@@ -1199,7 +1199,7 @@ public class UseSkillRequest
 		if ( responseText == null || responseText.trim().length() == 0 )
 		{
 			int initialMP = KoLCharacter.getCurrentMP();
-			new CharPaneRequest().run();
+			new ApiRequest().run();
 
 			if ( initialMP == KoLCharacter.getCurrentMP() )
 			{
@@ -1394,7 +1394,7 @@ public class UseSkillRequest
 			String skillName = SkillDatabase.getSkillName( skillId );
 
 			UseSkillRequest.lastUpdate = "Not enough mana to cast " + skillName + ".";
-			new CharPaneRequest().run();
+			new ApiRequest().run();
 			return true;
 		}
 

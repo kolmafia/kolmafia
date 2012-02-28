@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 
-import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 
@@ -67,8 +67,8 @@ public class CheckDataCommand
 			// inventory.
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
 
-			// The Charpane registers new status effects
-			RequestThread.postRequest( new CharPaneRequest() );
+			// The api registers new status effects
+			RequestThread.postRequest( new ApiRequest() );
 
 			// Write override files, if necessary
 			KoLmafia.saveDataOverride();

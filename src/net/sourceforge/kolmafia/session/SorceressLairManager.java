@@ -58,7 +58,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
@@ -2008,7 +2008,7 @@ public abstract class SorceressLairManager
 
 			if ( !SorceressLairManager.QUEST_HANDLER.containsUpdate )
 			{
-				RequestThread.postRequest( new CharPaneRequest() );
+				RequestThread.postRequest( new ApiRequest() );
 			}
 
 			RecoveryManager.runBetweenBattleChecks( false );
@@ -2053,7 +2053,7 @@ public abstract class SorceressLairManager
 
 		if ( n == 0 )
 		{
-			RequestThread.postRequest( new CharPaneRequest() );
+			RequestThread.postRequest( new ApiRequest() );
 
 			SorceressLairManager.findDoorCode();
 

@@ -65,8 +65,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
-import net.sourceforge.kolmafia.request.CharSheetRequest;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
@@ -234,7 +234,7 @@ public class CompactSidePane
 
 		JPanel refreshPanel = new JPanel();
 		refreshPanel.setOpaque( false );
-		refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", new CharSheetRequest() ) );
+		refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", new ApiRequest() ) );
 
 		this.add( refreshPanel, BorderLayout.SOUTH );
 		this.add( compactCard, BorderLayout.NORTH );
