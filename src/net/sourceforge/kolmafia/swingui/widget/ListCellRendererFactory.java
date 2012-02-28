@@ -364,21 +364,21 @@ public class ListCellRendererFactory
 				break;
 
 			default:
-				int fullness = ItemDatabase.getFullness( name );
-				int inebriety = ItemDatabase.getInebriety( name );
-				int spleenhit = ItemDatabase.getSpleenHit( name );
+				Integer fullness = ItemDatabase.getRawFullness( name );
+				Integer inebriety = ItemDatabase.getRawInebriety( name );
+				Integer spleenhit = ItemDatabase.getRawSpleenHit( name );
 	
-				if ( fullness > 0 )
+				if ( fullness != null )
 				{
 					stringForm.append( fullness );
 					stringForm.append( " full" );
 				}
-				else if ( inebriety > 0 )
+				if ( inebriety != null )
 				{
 					stringForm.append( inebriety );
 					stringForm.append( " drunk" );
 				}
-				else if ( spleenhit > 0 )
+				if ( spleenhit != null )
 				{
 					stringForm.append( spleenhit );
 					stringForm.append( " spleen" );
@@ -388,15 +388,15 @@ public class ListCellRendererFactory
 	
 				if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 				{
-					if ( fullness > 0 )
+					if ( fullness != null && fullness.intValue() > 0 )
 					{
 						stringForm.append( " / full" );
 					}
-					else if ( inebriety > 0 )
+					else if ( inebriety != null && inebriety.intValue() > 0 )
 					{
 						stringForm.append( " / drunk" );
 					}
-					else if ( spleenhit > 0 )
+					else if ( spleenhit != null && spleenhit.intValue() > 0 )
 					{
 						stringForm.append( " / spleen" );
 					}
@@ -899,17 +899,17 @@ public class ListCellRendererFactory
 			}
 			else
 			{
-				int fullness = ItemDatabase.getFullness( ar.getName() );
-				int inebriety = ItemDatabase.getInebriety( ar.getName() );
+				Integer fullness = ItemDatabase.getRawFullness( ar.getName() );
+				Integer inebriety = ItemDatabase.getRawInebriety( ar.getName() );
 				
-				if ( fullness + inebriety > 0 )
+				if ( fullness != null || inebriety != null )
 				{
 					stringForm.append( " (" );
-					if ( fullness > 0 )
+					if ( fullness != null )
 					{
 						stringForm.append( fullness );
 					}
-					else 	//if ( inebriety > 0 )
+					else 	//if ( inebriety != null )
 					{
 						stringForm.append( inebriety );
 					}
@@ -919,11 +919,11 @@ public class ListCellRendererFactory
 	
 					if ( Preferences.getBoolean( "showGainsPerUnit" ) )
 					{
-						if ( fullness > 0 )
+						if ( fullness != null && fullness.intValue() > 0 )
 						{
 							stringForm.append( "/full" );
 						}
-						else 	//if ( inebriety > 0 )
+						else 	//if ( inebriety != null && inebriety.intValue() > 0 )
 						{
 							stringForm.append( "/drunk" );
 						}

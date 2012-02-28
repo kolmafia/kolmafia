@@ -1681,36 +1681,48 @@ public class ItemDatabase
 		return requirement == null ? true : KoLCharacter.getLevel() >= requirement.intValue();
 	}
 
-	public static final int getFullness( final String name )
+	public static final Integer getRawFullness( final String name )
 	{
 		if ( name == null )
 		{
-			return 0;
+			return null;
 		}
+		return (Integer) ItemDatabase.fullnessByName.get( StringUtilities.getCanonicalName( name ) );
+	}
 
-		Integer fullness = (Integer) ItemDatabase.fullnessByName.get( StringUtilities.getCanonicalName( name ) );
+	public static final int getFullness( final String name )
+	{
+		Integer fullness = ItemDatabase.getRawFullness( name );
 		return fullness == null ? 0 : fullness.intValue();
+	}
+
+	public static final Integer getRawInebriety( final String name )
+	{
+		if ( name == null )
+		{
+			return null;
+		}
+		return (Integer) ItemDatabase.inebrietyByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final int getInebriety( final String name )
 	{
+		Integer inebriety = ItemDatabase.getRawInebriety( name );
+		return inebriety == null ? 0 : inebriety.intValue();
+	}
+
+	public static final Integer getRawSpleenHit( final String name )
+	{
 		if ( name == null )
 		{
-			return 0;
+			return null;
 		}
-
-		Integer inebriety = (Integer) ItemDatabase.inebrietyByName.get( StringUtilities.getCanonicalName( name ) );
-		return inebriety == null ? 0 : inebriety.intValue();
+		return (Integer) ItemDatabase.spleenHitByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final int getSpleenHit( final String name )
 	{
-		if ( name == null )
-		{
-			return 0;
-		}
-
-		Integer spleenhit = (Integer) ItemDatabase.spleenHitByName.get( StringUtilities.getCanonicalName( name ) );
+		Integer spleenhit = ItemDatabase.getRawSpleenHit( name );
 		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 

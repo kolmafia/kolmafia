@@ -525,21 +525,21 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( ItemDatabase.getFullness( creation.getName() ) > 0 )
+			if ( ItemDatabase.getRawFullness( creation.getName() ) != null )
 			{
 				if ( !UseItemEnqueuePanel.this.food )
 				{
 					return false;
 				}
 			}
-			else if ( ItemDatabase.getInebriety( creation.getName() ) > 0 )
+			else if ( ItemDatabase.getRawInebriety( creation.getName() ) != null )
 			{
 				if ( !UseItemEnqueuePanel.this.booze )
 				{
 					return false;
 				}
 			}
-			else if ( ItemDatabase.getSpleenHit( creation.getName() ) > 0 )
+			else if ( ItemDatabase.getRawSpleenHit( creation.getName() ) != null )
 			{
 				if ( !UseItemEnqueuePanel.this.spleen )
 				{
