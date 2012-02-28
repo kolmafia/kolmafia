@@ -33,6 +33,12 @@
 
 package net.sourceforge.kolmafia.moods;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -54,6 +60,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MoodTrigger
 	implements Comparable
 {
+	private static Map knownSources = new HashMap();
+
 	private int skillId = -1;
 	private final AdventureResult effect;
 	private boolean isThiefTrigger = false;
@@ -125,6 +133,16 @@ public class MoodTrigger
 
 		if ( type != null && type.equals( "lose_effect" ) && effect != null )
 		{
+			Set existingActions = (Set) MoodTrigger.knownSources.get( effect.getName() );
+
+			if ( existingActions == null )
+			{
+				existingActions = new LinkedHashSet();
+				MoodTrigger.knownSources.put( effect.getName(), existingActions );
+			}
+
+			existingActions.add( this.action );
+
 			String skillName = UneffectRequest.effectToSkill( effect.getName() );
 			if ( SkillDatabase.contains( skillName ) )
 			{
@@ -135,6 +153,38 @@ public class MoodTrigger
 
 		this.stringForm = new StringBuffer();
 		this.updateStringForm();
+	}
+
+	public static String getKnownSources( String name )
+	{
+		Set existingActions = (Set) MoodTrigger.knownSources.get( name );
+
+		if ( existingActions == null )
+		{
+			return "";
+		}
+
+		StringBuffer buffer = new StringBuffer();
+
+		Iterator actionIterator = existingActions.iterator();
+
+		while ( actionIterator.hasNext() )
+		{
+			if ( buffer.length() > 0 )
+			{
+				buffer.append( "|" );
+			}
+
+			String action = (String) actionIterator.next();
+			buffer.append( action );
+		}
+
+		return buffer.toString();
+	}
+
+	public static void clearKnownSources()
+	{
+		MoodTrigger.knownSources.clear();
 	}
 	
 	public boolean matches()

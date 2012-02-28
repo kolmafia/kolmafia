@@ -108,6 +108,7 @@ public abstract class MoodManager
 
 	public static final void updateFromPreferences()
 	{
+		MoodTrigger.clearKnownSources();
 		MoodManager.availableMoods.clear();
 
 		MoodManager.currentMood = null;
@@ -845,7 +846,7 @@ public abstract class MoodManager
 
 				if ( action == null )
 				{
-					action = "";
+					action = MoodTrigger.getKnownSources( name );
 				}
 			}
 
