@@ -274,6 +274,13 @@ public class EatItemRequest
 
 	private final boolean allowFoodConsumption()
 	{
+		// Always allow the steel lasagna
+		int itemId = this.itemUsed.getItemId();
+		if ( itemId == ItemPool.STEEL_STOMACH )
+		{
+			return true;
+		}
+
 		if ( !GenericFrame.instanceExists() )
 		{
 			return true;
