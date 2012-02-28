@@ -40,6 +40,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 
@@ -121,6 +122,7 @@ public class QuestLogRequest
 
 	public void run()
 	{
+		KoLmafia.updateDisplay( "Retrieving quest data..." );
 		// When KoL provides a link to the Quest log, it goes to the
 		// section you visited last. Therefore, visit all sections but
 		// end with page 1.
