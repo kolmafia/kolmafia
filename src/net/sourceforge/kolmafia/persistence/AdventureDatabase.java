@@ -38,7 +38,9 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -94,9 +96,8 @@ public class AdventureDatabase
 	private static final HashMap adventureLookup = new HashMap();
 	private static final HashMap cloverLookup = new HashMap();
 	private static final HashMap zoneLookup = new HashMap();
-
-	private static final StringArray conditionsById = new StringArray();
-	private static final StringArray bountiesById = new StringArray();
+	private static final HashMap conditionLookup = new HashMap();
+	private static final HashMap bountyLookup = new HashMap();
 
 	private static final HashMap locationByBounty = new HashMap();
 
@@ -221,16 +222,9 @@ public class AdventureDatabase
 				continue;
 			}
 
-			if ( !StringUtilities.isNumeric( location[ 1 ] ) )
-			{
-				continue;
-			}
-
-			int id = StringUtilities.parseInt( location[ 1 ] );
-
 			if ( !data[ 4 ].equals( "" ) )
 			{
-				AdventureDatabase.conditionsById.set( id, new String( data[ 4 ] ) );
+				AdventureDatabase.conditionLookup.put( name, new String( data[ 4 ] ) );
 			}
 
 			if ( data.length <= 5 )
@@ -240,7 +234,7 @@ public class AdventureDatabase
 
 			if ( !data[ 5 ].equals( "" ) )
 			{
-				AdventureDatabase.bountiesById.set( id, new String( data[ 5 ] ) );
+				AdventureDatabase.bountyLookup.put( name, new String( data[ 5 ] ) );
 			}
 		}
 
@@ -318,9 +312,14 @@ public class AdventureDatabase
 		}
 
 		AdventureDatabase.locationByBounty.clear();
-		for ( int i = 0; i < AdventureDatabase.bountiesById.size(); ++i )
+
+		Iterator bountyIterator = AdventureDatabase.bountyLookup.entrySet().iterator();
+
+		while ( bountyIterator.hasNext() )
 		{
-			String bounty = AdventureDatabase.bountiesById.get( i );
+			Entry bountyEntry = (Entry) bountyIterator.next();
+
+			String bounty = (String) bountyEntry.getValue();
 			if ( bounty == null || bounty.equals( "" ) )
 			{
 				continue;
@@ -332,7 +331,9 @@ public class AdventureDatabase
 				// Only store the first location
 				continue;
 			}
-			KoLAdventure adventure = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=" + i + "&pwd" );
+
+			String adventureName = (String) bountyEntry.getKey();
+			KoLAdventure adventure = (KoLAdventure) AdventureDatabase.adventureLookup.get( adventureName );
 			AdventureDatabase.locationByBounty.put( bounty, adventure );
 		}
 	}
@@ -500,13 +501,8 @@ public class AdventureDatabase
 
 	public static final AdventureResult getBounty( final KoLAdventure adventure )
 	{
-		String idString = adventure.getAdventureId();
-		if ( !StringUtilities.isNumeric( idString ) )
-		{
-			return null;
-		}
-		int adventureId = StringUtilities.parseInt( idString );
-		String bounty = AdventureDatabase.bountiesById.get( adventureId );
+		String adventureName = adventure.getAdventureName();
+		String bounty = (String) AdventureDatabase.bountyLookup.get( adventureName );
 		if ( bounty == null || bounty.equals( "" ) )
 		{
 			return null;
@@ -531,23 +527,15 @@ public class AdventureDatabase
 			return "none";
 		}
 
-		// If it's not a standard adventure, return whatever
-		// is known for that area.
-
-		if ( !adventure.getFormSource().startsWith( "adventure" ) )
-		{
-			return "none";
-		}
-
 		// If you're currently doing a bounty, return
 		// the item you need to hunt for.
 
-		int adventureId = StringUtilities.parseInt( adventure.getAdventureId() );
+		String adventureName = adventure.getAdventureName();
 		int bountyId = Preferences.getInteger( "currentBountyItem" );
 
 		if ( bountyId != 0 )
 		{
-			String bounty = AdventureDatabase.bountiesById.get( adventureId );
+			String bounty = (String) AdventureDatabase.bountyLookup.get( adventureName );
 			if ( bounty != null && !bounty.equals( "" ) && ItemDatabase.getItemId( bounty.substring( bounty.indexOf( " " ) ).trim() ) == bountyId )
 			{
 				return bounty;
@@ -559,6 +547,7 @@ public class AdventureDatabase
 		// If you're at the Friar's gate, return the steel
 		// reward people are most likely looking for.
 
+		int adventureId = StringUtilities.parseInt( adventure.getAdventureId() );
 		if ( adventureId == 79 )
 		{
 			if ( KoLCharacter.canDrink() )
@@ -587,7 +576,7 @@ public class AdventureDatabase
 		// Otherwise, pull the condition out of the existing
 		// table and return it.
 
-		String conditions = AdventureDatabase.conditionsById.get( adventureId );
+		String conditions = (String) AdventureDatabase.conditionLookup.get( adventureName );
 		if ( conditions == null || conditions.equals( "" ) )
 		{
 			return def;
