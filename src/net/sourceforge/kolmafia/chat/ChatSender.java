@@ -370,7 +370,11 @@ public class ChatSender
 			int spaceIndex = graf.indexOf( " " );
 			String baseCommand = spaceIndex == -1 ? graf.toLowerCase() : graf.substring( 0, spaceIndex ).toLowerCase();
 
-			if ( graf.equals( "/l" ) || graf.equals( "/listen" ) )
+			if ( graf.equals( "/c" ) || graf.equals( "/channel" ) )
+			{
+				graf = "/channel " + contact.substring( 1 );
+			}
+			else if ( graf.equals( "/l" ) || graf.equals( "/listen" ) )
 			{
 				graf = "/listen " + contact.substring( 1 );
 			}
