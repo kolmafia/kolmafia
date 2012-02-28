@@ -435,6 +435,7 @@ public class LoginFrame
 		{
 			{ "proxySet", "KoLmafia needs to connect through a proxy server" },
 			{ "useSecureLogin", "Switch to HTTPS for login (development in progress)" },
+			{ "useNaiveSecureLogin", "Do not have Java try to validate SSL certificates" },
 			{ "allowSocketTimeout", "Improve handling of semi-random lag spikes" },
 		};
 

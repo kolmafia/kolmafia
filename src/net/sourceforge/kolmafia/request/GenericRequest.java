@@ -228,7 +228,14 @@ public class GenericRequest
 			systemProperties.remove( "sun.net.client.defaultReadTimeout" );
 		}
 
-		NaiveSecureSocketLayer.initialize();
+		if ( Preferences.getBoolean( "useNaiveSecureLogin" ) )
+		{
+			NaiveSecureSocketLayer.install();
+		}
+		else
+		{
+			NaiveSecureSocketLayer.uninstall();
+		}
 
 		if ( Preferences.getBoolean( "useSecureLogin" ) )
 		{
