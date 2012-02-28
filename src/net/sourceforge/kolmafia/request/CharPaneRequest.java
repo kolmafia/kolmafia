@@ -841,11 +841,8 @@ public class CharPaneRequest
 		FamiliarData familiar = FamiliarData.registerFamiliar( famId, famExp );
 		KoLCharacter.setFamiliar( familiar );
 
-		// *** No current way to check feasted!
-		boolean feasted = false;
+		boolean feasted = JSON.getInt( "familiar_wellfed" ) == 1;
 		familiar.checkWeight( weight, feasted );
-
-		KoLCharacter.updateStatus();
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1;
 		KoLCharacter.setHardcore( hardcore );
@@ -858,50 +855,77 @@ public class CharPaneRequest
 
 		CharPaneRequest.setInteraction();
 
-		KoLCharacter.recalculateAdjustments();
+		if ( KoLCharacter.inAxecore() )
+		{
+			int level = JSON.getInt( "clancy_level" );
+			int itype = JSON.getInt( "clancy_instrument" );
+			boolean att = JSON.getBoolean( "clancy_wantsattention" );
+			AdventureResult instrument =
+				itype == 1 ? CharPaneRequest.SACKBUT :
+				itype == 2 ? CharPaneRequest.CRUMHORN :
+				itype == 3 ? CharPaneRequest.LUTE :
+				null;
+			KoLCharacter.setClancy( level, instrument, att );
+		}
+		else
+		{
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+		}
 	}
 
 	private static final void refreshEffects( final JSONObject JSON )
 		throws JSONException
 	{
+		ArrayList visibleEffects = new ArrayList();
+
 		Object o = JSON.get( "effects" );
-		if ( !( o instanceof JSONObject ) )
+		if ( o instanceof JSONObject )
 		{
 			// KoL returns an empty JSON array if there are no effects
-			KoLConstants.recentEffects.clear();
-			KoLConstants.activeEffects.clear();
-			return;
+			JSONObject effects = (JSONObject) o;
+
+			Iterator keys = effects.keys();
+			while ( keys.hasNext() )
+			{
+				String descId = (String) keys.next();
+				JSONArray data = effects.getJSONArray( descId );
+				String effectName = data.getString( 0 );
+				int count = data.getInt( 1 );
+
+				AdventureResult effect = CharPaneRequest.extractEffect( descId, effectName, count );
+				if ( effect != null )
+				{
+					visibleEffects.add( effect );
+				}
+
+			}
 		}
 
-		JSONObject effects = (JSONObject) o;
-
-		ArrayList visibleEffects = new ArrayList();
-		Iterator keys = effects.keys();
-		while ( keys.hasNext() )
+		o = JSON.get( "intrinsics" );
+		if ( o instanceof JSONObject )
 		{
-			String descId = (String) keys.next();
-			JSONArray data = effects.getJSONArray( descId );
-			String effectName = data.getString( 0 );
-			int count = data.getInt( 1 );
+			JSONObject intrinsics = (JSONObject) o;
 
-			AdventureResult effect = CharPaneRequest.extractEffect( descId, effectName, count );
-			if ( effect == null )
+			Iterator keys = intrinsics.keys();
+			while ( keys.hasNext() )
 			{
-				continue;
+				String descId = (String) keys.next();
+				JSONArray data = intrinsics.getJSONArray( descId );
+				String effectName = data.getString( 0 );
+
+				AdventureResult effect = CharPaneRequest.extractEffect( descId, effectName, Integer.MAX_VALUE );
+				if ( effect != null )
+				{
+					visibleEffects.add( effect );
+				}
+
 			}
-
-			int activeCount = effect.getCount( KoLConstants.activeEffects );
-
-			if ( count != activeCount )
-			{
-				ResultProcessor.processResult( effect.getInstance( count - activeCount ) );
-			}
-
-			visibleEffects.add( effect );
 		}
 
 		KoLConstants.recentEffects.clear();
-		KoLmafia.applyEffects();
-		KoLConstants.activeEffects.retainAll( visibleEffects );
+		KoLConstants.activeEffects.clear();
+		KoLConstants.activeEffects.addAll( visibleEffects );
+		KoLConstants.activeEffects.sort();
 	}
 }

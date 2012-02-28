@@ -3779,10 +3779,17 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.CLANCY_SACKBUT:
-		case ItemPool.CLANCY_CRUMHORN:
-		case ItemPool.CLANCY_LUTE:
-			KoLCharacter.setCurrentInstrument( item );
+			KoLCharacter.setCurrentInstrument( CharPaneRequest.SACKBUT );
 			return;
+
+		case ItemPool.CLANCY_CRUMHORN:
+			KoLCharacter.setCurrentInstrument( CharPaneRequest.CRUMHORN );
+			return;
+
+		case ItemPool.CLANCY_LUTE:
+			KoLCharacter.setCurrentInstrument( CharPaneRequest.LUTE );
+			return;
+
 		case ItemPool.PEPPERMINT_PACKET:
 		case ItemPool.PUMPKIN_SEEDS:
 			if ( responseText.indexOf( "too tired to do any more planting" ) == -1 )
