@@ -43,20 +43,35 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class NaiveSecureSocketLayer
 {
-	public static void initialize()
+	private static SSLSocketFactory DEFAULT_SOCKET_FACTORY = null;
+	private static HostnameVerifier DEFAULT_HOSTNAME_VERIFIER = null;
+
+	private static SSLSocketFactory NAIVE_SOCKET_FACTORY = null;
+	private static HostnameVerifier NAIVE_HOSTNAME_VERIFIER = null;
+
+	static
 	{
 		try
 		{
-			SSLContext sslContext = SSLContext.getInstance( "SSL" );
-			sslContext.init( null, NaiveSecureSocketLayer.NAIVE_TRUST_MANAGERS, new SecureRandom() );
+			TrustManager[] naiveTrustManagers = new TrustManager[]
+			{
+				new NaiveTrustManager()
+			};
 
-			HttpsURLConnection.setDefaultSSLSocketFactory( sslContext.getSocketFactory() );
-			HttpsURLConnection.setDefaultHostnameVerifier( NaiveSecureSocketLayer.NAIVE_HOSTNAME_VERIFIER );
+			SSLContext sslContext = SSLContext.getInstance( "SSL" );
+			sslContext.init( null, naiveTrustManagers, new SecureRandom() );
+
+			NaiveSecureSocketLayer.DEFAULT_SOCKET_FACTORY = HttpsURLConnection.getDefaultSSLSocketFactory();
+			NaiveSecureSocketLayer.DEFAULT_HOSTNAME_VERIFIER = HttpsURLConnection.getDefaultHostnameVerifier();
+
+			NaiveSecureSocketLayer.NAIVE_SOCKET_FACTORY = sslContext.getSocketFactory();
+			NaiveSecureSocketLayer.NAIVE_HOSTNAME_VERIFIER = new NaiveHostnameVerifier();
 		}
 		catch ( Exception e )
 		{
@@ -64,10 +79,17 @@ public class NaiveSecureSocketLayer
 		}
 	}
 
-	private static final TrustManager[] NAIVE_TRUST_MANAGERS = new TrustManager[]
+	public static void install()
 	{
-		new NaiveTrustManager()
-	};
+		HttpsURLConnection.setDefaultSSLSocketFactory( NaiveSecureSocketLayer.NAIVE_SOCKET_FACTORY );
+		HttpsURLConnection.setDefaultHostnameVerifier( NaiveSecureSocketLayer.NAIVE_HOSTNAME_VERIFIER );
+	}
+
+	public static void uninstall()
+	{
+		HttpsURLConnection.setDefaultSSLSocketFactory( NaiveSecureSocketLayer.DEFAULT_SOCKET_FACTORY );
+		HttpsURLConnection.setDefaultHostnameVerifier( NaiveSecureSocketLayer.DEFAULT_HOSTNAME_VERIFIER );
+	}
 
 	private static class NaiveTrustManager
 		implements X509TrustManager
@@ -87,8 +109,6 @@ public class NaiveSecureSocketLayer
 			return null;
 		}
 	}
-
-	private static final HostnameVerifier NAIVE_HOSTNAME_VERIFIER = new NaiveHostnameVerifier();
 
 	private static class NaiveHostnameVerifier
 		implements HostnameVerifier
