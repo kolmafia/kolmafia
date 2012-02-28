@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -54,12 +55,12 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.StoreManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -103,8 +104,6 @@ public class CreateItemRequest
 		{ ItemPool.DOUGH, ItemPool.ROLLING_PIN, ItemPool.FLAT_DOUGH },
 		{ ItemPool.FLAT_DOUGH, ItemPool.UNROLLING_PIN, ItemPool.DOUGH }
 	};
-
-	private static boolean makingDough = false;
 
 	/**
 	 * Constructs a new <code>CreateItemRequest</code> with nothing known other than the form to use. This is used
@@ -423,7 +422,21 @@ public class CreateItemRequest
 				break;
 
 			case KoLConstants.ROLLING_PIN:
-				this.makeDough();
+				int ingredientsOnHand = InventoryManager.getAccessibleCount( this.concoction
+					.getIngredients()[ 0 ] );
+				if ( ingredientsOnHand > 0 )
+				{
+					// If we have some of the other kind of dough, make up to that amount first
+					// before we make any purchases.
+					int temp = this.quantityNeeded;
+					this.quantityNeeded = Math.min( this.quantityNeeded, ingredientsOnHand );
+					this.makeDough( true );
+					this.quantityNeeded = temp;
+				}
+				else
+				{
+					this.makeDough();
+				}
 				break;
 
 			case KoLConstants.COINMASTER:
@@ -475,6 +488,11 @@ public class CreateItemRequest
 
 	public void makeDough()
 	{
+		makeDough( false );
+	}
+	
+	public void makeDough( boolean onHand )
+	{
 		int input = -1;
 		int tool = -1;
 		int output = -1;
@@ -499,18 +517,16 @@ public class CreateItemRequest
 			return;
 		}
 
-		if ( CreateItemRequest.makingDough )
-		{	// recursive call
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough dough." );
-			return;
-		}
-
-		CreateItemRequest.makingDough = true;
-		if ( !InventoryManager.retrieveItem( input, this.quantityNeeded ) )
+		if ( !onHand )
 		{
-			return;
+			// If we got here, we have some of one ingredient and none of the other.
+			// It's always cheaper to buy wads of dough, so just do that.
+			// Using makePurchases directly because retrieveItem does not handle this recursion gracefully.
+			AdventureResult dough = ItemPool.get( ItemPool.DOUGH, this.quantityNeeded );
+			ArrayList results = StoreManager.searchMall( dough );
+			StaticEntity.getClient()
+				.makePurchases( results, results.toArray(), dough.getCount(), false, 50 );
 		}
-		CreateItemRequest.makingDough = false;
 
 		// If we don't have the correct tool, and the person wishes to
 		// create more than 10 dough, then notify the person that they
