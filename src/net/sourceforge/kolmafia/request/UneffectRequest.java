@@ -486,18 +486,17 @@ public class UneffectRequest
 
 		if ( !UneffectRequest.currentEffectRemovals.contains( effect ) )
 		{
-			UneffectRequest.currentEffectRemovals.add( effect );
 			String action = this.getAction();
 
 			if ( !action.equals( "" ) && !action.startsWith( "uneffect" ) &&
 			     !action.startsWith( "shrug" ) && !action.startsWith( "remedy" ) )
 			{
+				UneffectRequest.currentEffectRemovals.add( effect );
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( action );
+				UneffectRequest.currentEffectRemovals.remove( effect );
 				return;
 			}
 		}
-
-		UneffectRequest.currentEffectRemovals.remove( effect );
 
 		if ( this.isTimer )
 		{
