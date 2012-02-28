@@ -121,7 +121,7 @@ public class RelayRequest
 		Pattern.compile( "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL );
 
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
-	private static final Pattern BASE_LINK_PATTERN = Pattern.compile( "(src|href|action)=([\"']?)([^\\/\"'][^\\s\"']+)" );
+	private static final Pattern BASE_LINK_PATTERN = Pattern.compile( "(src|href|action)=([\"']?)([^\\/\"'][^\\s\"']+?)" );
 
 	private static KoLAdventure lastSafety = null;
 
