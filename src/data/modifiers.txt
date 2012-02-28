@@ -2504,7 +2504,7 @@ Ack! Barred!	Muscle Percent: +30
 Adrenaline Rush	Muscle Percent: +100
 Affronted Decency	Moxie: -20
 Afternoon Insight	Mysticality Percent: +20
-Aided and Abetted	Damage Reduction: 15
+Aided and Abetted	Damage Reduction: [L]
 Alchemical, Brother	Mysticality Percent: +30
 # All Covered In Whatsit: More likely to fumble
 # All Covered In Whatsit: Continually take damage
