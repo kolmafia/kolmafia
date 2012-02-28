@@ -927,5 +927,10 @@ public class CharPaneRequest
 		KoLConstants.activeEffects.clear();
 		KoLConstants.activeEffects.addAll( visibleEffects );
 		KoLConstants.activeEffects.sort();
+
+		if ( !TurnCounter.isCounting( "Wormwood" ) )
+		{
+			CharPaneRequest.startCounters();
+		}
 	}
 }

@@ -39,7 +39,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
-import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -64,7 +64,7 @@ public class RefreshStatusCommand
 		}
 		else if ( parameters.equals( "status" ) || parameters.equals( "effects" ) )
 		{
-			RequestThread.postRequest( new CharPaneRequest() );
+			RequestThread.postRequest( new ApiRequest() );
 		}
 		else if ( parameters.equals( "gear" ) || parameters.startsWith( "equip" ) || parameters.equals( "outfit" ) )
 		{

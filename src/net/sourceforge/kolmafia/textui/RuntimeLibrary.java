@@ -114,8 +114,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
-import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
@@ -3092,7 +3092,7 @@ public abstract class RuntimeLibrary
 
 	public static Value refresh_status( Interpreter interpreter )
 	{
-		RequestThread.postRequest( new CharPaneRequest() );
+		RequestThread.postRequest( new ApiRequest() );
 		return RuntimeLibrary.continueValue();
 	}
 
