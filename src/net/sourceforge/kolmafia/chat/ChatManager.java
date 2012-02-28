@@ -671,31 +671,31 @@ public abstract class ChatManager
 			return;
 		}
 
-		ChatManager.activeChannels.remove( closedWindow );
-
-		if ( closedWindow.equals( ChatManager.getCurrentChannel() ) )
+		if ( !closedWindow.equals( ChatManager.getCurrentChannel() ) )
 		{
-			String selectedWindow = null;
-			Iterator channelIterator = ChatManager.activeChannels.iterator();
+			ChatSender.sendMessage( closedWindow, "/listen", false );
+			return;
+		}
 
-			while ( channelIterator.hasNext() )
+		String selectedWindow = null;
+		Iterator channelIterator = ChatManager.activeChannels.iterator();
+
+		while ( channelIterator.hasNext() )
+		{
+			String channel = (String) channelIterator.next();
+
+			if ( channel.startsWith( "/" ) && !channel.equals( closedWindow ) )
 			{
-				String channel = (String) channelIterator.next();
-
-				if ( channel.startsWith( "/" ) && !channel.equals( closedWindow ) )
-				{
-					selectedWindow = channel;
-					break;
-				}
-			}
-
-			if ( selectedWindow != null )
-			{
-				ChatSender.sendMessage( selectedWindow, "/switch", false );
+				selectedWindow = channel;
+				break;
 			}
 		}
 
-		ChatSender.sendMessage( closedWindow, "/listen", false );
+		if ( selectedWindow != null )
+		{
+			ChatSender.sendMessage( selectedWindow, "/channel", false );
+			return;
+		}
 	}
 
 	public static final void checkFriends()
