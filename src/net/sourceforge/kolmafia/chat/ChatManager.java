@@ -62,8 +62,8 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
-import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ChannelColorsRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 
@@ -415,7 +415,7 @@ public abstract class ChatManager
 			case KoLConstants.ABORT_STATE:
 			case KoLConstants.ERROR_STATE:
 			case KoLConstants.ENABLE_STATE:
-				RequestThread.postRequest( new ApiRequest() );
+				RequestThread.postRequest( new CharPaneRequest() );
 			}
 		}
 
