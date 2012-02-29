@@ -939,6 +939,9 @@ public abstract class KoLmafia
 		// Retrieve the character sheet. It's necessary to do this
 		// before concoctions have a chance to get refreshed.
 
+		// Clear skills first, since we no longer know Boris skills
+		KoLCharacter.resetSkills();
+
 		request = new CharSheetRequest();
 		RequestThread.postRequest( request );
 
@@ -960,7 +963,15 @@ public abstract class KoLmafia
 		KoLmafia.isRefreshing = false;
 
 		// Finally, update available concoctions
+		ConcoctionDatabase.resetQueue();
 		ConcoctionDatabase.refreshConcoctions( true );
+
+		// Now we can finally run the player's kingLiberatedScript
+		if ( KoLCharacter.kingLiberated() )
+		{
+			// Run a user-supplied script
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
+		}
 	}
 
 	/**

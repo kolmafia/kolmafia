@@ -585,28 +585,7 @@ public abstract class KoLCharacter
 		KoLConstants.collection.clear();
 		KoLConstants.pulverizeQueue.clear();
 
-		KoLConstants.usableSkills.clear();
-		KoLConstants.summoningSkills.clear();
-		KoLConstants.remedySkills.clear();
-		KoLConstants.selfOnlySkills.clear();
-		KoLConstants.buffSkills.clear();
-		KoLConstants.availableSkills.clear();
-		KoLConstants.availableSkillsMap.clear();
-		KoLConstants.availableConditionalSkills.clear();
-		KoLConstants.availableConditionalSkillsMap.clear();
-		KoLConstants.combatSkills.clear();
-
-		// All characters get the option to
-		// attack something.
-
-		KoLCharacter.battleSkillNames.clear();
-		KoLCharacter.battleSkillNames.add( "attack with weapon" );
-		KoLCharacter.battleSkillNames.add( "custom combat script" );
-		KoLCharacter.battleSkillNames.add( "delevel and plink" );
-
-		FightRequest.addItemActionsWithNoCost();
-
-		KoLCharacter.battleSkillNames.add( "try to run away" );
+		KoLCharacter.resetSkills();
 
 		KoLCharacter.isHardcore = false;
 		KoLCharacter.inRonin = true;
@@ -688,10 +667,36 @@ public abstract class KoLCharacter
 		ItemDatabase.setAstralConsumables();
 		ItemDatabase.calculateAdventureRanges();
 
+		Modifiers.overrideModifier( "_userMods", Preferences.getString( "_userMods" ) );
+	}
+
+	public static final void resetSkills()
+	{
+		KoLConstants.usableSkills.clear();
+		KoLConstants.summoningSkills.clear();
+		KoLConstants.remedySkills.clear();
+		KoLConstants.selfOnlySkills.clear();
+		KoLConstants.buffSkills.clear();
+		KoLConstants.availableSkills.clear();
+		KoLConstants.availableSkillsMap.clear();
+		KoLConstants.availableConditionalSkills.clear();
+		KoLConstants.availableConditionalSkillsMap.clear();
+		KoLConstants.combatSkills.clear();
+
+		// All characters get the option to
+		// attack something.
+
+		KoLCharacter.battleSkillNames.clear();
+		KoLCharacter.battleSkillNames.add( "attack with weapon" );
+		KoLCharacter.battleSkillNames.add( "custom combat script" );
+		KoLCharacter.battleSkillNames.add( "delevel and plink" );
+
+		FightRequest.addItemActionsWithNoCost();
+
+		KoLCharacter.battleSkillNames.add( "try to run away" );
+
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
-
-		Modifiers.overrideModifier( "_userMods", Preferences.getString( "_userMods" ) );
 	}
 
 	public static final void resetPerAscensionData()
@@ -2577,8 +2582,12 @@ public abstract class KoLCharacter
 				RequestThread.postRequest( new CharSheetRequest() );
 			}
 
-			// Run a user-supplied script
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
+			// If leaving Avatar of Boris, wait until player picks a new class.
+			if ( !oldPath.equals( "Avatar of Boris" ) )
+			{
+				// Run a user-supplied script
+				KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
+			}
 		}
 	}
 
