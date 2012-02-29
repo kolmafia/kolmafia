@@ -2007,6 +2007,8 @@ public abstract class ChoiceManager
 		// Choice 543 is Up In Their Grill
 		// Choice 544 is A Sandwich Appears!
 
+		// Choice 546 is Interview with You
+
 		// Behind Closed Doors
 		new ChoiceAdventure(
 			"Clan Basement", "choiceAdventure548", "Sorority House Necbromancer",

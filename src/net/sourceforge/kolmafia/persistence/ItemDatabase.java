@@ -920,11 +920,11 @@ public class ItemDatabase
 		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, true, gain3a );
 	}
 
-	private static final void addAdventureRange( final String name, final int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final float result )
+	private static final void addAdventureRange( final String name, int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final float result )
 	{
 		// Remove adventure gains from zodiac signs
 		ItemDatabase.getAdventureMap( false, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Float( result ) );
-		ItemDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Float( result / unitCost ) );
+		ItemDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Float( result / ( unitCost == 0 ? 1 : unitCost ) ) );
 	}
 
 	private static final Map getAdventureMap( final boolean perUnit,
