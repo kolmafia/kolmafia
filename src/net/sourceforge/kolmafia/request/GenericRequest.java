@@ -237,6 +237,8 @@ public class GenericRequest
 			NaiveSecureSocketLayer.uninstall();
 		}
 
+		systemProperties.put( "http.keepAlive", "false" );
+
 		if ( Preferences.getBoolean( "useSecureLogin" ) )
 		{
 			systemProperties.put( "http.referer", "https://" + GenericRequest.KOL_HOST + "/game.php" );
@@ -1433,6 +1435,7 @@ public class GenericRequest
 		}
 
 		this.formConnection.setRequestProperty( "User-Agent", GenericRequest.userAgent );
+		this.formConnection.setRequestProperty( "Connection", "close" );
 
 		if ( !this.data.isEmpty() )
 		{
