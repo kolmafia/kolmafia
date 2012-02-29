@@ -842,7 +842,7 @@ public class ItemDatabase
 
 	private static final void calculateAdventureRange( final String name )
 	{
-		ItemDatabase.calculateAdventureRange( name, ItemDatabase.getFullness( name ) > 0 );
+		ItemDatabase.calculateAdventureRange( name, ItemDatabase.getRawFullness( name ) != null );
 	}
 
 	private static final void calculateAdventureRange( final String name, final boolean isFood )
@@ -867,19 +867,11 @@ public class ItemDatabase
 		// 1-3 adventures
 
 		// Consumables that generate no adventures do not benefit from ode or milk.
-		boolean benefit = ( end - start ) > 0;
-
 		float average = ( start + end ) / 2.0f - advs;
+		boolean benefit = ( average != 0.0 );
 
 		float gain0 = benefit ? ( average ) : 0.0f;
 		float gain1 = benefit ? ( average + unitCost ) : 0.0f;
-		float gain2 = benefit ? ( average + unitCost * 2.0f ) : 0.0f;
-		float gain3 = benefit ? ( average + unitCost * 3.0f ) : 0.0f;
-
-		float gain0a = benefit ? ( average + 2.0f ) : 0.0f;
-		float gain1a = benefit ? ( average + unitCost + 2.0f ) : 0.0f;
-		float gain2a = benefit ? ( average + unitCost * 2.0f + 2.0f ) : 0.0f;
-		float gain3a = benefit ? ( average + unitCost * 3.0f + 2.0f ) : 0.0f;
 
 		// With no effects active, average
 		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, false, gain0 );
@@ -892,6 +884,13 @@ public class ItemDatabase
 		{
 			return;
 		}
+
+		float gain2 = benefit ? ( average + unitCost * 2.0f ) : 0.0f;
+		float gain3 = benefit ? ( average + unitCost * 3.0f ) : 0.0f;
+		float gain0a = benefit ? ( average + 2.0f ) : 0.0f;
+		float gain1a = benefit ? ( average + unitCost + 2.0f ) : 0.0f;
+		float gain2a = benefit ? ( average + unitCost * 2.0f + 2.0f ) : 0.0f;
+		float gain3a = benefit ? ( average + unitCost * 3.0f + 2.0f ) : 0.0f;
 
 		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, false, gain1 );
 		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, false, gain1 );
@@ -1789,7 +1788,7 @@ public class ItemDatabase
 		boolean perUnit = Preferences.getBoolean( "showGainsPerUnit" );
 		Float range = null;
 
-		if ( ItemDatabase.getFullness( name ) > 0 )
+		if ( ItemDatabase.getRawFullness( name ) != null )
 		{
 			boolean sushi = (ConcoctionDatabase.getMixingMethod( cname ) & KoLConstants.CT_MASK) == KoLConstants.SUSHI;
 			boolean milk = KoLConstants.activeEffects.contains( ItemDatabase.MILK );
@@ -1802,13 +1801,13 @@ public class ItemDatabase
 								      !sushi && gourmand,
 								      !sushi && munchies ).get( cname );
 		}
-		else if ( ItemDatabase.getInebriety( name ) > 0 )
+		else if ( ItemDatabase.getRawInebriety( name ) != null )
 		{
 			boolean odeEffect = KoLConstants.activeEffects.contains( ItemDatabase.ODE );
 			range = (Float) ItemDatabase.getAdventureMap(
 				perUnit, odeEffect, false, false, false ).get( cname );
 		}
-		else if ( ItemDatabase.getSpleenHit( name ) > 0 )
+		else if ( ItemDatabase.getRawSpleenHit( name ) != null )
 		{
 			range = (Float) ItemDatabase.getAdventureMap(
 				perUnit, false, false, false, false ).get( cname );
