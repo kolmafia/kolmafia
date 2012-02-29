@@ -3661,6 +3661,11 @@ public abstract class KoLCharacter
 
 	public static final FamiliarData findFamiliar( final String race )
 	{
+		if ( FamiliarData.NO_FAMILIAR.equals( race ) )
+		{
+			return FamiliarData.NO_FAMILIAR;
+		}
+
 		// Don't even look if you are an Avatar of Boris
 		if ( KoLCharacter.inAxecore() )
 		{
@@ -3684,6 +3689,11 @@ public abstract class KoLCharacter
 
 	public static final FamiliarData findFamiliar( final int familiarId )
 	{
+		if ( familiarId == -1 )
+		{
+			return FamiliarData.NO_FAMILIAR;
+		}
+
 		// Don't even look if you are an Avatar of Boris
 		if ( KoLCharacter.inAxecore() )
 		{

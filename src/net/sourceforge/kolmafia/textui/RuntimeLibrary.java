@@ -3591,7 +3591,7 @@ public abstract class RuntimeLibrary
 
 	public static Value have_familiar( Interpreter interpreter, final Value familiar )
 	{
-		return DataTypes.makeBooleanValue( KoLCharacter.findFamiliar( familiar.toString() ) != null );
+		return DataTypes.makeBooleanValue( KoLCharacter.findFamiliar( familiar.intValue() ) != null );
 	}
 
 	public static Value use_familiar( Interpreter interpreter, final Value familiar )
