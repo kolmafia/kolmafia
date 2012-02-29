@@ -201,16 +201,19 @@ public class CharPaneRequest
 
 		CharPaneRequest.checkNewLocation( responseText );
 		CharPaneRequest.refreshEffects( responseText );
-		CharPaneRequest.checkFamiliar( responseText );
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
+
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
 
 		if ( KoLCharacter.inAxecore() )
 		{
 			CharPaneRequest.checkClancy( responseText );
 		}
-
-		KoLCharacter.recalculateAdjustments();
-		KoLCharacter.updateStatus();
+		else
+		{
+			CharPaneRequest.checkFamiliar( responseText );
+		}
 
 		// Mana cost adjustment may have changed
 
@@ -835,15 +838,6 @@ public class CharPaneRequest
 		// If we are Absinthe Minded, start absinthe counters
 		CharPaneRequest.startCounters();
 
-		int famId = JSON.getInt( "familiar" );
-		int famExp = JSON.getInt( "familiarexp" );
-		int weight = JSON.getInt( "famlevel" );
-		FamiliarData familiar = FamiliarData.registerFamiliar( famId, famExp );
-		KoLCharacter.setFamiliar( familiar );
-
-		boolean feasted = JSON.getInt( "familiar_wellfed" ) == 1;
-		familiar.checkWeight( weight, feasted );
-
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1;
 		KoLCharacter.setHardcore( hardcore );
 
@@ -854,6 +848,9 @@ public class CharPaneRequest
 		KoLCharacter.setRonin( roninLeft > 0 );
 
 		CharPaneRequest.setInteraction();
+
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
 
 		if ( KoLCharacter.inAxecore() )
 		{
@@ -869,8 +866,14 @@ public class CharPaneRequest
 		}
 		else
 		{
-			KoLCharacter.recalculateAdjustments();
-			KoLCharacter.updateStatus();
+			int famId = JSON.getInt( "familiar" );
+			int famExp = JSON.getInt( "familiarexp" );
+			int weight = JSON.getInt( "famlevel" );
+			FamiliarData familiar = FamiliarData.registerFamiliar( famId, famExp );
+			KoLCharacter.setFamiliar( familiar );
+
+			boolean feasted = JSON.getInt( "familiar_wellfed" ) == 1;
+			familiar.checkWeight( weight, feasted );
 		}
 	}
 
