@@ -3675,6 +3675,12 @@ public abstract class KoLCharacter
 
 	public static final FamiliarData findFamiliar( final int familiarId )
 	{
+		// Don't even look if you are an Avatar of Boris
+		if ( KoLCharacter.inAxecore() )
+		{
+			return null;
+		}
+
 		FamiliarData[] familiarArray = new FamiliarData[ KoLCharacter.familiars.size() ];
 		KoLCharacter.familiars.toArray( familiarArray );
 

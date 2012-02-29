@@ -923,7 +923,7 @@ public class ListCellRendererFactory
 						{
 							stringForm.append( "/full" );
 						}
-						else 	//if ( inebriety != null && inebriety.intValue() > 0 )
+						else if ( inebriety != null && inebriety.intValue() > 0 )
 						{
 							stringForm.append( "/drunk" );
 						}
