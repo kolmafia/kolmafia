@@ -319,9 +319,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
-		functions.add( new LibraryFunction( "to_float", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "to_float", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
 		params = new Type[] { DataTypes.FLOAT_TYPE };
 		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
 
