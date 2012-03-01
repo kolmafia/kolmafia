@@ -3684,14 +3684,14 @@ public abstract class RuntimeLibrary
 
 	public static Value familiar_equipped_equipment( Interpreter interpreter, final Value familiar )
 	{
-		FamiliarData fam = KoLCharacter.findFamiliar( familiar.toString() );
+		FamiliarData fam = KoLCharacter.findFamiliar( familiar.intValue() );
 		AdventureResult item = fam == null ? EquipmentRequest.UNEQUIP : fam.getItem();
 		return item == EquipmentRequest.UNEQUIP ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( item.getName(), true );
 	}
 
 	public static Value familiar_weight( Interpreter interpreter, final Value familiar )
 	{
-		FamiliarData fam = KoLCharacter.findFamiliar( familiar.toString() );
+		FamiliarData fam = KoLCharacter.findFamiliar( familiar.intValue() );
 		return fam == null ? DataTypes.ZERO_VALUE : new Value( fam.getWeight() );
 	}
 
