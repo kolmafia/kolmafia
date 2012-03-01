@@ -237,8 +237,6 @@ public abstract class KoLmafiaASH
 		while ( it.hasNext() )
 		{
 			func = (Function) it.next();
-			hasDescription =
-				func instanceof LibraryFunction && ( (LibraryFunction) func ).getDescription() != null;
 
 			boolean matches = filter.equals( "" );
 
@@ -261,11 +259,6 @@ public abstract class KoLmafiaASH
 			}
 
 			StringBuffer description = new StringBuffer();
-
-			if ( hasDescription )
-			{
-				description.append( "<b>" );
-			}
 
 			description.append( func.getType() );
 			description.append( " " );
@@ -293,13 +286,6 @@ public abstract class KoLmafiaASH
 			}
 
 			description.append( " )" );
-
-			if ( hasDescription )
-			{
-				description.append( "</b><br>" );
-				description.append( ( (LibraryFunction) func ).getDescription() );
-				description.append( "<br>" );
-			}
 
 			RequestLogger.printLine( description.toString() );
 
