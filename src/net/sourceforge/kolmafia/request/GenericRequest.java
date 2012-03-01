@@ -145,7 +145,7 @@ public class GenericRequest
 
 	public static final String[] SERVERS =
 	{
-		"dev.kingdomofloathing.com",
+		"devproxy.kingdomofloathing.com",
 		"www.kingdomofloathing.com"
 	};
 
@@ -210,9 +210,9 @@ public class GenericRequest
 		GenericRequest.applyProxySettings();
 
 		int defaultLoginServer = Preferences.getInteger( "defaultLoginServer" );
-		if ( defaultLoginServer >= GenericRequest.SERVERS.length )
+		if ( defaultLoginServer < 0 || defaultLoginServer >= GenericRequest.SERVERS.length )
 		{
-			defaultLoginServer = 0;
+			defaultLoginServer = 1;
 		}
 
 		GenericRequest.setLoginServer( GenericRequest.SERVERS[ defaultLoginServer ] );
