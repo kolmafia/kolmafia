@@ -123,7 +123,7 @@ public class Variable
 			this.content = targetValue;
 			this.expression = null;
 		}
-		else if ( this.getBaseType().equals( DataTypes.TYPE_STRING ) )
+		else if ( this.getBaseType().equals( DataTypes.TYPE_STRICT_STRING ) || this.getBaseType().equals( DataTypes.TYPE_STRING ) )
 		{
 			this.content = targetValue.toStringValue();
 			this.expression = null;
@@ -136,11 +136,6 @@ public class Variable
 		else if ( this.getBaseType().equals( DataTypes.TYPE_FLOAT ) && targetValue.getType().equals( DataTypes.TYPE_INT ) )
 		{
 			this.content = targetValue.toFloatValue();
-			this.expression = null;
-		}
-		else if ( this.getBaseType().equals( DataTypes.TYPE_ANY ) )
-		{
-			this.content = targetValue;
 			this.expression = null;
 		}
 		else

@@ -3243,9 +3243,10 @@ public class Parser
 			return true;
 		}
 
-		if ( lhs.equals( DataTypes.TYPE_ANY ) && rhs.getType() != DataTypes.TYPE_AGGREGATE )
+		// Noncoercible strings only accept strings
+		if ( lhs.equals( DataTypes.STRICT_STRING_TYPE ) )
 		{
-			return true;
+			return rhs.equals( DataTypes.TYPE_STRING );
 		}
 
 		// Anything coerces to a string

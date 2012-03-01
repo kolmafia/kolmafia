@@ -283,16 +283,46 @@ public abstract class RuntimeLibrary
 		// Type conversion functions which allow conversion
 		// of one data format to another.
 
-		params = new Type[] { DataTypes.ANY_TYPE };
+		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_string", DataTypes.STRING_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ANY_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_boolean", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "to_boolean", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_boolean", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ANY_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.FLOAT_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.ELEMENT_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.FAMILIAR_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.EFFECT_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.STAT_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.CLASS_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.PHYLUM_TYPE };
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ANY_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_float", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_float", DataTypes.BOOLEAN_TYPE, params ) );
+		params = new Type[] { DataTypes.FLOAT_TYPE };
 		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
