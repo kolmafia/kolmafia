@@ -302,9 +302,13 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_class", DataTypes.CLASS_TYPE, params ) );
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_class", DataTypes.CLASS_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_stat", DataTypes.STAT_TYPE, params ) );
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_stat", DataTypes.STAT_TYPE, params ) );
 
@@ -322,10 +326,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.SKILL_TYPE };
 		functions.add( new LibraryFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
-
 		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
+		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE };
@@ -341,12 +344,16 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_slot", DataTypes.SLOT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_element", DataTypes.ELEMENT_TYPE, params ) );
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_element", DataTypes.ELEMENT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_coinmaster", DataTypes.COINMASTER_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_phylum", DataTypes.PHYLUM_TYPE, params ) );
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_phylum", DataTypes.PHYLUM_TYPE, params ) );
 
@@ -1908,12 +1915,44 @@ public abstract class RuntimeLibrary
 
 	public static Value to_class( Interpreter interpreter, final Value value )
 	{
-		return DataTypes.parseClassValue( value.toString(), true );
+		String name = null;
+
+		if ( value.getType() == DataTypes.INT_TYPE )
+		{
+			int num = value.intValue();
+
+			if ( num >= 0 && num < DataTypes.CLASSES.length )
+			{
+				name = DataTypes.CLASSES[ num ];
+			}
+		}
+		else
+		{
+			name = value.toString();
+		}
+
+		return DataTypes.parseClassValue( name, true );
 	}
 
 	public static Value to_stat( Interpreter interpreter, final Value value )
 	{
-		return DataTypes.parseStatValue( value.toString(), true );
+		String name = null;
+
+		if ( value.getType() == DataTypes.INT_TYPE )
+		{
+			int num = value.intValue() - KoLConstants.MUSCLE;
+
+			if ( num >= 0 && num < DataTypes.STATS.length )
+			{
+				name = DataTypes.STATS[ num ];
+			}
+		}
+		else
+		{
+			name = value.toString();
+		}
+
+		return DataTypes.parseStatValue( name, true );
 	}
 
 	public static Value to_skill( Interpreter interpreter, final Value value )
@@ -2004,7 +2043,23 @@ public abstract class RuntimeLibrary
 
 	public static Value to_element( Interpreter interpreter, final Value value )
 	{
-		return DataTypes.parseElementValue( value.toString(), true );
+		String name = null;
+
+		if ( value.getType() == DataTypes.INT_TYPE )
+		{
+			int num = value.intValue();
+
+			if ( num >= 0 && num < MonsterDatabase.elementNames.length )
+			{
+				name = MonsterDatabase.elementNames[ num ];
+			}
+		}
+		else
+		{
+			name = value.toString();
+		}
+
+		return DataTypes.parseElementValue( name, true );
 	}
 
 	public static Value to_coinmaster( Interpreter interpreter, final Value value )
@@ -2014,7 +2069,23 @@ public abstract class RuntimeLibrary
 
 	public static Value to_phylum( Interpreter interpreter, final Value value )
 	{
-		return DataTypes.parsePhylumValue( value.toString(), true );
+		String name = null;
+
+		if ( value.getType() == DataTypes.INT_TYPE )
+		{
+			int num = value.intValue();
+
+			if ( num >= 0 && num < MonsterDatabase.phylumNames.length )
+			{
+				name = MonsterDatabase.phylumNames[ num ];
+			}
+		}
+		else
+		{
+			name = value.toString();
+		}
+
+		return DataTypes.parsePhylumValue( name, true );
 	}
 
 	public static Value to_plural( Interpreter interpreter, final Value item ) {
