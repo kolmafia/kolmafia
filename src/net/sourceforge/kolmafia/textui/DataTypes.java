@@ -69,7 +69,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DataTypes
 {
-	public static final int TYPE_ANY = 0;
 	public static final int TYPE_VOID = 1;
 	public static final int TYPE_BOOLEAN = 2;
 	public static final int TYPE_INT = 3;
@@ -91,9 +90,10 @@ public class DataTypes
 	public static final int TYPE_COINMASTER = 110;
 	public static final int TYPE_PHYLUM = 111;
 
-	public static final int TYPE_AGGREGATE = 1000;
-	public static final int TYPE_RECORD = 1001;
-	public static final int TYPE_TYPEDEF = 1002;
+	public static final int TYPE_STRICT_STRING = 1000;
+	public static final int TYPE_AGGREGATE = 1001;
+	public static final int TYPE_RECORD = 1002;
+	public static final int TYPE_TYPEDEF = 1003;
 
 	public static final String[] CLASSES =
 	{
@@ -106,7 +106,6 @@ public class DataTypes
 		KoLCharacter.AVATAR_OF_BORIS
 	};
 
-	public static final Type ANY_TYPE = new Type( "any", DataTypes.TYPE_ANY );
 	public static final Type VOID_TYPE = new Type( "void", DataTypes.TYPE_VOID );
 	public static final Type BOOLEAN_TYPE = new Type( "boolean", DataTypes.TYPE_BOOLEAN );
 	public static final Type INT_TYPE = new Type( "int", DataTypes.TYPE_INT );
@@ -128,6 +127,7 @@ public class DataTypes
 	public static final Type COINMASTER_TYPE = new Type( "coinmaster", DataTypes.TYPE_COINMASTER );
 	public static final Type PHYLUM_TYPE = new Type( "phylum", DataTypes.TYPE_PHYLUM );
 
+	public static final Type STRICT_STRING_TYPE = new Type( "strict_string", DataTypes.TYPE_STRICT_STRING );
 	public static final Type AGGREGATE_TYPE = new Type( "aggregate", DataTypes.TYPE_AGGREGATE );
 	
 	public static final AggregateType BOOLEAN_MAP_TYPE =
