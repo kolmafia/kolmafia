@@ -1530,6 +1530,77 @@ public class UseItemRequest
 			return;
 		}
 
+		// Check for familiar growth - if a familiar is added,
+		// make sure to update the StaticEntity.getClient().
+
+		if ( consumptionType == KoLConstants.GROW_FAMILIAR )
+		{
+			if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You already have that familiar.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				return;
+			}
+
+			if ( responseText.indexOf( "you glance fearfully at the moons" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Can't hatch that familiar in Bad Moon.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				return;
+			}
+
+			if ( responseText.indexOf( "You don't have a Terrarium to put that in." ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "You don't have a Terrarium yet.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				return;
+			}
+
+			if ( responseText.indexOf( "Boris has no need for familiars" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Boris has no need for familiars!";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				return;
+			}
+
+			// Remove the familiar larva from inventory.
+			ResultProcessor.processResult( item.getNegation() );
+
+			FamiliarData familiar = KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( item.getItemId() ) );
+			// If this is a previously unknown familiar, punt
+			if ( familiar == null )
+			{
+				return;
+			}
+
+			Matcher matcher = UseItemRequest.FAMILIAR_NAME_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				familiar.setName( matcher.group(1) );
+			}
+
+			// Don't bother showing the result
+			// UseItemRequest.showItemUsage( showHTML, responseText );
+			return;
+		}
+
+		if ( responseText.indexOf( "That item isn't usable in quantity" ) != -1 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal data error: item incorrectly flagged as multi-usable." );
+			return;
+		}
+
+		// Note that there is at least one item (memory of amino acids)
+		// that can fail with a "too full" message, even though it's
+		// not a food.
+
+		if ( responseText.indexOf( "too full" ) != -1 )
+		{
+			UseItemRequest.lastUpdate = "Consumption limit reached.";
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			return;
+		}
+
 		// Assume initially that this causes the item to disappear.
 		// In the event that the item is not used, then proceed to
 		// undo the consumption.
@@ -1562,80 +1633,6 @@ public class UseItemRequest
 			ResultProcessor.processResult( item.getNegation() );
 		}
 
-		// Check for familiar growth - if a familiar is added,
-		// make sure to update the StaticEntity.getClient().
-
-		if ( consumptionType == KoLConstants.GROW_FAMILIAR )
-		{
-			if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
-			{
-				UseItemRequest.lastUpdate = "You already have that familiar.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			if ( responseText.indexOf( "you glance fearfully at the moons" ) != -1 )
-			{
-				UseItemRequest.lastUpdate = "Can't hatch that familiar in Bad Moon.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			if ( responseText.indexOf( "You don't have a Terrarium to put that in." ) != -1 )
-			{
-				UseItemRequest.lastUpdate = "You don't have a Terrarium yet.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			if ( responseText.indexOf( "Boris has no need for familiars" ) != -1 )
-			{
-				UseItemRequest.lastUpdate = "Boris has no need for familiars!";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-				ResultProcessor.processResult( item );
-				return;
-			}
-
-			FamiliarData familiar = KoLCharacter.addFamiliar( FamiliarDatabase.growFamiliarLarva( item.getItemId() ) );
-
-			// If this is a previously unknown familiar, punt
-			if ( familiar == null )
-			{
-				return;
-			}
-
-			Matcher matcher = UseItemRequest.FAMILIAR_NAME_PATTERN.matcher( responseText );
-			if ( matcher.find() )
-			{
-				familiar.setName( matcher.group(1) );
-			}
-
-			// Don't bother showing the result
-			// UseItemRequest.showItemUsage( showHTML, responseText );
-			return;
-		}
-
-		if ( responseText.indexOf( "That item isn't usable in quantity" ) != -1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal data error: item incorrectly flagged as multi-usable." );
-			ResultProcessor.processResult( item );
-			return;
-		}
-
-		// Note that there is at least one item (memory of amino acids)
-		// that can fail with a "too full" message, even though it's
-		// not a food.
-
-		if ( responseText.indexOf( "too full" ) != -1 )
-		{
-			UseItemRequest.lastUpdate = "Consumption limit reached.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
-			return;
-		}
-
 		Matcher matcher;
 
 		// Perform item-specific processing
@@ -1643,7 +1640,8 @@ public class UseItemRequest
 		int itemId = item.getItemId();
 		switch ( itemId )
 		{
-		case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER: {
+		case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:
+		{
 			// You jam your screwdriver into your xxx and pry it
 			// apart.
 			if ( UseItemRequest.lastUntinker != null &&
