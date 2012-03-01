@@ -49,19 +49,11 @@ public class LibraryFunction
 	extends Function
 {
 	private Method method;
-	private final String description;
 	private final Object[] values;
 
 	public LibraryFunction( final String name, final Type type, final Type[] params )
 	{
-		this( name, type, params, null );
-	}
-
-	public LibraryFunction( final String name, final Type type, final Type[] params,
-		final String description )
-	{
 		super( name.toLowerCase(), type );
-		this.description = description;
 
 		this.values = new Object[ params.length + 1];
 		Class[] args = new Class[ params.length + 1 ];
@@ -85,11 +77,6 @@ public class LibraryFunction
 
 			StaticEntity.printStackTrace( e, "No method found for built-in function: " + name );
 		}
-	}
-
-	public String getDescription()
-	{
-		return this.description;
 	}
 
 	public Value execute( final Interpreter interpreter )
