@@ -97,12 +97,17 @@ public class DataTypes
 
 	public static final String[] CLASSES =
 	{
+		"",
 		KoLCharacter.SEAL_CLUBBER,
 		KoLCharacter.TURTLE_TAMER,
 		KoLCharacter.PASTAMANCER,
 		KoLCharacter.SAUCEROR,
 		KoLCharacter.DISCO_BANDIT,
 		KoLCharacter.ACCORDION_THIEF,
+		"",
+		"",
+		"",
+		"",
 		KoLCharacter.AVATAR_OF_BORIS
 	};
 
