@@ -1627,7 +1627,8 @@ public class UseItemRequest
 
 		// Perform item-specific processing
 
-		switch ( item.getItemId() )
+		int itemId = item.getItemId();
+		switch ( itemId )
 		{
 		case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER: {
 			// You jam your screwdriver into your xxx and pry it
@@ -2523,7 +2524,14 @@ public class UseItemRequest
 		case ItemPool.GHOST_BOOK:
 		case ItemPool.TATTLE_BOOK:
 		{
-			int itemId = item.getItemId();
+			if ( KoLCharacter.inAxecore() && responseText.indexOf( "didn't like to read" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Boris didn't like to read. ";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+
 			String skill = UseItemRequest.itemToSkill( itemId );
 			String bookClass = UseItemRequest.itemToClass( itemId );
 			boolean isRightClass = bookClass == null || bookClass.equals( KoLCharacter.getClassType() );
@@ -3434,7 +3442,6 @@ public class UseItemRequest
 		case ItemPool.DECODED_CULT_DOCUMENTS:
 
 			KoLCharacter.ensureUpdatedPastaGuardians();
-			int itemId = item.getItemId();
 			for ( int i = 0; i < KoLCharacter.PASTA_GUARDIANS.length; ++ i )
 			{
 				Object [] entity = KoLCharacter.PASTA_GUARDIANS[i];
