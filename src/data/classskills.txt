@@ -424,7 +424,7 @@
 11005	Pep Talk	3	1	1	5
 11006	Throw Trusty	5	7	0	6
 11007	Legendary Luck	0	0	0	7
-11008	Song of Cockiness	3	5	20	8
+11008	Song of Cockiness	3	15	20	8
 11009	Legendary Impatience	0	0	0	9
 11010	Bifurcating Blow	5	10	0	10
 
