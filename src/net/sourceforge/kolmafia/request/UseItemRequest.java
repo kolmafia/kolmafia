@@ -713,6 +713,11 @@ public class UseItemRequest
 		switch ( consumptionType )
 		{
 		case KoLConstants.GROW_FAMILIAR:
+			if ( KoLCharacter.inAxecore() )
+			{
+				UseItemRequest.limiter = "Boris's scorn for familiars";
+				return 0;
+			}
 			UseItemRequest.limiter = "the fine print in your Familiar-Gro\u2122 Terrarium owner's manual";
 			return 1;
 		case KoLConstants.EQUIP_WEAPON:
@@ -1581,6 +1586,14 @@ public class UseItemRequest
 			if ( responseText.indexOf( "You don't have a Terrarium to put that in." ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You don't have a Terrarium yet.";
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+
+			if ( responseText.indexOf( "Boris has no need for familiars" ) != -1 )
+			{
+				UseItemRequest.lastUpdate = "Boris has no need for familiars!";
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 				return;
