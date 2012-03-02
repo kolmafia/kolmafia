@@ -108,6 +108,10 @@ public class Type
 	
 	public Type asProxy()
 	{
+		if ( this == DataTypes.CLASS_TYPE )
+		{
+			return ProxyRecordValue.ClassProxy._type;
+		}
 		if ( this == DataTypes.ITEM_TYPE )
 		{
 			return ProxyRecordValue.ItemProxy._type;

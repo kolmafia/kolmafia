@@ -944,17 +944,36 @@ public abstract class KoLCharacter
 
 	public static final int getPrimeIndex()
 	{
-		return	KoLCharacter.classtype == KoLCharacter.SEAL_CLUBBER ||
-			KoLCharacter.classtype == KoLCharacter.TURTLE_TAMER ||
-			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS ?
-			0 :
-			KoLCharacter.classtype == KoLCharacter.SAUCEROR ||
-			KoLCharacter.classtype == KoLCharacter.PASTAMANCER ?
-			1 :
-			KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT ||
-			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ?
-			2 :
-			0;
+		return KoLCharacter.getPrimeIndex( KoLCharacter.classtype );
+	}
+
+	public static final int getPrimeIndex( String classType )
+	{
+		if ( classType == null )
+		{
+			return 0;
+		}
+
+		if ( classType.equals( KoLCharacter.SEAL_CLUBBER ) ||
+			classType.equals( KoLCharacter.TURTLE_TAMER ) ||
+			classType.equals( KoLCharacter.AVATAR_OF_BORIS ) )
+		{
+			return 0;
+		}
+
+		if ( classType.equals( KoLCharacter.SAUCEROR ) ||
+			classType.equals( KoLCharacter.PASTAMANCER ) )
+		{
+			return 1;
+		}
+
+		if ( classType.equals( KoLCharacter.DISCO_BANDIT ) ||
+			classType.equals( KoLCharacter.ACCORDION_THIEF ) )
+		{
+			return 2;
+		}
+
+		return 0;
 	}
 
 	/**
