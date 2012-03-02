@@ -320,6 +320,8 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
+		params = new Type[] { DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
 		params = new Type[] { DataTypes.FLOAT_TYPE };
