@@ -193,7 +193,7 @@ public class ProxyRecordValue
 		extends ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
-			.add( "mainstat", DataTypes.STAT_TYPE )
+			.add( "primestat", DataTypes.STAT_TYPE )
 			.finish( "class proxy" );
 
 		public ClassProxy( Value obj )
