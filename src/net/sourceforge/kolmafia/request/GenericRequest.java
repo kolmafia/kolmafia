@@ -894,6 +894,10 @@ public class GenericRequest
 			{
 				element = "phash";
 			}
+			else if ( element.startsWith( "password=" ) )
+			{
+				element = "password";
+			}
 
 			if ( dataBuffer.length() > 0 )
 			{
