@@ -60,7 +60,7 @@ public class ChatParser
 		Pattern.compile( "<center><b>([^<]+)</b></center>" );
 
 	private static final Pattern WHO_PATTERN =
-		Pattern.compile( "<font color=(\\w+)[^>]*>(.*?)</font></a>" );
+		Pattern.compile( "<font color='?#?(\\w+)'?[^>]*>(.*?)</font></a>" );
 
 	private static final Pattern PLAYERID_PATTERN =
 		Pattern.compile( "showplayer\\.php\\?who\\=([-\\d]+)[\'\"][^>]*?>(.*?)</a>" );
