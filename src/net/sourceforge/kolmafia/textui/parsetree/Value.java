@@ -208,6 +208,10 @@ public class Value
 	
 	public Value asProxy()
 	{
+		if ( this.type == DataTypes.CLASS_TYPE )
+		{
+			return new ProxyRecordValue.ClassProxy( this );
+		}
 		if ( this.type == DataTypes.ITEM_TYPE )
 		{
 			return new ProxyRecordValue.ItemProxy( this );

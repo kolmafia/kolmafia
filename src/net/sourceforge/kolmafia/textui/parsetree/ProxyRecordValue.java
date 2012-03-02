@@ -189,6 +189,28 @@ public class ProxyRecordValue
 		}
 	}
 
+	public static class ClassProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "mainstat", DataTypes.STAT_TYPE )
+			.finish( "class proxy" );
+
+		public ClassProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+
+		public Value get_mainstat()
+		{
+			int primeIndex = KoLCharacter.getPrimeIndex( this.contentString );
+
+			String name = AdventureResult.STAT_NAMES[ primeIndex ];
+
+			return DataTypes.parseStatValue( name, true );
+		}
+	}
+
 	public static class ItemProxy
 		extends ProxyRecordValue
 	{
