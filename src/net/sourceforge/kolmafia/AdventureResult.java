@@ -222,7 +222,7 @@ public class AdventureResult
 
 	public AdventureResult( final int itemId, final int count )
 	{
-		String name = ItemDatabase.getItemName( itemId );
+		String name = ItemDatabase.getItemDataName( itemId );
 		this.name = name != null ? name : "(unknown item " + String.valueOf( itemId ) + ")";
 		this.itemId = itemId;
 		this.count = count;
@@ -277,7 +277,7 @@ public class AdventureResult
 
 		if ( this.itemId > 0 )
 		{
-			String name = ItemDatabase.getItemName( this.itemId );
+			String name = ItemDatabase.getItemDataName( this.itemId );
 			if ( name != null )
 			{
 				this.name = name;
@@ -620,7 +620,7 @@ public class AdventureResult
 		item.count = count;
 		if ( item.itemId > 0 )
 		{	// normalize name
-			item.name = ItemDatabase.getItemName( item.itemId );
+			item.name = ItemDatabase.getItemDataName( item.itemId );
 		}
 
 		return item;
@@ -1061,7 +1061,7 @@ public class AdventureResult
 
 	public static final String bangPotionName( final int itemId )
 	{
-		String itemName = ItemDatabase.getItemName( itemId );
+		String itemName = ItemDatabase.getItemDataName( itemId );
 
 		String effect = Preferences.getString( "lastBangPotion" + itemId );
 		if ( effect.equals( "" ) )
@@ -1074,7 +1074,7 @@ public class AdventureResult
 
 	public static final String dustyBottleName( final int itemId )
 	{
-		String itemName = ItemDatabase.getItemName( itemId );
+		String itemName = ItemDatabase.getItemDataName( itemId );
 
 		int glyph = Preferences.getInteger( "lastDustyBottle" + itemId );
 		if ( glyph == 0 )
@@ -1087,7 +1087,7 @@ public class AdventureResult
 
 	public static final String slimeVialName( final int itemId )
 	{
-		String itemName = ItemDatabase.getItemName( itemId );
+		String itemName = ItemDatabase.getItemDataName( itemId );
 
 		String effect = Preferences.getString( "lastSlimeVial" + itemId );
 		if ( effect.equals( "" ) )
@@ -1126,7 +1126,7 @@ public class AdventureResult
 
 	public static final String stoneSphereName( final int itemId )
 	{
-		String itemName = ItemDatabase.getItemName( itemId );
+		String itemName = ItemDatabase.getItemDataName( itemId );
 
 		String effect = Preferences.getString( "lastStoneSphere" + itemId );
 		if ( effect.equals( "" ) )
@@ -1148,7 +1148,7 @@ public class AdventureResult
 			}
 		}
 
-		return ItemDatabase.getItemName( itemId );
+		return ItemDatabase.getItemDataName( itemId );
 	}
 
 	// AdventureMultiResult handles the specific stat-related result types
