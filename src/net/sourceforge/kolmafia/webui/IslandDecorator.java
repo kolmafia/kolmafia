@@ -289,7 +289,18 @@ public class IslandDecorator
 		for ( int i = 0; i < IslandDecorator.GREMLIN_TOOLS.length; ++i )
 		{
 			String tool = IslandDecorator.GREMLIN_TOOLS[ i ];
-			StringUtilities.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
+			if ( buffer.indexOf( tool ) != -1 )
+			{
+				// Make the message pink
+				StringUtilities.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
+				// Unselect battle actions in dropdowns on the fight page
+				StringUtilities.globalStringReplace( buffer, " selected ", " " );
+
+				// Select the molybdenum magnet
+				// <option picurl=magnet2 selected value=2497>molybdenum magnet (1)</option>
+				StringUtilities.singleStringReplace( buffer, "<option picurl=magnet2 value=2497>", "<option picurl=magnet2 selected value=2497>" );
+				break;
+			}
 		}
 	}
 
