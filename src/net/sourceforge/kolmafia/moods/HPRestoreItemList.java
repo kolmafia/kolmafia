@@ -102,6 +102,7 @@ public abstract class HPRestoreItemList
 		HPRestoreItemList.HOTTUB,
 		new HPRestoreItem( "red pixel potion", 110 ),
 		new HPRestoreItem( "really thick bandage", 109 ),
+		new HPRestoreItem( "Pok&euml;mann band-aid", 100 ),
 		new HPRestoreItem( "filthy poultice", 100 ),
 		new HPRestoreItem( "gauze garter", 100 ),
 		new HPRestoreItem( "bottle of Vangoghbitussin", 100 ),
