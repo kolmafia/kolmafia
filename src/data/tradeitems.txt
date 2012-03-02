@@ -5084,7 +5084,7 @@
 5075	orange leather lanyard	accessory	all	300
 5076	monster pants	pants	all	400
 5077	box of Pok&euml;mann band-aids	usable	all	100
-5078	Pok&euml;mann band-aid	usable	all	20
+5078	Pok&euml;mann band-aid	hp	all	20
 5079	Van der Graaf helmet	hat	all	200
 5080	electric crutch	weapon	all	300
 5081	shock belt	accessory	all	400
