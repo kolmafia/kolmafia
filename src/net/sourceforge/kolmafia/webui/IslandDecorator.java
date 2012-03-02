@@ -293,12 +293,24 @@ public class IslandDecorator
 			{
 				// Make the message pink
 				StringUtilities.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
-				// Unselect battle actions in dropdowns on the fight page
-				StringUtilities.globalStringReplace( buffer, " selected ", " " );
+				String replace = "<option picurl=magnet2 selected value=2497>";
 
-				// Select the molybdenum magnet
-				// <option picurl=magnet2 selected value=2497>molybdenum magnet (1)</option>
-				StringUtilities.singleStringReplace( buffer, "<option picurl=magnet2 value=2497>", "<option picurl=magnet2 selected value=2497>" );
+				// If we already have the molybdenum magnet
+				// selected (which should only be possible if
+				// we are funkslinging), cool. Otherwise, get
+				// rid of current selection(s) and select the
+				// magnet on the first combat item dropdown.
+
+				if ( buffer.indexOf( replace ) == -1 )
+				{
+					// Unselect battle actions in dropdowns on the fight page
+					StringUtilities.globalStringReplace( buffer, " selected ", " " );
+
+					// Select the molybdenum magnet
+					// <option picurl=magnet2 selected value=2497>molybdenum magnet (1)</option>
+					String search = "<option picurl=magnet2 value=2497>";
+					StringUtilities.singleStringReplace( buffer, search, replace );
+				}
 				break;
 			}
 		}
