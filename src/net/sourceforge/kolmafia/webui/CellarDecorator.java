@@ -151,11 +151,10 @@ public abstract class CellarDecorator
 		for ( int i = 0; i < 6; ++i )
 		{
 			int glyph = Preferences.getInteger( "lastDustyBottle" + (2271 + i) );
-			if ( glyph >= 1 && glyph <= 6 )
-			{
-				String tag = GLYPHNAMES[ glyph - 1 ] + " " + SHORTNAMES[ i ];
-				names[ i ] = "<span>" + tag + "</span>";
-			}
+			String tag = ( glyph >= 1 && glyph <= 6 ) ?
+				GLYPHNAMES[ glyph - 1 ] + " " + SHORTNAMES[ i ] :
+				SHORTNAMES[ i ];
+			names[ i ] = "<span>" + tag + "</span>";
 		}
 
 		Matcher row = TABLEROW.matcher( buffer.toString() );
