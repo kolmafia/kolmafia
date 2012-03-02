@@ -3246,7 +3246,7 @@ public class Parser
 		// Noncoercible strings only accept strings
 		if ( lhs.equals( DataTypes.STRICT_STRING_TYPE ) )
 		{
-			return rhs.equals( DataTypes.TYPE_STRING );
+			return rhs.equals( DataTypes.TYPE_STRING ) || rhs.equals( DataTypes.TYPE_BUFFER );
 		}
 
 		// Anything coerces to a string
