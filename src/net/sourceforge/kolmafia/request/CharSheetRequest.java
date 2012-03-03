@@ -296,7 +296,7 @@ public class CharSheetRequest
 		// You may not receive items from other players until you have
 		// played # more Adventures.
 
-		KoLCharacter.setRonin( hardcore || responseText.indexOf( "You may not receive items from other players" ) != -1 );
+		KoLCharacter.setRonin( responseText.indexOf( "You may not receive items from other players" ) != -1 );
 
 		// Deduce interaction from above settings
 
