@@ -1565,35 +1565,39 @@ public class GenericRequest
 		}
 		catch ( SocketTimeoutException e )
 		{
-			++this.timeoutCount;
-			boolean shouldRetry = this.retryOnTimeout();
-
-			if ( !shouldRetry && this.processOnFailure() )
-			{
-				this.processResults();
-			}
-
 			if ( this.shouldUpdateDebugLog() )
 			{
 				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
 			}
 
+			boolean shouldRetry = this.retryOnTimeout();
+			if ( !shouldRetry && this.processOnFailure() )
+			{
+				this.processResults();
+			}
+
 			GenericRequest.forceClose( istream );
 
-			if ( shouldRetry )
-			{
-				return KoLmafia.refusesContinue();
-			}
+			++this.timeoutCount;
+			return !shouldRetry || KoLmafia.refusesContinue();
 		}
 		catch ( IOException e )
 		{
-			GenericRequest.forceClose( istream );
 			this.responseCode = this.getResponseCode();
 			if ( this.responseCode != 0 )
 			{
 				String message = "Server returned response code " + this.responseCode + " for " + this.baseURLString;
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+				RequestLogger.printLine( KoLConstants.ERROR_STATE, message );
 			}
+
+			if ( this.processOnFailure() )
+			{
+				this.responseText = "";
+				this.processResults();
+			}
+
+			GenericRequest.forceClose( istream );
+
 			this.timeoutCount = TIMEOUT_LIMIT;
 			return true;
 		}

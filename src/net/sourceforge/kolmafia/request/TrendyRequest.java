@@ -124,11 +124,17 @@ public class TrendyRequest
 		TrendyRequest.running = false;
 	}
 
+	protected boolean processOnFailure()
+	{
+		return true;
+	}
+
 	public void processResults()
 	{
 		if ( this.responseText.equals( "" ) )
 		{
 			KoLmafia.updateDisplay( "KoL returned a blank page. Giving up." );
+			KoLmafia.forceContinue();
 			TrendyRequest.initialized = true;
 			return;
 		}
