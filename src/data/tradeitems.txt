@@ -5579,71 +5579,71 @@
 5570
 5571
 5572	Thwaitgold stag beetle statuette	none	display	0
-5573
-5574
-5575
-5576
-5577
-5578
-5579
-5580
-5581
-5582
-5583
-5584
-5585
-5586
-5587
-5588
-5589
-5590
-5591
-5592
-5593
-5594
-5595
-5596
-5597
-5598
-5599
-5600
-5601
-5602
-5603
-5604
-5605
-5606
-5607
-5608
-5609
-5610
-5611
-5612
-5613
-5614
-5615
-5616
-5617
-5618
-5619
-5620
-5621
-5622
-5623
-5624
-5625
-5626
-5627
-5628
-5629
-5630
-5631
-5632
-5633
-5634
-5635
-5636
-5637
-5638
+5573	Drac &amp; Tan	drink	all	10
+5574	Transylvania Sling	drink	all	25
+5575	Shot of the Living Dead	drink	all	50
+5576	Buttery Knob	drink	all	10
+5577	Slippery Knob	drink	all	25
+5578	Flaming Knob	drink	all	50
+5579	Grasshopper	drink	all	10
+5580	Locust	drink	all	25
+5581	Plague of Locusts	drink	all	50
+5582	Red Dwarf	drink	all	10
+5583	Golden Mean	drink	all	25
+5584	Green Giant	drink	all	50
+5585	Aye Aye	drink	all	10
+5586	Aye Aye, Captain	drink	all	25
+5587	Aye Aye, Tooth Tooth	drink	all	50
+5588	Humanitini	drink	all	10
+5589	More Humanitini than Humanitini	drink	all	25
+5590	Oh, the Humanitini	drink	all	50
+5591	Great Old Fashioned	drink	all	10
+5592	Fuzzy Tentacle	drink	all	25
+5593	Crazymaker	drink	all	50
+5594	Zoodriver	drink	all	10
+5595	Sloe Comfortable Zoo	drink	all	25
+5596	Sloe Comfortable Zoo on Fire	drink	all	50
+5597	Suffering Sinner	drink	all	10
+5598	Suppurating Sinner	drink	all	25
+5599	Sizzling Sinner	drink	all	50
+5600	Firewater	drink	all	10
+5601	Earth and Firewater	drink	all	25
+5602	Earth, Wind and Firewater	drink	all	50
+5603	Slimosa	drink	all	10
+5604	Extra-slimy Slimosa	drink	all	25
+5605	Slimebite	drink	all	50
+5606	Cement Mixer	drink	all	10
+5607	Jackhammer	drink	all	25
+5608	Dump Truck	drink	all	50
+5609	Fauna Libre	drink	all	10
+5610	Chakra Libre	drink	all	25
+5611	Aura Libre	drink	all	50
+5612	Sazerorc	drink	all	10
+5613	Sazuruk-hai	drink	all	25
+5614	Flaming Sazerorc	drink	all	50
+5615	Green Velvet	drink	all	10
+5616	Green Muslin	drink	all	25
+5617	Green Burlap	drink	all	50
+5618	Mohobo	drink	all	10
+5619	Moonshine Mohobo	drink	all	25
+5620	Flaming Mohobo	drink	all	50
+5621	Drunken Philosopher	drink	all	10
+5622	Drunken Neurologist	drink	all	25
+5623	Drunken Astrophysicist	drink	all	50
+5624	Dark &amp; Starry	drink	all	10
+5625	Black Hole	drink	all	25
+5626	Event Horizon	drink	all	50
+5627	Herring Daquiri	drink	all	10
+5628	Herring Wallbanger	drink	all	25
+5629	Herringtini	drink	all	50
+5630	Lollipop Drop	drink	all	10
+5631	Candy Alexander	drink	all	25
+5632	Candicaine	drink	all	50
+5633	Caipiranha	drink	all	10
+5634	Flying Caipiranha	drink	all	25
+5635	Flaming Caipiranha	drink	all	50
+5636	Punchplanter	drink	all	10
+5637	Doublepunchplanter	drink	all	25
+5638	Haymaker	drink	all	50
 5639	Small Medium	grow	all	0
 5640	crystal decanter	familiar	all	75
