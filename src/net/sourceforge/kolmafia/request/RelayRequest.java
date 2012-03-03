@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import java.net.HttpURLConnection;
-import java.net.URLDecoder;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -1235,16 +1234,8 @@ public class RelayRequest
 
 		this.waitForRecoveryToComplete();
 
-		try
-		{
-			command = URLDecoder.decode( command, "UTF-8" );
-		}
-		catch ( Exception e )
-		{
-		}
-
 		GenericRequest.suppressUpdate( suppressUpdate );
-		CommandDisplayFrame.executeCommand( command );
+		CommandDisplayFrame.executeCommand( GenericRequest.decodeURL( command ) );
 
 		while ( waitForCompletion && CommandDisplayFrame.hasQueuedCommands() )
 		{

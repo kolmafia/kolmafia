@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.request;
 
 import java.io.IOException;
 
-import java.net.URLDecoder;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -126,17 +124,8 @@ public class GrandpaRequest
 			return true;
 		}
 
-		String query = matcher.group( 1 );
-		try
-		{
-			query = URLDecoder.decode( query, "UTF-8" );
-		}
-		catch ( IOException e )
-		{
-		}
-
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "grandpa " + query );
+		RequestLogger.updateSessionLog( "grandpa " + GenericRequest.decodeURL( matcher.group( 1 ) ) );
 
 		return true;
 	}

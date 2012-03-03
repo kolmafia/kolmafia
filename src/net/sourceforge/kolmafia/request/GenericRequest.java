@@ -547,16 +547,10 @@ public class GenericRequest
 	{
 		this.dataChanged = true;
 
-		String encodedName = name + "=";
-		String encodedValue = value == null ? "" : value;
+		String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
 
-		try
-		{
-			encodedValue = URLEncoder.encode( encodedValue, this.isChatRequest ? "ISO-8859-1" : "UTF-8" );
-		}
-		catch ( IOException e )
-		{
-		}
+		String encodedName = name + "=";
+		String encodedValue = value == null ? "" : GenericRequest.encodeURL( value, charset );
 
 		// Make sure that when you're adding data fields, you don't
 		// submit duplicate fields.
@@ -668,20 +662,15 @@ public class GenericRequest
 		{
 			String name = element.substring( 0, equalIndex ).trim();
 			String value = element.substring( equalIndex + 1 ).trim();
-			try
-			{
-				String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
+			String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
 
-				// The name may or may not be encoded.
-				name = URLDecoder.decode( name, "UTF-8" );
-				value = URLDecoder.decode( value, charset );
+			// The name may or may not be encoded.
+			name = GenericRequest.decodeURL( name, "UTF-8" );
+			value = GenericRequest.decodeURL( value, charset );
 
-				// But we want to always submit value encoded.
-				value = URLEncoder.encode( value, charset );
-			}
-			catch ( IOException e )
-			{
-			}
+			// But we want to always submit value encoded.
+			value = GenericRequest.encodeURL( value, charset );
+
 			element = name + "=" + value;
 		}
 
@@ -744,20 +733,9 @@ public class GenericRequest
 
 			String value = datum.substring( splitIndex + 1 );
 
-			try
-			{
-				// Everything was encoded as ISO-8859-1, so go
-				// ahead and decode it that way.
-
-				return URLDecoder.decode( value, this.isChatRequest ? "ISO-8859-1" : "UTF-8" );
-			}
-			catch ( IOException e )
-			{
-				// This shouldn't happen, but since you did
-				// manage to find the key, return the value.
-
-				return value;
-			}
+			// Chat was encoded as ISO-8859-1, so decode it that way.
+			String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
+			return GenericRequest.decodeURL( value, charset );
 		}
 
 		return null;
@@ -765,9 +743,31 @@ public class GenericRequest
 
 	public static String decodeURL( final String urlString )
 	{
+		return GenericRequest.decodeURL( urlString, "UTF-8" );
+	}
+
+	public static String decodeURL( final String urlString, final String charset )
+	{
 		try
 		{
-			return URLDecoder.decode( urlString, "UTF-8" );
+			return URLDecoder.decode( urlString, charset );
+		}
+		catch ( IOException e )
+		{
+			return urlString;
+		}
+	}
+
+	public static String encodeURL( final String urlString )
+	{
+		return GenericRequest.encodeURL( urlString, "UTF-8" );
+	}
+
+	public static String encodeURL( final String urlString, final String charset )
+	{
+		try
+		{
+			return URLEncoder.encode( urlString, charset );
 		}
 		catch ( IOException e )
 		{

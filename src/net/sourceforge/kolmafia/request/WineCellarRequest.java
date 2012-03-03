@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.request;
 
 import java.io.UnsupportedEncodingException;
 
-import java.net.URLDecoder;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,16 +126,7 @@ public class WineCellarRequest
 				return true;
 			}
 
-			String demon = matcher.group(1);
-
-			try
-			{
-				demon = URLDecoder.decode( demon, "UTF-8" );
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				// This shouldn't happen. Use name as is.
-			}
+			String demon = GenericRequest.decodeURL( matcher.group(1) );
 
 			if ( demon.equals( "" ) ||
 			     !InventoryManager.retrieveItem( ItemPool.BLACK_CANDLE, 3 ) ||
