@@ -1009,3 +1009,5 @@
 1008	Song of Fortune	song_fortune.gif	cdaee15d53f7213c399b787f8c3d6621	cast 1 Song of Fortune
 1009	Song of Battle	song_battle.gif	986de352c714a738a61e074a991c9310	cast 1 Song of Battle
 1010	Song of Cockiness	superiority.gif	34de64fcea8f9614e236a7f9cbadf376	cast 1 Song of Cockiness
+1011	Overconfident	exclam.gif	bfffe5f7333adfd5278e0a471854f8f0	cast 1 Pep Talk
+1012	Foe-Splattered	batgut.gif	2bac39a9a89f134ebc71a65f6b4c477d

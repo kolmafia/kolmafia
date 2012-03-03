@@ -2813,6 +2813,7 @@ Flared Nostrils	Stench Vulnerability
 Flashing Eyes	Meat Drop: +30
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+# Foe-Splattered: Can't use Bifurcating Blow
 Fondid	Monster Level: +15
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach

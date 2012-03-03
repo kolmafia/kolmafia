@@ -128,6 +128,8 @@ public class TrendyRequest
 	{
 		if ( this.responseText.equals( "" ) )
 		{
+			KoLmafia.updateDisplay( "KoL returned a blank page. Giving up." );
+			TrendyRequest.initialized = true;
 			return;
 		}
 

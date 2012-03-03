@@ -201,7 +201,7 @@ public class ProxyRecordValue
 			super( _type, obj );
 		}
 
-		public Value get_mainstat()
+		public Value get_primestat()
 		{
 			int primeIndex = KoLCharacter.getPrimeIndex( this.contentString );
 
