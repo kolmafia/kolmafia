@@ -282,27 +282,6 @@ public class CharPaneRequest
 
 	private static final boolean checkInteraction( final String responseText )
 	{
-		// If the charsheet does not say he can't interact, ok
-		// (this will be true for any Casual run, for an unascended
-		// character, or for a sufficiently lengthy softcore run)
-		if ( !KoLCharacter.inRonin() )
-		{
-			return true;
-		}
-
-		// Last time we checked the char sheet, he was still in
-		// ronin. See if he still it.
-		if ( KoLCharacter.getCurrentRun() < 1000 )
-		{
-			return false;
-		}
-
-		// If he's freed the king, that's good enough
-		if ( KoLCharacter.kingLiberated() )
-		{
-			return true;
-		}
-
 		// If he's in Hardcore, nope
 		if ( KoLCharacter.isHardcore() )
 		{
@@ -315,8 +294,24 @@ public class CharPaneRequest
 			return false;
 		}
 
-		// If character pane doesn't mention storage, ok.
-		if ( responseText.indexOf( "storage.php" ) == -1 )
+		// If he's freed the king, that's good enough
+		if ( KoLCharacter.kingLiberated() )
+		{
+			return true;
+		}
+
+		// If the charsheet does not say he can't interact or api.php
+		// says roninleft =0, ok.
+		// (this will be true for any Casual run, for an unascended
+		// character, or for a sufficiently lengthy softcore run)
+		if ( !KoLCharacter.inRonin() )
+		{
+			return true;
+		}
+
+		// Last time we checked the char sheet or api.php, he was still
+		// in ronin. See if he still is.
+		if ( KoLCharacter.getCurrentRun() >= 1000 )
 		{
 			return true;
 		}
@@ -845,7 +840,7 @@ public class CharPaneRequest
 		int roninLeft = JSON.getInt( "roninleft" );
 
 		// *** Assume that roninleft always equals 0 if casual
-		KoLCharacter.setRonin( hardcore || roninLeft > 0 );
+		KoLCharacter.setRonin( roninLeft > 0 );
 
 		CharPaneRequest.setInteraction();
 
