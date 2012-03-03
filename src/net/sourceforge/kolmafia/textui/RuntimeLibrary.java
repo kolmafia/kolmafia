@@ -42,9 +42,6 @@ import java.io.UnsupportedEncodingException;
 
 import java.lang.reflect.Method;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
@@ -1725,14 +1722,7 @@ public abstract class RuntimeLibrary
 			Value keyval = DataTypes.STRING_INIT;
 			if ( pieces.length > 1 )
 			{
-				try
-				{
-					String decoded = URLDecoder.decode( pieces[ 1 ], "UTF-8" );
-					keyval = new Value( decoded );
-				}
-				catch ( IOException e )
-				{
-				}
+				keyval = new Value( GenericRequest.decodeURL( pieces[ 1 ] ) );
 			}
 			Value keyname = new Value( name );
 			while ( value.contains( keyname ) )
@@ -4534,15 +4524,13 @@ public abstract class RuntimeLibrary
 	// Settings-type functions.
 
 	public static Value url_encode( Interpreter interpreter, final Value arg )
-		throws UnsupportedEncodingException
 	{
-		return new Value( URLEncoder.encode( arg.toString(), "UTF-8" ) );
+		return new Value( GenericRequest.encodeURL( arg.toString() ) );
 	}
 
 	public static Value url_decode( Interpreter interpreter, final Value arg )
-		throws UnsupportedEncodingException
 	{
-		return new Value( URLDecoder.decode( arg.toString(), "UTF-8" ) );
+		return new Value( GenericRequest.decodeURL( arg.toString() ) );
 	}
 
 	public static Value entity_encode( Interpreter interpreter, final Value arg )

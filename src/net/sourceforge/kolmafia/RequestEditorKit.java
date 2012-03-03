@@ -42,7 +42,6 @@ import java.io.File;
 import java.io.IOException;
 
 import java.net.URL;
-import java.net.URLDecoder;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -2367,18 +2366,7 @@ public class RequestEditorKit
 					}
 				}
 
-				try
-				{
-					formSubmitter.constructURLString( URLDecoder.decode( actionString.toString(), "ISO-8859-1" ) );
-				}
-				catch ( Exception e )
-				{
-					// This should not happen.  Therefore, print
-					// a stack trace for debug purposes.
-
-					StaticEntity.printStackTrace( e );
-					formSubmitter.constructURLString( actionString.toString() );
-				}
+				formSubmitter.constructURLString( GenericRequest.decodeURL( actionString.toString(), "ISO-8859-1" ) );
 			}
 			else
 			{

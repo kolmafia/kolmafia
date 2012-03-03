@@ -275,7 +275,7 @@ public class Crimbo11Request
 		String itemName = ( count != 1 ) ? ItemDatabase.getPluralName( itemId ) : name;
 
 		Matcher victimMatcher = Crimbo11Request.TOWHO_PATTERN.matcher( urlString );
-		String victim = victimMatcher.find() ? StringUtilities.getURLDecode( victimMatcher.group( 1 ).trim() ) : "0";
+		String victim = victimMatcher.find() ? GenericRequest.decodeURL( victimMatcher.group( 1 ).trim() ) : "0";
 		if ( victim.equals( "" ) || victim.equals( "0" ) )
 		{
 			victim = "the Needy";

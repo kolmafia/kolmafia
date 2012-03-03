@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.request;
 
 import java.io.IOException;
 
-import java.net.URLDecoder;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -97,16 +95,7 @@ public class LeafletRequest
 			return null;
 		}
 
-		String command = matcher.group( 1 );
-		try
-		{
-			command = URLDecoder.decode( command, "UTF-8" );
-		}
-		catch ( IOException e )
-		{
-		}
-
-		return command;
+		return GenericRequest.decodeURL( matcher.group( 1 ) );
 	}
 
 	public static final boolean registerRequest( final String urlString )

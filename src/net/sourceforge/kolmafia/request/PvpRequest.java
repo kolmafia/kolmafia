@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.net.URLDecoder;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -288,14 +286,8 @@ public class PvpRequest
 			target = target.substring( 0, whoIndex );
 		}
 
-		try
-		{
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "pvp " + URLDecoder.decode( target, "UTF-8" ) );
-		}
-		catch ( Exception e )
-		{
-		}
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "pvp " + GenericRequest.decodeURL( target ) );
 
 		return true;
 	}
