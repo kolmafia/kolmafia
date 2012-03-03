@@ -5571,71 +5571,71 @@
 5570
 5571
 5572	497799983	thwaitbeetle.gif	Thwaitgold stag beetle statuette
-5573
-5574
-5575
-5576
-5577
-5578
-5579
-5580
-5581
-5582
-5583
-5584
-5585
-5586
-5587
-5588
-5589
-5590
-5591
-5592
-5593
-5594
-5595
-5596
-5597
-5598
-5599
-5600
-5601
-5602
-5603
-5604
-5605
-5606
-5607
-5608
-5609
-5610
-5611
-5612
-5613
-5614
-5615
-5616
-5617
-5618
-5619
-5620
-5621
-5622
-5623
-5624
-5625
-5626
-5627
-5628
-5629
-5630
-5631
-5632
-5633
-5634
-5635
-5636
-5637
-5638
+5573	142371526	blackntan.gif	Drac &amp; Tan
+5574	784560184	hurricane.gif	Transylvania Sling
+5575	145928650	shot.gif	Shot of the Living Dead
+5576	623617452	shot.gif	Buttery Knob
+5577	800098645	shot.gif	Slippery Knob
+5578	993247352	shot_f.gif	Flaming Knob
+5579	731340424	rocks.gif	Grasshopper
+5580	628493354	rocks.gif	Locust
+5581	937524662	rocks.gif	Plague of Locusts
+5582	235328112	martini.gif	Red Dwarf
+5583	849250223	martini.gif	Golden Mean
+5584	877758643	shot.gif	Green Giant
+5585	763933310	daquiri.gif	Aye Aye
+5586	871430740	daquiri.gif	Aye Aye, Captain
+5587	918518172	daquiri.gif	Aye Aye, Tooth Tooth
+5588	822675650	martini.gif	Humanitini
+5589	282001208	martini.gif	More Humanitini than Humanitini
+5590	839812561	martini_f.gif	Oh, the Humanitini
+5591	238625388	rocks.gif	Great Old Fashioned
+5592	187788581	chamfluteu.gif	Fuzzy Tentacle
+5593	660220677	juice.gif	Crazymaker
+5594	624051601	rocks.gif	Zoodriver
+5595	271632304	rocks.gif	Sloe Comfortable Zoo
+5596	573064017	rocks_f.gif	Sloe Comfortable Zoo on Fire
+5597	669900679	tikiglass.gif	Suffering Sinner
+5598	141429574	tikiglass.gif	Suppurating Sinner
+5599	609458941	tikiglass_f.gif	Sizzling Sinner
+5600	218191523	rocks.gif	Firewater
+5601	614733962	rocks.gif	Earth and Firewater
+5602	232568272	rocks.gif	Earth, Wind and Firewater
+5603	436152623	chamflute.gif	Slimosa
+5604	294781073	chamflute.gif	Extra-slimy Slimosa
+5605	352767086	shot_f.gif	Slimebite
+5606	314170592	shot.gif	Cement Mixer
+5607	131847953	shot.gif	Jackhammer
+5608	961253398	shot.gif	Dump Truck
+5609	591788825	rocks.gif	Fauna Libre
+5610	764800019	rocks.gif	Chakra Libre
+5611	617824482	rocks.gif	Aura Libre
+5612	339948065	rocks.gif	Sazerorc
+5613	499155913	rocks.gif	Sazuruk-hai
+5614	816699572	rocks_f.gif	Flaming Sazerorc
+5615	176879772	juice.gif	Green Velvet
+5616	567015754	juice.gif	Green Muslin
+5617	763980094	juice.gif	Green Burlap
+5618	579699188	celloshot.gif	Mohobo
+5619	719072236	celloshot.gif	Moonshine Mohobo
+5620	249192502	rocks_f.gif	Flaming Mohobo
+5621	744271417	rocks.gif	Drunken Philosopher
+5622	600910105	rocks.gif	Drunken Neurologist
+5623	800374329	rocks.gif	Drunken Astrophysicist
+5624	785499840	blackntan.gif	Dark &amp; Starry
+5625	560772723	juice.gif	Black Hole
+5626	567089761	rocks.gif	Event Horizon
+5627	793096692	daquiri.gif	Herring Daquiri
+5628	444876395	rocks.gif	Herring Wallbanger
+5629	394791639	martini.gif	Herringtini
+5630	797257004	martini.gif	Lollipop Drop
+5631	515221918	rocks.gif	Candy Alexander
+5632	328568546	shot_f.gif	Candicaine
+5633	930565023	rocks.gif	Caipiranha
+5634	336664989	rocks.gif	Flying Caipiranha
+5635	794110399	rocks_f.gif	Flaming Caipiranha
+5636	221662953	hurricane.gif	Punchplanter
+5637	805035627	hurricane.gif	Doublepunchplanter
+5638	719116684	hurricane_f.gif	Haymaker
 5639	281886462	medium_small.gif	Small Medium
 5640	476481640	crystaldecanter.gif	crystal decanter
