@@ -85,7 +85,7 @@ Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Moonthril Circlet	Mysticality Percent: [15*G], Familiar Effect: "2xVolley, cap 25"
 Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
 Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley, 1xBarrr, cap 15"
-Radio Free Baseball Cap	Intrinsic Effect: "Radio Head", Familiar Effect: "1xLep, 1xFairy, cap 37"
+Radio Free Baseball Cap	Moxie: +20, Familiar Effect: "1xLep, 1xFairy, cap 37"
 Scalp of Gorgolok	Muscle: +11, Weapon Damage: +7, Class: "Seal Clubber", Familiar Effect: "3xGhuol, cap 12"
 Seasonal Beret	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Familiar Effect: "1xPotato, ?xFairy, cap 25"
 Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
@@ -142,7 +142,7 @@ demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
 depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Familiar Effect: "1xBarrr, 1xFairy, cap 25"
 disco mask	Moxie: +1, Familiar Effect: "atk, cap 2"
 double-ice cap	MP Regen Min: 5, MP Regen Max: 9, Cold Damage: +10, Familiar Effect: "1xPotato, 1xFairy, cap 17"
-draggin' ball hat	Intrinsic Effect: "Draggin' Balls", Familiar Effect: "atk, 1xVolley, cap 25"
+draggin' ball hat	Moxie: +6, Muscle: -3, Familiar Effect: "atk, 1xVolley, cap 25"
 duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
 # dwarvish war helmet: Heads Up!
 dwarvish war helmet	Familiar Effect: "atk, 1xFairy, cap 41"
@@ -159,7 +159,7 @@ fancy tophat	Mysticality Percent: +15, Familiar Effect: "1xBarrr, cap 25"
 festive holiday hat	Moxie: +1, Cold Resistance: +1, Familiar Effect: "1xFairy, cap 7"
 fez of etymology	Moxie: +7, Familiar Effect: "1xLep, cap 30"
 filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1xPotato, cap 15"
-fire	Intrinsic Effect: "Head on Fire, Ass Catching", Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2"
+fire	Initiative: +10, Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2"
 floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
 football helmet	Familiar Effect: "atk, cap 37"
@@ -199,13 +199,15 @@ lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"
 linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
 longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 maiden wig	Familiar Effect: "2xPotato, cap 8"
-makeshift turban	Intrinsic Effect: "Temporary Blindness (intrinsic)", Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
+# makeshift turban: Interferes with your vision
+makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
 mariachi hat	Moxie: +1
 meat cowboy hat	Muscle: +3, Familiar Effect: "1xBarrr, 3xLep, cap 10"
 meatloaf helmet	Muscle: +3, Weapon Damage: +1, Familiar Effect: "1xBarrr, 1.5xFairy, cap 13"
 meaty helmet turtle	Muscle: +3, Familiar Effect: "sleaze atk, 1xFairy, cap 17"
-mesh cap	Intrinsic Effect: "Red Neck", Familiar Effect: "atk, 1xVolley, cap 41"
-metallic foil cat ears	Intrinsic Effect: "O Hai!", Familiar Effect: "atk, cap 7"
+mesh cap	Muscle: +15, Moxie: -5, Familiar Effect: "atk, 1xVolley, cap 41"
+# metallic foil cat ears: Not Amused
+metallic foil cat ears	Familiar Effect: "atk, cap 7"
 miner's helmet	Item Drop: +5, Familiar Effect: "1xBarrr, 1xFairy, cap 20"
 moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4, Familiar Effect: "stench atk"
 mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
@@ -251,7 +253,8 @@ sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
 sinister demon mask	Spooky Damage: +25, HP Regen Min: 10, HP Regen Max: 25, Food Drop: +25
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
-sleep mask	Intrinsic Effect: "Temporary Blindness (intrinsic)", Familiar Effect: "atk, 1xBarrr, cap 37"
+# sleep mask: Can't see nothin'
+sleep mask	Familiar Effect: "atk, 1xBarrr, cap 37"
 slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2, Familiar Effect: "1xPotato, 1xFairy"
 snailmail coif	Muscle: +10, Damage Reduction: 8, Familiar Effect: "1xPotato, 1xFairy, cap 41"
 snorkel	Familiar Effect: "atk, cap 2"
@@ -280,7 +283,7 @@ water-polo cap	Weapon Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
 webbed comic mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
 willowy bonnet	Maximum MP: +40, Familiar Effect: "?xFairy, cap 18"
 witch hat	Familiar Effect: "8xVolley, 8xLep, cap 2"
-wolf mask	Intrinsic Effect: "Complete Delusion", Familiar Effect: "1xBarrr, HP regen, cap 37"
+wolf mask	Muscle: +4, Moxie: -5, Familiar Effect: "1xBarrr, HP regen, cap 37"
 wolfman mask	Familiar Effect: "8xVolley, 8xLep, cap 2"
 wooden salad bowl	Familiar Effect: "atk, cap 30"
 wool hat	Damage Absorption: +20, Cold Resistance: +2, Familiar Effect: "1xLep, cap 43"
@@ -293,7 +296,7 @@ yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "?xVolley
 
 # Pants section of modifiers.txt
 
-1337 7r0uZ0RZ	Intrinsic Effect: "1337p4n7Z", Familiar Effect: "1xPotato, cap 27"
+1337 7r0uZ0RZ	Muscle: +6, Moxie: -3, Familiar Effect: "1xPotato, cap 27"
 Angelhair Culottes	Mysticality: +11, Spell Damage: +15, Class: "Pastamancer", Familiar Effect: "1xBarrr, cap 31"
 BRAINS shorts	Sleaze Damage: +40, Sleaze Spell Damage: +40, Familiar Effect: "sleaze atk, 1xGhuol"
 BRICKO pants	Damage Absorption: +9, Familiar Effect: "1.5xVolley, 2xLep, 1xPotato, cap 22"
@@ -325,7 +328,7 @@ Ol' Scratch's ol' britches	Cold Resistance: +3, Spooky Resistance: +3, Class: "S
 Orcish cargo shorts	Muscle: +3, Mysticality: -3, Familiar Effect: "sleaze atk, 1xGhuol, cap 15"
 Oscus's dumpster waders	Hot Resistance: +3, Spooky Resistance: +3, Class: "Pastamancer", Familiar Effect: "stench atk"
 Oscus's flypaper pants	Moxie Percent: +20, Damage Absorption: +50, Familiar Effect: "stench atk, 1xPotato"
-Radio Free Pants	Intrinsic Effect: "Free Bird", Familiar Effect: "cap 37"
+Radio Free Pants	Mysticality: +20, Familiar Effect: "cap 37"
 Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only, Familiar Effect: "1.5xVolley, cap 25"
 The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 1xGhuol"
 # Travoltan trousers: 5-Finger Discount
@@ -398,7 +401,7 @@ hobo dungarees	Maximum MP: +500, Mysticality Percent: +5, Familiar Effect: "0.5x
 honeybritches	Muscle Percent: +5, Critical: 3, Weapon Damage: +15, Familiar Effect: "sleaze atk, 1xGhuol, cap 43"
 ironic jogging shorts	Initiative: +10, Damage Absorption: +20, Moxie: -5, Familiar Effect: "1xGhuol, cap 10"
 junk-mail pants	Familiar Effect: "2xBarrr, cap 12"
-leather chaps	Intrinsic Effect: "Chapped Legs", Familiar Effect: "sleaze atk, 1xBarrr, cap 40"
+leather chaps	Moxie: +8, Muscle: -4, Familiar Effect: "sleaze atk, 1xBarrr, cap 40"
 leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 1xPotato, cap 22"
 # liar's pants: +30 to All Attributes.  Yeah, +30.  That's the ticket.
 liar's pants	Moxie: +5, Muscle: +5, Mysticality: +5, Hot Damage: +10, Softcore Only, Familiar Effect: "atk, prismatic atk, cap 25"
@@ -614,7 +617,7 @@ Ol' Scratch's infernal pitchfork	Hot Damage: +40, Critical Hit Percent: +2
 PVC staff	Mysticality Percent: +15, Item Drop: +10, Cold Spell Damage: +60
 Pasta of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
 Periodical Paintbrush	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Softcore Only
-Radio Free Foil	Intrinsic Effect: "Shiny Happy Weapon"
+Radio Free Foil	Muscle: +20
 # Rain-Doh yellow laser gun: Super Accurate!
 Rain-Doh yellow laser gun	Weakens Monster, Softcore Only
 Rain-Doh violet bo	Sleaze Damage: +11, Moxie: +11, Softcore Only
@@ -916,7 +919,8 @@ ocarina of space	Muscle: +4, Mysticality: +4, Moxie: +4, Ranged Damage: +5, Expe
 octopus's spade	Item Drop: +5, Initiative: +10, Weapon Damage: +15
 office-supply crossbow	Moxie: +3, Ranged Damage: +3
 old school Mafi<i>a kni</i>cke&frac12;&aelig;	Ranged Damage: +27
-origami riding crop	Intrinsic Effect: "Innuendo Shopping", Sleaze Damage: +10, Initiative: +15, Softcore Only
+# origami riding crop: Makes you prone to innuendo (heh heh)
+origami riding crop	Sleaze Damage: +10, Initiative: +15, Softcore Only
 out-of-tune biwa	Ranged Damage: +2
 oversized pizza cutter	Spell Damage: +13
 pair of bolt cutters	Weakens Monster
@@ -1643,7 +1647,8 @@ candy necklace	Candy Drop: +10, Single Equip, Raveosity: +1
 # cannonball charrrm bracelet: Explosively hilarious
 cannonball charrrm bracelet	Single Equip
 cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
-cement shoes	Intrinsic Effect: "Sleeping with the Fishes", Mysticality: +20, Moxie: +20
+# cement shoes: Makes you sleep like the dead
+cement shoes	Mysticality: +20, Moxie: +20
 cheap elven gloves	Mysticality: +1, Sleaze Resistance: +1
 cheap studded belt	Damage Reduction: 1
 chintzy accordion pin	Moxie: +12, Mysticality: +6, Class: "Accordion Thief", Single Equip
@@ -1771,7 +1776,7 @@ monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Synergetic
 musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 mysterious silver lapel pin	HP Regen Min: 5, HP Regen Max: 9, Meat Drop: +5, Single Equip
 natty blue ascot	Meat Drop: +20
-navel ring of navel gazing	Intrinsic Effect: "Omphaloskepsis", Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only
+navel ring of navel gazing	Damage Reduction: 12, Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only
 night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 observational glasses	Item Drop: +5
 # old soft shoes: +30% Item Drops from Hobos
@@ -1830,7 +1835,8 @@ ring of gain strength	Muscle: +10
 # actual max is 3, fudged so that (min+max)/2 matches the actual average
 ring of half-assed regeneration	HP Regen Min: 0, HP Regen Max: 1.333, Single Equip
 ring of increase damage	Weapon Damage: +10, Spell Damage: +10
-ring of teleportation	Intrinsic Effect: "Teleportitis", Single Equip
+# ring of teleportation: Your position seems uncertain...
+ring of teleportation	Single Equip
 rope with some soap on it	Spell Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 rose-colored glasses	Maximum HP: +5, Maximum MP: +5
 round green sunglasses	Moxie: +9, Sleaze Resistance: +2, Single Equip
@@ -2030,7 +2036,8 @@ tortoboggan	Moxie: +4, Initiative: +20, Single Equip
 # tourmalime tourniquet: Makes Candy Diorama Fights Harder
 tourmalime tourniquet	Single Equip
 toy crazy train	Meat Drop: +10, Single Equip
-toy jet pack	Intrinsic Effect: "Get Me Off This Crazy Thing!", Single Equip
+# toy jet pack: Jane!  Get Me Off This Crazy Thing!
+toy jet pack	Single Equip
 toy maglev monorail	Meat Drop: +10, Single Equip
 toy train	Meat Drop: +10, Single Equip
 tube sock	Moxie: +20, Single Equip
