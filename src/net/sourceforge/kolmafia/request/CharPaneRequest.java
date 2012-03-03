@@ -845,7 +845,7 @@ public class CharPaneRequest
 		int roninLeft = JSON.getInt( "roninleft" );
 
 		// *** Assume that roninleft always equals 0 if casual
-		KoLCharacter.setRonin( roninLeft > 0 );
+		KoLCharacter.setRonin( hardcore || roninLeft > 0 );
 
 		CharPaneRequest.setInteraction();
 
