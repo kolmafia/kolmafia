@@ -767,6 +767,9 @@ user	_hipsterAdv	0
 user	_hotTubSoaks	0
 user	_iceballUses	0
 user	_inigosCasts	0
+user	_interviewVlad	false
+user	_interviewIsabella	false
+user	_interviewMasquerade	false
 user	_ironicMoustache	false
 user	_kloopDrops	0
 user	_jackassPlumberGame	false
@@ -1140,6 +1143,7 @@ user	choiceAdventure539	1
 user	choiceAdventure542	1
 user	choiceAdventure543	1
 user	choiceAdventure544	1
+user	choiceAdventure546	0
 user	choiceAdventure548	0
 user	choiceAdventure549	0
 user	choiceAdventure550	0

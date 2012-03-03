@@ -95,6 +95,8 @@ public abstract class ChoiceManager
 	private static final Pattern URL_OPTION_PATTERN = Pattern.compile( "option=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 
+	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
+
 	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
@@ -2007,7 +2009,9 @@ public abstract class ChoiceManager
 		// Choice 543 is Up In Their Grill
 		// Choice 544 is A Sandwich Appears!
 
-		// Choice 546 is Interview with You
+		// Interview With You
+		new ChoiceAdventure( "Item-Driven", "choiceAdventure546", "Interview With You",
+			VampOutManager.VampOutGoals ),
 
 		// Behind Closed Doors
 		new ChoiceAdventure(
@@ -2277,6 +2281,11 @@ public abstract class ChoiceManager
 		case 540:
 			// Big-Time Generator
 			SpaaaceRequest.decoratePorko( buffer );
+			break;
+
+		case 546:
+			// Add "Go To Goal" button for Interview With You
+			VampOutManager.addGoalButton( buffer );
 			break;
 		}
 	}
@@ -3369,6 +3378,11 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 546:
+			// Interview With You
+			VampOutManager.postChoiceVampOut( text );
+			break;
+
 		case 559:
 			// Fudge Mountain Breakdown
 			if ( ChoiceManager.lastDecision == 2 )
@@ -4290,6 +4304,14 @@ public abstract class ChoiceManager
 				return ArcadeRequest.autoDungeonFist( stepCount );
 			}
 			return decision;
+
+		// Interview With You
+		case 546:
+			if ( !ChoiceManager.initializeAfterChoice )
+			{	// Don't automate this if we logged in in the middle of the game -
+				// the auto script isn't robust enough to handle arbitrary starting points.
+				VampOutManager.autoVampOut( StringUtilities.parseInt( decision ), stepCount, responseText );
+			}
 		}
 
 		// If the user wants manual control, let 'em have it.
@@ -5031,5 +5053,37 @@ public abstract class ChoiceManager
 		RequestLogger.updateSessionLog( urlString );
 
 		return true;
+	}
+
+	public static final String findChoiceDecisionIndex( final String text, final String responseText )
+	{
+		Matcher matcher = ChoiceManager.DECISION_BUTTON_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			String decisionText = matcher.group( 2 );
+			
+			if ( decisionText.contains( text ) )
+			{
+				return matcher.group( 1 );
+			}
+		}
+
+		return "0";
+	}
+
+	public static final String findChoiceDecisionText( final int index, final String responseText )
+	{
+		Matcher matcher = ChoiceManager.DECISION_BUTTON_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			int decisionIndex = Integer.parseInt( matcher.group( 1 ) );
+			
+			if ( decisionIndex == index )
+			{
+				return matcher.group( 2 );
+			}
+		}
+
+		return null;
 	}
 }
