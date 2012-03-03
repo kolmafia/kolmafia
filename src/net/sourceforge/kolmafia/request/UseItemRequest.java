@@ -239,10 +239,10 @@ public class UseItemRequest
 			return "familiarbinger.php";
 		case KoLConstants.CONSUME_SPHERE:
 			return "campground.php";
-		case KoLConstants.CONSUME_MULTIPLE:
 		case KoLConstants.MP_RESTORE:
 		case KoLConstants.HP_RESTORE:
 		case KoLConstants.HPMP_RESTORE:
+		case KoLConstants.CONSUME_MULTIPLE:
 			if ( item.getCount() > 1 )
 			{
 				return "multiuse.php";
