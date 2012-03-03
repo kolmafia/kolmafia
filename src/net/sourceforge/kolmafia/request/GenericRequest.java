@@ -42,6 +42,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -1518,7 +1519,7 @@ public class GenericRequest
 			ostream = null;
 			return false;
 		}
-		catch ( IOException e )
+		catch ( SocketTimeoutException e )
 		{
 			++this.timeoutCount;
 
@@ -1528,6 +1529,11 @@ public class GenericRequest
 			}
 
 			return KoLmafia.refusesContinue();
+		}
+		catch ( IOException e )
+		{
+			this.timeoutCount = TIMEOUT_LIMIT;
+			return true;
 		}
 	}
 
@@ -1557,7 +1563,7 @@ public class GenericRequest
 			this.responseCode = this.formConnection.getResponseCode();
 			this.redirectLocation = this.responseCode != 302 ? null : this.formConnection.getHeaderField( "Location" );
 		}
-		catch ( IOException e1 )
+		catch ( SocketTimeoutException e )
 		{
 			++this.timeoutCount;
 			boolean shouldRetry = this.retryOnTimeout();
@@ -1572,23 +1578,24 @@ public class GenericRequest
 				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
 			}
 
-			try
-			{
-				if ( istream != null )
-				{
-					istream.close();
-				}
-			}
-			catch ( IOException e2 )
-			{
-				// The input stream was already closed. Ignore
-				// this error and continue.
-			}
+			GenericRequest.forceClose( istream );
 
 			if ( shouldRetry )
 			{
 				return KoLmafia.refusesContinue();
 			}
+		}
+		catch ( IOException e )
+		{
+			GenericRequest.forceClose( istream );
+			this.responseCode = this.getResponseCode();
+			if ( this.responseCode != 0 )
+			{
+				String message = "Server returned response code " + this.responseCode + " for " + this.baseURLString;
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+			}
+			this.timeoutCount = TIMEOUT_LIMIT;
+			return true;
 		}
 
 		if ( istream == null )
@@ -1641,6 +1648,36 @@ public class GenericRequest
 
 		istream = null;
 		return shouldStop || KoLmafia.refusesContinue();
+	}
+
+	private int getResponseCode()
+	{
+		if ( this.formConnection != null )
+		{
+			try
+			{
+				return this.formConnection.getResponseCode();
+			}
+			catch ( IOException e )
+			{
+			}
+		}
+
+		return 0;
+	}
+
+	private static void forceClose( final InputStream stream)
+	{
+		if ( stream != null )
+		{
+			try
+			{
+				stream.close();
+			}
+			catch ( IOException e )
+			{
+			}
+		}
 	}
 
 	protected boolean retryOnTimeout()
