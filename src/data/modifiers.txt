@@ -2120,6 +2120,7 @@ chiptune guitar	Item Drop: +25, Effect: "item drop", Equips On: "Mini-Hipster"
 chocolate spurs	Familiar Weight: +5
 cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
+crystal decanter	Familiar Weight: +5
 crimsilion jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Muscle", Familiar Effect: "mus stats", Equips On: "Frumious Bandersnatch"
 das boot	Familiar Weight: -10, Underwater Familiar, Familiar Effect: "adventure underwater", Generic
 dental pliers	Familiar Weight: +5
@@ -3802,6 +3803,7 @@ SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 Schmalz's First Prize Beer	Free Pull
 Scratch 'n' Sniff Sticker Tome	Free Pull
 Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
+Small Medium	Free Pull
 Sorcerers of the Shore Grimoire	Free Pull
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
