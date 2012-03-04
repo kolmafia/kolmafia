@@ -2315,6 +2315,12 @@ public abstract class ChoiceManager
 			return spoilers;
 		}
 
+		// Nope. See if it's Interview with you.
+		if ( choice == 546 )
+		{
+			return null;
+		}
+
 		String option = "choiceAdventure" + String.valueOf( choice );
 
 		// See if this choice is controlled by user option
@@ -4310,8 +4316,9 @@ public abstract class ChoiceManager
 			if ( !ChoiceManager.initializeAfterChoice )
 			{	// Don't automate this if we logged in in the middle of the game -
 				// the auto script isn't robust enough to handle arbitrary starting points.
-				VampOutManager.autoVampOut( StringUtilities.parseInt( decision ), stepCount, responseText );
+				return VampOutManager.autoVampOut( StringUtilities.parseInt( decision ), stepCount, responseText );
 			}
+			return "0";
 		}
 
 		// If the user wants manual control, let 'em have it.
