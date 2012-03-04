@@ -817,7 +817,7 @@ public class CompactSidePane
 			else
 			{
 				StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
-				ImageIcon icon = FamiliarDatabase.getFamiliarImage( id );
+				ImageIcon icon = FamiliarDatabase.getCurrentFamiliarImage();
 				this.familiarLabel.setIcon( icon );
 				icon.setImageObserver( this );
 				int weight = current.getModifiedWeight();

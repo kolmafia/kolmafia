@@ -339,6 +339,7 @@ public abstract class KoLCharacter
 	public static final SortedListModel familiars = new SortedListModel();
 	public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
 	public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
+	public static String currentFamiliarImage = null;
 	public static FamiliarData currentEnthroned = FamiliarData.NO_FAMILIAR;
 	private static int arenaWins = 0;
 	private static boolean isUsingStabBat = false;
@@ -3496,6 +3497,16 @@ public abstract class KoLCharacter
 	public static final FamiliarData getEffectiveFamiliar()
 	{
 		return KoLCharacter.effectiveFamiliar == null ? FamiliarData.NO_FAMILIAR : KoLCharacter.effectiveFamiliar;
+	}
+
+	public static final String getFamiliarImage()
+	{
+		return KoLCharacter.currentFamiliarImage == null ? "debug.gif" : KoLCharacter.currentFamiliarImage + ".gif";
+	}
+
+	public static final void setFamiliarImage( final String image )
+	{
+		KoLCharacter.currentFamiliarImage = image;
 	}
 
 	public static final FamiliarData getEnthroned()
