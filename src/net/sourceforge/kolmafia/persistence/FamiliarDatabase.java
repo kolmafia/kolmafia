@@ -416,29 +416,31 @@ public class FamiliarDatabase
 		return familiarId == null ? -1 : ( (Integer) familiarId ).intValue();
 	}
 
-	private static final void downloadFamiliarImage( final String location )
+	private static final ImageIcon getFamiliarIcon( final String location )
 	{
+		if ( location == null || location.equals( "debug.gif" ) )
+		{
+			return JComponentUtilities.getImage( "debug.gif" );
+		}
 		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + location );
-	}
-
-	public static final ImageIcon getFamiliarImage( final int familiarId )
-	{
-		String location = FamiliarDatabase.getFamiliarImageLocation( familiarId );
-		FamiliarDatabase.downloadFamiliarImage( location );
-		return JComponentUtilities.getImage( "itemimages/" + location );
-	}
-
-	public static final ImageIcon getCurrentFamiliarImage()
-
-	{
-		String location = KoLCharacter.getFamiliarImage();
-		FamiliarDatabase.downloadFamiliarImage( location );
 		return JComponentUtilities.getImage( "itemimages/" + location );
 	}
 
 	public static final ImageIcon getFamiliarImage( final String name )
 	{
 		return FamiliarDatabase.getFamiliarImage( FamiliarDatabase.getFamiliarId( name ) );
+	}
+
+	public static final ImageIcon getFamiliarImage( final int familiarId )
+	{
+		String location = FamiliarDatabase.getFamiliarImageLocation( familiarId );
+		return FamiliarDatabase.getFamiliarIcon( location );
+	}
+
+	public static final ImageIcon getCurrentFamiliarImage()
+	{
+		String location = KoLCharacter.getFamiliarImage();
+		return FamiliarDatabase.getFamiliarIcon( location );
 	}
 
 	/**
