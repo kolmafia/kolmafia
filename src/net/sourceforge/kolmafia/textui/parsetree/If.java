@@ -110,10 +110,10 @@ public class If
 		}
 	}
 	
-	public boolean assertReturn()
+	public boolean assertBarrier()
 	{	// Summary: an If returns if every contained block of code
 		// returns, and the final block is an Else (not an ElseIf).
-		if ( !this.getScope().assertReturn() )
+		if ( !this.getScope().assertBarrier() )
 		{
 			return false;
 		}
@@ -124,12 +124,33 @@ public class If
 		while ( it.hasNext() )
 		{
 			elseLoop = (Conditional) it.next();
-			if ( !elseLoop.getScope().assertReturn() )
+			if ( !elseLoop.getScope().assertBarrier() )
 			{
 				return false;
 			}
 		}
 	
 		return elseLoop instanceof Else;
+	}
+	
+	public boolean assertBreakable()
+	{
+		if ( this.getScope().assertBreakable() )
+		{
+			return true;
+		}
+		
+		Iterator it = this.elseLoops.iterator();
+
+		while ( it.hasNext() )
+		{
+			Conditional elseLoop = (Conditional) it.next();
+			if ( elseLoop.getScope().assertBreakable() )
+			{
+				return true;
+			}
+		}
+	
+		return false;
 	}
 }

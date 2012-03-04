@@ -49,6 +49,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -416,7 +417,7 @@ public class Parser
 				ParseTreeNode c = this.parseCommand( expectedType, result, false, allowBreak, allowContinue );
 				if ( c != null )
 				{
-					result.addCommand( c );
+					result.addCommand( c, this );
 
 					continue;
 				}
@@ -460,7 +461,7 @@ public class Parser
 			}
 
 			//Found a type but no function or variable to tie it to
-			throw this.parseException( "Script parse error" );
+			throw this.parseException( "Type given but not used to declare anything" );
 		}
 
 		return result;
@@ -698,21 +699,20 @@ public class Parser
 			{
 				throw this.parseException( "Function with no body" );
 			}
-			scope.addCommand( cmd );
+			scope.addCommand( cmd, this );
 		}
 
 		result.setScope( scope );
-		if ( !result.assertReturn() && !functionType.equals( DataTypes.TYPE_VOID )
-		     // The following clause can't be correct. I think it
-		     // depends on the various conditional & loop constructs
-		     // returning a boolean. Or something. But without it,
-		     // existing scripts break. Aargh!!!
-		     && !functionType.equals( DataTypes.TYPE_BOOLEAN )
-		   )
+		if ( !result.assertBarrier() && !functionType.equals( DataTypes.TYPE_VOID ) )
 		{
-			// PrintStream stream = RequestLogger.getDebugStream();
-			// scope.print( stream, 0 );
-			throw this.parseException( "Missing return value" );
+			if ( functionType.equals( DataTypes.TYPE_BOOLEAN ) )
+			{
+				this.warning( "Missing return values in boolean functions will soon become an error" );
+			}
+			else
+			{
+				throw this.parseException( "Missing return value" );
+			}
 		}
 
 		return result;
@@ -797,7 +797,7 @@ public class Parser
 
 		scope.addVariable( result );
 		VariableReference lhs = new VariableReference( variableName, scope );
-		scope.addCommand( new Assignment( lhs, rhs ) );
+		scope.addCommand( new Assignment( lhs, rhs ), this );
 		return result;
 	}
 
@@ -1480,6 +1480,7 @@ public class Parser
 
 				tests.add( test );
 				indices.add( currentInteger );
+				scope.resetBarrier();
 
 				continue;
 			}
@@ -1501,6 +1502,7 @@ public class Parser
 				this.readToken(); // :
 
 				defaultIndex = currentIndex;
+				scope.resetBarrier();
 
 				continue;
 			}
@@ -1514,7 +1516,7 @@ public class Parser
 				ParseTreeNode c = this.parseCommand( functionType, scope, false, true, allowContinue );
 				if ( c != null )
 				{
-					scope.addCommand( c );
+					scope.addCommand( c, this );
 					currentIndex = scope.commandCount();
 					currentInteger = null;
 					continue;
@@ -1538,7 +1540,7 @@ public class Parser
 			}
 
 			//Found a type but no function or variable to tie it to
-			throw this.parseException( "Script parse error" );
+			throw this.parseException( "Type given but not used to declare anything" );
 		}
 
 		if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
@@ -1863,7 +1865,7 @@ public class Parser
 		{
 			// Scope is a single command
 			scope = new Scope( varList, parentScope );
-			scope.addCommand( this.parseCommand( functionType, scope, false, true, true ) );
+			scope.addCommand( this.parseCommand( functionType, scope, false, true, true ), this );
 		}
 
 		return scope;
@@ -3570,6 +3572,11 @@ public class Parser
 		Parser.appendFunction( buffer, name, params );
 		buffer.append( "' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts." );
 		return buffer.toString();
+	}
+	
+	public final void warning( final String msg )
+	{
+		RequestLogger.printLine( "WARNING: " + msg + " " + this.getLineAndFile() );
 	}
 
 	private static final void appendFunction(  final StringBuffer buffer, final String name, final ParseTreeNodeList params )

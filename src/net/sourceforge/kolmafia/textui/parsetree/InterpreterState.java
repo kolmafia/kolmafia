@@ -70,4 +70,9 @@ public abstract class InterpreterState
 		Interpreter.indentLine( stream, indent );
 		stream.println( "<COMMAND " + this.state + ">" );
 	}
+	
+	public boolean assertBarrier()
+	{
+		return true;
+	}
 }

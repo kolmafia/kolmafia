@@ -187,12 +187,10 @@ public class Switch
 		this.getScope().print( stream, indent + 1, tests, offsets, defaultIndex );
 	}
 	
-	public boolean assertReturn()
+	public boolean assertBarrier()
 	{
-		if ( this.defaultIndex == -1 )
-		{
-			return false;
-		}
-		return false;	// for now
+		return this.defaultIndex != -1 &&
+			this.scope.assertBarrier() &&
+			!this.scope.assertBreakable();
 	}
 }

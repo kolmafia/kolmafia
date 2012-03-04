@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -51,6 +52,10 @@ public abstract class BasicScope
 {
 	private final PauseObject pauser = new PauseObject();
 	private static long nextPause = System.currentTimeMillis();
+	
+	protected static final int BARRIER_NONE = 0;	// no return, etc. yet
+	protected static final int BARRIER_SEEN = 1;	// just seen
+	protected static final int BARRIER_PAST = 2;	// already warned about dead code	
 
 	protected TypeList types;
 	protected VariableList variables;
@@ -480,7 +485,7 @@ public abstract class BasicScope
 		return result;
 	}
 
-	public abstract void addCommand( final ParseTreeNode c );
+	public abstract void addCommand( final ParseTreeNode c, final Parser p );
 
 	public abstract Iterator getCommands();
 }

@@ -49,7 +49,7 @@ public class ScriptExit
 		return null;
 	}
 	
-	public boolean assertReturn()
+	public boolean assertBarrier()
 	{
 		return true;
 	}

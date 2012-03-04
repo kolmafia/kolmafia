@@ -96,6 +96,18 @@ public class Try
 		interpreter.traceUnindent();
 		return result;
 	}
+	
+	public boolean assertBarrier()
+	{
+		return this.body.assertBarrier() ||
+			this.finalClause.assertBarrier();
+	}
+	
+	public boolean assertBreakable()
+	{
+		return this.body.assertBreakable() ||
+			this.finalClause.assertBreakable();
+	}
 
 	public String toString()
 	{

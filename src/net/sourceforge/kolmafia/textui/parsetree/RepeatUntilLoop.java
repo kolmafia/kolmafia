@@ -113,6 +113,12 @@ public class RepeatUntilLoop
 		interpreter.traceUnindent();
 		return DataTypes.VOID_VALUE;
 	}
+	
+	public boolean assertBarrier()
+	{
+		return this.condition == DataTypes.FALSE_VALUE &&
+			!this.getScope().assertBreakable();
+	}
 
 	public String toString()
 	{
