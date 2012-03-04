@@ -2536,6 +2536,7 @@ Apoplectic with Rage	Mysticality Percent: -10
 Arabian Knighthood	Muscle Percent: +5
 Arcane in the Brain	Mana Cost (stackable): -3
 Army of One	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Arresistible	Moxie: +50
 Arse-a'fire	Muscle Percent: +10, Initiative: +25
 Artificially Sweet	Moxie Percent: +100
 Aspect of the GravyPlum Fairy	Item Drop: +10
@@ -2658,6 +2659,7 @@ Clyde's Blessing	Item Drop: +50
 Coated Arms	Weapon Damage: +15
 # Coated in Slime: It Burns!  It Burns!
 Cock of the Walk	Moxie Percent: +200
+Cockroach Scurry	Initiative: +50
 Cold, Dead Hands	Cold Damage: +40, Spooky Damage: +40
 Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
 # Cold Breath: Can breathe frigid air in combat
@@ -2686,6 +2688,7 @@ Cosmic Flavor	Spell Critical Percent: +10
 # Coy to the Hurled: variable DR
 Cranberry Cordiality	Meat Drop: +10
 Cravin' for a Ravin'	Meat Drop: +100
+Creepypasted	Spooky Damage: +50
 Crimbo Epiphany	Mysticality Percent: +10
 Crimbo Flavor	Spell Damage: +30
 Crimbo Nostalgia	Experience: +5
@@ -2761,6 +2764,7 @@ El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 El Vibrations	Spell Damage Percent: +100
 Electrolyte Fantastic	Experience Percent (Mysticality): +10
 Elemental Flavor	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
+Elemental Mastery	Hot Damage: +5, Cold Damage: +5, Spooky Damage: +5, Stench Damage: +5, Sleaze Damage: +5
 Elemental Saucesphere	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Elron's Explosive Etude	Spell Damage Percent: +50
 Elvish	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -2884,6 +2888,7 @@ Guanified	Stench Damage: +10, Damage Reduction: -2
 Gummibrain	Mysticality: +100
 Gummiheart	Muscle: +100
 Gummiskin	Moxie: +100
+Gutterminded	Sleaze Damage: +50
 # Haiku State of Mind: large penalty to result parsing
 # Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
@@ -2900,6 +2905,7 @@ Heal Thy Nanoself	HP Regen Min: 10, HP Regen Max: 20
 Healthy, Elfy, and Wise	HP Regen Min: 8, HP Regen Max: 10
 Healthy Bronze Glow	Moxie Percent: +50
 Healthy Green Glow	Familiar Weight: +10
+Heart Aflame	Hot Damage: +50
 # Heart of Black: Damn, Gina
 Heart of Green	Muscle: +3, Mysticality: +3, Moxie: +3, Familiar Weight: +3
 Heart of Lavender	Muscle: +3, Mysticality: +3, Moxie: +3, Item Drop: +10
@@ -2909,6 +2915,9 @@ Heart of White	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +1, Experienc
 Heart of Yellow	Muscle: +3, Mysticality: +3, Moxie: +3, Initiative: +20
 Heavily Breathing	Experience (Muscle): [L]
 Heavy Petting	Familiar Weight: +5, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
+# Heisenberglary: Muscle +/-X
+# Heisenberglary: Mysticality +/-Y
+# Heisenberglary: Moxie  +/-Z
 Hella Smart	Mysticality Percent: +25, Spell Damage: +15, MP Regen Min: 10, MP Regen Max: 15
 Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
 Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
@@ -2944,6 +2953,7 @@ In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # In Your Cups: Whoah...
 In the Limelight	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 In the Saucestream	Mysticality Percent: +15
+In the Slimelight	Stench Damage: +50
 Incensed	Mysticality: +10
 Incredibly Hulking	Muscle Percent: +200
 Indescribable Flavor	Spell Damage: +30
@@ -3038,8 +3048,10 @@ Missing Fingers	Muscle: -3
 Mistified	Damage Reduction: 30
 Mitre Cut	 Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
 Mmmmmelon	Item Drop: +30
+Mo' Hobo	Hobo Power: +10
 Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Moon'd	Experience: +5
+Mortarfied	Damage Absorption: +100
 Mucilaginous Mentalism	Mysticality Percent: +200
 Mucilaginous Moxiousness	Moxie Percent: +200
 Mucilaginous Muscle	Muscle Percent: +200
@@ -3081,6 +3093,7 @@ Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
 One Very Clear Eye	Item Drop: +100
 Optimist Primal	Familiar Weight: +5
 Orange Tongue	Experience: +3
+Orc Chops	Muscle: +50
 Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
 Oriental Mysticism	Mysticality Percent: +5
 Over the Ocean	Experience: [min(100,T/5)]
@@ -3149,6 +3162,7 @@ Rage of the Reindeer	Weapon Damage: +10, Muscle Percent: +10
 # Raging Animal: Familiar Damage +30
 Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Hot Damage: +15, Hot Resistance: +3, Cold Damage: +15, Cold Resistance: +3, Stench Damage: +15, Stench Resistance: +3, Spooky Damage: +15, Spooky Resistance: +3, Sleaze Damage: +15, Sleaze Resistance: +3
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
+Rampage!	Weapon Damage Percent: +50
 Rat-Faced	Moxie Percent: +10
 Rave Concentration	Item Drop: +30
 Rave Nirvana	Meat Drop: +50
@@ -3384,6 +3398,7 @@ Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20
 # Toad In The Hole: Continually take damage
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
+Transcendental Wind	Mysticality: +50
 Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 # Trepandation: Continually lose MP
 Trepandation	Spell Damage Percent: +50, Spell Damage: +50
@@ -3407,6 +3422,7 @@ Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
 Violent Night	Critical: 2
 Vitamin-Maxed	Muscle Percent: +10
+Void Between the Stars	Cold Damage: +50
 # Voracious Gorging: Item Drop: +X, Food Drop: +Y
 # Wanged: Unable to use obnoxious abbreviations
 # Warm Belly: Makes sushi taste better
@@ -3433,6 +3449,7 @@ Wistfully Nostalgic	Experience: +3
 Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
 Woad Warrior	Muscle: +25
 # Wolf's Bane: +50 Damage vs. Werewolves
+World's Shortest Giant	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Wreathed in Merriment	Moxie Percent: +10
 Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
