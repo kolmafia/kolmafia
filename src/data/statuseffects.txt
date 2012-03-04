@@ -1011,3 +1011,20 @@
 1010	Song of Cockiness	superiority.gif	34de64fcea8f9614e236a7f9cbadf376	cast 1 Song of Cockiness
 1011	Overconfident	exclam.gif	bfffe5f7333adfd5278e0a471854f8f0	cast 1 Pep Talk
 1012	Foe-Splattered	batgut.gif	2bac39a9a89f134ebc71a65f6b4c477d
+1013
+1014
+1015	Rampage!	daisy.gif	90ab687945e3ef72f9aab0ff4e8e35c6	drink either 1 Zoodriver, 1 Sloe Comfortable Zoo, 1 Sloe Comfortable Zoo on Fire
+1016	Mortarfied	wallshield.gif	5a010f874e5d23503276a080aa95399d	drink either 1 Cement Mixer, 1 Jackhammer, 1 Dump Truck
+1017	Creepypasted	hoppeddown.gif	bdb9b452dbc887f55b3777eb74f91757	drink either 1 Drac &amp; Tan, 1 Transylvania Sling, 1 Shot of the Living Dead
+1018	World's Shortest Giant	pokefrank.gif	3fa2b784feddd27c466db140c333d6b7	drink either 1 Red Dwarf, 1 Golden Mean, 1 Green Giant
+1019	Cockroach Scurry	cockroach.gif	77379db8ebafa360f830dcb05e998168	drink either 1 Grasshopper, 1 Locust, 1 Plague of Locusts
+1020	Transcendental Wind	wind.gif	bd99b8be9799c485fbcc6fe8d062f924	drink either 1 Fauna Libre, 1 Chakra Libre, 1 Aura Libre
+1021	Orc Chops	frathead.gif	797e9a674436ff0334e94e99909b1a7c	drink either 1 Sazerorc, 1 Sazuruk-hai, 1 Flaming Sazerorc
+1022	Heart Aflame	flameheart.gif	b23b5bfbe8e2deb6fce772fd3a521fb8	drink either 1 Suffering Sinner, 1 Suppurating Sinner, 1 Sizzling Sinner
+1023	Void Between the Stars	space.gif	d94cd7cd85e9147762348a562393172d	drink either 1 Great Old Fashioned, 1 Fuzzy Tentacle, 1 Crazymaker
+1024	Gutterminded	guttermind.gif	a7078f10bbe13fa991602b9990b0d9bb	drink either 1 Buttery Knob, 1 Slippery Knob, 1 Flaming Knob
+1025	Arresistible	handhook.gif	e49cef94ac423d6766232f0b6666d74e	drink either 1 Aye Aye, 1 Aye Aye, Captain, 1 Aye Aye, Tooth Tooth
+1026	Heisenberglary	confused.gif	c82b8774eb111fdf7088d4768bc8432e	drink either 1 Drunken Philosopher, 1 Drunken Neurologist, 1 Drunken Astrophysicist
+1027	In the Slimelight	slimed.gif	4e8fd606b83bffefbcfb4eb2ff218263	drink either 1 Slimosa, 1 Extra-slimy Slimosa, 1 Slimebite
+1028	Elemental Mastery	elements small.gif	be49ceb388e1bab22701da4c743de4a7	drink either 1 Firewater, 1 Earth and Firewater, 1 Earth, Wind and Firewater
+1029	Mo' Hobo	hobohead.gif	e6c9baf78893e9329a337033947946a5	drink either 1 Mohobo, 1 Moonshine Mohobo, 1 Flaming Mohobo
