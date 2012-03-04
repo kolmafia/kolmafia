@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -3501,7 +3502,12 @@ public abstract class KoLCharacter
 
 	public static final String getFamiliarImage()
 	{
-		return KoLCharacter.currentFamiliarImage == null ? "debug.gif" : KoLCharacter.currentFamiliarImage + ".gif";
+		return KoLCharacter.currentFamiliarImage == null ? "debug.gif" : KoLCharacter.currentFamiliarImage;
+	}
+
+	public static final void setFamiliarImage()
+	{
+		KoLCharacter.setFamiliarImage( FamiliarDatabase.getFamiliarImageLocation( KoLCharacter.currentFamiliar.getId() ) );
 	}
 
 	public static final void setFamiliarImage( final String image )
@@ -3765,6 +3771,10 @@ public abstract class KoLCharacter
 		KoLCharacter.isUsingStabBat =
 			KoLCharacter.currentFamiliar.getRace().equals( "Stab Bat" ) ||
 			KoLCharacter.currentFamiliar.getRace().equals( "Scary Death Orb" );
+
+		// Set the default image for this familiar. A subsequent
+		// charpane update may change it.
+		KoLCharacter.setFamiliarImage();
 
 		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 		GearChangeFrame.updateFamiliars();
