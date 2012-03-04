@@ -750,16 +750,18 @@ public class CharPaneRequest
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "location", adventureId + " " + adventureName );
 	}
 
-	private static Pattern compactFamiliarPattern =
+	private static Pattern compactFamiliarWeightPattern =
 		Pattern.compile( "<br>([\\d]+) lb" );
-	private static Pattern expandedFamiliarPattern =
+	private static Pattern expandedFamiliarWeightPattern =
 		Pattern.compile( "<b>([\\d]+)</b> pound" );
+	private static Pattern familiarImagePattern =
+		Pattern.compile( "<a.*?class=\"familiarpick\"><img.*?itemimages/(.*?)\\.gif" );
 
 	private static final void checkFamiliar( final String responseText )
 	{
 		Pattern pattern = CharPaneRequest.compactCharacterPane ?
-			CharPaneRequest.compactFamiliarPattern :
-			CharPaneRequest.expandedFamiliarPattern;
+			CharPaneRequest.compactFamiliarWeightPattern :
+			CharPaneRequest.expandedFamiliarWeightPattern;
 		Matcher familiarMatcher = pattern.matcher( responseText );
 		if ( familiarMatcher.find() )
 		{
@@ -767,6 +769,11 @@ public class CharPaneRequest
 			boolean feasted = responseText.indexOf( "well-fed" ) != -1;
 			KoLCharacter.getFamiliar().checkWeight( weight, feasted );
 		}
+
+		pattern = CharPaneRequest.familiarImagePattern;
+		familiarMatcher = pattern.matcher( responseText );
+		String image = familiarMatcher.find() ? familiarMatcher.group( 1 ) : null;
+		KoLCharacter.setFamiliarImage( image );
 	}
 
 	private static Pattern compactClancyPattern =
@@ -866,6 +873,9 @@ public class CharPaneRequest
 			int weight = JSON.getInt( "famlevel" );
 			FamiliarData familiar = FamiliarData.registerFamiliar( famId, famExp );
 			KoLCharacter.setFamiliar( familiar );
+
+			String image = JSON.getString( "familiarpic" );
+			KoLCharacter.setFamiliarImage( image.equals( "" ) ? null : image );
 
 			boolean feasted = JSON.getInt( "familiar_wellfed" ) == 1;
 			familiar.checkWeight( weight, feasted );

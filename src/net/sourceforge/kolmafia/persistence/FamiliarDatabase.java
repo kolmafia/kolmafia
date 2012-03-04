@@ -52,6 +52,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -415,15 +416,24 @@ public class FamiliarDatabase
 		return familiarId == null ? -1 : ( (Integer) familiarId ).intValue();
 	}
 
-	private static final void downloadFamiliarImage( final int familiarId )
+	private static final void downloadFamiliarImage( final String location )
 	{
-		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + FamiliarDatabase.getFamiliarImageLocation( familiarId ) );
+		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + location );
 	}
 
 	public static final ImageIcon getFamiliarImage( final int familiarId )
 	{
-		FamiliarDatabase.downloadFamiliarImage( familiarId );
-		return JComponentUtilities.getImage( "itemimages/" + FamiliarDatabase.getFamiliarImageLocation( familiarId ) );
+		String location = FamiliarDatabase.getFamiliarImageLocation( familiarId );
+		FamiliarDatabase.downloadFamiliarImage( location );
+		return JComponentUtilities.getImage( "itemimages/" + location );
+	}
+
+	public static final ImageIcon getCurrentFamiliarImage()
+
+	{
+		String location = KoLCharacter.getFamiliarImage();
+		FamiliarDatabase.downloadFamiliarImage( location );
+		return JComponentUtilities.getImage( "itemimages/" + location );
 	}
 
 	public static final ImageIcon getFamiliarImage( final String name )
