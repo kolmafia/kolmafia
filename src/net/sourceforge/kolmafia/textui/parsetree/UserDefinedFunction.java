@@ -137,9 +137,9 @@ public class UserDefinedFunction
 		return this.getType().initialValue();
 	}
 
-	public boolean assertReturn()
+	public boolean assertBarrier()
 	{
-		return this.scope.assertReturn();
+		return this.scope.assertBarrier();
 	}
 
 	public void print( final PrintStream stream, final int indent )

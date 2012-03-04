@@ -35,39 +35,63 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.util.Iterator;
 
+import net.sourceforge.kolmafia.textui.Parser;
+
 public class Scope
 	extends BasicScope
 {
 	private ParseTreeNodeList commands;
+	private int barrier = BasicScope.BARRIER_NONE;
+	private boolean breakable = false;
 
 	public Scope( VariableList variables, final BasicScope parentScope )
 	{
-                super( variables, parentScope );
+		super( variables, parentScope );
 		this.commands = new ParseTreeNodeList();
 	}
 
 	public Scope( final BasicScope parentScope )
 	{
-                super( parentScope );
+		super( parentScope );
 		this.commands = new ParseTreeNodeList();
 	}
 
 	public Scope( final ParseTreeNode command, final BasicScope parentScope )
 	{
-                super( parentScope );
+		super( parentScope );
 		this.commands = new ParseTreeNodeList();
 		this.commands.add( command );
+		this.barrier = command.assertBarrier() ? BasicScope.BARRIER_SEEN : 0;
+		this.breakable = command.assertBreakable();
 	}
 
 	public Scope( FunctionList functions, VariableList variables, TypeList types )
 	{
-                super( functions, variables, types, null );
+		super( functions, variables, types, null );
 		this.commands = new ParseTreeNodeList();
 	}
 
-	public void addCommand( final ParseTreeNode c )
+	public void addCommand( final ParseTreeNode c, final Parser p )
 	{
 		this.commands.add( c );
+		if ( this.barrier == BasicScope.BARRIER_NONE &&
+			c.assertBarrier() )
+		{
+			this.barrier = BasicScope.BARRIER_SEEN;
+		}
+		else if ( this.barrier == BasicScope.BARRIER_SEEN &&
+			!(c instanceof FunctionReturn) )
+		{	// A return statement after a barrier is temporarily allowed,
+			// since they were previously required in some cases that didn't
+			// really need them.
+			this.barrier = BasicScope.BARRIER_PAST;
+			p.warning( "Unreachable code" );
+		}
+		
+		if ( !this.breakable )
+		{
+			this.breakable = c.assertBreakable();
+		}
 	}
 
 	public Iterator getCommands()
@@ -75,14 +99,14 @@ public class Scope
 		return this.commands.iterator();
 	}
 
-	public boolean assertReturn()
+	public boolean assertBarrier()
 	{
-		int size = this.commands.size();
-		if ( size == 0 )
-		{
-			return false;
-		}
-		return this.commands.get( size - 1 ).assertReturn();
+		return this.barrier >= BasicScope.BARRIER_SEEN;
+	}
+	
+	public boolean assertBreakable()
+	{
+		return this.breakable;
 	}
 }
 

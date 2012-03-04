@@ -116,6 +116,12 @@ public class WhileLoop
 		return DataTypes.VOID_VALUE;
 	}
 
+	public boolean assertBarrier()
+	{
+		return this.condition == DataTypes.TRUE_VALUE &&
+			!this.getScope().assertBreakable();
+	}
+
 	public String toString()
 	{
 		return "while";

@@ -39,21 +39,44 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Parser;
 
 public class SwitchScope
 	extends BasicScope
 {
 	private ArrayList commands = new ArrayList();
 	private int offset = -1;
+	private int barrier = BasicScope.BARRIER_SEEN;
+	private boolean breakable = false;
 
 	public SwitchScope( final BasicScope parentScope )
 	{
-                super( parentScope );
+		super( parentScope );
 	}
 
-	public void addCommand( final ParseTreeNode c )
+	public void addCommand( final ParseTreeNode c, final Parser p )
 	{
 		this.commands.add( c );
+		if ( this.barrier == BasicScope.BARRIER_NONE &&
+			c.assertBarrier() )
+		{
+			this.barrier = BasicScope.BARRIER_SEEN;
+		}
+		else if ( this.barrier == BasicScope.BARRIER_SEEN )
+		{
+			this.barrier = BasicScope.BARRIER_PAST;
+			p.warning( "Unreachable code" );
+		}
+		
+		if ( !this.breakable )
+		{
+			this.breakable = c.assertBreakable();
+		}
+	}
+	
+	public void resetBarrier()
+	{
+		this.barrier = BasicScope.BARRIER_NONE;
 	}
 
 	public Iterator getCommands()
@@ -69,6 +92,16 @@ public class SwitchScope
 	public void setOffset( final int offset )
 	{
 		this.offset = offset;
+	}
+
+	public boolean assertBarrier()
+	{
+		return this.barrier >= BasicScope.BARRIER_SEEN;
+	}
+	
+	public boolean assertBreakable()
+	{
+		return this.breakable;
 	}
 
 	public void print( final PrintStream stream, final int indent, Value [] tests, Integer [] offsets, int defaultIndex )

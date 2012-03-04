@@ -153,7 +153,7 @@ public class FunctionReturn
 		}
 	}
 	
-	public boolean assertReturn()
+	public boolean assertBarrier()
 	{
 		return true;
 	}

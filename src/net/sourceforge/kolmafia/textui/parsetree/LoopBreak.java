@@ -42,4 +42,9 @@ public class LoopBreak
 	{
 		super( Interpreter.STATE_BREAK );
 	}
+	
+	public boolean assertBreakable()
+	{
+		return true;
+	}
 }
