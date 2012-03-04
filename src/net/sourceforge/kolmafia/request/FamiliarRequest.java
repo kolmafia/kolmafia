@@ -213,6 +213,8 @@ public class FamiliarRequest
 				KoLmafia.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
 			}
 
+			KoLCharacter.setFamiliar( FamiliarData.NO_FAMILIAR );
+
 			if ( this.changeTo != FamiliarData.NO_FAMILIAR )
 			{
 				KoLmafia.updateDisplay( "Taking " + this.changeTo.getName() + " the " + this.changeTo.getRace() + " out of terrarium..." );

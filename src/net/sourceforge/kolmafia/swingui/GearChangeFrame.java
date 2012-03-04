@@ -105,6 +105,8 @@ public class GearChangeFrame
 	private JCheckBox weapon1H;
 	private JRadioButton[] offhandTypes;
 	private final EquipmentComboBox[] equipment;
+	private final SortedListModel hats = new SortedListModel();
+	private final SortedListModel pants = new SortedListModel();
 	private final SortedListModel weapons = new SortedListModel();
 	private final SortedListModel offhands = new SortedListModel();
 	private final SortedListModel familiars = new SortedListModel();
@@ -122,21 +124,27 @@ public class GearChangeFrame
 		this.equipment = new EquipmentComboBox[ EquipmentManager.ALL_SLOTS ];
 
 		LockableListModel[] lists = EquipmentManager.getEquipmentLists();
-		// We maintain our own lists of valid weapons and offhand items
+		// We maintain our own lists of valid hats, pants, weapons and offhand items
 		for ( int i = 0; i < this.equipment.length; ++i )
 		{
 			LockableListModel list;
-			if ( i == EquipmentManager.WEAPON )
+			switch ( i )
 			{
+			case EquipmentManager.HAT:
+				list = this.hats;
+				break;
+			case EquipmentManager.PANTS:
+				list = this.pants;
+				break;
+			case EquipmentManager.WEAPON:
 				list = this.weapons;
-			}
-			else if ( i == EquipmentManager.OFFHAND )
-			{
+				break;
+			case EquipmentManager.OFFHAND:
 				list = this.offhands;
-			}
-			else
-			{
+				break;
+			default:
 				list = lists[ i ];
+				break;
 			}
 
 			this.equipment[ i ] = new EquipmentComboBox( list, i == EquipmentManager.FAMILIAR );
@@ -662,6 +670,26 @@ public class GearChangeFrame
 			return;
 		}
 
+		AdventureResult hatItem = (AdventureResult) this.equipment[ EquipmentManager.HAT ].getSelectedItem();
+		AdventureResult currentHat = EquipmentManager.getEquipment( EquipmentManager.HAT );
+		if ( hatItem == null )
+		{
+			hatItem = currentHat;
+		}
+
+		List hatItems = this.validHatItems( currentHat );
+		this.updateEquipmentList( this.hats, hatItems, hatItem );
+
+		AdventureResult pantsItem = (AdventureResult) this.equipment[ EquipmentManager.PANTS ].getSelectedItem();
+		AdventureResult currentPants = EquipmentManager.getEquipment( EquipmentManager.PANTS );
+		if ( pantsItem == null )
+		{
+			pantsItem = currentPants;
+		}
+
+		List pantsItems = this.validPantsItems( currentPants );
+		this.updateEquipmentList( this.pants, pantsItems, pantsItem );
+
 		this.equipment[ EquipmentManager.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
 		AdventureResult weaponItem = (AdventureResult) this.equipment[ EquipmentManager.WEAPON ].getSelectedItem();
@@ -715,6 +743,86 @@ public class GearChangeFrame
 		this.updateEquipmentList( this.familiars, familiars, selectedFamiliar );
 	}
 
+	private List validHatItems( final AdventureResult currentHat )
+	{
+		List items = new ArrayList();
+
+		// Search inventory for hats
+		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		{
+			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
+			addHat( items, currentItem );
+		}
+
+		// Add the current hat
+		addHat( items, currentHat );
+
+		// Add anything your Hatrack is wearing unless it is your current familiar
+		FamiliarData hatrack = KoLCharacter.findFamiliar( FamiliarPool.HATRACK );
+		if ( hatrack != null && hatrack != KoLCharacter.getFamiliar() )
+		{
+			addHat( items, hatrack.getItem() );
+		}
+
+		// Add "(none)"
+		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
+		{
+			items.add( EquipmentRequest.UNEQUIP );
+		}
+
+		return items;
+	}
+
+	private void addHat( final List items, final AdventureResult item )
+	{
+		if ( !addItem( items, item, KoLConstants.EQUIP_HAT ) )
+		{
+			return;
+		}
+
+		items.add( item );
+	}
+
+	private List validPantsItems( final AdventureResult currentPants )
+	{
+		List items = new ArrayList();
+
+		// Search inventory for pantss
+		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		{
+			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
+			addPants( items, currentItem );
+		}
+
+		// Add the current pants
+		addPants( items, currentPants );
+
+		// Add anything your Scarecrow is wearing unless it is your current familiar
+		FamiliarData scarecrow = KoLCharacter.findFamiliar( FamiliarPool.SCARECROW );
+		if ( scarecrow != null && scarecrow != KoLCharacter.getFamiliar() )
+		{
+			addPants( items, scarecrow.getItem() );
+		}
+
+		// Add "(none)"
+		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
+		{
+			items.add( EquipmentRequest.UNEQUIP );
+		}
+
+		return items;
+	}
+
+	private void addPants( final List items, final AdventureResult item )
+	{
+		if ( !addItem( items, item, KoLConstants.EQUIP_PANTS ) )
+		{
+			return;
+		}
+
+		items.add( item );
+	}
+
 	private List validWeaponItems( final AdventureResult currentWeapon )
 	{
 		List items = new ArrayList();
@@ -733,44 +841,20 @@ public class GearChangeFrame
 		}
 
 		// Search inventory for weapons
-
-		int equipStat;
 		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
 		{
 			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
-
-			// Only add it once
-			if ( items.contains( currentItem ) )
-			{
-				continue;
-			}
-
-			// Only add weapons
-			int type = ItemDatabase.getConsumptionType( currentItem.getItemId() );
-
-			if ( type != KoLConstants.EQUIP_WEAPON )
-			{
-				continue;
-			}
-
-			// Make sure we meet requirements
-			if ( !EquipmentManager.canEquip( currentItem.getName() ) )
-			{
-				continue;
-			}
-
-			if ( filterWeapon( currentItem ) )
-			{
-				items.add( currentItem );
-			}
+			addWeapon( items, currentItem );
 		}
 
 		// Add the current weapon
+		addWeapon( items, currentWeapon );
 
-		if ( !items.contains( currentWeapon ) &&
-		     filterWeapon( currentWeapon ) )
+		// Add anything your Disembodied Hand is holding unless it is your current familiar
+		FamiliarData hand = KoLCharacter.findFamiliar( FamiliarPool.HAND );
+		if ( hand != null && hand != KoLCharacter.getFamiliar() )
 		{
-			items.add( currentWeapon );
+			addWeapon( items, hand.getItem() );
 		}
 
 		// Add "(none)"
@@ -782,10 +866,47 @@ public class GearChangeFrame
 		return items;
 	}
 
+	private void addWeapon( final List items, final AdventureResult item )
+	{
+		if ( !addItem( items, item, KoLConstants.EQUIP_WEAPON ) )
+		{
+			return;
+		}
+
+		if ( !filterWeapon( item ) )
+		{
+			return;
+		}
+
+		items.add( item );
+	}
+
+	private boolean addItem( final List items, final AdventureResult item, final int type )
+	{
+		// Only add it once
+		if ( items.contains( item ) )
+		{
+			return false;
+		}
+
+		// Only add items of specified type
+		if ( type != ItemDatabase.getConsumptionType( item.getItemId() ) )
+		{
+			return false;
+		}
+
+		// Make sure we meet requirements
+		if ( !EquipmentManager.canEquip( item.getName() ) )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	private boolean filterWeapon( final AdventureResult weapon )
 	{
-		if ( this.weapon1H.isSelected() &&
-			EquipmentDatabase.getHands( weapon.getName() ) > 1 )
+		if ( this.weapon1H.isSelected() && EquipmentDatabase.getHands( weapon.getName() ) > 1 )
 		{
 			return false;
 		}

@@ -762,17 +762,17 @@ public class CharPaneRequest
 		Pattern pattern = CharPaneRequest.compactCharacterPane ?
 			CharPaneRequest.compactFamiliarWeightPattern :
 			CharPaneRequest.expandedFamiliarWeightPattern;
-		Matcher familiarMatcher = pattern.matcher( responseText );
-		if ( familiarMatcher.find() )
+		Matcher matcher = pattern.matcher( responseText );
+		if ( matcher.find() )
 		{
-			int weight = StringUtilities.parseInt( familiarMatcher.group(1) );
+			int weight = StringUtilities.parseInt( matcher.group(1) );
 			boolean feasted = responseText.indexOf( "well-fed" ) != -1;
 			KoLCharacter.getFamiliar().checkWeight( weight, feasted );
 		}
 
 		pattern = CharPaneRequest.familiarImagePattern;
-		familiarMatcher = pattern.matcher( responseText );
-		String image = familiarMatcher.find() ? familiarMatcher.group( 1 ) : null;
+		matcher = pattern.matcher( responseText );
+		String image = matcher.find() ? new String( matcher.group( 1 ) ) : null;
 		KoLCharacter.setFamiliarImage( image );
 	}
 
