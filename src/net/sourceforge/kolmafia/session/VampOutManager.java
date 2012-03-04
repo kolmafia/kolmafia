@@ -98,6 +98,8 @@ public class VampOutManager
 			return "0";
 		}
 
+		String decision = "0";
+
 		if ( stepCount == 0 && responseText.contains( "Finally, the sun has set." ) )
 		{
 			boolean vladAvailable = responseText.contains( "Visit Vlad's Boutique" );
@@ -126,38 +128,43 @@ public class VampOutManager
 			case 0:
 			case 1:
 			case 2:
-				return Integer.toString( vladChoice );
+				decision = Integer.toString( vladChoice );
+				break;
 			case 3:
 			case 4:
 			case 5:
 			case 6:
-				return Integer.toString( isabellaChoice );
+				decision = Integer.toString( isabellaChoice );
+				break;
 			case 7:
 			case 8:
 			case 9:
 			case 10:
 			case 11:
 			case 12:
-				return Integer.toString( masqueradeChoice );
+				decision = Integer.toString( masqueradeChoice );
+				break;
 			}
 		}
-
-		String decision = VampOutScript[ vampOutGoal ].substring( stepCount, stepCount + 1 );
-
-		switch ( decision.charAt( 0 ) )
+		else
 		{
-		case 'b':
-			decision = ChoiceManager.findChoiceDecisionIndex( BROUHAHA, responseText );
-			break;
-		case 'm':
-			decision = ChoiceManager.findChoiceDecisionIndex( MALKOVICH, responseText );
-			break;
-		case 't':
-			decision = ChoiceManager.findChoiceDecisionIndex( TORREMOLINOS, responseText );
-			break;
-		case 'v':
-			decision = ChoiceManager.findChoiceDecisionIndex( VENTRILO, responseText );
-			break;
+			decision = VampOutScript[ vampOutGoal ].substring( stepCount, stepCount + 1 );
+
+			switch ( decision.charAt( 0 ) )
+			{
+			case 'b':
+				decision = ChoiceManager.findChoiceDecisionIndex( BROUHAHA, responseText );
+				break;
+			case 'm':
+				decision = ChoiceManager.findChoiceDecisionIndex( MALKOVICH, responseText );
+				break;
+			case 't':
+				decision = ChoiceManager.findChoiceDecisionIndex( TORREMOLINOS, responseText );
+				break;
+			case 'v':
+				decision = ChoiceManager.findChoiceDecisionIndex( VENTRILO, responseText );
+				break;
+			}
 		}
 
 		String action = ChoiceManager.findChoiceDecisionText( Integer.parseInt( decision ), responseText );
