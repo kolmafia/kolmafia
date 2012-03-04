@@ -95,4 +95,5 @@ public class FamiliarPool
 	public static final int SCARECROW = 152;
 	public static final int GROOSE = 154;
 	public static final int KLOOP = 155;
+	public static final int HAPPY_MEDIUM = 159;
 }

@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.utilities.BooleanArray;
@@ -134,6 +135,14 @@ public class FamiliarDatabase
 
 				FamiliarDatabase.familiarImageById.put( familiarId, familiarImage );
 				FamiliarDatabase.familiarByImage.put( familiarImage, familiarId );
+
+				// Kludge: Happy Medium has 4 different images
+				if ( id == FamiliarPool.HAPPY_MEDIUM )
+				{
+					FamiliarDatabase.familiarByImage.put( "medium_1.gif", familiarId );
+					FamiliarDatabase.familiarByImage.put( "medium_2.gif", familiarId );
+					FamiliarDatabase.familiarByImage.put( "medium_3.gif", familiarId );
+				}
 				
 				FamiliarDatabase.familiarLarvaById.put( familiarId, familiarLarva );
 				FamiliarDatabase.familiarByLarva.put( familiarLarva, familiarId );

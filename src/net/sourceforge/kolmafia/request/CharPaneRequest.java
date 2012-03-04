@@ -755,7 +755,7 @@ public class CharPaneRequest
 	private static Pattern expandedFamiliarWeightPattern =
 		Pattern.compile( "<b>([\\d]+)</b> pound" );
 	private static Pattern familiarImagePattern =
-		Pattern.compile( "<a.*?class=\"familiarpick\"><img.*?itemimages/(.*?)\\.gif" );
+		Pattern.compile( "<a.*?class=\"familiarpick\"><img.*?itemimages/(.*?\\.gif)" );
 
 	private static final void checkFamiliar( final String responseText )
 	{
@@ -875,7 +875,7 @@ public class CharPaneRequest
 			KoLCharacter.setFamiliar( familiar );
 
 			String image = JSON.getString( "familiarpic" );
-			KoLCharacter.setFamiliarImage( image.equals( "" ) ? null : image );
+			KoLCharacter.setFamiliarImage( image.equals( "" ) ? null : image + ".gif" );
 
 			boolean feasted = JSON.getInt( "familiar_wellfed" ) == 1;
 			familiar.checkWeight( weight, feasted );
