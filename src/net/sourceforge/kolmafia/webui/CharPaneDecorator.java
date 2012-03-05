@@ -522,6 +522,15 @@ public class CharPaneDecorator
 			}
 			return buffer;
 
+		case FamiliarPool.HAPPY_MEDIUM:
+			buffer.append( Preferences.getString( "_mediumSiphons" ) );
+			buffer.append( " siphon" );
+			if ( Preferences.getInteger( "_mediumSiphons" ) != 1 )
+			{
+				buffer.append( "s" );
+			}
+			return buffer;
+
 		case FamiliarPool.ALIEN:
 			buffer.append( Preferences.getString( "_transponderDrops" ) );
 			buffer.append( "/5" );
