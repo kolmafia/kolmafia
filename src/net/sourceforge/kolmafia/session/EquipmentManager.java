@@ -282,9 +282,18 @@ public class EquipmentManager
 				AdventureResult.addResultToList( EquipmentManager.equipmentLists[ equipmentType ], item );
 			}
 
-			if ( equipmentType == EquipmentManager.WEAPON || equipmentType == EquipmentManager.OFFHAND )
+			switch ( equipmentType )
 			{
+			case EquipmentManager.HAT:
+				GearChangeFrame.updateHats();
+				break;
+			case EquipmentManager.WEAPON:
+			case EquipmentManager.OFFHAND:
 				GearChangeFrame.updateWeapons();
+				break;
+			case EquipmentManager.PANTS:
+				GearChangeFrame.updatePants();
+				break;
 			}
 		}
 
@@ -351,8 +360,13 @@ public class EquipmentManager
 			break;
 
 		case EquipmentManager.HAT:
+			EquipmentManager.checkFamiliar( slot );
+			GearChangeFrame.updateHats();
+			break;
+
 		case EquipmentManager.PANTS:
 			EquipmentManager.checkFamiliar( slot );
+			GearChangeFrame.updatePants();
 			break;
 
 		case EquipmentManager.FAMILIAR:
