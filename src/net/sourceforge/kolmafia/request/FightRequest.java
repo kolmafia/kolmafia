@@ -5101,6 +5101,9 @@ public class FightRequest
 			FightRequest.canStomp = false;
 			Preferences.increment( "_bootStomps", 1 );
 			break;
+		case 7117: // Siphon Spirits
+			Preferences.increment( "_mediumSiphons", 1 );
+			break;
 		}
 	}
 

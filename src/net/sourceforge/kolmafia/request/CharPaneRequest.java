@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -774,12 +775,15 @@ public class CharPaneRequest
 		matcher = pattern.matcher( responseText );
 		String image = matcher.find() ? new String( matcher.group( 1 ) ) : null;
 		KoLCharacter.setFamiliarImage( image );
+		checkMedium( responseText );
 	}
 
 	private static Pattern compactClancyPattern =
 		Pattern.compile( "otherimages/clancy_([123])(_att)?.gif.*?L\\. (\\d+)", Pattern.DOTALL );
 	private static Pattern expandedClancyPattern =
 		Pattern.compile( "<b>Clancy</b>.*?Level <b>(\\d+)</b>.*?otherimages/clancy_([123])(_att)?.gif", Pattern.DOTALL );
+	private static Pattern mediumPattern =
+		Pattern.compile( "images/medium_([0123]).gif", Pattern.DOTALL );
 
 	public static AdventureResult SACKBUT = ItemPool.get( ItemPool.CLANCY_SACKBUT, 1 );
 	public static AdventureResult CRUMHORN = ItemPool.get( ItemPool.CLANCY_CRUMHORN, 1 );
@@ -802,6 +806,18 @@ public class CharPaneRequest
 				image.equals( "3" ) ? CharPaneRequest.LUTE :
 				null;
 			KoLCharacter.setClancy( StringUtilities.parseInt( level ), instrument, att );
+		}
+	}
+	
+	private static final void checkMedium( final String responseText )
+	{
+		Pattern pattern = CharPaneRequest.mediumPattern;
+		Matcher mediumMatcher = pattern.matcher( responseText );
+		if ( mediumMatcher.find() )
+		{
+			int aura = StringUtilities.parseInt( mediumMatcher.group( 1 ) );
+			FamiliarData fam = KoLCharacter.findFamiliar( FamiliarPool.HAPPY_MEDIUM );
+			fam.setCharges( aura );
 		}
 	}
 
@@ -879,6 +895,16 @@ public class CharPaneRequest
 
 			boolean feasted = JSON.getInt( "familiar_wellfed" ) == 1;
 			familiar.checkWeight( weight, feasted );
+
+			// KoL bug: api.php always has "medium_0" for familiarpic, regardless of what it actually is.
+			// Uncomment when they fix it.
+			/*if ( famId == FamiliarPool.HAPPY_MEDIUM )
+			{
+				int aura = StringUtilities.parseInt( image.substring( 7, 8 ) );
+				RequestLogger.printLine( image );
+				FamiliarData medium = KoLCharacter.findFamiliar( FamiliarPool.HAPPY_MEDIUM );
+				medium.setCharges( aura );
+			}*/
 		}
 	}
 
