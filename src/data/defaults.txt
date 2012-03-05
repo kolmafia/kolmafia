@@ -781,6 +781,7 @@ user	_lookingGlass	false
 user	_lunchBreak	false
 user	_madTeaParty	false
 user	_mayflySummons	0
+user	_mediumSiphons	0
 user	_navelRunaways	0
 user	_pasteDrops	0
 user	_photocopyUsed	false

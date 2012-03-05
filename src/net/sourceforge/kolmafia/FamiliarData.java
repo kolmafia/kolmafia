@@ -101,6 +101,7 @@ public class FamiliarData
 	private AdventureResult item;
 	private boolean feasted;
 	private boolean favorite;
+	private int charges;
 
 	public FamiliarData( final int id )
 	{
@@ -117,6 +118,7 @@ public class FamiliarData
 		this.weight = weight;
 		this.item = item;
 		this.feasted = false;
+		this.charges = 0;
 	}
 
 	private FamiliarData( final Matcher dataMatcher )
@@ -580,6 +582,16 @@ public class FamiliarData
 		String image = FamiliarDatabase.getFamiliarImageLocation( this.id );
 		int index = image.lastIndexOf( "/" );
 		return index == -1 ? image : image.substring( index + 1 );
+	}
+
+	public void setCharges( int charges )
+	{
+		this.charges = charges;
+	}
+
+	public int getCharges()
+	{
+		return this.charges;
 	}
 
 	public boolean trainable()

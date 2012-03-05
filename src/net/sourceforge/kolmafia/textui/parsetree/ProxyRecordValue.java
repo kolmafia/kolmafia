@@ -389,6 +389,7 @@ public class ProxyRecordValue
 			.add( "hatchling", DataTypes.ITEM_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "name", DataTypes.STRING_TYPE )
+			.add( "charges", DataTypes.INT_TYPE )
 			.finish( "familiar proxy" );
 
 		public FamiliarProxy( Value obj )
@@ -416,6 +417,11 @@ public class ProxyRecordValue
 		{
 			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
 			return fam == null ? "" : fam.getName();
+		}
+		public int get_charges()
+		{
+			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
+			return fam == null ? 0 : fam.getCharges();
 		}
 	}
 
