@@ -1424,7 +1424,8 @@ public class GenericRequest
 		{
 			if ( this.shouldUpdateDebugLog() )
 			{
-				RequestLogger.updateDebugLog( "Error opening connection (" + this.getURLString() + "). Retrying..." );
+				String message = "IOException opening connection (" + this.getURLString() + "). Retrying...";
+				StaticEntity.printStackTrace( e, message );
 			}
 
 			return false;
@@ -1535,14 +1536,21 @@ public class GenericRequest
 
 			if ( this.shouldUpdateDebugLog() )
 			{
-				RequestLogger.printLine( "Time out during data post (" + this.formURLString + ").  This could be bad..." );
+				String message = "Time out during data post (" + this.formURLString + "). This could be bad...";
+				RequestLogger.printLine( message );
 			}
 
 			return KoLmafia.refusesContinue();
 		}
 		catch ( IOException e )
 		{
-			String message = "IOException during data post (" + this.formURLString + "): " + e.toString();
+			String message = "IOException during data post (" + this.getURLString() + ").";
+
+			if ( this.shouldUpdateDebugLog() )
+			{
+				StaticEntity.printStackTrace( e, message );
+			}
+
 			RequestLogger.printLine( KoLConstants.ERROR_STATE, message );
 			this.timeoutCount = TIMEOUT_LIMIT;
 			return true;
@@ -1579,7 +1587,8 @@ public class GenericRequest
 		{
 			if ( this.shouldUpdateDebugLog() )
 			{
-				RequestLogger.printLine( "Time out during response (" + this.formURLString + ")." );
+				String message = "Time out retrieving server reply (" + this.formURLString + ").";
+				RequestLogger.printLine( message );
 			}
 
 			boolean shouldRetry = this.retryOnTimeout();
@@ -1596,10 +1605,17 @@ public class GenericRequest
 		catch ( IOException e )
 		{
 			this.responseCode = this.getResponseCode();
+
 			if ( this.responseCode != 0 )
 			{
 				String message = "Server returned response code " + this.responseCode + " for " + this.baseURLString;
 				RequestLogger.printLine( KoLConstants.ERROR_STATE, message );
+			}
+
+			if ( this.shouldUpdateDebugLog() )
+			{
+				String message = "IOException retrieving server reply (" + this.getURLString() + ").";
+				StaticEntity.printStackTrace( e, message );
 			}
 
 			if ( this.processOnFailure() )
