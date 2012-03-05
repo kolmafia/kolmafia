@@ -1542,6 +1542,8 @@ public class GenericRequest
 		}
 		catch ( IOException e )
 		{
+			String message = "IOException during data post (" + this.formURLString + "): " + e.toString();
+			RequestLogger.printLine( KoLConstants.ERROR_STATE, message );
 			this.timeoutCount = TIMEOUT_LIMIT;
 			return true;
 		}
