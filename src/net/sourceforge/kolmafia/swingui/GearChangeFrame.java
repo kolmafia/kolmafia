@@ -482,6 +482,30 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.ensureValidSelections();
 	}
 
+	public static final void updateHats()
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+
+		GearChangeFrame.INSTANCE.hats.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.HAT ) );
+
+		GearChangeFrame.INSTANCE.ensureValidSelections();
+	}
+
+	public static final void updatePants()
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+
+		GearChangeFrame.INSTANCE.pants.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.PANTS ) );
+
+		GearChangeFrame.INSTANCE.ensureValidSelections();
+	}
+
 	public static final void updateWeapons()
 	{
 		if ( GearChangeFrame.INSTANCE == null )
