@@ -748,6 +748,11 @@ public class GenericRequest
 
 	public static String decodeURL( final String urlString, final String charset )
 	{
+		if ( urlString == null )
+		{
+			return null;
+		}
+
 		try
 		{
 			return URLDecoder.decode( urlString, charset );
@@ -765,6 +770,11 @@ public class GenericRequest
 
 	public static String encodeURL( final String urlString, final String charset )
 	{
+		if ( urlString == null )
+		{
+			return null;
+		}
+
 		try
 		{
 			return URLEncoder.encode( urlString, charset );
