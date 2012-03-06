@@ -40,6 +40,7 @@ global	combatHotkey8
 global	combatHotkey9
 global	commandLineNamespace
 global	compactChessboard	false
+global	connectViaAddress	false
 global	cookies.inventory
 global	copyAsHTML	false
 global	customizedTabs	false
