@@ -291,3 +291,9 @@ The Tweedleporium	a	wristwatch of the white knight	30000
 The Typical Tavern	v	day-old beer	25
 The Typical Tavern	v	plain old beer	50
 The Typical Tavern	v	overpriced &quot;imported&quot; beer	100
+
+Uncle P's Antiques	p	Clancy's crumhorn	2500
+Uncle P's Antiques	p	fancy black tie	1000000
+Uncle P's Antiques	p	fancy tophat	1000000
+Uncle P's Antiques	p	fancy tuxedo pants	1000000
+Uncle P's Antiques	p	'Villa' document	100000000
