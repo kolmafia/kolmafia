@@ -228,6 +228,11 @@ public class NPCStoreDatabase
 		{
 			return KoLCharacter.getDispensaryOpen();
 		}
+		else if ( storeId.equals( "p" ) )
+		{
+			// Available if we can get to the beach.
+			return true;
+		}
 		else if ( storeId.equals( "h" ) )
 		{
 			int level = KoLCharacter.getLevel();
