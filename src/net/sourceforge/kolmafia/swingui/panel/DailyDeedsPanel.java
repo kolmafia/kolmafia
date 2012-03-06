@@ -2090,13 +2090,15 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "(stills)" );
 			this.addListener( "kingLiberated" );
+			this.addListener( "lastGuildStoreOpen" );
 			this.addLabel( "" );
 		}
 
 		public void update()
 		{
+			boolean unlocked = KoLCharacter.getGuildStoreOpen();
 			this.setShown( KoLCharacter.isMoxieClass() &&
-				KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) );
+				KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) && unlocked );
 			this.setText( (10 - KoLCharacter.getStillsAvailable()) +
 				"/10 stills used" );
 		}
