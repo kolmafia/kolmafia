@@ -37,6 +37,7 @@ import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import javax.net.ssl.HostnameVerifier;
@@ -98,8 +99,14 @@ public class NaiveSecureSocketLayer
 	{
 		if ( NaiveSecureSocketLayer.INSTALL_ENABLED )
 		{
+			RequestLogger.printLine( "Installing naive certificate validation..." );
+
 			HttpsURLConnection.setDefaultSSLSocketFactory( NaiveSecureSocketLayer.NAIVE_SOCKET_FACTORY );
 			HttpsURLConnection.setDefaultHostnameVerifier( NaiveSecureSocketLayer.NAIVE_HOSTNAME_VERIFIER );
+		}
+		else
+		{
+			RequestLogger.printLine( "Skipping naive certificate validation installation..." );
 		}
 	}
 
@@ -107,8 +114,14 @@ public class NaiveSecureSocketLayer
 	{
 		if ( NaiveSecureSocketLayer.UNINSTALL_ENABLED )
 		{
+			RequestLogger.printLine( "Installing default certificate validation..." );
+
 			HttpsURLConnection.setDefaultSSLSocketFactory( NaiveSecureSocketLayer.DEFAULT_SOCKET_FACTORY );
 			HttpsURLConnection.setDefaultHostnameVerifier( NaiveSecureSocketLayer.DEFAULT_HOSTNAME_VERIFIER );
+		}
+		else
+		{
+			RequestLogger.printLine( "Skipping default certificate validation installation..." );
 		}
 	}
 

@@ -150,6 +150,7 @@ public class GenericRequest
 		"www.kingdomofloathing.com"
 	};
 
+	public static final String KOL_IP = "69.16.150.211";
 	public static String KOL_HOST = GenericRequest.SERVERS[ 1 ];
 	public static URL KOL_ROOT = null;
 	public static URL KOL_SECURE_ROOT = null;
@@ -229,7 +230,7 @@ public class GenericRequest
 			systemProperties.remove( "sun.net.client.defaultReadTimeout" );
 		}
 
-		if ( Preferences.getBoolean( "useNaiveSecureLogin" ) )
+		if ( Preferences.getBoolean( "useNaiveSecureLogin" ) || Preferences.getBoolean( "connectViaAddress" ) )
 		{
 			NaiveSecureSocketLayer.install();
 		}
@@ -347,7 +348,14 @@ public class GenericRequest
 
 		try
 		{
-			GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.KOL_HOST, 80, "/" );
+			if ( Preferences.getBoolean( "connectViaAddress" ) )
+			{
+				GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.KOL_IP, 80, "/" );
+			}
+			else
+			{
+				GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.KOL_HOST, 80, "/" );
+			}
 		}
 		catch ( IOException e )
 		{
@@ -356,7 +364,14 @@ public class GenericRequest
 
 		try
 		{
-			GenericRequest.KOL_SECURE_ROOT = new URL( "https", GenericRequest.KOL_HOST, 443, "/" );
+			if ( Preferences.getBoolean( "connectViaAddress" ) )
+			{
+				GenericRequest.KOL_SECURE_ROOT = new URL( "https", GenericRequest.KOL_IP, 443, "/" );
+			}
+			else
+			{
+				GenericRequest.KOL_SECURE_ROOT = new URL( "https", GenericRequest.KOL_HOST, 443, "/" );
+			}
 		}
 		catch ( IOException e )
 		{
