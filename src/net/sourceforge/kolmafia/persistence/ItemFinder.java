@@ -34,8 +34,10 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -44,6 +46,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -148,6 +151,23 @@ public class ItemFinder
 		// then return from this method.
 
 		if ( nameList.size() == 1 )
+		{
+			String name = (String) nameList.get( 0 );
+			return ItemDatabase.getCanonicalName( name );
+		}
+
+		// If there's only one unique item in there, return it.
+
+		Set itemIdSet = new HashSet();
+
+		for ( int i = 0; i < nameList.size(); ++i )
+		{
+			int itemId = ItemDatabase.getItemId( (String) nameList.get( i ) );
+
+			itemIdSet.add( IntegerPool.get( itemId ) );
+		}
+
+		if ( itemIdSet.size() == 1 )
 		{
 			String name = (String) nameList.get( 0 );
 			return ItemDatabase.getCanonicalName( name );
