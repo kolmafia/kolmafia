@@ -5563,7 +5563,7 @@
 5562	345933889	raindohbo.gif	Rain-Doh violet bo
 5563	796678285	raindohbox.gif	Rain-Doh black box
 5564	965400716	raindohboxfull.gif	Rain-Doh box full of monster
-5565	660831377	sammich.gif	PB&amp;BP	PB&amp;BPs
+5565	660831377	sammich.gif	PB&BP	PB&BPs
 5566	232765592	sammich.gif	club sandwich	club sandwiches
 5567	978545620	sammich.gif	corned-beef Reuben
 5568
@@ -5571,7 +5571,7 @@
 5570
 5571
 5572	497799983	thwaitbeetle.gif	Thwaitgold stag beetle statuette
-5573	142371526	blackntan.gif	Drac &amp; Tan
+5573	142371526	blackntan.gif	Drac & Tan
 5574	784560184	hurricane.gif	Transylvania Sling
 5575	145928650	shot.gif	Shot of the Living Dead
 5576	623617452	shot.gif	Buttery Knob
@@ -5622,7 +5622,7 @@
 5621	744271417	rocks.gif	Drunken Philosopher
 5622	600910105	rocks.gif	Drunken Neurologist
 5623	800374329	rocks.gif	Drunken Astrophysicist
-5624	785499840	blackntan.gif	Dark &amp; Starry
+5624	785499840	blackntan.gif	Dark & Starry
 5625	560772723	juice.gif	Black Hole
 5626	567089761	rocks.gif	Event Horizon
 5627	793096692	daquiri.gif	Herring Daquiri

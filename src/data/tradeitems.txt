@@ -5571,7 +5571,7 @@
 5562	Rain-Doh violet bo	weapon	none	0
 5563	Rain-Doh black box	none, combat	none	0
 5564	Rain-Doh box full of monster	usable	none	0
-5565	PB&amp;BP	food	display	5
+5565	PB&BP	food	display	5
 5566	club sandwich	food	display	5
 5567	corned-beef Reuben	food	display	5
 5568
@@ -5579,7 +5579,7 @@
 5570
 5571
 5572	Thwaitgold stag beetle statuette	none	display	0
-5573	Drac &amp; Tan	drink	all	10
+5573	Drac & Tan	drink	all	10
 5574	Transylvania Sling	drink	all	25
 5575	Shot of the Living Dead	drink	all	50
 5576	Buttery Knob	drink	all	10
@@ -5630,7 +5630,7 @@
 5621	Drunken Philosopher	drink	all	10
 5622	Drunken Neurologist	drink	all	25
 5623	Drunken Astrophysicist	drink	all	50
-5624	Dark &amp; Starry	drink	all	10
+5624	Dark & Starry	drink	all	10
 5625	Black Hole	drink	all	25
 5626	Event Horizon	drink	all	50
 5627	Herring Daquiri	drink	all	10

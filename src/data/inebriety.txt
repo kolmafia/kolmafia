@@ -98,7 +98,7 @@ cup of primitive beer	1	12	good	2-4	50-65	0	0	12-15 MP, lose 10-18 HP
 cursed bottle of black-label rum	3	3	good	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	crappy	1	0	0	0
 cyder	3	5		5	0	0	0
-dark &amp; starry	2	1	good	4-5	0	0	0	Restores MP
+dark & starry	2	1	good	4-5	0	0	0	Restores MP
 day-old beer	1	1	crappy	1	0	0	0
 decanter of fine scotch	4	9	EPIC	18-22	5-10	5-10	50-80
 desert island iced tea	5	1		12-13	0	0	0	15 Castaway Physique
@@ -108,7 +108,7 @@ dirty martini	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 distilled fortified wine	1	1	EPIC	5-6	5-6	5-6	5-6
 divine	4	6	awesome	14-18	16-20	25-27	0
 doublepunchplanter	2	4	awesome	6-7	0	0	0	10 Fishy
-drac &amp; tan	2	1	good	4-5	0	0	0	5 Creepypasted
+drac & tan	2	1	good	4-5	0	0	0	5 Creepypasted
 drunken astrophysicist	2	8	awesome	8-9	0	0	0	15 Heisenberglary
 drunken neurologist	2	4	awesome	6-7	0	0	0	10 Heisenberglary
 drunken philosopher	2	1	good	4-5	0	0	0	5 Heisenberglary
