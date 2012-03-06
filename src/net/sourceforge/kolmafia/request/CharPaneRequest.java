@@ -283,6 +283,12 @@ public class CharPaneRequest
 
 	private static final boolean checkInteraction( final String responseText )
 	{
+		// If he's freed the king, that's good enough
+		if ( KoLCharacter.kingLiberated() )
+		{
+			return true;
+		}
+
 		// If he's in Hardcore, nope
 		if ( KoLCharacter.isHardcore() )
 		{
@@ -293,12 +299,6 @@ public class CharPaneRequest
 		if ( KoLCharacter.inBadMoon() )
 		{
 			return false;
-		}
-
-		// If he's freed the king, that's good enough
-		if ( KoLCharacter.kingLiberated() )
-		{
-			return true;
 		}
 
 		// If the charsheet does not say he can't interact or api.php
