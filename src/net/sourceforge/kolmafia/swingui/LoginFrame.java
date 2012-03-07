@@ -437,7 +437,7 @@ public class LoginFrame
 			{ "useSecureLogin", "Switch to HTTPS for login (development in progress)" },
 			{ "connectViaAddress", "Use IP address to connect instead of host name" },
 			{ "useNaiveSecureLogin", "Do not have Java try to validate SSL certificates" },
-			{ "allowSocketTimeout", "Improve handling of semi-random lag spikes" },
+			{ "allowSocketTimeout", "Forcibly time-out laggy requests" },
 		};
 
 		public ConnectionOptionsPanel()
