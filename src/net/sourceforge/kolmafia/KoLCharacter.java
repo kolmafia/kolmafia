@@ -3513,6 +3513,7 @@ public abstract class KoLCharacter
 	public static final void setFamiliarImage( final String image )
 	{
 		KoLCharacter.currentFamiliarImage = image;
+		FamiliarDatabase.setFamiliarImageLocation( KoLCharacter.getFamiliar().getId(), image );
 	}
 
 	public static final FamiliarData getEnthroned()
