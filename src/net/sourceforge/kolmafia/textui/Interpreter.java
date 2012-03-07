@@ -298,7 +298,7 @@ public class Interpreter
 		}
 		catch ( StackOverflowError e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Stack overflow during ASH script." );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Stack overflow during ASH script: " + Parser.getLineAndFile( this.fileName, this.lineNumber ) );
 		}
 		catch ( Exception e )
 		{
