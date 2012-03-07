@@ -896,15 +896,14 @@ public class CharPaneRequest
 			boolean feasted = JSON.getInt( "familiar_wellfed" ) == 1;
 			familiar.checkWeight( weight, feasted );
 
-			// KoL bug: api.php always has "medium_0" for familiarpic, regardless of what it actually is.
-			// Uncomment when they fix it.
-			/*if ( famId == FamiliarPool.HAPPY_MEDIUM )
+			// Set charges from the Medium's image
+			
+			if ( famId == FamiliarPool.HAPPY_MEDIUM )
 			{
 				int aura = StringUtilities.parseInt( image.substring( 7, 8 ) );
-				RequestLogger.printLine( image );
 				FamiliarData medium = KoLCharacter.findFamiliar( FamiliarPool.HAPPY_MEDIUM );
 				medium.setCharges( aura );
-			}*/
+			}
 		}
 	}
 
