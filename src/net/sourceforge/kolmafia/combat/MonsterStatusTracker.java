@@ -157,6 +157,16 @@ public class MonsterStatusTracker
 		MonsterStatusTracker.defenseModifier = 0;
 	}
 
+	public static final int getMonsterBaseAttack()
+	{
+		if ( MonsterStatusTracker.monsterData == null )
+		{
+			return 0;
+		}
+
+		return MonsterStatusTracker.monsterData.getAttack();
+	}
+
 	public static final int getMonsterAttack()
 	{
 		if ( MonsterStatusTracker.monsterData == null )

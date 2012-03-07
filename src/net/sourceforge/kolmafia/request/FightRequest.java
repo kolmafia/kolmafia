@@ -2705,10 +2705,9 @@ public class FightRequest
 
 		if ( responseText.indexOf( "You slap a flyer" ) != -1 )
 		{
-			int ML = Math.max( 0, MonsterStatusTracker.getMonsterAttack() );
+			int ML = Math.max( 0, MonsterStatusTracker.getMonsterBaseAttack() );
 			Preferences.increment( "flyeredML", ML );
-			AdventureResult result = AdventureResult.tallyItem(
-				"Arena flyer ML", ML, false );
+			AdventureResult result = AdventureResult.tallyItem( "Arena flyer ML", ML, false );
 			AdventureResult.addResultToList( KoLConstants.tally, result );
 			GoalManager.updateProgress( result );
 		}
