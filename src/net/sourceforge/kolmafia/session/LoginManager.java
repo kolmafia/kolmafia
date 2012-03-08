@@ -98,6 +98,12 @@ public class LoginManager
 			return;
 		}
 
+		// Abort further processing if we logged in to a fight or choice
+		if ( KoLmafia.isRefreshing() )
+		{
+			return;
+		}
+
 		if ( Preferences.getBoolean( name, "getBreakfast" ) )
 		{
 			int today = HolidayDatabase.getPhaseStep();
