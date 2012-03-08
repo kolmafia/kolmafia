@@ -175,8 +175,8 @@ public class MonsterStatusTracker
 		}
 
 		int baseAttack = MonsterStatusTracker.monsterData.getAttack();
-		return baseAttack == 0 ? 0:	// 0 means unspaded
-			Math.max( baseAttack + MonsterStatusTracker.attackModifier, 1 );
+		int adjustedAttack = baseAttack + MonsterStatusTracker.attackModifier;
+		return baseAttack == 0 ? adjustedAttack: Math.max( adjustedAttack, 1 );
 	}
 
 	public static final int getMonsterAttackElement()
@@ -232,8 +232,8 @@ public class MonsterStatusTracker
 		}
 
 		int baseDefense = MonsterStatusTracker.monsterData.getDefense();
-		return baseDefense == 0 ? 0 :	// 0 means unspaded
-			Math.max( baseDefense + MonsterStatusTracker.defenseModifier, 1 );
+		int adjustedDefense = baseDefense + MonsterStatusTracker.defenseModifier;
+		return baseDefense == 0 ? adjustedDefense : Math.max( adjustedDefense, 1 );
 	}
 
 	public static final int getMonsterDefenseElement()
