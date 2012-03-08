@@ -1558,42 +1558,52 @@ public class RequestEditorKit
 		}
 		glyphs[ 2 ] = StringUtilities.parseInt( matcher.group( 1 ) );
 
-		AdventureFrame.updateSelectedAdventure(
-			AdventureDatabase.getAdventure( "Haunted Wine Cellar (automatic)" ) );
+		// We are looking at the glyphs in the Wine Cellar or are
+		// pouring wines into the pedestal. See what we've done so far.
+
+		int done = Preferences.getInteger( "wineCellarProgress" );
 
 		GoalManager.clearGoals();
 
-		int wines[] = new int[ 3 ];
+		// If we have poured all three wines, nothing more to do.
+		if ( done == 3 )
+		{
+			return;
+		}
 
+		// Determine which wines correspond to which glyph
 		for ( int i = 2271; i <= 2276; ++i )
 		{
 			int glyph = Preferences.getInteger( "lastDustyBottle" + i );
-			for ( int j = 0; j < 3; ++j )
+			for ( int j = done; j < 3; ++j )
 			{
-				if ( glyph == glyphs[ j ] )
+				if ( glyph != glyphs[ j ] )
 				{
-					wines[ j ] = i;
-					AdventureResult wine = ItemPool.get( i, 1 );
-					if ( !KoLConstants.inventory.contains( wine ) )
-					{
-						GoalManager.addGoal( wine );
-					}
-
-					break;
+					continue;
 				}
+
+				AdventureResult wine = ItemPool.get( i, 1 );
+				if ( !KoLConstants.inventory.contains( wine ) )
+				{
+					// Add the wine to the goals
+					GoalManager.addGoal( wine );
+				}
+				else if ( j == done )
+				{
+					// Number the wine in the dropdown
+					String name = wine.getName();
+					String replace = "*** " + name;
+					StringUtilities.globalStringReplace( buffer, name, replace );
+				}
+
+				break;
 			}
 		}
 
-		for ( int i = 0; i < 3; ++i )
+		// If we added a goal, set the adventure location to "Haunted Wine Cellar (automatic)"
+		if ( GoalManager.hasGoals() )
 		{
-			if ( wines[i] == 0 )
-			{
-				continue;
-			}
-
-			String name = ItemDatabase.getItemName( wines[ i ] );
-			StringUtilities.globalStringReplace( buffer, name,
-				RequestEditorKit.ORDINALS[ i ] + name );
+			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( "Haunted Wine Cellar (automatic)" ) );
 		}
 	}
 
