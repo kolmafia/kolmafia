@@ -151,7 +151,7 @@
 142	anticheese	none	all	30
 143	cottage	usable	all	50
 144	stone of eXtreme power	none	all	30
-145	barbed-wire fence	usable	all	31
+145	barbed-wire fence	usable, combat	all	31
 146	dinghy plans	usable	none	0
 147	eXtreme meat sword	weapon	all	160
 148	eXtreme meat staff	weapon	all	160
@@ -237,7 +237,7 @@
 228	Kentucky-fried meat staff	weapon	all	75
 229	Kentucky-fried meat crossbow	weapon	all	75
 230	dead guy's watch	accessory	all	60
-231	Doc Galaktik's Pungent Unguent	hp	all	15
+231	Doc Galaktik's Pungent Unguent	hp, combat	all	15
 232	Doc Galaktik's Ailment Ointment	hp, combat	all	30
 233	Doc Galaktik's Restorative Balm	hp, combat	all	60
 234	Doc Galaktik's Homeopathic Elixir	hp, combat	all	120
@@ -750,7 +750,7 @@
 741	broken skull	none	all	15
 742	Knoll shroomkabob	food	all	30
 743	stuffed spooky mushroom	food	all	35
-744	hair spray	multiple	all	12
+744	hair spray	multiple, combat	all	12
 745	serrated proboscis extension	familiar	all	75
 746	stat script	usable	none	0
 747	Knob Goblin firecracker	usable, combat	all	15
@@ -872,7 +872,7 @@
 863	skewer-mounted razor blade	familiar	all	75
 864	brass stinger	familiar	all	75
 865	lead necklace	familiar	all	75
-866	shaving cream	multiple	all	35
+866	shaving cream	multiple, combat	all	35
 867	pine tar	multiple	all	31
 868
 869	forest tears	hp, combat	all	33
@@ -1710,7 +1710,7 @@
 1701	pr0n taco	food	all	84
 1702	alphabet gum	usable, candy	all	15
 1703	Comma Chameleon egg	grow	all	0
-1704	roofie	usable	all	35
+1704	roofie	usable, combat	all	35
 1705	flaregun	none, combat	all	45
 1706	flaming cardboard sword	weapon	all	75
 1707	flypaper staff	weapon	all	85
@@ -2587,7 +2587,7 @@
 2578	Staff of the Short Order Cook	weapon	display	25
 2579	cactus fruit	food	all	35
 2580	scorpion whip	weapon	all	25
-2581	handful of sand	multiple	all	25
+2581	handful of sand	multiple, combat	all	25
 2582	brick of sand	multiple	all	100
 2583	centipede eggs	food	all	66
 2584	wonderwall shield	offhand	all	165
@@ -3409,7 +3409,7 @@
 3400	bowl of fishysoisse	food	all	-250
 3401	deadly lampshade	usable	all	0
 3402	concentrated garbage juice	usable	all	0
-3403	lewd playing card	multiple	all	0
+3403	lewd playing card	multiple, combat	all	0
 3404	deck of lewd playing cards	offhand	display	0
 3405	Hodgman's lucky sock	accessory	display	0
 3406	Hodgman's varcolac paw	offhand	display	0
@@ -3703,7 +3703,7 @@
 3694	pressurized potion of proficiency	usable	all	250
 3695	Mer-kin digpick	weapon	all	175
 3696	anemone nematocyst	none, combat	all	85
-3697	high-pressure seltzer bottle	mp	all	165
+3697	high-pressure seltzer bottle	mp, combat	all	165
 3698	velcro ore	none	all	75
 3699	teflon ore	none	all	75
 3700	vinyl ore	none	all	75
@@ -4124,7 +4124,7 @@
 4115	moist sack	usable	gift	0
 4116	rickety old unicycle	accessory, combat	display	2000
 4117	crusty hula hoop	accessory, combat	display	1600
-4118	Coily&trade;	weapon	display	1200
+4118	Coily&trade;	weapon, combat	display	1200
 4119	old-school flying disc	offhand, combat	display	800
 4120	lawn dart	weapon, combat	display	800
 4121	red wagon	offhand, combat	display	1600
