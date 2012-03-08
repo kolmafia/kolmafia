@@ -2407,6 +2407,7 @@ public class ItemDatabase
 		}
 
 		Preferences.setInteger( "lastDustyBottleReset", KoLCharacter.getAscensions() );
+		Preferences.setInteger( "wineCellarProgress", 0 );
 
 		// Set the consumption data
 

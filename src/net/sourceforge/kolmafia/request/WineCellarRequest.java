@@ -83,6 +83,57 @@ public class WineCellarRequest
 			return;
 		}
 
+		if ( location.indexOf( "action=pourwine" ) != -1 )
+		{
+			// As you pour the wine into the goblet, you hear a loud gurgling followed
+			// by a grinding of gears. You lean over for a closer look, and a cloud of
+			// choking green smoke suddenly blows into your face from the goblet's drain.
+			//
+			// You don't feel so good.
+			//
+			// or
+			//
+			// As you pour the wine into the goblet, you hear a loud gurgling followed
+			// by a grinding of gears. You lean over for a closer look, and a cloud of
+			// choking green smoke suddenly blows into your face from the goblet's drain.
+			// 
+			// Oh, man. You double over in pain.
+			
+			if ( responseText.indexOf( "choking green smoke" ) != -1 )
+			{
+				Preferences.setInteger( "wineCellarProgress", 0 );
+			}
+
+			// You pour the wine into the goblet and it drains down the stem. There is a
+			// grinding of gears from within the pedestal, and the topmost glyph on the
+			// wall begins to glow more brightly.
+
+			else if ( responseText.indexOf( "topmost glyph" ) != -1 )
+			{
+				Preferences.setInteger( "wineCellarProgress", 1 );
+			}
+
+			// You pour the wine into the goblet and it drains down the stem. There is a
+			// grinding of gears from within the pedestal, and the leftmost glyph on the
+			// wall begins to glow more brightly.
+
+			else if ( responseText.indexOf( "leftmost glyph" ) != -1 )
+			{
+				Preferences.setInteger( "wineCellarProgress", 2 );
+			}
+
+			// You pour the wine into the goblet and it drains down the stem. There is a
+			// grinding of gears from within the pedestal, and a section of the cellar's
+			// back wall slides aside to reveal a hidden passage. Eureka!
+
+			else if ( responseText.indexOf( "Eureka!" ) != -1 )
+			{
+				Preferences.setInteger( "wineCellarProgress", 3 );
+			}
+
+			return;
+		}
+
 		if ( location.indexOf( "action=summon" ) != -1 )
 		{
 			// You step up to the altar and begin to speak, but
