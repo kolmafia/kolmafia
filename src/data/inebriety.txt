@@ -236,7 +236,7 @@ moonshine mohobo	2	4	awesome	6-7	0	0	0	10 Mo' Hobo
 moonthril schnapps	1	3	awesome	4-5	5-10	5-10	5-10
 more humanitini than humanitini	2	4	awesome	6-7	0	0	0	Restores HP
 morlock's mark bourbon	4	4	awesome	10-15	10-28	10-28	10-28
-morto moreto	1	5	awesome	3-5	0	0	0	100 Majorly Poisoned
+morto moreto	1	5	EPIC	4-6	0	0	0	100 Majorly Poisoned
 mt. noob pale ale	2	1	good	3-6	0	0	0
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sleeper)
