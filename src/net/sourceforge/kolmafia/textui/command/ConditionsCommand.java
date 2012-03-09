@@ -157,7 +157,6 @@ public class ConditionsCommand
 			}
 		}
 
-		RequestLogger.printList( GoalManager.getGoals() );
 		return hasUpdate;
 	}
 

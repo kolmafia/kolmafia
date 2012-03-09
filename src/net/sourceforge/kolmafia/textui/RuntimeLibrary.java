@@ -452,6 +452,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "remove_item_condition", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "goal_exists", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_goal", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -2338,6 +2341,25 @@ public abstract class RuntimeLibrary
 
 		GoalManager.addItemGoal( item.intValue(), 0 - count );
 		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value goal_exists( Interpreter interpreter, final Value check )
+	{
+		String checkType = check.toString();
+
+		LockableListModel goals = GoalManager.getGoals();
+
+		for ( int i = 0; i < goals.size(); ++i )
+		{
+			AdventureResult goal = (AdventureResult) goals.get(i);
+
+			if ( checkType.equals( goal.getConditionType() ) )
+			{
+				return DataTypes.TRUE_VALUE;
+			}
+		}
+
+		return DataTypes.FALSE_VALUE;
 	}
 
 	public static Value is_goal( Interpreter interpreter, final Value item )
