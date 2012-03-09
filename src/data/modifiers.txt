@@ -3254,7 +3254,7 @@ Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
 Song of Accompaniment	Minstrel Level: +3
 # Song of Battle: Combat Rate: +???, Never Miss
-Song of Battle	Weapon Damage Percent: +100
+Song of Battle	Weapon Damage Percent: +100, Combat Rate: +20
 Song of Cockiness	Monster Level: +30
 # Song of Fortune: first blow is always critical
 Song of Fortune	Item Drop: +25, Meat Drop: +50
