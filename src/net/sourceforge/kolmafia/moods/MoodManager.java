@@ -332,6 +332,36 @@ public abstract class MoodManager
 	 * Fills up the trigger list automatically.
 	 */
 
+	private static final String [] hardcoreThiefBuffs = new String[]
+	{
+		"Fat Leon's Phat Loot Lyric",
+		"The Moxious Madrigal",
+		"Aloysius' Antiphon of Aptitude",
+		"The Sonata of Sneakiness",
+		"The Psalm of Pointiness",
+		"Ur-Kel's Aria of Annoyance"
+	};
+
+	private static final String [] softcoreThiefBuffs = new String[]
+	{
+		"Fat Leon's Phat Loot Lyric",
+		"Aloysius' Antiphon of Aptitude",
+		"Ur-Kel's Aria of Annoyance",
+		"The Sonata of Sneakiness",
+		"Jackasses' Symphony of Destruction",
+		"Cletus's Canticle of Celerity"
+	};
+
+	private static final String [] rankedBorisSongs = new String[]
+	{
+		"Song of Fortune",
+		"Song of Accompaniment",
+		// Can't actually pick the following, since it is in the same
+		// skill tree as the preceding Songs
+		"Song of Solitude",
+		"Song of Cockiness",
+	};
+
 	public static final void maximalSet()
 	{
 		String currentMood = Preferences.getString( "currentMood" );
@@ -344,10 +374,13 @@ public abstract class MoodManager
 		KoLConstants.availableSkills.toArray( skills );
 
 		ArrayList thiefSkills = new ArrayList();
+		ArrayList borisSongs = new ArrayList();
 
 		for ( int i = 0; i < skills.length; ++i )
 		{
-			if ( skills[ i ].getSkillId() < 1000 )
+			int skillId = skills[ i ].getSkillId();
+
+			if ( skillId < 1000 )
 			{
 				continue;
 			}
@@ -356,18 +389,36 @@ public abstract class MoodManager
 			// autofill, since KoLmafia has a preference for
 			// non-combats in the area below.
 
-			if ( skills[ i ].getSkillId() == 1019 || skills[ i ].getSkillId() == 6016 )
+			if ( skillId == 1019 || skillId == 6016 || skillId == 11019 )
 			{
 				continue;
 			}
 
-			if ( skills[ i ].getSkillId() > 6000 && skills[ i ].getSkillId() < 7000 )
+			// Song of the Glorious Lunch is not suitable for a mood
+
+			if ( skillId == 11023 )
 			{
-				thiefSkills.add( skills[ i ].getSkillName() );
 				continue;
 			}
 
-			String effectName = UneffectRequest.skillToEffect( skills[ i ].getSkillName() );
+			String skillName = skills[ i ].getSkillName();
+
+			if ( skillId > 6000 && skillId < 7000 )
+			{
+				thiefSkills.add( skillName );
+				continue;
+			}
+
+			if ( skillId >= 11000 && skillId < 12000 )
+			{
+				if ( SkillDatabase.isSong( skillId ) )
+				{
+					borisSongs.add( skillName );
+					continue;
+				}
+			}
+
+			String effectName = UneffectRequest.skillToEffect( skillName );
 			if ( EffectDatabase.contains( effectName ) )
 			{
 				String action = MoodManager.getDefaultAction( "lose_effect", effectName );
@@ -375,67 +426,65 @@ public abstract class MoodManager
 			}
 		}
 
-		if ( !thiefSkills.isEmpty() && thiefSkills.size() <= UseSkillRequest.songLimit() )
+		// If we know Boris Songs, pick one
+		if ( !borisSongs.isEmpty() )
 		{
-			String[] skillNames = new String[ thiefSkills.size() ];
-			thiefSkills.toArray( skillNames );
-
-			for ( int i = 0; i < skillNames.length; ++i )
-			{
-				String effectName = UneffectRequest.skillToEffect( skillNames[ i ] );
-				MoodManager.addTrigger( "lose_effect", effectName, MoodManager.getDefaultAction(
-					"lose_effect", effectName ) );
-			}
+			MoodManager.pickSkills( borisSongs, 1, MoodManager.rankedBorisSongs );
 		}
-		else if ( !thiefSkills.isEmpty() )
+
+		// If we know Accordion Thief Songs, pick some
+		if ( !thiefSkills.isEmpty() )
 		{
-			// To make things more convenient for testing, automatically
-			// add some of the common accordion thief buffs if they are
-			// available skills.
-
-			String[] rankedBuffs = null;
-
-			if ( KoLCharacter.isHardcore() )
-			{
-				rankedBuffs = new String[]
-				{
-					"Fat Leon's Phat Loot Lyric",
-					"The Moxious Madrigal",
-					"Aloysius' Antiphon of Aptitude",
-					"The Sonata of Sneakiness",
-					"The Psalm of Pointiness",
-					"Ur-Kel's Aria of Annoyance"
-				};
-			}
-			else
-			{
-				rankedBuffs = new String[]
-				{
-					"Fat Leon's Phat Loot Lyric",
-					"Aloysius' Antiphon of Aptitude",
-					"Ur-Kel's Aria of Annoyance",
-					"The Sonata of Sneakiness",
-					"Jackasses' Symphony of Destruction",
-					"Cletus's Canticle of Celerity"
-				};
-			}
-
-			int foundSkillCount = 0;
-			for ( int i = 0; i < rankedBuffs.length && foundSkillCount < UseSkillRequest.songLimit(); ++i )
-			{
-				if ( KoLCharacter.hasSkill( rankedBuffs[ i ] ) )
-				{
-					++foundSkillCount;
-					MoodManager.addTrigger(
-						"lose_effect", UneffectRequest.skillToEffect( rankedBuffs[ i ] ), "cast " + rankedBuffs[ i ] );
-				}
-			}
+			String[] rankedBuffs =
+				KoLCharacter.isHardcore() ?
+				MoodManager.hardcoreThiefBuffs :
+				MoodManager.softcoreThiefBuffs;
+			MoodManager.pickSkills( thiefSkills, UseSkillRequest.songLimit(), rankedBuffs );
 		}
 
 		// Now add in all the buffs from the minimal buff set, as those
 		// are included here.
 
 		MoodManager.minimalSet();
+	}
+
+	private static final void pickSkills( final List skills, final int limit, final String [] rankedBuffs )
+	{
+		if ( skills.isEmpty() )
+		{
+			return;
+		}
+
+		int skillCount = skills.size();
+
+		// If we know fewer skills than our capacity, add them all
+
+		if ( skillCount <= limit )
+		{
+			String[] skillNames = new String[ skillCount ];
+			skills.toArray( skillNames );
+
+			for ( int i = 0; i < skillNames.length; ++i )
+			{
+				String effectName = UneffectRequest.skillToEffect( skillNames[ i ] );
+				MoodManager.addTrigger( "lose_effect",effectName, "cast " + rankedBuffs[ i ] );
+			}
+
+			return;
+		}
+
+		// Otherwise, pick from the ranked list of "useful" skills
+
+		int foundSkillCount = 0;
+		for ( int i = 0; i < rankedBuffs.length && foundSkillCount < limit; ++i )
+		{
+			if ( KoLCharacter.hasSkill( rankedBuffs[ i ] ) )
+			{
+				String effectName =  UneffectRequest.skillToEffect( rankedBuffs[ i ] );
+				MoodManager.addTrigger( "lose_effect",effectName, "cast " + rankedBuffs[ i ] );
+				++foundSkillCount;
+			}
+		}
 	}
 
 	/**

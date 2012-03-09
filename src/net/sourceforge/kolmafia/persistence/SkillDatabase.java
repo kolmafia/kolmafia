@@ -87,6 +87,7 @@ public class SkillDatabase
 	public static final int SELF_ONLY = 3;
 	public static final int BUFF = 4;
 	public static final int COMBAT = 5;
+	public static final int SONG = 6;
 
 	// Mr. Skills
 	public static final int SNOWCONE = 8000;
@@ -110,6 +111,7 @@ public class SkillDatabase
 	public static final int CRIMBO_CANDY = 53;
 	public static final int LUNCH_BREAK = 60;
 	public static final int SUMMON_BONERS = 75;
+	public static final int GOOD_SINGING_VOICE = 11016;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String CONDITIONAL = "conditional";
@@ -516,7 +518,12 @@ public class SkillDatabase
 
 	public static final boolean isLibramSkill( final int skillId )
 	{
-		return skillId == CANDY_HEART || skillId == PARTY_FAVOR || skillId == LOVE_SONG || skillId == BRICKOS || skillId == DICE || skillId == RESOLUTIONS;
+		return	skillId == CANDY_HEART ||
+			skillId == PARTY_FAVOR ||
+			skillId == LOVE_SONG ||
+			skillId == BRICKOS ||
+			skillId == DICE ||
+			skillId == RESOLUTIONS;
 	}
 
 	/**
@@ -664,7 +671,20 @@ public class SkillDatabase
 		}
 
 		int actualDuration = ( (Integer) duration ).intValue();
-		if ( actualDuration == 0 || SkillDatabase.getSkillType( skillId ) != SkillDatabase.BUFF )
+		if ( actualDuration == 0 )
+		{
+			return 0;
+		}
+
+		int type = SkillDatabase.getSkillType( skillId );
+
+		if ( type == SkillDatabase.SONG )
+		{
+			int multiplier =  KoLCharacter.hasSkill( SkillDatabase.GOOD_SINGING_VOICE ) ? 2 : 1;
+			return actualDuration * multiplier;
+		}
+
+		if ( type != SkillDatabase.BUFF )
 		{
 			return actualDuration;
 		}
@@ -761,6 +781,17 @@ public class SkillDatabase
 	public static final boolean isCombat( final int skillId )
 	{
 		return SkillDatabase.isType( skillId, SkillDatabase.COMBAT );
+	}
+
+	/**
+	 * Returns whether or not the skill is a song
+	 *
+	 * @return <code>true</code> if the skill is a song
+	 */
+
+	public static final boolean isSong( final int skillId )
+	{
+		return SkillDatabase.isType( skillId, SkillDatabase.SONG );
 	}
 
 	/**
