@@ -736,6 +736,11 @@ public class AdventureResult
 			return "";
 		}
 
+		if ( this.priority == AdventureResult.PSEUDO_ITEM_PRIORITY )
+		{
+			return this.name.toLowerCase();
+		}
+
 		if ( this.name.equals( AdventureResult.ADV ) || this.name.equals( AdventureResult.CHOICE ) )
 		{
 			return "choiceadv";
