@@ -313,6 +313,16 @@ public class QuestDatabase
 		{
 			return QuestDatabase.FINISHED;
 		}
+		else if ( details.indexOf( "You've managed to get the war between the hippies and frat boys started" ) != -1 )
+		{
+			return "step1";
+		}
+		else if ( details
+			.indexOf( "The Council has gotten word of tensions building between the hippies and the frat boys" ) != -1 )
+		{
+			return QuestDatabase.STARTED;
+		}
+
 		return "";
 	}
 
