@@ -49,42 +49,54 @@ public class PreferenceListenerRegistry
 
 	public static final void registerListener( final String name, final PreferenceListener listener )
 	{
-		ArrayList list = (ArrayList) PreferenceListenerRegistry.listenerMap.get( name );
+		ArrayList listenerList = null;
 
-		if ( list == null )
+		synchronized ( listenerMap )
 		{
-			list = new ArrayList();
-			PreferenceListenerRegistry.listenerMap.put( name, list );
+			listenerList = (ArrayList) PreferenceListenerRegistry.listenerMap.get( name );
+
+			if ( listenerList == null )
+			{
+				listenerList = new ArrayList();
+				PreferenceListenerRegistry.listenerMap.put( name, listenerList );
+			}
 		}
 
 		WeakReference reference = new WeakReference( listener );
 
-		list.add( reference );
+		synchronized ( listenerList )
+		{
+			listenerList.add( reference );
+		}
 	}
 
 	public static final void firePreferenceChanged( final String name )
 	{
-		ArrayList listenerList = (ArrayList) PreferenceListenerRegistry.listenerMap.get( name );
+		ArrayList listenerList = null;
+
+		synchronized ( listenerMap )
+		{
+			listenerList = (ArrayList) PreferenceListenerRegistry.listenerMap.get( name );
+		}
+
 		fireListeners( listenerList, null );
 	}
 
 	public static final void fireAllPreferencesChanged()
 	{
-		try
+		HashSet notified = new HashSet();
+		HashSet listeners = new HashSet();
+
+		synchronized ( listenerMap )
 		{
-			HashSet notified = new HashSet();
-
-			Iterator i = PreferenceListenerRegistry.listenerMap.values().iterator();
-
-			while ( i.hasNext() )
-			{
-				fireListeners( (ArrayList) i.next(), notified );
-			}
+			listeners.addAll( PreferenceListenerRegistry.listenerMap.values() );
 		}
-		//Instead of requiring synchronous operation, optimistically handle concurrency
-		catch ( ConcurrentModificationException e )
+
+		Iterator i = listeners.iterator();
+
+		while ( i.hasNext() )
 		{
-			fireAllPreferencesChanged();
+			fireListeners( (ArrayList) i.next(), notified );
 		}
 	}
 
@@ -95,42 +107,44 @@ public class PreferenceListenerRegistry
 			return;
 		}
 
-		Iterator i = listenerList.iterator();
-
-		while ( i.hasNext() )
+		synchronized ( listenerList )
 		{
-			WeakReference reference = (WeakReference) i.next();
+			Iterator i = listenerList.iterator();
 
-			PreferenceListener listener = (PreferenceListener) reference.get();
-
-			if ( listener == null )
+			while ( i.hasNext() )
 			{
-				i.remove();
-				continue;
-			}
+				WeakReference reference = (WeakReference) i.next();
 
-			if ( notified != null )
-			{
-				if ( notified.contains( listener ) )
+				PreferenceListener listener = (PreferenceListener) reference.get();
+
+				if ( listener == null )
 				{
+					i.remove();
 					continue;
 				}
 
-				notified.add( listener );
-			}
+				if ( notified != null )
+				{
+					if ( notified.contains( listener ) )
+					{
+						continue;
+					}
 
-			try
-			{
-				listener.update();
-			}
-			catch ( Exception e )
-			{
-				// Don't let a botched listener interfere with
-				// the code that modified the preference.
+					notified.add( listener );
+				}
 
-				StaticEntity.printStackTrace( e );
+				try
+				{
+					listener.update();
+				}
+				catch ( Exception e )
+				{
+					// Don't let a botched listener interfere with
+					// the code that modified the preference.
+
+					StaticEntity.printStackTrace( e );
+				}
 			}
 		}
-
 	}
 }
