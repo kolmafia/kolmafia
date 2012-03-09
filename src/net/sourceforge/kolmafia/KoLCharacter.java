@@ -3258,6 +3258,11 @@ public abstract class KoLCharacter
 			KoLConstants.buffSkills.sort();
 			break;
 
+		case SkillDatabase.SONG:
+			KoLConstants.usableSkills.add( skill );
+			KoLConstants.usableSkills.sort();
+			break;
+
 		case SkillDatabase.COMBAT:
 
 			KoLCharacter.addCombatSkill( skill.getSkillName() );

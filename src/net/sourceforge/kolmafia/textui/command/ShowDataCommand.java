@@ -395,6 +395,16 @@ public class ShowDataCommand
 				mainList.retainAll( intersect );
 				filter = "";
 			}
+
+			if ( filter.startsWith( "song" ) )
+			{
+				mainList = new ArrayList();
+				mainList.addAll( KoLConstants.availableSkills );
+
+				List intersect = SkillDatabase.getSkillsByType( SkillDatabase.SONG );
+				mainList.retainAll( intersect );
+				filter = "";
+			}
 		}
 
 		if ( filter.equals( "" ) )
