@@ -747,7 +747,7 @@ public class SkillDatabase
 		if ( skillType == null )
 			return false;
 		int type = ( (Integer) skillType ).intValue();
-		return type == SUMMON || type == REMEDY || type == SELF_ONLY;
+		return type == SUMMON || type == REMEDY || type == SELF_ONLY || type == SONG;
 	}
 
 	/**
@@ -983,7 +983,7 @@ public class SkillDatabase
 			}
 			else if ( type == SkillDatabase.CASTABLE )
 			{
-				shouldAdd = skillType == SUMMON || skillType == REMEDY || skillType == SELF_ONLY || skillType == BUFF;
+				shouldAdd = skillType == SUMMON || skillType == REMEDY || skillType == SELF_ONLY || skillType == BUFF || skillType == SONG;
 			}
 			else if ( skillId == 3009 )
 			{
