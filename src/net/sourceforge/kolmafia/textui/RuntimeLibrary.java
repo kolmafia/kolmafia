@@ -452,14 +452,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "remove_item_condition", DataTypes.VOID_TYPE, params ) );
 
-		params = new Type[] {};
-		functions.add( new LibraryFunction( "has_goals", DataTypes.BOOLEAN_TYPE, params ) );
-
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_goal", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "goal_string", DataTypes.STRING_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_goals", new AggregateType(
+			DataTypes.STRING_TYPE, 0 ), params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
@@ -2326,7 +2324,7 @@ public abstract class RuntimeLibrary
 			return DataTypes.VOID_VALUE;
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "conditions", "add " + count + " \u00B6" + item.intValue() );
+		GoalManager.addItemGoal( item.intValue(), count );
 		return DataTypes.VOID_VALUE;
 	}
 
@@ -2338,13 +2336,8 @@ public abstract class RuntimeLibrary
 			return DataTypes.VOID_VALUE;
 		}
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "conditions", "remove " + count + " \u00B6" + item.intValue() );
+		GoalManager.addItemGoal( item.intValue(), 0 - count );
 		return DataTypes.VOID_VALUE;
-	}
-
-	public static Value has_goals( Interpreter interpreter )
-	{
-		return DataTypes.makeBooleanValue( GoalManager.hasGoals() );
 	}
 
 	public static Value is_goal( Interpreter interpreter, final Value item )
@@ -2352,9 +2345,21 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( GoalManager.hasItemGoal( item.intValue() ) );
 	}
 
-	public static Value goal_string( Interpreter interpreter )
+	public static Value get_goals( Interpreter interpreter )
 	{
-		return new Value( GoalManager.getGoalString() );
+		LockableListModel goals = GoalManager.getGoals();
+
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, goals.size() );
+		ArrayValue value = new ArrayValue( type );
+
+		for ( int i = 0; i < goals.size(); ++i )
+		{
+			AdventureResult goal = (AdventureResult) goals.get(i);
+
+			value.aset( new Value( i ), new Value( goal.toConditionString() ) );
+		}
+
+		return value;
 	}
 
 	public static Value buy( Interpreter interpreter, final Value countValue, final Value item )
