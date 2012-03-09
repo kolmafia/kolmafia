@@ -452,8 +452,14 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "remove_item_condition", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "has_goals", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_goal", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "goal_string", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
@@ -2336,9 +2342,19 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
+	public static Value has_goals( Interpreter interpreter )
+	{
+		return DataTypes.makeBooleanValue( GoalManager.hasGoals() );
+	}
+
 	public static Value is_goal( Interpreter interpreter, final Value item )
 	{
 		return DataTypes.makeBooleanValue( GoalManager.hasItemGoal( item.intValue() ) );
+	}
+
+	public static Value goal_string( Interpreter interpreter )
+	{
+		return new Value( GoalManager.getGoalString() );
 	}
 
 	public static Value buy( Interpreter interpreter, final Value countValue, final Value item )
