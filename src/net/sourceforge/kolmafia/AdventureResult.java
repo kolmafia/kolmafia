@@ -729,7 +729,7 @@ public class AdventureResult
 			name + " (" + KoLConstants.COMMA_FORMAT.format( count ) + ")";
 	}
 
-	public String toConditionString()
+	public String getConditionType()
 	{
 		if ( this.name == null )
 		{
@@ -738,27 +738,44 @@ public class AdventureResult
 
 		if ( this.name.equals( AdventureResult.ADV ) || this.name.equals( AdventureResult.CHOICE ) )
 		{
-			return this.count + " choiceadv";
+			return "choiceadv";
 		}
 
 		if ( this.name.equals( AdventureResult.AUTOSTOP ) )
 		{
-			return this.count + " autostop";
+			return "autostop";
 		}
 
 		if ( this.name.equals( AdventureResult.MEAT ) )
 		{
-			return this.count + " meat";
+			return "meat";
 		}
 
 		if ( this.name.equals( AdventureResult.HP ) )
 		{
-			return this.count + " health";
+			return "health";
 		}
 
 		if ( this.name.equals( AdventureResult.MP ) )
 		{
-			return this.count + " mana";
+			return "mana";
+		}
+
+		return "item";
+	}
+
+	public String toConditionString()
+	{
+		if ( this.name == null )
+		{
+			return "";
+		}
+
+		String conditionType = this.getConditionType();
+
+		if ( !conditionType.equals( "item" ) )
+		{
+			return this.count + " " + conditionType;
 		}
 
 		return "+" + this.count + " " + this.name.replaceAll( "[,\"]", "" );
