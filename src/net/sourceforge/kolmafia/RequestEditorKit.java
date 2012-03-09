@@ -1590,8 +1590,8 @@ public class RequestEditorKit
 				}
 				else if ( j == done )
 				{
-					// Number the wine in the dropdown
-					String name = wine.getName();
+					// Point to the wine in the dropdown
+					String name =  ItemDatabase.getItemName( i );
 					String replace = "*** " + name;
 					StringUtilities.globalStringReplace( buffer, name, replace );
 				}
