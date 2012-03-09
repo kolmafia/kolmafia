@@ -157,6 +157,10 @@ public class UneffectRequest
 			"Boner Battalion",
 			"Summon &quot;Boner Battalion&quot;",
 		},
+		{
+			"Song of Glorious Lunch",
+			"Song of the Glorious Lunch",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
