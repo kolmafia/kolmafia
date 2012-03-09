@@ -146,6 +146,13 @@ public abstract class ChatManager
 
 	public static final boolean chatLiterate()
 	{
+		// If login is incomplete because we are stuck in a fight or
+		// choice, don't bother checking the Altar of Literacy
+		if ( KoLmafia.isRefreshing() )
+		{
+			return true;
+		}
+
 		if( !ChatManager.checkedLiteracy )
 		{
 			AltarOfLiteracyRequest request = new AltarOfLiteracyRequest();
