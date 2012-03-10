@@ -177,7 +177,8 @@ public class ResponseTextParser
 		     location.startsWith( "charpane" ) ||
 		     location.startsWith( "charsheet" ) ||
 		     location.startsWith( "desc" ) ||
-		     location.startsWith( "quest" ) ) {
+		     location.startsWith( "quest" ) )
+		{
 
 			return false;
 		}
@@ -185,6 +186,7 @@ public class ResponseTextParser
 		if ( location.startsWith( "makeoffer" ) ||
 		     location.startsWith( "message" ) ||
 		     location.startsWith( "display" ) ||
+		     location.startsWith( "managecollectionshelves" ) ||
 		     location.startsWith( "search" ) ||
 		     location.startsWith( "show" ) )
 		{
