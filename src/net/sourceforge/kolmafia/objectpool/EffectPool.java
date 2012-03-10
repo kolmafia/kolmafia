@@ -44,7 +44,7 @@ public class EffectPool
 
 	public static final String ODE = "Ode to Booze";
 	public static final String MILK = "Got Milk";
-	public static final String GLORIOUS_LUNCH = "Song of Glorious Lunch";
+	public static final String GLORIOUS_LUNCH = "Song of the Glorious Lunch";
 
 	public static final String FORM_OF_BIRD = "Form of...Bird!";
 	public static final String SHAPE_OF_MOLE = "Shape of...Mole!";
