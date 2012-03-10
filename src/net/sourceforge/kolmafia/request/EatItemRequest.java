@@ -377,7 +377,7 @@ public class EatItemRequest
 			{
 				String message = lunchTurns > 0 ?
 					"Song of the Glorious Lunch will run out before you finish eating that. Are you sure?" :
-					"Are you sure you want to eat without Glorious Lunch?";
+					"Are you sure you want to eat without Song of the Glorious Lunch?";
 				if ( !InputFieldUtilities.confirm( message ) )
 				{
 					return false;

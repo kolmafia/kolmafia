@@ -3258,7 +3258,7 @@ Song of Battle	Weapon Damage Percent: +100, Combat Rate: +20
 Song of Cockiness	Monster Level: +30
 # Song of Fortune: first blow is always critical
 Song of Fortune	Item Drop: +25, Meat Drop: +50
-# Song of Glorious Lunch: Food Sounds Great!
+# Song of the Glorious Lunch: Food Sounds Great!
 Song of Solitude	Combat Rate: -20
 # Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
