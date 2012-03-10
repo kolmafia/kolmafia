@@ -184,10 +184,10 @@ public abstract class CellarDecorator
 				rContent = getCornerData( wines[ 3 ], wines[ 4 ], names );
 			}
 			row.appendReplacement( buffer,
-					       "<tr><td width=120 height=100 align=right valign=center>" +
+					       "<tr><td width=160 height=100 align=right valign=center>" +
 					       lContent + "</td>" +
 					       cell.group( 0 ) +
-					       "<td width=120 height=100 align=left valign=center>" +
+					       "<td width=160 height=100 align=left valign=center>" +
 					       rContent + "</td></tr>" );
 		}
 		row.appendTail( buffer );
