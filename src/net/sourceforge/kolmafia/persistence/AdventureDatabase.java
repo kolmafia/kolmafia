@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 
@@ -417,9 +418,8 @@ public class AdventureDatabase
 			return (KoLAdventure) AdventureDatabase.adventureLookup.get( "hiddencity.php" );
 		}
 
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm=on" );
+		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "blech" );
 
 		KoLAdventure location = (KoLAdventure) AdventureDatabase.adventureLookup.get( adventureURL );
 		return location == null ||

@@ -134,6 +134,17 @@ public class RelayRequest
 	public static String specialCommandStatus = "";
 	public static String redirectedCommandURL = "";
 
+	private static String CONFIRM_COUNTER = "confirm0";
+	private static String CONFIRM_CLOVER = "confirm1";
+	private static String CONFIRM_MCD = "confirm2";
+	private static String CONFIRM_FAMILIAR = "confirm3";
+	private static String CONFIRM_RECOVERY = "confirm4";
+	private static String CONFIRM_SORCERESS = "confirm5";
+	private static String CONFIRM_WOSSNAME = "confirm6";
+	private static String CONFIRM_TOKENS = "confirm7";
+	private static String CONFIRM_SEAL = "confirm8";
+	private static String CONFIRM_ARCADE = "confirm9";
+
 	public RelayRequest( final boolean allowOverride )
 	{
 		super( "" );
@@ -145,6 +156,21 @@ public class RelayRequest
 		// Do not automatically include the password hash on requests
 		// relayed from the browser.
 		return null;
+	}
+
+	public static String removeConfirmationFields( String adventureURL )
+	{
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm0=on" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm1=on" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm2=on" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm3=on" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm4=on" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm5=on" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm6=on" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm7=on" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm8=on" );
+		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm9=on" );
+		return adventureURL;
 	}
 
 	public GenericRequest constructURLString( final String newURLString, final boolean usePostMethod, final boolean encoded )
@@ -617,12 +643,6 @@ public class RelayRequest
 
 	private boolean sendBattlefieldWarning( final String urlString, final KoLAdventure adventure )
 	{
-		// If user has already confirmed he wants to go there, accept it
-		if ( this.getFormField( "confirm" ) != null )
-		{
-			return false;
-		}
-
 		// If visiting big island, see if trying to enter a camp
 		if ( urlString.startsWith( "bigisland.php" ) )
 		{
@@ -711,8 +731,7 @@ public class RelayRequest
 		// This will prompt the final confrontation.
 		// Offer a chance to cash in dimes and quarters.
 
-		this.sendCoinMasterWarning( data );
-		return true;
+		return this.sendCoinMasterWarning( data );
 	}
 
 	private boolean checkBattle( final int outfitId )
@@ -722,8 +741,7 @@ public class RelayRequest
 
 		if ( fratboysDefeated == 999 && hippiesDefeated == 999 )
 		{
-			this.sendCoinMasterWarning( null );
-			return true;
+			return this.sendCoinMasterWarning( null );
 		}
 
 		if ( fratboysDefeated == 999 && outfitId == 32 )
@@ -732,8 +750,7 @@ public class RelayRequest
 			int factor = IslandDecorator.hippiesDefeatedPerBattle();
 			if ( hippiesDefeated < 999 && ( 999 - hippiesDefeated ) % factor == 0 )
 			{
-				this.sendWossnameWarning( QuartersmasterRequest.FRATBOY );
-				return true;
+				return this.sendWossnameWarning( QuartersmasterRequest.FRATBOY );
 			}
 		}
 
@@ -743,16 +760,21 @@ public class RelayRequest
 			int factor = IslandDecorator.fratboysDefeatedPerBattle();
 			if ( fratboysDefeated < 999 && ( 999 - fratboysDefeated ) % factor == 0 )
 			{
-				this.sendWossnameWarning( DimemasterRequest.HIPPY );
-				return true;
+				return this.sendWossnameWarning( DimemasterRequest.HIPPY );
 			}
 		}
 
 		return false;
 	}
 
-	private void sendCoinMasterWarning( final CoinmasterData camp )
+	private boolean sendCoinMasterWarning( final CoinmasterData camp )
 	{
+		// If user has already confirmed he wants to go there, accept it
+		if ( this.getFormField( CONFIRM_TOKENS ) != null )
+		{
+			return false;
+		}
+
 		String message;
 
 		if ( camp == null )
@@ -768,13 +790,15 @@ public class RelayRequest
 		message =
 			message + " Before you do so, you might want to redeem war loot for dimes and quarters and buy equipment. Click on the image to enter battle, once you are ready.";
 
-		this.sendGeneralWarning( "lucre.gif", message );
+		this.sendGeneralWarning( "lucre.gif", message, CONFIRM_TOKENS );
+
+		return true;
 	}
 
 	private boolean sendInfernalSealWarning( final String urlString )
 	{
 		// If user has already confirmed he wants to do it, accept it
-		if ( this.getFormField( "confirm" ) != null )
+		if ( this.getFormField( CONFIRM_SEAL ) != null )
 		{
 			return false;
 		}
@@ -808,25 +832,59 @@ public class RelayRequest
 		message =
 			"You are trying to summon an infernal seal, but you are not wielding a club. You are either incredibly puissant or incredibly foolish. If you are sure you want to do this, click on the image and proceed to your doom.";
 
-		this.sendGeneralWarning( "iblubbercandle.gif", message, "checked=1" );
+		this.sendGeneralWarning( "iblubbercandle.gif", message, CONFIRM_SEAL, "checked=1" );
 
 		return true;
 	}
 
-	private void sendWossnameWarning( final CoinmasterData camp )
+	private boolean sendWossnameWarning( final CoinmasterData camp )
 	{
-		String message;
+		if ( this.getFormField( CONFIRM_WOSSNAME ) != null )
+		{
+			return false;
+		}
+
+		StringBuffer message = new StringBuffer();
 		String side1 = ( camp == DimemasterRequest.HIPPY ? "hippy" : "fratboy" );
 		String side2 = ( camp == DimemasterRequest.HIPPY ? "fratboys" : "hippies" );
 
-		message =
-			"You are about to defeat the last " + side1 + " and open the way to their camp. However, you have not yet finished with the " + side2 + ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed.";
+		message.append( "You are about to defeat the last " );
+		message.append( side1 );
+		message.append( " and open the way to their camp. However, you have not yet finished with the " );
+		message.append( side2 );
+		message.append( ". If you are sure you don't want the Order of the Silver Wossname, click on the image and proceed." );
 
-		this.sendGeneralWarning( "wossname.gif", message );
+		this.sendGeneralWarning( "wossname.gif", message.toString(), CONFIRM_WOSSNAME );
+
+		return true;
 	}
 
-	private void sendFamiliarWarning()
+	private boolean sendFamiliarWarning()
 	{
+		if ( this.getFormField( CONFIRM_FAMILIAR ) != null )
+		{
+			return false;
+		}
+
+		if ( KoLCharacter.inAxecore() )
+		{
+			return false;
+		}
+
+		// Check for a 100% familiar run if the current familiar has zero combat experience.
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		if ( !familiar.isUnexpectedFamiliar() )
+		{
+			return false;
+		}
+
+		// It's OK once we free the king unless we are in Bad Moon with a black cat
+		if ( KoLCharacter.kingLiberated() &&
+		     ( !KoLCharacter.inBadMoon() || familiar.getId() != FamiliarPool.BLACK_CAT ) )
+		{
+			return false;
+		}
+
 		StringBuffer warning = new StringBuffer();
 
 		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
@@ -838,18 +896,19 @@ public class RelayRequest
 
 		String url = this.getURLString();
 
-		// Proceed with clover
+		// Proceed with familiar
 		warning.append( "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
 		warning.append( url );
 		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
-		warning.append( "confirm=on\"><img src=\"http://images.kingdomofloathing.com/itemimages/");
+		warning.append( CONFIRM_FAMILIAR );
+		warning.append( "=on\"><img src=\"http://images.kingdomofloathing.com/itemimages/");
 		warning.append( FamiliarDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
 		warning.append( "\" width=30 height=30 border=0>" );
 		warning.append( "</a></div></td>" );
 
 		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 
-		// Protect clover
+		// Protect familiar
 		warning.append( "<td align=center valign=center><div id=\"unlucky\" style=\"padding: 4px 4px 4px 4px\">" );
 
 		warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"singleUse('familiar.php', 'action=newfam&ajax=1&newfam=" );
@@ -864,11 +923,70 @@ public class RelayRequest
 		warning.append( "</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+
+		return true;
 	}
 
-	public void sendBossWarning( final String name, final String image, final int mcd1, final String item1,
-		final int mcd2, final String item2 )
+	private boolean sendBossWarning( final String path, final KoLAdventure adventure )
 	{
+		// Sometimes, people want the MCD rewards from various boss monsters.
+		// Let's help out.
+
+		// This one's for the Boss Bat, who has special items at 4 and 8.
+		if ( path.startsWith( "adventure.php" ) )
+		{
+			String location = adventure == null ? null : adventure.getAdventureId();
+
+			if ( location != null && location.equals( "34" ) && KoLCharacter.mcdAvailable() )
+			{
+				return this.sendBossWarning( "The Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
+			}
+		}
+
+		// This one is for the Knob Goblin King, who has special items at 3 and 7.
+		else if ( path.startsWith( "cobbsknob.php" ) )
+		{
+			String action = this.getFormField( "action" );
+			if ( action != null && action.equals( "throneroom" ) && KoLCharacter.mcdAvailable() )
+			{
+				return this.sendBossWarning( "The Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
+			}
+		}
+
+		// This one is for the Bonerdagon, who has special items at 5 and 10.
+		else if ( path.startsWith( "crypt.php" ) )
+		{
+			String action = this.getFormField( "action" );
+			if ( action != null && action.equals( "heart" ) && KoLCharacter.mcdAvailable() )
+			{
+				return this.sendBossWarning( "The Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
+			}
+		}
+
+		// This one's for Baron von Ratsworth, who has special items at 2 and 9.
+		else if ( path.startsWith( "cellar.php" ) )
+		{
+			String action = this.getFormField( "action" );
+			String square = this.getFormField( "whichspot" );
+			String baron = TavernManager.baronSquare();
+			if ( action != null && action.equals( "explore" ) && square != null && square.equals( baron ) && KoLCharacter.mcdAvailable() )
+			{
+				return this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif", 2, "moneyclip.gif", 9, "tophat.gif" );
+			}
+		}
+
+		return false;
+	}
+
+	private boolean sendBossWarning( final String name, final String image,
+					 final int mcd1, final String item1,
+					 final int mcd2, final String item2 )
+	{
+		if ( this.getFormField( CONFIRM_MCD ) != null )
+		{
+			return false;
+		}
+
 		int mcd0 = KoLCharacter.getMindControlLevel();
 
 		StringBuffer warning = new StringBuffer();
@@ -914,7 +1032,9 @@ public class RelayRequest
 
 		warning.append( "<td valign=center><a href=\"" );
 		warning.append( this.getURLString() );
-		warning.append( "&confirm=on" );
+		warning.append( "&" );
+		warning.append( CONFIRM_MCD );
+		warning.append( "=on" );
 		warning.append( "\"><img src=\"http://images.kingdomofloathing.com/adventureimages/" );
 		warning.append( image );
 		warning.append( "\"></a></td>" );
@@ -943,14 +1063,130 @@ public class RelayRequest
 		warning.append( " once you've decided to proceed.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+
+		return true;
 	}
 
-	public void sendGeneralWarning( final String image, final String message )
+	private boolean sendSorceressWarning()
 	{
-		this.sendGeneralWarning( image, message, null );
+		// If the person is visiting the sorceress and they
+		// forgot to make the Wand, remind them.
+
+		if ( this.getFormField( CONFIRM_SORCERESS ) != null )
+		{
+			return false;
+		}
+
+		// The Avatar of Boris needs no wand
+		if ( KoLCharacter.inAxecore() )
+		{
+			return false;
+		}
+
+		String place = this.getFormField( "place" );
+		if ( place == null || !place.equals( "5" ) )
+		{
+			return false;
+		}
+
+		StringBuffer warning = new StringBuffer();
+		warning.append( "It's possible there is something very important you're forgetting to do.<br>You lack:" );
+
+		// You need the Antique hand mirror in Beecore
+		if ( KoLCharacter.inBeecore() )
+		{
+			if ( InventoryManager.retrieveItem( ItemPool.ANTIQUE_HAND_MIRROR ) )
+			{
+				return false;
+			}
+
+			warning.append( " <span title=\"Bedroom\">Antique hand mirror</span>" );
+			this.sendGeneralWarning( "handmirror.gif", warning.toString(), CONFIRM_SORCERESS );
+			return true;
+		}
+
+		// Otherwise, you need the Wand of Nagamar
+		if ( KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) ||
+		     InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
+		{
+			return false;
+		}
+
+		// Give him options to go farm for what he is missing
+
+		if ( !InventoryManager.hasItem( ItemPool.WA ) )
+		{
+			if ( !InventoryManager.hasItem( ItemPool.RUBY_W ) )
+			{
+				warning.append( " <span title=\"Friar's Gate\">W</span>" );
+			}
+			if ( !InventoryManager.hasItem( ItemPool.METALLIC_A ) )
+			{
+				warning.append( " <span title=\"Airship\">A</span>" );
+			}
+		}
+
+		if ( !InventoryManager.hasItem( ItemPool.ND ) )
+		{
+			if ( !InventoryManager.hasItem( ItemPool.LOWERCASE_N ) )
+			{
+				if ( !InventoryManager.hasItem( ItemPool.NG ) )
+				{
+					warning.append( " <span title=\"Orc Chasm\">N</span>" );
+				}
+				else
+				{
+					warning.append( " N (untinker your NG)" );
+				}
+			}
+			if ( !InventoryManager.hasItem( ItemPool.HEAVY_D ) )
+			{
+				warning.append( " <span title=\"Castle\">D</span>" );
+			}
+		}
+
+		this.sendGeneralWarning( "wand.gif", warning.toString(), CONFIRM_SORCERESS );
+		return true;
+	}
+	
+	private boolean sendArcadeWarning()
+	{
+
+		if ( this.getFormField( CONFIRM_ARCADE ) != null )
+		{
+			return false;
+		}
+
+		String action = this.getFormField( "action" );
+		if ( action == null || !action.equals( "game" ) )
+		{
+			return false;
+		}
+
+		String game = this.getFormField( "whichgame" );
+		if ( game == null || !game.equals( "2" ) )
+		{
+			return false;
+		}
+
+		int power = EquipmentDatabase.getPower( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
+		if ( power <= 50 || power >= 150 ||
+		     EquipmentManager.getEquipment( EquipmentManager.HAT ) == EquipmentRequest.UNEQUIP ||
+		     EquipmentManager.getEquipment( EquipmentManager.PANTS ) == EquipmentRequest.UNEQUIP )
+		{
+			this.sendGeneralWarning( "ggtoken.gif", "You might not be properly equipped to play this game.<br>Click the token if you'd like to continue anyway.", CONFIRM_ARCADE );
+			return true;
+		}
+
+		return false;
 	}
 
-	public void sendGeneralWarning( final String image, final String message, final String extra )
+	public void sendGeneralWarning( final String image, final String message, final String confirm )
+	{
+		this.sendGeneralWarning( image, message, confirm, null );
+	}
+
+	public void sendGeneralWarning( final String image, final String message, final String confirm, final String extra )
 	{
 		StringBuffer warning = new StringBuffer();
 
@@ -963,7 +1199,8 @@ public class RelayRequest
 			warning.append( "<center><a href=\"" );
 			warning.append( url );
 			warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
-			warning.append( "confirm=on" );
+			warning.append( confirm );
+			warning.append( "=on" );
 			if ( extra != null )
 			{
 				warning.append( "&" );
@@ -981,8 +1218,28 @@ public class RelayRequest
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
 
-	public void sendCloverWarning()
+	public boolean sendCloverWarning( final String adventureName)
 	{
+		if ( adventureName == null )
+		{
+			return false;
+		}
+
+		if ( !AdventureDatabase.isPotentialCloverAdventure( adventureName ) )
+		{
+			return false;
+		}
+
+		if ( !Preferences.getBoolean( "cloverProtectActive" ) )
+		{
+			return false;
+		}
+
+		if ( this.getFormField( CONFIRM_CLOVER ) != null )
+		{
+			return false;
+		}
+
 		StringBuffer warning = new StringBuffer();
 		boolean beeCore = KoLCharacter.inBeecore();
 
@@ -999,7 +1256,8 @@ public class RelayRequest
 		warning.append( "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
 		warning.append( url );
 		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
-		warning.append( "confirm=on\"><img src=\"http://images.kingdomofloathing.com/itemimages/clover.gif\" width=30 height=30 border=0>" );
+		warning.append( CONFIRM_CLOVER );
+		warning.append( "=on\"><img src=\"http://images.kingdomofloathing.com/itemimages/clover.gif\" width=30 height=30 border=0>" );
 		warning.append( "</a></div></td>" );
 
 		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
@@ -1041,6 +1299,8 @@ public class RelayRequest
 		warning.append( " your clovers first.  To disable this warning, please check your preferences and disable clover protection.</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+
+		return true;
 	}
 
 	private void handleSafety()
@@ -1507,7 +1767,7 @@ public class RelayRequest
 				msg.append( "<br><br>" );
 				msg.append( EatItemRequest.lastSemirareMessage() );
 			}
-			this.sendGeneralWarning( image, msg.toString() );
+			this.sendGeneralWarning( image, msg.toString(), CONFIRM_COUNTER );
 			return;
 		}
 
@@ -1558,7 +1818,7 @@ public class RelayRequest
 			"None" :
 			null;
 
-		if ( nextAdventure != null && RecoveryManager.isRecoveryPossible() && this.getFormField( "confirm" ) == null )
+		if ( nextAdventure != null && RecoveryManager.isRecoveryPossible() && this.getFormField( CONFIRM_RECOVERY ) == null )
 		{
 			boolean isScript = !isNonCombatsOnly && Preferences.getBoolean( "relayRunsBeforeBattleScript" );
 			boolean isMood = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsEffects" );
@@ -1572,7 +1832,7 @@ public class RelayRequest
 
 			if ( !KoLmafia.permitsContinue() && Preferences.getBoolean( "relayWarnOnRecoverFailure" ) )
 			{
-				this.sendGeneralWarning( "beatenup.gif", "Between battle actions failed. Click the image if you'd like to continue anyway." );
+				this.sendGeneralWarning( "beatenup.gif", "Between battle actions failed. Click the image if you'd like to continue anyway.", CONFIRM_RECOVERY );
 				return;
 			}
 		}
@@ -1585,199 +1845,35 @@ public class RelayRequest
 			this.waitForRecoveryToComplete();
 		}
 
-		if ( adventureName != null && this.getFormField( "confirm" ) == null )
+		if ( adventureName != null && !isNonCombatsOnly && this.sendFamiliarWarning() )
 		{
-			// Check for a 100% familiar run if the current familiar
-			// has zero combat experience.
-
-			if ( !KoLCharacter.inAxecore() &&
-			     KoLCharacter.getFamiliar().isUnexpectedFamiliar() &&
-			     !isNonCombatsOnly &&
-			     ( !KoLCharacter.kingLiberated() || KoLCharacter.getFamiliar().getId() == FamiliarPool.BLACK_CAT ) )
-			{
-				this.sendFamiliarWarning();
-				return;
-			}
-
-			// Check for clovers as well so that people don't
-			// accidentally use up a clover in the middle of a bad
-			// moon run.
-
-			if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && Preferences.getBoolean( "cloverProtectActive" ) )
-			{
-				this.sendCloverWarning();
-				return;
-			}
-
-			// Sometimes, people want the MCD rewards from various
-			// boss monsters.  Let's help out.
-
-			// This one's for the Boss Bat, who has special items at 4 and 8.
-			if ( path.startsWith( "adventure.php" ) )
-			{
-				String location = adventure == null ? null : adventure.getAdventureId();
-
-				if ( location != null && location.equals( "34" ) && KoLCharacter.mcdAvailable() )
-				{
-					this.sendBossWarning( "The Boss Bat", "bossbat.gif", 4, "batpants.gif", 8, "batbling.gif" );
-					return;
-				}
-			}
-
-			// This one is for the Knob Goblin King, who has special items at 3 and 7.
-			else if ( path.startsWith( "cobbsknob.php" ) )
-			{
-				String action = this.getFormField( "action" );
-				if ( action != null && action.equals( "throneroom" ) && KoLCharacter.mcdAvailable() )
-				{
-					this.sendBossWarning( "The Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
-					return;
-				}
-			}
-
-			// This one is for the Bonerdagon, who has special items at 5 and 10.
-			else if ( path.startsWith( "crypt.php" ) )
-			{
-				String action = this.getFormField( "action" );
-				if ( action != null && action.equals( "heart" ) && KoLCharacter.mcdAvailable() )
-				{
-					this.sendBossWarning( "The Bonerdagon", "bonedragon.gif", 5, "rib.gif", 10, "vertebra.gif" );
-					return;
-				}
-			}
-
-			// This one's for Baron von Ratsworth, who has special items at 2 and 9.
-			else if ( path.startsWith( "cellar.php" ) )
-			{
-				String action = this.getFormField( "action" );
-				String square = this.getFormField( "whichspot" );
-				String baron = TavernManager.baronSquare();
-				if ( action != null && action.equals( "explore" ) && square != null && square.equals( baron ) && KoLCharacter.mcdAvailable() )
-				{
-					this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif", 2, "moneyclip.gif", 9, "tophat.gif" );
-					return;
-				}
-			}
-
-			// If the person is visiting the sorceress and they
-			// forgot to make the Wand, remind them.
-
-			else if ( path.startsWith( "lair6.php" ) )
-			{
-				String place = this.getFormField( "place" );
-
-				if ( place != null && place.equals( "5" ) )
-				{
-					StringBuffer warning =
-						new StringBuffer(
-							"It's possible there is something very important you're forgetting to do.<br>You lack:" );
-
-					if ( KoLCharacter.inAxecore() )
-					{
-						// The Avatar of Boris needs no wand
-					}
-
-					// You need the Antique hand mirror in Beecore
-					else if ( KoLCharacter.inBeecore() )
-					{
-						if ( !InventoryManager.retrieveItem( ItemPool.ANTIQUE_HAND_MIRROR ) )
-						{
-							warning.append( " <span title=\"Bedroom\">Antique hand mirror</span>" );
-							this.sendGeneralWarning( "handmirror.gif", warning.toString() );
-							return;
-						}
-					}
-
-					else if ( !KoLCharacter.hasEquipped( SorceressLairManager.NAGAMAR ) && !InventoryManager.retrieveItem( SorceressLairManager.NAGAMAR ) )
-					{
-						if ( !InventoryManager.hasItem( ItemPool.WA ) )
-						{
-							if ( !InventoryManager.hasItem( ItemPool.RUBY_W ) )
-							{
-								warning.append( " <span title=\"Friar's Gate\">W</span>" );
-							}
-							if ( !InventoryManager.hasItem( ItemPool.METALLIC_A ) )
-							{
-								warning.append( " <span title=\"Airship\">A</span>" );
-							}
-						}
-						if ( !InventoryManager.hasItem( ItemPool.ND ) )
-						{
-							if ( !InventoryManager.hasItem( ItemPool.LOWERCASE_N ) )
-							{
-								if ( !InventoryManager.hasItem( ItemPool.NG ) )
-								{
-									warning.append( " <span title=\"Orc Chasm\">N</span>" );
-								}
-								else
-								{
-									warning.append( " N (untinker your NG)" );
-								}
-							}
-							if ( !InventoryManager.hasItem( ItemPool.HEAVY_D ) )
-							{
-								warning.append( " <span title=\"Castle\">D</span>" );
-							}
-						}
-
-						this.sendGeneralWarning( "wand.gif", warning.toString() );
-						return;
-					}
-				}
-			}
+			return;
 		}
 
-		else if ( path.startsWith( "ascend.php" ) )
+		if ( this.sendCloverWarning( adventureName ) )
 		{
-			if ( this.getFormField( "action" ) != null )
-			{
-				RequestThread.postRequest( new EquipmentRequest( SpecialOutfit.BIRTHDAY_SUIT ) );
-				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAMILIAR ) );
-			}
+			return;
 		}
 
-		else if ( path.startsWith( "arcade.php" ) &&
-			this.getFormField( "confirm" ) == null )
+		if ( this.sendBossWarning( path, adventure ) )
 		{
-			String action = this.getFormField( "action" );
-			String game = this.getFormField( "whichgame" );
-			int power = EquipmentDatabase.getPower(
-				EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
-			if ( action != null && action.equals( "game" ) &&
-				game != null && game.equals( "2" ) &&
-				(power <= 50 || power >= 150 ||
-					EquipmentManager.getEquipment( EquipmentManager.HAT ) == EquipmentRequest.UNEQUIP ||
-					EquipmentManager.getEquipment( EquipmentManager.PANTS ) == EquipmentRequest.UNEQUIP) )
-			{
-				this.sendGeneralWarning( "ggtoken.gif", "You might not be properly equipped to play this game.<br>Click the token if you'd like to continue anyway." );
-				return;
-			}
+			return;
 		}
 
-		else if ( path.startsWith( "choice.php" ) &
-			  this.getFormField( "confirm" ) == null &&
-			  // *** This can't work as coded: if you are in a
-			  // choice, you must choose an option before doing
-			  // anything else - like setting MCD.
-			  false )
+		if ( path.startsWith( "lair6.php" ) && this.sendSorceressWarning() )
 		{
-			String choice = this.getFormField( "whichchoice" );
-			String option = this.getFormField( "option" );
+			return;
+		}
 
-			// The Baron has different rewards depending on the MCD
-			if ( choice != null && choice.equals( "511" ) &&
-			     option != null && option.equals( "1" ) &&
-			     KoLCharacter.mcdAvailable() )
-			{
-				this.sendBossWarning( "Baron von Ratsworth", "ratsworth.gif", 2, "moneyclip.gif", 9, "tophat.gif" );
-				return;
-			}
+		if ( path.startsWith( "arcade.php" ) && this.sendArcadeWarning() )
+		{
+			return;
 		}
 
 		// If the person is unlocking the easter egg balloon, retrieve a balloon
 		// monkey first
 
-		else if ( path.startsWith( "lair2.php" ) )
+		if ( path.startsWith( "lair2.php" ) )
 		{
 			String key = this.getFormField( "whichkey" );
 
