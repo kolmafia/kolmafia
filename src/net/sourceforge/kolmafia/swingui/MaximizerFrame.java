@@ -82,7 +82,9 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -101,6 +103,7 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
@@ -598,6 +601,25 @@ public class MaximizerFrame
 						continue;
 					}
 					else if ( Preferences.getBoolean( "friarsBlessingReceived" ) )
+					{
+						cmd = "";
+					}
+				}
+				else if ( cmd.startsWith( "hatter " ) )
+				{
+					boolean haveEffect = KoLConstants.activeEffects.contains( EffectPool
+						.get( EffectPool.DOWN_THE_RABBIT_HOLE ) );
+					boolean havePotion = InventoryManager.hasItem( ItemPool.DRINK_ME_POTION );
+					if ( !havePotion && !haveEffect )
+					{
+						continue;
+					}
+					else if ( !RabbitHoleManager.hatLengthAvailable( StringUtilities.parseInt( cmd
+						.substring( 7 ) ) ) )
+					{
+						continue;
+					}
+					else if ( Preferences.getBoolean( "_madTeaParty" ) )
 					{
 						cmd = "";
 					}

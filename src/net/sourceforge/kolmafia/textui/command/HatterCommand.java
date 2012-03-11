@@ -68,30 +68,40 @@ public class HatterCommand
 		}
 
 		String hat = parameters;
-
-		List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
-		List matches = new ArrayList();
-
-		for ( int i = 0; i < hats.size(); ++i )
+		
+		try
 		{
-			if ( StringUtilities.fuzzyMatches( hats.get( i ).toString(), hat ) )
+			int len = Integer.parseInt( parameters );
+			
+			RabbitHoleManager.getHatBuff( len );
+		}
+		catch ( NumberFormatException e )
+		{
+			List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+			List matches = new ArrayList();
+
+			for ( int i = 0; i < hats.size(); ++i )
 			{
-				matches.add( hats.get( i ) );
+				if ( StringUtilities.fuzzyMatches( hats.get( i ).toString(), hat ) )
+				{
+					matches.add( hats.get( i ) );
+				}
 			}
-		}
 
-		if ( matches.size() > 1 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + hat + "] has too many matches." );
-			return;
-		}
+			if ( matches.size() > 1 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + hat + "] has too many matches." );
+				return;
+			}
 
-		if ( matches.size() == 0 )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + hat + " for a hat." );
-			return;
-		}
+			if ( matches.size() == 0 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + hat
+					+ " for a hat." );
+				return;
+			}
 
-		RabbitHoleManager.getHatBuff( (AdventureResult) matches.get( 0 ) );
+			RabbitHoleManager.getHatBuff( (AdventureResult) matches.get( 0 ) );
+		}
 	}
 }
