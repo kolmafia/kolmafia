@@ -1545,6 +1545,12 @@ public abstract class RabbitHoleManager
 				continue;
 			}
 
+			if ( !EquipmentManager.canEquip( hat ) )
+			{
+				// skip it if we can't equip it
+				continue;
+			}
+
 			String name = hat.getName();
 
 			Integer len = IntegerPool.get( hatLength( name ) );
@@ -1643,6 +1649,11 @@ public abstract class RabbitHoleManager
 		}
 
 		RequestThread.postRequest( new EquipmentRequest( hat, EquipmentManager.HAT ) );
+		if ( EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId() != hat.getItemId() )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to equip " + hat.getName() + "." );
+			return;
+		}
 
 		String effectName = "", effectModifiers = "";
 		int len = hatLength( hat.getName() );

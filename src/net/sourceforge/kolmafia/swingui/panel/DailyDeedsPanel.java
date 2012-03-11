@@ -2689,7 +2689,8 @@ public class DailyDeedsPanel
 					{
 						AdventureResult ad = (AdventureResult) hats.get( j );
 
-						if ( ad != null && !ad.getName().equals( "(none)" ) )
+						if ( ad != null && !ad.getName().equals( "(none)" ) &&
+								EquipmentManager.canEquip( ad ) )
 						{
 							if ( ( (Integer) hat_data[ i ][ 0 ] ).intValue() == RabbitHoleManager
 								.hatLength( ad.getName() ) )
