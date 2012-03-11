@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Conditional;
 import net.sourceforge.kolmafia.textui.parsetree.Else;
 import net.sourceforge.kolmafia.textui.parsetree.ElseIf;
 import net.sourceforge.kolmafia.textui.parsetree.Expression;
+import net.sourceforge.kolmafia.textui.parsetree.FinalScope;
 import net.sourceforge.kolmafia.textui.parsetree.ForEachLoop;
 import net.sourceforge.kolmafia.textui.parsetree.ForLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -305,6 +306,7 @@ public class Parser
 		reservedWords.add( "default" );
 		reservedWords.add( "try" );
 		reservedWords.add( "finally" );
+		reservedWords.add( "final" );
 
 		// Data types
 		reservedWords.add( "void" );
@@ -917,6 +919,11 @@ public class Parser
 			return result;
 		}
 		else if ( ( result = this.parseTry( functionType, scope, allowBreak, allowContinue ) ) != null )
+		{
+			// try doesn't have a ; token
+			return result;
+		}
+		else if ( ( result = this.parseFinal( functionType, scope ) ) != null )
 		{
 			// try doesn't have a ; token
 			return result;
@@ -1612,6 +1619,34 @@ public class Parser
 		}
 
 		return new Try( body, finalClause );
+	}
+
+	private FinalScope parseFinal( final Type functionType, final BasicScope parentScope )
+	{
+		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "final" ) )
+		{
+			return null;
+		}
+
+		this.readToken(); // final
+
+		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) // body is a single call
+		{
+			ParseTreeNode command = this.parseCommand( functionType, parentScope, false, false, false );
+			return new FinalScope( command, parentScope );
+		}
+
+		this.readToken(); //read {
+		Scope body = this.parseScope( null, functionType, null, parentScope, false, false );
+
+		if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+		{
+			throw this.parseException( "}", this.currentToken() );
+		}
+
+		this.readToken(); //read }
+
+		return new FinalScope( body, parentScope );
 	}
 
 	private SortBy parseSort( final BasicScope parentScope )
