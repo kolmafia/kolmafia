@@ -62,6 +62,7 @@ public abstract class BasicScope
 	protected FunctionList functions;
 	protected BasicScope parentScope;
 	protected ArrayList nestedScopes;
+	boolean executed;
 
 	public BasicScope( FunctionList functions, VariableList variables, TypeList types, BasicScope parentScope )
 	{
@@ -76,6 +77,7 @@ public abstract class BasicScope
 			parentScope.nestedScopes.add( this );
 			parentScope = parentScope.parentScope;
 		}
+		this.executed = false;
 	}
 
 	public BasicScope( VariableList variables, final BasicScope parentScope )
@@ -449,40 +451,46 @@ public abstract class BasicScope
 			this.pauser.pause( 1 );
 		}
 
-		Value result = DataTypes.VOID_VALUE;
-		interpreter.traceIndent();
-
-		Iterator it = this.getCommands();
-		while ( it.hasNext() )
+		try
 		{
-			ParseTreeNode current = (ParseTreeNode) it.next();
-			result = current.execute( interpreter );
+			Value result = DataTypes.VOID_VALUE;
+			interpreter.traceIndent();
 
-			// Abort processing now if command failed
-			if ( !KoLmafia.permitsContinue() )
+			Iterator it = this.getCommands();
+			while ( it.hasNext() )
 			{
-				interpreter.setState( Interpreter.STATE_EXIT );
+				ParseTreeNode current = (ParseTreeNode) it.next();
+				result = current.execute( interpreter );
+
+				// Abort processing now if command failed
+				if ( !KoLmafia.permitsContinue() )
+				{
+					interpreter.setState( Interpreter.STATE_EXIT );
+				}
+
+				if ( result == null )
+				{
+					result = DataTypes.VOID_VALUE;
+				}
+
+				if ( interpreter.isTracing() )
+				{
+					interpreter.trace( "[" + interpreter.getState() + "] <- " + result.toQuotedString() );
+				}
+
+				if ( interpreter.getState() != Interpreter.STATE_NORMAL )
+				{
+					break;
+				}
 			}
 
-			if ( result == null )
-			{
-				result = DataTypes.VOID_VALUE;
-			}
-
-			if ( interpreter.isTracing() )
-			{
-				interpreter.trace( "[" + interpreter.getState() + "] <- " + result.toQuotedString() );
-			}
-
-			if ( interpreter.getState() != Interpreter.STATE_NORMAL )
-			{
-				interpreter.traceUnindent();
-				return result;
-			}
+			interpreter.traceUnindent();
+			return result;
 		}
-
-		interpreter.traceUnindent();
-		return result;
+		finally
+		{
+			this.executed = true;
+		}
 	}
 
 	public abstract void addCommand( final ParseTreeNode c, final Parser p );
