@@ -1855,6 +1855,11 @@ public class GenericRequest
 			// desired and rerun the request.
 
 			this.constructURLString( this.redirectLocation, false );
+			if ( this.redirectLocation.equals( "choice.php" ) )
+			{
+				GenericRequest.choiceHandled = false;
+				ChoiceManager.preChoice( this );
+			}
 			return false;
 		}
 
