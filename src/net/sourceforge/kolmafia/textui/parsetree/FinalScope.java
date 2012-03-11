@@ -46,7 +46,7 @@ public class FinalScope
 
 	public Value execute( final Interpreter interpreter )
 	{
-		if ( !this.parentScope.executed )
+		if ( !this.executed )
 		{
 			return super.execute( interpreter );
 		}
