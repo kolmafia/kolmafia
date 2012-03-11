@@ -171,18 +171,17 @@ public abstract class KoLmafiaASH
 			return null;
 		}
 
-		Interpreter interpreter;
 		boolean createInterpreter = !KoLmafiaASH.TIMESTAMPS.containsKey( toExecute );
 
 		if ( !createInterpreter )
 		{
-			createInterpreter =
-				( (Long) KoLmafiaASH.TIMESTAMPS.get( toExecute ) ).longValue() != toExecute.lastModified();
+			Long timestamp = (Long) KoLmafiaASH.TIMESTAMPS.get( toExecute );
+			createInterpreter = timestamp.longValue() != toExecute.lastModified();
 		}
 
 		if ( !createInterpreter )
 		{
-			interpreter = (Interpreter) KoLmafiaASH.INTERPRETERS.get( toExecute );
+			Interpreter interpreter = (Interpreter) KoLmafiaASH.INTERPRETERS.get( toExecute );
 			TreeMap imports = interpreter.getImports();
 
 			Iterator it = imports.entrySet().iterator();
@@ -191,14 +190,15 @@ public abstract class KoLmafiaASH
 			{
 				Entry entry = (Entry) it.next();
 				File file = (File) entry.getKey();
-				createInterpreter = ( (Long) entry.getValue() ).longValue() != file.lastModified();
+				Long timestamp = (Long) entry.getValue();
+				createInterpreter = timestamp.longValue() != file.lastModified();
 			}
 		}
 
 		if ( createInterpreter )
 		{
-			KoLmafiaASH.TIMESTAMPS.clear();
-			interpreter = new Interpreter();
+			KoLmafiaASH.TIMESTAMPS.remove( toExecute );
+			Interpreter interpreter = new Interpreter();
 
 			if ( !interpreter.validate( toExecute, null ) )
 			{
