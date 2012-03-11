@@ -492,6 +492,8 @@ public class ResultProcessor
 			{
 				RequestLogger.updateSessionLog( lastToken );
 			}
+			// Update Hatter deed since new hats may now be equippable
+			PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 
 			return true;
 		}
