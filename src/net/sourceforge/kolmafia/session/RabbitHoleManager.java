@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -65,8 +66,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import net.sourceforge.kolmafia.webui.RelayServer;
 
 public abstract class RabbitHoleManager
 {
@@ -1669,6 +1668,38 @@ public abstract class RabbitHoleManager
 		RequestThread.postRequest( new GenericRequest( "choice.php?pwd&whichchoice=441&option=1", true ) );
 
 		RequestThread.postRequest( new EquipmentRequest( oldHat, EquipmentManager.HAT ) );
+	}
+	
+	public static void getHatBuff( final int desiredHatLength )
+	{
+		if ( RabbitHoleManager.hatLengthAvailable( desiredHatLength ) )
+		{
+			TreeMap lengths = getHatMap();
+
+			String hat = lengths.get( IntegerPool.get( desiredHatLength ) ).toString().split( "\\|" )[ 0 ];
+			RabbitHoleManager.getHatBuff( ItemFinder.getFirstMatchingItem( hat ) );
+		}
+		else
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No matching hat length found." );
+		}
+	}
+
+	public static boolean hatLengthAvailable( int desiredHatLength )
+	{
+		TreeMap lengths = getHatMap();
+
+		if ( lengths.size() == 0 )
+		{
+			return false;
+		}
+
+		if ( lengths.containsKey( IntegerPool.get( desiredHatLength ) ) )
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	public static int hatLength( final String name )

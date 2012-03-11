@@ -724,32 +724,32 @@
 723	Gleaming White Teeth	goldfronts.gif	107f5321e020b856965a53d5bff93b08	use 1 mariachi toothpaste
 724	Pemmican't	cruft.gif	63f212fdef4d2731cf9944afd3a9cb22	eat 1 Northern pemmican
 725	Down the Rabbit Hole	hare.gif	907cb5ad2ab24111f4cc83b0609ad087	use 1 DRINK ME potion
-726	Assaulted with Pepper	blpepper.gif	3ea2b2308ef23f53d670c9d27f380c7d	#tea party with 4-char hat
-727	Three Days Slow	watch.gif	fa9a60563732a82bd6c68671998f7e4e	#tea party with 6-char hat
-728	Cat-Alyzed	blackcat2.gif	2a82a72fecb3e47c6e10c0b4a09f3e30	#tea party with 7-char hat
-729	Anytwo Five Elevenis?	hobbyhorse.gif	e2f26024ae49c1eef94a20cc6caec8e3	#tea party with 8-char hat
-730	Coated Arms	nicesword.gif	b68894530a671bcdbbfc612f1afa1e20	#tea party with 9-char hat
-731	Smoky Third Eye	zomboeye.gif	5591b2d4198456fc6a9d584ad65542fc	#tea party with 10-char hat
-732	Full Bottle in front of Me	wine.gif	7f7bf04b109cad766fa8994dc1a1062c	#tea party with 11-char hat
-733	Thick-Skinned	balm.gif	3542fecc143611d7850447ee982c48a5	#tea party with 12-char hat
-734	20-20 Second Sight	glasseye.gif	2158b56c85250de3ec8d3631092b47d1	#tea party with 13-char hat
-735	Slimy Hands	glove.gif	d5030e0c82d9e372eb1cdf95446b9b0d	#tea party with 14-char hat
-736	Bottle in front of Me	missingwine.gif	96725b7d3308d6495e1b4fa49648f121	#tea party with 15-char hat
-737	Fan-Cooled	palmfan.gif	4f824ddf25b79c18c1d55d4da9282b95	#tea party with 16-char hat
-738	Ginger Snapped	dragonsnaps.gif	fd72b3fea9532eff99df7dabc76e7785	#tea party with 17-char hat
-739	Egg on your Face	egg.gif	94c63fe46de6924eb623e8f1c5f86c95	#tea party with 18-char hat
-740	Pockets of Fire	fire.gif	063e77cadd47be4f3fafdf59b20dbaf7	#tea party with 19-char hat
-741	Weapon of Mass Destruction	csword.gif	bd9060b9f8b3bbdb886e324c369c81ac	#tea party with 20-char hat
-742	Orchid Blood	troporchid.gif	7903f5c2c752c95411ec9887eabc558c	#tea party with 21-char hat
-743	Dances with Tweedles	dance1.gif	15bdf07a543b55d176ef4c7dc7c8ddd0	#tea party with 22-char hat
-744	Patched In	librarycard.gif	3ebf7251799ce3a1e5efecf754f1ea56	#tea party with 23-char hat
-745	You Can Really Taste the Dormouse	dormouse.gif	87639937c57c2ab181a017d719e7d496	#tea party with 24-char hat
-746	Turtle Titters	turtle.gif	9e65ef420fa82ab98bc6a0745bfd61a5	#tea party with 25-char hat
-747	Cat Class, Cat Style	tigereye.gif	7e27f53d80222fbd7e07938e591b40be	#tea party with 26-char hat
-748	Surreally Buff	strboost.gif	2e2ff53bcec1ce3fa0b0add058d9a38b	#tea party with 27-char hat
-749	Quadrilled	lobster.gif	1aff1c8a4389fcaeed66502163c05f57	#tea party with 28-char hat
-750	Coming Up Roses	rose.gif	64743357843a6e08d1299dc4157044a7	#tea party with 29-char hat
-751	Oleaginous Soles	insoles.gif	ffc5606554ed13a40a62cdcbd63eb631	#tea party with 30-char hat
+726	Assaulted with Pepper	blpepper.gif	3ea2b2308ef23f53d670c9d27f380c7d	hatter 4
+727	Three Days Slow	watch.gif	fa9a60563732a82bd6c68671998f7e4e	hatter 6
+728	Cat-Alyzed	blackcat2.gif	2a82a72fecb3e47c6e10c0b4a09f3e30	hatter 7
+729	Anytwo Five Elevenis?	hobbyhorse.gif	e2f26024ae49c1eef94a20cc6caec8e3	hatter 8
+730	Coated Arms	nicesword.gif	b68894530a671bcdbbfc612f1afa1e20	hatter 9
+731	Smoky Third Eye	zomboeye.gif	5591b2d4198456fc6a9d584ad65542fc	hatter 10
+732	Full Bottle in front of Me	wine.gif	7f7bf04b109cad766fa8994dc1a1062c	hatter 11
+733	Thick-Skinned	balm.gif	3542fecc143611d7850447ee982c48a5	hatter 12
+734	20-20 Second Sight	glasseye.gif	2158b56c85250de3ec8d3631092b47d1	hatter 13
+735	Slimy Hands	glove.gif	d5030e0c82d9e372eb1cdf95446b9b0d	hatter 14
+736	Bottle in front of Me	missingwine.gif	96725b7d3308d6495e1b4fa49648f121	hatter 15
+737	Fan-Cooled	palmfan.gif	4f824ddf25b79c18c1d55d4da9282b95	hatter 16
+738	Ginger Snapped	dragonsnaps.gif	fd72b3fea9532eff99df7dabc76e7785	hatter 17
+739	Egg on your Face	egg.gif	94c63fe46de6924eb623e8f1c5f86c95	hatter 18
+740	Pockets of Fire	fire.gif	063e77cadd47be4f3fafdf59b20dbaf7	hatter 19
+741	Weapon of Mass Destruction	csword.gif	bd9060b9f8b3bbdb886e324c369c81ac	hatter 20
+742	Orchid Blood	troporchid.gif	7903f5c2c752c95411ec9887eabc558c	hatter 21
+743	Dances with Tweedles	dance1.gif	15bdf07a543b55d176ef4c7dc7c8ddd0	hatter 22
+744	Patched In	librarycard.gif	3ebf7251799ce3a1e5efecf754f1ea56	hatter 23
+745	You Can Really Taste the Dormouse	dormouse.gif	87639937c57c2ab181a017d719e7d496	hatter 24
+746	Turtle Titters	turtle.gif	9e65ef420fa82ab98bc6a0745bfd61a5	hatter 25
+747	Cat Class, Cat Style	tigereye.gif	7e27f53d80222fbd7e07938e591b40be	hatter 26
+748	Surreally Buff	strboost.gif	2e2ff53bcec1ce3fa0b0add058d9a38b	hatter 27
+749	Quadrilled	lobster.gif	1aff1c8a4389fcaeed66502163c05f57	hatter 28
+750	Coming Up Roses	rose.gif	64743357843a6e08d1299dc4157044a7	hatter 29
+751	Oleaginous Soles	insoles.gif	ffc5606554ed13a40a62cdcbd63eb631	hatter 30
 752	Grrrrrrreat!	milk.gif	b9be2b2f79923a03775bea5398ebcbd1	eat 1 Tiger-lily's milk
 753	Powdered	powderdonut.gif	05f0c0ae4356266dfebc5f31c7a85170	eat 1 powdered donut
 754	Oh Snap	dragonsnaps.gif	dcd3c00daf806f985a5387988dd06564	eat 1 dragon snaps
