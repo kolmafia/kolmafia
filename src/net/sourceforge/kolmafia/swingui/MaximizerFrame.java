@@ -84,7 +84,6 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -93,9 +92,11 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
@@ -626,7 +627,16 @@ public class MaximizerFrame
 				}
 				else if ( cmd.startsWith( "summon " ) )
 				{
-					if ( KoLCharacter.getLevel() < 11 )
+					if ( !Preferences.getString( QuestDatabase.MANOR ).equals(
+						QuestDatabase.FINISHED ) )
+					{
+						continue;
+					}
+					int onHand = InventoryManager.getAccessibleCount( ItemPool.EVIL_SCROLL );
+					int creatable = CreateItemRequest.getInstance( ItemPool.EVIL_SCROLL )
+						.getQuantityPossible();
+
+					if ( !KoLCharacter.canInteract() && ( onHand + creatable ) < 1 )
 					{
 						continue;
 					}
