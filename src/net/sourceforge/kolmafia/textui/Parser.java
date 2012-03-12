@@ -1621,7 +1621,7 @@ public class Parser
 		return new Try( body, finalClause );
 	}
 
-	private FinalScope parseFinal( final Type functionType, final BasicScope parentScope )
+	private Scope parseFinal( final Type functionType, final BasicScope parentScope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "final" ) )
 		{
@@ -1630,14 +1630,18 @@ public class Parser
 
 		this.readToken(); // final
 
+		Scope result = new FinalScope( parentScope );
+
 		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) // body is a single call
 		{
 			ParseTreeNode command = this.parseCommand( functionType, parentScope, false, false, false );
-			return new FinalScope( command, parentScope );
+			result.addCommand( command, this );
+			return result;
 		}
 
 		this.readToken(); //read {
-		Scope body = this.parseScope( null, functionType, null, parentScope, false, false );
+
+		result = this.parseScope( result, functionType, null, parentScope, false, false );
 
 		if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
 		{
@@ -1646,7 +1650,7 @@ public class Parser
 
 		this.readToken(); //read }
 
-		return new FinalScope( body, parentScope );
+		return result;
 	}
 
 	private SortBy parseSort( final BasicScope parentScope )
