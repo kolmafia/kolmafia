@@ -378,6 +378,38 @@ public class Parser
 		return result;
 	}
 
+	private Scope parseCommandOrDeclaration( final Scope result, final Type expectedType )
+	{
+		Type t = this.parseType( result, true, true );
+
+		// If there is no data type, it's a command of some sort
+		if ( t == null )
+		{
+			ParseTreeNode c = this.parseCommand( expectedType, result, false, false, false );
+			if ( c == null )
+			{
+				throw this.parseException( "command or declaration required" );
+			}
+
+			result.addCommand( c, this );
+			return result;
+		}
+
+		if ( this.parseVariables( t, result ) )
+		{
+			if ( !this.currentToken().equals( ";" ) )
+			{
+				throw this.parseException( ";", this.currentToken() );
+			}
+
+			this.readToken(); //read ;
+			return result;
+		}
+
+		//Found a type but no function or variable to tie it to
+		throw this.parseException( "Type given but not used to declare anything" );
+	}
+
 	private Scope parseScope( final Scope startScope,
 				  final Type expectedType,
 				  final VariableList variables,
@@ -1634,14 +1666,12 @@ public class Parser
 
 		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) // body is a single call
 		{
-			ParseTreeNode command = this.parseCommand( functionType, parentScope, false, false, false );
-			result.addCommand( command, this );
-			return result;
+			return this.parseCommandOrDeclaration( result, functionType );
 		}
 
 		this.readToken(); //read {
 
-		result = this.parseScope( result, functionType, null, parentScope, false, false );
+		this.parseScope( result, functionType, null, parentScope, false, false );
 
 		if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
 		{
