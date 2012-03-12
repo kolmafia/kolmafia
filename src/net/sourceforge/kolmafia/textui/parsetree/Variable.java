@@ -45,6 +45,7 @@ public class Variable
 	Type type;
 	Value content;
 	Value expression = null;
+	boolean isFinal = false;
 
 	public Variable( final Type type )
 	{
@@ -68,6 +69,16 @@ public class Variable
 	public Type getBaseType()
 	{
 		return this.type.getBaseType();
+	}
+
+	public boolean isFinal()
+	{
+		return this.isFinal;
+	}
+
+	public void markFinal()
+	{
+		this.isFinal = true;
 	}
 
 	public Value getValue( final Interpreter interpreter )

@@ -53,5 +53,11 @@ public class FinalScope
 
 		return DataTypes.VOID_VALUE;
 	}
+
+	public boolean addVariable( final Variable v )
+	{
+		v.markFinal();
+		return super.addVariable( v );
+	}
 }
 
