@@ -65,7 +65,6 @@ import net.sourceforge.kolmafia.textui.parsetree.Conditional;
 import net.sourceforge.kolmafia.textui.parsetree.Else;
 import net.sourceforge.kolmafia.textui.parsetree.ElseIf;
 import net.sourceforge.kolmafia.textui.parsetree.Expression;
-import net.sourceforge.kolmafia.textui.parsetree.FinalScope;
 import net.sourceforge.kolmafia.textui.parsetree.ForEachLoop;
 import net.sourceforge.kolmafia.textui.parsetree.ForLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -85,6 +84,7 @@ import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import net.sourceforge.kolmafia.textui.parsetree.ScriptExit;
 import net.sourceforge.kolmafia.textui.parsetree.SortBy;
+import net.sourceforge.kolmafia.textui.parsetree.StaticScope;
 import net.sourceforge.kolmafia.textui.parsetree.Switch;
 import net.sourceforge.kolmafia.textui.parsetree.SwitchScope;
 import net.sourceforge.kolmafia.textui.parsetree.Try;
@@ -955,7 +955,7 @@ public class Parser
 			// try doesn't have a ; token
 			return result;
 		}
-		else if ( ( result = this.parseFinal( functionType, scope ) ) != null )
+		else if ( ( result = this.parseStatic( functionType, scope ) ) != null )
 		{
 			// try doesn't have a ; token
 			return result;
@@ -1653,7 +1653,7 @@ public class Parser
 		return new Try( body, finalClause );
 	}
 
-	private Scope parseFinal( final Type functionType, final BasicScope parentScope )
+	private Scope parseStatic( final Type functionType, final BasicScope parentScope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "static" ) )
 		{
@@ -1662,7 +1662,7 @@ public class Parser
 
 		this.readToken(); // final
 
-		Scope result = new FinalScope( parentScope );
+		Scope result = new StaticScope( parentScope );
 
 		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) // body is a single call
 		{

@@ -85,7 +85,7 @@ public class UserDefinedFunction
 			while ( variables.hasNext() )
 			{
 				Variable current = (Variable) variables.next();
-				if ( !current.isFinal() )
+				if ( !current.isStatic() )
 				{
 					values.add( current.getValue( interpreter ) );
 				}
@@ -112,7 +112,7 @@ public class UserDefinedFunction
 			while ( variables.hasNext() )
 			{
 				Variable current = (Variable) variables.next();
-				if ( !current.isFinal() )
+				if ( !current.isStatic() )
 				{
 					current.forceValue( (Value) values.get( i++ ) );
 				}

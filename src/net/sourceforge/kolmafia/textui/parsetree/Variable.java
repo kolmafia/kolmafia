@@ -45,7 +45,7 @@ public class Variable
 	Type type;
 	Value content;
 	Value expression = null;
-	boolean isFinal = false;
+	boolean isStatic = false;
 
 	public Variable( final Type type )
 	{
@@ -71,14 +71,14 @@ public class Variable
 		return this.type.getBaseType();
 	}
 
-	public boolean isFinal()
+	public boolean isStatic()
 	{
-		return this.isFinal;
+		return this.isStatic;
 	}
 
-	public void markFinal()
+	public void markStatic()
 	{
-		this.isFinal = true;
+		this.isStatic = true;
 	}
 
 	public Value getValue( final Interpreter interpreter )
