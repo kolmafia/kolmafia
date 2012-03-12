@@ -61,7 +61,7 @@ public class UneffectCommand
 			String[] effects = parameters.split( "\\s*,\\s*" );
 			for ( int i = 0; i < effects.length; ++i )
 			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "uneffect", effects[ i ] );
+				this.run( "uneffect", effects[ i ] );
 			}
 
 			return;

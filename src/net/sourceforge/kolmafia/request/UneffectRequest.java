@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -254,13 +255,18 @@ public class UneffectRequest
 		return skillName;
 	}
 
-	private static Set REMOVABLE_EFFECTS;
-	private static Map skillRemoveMap = new LinkedHashMap();
+	private static Set REMOVABLE_BY_SKILL;
+	private static Map removeWithSkillMap = new LinkedHashMap();
+
+	private static Set REMOVABLE_BY_ITEM;
+	private static Map removeWithItemMap = new LinkedHashMap();
 
 	static
 	{
-		Set removableEffects = new HashSet();
-		skillRemoveMap.put( "use 1 anti-anti-antidote", removableEffects );
+		Set removableEffects;
+
+		removableEffects = new HashSet();
+		removeWithItemMap.put( IntegerPool.get( ItemPool.ANTIDOTE ), removableEffects );
 		removableEffects.add( "Hardly Poisoned at All" );
 		removableEffects.add( "Majorly Poisoned" );
 		removableEffects.add( "A Little Bit Poisoned" );
@@ -268,11 +274,25 @@ public class UneffectRequest
 		removableEffects.add( "Really Quite Poisoned" );
 
 		removableEffects = new HashSet();
-		skillRemoveMap.put( "cast Tongue of the Otter", removableEffects );
+		removeWithItemMap.put( IntegerPool.get( ItemPool.TINY_HOUSE ), removableEffects );
+		removableEffects.add( "Beaten Up" );
+		removableEffects.add( "Confused" );
+		removableEffects.add( "Embarrassed" );
+		removableEffects.add( "Sunburned" );
+		removableEffects.add( "Wussiness" );
+
+		removableEffects = new HashSet();
+		removeWithItemMap.put( IntegerPool.get( ItemPool.TEARS ), removableEffects );
+		removableEffects.add( "Beaten Up" );
+
+		UneffectRequest.REMOVABLE_BY_ITEM = removeWithItemMap.entrySet();
+
+		removableEffects = new HashSet();
+		removeWithSkillMap.put( "Tongue of the Otter", removableEffects );
 		removableEffects.add( "Beaten Up" );
 
 		removableEffects = new HashSet();
-		skillRemoveMap.put( "cast Tongue of the Walrus", removableEffects );
+		removeWithSkillMap.put( "Tongue of the Walrus", removableEffects );
 		removableEffects.add( "Axe Wound" );
 		removableEffects.add( "Beaten Up" );
 		removableEffects.add( "Grilled" );
@@ -281,7 +301,7 @@ public class UneffectRequest
 		removableEffects.add( "Sunburned" );
 
 		removableEffects = new HashSet();
-		skillRemoveMap.put( "cast Disco Nap", removableEffects );
+		removeWithSkillMap.put( "Disco Nap", removableEffects );
 		removableEffects.add( "Confused" );
 		removableEffects.add( "Embarrassed" );
 		removableEffects.add( "Sleepy" );
@@ -289,7 +309,7 @@ public class UneffectRequest
 		removableEffects.add( "Wussiness" );
 
 		removableEffects = new HashSet();
-		skillRemoveMap.put( "cast Disco Power Nap", removableEffects );
+		removeWithSkillMap.put( "Disco Power Nap", removableEffects );
 		removableEffects.add( "Affronted Decency" );
 		removableEffects.add( "Apathy" );
 		removableEffects.add( "Confused" );
@@ -309,44 +329,25 @@ public class UneffectRequest
 		removableEffects.add( "\"The Disease\"" );
 		removableEffects.add( "Wussiness" );
 
-		removableEffects = new HashSet();
-		skillRemoveMap.put( "use 1 tiny house", removableEffects );
-		removableEffects.add( "Beaten Up" );
-		removableEffects.add( "Confused" );
-		removableEffects.add( "Embarrassed" );
-		removableEffects.add( "Sunburned" );
-		removableEffects.add( "Wussiness" );
-
-		removableEffects = new HashSet();
-		skillRemoveMap.put( "use 1 forest tears", removableEffects );
-		removableEffects.add( "Beaten Up" );
-
-		UneffectRequest.REMOVABLE_EFFECTS = skillRemoveMap.entrySet();
+		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();
 	}
 
 	public static void removeEffectsWithItem( final int itemId )
 	{
-		String itemName = ItemDatabase.getItemName( itemId );
-		if ( itemName == null )
-		{
-			return;
-		}
-
-		String remover = "use 1 " + itemName;
-		HashSet effects = (HashSet)UneffectRequest.skillRemoveMap.get( remover );
+		HashSet effects = (HashSet) UneffectRequest.removeWithItemMap.get( IntegerPool.get( itemId ) );
 		UneffectRequest.removeEffects( effects );
 	}
 
 	public static void removeEffectsWithSkill( final int skillId )
 	{
 		String skillName = SkillDatabase.getSkillName( skillId );
+
 		if ( skillName == null )
 		{
 			return;
 		}
 
-		String remover = "cast " + skillName;
-		HashSet effects = (HashSet)UneffectRequest.skillRemoveMap.get( remover );
+		HashSet effects = (HashSet) UneffectRequest.removeWithSkillMap.get( skillName );
 		UneffectRequest.removeEffects( effects );
 	}
 
@@ -358,6 +359,7 @@ public class UneffectRequest
 		}
 
 		Iterator it = effects.iterator();
+
 		while ( it.hasNext() )
 		{
 			String name = (String)it.next();
@@ -373,24 +375,20 @@ public class UneffectRequest
 		// If there's an action defined in your mood, use it.
 
 		String action = MoodManager.getDefaultAction( "gain_effect", name );
+		String skillName = null;
 
 		if ( action.startsWith( "cast " ) )
 		{
-			String skillName = action.substring( 5 );
-
-			if ( !KoLCharacter.hasSkill( skillName ) )
-			{
-				action = "";
-			}
+			skillName = action.substring( 5 );
 		}
 		else if ( action.startsWith( "skill " ) )
 		{
-			String skillName = action.substring( 6 );
+			skillName = action.substring( 6 );
+		}
 
-			if ( !KoLCharacter.hasSkill( skillName ) )
-			{
-				action = "";
-			}
+		if ( skillName != null && !KoLCharacter.hasSkill( skillName ) )
+		{
+			action = "";
 		}
 
 		if ( !action.equals( "" ) && !action.startsWith( "uneffect " ) )
@@ -412,7 +410,9 @@ public class UneffectRequest
 
 		boolean hasRemedy = InventoryManager.hasItem( ItemPool.REMEDY );
 
-		Iterator removableIterator = UneffectRequest.REMOVABLE_EFFECTS.iterator();
+		Iterator removableIterator = UneffectRequest.REMOVABLE_BY_SKILL.iterator();
+
+		// See if it can be removed by a skill.
 
 		while ( removableIterator.hasNext() )
 		{
@@ -424,33 +424,35 @@ public class UneffectRequest
 				continue;
 			}
 
-			String remover = (String) removable.getKey();
+			skillName = (String) removable.getKey();
 
-			if ( remover.startsWith( "cast " ) )
+			if ( KoLCharacter.hasSkill( skillName ) )
 			{
-				String skillName = remover.substring( 5 );
+				KoLmafia.updateDisplay( name + " will be removed by skill " + skillName + "..." );
 
-				if ( KoLCharacter.hasSkill( skillName ) )
-				{
-					KoLmafia.updateDisplay( name + " will be removed by " + skillName + "..." );
-
-					return remover;
-				}
+				return "cast " + skillName;
 			}
-			else if ( remover.startsWith( "use 1 " ) );
+		}
+
+		// See if it can be removed by an item.
+
+		removableIterator = UneffectRequest.REMOVABLE_BY_ITEM.iterator();
+
+		while ( removableIterator.hasNext() )
+		{
+			Entry removable = (Entry) removableIterator.next();
+			Set removables = (Set) removable.getValue();
+
+			int itemId = ( (Integer) removable.getKey() ).intValue();
+			String itemName = ItemDatabase.getItemName( itemId );
+
+			if ( InventoryManager.hasItem( itemId ) ||
+				Preferences.getBoolean( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( itemName ) ||
+				!hasRemedy && KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
 			{
-				String itemName = remover.substring( 6 );
+				KoLmafia.updateDisplay( name + " will be removed by item " + itemName + "..." );
 
-				int itemId = ItemDatabase.getItemId( itemName );
-
-				if ( InventoryManager.hasItem( itemId ) ||
-					Preferences.getBoolean( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( itemName ) ||
-					!hasRemedy && KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
-				{
-					KoLmafia.updateDisplay( name + " will be removed by " + itemName + "..." );
-
-					return remover;
-				}
+				return "use 1 " + itemName;
 			}
 		}
 
