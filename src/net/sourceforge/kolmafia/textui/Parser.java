@@ -306,7 +306,7 @@ public class Parser
 		reservedWords.add( "default" );
 		reservedWords.add( "try" );
 		reservedWords.add( "finally" );
-		reservedWords.add( "final" );
+		reservedWords.add( "static" );
 
 		// Data types
 		reservedWords.add( "void" );
@@ -1655,7 +1655,7 @@ public class Parser
 
 	private Scope parseFinal( final Type functionType, final BasicScope parentScope )
 	{
-		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "final" ) )
+		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "static" ) )
 		{
 			return null;
 		}
