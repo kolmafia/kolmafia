@@ -34,8 +34,10 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -470,6 +472,12 @@ public class UseItemRequest
 
 		case ItemPool.FIELD_GAR_POTION:
 			// Disallow using potion if already Gar-ish
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
+			if( date.get( Calendar.DAY_OF_WEEK ) == Calendar.MONDAY )
+			{
+				UseItemRequest.limiter = "uselessness on Mondays";
+				return 0;
+			}
 			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GARISH_ID ) ) )
 			{
 				UseItemRequest.limiter = "existing effect";
