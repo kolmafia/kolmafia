@@ -97,10 +97,10 @@ public class DailyDeedsPanel
 	public static final String[][] BUILTIN_DEEDS =
 	{
 		{
-			"Command", "Breakfast", "breakfastCompleted", "breakfast"
+			"Command", "Breakfast", "breakfastCompleted", "breakfast", "1", "Perform typical daily tasks - use 1/day items, visit 1/day locations like various clan furniture, use item creation skills, etc. Configurable in preferences."
 		},
 		{
-			"Command", "Daily Dungeon", "dailyDungeonDone", "adv * Daily Dungeon"
+			"Command", "Daily Dungeon", "dailyDungeonDone", "adv * Daily Dungeon", "1", "Adventure in Daily Dungeon"
 		},
 		{
 			"Special", "Submit Spading Data",
@@ -112,7 +112,7 @@ public class DailyDeedsPanel
 			"Special", "Chips",
 		},
 		{
-			"Item", "Library Card", "libraryCardUsed"
+			"Item", "Library Card", "libraryCardUsed", "Library Card", "1", "40-50 stat gain of one of Mus/Myst/Mox, randomly chosen"
 		},
 		{
 			"Special", "Telescope",
@@ -130,13 +130,13 @@ public class DailyDeedsPanel
 			"Special", "April Shower",
 		},
 		{
-			"Item", "Bag o' Tricks", "_bagOTricksUsed"
+			"Item", "Bag o' Tricks", "_bagOTricksUsed", "Bag o' Tricks", "1", "5 random current effects extended by 3 turns"
 		},
 		{
-			"Item", "Legendary Beat", "_legendaryBeat"
+			"Item", "Legendary Beat", "_legendaryBeat", "Legendary Beat", "1", "+50% items, 20 turns"
 		},
 		{
-			"Item", "Outrageous Sombrero", "outrageousSombreroUsed"
+			"Item", "Outrageous Sombrero", "outrageousSombreroUsed", "Outrageous Sombrero", "1", "+3% items, 5 turns"
 		},
 		{
 			"Special", "Friars",
@@ -151,7 +151,7 @@ public class DailyDeedsPanel
 			"Special", "Demon Summoning",
 		},
 		{
-			"Skill", "Rage Gland", "rageGlandVented"
+			"Skill", "Rage Gland", "rageGlandVented", "Rage Gland", "1", "-10% Mus/Myst/Mox, randomly chosen, and each turn of combat do level to 2*level damage, 5 turns"
 		},
 		{
 			"Special", "Free Rests",
@@ -163,10 +163,10 @@ public class DailyDeedsPanel
 			"Special", "Nuns",
 		},
 		{
-			"Item", "Oscus' Soda", "oscusSodaUsed"
+			"Item", "Oscus' Soda", "oscusSodaUsed", "Oscus' Soda", "1", "200-300 MP"
 		},
 		{
-			"Item", "Express Card", "expressCardUsed"
+			"Item", "Express Card", "expressCardUsed", "Express Card", "1", "extends duration of all current effects by 5 turns, restores all MP, cools zapped wands"
 		},
 		{
 			"Special", "Flush Mojo",
@@ -443,10 +443,10 @@ public class DailyDeedsPanel
 
 	private void parseCommandDeed( String[] deedsString )
 	{
-		if ( deedsString.length < 3 || deedsString.length > 5 )
+		if ( deedsString.length < 3 || deedsString.length > 6 )
 		{
 			RequestLogger
-				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Command. (3, 4, or 5)" );
+				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Command. (3, 4, 5, or 6)" );
 			return;
 		}
 
@@ -493,14 +493,35 @@ public class DailyDeedsPanel
 					.printLine( "Daily Deeds error: Command deeds require an int for the fifth parameter." );
 			}
 		}
+		else if ( deedsString.length == 6 )
+		{
+			/*
+			 * MultiPref|displayText|preference|command|maxPref|toolTip
+			 */
+
+			String displayText = deedsString[ 1 ];
+			String command = deedsString[ 3 ];
+			String toolTip = deedsString[ 5 ];
+			try
+			{
+				int maxPref = Integer.parseInt( deedsString[ 4 ] );
+
+				this.add( new CommandDaily( displayText, pref, command, maxPref, toolTip ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: Command deeds require an int for the fifth parameter." );
+			}
+		}
 	}
 
 	private void parseItemDeed( String[] deedsString )
 	{
-		if ( deedsString.length < 3 || deedsString.length > 5 )
+		if ( deedsString.length < 3 || deedsString.length > 6 )
 		{
 			RequestLogger
-				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Item. (3, 4, or 5)" );
+				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Item. (3, 4, 5, or 6)" );
 			return;
 		}
 
@@ -592,14 +613,53 @@ public class DailyDeedsPanel
 					.printLine( "Daily Deeds error: Item deeds require an int for the fifth parameter." );
 			}
 		}
+		else if ( deedsString.length == 6 )
+		{
+			/*
+			 * BooleanItem|displayText|preference|itemName|maxUses|toolTip
+			 * itemId is found from itemName
+			 */
+			String displayText = deedsString[ 1 ];
+			String toolTip = deedsString[ 5 ];
+			// Use the substring matching of getItemId because itemName may not
+			// be the canonical name of the item
+			String split = deedsString[ 3 ].split( ";" )[ 0 ];
+			int itemId = ItemDatabase.getItemId( split );
+			String item = ItemDatabase.getItemName( itemId );
+			if ( deedsString[ 3 ].split( ";" ).length > 1 )
+			{
+				for ( int i = 1; i < deedsString[ 3 ].split( ";" ).length; ++i )
+				{
+					item += ";" + deedsString[ 3 ].split( ";" )[ i ];
+				}
+			}
+
+			if ( itemId == -1 )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 3 ] );
+				return;
+			}
+			try
+			{
+				int maxUses = Integer.parseInt( deedsString[ 4 ] );
+
+				this.add( new ItemDaily( displayText, pref, itemId, "use " + item, maxUses, toolTip ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: Item deeds require an int for the fifth parameter." );
+			}
+		}
 	}
 
 	private void parseSkillDeed( String[] deedsString )
 	{
-		if ( deedsString.length < 3 || deedsString.length > 5 )
+		if ( deedsString.length < 3 || deedsString.length > 6 )
 		{
 			RequestLogger
-				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Skill. (3, 4, or 5)" );
+				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Skill. (3, 4, 5, or 6)" );
 			return;
 		}
 
@@ -656,6 +716,31 @@ public class DailyDeedsPanel
 				}
 				this.add( new SkillDaily( displayText, pref, (String) skillNames.get( 0 ), "cast "
 					+ skillNames.get( 0 ), maxCasts ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: Skill deeds require an int for the fifth parameter." );
+			}
+		}
+		else if ( deedsString.length == 6 )
+		{
+			String displayText = deedsString[ 1 ];
+			List skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
+			String toolTip = deedsString[ 5 ];
+
+			try
+			{
+				int maxCasts = Integer.parseInt( deedsString[ 4 ] );
+
+				if ( skillNames.size() != 1 )
+				{
+					RequestLogger.printLine( "Daily Deeds error: unable to resolve skill "
+						+ deedsString[ 3 ] );
+					return;
+				}
+				this.add( new SkillDaily( displayText, pref, (String) skillNames.get( 0 ), "cast "
+					+ skillNames.get( 0 ), maxCasts, toolTip ) );
 			}
 			catch ( NumberFormatException e )
 			{
@@ -960,6 +1045,11 @@ public class DailyDeedsPanel
 			this.buttons.add( button );
 			this.add( button );
 			return button;
+		}
+
+		public void addComboButton( String command, String displaytext, String tip )
+		{
+			this.addComboButton( command, displaytext ).setToolTipText( tip );
 		}
 
 		public DisabledItemsComboBox addComboBox( Object choice[], ArrayList tooltips, String lengthString )
@@ -1509,6 +1599,28 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		/**
+		 * @param displayText
+		 *	the text that will be displayed on the button
+		 * @param preference
+		 *	the preference to look at. The preference is used to set the availability of the
+		 *	element.
+		 * @param command
+		 *	the command to execute.
+		 * @param maxPref
+		 *	the integer at which to disable the button.
+		 * @param toolTip
+		 * 	tooltip to display for button on mouseover, for extended information.
+		 */
+		public CommandDaily( String displayText, String preference, String command, int maxPref, String toolTip )
+		{
+			this.preference = preference;
+			this.maxPref = maxPref;
+			this.addListener( preference );
+			this.addComboButton( command, displayText, toolTip );
+			this.addLabel( "" );
+		}
+
 		public void update()
 		{
 			int prefToInt = 1;
@@ -1591,6 +1703,8 @@ public class DailyDeedsPanel
 		 * 	the ID of the item. the item is used to set the visibility of the element.
 		 * @param command
 		 * 	the command to execute.
+		 * @param maxUses
+		 * 	maximum number of uses of the item per day.
 		 */
 		public ItemDaily( String displayText, String preference, int itemId, String command, int maxUses )
 		{
@@ -1600,6 +1714,32 @@ public class DailyDeedsPanel
 			this.addItem( itemId );
 			this.addListener( preference );
 			this.addComboButton( command, displayText );
+			this.addLabel( "" );
+		}
+
+		/**
+		 * @param displayText
+		 * 	the text that will be displayed on the button
+		 * @param preference
+		 * 	the preference to look at. The preference is used to set the availability of the
+		 * 	element.
+		 * @param itemId
+		 * 	the ID of the item. the item is used to set the visibility of the element.
+		 * @param command
+		 * 	the command to execute.
+		 * @param maxUses
+		 * 	maximum number of uses of the item per day.
+		 * @param toolTip
+		 * 	tooltip to display for button on mouseover, for extended information.
+		 */
+		public ItemDaily( String displayText, String preference, int itemId, String command, int maxUses, String toolTip )
+		{
+			this.preference = preference;
+			this.itemId = itemId;
+			this.maxUses = maxUses;
+			this.addItem( itemId );
+			this.addListener( preference );
+			this.addComboButton( command, displayText, toolTip );
 			this.addLabel( "" );
 		}
 
@@ -1681,15 +1821,17 @@ public class DailyDeedsPanel
 		}
 
 		/**
+		 * @param displayText
+		 * 	the text that will be displayed on the button
 		 * @param preference
-		 *                the preference to look at. The preference is used to set the availability of the
-		 *                element.
+		 * 	the preference to look at. The preference is used to set the availability of the
+		 * 	element.
 		 * @param skill
-		 *                the skill used to set the visibility of the element.
+		 * 	the skill used to set the visibility of the element.
 		 * @param command
-		 *                the command to execute.
+		 * 	the command to execute.
 		 * @param maxCasts
-		 *                the number of skill uses before the button is disabled.
+		 *  	the number of skill uses before the button is disabled.
 		 */
 		public SkillDaily( String displayText, String preference, String skill, String command, int maxCasts )
 		{
@@ -1699,6 +1841,32 @@ public class DailyDeedsPanel
 			this.addListener( preference );
 			this.addListener( "(skill)" );
 			this.addComboButton( command, displayText );
+			this.addLabel( "" );
+		}
+
+		/**
+		 * @param displayText
+		 * 	the text that will be displayed on the button
+		 * @param preference
+		 * 	the preference to look at. The preference is used to set the availability of the
+		 * 	element.
+		 * @param skill
+		 * 	the skill used to set the visibility of the element.
+		 * @param command
+		 * 	the command to execute.
+		 * @param maxCasts
+		 *  	the number of skill uses before the button is disabled.
+		 * @param toolTip
+		 * 	tooltip to display for button on mouseover, for extended information.
+		 */
+		public SkillDaily( String displayText, String preference, String skill, String command, int maxCasts, String toolTip )
+		{
+			this.preference = preference;
+			this.skill = skill;
+			this.maxCasts = maxCasts;
+			this.addListener( preference );
+			this.addListener( "(skill)" );
+			this.addComboButton( command, displayText, toolTip );
 			this.addLabel( "" );
 		}
 
