@@ -39,9 +39,9 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 public class FinalScope
 	extends Scope
 {
-	public FinalScope( final ParseTreeNode command, final BasicScope parentScope )
+	public FinalScope( final BasicScope parentScope )
 	{
-		super( command, parentScope );
+		super( parentScope.variables, parentScope );
 	}
 
 	public Value execute( final Interpreter interpreter )
