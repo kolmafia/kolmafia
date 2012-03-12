@@ -71,11 +71,10 @@ Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
 
 Holiday	Unsorted	Holiday Zones
-The Candy Diorama	Holiday	Christmas 2011
 
 Override	Unsorted	Discoveries
 
-Events	Unsorted	Events
+Events	Events	Events
 
 Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005
@@ -84,4 +83,5 @@ Crimbo07	Removed	Christmas 2007
 Crimbo08	Removed	Christmas 2008
 Crimbo09	Removed	Christmas 2009
 Crimbo10	Removed	Christmas 2010
+The Candy Diorama	Removed	Christmas 2011
 WhiteWed	Removed	White Wednesday

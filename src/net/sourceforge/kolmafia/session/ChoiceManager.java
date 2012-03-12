@@ -1929,12 +1929,12 @@ public abstract class ChoiceManager
 
 		// Clear and Present Danger
 		new ChoiceAdventure(
-			"Hobopolis", "choiceAdventure518", "Elf Alley",
+			"Crimbo10", "choiceAdventure518", "Elf Alley",
 			new String[] { "enter combat with Uncle Hobo", "skip adventure" } ),
 
 		// What a Tosser
 		new ChoiceAdventure(
-			"Hobopolis", "choiceAdventure519", "Elf Alley",
+			"Crimbo10", "choiceAdventure519", "Elf Alley",
 			new String[] { "gift-a-pult", "skip adventure" },
 			new String[] { "4852", null } ),
 		// What a Tosser - gift-a-pult
@@ -1973,7 +1973,7 @@ public abstract class ChoiceManager
 
 		// It Was Then That...  Aaaaaaaah!
 		new ChoiceAdventure(
-			"Mountain", "choiceAdventure530", "Icy Peak",
+			"Events", "choiceAdventure530", "Icy Peak",
 			new String[] { "hideous egg", "skip the adventure" },
 			new String[] { "5106", null } ),
 
@@ -2015,41 +2015,41 @@ public abstract class ChoiceManager
 
 		// Behind Closed Doors
 		new ChoiceAdventure(
-			"Clan Basement", "choiceAdventure548", "Sorority House Necbromancer",
+			"Events", "choiceAdventure548", "Sorority House Necbromancer",
 			new String[] { "enter combat with The Necbromancer", "skip adventure" } ),
 
 		// Dark in the Attic
 		new ChoiceSpoiler(
-			"Clan Basement", "choiceAdventure549", "Dark in the Attic",
+			"Events", "choiceAdventure549", "Dark in the Attic",
 			new String[] { "staff guides", "ghost trap", "raise area ML", "lower area ML", "mass kill werewolves with silver shotgun shell" },
 			new String[] { "5307", "5308", null, null, "5310" } ),
 
 		// The Unliving Room
 		new ChoiceSpoiler(
-			"Clan Basement", "choiceAdventure550", "The Unliving Room",
+			"Events", "choiceAdventure550", "The Unliving Room",
 			new String[] { "raise area ML", "lower area ML" , "mass kill zombies with chainsaw chain", "mass kill skeletons with funhouse mirror", "get costume item" },
 			new String[] { null, null, "5309", "5311", null } ),
 
 		// Debasement
 		new ChoiceSpoiler(
-			"Clan Basement", "choiceAdventure551", "Debasement",
+			"Events", "choiceAdventure551", "Debasement",
 			new String[] { "Prop Deportment", "mass kill vampires with plastic vampire fangs", "raise area ML", "lower area ML" } ),
 
 		// Prop Deportment
 		new ChoiceSpoiler(
-			"Clan Basement", "choiceAdventure552", "Prop Deportment",
+			"Events", "choiceAdventure552", "Prop Deportment",
 			new String[] { "chainsaw chain", "create a silver shotgun shell", "funhouse mirror" },
 			new String[] { "5309", "5310", "5311" } ),
 
 		// Relocked and Reloaded
 		new ChoiceSpoiler(
-			"Clan Basement", "choiceAdventure553", "Relocked and Reloaded",
+			"Events", "choiceAdventure553", "Relocked and Reloaded",
 			new String[] { "", "", "", "", "", "exit adventure" },
 			new String[] { "2642", "2987", "4237", "1972", "4234", null } ),
 
 		// Behind the Spooky Curtain
 		new ChoiceSpoiler(
-			"Clan Basement", "choiceAdventure554", "Behind the Spooky Curtain",
+			"Events", "choiceAdventure554", "Behind the Spooky Curtain",
 			new String[] { "staff guides, ghost trap, kill werewolves", "kill zombies, kill skeletons, costume item", "chainsaw chain, silver item, funhouse mirror, kill vampires" } ),
 
 		// Gingerbread Homestead
