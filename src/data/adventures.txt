@@ -33,8 +33,6 @@ Hobopolis	adventure=169	true	Exposure Esplanade	+1 bowl of fishysoisse
 Hobopolis	adventure=170	true	The Heap	+1 concentrated garbage juice
 Hobopolis	adventure=171	true	The Ancient Hobo Burial Ground	+1 deadly lampshade
 Hobopolis	adventure=172	true	The Purple Light District	+1 lewd playing card
-Hobopolis	adventure=246	true	Elf Alley
-Clan Basement	adventure=269	true	The Haunted Sorority House	1 choiceadv
 Clan Basement	adventure=203	true	The Slime Tube	1 choiceadv|1 wad of slimy rags
 The Sea	adventure=186	true	The Briny Deeps	14 any fish meat
 The Sea	adventure=187	true	The Brinier Deepers
@@ -110,6 +108,9 @@ Friars	adventure=239	true	Dark Neck of the Woods	1 dodecagram
 Friars	adventure=238	true	Dark Heart of the Woods	1 box of birthday candles
 Friars	adventure=237	true	Dark Elbow of the Woods	1 eldritch butterknife|3 fraudwort
 Friars	friars=0	true	Friar Ceremony Location
+Pandamonium	adventure=248	true	Pandamonium Slums	1 wussiness potion, 1 ruby W|3 fraudwort|+1 SPF 451 lip balm|+5 figurine of a charred seal
+Pandamonium	adventure=242	true	Belilafs Comedy Club	5 imp air
+Pandamonium	adventure=243	true	Hey Deze Arena	5 bus pass
 Cyrpt	adventure=264	true	Defiled Nook	1 evil eye
 Cyrpt	adventure=262	true	Defiled Cranny
 Cyrpt	adventure=261	true	Defiled Alcove	3 shysterweed
@@ -209,7 +210,6 @@ Holiday	adventure=23	true	Drunken Stupor
 Holiday	adventure=84	true	St. Sneaky Pete's Day Stupor
 Holiday	adventure=163	true	Yuletide Bonfire
 Holiday	adventure=174	true	Arrrboretum
-Holiday	adventure=216	true	Shivering Timbers
 Holiday	adventure=37	true	Spectral Pickle Factory
 Holiday	adventure=175	true	Spectral Salad Factory
 Holiday	adventure=173	true	Generic Summer Holiday Swimming!
@@ -217,27 +217,36 @@ Holiday	adventure=173	true	Generic Summer Holiday Swimming!
 The Candy Diorama	adventure=274	true	Lollipop Forest
 The Candy Diorama	adventure=275	true	Fudge Mountain
 
+Crimbo10	adventure=246	true	Elf Alley
 Crimbo10	adventure=247	true	CRIMBCO cubicles
 Crimbo10	crimbo10=bathroom	true	CRIMBCO WC
+
 Crimbo09	adventure=222	true	Crimbo Town Toy Factory
 Crimbo09	adventure=223	true	The Don's Crimbo Compound
+
 Crimbo08	adventure=192	true	Atomic Crimbo Toy Factory
 Crimbo08	adventure=193	true	Old Crimbo Town Toy Factory
+
 Crimbo07	adventure=161	true	Sinister Dodecahedron
 Crimbo07	adventure=162	true	Crimbo Town Toy Factory
+
 Crimbo06	adventure=115	true	Simple Tool-Making Cave
 Crimbo06	adventure=116	true	Spooky Fright Factory
 Crimbo06	adventure=117	true	Crimborg Collective Factory
+
 Crimbo05	adventure=93	true	Crimbo Town Toy Factory
+
 WhiteWed	adventure=88	true	Future Market Square
 WhiteWed	adventure=89	true	Mall of the Future
 WhiteWed	adventure=90	true	Future Wrong Side of the Tracks
 WhiteWed	adventure=59	true	Icy Peak of the Past
-Pandamonium	adventure=248	true	Pandamonium Slums	1 wussiness potion, 1 ruby W|3 fraudwort|+1 SPF 451 lip balm|+5 figurine of a charred seal
-Pandamonium	adventure=242	true	Belilafs Comedy Club	5 imp air
-Pandamonium	adventure=243	true	Hey Deze Arena	5 bus pass
+
+Events	adventure=216	true	Shivering Timbers
+
 Events	invasion=1	true	A Swarm of Yeti-Mounted Skeletons
 Events	invasion=2	true	The Bonewall
 Events	invasion=3	true	A Massive Flying Battleship
 Events	invasion=4	true	A Supply Train
 Events	invasion=5	true	The Bone Star
+
+Events	adventure=269	true	The Haunted Sorority House	1 choiceadv

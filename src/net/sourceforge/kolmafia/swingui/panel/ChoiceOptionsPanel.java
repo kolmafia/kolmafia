@@ -371,11 +371,11 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Island", "Ocean Action", this.oceanActionSelect );
 		this.addChoiceSelect( "Mountain", "Barrel full of Barrels", this.barrelSelect );
 		this.addChoiceSelect( "Mountain", "Orc Chasm", this.addingSelect );
-		this.addChoiceSelect( "Clan Basement", "Sorority House Attic", this.darkAtticSelect );
-		this.addChoiceSelect( "Clan Basement", "Sorority House Unliving Room", this.unlivingRoomSelect );
-		this.addChoiceSelect( "Clan Basement", "Sorority House Debasement", this.debasementSelect );
-		this.addChoiceSelect( "Clan Basement", "Sorority House Prop Deportment", this.propDeportmentSelect );
-		this.addChoiceSelect( "Clan Basement", "Sorority House Relocked and Reloaded", this.reloadedSelect );
+		this.addChoiceSelect( "Events", "Sorority House Attic", this.darkAtticSelect );
+		this.addChoiceSelect( "Events", "Sorority House Unliving Room", this.unlivingRoomSelect );
+		this.addChoiceSelect( "Events", "Sorority House Debasement", this.debasementSelect );
+		this.addChoiceSelect( "Events", "Sorority House Prop Deportment", this.propDeportmentSelect );
+		this.addChoiceSelect( "Events", "Sorority House Relocked and Reloaded", this.reloadedSelect );
 		this.addChoiceSelect( "Item-Driven", "Sorority Staff Guide", this.sororityGuideSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
