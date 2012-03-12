@@ -36,10 +36,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
-public class FinalScope
+public class StaticScope
 	extends Scope
 {
-	public FinalScope( final BasicScope parentScope )
+	public StaticScope( final BasicScope parentScope )
 	{
 		super( parentScope.variables, parentScope );
 	}
@@ -56,7 +56,7 @@ public class FinalScope
 
 	public boolean addVariable( final Variable v )
 	{
-		v.markFinal();
+		v.markStatic();
 		return super.addVariable( v );
 	}
 }
