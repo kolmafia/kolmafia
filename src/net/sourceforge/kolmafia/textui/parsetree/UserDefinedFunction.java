@@ -85,7 +85,10 @@ public class UserDefinedFunction
 			while ( variables.hasNext() )
 			{
 				Variable current = (Variable) variables.next();
-				values.add( current.getValue( interpreter ) );
+				if ( !current.isFinal() )
+				{
+					values.add( current.getValue( interpreter ) );
+				}
 			}
 		}
 		this.callStack.push( values );
@@ -109,7 +112,10 @@ public class UserDefinedFunction
 			while ( variables.hasNext() )
 			{
 				Variable current = (Variable) variables.next();
-				current.forceValue( (Value) values.get( i++ ) );
+				if ( !current.isFinal() )
+				{
+					current.forceValue( (Value) values.get( i++ ) );
+				}
 			}
 		}
 	}
