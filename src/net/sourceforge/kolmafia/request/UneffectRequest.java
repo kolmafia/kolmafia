@@ -443,12 +443,17 @@ public class UneffectRequest
 			Entry removable = (Entry) removableIterator.next();
 			Set removables = (Set) removable.getValue();
 
+			if ( !removables.contains( name ) )
+			{
+				continue;
+			}
+
 			int itemId = ( (Integer) removable.getKey() ).intValue();
 			String itemName = ItemDatabase.getItemName( itemId );
 
 			if ( InventoryManager.hasItem( itemId ) ||
-				Preferences.getBoolean( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( itemName ) ||
-				!hasRemedy && KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
+			     Preferences.getBoolean( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( itemName ) ||
+			     !hasRemedy && KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
 			{
 				KoLmafia.updateDisplay( name + " will be removed by item " + itemName + "..." );
 
