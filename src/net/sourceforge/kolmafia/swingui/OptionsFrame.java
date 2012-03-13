@@ -222,6 +222,7 @@ public class OptionsFrame
 				{ "relayAddsDiscoHelper", "Add Disco Bandit helper to fights" },
 				{ "macroLens", "Show Combat Macro helper during fights" },
 				{},
+				{ "relayRunsAfterAdventureScript", "Run afterAdventureScript after manual adventures" },
 				{ "relayRunsBeforeBattleScript", "Run betweenBattleScript before manual adventures" },
 				{ "relayMaintainsEffects", "Run moods before manual adventures" },
 				{ "relayMaintainsHealth", "Maintain health before manual adventures" },

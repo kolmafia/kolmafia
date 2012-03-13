@@ -143,6 +143,7 @@ global	relayMaintainsEffects	false
 global	relayMaintainsHealth	false
 global	relayMaintainsMana	false
 global	relayOverridesImages	false
+global	relayRunsAfterAdventureScript	false
 global	relayRunsBeforeBattleScript	false
 global	relaySkillButtonCount	5
 global	relayTextualizesEffects	false
@@ -189,6 +190,7 @@ global	visitRumpusHardcore	true
 global	visitRumpusSoftcore	true
 
 user	addingScrolls	-1
+user	afterAdventureScript
 user	arcadeGameHints	false
 user	autoAbortThreshold	-0.05
 user	autoAntidote	0
