@@ -1054,13 +1054,13 @@
 1045	cheap plastic bottle opener	weapon	all	50
 1046	orange traffic cone	hat	display	100
 1047	N. O. Beer	message	all	0
-1048	red striped oyster egg	hp	all	50
-1049	red polka-dot oyster egg	hp	all	50
-1050	red paisley oyster egg	hp	all	50
+1048	red striped oyster egg	hp, usable	all	50
+1049	red polka-dot oyster egg	hp, usable	all	50
+1050	red paisley oyster egg	hp, usable	all	50
 1051	red plastic oyster egg	none, combat	all	50
-1052	blue striped oyster egg	usable	all	50
-1053	blue polka-dot oyster egg	usable	all	50
-1054	blue paisley oyster egg	usable	all	50
+1052	blue striped oyster egg	mp, usable	all	50
+1053	blue polka-dot oyster egg	mp, usable	all	50
+1054	blue paisley oyster egg	mp, usable	all	50
 1055	blue plastic oyster egg	none, combat	all	50
 1056	puce striped oyster egg	usable	all	50
 1057	puce polka-dot oyster egg	usable	all	50
