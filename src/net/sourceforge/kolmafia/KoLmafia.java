@@ -1176,6 +1176,17 @@ public abstract class KoLmafia
 		}
 	}
 
+	private static boolean executeAfterAdventureScript()
+	{
+		String scriptPath = Preferences.getString( "afterAdventureScript" );
+		if ( !scriptPath.equals( "" ) )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptPath );
+			return true;
+		}
+		return false;
+	}
+
 	private boolean handleConditions( final AdventureResult[] items, final CreateItemRequest[] creatables )
 	{
 		if ( items.length == 0 )
@@ -1259,6 +1270,17 @@ public abstract class KoLmafia
 
 		KoLmafia.forceContinue();
 		KoLmafia.abortAfter = null;
+
+		// If we are about to adventure, give the after adventure script a chance to run.
+		// That can use items to satisfy goals and, perhaps, obviate adventuring entirely
+
+		if ( isAdventure && KoLmafia.executeAfterAdventureScript() &&
+		     this.handleConditions( items, creatables ) )
+		{
+			KoLmafia.updateDisplay(
+				KoLConstants.PENDING_STATE, "Conditions satisfied by afterAdventureScript" );
+			return;
+		}
 
 		int currentIteration = 0;
 
@@ -1394,6 +1416,8 @@ public abstract class KoLmafia
 		RequestLogger.printLine();
 
 		KoLmafia.currentIterationString = "";
+
+		KoLmafia.executeAfterAdventureScript();
 
 		if ( this.handleConditions( items, creatables ) )
 		{
