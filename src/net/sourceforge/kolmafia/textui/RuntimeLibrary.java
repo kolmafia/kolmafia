@@ -306,8 +306,6 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.EFFECT_TYPE };
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
-		params = new Type[] { DataTypes.STAT_TYPE };
-		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.CLASS_TYPE };
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 
@@ -320,62 +318,60 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.FLOAT_TYPE };
 		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_class", DataTypes.CLASS_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_class", DataTypes.CLASS_TYPE, params ) );
-		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "to_class", DataTypes.CLASS_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "to_stat", DataTypes.STAT_TYPE, params ) );
-		params = new Type[] { DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_stat", DataTypes.STAT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
-		params = new Type[] { DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
 		params = new Type[] { DataTypes.EFFECT_TYPE };
 		functions.add( new LibraryFunction( "to_skill", DataTypes.SKILL_TYPE, params ) );
 
-		params = new Type[] { DataTypes.INT_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
-		params = new Type[] { DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
 		params = new Type[] { DataTypes.SKILL_TYPE };
 		functions.add( new LibraryFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
-		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_familiar", DataTypes.FAMILIAR_TYPE, params ) );
-		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "to_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 
-		params = new Type[] { DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_monster", DataTypes.MONSTER_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_slot", DataTypes.SLOT_TYPE, params ) );
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "to_slot", DataTypes.SLOT_TYPE, params ) );
-		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "to_slot", DataTypes.SLOT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_element", DataTypes.ELEMENT_TYPE, params ) );
 
-		params = new Type[] { DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_coinmaster", DataTypes.COINMASTER_TYPE, params ) );
 
-		params = new Type[] { DataTypes.STRING_TYPE };
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_phylum", DataTypes.PHYLUM_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -1957,23 +1953,7 @@ public abstract class RuntimeLibrary
 
 	public static Value to_stat( Interpreter interpreter, final Value value )
 	{
-		String name = null;
-
-		if ( value.getType() == DataTypes.INT_TYPE )
-		{
-			int num = value.intValue() - KoLConstants.MUSCLE;
-
-			if ( num >= 0 && num < DataTypes.STATS.length )
-			{
-				name = DataTypes.STATS[ num ];
-			}
-		}
-		else
-		{
-			name = value.toString();
-		}
-
-		return DataTypes.parseStatValue( name, true );
+		return DataTypes.parseStatValue( value.toString(), true );
 	}
 
 	public static Value to_skill( Interpreter interpreter, final Value value )
