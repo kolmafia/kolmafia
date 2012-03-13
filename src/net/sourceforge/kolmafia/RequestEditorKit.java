@@ -1571,6 +1571,9 @@ public class RequestEditorKit
 			return;
 		}
 
+		AdventureResult goals[] = new AdventureResult[3];
+		boolean haveGoals = false;
+
 		// Determine which wines correspond to which glyph
 		for ( int i = 2271; i <= 2276; ++i )
 		{
@@ -1586,7 +1589,8 @@ public class RequestEditorKit
 				if ( !KoLConstants.inventory.contains( wine ) )
 				{
 					// Add the wine to the goals
-					GoalManager.addGoal( wine );
+					goals[ j ] = wine;
+					haveGoals = true;
 				}
 				else if ( j == done )
 				{
@@ -1601,9 +1605,18 @@ public class RequestEditorKit
 		}
 
 		// If we added a goal, set the adventure location to "Haunted Wine Cellar (automatic)"
-		if ( GoalManager.hasGoals() )
+		if ( haveGoals )
 		{
+			// Updating the location does not work if we have goals already
 			AdventureFrame.updateSelectedAdventure( AdventureDatabase.getAdventure( "Haunted Wine Cellar (automatic)" ) );
+			for ( int i = 0; i < 3; ++i )
+			{
+				AdventureResult wine = goals[ i ];
+				if ( wine != null )
+				{
+					GoalManager.addGoal( wine );
+				}
+			}
 		}
 	}
 
