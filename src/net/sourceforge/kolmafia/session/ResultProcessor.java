@@ -815,6 +815,8 @@ public class ResultProcessor
 			{
 				result = HermitRequest.WORTHLESS_ITEM.getInstance( result.getCount() );
 			}
+
+			return false;
 		}
 
 		GoalManager.updateProgress( result );
@@ -995,8 +997,6 @@ public class ResultProcessor
 		}
 
 		// From here on out, only positive results are handled.
-		// This is to reduce the number of 'if' checks.
-
 		if ( result.getCount() < 0 )
 		{
 			return;
@@ -1522,6 +1522,9 @@ public class ResultProcessor
 			break;
 		}
 		}
+
+		// Gaining items can achieve goals.
+		GoalManager.updateProgress( result );
 	}
 
 	private static void autoCreate( final int itemId )
