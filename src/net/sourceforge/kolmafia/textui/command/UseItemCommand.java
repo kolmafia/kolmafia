@@ -87,7 +87,7 @@ public class UseItemCommand
 			parameters = parameters.substring( 7 ).trim();
 		}
 
-		if ( command.equals( "eat" ) )
+		if ( command.equals( "eat" ) || command.equals( "eatsilent" ) )
 		{
 			if ( KoLCharacter.inBadMoon() && KitchenCommand.visit( parameters ) )
 			{
@@ -99,7 +99,7 @@ public class UseItemCommand
 			}
 		}
 
-		if ( command.equals( "drink" ) )
+		if ( command.equals( "drink" ) || command.equals( "overdrink" ) )
 		{
 			if ( KoLCharacter.inBadMoon() && KitchenCommand.visit( parameters ) )
 			{
@@ -114,11 +114,11 @@ public class UseItemCommand
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 
-		if ( command.equals( "eat" ) || command.equals( "ghost" ) )
+		if ( command.equals( "eat" ) || command.equals( "eatsilent" ) || command.equals( "ghost" ) )
 		{
 			ItemFinder.setMatchType( ItemFinder.FOOD_MATCH );
 		}
-		else if ( command.equals( "drink" ) || command.equals( "hobo" ) )
+		else if ( command.equals( "drink" ) || command.equals( "overdrink" ) || command.equals( "hobo" ) )
 		{
 			ItemFinder.setMatchType( ItemFinder.BOOZE_MATCH );
 		}
