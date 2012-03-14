@@ -5073,6 +5073,8 @@ public abstract class ChoiceManager
 			case 535:	// Deep Inside Ronald
 			case 536:	// Deep Inside Grimace
 				return true;
+			case 546:	// Interview With You
+				return true;
 			}
 			matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
 			if ( matcher.find() )
@@ -5108,7 +5110,7 @@ public abstract class ChoiceManager
 			
 			if ( decisionText.contains( text ) )
 			{
-				return matcher.group( 1 );
+				return StringUtilities.getEntityDecode( matcher.group( 1 ) );
 			}
 		}
 
