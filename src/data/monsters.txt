@@ -957,7 +957,7 @@ Witty Pirate	HP: 110 Def: 120 Atk: 120 Meat: 64-96 P: pirate	witty rapier (10)	s
 Wolfman	HP: 2 Def: 3 Atk: 3 Meat: 10-13 P: humanoid
 Wonderful Winifred Wongle	HP: 0	jar full of wind (0)	jar full of wind (0)	Winifred's whistle (0)
 Writing Desk	HP: 62 Def: 57 Atk: 53 P: object	disintegrating quill pen (15)	inkwell (30)	snifter of thoroughly aged brandy (30)
-Wu Tang the Betrayer	HP: 150 Def: 145 Atk: 145	forged identification documents (100)	can of black paint (100)	black cherry soda (0)	black cherry soda (0)	black cherry soda (0)
+Wu Tang the Betrayer	HP: 500 Def: 145 Atk: 145	forged identification documents (100)	can of black paint (100)	black cherry soda (0)	black cherry soda (0)	black cherry soda (0)
 Wumpus	HP: 65 Def: 65 Atk: 65	memory of a glowing crystal (c0)	wumpus hair (n100)
 XXX pr0n	HP: 68 Def: 75 Atk: 75 Meat: 24-36 P: beast	f3d0r4 (15)	lowercase N (30)	pr0n legs (40)
 Yakisoba the Executioner	HP: 150 Def: 115 Atk: 115	secret tropical island volcano lair map (100)	Yakisoba's hat (100)	macaroni duck (100)
