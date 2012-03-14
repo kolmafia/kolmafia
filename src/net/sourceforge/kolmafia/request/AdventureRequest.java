@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SafetyShelterManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -656,6 +657,12 @@ public class AdventureRequest
 
 		// No "encounter" for certain arcade games
 		if ( ArcadeRequest.arcadeChoice( choice ) )
+		{
+			return null;
+		}
+
+		// No "encounter" for Safety Shelter maps
+		if ( choice == 535 || choice == 536 )
 		{
 			return null;
 		}

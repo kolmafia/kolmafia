@@ -1998,8 +1998,14 @@ public abstract class ChoiceManager
 			new String[] { "Torpedos", "Initiative", "Monster Level" },
 			new String[] { "630", null, null } ),
 
-		// Choice 535 is Deep Inside Ronald, Baby
-		// Choice 536 is Deep Inside Grimace, Bow Chick-a Bow Bow
+		// Deep Inside Ronald, Baby
+		new ChoiceAdventure( "Item-Driven", "choiceAdventure535", "Deep Inside Ronald",
+			SafetyShelterManager.RonaldGoals ),
+
+		// Deep Inside Grimace, Bow Chick-a Bow Bow
+		new ChoiceAdventure( "Item-Driven", "choiceAdventure536", "Deep Inside Grimace",
+			SafetyShelterManager.GrimaceGoals ),
+
 		// Choice 537 is Play Porko!
 		// Choice 538 is Big-Time Generator
 		// Choice 539 is An E.M.U. for Y.O.U.
@@ -2276,6 +2282,12 @@ public abstract class ChoiceManager
 			ArcadeRequest.decorateDungeonFist( buffer );
 			break;
 
+		case 535:
+		case 536:
+			// Add "Go To Goal" button for a Safety Shelter Map
+			SafetyShelterManager.addGoalButton( choice, buffer );
+			break;
+
 		case 537:
 			// Play Porko!
 		case 540:
@@ -2313,6 +2325,12 @@ public abstract class ChoiceManager
 		if ( spoilers != null )
 		{
 			return spoilers;
+		}
+
+		// Nope. See if it's a Safety Shelter Map
+		if ( choice == 535 || choice == 536 )
+		{
+			return null;
 		}
 
 		// Nope. See if it's Interview with you.
@@ -4654,6 +4672,22 @@ public abstract class ChoiceManager
 			// Otherwise, exit this choice
 			return "4";
 
+		case 535:
+			if ( !ChoiceManager.initializeAfterChoice )
+			{	// Don't automate this if we logged in in the middle of the game -
+				// the auto script isn't robust enough to handle arbitrary starting points.
+				return SafetyShelterManager.autoRonald( decision, stepCount, responseText );
+			}
+			return "0";
+
+		case 536:
+			if ( !ChoiceManager.initializeAfterChoice )
+			{	// Don't automate this if we logged in in the middle of the game -
+				// the auto script isn't robust enough to handle arbitrary starting points.
+				return SafetyShelterManager.autoGrimace( decision, stepCount, responseText );
+			}
+			return "0";
+
 		// Dark in the Attic
 		case 549:
 
@@ -5035,6 +5069,9 @@ public abstract class ChoiceManager
 				// Dungeon Fist!
 			case 488: case 489: case 490: case 491:
 				// Meteoid
+				return true;
+			case 535:	// Deep Inside Ronald
+			case 536:	// Deep Inside Grimace
 				return true;
 			}
 			matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
