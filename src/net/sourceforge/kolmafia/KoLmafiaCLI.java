@@ -709,6 +709,7 @@ public class KoLmafiaCLI
 		new HotTubCommand().register( "hottub" ).register( "soak" );
 		new IfStatement().register( "if" );
 		new ItemTraceCommand().register( "itrace" );
+		new JukeboxCommand().register( "jukebox" );
 		new KitchenCommand().registerSubstring( "kitchen" );
 		new LeafletCommand().register( "leaflet" );
 		new LogEchoCommand().register( "logecho" ).register( "logprint" );
