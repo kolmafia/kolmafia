@@ -1271,19 +1271,6 @@ public abstract class KoLmafia
 		KoLmafia.forceContinue();
 		KoLmafia.abortAfter = null;
 
-		// If we are about to adventure, give the after adventure script a chance to run.
-		// That can use items to satisfy goals and, perhaps, obviate adventuring entirely
-
-		if ( isAdventure && KoLmafia.executeAfterAdventureScript() &&
-		     this.handleConditions( items, creatables ) )
-		{
-			KoLmafia.updateDisplay(
-				KoLConstants.PENDING_STATE, "Conditions satisfied by afterAdventureScript" );
-			return;
-		}
-
-		int currentIteration = 0;
-
 		boolean checkBounty = false;
 		AdventureResult bounty = null;
 
@@ -1297,6 +1284,8 @@ public abstract class KoLmafia
 		{
 			ConcoctionDatabase.deferRefresh( true );
 		}
+
+		int currentIteration = 0;
 
 		while ( KoLmafia.permitsContinue() && ++currentIteration <= totalIterations )
 		{
