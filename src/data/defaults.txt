@@ -775,6 +775,7 @@ user	_interviewVlad	false
 user	_interviewIsabella	false
 user	_interviewMasquerade	false
 user	_ironicMoustache	false
+user	_jukebox	false
 user	_kloopDrops	0
 user	_jackassPlumberGame	false
 user	_klawSummons	0

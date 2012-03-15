@@ -63,6 +63,7 @@ public class ClanRumpusRequest
 	public static final int SOFA = 4;
 	public static final int CHIPS = 5;
 	public static final int BALLS = 6;
+	public static final int JUKEBOX = 7;
 
 	public static final int RADIUM = 1;
 	public static final int WINTERGREEN = 2;
@@ -75,6 +76,14 @@ public class ClanRumpusRequest
 		{ "ennui", IntegerPool.get( ENNUI ) },
 	};
 
+	public static final Object [][] SONGS = new Object[][]
+	{
+		{ "meat", "Material Witness", IntegerPool.get( 1 ) },
+		{ "stats", "No Worries", IntegerPool.get( 2 ) },
+		{ "item", "Techno Bliss", IntegerPool.get( 3 ) },
+		{ "initiative", "Metal Speed", IntegerPool.get( 4 ) },
+	};
+
 	public static final int findChips( final String name )
 	{
 		for ( int i = 0; i < CHIP_FLAVORS.length; ++i )
@@ -84,6 +93,27 @@ public class ClanRumpusRequest
 			{
 				Integer index = (Integer) CHIP_FLAVORS[i][1];
 				return index.intValue();
+			}
+		}
+
+		return 0;
+	}
+
+	public static final int findSong( final String name )
+	{
+		if ( StringUtilities.isNumeric( name ) )
+		{
+			int n = StringUtilities.parseInt( name );
+			return n > 0 && n <= SONGS.length ? n : 0;
+		}
+
+		for ( int i = 0; i < SONGS.length; ++i )
+		{
+			String modifier = (String) SONGS[i][0];
+			String effect = (String) SONGS[i][1];
+			if ( name.equals( modifier ) || name.equals( effect ) )
+			{
+				return i + 1;
 			}
 		}
 
@@ -318,6 +348,12 @@ public class ClanRumpusRequest
 			this.addFormField( "preaction", "ballpit" );
 			break;
 
+		case JUKEBOX:
+			this.constructURLString( "clan_rumpus.php" );
+			this.addFormField( "preaction", "jukebox" );
+			this.addFormField( "whichsong", String.valueOf( this.option ) );
+			break;
+
 		default:
 			break;
 		}
@@ -401,6 +437,15 @@ public class ClanRumpusRequest
 				Preferences.setInteger( "_chipBags", 3 );
 			}
 
+			return;
+		}
+
+		if ( action.equals( "jukebox" ) )
+		{
+			// Whether we get a song or not, we are done for the
+			// day with the Jukebox, unless we ascend, which will
+			// reset the preference.
+			Preferences.setBoolean( "_jukebox", true );
 			return;
 		}
 
@@ -550,7 +595,7 @@ public class ClanRumpusRequest
 
 		if ( urlString.indexOf( "action=buychips" ) != -1 )
 		{
-			String message = "Buying chips from Snack Machine in clan rumpus room";
+			String message = "Buying chips from the Snack Machine in the clan rumpus room";
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 			return true;
@@ -558,7 +603,15 @@ public class ClanRumpusRequest
 
 		if ( urlString.indexOf( "preaction=ballpit" ) != -1 )
 		{
-			String message = "Jumping into Awesome Ball Pit in clan rumpus room";
+			String message = "Jumping into the Awesome Ball Pit in the clan rumpus room";
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			return true;
+		}
+
+		if ( urlString.indexOf( "preaction=jukebox" ) != -1 )
+		{
+			String message = "Playing a song on the Jukebox in the clan rumpus room";
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 			return true;
