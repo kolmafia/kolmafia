@@ -140,7 +140,7 @@ public abstract class SorceressLairManager
 	private static final AdventureResult CLOVER = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
 
 	private static final AdventureResult DIGITAL = ItemPool.get( ItemPool.DIGITAL_KEY, 1 );
-	private static final AdventureResult RICHARD = ItemPool.get( ItemPool.STAR_KEY, 1 );
+	private static final AdventureResult STAR_KEY = ItemPool.get( ItemPool.STAR_KEY, 1 );
 	private static final AdventureResult SKELETON = ItemPool.get( ItemPool.SKELETON_KEY, 1 );
 	private static final AdventureResult KEY_RING = ItemPool.get( ItemPool.SKELETON_KEY_RING, 1 );
 
@@ -1160,14 +1160,14 @@ public abstract class SorceressLairManager
 			return requirements;
 		}
 
+		if ( !InventoryManager.retrieveItem( SorceressLairManager.STAR_KEY ) )
+		{
+			requirements.add( SorceressLairManager.STAR_KEY );
+		}
+
 		if ( !InventoryManager.retrieveItem( SorceressLairManager.STAR_HAT ) )
 		{
 			requirements.add( SorceressLairManager.STAR_HAT );
-		}
-
-		if ( !InventoryManager.retrieveItem( SorceressLairManager.RICHARD ) )
-		{
-			requirements.add( SorceressLairManager.RICHARD );
 		}
 
 		AdventureResult starWeapon = null;
@@ -1319,7 +1319,7 @@ public abstract class SorceressLairManager
 		}
 
 		KoLmafia.updateDisplay( "Inserting Richard's star key..." );
-		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SorceressLairManager.RICHARD.getItemId() ) );
+		RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER.constructURLString( "lair2.php?preaction=key&whichkey=" + SorceressLairManager.STAR_KEY.getItemId() ) );
 
 		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "prepreaction" ) != -1 )
 		{
