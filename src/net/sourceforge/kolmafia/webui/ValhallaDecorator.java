@@ -453,51 +453,11 @@ public class ValhallaDecorator
 			buffer.append( "&ajax=1')\">use your dead mimic</a></nobr><br>" );
 		}
 
-		if ( InventoryManager.hasItem( ItemPool.BORIS_KEY ) )
-		{
-			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
-			buffer.append( InventoryManager.getAccessibleCount( ItemPool.BORIS_KEY ) );
-			buffer.append( "+Boris&#39;s+key+lime+pie&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">make a Boris's key lime pie</a></nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.JARLSBERG_KEY ) )
-		{
-			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
-			buffer.append( InventoryManager.getAccessibleCount( ItemPool.JARLSBERG_KEY ) );
-			buffer.append( "+Jarlsberg&#39;s+key+lime+pie&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">make a Jarlsberg's key lime pie</a></nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.SNEAKY_PETE_KEY ) )
-		{
-			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
-			buffer.append( InventoryManager.getAccessibleCount( ItemPool.SNEAKY_PETE_KEY ) );
-			buffer.append( "+Sneaky+Pete&#39;s+key+lime+pie" );
-			buffer.append( "&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">make a Sneaky Pete's key lime pie</a></nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.DIGITAL_KEY ) )
-		{
-			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
-			buffer.append( InventoryManager.getAccessibleCount( ItemPool.DIGITAL_KEY ) );
-			buffer.append( "+digital+key+lime+pie&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">make a digital key lime pie</a></nobr><br>" );
-		}
-
-		if ( InventoryManager.hasItem( ItemPool.STAR_KEY ) )
-		{
-			buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
-			buffer.append( InventoryManager.getAccessibleCount( ItemPool.STAR_KEY ) );
-			buffer.append( "+star+key+lime+pie&pwd=" );
-			buffer.append( GenericRequest.passwordHash );
-			buffer.append( "\">make a star key lime pie</a></nobr><br>" );
-		}
+		ValhallaDecorator.checkForKeyLime( buffer, ItemPool.BORIS_KEY, "Boris&#39;s" );
+		ValhallaDecorator.checkForKeyLime( buffer, ItemPool.JARLSBERG_KEY, "Jarlsberg&#39;s" );
+		ValhallaDecorator.checkForKeyLime( buffer, ItemPool.SNEAKY_PETE_KEY, "Sneaky Pete&#39;" );
+		ValhallaDecorator.checkForKeyLime( buffer, ItemPool.DIGITAL_KEY, "digital" );
+		ValhallaDecorator.checkForKeyLime( buffer, ItemPool.STAR_KEY, "star" );
 
 		if ( InventoryManager.hasItem( ItemPool.BUBBLIN_STONE ) )
 		{
@@ -552,6 +512,24 @@ public class ValhallaDecorator
 		ValhallaDecorator.switchSeeds( buffer );
 	}
 
+	private static void checkForKeyLime( StringBuffer buffer, int itemId, String keyType )
+	{
+		if ( !InventoryManager.hasItem( itemId ) )
+		{
+			return;
+		}
+
+		buffer.append( "<nobr><a href=\"/KoLmafia/redirectedCommand?cmd=create+" );
+		buffer.append( InventoryManager.getAccessibleCount( itemId ) );
+		buffer.append( "+" );
+		buffer.append( StringUtilities.getURLEncode( keyType ) );
+		buffer.append( "+key+lime&pwd=" );
+		buffer.append( GenericRequest.passwordHash );
+		buffer.append( "\">make a ");
+		buffer.append( keyType );
+		buffer.append( " key lime</a></nobr><br />" );
+	}
+
 	private static final void developerGift( final StringBuffer buffer, final int itemId, final String developer )
 	{
 		int giftCount = InventoryManager.getAccessibleCount( itemId );
@@ -581,7 +559,7 @@ public class ValhallaDecorator
 		buffer.append( developer );
 		buffer.append( "</a></nobr><br>" );
 	}
-	
+
 	private static final void switchSeeds( final StringBuffer buffer )
 	{
 		boolean havePumpkin = InventoryManager.hasItem( ItemPool.PUMPKIN_SEEDS );
