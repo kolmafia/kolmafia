@@ -1042,6 +1042,7 @@ Victor, the Insult Comic Hellhound Puppet	10	none
 Wand of Oscus	200	Mys: 200
 Zombo's shield	240	Mus: 200	shield
 adhesive tape dolly	0	none
+ancient calendar	0	Mus: 20	shield
 ancient stone head	85	Mus: 27	shield
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none

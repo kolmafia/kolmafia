@@ -1028,3 +1028,5 @@
 1027	In the Slimelight	slimed.gif	4e8fd606b83bffefbcfb4eb2ff218263	drink either 1 Slimosa, 1 Extra-slimy Slimosa, 1 Slimebite
 1028	Elemental Mastery	elements small.gif	be49ceb388e1bab22701da4c743de4a7	drink either 1 Firewater, 1 Earth and Firewater, 1 Earth, Wind and Firewater
 1029	Mo' Hobo	hobohead.gif	e6c9baf78893e9329a337033947946a5	drink either 1 Mohobo, 1 Moonshine Mohobo, 1 Flaming Mohobo
+1030
+1031	Stone-Faced	stonewool.gif	b33c7d995dbd1b194c881e91d009106a	use 1 stone wool

@@ -5647,3 +5647,10 @@
 5638	Haymaker	drink	all	50
 5639	Small Medium	grow	all	0
 5640	crystal decanter	familiar	all	75
+5641
+5642	ancient poisoned dart	combat	all	35
+5643	stone wool	usable	all	30
+5644	shiny stones	usable	all	0
+5645	the Nostril of the Serpent	none	none	0
+5646	ancient calendar fragment	usable	all	25
+5647	ancient calendar	offhand	all	400
