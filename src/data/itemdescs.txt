@@ -5639,3 +5639,10 @@
 5638	719116684	hurricane_f.gif	Haymaker
 5639	281886462	medium_small.gif	Small Medium
 5640	476481640	crystaldecanter.gif	crystal decanter
+5641
+5642	552757738	ancientdart.gif	ancient poisoned dart
+5643	437989265	stonewool.gif	stone wool	handfuls of stone wool
+5644	820211463	pebbles.gif	shiny stones	piles of shiny stones
+5645	623006022	nostrilgem.gif	the Nostril of the Serpent
+5646	158870963	calfrag.gif	ancient calendar fragment
+5647	410215963	calshield.gif	ancient calendar

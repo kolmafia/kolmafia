@@ -239,6 +239,7 @@ public abstract class KoLmafia
 		{ "A Shark's Chum", SEMIRARE },
 		{ "A Tight Squeeze", SEMIRARE },
 		{ "All The Rave", SEMIRARE },
+		{ "Baa'baa'bu'ran", SEMIRARE },
 		{ "Bad ASCII Art", SEMIRARE },
 		{ "Blaaargh! Blaaargh!", SEMIRARE },
 		{ "C. H. U. M. chieftain", SEMIRARE },

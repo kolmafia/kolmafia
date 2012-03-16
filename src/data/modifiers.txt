@@ -1178,6 +1178,7 @@ Victor, the Insult Comic Hellhound Puppet	Monster Level: +5
 Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
 Zombo's shield	Damage Absorption: +50, Spooky Damage: +30, Muscle Percent: +20, Class: "Turtle Tamer", Damage Reduction: 15
 adhesive tape dolly	Moxie: +5
+ancient calendar	Adventures: +3, Damage Reduction: 4
 # ancient stone head: 75% Chance of Preventing Negative Status Attacks
 ancient stone head	Damage Reduction: 5
 # anniversary balloon
@@ -3307,6 +3308,7 @@ Stimulated Body	HP Regen Min: 10, HP Regen Max: 20
 Stimulated Brain	MP Regen Min: 10, MP Regen Max: 20
 # Stinky Breath: Can breathe stench in combat
 Stinky Weapon	Stench Damage: +3
+Stone-Faced	Damage Reduction: 3
 # Stop and Smell the Fudge: Find 25% More Fudge
 Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
