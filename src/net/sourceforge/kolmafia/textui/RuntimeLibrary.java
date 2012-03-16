@@ -2404,13 +2404,13 @@ public abstract class RuntimeLibrary
 	public static Value is_accessible( Interpreter interpreter, final Value master )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
-		return DataTypes.makeBooleanValue( data != null && CoinMasterRequest.accessible( data ) == null );
+		return DataTypes.makeBooleanValue( data != null && data.isAccessible() );
 	}
 
 	public static Value inaccessible_reason( Interpreter interpreter, final Value master )
 	{
 		CoinmasterData data = (CoinmasterData) master.rawValue();
-		String reason = data != null ? CoinMasterRequest.accessible( data ) : null;
+		String reason = data != null ? data.accessible() : null;
 		return new Value( reason != null ? reason : "" );
 	}
 

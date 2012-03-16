@@ -490,7 +490,7 @@ public class CoinmastersFrame
 			protected void execute()
 			{
 				CoinmasterData data = Crimbo11Panel.this.data;
-				String reason = CoinMasterRequest.canBuy( data );
+				String reason = data.canBuy();
 				if ( reason != null )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
@@ -524,7 +524,7 @@ public class CoinmastersFrame
 			protected void execute()
 			{
 				CoinmasterData data = Crimbo11Panel.this.data;
-				String reason = CoinMasterRequest.canBuy( data );
+				String reason = data.canBuy();
 				if ( reason != null )
 				{
 					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
@@ -760,12 +760,12 @@ public class CoinmastersFrame
 
 		public CoinMasterRequest getRequest()
 		{
-			return CoinMasterRequest.getRequest( this.data );
+			return this.data.getRequest();
 		}
 
 		public CoinMasterRequest getRequest( final String action, final AdventureResult it )
 		{
-			return CoinMasterRequest.getRequest( this.data, action, it );
+			return this.data.getRequest( action, it );
 		}
 
 		public final void setTitle()
@@ -833,8 +833,7 @@ public class CoinmastersFrame
 
 		public boolean enabled()
 		{
-			String message = CoinMasterRequest.accessible( this.data );
-			return message == null;
+			return this.data.isAccessible();
 		}
 
 		public String lighthouseSide()
@@ -1021,7 +1020,8 @@ public class CoinmastersFrame
 			{
 				protected void execute()
 				{
-					String reason = CoinMasterRequest.canSell( CoinmasterPanel.this.data );
+					CoinmasterData data = CoinmasterPanel.this.data;
+					String reason = data.canSell();
 					if ( reason != null )
 					{
 						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
@@ -1039,7 +1039,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					CoinmasterPanel.this.execute( CoinmasterPanel.this.data.getSellAction(), items );
+					CoinmasterPanel.this.execute( data.getSellAction(), items );
 				}
 
 				public String toString()
@@ -1142,7 +1142,8 @@ public class CoinmastersFrame
 			{
 				protected void execute()
 				{
-					String reason = CoinMasterRequest.canBuy( CoinmasterPanel.this.data );
+					CoinmasterData data = CoinmasterPanel.this.data;
+					String reason = data.canBuy();
 					if ( reason != null )
 					{
 						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
@@ -1155,7 +1156,7 @@ public class CoinmastersFrame
 						return;
 					}
 
-					CoinmasterPanel.this.execute( CoinmasterPanel.this.data.getBuyAction(), items );
+					CoinmasterPanel.this.execute( data.getBuyAction(), items );
 				}
 
 				public String toString()

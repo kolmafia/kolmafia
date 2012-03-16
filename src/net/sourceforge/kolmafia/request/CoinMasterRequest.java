@@ -33,9 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-
 import java.util.Map;
 
 import java.util.regex.Matcher;
@@ -125,101 +122,6 @@ public class CoinMasterRequest
 		}
 	}
 
-	public static CoinMasterRequest getRequest( final CoinmasterData data )
-	{
-		Class requestClass = data.getRequestClass();
-		Class [] parameters = new Class[ 0 ] ;
-
-		try
-		{
-			Constructor constructor = requestClass.getConstructor( parameters );
-			Object [] initargs = new Object[ 0 ];
-			return (CoinMasterRequest) constructor.newInstance( initargs );
-		}
-		catch ( Exception e )
-		{
-			return null;
-		}
-	}
-
-	public static CoinMasterRequest getRequest( final CoinmasterData data, final String action, final AdventureResult it )
-	{
-		Class requestClass = data.getRequestClass();
-		Class [] parameters = new Class[ 2 ] ;
-		parameters[ 0 ] = String.class;
-		parameters[ 1 ] = AdventureResult.class;
-
-		try
-		{
-			Constructor constructor = requestClass.getConstructor( parameters );
-			Object [] initargs = new Object[ 2 ];
-			initargs[ 0 ] = action;
-			initargs[ 1 ] = it;
-			return (CoinMasterRequest) constructor.newInstance( initargs );
-		}
-		catch ( Exception e )
-		{
-			return null;
-		}
-	}
-
-	public static String accessible( final CoinmasterData data )
-	{
-		// Returns an error reason or null
-
-		Class requestClass = data.getRequestClass();
-		Class [] parameters = new Class[ 0 ] ;
-
-		try
-		{
-			Method method = requestClass.getMethod( "accessible", parameters );
-			Object [] args = new Object[ 0 ];
-			return (String) method.invoke( null, args );
-		}
-		catch ( Exception e )
-		{
-			return null;
-		}
-	}
-
-	public static String canSell( final CoinmasterData data )
-	{
-		// Returns an error reason or null
-
-		Class requestClass = data.getRequestClass();
-		Class [] parameters = new Class[ 0 ] ;
-
-		try
-		{
-			Method method = requestClass.getMethod( "canSell", parameters );
-			Object [] args = new Object[ 0 ];
-			return (String) method.invoke( null, args );
-		}
-		catch ( Exception e )
-		{
-			return null;
-		}
-	}
-
-	public static String canBuy( final CoinmasterData data )
-	{
-		// Returns an error reason or null
-
-		Class requestClass = data.getRequestClass();
-		Class [] parameters = new Class[ 0 ] ;
-
-		try
-		{
-			Method method = requestClass.getMethod( "canBuy", parameters );
-			Object [] args = new Object[ 0 ];
-			return (String) method.invoke( null, args );
-		}
-		catch ( Exception e )
-		{
-			return null;
-		}
-	}
-
 	public static void visit( final CoinmasterData data )
 	{
 		if ( data == null )
@@ -228,8 +130,8 @@ public class CoinMasterRequest
 			return;
 		}
 
-		CoinMasterRequest request = CoinMasterRequest.getRequest( data );
-		CoinMasterRequest.transact( data, request );
+		CoinMasterRequest request = data.getRequest();
+		request.transact( data );
 	}
 
 	public static void buy( final CoinmasterData data, final AdventureResult it )
@@ -247,7 +149,7 @@ public class CoinMasterRequest
 			return;
 		}
 
-		String reason = CoinMasterRequest.canBuy( data );
+		String reason = data.canBuy();
 		if ( reason != null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
@@ -255,8 +157,8 @@ public class CoinMasterRequest
 		}
 
 		String action = data.getBuyAction();
-		CoinMasterRequest request = CoinMasterRequest.getRequest( data, action, it );
-		CoinMasterRequest.transact( data, request );
+		CoinMasterRequest request = data.getRequest( action, it );
+		request.transact( data );
 	}
 
 	public static void sell( final CoinmasterData data, final AdventureResult it )
@@ -275,27 +177,27 @@ public class CoinMasterRequest
 			return;
 		}
 
-		String reason = CoinMasterRequest.canSell( data );
+		String reason = data.canSell();
 		if ( reason != null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
 			return;
 		}
 
-		CoinMasterRequest request = CoinMasterRequest.getRequest( data, action, it );
-		CoinMasterRequest.transact( data, request );
+		CoinMasterRequest request = data.getRequest( action, it );
+		request.transact( data );
 	}
 
-	private static void transact( final CoinmasterData data, CoinMasterRequest request )
+	private void transact( final CoinmasterData data )
 	{
-		String reason = CoinMasterRequest.accessible( data );
+		String reason = data.accessible();
 		if ( reason != null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
 			return;
 		}
 
-		RequestThread.postRequest( request );
+		RequestThread.postRequest( this );
 	}
 
 	public void run()
@@ -303,10 +205,10 @@ public class CoinMasterRequest
 		CoinmasterData data = this.data;
 
 		// See if the Coin Master is accessible
-		String message = CoinMasterRequest.accessible( data);
-		if ( message != null )
+		String reason = data.accessible();
+		if ( reason != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
 			return;
 		}
 
