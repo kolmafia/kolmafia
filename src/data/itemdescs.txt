@@ -5639,7 +5639,7 @@
 5638	719116684	hurricane_f.gif	Haymaker
 5639	281886462	medium_small.gif	Small Medium
 5640	476481640	crystaldecanter.gif	crystal decanter
-5641
+5641	491033696	glowfungus.gif	glowing fungus
 5642	552757738	ancientdart.gif	ancient poisoned dart
 5643	437989265	stonewool.gif	stone wool	handfuls of stone wool
 5644	820211463	pebbles.gif	shiny stones	piles of shiny stones

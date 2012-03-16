@@ -46,6 +46,8 @@ jaba&ntilde;ero-flavored chewing gum	SUSE	pack of chewing gum
 
 tropical orchid (6)	SUSE	packet of orchid seeds
 
+ancient calendar	SUSE	ancient calendar fragment (8)
+
 # Christmas-specific items which can be created through combination or
 # smithing.
 

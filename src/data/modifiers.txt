@@ -2924,6 +2924,7 @@ Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
 Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
 Hennaliciousness	Mysticality: +3
 Hernia!	Muscle Percent: -70
+Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
 Hiding in Plain Sight	Initiative: +100
 Hip to Be Square Dancin'	Item Drop: +10
 Hippy Flavor	Mysticality: +15
