@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.pages.PageRegistry;
+
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -152,14 +154,25 @@ public class ResponseTextParser
 
 	public static boolean hasResult( final String location )
 	{
-		if ( location.startsWith( "http:" ) ||
-		     location.startsWith( "https:" ) )
+		String path = location;
+		String queryString = "";
+
+		int queryStringBegin = location.indexOf( '?' );
+
+		if ( queryStringBegin != -1 )
+		{
+			path = location.substring( 0, queryStringBegin );
+			queryString = location.substring( queryStringBegin + 1 );
+		}
+
+		boolean hasResult = PageRegistry.isGameAction( path, queryString );
+
+		if ( !hasResult )
 		{
 			return false;
 		}
 
-		if ( location.startsWith( "chat.php" ) ||
-		     location.startsWith( "lchat.php" ) ||
+		if ( location.startsWith( "lchat.php" ) ||
 		     location.startsWith( "newchatmessages.php" ) ||
 		     location.startsWith( "submitnewchat.php" ) )
 		{
@@ -174,7 +187,6 @@ public class ResponseTextParser
 
 		if ( location.startsWith( "api.php" ) ||
 		     location.startsWith( "game.php" ) ||
-		     location.startsWith( "charpane" ) ||
 		     location.startsWith( "charsheet" ) ||
 		     location.startsWith( "desc" ) ||
 		     location.startsWith( "quest" ) )
