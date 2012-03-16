@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -48,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -428,5 +432,105 @@ public class CoinmasterData
 	public int compareTo( final CoinmasterData cd )
 	{
 		return this.master.compareToIgnoreCase( cd.master );
+	}
+
+	public CoinMasterRequest getRequest()
+	{
+		Class requestClass = this.getRequestClass();
+		Class [] parameters = new Class[ 0 ] ;
+
+		try
+		{
+			Constructor constructor = requestClass.getConstructor( parameters );
+			Object [] initargs = new Object[ 0 ];
+			return (CoinMasterRequest) constructor.newInstance( initargs );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+	}
+
+	public CoinMasterRequest getRequest( final String action, final AdventureResult it )
+	{
+		Class requestClass = this.getRequestClass();
+		Class [] parameters = new Class[ 2 ] ;
+		parameters[ 0 ] = String.class;
+		parameters[ 1 ] = AdventureResult.class;
+
+		try
+		{
+			Constructor constructor = requestClass.getConstructor( parameters );
+			Object [] initargs = new Object[ 2 ];
+			initargs[ 0 ] = action;
+			initargs[ 1 ] = it;
+			return (CoinMasterRequest) constructor.newInstance( initargs );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+	}
+
+	public boolean isAccessible()
+	{
+		return this.accessible() == null;
+	}
+
+	public String accessible()
+	{
+		// Returns an error reason or null
+
+		Class requestClass = this.getRequestClass();
+		Class [] parameters = new Class[ 0 ] ;
+
+		try
+		{
+			Method method = requestClass.getMethod( "accessible", parameters );
+			Object [] args = new Object[ 0 ];
+			return (String) method.invoke( null, args );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+	}
+
+	public String canSell()
+	{
+		// Returns an error reason or null
+
+		Class requestClass = this.getRequestClass();
+		Class [] parameters = new Class[ 0 ] ;
+
+		try
+		{
+			Method method = requestClass.getMethod( "canSell", parameters );
+			Object [] args = new Object[ 0 ];
+			return (String) method.invoke( null, args );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
+	}
+
+	public String canBuy()
+	{
+		// Returns an error reason or null
+
+		Class requestClass = this.getRequestClass();
+		Class [] parameters = new Class[ 0 ] ;
+
+		try
+		{
+			Method method = requestClass.getMethod( "canBuy", parameters );
+			Object [] args = new Object[ 0 ];
+			return (String) method.invoke( null, args );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
 	}
 }

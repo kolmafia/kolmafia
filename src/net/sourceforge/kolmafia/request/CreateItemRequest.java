@@ -257,6 +257,11 @@ public class CreateItemRequest
 			return null;
 		}
 
+		if ( !conc.available() )
+		{
+			return null;
+		}
+
 		CreateItemRequest instance = conc.getRequest();
 
 		if ( instance == null )

@@ -428,6 +428,15 @@ public class Concoction
 		return this.request;
 	}
 
+	public boolean available()
+	{
+		if ( this.mixingMethod == KoLConstants.COINMASTER )
+		{
+			return this.purchaseRequest != null && this.purchaseRequest.canPurchase();
+		}
+		return true;
+	}
+
 	public PurchaseRequest getPurchaseRequest()
 	{
 		return this.purchaseRequest;

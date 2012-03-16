@@ -76,7 +76,7 @@ public class CoinMasterPurchaseRequest
 
 		this.timestamp = 0L;
 
-		this.request = CoinMasterRequest.getRequest( data, data.getBuyAction(), this.item );
+		this.request = data.getRequest( data.getBuyAction(), this.item );
 	}
 
 	public CoinmasterData getData()
@@ -115,28 +115,12 @@ public class CoinMasterPurchaseRequest
 
 	public boolean canPurchase()
 	{
-		CoinmasterData data = this.data;
-		int tokens = data.affordableTokens();
-		int price = this.price;
-		return this.canPurchase && price <= tokens;
+		return this.canPurchase && this.affordableCount() > 0;
 	}
 
 	public void setCanPurchase()
 	{
-		CoinmasterData data = this.data;
-
-		// If the Coin Master is "accessible" - which is up to the Coin
-		// Master to determine - we can purchase from it.
-		if ( CoinMasterRequest.accessible( data ) != null )
-		{
-			this.setCanPurchase( false );
-			return;
-		}
-
-		// See if we can afford the items
-		int tokens = data.affordableTokens();
-		int price = this.price;
-		this.setCanPurchase( tokens >= price );
+		this.setCanPurchase( this.data.isAccessible() && this.affordableCount() > 0 );
 	}
 
 	public void run()
@@ -159,7 +143,7 @@ public class CoinMasterPurchaseRequest
 		}
 
 		// Make sure the Coin Master is accessible
-		String message = CoinMasterRequest.accessible( this.data );
+		String message = this.data.accessible();
 		if ( message != null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
