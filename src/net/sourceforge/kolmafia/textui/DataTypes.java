@@ -455,7 +455,7 @@ public class DataTypes
 			return DataTypes.EFFECT_INIT;
 		}
 
-		AdventureResult effect = EffectDatabase.getFirstMatchingEffect( name );
+		AdventureResult effect = EffectDatabase.getFirstMatchingEffect( name, false );
 		if ( effect == null )
 		{
 			return returnDefault ? DataTypes.EFFECT_INIT : null;

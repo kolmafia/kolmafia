@@ -479,6 +479,11 @@ public class EffectDatabase
 
 	public static final AdventureResult getFirstMatchingEffect( final String parameters )
 	{
+		return EffectDatabase.getFirstMatchingEffect( parameters, true );
+	}
+
+	public static final AdventureResult getFirstMatchingEffect( final String parameters, final boolean errorIfNone )
+	{
 		String effectName = null;
 		int duration = 0;
 
@@ -525,9 +530,12 @@ public class EffectDatabase
 
 			if ( matchingNames.size() == 0 )
 			{
-				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE,
-					"[" + effectNameString + "] does not match anything in the status effect database." );
+				if ( errorIfNone )
+				{
+					KoLmafia.updateDisplay(
+						KoLConstants.ERROR_STATE,
+						"[" + effectNameString + "] does not match anything in the status effect database." );
+				}
 
 				return null;
 			}
