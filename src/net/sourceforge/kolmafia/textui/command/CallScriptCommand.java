@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -143,10 +145,13 @@ public class CallScriptCommand
 			}
 
 			// Got here so have valid script file name and not a directory.
-			// Add name, without path, to MRU list
 
+			if ( Preferences.getInteger( "scriptMRULength" ) > 0 )
+			{
+				// Add name, without path, to MRU list
 				KoLConstants.scriptMList.addItem( scriptFile.getName() );
-				GenericFrame.compileScripts();
+				GenericFrame.compileScripts( true );
+			}
 
 			// Allow the ".ash" to appear anywhere in the filename
 			// in a case-insensitive manner.
