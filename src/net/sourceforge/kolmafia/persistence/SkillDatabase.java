@@ -332,6 +332,11 @@ public class SkillDatabase
 
 	public static final int getSkillPurchaseCost( final int skillId )
 	{
+		if ( skillId / 1000 == 11 )
+		{
+			return 0;
+		}
+
 		switch ( SkillDatabase.getSkillLevel( skillId ) )
 		{
 		default:
@@ -884,9 +889,10 @@ public class SkillDatabase
 			return false;
 		}
 
-		if ( skillId / 1000 == 7 )
+		switch ( skillId / 1000 )
 		{
-			// Skills granted by items
+		case 7:				// Skills granted by items
+		case 11:			// Avatar of Boris skills
 			return false;
 		}
 

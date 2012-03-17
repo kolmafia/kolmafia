@@ -436,6 +436,7 @@ public class ProxyRecordValue
 			.add( "passive", DataTypes.BOOLEAN_TYPE )
 			.add( "buff", DataTypes.BOOLEAN_TYPE )
 			.add( "combat", DataTypes.BOOLEAN_TYPE )
+			.add( "song", DataTypes.BOOLEAN_TYPE )
 			.add( "permable", DataTypes.BOOLEAN_TYPE )
 			.add( "dailylimit", DataTypes.INT_TYPE )
 			.add( "timescast", DataTypes.INT_TYPE )
@@ -480,6 +481,11 @@ public class ProxyRecordValue
 		public boolean get_combat()
 		{
 			return SkillDatabase.isCombat( this.contentInt );
+		}
+
+		public boolean get_song()
+		{
+			return SkillDatabase.isSong( this.contentInt );
 		}
 
 		public boolean get_permable()
