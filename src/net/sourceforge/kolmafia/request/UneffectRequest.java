@@ -158,6 +158,10 @@ public class UneffectRequest
 			"Boner Battalion",
 			"Summon &quot;Boner Battalion&quot;",
 		},
+		{
+			"Overconfident",
+			"Pep Talk",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
@@ -329,6 +333,10 @@ public class UneffectRequest
 		removableEffects.add( "\"The Disease\"" );
 		removableEffects.add( "Wussiness" );
 
+		removableEffects = new HashSet();
+		removeWithSkillMap.put( "Pep Talk", removableEffects );
+		removableEffects.add( "Overconfident" );
+
 		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();
 	}
 
@@ -485,7 +493,7 @@ public class UneffectRequest
 			return;
 		}
 
-		if ( effect.getCount() == Integer.MAX_VALUE )
+		if ( effect.getCount() == Integer.MAX_VALUE && this.effectId != EffectPool.OVERCONFIDENT_ID )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, effect.getName() + " is intrinsic and cannot be removed." );
 			return;

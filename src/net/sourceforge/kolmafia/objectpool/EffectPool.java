@@ -109,6 +109,7 @@ public class EffectPool
 	public static final int VAMPIN_ID = 939;
 	public static final int YIFFABLE_YOU_ID = 940;
 	public static final int BONE_US_ROUND_ID = 941;
+	public static final int OVERCONFIDENT_ID = 1011;
 
 	public static final AdventureResult get( final int effectId )
 	{
