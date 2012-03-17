@@ -773,18 +773,18 @@ public abstract class GenericFrame
 
 	public static final void compileScripts()
 	{
+		GenericFrame.compileScripts( Preferences.getInteger( "scriptMRULength" ) > 0 );
+	}
+
+	public static final void compileScripts( final boolean useMRUlist )
+	{
 		KoLConstants.scripts.clear();
 
 		// Get the list of files in the current directory or build from MRU
-		File[] scriptList = null;
-		if ( Preferences.getInteger( "scriptMRULength" ) <= 0 )
-		{
-			scriptList = DataUtilities.listFiles( KoLConstants.SCRIPT_LOCATION );
-		}
-		else
-		{
-			scriptList = KoLConstants.scriptMList.listAsFiles();
-		}
+
+		File [] scriptList = useMRUlist ?
+			KoLConstants.scriptMList.listAsFiles() :
+			DataUtilities.listFiles( KoLConstants.SCRIPT_LOCATION );
 
 		// Iterate through the files. Do this in two
 		// passes to make sure that directories start
