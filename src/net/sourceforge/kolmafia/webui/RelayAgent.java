@@ -53,6 +53,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.moods.RecoveryManager;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -426,7 +428,8 @@ public class RelayAgent
 		{
 			int initialCount = KoLCharacter.getAdventuresLeft();	 
 			RequestThread.postRequest( this.request );
-			if ( FightRequest.haveFought() || initialCount != KoLCharacter.getAdventuresLeft() )
+			if ( RecoveryManager.isRecoveryPossible() &&
+			     ( FightRequest.haveFought() || initialCount != KoLCharacter.getAdventuresLeft() ) )
 			{	 
 				KoLmafia.executeAfterAdventureScript();
 			}	 
