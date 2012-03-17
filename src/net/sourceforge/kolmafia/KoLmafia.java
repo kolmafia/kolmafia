@@ -1177,7 +1177,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	private static boolean executeAfterAdventureScript()
+	public static boolean executeAfterAdventureScript()
 	{
 		String scriptPath = Preferences.getString( "afterAdventureScript" );
 		if ( !scriptPath.equals( "" ) )
