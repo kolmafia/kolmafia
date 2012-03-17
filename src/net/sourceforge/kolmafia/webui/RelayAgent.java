@@ -46,6 +46,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -421,7 +422,16 @@ public class RelayAgent
 			}
 		}
 
-		if ( this.path.equals( "/fight.php?action=custom" ) )
+		if ( this.path.startsWith( "/charpane.php" ) && Preferences.getBoolean( "relayRunsAfterAdventureScript" ) )
+		{
+			int initialCount = KoLCharacter.getAdventuresLeft();	 
+			RequestThread.postRequest( this.request );
+			if ( FightRequest.haveFought() || initialCount != KoLCharacter.getAdventuresLeft() )
+			{	 
+				KoLmafia.executeAfterAdventureScript();
+			}	 
+		}
+		else if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
 			RelayAgent.COMBAT_THREAD.wake( null );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
