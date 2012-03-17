@@ -231,7 +231,7 @@
 230	Livin' Large	goldfronts.gif	5c5335bc77cdd6fe54de544d277089b7	#clan radio
 231	Wistfully Nostalgic	happy.gif	48e2cebc9f34ef44ac6026fdf7cdb76f	#clan radio
 232	Happy Salamander	commacha.gif	05b9aad038c530dd3d2c5b3ab146a4b8	#clan radio
-233	Techno Bliss	singlenote.gif	883d712b08a134d70b832aec956767cb	jukebox items
+233	Techno Bliss	singlenote.gif	883d712b08a134d70b832aec956767cb	jukebox item
 234	Material Witness	meat.gif	f382bb82f0d7f335581f353670922479	jukebox meat
 235	No Worries	singlenote.gif	65a1f6d8bc0b9141678d2a121d5eac48	jukebox stats
 236	Metal Speed	singlenote.gif	796240a217e3686b23ecffef8a804729	jukebox initiative
