@@ -428,8 +428,7 @@ public class RelayAgent
 		{
 			int initialCount = KoLCharacter.getAdventuresLeft();	 
 			RequestThread.postRequest( this.request );
-			if ( RecoveryManager.isRecoveryPossible() &&
-			     ( FightRequest.haveFought() || initialCount != KoLCharacter.getAdventuresLeft() ) )
+			if ( RecoveryManager.isRecoveryPossible() && initialCount != KoLCharacter.getAdventuresLeft() ) 
 			{	 
 				KoLmafia.executeAfterAdventureScript();
 			}	 
