@@ -2822,7 +2822,11 @@ public abstract class SorceressLairManager
 	{
 		// lair.php and lair1-6.php all can check for the same things.
 		// Work backwards from the end to see what zones are unlocked.
-		
+		if ( true )
+		{
+			// Temporary disabling while we figure out the HTML
+			return;
+		}
 		if ( responseText.indexOf( "ascend.php" ) != -1 )
 		{
 			QuestDatabase.setQuestProgress( QuestDatabase.FINAL, QuestDatabase.FINISHED );
