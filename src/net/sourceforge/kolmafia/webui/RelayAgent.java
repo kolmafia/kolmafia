@@ -53,8 +53,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.moods.RecoveryManager;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -424,16 +422,7 @@ public class RelayAgent
 			}
 		}
 
-		if ( this.path.startsWith( "/charpane.php" ) && Preferences.getBoolean( "relayRunsAfterAdventureScript" ) )
-		{
-			int initialCount = KoLCharacter.getAdventuresLeft();	 
-			RequestThread.postRequest( this.request );
-			if ( RecoveryManager.isRecoveryPossible() && initialCount != KoLCharacter.getAdventuresLeft() ) 
-			{	 
-				KoLmafia.executeAfterAdventureScript();
-			}	 
-		}
-		else if ( this.path.equals( "/fight.php?action=custom" ) )
+		if ( this.path.equals( "/fight.php?action=custom" ) )
 		{
 			RelayAgent.COMBAT_THREAD.wake( null );
 			this.request.pseudoResponse( "HTTP/1.1 302 Found", "/fight.php?action=script" );
