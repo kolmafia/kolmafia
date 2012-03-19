@@ -1818,6 +1818,10 @@ public class RelayRequest
 			"None" :
 			null;
 
+		boolean wasAdventure = nextAdventure != null ||
+			urlString.startsWith( "fight.php" ) ||
+			urlString.startsWith( "choice.php" );
+
 		if ( nextAdventure != null && RecoveryManager.isRecoveryPossible() && this.getFormField( CONFIRM_RECOVERY ) == null )
 		{
 			boolean isScript = !isNonCombatsOnly && Preferences.getBoolean( "relayRunsBeforeBattleScript" );
@@ -1895,6 +1899,12 @@ public class RelayRequest
 		else if ( this.responseCode != 200 )
 		{
 			this.sendNotFound();
+		}
+		else if ( wasAdventure &&
+			  RecoveryManager.isRecoveryPossible() &&
+			  Preferences.getBoolean( "relayRunsAfterAdventureScript" ) )
+		{
+			KoLmafia.executeAfterAdventureScript();
 		}
 	}
 
