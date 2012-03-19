@@ -1290,6 +1290,7 @@ public abstract class RabbitHoleManager
 		}
 
 		RelayRequest.specialCommandResponse = RabbitHoleManager.decorateChessPuzzleResponse( response );
+		RelayRequest.specialCommandIsAdventure = true;
 	}
 
 	private static final Path solve( final Board board )

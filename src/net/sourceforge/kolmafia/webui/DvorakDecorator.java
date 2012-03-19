@@ -182,6 +182,7 @@ public abstract class DvorakDecorator
 		StringBuffer buffer = new StringBuffer( request.responseText );
 		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer );
 		RelayRequest.specialCommandResponse = buffer.toString();
+		RelayRequest.specialCommandIsAdventure = true;
 		DvorakDecorator.lastResponse = null;
 	}
 }
