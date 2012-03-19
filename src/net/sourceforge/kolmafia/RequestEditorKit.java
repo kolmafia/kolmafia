@@ -1168,7 +1168,7 @@ public class RequestEditorKit
 		monsterData.append( ", Type: " );
 		monsterData.append( MonsterDatabase.phylumNames[ MonsterStatusTracker.getMonsterPhylum() ] );
 
-		if ( monsterName.indexOf( "pirate" ) != -1 )
+		if ( monsterName.indexOf( "pirate" ) != -1 && !( monsterName.equalsIgnoreCase( "Stone Temple Pirate" ) ) )
 		{
 			int count = BeerPongRequest.countPirateInsults();
 			monsterData.append( ", Insults: ");
