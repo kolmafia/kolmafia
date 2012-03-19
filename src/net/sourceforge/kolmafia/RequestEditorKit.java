@@ -2003,41 +2003,41 @@ public class RequestEditorKit
 
 		case 571:
 			// Your Minstrel Vamps
-			RequestEditorKit.addNavigationLink( buffer, "Go to the Typical Tavern", "tavern.php" );
+			RequestEditorKit.addMinstrelNavigationLink( buffer, "Go to the Typical Tavern", "tavern.php" );
 			break;
 
 		case 572:
 			// Your Minstrel Clamps
-			RequestEditorKit.addNavigationLink( buffer, "Go to the Knob Shaft", "adventure.php?snarfblat=101" );
+			RequestEditorKit.addMinstrelNavigationLink( buffer, "Go to the Knob Shaft", "adventure.php?snarfblat=101" );
 			break;
 
 		case 573:
 			// Your Minstrel Stamps
 			// Add a link to the Luter's Grave
-			RequestEditorKit.addNavigationLink( buffer, "Go to the Luter's Grave", "plains.php?action=lutergrave" );
+			RequestEditorKit.addMinstrelNavigationLink( buffer, "Go to the Luter's Grave", "plains.php?action=lutergrave" );
 			break;
 
 		case 576:
 			// Your Minstrel Camps
-			RequestEditorKit.addNavigationLink( buffer, "Go to the Icy Peak", "adventure.php?snarfblat=110" );
+			RequestEditorKit.addMinstrelNavigationLink( buffer, "Go to the Icy Peak", "adventure.php?snarfblat=110" );
 			break;
 
 		case 577:
 			// Your Minstrel Scamp
-			RequestEditorKit.addNavigationLink( buffer, "Go to the Ancient Buried Pyramid", "pyramid.php" );
+			RequestEditorKit.addMinstrelNavigationLink( buffer, "Go to the Ancient Buried Pyramid", "pyramid.php" );
 			break;
 		}
 	}
 
-	private static final void addNavigationLink( final StringBuffer buffer, final String tag, final String url )
+	private static final void addMinstrelNavigationLink( final StringBuffer buffer, final String tag, final String url )
 	{
-		int index = buffer.indexOf( "<b>Results:</b>" );
+		int index = buffer.lastIndexOf( "<table>" );
 		if ( index == -1 )
 		{
 			return;
 		}
 
-		index = buffer.indexOf( "</table>", index );
+		index = buffer.indexOf( "<p>", index );
 		if ( index == -1 )
 		{
 			return;
@@ -2045,11 +2045,11 @@ public class RequestEditorKit
 
 		StringBuffer link = new StringBuffer();
 
-		link.append( "<tr><td><center><p><a href=\"" );
+		link.append( "<p><a href=\"" );
 		link.append( url );
 		link.append( "\">" );
 		link.append( tag );
-		link.append( "</a></center></td></tr>" );
+		link.append( "</a>" );
 
 		buffer.insert( index, link.toString()  );
 	}
