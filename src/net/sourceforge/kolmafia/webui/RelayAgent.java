@@ -436,11 +436,13 @@ public class RelayAgent
 				this.request.headers.add( "Refresh: 1" );
 			}
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", fightResponse );
+			RelayRequest.executeAfterAdventureScript();
 		}
 		else if ( this.path.equals( "/fight.php?action=abort" ) )
 		{
 			FightRequest.stopTrackingFights();
 			this.request.pseudoResponse( "HTTP/1.1 200 OK", FightRequest.getNextTrackedRound() );
+			RelayRequest.executeAfterAdventureScript();
 		}
 		else if ( this.path.startsWith( "/fight.php?hotkey=" ) )
 		{
@@ -463,8 +465,7 @@ public class RelayAgent
 		}
 		else if ( this.path.equals( "/leaflet.php?action=auto" ) )
 		{
-			this.request.pseudoResponse( "HTTP/1.1 200 OK",
-				LeafletManager.leafletWithMagic() );
+			this.request.pseudoResponse( "HTTP/1.1 200 OK", LeafletManager.leafletWithMagic() );
 		}
 		else if ( this.path.startsWith( "/loggedout.php" ) )
 		{

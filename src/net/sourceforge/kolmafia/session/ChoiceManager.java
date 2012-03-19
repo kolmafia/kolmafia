@@ -5037,6 +5037,7 @@ public abstract class ChoiceManager
 		StringBuffer buffer = new StringBuffer( request.responseText );
 		RequestEditorKit.getFeatureRichHTML( request.getURLString(), buffer );
 		RelayRequest.specialCommandResponse = buffer.toString();
+		RelayRequest.specialCommandIsAdventure = true;
 	}
 
 	public static final boolean registerRequest( final String urlString )

@@ -130,6 +130,7 @@ public class RelayRequest
 	public String contentType = null;
 	public String statusLine = "HTTP/1.1 302 Found";
 
+	public static boolean specialCommandIsAdventure = false;
 	public static String specialCommandResponse = "";
 	public static String specialCommandStatus = "";
 	public static String redirectedCommandURL = "";
@@ -1378,6 +1379,7 @@ public class RelayRequest
 			String cmd = this.getFormField( "cmd" );
 			if ( !cmd.equals( "wait" ) )
 			{
+				RelayRequest.specialCommandIsAdventure = false;
 				RelayRequest.specialCommandResponse = "";
 				RelayRequest.specialCommandStatus = "";
 
@@ -1442,6 +1444,11 @@ public class RelayRequest
 
 				RelayRequest.specialCommandResponse = "";
 				RelayRequest.specialCommandStatus = "";
+				if ( RelayRequest.specialCommandIsAdventure )
+				{
+					RelayRequest.executeAfterAdventureScript();
+					RelayRequest.specialCommandIsAdventure = false;
+				}
 			}
 			else
 			{
@@ -1900,9 +1907,15 @@ public class RelayRequest
 		{
 			this.sendNotFound();
 		}
-		else if ( wasAdventure &&
-			  RecoveryManager.isRecoveryPossible() &&
-			  Preferences.getBoolean( "relayRunsAfterAdventureScript" ) )
+		else if ( wasAdventure )
+		{
+			RelayRequest.executeAfterAdventureScript();
+		}
+	}
+
+	public static void executeAfterAdventureScript()
+	{
+		if ( RecoveryManager.isRecoveryPossible() && Preferences.getBoolean( "relayRunsAfterAdventureScript" ) )
 		{
 			KoLmafia.executeAfterAdventureScript();
 		}
