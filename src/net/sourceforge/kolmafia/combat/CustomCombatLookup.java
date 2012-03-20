@@ -38,10 +38,14 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
@@ -53,7 +57,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CustomCombatLookup
 	extends DefaultMutableTreeNode
 {
-	private StringArray childNames = new StringArray();
+	private List childKeys = new LinkedList();
 	private Map childLookup = new TreeMap();
 
 	public CustomCombatLookup()
@@ -68,7 +72,9 @@ public class CustomCombatLookup
 
 	public String getBestEncounterKey( final String encounter )
 	{
-		String encounterKey = getLongestMatch( encounter );
+		MonsterData monsterData = MonsterDatabase.findMonster( encounter, false );
+
+		String encounterKey = getLongestMatch( encounter, monsterData );
 
 		if ( encounterKey != null )
 		{
@@ -80,7 +86,7 @@ public class CustomCombatLookup
 
 		String location = Preferences.getString( "lastAdventure" ).toLowerCase();
 
-		if ( MonsterDatabase.findMonster( encounter, false ) == null )
+		if ( monsterData == null )
 		{
 			// An unrecognized monster is likely to be:
 			// * something new that the player may want to see personally,
@@ -91,7 +97,7 @@ public class CustomCombatLookup
 			location = "unrecognized";
 		}
 
-		encounterKey = getLongestMatch( location );
+		encounterKey = getLongestMatch( location, monsterData );
 
 		if ( encounterKey != null )
 		{
@@ -101,20 +107,22 @@ public class CustomCombatLookup
 		return "default";
 	}
 
-	private String getLongestMatch( final String encounter )
+	private String getLongestMatch( final String encounter, MonsterData monsterData )
 	{
 		String longestMatch = null;
 		int longestMatchLength = 0;
 
-		for ( int i = 0; i < childNames.size(); ++i )
+		for ( int i = 0; i < childKeys.size(); ++i )
 		{
-			String childName = childNames.get( i );
+			CombatEncounterKey childKey = (CombatEncounterKey) childKeys.get( i );
 
-			if ( encounter.indexOf( childName ) != -1 )
+			if ( childKey.matches( encounter, monsterData ) )
 			{
+				String childName = childKey.toString();
+
 				if ( childName.length() > longestMatchLength )
 				{
-					longestMatch = childName;
+					longestMatch = childKey.toString();
 					longestMatchLength = childName.length();
 				}
 			}
@@ -142,7 +150,7 @@ public class CustomCombatLookup
 		}
 	}
 
-	public void addEncounterKey( final String encounterKey )
+	public void addEncounterKey( String encounterKey )
 	{
 		if ( childLookup.containsKey( encounterKey ) )
 		{
@@ -152,9 +160,13 @@ public class CustomCombatLookup
 		}
 		else
 		{
+			CombatEncounterKey combatEncounterKey = new CombatEncounterKey( encounterKey );
+
+			encounterKey = combatEncounterKey.toString();
+
 			CustomCombatStrategy strategy = new CustomCombatStrategy( encounterKey );
 
-			childNames.add( encounterKey );
+			childKeys.add( combatEncounterKey );
 			childLookup.put( encounterKey, strategy );
 
 			super.add( strategy );
@@ -178,7 +190,7 @@ public class CustomCombatLookup
 
 	public void removeAllChildren()
 	{
-		childNames.clear();
+		childKeys.clear();
 		childLookup.clear();
 
 		super.removeAllChildren();
