@@ -73,7 +73,15 @@ public class Scope
 
 	public void addCommand( final ParseTreeNode c, final Parser p )
 	{
+		if ( c == null )
+		{
+			// We shouldn't be called with no command, but don't do
+			// the wrong thing with one.
+			return;
+		}
+
 		this.commands.add( c );
+
 		if ( this.barrier == BasicScope.BARRIER_NONE &&
 			c.assertBarrier() )
 		{

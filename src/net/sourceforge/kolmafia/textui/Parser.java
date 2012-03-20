@@ -1173,6 +1173,22 @@ public class Parser
 		}
 	}
 
+	private Scope parseSingleCommandScope( final Type functionType, final BasicScope parentScope, final boolean noElse, boolean allowBreak, boolean allowContinue )
+	{
+		ParseTreeNode command = this.parseCommand( functionType, parentScope, noElse, allowBreak, allowContinue );
+		if ( command == null )
+		{
+			if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
+			{
+				throw this.parseException( ";", this.currentToken() );
+			}
+
+			this.readToken(); // ;
+			return new Scope( parentScope );
+		}
+		return new Scope( command, parentScope );
+	}
+
 	private Conditional parseConditional( final Type functionType,
 					      final BasicScope parentScope,
 					      boolean noElse,
@@ -1215,8 +1231,7 @@ public class Parser
 
 			if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) //Scope is a single call
 			{
-				ParseTreeNode command = this.parseCommand( functionType, parentScope, !elseFound, allowBreak, allowContinue );
-				scope = new Scope( command, parentScope );
+				scope = parseSingleCommandScope( functionType, parentScope, !elseFound, allowBreak, allowContinue );
 			}
 			else
 			{
@@ -1607,8 +1622,7 @@ public class Parser
 		Scope body;
 		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) // body is a single call
 		{
-			ParseTreeNode command = this.parseCommand( functionType, parentScope, false, allowBreak, allowContinue );
-			body = new Scope( command, parentScope );
+			body = parseSingleCommandScope( functionType, parentScope, false, allowBreak, allowContinue );
 		}
 		else
 		{
@@ -1634,8 +1648,7 @@ public class Parser
 		Scope finalClause;
 		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) // finally is a single call
 		{
-			ParseTreeNode command = this.parseCommand( functionType, body, false, allowBreak, allowContinue );
-			finalClause = new Scope( command, parentScope );
+			finalClause = parseSingleCommandScope( functionType, body, false, allowBreak, allowContinue );
 		}
 		else
 		{
@@ -1934,7 +1947,20 @@ public class Parser
 		{
 			// Scope is a single command
 			scope = new Scope( varList, parentScope );
-			scope.addCommand( this.parseCommand( functionType, scope, false, true, true ), this );
+			ParseTreeNode command = this.parseCommand( functionType, scope, false, true, true );
+			if ( command == null )
+			{
+				if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
+				{
+					throw this.parseException( ";", this.currentToken() );
+				}
+
+				this.readToken(); // ;
+			}
+			else
+			{
+				scope.addCommand( command, this );
+			}
 		}
 
 		return scope;
