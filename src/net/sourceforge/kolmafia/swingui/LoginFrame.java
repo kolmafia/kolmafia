@@ -250,6 +250,7 @@ public class LoginFrame
 			this.getBreakfastCheckBox.addActionListener( new GetBreakfastListener() );
 			this.savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 
+			LoginPanel.this.getBreakfastCheckBox.setSelected( Preferences.getBoolean( lastUsername, "getBreakfast" ) );
 			LoginPanel.this.stealthLoginCheckBox.setSelected( Preferences.getBoolean( "stealthLogin" ) );
 
 			String holiday = HolidayDatabase.getHoliday( true );
