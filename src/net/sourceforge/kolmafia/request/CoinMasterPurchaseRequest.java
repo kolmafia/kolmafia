@@ -123,6 +123,11 @@ public class CoinMasterPurchaseRequest
 		this.setCanPurchase( this.data.isAccessible() && this.affordableCount() > 0 );
 	}
 
+	public boolean isAccessible()
+	{
+		return this.data.isAccessible();
+	}
+
 	public void run()
 	{
 		if ( this.request == null )

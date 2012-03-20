@@ -241,6 +241,11 @@ public abstract class PurchaseRequest
 		return KoLCharacter.getAvailableMeat() / this.price;
 	}
 
+	public boolean isAccessible()
+	{
+		return true;
+	}
+
 	/**
 	 * Executes the purchase request. This calculates the number of items
 	 * which will be purchased and adds it to the list. Note that it marks

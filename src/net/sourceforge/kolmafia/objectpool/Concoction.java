@@ -432,7 +432,7 @@ public class Concoction
 	{
 		if ( this.mixingMethod == KoLConstants.COINMASTER )
 		{
-			return this.purchaseRequest != null && this.purchaseRequest.canPurchase();
+			return this.purchaseRequest != null && this.purchaseRequest.isAccessible();
 		}
 		return true;
 	}
