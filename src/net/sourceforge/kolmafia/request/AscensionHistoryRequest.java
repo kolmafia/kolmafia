@@ -367,6 +367,12 @@ public class AscensionHistoryRequest
 			lastFindIndex = fieldMatcher.end() - 5;
 
 			String[] columns = AscensionHistoryRequest.extractColumns( fieldMatcher.group() );
+
+			if ( columns == null )
+			{
+				continue;
+			}
+
 			lastField = new AscensionDataField( this.playerName, this.playerId, columns );
 			this.ascensionData.add( lastField );
 
@@ -428,6 +434,11 @@ public class AscensionHistoryRequest
 		rowData = StringUtilities.globalStringDelete( rowData, " " );
 
 		String[] columns = rowData.split( "(</?t[rd].*?>)+" );
+
+		if ( columns.length < 7 )
+		{
+			return null;
+		}
 
 		// These three columns now have text that would mess up parsing.
 
