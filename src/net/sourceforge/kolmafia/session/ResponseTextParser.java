@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
+import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
@@ -392,6 +393,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "guild.php" ) )
 		{
 			GuildRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "hedgepuzzle.php" ) )
+		{
+			HedgePuzzleRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "hermit.php" ) )

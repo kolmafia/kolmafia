@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -57,7 +58,14 @@ public class CompleteQuestCommand
 	{
 		if ( command.equals( "maze" ) || command.startsWith( "hedge" ) )
 		{
-			SorceressLairManager.completeHedgeMaze();
+			if ( parameters.equals( "solve" ) )
+			{
+				HedgePuzzleRequest.completeHedgeMaze( false );
+			}
+			else
+			{
+				SorceressLairManager.completeHedgeMaze();
+			}
 			return;
 		}
 
