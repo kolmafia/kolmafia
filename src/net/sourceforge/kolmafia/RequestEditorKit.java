@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
@@ -484,6 +485,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "forestvillage.php" ) )
 		{
 			UntinkerRequest.decorate( location, buffer );
+		}
+		else if ( location.startsWith( "hedgepuzzle.php" ) )
+		{
+			HedgePuzzleRequest.decorate( buffer );
 		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{
