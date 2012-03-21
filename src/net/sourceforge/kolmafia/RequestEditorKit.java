@@ -526,7 +526,10 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "lair6.php" ) )
 		{
-			SorceressLairManager.decorateFamiliars( buffer );
+			if ( !KoLCharacter.inAxecore() )
+			{
+				SorceressLairManager.decorateFamiliars( buffer );
+			}
 		}
 		else if ( location.indexOf( "lchat.php" ) != -1 )
 		{
