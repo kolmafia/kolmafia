@@ -988,7 +988,7 @@
 987	You Know When to Walk Away	trivia2.gif	92f4b8581b0351082e5f7652578aa6be
 988	You Know Who to Call	trivia3.gif	979565bba2f06ac0413085acb99334e6
 989	You Know Where to Go	trivia4.gif	d596f7038849762099bb5ddcd479f7dd
-990	Trivia Master	trivia5.gif	7708ec6dfa757a3d3be799743135b566
+990	Trivia Master	trivia5.gif	7708ec6dfa757a3d3be799743135b566	use 1 Trivial Avocations Card: What?, 1 Trivial Avocations Card: When?, 1 Trivial Avocations Card: Who?, 1 Trivial Avocations Card: Where?
 991	Cinnamouth	supersucker.gif	201c7e96963c7a0ff24ad97f5a70f066	use 1 Atomic Pop
 992	Gamer Rage	jplumber.gif	549d97093751385831640dc8ad530c80	use 1 Jackass Plumber home game
 993	Buff as a Baobab	baobab.gif	41fa51a52ab859c8e53bd82b56853731	use 1 baobab sap
