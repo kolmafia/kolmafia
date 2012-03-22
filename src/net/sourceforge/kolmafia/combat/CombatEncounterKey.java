@@ -105,7 +105,7 @@ public class CombatEncounterKey
 	{
 		if ( monsterData != null )
 		{
-			if ( this.elementNumber != -1 && monsterData.getAttackElement() != this.elementNumber && monsterData.getDefenseElement() != this.elementNumber )
+			if ( this.elementNumber != -1 && monsterData.getDefenseElement() != this.elementNumber )
 			{
 				return false;
 			}
