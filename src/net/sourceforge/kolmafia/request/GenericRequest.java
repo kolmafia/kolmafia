@@ -211,13 +211,9 @@ public class GenericRequest
 
 		GenericRequest.applyProxySettings();
 
-		int defaultLoginServer = Preferences.getInteger( "defaultLoginServer" );
-		if ( defaultLoginServer < 0 || defaultLoginServer >= GenericRequest.SERVERS.length )
-		{
-			defaultLoginServer = 1;
-		}
+		boolean useDevProxyServer = Preferences.getBoolean( "useDevProxyServer" );
 
-		GenericRequest.setLoginServer( GenericRequest.SERVERS[ defaultLoginServer ] );
+		GenericRequest.setLoginServer( GenericRequest.SERVERS[ useDevProxyServer ? 0 : 1 ] );
 
 		if ( Preferences.getBoolean( "allowSocketTimeout" ) )
 		{

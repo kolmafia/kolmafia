@@ -87,13 +87,14 @@ public class LoginFrame
 
 		this.tabs.addTab( "KoL Login", this.constructLoginPanel() );
 
-		JPanel connectPanel = new JPanel();
-		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
-		connectPanel.add( new ConnectionOptionsPanel() );
-		connectPanel.add( httpProxyOptions );
-		connectPanel.add( httpsProxyOptions );
+		JPanel proxyPanel = new JPanel();
+		proxyPanel.setLayout( new BoxLayout( proxyPanel, BoxLayout.Y_AXIS ) );
+		proxyPanel.add( new ProxySetPanel() );
+		proxyPanel.add( httpProxyOptions );
+		proxyPanel.add( httpsProxyOptions );
 
-		this.tabs.addTab( "Connection", connectPanel );
+		this.tabs.addTab( "Connection", new ConnectionOptionsPanel() );
+		this.tabs.addTab( "Proxy Settings", proxyPanel );
 
 		this.setCenterComponent( this.tabs );
 
@@ -429,21 +430,17 @@ public class LoginFrame
 		}
 	}
 
-	private class ConnectionOptionsPanel
+	private class ProxySetPanel
 		extends OptionsPanel
 	{
 		private final String[][] options =
 		{
 			{ "proxySet", "KoLmafia needs to connect through a proxy server" },
-			{ "useSecureLogin", "Switch to HTTPS for login (development in progress)" },
-			{ "connectViaAddress", "Use IP address to connect instead of host name" },
-			{ "useNaiveSecureLogin", "Do not have Java try to validate SSL certificates" },
-			{ "allowSocketTimeout", "Forcibly time-out laggy requests" },
 		};
 
-		public ConnectionOptionsPanel()
+		public ProxySetPanel()
 		{
-			super( new Dimension( 20, 20 ), new Dimension( 380, 20 ) );
+			super( new Dimension( 20, 20 ), new Dimension( 250, 20 ) );
 
 			this.setOptions( this.options );
 
@@ -471,6 +468,31 @@ public class LoginFrame
 				return;
 			}
 
+			super.setEnabled( isEnabled );
+		}
+	}
+
+	private class ConnectionOptionsPanel
+		extends OptionsPanel
+	{
+		private final String[][] options =
+		{
+			{ "useDevProxyServer", "Use devproxy.kingdomofloathing.com to login" },
+			{ "useSecureLogin", "Switch to HTTPS for login (development in progress)" },
+			{ "connectViaAddress", "Use IP address to connect instead of host name" },
+			{ "useNaiveSecureLogin", "Do not have Java try to validate SSL certificates" },
+			{ "allowSocketTimeout", "Forcibly time-out laggy requests" }
+		};
+
+		public ConnectionOptionsPanel()
+		{
+			super( new Dimension( 20, 20 ), new Dimension( 250, 20 ) );
+
+			this.setOptions( this.options );
+		}
+
+		public void setEnabled( final boolean isEnabled )
+		{
 			super.setEnabled( isEnabled );
 		}
 	}
