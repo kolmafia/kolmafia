@@ -148,6 +148,7 @@ public abstract class ChatManager
 	{
 		// If login is incomplete because we are stuck in a fight or
 		// choice, don't bother checking the Altar of Literacy
+
 		if ( KoLmafia.isRefreshing() )
 		{
 			return true;
@@ -155,9 +156,17 @@ public abstract class ChatManager
 
 		if( !ChatManager.checkedLiteracy )
 		{
-			AltarOfLiteracyRequest request = new AltarOfLiteracyRequest();
-			RequestThread.postRequest( request );
+			ChatManager.chatLiterate = Preferences.getBoolean( "chatLiterate" );
+
+			if ( !ChatManager.chatLiterate )
+			{
+				AltarOfLiteracyRequest request = new AltarOfLiteracyRequest();
+				RequestThread.postRequest( request );
+			}
+
+			Preferences.setBoolean( "chatLiterate", ChatManager.chatLiterate );
 		}
+
 		return ChatManager.chatLiterate;
 	}
 
