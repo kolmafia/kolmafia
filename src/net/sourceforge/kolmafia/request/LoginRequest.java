@@ -110,20 +110,20 @@ public class LoginRequest
 
 	private boolean detectChallenge()
 	{
+		// If this is a devster, login to the dev server.
+
+		String lowercase = this.username.toLowerCase();
+
+		if ( lowercase.startsWith( "devster" ) )
+		{
+			Preferences.setBoolean( "useDevProxyServer", true );
+		}
+
 		// Setup the login server in order to ensure that
 		// the initial try is randomized.  Or, in the case
 		// of a devster, the developer server.
 
 		GenericRequest.applySettings();
-
-		String lowercase = this.username.toLowerCase();
-
-		// If this is a devster, login to the dev server.
-
-		if ( lowercase.startsWith( "devster" ) )
-		{
-			GenericRequest.setLoginServer( "dev.kingdomofloathing.com" );
-		}
 
 		if ( Preferences.getBoolean( "useSecureLogin" ) )
 		{
@@ -313,11 +313,10 @@ public class LoginRequest
 			return;
 		}
 
-		if ( GenericRequest.KOL_HOST.equals( "dev.kingdomofloathing.com" ) &&
-			this.responseText.indexOf( "do not have the privileges" ) != -1)
+		if ( this.responseText.indexOf( "do not have the privileges" ) != -1 )
 		{
 			// Can't use dev server without permission. Skip it.
-			Preferences.setInteger( "defaultLoginServer", 1 );
+			Preferences.setBoolean( "useDevProxyServer", false );
 			this.run();
 			return;
 		}

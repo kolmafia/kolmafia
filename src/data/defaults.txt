@@ -55,7 +55,6 @@ global	defaultDropdown1	0
 global	defaultDropdown2	1
 global	defaultDropdownSplit	0
 global	defaultLimit	5
-global	defaultLoginServer	1
 global	displayName
 global	externalEditor
 global	gapProtection	false
@@ -174,6 +173,7 @@ global	useContactsFrame	true
 global	useCrimboToysHardcore	false
 global	useCrimboToysSoftcore	true
 global	useDecoratedTabs
+global	useDevProxyServer	false
 global	useDockIconBadge	false
 global	useLastUserAgent	false
 global	useNaiveSecureLogin	false

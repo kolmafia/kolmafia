@@ -359,8 +359,7 @@ public abstract class KoLmafia
 		// Reload your settings and determine all the different users which
 		// are present in your save state list.
 
-		Preferences.setInteger(
-			"defaultLoginServer", 1 );
+		Preferences.setBoolean( "useDevProxyServer", false );
 		Preferences.setBoolean( "relayBrowserOnly", false );
 
 		String actualName;
