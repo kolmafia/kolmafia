@@ -2974,7 +2974,7 @@
 2973	954806283	gomcb.gif	grumpy old man charrrm bracelet	grumpy old man charrrm bracelets
 2974	252043042	tarnishcharm.gif	tarrrnish charrrm	tarrrnish charrrm
 2975	167193019	tarnishcb.gif	tarrrnished charrrm bracelet	tarrrnished charrrm bracelets
-2976	915332790	wine.gif	bilge wine	bilge wine
+2976	915332790	wine.gif	bilge wine	bottles of bilge wine
 2977	891716670	rapier.gif	witty rapier	witty rapiers
 2978	867657127	yohohoyo.gif	yohohoyo	yohohoyos
 2979	272528517	lightvial.gif	fish-liver oil	fish-liver oils

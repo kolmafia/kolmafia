@@ -234,6 +234,12 @@ public abstract class KoLmafia
 		// The following is unnecessary, since you can use "worm-riding hooks" as a goal
 		{ "The Sleeper Has Awakened", STOP },
 
+		// Axecore Clancy Adventures
+		{ "Jackin' the Jukebox", STOP },
+		{ "A Miner Variation", STOP },
+		{ "Mercury Rising", STOP },
+		{ "Don't You Know Who I Am?", STOP },
+
 		// Adventures that give semirares
 		{ "A Menacing Phantom", SEMIRARE },
 		{ "A Shark's Chum", SEMIRARE },
