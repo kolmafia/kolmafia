@@ -101,6 +101,7 @@ public class ChatBuffer
 
 	private final StringBuffer content = new StringBuffer();
 	private final LinkedList displayPanes = new LinkedList();
+	protected static final HashMap stickyMap = new HashMap();
 	
 	volatile int resetSequence = 0;
 	// Every queued update for this ChatBuffer carries the then-current value of resetSequence,
@@ -143,6 +144,7 @@ public class ChatBuffer
 		displayPane.setText( this.getHTMLContent() );
 
 		this.displayPanes.addLast( new WeakReference( displayPane ) );
+		ChatBuffer.stickyMap.put( displayPane, Boolean.TRUE );
 
 		JScrollPane scroller =
 			new JScrollPane(
@@ -202,6 +204,7 @@ public class ChatBuffer
 	public void dispose()
 	{
 		this.displayPanes.clear();
+		ChatBuffer.stickyMap.clear();
 
 		if ( this.logWriter != null )
 		{
@@ -505,10 +508,15 @@ public class ChatBuffer
 			{
 				WeakReference display = (WeakReference) referenceIterator.next();
 				JEditorPane displayPane = (JEditorPane) display.get();
+				Boolean sticky = (Boolean) ChatBuffer.stickyMap.get( displayPane );
 
 				if ( displayPane == null )
 				{
 					referenceIterator.remove();
+					continue;
+				}
+				if ( !sticky.booleanValue() )
+				{
 					continue;
 				}
 
@@ -519,5 +527,10 @@ public class ChatBuffer
 				displayPane.setCaretPosition( caretPosition );
 			}
 		}
+	}
+
+	public static void setSticky( JEditorPane pane, boolean b )
+	{
+		ChatBuffer.stickyMap.put( pane, Boolean.valueOf( b ) );
 	}
 }
