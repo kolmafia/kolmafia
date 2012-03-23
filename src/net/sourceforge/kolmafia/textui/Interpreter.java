@@ -63,6 +63,8 @@ import net.sourceforge.kolmafia.textui.parsetree.ValueList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+
 public class Interpreter
 {
 	protected Parser parser;
@@ -259,7 +261,8 @@ public class Interpreter
 		}
 		catch ( ScriptException e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
+			String message = CharacterEntities.escape( e.getMessage() );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
 			return false;
 		}
 		catch ( Exception e )
