@@ -429,10 +429,15 @@ public class FamiliarDatabase
 	{
 		if ( location == null || location.equals( "debug.gif" ) )
 		{
-			return JComponentUtilities.getImage( "debug.gif" );
+			return FamiliarDatabase.getNoFamiliarImage();
 		}
 		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + location );
 		return JComponentUtilities.getImage( "itemimages/" + location );
+	}
+
+	public static final ImageIcon getNoFamiliarImage()
+	{
+		return JComponentUtilities.getImage( "debug.gif" );
 	}
 
 	public static final ImageIcon getFamiliarImage( final String name )
