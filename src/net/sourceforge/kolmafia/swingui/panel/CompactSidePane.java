@@ -792,7 +792,8 @@ public class CompactSidePane
 			AdventureResult item = KoLCharacter.getCurrentInstrument();
 			if ( item == null )
 			{
-				this.familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
+				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
+				this.familiarLabel.setIcon( icon );
 			}
 			else
 			{
@@ -811,7 +812,8 @@ public class CompactSidePane
 
 			if ( id == -1 )
 			{
-				this.familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
+				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
+				this.familiarLabel.setIcon( icon );
 				this.familiarLabel.setText( "0 lbs." );
 			}
 			else

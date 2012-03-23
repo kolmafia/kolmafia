@@ -1661,12 +1661,10 @@ public class GenericRequest
 			{
 				shouldStop = this.retrieveServerReply( istream );
 				istream.close();
-				if ( shouldStop && this.responseText != null &&
-					this.responseText.length() < 100 )
+				if ( shouldStop && this.responseText != null && this.responseText.length() < 100 )
 				{
 					// This may be a JavaScript redirect.
-					Matcher m = GenericRequest.JS_REDIRECT_PATTERN.matcher(
-						this.responseText );
+					Matcher m = GenericRequest.JS_REDIRECT_PATTERN.matcher( this.responseText );
 					if ( m.find() )
 					{
 						this.redirectLocation = m.group( 1 );
@@ -1686,6 +1684,7 @@ public class GenericRequest
 		}
 		catch ( IOException e )
 		{
+			StaticEntity.printStackTrace( e );
 			return true;
 		}
 
@@ -1958,7 +1957,22 @@ public class GenericRequest
 	private boolean retrieveServerReply( final InputStream istream )
 		throws IOException
 	{
+		if ( this.shouldUpdateDebugLog() )
+		{
+			RequestLogger.updateDebugLog( "Retrieving server reply" );
+		}
 		this.responseText = new String( ByteBufferUtilities.read( istream ), "UTF-8" );
+		if ( this.shouldUpdateDebugLog() )
+		{
+			if ( this.responseText == null )
+			{
+				RequestLogger.updateDebugLog( "ResponseText is null" );
+			}
+			else
+			{
+				RequestLogger.updateDebugLog( "ResponseText has " + responseText.length() + " characters." );
+			}
+		}
 
 		if ( this.responseText != null )
 		{
