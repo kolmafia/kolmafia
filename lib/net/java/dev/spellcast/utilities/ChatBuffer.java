@@ -101,8 +101,10 @@ public class ChatBuffer
 
 	private final StringBuffer content = new StringBuffer();
 	private final LinkedList displayPanes = new LinkedList();
-	protected static final HashMap stickyMap = new HashMap();
 	
+	protected static HashMap stickyMap = new HashMap();
+	protected static HashMap currentStickyMap = new HashMap();
+
 	volatile int resetSequence = 0;
 	// Every queued update for this ChatBuffer carries the then-current value of resetSequence,
 	// which is incremented only on updates that completely rewrite the display.  Any update
@@ -447,6 +449,11 @@ public class ChatBuffer
 			{
 				WeakReference display = (WeakReference) referenceIterator.next();
 				JEditorPane displayPane = (JEditorPane) display.get();
+				// We don't want a race condition between the swing listener that sets the sticky flag
+				// and the scroll handler.
+				// Therefore, update a separate hashmap here that the scroll handler will use.
+				Boolean sticky = (Boolean) ChatBuffer.stickyMap.get( displayPane );
+				ChatBuffer.currentStickyMap.put( displayPane, sticky );
 
 				if ( displayPane == null )
 				{
@@ -508,7 +515,7 @@ public class ChatBuffer
 			{
 				WeakReference display = (WeakReference) referenceIterator.next();
 				JEditorPane displayPane = (JEditorPane) display.get();
-				Boolean sticky = (Boolean) ChatBuffer.stickyMap.get( displayPane );
+				Boolean sticky = (Boolean) ChatBuffer.currentStickyMap.get( displayPane );
 
 				if ( displayPane == null )
 				{
