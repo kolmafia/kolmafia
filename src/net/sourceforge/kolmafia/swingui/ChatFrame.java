@@ -37,8 +37,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -52,15 +50,12 @@ import java.util.Locale;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
-import net.java.dev.spellcast.utilities.ChatBuffer;
 
 import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -78,6 +73,7 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
+import net.sourceforge.kolmafia.swingui.listener.StickyListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -504,39 +500,6 @@ public class ChatFrame
 			else
 			{
 				ProfileFrame.showRequest( ChatFrame.PROFILER.constructURLString( urlString ) );
-			}
-		}
-	}
-	
-	private class StickyListener
-		implements AdjustmentListener
-	{
-		JEditorPane buffer;
-
-		int stickiness = 50;
-
-		public StickyListener( JEditorPane buffer )
-		{
-			this.buffer = buffer;
-		}
-
-		public void adjustmentValueChanged( AdjustmentEvent arg0 )
-		{
-			int value = arg0.getValue();
-
-			JScrollBar bar = (JScrollBar) arg0.getSource();
-			int knob = bar.getVisibleAmount();
-			int max = bar.getMaximum();
-
-			// stickiness is the margin of error at the bottom where we still make the window sticky.
-			// 40-50 seems about right. Any lower and longer chat messages can actually un-stick it.
-			if ( value + knob > max - stickiness )
-			{
-				ChatBuffer.setSticky( buffer, true );
-			}
-			else
-			{
-				ChatBuffer.setSticky( buffer, false );
 			}
 		}
 	}
