@@ -270,7 +270,7 @@ public class ChatFrame
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
 			JScrollPane scroller = ChatManager.getBuffer( associatedContact ).addDisplay( this.chatDisplay );
-			scroller.getVerticalScrollBar().addAdjustmentListener( new StickyListener( this.chatDisplay, 300 ) );
+			scroller.getVerticalScrollBar().addAdjustmentListener( new StickyListener( this.chatDisplay, 200 ) );
 			this.add( scroller, BorderLayout.CENTER );
 
 			this.add( entryPanel, BorderLayout.SOUTH );
