@@ -241,7 +241,11 @@ public class GoalManager
 		
 		GoalManager.updateProgress( GoalManager.GOAL_AUTOSTOP );
 
-		if ( GoalManager.goals.isEmpty() )
+		if ( !KoLmafia.isAdventuring() )
+		{
+			return;
+		}
+		else if ( GoalManager.goals.isEmpty() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, message );
 		}
