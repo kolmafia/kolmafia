@@ -1028,7 +1028,7 @@ Ol' Scratch's stove door	240	Mus: 200	shield
 Operation Patriot Shield	240	none	shield
 Oscus's garbage can lid	240	Mus: 200	shield
 Raggedy Hippy doll	10	none
-Rain-Doh green lantern	0	none
+Rain-Doh green lantern	100	none
 Sceptre of the Torremolinos Prince	0	none
 Seven Loco	0	none
 Sinful Desires	30	none
@@ -1090,7 +1090,7 @@ demon buckler	80	Mus: 25	shield
 depleted Grimacite gravy boat	100	Mus: 35
 detective skull	60	none
 detour shield	100	Mus: 35	shield
-disturbing fanfic	45	Mys: 15
+disturbing fanfic	60	Mys: 15
 double-ice box	70	Mys: 20
 duct tape buckler	195	Mus: 82	shield
 easter egg balloon	100	Mys: 35
@@ -1250,7 +1250,7 @@ stuffed undead elbow macaroni	10	none
 stuffed yeti	10	none
 stuffed yo-yo	10	none
 stuffed zmobie	10	none
-sucker bucket	0	none
+sucker bucket	50	none
 teflon shield	220	Mus: 85	shield
 thought balloon	10	none
 tiny black hole	10	none
@@ -1369,21 +1369,21 @@ Oscus's pelt	200	Mys: 200
 Pendant of Fire	150	Mys: 60
 Pine-Fresh air freshener	50	Mys: 10
 Pink Heart of Spirit	200	Mys: 85
-Pok&euml;mann figurine: Bloodkip	50	none
-Pok&euml;mann figurine: Duck	50	none
+Pok&euml;mann figurine: Bloodkip	10	none
+Pok&euml;mann figurine: Duck	20	none
 Pok&euml;mann figurine: Frank	50	none
-Pok&euml;mann figurine: Galumpagump	50	none
-Pok&euml;mann figurine: Hoboking	50	none
-Pok&euml;mann figurine: Kagosan	50	none
-Pok&euml;mann figurine: Magikrap	50	none
+Pok&euml;mann figurine: Galumpagump	20	none
+Pok&euml;mann figurine: Hoboking	20	none
+Pok&euml;mann figurine: Kagosan	20	none
+Pok&euml;mann figurine: Magikrap	10	none
 Pok&euml;mann figurine: Moog	50	none
-Pok&euml;mann figurine: Nothing	50	none
-Pok&euml;mann figurine: Porkachu	50	none
+Pok&euml;mann figurine: Nothing	20	none
+Pok&euml;mann figurine: Porkachu	10	none
 Pok&euml;mann figurine: Shoggoth	50	none
-Pok&euml;mann figurine: Smugleaf	50	none
-Pok&euml;mann figurine: Twitter	50	none
-Pok&euml;mann figurine: Vegemite	50	none
-Pok&euml;mann figurine: Vermouth	50	none
+Pok&euml;mann figurine: Smugleaf	10	none
+Pok&euml;mann figurine: Twitter	10	none
+Pok&euml;mann figurine: Vegemite	10	none
+Pok&euml;mann figurine: Vermouth	10	none
 Purple Horseshoe of Honor	200	Mys: 85
 Putrid Pendant	150	Mys: 60
 Radio KoL Antenna Ball	0	none
@@ -1392,7 +1392,7 @@ Radio KoL Flashlight	0	none
 Radio KoL Keychain	0	none
 Radio KoL Maracas	0	none
 Radio KoL Patch	0	none
-Rain-Doh red wings	0	none
+Rain-Doh red wings	100	none
 Red Balloon of Valor	200	Mys: 85
 Ring of Fire	150	Mys: 60
 Ring of the Sewer Snake	150	Mys: 60
@@ -1590,7 +1590,7 @@ night-vision goggles	50	Mox: 10
 observational glasses	10	none
 old soft shoes	200	Mys: 200
 orange glowstick	20	none
-orange leather lanyard	30	none
+orange leather lanyard	50	none
 oven mitts	45	Mys: 7
 pacifier necklace	150	Mox: 60
 pair of pearidot earrings	0	none
