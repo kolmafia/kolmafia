@@ -165,8 +165,8 @@ Argarggagarg the Dire Hellseal	HP: 150 Def: 115 Atk: 115	secret tropical island 
 Auteur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Axe Handle	HP: 3 Def: 3 Atk: 3 P: object	pine tar (20)
 B&eacute;arnaise zombie	HP: 118 Def: 95 Atk: 95 P: slime
-Baa'baa'bu'ran	HP: [min(100,MOX+ML+10)*0.75] Def: [min(100,MUS+ML+10)] Atk: [min(100,MOX+ML+10)]	stone wool (100)	stone wool (50)	stone wool (20)
-Baa-relief Sheep	HP: [min(50,MOX+ML)*0.75] Def: [min(50,MUS+ML)] Atk: [min(50,MOX+ML)]	stone wool (25)
+Baa'baa'bu'ran	HP: [(min(100,MOX+10)+ML)*0.75] Def: [min(100,MUS+10)+ML] Atk: [min(100,MOX+10)+ML]	stone wool (100)	stone wool (50)	stone wool (20)
+Baa-relief Sheep	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS)+ML] Atk: [min(50,MOX)+ML]	stone wool (25)
 BASIC Elemental	HP: 40 Def: 50 Atk: 50 P: elemental	GOTO (0)
 BRICKO Airship	HP: 10000 Def: 500 Atk: 600	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)	BRICKO reactor (0)
 BRICKO Bat	HP: 100 Def: 70 Atk: 70 P: object	BRICKO brick (0)	BRICKO brick (0)	BRICKO brick (0)
@@ -191,7 +191,6 @@ Batwinged Gremlin	HP: 170 Def: 171 Atk: 169 Meat: 40-60 P: demihuman	gremlin jui
 Bazookafish	HP: 500 Def: 325 Atk: 375 Meat: 176-264 P: fish	bazookafish bubble gum (42)	bazookafish bubble gum (8)	dull fish scale (n15)	fish bazooka (n2)
 Beanbat	HP: 18 Def: 21 Atk: 21 Meat: 28-43 P: beast	enchanted bean (50)	sonar-in-a-biscuit (10)
 Beefy Bodyguard Bat	HP: 25 Def: 25 Atk: 26 Meat: 200-300 P: beast
-Beelephant	HP: [min(200,MUS+ML)*0.75] Def: [min(200,MUS+ML)] Atk: [min(200,MOX+ML)] P: beast	bucket of honey (20)	elephant stinger (0)	reflection of a map (c10)
 Beer Batter	HP: 100000 Def: 100000 Atk: 100000
 Beer Bongadier	HP: 210 Def: 195 Atk: 180 E: sleaze P: orc	beer bong (20)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (2)
 Best-Selling Novelist	HP: 100000 Def: 100000 Atk: 100000
@@ -251,7 +250,7 @@ Chatty Pirate	HP: 90 Def: 100 Atk: 100 Meat: 52-76 P: pirate
 Chester	HP: 8000 Def: 500 Atk: 500 E: sleaze	Chorale of Companionship (0)	extra-greasy slider (0)	Chester's bag of candy (0)	Chester's cutoffs (0)	Chester's moustache (0)	Chester's Aquarius medallion (f20)	Chester's muscle shirt (f20)	Chester's sunglasses (f20)
 CH Imp	HP: 61 Def: 62 Atk: 62 E: heat Init: 45 Meat: 26-36 P: demon	imp air (25)
 Chowder Golem	HP: 9 Def: 18 Atk: 18 Meat: 29-46 P: object
-Clan of Cave Bars	HP: [min(200,MOX+ML+20)*0.75] Def: [min(200,MUS+ML+20)] Atk: [min(200,MOX+ML+20)] Meat: 320-480 
+Clan of Cave Bars	HP: [(min(200,MOX+20)+5*ML)*0.75] Def: [min(200,MUS+20)+5*ML] Atk: [min(200,MOX+20)+5*ML] Meat: 320-480 
 Claw-foot Bathtub	HP: 100 Def: 100 Atk: 90 P: object	bottle of Monsieur Bubble (25)	fancy bath salts (35)
 Cleanly Pirate	HP: 90 Def: 100 Atk: 100 Meat: 49-72 P: pirate	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (c30)
 Clingy Pirate	HP: 90 Def: 100 Atk: 100 Meat: 52-78 P: pirate	bit of clingfilm (11)
@@ -273,7 +272,7 @@ Corpulent Zobmie	HP: 50 Def: 55 Atk: 54 E: spooky Meat: 60-90 P: undead	cranberr
 Corrosive Algae	HP: 20 Def: 20 Atk: 25 P: plant	memory of a C (20)	memory of a T (20)
 Count Bakula	HP: 80 Def: 80 Atk: 80 ED: spooky	Talisman of Bakula (100)
 Crate	HP: 1 Def: 1 Atk: 1 P: object
-Craven Carven Raven	HP: [min(50,MOX+ML)*0.75] Def: [min(50,MUS+ML)] Atk: [min(50,MOX+ML)]	shiny stones (100)
+Craven Carven Raven	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS)+ML] Atk: [min(50,MOX)+ML]	shiny stones (100)
 Crazy Bastard	HP: 25 Def: 20 Atk: 20	crazy bastard sword (100)
 Creamy Pirate	HP: 90 Def: 100 Atk: 100 P: pirate	creamsicle (20)	cream stout (20)	Oil of Parrrlay (15)	ball polish (c30)
 Creepy Clown	HP: 16 Def: 20 Atk: 20 E: spooky Meat: 24-36 P: horror	acid-squirting flower (10)	clown shoes (10)	foolscap fool's cap (10)	clown skin (10)	big bass drum (4)	polka-dot bow tie (p5)	empty greasepaint tube (b0)
@@ -748,7 +747,6 @@ Slow Talkin' Elliot	HP: 200 Meat: 130-154 E: stench	bullet-proof corduroys (0)	g
 Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze Meat: 22-34 P: pirate	bottle of rum (50)	eyepatch (10)	flaregun (30)	Jolly Roger charrrm bracelet (20)	vial of pirate sweat (b0)
 Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky P: undead	smart skull (50)
 Smooth Jazz Scabie	HP: 140 Def: 100 Atk: 95 P: bug	can-you-dig-it? (0)
-Snapdragon	HP: [min(200,MUS+ML)*0.75] Def: [min(200,MUS+ML)] Atk: [min(200,MOX+ML)] P: plant	dragon snaps (20)	snapdragon pistil (0)	reflection of a map (c10)
 Snow Queen	HP: 70 Def: 105 Atk: 107 E: cold Phys: 100 P: elemental	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
 Some Bad ASCII Art	HP: 80 Def: 85 Atk: 85 P: object	ASCII shirt (c100)	 30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
 Some Zombie Waltzers	HP: 120 Def: 110 Atk: 110 Meat: 80-120 E: spooky P: undead	ballroom blintz (15)	dance card (15)
@@ -774,7 +772,7 @@ Stella, the Demonic Turtle Poacher	HP: 1000 Def: 200 Atk: 200 Init: 100
 Stella, the Turtle Poacher	HP: 260 Def: 185 Atk: 185 Init: 90
 Stench Hobo	HP: 500 Def: 350 Atk: 350 E: stench P: hobo	hobo nickel (c15)	stinkin' bindle (0)	Biddy Cracker's Old-Fashioned Cookbook (0)	Travels with Jerry (0)	filth-encrusted futon (0)
 Stocking-stuffing Zombie		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-Stone Temple Pirate	HP: [min(50,MOX+ML)*0.75] Def: [min(50,MUS+ML)] Atk: [min(50,MOX+ML)]	ancient poisoned dart (35)	eyepatch (15)
+Stone Temple Pirate	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS)+ML] Atk: [min(50,MOX)+ML]	ancient poisoned dart (35)	eyepatch (15)
 Stranglin' Algae	HP: 600 Def: 450 Atk: 400 P: plant	glob of green slime (n30)
 Striking Factory-Worker Elf		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Gift-Wrapper Elf		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
@@ -860,7 +858,6 @@ The Whole Kingdom	HP: 10000000 Def: 1 Atk: 1 Phys: 100
 The Woeful Magnolia	HP: 0	clumsiness bark (0)	clumsiness bark (0)	magnolia blossom (0)
 Three Skeleton Invaders	HP: 80 Def: 80 Atk: 80 Init: 50	bone chips (30)	bone chips (20)	bone chips (10)
 Thug 1 and Thug 2	HP: 0	jealousy stone (100)
-Tiger-Lily	HP: [min(200,MUS+ML)*0.75] Def: [min(200,MUS+ML)] Atk: [min(200,MOX+ML)] P: plant	eye of the Tiger-lily (0)	Tiger-lily's milk (20)	reflection of a map (c10)
 Timmy Tofurkey	HP: 90 Def: 45 Atk: 40 P: demihuman	sun-dried tofu (0)
 Timmy Tofurkey Cast Member	HP: 110 Def: 70 Atk: 60 P: humanoid	sun-dried tofu (0)
 Tipsy Pirate	HP: 73 Def: 80 Atk: 80 Meat: 36-54 P: pirate	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
@@ -944,7 +941,6 @@ War Hippy Spy	HP: 180 Def: 170 Atk: 165 E: stench P: hippy	bullet-proof corduroy
 War Hippy Windtalker	HP: 200 Def: 180 Atk: 185 E: stench P: hippy	bullet-proof corduroys (1)	communications windchimes (18)	communications windchimes (18)	communications windchimes (18)	Lockenstock&trade; sandals (2)	reinforced beaded headband (1)	round purple sunglasses (1)	green clay bead (30)
 War Pledge	HP: 180 Def: 166 Atk: 165 E: sleaze P: orc	distressed denim pants (5)	bejeweled pledge pin (5)	beer helmet (5)
 Warehouse worker	HP: 208 Def: 144 Atk: 160 P: humanoid	crowbar (0)
-Wasp in a Wig	HP: [min(200,MUS+ML)*0.75] Def: [min(200,MUS+ML)] Atk: [min(200,MOX+ML)] P: bug	powdered donut (20)	powdered wig (0)	reflection of a map (c10)
 Warty Pirate	HP: 110 Def: 120 Atk: 120 Meat: 64-96 P: pirate	copper ha'penny charrrm (10)	fish-liver oil (30)	vinegar-soaked lemon slice (30)
 Warwelf	HP: 2 Def: 3 Atk: 4 Meat: 10-14 P: humanoid
 Water Spider	HP: 160 Def: 150 Atk: 150 P: bug	wet venom duct (0)
@@ -1048,17 +1044,23 @@ Roller-skating Muse	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: 
 Toothless Mastiff Bitch	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: beast	disintegrating spiky collar (20)
 
 # Mt. Molehill
-Digital Underground Dweller	HP: [min(200,MUS+ML)*0.75] Def: [min(200,MUS+ML)] Atk: [min(200,MOX+ML)] P: demihuman
-Dwarvish Gnome	HP: [min(200,MUS+ML)*0.75] Def: [min(200,MUS+ML)] Atk: [min(200,MOX+ML)] P: demihuman
-Spelunking Astronaut	HP: [min(200,MUS+ML)*0.75] Def: [min(200,MUS+ML)] Atk: [min(200,MOX+ML)] P: humanoid
-Velvet Underground Dweller	HP: [min(200,MUS+ML)*0.75] Def: [min(200,MUS+ML)] Atk: [min(200,MOX+ML)] P: demihuman
-Weather Underground Dweller	HP: [min(200,MUS+ML)*0.75] Def: [min(200,MUS+ML)] Atk: [min(200,MOX+ML)] P: demihuman
+Digital Underground Dweller	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: demihuman
+Dwarvish Gnome	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: demihuman
+Spelunking Astronaut	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: humanoid
+Velvet Underground Dweller	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: demihuman
+Weather Underground Dweller	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: demihuman
 
 # Feast of Boris
 Candied Yam Golem	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	yam candy (c100)	candied yams (c100)
 Malevolent Tofurkey	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	tofurkey nugget (c100)	packet of tofurkey gravy (c100)	tofurkey gravy (c100)	tofurkey leg (c100)
 Possessed Can of Cranberry Sauce	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	tube of cranberry Go-Goo (c100)	can-shaped gelatinous cranberry sauce (c100)	shredded can label (b100)
 Stuffing Golem	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	single-serving herbal stuffing (c100)	herbal stuffing (c100)
+
+# The Red Queen's Garden
+Beelephant	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: beast	bucket of honey (20)	elephant stinger (0)	reflection of a map (c10)
+Tiger-Lily	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: plant	eye of the Tiger-lily (0)	Tiger-lily's milk (20)	reflection of a map (c10)
+Snapdragon	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: plant	dragon snaps (20)	snapdragon pistil (0)	reflection of a map (c10)
+Wasp in a Wig	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: bug	powdered donut (20)	powdered wig (0)	reflection of a map (c10)
 
 # April Fool's Day
 CDMoyer's Butt	HP: 52 Def: 76 Atk: 69	Red Pill (100)
