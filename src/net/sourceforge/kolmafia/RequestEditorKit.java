@@ -755,6 +755,13 @@ public class RequestEditorKit
 
 		links.append( "<font size=1>" );
 
+		// If we are Level 13 or less, the Council might have quests for us
+		if ( newLevel <= 13 )
+		{
+			links.append( " [<a href=\"council.php\">council</a>]" );
+			haveLinks = true;
+		}
+
 		// If we are an Avatar of Boris, we can learn a new skill
 		if ( KoLCharacter.inAxecore() && newLevel <= 15)
 		{
@@ -766,13 +773,6 @@ public class RequestEditorKit
 		else if ( newLevel <= 15 )
 		{
 			links.append( " [<a href=\"guild.php\">guild</a>]" );
-			haveLinks = true;
-		}
-
-		// If we are Level 13 or less, the Council might have quests for us
-		if ( newLevel <= 13 )
-		{
-			links.append( " [<a href=\"council.php\">council</a>]" );
 			haveLinks = true;
 		}
 
