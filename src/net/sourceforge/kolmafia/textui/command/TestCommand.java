@@ -40,6 +40,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
@@ -113,6 +114,21 @@ public class TestCommand
 			KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( bytes.length ) + " bytes" );
 		}
 
+		if ( command.equals( "hedgepuzzle" ) )
+		{
+			if ( TestCommand.contents == null )
+			{
+				RequestThread.postRequest( new HedgePuzzleRequest() );
+				HedgePuzzleRequest.computeSolution();
+			}
+			else
+			{
+				HedgePuzzleRequest.computeSolution( TestCommand.contents );
+				TestCommand.contents = null;
+			}
+			return;
+		}
+
 		if ( TestCommand.contents == null )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "no HTML loaded." );
@@ -162,13 +178,6 @@ public class TestCommand
 		if ( command.equals( "generator" ) )
 		{
 			SpaaaceRequest.visitGeneratorChoice( TestCommand.contents );
-			TestCommand.contents = null;
-			return;
-		}
-
-		if ( command.equals( "hedgepuzzle" ) )
-		{
-			HedgePuzzleRequest.computeSolution( TestCommand.contents );
 			TestCommand.contents = null;
 			return;
 		}

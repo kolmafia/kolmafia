@@ -605,9 +605,16 @@ public class HedgePuzzleRequest
 	{
 		// Given the HTML of a puzzle, load it, print the puzzle, compute the solution, print the solution
 		HedgePuzzleRequest.parseResponse( "hedgepuzzle.php", responseText );
+		HedgePuzzleRequest.computeSolution();
+	}
+
+	public static final void computeSolution()
+	{
 		HedgePuzzleRequest.printPuzzle();
 		int[] source = interest[ 0 ];
-		int[] destination = responseText.indexOf( "key" ) != -1 ? interest[ 1 ] : interest[ 2 ];
+		int[] destination =
+			HedgePuzzleRequest.lastResponseText.indexOf( "key" ) != -1 ?
+			interest[ 1 ] : interest[ 2 ];
 		int[][] solution = HedgePuzzleRequest.computeSolution( source, destination );
 		HedgePuzzleRequest.printSolution( solution );
 	}
