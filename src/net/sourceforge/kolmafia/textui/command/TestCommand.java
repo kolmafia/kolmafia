@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
@@ -161,6 +162,13 @@ public class TestCommand
 		if ( command.equals( "generator" ) )
 		{
 			SpaaaceRequest.visitGeneratorChoice( TestCommand.contents );
+			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "hedgepuzzle" ) )
+		{
+			HedgePuzzleRequest.computeSolution( TestCommand.contents );
 			TestCommand.contents = null;
 			return;
 		}
