@@ -59,7 +59,7 @@ public class HedgePuzzleRequest
 	private static final HedgePuzzleRequest ROTATE_REQUEST = new HedgePuzzleRequest();
 
 	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([\\d]+)" );
-	public static final AdventureResult PUZZLE_PIECE = ItemPool.get( ItemPool.PUZZLE_PIECE, 1 );
+	public static final AdventureResult PUZZLE_PIECE = ItemPool.get( ItemPool.PUZZLE_PIECE, -1 );
 	public static final AdventureResult HEDGE_KEY = ItemPool.get( ItemPool.HEDGE_KEY, 1 );
 
 	private static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
@@ -132,16 +132,27 @@ public class HedgePuzzleRequest
 	public void processResults()
 	{
 		HedgePuzzleRequest.parseResponse( this.getURLString(), this.responseText );
+		if ( HedgePuzzleRequest.PUZZLE_PIECE.getCount( KoLConstants.inventory ) == 0 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of puzzle pieces." );
+			return;
+		}
 	}
 
 	public static final void parseResponse( final String location, final String responseText )
 	{
 		HedgePuzzleRequest.lastResponseText = responseText;
 
+		// You don't have a hedge puzzle. 
+		if ( responseText.indexOf( "You don't have a hedge puzzle." ) != -1 )
+		{
+			return;
+		}
+
 		// If the topiary golem stole one of your hedge puzzles, take it away.
 		if ( responseText.indexOf( "Topiary Golem" ) != -1 )
 		{
-			ResultProcessor.processResult( HedgePuzzleRequest.PUZZLE_PIECE.getNegation() );
+			ResultProcessor.processResult( HedgePuzzleRequest.PUZZLE_PIECE );
 			return;
 		}
 
@@ -266,6 +277,13 @@ public class HedgePuzzleRequest
 
 	private static final void completeHedgeMaze()
 	{
+		// If we couldn't look at a puzzle, we canceled.
+
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return;
+		}
+
 		// First mission -- retrieve the key from the hedge maze
 
 		HedgePuzzleRequest.retrieveHedgeKey();
@@ -282,6 +300,11 @@ public class HedgePuzzleRequest
 		// Look at the puzzle again if we just retrieved the key
 
 		HedgePuzzleRequest.initializeMaze();
+
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return;
+		}
 
 		// Second mission -- rotate the hedge maze until the hedge path
 		// leads to the hedge door.
@@ -502,12 +525,12 @@ public class HedgePuzzleRequest
 			for ( int y = 0; y < 3 && KoLmafia.permitsContinue(); ++y )
 			{
 				HedgePuzzleRequest.rotateHedgePiece( x, y, solution[ x ][ y ] );
-				if ( HedgePuzzleRequest.PUZZLE_PIECE.getCount( KoLConstants.inventory ) == 0 )
-				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of puzzle pieces." );
-					return;
-				}
 			}
+		}
+
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return;
 		}
 
 		// The hedge maze has been properly rotated! Visit the maze again.
@@ -544,6 +567,11 @@ public class HedgePuzzleRequest
 
 	public static final void decorate( final StringBuffer buffer )
 	{
+		if ( buffer.indexOf( "You don't have a hedge puzzle" ) != -1 )
+		{
+			return;
+		}
+
 		String search = "<p><center><a href=\"inventory.php\">";
 		int index = buffer.indexOf( search );
 		if ( index == -1 )
