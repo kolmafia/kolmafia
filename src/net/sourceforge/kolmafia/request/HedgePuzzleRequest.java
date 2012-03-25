@@ -81,19 +81,19 @@ public class HedgePuzzleRequest
 	private static final Pattern[][] PATTERNS = new Pattern[][]
 	{
 		{
-			Pattern.compile( "alt=\"Upper-Left Tile: (.*?)\"", Pattern.DOTALL ),
-			Pattern.compile( "alt=\"Middle-Left Tile: (.*?)\"", Pattern.DOTALL ),
-			Pattern.compile( "alt=\"Lower-Left Tile: (.*?)\"", Pattern.DOTALL ),
+			Pattern.compile( "alt=\"Upper-Left Tile: (.*?)\".*?otherimages/lair/hedge/(.*?.gif)", Pattern.DOTALL ),
+			Pattern.compile( "alt=\"Middle-Left Tile: (.*?)\".*?otherimages/lair/hedge/(.*?.gif)", Pattern.DOTALL ),
+			Pattern.compile( "alt=\"Lower-Left Tile: (.*?)\".*?otherimages/lair/hedge/(.*?.gif)", Pattern.DOTALL ),
 		},
 		{
-			Pattern.compile( "alt=\"Upper-Middle Tile: (.*?)\"", Pattern.DOTALL ),
-			Pattern.compile( "alt=\"Center Tile: (.*?)\"", Pattern.DOTALL ),
-			Pattern.compile( "alt=\"Lower-Middle Tile: (.*?)\"", Pattern.DOTALL ),
+			Pattern.compile( "alt=\"Upper-Middle Tile: (.*?)\".*?otherimages/lair/hedge/(.*?.gif)", Pattern.DOTALL ),
+			Pattern.compile( "alt=\"Center Tile: (.*?)\".*?otherimages/lair/hedge/(.*?.gif)", Pattern.DOTALL ),
+			Pattern.compile( "alt=\"Lower-Middle Tile: (.*?)\".*?otherimages/lair/hedge/(.*?.gif)", Pattern.DOTALL ),
 		},
 		{
-			Pattern.compile( "alt=\"Upper-Right Tile: (.*?)\"", Pattern.DOTALL ),
-			Pattern.compile( "alt=\"Middle-Right Tile: (.*?)\"", Pattern.DOTALL ),
-			Pattern.compile( "alt=\"Lower-Right Tile: (.*?)\"", Pattern.DOTALL ),
+			Pattern.compile( "alt=\"Upper-Right Tile: (.*?)\".*?otherimages/lair/hedge/(.*?.gif)", Pattern.DOTALL ),
+			Pattern.compile( "alt=\"Middle-Right Tile: (.*?)\".*?otherimages/lair/hedge/(.*?.gif)", Pattern.DOTALL ),
+			Pattern.compile( "alt=\"Lower-Right Tile: (.*?)\".*?otherimages/lair/hedge/(.*?.gif)", Pattern.DOTALL ),
 		}
 	};
 
@@ -115,6 +115,8 @@ public class HedgePuzzleRequest
 
 	private static int[][] interest = new int[ 3 ][ 2 ];
 	private static boolean[][][][] exits = new boolean[ 3 ][ 3 ][ 4 ][ 4 ];
+	private static String[][] squares = new String[ 3 ][ 3 ];
+	private static String[][] images = new String[ 3 ][ 3 ];
 
 	public static String lastResponseText = null;
 
@@ -170,7 +172,7 @@ public class HedgePuzzleRequest
 				interest[ 0 ][ 0 ] = x;
 				interest[ 0 ][ 1 ] = 2;
 			}
-			else if ( responseText.indexOf( EXITS[ x ]  ) != -1 )
+			if ( responseText.indexOf( EXITS[ x ]  ) != -1 )
 			{
 				interest[ 2 ][ 0 ] = x;
 				interest[ 2 ][ 1 ] = -1;
@@ -191,6 +193,10 @@ public class HedgePuzzleRequest
 
 				String squareData = squareMatcher.group( 1 );
 
+				// Debugging
+				squares[ x ][ y ] = new String( squareData );
+				images[ x ][ y ] = new String( squareMatcher.group( 2 ) );
+
 				for ( int i = 0; i < HedgePuzzleRequest.DIRECTIONS.length; ++i )
 				{
 					exits[ x ][ y ][ 0 ][ i ] = squareData.indexOf( HedgePuzzleRequest.DIRECTIONS[ i ] ) != -1;
@@ -203,6 +209,65 @@ public class HedgePuzzleRequest
 				}
 			}
 		}
+	}
+
+	static String uparrow = "itemimages/uparrow.gif' width=30 height=30";
+	static String blank = "adventureimages/blank.gif width=1 height=1";
+
+	private static final void appendArrow( StringBuffer buffer, int col, int goal )
+	{
+		String image = ( col == goal ) ? uparrow: blank;
+		buffer.append( "<td>" );
+		buffer.append( "<img src=http://images.kingdomofloathing.com/" );
+		buffer.append( image );
+		buffer.append( " border=0/>" );
+		buffer.append( "</td>" );
+	}
+
+	private static final void appendImage( StringBuffer buffer, String file )
+	{
+		buffer.append( "<td>" );
+		buffer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/lair/hedge/" );
+		buffer.append( file );
+		buffer.append( "\" height=80 width=80 border=0/>" );
+		buffer.append( "</td>" );
+	}
+
+	private static final void printPuzzle()
+	{
+		int entrance = interest[ 0 ][ 0 ];
+		int exit = interest[ 2 ][ 0 ];
+
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( "<table cols=3>" );
+
+		buffer.append( "<tr>" );
+		HedgePuzzleRequest.appendArrow( buffer, 0, exit );
+		HedgePuzzleRequest.appendArrow( buffer, 1, exit );
+		HedgePuzzleRequest.appendArrow( buffer, 2, exit );
+		buffer.append( "</tr>" );
+
+		for ( int x = 0; x < 3; ++x )
+		{
+			buffer.append( "<tr>" );
+			for ( int y = 0; y < 3; ++y )
+			{
+				HedgePuzzleRequest.appendImage( buffer, images[ y ][ x ] );
+			}
+			buffer.append( "</tr>" );
+		}
+
+		buffer.append( "<tr>" );
+		HedgePuzzleRequest.appendArrow( buffer, 0, entrance );
+		HedgePuzzleRequest.appendArrow( buffer, 1, entrance );
+		HedgePuzzleRequest.appendArrow( buffer, 2, entrance );
+		buffer.append( "</tr>" );
+
+		buffer.append( "</table>" );
+
+		RequestLogger.printLine( buffer.toString() );
+		RequestLogger.printLine();
 	}
 
 	private static final void generateMazeConfigurations()
@@ -516,6 +581,37 @@ public class HedgePuzzleRequest
 		visited[ currentX ][ currentY ] = false;
 	}
 
+	private static final void printSolution( int [][] solution )
+	{
+		int rotations = 0;
+
+		for ( int x = 0; x < 3; ++x )
+		{
+			for ( int y = 0; y < 3; ++y )
+			{
+				int count = solution[ x ][ y ];
+				if ( count > 0 )
+				{
+					int tile = (y * 3 ) + x;
+					String name = TILES[ tile ];
+					String message = "Rotate the " + name + " tile " + count + " times.";
+					RequestLogger.printLine( message );
+				}
+			}
+		}
+	}
+
+	public static final void computeSolution( final String responseText )
+	{
+		// Given the HTML of a puzzle, load it, print the puzzle, compute the solution, print the solution
+		HedgePuzzleRequest.parseResponse( "hedgepuzzle.php", responseText );
+		HedgePuzzleRequest.printPuzzle();
+		int[] source = interest[ 0 ];
+		int[] destination = responseText.indexOf( "key" ) != -1 ? interest[ 1 ] : interest[ 2 ];
+		int[][] solution = HedgePuzzleRequest.computeSolution( source, destination );
+		HedgePuzzleRequest.printSolution( solution );
+	}
+
 	private static final void executeSolution( final String message, int [][] solution )
 	{
 		KoLmafia.updateDisplay( message );
@@ -620,7 +716,7 @@ public class HedgePuzzleRequest
 			return true;
 		}
 
-		String message = "Rotate the " + tile + " tile of the hedge maze puzzle";;
+		String message = "Rotate the " + tile + " tile of the hedge maze puzzle";
 
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
