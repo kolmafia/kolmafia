@@ -4150,7 +4150,9 @@ public class UseItemRequest
 
 	private static final AdventureResult extractHelper( final String urlString )
 	{
-		if ( !urlString.startsWith( "inv_use.php" ) )
+		if ( !urlString.startsWith( "inv_eat.php" ) &&
+		     !urlString.startsWith( "inv_booze.php" ) &&	 
+		     !urlString.startsWith( "inv_use.php" ) )
 		{
 			return null;
 		}
