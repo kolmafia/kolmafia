@@ -133,7 +133,7 @@ Haunted Wine Cellar (Southeast)	100	Possessed Wine Rack	Skeletal Sommelier
 Hey Deze Arena	-1	Inkubus	Serialbus	Suckubus
 Hidden City (automatic)	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hidden City (Encounter)	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
-Hidden Temple	-1	Baa-relief Sheep	Clan of Cave Bars	Craven Carven Raven	Stone Temple Pirate	Baa'baa'bu'ran
+Hidden Temple	-1	Baa-relief Sheep	Clan of Cave Bars	Craven Carven Raven	Stone Temple Pirate	Baa'baa'bu'ran: 0
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
 Hippy Camp (Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
 Hobopolis Town Square	95	Normal Hobo	Hodgman, The Hoboverlord: 0

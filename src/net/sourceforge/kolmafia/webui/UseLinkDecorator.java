@@ -442,19 +442,23 @@ public abstract class UseLinkDecorator
 		}
 		else if ( effect.equals( "Filthworm Guard Stench" ) )
 		{
-			link = new UseLink(0, "queen's chamber", "adventure.php?snarfblat=130" );
+			link = new UseLink( 0, "queen's chamber", "adventure.php?snarfblat=130" );
 		}
 		else if ( effect.equals( "Knob Goblin Perfume" ) )
 		{
-			link = new UseLink(0, "throne room", "cobbsknob.php?action=throneroom" );
+			link = new UseLink( 0, "throne room", "cobbsknob.php?action=throneroom" );
 		}
 		else if ( effect.equals( "Down the Rabbit Hole" ) )
 		{
-			link = new UseLink(0, "rabbit hole", "rabbithole.php" );
+			link = new UseLink( 0, "rabbit hole", "rabbithole.php" );
 		}
 		else if ( effect.equals( "Transpondent" ) )
 		{
-			link = new UseLink(0, "spaaace", "spaaace.php?arrive=1" );
+			link = new UseLink( 0, "spaaace", "spaaace.php?arrive=1" );
+		}
+		else if ( effect.equals( "Stone-Faced" ) )
+		{
+			link = new UseLink( 0, "hidden temple", "adventure.php?snarfblat=280" );
 		}
 		else
 		{
