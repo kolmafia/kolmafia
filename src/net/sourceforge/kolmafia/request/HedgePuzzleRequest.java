@@ -59,7 +59,7 @@ public class HedgePuzzleRequest
 	private static final HedgePuzzleRequest ROTATE_REQUEST = new HedgePuzzleRequest();
 
 	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=([\\d]+)" );
-	public static final AdventureResult PUZZLE_PIECE = ItemPool.get( ItemPool.PUZZLE_PIECE, -1 );
+	public static final AdventureResult PUZZLE_PIECE = ItemPool.get( ItemPool.PUZZLE_PIECE, 1 );
 	public static final AdventureResult HEDGE_KEY = ItemPool.get( ItemPool.HEDGE_KEY, 1 );
 
 	private static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
@@ -148,13 +148,19 @@ public class HedgePuzzleRequest
 		// You don't have a hedge puzzle. 
 		if ( responseText.indexOf( "You don't have a hedge puzzle." ) != -1 )
 		{
+			int count = HedgePuzzleRequest.PUZZLE_PIECE.getCount( KoLConstants.inventory );
+			if ( count != 0 )
+			{
+				// Re-synch; apparently inventory is confused
+				ResultProcessor.processResult( HedgePuzzleRequest.PUZZLE_PIECE.getInstance( -count ) );
+			}
 			return;
 		}
 
 		// If the topiary golem stole one of your hedge puzzles, take it away.
 		if ( responseText.indexOf( "Topiary Golem" ) != -1 )
 		{
-			ResultProcessor.processResult( HedgePuzzleRequest.PUZZLE_PIECE );
+			ResultProcessor.processResult( HedgePuzzleRequest.PUZZLE_PIECE.getNegation() );
 			return;
 		}
 
