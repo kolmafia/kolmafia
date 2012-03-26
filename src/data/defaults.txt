@@ -578,6 +578,7 @@ user	questF01Primordial	unstarted
 user	questF02Hyboria	unstarted
 user	questF03Future	unstarted
 user	questF04Elves	unstarted
+user	questF05Clancy	unstarted
 user	questG01Meatcar	unstarted
 user	questG02Whitecastle	unstarted
 user	questG03Ego	unstarted
