@@ -2584,7 +2584,11 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "spookyPuttyCopiesMade" );
 			this.addListener( "spookyPuttyMonster" );
+			this.addListener( "_raindohCopiesMade" );
+			this.addListener( "rainDohMonster" );
 			this.addListener( "kingLiberated" );
+			this.addItem( ItemPool.SPOOKY_PUTTY_SHEET );
+			this.addItem( ItemPool.RAIN_DOH_BOX );
 			this.addLabel( "" );
 		}
 
@@ -2592,24 +2596,49 @@ public class DailyDeedsPanel
 		{
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean hc = KoLCharacter.isHardcore();
-			boolean have = Preferences.getInteger( "spookyPuttyCopiesMade" ) > 0;
+			boolean hadPutty = Preferences.getInteger( "spookyPuttyCopiesMade" ) > 0;
+			boolean hadRainDoh = Preferences.getInteger( "_raindohCopiesMade" ) > 0;
+			boolean shown = false;
 			boolean havePutty = InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_MITRE ) > 0
+				|| InventoryManager.getEquippedCount( ItemPool.get( ItemPool.SPOOKY_PUTTY_MITRE, 1 ) ) > 0
 				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_LEOTARD ) > 0
+				|| InventoryManager.getEquippedCount( ItemPool.get( ItemPool.SPOOKY_PUTTY_LEOTARD, 1 ) ) > 0
 				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_BALL ) > 0
+				|| InventoryManager.getEquippedCount( ItemPool.get( ItemPool.SPOOKY_PUTTY_BALL, 1 ) ) > 0
 				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_SHEET ) > 0
 				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_SNAKE ) > 0
+				|| InventoryManager.getEquippedCount( ItemPool.get( ItemPool.SPOOKY_PUTTY_SNAKE, 1 ) ) > 0
 				|| InventoryManager.getCount( ItemPool.SPOOKY_PUTTY_MONSTER ) > 0;
 			boolean haveRainDoh = InventoryManager.getCount( ItemPool.RAIN_DOH_BOX ) > 0
 				|| InventoryManager.getCount( ItemPool.RAIN_DOH_MONSTER ) > 0;
-			String text = Preferences.getInteger( "spookyPuttyCopiesMade" ) + "/5 ";
-			if ( havePutty || ( !havePutty && !haveRainDoh && have ) ) text = text + "putty uses";
-			if ( !havePutty && haveRainDoh ) text = text + "rain-doh uses";
-			String monster = Preferences.getString( "spookyPuttyMonster" );
-			if ( !monster.equals( "" ) )
+			String text = "";
+
+			if ( havePutty || hadPutty )
 			{
-				text = text + ", now " + monster;
+				text += Preferences.getInteger( "spookyPuttyCopiesMade" ) + "/";
+				text += Math.min( 5, 6 - Preferences.getInteger( "_raindohCopiesMade" ) ) + " ";
+				text += "putty uses";
+				String monster = Preferences.getString( "spookyPuttyMonster" );
+				if ( !monster.equals( "" ) )
+				{
+					text += ", now " + monster;
+				}
+				shown = true;
 			}
-			this.setShown( ( kf || !hc ) && ( have || havePutty || haveRainDoh ) );
+			if ( haveRainDoh || hadRainDoh )
+			{
+				if ( shown )
+					text += "; ";
+				text += Preferences.getInteger( "_raindohCopiesMade" ) + "/";
+				text += Math.min( 5, 6 - Preferences.getInteger( "spookyPuttyCopiesMade" ) ) + " ";
+				text += "rain-doh uses";
+				String monster = Preferences.getString( "rainDohMonster" );
+				if ( !monster.equals( "" ) )
+				{
+					text += ", now " + monster;
+				}
+			}
+			this.setShown( ( kf || !hc ) && ( hadPutty || havePutty || haveRainDoh || hadRainDoh ) );
 			this.setText( text );
 		}
 	}
