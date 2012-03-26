@@ -2385,10 +2385,11 @@ public class FightRequest
 		pref = Preferences.getString( "autoPutty" );
 		if ( !pref.equals( "" ) )
 		{
+			int totalCopies = Preferences.getInteger( "spookyPuttyCopiesMade" ) + Preferences.getInteger( "_raindohCopiesMade" );
 			haveItem = KoLConstants.inventory.contains( FightRequest.PUTTY_SHEET ) &&
-				Preferences.getInteger( "spookyPuttyCopiesMade" ) < 5;
+				Preferences.getInteger( "spookyPuttyCopiesMade" ) < 5 && totalCopies < 6;
 			boolean haveItem2 = KoLConstants.inventory.contains( FightRequest.RAINDOH_BOX ) &&
-				Preferences.getInteger( "spookyPuttyCopiesMade" ) < 5;
+				Preferences.getInteger( "_raindohCopiesMade" ) < 5 && totalCopies < 6;
 			boolean haveItem3 = KoLConstants.inventory.contains( FightRequest.CAMERA ) &&
 				!KoLConstants.inventory.contains( FightRequest.SHAKING_CAMERA );
 			boolean haveItem4 = KoLConstants.inventory.contains( FightRequest.PHOTOCOPIER ) &&
@@ -4747,14 +4748,14 @@ public class FightRequest
 
 			if ( responseText.indexOf( "ghostly image of your opponent" ) != -1 )
 			{
-				Preferences.increment( "spookyPuttyCopiesMade", 1 );
+				Preferences.increment( "_raindohCopiesMade", 1 );
 				Preferences.setString( "rainDohMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}
 			if ( responseText.indexOf( "too scared to use this box anymore today" ) != -1 )
 			{
-				Preferences.setInteger( "spookyPuttyCopiesMade", 5 );
+				Preferences.setInteger( "_raindohCopiesMade", 5 );
 			}
 			return false;
 
