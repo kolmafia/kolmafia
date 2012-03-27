@@ -459,6 +459,7 @@ user	lastHermitReset	-1
 user	lastHippyCall	-1
 user	lastKingLiberation	-1
 user	lastLouvreMap	0
+user	lastManorUnlock	-1
 user	lastMessageId
 user	lastMiningReset	-1
 user	lastNemesisReset	-1

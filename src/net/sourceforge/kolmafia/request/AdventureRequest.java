@@ -764,6 +764,18 @@ public class AdventureRequest
 					QuestDatabase.setQuestProgress( QuestDatabase.MANOR, "step1" );
 				}
 				break;
+			case 113:
+				// Haunted Pantry
+				// The Manor in Which You're Accustomed
+				// At the back of the Haunted Pantry, you encounter a door. You open it, and come to the
+				// realization that the Haunted Pantry is actually connected to an entire house.
+				//
+				// You'd think you would've noticed that sooner!
+				if ( responseText.indexOf( "think you would've noticed that sooner" ) != -1 )
+				{
+					Preferences.setInteger( "lastManorUnlock", KoLCharacter.getAscensions() );
+				}
+				break;
 			case 114:	// Outskirts of The Knob
 				// Unstubbed
 				// You go back to the tree where the wounded Knob Goblin guard was resting,
