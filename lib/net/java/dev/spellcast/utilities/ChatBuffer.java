@@ -70,12 +70,13 @@ package net.java.dev.spellcast.utilities;
 import java.io.File;
 import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -101,11 +102,10 @@ public class ChatBuffer
 
 	private final StringBuffer content = new StringBuffer();
 	private final LinkedList displayPanes = new LinkedList();
-	
-	protected static HashMap stickyMap = new HashMap();
-	protected static HashMap currentStickyMap = new HashMap();
+	private final LinkedList stickyPanes = new LinkedList();
 
-	volatile int resetSequence = 0;
+	private volatile int resetSequence = 0;
+
 	// Every queued update for this ChatBuffer carries the then-current value of resetSequence,
 	// which is incremented only on updates that completely rewrite the display.  Any update
 	// with an outdated sequence number is simply ignored.
@@ -145,8 +145,10 @@ public class ChatBuffer
 
 		displayPane.setText( this.getHTMLContent() );
 
-		this.displayPanes.addLast( new WeakReference( displayPane ) );
-		ChatBuffer.stickyMap.put( displayPane, Boolean.TRUE );
+		WeakReference reference = new WeakReference( displayPane );
+
+		this.displayPanes.addLast( reference );
+		this.stickyPanes.addLast( reference );
 
 		JScrollPane scroller =
 			new JScrollPane(
@@ -206,7 +208,7 @@ public class ChatBuffer
 	public void dispose()
 	{
 		this.displayPanes.clear();
-		ChatBuffer.stickyMap.clear();
+		this.stickyPanes.clear();
 
 		if ( this.logWriter != null )
 		{
@@ -252,7 +254,7 @@ public class ChatBuffer
 			this.logWriter.println( newContents );
 		}
 
-		if ( this.content.length() < ChatBuffer.MAXIMUM_LENGTH )
+		if ( this.displayPanes.size() != this.stickyPanes.size() || this.content.length() < ChatBuffer.MAXIMUM_LENGTH )
 		{
 			SwingUtilities.invokeLater( new AppendHandler( newContents ) );
 			SwingUtilities.invokeLater( new ScrollHandler() );
@@ -315,6 +317,29 @@ public class ChatBuffer
 		return htmlContent.toString();
 	}
 
+	public void setSticky( JEditorPane editor, boolean sticky )
+	{
+		Iterator stickyIterator = this.stickyPanes.iterator();
+
+		while ( stickyIterator.hasNext() )
+		{
+			WeakReference reference = (WeakReference) stickyIterator.next();
+			JEditorPane stickyPane = (JEditorPane) reference.get();
+
+			if ( editor == stickyPane )
+			{
+				if ( !sticky )
+				{
+					stickyIterator.remove();
+				}
+
+				return;
+			}
+		}
+
+		this.stickyPanes.add( new WeakReference( editor ) );
+	}
+
 	private class ResetHandler
 		implements Runnable
 	{
@@ -338,8 +363,8 @@ public class ChatBuffer
 
 			while ( referenceIterator.hasNext() )
 			{
-				WeakReference display = (WeakReference) referenceIterator.next();
-				JEditorPane displayPane = (JEditorPane) display.get();
+				WeakReference reference = (WeakReference) referenceIterator.next();
+				JEditorPane displayPane = (JEditorPane) reference.get();
 
 				if ( displayPane == null )
 				{
@@ -363,7 +388,7 @@ public class ChatBuffer
 			// Check for imbalanced HTML here
 			
 			Stack openTags = new Stack();
-			List skippedTags = new ArrayList();
+			Set skippedTags = new HashSet();
 			StringBuffer buffer = new StringBuffer();
 			
 			String noCommentsContent = COMMENT_PATTERN.matcher( newContent ).replaceAll( "" );
@@ -447,13 +472,8 @@ public class ChatBuffer
 
 			while ( referenceIterator.hasNext() )
 			{
-				WeakReference display = (WeakReference) referenceIterator.next();
-				JEditorPane displayPane = (JEditorPane) display.get();
-				// We don't want a race condition between the swing listener that sets the sticky flag
-				// and the scroll handler.
-				// Therefore, update a separate hashmap here that the scroll handler will use.
-				Boolean sticky = (Boolean) ChatBuffer.stickyMap.get( displayPane );
-				ChatBuffer.currentStickyMap.put( displayPane, sticky );
+				WeakReference reference = (WeakReference) referenceIterator.next();
+				JEditorPane displayPane = (JEditorPane) reference.get();
 
 				if ( displayPane == null )
 				{
@@ -509,35 +529,26 @@ public class ChatBuffer
 				return;	// outdated by a subsequent display reset
 			}
 			
-			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
+			Iterator referenceIterator = ChatBuffer.this.stickyPanes.iterator();
 
 			while ( referenceIterator.hasNext() )
 			{
-				WeakReference display = (WeakReference) referenceIterator.next();
-				JEditorPane displayPane = (JEditorPane) display.get();
-				Boolean sticky = (Boolean) ChatBuffer.currentStickyMap.get( displayPane );
+				WeakReference reference = (WeakReference) referenceIterator.next();
+				JEditorPane stickyPane = (JEditorPane) reference.get();
 
-				if ( displayPane == null )
+				if ( stickyPane == null )
 				{
 					referenceIterator.remove();
 					continue;
 				}
-				if ( !sticky.booleanValue() )
-				{
-					continue;
-				}
 
-				int contentLength = displayPane.getDocument().getLength();
+				int contentLength = stickyPane.getDocument().getLength();
 
 				int caretPosition = Math.max( contentLength - 1, 0 );
 
-				displayPane.setCaretPosition( caretPosition );
+				stickyPane.setCaretPosition( caretPosition );
 			}
 		}
 	}
 
-	public static void setSticky( JEditorPane pane, boolean b )
-	{
-		ChatBuffer.stickyMap.put( pane, Boolean.valueOf( b ) );
-	}
 }

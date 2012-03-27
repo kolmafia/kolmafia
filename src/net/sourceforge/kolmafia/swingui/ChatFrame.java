@@ -56,6 +56,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
+import net.java.dev.spellcast.utilities.ChatBuffer;
 
 import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -269,8 +270,9 @@ public class ChatFrame
 			entryPanel.add( this.entryField, BorderLayout.CENTER );
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
-			JScrollPane scroller = ChatManager.getBuffer( associatedContact ).addDisplay( this.chatDisplay );
-			scroller.getVerticalScrollBar().addAdjustmentListener( new StickyListener( this.chatDisplay, 200 ) );
+			ChatBuffer buffer = ChatManager.getBuffer( associatedContact );
+			JScrollPane scroller = buffer.addDisplay( this.chatDisplay );
+			scroller.getVerticalScrollBar().addAdjustmentListener( new StickyListener( buffer, this.chatDisplay, 200 ) );
 			this.add( scroller, BorderLayout.CENTER );
 
 			this.add( entryPanel, BorderLayout.SOUTH );
