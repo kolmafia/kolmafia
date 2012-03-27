@@ -75,7 +75,7 @@ public class CommandDisplayPanel
 		outputDisplay.addHyperlinkListener( new HyperlinkAdapter() );
 
 		JScrollPane scrollPane = KoLConstants.commandBuffer.addDisplay( outputDisplay );
-		scrollPane.getVerticalScrollBar().addAdjustmentListener( new StickyListener( outputDisplay, 200 ) );
+		scrollPane.getVerticalScrollBar().addAdjustmentListener( new StickyListener( KoLConstants.commandBuffer, outputDisplay, 200 ) );
 		JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
 		JPanel entryPanel = new JPanel( new BorderLayout() );

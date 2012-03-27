@@ -44,39 +44,33 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 public class StickyListener
 	implements AdjustmentListener
 {
-	JEditorPane buffer;
+	private ChatBuffer buffer;
+	private JEditorPane editor;
+	private int tolerance;
+	private boolean currentlySticky;
 
-	int stickiness;
-
-	public StickyListener( JEditorPane buffer )
+	public StickyListener( ChatBuffer buffer, JEditorPane editor, int tolerance )
 	{
 		this.buffer = buffer;
-		this.stickiness = 50;
-	}
-	
-	public StickyListener( JEditorPane buffer, int stickiness )
-	{
-		this.buffer = buffer;
-		this.stickiness = stickiness;
+		this.editor = editor;
+		this.tolerance = tolerance;
+		this.currentlySticky = true;
 	}
 
-	public void adjustmentValueChanged( AdjustmentEvent arg0 )
+	public void adjustmentValueChanged( AdjustmentEvent event )
 	{
-		int value = arg0.getValue();
+		JScrollBar bar = (JScrollBar) event.getSource();
 
-		JScrollBar bar = (JScrollBar) arg0.getSource();
+		int value = event.getValue();
 		int knob = bar.getVisibleAmount();
 		int max = bar.getMaximum();
 
-		// stickiness is the margin of error at the bottom where we still make the window sticky.
-		// 40-50 seems about right for chat. Any lower and longer messages can actually un-stick it.
-		if ( value + knob > max - stickiness )
+		boolean shouldBeSticky = value + knob > max - tolerance;
+
+		if ( this.currentlySticky != shouldBeSticky )
 		{
-			ChatBuffer.setSticky( buffer, true );
-		}
-		else
-		{
-			ChatBuffer.setSticky( buffer, false );
+			this.currentlySticky = shouldBeSticky;
+			buffer.setSticky( this.editor, shouldBeSticky );
 		}
 	}
 }
