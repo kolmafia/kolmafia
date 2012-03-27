@@ -5139,7 +5139,7 @@ public abstract class ChoiceManager
 		{
 			String decisionText = matcher.group( 2 );
 			
-			if ( decisionText.contains( text ) )
+			if ( decisionText.indexOf( text ) != -1 )
 			{
 				return StringUtilities.getEntityDecode( matcher.group( 1 ) );
 			}
