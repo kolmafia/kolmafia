@@ -157,7 +157,9 @@ public class HedgePuzzleRequest
 			return;
 		}
 
-		// If the topiary golem stole one of your hedge puzzles, take it away.
+		// Just as you rotate the puzzle piece, a Topiary Golem leaps
+		// out from behind a nearby bush and grabs the puzzle from you.
+		// It screeches, and dives back into the foliage.
 		if ( responseText.indexOf( "Topiary Golem" ) != -1 )
 		{
 			ResultProcessor.processResult( HedgePuzzleRequest.PUZZLE_PIECE.getNegation() );

@@ -517,7 +517,10 @@ public class Concoction
 		// Tiny plastic swords and Legend keys are special in that they
 		// are not used up.
 
-		if ( this.concoction.getItemId() != ItemPool.PLASTIC_SWORD && this.concoction.getItemId() != ItemPool.BORIS_KEY && this.concoction.getItemId() != ItemPool.JARLSBERG_KEY && this.concoction.getItemId() != ItemPool.SNEAKY_PETE_KEY )
+		if ( this.concoction.getItemId() != ItemPool.PLASTIC_SWORD &&
+		     this.concoction.getItemId() != ItemPool.BORIS_KEY &&
+		     this.concoction.getItemId() != ItemPool.JARLSBERG_KEY &&
+		     this.concoction.getItemId() != ItemPool.SNEAKY_PETE_KEY )
 		{
 			AdventureResult ingredient = this.concoction.getInstance( decrementAmount );
 			AdventureResult.addResultToList( globalChanges, ingredient );
