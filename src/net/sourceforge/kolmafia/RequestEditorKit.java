@@ -1582,6 +1582,7 @@ public class RequestEditorKit
 		boolean haveGoals = false;
 
 		// Determine which wines correspond to which glyph
+		String name = null;
 		for ( int i = 2271; i <= 2276; ++i )
 		{
 			int glyph = Preferences.getInteger( "lastDustyBottle" + i );
@@ -1607,12 +1608,29 @@ public class RequestEditorKit
 				else if ( j == done )
 				{
 					// Point to the wine in the dropdown
-					String name =  ItemDatabase.getItemName( i );
-					String replace = "*** " + name;
-					StringUtilities.globalStringReplace( buffer, name, replace );
+					name = ItemDatabase.getItemName( i );
 				}
 
 				break;
+			}
+		}
+
+		// Set the name
+		if ( name != null )
+		{
+			if ( buffer.indexOf( name ) != -1 )
+			{
+				// He has some of the correct wine in inventory. Highlight it.
+				String find = ">" + name;
+				String replace = " selected>--&gt;" + name + "&lt--";
+				StringUtilities.globalStringReplace( buffer, find, replace );
+			}
+			else
+			{
+				// He has none of the correct wine. Tell him what to get.
+				String find = "- select a bottle -";
+				String replace = "(you need a " + name + ")";
+				StringUtilities.globalStringReplace( buffer, find, replace );
 			}
 		}
 	}

@@ -55,7 +55,7 @@ public class SpleenItemRequest
 {
 	public SpleenItemRequest( final AdventureResult item )
 	{
-		super( ItemDatabase.getConsumptionType( item.getItemId() ), item );
+		super( UseItemRequest.getConsumptionType( item ), item );
 	}
 
 	public int getAdventuresUsed()
@@ -103,19 +103,10 @@ public class SpleenItemRequest
 			return;
 		}
 
-		if ( !SpleenItemRequest.sequentialConsume( itemId ) &&
-		     !InventoryManager.retrieveItem( this.itemUsed ) )
-		{
-			return;
-		}
-
 		int iterations = 1;
 		int origCount = this.itemUsed.getCount();
 
-		// The miracle of "consume some" does not apply to black puddings
-		if ( origCount > 1 &&
-		     ( SpleenItemRequest.singleConsume( itemId ) ||
-		       ( SpleenItemRequest.sequentialConsume( itemId ) && InventoryManager.getCount( itemId ) < origCount) ) )
+		if ( origCount > 1 && this.singleConsume( itemId ) )
 		{
 			iterations = origCount;
 			this.itemUsed = this.itemUsed.getInstance( 1 );
@@ -169,14 +160,9 @@ public class SpleenItemRequest
 		super.runOneIteration( currentIteration, totalIterations, useTypeAsString );
 	}
 
-	private static final boolean singleConsume( final int itemId )
+	private final boolean singleConsume( final int itemId )
 	{
-		return false;
-	}
-
-	private static final boolean sequentialConsume( final int itemId )
-	{
-		return false;
+		return this.consumptionType == KoLConstants.CONSUME_USE;
 	}
 
 	public static final void parseConsumption( final AdventureResult item, final AdventureResult helper, final String responseText )
