@@ -858,7 +858,10 @@ public class ClanLoungeRequest
 
 		if ( VISIT_REQUEST.responseText.indexOf( "tree5.gif" ) != -1 )
 		{
-			Preferences.setInteger( "_crimboTreeDays", 0 );
+			// Get the crimbo gift now whenever breakfast is run, since there is
+			// no reason not to anymore.
+			request = new ClanLoungeRequest( ClanLoungeRequest.CRIMBO_TREE );
+			request.run();
 		}
 	}
 
