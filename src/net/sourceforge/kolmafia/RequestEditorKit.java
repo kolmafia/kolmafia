@@ -1605,7 +1605,8 @@ public class RequestEditorKit
 					GoalManager.addGoal( wine );
 					haveGoals = true;
 				}
-				else if ( j == done )
+
+				if ( j == done )
 				{
 					// Point to the wine in the dropdown
 					name = ItemDatabase.getItemName( i );
