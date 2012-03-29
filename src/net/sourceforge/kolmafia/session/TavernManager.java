@@ -418,16 +418,27 @@ public class TavernManager
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need to level up first." );
 			return 0;
 		}
+		// See if any squares are unexplored
+		int unexplored = TavernManager.nextUnexploredSquare();
+		if ( unexplored > 0 )
+		{
+			return unexplored;
+		}
 
-		// See if we've already found the faucet within KoLmafia
+		// Return the faucet
 		String layout = TavernRequest.tavernLayout();
-		int faucet = layout.indexOf( "3" );
+		return layout.indexOf( "3" ) + 1;
+	}
+
+	public static int nextUnexploredSquare()
+	{
+		// Get the tavern layout
+		String layout = TavernRequest.tavernLayout();
 
 		// See if any squares are unexplored
 		if ( layout.indexOf( "0" ) == -1 )
 		{
-			// All squares are explored. Return the square with the faucet
-			return faucet + 1;
+			return 0;
 		}
 
 		// Some squares remain to be visited. Get a list of them in order.

@@ -104,6 +104,7 @@ import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 
@@ -361,6 +362,7 @@ public class RequestEditorKit
 		{
 			// Hidden City must come before Stationary Buttons
 			RequestEditorKit.fixHiddenCity( buffer );
+			RequestEditorKit.fixTavernCellar( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.fixDucks( buffer );
 			RequestEditorKit.fixRottingMatilda( buffer );
@@ -451,6 +453,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "choice.php" ) )
 		{
+			RequestEditorKit.fixTavernCellar( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.addChoiceSpoilers( location, buffer );
 		}
@@ -478,6 +481,7 @@ public class RequestEditorKit
 		{
 			// Hidden City must come before Stationary Buttons
 			RequestEditorKit.fixHiddenCity( buffer );
+			RequestEditorKit.fixTavernCellar( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			DiscoCombatHelper.decorate( buffer );
 			RequestEditorKit.addFightModifiers( location, buffer );
@@ -1702,6 +1706,34 @@ public class RequestEditorKit
 			link.append( "\">Explore Some Unexplored Ruins</a>" );
 			buffer.insert( index, link.toString() );
 		}
+	}
+
+	private static final void fixTavernCellar( final StringBuffer buffer )
+	{
+		// When you adventure in the Tavern Cellar, the Adventure Again
+		// link takes you to the map. Fix that link as follows:
+		//
+		// (new) Explore Next Unexplored Square
+		// Go back to the Typical Tavern Cellar
+
+		int index = buffer.indexOf( "<a href=\"cellar.php\">" );
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		int unexplored = TavernManager.nextUnexploredSquare();
+		if ( unexplored <= 0 )
+		{
+			return;
+		}
+
+		StringBuffer link = new StringBuffer();
+
+		link.append( "<a href=\"cellar.php?action=explore&whichspot=" );
+		link.append( String.valueOf( unexplored ) );
+		link.append( "\">Explore Next Unexplored Square</a><p>" );
+		buffer.insert( index, link.toString() );
 	}
 
 	private static final void addHiddenCityModifiers( final StringBuffer buffer )
