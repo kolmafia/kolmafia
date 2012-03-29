@@ -69,11 +69,11 @@ package net.java.dev.spellcast.utilities;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Stack;
 import java.util.Set;
@@ -102,7 +102,10 @@ public class ChatBuffer
 
 	private final StringBuffer content = new StringBuffer();
 	private final LinkedList displayPanes = new LinkedList();
-	private final LinkedList stickyPanes = new LinkedList();
+	private final Set stickyPanes = new LinkedHashSet();
+
+	private final LinkedList addStickyPanes = new LinkedList();
+	private final LinkedList removeStickyPanes = new LinkedList();
 
 	private volatile int resetSequence = 0;
 
@@ -145,10 +148,8 @@ public class ChatBuffer
 
 		displayPane.setText( this.getHTMLContent() );
 
-		WeakReference reference = new WeakReference( displayPane );
-
-		this.displayPanes.addLast( reference );
-		this.stickyPanes.addLast( reference );
+		this.displayPanes.addLast( displayPane );
+		this.addStickyPanes.addLast( displayPane );
 
 		JScrollPane scroller =
 			new JScrollPane(
@@ -209,6 +210,8 @@ public class ChatBuffer
 	{
 		this.displayPanes.clear();
 		this.stickyPanes.clear();
+		this.addStickyPanes.clear();
+		this.removeStickyPanes.clear();
 
 		if ( this.logWriter != null )
 		{
@@ -235,6 +238,15 @@ public class ChatBuffer
 
 	public void append( String newContents )
 	{
+		synchronized ( this.stickyPanes )
+		{
+			this.stickyPanes.addAll( this.addStickyPanes );
+			this.addStickyPanes.clear();
+
+			this.stickyPanes.removeAll( this.removeStickyPanes );
+			this.removeStickyPanes.clear();
+		}
+
 		if ( newContents == null )
 		{
 			SwingUtilities.invokeLater( new ResetHandler( this.getHTMLContent() ) );
@@ -254,7 +266,7 @@ public class ChatBuffer
 			this.logWriter.println( newContents );
 		}
 
-		if ( this.displayPanes.size() != this.stickyPanes.size() || this.content.length() < ChatBuffer.MAXIMUM_LENGTH )
+		if ( this.displayPanes.size() != this.stickyPanes.size() || !this.addStickyPanes.isEmpty() || !this.removeStickyPanes.isEmpty() || this.content.length() < ChatBuffer.MAXIMUM_LENGTH )
 		{
 			SwingUtilities.invokeLater( new AppendHandler( newContents ) );
 			SwingUtilities.invokeLater( new ScrollHandler() );
@@ -319,25 +331,19 @@ public class ChatBuffer
 
 	public void setSticky( JEditorPane editor, boolean sticky )
 	{
-		Iterator stickyIterator = this.stickyPanes.iterator();
-
-		while ( stickyIterator.hasNext() )
+		synchronized ( this.stickyPanes )
 		{
-			WeakReference reference = (WeakReference) stickyIterator.next();
-			JEditorPane stickyPane = (JEditorPane) reference.get();
-
-			if ( editor == stickyPane )
+			if ( sticky )
 			{
-				if ( !sticky )
-				{
-					stickyIterator.remove();
-				}
-
-				return;
+				this.addStickyPanes.add( editor );
+				this.removeStickyPanes.remove( editor );
+			}
+			else
+			{
+				this.addStickyPanes.remove( editor );
+				this.removeStickyPanes.add( editor );
 			}
 		}
-
-		this.stickyPanes.add( new WeakReference( editor ) );
 	}
 
 	private class ResetHandler
@@ -359,16 +365,15 @@ public class ChatBuffer
 				return;	// outdated by a subsequent display reset
 			}
 			
-			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
+			Iterator paneIterator = ChatBuffer.this.displayPanes.iterator();
 
-			while ( referenceIterator.hasNext() )
+			while ( paneIterator.hasNext() )
 			{
-				WeakReference reference = (WeakReference) referenceIterator.next();
-				JEditorPane displayPane = (JEditorPane) reference.get();
+				JEditorPane displayPane = (JEditorPane) paneIterator.next();
 
 				if ( displayPane == null )
 				{
-					referenceIterator.remove();
+					paneIterator.remove();
 					continue;
 				}
 
@@ -468,16 +473,15 @@ public class ChatBuffer
 				return;	// outdated by a subsequent display reset
 			}
 			
-			Iterator referenceIterator = ChatBuffer.this.displayPanes.iterator();
+			Iterator paneIterator = ChatBuffer.this.displayPanes.iterator();
 
-			while ( referenceIterator.hasNext() )
+			while ( paneIterator.hasNext() )
 			{
-				WeakReference reference = (WeakReference) referenceIterator.next();
-				JEditorPane displayPane = (JEditorPane) reference.get();
+				JEditorPane displayPane = (JEditorPane) paneIterator.next();
 
 				if ( displayPane == null )
 				{
-					referenceIterator.remove();
+					paneIterator.remove();
 					continue;
 				}
 
@@ -528,17 +532,16 @@ public class ChatBuffer
 			{
 				return;	// outdated by a subsequent display reset
 			}
-			
-			Iterator referenceIterator = ChatBuffer.this.stickyPanes.iterator();
 
-			while ( referenceIterator.hasNext() )
+			Iterator paneIterator = ChatBuffer.this.stickyPanes.iterator();
+
+			while ( paneIterator.hasNext() )
 			{
-				WeakReference reference = (WeakReference) referenceIterator.next();
-				JEditorPane stickyPane = (JEditorPane) reference.get();
+				JEditorPane stickyPane = (JEditorPane) paneIterator.next();
 
 				if ( stickyPane == null )
 				{
-					referenceIterator.remove();
+					paneIterator.remove();
 					continue;
 				}
 
