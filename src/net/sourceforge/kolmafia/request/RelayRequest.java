@@ -1515,8 +1515,9 @@ public class RelayRequest
 	private void handleChat()
 	{
 		String chatText;
+		boolean tabbedChat = this.getPath().indexOf( "j=1" ) > -1;
 
-		if ( this.getPath().startsWith( "newchatmessages.php" ) )
+		if ( this.getPath().startsWith( "newchatmessages.php" ) && !tabbedChat )
 		{
 			StringBuffer chatResponse = new StringBuffer();
 
@@ -1553,6 +1554,18 @@ public class RelayRequest
 			chatResponse.append( "-->" );
 
 			chatText = chatResponse.toString();
+		}
+		else if ( this.getPath().startsWith( "newchatmessages.php" ) && tabbedChat )
+		{
+			ChatRequest request = new ChatRequest();
+			request.run();
+			chatText = request.responseText;
+		}
+		else if ( this.getPath().startsWith( "submitnewchat.php" ) && tabbedChat )
+		{
+			ChatRequest request = new ChatRequest( this.getFormField( "graf" ) , true );
+			request.run();
+			chatText = request.responseText;
 		}
 		else
 		{

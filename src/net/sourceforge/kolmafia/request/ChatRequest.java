@@ -43,6 +43,19 @@ public class ChatRequest
 	private String graf;
 
 	/**
+	 * Constructs a new <code>ChatRequest</code> to retrieve all the latest messages
+	 */
+
+	public ChatRequest()
+	{
+		super( "newchatmessages.php" );
+
+		this.graf = "";
+
+		this.addFormField( "j", "1" );
+	}
+
+	/**
 	 * Constructs a new <code>ChatRequest</code> where the given parameter will be passed to the PHP file to indicate
 	 * where you left off. Note that this constructor is only available to the <code>ChatRequest</code>; this is done
 	 * because only the <code>ChatRequest</code> knows what the appropriate value should be.
@@ -65,12 +78,29 @@ public class ChatRequest
 
 	public ChatRequest( final String graf )
 	{
+		this( graf , false );
+	}
+
+	/**
+	 * Constructs a new <code>ChatRequest</code> that will send the given string to the server.
+	 *
+	 * @param message The message to be sent
+	 * @param tabbedChat Whether the tabbed chat system is active
+	 */
+
+	public ChatRequest( final String graf , final boolean tabbedChat )
+	{
 		super( "submitnewchat.php" );
 
 		this.graf = graf;
 
 		this.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
 		this.addFormField( "graf", graf );
+
+		if( tabbedChat )
+		{
+			this.addFormField( "j", "1" );
+		}
 	}
 
 	public String getGraf()
