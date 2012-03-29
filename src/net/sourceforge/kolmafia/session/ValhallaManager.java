@@ -327,6 +327,7 @@ public class ValhallaManager
 		Preferences.setInteger( "slimelingStacksDropped", 0 );
 		Preferences.setInteger( "slimelingStacksDue", 0 );
 		Preferences.setInteger( "currentBountyItem", 0 );
+		Preferences.setInteger( "crimboTreeDays", 7 );
 		Preferences.setString( "currentHippyStore", "none" );
 		Preferences.setString( "currentWheelPosition", "muscle" );
 		Preferences.setString( "warProgress", "unstarted" );
