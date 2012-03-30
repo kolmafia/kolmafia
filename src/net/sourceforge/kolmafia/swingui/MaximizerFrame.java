@@ -565,6 +565,11 @@ public class MaximizerFrame
 				else if ( cmd.startsWith( "use " ) || cmd.startsWith( "chew " ) ||
 					cmd.startsWith( "drink " ) || cmd.startsWith( "eat " ) )
 				{
+					// Hardcoded exception for "Trivia Master", which has a non-standard use command.
+					if ( !KoLCharacter.canInteract() && cmd.indexOf( "Trivial Avocations Card" ) != -1 )
+					{
+						cmd = "";
+					}
 					item = ItemFinder.getFirstMatchingItem(
 						cmd.substring( cmd.indexOf( " " ) + 1 ).trim(), false );
 					if ( item == null && cmd.indexOf( "," ) == -1 )
@@ -703,6 +708,17 @@ public class MaximizerFrame
 						continue;
 					}
 					else if ( Preferences.getBoolean( "_ballpit" ) )
+					{
+						cmd = "";
+					}
+				}
+				else if ( cmd.startsWith( "jukebox" ) )
+				{
+					if ( !KoLCharacter.canInteract() )
+					{
+						continue;
+					}
+					else if ( Preferences.getBoolean( "_jukebox" ) )
 					{
 						cmd = "";
 					}
