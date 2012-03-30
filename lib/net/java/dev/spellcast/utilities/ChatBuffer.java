@@ -102,8 +102,8 @@ public class ChatBuffer
 
 	private final StringBuffer content = new StringBuffer();
 	private final LinkedList displayPanes = new LinkedList();
-	private final Set stickyPanes = new LinkedHashSet();
 
+	private final Set stickyPanes = new LinkedHashSet();
 	private final LinkedList addStickyPanes = new LinkedList();
 	private final LinkedList removeStickyPanes = new LinkedList();
 
@@ -253,12 +253,13 @@ public class ChatBuffer
 			return;
 		}
 
-		if ( newContents.trim().length() == 0 )
+		newContents = newContents.trim();
+
+		if ( newContents.length() == 0 )
 		{
 			return;
 		}
 
-		newContents = newContents.trim();
 		this.content.append( newContents );
 
 		if ( this.logWriter != null )
@@ -266,7 +267,7 @@ public class ChatBuffer
 			this.logWriter.println( newContents );
 		}
 
-		if ( this.displayPanes.size() != this.stickyPanes.size() || !this.addStickyPanes.isEmpty() || !this.removeStickyPanes.isEmpty() || this.content.length() < ChatBuffer.MAXIMUM_LENGTH )
+		if ( this.content.length() < ChatBuffer.MAXIMUM_LENGTH )
 		{
 			SwingUtilities.invokeLater( new AppendHandler( newContents ) );
 			SwingUtilities.invokeLater( new ScrollHandler() );
