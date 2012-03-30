@@ -295,7 +295,10 @@ public class CouncilFrame
 			int knownAscensions = Preferences.getInteger( "knownAscensions" );
 			Preferences.setInteger( "lastFriarCeremonyAscension", knownAscensions );
 			QuestDatabase.setQuestProgress( QuestDatabase.FRIAR, QuestDatabase.FINISHED );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Taint cleansed." );
+			if ( KoLmafia.isAdventuring() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Taint cleansed." );
+			}
 		}
 	}
 
@@ -308,7 +311,10 @@ public class CouncilFrame
 		if ( responseText.indexOf( "trusty bridge" ) != -1 )
 		{
 			ResultProcessor.processItem( ItemPool.BRIDGE, -1 );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have bridged the Orc Chasm." );
+			if ( KoLmafia.isAdventuring() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have bridged the Orc Chasm." );
+			}
 			QuestDatabase.setQuestProgress( QuestDatabase.LOL, "step1" );
 		}
 	}
@@ -324,7 +330,10 @@ public class CouncilFrame
 		if ( responseText.indexOf( "immediately grows into an enormous beanstalk" ) != -1 )
 		{
 			ResultProcessor.processItem( ItemPool.ENCHANTED_BEAN, -1 );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have planted a beanstalk." );
+			if ( KoLmafia.isAdventuring() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have planted a beanstalk." );
+			}
 		}
 	}
 
