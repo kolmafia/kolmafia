@@ -5654,3 +5654,5 @@
 5645	the Nostril of the Serpent	none	none	0
 5646	ancient calendar fragment	usable	all	25
 5647	ancient calendar	offhand	all	400
+5648
+5649	staph of homophones	weapon	all	135
