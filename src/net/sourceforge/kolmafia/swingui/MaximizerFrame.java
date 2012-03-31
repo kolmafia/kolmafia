@@ -2845,24 +2845,26 @@ public class MaximizerFrame
 			throws MaximizerInterruptedException
 		{
 			Object mark = this.mark();
-			if ( this.equipment[ EquipmentManager.SHIRT ] == null &&
-				KoLCharacter.hasSkill( "Torso Awaregness" ) )
+			if ( this.equipment[ EquipmentManager.SHIRT ] == null )
 			{
-				ArrayList possible = possibles[ EquipmentManager.SHIRT ];
 				boolean any = false;
-				for ( int pos = 0; pos < possible.size(); ++pos )
+				if ( KoLCharacter.hasSkill( "Torso Awaregness" )  )
 				{
-					AdventureResult item = (AdventureResult) possible.get( pos );
-					int count = item.getCount() & Evaluator.TOTAL_MASK;
-					//if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
-					//{
-					//	--count;
-					//}
-					//if ( count <= 0 ) continue;
-					this.equipment[ EquipmentManager.SHIRT ] = item;
-					this.tryPants( possibles );
-					any = true;
-					this.restore( mark );
+					ArrayList possible = possibles[ EquipmentManager.SHIRT ];
+					for ( int pos = 0; pos < possible.size(); ++pos )
+					{
+						AdventureResult item = (AdventureResult) possible.get( pos );
+						int count = item.getCount() & Evaluator.TOTAL_MASK;
+						//if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
+						//{
+						//	--count;
+						//}
+						//if ( count <= 0 ) continue;
+						this.equipment[ EquipmentManager.SHIRT ] = item;
+						this.tryPants( possibles );
+						any = true;
+						this.restore( mark );
+					}
 				}
 
 				if ( any ) return;
