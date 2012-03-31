@@ -570,16 +570,19 @@ public class MaximizerFrame
 					{
 						cmd = "";
 					}
-					item = ItemFinder.getFirstMatchingItem(
-						cmd.substring( cmd.indexOf( " " ) + 1 ).trim(), false );
-					if ( item == null && cmd.indexOf( "," ) == -1 )
+					else
 					{
-						if ( includeAll )
+						item = ItemFinder.getFirstMatchingItem(
+							cmd.substring( cmd.indexOf( " " ) + 1 ).trim(), false );
+						if ( item == null && cmd.indexOf( "," ) == -1 )
 						{
-							text = "(identify & " + cmd + ")";
-							cmd = "";
+							if ( includeAll )
+							{
+								text = "(identify & " + cmd + ")";
+								cmd = "";
+							}
+							else continue;
 						}
-						else continue;
 					}
 				}
 				else if ( cmd.startsWith( "gong " ) )
