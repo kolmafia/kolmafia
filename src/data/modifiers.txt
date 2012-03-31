@@ -1008,6 +1008,7 @@ spooky stick	Spooky Damage: +2
 spork	Muscle: +2
 squeaky staff	Mysticality: +3, Monster Level: +6
 stainless steel shillelagh	Weapon Damage: +20, Critical: 4, Muscle Percent: +15
+staph of homophones	Mysticality: +7, Adventures: +5
 star boomerang	Moxie: +5
 star crossbow	Moxie: +8
 star spatula	Spell Damage: +15

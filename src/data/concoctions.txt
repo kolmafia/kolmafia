@@ -736,6 +736,7 @@ chrome staff	WSMITH	bigger stick	chrome meat stack
 chrome sword	WSMITH	sturdy sword hilt	chrome meat stack
 carob cannon	WSMITH	chrome crossbow	carob chunks
 meatspout staff	WSMITH	chrome staff	meat vortex
+staph of homophones	WSMITH	disease	facsimile dictionary
 sword behind inappropriate prepositions	WSMITH	chrome sword	facsimile dictionary
 
 linoleum crossbow	WSMITH	sinewy crossbow string	linoleum meat stack

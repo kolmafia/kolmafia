@@ -907,6 +907,7 @@ spooky stick	30	Mus: 0	2-handed staff
 spork	30	Mys: 0	1-handed utensil
 squeaky staff	75	Mus: 22	2-handed staff
 stainless steel shillelagh	90	Mus: 30	1-handed club
+staph of homophones	130	Mus: 45	2-handed staff
 star boomerang	135	Mox: 52	1-handed boomerang
 star crossbow	165	Mox: 67	2-handed crossbow
 star spatula	150	Mys: 60	1-handed utensil
