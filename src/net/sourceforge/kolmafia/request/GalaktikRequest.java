@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -113,17 +114,20 @@ public class GalaktikRequest
 
 	public static boolean getDiscount()
 	{
-		return GalaktikRequest.discount;
+		return GalaktikRequest.discount ||
+			(InventoryManager.getCount( ItemPool.FRAUDWORT ) >= 3 &&
+			InventoryManager.getCount( ItemPool.SHYSTERWEED ) >= 3 &&
+			InventoryManager.getCount( ItemPool.SWINDLEBLOSSOM ) >= 3);
 	}
 
 	public static int costPerHP()
 	{
-		return GalaktikRequest.discount ? 6 : 10;
+		return GalaktikRequest.getDiscount() ? 6 : 10;
 	}
 
 	public static int costPerMP()
 	{
-		return GalaktikRequest.discount ? 12 : 17;
+		return GalaktikRequest.getDiscount() ? 12 : 17;
 	}
 
 	private static int costPerUnit( final String type )
