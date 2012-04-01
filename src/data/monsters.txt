@@ -380,7 +380,7 @@ Flock of seagulls	HP: 0 P: beast
 Flock of Stab-Bats	HP: 155 Def: 148 Atk: 155 Meat: 51-80 P: beast	bat wing (30)	batblade (25)	batgut (30)
 Fluffy Bunny	HP: 1 Def: 1 Atk: 1 Meat: 7-9 P: beast	bunny liver (0)
 Forest Spirit	HP: 3 Def: 2 Atk: 2 P: undead	forest tears (30)
-Four-shadowed mime	HP: 0 P: horror	mime soul fragment (100)
+Four-shadowed mime	HP: [(min(50,MUS-3)+ML)*0.75] Def: [min(50,MUS-3)+ML] Atk: [min(50,MOX-3)+ML] P: horror	mime soul fragment (100)
 Four Skeleton Invaders	HP: 110 Def: 110 Atk: 110 Init: 65	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
 Frat Warrior Drill Sergeant	HP: 202 Atk: 175 E: sleaze P: orc	distressed denim pants (10)	bejeweled pledge pin (10)	beer helmet (10)
 French Guard turtle	HP: 140 Def: 140 Atk: 140	guard turtle shell (0)	guard turtle collar (0)
