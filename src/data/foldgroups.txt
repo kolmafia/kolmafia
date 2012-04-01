@@ -21,3 +21,4 @@
 5	Spooky Putty mitre	Spooky Putty leotard	Spooky Putty ball	Spooky Putty sheet	Spooky Putty snake
 5	stinky cheese sword	stinky cheese diaper	stinky cheese wheel	stinky cheese eye	Staff of Queso Escusado
 0	Loathing Legion knife	Loathing Legion abacus	Loathing Legion can opener	Loathing Legion chainsaw	Loathing Legion corkscrew	Loathing Legion defibrillator	Loathing Legion double prism	Loathing Legion electric knife	Loathing Legion flamethrower	Loathing Legion hammer	Loathing Legion helicopter	Loathing Legion jackhammer	Loathing Legion kitchen sink	Loathing Legion many-purpose hook	Loathing Legion moondial	Loathing Legion necktie	Loathing Legion pizza stone	Loathing Legion rollerblades	Loathing Legion tape measure	Loathing Legion tattoo needle	Loathing Legion universal screwdriver
+0	Boris's Helm	Boris's Helm (askew)
