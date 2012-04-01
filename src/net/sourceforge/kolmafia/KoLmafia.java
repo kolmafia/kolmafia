@@ -343,11 +343,33 @@ public abstract class KoLmafia
 
 		for ( int i = 0; i < args.length; ++i )
 		{
-			if ( args[ i ].equals( "--CLI" ) )
+			if ( args[ i ].equalsIgnoreCase( "--HELP" ) || args[ i ].equalsIgnoreCase( "/?" ) )
+			{
+				System.out.println( "An interface for the online adventure game, The Kingdom of Loathing." );
+				System.out.println( "Please visit kolmafia.sourceforge.net for more information." );
+				System.out.println();
+				System.out.println( "KoLmafia [--Help] [--Version] [--CLI] [--GUI] script" );
+				System.out.println();
+				System.out.println( "  --Help        Display this message and exits." );
+				System.out.println( "  --Version     Display the current version and exits." );
+				System.out.println( "  --CLI         Run KoLmafia as a command line application." );
+				System.out.println( "  --GUI         Run KoLmafia with a graphical user interface (Default)." );
+				System.out.println( "  script        Specifies a script to call when starting KoLmafia." );
+
+				System.exit( 0 );
+			}
+			else if ( args[ i ].equalsIgnoreCase( "--VERSION" ) )
+			{
+				System.out.println( KoLConstants.VERSION_NAME );
+				System.out.println( KoLConstants.VERSION_DATE );
+
+				System.exit( 0 );
+			}
+			else if ( args[ i ].equalsIgnoreCase( "--CLI" ) )
 			{
 				useGUI = false;
 			}
-			if ( args[ i ].equals( "--GUI" ) )
+			else if ( args[ i ].equalsIgnoreCase( "--GUI" ) )
 			{
 				useGUI = true;
 			}
