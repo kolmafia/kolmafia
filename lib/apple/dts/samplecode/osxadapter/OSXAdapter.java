@@ -57,6 +57,8 @@ Copyright © 2003-2007 Apple, Inc., All Rights Reserved
 
 package apple.dts.samplecode.osxadapter;
 
+import java.awt.Image;
+import java.awt.Window;
 import java.lang.reflect.*;
 
 
@@ -67,6 +69,28 @@ public class OSXAdapter implements InvocationHandler {
     protected String proxySignature;
     
     static Object macOSXApplication;
+
+	static 
+	{
+		try
+		{
+			Class applicationClass = Class.forName( "com.apple.eawt.Application" );
+			if ( macOSXApplication == null )
+			{
+				macOSXApplication = applicationClass.getConstructor( ( Class[] ) null ).newInstance( ( Object[ ]) null );
+			}
+		}
+		catch ( ClassNotFoundException cnfe )
+		{
+			System.err.println( "This version of Mac OS X does not support the Apple EAWT.  ApplicationEvent handling has been disabled (" + cnfe + ")" );
+		}
+		catch ( Exception ex )
+		{ // Likely a NoSuchMethodException or an IllegalAccessException loading/invoking eawt.Application
+			// methods
+			System.err.println( "Mac OS X Adapter could not talk to EAWT:" );
+			ex.printStackTrace();
+		}
+	}
 
     // Pass this method an Object and Method equipped to perform application shutdown logic
     // The method passed should return a boolean stating whether or not the quit should occur
@@ -137,7 +161,7 @@ public class OSXAdapter implements InvocationHandler {
         try {
             Class applicationClass = Class.forName("com.apple.eawt.Application");
             if (macOSXApplication == null) {
-                macOSXApplication = applicationClass.getConstructor((Class[])null).newInstance((Object[])null);
+				return;
             }
             Class applicationListenerClass = Class.forName("com.apple.eawt.ApplicationListener");
             Method addListenerMethod = applicationClass.getDeclaredMethod("addApplicationListener", new Class[] { applicationListenerClass });
@@ -228,4 +252,78 @@ public class OSXAdapter implements InvocationHandler {
             // Ignore errors - they're expected under OSX 10.4 and earlier.
         }
     }
+
+	private static Method iconMethod;
+	private static Object[] iconParams;
+
+	public static void setDockIconImage( Image icon )
+	{
+		if ( macOSXApplication == null )
+			return;
+		try
+		{
+			if ( iconParams == null )
+			{
+				iconParams = new Object[ 1 ];
+				iconMethod = macOSXApplication.getClass().getDeclaredMethod( "setDockIconImage", new Class[]
+				{
+					Image.class
+				} );
+			}
+			if ( iconMethod != null )
+			{
+				iconParams[ 0 ] = icon;
+				iconMethod.invoke( macOSXApplication, iconParams );
+			}
+		}
+		catch ( Exception ex )
+		{
+			// Ignore errors - they're expected under OSX 10.4 and earlier.
+		}
+	}
+
+	private static Class macOSXFullScreenUtilities;
+	private static Method fullscreenMethod;
+	private static Object[] fullscreenParams;
+
+	public static void setWindowCanFullScreen( Window window, boolean canFullScreen )
+	{
+		if ( macOSXApplication == null )
+			return;
+		try
+		{
+			if ( macOSXFullScreenUtilities == null )
+			{
+				try
+				{
+					macOSXFullScreenUtilities = Class.forName( "com.apple.eawt.FullScreenUtilities" );
+				}
+				catch ( ClassNotFoundException cnfe )
+				{
+					System.err.println( "This version of Mac OS X does not support the Apple EAWT.  Full screen support will not be enabled ("
+							+ cnfe + ")" );
+				}
+			}
+
+			if ( macOSXFullScreenUtilities != null && fullscreenParams == null )
+			{
+				fullscreenParams = new Object[ 2 ];
+				fullscreenMethod = macOSXFullScreenUtilities.getMethod( "setWindowCanFullScreen", new Class[]
+				{
+					Window.class,
+					Boolean.TYPE
+				} );
+			}
+			if ( fullscreenMethod != null )
+			{
+				fullscreenParams[ 0 ] = window;
+				fullscreenParams[ 1 ] = Boolean.valueOf( canFullScreen );
+				fullscreenMethod.invoke( macOSXFullScreenUtilities, fullscreenParams );
+			}
+		}
+		catch ( Exception ex )
+		{
+			// Ignore errors - they're expected under OSX 10.4 and earlier.
+		}
+	}
 }
