@@ -6,6 +6,7 @@ Ancient Saucehelm	100	Mys: 15
 BRICKO hat	30	none
 Baron von Ratsworth's tophat	75	Mox: 22
 Big Candy's tophat	100	none
+Boris's Helm	100	none
 Brimstone Beret	200	Mox: 30
 Cerebral Cloche	90	Mox: 30
 Cloaca-Cola helmet	30	none
