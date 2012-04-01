@@ -798,9 +798,9 @@
 797	Triangle, Man	crimbcookie3.gif	662a1f193983ba6e809c891606148880	eat 1 triangular CRIMBCOOKIE
 798	Square to be Hip	crimbcookie2.gif	39c662ca50f95d1b2d405fb614d8cde4	eat 1 square CRIMBCOOKIE
 799	Employee of the Month	trophy.gif	80e367f95979070de94b71f8128dda8d	# cast 1 Managerial Manipulation
-800	Chocolate Reign	choco.gif	96ab9f00954ef3e3e2909b6ddd9df048	use 1 chocolate bath ball|use 1 myrrh-soaked, chocolate-covered bacon bath ball
-801	Pork Power	bacon.gif	3e586cc537d2b9c894eedf29132582c3	use 1 bacon bath ball|use 1 myrrh-soaked, chocolate-covered bacon bath ball
-802	Incensed	incense.gif	dde152be0910882c5df64c961caf2011	use 1 incense bath ball|use 1 myrrh-soaked, chocolate-covered bacon bath ball
+800	Chocolate Reign	choco.gif	96ab9f00954ef3e3e2909b6ddd9df048	use 1 chocolate bath ball|use 1 myrrh-soaked chocolate-covered bacon bath ball
+801	Pork Power	bacon.gif	3e586cc537d2b9c894eedf29132582c3	use 1 bacon bath ball|use 1 myrrh-soaked chocolate-covered bacon bath ball
+802	Incensed	incense.gif	dde152be0910882c5df64c961caf2011	use 1 incense bath ball|use 1 myrrh-soaked chocolate-covered bacon bath ball
 803	Sausage Festive	festsausage.gif	fad9f1b25fabed5a6c0e45ae97bd27f3	eat 1 festive sausage
 804	Stands Alone	cheeselog.gif	8baa4c34bdc87691d5aa6bcf344c0d4f	eat 1 holiday cheese log
 805	Loco Motives	motiposter.gif	a5af4ebb8dd7db582526cb51fc7fc40e	use 1 motivational poster
@@ -1023,10 +1023,10 @@
 1022	Heart Aflame	flameheart.gif	b23b5bfbe8e2deb6fce772fd3a521fb8	drink either 1 Suffering Sinner, 1 Suppurating Sinner, 1 Sizzling Sinner
 1023	Void Between the Stars	space.gif	d94cd7cd85e9147762348a562393172d	drink either 1 Great Old Fashioned, 1 Fuzzy Tentacle, 1 Crazymaker
 1024	Gutterminded	guttermind.gif	a7078f10bbe13fa991602b9990b0d9bb	drink either 1 Buttery Knob, 1 Slippery Knob, 1 Flaming Knob
-1025	Arresistible	handhook.gif	e49cef94ac423d6766232f0b6666d74e	drink either 1 Aye Aye, 1 Aye Aye, Captain, 1 Aye Aye, Tooth Tooth
+1025	Arresistible	handhook.gif	e49cef94ac423d6766232f0b6666d74e	drink either 1 Aye Aye, 1 Aye Aye Captain, 1 Aye Aye Tooth Tooth
 1026	Heisenberglary	confused.gif	c82b8774eb111fdf7088d4768bc8432e	drink either 1 Drunken Philosopher, 1 Drunken Neurologist, 1 Drunken Astrophysicist
 1027	In the Slimelight	slimed.gif	4e8fd606b83bffefbcfb4eb2ff218263	drink either 1 Slimosa, 1 Extra-slimy Slimosa, 1 Slimebite
-1028	Elemental Mastery	elements small.gif	be49ceb388e1bab22701da4c743de4a7	drink either 1 Firewater, 1 Earth and Firewater, 1 Earth, Wind and Firewater
+1028	Elemental Mastery	elements small.gif	be49ceb388e1bab22701da4c743de4a7	drink either 1 Firewater, 1 Earth and Firewater, 1 Earth Wind and Firewater
 1029	Mo' Hobo	hobohead.gif	e6c9baf78893e9329a337033947946a5	drink either 1 Mohobo, 1 Moonshine Mohobo, 1 Flaming Mohobo
 1030	Hidden Power	light.gif	01fbeb988becd617d1800fadf0ab9c98
 1031	Stone-Faced	stonewool.gif	b33c7d995dbd1b194c881e91d009106a	use 1 stone wool
