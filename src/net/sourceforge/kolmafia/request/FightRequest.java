@@ -1761,7 +1761,8 @@ public class FightRequest
 					encounter.equalsIgnoreCase( "El Novio Cad&aacute;ver" ) ||
 					encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
 					encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
-					encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ) )
+					encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
+					encounter.equalsIgnoreCase( "Four-shadowed mime ") ) )
 			{
 				TurnCounter.stopCounting( "Holiday Monster window begin" );
 				TurnCounter.stopCounting( "Holiday Monster window end" );
