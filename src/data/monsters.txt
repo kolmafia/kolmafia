@@ -236,7 +236,7 @@ C.A.R.N.I.V.O.R.E. Operative	HP: 330 Atk: 220 Meat: 258-500 ED: stench	C.A.R.N.I
 Cactuary	HP: 139 Def: 140 Atk: 137 Meat: 80-120 P: plant	bit-o-cactus (27)	giant cactus quill (5)	cactus fruit (20)	handful of sand (20)
 Carbuncle Top	HP: 70 Def: 70 Atk: 70	hilarious comedy prop (100)
 Cargo Crab	HP: 500 Def: 400 Atk: 450 Meat: 160-240 P: fish	imitation crab crate (n30)
-Carnivorous Dill Plant	HP: 180 Def: 200 Atk: 200 P: plant	dill (30)	dill (30)
+Carnivorous Dill Plant	HP: 180 Def: 200 Atk: 200 P: plant	dill (50)	dill (20)
 Carnivorous Moxie Weed	HP: 56 Def: 66 Atk: 66 P: plant	moxie weed (30)	giant moxie weed (15)	giant moxie weed (15)
 Castle In The Clouds In The Sky	HP: 200 Def: 90 Atk: 75 P: object	tiny goth giant (0)
 Caveman Frat Boy	HP: 320 Def: 250 Atk: 235 Meat: 40-60 E: sleaze P: orc	ovoid leather thing (20)	chunk of rock salt (20)	stone baseball cap (10)
@@ -408,7 +408,7 @@ Generic Duck	HP: 180 Atk: 168 Def: 168 Meat: 70-80 P: beast
 Ghastly Organist	HP: 120 Def: 110 Atk: 110 P: undead	opera mask (20)
 Ghost	HP: 80 Def: 75 Atk: 75 P: undead	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)
 Ghost Miner	HP: 31 Def: 30 Atk: 31 E: spooky Phys: 100 P: undead	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
-Ghostly Pickle Factory Worker	HP: 180 Def: 196 Atk: 196 P: undead	ghost cucumber (30)	ghost cucumber (30)
+Ghostly Pickle Factory Worker	HP: 180 Def: 196 Atk: 196 P: undead	ghost cucumber (50)	ghost cucumber (20)
 Ghuol	HP: 10 Def: 18 Atk: 19 E: spooky Meat: 30-36 P: undead	ghuol egg (25)	ghuol ears (25)
 Giant Bee	HP: 100000 Def: 100000 Atk: 100000
 Giant Bird-Creature	HP: 90 Def: 90 Atk: 100
@@ -904,7 +904,7 @@ Vengeful Turtle Spectre	HP: 18 Def: 21 Atk: 21 P: undead	a creased paper strip (
 Vicious Easel	HP: 100000 Def: 100000 Atk: 100000
 Vicious Gnauga	HP: 40 Def: 40 Atk: 45 P: beast	gnauga hide (10)
 Victor the Insult Comic Hellhound	HP: 70 Def: 70 Atk: 70 Init: 50	Victor, the Insult Comic Hellhound Puppet (100)
-Vine Gar	HP: 180 Def: 196 Atk: 196 P: beast	vinegar (30)	vinegar (30)
+Vine Gar	HP: 180 Def: 196 Atk: 196 P: beast	vinegar (50)	vinegar (20)
 Violent Fungus	HP: 25 Def: 20 Atk: 20 P: plant	memory of some delicious amino acids (30)	memory of some delicious amino acids (30)
 Vivian Vibrian Vumian Varr	HP: 0	dangerous jerkcicle (0)	dangerous jerkcicle (0)	Vivian's Vitamin (0)
 W Imp	HP: 40 Def: 40 Atk: 40 E: heat Meat: 24-36 P: demon	Imp Ale (30)	ruby W (30)	wussiness potion (30)	infernal fife (10)
