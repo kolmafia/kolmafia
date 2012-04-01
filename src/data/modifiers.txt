@@ -53,6 +53,8 @@ Ancient Saucehelm	Mysticality: +11, Spell Damage: +11, Class: "Sauceror", Famili
 BRICKO hat	Maximum MP: +3, Familiar Effect: "atk, cap 7"
 Baron von Ratsworth's tophat	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "1xPotato, 3xGhuol, cap 18"
 Big Candy's tophat	Candy Drop: +25, Damage Reduction: 5
+# Boris's Helm: Regenerate MP based on Level
+Boris's Helm	Initiative: +25, Weapon Damage Percent: +50, Minstrel Level: +1, Free Pull
 Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Four Songs, Brimstone, Familiar Effect: "1xVolley, 1xLep"
 # Cerebral Cloche: Jellyfish Vision
 Cerebral Cloche	Maximum MP: +15, Familiar Effect: "1.5xLep, cap 22"

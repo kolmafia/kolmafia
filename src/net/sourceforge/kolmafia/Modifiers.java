@@ -642,7 +642,7 @@ public class Modifiers
 		  "Experience Percent (Moxie)"
 		},
 		{ "Minstrel Level",
-		  Pattern.compile( "Minstrel Level ([+-]\\d+)" ),
+		  Pattern.compile( "([+-]\\d+) to Minstrel Level" ),
 		  Pattern.compile( "Minstrel Level: " + EXPR )
 		},
 	};
