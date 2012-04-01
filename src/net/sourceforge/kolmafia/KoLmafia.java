@@ -57,8 +57,11 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import apple.dts.samplecode.osxadapter.OSXAdapter;
+
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -442,6 +445,8 @@ public abstract class KoLmafia
 		{
 			SystemTrayFrame.addTrayIcon();
 		}
+
+		OSXAdapter.setDockIconImage( JComponentUtilities.getImage( "limeglass.gif" ).getImage() );
 
 		if ( System.getProperty( "os.name" ).startsWith( "Win" ) || lookAndFeel.equals( UIManager.getCrossPlatformLookAndFeelClassName() ) )
 		{

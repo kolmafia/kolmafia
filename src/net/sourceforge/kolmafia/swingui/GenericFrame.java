@@ -69,6 +69,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import apple.dts.samplecode.osxadapter.OSXAdapter;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -190,6 +192,8 @@ public abstract class GenericFrame
 		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.framePanel ) );
 
 		this.addFocusListener( this );
+
+		OSXAdapter.setWindowCanFullScreen( this, true );
 	}
 
 	public void focusGained( FocusEvent e )
