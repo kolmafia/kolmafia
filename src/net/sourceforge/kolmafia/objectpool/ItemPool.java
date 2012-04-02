@@ -1430,6 +1430,8 @@ public class ItemPool
 	public static final int TRUSTY = 5552;
 	public static final int RAIN_DOH_BOX = 5563;
 	public static final int RAIN_DOH_MONSTER = 5564;
+	public static final int BORIS_HELM = 5648;
+	public static final int BORIS_HELM_ASKEW = 5650;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
