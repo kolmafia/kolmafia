@@ -938,7 +938,7 @@ public class Modifiers
 		int hpbase = rv[ Modifiers.BUFFED_MUS ];
 		double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
 		int hp = (int) Math.ceil( (hpbase + 3) * ( C + this.get( Modifiers.HP_PCT ) / 100.0f ) ) + (int) this.get( Modifiers.HP );
-		rv[ Modifiers.BUFFED_HP ] = (int) Math.max( hp , mus );
+		rv[ Modifiers.BUFFED_HP ] = Math.max( hp, mus );
 
 		int mpbase = (int) rv[ Modifiers.BUFFED_MYS ];
 		if ( this.getBoolean( Modifiers.MOXIE_CONTROLS_MP ) ||
@@ -949,7 +949,7 @@ public class Modifiers
 		}
 		C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
 		int mp = (int) Math.ceil( mpbase * ( C + this.get( Modifiers.MP_PCT ) / 100.0f ) ) + (int) this.get( Modifiers.MP );
-		rv[ Modifiers.BUFFED_MP ] = (int) Math.max( mp , mys );
+		rv[ Modifiers.BUFFED_MP ] = Math.max( mp, mys );
 
 		return rv;
 	}
@@ -1703,7 +1703,7 @@ public class Modifiers
 
 			// Set modifiers depending on what KoL day of the week it is
 
-			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
 			switch ( date.get( Calendar.DAY_OF_WEEK ) )
 			{
 			case Calendar.SUNDAY:
@@ -1742,7 +1742,7 @@ public class Modifiers
 
 		case ItemPool.UNCLE_HOBO_BEARD:
 		{
-			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
 			double adventures = date.get( Calendar.MONTH ) == Calendar.DECEMBER ? 9.0 : 6.0;
 			this.set( Modifiers.ADVENTURES, adventures );
 			return true;

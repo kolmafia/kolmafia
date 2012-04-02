@@ -472,7 +472,7 @@ public class UseItemRequest
 
 		case ItemPool.FIELD_GAR_POTION:
 			// Disallow using potion if already Gar-ish
-			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0330" ) );
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
 			if( date.get( Calendar.DAY_OF_WEEK ) == Calendar.MONDAY )
 			{
 				UseItemRequest.limiter = "uselessness on Mondays";
