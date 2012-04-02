@@ -4245,6 +4245,36 @@ public class UseItemRequest
 		}
 
 		AdventureResult item = UseItemRequest.extractItem( urlString );
+
+		// Special handing for twisting Boris's Helm when it is equipped
+		if ( item == null && urlString.indexOf( "action=twisthorns" ) != -1 )
+		{
+			if ( urlString.indexOf( "slot=hat" ) != -1 )
+			{
+				if ( KoLCharacter.hasEquipped( ItemPool.BORIS_HELM, EquipmentManager.HAT ) )
+				{
+					EquipmentManager.setEquipment( EquipmentManager.HAT, new AdventureResult( ItemPool.BORIS_HELM_ASKEW, 1 ) );
+				}
+				else if ( KoLCharacter.hasEquipped( ItemPool.BORIS_HELM_ASKEW, EquipmentManager.HAT ) )
+				{
+					EquipmentManager.setEquipment( EquipmentManager.HAT, new AdventureResult( ItemPool.BORIS_HELM, 1 ) );
+				}
+			}
+			else if ( urlString.indexOf( "slot=familiarequip" ) != -1 )
+			{
+				if ( KoLCharacter.hasEquipped( ItemPool.BORIS_HELM, EquipmentManager.FAMILIAR ) )
+				{
+					EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, new AdventureResult( ItemPool.BORIS_HELM_ASKEW, 1 ) );
+				}
+				else if ( KoLCharacter.hasEquipped( ItemPool.BORIS_HELM_ASKEW, EquipmentManager.FAMILIAR ) )
+				{
+					EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, new AdventureResult( ItemPool.BORIS_HELM, 1 ) );
+				}
+			}
+
+			return false;
+		}
+
 		if ( item == null )
 		{
 			return UseItemRequest.registerBingeRequest( urlString );

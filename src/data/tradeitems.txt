@@ -5654,7 +5654,7 @@
 5645	the Nostril of the Serpent	none	none	0
 5646	ancient calendar fragment	usable	all	25
 5647	ancient calendar	offhand	all	400
-5648	Boris's Helm	hat, reusable	all	0
+5648	Boris's Helm	hat, usable	all	0
 5649	staph of homophones	weapon	all	135
-5650	Boris's Helm (askew)	hat, reusable	all	0
+5650	Boris's Helm (askew)	hat, usable	all	0
 5651	mime soul fragment	none	all	0
