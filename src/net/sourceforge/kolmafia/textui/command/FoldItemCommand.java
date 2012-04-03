@@ -171,6 +171,21 @@ public class FoldItemCommand
 			sourceIndex = sourceIndex > 1 ? sourceIndex - 1 : count - 1;
 		}
 
+		// If a Boris's Helm is equipped, twist it regardless of whether or not
+		// they have one in inventory, since this is probably what the user wants.
+		if ( targetName.startsWith( "Boris's Helm" ) && slot != EquipmentManager.NONE )
+		{
+			StringBuffer buf = new StringBuffer();
+			buf.append( "inventory.php?action=twisthorns&slot=" );
+			buf.append( slot == EquipmentManager.HAT ? "hat" : "familiarequip" );
+			buf.append( "&pwd=" );
+			buf.append( GenericRequest.passwordHash );
+
+			GenericRequest request = new GenericRequest( buf.toString(), false );
+			RequestThread.postRequest( request );
+			return;
+		}
+
 		// If nothing in inventory is foldable, consider equipment
 		if ( source == null )
 		{

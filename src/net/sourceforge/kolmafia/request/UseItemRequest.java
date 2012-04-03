@@ -4249,27 +4249,25 @@ public class UseItemRequest
 		// Special handing for twisting Boris's Helm when it is equipped
 		if ( item == null && urlString.indexOf( "action=twisthorns" ) != -1 )
 		{
+			int slot = -1;
+
 			if ( urlString.indexOf( "slot=hat" ) != -1 )
 			{
-				if ( KoLCharacter.hasEquipped( ItemPool.BORIS_HELM, EquipmentManager.HAT ) )
-				{
-					EquipmentManager.setEquipment( EquipmentManager.HAT, new AdventureResult( ItemPool.BORIS_HELM_ASKEW, 1 ) );
-				}
-				else if ( KoLCharacter.hasEquipped( ItemPool.BORIS_HELM_ASKEW, EquipmentManager.HAT ) )
-				{
-					EquipmentManager.setEquipment( EquipmentManager.HAT, new AdventureResult( ItemPool.BORIS_HELM, 1 ) );
-				}
+				slot = EquipmentManager.HAT;
 			}
 			else if ( urlString.indexOf( "slot=familiarequip" ) != -1 )
 			{
-				if ( KoLCharacter.hasEquipped( ItemPool.BORIS_HELM, EquipmentManager.FAMILIAR ) )
-				{
-					EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, new AdventureResult( ItemPool.BORIS_HELM_ASKEW, 1 ) );
-				}
-				else if ( KoLCharacter.hasEquipped( ItemPool.BORIS_HELM_ASKEW, EquipmentManager.FAMILIAR ) )
-				{
-					EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, new AdventureResult( ItemPool.BORIS_HELM, 1 ) );
-				}
+				slot = EquipmentManager.FAMILIAR;
+			}
+
+			if ( slot != -1 )
+			{
+				AdventureResult before = EquipmentManager.getEquipment( slot );
+				AdventureResult after = ItemPool.get( before.getItemId() == ItemPool.BORIS_HELM ? ItemPool.BORIS_HELM_ASKEW : ItemPool.BORIS_HELM, 1 );
+
+				EquipmentManager.setEquipment( slot, after );
+				RequestLogger.printLine( "Twisted " + before + " into " + after );
+				return true;
 			}
 
 			return false;
