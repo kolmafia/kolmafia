@@ -611,6 +611,7 @@ public class ProxyRecordValue
 			.add( "base_mainstat_exp", DataTypes.FLOAT_TYPE )
 			.add( "phylum", DataTypes.PHYLUM_TYPE )
 			.add( "poison", DataTypes.EFFECT_TYPE )
+			.add( "boss", DataTypes.BOOLEAN_TYPE )
 			.finish( "monster proxy" );
 
 		public MonsterProxy( Value obj )
@@ -681,6 +682,11 @@ public class ProxyRecordValue
 				"none" :
 				EffectDatabase.getEffectName( EffectDatabase.POISON_ID[ poisonLevel ] );
 			return DataTypes.parseEffectValue( poisonName, true );
+		}
+
+		public boolean get_boss()
+		{
+			return ((MonsterData) this.content).isBoss();
 		}
 	}
 
