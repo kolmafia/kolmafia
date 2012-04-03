@@ -341,6 +341,7 @@ public class MonsterDatabase
 		int defenseElement = MonsterDatabase.NONE;
 		int phylum = MonsterDatabase.NONE;
 		int poison = Integer.MAX_VALUE;
+		boolean boss = false;
 
 		StringTokenizer tokens = new StringTokenizer( s, " " );
 		while ( tokens.hasMoreTokens() )
@@ -497,6 +498,12 @@ public class MonsterDatabase
 					continue;
 				}
 
+				else if ( option.equals( "BOSS" ) )
+				{
+					boss = true;
+					continue;
+				}
+
 				RequestLogger.printLine( "Monster: \"" + name + "\": unknown option: " + option );
 			}
 			catch ( Exception e )
@@ -511,7 +518,7 @@ public class MonsterDatabase
 		}
 
 		return new MonsterData( name, health, attack, defense, initiative, experience,
-			attackElement, defenseElement, minMeat, maxMeat, phylum, poison );
+			attackElement, defenseElement, minMeat, maxMeat, phylum, poison, boss );
 	}
 
 	private static final Object parseNumeric( StringTokenizer tokens )
