@@ -3409,6 +3409,7 @@ public abstract class ChoiceManager
 			     text.indexOf( "a sad little servo whine" ) != -1 )
 			{
 				EquipmentManager.discardEquipment( ItemPool.EMU_UNIT );
+				QuestDatabase.setQuestIfBetter( QuestDatabase.GENERATOR, QuestDatabase.FINISHED );
 			}
 			break;
 

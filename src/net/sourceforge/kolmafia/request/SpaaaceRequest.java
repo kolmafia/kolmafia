@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -114,6 +115,8 @@ public class SpaaaceRequest
 		{
 			return;
 		}
+
+		QuestDatabase.setQuestIfBetter( QuestDatabase.GENERATOR, QuestDatabase.STARTED );
 
 		if ( urlString.indexOf( "place=shop" ) != -1 )
 		{
