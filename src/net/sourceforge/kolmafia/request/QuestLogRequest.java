@@ -145,19 +145,31 @@ public class QuestLogRequest
 
 	public static final void registerQuests( final boolean isExternal, final String urlString, final String responseText )
 	{
-		if ( urlString.indexOf( "which=1" ) != -1 )
+		if ( urlString.indexOf( "which=" ) == -1 )
+		{
+			for ( int i = 1; i < 4; ++i )
+			{
+				if ( responseText.indexOf( "questlog.php?which=" + i ) == -1 )
+				{
+					parseResponse( responseText, i );
+					break;
+				}
+			}
+		}
+
+		else if ( urlString.indexOf( "which=1" ) != -1 )
 		{
 			parseResponse( responseText, 1 );
 		}
 
-		if ( urlString.indexOf( "which=2" ) != -1 )
+		else if ( urlString.indexOf( "which=2" ) != -1 )
 		{
 			parseResponse( responseText, 2 );
 
 			GalaktikRequest.setDiscount( QuestLogRequest.finishedQuest( QuestDatabase.GALAKTIK ) );
 		}
 
-		if ( urlString.indexOf( "which=3" ) != -1 )
+		else if ( urlString.indexOf( "which=3" ) != -1 )
 		{
 			QuestLogRequest.other = responseText;
 
