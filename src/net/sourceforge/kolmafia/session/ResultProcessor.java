@@ -1114,12 +1114,22 @@ public class ResultProcessor
 			IslandDecorator.resetGremlinTool();
 			break;
 
+		case ItemPool.RONALD_SHELTER_MAP:
+		case ItemPool.GRIMACE_SHELTER_MAP:
+			QuestDatabase.setQuestIfBetter( QuestDatabase.GENERATOR, "step1" );
+			break;
+
+		case ItemPool.SPOOKY_LITTLE_GIRL:
+			QuestDatabase.setQuestIfBetter( QuestDatabase.GENERATOR, "step2" );
+			break;
+
 		case ItemPool.EMU_UNIT:
 			// If you get an E.M.U. Unit, you lose all the E.M.U. parts
 			ResultProcessor.processItem( ItemPool.EMU_JOYSTICK, -1 );
 			ResultProcessor.processItem( ItemPool.EMU_ROCKET, -1 );
 			ResultProcessor.processItem( ItemPool.EMU_HELMET, -1 );
 			ResultProcessor.processItem( ItemPool.EMU_HARNESS, -1 );
+			QuestDatabase.setQuestIfBetter( QuestDatabase.GENERATOR, "step3" );
 			break;
 
 		case ItemPool.OVERCHARGED_POWER_SPHERE:
@@ -1521,6 +1531,7 @@ public class ResultProcessor
 			}
 			break;
 		}
+
 		}
 
 		// Gaining items can achieve goals.

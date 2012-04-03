@@ -81,6 +81,7 @@ public class QuestDatabase
 	public static final String GALAKTIK = "questM04Galaktic";
 	public static final String AZAZEL = "questM10Azazel";
 	public static final String PIRATE = "questM12Pirate";
+	public static final String GENERATOR = "questF04Elves";
 
 	public static final Pattern HTML_WHITESPACE = Pattern.compile( "<[^<]+?>|[\\s\\n]" );
 
