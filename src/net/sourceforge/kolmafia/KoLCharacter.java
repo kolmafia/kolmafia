@@ -747,12 +747,6 @@ public abstract class KoLCharacter
 
 		int baseFullness = 15;
 
-		// If you are an Avatar of Boris, you are a hearty eater
-		if ( KoLCharacter.inAxecore() )
-		{
-			baseFullness = 20;
-		}
-
 		if ( Preferences.getBoolean( "distentionPillActive" ) )
 		{
 			baseFullness++;
@@ -788,9 +782,18 @@ public abstract class KoLCharacter
 			baseFullness += 5;
 		}
 
-		if ( KoLCharacter.hasSkill( "Legendary Appetite" ) )
+		// If you are an Avatar of Boris, you are a hearty eater
+		if ( KoLCharacter.inAxecore() )
 		{
 			baseFullness += 5;
+
+			if ( KoLCharacter.hasSkill( "Legendary Appetite" ) )
+			{
+				baseFullness += 5;
+			}
+
+			// Today is the Feast of Boris. Yay, you!
+			return baseFullness;
 		}
 
 		return KoLCharacter.isFullnessIncreased ? baseFullness + 15 : baseFullness;
