@@ -1619,7 +1619,7 @@ public class IslandDecorator
 			done = true;
 		}
 
-		if ( location != IslandDecorator.currentJunkyardLocation )
+		if ( !location.equals( IslandDecorator.currentJunkyardLocation ) )
 		{
 			IslandDecorator.currentJunkyardTool = tool;
 			Preferences.setString( "currentJunkyardTool", tool );

@@ -175,7 +175,7 @@ public class RecordType
 
 	public boolean equals( final Type o )
 	{
-		return o instanceof RecordType && this.name == ( (RecordType) o ).name;
+		return o instanceof RecordType && this.name.equals( ( (RecordType) o ).name );
 	}
 
 	public Type simpleType()
