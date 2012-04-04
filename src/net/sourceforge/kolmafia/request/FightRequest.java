@@ -2496,7 +2496,7 @@ public class FightRequest
 		for ( int i = 0; i < FightRequest.NEMESIS_WEAPONS.length; ++i )
 		{
 			Object[] data = FightRequest.NEMESIS_WEAPONS[ i ];
-			if ( KoLCharacter.getClassType() == data[ 0 ] )
+			if ( KoLCharacter.getClassType().equals( data[ 0 ] ) )
 			{
 				EquipmentManager.transformEquipment(
 					(AdventureResult) data[ reverse ? 2 : 1 ],

@@ -104,7 +104,7 @@ public class DebugModifiers
 			return;
 		}
 		
-		if ( desc != DebugModifiers.currentDesc ||
+		if ( !desc.equals( DebugModifiers.currentDesc ) ||
 			DebugModifiers.adjustments.containsKey( key ) )
 		{
 			DebugModifiers.flushRow();

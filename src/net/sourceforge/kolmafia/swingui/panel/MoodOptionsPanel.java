@@ -301,7 +301,7 @@ public class MoodOptionsPanel
 				return;
 			}
 
-			if ( desiredType == autoFillTypes[ 0 ] )
+			if ( desiredType.equals( autoFillTypes[ 0 ] ) )
 			{
 				MoodManager.minimalSet();
 			}

@@ -153,7 +153,6 @@ public class MoneyMakingGameManager
 
 	private static final Bet findBet( final int id, List list )
 	{
-		int [] bets = new int[ list.size() ];
 		Iterator it = list.iterator();
 		int index = 0;
 		while ( it.hasNext() )
