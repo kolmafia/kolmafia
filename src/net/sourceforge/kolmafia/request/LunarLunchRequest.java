@@ -118,7 +118,7 @@ public class LunarLunchRequest
 
 	public static String accessible()
 	{
-		if ( Preferences.getString( QuestDatabase.GENERATOR ) != QuestDatabase.FINISHED )
+		if ( !Preferences.getString( QuestDatabase.GENERATOR ).equals( QuestDatabase.FINISHED ) )
 		{
 			return "You need to repair the Elves' Shield Generator to shop at the Lunar Lunch-o-Mat.";
 		}
