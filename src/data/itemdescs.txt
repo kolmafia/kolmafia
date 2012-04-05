@@ -5505,7 +5505,7 @@
 5504
 5505	449463152	pogpack.gif	pack of pogs	packs of pogs
 5506	806048402	jerkycoins.gif	jerky coins	stacks of jerky coins
-5507	499208335	Gowassail.gif	Go-Wassail
+5507	499208335	gowassail.gif	Go-Wassail
 5508	740355922	tinybook.gif	Uncle Greenspan's Bathroom Finance Guide
 5509	487627345	bubblebottle.gif	bottle of bubbles	bottles of bubbles
 5510	148288267	windupcar.gif	wind-up meatcar
