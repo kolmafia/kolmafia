@@ -2396,36 +2396,34 @@ public abstract class SorceressLairManager
 	{
 		// lair.php and lair1-6.php all can check for the same things.
 		// Work backwards from the end to see what zones are unlocked.
-		if ( true )
-		{
-			// Temporary disabling while we figure out the HTML
-			return;
-		}
 		if ( responseText.indexOf( "ascend.php" ) != -1 )
 		{
 			QuestDatabase.setQuestProgress( QuestDatabase.FINAL, QuestDatabase.FINISHED );
 		}
-		else if ( responseText.indexOf( "lair6.php" ) != -1 )
+		else if ( responseText.indexOf( "#Map4" ) != -1 || responseText.indexOf( "towerup2.gif" ) != -1 )
 		{
 			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step5" );
 		}
-		else if ( responseText.indexOf( "lair5.php" ) != -1 )
+		else if ( responseText.indexOf( "#Map3" ) != -1 )
 		{
 			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step4" );
 		}
-		else if ( responseText.indexOf( "lair4.php" ) != -1 )
+		else if ( responseText.indexOf( "#Map2" ) != -1 )
 		{
 			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step4" );
 		}
-		else if ( responseText.indexOf( "lair3.php" ) != -1 )
+		// Cave done - third step
+		else if ( responseText.indexOf( "#Map" ) != -1 || responseText.indexOf( "cave22done" ) != -1 )
 		{
 			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step3" );
 		}
-		else if ( responseText.indexOf( "lair2.php" ) != -1 )
+		// Huge mirror broken - second step
+		else if ( responseText.indexOf( "cave1mirrordone" ) != -1 )
 		{
 			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step2" );
 		}
-		else if ( responseText.indexOf( "lair1.php" ) != -1 )
+		// Passed the three gates - first step
+		else if ( responseText.indexOf( "cave1mirror.gif" ) != -1 )
 		{
 			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step1" );
 		}
