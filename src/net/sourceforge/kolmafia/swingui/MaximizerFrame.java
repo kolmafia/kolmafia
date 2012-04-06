@@ -568,7 +568,7 @@ public class MaximizerFrame
 					// Hardcoded exception for "Trivia Master", which has a non-standard use command.
 					if ( !KoLCharacter.canInteract() && cmd.indexOf( "Trivial Avocations Card" ) != -1 )
 					{
-						cmd = "";
+						continue;
 					}
 					else
 					{
