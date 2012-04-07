@@ -352,7 +352,7 @@ public class PyramidRequest
 			buffer.append( "<a href=\"adventure.php?snarfblat=125\">" );
 		}
 
-		buffer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/pyramid/pyramid3a.gif\" width=500 height=84 border=0>" );
+		buffer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/pyramid/pyramid3b.gif\" width=500 height=84 border=0>" );
 
 		// End link, if requested.
 		if ( link )
