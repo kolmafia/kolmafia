@@ -3022,6 +3022,7 @@ public abstract class ChoiceManager
 		// Wheel In the Pyramid, Keep on Turning
 		case 134:
 		case 135:
+			PyramidRequest.setPyramidWheelPlaced();
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				PyramidRequest.advancePyramidPosition();
