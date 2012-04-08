@@ -1114,6 +1114,10 @@ public class ResultProcessor
 			IslandDecorator.resetGremlinTool();
 			break;
 
+		case ItemPool.SPOOKY_BICYCLE_CHAIN:
+			QuestDatabase.setQuestIfBetter( QuestDatabase.BUGBEAR, "step3" );
+			break;
+
 		case ItemPool.RONALD_SHELTER_MAP:
 		case ItemPool.GRIMACE_SHELTER_MAP:
 			QuestDatabase.setQuestIfBetter( QuestDatabase.GENERATOR, "step1" );
