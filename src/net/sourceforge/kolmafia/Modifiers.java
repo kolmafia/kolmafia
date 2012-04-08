@@ -1361,6 +1361,7 @@ public class Modifiers
 		}
 
 		boolean changed = false;
+		this.name = mods.name;
 
 		float[] copyFloats = mods.floats;
 		for ( int index = 0; index < this.floats.length; ++index )
