@@ -481,11 +481,6 @@ public class ValhallaDecorator
 			buffer.append( "<nobr><a href=\"dwarfcontraption.php\">acquire dwarvish war outfit piece</a></nobr><br>" );
 		}
 
-		if ( InventoryManager.hasItem( ItemPool.GUNPOWDER ) )
-		{
-			buffer.append( "<nobr><a href=\"postwarisland.php?place=lighthouse&action=pyro\">trade in barrels of gunpowder for big boom</a></nobr><br>" );
-		}
-
 		if ( InventoryManager.hasItem( ItemPool.RAT_WHISKER ) )
 		{
 			buffer.append( "<nobr><a href=\"town_wrong.php?place=artist&action=whisker\">trade in rat whiskers for meat</a></nobr><br>" );
