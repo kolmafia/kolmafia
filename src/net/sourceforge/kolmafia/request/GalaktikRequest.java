@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -203,7 +204,18 @@ public class GalaktikRequest
 		{
 			return;
 		}
+		
+		// Starting the quest
+		// That's good news, my friend! Here's the situation. I've run out of ingredients for some of my patent
+		// medicines, and I simply don't have the time to go out and gather them myself.
+		// First...
+		
+		if ( responseText.indexOf( "I've run out of ingredients for some of my patent" ) != -1 )
+		{
+			QuestDatabase.setQuestProgress( QuestDatabase.GALAKTIK, QuestDatabase.STARTED );
+		}
 
+		// Finishing the quest
 		// Ah, my friend! You've found my herbs! These will come in
 		// very, very handy. To show my appreciation, I'd like to offer
 		// you a lifetime discount on Curative Nostrums and Fizzy
@@ -216,10 +228,12 @@ public class GalaktikRequest
 			ResultProcessor.processItem( ItemPool.SHYSTERWEED, -3 );
 			ResultProcessor.processItem( ItemPool.SWINDLEBLOSSOM, -3 );
 			GalaktikRequest.discount = true;
+			QuestDatabase.setQuestProgress( QuestDatabase.GALAKTIK, QuestDatabase.FINISHED );
 		}
 		else if ( responseText.indexOf( "Restore HP (6 Meat each)" ) != -1 ||
 			  responseText.indexOf( "Restore MP (12 Meat each)" ) != -1 )
 		{
+			QuestDatabase.setQuestProgress( QuestDatabase.GALAKTIK, QuestDatabase.FINISHED );
 			GalaktikRequest.discount = true;
 		}
 		else if ( responseText.indexOf( "Restore HP (10 Meat each)" ) != -1 ||
