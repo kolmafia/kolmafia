@@ -415,6 +415,9 @@ public class EquipmentManager
 		case ItemPool.PATRIOT_SHIELD:
 			KoLCharacter.addAvailableSkill( "Throw Shield" );
 			break;
+		case ItemPool.PLASTIC_VAMPIRE_FANGS:
+			KoLCharacter.addAvailableSkill( "Feed" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,
