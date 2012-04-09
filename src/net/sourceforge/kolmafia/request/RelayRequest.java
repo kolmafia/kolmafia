@@ -149,7 +149,7 @@ public class RelayRequest
 	public RelayRequest( final boolean allowOverride )
 	{
 		super( "" );
-		this.allowOverride = allowOverride && Preferences.getBoolean( "relayAllowsOverrides" );
+		this.allowOverride = allowOverride;
 	}
 
 	public String getHashField()
