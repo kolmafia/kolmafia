@@ -3331,7 +3331,7 @@ Sunburned	Muscle: -2, Moxie: -2
 Supafly	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +30, Sleaze Damage: +10, Sleaze Resistance: +2
 Super Accuracy	Critical: 5
 # Super Skill: Combat Skills/Spells cost 0 MP
-Super Speed	Moxie: +100
+Super Speed	Moxie Percent: +100
 Super Structure	Damage Absorption: +500, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5
 Super Vision	Item Drop: +25
 Super-Charged	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
