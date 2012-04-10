@@ -1115,7 +1115,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.SPOOKY_BICYCLE_CHAIN:
-			QuestDatabase.setQuestIfBetter( QuestDatabase.BUGBEAR, "step3" );
+			if ( combatResults ) QuestDatabase.setQuestIfBetter( QuestDatabase.BUGBEAR, "step3" );
 			break;
 
 		case ItemPool.RONALD_SHELTER_MAP:
