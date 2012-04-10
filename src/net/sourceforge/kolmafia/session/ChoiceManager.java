@@ -3554,14 +3554,14 @@ public abstract class ChoiceManager
 			break;
 		case 123:
 			// At least it's not full of trash
-			if ( ChoiceManager.lastDecision == 1 && KoLmafia.isAdventuring() )
+			if ( ChoiceManager.lastDecision == 2  )
 			{
 				QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, "step1" );
 			}
 			break;
 		case 125:
 			// No visible means of support
-			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
+			if ( ChoiceManager.lastDecision == 3  )
 			{
 				QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, "step3" );
 			}
@@ -3569,7 +3569,7 @@ public abstract class ChoiceManager
 			
 		case 132:
 			// Let's Make a Deal!
-			if ( ChoiceManager.lastDecision == 1 && KoLmafia.isAdventuring() )
+			if ( ChoiceManager.lastDecision == 2 )
 			{
 				QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step1" );
 			}
