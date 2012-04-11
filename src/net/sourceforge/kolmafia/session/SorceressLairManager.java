@@ -334,7 +334,8 @@ public abstract class SorceressLairManager
 			"gate that is not a gate",
 			"",
 			"Teleportitis",
-			"potion of teleportitis"
+			"potion of teleportitis",
+			"ring of teleportation"
 		},
 	};
 
