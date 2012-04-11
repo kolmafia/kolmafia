@@ -225,6 +225,7 @@ public class ChoiceOptionsPanel
 		}
 
 		this.maidenSelect = new JComboBox();
+		this.maidenSelect.addItem( "Ignore this adventure" );
 		this.maidenSelect.addItem( "Fight a random knight" );
 		this.maidenSelect.addItem( "Only fight the wolf knight" );
 		this.maidenSelect.addItem( "Only fight the snake knight" );
@@ -793,8 +794,6 @@ public class ChoiceOptionsPanel
 			overrideIndex == 0 || override == null ? "" : (String) override );
 
 		Preferences.setInteger( "violetFogGoal", this.violetFogSelect.getSelectedIndex() );
-		Preferences.setString( "choiceAdventure89",
-			String.valueOf( this.maidenSelect.getSelectedIndex() ) );
 		Preferences.setString( "choiceAdventure127",
 			String.valueOf( this.palindomePapayaSelect.getSelectedIndex() + 1 ) );
 		Preferences.setInteger( "barrelGoal", this.barrelSelect.getSelectedIndex() + 1 );
@@ -1060,6 +1059,24 @@ public class ChoiceOptionsPanel
 			break;
 		}
 
+		// necessary for backwards-compatibility
+		switch ( this.maidenSelect.getSelectedIndex() )
+		{
+		case 0: // Ignore this adventure
+			Preferences.setString( "choiceAdventure89", "6" );
+			break;
+
+		case 1: // Fight a random knight
+		case 2: // Only fight the wolf knight
+		case 3: // Only fight the snake knight
+		case 4: // Maidens, then fight a random knight
+		case 5: // Maidens, then fight the wolf knight
+		case 6: // Maidens, then fight the snake knight
+			Preferences.setString( "choiceAdventure89",
+				String.valueOf( this.maidenSelect.getSelectedIndex() - 1 ) );
+			break;
+		}
+
 		// OceanDestinationComboBox handles its own settings.
 		this.oceanDestSelect.saveSettings();
 
@@ -1115,7 +1132,6 @@ public class ChoiceOptionsPanel
 			this.louvreSelect.setSelectedIndex( index );
 		}
 
-		this.maidenSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure89" ) );
 		this.palindomePapayaSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "choiceAdventure127" ) - 1 ) );
 		this.barrelSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "barrelGoal" ) - 1 ) );
 		this.darkAtticSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure549" ) );
@@ -1351,6 +1367,19 @@ public class ChoiceOptionsPanel
 		else
 		{
 			this.fallSelect.setSelectedIndex( 2 );
+		}
+
+		// Figure out what to do at the maidens
+		// necessary for backwards-compatibility
+
+		index = Preferences.getInteger( "choiceAdventure89" );
+		if ( index == 6 )
+		{
+			this.maidenSelect.setSelectedIndex( 0 );
+		}
+		else
+		{
+			this.maidenSelect.setSelectedIndex( index + 1 );
 		}
 
 		// OceanDestinationComboBox handles its own settings.

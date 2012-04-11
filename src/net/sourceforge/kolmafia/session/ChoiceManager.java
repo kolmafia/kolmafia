@@ -576,7 +576,7 @@ public abstract class ChoiceManager
 
 		new ChoiceSpoiler(
 			"choiceAdventure89", "Haunted Gallery",
-			new String[] { "Wolf Knight", "Snake Knight", "Dreams and Lights" } ),
+			new String[] { "Wolf Knight", "Snake Knight", "Dreams and Lights", "skip adventure" } ),
 
 		// Curtains
 		new ChoiceAdventure(
@@ -4337,6 +4337,8 @@ public abstract class ChoiceManager
 				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "1" : "3";
 			case 5:
 				return KoLConstants.activeEffects.contains( ChoiceManager.MAIDEN_EFFECT ) ? "2" : "3";
+			case 6:
+				return "4";
 			}
 			return decision;
 
