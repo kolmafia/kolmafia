@@ -874,7 +874,7 @@ user	choiceAdventure85	1
 user	choiceAdventure86	2
 user	choiceAdventure87	2
 user	choiceAdventure88	1
-user	choiceAdventure89	3
+user	choiceAdventure89	6
 user	choiceAdventure90	2
 user	choiceAdventure91	1
 user	choiceAdventure105	3
