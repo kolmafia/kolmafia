@@ -1693,7 +1693,7 @@ public class RequestEditorKit
 			link.setLength( 0 );
 			link.append( "<p><a href=\"hiddencity.php?which=" );
 			link.append( String.valueOf( current - 1 ) );
-			link.append( "\">Adventure Again in These Ruins</a>" );
+			link.append( "\">Adventure Yet Again in These Ruins</a>" );
 			buffer.insert( index, link.toString() );
 		}
 
