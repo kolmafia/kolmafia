@@ -113,6 +113,7 @@ var argPreds = {
 	"hascombatitem": true,
 	"hasskill": true,
 	"monstername": true,
+	"happymediumglow": true,
 };
 
 function predicate(text, err)
@@ -299,6 +300,6 @@ function syntaxcheck()
 	}
 
 	if (output.value == "") {
-		output.value = "No errors found (KoLmafia syntax checker v1.3)";
+		output.value = "No errors found (KoLmafia syntax checker v1.4)";
 	}
 }
