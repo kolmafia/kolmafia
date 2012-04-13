@@ -186,10 +186,20 @@ public class StoreManageFrame
 
 			for ( int i = 0; i < rowCount; ++i )
 			{
-				itemId[ i ] =
-					ItemDatabase.getItemId( (String) StoreManageFrame.this.manageTable.getValueAt( i, 0 ) );
+				String item = (String) StoreManageFrame.this.manageTable.getValueAt( i, 0 );
+				itemId[ i ] = ItemDatabase.getItemId( item );
 
 				prices[ i ] = ( (Integer) StoreManageFrame.this.manageTable.getValueAt( i, 1 ) ).intValue();
+				int cheapest = ( (Integer) StoreManageFrame.this.manageTable.getValueAt( i, 2 ) ).intValue();
+
+				if ( cheapest >= 1000000 && prices[ i ] < cheapest * 0.15  )
+				{
+					String message = item + ": the price is less than 15% of the cheapest in the mall, continue?";
+					if ( !InputFieldUtilities.confirm( message ) )
+					{
+						return;
+					}
+				}
 
 				int oldLimit = 0;
 
