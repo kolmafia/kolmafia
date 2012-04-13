@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BadMoonManager;
@@ -913,6 +914,17 @@ public abstract class KoLmafia
 		// Look at the Quest Log
 
 		RequestThread.postRequest( new QuestLogRequest() );
+
+		// if the Cyrpt quest is active, force evilometer refresh
+		// (if we don't know evil levels already)
+		if ( Preferences.getString( QuestDatabase.CYRPT ).equals( QuestDatabase.STARTED )
+			|| Preferences.getString( QuestDatabase.CYRPT ).indexOf( "step" ) != -1 )
+		{
+			if ( Preferences.getInteger( "cyrptTotalEvilness" ) == 0 )
+			{
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.EVILOMETER ) );
+			}
+		}
 
 		// Retrieve the Terrarium
 
