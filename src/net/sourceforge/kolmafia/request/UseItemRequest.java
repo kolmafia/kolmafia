@@ -2173,20 +2173,21 @@ public class UseItemRequest
 				return;
 			}
 
-			FamiliarData blackbird = KoLCharacter.getFamiliar();
-			AdventureResult blackbirdItem = blackbird.getItem();
-
-			if ( !Preferences.getString( "preBlackbirdFamiliar" ).equals( "" ) )
+			String previous = Preferences.getString( "preBlackbirdFamiliar" );
+			if ( !previous.equals( "" ) )
 			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
-					"familiar", Preferences.getString( "preBlackbirdFamiliar" ) );
-				if ( blackbirdItem != null && !blackbirdItem.equals( EquipmentRequest.UNEQUIP ) &&
-					KoLCharacter.getFamiliar().canEquip( blackbirdItem ) )
+				FamiliarData blackbird = KoLCharacter.getFamiliar();
+				AdventureResult blackbirdItem = blackbird.getItem();
+
+				KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "familiar", previous );
+				Preferences.setString( "preBlackbirdFamiliar", "" );
+
+				if ( blackbirdItem != null &&
+				     !blackbirdItem.equals( EquipmentRequest.UNEQUIP ) &&
+				     KoLCharacter.getFamiliar().canEquip( blackbirdItem ) )
 				{
 					RequestThread.postRequest( new EquipmentRequest( blackbirdItem ) );
 				}
-
-				Preferences.setString( "preBlackbirdFamiliar", "" );
 			}
 
 			return;
