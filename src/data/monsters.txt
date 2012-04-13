@@ -276,9 +276,9 @@ Creamy Pirate	HP: 90 Def: 100 Atk: 100 P: pirate	creamsicle (20)	cream stout (20
 Creepy Clown	HP: 16 Def: 20 Atk: 20 E: spooky Meat: 24-36 P: horror	acid-squirting flower (10)	clown shoes (10)	foolscap fool's cap (10)	clown skin (10)	big bass drum (4)	polka-dot bow tie (p5)	empty greasepaint tube (b0)
 Croqueteer	HP: [(MUS+ML)*.75] Def: [MUS+ML] Atk: [MOX+ML] Init: 75 Meat: 48 P: humanoid	croquet hedgehog (0)	flamingo mallet (0)
 Cruel Dust Mote	HP: 100 Def: 75 Atk: 75 P: strange	boulder (0)
-Crusty Hippy	HP: 30 Def: 41 Atk: 41 E: stench P: hippy	filthy corduroys (5)	filthy knitted dread sack (5)	windchimes (30)	reodorant (5)	hippy bongo (0)	Spanish fly (c25)
-Crusty Hippy Jewelry Maker	HP: 30 Def: 41 Atk: 41 E: stench P: hippy	hemp string (30)	filthy knitted dread sack (3)	reodorant (5)	filthy corduroys (2)	phat turquoise bead (10)	beach glass bead (10)	clay peace-sign bead (10)	hippy bongo (0)	Spanish fly (c25)
-Crusty Hippy Vegan Chef	HP: 30 Def: 41 Atk: 41 E: stench P: hippy	filthy corduroys (3)	filthy knitted dread sack (5)	filthy pestle (10)	herbs (30)	reodorant (5)	hippy bongo (0)	Spanish fly (c25)
+Crusty Hippy	HP: 30 Def: 41 Atk: 41 E: stench P: hippy	filthy corduroys (5)	filthy knitted dread sack (5)	windchimes (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)
+Crusty Hippy Jewelry Maker	HP: 30 Def: 41 Atk: 41 E: stench P: hippy	hemp string (30)	filthy knitted dread sack (3)	reodorant (5)	filthy corduroys (2)	phat turquoise bead (10)	beach glass bead (10)	clay peace-sign bead (10)	hippy bongo (5)	Spanish fly (c25)
+Crusty Hippy Vegan Chef	HP: 30 Def: 41 Atk: 41 E: stench P: hippy	filthy corduroys (3)	filthy knitted dread sack (5)	filthy pestle (10)	herbs (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)
 Crusty Pirate	HP: 90 Def: 100 Atk: 100 ED: stench Meat: 52-76 P: pirate	barrrnacle (15)	tarrrnish charrrm (10)
 Cubist Bull	HP: 110 Def: 105 Atk: 105 Meat: 160-240 P: beast	broken sword (5)	4-dimensional guitar (5)	non-Euclidean hoof (b0)
 Curmudgeonly Pirate	HP: 90 Def: 100 Atk: 100 P: pirate	all-purpose cleaner (25)	curmudgel (5)	grumpy old man charrrm (10)	handful of sawdust (30)	mizzenmast mop (c30)
@@ -295,8 +295,8 @@ Decent Lumberjack	HP: 35 Def: 35 Atk: 35 Meat: 16-24 P: humanoid	poutine (30)	di
 Decent White Shark	HP: 600 Def: 375 Atk: 425 Meat: 192-288 P: fish	dull fish scale (n15)	shark cartilage (c10)	shark jumper (c3)	shark tooth (n2)	shark tooth (n1)
 Demonic Icebox	HP: 5 Def: 5 Atk: 4 Meat: 4-6 P: demon	accidental cider (0)	ancient frozen dinner (30)	dire fudgesicle (0)	leftovers of indeterminate origin (40)	hand grenegg (p20)
 Demoninja	HP: 48 Def: 30 Atk: 48 E: heat Meat: 40-60 P: demon	demon skin (15)	fraudwort (c50)	hot katana blade (30)	ninja hot pants (5)
-Dirty Hippy	HP: 30 Def: 40 Atk: 40 E: stench P: hippy	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (2)	hippy bongo (0)	Spanish fly (c25)
-Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench P: hippy	beach glass bead (10)	clay peace-sign bead (10)	filthy corduroys (5)	filthy knitted dread sack (2)	hemp string (30)	hippy bongo (0)	phat turquoise bead (10)	reodorant (5)	Spanish fly (c25)
+Dirty Hippy	HP: 30 Def: 40 Atk: 40 E: stench P: hippy	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (2)	hippy bongo (5)	Spanish fly (c25)
+Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench P: hippy	beach glass bead (10)	clay peace-sign bead (10)	filthy corduroys (5)	filthy knitted dread sack (2)	hemp string (30)	hippy bongo (5)	phat turquoise bead (10)	reodorant (5)	Spanish fly (c25)
 Dirty Hippy Vegan Chef	HP: 30 Def: 40 Atk: 40 E: stench P: hippy	carob chunks (30)	double-barreled sling (0)	filthy knitted dread sack (5)	Uncle Jick's Brownie Mix (30)	reodorant (5)	filthy corduroys (2)	filthy pestle (5)	Spanish fly (c25)
 Dirty Old Lihc	HP: 50 Def: 60 Atk: 60 E: spooky P: undead
 Dirty Thieving Brigand	HP: 185 Def: 171 Atk: 169 Meat: 800-1200 P: humanoid
