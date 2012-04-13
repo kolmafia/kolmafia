@@ -2066,6 +2066,7 @@ public class DailyDeedsPanel
 		{
 			this.addListener( "timesRested" );
 			this.addListener( "(skill)" );
+			this.addListener( "kingLiberated" );
 			this.addButton( "rest" );
 			this.addLabel( "" );
 		}
