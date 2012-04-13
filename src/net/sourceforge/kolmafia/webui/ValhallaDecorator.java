@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -481,7 +482,8 @@ public class ValhallaDecorator
 			buffer.append( "<nobr><a href=\"dwarfcontraption.php\">acquire dwarvish war outfit piece</a></nobr><br>" );
 		}
 
-		if ( InventoryManager.hasItem( ItemPool.RAT_WHISKER ) )
+		if ( InventoryManager.hasItem( ItemPool.RAT_WHISKER )
+			&& Preferences.getString( QuestDatabase.ARTIST ).equals( QuestDatabase.FINISHED ) )
 		{
 			buffer.append( "<nobr><a href=\"town_wrong.php?place=artist&action=whisker\">trade in rat whiskers for meat</a></nobr><br>" );
 		}
