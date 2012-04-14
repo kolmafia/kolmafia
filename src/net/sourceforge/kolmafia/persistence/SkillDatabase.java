@@ -818,6 +818,8 @@ public class SkillDatabase
 		switch ( skillId )
 		{
 		case 3:		// The Smile of Mr. A.
+		case 4:		// Arse Shoot
+			// Item granted skills
 			return false;
 
 		case 1:		// Liver of Steel
