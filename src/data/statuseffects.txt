@@ -214,7 +214,7 @@
 213	Frog In Your Throat	squashfrog.gif	52cf0120a2ecbc702da6ef92e588d242	use 1 frogade
 214	Salamander In Your Stomach	liver.gif	1c2325ff89b6a58b386e5563da098e46	use 1 salamander slurry
 215	Newt Gets In Your Eyes	eyes.gif	46a5628ca44d03f0f26bdf3467f1c0c2	use 1 eyedrops of newt
-216	Blessed by the RNG	fence2.gif	e449f82b68903398fc800a02cf2aa318
+216	Blessed by the RNG	fence.gif	e449f82b68903398fc800a02cf2aa318
 217	Cursed by The RNG	tinycow.gif	619bf55052f4270389dd24d68a029246
 218	Amorous	lips.gif	e8430f88372ba98df5e361f0b091fe65	use 1 roofie
 219	Bubble, Bubble	sphere.gif	6ede1a75e47f82c98a429c9a50d067b4	use 1 alphabet gum
@@ -318,7 +318,7 @@
 317	Fireproof Lips	lips.gif	2bf98e882e69d84ef7184450c88383f3	use 1 SPF 451 lip balm
 318	Fever From the Flavor	snowflake.gif	9d1a493fe8640eaaaa3208b9e0e4758c	use 1 bottle of antifreeze
 319	Hyphemariffic	darkness.gif	6b0edfbc94593d4516065493f3607d93	use 1 black eyedrops
-320	Can't Smell Nothin'	stench.gf	1711b26207212327de89f2c030dc4089	use 1 Dogsgotnonoz pills
+320	Can't Smell Nothin'	stench.gif	1711b26207212327de89f2c030dc4089	use 1 Dogsgotnonoz pills
 321	Hyperoffended	sad.gif	cfc7cd0d0bd5dc7d2437bd4027677791	use 1 donkey flipbook
 322
 323	Burning Hands	hand.gif	ff1abd7eea34159903507bb907c56803	#Stream of Sauce splashback
@@ -405,13 +405,13 @@
 404	Braaains	realbrain.gif	cef7b7b9bd69838c097f00f584106cf8	#BM adv in Misspelled Cemetary (pre-crypt)
 405	Braaaaaains	realbrain.gif	4b54aa2a3caf4bf6dec36da0fc39f757	#BM adv in Misspelled Cemetary (post-crypt)
 406	Re-Possessed	stogie.gif	27e835ef2ee194eed4e43c64a8cf65ac	#BM adv in Haunted Billiards Room
-407	Burning Heart	heartrock.gif	ab7ab0ba8a213f24649b9d0152c57cc3	#BM adv in Haunted Kitchen
+407	Burning Heart	heart.gif	ab7ab0ba8a213f24649b9d0152c57cc3	#BM adv in Haunted Kitchen
 408	Frostbitten	snowflake.gif	f256c039b0ab68d2d48073a075e20563	#BM adv in Goatlet
 409	Freaked Out	hoppeddown.gif	0e5f80059469710470e31e21b2cc36fa	#BM adv in Haunted Library
 410	Guanified	guano.gif	501a88560f04ec27628459a502f0cb0a	#BM adv in Guano Junction
 411	Basted	slimed.gif	d07879d8d258769836c918f8dbd3d75d	#BM adv in Pandamonium Slums
 412	Raving Lunatic	hoppedup.gif	5cb64a8593bdf71300d242a39d06cac6	#BM adv in Castle in the Clouds
-413	Solar Flair	sun2.gif	f8cdfd0bd04d7c75528b6702756c738d	#BM adv in Oasis
+413	Solar Flair	sun.gif	f8cdfd0bd04d7c75528b6702756c738d	#BM adv in Oasis
 414	Hyperbolic Hypothermia	snowflake.gif	ad8e3a50b1a28d810fc50a5b22c7ed9f	#BM adv in Icy Peak
 415	Slimed	slimed.gif	c93be8b786d989c1a655e9721460e8bb	#BM adv in Haunted Ballroom
 416	Tar-Struck	blpudding.gif	44d5caa5c134dad2a5bce2caa126f6f9	#BM adv in Black Forest
@@ -443,13 +443,13 @@
 442	Preternatural Greed	meat.gif	77c8dcca272b5c6a62ff65ab673f09b8	summon 2
 443	Big Flaming Whip	whip.gif	1b8e17da0f810cea79461e5346364d13	summon 4
 444	Demonic Taint	stench.gif	2dbb492270ccad496291a6f7fdadde26	summon 5
-445	Dang Near Cut In Half	axegash.gif	73b1728ec6c9c1491f2aa5ae7134cfaa	#BM adv in Spooky Forest
+445	Dang Near Cut In Half	gash.gif	73b1728ec6c9c1491f2aa5ae7134cfaa	#BM adv in Spooky Forest
 446	Hella Tough	strboost.gif	1a46f0679200550d66cf30810ab7c47e	styx muscle
 447	Hella Smart	realbrain.gif	4972f34f7622eaa1fc8fd2ab6eb43f40	styx mysticality
 448	Hella Smooth	roundglasses.gif	9fc2c05bd8dff7c2b3c5a27b56a0240f	styx moxie
 449	Omphaloskepsis	omphalo.gif	9c789511c3a5bcd6c13655cb5f4d375b	#wearing navel ring of navel gazing
 450	Charrrming	wink.gif	5f1cccc50fd9f7124867b7110b27d717	use 1 pirate pamphlet
-451	Muscularrr	strboost.gi	3c49e4ccef7d18c1b51cda40413c8e23	use 1 pirate brochure
+451	Muscularrr	strboost.gif	3c49e4ccef7d18c1b51cda40413c8e23	use 1 pirate brochure
 452	Carrrsmic	snowflakes.gif	39abf158d5a73480bd08f3d37356bc05	use 1 pirate tract
 453	A Revolution in Your Mouth	tongue.gif	f980e9f6cb3c094c27332dd99517654f	use 1 Steal This Candy
 454	Gelded	lucre.gif	f04d5879435447fa4717d3fb7cde357d	use 1 chocolate filthy lucre
@@ -501,7 +501,7 @@
 500	O Hai!	catears.gif	3d8c2b6d2b47fa3962caf10750f15dc6	#wearing metallic foil cat ears
 501	Healthy Bronze Glow	reallytan.gif	e6d7b93edd98804b79cbee1a183cd10b	#Hobo Marketplace tanning salon
 502	Chalky White Pallor	paleface.gif	6ece19d0feb0b1e19dd71c8291ae5355	#Hobo Marketplace tanning salon
-503	Trepandation	plothole.gif	351388e013020a8a6903b73814fec155	#Hobo Marketplace
+503	Trepandation	hole.gif	351388e013020a8a6903b73814fec155	#Hobo Marketplace
 504	Educated (Kinda)	eyes.gif	93e8854157c14c46a1b27daa27f1350e	#Hobo Marketplace horror movie
 505	Educated (Sorta)	eyes.gif	8fe585ee3e637b86651ead4dad5c446d	#Hobo Marketplace ...other movie
 506	It Didn't Kill You	strboost.gif	31c3f8589619686bc3b0dd16f5094dd8	#Hobo Marketplace weightlifting
@@ -726,7 +726,7 @@
 725	Down the Rabbit Hole	hare.gif	907cb5ad2ab24111f4cc83b0609ad087	use 1 DRINK ME potion
 726	Assaulted with Pepper	blpepper.gif	3ea2b2308ef23f53d670c9d27f380c7d	hatter 4
 727	Three Days Slow	watch.gif	fa9a60563732a82bd6c68671998f7e4e	hatter 6
-728	Cat-Alyzed	blackcat2.gif	2a82a72fecb3e47c6e10c0b4a09f3e30	hatter 7
+728	Cat-Alyzed	blackcat.gif	2a82a72fecb3e47c6e10c0b4a09f3e30	hatter 7
 729	Anytwo Five Elevenis?	hobbyhorse.gif	e2f26024ae49c1eef94a20cc6caec8e3	hatter 8
 730	Coated Arms	nicesword.gif	b68894530a671bcdbbfc612f1afa1e20	hatter 9
 731	Smoky Third Eye	zomboeye.gif	5591b2d4198456fc6a9d584ad65542fc	hatter 10
@@ -834,7 +834,7 @@
 833	Single-Eyed Vision	monocle.gif	99bb0ca0617dd99c60c0831c256f73c6	use 1 Atomic Comic
 834	There is No Spoon	slotspoon.gif	3bcba089f2dcc1f804bcaca5ed8cf35c	use 1 Red Pill
 835	Eso S&iacute; Que Es	bangup.gif	f44faf22cf17c8874bde20b23d9d1c52	eat 1 spaghetti con calaveras
-836	On Pins and Needles		df3e73633630d0b3f3e96a910beff6ba
+836	On Pins and Needles	pins.gif	df3e73633630d0b3f3e96a910beff6ba
 837	Aided and Abetted	bandaid.gif	231d6fb1e18a7852eb8160af1d0d1376	use 1 Pok&euml;mann band-aid
 838	Wet Willied	willyweed.gif	fa0a9c3fd76b6740612e080fa638a512	use 1 willyweed
 839	Taste the Inferno	fire.gif	62309480939aa3667e3c37ea6bb7dab5	use 1 Nuclear Blastball
