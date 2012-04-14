@@ -2597,7 +2597,7 @@
 2596	390000537	yakskin.gif	leathery cat skin	leathery cat skins
 2597	631907210	hskin.gif	leathery bat skin	leathery bat skins
 2598	996364808	ratskin.gif	leathery rat skin	leathery rat skins
-2599	666281098	tgif	Discount Telescope Warehouse gift certificate	Discount Telescope Warehouse gift certificates
+2599	666281098	tgiftcert.gif	Discount Telescope Warehouse gift certificate	Discount Telescope Warehouse gift certificates
 2600	496663617	carblily.gif	carbonated water lily	carbonated water lilies
 2601	338816180	chefstaff6.gif	Staff of the Midnight Snack	Staves of the Midnight Snack
 2602	572669193	chefstaff7.gif	Staff of Blood and Pudding	Staves of Blood and Pudding
