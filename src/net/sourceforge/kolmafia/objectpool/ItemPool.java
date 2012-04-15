@@ -1423,6 +1423,8 @@ public class ItemPool
 	public static final int WHEN_CARD = 5512;
 	public static final int WHO_CARD = 5513;
 	public static final int WHERE_CARD = 5514;
+	public static final int GLOWING_FUNGUS = 5541;
+	public static final int NOSTRIL_OF_THE_SERPENT = 5545;
 	public static final int PLANT_BOOK = 5546;
 	public static final int CLANCY_SACKBUT = 5547;
 	public static final int GHOST_BOOK = 5548;
