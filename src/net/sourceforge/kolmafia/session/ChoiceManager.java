@@ -2132,24 +2132,10 @@ public abstract class ChoiceManager
 		// Choice 577 is Your Minstrel Scamp
 		// Choice 578 is End of the Boris Road
 
-		// Such Great Heights
-		new ChoiceAdventure(
-			"Woods", "choiceAdventure579", "Hidden Temple",
-			new String[] { "mysticality substats", "the Nostril of the Serpent or skip adventure", "+3 adv and extend 10 effects by 3 adv or skip adventure" }, 
-			new String[] { null, "5645", null } ),
-
+		// Choice 579 is Such Great Heights
 		// Choice 580 is The Hidden Heart of the Hidden Temple (4 variations)
-
-		// Such Great Depths
-		new ChoiceAdventure(
-			"Woods", "choiceAdventure581", "Hidden Temple",
-			new String[] { "glowing fungus", "5 adv of +15 mus/mox/mys or skip adventure", "fight clan of cave bars" }, 
-			new String[] { "5641", null, null } ),
-
-		// Fitting In
-		new ChoiceAdventure(
-			"Woods", "choiceAdventure582", "Hidden Temple",
-			new String[] { "Such Great Heights", "The Hidden Heart of the Hidden Temple", "Such Great Depths" } ), 
+		// Choice 581 is Such Great Depths
+		// Choice 582 is Fitting In
 
 		// Confusing Buttons
 		new ChoiceSpoiler(
@@ -2159,7 +2145,7 @@ public abstract class ChoiceManager
 		// Unconfusing Buttons
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure584", "Hidden Temple",
-			new String[] { "Hidden Temple (Stone)", "Hidden Temple (Sun)", "Hidden Temple (Gargoyle)", "Hidden Temple (Pikachutlotal)" } ), 
+			new String[] { "Hidden Temple (Stone) - muscle substats", "Hidden Temple (Sun) - gain ancient calendar fragment", "Hidden Temple (Gargoyle) - MP", "Hidden Temple (Pikachutlotal) - Hidden City unlock" } ), 
 
 	};
 
@@ -2490,6 +2476,18 @@ public abstract class ChoiceManager
 		case 502:
 			// Arboreal Respite
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Arboreal Respite" );
+		
+		case 579:
+			// Such Great Heights
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Such Great Heights" );
+
+		case 581:
+			// Such Great Depths
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Such Great Depths" );
+
+		case 582:
+			// Fitting In
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Fitting In" );
 		}
 		return null;
 	}
@@ -2725,27 +2723,11 @@ public abstract class ChoiceManager
 			result [ 5 ] = "skip adventure";
 			return result;
 
-		case 522:
-			// Welcome to the Footlocker
-			result = new String[ 2 ];
-
-			boolean havePolearm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_POLEARM ) > 0 );
-			boolean havePants = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_PANTS ) > 0 );
-			boolean haveHelm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 );
-
-			result [ 0 ] = ( !havePolearm ? "knob goblin elite polearm" :
-			                 !havePants ? "knob goblin elite pants" :
-			                 !haveHelm ? "knob goblin elite helm" :
-			                 "knob jelly donut" );
-			result [ 1 ] = "skip adventure";
-			return result;
-
 		case 502:
 			// Arboreal Respite
-
-			// meet the vampire hunter, trade bar skins or gain a spooky sapling
 			result = new String[ 3 ];
 
+			// meet the vampire hunter, trade bar skins or gain a spooky sapling
 			int stakes = InventoryManager.getCount( ItemPool.WOODEN_STAKES );
 			int hearts = InventoryManager.getCount( ItemPool.VAMPIRE_HEART );
 			String hunterAction = ( stakes > 0 ? "and get wooden stakes" : "and trade " + hearts + " hearts" );
@@ -2768,6 +2750,66 @@ public abstract class ChoiceManager
 			String mapAction = ( haveCoin ? ", gain spooky temple map" : "" );
 
 			result [ 2 ] = "gain a starter item, gain Spooky-Gro fertilizer (" + fertalizer + ")" + mapAction;
+
+			return result;
+
+		case 522:
+			// Welcome to the Footlocker
+			result = new String[ 2 ];
+
+			boolean havePolearm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_POLEARM ) > 0 );
+			boolean havePants = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_PANTS ) > 0 );
+			boolean haveHelm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 );
+
+			result [ 0 ] = ( !havePolearm ? "knob goblin elite polearm" :
+			                 !havePants ? "knob goblin elite pants" :
+			                 !haveHelm ? "knob goblin elite helm" :
+			                 "knob jelly donut" );
+			result [ 1 ] = "skip adventure";
+			return result;
+
+		case 579:
+			// Such Great Heights
+			result = new String[ 3 ];
+
+			boolean haveNostril = ( InventoryManager.getCount( ItemPool.NOSTRIL_OF_THE_SERPENT ) > 0 );
+			boolean gainNostril = ( !haveNostril && Preferences.getInteger( "lastTempleButtonsUnlock" ) != KoLCharacter.getAscensions() );
+
+			result [ 0 ] = "mysticality substats";
+			result [ 1 ] = ( gainNostril ? "gain the Nostril of the Serpent" : "skip adventure" );
+			result [ 2 ] = ( Preferences.getBoolean( "_templeAdventures" ) ? "skip adventure" : "gain 3 adventures" );
+			return result;
+
+		case 581:
+			// Such Great Depths
+			result = new String[ 3 ];
+
+			int fungus = InventoryManager.getCount( ItemPool.GLOWING_FUNGUS );
+
+			result [ 0 ] = "gain a glowing fungus (" + fungus + ")";
+			result [ 1 ] = ( Preferences.getBoolean( "_templeHiddenPower" ) ? "skip adventure" : "5 advs of +15 mus/mys/mox" );
+			result [ 2 ] = "fight clan of cave bars";
+			return result;
+
+		case 582:
+			// Fitting In
+			result = new String[ 3 ];
+
+			// mysticality substats, gain the Nostril of the Serpent or gain 3 adventures
+			haveNostril = ( InventoryManager.getCount( ItemPool.NOSTRIL_OF_THE_SERPENT ) > 0 );
+			gainNostril = ( !haveNostril && Preferences.getInteger( "lastTempleButtonsUnlock" ) != KoLCharacter.getAscensions() );
+			String nostrilAction = ( gainNostril ? "gain the Nostril of the Serpent" : "skip adventure" );
+			String advAction = ( Preferences.getBoolean( "_templeAdventures" ) ? "skip adventure" : "gain 3 adventures" );
+
+			result [ 0 ] = "mysticality substats, " + nostrilAction + " or " + advAction;
+
+			// Hidden Heart of the Hidden Temple
+			result [ 1 ] = "Hidden Heart of the Hidden Temple";
+
+			// gain glowing fungus, gain Hidden Power or fight a clan of cave bars
+			String powerAction = ( Preferences.getBoolean( "_templeHiddenPower" ) ? "skip adventure" : "Hidden Power" );
+
+			result [ 2 ] = "gain a glowing fungus, " + powerAction + " or fight a clan of cave bars";
 
 			return result;
 		}
@@ -3851,7 +3893,6 @@ public abstract class ChoiceManager
 			break;
 
 		case 578:
-		{
 			// End of the Boris Road
 			String newClass = "Unknown";
 			switch ( ChoiceManager.lastDecision )
@@ -3888,7 +3929,34 @@ public abstract class ChoiceManager
 
 			KoLmafia.resetAfterAvatar();
 			break;
-		}
+
+		case 579:
+			// Such Great Heights
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				Preferences.setBoolean( "_templeAdventures", true );
+			}
+			break;
+
+		case 581:
+			// Such Great Depths
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setBoolean( "_templeHiddenPower", true );
+			}
+			break;
+
+		case 584:
+			// Unconfusing Buttons
+			if ( Preferences.getInteger( "lastTempleButtonsUnlock" ) != KoLCharacter.getAscensions() )
+			{
+				Preferences.setInteger( "lastTempleButtonsUnlock", KoLCharacter.getAscensions() );
+			}
+			if ( InventoryManager.getCount( ItemPool.NOSTRIL_OF_THE_SERPENT ) > 0 )
+			{
+				ResultProcessor.processItem( ItemPool.NOSTRIL_OF_THE_SERPENT, -1 );
+			}
+			break;
 		}
 
 		if ( ChoiceManager.initializeAfterChoice && text.indexOf( "choice.php" ) == -1 )

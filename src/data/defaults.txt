@@ -513,6 +513,7 @@ user	lastStoneSphereReset	-1
 user	lastTavernAscension	0
 user	lastTavernSquare	0
 user	lastTelescopeReset	-1
+user	lastTempleButtonsUnlock	-1
 user	lastTempleUnlock	-1
 user	lastTowerClimb	-1
 user	lastTr4pz0rQuest	-1
@@ -814,6 +815,8 @@ user	_smilesOfMrA	0
 user	_stinkyCheeseCount	0
 user	_stressBallSqueezes	0
 user	_syntheticDogHairPillUsed	false
+user	_templeAdventures	false
+user	_templeHiddenPower	false
 user	_thingfinderCasts	0
 user	_timeHelmetAdv	0
 user	_toastSummons	0
