@@ -458,6 +458,7 @@ public class AccountRequest
 			if ( location.indexOf( "unroninconfirm=1" ) != -1 )
 			{
 				// Dropping from Softcore to Casual.
+				KoLCharacter.setRonin( false );
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "Dropped into Casual. Slacker." );
 				RequestLogger.updateSessionLog();
@@ -530,6 +531,7 @@ public class AccountRequest
 			{
 				// Dropping Hardcore
 				KoLCharacter.setHardcore( false );
+				KoLCharacter.setRonin( KoLCharacter.getCurrentRun() < 1000 );
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "Dropped Hardcore. Wimp." );
 				RequestLogger.updateSessionLog();
