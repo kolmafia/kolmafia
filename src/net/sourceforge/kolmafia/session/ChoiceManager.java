@@ -2774,10 +2774,11 @@ public abstract class ChoiceManager
 
 			boolean haveNostril = ( InventoryManager.getCount( ItemPool.NOSTRIL_OF_THE_SERPENT ) > 0 );
 			boolean gainNostril = ( !haveNostril && Preferences.getInteger( "lastTempleButtonsUnlock" ) != KoLCharacter.getAscensions() );
+			boolean templeAdvs = ( Preferences.getInteger( "lastTempleAdventures" ) == KoLCharacter.getAscensions() );
 
 			result [ 0 ] = "mysticality substats";
 			result [ 1 ] = ( gainNostril ? "gain the Nostril of the Serpent" : "skip adventure" );
-			result [ 2 ] = ( Preferences.getBoolean( "_templeAdventures" ) ? "skip adventure" : "gain 3 adventures" );
+			result [ 2 ] = ( templeAdvs ? "skip adventure" : "gain 3 adventures" );
 			return result;
 
 		case 581:
@@ -2799,7 +2800,9 @@ public abstract class ChoiceManager
 			haveNostril = ( InventoryManager.getCount( ItemPool.NOSTRIL_OF_THE_SERPENT ) > 0 );
 			gainNostril = ( !haveNostril && Preferences.getInteger( "lastTempleButtonsUnlock" ) != KoLCharacter.getAscensions() );
 			String nostrilAction = ( gainNostril ? "gain the Nostril of the Serpent" : "skip adventure" );
-			String advAction = ( Preferences.getBoolean( "_templeAdventures" ) ? "skip adventure" : "gain 3 adventures" );
+
+			templeAdvs = ( Preferences.getInteger( "lastTempleAdventures" ) == KoLCharacter.getAscensions() );
+			String advAction = ( templeAdvs ? "skip adventure" : "gain 3 adventures" );
 
 			result [ 0 ] = "mysticality substats, " + nostrilAction + " or " + advAction;
 
@@ -3932,9 +3935,9 @@ public abstract class ChoiceManager
 
 		case 579:
 			// Such Great Heights
-			if ( ChoiceManager.lastDecision == 3 )
+			if ( ChoiceManager.lastDecision == 3 && Preferences.getInteger( "lastTempleAdventures" ) != KoLCharacter.getAscensions())
 			{
-				Preferences.setBoolean( "_templeAdventures", true );
+				Preferences.setInteger( "lastTempleAdventures", KoLCharacter.getAscensions() );
 			}
 			break;
 
