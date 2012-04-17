@@ -317,13 +317,13 @@ Drunken Rat King	HP: 30 Def: 40 Atk: 40 P: beast	rat whisker (0)	rat whisker (0)
 Dyspepsi-Cola General	HP: 40 Def: 30 Atk: 30 P: humanoid	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
 Dyspepsi-Cola Knight	HP: 35 Def: 30 Atk: 30 P: humanoid	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
 Dyspepsi-Cola Soldier	HP: 30 Def: 30 Atk: 30 P: humanoid	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)	lucky lighter (p5)
-Ed the Undying (1)	BOSS HP: 256 Atk: 180 P: undead
-Ed the Undying (2)	BOSS HP: 256 Atk: 180 P: undead
-Ed the Undying (3)	BOSS HP: 128 Atk: 180 P: undead
-Ed the Undying (4)	BOSS HP: 64 Atk: 180 P: undead
-Ed the Undying (5)	BOSS HP: 32 Atk: 180 P: undead
-Ed the Undying (6)	BOSS HP: 16 Atk: 180 P: undead
-Ed the Undying (7)	BOSS HP: 8 Atk: 180 P: undead	Holy MacGuffin (n100)
+Ed the Undying (1)	BOSS HP: 256 Def: 180 Atk: 180 P: undead
+Ed the Undying (2)	BOSS HP: 256 Def: 180 Atk: 180 P: undead
+Ed the Undying (3)	BOSS HP: 128 Def: 180 Atk: 180 P: undead
+Ed the Undying (4)	BOSS HP: 64 Def: 180 Atk: 180 P: undead
+Ed the Undying (5)	BOSS HP: 32 Def: 180 Atk: 180 P: undead
+Ed the Undying (6)	BOSS HP: 16 Def: 180 Atk: 180 P: undead
+Ed the Undying (7)	BOSS HP: 8 Def: 180 Atk: 180 P: undead	Holy MacGuffin (n100)
 Edwing Abbidriel	HP: 0	elf resistance button (100)
 El Diablo	HP: 100000 Def: 100000 Atk: 100000
 Electron Submarine	HP: 100000 Def: 100000 Atk: 100000
@@ -661,7 +661,7 @@ Pretty Fly	HP: 100000 Def: 100000 Atk: 100000
 Procrastination Giant	HP: 150 Def: 125 Atk: 125 Meat: 120-180 P: demihuman	procrastination potion (30)
 Propaganda-Spewin' Elf	P: crimbo	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
 Protagonist	HP: 80 Def: 100 Atk: 100 Init: 80 Meat: 80-120 P: humanoid	phonics down (40)	ridiculously huge sword (10)	super-spiky hair gel (20)	ocarina of space (5)
-Protector Spectre	HP: 100 Def: 168 Phys: 100	ancient amulet (100)	spectre scepter (100)
+Protector Spectre	HP: 100 Def: 168 Atk: 164 Phys: 100	ancient amulet (100)	spectre scepter (100)
 Provocateur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Psychedelic Fur	HP: 18 Def: 21 Atk: 21 P: strange	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 Pufferfish	HP: 750 Def: 500 Atk: 400 Meat: 160-240 P: fish	pufferfish spine (n5)	rough fish scale (n4)	seaweed (n5)
