@@ -453,15 +453,17 @@ public class GenericRequest
 		}
 		else
 		{
-			this.baseURLString = newURLString.substring( 0, formSplitIndex );
+			this.baseURLString = URLDecoder.decode( newURLString.substring( 0, formSplitIndex ) );
+			String queryString = newURLString.substring( formSplitIndex + 1 );
+
 			if ( !usePostMethod )
 			{
-				this.formURLString = newURLString;
+				this.formURLString = this.baseURLString + "?" + queryString;
 			}
 			else
 			{
 				this.formURLString = this.baseURLString;
-				this.addFormFields( newURLString.substring( formSplitIndex + 1 ), encoded );
+				this.addFormFields( queryString, encoded );
 			}
 		}
 
