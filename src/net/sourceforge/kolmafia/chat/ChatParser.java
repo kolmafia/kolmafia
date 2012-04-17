@@ -100,8 +100,6 @@ public class ChatParser
 
 	public static void parseContacts( final List chatMessages, final String content )
 	{
-		ChatParser.parsePlayerIds( content );
-
 		Matcher titleMatcher = TITLE_PATTERN.matcher( content );
 
 		String title = titleMatcher.find() ? titleMatcher.group( 1 ) : "Contacts Online";
@@ -191,6 +189,8 @@ public class ChatParser
 
 	public static void parseLines( final List chatMessages, final String content )
 	{
+		ChatParser.parsePlayerIds( content );
+
 		// There are no updates if there was a timeout.
 
 		if ( content == null || content.length() == 0 )

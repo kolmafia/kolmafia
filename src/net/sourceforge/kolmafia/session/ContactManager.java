@@ -41,6 +41,7 @@ import java.util.Map.Entry;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.ChatSender;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -157,13 +158,31 @@ public class ContactManager
 
 	public static final String getPlayerId( final String playerName )
 	{
+		return ContactManager.getPlayerId( playerName, false );
+	}
+
+	public static final String getPlayerId( final String playerName, boolean retrieveId )
+	{
 		if ( playerName == null )
 		{
 			return null;
 		}
 
 		String playerId = (String) ContactManager.seenPlayerIds.get( playerName.toLowerCase() );
-		return playerId != null ? playerId : playerName;
+
+		if ( playerId != null )
+		{
+			return playerId;
+		}
+
+		if ( !retrieveId )
+		{
+			return playerName;
+		}
+
+		ChatSender.executeMacro( "/whois " + playerName );
+
+		return ContactManager.getPlayerId( playerName, false );
 	}
 
 	/**
