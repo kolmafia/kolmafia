@@ -3575,6 +3575,13 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "lastBallroomUnlock", KoLCharacter.getAscensions() );
 			}
 			break;
+			
+		case 89:
+			if ( ChoiceManager.lastDecision == 4 )
+			{
+				TurnCounter.startCounting( 10, "Garden Banished loc=*", "wolfshield.gif" );
+			}
+			break;
 
 		case 92: case 93: case 94: case 95: case 96:
 		case 97: case 98: case 99: case 100: case 101:
