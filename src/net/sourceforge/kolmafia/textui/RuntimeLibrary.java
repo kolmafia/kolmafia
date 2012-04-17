@@ -134,6 +134,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -1069,6 +1070,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "who_clan", new AggregateType(
 			DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ), params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "get_player_id", DataTypes.STRING_TYPE, params ) );
 
 		// Quest handling functions.
 
@@ -4421,6 +4425,13 @@ public abstract class RuntimeLibrary
 		}
 
 		return value;
+	}
+
+	public static Value get_player_id( Interpreter interpreter, final Value playerNameValue )
+	{
+		String playerName = playerNameValue.toString();
+
+		return new Value( ContactManager.getPlayerId( playerName, true ) );
 	}
 
 	// Quest completion functions.
