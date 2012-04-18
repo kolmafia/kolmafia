@@ -879,11 +879,15 @@ public class Modifiers
 		},
 		{ "Effect",
 		  null,
-		  Pattern.compile( "Effect: \"(.*?)\"" )
+		  Pattern.compile( "(?:^|, )Effect: \"(.*?)\"" )
 		},
 		{ "Equips On",
 		  null,
 		  Pattern.compile( "Equips On: \"(.*?)\"" )
+		},
+		{ "Familiar Effect",
+		  null,
+		  Pattern.compile( "Familiar Effect: \"(.*?)\"" )
 		},
 	};
 
