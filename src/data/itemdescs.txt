@@ -4826,7 +4826,7 @@
 4825	128842258	tpc09_5.gif	tiny plastic Mr. Mination
 4826	243481240	tpbge.gif	tiny plastic Best Game Ever
 4827	407192428	hyberdeer.gif	hibernating robot reindeer	hibernating robot reindeer
-4828	430467101	sleighbells.gif	S.L.E.I.G.H.B.E.L.L.S.
+4828	430467101	sleighbells.gif	S.L.E.I.G.H.B.E.L.L.S.	sets of S.L.E.I.G.H.B.E.L.L.S.
 4829	366290299	floppy.gif	robot reindeer protocol P.R.A.N.C.E.R.	P.R.A.N.C.E.R. disks
 4830	393606557	floppy.gif	robot reindeer protocol D.A.S.H.E.R.	D.A.S.H.E.R. disks
 4831	517343233	floppy.gif	robot reindeer protocol D.O.N.N.E.R.	D.O.N.N.E.R. disks
