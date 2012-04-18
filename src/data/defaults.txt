@@ -134,7 +134,6 @@ global	relayAddsRestoreLinks	true
 global	relayAddsUpArrowLinks	true
 global	relayAddsUseLinks	true
 global	relayAddsWikiLinks	false
-global	relayAllowsOverrides	false
 global	relayBrowserOnly	false
 global	relayFormatsChatText	false
 global	relayHidesJunkMallItems	false
