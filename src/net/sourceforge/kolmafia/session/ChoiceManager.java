@@ -1015,7 +1015,7 @@ public abstract class ChoiceManager
 		// Yes, You're a Rock Starrr
 		new ChoiceAdventure(
 			"Island", "choiceAdventure185", "Barrrney's Barrr",
-			new String[] { "base booze", "mixed drinks", "stats" } ),
+			null ),
 
 		// A Test of Testarrrsterone
 		new ChoiceAdventure(
@@ -2412,6 +2412,10 @@ public abstract class ChoiceManager
 
 			return result;
 
+		case 185:
+			// Yes, You're a Rock Starrr
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Barrrney's Barrr" );
+
 		case 187:
 			// Arrr You Man Enough?
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Barrrney's Barrr" );
@@ -2585,6 +2589,20 @@ public abstract class ChoiceManager
 			result[ 3 ] = "always 3 drunk & stats";
 			result[ 4 ] = "always shot of rotgut";
 			result[ 5 ] = "combat (or rotgut if Myst class)";
+			return result;
+
+		case 185:
+			// Yes, You're a Rock Starrr
+			result = new String[ 3 ];
+			
+			int drunk = KoLCharacter.getInebriety();
+			
+			// 0 drunk: base booze, mixed booze, fight
+			// More than 0 drunk: base booze, mixed booze, stats
+			
+			result[ 0 ] = "base booze";
+			result[ 1 ] = "mixed booze";
+			result[ 2 ] = drunk == 0 ? "combat" : "stats";
 			return result;
 
 		case 187:
