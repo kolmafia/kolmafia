@@ -1552,7 +1552,7 @@ Pok&euml;mann figurine: Kagosan	Sleaze Resistance: +2, Single Equip
 Pok&euml;mann figurine: Magikrap	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Moog	Moxie Percent: +10, Single Equip
 Pok&euml;mann figurine: Nothing	Spooky Resistance: +2, Single Equip
-Pok&euml;mann figurine: Porkachu	Familiar Weight: +3, Single Equip<
+Pok&euml;mann figurine: Porkachu	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Shoggoth	Mysticality Percent: +10, Single Equip
 Pok&euml;mann figurine: Smugleaf	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Twitter	Familiar Weight: +3, Single Equip
