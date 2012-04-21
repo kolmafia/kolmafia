@@ -288,8 +288,6 @@ public class CampgroundRequest
 		if ( i != -1 )
 		{
 			KoLConstants.campground.remove( i );
-			CampgroundRequest.setCampgroundItem( ItemPool.PUMPKIN, 0 );
-			CampgroundRequest.setCampgroundItem( ItemPool.PEPPERMINT_SPROUT, 0 );
 		}
 	}
 
@@ -429,6 +427,7 @@ public class CampgroundRequest
 		if ( action.equals( "garden" ) )
 		{
 			CampgroundRequest.clearCrop();
+			CampgroundRequest.parseCampground( responseText );
 			return;
 		}
 
