@@ -3824,10 +3824,8 @@ public class UseItemRequest
 
 		case ItemPool.PEPPERMINT_PACKET:
 		case ItemPool.PUMPKIN_SEEDS:
-			if ( responseText.indexOf( "too tired to do any more planting" ) == -1 )
-			{
-				RequestThread.postRequest( new CampgroundRequest() );
-			}
+			CampgroundRequest.clearCrop();
+			RequestThread.postRequest( new CampgroundRequest() );
 			return;
 		}
 	}
