@@ -62,7 +62,7 @@ boxed champagne	3	2	decent	4-8	0	0	0
 boxed wine	3	1	crappy	3	0	0	0
 braincracker sweet	5	1		10-15	0	0	0	10 Sugar Rush
 breaded beer	4	5	EPIC	26-29	0	0	93-107
-bucket of wine	10	5	good	16-20	10-50	10-50	10-50
+bucket of wine	10	5	decent	16-20	10-50	10-50	10-50
 bungle in the jungle	4	7	awesome	13-17	40-99	54-118	31-122
 buttery knob	2	1	good	4-5	0	0	0	5 Gutterminded
 caipifruta	3	3	good	5-10	16-20	0	0
