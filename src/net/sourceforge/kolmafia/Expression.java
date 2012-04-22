@@ -232,7 +232,7 @@ public class Expression
 			case 'e':
 				AdventureResult eff = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1, true );
 				v = eff == null ? 0.0f :
-					Math.max( 1, eff.getCount( KoLConstants.activeEffects ) );
+					Math.max( 0, eff.getCount( KoLConstants.activeEffects ) );
 				break;
 			case 'A':
 				v = KoLCharacter.getAscensions();

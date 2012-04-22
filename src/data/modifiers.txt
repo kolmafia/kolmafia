@@ -11,9 +11,11 @@
 # Familiar function: fam(text)
 #	This has a value of 1 if the player's familiar type contains the text, else 0.
 # Weapon function: mainhand(text)
-#	This has a value of 1 of the player's mainhand weapon class (sword, club, etc.)
+#	This has a value of 1 if the player's mainhand weapon class (sword, club, etc.)
 #	contains the text.
 # Preferences function: pref(text)
+# Effect function: effect(text)
+#	This returns the number of turns remaining of the effect uniquely matching text.
 # There can be at most one of each text function in any single expression.
 # Upper-case letters are varying values:
 #	A - number of Ascensions
