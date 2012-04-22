@@ -76,6 +76,10 @@ public class ModifierExpression
 		{
 			return this.literal( this.until( ")" ).toLowerCase(), 'h' );
 		}
+		if ( this.optional( "effect(" ) )
+		{
+			return this.literal( this.until( ")" ).toLowerCase(), 'e' );
+		}
 
 		return null;
 	}

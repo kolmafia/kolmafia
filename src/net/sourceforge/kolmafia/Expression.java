@@ -58,9 +58,9 @@ public class Expression
 	protected char[] bytecode;	// Compiled expression
 	protected ArrayList literals;	// Strings & floats needed by expression
 	protected AdventureResult effect;
-	
+
 	private static float[] cachedStack;
-	
+
 	protected synchronized static float[] stackFactory( float[] recycle )
 	{
 		if ( recycle != null )
@@ -229,6 +229,11 @@ public class Expression
 			case 'h':
 				v = Modifiers.mainhandClass.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0f : 1.0f;
 				break;
+			case 'e':
+				AdventureResult eff = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1, true );
+				v = eff == null ? 0.0f :
+					Math.max( 1, eff.getCount( KoLConstants.activeEffects ) );
+				break;
 			case 'A':
 				v = KoLCharacter.getAscensions();
 				break;
@@ -388,7 +393,7 @@ public class Expression
 		}
 		return '\0';
 	}
-	
+
 	protected String literal( Object value, char op )
 	{
 		if ( this.literals == null )
@@ -413,7 +418,7 @@ public class Expression
 				rv = this.term() + rv + "-";
 				break;
 			default:
-				return rv;			
+				return rv;
 			}
 		}
 	}
@@ -432,7 +437,7 @@ public class Expression
 				rv = this.factor() + rv + "/";
 				break;
 			default:
-				return rv;			
+				return rv;
 			}
 		}
 	}
@@ -514,7 +519,7 @@ public class Expression
 			{
 				KoLmafia.updateDisplay( "Evaluator syntax error: '" + rv +
 					"' is not valid in this context" );
-				return "\u8000";	
+				return "\u8000";
 			}
 			return rv;
 		}
@@ -538,7 +543,7 @@ public class Expression
 		}
 		KoLmafia.updateDisplay( "Evaluator syntax error: can't understand " + this.text );
 		this.text = "";
-		return "\u8000";	
+		return "\u8000";
 	}
 
 	protected String function()
