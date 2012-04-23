@@ -93,6 +93,7 @@ public class ClanLoungeRequest
 	private static final Pattern TREE_PATTERN = Pattern.compile( "Check back in (\\d+) day" );
 	private static final Pattern FAX_PATTERN = Pattern.compile( "preaction=(.+?)fax" );
 	private static final Pattern TEMPERATURE_PATTERN = Pattern.compile( "temperature=(\\d*)" );
+	private static final Pattern HOTTUB_PATTERN = Pattern.compile( "hottub(\\d).gif" );
 
 	public static final Object [][] POOL_GAMES = new Object[][]
 	{
@@ -601,6 +602,12 @@ public class ClanLoungeRequest
 		{
 			return;
 		}
+		
+		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );
+		if ( hottubMatcher.find() )
+		{
+			Preferences.setInteger( "_hotTubSoaks", 5 - Integer.parseInt( hottubMatcher.group( 1 ) ) );
+		}
 
 		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
@@ -634,20 +641,7 @@ public class ClanLoungeRequest
 
 		if ( action.equals( "hottub" ) )
 		{
-			// You relax in the hot tub, feeling all of your
-			// troubles drift away as the bubbles massage your
-			// weary muscles.
-
-			if ( responseText.indexOf( "bubbles massage your weary muscles" ) != -1 )
-			{
-				Preferences.increment( "_hotTubSoaks", 1 );
-			}
-			// You've already spent enough time in the hot tub today
-			else if ( responseText.indexOf( "You've already spent enough time in the hot tub today" ) != -1 )
-			{
-				Preferences.setInteger( "_hotTubSoaks", 5 );
-			}
-
+			// No action needed here because this is handled already
 			return;
 		}
 
