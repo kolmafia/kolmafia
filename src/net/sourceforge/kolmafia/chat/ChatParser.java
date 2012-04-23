@@ -350,6 +350,11 @@ public class ChatParser
 
 	public static final void parsePlayerIds( final String content )
 	{
+		if ( content == null )
+		{
+			return;
+		}
+
 		Matcher playerMatcher = ChatParser.PLAYERID_PATTERN.matcher( content );
 
 		String playerName, playerId;
