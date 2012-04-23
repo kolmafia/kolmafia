@@ -1424,7 +1424,6 @@ public class ItemPool
 	public static final int WHO_CARD = 5513;
 	public static final int WHERE_CARD = 5514;
 	public static final int GLOWING_FUNGUS = 5541;
-	public static final int NOSTRIL_OF_THE_SERPENT = 5545;
 	public static final int PLANT_BOOK = 5546;
 	public static final int CLANCY_SACKBUT = 5547;
 	public static final int GHOST_BOOK = 5548;
@@ -1434,6 +1433,7 @@ public class ItemPool
 	public static final int TRUSTY = 5552;
 	public static final int RAIN_DOH_BOX = 5563;
 	public static final int RAIN_DOH_MONSTER = 5564;
+	public static final int NOSTRIL_OF_THE_SERPENT = 5645;
 	public static final int BORIS_HELM = 5648;
 	public static final int BORIS_HELM_ASKEW = 5650;
 
