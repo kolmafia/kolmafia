@@ -896,6 +896,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "minstrel_instrument", DataTypes.ITEM_TYPE, params ) );
+		
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "minstrel_quest", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Random other functions related to current in-game
 		// state, not directly tied to the character.
@@ -3713,6 +3716,11 @@ public abstract class RuntimeLibrary
 	{
 		AdventureResult item = KoLCharacter.getCurrentInstrument();
 		return item == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( item.getName(), true );
+	}
+	
+	public static Value minstrel_quest( Interpreter interpreter )
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.minstrelAttention );
 	}
 
 	// Random other functions related to current in-game

@@ -348,6 +348,7 @@ public abstract class KoLCharacter
 	// Minstrel data
 	public static AdventureResult currentInstrument = null;
 	public static int minstrelLevel = 0;
+	public static boolean minstrelAttention = false;
 
 	private static int stillsAvailable = 0;
 	private static boolean tripleReagent = false;
@@ -3573,6 +3574,7 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.minstrelLevel = level;
 		KoLCharacter.currentInstrument = instrument;
+		KoLCharacter.minstrelAttention = attention;
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 	}
