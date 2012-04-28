@@ -1827,6 +1827,7 @@ public class UseItemRequest
 			else
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.DICTIONARY, -1 ) );
+				QuestDatabase.setQuestProgress( QuestDatabase.LOL, QuestDatabase.FINISHED );
 			}
 
 			return;
