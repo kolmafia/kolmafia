@@ -754,6 +754,7 @@ public abstract class KoLmafia
 	{
 		Preferences.setInteger( "lastCounterDay", HolidayDatabase.getPhaseStep() );
 
+		Preferences.setString( "banishingShoutMonsters", "" );
 		Preferences.setString( "barrelLayout", "?????????" );
 		Preferences.setBoolean( "bootsCharged", false );
 		Preferences.setBoolean( "breakfastCompleted", false );
@@ -976,6 +977,7 @@ public abstract class KoLmafia
 	{
 		KoLmafia.isRefreshing = true;
 
+
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages
 
@@ -990,6 +992,9 @@ public abstract class KoLmafia
 
 		request = new CharSheetRequest();
 		RequestThread.postRequest( request );
+
+		// Clear preferences
+		Preferences.setString( "banishingShoutMonsters", "" );
 
 		// Hermit items depend on character class
 
