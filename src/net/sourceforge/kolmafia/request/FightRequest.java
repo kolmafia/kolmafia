@@ -5450,6 +5450,19 @@ public class FightRequest
 						TurnCounter.startCounting( 16, "Romantic Monster window begin loc=*", "lparen.gif" );
 						TurnCounter.startCounting( 26, "Romantic Monster window end loc=*", "rparen.gif" );
 					}
+					else if ( skillId.equals( "11020" ) )
+					{
+						String pref = MonsterStatusTracker.getLastMonsterName();
+						String[] monsters = Preferences.getString( "banishingShoutMonsters" ).split( "\\|" );
+						for ( int i = 0; i < monsters.length && i < 2; ++i )
+						{
+							if ( monsters[ i ].length() > 0 )
+							{
+								pref += "|" + monsters[ i ];
+							}
+						}
+						Preferences.setString( "banishingShoutMonsters", pref );
+					}
 
 					FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( "skill " + skill );
 					if ( shouldLogAction )

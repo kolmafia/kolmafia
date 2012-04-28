@@ -212,6 +212,9 @@ public class DailyDeedsPanel
 		},
 		{
 			"Special", "Hatter"
+		},
+		{
+			"Special", "Banished Monsters"
 		}
 	};
 
@@ -220,7 +223,9 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Hatter" ) )
+		if ( deed.equals( "Banished Monsters" ) )
+			return 4;
+		else if ( deed.equals( "Hatter" ) )
 			return 3;
 		else if ( deed.equals( ( "Romantic Arrow" ) ) )
 			return 2;
@@ -927,6 +932,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Hatter" ) )
 		{
 			this.add( new HatterDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Banished Monsters" ) )
+		{
+			this.add( new BanishedDaily() );
 		}
 		else
 		// you added a special deed to BUILTIN_DEEDS but didn't add a method call.
@@ -2804,6 +2813,7 @@ public class DailyDeedsPanel
 			this.setText( nf + "/3" );
 		}
 	}
+
 	public static class PitDaily
 	extends Daily
 	{
@@ -2952,5 +2962,23 @@ public class DailyDeedsPanel
 		}
 
 		
+	}
+
+	public static class BanishedDaily
+	extends Daily
+	{
+		public BanishedDaily()
+		{
+			this.addListener( "banishingShoutMonsters" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			boolean ban = KoLCharacter.hasSkill( "Banishing Shout" );
+			String text = "Banished monsters: " + Preferences.getString( "banishingShoutMonsters" ).replaceAll( "\\|", ", " );
+			this.setText( text );
+			this.setShown( ban );
+		}
 	}
 }

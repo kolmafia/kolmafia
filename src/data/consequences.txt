@@ -38,6 +38,7 @@ DESC_ITEM	fossilized necklace	(\d+) spider	fossilP=[min(5,$1)]
 DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=$1
 DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1
 DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=$1
+DESC_SKILL	Banishing Shout	curently banished:<br>([^<]+)<br>(?:([^<]+)<br>(?:([^<]+)<br>|</blockquote>)|</blockquote>)	banishingShoutMonsters=$1|$2|$3
 
 DESC_EFFECT	Towering Strength	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_EFFECT	Mitre Cut	\+(\d+)%	chessboardsCleared=[($1-100)/2]

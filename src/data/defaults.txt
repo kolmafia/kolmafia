@@ -257,6 +257,7 @@ user	badMoonEncounter46	false
 user	badMoonEncounter47	false
 user	badMoonEncounter48	false
 user	ballpitBonus	1
+user	banishingShoutMonsters
 user	bankedKarma	0
 user	barrelGoal	1
 user	barrelLayout	?????????
