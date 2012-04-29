@@ -1648,6 +1648,10 @@ public class MaximizerFrame
 				else if ( keyword.startsWith( "com" ) )
 				{
 					index = Modifiers.COMBAT_RATE;
+					if ( Modifiers.currentZone.indexOf( "the sea" ) != -1 )
+					{
+						this.weight[ Modifiers.UNDERWATER_COMBAT_RATE ] = weight;
+					}
 				}
 				else if ( keyword.startsWith( "item" ) )
 				{
