@@ -86,7 +86,7 @@ Knob Goblin harem veil	Stench Resistance: +1, Familiar Effect: "5xLep, cap 2"
 Knob Goblin visor	Moxie: +3, Familiar Effect: "2xVolley, 1xPotato, cap 12"
 KoL Con 3-D Glasses	Familiar Effect: "8xLep, ?xFairy, cap 2"
 MAHI fez	Moxie: +30
-Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate: [-5*zone(The Sea)], Familiar Effect: "1xBarrr, ?xFairy"
+Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate (Underwater): -5, Familiar Effect: "1xBarrr, ?xFairy"
 Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Moonthril Circlet	Mysticality Percent: [15*G], Familiar Effect: "2xVolley, cap 25"
 Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
@@ -2676,7 +2676,7 @@ Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,20)/2)]
 Cold-Blooded Warm Fuzzies	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, MP Regen Min: 20, MP Regen Max: 30
 # Coldform: Cold, Cold, Cold!
 Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
-Colorfully Concealed	Combat Rate: [-5*zone(The Sea)]
+Colorfully Concealed	Combat Rate (Underwater): -5
 # Comic Violence: Regular Attacks Can't Miss
 Cool, Catlike	Cold Damage: +40, Moxie: +30
 Coming Up Roses	MP Regen Min: 10, MP Regen Max: 20

@@ -198,6 +198,7 @@ public class Modifiers
 	public static final int MYS_EXPERIENCE_PCT = 97;
 	public static final int MOX_EXPERIENCE_PCT = 98;
 	public static final int MINSTREL_LEVEL = 99;
+	public static final int UNDERWATER_COMBAT_RATE = 100;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -644,6 +645,10 @@ public class Modifiers
 		{ "Minstrel Level",
 		  Pattern.compile( "([+-]\\d+) to Minstrel Level" ),
 		  Pattern.compile( "Minstrel Level: " + EXPR )
+		},
+		{ "Underwater Combat Rate",
+		  null,
+		  Pattern.compile( "Combat Rate \\(Underwater\\): " + EXPR )
 		},
 	};
 
@@ -1404,6 +1409,27 @@ public class Modifiers
 	{
 		switch ( index )
 		{
+		case COMBAT_RATE:
+			// Combat Rate has diminishing returns beyond + or - 25%
+			
+			// Assume that all the sources of Combat Rate modifiers are of + or - 5%,
+			// and start by obtaining the current value without the diminishing returns taken into account
+			float rate = this.floats[ index ];
+			float extra = Math.abs( rate ) - 25.0f;
+			if ( extra > 0.0f )
+			{
+				rate = ( 25.0f + ( float ) Math.ceil( extra ) * 5.0f ) * ( rate < 0.0f ? -1.0f : 1.0f );
+			}
+
+			// Add mod and calculate the new value with the diminishing returns taken into account
+			rate += ( float ) mod;
+			extra = Math.abs( rate ) - 25.0f;
+			if ( extra > 0.0f )
+			{
+				rate = ( 25.0f + ( float ) Math.ceil( extra / 5.0f ) ) * ( rate < 0.0f ? -1.0f : 1.0f );
+			}
+			this.floats[ index ] = rate;
+			break;
 		case CRITICAL:
 			// Critical hit modifier is maximum, not additive
 			if ( mod > this.floats[ index ] )
@@ -2261,7 +2287,8 @@ public class Modifiers
 		matcher = Modifiers.COMBAT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.COMBAT_RATE ) + ": " + ( matcher.group( 1 ).equals( "more" ) ? "+5" : "-5" );
+			String tag = Modifiers.modifierTag( Modifiers.floatModifiers, enchantment.indexOf( "Underwater only" ) == -1 ? Modifiers.COMBAT_RATE : Modifiers.UNDERWATER_COMBAT_RATE );
+			return  tag + ": " + ( matcher.group( 1 ).equals( "more" ) ? "+5" : "-5" );
 		}
 
 		matcher = Modifiers.HP_MP_PATTERN.matcher( enchantment );
@@ -2506,7 +2533,7 @@ public class Modifiers
 			}
 		}
 	}
-	
+
 	public static void setLocation( KoLAdventure location )
 	{
 		if ( location == null )

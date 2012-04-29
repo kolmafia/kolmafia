@@ -1942,7 +1942,12 @@ public abstract class KoLCharacter
 
 	public static final float getCombatRateAdjustment()
 	{
-		return KoLCharacter.currentModifiers.get( Modifiers.COMBAT_RATE );
+		float rate = KoLCharacter.currentModifiers.get( Modifiers.COMBAT_RATE );
+		if ( Modifiers.currentZone.indexOf( "the sea" ) != -1 )
+		{
+			rate += KoLCharacter.currentModifiers.get( Modifiers.UNDERWATER_COMBAT_RATE );
+		}
+		return rate;
 	}
 
 	/**
