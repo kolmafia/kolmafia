@@ -313,9 +313,9 @@ public class ProfileRequest
 			this.drink = "none";
 		}
 
-		if ( cleanHTML.indexOf( "\nRanking" ) != -1 )
+		if ( cleanHTML.indexOf( "\nFame" ) != -1 )
 		{
-			while ( !st.nextToken().startsWith( "Ranking" ) )
+			while ( !st.nextToken().startsWith( "Fame" ) )
 			{
 				;
 			}

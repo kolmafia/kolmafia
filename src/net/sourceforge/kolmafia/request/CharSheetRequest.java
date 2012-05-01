@@ -312,7 +312,7 @@ public class CharSheetRequest
 
 		if ( responseText.indexOf( "PvP:" ) != -1 )
 		{
-			while ( !cleanContent.nextToken().startsWith( "Ranking" ) )
+			while ( !cleanContent.nextToken().startsWith( "Fame" ) )
 			{
 				;
 			}
