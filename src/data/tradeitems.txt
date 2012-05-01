@@ -5660,8 +5660,8 @@
 5651	mime soul fragment	none	all	0
 5652
 5653
-5654
-5655
+5654	nailswurst	food	all	50
+5655	used beer	drink	all	50
 5656
 5657
 5658
@@ -5684,6 +5684,6 @@
 5675	watered-down Red Minotaur	usable	all	1
 5676	pool torpedo	none, combat	all	1
 5677	Ze&trade goggles	hat	all	0
-5678
+5678	soggy used band-aid	none, combat	all	0
 5679	stylish swimsuit	pants	all	1
 5680	lost key	usable	all	0

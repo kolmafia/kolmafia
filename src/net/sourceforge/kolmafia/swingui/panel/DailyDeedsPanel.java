@@ -215,6 +215,9 @@ public class DailyDeedsPanel
 		},
 		{
 			"Special", "Banished Monsters"
+		},
+		{
+			"Special", "Swimming Pool"
 		}
 	};
 
@@ -223,7 +226,9 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Banished Monsters" ) )
+		if ( deed.equals( "Swimming Pool" ) )
+			return 5;
+		else if ( deed.equals( "Banished Monsters" ) )
 			return 4;
 		else if ( deed.equals( "Hatter" ) )
 			return 3;
@@ -936,6 +941,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Banished Monsters" ) )
 		{
 			this.add( new BanishedDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Swimming Pool" ) )
+		{
+			this.add( new SwimmingPoolDaily() );
 		}
 		else
 		// you added a special deed to BUILTIN_DEEDS but didn't add a method call.
@@ -2979,6 +2988,31 @@ public class DailyDeedsPanel
 			String text = "Banished monsters: " + Preferences.getString( "banishingShoutMonsters" ).replaceAll( "\\|", ", " );
 			this.setText( text );
 			this.setShown( ban );
+		}
+	}
+
+	public static class SwimmingPoolDaily
+		extends Daily
+	{
+		public SwimmingPoolDaily()
+		{
+			this.addItem( ItemPool.VIP_LOUNGE_KEY );
+			this.addListener( "_olympicSwimmingPool" );
+			this.addListener( "kingLiberated" );
+			this.addButton( "swim laps", "init +30%, +25 stench dmg, +20 ml, 50 turns" );
+			this.addButton( "swim sprints", "-5% combat, 50 turns" );
+			this.addLabel( "" );
+		}
+
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0;
+			boolean sp = Preferences.getBoolean( "_olympicSwimmingPool" );
+			boolean trendy = !KoLCharacter.isTrendy() || TrendyRequest.isTrendy( "Clan Item", "Swimming Pool" );
+			this.setShown( ( !bm || kf ) && ( have || sp ) && trendy );
+			this.setEnabled( !sp );
 		}
 	}
 }

@@ -69,6 +69,7 @@ public class ClanLoungeRequest
 	public static final int LOOKING_GLASS = 5;
 	public static final int FAX_MACHINE = 6;
 	public static final int APRIL_SHOWER = 7;
+	public static final int SWIMMING_POOL = 8;
 
 	// Pool options
 	public static final int AGGRESSIVE_STANCE = 1;
@@ -86,6 +87,11 @@ public class ClanLoungeRequest
 	public static final int WARM_SHOWER = 4;
 	public static final int HOT_SHOWER = 5;
 
+	// Swimming Pool options
+	public static final int CANNONBALL = 1;
+	public static final int LAPS = 2;
+	public static final int SPRINTS = 3;
+
 	private int action;
 	private int option;
 
@@ -93,6 +99,9 @@ public class ClanLoungeRequest
 	private static final Pattern TREE_PATTERN = Pattern.compile( "Check back in (\\d+) day" );
 	private static final Pattern FAX_PATTERN = Pattern.compile( "preaction=(.+?)fax" );
 	private static final Pattern TEMPERATURE_PATTERN = Pattern.compile( "temperature=(\\d*)" );
+	private static final Pattern SWIMMING_POOL_PATTERN = Pattern.compile( "subaction=([^&]+)" );
+	private static final Pattern LAPS_PATTERN = Pattern.compile( "manage to swim (\\d+) before" );
+	private static final Pattern SPRINTS_PATTERN = Pattern.compile( "you do (\\d+) of them" );
 	private static final Pattern HOTTUB_PATTERN = Pattern.compile( "hottub(\\d).gif" );
 
 	public static final Object [][] POOL_GAMES = new Object[][]
@@ -157,6 +166,25 @@ public class ClanLoungeRequest
 			"hot",
 			"mp",
 			IntegerPool.get( HOT_SHOWER )
+		},
+	};
+
+	public static final Object [][] SWIMMING_OPTIONS = new Object[][]
+	{
+		//{
+		//	"cannonball",
+		//	"item",
+		//	IntegerPool.get( CANNONBALL )
+		//},
+		{
+			"laps",
+			"ml",
+			IntegerPool.get( LAPS )
+		},
+		{
+			"sprints",
+			"noncombat",
+			IntegerPool.get( SPRINTS )
 		},
 	};
 
@@ -240,6 +268,28 @@ public class ClanLoungeRequest
 		return 0;
 	}
 
+	public static final int findSwimmingOption( String tag )
+	{
+		tag = tag.toLowerCase();
+		for ( int i = 0; i < SWIMMING_OPTIONS.length; ++i )
+		{
+			Object [] swimmingOption = SWIMMING_OPTIONS[i];
+			Integer index = (Integer) swimmingOption[2];
+			String action = (String) swimmingOption[0];
+			if ( action.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+			String effect = (String) swimmingOption[1];
+			if ( effect.startsWith( tag ) )
+			{
+				return index.intValue();
+			}
+		}
+
+		return 0;
+	}
+
 	public static final String prettyStanceName( final int stance )
 	{
 		switch ( stance )
@@ -282,6 +332,20 @@ public class ClanLoungeRequest
 			return "a hot";
 		}
 		return "an unknown";
+	}
+
+	public static final String prettySwimmingName( final int action )
+	{
+		switch ( action )
+		{
+		case CANNONBALL:
+			return "cannonball";
+		case LAPS:
+			return "swim laps";
+		case SPRINTS:
+			return "do submarine sprints";
+		}
+		return "do something";
 	}
 
 	/**
@@ -380,6 +444,10 @@ public class ClanLoungeRequest
 		{
 			return "April Shower";
 		}
+		if ( urlString.indexOf( "action=swimmingpool" ) != -1 )
+		{
+			return "Swimming Pool";
+		}
 		return null;
 	}
 
@@ -465,6 +533,30 @@ public class ClanLoungeRequest
 			else
 			{
 				this.addFormField( "action", "shower" );
+			}
+			break;
+
+		case ClanLoungeRequest.SWIMMING_POOL:
+			RequestLogger.printLine( "Let's " + ClanLoungeRequest.prettySwimmingName( option ) + " in the swimming pool." );
+
+			this.constructURLString( "clan_viplounge.php" );
+			switch ( option )
+			{
+			case CANNONBALL:
+				this.addFormField( "preaction", "goswimming" );
+				this.addFormField( "subaction", "screwaround" );
+				break;
+			case LAPS:
+				this.addFormField( "preaction", "goswimming" );
+				this.addFormField( "subaction", "laps" );
+				break;
+			case SPRINTS:
+				this.addFormField( "preaction", "goswimming" );
+				this.addFormField( "subaction", "submarine" );
+				break;
+			default:
+				this.addFormField( "action", "swimmingpool" );
+				break;
 			}
 			break;
 
@@ -580,6 +672,34 @@ public class ClanLoungeRequest
 				RequestLogger.printLine( "You already took a shower today." );
 			}
 			else if ( responseText.indexOf( "Shower!" ) != -1 )
+			{
+				// Simple visit.
+			}
+			else
+			{
+				RequestLogger.printLine( "Huh? Unknown response." );
+			}
+			break;
+
+		case ClanLoungeRequest.SWIMMING_POOL:
+			if ( responseText.indexOf( "Screwing Around" ) != -1 )
+			{
+				RequestLogger.printLine( "You start screwing around in the swimming pool." );
+			}
+			else if ( responseText.indexOf( "manage to swim" ) != -1 )
+			{
+				// the message is printed by parseResponse()
+			}
+			else if ( responseText.indexOf( "doing submarine sprints" ) != -1 )
+			{
+				// the message is printed by parseResponse()
+			}
+			else if ( responseText.indexOf( "already worked out in the pool today" ) != -1 ||
+				  responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 )
+			{
+				RequestLogger.printLine( "You already worked out in the pool today." );
+			}
+			else if ( responseText.indexOf( "change into your swimsuit" ) != -1 )
 			{
 				// Simple visit.
 			}
@@ -805,6 +925,41 @@ public class ClanLoungeRequest
 			}
 			return;
 		}
+
+		if ( action.equals( "swimmingpool" ) )
+		{
+			if ( responseText.indexOf( "already worked out in the pool today" ) != -1 )
+			{
+				Preferences.setBoolean( "_olympicSwimmingPool", true );
+			}
+			return;
+		}
+
+		if ( action.equals( "goswimming" ) )
+		{
+			if ( responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 )
+			{
+				Preferences.setBoolean( "_olympicSwimmingPool", true );
+				return;
+			}
+			
+			Matcher m = LAPS_PATTERN.matcher( responseText );
+			if ( m.find() )
+			{
+				KoLmafia.updateDisplay( "You swam " + m.group(1) + " laps." );
+				Preferences.setBoolean( "_olympicSwimmingPool", true );
+				return;
+			}
+
+			m = SPRINTS_PATTERN.matcher( responseText );
+			if ( m.find() )
+			{
+				KoLmafia.updateDisplay( "You did " + m.group(1) + " submarine sprints." );
+				Preferences.setBoolean( "_olympicSwimmingPool", true );
+				return;
+			}
+			return;
+		}
 	}
 
 	public static void getBreakfast()
@@ -913,6 +1068,22 @@ public class ClanLoungeRequest
 					return false;
 				}
 				message = "shower " + (String)SHOWER_OPTIONS[ temp - 1 ][0];
+			}
+			else if ( action.equals( "goswimming" ) )
+			{
+				Matcher m = SWIMMING_POOL_PATTERN.matcher( urlString );
+				if ( !m.find() )
+				{
+					return false;
+				}
+				String poolCommand = m.group(1) ;
+				if ( !poolCommand.equals( "screwaround") &&
+				     !poolCommand.equals( "laps" ) &&
+				     !poolCommand.equals( "submarine" ) )
+				{
+					return false;
+				}
+				message = "swimming pool " + poolCommand;
 			}
 			else
 			{

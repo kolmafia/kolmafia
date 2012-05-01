@@ -779,6 +779,7 @@ public class KoLmafiaCLI
 		new StyxPixieCommand().register( "styx" );
 		new SubmitSpadeDataCommand().register( "spade" );
 		new SummonDemonCommand().register( "summon" );
+		new SwimmingPoolCommand().register( "swim" );
 		new TelescopeCommand().register( "telescope" );
 		new TestCommand().register( "test" );
 		new ThrowItemCommand().register( "throw" );

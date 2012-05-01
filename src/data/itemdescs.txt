@@ -5652,8 +5652,8 @@
 5651	687015026	mimefrag.gif	mime soul fragment
 5652
 5653
-5654
-5655
+5654	251468978	brat.gif	nailswurst
+5655	629334636	beer.gif	used beer
 5656
 5657
 5658
@@ -5676,6 +5676,6 @@
 5675	762938251	redmin.gif	watered-down Red Minotaur
 5676	340353804	pooltorpedo.gif	pool torpedo
 5677	179669496	zegoggles.gif	Ze&trade goggles
-5678
+5678	737657801	soggybandaid.gif	soggy used band-aid
 5679	129136271	speedo.gif	stylish swimsuit
 5680	891641724	lostkey.gif	lost key
