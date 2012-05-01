@@ -168,7 +168,6 @@ public class HermitRequest
 		HermitRequest.registerHermitItem( ItemPool.WOODEN_FIGURINE, PurchaseRequest.MAX_QUANTITY );
 		HermitRequest.registerHermitItem( ItemPool.KETCHUP, PurchaseRequest.MAX_QUANTITY );
 		HermitRequest.registerHermitItem( ItemPool.CATSUP, PurchaseRequest.MAX_QUANTITY );
-		HermitRequest.registerHermitItem( ItemPool.SWEET_RIMS, PurchaseRequest.MAX_QUANTITY );
 		HermitRequest.registerHermitItem( ItemPool.DINGY_PLANKS, PurchaseRequest.MAX_QUANTITY );
 		HermitRequest.registerHermitItem( ItemPool.VOLLEYBALL, PurchaseRequest.MAX_QUANTITY );
 		if ( KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER ) )

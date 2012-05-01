@@ -69,38 +69,38 @@ Nervewrecker's Store	y	Queue Du Coq cocktailcrafting kit	500
 Nervewrecker's Store	y	Dramatic&trade; range	500
 Nervewrecker's Store	y	tenderizing hammer	500
 
-Market Demon	m	Ben-Gal&trade; Balm	24
-Market Demon	m	glittery mascara	24
-Market Demon	m	hair spray	24
-Market Demon	m	fortune cookie	40
-Market Demon	m	Newbiesport&trade; tent	40
-Market Demon	m	beer cartilage	50
-Market Demon	m	chewing gum on a string	50
-Market Demon	m	spray paint	50
-Market Demon	m	fermenting powder	70
-Market Demon	m	soda water	70
-Market Demon	m	casino pass	100
-Market Demon	m	hermit permit	100
-Market Demon	m	marshmallow	100
-Market Demon	m	magicalness-in-a-can	200
-Market Demon	m	strongness elixir	200
-Market Demon	m	moxie weed	200
-Market Demon	m	oyster basket	300
-Market Demon	m	party hat	300
-Market Demon	m	M-242	300
-Market Demon	m	snake	300
-Market Demon	m	sparkler	300
-Market Demon	m	foam noodle	300
-Market Demon	m	inflatable duck	300
-Market Demon	m	water wings	300
-Market Demon	m	Familiar-Gro&trade; Terrarium	500
-Market Demon	m	Hatorade	500
-Market Demon	m	Desert Bus pass	5000
+The General Store	m	Ben-Gal&trade; Balm	24
+The General Store	m	glittery mascara	24
+The General Store	m	hair spray	24
+The General Store	m	fortune cookie	40
+The General Store	m	beer cartilage	50
+The General Store	m	chewing gum on a string	50
+The General Store	m	spray paint	50
+The General Store	m	fermenting powder	70
+The General Store	m	soda water	70
+The General Store	m	casino pass	100
+The General Store	m	hermit permit	100
+The General Store	m	marshmallow	100
+The General Store	m	magicalness-in-a-can	200
+The General Store	m	strongness elixir	200
+The General Store	m	moxie weed	200
+The General Store	m	oyster basket	300
+The General Store	m	party hat	300
+The General Store	m	M-242	300
+The General Store	m	snake	300
+The General Store	m	sparkler	300
+The General Store	m	foam noodle	300
+The General Store	m	inflatable duck	300
+The General Store	m	water wings	300
+The General Store	m	sweet rims	300
+The General Store	m	Familiar-Gro&trade; Terrarium	500
+The General Store	m	Hatorade	500
+The General Store	m	Desert Bus pass	5000
 
-Market Demon	m	E-Z Cook&trade; oven	50
-Market Demon	m	My First Shaker&trade;	50
-Market Demon	m	Dramatic&trade; range	1000
-Market Demon	m	Queue Du Coq cocktailcrafting kit	1000
+The General Store	m	E-Z Cook&trade; oven	50
+The General Store	m	My First Shaker&trade;	50
+The General Store	m	Dramatic&trade; range	1000
+The General Store	m	Queue Du Coq cocktailcrafting kit	1000
 
 Meatsmith's Shop	s	meatsmithing guide	50
 Meatsmith's Shop	s	sword hilt	100
