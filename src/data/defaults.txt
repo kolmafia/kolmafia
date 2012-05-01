@@ -793,6 +793,7 @@ user	_madTeaParty	false
 user	_mayflySummons	0
 user	_mediumSiphons	0
 user	_navelRunaways	0
+user	_olympicSwimmingPool	false
 user	_pasteDrops	0
 user	_photocopyUsed	false
 user	_pieDrops	0

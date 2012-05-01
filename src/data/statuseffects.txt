@@ -1030,5 +1030,6 @@
 1029	Mo' Hobo	hobohead.gif	e6c9baf78893e9329a337033947946a5	drink either 1 Mohobo, 1 Moonshine Mohobo, 1 Flaming Mohobo
 1030	Hidden Power	light.gif	01fbeb988becd617d1800fadf0ab9c98
 1031	Stone-Faced	stonewool.gif	b33c7d995dbd1b194c881e91d009106a	use 1 stone wool
-1032	Lapdog	laps.gif	93df2d1d03536deec7adbf70847fe466
-1033	Silent Running	dasboot.gif	c781c7a1ab57b20200e07228ef913165
+1032	Lapdog	laps.gif	93df2d1d03536deec7adbf70847fe466	swim laps
+1033	Silent Running	dasboot.gif	c781c7a1ab57b20200e07228ef913165	swim sprints
+1034	Water Wings	poolwings.gif	1b8a656358c481bfb2a97126f3ae68f1	use 1 watered-down Red Minotaur

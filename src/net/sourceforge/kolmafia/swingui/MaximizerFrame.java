@@ -774,6 +774,30 @@ public class MaximizerFrame
 						cmd = "";
 					}
 				}
+				else if ( cmd.startsWith( "swim " ) )
+				{
+					if ( KoLCharacter.inBadMoon() )
+					{
+						continue;
+					}
+					else if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Clan Item", "Swimming Pool" ) )
+					{
+						continue;
+					}
+					else if ( !haveVipKey )
+					{
+						if ( includeAll )
+						{
+							text = "( get access to the VIP lounge )";
+							cmd = "";
+						}
+						else continue;
+					}
+					else if ( Preferences.getBoolean( "_olympicSwimmingPool" ) )
+					{
+						cmd = "";
+					}
+				}
 				else if ( cmd.startsWith( "styx " ) )
 				{
 					if ( !KoLCharacter.inBadMoon() )

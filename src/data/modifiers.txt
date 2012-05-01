@@ -3225,6 +3225,7 @@ Shiny Happy Weapon	Muscle: +20
 Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
 Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
+# Silent Running: Decreased chance of random PvP Attacks
 Silent Running	Combat Rate: -5
 Simply Invisible	Combat Rate: -5
 Simply Irresistible	Combat Rate: +5
@@ -3443,6 +3444,7 @@ Void Between the Stars	Cold Damage: +50
 Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
 Wasabi With You	Weapon Damage Percent: +150
+# Water Wings: You believe you can float!
 Weapon of Mass Destruction	Weapon Damage Percent: +30
 Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
