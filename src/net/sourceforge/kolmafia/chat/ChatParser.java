@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -189,6 +190,7 @@ public class ChatParser
 
 	public static void parseLines( final List chatMessages, final String content )
 	{
+		RequestLogger.updateSessionLog( "ChatParser.parseLines() calling parsePlayerIds( " + content + ") " );
 		ChatParser.parsePlayerIds( content );
 
 		// There are no updates if there was a timeout.
@@ -363,6 +365,7 @@ public class ChatParser
 		{
 			playerName = KoLConstants.ANYTAG_PATTERN.matcher( playerMatcher.group( 2 ) ).replaceAll( "" );
 			playerName = ChatParser.PARENTHESIS_PATTERN.matcher( playerName ).replaceAll( "" );
+			playerName = playerName.replaceAll( ":", "" );
 
 			playerId = playerMatcher.group( 1 );
 
@@ -371,6 +374,7 @@ public class ChatParser
 
 			if ( !playerName.startsWith( "&" ) )
 			{
+				RequestLogger.printLine( "ChatParser.parsePlayerIds() calling registerPlayerId( " + playerName + ", " + playerId + " ) " );
 				ContactManager.registerPlayerId( playerName, playerId );
 			}
 		}
