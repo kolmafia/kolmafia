@@ -5650,3 +5650,32 @@
 5649	771181541	carvedstaff.gif	staph of homophones	staphes of homophones
 5650	253607655	borishelmaskew.gif	Boris's Helm (askew)
 5651	687015026	mimefrag.gif	mime soul fragment
+5652
+5653
+5654
+5655
+5656
+5657
+5658
+5659
+5660
+5661
+5662	954388471	crate.gif	Olympic-sized Clan crate
+5663
+5664
+5665
+5666
+5667
+5668
+5669
+5670
+5671
+5672
+5673
+5674
+5675	762938251	redmin.gif	watered-down Red Minotaur
+5676	340353804	pooltorpedo.gif	pool torpedo
+5677	179669496	zegoggles.gif	Ze&trade goggles
+5678
+5679	129136271	speedo.gif	stylish swimsuit
+5680	891641724	lostkey.gif	lost key

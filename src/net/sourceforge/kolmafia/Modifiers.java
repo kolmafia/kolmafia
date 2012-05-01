@@ -354,23 +354,23 @@ public class Modifiers
 		  Pattern.compile( "Spell Damage Percent: " + EXPR )
 		},
 		{ "Cold Damage",
-		  Pattern.compile( "^([+-]\\d+) <font color=blue>Cold Damage</font>" ),
+		  Pattern.compile( "^([+-]\\d+) <font color=blue>Cold Damage<" ),
 		  Pattern.compile( "Cold Damage: " + EXPR )
 		},
 		{ "Hot Damage",
-		  Pattern.compile( "^([+-]\\d+) <font color=red>Hot Damage</font>" ),
+		  Pattern.compile( "^([+-]\\d+) <font color=red>Hot Damage<" ),
 		  Pattern.compile( "Hot Damage: " + EXPR )
 		},
 		{ "Sleaze Damage",
-		  Pattern.compile( "^([+-]\\d+) <font color=blueviolet>Sleaze Damage</font>" ),
+		  Pattern.compile( "^([+-]\\d+) <font color=blueviolet>Sleaze Damage<" ),
 		  Pattern.compile( "Sleaze Damage: " + EXPR )
 		},
 		{ "Spooky Damage",
-		  Pattern.compile( "^([+-]\\d+) <font color=gray>Spooky Damage</font>" ),
+		  Pattern.compile( "^([+-]\\d+) <font color=gray>Spooky Damage<" ),
 		  Pattern.compile( "Spooky Damage: " + EXPR )
 		},
 		{ "Stench Damage",
-		  Pattern.compile( "^([+-]\\d+) <font color=green>Stench Damage</font>" ),
+		  Pattern.compile( "^([+-]\\d+) <font color=green>Stench Damage<" ),
 		  Pattern.compile( "Stench Damage: " + EXPR )
 		},
 		{ "Cold Spell Damage",

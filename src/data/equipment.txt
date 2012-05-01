@@ -48,6 +48,7 @@ Tropical Crimbo Hat	100	Mox: 35
 Uncle Hobo's stocking cap	200	Mox: 200
 Van der Graaf helmet	30	none
 Voluminous Radio Hat	150	Mox: 60
+Ze&trade goggles	30	none
 Zombo's skullcap	200	Mus: 200
 aerated diving helmet	200	Mox: 85
 ancient turtle shell helmet	35	Mox: 2
@@ -379,6 +380,7 @@ sticky meat pants	45	Mox: 7
 sticky meat skirt	45	Mox: 7
 stinky cheese diaper	100	none
 studded leather boxer shorts	20	none
+stylish swimsuit	40	Mus: 5
 sucker hakama	50	none
 sugar shorts	100	none
 swashbuckling pants	80	Mox: 25

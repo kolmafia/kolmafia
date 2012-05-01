@@ -102,6 +102,7 @@ Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, c
 Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Familiar Effect: "atk"
 Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Familiar Effect: "3xPotato, cap 7"
 Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6
+Ze&trade goggles	Item Drop: [25*zone(The Sea)]
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
 aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50, Adventure Underwater, Familiar Effect: "?xPotato"
 ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "atk, cap 8"
@@ -453,6 +454,7 @@ sticky meat pants	Moxie: +3, Familiar Effect: "1xPotato, cap 11"
 sticky meat skirt	Moxie: +3, Familiar Effect: "1xPotato, 3xFairy, cap 11"
 stinky cheese diaper	Softcore Only, Adventures: [max(1,min(10,floor(pref(_stinkyCheeseCount)/10)))], Familiar Effect: "stench atk, 1.5xVolley, cap 25"
 studded leather boxer shorts	Familiar Effect: "4xVolley, cap 5"
+stylish swimsuit	Moxie: +5, Sleaze Damage: +10
 sucker hakama	Damage Reduction: 5
 sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Familiar Effect: "2xVolley, 1xLep, cap 25"
 swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
@@ -3004,6 +3006,7 @@ Kung Fu Fighting	Weapon Damage: [3*L]
 # L'instinct F&eacute;lin: Makes you better at sleeping
 L'instinct F&eacute;lin	Moxie: +30
 La Bamba	Item Drop: +3
+Lapdog	Initiative: +30, Stench Damage: +25, Monster Level: +20
 Leash of Linguini	Familiar Weight: +5
 Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Less Pervious	Damage Reduction: 3
@@ -3222,6 +3225,7 @@ Shiny Happy Weapon	Muscle: +20
 Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
 Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
+Silent Running	Combat Rate: -5
 Simply Invisible	Combat Rate: -5
 Simply Irresistible	Combat Rate: +5
 Simply Irritable	Monster Level: +15

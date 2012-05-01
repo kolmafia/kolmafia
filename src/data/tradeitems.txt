@@ -5658,3 +5658,32 @@
 5649	staph of homophones	weapon	all	135
 5650	Boris's Helm (askew)	hat, usable	all	0
 5651	mime soul fragment	none	all	0
+5652
+5653
+5654
+5655
+5656
+5657
+5658
+5659
+5660
+5661
+5662	Olympic-sized Clan crate	usable	all	0
+5663
+5664
+5665
+5666
+5667
+5668
+5669
+5670
+5671
+5672
+5673
+5674
+5675	watered-down Red Minotaur	usable	all	1
+5676	pool torpedo	none, combat	all	1
+5677	Ze&trade goggles	hat	all	0
+5678
+5679	stylish swimsuit	pants	all	1
+5680	lost key	usable	all	0
