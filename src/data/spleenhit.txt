@@ -99,6 +99,7 @@ tube of hair oil	1	6		0	0	0	18-20	10 Got Your Boots On (+10% mox)
 twinkly wad	1	6		1	8-10	8-10	8-10	10 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
 ultimate wad	15	6		0	0	0	0	+1 level
 voodoo snuff	3	13		8	0	100-150	0
+watered-down Red Minotaur	2	1		0	0	0	0	+1 PvP fight, 5 Water Wings
 yellow paisley oyster egg	1	1		0	0	11-15	0	20 Egg-headedness (+10% mys)
 yellow polka-dot oyster egg	1	1		0	0	0	11-15	20 Egg-cellent Vocabulary (+10% mox)
 yellow striped oyster egg	1	1		0	11-15	0	0	20 Egg-stra Arm (+10% mus)
