@@ -367,7 +367,7 @@ bowlegged pants	Moxie: +5, Familiar Effect: "1xPotato, cap 25"
 bugbear bungguard	Familiar Effect: "5xBarrr, cap 7"
 bullet-proof corduroys	Maximum MP: +40, Damage Reduction: 2, Familiar Effect: "stench atk, 1xBarrr, cap 42"
 buoybottoms	Moxie: +11, Monster Level: +7, Initiative: -30, Familiar Effect: "1xPotato, 1xLep, cap 37"
-cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 1, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 4, PvP Fights: +4, Familiar Effect: "atk, 1xBarrr, cap 25"
+cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 1, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 4, PvP Fights: +3, Familiar Effect: "atk, 1xBarrr, cap 25"
 chain-mail monokini	Familiar Effect: "sleaze atk, 4xBarrr, cap 7"
 clingfilm trousers	Mysticality: +9, Familiar Effect: "sleaze atk, 1xPotato, cap 37"
 clockwork pants	Initiative: +10, Familiar Effect: "3xPotato, 1xGhuol, cap 20"
@@ -480,7 +480,7 @@ BGE 'cuddly critter' shirt	Item Drop: +7, Meat Drop: +7
 BGE 'ferocious fruit' shirt	Moxie: +10, Maximum HP: +10
 Chester's muscle shirt	Muscle Percent: +20, Damage Reduction: 10
 # Colonel Mustard's Lonely Spades Club Jacket: + ???
-Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +3
+Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
 General Sage's Lonely Diamonds Club Jacket	Adventures: +3
 Grateful Undead T-shirt	Item Drop: +5
 Grimacite gown	Monster Level: [10*G]
@@ -777,7 +777,7 @@ corn holder	Spell Damage: +1
 corrupt club of corrupt corruption	Weapon Damage: +9, Class: "Seal Clubber"
 corrupt club of corruption	Weapon Damage: +5, Class: "Seal Clubber"
 costume sword	Weapon Damage: -10, Initiative: +30
-crazy bastard sword	Weapon Damage: +30, Critical Hit Percent: +2, PvP Fights: +7
+crazy bastard sword	Weapon Damage: +30, Critical Hit Percent: +2, PvP Fights: +6
 creepy-ass club	Weapon Damage: +25, Monster Level: +15, Sleaze Damage: +15, Class: "Seal Clubber"
 crowbar	Initiative: +25
 crowbarrr	Initiative: +15
@@ -947,7 +947,7 @@ pixel morning star	Muscle: +5, Mysticality: +5, Moxie: +5
 pixel sword	Initiative: +15
 pixel whip	Muscle: +3, Mysticality: +3, Moxie: +3
 plastic guitar	Moxie: +5, Initiative: +15
-plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +10, Muscle Percent: +30
+plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +9, Muscle Percent: +30
 pocket theremin	Spooky Damage: +4
 pointed stick	Critical: 2, Weapon Damage: +10
 # poison pen: 75% chance of poisoning opponent.
@@ -1270,7 +1270,7 @@ gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # golden sausage
 # green balloon
 green peawee marble	Stench Spell Damage: +30
-grisly shield	Damage Reduction: 13, Slime Hates It: +1, Weapon Damage: +50, PvP Fights: +6
+grisly shield	Damage Reduction: 13, Slime Hates It: +1, Weapon Damage: +50, PvP Fights: +5
 handmade hobby horse	Experience (Muscle): +2
 # heart-shaped balloon
 hippo skin buckler	Muscle: +5, Damage Reduction: 5
@@ -1590,7 +1590,7 @@ The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equi
 Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
 # Uncle Hobo's epic beard: +6 Adventures per day when equipped (+9 in December)
 Uncle Hobo's epic beard	Muscle Percent: +20, Single Equip
-Uncle Hobo's fingerless tinsel gloves	Moxie Percent: +15, PvP Fights: +6, Single Equip
+Uncle Hobo's fingerless tinsel gloves	Moxie Percent: +15, PvP Fights: +5, Single Equip
 Unspeakable Earring	Cold Resistance: +3, Sleaze Resistance: +3, Single Equip
 Uranium Omega of Temperance	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip
 # V for Vivala mask: Critical Hits are extra-explosive
@@ -1603,7 +1603,7 @@ Warehouse 23 bling	Maximum MP: +23
 Xlyinia's notebook	Muscle: +15, Mysticality: +15, Moxie: +15
 Yellow Moon of Compassion	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip
 Zinc Delta of Tranquility	Muscle: +8, Mysticality: +8, Moxie: +8, Item Drop: +8, Single Equip
-Zombo's skull ring	Moxie Percent: +15, PvP Fights: +5, Single Equip
+Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 # acid-squirting flower: Damages Attacking Opponent
 acid-squirting flower	Single Equip
 albatross necklace	Mysticality Percent: +10, Single Equip
@@ -1705,7 +1705,7 @@ evil flaming eyeball pendant	Initiative: +15, Meat Drop: +15, Single Equip, Soft
 exclusive ultra-rare item	Muscle: +15, Mysticality: +15, Moxie: +15
 fancy black tie	Muscle Percent: +15, Single Equip
 filigreed hamethyst earring	Muscle: +8, Critical: 3
-filigreed hamethyst necklace	Muscle: +10, Weapon Damage: +8, PvP Fights: +3, Single Equip
+filigreed hamethyst necklace	Muscle: +10, Weapon Damage: +8, PvP Fights: +2, Single Equip
 filigreed hamethyst ring	Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 flashing novelty button	Maximum HP: +5, Moxie: -2
 floaty rock necklace	Spell Critical Percent: +10
@@ -1738,7 +1738,7 @@ grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
 gummi bowtie	Moxie: +5
 hamethyst bracelet	Muscle: +3, Critical: 3, Single Equip
 hamethyst earring	Muscle: +3, Critical: 3
-hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +3, Single Equip
+hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +2, Single Equip
 hamethyst ring	Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 hardened slime belt	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 10, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 30, Mysticality Percent: +20, Single Equip
 headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
