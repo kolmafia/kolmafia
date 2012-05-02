@@ -1852,7 +1852,6 @@ public class UseItemRequest
 		case ItemPool.HERMIT_SCRIPT:
 
 			HermitRequest.ensureUpdatedHermit();
-			Preferences.setBoolean( "hermitHax0red", true );
 			HermitRequest.resetConcoctions();
 			return;
 
