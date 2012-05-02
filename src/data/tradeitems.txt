@@ -24,7 +24,7 @@
 15	strongness elixir	multiple	all	100
 16	magicalness-in-a-can	multiple	all	100
 17	spicy noodles	food	all	35
-18	tortoise's blessing	none	all	1
+18	tortoise's blessing	none	all	0
 19	asparagus knife	weapon	all	20
 20	Kentucky-style derby	hat	all	25
 21	sweet ninja sword	weapon	all	25
@@ -68,11 +68,11 @@
 59	slingshot	weapon	all	75
 60	Mace of the Tortoise	weapon	all	150
 61	fortune cookie	food	all	20
-62	oriole-feather headdress	hat	all	1
+62	oriole-feather headdress	hat	all	0
 63	action figure body	none	none	0
 64	action figure head	none	none	0
 65	Mighty Bjorn action figure	none	none	0
-66	golden twig	none	all	45
+66	golden twig	none	all	0
 67	spaghetti with rock-balls	none	all	2
 68	Pasta of Peril	weapon	all	150
 69	Newbiesport&trade; tent	usable	all	20
@@ -91,7 +91,7 @@
 82	rusty metal ring	none	all	4
 83	rusty metal shaft	none	all	5
 84	Orcish meat locker	usable	all	5
-85	unlocked meat locker	usable	all	6
+85	unlocked meat locker	usable	all	0
 86	rusty metal key	usable	all	8
 87	meat from yesterday	none	all	5
 88	meat stack	none	all	100
@@ -199,7 +199,7 @@
 190
 191	Boss Bat bandana	none	none	0
 192	batskin belt	none	none	0
-193	birthday candle	message	all	50
+193	birthday candle	message	all	0
 194	Mr. Accessory	accessory	all	0
 195	eXtreme nose ring	accessory	all	75
 196	disassembled clover	multiple	all	-100
@@ -287,7 +287,7 @@
 278	jug-o-magicalness	multiple	all	150
 279	suntan lotion of moxiousness	multiple	all	150
 280	Pick-O-Matic lockpicks	none	all	15
-281	gasmask	hat	all	16
+281	gasmask	hat	all	0
 282	Boris's key	none, matchable	none	0
 283	Jarlsberg's key	none, matchable	none	0
 284	Sneaky Pete's key	none, matchable	none	0
@@ -372,15 +372,15 @@
 363	linoleum ore	none	all	50
 364	asbestos ore	none	all	50
 365	chrome ore	none	all	50
-366	linoleum sword hilt	none	all	95
-367	linoleum stick	none	all	95
-368	linoleum crossbow string	none	all	95
-369	asbestos sword hilt	none	all	95
-370	asbestos stick	none	all	95
-371	asbestos crossbow string	none	all	95
-372	chrome sword hilt	none	all	95
-373	chrome stick	none	all	95
-374	chrome crossbow string	none	all	95
+366	linoleum sword hilt	none	all	0
+367	linoleum stick	none	all	0
+368	linoleum crossbow string	none	all	0
+369	asbestos sword hilt	none	all	0
+370	asbestos stick	none	all	0
+371	asbestos crossbow string	none	all	0
+372	chrome sword hilt	none	all	0
+373	chrome stick	none	all	0
+374	chrome crossbow string	none	all	0
 375	linoleum meat stack	none	all	100
 376	asbestos meat stack	none	all	100
 377	chrome meat stack	none	all	100
@@ -447,8 +447,8 @@
 438	chef-in-the-box	usable	all	140
 439	bartender skull	none	all	81
 440	bartender-in-the-box	usable	all	140
-441	chef-skull-in-the-box	none	all	87
-442	bartender-skull-in-the-box	none	all	78
+441	chef-skull-in-the-box	none	all	0
+442	bartender-skull-in-the-box	none	all	0
 443	beer lens	none	all	31
 444	beer goggles	accessory	all	57
 445	box-in-the-box	offhand	all	38
@@ -488,9 +488,9 @@
 479	dodecagram	none	none	0
 480	box of birthday candles	none	none	0
 481	eldritch butterknife	none	none	0
-482	Mr. Container	container	all	999
-483	Newbiesport&trade; backpack	container	all	75
-484	hemp backpack	container	all	95
+482	Mr. Container	container	all	0
+483	Newbiesport&trade; backpack	container	all	0
+484	hemp backpack	container	all	0
 485	snakehead charrrm	none	none	0
 486	Talisman o' Nam	accessory	none	0
 487	arrrgyle socks	accessory	all	48
@@ -578,7 +578,7 @@
 569	Lord of the Flies-sized fries	food	all	100
 570	Brimstone Chicken Sandwich	food	all	100
 571	Jumbo Dr. Lucifer	food	all	50
-572	Children's Meal of the Damned	food	all	31
+572	Children's Meal of the Damned	food	all	0
 573	delicious noodles	food	all	33
 574	delicious spicy noodles	food	all	33
 575	painful penne pasta	food	all	33
@@ -691,14 +691,14 @@
 682	a little sump'm sump'm	drink	all	115
 683	horizontal tango	drink	all	115
 684	pink pony	drink	all	115
-685	Mr. Shirt	shirt	all	35
+685	Mr. Shirt	shirt	all	0
 686	enchanted brass knuckles	offhand	all	500
 687	blood of the Wereseal	multiple	all	250
 688	pixel hat	hat	all	65
 689	pixel pants	pants	all	65
 690	pixel sword	weapon	all	65
 691	digital key	none, matchable	none	0
-692	Ascension Souvenir T-Shirt	shirt	all	20
+692	Ascension Souvenir T-Shirt	shirt	all	0
 693	harem girl t-shirt	shirt	all	30
 694	Knob Goblin elite shirt	shirt	all	40
 695
@@ -731,7 +731,7 @@
 722	porquoise ring	accessory	all	250
 723	Knoll mushroom	food	all	15
 724	spooky mushroom	food	all	16
-725	one million meat pancakes	none	all	11
+725	one million meat pancakes	none	all	0
 726	huge mirror shard	weapon	none	0
 727	hedge maze puzzle	none	none	0
 728	hedge maze key	none	none	0
@@ -764,30 +764,30 @@
 755	flaming mushroom	food	all	100
 756	frozen mushroom	food	all	100
 757	stinky mushroom	food	all	100
-758	ghost cucumber	food	all	75
-759	dill	none	all	75
-760	vinegar	none	all	77
-761	brine	none	all	77
-762	especially salty dog	drink	all	154
-763	ghostly pickling solution	none	all	255
-764	spectral pickle	food	all	352
-765	briny vinegar	none	all	160
-766	ghost pickle on a stick	grow	all	450
+758	ghost cucumber	food	all	0
+759	dill	none	all	0
+760	vinegar	none	all	0
+761	brine	none	all	0
+762	especially salty dog	drink	all	0
+763	ghostly pickling solution	none	all	0
+764	spectral pickle	food	all	0
+765	briny vinegar	none	all	0
+766	ghost pickle on a stick	grow	all	0
 767	cologne of contempt	multiple	all	77
 768	spork	weapon	all	35
-769	voodoo doll	offhand	all	25
+769	voodoo doll	offhand	all	0
 770	basic meat fez	hat	all	145
 771	tassel	none	all	25
 772	foon	offhand	all	35
 773	basic meat spork	weapon	all	145
 774	basic meat foon	offhand	all	150
 775	Yeti Protest Sign	reusable	display	0
-776	kneecapping stick	weapon	all	95
-777	iron pasta spoon	weapon	all	115
-778	support cummerbund	accessory	all	105
-779	Mob Penguin cellular phone	none, combat	all	105
-780	scroll of pasta summoning	usable	all	150
-781	mafia aria	multiple	all	110
+776	kneecapping stick	weapon	all	0
+777	iron pasta spoon	weapon	all	0
+778	support cummerbund	accessory	all	0
+779	Mob Penguin cellular phone	none, combat	all	0
+780	scroll of pasta summoning	usable	all	0
+781	mafia aria	multiple	all	0
 782	Mr. Exploiter	accessory	display	0
 783	'Villa' document	usable	all	0
 784	Acqua Del Piatto Merlot	drink	all	0
@@ -1051,7 +1051,7 @@
 1042	string of red beads	accessory	all	75
 1043	string of blue beads	accessory	all	75
 1044	string of green beads	accessory	all	75
-1045	cheap plastic bottle opener	weapon	all	50
+1045	cheap plastic bottle opener	weapon	all	0
 1046	orange traffic cone	hat	display	100
 1047	N. O. Beer	message	all	0
 1048	red striped oyster egg	hp, usable	all	50
@@ -1115,8 +1115,8 @@
 1106	clockwork chef head	none	all	220
 1107	clockwork maid head	none	all	225
 1108	clockwork detective skull	offhand	all	195
-1109	clockwork bartender-head-in-the-box	none	all	255
-1110	clockwork chef-head-in-the-box	none	all	225
+1109	clockwork bartender-head-in-the-box	none	all	0
+1110	clockwork chef-head-in-the-box	none	all	0
 1111	clockwork bartender-in-the-box	usable	all	710
 1112	clockwork chef-in-the-box	usable	all	710
 1113	clockwork maid	usable	all	350
@@ -1229,7 +1229,7 @@
 1220	Mr. Balloon	offhand	gift	2500
 1221	red balloon	offhand	gift	5000
 1222	Mr. Eh?	accessory	all	0
-1223	pimonkey item	none	display	0
+1223	pimonkey item	none	all	0
 1224	stainless steel shillelagh	weapon	display	0
 1225	stainless steel skullcap	hat	display	0
 1226	stainless steel solitaire	accessory	display	0
@@ -1268,7 +1268,7 @@
 1259	yellow traffic cone	hat	display	100
 1260	wax lips	familiar	all	0
 1261	Hatorade	multiple	all	250
-1262	off-hand balloon	offhand	all	50
+1262	off-hand balloon	offhand	all	0
 1263	pygmy bugbear shaman	grow	all	0
 1264	tiny nose-bone fetish	familiar	all	75
 1265	box of sunshine	usable	display	0
@@ -1323,11 +1323,11 @@
 1314	Baron von Ratsworth's tophat	hat	display	0
 1315	rose-colored glasses	accessory	display	0
 1316	facsimile dictionary	none, combat reusable	display	21337
-1317	blood flower	none	all	75
-1318	lovecat tail	none	all	50
-1319	plastic passion fruit	none	all	25
-1320	questionable taco	food	all	25
-1321	Doc's Miracle Cure	usable	all	50
+1317	blood flower	none	all	0
+1318	lovecat tail	none	all	0
+1319	plastic passion fruit	none	all	0
+1320	questionable taco	food	all	0
+1321	Doc's Miracle Cure	usable	all	0
 1322	petrified time	none	all	0
 1323	time helmet	hat	all	0
 1324	time trousers	pants	all	0
@@ -1364,9 +1364,9 @@
 1355	bowl of oriole's nest soup	food	display	0
 1356	bunny liver	none	display	0
 1357	Mt. Noob Pale Ale	drink	display	0
-1358	pirate zombie head	none	all	360
-1359	ninja pirate zombie robot head	usable	all	360
-1360	pirate zombie robot head	none	all	350
+1358	pirate zombie head	none	all	0
+1359	ninja pirate zombie robot head	usable	all	0
+1360	pirate zombie robot head	none	all	0
 1361	disembodied smile	accessory	all	20
 1362	golden sausage	offhand	display	0
 1363	clockwork pirate skull	message	all	230
@@ -1381,11 +1381,11 @@
 1372	souvenir ski t-shirt	shirt	all	105
 1373	sweet nutcracker	grow	all	0
 1374	metal mandible	familiar	all	75
-1375	tiny plastic Crimbo wreath	accessory	all	30
-1376	tiny plastic Uncle Crimbo	accessory	all	30
-1377	tiny plastic Crimbo elf	accessory	all	30
-1378	tiny plastic sweet nutcracker	accessory	all	30
-1379	tiny plastic Crimbo reindeer	accessory	all	30
+1375	tiny plastic Crimbo wreath	accessory	all	0
+1376	tiny plastic Uncle Crimbo	accessory	all	0
+1377	tiny plastic Crimbo elf	accessory	all	0
+1378	tiny plastic sweet nutcracker	accessory	all	0
+1379	tiny plastic Crimbo reindeer	accessory	all	0
 1380
 1381	aspirin	usable	all	0
 1382	fancy chocolate	usable, candy	all	0
@@ -1395,26 +1395,26 @@
 1386	felt	none	all	16
 1387	wooden block	none	all	17
 1388	toy wheel	none	all	18
-1389	yo-yo	none, combat	all	31
-1390	top	none, combat	all	35
-1391	ball	none, combat	all	31
-1392	kite	none, combat	all	29
-1393	pet rock	grow	all	31
-1394	stuffed doppelshifter	none, combat	all	29
-1395	teddy bear	grow	all	120
-1396	duck-on-a-string	weapon	all	111
-1397	toy soldier	none, combat reusable	all	79
-1398	doll house	usable	all	116
-1399	toy train	accessory	all	185
-1400	marionette	offhand	all	88
-1401	sock monkey	offhand	all	89
-1402	rag doll	offhand	all	106
+1389	yo-yo	none, combat	all	0
+1390	top	none, combat	all	0
+1391	ball	none, combat	all	0
+1392	kite	none, combat	all	0
+1393	pet rock	grow	all	0
+1394	stuffed doppelshifter	none, combat	all	0
+1395	teddy bear	grow	all	0
+1396	duck-on-a-string	weapon	all	0
+1397	toy soldier	none, combat reusable	all	0
+1398	doll house	usable	all	0
+1399	toy train	accessory	all	0
+1400	marionette	offhand	all	0
+1401	sock monkey	offhand	all	0
+1402	rag doll	offhand	all	0
 1403	can of fake snow	weapon	all	0
 1404	colored-light &quot;necklace&quot;	accessory	all	0
 1405	tree skirt	pants	all	0
-1406	wreath-shaped Crimbo cookie	food	all	50
-1407	bell-shaped Crimbo cookie	food	all	50
-1408	tree-shaped Crimbo cookie	food	all	50
+1406	wreath-shaped Crimbo cookie	food	all	0
+1407	bell-shaped Crimbo cookie	food	all	0
+1408	tree-shaped Crimbo cookie	food	all	0
 1409	Unionize The Elves sign	weapon	display	0
 1410	sleeping snowy owl	grow	all	0
 1411	Tome of Snowcone Summoning	usable	all	0
@@ -2207,11 +2207,11 @@
 2198	bat-shaped Crimboween cookie	food	all	50
 2199	skull-shaped Crimboween cookie	food	all	50
 2200	tombstone-shaped Crimboween cookie	food	all	50
-2201	tiny plastic gift-wrapping vampire	accessory	all	30
-2202	tiny plastic ancient yuletide troll	accessory	all	30
-2203	tiny plastic skeletal reindeer	accessory	all	30
-2204	tiny plastic Crimboween pentagram	accessory	all	30
-2205	tiny plastic Scream Queen	accessory	all	30
+2201	tiny plastic gift-wrapping vampire	accessory	all	0
+2202	tiny plastic ancient yuletide troll	accessory	all	0
+2203	tiny plastic skeletal reindeer	accessory	all	0
+2204	tiny plastic Crimboween pentagram	accessory	all	0
+2205	tiny plastic Scream Queen	accessory	all	0
 2206	time sleigh	none	display	0
 2207	lucky Crimbo tiki necklace	accessory	all	0
 2208	bobble-hip hula elf doll	offhand	all	0
@@ -2233,9 +2233,9 @@
 2224	flaming pink shirt	shirt, usable	all	0
 2225	flaming familiar doppelg&auml;nger	familiar, usable	all	0
 2226	evil flaming eyeball pendant	accessory, usable	all	0
-2227	arse-a'fire elixir	multiple	all	100
-2228	cosmic lemonade	multiple	all	100
-2229	powdered toad horn	usable	all	100
+2227	arse-a'fire elixir	multiple	all	0
+2228	cosmic lemonade	multiple	all	0
+2229	powdered toad horn	usable	all	0
 2230	icicle katana	familiar	all	75
 2231	frigid mote	grow	all	80
 2232	smudged alchemical recipe	usable	all	60
@@ -2378,13 +2378,13 @@
 2369	filthy poultice	hp, combat	all	85
 2370	natural fennel soda	mp	all	75
 2371	green smoke bomb	none, combat	all	85
-2372	bunch of bananas	multiple	all	5
-2373	banana	food	all	1
+2372	bunch of bananas	multiple	all	0
+2373	banana	food	all	0
 2374	banana peel	none, combat	all	0
-2375	banana cream pie	food	all	10
-2376	banana daiquiri	drink	all	10
-2377	bungle in the jungle	drink	all	25
-2378	banana spritzer	multiple, combat	all	10
+2375	banana cream pie	food	all	0
+2376	banana daiquiri	drink	all	0
+2377	bungle in the jungle	drink	all	0
+2378	banana spritzer	multiple, combat	all	0
 2379	banana smoothie	multiple	all	0
 2380	dandy lion cub	grow	all	0
 2381	woolen cravat	familiar	all	75
