@@ -323,6 +323,7 @@ public class ValhallaManager
 
 	public static final void resetPerAscensionCounters()
 	{
+		Preferences.setString( "banishingShoutMonsters", "" );
 		Preferences.setFloat( "slimelingFullness", 0.0F );
 		Preferences.setInteger( "slimelingStacksDropped", 0 );
 		Preferences.setInteger( "slimelingStacksDue", 0 );

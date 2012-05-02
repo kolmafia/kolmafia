@@ -754,7 +754,6 @@ public abstract class KoLmafia
 	{
 		Preferences.setInteger( "lastCounterDay", HolidayDatabase.getPhaseStep() );
 
-		Preferences.setString( "banishingShoutMonsters", "" );
 		Preferences.setString( "barrelLayout", "?????????" );
 		Preferences.setBoolean( "bootsCharged", false );
 		Preferences.setBoolean( "breakfastCompleted", false );
