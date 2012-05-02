@@ -195,7 +195,7 @@ public class HermitRequest
 	{
 		// Look at each item and correct the ingredient list
 		// WORTHLESS_ITEM, PERMIT
-		int count = Preferences.getBoolean( "hermitHax0red" ) ? 1 : 2;
+		int count = 1;
 		Iterator it = KoLConstants.hermitItems.iterator();
 		while ( it.hasNext() )
 		{
@@ -263,7 +263,7 @@ public class HermitRequest
 		{
 			// If we got here, the hermit wouldn't talk to us.
 			HermitRequest.ensureUpdatedHermit();
-			if ( !Preferences.getBoolean( "hermitHax0red" ) && InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
+			if ( InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
 			{
 				this.run();
 				return;
@@ -278,12 +278,13 @@ public class HermitRequest
 			return;
 		}
 
-		// If you don't have enough Hermit Permits, then retrieve the
-		// number of hermit permits requested.
+		// If you don't have any hermit permits, get one
+		// The Hermit looks at you expectantly, and when you don't respond, he points to a crudely-chalked
+		// sign on the wall reading "Hermit Permit required, pursuant to Seaside Town Ordinance #3769"
 
-		if ( this.responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
+		if ( this.responseText.indexOf( "Hermit Permit required" ) != -1 )
 		{
-			if ( InventoryManager.retrieveItem( HermitRequest.PERMIT.getInstance( this.quantity ) ) )
+			if ( InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
 			{
 				this.run();
 			}
@@ -348,36 +349,6 @@ public class HermitRequest
 		}
 
 		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
-
-		// If he is confused, you've used a hermit script
-		if ( responseText.indexOf( "looks confused for a moment" ) != -1 )
-		{
-			HermitRequest.ensureUpdatedHermit();
-			if ( !Preferences.getBoolean( "hermitHax0red" ) )
-			{
-				Preferences.setBoolean( "hermitHax0red", true );
-				HermitRequest.resetConcoctions();
-			}
-		}
-		// If he is NOT confused, he took Hermit permits
-		else
-		{
-			ResultProcessor.processResult( HermitRequest.PERMIT.getInstance( 0 - quantity ) );
-		}
-
-		// If we bought a clover, decrement the count of available
-		// clovers.  This is wasted effort if we still have worthless
-		// items and hermit permits and can see the hermit's stock, but
-		// if he sends us packing, we won't have the chance.
-		if ( urlString.indexOf( HermitRequest.CLOVER_FIELD ) != -1 )
-		{
-			int index = KoLConstants.hermitItems.indexOf( HermitRequest.CLOVER );
-			if ( index != -1 )
-			{
-				AdventureResult clover = ( AdventureResult)KoLConstants.hermitItems.get( index );
-				KoLConstants.hermitItems.set( index, HermitRequest.CLOVER.getInstance( clover.getCount() - quantity ) );
-			}
-		}
 
 		// Subtract the worthless items in order of their priority;
 		// as far as we know, the priority is the item Id.
@@ -545,13 +516,6 @@ public class HermitRequest
 
 	public static final void ensureUpdatedHermit()
 	{
-		int lastAscension = Preferences.getInteger( "lastHermitReset" );
-		if ( lastAscension < KoLCharacter.getAscensions() )
-		{
-			Preferences.setInteger( "lastHermitReset", KoLCharacter.getAscensions() );
-
-			Preferences.setBoolean( "hermitHax0red", false );
-		}
 	}
 
 	public static final boolean registerRequest( final String urlString )

@@ -1169,10 +1169,7 @@ public class GenericRequest
 				{
 					RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.HACK_SCROLL ) );
 				}
-				else if ( !Preferences.getBoolean( "hermitHax0red" ) )
-				{
-					InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT, false );
-				}
+				InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT, false );
 			}
 
 			if ( !old )
