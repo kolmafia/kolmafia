@@ -5662,20 +5662,20 @@
 5653
 5654	nailswurst	food	all	50
 5655	used beer	drink	all	50
-5656
-5657
-5658
-5659
-5660
-5661
+5656	Huggler Radio	reusable	display	0
+5657	fettucini &eacute;pines Inconnu recipe	usable	all	0
+5658	slap and slap again recipe	usable	all	0
+5659	insulting hat	hat	all	0
+5660	offensive moustache	accessory	all	0
+5661	hairshirt	shirt	all	0
 5662	Olympic-sized Clan crate	usable	all	0
-5663
-5664
-5665
-5666
-5667
-5668
-5669
+5663	cursed microwave	usable	display	0
+5664	cursed pony keg	usable	display	0
+5665	How to Tolerate Jerks	usable	display	0
+5666	How to Hold a Grudge	usable	display	0
+5667	puppet strings	none, curse	display	0
+5668	bagged stuffed &quot;L&quot;	none, curse	display	0
+5669	stuffed club	weapon	gift	0
 5670
 5671
 5672
@@ -5683,7 +5683,7 @@
 5674
 5675	watered-down Red Minotaur	usable	all	1
 5676	pool torpedo	none, combat	all	1
-5677	Ze&trade goggles	hat	all	0
+5677	Ze&trade; goggles	hat	all	0
 5678	soggy used band-aid	none, combat	all	0
 5679	stylish swimsuit	pants	all	1
 5680	lost key	usable	all	0

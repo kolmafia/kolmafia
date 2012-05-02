@@ -297,3 +297,6 @@ Uncle P's Antiques	p	fancy black tie	1000000
 Uncle P's Antiques	p	fancy tophat	1000000
 Uncle P's Antiques	p	fancy tuxedo pants	1000000
 Uncle P's Antiques	p	'Villa' document	100000000
+
+Huggler Memorial Colosseum Snack Bar	q	nailswurst	500
+Huggler Memorial Colosseum Snack Bar	q	used beer	500
