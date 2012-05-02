@@ -208,6 +208,7 @@ user	availableCandyCredits	0
 user	availableDimes	0
 user	availableQuarters	0
 user	availableStoreCredits	0
+user	availableSwagger	0
 user	badMoonEncounter01	false
 user	badMoonEncounter02	false
 user	badMoonEncounter03	false

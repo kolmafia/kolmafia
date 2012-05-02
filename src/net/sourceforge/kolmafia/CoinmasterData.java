@@ -63,7 +63,7 @@ public class CoinmasterData
 	private final Class requestClass;
 	private final String URL;
 	private String token;
-	private String plural;
+	public String plural;
 	private final String tokenTest;
 	private final boolean positiveTest;
 	private final Pattern tokenPattern;
