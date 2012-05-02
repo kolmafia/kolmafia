@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.objectpool;
 
 public class AdventurePool
 {
-	public static final String HIDDEN_TEMPLE_ID = "17";
 	public static final int DEGRASSI_KNOLL = 18;
 	public static final int FUN_HOUSE = 20;
 	public static final int FRAT_HOUSE = 27;
@@ -98,4 +97,5 @@ public class AdventurePool
 	public static final int CLUMSINESS_GROVE = 277;
 	public static final int MAELSTROM_OF_LOVERS = 278;
 	public static final int GLACIER_OF_JERKS = 279;
+	public static final String HIDDEN_TEMPLE_ID = "280";
 }
