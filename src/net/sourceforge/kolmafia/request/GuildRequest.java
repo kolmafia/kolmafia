@@ -54,7 +54,6 @@ public class GuildRequest
 	extends GenericRequest
 {
 	private static final Pattern STILLS_PATTERN = Pattern.compile( "with (\\d+) bright" );
-	private static final Pattern PLACE_PATTERN = Pattern.compile( "place=([^&]*)" );
 	public static final Pattern SKILL_PATTERN = Pattern.compile( "skillid=(\\d*)" );
 
 	public GuildRequest()
@@ -280,7 +279,7 @@ public class GuildRequest
 		
 		KoLCharacter.setGuildStoreOpen( responseText.indexOf( "\"store.php" ) != -1 );
 
-		Matcher matcher = PLACE_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.PLACE_PATTERN.matcher( urlString );
 		String place = matcher.find() ? matcher.group( 1 ) : null;
 
 		if ( place != null && place.equals( "still" ) )
@@ -380,7 +379,7 @@ public class GuildRequest
 			return false;
 		}
 
-		Matcher matcher = PLACE_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.PLACE_PATTERN.matcher( urlString );
 		String place = matcher.find() ? matcher.group(1) : null;
 
 		if ( place != null && place.equals( "still" ) )

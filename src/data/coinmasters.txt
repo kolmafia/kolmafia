@@ -488,3 +488,19 @@ Crimbo 2011	buy	50	Go-Wassail
 Crimbo 2011	buy	30	Uncle Greenspan's Bathroom Finance Guide
 Crimbo 2011	buy	30	bottle of bubbles
 Crimbo 2011	buy	30	wind-up meatcar
+
+# Things you can buy with swagger
+
+The Swagger Shop	buy	50	Huggler Radio
+The Swagger Shop	buy	1000	insulting hat
+The Swagger Shop	buy	2000	offensive moustache
+The Swagger Shop	buy	3000	How to Hold a Grudge
+The Swagger Shop	buy	5000	fettucini &eacute;pines Inconnu recipe
+The Swagger Shop	buy	5000	slap and slap again recipe
+The Swagger Shop	buy	10000	cursed microwave
+The Swagger Shop	buy	10000	cursed pony keg
+The Swagger Shop	buy	2000	hairshirt
+The Swagger Shop	buy	2000	How to Tolerate Jerks
+The Swagger Shop	buy	100	puppet strings
+The Swagger Shop	buy	500	bagged stuffed &quot;L&quot;
+The Swagger Shop	buy	500	stuffed club
