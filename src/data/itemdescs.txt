@@ -4957,7 +4957,7 @@
 4956	688352193	scone.gif	philosopher's scone
 4957	954191945	potion6.gif	half-baked potion
 4958	647795603	scimitar.gif	Knob Goblin deluxe scimitar
-4959	373563238	knobnuts.gif	Knob nuts
+4959	373563238	knobnuts.gif	Knob nuts	pairs of Knob Nuts
 4960	460647230	beerbottle.gif	Cobb's Knob Wurstbrau	bottles of Cobb's Knob Wurstbrau
 4961	928843217	folder.gif	Subject 37 file
 4962	560050214	37lapelpin.gif	mysterious silver lapel pin
