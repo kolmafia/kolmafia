@@ -102,7 +102,7 @@ Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, c
 Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Familiar Effect: "atk"
 Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Familiar Effect: "3xPotato, cap 7"
 Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6
-Ze&trade goggles	Item Drop: [25*zone(The Sea)]
+Ze&trade; goggles	Item Drop: [25*zone(The Sea)]
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
 aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50, Adventure Underwater, Familiar Effect: "?xPotato"
 ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "atk, cap 8"
@@ -192,6 +192,7 @@ ice pick	Item Drop: +15, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, ca
 indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "?xVolley, 8xLep, cap 2"
 # insane tophat: We're All Mad Here!
 insane tophat	Familiar Effect: "1xVolley, 1xLep, cap 7"
+insulting hat	PvP Fights: +3
 invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
 irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
 ironic knit cap	Maximum MP: +20, Mysticality: +1, Familiar Effect: "1xVolley, 2xPotato, cap 10"
@@ -519,6 +520,7 @@ gingham blouse	Muscle: +5
 gnauga hide vest	Damage Reduction: 6, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 goth kid t-shirt	Monster Level: +5
 grungy flannel shirt	Moxie: +11
+hairshirt	Monster Level: +10
 harem girl t-shirt	Moxie: +3
 hipposkin poncho	Monster Level: +10
 letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
@@ -1789,6 +1791,7 @@ natty blue ascot	Meat Drop: +20
 navel ring of navel gazing	Damage Reduction: 12, Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only
 night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 observational glasses	Item Drop: +5
+offensive moustache	PvP Fights: +7, Single Equip
 # old soft shoes: +30% Item Drops from Hobos
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1

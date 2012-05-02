@@ -350,6 +350,7 @@ transylvania sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted
 tropical swill	4	4	good	10-14	26-30	2-3	2-3
 typical tavern swill	3	1	decent	5-6	1-2	1-2	1-2
 uovo marcio shiraz	1	10	EPIC	6-10	60	60	60
+used beer	2	1	crappy	0	0	0	0	1 PvP Fight
 vesper	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 vodka and cranberry	3	1	decent	5-6	0	15-20	0
 vodka and tonic	3	3	good	5-10	0	16-20	0

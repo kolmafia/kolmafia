@@ -316,6 +316,7 @@ moon pie	5	5	EPIC	28-32	20-30	20-30	20-30
 mugcake	1	1	crappy	1	0	0	0
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
 mushroom pizza	3	2	good	3-10	0	15-18	0
+nailswurst	2	1	crappy	0	0	0	0	1 PvP Fight
 nanite-infested candy cane	1	4	good	1-5	11-20	11-20	11-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 nanite-infested fruitcake	3	1	decent	3-6	15-20	15-20	15-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 nanite-infested gingerbread bugbear	1	4	good	1-5	21-40	21-40	21-40	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
