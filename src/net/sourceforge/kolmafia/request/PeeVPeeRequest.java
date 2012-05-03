@@ -81,7 +81,8 @@ public class PeeVPeeRequest
 		// place = logs
 		// place = shop
 
-		if ( place.equals( "shop" ) || action.equals( "buy" ) )
+		if ( ( place != null && place.equals( "shop" ) ) ||
+		     ( action != null && action.equals( "buy" ) ) )
 		{
 			return SwaggerShopRequest.registerRequest( urlString );
 		}
