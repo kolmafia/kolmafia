@@ -5625,7 +5625,7 @@
 5624	785499840	blackntan.gif	Dark & Starry
 5625	560772723	juice.gif	Black Hole
 5626	567089761	rocks.gif	Event Horizon
-5627	793096692	daquiri.gif	Herring Daquiri
+5627	793096692	daquiri.gif	Herring Daiquiri
 5628	444876395	rocks.gif	Herring Wallbanger
 5629	394791639	martini.gif	Herringtini
 5630	797257004	martini.gif	Lollipop Drop
