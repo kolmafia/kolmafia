@@ -1054,7 +1054,7 @@ Wonderful Winifred Wongle	HP: 0 P: undead	jar full of wind (0)	jar full of wind 
 
 #The Glacier of Jerks
 Brock "Rocky" Flox	HP: 0 P: humanoid	dangerous jerkcicle (0)	pink-belly slapper (0)
-Dolores D. Smiley	HP: 0 P: humanoid	dangerous jerkcicle (0)	desktop zen garden (0)
+Dolores D. Smiley	HP: 0 P: humanoid	dangerous jerkcicle (0)	dangerous jerkcicle (0)	desktop zen garden (0)
 Hugo Von Douchington	HP: 0 P: humanoid	dangerous jerkcicle (0)	half-empty carton of milk (0)
 Vivian Vibrian Vumian Varr	HP: 0 P: humanoid	dangerous jerkcicle (0)	dangerous jerkcicle (0)	Vivian's Vitamin (0)
 Wacky Zack Flacky	HP: 0 P: humanoid	dangerous jerkcicle (0)	dangerous jerkcicle (0)	glass of warm water (0)

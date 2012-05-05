@@ -146,15 +146,15 @@ public class BigBrotherRequest
 
 	private static void update()
 	{
-		if ( InventoryManager.getCount( BigBrotherRequest.AERATED_DIVING_HELMET ) > 0 )
+		if ( InventoryManager.getAccessibleCount( BigBrotherRequest.AERATED_DIVING_HELMET ) > 0 )
 		{
 			BigBrotherRequest.self = BigBrotherRequest.AERATED_DIVING_HELMET;
 			BigBrotherRequest.rescuedBigBrother = true;
 		}
-		else if ( InventoryManager.getCount( BigBrotherRequest.SCUBA_GEAR ) > 0 )
+		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.SCUBA_GEAR ) > 0 )
 		{
 			BigBrotherRequest.self = BigBrotherRequest.SCUBA_GEAR;
-			BigBrotherRequest.rescuedBigBrother = InventoryManager.getCount( BigBrotherRequest.BUBBLIN_STONE ) > 0;
+			BigBrotherRequest.rescuedBigBrother = InventoryManager.getAccessibleCount( BigBrotherRequest.BUBBLIN_STONE ) > 0;
 		}
 		else
 		{
@@ -168,15 +168,15 @@ public class BigBrotherRequest
 
 		// For the dancing frog, the amphibious tophat is the best familiar equipment
 		if ( familiar.getId() == FamiliarPool.DANCING_FROG &&
-		     InventoryManager.getCount( BigBrotherRequest.AMPHIBIOUS_TOPHAT ) > 0 )
+		     InventoryManager.getAccessibleCount( BigBrotherRequest.AMPHIBIOUS_TOPHAT ) > 0 )
 		{
 			BigBrotherRequest.familiar = BigBrotherRequest.AMPHIBIOUS_TOPHAT;
 		}
-		else if ( InventoryManager.getCount( BigBrotherRequest.DAS_BOOT ) > 0 )
+		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.DAS_BOOT ) > 0 )
 		{
 			BigBrotherRequest.familiar = BigBrotherRequest.DAS_BOOT;
 		}
-		else if ( InventoryManager.getCount( BigBrotherRequest.BATHYSPHERE ) > 0 )
+		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.BATHYSPHERE ) > 0 )
 		{
 			BigBrotherRequest.familiar = BigBrotherRequest.BATHYSPHERE;
 		}
