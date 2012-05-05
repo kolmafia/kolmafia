@@ -782,7 +782,7 @@
 773	basic meat spork	weapon	all	145
 774	basic meat foon	offhand	all	150
 775	Yeti Protest Sign	reusable	display	0
-776	kneecapping stick	weapon	all	0
+776	kneecapping stick	weapon	all	95
 777	iron pasta spoon	weapon	all	0
 778	support cummerbund	accessory	all	0
 779	Mob Penguin cellular phone	none, combat	all	0
