@@ -188,34 +188,6 @@ public class HermitRequest
 	public static final void resetPurchaseRequests()
 	{
 		HermitRequest.HERMIT.registerPurchaseRequests();
-		HermitRequest.resetConcoctions();
-	}
-
-	public static final void resetConcoctions()
-	{
-		// Look at each item and correct the ingredient list
-		// WORTHLESS_ITEM, PERMIT
-		int count = 1;
-		Iterator it = KoLConstants.hermitItems.iterator();
-		while ( it.hasNext() )
-		{
-			AdventureResult item = (AdventureResult) it.next();
-			Concoction c = ConcoctionPool.get( item.getItemId() );
-			if ( c.getMixingMethod() != KoLConstants.COINMASTER )
-			{
-				continue;
-			}
-			AdventureResult[] ingredients = c.getIngredients();
-			if ( ingredients.length != count )
-			{
-				c.resetIngredients();
-				c.addIngredient( HermitRequest.WORTHLESS_ITEM );
-				if ( count == 2 )
-				{
-					c.addIngredient( HermitRequest.PERMIT );
-				}
-			}
-		}
 	}
 
 	/**
@@ -262,7 +234,6 @@ public class HermitRequest
 		if ( !HermitRequest.parseHermitTrade( this.getURLString(), this.responseText ) )
 		{
 			// If we got here, the hermit wouldn't talk to us.
-			HermitRequest.ensureUpdatedHermit();
 			if ( InventoryManager.retrieveItem( HermitRequest.PERMIT ) )
 			{
 				this.run();
@@ -513,9 +484,19 @@ public class HermitRequest
 	{
 		return HermitRequest.cloverCount() > 0;
 	}
-
-	public static final void ensureUpdatedHermit()
+	
+	public static final void hackHermit()
 	{
+		int index = KoLConstants.hermitItems.indexOf( HermitRequest.CLOVER ); 	 
+		if ( index != -1 ) 	 
+		{ 	 
+			AdventureResult clover = ( AdventureResult)KoLConstants.hermitItems.get( index ); 	 
+			KoLConstants.hermitItems.set( index, HermitRequest.CLOVER.getInstance( clover.getCount() + 1 ) );
+		}
+		else
+		{
+			HermitRequest.registerHermitItem( ItemPool.TEN_LEAF_CLOVER, 1 );
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )

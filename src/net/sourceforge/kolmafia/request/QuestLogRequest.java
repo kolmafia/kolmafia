@@ -175,7 +175,6 @@ public class QuestLogRequest
 
 			ChatManager.setChatLiteracy( QuestLogRequest.other.indexOf( QuestLogRequest.ALTAR_OF_LITERACY ) != -1 );
 			QuestLogRequest.dungeonOfDoomAvailable = QuestLogRequest.other.indexOf( QuestLogRequest.DUNGEONS_OF_DOOM ) != -1;
-			HermitRequest.resetConcoctions();
 		}
 	}
 
