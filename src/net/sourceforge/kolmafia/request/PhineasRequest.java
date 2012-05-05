@@ -128,7 +128,7 @@ public class PhineasRequest
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		int quantity = 1;
 
-		if ( urlString.indexOf( "makemax=on" ) != -1 )
+		if ( urlString.indexOf( "makemax=1" ) != -1 )
 		{
 			quantity = CreateItemRequest.getInstance( itemId ).getQuantityPossible();
 		}
