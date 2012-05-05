@@ -1851,8 +1851,7 @@ public class UseItemRequest
 
 		case ItemPool.HERMIT_SCRIPT:
 
-			HermitRequest.ensureUpdatedHermit();
-			HermitRequest.resetConcoctions();
+			HermitRequest.hackHermit();
 			return;
 
 		case ItemPool.SPARKLER:

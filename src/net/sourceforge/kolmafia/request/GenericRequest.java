@@ -1164,7 +1164,6 @@ public class GenericRequest
 			// If he happens to have a hermit script, use it and obviate permits
 			if ( location.indexOf( "autopermit=on" ) != -1 )
 			{
-				HermitRequest.ensureUpdatedHermit();
 				if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
 				{
 					RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.HACK_SCROLL ) );
