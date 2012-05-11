@@ -3029,7 +3029,7 @@ Loco Motives	Weapon Damage: +10, Initiative: +10
 Low on the Hog	Meat Drop: +100
 Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Lustful Heart	Moxie: [min(T,20)]
-Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [-2*M]
+Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [+2*M]
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 Mad at Science	Muscle: +3
 Maid Disservice	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
