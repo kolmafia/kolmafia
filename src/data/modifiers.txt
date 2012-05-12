@@ -694,8 +694,8 @@ asbestos sword	Muscle: +7, Mysticality: +5
 asparagus knife	Stench Damage: +1
 astral bludgeon	Muscle Percent: +25, Weapon Damage: +20, Critical: 3
 astral longbow	Moxie Percent: +25, Ranged Damage: +20, Meat Drop: +30
-astral mace	Muscle Percent: +25, Weapon Damage: +20, PvP Fights: +5
-astral pistol	Moxie Percent: +25, Ranged Damage: +20, PvP Fights: +5
+astral mace	Muscle Percent: +25, Weapon Damage: +20, PvP Fights: +4
+astral pistol	Moxie Percent: +25, Ranged Damage: +20, PvP Fights: +4
 # automatic catapult
 bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
 balloon sword	Never Fumble, Weapon Damage: -2, Clownosity: +2
