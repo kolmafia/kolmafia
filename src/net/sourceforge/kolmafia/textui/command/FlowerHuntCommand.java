@@ -45,6 +45,6 @@ public class FlowerHuntCommand
 
 	public void run( final String cmd, final String parameters )
 	{
-		PvpManager.executePvpRequest( "flowers" );
+		PvpManager.executePvpRequest( "flowers", 0 );
 	}
 }
