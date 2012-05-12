@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MailboxRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
+import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -299,49 +300,37 @@ public class PvpManager
 		}
 	}
 
-	public static void executePvpRequest( final String mission )
+	public static void executePvpRequest( final String mission, int stance )
 	{
-		KoLmafia.updateDisplay( "Determining current rank..." );
-		RequestThread.postRequest( new PvpRequest() );
+		KoLmafia.updateDisplay( "Determining remaining fights..." );
+		RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
 
-		int fightsLeft = 0;
-		int stance = 0;
-
-		if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
+		if ( stance == 0 )
 		{
-			stance = 1;
-		}
-		else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
-		{
-			stance = 2;
-		}
-		else
-		{
-			stance = 3;
-		}
-
-		int lastSearch = 0, desiredRank;
-
-		ProfileRequest[] results = null;
-		PvpRequest request = new PvpRequest( "", stance, mission );
-
-		while ( !KoLmafia.refusesContinue() && fightsLeft != KoLCharacter.getAttacksLeft() && KoLCharacter.getAttacksLeft() > 0 )
-		{
-			fightsLeft = KoLCharacter.getAttacksLeft();
-			desiredRank = Math.max( 10, KoLCharacter.getPvpRank() - 50 + Math.min( 11, fightsLeft ) );
-
-			if ( lastSearch != desiredRank )
+			if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
 			{
-				KoLmafia.updateDisplay( "Determining targets at rank " + desiredRank + "..." );
-				PvpRequest search = new PvpRequest( "", String.valueOf( desiredRank ) );
-				RequestThread.postRequest( search );
-
-				lastSearch = desiredRank;
-				results = new ProfileRequest[ PvpRequest.getSearchResults().size() ];
-				PvpRequest.getSearchResults().toArray( results );
+				stance = 1;
 			}
+			else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
+			{
+				stance = 2;
+			}
+			else
+			{
+				stance = 3;
+			}
+		}
 
-			executePvpRequest( results, request );
+		PeeVPeeRequest request = new PeeVPeeRequest( "", stance, mission );
+		
+		int fightsCompleted = 0;
+		int totalFights = KoLCharacter.getAttacksLeft();
+
+		while ( !KoLmafia.refusesContinue() && KoLCharacter.getAttacksLeft() > 0 )
+		{
+			fightsCompleted++;
+			KoLmafia.updateDisplay( "Attack " + fightsCompleted + " of " + totalFights );
+			RequestThread.postRequest( request );
 
 			if ( !KoLmafia.refusesContinue() )
 			{
@@ -364,22 +353,12 @@ public class PvpManager
 				continue;
 			}
 
-			if ( KoLCharacter.getPvpRank() - 50 > targets[ i ].getPvpRank().intValue() )
-			{
-				continue;
-			}
-
 			if ( Preferences.getString( "currentPvpVictories" ).indexOf( targets[ i ].getPlayerName() ) != -1 )
 			{
 				continue;
 			}
 
 			if ( targets[ i ].getPlayerName().toLowerCase().startsWith( "devster" ) )
-			{
-				continue;
-			}
-
-			if ( ClanManager.getClanName().equals( targets[ i ].getClanName() ) )
 			{
 				continue;
 			}

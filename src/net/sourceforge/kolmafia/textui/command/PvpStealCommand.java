@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
@@ -44,44 +43,59 @@ public class PvpStealCommand
 {
 	public PvpStealCommand()
 	{
-		this.usage = " flowers | meat | loot [food | booze] | rank | dignity - commit random acts of PvP.";
+		this.usage = " flowers | loot | fame [muscle|myst|moxie|ballyhoo] - commit random acts of PvP [using the specified stance].";
 	}
 
 	public void run( final String cmd, final String parameters )
 	{
+		String[] params = parameters.split( " " );
+		
+		KoLmafia.updateDisplay( params[0] );
+		
+		String missionType = params[0];
+		String stanceString;
+		int stance = 0;
+		
 		String mission;
-		if ( parameters.equals("flowers") ||
-		     parameters.equals("rank") ||
-		     parameters.equals("dignity") ||
-		     parameters.equals("meat") )
+		if ( missionType.equals( "flowers" ) ||
+		     missionType.equals( "fame" ) )
 		{
-			mission = parameters;
+			mission = missionType;
 		}
-		else if ( parameters.startsWith("loot") )
+		else if ( parameters.startsWith( "loot" ) )
 		{
-			if ( parameters.endsWith("booze") )
-			{
-				mission = "lootbooze";
-			} else if ( parameters.endsWith("food") )
-			{
-				mission = "lootfood";
-			} else
-			{
-				mission = "lootwhatever";
-			}
+			mission = "lootwhatever";
 		}
 		else
 		{
-			KoLmafia.updateDisplay(KoLConstants.ERROR_STATE, "What do you want to steal?");
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What do you want to steal?" + missionType );
 			return;
 		}
-
-		if( KoLCharacter.isFallingDown() )
+		
+		if ( params.length > 1 )
 		{
-			KoLmafia.updateDisplay(KoLConstants.ERROR_STATE, "You cannot PvP while falling-down drunk.");
-			return;
+			stanceString = params[1];
+			if ( stanceString.equals( "muscle" ) )
+			{
+				stance = 1;
+			}
+			
+			else if ( stanceString.equals( "myst" ) )
+			{
+				stance = 2;
+			}
+			
+			else if ( stanceString.equals( "moxie" ) )
+			{
+				stance = 3;
+			}
+			
+			else if ( stanceString.equals( "ballyhoo" ) )
+			{
+				stance = 4;
+			}
 		}
 
-		PvpManager.executePvpRequest( mission );
+		PvpManager.executePvpRequest( mission, stance );
 	}
 }

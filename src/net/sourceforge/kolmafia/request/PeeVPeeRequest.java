@@ -35,16 +35,67 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PeeVPeeRequest
 	extends GenericRequest
 {
+	public static final String[] WIN_MESSAGES =
+		new String[] { "50 CHARACTER LIMIT BREAK!", "HERE'S YOUR CHEETO, MOTHER!*$#ER.", "If you want it back, I'll be in my tent.", "PWNED LIKE CRAPSTORM." };
+
+	public static final String[] LOSE_MESSAGES =
+		new String[] { "OMG HAX H4X H5X!!", "Please return my pants.", "How do you like my Crotch-To-Your-Foot style?", "PWNED LIKE CRAPSTORM." };
+	
+	private static final Pattern ATTACKS_PATTERN =
+		Pattern.compile( "You have (\\d+) fight" );
+	
+	private static final Pattern HIPPY_STONE_PATTERN = 
+		Pattern.compile( "You must break your <a href=\"campground.php?action=stone\">Magical Mystical Hippy Stone</a> to participate in PvP combat." );
+
 	public PeeVPeeRequest()
 	{
 		super( "peevpee.php" );
+	}
+	
+	public PeeVPeeRequest( final String place )
+	{
+		super( "peevpee.php" );
+		this.addFormField( "place", place );
+	}
+	
+	public PeeVPeeRequest( final String opponent, final int stance, final String mission )
+	{
+		super( "peevpee.php" );
+		
+		this.addFormField( "action", "fight" );
+		this.addFormField( "place", "fight" );
+		this.addFormField( "attacktype", mission );
+		// ranked=1 for normal, 2 for harder
+		this.addFormField( "ranked", "1" );
+		this.addFormField( "stance", String.valueOf( stance ) );
+		this.addFormField( "who", opponent );
+		
+		String win = Preferences.getString( "defaultFlowerWinMessage" );
+		String lose = Preferences.getString( "defaultFlowerLossMessage" );
+
+		if ( win.equals( "" ) )
+		{
+			win = PeeVPeeRequest.WIN_MESSAGES[ KoLConstants.RNG.nextInt( PvpRequest.WIN_MESSAGES.length ) ];
+		}
+		if ( lose.equals( "" ) )
+		{
+			lose =
+				PeeVPeeRequest.LOSE_MESSAGES[ KoLConstants.RNG.nextInt( PvpRequest.LOSE_MESSAGES.length ) ];
+		}
+		
+		this.addFormField( "winmessage", win );
+		this.addFormField( "losemessage", lose );
 	}
 
 	public static void parseResponse( final String location, final String responseText )
@@ -52,6 +103,27 @@ public class PeeVPeeRequest
 		if ( location.indexOf( "place=shop" ) != -1 || location.indexOf( "action=buy" ) != -1 )
 		{
 			SwaggerShopRequest.parseResponse( location, responseText );
+			return;
+		}
+		
+		if ( location.indexOf( "place=fight" ) != -1 )
+		{
+			Matcher attacksMatcher = PeeVPeeRequest.ATTACKS_PATTERN.matcher( responseText );
+			if ( attacksMatcher.find() )
+			{
+				KoLCharacter.setAttacksLeft( StringUtilities.parseInt( attacksMatcher.group( 1 ) ) );
+			}
+			else
+			{
+				KoLCharacter.setAttacksLeft( 0 );
+			}
+			
+			Matcher hippyStoneMatcher = PeeVPeeRequest.HIPPY_STONE_PATTERN.matcher( responseText );
+			if ( hippyStoneMatcher.find() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This feature is not available to hippies." );
+				return;
+			}
 			return;
 		}
 	}
@@ -74,7 +146,7 @@ public class PeeVPeeRequest
 		{
 			return true;
 		}
-
+		
 		// place = rules
 		// place = fight
 		// place = boards
