@@ -446,6 +446,13 @@ public class AccountRequest
 			}
 			return;
 		}
+		
+		// Check for failure to drop path before checking to see if a path was dropped
+		// For Boris, "You must abandon the Avatar of Boris before forsaking ronin."
+		if ( responseText.indexOf( "You must abandon" ) != -1 )
+		{
+			return;
+		}
 
 		// <input type=hidden name="actions[]" value="unronin">
 		// <input class=button name="action" type=submit value="Forsake Ronin">
