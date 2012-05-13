@@ -337,6 +337,7 @@ papaya	1	1	crappy	1	0	0	0
 papaya taco	1	1	decent	2	8-12	0	8-12
 pawn cookie	1	1	crappy	1-3	0	0	0	30 Pwnd (+1..10 all stats)
 pb&bp	3	1	decent	6-8	9-12	0	0
+p.b.l.t.	3	4	decent	6-8	18-25	0	0
 peach	1	4	good	3	0	0	15-20
 peach pie	3	7	awesome	8-14	0	0	25-45
 pear	1	4	good	3	0	15-20	0

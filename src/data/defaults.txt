@@ -801,6 +801,7 @@ user	_poisonArrows	0
 user	_poolGames	0
 user	_precisionCasts	0
 user	_raindohCopiesMade	0
+user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
 user	_riftletAdv	0
 user	_romanticFightsLeft	0
