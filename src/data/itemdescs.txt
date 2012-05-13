@@ -5679,3 +5679,5 @@
 5678	737657801	soggybandaid.gif	soggy used band-aid
 5679	129136271	speedo.gif	stylish swimsuit
 5680	891641724	lostkey.gif	lost key
+5681	329990148	sammich.gif	P.B.L.T.	P.B.L.Ts.
+5682	 742783144	document_thumb.gif	note from Clancy

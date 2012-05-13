@@ -2542,6 +2542,7 @@ public class UseItemRequest
 		case ItemPool.PLANT_BOOK:
 		case ItemPool.GHOST_BOOK:
 		case ItemPool.TATTLE_BOOK:
+		case ItemPool.NOTE_FROM_CLANCY:
 		{
 			if ( KoLCharacter.inAxecore() && responseText.indexOf( "didn't like to read" ) != -1 )
 			{
@@ -3989,6 +3990,8 @@ public class UseItemRequest
 			return "Pinch Ghost";
 		case ItemPool.TATTLE_BOOK:
 			return "Tattle";
+		case ItemPool.NOTE_FROM_CLANCY:
+			return "Request Sandwich";
 		}
 
 		return null;

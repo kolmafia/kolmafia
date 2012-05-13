@@ -91,6 +91,9 @@
 77	Torment Plant	5	5	0
 78	Pinch Ghost	5	5	0
 79	Tattle	5	7	0
+80
+81
+82	Request Sandwich	1	5	0
 
 # Skills available to Clubbers
 

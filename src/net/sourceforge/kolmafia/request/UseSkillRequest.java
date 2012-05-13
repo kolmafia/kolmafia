@@ -116,6 +116,7 @@ public class UseSkillRequest
 		"Summon Alice's Army Cards",
 	};
 
+	private static final int REQUEST_SANDWICH = 82;
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
 	private static final int BANDAGES = 3009;
@@ -437,6 +438,10 @@ public class UseSkillRequest
 		// Summon "Boner Battalion" can be used once per day
 		case SkillDatabase.SUMMON_BONERS:
 			maximumCast = Preferences.getBoolean( "_bonersSummoned" ) ? 0 : 1;
+			break;
+
+		case UseSkillRequest.REQUEST_SANDWICH:
+			maximumCast = Preferences.getBoolean( "_requestSandwichSucceeded" ) ? 0 : 1;
 			break;
 
 		// Tomes can be used three times per day
@@ -1462,6 +1467,17 @@ public class UseSkillRequest
 
 		case SkillDatabase.SUMMON_BONERS:
 			Preferences.setBoolean( "_bonersSummoned", true );
+			break;
+
+		case UseSkillRequest.REQUEST_SANDWICH:
+			// You take a deep breath and prepare for a Boris-style bellow. Then you remember your manners 
+			// and shout, "If it's not too much trouble, I'd really like a sandwich right now! Please!" 
+			// To your surprise, it works! Someone wanders by slowly and hands you a sandwich, grumbling, 
+			// "well, since you asked nicely . . ."
+			if ( responseText.indexOf( "well, since you asked nicely" ) != -1 )
+			{
+				Preferences.setBoolean( "_requestSandwichSucceeded", true );
+			}
 			break;
 
 		case 3006:
