@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.textui;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
@@ -923,6 +922,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "have_display", DataTypes.BOOLEAN_TYPE, params ) );
+		
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "hippy_stone_broken", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "get_counters", DataTypes.STRING_TYPE, params ) );
@@ -3761,6 +3763,11 @@ public abstract class RuntimeLibrary
 	public static Value have_display( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.hasDisplayCase() );
+	}
+	
+	public static Value hippy_stone_broken( Interpreter interpreter )
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.getHippyStoneBroken() );
 	}
 
 	public static Value get_counters( Interpreter interpreter, final Value label, final Value min, final Value max )
