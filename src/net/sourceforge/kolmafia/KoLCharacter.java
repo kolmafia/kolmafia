@@ -334,6 +334,7 @@ public abstract class KoLCharacter
 
 	private static boolean hasBookshelf = false;
 	private static int telescopeUpgrades = 0;
+	private static boolean hippyStoneBroken = false;
 
 	// Familiar data
 
@@ -2532,6 +2533,16 @@ public abstract class KoLCharacter
 		{
 			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW ) );
 		}
+	}
+	
+	public static final boolean getHippyStoneBroken()
+	{
+		return KoLCharacter.hippyStoneBroken;
+	}
+	
+	public static final void setHippyStoneBroken( boolean broken )
+	{
+		KoLCharacter.hippyStoneBroken = broken;
 	}
 
 	/**
