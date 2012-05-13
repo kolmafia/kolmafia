@@ -74,7 +74,7 @@ public class MonsterStatusTracker
 
 	public static final void setNextMonsterName( String monsterName )
 	{
-		MonsterStatusTracker.healthModifier = 0;
+		MonsterStatusTracker.reset();
 
 		MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName, false );
 
