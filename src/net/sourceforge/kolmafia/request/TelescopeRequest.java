@@ -132,6 +132,13 @@ public class TelescopeRequest
 			return;
 		}
 
+		// In Bugbear Invasion, there is no point in looking low
+		// through your telescope
+		if ( KoLCharacter.inBugcore() )
+		{
+			return;
+		}
+
 		if ( urlString.indexOf( "action=telescopelow" ) == -1 )
 		{
 			return;

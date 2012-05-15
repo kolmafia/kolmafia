@@ -94,6 +94,12 @@ public class TelescopeCommand
 			return;
 		}
 
+		if ( KoLCharacter.inBugcore() )
+		{
+			KoLmafia.updateDisplay( "You see the base of the Bugbear Mothership." );
+			return;
+		}
+
 		if ( command.equals( "low" ) )
 		{
 			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW ) );

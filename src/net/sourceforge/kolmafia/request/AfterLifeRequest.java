@@ -476,6 +476,9 @@ public class AfterLifeRequest
 			case 8:
 				buffer.append( "an Avatar of Boris" );
 				break;
+			case 9:
+				buffer.append( "a Bugbear Invasion" );
+				break;
 			default:
 				buffer.append( "(Path " );
 				buffer.append( String.valueOf( path ) );

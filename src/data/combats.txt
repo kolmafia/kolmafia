@@ -152,6 +152,7 @@ Knob Shaft	85	Ghost Miner
 Lollipop Forest	90	Lollicat	Lolligator	Lollipede	Lolliphaunt	Lolrus	Trollipop	The Colollilossus
 Madness Reef	100	Jamfish	Magic Dragonfish	Pufferfish
 McMillicancuddy's Farm	100	Drunk Duck	Figure-Skating Duck	Fire-Breathing Duck	Frozen Duck	Greasy Duck	Mean Drunk Duck	Rattlin' Duck	Rotund Duck	Scorched Duck	Swamp Duck	Vampire Duck	Zombie Duck
+Medbay	-1	
 Menagerie 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
 Menagerie 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
@@ -182,6 +183,7 @@ Shivering Timbers	100	Deadwood Tree	Fur Tree	Hangman's Tree	Pumpkin Tree	Toilet-
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
 Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo: o1	Hung-Over Half-Orc Hobo: e1	Crazy Bastard: -1
 Small-O-Fier	-1	Cruel Dust Mote	Funk Particle	Jungle Scabie: 0	Malevolent Magnetic Field	Smooth Jazz Scabie: 0
+Sonar	-1	
 Sorceress' Hedge Maze	100	Topiary Golem
 South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
 Spectral Pickle Factory	75	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
@@ -231,16 +233,13 @@ Near an Abandoned Refrigerator	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Grem
 Over Where the Old Tires Are	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Out By that Rusted-Out Car	100	A.M.C. Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Wartime Sonofa Beach	10	Lobsterfrogman
+Waste Processing	-1	
 White Citadel	70	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orcs
 Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
-
-
 
 # Areas with no combat data
 
 Icy Peak of the Past	-1
-
-
 
 # Areas with no combats
 
