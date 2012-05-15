@@ -375,6 +375,7 @@ public class ItemPool
 	public static final int FACSIMILE_DICTIONARY = 1316;
 	public static final int TIME_HELMET = 1323;
 	public static final int CLOACA_COLA = 1334;
+	public static final int FANCY_CHOCOLATE = 1382;
 	public static final int TOY_SOLDIER = 1397;
 	public static final int SNOWCONE_BOOK = 1411;
 	public static final int PURPLE_SNOWCONE = 1412;
@@ -513,6 +514,7 @@ public class ItemPool
 	public static final int HAROLDS_HAMMER = 2184;
 	public static final int ANCIENT_CAROLS = 2191;
 	public static final int SHEET_MUSIC = 2192;
+	public static final int FANCY_EVIL_CHOCOLATE = 2197;
 	public static final int CRIMBO_UKELELE = 2209;
 	public static final int LIARS_PANTS = 2222;
 	public static final int JUGGLERS_BALLS = 2223;
@@ -727,6 +729,7 @@ public class ItemPool
 	public static final int LEG_ARMOR = 3077;
 	public static final int KEVLATEFLOCITE_HELMET = 3078;
 	public static final int TEDDY_BORG_SEWING_KIT = 3087;
+	public static final int VITACHOC_CAPSULE = 3091;
 	public static final int HOBBY_HORSE = 3092;
 	public static final int BALL_IN_A_CUP = 3093;
 	public static final int SET_OF_JACKS = 3094;
@@ -1089,6 +1092,7 @@ public class ItemPool
 	public static final int NEW_WAVE_BLING = 4326;
 	public static final int BELT_BUCKLE_OF_LOPEZ = 4327;
 	public static final int BAG_OF_MANY_CONFECTIONS = 4329;
+	public static final int FANCY_CHOCOLATE_CAR = 4334;
 	public static final int CRIMBUCK = 4343;
 	public static final int GINGERBREAD_HOUSE = 4347;
 	public static final int CRIMBO_CAROL_V1 = 4354;
@@ -1130,6 +1134,12 @@ public class ItemPool
 	public static final int INSTANT_KARMA = 4448;
 	public static final int LEAFBLOWER = 4455;
 	public static final int SNAILMAIL_BITS = 4457;
+	public static final int CHOCOLATE_SEAL_CLUBBING_CLUB = 4462;
+	public static final int CHOCOLATE_TURTLE_TOTEM = 4463;
+	public static final int CHOCOLATE_PASTA_SPOON = 4464;
+	public static final int CHOCOLATE_SAUCEPAN = 4465;
+	public static final int CHOCOLATE_DISCO_BALL = 4466;
+	public static final int CHOCOLATE_STOLEN_ACCORDION = 4467;
 	public static final int BRICKO_BOOK = 4468;
 	public static final int BRICKO_HAT = 4471;
 	public static final int BRICKO_PANTS = 4472;
@@ -1171,6 +1181,7 @@ public class ItemPool
 	public static final int PIXEL_MORNING_STAR = 4591;
 	public static final int KEGGER_MAP = 4600;
 	public static final int ORQUETTES_PHONE_NUMBER = 4602;
+	public static final int	ESSENTIAL_TOFU = 4609;
 	public static final int HATSEAT = 4614;
 	public static final int GG_TOKEN = 4621;
 	public static final int GG_TICKET = 4622;
@@ -1231,6 +1242,7 @@ public class ItemPool
 	public static final int KANSAS_TOYMAKER = 4843;
 	public static final int WASSAILING_BOOK = 4844;
 	public static final int UNCLE_HOBO_BEARD = 4846;
+	public static final int CHOCOLATE_CIGAR = 4851;
 	public static final int CRIMBCO_SCRIP = 4854;
 	public static final int CRIMBCO_MANUAL_1 = 4859;
 	public static final int CRIMBCO_MANUAL_2 = 4860;

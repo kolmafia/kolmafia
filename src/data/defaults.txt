@@ -735,12 +735,15 @@ user	welcomeBackAdv	0
 user	wineCellarProgress	0
 user	_absintheDrops	0
 user	_aguaDrops	0
+user	_akgyxothUsed	false
 user	_allYearSucker	false
 user	_aprilShower	false
 user	_astralDrops	0
 user	_badlyRomanticArrows	0
 user	_bagOTricksUsed	false
 user	_bagOfCandy	false
+user	_bagOfCandyUsed	false
+user	_ballInACupUsed	false
 user	_ballpit	false
 user	_banderRunaways	0
 user	_benettonsCasts	0
@@ -755,6 +758,9 @@ user	_candySummons	0
 user	_carboLoaded	false
 user	_companionshipCasts	0
 user	_chipBags	0
+user	_chocolateCigarsUsed	0
+user	_chocolatesUsed	0
+user	_creepyVoodooDollUsed	false
 user	_crimboTree	false
 user	_darkChocolateHeart	false
 user	_deluxeKlawSummons	0
@@ -762,16 +768,19 @@ user	_demandSandwich	0
 user	_distentionPillUsed	false
 user	_donhosCasts	0
 user	_elronsCasts	0
+user	_essentialTofuUsed	false
 user	_feastedFamiliars
 user	_feastUsed	0
 user	_fingertrapArrows	0
 user	_fudgeWaspFights	0
 user	_gapBuffs	0
 user	_gibbererAdv	0
+user	_gnollEyeUsed	false
 user	_gongDrops	0
 user	_grooseDrops	0
 user	_hareAdv	0
 user	_hipsterAdv	0
+user	_hobbyHorseUsed	false
 user	_hotTubSoaks	0
 user	_iceballUses	0
 user	_inigosCasts	0
@@ -783,6 +792,7 @@ user	_jukebox	false
 user	_kloopDrops	0
 user	_jackassPlumberGame	false
 user	_klawSummons	0
+user	_kolConSixPackUsed	false
 user	_lastZomboEye	0
 user	_leafblowerML	1
 user	_legendaryBeat	false
@@ -807,6 +817,7 @@ user	_riftletAdv	0
 user	_romanticFightsLeft	0
 user	_sealFigurineUses	0
 user	_sealsSummoned	0
+user	_setOfJacksUsed	false
 user	_sexChanged	false
 user	_skateBuff1	false
 user	_skateBuff2	false
@@ -825,6 +836,7 @@ user	_tokenDrops	0
 user	_transponderDrops	0
 user	_trivialAvocationsGame	false
 user	_userMods
+user	_vitachocCapsulesUsed	3
 user	_vmaskAdv	0
 user	_zapCount	0
 user	choiceAdventure2	2
