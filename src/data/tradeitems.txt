@@ -5659,7 +5659,7 @@
 5650	Boris's Helm (askew)	hat, usable	all	0
 5651	mime soul fragment	none	all	0
 5652
-5653
+5653	key-o-tron	reusable	none	0
 5654	nailswurst	food	all	50
 5655	used beer	drink	all	50
 5656	Huggler Radio	reusable	display	0
