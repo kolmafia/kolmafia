@@ -596,7 +596,7 @@ public class UseItemRequest
 			return Preferences.getBoolean( "_syntheticDogHairPillUsed" ) ? 0 : 1;
 
 		case ItemPool.DISTENTION_PILL:
-			boolean stomachAvailable = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) > 0;
+			// boolean stomachAvailable = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) > 0;
 
 			// The distention pill is not usable when you're full.
 			// Even if you plan on eating a 1-full food.
@@ -716,6 +716,63 @@ public class UseItemRequest
 		case ItemPool.RESOLUTION_ADVENTUROUS:
 			UseItemRequest.limiter = "daily limit";
 			return ( Preferences.getInteger( "_resolutionAdv" ) == 10 ? 0 : Integer.MAX_VALUE );
+
+		case ItemPool.ESSENTIAL_TOFU:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_essentialTofuUsed" ) ? 0 : 1;
+
+		case ItemPool.VITACHOC_CAPSULE:
+			UseItemRequest.limiter = "daily limit";
+			return ( 3 - Preferences.getInteger( "_vitachocCapsulesUsed" ) );
+
+		case ItemPool.CHOCOLATE_CIGAR:
+			UseItemRequest.limiter = "daily limit";
+			return ( 3 - Preferences.getInteger( "_chocolateCigarsUsed" ) );
+
+		case ItemPool.FANCY_CHOCOLATE:
+		case ItemPool.FANCY_CHOCOLATE_CAR:
+		case ItemPool.FANCY_EVIL_CHOCOLATE:
+		case ItemPool.CHOCOLATE_DISCO_BALL:
+		case ItemPool.CHOCOLATE_PASTA_SPOON:
+		case ItemPool.CHOCOLATE_SAUCEPAN:
+		case ItemPool.CHOCOLATE_SEAL_CLUBBING_CLUB:
+		case ItemPool.CHOCOLATE_STOLEN_ACCORDION:
+		case ItemPool.CHOCOLATE_TURTLE_TOTEM:
+			UseItemRequest.limiter = "daily limit";
+			return ( 3 - Preferences.getInteger( "_chocolatesUsed" ) );
+
+		case ItemPool.CREEPY_VOODOO_DOLL:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_creepyVoodooDollUsed" ) ? 0 : 1;
+
+		case ItemPool.HOBBY_HORSE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_hobbyHorseUsed" ) ? 0 : 1;
+
+		case ItemPool.BALL_IN_A_CUP:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_ballInACupUsed" ) ? 0 : 1;
+
+		case ItemPool.SET_OF_JACKS:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_setOfJacksUsed" ) ? 0 : 1;
+
+		case ItemPool.BAG_OF_CANDY:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_bagOfCandyUsed" ) ? 0 : 1;
+
+		case ItemPool.EMBLEM_AKGYXOTH:
+		case ItemPool.IDOL_AKGYXOTH:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_akgyxothUsed" ) ? 0 : 1;
+
+		case ItemPool.GNOLL_EYE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_gnollEyeUsed" ) ? 0 : 1;
+
+		case ItemPool.KOL_CON_SIX_PACK:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_kolConSixPackUsed" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -908,8 +965,6 @@ public class UseItemRequest
 			}
 			break;
 		}
-
-		int count;
 
 		switch ( this.consumptionType )
 		{
@@ -3826,6 +3881,85 @@ public class UseItemRequest
 		case ItemPool.PUMPKIN_SEEDS:
 			CampgroundRequest.clearCrop();
 			RequestThread.postRequest( new CampgroundRequest() );
+			return;
+
+		case ItemPool.ESSENTIAL_TOFU:
+			Preferences.setBoolean( "_essentialTofuUsed", true );
+			return;
+
+		case ItemPool.CHOCOLATE_CIGAR:
+			if ( responseText.indexOf( "You light the end") != -1 )
+			{
+				Preferences.setInteger( "_chocolateCigarsUsed", 1 );
+			}
+			else if ( responseText.indexOf( "This one doesn't taste" ) != -1 )
+			{
+				Preferences.setInteger( "_chocolateCigarsUsed", 2 );
+			}
+			else
+			{
+				Preferences.setInteger( "_chocolateCigarsUsed", 3 );
+			}
+			return;
+
+		case ItemPool.VITACHOC_CAPSULE:
+			if ( responseText.indexOf( "As the nutritive nanobots" ) != -1 )
+			{
+				Preferences.setInteger( "_vitachocCapsulesUsed", 1 );
+			}
+			else if ( responseText.indexOf( "Your body is becoming acclimated" ) != -1 )
+			{
+				Preferences.setInteger( "_vitachocCapsulesUsed", 2 );
+			}
+			else
+			{
+				Preferences.setInteger( "_vitachocCapsulesUsed", 3 );
+			}
+			return;
+
+		case ItemPool.FANCY_CHOCOLATE:
+		case ItemPool.FANCY_EVIL_CHOCOLATE:
+		case ItemPool.FANCY_CHOCOLATE_CAR:
+		case ItemPool.CHOCOLATE_SEAL_CLUBBING_CLUB:
+		case ItemPool.CHOCOLATE_TURTLE_TOTEM:
+		case ItemPool.CHOCOLATE_PASTA_SPOON:
+		case ItemPool.CHOCOLATE_SAUCEPAN:
+		case ItemPool.CHOCOLATE_DISCO_BALL:
+		case ItemPool.CHOCOLATE_STOLEN_ACCORDION:
+			Preferences.increment( "_chocolatesUsed" );
+			return;			
+
+		case ItemPool.CREEPY_VOODOO_DOLL:
+			Preferences.setBoolean( "_creepyVoodooDollUsed", true );
+			return;
+
+		case ItemPool.HOBBY_HORSE:
+			Preferences.setBoolean( "_hobbyHorseUsed", true );
+			return;
+
+		case ItemPool.BALL_IN_A_CUP:
+			Preferences.setBoolean( "_ballInACupUsed", true );
+			return;
+
+		case ItemPool.SET_OF_JACKS:
+			Preferences.setBoolean( "_setOfJacksUsed", true );
+			return;
+
+		case ItemPool.BAG_OF_CANDY:
+			Preferences.setBoolean( "_bagOfCandyUsed", true );
+			return;
+
+		case ItemPool.EMBLEM_AKGYXOTH:
+		case ItemPool.IDOL_AKGYXOTH:
+			Preferences.setBoolean( "_akgyxothUsed", true );
+			return;
+
+		case ItemPool.GNOLL_EYE:
+			Preferences.setBoolean( "_gnollEyeUsed", true );
+			return;
+
+		case ItemPool.KOL_CON_SIX_PACK:
+			Preferences.setBoolean( "_kolConSixPackUsed", true );
 			return;
 		}
 	}
