@@ -5681,3 +5681,4 @@
 5680	891641724	lostkey.gif	lost key
 5681	329990148	sammich.gif	P.B.L.T.	P.B.L.Ts.
 5682	742783144	document_thumb.gif	note from Clancy
+5683	334424636	burt.gif	BURT	BURTs

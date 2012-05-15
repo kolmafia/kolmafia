@@ -286,6 +286,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Avatar of Boris " );
 		}
+		else if ( KoLCharacter.inBugcore() )
+		{
+			sessionStream.print( "Bugbear Invasion " );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );

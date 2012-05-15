@@ -5689,3 +5689,4 @@
 5680	lost key	usable	all	0
 5681	P.B.L.T.	usable	food	5
 5682	note from Clancy	usable	display	0
+5683	BURT	reusable	display	0

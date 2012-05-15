@@ -2857,6 +2857,12 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( "Avatar of Boris" );
 	}
 
+	public static final boolean inBugcore()
+	{
+		// Which, if any, Bugbear Invasion restrictions are lifted when you free the king?
+		return KoLCharacter.ascensionPath.equals( "Bugbear Invasion" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );

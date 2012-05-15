@@ -498,11 +498,13 @@ public class AccountRequest
 		// account.php?actions[]=unpath&action=Drop+Bees+Hate+You&unpathconfirm=1&tab=account&pwd
 		// account.php?actions[]=unpath&action=Drop+Way+of+the+Surprising+Fist&unpathconfirm=1&tab=account&pwd
 		// account.php?actions[]=unpath&action=Drop+Trendy&unpathconfirm=1&tab=account&pwd
-		// account.php?actions[]=unpath&action=Avatar+of+Boris&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Avatar+of+Boris&unpathconfirm=1&tab=account&pwd
+		// account.php?actions[]=unpath&action=Drop+Bugbear+Invasion&unpathconfirm=1&tab=account&pwd
 		if ( action.equals( "Drop+Bees+Hate+You" ) ||
 		     action.equals( "Drop+Way+of+the+Surprising+Fist" ) ||
 		     action.equals( "Drop+Trendy" ) ||
-		     action.equals( "Drop+Avatar+of+Boris" ) )
+		     action.equals( "Drop+Avatar+of+Boris" ) ||
+		     action.equals( "Drop+Bugbear+Invasion") )
 		{
 			if ( location.indexOf( "unpathconfirm=1" ) != -1 )
 			{
@@ -514,7 +516,8 @@ public class AccountRequest
 				RequestLogger.updateSessionLog();
 
 				// If we were in Beecore, we need to check the Telescope again
-				if ( oldPath.equals( "Bees Hate You" ) )
+				// Ditto for Bugbear Invasion
+				if ( oldPath.equals( "Bees Hate You" ) || oldPath.equals( "Bugbear Invasion" ) )
 				{
 					Preferences.setInteger( "lastTelescopeReset", -1 );
 					KoLCharacter.checkTelescope();
@@ -641,6 +644,10 @@ public class AccountRequest
 		else if ( path.equals( "8" ) )
 		{
 			path = "Avatar of Boris";
+		}
+		else if ( path.equals( "9" ) )
+		{
+			path = "Bugbear Invasion";
 		}
 		KoLCharacter.setPath( path );
 

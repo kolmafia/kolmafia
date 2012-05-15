@@ -18,6 +18,7 @@ Beanstalk	Plains	Above the Beanstalk
 RabbitHole	Plains	Down the Rabbit Hole
 Suburbs	Plains	The Suburbs of Dis
 Landscaper	Plains	The Landscaper's Lair
+Mothership	Plains	The Bugbear Mothership
 
 BatHole	BatHole	Bat Hole
 
