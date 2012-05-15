@@ -5651,7 +5651,7 @@
 5650	253607655	borishelmaskew.gif	Boris's Helm (askew)
 5651	687015026	mimefrag.gif	mime soul fragment
 5652
-5653
+5653	335730473	keyotron.gif	key-o-tron
 5654	251468978	brat.gif	nailswurst	nailswursten
 5655	629334636	beer.gif	used beer	cans of used beer
 5656	475026869	radio.gif	Huggler Radio
