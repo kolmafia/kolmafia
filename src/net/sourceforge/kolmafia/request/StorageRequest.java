@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -334,6 +336,16 @@ public class StorageRequest
 
 			// Separate free pulls into a separate list
 			boolean isFreePull = Modifiers.getBooleanModifier( item.getName(), "Free Pull" );
+
+			// For now, special handling for the single item which
+			// is a free pull only for a specific path. If more
+			// path-specific free pulls are introduced, we'll
+			// define a "Free Pull Path" modifier or something.
+			if ( itemId == ItemPool.BORIS_HELM && !KoLCharacter.inAxecore() )
+			{
+				isFreePull = false;
+			}
+
 			List list = isFreePull ? KoLConstants.freepulls : KoLConstants.storage;
 
 			int storageCount = item.getCount( list );
