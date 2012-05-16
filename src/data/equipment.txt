@@ -859,6 +859,7 @@ poutine pole	55	Mus: 12	2-handed staff
 prehistoric spear	100	Mox: 35	1-handed spear
 projectile icemaker	125	Mox: 45	2-handed crossbow
 pygmy spear	165	Mus: 67	1-handed spear
+quantum disintegrator pistol	75	Mox: 22	1-handed pistol
 rainbow crossbow	150	Mox: 60	1-handed crossbow
 ram stick	115	Mus: 42	2-handed staff
 ram-battering staff	135	Mus: 52	2-handed staff
@@ -1420,6 +1421,7 @@ Uncle Hobo's epic beard	200	Mys: 200
 Uncle Hobo's fingerless tinsel gloves	200	Mys: 200
 Unspeakable Earring	150	Mys: 60
 Uranium Omega of Temperance	200	Mys: 85
+UV monocular	0	Mys: 22
 V for Vivala mask	0	none
 Voluminous Radio Sneakers	0	Mys: 60
 Warehouse 23 bling	0	none
@@ -1472,6 +1474,7 @@ boxing glove	45	Mys: 7
 brazen bracelet	160	Mus: 65
 broken clock	30	none
 brown plastic baby	20	none
+bugbear detector	0	none
 candy necklace	150	Mox: 60
 cannonball charrrm bracelet	190	Mys: 80
 cement sandals	50	Mus: 10
@@ -1608,6 +1611,7 @@ paperclip-on tie	50	none
 pat-a-cake pendant	10	none
 patent leather shoes	30	none
 peace-sign necklace	70	Mys: 20
+phase-tuned shield generator belt	0	Mys: 22
 phat turquoise bracelet	70	Mys: 20
 pig-iron bracers	90	Mys: 30
 pink glowstick	20	none

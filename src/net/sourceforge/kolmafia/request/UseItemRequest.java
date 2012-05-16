@@ -4427,6 +4427,9 @@ public class UseItemRequest
 		case ItemPool.AWOL_COMMENDATION:
 			return AWOLQuartermasterRequest.registerRequest( urlString );
 
+		case ItemPool.BURT:
+			return BURTRequest.registerRequest( urlString );
+
 		case ItemPool.FUDGE_WAND:
 			return FudgeWandRequest.registerRequest( urlString );
 		}

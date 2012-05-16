@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
+import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -503,6 +504,7 @@ public class ResponseTextParser
 			{
 				UseItemRequest.parseConsumption( responseText, false );
 				AWOLQuartermasterRequest.parseResponse( location, responseText );
+				BURTRequest.parseResponse( location, responseText );
 			}
 
 			// If there is a binge message, parse it

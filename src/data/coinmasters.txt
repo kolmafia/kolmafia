@@ -504,3 +504,13 @@ The Swagger Shop	buy	2000	How to Tolerate Jerks
 The Swagger Shop	buy	100	puppet strings
 The Swagger Shop	buy	500	bagged stuffed &quot;L&quot;
 The Swagger Shop	buy	500	stuffed club
+
+# Things you can buy with BURTs
+
+Bugbear Token	buy	2	bugbear purification pill
+Bugbear Token	buy	3	pacification grenade
+Bugbear Token	buy	5	key-o-tron
+Bugbear Token	buy	25	bugbear detector
+Bugbear Token	buy	50	UV monocular
+Bugbear Token	buy	60	quantum disintegrator pistol
+Bugbear Token	buy	70	phase-tuned shield generator belt

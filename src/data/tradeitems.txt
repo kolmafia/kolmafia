@@ -5690,3 +5690,19 @@
 5681	P.B.L.T.	usable	food	5
 5682	note from Clancy	usable	display	0
 5683	BURT	reusable	display	0
+5684
+5685
+5686
+5687
+5688
+5689
+5690
+5691	pacification grenade	none, combat	all	75
+5692
+5693
+5694
+5695	bugbear detector	accessory	display	0
+5696	bugbear purification pill	usable	all	0
+#xxxx	UV monocular	accessory	display	0
+#xxxx	quantum disintegrator pistol	weapon	display	0
+#xxxx	phase-tuned shield generator belt	accessory	display	0
