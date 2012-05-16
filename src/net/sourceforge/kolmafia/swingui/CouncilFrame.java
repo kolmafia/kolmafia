@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -137,6 +138,10 @@ public class CouncilFrame
 			if ( location.indexOf( "whichitem=5116" ) != -1 )
 			{
 				AWOLQuartermasterRequest.parseResponse( location, responseText );
+			}
+			else if ( location.indexOf( "whichitem=5683" ) != -1 )
+			{
+				BURTRequest.parseResponse( location, responseText );
 			}
 		}
 		else if ( location.startsWith( "lair" ) )

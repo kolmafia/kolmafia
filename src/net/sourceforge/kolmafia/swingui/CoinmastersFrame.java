@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
+import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
@@ -138,6 +139,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel tr4pz0rPanel = null;
 	private CoinmasterPanel vendingMachinePanel = null;
 	private CoinmasterPanel swaggerShopPanel = null;
+	private CoinmasterPanel BURTPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -197,6 +199,11 @@ public class CoinmastersFrame
 		quartersmasterPanel = new QuartersmasterPanel();
 		panel.add( quartersmasterPanel );
 		this.selectorPanel.addPanel( quartersmasterPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		BURTPanel = new BURTPanel();
+		panel.add( BURTPanel );
+		this.selectorPanel.addPanel( BURTPanel.getPanelSelector(), panel );
 
 		// Aftercore coinmasters
 		this.selectorPanel.addSeparator();
@@ -335,6 +342,7 @@ public class CoinmastersFrame
 		mrStorePanel.update();
 		hermitPanel.update();
 		swaggerShopPanel.update();
+		BURTPanel.update();
 		tr4pz0rPanel.update();
 		vendingMachinePanel.update();
 		bigBrotherPanel.update();
@@ -454,6 +462,15 @@ public class CoinmastersFrame
 		public SwaggerShopPanel()
 		{
 			super( SwaggerShopRequest.SWAGGER_SHOP );
+		}
+	}
+
+	public class BURTPanel
+		extends CoinmasterPanel
+	{
+		public BURTPanel()
+		{
+			super( BURTRequest.BURT );
 		}
 	}
 
