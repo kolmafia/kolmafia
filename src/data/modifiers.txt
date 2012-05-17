@@ -1335,6 +1335,7 @@ plush mutated alielf	Muscle Percent: +3, Mysticality Percent: +3, Moxie Percent:
 pocketwatch on a chain	Monster Level: -10, Experience (Mysticality): +1
 polyalloy shield	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Muscle: +10, Damage Reduction: 9
 pottery shield	Hot Damage: +5, Damage Reduction: 3
+pretty bouquet	Moxie: +3
 rag doll	Muscle: +3
 red China marble	Hot Spell Damage: +40
 # red balloon
@@ -2470,7 +2471,6 @@ Frobozz Real-Estate Company Instant House (TM)	Base Resting HP: +39, Base Restin
 # Loudmouth Larry Lamprey
 Meat maid	Adventures: +4
 Newbiesport&trade; tent	Base Resting HP: +9, Base Resting MP: +10
-# barbed-wire fence
 barskin tent	Base Resting HP: +19, Base Resting MP: +20
 # bartender-in-the-box
 beanbag chair	Bonus Resting MP: +30
@@ -2496,13 +2496,11 @@ house of twigs and spit	Base Resting HP: +59, Base Resting MP: +60
 # huge pumpkin
 # meat golem
 pagoda plans	Resting HP Percent: +100, Resting MP Percent: +100, Adventures: +3
-# pretty bouquet
 # pumpkin
 sandcastle	Base Resting HP: +49, Base Resting MP: +50
 # sleeping stocking
 # spooky scarecrow
 stained mattress	Sleaze Resistance: +2
-white picket fence	Bonus Resting MP: +1
 
 # Status Effects section of modifiers.txt
 
