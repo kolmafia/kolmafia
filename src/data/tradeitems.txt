@@ -5694,7 +5694,7 @@
 5685
 5686
 5687
-5688
+5688	UV monocular	accessory	display	0
 5689
 5690
 5691	pacification grenade	none, combat	all	75
@@ -5703,6 +5703,5 @@
 5694
 5695	bugbear detector	accessory	display	0
 5696	bugbear purification pill	usable	all	0
-#xxxx	UV monocular	accessory	display	0
 #xxxx	quantum disintegrator pistol	weapon	display	0
 #xxxx	phase-tuned shield generator belt	accessory	display	0
