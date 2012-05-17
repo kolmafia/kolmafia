@@ -5686,7 +5686,7 @@
 5685
 5686
 5687
-5688
+5688	184896228	monocular.gif	UV monocular
 5689
 5690
 5691	643034783	pacgrenade.gif	pacification grenade
@@ -5695,6 +5695,5 @@
 5694
 5695	320593140	evilometer.gif	bugbear detector
 5696	608714645	pill.gif	bugbear purification pill
-#xxxx	184896228	monocular.gif	UV monocular
 #xxxx	915600766	bugraygun.gif	quantum disintegrator pistol
 #xxxx	705663632	bugbelt.gif	phase-tuned shield generator belt

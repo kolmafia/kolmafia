@@ -39,6 +39,9 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -106,6 +109,25 @@ public class SwaggerShopRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	public void run()
+	{
+		if ( this.action != null ) {
+			if ( KoLCharacter.isHardcore() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't spend your swagger in Hardcore." );
+				return;
+			}
+
+			if ( KoLCharacter.inRonin() )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't spend your swagger until you get out of Ronin." );
+				return;
+			}
+		}
+
+		super.run();
+	}
+
 	public void processResults()
 	{
 		SwaggerShopRequest.parseResponse( this.getURLString(), this.responseText );
@@ -140,5 +162,11 @@ public class SwaggerShopRequest
 
 		CoinmasterData data = SwaggerShopRequest.SWAGGER_SHOP;
 		return CoinMasterRequest.registerRequest( data, urlString, true );
+	}
+
+	public static String accessible()
+	{
+
+		return null;
 	}
 }
