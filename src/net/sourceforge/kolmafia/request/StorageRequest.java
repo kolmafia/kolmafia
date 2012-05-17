@@ -341,7 +341,8 @@ public class StorageRequest
 			// is a free pull only for a specific path. If more
 			// path-specific free pulls are introduced, we'll
 			// define a "Free Pull Path" modifier or something.
-			if ( itemId == ItemPool.BORIS_HELM && !KoLCharacter.inAxecore() )
+			if ( ( itemId == ItemPool.BORIS_HELM || itemId == ItemPool.BORIS_HELM_ASKEW ) && 
+				 !KoLCharacter.inAxecore() )
 			{
 				isFreePull = false;
 			}
