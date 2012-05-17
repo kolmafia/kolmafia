@@ -1474,6 +1474,7 @@ boxing glove	45	Mys: 7
 brazen bracelet	160	Mus: 65
 broken clock	30	none
 brown plastic baby	20	none
+bugbear communicator badge	0	none
 bugbear detector	0	none
 candy necklace	150	Mox: 60
 cannonball charrrm bracelet	190	Mys: 80
