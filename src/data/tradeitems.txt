@@ -5692,15 +5692,15 @@
 5683	BURT	reusable	display	0
 5684
 5685	bugbear communicator badge	accessory	none	0
-5686
-5687
+5686	quantum nanopolymer spider web	none, combat	all	60
+5687	bugbear autopsy tweezers	none	none	50
 5688	UV monocular	accessory	display	0
-5689
+5689	drone self-destruct chip	none, combat	all	75
 5690
 5691	pacification grenade	none, combat	all	75
 5692
 5693	phase-tuned shield generator belt	accessory	display	0
-5694
+5694	Thwaitgold woolybear statuette	none	display	0
 5695	bugbear detector	accessory	display	0
 5696	bugbear purification pill	usable	all	0
 #xxxx	quantum disintegrator pistol	weapon	display	0

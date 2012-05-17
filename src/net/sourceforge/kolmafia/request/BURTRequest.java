@@ -83,6 +83,11 @@ public class BURTRequest
 			null
 			);
 
+	static
+	{
+		BURT.plural = "BURTs";
+	}
+
 	private static String lastURL = null;
 
 	public BURTRequest()
