@@ -84,7 +84,7 @@
 75	spooky sapling	message	none	0
 76	Spooky-Gro fertilizer	message	all	6
 77	spooky stick	weapon	all	35
-78	pretty bouquet	usable	all	2
+78	pretty bouquet	offhand	all	2
 79	bugbear bungguard	pants	all	35
 80	fairy gravy boat	none	all	5
 81	ice-cold Willer	drink	all	30
@@ -151,7 +151,7 @@
 142	anticheese	none	all	30
 143	cottage	usable	all	50
 144	stone of eXtreme power	none	all	30
-145	barbed-wire fence	usable, combat	all	31
+145	barbed-wire fence	none, combat	all	31
 146	dinghy plans	usable	none	0
 147	eXtreme meat sword	weapon	all	160
 148	eXtreme meat staff	weapon	all	160
@@ -276,7 +276,7 @@
 267	mullet wig	hat	all	45
 268	meat cowboy hat	hat	all	150
 269	white sword	weapon	all	45
-270	white picket fence	usable	all	15
+270	white picket fence	none, combat	all	15
 271	enchanted barbell	multiple	all	125
 272	concentrated magicalness pill	multiple	all	125
 273	giant moxie weed	multiple	all	125

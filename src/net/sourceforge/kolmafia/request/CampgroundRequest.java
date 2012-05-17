@@ -122,13 +122,10 @@ public class CampgroundRequest
 		ItemPool.GIANT_CANDY_CANE,
 
 		// Outside dwelling
-		ItemPool.BARBED_FENCE,
 		ItemPool.CLOCKWORK_MAID,
 		ItemPool.MAID,
 		ItemPool.MEAT_GOLEM,
 		ItemPool.PAGODA_PLANS,
-		ItemPool.PICKET_FENCE,
-		ItemPool.PRETTY_BOUQUET,
 		ItemPool.SCARECROW,
 		ItemPool.TOILET_PAPER,
 
@@ -457,9 +454,6 @@ public class CampgroundRequest
 		findImage( responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID );
 		findImage( responseText, "scarecrow.gif", ItemPool.SCARECROW );
 		findImage( responseText, "golem.gif", ItemPool.MEAT_GOLEM );
-		findImage( responseText, "bouquet.gif", ItemPool.PRETTY_BOUQUET, true );
-		findImage( responseText, "pfsection.gif", ItemPool.PICKET_FENCE, true );
-		findImage( responseText, "bfsection.gif", ItemPool.BARBED_FENCE, true );
 
 		findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 );
 		findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 );

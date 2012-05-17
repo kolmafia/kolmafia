@@ -3191,9 +3191,6 @@ public class UseItemRequest
 			RequestThread.postRequest( new CampgroundRequest() );
 			return;
 
-		case ItemPool.PRETTY_BOUQUET:
-		case ItemPool.PICKET_FENCE:
-		case ItemPool.BARBED_FENCE:
 		case ItemPool.BEANBAG_CHAIR:
 		case ItemPool.GAUZE_HAMMOCK:
 		case ItemPool.HOT_BEDDING:
