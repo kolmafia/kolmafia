@@ -328,7 +328,7 @@ public class EatItemRequest
 		}
 		
 		// If the item doesn't give any adventures, it won't benefit from using milk
-		if ( advGain == "0" )
+		if ( advGain.equals( "0" ) )
 		{
 			return true;
 		}
