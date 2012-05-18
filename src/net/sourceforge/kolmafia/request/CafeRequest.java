@@ -161,7 +161,8 @@ public class CafeRequest
 			return;
 		}
 
-		if ( this.inebriety > 0 && !DrinkItemRequest.allowBoozeConsumption( this.inebriety, 1 ) )
+		String advGain = ItemDatabase.getAdvRangeByName( this.itemName );
+		if ( this.inebriety > 0 && !DrinkItemRequest.allowBoozeConsumption( this.inebriety, 1, advGain ) )
 		{
 			return;
 		}

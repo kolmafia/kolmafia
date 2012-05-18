@@ -297,11 +297,13 @@ public class DrinkItemRequest
 
 		int inebriety = ItemDatabase.getInebriety( this.itemUsed.getName() );
 		int count = this.itemUsed.getCount();
+		String itemName = this.itemUsed.getName();
+		String advGain = ItemDatabase.getAdvRangeByName( itemName );
 
-		return DrinkItemRequest.allowBoozeConsumption( inebriety, count );
+		return DrinkItemRequest.allowBoozeConsumption( inebriety, count, advGain );
 	}
 
-	public static final boolean allowBoozeConsumption( final int inebriety, final int count )
+	public static final boolean allowBoozeConsumption( final int inebriety, final int count, String advGain )
 	{
 		int inebrietyBonus = inebriety * count;
 		if ( inebrietyBonus < 1 )
@@ -319,7 +321,7 @@ public class DrinkItemRequest
 			return true;
 		}
 
-		if ( !DrinkItemRequest.askAboutOde( inebriety, count ) )
+		if ( !DrinkItemRequest.askAboutOde( inebriety, count, advGain ) )
 		{
 			return false;
 		}
@@ -330,11 +332,6 @@ public class DrinkItemRequest
 		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() &&
 		     DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
 		{
-			if ( KoLCharacter.getAttacksLeft() > 0 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink without PvPing?" ) )
-			{
-				return false;
-			}
-
 			if ( KoLCharacter.getAdventuresLeft() > 0 && !InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
 			{
 				return false;
@@ -344,7 +341,7 @@ public class DrinkItemRequest
 		return true;
 	}
 
-	private static final boolean askAboutOde( final int inebriety, final int count )
+	private static final boolean askAboutOde( final int inebriety, final int count, String advGain )
 	{
 		// If we've already asked about ode, don't nag
 		if ( DrinkItemRequest.askedAboutOde == KoLCharacter.getUserId() )
@@ -355,6 +352,12 @@ public class DrinkItemRequest
 		// If user specifically said not to worry about ode, don't nag
 		// Actually, this overloads the "allowed to overdrink" flag.
 		if ( DrinkItemRequest.permittedOverdrink == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+		
+		// If the item doesn't give any adventures, it won't benefit from ode
+		if ( advGain == "0" )
 		{
 			return true;
 		}

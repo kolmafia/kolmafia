@@ -274,19 +274,14 @@ public class EatItemRequest
 
 	private final boolean allowFoodConsumption()
 	{
-		// Always allow the steel lasagna
-		int itemId = this.itemUsed.getItemId();
-		if ( itemId == ItemPool.STEEL_STOMACH )
-		{
-			return true;
-		}
-
 		if ( !GenericFrame.instanceExists() )
 		{
 			return true;
 		}
 
-		if ( !askAboutMilk() )
+		String itemName = this.itemUsed.getName();
+		String advGain = ItemDatabase.getAdvRangeByName( itemName );
+		if ( !askAboutMilk( advGain ) )
 		{
 			return false;
 		}
@@ -323,11 +318,17 @@ public class EatItemRequest
 		return true;
 	}
 
-	private final boolean askAboutMilk()
+	private final boolean askAboutMilk( String advGain )
 	{
 		// If user specifically said not to worry about milk, don't nag
 		int myUserId = KoLCharacter.getUserId();
 		if ( EatItemRequest.ignoreMilkPrompt == myUserId )
+		{
+			return true;
+		}
+		
+		// If the item doesn't give any adventures, it won't benefit from using milk
+		if ( advGain == "0" )
 		{
 			return true;
 		}
