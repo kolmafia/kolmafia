@@ -45,9 +45,11 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -57,6 +59,7 @@ public class BURTRequest
 	public static final String master = "Bugbear Token"; 
 	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( BURTRequest.master );
 	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( BURTRequest.master );
+	private static final Map itemByPrice = CoinmastersDatabase.invert( BURTRequest.buyPrices );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) BURT" );
 	public static final AdventureResult BURT_TOKEN = ItemPool.get( ItemPool.BURT, 1 );
@@ -88,6 +91,18 @@ public class BURTRequest
 		BURT.plural = "BURTs";
 	}
 
+	private static int priceToItemId( final int price )
+	{
+		String itemName = (String) BURTRequest.itemByPrice.get( IntegerPool.get( price ) );
+		return ItemDatabase.getItemId( itemName );
+	}
+
+	private static int itemIdToPrice( final int itemId )
+	{
+		CoinmasterData data = BURTRequest.BURT;
+		return data.getBuyPrice( itemId );
+	}
+
 	private static String lastURL = null;
 
 	public BURTRequest()
@@ -102,13 +117,12 @@ public class BURTRequest
 
 	public BURTRequest( final String action, final int itemId, final int quantity )
 	{
-		super( BURTRequest.BURT, action, itemId, quantity );
-		this.addFormField( "doit", "69" );
+		super( BURTRequest.BURT, action, BURTRequest.itemIdToPrice( itemId ), quantity );
 	}
 
 	public BURTRequest( final String action, final int itemId )
 	{
-		this( action, itemId, 1 );
+		this( action, BURTRequest.itemIdToPrice( itemId ), 1 );
 	}
 
 	public BURTRequest( final String action, final AdventureResult ar )
@@ -125,11 +139,18 @@ public class BURTRequest
 	{
 		CoinmasterData data = BURTRequest.BURT;
 
-		// If you don't have enough commendations, you are redirected to inventory.php
+		// If you don't have enough BURTs, you are redirected to inventory.php
 		if ( responseText.indexOf( "You don't have enough BURTs" ) == -1 )
 		{
-			// inv_use.php?whichitem=5683&pwd&&itemquantity=xxx
-			CoinMasterRequest.completePurchase( data, location );
+			// inv_use.php?whichitem=5683&pwd&itemquantity=xxx
+			Matcher itemMatcher = data.getItemMatcher( location );
+			if ( itemMatcher.find() )
+			{
+				int price = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+				int itemId = BURTRequest.priceToItemId( price );
+				CoinMasterRequest.completePurchase( data, itemId, 1, false );
+			}
+			return;
 		}
 
 		CoinMasterRequest.parseBalance( data, responseText );
@@ -146,12 +167,19 @@ public class BURTRequest
 		// Save URL. If request fails, we are redirected to inventory.php
 		BURTRequest.lastURL = urlString;
 
-		if ( urlString.indexOf( "itemquantity" ) != -1 )
+		CoinmasterData data = BURTRequest.BURT;
+		Matcher itemMatcher = data.getItemMatcher( urlString );
+		if ( !itemMatcher.find() )
 		{
-			CoinmasterData data = BURTRequest.BURT;
-			CoinMasterRequest.registerRequest( data, urlString );
+			return true;
 		}
 
+		int price = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		int itemId = BURTRequest.priceToItemId( price );
+		if ( itemId != -1 )
+		{
+			CoinMasterRequest.buyStuff( data, itemId, 1, false );
+		}
 		return true;
 	}
 
