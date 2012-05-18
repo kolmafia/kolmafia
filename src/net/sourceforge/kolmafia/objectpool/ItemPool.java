@@ -1450,6 +1450,7 @@ public class ItemPool
 	public static final int BORIS_HELM_ASKEW = 5650;
 	public static final int NOTE_FROM_CLANCY = 5682;
 	public static final int BURT = 5683;
+	public static final int AUTOPSY_TWEEZERS = 5687;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

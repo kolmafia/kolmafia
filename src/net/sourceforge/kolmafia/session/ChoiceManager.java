@@ -2147,6 +2147,12 @@ public abstract class ChoiceManager
 			"Woods", "choiceAdventure584", "Hidden Temple",
 			new String[] { "Hidden Temple (Stone) - muscle substats", "Hidden Temple (Sun) - gain ancient calendar fragment", "Hidden Temple (Gargoyle) - MP", "Hidden Temple (Pikachutlotal) - Hidden City unlock" } ), 
 
+		// Choice 585 is Screwing Around!
+		// Choice 586 is All We Are Is Radio Huggler
+
+		// Choice 588 is Machines!
+		// Choice 589 is Autopsy Auturvy
+		// Choice 590 is Not Alone In The Dark
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -3520,6 +3526,15 @@ public abstract class ChoiceManager
 				}
 			}
 			break;
+
+		case 589:
+			// Autopsy Auturvy
+			// The tweezers you used dissolve in the caustic fluid. Rats.
+			if ( text.indexOf( "dissolve in the caustic fluid" ) != -1 )
+			{
+				ResultProcessor.processItem( ItemPool.AUTOPSY_TWEEZERS, -1 );
+			}
+			return;
 		}
 
 		// Certain choices cost meat or items when selected
