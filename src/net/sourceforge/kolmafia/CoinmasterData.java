@@ -348,6 +348,11 @@ public class CoinmasterData
 		return 0;
 	}
 
+	public final int getBuyPrice( final int itemId )
+	{
+		return this.getBuyPrice( ItemDatabase.getItemName( itemId ) );
+	}
+
 	public final String getSellAction()
 	{
 		return this.sellAction;

@@ -38,6 +38,7 @@ import java.io.BufferedReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -126,6 +127,18 @@ public class CoinmastersDatabase
 		{
 			retval = CoinmastersDatabase.getNewMap();
 			map.put( key, retval );
+		}
+		return retval;
+	}
+
+	public static final Map invert( final Map map )
+	{
+		Map retval = CoinmastersDatabase.getNewMap();
+		Iterator it = map.entrySet().iterator();
+		while ( it.hasNext() )
+		{
+			Entry entry = (Entry) it.next();
+			retval.put(entry.getValue(), entry.getKey());
 		}
 		return retval;
 	}
