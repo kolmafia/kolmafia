@@ -90,7 +90,7 @@ Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quan
 Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
 Elf Alley	-1	Hobelf	Uncle Hobo: 0
 El Vibrato Island	100	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
-Neckback Crick	100	Deadly Venomtrout	Water Spider	Unearthed Monstrosity: 0
+Engineering	-1
 Exposure Esplanade	-1	Cold Hobo	Frosty: 0
 eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 F'c'le	80	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
@@ -105,6 +105,7 @@ Frat House (Stone Age)	100	Caveman Frat Boy	Caveman Frat Pledge	Caveman Sorority
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
 Fudge Mountain	95	Fudge monkey	Fudge oyster	Fudge weasel	Fudge vulture	Fudge poodle	The Fudge Wizard	The Abominable Fudgeman
 Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown	The Clownlord Beelzebozo: 0
+Galley	-1
 Giant's Castle	75	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
 Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 Granary	100	Rotund Duck
@@ -156,8 +157,11 @@ Medbay	-1
 Menagerie 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
 Menagerie 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
+Morgue	-1	
 Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
 Mt. Molehill	-1	digital underground dweller	dwarvish gnome	spelunking astronaut	velvet underground dweller	weather underground dweller
+Navigation	-1
+Neckback Crick	100	Deadly Venomtrout	Water Spider	Unearthed Monstrosity: 0
 Nemesis Cave	100	Infernal Seal Larva	Infernal Seal Spawn	Vengeful Turtle Spectre	Haunted Soup Tureen	Slithering Hollandaise Glob	Pernicious Puddle of Pesto	Evil Spaghetti Cultist	Evil Spaghetti Cult Priest	Talking Head	Psychedelic Fur	Evil Vihuela-playing Mariachi	Evil Trumpet-playing Mariachi
 Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
 Noob Cave	100	Crate
@@ -177,6 +181,7 @@ Post-War Sonofa Beach	-1	Lobsterfrogman
 Pre-Cyrpt Cemetary	100	Ghuol	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
 Queen's Chamber	100	The Queen Filthworm
 Rogue Windmill	70	Can-can Dancer	Courtesan	Sensitive Poet-type	The Master of Ceremonies	Voyeuristic Artist
+Science Lab	-1	
 Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	Cyborg Policeman	"Handyman" Jay Android	Liquid Metal Robot	Obese Tourist	Space Marine	Terrifying Robot
 Shady Thicket	100	Drunk Duck	Mean Drunk Duck
 Shivering Timbers	100	Deadwood Tree	Fur Tree	Hangman's Tree	Pumpkin Tree	Toilet-papered Tree	Underworld Tree: 0
@@ -186,6 +191,7 @@ Small-O-Fier	-1	Cruel Dust Mote	Funk Particle	Jungle Scabie: 0	Malevolent Magnet
 Sonar	-1	
 Sorceress' Hedge Maze	100	Topiary Golem
 South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
+Special Ops	-1	
 Spectral Pickle Factory	75	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
 Spooky Forest	60	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowulf: -1
 Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	Skeletal Reindeer	Stocking-stuffing Zombie	Toy-making creature from the Gray Lagoon
