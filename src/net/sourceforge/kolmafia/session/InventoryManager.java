@@ -355,14 +355,18 @@ public abstract class InventoryManager
 		// Disable any preferences that might prevent us from acquiring the item
 
 		boolean cloverProtectActive = Preferences.getBoolean( "cloverProtectActive" );
-		Preferences.setBoolean( "cloverProtectActive", false );
+		String rv;
 
-		String rv = InventoryManager.doRetrieveItem( item, isAutomated, sim );
-
-		// Restore preferences back to what they were before calling retrieveItem
-
-		Preferences.setBoolean( "cloverProtectActive", cloverProtectActive );
-
+		try
+		{
+			Preferences.setBoolean( "cloverProtectActive", false );
+			rv = InventoryManager.doRetrieveItem( item, isAutomated, sim );
+		}
+		finally
+		{
+			// Restore preferences back to what they were before calling retrieveItem
+			Preferences.setBoolean( "cloverProtectActive", cloverProtectActive );
+		}
 		return rv;
 	}
 
