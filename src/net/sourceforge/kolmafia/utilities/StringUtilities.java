@@ -813,10 +813,16 @@ public class StringUtilities
 		}
 
 		string = StringUtilities.globalStringDelete( string, "," );
+		string = StringUtilities.globalStringDelete( string, " " );
 
 		if ( string.length() == 0 )
 		{
-			return 0L;
+			return 0.0f;
+		}
+
+		if ( !StringUtilities.isFloat( string ) )
+		{
+			return 0.0f;
 		}
 
 		return Float.parseFloat( string );
