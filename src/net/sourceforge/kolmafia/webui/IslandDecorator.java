@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
@@ -50,10 +51,12 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -275,15 +278,52 @@ public class IslandDecorator
 		"It whips out a pair of pliers",
 		"It whips out a screwdriver",
 	};
+	
+	private static final int[][] TOOL_LOCATIONS = 
+	{
+		{
+			AdventurePool.JUNKYARD_BARREL,
+			ItemPool.MOLYBDENUM_HAMMER
+		},
+
+		{
+			AdventurePool.JUNKYARD_TIRES,
+			ItemPool.MOLYBDENUM_WRENCH
+		},
+
+		{
+			AdventurePool.JUNKYARD_REFRIGERATOR,
+			ItemPool.MOLYBDENUM_PLIERS
+		},
+
+		{
+			AdventurePool.JUNKYARD_CAR,
+			ItemPool.MOLYBDENUM_SCREWDRIVER
+		}
+	};
 
 	public static final void decorateGremlinFight( final StringBuffer buffer )
 	{
 		// Color the tool in the monster spoiler text
-		if ( IslandDecorator.missingGremlinTool == null && !IslandDecorator.currentJunkyardTool.equals( "" ) )
+		int loc = KoLAdventure.lastAdventureId();
+		if ( IslandDecorator.missingGremlinTool == null )
 		{
-			StringUtilities.singleStringReplace(
-				buffer, IslandDecorator.currentJunkyardTool,
-				"<font color=#DD00FF>" + IslandDecorator.currentJunkyardTool + "</font>" );
+			for ( int i = 0; i < IslandDecorator.TOOL_LOCATIONS.length; ++i )
+			{
+				if ( loc != IslandDecorator.TOOL_LOCATIONS[i][0] )
+				{
+					continue;
+				}
+				if ( KoLConstants.inventory.contains( ItemPool.get( IslandDecorator.TOOL_LOCATIONS[i][1], 1 ) ) )
+				{
+					break;
+				}
+				String zoneTool = ItemDatabase.getItemName( IslandDecorator.TOOL_LOCATIONS[i][1] );
+				StringUtilities.singleStringReplace(
+				buffer, zoneTool,
+				"<font color=#DD00FF>" + zoneTool + "</font>" );
+				break;
+			}
 		}
 
 		for ( int i = 0; i < IslandDecorator.GREMLIN_TOOLS.length; ++i )
@@ -584,6 +624,13 @@ public class IslandDecorator
 		else if ( IslandDecorator.currentJunkyardTool.equals( "" ) )
 		{
 			message = "Visit Yossarian for your next assignment";
+		}
+		else if ( InventoryManager.hasItem( ItemPool.MOLYBDENUM_HAMMER ) &&
+				  InventoryManager.hasItem( ItemPool.MOLYBDENUM_SCREWDRIVER ) &&
+				  InventoryManager.hasItem( ItemPool.MOLYBDENUM_PLIERS ) &&
+				  InventoryManager.hasItem( ItemPool.MOLYBDENUM_WRENCH ) )
+		{
+			message = "Visit Yossarian in uniform to receive your reward for finding all four molybdenum tools";
 		}
 		else
 		{
