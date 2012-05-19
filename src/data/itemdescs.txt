@@ -5682,7 +5682,7 @@
 5681	329990148	sammich.gif	P.B.L.T.	P.B.L.Ts.
 5682	742783144	document_thumb.gif	note from Clancy
 5683	334424636	burt.gif	BURT	BURTs (Reynolds)
-5684
+5684	810042563	juicytrash.gif	handful of juicy garbage	handfuls of juicy garbage
 5685	969839389	bugbearbadge.gif	bugbear communicator badge
 5686	826921536	web.gif	quantum nanopolymer spider web
 5687	969666221	tweezers.gif	bugbear autopsy tweezers

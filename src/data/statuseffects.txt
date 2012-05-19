@@ -1033,3 +1033,4 @@
 1032	Lapdog	laps.gif	93df2d1d03536deec7adbf70847fe466	swim laps
 1033	Silent Running	dasboot.gif	c781c7a1ab57b20200e07228ef913165	swim sprints
 1034	Water Wings	poolwings.gif	1b8a656358c481bfb2a97126f3ae68f1	use 1 watered-down Red Minotaur
+1035	N-Spatial vision	eyes.gif	81dc1790b51b5fb794222e50646d8d16
