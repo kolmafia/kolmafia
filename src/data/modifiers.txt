@@ -3081,6 +3081,7 @@ Mysteriously Handsome	Moxie Percent: +5, Monster Level: [4.5+1.5*X]
 Mystic Circle	Mysticality Percent: +10
 Mystic Pickleness	Mysticality: +5, Muscle: -5
 Mystically Oiled	Mysticality Percent: +100
+N-Spatial vision	Mysticality Percent: -30
 Nano-juiced	Muscle Percent: +15
 Natural 1	Initiative: -100
 Natural 20	Initiative: +100
