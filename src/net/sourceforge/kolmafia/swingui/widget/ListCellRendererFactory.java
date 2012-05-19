@@ -136,17 +136,9 @@ public class ListCellRendererFactory
 			{
 				setForeground( UIManager.getColor( "textHighlightText" ) );
 			}
-			else if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
+			else 
 			{
-				color = "olive";
-			}
-			else if ( KoLConstants.junkList.contains( ar ) )
-			{
-				color = "gray";
-			}
-			else
-			{
-				color = ItemDatabase.getQualityColor( name );
+				color = ColorFactory.getItemColor ( ar );
 			}
 
 			if ( color != null )
@@ -203,13 +195,9 @@ public class ListCellRendererFactory
 			{
 				setForeground( UIManager.getColor( "textHighlightText" ) );
 			}
-			else if ( KoLConstants.junkList.contains( icr.createdItem ) )
+			else 
 			{
-				color = "gray";
-			}
-			else
-			{
-				color = ItemDatabase.getQualityColor( name );
+				color = ColorFactory.getCreationColor( icr );
 			}
 
 			if ( color != null )
@@ -304,13 +292,9 @@ public class ListCellRendererFactory
 			{
 				setForeground( UIManager.getColor( "textHighlightText" ) );
 			}
-			else if ( !meetsRequirement )
-			{
-				color = "#c0c0c0";
-			}
 			else
 			{
-				color = ItemDatabase.getQualityColor( name );
+				color = ColorFactory.getConcoctionColor( item );
 			}
 
 			if ( color != null )
@@ -559,13 +543,9 @@ public class ListCellRendererFactory
 			{
 				setForeground( UIManager.getColor( "textHighlightText" ) );
 			}
-			else if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
+			else
 			{
-				color = "olive";
-			}
-			else if ( KoLConstants.junkList.contains( ar ) )
-			{
-				color = "gray";
+				color = ColorFactory.getItemColor( ar );
 			}
 
 			if ( color != null )
@@ -634,10 +614,12 @@ public class ListCellRendererFactory
 				stringForm.append( "</i>" );
 				isHTML = true;
 			}
+			
+			String color = ColorFactory.getCreationColor( icr, true );
 
-			if ( KoLConstants.junkList.contains( icr.createdItem ) )
+			if ( color != null )
 			{
-				stringForm.insert( 0, "<font color=gray>" );
+				stringForm.insert( 0, "<font color=" + color + ">" );
 				stringForm.append( "</font>" );
 				isHTML = true;
 			}
@@ -714,7 +696,7 @@ public class ListCellRendererFactory
 			if ( value == null || !( value instanceof AdventureResult ) )
 			{
 				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-			};
+			}
 
 			if ( isSelected )
 			{
@@ -865,14 +847,9 @@ public class ListCellRendererFactory
 			{
 				setForeground( UIManager.getColor( "textHighlightText" ) );
 			}
-			else if ( !ItemDatabase.meetsLevelRequirement( ar.getName() ) ||
-			     !EquipmentManager.canEquip( ar.getName() ) )
-			{
-				color = "gray";
-			}
 			else
 			{
-				color = ItemDatabase.getQualityColor( name );
+				color = ColorFactory.getStorageColor( ar );
 			}
 
 			if ( color != null )

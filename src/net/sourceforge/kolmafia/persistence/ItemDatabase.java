@@ -1735,28 +1735,6 @@ public class ItemDatabase
 		return (String) ItemDatabase.qualityByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
-	public static final String getQualityColor( final String name )
-	{
-		String quality = ItemDatabase.getQuality( name );
-		if ( quality == ItemDatabase.CRAPPY )
-		{
-			return "#999999";
-		}
-		else if ( quality == ItemDatabase.GOOD )
-		{
-			return "green";
-		}
-		else if ( quality == ItemDatabase.AWESOME )
-		{
-			return "blue";
-		}
-		else if ( quality == ItemDatabase.EPIC )
-		{
-			return "#8a2be2";
-		}
-		return null;
-	}
-
 	public static final String getNotes( final String name )
 	{
 		if ( name == null )
