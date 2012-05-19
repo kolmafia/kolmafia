@@ -1659,7 +1659,7 @@ public class GenericRequest
 			{
 				shouldStop = this.retrieveServerReply( istream );
 				istream.close();
-				if ( shouldStop && this.responseText != null && this.responseText.length() < 100 )
+				if ( shouldStop && this.responseText != null && this.responseText.length() < 200 )
 				{
 					// This may be a JavaScript redirect.
 					Matcher m = GenericRequest.JS_REDIRECT_PATTERN.matcher( this.responseText );
