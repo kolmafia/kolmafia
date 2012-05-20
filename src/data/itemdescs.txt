@@ -5688,11 +5688,10 @@
 5687	969666221	tweezers.gif	bugbear autopsy tweezers
 5688	184896228	monocular.gif	UV monocular
 5689	239079328	targetchip.gif	drone self-destruct chip
-5690
+5690	405841257	goldblumlarva.gif	Jeff Goldblum larva
 5691	643034783	pacgrenade.gif	pacification grenade
-5692
+5692	915600766	bugraygun.gif	quantum disintegrator pistol
 5693	705663632	bugbelt.gif	phase-tuned shield generator belt
 5694	394841381	thwaitwooly.gif	Thwaitgold woolybear statuette
 5695	320593140	evilometer.gif	bugbear detector
 5696	608714645	pill.gif	bugbear purification pill
-#xxxx	915600766	bugraygun.gif	quantum disintegrator pistol

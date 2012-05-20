@@ -153,6 +153,7 @@ Ancient Protector Spirit	HP: 85 Def: 158 Atk: 158 Phys: 100 P: undead	obsidian d
 Ancient Temple Guardian	HP: 100 Def: 80 Atk: 70 P: object	ancient stone fist (0)	ancient stone head (0)
 Anemone Combatant	HP: 600 Def: 650 Atk: 400 Meat: 80-120 "Majorly Poisoned" P: fish	anemone nematocyst (n25)
 Anglerbush	HP: 10 Def: 9 Atk: 7 P: plant	meat stack (35)
+Angry Cavebugbear	HP: 0 Def: 0 Atk: 0 P: beast
 Angry Pi&ntilde;ata	HP: 20 Def: 22 Atk: 23 P: object	pile of candy (100)
 Angry Raccoon Puppet	HP: 20 Def: 35 Atk: 35 Meat: 16-24 P: object	felt (2)	stuffing (2)	googly eye (2)
 Animated Nightstand (Mahogany)	HP: 170 Def: 162 Atk: 162 P: object	old coin purse (25)	old leather wallet (25)	half of a memo (c0)

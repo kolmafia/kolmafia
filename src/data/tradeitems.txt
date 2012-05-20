@@ -5696,11 +5696,10 @@
 5687	bugbear autopsy tweezers	none	none	50
 5688	UV monocular	accessory	display	0
 5689	drone self-destruct chip	none, combat	all	75
-5690
+5690	Jeff Goldblum larva	none	none	0
 5691	pacification grenade	none, combat	all	75
-5692
+5692	quantum disintegrator pistol	weapon	display	0
 5693	phase-tuned shield generator belt	accessory	display	0
 5694	Thwaitgold woolybear statuette	none	display	0
 5695	bugbear detector	accessory	display	0
 5696	bugbear purification pill	usable	all	0
-#xxxx	quantum disintegrator pistol	weapon	display	0
