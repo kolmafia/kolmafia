@@ -322,6 +322,7 @@ public class UneffectRequest
 		removableEffects.add( "Easily Embarrassed" );
 		removableEffects.add( "Existential Torment" );
 		removableEffects.add( "Light Headed" );
+		removableEffects.add( "N-Spatial vision" );
 		removableEffects.add( "Prestidigysfunction" );
 		removableEffects.add( "Rainy Soul Miasma" );
 		removableEffects.add( "Sleepy" );
