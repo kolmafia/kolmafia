@@ -463,15 +463,6 @@ public class FamiliarRequest
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 
-		// Special handling for the blackbird. If the blackbird is
-		// equipped, then cache your earlier familiar so that as soon
-		// as you use the map, KoLmafia knows to change it back.
-
-		if ( id == FamiliarPool.BLACKBIRD || id == FamiliarPool.CROW )
-		{
-			Preferences.setString( "preBlackbirdFamiliar", familiar.getRace() );
-		}
-
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "familiar " + changeTo.toString() );
 
