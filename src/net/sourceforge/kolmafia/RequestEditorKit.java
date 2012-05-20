@@ -130,7 +130,6 @@ import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 import net.sourceforge.kolmafia.webui.MineDecorator;
 import net.sourceforge.kolmafia.webui.MoneyMakingGameDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
-import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 import net.sourceforge.kolmafia.webui.UseItemDecorator;
 import net.sourceforge.kolmafia.webui.UseLinkDecorator;
@@ -140,7 +139,7 @@ public class RequestEditorKit
 	extends HTMLEditorKit
 {
 	private static final Pattern FORM_PATTERN = Pattern.compile( "<form name=choiceform(\\d+)" );
-	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
+	//private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
 	private static final Pattern CHOICE2_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "name=option value=(\\d+)" );
 	private static final Pattern OUTFIT_FORM_PATTERN = Pattern.compile( "<form name=outfit.*?</form>", Pattern.DOTALL );
@@ -225,30 +224,19 @@ public class RequestEditorKit
 		RequestEditorKit.getFeatureRichHTML( location, buffer, true );
 	}
 
-	// You need a Hermit Permit, from the Market in Seaside Town, to trade
-	// with The Hermit. He's a crazy old coot, but he's a real stickler for
-	// regulations.
-	private static final String NO_PERMIT_TEXT1 =
-		"he's a real stickler for regulations.";
-	private static final String BUY_PERMIT_TEXT1A =
-		RequestEditorKit.NO_PERMIT_TEXT1 + "[<a href=\"hermit.php?autopermit=on\">buy a hermit permit</a>]";
-	private static final String BUY_PERMIT_TEXT1B =
-		RequestEditorKit.NO_PERMIT_TEXT1 + "[<a href=\"hermit.php?autopermit=on\">use your hermit script</a>]";
+	// Stupid bureacrats, always ruining everybody's fun with their permits
+	// and forms.
+	private static final String NO_PERMIT_TEXT =
+		"always ruining everybody's fun with their permits and forms.";
+	private static final String BUY_PERMIT_TEXT =
+		RequestEditorKit.NO_PERMIT_TEXT + " [<a href=\"hermit.php?autopermit=on\">buy a hermit permit</a>]";
 
-	// The Hermit sees that you're out of Permits, so he sends you packing.
-	private static final String NO_PERMIT_TEXT2 =
-		"sees that you're out of Permits, so he sends you packing.";
-	private static final String BUY_PERMIT_TEXT2A =
-		RequestEditorKit.NO_PERMIT_TEXT2 + "[<a href=\"hermit.php?autopermit=on\">buy a hermit permit</a>]";
-	private static final String BUY_PERMIT_TEXT2B =
-		RequestEditorKit.NO_PERMIT_TEXT2 + "[<a href=\"hermit.php?autopermit=on\">use youor hermit permit</a>]";
-
-	// The Hermit rummages through your sack, and with a disappointed look
-	// on his face, he sends you packing.
+	// He looks at you with a disappointed sigh -- looks like you don't have
+	// anything worthless enough for him to want to trade for it.
 	private static final String NO_WORTHLESS_ITEM_TEXT =
-		"with a disappointed look on his face, he sends you packing.";
+		"worthless enough for him to want to trade for it.";
 	private static final String BUY_WORTHLESS_ITEM_TEXT =
-		RequestEditorKit.NO_WORTHLESS_ITEM_TEXT + "[<a href=\"hermit.php?autoworthless=on\">fish for a worthless item</a>]";
+		RequestEditorKit.NO_WORTHLESS_ITEM_TEXT + " [<a href=\"hermit.php?autoworthless=on\">fish for a worthless item</a>]";
 
 	private static final ArrayList maps = new ArrayList();
 	static
@@ -496,16 +484,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{
-			if ( !InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
-			{
-				StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT1, RequestEditorKit.BUY_PERMIT_TEXT1A );
-				StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT2, RequestEditorKit.BUY_PERMIT_TEXT2A );
-			}
-			else
-			{
-				StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT1, RequestEditorKit.BUY_PERMIT_TEXT1B );
-				StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT2, RequestEditorKit.BUY_PERMIT_TEXT2B );
-			}
+			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_WORTHLESS_ITEM_TEXT, RequestEditorKit.BUY_WORTHLESS_ITEM_TEXT );
 		}
 		else if ( location.startsWith( "hiddencity.php" ) )
