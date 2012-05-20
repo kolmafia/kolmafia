@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.swingui.widget;
 
+import java.util.HashMap;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -43,16 +45,33 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public final class ColorFactory
 {
+	private final static HashMap colorPrefMap = new HashMap();
+
+	static
+	{
+		String rawPref = Preferences.getString( "textColors" );
+		String[] splitPref = rawPref.split( "\\|" );
+
+		for ( int i = 0; i < splitPref.length; ++i )
+		{
+			String[] it = splitPref[ i ].split( ":" );
+			if ( it.length == 2 )
+			{
+				colorPrefMap.put( it[ 0 ], it[ 1 ] );
+			}
+		}
+	}
+
 	public static String getItemColor( AdventureResult ar )
 	{
 		String color = null;
 		if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
 		{
-			color = "olive";
+			color = getMementoColor();
 		}
 		else if ( KoLConstants.junkList.contains( ar ) )
 		{
-			color = "gray";
+			color = getJunkColor();
 		}
 		else
 		{
@@ -71,7 +90,7 @@ public final class ColorFactory
 		String color = null;
 		if ( KoLConstants.junkList.contains( icr.createdItem ) )
 		{
-			color = "gray";
+			color = getJunkColor();
 		}
 		else if ( !isEquipment )
 		{
@@ -88,7 +107,7 @@ public final class ColorFactory
 
 		if ( !meetsRequirement )
 		{
-			color = "#c0c0c0";
+			color = getNotAvailableColor();
 		}
 		else
 		{
@@ -103,7 +122,7 @@ public final class ColorFactory
 		String name = ar.getName();
 		if ( !ItemDatabase.meetsLevelRequirement( name ) || !EquipmentManager.canEquip( name ) )
 		{
-			color = "gray";
+			color = getNotAvailableColor();
 		}
 		else
 		{
@@ -114,22 +133,78 @@ public final class ColorFactory
 
 	public static final String getQualityColor( final String name )
 	{
+		String pref;
+		String color = null;
 		String quality = ItemDatabase.getQuality( name );
-		if ( quality == ItemDatabase.CRAPPY )
+
+		if ( quality == null )
 		{
-			return "#999999";
+			return null;
 		}
-		else if ( quality == ItemDatabase.GOOD )
+		if ( quality.equals( ItemDatabase.CRAPPY ) )
 		{
-			return "green";
+			pref = checkPref( "crappy" );
+			color = pref != null ? pref : "#999999";
 		}
-		else if ( quality == ItemDatabase.AWESOME )
+		else if ( quality.equals( ItemDatabase.DECENT ) )
 		{
-			return "blue";
+			pref = checkPref( "decent" );
+			color = pref;
 		}
-		else if ( quality == ItemDatabase.EPIC )
+		else if ( quality.equals( ItemDatabase.GOOD ) )
 		{
-			return "#8a2be2";
+			pref = checkPref( "good" );
+			color = pref != null ? pref : "green";
+		}
+		else if ( quality.equals( ItemDatabase.AWESOME ) )
+		{
+			pref = checkPref( "awesome" );
+			color = pref != null ? pref : "blue";
+		}
+		else if ( quality.equals( ItemDatabase.EPIC ) )
+		{
+			pref = checkPref( "epic" );
+			color = pref != null ? pref : "#8a2be2";
+		}
+		return color;
+	}
+
+	private static String getJunkColor()
+	{
+		String pref = checkPref( "junk" );
+		if ( pref == null )
+		{
+			return "gray";
+		}
+		return pref;
+	}
+
+	private static String getMementoColor()
+	{
+		String pref = checkPref( "memento" );
+		if ( pref == null )
+		{
+			return "olive";
+		}
+		return pref;
+	}
+
+	private static String getNotAvailableColor()
+	{
+		String pref = checkPref( "notavailable" );
+		if ( pref == null )
+		{
+			return "gray";
+		}
+		return pref;
+	}
+
+	private static String checkPref( String pref )
+	{
+		Object it = colorPrefMap.get( pref );
+		if ( it != null )
+		{
+			return it.toString();
 		}
 		return null;
 	}
