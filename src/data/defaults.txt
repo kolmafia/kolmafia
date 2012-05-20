@@ -704,6 +704,7 @@ user	telescope7
 user	telescopeLookedHigh	false
 user	telescopeUpgrades	0
 user	tempuraSummons	0
+user	textColors	crappy:#999999|good:green|awesome:blue|epic:#8a2be2|junk:gray|memento:olive|notavailable:gray
 user	thanksMessage	Thank you for the donation!
 user	timesRested	99
 user	tomeSummons	0
