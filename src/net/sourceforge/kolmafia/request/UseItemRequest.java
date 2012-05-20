@@ -4565,7 +4565,8 @@ public class UseItemRequest
 				{
 					return true;
 				}
-
+				FamiliarData familiar = KoLCharacter.getFamiliar();
+				Preferences.setString( "preBlackbirdFamiliar", familiar.getRace() );
 				// Take the blackbird out of the terrarium
 				( new FamiliarRequest( blackbird ) ).run();
 			}
