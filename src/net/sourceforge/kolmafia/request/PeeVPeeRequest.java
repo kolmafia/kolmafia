@@ -35,12 +35,14 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.KoLCharacter;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PeeVPeeRequest
@@ -51,12 +53,18 @@ public class PeeVPeeRequest
 
 	public static final String[] LOSE_MESSAGES =
 		new String[] { "OMG HAX H4X H5X!!", "Please return my pants.", "How do you like my Crotch-To-Your-Foot style?", "PWNED LIKE CRAPSTORM." };
-	
+
 	private static final Pattern ATTACKS_PATTERN =
 		Pattern.compile( "You have (\\d+) fight" );
-	
+
 	private static final Pattern HIPPY_STONE_PATTERN = 
 		Pattern.compile( "You must break your <a href=\"campground.php?action=stone\">Magical Mystical Hippy Stone</a> to participate in PvP combat." );
+
+	private static final Pattern WIN_PATTERN =
+		Pattern.compile( "<b>" + KoLCharacter.getUserName() + "</b> won the fight" );
+	
+	private static final Pattern SWAGGER_PATTERN = 
+		Pattern.compile( "You gain a little swagger <b>\\([+](\\d)\\)</b>" );
 
 	public PeeVPeeRequest()
 	{
@@ -123,6 +131,24 @@ public class PeeVPeeRequest
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This feature is not available to hippies." );
 				return;
+			}
+
+			if ( location.indexOf( "action=fight" ) != -1 )
+			{
+				Matcher winMatcher = PeeVPeeRequest.WIN_PATTERN.matcher( responseText );
+				if ( winMatcher.find() )
+				{
+					RequestLogger.printLine( "You won the PvP fight!" );
+				}
+				else
+				{
+					RequestLogger.printLine( "You lost the PvP fight!" );
+				}
+				Matcher swaggerMatcher = PeeVPeeRequest.SWAGGER_PATTERN.matcher( responseText );
+				if ( swaggerMatcher.find() )
+				{
+					Preferences.increment( "availableSwagger", Integer.parseInt( swaggerMatcher.group(1) ) );
+				}
 			}
 			return;
 		}
