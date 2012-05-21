@@ -1185,6 +1185,7 @@ plush mutated alielf	0	none
 pocketwatch on a chain	50	Mys: 10
 polyalloy shield	140	Mus: 55	shield
 pottery shield	50	none	shield
+pretty bouquet	0	none
 rag doll	110	Mys: 40
 red China marble	203	Mys: 85
 red balloon	10	none
