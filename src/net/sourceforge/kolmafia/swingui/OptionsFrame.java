@@ -43,14 +43,18 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -61,6 +65,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
@@ -79,7 +84,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -101,6 +105,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.RelayServer;
 
@@ -131,6 +136,7 @@ public class OptionsFrame
 		selectorPanel.addPanel( " - Main Interface", new StartupFramesPanel(), true );
 		selectorPanel.addPanel( " - Chat Options", new ChatOptionsPanel(), true );
 		selectorPanel.addPanel( " - Relay Browser", new RelayOptionsPanel(), true );
+		selectorPanel.addPanel( " - Text Colors", new ColorOptionsPanel(), true );
 
 		selectorPanel.addPanel( "Login and Logout", new ScriptPanel(), true );
 		selectorPanel.addPanel( " - In Ronin", new BreakfastPanel( "Hardcore" ), true );
@@ -1993,6 +1999,245 @@ public class OptionsFrame
 				break;
 			}
 			Preferences.setString( this.preference, crop );
+		}
+	}
+
+	private class ColorOptionsPanel
+		extends OptionsPanel
+	{
+		JLabel crappy, decent, good, awesome, epic;
+		JLabel memento, junk, notavailable;
+
+		public ColorOptionsPanel()
+		{
+			super( new Dimension( 16, 16 ), new Dimension( 370, 16 ) );
+
+			this.setContent();
+		}
+
+		private void setContent()
+		{
+			VerifiableElement[] newElements = new VerifiableElement[ 13 ];
+
+			newElements[ 0 ] = new VerifiableElement( "   ", SwingConstants.RIGHT, new JLabel(
+				"This panel alters the appearance of some text colors in the Mafia UI." ) );
+
+			newElements[ 1 ] = new VerifiableElement( "", SwingConstants.RIGHT, new JSeparator() );
+
+			newElements[ 2 ] = new VerifiableElement( "Item Quality Colors:", SwingConstants.LEFT,
+				new JLabel() );
+			this.crappy = new FontColorChooser( "crappy" );
+			newElements[ 3 ] = new VerifiableElement( "Crappy", SwingConstants.LEFT, this.crappy );
+			this.decent = new FontColorChooser( "decent" );
+			newElements[ 4 ] = new VerifiableElement( "Decent", SwingConstants.LEFT, this.decent );
+			this.good = new FontColorChooser( "good" );
+			newElements[ 5 ] = new VerifiableElement( "Good", SwingConstants.LEFT, this.good );
+			this.awesome = new FontColorChooser( "awesome" );
+			newElements[ 6 ] = new VerifiableElement( "Awesome", SwingConstants.LEFT, this.awesome );
+			this.epic = new FontColorChooser( "epic" );
+			newElements[ 7 ] = new VerifiableElement( "EPIC", SwingConstants.LEFT, this.epic );
+
+			newElements[ 8 ] = new VerifiableElement();
+
+			newElements[ 9 ] = new VerifiableElement( "Other Font Colors:", SwingConstants.LEFT,
+				new JLabel() );
+			this.junk = new FontColorChooser( "junk" );
+			newElements[ 10 ] = new VerifiableElement( "Junk Items", SwingConstants.LEFT, this.junk );
+			this.memento = new FontColorChooser( "memento" );
+			newElements[ 11 ] = new VerifiableElement( "Mementos", SwingConstants.LEFT, this.memento );
+			this.notavailable = new FontColorChooser( "notavailable" );
+			newElements[ 12 ] = new VerifiableElement( "Not Equippable/Creatable/Available",
+				SwingConstants.LEFT, this.notavailable );
+
+			super.setContent( newElements );
+			this.readFromPref();
+		}
+
+		private void readFromPref()
+		{
+			String rawPref = Preferences.getString( "textColors" );
+			String[] splitPref = rawPref.split( "\\|" );
+
+			for ( int i = 0; i < splitPref.length; ++i )
+			{
+				String[] it = splitPref[ i ].split( ":" );
+				if ( it.length == 2 )
+				{
+					if ( it[ 0 ].equals( "crappy" ) )
+					{
+						decodeColor( it[ 1 ], this.crappy );
+					}
+					else if ( it[ 0 ].equals( "decent" ) )
+					{
+						decodeColor( it[ 1 ], this.decent );
+					}
+					else if ( it[ 0 ].equals( "good" ) )
+					{
+						decodeColor( it[ 1 ], this.good );
+					}
+					else if ( it[ 0 ].equals( "awesome" ) )
+					{
+						decodeColor( it[ 1 ], this.awesome );
+					}
+					else if ( it[ 0 ].equals( "epic" ) )
+					{
+						decodeColor( it[ 1 ], this.epic );
+					}
+					else if ( it[ 0 ].equals( "memento" ) )
+					{
+						decodeColor( it[ 1 ], this.memento );
+					}
+					else if ( it[ 0 ].equals( "junk" ) )
+					{
+						decodeColor( it[ 1 ], this.junk );
+					}
+					else if ( it[ 0 ].equals( "notavailable" ) )
+					{
+						decodeColor( it[ 1 ], this.notavailable );
+					}
+				}
+			}
+
+			fillDefaults();
+		}
+
+		private void fillDefaults()
+		{
+			if ( this.crappy.getClientProperty( "set" ) == null )
+			{
+				this.crappy.setBackground( Color.gray );
+			}
+			if ( this.decent.getClientProperty( "set" ) == null )
+			{
+				this.decent.setBackground( Color.black );
+			}
+			if ( this.good.getClientProperty( "set" ) == null )
+			{
+				this.good.setBackground( Color.green );
+			}
+			if ( this.awesome.getClientProperty( "set" ) == null )
+			{
+				this.awesome.setBackground( Color.blue );
+			}
+			if ( this.epic.getClientProperty( "set" ) == null )
+			{
+				this.epic.setBackground( DataUtilities.toColor( "#8a2be2" ) ); // purple..ish
+			}
+			if ( this.memento.getClientProperty( "set" ) == null )
+			{
+				this.memento.setBackground( DataUtilities.toColor( "#808000" ) ); // olive
+			}
+			if ( this.junk.getClientProperty( "set" ) == null )
+			{
+				this.junk.setBackground( Color.gray );
+			}
+			if ( this.notavailable.getClientProperty( "set" ) == null )
+			{
+				this.notavailable.setBackground( Color.gray );
+			}
+		}
+
+		private void decodeColor( String it, JLabel label )
+		{
+			label.putClientProperty( "set", Boolean.TRUE );
+			try
+			{
+				Field field = Color.class.getField( it );
+				Color color = (Color) field.get( null );
+
+				label.setBackground( color );
+			}
+			catch ( Exception e )
+			{
+				try
+				{
+					// maybe the pref was a hex code
+					label.setBackground( DataUtilities.toColor( it ) );
+				}
+				catch ( Exception f )
+				{
+					// olive color is not an acceptable label, but is recognized by HTML parser
+					// just hardcode it, whatever
+					if ( it.equals( "olive" ) )
+					{
+						label.setBackground( DataUtilities.toColor( "#808000" ) );
+					}
+					// else fall through, invalid color format
+				}
+			}
+		}
+
+		private final class FontColorChooser
+			extends JLabel
+			implements MouseListener
+		{
+			protected String property;
+
+			public FontColorChooser( final String property )
+			{
+				this.property = property;
+				this.setOpaque( true );
+				this.addMouseListener( this );
+			}
+
+			public void mousePressed( final MouseEvent e )
+			{
+				Color c = JColorChooser.showDialog( null, "Choose a color:", this.getBackground() );
+				if ( c == null )
+				{
+					return;
+				}
+
+				updatePref( this.property, DataUtilities.toHexString( c ) );
+				this.setBackground( c );
+			}
+
+			public void updatePref( String property, String hexString )
+			{
+				String rawPref = Preferences.getString( "textColors" );
+				String[] splitPref = rawPref.split( "\\|" );
+				String newProperty = property + ":" + hexString;
+
+				for ( int i = 0; i < splitPref.length; ++i )
+				{
+					String[] it = splitPref[ i ].split( ":" );
+					if ( it.length == 2 )
+					{
+						if ( it[ 0 ].equals( property ) )
+						{
+							String newPref = StringUtilities.globalStringReplace( rawPref,
+								splitPref[ i ], newProperty );
+							Preferences.setString( "textColors", newPref );
+							return;
+						}
+					}
+				}
+
+				// property does not exist in pref; add it
+				String delimiter = "";
+				if ( rawPref.length() > 0 )
+				{
+					delimiter = "|";
+				}
+				String newPref = rawPref + delimiter + newProperty;
+				Preferences.setString( "textColors", newPref );
+			}
+
+			public void mouseReleased( final MouseEvent e )
+			{
+			}
+
+			public void mouseClicked( final MouseEvent e )
+			{
+			}
+
+			public void mouseEntered( final MouseEvent e )
+			{
+			}
+
+			public void mouseExited( final MouseEvent e )
+			{
+			}
 		}
 	}
 }
