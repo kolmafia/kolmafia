@@ -5690,7 +5690,7 @@
 5681	P.B.L.T.	food	all	5
 5682	note from Clancy	usable	display	0
 5683	BURT	reusable	display	0
-5684	handful of juicy garbage	none	display	0
+5684	handful of juicy garbage	usable	display	0
 5685	bugbear communicator badge	accessory	none	0
 5686	quantum nanopolymer spider web	none, combat	all	60
 5687	bugbear autopsy tweezers	none	none	50
