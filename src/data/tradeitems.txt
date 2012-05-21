@@ -5687,7 +5687,7 @@
 5678	soggy used band-aid	none, combat	all	0
 5679	stylish swimsuit	pants	all	1
 5680	lost key	usable	all	0
-5681	P.B.L.T.	usable	food	5
+5681	P.B.L.T.	food	all	5
 5682	note from Clancy	usable	display	0
 5683	BURT	reusable	display	0
 5684	handful of juicy garbage	none	display	0
