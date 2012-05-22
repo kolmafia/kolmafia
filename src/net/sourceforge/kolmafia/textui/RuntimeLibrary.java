@@ -788,6 +788,10 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.EFFECT_TYPE };
 		functions.add( new LibraryFunction( "have_effect", DataTypes.INT_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_effects", new AggregateType(
+			DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE ), params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.SKILL_TYPE };
 		functions.add( new LibraryFunction( "use_skill", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -3434,6 +3438,31 @@ public abstract class RuntimeLibrary
 		AdventureResult effect =
 			potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get( 0 ), 0, true );
 		return effect == null ? DataTypes.ZERO_VALUE : new Value( effect.getCount( KoLConstants.activeEffects ) );
+	}
+
+	public static Value my_effects( Interpreter interpreter )
+	{
+		AdventureResult[] effectsArray = new AdventureResult[ KoLConstants.activeEffects.size() ];
+		KoLConstants.activeEffects.toArray( effectsArray );
+
+		AggregateType type = new AggregateType( DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE );
+		MapValue value = new MapValue( type );
+
+		for ( int i = 0; i < effectsArray.length; ++i )
+		{
+			AdventureResult effect = effectsArray[ i ];
+			int duration = effect.getCount();
+			if ( duration == Integer.MAX_VALUE )
+			{
+				duration = -1;
+			}
+
+			value.aset(
+				DataTypes.parseEffectValue( effect.getName(), true ),
+				DataTypes.parseIntValue( String.valueOf( duration ), true ) );
+		}
+
+		return value;
 	}
 
 	public static Value use_skill( Interpreter interpreter, final Value countValue, final Value skill )
