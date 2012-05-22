@@ -3481,11 +3481,6 @@ public class UseItemRequest
 
 		case ItemPool.TOMB_RATCHET:
 
-			if( !PyramidRequest.getPyramidWheelPlaced() )
-			{
-				PyramidRequest.setPyramidWheelPlaced();
-				return;
-			}
 			PyramidRequest.advancePyramidPosition();
 			return;
 

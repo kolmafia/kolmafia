@@ -454,6 +454,11 @@ public class PyramidRequest
 
 	public static final int advancePyramidPosition()
 	{
+		if ( PyramidRequest.pyramidWheelPlaced == null )
+		{
+			RequestThread.postRequest( PyramidRequest.PYRAMID );
+			return PyramidRequest.getPyramidPosition();
+		}
 		int position = PyramidRequest.getPyramidPosition();
 		if ( ++position > 5 )
 		{
@@ -473,15 +478,6 @@ public class PyramidRequest
 	{
 		PyramidRequest.ensureUpdatedPyramid();
 		Preferences.setBoolean( "pyramidBombUsed", used );
-	}
-
-	public static final boolean getPyramidWheelPlaced()
-	{
-		if ( PyramidRequest.pyramidWheelPlaced == null )
-		{
-			RequestThread.postRequest( PyramidRequest.PYRAMID );
-		}
-		return PyramidRequest.pyramidWheelPlaced.booleanValue();
 	}
 
 	public static final void setPyramidWheelPlaced()

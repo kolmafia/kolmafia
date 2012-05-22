@@ -36,12 +36,16 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureMultiResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
@@ -145,6 +149,7 @@ public class PeeVPeeRequest
 				else
 				{
 					RequestLogger.printLine( "You lost the PvP fight!" );
+					PeeVPeeRequest.parseStatLoss( responseText );
 				}
 				Matcher swaggerMatcher = PeeVPeeRequest.SWAGGER_PATTERN.matcher( responseText );
 				if ( swaggerMatcher.find() )
@@ -154,6 +159,31 @@ public class PeeVPeeRequest
 				}
 			}
 			return;
+		}
+	}
+	
+	private static final String STAT_STRING = KoLCharacter.getUserName() + " lost ";
+	
+	private static final void parseStatLoss( final String responseText )
+	{
+		String[] blocks = responseText.split( "<td>" );
+		for ( int i = 0; i < blocks.length; ++i )
+		{
+			if ( blocks[i].indexOf( STAT_STRING ) != 0 )
+			{
+				continue;
+			}
+			String statMessage = blocks[i].substring( 0, blocks[i].indexOf( ".</td>" ) );
+			String[] stats = statMessage.split( " " );
+			int statsLost = -1 * Integer.parseInt( stats[2] );
+			String statname = stats[3];
+			int[] gained =
+				{ AdventureResult.MUS_SUBSTAT.contains( statname ) ? statsLost : 0, 
+				  AdventureResult.MYS_SUBSTAT.contains( statname ) ? statsLost : 0, 
+				  AdventureResult.MOX_SUBSTAT.contains( statname ) ? statsLost : 0 };
+			AdventureResult result = new AdventureMultiResult( AdventureResult.SUBSTATS, gained );
+			ResultProcessor.processResult( result );
+			RequestLogger.printLine( statMessage );
 		}
 	}
 

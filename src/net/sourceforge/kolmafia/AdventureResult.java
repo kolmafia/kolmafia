@@ -96,9 +96,9 @@ public class AdventureResult
 	public static final String SUBSTATS = "Substats";
 	public static final String FULLSTATS = "Fullstats";
 
-	private static final List MUS_SUBSTAT = new ArrayList();
-	private static final List MYS_SUBSTAT = new ArrayList();
-	private static final List MOX_SUBSTAT = new ArrayList();
+	public static final List MUS_SUBSTAT = new ArrayList();
+	public static final List MYS_SUBSTAT = new ArrayList();
+	public static final List MOX_SUBSTAT = new ArrayList();
 
 	static
 	{
