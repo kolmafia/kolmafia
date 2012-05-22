@@ -98,6 +98,7 @@ public class ItemDatabase
 	private static final IntegerArray useTypeById = new IntegerArray();
 	private static final IntegerArray attributesById = new IntegerArray();
 	private static final IntegerArray priceById = new IntegerArray();
+	private static final IntegerArray nameLength = new IntegerArray();
 	private static final StringArray pluralById = new StringArray();
 	private static final StringArray imageById = new StringArray();
 
@@ -426,6 +427,8 @@ public class ItemDatabase
 			}
 
 			ItemDatabase.itemIdByName.put( canonicalName, id );
+
+			ItemDatabase.nameLength.set( itemId, displayName.length() );
 		}
 
 		try
@@ -1605,6 +1608,11 @@ public class ItemDatabase
 		// Unknown item
 
 		return null;
+	}
+
+	public static final int getNameLength( final int itemId )
+	{
+		return ItemDatabase.nameLength.get( itemId );
 	}
 
 	/**

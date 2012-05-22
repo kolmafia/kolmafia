@@ -238,6 +238,7 @@ public class ProxyRecordValue
 			.add( "bounty_count", DataTypes.INT_TYPE )
 			.add( "seller", DataTypes.COINMASTER_TYPE )
 			.add( "buyer", DataTypes.COINMASTER_TYPE )
+			.add( "name_length", DataTypes.INT_TYPE )
 			.finish( "item proxy" );
 
 		public ItemProxy( Value obj )
@@ -378,6 +379,12 @@ public class ProxyRecordValue
 			int id = ItemDatabase.getItemId( this.contentString );
 			String itemName = ItemDatabase.getItemName( id );
 			return CoinmasterRegistry.findBuyer( itemName );
+		}
+
+		public int get_name_length()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			return ItemDatabase.getNameLength( id );
 		}
 	}
 
