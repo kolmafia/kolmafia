@@ -1947,7 +1947,7 @@ public class ItemDatabase
 	/**
 	 * Returns true if the item is giftable, otherwise false
 	 *
-	 * @return true if item is tradeable
+	 * @return true if item is giftable
 	 */
 
 	public static final boolean isGiftable( final int itemId )
@@ -1956,9 +1956,9 @@ public class ItemDatabase
 	}
 
 	/**
-	 * Returns true if the item is giftable, otherwise false
+	 * Returns true if the item is displayable, otherwise false
 	 *
-	 * @return true if item is tradeable
+	 * @return true if item is displayable
 	 */
 
 	public static final boolean isDisplayable( final int itemId )

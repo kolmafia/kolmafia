@@ -65,6 +65,14 @@ public final class ColorFactory
 	public static String getItemColor( AdventureResult ar )
 	{
 		String color = null;
+
+		color = checkOptionalColors( ar.getItemId() );
+
+		if ( color != null )
+		{
+			return color;
+		}
+
 		if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( ar ) )
 		{
 			color = getMementoColor();
@@ -88,6 +96,14 @@ public final class ColorFactory
 	public static String getCreationColor( CreateItemRequest icr, boolean isEquipment )
 	{
 		String color = null;
+
+		color = checkOptionalColors( icr.getItemId() );
+
+		if ( color != null )
+		{
+			return color;
+		}
+
 		if ( KoLConstants.junkList.contains( icr.createdItem ) )
 		{
 			color = getJunkColor();
@@ -105,6 +121,13 @@ public final class ColorFactory
 		boolean meetsRequirement = ItemDatabase.meetsLevelRequirement( name );
 		String color = null;
 
+		color = checkOptionalColors( item.getItemId() );
+
+		if ( color != null )
+		{
+			return color;
+		}
+
 		if ( !meetsRequirement )
 		{
 			color = getNotAvailableColor();
@@ -120,6 +143,14 @@ public final class ColorFactory
 	{
 		String color = null;
 		String name = ar.getName();
+
+		color = checkOptionalColors( ar.getItemId() );
+
+		if ( color != null )
+		{
+			return color;
+		}
+
 		if ( !ItemDatabase.meetsLevelRequirement( name ) || !EquipmentManager.canEquip( name ) )
 		{
 			color = getNotAvailableColor();
@@ -197,6 +228,47 @@ public final class ColorFactory
 			return "gray";
 		}
 		return pref;
+	}
+
+	private static String getQuestColor()
+	{
+		return checkPref( "quest" );
+	}
+
+	private static String getNotTradeableColor()
+	{
+		return checkPref( "nontradeable" );
+	}
+
+	private static String getGiftColor()
+	{
+		return checkPref( "gift" );
+	}
+
+	private static String checkOptionalColors( int itemId )
+	{
+		if ( ItemDatabase.isGiftable( itemId ) && !ItemDatabase.isTradeable( itemId ) )
+		{
+			// gift items
+			String it = getGiftColor();
+			if ( it != null )
+				return it;
+		}
+		if ( !ItemDatabase.isDisplayable( itemId ) )
+		{
+			// quest items
+			String it = getQuestColor();
+			if ( it != null )
+				return it;
+		}
+		if ( !ItemDatabase.isTradeable( itemId ) )
+		{
+			String it = getNotTradeableColor();
+			if ( it != null )
+				return it;
+		}
+
+		return null;
 	}
 
 	private static String checkPref( String pref )
