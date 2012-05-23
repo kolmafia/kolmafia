@@ -91,7 +91,8 @@ public class AdventureResult
 	public static final String PULL = "Pull";
 	public static final String STILL = "Still";
 	public static final String TOME = "Tome Summon";
-	// Sub/full stats have multiple values and should be delgated
+
+	// Sub/full stats have multiple values and should be delegated
 	// to AdventureMultiResult.
 	public static final String SUBSTATS = "Substats";
 	public static final String FULLSTATS = "Fullstats";
