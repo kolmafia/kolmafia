@@ -67,7 +67,7 @@ public class PeeVPeeRequest
 		Pattern.compile( "You must break your <a href=\"campground.php?action=stone\">Magical Mystical Hippy Stone</a> to participate in PvP combat." );
 
 	private static final Pattern WIN_PATTERN =
-		Pattern.compile( "<b>" + KoLCharacter.getUserName() + "</b> won the fight" );
+		Pattern.compile( "<b>(.*?)</b> won the fight, <b>(\\d+)</b> to <b>(\\d+)</b>" );
 	
 	private static final Pattern SWAGGER_PATTERN = 
 		Pattern.compile( "You gain a little swagger <b>\\([+](\\d)\\)</b>" );
@@ -142,20 +142,33 @@ public class PeeVPeeRequest
 			if ( location.indexOf( "action=fight" ) != -1 )
 			{
 				Matcher winMatcher = PeeVPeeRequest.WIN_PATTERN.matcher( responseText );
+				boolean won = false;
+				int result1 = 0;
+				int result2 = 0;
+
 				if ( winMatcher.find() )
 				{
-					RequestLogger.printLine( "You won the PvP fight!" );
+					String winner = winMatcher.group( 1 ).toLowerCase();
+					String me = KoLCharacter.getUserName().toLowerCase();
+					won = winner.equals( me );
+					result1 = Integer.parseInt( winMatcher.group( 2 ) );
+					result2 = Integer.parseInt( winMatcher.group( 3 ) );
+				}
+
+				if ( won )
+				{
+					RequestLogger.printLine( "You won the PvP fight, " + result1 + " to " + result2 + "!" );
+					Matcher swaggerMatcher = PeeVPeeRequest.SWAGGER_PATTERN.matcher( responseText );
+					if ( swaggerMatcher.find() )
+					{
+						Preferences.increment( "availableSwagger", Integer.parseInt( swaggerMatcher.group(1) ) );
+						CoinmastersFrame.externalUpdate();
+					}
 				}
 				else
 				{
-					RequestLogger.printLine( "You lost the PvP fight!" );
+					RequestLogger.printLine( "You lost the PvP fight, " + result2 + " to " + result1 + "!" );
 					PeeVPeeRequest.parseStatLoss( responseText );
-				}
-				Matcher swaggerMatcher = PeeVPeeRequest.SWAGGER_PATTERN.matcher( responseText );
-				if ( swaggerMatcher.find() )
-				{
-					Preferences.increment( "availableSwagger", Integer.parseInt( swaggerMatcher.group(1) ) );
-					CoinmastersFrame.externalUpdate();
 				}
 			}
 			return;
