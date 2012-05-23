@@ -2305,6 +2305,7 @@ Fam:Cuddlefish	Underwater Familiar
 Fam:Emo Squid	Underwater Familiar
 Fam:Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
 Fam:Grouper Groupie	Underwater Familiar
+Fam:Happy Medium	Initiative: [W]
 Fam:Hobo Monkey	Leprechaun: 1.25
 Fam:Imitation Crab	Underwater Familiar
 Fam:Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
