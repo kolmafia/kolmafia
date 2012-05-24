@@ -128,7 +128,6 @@ public class FightRequest
 
 	public static final AdventureResult DICTIONARY1 = ItemPool.get( ItemPool.DICTIONARY, 1 );
 	public static final AdventureResult DICTIONARY2 = ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 );
-	private static final AdventureResult SOLDIER = ItemPool.get( ItemPool.TOY_SOLDIER, 1 );
 	private static final AdventureResult TEQUILA = ItemPool.get( ItemPool.TEQUILA, -1 );
 
 	public static AdventureResult haikuEffect = EffectPool.get( EffectPool.HAIKU_STATE_OF_MIND );
@@ -192,6 +191,9 @@ public class FightRequest
 		Pattern.compile( "it blasts you with a massive loogie that sticks to your (.*?), pulls it off of you" );
 	private static final Pattern MULTIFIGHT_PATTERN =
 		Pattern.compile( "href=\"?/?fight.php" );
+	
+	private static final Pattern KEYOTRON_PATTERN =
+		Pattern.compile( "key-o-tron emits (\\d) short" );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
@@ -199,7 +201,6 @@ public class FightRequest
 	private static final AdventureResult STOMPER = ItemPool.get( ItemPool.MINIBORG_STOMPER, 1);
 	private static final AdventureResult LASER = ItemPool.get( ItemPool.MINIBORG_LASER, 1);
 	private static final AdventureResult DESTROYER = ItemPool.get( ItemPool.MINIBORG_DESTROYOBOT, 1);
-	private static final AdventureResult SHURIKEN = ItemPool.get( ItemPool.PAPER_SHURIKEN, 1);
 	public static final AdventureResult ANTIDOTE = ItemPool.get( ItemPool.ANTIDOTE, 1);
 	private static final AdventureResult EXTRACTOR = ItemPool.get( ItemPool.ODOR_EXTRACTOR, 1);
 	private static final AdventureResult PUTTY_SHEET = ItemPool.get( ItemPool.SPOOKY_PUTTY_SHEET, 1);
@@ -215,11 +216,7 @@ public class FightRequest
 	private static final String STOMPER_ACTION = "item" + ItemPool.MINIBORG_STOMPER;
 	private static final String LASER_ACTION = "item" + ItemPool.MINIBORG_LASER;
 	private static final String DESTROYER_ACTION = "item" + ItemPool.MINIBORG_DESTROYOBOT;
-	private static final String SHURIKEN_ACTION = "item" + ItemPool.PAPER_SHURIKEN;
-	private static final String ANTIDOTE_ACTION = "item" + ItemPool.ANTIDOTE;
 	private static final String OLFACTION_ACTION = "skill" + SkillDatabase.OLFACTION;
-
-	private static final AdventureResult BROKEN_GREAVES = ItemPool.get( ItemPool.ANTIQUE_GREAVES, -1 );
 
 	private static boolean castNoodles = false;
 	private static boolean castCleesh = false;
@@ -356,6 +353,46 @@ public class FightRequest
 			"defiled nook",
 			"cyrptNookEvilness",
 		},
+	};
+	
+	private static final String[][] BUGBEAR_BIODATA =
+	{
+		{
+			"hypodermic bugbear",
+			"biodataMedbay"
+		},
+		{
+			"scavenger bugbear",
+			"biodataWasteProcessing"
+		},
+		{
+			"batbugbear",
+			"biodataSonar"
+		},
+		{
+			"bugbear scientist",
+			"biodataScienceLab"
+		},
+		{
+			"bugaboo",
+			"biodataMorgue"
+		},
+		{
+			"Black Ops Bugbear",
+			"biodataSpecialOps"
+		},
+		{
+			"Battlesuit Bugbear Type",
+			"biodataEngineering"
+		},
+		{
+			"ancient unspeakable bugbear",
+			"biodataNavigation"
+		},
+		{
+			"trendy bugbear chef",
+			"biodataGalley"
+		}
 	};
 
 	// Make an HTML cleaner
@@ -4172,6 +4209,11 @@ public class FightRequest
 			{
 				return;
 			}
+			
+			if ( FightRequest.handleKeyotron( str, status ) )
+			{
+				return;
+			}
 
 			boolean ghostAction = status.ghost != null && str.indexOf( status.ghost) != -1;
 			if ( ghostAction && status.logFamiliar )
@@ -4510,6 +4552,45 @@ public class FightRequest
 
 		Preferences.increment( setting, -evilness );
 		Preferences.increment( "cyrptTotalEvilness", -evilness );
+		return true;
+	}
+	
+	private static boolean handleKeyotron( String text, TagStatus status )
+	{
+		if ( text.indexOf( "key-o-tron" ) == -1 )
+		{
+			return false;
+		}
+		// Your key-o-tron emits 2 short tones, indicating that it has successfully processed biometric data from this subject.
+		// Your key-o-tron emits a short buzz, indicating that it has already collected enough biometric data of this type.
+		
+		if ( text.indexOf( "already collected" ) != -1 )
+		{
+			return true;
+		}
+		
+		FightRequest.logText( text, status );
+
+		String setting = null;
+		String monster = MonsterStatusTracker.getLastMonsterName();
+		for ( int i = 0; i < FightRequest.BUGBEAR_BIODATA.length; ++i )
+		{
+			if ( monster == BUGBEAR_BIODATA[i][0] )
+			{
+				setting = BUGBEAR_BIODATA[i][1];
+				break;
+			}
+		}
+		if ( setting == null )
+		{
+			return false;
+		}
+		Matcher matcher = FightRequest.KEYOTRON_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			Preferences.setInteger( setting, StringUtilities.parseInt( matcher.group( 1 ) ) );
+		}
+		
 		return true;
 	}
 

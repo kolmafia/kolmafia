@@ -1526,7 +1526,6 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.TEACHINGS_OF_THE_FIST:
-		{
 			// save which location the scroll was found in.
 			String setting = AdventureDatabase.fistcoreLocationToSetting( KoLAdventure.lastAdventureId() );
 			if ( setting != null )
@@ -1534,8 +1533,19 @@ public class ResultProcessor
 				Preferences.setBoolean( setting, true );
 			}
 			break;
-		}
 
+		case ItemPool.KEYOTRON:
+			Preferences.setInteger( "biodataEngineering", 0 );
+			Preferences.setInteger( "biodataGalley", 0 );
+			Preferences.setInteger( "biodataMedbay", 0 );
+			Preferences.setInteger( "biodataMorgue", 0 );
+			Preferences.setInteger( "biodataNavigation", 0 );
+			Preferences.setInteger( "biodataScienceLab", 0 );
+			Preferences.setInteger( "biodataSonar", 0 );
+			Preferences.setInteger( "biodataSpecialOps", 0 );
+			Preferences.setInteger( "biodataWasteProcessing", 0 );
+			Preferences.setInteger( "lastKeyotronUse", KoLCharacter.getAscensions() );
+			break;
 		}
 
 		// Gaining items can achieve goals.

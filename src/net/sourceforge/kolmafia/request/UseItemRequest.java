@@ -122,6 +122,17 @@ public class UseItemRequest
 	private static final Pattern EVILOMETER_PATTERN =
 		Pattern.compile( "<center>Total evil: <b>(\\d+)</b><p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b></center>" );
 
+	private static final Pattern KEYOTRON_PATTERN = 
+		Pattern.compile( "Medbay:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=\"right\">Waste Processing:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=\"right\">Sonar:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=\"right\">Science Lab:</td><td><b>(\\d)/6</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=\"right\">Morgue:</td><td><b>(\\d)/6</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=\"right\">Special Ops:</td><td><b>(\\d)/6</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=\"right\">Engineering:</td><td><b>(\\d)/9</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=\"right\">Navigation:</td><td><b>(\\d)/9</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=\"right\">Galley:</td><td><b>(\\d)/9</b> bio-data segments collected" );
+
 	private static final HashMap LIMITED_USES = new HashMap();
 
 	static
@@ -3688,6 +3699,10 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.KEYOTRON:
+			UseItemRequest.getBugbearBiodataLevels( responseText );
+			return;
+
 		case ItemPool.PEN_PAL_KIT:
 			// You've already got a pen pal. There's no way you
 			// could handle the pressure of contantly forgetting to
@@ -4173,6 +4188,47 @@ public class UseItemRequest
 		Preferences.setInteger( "cyrptCrannyEvilness", cranny );
 		Preferences.setInteger( "cyrptNicheEvilness", niche );
 		Preferences.setInteger( "cyrptNookEvilness", nook );
+	}
+	
+	private static final void getBugbearBiodataLevels( String responseText )
+	{
+		int medbay = 0;
+		int wasteProcessing = 0;
+		int sonar = 0;
+		int scienceLab = 0;
+		int morgue = 0;
+		int specialOps = 0;
+		int engineering = 0;
+		int navigation = 0;
+		int galley = 0;
+		
+		Matcher matcher = UseItemRequest.KEYOTRON_PATTERN.matcher( responseText );
+		
+		if ( matcher.find() )
+		{
+			medbay = StringUtilities.parseInt( matcher.group( 1 ) );
+			wasteProcessing = StringUtilities.parseInt( matcher.group( 2 ) );
+			sonar = StringUtilities.parseInt( matcher.group( 3 ) );
+			scienceLab = StringUtilities.parseInt( matcher.group( 4 ) );
+			morgue = StringUtilities.parseInt( matcher.group( 5 ) );
+			specialOps = StringUtilities.parseInt( matcher.group( 6 ) );
+			engineering = StringUtilities.parseInt( matcher.group( 7 ) );
+			navigation = StringUtilities.parseInt( matcher.group( 8 ) );
+			galley = StringUtilities.parseInt( matcher.group( 9 ) );
+		}
+		
+		Preferences.setInteger( "biodataMedbay", medbay );
+		Preferences.setInteger( "biodataWasteProcessing", wasteProcessing );
+		Preferences.setInteger( "biodataSonar", sonar );
+		Preferences.setInteger( "biodataScienceLab", scienceLab );
+		Preferences.setInteger( "biodataMorgue", morgue );
+		Preferences.setInteger( "biodataSpecialOps", specialOps );
+		Preferences.setInteger( "biodataEngineering", engineering );
+		Preferences.setInteger( "biodataNavigation", navigation );
+		Preferences.setInteger( "biodataGalley", galley );
+		Preferences.setInteger( "lastKeyotronUse", KoLCharacter.getAscensions() );
+		
+		return;
 	}
 
 	private static final void showItemUsage( final boolean showHTML, final String text )
