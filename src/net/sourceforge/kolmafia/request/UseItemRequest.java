@@ -124,14 +124,14 @@ public class UseItemRequest
 
 	private static final Pattern KEYOTRON_PATTERN = 
 		Pattern.compile( "Medbay:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
-			+ "<tr><td align=\"right\">Waste Processing:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
-			+ "<tr><td align=\"right\">Sonar:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
-			+ "<tr><td align=\"right\">Science Lab:</td><td><b>(\\d)/6</b> bio-data segments collected</td></tr>"
-			+ "<tr><td align=\"right\">Morgue:</td><td><b>(\\d)/6</b> bio-data segments collected</td></tr>"
-			+ "<tr><td align=\"right\">Special Ops:</td><td><b>(\\d)/6</b> bio-data segments collected</td></tr>"
-			+ "<tr><td align=\"right\">Engineering:</td><td><b>(\\d)/9</b> bio-data segments collected</td></tr>"
-			+ "<tr><td align=\"right\">Navigation:</td><td><b>(\\d)/9</b> bio-data segments collected</td></tr>"
-			+ "<tr><td align=\"right\">Galley:</td><td><b>(\\d)/9</b> bio-data segments collected" );
+			+ "<tr><td align=right>Waste Processing:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=right>Sonar:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=right>Science Lab:</td><td><b>(\\d)/6</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=right>Morgue:</td><td><b>(\\d)/6</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=right>Special Ops:</td><td><b>(\\d)/6</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=right>Engineering:</td><td><b>(\\d)/9</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=right>Navigation:</td><td><b>(\\d)/9</b> bio-data segments collected</td></tr>"
+			+ "<tr><td align=right>Galley:</td><td><b>(\\d)/9</b> bio-data segments collected" );
 
 	private static final HashMap LIMITED_USES = new HashMap();
 
@@ -4215,6 +4215,10 @@ public class UseItemRequest
 			engineering = StringUtilities.parseInt( matcher.group( 7 ) );
 			navigation = StringUtilities.parseInt( matcher.group( 8 ) );
 			galley = StringUtilities.parseInt( matcher.group( 9 ) );
+		}
+		else
+		{
+			return;
 		}
 		
 		Preferences.setInteger( "biodataMedbay", medbay );
