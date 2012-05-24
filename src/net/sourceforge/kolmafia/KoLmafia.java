@@ -38,7 +38,6 @@ import java.awt.Frame;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
 
@@ -98,7 +97,6 @@ import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -117,7 +115,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 
@@ -595,20 +592,6 @@ public abstract class KoLmafia
 		}
 	}
 
-	private static final void deleteDirectory( final File location )
-	{
-		if ( location.isDirectory() )
-		{
-			File[] files = DataUtilities.listFiles( location );
-			for ( int i = 0; i < files.length; ++i )
-			{
-				KoLmafia.deleteDirectory( files[ i ] );
-			}
-		}
-
-		location.delete();
-	}
-
 	/**
 	 * Constructs a new <code>KoLmafia</code> object. All data fields are
 	 * initialized to their default values, the global settings are loaded
@@ -944,6 +927,11 @@ public abstract class KoLmafia
 			RequestThread.postRequest( new StorageRequest() );
 			CafeRequest.pullLARPCard();
 		}
+		
+		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.KEYOTRON, 1 ) ) && Preferences.getInteger( "lastKeyotronUse" ) != KoLCharacter.getAscensions() )
+		{
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.KEYOTRON ) );
+		}
 
 		// If we have a Crown of Thrones available and it's not
 		// equipped, see which familiar is sitting in it, if any.
@@ -1079,46 +1067,6 @@ public abstract class KoLmafia
 		{
 			FamiliarDatabase.writeFamiliars( new File( UtilityConstants.DATA_LOCATION, "familiars.txt" ) );
 		}
-	}
-
-	public boolean isSemirare( AdventureResult result )
-	{
-		switch ( result.getItemId() )
-		{
-		case ItemPool.ASCII_SHIRT:
-		case ItemPool.RHINO_HORMONES:
-		case ItemPool.MAGIC_SCROLL:
-		case ItemPool.PIRATE_JUICE:
-		case ItemPool.PET_SNACKS:
-		case ItemPool.INHALER:
-		case ItemPool.CYCLOPS_EYEDROPS:
-		case ItemPool.SPINACH:
-		case ItemPool.FIRE_FLOWER:
-		case ItemPool.ICE_CUBE:
-		case ItemPool.FAKE_BLOOD:
-		case ItemPool.GUANEAU:
-		case ItemPool.LARD:
-		case ItemPool.MYSTIC_SHELL:
-		case ItemPool.LIP_BALM:
-		case ItemPool.ANTIFREEZE:
-		case ItemPool.BLACK_EYEDROPS:
-		case ItemPool.DOGSGOTNONOZ:
-		case ItemPool.FLIPBOOK:
-		case ItemPool.NEW_CLOACA_COLA:
-		case ItemPool.MASSAGE_OIL:
-		case ItemPool.POLTERGEIST:
-		case ItemPool.TASTY_TART:
-		case ItemPool.LUNCHBOX:
-		case ItemPool.KNOB_PASTY:
-		case ItemPool.KNOB_COFFEE:
-		case ItemPool.SQUEEZE:
-		case ItemPool.FISHYSOISSE:
-		case ItemPool.LAMP_SHADE:
-		case ItemPool.GARBAGE_JUICE:
-		case ItemPool.LEWD_CARD:
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -2131,81 +2079,6 @@ public abstract class KoLmafia
 		return targets;
 	}
 
-	public final void downloadAdventureOverride()
-	{
-		UtilityConstants.DATA_LOCATION.mkdirs();
-
-		for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
-		{
-			if ( !downloadOverride( KoLConstants.OVERRIDE_DATA[ i ] ) )
-			{
-				return;
-			}
-		}
-
-		KoLmafia.updateDisplay( "Please restart KoLmafia to complete the update." );
-	}
-
-	private final boolean downloadOverride( String name )
-	{
-		KoLmafia.updateDisplay( "Downloading " + name + "..." );
-
-		BufferedReader reader =
-			FileUtilities.getReader( "http://kolmafia.svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + name );
-
-		File output = new File( UtilityConstants.DATA_LOCATION, "temp.txt" );
-		PrintStream writer = LogStream.openStream( output, true );
-
-		String line;
-
-		while ( true )
-		{
-			try
-			{
-				line = reader.readLine();
-			}
-			catch ( IOException e )
-			{
-				StaticEntity.printStackTrace( e );
-				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE,
-					"IO error reading from subversion service for " + name + "." );
-				writer.close();
-				output.delete();
-				return false;
-			}
-
-			if ( line == null )
-				break;
-
-			writer.println( line );
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( IOException e )
-		{
-		}
-
-		writer.close();
-
-		// File successfully downloaded.
-		// Delete existing copy, if any,
-
-		File dest = new File( UtilityConstants.DATA_LOCATION, name );
-		if ( dest.exists() )
-		{
-			dest.delete();
-		}
-
-		// Rename temp file to desired file
-		output.renameTo( dest );
-
-		return true;
-	}
-
 	public final void deleteAdventureOverride()
 	{
 		for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
@@ -2252,25 +2125,6 @@ public abstract class KoLmafia
 		// This player is currently away from KoL in channel trade and listening to clan.
 		String text = KoLmafia.whoisPlayer( player );
 		return text != null && text.indexOf( "This player is currently" ) != -1;
-	}
-
-	public void removeAllItemsFromStore()
-	{
-		RequestThread.postRequest( new ManageStoreRequest() );
-
-		// Now determine the desired prices on items.
-		// If the value of an item is currently 100,
-		// then remove the item from the store.
-
-		SoldItem[] sold = new SoldItem[ StoreManager.getSoldItemList().size() ];
-		StoreManager.getSoldItemList().toArray( sold );
-
-		for ( int i = 0; i < sold.length && KoLmafia.permitsContinue(); ++i )
-		{
-			RequestThread.postRequest( new ManageStoreRequest( sold[ i ].getItemId() ) );
-		}
-
-		KoLmafia.updateDisplay( "Store emptying complete." );
 	}
 
 	/**

@@ -1448,6 +1448,7 @@ public class ItemPool
 	public static final int NOSTRIL_OF_THE_SERPENT = 5645;
 	public static final int BORIS_HELM = 5648;
 	public static final int BORIS_HELM_ASKEW = 5650;
+	public static final int KEYOTRON = 5653;
 	public static final int NOTE_FROM_CLANCY = 5682;
 	public static final int BURT = 5683;
 	public static final int AUTOPSY_TWEEZERS = 5687;
