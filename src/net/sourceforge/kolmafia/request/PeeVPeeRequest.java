@@ -67,7 +67,7 @@ public class PeeVPeeRequest
 		Pattern.compile( "You must break your <a href=\"campground.php?action=stone\">Magical Mystical Hippy Stone</a> to participate in PvP combat." );
 
 	private static final Pattern WIN_PATTERN =
-		Pattern.compile( "<b>(.*?)</b> won the fight, <b>(\\d+)</b> to <b>(\\d+)</b>" );
+		Pattern.compile( "<span[^>]*><b>(.*?)</b> won the fight, <b>(\\d+)</b> to <b>(\\d+)</b>!</span>" );
 	
 	private static final Pattern SWAGGER_PATTERN = 
 		Pattern.compile( "You gain a little swagger <b>\\([+](\\d)\\)</b>" );
