@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class RestorativeItemPanel
-	extends ItemManagePanel
+	extends ItemTableManagePanel
 {
 	public RestorativeItemPanel()
 	{
