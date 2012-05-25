@@ -4575,7 +4575,7 @@ public class FightRequest
 		String monster = MonsterStatusTracker.getLastMonsterName();
 		for ( int i = 0; i < FightRequest.BUGBEAR_BIODATA.length; ++i )
 		{
-			if ( monster == BUGBEAR_BIODATA[i][0] )
+			if ( monster.equals( BUGBEAR_BIODATA[i][0] ) )
 			{
 				setting = BUGBEAR_BIODATA[i][1];
 				break;
