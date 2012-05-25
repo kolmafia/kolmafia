@@ -110,6 +110,11 @@ public class AutoFilterTextField
 		}
 	}
 
+	public AutoFilterTextField( LockableListModel displayModel )
+	{
+		this( new JList( displayModel ) );
+	}
+
 	public void setList( final JList list )
 	{
 		this.list = list;
