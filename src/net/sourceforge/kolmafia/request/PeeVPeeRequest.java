@@ -158,17 +158,18 @@ public class PeeVPeeRequest
 				if ( won )
 				{
 					RequestLogger.printLine( "You won the PvP fight, " + result1 + " to " + result2 + "!" );
-					Matcher swaggerMatcher = PeeVPeeRequest.SWAGGER_PATTERN.matcher( responseText );
-					if ( swaggerMatcher.find() )
-					{
-						Preferences.increment( "availableSwagger", Integer.parseInt( swaggerMatcher.group(1) ) );
-						CoinmastersFrame.externalUpdate();
-					}
 				}
 				else
 				{
 					RequestLogger.printLine( "You lost the PvP fight, " + result2 + " to " + result1 + "!" );
 					PeeVPeeRequest.parseStatLoss( responseText );
+				}
+
+				Matcher swaggerMatcher = PeeVPeeRequest.SWAGGER_PATTERN.matcher( responseText );
+				if ( swaggerMatcher.find() )
+				{
+					Preferences.increment( "availableSwagger", Integer.parseInt( swaggerMatcher.group(1) ) );
+					CoinmastersFrame.externalUpdate();
 				}
 			}
 			return;
