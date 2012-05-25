@@ -454,9 +454,16 @@ public class PyramidRequest
 
 	public static final int advancePyramidPosition()
 	{
+		// Since using the Middle Chamber to advance the pyramid position always places
+		// the wheel first, the first two cases only apply to using a tomb ratchet
 		if ( PyramidRequest.pyramidWheelPlaced == null )
 		{
 			RequestThread.postRequest( PyramidRequest.PYRAMID );
+			return PyramidRequest.getPyramidPosition();
+		}
+		if ( !PyramidRequest.pyramidWheelPlaced )
+		{
+			PyramidRequest.setPyramidWheelPlaced();
 			return PyramidRequest.getPyramidPosition();
 		}
 		int position = PyramidRequest.getPyramidPosition();
