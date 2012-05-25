@@ -50,7 +50,7 @@ public class InventorySorter
 {
 	private static final Comparator<Object> COL2_COMPARATOR = new Comparator<Object>()
 	{
-		private final Pattern meatPattern = Pattern.compile( "\\((-?\\d+) meat\\)" );
+		private final Pattern meatPattern = Pattern.compile( "(-?\\d+) meat" );
 
 		public int compare( Object o1, Object o2 )
 		{
