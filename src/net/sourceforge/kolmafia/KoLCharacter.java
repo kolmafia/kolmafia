@@ -3251,6 +3251,7 @@ public abstract class KoLCharacter
 				KoLCharacter.addAvailableSkill( "Spirit of Garlic" );
 				KoLCharacter.addAvailableSkill( "Spirit of Wormwood" );
 				KoLCharacter.addAvailableSkill( "Spirit of Bacon Grease" );
+				KoLCharacter.addAvailableSkill( "Spirit of Nothing" );
 			}
 
 			break;
