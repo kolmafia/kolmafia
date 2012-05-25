@@ -868,6 +868,7 @@ public class SkillDatabase
 		case 3103:	// Spirit of Garlic
 		case 3104:	// Spirit of Wormwood
 		case 3105:	// Spirit of Bacon Grease
+		case 3106:	// Spirit of Nothing
 			// Derived skills
 			return false;
 

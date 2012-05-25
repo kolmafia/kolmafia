@@ -188,11 +188,12 @@
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 
-3101	Spirit of Cayenne	3	10	40
-3102	Spirit of Peppermint	3	10	40
-3103	Spirit of Garlic	3	10	40
-3104	Spirit of Wormwood	3	10	40
-3105	Spirit of Bacon Grease	3	10	40
+3101	Spirit of Cayenne	3	1	999
+3102	Spirit of Peppermint	3	1	999
+3103	Spirit of Garlic	3	1	999
+3104	Spirit of Wormwood	3	1	999
+3105	Spirit of Bacon Grease	3	1	999
+3106	Spirit of Nothing	3	1	0
 
 # Skills available to Saucerors
 

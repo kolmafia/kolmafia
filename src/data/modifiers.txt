@@ -3303,6 +3303,7 @@ Spirit of Garlic	Spell Damage: +10
 Spirit of Peppermint	Spell Damage: +10
 # Spirit of Wormwood: All Spells Cast Are Spooky
 Spirit of Wormwood	Spell Damage: +10
+# Spirit of Nothing: Removes any of the other Flavour of Magic effects
 # Spooky Breath: Can breathe terrifying air in combat
 Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
 Spooky Flavor	Spooky Damage: +10, Spooky Resistance: +2
