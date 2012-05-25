@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -280,7 +279,6 @@ public class ShowDescriptionTable
 					return Integer.valueOf( CIRresult.getQuantityPossible() );
 				}
 			}
-			RequestLogger.printLine( "ahhh" );
 			return null;
 		}
 
@@ -295,9 +293,9 @@ public class ShowDescriptionTable
 
 			if ( price <= 0 )
 			{
-				return "(no-sell)";
+				return "no-sell";
 			}
-			return "(" + price + " meat)";
+			return price + " meat";
 		}
 
 		@Override
