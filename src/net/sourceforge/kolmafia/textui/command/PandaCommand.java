@@ -84,7 +84,7 @@ public class PandaCommand
 			request = new PandamoniumRequest( place );
 		}
 
-		m =  COMMAND_PATTERN2.matcher( parameters );;
+		m =  COMMAND_PATTERN2.matcher( parameters );
 		if ( request == null && m.find() )
 		{
 			// Attempt comedy on Mourn in the comedy club

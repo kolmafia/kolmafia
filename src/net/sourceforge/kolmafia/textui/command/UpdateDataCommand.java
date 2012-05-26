@@ -67,11 +67,6 @@ public class UpdateDataCommand
 			return;
 		}
 
-		if ( parameters.equalsIgnoreCase( "data" ) )
-		{
-			// this.CLI.downloadAdventureOverride();
-		}
-
 		KoLmafia.updateDisplay(
 			KoLConstants.ABORT_STATE,
 			"\"update\" doesn't do what you think it does.	Please visit kolmafia.us and download a daily build if you'd like to keep KoLmafia up-to-date between major releases." );

@@ -502,7 +502,6 @@ public class PandamoniumRequest
 
 			int itemId = -1;
 			String itemName = null;
-			String value = "";
 
 			if ( StringUtilities.isNumeric( item ) )
 			{

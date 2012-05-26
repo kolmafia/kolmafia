@@ -615,11 +615,6 @@ public class ResponseTextParser
 			PeeVPeeRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "pvp.php" ) && location.indexOf( "action" ) != -1 )
-		{
-			PvpManager.processOffenseContests( responseText );
-		}
-
 		else if ( location.startsWith( "pyramid.php" ) )
 		{
 			PyramidRequest.parseResponse( location, responseText );

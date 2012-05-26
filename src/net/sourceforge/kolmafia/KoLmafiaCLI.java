@@ -748,7 +748,6 @@ public class KoLmafiaCLI
 		new PulverizeCommand().register( "smash" ).register( "pulverize" );
 		new PvpAttackCommand().register( "attack" );
 		new PvpStealCommand().register( "pvp" ).register( "steal" );
-		new PvpSummaryCommand().registerPrefix( "pvplog" );
 		new QuarkCommand().register( "quark" );
 		new RaffleCommand().register( "raffle" );
 		new RecipeCommand().register( "recipe" ).register( "ingredients" );
