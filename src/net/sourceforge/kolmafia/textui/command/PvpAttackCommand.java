@@ -59,7 +59,7 @@ public class PvpAttackCommand
 	{
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafiaGUI.constructFrame( "FlowerHunterFrame" );
+			// do stuff here
 			return;
 		}
 
