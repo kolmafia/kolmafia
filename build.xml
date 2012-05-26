@@ -171,6 +171,7 @@
 		<javac
 			compiler="${build.compiler}"
 			source="1.5"
+			target="1.5"
 			srcdir="${lib}"
 			destdir="${build}"
 			classpath="${build}"
@@ -196,6 +197,7 @@
 		<javac
 			compiler="${build.compiler}"
 			source="1.5"
+			target="1.5"
 			srcdir="${src}"
 			destdir="${build}"
 			classpath="${build}"
