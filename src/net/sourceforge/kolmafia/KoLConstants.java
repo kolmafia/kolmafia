@@ -227,10 +227,6 @@ public interface KoLConstants
 			"FaxRequestFrame"
 		},
 		{
-			"Flower Hunter",
-			"FlowerHunterFrame"
-		},
-		{
 			"Mushroom Plot",
 			"MushroomFrame"
 		},

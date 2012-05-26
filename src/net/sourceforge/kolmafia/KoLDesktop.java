@@ -59,7 +59,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
-import net.sourceforge.kolmafia.swingui.FlowerHunterFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SendMessageFrame;
 
@@ -282,7 +281,7 @@ public class KoLDesktop
 
 	public static final boolean isInversionExempt( final GenericFrame content )
 	{
-		return content instanceof AdventureFrame || content instanceof FlowerHunterFrame || content instanceof SendMessageFrame;
+		return content instanceof AdventureFrame || content instanceof SendMessageFrame;
 	}
 
 	public void pack()
@@ -385,7 +384,6 @@ public class KoLDesktop
 
 		toolbarPanel.add( new DisplayFrameButton( "Purchase Buffs", "buff.gif", "BuffRequestFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", "FamiliarTrainingFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Player vs. Player", "flower.gif", "FlowerHunterFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", "MushroomFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
