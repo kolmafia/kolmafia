@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
-import net.sourceforge.kolmafia.request.PvpRequest;
 
 import net.sourceforge.kolmafia.session.BuffBotManager;
 import net.sourceforge.kolmafia.session.ClanManager;

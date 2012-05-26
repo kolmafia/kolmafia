@@ -63,14 +63,14 @@ public class PeeVPeeRequest
 	private static final Pattern ATTACKS_PATTERN =
 		Pattern.compile( "You have (\\d+) fight" );
 
-	private static final Pattern HIPPY_STONE_PATTERN = 
-		Pattern.compile( "You must break your <a href=\"campground.php?action=stone\">Magical Mystical Hippy Stone</a> to participate in PvP combat." );
-
 	private static final Pattern WIN_PATTERN =
 		Pattern.compile( "<span[^>]*><b>(.*?)</b> won the fight, <b>(\\d+)</b> to <b>(\\d+)</b>!</span>" );
-	
+
 	private static final Pattern SWAGGER_PATTERN = 
 		Pattern.compile( "You gain a little swagger <b>\\([+](\\d)\\)</b>" );
+
+	private static final Pattern OPPONENT_PATTERN =
+		Pattern.compile( "<b>(.*?)</b></a> for battle!" );
 
 	public PeeVPeeRequest()
 	{
@@ -100,16 +100,21 @@ public class PeeVPeeRequest
 
 		if ( win.equals( "" ) )
 		{
-			win = PeeVPeeRequest.WIN_MESSAGES[ KoLConstants.RNG.nextInt( PvpRequest.WIN_MESSAGES.length ) ];
+			win = PeeVPeeRequest.WIN_MESSAGES[ KoLConstants.RNG.nextInt( PeeVPeeRequest.WIN_MESSAGES.length ) ];
 		}
 		if ( lose.equals( "" ) )
 		{
 			lose =
-				PeeVPeeRequest.LOSE_MESSAGES[ KoLConstants.RNG.nextInt( PvpRequest.LOSE_MESSAGES.length ) ];
+				PeeVPeeRequest.LOSE_MESSAGES[ KoLConstants.RNG.nextInt( PeeVPeeRequest.LOSE_MESSAGES.length ) ];
 		}
 		
 		this.addFormField( "winmessage", win );
 		this.addFormField( "losemessage", lose );
+	}
+	
+	public void setTarget( final String target )
+	{
+		this.addFormField( "who", target );
 	}
 
 	public static void parseResponse( final String location, final String responseText )
@@ -131,13 +136,6 @@ public class PeeVPeeRequest
 			{
 				KoLCharacter.setAttacksLeft( 0 );
 			}
-			
-			Matcher hippyStoneMatcher = PeeVPeeRequest.HIPPY_STONE_PATTERN.matcher( responseText );
-			if ( hippyStoneMatcher.find() )
-			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This feature is not available to hippies." );
-				return;
-			}
 
 			if ( location.indexOf( "action=fight" ) != -1 )
 			{
@@ -158,6 +156,13 @@ public class PeeVPeeRequest
 				if ( won )
 				{
 					RequestLogger.printLine( "You won the PvP fight, " + result1 + " to " + result2 + "!" );
+					Matcher loserMatcher = PeeVPeeRequest.OPPONENT_PATTERN.matcher( responseText );
+					if ( loserMatcher.find() )
+					{
+						Preferences.setString(
+						"currentPvpVictories",
+						Preferences.getString( "currentPvpVictories" ) + loserMatcher.group( 1 ) + "," );
+					}
 				}
 				else
 				{

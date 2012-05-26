@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PvpRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PvpManager
@@ -300,25 +301,46 @@ public class PvpManager
 		}
 	}
 
+	private static void checkHippyStone()
+	{
+		if ( !KoLCharacter.getHippyStoneBroken() )
+		{
+			if ( !InputFieldUtilities.confirm( "Would you like to break your hippy stone?" ) )
+			{
+				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This feature is not available to hippies." );
+				return;
+			}
+			new GenericRequest( "campground.php?confirm=on&smashstone=Yep." ).run();
+		}
+	}
+
+	public static int pickStance()
+	{
+		int stance;
+		if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
+		{
+			stance = 1;
+		}
+		else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
+		{
+			stance = 2;
+		}
+		else
+		{
+			stance = 3;
+		}
+		return stance;
+	}
+
 	public static void executePvpRequest( final String mission, int stance )
 	{
+		PvpManager.checkHippyStone();
 		KoLmafia.updateDisplay( "Determining remaining fights..." );
 		RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
 
 		if ( stance == 0 )
 		{
-			if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
-			{
-				stance = 1;
-			}
-			else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
-			{
-				stance = 2;
-			}
-			else
-			{
-				stance = 3;
-			}
+			stance = PvpManager.pickStance();
 		}
 
 		PeeVPeeRequest request = new PeeVPeeRequest( "", stance, mission );
@@ -344,8 +366,12 @@ public class PvpManager
 		}
 	}
 
-	public static final void executePvpRequest( final ProfileRequest[] targets, final PvpRequest request )
+	public static final void executePvpRequest( final ProfileRequest[] targets, final PeeVPeeRequest request )
 	{
+		PvpManager.checkHippyStone();
+		KoLmafia.updateDisplay( "Determining remaining fights..." );
+		RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
+		
 		for ( int i = 0; i < targets.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
 		{
 			if ( targets[ i ] == null )
@@ -367,15 +393,9 @@ public class PvpManager
 			request.setTarget( targets[ i ].getPlayerName() );
 			RequestThread.postRequest( request );
 
-			if ( request.responseText.indexOf( "Your PvP Ranking decreased by" ) != -1 )
+			if ( request.responseText.indexOf( "lost some dignity in the attempt" ) != -1 )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You lost to " + targets[ i ].getPlayerName() + "." );
-			}
-			else
-			{
-				Preferences.setString(
-					"currentPvpVictories",
-					Preferences.getString( "currentPvpVictories" ) + targets[ i ].getPlayerName() + "," );
 			}
 		}
 	}

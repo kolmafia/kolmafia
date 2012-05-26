@@ -38,11 +38,10 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
-import net.sourceforge.kolmafia.request.PvpRequest;
 
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.PvpManager;
@@ -52,31 +51,18 @@ public class PvpAttackCommand
 {
 	public PvpAttackCommand()
 	{
-		this.usage = " [ <target> [, <target>]... ] - PvP for dignity or flowers";
+		this.usage = " <target> [, <target>...] - PvP for items or fame";
 	}
 
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equals( "" ) )
 		{
-			// do stuff here
+			RequestLogger.printLine( "You must specify a target." );
 			return;
 		}
 
-		int stance = 0;
-
-		if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
-		{
-			stance = 1;
-		}
-		else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
-		{
-			stance = 2;
-		}
-		else
-		{
-			stance = 3;
-		}
+		int stance = PvpManager.pickStance();
 
 		String[] names = parameters.split( "\\s*,\\s*" );
 		ProfileRequest[] targets = new ProfileRequest[ names.length ];
@@ -114,11 +100,8 @@ public class PvpAttackCommand
 			targets[ i ].run();
 		}
 
-		KoLmafia.updateDisplay( "Determining current rank..." );
-		RequestThread.postRequest( new PvpRequest() );
-
-		String mission = KoLCharacter.canInteract() ? "dignity" : "flowers";
-		PvpRequest request = new PvpRequest( parameters, stance, mission );
+		String mission = KoLCharacter.canInteract() ? "lootwhatever" : "fame";
+		PeeVPeeRequest request = new PeeVPeeRequest( "", stance, mission );
 		PvpManager.executePvpRequest( targets, request );
 	}
 }
