@@ -265,7 +265,7 @@ Collapsed Mineshaft Golem	HP: 100000 Def: 100000 Atk: 100000
 Completely Different Spider	HP: 1 Def: 1 Atk: 1 Meat: 4-6 "Hardly Poisoned at All" P: bug	spider web (25)	spider web (25)
 Concert Pianist	HP: 100000 Def: 100000 Atk: 100000 P: humanoid
 Confused Goth Music Student	HP: 9 Def: 9 Atk: 9 P: humanoid	pocket theremin (10)
-Conjoined Zmombie	HP: 120 Def: 71 Atk: 79 E: spooky Meat: 224-338	cranberries (29)	cranberries (8)	loose teeth (8)	grateful undead t-shirt (1)
+Conjoined Zmombie	HP: 120 Def: 71 Atk: 79 E: spooky Meat: 224-338 P: undead	cranberries (29)	cranberries (8)	loose teeth (8)	grateful undead t-shirt (1)
 Cookie-baking Thing from Beyond Time		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Corpulent Zobmie	HP: 50 Def: 55 Atk: 54 E: spooky Meat: 60-90 P: undead	cranberries (25)	cranberries (15)	loose teeth (10)	Grateful Undead T-shirt (c1)	paranormal ricotta (c0)
 Corrosive Algae	HP: 20 Def: 20 Atk: 25 P: plant	memory of a C (20)	memory of a T (20)

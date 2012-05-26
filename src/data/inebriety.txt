@@ -298,7 +298,7 @@ screwdiver	3	4	decent	5-6	34-80	0	0	20 Brined Liver
 screwdriver	3	1	decent	5-6	8-10	0	0
 sham champagne	2	7	good	3-8	0	0	38-58	5-15 MP, 10 Shamboozled (+50% mox)
 shot of blackberry schnapps	1	11	good	1-4	5-7	5-7	5-7
-shot of flower schnapps	3	1	decent	2	0	0	0	+1 PvP fight, 3 Flower Power (+20% all)
+shot of flower schnapps	3	1	crappy	0	0	0	0	+1 PvP fight, 3 Flower Power (+20% all)
 shot of grapefruit schnapps	1	1	decent	2	0	3-5	0
 shot of nepenthe schnapps	2	2	awesome	5-8	0	12-18	0	10 Memento Moir&eacute; (+3 exp)
 shot of orange schnapps	1	1	decent	2	3-5	0	0
