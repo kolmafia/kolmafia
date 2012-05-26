@@ -693,7 +693,7 @@ public class KoLmafiaCLI
 		new FaxCommand().register( "fax" );
 		new FaxbotCommand().register( "faxbot" );
 		new FullEchoCommand().register( "fecho" ).register( "fprint" );
-		new FlowerHuntCommand().register( "flowers" );
+		new FlowerHuntCommand().register( "flowers" ).register( "swagger" );
 		new FoldItemCommand().register( "fold" ).register( "squeeze" );
 		new ForumCommand().registerPrefix( "forum" );
 		new FriarBlessingCommand().register( "friars" );
@@ -746,8 +746,8 @@ public class KoLmafiaCLI
 		new PrefTraceCommand().register( "ptrace" );
 		new PripheaCommand().register( "priphea" );
 		new PulverizeCommand().register( "smash" ).register( "pulverize" );
-		new PvpAttackCommand().register( "pvp" ).register( "attack" );
-		new PvpStealCommand().register( "steal" );
+		new PvpAttackCommand().register( "attack" );
+		new PvpStealCommand().register( "pvp" ).register( "steal" );
 		new PvpSummaryCommand().registerPrefix( "pvplog" );
 		new QuarkCommand().register( "quark" );
 		new RaffleCommand().register( "raffle" );
