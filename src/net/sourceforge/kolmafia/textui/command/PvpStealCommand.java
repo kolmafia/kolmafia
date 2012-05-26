@@ -77,22 +77,22 @@ public class PvpStealCommand
 			stanceString = params[1];
 			if ( stanceString.equals( "muscle" ) )
 			{
-				stance = 1;
+				stance = PvpManager.MUSCLE_STANCE;
 			}
 			
 			else if ( stanceString.equals( "myst" ) )
 			{
-				stance = 2;
+				stance = PvpManager.MYST_STANCE;
 			}
 			
 			else if ( stanceString.equals( "moxie" ) )
 			{
-				stance = 3;
+				stance = PvpManager.MOXIE_STANCE;
 			}
 			
 			else if ( stanceString.equals( "ballyhoo" ) )
 			{
-				stance = 4;
+				stance = PvpManager.BALLYHOO_STANCE;
 			}
 		}
 

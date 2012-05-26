@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.io.IOException;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

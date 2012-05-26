@@ -281,7 +281,6 @@ public interface KoLConstants
 	public static final SortedListModel mementoList = new SortedListModel();
 	public static final SortedListModel profitableList = new SortedListModel();
 
-	public static final String ATTACKS_DIRECTORY = "attacks/";
 	public static final String BUFFBOT_DIRECTORY = "buffs/";
 	public static final String CCS_DIRECTORY = "ccs/";
 	public static final String CHATLOG_DIRECTORY = "chats/";
@@ -290,8 +289,6 @@ public interface KoLConstants
 	public static final String SESSIONS_DIRECTORY = "sessions/";
 	public static final String RELAY_DIRECTORY = "relay/";
 
-	public static final File ATTACKS_LOCATION =
-		new File( UtilityConstants.ROOT_LOCATION, KoLConstants.ATTACKS_DIRECTORY );
 	public static final File BUFFBOT_LOCATION =
 		new File( UtilityConstants.ROOT_LOCATION, KoLConstants.BUFFBOT_DIRECTORY );
 	public static final File CCS_LOCATION = new File( UtilityConstants.ROOT_LOCATION, KoLConstants.CCS_DIRECTORY );
