@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.io.UnsupportedEncodingException;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -130,7 +128,26 @@ public class WineCellarRequest
 			{
 				Preferences.setInteger( "wineCellarProgress", 3 );
 			}
+			
+			// If none of the responses above were seen, then don't subtract the wine
+			// bottle from inventory
+			else
+			{
+				return;
+			}
 
+			Matcher matcher = BOTTLE_PATTERN.matcher( location );
+			if ( !matcher.find() )
+			{
+				return;
+			}
+			int itemId = Integer.parseInt( matcher.group( 1 ) );
+			if ( !InventoryManager.retrieveItem( itemId, 1 ) )
+			{
+				return;
+			}
+			ResultProcessor.processItem( itemId, -1 );
+			
 			return;
 		}
 
@@ -200,14 +217,9 @@ public class WineCellarRequest
 			}
 
 			int itemId = Integer.parseInt( matcher.group( 1 ) );
-			if ( !InventoryManager.retrieveItem( itemId, 1 ) )
-			{
-				return true;
-			}
 
 			String name = ItemDatabase.getItemName( itemId );
 			RequestLogger.updateSessionLog( "pour " + name + " into goblet" );
-			ResultProcessor.processItem( itemId, -1 );
 
 			return true;
 		}
