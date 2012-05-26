@@ -667,7 +667,7 @@ public class StringUtilities
 		
 		char ch = string.charAt( 0 );
 
-		if ( ( ch != '-' ) && ( ch != '+' ) && !Character.isDigit( ch ) )
+		if ( ( ch != '-' ) && ( ch != '+' ) && ( ch != '.' ) && !Character.isDigit( ch ) )
 		{
 			return false;
 		}
