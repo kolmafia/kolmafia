@@ -147,6 +147,42 @@ public class BountyHunterHunterRequest
 			}
 			return;
 		}
+		
+		if ( action.equals( "abandonbounty" ) )
+		{
+			// Can't hack it, eh? Well, that's okay. I'm sure some other 
+			// Bounty Hunter will step up. Maybe you should try something 
+			// more appropriate to your Bounty Hunting skills.
+			if ( responseText.contains( "Can't hack it, eh?" ) )
+			{
+				BountyHunterHunterRequest.abandonBounty();
+			}
+		}
+		
+		if ( action.equals( "takebounty" ) )
+		{
+			// All right, then!  Get out there and collect those empty aftershave bottles!
+			if ( !responseText.contains( "All right, then!" ) )
+			{
+				return;
+			}
+			Matcher idMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( location );
+			if ( !idMatcher.find() )
+			{
+				return;
+			}
+
+			int itemId = StringUtilities.parseInt( idMatcher.group( 1 ) );
+			Preferences.setInteger( "currentBountyItem", itemId );
+
+			KoLAdventure adventure = AdventureDatabase.getBountyLocation( itemId );
+			AdventureFrame.updateSelectedAdventure( adventure );
+			AdventureResult bounty = AdventureDatabase.getBounty( adventure );
+			String plural = ItemDatabase.getPluralName( itemId );
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( "accept bounty assignment to collect " + bounty.getCount() + " " + plural );
+		}
 
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
@@ -186,24 +222,19 @@ public class BountyHunterHunterRequest
 			{
 				return true;
 			}
-
+			
 			int itemId = StringUtilities.parseInt( idMatcher.group( 1 ) );
-			Preferences.setInteger( "currentBountyItem", itemId );
-
-
-			KoLAdventure adventure = AdventureDatabase.getBountyLocation( itemId );
-			AdventureFrame.updateSelectedAdventure( adventure );
-			AdventureResult bounty = AdventureDatabase.getBounty( adventure );
+			AdventureResult bounty = AdventureDatabase.getBounty( itemId );
 			String plural = ItemDatabase.getPluralName( itemId );
-
+			
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "accept bounty assignment to collect " + bounty.getCount() + " " + plural );
+			
 			return true;
 		}
 
 		if ( action.equals( "abandonbounty" ) )
 		{
-			BountyHunterHunterRequest.abandonBounty();
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "abandon bounty assignment" );
 			return true;
