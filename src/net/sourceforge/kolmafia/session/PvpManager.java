@@ -391,6 +391,7 @@ public class PvpManager
 
 			KoLmafia.updateDisplay( "Attacking " + targets[ i ].getPlayerName() + "..." );
 			request.setTarget( targets[ i ].getPlayerName() );
+			request.setTargetType( "0" );
 			RequestThread.postRequest( request );
 
 			if ( request.responseText.indexOf( "lost some dignity in the attempt" ) != -1 )

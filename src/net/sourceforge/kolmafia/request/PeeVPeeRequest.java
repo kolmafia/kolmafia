@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureMultiResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -70,7 +69,7 @@ public class PeeVPeeRequest
 		Pattern.compile( "You gain a little swagger <b>\\([+](\\d)\\)</b>" );
 
 	private static final Pattern OPPONENT_PATTERN =
-		Pattern.compile( "<b>(.*?)</b></a> for battle!" );
+		Pattern.compile( "<b>([\\w\\s]*)</b></a> for battle!" );
 
 	public PeeVPeeRequest()
 	{
@@ -115,6 +114,11 @@ public class PeeVPeeRequest
 	public void setTarget( final String target )
 	{
 		this.addFormField( "who", target );
+	}
+	
+	public void setTargetType( final String type )
+	{
+		this.addFormField( "ranked", type );
 	}
 
 	public static void parseResponse( final String location, final String responseText )
