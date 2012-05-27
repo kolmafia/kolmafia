@@ -97,9 +97,9 @@ public class AdventureResult
 	public static final String SUBSTATS = "Substats";
 	public static final String FULLSTATS = "Fullstats";
 
-	public static final List MUS_SUBSTAT = new ArrayList();
-	public static final List MYS_SUBSTAT = new ArrayList();
-	public static final List MOX_SUBSTAT = new ArrayList();
+	public static final List<String> MUS_SUBSTAT = new ArrayList<String>();
+	public static final List<String> MYS_SUBSTAT = new ArrayList<String>();
+	public static final List<String> MOX_SUBSTAT = new ArrayList<String>();
 
 	static
 	{
@@ -881,7 +881,7 @@ public class AdventureResult
 	 * @param result The result to add to the tally
 	 */
 
-	public static final void addResultToList( final List sourceList, final AdventureResult result )
+	public static final void addResultToList( final List<AdventureResult> sourceList, final AdventureResult result )
 	{
 		int index = sourceList.indexOf( result );
 
