@@ -56,15 +56,15 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class TurnCounter
 	implements Comparable
 {
-	private static final ArrayList relayCounters = new ArrayList();
-	private static final HashSet ALL_LOCATIONS = new HashSet();
+	private static final ArrayList<TurnCounter> relayCounters = new ArrayList<TurnCounter>();
+	private static final HashSet<String> ALL_LOCATIONS = new HashSet<String>();
 
 	private final int value;
 	private final String image;
 	private final String label;
 	private String URL;
 	private String parsedLabel;
-	private HashSet exemptions;
+	private HashSet<String> exemptions;
 	private int lastWarned;
 
 	public TurnCounter( final int value, final String label, final String image )
@@ -86,7 +86,7 @@ public class TurnCounter
 			{
 				if ( this.exemptions == null )
 				{
-					this.exemptions = new HashSet();
+					this.exemptions = new HashSet<String>();
 				}
 				this.exemptions.add( word.substring( 4 ) );
 			}

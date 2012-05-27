@@ -120,7 +120,7 @@ public abstract class KoLCharacter
 	public static final String AVATAR_OF_BORIS = "Avatar of Boris";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
-	private static final List SEAL_CLUBBER_RANKS = new ArrayList();
+	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.SEAL_CLUBBER_RANKS.add( "Lemming Trampler" );
@@ -141,7 +141,7 @@ public abstract class KoLCharacter
 	}
 
 	public static final String TURTLE_TAMER = "Turtle Tamer";
-	private static final List TURTLE_TAMER_RANKS = new ArrayList();
+	private static final List<String> TURTLE_TAMER_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.TURTLE_TAMER_RANKS.add( "Toad Coach" );
@@ -162,7 +162,7 @@ public abstract class KoLCharacter
 	}
 
 	public static final String PASTAMANCER = "Pastamancer";
-	private static final List PASTAMANCER_RANKS = new ArrayList();
+	private static final List<String> PASTAMANCER_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.PASTAMANCER_RANKS.add( "Dough Acolyte" );
@@ -183,7 +183,7 @@ public abstract class KoLCharacter
 	}
 
 	public static final String SAUCEROR = "Sauceror";
-	private static final List SAUCEROR_RANKS = new ArrayList();
+	private static final List<String> SAUCEROR_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.SAUCEROR_RANKS.add( "Allspice Acolyte" );
@@ -204,7 +204,7 @@ public abstract class KoLCharacter
 	}
 
 	public static final String DISCO_BANDIT = "Disco Bandit";
-	private static final List DISCO_BANDIT_RANKS = new ArrayList();
+	private static final List<String> DISCO_BANDIT_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.DISCO_BANDIT_RANKS.add( "Funk Footpad" );
@@ -225,7 +225,7 @@ public abstract class KoLCharacter
 	}
 
 	public static final String ACCORDION_THIEF = "Accordion Thief";
-	private static final List ACCORDION_THIEF_RANKS = new ArrayList();
+	private static final List<String> ACCORDION_THIEF_RANKS = new ArrayList<String>();
 	static
 	{
 		KoLCharacter.ACCORDION_THIEF_RANKS.add( "Polka Criminal" );
@@ -357,7 +357,7 @@ public abstract class KoLCharacter
 
 	// Listener-driven container items
 
-	private static final List listenerList = new ArrayList();
+	private static final List<KoLCharacterListener> listenerList = new ArrayList<KoLCharacterListener>();
 	private static boolean beanstalkArmed = false;
 	private static KoLAdventure selectedLocation;
 
@@ -1046,7 +1046,7 @@ public abstract class KoLCharacter
 
 	public static final void setClassType( final int classtype )
 	{
-		String	classname =
+		String classname =
 			classtype == 1 ? KoLCharacter.SEAL_CLUBBER :
 			classtype == 2 ? KoLCharacter.TURTLE_TAMER :
 			classtype == 3 ? KoLCharacter.PASTAMANCER :

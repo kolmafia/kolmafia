@@ -84,7 +84,7 @@ public class KoLDatabase
 
 		int currentCount = 1;
 
-		ArrayList itemList = new ArrayList();
+		ArrayList<ItemCounter> itemList = new ArrayList<ItemCounter>();
 
 		for ( int i = 1; i < itemArray.length; ++i )
 		{

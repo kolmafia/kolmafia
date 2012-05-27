@@ -132,7 +132,7 @@ public class ConcoctionDatabase
 
 	public static final AdventureResult INIGO = new AdventureResult( "Inigo's Incantation of Inspiration", 0, true );
 
-	private static final HashMap mixingMethods = new HashMap();
+	private static final HashMap<String,Integer> mixingMethods = new HashMap<String,Integer>();
 	private static final String[] METHOD_DESCRIPTION = new String[ KoLConstants.METHOD_COUNT ];
 
 	static
@@ -301,11 +301,11 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethods.put( "DSAUCE", IntegerPool.get( KoLConstants.COOK_FANCY | KoLConstants.CR_DEEP ));
 	}
 
-	private static final HashMap chefStaff = new HashMap();
-	private static final HashMap singleUse = new HashMap();
-	private static final HashMap multiUse = new HashMap();
-	private static final HashMap noodles = new HashMap();
-	private static final HashMap meatStack = new HashMap();
+	private static final HashMap<String,Concoction> chefStaff = new HashMap<String,Concoction>();
+	private static final HashMap<String,Concoction> singleUse = new HashMap<String,Concoction>();
+	private static final HashMap<String,Concoction> multiUse = new HashMap<String,Concoction>();
+	private static final HashMap<String,Concoction> noodles = new HashMap<String,Concoction>();
+	private static final HashMap<String,Concoction> meatStack = new HashMap<String,Concoction>();
 
 	public static final void resetQueue()
 	{

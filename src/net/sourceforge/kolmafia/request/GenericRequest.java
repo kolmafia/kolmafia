@@ -162,7 +162,7 @@ public class GenericRequest
 
 	public boolean isChatRequest = false;
 
-	protected List data;
+	protected List<String> data;
 	private boolean dataChanged = true;
 	private byte[] dataString = null;
 
@@ -713,7 +713,7 @@ public class GenericRequest
 		}
 
 		String[] tokens = this.formURLString.substring( index + 1 ).split( "&" );
-		List fields = new ArrayList();
+		List<String> fields = new ArrayList<String>();
 		for ( int i = 0; i < tokens.length; ++i )
 		{
 			fields.add( tokens[ i ] );

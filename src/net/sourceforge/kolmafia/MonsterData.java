@@ -58,8 +58,8 @@ public class MonsterData
 	private final boolean boss;
 	private final int beeCount;
 
-	private final ArrayList items;
-	private final ArrayList pocketRates;
+	private final ArrayList<AdventureResult> items;
+	private final ArrayList<Float> pocketRates;
 
 	public MonsterData( final String name, final Object health,
 		final Object attack, final Object defense, final Object initiative,
@@ -93,8 +93,8 @@ public class MonsterData
 		}
 		this.beeCount = beeCount;
 
-		this.items = new ArrayList();
-		this.pocketRates = new ArrayList();
+		this.items = new ArrayList<AdventureResult>();
+		this.pocketRates = new ArrayList<Float>();
 	}
 
 	private static int ML()

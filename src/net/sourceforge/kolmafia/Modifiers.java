@@ -76,10 +76,10 @@ public class Modifiers
 	extends KoLDatabase
 {
 	private static final HashMap modifiersByName = new HashMap();
-	private static final HashMap familiarEffectByName = new HashMap();
-	private static final ArrayList passiveSkills = new ArrayList();
+	private static final HashMap<String,String> familiarEffectByName = new HashMap<String,String>();
+	private static final ArrayList<UseSkillRequest> passiveSkills = new ArrayList<UseSkillRequest>();
 	private static final ArrayList synergies = new ArrayList();
-	private static final ArrayList mutexes = new ArrayList();
+	private static final ArrayList<String> mutexes = new ArrayList<String>();
 	public static String currentLocation = "";
 	public static String currentZone = "";
 	public static float currentML = 4.0f;
@@ -1098,7 +1098,7 @@ public class Modifiers
 
 	public static ArrayList getPotentialChanges( final int index )
 	{
-		ArrayList available = new ArrayList();
+		ArrayList<AdventureResult> available = new ArrayList<AdventureResult>();
 
 		Modifiers currentTest;
 		Object[] check = Modifiers.modifiersByName.keySet().toArray();

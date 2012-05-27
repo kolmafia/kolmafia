@@ -63,8 +63,8 @@ public class AreaCombatData
 	private int weights;
 
 	// Parallel lists: monsters and encounter weighting
-	private final List monsters;
-	private final List weightings;
+	private final List<MonsterData> monsters;
+	private final List<Integer> weightings;
 
 	// Flags in low-order bits of weightings
 	private static final int ASCENSION_ODD = 0x01;
@@ -73,8 +73,8 @@ public class AreaCombatData
 
 	public AreaCombatData( final int combats )
 	{
-		this.monsters = new ArrayList();
-		this.weightings = new ArrayList();
+		this.monsters = new ArrayList<MonsterData>();
+		this.weightings = new ArrayList<Integer>();
 		this.combats = combats;
 		this.weights = 0;
 		this.minHit = Integer.MAX_VALUE;
