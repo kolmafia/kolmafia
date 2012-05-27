@@ -60,14 +60,14 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 public class InventoryPanel
-	extends ItemManagePanel
+	extends ItemTableManagePanel
 {
 	protected boolean isEquipmentOnly;
 	private FilterRadioButton[] equipmentFilters;
 
 	public InventoryPanel( final LockableListModel elementModel, final boolean isEquipmentOnly )
 	{
-		super( elementModel );
+		super( elementModel, isEquipmentOnly );
 		this.isEquipmentOnly = isEquipmentOnly;
 
 		boolean isCloset = elementModel == KoLConstants.closet;
@@ -75,7 +75,7 @@ public class InventoryPanel
 			(ActionListener) new EquipListener( isCloset ) :
 			(ActionListener) new ConsumeListener( isCloset );
 
-		ArrayList listeners = new ArrayList();
+		ArrayList<ActionListener> listeners = new ArrayList<ActionListener>();
 		listeners.add( useListener );
 		listeners.add( new AutoSellListener( isCloset, true ) );
 		listeners.add( new AutoSellListener( isCloset, false ) );
@@ -85,7 +85,7 @@ public class InventoryPanel
 		listeners.add( new GiveToClanListener( isCloset ) );
 		if ( isEquipmentOnly )
 			listeners.add( new FamiliarFeedListener() );
-		this.setButtons( true, (ActionListener[]) listeners.toArray( new ActionListener[ listeners.size() ] ));
+		this.setButtons( true, listeners.toArray( new ActionListener[ listeners.size() ] ));
 
 		if ( this.isEquipmentOnly )
 		{

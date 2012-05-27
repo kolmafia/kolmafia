@@ -57,20 +57,17 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.moods.HPRestoreItemList;
-import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
@@ -140,12 +137,19 @@ public class ShowDescriptionTable
 			return o1val.compareTo( o2val );
 		}
 	};
-
+	private boolean isEquipmentOnly;
+	private static String[] columnNames;
+	
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
 	public ShowDescriptionTable( final LockableListModel displayModel )
 	{
 		this( displayModel, null, 4 );
+	}
+
+	public ShowDescriptionTable( final LockableListModel displayModel, boolean isEquipmentOnly )
+	{
+		this( displayModel, null, 4, 3, isEquipmentOnly);
 	}
 
 	public ShowDescriptionTable( final LockableListModel displayModel, final int visibleRowCount )
@@ -161,12 +165,13 @@ public class ShowDescriptionTable
 	public ShowDescriptionTable( final LockableListModel displayModel, final ListElementFilter filter,
 			final int visibleRowCount )
 	{
-		this( displayModel, filter, 4, 3 );
+		this( displayModel, filter, 4, 3, false );
 	}
 
 	public ShowDescriptionTable( final LockableListModel displayModel, final ListElementFilter filter,
-			final int visibleRowCount, final int visibleColumnCount )
+			final int visibleRowCount, final int visibleColumnCount, final boolean isEquipmentOnly )
 	{
+		this.isEquipmentOnly = isEquipmentOnly;
 		this.contextMenu = new JPopupMenu();
 
 		boolean isMoodList = displayModel == MoodManager.getTriggers();
@@ -238,7 +243,33 @@ public class ShowDescriptionTable
 		this.originalModel = displayModel;
 		this.displayModel = filter == null ? displayModel.getMirrorImage() : displayModel
 			.getMirrorImage( filter );
-		this.adaptedModel = new AdaptedTableModel( this.displayModel );
+
+		// TODO: pull this switching function out, it shouldn't be inline here in the constructor.
+		// Put it in TableCellFactory?
+		if ( isEquipmentOnly )
+		{
+			columnNames = new String[]
+			{
+				"item name", "power", "quantity", "mallprice", "autosell"
+			};
+		}
+		else if ( this.originalModel == KoLConstants.inventory || this.originalModel == KoLConstants.tally
+			|| this.originalModel == KoLConstants.closet || this.originalModel == KoLConstants.freepulls )
+		{
+			columnNames = new String[]
+			{
+				"item name", "autosell", "quantity", "mallprice", "HP restore", "MP restore"
+			};
+		}
+		else if ( this.originalModel == ConcoctionDatabase.getCreatables()
+			|| this.originalModel == ConcoctionDatabase.getUsables() )
+		{
+			columnNames = new String[]
+			{
+				"item name", "autosell", "quantity", "mallprice"
+			};
+		}
+		this.adaptedModel = new AdaptedTableModel( this.displayModel, columnNames, isEquipmentOnly );
 
 		// this.getTableHeader().setReorderingAllowed( false );
 		this.setShowGrid( false );
@@ -279,6 +310,7 @@ public class ShowDescriptionTable
 		}
 	}
 
+
 	/*
 	 * Override for the default JXTable sorting function. We need to use a custom comparator for the autosell
 	 * column.
@@ -286,7 +318,8 @@ public class ShowDescriptionTable
 	@Override
 	public void toggleSortOrder( int columnIndex )
 	{
-		final int MEAT_COLUMN_INDEX = 1;
+		// TODO: find a more programmatic way to find the index of the autosell column
+		int MEAT_COLUMN_INDEX = isEquipmentOnly ? 4 : 1;
 		if ( !isSortable( columnIndex ) )
 			return;
 		SortController controller = getSortController();
@@ -327,15 +360,13 @@ public class ShowDescriptionTable
 		extends AbstractTableAdapter
 	{
 		protected LockableListModel model;
-		private static final String[] COLUMN_NAMES =
-		{
-			"Item Name", "autosell", "quantity", "mallprice", "HP restore", "MP restore"
-		};
+		private boolean isEquipmentOnly;
 
-		public AdaptedTableModel( LockableListModel listModel )
+		public AdaptedTableModel( LockableListModel listModel, String[] columnNames, boolean isEquipmentOnly )
 		{
-			super( listModel, COLUMN_NAMES );
+			super( listModel, columnNames );
 			this.model = listModel;
+			this.isEquipmentOnly = isEquipmentOnly;
 		}
 
 		public Object getValueAt( int rowIndex, int columnIndex )
@@ -345,82 +376,12 @@ public class ShowDescriptionTable
 			// class.
 
 			Object result = getRow( rowIndex );
-			if ( result instanceof AdventureResult )
-			{
-				AdventureResult advresult = (AdventureResult) result;
-
-				switch ( columnIndex )
-				{
-				case 0:
-					return "<html>" + advresult.getName();
-				case 1:
-					return getAutosellString( advresult.getItemId() );
-				case 2:
-					return Integer.valueOf( advresult.getCount() );
-				case 3:
-					int price = MallPriceDatabase.getPrice( advresult.getItemId() );
-					return ( price > 0 ) ? price : null;
-				case 4:
-					int hpRestore = HPRestoreItemList.getHealthRestored( advresult.getName() );
-					if ( hpRestore <= 0 )
-					{
-						return null;
-					}
-					int maxHP = KoLCharacter.getMaximumHP();
-					if ( hpRestore > maxHP )
-					{
-						return maxHP;
-					}
-					return hpRestore;
-				case 5:
-					int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
-					if ( mpRestore <= 0 )
-					{
-						return null;
-					}
-					int maxMP = KoLCharacter.getMaximumMP();
-					if ( mpRestore > maxMP )
-					{
-						return maxMP;
-					}
-					return mpRestore;
-				default:
-					return null;
-				}
-			}
-			if ( result instanceof CreateItemRequest )
-			{
-				CreateItemRequest CIRresult = (CreateItemRequest) result;
-
-				switch ( columnIndex )
-				{
-				case 0:
-					return "<html>" + CIRresult.getName();
-				case 1:
-					return getAutosellString( CIRresult.getItemId() );
-				case 2:
-					return Integer.valueOf( CIRresult.getQuantityPossible() );
-				default:
-					return null;
-				}
-			}
-			return null;
+			return TableCellFactory.get( columnIndex, model, result, isEquipmentOnly );
 		}
 
 		public Object getValueAt( int rowIndex )
 		{
 			return getRow( rowIndex );
-		}
-
-		private String getAutosellString( int itemId )
-		{
-			int price = ItemDatabase.getPriceById( itemId );
-
-			if ( price <= 0 )
-			{
-				return "no-sell";
-			}
-			return price + " meat";
 		}
 
 		public LockableListModel getModel()
