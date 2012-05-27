@@ -169,13 +169,27 @@ public class ItemTableManagePanel
 			elementModel == KoLConstants.inventory ||
 			elementModel == KoLConstants.closet ||
 			elementModel == ConcoctionDatabase.getCreatables() ||
-			elementModel == ConcoctionDatabase.getUsables() );
+			elementModel == ConcoctionDatabase.getUsables(),
+			false);
+	}
+	
+	public ItemTableManagePanel( final LockableListModel elementModel, final boolean isEquipmentOnly )
+	{
+		this(
+			elementModel,
+			true,
+			elementModel == KoLConstants.tally ||
+			elementModel == KoLConstants.inventory ||
+			elementModel == KoLConstants.closet ||
+			elementModel == ConcoctionDatabase.getCreatables() ||
+			elementModel == ConcoctionDatabase.getUsables(),
+			isEquipmentOnly);
 	}
 
 	public ItemTableManagePanel( final LockableListModel elementModel, final boolean addFilterField,
-		final boolean addRefreshButton )
+		final boolean addRefreshButton, final boolean isEquipmentOnly )
 	{
-		super( "", null, null, new ShowDescriptionTable( elementModel ), false );
+		super( "", null, null, new ShowDescriptionTable( elementModel, isEquipmentOnly ), false );
 
 		this.elementList = (ShowDescriptionTable) this.scrollComponent;
 		this.elementModel = this.elementList.getDisplayModel();
