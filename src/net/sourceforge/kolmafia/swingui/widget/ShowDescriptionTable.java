@@ -33,11 +33,13 @@
 
 package net.sourceforge.kolmafia.swingui.widget;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,23 +47,30 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
-import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.SortController;
+import org.jdesktop.swingx.table.ColumnControlButton;
+import org.jdesktop.swingx.table.TableColumnExt;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.moods.HPRestoreItemList;
+import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
@@ -79,7 +88,6 @@ import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.InventorySorter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
@@ -100,7 +108,7 @@ import com.jgoodies.binding.adapter.AbstractTableAdapter;
  */
 
 public class ShowDescriptionTable
-	extends JTable
+	extends JXTable
 {
 	public int lastSelectIndex;
 	public JPopupMenu contextMenu;
@@ -108,8 +116,30 @@ public class ShowDescriptionTable
 
 	private final LockableListModel displayModel, originalModel;
 
-	private InventorySorter sorter;
 	private AdaptedTableModel adaptedModel;
+	protected final Comparator<Object> meatComparitor = new Comparator<Object>()
+	{
+		private final Pattern meatPattern = Pattern.compile( "(-?\\d+) meat" );
+
+		public int compare( Object o1, Object o2 )
+		{
+			Matcher matcher1 = meatPattern.matcher( o1.toString() );
+			Matcher matcher2 = meatPattern.matcher( o2.toString() );
+			if ( !matcher1.find() )
+			{
+				return -1;
+			}
+			else if ( !matcher2.find() )
+			{
+				return 1;
+			}
+			// if we're here, both strings are in the format (\d+ meat)
+			Integer o1val = Integer.valueOf( matcher1.group( 1 ) );
+			Integer o2val = Integer.valueOf( matcher2.group( 1 ) );
+
+			return o1val.compareTo( o2val );
+		}
+	};
 
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
@@ -130,6 +160,12 @@ public class ShowDescriptionTable
 
 	public ShowDescriptionTable( final LockableListModel displayModel, final ListElementFilter filter,
 			final int visibleRowCount )
+	{
+		this( displayModel, filter, 4, 3 );
+	}
+
+	public ShowDescriptionTable( final LockableListModel displayModel, final ListElementFilter filter,
+			final int visibleRowCount, final int visibleColumnCount )
 	{
 		this.contextMenu = new JPopupMenu();
 
@@ -203,39 +239,97 @@ public class ShowDescriptionTable
 		this.displayModel = filter == null ? displayModel.getMirrorImage() : displayModel
 			.getMirrorImage( filter );
 		this.adaptedModel = new AdaptedTableModel( this.displayModel );
-		this.sorter = new InventorySorter( this.adaptedModel, this.getTableHeader() );
 
-		this.setModel( this.sorter );
-		//this.getTableHeader().setReorderingAllowed( false );
+		// this.getTableHeader().setReorderingAllowed( false );
 		this.setShowGrid( false );
-		
+		this.setModel( this.adaptedModel );
+
 		// form of.. magic numbers
-		this.getColumnModel().getColumn( 0 ).setPreferredWidth( 280 );
-		this.getColumnModel().getColumn( 2 ).setPreferredWidth( 35 );
+		this.getColumnModel().getColumn( 0 ).setPreferredWidth( 220 );
+
+		// Make the viewport behave
+		this.setPreferredScrollableViewportSize( new Dimension( 1, 1 ) );
+		this.setVisibleRowCount( visibleRowCount );
+
+		// Enable column visibility control
+		this.setColumnControlVisible( true );
+		ColumnControlButton btn = new ColumnControlButton( this )
+		{
+			// Disable the "extra" visibility features which are added by default.
+			// We have no need of installing horizontal scrollbars, packing columns, etc.
+			@Override
+			protected void addAdditionalActionItems()
+			{
+			}
+		};
+		this.setColumnControl( btn );
+
+		// Set columns > visibleColumnCount to not visible.
+		// Have to iterate backwards to avoid an ArrayOutofBoundsException. Kinda goofy.
+		for ( int i = this.getColumnCount( true ) - 1; i >= 0; --i )
+		{
+			if ( i >= visibleColumnCount )
+			{
+				this.getColumnExt( i ).setVisible( false );
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+
+	/*
+	 * Override for the default JXTable sorting function. We need to use a custom comparator for the autosell
+	 * column.
+	 */
+	@Override
+	public void toggleSortOrder( int columnIndex )
+	{
+		final int MEAT_COLUMN_INDEX = 1;
+		if ( !isSortable( columnIndex ) )
+			return;
+		SortController controller = getSortController();
+		Comparator<Object> comparator = null;
+
+		if ( controller != null )
+		{
+			TableColumnExt columnExt = getColumnExt( columnIndex );
+			if ( convertColumnIndexToModel( columnIndex ) == MEAT_COLUMN_INDEX )
+			{
+				comparator = ShowDescriptionTable.this.getMeatComparator();
+			}
+			else if ( columnExt != null )
+			{
+				comparator = columnExt.getComparator();
+			}
+			controller.toggleSortOrder( convertColumnIndexToModel( columnIndex ), comparator );
+		}
+	}
+
+	private Comparator<Object> getMeatComparator()
+	{
+		return meatComparitor;
 	}
 
 	public LockableListModel getOriginalModel()
 	{
 		return this.originalModel;
 	}
-	
-	public InventorySorter getSorter()
-	{
-		return this.sorter;
-	}
-	
+
 	public LockableListModel getDisplayModel()
 	{
 		return displayModel;
 	}
 
+	// This is the adapted model object. ListModel -> Wrapper -> TableModel
 	protected static class AdaptedTableModel
 		extends AbstractTableAdapter
 	{
 		protected LockableListModel model;
 		private static final String[] COLUMN_NAMES =
 		{
-			"Item Name", "autosell", "quantity"
+			"Item Name", "autosell", "quantity", "mallprice", "HP restore", "MP restore"
 		};
 
 		public AdaptedTableModel( LockableListModel listModel )
@@ -249,7 +343,7 @@ public class ShowDescriptionTable
 			// This method essentially replaces the ListCellRenderer used in the JList-based
 			// ItemManagePanel. If this function gets too bloated, it should be pulled out into a factory
 			// class.
-			
+
 			Object result = getRow( rowIndex );
 			if ( result instanceof AdventureResult )
 			{
@@ -263,6 +357,35 @@ public class ShowDescriptionTable
 					return getAutosellString( advresult.getItemId() );
 				case 2:
 					return Integer.valueOf( advresult.getCount() );
+				case 3:
+					int price = MallPriceDatabase.getPrice( advresult.getItemId() );
+					return ( price > 0 ) ? price : null;
+				case 4:
+					int hpRestore = HPRestoreItemList.getHealthRestored( advresult.getName() );
+					if ( hpRestore <= 0 )
+					{
+						return null;
+					}
+					int maxHP = KoLCharacter.getMaximumHP();
+					if ( hpRestore > maxHP )
+					{
+						return maxHP;
+					}
+					return hpRestore;
+				case 5:
+					int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
+					if ( mpRestore <= 0 )
+					{
+						return null;
+					}
+					int maxMP = KoLCharacter.getMaximumMP();
+					if ( mpRestore > maxMP )
+					{
+						return maxMP;
+					}
+					return mpRestore;
+				default:
+					return null;
 				}
 			}
 			if ( result instanceof CreateItemRequest )
@@ -277,6 +400,8 @@ public class ShowDescriptionTable
 					return getAutosellString( CIRresult.getItemId() );
 				case 2:
 					return Integer.valueOf( CIRresult.getQuantityPossible() );
+				default:
+					return null;
 				}
 			}
 			return null;
@@ -298,21 +423,6 @@ public class ShowDescriptionTable
 			return price + " meat";
 		}
 
-		@Override
-		public Class<?> getColumnClass( int c )
-		{
-			switch ( c )
-			{
-			case 0:
-				return String.class;
-			case 1:
-				return Integer.class;
-			case 2:
-				return Integer.class;
-			}
-			return getValueAt( 0, c ).getClass();
-		}
-		
 		public LockableListModel getModel()
 		{
 			return this.model;
@@ -537,7 +647,7 @@ public class ShowDescriptionTable
 				.getSelectedRow() : ShowDescriptionTable.this.lastSelectIndex;
 
 			this.item = ShowDescriptionTable.this.displayModel.getElementAt( ShowDescriptionTable.this
-				.getSorter().modelIndex( this.index ) );
+				.convertRowIndexToModel( this.index ) );
 
 			if ( this.item == null )
 			{
@@ -603,8 +713,8 @@ public class ShowDescriptionTable
 
 		for ( int i = 0; i < selectedRows.length; ++i )
 		{
-			selectedValues[ i ] = this.displayModel.getElementAt( this.getSorter().modelIndex(
-				selectedRows[ i ] ) );
+			selectedValues[ i ] = this.displayModel.getElementAt( this
+				.convertRowIndexToModel( selectedRows[ i ] ) );
 		}
 		return selectedValues;
 	}
@@ -1025,7 +1135,7 @@ public class ShowDescriptionTable
 
 	public void ensureIndexIsVisible( int index )
 	{
-
+		this.scrollRowToVisible( index );
 	}
 
 	public int locationToIndex( Point point )
@@ -1036,11 +1146,6 @@ public class ShowDescriptionTable
 	public int getSelectedIndex()
 	{
 		return this.getSelectedRow();
-	}
-
-	public void setVisibleRowCount( int i )
-	{
-		
 	}
 
 	public void setSelectedIndex( int i )
