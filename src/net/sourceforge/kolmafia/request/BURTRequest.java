@@ -136,8 +136,16 @@ public class BURTRequest
 		BURTRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static void parseResponse( final String location, final String responseText )
+	public static void parseResponse( String location, final String responseText )
 	{
+		if ( BURTRequest.lastURL == null )
+		{
+			return;
+		}
+
+		location = BURTRequest.lastURL;
+		BURTRequest.lastURL = null;
+			
 		CoinmasterData data = BURTRequest.BURT;
 
 		// If you don't have enough BURTs, you are redirected to inventory.php

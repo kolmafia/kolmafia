@@ -118,8 +118,16 @@ public class AWOLQuartermasterRequest
 	}
 
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "sigils/aol(\\d+).gif" );
-	public static void parseResponse( final String location, final String responseText )
+	public static void parseResponse( String location, final String responseText )
 	{
+		if ( AWOLQuartermasterRequest.lastURL == null )
+		{
+			return;
+		}
+
+		location = AWOLQuartermasterRequest.lastURL;
+		AWOLQuartermasterRequest.lastURL = null;
+
 		CoinmasterData data = AWOLQuartermasterRequest.AWOL;
 
 		// If you don't have enough commendations, you are redirected to inventory.php

@@ -93,9 +93,18 @@ public class GourdRequest
 		{
 			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
+				int count = Preferences.getInteger( "gourdItemCount" );
+				AdventureResult item = GourdRequest.gourdItem( -count );
+				ResultProcessor.processResult( item );
 				Preferences.increment( "gourdItemCount", 1 );
 			}
 
+			return;
+		}
+		else if ( location.indexOf( "action=acceptgourdquest" ) != -1 )
+		{
+			Preferences.setInteger( "gourdItemCount", 5 );
+			Preferences.setString( "questM06Gourd", "started" );
 			return;
 		}
 
@@ -156,13 +165,18 @@ public class GourdRequest
 		if ( urlString.indexOf( "action=gourd" ) != -1 )
 		{
 			int count = Preferences.getInteger( "gourdItemCount" );
-			AdventureResult item = GourdRequest.gourdItem( -count );
+			AdventureResult item = GourdRequest.gourdItem( count );
 			if ( item.getCount( KoLConstants.inventory ) < count )
 			{
 				return true;
 			}
 			message = "Giving " + count + " " + item.getName() + "s to the Captain of the Gourd";
-			ResultProcessor.processResult( item );
+		}
+		else if ( urlString.indexOf( "action=acceptgourdquest" ) != -1 )
+		{
+			RequestLogger.printLine( "" );
+			RequestLogger.updateSessionLog();
+			message = "Accepting the Gourd Quest";
 		}
 		else if ( urlString.indexOf( "place=gourd" ) != -1 )
 		{
