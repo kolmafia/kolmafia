@@ -277,6 +277,7 @@ public class AdventureSelectPanel
 	{
 		private Object selectedZone;
 
+		@Override
 		public void setSelectedItem( final Object element )
 		{
 			super.setSelectedItem( element );
@@ -300,18 +301,22 @@ public class AdventureSelectPanel
 
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 		}
 
+		@Override
 		public void addStatusLabel()
 		{
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			if ( AdventureSelectPanel.this.begin != null )
@@ -324,6 +329,7 @@ public class AdventureSelectPanel
 	private class EnableObjectivesListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			Preferences.setBoolean(

@@ -53,6 +53,7 @@ public class RelayBrowserButton
 		this.setToolTipText( tooltip );
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.getText();

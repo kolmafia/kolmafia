@@ -110,11 +110,13 @@ public class CommandDisplayPanel
 	private class CommandEntryListener
 		extends ThreadedListener
 	{
+		@Override
 		protected boolean isValidKeyCode( int keyCode )
 		{
 			return keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_ENTER;
 		}
 
+		@Override
 		protected void execute()
 		{
 			if ( this.isAction() )

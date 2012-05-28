@@ -68,16 +68,19 @@ public class CommandDisplayFrame
 		this.setCenterComponent( new CommandDisplayPanel() );
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
 
+	@Override
 	public boolean shouldAddStatusBar()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean useSidePane()
 	{
 		return true;
@@ -140,6 +143,7 @@ public class CommandDisplayFrame
 			super( "CommandQueueHandler" );
 		}
 
+		@Override
 		public void run()
 		{
 			while ( true )

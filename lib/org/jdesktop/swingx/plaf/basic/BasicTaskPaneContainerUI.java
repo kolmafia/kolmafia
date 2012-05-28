@@ -83,7 +83,8 @@ public class BasicTaskPaneContainerUI extends TaskPaneContainerUI {
   /**
    * {@inheritDoc}
    */
-  public void installUI(JComponent c) {
+  @Override
+public void installUI(JComponent c) {
     super.installUI(c);
     taskPane = (JXTaskPaneContainer)c;
     installDefaults();
@@ -119,7 +120,8 @@ public class BasicTaskPaneContainerUI extends TaskPaneContainerUI {
     /**
      * {@inheritDoc}
      */
-    public void uninstallUI(JComponent c) {
+    @Override
+public void uninstallUI(JComponent c) {
         uninstallDefaults();
         
         super.uninstallUI(c);

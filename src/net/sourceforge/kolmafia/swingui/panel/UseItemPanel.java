@@ -53,11 +53,13 @@ public class UseItemPanel
 		super( KoLConstants.inventory, false );
 	}
 
+	@Override
 	public AutoFilterTextField getWordFilter()
 	{
 		return new UsableItemFilterField();
 	}
 
+	@Override
 	public void actionConfirmed()
 	{
 		Object[] items = this.getDesiredItems( "Consume" );
@@ -72,6 +74,7 @@ public class UseItemPanel
 		}
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 		String name;
@@ -90,6 +93,7 @@ public class UseItemPanel
 	private class UsableItemFilterField
 		extends FilterItemField
 	{
+		@Override
 		public boolean isVisible( final Object element )
 		{
 			AdventureResult item = (AdventureResult) element;

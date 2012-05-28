@@ -46,6 +46,7 @@ public class MacroTestCommand
 		this.usage = " [monster] - turns on macro debug and generates a macro for the given monster";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters != null && parameters.length() > 0 )

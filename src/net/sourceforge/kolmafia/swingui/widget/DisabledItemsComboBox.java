@@ -70,12 +70,14 @@ public class DisabledItemsComboBox
 		}
 	}
 
+	@Override
 	public void removeAllItems() 
 	{
 		super.removeAllItems();
 		this.disabledItems.clear();
 	}
 
+	@Override
 	public void removeItemAt( final int index )
 	{
 		if ( index < 0 || index >= getItemCount() )
@@ -87,6 +89,7 @@ public class DisabledItemsComboBox
 		this.removeItem( object );
 	}
 
+	@Override
 	public void removeItem( final Object object )
 	{
 		if ( object != null )
@@ -96,6 +99,7 @@ public class DisabledItemsComboBox
 		}
 	}
 
+	@Override
 	public void setSelectedIndex( int index )
 	{
 		if ( index < 0 || index >= getItemCount() )
@@ -147,6 +151,7 @@ public class DisabledItemsComboBox
 	private class DisabledItemsRenderer 
 		extends DefaultListCellRenderer
 	{		
+		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) 
 		{ 
 			if ( isSelected )

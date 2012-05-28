@@ -194,6 +194,7 @@ public class BuffBotHome
 			return this.name.compareToIgnoreCase( ( (BuffRecord) o ).name );
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			return this.name.equalsIgnoreCase( ( (BuffRecord) o ).name );
@@ -372,6 +373,7 @@ public class BuffBotHome
 			this.setOpaque( true );
 		}
 
+		@Override
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
 			final boolean isSelected, final boolean cellHasFocus )
 		{

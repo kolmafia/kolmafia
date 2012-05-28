@@ -55,6 +55,7 @@ public class RecipeCommand
 		this.usage = " <item> [, <item>]... - get ingredients or recipe for items.";
 	}
 
+	@Override
 	public void run( final String cmd, final String params )
 	{
 		String[] concoctions = params.split( "\\s*,\\s*" );

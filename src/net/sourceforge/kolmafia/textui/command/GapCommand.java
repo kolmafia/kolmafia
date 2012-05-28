@@ -51,6 +51,7 @@ public class GapCommand
 		this.usage = " [skill|structure|vision|speed|accuracy] - get a Greatest American Pants buff.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		GapCommand.visit( parameters );

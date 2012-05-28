@@ -45,6 +45,7 @@ public class HotTubCommand
 		this.usage = " - soak in your clan's hot tub";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		RequestThread.postRequest( new ClanLoungeRequest( ClanLoungeRequest.HOTTUB ) );

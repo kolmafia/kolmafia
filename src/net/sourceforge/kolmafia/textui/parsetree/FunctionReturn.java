@@ -72,6 +72,7 @@ public class FunctionReturn
 		return this.returnValue;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -138,11 +139,13 @@ public class FunctionReturn
 		return result;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "return " + this.returnValue;
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );
@@ -153,6 +156,7 @@ public class FunctionReturn
 		}
 	}
 	
+	@Override
 	public boolean assertBarrier()
 	{
 		return true;

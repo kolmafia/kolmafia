@@ -64,6 +64,7 @@ public class TestCommand
 		this.usage = " 1, 2, 3...";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] split = parameters.split( " " );

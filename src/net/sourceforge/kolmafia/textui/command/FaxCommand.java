@@ -51,6 +51,7 @@ public class FaxCommand
 		this.usage = " send | put | receive | get - use the fax machine in your clan's VIP lounge";
 	}
 
+	@Override
 	public void run( final String cmd, String parameter )
 	{
 		parameter = parameter.trim();

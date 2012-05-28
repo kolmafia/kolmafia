@@ -188,6 +188,7 @@ public class CustomCombatLookup
 		}
 	}
 
+	@Override
 	public void removeAllChildren()
 	{
 		childKeys.clear();
@@ -196,6 +197,7 @@ public class CustomCombatLookup
 		super.removeAllChildren();
 	}
 
+	@Override
 	public String toString()
 	{
 		return "";

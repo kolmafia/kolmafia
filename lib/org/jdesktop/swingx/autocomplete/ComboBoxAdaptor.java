@@ -60,15 +60,18 @@ public class ComboBoxAdaptor extends AbstractAutoCompleteAdaptor implements Acti
         markEntireText();
     }
     
-    public int getItemCount() {
+    @Override
+public int getItemCount() {
         return comboBox.getItemCount();
     }
     
-    public Object getItem(int index) {
+    @Override
+public Object getItem(int index) {
         return comboBox.getItemAt(index);
     }
     
-    public void setSelectedItem(Object item) {
+    @Override
+public void setSelectedItem(Object item) {
         //SwingX 834: avoid moving when already selected
         if (item == getSelectedItem()) {
             return;
@@ -101,11 +104,13 @@ public class ComboBoxAdaptor extends AbstractAutoCompleteAdaptor implements Acti
         comboBox.setSelectedItem(item);
     }
     
-    public Object getSelectedItem() {
+    @Override
+public Object getSelectedItem() {
         return comboBox.getModel().getSelectedItem();
     }
     
-    public JTextComponent getTextComponent() {
+    @Override
+public JTextComponent getTextComponent() {
         // returning the component of the combobox's editor
         return (JTextComponent) comboBox.getEditor().getEditorComponent();
     }

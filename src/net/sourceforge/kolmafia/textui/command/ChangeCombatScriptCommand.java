@@ -50,6 +50,7 @@ public class ChangeCombatScriptCommand
 		this.usage = " [<script>] - show [or select] Custom Combat Script in use.";
 	}
 
+	@Override
 	public void run( final String command, String parameters )
 	{
 		update( parameters );

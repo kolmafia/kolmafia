@@ -105,6 +105,7 @@ public class ArcadeRequest
 		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : 0;
 	}
 
+	@Override
 	public void processResults()
 	{
 		ArcadeRequest.parseResponse( this.getURLString(), this.responseText );

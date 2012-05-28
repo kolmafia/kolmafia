@@ -464,6 +464,7 @@ public class CalendarFrame
 			this.moxieRenderer.setBackground( new Color( 204, 255, 204 ) );
 		}
 
+		@Override
 		public TableCellRenderer getCellRenderer( final int row, final int column )
 		{
 			try

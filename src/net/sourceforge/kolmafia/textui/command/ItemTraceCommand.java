@@ -56,6 +56,7 @@ public class ItemTraceCommand
 		this.usage = " <item> [, <item>]... - watch changes to inventory count of items";
 	}
 
+	@Override
 	public void run( String command, final String parameters )
 	{
 		if ( audience != null )

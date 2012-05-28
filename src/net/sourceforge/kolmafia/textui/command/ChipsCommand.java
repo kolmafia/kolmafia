@@ -47,6 +47,7 @@ public class ChipsCommand
 		this.usage = " type [,type [,type]] - buy chips from your clan's snack machine";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.trim();

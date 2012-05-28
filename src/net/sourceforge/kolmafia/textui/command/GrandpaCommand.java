@@ -45,6 +45,7 @@ public class GrandpaCommand
 		this.usage = " <query> - Ask Grandpa about something.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		RequestThread.postRequest( new GrandpaRequest( parameters ) );

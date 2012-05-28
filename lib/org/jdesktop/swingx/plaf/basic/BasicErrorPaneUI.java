@@ -455,7 +455,8 @@ public class BasicErrorPaneUI extends ErrorPaneUI {
         return layout;
     }
 
-    public Dimension calculatePreferredSize() {
+    @Override
+public Dimension calculatePreferredSize() {
         //TODO returns a Dimension that is either X wide, or as wide as necessary
         //to show the title. It is Y high.
         return new Dimension(iconLabel.getPreferredSize().width + errorMessage.getPreferredSize().width, 206);
@@ -789,7 +790,8 @@ public class BasicErrorPaneUI extends ErrorPaneUI {
          * @see #setPreferredSize
          * @see ComponentUI
          */
-        public Dimension getPreferredSize() {
+        @Override
+	public Dimension getPreferredSize() {
             int width = 0;
             int height = 0;
             for(int iter = 0 ; iter < group.length ; iter++) {
@@ -816,7 +818,8 @@ public class BasicErrorPaneUI extends ErrorPaneUI {
             this.details = detailComponent;
         }
 
-        protected Transferable createTransferable(JComponent c) {
+        @Override
+	protected Transferable createTransferable(JComponent c) {
             String text = details.getSelectedText();
             if (text == null || text.equals("")) {
                 details.selectAll();
@@ -826,7 +829,8 @@ public class BasicErrorPaneUI extends ErrorPaneUI {
             return new StringSelection(text);
         }
 
-        public int getSourceActions(JComponent c) {
+        @Override
+	public int getSourceActions(JComponent c) {
             return TransferHandler.COPY;
         }
 
@@ -871,7 +875,8 @@ public class BasicErrorPaneUI extends ErrorPaneUI {
             };
             closeButton.addActionListener(closeAction);
             addComponentListener(new ComponentAdapter() {
-                public void componentHidden(ComponentEvent e) {
+                @Override
+		public void componentHidden(ComponentEvent e) {
                     //remove the action listener
                     closeButton.removeActionListener(closeAction);
                     exitIfFatal();
@@ -926,7 +931,8 @@ public class BasicErrorPaneUI extends ErrorPaneUI {
         }
 
         w.addWindowListener(new WindowAdapter() {
-            public void windowClosed(WindowEvent e) {
+            @Override
+	public void windowClosed(WindowEvent e) {
                 //remove the action listener
                 closeButton.removeActionListener(closeAction);
                 detailButton.removeActionListener(resizeListener);

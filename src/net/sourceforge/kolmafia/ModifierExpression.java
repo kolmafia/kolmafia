@@ -43,6 +43,7 @@ public class ModifierExpression
 		super( text, name );
 	}
 
+	@Override
 	protected void initialize()
 	{
 		// The first check also matches "[zone(The Slime Tube)]"
@@ -53,11 +54,13 @@ public class ModifierExpression
 		}
 	}
 
+	@Override
 	protected String validBytecodes()
 	{
 		return super.validBytecodes() + "ABCDEFGHJLMRSTUWX";
 	}
 
+	@Override
 	protected String function()
 	{
 		if ( this.optional( "loc(" ) )

@@ -52,6 +52,7 @@ public class NunneryCommand
 		this.usage = " [mp] - visit the Nunnery for restoration [but only if MP is restored].";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		NunneryCommand.visit( parameters );

@@ -156,6 +156,7 @@ public class RequestEditorKit
 	 * <code>HttpRequest</code> objects created by the default HTML editor kit.
 	 */
 
+	@Override
 	public ViewFactory getViewFactory()
 	{
 		return RequestEditorKit.DEFAULT_FACTORY;
@@ -168,6 +169,7 @@ public class RequestEditorKit
 	private static class RequestViewFactory
 		extends HTMLFactory
 	{
+		@Override
 		public View create( final Element elem )
 		{
 			if ( elem.getAttributes().getAttribute( StyleConstants.NameAttribute ) == HTML.Tag.INPUT )
@@ -192,6 +194,7 @@ public class RequestEditorKit
 			super( elem );
 		}
 
+		@Override
 		public URL getImageURL()
 		{
 			String src = (String) this.getElement().getAttributes().getAttribute( HTML.Attribute.SRC );
@@ -2295,6 +2298,7 @@ public class RequestEditorKit
 			super( elem );
 		}
 
+		@Override
 		public Component createComponent()
 		{
 			Component c = super.createComponent();
@@ -2307,6 +2311,7 @@ public class RequestEditorKit
 			return c;
 		}
 
+		@Override
 		public void submitData( final String data )
 		{
 			// Get the element

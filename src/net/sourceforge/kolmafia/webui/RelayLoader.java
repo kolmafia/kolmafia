@@ -83,6 +83,7 @@ public class RelayLoader
 		}
 	}
 
+	@Override
 	public void run()
 	{
 		String preferredBrowser = Preferences.getString( "preferredWebBrowser" );

@@ -178,6 +178,7 @@ public class GearChangeFrame
 		}
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
@@ -380,6 +381,7 @@ public class GearChangeFrame
 			this.setEnabled( true );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
@@ -394,6 +396,7 @@ public class GearChangeFrame
 			}
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			synchronized ( GearChangeFrame.class )
@@ -402,6 +405,7 @@ public class GearChangeFrame
 			}
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			synchronized ( GearChangeFrame.class )
@@ -560,6 +564,7 @@ public class GearChangeFrame
 		private class ChangeItemListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				LockableListModel model = (LockableListModel) EquipmentComboBox.this.getModel();
@@ -590,6 +595,7 @@ public class GearChangeFrame
 		private class ChangeOutfitListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				LockableListModel model = (LockableListModel) OutfitComboBox.this.getModel();
@@ -650,6 +656,7 @@ public class GearChangeFrame
 		private class ChangeFamiliarListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				LockableListModel model = (LockableListModel) FamiliarComboBox.this.getModel();
@@ -680,6 +687,7 @@ public class GearChangeFrame
 	private class RefilterListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			GearChangeFrame.this.ensureValidSelections();

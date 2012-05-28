@@ -371,7 +371,8 @@ public class BasicTaskPaneUI extends TaskPaneUI {
      * Mouse listener responsible for handling of toggle events.
      */
     class ToggleListener extends MouseInputAdapter {
-        public void mouseEntered(MouseEvent e) {
+        @Override
+	public void mouseEntered(MouseEvent e) {
             if (isInBorder(e)) {
                 e.getComponent().setCursor(
                         Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -381,13 +382,15 @@ public class BasicTaskPaneUI extends TaskPaneUI {
             }
         }
 
-        public void mouseExited(MouseEvent e) {
+        @Override
+	public void mouseExited(MouseEvent e) {
             e.getComponent().setCursor(null);
             mouseOver = false;
                         group.repaint(0, 0, group.getWidth(), getTitleHeight(group));
         }
 
-        public void mouseMoved(MouseEvent e) {
+        @Override
+	public void mouseMoved(MouseEvent e) {
             if (isInBorder(e)) {
                 e.getComponent().setCursor(
                         Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -400,7 +403,8 @@ public class BasicTaskPaneUI extends TaskPaneUI {
                         group.repaint(0, 0, group.getWidth(), getTitleHeight(group));
         }
 
-        public void mouseReleased(MouseEvent e) {
+        @Override
+	public void mouseReleased(MouseEvent e) {
             if (isInBorder(e)) {
                 group.setCollapsed(!group.isCollapsed());
             }
@@ -424,7 +428,8 @@ public class BasicTaskPaneUI extends TaskPaneUI {
             group.setCollapsed(!group.isCollapsed());
         }
         
-        public boolean isEnabled() {
+        @Override
+	public boolean isEnabled() {
             return group.isVisible();
         }
     }

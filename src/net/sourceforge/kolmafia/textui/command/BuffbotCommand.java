@@ -47,6 +47,7 @@ public class BuffbotCommand
 		this.usage = " <number> - run buffbot for number iterations.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		BuffBotManager.loadSettings();

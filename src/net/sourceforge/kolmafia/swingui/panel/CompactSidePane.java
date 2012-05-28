@@ -266,6 +266,7 @@ public class CompactSidePane
 	private class ModPopListener
 		extends MouseAdapter
 	{
+		@Override
 		public void mousePressed( MouseEvent e )
 		{
 			CompactSidePane.this.modPopup.show( e.getComponent(),
@@ -276,6 +277,7 @@ public class CompactSidePane
 	private class FamPopListener
 		extends MouseAdapter
 	{
+		@Override
 		public void mousePressed( MouseEvent e )
 		{
 			JPopupMenu famPopup = new JPopupMenu();
@@ -449,6 +451,7 @@ public class CompactSidePane
 			this.familiar = familiar;
 		}
 
+		@Override
 		protected void execute()
 		{
 			CommandDisplayFrame.executeCommand( "familiar " + this.familiar.getRace() );
@@ -477,6 +480,7 @@ public class CompactSidePane
 			this.command = "use " + item.getName();
 		}
 
+		@Override
 		protected void execute()
 		{
 			CommandDisplayFrame.executeCommand( this.command );

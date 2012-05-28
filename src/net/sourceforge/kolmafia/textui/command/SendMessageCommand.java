@@ -60,6 +60,7 @@ public class SendMessageCommand
 		this.usage = " <item> [, <item>]... to <recipient> [ || <message> ] - send kmail";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( RecoveryManager.isRecoveryActive() )

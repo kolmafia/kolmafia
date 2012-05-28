@@ -48,6 +48,7 @@ public class PastamancerEntityCommand
 		this.usage = " - give details of your current pasta guardians.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER )

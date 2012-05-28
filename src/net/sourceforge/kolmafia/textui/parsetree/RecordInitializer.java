@@ -49,6 +49,7 @@ public class RecordInitializer
                 this.params = params;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		RecordType type = (RecordType) this.type;
@@ -102,6 +103,7 @@ public class RecordInitializer
 		return record;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "<" + this.type + " initializer>";

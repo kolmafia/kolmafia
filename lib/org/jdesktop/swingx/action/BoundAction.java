@@ -235,7 +235,8 @@ public class BoundAction extends AbstractActionExt {
     /**
      * Callback for toggle actions.
      */
-    public void itemStateChanged(ItemEvent evt) {
+    @Override
+public void itemStateChanged(ItemEvent evt) {
         // Update all objects that share this item
         boolean newValue;
         boolean oldValue = isSelected();

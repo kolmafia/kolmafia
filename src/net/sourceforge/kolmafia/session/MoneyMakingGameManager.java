@@ -804,6 +804,7 @@ public class MoneyMakingGameManager
 			this.fromStorage = fromStorage;
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			return this.compareTo( o ) == 0;
@@ -818,6 +819,7 @@ public class MoneyMakingGameManager
 			return -1;
 		}
 
+		@Override
 		public String toString()
 		{
 			return "bet(" + this.betId + ", " + this.player + ", " + this.playerId + ", " + this.amount + ")";
@@ -892,6 +894,7 @@ public class MoneyMakingGameManager
 			return this.bet.compareTo( ((Event) o).bet );
 		}
 
+		@Override
 		public String toString()
 		{
 			return "event(" + this.getBetId() + ", " + this.player + ", " + this.playerId + ", " + this.winnings + ")";

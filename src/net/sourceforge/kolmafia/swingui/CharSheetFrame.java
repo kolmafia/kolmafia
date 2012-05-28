@@ -93,12 +93,14 @@ public class CharSheetFrame
 		this.setCenterComponent( charSheetPanel );
 	}
 
+	@Override
 	public void dispose()
 	{
 		KoLCharacter.removeCharacterListener( this.statusRefresher );
 		super.dispose();
 	}
 
+	@Override
 	public boolean useSidePane()
 	{
 		return false;

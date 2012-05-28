@@ -50,6 +50,7 @@ public class OutfitCommand
 		this.usage = " [list <filter>] | save <name> | checkpoint | <name> - list, save, restore, or change outfits.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.startsWith( "list" ) )

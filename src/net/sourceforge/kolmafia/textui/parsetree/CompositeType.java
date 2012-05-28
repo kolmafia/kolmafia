@@ -63,6 +63,7 @@ public class CompositeType
 		return key;
 	}
 
+	@Override
 	public Value initialValueExpression()
 	{
 		return new TypeInitializer( this );

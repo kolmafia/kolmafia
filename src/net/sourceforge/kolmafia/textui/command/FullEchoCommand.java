@@ -46,6 +46,7 @@ public class FullEchoCommand
 		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = StringUtilities.globalStringDelete( parameters, "\r" );

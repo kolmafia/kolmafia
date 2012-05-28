@@ -47,6 +47,7 @@ public class CommandAlias
 		this.usage = " => " + actualCmd + " " + actualParams;
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		this.CLI.executeCommand( this.actualCmd, ( this.actualParams + " " + parameters ).trim() );

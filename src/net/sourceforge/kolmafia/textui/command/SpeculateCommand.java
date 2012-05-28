@@ -50,6 +50,7 @@ public class SpeculateCommand
 		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		Speculation spec = new Speculation();

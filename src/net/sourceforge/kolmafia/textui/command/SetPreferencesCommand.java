@@ -53,6 +53,7 @@ public class SetPreferencesCommand
 		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int splitIndex = parameters.indexOf( "=" );

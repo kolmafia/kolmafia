@@ -249,11 +249,13 @@ public class ItemManageFrame
 			super( "cleanup", "help", KoLConstants.junkList, true );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			CleanupJunkRequest.cleanup();
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			InputFieldUtilities.alert( "These items have been flagged as \"junk\" because at some point in the past, you've opted to autosell all of the item.  If you use the \"cleanup\" command, KoLmafia will dispose of these items either by pulverizing them (equipment) or autoselling them (non-equipment)." );
@@ -268,6 +270,7 @@ public class ItemManageFrame
 			super( "closet", "help", KoLConstants.singletonList, true );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			AdventureResult current;
@@ -284,6 +287,7 @@ public class ItemManageFrame
 
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			InputFieldUtilities.alert( "These items are flagged as \"singletons\".  Using the \"closet\" button, KoLmafia will try to ensure that at least one of the item exists in your closet.\n\nIF THE PLAYER IS STILL IN HARDCORE OR RONIN, these items are treated as a special class of junk items where during the \"cleanup\" routine mentioned in the junk tab, KoLmafia will attempt to leave one of the item in the players inventory.\n\nPlease take note that once the player breaks Ronin, KoLmafia will treat these items as normal junk and ignore the general preservation rule." );
@@ -298,6 +302,7 @@ public class ItemManageFrame
 			super( "closet", "help", KoLConstants.mementoList, true );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			AdventureResult current;
@@ -311,6 +316,7 @@ public class ItemManageFrame
 			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			InputFieldUtilities.alert( "These items are flagged as \"mementos\".  IF YOU SET A PREFERENCE, KoLmafia will never sell or pulverize these items." );
@@ -329,6 +335,7 @@ public class ItemManageFrame
 			this.filterItems();
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			if ( !InputFieldUtilities.confirm( "ALL OF THE ITEMS IN THIS LIST, not just the ones you've selected, will be placed into your store.  Are you sure you wish to continue?" ) )
@@ -339,6 +346,7 @@ public class ItemManageFrame
 			AutoMallCommand.automall();
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			int selected =
@@ -400,6 +408,7 @@ public class ItemManageFrame
 			this.eastPanel.add( box, BorderLayout.SOUTH );
 		}
 
+		@Override
 		public void addMovers()
 		{
 			if ( !this.isEquipmentOnly )
@@ -408,6 +417,7 @@ public class ItemManageFrame
 			}
 		}
 
+		@Override
 		protected int getDesiredItemAmount( final Object item, final String itemName, final int itemCount, final String message, final int quantityType )
 		{
 			if ( !this.isPullingForUse || quantityType != ItemManagePanel.TAKE_MULTIPLE )
@@ -467,11 +477,13 @@ public class ItemManageFrame
 			return items;
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			this.pullItems( false );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			Object[] items = this.pullItems( this.isEquipmentOnly );
@@ -506,6 +518,7 @@ public class ItemManageFrame
 			this.elementList.setCellRenderer( ListCellRendererFactory.getFreePullsRenderer() );
 		}
 
+		@Override
 		public void addMovers()
 		{
 			super.addMovers();
@@ -524,11 +537,13 @@ public class ItemManageFrame
 			return items;
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			this.pullItems();
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			Object[] items = this.pullItems();
@@ -585,6 +600,7 @@ public class ItemManageFrame
 			this.setSelectedItem( Preferences.getString( this.pref ) );
 		}
 
+		@Override
 		public void actionPerformed( ActionEvent e )
 		{
 			Preferences.setString( this.pref, (String) this.getSelectedItem() );
@@ -624,6 +640,7 @@ public class ItemManageFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			Preferences.resetToDefault( "usable1HWeapons" );
@@ -638,6 +655,7 @@ public class ItemManageFrame
 			Preferences.resetToDefault( "usableShirts" );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 		}

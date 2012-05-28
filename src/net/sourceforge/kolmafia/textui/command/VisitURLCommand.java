@@ -45,6 +45,7 @@ public class VisitURLCommand
 		usage = " <URL> - show text results from visiting URL.";
 	}
 
+	@Override
 	public void run( String cmd, String parameters )
 	{
 		String url = cmd.equals( "text" ) ? parameters : cmd;

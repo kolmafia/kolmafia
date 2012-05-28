@@ -58,6 +58,7 @@ public class SortBy
 		this.expr = expr;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -120,11 +121,13 @@ public class SortBy
 		return DataTypes.VOID_VALUE;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "sort";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

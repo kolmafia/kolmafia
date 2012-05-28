@@ -57,11 +57,13 @@ public class FunctionInvocation
 		this.name = name;
 	}
 
+	@Override
 	public Type getType()
 	{
 		return this.type;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -115,11 +117,13 @@ public class FunctionInvocation
 		return result;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "call " + this.type.toString() + " " + this.name.toString() + "()";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

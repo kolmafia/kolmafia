@@ -230,6 +230,7 @@ public class SendMessageFrame
 		this.messageEntry.setText( text );
 	}
 
+	@Override
 	public boolean shouldAddStatusBar()
 	{
 		return true;
@@ -341,6 +342,7 @@ public class SendMessageFrame
 	private class RemoveAttachmentListener
 		extends KeyAdapter
 	{
+		@Override
 		public void keyReleased( final KeyEvent e )
 		{
 			if ( e.isConsumed() )

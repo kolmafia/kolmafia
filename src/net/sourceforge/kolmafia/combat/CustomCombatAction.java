@@ -112,6 +112,7 @@ public class CustomCombatAction
 		return this.sectionReference;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.actionString;

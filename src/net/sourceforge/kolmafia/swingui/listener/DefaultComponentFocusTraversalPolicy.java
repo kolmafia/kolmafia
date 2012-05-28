@@ -54,6 +54,7 @@ public class DefaultComponentFocusTraversalPolicy
 		this.setComparator( getComparator() );
 	}
 
+	@Override
 	public void setComparator( Comparator c )
 	{
 		if ( c != null )
@@ -62,6 +63,7 @@ public class DefaultComponentFocusTraversalPolicy
 		}
 	}
 
+	@Override
 	public Component getDefaultComponent( Container container )
 	{
 		Component component = (Component) this.component.get();

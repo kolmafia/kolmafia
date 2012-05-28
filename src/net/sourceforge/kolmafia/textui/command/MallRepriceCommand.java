@@ -43,6 +43,7 @@ public class MallRepriceCommand
 		this.usage = " - price all max-priced items at or below current Mall minimum price.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		StoreManager.priceItemsAtLowestPrice( true );

@@ -49,6 +49,7 @@ public class GalaktikCommand
 		this.usage = " (hp|mp) [<amount>] - restore some or all hp or mp";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] split = parameters.split( " " );

@@ -113,6 +113,7 @@ public abstract class ActionPanel
 			}
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			ActionPanel.this.confirmedButton.setEnabled( isEnabled );

@@ -47,6 +47,7 @@ public class PoolCommand
 		this.usage = " type [,type [,type]] - play pool games in your clan's VIP lounge";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.trim();

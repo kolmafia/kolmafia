@@ -298,6 +298,7 @@ public abstract class TransferItemRequest
 	 * fails; it merely parses the results to see if any gains were made.
 	 */
 
+	@Override
 	public void run()
 	{
 		// First, check to see how many attachments are to be
@@ -331,6 +332,7 @@ public abstract class TransferItemRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.parseTransfer() )

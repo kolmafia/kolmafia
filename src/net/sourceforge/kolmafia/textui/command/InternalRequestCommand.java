@@ -66,6 +66,7 @@ public class InternalRequestCommand
 		this.requests.addAll( Arrays.asList( requests ) );
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( this.isRunning )

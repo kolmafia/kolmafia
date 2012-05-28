@@ -167,6 +167,7 @@ public class GalaktikRequest
 		return null;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( GalaktikRequest.cureType( this.action ) != null && this.restoreAmount == 0 )
@@ -180,6 +181,7 @@ public class GalaktikRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		GalaktikRequest.parseResponse( this.getURLString(), this.responseText );

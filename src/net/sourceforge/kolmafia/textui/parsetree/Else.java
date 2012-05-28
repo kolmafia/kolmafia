@@ -48,6 +48,7 @@ public class Else
 		super( scope, condition );
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -72,11 +73,13 @@ public class Else
 		return DataTypes.TRUE_VALUE;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "else";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

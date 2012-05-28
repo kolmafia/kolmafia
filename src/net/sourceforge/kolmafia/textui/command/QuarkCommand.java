@@ -68,6 +68,7 @@ public class QuarkCommand
 			"[?] [<itemList>...] - gain MP by pasting unstable quark with best item from itemList (or your junk list).";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( ItemPool.get( ItemPool.UNSTABLE_QUARK, 1 ).getCount( KoLConstants.inventory ) < 1 )

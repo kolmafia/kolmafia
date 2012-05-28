@@ -45,6 +45,7 @@ public class ModRefCommand
 		this.usage = " [<object>] - list all modifiers, show values for player [and object].";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		Modifiers mods = Modifiers.getModifiers( parameters );

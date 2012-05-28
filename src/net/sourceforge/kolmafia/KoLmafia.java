@@ -1981,6 +1981,7 @@ public abstract class KoLmafia
 			this.encounterCount = 1;
 		}
 
+		@Override
 		public String toString()
 		{
 			return "<html>" + this.stringform + " (" + this.encounterCount + ")</html>";
@@ -2213,6 +2214,7 @@ public abstract class KoLmafia
 			super( "UpdateCheckThread" );
 		}
 
+		@Override
 		public void run()
 		{
 			if ( KoLConstants.VERSION_NAME.startsWith( "KoLmafia r" ) )

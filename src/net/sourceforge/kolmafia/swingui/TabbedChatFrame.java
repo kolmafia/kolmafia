@@ -73,6 +73,7 @@ public class TabbedChatFrame
 		this.tabs.addChangeListener( new TabFocusingListener() );
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return Preferences.getBoolean( "useShinyTabbedChat" ) ? (JTabbedPane) new CloseTabbedPane() : (JTabbedPane) new CloseableTabbedPane();
@@ -83,6 +84,7 @@ public class TabbedChatFrame
 	 * initializing the content of the frame be needed.
 	 */
 
+	@Override
 	public void initialize( final String associatedContact )
 	{
 		if ( this.tabs instanceof CloseTabbedPane )

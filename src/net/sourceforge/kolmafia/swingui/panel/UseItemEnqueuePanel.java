@@ -199,6 +199,7 @@ public class UseItemEnqueuePanel
 		this.filterItems();
 	}
 
+	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
@@ -241,21 +242,25 @@ public class UseItemEnqueuePanel
 		}
 	}
 
+	@Override
 	public AutoFilterTextField getWordFilter()
 	{
 		return new ConsumableFilterField();
 	}
 
+	@Override
 	protected void listenToCheckBox( final JCheckBox box )
 	{
 		super.listenToCheckBox( box );
 		box.addActionListener( new ReSortListener() );
 	}
 
+	@Override
 	public void actionConfirmed()
 	{
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 	}
@@ -263,6 +268,7 @@ public class UseItemEnqueuePanel
 	private static class ReSortListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			ConcoctionDatabase.getUsables().sort();
@@ -272,6 +278,7 @@ public class UseItemEnqueuePanel
 	private class EnqueueListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			UseItemEnqueuePanel.this.getDesiredItems( "Queue" );
@@ -295,6 +302,7 @@ public class UseItemEnqueuePanel
 			ConcoctionDatabase.getUsables().sort();
 		}
 
+		@Override
 		public String toString()
 		{
 			return "enqueue";
@@ -304,6 +312,7 @@ public class UseItemEnqueuePanel
 	private class ExecuteListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			boolean warnFirst =
@@ -343,6 +352,7 @@ public class UseItemEnqueuePanel
 			ConcoctionDatabase.getUsables().sort();
 		}
 
+		@Override
 		public String toString()
 		{
 			return "consume";
@@ -352,21 +362,25 @@ public class UseItemEnqueuePanel
 	private class BingeGhostListener
 		extends FamiliarFeedListener
 	{
+		@Override
 		public boolean warnBeforeConsume()
 		{
 			return ConcoctionDatabase.getQueuedFullness() != 0;
 		}
 
+		@Override
 		public void handleQueue()
 		{
 			ConcoctionDatabase.handleQueue( true, false, false, KoLConstants.CONSUME_GHOST );
 		}
 
+		@Override
 		public String getTitle()
 		{
 			return ConcoctionDatabase.getQueuedFullness() + " Full Queued";
 		}
 
+		@Override
 		public String toString()
 		{
 			return "feed ghost";
@@ -376,21 +390,25 @@ public class UseItemEnqueuePanel
 	private class BingeHoboListener
 		extends FamiliarFeedListener
 	{
+		@Override
 		public boolean warnBeforeConsume()
 		{
 			return ConcoctionDatabase.getQueuedInebriety() != 0;
 		}
 
+		@Override
 		public void handleQueue()
 		{
 			ConcoctionDatabase.handleQueue( false, true, false, KoLConstants.CONSUME_HOBO );
 		}
 
+		@Override
 		public String getTitle()
 		{
 			return ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued";
 		}
 
+		@Override
 		public String toString()
 		{
 			return "feed hobo";
@@ -400,6 +418,7 @@ public class UseItemEnqueuePanel
 	private abstract class FamiliarFeedListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( this.warnBeforeConsume() && !InputFieldUtilities.confirm( "This action will also feed any queued items to your familiar. Are you sure you wish to continue?" ) )
@@ -422,12 +441,14 @@ public class UseItemEnqueuePanel
 		public abstract boolean warnBeforeConsume();
 		public abstract void handleQueue();
 		public abstract String getTitle();
+		@Override
 		public abstract String toString();
 	}
 
 	private class MilkListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( KoLCharacter.hasSkill( "Song of the Glorious Lunch" ) )
@@ -440,6 +461,7 @@ public class UseItemEnqueuePanel
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return KoLCharacter.hasSkill( "Song of the Glorious Lunch" ) ?
@@ -450,11 +472,13 @@ public class UseItemEnqueuePanel
 	private class OdeListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
 		}
 
+		@Override
 		public String toString()
 		{
 			return "cast ode" ;
@@ -464,11 +488,13 @@ public class UseItemEnqueuePanel
 	private class DistendListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.DISTENTION_PILL, 1 ) ) );
 		}
 
+		@Override
 		public String toString()
 		{
 			return "distend";
@@ -478,11 +504,13 @@ public class UseItemEnqueuePanel
 	private class DogHairListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SYNTHETIC_DOG_HAIR_PILL, 1 ) ) );
 		}
 
+		@Override
 		public String toString()
 		{
 			return "dog hair";
@@ -492,11 +520,13 @@ public class UseItemEnqueuePanel
 	private class MojoListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MOJO_FILTER, 1 ) ) );
 		}
 
+		@Override
 		public String toString()
 		{
 			return "flush mojo";
@@ -506,6 +536,7 @@ public class UseItemEnqueuePanel
 	private class ConsumableFilterField
 		extends FilterItemField
 	{
+		@Override
 		public boolean isVisible( final Object element )
 		{
 			Concoction creation = (Concoction) element;
@@ -658,6 +689,7 @@ public class UseItemEnqueuePanel
 			this.setToolTipText( "Sort gains per adventure" );
 		}
 
+		@Override
 		protected void handleClick()
 		{
 			ConcoctionDatabase.getUsables().sort();
@@ -674,6 +706,7 @@ public class UseItemEnqueuePanel
 			this.setToolTipText( "Sort items you have no room for to the bottom" );
 		}
 
+		@Override
 		protected void handleClick()
 		{
 			ConcoctionDatabase.getUsables().sort();
@@ -690,6 +723,7 @@ public class UseItemEnqueuePanel
 			this.setToolTipText( "Only show creations that will not take a turn" );
 		}
 
+		@Override
 		protected void handleClick()
 		{
 			ConcoctionDatabase.getUsables().sort();

@@ -43,13 +43,15 @@ public class MetalTaskPaneUI extends BasicTaskPaneUI {
     return new MetalTaskPaneUI();
   }
 
-  protected void installDefaults() {
+  @Override
+protected void installDefaults() {
     super.installDefaults();
     
     LookAndFeel.installProperty(group, "opaque", false);
   }
 
-  protected Border createPaneBorder() {
+  @Override
+protected Border createPaneBorder() {
     return new MetalPaneBorder();
   }
 
@@ -60,7 +62,8 @@ public class MetalTaskPaneUI extends BasicTaskPaneUI {
    */
   class MetalPaneBorder extends PaneBorder {
 
-    protected void paintExpandedControls(JXTaskPane group, Graphics g, int x,
+    @Override
+protected void paintExpandedControls(JXTaskPane group, Graphics g, int x,
       int y, int width, int height) {
       ((Graphics2D)g).setRenderingHint(
         RenderingHints.KEY_ANTIALIASING,

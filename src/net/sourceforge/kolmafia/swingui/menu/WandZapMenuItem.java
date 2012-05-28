@@ -54,6 +54,7 @@ public class WandZapMenuItem
 	private static class WandZapListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( KoLCharacter.getZapper() == null )

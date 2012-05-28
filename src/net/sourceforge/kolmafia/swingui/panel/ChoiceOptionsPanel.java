@@ -505,19 +505,23 @@ public class ChoiceOptionsPanel
 			this.setContent( elements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			ChoiceOptionsPanel.this.saveSettings();
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 		}
 
+		@Override
 		public void addStatusLabel()
 		{
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 		}
@@ -661,6 +665,7 @@ public class ChoiceOptionsPanel
 			Preferences.setString( "oceanDestination", value );
 		}
 
+		@Override
 		public void actionPerformed( final ActionEvent e )
 		{
 			String dest = (String) this.getSelectedItem();

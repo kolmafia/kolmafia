@@ -72,6 +72,7 @@ public class CurseRequest
 		this.addFormField( "targetplayer", target );
 	}
 
+	@Override
 	public void run()
 	{
 		InventoryManager.retrieveItem( this.itemUsed );
@@ -84,6 +85,7 @@ public class CurseRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		CurseRequest.parseResponse( this.getURLString(), this.responseText );

@@ -127,6 +127,7 @@ public class ScrollablePanel
 		this.contentSet = true;
 	}
 
+	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
 		if ( this.scrollComponent == null || this.buttonPanel == null )
@@ -138,14 +139,17 @@ public class ScrollablePanel
 		this.buttonPanel.setEnabled( isEnabled );
 	}
 
+	@Override
 	public void actionConfirmed()
 	{
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 	}
 
+	@Override
 	public void dispose()
 	{
 		if ( this.buttonPanel != null )
@@ -157,6 +161,7 @@ public class ScrollablePanel
 	private class ConfirmedListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( ScrollablePanel.this.contentSet )
@@ -169,6 +174,7 @@ public class ScrollablePanel
 	private class CancelledListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( ScrollablePanel.this.contentSet )

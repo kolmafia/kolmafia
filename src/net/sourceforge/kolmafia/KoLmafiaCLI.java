@@ -815,6 +815,7 @@ public class KoLmafiaCLI
 		new CommandAlias( "skills", "combat" ).registerPrefix( "combat" );
 	}
 
+	@Override
 	public void showHTML( final String location, final String text )
 	{
 		// Remove HTML header and comments.

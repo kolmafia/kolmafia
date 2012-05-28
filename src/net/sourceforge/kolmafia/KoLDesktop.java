@@ -115,16 +115,19 @@ public class KoLDesktop
 		new MemoryUsageMonitor().start();
 	}
 
+	@Override
 	public boolean showInWindowMenu()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean shouldAddStatusBar()
 	{
 		return false;
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		if ( Preferences.getBoolean( "useDecoratedTabs" ) )
@@ -198,6 +201,7 @@ public class KoLDesktop
 		return KoLDesktop.isInitializing;
 	}
 
+	@Override
 	public void dispose()
 	{
 		StaticEntity.unregisterPanels( this.tabs );
@@ -284,6 +288,7 @@ public class KoLDesktop
 		return content instanceof AdventureFrame || content instanceof SendMessageFrame;
 	}
 
+	@Override
 	public void pack()
 	{
 		super.pack();
@@ -349,6 +354,7 @@ public class KoLDesktop
 		}
 	}
 
+	@Override
 	public JToolBar getToolbar()
 	{
 		JToolBar toolbarPanel = super.getToolbar();
@@ -428,6 +434,7 @@ public class KoLDesktop
 	private class MinimizeListener
 		extends WindowAdapter
 	{
+		@Override
 		public void windowIconified( final WindowEvent e )
 		{
 			KoLDesktop.this.setVisible( false );
@@ -456,6 +463,7 @@ public class KoLDesktop
 			this.setDaemon( true );
 		}
 
+		@Override
 		public void run()
 		{
 			while ( KoLDesktop.INSTANCE == KoLDesktop.this )

@@ -64,6 +64,7 @@ public class CompositeReference
 		this.lineNumber = parser.getLineNumber();
 	}
 
+	@Override
 	public Type getType()
 	{
 		Type type = this.target.getType().getBaseType();
@@ -76,16 +77,19 @@ public class CompositeReference
 		return type;
 	}
 
+	@Override
 	public String getName()
 	{
 		return this.target.getName() + "[]";
 	}
 
+	@Override
 	public ValueList getIndices()
 	{
 		return this.indices;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
@@ -172,6 +176,7 @@ public class CompositeReference
 		return true;
 	}
 
+	@Override
 	public Value getValue( final Interpreter interpreter )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
@@ -198,6 +203,7 @@ public class CompositeReference
 		return null;
 	}
 
+	@Override
 	public Value setValue( Interpreter interpreter, final Value targetValue, final Operator oper )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
@@ -281,11 +287,13 @@ public class CompositeReference
 		return result;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.target.getName() + "[]";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

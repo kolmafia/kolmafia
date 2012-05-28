@@ -72,6 +72,7 @@ public class PortalRequest
 		}
 	}
 
+	@Override
 	public void run()
 	{
 		int iterations = this.item.getCount();
@@ -95,6 +96,7 @@ public class PortalRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		PortalRequest.parseResponse( this.getURLString(), this.responseText );

@@ -50,6 +50,7 @@ public class NemesisCommand
 		this.usage = " strips - Look at the paper strips.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] tokens = parameters.split( "\\s+" );

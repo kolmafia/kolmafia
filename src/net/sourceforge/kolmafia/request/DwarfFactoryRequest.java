@@ -127,6 +127,7 @@ public class DwarfFactoryRequest
 		this.addFormField( "action", action );
 	}
 
+	@Override
 	public void processResults()
 	{
 		DwarfFactoryRequest.parseResponse( this.getURLString(), this.responseText );

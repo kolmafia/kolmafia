@@ -46,6 +46,7 @@ public class MonsterDataCommand
 		this.usage = " <location> - show combat details for the specified area.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		KoLAdventure location = AdventureDatabase.getAdventure( parameters );

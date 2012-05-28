@@ -43,6 +43,7 @@ public class SorceressEntrywayCommand
 		this.usage = " [clover] - automatically complete quest [using a clover].";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equalsIgnoreCase( "clover" ) )

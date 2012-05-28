@@ -54,6 +54,7 @@ public class MonsterLevelMenuItem
 	private static class MonsterLevelListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			int maxLevel = 0;

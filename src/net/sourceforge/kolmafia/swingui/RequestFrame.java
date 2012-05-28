@@ -127,6 +127,7 @@ public class RequestFrame
 		this.getToolbar();
 	}
 
+	@Override
 	public boolean showInWindowMenu()
 	{
 		return false;
@@ -161,6 +162,7 @@ public class RequestFrame
 		RequestFrame.refreshStatus();
 	}
 
+	@Override
 	public JToolBar getToolbar()
 	{
 		JToolBar toolbarPanel = super.getToolbar( true );
@@ -185,6 +187,7 @@ public class RequestFrame
 		return toolbarPanel;
 	}
 
+	@Override
 	public Component getCenterComponent()
 	{
 		return this.getFramePanel();
@@ -567,6 +570,7 @@ public class RequestFrame
 		return this.mainDisplay.getText().indexOf( search ) != -1;
 	}
 
+	@Override
 	public void dispose()
 	{
 		this.history.clear();
@@ -574,6 +578,7 @@ public class RequestFrame
 		super.dispose();
 	}
 
+	@Override
 	public boolean shouldAddStatusBar()
 	{
 		return false;
@@ -645,6 +650,7 @@ public class RequestFrame
 	public class RequestHyperlinkAdapter
 		extends HyperlinkAdapter
 	{
+		@Override
 		public void handleInternalLink( final String location )
 		{
 			if ( location.equals( "lchat.php" ) )

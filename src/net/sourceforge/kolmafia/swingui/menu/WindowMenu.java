@@ -46,6 +46,7 @@ public class WindowMenu
 		super( "Window", KoLConstants.existingFrames );
 	}
 
+	@Override
 	public JComponent constructMenuItem( final Object o )
 	{
 		String frameKey = (String) o;
@@ -62,6 +63,7 @@ public class WindowMenu
 		return new DisplayFrameMenuItem( frameTitle, frameKey );
 	}
 
+	@Override
 	public JComponent[] getHeaders()
 	{
 		JComponent[] headers = new JComponent[ 1 ];

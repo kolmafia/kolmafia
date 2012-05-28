@@ -422,6 +422,7 @@ public class FightRequest
 		FightRequest.canSummon = KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
@@ -1359,6 +1360,7 @@ public class FightRequest
 		}
 	}
 
+	@Override
 	public void run()
 	{
 		this.constructURLString( "fight.php" );
@@ -5240,6 +5242,7 @@ public class FightRequest
 		}
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		return 0;

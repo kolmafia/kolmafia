@@ -49,6 +49,7 @@ public class DebugLogMenuItem
 	private class DebugLogListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( RequestLogger.isDebugging() )

@@ -65,6 +65,7 @@ public class RecordValue
 		return ( (RecordType) this.type ).getDataType( key );
 	}
 
+	@Override
 	public Value aref( final Value key, final Interpreter interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
@@ -88,6 +89,7 @@ public class RecordValue
 		return array[ index ];
 	}
 
+	@Override
 	public void aset( final Value key, final Value val, final Interpreter interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
@@ -135,6 +137,7 @@ public class RecordValue
 		}
 	}
 
+	@Override
 	public Value remove( final Value key, final Interpreter interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
@@ -148,6 +151,7 @@ public class RecordValue
 		return result;
 	}
 
+	@Override
 	public void clear()
 	{
 		Type[] DataTypes = ( (RecordType) this.type ).getFieldTypes();
@@ -158,11 +162,13 @@ public class RecordValue
 		}
 	}
 
+	@Override
 	public Value[] keys()
 	{
 		return ( (RecordType) this.type ).getFieldIndices();
 	}
 
+	@Override
 	public void dump( final PrintStream writer, final String prefix, boolean compact )
 	{
 		if ( !compact || this.type.containsAggregate() )
@@ -176,6 +182,7 @@ public class RecordValue
 		writer.println();
 	}
 
+	@Override
 	public void dumpValue( final PrintStream writer )
 	{
 		int size = ( (RecordType) this.type ).getFieldTypes().length;
@@ -190,6 +197,7 @@ public class RecordValue
 		}
 	}
 
+	@Override
 	public int read( final String[] data, int index, boolean compact )
 	{
 		if ( !compact || this.type.containsAggregate() )
@@ -223,6 +231,7 @@ public class RecordValue
 		return index - first;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "record " + this.type.toString();

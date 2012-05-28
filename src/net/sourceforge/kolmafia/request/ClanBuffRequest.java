@@ -86,6 +86,7 @@ public class ClanBuffRequest
 	 * @return The formal name of the clan buff requested
 	 */
 
+	@Override
 	public String toString()
 	{
 		StringBuffer stringForm = new StringBuffer();

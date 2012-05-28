@@ -440,6 +440,7 @@ public class KoLmafiaGUI
 		( new CreateFrameRunnable( frameClass ) ).run();
 	}
 
+	@Override
 	public void showHTML( final String location, final String text )
 	{
 		GenericRequest request = new GenericRequest( location );

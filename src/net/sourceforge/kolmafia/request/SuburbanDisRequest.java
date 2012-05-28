@@ -77,11 +77,13 @@ public class SuburbanDisRequest
 
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		return this.action.equals( "altar" ) ? 1 : 0;
 	}
 
+	@Override
 	public void processResults()
 	{
 		SuburbanDisRequest.parseResponse( this.getURLString(), this.responseText );

@@ -44,6 +44,7 @@ public class OutfitCheckpointCommand
 		this.usage = " [clear] - remembers [or forgets] current equipment, use \"outfit checkpoint\" to restore.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.trim();

@@ -97,7 +97,8 @@ public abstract class ObjectToStringConverter {
     public static final ObjectToStringConverter DEFAULT_IMPLEMENTATION = new DefaultObjectToStringConverter();
     
     private static class DefaultObjectToStringConverter extends ObjectToStringConverter {
-        public String getPreferredStringForItem(Object item) {
+        @Override
+	public String getPreferredStringForItem(Object item) {
             return item==null ? null : item.toString();
         }
     }    

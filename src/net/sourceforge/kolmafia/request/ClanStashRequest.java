@@ -121,21 +121,25 @@ public class ClanStashRequest
 
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return this.moveType == ClanStashRequest.REFRESH_ONLY;
 	}
 
+	@Override
 	public String getItemField()
 	{
 		return this.moveType == ClanStashRequest.ITEMS_TO_STASH ? "item" : "whichitem";
 	}
 
+	@Override
 	public String getQuantityField()
 	{
 		return this.moveType == ClanStashRequest.ITEMS_TO_STASH ? "qty" : "quantity";
 	}
 
+	@Override
 	public String getMeatField()
 	{
 		return "howmuch";
@@ -163,16 +167,19 @@ public class ClanStashRequest
 		return itemList;
 	}
 
+	@Override
 	public int getCapacity()
 	{
 		return this.moveType == ClanStashRequest.STASH_TO_ITEMS ? 1 : 11;
 	}
 
+	@Override
 	public TransferItemRequest getSubInstance( final Object[] attachments )
 	{
 		return new ClanStashRequest( attachments, this.moveType );
 	}
 
+	@Override
 	public void processResults()
 	{
 		super.processResults();
@@ -199,6 +206,7 @@ public class ClanStashRequest
 		}
 	}
 
+	@Override
 	public boolean parseTransfer()
 	{
 		return ClanStashRequest.parseTransfer( this.getURLString(), this.responseText );
@@ -341,11 +349,13 @@ public class ClanStashRequest
 		}
 	}
 
+	@Override
 	public boolean allowMementoTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUntradeableTransfer()
 	{
 		return true;
@@ -387,6 +397,7 @@ public class ClanStashRequest
 		return true;
 	}
 
+	@Override
 	public String getStatusMessage()
 	{
 		switch ( this.moveType )

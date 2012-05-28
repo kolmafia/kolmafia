@@ -43,6 +43,7 @@ public class RelayBrowserCommand
 		this.usage = " - open the relay browser.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		RelayLoader.openRelayBrowser();

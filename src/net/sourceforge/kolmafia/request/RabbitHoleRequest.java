@@ -51,6 +51,7 @@ public class RabbitHoleRequest
 		this.addFormField( "action", action );
 	}
 
+	@Override
 	public void run()
 	{
 		super.run();

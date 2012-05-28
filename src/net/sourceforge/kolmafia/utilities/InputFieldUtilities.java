@@ -282,6 +282,7 @@ public class InputFieldUtilities
 		JPanel panel = new JPanel( new BorderLayout() );
 		panel.add( filter == null ? new AutoFilterTextField( selector ) :
 			new AutoFilterTextField( selector ) {
+				@Override
 				public boolean isVisible( Object o )
 				{
 					return filter.isVisible( o ) && super.isVisible( o );

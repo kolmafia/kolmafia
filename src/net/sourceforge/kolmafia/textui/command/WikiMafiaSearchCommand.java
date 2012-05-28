@@ -45,6 +45,7 @@ public class WikiMafiaSearchCommand
 		this.usage = " <searchText> - perform search on KoLmafia Wiki.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		RelayLoader.openSystemBrowser( "http://wiki.kolmafia.us/index.php?search=" + StringUtilities.getURLEncode( parameters ) );

@@ -103,6 +103,7 @@ public class ChezSnooteeRequest
 		this.setItem( name, itemId, price );
 	}
 
+	@Override
 	public void run()
 	{
 		if ( !KoLCharacter.canadiaAvailable() )
@@ -114,6 +115,7 @@ public class ChezSnooteeRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.isPurchase )

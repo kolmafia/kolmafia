@@ -211,6 +211,7 @@ public class Mood
 		return buffer.toString();
 	}
 
+	@Override
 	public String toString()
 	{
 		StringBuffer buffer = new StringBuffer();
@@ -242,6 +243,7 @@ public class Mood
 		return buffer.toString();
 	}
 	
+	@Override
 	public int hashCode()
 	{
 		return this.name.hashCode();
@@ -259,6 +261,7 @@ public class Mood
 		return this.name.compareTo( m.name );
 	}
 	
+	@Override
 	public boolean equals( Object o )
 	{
 		if ( o == null || !( o instanceof Mood ) )

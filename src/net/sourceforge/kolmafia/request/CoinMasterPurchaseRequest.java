@@ -84,16 +84,19 @@ public class CoinMasterPurchaseRequest
 		return this.data;
 	}
 
+	@Override
 	public String getPriceString()
 	{
 		return this.priceString;
 	}
 
+	@Override
 	public AdventureResult getCost()
 	{
 		return this.cost;
 	}
 
+	@Override
 	public String getCurrency( final int count )
 	{
 		String name = ( count != 1 ) ? data.getPluralToken() : data.getToken();
@@ -106,6 +109,7 @@ public class CoinMasterPurchaseRequest
 		return item != null ? item.getItemId() : -1;
 	}
 
+	@Override
 	public int affordableCount()
 	{
 		int tokens = this.data.affordableTokens();
@@ -113,21 +117,25 @@ public class CoinMasterPurchaseRequest
 		return tokens / price;
 	}
 
+	@Override
 	public boolean canPurchase()
 	{
 		return this.canPurchase && this.affordableCount() > 0;
 	}
 
+	@Override
 	public void setCanPurchase()
 	{
 		this.setCanPurchase( this.data.isAccessible() && this.affordableCount() > 0 );
 	}
 
+	@Override
 	public boolean isAccessible()
 	{
 		return this.data.isAccessible();
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.request == null )

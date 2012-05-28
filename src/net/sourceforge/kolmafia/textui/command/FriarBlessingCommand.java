@@ -49,6 +49,7 @@ public class FriarBlessingCommand
 		this.usage = " [blessing] food | familiar | booze - get daily blessing.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] split = parameters.split( " " );

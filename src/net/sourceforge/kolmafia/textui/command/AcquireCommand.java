@@ -50,6 +50,7 @@ public class AcquireCommand
 		this.usage = "[?] <item> - ensure that you have item, creating or buying it if needed.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )

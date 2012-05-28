@@ -80,22 +80,26 @@ public class CharSheetRequest
 	 * Runs the request. Note that only the character's statistics are retrieved via this retrieval.
 	 */
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public String getHashField()
 	{
 		return null;
 	}
 
+	@Override
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving character data..." );
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		CharSheetRequest.parseStatus( this.responseText );

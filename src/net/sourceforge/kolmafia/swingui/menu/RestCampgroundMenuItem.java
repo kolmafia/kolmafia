@@ -53,6 +53,7 @@ public class RestCampgroundMenuItem
 	private static class RestCampgroundListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			String turnCount = InputFieldUtilities.input( "Rest for how many turns?", "1" );

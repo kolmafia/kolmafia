@@ -56,6 +56,7 @@ public class LowerCaseEntry
 		this.lowercase = this.value.toString().toLowerCase();
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		if ( o instanceof LowerCaseEntry )
@@ -76,11 +77,13 @@ public class LowerCaseEntry
 		return this.value;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.pairString;
 	}
 
+	@Override
 	public int hashCode()
 	{
 		return this.original.hashCode();

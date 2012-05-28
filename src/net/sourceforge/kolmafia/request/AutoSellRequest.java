@@ -74,16 +74,19 @@ public class AutoSellRequest
 		this.addFormField( "action", "sell" );
 	}
 
+	@Override
 	public String getItemField()
 	{
 		return "whichitem";
 	}
 
+	@Override
 	public String getQuantityField()
 	{
 		return "quantity";
 	}
 
+	@Override
 	public String getMeatField()
 	{
 		return "sendmeat";
@@ -101,6 +104,7 @@ public class AutoSellRequest
 			"sellstuff_ugly.php" : "sellstuff.php";
 	}
 
+	@Override
 	public void attachItem( final AdventureResult item, final int index )
 	{
 		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
@@ -179,11 +183,13 @@ public class AutoSellRequest
 		this.addFormField( "whichitem[]", String.valueOf( item.getItemId() ), true );
 	}
 
+	@Override
 	public int getCapacity()
 	{
 		return Integer.MAX_VALUE;
 	}
 
+	@Override
 	public ArrayList generateSubInstances()
 	{
 		ArrayList subinstances = new ArrayList();
@@ -309,17 +315,20 @@ public class AutoSellRequest
 		return subinstances;
 	}
 
+	@Override
 	public TransferItemRequest getSubInstance( final Object[] attachments )
 	{
 		return new AutoSellRequest( attachments );
 	}
 
+	@Override
 	public void processResults()
 	{
 		super.processResults();
 		KoLmafia.updateDisplay( "Items sold." );
 	}
 
+	@Override
 	public boolean parseTransfer()
 	{
 		return AutoSellRequest.parseTransfer( this.getURLString(), this.responseText );
@@ -446,31 +455,37 @@ public class AutoSellRequest
 		RequestLogger.updateSessionLog( message );
 	}
 
+	@Override
 	public boolean allowMementoTransfer()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean allowSingletonTransfer()
 	{
 		return KoLCharacter.canInteract();
 	}
 
+	@Override
 	public boolean allowUntradeableTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUndisplayableTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUngiftableTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public String getStatusMessage()
 	{
 		return "Autoselling items to NPCs";

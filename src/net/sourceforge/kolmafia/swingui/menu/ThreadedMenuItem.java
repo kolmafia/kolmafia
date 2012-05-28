@@ -52,6 +52,7 @@ public class ThreadedMenuItem
 		this.addActionListener( action );
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.getText();

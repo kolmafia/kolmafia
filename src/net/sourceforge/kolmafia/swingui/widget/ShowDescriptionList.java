@@ -204,11 +204,13 @@ public class ShowDescriptionList
 	private class PopupListener
 		extends MouseAdapter
 	{
+		@Override
 		public void mousePressed( final MouseEvent e )
 		{
 			this.maybeShowPopup( e );
 		}
 
+		@Override
 		public void mouseReleased( final MouseEvent e )
 		{
 			this.maybeShowPopup( e );
@@ -400,6 +402,7 @@ public class ShowDescriptionList
 		public int index;
 		public Object item;
 
+		@Override
 		protected void execute()
 		{
 			this.index = ShowDescriptionList.this.lastSelectIndex == -1 ? ShowDescriptionList.this.getSelectedIndex() : ShowDescriptionList.this.lastSelectIndex;
@@ -426,6 +429,7 @@ public class ShowDescriptionList
 	private class DescriptionRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			ShowDescriptionList.showGameDescription( this.item );
@@ -439,6 +443,7 @@ public class ShowDescriptionList
 	private class WikiLookupRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			ShowDescriptionList.showWikiDescription( this.item );
@@ -457,6 +462,7 @@ public class ShowDescriptionList
 	private class ForceExecuteRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
@@ -472,6 +478,7 @@ public class ShowDescriptionList
 	private class RemoveTriggerRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			ShowDescriptionList.this.removeTriggers();
@@ -481,6 +488,7 @@ public class ShowDescriptionList
 	private class RemoveTriggerListener
 		extends KeyAdapter
 	{
+		@Override
 		public void keyReleased( final KeyEvent e )
 		{
 			if ( e.isConsumed() )
@@ -501,6 +509,7 @@ public class ShowDescriptionList
 	private class CastSkillRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			Object[] skills = ShowDescriptionList.this.getSelectedValues();
@@ -523,6 +532,7 @@ public class ShowDescriptionList
 	private class AddToMoodSkillRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			Object[] skills = ShowDescriptionList.this.getSelectedValues();
@@ -552,6 +562,7 @@ public class ShowDescriptionList
 	private class AddToMoodEffectRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			Object[] effects = ShowDescriptionList.this.getSelectedValues();
@@ -588,6 +599,7 @@ public class ShowDescriptionList
 	private class ExtendEffectRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			Object[] effects = ShowDescriptionList.this.getSelectedValues();
@@ -611,6 +623,7 @@ public class ShowDescriptionList
 	private class ShrugOffRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			Object[] effects = ShowDescriptionList.this.getSelectedValues();
@@ -624,6 +637,7 @@ public class ShowDescriptionList
 	private class AddToJunkListRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
@@ -668,6 +682,7 @@ public class ShowDescriptionList
 	private class AddToSingletonListRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
@@ -716,6 +731,7 @@ public class ShowDescriptionList
 	private class AddToMementoListRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
@@ -757,6 +773,7 @@ public class ShowDescriptionList
 	private class ZeroTallyRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			Object[] items = ShowDescriptionList.this.getSelectedValues();
@@ -770,6 +787,7 @@ public class ShowDescriptionList
 	private class AutoSellRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			if ( !InputFieldUtilities.confirm( "Are you sure you would like to sell the selected items?" ) )
@@ -785,6 +803,7 @@ public class ShowDescriptionList
 	private class AutoMallRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			if ( !InputFieldUtilities.confirm( "Are you sure you would like to add the selected items to your store?" ) )
@@ -800,6 +819,7 @@ public class ShowDescriptionList
 	private class ConsumeRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			if ( !InputFieldUtilities.confirm( "Are you sure you want to use the selected items?" ) )
@@ -819,6 +839,7 @@ public class ShowDescriptionList
 	private class PulverizeRunnable
 		extends ContextMenuListener
 	{
+		@Override
 		public void executeAction()
 		{
 			if ( !InputFieldUtilities.confirm( "The items you've selected will be smashed to pieces.  Are you sure?" ) )

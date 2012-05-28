@@ -112,6 +112,7 @@ public class DollHawkerRequest
 		return SpaaaceRequest.accessible();
 	}
 
+	@Override
 	public void equip()
 	{
 		SpaaaceRequest.equip();

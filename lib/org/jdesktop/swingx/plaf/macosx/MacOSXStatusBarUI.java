@@ -50,7 +50,8 @@ public class MacOSXStatusBarUI extends BasicStatusBarUI {
     /**
      * {@inheritDoc}
      */
-    protected void installDefaults(JXStatusBar sb) {
+    @Override
+protected void installDefaults(JXStatusBar sb) {
         super.installDefaults(sb);
         
         LookAndFeel.installProperty(statusBar, "opaque", Boolean.FALSE);

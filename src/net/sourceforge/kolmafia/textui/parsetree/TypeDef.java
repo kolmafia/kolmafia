@@ -45,21 +45,25 @@ public class TypeDef
 		this.base = base;
 	}
 
+	@Override
 	public Type getBaseType()
 	{
 		return this.base.getBaseType();
 	}
 
+	@Override
 	public Value initialValue()
 	{
 		return this.base.initialValue();
 	}
 
+	@Override
 	public Value parseValue( final String name, final boolean returnDefault )
 	{
 		return this.base.parseValue( name, returnDefault );
 	}
 
+	@Override
 	public Value initialValueExpression()
 	{
 		return new TypeInitializer( this.base.getBaseType() );

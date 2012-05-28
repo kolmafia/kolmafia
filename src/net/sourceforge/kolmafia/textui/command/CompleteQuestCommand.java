@@ -54,6 +54,7 @@ public class CompleteQuestCommand
 		this.usage = " - automatically complete quest.";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		if ( command.equals( "maze" ) || command.startsWith( "hedge" ) )

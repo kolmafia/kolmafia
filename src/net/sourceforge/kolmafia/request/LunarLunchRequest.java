@@ -125,6 +125,7 @@ public class LunarLunchRequest
 		return SpaaaceRequest.accessible();
 	}
 
+	@Override
 	public void equip()
 	{
 		SpaaaceRequest.equip();

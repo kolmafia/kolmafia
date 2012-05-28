@@ -89,11 +89,13 @@ public class HeyDezeRequest
 		}
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( !KoLCharacter.inBadMoon() )
@@ -135,6 +137,7 @@ public class HeyDezeRequest
 		return null;
 	}
 
+	@Override
 	public void processResults()
 	{
 		HeyDezeRequest.parseResponse( this.getURLString(), this.responseText );

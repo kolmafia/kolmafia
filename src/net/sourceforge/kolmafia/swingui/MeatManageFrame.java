@@ -69,6 +69,7 @@ public class MeatManageFrame
 		this.setCenterComponent( container );
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
@@ -104,6 +105,7 @@ public class MeatManageFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			if ( this.heroField.getSelectedIndex() != -1 )
@@ -113,6 +115,7 @@ public class MeatManageFrame
 			}
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			this.setStatusMessage( "The Frost poem you dialed is unavailable at this time." );

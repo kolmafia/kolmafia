@@ -122,6 +122,7 @@ public class UseItemDequeuePanel
 		return this.queueTabs;
 	}
 
+	@Override
 	public AutoFilterTextField getWordFilter()
 	{
 		return new ConsumableFilterField();
@@ -130,6 +131,7 @@ public class UseItemDequeuePanel
 	private class ConsumeListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			ConcoctionDatabase.handleQueue( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen, KoLConstants.CONSUME_USE );
@@ -149,6 +151,7 @@ public class UseItemDequeuePanel
 			ConcoctionDatabase.getUsables().sort();
 		}
 
+		@Override
 		public String toString()
 		{
 			return "consume";
@@ -158,6 +161,7 @@ public class UseItemDequeuePanel
 	private class CreateListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			ConcoctionDatabase.handleQueue( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen, KoLConstants.NO_CONSUME );
@@ -177,6 +181,7 @@ public class UseItemDequeuePanel
 			ConcoctionDatabase.getUsables().sort();
 		}
 
+		@Override
 		public String toString()
 		{
 			return "create";
@@ -213,6 +218,7 @@ public class UseItemDequeuePanel
 	private class ConsumableFilterField
 		extends FilterItemField
 	{
+		@Override
 		public boolean isVisible( final Object element )
 		{
 			Concoction creation = (Concoction) element;

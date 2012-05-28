@@ -51,6 +51,7 @@ public class Try
 		this.finalClause = finalClause;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -97,23 +98,27 @@ public class Try
 		return result;
 	}
 	
+	@Override
 	public boolean assertBarrier()
 	{
 		return this.body.assertBarrier() ||
 			this.finalClause.assertBarrier();
 	}
 	
+	@Override
 	public boolean assertBreakable()
 	{
 		return this.body.assertBreakable() ||
 			this.finalClause.assertBreakable();
 	}
 
+	@Override
 	public String toString()
 	{
 		return "try";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

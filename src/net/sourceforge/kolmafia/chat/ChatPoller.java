@@ -60,6 +60,7 @@ public class ChatPoller
 
 	private static String rightClickMenu = "";
 
+	@Override
 	public void run()
 	{
 		long lastSeen = 0;

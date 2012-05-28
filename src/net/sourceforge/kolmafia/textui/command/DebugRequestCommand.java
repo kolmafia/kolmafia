@@ -43,6 +43,7 @@ public class DebugRequestCommand
 		this.usage = " [on] | off - start or stop logging of debugging data.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equals( "off" ) )

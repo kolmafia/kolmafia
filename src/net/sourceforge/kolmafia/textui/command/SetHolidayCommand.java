@@ -42,6 +42,7 @@ public class SetHolidayCommand
 		this.usage = " <HolidayName> - enable special processing for unpredicted holidays.";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		KoLCharacter.setHoliday( parameters );

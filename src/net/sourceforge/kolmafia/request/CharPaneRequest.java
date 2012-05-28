@@ -100,11 +100,13 @@ public class CharPaneRequest
 		CharPaneRequest.checkNewLocation = false;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public String getHashField()
 	{
 		return null;

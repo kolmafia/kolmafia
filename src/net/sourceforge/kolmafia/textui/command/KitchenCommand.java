@@ -53,6 +53,7 @@ public class KitchenCommand
 		this.usage = "[?] <item> - consumes item at Hell's Kitchen, if available.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		KitchenCommand.visit( parameters );

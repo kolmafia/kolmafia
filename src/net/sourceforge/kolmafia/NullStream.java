@@ -55,104 +55,129 @@ public class NullStream
 		this.errorState = false;
 	}
 
+	@Override
 	public boolean checkError()
 	{
 		return this.errorState;
 	}
 
+	@Override
 	public void close()
 	{
 	}
 
+	@Override
 	public void flush()
 	{
 	}
 
+	@Override
 	public void print( final boolean b )
 	{
 	}
 
+	@Override
 	public void print( final char c )
 	{
 	}
 
+	@Override
 	public void print( final char[] s )
 	{
 	}
 
+	@Override
 	public void print( final float d )
 	{
 	}
 
+	@Override
 	public void print( final double f )
 	{
 	}
 
+	@Override
 	public void print( final int i )
 	{
 	}
 
+	@Override
 	public void print( final long l )
 	{
 	}
 
+	@Override
 	public void print( final String s )
 	{
 	}
 
+	@Override
 	public void println()
 	{
 	}
 
+	@Override
 	public void println( final boolean x )
 	{
 	}
 
+	@Override
 	public void println( final char x )
 	{
 	}
 
+	@Override
 	public void println( final char[] x )
 	{
 	}
 
+	@Override
 	public void println( final float x )
 	{
 	}
 
+	@Override
 	public void println( final double x )
 	{
 	}
 
+	@Override
 	public void println( final int x )
 	{
 	}
 
+	@Override
 	public void println( final long x )
 	{
 	}
 
+	@Override
 	public void println( final Object x )
 	{
 	}
 
+	@Override
 	public void println( final String x )
 	{
 	}
 
+	@Override
 	public void setError()
 	{
 		this.errorState = true;
 	}
 
+	@Override
 	public void write( final byte[] b )
 	{
 	}
 
+	@Override
 	public void write( final byte[] buf, final int off, final int len )
 	{
 	}
 
+	@Override
 	public void write( final int b )
 	{
 	}

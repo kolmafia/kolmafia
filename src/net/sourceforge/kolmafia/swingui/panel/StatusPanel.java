@@ -51,15 +51,18 @@ public class StatusPanel
 		this.addStatusLabel();
 	}
 
+	@Override
 	public boolean shouldAddStatusLabel()
 	{
 		return true;
 	}
 
+	@Override
 	public void actionConfirmed()
 	{
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 	}

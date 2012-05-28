@@ -53,6 +53,7 @@ public class RestClanSofaMenuItem
 	private static class RestClanSofaListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			String turnCount = InputFieldUtilities.input( "Sleep for how many turns?", "1" );

@@ -142,6 +142,7 @@ public class Value
 		return this.type.getBaseType();
 	}
 
+	@Override
 	public String toString()
 	{
 		if ( this.content instanceof StringBuffer )
@@ -201,6 +202,7 @@ public class Value
 		return this.contentFloat;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		return this;
@@ -310,6 +312,7 @@ public class Value
 		return false;
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		return o == null || !( o instanceof Value ) ? false : this.compareTo( (Comparable) o ) == 0;
@@ -325,6 +328,7 @@ public class Value
 		writer.println( prefix + this.toStringValue().toString() );
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

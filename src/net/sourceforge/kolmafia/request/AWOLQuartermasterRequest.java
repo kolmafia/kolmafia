@@ -111,6 +111,7 @@ public class AWOLQuartermasterRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		AWOLQuartermasterRequest.parseResponse( this.getURLString(), this.responseText );

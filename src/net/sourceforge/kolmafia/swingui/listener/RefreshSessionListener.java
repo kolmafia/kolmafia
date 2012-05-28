@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 public class RefreshSessionListener
 	extends ThreadedListener
 {
+	@Override
 	protected void execute()
 	{
 		StaticEntity.getClient().refreshSession();

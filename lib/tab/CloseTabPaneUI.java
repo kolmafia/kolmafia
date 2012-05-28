@@ -254,6 +254,7 @@ public class CloseTabPaneUI
 		}
 	}
 
+	@Override
 	protected int calculateTabWidth( final int tabPlacement, final int tabIndex, final FontMetrics metrics )
 	{
 		int delta = 2;
@@ -269,12 +270,14 @@ public class CloseTabPaneUI
 		return super.calculateTabWidth( tabPlacement, tabIndex, metrics ) + delta + ( this.closeIconStyle != CloseTabPaneUI.NO_CLOSE_ICON ? 20 : 5 );
 	}
 
+	@Override
 	protected int calculateTabHeight( final int tabPlacement, final int tabIndex, final int fontHeight )
 	{
 
 		return super.calculateTabHeight( tabPlacement, tabIndex, fontHeight ) + 2;
 	}
 
+	@Override
 	protected void layoutLabel( final int tabPlacement, final FontMetrics metrics, final int tabIndex,
 		final String title, final Icon icon, final Rectangle tabRect, final Rectangle iconRect,
 		final Rectangle textRect, final boolean isSelected )
@@ -297,6 +300,7 @@ public class CloseTabPaneUI
 		textRect.x = iconRect.x + iconRect.width + this.textIconGap;
 	}
 
+	@Override
 	protected MouseListener createMouseListener()
 	{
 		return new MyMouseHandler();
@@ -371,6 +375,7 @@ public class CloseTabPaneUI
 	 * @see TabbedPaneLayout
 	 * @see javax.swing.JTabbedPane#getTabLayoutPolicy
 	 */
+	@Override
 	protected LayoutManager createLayoutManager()
 	{
 
@@ -389,6 +394,7 @@ public class CloseTabPaneUI
 	 *
 	 * @since 1.4
 	 */
+	@Override
 	protected void installComponents()
 	{
 
@@ -407,6 +413,7 @@ public class CloseTabPaneUI
 	 *
 	 * @since 1.4
 	 */
+	@Override
 	protected void uninstallComponents()
 	{
 
@@ -431,6 +438,7 @@ public class CloseTabPaneUI
 		this.tabScroller = null;
 	}
 
+	@Override
 	protected void installListeners()
 	{
 		if ( ( this.propertyChangeListener = this.createPropertyChangeListener() ) != null )
@@ -468,6 +476,7 @@ public class CloseTabPaneUI
 
 	}
 
+	@Override
 	protected void uninstallListeners()
 	{
 		if ( this.mouseListener != null )
@@ -512,11 +521,13 @@ public class CloseTabPaneUI
 
 	}
 
+	@Override
 	protected ChangeListener createChangeListener()
 	{
 		return new TabSelectionHandler();
 	}
 
+	@Override
 	protected void installKeyboardActions()
 	{
 		InputMap km = this.getMyInputMap( JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT );
@@ -564,6 +575,7 @@ public class CloseTabPaneUI
 		return map;
 	}
 
+	@Override
 	protected void uninstallKeyboardActions()
 	{
 		SwingUtilities.replaceUIActionMap( this.tabPane, null );
@@ -629,6 +641,7 @@ public class CloseTabPaneUI
 
 	// UI Rendering
 
+	@Override
 	public void paint( final Graphics g, final JComponent c )
 	{
 		int tc = this.tabPane.getTabCount();
@@ -649,6 +662,7 @@ public class CloseTabPaneUI
 
 	}
 
+	@Override
 	protected void paintTab( final Graphics g, final int tabPlacement, final Rectangle[] rects, final int tabIndex,
 		final Rectangle iconRect, final Rectangle textRect )
 	{
@@ -818,6 +832,7 @@ public class CloseTabPaneUI
 	 * @since 1.4
 	 */
 
+	@Override
 	protected Rectangle getTabBounds( final int tabIndex, final Rectangle dest )
 	{
 		dest.width = this.rects[ tabIndex ].width;
@@ -1111,16 +1126,19 @@ public class CloseTabPaneUI
 		extends TabbedPaneLayout
 	{
 
+		@Override
 		protected int preferredTabAreaHeight( final int tabPlacement, final int width )
 		{
 			return CloseTabPaneUI.this.calculateMaxTabHeight( tabPlacement );
 		}
 
+		@Override
 		protected int preferredTabAreaWidth( final int tabPlacement, final int height )
 		{
 			return CloseTabPaneUI.this.calculateMaxTabWidth( tabPlacement );
 		}
 
+		@Override
 		public void layoutContainer( final Container parent )
 		{
 			int tabPlacement = CloseTabPaneUI.this.tabPane.getTabPlacement();
@@ -1255,6 +1273,7 @@ public class CloseTabPaneUI
 			}
 		}
 
+		@Override
 		protected void calculateTabRects( final int tabPlacement, final int tabCount )
 		{
 			FontMetrics metrics = CloseTabPaneUI.this.getFontMetrics();
@@ -1422,6 +1441,7 @@ public class CloseTabPaneUI
 
 		}
 
+		@Override
 		public String toString()
 		{
 			return new String(
@@ -1450,6 +1470,7 @@ public class CloseTabPaneUI
 			this.setLayout( null );
 		}
 
+		@Override
 		public void paintComponent( final Graphics g )
 		{
 			super.paintComponent( g );
@@ -1609,6 +1630,7 @@ public class CloseTabPaneUI
 			super();
 		}
 
+		@Override
 		public void mousePressed( final MouseEvent e )
 		{
 
@@ -1634,6 +1656,7 @@ public class CloseTabPaneUI
 			super.mousePressed( e );
 		}
 
+		@Override
 		public void mouseClicked( final MouseEvent e )
 		{
 
@@ -1646,6 +1669,7 @@ public class CloseTabPaneUI
 			}
 		}
 
+		@Override
 		public void mouseReleased( final MouseEvent e )
 		{
 
@@ -1705,6 +1729,7 @@ public class CloseTabPaneUI
 			}
 		}
 
+		@Override
 		public void mouseExited( final MouseEvent e )
 		{
 			if ( !CloseTabPaneUI.this.mousePressed )

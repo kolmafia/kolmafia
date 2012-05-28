@@ -43,6 +43,7 @@ public class ExitCommand
 		this.usage = " - logout and exit KoLmafia.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		KoLmafia.quit();

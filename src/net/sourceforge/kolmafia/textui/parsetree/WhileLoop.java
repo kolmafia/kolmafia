@@ -56,6 +56,7 @@ public class WhileLoop
 		return this.condition;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -116,17 +117,20 @@ public class WhileLoop
 		return DataTypes.VOID_VALUE;
 	}
 
+	@Override
 	public boolean assertBarrier()
 	{
 		return this.condition == DataTypes.TRUE_VALUE &&
 			!this.getScope().assertBreakable();
 	}
 
+	@Override
 	public String toString()
 	{
 		return "while";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

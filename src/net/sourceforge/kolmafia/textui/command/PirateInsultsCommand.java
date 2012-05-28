@@ -46,6 +46,7 @@ public class PirateInsultsCommand
 		this.usage = " - list the pirate insult comebacks you know.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		KoLCharacter.ensureUpdatedPirateInsults();

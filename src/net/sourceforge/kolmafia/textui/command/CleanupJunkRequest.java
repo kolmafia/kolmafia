@@ -62,6 +62,7 @@ public class CleanupJunkRequest
 		this.usage = " - use, pulverize, or autosell your junk items.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		CleanupJunkRequest.cleanup();

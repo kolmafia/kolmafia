@@ -51,6 +51,7 @@ public class AutoMallCommand
 		this.usage = " - dump all profitable, non-memento items into the Mall.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		AutoMallCommand.automall();

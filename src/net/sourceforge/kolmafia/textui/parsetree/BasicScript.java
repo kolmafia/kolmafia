@@ -57,6 +57,7 @@ public class BasicScript
 		return DataTypes.VOID_TYPE;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		KoLmafiaCLI script = new KoLmafiaCLI( this.data.getByteArrayInputStream() );
@@ -64,6 +65,7 @@ public class BasicScript
 		return DataTypes.VOID_VALUE;
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 	}

@@ -156,11 +156,13 @@ public class Variable
 		}
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		return getValue( interpreter );
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

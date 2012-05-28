@@ -501,7 +501,8 @@ public class JXImageView extends JXPanel {
      * Implementation detail.
      * @param g 
      */
-    protected void paintComponent(Graphics g) {
+    @Override
+protected void paintComponent(Graphics g) {
         ((Graphics2D)g).setPaint(checkerPaint);
         //g.setColor(getBackground());
         g.fillRect(0,0,getWidth(),getHeight());
@@ -531,12 +532,14 @@ public class JXImageView extends JXPanel {
             this.panel = panel;
         }
 
-        public void mousePressed(MouseEvent evt) {
+        @Override
+	public void mousePressed(MouseEvent evt) {
             prev = evt.getPoint();
             start = prev;
         }
 
-        public void mouseDragged(MouseEvent evt) {
+        @Override
+	public void mouseDragged(MouseEvent evt) {
             Point curr = evt.getPoint();
             
             if(isDragEnabled()) {
@@ -565,7 +568,8 @@ public class JXImageView extends JXPanel {
             repaint();
         }
 
-        public void mouseReleased(MouseEvent evt) {
+        @Override
+	public void mouseReleased(MouseEvent evt) {
             prev = null;
         }
     }
@@ -577,19 +581,23 @@ public class JXImageView extends JXPanel {
              urlFlavor = new DataFlavor("application/x-java-url;class=java.net.URL");
         }
         
-        public void exportAsDrag(JComponent c, InputEvent evt, int action) {
+        @Override
+	public void exportAsDrag(JComponent c, InputEvent evt, int action) {
             //log.fine("exportting as drag");
             super.exportAsDrag(c,evt,action);
         }
-        public int getSourceActions(JComponent c) {
+        @Override
+	public int getSourceActions(JComponent c) {
             //log.fine("get source actions: " + c);
             return COPY;
         }
-        protected void exportDone(JComponent source, Transferable data, int action) {
+        @Override
+	protected void exportDone(JComponent source, Transferable data, int action) {
             //log.fine("exportDone: " + source + " " + data + " " +action);
         }
 
-        public boolean canImport(JComponent c, DataFlavor[] flavors) {
+        @Override
+	public boolean canImport(JComponent c, DataFlavor[] flavors) {
             //log.fine("canImport:" + c);
             for (int i = 0; i < flavors.length; i++) {
                 //log.fine("testing: "+flavors[i]);
@@ -607,13 +615,15 @@ public class JXImageView extends JXPanel {
             return false;
         }
 
-        protected Transferable createTransferable(JComponent c) {
+        @Override
+	protected Transferable createTransferable(JComponent c) {
             JXImageView view = (JXImageView)c;
             return new ImageTransferable(view.getImage(),
                     view.getExportName(), view.getExportFormat());
         }
         
-        @SuppressWarnings("unchecked")
+        @Override
+	@SuppressWarnings("unchecked")
         public boolean importData(JComponent comp, Transferable t) {
             if (canImport(comp, t.getTransferDataFlavors())) {
                 try {

@@ -99,17 +99,20 @@ public class DatabaseFrame
 			this.actionConfirmed();
 		}
 
+		@Override
 		public AutoFilterTextField getWordFilter()
 		{
 			return new AutoFilterTextField( this.elementList );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			// Sort elements by name
 			this.elementModel.sort( new EntryNameComparator() );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			// Sort elements by Id number
@@ -123,6 +126,7 @@ public class DatabaseFrame
 		private class DescriptionListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				int index = ItemLookupPanel.this.elementList.lastSelectIndex;
@@ -137,6 +141,7 @@ public class DatabaseFrame
 		private class ShowEntryListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				MouseEvent e = getMouseEvent();
@@ -178,6 +183,7 @@ public class DatabaseFrame
 			super( DatabaseFrame.allItems, "item", "whichitem" );
 		}
 
+		@Override
 		public String getId( final Entry e )
 		{
 			return ItemDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );
@@ -192,6 +198,7 @@ public class DatabaseFrame
 			super( DatabaseFrame.allEffects, "effect", "whicheffect" );
 		}
 
+		@Override
 		public String getId( final Entry e )
 		{
 			return EffectDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );

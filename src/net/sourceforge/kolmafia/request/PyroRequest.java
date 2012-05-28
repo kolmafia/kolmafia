@@ -55,6 +55,7 @@ public class PyroRequest
 		this.addFormField( "action", "pyro" );
 	}
 
+	@Override
 	public void processResults()
 	{
                 PyroRequest.parseResponse( this.getURLString(), this.responseText );

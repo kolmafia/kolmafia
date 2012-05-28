@@ -96,6 +96,7 @@ public class BuffBotFrame
 		this.setCenterComponent( this.tabs );
 	}
 
+	@Override
 	public boolean useSidePane()
 	{
 		return true;
@@ -116,6 +117,7 @@ public class BuffBotFrame
 			( (JList) this.scrollComponent ).setCellRenderer( BuffBotHome.getMessageRenderer() );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			if ( this.confirmedButton == null )
@@ -126,6 +128,7 @@ public class BuffBotFrame
 			this.confirmedButton.setEnabled( isEnabled );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			if ( BuffBotHome.isBuffBotActive() )
@@ -141,6 +144,7 @@ public class BuffBotFrame
 			BuffBotManager.runBuffBot( Integer.MAX_VALUE );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			BuffBotHome.setBuffBotActive( false );
@@ -184,6 +188,7 @@ public class BuffBotFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			BuffBotManager.addBuff(
@@ -191,6 +196,7 @@ public class BuffBotFrame
 				StringUtilities.parseInt( this.priceField.getText() ), StringUtilities.parseInt( this.countField.getText() ) );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			BuffBotManager.removeBuffs( BuffBotFrame.this.buffListDisplay.getSelectedValues() );
@@ -261,6 +267,7 @@ public class BuffBotFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void setContent( final VerifiableElement[] elements )
 		{
 			super.setContent( elements );
@@ -283,6 +290,7 @@ public class BuffBotFrame
 			this.add( settingsPanel, BorderLayout.CENTER );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			Preferences.setInteger(
@@ -293,6 +301,7 @@ public class BuffBotFrame
 			Preferences.setString( "thanksMessage", this.thanksMessage.getText() );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			this.philanthropyModeSelect.setSelectedIndex( Preferences.getInteger( "buffBotPhilanthropyType" ) );

@@ -52,6 +52,7 @@ public class BurnMpCommand
 			" extra | * | <num> | -num - use excess/all/specified/all but specified MP for buff extension and summons.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		// Remove extra words. For example, "mana"

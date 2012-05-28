@@ -134,6 +134,7 @@ public class MallPurchaseRequest
 		return whichItem.toString();
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.shopId == KoLCharacter.getUserId() )
@@ -148,6 +149,7 @@ public class MallPurchaseRequest
 	}
 
 
+	@Override
 	public void processResults()
 	{
 		MallPurchaseRequest.parseResponse( this.getURLString(), this.responseText );

@@ -47,6 +47,7 @@ public class JukeboxCommand
 		this.usage = " song - listen to a song on your clan's jukebox";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.trim();

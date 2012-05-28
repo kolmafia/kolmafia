@@ -151,6 +151,7 @@ public class RelayRequest
 		this.allowOverride = allowOverride;
 	}
 
+	@Override
 	public String getHashField()
 	{
 		// Do not automatically include the password hash on requests
@@ -173,6 +174,7 @@ public class RelayRequest
 		return adventureURL;
 	}
 
+	@Override
 	public GenericRequest constructURLString( final String newURLString, final boolean usePostMethod, final boolean encoded )
 	{
 		super.constructURLString( newURLString, usePostMethod, encoded );
@@ -249,11 +251,13 @@ public class RelayRequest
 		return false;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return false;
 	}
 
+	@Override
 	public void formatResponse()
 	{
 		this.statusLine = "HTTP/1.1 200 OK";
@@ -1641,6 +1645,7 @@ public class RelayRequest
 		this.sendLocalFile( path );
 	}
 
+	@Override
 	public void run()
 	{
 		String path = this.getBasePath();

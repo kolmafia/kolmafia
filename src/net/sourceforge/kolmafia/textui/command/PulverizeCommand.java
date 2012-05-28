@@ -49,6 +49,7 @@ public class PulverizeCommand
 		this.usage = " <item> [, <item>]... - pulverize specified items";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );

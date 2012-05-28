@@ -82,6 +82,7 @@ public class LootHunterMenuItem
 	private static class LootHunterListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			GenericRequest hunterRequest = new BountyHunterHunterRequest();

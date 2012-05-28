@@ -77,11 +77,13 @@ public class MultiUseRequest
 		this( ConcoctionPool.get( itemId ) );
 	}
 
+	@Override
 	public void reconstructFields()
 	{
 		this.constructURLString( this.getURLString() );
 	}
 
+	@Override
 	public void run()
 	{
 		// Attempting to make the ingredients will pull the
@@ -95,6 +97,7 @@ public class MultiUseRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		// Is there a general way to detect a failure?

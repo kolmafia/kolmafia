@@ -82,6 +82,7 @@ public class NemesisRequest
 		return StringUtilities.parseInt( matcher.group(1) );
 	}
 
+	@Override
 	public void processResults()
 	{
 		NemesisRequest.parseResponse( this.getURLString(), this.responseText );

@@ -58,6 +58,7 @@ public class CheckDataCommand
 		this.usage = null;
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		if ( command.equals( "newdata" ) )

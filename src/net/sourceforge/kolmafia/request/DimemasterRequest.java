@@ -119,6 +119,7 @@ public class DimemasterRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		// Do NOT parse the response here, since CouncilFrame.handleQuestChange
@@ -155,6 +156,7 @@ public class DimemasterRequest
 		return null;
 	}
 
+	@Override
 	public void equip()
 	{
 		if ( !EquipmentManager.isWearingOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT ) )

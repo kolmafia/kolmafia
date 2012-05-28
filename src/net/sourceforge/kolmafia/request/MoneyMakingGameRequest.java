@@ -159,11 +159,13 @@ public class MoneyMakingGameRequest
 		}
 	}
 
+	@Override
 	protected boolean shouldFollowRedirect()
 	{
 		return true;
 	}
 
+	@Override
 	public void processResults()
 	{
 		String responseText = this.responseText;

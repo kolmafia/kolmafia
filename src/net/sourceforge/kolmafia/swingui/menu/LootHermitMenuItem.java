@@ -56,6 +56,7 @@ public class LootHermitMenuItem
 	private static class LootHermitListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			// See how many clovers are available today. This visits the

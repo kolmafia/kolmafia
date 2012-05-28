@@ -119,6 +119,7 @@ public class QuartersmasterRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		// Do NOT parse the response here, since CouncilFrame.handleQuestChange
@@ -155,6 +156,7 @@ public class QuartersmasterRequest
 		return null;
 	}
 
+	@Override
 	public void equip()
 	{
 		if ( !EquipmentManager.isWearingOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT ) )

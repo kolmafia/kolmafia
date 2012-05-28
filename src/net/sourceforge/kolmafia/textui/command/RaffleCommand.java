@@ -49,6 +49,7 @@ public class RaffleCommand
 		this.usage = " <ticketsToBuy> [ inventory | storage ] - buy raffle tickets";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] split = parameters.split( " " );

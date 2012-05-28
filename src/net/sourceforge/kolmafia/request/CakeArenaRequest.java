@@ -77,6 +77,7 @@ public class CakeArenaRequest
 		this.isCompetition = true;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( !this.isCompetition )
@@ -87,6 +88,7 @@ public class CakeArenaRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.responseText.indexOf( "You can't" ) != -1 ||
@@ -265,11 +267,13 @@ public class CakeArenaRequest
 		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : -1;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "Arena Battle";
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		return this.isCompetition ? 1 : 0;

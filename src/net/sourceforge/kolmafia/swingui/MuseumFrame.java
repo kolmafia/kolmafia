@@ -103,6 +103,7 @@ public class MuseumFrame
 			super( "display", "help", KoLConstants.collection, true );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			KoLmafia.updateDisplay( "Gathering data..." );
@@ -130,6 +131,7 @@ public class MuseumFrame
 			RequestThread.postRequest( new DisplayCaseRequest( items.toArray(), true ) );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			InputFieldUtilities.alert( "This feature scans your inventory and if it finds any items which are in your display case, it puts those items on display." );
@@ -157,6 +159,7 @@ public class MuseumFrame
 			this.add( this.displayPanel );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			if ( this.inventoryPanel == null || this.displayPanel == null )
@@ -204,11 +207,13 @@ public class MuseumFrame
 				RequestThread.postRequest( new DisplayCaseRequest() );
 			}
 
+			@Override
 			public void actionConfirmed()
 			{
 				this.move( true );
 			}
 
+			@Override
 			public void actionCancelled()
 			{
 				this.move( false );
@@ -233,11 +238,13 @@ public class MuseumFrame
 				RequestThread.postRequest( new DisplayCaseRequest() );
 			}
 
+			@Override
 			public void actionConfirmed()
 			{
 				this.move( true );
 			}
 
+			@Override
 			public void actionCancelled()
 			{
 				this.move( false );
@@ -253,12 +260,14 @@ public class MuseumFrame
 			super( 1, 480, 200, DisplayCaseManager.getShelves(), true );
 		}
 
+		@Override
 		public PanelListCell constructPanelListCell( final Object value, final int index )
 		{
 			MuseumShelfPanel toConstruct = new MuseumShelfPanel( index, (SortedListModel) value );
 			return toConstruct;
 		}
 
+		@Override
 		public boolean isResizeableList()
 		{
 			return true;
@@ -280,6 +289,7 @@ public class MuseumFrame
 			this.elementList = (ShowDescriptionList) this.scrollComponent;
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			Object[] headerArray = DisplayCaseManager.getHeaders().toArray();
@@ -301,6 +311,7 @@ public class MuseumFrame
 			}
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			RequestThread.postRequest( new DisplayCaseRequest( this.elementList.getSelectedValues(), false ) );
@@ -344,6 +355,7 @@ public class MuseumFrame
 				OrderingPanel.this.elementList.setSelectedIndex( selectedIndex - 1 );
 			}
 
+			@Override
 			public String toString()
 			{
 				return "move up";
@@ -366,6 +378,7 @@ public class MuseumFrame
 				OrderingPanel.this.elementList.setSelectedIndex( selectedIndex + 1 );
 			}
 
+			@Override
 			public String toString()
 			{
 				return "move down";

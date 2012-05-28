@@ -117,7 +117,8 @@ public class TargetableAction extends AbstractActionExt {
      * @param evt event which will be forwarded to the TargetManager
      * @see TargetManager
      */
-    public void itemStateChanged(ItemEvent evt) {
+    @Override
+public void itemStateChanged(ItemEvent evt) {
         // Update all objects that share this item
         boolean newValue;
         boolean oldValue = isSelected();
@@ -131,7 +132,8 @@ public class TargetableAction extends AbstractActionExt {
         }
     }
 
-    public String toString() {
+    @Override
+public String toString() {
         return super.toString();
     }
 }

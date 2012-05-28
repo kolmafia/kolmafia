@@ -70,6 +70,7 @@ public class MushroomRequest
 		this.addFormField( "whichspore", String.valueOf( spore ) );
 	}
 
+	@Override
 	public void processResults()
 	{
 		MushroomRequest.parseResponse( this.getURLString(), this.responseText );

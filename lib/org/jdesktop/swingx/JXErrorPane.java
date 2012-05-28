@@ -245,7 +245,8 @@ public class JXErrorPane extends JComponent {
      * @see javax.swing.JComponent#getUIClassID
      * @see javax.swing.UIDefaults#getUI
      */
-    public String getUIClassID() {
+    @Override
+public String getUIClassID() {
         return uiClassID;
     }
 

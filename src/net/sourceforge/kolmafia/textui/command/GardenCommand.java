@@ -48,6 +48,7 @@ public class GardenCommand
 		this.usage = "[pick] - get status of garden, or harvest it.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		AdventureResult crop = CampgroundRequest.getCrop();

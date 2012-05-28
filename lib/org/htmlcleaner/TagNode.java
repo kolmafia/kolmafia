@@ -178,7 +178,8 @@ public class TagNode extends TagToken {
      * @param attName
      * @param attValue
      */
-    public void addAttribute(String attName, String attValue) {
+    @Override
+public void addAttribute(String attName, String attValue) {
         if ( attName != null && !"".equals(attName.trim()) ) {
             attributes.put( attName.toLowerCase(), attValue == null ? "" : attValue );
         }

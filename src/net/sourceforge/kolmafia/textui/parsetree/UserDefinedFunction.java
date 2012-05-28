@@ -68,6 +68,7 @@ public class UserDefinedFunction
 		return this.scope;
 	}
 
+	@Override
 	public void saveBindings( Interpreter interpreter )
 	{
 		if ( this.scope == null )
@@ -94,6 +95,7 @@ public class UserDefinedFunction
 		this.callStack.push( values );
 	}
 
+	@Override
 	public void restoreBindings( Interpreter interpreter )
 	{
 		if ( this.scope == null )
@@ -120,6 +122,7 @@ public class UserDefinedFunction
 		}
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( StaticEntity.isDisabled( this.getName() ) )
@@ -143,11 +146,13 @@ public class UserDefinedFunction
 		return this.getType().initialValue();
 	}
 
+	@Override
 	public boolean assertBarrier()
 	{
 		return this.scope.assertBarrier();
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		super.print( stream, indent );

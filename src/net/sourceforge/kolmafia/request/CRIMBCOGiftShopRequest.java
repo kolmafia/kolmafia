@@ -102,6 +102,7 @@ public class CRIMBCOGiftShopRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		CRIMBCOGiftShopRequest.parseResponse( this.getURLString(), this.responseText );

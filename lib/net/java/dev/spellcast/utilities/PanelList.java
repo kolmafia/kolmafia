@@ -129,6 +129,7 @@ public abstract class PanelList
 	 * @param isEnabled <code>true</code> if the list should be enabled
 	 */
 
+	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
 		int componentCount = this.listPanel.getComponentCount();

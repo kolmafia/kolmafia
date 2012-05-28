@@ -92,6 +92,7 @@ public class CloseableTabbedPane
 		this.init( horizontalTextPosition );
 	}
 
+	@Override
 	public void setSelectedIndex( final int index )
 	{
 		int lastIndex = this.getSelectedIndex();
@@ -142,6 +143,7 @@ public class CloseableTabbedPane
 	 * @param title the title to be displayed in this tab
 	 * @param component the component to be displayed when this tab is clicked
 	 */
+	@Override
 	public void addTab( final String title, final Component component )
 	{
 		this.addTab( title, component, null );
@@ -159,6 +161,7 @@ public class CloseableTabbedPane
 		this.insertTab( title, extraIcon, component, title, this.getTabCount() );
 	}
 
+	@Override
 	public void insertTab( String title, final Icon extraIcon, final Component component, final String tooltip,
 		final int index )
 	{
@@ -667,6 +670,7 @@ public class CloseableTabbedPane
 		 * @param textRect the text boundaries
 		 * @param isSelected true whether the tab is selected, false otherwise
 		 */
+		@Override
 		protected void layoutLabel( final int tabPlacement, final FontMetrics metrics, final int tabIndex,
 			final String title, final Icon icon, final Rectangle tabRect, final Rectangle iconRect,
 			final Rectangle textRect, final boolean isSelected )
@@ -701,6 +705,7 @@ public class CloseableTabbedPane
 		this.setForegroundAt( tabIndex, Color.black );
 	}
 
+	@Override
 	public boolean isFocusable()
 	{
 		return false;

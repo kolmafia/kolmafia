@@ -44,6 +44,7 @@ public class BacktraceCommand
 		this.usage = " <text> | off - dump stack when a gCLI message or page URL matches text (case-sensitive).";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		if ( parameters.length() > 3 )

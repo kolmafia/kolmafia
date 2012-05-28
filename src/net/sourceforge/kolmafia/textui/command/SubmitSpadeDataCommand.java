@@ -52,6 +52,7 @@ public class SubmitSpadeDataCommand
 		this.usage = " [prices <URL>] - submit automatically gathered data.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.startsWith( "prices" ) )

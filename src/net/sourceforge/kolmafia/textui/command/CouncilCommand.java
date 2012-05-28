@@ -47,6 +47,7 @@ public class CouncilCommand
 		this.usage = " - visit the Council to advance quest progress.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );

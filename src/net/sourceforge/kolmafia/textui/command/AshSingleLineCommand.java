@@ -54,6 +54,7 @@ public class AshSingleLineCommand
 		this.usage = " <statement> - test a line of ASH code without having to edit a script.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		if ( !parameters.endsWith( ";" ) && !parameters.endsWith( "}" ) )

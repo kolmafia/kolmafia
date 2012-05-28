@@ -195,8 +195,10 @@ public abstract class Function
 		}
 	}
 
+	@Override
 	public abstract Value execute( final Interpreter interpreter );
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

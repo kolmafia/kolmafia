@@ -14,6 +14,7 @@ public class TrayDummyComponent
 		super( new Frame( "TrayDummy" ) );
 	}
 
+	@Override
 	public Point getLocationOnScreen()
 	{
 		return new Point( 0, 0 );

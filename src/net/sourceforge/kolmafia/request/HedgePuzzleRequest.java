@@ -128,6 +128,7 @@ public class HedgePuzzleRequest
 		this.addFormField( "action", String.valueOf( tile ) );
 	}
 
+	@Override
 	public void processResults()
 	{
 		HedgePuzzleRequest.parseResponse( this.getURLString(), this.responseText );

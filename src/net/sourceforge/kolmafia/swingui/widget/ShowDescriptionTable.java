@@ -47,6 +47,7 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.SortController;
@@ -274,6 +275,7 @@ public class ShowDescriptionTable
 		// this.getTableHeader().setReorderingAllowed( false );
 		this.setShowGrid( false );
 		this.setModel( this.adaptedModel );
+		this.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 		// form of.. magic numbers
 		this.getColumnModel().getColumn( 0 ).setPreferredWidth( 220 );

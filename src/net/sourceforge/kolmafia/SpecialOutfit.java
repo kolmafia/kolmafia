@@ -171,6 +171,7 @@ public class SpecialOutfit
 		}
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.outfitName;
@@ -186,6 +187,7 @@ public class SpecialOutfit
 		return this.outfitName;
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		if ( o == null || !( o instanceof SpecialOutfit ) )

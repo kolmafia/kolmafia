@@ -78,6 +78,7 @@ public class CompositeValue
 		return null;
 	}
 
+	@Override
 	public void clear()
 	{
 	}
@@ -97,6 +98,7 @@ public class CompositeValue
 		return ( (CompositeType) this.type ).getDataType( key ).initialValue();
 	}
 
+	@Override
 	public void dump( final PrintStream writer, final String prefix, final boolean compact )
 	{
 		Value[] keys = this.keys();
@@ -114,6 +116,7 @@ public class CompositeValue
 		}
 	}
 
+	@Override
 	public void dumpValue( final PrintStream writer )
 	{
 	}
@@ -159,6 +162,7 @@ public class CompositeValue
 		return 2;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "composite " + this.type.toString();

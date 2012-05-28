@@ -159,6 +159,7 @@ public class ReleaseNotes
 			contents.append( LINE_BREAK );
 		}
 
+		@Override
 		public String toString()
 		{
 			return contents.toString();

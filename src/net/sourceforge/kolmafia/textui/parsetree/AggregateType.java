@@ -61,16 +61,19 @@ public class AggregateType
 		this.size = size;
 	}
 
+	@Override
 	public Type getDataType()
 	{
 		return this.dataType;
 	}
 
+	@Override
 	public Type getDataType( final Object key )
 	{
 		return this.dataType;
 	}
 
+	@Override
 	public Type getIndexType()
 	{
 		return this.indexType;
@@ -81,11 +84,13 @@ public class AggregateType
 		return this.size;
 	}
 
+	@Override
 	public boolean equals( final Type o )
 	{
 		return o instanceof AggregateType && this.dataType.equals( ( (AggregateType) o ).dataType ) && this.indexType.equals( ( (AggregateType) o ).indexType );
 	}
 
+	@Override
 	public Type simpleType()
 	{
 		if ( this.dataType instanceof AggregateType )
@@ -95,6 +100,7 @@ public class AggregateType
 		return this.dataType;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.simpleType().toString() + " [" + this.indexString() + "]";
@@ -119,6 +125,7 @@ public class AggregateType
 		return this.indexType.toString();
 	}
 
+	@Override
 	public Value initialValue()
 	{
 		if ( this.size != 0 )
@@ -128,6 +135,7 @@ public class AggregateType
 		return new MapValue( this );
 	}
 
+	@Override
 	public boolean containsAggregate()
 	{
 		return true;

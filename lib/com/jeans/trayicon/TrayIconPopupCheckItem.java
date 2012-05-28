@@ -83,6 +83,7 @@ public class TrayIconPopupCheckItem
 	/**
 	 * Callback when user selects menu item (find it by comparing menu id's) Param menuId = the id of the selected item
 	 */
+	@Override
 	public boolean onSelected( final int menuId )
 	{
 		if ( menuId == this.m_MenuId )
@@ -97,6 +98,7 @@ public class TrayIconPopupCheckItem
 	 * Create menu in native library - used by WindowsTrayIcon.setPopup() Param trayicon = the owner of this menu Param
 	 * id = the icon's id Param level = the level (submenu depth)
 	 */
+	@Override
 	public void setTrayIcon( final WindowsTrayIcon trayicon, final int id, final int level )
 	{
 		int extra = 0;

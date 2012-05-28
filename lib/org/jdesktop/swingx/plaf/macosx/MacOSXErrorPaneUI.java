@@ -81,7 +81,8 @@ public class MacOSXErrorPaneUI extends BasicErrorPaneUI {
         super();
     }
 
-    protected void configureDetailsButton(boolean expanded) {
+    @Override
+protected void configureDetailsButton(boolean expanded) {
         if (expanded) {
             detailButton.setText(UIManagerExt.getString(CLASS_NAME + ".details_contract_text", detailButton.getLocale()));
             detailButton.setIcon(UIManager.getIcon("Tree.expandedIcon"));
@@ -91,7 +92,8 @@ public class MacOSXErrorPaneUI extends BasicErrorPaneUI {
         }
     }
     
-    protected void configureReportAction(AbstractActionExt reportAction) {
+    @Override
+protected void configureReportAction(AbstractActionExt reportAction) {
         reportAction.setName(UIManagerExt.getString(CLASS_NAME + ".report_button_text", pane.getLocale()));
 //        reportButton.setText("Send Report To Apple");
 //        reportButton.setPreferredSize(new Dimension(100, 30));
@@ -157,7 +159,8 @@ public class MacOSXErrorPaneUI extends BasicErrorPaneUI {
     /**
      * {@inheritDoc}
      */
-    protected LayoutManager createDetailPanelLayout() {
+    @Override
+protected LayoutManager createDetailPanelLayout() {
         GridBagLayout layout = new GridBagLayout();
         layout.addLayoutComponent(detailsScrollPane, new GridBagConstraints(0,0,1,1,1.0,1.0,GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0),0,0));
         copyToClipboardButton.setVisible(false);
@@ -167,7 +170,8 @@ public class MacOSXErrorPaneUI extends BasicErrorPaneUI {
     /**
      * {@inheritDoc}
      */
-    protected void reinit() {
+    @Override
+protected void reinit() {
         super.reinit();
         ErrorInfo info = pane == null ? null : pane.getErrorInfo();
         titleLabel.setText(info == null ? "Unknown Error" : info.getTitle());
@@ -187,7 +191,8 @@ public class MacOSXErrorPaneUI extends BasicErrorPaneUI {
     /**
      * {@inheritDoc}
      */
-    protected int getDetailsHeight() {
+    @Override
+protected int getDetailsHeight() {
         return 150;
     }
     

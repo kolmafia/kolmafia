@@ -189,6 +189,7 @@ public class DwarfContraptionRequest
 		return token.equals( "coal" ) ? "lump of coal" : token + " ore";
 	}
 
+	@Override
 	public void processResults()
 	{
 		DwarfContraptionRequest.parseResponse( this.getURLString(), this.responseText );

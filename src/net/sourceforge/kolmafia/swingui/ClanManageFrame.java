@@ -208,12 +208,14 @@ public class ClanManageFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			StaticEntity.getClient().makeRequest(
 				(Runnable) this.buffField.getSelectedItem(), InputFieldUtilities.getValue( this.countField ) );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			if ( this.isBuffing )
@@ -246,11 +248,13 @@ public class ClanManageFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			RequestThread.postRequest( (ClanWarRequest) this.enemyList.getSelectedItem() );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			RequestThread.postRequest( new ClanWarRequest() );
@@ -287,6 +291,7 @@ public class ClanManageFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			RequestThread.postRequest( new ClanWarRequest(
@@ -295,6 +300,7 @@ public class ClanManageFrame
 				InputFieldUtilities.getValue( this.flyers ), InputFieldUtilities.getValue( this.archers ) ) );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			int totalValue =
@@ -323,11 +329,13 @@ public class ClanManageFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			RequestThread.postRequest( new ClanStashRequest( InputFieldUtilities.getValue( this.amountField ) ) );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			InputFieldUtilities.alert( "The Hermit beat you to it.  ARGH!" );
@@ -347,6 +355,7 @@ public class ClanManageFrame
 		private class StorageListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				Object[] items = StoragePanel.this.getDesiredItems( "Deposit" );
@@ -358,6 +367,7 @@ public class ClanManageFrame
 				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
 			}
 
+			@Override
 			public String toString()
 			{
 				return "add items";
@@ -391,6 +401,7 @@ public class ClanManageFrame
 				this.moveType = moveType;
 			}
 
+			@Override
 			protected void execute()
 			{
 				if ( !KoLCharacter.canInteract() )
@@ -441,6 +452,7 @@ public class ClanManageFrame
 				RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.STASH_TO_ITEMS ) );
 			}
 
+			@Override
 			public String toString()
 			{
 				return this.moveType == ClanManageFrame.MOVE_ALL_BUT ? "cap stash" : "take items";
@@ -480,6 +492,7 @@ public class ClanManageFrame
 			this.setContent( elements, true );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			ClanManager.applyFilter(
@@ -488,6 +501,7 @@ public class ClanManageFrame
 			KoLmafia.updateDisplay( "Search results retrieved." );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			if ( !InputFieldUtilities.finalizeTable( ClanManageFrame.this.members ) )
@@ -530,6 +544,7 @@ public class ClanManageFrame
 				new boolean[] { false, false, true, false, true }, ProfileSnapshot.getFilteredList() );
 		}
 
+		@Override
 		public Vector constructVector( final Object o )
 		{
 			ProfileRequest p = (ProfileRequest) o;
@@ -561,6 +576,7 @@ public class ClanManageFrame
 			this.profile = profile;
 		}
 
+		@Override
 		protected void execute()
 		{
             ProfileFrame.showRequest(this.profile);
@@ -603,6 +619,7 @@ public class ClanManageFrame
 			this.setContent( elements, true );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			// Now that you've got everything, go ahead and
@@ -623,6 +640,7 @@ public class ClanManageFrame
 				mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce, localProfileLink );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			ClanManager.saveStashLog();

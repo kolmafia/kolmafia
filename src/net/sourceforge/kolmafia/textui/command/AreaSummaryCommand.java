@@ -46,6 +46,7 @@ public class AreaSummaryCommand
 		this.usage = " <location> - show summary data for the specified area.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		KoLAdventure location = AdventureDatabase.getAdventure( parameters );

@@ -571,7 +571,8 @@ public class JXCollapsiblePane extends JXPanel {
     /**
      * {@inheritDoc}
      */
-    public Border getBorder() {
+    @Override
+public Border getBorder() {
         if (getContentPane() instanceof JComponent) {
             return ((JComponent) getContentPane()).getBorder();
         }
@@ -582,7 +583,8 @@ public class JXCollapsiblePane extends JXPanel {
     /**
      * {@inheritDoc}
      */
-    public void setBorder(Border border) {
+    @Override
+public void setBorder(Border border) {
         if (getContentPane() instanceof JComponent) {
             ((JComponent) getContentPane()).setBorder(border);
         }
@@ -608,7 +610,8 @@ public class JXCollapsiblePane extends JXPanel {
      * @param minimumSize
      *            the size to set on the content pane
      */
-    public void setMinimumSize(Dimension minimumSize) {
+    @Override
+public void setMinimumSize(Dimension minimumSize) {
         getContentPane().setMinimumSize(minimumSize);
     }
 

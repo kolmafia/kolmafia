@@ -241,7 +241,8 @@ public class JXLabel extends JLabel {
 
     private void initPainterSupport() {
         foregroundPainter = new AbstractPainter<JXLabel>() {
-            protected void doPaint(Graphics2D g, JXLabel label, int width, int height) {
+            @Override
+	protected void doPaint(Graphics2D g, JXLabel label, int width, int height) {
                 Insets i = getInsets();
                 g = (Graphics2D) g.create(-i.left, -i.top, width, height);
                 
@@ -254,7 +255,8 @@ public class JXLabel extends JLabel {
             //if any of the state of the JButton that affects the foreground has changed,
             //then I must clear the cache. This is really hard to get right, there are
             //bound to be bugs. An alternative is to NEVER cache.
-            protected boolean shouldUseCache() {
+            @Override
+	protected boolean shouldUseCache() {
                 return false;
             }
             
@@ -274,7 +276,8 @@ public class JXLabel extends JLabel {
         // of order and without old values are meaningless and forcing us to react when
         // not necessary. Instead overriding reshape() ensures we have control over old AND new size.
         addHierarchyBoundsListener(new HierarchyBoundsAdapter() {
-            public void ancestorResized(HierarchyEvent e) {
+            @Override
+	public void ancestorResized(HierarchyEvent e) {
                 // if one of the parents is viewport, resized events will not be propagated down unless viewport is changing visibility of scrollbars.
                 // To make sure Label is able to re-wrap text when viewport size changes, initiate re-wrapping here by changing size of view
                 if (e.getChanged() instanceof JViewport) {
@@ -1038,7 +1041,8 @@ public class JXLabel extends JLabel {
                 return doc;
             }
 
-            public ViewFactory getViewFactory() {
+            @Override
+	public ViewFactory getViewFactory() {
                 return basicViewFactory;
             }
         }
@@ -1158,7 +1162,8 @@ public class JXLabel extends JLabel {
             }
         }
 
-        public void preferenceChanged(View child, boolean width, boolean height) {
+        @Override
+	public void preferenceChanged(View child, boolean width, boolean height) {
             if (host != null && host.painted) {
                 host.revalidate();
                 host.repaint();
@@ -1170,7 +1175,8 @@ public class JXLabel extends JLabel {
          * Fetches the attributes to use when rendering. At the root level there are no attributes. If an attribute is
          * resolved up the view hierarchy this is the end of the line.
          */
-        public AttributeSet getAttributes() {
+        @Override
+	public AttributeSet getAttributes() {
             return null;
         }
 
@@ -1180,7 +1186,8 @@ public class JXLabel extends JLabel {
          * @param g the graphics context
          * @param allocation the region to render into
          */
-        public void paint(Graphics g, Shape allocation) {
+        @Override
+	public void paint(Graphics g, Shape allocation) {
             Rectangle alloc = allocation.getBounds();
             //log.fine("aloc:" + alloc + "::" + host.getVisibleRect() + "::" + host.getBounds());
             //view.setSize(alloc.width, alloc.height);
@@ -1202,7 +1209,8 @@ public class JXLabel extends JLabel {
          *
          * @param parent the parent view
          */
-        public void setParent(View parent) {
+        @Override
+	public void setParent(View parent) {
             throw new Error("Can't set parent on root view");
         }
 
@@ -1213,7 +1221,8 @@ public class JXLabel extends JLabel {
          * @return the number of views
          * @see #getView
          */
-        public int getViewCount() {
+        @Override
+	public int getViewCount() {
             return 1;
         }
 
@@ -1223,7 +1232,8 @@ public class JXLabel extends JLabel {
          * @param n the number of the view to get
          * @return the view
          */
-        public View getView(int n) {
+        @Override
+	public View getView(int n) {
             return view;
         }
 
@@ -1232,7 +1242,8 @@ public class JXLabel extends JLabel {
          *
          * @return the model
          */
-        public Document getDocument() {
+        @Override
+	public Document getDocument() {
             return view == null ? null : view.getDocument();
         }
 
@@ -1242,7 +1253,8 @@ public class JXLabel extends JLabel {
          * @param width the width
          * @param height the height
          */
-        public void setSize(float width, float height) {
+        @Override
+	public void setSize(float width, float height) {
             if (host.maxLineSpan > 0) {
                 width = Math.min(width, host.maxLineSpan);
             }
@@ -1285,7 +1297,8 @@ public class JXLabel extends JLabel {
          *
          * @return the container
          */
-        public Container getContainer() {
+        @Override
+	public Container getContainer() {
             return host;
         }
 
@@ -1296,7 +1309,8 @@ public class JXLabel extends JLabel {
          *
          * @return the factory
          */
-        public ViewFactory getViewFactory() {
+        @Override
+	public ViewFactory getViewFactory() {
             return factory;
         }
 
@@ -1304,11 +1318,13 @@ public class JXLabel extends JLabel {
 
         private ViewFactory factory;
 
-        public int getWidth() {
+        @Override
+	public int getWidth() {
             return (int) width;
         }
 
-        public int getHeight() {
+        @Override
+	public int getHeight() {
             return (int) height;
         }
 

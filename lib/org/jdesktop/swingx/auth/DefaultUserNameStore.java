@@ -59,7 +59,8 @@ public class DefaultUserNameStore extends UserNameStore {
     /**
      * Loads the user names from Preferences
      */
-    public void loadUserNames() {
+    @Override
+public void loadUserNames() {
         initPrefs();
         if (prefs != null) {
             int n = prefs.getInt(NUM_KEY, 0);
@@ -74,7 +75,8 @@ public class DefaultUserNameStore extends UserNameStore {
     /**
      * Saves the user names to Preferences
      */
-    public void saveUserNames() {
+    @Override
+public void saveUserNames() {
         initPrefs();
         if (prefs != null) {
             prefs.putInt(NUM_KEY, userNames.length);
@@ -87,7 +89,8 @@ public class DefaultUserNameStore extends UserNameStore {
     /**
      * {@inheritDoc}
      */
-    public String[] getUserNames() {
+    @Override
+public String[] getUserNames() {
         String[] copy = new String[userNames.length];
         System.arraycopy(userNames, 0, copy, 0, userNames.length);
         
@@ -97,7 +100,8 @@ public class DefaultUserNameStore extends UserNameStore {
     /**
      * {@inheritDoc}
      */
-    public void setUserNames(String[] userNames) {
+    @Override
+public void setUserNames(String[] userNames) {
         userNames = userNames == null ? new String[0] : userNames;
         String[] old = getUserNames();
         this.userNames = userNames;
@@ -108,7 +112,8 @@ public class DefaultUserNameStore extends UserNameStore {
      * Add a username to the store.
      * @param name
      */
-    public void addUserName(String name) {
+    @Override
+public void addUserName(String name) {
         if (!containsUserName(name)) {
             String[] newNames = new String[userNames.length + 1];
             for (int i=0; i<userNames.length; i++) {
@@ -124,7 +129,8 @@ public class DefaultUserNameStore extends UserNameStore {
      *
      * @param name
      */
-    public void removeUserName(String name) {
+    @Override
+public void removeUserName(String name) {
         if (containsUserName(name)) {
             String[] newNames = new String[userNames.length - 1];
             int index = 0;
@@ -140,7 +146,8 @@ public class DefaultUserNameStore extends UserNameStore {
     /**
      * {@inheritDoc}
      */
-    public boolean containsUserName(String name) {
+    @Override
+public boolean containsUserName(String name) {
         for (String s : userNames) {
             if (s.equals(name)) {
                 return true;

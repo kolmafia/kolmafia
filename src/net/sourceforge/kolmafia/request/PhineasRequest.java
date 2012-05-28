@@ -63,11 +63,13 @@ public class PhineasRequest
 		this.addFormField( "makewhich", String.valueOf( this.getItemId() ) );
 	}
 
+	@Override
 	public void reconstructFields()
 	{
 		this.constructURLString( this.getURLString() );
 	}
 
+	@Override
 	public void run()
 	{
 		// Attempting to make the ingredients will pull the

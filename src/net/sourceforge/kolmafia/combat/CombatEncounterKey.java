@@ -148,6 +148,7 @@ public class CombatEncounterKey
 		return monsterName.indexOf( this.monsterName ) != -1;
 	}
 
+	@Override
 	public String toString()
 	{
 		return encounterKey;

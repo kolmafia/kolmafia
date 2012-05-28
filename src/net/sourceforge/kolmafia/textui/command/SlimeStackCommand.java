@@ -46,6 +46,7 @@ public class SlimeStackCommand
 		this.usage = " - show details of slime stacks disgorged by Slimeling";
 	}
 	
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int got = Preferences.getInteger( "slimelingStacksDropped" );

@@ -169,6 +169,7 @@ public class ShrineRequest
 	 * fails; it merely parses the results to see if any gains were made.
 	 */
 
+	@Override
 	public void run()
 	{
 		if ( !this.hasStatueKey )
@@ -179,6 +180,7 @@ public class ShrineRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
                 String error = ShrineRequest.parseResponse( this.getURLString(), this.responseText );

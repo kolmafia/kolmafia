@@ -45,16 +45,19 @@ public class TypeInitializer
 		this.type = type;
 	}
 
+	@Override
 	public Type getType()
 	{
 		return this.type;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		return this.type.initialValue();
 	}
 
+	@Override
 	public String toString()
 	{
 		return "<initial value>";

@@ -54,6 +54,7 @@ public class UneffectCommand
 		this.usage = "[?] <effect> [, <effect>]... - remove effects using appropriate means.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.indexOf( "," ) != -1 )

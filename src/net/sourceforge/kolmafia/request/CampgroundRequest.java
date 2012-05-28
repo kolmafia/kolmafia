@@ -181,6 +181,7 @@ public class CampgroundRequest
 		this( "inspectdwelling" );
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		return this.action.equals( "rest" ) ? 1 : 0;
@@ -297,6 +298,7 @@ public class CampgroundRequest
 		}
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.action.equals( "rest" ) &&
@@ -310,6 +312,7 @@ public class CampgroundRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		CampgroundRequest.parseResponse( this.getURLString(), this.responseText );

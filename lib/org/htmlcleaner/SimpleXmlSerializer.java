@@ -53,7 +53,8 @@ public class SimpleXmlSerializer extends XmlSerializer {
 		super(props);
 	}
 
-    protected void serialize(TagNode tagNode, Writer writer) throws IOException {
+    @Override
+protected void serialize(TagNode tagNode, Writer writer) throws IOException {
         serializeOpenTag(tagNode, writer, false);
 
         List tagChildren = tagNode.getChildren();

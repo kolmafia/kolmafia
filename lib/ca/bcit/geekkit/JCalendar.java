@@ -160,6 +160,7 @@ public class JCalendar
 	 * 
 	 * @param g the <code>Graphics</code> context used to paint the table.
 	 */
+	@Override
 	public void paint( final Graphics g )
 	{
 		super.paint( g );
@@ -178,6 +179,7 @@ public class JCalendar
 	 * @return the width and height of this component as a <code>Dimension</code> object and as its preferred size to
 	 *         be rendered.
 	 */
+	@Override
 	public Dimension getPreferredSize()
 	{
 		return new Dimension( 310, 220 );
@@ -188,6 +190,7 @@ public class JCalendar
 	 * 
 	 * @return the minimum width and height that this component should be rendered at
 	 */
+	@Override
 	public Dimension getMinimumSize()
 	{
 		return new Dimension( 260, 170 );
@@ -242,6 +245,7 @@ public class JCalendar
 			this.highlighter.setBackground( new Color( 0, 0, 128 ) );
 		}
 
+		@Override
 		public TableCellRenderer getCellRenderer( final int row, final int column )
 		{
 			if ( String.valueOf( JCalendar.this.model.getCurrentDate() ).equals(
@@ -273,6 +277,7 @@ public class JCalendar
 		frame.setSize( frameD.width, frameD.height );
 		frame.addWindowListener( new WindowAdapter()
 		{
+			@Override
 			public void windowClosing( final WindowEvent e )
 			{
 				System.exit( 0 );

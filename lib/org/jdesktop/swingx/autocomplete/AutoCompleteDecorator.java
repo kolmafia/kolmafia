@@ -214,7 +214,8 @@ public class AutoCompleteDecorator {
         
         // show the popup list when the user presses a key
         final KeyListener keyListener = new AutoCompleteKeyAdapter() {
-            public void keyPressed(KeyEvent keyEvent) {
+            @Override
+	public void keyPressed(KeyEvent keyEvent) {
                 // don't popup on action keys (cursor movements, etc...)
                 if (keyEvent.isActionKey()) return;
                 // don't popup if the combobox isn't visible anyway
@@ -282,7 +283,8 @@ public class AutoCompleteDecorator {
         // mark entire text when the text component gains focus
         // otherwise the last mark would have been retained which is quiet confusing
         textComponent.addFocusListener(new AutoCompleteFocusAdapter() {
-            public void focusGained(FocusEvent e) {
+            @Override
+	public void focusGained(FocusEvent e) {
                 adaptor.markEntireText();
             }
         });

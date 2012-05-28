@@ -48,6 +48,7 @@ public class PasswordHashRequest
 		super( location );
 	}
 
+	@Override
 	public void processResults()
 	{
 		super.processResults();

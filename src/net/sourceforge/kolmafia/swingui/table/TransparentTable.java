@@ -61,6 +61,7 @@ public class TransparentTable
 		this.setDefaultRenderer( JButton.class, new ButtonRenderer() );
 	}
 
+	@Override
 	public Component prepareRenderer( final TableCellRenderer renderer, final int row, final int column )
 	{
 		Component c = super.prepareRenderer( renderer, row, column );
@@ -72,6 +73,7 @@ public class TransparentTable
 		return c;
 	}
 
+	@Override
 	public void changeSelection( final int row, final int column, final boolean toggle, final boolean extend )
 	{
 		super.changeSelection( row, column, toggle, extend );

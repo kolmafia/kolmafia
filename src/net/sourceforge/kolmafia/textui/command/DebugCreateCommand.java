@@ -48,6 +48,7 @@ public class DebugCreateCommand
 		this.usage = null;
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equals( "" ) )

@@ -87,6 +87,7 @@ public class RaffleRequest
 		return RaffleRequest.INVENTORY;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.source != RaffleRequest.INVENTORY && this.source != RaffleRequest.STORAGE )
@@ -99,6 +100,7 @@ public class RaffleRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		String urlString = this.getURLString();

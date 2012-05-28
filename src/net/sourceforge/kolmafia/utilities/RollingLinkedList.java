@@ -45,6 +45,7 @@ public class RollingLinkedList
 		this.limit = limit;
 	}
 	
+	@Override
 	public boolean add( Object o )
 	{
 		if ( size() == this.limit )

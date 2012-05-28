@@ -146,11 +146,13 @@ public class FamiliarRequest
 		return this.changeTo == null ? null : this.changeTo.toString();
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return !this.locking;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.item != null )
@@ -304,6 +306,7 @@ public class FamiliarRequest
 		RequestThread.postRequest( new EquipmentRequest( use, EquipmentManager.FAMILIAR ) );
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.getFormField( "ajax" ) == null )

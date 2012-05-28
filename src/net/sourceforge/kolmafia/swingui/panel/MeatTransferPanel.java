@@ -141,6 +141,7 @@ public class MeatTransferPanel
 		}
 	}
 
+	@Override
 	public void actionConfirmed()
 	{
 		int amountToTransfer = InputFieldUtilities.getValue( this.amountField );
@@ -148,6 +149,7 @@ public class MeatTransferPanel
 		RequestThread.postRequest( this.getRequest( amountToTransfer ) );
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 		RequestThread.postRequest( this.getRequest( this.currentAvailable() ) );

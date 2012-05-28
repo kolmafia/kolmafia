@@ -104,6 +104,7 @@ public class SendGiftRequest
 			this.name.append( " meat" );
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.name.toString();
@@ -145,32 +146,38 @@ public class SendGiftRequest
 		}
 	}
 
+	@Override
 	public int getCapacity()
 	{
 		return this.maxCapacity;
 	}
 
+	@Override
 	public boolean alwaysIndex()
 	{
 		return true;
 	}
 
+	@Override
 	public TransferItemRequest getSubInstance( final Object[] attachments )
 	{
 		return new SendGiftRequest(
 			this.recipient, this.message, this.desiredCapacity, attachments, this.source == KoLConstants.storage );
 	}
 
+	@Override
 	public String getItemField()
 	{
 		return this.source == KoLConstants.storage ? "hagnks_whichitem" : "whichitem";
 	}
 
+	@Override
 	public String getQuantityField()
 	{
 		return this.source == KoLConstants.storage ? "hagnks_howmany" : "howmany";
 	}
 
+	@Override
 	public String getMeatField()
 	{
 		return this.source == KoLConstants.storage ? "hagnks_sendmeat" : "sendmeat";
@@ -221,6 +228,7 @@ public class SendGiftRequest
 		return 0;
 	}
 
+	@Override
 	public boolean parseTransfer()
 	{
 		return SendGiftRequest.parseTransfer( this.getURLString(), this.responseText );
@@ -269,16 +277,19 @@ public class SendGiftRequest
 			SendGiftRequest.source( urlString ), 0 );
 	}
 
+	@Override
 	public boolean allowMementoTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUntradeableTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public String getStatusMessage()
 	{
 		return "Sending package to " + ContactManager.getPlayerName( this.recipient );

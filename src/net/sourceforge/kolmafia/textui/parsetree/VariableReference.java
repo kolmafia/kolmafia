@@ -57,6 +57,7 @@ public class VariableReference
 		return this.target != null;
 	}
 
+	@Override
 	public Type getType()
 	{
 		return this.target.getBaseType();
@@ -72,11 +73,13 @@ public class VariableReference
 		return null;
 	}
 
+	@Override
 	public int compareTo( final Object o )
 	{
 		return this.target.getName().compareTo( ( (VariableReference) o ).target.getName() );
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		return this.target.getValue( interpreter );
@@ -112,11 +115,13 @@ public class VariableReference
 		return newValue;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.target.getName();
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

@@ -43,6 +43,7 @@ public class SaveAsMoodCommand
 		this.usage = " - add your current effects to the mood.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		MoodManager.minimalSet();

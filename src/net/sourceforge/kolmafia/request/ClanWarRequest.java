@@ -90,6 +90,7 @@ public class ClanWarRequest
 		this.addFormField( "archers", String.valueOf( archers ) );
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.getPath().equals( "clan_attack.php" ) )
@@ -117,6 +118,7 @@ public class ClanWarRequest
 		return ClanWarRequest.enemyClans;
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.isPurchase || this.name != null )
@@ -184,6 +186,7 @@ public class ClanWarRequest
 		KoLmafia.updateDisplay( ClanWarRequest.nextAttack );
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.name;

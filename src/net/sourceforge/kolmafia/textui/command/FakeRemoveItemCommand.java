@@ -47,6 +47,7 @@ public class FakeRemoveItemCommand
 		this.usage = null;
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );

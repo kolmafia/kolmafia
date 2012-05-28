@@ -122,10 +122,12 @@ public class CreateSpecialPanel
 		//ConcoctionDatabase.getCreatables().updateFilter( false );
 	}
 
+	@Override
 	public void addFilters()
 	{
 	}
 
+	@Override
 	public void actionConfirmed()
 	{
 		Object[] items = this.elementList.getSelectedValues();
@@ -161,6 +163,7 @@ public class CreateSpecialPanel
 		}
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 		Object[] items = this.elementList.getSelectedValues();

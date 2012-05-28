@@ -106,11 +106,13 @@ public class ManageStoreRequest
 		}
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		switch ( this.requestType )
@@ -177,6 +179,7 @@ public class ManageStoreRequest
 		KoLmafia.updateDisplay( takenItem.getName() + " removed from your store." );
 	}
 
+	@Override
 	public void processResults()
 	{
 	}

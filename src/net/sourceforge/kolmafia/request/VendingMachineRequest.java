@@ -105,6 +105,7 @@ public class VendingMachineRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		VendingMachineRequest.parseResponse( this.getURLString(), this.responseText );

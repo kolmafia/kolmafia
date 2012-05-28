@@ -1479,6 +1479,7 @@ public abstract class UseLinkDecorator
 			this.links = links;
 		}
 		
+		@Override
 		public String getItemHTML()
 		{
 			StringBuffer buf = new StringBuffer();

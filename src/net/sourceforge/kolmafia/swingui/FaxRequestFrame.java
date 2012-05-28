@@ -123,11 +123,13 @@ public class FaxRequestFrame
 			this.add( new StatusPanel(), BorderLayout.SOUTH );
 		}
 
+		@Override
 		public boolean shouldAddStatusLabel()
 		{
 			return false;
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
@@ -141,6 +143,7 @@ public class FaxRequestFrame
 			}
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			int list = FaxRequestFrame.this.monsterIndex;
@@ -157,6 +160,7 @@ public class FaxRequestFrame
 			FaxRequestFrame.requestFax( botName, name, command );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			if ( FaxRequestFrame.isBotOnline( botName ) )

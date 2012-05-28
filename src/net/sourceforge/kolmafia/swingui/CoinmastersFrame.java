@@ -404,12 +404,14 @@ public class CoinmastersFrame
 			this.update();
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
 			this.pull.setEnabled( isEnabled && this.storageCount > 0 );
 		}
 
+		@Override
 		public void update()
 		{
 			this.storageCount = MrStoreRequest.MR_A.getCount( KoLConstants.storage );
@@ -521,6 +523,7 @@ public class CoinmastersFrame
 		public class GiftListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				CoinmasterData data = Crimbo11Panel.this.data;
@@ -546,6 +549,7 @@ public class CoinmastersFrame
 				Crimbo11Panel.this.execute( data.getBuyAction(), items, "towho=" + victim );
 			}
 
+			@Override
 			public String toString()
 			{
 				return "gift";
@@ -555,6 +559,7 @@ public class CoinmastersFrame
 		public class DonateListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				CoinmasterData data = Crimbo11Panel.this.data;
@@ -574,6 +579,7 @@ public class CoinmastersFrame
 				Crimbo11Panel.this.execute( data.getBuyAction(), items, "towho=0" );
 			}
 
+			@Override
 			public String toString()
 			{
 				return "donate";
@@ -603,18 +609,21 @@ public class CoinmastersFrame
 			this.update();
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
 			this.skeeball.setEnabled( isEnabled && this.gameGridTokens > 0 );
 		}
 
+		@Override
 		public void update()
 		{
 			this.gameGridTokens = ArcadeRequest.TOKEN.getCount( KoLConstants.inventory );
 			this.skeeball.setEnabled( this.gameGridTokens > 0 );
 		}
 
+		@Override
 		public void setTitle( final StringBuffer buffer )
 		{
 			this.standardTitle( buffer );
@@ -700,6 +709,7 @@ public class CoinmastersFrame
 			super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY );
 		}
 
+		@Override
 		public boolean enabled()
 		{
 			return SpaaaceRequest.immediatelyAccessible();
@@ -714,6 +724,7 @@ public class CoinmastersFrame
 			super( DollHawkerRequest.DOLLHAWKER );
 		}
 
+		@Override
 		public boolean enabled()
 		{
 			return SpaaaceRequest.immediatelyAccessible();
@@ -728,6 +739,7 @@ public class CoinmastersFrame
 			super( LunarLunchRequest.LUNAR_LUNCH );
 		}
 
+		@Override
 		public boolean enabled()
 		{
 			return SpaaaceRequest.immediatelyAccessible();
@@ -745,11 +757,13 @@ public class CoinmastersFrame
 			this.side = side;
 		}
 
+		@Override
 		public int buyDefault( final int max )
 		{
 			return max;
 		}
 
+		@Override
 		public String lighthouseSide()
 		{
 			return this.side;
@@ -1018,16 +1032,19 @@ public class CoinmastersFrame
 				this.filterItems();
 			}
 
+			@Override
 			public void setEnabled( final boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
 				this.buttons[ 0 ].setEnabled( CoinmasterPanel.this.enabled() );
 			}
 
+			@Override
 			public void addFilters()
 			{
 			}
 
+			@Override
 			public void addMovers()
 			{
 				if ( CoinmasterPanel.this.addSellMovers() )
@@ -1036,15 +1053,18 @@ public class CoinmastersFrame
 				}
 			}
 
+			@Override
 			public AutoFilterTextField getWordFilter()
 			{
 				return new SellableFilterField();
 			}
 
+			@Override
 			public void actionConfirmed()
 			{
 			}
 
+			@Override
 			public void actionCancelled()
 			{
 			}
@@ -1052,6 +1072,7 @@ public class CoinmastersFrame
 			public class SellListener
 				extends ThreadedListener
 			{
+				@Override
 				protected void execute()
 				{
 					CoinmasterData data = CoinmasterPanel.this.data;
@@ -1076,6 +1097,7 @@ public class CoinmastersFrame
 					CoinmasterPanel.this.execute( data.getSellAction(), items );
 				}
 
+				@Override
 				public String toString()
 				{
 					return "sell";
@@ -1085,6 +1107,7 @@ public class CoinmastersFrame
 			private class SellableFilterField
 				extends FilterItemField
 			{
+				@Override
 				public boolean isVisible( final Object element )
 				{
 					if ( !( element instanceof AdventureResult ) )
@@ -1143,11 +1166,13 @@ public class CoinmastersFrame
 				this.addButtons( buttons, save );
 			}
 
+			@Override
 			public void addButtons( final JButton[] buttons, final boolean save )
 			{
 				super.addButtons( buttons, save );
 			}
 
+			@Override
 			public void setEnabled( final boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
@@ -1157,10 +1182,12 @@ public class CoinmastersFrame
 				}
 			}
 
+			@Override
 			public void addFilters()
 			{
 			}
 
+			@Override
 			public void addMovers()
 			{
 			}
@@ -1174,6 +1201,7 @@ public class CoinmastersFrame
 			public class BuyListener
 				extends ThreadedListener
 			{
+				@Override
 				protected void execute()
 				{
 					CoinmasterData data = CoinmasterPanel.this.data;
@@ -1193,6 +1221,7 @@ public class CoinmastersFrame
 					CoinmasterPanel.this.execute( data.getBuyAction(), items );
 				}
 
+				@Override
 				public String toString()
 				{
 					return "buy";
@@ -1202,6 +1231,7 @@ public class CoinmastersFrame
 			public class BuyUsingStorageListener
 				extends ThreadedListener
 			{
+				@Override
 				protected void execute()
 				{
 					Object[] items = BuyPanel.this.getDesiredItems( true );
@@ -1215,6 +1245,7 @@ public class CoinmastersFrame
 						 CoinmasterPanel.this.data.getStorageAction() );
 				}
 
+				@Override
 				public String toString()
 				{
 					return "from storage";
@@ -1250,6 +1281,7 @@ public class CoinmastersFrame
 			return true;
 		}
 
+		@Override
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index, final boolean isSelected, final boolean cellHasFocus )
 		{
 			Component defaultComponent =

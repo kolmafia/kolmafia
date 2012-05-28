@@ -967,6 +967,7 @@ public class KoLAdventure
 	 * @return The string form of the adventure
 	 */
 
+	@Override
 	public String toString()
 	{
 		return this.normalString;

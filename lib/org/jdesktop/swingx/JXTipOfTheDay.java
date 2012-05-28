@@ -164,7 +164,8 @@ public class JXTipOfTheDay extends JXPanel {
    * 
    * @see javax.swing.JComponent#updateUI
    */
-  public void updateUI() {
+  @Override
+public void updateUI() {
     setUI((TipOfTheDayUI)LookAndFeelAddons.getUI(this, TipOfTheDayUI.class));
   }
 

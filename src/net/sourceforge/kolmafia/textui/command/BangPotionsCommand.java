@@ -53,6 +53,7 @@ public class BangPotionsCommand
 		this.usage = " - list the potions you've identified.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int first = 819, last = 827;

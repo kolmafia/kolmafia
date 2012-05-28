@@ -91,6 +91,7 @@ public class ManaBurn
 		return SkillDatabase.getMPConsumptionById( this.skillId );
 	}
 	
+	@Override
 	public String toString()
 	{
 		return "cast " + this.count + " " + this.skillName;

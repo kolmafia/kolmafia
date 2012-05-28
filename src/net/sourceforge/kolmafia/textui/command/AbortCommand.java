@@ -44,6 +44,7 @@ public class AbortCommand
 		this.usage = " [message] - stop current script or automated task.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );

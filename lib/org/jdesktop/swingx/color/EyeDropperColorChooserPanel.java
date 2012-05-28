@@ -80,14 +80,17 @@ public class EyeDropperColorChooserPanel extends AbstractColorChooserPanel {
     public EyeDropperColorChooserPanel() {
         initComponents();
         MouseInputAdapter mia = new MouseInputAdapter() {
-            public void mousePressed(MouseEvent evt) {
+            @Override
+	public void mousePressed(MouseEvent evt) {
             }
-            public void mouseDragged(MouseEvent evt) {
+            @Override
+	public void mouseDragged(MouseEvent evt) {
                 Point pt = evt.getPoint();
                 SwingUtilities.convertPointToScreen(pt,evt.getComponent());
                 ((MagnifyingPanel)magPanel).setMagPoint(pt);
             }
-            public void mouseReleased(MouseEvent evt) {
+            @Override
+	public void mouseReleased(MouseEvent evt) {
                 Color newColor = new Color(((MagnifyingPanel)magPanel).activeColor);
                 getColorSelectionModel().setSelectedColor(newColor);
             }
@@ -119,7 +122,8 @@ public class EyeDropperColorChooserPanel extends AbstractColorChooserPanel {
             this.point = point;
             repaint();
         }
-        public void paintComponent(Graphics g) {
+        @Override
+	public void paintComponent(Graphics g) {
             if(point != null) {
                 Rectangle rect = new Rectangle((int)point.getX()-10,(int)point.getY()-10,20,20);
                 try {
@@ -247,33 +251,38 @@ public class EyeDropperColorChooserPanel extends AbstractColorChooserPanel {
     /**
      * {@inheritDoc}
      */
-    public void updateChooser() {
+    @Override
+public void updateChooser() {
     }
     
     /**
      * {@inheritDoc}
      */
-    protected void buildChooser() {
+    @Override
+protected void buildChooser() {
     }
     
     /**
      * {@inheritDoc}
      */
-    public String getDisplayName() {
+    @Override
+public String getDisplayName() {
         return "Grab from Screen";
     }
     
     /**
      * {@inheritDoc}
      */
-    public Icon getSmallDisplayIcon() {
+    @Override
+public Icon getSmallDisplayIcon() {
         return new ImageIcon();
     }
     
     /**
      * {@inheritDoc}
      */
-    public Icon getLargeDisplayIcon() {
+    @Override
+public Icon getLargeDisplayIcon() {
         return new ImageIcon();
     }
 }

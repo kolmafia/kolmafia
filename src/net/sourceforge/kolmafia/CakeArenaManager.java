@@ -219,11 +219,13 @@ public class CakeArenaManager
 			return this.weight;
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.description;
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			return o != null && o instanceof ArenaOpponent && this.id == ( (ArenaOpponent) o ).id;

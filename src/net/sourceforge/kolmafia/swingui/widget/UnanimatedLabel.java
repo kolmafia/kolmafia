@@ -49,6 +49,7 @@ public class UnanimatedLabel
 		super( " ", null, SwingConstants.CENTER );
 	}
 
+	@Override
 	public boolean imageUpdate( final Image img, final int infoflags, final int x, final int y, final int width,
 		final int height )
 	{

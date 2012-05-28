@@ -92,6 +92,7 @@ public class PulverizePanel
 		this.movers[ 2 ].setSelected( true );
 	}
 
+	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
@@ -120,11 +121,13 @@ public class PulverizePanel
 			super( contents, contents[0] );
 		}
 
+		@Override
 		public boolean isCellEditable( int row, int column )
 		{
 			return false;
 		}
 	}
+	@Override
 	public void addFilters()
 	{
 		JPanel filterPanel = new JPanel();
@@ -177,6 +180,7 @@ public class PulverizePanel
 		this.filterItems();
 	}
 
+	@Override
 	public AutoFilterTextField getWordFilter()
 	{
 		return new EquipmentFilterField();
@@ -200,6 +204,7 @@ public class PulverizePanel
 			this.update();
 		}
 
+		@Override
 		public void update()
 		{
 			this.others = PulverizePanel.this.filters[ 6 ].isSelected();
@@ -226,6 +231,7 @@ public class PulverizePanel
 			super.update();
 		}
 
+		@Override
 		public boolean isVisible( final Object element )
 		{
 			if ( element == null || !(element instanceof AdventureResult) )
@@ -268,6 +274,7 @@ public class PulverizePanel
 			super( "Smashing", false );
 		}
 
+		@Override
 		protected void execute()
 		{
 			Object[] items = this.initialSetup();
@@ -291,6 +298,7 @@ public class PulverizePanel
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return "add to queue";
@@ -305,6 +313,7 @@ public class PulverizePanel
 			super( "Keeping", false );
 		}
 
+		@Override
 		protected void execute()
 		{
 			Object[] items = this.initialSetup( ItemManagePanel.TAKE_ALL );
@@ -327,6 +336,7 @@ public class PulverizePanel
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return "remove from queue";
@@ -336,6 +346,7 @@ public class PulverizePanel
 	public class ClearListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			KoLConstants.pulverizeQueue.clear();
@@ -344,6 +355,7 @@ public class PulverizePanel
 			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
 		}
 
+		@Override
 		public String toString()
 		{
 			return "clear queue";
@@ -353,6 +365,7 @@ public class PulverizePanel
 	public class PulverizeListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( KoLConstants.pulverizeQueue.isEmpty() )
@@ -379,6 +392,7 @@ public class PulverizePanel
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return "pulverize";
@@ -396,6 +410,7 @@ public class PulverizePanel
 			this.asMessage = asMessage;
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.asString;
@@ -410,6 +425,7 @@ public class PulverizePanel
 	public class WadbotListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( KoLConstants.pulverizeQueue.isEmpty() )
@@ -464,6 +480,7 @@ public class PulverizePanel
 				items, false, true );
 		}
 
+		@Override
 		public String toString()
 		{
 			return "send to wadbot";

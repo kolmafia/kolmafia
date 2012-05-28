@@ -60,11 +60,13 @@ public class CustomOutfitRequest
 		// delete4982=on
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void processResults()
 	{
 		CustomOutfitRequest.parseResponse( this.getURLString(), this.responseText );

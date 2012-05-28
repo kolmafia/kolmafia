@@ -182,6 +182,7 @@ public abstract class GenericPanel
 		StaticEntity.registerPanel( this );
 	}
 
+	@Override
 	public void setContent( final VerifiableElement[] elements, final boolean bothDisabledOnClick )
 	{
 		super.setContent( elements, bothDisabledOnClick );
@@ -238,6 +239,7 @@ public abstract class GenericPanel
 		}
 	}
 
+	@Override
 	public void dispose()
 	{
 		if ( this.listenerMap == null )
@@ -295,6 +297,7 @@ public abstract class GenericPanel
 		}
 	}
 
+	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
@@ -439,6 +442,7 @@ public abstract class GenericPanel
 			}
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			this.textField.setEnabled( isEnabled );
@@ -583,6 +587,7 @@ public abstract class GenericPanel
 	public class ActionConfirmListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( getKeyCode() != KeyEvent.VK_ENTER )
@@ -597,6 +602,7 @@ public abstract class GenericPanel
 	private class ConfirmedListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( GenericPanel.this.contentSet )
@@ -609,6 +615,7 @@ public abstract class GenericPanel
 	private class CancelledListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( GenericPanel.this.contentSet )

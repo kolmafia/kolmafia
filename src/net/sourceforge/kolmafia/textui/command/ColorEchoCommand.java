@@ -45,6 +45,7 @@ public class ColorEchoCommand
 		this.usage = " <color> <text> - show text using color (specified by name or #RRGGBB).";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		int spaceIndex = parameters.indexOf( " " );

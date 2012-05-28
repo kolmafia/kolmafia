@@ -60,6 +60,7 @@ public class SortedListModel
 	 * but to a different position.
 	 */
 
+	@Override
 	public void add( final int index, final Object element )
 	{
 		if ( element == null )
@@ -74,6 +75,7 @@ public class SortedListModel
 	 * Please refer to {@link java.util.List#add(Object)} for more information regarding this function.
 	 */
 
+	@Override
 	public boolean add( final Object o )
 	{
 		if ( o == null )
@@ -100,6 +102,7 @@ public class SortedListModel
 	 * Please refer to {@link java.util.List#addAll(int,Collection)} for more information regarding this function.
 	 */
 
+	@Override
 	public boolean addAll( final int index, final Collection c )
 	{
 		boolean result = super.addAll( index, c );
@@ -117,6 +120,7 @@ public class SortedListModel
 	 * Please refer to {@link java.util.List#indexOf(Object)} for more information regarding this function.
 	 */
 
+	@Override
 	public int indexOf( final Object o )
 	{
 		return o == null ? -1 : this.normalIndexOf( 0, this.size() - 1, (Comparable) o );
@@ -126,6 +130,7 @@ public class SortedListModel
 	 * Please refer to {@link java.util.List#contains(Object)} for more information regarding this function.
 	 */
 
+	@Override
 	public boolean contains( final Object o )
 	{
 		return this.indexOf( o ) != -1;

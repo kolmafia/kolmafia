@@ -210,10 +210,12 @@ public class ItemTableManagePanel
 		}
 	}
 
+	@Override
 	public void actionConfirmed()
 	{
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 	}
@@ -371,6 +373,7 @@ public class ItemTableManagePanel
 		this.northPanel.add( moverPanel, BorderLayout.SOUTH );
 	}
 
+	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
 		if ( this.elementList == null || this.buttons == null )
@@ -658,6 +661,7 @@ public class ItemTableManagePanel
 			return items;
 		}
 		
+		@Override
 		protected boolean retainFocus()
 		{
 			return true;
@@ -672,6 +676,7 @@ public class ItemTableManagePanel
 			super( "Consume", retrieveFromClosetFirst );
 		}
 
+		@Override
 		protected void execute()
 		{
 			Object[] items = this.initialSetup();
@@ -687,6 +692,7 @@ public class ItemTableManagePanel
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return "use item";
@@ -701,6 +707,7 @@ public class ItemTableManagePanel
 			super( "Equip", retrieveFromClosetFirst );
 		}
 
+		@Override
 		protected void execute()
 		{
 			Object[] items = this.initialSetup();
@@ -730,6 +737,7 @@ public class ItemTableManagePanel
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return "equip item";
@@ -744,6 +752,7 @@ public class ItemTableManagePanel
 			super( retrieveFromClosetFirst ? "Bagging" : "Closeting", retrieveFromClosetFirst );
 		}
 
+		@Override
 		protected void execute()
 		{
 			Object[] items = this.initialSetup();
@@ -758,6 +767,7 @@ public class ItemTableManagePanel
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.retrieveFromClosetFirst ? "put in bag" : "put in closet";
@@ -775,6 +785,7 @@ public class ItemTableManagePanel
 			this.autosell = autosell;
 		}
 
+		@Override
 		protected void execute()
 		{
 			if ( !this.autosell && !KoLCharacter.hasStore() )
@@ -809,6 +820,7 @@ public class ItemTableManagePanel
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.autosell ? "auto sell" : "place in mall";
@@ -823,6 +835,7 @@ public class ItemTableManagePanel
 			super( "Stashing", retrieveFromClosetFirst );
 		}
 
+		@Override
 		protected void execute()
 		{
 			Object[] items = this.initialSetup();
@@ -834,6 +847,7 @@ public class ItemTableManagePanel
 			RequestThread.postRequest( new ClanStashRequest( items, ClanStashRequest.ITEMS_TO_STASH ) );
 		}
 
+		@Override
 		public String toString()
 		{
 			return "clan stash";
@@ -848,6 +862,7 @@ public class ItemTableManagePanel
 			super( "Showcasing", retrieveFromClosetFirst );
 		}
 
+		@Override
 		protected void execute()
 		{
 			Object[] items = this.initialSetup();
@@ -865,6 +880,7 @@ public class ItemTableManagePanel
 			RequestThread.postRequest( new DisplayCaseRequest( items, true ) );
 		}
 
+		@Override
 		public String toString()
 		{
 			return "display case";
@@ -879,6 +895,7 @@ public class ItemTableManagePanel
 			super( "Smashing", retrieveFromClosetFirst );
 		}
 
+		@Override
 		protected void execute()
 		{
 			Object[] items = this.initialSetup();
@@ -893,6 +910,7 @@ public class ItemTableManagePanel
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return "pulverize";
@@ -921,6 +939,7 @@ public class ItemTableManagePanel
 			this.notrade = true;
 		}
 
+		@Override
 		public void update()
 		{
 			if ( ItemTableManagePanel.this.filters != null )
@@ -937,6 +956,7 @@ public class ItemTableManagePanel
 			super.update();
 		}
 
+		@Override
 		public boolean isVisible( final Object element )
 		{
 			if ( element instanceof AdventureResult && ( (AdventureResult) element ).getCount() < 0 )

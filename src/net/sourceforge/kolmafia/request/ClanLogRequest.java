@@ -93,11 +93,13 @@ public class ClanLogRequest
 		super( "clan_log.php" );
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving clan stash log..." );
@@ -447,11 +449,13 @@ public class ClanLogRequest
 			return o == null || !( o instanceof StashLogEntry ) ? -1 : this.timestamp.before( ( (StashLogEntry) o ).timestamp ) ? 1 : this.timestamp.after( ( (StashLogEntry) o ).timestamp ) ? -1 : 0;
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			return o == null || !( o instanceof StashLogEntry ) ? false : this.stringform.equals( o.toString() );
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.stringform;

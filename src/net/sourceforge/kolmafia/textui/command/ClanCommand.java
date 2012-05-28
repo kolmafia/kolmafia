@@ -45,6 +45,7 @@ public class ClanCommand
 		this.usage = " [ snapshot | stashlog ] - clan management.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equals( "" ) )

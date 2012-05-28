@@ -86,14 +86,16 @@ public class MapComboBoxModel<K, V> extends ListComboBoxModel<K> {
     /**
      * {@inheritDoc}
      */
-    public int getSize() {
+    @Override
+public int getSize() {
         return map_data.size();
     }
     
     /**
      * {@inheritDoc}
      */
-    public void actionPerformed(ActionEvent evt) {
+    @Override
+public void actionPerformed(ActionEvent evt) {
         //kgs - this code might not be performant with large maps
         if(evt.getActionCommand().equals(UPDATE)) {
             //add new keys

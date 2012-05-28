@@ -48,6 +48,7 @@ public class TrainFamiliarCommand
 		this.usage = " base <weight> | buffed <weight> | turns <number> - train familiar.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		// train (base | buffed | turns) <goal>

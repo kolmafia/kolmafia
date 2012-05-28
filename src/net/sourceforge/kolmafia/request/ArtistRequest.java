@@ -63,6 +63,7 @@ public class ArtistRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		ArtistRequest.parseResponse( this.getURLString(), this.responseText );

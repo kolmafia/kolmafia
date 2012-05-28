@@ -69,6 +69,7 @@ public class ConditionsCommand
 		this.usage = " clear | check | add <condition> | remove <condition> | set <condition> - modify your adventuring goals.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equals( "" ) )
@@ -204,6 +205,7 @@ public class ConditionsCommand
 			return new AdventureResult( AdventureResult.PSEUDO_ITEM_PRIORITY,
 				"pirate insult", count ) {
 			
+				@Override
 				public int getCount( List list )
 				{
 					if ( list != KoLConstants.inventory )
@@ -222,6 +224,7 @@ public class ConditionsCommand
 			return new AdventureResult( AdventureResult.PSEUDO_ITEM_PRIORITY,
 				"Arena flyer ML", count ) {
 			
+				@Override
 				public int getCount( List list )
 				{
 					if ( list != KoLConstants.inventory )

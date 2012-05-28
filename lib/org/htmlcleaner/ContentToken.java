@@ -58,7 +58,8 @@ public class ContentToken implements BaseToken {
         return content.toString();
     }
 
-    public String toString() {
+    @Override
+public String toString() {
         return content.toString();
     }
 

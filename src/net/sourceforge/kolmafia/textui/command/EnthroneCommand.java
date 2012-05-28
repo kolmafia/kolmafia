@@ -63,6 +63,7 @@ public class EnthroneCommand
 		this.usage = "[?] <species> - place a familiar in the Crown of Thrones.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		if ( parameters.length() == 0 )

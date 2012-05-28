@@ -41,11 +41,13 @@ public class CouncilRequest
 		super( "council.php" );
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public String getHashField()
 	{
 		return null;

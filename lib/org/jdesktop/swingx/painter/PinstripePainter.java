@@ -198,7 +198,8 @@ public class PinstripePainter extends AbstractPainter<Object> {
     /**
      * {@inheritDoc}
      */
-    protected void doPaint(Graphics2D g, Object component, int width, int height) {
+    @Override
+protected void doPaint(Graphics2D g, Object component, int width, int height) {
         //draws pinstripes at the angle specified in this class
         //and at the given distance apart
         Shape oldClip = g.getClip();

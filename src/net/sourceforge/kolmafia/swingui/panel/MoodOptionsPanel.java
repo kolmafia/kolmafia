@@ -109,14 +109,17 @@ public class MoodOptionsPanel
 			this.actualPanel.add( buttonHolder, BorderLayout.EAST );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 		}
@@ -274,6 +277,7 @@ public class MoodOptionsPanel
 			this.commandField.setText( node.getAction() );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			String currentMood = Preferences.getString( "currentMood" );
@@ -289,6 +293,7 @@ public class MoodOptionsPanel
 			MoodManager.saveSettings();
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			String[] autoFillTypes =
@@ -313,10 +318,12 @@ public class MoodOptionsPanel
 			MoodManager.saveSettings();
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 		}
 
+		@Override
 		public void addStatusLabel()
 		{
 		}
@@ -329,6 +336,7 @@ public class MoodOptionsPanel
 				super( AddTriggerPanel.this.EFFECT_MODEL, false );
 			}
 
+			@Override
 			public void setSelectedItem( final Object anObject )
 			{
 				AddTriggerPanel.this.commandField.setText( MoodManager.getDefaultAction(

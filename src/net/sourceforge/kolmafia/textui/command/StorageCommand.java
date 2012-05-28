@@ -59,6 +59,7 @@ public class StorageCommand
 		this.usage = " outfit <name> | <item> [, <item>]... - pull items from Hagnk's storage.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( KoLCharacter.inBadMoon() && !KoLCharacter.canInteract() )

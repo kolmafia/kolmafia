@@ -47,16 +47,19 @@ public class AggregateValue
 		return ( (AggregateType) this.type ).getDataType();
 	}
 
+	@Override
 	public int count()
 	{
 		return 0;
 	}
 
+	@Override
 	public boolean contains( final Value index )
 	{
 		return false;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "aggregate " + this.type.toString();

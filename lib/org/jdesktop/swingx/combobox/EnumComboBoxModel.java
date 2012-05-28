@@ -134,7 +134,8 @@ public class EnumComboBoxModel<E extends Enum<E>> extends ListComboBoxModel<E> {
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings("unchecked")
+    @Override
+@SuppressWarnings("unchecked")
     public void setSelectedItem(Object anItem) {
         E input = null;
         

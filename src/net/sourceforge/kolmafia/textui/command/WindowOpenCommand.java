@@ -45,6 +45,7 @@ public class WindowOpenCommand
 		this.usage = " - switch to tab or open window";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		if ( command.equals( "chat" ) )

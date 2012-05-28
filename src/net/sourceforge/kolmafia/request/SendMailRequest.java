@@ -118,47 +118,56 @@ public class SendMailRequest
 		return this.recipient;
 	}
 
+	@Override
 	public int getCapacity()
 	{
 		return 11;
 	}
 
+	@Override
 	public TransferItemRequest getSubInstance( final Object[] attachments )
 	{
 		return new SendMailRequest( this.recipient, this.message, attachments, this.isInternal );
 	}
 
+	@Override
 	public String getStatusMessage()
 	{
 		return "Sending kmail to " + ContactManager.getPlayerName( this.recipient );
 	}
 
+	@Override
 	public String getItemField()
 	{
 		return "whichitem";
 	}
 
+	@Override
 	public String getQuantityField()
 	{
 		return "howmany";
 	}
 
+	@Override
 	public String getMeatField()
 	{
 		return "sendmeat";
 	}
 
+	@Override
 	public boolean allowMementoTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUntradeableTransfer()
 	{
 		return true;
 	}
 
-        public boolean parseTransfer()
+        @Override
+	public boolean parseTransfer()
 	{
                 return SendMailRequest.parseTransfer( this.getURLString(), this.responseText );
         }

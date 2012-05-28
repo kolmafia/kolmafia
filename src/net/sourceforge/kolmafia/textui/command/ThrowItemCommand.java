@@ -52,6 +52,7 @@ public class ThrowItemCommand
 		this.usage = "[?] <item> at <player> [ || <message> ] - use item on someone else";
 	}
 
+	@Override
 	public void run( String command, String parameters )
 	{
 		String msg = "";

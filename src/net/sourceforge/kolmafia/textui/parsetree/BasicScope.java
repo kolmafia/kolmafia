@@ -386,6 +386,7 @@ public abstract class BasicScope
 		return bestMatch;
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Iterator it;
@@ -434,6 +435,7 @@ public abstract class BasicScope
 		}
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		// Yield control at the top of the scope to

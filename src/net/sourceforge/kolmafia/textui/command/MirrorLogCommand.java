@@ -44,6 +44,7 @@ public class MirrorLogCommand
 		this.usage = " [<filename>] - stop [or start] logging to an additional file.";
 	}
 
+	@Override
 	public void run( final String command, String parameters )
 	{
 		if ( command.indexOf( "end" ) != -1 || command.indexOf( "stop" ) != -1 || command.indexOf( "close" ) != -1 || parameters.length() == 0 || parameters.equals( "end" ) || parameters.equals( "stop" ) || parameters.equals( "close" ) )

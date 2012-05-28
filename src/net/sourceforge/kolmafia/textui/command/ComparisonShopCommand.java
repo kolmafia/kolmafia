@@ -63,6 +63,7 @@ public class ComparisonShopCommand
 		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		boolean expensive = cmd.equals( "expensive" );

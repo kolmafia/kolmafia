@@ -113,11 +113,13 @@ public class UntinkerRequest
 		}
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		// Check to see if the item can be constructed using meat
@@ -168,6 +170,7 @@ public class UntinkerRequest
 		KoLmafia.updateDisplay( "Successfully untinkered " + this.item );
 	}
 
+	@Override
 	public void processResults()
 	{
 		UntinkerRequest.parseResponse( this.getURLString(), this.responseText );

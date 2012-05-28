@@ -52,6 +52,7 @@ public class PrefTraceCommand
 		this.usage = " <name> [, <name>]... - watch changes to indicated preferences";
 	}
 
+	@Override
 	public void run( String command, final String parameters )
 	{
 		if ( audience != null )

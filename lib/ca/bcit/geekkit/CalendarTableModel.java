@@ -220,6 +220,7 @@ public class CalendarTableModel
 	 * @param col the column at which a name is being requested for
 	 * @return the <code>String</code> name of column <code>col</code>
 	 */
+	@Override
 	public String getColumnName( final int col )
 	{
 		String s = (String) this.columnNames.get( col );
@@ -242,6 +243,7 @@ public class CalendarTableModel
 	 * JTable uses this method to determine the default renderer/editor for each cell @param col the column to index
 	 * @return the class of the object that is being used to render this column
 	 */
+	@Override
 	public Class getColumnClass( final int col )
 	{
 		return this.getValueAt( 0, col ).getClass();
@@ -252,6 +254,7 @@ public class CalendarTableModel
 	 * int at a particular cell in the table @param row the row at which to add the <code>Object</code> @param row the
 	 * column at which to add the <code>Object</code>
 	 */
+	@Override
 	public void setValueAt( final Object value, final int row, final int col )
 	{
 		( (Vector) this.data.elementAt( row ) ).set( col, value );

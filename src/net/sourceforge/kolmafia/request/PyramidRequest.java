@@ -72,6 +72,7 @@ public class PyramidRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( !this.getURLString().startsWith( "pyramid.php" ) )

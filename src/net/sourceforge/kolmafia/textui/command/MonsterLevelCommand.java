@@ -47,6 +47,7 @@ public class MonsterLevelCommand
 		this.usage = " <number> - set mind control device (or equivalent) to new value.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int setting = StringUtilities.parseInt( parameters );

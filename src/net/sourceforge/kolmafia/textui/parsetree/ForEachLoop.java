@@ -81,6 +81,7 @@ public class ForEachLoop
 		return this.aggregate;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -203,11 +204,13 @@ public class ForEachLoop
 		return DataTypes.VOID_VALUE;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "foreach";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

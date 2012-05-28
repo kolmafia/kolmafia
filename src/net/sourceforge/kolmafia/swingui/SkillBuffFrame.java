@@ -156,6 +156,7 @@ public class SkillBuffFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			if ( SkillBuffFrame.this.skillSelect == null || SkillBuffFrame.this.targetSelect == null )
@@ -169,11 +170,13 @@ public class SkillBuffFrame
 			SkillBuffFrame.this.targetSelect.setEnabled( isEnabled );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			this.buff( false );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			this.buff( true );
