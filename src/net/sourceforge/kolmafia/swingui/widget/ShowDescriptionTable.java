@@ -47,7 +47,6 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
-import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.SortController;
@@ -61,12 +60,12 @@ import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -139,7 +138,6 @@ public class ShowDescriptionTable
 		}
 	};
 	private boolean isEquipmentOnly;
-	private static String[] columnNames;
 	
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
@@ -245,37 +243,12 @@ public class ShowDescriptionTable
 		this.displayModel = filter == null ? displayModel.getMirrorImage() : displayModel
 			.getMirrorImage( filter );
 
-		// TODO: pull this switching function out, it shouldn't be inline here in the constructor.
-		// Put it in TableCellFactory?
-		if ( isEquipmentOnly )
-		{
-			columnNames = new String[]
-			{
-				"item name", "power", "quantity", "mallprice", "autosell"
-			};
-		}
-		else if ( this.originalModel == KoLConstants.inventory || this.originalModel == KoLConstants.tally
-			|| this.originalModel == KoLConstants.closet || this.originalModel == KoLConstants.freepulls )
-		{
-			columnNames = new String[]
-			{
-				"item name", "autosell", "quantity", "mallprice", "HP restore", "MP restore"
-			};
-		}
-		else if ( this.originalModel == ConcoctionDatabase.getCreatables()
-			|| this.originalModel == ConcoctionDatabase.getUsables() )
-		{
-			columnNames = new String[]
-			{
-				"item name", "autosell", "quantity", "mallprice"
-			};
-		}
-		this.adaptedModel = new AdaptedTableModel( this.displayModel, columnNames, isEquipmentOnly );
+		String[] colNames = TableCellFactory.getColumnNames( this.originalModel, isEquipmentOnly );
+		this.adaptedModel = new AdaptedTableModel( this.displayModel, colNames, isEquipmentOnly );
 
 		// this.getTableHeader().setReorderingAllowed( false );
 		this.setShowGrid( false );
 		this.setModel( this.adaptedModel );
-		this.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 		// form of.. magic numbers
 		this.getColumnModel().getColumn( 0 ).setPreferredWidth( 220 );
@@ -320,17 +293,24 @@ public class ShowDescriptionTable
 	@Override
 	public void toggleSortOrder( int columnIndex )
 	{
-		// TODO: find a more programmatic way to find the index of the autosell column
-		int MEAT_COLUMN_INDEX = isEquipmentOnly ? 4 : 1;
+		boolean isAutosell = false;
+
 		if ( !isSortable( columnIndex ) )
 			return;
+
+		if ( getColumn( columnIndex ).getHeaderValue().toString()
+			.equals( "autosell" ) )
+		{
+			isAutosell = true;
+		}
+
 		SortController controller = getSortController();
 		Comparator<Object> comparator = null;
 
 		if ( controller != null )
 		{
 			TableColumnExt columnExt = getColumnExt( columnIndex );
-			if ( convertColumnIndexToModel( columnIndex ) == MEAT_COLUMN_INDEX )
+			if ( isAutosell )
 			{
 				comparator = ShowDescriptionTable.this.getMeatComparator();
 			}
