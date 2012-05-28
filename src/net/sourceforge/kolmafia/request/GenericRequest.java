@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
@@ -397,7 +398,7 @@ public class GenericRequest
 
 	public GenericRequest( final String newURLString, final boolean usePostMethod )
 	{
-		this.data = new ArrayList();
+		this.data = new ArrayList<String>();
 		if ( !newURLString.equals( "" ) )
 		{
 			this.constructURLString( newURLString, usePostMethod );
@@ -438,7 +439,7 @@ public class GenericRequest
 		this.dataChanged = true;
 		this.data.clear();
 
-		if ( newURLString.startsWith( "/" ) )
+		while ( newURLString.startsWith( "/" ) )
 		{
 			newURLString = newURLString.substring( 1 );
 		}
@@ -453,7 +454,14 @@ public class GenericRequest
 		}
 		else
 		{
-			this.baseURLString = URLDecoder.decode( newURLString.substring( 0, formSplitIndex ) );
+			try
+			{
+				this.baseURLString = URLDecoder.decode( newURLString.substring( 0, formSplitIndex ), "UTF-8" );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				this.baseURLString = newURLString;
+			}
 			String queryString = newURLString.substring( formSplitIndex + 1 );
 
 			if ( !usePostMethod )
@@ -1394,10 +1402,22 @@ public class GenericRequest
 
 	public static final boolean shouldIgnore( final GenericRequest request )
 	{
+		String requestURL = null;
+		if ( request.formURLString != null )
+		{
+			try
+			{
+				requestURL = URLDecoder.decode( request.formURLString, "UTF-8" );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				requestURL = request.formURLString;
+			}
+		}
 		return request.formURLString == null ||
 			// Disallow mall searches
-			request.formURLString.indexOf( "mall.php" ) != -1 ||
-			request.formURLString.indexOf( "manageprices.php" ) != -1 ||
+			requestURL.indexOf( "mall.php" ) != -1 ||
+			requestURL.indexOf( "manageprices.php" ) != -1 ||
 			// Disallow anything to do with chat
 			request.isChatRequest;
 	}
