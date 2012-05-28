@@ -1430,8 +1430,7 @@ public class JXTable extends JTable implements TableColumnModelExtListener {
      * @see #getFillsViewportHeight()
      * @see #getScrollableTracksViewportHeight()
      */
-    @Override
-public void setFillsViewportHeight(boolean fillsViewportHeight) {
+    public void setFillsViewportHeight(boolean fillsViewportHeight) {
         if (fillsViewportHeight == getFillsViewportHeight())
             return;
         boolean old = getFillsViewportHeight();
@@ -1449,8 +1448,7 @@ public void setFillsViewportHeight(boolean fillsViewportHeight) {
      * @see #setFillsViewportHeight(boolean)
      * @see #getScrollableTracksViewportHeight()
      */
-    @Override
-public boolean getFillsViewportHeight() {
+    public boolean getFillsViewportHeight() {
         return fillsViewportHeight;
     }
 
@@ -1493,8 +1491,7 @@ public boolean getFillsViewportHeight() {
      * @param row row index in view coordinates
      * @return row index in model coordinates
      */
-    @Override
-public int convertRowIndexToModel(int row) {
+    public int convertRowIndexToModel(int row) {
         return getFilters() != null ? getFilters().convertRowIndexToModel(row)
                 : row;
     }
@@ -1506,8 +1503,7 @@ public int convertRowIndexToModel(int row) {
      * @param row row index in model coordinates
      * @return row index in view coordinates
      */
-    @Override
-public int convertRowIndexToView(int row) {
+    public int convertRowIndexToView(int row) {
         return getFilters() != null ? getFilters().convertRowIndexToView(row)
                 : row;
     }
