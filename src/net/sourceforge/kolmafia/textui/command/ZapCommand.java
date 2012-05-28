@@ -50,6 +50,7 @@ public class ZapCommand
 		this.usage = " <item> [, <item>]... - transform items with your wand.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		ZapCommand.zap( parameters );

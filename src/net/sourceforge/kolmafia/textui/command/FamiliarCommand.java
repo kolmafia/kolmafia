@@ -57,6 +57,7 @@ public class FamiliarCommand
 		this.usage = "[?] [list <filter>] | lock | unlock | <species> | none - list or change familiar types";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		if ( parameters.startsWith( "list" ) )

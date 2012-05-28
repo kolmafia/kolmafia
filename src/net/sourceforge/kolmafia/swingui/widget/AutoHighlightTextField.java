@@ -56,6 +56,7 @@ public class AutoHighlightTextField
 		this.addFocusListener( this );
 	}
 
+	@Override
 	public void setText( final String text )
 	{
 		super.setText( text );
@@ -71,6 +72,7 @@ public class AutoHighlightTextField
 	{
 	}
 
+	@Override
 	public void selectAll()
 	{
 		if ( Preferences.getBoolean( "autoHighlightOnFocus" ) )

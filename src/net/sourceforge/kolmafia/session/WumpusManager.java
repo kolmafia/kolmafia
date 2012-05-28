@@ -1283,6 +1283,7 @@ public abstract class WumpusManager
 			return old;
 		}
 
+		@Override
 		public String toString()
 		{
 			return "the " + this.name + " chamber";

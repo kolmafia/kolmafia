@@ -53,6 +53,7 @@ public class HatterCommand
 		this.usage = " [hat] - List effects you can get by wearing available hats at the hatter's tea party, or get a buff with a hat.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.length() < 1 )

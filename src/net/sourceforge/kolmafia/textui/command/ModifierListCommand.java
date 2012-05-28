@@ -45,6 +45,7 @@ public class ModifierListCommand
 		this.usage = " <filter> - list all possible sources of modifiers matching filter.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int count = DebugModifiers.setup( parameters.toLowerCase() );

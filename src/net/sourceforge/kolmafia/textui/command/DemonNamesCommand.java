@@ -45,6 +45,7 @@ public class DemonNamesCommand
 		this.usage = " - list the demon names you know.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		for ( int i = 0; i < KoLAdventure.DEMON_TYPES.length; ++i )

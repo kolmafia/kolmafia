@@ -65,6 +65,7 @@ public class OverlapPanel
 		this.addFilters();
 	}
 
+	@Override
 	public AutoFilterTextField getWordFilter()
 	{
 		return new OverlapFilterField();
@@ -73,6 +74,7 @@ public class OverlapPanel
 	private class OverlapFilterField
 		extends FilterItemField
 	{
+		@Override
 		public boolean isVisible( final Object element )
 		{
 			return super.isVisible( element ) && ( OverlapPanel.this.isOverlap ? KoLConstants.inventory.contains( element ) : !OverlapPanel.this.overlapModel.contains( element ) );
@@ -82,6 +84,7 @@ public class OverlapPanel
 	private class OverlapAdapter
 		extends KeyAdapter
 	{
+		@Override
 		public void keyReleased( final KeyEvent e )
 		{
 			if ( e.isConsumed() )

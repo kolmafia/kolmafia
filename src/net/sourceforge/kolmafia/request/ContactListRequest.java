@@ -54,11 +54,13 @@ public class ContactListRequest
 		super( "account_contactlist.php" );
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		// This is needed to get various lists for frame construction,
@@ -75,6 +77,7 @@ public class ContactListRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		ContactListRequest.parseResponse( this.getURLString(), this.responseText );

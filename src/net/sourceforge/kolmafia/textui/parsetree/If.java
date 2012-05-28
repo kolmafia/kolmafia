@@ -62,6 +62,7 @@ public class If
 		this.elseLoops.add( elseLoop );
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		Value result = super.execute( interpreter );
@@ -89,11 +90,13 @@ public class If
 		return DataTypes.FALSE_VALUE;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "if";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );
@@ -110,6 +113,7 @@ public class If
 		}
 	}
 	
+	@Override
 	public boolean assertBarrier()
 	{	// Summary: an If returns if every contained block of code
 		// returns, and the final block is an Else (not an ElseIf).
@@ -133,6 +137,7 @@ public class If
 		return elseLoop instanceof Else;
 	}
 	
+	@Override
 	public boolean assertBreakable()
 	{
 		if ( this.getScope().assertBreakable() )

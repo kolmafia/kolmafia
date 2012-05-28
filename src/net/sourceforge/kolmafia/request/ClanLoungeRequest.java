@@ -461,6 +461,7 @@ public class ClanLoungeRequest
 		return null;
 	}
 
+	@Override
 	public void run()
 	{
 		switch ( this.action )
@@ -711,6 +712,7 @@ public class ClanLoungeRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		ClanLoungeRequest.parseResponse( this.getURLString(), this.responseText );

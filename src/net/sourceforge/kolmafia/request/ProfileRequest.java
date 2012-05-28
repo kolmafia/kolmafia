@@ -110,6 +110,7 @@ public class ProfileRequest
 		this.karma = IntegerPool.get( 0 );
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
@@ -676,6 +677,7 @@ public class ProfileRequest
 	private static final Pattern GOBACK_PATTERN =
 		Pattern.compile( "http://www[2345678]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)" );
 
+	@Override
 	public void processResults()
 	{
 		Matcher dataMatcher = ProfileRequest.GOBACK_PATTERN.matcher( this.responseText );

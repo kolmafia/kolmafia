@@ -43,6 +43,7 @@ public class ForumCommand
 		this.usage = " - visit the official KoL forums.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		RelayLoader.openSystemBrowser( "http://forums.kingdomofloathing.com/" );

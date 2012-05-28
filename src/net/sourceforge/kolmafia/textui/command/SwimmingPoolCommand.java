@@ -47,6 +47,7 @@ public class SwimmingPoolCommand
 		this.usage = " laps | ml | sprints | noncombat - work out in your clan's VIP lounge swimming pool";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.trim();

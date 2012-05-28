@@ -70,6 +70,7 @@ public class DrinkItemRequest
 		super( ItemDatabase.getConsumptionType( item.getItemId() ), item );
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		return 0;
@@ -130,6 +131,7 @@ public class DrinkItemRequest
 		return inebrietyLeft / inebriety;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.consumptionType == KoLConstants.CONSUME_DRINK_HELPER )
@@ -219,6 +221,7 @@ public class DrinkItemRequest
 		}
 	}
 
+	@Override
 	public void useOnce( final int currentIteration, final int totalIterations, String useTypeAsString )
 	{
 		UseItemRequest.lastUpdate = "";

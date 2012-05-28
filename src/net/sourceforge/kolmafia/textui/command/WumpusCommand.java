@@ -45,6 +45,7 @@ public class WumpusCommand
 		this.usage = " status - Display status of last wumpus cave.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] tokens = parameters.split( "\\s+" );

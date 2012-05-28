@@ -44,6 +44,7 @@ public class VersionCommand
 		this.usage = " - display KoLmafia version.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		RequestLogger.printLine( StaticEntity.getVersion() );

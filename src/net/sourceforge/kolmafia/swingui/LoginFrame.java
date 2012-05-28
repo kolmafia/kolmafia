@@ -104,11 +104,13 @@ public class LoginFrame
 		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( loginPanel.usernameField ) );
 	}
 
+	@Override
 	public boolean shouldAddStatusBar()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean showInWindowMenu()
 	{
 		return false;
@@ -131,6 +133,7 @@ public class LoginFrame
 		}
 	}
 
+	@Override
 	public void dispose()
 	{
 		super.dispose();
@@ -153,6 +156,7 @@ public class LoginFrame
 		}
 	}
 
+	@Override
 	protected void checkForLogout()
 	{
 		this.honorProxySettings();
@@ -272,6 +276,7 @@ public class LoginFrame
 			this.setStatusMessage( updateText );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			if ( this.usernameField == null || this.passwordField == null )
@@ -290,12 +295,14 @@ public class LoginFrame
 			this.passwordField.setEnabled( isEnabled );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			Preferences.setBoolean( "relayBrowserOnly", false );
 			this.doLogin();
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			if ( !LoginRequest.isInstanceRunning() )
@@ -340,6 +347,7 @@ public class LoginFrame
 		private class GetBreakfastListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				Preferences.setBoolean(
@@ -351,6 +359,7 @@ public class LoginFrame
 		private class RemovePasswordListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				if ( !LoginPanel.this.savePasswordCheckBox.isSelected() )
@@ -384,12 +393,14 @@ public class LoginFrame
 				super( KoLConstants.saveStateNames, true );
 			}
 
+			@Override
 			public void setSelectedItem( final Object anObject )
 			{
 				super.setSelectedItem( anObject );
 				this.setPassword();
 			}
 
+			@Override
 			public void findMatch( final int keyCode )
 			{
 				super.findMatch( keyCode );
@@ -461,6 +472,7 @@ public class LoginFrame
 			}
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
@@ -491,6 +503,7 @@ public class LoginFrame
 			this.setOptions( this.options );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
@@ -537,6 +550,7 @@ public class LoginFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
@@ -550,6 +564,7 @@ public class LoginFrame
 			Preferences.setString( this.protocol + ".proxyPassword", this.proxyPassword.getText() );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			String proxyHost = System.getProperty( this.protocol + ".proxyHost" );
@@ -578,6 +593,7 @@ public class LoginFrame
 			}
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )

@@ -202,6 +202,7 @@ public class Operator
 			this.operator.equals( ">=" );
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.operator;
@@ -622,11 +623,13 @@ public class Operator
 		throw interpreter.runtimeException( "Internal error: illegal operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		return null;
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

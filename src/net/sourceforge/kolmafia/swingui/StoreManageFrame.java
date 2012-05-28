@@ -167,6 +167,7 @@ public class StoreManageFrame
 			this.container.add( storePanel, BorderLayout.CENTER );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			if ( !InputFieldUtilities.finalizeTable( StoreManageFrame.this.manageTable ) )
@@ -220,6 +221,7 @@ public class StoreManageFrame
 			RequestThread.postRequest( new ManageStoreRequest( itemId, prices, limits ) );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			int selected =
@@ -310,6 +312,7 @@ public class StoreManageFrame
 			this.listModel.add( value );
 		}
 
+		@Override
 		public Vector constructVector( final Object o )
 		{
 			Vector value = (Vector) o;
@@ -351,6 +354,7 @@ public class StoreManageFrame
 				StoreManager.getSoldItemList() );
 		}
 
+		@Override
 		public Vector constructVector( final Object o )
 		{
 			Vector value = (Vector) o;
@@ -378,6 +382,7 @@ public class StoreManageFrame
 	private class AddItemListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			if ( !InputFieldUtilities.finalizeTable( StoreManageFrame.this.addTable ) )
@@ -425,6 +430,7 @@ public class StoreManageFrame
 			this.itemName = itemName;
 		}
 
+		@Override
 		protected void execute()
 		{
 			String searchName = this.itemName;
@@ -456,6 +462,7 @@ public class StoreManageFrame
 			this.itemId = ItemDatabase.getItemId( itemName );
 		}
 
+		@Override
 		protected void execute()
 		{
 			RequestThread.postRequest( new ManageStoreRequest( this.itemId ) );
@@ -475,6 +482,7 @@ public class StoreManageFrame
 			this.filterItems();
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			Object[] items = this.getDesiredItems( "Mallsell" );
@@ -487,6 +495,7 @@ public class StoreManageFrame
 			RequestThread.postRequest( new ManageStoreRequest( false ) );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			Object[] items = this.getDesiredItems( "Autosell" );
@@ -510,11 +519,13 @@ public class StoreManageFrame
 			this.filters[ 4 ].setEnabled( false );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			this.removeItems( true );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			this.removeItems( false );
@@ -574,12 +585,14 @@ public class StoreManageFrame
 			super( "refresh", "resort", StoreManager.getStoreLog() );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			StoreManager.getStoreLog().clear();
 			RequestThread.postRequest( new ManageStoreRequest( true ) );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			StoreManager.sortStoreLog( true );

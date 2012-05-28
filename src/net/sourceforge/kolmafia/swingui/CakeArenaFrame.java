@@ -78,6 +78,7 @@ public class CakeArenaFrame
 		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new FamiliarRefresher() ) );
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
@@ -179,6 +180,7 @@ public class CakeArenaFrame
 			this.opponentSkill = skill.intValue() == 1 ? "1 star (opponent)" : skill + " stars (opponent)";
 		}
 
+		@Override
 		protected void execute()
 		{
 			int yourSkillValue =

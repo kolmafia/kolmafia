@@ -64,7 +64,8 @@ public class WindowsTipOfTheDayUI extends BasicTipOfTheDayUI {
     return createDialog(parentComponent, choice, false);
   }
 
-  protected void installComponents() {
+  @Override
+protected void installComponents() {
     tipPane.setLayout(new BorderLayout());
 
     // tip icon

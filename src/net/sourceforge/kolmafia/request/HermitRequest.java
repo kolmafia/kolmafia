@@ -196,6 +196,7 @@ public class HermitRequest
 	 * will report an error to the StaticEntity.getClient().
 	 */
 
+	@Override
 	public void run()
 	{
 		// If we have a hermit script, read it now
@@ -229,6 +230,7 @@ public class HermitRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( !HermitRequest.parseHermitTrade( this.getURLString(), this.responseText ) )

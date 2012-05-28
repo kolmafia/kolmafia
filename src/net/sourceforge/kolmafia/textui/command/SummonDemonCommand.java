@@ -54,6 +54,7 @@ public class SummonDemonCommand
 		this.usage = " <demonName> | <effect> | <location> | <number> - use the Summoning Chamber.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.length() == 0 )

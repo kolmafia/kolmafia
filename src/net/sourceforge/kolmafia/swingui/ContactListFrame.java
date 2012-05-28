@@ -90,6 +90,7 @@ public class ContactListFrame
 		this.pack();
 	}
 
+	@Override
 	public JToolBar getToolbar()
 	{
 		JToolBar toolbarPanel = super.getToolbar( true );
@@ -100,11 +101,13 @@ public class ContactListFrame
 		return toolbarPanel;
 	}
 
+	@Override
 	public Component getCenterComponent()
 	{
 		return this.getFramePanel();
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
@@ -200,6 +203,7 @@ public class ContactListFrame
 	private class SendInstantMessageAdapter
 		extends MouseAdapter
 	{
+		@Override
 		public void mouseClicked( final MouseEvent e )
 		{
 			JList list = (JList) e.getSource();

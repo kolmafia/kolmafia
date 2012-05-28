@@ -52,6 +52,7 @@ public class HiddenCityCommand
 		this.usage = " <square> [temple | altar <item>] - set Hidden City square [and perform an action there].";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] split = parameters.split( " ", 3 );

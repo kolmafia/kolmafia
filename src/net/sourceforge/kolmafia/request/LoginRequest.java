@@ -94,11 +94,13 @@ public class LoginRequest
 		LoginRequest.ignoreLoadBalancer = ignoreLoadBalancer;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public String getURLString()
 	{
 		return "login.php";
@@ -224,6 +226,7 @@ public class LoginRequest
 		return hexString.toString();
 	}
 
+	@Override
 	public boolean shouldFollowRedirect()
 	{
 		return true;
@@ -234,6 +237,7 @@ public class LoginRequest
 	 * updates the display or notifies the as appropriate.
 	 */
 
+	@Override
 	public void run()
 	{
 		LoginRequest.completedLogin = false;

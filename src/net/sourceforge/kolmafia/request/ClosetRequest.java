@@ -161,6 +161,7 @@ public class ClosetRequest
 		}
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
@@ -171,16 +172,19 @@ public class ClosetRequest
 		return this.moveType;
 	}
 
+	@Override
 	public String getItemField()
 	{
 		return "whichitem";
 	}
 
+	@Override
 	public String getQuantityField()
 	{
 		return "qty";
 	}
 
+	@Override
 	public String getMeatField()
 	{
 		return "quantity";
@@ -203,26 +207,31 @@ public class ClosetRequest
 		return itemList;
 	}
 
+	@Override
 	public int getCapacity()
 	{
 		return 1;
 	}
 
+	@Override
 	public boolean forceGETMethod()
 	{
 		return this.moveType == INVENTORY_TO_CLOSET || this.moveType == CLOSET_TO_INVENTORY;
 	}
 
+	@Override
 	public TransferItemRequest getSubInstance( final Object[] attachments )
 	{
 		return new ClosetRequest( this.moveType, attachments );
 	}
 
+	@Override
 	public boolean parseTransfer()
 	{
 		return ClosetRequest.parseTransfer( this.getURLString(), this.responseText );
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.moveType == REFRESH )
@@ -243,6 +252,7 @@ public class ClosetRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		switch ( this.moveType )
@@ -440,21 +450,25 @@ public class ClosetRequest
 		return true;
 	}
 
+	@Override
 	public boolean allowMementoTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUntradeableTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUngiftableTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public String getStatusMessage()
 	{
 		switch ( this.moveType )

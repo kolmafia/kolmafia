@@ -55,6 +55,7 @@ public class TrayIconKeeper
 		this.wait();
 	}
 
+	@Override
 	public void run()
 	{
 		try

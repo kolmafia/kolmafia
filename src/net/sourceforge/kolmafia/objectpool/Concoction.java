@@ -344,6 +344,7 @@ public class Concoction
 		return this.name.compareToIgnoreCase( o.name );
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		if ( o == null || !( o instanceof Concoction ) )
@@ -1073,6 +1074,7 @@ public class Concoction
 	 * Returns the string form of this concoction. This is basically the display name for the item created.
 	 */
 
+	@Override
 	public String toString()
 	{
 		return concoction == null ? this.name : this.concoction.getName();

@@ -191,7 +191,8 @@ public abstract class AbstractTableAdapter extends AbstractTableModel {
      * @see #getColumnCount()
      * @see #getRowCount()
      */
-    public String getColumnName(int columnIndex) {
+    @Override
+public String getColumnName(int columnIndex) {
         return columnNames[columnIndex];
     }
 

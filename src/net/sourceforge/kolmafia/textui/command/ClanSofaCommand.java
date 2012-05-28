@@ -47,6 +47,7 @@ public class ClanSofaCommand
 		this.usage = " <number> - rest on your clan sofa for number turns.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		RequestThread.postRequest( new ClanRumpusRequest( ClanRumpusRequest.SOFA ).setTurnCount( StringUtilities.parseInt( parameters ) ) );

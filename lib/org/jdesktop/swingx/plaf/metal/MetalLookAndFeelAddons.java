@@ -28,12 +28,14 @@ import org.jdesktop.swingx.plaf.basic.BasicLookAndFeelAddons;
  */
 public class MetalLookAndFeelAddons extends BasicLookAndFeelAddons {
 
-  public void initialize() {
+  @Override
+public void initialize() {
     super.initialize();
     loadDefaults(getDefaults());
   }
 
-  public void uninitialize() {
+  @Override
+public void uninitialize() {
     super.uninitialize();
     unloadDefaults(getDefaults());
   }

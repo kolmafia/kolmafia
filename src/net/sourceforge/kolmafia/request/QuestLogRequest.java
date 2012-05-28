@@ -120,6 +120,7 @@ public class QuestLogRequest
 		return !Preferences.getString( QuestDatabase.ISLAND_WAR ).equals( "step1" );
 	}
 
+	@Override
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Retrieving quest data..." );
@@ -138,6 +139,7 @@ public class QuestLogRequest
 
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;

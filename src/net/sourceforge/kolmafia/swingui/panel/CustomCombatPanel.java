@@ -398,14 +398,17 @@ public class CustomCombatPanel
 			rb.addItemListener( (ItemListener) listener );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 		}
 
+		@Override
 		public void addStatusLabel()
 		{
 		}
@@ -436,6 +439,7 @@ public class CustomCombatPanel
 			extends MouseAdapter
 			implements ItemListener
 		{
+			@Override
 			public void mousePressed( final MouseEvent e )
 			{
 				SpecialActionsPanel.this.specialPopup.show( SpecialActionsPanel.this.special, 0, 32 );
@@ -525,6 +529,7 @@ public class CustomCombatPanel
 			this.setSelectedItem( Preferences.getString( "customCombatScript" ) );
 		}
 
+		@Override
 		public void actionPerformed( final ActionEvent e )
 		{
 			String script = (String) this.getSelectedItem();
@@ -549,6 +554,7 @@ public class CustomCombatPanel
 			this.eastPanel.add( new RelayBrowserButton( "help", "http://kolmafia.sourceforge.net/combat.html" ), BorderLayout.SOUTH );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			String script = (String) CustomCombatPanel.this.availableScripts.getSelectedItem();
@@ -574,12 +580,14 @@ public class CustomCombatPanel
 			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this.combatCardPanel, "tree" );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			CustomCombatPanel.this.refreshCombatEditor();
 			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this.combatCardPanel, "tree" );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 		}
@@ -606,17 +614,20 @@ public class CustomCombatPanel
 			this.eastPanel.add( buttonHolder, BorderLayout.SOUTH );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			CustomCombatPanel.this.refreshCombatEditor();
 			CustomCombatPanel.this.combatCards.show( CustomCombatPanel.this.combatCardPanel, "editor" );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			RelayLoader.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 		}

@@ -200,6 +200,7 @@ public class CoinMasterRequest
 		RequestThread.postRequest( this );
 	}
 
+	@Override
 	public void run()
 	{
 		CoinmasterData data = this.data;
@@ -264,6 +265,7 @@ public class CoinMasterRequest
 	{
 	}
 
+	@Override
 	public void processResults()
 	{
 		CoinMasterRequest.parseResponse( this.data, this.getURLString(), this.responseText );

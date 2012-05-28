@@ -41,11 +41,13 @@ public class MonsterExpression
 		super( text, name );
 	}
 
+	@Override
 	protected String validBytecodes()
 	{
 		return super.validBytecodes() + "A";
 	}
 
+	@Override
 	protected String function()
 	{
 		if ( this.optional( "MUS" ) )

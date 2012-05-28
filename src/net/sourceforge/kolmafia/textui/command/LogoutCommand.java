@@ -43,6 +43,7 @@ public class LogoutCommand
 		this.usage = " - logout and return to login window.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		LogoutManager.logout();

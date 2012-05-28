@@ -63,6 +63,7 @@ public class CustomCombatStrategy
 		return this.name;
 	}
 
+	@Override
 	public void removeAllChildren()
 	{
 		this.resetActionCount();

@@ -89,6 +89,7 @@ public class DebugModifiers
 		DebugModifiers.adjustments.clear();
 	}
 	
+	@Override
 	public void add( final int index, final double mod, final String desc )
 	{
 		if ( index < 0 || index >= Modifiers.FLOAT_MODIFIERS || mod == 0.0 )
@@ -203,6 +204,7 @@ public class DebugModifiers
 			this.variable = variable;
 		}
 		
+		@Override
 		public String toString()
 		{
 			return "<td>" + this.name + "</td><td>" +

@@ -62,7 +62,8 @@ public class CommentToken implements BaseToken {
         return content;
     }
 
-    public String toString() {
+    @Override
+public String toString() {
         return getCommentedContent();
     }
 

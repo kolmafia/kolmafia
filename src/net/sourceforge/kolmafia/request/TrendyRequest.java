@@ -106,11 +106,13 @@ public class TrendyRequest
 		super( "typeii.php" );
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( TrendyRequest.running )
@@ -124,11 +126,13 @@ public class TrendyRequest
 		TrendyRequest.running = false;
 	}
 
+	@Override
 	protected boolean processOnFailure()
 	{
 		return true;
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.responseText.equals( "" ) )

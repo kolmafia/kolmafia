@@ -140,6 +140,7 @@ public class KoLMailMessage
 		}
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.senderName + " @ " + this.messageDate;
@@ -150,6 +151,7 @@ public class KoLMailMessage
 		return o == null || !( o instanceof KoLMailMessage ) ? -1 : this.messageId.compareTo( ( (KoLMailMessage) o ).messageId );
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		return o == null || !( o instanceof KoLMailMessage ) ? false : this.messageId.equals( ( (KoLMailMessage) o ).messageId );

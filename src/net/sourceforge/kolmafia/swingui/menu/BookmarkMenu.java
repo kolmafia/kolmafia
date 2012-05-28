@@ -50,6 +50,7 @@ public class BookmarkMenu
 		super( "Bookmarks", KoLConstants.bookmarks );
 	}
 
+	@Override
 	public JComponent constructMenuItem( final Object o )
 	{
 		String[] bookmarkData = ( (String) o ).split( "\\|" );
@@ -66,6 +67,7 @@ public class BookmarkMenu
 		return new RelayBrowserMenuItem( name, location );
 	}
 
+	@Override
 	public JComponent[] getHeaders()
 	{
 		JComponent[] headers = new JComponent[ 0 ];

@@ -112,6 +112,7 @@ public class IsotopeSmitheryRequest
 		return SpaaaceRequest.accessible();
 	}
 
+	@Override
 	public void equip()
 	{
 		SpaaaceRequest.equip();

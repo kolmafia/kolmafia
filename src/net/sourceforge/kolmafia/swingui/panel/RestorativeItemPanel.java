@@ -55,11 +55,13 @@ public class RestorativeItemPanel
 		this.filterItems();
 	}
 
+	@Override
 	public AutoFilterTextField getWordFilter()
 	{
 		return new RestorativeItemFilterField();
 	}
 
+	@Override
 	public void actionConfirmed()
 	{
 		Object[] items = this.getDesiredItems( "Consume" );
@@ -74,6 +76,7 @@ public class RestorativeItemPanel
 		}
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 		String name;
@@ -92,6 +95,7 @@ public class RestorativeItemPanel
 	private class RestorativeItemFilterField
 		extends FilterItemField
 	{
+		@Override
 		public boolean isVisible( final Object element )
 		{
 			AdventureResult item = (AdventureResult) element;

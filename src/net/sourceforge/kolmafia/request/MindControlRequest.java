@@ -77,11 +77,13 @@ public class MindControlRequest
 		this.maxLevel = KoLCharacter.canadiaAvailable() ? 11 : 10;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean shouldFollowRedirect()
 	{
 		// Musc sign MCD redirects to a message page, processResults()
@@ -89,6 +91,7 @@ public class MindControlRequest
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		// Avoid server hits if user gives an invalid level
@@ -108,6 +111,7 @@ public class MindControlRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		KoLmafia.updateDisplay( "Mind control device reset." );

@@ -59,6 +59,7 @@ public abstract class TagToken implements BaseToken {
 		return name;
 	}
 
+	@Override
 	public String toString() {
 		return name;
 	}

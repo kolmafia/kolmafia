@@ -118,6 +118,7 @@ public class PulverizeRequest
 		icr.run();
 	}
 
+	@Override
 	public void run()
 	{
 		if ( Preferences.getBoolean( "mementoListActive" ) && KoLConstants.mementoList.contains( this.item ) )
@@ -190,6 +191,7 @@ public class PulverizeRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( PulverizeRequest.parseResponse( this.getURLString(), this.responseText ) == 0 )

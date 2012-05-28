@@ -349,6 +349,7 @@ public abstract class GenericFrame
 		this.tabs.add( name, scroller );
 	}
 
+	@Override
 	public final void setTitle( final String newTitle )
 	{
 		this.lastTitle = newTitle;
@@ -436,6 +437,7 @@ public abstract class GenericFrame
 	 * frames. Also allows for automatic exit.
 	 */
 
+	@Override
 	public void dispose()
 	{
 		StaticEntity.unregisterPanels( this );
@@ -510,6 +512,7 @@ public abstract class GenericFrame
 		}
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.lastTitle;
@@ -627,15 +630,18 @@ public abstract class GenericFrame
 	 * @return <code>true</code>
 	 */
 
+	@Override
 	public final boolean isEnabled()
 	{
 		return true;
 	}
 
+	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
 	}
 
+	@Override
 	public void processWindowEvent( final WindowEvent e )
 	{
 		if ( this.isVisible() && e.getID() == WindowEvent.WINDOW_CLOSING )
@@ -651,6 +657,7 @@ public abstract class GenericFrame
 		}
 	}
 
+	@Override
 	public void setVisible( final boolean isVisible )
 	{
 		if ( isVisible )
@@ -692,6 +699,7 @@ public abstract class GenericFrame
 		super.repaint();
 	}
 
+	@Override
 	public void pack()
 	{
 		if ( !( this instanceof ChatFrame ) && !packedOnce )
@@ -863,6 +871,7 @@ public abstract class GenericFrame
 			this.addFocusListener( this );
 		}
 
+		@Override
 		public void add( Component c, Object constraint )
 		{
 			super.add( c, constraint );

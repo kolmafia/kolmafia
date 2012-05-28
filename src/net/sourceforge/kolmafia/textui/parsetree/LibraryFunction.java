@@ -79,6 +79,7 @@ public class LibraryFunction
 		}
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )

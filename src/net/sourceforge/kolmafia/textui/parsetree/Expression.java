@@ -64,6 +64,7 @@ public class Expression
 		this.oper = oper;
 	}
 
+	@Override
 	public Type getType()
 	{
 		Type leftType = this.lhs.getType();
@@ -132,6 +133,7 @@ public class Expression
 		return this.oper;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( this.conditional != null )
@@ -221,6 +223,7 @@ public class Expression
 		return this.oper.applyTo( interpreter, this.lhs, this.rhs );
 	}
 
+	@Override
 	public String toString()
 	{
 		if ( this.conditional != null )
@@ -236,11 +239,13 @@ public class Expression
 		return "( " + this.lhs.toQuotedString() + " " + this.oper.toString() + " " + this.rhs.toQuotedString() + " )";
 	}
 
+	@Override
 	public String toQuotedString()
 	{
 		return this.toString();
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		if ( this.conditional != null )

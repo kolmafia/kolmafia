@@ -60,6 +60,7 @@ public class NamespaceInterpreter
 		refresh( "" );
 	}
 
+	@Override
 	public Value execute( final String functionName, final String[] parameters )
 	{
 		String importString = Preferences.getString( "commandLineNamespace" );

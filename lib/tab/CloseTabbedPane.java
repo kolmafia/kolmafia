@@ -72,6 +72,7 @@ public class CloseTabbedPane
 	/**
 	 * Override JTabbedPane method. Does nothing.
 	 */
+	@Override
 	public void setUI( final TabbedPaneUI ui )
 	{
 	}
@@ -123,6 +124,7 @@ public class CloseTabbedPane
 
 		frame.addWindowListener( new WindowAdapter()
 		{
+			@Override
 			public void windowClosing( final WindowEvent event )
 			{
 				frame.dispose();
@@ -367,6 +369,7 @@ public class CloseTabbedPane
 		}
 	}
 
+	@Override
 	public boolean isFocusable()
 	{
 		return false;

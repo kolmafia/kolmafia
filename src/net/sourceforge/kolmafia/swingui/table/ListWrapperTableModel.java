@@ -70,11 +70,13 @@ public abstract class ListWrapperTableModel
 		listModel.addListDataListener( this );
 	}
 
+	@Override
 	public String getColumnName( final int index )
 	{
 		return index < 0 || index >= this.headers.length ? "" : this.headers[ index ];
 	}
 
+	@Override
 	public Class getColumnClass( final int column )
 	{
 		return column < 0 || column >= this.types.length ? Object.class : this.types[ column ];
@@ -82,6 +84,7 @@ public abstract class ListWrapperTableModel
 
 	public abstract Vector constructVector( Object o );
 
+	@Override
 	public boolean isCellEditable( final int row, final int column )
 	{
 		return column < 0 || column >= this.editable.length ? false : this.editable[ column ];

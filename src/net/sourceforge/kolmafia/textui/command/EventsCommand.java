@@ -45,6 +45,7 @@ public class EventsCommand
 		this.usage = " [clear] - clear or show recent events.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equals( "clear" ) )

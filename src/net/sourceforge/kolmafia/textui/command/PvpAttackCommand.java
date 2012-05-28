@@ -54,6 +54,7 @@ public class PvpAttackCommand
 		this.usage = " <target> [, <target>...] - PvP for items or fame";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equals( "" ) )

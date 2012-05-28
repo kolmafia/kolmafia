@@ -634,6 +634,7 @@ public class AdventureResult
 	 * @return The string version of this <code>AdventureResult</code>
 	 */
 
+	@Override
 	public String toString()
 	{
 		if ( this.name == null )
@@ -796,6 +797,7 @@ public class AdventureResult
 	 *	   name as this one
 	 */
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		if ( !( o instanceof AdventureResult ) )
@@ -817,6 +819,7 @@ public class AdventureResult
 			this.name.equalsIgnoreCase( ar.name );
 	}
 
+	@Override
 	public int hashCode()
 	{
 		if ( this.name == null )
@@ -1199,6 +1202,7 @@ public class AdventureResult
 		 * @return <code>true</code> if this result represents muscle subpoint gain
 		 */
 	
+		@Override
 		public boolean isMuscleGain()
 		{
 			return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.counts[ 0 ] != 0;
@@ -1210,6 +1214,7 @@ public class AdventureResult
 		 * @return <code>true</code> if this result represents mysticality subpoint gain
 		 */
 	
+		@Override
 		public boolean isMysticalityGain()
 		{
 			return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.counts[ 1 ] != 0;
@@ -1221,6 +1226,7 @@ public class AdventureResult
 		 * @return <code>true</code> if this result represents muscle subpoint gain
 		 */
 	
+		@Override
 		public boolean isMoxieGain()
 		{
 			return this.priority == AdventureResult.SUBSTAT_PRIORITY && this.counts[ 2 ] != 0;
@@ -1234,6 +1240,7 @@ public class AdventureResult
 		 * @return The amount associated with this result
 		 */
 	
+		@Override
 		public int getCount()
 		{
 			int totalCount = 0;
@@ -1244,6 +1251,7 @@ public class AdventureResult
 			return totalCount;
 		}
 	
+		@Override
 		public int[] getCounts()
 		{
 			return this.counts;
@@ -1256,6 +1264,7 @@ public class AdventureResult
 		 * @return The total value at the given index of the count array
 		 */
 	
+		@Override
 		public int getCount( final int index )
 		{
 			return index < 0 || index >= this.counts.length ? 0 : this.counts[ index ];
@@ -1268,6 +1277,7 @@ public class AdventureResult
 		 * @return The string version of this <code>AdventureResult</code>
 		 */
 	
+		@Override
 		public String toString()
 		{
 			if ( this.name.equals( AdventureResult.SUBSTATS ) || this.name.equals( AdventureResult.FULLSTATS ) )
@@ -1278,6 +1288,7 @@ public class AdventureResult
 			return "(Unrecognized multi-result)";
 		}
 
+		@Override
 		public String toConditionString()
 		{
 			if ( this.name.equals( AdventureResult.SUBSTATS ) )
@@ -1323,6 +1334,7 @@ public class AdventureResult
 			}
 		}
 
+		@Override
 		public AdventureResult getNegation()
 		{
 			int[] newcounts = new int[ this.counts.length ];
@@ -1334,6 +1346,7 @@ public class AdventureResult
 			return this.getInstance( newcounts );
 		}
 
+		@Override
 		public AdventureResult getInstance( final int[] quantity )
 		{
 			if ( this.priority == AdventureResult.SUBSTAT_PRIORITY )
@@ -1369,11 +1382,13 @@ public class AdventureResult
 			this.negated = negated;
 		}
 
+		@Override
 		public AdventureResult getInstance( int count )
 		{
 			return new WildcardResult( this.getName(), count, this.match, this.negated );
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			if ( !( o instanceof AdventureResult ) )
@@ -1394,6 +1409,7 @@ public class AdventureResult
 			return hasMatch ^ this.negated;
 		}
 
+		@Override
 		public int getCount( final List list )
 		{
 			int count = 0;
@@ -1409,6 +1425,7 @@ public class AdventureResult
 			return count;
 		}
 
+		@Override
 		public void normalizeItemName()
 		{	// Overridden to avoid "unknown item found" messages.
 		}

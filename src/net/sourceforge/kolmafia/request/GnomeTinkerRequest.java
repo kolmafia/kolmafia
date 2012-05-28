@@ -60,11 +60,13 @@ public class GnomeTinkerRequest
 		}
 	}
 
+	@Override
 	public void reconstructFields()
 	{
 		this.constructURLString( this.getURLString() );
 	}
 
+	@Override
 	public void run()
 	{
 		// If this doesn't contain a valid number of ingredients,

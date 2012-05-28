@@ -187,6 +187,7 @@ public class UneffectRequest
 		}
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
@@ -477,6 +478,7 @@ public class UneffectRequest
 		return "uneffect " + name;
 	}
 
+	@Override
 	public void run()
 	{
 		int index = KoLConstants.activeEffects.indexOf( this.effect );
@@ -534,6 +536,7 @@ public class UneffectRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		// Using a remedy no longer says "Effect removed." If you have

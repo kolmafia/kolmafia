@@ -114,7 +114,8 @@ public class JXTaskPaneContainer extends JXPanel {
     updateUI();
     
     addContainerListener(new ContainerAdapter() {
-        public void componentRemoved(ContainerEvent e) {
+        @Override
+	public void componentRemoved(ContainerEvent e) {
             repaint();
         }
     });
@@ -123,7 +124,8 @@ public class JXTaskPaneContainer extends JXPanel {
   /**
    * {@inheritDoc}
    */
-  public TaskPaneContainerUI getUI() {
+  @Override
+public TaskPaneContainerUI getUI() {
       return (TaskPaneContainerUI) super.getUI();
   }
   
@@ -133,7 +135,8 @@ public class JXTaskPaneContainer extends JXPanel {
    * 
    * @see javax.swing.JComponent#updateUI
    */
-  public void updateUI() {
+  @Override
+public void updateUI() {
     setUI((TaskPaneContainerUI)LookAndFeelAddons.getUI(this, TaskPaneContainerUI.class));
   }
 
@@ -157,7 +160,8 @@ public class JXTaskPaneContainer extends JXPanel {
    * @see javax.swing.JComponent#getUIClassID
    * @see javax.swing.UIDefaults#getUI
    */
-  public String getUIClassID() {
+  @Override
+public String getUIClassID() {
     return uiClassID;
   }
 
@@ -182,7 +186,8 @@ public class JXTaskPaneContainer extends JXPanel {
   /**
    * @see Scrollable#getScrollableTracksViewportHeight()
    */
-  public boolean getScrollableTracksViewportHeight() {
+  @Override
+public boolean getScrollableTracksViewportHeight() {
     if (getParent() instanceof JViewport) {
       return (((JViewport)getParent()).getHeight() > getPreferredSize().height);
     } else {
@@ -193,7 +198,8 @@ public class JXTaskPaneContainer extends JXPanel {
   /**
    * @see Scrollable#getScrollableTracksViewportWidth()
    */
-  public boolean getScrollableTracksViewportWidth() {
+  @Override
+public boolean getScrollableTracksViewportWidth() {
     return true;
   }
 }

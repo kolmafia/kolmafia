@@ -83,6 +83,7 @@ public class ListCellRendererFactory
 			return false;
 		}
 
+		@Override
 		public final Component getListCellRendererComponent( final JList list, final Object value, final int index,
 			final boolean isSelected, final boolean cellHasFocus )
 		{
@@ -520,11 +521,13 @@ public class ListCellRendererFactory
 			this.setOpaque( true );
 		}
 
+		@Override
 		public boolean allowHighlight()
 		{
 			return true;
 		}
 
+		@Override
 		public Component getRenderer( final Component defaultComponent, final AdventureResult ar, final boolean isSelected )
 		{
 			if ( !ar.isItem() )
@@ -581,6 +584,7 @@ public class ListCellRendererFactory
 			return defaultComponent;
 		}
 
+		@Override
 		public Component getRenderer( final Component defaultComponent, final CreateItemRequest icr, final boolean isSelected )
 		{
 			StringBuffer stringForm = new StringBuffer();
@@ -648,11 +652,13 @@ public class ListCellRendererFactory
 			this.setOpaque( true );
 		}
 
+		@Override
 		public boolean allowHighlight()
 		{
 			return false;
 		}
 
+		@Override
 		public boolean appendAmount( final StringBuffer stringForm, final Concoction item )
 		{
 			stringForm.append( item.getQueued() );
@@ -668,6 +674,7 @@ public class ListCellRendererFactory
 	private static class NameOnlyRenderer
 		extends DefaultListCellRenderer
 	{
+		@Override
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
 			final boolean isSelected, final boolean cellHasFocus )
 		{
@@ -690,6 +697,7 @@ public class ListCellRendererFactory
 			this.setOpaque( true );
 		}
 
+		@Override
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
 			final boolean isSelected, final boolean cellHasFocus )
 		{
@@ -776,6 +784,7 @@ public class ListCellRendererFactory
 	private static class FamiliarEquipmentRenderer
 		extends UsableEquipmentRenderer
 	{
+		@Override
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
 			final boolean isSelected, final boolean cellHasFocus )
 		{
@@ -823,11 +832,13 @@ public class ListCellRendererFactory
 			this.setOpaque( true );
 		}
 
+		@Override
 		public boolean allowHighlight()
 		{
 			return true;
 		}
 
+		@Override
 		public Component getRenderer( final Component defaultComponent, final AdventureResult ar, final boolean isSelected )
 		{
 			if ( !ar.isItem() )
@@ -933,11 +944,13 @@ public class ListCellRendererFactory
 			this.setOpaque( true );
 		}
 
+		@Override
 		public boolean allowHighlight()
 		{
 			return true;
 		}
 
+		@Override
 		public Component getRenderer( final Component defaultComponent, final AdventureResult ar, final boolean isSelected )
 		{
 			if ( !ar.isItem() )
@@ -969,11 +982,13 @@ public class ListCellRendererFactory
 			this.setOpaque( true );
 		}
 
+		@Override
 		public boolean allowHighlight()
 		{
 			return true;
 		}
 
+		@Override
 		public Component getRenderer( final Component defaultComponent, final AdventureResult ar, final boolean isSelected )
 		{
 			if ( !ar.isItem() )

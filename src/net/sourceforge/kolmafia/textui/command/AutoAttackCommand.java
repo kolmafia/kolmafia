@@ -58,6 +58,7 @@ public class AutoAttackCommand
 		this.usage = " <skill> - set default attack method.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.trim();

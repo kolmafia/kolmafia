@@ -52,6 +52,7 @@ public class CreationSettingCheckBox
 		this.setToolTipText( tooltip );
 	}
 
+	@Override
 	protected void handleClick()
 	{
 		ConcoctionDatabase.refreshConcoctions( true );

@@ -479,6 +479,7 @@ public class BasementDecorator
 			StatBooster.wisdomOfTheElderTortoise = KoLCharacter.hasSkill( "Wisdom of the Elder Tortoises" );
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			return o instanceof StatBooster && this.name.equals( ( (StatBooster) o ).name );

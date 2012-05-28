@@ -62,6 +62,7 @@ public class JDnDList
 	private class DeleteListener
 		extends KeyAdapter
 	{
+		@Override
 		public void keyPressed( final KeyEvent e )
 		{
 			if ( e.getKeyCode() != KeyEvent.VK_BACK_SPACE && e.getKeyCode() != KeyEvent.VK_DELETE )

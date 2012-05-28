@@ -48,6 +48,7 @@ public class StyxPixieCommand
 		this.usage = " muscle | mysticality | moxie - get daily Styx Pixie buff.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( !KoLCharacter.inBadMoon() )

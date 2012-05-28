@@ -45,6 +45,7 @@ public class PripheaCommand
 		this.usage = " - launch KoLmafia GUI.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( LoginRequest.completedLogin() )

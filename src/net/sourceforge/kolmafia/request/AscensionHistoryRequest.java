@@ -93,6 +93,7 @@ public class AscensionHistoryRequest
 		AscensionHistoryRequest.isSoftcoreComparator = isSoftcoreComparator;
 	}
 
+	@Override
 	public String toString()
 	{
 		StringBuffer stringForm = new StringBuffer();
@@ -113,11 +114,13 @@ public class AscensionHistoryRequest
 		return o == null || !( o instanceof AscensionHistoryRequest ) ? -1 : AscensionHistoryRequest.isSoftcoreComparator ? ( (AscensionHistoryRequest) o ).softcoreCount - this.softcoreCount : ( (AscensionHistoryRequest) o ).hardcoreCount - this.hardcoreCount;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void processResults()
 	{
 		this.responseText =
@@ -590,11 +593,13 @@ public class AscensionHistoryRequest
 			return days;
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.stringForm.toString();
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			return o != null && o instanceof AscensionDataField && this.playerId.equals( ( (AscensionDataField) o ).playerId );

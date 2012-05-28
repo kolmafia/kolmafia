@@ -43,6 +43,7 @@ public class BasementCommand
 		this.usage = " - check Fernswarthy's Basement status.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		BasementRequest.checkBasement();

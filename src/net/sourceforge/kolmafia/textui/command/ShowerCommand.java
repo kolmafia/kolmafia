@@ -47,6 +47,7 @@ public class ShowerCommand
 		this.usage = " type - take a shower in your clan's VIP lounge";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.trim();

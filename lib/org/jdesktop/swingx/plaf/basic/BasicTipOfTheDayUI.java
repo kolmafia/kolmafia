@@ -175,7 +175,8 @@ public class BasicTipOfTheDayUI extends TipOfTheDayUI {
     dialog.getRootPane().setDefaultButton(closeButton);
     
     dialog.addWindowListener(new WindowAdapter() {
-      public void windowClosing(WindowEvent e) {
+      @Override
+public void windowClosing(WindowEvent e) {
         saveChoice.actionPerformed(null);
       }
     });

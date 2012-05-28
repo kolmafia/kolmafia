@@ -48,6 +48,7 @@ public class ModifierMaximizeCommand
 		this.usage = "[?] [+|-|<weight>] <keyword>, ... - run the Modifier Maximizer.";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		boolean isSpeculateOnly = KoLmafiaCLI.isExecutingCheckOnlyCommand;

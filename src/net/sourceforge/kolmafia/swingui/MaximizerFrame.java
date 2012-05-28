@@ -279,6 +279,7 @@ public class MaximizerFrame
 		}
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
@@ -1133,11 +1134,13 @@ public class MaximizerFrame
 			this.setContent( elements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			MaximizerFrame.this.maximize();
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			//InputFieldUtilities.alert( MaximizerFrame.HELP_STRING );
@@ -1163,6 +1166,7 @@ public class MaximizerFrame
 			MaximizerFrame.this.listTitle = this.titleComponent;
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			KoLmafia.forceContinue();
@@ -1184,6 +1188,7 @@ public class MaximizerFrame
 			}
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			KoLmafia.forceContinue();
@@ -1222,6 +1227,7 @@ public class MaximizerFrame
 			this.parent = parent;
 		}
 
+		@Override
 		public void add( AbstractButton b )
 		{
 			super.add( b );
@@ -2483,6 +2489,7 @@ public class MaximizerFrame
 		public boolean failed = false;
 		public AdventureResult attachment;
 
+		@Override
 		public Object clone()
 		{
 			try
@@ -2497,6 +2504,7 @@ public class MaximizerFrame
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			if ( this.attachment != null )
@@ -3181,6 +3189,7 @@ public class MaximizerFrame
 			this.slot = -1;
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.text;

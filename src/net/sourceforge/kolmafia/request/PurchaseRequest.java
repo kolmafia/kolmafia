@@ -65,6 +65,7 @@ public abstract class PurchaseRequest
 		super( location );
 	}
 
+	@Override
 	public String getHashField()
 	{
 		return this.hashField;
@@ -169,6 +170,7 @@ public abstract class PurchaseRequest
 	 * Converts this request into a readable string.
 	 */
 
+	@Override
 	public String toString()
 	{
 		StringBuffer buffer = new StringBuffer();
@@ -253,6 +255,7 @@ public abstract class PurchaseRequest
 	 * repeating the request.
 	 */
 
+	@Override
 	public void run()
 	{
 		if ( this.limit < 1 || !this.canPurchase() )
@@ -342,6 +345,7 @@ public abstract class PurchaseRequest
 		return true;
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		return o == null || !( o instanceof PurchaseRequest ) ? false : this.shopName.equals( ( (PurchaseRequest) o ).shopName ) && this.item.getItemId() == ( (PurchaseRequest) o ).item.getItemId();

@@ -46,6 +46,7 @@ public class PvpStealCommand
 		this.usage = " flowers | loot | fame [muscle|myst|moxie|ballyhoo] - commit random acts of PvP [using the specified stance].";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] params = parameters.split( " " );

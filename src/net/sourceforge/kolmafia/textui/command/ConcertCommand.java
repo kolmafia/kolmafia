@@ -47,6 +47,7 @@ public class ConcertCommand
 		this.usage = " m[oon'd] | d[ilated pupils] | o[ptimist primal] | e[lvish] | wi[nklered] | wh[ite-boy angst]";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		IslandArenaRequest request = null;

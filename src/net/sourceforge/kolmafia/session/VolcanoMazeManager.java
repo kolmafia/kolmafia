@@ -1152,6 +1152,7 @@ public abstract class VolcanoMazeManager
 			return list.size();
 		}
 
+		@Override
 		public String toString()
 		{
 			StringBuffer buffer = new StringBuffer();

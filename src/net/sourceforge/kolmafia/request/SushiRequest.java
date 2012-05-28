@@ -367,16 +367,19 @@ public class SushiRequest
 		}
 	}
 
+	@Override
 	public void reconstructFields()
 	{
 		this.constructURLString( this.getURLString() );
 	}
 
+	@Override
 	public boolean noCreation()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		// Make sure a sushi-rolling mat is available.

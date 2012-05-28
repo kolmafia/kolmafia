@@ -50,6 +50,7 @@ public class SearchMallCommand
 		this.usage = " <item> [ with limit <number> ] - search the Mall.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		List results = new ArrayList();

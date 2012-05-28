@@ -58,7 +58,8 @@ public class RepaintManagerX extends ForwardingRepaintManager {
      * @param h Height of the region to repaint
      * @see JComponent#repaint
      */
-    public void addDirtyRegion(JComponent c, int x, int y, int w, int h) {
+    @Override
+public void addDirtyRegion(JComponent c, int x, int y, int w, int h) {
         Rectangle dirtyRegion = getDirtyRegion(c);
         if (dirtyRegion.width == 0 && dirtyRegion.height == 0) {
             int lastDeltaX = c.getX();

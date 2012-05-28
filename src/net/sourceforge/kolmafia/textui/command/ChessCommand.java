@@ -46,6 +46,7 @@ public class ChessCommand
 		this.usage = " load config | board | test | solve - play on the Great Big Chessboard.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] split = parameters.split( " " );

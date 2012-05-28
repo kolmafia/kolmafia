@@ -92,7 +92,8 @@ public class ComboBoxCellEditor extends AbstractCellEditor implements TableCellE
      * Always returns true.
      * @return true
      */
-    public boolean stopCellEditing() {
+    @Override
+public boolean stopCellEditing() {
         if (comboBox.isEditable()) {
             // Notify the combo box that editing has stopped (e.g. User pressed F2)
             comboBox.actionPerformed(new ActionEvent(this, 0, ""));
@@ -126,7 +127,8 @@ public class ComboBoxCellEditor extends AbstractCellEditor implements TableCellE
 //    }
     
     class Handler extends KeyAdapter implements PropertyChangeListener {
-        public void keyPressed(KeyEvent keyEvent) {
+        @Override
+	public void keyPressed(KeyEvent keyEvent) {
             int keyCode = keyEvent.getKeyCode();
             if (keyCode==KeyEvent.VK_ENTER) stopCellEditing();
         }

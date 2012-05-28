@@ -54,6 +54,7 @@ public class SwitchScope
 		super( parentScope );
 	}
 
+	@Override
 	public void addCommand( final ParseTreeNode c, final Parser p )
 	{
 		this.commands.add( c );
@@ -79,6 +80,7 @@ public class SwitchScope
 		this.barrier = BasicScope.BARRIER_NONE;
 	}
 
+	@Override
 	public Iterator getCommands()
 	{
 		return this.commands.listIterator( this.offset );
@@ -94,11 +96,13 @@ public class SwitchScope
 		this.offset = offset;
 	}
 
+	@Override
 	public boolean assertBarrier()
 	{
 		return this.barrier >= BasicScope.BARRIER_SEEN;
 	}
 	
+	@Override
 	public boolean assertBreakable()
 	{
 		return this.breakable;

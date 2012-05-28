@@ -91,6 +91,7 @@ public class ForLoop
 		return this.direction;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -222,11 +223,13 @@ public class ForLoop
 		return DataTypes.VOID_VALUE;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "for";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

@@ -43,6 +43,7 @@ public class AshRefCommand
 		this.usage = " [<filter>] - summarize ASH built-in functions [matching filter].";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		KoLmafiaASH.showExistingFunctions( parameters );

@@ -251,6 +251,7 @@ public class OptionsFrame
 			this.setOptions( options );
 		}
 
+		@Override
 		public void setContent( VerifiableElement[] elements )
 		{
 			VerifiableElement[] newElements = new VerifiableElement[ elements.length + 1 ];
@@ -265,6 +266,7 @@ public class OptionsFrame
 			super.setContent( newElements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			boolean overrideImages = Preferences.getBoolean( "relayOverridesImages" );
@@ -277,6 +279,7 @@ public class OptionsFrame
 			}
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			String color = Preferences.getString( "defaultBorderColor" );
@@ -416,12 +419,14 @@ public class OptionsFrame
 			list.addListDataListener( this );
 		}
 
+		@Override
 		public void dispose()
 		{
 			this.list.removeListDataListener( this );
 			super.dispose();
 		}
 
+		@Override
 		public final void actionConfirmed()
 		{
 			int index = this.elementList.getSelectedIndex();
@@ -435,6 +440,7 @@ public class OptionsFrame
 			this.elementList.setSelectedIndex( index - 1 );
 		}
 
+		@Override
 		public final void actionCancelled()
 		{
 			int index = this.elementList.getSelectedIndex();
@@ -553,6 +559,7 @@ public class OptionsFrame
 			}
 		}
 
+		@Override
 		public void saveSettings()
 		{
 			StringBuffer settingString = new StringBuffer();
@@ -605,6 +612,7 @@ public class OptionsFrame
 			this.setOptions( options );
 		}
 
+		@Override
 		public void setContent( VerifiableElement[] elements )
 		{
 			this.fontSizeGroup = new ButtonGroup();
@@ -643,6 +651,7 @@ public class OptionsFrame
 			super.setContent( newElements );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			super.actionConfirmed();
@@ -663,6 +672,7 @@ public class OptionsFrame
 			KoLConstants.commandBuffer.append( null );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			super.actionCancelled();
@@ -682,6 +692,7 @@ public class OptionsFrame
 				super( property );
 			}
 
+			@Override
 			public void applyChanges()
 			{
 				if ( this.property.equals( "innerChatColor" ) )
@@ -714,6 +725,7 @@ public class OptionsFrame
 			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
+		@Override
 		public void saveSettings()
 		{
 			GenericFrame.saveBookmarks();
@@ -833,6 +845,7 @@ public class OptionsFrame
 			this.desktopList.addListDataListener( this );
 		}
 
+		@Override
 		public void dispose()
 		{
 			this.completeList.removeListDataListener( this );
@@ -842,11 +855,13 @@ public class OptionsFrame
 			super.dispose();
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			this.actionCancelled();
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			this.isRefreshing = true;
@@ -900,6 +915,7 @@ public class OptionsFrame
 			return false;
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 		}
@@ -990,6 +1006,7 @@ public class OptionsFrame
 			this.buttonPanel.add( new ThreadedButton( "help", new HelpRunnable() ), BorderLayout.CENTER );
 		}
 
+		@Override
 		public final void actionConfirmed()
 		{
 			if ( KoLCharacter.baseUserName().equals( "GLOBAL" ) )
@@ -1009,6 +1026,7 @@ public class OptionsFrame
 			}
 		}
 
+		@Override
 		public final void actionCancelled()
 		{
 			boolean reset = InputFieldUtilities
@@ -1181,6 +1199,7 @@ public class OptionsFrame
 			this.container.add( message, BorderLayout.NORTH );
 		}
 
+		@Override
 		public void dispose()
 		{
 			this.builtInsList.removeListDataListener( this );
@@ -1189,11 +1208,13 @@ public class OptionsFrame
 			super.dispose();
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			this.actionCancelled();
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			this.isRefreshing = true;
@@ -1231,6 +1252,7 @@ public class OptionsFrame
 			return false;
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 		}
@@ -1407,16 +1429,19 @@ public class OptionsFrame
 			return false;
 		}
 
+		@Override
 		public void setContent( final VerifiableElement[] elements )
 		{
 			super.setContent( elements );
 			this.add( new InterfaceCheckboxPanel(), BorderLayout.CENTER );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			String lookAndFeel = "";
@@ -1433,6 +1458,7 @@ public class OptionsFrame
 			Preferences.setInteger( "toolbarPosition", this.toolbars.getSelectedIndex() );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			String lookAndFeel = Preferences.getString( "swingLookAndFeel" );
@@ -1491,6 +1517,7 @@ public class OptionsFrame
 				this.setContent( elements );
 			}
 
+			@Override
 			public void actionConfirmed()
 			{
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
@@ -1505,6 +1532,7 @@ public class OptionsFrame
 				}
 			}
 
+			@Override
 			public void actionCancelled()
 			{
 				for ( int i = 0; i < UserInterfacePanel.this.options.length; ++i )
@@ -1522,6 +1550,7 @@ public class OptionsFrame
 				this.outerGradient.setBackground( tab.CloseTabPaneEnhancedUI.selectedB );
 			}
 
+			@Override
 			public void setEnabled( final boolean isEnabled )
 			{
 			}
@@ -1534,6 +1563,7 @@ public class OptionsFrame
 					super( property );
 				}
 
+				@Override
 				public void applyChanges()
 				{
 					if ( this.property.equals( "innerTabColor" ) )
@@ -1608,11 +1638,13 @@ public class OptionsFrame
 			this.actionCancelled();
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			Preferences.setString( "preferredWebBrowser", this.preferredWebBrowser.getText() );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			this.preferredWebBrowser.setText( Preferences.getString( "preferredWebBrowser" ) );
@@ -1661,11 +1693,13 @@ public class OptionsFrame
 			this.actionCancelled();
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			Preferences.setString( "externalEditor", this.preferredEditor.getText() );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			this.preferredEditor.setText( Preferences.getString( "externalEditor" ) );
@@ -1692,12 +1726,14 @@ public class OptionsFrame
 			this.actionCancelled();
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			Preferences.setString( "loginScript", this.loginScript.getText() );
 			Preferences.setString( "logoutScript", this.logoutScript.getText() );
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			String loginScript = Preferences.getString( "loginScript" );
@@ -1881,6 +1917,7 @@ public class OptionsFrame
 			this.useCrimboToys.setSelected( Preferences.getBoolean( "useCrimboToys" + this.breakfastType ) );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 		}

@@ -77,11 +77,13 @@ public class VolcanoMazeRequest
 		return "volcanomaze.php?move=" + String.valueOf( col ) + "," + String.valueOf( row ) + "&ajax=1";
 	}
 
+	@Override
 	protected boolean shouldFollowRedirect()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		super.run();

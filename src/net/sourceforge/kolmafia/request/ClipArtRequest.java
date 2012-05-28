@@ -46,11 +46,13 @@ public class ClipArtRequest
 		super( "campground.php", conc );
 	}
 
+	@Override
 	public void reconstructFields()
 	{
 		this.constructURLString( this.getURLString() );
 	}
 
+	@Override
 	public void run()
 	{
 		if ( !KoLmafia.permitsContinue() || this.getQuantityNeeded() <= 0 )

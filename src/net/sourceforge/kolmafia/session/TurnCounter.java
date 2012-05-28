@@ -160,6 +160,7 @@ public class TurnCounter
 		return -1;
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		if ( o == null || !( o instanceof TurnCounter ) )

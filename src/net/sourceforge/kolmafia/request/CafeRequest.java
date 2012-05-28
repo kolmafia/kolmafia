@@ -122,6 +122,7 @@ public class CafeRequest
 		return price;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( !this.isPurchase )
@@ -171,6 +172,7 @@ public class CafeRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( !this.isPurchase )

@@ -55,6 +55,7 @@ public class EquipCommand
 		this.usage = " [list <filter>] | [<slot>] <item> - show equipment, or equip item [in slot].";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		EquipCommand.equip( parameters );

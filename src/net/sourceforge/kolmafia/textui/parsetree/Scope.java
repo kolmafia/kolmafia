@@ -71,6 +71,7 @@ public class Scope
 		this.commands = new ParseTreeNodeList();
 	}
 
+	@Override
 	public void addCommand( final ParseTreeNode c, final Parser p )
 	{
 		if ( c == null )
@@ -102,16 +103,19 @@ public class Scope
 		}
 	}
 
+	@Override
 	public Iterator getCommands()
 	{
 		return this.commands.iterator();
 	}
 
+	@Override
 	public boolean assertBarrier()
 	{
 		return this.barrier >= BasicScope.BARRIER_SEEN;
 	}
 	
+	@Override
 	public boolean assertBreakable()
 	{
 		return this.breakable;

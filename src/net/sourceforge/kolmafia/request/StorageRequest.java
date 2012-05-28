@@ -142,6 +142,7 @@ public class StorageRequest
 		}
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return this.moveType == StorageRequest.MEAT ||
@@ -155,16 +156,19 @@ public class StorageRequest
 		return this.moveType;
 	}
 
+	@Override
 	public String getItemField()
 	{
 		return "whichitem";
 	}
 
+	@Override
 	public String getQuantityField()
 	{
 		return "howmany";
 	}
 
+	@Override
 	public String getMeatField()
 	{
 		return "amt";
@@ -187,21 +191,25 @@ public class StorageRequest
 		return itemList;
 	}
 
+	@Override
 	public int getCapacity()
 	{
 		return 11;
 	}
 
+	@Override
 	public boolean forceGETMethod()
 	{
 		return this.moveType == STORAGE_TO_INVENTORY;
 	}
 
+	@Override
 	public TransferItemRequest getSubInstance( final Object[] attachments )
 	{
 		return new StorageRequest( this.moveType, attachments );
 	}
 
+	@Override
 	public void run()
 	{
 		if ( KoLCharacter.inBadMoon() && !KoLCharacter.canInteract() )
@@ -236,6 +244,7 @@ public class StorageRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		switch ( this.moveType )
@@ -362,6 +371,7 @@ public class StorageRequest
 		}
 	}
 
+	@Override
 	public boolean parseTransfer()
 	{
 		return StorageRequest.parseTransfer( this.getURLString(), this.responseText );
@@ -550,21 +560,25 @@ public class StorageRequest
 		return true;
 	}
 
+	@Override
 	public boolean allowMementoTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUntradeableTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUngiftableTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public String getStatusMessage()
 	{
 		switch ( this.moveType )

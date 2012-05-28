@@ -45,6 +45,7 @@ public class ManaRestoreCountCommand
 		this.usage = " - counts MP restoratives in inventory.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int restores = RecoveryManager.getRestoreCount();

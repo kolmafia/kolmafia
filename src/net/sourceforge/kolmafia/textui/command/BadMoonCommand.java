@@ -43,6 +43,7 @@ public class BadMoonCommand
 		this.usage = " - List status of special bad moon adventure.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		BadMoonManager.report();

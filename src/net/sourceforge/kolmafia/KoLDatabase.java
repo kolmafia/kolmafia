@@ -63,6 +63,7 @@ public class KoLDatabase
 			return this.name.compareToIgnoreCase( ic.name );
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.name + ": " + this.count;

@@ -418,7 +418,7 @@ public class DailyDeedsPanel
 		// pack up the rest of the deed into an ArrayList.
 		// .get( element ) gives a string array containing { "$ITEM", displayText, preference, command }
 
-		ArrayList packedDeed = new ArrayList();
+		ArrayList<String[]> packedDeed = new ArrayList<String[]>();
 		for ( int i = ( isMulti ? 4 : 3 ); i < deedsString.length; i += 4 )
 		{
 			if ( !deedsString[ i ].equals( "$ITEM" ) )
@@ -681,7 +681,7 @@ public class DailyDeedsPanel
 			 * Skill|displayText|preference
 			 * skillName is found from displayText
 			 */
-			List skillNames = SkillDatabase.getMatchingNames( deedsString[ 1 ] );
+			List<?> skillNames = SkillDatabase.getMatchingNames( deedsString[ 1 ] );
 
 			if ( skillNames.size() != 1 )
 			{
@@ -698,7 +698,7 @@ public class DailyDeedsPanel
 			 * Skill|displayText|preference|skillName
 			 */
 			String displayText = deedsString[ 1 ];
-			List skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
+			List<?> skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
 
 			if ( skillNames.size() != 1 )
 			{
@@ -712,7 +712,7 @@ public class DailyDeedsPanel
 		else if ( deedsString.length == 5)
 		{
 			String displayText = deedsString[ 1 ];
-			List skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
+			List<?> skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
 
 			try
 			{
@@ -736,7 +736,7 @@ public class DailyDeedsPanel
 		else if ( deedsString.length == 6 )
 		{
 			String displayText = deedsString[ 1 ];
-			List skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
+			List<?> skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
 			String toolTip = deedsString[ 5 ];
 
 			try
@@ -990,7 +990,7 @@ public class DailyDeedsPanel
 		extends Box
 		implements ActionListener, PreferenceListener
 	{
-		private ArrayList buttons;
+		private ArrayList<JButton> buttons;
 		private JLabel label;
 
 		public Daily()
@@ -1019,14 +1019,14 @@ public class DailyDeedsPanel
 
 			if ( this.buttons == null )
 			{
-				this.buttons = new ArrayList();
+				this.buttons = new ArrayList<JButton>();
 				button.putClientProperty( "JButton.segmentPosition", "only" );
 			}
 			else
 			{
 				button.putClientProperty( "JButton.segmentPosition", "last" );
 				int last = this.buttons.size() - 1;
-				((JButton) this.buttons.get( last )).putClientProperty(
+				this.buttons.get( last ).putClientProperty(
 					"JButton.segmentPosition", last == 0 ? "first" : "middle" );
 			}
 			this.buttons.add( button );
@@ -1050,14 +1050,14 @@ public class DailyDeedsPanel
 			button.putClientProperty( "JButton.buttonType", "segmented" );
 			if ( this.buttons == null )
 			{
-				this.buttons = new ArrayList();
+				this.buttons = new ArrayList<JButton>();
 				button.putClientProperty( "JButton.segmentPosition", "only" );
 			}
 			else
 			{
 				button.putClientProperty( "JButton.segmentPosition", "last" );
 				int last = this.buttons.size() - 1;
-				((JButton) this.buttons.get( last )).putClientProperty(
+				this.buttons.get( last ).putClientProperty(
 					"JButton.segmentPosition", last == 0 ? "first" : "middle" );
 			}
 			this.buttons.add( button );
@@ -1070,7 +1070,7 @@ public class DailyDeedsPanel
 			this.addComboButton( command, displaytext ).setToolTipText( tip );
 		}
 
-		public DisabledItemsComboBox addComboBox( Object choice[], ArrayList tooltips, String lengthString )
+		public DisabledItemsComboBox addComboBox( Object choice[], ArrayList<Object> tooltips, String lengthString )
 		{
 			DisabledItemsComboBox comboBox = new DisabledItemsComboBox();
 			int ht = comboBox.getFontMetrics(comboBox.getFont()).getHeight() ;
@@ -1101,7 +1101,7 @@ public class DailyDeedsPanel
 
 		public JButton buttonText( int idx, String command )
 		{
-			JButton button = (JButton) this.buttons.get( idx );
+			JButton button = this.buttons.get( idx );
 			button.setText( command );
 			button.setActionCommand( command );
 			return button;
@@ -1123,15 +1123,16 @@ public class DailyDeedsPanel
 			this.label.setText( text );
 		}
 
+		@Override
 		public void setEnabled( boolean enabled )
 		{
 			if ( this.buttons != null )
 			{
-				Iterator i = this.buttons.iterator();
+				Iterator<JButton> i = this.buttons.iterator();
 
 				while ( i.hasNext() )
 				{
-					JButton button = (JButton) i.next();
+					JButton button = i.next();
 
 					button.setEnabled( enabled );
 				}
@@ -1140,7 +1141,7 @@ public class DailyDeedsPanel
 
 		public void setEnabled( int index, boolean enabled )
 		{
-			((JButton) this.buttons.get( index )).setEnabled( enabled );
+			this.buttons.get( index ).setEnabled( enabled );
 		}
 
 		public void setShown( boolean shown )
@@ -1174,7 +1175,7 @@ public class DailyDeedsPanel
 
 		public ShowerCombo()
 		{
-			ArrayList ttips = new ArrayList();
+			ArrayList<Object> ttips = new ArrayList<Object>();
 			Object[] choices = {
 				"April Shower",
 				"Muscle",
@@ -1206,6 +1207,7 @@ public class DailyDeedsPanel
 			btn = this.addComboButton( "" , "Go!"); //initialize GO button to do nothing
 		}
 
+		@Override
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -1254,7 +1256,7 @@ public class DailyDeedsPanel
 		public DemonCombo()
 		{
 			int len = KoLAdventure.DEMON_TYPES.length;
-			ArrayList ttips = new ArrayList();
+			ArrayList<Object> ttips = new ArrayList<Object>();
 			Object[] choices = new String[ len + 1 ];
 			choices[0] = "Summoning Chamber";
 			Object[] tips = {
@@ -1294,6 +1296,7 @@ public class DailyDeedsPanel
 			btn = this.addComboButton( "", "Go!");
 		}
 
+		@Override
 		public void update()
 		{
 			boolean summoned = Preferences.getBoolean( "demonSummoned" );
@@ -1341,17 +1344,17 @@ public class DailyDeedsPanel
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		JButton btn = null;
 
-		ArrayList packedDeed;
+		ArrayList<String[]> packedDeed;
 		String preference;
 		int maxPref = 1;
 
-		public ComboDaily( String displayText, String pref, ArrayList packedDeed )
+		public ComboDaily( String displayText, String pref, ArrayList<String[]> packedDeed )
 		{
 			this.packedDeed = packedDeed;
 			this.preference = pref;
 
 			int len = packedDeed.size();
-			ArrayList ttips = new ArrayList();
+			ArrayList<Object> ttips = new ArrayList<Object>();
 			Object[] tips = new Object[ len + 1 ];
 			Object[] choices = new String[ len + 1 ];
 			choices[ 0 ] = displayText;
@@ -1360,7 +1363,7 @@ public class DailyDeedsPanel
 
 			for ( int i = 1; i <= len; ++i )
 			{
-				String[] item = (String[]) packedDeed.get( i - 1 );
+				String[] item = packedDeed.get( i - 1 );
 
 				tips[ i ] = item[ 3 ];
 				this.addListener( item[ 2 ] );
@@ -1381,13 +1384,14 @@ public class DailyDeedsPanel
 			btn = this.addComboButton( "", "Go!" );
 		}
 
-		public ComboDaily( String displayText, String pref, ArrayList packedDeed, int maxUses )
+		public ComboDaily( String displayText, String pref, ArrayList<String[]> packedDeed, int maxUses )
 		{
 			this( displayText, pref, packedDeed);
 			this.maxPref = maxUses;
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int prefToInt = 1;
@@ -1418,7 +1422,7 @@ public class DailyDeedsPanel
 			for ( int i = 1; i <= packedDeed.size(); ++i )
 			{
 				prefToInt = 1;
-				String[] item = (String[]) packedDeed.get( i - 1 );
+				String[] item = packedDeed.get( i - 1 );
 				pref = Preferences.getString( item[ 2 ] );
 				if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
 					|| pref.equalsIgnoreCase( "" ) )
@@ -1452,7 +1456,7 @@ public class DailyDeedsPanel
 				}
 				else
 				{
-					String[] item = (String[]) packedDeed.get( choice - 1 );
+					String[] item = packedDeed.get( choice - 1 );
 					setComboTarget( btn, item[ 3 ] );
 				}
 			}
@@ -1514,6 +1518,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int prefToInt = 1;
@@ -1639,6 +1644,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int prefToInt = 1;
@@ -1761,6 +1767,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 
@@ -1888,6 +1895,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int prefToInt = 1;
@@ -1934,6 +1942,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			String text = "";
@@ -1965,6 +1974,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int nv = Preferences.getInteger( "nunsVisits" );
@@ -1990,6 +2000,7 @@ public class DailyDeedsPanel
 			this.addLabel( desc );
 		}
 
+		@Override
 		public void update()
 		{
 			this.setShown( Preferences.getString( "skateParkStatus" ).equals( this.state ) );
@@ -2007,6 +2018,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int ns = Preferences.getString( "spadingData" ).split( "\\|" ).length / 3;
@@ -2027,6 +2039,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -2050,6 +2063,7 @@ public class DailyDeedsPanel
 			this.addButton( "concert ?" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean cv = Preferences.getBoolean( "concertVisited" );
@@ -2089,6 +2103,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int nr = Preferences.getInteger( "timesRested" );
@@ -2116,6 +2131,7 @@ public class DailyDeedsPanel
 			this.addButton( "friars booze", "+30% booze drops, 20 turns" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean kf = KoLCharacter.kingLiberated();
@@ -2137,6 +2153,7 @@ public class DailyDeedsPanel
 			this.addButton( "styx moxie", "+25% mox, +40% meat, +20% item, 10 turns" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -2158,6 +2175,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean have = InventoryManager.getCount( ItemPool.MOJO_FILTER ) > 0;
@@ -2180,6 +2198,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -2206,6 +2225,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -2231,6 +2251,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -2254,6 +2275,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int have = InventoryManager.getCount( ItemPool.SPICE_MELANGE );
@@ -2281,6 +2303,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean unlocked = KoLCharacter.getGuildStoreOpen();
@@ -2302,6 +2325,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -2345,6 +2369,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean bf = !KoLCharacter.isHardcore() ||
@@ -2381,6 +2406,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			FamiliarData bander = KoLCharacter.findFamiliar( FamiliarPool.BANDER );
@@ -2431,6 +2457,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			StringBuffer buffer = new StringBuffer();
@@ -2569,6 +2596,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			FamiliarData gibberer = KoLCharacter.findFamiliar( FamiliarPool.GIBBERER );
@@ -2611,6 +2639,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean kf = KoLCharacter.kingLiberated();
@@ -2672,6 +2701,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			String text = Preferences.getBoolean( "_cameraUsed" ) ?
@@ -2697,6 +2727,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			FamiliarData angel = KoLCharacter.findFamiliar( FamiliarPool.OBTUSE_ANGEL );
@@ -2729,6 +2760,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
@@ -2763,6 +2795,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int fu = Preferences.getInteger( "_feastUsed" );
@@ -2793,6 +2826,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int bpd = Preferences.getInteger( "blackPuddingsDefeated" );
@@ -2813,6 +2847,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			int nf = Preferences.getInteger( "_chipBags" );
@@ -2833,6 +2868,7 @@ public class DailyDeedsPanel
 			this.addButton( "ballpit", "stat boost for 20" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean dun = Preferences.getBoolean( "_ballpit" );
@@ -2848,9 +2884,9 @@ public class DailyDeedsPanel
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		JButton btn;
 		
-		static ArrayList effectHats = new ArrayList();
-		ArrayList effects = new ArrayList();
-		ArrayList modifiers = new ArrayList();
+		static ArrayList<String> effectHats = new ArrayList<String>();
+		ArrayList<?> effects = new ArrayList<Object>();
+		ArrayList<Object> modifiers = new ArrayList<Object>();
 				
 		HatterComboListener listener = new HatterComboListener();
 
@@ -2873,20 +2909,21 @@ public class DailyDeedsPanel
 			update();
 		}
 
+		@Override
 		public void update()
 		{
 			box.removeActionListener( listener );
 			this.box.removeAllItems();
 			box.addActionListener( listener );
 			
-			HatterDaily.effectHats = new ArrayList();
-			this.modifiers = new ArrayList();
+			HatterDaily.effectHats = new ArrayList<String>();
+			this.modifiers = new ArrayList<Object>();
 			box.addItem( "Available Hatter Buffs: " );
 			HatterDaily.effectHats.add( null );
 			this.modifiers.add( null );
 			
 			//build hat options here
-			List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+			List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
 			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliar();
 
 			if ( current.getItem() != null && EquipmentDatabase.isHat( current.getItem() ) )
@@ -2904,7 +2941,7 @@ public class DailyDeedsPanel
 					// iterate down inventory second
 					for ( int j = 0; j <= hats.size(); ++j )
 					{
-						AdventureResult ad = (AdventureResult) hats.get( j );
+						AdventureResult ad = hats.get( j );
 
 						if ( ad != null && !ad.getName().equals( "(none)" ) &&
 								EquipmentManager.canEquip( ad ) )
@@ -2939,7 +2976,7 @@ public class DailyDeedsPanel
 		
 		public static String getEffectHat( int index )
 		{
-			return (String) effectHats.get( index );
+			return effectHats.get( index );
 		}
 
 		private class HatterComboListener
@@ -2982,6 +3019,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean ban = KoLCharacter.hasSkill( "Banishing Shout" );
@@ -3004,6 +3042,7 @@ public class DailyDeedsPanel
 			this.addLabel( "" );
 		}
 
+		@Override
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();

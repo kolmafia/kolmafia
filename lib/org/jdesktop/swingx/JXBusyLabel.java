@@ -362,7 +362,8 @@ public class JXBusyLabel extends JLabel {
      *
      * @see javax.swing.JComponent#updateUI
      */
-    public void updateUI() {
+    @Override
+public void updateUI() {
         setUI((LabelUI) LookAndFeelAddons.getUI(this, BusyLabelUI.class));
     }
 
@@ -373,7 +374,8 @@ public class JXBusyLabel extends JLabel {
      * @see javax.swing.JComponent#getUIClassID
      * @see javax.swing.UIDefaults#getUI
      */
-    public String getUIClassID() {
+    @Override
+public String getUIClassID() {
         return uiClassID;
     }
 

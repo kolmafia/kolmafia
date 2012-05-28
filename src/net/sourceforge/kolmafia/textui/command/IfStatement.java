@@ -43,6 +43,7 @@ public class IfStatement
 		this.usage = " <condition>; <commands> - do commands once if condition is true (see condref).";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		KoLmafiaCLI CLI = this.CLI;

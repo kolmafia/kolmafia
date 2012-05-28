@@ -190,6 +190,7 @@ public class LockableListModel
 		}
 	}
 
+	@Override
 	public void fireContentsChanged( final Object source, final int index0, final int index1 )
 	{
 		if ( this.actionListenerFired || this.listenerList.getListenerCount() == 0 )
@@ -202,6 +203,7 @@ public class LockableListModel
 		this.actionListenerFired = false;
 	}
 
+	@Override
 	public void fireIntervalAdded( final Object source, final int index0, final int index1 )
 	{
 		if ( this.actionListenerFired || this.listenerList.getListenerCount() == 0 )
@@ -214,6 +216,7 @@ public class LockableListModel
 		this.actionListenerFired = false;
 	}
 
+	@Override
 	public void fireIntervalRemoved( final Object source, final int index0, final int index1 )
 	{
 		if ( this.actionListenerFired || this.listenerList.getListenerCount() == 0 )
@@ -383,6 +386,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#equals(Object)} for more information regarding this function.
 	 */
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		return o instanceof LockableListModel ? this == o : this.actualElements.equals( o );
@@ -406,6 +410,7 @@ public class LockableListModel
 	 * Please refer to {@link java.util.List#hashCode()} for more information regarding this function.
 	 */
 
+	@Override
 	public int hashCode()
 	{
 		return this.actualElements.hashCode();
@@ -985,6 +990,7 @@ public class LockableListModel
 	 * @return a deep copy (exempting listeners) of this <code>LockableListModel</code>.
 	 */
 
+	@Override
 	public Object clone()
 	{
 		LockableListModel cloneCopy;

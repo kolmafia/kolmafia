@@ -82,6 +82,7 @@ public class HTMLListEntry
 		this.htmlText = "<html><font color=\"" + color + "\">" + value + "</font></html>";
 	}
 
+	@Override
 	public String toString()
 	{
 		this.updateColor();

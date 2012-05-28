@@ -43,12 +43,14 @@ public class ScriptExit
 		super( Interpreter.STATE_EXIT );
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		super.execute( interpreter );
 		return null;
 	}
 	
+	@Override
 	public boolean assertBarrier()
 	{
 		return true;

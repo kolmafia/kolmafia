@@ -82,6 +82,7 @@ public class ChannelColorsRequest
 		super( "account_chatcolors.php" );
 	}
 
+	@Override
 	public void run()
 	{
 		super.run();

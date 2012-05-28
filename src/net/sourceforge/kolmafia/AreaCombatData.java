@@ -333,6 +333,7 @@ public class AreaCombatData
 		return averageML;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.toString( false );

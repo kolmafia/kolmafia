@@ -75,11 +75,13 @@ public class CombineMeatRequest
 		return 0;
 	}
 
+	@Override
 	public void reconstructFields()
 	{
 		this.constructURLString( this.getURLString() );
 	}
 
+	@Override
 	public void run()
 	{
 		String name = this.getName();

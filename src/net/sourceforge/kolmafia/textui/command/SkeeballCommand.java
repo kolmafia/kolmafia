@@ -49,6 +49,7 @@ public class SkeeballCommand
 		this.usage = "[<count>] - squander Game Grid tokens at the broken Skeeball machine";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		int tokens = ArcadeRequest.TOKEN.getCount( KoLConstants.inventory );

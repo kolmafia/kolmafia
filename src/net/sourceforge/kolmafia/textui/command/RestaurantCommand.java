@@ -55,6 +55,7 @@ public class RestaurantCommand
 		this.usage = "[?] [ daily special | <item> ] - show daily special [or consume it or other restaurant item].";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( cmd.equals( "restaurant" ) )

@@ -149,11 +149,13 @@ public class IslandArenaRequest
 		}
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.error != null )
@@ -166,6 +168,7 @@ public class IslandArenaRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.responseText == null || this.responseText.equals( "" ) )

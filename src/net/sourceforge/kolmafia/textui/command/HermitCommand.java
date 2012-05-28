@@ -54,6 +54,7 @@ public class HermitCommand
 		this.usage = "[?] [<item>] - get clover status, or trade for item.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		int cloverCount = HermitRequest.cloverCount();

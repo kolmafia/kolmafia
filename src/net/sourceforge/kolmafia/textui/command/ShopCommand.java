@@ -64,6 +64,7 @@ public class ShopCommand
 		this.usage = " put <item> [[@] <price> [[limit] <num>]] [, <another>] | take [all] <item> [, <another>] - sell or remove from Mall..";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.toLowerCase();

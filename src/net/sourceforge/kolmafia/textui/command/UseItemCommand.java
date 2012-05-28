@@ -57,6 +57,7 @@ public class UseItemCommand
 		this.usage = "[?] [either] <item> [, <item>]... - use/consume items";
 	}
 
+	@Override
 	public void run( String command, final String parameters )
 	{
 		if ( command.equals( "overdrink" ) )

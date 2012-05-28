@@ -112,6 +112,7 @@ public class TravelingTraderRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.responseText.length() == 0 )

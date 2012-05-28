@@ -107,6 +107,7 @@ public class FreeSnackRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		GameShoppeRequest.parseResponse( this.getURLString(), this.responseText );

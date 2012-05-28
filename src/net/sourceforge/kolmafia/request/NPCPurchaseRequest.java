@@ -123,6 +123,7 @@ public class NPCPurchaseRequest
 	 * @return The price of the item being purchased
 	 */
 
+	@Override
 	public int getPrice()
 	{
 		return NPCPurchaseRequest.currentPrice( this.price );
@@ -138,6 +139,7 @@ public class NPCPurchaseRequest
 		return EquipmentManager.getEquipment( EquipmentManager.PANTS ).equals( NPCPurchaseRequest.TROUSERS );
 	}
 
+	@Override
 	public void run()
 	{
 		this.addFormField( "howmany", String.valueOf( this.limit ) );
@@ -145,6 +147,7 @@ public class NPCPurchaseRequest
 		super.run();
 	}
 
+	@Override
 	public boolean ensureProperAttire()
 	{
 		int neededOutfit = 0;
@@ -239,6 +242,7 @@ public class NPCPurchaseRequest
 		return !keepPants;
 	}
 
+	@Override
 	public void processResults()
 	{
 		String urlString = this.getURLString();

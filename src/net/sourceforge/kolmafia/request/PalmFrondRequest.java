@@ -47,6 +47,7 @@ public class PalmFrondRequest
 		super( itemId );
 	}
 
+	@Override
 	public void run()
 	{
 		// Make sure you have a weaving manual
@@ -60,6 +61,7 @@ public class PalmFrondRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		// "You can't figure out what to do with this thing. Maybe you

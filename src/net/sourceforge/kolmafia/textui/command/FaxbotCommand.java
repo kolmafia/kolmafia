@@ -45,6 +45,7 @@ public class FaxbotCommand
 		this.usage = " [command] - send the command to faxbot";
 	}
 	
+	@Override
 	public void run( final String cmd, final String command )
 	{	
 		FaxBotDatabase.configure();

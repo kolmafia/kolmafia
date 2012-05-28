@@ -228,11 +228,13 @@ public class FamiliarTrainingFrame
 		FamiliarTrainingFrame.results.clear();
 	}
 
+	@Override
 	public void updateDisplayState( final int displayState )
 	{
 		this.training.setEnabled( displayState != KoLConstants.CONTINUE_STATE );
 	}
 
+	@Override
 	public void dispose()
 	{
 		FamiliarTrainingFrame.stop = true;
@@ -314,6 +316,7 @@ public class FamiliarTrainingFrame
 			this.add( new StatusPanel(), BorderLayout.SOUTH );
 		}
 
+		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
 			if ( this.buttonPanel == null || this.familiars == null )
@@ -449,6 +452,7 @@ public class FamiliarTrainingFrame
 				this.add( containerPanel );
 			}
 
+			@Override
 			public void setEnabled( final boolean isEnabled )
 			{
 				super.setEnabled( isEnabled );
@@ -487,6 +491,7 @@ public class FamiliarTrainingFrame
 			private class BaseListener
 				extends ThreadedListener
 			{
+				@Override
 				protected void execute()
 				{
 					// Prompt for goal
@@ -508,6 +513,7 @@ public class FamiliarTrainingFrame
 			private class BuffedListener
 				extends ThreadedListener
 			{
+				@Override
 				protected void execute()
 				{
 					// Prompt for goal
@@ -529,6 +535,7 @@ public class FamiliarTrainingFrame
 			private class TurnsListener
 				extends ThreadedListener
 			{
+				@Override
 				protected void execute()
 				{
 					// Prompt for goal
@@ -550,6 +557,7 @@ public class FamiliarTrainingFrame
 			private class StopListener
 				extends ThreadedListener
 			{
+				@Override
 				protected void execute()
 				{
 					FamiliarTrainingFrame.stop = true;
@@ -559,6 +567,7 @@ public class FamiliarTrainingFrame
 			private class SaveListener
 				extends ThreadedListener
 			{
+				@Override
 				protected void execute()
 				{
 					JFileChooser chooser = new JFileChooser( "data" );
@@ -591,6 +600,7 @@ public class FamiliarTrainingFrame
 			private class LearnListener
 				extends ThreadedListener
 			{
+				@Override
 				protected void execute()
 				{
 					if ( FamiliarTrainingPanel.this.familiar == FamiliarData.NO_FAMILIAR )
@@ -655,6 +665,7 @@ public class FamiliarTrainingFrame
 				private final ArrayList storageItems = new ArrayList();
 				private final ArrayList requests = new ArrayList();
 
+				@Override
 				protected void execute()
 				{
 					KoLmafia.updateDisplay( "Equipping familiars..." );
@@ -791,6 +802,7 @@ public class FamiliarTrainingFrame
 			private class ChangeComboBoxListener
 				extends ThreadedListener
 			{
+				@Override
 				protected void execute()
 				{
 					FamiliarData selection = (FamiliarData) ChangeComboBox.this.getSelectedItem();
@@ -807,6 +819,7 @@ public class FamiliarTrainingFrame
 		}
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
@@ -3168,6 +3181,7 @@ public class FamiliarTrainingFrame
 				return changes;
 			}
 
+			@Override
 			public String toString()
 			{
 				StringBuffer text = new StringBuffer();

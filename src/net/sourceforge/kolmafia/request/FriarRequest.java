@@ -67,11 +67,13 @@ public class FriarRequest
 		}
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.option == 0 )
@@ -84,6 +86,7 @@ public class FriarRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.responseText == null || this.responseText.equals( "" ) )

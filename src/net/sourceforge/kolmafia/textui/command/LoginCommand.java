@@ -43,6 +43,7 @@ public class LoginCommand
 		this.usage = " <username> - logout then log back in as username.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		LogoutManager.logout();

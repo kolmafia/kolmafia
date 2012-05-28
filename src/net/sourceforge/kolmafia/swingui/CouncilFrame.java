@@ -78,6 +78,7 @@ public class CouncilFrame
 		super( "Council of Loathing" );
 	}
 
+	@Override
 	public void setVisible( boolean isVisible )
 	{
 		super.setVisible( isVisible );
@@ -89,11 +90,13 @@ public class CouncilFrame
 		}
 	}
 
+	@Override
 	public boolean hasSideBar()
 	{
 		return false;
 	}
 
+	@Override
 	public String getDisplayHTML( final String responseText )
 	{
 		return super.getDisplayHTML( responseText )

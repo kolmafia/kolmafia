@@ -57,6 +57,7 @@ public class BuyCommand
 		this.usage = " <item> [@ <limit>] [, <another>]... - buy from NPC store or the Mall.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		SpecialOutfit.createImplicitCheckpoint();

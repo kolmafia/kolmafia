@@ -61,6 +61,7 @@ public class StatusEffectPanel
 		this.elementList = (ShowDescriptionList) this.scrollComponent;
 	}
 
+	@Override
 	public void actionConfirmed()
 	{
 		Object[] effects = this.elementList.getSelectedValues();
@@ -70,6 +71,7 @@ public class StatusEffectPanel
 		}
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 		Object[] effects = this.elementList.getSelectedValues();

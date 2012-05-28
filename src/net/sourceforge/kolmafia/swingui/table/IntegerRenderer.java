@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class IntegerRenderer
 	extends DefaultTableCellRenderer
 {
+	@Override
 	public Component getTableCellRendererComponent( final JTable table, final Object value,
 		final boolean isSelected, final boolean hasFocus, final int row, final int column )
 	{

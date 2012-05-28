@@ -53,23 +53,28 @@ public class TextComponentAdaptor extends AbstractAutoCompleteAdaptor {
         this.textComponent = textComponent;
     }
     
-    public Object getSelectedItem() {
+    @Override
+public Object getSelectedItem() {
         return selectedItem;
     }
     
-    public int getItemCount() {
+    @Override
+public int getItemCount() {
         return items.size();
     }
     
-    public Object getItem(int index) {
+    @Override
+public Object getItem(int index) {
         return items.get(index);
     }
     
-    public void setSelectedItem(Object item) {
+    @Override
+public void setSelectedItem(Object item) {
         selectedItem = item;
     }
     
-    public JTextComponent getTextComponent() {
+    @Override
+public JTextComponent getTextComponent() {
         return textComponent;
     }
 }

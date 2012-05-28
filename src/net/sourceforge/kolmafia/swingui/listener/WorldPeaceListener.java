@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class WorldPeaceListener
 	extends ThreadedListener
 {
+	@Override
 	protected void execute()
 	{
 		if ( Preferences.getBoolean( "debugFoxtrotRemoval" ) )

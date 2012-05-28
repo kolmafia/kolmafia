@@ -99,16 +99,19 @@ public class DisplayCaseRequest
 		this.isWithdrawal = false;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return !this.isDeposit && !this.isWithdrawal;
 	}
 
+	@Override
 	public int getCapacity()
 	{
 		return 11;
 	}
 
+	@Override
 	public TransferItemRequest getSubInstance( final Object[] attachments )
 	{
 		return new DisplayCaseRequest( attachments, this.isDeposit );
@@ -119,21 +122,25 @@ public class DisplayCaseRequest
 		return "";
 	}
 
+	@Override
 	public String getItemField()
 	{
 		return "whichitem";
 	}
 
+	@Override
 	public String getQuantityField()
 	{
 		return "howmany";
 	}
 
+	@Override
 	public String getMeatField()
 	{
 		return "";
 	}
 
+	@Override
 	public boolean parseTransfer()
 	{
 		return DisplayCaseRequest.parseTransfer( this.getURLString(), this.responseText );
@@ -219,21 +226,25 @@ public class DisplayCaseRequest
 		return true;
 	}
 
+	@Override
 	public boolean allowMementoTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUntradeableTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean allowUngiftableTransfer()
 	{
 		return true;
 	}
 
+	@Override
 	public String getStatusMessage()
 	{
 		return this.isDeposit ? "Placing items in display case" : this.isWithdrawal ? "Removing items from display case" : "Updating display case";

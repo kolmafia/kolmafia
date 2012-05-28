@@ -57,6 +57,7 @@ public class PandaCommand
 		this.usage = " moan | temple | comedy <type> | arena <bandmember> <item> - interact with NPCs in Pandamonium";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.trim();

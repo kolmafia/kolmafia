@@ -101,6 +101,7 @@ public class MallSearchFrame
 		MallSearchFrame.INSTANCE = this;
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
@@ -173,6 +174,7 @@ public class MallSearchFrame
 		{
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			int searchCount = InputFieldUtilities.getValue( this.countField, 0 );
@@ -205,6 +207,7 @@ public class MallSearchFrame
 			this.searchField.requestFocus();
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			if ( MallSearchFrame.this.currentlySearching )

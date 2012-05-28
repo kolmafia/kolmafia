@@ -130,6 +130,7 @@ public class BURTRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		BURTRequest.parseResponse( this.getURLString(), this.responseText );

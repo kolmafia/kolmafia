@@ -52,6 +52,7 @@ public class HellKitchenRequest
 		this.setItem( name, itemId, price );
 	}
 
+	@Override
 	public void run()
 	{
 		if ( KoLCharacter.inBadMoon() )

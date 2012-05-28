@@ -92,11 +92,13 @@ public class HiddenCityRequest
 		this.itemId = itemId;
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		return 1;
 	}
 
+	@Override
 	public void reconstructFields()
 	{
 		this.constructURLString( "hiddencity.php" );
@@ -159,6 +161,7 @@ public class HiddenCityRequest
 		return 0;
 	}
 
+	@Override
 	public void run()
 	{
 		this.reconstructFields();
@@ -231,6 +234,7 @@ public class HiddenCityRequest
 		return square + 1;
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( !this.getURLString().startsWith( "hiddencity.php" ) )

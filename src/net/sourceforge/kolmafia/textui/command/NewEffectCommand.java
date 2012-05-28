@@ -43,6 +43,7 @@ public class NewEffectCommand
 		this.usage = " <effect description ID> - learn a new effect";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		if ( parameters.equals( "" ) )

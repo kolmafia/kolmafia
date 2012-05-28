@@ -47,6 +47,7 @@ public class SkateParkCommand
 		this.usage = " lutz | comet | band shell | merry-go-round | eels - get daily Skate Park buff.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int buff = SkateParkRequest.placeToBuff( parameters.trim() );

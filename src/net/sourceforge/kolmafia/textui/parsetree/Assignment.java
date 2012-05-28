@@ -77,6 +77,7 @@ public class Assignment
 		return this.lhs.getType();
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -139,11 +140,13 @@ public class Assignment
 		return newValue;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.rhs == null ? this.lhs.getName() : this.lhs.getName() + " = " + this.rhs;
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

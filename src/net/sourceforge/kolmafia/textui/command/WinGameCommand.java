@@ -46,6 +46,7 @@ public class WinGameCommand
 		this.usage = " - I'm as surprised as you!  I didn't think it was possible.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] messages = KoLConstants.WIN_GAME_TEXT[ KoLConstants.RNG.nextInt( KoLConstants.WIN_GAME_TEXT.length ) ];

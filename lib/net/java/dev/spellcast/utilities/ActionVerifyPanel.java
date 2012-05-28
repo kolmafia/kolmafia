@@ -356,6 +356,7 @@ public abstract class ActionVerifyPanel
 		return holder;
 	}
 
+	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
 		if ( this.buttonPanel != null )
@@ -364,10 +365,13 @@ public abstract class ActionVerifyPanel
 		}
 	}
 
+	@Override
 	public abstract void actionConfirmed();
 
+	@Override
 	public abstract void actionCancelled();
 
+	@Override
 	public void dispose()
 	{
 		if ( this.buttonPanel != null )

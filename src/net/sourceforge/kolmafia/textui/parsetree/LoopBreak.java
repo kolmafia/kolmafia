@@ -43,6 +43,7 @@ public class LoopBreak
 		super( Interpreter.STATE_BREAK );
 	}
 	
+	@Override
 	public boolean assertBreakable()
 	{
 		return true;

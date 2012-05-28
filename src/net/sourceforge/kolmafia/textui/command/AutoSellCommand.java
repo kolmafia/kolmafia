@@ -48,6 +48,7 @@ public class AutoSellCommand
 		this.usage = " <item> [, <item>]... - autosell items.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		Object[] items = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );

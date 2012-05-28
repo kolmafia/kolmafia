@@ -137,11 +137,13 @@ public class ClanMembersRequest
 		}
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( !this.isLookup || this.isDetailLookup )
@@ -193,6 +195,7 @@ public class ClanMembersRequest
 		this.clanName = clanIdMatcher.group( 2 );
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( !this.isLookup )

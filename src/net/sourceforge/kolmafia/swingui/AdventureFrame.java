@@ -107,11 +107,13 @@ public class AdventureFrame
 		this.setCenterComponent( adventurePanel );
 	}
 
+	@Override
 	public boolean shouldAddStatusBar()
 	{
 		return false;
 	}
 
+	@Override
 	public void setStatusMessage( final String message )
 	{
 		if ( AdventureFrame.requestMeter == null || message.length() == 0 )
@@ -188,6 +190,7 @@ public class AdventureFrame
 		}
 	}
 
+	@Override
 	public boolean useSidePane()
 	{
 		return true;
@@ -239,6 +242,7 @@ public class AdventureFrame
 		return AdventureFrame.sessionGrid;
 	}
 
+	@Override
 	public void dispose()
 	{
 		Preferences.setInteger( "defaultDropdownSplit", this.sessionGrid.getLastDividerLocation() );

@@ -511,6 +511,7 @@ public abstract class RabbitHoleManager
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			StringBuffer buffer = new StringBuffer();
@@ -694,6 +695,7 @@ public abstract class RabbitHoleManager
 			return buffer.toString();
 		}
 
+		@Override
 		public Object clone()
 		{
 			return new Board( this );

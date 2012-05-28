@@ -62,6 +62,7 @@ public class RelayAutoCombatThread
 		this.pauser.unpause();
 	}
 
+	@Override
 	public void run()
 	{
 		while ( true )

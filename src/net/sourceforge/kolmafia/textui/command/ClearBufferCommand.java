@@ -43,6 +43,7 @@ public class ClearBufferCommand
 		this.usage = " - clear CLI window.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		KoLConstants.commandBuffer.clear();

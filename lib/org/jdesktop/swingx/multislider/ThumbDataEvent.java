@@ -50,7 +50,8 @@ public class ThumbDataEvent extends EventObject {
         return thumb;
     }
     
-    public String toString() {
+    @Override
+public String toString() {
         return this.getClass().getName() + " : " + type + " " + index + " " + thumb;
     }
 }

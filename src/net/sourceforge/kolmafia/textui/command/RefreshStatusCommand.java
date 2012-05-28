@@ -55,6 +55,7 @@ public class RefreshStatusCommand
 		this.usage = " all | status | equip | inv | storage | familiar | stickers | quests - resynchronize with KoL.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		if ( parameters.equals( "all" ) )

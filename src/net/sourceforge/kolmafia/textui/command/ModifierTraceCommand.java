@@ -46,6 +46,7 @@ public class ModifierTraceCommand
 		this.usage = " <filter> - list everything that adds to modifiers matching filter.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int count = DebugModifiers.setup( parameters.toLowerCase() );

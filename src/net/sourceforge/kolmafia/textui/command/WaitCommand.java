@@ -47,6 +47,7 @@ public class WaitCommand
 		this.usage = " [<seconds>] - pause script execution (default 1 second).";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int seconds = StringUtilities.parseInt( parameters );

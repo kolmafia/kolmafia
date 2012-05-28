@@ -159,11 +159,13 @@ public class AccountRequest
 		return -1;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.tab == ALL )
@@ -182,6 +184,7 @@ public class AccountRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		AccountRequest.parseAccountData( this.getURLString(), this.responseText );

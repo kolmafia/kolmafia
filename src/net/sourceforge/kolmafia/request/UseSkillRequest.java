@@ -563,6 +563,7 @@ public class UseSkillRequest
 		return maximumCast;
 	}
 
+	@Override
 	public String toString()
 	{
 		if ( this.lastReduction == KoLCharacter.getManaCostAdjustment() && !SkillDatabase.isLibramSkill( this.skillId ) )
@@ -728,6 +729,7 @@ public class UseSkillRequest
 		return rv;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( !KoLCharacter.hasSkill( this.skillName ) || this.buffCount == 0 )
@@ -1058,16 +1060,19 @@ public class UseSkillRequest
 		InventoryManager.retrieveItem( options[ options.length - 1 ] );
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return false;
 	}
 
+	@Override
 	protected boolean processOnFailure()
 	{
 		return true;
 	}
 
+	@Override
 	public void processResults()
 	{
 		UseSkillRequest.lastUpdate = "";
@@ -1097,6 +1102,7 @@ public class UseSkillRequest
 		}
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		return o != null && o instanceof UseSkillRequest && this.getSkillName().equals(

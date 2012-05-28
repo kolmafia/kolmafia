@@ -45,6 +45,7 @@ public class StickersCommand
 		this.usage = " <sticker1> [, <sticker2> [, <sticker3>]] - replace worn stickers.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] stickers = parameters.split( "\\s*,\\s*" );

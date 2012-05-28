@@ -53,6 +53,7 @@ public class DisplayCaseCommand
 		this.usage = " [<filter>] | put <item>... | take <item>... - list or manipulate your display case.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( !DisplayCaseManager.collectionRetrieved )

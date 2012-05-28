@@ -50,6 +50,7 @@ public class MoodCommand
 		this.usage = " list | clear | autofill | execute | repeat [<numTimes>] | <moodName> [<numTimes>] - mood management.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.toLowerCase();

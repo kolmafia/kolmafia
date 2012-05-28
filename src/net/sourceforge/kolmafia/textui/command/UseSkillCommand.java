@@ -54,6 +54,7 @@ public class UseSkillCommand
 		this.usage = "[?] [ [<count>] <skill> [on <player>] ] - list spells, or use one.";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		if ( parameters.length() > 0 )

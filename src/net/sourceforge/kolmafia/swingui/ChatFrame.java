@@ -155,6 +155,7 @@ public class ChatFrame
 		this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.mainPanel ) );
 	}
 
+	@Override
 	public void focusGained( FocusEvent e )
 	{
 		if ( this.mainPanel != null )
@@ -163,10 +164,12 @@ public class ChatFrame
 		}
 	}
 
+	@Override
 	public void focusLost( FocusEvent e )
 	{
 	}
 
+	@Override
 	public JToolBar getToolbar()
 	{
 		if ( !Preferences.getBoolean( "useChatToolbar" ) )
@@ -189,26 +192,31 @@ public class ChatFrame
 		return toolbarPanel;
 	}
 
+	@Override
 	public Component getCenterComponent()
 	{
 		return this.getFramePanel();
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
 
+	@Override
 	public boolean shouldAddStatusBar()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean showInWindowMenu()
 	{
 		return false;
 	}
 
+	@Override
 	public void dispose()
 	{
 		String contact = this.getAssociatedContact();
@@ -295,6 +303,7 @@ public class ChatFrame
 			return this.associatedContact;
 		}
 
+		@Override
 		public boolean hasFocus()
 		{
 			if ( this.entryField == null || this.chatDisplay == null )
@@ -313,6 +322,7 @@ public class ChatFrame
 		private class ChatEntryListener
 			extends ThreadedListener
 		{
+			@Override
 			protected void execute()
 			{
 				if ( this.isAction() )
@@ -398,6 +408,7 @@ public class ChatFrame
 	 * Returns whether or not the chat frame has focus.
 	 */
 
+	@Override
 	public boolean hasFocus()
 	{
 		return super.hasFocus() || this.mainPanel != null && this.mainPanel.hasFocus();
@@ -411,6 +422,7 @@ public class ChatFrame
 	private class ChatLinkClickedListener
 		extends HyperlinkAdapter
 	{
+		@Override
 		public void handleInternalLink( final String location )
 		{
 			if ( location.startsWith( "makeoffer" ) || location.startsWith( "counteroffer" ) || location.startsWith( "bet" ) || location.startsWith( "messages" ) )

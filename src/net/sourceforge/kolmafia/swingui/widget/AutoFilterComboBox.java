@@ -213,6 +213,7 @@ public class AutoFilterComboBox
 		extends KeyAdapter
 		implements FocusListener, ItemListener
 	{
+		@Override
 		public void keyReleased( final KeyEvent e )
 		{
 			if ( e.getKeyCode() == KeyEvent.VK_DOWN )

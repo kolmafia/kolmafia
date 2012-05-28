@@ -82,11 +82,13 @@ public class RecordType
 		return this.fieldTypes.length;
 	}
 
+	@Override
 	public Type getIndexType()
 	{
 		return DataTypes.STRING_TYPE;
 	}
 
+	@Override
 	public Type getDataType( final Object key )
 	{
 		if ( !( key instanceof Value ) )
@@ -114,6 +116,7 @@ public class RecordType
 		return null;
 	}
 
+	@Override
 	public Value getKey( final Value key )
 	{
 		Type type = key.getType();
@@ -173,21 +176,25 @@ public class RecordType
 		return -1;
 	}
 
+	@Override
 	public boolean equals( final Type o )
 	{
 		return o instanceof RecordType && this.name.equals( ( (RecordType) o ).name );
 	}
 
+	@Override
 	public Type simpleType()
 	{
 		return this;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.name;
 	}
 
+	@Override
 	public Value initialValue()
 	{
 		return new RecordValue( this );
@@ -203,6 +210,7 @@ public class RecordType
 		return new RecordInitializer( this, params );
 	}
 
+	@Override
 	public boolean containsAggregate()
 	{
 		for ( int i = 0; i < this.fieldTypes.length; ++i )

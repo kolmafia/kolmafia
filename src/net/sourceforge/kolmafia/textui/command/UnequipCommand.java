@@ -50,6 +50,7 @@ public class UnequipCommand
 		this.usage = " <slot> | <name> - remove equipment in slot, or that matches name";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		// Look for name of slot

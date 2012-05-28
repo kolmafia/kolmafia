@@ -173,7 +173,8 @@ public class JXMultiSplitPane extends JPanel {
     }
 
     private class DefaultDividerPainter extends DividerPainter {
-        protected void doPaint(Graphics2D g, Divider divider, int width, int height) {
+        @Override
+	protected void doPaint(Graphics2D g, Divider divider, int width, int height) {
             if ((divider == activeDivider()) && !isContinuousLayout()) {
             g.setColor(Color.black);
             g.fillRect(0, 0, width, height);
@@ -240,7 +241,8 @@ public class JXMultiSplitPane extends JPanel {
      * @see #paint(Graphics)
      * @see javax.swing.plaf.ComponentUI
      */
-    protected void paintComponent(Graphics g)
+    @Override
+protected void paintComponent(Graphics g)
     {
       if (backgroundPainter != null) {
           Graphics2D g2 = (Graphics2D)g.create();
@@ -289,7 +291,8 @@ public class JXMultiSplitPane extends JPanel {
      * <p>
      * {@inheritDoc}
      */
-    protected void paintChildren(Graphics g) {
+    @Override
+protected void paintChildren(Graphics g) {
       super.paintChildren(g);
       DividerPainter dp = getDividerPainter();
       Rectangle clipR = g.getClipBounds();
@@ -507,25 +510,31 @@ public class JXMultiSplitPane extends JPanel {
 
     private class InputHandler extends MouseInputAdapter implements KeyListener {
 
-        public void mouseEntered(MouseEvent e) {
+        @Override
+	public void mouseEntered(MouseEvent e) {
             updateCursor(e.getX(), e.getY(), true);
         }
     
-        public void mouseMoved(MouseEvent e) {
+        @Override
+	public void mouseMoved(MouseEvent e) {
             updateCursor(e.getX(), e.getY(), true);
         }
     
-        public void mouseExited(MouseEvent e) {
+        @Override
+	public void mouseExited(MouseEvent e) {
             updateCursor(e.getX(), e.getY(), false);
         }
     
-        public void mousePressed(MouseEvent e) {
+        @Override
+	public void mousePressed(MouseEvent e) {
             startDrag(e.getX(), e.getY());
         }
-        public void mouseReleased(MouseEvent e) {
+        @Override
+	public void mouseReleased(MouseEvent e) {
             finishDrag(e.getX(), e.getY());
         }
-        public void mouseDragged(MouseEvent e) {
+        @Override
+	public void mouseDragged(MouseEvent e) {
             updateDrag(e.getX(), e.getY());        
         }
         public void keyPressed(KeyEvent e) { 
@@ -538,7 +547,8 @@ public class JXMultiSplitPane extends JPanel {
         public void keyTyped(KeyEvent e) { }
     }
 
-    public AccessibleContext getAccessibleContext() {
+    @Override
+public AccessibleContext getAccessibleContext() {
         if( accessibleContext == null ) {
             accessibleContext = new AccessibleMultiSplitPane();
         }
@@ -546,7 +556,8 @@ public class JXMultiSplitPane extends JPanel {
     }
     
     protected class AccessibleMultiSplitPane extends AccessibleJPanel {
-        public AccessibleRole getAccessibleRole() {
+        @Override
+	public AccessibleRole getAccessibleRole() {
             return AccessibleRole.SPLIT_PANE;
         }
     }

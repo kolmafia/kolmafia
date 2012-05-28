@@ -61,6 +61,7 @@ public class UntinkerMenuItem
 	private static class UntinkerListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			SortedListModel untinkerItems = new SortedListModel();

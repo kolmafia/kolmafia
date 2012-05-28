@@ -45,6 +45,7 @@ public class LeafletCommand
 		this.usage = "  [nomagic] | location | command  - complete leaflet quest [without using magic words].";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equals( "" ) || parameters.equals( "stats" ) )

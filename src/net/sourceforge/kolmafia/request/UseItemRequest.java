@@ -853,6 +853,7 @@ public class UseItemRequest
 		return maximumSuggested;
 	}
 
+	@Override
 	public void run()
 	{
 		// Hide memento items from your familiars
@@ -1358,6 +1359,7 @@ public class UseItemRequest
 		return "";
 	}
 
+	@Override
 	public void processResults()
 	{
 		switch ( this.consumptionType )
@@ -4786,6 +4788,7 @@ public class UseItemRequest
 		return true;
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		return UseItemRequest.getAdventuresUsedByItem( this.itemUsed );

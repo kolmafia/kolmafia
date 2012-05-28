@@ -58,6 +58,7 @@ public class AfterLifeRequest
 		super( "afterlife.php" );
 	}
 
+	@Override
 	public void processResults()
 	{
 		AfterLifeRequest.parseResponse( this.getURLString(), this.responseText );

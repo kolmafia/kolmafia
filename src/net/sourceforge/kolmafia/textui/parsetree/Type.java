@@ -96,6 +96,7 @@ public class Type
 		return this.type == type;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.name;
@@ -341,11 +342,13 @@ public class Type
 		return false;
 	}
 	
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		return null;
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

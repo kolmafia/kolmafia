@@ -153,6 +153,7 @@ public class FudgeWandRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		FudgeWandRequest.parseResponse( this.getURLString(), this.responseText );
@@ -248,12 +249,14 @@ public class FudgeWandRequest
 		return null;
 	}
 
+	@Override
 	public void equip()
 	{
 		// Use the wand of fudge control
 		RequestThread.postRequest( new GenericRequest( "inv_use.php?whichitem=5441" ) );
 	}
 
+	@Override
 	public void unequip()
 	{
 		RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=562&option=6" ) );

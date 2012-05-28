@@ -49,6 +49,7 @@ public class LogEchoCommand
 		this.usage = " timestamp | <text> - include timestamp or text in the session log only.";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		if ( parameters.equalsIgnoreCase( "timestamp" ) )

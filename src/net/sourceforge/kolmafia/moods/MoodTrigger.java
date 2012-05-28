@@ -232,6 +232,7 @@ public class MoodTrigger
 		return this.action;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.stringForm.toString();
@@ -257,6 +258,7 @@ public class MoodTrigger
 		return this.type + " " + StringUtilities.getCanonicalName( this.name ) + " => " + this.action;
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		if ( o == null || !( o instanceof MoodTrigger ) )

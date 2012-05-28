@@ -49,12 +49,14 @@ public class MapValue
 		this.content = new TreeMap();
 	}
 
+	@Override
 	public Value aref( final Value key, final Interpreter interpreter )
 	{
 		TreeMap map = (TreeMap) this.content;
 		return (Value) map.get( key );
 	}
 
+	@Override
 	public void aset( final Value key, Value val, final Interpreter interpreter )
 	{
 		TreeMap map = (TreeMap) this.content;
@@ -80,6 +82,7 @@ public class MapValue
 		map.put( key, val );
 	}
 
+	@Override
 	public Value remove( final Value key, final Interpreter interpreter )
 	{
 		for ( int i = interpreter.iterators.size() - 3; i >= 0; i -= 3 )
@@ -100,24 +103,28 @@ public class MapValue
 		return (Value) map.remove( key );
 	}
 
+	@Override
 	public void clear()
 	{
 		TreeMap map = (TreeMap) this.content;
 		map.clear();
 	}
 
+	@Override
 	public int count()
 	{
 		TreeMap map = (TreeMap) this.content;
 		return map.size();
 	}
 
+	@Override
 	public boolean contains( final Value key )
 	{
 		TreeMap map = (TreeMap) this.content;
 		return map.containsKey( key );
 	}
 
+	@Override
 	public Value[] keys()
 	{
 		Set set = ( (TreeMap) this.content ).keySet();
@@ -126,6 +133,7 @@ public class MapValue
 		return keys;
 	}
 
+	@Override
 	public Iterator iterator()
 	{
 		Set set = ( (TreeMap) this.content ).keySet();

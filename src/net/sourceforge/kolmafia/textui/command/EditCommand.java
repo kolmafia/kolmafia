@@ -52,6 +52,7 @@ public class EditCommand
 		this.usage = " <filename> - launch external editor for a script or map file.";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		if ( parameters.equals( "" ) )

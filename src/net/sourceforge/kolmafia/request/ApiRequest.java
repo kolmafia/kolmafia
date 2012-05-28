@@ -80,11 +80,13 @@ public class ApiRequest
 		this( what, String.valueOf( id ) );
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.what.equals( "status" ) )
@@ -104,6 +106,7 @@ public class ApiRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.redirectLocation != null )

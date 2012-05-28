@@ -82,21 +82,25 @@ public class AutoMallRequest
 		}
 	}
 
+	@Override
 	public String getItemField()
 	{
 		return "whichitem";
 	}
 
+	@Override
 	public String getQuantityField()
 	{
 		return "qty";
 	}
 
+	@Override
 	public String getMeatField()
 	{
 		return "sendmeat";
 	}
 
+	@Override
 	public void attachItem( final AdventureResult item, final int index )
 	{
 		this.addFormField( "item" + index, String.valueOf( item.getItemId() ) );
@@ -112,11 +116,13 @@ public class AutoMallRequest
 				pos >= this.limits.length || this.limits[ pos ] == 0 ? "" : String.valueOf( this.limits[ pos ] ) );
 	}
 
+	@Override
 	public int getCapacity()
 	{
 		return 11;
 	}
 
+	@Override
 	public TransferItemRequest getSubInstance( final Object[] attachments )
 	{
 		int[] prices = new int[ this.prices.length == 0 ? 0 : attachments.length ];
@@ -137,6 +143,7 @@ public class AutoMallRequest
 		return new AutoMallRequest( attachments, prices, limits );
 	}
 
+	@Override
 	public void processResults()
 	{
 		super.processResults();
@@ -151,6 +158,7 @@ public class AutoMallRequest
 		KoLmafia.updateDisplay( "Items offered up for sale." );
 	}
 
+	@Override
 	public boolean parseTransfer()
 	{
 		return AutoMallRequest.parseTransfer( this.getURLString(), this.responseText );
@@ -177,31 +185,37 @@ public class AutoMallRequest
 		return true;
 	}
 
+	@Override
 	public boolean allowMementoTransfer()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean allowSingletonTransfer()
 	{
 		return KoLCharacter.canInteract();
 	}
 
+	@Override
 	public boolean allowUntradeableTransfer()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean allowUndisplayableTransfer()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean allowUngiftableTransfer()
 	{
 		return false;
 	}
 
+	@Override
 	public String getStatusMessage()
 	{
 		return "Transferring items to store";

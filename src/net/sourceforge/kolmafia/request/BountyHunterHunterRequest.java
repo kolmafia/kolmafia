@@ -116,6 +116,7 @@ public class BountyHunterHunterRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		BountyHunterHunterRequest.parseResponse( this.getURLString(), this.responseText );

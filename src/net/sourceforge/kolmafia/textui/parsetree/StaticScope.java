@@ -44,6 +44,7 @@ public class StaticScope
 		super( parentScope.variables, parentScope );
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !this.executed )
@@ -54,6 +55,7 @@ public class StaticScope
 		return DataTypes.VOID_VALUE;
 	}
 
+	@Override
 	public boolean addVariable( final Variable v )
 	{
 		v.markStatic();

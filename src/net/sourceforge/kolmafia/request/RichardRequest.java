@@ -73,6 +73,7 @@ public class RichardRequest
 		return this;
 	}
 
+	@Override
 	public void run()
 	{
 		this.addFormField( "numturns", String.valueOf( this.turnCount ) );
@@ -88,6 +89,7 @@ public class RichardRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		KoLmafia.updateDisplay( "Workout completed." );
@@ -101,6 +103,7 @@ public class RichardRequest
 	 * @return The number of adventures used by this request.
 	 */
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		return this.turnCount;

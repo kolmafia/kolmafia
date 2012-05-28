@@ -102,6 +102,7 @@ public class CraftRequest
 		return this.quantity - this.remaining;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.mixingMethod == KoLConstants.NOCREATE ||
@@ -149,6 +150,7 @@ public class CraftRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		this.created = CreateItemRequest.parseCrafting( this.getURLString(), this.responseText );

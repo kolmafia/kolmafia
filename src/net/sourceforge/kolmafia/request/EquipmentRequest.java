@@ -290,11 +290,13 @@ public class EquipmentRequest
 			path.indexOf( "action=customoutfit" ) == -1;
 	}
 
+	@Override
 	protected boolean shouldFollowRedirect()
 	{
 		return true;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
@@ -579,6 +581,7 @@ public class EquipmentRequest
 	 * equipped items and familiar item will be stored.
 	 */
 
+	@Override
 	public void run()
 	{
 		if ( this.requestType == EquipmentRequest.REFRESH )
@@ -863,6 +866,7 @@ public class EquipmentRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		String urlString = this.getURLString();

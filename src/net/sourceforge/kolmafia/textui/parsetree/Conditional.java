@@ -60,6 +60,7 @@ public abstract class Conditional
 		return this.condition;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )

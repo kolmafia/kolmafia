@@ -63,6 +63,7 @@ public class MoonPhaseRequest
 		super( "topmenu.php" );
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
@@ -72,12 +73,14 @@ public class MoonPhaseRequest
 	 * Runs the moon phase request, updating theas appropriate.
 	 */
 
+	@Override
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Synchronizing moon data..." );
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		String parseText = this.responseText;

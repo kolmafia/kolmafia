@@ -352,6 +352,7 @@ public abstract class StoreManager
 			this.stringForm = id + ": " + text;
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.stringForm;
@@ -623,6 +624,7 @@ public abstract class StoreManager
 			return this.lowest;
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			return o != null && o instanceof SoldItem && ( (SoldItem) o ).itemId == this.itemId;
@@ -653,6 +655,7 @@ public abstract class StoreManager
 			return StoreManager.sortItemsByName ? this.itemName.compareToIgnoreCase( ( (SoldItem) o ).itemName ) : this.price - ( (SoldItem) o ).price;
 		}
 
+		@Override
 		public String toString()
 		{
 			StringBuffer buffer = new StringBuffer();

@@ -45,6 +45,7 @@ public class AltarOfLiteracyRequest
 		super( "town_altar.php" );
 	}
 
+	@Override
 	public void processResults()
 	{
 		AltarOfLiteracyRequest.parseResponse( this.getURLString(), this.responseText );

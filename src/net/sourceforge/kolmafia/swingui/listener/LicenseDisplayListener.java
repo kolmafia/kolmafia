@@ -71,6 +71,7 @@ public class LicenseDisplayListener
 		"Unlicensed"
 	};
 
+	@Override
 	protected void execute()
 	{
 		Object[] parameters = new Object[ 4 ];

@@ -69,6 +69,7 @@ public class RequestPane
 		this.setBackground( new Color( 252, 252, 252 ) );
 	}
 
+	@Override
 	public String getSelectedText()
 	{
 		// Retrieve the HTML version of the current selection

@@ -58,6 +58,7 @@ public class SpleenItemRequest
 		super( UseItemRequest.getConsumptionType( item ), item );
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		return 0;
@@ -77,6 +78,7 @@ public class SpleenItemRequest
 		return Math.min( restorationMaximum, spleenLeft / spleenHit );
 	}
 
+	@Override
 	public void run()
 	{
 		if ( !ItemDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
@@ -126,6 +128,7 @@ public class SpleenItemRequest
 		}
 	}
 
+	@Override
 	public void useOnce( final int currentIteration, final int totalIterations, String useTypeAsString )
 	{
 		UseItemRequest.lastUpdate = "";

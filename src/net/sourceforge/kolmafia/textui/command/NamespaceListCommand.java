@@ -51,6 +51,7 @@ public class NamespaceListCommand
 		this.usage = " [<filter>] - list namespace scripts and the functions they define.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] scripts = Preferences.getString( "commandLineNamespace" ).split( "," );

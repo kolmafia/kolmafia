@@ -55,6 +55,7 @@ public class LootTrapperMenuItem
 	private static class LootTrapperListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			AdventureResult selectedValue =

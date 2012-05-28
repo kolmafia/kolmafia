@@ -138,6 +138,7 @@ public class CreateItemRequest
 		this.createdItem = this.concoction.getItem().getInstance( this.yield );
 	}
 
+	@Override
 	public void reconstructFields()
 	{
 		String formSource = "craft.php";
@@ -367,6 +368,7 @@ public class CreateItemRequest
 		}
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		return this.compareTo( o ) == 0;
@@ -382,6 +384,7 @@ public class CreateItemRequest
 	 * method will fail.
 	 */
 
+	@Override
 	public void run()
 	{
 		if ( !KoLmafia.permitsContinue() || this.quantityNeeded <= 0 )
@@ -625,6 +628,7 @@ public class CreateItemRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( CreateItemRequest.parseGuildCreation( this.getURLString(), this.responseText ) )
@@ -1128,6 +1132,7 @@ public class CreateItemRequest
 	 * @return The string form of this request
 	 */
 
+	@Override
 	public String toString()
 	{
 		return this.getName() + " (" + this.getQuantityPossible() + ")";
@@ -1140,6 +1145,7 @@ public class CreateItemRequest
 	 * @return The number of adventures used by this request.
 	 */
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		switch ( this.mixingMethod & KoLConstants.CT_MASK )

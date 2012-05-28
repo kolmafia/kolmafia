@@ -302,16 +302,19 @@ public class TableSorter
 		return this.tableModel == null ? 0 : this.tableModel.getColumnCount();
 	}
 
+	@Override
 	public String getColumnName( final int column )
 	{
 		return this.tableModel.getColumnName( column );
 	}
 
+	@Override
 	public Class getColumnClass( final int column )
 	{
 		return this.tableModel.getColumnClass( column );
 	}
 
+	@Override
 	public boolean isCellEditable( final int row, final int column )
 	{
 		return this.tableModel.isCellEditable( this.modelIndex( row ), column );
@@ -322,6 +325,7 @@ public class TableSorter
 		return this.tableModel.getValueAt( this.modelIndex( row ), column );
 	}
 
+	@Override
 	public void setValueAt( final Object aValue, final int row, final int column )
 	{
 		this.tableModel.setValueAt( aValue, this.modelIndex( row ), column );
@@ -438,6 +442,7 @@ public class TableSorter
 	private class MouseHandler
 		extends MouseAdapter
 	{
+		@Override
 		public void mouseClicked( final MouseEvent e )
 		{
 			JTableHeader h = (JTableHeader) e.getSource();

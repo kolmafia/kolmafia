@@ -73,6 +73,7 @@ public class TelescopeRequest
 		}
 	}
 
+	@Override
 	public void run()
 	{
 		if ( KoLCharacter.getTelescopeUpgrades() < 1 )
@@ -98,6 +99,7 @@ public class TelescopeRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		TelescopeRequest.parseResponse( this.getURLString(), this.responseText );

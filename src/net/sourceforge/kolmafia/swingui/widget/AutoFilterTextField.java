@@ -130,6 +130,7 @@ public class AutoFilterTextField
 
 	private String tempText = null;
 	
+	@Override
 	public void setText( final String text )
 	{
 		this.tempText = text;
@@ -348,6 +349,7 @@ public class AutoFilterTextField
 	private class FilterListener
 		extends KeyAdapter
 	{
+		@Override
 		public void keyReleased( final KeyEvent e )
 		{
 			AutoFilterTextField.this.update();

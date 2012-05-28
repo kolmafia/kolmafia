@@ -142,6 +142,7 @@ public class ZapRequest
 		return rv;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.item == null )
@@ -170,6 +171,7 @@ public class ZapRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		// Remove item if zap succeeded. Remove wand if it blew up.

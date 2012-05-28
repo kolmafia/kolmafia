@@ -98,11 +98,13 @@ public class MailboxRequest
 		this.beginIndex = beginIndex;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		// Now you know that there is a request in progress, so you
@@ -120,6 +122,7 @@ public class MailboxRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		// Determine how many messages there are, and how many there

@@ -47,6 +47,7 @@ public class UpdateDataCommand
 			" clear | save | prices <URL or filename> - revert to built-in data or save override files for new objects.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equalsIgnoreCase( "clear" ) )

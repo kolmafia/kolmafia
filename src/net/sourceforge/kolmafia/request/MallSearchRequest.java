@@ -134,6 +134,7 @@ public class MallSearchRequest
 		this.retainAll = retainAll;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
@@ -182,6 +183,7 @@ public class MallSearchRequest
 	 * being stored.
 	 */
 
+	@Override
 	public void run()
 	{
 		boolean items;
@@ -510,6 +512,7 @@ public class MallSearchRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.searchString == null || this.searchString.trim().length() == 0 )

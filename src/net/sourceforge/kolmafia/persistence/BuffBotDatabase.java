@@ -331,6 +331,7 @@ public class BuffBotDatabase
 			ContactManager.registerPlayerId( data[ 0 ], data[ 1 ] );
 		}
 
+		@Override
 		public void run()
 		{
 			if ( BuffBotDatabase.freeOfferings.containsKey( this.botName ) || BuffBotDatabase.normalOfferings.containsKey( this.botName ) )

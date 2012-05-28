@@ -41,6 +41,7 @@ public class MallSellCommand
 		this.usage = " <item> [[@] <price> [[limit] <num>]] [, <another>]... - sell in Mall.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		ShopCommand.put( parameters );

@@ -635,11 +635,13 @@ public class FamiliarData
 		return true;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.id == -1 ? "(none)" : this.race + " (" + this.getModifiedWeight() + " lbs)";
 	}
 
+	@Override
 	public boolean equals( final Object o )
 	{
 		return o != null && o instanceof FamiliarData && this.id == ( (FamiliarData) o ).id;
@@ -868,6 +870,7 @@ public class FamiliarData
 	private static class FamiliarRenderer
 		extends DefaultListCellRenderer
 	{
+		@Override
 		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
 			final boolean isSelected, final boolean cellHasFocus )
 		{

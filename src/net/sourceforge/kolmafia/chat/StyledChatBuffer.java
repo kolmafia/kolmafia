@@ -106,6 +106,7 @@ public class StyledChatBuffer
 	 * Appends the given message to the chat buffer.
 	 */
 
+	@Override
 	public void append( final String message )
 	{
 		if ( message == null )
@@ -130,6 +131,7 @@ public class StyledChatBuffer
 		super.append( highlightMessage );
 	}
 
+	@Override
 	public String getStyle()
 	{
 		return "body { font-family: sans-serif; font-size: " + Preferences.getString( "chatFontSize" ) + "; } a { color: " + linkColor + "; text-decoration: none; } a.error { color: red; text-decoration: underline }";

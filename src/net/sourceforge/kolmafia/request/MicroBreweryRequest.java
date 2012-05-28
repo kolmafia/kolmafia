@@ -103,6 +103,7 @@ public class MicroBreweryRequest
 		this.setItem( name, itemId, price );
 	}
 
+	@Override
 	public void run()
 	{
 		if ( !KoLCharacter.gnomadsAvailable() )
@@ -114,6 +115,7 @@ public class MicroBreweryRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		if ( this.isPurchase )

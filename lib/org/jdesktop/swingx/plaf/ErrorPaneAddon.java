@@ -50,7 +50,8 @@ public class ErrorPaneAddon extends AbstractComponentAddon {
     /**
      * {@inheritDoc}
      */
-    protected void addMacDefaults(LookAndFeelAddons addon, DefaultsList defaults) {
+    @Override
+protected void addMacDefaults(LookAndFeelAddons addon, DefaultsList defaults) {
         super.addMacDefaults(addon, defaults);
         
         defaults.add(JXErrorPane.uiClassID, "org.jdesktop.swingx.plaf.macosx.MacOSXErrorPaneUI");

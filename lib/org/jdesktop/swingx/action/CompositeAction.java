@@ -122,7 +122,8 @@ public class CompositeAction extends AbstractActionExt {
     /**
      * Callback for toggle actions.
      */
-    public void itemStateChanged(ItemEvent evt) {
+    @Override
+public void itemStateChanged(ItemEvent evt) {
         ActionManager manager = ActionManager.getInstance();
             
         Iterator<String> iter = getActionIDs().iterator();

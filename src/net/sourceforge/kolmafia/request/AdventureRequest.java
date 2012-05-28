@@ -160,11 +160,13 @@ public class AdventureRequest
 		}
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;
 	}
 
+	@Override
 	public void run()
 	{
 		// Prevent the request from happening if they attempted
@@ -269,6 +271,7 @@ public class AdventureRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		// Sometimes, there's no response from the server.
@@ -1122,6 +1125,7 @@ public class AdventureRequest
 		return false;
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		if ( this.override >= 0 )
@@ -1147,6 +1151,7 @@ public class AdventureRequest
 		this.override = used;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.adventureName;

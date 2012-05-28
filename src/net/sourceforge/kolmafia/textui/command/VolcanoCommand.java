@@ -50,6 +50,7 @@ public class VolcanoCommand
 		this.usage = " visit | solve | map [n] | platforms | jump | move row col | movep row col - play in the lava maze.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] split = parameters.split( " " );

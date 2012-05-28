@@ -138,11 +138,13 @@ public class BuffRequestFrame
 		this.resetCard();
 	}
 
+	@Override
 	public JTabbedPane getTabbedPane()
 	{
 		return null;
 	}
 
+	@Override
 	public void dispose()
 	{
 		Preferences.setInteger( "lastBuffRequestType", this.types.getSelectedIndex() );
@@ -190,6 +192,7 @@ public class BuffRequestFrame
 			this.add( BuffRequestFrame.this.nameContainer, BorderLayout.SOUTH );
 		}
 
+		@Override
 		public void actionConfirmed()
 		{
 			RequestPanel panel = BuffRequestFrame.this.getPanel();
@@ -226,11 +229,13 @@ public class BuffRequestFrame
 			KoLmafia.updateDisplay( "Buff requests complete." );
 		}
 
+		@Override
 		public boolean shouldAddStatusLabel()
 		{
 			return true;
 		}
 
+		@Override
 		public void actionCancelled()
 		{
 			BuffRequestFrame.this.isBotOnline( BuffRequestFrame.this.botName );
@@ -474,6 +479,7 @@ public class BuffRequestFrame
 	private class CardSwitchListener
 		extends ThreadedListener
 	{
+		@Override
 		protected void execute()
 		{
 			BuffRequestFrame.this.resetCard();

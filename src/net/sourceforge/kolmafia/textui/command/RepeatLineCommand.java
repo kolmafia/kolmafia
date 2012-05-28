@@ -47,6 +47,7 @@ public class RepeatLineCommand
 		this.usage = " [<number>] - repeat previous line [number times].";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		KoLmafiaCLI CLI = this.CLI;

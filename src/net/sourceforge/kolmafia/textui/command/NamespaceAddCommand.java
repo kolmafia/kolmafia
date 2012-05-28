@@ -45,6 +45,7 @@ public class NamespaceAddCommand
 		this.usage = " <filename> - add ASH script to namespace.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		// Validate the script first.

@@ -140,7 +140,8 @@ public class JXHeader extends JXPanel {
     /**
      * {@inheritDoc}
      */
-    public HeaderUI getUI() {
+    @Override
+public HeaderUI getUI() {
         return (HeaderUI)super.getUI();
     }
 
@@ -161,7 +162,8 @@ public class JXHeader extends JXPanel {
      * @see javax.swing.JComponent#getUIClassID
      * @see javax.swing.UIDefaults#getUI
      */
-    public String getUIClassID() {
+    @Override
+public String getUIClassID() {
         return uiClassID;
     }
 
@@ -345,7 +347,8 @@ public class JXHeader extends JXPanel {
         firePropertyChange("iconPosition", old, getIconPosition());
     }
 
-    public Dimension getPreferredSize() {
+    @Override
+public Dimension getPreferredSize() {
         Dimension s = super.getPreferredSize();
         // TODO: hack for JXLabel issue ... see JXHeaderVisualCheck.interactiveCustomProperties();
         s.width += 5;

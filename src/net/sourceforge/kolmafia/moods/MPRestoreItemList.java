@@ -469,6 +469,7 @@ public abstract class MPRestoreItemList
 			RequestThread.postRequest( UseItemRequest.getInstance( this.itemUsed.getInstance( numberToUse ) ) );
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.itemName;

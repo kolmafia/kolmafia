@@ -1042,6 +1042,7 @@ public class HolidayDatabase
 			return this.name.compareTo( other.name );
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			if ( o == null || !( o instanceof HolidayEntry ) )
@@ -1054,6 +1055,7 @@ public class HolidayDatabase
 			return ( this.offset == other.offset ) && this.name.equals( other.name );
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.name + ": " + getDayCountAsString( offset );

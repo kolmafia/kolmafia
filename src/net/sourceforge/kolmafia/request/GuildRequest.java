@@ -254,6 +254,7 @@ public class GuildRequest
 		return null;
 	}
 
+	@Override
 	public void processResults()
 	{
 		GuildRequest.parseResponse( this.getURLString(), this.responseText );

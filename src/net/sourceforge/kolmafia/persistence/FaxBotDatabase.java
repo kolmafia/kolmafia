@@ -187,6 +187,7 @@ public class FaxBotDatabase
 			return this.playerId;
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			if ( o == null || !( o instanceof FaxBot ) )
@@ -244,6 +245,7 @@ public class FaxBotDatabase
 			return this.category;
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.stringForm;
@@ -254,6 +256,7 @@ public class FaxBotDatabase
 			return this.lowerCaseStringForm;
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			if ( o == null || !( o instanceof Monster ) )
@@ -288,6 +291,7 @@ public class FaxBotDatabase
 			this.location = location;
 		}
 
+		@Override
 		public void run()
 		{
 			// Start with a clean slate

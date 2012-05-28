@@ -50,6 +50,7 @@ public class TrophyHutRequest
 		super( "trophy.php" );
 	}
 
+	@Override
 	public void processResults()
 	{
 		TrophyHutRequest.parseResponse( this.getURLString(), this.responseText );

@@ -77,6 +77,7 @@ public class EatItemRequest
 		super( ItemDatabase.getConsumptionType( item.getItemId() ), item );
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		if ( this.itemUsed.getItemId() == ItemPool.BLACK_PUDDING )
@@ -107,6 +108,7 @@ public class EatItemRequest
 		return fullnessLeft / fullness;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.consumptionType == KoLConstants.CONSUME_FOOD_HELPER )
@@ -196,6 +198,7 @@ public class EatItemRequest
 		}
 	}
 
+	@Override
 	public void useOnce( final int currentIteration, final int totalIterations, String useTypeAsString )
 	{
 		UseItemRequest.lastUpdate = "";

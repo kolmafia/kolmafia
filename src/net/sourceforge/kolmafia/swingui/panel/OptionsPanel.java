@@ -102,15 +102,18 @@ public abstract class OptionsPanel
 		this.actionCancelled();
 	}
 
+	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
 	}
 
+	@Override
 	public boolean shouldAddStatusLabel()
 	{
 		return false;
 	}
 
+	@Override
 	public void actionConfirmed()
 	{
 		if ( this.optionBoxes == null )
@@ -137,6 +140,7 @@ public abstract class OptionsPanel
 		}
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 		if ( this.optionBoxes == null )

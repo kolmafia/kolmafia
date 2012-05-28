@@ -61,6 +61,7 @@ public class ProfileFrame
 		ProfileFrame.INSTANCE.refresh( request );
 	}
 
+	@Override
 	public boolean hasSideBar()
 	{
 		return false;

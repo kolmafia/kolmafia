@@ -43,6 +43,7 @@ public class PlayerSnapshotCommand
 		this.usage = " [status],[equipment],[effects],[<etc>.] - record data, \"log snapshot\" for all common data.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.equals( "snapshot" ) )

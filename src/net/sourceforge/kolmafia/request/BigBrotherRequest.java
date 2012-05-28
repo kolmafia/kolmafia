@@ -121,6 +121,7 @@ public class BigBrotherRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void processResults()
 	{
 		BigBrotherRequest.parseResponse( this.getURLString(), this.responseText );
@@ -204,6 +205,7 @@ public class BigBrotherRequest
 		return null;
 	}
 
+	@Override
 	public void equip()
 	{
 		BigBrotherRequest.update();

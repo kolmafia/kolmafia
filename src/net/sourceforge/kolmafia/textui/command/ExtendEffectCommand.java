@@ -52,6 +52,7 @@ public class ExtendEffectCommand
 		this.usage = "[?] <effect> [, <effect>]... - extend duration of effects.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.indexOf( "," ) != -1 )

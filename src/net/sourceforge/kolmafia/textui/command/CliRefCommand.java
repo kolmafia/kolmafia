@@ -58,6 +58,7 @@ public class CliRefCommand
 
 	static private Pattern PLACEHOLDER = Pattern.compile( "<(.+?)>" );
 
+	@Override
 	public void run( final String cmd, String filter )
 	{
 		filter = filter.toLowerCase();

@@ -179,6 +179,7 @@ public class BasementRequest
 		super( adventureName, "basement.php", "0" );
 	}
 
+	@Override
 	public void run()
 	{
 		// Clear the data flags and probe the basement to see what we have.
@@ -231,6 +232,7 @@ public class BasementRequest
 		}
 	}
 
+	@Override
 	public void processResults()
 	{
 		BasementRequest.parseResponse( this.getURLString(), this.responseText );

@@ -54,6 +54,7 @@ public class WikiLookupCommand
 		this.usage = " <item> | <effect> - go to appropriate KoL Wiki page.";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		if ( command.equals( "lookup" ) )

@@ -66,6 +66,7 @@ public abstract class LabeledPanel
 		this.panelTitle = panelTitle;
 	}
 
+	@Override
 	public void setContent( final VerifiableElement[] elements, final boolean bothDisabledOnClick )
 	{
 		super.setContent( elements, bothDisabledOnClick );
@@ -78,10 +79,12 @@ public abstract class LabeledPanel
 		}
 	}
 
+	@Override
 	public void actionCancelled()
 	{
 	}
 
+	@Override
 	public boolean shouldAddStatusLabel()
 	{
 		return false;

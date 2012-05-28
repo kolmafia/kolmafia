@@ -69,6 +69,7 @@ public class WineCellarRequest
 		this.addFormField( "whichwine", String.valueOf( bottle ) );
 	}
 
+	@Override
 	public void processResults()
 	{
 		WineCellarRequest.parseResponse( this.getURLString(), this.responseText );

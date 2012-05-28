@@ -62,6 +62,7 @@ public class TrophyRequest
 		this.trophies = trophies;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.trophies == null )

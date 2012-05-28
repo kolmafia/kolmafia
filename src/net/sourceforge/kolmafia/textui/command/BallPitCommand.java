@@ -45,6 +45,7 @@ public class BallPitCommand
 		this.usage = " - jump in your clan's awesome ball pit";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		RequestThread.postRequest( new ClanRumpusRequest( ClanRumpusRequest.BALLS ) );

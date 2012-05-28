@@ -73,7 +73,8 @@ public class ForwardingRepaintManager extends RepaintManager {
     /**
      * {@inheritDoc}
      */
-    public void addDirtyRegion(JComponent c, int x, int y, int w, int h) {
+    @Override
+public void addDirtyRegion(JComponent c, int x, int y, int w, int h) {
         delegate.addDirtyRegion(c, x, y, w, h);
     }
 
@@ -88,105 +89,120 @@ public class ForwardingRepaintManager extends RepaintManager {
     /**
      * {@inheritDoc}
      */
-    public void addInvalidComponent(JComponent invalidComponent) {
+    @Override
+public void addInvalidComponent(JComponent invalidComponent) {
         delegate.addInvalidComponent(invalidComponent);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Rectangle getDirtyRegion(JComponent component) {
+    @Override
+public Rectangle getDirtyRegion(JComponent component) {
         return delegate.getDirtyRegion(component);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Dimension getDoubleBufferMaximumSize() {
+    @Override
+public Dimension getDoubleBufferMaximumSize() {
         return delegate.getDoubleBufferMaximumSize();
     }
 
     /**
      * {@inheritDoc}
      */
-    public Image getOffscreenBuffer(Component c, int proposedWidth, int proposedHeight) {
+    @Override
+public Image getOffscreenBuffer(Component c, int proposedWidth, int proposedHeight) {
         return delegate.getOffscreenBuffer(c, proposedWidth, proposedHeight);
     }
 
     /**
      * {@inheritDoc}
      */
-    public Image getVolatileOffscreenBuffer(Component c, int proposedWidth, int proposedHeight) {
+    @Override
+public Image getVolatileOffscreenBuffer(Component c, int proposedWidth, int proposedHeight) {
         return delegate.getVolatileOffscreenBuffer(c, proposedWidth, proposedHeight);
     }
 
     /**
      * {@inheritDoc}
      */
-    public boolean isCompletelyDirty(JComponent component) {
+    @Override
+public boolean isCompletelyDirty(JComponent component) {
         return delegate.isCompletelyDirty(component);
     }
 
     /**
      * {@inheritDoc}
      */
-    public boolean isDoubleBufferingEnabled() {
+    @Override
+public boolean isDoubleBufferingEnabled() {
         return delegate.isDoubleBufferingEnabled();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void markCompletelyClean(JComponent component) {
+    @Override
+public void markCompletelyClean(JComponent component) {
         delegate.markCompletelyClean(component);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void markCompletelyDirty(JComponent component) {
+    @Override
+public void markCompletelyDirty(JComponent component) {
         delegate.markCompletelyDirty(component);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void paintDirtyRegions() {
+    @Override
+public void paintDirtyRegions() {
         delegate.paintDirtyRegions();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void removeInvalidComponent(JComponent component) {
+    @Override
+public void removeInvalidComponent(JComponent component) {
         delegate.removeInvalidComponent(component);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setDoubleBufferingEnabled(boolean flag) {
+    @Override
+public void setDoubleBufferingEnabled(boolean flag) {
         delegate.setDoubleBufferingEnabled(flag);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void setDoubleBufferMaximumSize(Dimension d) {
+    @Override
+public void setDoubleBufferMaximumSize(Dimension d) {
         delegate.setDoubleBufferMaximumSize(d);
     }
 
     /**
      * {@inheritDoc}
      */
-    public String toString() {
+    @Override
+public String toString() {
         return delegate.toString();
     }
 
     /**
      * {@inheritDoc}
      */
-    public void validateInvalidComponents() {
+    @Override
+public void validateInvalidComponents() {
         delegate.validateInvalidComponents();
     }
 

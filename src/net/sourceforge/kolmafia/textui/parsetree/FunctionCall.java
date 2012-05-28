@@ -70,11 +70,13 @@ public class FunctionCall
 		return this.params.iterator();
 	}
 
+	@Override
 	public Type getType()
 	{
 		return this.target.getType();
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -184,11 +186,13 @@ public class FunctionCall
 		return result;
 	}
 
+	@Override
 	public String toString()
 	{
 		return this.target.getName() + "()";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

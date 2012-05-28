@@ -50,6 +50,7 @@ public class OlfactionCommand
 			" ( none | monster <name> | [item] <list> | goals ) [abort] - tag next monster [that drops all items in list, or your goals].";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		String pref = cmd.equals( "putty" ) ? "autoPutty" : "autoOlfact";

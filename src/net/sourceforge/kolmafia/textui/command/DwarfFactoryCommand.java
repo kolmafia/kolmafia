@@ -51,6 +51,7 @@ public class DwarfFactoryCommand
 		this.usage = " report <digits> - Given a string of 7 dwarven digits, report on factory.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		String[] tokens = parameters.split( "\\s+" );

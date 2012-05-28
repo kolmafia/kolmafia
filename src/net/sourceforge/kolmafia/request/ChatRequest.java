@@ -108,6 +108,7 @@ public class ChatRequest
 		return this.graf;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( !ChatManager.chatLiterate() )
@@ -121,6 +122,7 @@ public class ChatRequest
 		super.run();
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return true;

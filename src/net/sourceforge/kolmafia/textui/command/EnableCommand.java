@@ -43,6 +43,7 @@ public class EnableCommand
 		this.usage = " all | <command> [, <command>]... - allow/deny CLI commands.";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		if ( command.equals( "enable" ) )

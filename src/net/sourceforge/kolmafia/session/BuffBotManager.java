@@ -889,6 +889,7 @@ public abstract class BuffBotManager
 			return this.lowestBuffId;
 		}
 
+		@Override
 		public String toString()
 		{
 			if ( this.changed )
@@ -1033,6 +1034,7 @@ public abstract class BuffBotManager
 
 		}
 
+		@Override
 		public boolean equals( final Object o )
 		{
 			if ( o == null || !( o instanceof Offering ) )

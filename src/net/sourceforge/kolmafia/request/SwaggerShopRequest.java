@@ -109,6 +109,7 @@ public class SwaggerShopRequest
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
+	@Override
 	public void run()
 	{
 		if ( this.action != null ) {
@@ -128,6 +129,7 @@ public class SwaggerShopRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		SwaggerShopRequest.parseResponse( this.getURLString(), this.responseText );

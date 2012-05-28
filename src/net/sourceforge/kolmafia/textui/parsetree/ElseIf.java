@@ -45,11 +45,13 @@ public class ElseIf
 		super( scope, condition );
 	}
 
+	@Override
 	public String toString()
 	{
 		return "else if";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );

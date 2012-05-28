@@ -60,6 +60,7 @@ public class ChoiceCommand
 		this.usage = " [<number>|<text>] - list or choose choice adventure options.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( GenericRequest.choiceHandled || ChoiceManager.lastResponseText == null )

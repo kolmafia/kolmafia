@@ -45,6 +45,7 @@ public class TryStatement
 		this.usage = " ; <commands> - do commands, and continue even if an error occurs.";
 	}
 
+	@Override
 	public void run( final String command, final String parameters )
 	{
 		if ( !parameters.equals( "" ) )

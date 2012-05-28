@@ -48,6 +48,7 @@ public class CrimboTreeCommand
 		this.usage = " [get] - check [or get present from] the Crimbo Tree in your clan's VIP lounge";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		parameters = parameters.trim();

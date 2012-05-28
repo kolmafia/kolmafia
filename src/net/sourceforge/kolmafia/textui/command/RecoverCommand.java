@@ -48,6 +48,7 @@ public class RecoverCommand
 		this.usage = " hp | health | mp | mana | both - attempt to regain some HP or MP.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		boolean wasRecoveryActive = RecoveryManager.isRecoveryActive();

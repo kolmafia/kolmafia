@@ -120,6 +120,7 @@ public class InventoryPanel
 		}
 	}
 
+	@Override
 	public void addFilters()
 	{
 		if ( !this.isEquipmentOnly )
@@ -150,6 +151,7 @@ public class InventoryPanel
 		this.filterItems();
 	}
 
+	@Override
 	public AutoFilterTextField getWordFilter()
 	{
 		return new EquipmentFilterField();
@@ -173,6 +175,7 @@ public class InventoryPanel
 	private class EquipmentFilterField
 		extends FilterItemField
 	{
+		@Override
 		public boolean isVisible( final Object element )
 		{
 			if ( InventoryPanel.this.equipmentFilters == null )
@@ -245,6 +248,7 @@ public class InventoryPanel
 		{
 		}
 
+		@Override
 		protected void execute()
 		{
 			Object [] items = InventoryPanel.this.getDesiredItems( "Feed" );
@@ -262,6 +266,7 @@ public class InventoryPanel
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return "feed slimeling";

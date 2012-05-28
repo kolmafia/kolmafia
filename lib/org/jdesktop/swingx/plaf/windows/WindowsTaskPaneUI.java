@@ -44,7 +44,8 @@ public class WindowsTaskPaneUI extends BasicTaskPaneUI {
     return new WindowsTaskPaneUI();
   }
    
-  protected Border createPaneBorder() {
+  @Override
+protected Border createPaneBorder() {
     return new XPPaneBorder();
   }
   
@@ -52,7 +53,8 @@ public class WindowsTaskPaneUI extends BasicTaskPaneUI {
    * Overriden to paint the background of the component but keeping the rounded
    * corners.
    */
-  public void update(Graphics g, JComponent c) {
+  @Override
+public void update(Graphics g, JComponent c) {
     if (c.isOpaque()) {
       g.setColor(c.getParent().getBackground());
       g.fillRect(0, 0, c.getWidth(), c.getHeight());
@@ -69,7 +71,8 @@ public class WindowsTaskPaneUI extends BasicTaskPaneUI {
    */
   class XPPaneBorder extends PaneBorder {
 
-    protected void paintTitleBackground(JXTaskPane group, Graphics g) {
+    @Override
+protected void paintTitleBackground(JXTaskPane group, Graphics g) {
       if (group.isSpecial()) {
         g.setColor(specialTitleBackground);
         g.fillRoundRect(
@@ -124,7 +127,8 @@ public class WindowsTaskPaneUI extends BasicTaskPaneUI {
       }
     }
 
-    protected void paintExpandedControls(JXTaskPane group, Graphics g, int x,
+    @Override
+protected void paintExpandedControls(JXTaskPane group, Graphics g, int x,
       int y, int width, int height) {
       ((Graphics2D)g).setRenderingHint(
         RenderingHints.KEY_ANTIALIASING,

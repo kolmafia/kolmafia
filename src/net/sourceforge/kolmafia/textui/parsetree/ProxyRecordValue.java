@@ -70,6 +70,7 @@ public class ProxyRecordValue
 		this.content = obj.content;
 	}
 
+	@Override
 	public Value aref( final Value key, final Interpreter interpreter )
 	{
 		int index = ( (RecordType) this.type ).indexOf( key );
@@ -80,6 +81,7 @@ public class ProxyRecordValue
 		return this.aref( index, interpreter );
 	}
 
+	@Override
 	public Value aref( final int index, final Interpreter interpreter )
 	{
 		RecordType type = (RecordType) this.type;
@@ -142,21 +144,25 @@ public class ProxyRecordValue
 		throw interpreter.runtimeException( "Unable to convert attribute value of type: " + rv.getClass() );
 	}
 
+	@Override
 	public void aset( final Value key, final Value val, final Interpreter interpreter )
 	{
 		throw interpreter.runtimeException( "Cannot assign to a proxy record field" );
 	}
 
+	@Override
 	public void aset( final int index, final Value val, final Interpreter interpreter )
 	{
 		throw interpreter.runtimeException( "Cannot assign to a proxy record field" );
 	}
 
+	@Override
 	public Value remove( final Value key, final Interpreter interpreter )
 	{
 		throw interpreter.runtimeException( "Cannot assign to a proxy record field" );
 	}
 
+	@Override
 	public void clear()
 	{
 	}

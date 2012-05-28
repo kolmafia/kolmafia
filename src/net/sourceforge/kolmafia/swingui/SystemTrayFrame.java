@@ -173,6 +173,7 @@ public abstract class SystemTrayFrame
 	private static class SetVisibleListener
 		extends MouseAdapter
 	{
+		@Override
 		public void mousePressed( final MouseEvent e )
 		{
 			if ( e.isPopupTrigger() )

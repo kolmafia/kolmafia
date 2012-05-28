@@ -76,6 +76,7 @@ public class Switch
 		return this.scope;
 	}
 
+	@Override
 	public Value execute( final Interpreter interpreter )
 	{
 		if ( !KoLmafia.permitsContinue() )
@@ -174,11 +175,13 @@ public class Switch
 		return DataTypes.VOID_VALUE;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "switch";
 	}
 
+	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
 		Interpreter.indentLine( stream, indent );
@@ -187,6 +190,7 @@ public class Switch
 		this.getScope().print( stream, indent + 1, tests, offsets, defaultIndex );
 	}
 	
+	@Override
 	public boolean assertBarrier()
 	{
 		return this.defaultIndex != -1 &&

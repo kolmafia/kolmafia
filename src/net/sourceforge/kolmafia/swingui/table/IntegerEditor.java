@@ -51,6 +51,7 @@ public class IntegerEditor
 		super( new AutoHighlightTextField() );
 	}
 
+	@Override
 	public Object getCellEditorValue()
 	{
 		AutoHighlightTextField field = (AutoHighlightTextField) getComponent();
@@ -59,6 +60,7 @@ public class IntegerEditor
 		return IntegerPool.get( value );
 	}
 
+	@Override
 	public boolean stopCellEditing()
 	{
 		AutoHighlightTextField field = (AutoHighlightTextField) getComponent();

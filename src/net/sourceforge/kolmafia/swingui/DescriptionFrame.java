@@ -48,6 +48,7 @@ public class DescriptionFrame
 		DescriptionFrame.INSTANCE = this;
 	}
 
+	@Override
 	public boolean hasSideBar()
 	{
 		return false;

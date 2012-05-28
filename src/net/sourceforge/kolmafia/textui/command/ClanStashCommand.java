@@ -52,6 +52,7 @@ public class ClanStashCommand
 		this.usage = " [put] <item>... | take <item>... - exchange items with clan stash";
 	}
 
+	@Override
 	public void run( final String cmd, String parameters )
 	{
 		boolean isWithdraw = false;

@@ -104,7 +104,8 @@ public class DoctypeToken implements BaseToken {
         return result;
     }
 
-    public String toString() {
+    @Override
+public String toString() {
         return getContent();
     }
     

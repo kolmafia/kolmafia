@@ -59,6 +59,7 @@ public class ScriptMenu
 		super( "Scripts", KoLConstants.scripts );
 	}
 
+	@Override
 	public JComponent constructMenuItem( final Object o )
 	{
 		return o instanceof JSeparator ? new JSeparator() : this.constructMenuItem( (File) o, "scripts" );
@@ -120,6 +121,7 @@ public class ScriptMenu
 		return new LoadScriptMenuItem( name, path );
 	}
 
+	@Override
 	public JComponent[] getHeaders()
 	{
 		JComponent[] headers = new JComponent[ 3 ];

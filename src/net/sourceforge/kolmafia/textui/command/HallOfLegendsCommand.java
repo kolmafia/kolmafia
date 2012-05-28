@@ -49,6 +49,7 @@ public class HallOfLegendsCommand
 		this.usage = " boris | mus | jarl | mys | pete | mox <amount> - donate in Hall of Legends.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int heroId;

@@ -272,11 +272,13 @@ public class ClanRumpusRequest
 		return usage[ furniture - 1 ];
 	}
 
+	@Override
 	public int getAdventuresUsed()
 	{
 		return this.turnCount;
 	}
 
+	@Override
 	public void run()
 	{
 		switch ( this.action )
@@ -377,6 +379,7 @@ public class ClanRumpusRequest
 		super.run();
 	}
 
+	@Override
 	public void processResults()
 	{
 		switch ( this.action )

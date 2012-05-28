@@ -56,6 +56,7 @@ public class TelescopeCommand
 		this.usage = " [look] high | low - get daily buff, or Lair hints from your telescope.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated() && KoLCharacter.getTelescopeUpgrades() > 0 )

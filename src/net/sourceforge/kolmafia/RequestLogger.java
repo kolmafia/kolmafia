@@ -168,11 +168,13 @@ public class RequestLogger
 		return lastURLString;
 	}
 
+	@Override
 	public void println()
 	{
 		RequestLogger.printLine();
 	}
 
+	@Override
 	public void println( final String line )
 	{
 		RequestLogger.printLine( line );

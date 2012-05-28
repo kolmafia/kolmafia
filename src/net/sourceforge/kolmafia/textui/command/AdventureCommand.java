@@ -55,6 +55,7 @@ public class AdventureCommand
 		this.usage = "[?] last | [<count>] <location> - spend your turns.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		int adventureCount;

@@ -845,7 +845,8 @@ public class JXDatePicker extends JComponent {
      * @param height Height of the component to determine baseline for.
      * @return baseline for the specified component
      */
-    public int getBaseline(int width, int height) {
+    @Override
+public int getBaseline(int width, int height) {
         return ((DatePickerUI) ui).getBaseline(width, height);
     }
 

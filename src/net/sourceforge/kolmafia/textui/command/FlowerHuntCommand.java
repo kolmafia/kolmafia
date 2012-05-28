@@ -43,6 +43,7 @@ public class FlowerHuntCommand
 		this.usage = " - commit random acts of PvP.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		PvpManager.executePvpRequest( "flowers", 0 );

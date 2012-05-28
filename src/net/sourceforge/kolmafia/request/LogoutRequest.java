@@ -46,16 +46,19 @@ public class LogoutRequest
 		super( "logout.php" );
 	}
 
+	@Override
 	protected boolean shouldFollowRedirect()
 	{
 		return true;
 	}
 
+	@Override
 	protected boolean retryOnTimeout()
 	{
 		return false;
 	}
 
+	@Override
 	public void run()
 	{
 		if ( LogoutRequest.isRunning )
@@ -74,6 +77,7 @@ public class LogoutRequest
 		LogoutRequest.isRunning = false;
 	}
 
+	@Override
 	public void processResults()
 	{
 		LogoutRequest.lastResponse = this.responseText;

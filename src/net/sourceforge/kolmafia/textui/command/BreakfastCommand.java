@@ -43,6 +43,7 @@ public class BreakfastCommand
 		this.usage = " - perform start-of-day activities.";
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		BreakfastManager.getBreakfast( true );

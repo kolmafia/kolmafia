@@ -471,6 +471,7 @@ public abstract class HPRestoreItemList
 			}
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.restoreName;

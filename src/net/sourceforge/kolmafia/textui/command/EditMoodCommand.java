@@ -48,6 +48,7 @@ public class EditMoodCommand
 		this.flags = KoLmafiaCLI.FULL_LINE_CMD;
 	}
 
+	@Override
 	public void run( final String cmd, final String parameters )
 	{
 		if ( parameters.length() == 0 || parameters.equals( "list" ) )
