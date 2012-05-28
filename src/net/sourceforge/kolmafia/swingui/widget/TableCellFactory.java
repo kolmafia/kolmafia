@@ -51,6 +51,7 @@ public class TableCellFactory
 	{
 		if ( result instanceof AdventureResult )
 		{
+			boolean isStorage = ( model == KoLConstants.storage );
 			AdventureResult advresult = (AdventureResult) result;
 
 			if ( isEquipmentOnly )
@@ -58,7 +59,8 @@ public class TableCellFactory
 				switch ( columnIndex )
 				{
 				case 0:
-					return "<html>" + advresult.getName();
+					return "<html>" + addTag( ColorFactory.getItemColor( advresult ) )
+						+ advresult.getName();
 				case 1:
 					return EquipmentDatabase.getPower( advresult.getItemId() );
 				case 2:
@@ -88,7 +90,11 @@ public class TableCellFactory
 			switch ( columnIndex )
 			{
 			case 0:
-				return "<html>" + advresult.getName();
+				if ( isStorage )
+				{
+					return "<html>" + addTag( ColorFactory.getStorageColor( advresult ) ) + advresult.getName();
+				}
+				return "<html>" + addTag( ColorFactory.getItemColor( advresult ) ) + advresult.getName();
 			case 1:
 				return getAutosellString( advresult.getItemId() );
 			case 2:
@@ -131,7 +137,7 @@ public class TableCellFactory
 			switch ( columnIndex )
 			{
 			case 0:
-				return "<html>" + CIRresult.getName();
+				return "<html>" + addTag( ColorFactory.getCreationColor( CIRresult ) ) + CIRresult.getName();
 			case 1:
 				return getAutosellString( CIRresult.getItemId() );
 			case 2:
@@ -144,6 +150,15 @@ public class TableCellFactory
 			}
 		}
 		return null;
+	}
+
+	private static String addTag( String itemColor )
+	{
+		if ( itemColor == null )
+		{
+			return "";
+		}
+		return "<font color=" + itemColor + ">";
 	}
 
 	private static String getAutosellString( int itemId )
