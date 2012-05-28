@@ -60,7 +60,6 @@ import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -114,7 +113,8 @@ public class ShowDescriptionTable
 	private final LockableListModel displayModel, originalModel;
 
 	private AdaptedTableModel adaptedModel;
-	protected final Comparator<Object> meatComparitor = new Comparator<Object>()
+
+	protected final Comparator<Object> meatComparator = new Comparator<Object>()
 	{
 		private final Pattern meatPattern = Pattern.compile( "(-?\\d+) meat" );
 
@@ -137,7 +137,30 @@ public class ShowDescriptionTable
 			return o1val.compareTo( o2val );
 		}
 	};
-	private boolean isEquipmentOnly;
+	protected final Comparator<Object> itemComparator = new Comparator<Object>()
+	{
+		// Have to strip out HTML before comparing item strings.
+		private final Pattern itemPattern = Pattern.compile( "(?<=^|>)[^><]+?(?=<|$)" );
+
+		public int compare( Object o1, Object o2 )
+		{
+			Matcher matcher1 = itemPattern.matcher( o1.toString() );
+			Matcher matcher2 = itemPattern.matcher( o2.toString() );
+			if ( !matcher1.find() )
+			{
+				return -1;
+			}
+			else if ( !matcher2.find() )
+			{
+				return 1;
+			}
+			// if we're here, both matches are the item names.
+			String o1val = matcher1.group();
+			String o2val = matcher2.group();
+
+			return o1val.toLowerCase().compareTo( o2val.toLowerCase() );
+		}
+	};
 	
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
@@ -170,7 +193,6 @@ public class ShowDescriptionTable
 	public ShowDescriptionTable( final LockableListModel displayModel, final ListElementFilter filter,
 			final int visibleRowCount, final int visibleColumnCount, final boolean isEquipmentOnly )
 	{
-		this.isEquipmentOnly = isEquipmentOnly;
 		this.contextMenu = new JPopupMenu();
 
 		boolean isMoodList = displayModel == MoodManager.getTriggers();
@@ -285,7 +307,6 @@ public class ShowDescriptionTable
 		}
 	}
 
-
 	/*
 	 * Override for the default JXTable sorting function. We need to use a custom comparator for the autosell
 	 * column.
@@ -294,14 +315,18 @@ public class ShowDescriptionTable
 	public void toggleSortOrder( int columnIndex )
 	{
 		boolean isAutosell = false;
+		boolean isItemName = false;
 
 		if ( !isSortable( columnIndex ) )
 			return;
 
-		if ( getColumn( columnIndex ).getHeaderValue().toString()
-			.equals( "autosell" ) )
+		if ( getColumn( columnIndex ).getHeaderValue().toString().equals( "autosell" ) )
 		{
 			isAutosell = true;
+		}
+		else if ( getColumn( columnIndex ).getHeaderValue().toString().equals( "item name" ) )
+		{
+			isItemName = true;
 		}
 
 		SortController controller = getSortController();
@@ -314,6 +339,10 @@ public class ShowDescriptionTable
 			{
 				comparator = ShowDescriptionTable.this.getMeatComparator();
 			}
+			else if ( isItemName )
+			{
+				comparator = ShowDescriptionTable.this.getItemComparator();
+			}
 			else if ( columnExt != null )
 			{
 				comparator = columnExt.getComparator();
@@ -324,7 +353,12 @@ public class ShowDescriptionTable
 
 	private Comparator<Object> getMeatComparator()
 	{
-		return meatComparitor;
+		return meatComparator;
+	}
+
+	private Comparator<Object> getItemComparator()
+	{
+		return itemComparator;
 	}
 
 	public LockableListModel getOriginalModel()
@@ -338,7 +372,7 @@ public class ShowDescriptionTable
 	}
 
 	// This is the adapted model object. ListModel -> Wrapper -> TableModel
-	protected static class AdaptedTableModel
+	protected class AdaptedTableModel
 		extends AbstractTableAdapter
 	{
 		protected LockableListModel model;
@@ -354,11 +388,11 @@ public class ShowDescriptionTable
 		public Object getValueAt( int rowIndex, int columnIndex )
 		{
 			// This method essentially replaces the ListCellRenderer used in the JList-based
-			// ItemManagePanel. If this function gets too bloated, it should be pulled out into a factory
-			// class.
+			// ItemManagePanel.
 
 			Object result = getRow( rowIndex );
-			return TableCellFactory.get( columnIndex, model, result, isEquipmentOnly );
+			return TableCellFactory.get( columnIndex, ShowDescriptionTable.this.getOriginalModel(), result,
+				this.isEquipmentOnly );
 		}
 
 		public Object getValueAt( int rowIndex )

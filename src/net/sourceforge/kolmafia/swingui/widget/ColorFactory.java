@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public final class ColorFactory
 {
-	private final static HashMap colorPrefMap = new HashMap();
+	private final static HashMap<String, String> colorPrefMap = new HashMap<String, String>();
 
 	static
 	{
