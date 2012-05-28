@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 
 public class TableCellFactory
 {
-	public static Object get( int columnIndex, LockableListModel model, Object result, boolean isEquipmentOnly )
+	public static Object get( int columnIndex, LockableListModel model, Object result, boolean isEquipmentOnly, boolean isSelected )
 	{
 		if ( result instanceof AdventureResult )
 		{
@@ -59,7 +59,7 @@ public class TableCellFactory
 				switch ( columnIndex )
 				{
 				case 0:
-					return "<html>" + addTag( ColorFactory.getItemColor( advresult ) )
+					return "<html>" + addTag( ColorFactory.getItemColor( advresult ), isSelected )
 						+ advresult.getName();
 				case 1:
 					return EquipmentDatabase.getPower( advresult.getItemId() );
@@ -92,9 +92,9 @@ public class TableCellFactory
 			case 0:
 				if ( isStorage )
 				{
-					return "<html>" + addTag( ColorFactory.getStorageColor( advresult ) ) + advresult.getName();
+					return "<html>" + addTag( ColorFactory.getStorageColor( advresult ), isSelected ) + advresult.getName();
 				}
-				return "<html>" + addTag( ColorFactory.getItemColor( advresult ) ) + advresult.getName();
+				return "<html>" + addTag( ColorFactory.getItemColor( advresult ), isSelected ) + advresult.getName();
 			case 1:
 				return getAutosellString( advresult.getItemId() );
 			case 2:
@@ -137,7 +137,7 @@ public class TableCellFactory
 			switch ( columnIndex )
 			{
 			case 0:
-				return "<html>" + addTag( ColorFactory.getCreationColor( CIRresult ) ) + CIRresult.getName();
+				return "<html>" + addTag( ColorFactory.getCreationColor( CIRresult ), isSelected ) + CIRresult.getName();
 			case 1:
 				return getAutosellString( CIRresult.getItemId() );
 			case 2:
@@ -152,9 +152,9 @@ public class TableCellFactory
 		return null;
 	}
 
-	private static String addTag( String itemColor )
+	private static String addTag( String itemColor, boolean isSelected )
 	{
-		if ( itemColor == null )
+		if ( itemColor == null || isSelected )
 		{
 			return "";
 		}

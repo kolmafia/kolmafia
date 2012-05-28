@@ -391,8 +391,9 @@ public class ShowDescriptionTable
 			// ItemManagePanel.
 
 			Object result = getRow( rowIndex );
+			boolean isSelected = isRowSelected( rowIndex );
 			return TableCellFactory.get( columnIndex, ShowDescriptionTable.this.getOriginalModel(), result,
-				this.isEquipmentOnly );
+				this.isEquipmentOnly, isSelected );
 		}
 
 		public Object getValueAt( int rowIndex )
