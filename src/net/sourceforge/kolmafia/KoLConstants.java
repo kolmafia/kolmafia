@@ -94,6 +94,9 @@ public interface KoLConstants
 		new DecimalFormat( "+#,##0.0;-#,##0.0", new DecimalFormatSymbols( Locale.US ) );
 	public static final DecimalFormat FLOAT_FORMAT =
 		new DecimalFormat( "#,##0.00;-#,##0.00", new DecimalFormatSymbols( Locale.US ) );
+	// About 45 places needed to show the smallest denorm float.
+	public static final DecimalFormat NONSCIENTIFIC_FORMAT =
+		new DecimalFormat( "#0.0############################################", new DecimalFormatSymbols( Locale.US ) );
 	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT =
 		new DecimalFormat( "+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
 	public static final DecimalFormat CHAT_LASTSEEN_FORMAT = new DecimalFormat( "0000000000" );

@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
@@ -167,7 +168,7 @@ public class Value
 
 		if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
 		{
-			return String.valueOf( this.contentFloat );
+			return KoLConstants.NONSCIENTIFIC_FORMAT.format( this.contentFloat );
 		}
 
 		return String.valueOf( this.contentInt );
