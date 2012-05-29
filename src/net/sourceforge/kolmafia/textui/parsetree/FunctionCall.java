@@ -149,7 +149,7 @@ public class FunctionCall
 		Profiler prev = interpreter.profiler;
 		if ( prev != null )
 		{
-			long t0 = System.currentTimeMillis();
+			long t0 = System.nanoTime();
 			prev.net += t0 - prev.net0;
 			Profiler curr = Profiler.create( this.target.getSignature() );
 			curr.net0 = t0;
@@ -157,7 +157,7 @@ public class FunctionCall
 			
 			result = this.target.execute( interpreter );
 			
-			long t1 = System.currentTimeMillis();
+			long t1 = System.nanoTime();
 			prev.net0 = t1;
 			interpreter.profiler = prev;
 			curr.total = t1 - t0;

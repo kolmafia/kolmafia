@@ -183,7 +183,7 @@ public class CallScriptCommand
 					if ( interpreter != null )
 					{
 						Profiler prof = Profiler.create( "toplevel" );
-						long t0 = System.currentTimeMillis();
+						long t0 = System.nanoTime();
 						prof.net0 = t0;
 						interpreter.profiler = prof;
 
@@ -192,7 +192,7 @@ public class CallScriptCommand
 							interpreter.execute( "main", arguments );
 						}
 
-						long t1 = System.currentTimeMillis();
+						long t1 = System.nanoTime();
 						prof.total = t1 - t0;
 						prof.net += t1 - prof.net0;
 						prof.finish();
