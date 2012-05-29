@@ -51,7 +51,7 @@ public class RestorativeItemPanel
 {
 	public RestorativeItemPanel()
 	{
-		super( "use item", "check wiki", KoLConstants.inventory );
+		super( "use item", "check wiki", KoLConstants.inventory, new boolean[] {false, true} );
 		this.filterItems();
 	}
 

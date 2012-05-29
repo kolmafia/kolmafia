@@ -169,9 +169,9 @@ public class ShowDescriptionTable
 		this( displayModel, null, 4 );
 	}
 
-	public ShowDescriptionTable( final LockableListModel displayModel, boolean isEquipmentOnly )
+	public ShowDescriptionTable( final LockableListModel displayModel, boolean[] flags )
 	{
-		this( displayModel, null, 4, 3, isEquipmentOnly);
+		this( displayModel, null, 4, 3, flags);
 	}
 
 	public ShowDescriptionTable( final LockableListModel displayModel, final int visibleRowCount )
@@ -187,11 +187,11 @@ public class ShowDescriptionTable
 	public ShowDescriptionTable( final LockableListModel displayModel, final ListElementFilter filter,
 			final int visibleRowCount )
 	{
-		this( displayModel, filter, 4, 3, false );
+		this( displayModel, filter, 4, 3, new boolean[]	{ false, false } );
 	}
 
 	public ShowDescriptionTable( final LockableListModel displayModel, final ListElementFilter filter,
-			final int visibleRowCount, final int visibleColumnCount, final boolean isEquipmentOnly )
+			final int visibleRowCount, final int visibleColumnCount, final boolean[] flags )
 	{
 		this.contextMenu = new JPopupMenu();
 
@@ -265,8 +265,8 @@ public class ShowDescriptionTable
 		this.displayModel = filter == null ? displayModel.getMirrorImage() : displayModel
 			.getMirrorImage( filter );
 
-		String[] colNames = TableCellFactory.getColumnNames( this.originalModel, isEquipmentOnly );
-		this.adaptedModel = new AdaptedTableModel( this.displayModel, colNames, isEquipmentOnly );
+		String[] colNames = TableCellFactory.getColumnNames( this.originalModel, flags );
+		this.adaptedModel = new AdaptedTableModel( this.displayModel, colNames, flags );
 
 		// this.getTableHeader().setReorderingAllowed( false );
 		this.setShowGrid( false );
@@ -376,13 +376,13 @@ public class ShowDescriptionTable
 		extends AbstractTableAdapter
 	{
 		protected LockableListModel model;
-		private boolean isEquipmentOnly;
+		private boolean[] flags;
 
-		public AdaptedTableModel( LockableListModel listModel, String[] columnNames, boolean isEquipmentOnly )
+		public AdaptedTableModel( LockableListModel listModel, String[] columnNames, boolean[] flags )
 		{
 			super( listModel, columnNames );
 			this.model = listModel;
-			this.isEquipmentOnly = isEquipmentOnly;
+			this.flags = flags;
 		}
 
 		public Object getValueAt( int rowIndex, int columnIndex )
@@ -393,7 +393,7 @@ public class ShowDescriptionTable
 			Object result = getRow( rowIndex );
 			boolean isSelected = isRowSelected( rowIndex );
 			return TableCellFactory.get( columnIndex, ShowDescriptionTable.this.getOriginalModel(), result,
-				this.isEquipmentOnly, isSelected );
+				this.flags, isSelected );
 		}
 
 		public Object getValueAt( int rowIndex )

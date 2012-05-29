@@ -115,13 +115,29 @@ public class ItemTableManagePanel
 			elementModel == KoLConstants.inventory ||
 			elementModel == KoLConstants.closet ||
 			elementModel == ConcoctionDatabase.getCreatables() ||
-			elementModel == ConcoctionDatabase.getUsables() );
+			elementModel == ConcoctionDatabase.getUsables(),
+			new boolean[] { false, false });
+	}
+	
+	public ItemTableManagePanel( final String confirmedText, final String cancelledText, final LockableListModel elementModel, final boolean[] flags )
+	{
+		this(
+			confirmedText,
+			cancelledText,
+			elementModel,
+			true,
+			elementModel == KoLConstants.tally ||
+			elementModel == KoLConstants.inventory ||
+			elementModel == KoLConstants.closet ||
+			elementModel == ConcoctionDatabase.getCreatables() ||
+			elementModel == ConcoctionDatabase.getUsables(),
+			flags);
 	}
 
 	public ItemTableManagePanel( final String confirmedText, final String cancelledText,
-		final LockableListModel elementModel, final boolean addFilterField, final boolean addRefreshButton )
+		final LockableListModel elementModel, final boolean addFilterField, final boolean addRefreshButton, final boolean[] flags )
 	{
-		super( "", confirmedText, cancelledText, new ShowDescriptionTable( elementModel ), false );
+		super( "", confirmedText, cancelledText, new ShowDescriptionTable( elementModel, flags ), false );
 
 		this.elementList = (ShowDescriptionTable) this.scrollComponent;
 		this.elementModel = this.elementList.getDisplayModel();
@@ -170,10 +186,10 @@ public class ItemTableManagePanel
 			elementModel == KoLConstants.closet ||
 			elementModel == ConcoctionDatabase.getCreatables() ||
 			elementModel == ConcoctionDatabase.getUsables(),
-			false);
+			new boolean[] {false, false});
 	}
 	
-	public ItemTableManagePanel( final LockableListModel elementModel, final boolean isEquipmentOnly )
+	public ItemTableManagePanel( final LockableListModel elementModel, final boolean[] flags )
 	{
 		this(
 			elementModel,
@@ -183,13 +199,13 @@ public class ItemTableManagePanel
 			elementModel == KoLConstants.closet ||
 			elementModel == ConcoctionDatabase.getCreatables() ||
 			elementModel == ConcoctionDatabase.getUsables(),
-			isEquipmentOnly);
+			flags);
 	}
 
 	public ItemTableManagePanel( final LockableListModel elementModel, final boolean addFilterField,
-		final boolean addRefreshButton, final boolean isEquipmentOnly )
+		final boolean addRefreshButton, final boolean[] flags )
 	{
-		super( "", null, null, new ShowDescriptionTable( elementModel, isEquipmentOnly ), false );
+		super( "", null, null, new ShowDescriptionTable( elementModel, flags ), false );
 
 		this.elementList = (ShowDescriptionTable) this.scrollComponent;
 		this.elementModel = this.elementList.getDisplayModel();
