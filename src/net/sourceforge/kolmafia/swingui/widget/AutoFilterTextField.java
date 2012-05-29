@@ -158,58 +158,67 @@ public class AutoFilterTextField
 
 	public void update()
 	{
-		this.qtyChecked = false;
-		this.asChecked = false;
-		this.notChecked = false;
-		this.text = this.getText().toLowerCase();
-
-		Matcher mqty = AutoFilterTextField.QTYSEARCH_PATTERN.matcher( this.text );
-		if ( mqty.find() )
+		try
 		{
-			this.qtyChecked = true;
-			this.quantity = StringUtilities.parseInt( mqty.group( 2 ) );
-			String op = mqty.group( 1 );
-			this.qtyEQ = op.indexOf( "=" ) != -1;
-			this.qtyLT = op.indexOf( "<" ) != -1;
-			this.qtyGT = op.indexOf( ">" ) != -1;
-			this.text = mqty.replaceFirst( "" );
-		}
+			this.model.setFiltering( true );
+			
+			this.qtyChecked = false;
+			this.asChecked = false;
+			this.notChecked = false;
+			this.text = this.getText().toLowerCase();
 
-		Matcher mas = AutoFilterTextField.ASSEARCH_PATTERN.matcher( this.text );
-		if ( mas.find() )
-		{
-			this.asChecked = true;
-			this.price = StringUtilities.parseInt( mas.group( 2 ) );
-			String op = mas.group( 1 );
-			this.asEQ = op.indexOf( "=" ) != -1;
-			this.asLT = op.indexOf( "<" ) != -1;
-			this.asGT = op.indexOf( ">" ) != -1;
-			this.text = mas.replaceFirst( "" );
-		}
+			Matcher mqty = AutoFilterTextField.QTYSEARCH_PATTERN.matcher( this.text );
+			if ( mqty.find() )
+			{
+				this.qtyChecked = true;
+				this.quantity = StringUtilities.parseInt( mqty.group( 2 ) );
+				String op = mqty.group( 1 );
+				this.qtyEQ = op.indexOf( "=" ) != -1;
+				this.qtyLT = op.indexOf( "<" ) != -1;
+				this.qtyGT = op.indexOf( ">" ) != -1;
+				this.text = mqty.replaceFirst( "" );
+			}
 
-		Matcher mnot = AutoFilterTextField.NOTSEARCH_PATTERN.matcher( this.text );
-		if ( mnot.find() )
-		{
-			this.notChecked = true;
-			this.text = mnot.group( 1 );
-		}
+			Matcher mas = AutoFilterTextField.ASSEARCH_PATTERN.matcher( this.text );
+			if ( mas.find() )
+			{
+				this.asChecked = true;
+				this.price = StringUtilities.parseInt( mas.group( 2 ) );
+				String op = mas.group( 1 );
+				this.asEQ = op.indexOf( "=" ) != -1;
+				this.asLT = op.indexOf( "<" ) != -1;
+				this.asGT = op.indexOf( ">" ) != -1;
+				this.text = mas.replaceFirst( "" );
+			}
 
-		this.strict = true;
-		this.model.updateFilter( false );
+			Matcher mnot = AutoFilterTextField.NOTSEARCH_PATTERN.matcher( this.text );
+			if ( mnot.find() )
+			{
+				this.notChecked = true;
+				this.text = mnot.group( 1 );
+			}
 
-		if ( this.model.getSize() == 0 )
-		{
-			this.strict = false;
+			this.strict = true;
 			this.model.updateFilter( false );
-		}
 
-		if ( this.model.getSize() == 1 )
-		{
-			this.list.setSelectedIndex( 0 );
+			if ( this.model.getSize() == 0 )
+			{
+				this.strict = false;
+				this.model.updateFilter( false );
+			}
+
+			if ( this.model.getSize() == 1 )
+			{
+				this.list.setSelectedIndex( 0 );
+			}
+			else
+			{
+				this.list.clearSelection();
+			}
 		}
-		else
+		finally
 		{
-			this.list.clearSelection();
+			this.model.setFiltering( false );
 		}
 	}
 

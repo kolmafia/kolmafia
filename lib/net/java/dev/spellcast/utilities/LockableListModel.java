@@ -69,6 +69,8 @@ public class LockableListModel
 	protected Object selectedValue;
 	protected ListElementFilter currentFilter;
 
+	private boolean filtering = false;
+
 	/**
 	 * Constructs a new <code>LockableListModel</code>.
 	 */
@@ -1072,5 +1074,25 @@ public class LockableListModel
 	public LockableListModel getMirrorImage( final ListElementFilter filter )
 	{
 		return new LockableListModel( this, filter );
+	}
+
+	/**
+	 * Accessory method used to check the filtering status of the model.
+	 *
+	 *@return the filtering status of this <code>LockableListModel</code>
+	 */
+	public boolean isFiltering()
+	{
+		return this.filtering ;
+	}
+	
+	/**
+	 * Accessory method used to set the filtering status of the model.
+	 *
+	 */
+	
+	public void setFiltering( boolean isFiltering )
+	{
+		this.filtering = isFiltering;
 	}
 }

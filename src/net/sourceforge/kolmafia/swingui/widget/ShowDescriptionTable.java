@@ -49,6 +49,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.SortController;
 import org.jdesktop.swingx.table.ColumnControlButton;
 import org.jdesktop.swingx.table.TableColumnExt;
@@ -305,6 +306,8 @@ public class ShowDescriptionTable
 				break;
 			}
 		}
+		// Override the default filtering pipeline with one that won't try to update while the data model is itself filtering
+		this.setFilters( new HesitantFilter() );
 	}
 
 	/*
@@ -406,6 +409,20 @@ public class ShowDescriptionTable
 			return this.model;
 		}
 
+	}
+
+	private class HesitantFilter
+		extends FilterPipeline
+	{
+		@Override
+		public void flush()
+		{
+			if ( ShowDescriptionTable.this.getDisplayModel().isFiltering() )
+			{
+				return;
+			}
+			super.flush();
+		}
 	}
 
 	private class PopupListener
