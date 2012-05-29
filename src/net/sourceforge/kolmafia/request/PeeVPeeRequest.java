@@ -185,28 +185,30 @@ public class PeeVPeeRequest
 		}
 	}
 	
-	private static final String STAT_STRING = KoLCharacter.getUserName() + " lost ";
+	private static final String STAT_STRING = KoLCharacter.getUserName().toLowerCase() + " lost ";
 	
 	private static final void parseStatLoss( final String responseText )
 	{
 		String[] blocks = responseText.split( "<td>" );
 		for ( int i = 0; i < blocks.length; ++i )
 		{
-			if ( blocks[i].indexOf( STAT_STRING ) != 0 )
+			if ( blocks[i].toLowerCase().indexOf( STAT_STRING ) != 0 )
 			{
 				continue;
 			}
-			String statMessage = blocks[i].substring( 0, blocks[i].indexOf( ".</td>" ) );
+			int index = blocks[i].lastIndexOf( " lost " );
+			String printedStatMessage = blocks[i].substring( 0, blocks[i].indexOf( ".</td>" ) );
+			String statMessage = printedStatMessage.substring( index + 6 );
 			String[] stats = statMessage.split( " " );
-			int statsLost = -1 * Integer.parseInt( stats[2] );
-			String statname = stats[3];
+			int statsLost = -1 * Integer.parseInt( stats[0] );
+			String statname = stats[1];
 			int[] gained =
-				{ AdventureResult.MUS_SUBSTAT.contains( statname ) ? statsLost : 0, 
-				  AdventureResult.MYS_SUBSTAT.contains( statname ) ? statsLost : 0, 
+				{ AdventureResult.MUS_SUBSTAT.contains( statname ) ? statsLost : 0,
+				  AdventureResult.MYS_SUBSTAT.contains( statname ) ? statsLost : 0,
 				  AdventureResult.MOX_SUBSTAT.contains( statname ) ? statsLost : 0 };
 			AdventureResult result = new AdventureMultiResult( AdventureResult.SUBSTATS, gained );
 			ResultProcessor.processResult( result );
-			RequestLogger.printLine( statMessage );
+			RequestLogger.printLine( printedStatMessage );
 		}
 	}
 
