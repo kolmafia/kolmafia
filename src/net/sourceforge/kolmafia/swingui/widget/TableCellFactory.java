@@ -47,109 +47,199 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 
 public class TableCellFactory
 {
-	public static Object get( int columnIndex, LockableListModel model, Object result, boolean isEquipmentOnly, boolean isSelected )
+	public static Object get( int columnIndex, LockableListModel model, Object result, boolean[] flags,
+			boolean isSelected )
 	{
 		if ( result instanceof AdventureResult )
 		{
-			boolean isStorage = ( model == KoLConstants.storage );
 			AdventureResult advresult = (AdventureResult) result;
 
-			if ( isEquipmentOnly )
+			if ( flags[ 0 ] ) // Equipment panel
 			{
-				switch ( columnIndex )
-				{
-				case 0:
-					return "<html>" + addTag( ColorFactory.getItemColor( advresult ), isSelected )
-						+ advresult.getName();
-				case 1:
-					return EquipmentDatabase.getPower( advresult.getItemId() );
-				case 2:
-					return Integer.valueOf( advresult.getCount() );
-				case 3:
-					int price = MallPriceDatabase.getPrice( advresult.getItemId() );
-					return ( price > 0 ) ? price : null;
-				case 4:
-					return getAutosellString( advresult.getItemId() );
-				case 5:
-					int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
-					if ( mpRestore <= 0 )
-					{
-						return null;
-					}
-					int maxMP = KoLCharacter.getMaximumMP();
-					if ( mpRestore > maxMP )
-					{
-						return maxMP;
-					}
-					return mpRestore;
-				default:
-					return null;
-				}
-
+				return getEquipmentCell( columnIndex, isSelected, advresult );
 			}
-			switch ( columnIndex )
+			if ( flags[ 1 ] ) // Restores panel
 			{
-			case 0:
-				if ( isStorage )
-				{
-					return "<html>" + addTag( ColorFactory.getStorageColor( advresult ), isSelected ) + advresult.getName();
-				}
-				return "<html>" + addTag( ColorFactory.getItemColor( advresult ), isSelected ) + advresult.getName();
-			case 1:
-				return getAutosellString( advresult.getItemId() );
-			case 2:
-				return Integer.valueOf( advresult.getCount() );
-			case 3:
-				int price = MallPriceDatabase.getPrice( advresult.getItemId() );
-				return ( price > 0 ) ? price : null;
-			case 4:
-				int hpRestore = HPRestoreItemList.getHealthRestored( advresult.getName() );
-				if ( hpRestore <= 0 )
-				{
-					return null;
-				}
-				int maxHP = KoLCharacter.getMaximumHP();
-				if ( hpRestore > maxHP )
-				{
-					return maxHP;
-				}
-				return hpRestore;
-			case 5:
-				int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
-				if ( mpRestore <= 0 )
-				{
-					return null;
-				}
-				int maxMP = KoLCharacter.getMaximumMP();
-				if ( mpRestore > maxMP )
-				{
-					return maxMP;
-				}
-				return mpRestore;
-			default:
-				return null;
+				return getRestoresCell( columnIndex, isSelected, advresult );
 			}
+			if ( model == KoLConstants.storage )
+			{
+				return getStorageCell( columnIndex, isSelected, advresult );
+			}
+			return getGeneralCell( columnIndex, isSelected, advresult );
 		}
 		if ( result instanceof CreateItemRequest )
 		{
-			CreateItemRequest CIRresult = (CreateItemRequest) result;
-
-			switch ( columnIndex )
-			{
-			case 0:
-				return "<html>" + addTag( ColorFactory.getCreationColor( CIRresult ), isSelected ) + CIRresult.getName();
-			case 1:
-				return getAutosellString( CIRresult.getItemId() );
-			case 2:
-				return Integer.valueOf( CIRresult.getQuantityPossible() );
-			case 3:
-				int price = MallPriceDatabase.getPrice( CIRresult.getItemId() );
-				return ( price > 0 ) ? price : null;
-			default:
-				return null;
-			}
+			return getCreationCell( columnIndex, result, isSelected );
 		}
 		return null;
+	}
+
+	private static Object getGeneralCell( int columnIndex, boolean isSelected, AdventureResult advresult )
+	{
+		switch ( columnIndex )
+		{
+		case 0:
+			return "<html>" + addTag( ColorFactory.getItemColor( advresult ), isSelected )
+				+ advresult.getName();
+		case 1:
+			return getAutosellString( advresult.getItemId() );
+		case 2:
+			return Integer.valueOf( advresult.getCount() );
+		case 3:
+			int price = MallPriceDatabase.getPrice( advresult.getItemId() );
+			return ( price > 0 ) ? price : null;
+		case 4:
+			return EquipmentDatabase.getPower( advresult.getItemId() );
+		default:
+			return null;
+		}
+	}
+
+	private static Object getStorageCell( int columnIndex, boolean isSelected, AdventureResult advresult )
+	{
+		switch ( columnIndex )
+		{
+		case 0:
+			return "<html>" + addTag( ColorFactory.getStorageColor( advresult ), isSelected )
+				+ advresult.getName();
+		case 1:
+			return getAutosellString( advresult.getItemId() );
+		case 2:
+			return Integer.valueOf( advresult.getCount() );
+		case 3:
+			int price = MallPriceDatabase.getPrice( advresult.getItemId() );
+			return ( price > 0 ) ? price : null;
+		case 4:
+			int hpRestore = HPRestoreItemList.getHealthRestored( advresult.getName() );
+			if ( hpRestore <= 0 )
+			{
+				return null;
+			}
+			int maxHP = KoLCharacter.getMaximumHP();
+			if ( hpRestore > maxHP )
+			{
+				return maxHP;
+			}
+			return hpRestore;
+		case 5:
+			int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
+			if ( mpRestore <= 0 )
+			{
+				return null;
+			}
+			int maxMP = KoLCharacter.getMaximumMP();
+			if ( mpRestore > maxMP )
+			{
+				return maxMP;
+			}
+			return mpRestore;
+		default:
+			return null;
+		}
+	}
+
+	private static Object getCreationCell( int columnIndex, Object result, boolean isSelected )
+	{
+		CreateItemRequest CIRresult = (CreateItemRequest) result;
+
+		switch ( columnIndex )
+		{
+		case 0:
+			return "<html>" + addTag( ColorFactory.getCreationColor( CIRresult ), isSelected )
+				+ CIRresult.getName();
+		case 1:
+			return getAutosellString( CIRresult.getItemId() );
+		case 2:
+			return Integer.valueOf( CIRresult.getQuantityPossible() );
+		case 3:
+			int price = MallPriceDatabase.getPrice( CIRresult.getItemId() );
+			return ( price > 0 ) ? price : null;
+		case 4:
+			int fill = CIRresult.concoction.getFullness() + CIRresult.concoction.getInebriety();
+			return fill > 0 ? fill : null;
+		case 5:
+			float advRange = ItemDatabase.getAdventureRange( CIRresult.getName() );
+			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange ) : null;
+		default:
+			return null;
+		}
+	}
+
+	private static Object getEquipmentCell( int columnIndex, boolean isSelected, AdventureResult advresult )
+	{
+		switch ( columnIndex )
+		{
+		case 0:
+			return "<html>" + addTag( ColorFactory.getItemColor( advresult ), isSelected )
+				+ advresult.getName();
+		case 1:
+			return EquipmentDatabase.getPower( advresult.getItemId() );
+		case 2:
+			return Integer.valueOf( advresult.getCount() );
+		case 3:
+			int price = MallPriceDatabase.getPrice( advresult.getItemId() );
+			return ( price > 0 ) ? price : null;
+		case 4:
+			return getAutosellString( advresult.getItemId() );
+		case 5:
+			int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
+			if ( mpRestore <= 0 )
+			{
+				return null;
+			}
+			int maxMP = KoLCharacter.getMaximumMP();
+			if ( mpRestore > maxMP )
+			{
+				return maxMP;
+			}
+			return mpRestore;
+		default:
+			return null;
+		}
+	}
+
+	private static Object getRestoresCell( int columnIndex, boolean isSelected, AdventureResult advresult )
+	{
+		switch ( columnIndex )
+		{
+		case 0:
+			return "<html>" + addTag( ColorFactory.getItemColor( advresult ), isSelected )
+				+ advresult.getName();
+		case 1:
+			return getAutosellString( advresult.getItemId() );
+		case 2:
+			return Integer.valueOf( advresult.getCount() );
+		case 3:
+			int price = MallPriceDatabase.getPrice( advresult.getItemId() );
+			return ( price > 0 ) ? price : null;
+		case 4:
+			int hpRestore = HPRestoreItemList.getHealthRestored( advresult.getName() );
+			if ( hpRestore <= 0 )
+			{
+				return null;
+			}
+			int maxHP = KoLCharacter.getMaximumHP();
+			if ( hpRestore > maxHP )
+			{
+				return maxHP;
+			}
+			return hpRestore;
+		case 5:
+			int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
+			if ( mpRestore <= 0 )
+			{
+				return null;
+			}
+			int maxMP = KoLCharacter.getMaximumMP();
+			if ( mpRestore > maxMP )
+			{
+				return maxMP;
+			}
+			return mpRestore;
+		default:
+			return null;
+		}
 	}
 
 	private static String addTag( String itemColor, boolean isSelected )
@@ -172,33 +262,44 @@ public class TableCellFactory
 		return price + " meat";
 	}
 
-	public static String[] getColumnNames( LockableListModel originalModel, boolean isEquipmentOnly )
+	public static String[] getColumnNames( LockableListModel originalModel, boolean[] flags )
 	{
-		if ( isEquipmentOnly )
+		if ( flags[ 0 ] ) // Equipment panel
 		{
 			return new String[]
 			{
 				"item name", "power", "quantity", "mallprice", "autosell"
 			};
 		}
-		else if ( originalModel == KoLConstants.inventory || originalModel == KoLConstants.tally
-			|| originalModel == KoLConstants.closet || originalModel == KoLConstants.freepulls
-			|| originalModel == KoLConstants.storage )
+		else if ( flags[ 1 ] ) // Restores panel
 		{
 			return new String[]
 			{
 				"item name", "autosell", "quantity", "mallprice", "HP restore", "MP restore"
 			};
 		}
+		else if ( originalModel == KoLConstants.inventory || originalModel == KoLConstants.tally
+			|| originalModel == KoLConstants.freepulls || originalModel == KoLConstants.storage
+			|| originalModel == KoLConstants.closet )
+		{
+			return new String[]
+			{
+				"item name", "autosell", "quantity", "mallprice", "power"
+			};
+		}
+
 		else if ( originalModel == ConcoctionDatabase.getCreatables()
 			|| originalModel == ConcoctionDatabase.getUsables() )
 		{
 			return new String[]
 			{
-				"item name", "autosell", "quantity", "mallprice"
+				"item name", "autosell", "quantity", "mallprice", "fill", "adv/fill"
 			};
 		}
-		return new String[] { "not implemented" };
+		return new String[]
+		{
+			"not implemented"
+		};
 	}
 
 }

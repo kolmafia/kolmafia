@@ -64,11 +64,16 @@ public class InventoryPanel
 {
 	protected boolean isEquipmentOnly;
 	private FilterRadioButton[] equipmentFilters;
-
+	
 	public InventoryPanel( final LockableListModel elementModel, final boolean isEquipmentOnly )
 	{
-		super( elementModel, isEquipmentOnly );
-		this.isEquipmentOnly = isEquipmentOnly;
+		this( elementModel, new boolean[] { isEquipmentOnly, false } );
+	}
+
+	public InventoryPanel( final LockableListModel elementModel, final boolean[] flags )
+	{
+		super( elementModel, flags );
+		this.isEquipmentOnly = flags[0];
 
 		boolean isCloset = elementModel == KoLConstants.closet;
 		ActionListener useListener = isEquipmentOnly ?
