@@ -161,6 +161,8 @@ public class TableCellFactory
 		case 5:
 			float advRange = ItemDatabase.getAdventureRange( CIRresult.getName() );
 			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange ) : null;
+		case 6:
+			return ItemDatabase.getLevelReqByName( CIRresult.getName() );
 		default:
 			return null;
 		}
@@ -293,7 +295,7 @@ public class TableCellFactory
 		{
 			return new String[]
 			{
-				"item name", "autosell", "quantity", "mallprice", "fill", "adv/fill"
+				"item name", "autosell", "quantity", "mallprice", "fill", "adv/fill", "level req"
 			};
 		}
 		return new String[]
