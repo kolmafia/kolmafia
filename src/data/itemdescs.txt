@@ -5672,7 +5672,7 @@
 5671
 5672
 5673
-5674	619356758       stuffedl.gif	stuffed &quot;L&quot;
+5674	619356758	stuffedl.gif	stuffed &quot;L&quot;
 5675	762938251	redmin.gif	watered-down Red Minotaur
 5676	340353804	pooltorpedo.gif	pool torpedo
 5677	179669496	zegoggles.gif	Ze&trade; goggles
