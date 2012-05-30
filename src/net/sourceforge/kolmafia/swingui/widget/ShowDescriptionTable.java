@@ -117,11 +117,12 @@ public class ShowDescriptionTable
 	private final LockableListModel displayModel, originalModel;
 
 	private AdaptedTableModel adaptedModel;
+	
+	private final Pattern meatPattern = Pattern.compile( "(-?\\d+) meat" );
+	private final Pattern itemPattern = Pattern.compile( "(?<=^|>)[^><]+?(?=<|$)" );
 
 	protected final Comparator<Object> meatComparator = new Comparator<Object>()
 	{
-		private final Pattern meatPattern = Pattern.compile( "(-?\\d+) meat" );
-
 		public int compare( Object o1, Object o2 )
 		{
 			Matcher matcher1 = meatPattern.matcher( o1.toString() );
@@ -143,9 +144,6 @@ public class ShowDescriptionTable
 	};
 	protected final Comparator<Object> itemComparator = new Comparator<Object>()
 	{
-		// Have to strip out HTML before comparing item strings.
-		private final Pattern itemPattern = Pattern.compile( "(?<=^|>)[^><]+?(?=<|$)" );
-
 		public int compare( Object o1, Object o2 )
 		{
 			Matcher matcher1 = itemPattern.matcher( o1.toString() );
@@ -341,11 +339,11 @@ public class ShowDescriptionTable
 			TableColumnExt columnExt = getColumnExt( columnIndex );
 			if ( isAutosell )
 			{
-				comparator = ShowDescriptionTable.this.getMeatComparator();
+				comparator = getMeatComparator();
 			}
 			else if ( isItemName )
 			{
-				comparator = ShowDescriptionTable.this.getItemComparator();
+				comparator = getItemComparator();
 			}
 			else if ( columnExt != null )
 			{
