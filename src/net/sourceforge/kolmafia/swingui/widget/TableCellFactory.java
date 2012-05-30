@@ -90,7 +90,8 @@ public class TableCellFactory
 			int price = MallPriceDatabase.getPrice( advresult.getItemId() );
 			return ( price > 0 ) ? price : null;
 		case 4:
-			return EquipmentDatabase.getPower( advresult.getItemId() );
+			int power = EquipmentDatabase.getPower( advresult.getItemId() );
+			return ( power > 0 ) ? power : null;
 		default:
 			return null;
 		}
