@@ -219,7 +219,10 @@ public class AutoFilterTextField
 		finally
 		{
 			this.model.setFiltering( false );
-			this.model.fireContentsChanged( this.model, 0, this.model.size() - 1 );
+			if ( this.model.size() > 0 )
+			{
+				this.model.fireContentsChanged( this.model, 0, this.model.size() - 1 );
+			}
 		}
 	}
 

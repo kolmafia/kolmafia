@@ -40,6 +40,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,6 +49,8 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
+import javax.swing.table.TableColumn;
+
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.decorator.SortController;
@@ -294,18 +297,16 @@ public class ShowDescriptionTable
 		this.setColumnControl( btn );
 
 		// Set columns > visibleColumnCount to not visible.
-		// Have to iterate backwards to avoid an ArrayOutofBoundsException. Kinda goofy.
-		for ( int i = this.getColumnCount( true ) - 1; i >= 0; --i )
+		List<TableColumn> allColumns = getColumns( true );
+		for ( TableColumn t : allColumns )
 		{
-			if ( i >= visibleColumnCount )
+			TableColumnExt ext = (TableColumnExt) t;
+			if ( ext.getModelIndex() >= visibleColumnCount )
 			{
-				this.getColumnExt( i ).setVisible( false );
-			}
-			else
-			{
-				break;
+				ext.setVisible( false );
 			}
 		}
+
 		// Override the default filtering pipeline with one that won't try to update while the data model is itself filtering
 		this.setFilters( new HesitantFilter() );
 	}
