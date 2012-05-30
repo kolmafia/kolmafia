@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -85,12 +86,12 @@ public class TableCellFactory
 		case 1:
 			return getAutosellString( advresult.getItemId() );
 		case 2:
-			return Integer.valueOf( advresult.getCount() );
+			return IntegerPool.get( advresult.getCount() );
 		case 3:
-			int price = MallPriceDatabase.getPrice( advresult.getItemId() );
+			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( advresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
-			int power = EquipmentDatabase.getPower( advresult.getItemId() );
+			Integer power = IntegerPool.get( EquipmentDatabase.getPower( advresult.getItemId() ) );
 			return ( power > 0 ) ? power : null;
 		default:
 			return null;
@@ -107,9 +108,9 @@ public class TableCellFactory
 		case 1:
 			return getAutosellString( advresult.getItemId() );
 		case 2:
-			return Integer.valueOf( advresult.getCount() );
+			return IntegerPool.get( advresult.getCount() );
 		case 3:
-			int price = MallPriceDatabase.getPrice( advresult.getItemId() );
+			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( advresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
 			int hpRestore = HPRestoreItemList.getHealthRestored( advresult.getName() );
@@ -120,9 +121,9 @@ public class TableCellFactory
 			int maxHP = KoLCharacter.getMaximumHP();
 			if ( hpRestore > maxHP )
 			{
-				return maxHP;
+				return IntegerPool.get( maxHP );
 			}
-			return hpRestore;
+			return IntegerPool.get( hpRestore );
 		case 5:
 			int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
 			if ( mpRestore <= 0 )
@@ -132,9 +133,9 @@ public class TableCellFactory
 			int maxMP = KoLCharacter.getMaximumMP();
 			if ( mpRestore > maxMP )
 			{
-				return maxMP;
+				return IntegerPool.get( maxMP );
 			}
-			return mpRestore;
+			return IntegerPool.get( mpRestore );
 		default:
 			return null;
 		}
@@ -152,18 +153,18 @@ public class TableCellFactory
 		case 1:
 			return getAutosellString( CIRresult.getItemId() );
 		case 2:
-			return Integer.valueOf( CIRresult.getQuantityPossible() );
+			return IntegerPool.get( CIRresult.getQuantityPossible() );
 		case 3:
-			int price = MallPriceDatabase.getPrice( CIRresult.getItemId() );
+			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( CIRresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
-			int fill = CIRresult.concoction.getFullness() + CIRresult.concoction.getInebriety();
+			Integer fill = IntegerPool.get( CIRresult.concoction.getFullness() + CIRresult.concoction.getInebriety() );
 			return fill > 0 ? fill : null;
 		case 5:
 			float advRange = ItemDatabase.getAdventureRange( CIRresult.getName() );
 			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange ) : null;
 		case 6:
-			return ItemDatabase.getLevelReqByName( CIRresult.getName() );
+			return IntegerPool.get( ItemDatabase.getLevelReqByName( CIRresult.getName() ) );
 		default:
 			return null;
 		}
@@ -179,24 +180,12 @@ public class TableCellFactory
 		case 1:
 			return EquipmentDatabase.getPower( advresult.getItemId() );
 		case 2:
-			return Integer.valueOf( advresult.getCount() );
+			return IntegerPool.get( advresult.getCount() );
 		case 3:
-			int price = MallPriceDatabase.getPrice( advresult.getItemId() );
+			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( advresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
 			return getAutosellString( advresult.getItemId() );
-		case 5:
-			int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
-			if ( mpRestore <= 0 )
-			{
-				return null;
-			}
-			int maxMP = KoLCharacter.getMaximumMP();
-			if ( mpRestore > maxMP )
-			{
-				return maxMP;
-			}
-			return mpRestore;
 		default:
 			return null;
 		}
@@ -212,9 +201,9 @@ public class TableCellFactory
 		case 1:
 			return getAutosellString( advresult.getItemId() );
 		case 2:
-			return Integer.valueOf( advresult.getCount() );
+			return IntegerPool.get( advresult.getCount() );
 		case 3:
-			int price = MallPriceDatabase.getPrice( advresult.getItemId() );
+			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( advresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
 			int hpRestore = HPRestoreItemList.getHealthRestored( advresult.getName() );
@@ -225,9 +214,9 @@ public class TableCellFactory
 			int maxHP = KoLCharacter.getMaximumHP();
 			if ( hpRestore > maxHP )
 			{
-				return maxHP;
+				return IntegerPool.get( maxHP );
 			}
-			return hpRestore;
+			return IntegerPool.get( hpRestore );
 		case 5:
 			int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
 			if ( mpRestore <= 0 )
@@ -237,9 +226,9 @@ public class TableCellFactory
 			int maxMP = KoLCharacter.getMaximumMP();
 			if ( mpRestore > maxMP )
 			{
-				return maxMP;
+				return IntegerPool.get( maxMP );
 			}
-			return mpRestore;
+			return IntegerPool.get( mpRestore );
 		default:
 			return null;
 		}
