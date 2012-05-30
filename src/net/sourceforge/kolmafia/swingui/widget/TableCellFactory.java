@@ -144,6 +144,7 @@ public class TableCellFactory
 	private static Object getCreationCell( int columnIndex, Object result, boolean isSelected )
 	{
 		CreateItemRequest CIRresult = (CreateItemRequest) result;
+		Integer fill;
 
 		switch ( columnIndex )
 		{
@@ -158,11 +159,12 @@ public class TableCellFactory
 			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( CIRresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
-			Integer fill = IntegerPool.get( CIRresult.concoction.getFullness() + CIRresult.concoction.getInebriety() );
+			fill = IntegerPool.get( CIRresult.concoction.getFullness() + CIRresult.concoction.getInebriety() );
 			return fill > 0 ? fill : null;
 		case 5:
 			float advRange = ItemDatabase.getAdventureRange( CIRresult.getName() );
-			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange ) : null;
+			fill = IntegerPool.get( CIRresult.concoction.getFullness() + CIRresult.concoction.getInebriety() );
+			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange / fill ) : null;
 		case 6:
 			return IntegerPool.get( ItemDatabase.getLevelReqByName( CIRresult.getName() ) );
 		default:
