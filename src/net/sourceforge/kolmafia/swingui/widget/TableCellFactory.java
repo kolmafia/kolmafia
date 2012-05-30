@@ -91,8 +91,8 @@ public class TableCellFactory
 			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( advresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
-			Integer power = IntegerPool.get( EquipmentDatabase.getPower( advresult.getItemId() ) );
-			return ( power > 0 ) ? power : null;
+			int power = EquipmentDatabase.getPower( advresult.getItemId() );
+			return ( power > 0 ) ? IntegerPool.get( power ) : null;
 		default:
 			return null;
 		}
@@ -113,29 +113,8 @@ public class TableCellFactory
 			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( advresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
-			int hpRestore = HPRestoreItemList.getHealthRestored( advresult.getName() );
-			if ( hpRestore <= 0 )
-			{
-				return null;
-			}
-			int maxHP = KoLCharacter.getMaximumHP();
-			if ( hpRestore > maxHP )
-			{
-				return IntegerPool.get( maxHP );
-			}
-			return IntegerPool.get( hpRestore );
-		case 5:
-			int mpRestore = MPRestoreItemList.getManaRestored( advresult.getName() );
-			if ( mpRestore <= 0 )
-			{
-				return null;
-			}
-			int maxMP = KoLCharacter.getMaximumMP();
-			if ( mpRestore > maxMP )
-			{
-				return IntegerPool.get( maxMP );
-			}
-			return IntegerPool.get( mpRestore );
+			int power = EquipmentDatabase.getPower( advresult.getItemId() );
+			return ( power > 0 ) ? IntegerPool.get( power ) : null;
 		default:
 			return null;
 		}
@@ -166,7 +145,8 @@ public class TableCellFactory
 			fill = IntegerPool.get( CIRresult.concoction.getFullness() + CIRresult.concoction.getInebriety() );
 			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange / fill ) : null;
 		case 6:
-			return IntegerPool.get( ItemDatabase.getLevelReqByName( CIRresult.getName() ) );
+			Integer lev = ItemDatabase.getLevelReqByName( CIRresult.getName() );
+			return lev != null ? IntegerPool.get( lev ) : null;
 		default:
 			return null;
 		}
