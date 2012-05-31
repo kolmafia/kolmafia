@@ -378,11 +378,11 @@ public class FightRequest
 			"biodataMorgue"
 		},
 		{
-			"Black Ops Bugbear",
+			"black ops bugbear",
 			"biodataSpecialOps"
 		},
 		{
-			"Battlesuit Bugbear Type",
+			"battlesuit bugbear type",
 			"biodataEngineering"
 		},
 		{
@@ -4563,6 +4563,7 @@ public class FightRequest
 		{
 			return false;
 		}
+
 		// Your key-o-tron emits 2 short tones, indicating that it has successfully processed biometric data from this subject.
 		// Your key-o-tron emits a short buzz, indicating that it has already collected enough biometric data of this type.
 		
@@ -4583,10 +4584,12 @@ public class FightRequest
 				break;
 			}
 		}
+
 		if ( setting == null )
 		{
 			return false;
 		}
+
 		Matcher matcher = FightRequest.KEYOTRON_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
