@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.IllegalFormatException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -281,6 +282,10 @@ public abstract class RuntimeLibrary
 		// of one data format to another.
 
 		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_string", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "to_string", DataTypes.STRING_TYPE, params ) );
+		params = new Type[] { DataTypes.FLOAT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_string", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
@@ -1862,6 +1867,27 @@ public abstract class RuntimeLibrary
 		// because int Values compare differently than string Values.
 		return val.toStringValue();
 	}
+	
+	public static Value to_string( Interpreter interpreter, Value val, Value fmt )
+	{
+		try
+		{
+			Object arg;
+			if ( val.getType().equals( DataTypes.TYPE_FLOAT ) )
+			{
+				arg = new Float( val.floatValue() );
+			}
+			else
+			{
+				arg = IntegerPool.get( val.intValue() );
+			}
+			return new Value( String.format( fmt.toString(), arg ) );
+		}
+		catch ( IllegalFormatException e )
+		{
+			throw interpreter.runtimeException( "Invalid format pattern" );
+		}
+	}
 
 	public static Value to_boolean( Interpreter interpreter, final Value value )
 	{
@@ -2827,7 +2853,7 @@ public abstract class RuntimeLibrary
 				return value;
 			}
 
-			ArrayList elems = new ArrayList();
+			ArrayList<Integer> elems = new ArrayList<Integer>();
 			if ( (pulver & EquipmentDatabase.ELEM_HOT) != 0 )
 			{
 				elems.add( IntegerPool.get( ItemPool.HOT_WAD ) );
@@ -2902,10 +2928,8 @@ public abstract class RuntimeLibrary
 			int gems = wads / 100;
 			wads -= gems;
 
-		 	Iterator i = elems.iterator();
-		 	while ( i.hasNext() )
+		 	for ( int wad : elems )
 		 	{
-		 		int wad = ((Integer) i.next()).intValue();
 		 		if ( powders > 0 )
 		 		{
 					value.aset( DataTypes.makeItemValue( wad + WAD2POWDER ),
