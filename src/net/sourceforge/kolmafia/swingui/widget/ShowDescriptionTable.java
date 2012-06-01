@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.swingui.widget;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.SystemColor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -382,12 +383,16 @@ public class ShowDescriptionTable
 		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected,
 				boolean hasFocus, int row, int col )
 		{
-			Object contents = TableCellFactory.get( convertColumnIndexToModel( col ), this.model, value,
-				this.flags, isSelected );
-			Component renderer = super.getTableCellRendererComponent( table, contents, isSelected,
-				hasFocus, row, col );
+			this.setValue( TableCellFactory.get( convertColumnIndexToModel( col ), this.model, value,
+				this.flags, isSelected ) );
+			
+			if ( isSelected )
+			{
+				this.setBackground( SystemColor.textHighlight );
+				this.setForeground( SystemColor.textHighlightText );
+			}
 
-			return renderer;
+			return this;
 		}
 	}
 
