@@ -732,17 +732,25 @@ public class UseSkillRequest
 	@Override
 	public void run()
 	{
-		if ( !KoLCharacter.hasSkill( this.skillName ) || this.buffCount == 0 )
-		{
-			return;
-		}
-
 		if ( this.isRunning )
 		{
 			return;
 		}
 
 		UseSkillRequest.lastUpdate = "";
+
+		if ( this.buffCount == 0 )
+		{
+			// Silently do nothing
+			return;
+		}
+
+		if ( !KoLCharacter.hasSkill( this.skillName ) )
+		{
+			UseSkillRequest.lastUpdate = "You don't know how to cast " + this.skillName + ".";
+			return;
+		}
+
 		UseSkillRequest.optimizeEquipment( this.skillId );
 
 		if ( !KoLmafia.permitsContinue() )
