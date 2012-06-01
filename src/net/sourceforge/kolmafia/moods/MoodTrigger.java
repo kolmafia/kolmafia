@@ -299,14 +299,18 @@ public class MoodTrigger
 
 			return;
 		}
-		else if ( this.skill != null )
+
+		if ( this.skill != null )
 		{
-			this.skill.setBuffCount( Math.max( this.count, this.count * multiplicity ) );
+			int casts = Math.max( this.count, this.count * multiplicity );
+			this.skill.setBuffCount( casts );
 			this.skill.setTarget( KoLCharacter.getUserName() );
 			RequestThread.postRequest( this.skill );
 
 			if ( !UseSkillRequest.lastUpdate.equals( "" ) )
 			{
+				String name = this.skill.getSkillName();
+				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Mood failed to cast " + casts + " " + name + ": " + UseSkillRequest.lastUpdate );
 				RequestThread.declareWorldPeace();
 			}
 
