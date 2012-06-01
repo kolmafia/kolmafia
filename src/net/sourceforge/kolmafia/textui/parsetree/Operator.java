@@ -231,8 +231,8 @@ public class Operator
 
 		else if ( ltype.equals( DataTypes.TYPE_FLOAT ) || rtype.equals( DataTypes.TYPE_FLOAT ) )
 		{
-			float lfloat = leftValue.toFloatValue().floatValue();
-			float rfloat = rightValue.toFloatValue().floatValue();
+			double lfloat = leftValue.toFloatValue().floatValue();
+			double rfloat = rightValue.toFloatValue().floatValue();
 			bool = this.operator.equals( "==" ) ? lfloat == rfloat :
 			       this.operator.equals( "!=" ) ? lfloat != rfloat :
 			       this.operator.equals( ">=" ) ? lfloat >= rfloat :
@@ -245,8 +245,8 @@ public class Operator
 		// Otherwise, compare integers
 		else
 		{
-			int lint = leftValue.intValue();
-			int rint = rightValue.intValue();
+			long lint = leftValue.intValue();
+			long rint = rightValue.intValue();
 			bool = this.operator.equals( "==" ) ? lint == rint :
 			       this.operator.equals( "!=" ) ? lint != rint :
 			       this.operator.equals( ">=" ) ? lint >= rint :
@@ -289,37 +289,37 @@ public class Operator
 
 		else if ( ltype.equals( DataTypes.TYPE_FLOAT ) || rtype.equals( DataTypes.TYPE_FLOAT ) )
 		{
-			float rfloat = rightValue.toFloatValue().floatValue();
+			double rfloat = rightValue.toFloatValue().floatValue();
 			if (  ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
-			      rfloat == 0.0f )
+			      rfloat == 0.0 )
 			{
 				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
 
-			float lfloat = leftValue.toFloatValue().floatValue();
-			float val =
+			double lfloat = leftValue.toFloatValue().floatValue();
+			double val =
 				this.operator.equals( "+" ) ? lfloat + rfloat :
 				this.operator.equals( "-" ) ? lfloat - rfloat :
 				this.operator.equals( "*" ) ? lfloat * rfloat :
 				this.operator.equals( "/" ) ? lfloat / rfloat :
 				this.operator.equals( "%" ) ? lfloat % rfloat :
-				this.operator.equals( "**" ) ? (float) Math.pow( lfloat, rfloat ) :
-				0.0f;
+				this.operator.equals( "**" ) ? Math.pow( lfloat, rfloat ) :
+				0.0;
 			result = DataTypes.makeFloatValue( val );
 		}
 
 		// If this is a logical operator, return an int or boolean
 		else if ( this.isLogical() )
 		{
-			int lint = leftValue.intValue();
-			int rint = rightValue.intValue();
-			int val =
+			long lint = leftValue.intValue();
+			long rint = rightValue.intValue();
+			long val =
 				this.operator.equals( "&" ) ? lint & rint :
 				this.operator.equals( "^" ) ? lint ^ rint :
 				this.operator.equals( "|" ) ? lint | rint :
 				0;
 			result = ltype.equals( DataTypes.TYPE_BOOLEAN ) ?
-				DataTypes.makeBooleanValue( val ) :
+				DataTypes.makeBooleanValue( val != 0 ) :
 				DataTypes.makeIntValue( val );
 		}
 
@@ -327,21 +327,21 @@ public class Operator
 
 		else
 		{
-			int rint = rightValue.intValue();
+			long rint = rightValue.intValue();
 			if (  ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
 			      rint == 0 )
 			{
 				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
 
-			int lint = leftValue.intValue();
-			int val =
+			long lint = leftValue.intValue();
+			long val =
 				this.operator.equals( "+" ) ? lint + rint :
 				this.operator.equals( "-" ) ? lint - rint :
 				this.operator.equals( "*" ) ? lint * rint :
 				this.operator.equals( "/" ) ? lint / rint :
 				this.operator.equals( "%" ) ? lint % rint :
-				this.operator.equals( "**" ) ? (int) Math.pow( lint, rint ) :
+				this.operator.equals( "**" ) ? (long) Math.pow( lint, rint ) :
 				this.operator.equals( "<<" ) ? lint << rint :
 				this.operator.equals( ">>" ) ? lint >> rint :
 				this.operator.equals( ">>>" ) ? lint >>> rint :
@@ -422,7 +422,7 @@ public class Operator
 
 		if ( this.operator.equals( "~" ) )
 		{
-			int val = leftValue.intValue();
+			long val = leftValue.intValue();
 			Value result =
 				leftValue.getType().equals( DataTypes.TYPE_BOOLEAN ) ?
 				DataTypes.makeBooleanValue( val == 0 ) :
@@ -444,7 +444,7 @@ public class Operator
 			}
 			else if ( lhs.getType().equals( DataTypes.TYPE_FLOAT ) )
 			{
-				result = DataTypes.makeFloatValue( 0.0f - leftValue.floatValue() );
+				result = DataTypes.makeFloatValue( 0.0 - leftValue.floatValue() );
 			}
 			else
 			{

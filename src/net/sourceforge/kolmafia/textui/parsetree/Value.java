@@ -45,8 +45,7 @@ public class Value
 {
 	public Type type;
 
-	public int contentInt = 0;
-	public float contentFloat = 0.0f;
+	public long contentLong = 0;
 	public String contentString = null;
 	public Object content = null;
 
@@ -55,16 +54,16 @@ public class Value
 		this.type = DataTypes.VOID_TYPE;
 	}
 
-	public Value( final int value )
+	public Value( final long value )
 	{
 		this.type = DataTypes.INT_TYPE;
-		this.contentInt = value;
+		this.contentLong = value;
 	}
 
 	public Value( final boolean value )
 	{
 		this.type = DataTypes.BOOLEAN_TYPE;
-		this.contentInt = value ? 1 : 0;
+		this.contentLong = value ? 1 : 0;
 	}
 
 	public Value( final String value )
@@ -73,11 +72,10 @@ public class Value
 		this.contentString = value == null ? "" : value;
 	}
 
-	public Value( final float value )
+	public Value( final double value )
 	{
 		this.type = DataTypes.FLOAT_TYPE;
-		this.contentInt = (int) value;
-		this.contentFloat = value;
+		this.contentLong = Double.doubleToRawLongBits( value );
 	}
 
 	public Value( final Type type )
@@ -85,10 +83,10 @@ public class Value
 		this.type = type;
 	}
 
-	public Value( final Type type, final int contentInt, final String contentString )
+	public Value( final Type type, final long contentLong, final String contentString )
 	{
 		this.type = type;
-		this.contentInt = contentInt;
+		this.contentLong = contentLong;
 		this.contentString = contentString;
 	}
 
@@ -102,7 +100,7 @@ public class Value
 	public Value( final Value original )
 	{
 		this.type = original.type;
-		this.contentInt = original.contentInt;
+		this.contentLong = original.contentLong;
 		this.contentString = original.contentString;
 		this.content = original.content;
 	}
@@ -113,7 +111,7 @@ public class Value
 		{
 			return this;
 		}
-		return DataTypes.makeFloatValue( (float) this.contentInt );
+		return DataTypes.makeFloatValue( (double) this.contentLong );
 	}
 
 	public Value toIntValue()
@@ -124,9 +122,9 @@ public class Value
 		}
 		if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
 		{
-			return DataTypes.makeIntValue( this.contentInt != 0 );
+			return DataTypes.makeIntValue( this.contentLong != 0 );
 		}
-		return DataTypes.makeIntValue( (int) this.contentFloat );
+		return DataTypes.makeIntValue( (long) this.floatValue() );
 	}
 
 	public Value toBooleanValue()
@@ -135,7 +133,7 @@ public class Value
 		{
 			return this;
 		}
-		return DataTypes.makeBooleanValue( this.contentInt );
+		return DataTypes.makeBooleanValue( this.contentLong != 0 );
 	}
 
 	public Type getType()
@@ -163,15 +161,15 @@ public class Value
 
 		if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
 		{
-			return String.valueOf( this.contentInt != 0 );
+			return String.valueOf( this.contentLong != 0 );
 		}
 
 		if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
 		{
-			return KoLConstants.NONSCIENTIFIC_FORMAT.format( this.contentFloat );
+			return KoLConstants.NONSCIENTIFIC_FORMAT.format( this.floatValue() );
 		}
 
-		return String.valueOf( this.contentInt );
+		return String.valueOf( this.contentLong );
 	}
 
 	public String toQuotedString()
@@ -193,14 +191,22 @@ public class Value
 		return this.content;
 	}
 
-	public int intValue()
+	public long intValue()
 	{
-		return this.contentInt;
+		if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
+		{
+			return (long) Double.longBitsToDouble( this.contentLong );
+		}
+		return this.contentLong;
 	}
 
-	public float floatValue()
+	public double floatValue()
 	{
-		return this.contentFloat;
+		if ( !this.type.equals( DataTypes.TYPE_FLOAT ) )
+		{
+			return (double) this.contentLong;
+		}
+		return Double.longBitsToDouble( this.contentLong );
 	}
 
 	@Override
@@ -283,12 +289,14 @@ public class Value
 
 		if ( this.type == DataTypes.BOOLEAN_TYPE || this.type == DataTypes.INT_TYPE )
 		{
-			return this.contentInt < it.contentInt ? -1 : this.contentInt == it.contentInt ? 0 : 1;
+			return this.contentLong < it.contentLong ? -1 : this.contentLong == it.contentLong ? 0 : 1;
 		}
 
 		if ( this.type == DataTypes.FLOAT_TYPE )
 		{
-			return this.contentFloat < it.contentFloat ? -1 : this.contentFloat == it.contentFloat ? 0 : 1;
+			double tcf = Double.longBitsToDouble( this.contentLong );
+			double icf = Double.longBitsToDouble( it.contentLong );
+			return tcf < icf ? -1 : tcf == icf ? 0 : 1;
 		}
 
 		if ( this.contentString != null && it.contentString != null )

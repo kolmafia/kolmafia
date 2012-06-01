@@ -43,9 +43,9 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 public class PluralValue
 	extends AggregateValue
 {
-	private TreeSet lookup;
+	private TreeSet<Value> lookup;
 	
-	public PluralValue( final Type type, ArrayList values )
+	public PluralValue( final Type type, ArrayList<Value> values )
 	{
 		super( new AggregateType( DataTypes.BOOLEAN_TYPE, type ) );
 
@@ -87,7 +87,7 @@ public class PluralValue
 	{
 		if ( this.lookup == null )
 		{
-			this.lookup = new TreeSet();
+			this.lookup = new TreeSet<Value>();
 			this.lookup.addAll( Arrays.asList( (Value[]) this.content ) );
 		}
 		return this.lookup.contains( key );

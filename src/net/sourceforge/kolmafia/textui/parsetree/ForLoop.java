@@ -163,9 +163,9 @@ public class ForLoop
 			return null;
 		}
 
-		int current = initialValue.intValue();
-		int increment = incrementValue.intValue();
-		int end = lastValue.intValue();
+		long current = initialValue.intValue();
+		long increment = incrementValue.intValue();
+		long end = lastValue.intValue();
 
 		boolean up = false;
 

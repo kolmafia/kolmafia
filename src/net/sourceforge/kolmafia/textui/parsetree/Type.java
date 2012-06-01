@@ -234,7 +234,7 @@ public class Type
 	{
 		if ( this.allValues != null ) return this.allValues;
 		
-		ArrayList list = new ArrayList();
+		ArrayList<Value> list = new ArrayList<Value>();
 		switch ( this.type )
 		{
 		case DataTypes.TYPE_BOOLEAN:
@@ -290,12 +290,12 @@ public class Type
 		return this.allValues;
 	}
 	
-	private void addValues( ArrayList results, String[] values )
+	private void addValues( ArrayList<Value> results, String[] values )
 	{
 		this.addValues( results, values, 0, -1 );
 	}
 
-	private void addValues( ArrayList results, String[] values, int start, int stop )
+	private void addValues( ArrayList<Value> results, String[] values, int start, int stop )
 	{
 		if ( stop == -1 ) stop = values.length;
 		for ( int i = start; i < stop; ++i )
@@ -305,12 +305,10 @@ public class Type
 		}
 	}
 
-	private void addValues( ArrayList results, Collection values )
+	private void addValues( ArrayList<Value> results, Collection values )
 	{
-		Iterator i = values.iterator();
-		while ( i.hasNext() )
+		for ( Object o : values )
 		{
-			Object o = i.next();
 			if ( o instanceof Map.Entry )
 			{	// Some of the database entrySet() methods return
 				// Integer:String mappings, others String:<something>.

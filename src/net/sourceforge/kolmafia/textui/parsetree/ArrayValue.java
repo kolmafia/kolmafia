@@ -57,7 +57,7 @@ public class ArrayValue
 	public Value aref( final Value key, final Interpreter interpreter )
 	{
 		Value[] array = (Value[]) this.content;
-		int index = key.intValue();
+		int index = (int) key.intValue();
 		if ( index < 0 || index >= array.length )
 		{
 			throw interpreter.runtimeException( "Array index out of bounds" );
@@ -69,7 +69,7 @@ public class ArrayValue
 	public void aset( final Value key, final Value val, final Interpreter interpreter )
 	{
 		Value[] array = (Value[]) this.content;
-		int index = key.intValue();
+		int index = (int) key.intValue();
 		if ( index < 0 || index >= array.length )
 		{
 			throw interpreter.runtimeException( "Array index out of bounds" );
@@ -104,7 +104,7 @@ public class ArrayValue
 	public Value remove( final Value key, final Interpreter interpreter )
 	{
 		Value[] array = (Value[]) this.content;
-		int index = key.intValue();
+		int index = (int) key.intValue();
 		if ( index < 0 || index >= array.length )
 		{
 			throw interpreter.runtimeException( "Array index out of bounds" );
@@ -135,7 +135,7 @@ public class ArrayValue
 	public boolean contains( final Value key )
 	{
 		Value[] array = (Value[]) this.content;
-		int index = key.intValue();
+		int index = (int) key.intValue();
 		return index >= 0 && index < array.length;
 	}
 
