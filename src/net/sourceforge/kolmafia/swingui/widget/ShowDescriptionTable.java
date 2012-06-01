@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.widget;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyAdapter;
@@ -48,12 +49,13 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.FilterPipeline;
-import org.jdesktop.swingx.decorator.SortController;
 import org.jdesktop.swingx.table.ColumnControlButton;
 import org.jdesktop.swingx.table.TableColumnExt;
 
@@ -97,14 +99,6 @@ import com.jgoodies.binding.adapter.AbstractTableAdapter;
  ShowDescriptionTable is a variant of ShowDescriptionList that extends a TTable instead of a JList.
  It is meant so that you can simply instantiate ShowDescriptionTable instead of ShowDescriptionList,
  and all the "List-specific" methods will be provided in adapter methods.
-
- Two things go on under the hood - first, the LinkedListModel is wrapped in an adapter in order to
- turn it into a TableModel, which the JTable needs.  Second, THAT model is wrapped in a TableSorter.
- This is necessary because row sorting functionality is not natively provided by Java prior to 1.6.
-
- When querying the JTable, the getValueAt method is overridden in order to parse the types we
- want to give it (i.e. AdventureResult, CreateItemRequest, etc).  This essentially takes the place of
- ListCellRendererFactory.
  */
 
 public class ShowDescriptionTable
@@ -117,53 +111,7 @@ public class ShowDescriptionTable
 	private final LockableListModel displayModel, originalModel;
 
 	private AdaptedTableModel adaptedModel;
-	
-	private final Pattern meatPattern = Pattern.compile( "(-?\\d+) meat" );
-	private final Pattern itemPattern = Pattern.compile( "(?<=^|>)[^><]+?(?=<|$)" );
 
-	protected final Comparator<Object> meatComparator = new Comparator<Object>()
-	{
-		public int compare( Object o1, Object o2 )
-		{
-			Matcher matcher1 = meatPattern.matcher( o1.toString() );
-			Matcher matcher2 = meatPattern.matcher( o2.toString() );
-			if ( !matcher1.find() )
-			{
-				return -1;
-			}
-			else if ( !matcher2.find() )
-			{
-				return 1;
-			}
-			// if we're here, both strings are in the format (\d+ meat)
-			Integer o1val = Integer.valueOf( matcher1.group( 1 ) );
-			Integer o2val = Integer.valueOf( matcher2.group( 1 ) );
-
-			return o1val.compareTo( o2val );
-		}
-	};
-	protected final Comparator<Object> itemComparator = new Comparator<Object>()
-	{
-		public int compare( Object o1, Object o2 )
-		{
-			Matcher matcher1 = itemPattern.matcher( o1.toString() );
-			Matcher matcher2 = itemPattern.matcher( o2.toString() );
-			if ( !matcher1.find() )
-			{
-				return -1;
-			}
-			else if ( !matcher2.find() )
-			{
-				return 1;
-			}
-			// if we're here, both matches are the item names.
-			String o1val = matcher1.group();
-			String o2val = matcher2.group();
-
-			return o1val.toLowerCase().compareTo( o2val.toLowerCase() );
-		}
-	};
-	
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
 
 	public ShowDescriptionTable( final LockableListModel displayModel )
@@ -173,7 +121,7 @@ public class ShowDescriptionTable
 
 	public ShowDescriptionTable( final LockableListModel displayModel, boolean[] flags )
 	{
-		this( displayModel, null, 4, 3, flags);
+		this( displayModel, null, 4, 3, flags );
 	}
 
 	public ShowDescriptionTable( final LockableListModel displayModel, final int visibleRowCount )
@@ -189,7 +137,10 @@ public class ShowDescriptionTable
 	public ShowDescriptionTable( final LockableListModel displayModel, final ListElementFilter filter,
 			final int visibleRowCount )
 	{
-		this( displayModel, filter, 4, 3, new boolean[]	{ false, false } );
+		this( displayModel, filter, 4, 3, new boolean[]
+		{
+			false, false
+		} );
 	}
 
 	public ShowDescriptionTable( final LockableListModel displayModel, final ListElementFilter filter,
@@ -268,7 +219,7 @@ public class ShowDescriptionTable
 			.getMirrorImage( filter );
 
 		String[] colNames = TableCellFactory.getColumnNames( this.originalModel, flags );
-		this.adaptedModel = new AdaptedTableModel( this.displayModel, colNames, flags );
+		this.adaptedModel = new AdaptedTableModel( this.displayModel, colNames );
 
 		// this.getTableHeader().setReorderingAllowed( false );
 		this.setShowGrid( false );
@@ -299,68 +250,70 @@ public class ShowDescriptionTable
 		for ( TableColumn t : allColumns )
 		{
 			TableColumnExt ext = (TableColumnExt) t;
+			ext.setComparator( new RenderedComparator( this.originalModel, ext.getModelIndex(), flags ) );
 			if ( ext.getModelIndex() >= visibleColumnCount )
 			{
 				ext.setVisible( false );
 			}
 		}
 
-		// Override the default filtering pipeline with one that won't try to update while the data model is itself filtering
+		// Override the default filtering pipeline with one that won't try to update while the data model is
+		// itself filtering
 		this.setFilters( new HesitantFilter() );
+		this.setDefaultRenderer( String.class, new DescriptionTableRenderer( this.originalModel, flags ) );
+		this.setDefaultRenderer( Integer.class, new DescriptionTableRenderer( this.originalModel, flags ) );
 	}
 
-	/*
-	 * Override for the default JXTable sorting function. We need to use a custom comparator for the autosell
-	 * column.
-	 */
-	@Override
-	public void toggleSortOrder( int columnIndex )
+	private class RenderedComparator
+		implements Comparator<Object>
 	{
-		boolean isAutosell = false;
-		boolean isItemName = false;
+		private int column;
+		private boolean[] flags;
+		private LockableListModel model;
 
-		if ( !isSortable( columnIndex ) )
-			return;
-
-		if ( getColumn( columnIndex ).getHeaderValue().toString().equals( "autosell" ) )
+		public RenderedComparator( LockableListModel originalModel, int column, boolean[] flags )
 		{
-			isAutosell = true;
-		}
-		else if ( getColumn( columnIndex ).getHeaderValue().toString().equals( "item name" ) )
-		{
-			isItemName = true;
+			this.model = originalModel;
+			this.column = column;
+			this.flags = flags;
 		}
 
-		SortController controller = getSortController();
-		Comparator<Object> comparator = null;
-
-		if ( controller != null )
+		public int compare( Object o1, Object o2 )
 		{
-			TableColumnExt columnExt = getColumnExt( columnIndex );
-			if ( isAutosell )
+			Object o1val = TableCellFactory.get( this.column, this.model, o1, this.flags, false, true );
+			Object o2val = TableCellFactory.get( this.column, this.model, o2, this.flags, false, true );
+			if ( o1val instanceof Integer )
 			{
-				comparator = getMeatComparator();
+				if ( o2val == null )
+				{
+					return 1;
+				}
+				Integer a1 = (Integer) o1val;
+				Integer a2 = (Integer) o2val;
+				return a1.compareTo( a2 );
 			}
-			else if ( isItemName )
+			if ( o2val instanceof Integer )
 			{
-				comparator = getItemComparator();
+				// o1val was null
+				return -1;
 			}
-			else if ( columnExt != null )
+			if ( o1val instanceof String )
 			{
-				comparator = columnExt.getComparator();
+				if ( o2val == null )
+				{
+					return 1;
+				}
+				String a1 = (String) o1val;
+				String a2 = (String) o2val;
+				return a1.compareToIgnoreCase( a2 );
 			}
-			controller.toggleSortOrder( convertColumnIndexToModel( columnIndex ), comparator );
+			if ( o2val instanceof String )
+			{
+				// o1val was null
+				return -1;
+			}
+			return 0;
 		}
-	}
-
-	private Comparator<Object> getMeatComparator()
-	{
-		return meatComparator;
-	}
-
-	private Comparator<Object> getItemComparator()
-	{
-		return itemComparator;
 	}
 
 	public LockableListModel getOriginalModel()
@@ -378,24 +331,16 @@ public class ShowDescriptionTable
 		extends AbstractTableAdapter
 	{
 		protected LockableListModel model;
-		private boolean[] flags;
 
-		public AdaptedTableModel( LockableListModel listModel, String[] columnNames, boolean[] flags )
+		public AdaptedTableModel( LockableListModel listModel, String[] columnNames )
 		{
 			super( listModel, columnNames );
 			this.model = listModel;
-			this.flags = flags;
 		}
 
 		public Object getValueAt( int rowIndex, int columnIndex )
 		{
-			// This method essentially replaces the ListCellRenderer used in the JList-based
-			// ItemManagePanel.
-
-			Object result = getRow( rowIndex );
-			boolean isSelected = isRowSelected( rowIndex );
-			return TableCellFactory.get( columnIndex, ShowDescriptionTable.this.getOriginalModel(), result,
-				this.flags, isSelected );
+			return getRow( rowIndex );
 		}
 
 		public Object getValueAt( int rowIndex )
@@ -408,6 +353,42 @@ public class ShowDescriptionTable
 			return this.model;
 		}
 
+		@Override
+		public Class<?> getColumnClass( int col )
+		{
+			if ( col == 0 )
+			{
+				// Item name should be the only column that we need to do a String compareTo(). It
+				// should always be first.
+				return String.class;
+			}
+			return Integer.class;
+		}
+	}
+
+	public class DescriptionTableRenderer
+		extends DefaultTableCellRenderer
+	{
+		protected LockableListModel model;
+		private boolean[] flags;
+
+		public DescriptionTableRenderer( LockableListModel originalModel, boolean[] flags )
+		{
+			this.model = originalModel;
+			this.flags = flags;
+		}
+
+		@Override
+		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected,
+				boolean hasFocus, int row, int col )
+		{
+			Object contents = TableCellFactory.get( convertColumnIndexToModel( col ), this.model, value,
+				this.flags, isSelected );
+			Component renderer = super.getTableCellRendererComponent( table, contents, isSelected,
+				hasFocus, row, col );
+
+			return renderer;
+		}
 	}
 
 	private class HesitantFilter

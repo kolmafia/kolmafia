@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 
 public class TableCellFactory
@@ -51,40 +52,50 @@ public class TableCellFactory
 	public static Object get( int columnIndex, LockableListModel model, Object result, boolean[] flags,
 			boolean isSelected )
 	{
+		return get( columnIndex, model, result, flags, isSelected, false );
+	}
+
+	public static Object get( int columnIndex, LockableListModel model, Object result, boolean[] flags,
+			boolean isSelected, boolean raw )
+	{
 		if ( result instanceof AdventureResult )
 		{
 			AdventureResult advresult = (AdventureResult) result;
 
 			if ( flags[ 0 ] ) // Equipment panel
 			{
-				return getEquipmentCell( columnIndex, isSelected, advresult );
+				return getEquipmentCell( columnIndex, isSelected, advresult, raw );
 			}
 			if ( flags[ 1 ] ) // Restores panel
 			{
-				return getRestoresCell( columnIndex, isSelected, advresult );
+				return getRestoresCell( columnIndex, isSelected, advresult, raw );
 			}
 			if ( model == KoLConstants.storage )
 			{
-				return getStorageCell( columnIndex, isSelected, advresult );
+				return getStorageCell( columnIndex, isSelected, advresult, raw );
 			}
-			return getGeneralCell( columnIndex, isSelected, advresult );
+			return getGeneralCell( columnIndex, isSelected, advresult, raw );
 		}
 		if ( result instanceof CreateItemRequest )
 		{
-			return getCreationCell( columnIndex, result, isSelected );
+			return getCreationCell( columnIndex, result, isSelected, raw );
 		}
 		return null;
 	}
 
-	private static Object getGeneralCell( int columnIndex, boolean isSelected, AdventureResult advresult )
+	private static Object getGeneralCell( int columnIndex, boolean isSelected, AdventureResult advresult, boolean raw )
 	{
 		switch ( columnIndex )
 		{
 		case 0:
+			if ( raw )
+			{
+				return advresult.getName();
+			}
 			return "<html>" + addTag( ColorFactory.getItemColor( advresult ), isSelected )
 				+ advresult.getName();
 		case 1:
-			return getAutosellString( advresult.getItemId() );
+			return getAutosellString( advresult.getItemId(), raw );
 		case 2:
 			return IntegerPool.get( advresult.getCount() );
 		case 3:
@@ -98,15 +109,19 @@ public class TableCellFactory
 		}
 	}
 
-	private static Object getStorageCell( int columnIndex, boolean isSelected, AdventureResult advresult )
+	private static Object getStorageCell( int columnIndex, boolean isSelected, AdventureResult advresult, boolean raw )
 	{
 		switch ( columnIndex )
 		{
 		case 0:
+			if ( raw )
+			{
+				return advresult.getName();
+			}
 			return "<html>" + addTag( ColorFactory.getStorageColor( advresult ), isSelected )
 				+ advresult.getName();
 		case 1:
-			return getAutosellString( advresult.getItemId() );
+			return getAutosellString( advresult.getItemId(), raw );
 		case 2:
 			return IntegerPool.get( advresult.getCount() );
 		case 3:
@@ -120,7 +135,7 @@ public class TableCellFactory
 		}
 	}
 
-	private static Object getCreationCell( int columnIndex, Object result, boolean isSelected )
+	private static Object getCreationCell( int columnIndex, Object result, boolean isSelected, boolean raw )
 	{
 		CreateItemRequest CIRresult = (CreateItemRequest) result;
 		Integer fill;
@@ -128,10 +143,14 @@ public class TableCellFactory
 		switch ( columnIndex )
 		{
 		case 0:
+			if ( raw )
+			{
+				return CIRresult.getName();
+			}
 			return "<html>" + addTag( ColorFactory.getCreationColor( CIRresult ), isSelected )
 				+ CIRresult.getName();
 		case 1:
-			return getAutosellString( CIRresult.getItemId() );
+			return getAutosellString( CIRresult.getItemId(), raw );
 		case 2:
 			return IntegerPool.get( CIRresult.getQuantityPossible() );
 		case 3:
@@ -142,8 +161,13 @@ public class TableCellFactory
 			return fill > 0 ? fill : null;
 		case 5:
 			float advRange = ItemDatabase.getAdventureRange( CIRresult.getName() );
-			fill = IntegerPool.get( CIRresult.concoction.getFullness() + CIRresult.concoction.getInebriety() );
-			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange / fill ) : null;
+			fill = IntegerPool.get( CIRresult.concoction.getFullness()
+				+ CIRresult.concoction.getInebriety() );
+			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
+			{
+				advRange = advRange / fill;
+			}
+			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange ) : null;
 		case 6:
 			Integer lev = ItemDatabase.getLevelReqByName( CIRresult.getName() );
 			return lev != null ? IntegerPool.get( lev ) : null;
@@ -152,11 +176,15 @@ public class TableCellFactory
 		}
 	}
 
-	private static Object getEquipmentCell( int columnIndex, boolean isSelected, AdventureResult advresult )
+	private static Object getEquipmentCell( int columnIndex, boolean isSelected, AdventureResult advresult, boolean raw )
 	{
 		switch ( columnIndex )
 		{
 		case 0:
+			if ( raw )
+			{
+				return advresult.getName();
+			}
 			return "<html>" + addTag( ColorFactory.getItemColor( advresult ), isSelected )
 				+ advresult.getName();
 		case 1:
@@ -167,21 +195,25 @@ public class TableCellFactory
 			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( advresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
-			return getAutosellString( advresult.getItemId() );
+			return getAutosellString( advresult.getItemId(), raw );
 		default:
 			return null;
 		}
 	}
 
-	private static Object getRestoresCell( int columnIndex, boolean isSelected, AdventureResult advresult )
+	private static Object getRestoresCell( int columnIndex, boolean isSelected, AdventureResult advresult, boolean raw )
 	{
 		switch ( columnIndex )
 		{
 		case 0:
+			if ( raw )
+			{
+				return advresult.getName();
+			}
 			return "<html>" + addTag( ColorFactory.getItemColor( advresult ), isSelected )
 				+ advresult.getName();
 		case 1:
-			return getAutosellString( advresult.getItemId() );
+			return getAutosellString( advresult.getItemId(), raw );
 		case 2:
 			return IntegerPool.get( advresult.getCount() );
 		case 3:
@@ -225,9 +257,15 @@ public class TableCellFactory
 		return "<font color=" + itemColor + ">";
 	}
 
-	private static String getAutosellString( int itemId )
+	private static Object getAutosellString( int itemId, boolean raw )
 	{
 		int price = ItemDatabase.getPriceById( itemId );
+		
+		if ( raw )
+		{
+			//if ( price < 0 ) price = 0;
+			return IntegerPool.get( price );
+		}
 
 		if ( price <= 0 )
 		{
