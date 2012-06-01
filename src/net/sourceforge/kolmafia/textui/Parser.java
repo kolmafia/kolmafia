@@ -244,8 +244,8 @@ public class Parser
 
 	// **************** Parser *****************
 
-	private static final HashSet multiCharTokens = new HashSet();
-	private static final HashSet reservedWords = new HashSet();
+	private static final HashSet<String> multiCharTokens = new HashSet<String>();
+	private static final HashSet<String> reservedWords = new HashSet<String>();
 
 	static
 	{
@@ -549,8 +549,8 @@ public class Parser
 		this.readToken(); // read {
 
 		// Loop collecting fields
-		ArrayList fieldTypes = new ArrayList();
-		ArrayList fieldNames = new ArrayList();
+		ArrayList<Type> fieldTypes = new ArrayList<Type>();
+		ArrayList<String> fieldNames = new ArrayList<String>();
 
 		while ( true )
 		{
@@ -1765,7 +1765,7 @@ public class Parser
 
 		this.readToken(); // foreach
 
-		ArrayList names = new ArrayList();
+		ArrayList<String> names = new ArrayList<String>();
 
 		while ( true )
 		{
@@ -1815,7 +1815,7 @@ public class Parser
 		VariableReferenceList variableReferences = new VariableReferenceList();
 		Type type = aggregate.getType().getBaseType();
 
-		for ( int i = 0; i < names.size(); ++i )
+		for ( String name : names )
 		{
 			Type itype;
 			if ( type == null )
@@ -1833,7 +1833,7 @@ public class Parser
 				type = ( (AggregateType) type ).getDataType();
 			}
 
-			Variable keyvar = new Variable( (String) names.get( i ), itype );
+			Variable keyvar = new Variable( name, itype );
 			varList.add( keyvar );
 			variableReferences.add( new VariableReference( keyvar ) );
 		}
@@ -2783,7 +2783,7 @@ public class Parser
 
 		StringBuffer resultString = new StringBuffer();
 		char stopCharacter, ch;
-		ArrayList list = null;
+		ArrayList<Value> list = null;
 		if ( type == null )
 		{	// Plain string constant
 			stopCharacter = this.currentLine.charAt( 0 );
@@ -2792,7 +2792,7 @@ public class Parser
 		{	// Typed plural constant - handled by same code as plain strings
 			// so that they can share escape character processing
 			stopCharacter = ']';
-			list = new ArrayList();
+			list = new ArrayList<Value>();
 		}
 
 		for ( int i = 1; ; ++i )

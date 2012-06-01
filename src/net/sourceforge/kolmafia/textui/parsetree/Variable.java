@@ -101,7 +101,7 @@ public class Variable
 		return this.getValue( interpreter ).rawValue();
 	}
 
-	public int intValue( final Interpreter interpreter )
+	public long intValue( final Interpreter interpreter )
 	{
 		return this.getValue( interpreter ).intValue();
 	}
@@ -111,7 +111,7 @@ public class Variable
 		return this.getValue( interpreter ).toStringValue();
 	}
 
-	public float floatValue( final Interpreter interpreter )
+	public double floatValue( final Interpreter interpreter )
 	{
 		return this.getValue( interpreter ).floatValue();
 	}

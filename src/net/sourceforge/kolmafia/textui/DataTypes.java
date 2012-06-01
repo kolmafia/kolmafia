@@ -166,7 +166,7 @@ public class DataTypes
 	public static final Value FALSE_VALUE = new Value( false );
 	public static final Value ZERO_VALUE = new Value( 0 );
 	public static final Value ONE_VALUE = new Value( 1 );
-	public static final Value ZERO_FLOAT_VALUE = new Value( 0.0f );
+	public static final Value ZERO_FLOAT_VALUE = new Value( 0.0 );
 	public static final Value MUSCLE_VALUE = DataTypes.STAT_VALUES[0];
 	public static final Value MYSTICALITY_VALUE = DataTypes.STAT_VALUES[1];
 	public static final Value MOXIE_VALUE = DataTypes.STAT_VALUES[2];
@@ -390,7 +390,7 @@ public class DataTypes
 		{
 			if ( name.equalsIgnoreCase( DataTypes.STATS[ i ] ) )
 			{
-				return STAT_VALUES[ i ].intValue();
+				return (int) STAT_VALUES[ i ].intValue();
 			}
 		}
 		return -1;
@@ -619,16 +619,16 @@ public class DataTypes
 		return val ? ONE_VALUE : ZERO_VALUE;
 	}
 
-	public static final Value makeIntValue( final int val )
+	public static final Value makeIntValue( final long val )
 	{
 		return val == 0 ? ZERO_VALUE :
 		       val == 1 ? ONE_VALUE :
 		       new Value( val );
 	}
 
-	public static final Value makeFloatValue( final float val )
+	public static final Value makeFloatValue( final double val )
 	{
-		return val == 0.0f ? ZERO_FLOAT_VALUE : new Value( val );
+		return val == 0.0 ? ZERO_FLOAT_VALUE : new Value( val );
 	}
 
 	public static final Value makeBooleanValue( final int num )

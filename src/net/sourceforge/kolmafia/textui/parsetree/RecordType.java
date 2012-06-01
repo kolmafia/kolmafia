@@ -123,7 +123,7 @@ public class RecordType
 
 		if ( type.equals( DataTypes.TYPE_INT ) )
 		{
-			int index = key.intValue();
+			int index = (int) key.intValue();
 			if ( index < 0 || index >= this.fieldNames.length )
 			{
 				return null;
@@ -153,7 +153,7 @@ public class RecordType
 
 		if ( type.equals( DataTypes.TYPE_INT ) )
 		{
-			int index = key.intValue();
+			int index = (int) key.intValue();
 			if ( index < 0 || index >= this.fieldNames.length )
 			{
 				return -1;

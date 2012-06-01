@@ -64,8 +64,7 @@ public class ProxyRecordValue
 	{
 		super( type );
 
-		this.contentInt = obj.contentInt;
-		this.contentFloat = obj.contentFloat;
+		this.contentLong = obj.contentLong;
 		this.contentString = obj.contentString;
 		this.content = obj.content;
 	}
@@ -170,13 +169,13 @@ public class ProxyRecordValue
 	/* Helper for building parallel arrays of field names & types */
 	private static class RecordBuilder
 	{
-		private ArrayList names;
-		private ArrayList types;
+		private ArrayList<String> names;
+		private ArrayList<Type> types;
 
 		public RecordBuilder()
 		{
-			names = new ArrayList();
-			types = new ArrayList();
+			names = new ArrayList<String>();
+			types = new ArrayList<Type>();
 		}
 
 		public RecordBuilder add( String name, Type type )
@@ -190,8 +189,8 @@ public class ProxyRecordValue
 		{
 			int len = this.names.size();
 			return new RecordType( name,
-				(String[]) this.names.toArray( new String[len] ),
-				(Type[]) this.types.toArray( new Type[len] ) );
+				this.names.toArray( new String[len] ),
+				this.types.toArray( new Type[len] ) );
 		}
 	}
 
@@ -412,18 +411,18 @@ public class ProxyRecordValue
 
 		public boolean get_combat()
 		{
-			return FamiliarDatabase.isCombatType( this.contentInt );
+			return FamiliarDatabase.isCombatType( (int)this.contentLong );
 		}
 
 		public Value get_hatchling()
 		{
 			return DataTypes.makeItemValue(
-				FamiliarDatabase.getFamiliarLarva( this.contentInt ) );
+				FamiliarDatabase.getFamiliarLarva( (int)this.contentLong ) );
 		}
 
 		public String get_image()
 		{
-			return FamiliarDatabase.getFamiliarImageLocation( this.contentInt );
+			return FamiliarDatabase.getFamiliarImageLocation( (int)this.contentLong );
 		}
 
 		public String get_name()
@@ -462,56 +461,56 @@ public class ProxyRecordValue
 
 		public int get_level()
 		{
-			return SkillDatabase.getSkillLevel( this.contentInt );
+			return SkillDatabase.getSkillLevel( (int)this.contentLong );
 		}
 
 		public int get_traincost()
 		{
-			return SkillDatabase.getSkillPurchaseCost( this.contentInt );
+			return SkillDatabase.getSkillPurchaseCost( (int)this.contentLong );
 		}
 
 		public Value get_class()
 		{
 			return DataTypes.parseClassValue(
-				SkillDatabase.getSkillCategory( this.contentInt ), true );
+				SkillDatabase.getSkillCategory( (int)this.contentLong ), true );
 		}
 
 		public boolean get_libram()
 		{
-			return SkillDatabase.isLibramSkill( this.contentInt );
+			return SkillDatabase.isLibramSkill( (int)this.contentLong );
 		}
 
 		public boolean get_passive()
 		{
-			return SkillDatabase.isPassive( this.contentInt );
+			return SkillDatabase.isPassive( (int)this.contentLong );
 		}
 
 		public boolean get_buff()
 		{
-			return SkillDatabase.isBuff( this.contentInt );
+			return SkillDatabase.isBuff( (int)this.contentLong );
 		}
 
 		public boolean get_combat()
 		{
-			return SkillDatabase.isCombat( this.contentInt );
+			return SkillDatabase.isCombat( (int)this.contentLong );
 		}
 
 		public boolean get_song()
 		{
-			return SkillDatabase.isSong( this.contentInt );
+			return SkillDatabase.isSong( (int)this.contentLong );
 		}
 
 		public boolean get_permable()
 		{
-			return SkillDatabase.isPermable( this.contentInt );
+			return SkillDatabase.isPermable( (int)this.contentLong );
 		}
 		public int get_dailylimit()
 		{
-			return SkillDatabase.getMaxCasts( this.contentInt );
+			return SkillDatabase.getMaxCasts( (int)this.contentLong );
 		}
 		public int get_timescast()
 		{
-			return SkillDatabase.getCasts( this.contentInt );
+			return SkillDatabase.getCasts( (int)this.contentLong );
 		}
 	}
 
@@ -544,8 +543,8 @@ public class ProxyRecordValue
 
 		public Value get_all()
 		{
+			ArrayList<Value> rv = new ArrayList<Value>();
 			Iterator i = EffectDatabase.getAllActions( this.contentString );
-			ArrayList rv = new ArrayList();
 			while ( i.hasNext() )
 			{
 				rv.add( new Value( (String) i.next() ) );
@@ -555,12 +554,12 @@ public class ProxyRecordValue
 
 		public String get_image()
 		{
-			return EffectDatabase.getImage( this.contentInt );
+			return EffectDatabase.getImage( (int)this.contentLong );
 		}
 
 		public String get_descid()
 		{
-			return EffectDatabase.getDescriptionId( this.contentInt );
+			return EffectDatabase.getDescriptionId( (int)this.contentLong );
 		}
 	}
 
