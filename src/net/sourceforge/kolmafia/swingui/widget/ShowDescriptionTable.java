@@ -263,6 +263,8 @@ public class ShowDescriptionTable
 		this.setFilters( new HesitantFilter() );
 		this.setDefaultRenderer( String.class, new DescriptionTableRenderer( this.originalModel, flags ) );
 		this.setDefaultRenderer( Integer.class, new DescriptionTableRenderer( this.originalModel, flags ) );
+		
+		this.setIntercellSpacing( new Dimension( 0, 0 ) );
 	}
 
 	private class RenderedComparator
