@@ -112,7 +112,10 @@ public class AutoFilterTextField
 
 	public AutoFilterTextField( LockableListModel displayModel )
 	{
-		this( new JList( displayModel ) );
+		this.addKeyListener( new FilterListener() );
+		this.model = displayModel;
+		this.model.setFilter( this );
+		this.putClientProperty( "JTextField.variant", "search" );
 	}
 
 	public void setList( final JList list )
@@ -207,13 +210,16 @@ public class AutoFilterTextField
 				this.model.updateFilter( false );
 			}
 
-			if ( this.model.getSize() == 1 )
+			if ( this.list != null )
 			{
-				this.list.setSelectedIndex( 0 );
-			}
-			else
-			{
-				this.list.clearSelection();
+				if ( this.model.getSize() == 1 )
+				{
+					this.list.setSelectedIndex( 0 );
+				}
+				else
+				{
+					this.list.clearSelection();
+				}
 			}
 		}
 		finally
