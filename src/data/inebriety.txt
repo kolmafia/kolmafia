@@ -310,6 +310,7 @@ shot of tomato schnapps	1	1	decent	2	1-2	1-2	1-2
 silver bullet beer	1	6	awesome	3-4	5-10	5-10	5-10	30 Wolf's Bane (+50 dmg vs. Werewolves)
 sizzling sinner	2	8	awesome	8-9	30-40	0	0	15 Heart Aflame
 slap and tickle	4	4	good	10-14	0	8-10	25-27
+slap and slap again	3	1	decent	0	0	0	0	+3 PvP fights
 slimebite	2	8	awesome	8-9	0	0	30-40	15 In the Slimelight
 slimosa	2	1	good	4-5	0	0	10-20	5 In the Slimelight
 slimy fermented bile bladder	1	6	good	2-3	0	0	0	20 Bilious (+25 ML, slime res)
