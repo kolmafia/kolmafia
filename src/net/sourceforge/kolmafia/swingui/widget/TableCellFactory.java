@@ -84,7 +84,9 @@ public class TableCellFactory
 	}
 
 	private static Object getGeneralCell( int columnIndex, boolean isSelected, AdventureResult advresult, boolean raw )
-	{
+	{		
+		Integer fill;
+
 		switch ( columnIndex )
 		{
 		case 0:
@@ -104,6 +106,19 @@ public class TableCellFactory
 		case 4:
 			int power = EquipmentDatabase.getPower( advresult.getItemId() );
 			return ( power > 0 ) ? IntegerPool.get( power ) : null;
+		case 5:
+			fill = IntegerPool.get( ItemDatabase.getFullness( advresult.getName() )
+				+ ItemDatabase.getInebriety( advresult.getName() ) );
+			return fill > 0 ? fill : null;
+		case 6:
+			float advRange = ItemDatabase.getAdventureRange( advresult.getName() );
+			fill = IntegerPool.get( ItemDatabase.getFullness( advresult.getName() )
+				+ ItemDatabase.getInebriety( advresult.getName() ) );
+			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
+			{
+				advRange = advRange / fill;
+			}
+			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange ) : null;
 		default:
 			return null;
 		}
@@ -296,7 +311,7 @@ public class TableCellFactory
 		{
 			return new String[]
 			{
-				"item name", "autosell", "quantity", "mallprice", "power"
+				"item name", "autosell", "quantity", "mallprice", "power", "fill", "adv/fill"
 			};
 		}
 
