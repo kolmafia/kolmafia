@@ -133,7 +133,7 @@ public class UseItemRequest
 			+ "<tr><td align=right>Navigation:</td><td><b>(\\d)/9</b> bio-data segments collected</td></tr>"
 			+ "<tr><td align=right>Galley:</td><td><b>(\\d)/9</b> bio-data segments collected" );
 
-	private static final HashMap LIMITED_USES = new HashMap();
+	private static final HashMap<Integer,AdventureResult> LIMITED_USES = new HashMap<Integer,AdventureResult>();
 
 	static
 	{
@@ -784,6 +784,12 @@ public class UseItemRequest
 		case ItemPool.KOL_CON_SIX_PACK:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_kolConSixPackUsed" ) ? 0 : 1;
+
+		case ItemPool.MUS_MANUAL:
+		case ItemPool.MYS_MANUAL:
+		case ItemPool.MOX_MANUAL:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_guildManualUsed" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -3969,6 +3975,12 @@ public class UseItemRequest
 
 		case ItemPool.KOL_CON_SIX_PACK:
 			Preferences.setBoolean( "_kolConSixPackUsed", true );
+			return;
+
+		case ItemPool.MUS_MANUAL:
+		case ItemPool.MYS_MANUAL:
+		case ItemPool.MOX_MANUAL:
+			Preferences.setBoolean( "_guildManualUsed", true );
 			return;
 		}
 	}

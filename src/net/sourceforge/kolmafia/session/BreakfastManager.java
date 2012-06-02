@@ -148,6 +148,10 @@ public class BreakfastManager
 
 	public static void readGuildManual()
 	{
+		if ( Preferences.getBoolean( "_guildManualUsed" ) )
+		{
+			return;
+		}
 		if ( !Preferences.getBoolean( "readManual" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			return;
@@ -344,7 +348,7 @@ public class BreakfastManager
 	{
 		String suffix = KoLCharacter.canInteract() ? "Softcore" : "Hardcore";
 		String name = Preferences.getString( setting + suffix );
-		ArrayList list = new ArrayList();
+		ArrayList<String> list = new ArrayList<String>();
 
 		if ( name.equals( "none" ) || name.equals( "" ) )
 		{
@@ -535,6 +539,10 @@ public class BreakfastManager
 
 	public static void visitHippy()
 	{
+		if ( Preferences.getBoolean( "_hippyMeatCollected" ) )
+		{
+			return;
+		}
 		KoLmafia.updateDisplay( "Collecting cut of hippy profits..." );
 		RequestThread.postRequest( new GenericRequest( "store.php?whichstore=h" ) );
 		KoLmafia.forceContinue();
