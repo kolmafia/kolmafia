@@ -315,7 +315,7 @@ public class FightRequest
 	}
 
 	// Skills which require a shield
-	private static final HashSet INVALID_WITHOUT_SHIELD = new HashSet();
+	private static final HashSet<String> INVALID_WITHOUT_SHIELD = new HashSet<String>();
 	static
 	{
 		INVALID_WITHOUT_SHIELD.add( "2005" );
@@ -328,7 +328,7 @@ public class FightRequest
 		INVALID_WITHOUT_SHIELD.add( "skill head + knee + shield combo" );
 	}
 
-	private static final HashSet INVALID_OUT_OF_WATER = new HashSet();
+	private static final HashSet<String> INVALID_OUT_OF_WATER = new HashSet<String>();
 	static
 	{
 		INVALID_OUT_OF_WATER.add( "2024" );
@@ -1767,7 +1767,7 @@ public class FightRequest
 				    encounter.equalsIgnoreCase( "evil ex-girlfriend" ) ||
 				    encounter.equalsIgnoreCase( "peeved roommate" ) ||
 				    encounter.equalsIgnoreCase( "random scenester" ) ||
-					encounter.equalsIgnoreCase( "black crayon man" ) ) )
+					encounter.toLowerCase().startsWith( "black crayon" ) ) )
 			{
 				Preferences.increment( "_hipsterAdv", 1 );
 			}
