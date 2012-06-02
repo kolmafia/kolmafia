@@ -5669,7 +5669,7 @@
 5668	847980181	baggedl.gif	bagged stuffed &quot;L&quot;
 5669	916155099	stuffedclub.gif	stuffed club
 5670
-5671
+5671	474516688	rocks.gif	slap and slap again
 5672
 5673
 5674	619356758	stuffedl.gif	stuffed &quot;L&quot;

@@ -5677,7 +5677,7 @@
 5668	bagged stuffed &quot;L&quot;	none, curse	display	0
 5669	stuffed club	weapon	gift	0
 5670
-5671
+5671	slap and slap again	drink	all	61
 5672
 5673
 5674	stuffed &quot;L&quot;	none	display	0
