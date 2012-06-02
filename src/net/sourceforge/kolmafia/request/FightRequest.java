@@ -4883,10 +4883,16 @@ public class FightRequest
 			// moment, the puddle gathers itself up into a perfect wax replica
 			// of the bugbear. You pick it up for later investigation.
 
-			if ( responseText.contains( "You pick it up for later investigation." ) )
+			if ( responseText.contains( "You toss the shavings" ) )
 			{
 				Preferences.setString( "waxMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.setString( "autoPutty", "" );
+				return true;
+			}
+			// You throw the handful of wax shavings at your opponent, gumming up
+			// all of his bits and making him smell like a Kindergarten classroom.
+			else if ( responseText.contains( "You throw the handful" ) )
+			{
 				return true;
 			}
 			return false;
