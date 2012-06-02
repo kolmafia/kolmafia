@@ -439,7 +439,7 @@ public class GenericRequest
 		this.dataChanged = true;
 		this.data.clear();
 
-		while ( newURLString.startsWith( "/" ) )
+		while ( newURLString.startsWith( "/" ) || newURLString.startsWith( "./" ) )
 		{
 			newURLString = newURLString.substring( 1 );
 		}
@@ -2474,6 +2474,12 @@ public class GenericRequest
 			itemName = "photocopied monster";
 			Preferences.setString( "photocopyMonster", "" );
 			Preferences.setBoolean( "_photocopyUsed", true );
+			consumed = true;
+			KoLmafia.ignoreSemirare();
+			break;
+
+		case ItemPool.WAX_BUGBEAR:
+			itemName = "wax bugbear";
 			consumed = true;
 			KoLmafia.ignoreSemirare();
 			break;

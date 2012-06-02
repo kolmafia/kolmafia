@@ -166,3 +166,4 @@
 157	Tickle-Me Emilio	emiliofam.gif	stat0, combat	5503	tiny do-rag	3	1	1	0
 158
 159	Happy Medium	medium_0.gif	stat0	5639	crystal decanter	0	3	2	2
+160	Artistic Goth Kid	crayongoth.gif	stat0	5701	little wooden mannequin	0	0	0	0

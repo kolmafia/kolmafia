@@ -1625,6 +1625,9 @@ cane-mail pants	MUSE	peppermint sprout (10)
 peppermint rhino baby	MUSE	peppermint sprout (11)
 cane-mail shirt	MUSE	peppermint sprout (15)
 
+wax hat	MUSE	crayon shavings (7)
+wax pants	MUSE	crayon shavings (11)
+
 # Recipes that involve single-using one of the ingredients
 
 booty chest charrrm bracelet	SUSE, NOBEE	booty chest charrrm	charrrm bracelet

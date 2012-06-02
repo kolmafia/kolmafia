@@ -150,7 +150,7 @@ public class ValhallaManager
 
 		// Sell autosellable quest items
 
-		ArrayList items = new ArrayList();
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 		for ( int i = 0; i < ValhallaManager.AUTOSELLABLE.length; ++i )
 		{
 			AdventureResult item = ValhallaManager.AUTOSELLABLE[i];
@@ -358,6 +358,7 @@ public class ValhallaManager
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "rainDohMonster", "" );
 		Preferences.setString( "spookyPuttyMonster", "" );
+		Preferences.setString( "waxMonster", "" );
 		Preferences.setInteger( "parasolUsed", 0 );
 		Preferences.setString( "photocopyMonster", "" );
 		Preferences.setString( "telescope1", "" );

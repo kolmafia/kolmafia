@@ -1452,6 +1452,8 @@ public class ItemPool
 	public static final int NOTE_FROM_CLANCY = 5682;
 	public static final int BURT = 5683;
 	public static final int AUTOPSY_TWEEZERS = 5687;
+	public static final int CRAYON_SHAVINGS = 5703;
+	public static final int WAX_BUGBEAR = 5704;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
@@ -1567,7 +1569,7 @@ public class ItemPool
 		}
 		ItemDatabase.registerItemAlias( id, testName, testPlural );
 		
-		HashSet possibilities = new HashSet();
+		HashSet<String> possibilities = new HashSet<String>();
 		for ( int i = 0; i < strings.length; ++i )
 		{
 			possibilities.add(strings[i][0]);
@@ -1623,10 +1625,10 @@ public class ItemPool
 	// If two items remain unidentified, only identify one, since
 	// eliminationProcessor will handle the other.
 	
-	public static final void suggestIdentify( final List items,
+	public static final void suggestIdentify( final List<String> items,
 		final int minId, final int maxId, final String baseName )
 	{
-		ArrayList possible = new ArrayList();
+		ArrayList<Integer> possible = new ArrayList<Integer>();
 		int count;
 		int unknown = 0;
 		for ( int i = minId; i <= maxId; ++i ) 
