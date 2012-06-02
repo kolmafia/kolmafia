@@ -5703,3 +5703,13 @@
 5694	Thwaitgold woolybear statuette	none	display	0
 5695	bugbear detector	accessory	display	0
 5696	bugbear purification pill	usable	all	0
+5697	1 meat	none	all	1
+5698
+5699
+5700
+5701	Moping Artistic Goth Kid	grow	all	0
+5702	little wooden mannequin	familiar	all	75
+5703	crayon shavings	usable	all	10
+5704	wax bugbear	usable	none	0
+5705	wax hat	hat	all	70
+5706	wax pants	pants	all	110

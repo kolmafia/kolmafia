@@ -70,7 +70,7 @@ public class CharPaneDecorator
 	private static final Pattern FONT_TAG_PATTERN = Pattern.compile(
 		"^((?:<font .*?>)?)(.*?)((?:</font>)?)$", Pattern.DOTALL );
 
-	private static final ArrayList recentLocations = new ArrayList();
+	private static final ArrayList<String> recentLocations = new ArrayList<String>();
 
 	private static final String[][] BIRDFORM_STRINGS =
 	{
@@ -502,6 +502,7 @@ public class CharPaneDecorator
 		}
 
 		case FamiliarPool.HIPSTER:
+		case FamiliarPool.ARTISTIC_GOTH_KID:
 			buffer.append( Preferences.getString( "_hipsterAdv" ) );
 			buffer.append( "/7" );
 			return buffer;

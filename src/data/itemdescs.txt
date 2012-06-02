@@ -5695,3 +5695,13 @@
 5694	394841381	thwaitwooly.gif	Thwaitgold woolybear statuette
 5695	320593140	evilometer.gif	bugbear detector
 5696	608714645	pill.gif	bugbear purification pill
+5697	560375054	1meat.gif	1 meat
+5698
+5699
+5700
+5701	480226445	mopinggoth.gif	Moping Artistic Goth Kid
+5702	523128911	statue.gif	little wooden mannequin
+5703	683289268	crayonshavings.gif	crayon shavings	handfuls of crayon shavings
+5704	828000331	waxbugbear.gif	wax bugbear
+5705	216949439	waxhat2.gif	wax hat
+5706	321480099	waxpants.gif	wax pants

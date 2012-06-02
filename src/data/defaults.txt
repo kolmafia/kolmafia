@@ -742,6 +742,7 @@ user	volcanoMaze3
 user	volcanoMaze4
 user	volcanoMaze5
 user	warProgress	unstarted
+user	waxMonster
 user	welcomeBackAdv	0
 user	wineCellarProgress	0
 user	_absintheDrops	0

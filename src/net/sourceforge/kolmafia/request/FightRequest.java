@@ -291,7 +291,7 @@ public class FightRequest
 	};
 
 	// Skills which cannot be used with a ranged weapon
-	private static final HashSet INVALID_WITH_RANGED_ATTACK = new HashSet();
+	private static final HashSet<String> INVALID_WITH_RANGED_ATTACK = new HashSet<String>();
 	static
 	{
 		INVALID_WITH_RANGED_ATTACK.add( "1003" );
@@ -1766,7 +1766,8 @@ public class FightRequest
 				    encounter.equalsIgnoreCase( "blue-haired girl" ) ||
 				    encounter.equalsIgnoreCase( "evil ex-girlfriend" ) ||
 				    encounter.equalsIgnoreCase( "peeved roommate" ) ||
-				    encounter.equalsIgnoreCase( "random scenester" ) ) )
+				    encounter.equalsIgnoreCase( "random scenester" ) ||
+					encounter.equalsIgnoreCase( "black crayon man" ) ) )
 			{
 				Preferences.increment( "_hipsterAdv", 1 );
 			}
@@ -2402,7 +2403,7 @@ public class FightRequest
 
 	public static final String getSpecialAction()
 	{
-		ArrayList items = new ArrayList();
+		ArrayList<String> items = new ArrayList<String>();
 
 		boolean haveSkill, haveItem;
 		String pref = Preferences.getString( "autoOlfact" );
@@ -3339,9 +3340,6 @@ public class FightRequest
 			return;
 		}
 	}
-
-	private static final Pattern HAIKU_DAMAGE1_PATTERN =
-		Pattern.compile( "title=\"Damage: ([^\"]+)\"" );
 
 	private static final int parseVerseDamage( final TagNode inode )
 	{
@@ -4871,6 +4869,23 @@ public class FightRequest
 			if ( responseText.indexOf( "press the COPY button" ) != -1 )
 			{
 				Preferences.setString( "photocopyMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "autoPutty", "" );
+				return true;
+			}
+			return false;
+
+		case ItemPool.CRAYON_SHAVINGS:
+
+			// You toss the shavings at the bugbear, and when they hit it,
+			// something strange happens -- they begin to move of their own
+			// accord, melting, running down the bugbear's body in tiny streams.
+			// The streams converge on the ground, forming a puddle. After a
+			// moment, the puddle gathers itself up into a perfect wax replica
+			// of the bugbear. You pick it up for later investigation.
+
+			if ( responseText.contains( "You pick it up for later investigation." ) )
+			{
+				Preferences.setString( "waxMonster", MonsterStatusTracker.getLastMonsterName() );
 				Preferences.setString( "autoPutty", "" );
 				return true;
 			}

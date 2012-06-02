@@ -288,6 +288,7 @@ turtle wax helmet	Hot Resistance: +1, Familiar Effect: "stun, ?xFairy, cap 10"
 turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "stun, cap 20"
 viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 water-polo cap	Weapon Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
+wax hat	Moxie: +7, Maximum HP: +10
 webbed comic mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
 willowy bonnet	Maximum MP: +40, Familiar Effect: "?xFairy, cap 18"
 witch hat	Familiar Effect: "8xVolley, 8xLep, cap 2"
@@ -466,6 +467,7 @@ trousers of the white knight	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP:
 troutpiece	Familiar Effect: "1xVolley, 1xBarrr, cap 27"
 turtle wax greaves	Muscle: +2, Familiar Effect: "atk, 3xBarrr, cap 10"
 turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect: "3xBarrr, 1.5xFairy, cap 20"
+wax pants	Moxie: +7, Initiative: +10
 white satin pants	Sleaze Resistance: +2, Familiar Effect: "prismatic atk, 2xPotato, cap 10"
 wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2, Familiar Effect: "1xVolley, 1xPotato, cap 5"
 yakskin kilt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"
@@ -2182,6 +2184,8 @@ licorice boa	Familiar Weight: +5
 limburger biker boots	Familiar Weight: +5
 little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater", Generic
 little box of fireworks	Familiar Weight: +5, Experience: +1.5, Item Drop (sporadic): +12.5, Softcore Only, Generic
+#little wooden mannequin	Makes Kid Better at Drawing Other Players
+little wooden mannequin	Familiar Weight: +5
 lucky Tam O'Shanter	Meat Drop: +50, Softcore Only, Generic
 lucky Tam O'Shatner	Meat Drop: +50, Softcore Only, Generic
 magnifying glass	Familiar Weight: +5
@@ -3657,6 +3661,7 @@ Uncle Hobo's Rags	Candy Drop: +15
 Vestments of the Treeslayer	Damage Reduction: 5
 Vile Vagrant Vestments	Mana Cost (stackable): -5, Class: "Pastamancer"
 War Hippy Fatigues	Stench Damage: +15
+Wax Wardrobe	Moxie: +7
 Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
 # Yendorian Finery	Be careful! New moon tonight.
 eXtreme Cold-Weather Gear	Cold Resistance: +3
