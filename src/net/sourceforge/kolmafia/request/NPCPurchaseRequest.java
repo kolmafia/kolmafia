@@ -338,6 +338,11 @@ public class NPCPurchaseRequest
 
 			Preferences.setString( "currentHippyStore", side );
 			Preferences.setString( "sidequestOrchardCompleted", side );
+
+			if ( responseText.contains( "Oh, hey, boss! Welcome back!" ) )
+			{
+				Preferences.setBoolean( "_hippyMeatCollected", true );
+			}
 			return;
 		}
 	}

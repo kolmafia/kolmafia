@@ -789,7 +789,9 @@ user	_gibbererAdv	0
 user	_gnollEyeUsed	false
 user	_gongDrops	0
 user	_grooseDrops	0
+user	_guildManualUsed	false
 user	_hareAdv	0
+user	_hippyMeatCollected	false
 user	_hipsterAdv	0
 user	_hobbyHorseUsed	false
 user	_hotTubSoaks	0
