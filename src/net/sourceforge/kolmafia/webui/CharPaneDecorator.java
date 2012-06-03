@@ -546,6 +546,11 @@ public class CharPaneDecorator
 			buffer.append( Preferences.getString( "_kloopDrops" ) );
 			buffer.append( "/5" );
 			return buffer;
+
+		case FamiliarPool.CARNIE:
+			buffer.append( Preferences.getString( "_carnieCandyDrops" ) );
+			buffer.append( "/10" );
+			return buffer;
 		}
 
 		return null;
