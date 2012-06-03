@@ -1018,13 +1018,6 @@ public class ResultProcessor
 			}
 			break;
 
-		case ItemPool.WHITE_RICE:
-			if ( KoLAdventure.lastAdventureIdString().equals( AdventurePool.WHITEYS_GROVE_ID ) )
-			{
-				Preferences.increment( "_whiteRiceDrops", 1 );
-			}
-			break;
-
 		// Sticker weapons may have been folded from the other form
 		case ItemPool.STICKER_SWORD:
 			ResultProcessor.removeItem( ItemPool.STICKER_CROSSBOW );

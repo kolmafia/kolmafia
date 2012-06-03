@@ -75,7 +75,6 @@ import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
-import net.sourceforge.kolmafia.webui.RelayServer;
 
 public abstract class ChoiceManager
 {
@@ -3583,6 +3582,17 @@ public abstract class ChoiceManager
 		case 68: case 69: case 70:
 			// Choices in the Violet Fog
 			VioletFogManager.mapChoice( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
+			break;
+
+		case 73:
+			// Don't Fence Me In
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				if ( text.contains( "you pick" ) || text.contains( "you manage" ) )
+				{
+					Preferences.increment( "_whiteRiceDrops", 1 );
+				}
+			}
 			break;
 
 		case 81:
