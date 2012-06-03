@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -805,7 +806,7 @@ public class ResultProcessor
 			if ( RequestLogger.getLastURLString().startsWith( "fight.php" ) )
 			{
 				int adv = KoLAdventure.lastAdventureId();
-				if ( adv >= 178 && adv <= 181 )
+				if ( adv >= AdventurePool.WINE_CELLAR_NORTHWEST && adv <= AdventurePool.WINE_CELLAR_SOUTHEAST )
 				{
 					CellarDecorator.gainItem( adv, result );
 				}
@@ -1011,9 +1012,16 @@ public class ResultProcessor
 		{
 		case ItemPool.ROASTED_MARSHMALLOW:
 			// Special Yuletide adventures
-			if ( KoLAdventure.lastAdventureId() == 163 )
+			if ( KoLAdventure.lastAdventureId() == AdventurePool.YULETIDE )
 			{
 				ResultProcessor.removeItem( ItemPool.MARSHMALLOW );
+			}
+			break;
+
+		case ItemPool.WHITE_RICE:
+			if ( KoLAdventure.lastAdventureIdString().equals( AdventurePool.WHITEYS_GROVE_ID ) )
+			{
+				Preferences.increment( "_whiteRiceDrops", 1 );
 			}
 			break;
 
@@ -1514,6 +1522,37 @@ public class ResultProcessor
 			if ( combatResults )
 			{
 				Preferences.increment( "_pasteDrops", 1 );
+			}
+			break;
+
+		case ItemPool.BEER_LENS:
+			if ( combatResults )
+			{
+				Preferences.increment( "_beerLensDrops", 1 );
+			}
+			break;
+
+		case ItemPool.COTTON_CANDY_CONDE:
+		case ItemPool.COTTON_CANDY_PINCH:
+		case ItemPool.COTTON_CANDY_SMIDGEN:
+		case ItemPool.COTTON_CANDY_SKOSHE:
+		case ItemPool.COTTON_CANDY_PLUG:
+		case ItemPool.COTTON_CANDY_PILLOW:
+		case ItemPool.COTTON_CANDY_BALE:
+			if ( combatResults )
+			{
+				Preferences.increment( "_carnieCandyDrops", 1 );
+			}
+			break;
+
+		case ItemPool.LESSER_GRODULATED_VIOLET:
+		case ItemPool.TIN_MAGNOLIA:
+		case ItemPool.BEGPWNIA:
+		case ItemPool.UPSY_DAISY:
+		case ItemPool.HALF_ORCHID:
+			if ( combatResults )
+			{
+				Preferences.increment( "_mayflowerDrops", 1 );
 			}
 			break;
 

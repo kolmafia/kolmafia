@@ -2200,6 +2200,31 @@ public class FightRequest
 			Preferences.increment( "_banderRunaways", 1 );
 		}
 
+		// Vivala mask skill Creepy Grin used
+		if ( responseText.contains( "an even creepier grin" ) )
+		{
+			Preferences.setBoolean( "_vmaskBanisherUsed", true );
+		}
+
+		// stinky cheese eye Give Your Opponent the Stinkeye skill used
+		if ( responseText.contains( "You fix an extremely disdainful eye" ) )
+		{
+			Preferences.setBoolean( "_stinkyCheeseBanisherUsed", true );
+		}
+
+		// The first part is for a hobo underling being summoned
+		// The second part is from using a dinged-up triangle to summon it
+		if ( responseText.contains( "A hobo runs up to you" ) &&
+			 !responseText.contains( "You give the triangle a vigorous ringing." ) )
+		{
+			Preferences.increment( "_hoboUnderlingSummons", 1 );
+		}
+
+		if ( responseText.contains( "Use of undefined constant itemprocess" ) )
+		{
+			Preferences.setBoolean( "_softwareGlitchTurnReceived", true );
+		}
+
 		// Increment Organ Grinder combat counter
 		if ( responseText.indexOf( "picking a few choice bits to put in his grinder" ) != -1 ||
 		     responseText.indexOf( "picks some organs out of your opponent and tosses them into his grinder." ) != -1 ||

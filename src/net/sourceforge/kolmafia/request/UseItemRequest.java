@@ -790,6 +790,47 @@ public class UseItemRequest
 		case ItemPool.MOX_MANUAL:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_guildManualUsed" ) ? 0 : 1;
+
+		case ItemPool.STUFFED_POCKETWATCH:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_stuffedPocketwatchUsed" ) ? 0 : 1;
+
+		case ItemPool.STYX_SPRAY:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_styxSprayUsed" ) ? 0 : 1;
+
+		case ItemPool.STABONIC_SCROLL:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_stabonicScrollUsed" ) ? 0 : 1;
+
+		case ItemPool.COAL_PAPERWEIGHT:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_coalPaperweightUsed" ) ? 0 : 1;
+
+		case ItemPool.JINGLE_BELL:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_jingleBellUsed" ) ? 0 : 1;
+
+		case ItemPool.BOX_OF_HAMMERS:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_boxOfHammersUsed" ) ? 0 : 1;
+
+		case ItemPool.TEMPURA_AIR:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_tempuraAirUsed" ) ? 0 : 1;
+
+		case ItemPool.PRESSURIZED_PNEUMATICITY:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_pneumaticityPotionUsed" ) ? 0 : 1;
+
+		case ItemPool.HYPERINFLATED_SEAL_LUNG:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_hyperinflatedSealLungUsed" ) ? 0 : 1;
+
+		case ItemPool.BALLAST_TURTLE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_ballastTurtleUsed" ) ? 0 : 1;
+
 		}
 
 		switch ( consumptionType )
@@ -3982,6 +4023,56 @@ public class UseItemRequest
 		case ItemPool.MOX_MANUAL:
 			Preferences.setBoolean( "_guildManualUsed", true );
 			return;
+
+		case ItemPool.STUFFED_POCKETWATCH:
+			// You play with the stuffed watch for a while, moving the
+			// hands around at random, watching everything around you
+			// speed up and slow down. It's great fun!
+			if ( responseText.contains( "You play with the stuffed watch" ) )
+			{
+				Preferences.setBoolean( "_stuffedPocketwatchUsed", true );
+			}
+			return;
+
+		case ItemPool.STYX_SPRAY:
+			Preferences.setBoolean( "_styxSprayUsed", true );
+			return;
+
+		case ItemPool.STABONIC_SCROLL:
+			Preferences.setBoolean( "_stabonicScrollUsed", true );
+			return;
+
+		case ItemPool.COAL_PAPERWEIGHT:
+			Preferences.setBoolean( "_coalPaperweightUsed", true );
+			return;
+
+		case ItemPool.JINGLE_BELL:
+			Preferences.setBoolean( "_jingleBellUsed", true );
+			return;
+
+		case ItemPool.BOX_OF_HAMMERS:
+			Preferences.setBoolean( "_boxOfHammersUsed", true );
+			return;
+
+		case ItemPool.TEMPURA_AIR:
+			Preferences.setBoolean( "_tempuraAirUsed", true );
+			return;
+
+		case ItemPool.PRESSURIZED_PNEUMATICITY:
+			if ( responseText.contains( "You pop the cork" ) )
+			{
+				Preferences.setBoolean( "_pneumaticityPotionUsed", true );
+			}
+			return;
+
+		case ItemPool.HYPERINFLATED_SEAL_LUNG:
+			Preferences.setBoolean( "_hyperinflatedSealLungUsed", true );
+			return;
+
+		case ItemPool.BALLAST_TURTLE:
+			Preferences.setBoolean( "_ballastTurtleUsed", true );
+			return;
+			
 		}
 	}
 
