@@ -1767,7 +1767,7 @@ public class FightRequest
 				    encounter.equalsIgnoreCase( "evil ex-girlfriend" ) ||
 				    encounter.equalsIgnoreCase( "peeved roommate" ) ||
 				    encounter.equalsIgnoreCase( "random scenester" ) ||
-					encounter.toLowerCase().startsWith( "black crayon" ) ) )
+				    encounter.toLowerCase().startsWith( "black crayon" ) ) )
 			{
 				Preferences.increment( "_hipsterAdv", 1 );
 			}
