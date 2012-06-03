@@ -67,6 +67,7 @@ public class FamiliarPool
 	public static final int HATRACK = 82;
 	public static final int ADORABLE_SEAL_LARVA = 83;
 	public static final int LLAMA = 90;
+	public static final int CARNIE = 91;
 	public static final int HAND = 92;
 	public static final int BLACK_CAT = 93;
 	public static final int CUDDLEFISH = 100;
