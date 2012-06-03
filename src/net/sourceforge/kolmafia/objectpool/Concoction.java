@@ -864,6 +864,8 @@ public class Concoction
 			{
 				return alreadyHave;
 			}
+
+			return alreadyHave + purchaseRequest.affordableCount();
 		}
 
 		if ( needToMake <= 0 )

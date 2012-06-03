@@ -3107,8 +3107,15 @@ public abstract class RuntimeLibrary
 		AdventureResult[] data = ConcoctionDatabase.getIngredients( itemId );
 		for ( int i = 0; i < data.length; ++i )
 		{
-			int count = data[ i ].getCount();
-			Value key = DataTypes.parseItemValue( data[ i ].getName(), true );
+			AdventureResult ingredient = data[ i ];
+			if ( ingredient.getItemId() < 0 )
+			{
+				// Skip pseudo-ingredients: coinmaster tokens
+				continue;
+			}
+			String name = ingredient.getName();
+			int count = ingredient.getCount();
+			Value key = DataTypes.parseItemValue( name, true );
 			if ( value.contains( key ) )
 			{
 				count += (int) value.aref( key ).intValue();
