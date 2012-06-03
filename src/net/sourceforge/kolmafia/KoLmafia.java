@@ -1960,6 +1960,18 @@ public abstract class KoLmafia
 			}
 			return;
 		}
+
+		if ( encounterName.equalsIgnoreCase( "Meat For Nothing and the Harem for Free" ) )
+		{
+			Preferences.setBoolean( "_treasuryEliteMeatCollected", true );
+			return;
+		}
+
+		if ( encounterName.equalsIgnoreCase( "Finally, the Payoff" ) )
+		{
+			Preferences.setBoolean( "_treasuryHaremMeatCollected", true );
+			return;
+		}
 	}
 
 	private static class RegisteredEncounter

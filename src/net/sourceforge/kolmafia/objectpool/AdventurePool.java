@@ -78,9 +78,12 @@ public class AdventurePool
 	public static final int HAIKU_DUNGEON = 138;
 	public static final int HIPPY_UNIFORM_BATTLEFIELD = 140;
 	public static final int FCLE = 158;
+	public static final int YULETIDE = 163;
 	public static final String HOBOPOLIS_SEWERS_ID = "166";
 	public static final int HOBOPOLIS_TOWN_SQUARE = 167;
 	public static final String MINE_OFFICE_ID = "176";
+	public static final int WINE_CELLAR_NORTHWEST = 178;
+	public static final int WINE_CELLAR_SOUTHEAST = 181;
 	public static final int JUNKYARD_BARREL = 182;
 	public static final int JUNKYARD_REFRIGERATOR = 183;
 	public static final int JUNKYARD_TIRES = 184;

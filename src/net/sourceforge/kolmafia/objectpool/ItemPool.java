@@ -180,6 +180,7 @@ public class ItemPool
 	public static final int BALLOON_MONKEY = 436;
 	public static final int CHEF = 438;
 	public static final int BARTENDER = 440;
+	public static final int BEER_LENS = 443;
 	public static final int PRETENTIOUS_PAINTBRUSH = 450;
 	public static final int PRETENTIOUS_PALETTE = 451;
 	public static final int RUSTY_SCREWDRIVER = 454;
@@ -619,6 +620,11 @@ public class ItemPool
 	public static final int WOVEN_BALING_WIRE_BRACELETS = 2514;
 	public static final int TOMB_RATCHET = 2540;
 	public static final int MAYFLOWER_BOUQUET = 2541;
+	public static final int LESSER_GRODULATED_VIOLET = 2542;
+	public static final int TIN_MAGNOLIA = 2543;
+	public static final int BEGPWNIA = 2544;
+	public static final int UPSY_DAISY = 2545;
+	public static final int HALF_ORCHID = 2546;
 	public static final int OUTRAGEOUS_SOMBRERO = 2548;
 	public static final int SHAGADELIC_DISCO_BANJO = 2556;
 	public static final int SQUEEZEBOX_OF_THE_AGES = 2557;
@@ -866,6 +872,14 @@ public class ItemPool
 	public static final int GIFTH = 3430;
 	public static final int SPICE_MELANGE = 3433;
 	public static final int RAINBOWS_GRAVITY = 3439;
+	public static final int COTTON_CANDY_CONDE = 3449;
+	public static final int COTTON_CANDY_PINCH = 3450;
+	public static final int COTTON_CANDY_SMIDGEN = 3451;
+	public static final int COTTON_CANDY_SKOSHE = 3452;
+	public static final int COTTON_CANDY_PLUG = 3453;
+	public static final int COTTON_CANDY_PILLOW = 3454;
+	public static final int COTTON_CANDY_BALE = 3455;
+	public static final int STYX_SPRAY = 3458;
 	public static final int HAIKU_KATANA = 3466;
 	public static final int BATHYSPHERE = 3470;
 	public static final int DAMP_OLD_BOOT = 3471;
@@ -989,6 +1003,7 @@ public class ItemPool
 	public static final int TURTLEMAIL_BITS = 3919;
 	public static final int TURTLING_ROD = 3927;
 	public static final int SEAL_IRON_INGOT = 3932;
+	public static final int HYPERINFLATED_SEAL_LUNG = 3935;
 	public static final int VIP_LOUNGE_KEY = 3947;
 	public static final int STUFFED_CHEST = 3949;
 	public static final int STUFFED_KEY = 3950;
@@ -1000,6 +1015,7 @@ public class ItemPool
 	public static final int DOLPHIN_WHISTLE = 3997;
 	public static final int AGUA_DE_VIDA = 4001;
 	public static final int MOONTAN_LOTION = 4003;
+	public static final int BALLAST_TURTLE = 4005;
 	public static final int AMINO_ACIDS = 4006;
 	public static final int CONTACT_LENSES = 4019;
 	public static final int GRAPPLING_HOOK = 4029;
@@ -1038,6 +1054,8 @@ public class ItemPool
 	public static final int BIG_BUMBOOZER_MARBLE = 4105;
 	public static final int SECRET_FROM_THE_FUTURE = 4114;
 	public static final int EMPTY_AGUA_DE_VIDA_BOTTLE = 4130;
+	public static final int TEMPURA_AIR = 4133;
+	public static final int PRESSURIZED_PNEUMATICITY = 4134;
 	public static final int MOVEABLE_FEAST = 4135;
 	public static final int SLIME_STACK = 4137;
 	public static final int BAG_O_TRICKS = 4136;
@@ -1171,6 +1189,7 @@ public class ItemPool
 	public static final int LOBSTER_QUA_GRILL = 4515;
 	public static final int MISSING_WINE = 4516;
 	public static final int ITTAH_BITTAH_HOOKAH = 4519;
+	public static final int STUFFED_POCKETWATCH = 4545;
 	public static final int JACKING_MAP = 4560;
 	public static final int TINY_FLY_GLASSES = 4566;
 	public static final int LEGENDARY_BEAT = 4573;
@@ -1233,6 +1252,7 @@ public class ItemPool
 	public static final int DEAD_PIE = 4728;
 	public static final int THROBBING_PIE = 4729;
 	public static final int BONE_CHIPS = 4743;
+	public static final int STABONIC_SCROLL = 4757;
 	public static final int PUMPKIN_SEEDS = 4760;
 	public static final int PUMPKIN = 4761;
 	public static final int HUGE_PUMPKIN = 4762;
@@ -1256,6 +1276,8 @@ public class ItemPool
 	public static final int CRIMBCO_MUG = 4880;
 	public static final int BGE_SHOTGLASS = 4893;
 	public static final int BGE_TATTOO = 4900;
+	public static final int	COAL_PAPERWEIGHT = 4905;
+	public static final int JINGLE_BELL = 4906;
 	public static final int LOATHING_LEGION_KNIFE = 4908;
 	public static final int LOATHING_LEGION_MANY_PURPOSE_HOOK = 4909;
 	public static final int LOATHING_LEGION_MOONDIAL = 4910;
@@ -1361,6 +1383,7 @@ public class ItemPool
 	public static final int FAT_LOOT_TOKEN = 5221;
 	public static final int CLIP_ART_BOOK = 5223;
 	public static final int BORROWED_TIME = 5232;
+	public static final int BOX_OF_HAMMERS = 5233;
 	public static final int FIELD_GAR_POTION = 5257;
 	public static final int DICE_BOOK = 5284;
 	public static final int D4 = 5285;
