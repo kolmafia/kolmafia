@@ -360,6 +360,7 @@ public class ValhallaManager
 		Preferences.setString( "spookyPuttyMonster", "" );
 		Preferences.setString( "waxMonster", "" );
 		Preferences.setInteger( "parasolUsed", 0 );
+		Preferences.setInteger( "blankOutUsed", 0 );
 		Preferences.setString( "photocopyMonster", "" );
 		Preferences.setString( "telescope1", "" );
 		Preferences.setString( "telescope2", "" );
