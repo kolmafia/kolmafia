@@ -2730,7 +2730,7 @@ public class Parser
 			}
 
 			this.readToken(); // integer
-			return new Value( sign * StringUtilities.parseFloat( "0." + fraction ) );
+			return new Value( sign * StringUtilities.parseDouble( "0." + fraction ) );
 		}
 
 		String integer = this.currentToken();
@@ -2746,16 +2746,16 @@ public class Parser
 			String fraction = this.nextToken();
 			if ( !this.readIntegerToken( fraction ) )
 			{
-				return new Value( sign * StringUtilities.parseInt( integer ) );
+				return new Value( sign * StringUtilities.parseLong( integer ) );
 			}
 
 			this.readToken(); // .
 			this.readToken(); // fraction
 
-			return new Value( sign * StringUtilities.parseFloat( integer + "." + fraction ) );
+			return new Value( sign * StringUtilities.parseDouble( integer + "." + fraction ) );
 		}
 
-		return new Value( sign * StringUtilities.parseInt( integer ) );
+		return new Value( sign * StringUtilities.parseLong( integer ) );
 	}
 
 	private boolean readIntegerToken( final String token )
