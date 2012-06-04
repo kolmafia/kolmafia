@@ -245,7 +245,7 @@ public class DataTypes
 	{
 		try
 		{
-			return new Value( StringUtilities.parseIntInternal1( name, true ) );
+			return new Value( StringUtilities.parseLong( name ) );
 		}
 		catch ( NumberFormatException e )
 		{
@@ -257,7 +257,7 @@ public class DataTypes
 	{
 		try
 		{
-			return new Value( StringUtilities.parseFloat( name ) );
+			return new Value( StringUtilities.parseDouble( name ) );
 		}
 		catch ( NumberFormatException e )
 		{

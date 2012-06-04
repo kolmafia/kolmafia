@@ -828,6 +828,34 @@ public class StringUtilities
 		return Float.parseFloat( string );
 	}
 
+	public static final double parseDouble( String string )
+	{
+		if ( string == null )
+		{
+			return 0.0;
+		}
+
+		if ( string.startsWith( "+" ) )
+		{
+			string = string.substring( 1 );
+		}
+
+		string = StringUtilities.globalStringDelete( string, "," );
+		string = StringUtilities.globalStringDelete( string, " " );
+
+		if ( string.length() == 0 )
+		{
+			return 0.0;
+		}
+
+		if ( !StringUtilities.isFloat( string ) )
+		{
+			return 0.0;
+		}
+
+		return Double.parseDouble( string );
+	}
+
 	public static final String basicTextWrap( String text )
 	{
 
