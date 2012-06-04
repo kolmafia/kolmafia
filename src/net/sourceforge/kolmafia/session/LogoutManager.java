@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
 
+import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.swingui.LoginFrame;
 
 public class LogoutManager
@@ -128,6 +129,10 @@ public class LogoutManager
 
 		BuffBotHome.setBuffBotActive( false );
 		ChatManager.dispose();
+		
+		// Save Item Manager table header states
+
+		ItemManageFrame.saveHeaderStates();
 
 		// Run on-logout scripts
 

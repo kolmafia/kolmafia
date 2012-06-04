@@ -38,9 +38,11 @@ import java.awt.Dimension;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -88,6 +90,7 @@ import net.sourceforge.kolmafia.swingui.panel.UseItemPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 
 import net.sourceforge.kolmafia.textui.command.AutoMallCommand;
 import net.sourceforge.kolmafia.textui.command.CleanupJunkRequest;
@@ -102,6 +105,7 @@ public class ItemManageFrame
 	private static final JLabel pullsRemainingLabel2 = new JLabel( " " );
 	private static final PullBudgetSpinner pullBudgetSpinner1 = new PullBudgetSpinner();
 	private static final PullBudgetSpinner pullBudgetSpinner2 = new PullBudgetSpinner();
+	private static final CardLayoutSelectorPanel selectorPanel = new CardLayoutSelectorPanel( "itemManagerIndex" );
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all of the necessary panels into a tabular layout for
@@ -119,8 +123,6 @@ public class ItemManageFrame
 
 		JTabbedPane queueTabs;
 		UseItemDequeuePanel dequeuePanel;
-
-		CardLayoutSelectorPanel selectorPanel = new CardLayoutSelectorPanel( "itemManagerIndex" );
 
 		selectorPanel.addPanel( "Usable", new UseItemPanel() );
 
@@ -208,6 +210,106 @@ public class ItemManageFrame
 		selectorPanel.setSelectedIndex( Preferences.getInteger( "itemManagerIndex" ) );
 
 		this.setCenterComponent( selectorPanel );
+		
+		ItemManageFrame.setHeaderStates();
+	}
+	
+	public static void saveHeaderStates()
+	{
+		if ( ItemManageFrame.selectorPanel == null )
+		{
+			return;
+		}
+		ArrayList<JComponent> panels = ItemManageFrame.selectorPanel.panels;
+		StringBuilder builder = new StringBuilder();
+
+		for ( int i = 0; i < panels.size(); ++i )
+		{
+			JComponent comp = panels.get( i );
+			if ( comp instanceof InventoryPanel )
+			{
+				String s = ItemManageFrame.selectorPanel.panelNames.get( i ).toString();
+				if ( s.startsWith( " - " ) )
+				{
+					s = s.substring( 3 );
+				}
+				builder.append( s + "|" );
+				builder.append( ( (ShowDescriptionTable) ( (InventoryPanel) comp ).scrollComponent )
+					.collectHeaderStates().toString() );
+			}
+			else if ( comp instanceof RestorativeItemPanel )
+			{
+				String s = ItemManageFrame.selectorPanel.panelNames.get( i ).toString();
+				if ( s.startsWith( " - " ) )
+				{
+					s = s.substring( 3 );
+				}
+				builder.append( s + "|"  );
+				builder.append( ( (ShowDescriptionTable) ( (RestorativeItemPanel) comp ).scrollComponent )
+					.collectHeaderStates().toString() );
+			}
+		}
+		
+		Preferences.setString( "headerStates", builder.toString() );
+	}
+	
+	public static void setHeaderStates()
+	{
+		ArrayList<JComponent> panels = ItemManageFrame.selectorPanel.panels;
+
+		// first, parse the raw string
+
+		String rawPref = Preferences.getString( "headerStates" );
+		
+		if ( rawPref.length() < 1 )
+		{
+			return;
+		}
+
+		for ( String it : rawPref.split( "\\;" ) )
+		{
+			if ( it.length() < 1 )
+			{
+				continue;
+			}
+
+			String panelName = it.split( "\\|" )[ 0 ];
+
+			if ( panelName.length() < 3 )
+			{
+				// sanitizing; no valid panel names with length less than 5 or so. Don't want a
+				// whitespace string to match a panel name.
+				continue;
+			}
+			// find a panel that's named the same thing as the pref value
+			for ( int i = 0; i < panels.size(); ++i )
+			{
+				JComponent comp = panels.get( i );
+				if ( comp instanceof InventoryPanel )
+				{
+					String s = ItemManageFrame.selectorPanel.panelNames.get( i ).toString();
+
+					if ( s.contains( panelName ) )
+					{
+						// set the header states.
+						( (ShowDescriptionTable) ( (InventoryPanel) comp ).scrollComponent )
+							.setHeaderStates( it );
+						break;
+					}
+				}
+				else if ( comp instanceof RestorativeItemPanel )
+				{
+					String s = ItemManageFrame.selectorPanel.panelNames.get( i ).toString();
+					if ( s.contains( panelName ) )
+					{
+						// set the header states.
+						( (ShowDescriptionTable) ( (RestorativeItemPanel) comp ).scrollComponent )
+							.setHeaderStates( it );
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	public static void updatePullsRemaining( final int pullsRemaining )
