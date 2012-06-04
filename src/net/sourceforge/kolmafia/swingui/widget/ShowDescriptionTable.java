@@ -41,6 +41,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -114,6 +116,20 @@ public class ShowDescriptionTable
 	private AdaptedTableModel adaptedModel;
 
 	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
+
+	private final Comparator<String[]> arrayComparator = new Comparator<String[]>()
+	{
+		public int compare( String[] o1, String[] o2 )
+		{
+			if ( o1.length != 2 || o2.length != 2 )
+			{
+				return 0;
+			}
+			Integer i1 = Integer.valueOf( o1[1] );
+			Integer i2 = Integer.valueOf( o2[1] );
+			return i2.compareTo( i1 ); // descending order needed
+		}
+	};
 
 	public ShowDescriptionTable( final LockableListModel displayModel )
 	{
@@ -1139,5 +1155,102 @@ public class ShowDescriptionTable
 	{
 		// Blank method for now, no cellrenderer needed.
 		// Eventually might want to do something with this?
+	}
+
+	public String collectHeaderStates()
+	{
+		// JViewPort, GenericScrollPane, JPanel, JPanel, JPanel, Inventory/Restore/etc...
+
+		StringBuilder buffer = new StringBuilder();
+		List<TableColumn> cols = this.getColumns( true );
+		for ( int i = 0; i < cols.size(); ++i )
+		{
+			if ( buffer.length() > 0 )
+			{
+				buffer.append( "|" );
+			}
+			buffer.append( cols.get( i ).getHeaderValue() );
+			buffer.append( ":" );
+			buffer.append( convertColumnIndexToView( cols.get( i ).getModelIndex() ) );
+		}
+		buffer.append( ";" );
+		return buffer.toString();
+	}
+
+	public void setHeaderStates( String rawPref )
+	{
+		List<TableColumn> cols = this.getColumns( true );
+		ArrayList<String[]> sortCols = new ArrayList<String[]>();
+
+		// rawPref is a pipe-delimited list of (header name):(view index)
+		String[] split1 = rawPref.split( "\\|" );
+		for ( String it : split1 )
+		{
+			String[] split2 = it.split( "\\:" );
+			if ( split2.length != 2 )
+			{
+				// malformed, or the first element (panel name)
+				continue;
+			}
+			else
+			{
+				String[] entry = new String[]
+				{
+					split2[ 0 ], split2[ 1 ]
+				};
+
+				sortCols.add( entry );
+			}
+		}
+
+		Collections.sort( sortCols, arrayComparator );
+
+		// Now, go through and set visibility. The comparator sorts things in descending order, so the first
+		// column will be the highest index that's visible.
+
+		for ( String[] it : sortCols )
+		{
+			if ( it.length != 2 )
+			{
+				// malformed, no idea how that happened. punt
+				return;
+			}
+			for ( TableColumn t : cols )
+			{
+				// find the column that matches the name
+				if ( t.getHeaderValue().toString().equals( it[ 0 ] ) )
+				{
+					// set it visible if its index isn't -1
+					this.getColumnExt( t.getHeaderValue() ).setVisible(
+						Integer.valueOf( it[ 1 ] ) >= 0 );
+					break;
+				}
+			}
+		}
+
+		// All the columns have their visibility set now. Just move them into their proper order.
+
+		for ( String[] it : sortCols )
+		{
+			if ( it.length != 2 )
+			{
+				// malformed, no idea how that happened. punt
+				return;
+			}
+			if ( Integer.valueOf( it[ 1 ] ) < 0 )
+			{
+				// Once we hit the negative ones, they're all negative after that. We're done.
+				break;
+			}
+			for ( TableColumn t : cols )
+			{
+				if ( t.getHeaderValue().toString().equals( it[ 0 ] ) )
+				{
+					this.moveColumn( convertColumnIndexToView( t.getModelIndex() ),
+						Integer.valueOf( it[ 1 ] ) );
+					break;
+				}
+			}
+		}
 	}
 }

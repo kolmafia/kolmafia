@@ -66,9 +66,9 @@ public class CardLayoutSelectorPanel
 {
 	private final String indexPreference;
 
-	private final LockableListModel panelNames = new LockableListModel();
+	public final LockableListModel panelNames = new LockableListModel();
 	private final JList panelList = new JList( this.panelNames );
-	private final ArrayList panels = new ArrayList();
+	public final ArrayList panels = new ArrayList();
 	private final CardLayout panelCards = new CardLayout();
 	private final JPanel mainPanel = new JPanel( this.panelCards );
 	protected ChangeListener changeListener = null;
