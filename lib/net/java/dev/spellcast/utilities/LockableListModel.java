@@ -195,6 +195,10 @@ public class LockableListModel
 	@Override
 	public void fireContentsChanged( final Object source, final int index0, final int index1 )
 	{
+		if ( index0 < 0 || index1 < 0 )
+		{
+			return;
+		}
 		if ( this.actionListenerFired || this.listenerList.getListenerCount() == 0 )
 		{
 			return;
