@@ -107,13 +107,13 @@ public class TableCellFactory
 			int power = EquipmentDatabase.getPower( advresult.getItemId() );
 			return ( power > 0 ) ? IntegerPool.get( power ) : null;
 		case 5:
-			fill = IntegerPool.get( ItemDatabase.getFullness( advresult.getName() )
-				+ ItemDatabase.getInebriety( advresult.getName() ) );
+			fill =
+				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
 			return fill > 0 ? fill : null;
 		case 6:
 			float advRange = ItemDatabase.getAdventureRange( advresult.getName() );
-			fill = IntegerPool.get( ItemDatabase.getFullness( advresult.getName() )
-				+ ItemDatabase.getInebriety( advresult.getName() ) );
+			fill =
+				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
 			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
 			{
 				advRange = advRange / fill;
@@ -148,13 +148,14 @@ public class TableCellFactory
 			int power = EquipmentDatabase.getPower( advresult.getItemId() );
 			return ( power > 0 ) ? IntegerPool.get( power ) : null;
 		case 5:
-			fill = IntegerPool.get( ItemDatabase.getFullness( advresult.getName() )
-				+ ItemDatabase.getInebriety( advresult.getName() ) );
+			fill =
+				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
 			return fill > 0 ? fill : null;
 		case 6:
 			float advRange = ItemDatabase.getAdventureRange( advresult.getName() );
-			fill = IntegerPool.get( ItemDatabase.getFullness( advresult.getName() )
-				+ ItemDatabase.getInebriety( advresult.getName() ) );
+			fill =
+				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
+
 			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
 			{
 				advRange = advRange / fill;
@@ -187,12 +188,13 @@ public class TableCellFactory
 			Integer price = IntegerPool.get( MallPriceDatabase.getPrice( CIRresult.getItemId() ) );
 			return ( price > 0 ) ? price : null;
 		case 4:
-			fill = IntegerPool.get( CIRresult.concoction.getFullness() + CIRresult.concoction.getInebriety() );
+			fill =
+				IntegerPool.get( ItemDatabase.getFullness( CIRresult.getName() ) + ItemDatabase.getInebriety( CIRresult.getName() ) + ItemDatabase.getSpleenHit( CIRresult.getName() ) );
 			return fill > 0 ? fill : null;
 		case 5:
 			float advRange = ItemDatabase.getAdventureRange( CIRresult.getName() );
-			fill = IntegerPool.get( CIRresult.concoction.getFullness()
-				+ CIRresult.concoction.getInebriety() );
+			fill =
+				IntegerPool.get( ItemDatabase.getFullness( CIRresult.getName() ) + ItemDatabase.getInebriety( CIRresult.getName() ) + ItemDatabase.getSpleenHit( CIRresult.getName() ) );
 			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
 			{
 				advRange = advRange / fill;
