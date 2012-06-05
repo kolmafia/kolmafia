@@ -947,7 +947,7 @@ public class CharPaneDecorator
 
 			String upkeepAction = MoodManager.getDefaultAction( "lose_effect", effectName );
 
-			if ( upkeepAction.startsWith( "adventure" ) || upkeepAction.endsWith( "mushroom" ) )
+			if ( upkeepAction.startsWith( "adventure" ) || upkeepAction.endsWith( "astral mushroom" ) )
 			{
 				upkeepAction = "";
 			}
