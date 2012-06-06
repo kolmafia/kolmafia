@@ -1139,7 +1139,6 @@ public class OptionsFrame
 
 		private final LockableListModel builtInsList = new LockableListModel();
 		private final LockableListModel deedsList = new LockableListModel();
-		private final LockableListModel customList = new LockableListModel();
 
 		public CustomizeDailyDeedsPanel()
 		{
@@ -1149,19 +1148,9 @@ public class OptionsFrame
 			JPanel botPanel = new JPanel( new GridLayout( 1, 0, 10, 0 ) );
 			JPanel centerPanel = new JPanel( new GridLayout( 1, 2, 0, 0 ) );
 
-			String[] customs =
-			{
-				"Boolean Pref", "Multi Pref", "Boolean Item", "Skill", "Text"
-			};
-
 			for ( int i = 0; i < DailyDeedsPanel.BUILTIN_DEEDS.length; ++i )
 			{
 				this.builtInsList.add( DailyDeedsPanel.BUILTIN_DEEDS[ i ][ 1 ] );
-			}
-
-			for ( int i = 0; i < customs.length; ++i )
-			{
-				this.customList.add( customs[ i ] );
 			}
 
 			centerPanel.add( new DeedsButtonPanel( "Built-In Deeds", this.builtInsList ) );
@@ -1994,6 +1983,7 @@ public class OptionsFrame
 		{
 			super();
 			this.addItem( "Harvest Nothing" );
+			this.addItem( "Harvest Anything" );
 			for ( int i = 0; i < crops.length; ++i )
 			{
 				this.addItem( crops[ i ].getName() );
@@ -2009,6 +1999,10 @@ public class OptionsFrame
 			if ( crop.equals( "none" ) )
 			{
 				this.setSelectedIndex( 0 );
+			}
+			else if ( crop.equals( "any" ) )
+			{
+				this.setSelectedIndex( 1 );
 			}
 			else
 			{
@@ -2030,6 +2024,9 @@ public class OptionsFrame
 			case -1:
 			case 0:
 				crop = "none";
+				break;
+			case 1:
+				crop = "any";
 				break;
 			default:
 				crop = (String) this.getItemAt( index );
