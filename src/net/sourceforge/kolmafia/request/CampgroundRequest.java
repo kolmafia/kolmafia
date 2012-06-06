@@ -251,6 +251,13 @@ public class CampgroundRequest
 			return false;
 		}
 
+		// We want whatever is there.  Since we made it this far,
+		// we have something to pick.
+		if ( crop.equals( "any" ) )
+		{
+			return true;
+		}
+
 		// If it equals the desired crop, peachy. Or is it pumpkiny?
 		String currentName = current.getName();
 		if ( crop.equals( currentName )  )

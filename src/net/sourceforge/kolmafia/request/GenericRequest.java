@@ -38,7 +38,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
@@ -454,14 +453,8 @@ public class GenericRequest
 		}
 		else
 		{
-			try
-			{
-				this.baseURLString = URLDecoder.decode( newURLString.substring( 0, formSplitIndex ), "UTF-8" );
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				this.baseURLString = newURLString;
-			}
+			this.baseURLString = GenericRequest.decodeURL( newURLString.substring( 0, formSplitIndex ) );
+
 			String queryString = newURLString.substring( formSplitIndex + 1 );
 
 			if ( !usePostMethod )
@@ -1402,19 +1395,8 @@ public class GenericRequest
 
 	public static final boolean shouldIgnore( final GenericRequest request )
 	{
-		String requestURL = null;
-		if ( request.formURLString != null )
-		{
-			try
-			{
-				requestURL = URLDecoder.decode( request.formURLString, "UTF-8" );
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				requestURL = request.formURLString;
-			}
-		}
-		return request.formURLString == null ||
+		String requestURL = GenericRequest.decodeURL( request.formURLString );
+		return requestURL == null ||
 			// Disallow mall searches
 			requestURL.indexOf( "mall.php" ) != -1 ||
 			requestURL.indexOf( "manageprices.php" ) != -1 ||
