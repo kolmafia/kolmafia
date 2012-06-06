@@ -135,12 +135,12 @@ public abstract class ActionPanel
 
 		public void dispose()
 		{
-			ActionPanel.this.confirmedButton.removeActionListener( this.confirmListener );
+			/*ActionPanel.this.confirmedButton.removeActionListener( this.confirmListener );
 
 			if ( ActionPanel.this.cancelledButton != null )
 			{
 				ActionPanel.this.cancelledButton.removeActionListener( this.cancelListener );
-			}
+			}*/
 		}
 	}
 
