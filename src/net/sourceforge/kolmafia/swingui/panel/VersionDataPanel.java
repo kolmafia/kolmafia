@@ -42,6 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -57,7 +58,19 @@ public class VersionDataPanel
 	extends JPanel
 {
 	private final String[] versionData =
-		{ StaticEntity.getVersion(), KoLConstants.VERSION_DATE, " ", "Copyright � 2005-2011 KoLmafia development team", "Berkeley Software Development (BSD) License", "http://kolmafia.sourceforge.net/", " ", "Current Running on " + System.getProperty( "os.name" ), "Local Directory is " + System.getProperty( "user.dir" ), "Using Java v" + System.getProperty( "java.runtime.version" ) };
+	{
+		StaticEntity.getVersion(),
+		KoLConstants.VERSION_DATE,
+		" ",
+		"Copyright \u00a9 2005-2012 KoLmafia development team",
+		"Berkeley Software Development (BSD) License",
+		"http://kolmafia.sourceforge.net/",
+		" ",
+		"Current Running on " + System.getProperty( "os.name" ),
+		"Local Directory is " + System.getProperty( "user.dir" ),
+		"Settings in " + UtilityConstants.ROOT_LOCATION.getAbsolutePath(),
+		"Using Java v" + System.getProperty( "java.runtime.version" )
+	};
 
 	public VersionDataPanel()
 	{
