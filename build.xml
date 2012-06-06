@@ -23,30 +23,6 @@
 
 	</target>
 
-	<!-- ==================================== -->
-	<!--  sets the default compiler to Jikes  -->
-	<!-- ==================================== -->
-
-	<target name="jikeshome" if="env.JIKES_HOME">
-
-		<property name="build.compiler" value="jikes" />
-
-	</target>
-
-	<!-- ================================== -->
-	<!--  reports the current Java version  -->
-	<!-- ================================== -->
-
-	<target name="javahome">
-
-		<exec executable="java" failifexecutionfails="false">
-			<arg value="-version" />
-		</exec>
-
-		<property name="build.compiler" value="modern" />
-
-	</target>
-
 	<!-- ================================== -->
 	<!--  update files from the repository  -->
 	<!-- ================================== -->
@@ -164,12 +140,10 @@
 	<!--  generate class files  -->
 	<!-- ====================== -->
 
-	<target name="compile" depends="init,jikeshome,javahome">
-
-		<echo message="Using ${build.compiler} compiler" />
+	<target name="compile" depends="init">
 
 		<javac
-			compiler="${build.compiler}"
+			compiler="modern"
 			source="1.5"
 			target="1.5"
 			srcdir="${lib}"
@@ -195,7 +169,7 @@
 		<antcall target="version" />
 
 		<javac
-			compiler="${build.compiler}"
+			compiler="modern"
 			source="1.5"
 			target="1.5"
 			srcdir="${src}"
