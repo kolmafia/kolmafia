@@ -438,34 +438,39 @@ public class GenericRequest
 		this.dataChanged = true;
 		this.data.clear();
 
-		while ( newURLString.startsWith( "/" ) || newURLString.startsWith( "./" ) )
-		{
-			newURLString = newURLString.substring( 1 );
-		}
-
 		String oldURLString = this.formURLString;
+
 		int formSplitIndex = newURLString.indexOf( "?" );
+		String queryString = null;
 
 		if ( formSplitIndex == -1 )
 		{
 			this.baseURLString = newURLString;
-			this.formURLString = newURLString;
 		}
 		else
 		{
 			this.baseURLString = GenericRequest.decodeURL( newURLString.substring( 0, formSplitIndex ) );
 
-			String queryString = newURLString.substring( formSplitIndex + 1 );
+			queryString = newURLString.substring( formSplitIndex + 1 );
+		}
 
-			if ( !usePostMethod )
-			{
-				this.formURLString = this.baseURLString + "?" + queryString;
-			}
-			else
-			{
-				this.formURLString = this.baseURLString;
-				this.addFormFields( queryString, encoded );
-			}
+		while ( this.baseURLString.startsWith( "/" ) || this.baseURLString.startsWith( "." ) )
+		{
+			this.baseURLString = this.baseURLString.substring( 1 );
+		}
+
+		if ( queryString == null )
+		{
+			this.formURLString = this.baseURLString;
+		}
+		else if ( !usePostMethod )
+		{
+			this.formURLString = this.baseURLString + "?" + queryString;
+		}
+		else
+		{
+			this.formURLString = this.baseURLString;
+			this.addFormFields( queryString, encoded );
 		}
 
 		if ( !this.formURLString.equals( oldURLString ) )
@@ -767,14 +772,23 @@ public class GenericRequest
 			return null;
 		}
 
+		String oldURLString = null;
+		String newURLString = urlString;
+
 		try
 		{
-			return URLDecoder.decode( urlString, charset );
+			do
+			{
+				oldURLString = newURLString;
+				newURLString = URLDecoder.decode( oldURLString, charset );
+			}
+			while ( !oldURLString.equals( newURLString ) );
 		}
 		catch ( IOException e )
 		{
-			return urlString;
 		}
+
+		return newURLString;
 	}
 
 	public static String encodeURL( final String urlString )
