@@ -869,7 +869,7 @@ public abstract class InventoryManager
 				// Second place to check for adventure usage.  Make sure we didn't already ask above.
 				creator.setQuantityNeeded( missingCount );
 
-				if ( !asked && isAutomated && creator != null &&
+				if ( !asked && isAutomated && concoction != null && creator != null &&
 					concoction.getAdventuresNeeded( missingCount, true ) > 0 )
 				{
 					asked = true;
