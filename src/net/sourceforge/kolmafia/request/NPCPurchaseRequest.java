@@ -42,6 +42,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.moods.RecoveryManager;
+
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -183,39 +185,80 @@ public class NPCPurchaseRequest
 			}
 		}
 
-		if ( neededOutfit == 0 )
-		{
-			// Maybe you can put on some Travoltan Trousers to
-			// decrease the cost of the purchase.
+		// Only switch outfits if the person is not currently wearing the outfit and if they
+		// have that outfit.
 
-			if ( KoLConstants.inventory.contains( NPCPurchaseRequest.TROUSERS ) && GAPcheck() )
+		if ( neededOutfit != 0 )
+		{
+			if ( EquipmentManager.isWearingOutfit( neededOutfit ) )
 			{
-				( new EquipmentRequest( NPCPurchaseRequest.TROUSERS, EquipmentManager.PANTS ) ).run();
+				return true;
+			}
+
+			if ( !EquipmentManager.hasOutfit( neededOutfit ) )
+			{
+				return false;
+			}
+		}
+
+		// If you have a buff from Greatest American Pants and have it set to keep the buffs,
+		// disallow outfit changes.
+
+		if ( Preferences.getBoolean( "gapProtection" ) )
+		{
+			if ( KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_SKILL ) ||
+				KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_STRUCTURE ) ||
+				KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_VISION ) ||
+				KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_SPEED ) ||
+				KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_ACCURACY ) )
+			{
+				if ( neededOutfit != 0 )
+				{
+					KoLmafia.updateDisplay(
+						KoLConstants.ERROR_STATE,
+						"You have a Greatest American Pants buff and buying the necessary " + getItemName() + " would cause you to lose it." );
+
+					return false;
+				}
+
+				return true;
+			}
+		}
+
+		// If the recovery manager is running, do not change equipment as this has the potential
+		// for an infinite loop.
+
+		if ( RecoveryManager.isRecoveryActive() )
+		{
+			if ( neededOutfit != 0 )
+			{
+				KoLmafia.updateDisplay(
+					KoLConstants.ERROR_STATE,
+					"Aborting implicit outfit change due to potential infinite loop in auto-recovery. Please buy the necessary " + getItemName() + " manually." );
+
+				return false;
 			}
 
 			return true;
 		}
 
-		// Only switch outfits if the person is not
-		// currently wearing the outfit.
+		// If there's an outfit that you need to use, change into it.
 
-		if ( EquipmentManager.isWearingOutfit( neededOutfit ) )
+		if ( neededOutfit != 0 )
 		{
+			( new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) ) ).run();
+
 			return true;
 		}
 
-		if ( !EquipmentManager.hasOutfit( neededOutfit ) )
+		// Otherwise, maybe you can put on some Travoltan Trousers to decrease the cost of the
+		// purchase, but only if auto-recovery isn't running.
+
+		if ( !NPCPurchaseRequest.usingTrousers() && KoLConstants.inventory.contains( NPCPurchaseRequest.TROUSERS ) )
 		{
-			return false;
+			( new EquipmentRequest( NPCPurchaseRequest.TROUSERS, EquipmentManager.PANTS ) ).run();
 		}
 
-		if ( !GAPcheck() )
-		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
-				"You have a Greatest American Pants buff and buying this item would cause you to lose it." );
-			return false;
-		}
-		( new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) ) ).run();
 		return true;
 	}
 
@@ -224,23 +267,6 @@ public class NPCPurchaseRequest
 	private final static  AdventureResult SUPER_VISION = EffectPool.get( "Super Vision" );
 	private final static  AdventureResult SUPER_SPEED = EffectPool.get( "Super Speed" );
 	private final static  AdventureResult SUPER_ACCURACY = EffectPool.get( "Super Accuracy" );
-
-	private static final boolean GAPcheck()
-	{
-		// returns false if you have a buff from Greatest American
-		// Pants and have it set to keep the buffs, otherwise returns
-		// true
-		boolean keepPants = Preferences.getBoolean( "gapProtection" ) &&
-			(
-			KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_SKILL ) ||
-			KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_STRUCTURE ) ||
-			KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_VISION ) ||
-			KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_SPEED ) ||
-			KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_ACCURACY )
-			);
-
-		return !keepPants;
-	}
 
 	@Override
 	public void processResults()

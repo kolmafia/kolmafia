@@ -72,7 +72,7 @@ public class RecoveryManager
 
 	public static boolean isRecoveryActive()
 	{
-		return RecoveryManager.recoveryActive || MoodManager.isExecuting();
+		return RecoveryManager.recoveryActive;
 	}
 
 	public static void setRecoveryActive( final boolean recoveryActive )

@@ -74,7 +74,7 @@ public class MoodCommand
 		}
 		else if ( parameters.equals( "execute" ) )
 		{
-			if ( RecoveryManager.isRecoveryActive() )
+			if ( RecoveryManager.isRecoveryActive() || MoodManager.isExecuting() )
 			{
 				return;
 			}
@@ -86,7 +86,7 @@ public class MoodCommand
 		}
 		else if ( parameters.startsWith( "repeat" ) )
 		{
-			if ( RecoveryManager.isRecoveryActive() )
+			if ( RecoveryManager.isRecoveryActive() || MoodManager.isExecuting() )
 			{
 				return;
 			}

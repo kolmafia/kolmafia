@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.HistoryEntry;
 
+import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1940,7 +1941,7 @@ public class RelayRequest
 
 	private void waitForRecoveryToComplete()
 	{
-		while ( RecoveryManager.isRecoveryActive() )
+		while ( RecoveryManager.isRecoveryActive() || MoodManager.isExecuting() )
 		{
 			this.pauser.pause( 100 );
 		}
