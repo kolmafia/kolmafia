@@ -155,6 +155,9 @@ public class LicenseDisplay
 			licenseDisplay = new JEditorPane();
 			java.io.BufferedReader buf = DataUtilities.getReader( "licenses", this.fileNames[ index ] );
 
+			boolean plainText = this.fileNames[ index ].endsWith( ".txt" );
+
+
 			// in the event that the license display could not be found, return a blank
 			// label indicating that the license could not be found
 			if ( buf == null )
@@ -169,7 +172,33 @@ public class LicenseDisplay
 			{
 				while ( ( line = buf.readLine() ) != null )
 				{
-					licenseText.append( line );
+					int start = 0;
+
+					if ( plainText )
+					{
+						int end = line.indexOf( '<' );
+
+						while ( end != -1 )
+						{
+							licenseText.append( line.substring( start, end ) );
+							licenseText.append( "&lt;" );
+
+							start = end + 1;
+
+							if ( start == line.length() )
+							{
+								break;
+							}
+
+							end = line.indexOf( '<', start );
+						}
+					}
+
+					if ( start < line.length() )
+					{
+						licenseText.append( line.substring( start ) );
+					}
+
 					licenseText.append( System.getProperty( "line.separator" ) );
 				}
 			}
@@ -177,7 +206,7 @@ public class LicenseDisplay
 			{
 			}
 
-			if ( this.fileNames[ index ].endsWith( ".txt" ) )
+			if ( plainText )
 			{
 				licenseText.insert( 0, "<blockquote><pre style=\"font-family: Verdana; font-size: small\">" );
 				licenseText.append( "</pre></blockquote>" );
