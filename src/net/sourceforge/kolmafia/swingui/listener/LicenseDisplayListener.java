@@ -55,6 +55,7 @@ public class LicenseDisplayListener
 		"osxadapter-license.txt",
 		"htmlcleaner-license.txt",
 		"json.txt",
+		"swinglabs-license.txt",
 		"unlicensed.htm"
 	};
 
@@ -68,6 +69,7 @@ public class LicenseDisplayListener
 		"OSXAdapter",
 		"HtmlCleaner",
 		"JSON",
+		"SwingLabs",
 		"Unlicensed"
 	};
 
