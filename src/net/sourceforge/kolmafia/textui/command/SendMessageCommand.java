@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.persistence.BuffBotDatabase;
@@ -63,7 +64,7 @@ public class SendMessageCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( RecoveryManager.isRecoveryActive() )
+		if ( RecoveryManager.isRecoveryActive() || MoodManager.isExecuting() )
 		{
 			RequestLogger.printLine( "Send request \"" + parameters + "\" ignored in between-battle execution." );
 			return;
