@@ -490,19 +490,20 @@ public abstract class StaticEntity
 		}
 	}
 
-	public static final void printThreadDump()
+	public static final String getProcessId()
 	{
 		File javaHome = StaticEntity.getJDKWorkingDirectory();
 
 		if ( javaHome == null )
 		{
 			KoLmafia.updateDisplay( "To use this feature, you must run KoLmafia with a JDK instead of a JRE." );
-			return;
+
+			return null;
 		}
 
 		Runtime runtime = Runtime.getRuntime();
 
-		StringBuffer sb = new StringBuffer();
+		String pid = null;
 
 		try
 		{
@@ -524,49 +525,65 @@ public abstract class StaticEntity
 
 			String line;
 
-			while ( ( line = reader.readLine() ) != null )
+			StringBuffer sb = new StringBuffer();
+
+			while ( ( pid == null ) && ( line = reader.readLine() ) != null )
 			{
 				sb.append( line );
 				sb.append( KoLConstants.LINE_BREAK );
 
 				if ( line.indexOf( "KoLmafia" ) != -1 )
 				{
-					String pid = line.substring( 0, line.indexOf( ' ' ) );
+					pid = line.substring( 0, line.indexOf( ' ' ) );
+				}
 
-					StaticEntity.printThreadDump( javaHome, pid );
+				boolean shouldOpenStream = !RequestLogger.isDebugging();
+
+				if ( shouldOpenStream )
+				{
+					RequestLogger.openDebugLog();
+				}
+
+				RequestLogger.getDebugStream().println( sb.toString() );
+
+				if ( shouldOpenStream )
+				{
+					RequestLogger.closeDebugLog();
 				}
 			}
-
-			reader.close();
 		}
 		catch ( IOException e )
 		{
 			e.printStackTrace();
 		}
 
-		if ( sb.length() == 0 )
+		if ( pid != null )
 		{
-			KoLmafia.updateDisplay( "Unable to determine KoLmafia process id." );
+			return pid;
+		}
+
+		KoLmafia.updateDisplay( "Unable to determine KoLmafia process id." );
+
+		return null;
+	}
+
+	public static final void printThreadDump()
+	{
+		File javaHome = StaticEntity.getJDKWorkingDirectory();
+
+		if ( javaHome == null )
+		{
+			KoLmafia.updateDisplay( "To use this feature, you must run KoLmafia with a JDK instead of a JRE." );
 			return;
 		}
 
-		boolean shouldOpenStream = !RequestLogger.isDebugging();
+		String pid = StaticEntity.getProcessId();
 
-		if ( shouldOpenStream )
+		if ( pid == null )
 		{
-			RequestLogger.openDebugLog();
+			return;
 		}
 
-		RequestLogger.getDebugStream().println( sb.toString() );
-
-		if ( shouldOpenStream )
-		{
-			RequestLogger.closeDebugLog();
-		}
-	}
-
-	public static final void printThreadDump( final File javaHome, final String pid )
-	{
 		KoLmafia.updateDisplay( "Generating thread dump for KoLmafia process id " + pid + "..." );
 
 		Runtime runtime = Runtime.getRuntime();
@@ -589,6 +606,101 @@ public abstract class StaticEntity
 			command[ 1 ] = pid;
 
 			Process process = runtime.exec( command );
+			BufferedReader reader = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+
+			String line;
+
+			while ( ( line = reader.readLine() ) != null )
+			{
+				sb.append( line );
+				sb.append( KoLConstants.LINE_BREAK );
+			}
+
+			reader.close();
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+		}
+
+		boolean shouldOpenStream = !RequestLogger.isDebugging();
+
+		if ( shouldOpenStream )
+		{
+			RequestLogger.openDebugLog();
+		}
+
+		RequestLogger.getDebugStream().println( sb.toString() );
+
+		if ( shouldOpenStream )
+		{
+			RequestLogger.closeDebugLog();
+		}
+	}
+
+	public static final void generateHeapDump()
+	{
+		File javaHome = StaticEntity.getJDKWorkingDirectory();
+
+		if ( javaHome == null )
+		{
+			KoLmafia.updateDisplay( "To use this feature, you must run KoLmafia with a JDK instead of a JRE." );
+			return;
+		}
+
+		String pid = StaticEntity.getProcessId();
+
+		if ( pid == null )
+		{
+			return;
+		}
+
+		KoLmafia.updateDisplay( "Generating heap dump for KoLmafia process id " + pid + "..." );
+
+		Runtime runtime = Runtime.getRuntime();
+
+		StringBuffer sb = new StringBuffer();
+
+		try
+		{
+			String[] command = new String[ 3 ];
+
+			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+			{
+				command[ 0 ] = new File( javaHome, "bin/jmap.exe" ).getPath();
+			}
+			else
+			{
+				command[ 0 ] = new File( javaHome, "bin/jmap" ).getPath();
+			}
+
+			String javaVersion = System.getProperty( "java.runtime.version" );
+
+			if ( javaVersion.contains( "1.5.0_" ) )
+			{
+				command[ 1 ] = "-heap:format=b";
+			}
+			else
+			{
+				int fileIndex = 0;
+				String jmapFileName = null;
+				File jmapFile = null;
+
+				do
+				{
+					++fileIndex;
+					jmapFileName = "kolmafia" + fileIndex + ".hprof";
+					jmapFile = new File( UtilityConstants.ROOT_LOCATION, jmapFileName );
+				}
+				while ( jmapFile.exists() );
+
+				command[ 1 ] = "-dump:format=b,file=" + jmapFileName;
+			}
+
+			command[ 2 ] = pid;
+
+			Process process = runtime.exec( command, new String[ 0 ], UtilityConstants.ROOT_LOCATION );
+
 			BufferedReader reader = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
 
 			String line;
