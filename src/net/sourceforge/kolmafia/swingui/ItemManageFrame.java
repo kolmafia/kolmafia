@@ -105,7 +105,7 @@ public class ItemManageFrame
 	private static final JLabel pullsRemainingLabel2 = new JLabel( " " );
 	private static final PullBudgetSpinner pullBudgetSpinner1 = new PullBudgetSpinner();
 	private static final PullBudgetSpinner pullBudgetSpinner2 = new PullBudgetSpinner();
-	private static final CardLayoutSelectorPanel selectorPanel = new CardLayoutSelectorPanel( "itemManagerIndex" );
+	private static CardLayoutSelectorPanel selectorPanel;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all of the necessary panels into a tabular layout for
@@ -123,6 +123,8 @@ public class ItemManageFrame
 
 		JTabbedPane queueTabs;
 		UseItemDequeuePanel dequeuePanel;
+		
+		ItemManageFrame.selectorPanel = new CardLayoutSelectorPanel( "itemManagerIndex" );
 
 		selectorPanel.addPanel( "Usable", new UseItemPanel() );
 
