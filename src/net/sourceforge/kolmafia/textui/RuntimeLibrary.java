@@ -1743,7 +1743,7 @@ public abstract class RuntimeLibrary
 			Value keyval = DataTypes.STRING_INIT;
 			if ( pieces.length > 1 )
 			{
-				keyval = new Value( GenericRequest.decodeURL( pieces[ 1 ] ) );
+				keyval = new Value( GenericRequest.decodeField( pieces[ 1 ] ) );
 			}
 			Value keyname = new Value( name );
 			while ( value.contains( keyname ) )
@@ -4634,7 +4634,7 @@ public abstract class RuntimeLibrary
 
 	public static Value url_decode( Interpreter interpreter, final Value arg )
 	{
-		return new Value( GenericRequest.decodeURL( arg.toString() ) );
+		return new Value( GenericRequest.decodeField( arg.toString() ) );
 	}
 
 	public static Value entity_encode( Interpreter interpreter, final Value arg )

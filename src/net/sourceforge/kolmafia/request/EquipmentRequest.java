@@ -1412,7 +1412,7 @@ public class EquipmentRequest
 			{
 				return;
 			}
-			String name = GenericRequest.decodeURL( matcher.group( 1 ) );
+			String name = GenericRequest.decodeField( matcher.group( 1 ) );
 
 			matcher = OUTFITID_PATTERN.matcher( responseText );
 			if ( !matcher.find() )

@@ -449,7 +449,7 @@ public class GenericRequest
 		}
 		else
 		{
-			this.baseURLString = GenericRequest.decodeURL( newURLString.substring( 0, formSplitIndex ) );
+			this.baseURLString = GenericRequest.decodePath( newURLString.substring( 0, formSplitIndex ) );
 
 			queryString = newURLString.substring( formSplitIndex + 1 );
 		}
@@ -684,8 +684,8 @@ public class GenericRequest
 			String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
 
 			// The name may or may not be encoded.
-			name = GenericRequest.decodeURL( name, "UTF-8" );
-			value = GenericRequest.decodeURL( value, charset );
+			name = GenericRequest.decodeField( name, "UTF-8" );
+			value = GenericRequest.decodeField( value, charset );
 
 			// But we want to always submit value encoded.
 			value = GenericRequest.encodeURL( value, charset );
@@ -754,18 +754,13 @@ public class GenericRequest
 
 			// Chat was encoded as ISO-8859-1, so decode it that way.
 			String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
-			return GenericRequest.decodeURL( value, charset );
+			return GenericRequest.decodeField( value, charset );
 		}
 
 		return null;
 	}
 
-	public static String decodeURL( final String urlString )
-	{
-		return GenericRequest.decodeURL( urlString, "UTF-8" );
-	}
-
-	public static String decodeURL( final String urlString, final String charset )
+	public static String decodePath( final String urlString )
 	{
 		if ( urlString == null )
 		{
@@ -780,7 +775,7 @@ public class GenericRequest
 			do
 			{
 				oldURLString = newURLString;
-				newURLString = URLDecoder.decode( oldURLString, charset );
+				newURLString = URLDecoder.decode( oldURLString, "UTF-8" );
 			}
 			while ( !oldURLString.equals( newURLString ) );
 		}
@@ -789,6 +784,28 @@ public class GenericRequest
 		}
 
 		return newURLString;
+	}
+
+	public static String decodeField( final String urlString )
+	{
+		return GenericRequest.decodeField( urlString, "UTF-8" );
+	}
+
+	public static String decodeField( final String value, final String charset )
+	{
+		if ( value == null )
+		{
+			return null;
+		}
+
+		try
+		{
+			return URLDecoder.decode( value, charset );
+		}
+		catch ( IOException e )
+		{
+			return value;
+		}
 	}
 
 	public static String encodeURL( final String urlString )
@@ -1079,13 +1096,13 @@ public class GenericRequest
 	public static String getAction( final String urlString )
 	{
 		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		return matcher.find() ? matcher.group( 1 ) : null;
+		return matcher.find() ? GenericRequest.decodeField( matcher.group( 1 ) ) : null;
 	}
 
 	public static String getPlace( final String urlString )
 	{
 		Matcher matcher = GenericRequest.PLACE_PATTERN.matcher( urlString );
-		return matcher.find() ? matcher.group( 1 ) : null;
+		return matcher.find() ? GenericRequest.decodeField( matcher.group( 1 ) ) : null;
 	}
 
 	public static final Pattern HOWMUCH_PATTERN = Pattern.compile( "howmuch=([^&]*)" );
@@ -1098,7 +1115,7 @@ public class GenericRequest
 			// KoL allows any old crap in the input field. It
 			// strips out non-numeric characters and treats the
 			// rest as an integer.
-			String field = GenericRequest.decodeURL( matcher.group( 1 ) );
+			String field = GenericRequest.decodeField( matcher.group( 1 ) );
 			try
 			{
 				return StringUtilities.parseIntInternal2( field );
@@ -1409,7 +1426,7 @@ public class GenericRequest
 
 	public static final boolean shouldIgnore( final GenericRequest request )
 	{
-		String requestURL = GenericRequest.decodeURL( request.formURLString );
+		String requestURL = GenericRequest.decodeField( request.formURLString );
 		return requestURL == null ||
 			// Disallow mall searches
 			requestURL.indexOf( "mall.php" ) != -1 ||

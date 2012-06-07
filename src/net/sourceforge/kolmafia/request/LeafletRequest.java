@@ -94,7 +94,7 @@ public class LeafletRequest
 			return null;
 		}
 
-		return GenericRequest.decodeURL( matcher.group( 1 ) );
+		return GenericRequest.decodeField( matcher.group( 1 ) );
 	}
 
 	public static final boolean registerRequest( final String urlString )

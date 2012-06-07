@@ -642,7 +642,7 @@ public abstract class TransferItemRequest
 		}
 
 		Pattern pattern = Pattern.compile( field + "=([\\d,]+)" );
-		Matcher matcher = pattern.matcher( GenericRequest.decodeURL( urlString ) );
+		Matcher matcher = pattern.matcher( GenericRequest.decodeField( urlString ) );
 		if ( !matcher.find() )
 		{
 			return 0;

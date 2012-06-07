@@ -124,7 +124,7 @@ public class GrandpaRequest
 		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "grandpa " + GenericRequest.decodeURL( matcher.group( 1 ) ) );
+		RequestLogger.updateSessionLog( "grandpa " + GenericRequest.decodeField( matcher.group( 1 ) ) );
 
 		return true;
 	}
