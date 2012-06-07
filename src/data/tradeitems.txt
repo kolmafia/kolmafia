@@ -5709,7 +5709,7 @@
 5700
 5701	Moping Artistic Goth Kid	grow	all	0
 5702	little wooden mannequin	familiar	all	75
-5703	crayon shavings	usable	all	10
+5703	crayon shavings	usable, combat	all	10
 5704	wax bugbear	usable	none	0
 5705	wax hat	hat	all	70
 5706	wax pants	pants	all	110
