@@ -129,10 +129,6 @@ public class LogoutManager
 
 		BuffBotHome.setBuffBotActive( false );
 		ChatManager.dispose();
-		
-		// Save Item Manager table header states
-
-		ItemManageFrame.saveHeaderStates();
 
 		// Run on-logout scripts
 

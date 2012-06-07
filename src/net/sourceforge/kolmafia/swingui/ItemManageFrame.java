@@ -764,4 +764,11 @@ public class ItemManageFrame
 		{
 		}
 	}
+	
+	@Override
+	public void dispose()
+	{
+		ItemManageFrame.saveHeaderStates();
+		super.dispose();
+	}
 }
