@@ -98,9 +98,14 @@ public class CommandDisplayFrame
 			return;
 		}
 
+		if ( command.equals( "abort" ) || command.equals( "--" ) )
+		{
+			RequestThread.declareWorldPeace();
+			return;
+		}
+
 		if ( command.startsWith( "jstack" ) || command.startsWith( "graygui" ) || command.startsWith( "greygui" ) ||
-			command.equalsIgnoreCase( "clear" ) || command.equalsIgnoreCase( "cls" ) || command.equalsIgnoreCase( "reset" ) ||
-			command.startsWith( "abort" ) )
+			command.equalsIgnoreCase( "clear" ) || command.equalsIgnoreCase( "cls" ) || command.equalsIgnoreCase( "reset" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( command );
 			return;

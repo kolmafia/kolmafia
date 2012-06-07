@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.util.LinkedList;
+
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -57,6 +59,7 @@ import net.sourceforge.kolmafia.textui.command.*;
 
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.PrefixMap;
 
 public class KoLmafiaCLI
@@ -67,6 +70,10 @@ public class KoLmafiaCLI
 	private static final Pattern HTMLTAG_PATTERN = Pattern.compile( "<.*?>", Pattern.DOTALL );
 	private static final Pattern HEAD_PATTERN = Pattern.compile( "<head>.*?</head>", Pattern.DOTALL );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
+
+	private LinkedList queuedLines = new LinkedList();
+	private CommandRetrieverThread retriever = new CommandRetrieverThread();
+	private CommandProcessorThread processor = new CommandProcessorThread();
 
 	public String previousLine = null;
 	public String currentLine = null;
@@ -177,6 +184,130 @@ public class KoLmafiaCLI
 		}
 	}
 
+	private class CommandRetrieverThread
+		extends Thread
+	{
+		public void run()
+		{
+			String line;
+
+			try
+			{
+				while ( ( line = KoLmafiaCLI.this.commandStream.readLine() ) != null )
+				{
+					if ( line.equals( "--" ) )
+					{
+						RequestThread.declareWorldPeace();
+
+						synchronized ( KoLmafiaCLI.this.queuedLines )
+						{
+							KoLmafiaCLI.this.queuedLines.clear();
+						}
+					}
+					else if ( line.length() == 0 || line.startsWith( "#" ) || line.startsWith( "//" ) || line.startsWith( "\'" ) )
+					{
+						synchronized ( KoLmafiaCLI.this.queuedLines )
+						{
+							KoLmafiaCLI.this.queuedLines.addLast( null );
+						}
+					}
+					else
+					{
+						synchronized ( KoLmafiaCLI.this.queuedLines )
+						{
+							KoLmafiaCLI.this.queuedLines.addLast( line );
+						}
+					}
+				}
+
+				KoLmafiaCLI.this.commandStream.close();
+				KoLmafiaCLI.this.currentLine = null;
+			}
+			catch ( IOException e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
+		}
+	}
+
+	private class CommandProcessorThread
+		extends Thread
+	{
+		public void run()
+		{
+			String line;
+
+			do
+			{
+				line = KoLmafiaCLI.this.getNextLine( " > " );
+
+				if ( StaticEntity.getClient() == KoLmafiaCLI.this )
+				{
+					KoLmafia.forceContinue();
+				}
+
+				if ( line != null )
+				{
+					KoLmafiaCLI.this.isGUI = false;
+					KoLmafiaCLI.this.executeLine( line );
+					KoLmafiaCLI.this.isGUI = true;
+				}
+
+				if ( StaticEntity.getClient() == KoLmafiaCLI.this )
+				{
+					KoLmafia.forceContinue();
+				}
+			}
+			while ( line != null && KoLmafia.permitsContinue() );
+		}
+	}
+
+	public String getNextLine( String message )
+	{
+		String line = null;
+
+		while ( line == null )
+		{
+			if ( message != null && KoLmafiaCLI.this.queuedLines.isEmpty() && StaticEntity.getClient() == KoLmafiaCLI.this && KoLmafiaCLI.this.retriever.isAlive() )
+			{
+				RequestLogger.printLine();
+
+				System.out.print( message );
+			}
+
+			if ( KoLmafiaCLI.this.queuedLines.isEmpty() && KoLmafiaCLI.this.retriever.isAlive() )
+			{
+				PauseObject pauser = new PauseObject();
+
+				do
+				{
+					pauser.pause( 100 );
+				}
+				while ( KoLmafiaCLI.this.queuedLines.isEmpty() && KoLmafiaCLI.this.retriever.isAlive() );
+			}
+
+			if ( KoLmafiaCLI.this.queuedLines.isEmpty() )
+			{
+				return null;
+			}
+
+			if ( StaticEntity.getClient() == KoLmafiaCLI.this )
+			{
+				RequestLogger.printLine();
+			}
+
+			synchronized ( KoLmafiaCLI.this.queuedLines )
+			{
+				line = (String) KoLmafiaCLI.this.queuedLines.removeLast();
+			}
+		}
+
+		return line;
+	}
+
 	/**
 	 * A utility method which waits for commands from the user, then executing each command as it arrives.
 	 */
@@ -185,83 +316,15 @@ public class KoLmafiaCLI
 	{
 		KoLmafia.forceContinue();
 
-		if ( StaticEntity.getClient() == this )
+		if ( StaticEntity.getClient() == KoLmafiaCLI.this )
 		{
-			RequestLogger.printLine();
+			this.retriever.start();
+			this.processor.start();
 		}
-
-		String line = null;
-
-		while ( KoLmafia.permitsContinue() && ( line = this.getNextLine( " > " ) ) != null )
+		else
 		{
-			if ( StaticEntity.getClient() == this )
-			{
-				RequestLogger.printLine();
-			}
-
-			this.isGUI = false;
-			this.executeLine( line );
-			this.isGUI = true;
-
-			if ( StaticEntity.getClient() == this )
-			{
-				RequestLogger.printLine();
-			}
-
-			if ( StaticEntity.getClient() == this )
-			{
-				KoLmafia.forceContinue();
-			}
-		}
-
-		try
-		{
-			this.commandStream.close();
-			this.currentLine = null;
-		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	public String getNextLine( String message )
-	{
-		try
-		{
-			if ( StaticEntity.getClient() == this && message != null && message.length() > 0 )
-			{
-				System.out.print( message );
-			}
-
-			String line;
-
-			do
-			{
-				line = this.commandStream.readLine();
-				if ( line == null )
-				{
-					return null;
-				}
-				line = line.trim();
-			}
-			while ( line.length() == 0 || line.startsWith( "#" ) || line.startsWith( "//" ) || line.startsWith( "\'" ) );
-
-			// You will either have reached the end of file, or you
-			// will have a valid line -- return it.
-
-			return line;
-		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return null;
+			this.retriever.run();
+			this.processor.run();
 		}
 	}
 
