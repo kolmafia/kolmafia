@@ -2421,7 +2421,7 @@ public class RequestEditorKit
 					}
 				}
 
-				formSubmitter.constructURLString( GenericRequest.decodeURL( actionString.toString(), "ISO-8859-1" ) );
+				formSubmitter.constructURLString( GenericRequest.decodeField( actionString.toString(), "ISO-8859-1" ) );
 			}
 			else
 			{

@@ -195,7 +195,7 @@ public class WineCellarRequest
 				return true;
 			}
 
-			String demon = GenericRequest.decodeURL( matcher.group(1) );
+			String demon = GenericRequest.decodeField( matcher.group(1) );
 
 			if ( demon.equals( "" ) ||
 			     !InventoryManager.retrieveItem( ItemPool.BLACK_CANDLE, 3 ) ||

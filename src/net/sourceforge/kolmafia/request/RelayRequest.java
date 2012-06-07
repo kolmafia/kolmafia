@@ -1506,7 +1506,7 @@ public class RelayRequest
 		this.waitForRecoveryToComplete();
 
 		GenericRequest.suppressUpdate( suppressUpdate );
-		CommandDisplayFrame.executeCommand( GenericRequest.decodeURL( command ) );
+		CommandDisplayFrame.executeCommand( GenericRequest.decodeField( command ) );
 
 		while ( waitForCompletion && CommandDisplayFrame.hasQueuedCommands() )
 		{
