@@ -301,7 +301,7 @@ public class KoLmafiaCLI
 
 			synchronized ( KoLmafiaCLI.this.queuedLines )
 			{
-				line = (String) KoLmafiaCLI.this.queuedLines.removeLast();
+				line = (String) KoLmafiaCLI.this.queuedLines.removeFirst();
 			}
 		}
 
