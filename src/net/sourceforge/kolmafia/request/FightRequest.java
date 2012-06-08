@@ -2144,7 +2144,7 @@ public class FightRequest
 		if ( !won &&
 			responseText.indexOf( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
 				"(show old combat form)" :
-				"fight.php" ) != -1 )
+				"action=fight.php" ) != -1 )
 		{
 			return;
 		}
