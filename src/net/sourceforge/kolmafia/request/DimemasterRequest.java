@@ -161,7 +161,6 @@ public class DimemasterRequest
 	{
 		if ( !EquipmentManager.isWearingOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT ) )
 		{
-			EquipmentManager.retrieveOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT );
 			SpecialOutfit outfit = EquipmentDatabase.getOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT );
 			EquipmentRequest request = new EquipmentRequest( outfit );
 			RequestThread.postRequest( request );

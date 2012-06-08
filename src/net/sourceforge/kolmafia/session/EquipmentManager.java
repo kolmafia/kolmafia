@@ -1366,18 +1366,13 @@ public class EquipmentManager
 		return outfit != null && outfit.isWearing();
 	}
 
-	public static final boolean retrieveOutfit( final int outfitId )
+	public static final boolean retrieveOutfit( final SpecialOutfit outfit )
 	{
-		if ( outfitId < 0 || outfitId == Integer.MAX_VALUE )
-		{
-			return true;
-		}
-
-		AdventureResult[] pieces = EquipmentDatabase.normalOutfits.get( outfitId ).getPieces();
-
+		AdventureResult[] pieces = outfit.getPieces();
 		for ( int i = 0; i < pieces.length; ++i )
 		{
-			if ( !KoLCharacter.hasEquipped( pieces[ i ] ) && !InventoryManager.retrieveItem( pieces[ i ] ) )
+			AdventureResult piece = pieces[ i ];
+			if ( !KoLCharacter.hasEquipped( piece ) && !InventoryManager.retrieveItem( piece ) )
 			{
 				return false;
 			}

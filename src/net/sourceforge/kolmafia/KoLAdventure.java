@@ -456,15 +456,9 @@ public class KoLAdventure
 				return;
 			}
 
-			if ( !EquipmentManager.retrieveOutfit( outfitId ) )
-			{
-				// This should not happen, since hasOutfit()
-				// returned true.
-				return;
-			}
-
 			// Wear the selected outfit.
-			RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( outfitId );
+			RequestThread.postRequest( new EquipmentRequest( outfit ) );
 
 			// If we selected the harem girl outfit, use a perfume
 			if ( outfitId == 4 && !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) )
@@ -498,16 +492,12 @@ public class KoLAdventure
 
 			if ( !EquipmentManager.isWearingOutfit( id1 ) && !EquipmentManager.isWearingOutfit( id2 ) )
 			{
-				SpecialOutfit outfit = null;
-				if ( EquipmentManager.retrieveOutfit( id1 ) )
-				{
-					outfit = EquipmentDatabase.getOutfit( id1 );
-				}
-				else if ( EquipmentManager.retrieveOutfit( id2 ) )
-				{
-					outfit = EquipmentDatabase.getOutfit( id2 );
-				}
-				else
+				SpecialOutfit outfit =
+					EquipmentManager.hasOutfit( id1 ) ? EquipmentDatabase.getOutfit( id1 ) :
+					EquipmentManager.hasOutfit( id2 ) ? EquipmentDatabase.getOutfit( id2 ) :
+					null;
+
+				if ( outfit == null )
 				{
 					return;
 				}
@@ -524,16 +514,13 @@ public class KoLAdventure
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
-			if ( outfitId > 0 && !EquipmentManager.isWearingOutfit( outfitId ) )
+			if ( EquipmentManager.hasOutfit( outfitId ) )
 			{
-				if ( !EquipmentManager.retrieveOutfit( outfitId ) )
-				{
-					return;
-				}
-
-				RequestThread.postRequest( new EquipmentRequest( EquipmentDatabase.getOutfit( outfitId ) ) );
+				SpecialOutfit outfit = EquipmentDatabase.getOutfit( outfitId );
+				RequestThread.postRequest( new EquipmentRequest( outfit ) );
+				this.isValidAdventure = true;
 			}
-			this.isValidAdventure = true;
+
 			return;
 		}
 

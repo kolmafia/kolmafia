@@ -82,7 +82,7 @@ public class OutfitCommand
 			return;
 		}
 
-		EquipmentManager.retrieveOutfit( intendedOutfit.getOutfitId() );
+		EquipmentManager.retrieveOutfit( intendedOutfit );
 		RequestThread.postRequest( new EquipmentRequest( intendedOutfit ) );
 	}
 }

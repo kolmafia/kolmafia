@@ -605,54 +605,24 @@ public class EquipmentRequest
 			// If this is a birthday suit outfit, then remove everything.
 			if ( this.outfit == SpecialOutfit.BIRTHDAY_SUIT )
 			{
-				if ( EquipmentRequest.shouldSavePreviousOutfit )
-				{
-					if ( SpecialOutfit.markImplicitCheckpoint() )
-					{
-						( new EquipmentRequest( "Backup" ) ).run();
-					}
-
-					EquipmentRequest.shouldSavePreviousOutfit = false;
-				}
-
-				// Only make a request to unequip everything if
-				// you are wearing something.
-
+				// See if you are wearing anything.
+				boolean found = false;
 				for ( int i = 0; i < EquipmentManager.FAMILIAR; ++i )
 				{
 					if ( !EquipmentManager.getEquipment( i ).equals( EquipmentRequest.UNEQUIP ) )
 					{
-						( new EquipmentRequest( EquipmentRequest.UNEQUIP_ALL ) ).run();
+						found = true;
 						break;
 					}
 				}
 
-				return;
-			}
-
-			int id = this.outfit.getOutfitId();
-
-			// If this is not a custom outfit...
-			if ( id > 0 )
-			{
-				// Return immediately if the character is
-				// already wearing the outfit
-				if ( EquipmentManager.isWearingOutfit( id ) )
+				// If not, nothing to do
+				if ( !found )
 				{
 					return;
 				}
 
-				// Next, ensure that you have all the pieces
-				// for the given outfit.
-
-				EquipmentManager.retrieveOutfit( id );
-
-				// Bail now if the conditions were not met
-				if ( !KoLmafia.permitsContinue() )
-				{
-					return;
-				}
-
+				// Make a checkpoint, if necessary
 				if ( EquipmentRequest.shouldSavePreviousOutfit )
 				{
 					if ( SpecialOutfit.markImplicitCheckpoint() )
@@ -662,66 +632,34 @@ public class EquipmentRequest
 
 					EquipmentRequest.shouldSavePreviousOutfit = false;
 				}
-			}
-			else if ( id == 0 )
-			{
-				// Return immediately if the character is
-				// already wearing the outfit
-				if ( EquipmentManager.isWearingOutfit( this.outfit ) )
-				{
-					return;
-				}
 
-				AdventureResult[] pieces = this.outfit.getPieces();
-
-				int equipmentType;
-
-				boolean usesWeapon = false;
-				boolean usesAccessories = false;
-
-				for ( int i = 0; i < pieces.length; ++i )
-				{
-					equipmentType = ItemDatabase.getConsumptionType( pieces[ i ].getItemId() );
-
-					// If the item is an accessory, you
-					// will have to remove all other
-					// accessories to be consistent.
-
-					if ( equipmentType == KoLConstants.EQUIP_ACCESSORY )
-					{
-						if ( !usesAccessories )
-						{
-							for ( int j = EquipmentManager.ACCESSORY1; j <= EquipmentManager.ACCESSORY3; ++j )
-							{
-								( new EquipmentRequest( EquipmentRequest.UNEQUIP, j ) ).run();
-							}
-						}
-
-						usesAccessories = true;
-					}
-
-					int desiredSlot = EquipmentRequest.chooseEquipmentSlot( equipmentType );
-
-					// If it's a weapon, sometimes it needs to go to the offhand
-					// slot when there's already a weapon equipped from the outfit.
-
-					if ( equipmentType == KoLConstants.EQUIP_WEAPON )
-					{
-						if ( usesWeapon )
-						{
-							desiredSlot = EquipmentManager.OFFHAND;
-						}
-
-						usesWeapon = true;
-					}
-
-					// Now, execute the equipment change.  It will auto-detect
-					// if you already have the item equipped.
-
-					( new EquipmentRequest( pieces[ i ], desiredSlot ) ).run();
-				}
+				// Tell KoL to unequip everything
+				( new EquipmentRequest( EquipmentRequest.UNEQUIP_ALL ) ).run();
 
 				return;
+			}
+
+			// If you are already wearing the outfit, nothing to do
+			if ( EquipmentManager.isWearingOutfit( this.outfit ) )
+			{
+				return;
+			}
+
+			// Make sure we have all the pieces
+			if ( !EquipmentManager.retrieveOutfit( this.outfit ) )
+			{
+				return;
+			}
+
+			// Make a checkpoint, if necessary
+			if ( EquipmentRequest.shouldSavePreviousOutfit )
+			{
+				if ( SpecialOutfit.markImplicitCheckpoint() )
+				{
+					( new EquipmentRequest( "Backup" ) ).run();
+				}
+
+				EquipmentRequest.shouldSavePreviousOutfit = false;
 			}
 		}
 
