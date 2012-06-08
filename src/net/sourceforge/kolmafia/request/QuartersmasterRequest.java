@@ -161,7 +161,6 @@ public class QuartersmasterRequest
 	{
 		if ( !EquipmentManager.isWearingOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT ) )
 		{
-			EquipmentManager.retrieveOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT );
 			SpecialOutfit outfit = EquipmentDatabase.getOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT );
 			EquipmentRequest request = new EquipmentRequest( outfit );
 			RequestThread.postRequest( request );
