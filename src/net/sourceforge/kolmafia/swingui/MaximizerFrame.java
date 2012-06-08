@@ -1698,6 +1698,12 @@ public class MaximizerFrame
 					this.beeosity = 999;
 					index = Modifiers.ADVENTURES;
 				}
+				else if ( keyword.startsWith( "fites" ) )
+				{
+					this.noTiebreaker = true;
+					this.beeosity = 999;
+					index = Modifiers.PVP_FIGHTS;
+				}
 				else if ( keyword.startsWith( "exp" ) )
 				{
 					index = Modifiers.EXPERIENCE;
