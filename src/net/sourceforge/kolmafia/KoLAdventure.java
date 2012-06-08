@@ -510,17 +510,22 @@ public class KoLAdventure
 		}
 
 		// Disguise zones require outfits
-		if ( !this.adventureId.equals( AdventurePool.COLA_BATTLEFIELD_ID ) && ( this.adventureName.indexOf( "Disguise" ) != -1 || this.adventureName.indexOf( "Uniform" ) != -1 ) )
+		if ( !this.adventureId.equals( AdventurePool.COLA_BATTLEFIELD_ID ) &&
+		     ( this.adventureName.indexOf( "Disguise" ) != -1 || this.adventureName.indexOf( "Uniform" ) != -1 ) )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
-			if ( EquipmentManager.hasOutfit( outfitId ) )
+			if ( outfitId > 0 && !EquipmentManager.isWearingOutfit( outfitId ) )
 			{
 				SpecialOutfit outfit = EquipmentDatabase.getOutfit( outfitId );
-				RequestThread.postRequest( new EquipmentRequest( outfit ) );
-				this.isValidAdventure = true;
-			}
+				if ( !EquipmentManager.retrieveOutfit( outfit ) )
+				{
+					return;
+				}
 
+				RequestThread.postRequest( new EquipmentRequest( outfit ) );	 
+			}	 
+			this.isValidAdventure = true;
 			return;
 		}
 
