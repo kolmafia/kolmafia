@@ -152,6 +152,7 @@ public class MaximizerFrame
 		"elemental dmg",
 		"spell dmg",
 		"adv",
+		"pvp fights",
 		"hot res",
 		"cold res",
 		"spooky res",
