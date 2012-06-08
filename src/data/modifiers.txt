@@ -3540,6 +3540,7 @@ Legendary Impatience	Initiative: +100
 # Louder Bellows: Improves Intimidating Bellow
 Mad Looting Skillz	Item Drop: +20
 Marginally Insane	Maximum MP Percent: +10
+Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: +10, Unarmed
 More to Love	Minstrel Level: +3
 Natural Born Scrabbler	Item Drop: +5
 Nimble Fingers	Meat Drop: +20
