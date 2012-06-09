@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 
 import java.util.Comparator;
@@ -57,21 +58,22 @@ import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemTableManagePanel;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 
 public class DatabaseFrame
 	extends GenericFrame
 {
 	public static final LockableListModel allItems = LowerCaseEntry.createListModel( ItemDatabase.entrySet() );
-	private static final LockableListModel allEffects = LowerCaseEntry.createListModel( EffectDatabase.entrySet() );
-	private static final LockableListModel allSkills = LowerCaseEntry.createListModel( SkillDatabase.entrySet() );
-	private static final LockableListModel allFamiliars = LowerCaseEntry.createListModel( FamiliarDatabase.entrySet() );
+	public static final LockableListModel allEffects = LowerCaseEntry.createListModel( EffectDatabase.entrySet() );
+	public static final LockableListModel allSkills = LowerCaseEntry.createListModel( SkillDatabase.entrySet() );
+	public static final LockableListModel allFamiliars = LowerCaseEntry.createListModel( FamiliarDatabase.entrySet() );
 
 	public DatabaseFrame()
 	{
 		super( "Internal Database" );
 
-		this.tabs.addTab( "Items", new ItemTableManagePanel( allItems ) );
+		this.tabs.addTab( "Items", new ExamineItemsPanel() );
 		this.tabs.addTab( "Familiars", new ItemLookupPanel( DatabaseFrame.allFamiliars, "familiar", "which" ) );
 		this.tabs.addTab( "Skills", new ItemLookupPanel( DatabaseFrame.allSkills, "skill", "whichskill" ) );
 		this.tabs.addTab( "Effects", new ExamineEffectsPanel() );
@@ -80,14 +82,14 @@ public class DatabaseFrame
 	}
 
 	private class ItemLookupPanel
-		extends ItemManagePanel
+		extends ItemTableManagePanel
 	{
 		public String type;
 		public String which;
 
 		public ItemLookupPanel( final LockableListModel list, final String type, final String which )
 		{
-			super( "Sort by name", "Sort by " + type + " #", list );
+			super( list );
 
 			this.type = type;
 			this.which = which;
@@ -95,6 +97,8 @@ public class DatabaseFrame
 			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			this.elementList.addMouseListener( new ShowEntryListener() );
 			this.elementList.contextMenu.add( new ThreadedMenuItem( "Game description", new DescriptionListener() ), 0 );
+			
+			this.setPreferredSize( new Dimension(400, 400) );
 
 			this.actionConfirmed();
 		}
@@ -102,21 +106,7 @@ public class DatabaseFrame
 		@Override
 		public AutoFilterTextField getWordFilter()
 		{
-			return new AutoFilterTextField( this.elementList );
-		}
-
-		@Override
-		public void actionConfirmed()
-		{
-			// Sort elements by name
-			this.elementModel.sort( new EntryNameComparator() );
-		}
-
-		@Override
-		public void actionCancelled()
-		{
-			// Sort elements by Id number
-			this.elementModel.sort( new EntryIdComparator() );
+			return new AutoFilterTextField( this.elementModel );
 		}
 
 		/**
@@ -129,10 +119,10 @@ public class DatabaseFrame
 			@Override
 			protected void execute()
 			{
-				int index = ItemLookupPanel.this.elementList.lastSelectIndex;
+				int index = ItemLookupPanel.this.elementList.getSelectedIndex();
 				if ( index != -1 )
 				{
-					Entry entry = (Entry) ItemLookupPanel.this.elementModel.getElementAt( index );
+					Entry entry = (Entry) ItemLookupPanel.this.elementList.getDisplayModel().getElementAt( index );
 					ItemLookupPanel.this.showDescription( entry );
 				}
 			}
@@ -152,7 +142,7 @@ public class DatabaseFrame
 				}
 
 				int index = ItemLookupPanel.this.elementList.locationToIndex( e.getPoint() );
-				Object entry = ItemLookupPanel.this.elementList.getModel().getElementAt( index );
+				Object entry = ItemLookupPanel.this.elementList.getDisplayModel().getElementAt( index );
 
 				if ( !( entry instanceof Entry ) )
 				{
@@ -202,38 +192,6 @@ public class DatabaseFrame
 		public String getId( final Entry e )
 		{
 			return EffectDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );
-		}
-	}
-
-	private class EntryIdComparator
-		implements Comparator
-	{
-		public int compare( final Object o1, final Object o2 )
-		{
-			if ( !( o1 instanceof Entry ) || !( o2 instanceof Entry ) )
-			{
-				throw new ClassCastException();
-			}
-
-			int i1 = ( (Integer) ( (Entry) o1 ).getKey() ).intValue();
-			int i2 = ( (Integer) ( (Entry) o2 ).getKey() ).intValue();
-			return i1 - i2;
-		}
-	}
-
-	private class EntryNameComparator
-		implements Comparator
-	{
-		public int compare( final Object o1, final Object o2 )
-		{
-			if ( !( o1 instanceof Entry ) || !( o2 instanceof Entry ) )
-			{
-				throw new ClassCastException();
-			}
-
-			String s1 = (String) ( (Entry) o1 ).getValue();
-			String s2 = (String) ( (Entry) o2 ).getValue();
-			return s1.compareToIgnoreCase( s2 );
 		}
 	}
 }

@@ -88,6 +88,20 @@ public class TableCellFactory
 			{
 				return getAllItemsCell( columnIndex, isSelected, (LowerCaseEntry) result, raw );
 			}
+			return getGeneralDatabaseCell( columnIndex, isSelected, (LowerCaseEntry) result, raw );
+		}
+		return null;
+	}
+
+	private static Object getGeneralDatabaseCell( int columnIndex, boolean isSelected, LowerCaseEntry result,
+		boolean raw )
+	{
+		switch ( columnIndex )
+		{
+		case 0:
+			return (String) result.getValue();
+		case 1:
+			return IntegerPool.get( (Integer) result.getKey() );
 		}
 		return null;
 	}
@@ -376,6 +390,27 @@ public class TableCellFactory
 			return new String[]
 					{
 						"item name", "item ID", "autosell", "mallprice", "fill", "adv range", "level req"
+					};
+		}
+		else if ( originalModel == DatabaseFrame.allFamiliars )
+		{
+			return new String[]
+					{
+						"familiar name", "familiar ID",
+					};
+		}
+		else if ( originalModel == DatabaseFrame.allEffects )
+		{
+			return new String[]
+					{
+						"effect name", "effect ID",
+					};
+		}
+		else if ( originalModel == DatabaseFrame.allSkills )
+		{
+			return new String[]
+					{
+						"skill name", "skill ID",
 					};
 		}
 		return new String[]
