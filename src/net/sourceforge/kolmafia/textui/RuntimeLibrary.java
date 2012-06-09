@@ -778,6 +778,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "in_hardcore", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "pvp_attacks_left", DataTypes.INT_TYPE, params ) );
+
 		// Basic skill and effect functions, including those used
 		// in custom combat consult scripts.
 
@@ -3438,6 +3441,11 @@ public abstract class RuntimeLibrary
 	public static Value in_hardcore( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.isHardcore() );
+	}
+
+	public static Value pvp_attacks_left( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getAttacksLeft() );
 	}
 
 	// Basic skill and effect functions, including those used

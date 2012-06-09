@@ -1711,25 +1711,54 @@ public class RelayRequest
 			return;
 		}
 
-		// Load custom items from OneTonTomato's script if they
-		// are currently being requested.
 		if ( path.startsWith( "desc_item.php" ) )
 		{
-			String item = this.getFormField( "whichitem" );
-			if ( item != null && item.startsWith( "custom" ) )
-			{
-				this.pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( item.substring( 6 ) ) );
-				return;
-			}
+			String descId = this.getFormField( "whichitem" );
 
-			if ( showWikiLink( item ) )
+			if ( descId != null )
 			{
-				String location = ShowDescriptionList.getWikiLocation( ItemDatabase.getItemName( item ) );
-				if ( location != null )
+				// Load custom items from OneTonTomato's script
+				// if they are currently being requested.
+				if ( descId.startsWith( "custom" ) )
 				{
-					this.pseudoResponse( "HTTP/1.1 302 Found", location );
+					this.pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( descId.substring( 6 ) ) );
 					return;
 				}
+
+				// Show the Wiki, if that is desired
+				if ( showWikiLink( descId ) )
+				{
+					String itemName = ItemDatabase.getItemName( descId );
+					String location = ShowDescriptionList.getWikiLocation( itemName );
+					if ( location != null )
+					{
+						this.pseudoResponse( "HTTP/1.1 302 Found", location );
+						return;
+					}
+				}
+			}
+		}
+
+		if ( path.startsWith( "desc_effect.php" ) && Preferences.getBoolean( "relayAddsWikiLinks" ) )
+		{
+			String descId = this.getFormField( "whicheffect" );
+			String effectName = EffectDatabase.getEffectName( descId );
+			AdventureResult effect = new AdventureResult( effectName, 1, true );
+			String location = ShowDescriptionList.getWikiLocation( effect );
+
+			if ( location != null )
+			{
+				this.pseudoResponse( "HTTP/1.1 302 Found", location );
+				return;
+			}
+		}
+
+		if ( path.startsWith( "peevpee.php" ) )
+		{
+			String action = this.getFormField( "action" );
+			if ( action != null && action.equals( "fight" ) )
+			{
+				RelayRequest.executeBeforePVPScript();
 			}
 		}
 
@@ -1794,20 +1823,6 @@ public class RelayRequest
 			}
 			this.sendGeneralWarning( image, msg.toString(), CONFIRM_COUNTER );
 			return;
-		}
-
-		if ( path.startsWith( "desc_effect.php" ) && Preferences.getBoolean( "relayAddsWikiLinks" ) )
-		{
-			String effect = this.getFormField( "whicheffect" );
-			String location =
-				ShowDescriptionList.getWikiLocation( new AdventureResult(
-					EffectDatabase.getEffectName( effect ), 1, true ) );
-
-			if ( location != null )
-			{
-				this.pseudoResponse( "HTTP/1.1 302 Found", location );
-				return;
-			}
 		}
 
 		String urlString = this.getURLString();
@@ -1928,6 +1943,14 @@ public class RelayRequest
 		else if ( wasAdventure )
 		{
 			RelayRequest.executeAfterAdventureScript();
+		}
+	}
+
+	public static void executeBeforePVPScript()
+	{
+		if ( Preferences.getBoolean( "relayRunsBeforePVPScript" ) )
+		{
+			KoLmafia.executeBeforePVPScript();
 		}
 	}
 

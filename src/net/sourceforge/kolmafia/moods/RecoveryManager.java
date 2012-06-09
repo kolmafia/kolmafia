@@ -129,11 +129,7 @@ public class RecoveryManager
 
 		if ( isScriptCheck )
 		{
-			String scriptPath = Preferences.getString( "betweenBattleScript" );
-			if ( !scriptPath.equals( "" ) )
-			{
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptPath );
-			}
+			KoLmafia.executeScript( Preferences.getString( "betweenBattleScript" ) );
 		}
 
 		SpecialOutfit.createImplicitCheckpoint();
