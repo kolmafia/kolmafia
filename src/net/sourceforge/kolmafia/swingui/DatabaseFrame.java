@@ -54,15 +54,15 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.panel.ItemTableManagePanel;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
-
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 
 public class DatabaseFrame
 	extends GenericFrame
 {
-	private static final LockableListModel allItems = LowerCaseEntry.createListModel( ItemDatabase.entrySet() );
+	public static final LockableListModel allItems = LowerCaseEntry.createListModel( ItemDatabase.entrySet() );
 	private static final LockableListModel allEffects = LowerCaseEntry.createListModel( EffectDatabase.entrySet() );
 	private static final LockableListModel allSkills = LowerCaseEntry.createListModel( SkillDatabase.entrySet() );
 	private static final LockableListModel allFamiliars = LowerCaseEntry.createListModel( FamiliarDatabase.entrySet() );
@@ -71,7 +71,7 @@ public class DatabaseFrame
 	{
 		super( "Internal Database" );
 
-		this.tabs.addTab( "Items", new ExamineItemsPanel() );
+		this.tabs.addTab( "Items", new ItemTableManagePanel( allItems ) );
 		this.tabs.addTab( "Familiars", new ItemLookupPanel( DatabaseFrame.allFamiliars, "familiar", "which" ) );
 		this.tabs.addTab( "Skills", new ItemLookupPanel( DatabaseFrame.allSkills, "skill", "whichskill" ) );
 		this.tabs.addTab( "Effects", new ExamineEffectsPanel() );

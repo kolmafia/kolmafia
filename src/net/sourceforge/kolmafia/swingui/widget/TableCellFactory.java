@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.swingui.DatabaseFrame;
+import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 
 public class TableCellFactory
 {
@@ -79,6 +81,35 @@ public class TableCellFactory
 		if ( result instanceof CreateItemRequest )
 		{
 			return getCreationCell( columnIndex, result, isSelected, raw );
+		}
+		if ( result instanceof LowerCaseEntry )
+		{
+			if ( model == DatabaseFrame.allItems )
+			{
+				return getAllItemsCell( columnIndex, isSelected, (LowerCaseEntry) result, raw );
+			}
+		}
+		return null;
+	}
+
+	private static Object getAllItemsCell( int columnIndex, boolean isSelected, LowerCaseEntry result, boolean raw )
+	{
+		switch ( columnIndex )
+		{
+		case 0:
+			return ItemDatabase.getCanonicalName( (Integer) result.getKey() );
+		case 1:
+			return IntegerPool.get( (Integer) result.getKey() );
+		case 2:
+			return IntegerPool.get( ItemDatabase.getPriceById( (Integer) result.getKey() ) );
+		case 3:
+			return IntegerPool.get( MallPriceDatabase.getPrice( (Integer) result.getKey() ) );
+		case 4:
+			return ItemDatabase.getFullness( (String) result.getValue() ) + ItemDatabase.getInebriety( (String) result.getValue() ) + ItemDatabase.getSpleenHit( (String) result.getValue() );
+		case 5:
+			return ItemDatabase.getAdvRangeByName( ItemDatabase.getCanonicalName( (Integer) result.getKey() ) );
+		case 6:
+			return ItemDatabase.getLevelReqByName( (String) result.getValue() );
 		}
 		return null;
 	}
@@ -339,6 +370,13 @@ public class TableCellFactory
 			{
 				"item name", "autosell", "quantity", "mallprice", "fill", "adv/fill", "level req"
 			};
+		}
+		else if ( originalModel == DatabaseFrame.allItems )
+		{
+			return new String[]
+					{
+						"item name", "item ID", "autosell", "mallprice", "fill", "adv range", "level req"
+					};
 		}
 		return new String[]
 		{
