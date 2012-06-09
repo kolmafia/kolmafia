@@ -104,8 +104,8 @@ public class PvpManager
 
 		while ( !KoLmafia.refusesContinue() && KoLCharacter.getAttacksLeft() > 0 )
 		{
-			fightsCompleted++;
-			KoLmafia.updateDisplay( "Attack " + fightsCompleted + " of " + totalFights );
+			KoLmafia.executeBeforePVPScript();
+			KoLmafia.updateDisplay( "Attack " + ( ++fightsCompleted ) + " of " + totalFights );
 			RequestThread.postRequest( request );
 
 			if ( !KoLmafia.refusesContinue() )
