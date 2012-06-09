@@ -1175,7 +1175,16 @@ public abstract class KoLmafia
 
 	public static boolean executeAfterAdventureScript()
 	{
-		String scriptPath = Preferences.getString( "afterAdventureScript" );
+		return KoLmafia.executeScript( Preferences.getString( "afterAdventureScript" ) );
+	}
+
+	public static boolean executeBeforePVPScript()
+	{
+		return KoLmafia.executeScript( Preferences.getString( "beforePVPScript" ) );
+	}
+
+	public static boolean executeScript( final String scriptPath )
+	{
 		if ( !scriptPath.equals( "" ) )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( scriptPath );

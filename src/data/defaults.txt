@@ -144,6 +144,7 @@ global	relayMaintainsMana	false
 global	relayOverridesImages	false
 global	relayRunsAfterAdventureScript	false
 global	relayRunsBeforeBattleScript	false
+global	relayRunsBeforePVPScript	false
 global	relaySkillButtonCount	5
 global	relayTextualizesEffects	false
 global	relayTrimsZapList	false
@@ -267,6 +268,7 @@ user	bartenderTurnsUsed	0
 user	basementMallPrices	1
 user	battleAction	attack with weapon
 user	beeCounter	0
+user	beforePVPScript
 user	betweenBattleScript
 user	biodataEngineering	0
 user	biodataGalley	0
