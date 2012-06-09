@@ -860,8 +860,10 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "have_outfit", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "outfit_pieces", new AggregateType(
-			DataTypes.ITEM_TYPE, 0 ), params ) );
+		functions.add( new LibraryFunction( "is_wearing_outfit", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "outfit_pieces", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_familiar", DataTypes.FAMILIAR_TYPE, params ) );
@@ -3674,7 +3676,20 @@ public abstract class RuntimeLibrary
 			return DataTypes.FALSE_VALUE;
 		}
 
-		return DataTypes.makeBooleanValue( EquipmentManager.hasOutfit( so.getOutfitId() ) );
+		int id = so.getOutfitId();
+		return DataTypes.makeBooleanValue( id < 0 || EquipmentManager.hasOutfit( id ) );
+	}
+
+	public static Value is_wearing_outfit( Interpreter interpreter, final Value outfit )
+	{
+		SpecialOutfit so = EquipmentManager.getMatchingOutfit( outfit.toString() );
+
+		if ( so == null )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		return DataTypes.makeBooleanValue( EquipmentManager.isWearingOutfit( so ) );
 	}
 
 	public static Value outfit_pieces( Interpreter interpreter, final Value outfit )
