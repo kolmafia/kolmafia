@@ -1133,17 +1133,17 @@ public class ShowDescriptionTable
 
 	public void ensureIndexIsVisible( int index )
 	{
-		this.scrollRowToVisible( index );
+		this.scrollRowToVisible( convertRowIndexToView( index ) );
 	}
 
 	public int locationToIndex( Point point )
 	{
-		return this.rowAtPoint( point );
+		return convertRowIndexToModel( this.rowAtPoint( point ) );
 	}
 
 	public int getSelectedIndex()
 	{
-		return this.getSelectedRow();
+		return convertRowIndexToModel( this.getSelectedRow() );
 	}
 
 	public void setSelectedIndex( int i )
