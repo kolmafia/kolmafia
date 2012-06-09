@@ -228,7 +228,7 @@ public class SpecialOutfit
 			}
 
 			equippedItem = EquipmentManager.getEquipment( i );
-			if ( checkpoint[ i ].equals( EquipmentRequest.UNEQUIP ) || equippedItem.equals( checkpoint[ i ] ) )
+			if ( equippedItem.equals( checkpoint[ i ] ) )
 			{
 				continue;
 			}
