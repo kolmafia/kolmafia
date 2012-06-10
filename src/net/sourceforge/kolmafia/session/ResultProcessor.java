@@ -960,6 +960,10 @@ public class ResultProcessor
 				KoLCharacter.incrementTotalMoxie( result.getCount() );
 			}
 		}
+		else if ( resultName.equals( AdventureResult.PVP ) )
+		{
+			KoLCharacter.setAttacksLeft( KoLCharacter.getAttacksLeft() + result.getCount() );
+		}
 	}
 
 	private static void gainItem( boolean combatResults, AdventureResult result )

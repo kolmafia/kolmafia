@@ -89,6 +89,7 @@ public class AdventureResult
 	public static final String MEAT = "Meat";
 	public static final String MEAT_SPENT = "Meat Spent";
 	public static final String PULL = "Pull";
+	public static final String PVP = "PvP";
 	public static final String STILL = "Still";
 	public static final String TOME = "Tome Summon";
 
@@ -202,7 +203,8 @@ public class AdventureResult
 		{
 			return AdventureResult.MEAT_PRIORITY;
 		}
-		if ( name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) || name.equals( AdventureResult.DRUNK ) )
+		if ( name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) ||
+			 name.equals( AdventureResult.DRUNK ) || name.equals( AdventureResult.PVP ) )
 		{
 			return AdventureResult.NO_PRIORITY;
 		}
@@ -566,6 +568,16 @@ public class AdventureResult
 			{
 				// "Meat" or "Meets", if Can Has Cyborger
 				return new AdventureResult( AdventureResult.MEAT, modifier );
+			}
+
+			if ( statname.startsWith( "addit" ) )
+			{
+				statname = parsedGain.nextToken();
+			}
+
+			if ( statname.startsWith( "PvP" ) )
+			{
+				return new AdventureResult( AdventureResult.PVP, modifier );
 			}
 
 			if ( parsedGain.hasMoreTokens() )
