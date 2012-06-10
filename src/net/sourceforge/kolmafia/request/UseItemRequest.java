@@ -2658,6 +2658,8 @@ public class UseItemRequest
 		case ItemPool.GHOST_BOOK:
 		case ItemPool.TATTLE_BOOK:
 		case ItemPool.NOTE_FROM_CLANCY:
+		case ItemPool.GRUDGE_BOOK:
+		case ItemPool.JERK_BOOK:
 		{
 			if ( KoLCharacter.inAxecore() && responseText.indexOf( "didn't like to read" ) != -1 )
 			{
@@ -4238,6 +4240,10 @@ public class UseItemRequest
 			return "Tattle";
 		case ItemPool.NOTE_FROM_CLANCY:
 			return "Request Sandwich";
+		case ItemPool.GRUDGE_BOOK:
+			return "Chip on your Shoulder";
+		case ItemPool.JERK_BOOK:
+			return "Thick-Skinned";
 		}
 
 		return null;

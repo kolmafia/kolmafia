@@ -859,6 +859,12 @@ public class SkillDatabase
 			// Way of the Stunning Fist skills
 			return false;
 
+		case 80:	// Thick-Skinned
+		case 81:	// Chip on your Shoulder
+		case 82:	// Request Sandwich
+			// Auto-HP-Permed
+			return false;
+
 		case 2103:	// Head + Knee Combo
 		case 2105:	// Head + Shield Combo
 		case 2106:	// Knee + Shield Combo
@@ -1264,7 +1270,12 @@ public class SkillDatabase
 
 	public static int getMaxCasts( int skillId )
 	{
-		int max = UseSkillRequest.getInstance( skillId ).getMaximumCast();
+		UseSkillRequest skill = UseSkillRequest.getInstance( skillId );
+		if ( skill == null )
+		{
+			return -1;
+		}
+		int max = skill.getMaximumCast();
 		return ( max == Integer.MAX_VALUE ? -1 : max );
 	}
 
