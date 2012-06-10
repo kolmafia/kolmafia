@@ -150,6 +150,7 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 
@@ -218,6 +219,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "disable", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
+		
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
@@ -1607,6 +1611,12 @@ public abstract class RuntimeLibrary
 	public static Value user_confirm( Interpreter interpreter, final Value message )
 	{
 		return DataTypes.makeBooleanValue( InputFieldUtilities.confirm( message.toString() ) );
+	}
+
+	public static Value user_confirm( Interpreter interpreter, final Value message, final Value timeOut,
+		final Value defaultBoolean )
+	{
+		return InterruptableDialog.confirm( message, timeOut, defaultBoolean );
 	}
 
 	public static Value logprint( Interpreter interpreter, final Value string )
