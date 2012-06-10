@@ -3506,6 +3506,7 @@ Amphibian Sympathy	Familiar Weight: +5
 Barrel Chested	Muscle Percent: +50
 Big Boned	Maximum HP Percent: +30
 Big Lungs	HP Regen Min: 8, HP Regen Max: 10
+Chip on your Shoulder	PvP Fights: +5
 Claws of the Otter	Weapon Damage: +3
 Claws of the Walrus	Weapon Damage: +4
 Cold-Blooded Fearlessness	Spooky Resistance: +2
@@ -3564,6 +3565,7 @@ Spirit of Ravioli	Maximum HP Percent: +25
 # Tao of the Terrapin
 # Tempuramancy
 # The Way of Sauce
+Thick-Skinned	Maximum HP: +10, Maximum MP: +10
 Thrift and Grift	Meat Drop: +10
 Tolerance of the Kitchen	Hot Resistance: +2
 # Torso Awaregness
