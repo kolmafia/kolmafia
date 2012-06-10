@@ -424,7 +424,7 @@ public class TableCellFactory
 
 	public static String getTooltipText( Object value, boolean[] flags )
 	{
-		if ( flags[0] )
+		if ( value instanceof AdventureResult || value instanceof CreateItemRequest )
 		{
 			return getModifiers( value );
 		}
@@ -439,11 +439,16 @@ public class TableCellFactory
 		String name = null;
 		if ( value instanceof AdventureResult )
 		{
-			name = ((AdventureResult) value).getName();
+			name = ( (AdventureResult) value ).getName();
 		}
-		else if ( value instanceof SpecialOutfit )
+		else if ( value instanceof CreateItemRequest )
 		{
-			name = ((SpecialOutfit) value).getName();
+			name = ( (CreateItemRequest) value ).getName();
+		}
+		
+		if ( !EquipmentDatabase.isEquipment( ItemDatabase.getConsumptionType( name ) ) )
+		{
+			return null;
 		}
 
 		Modifiers mods = Modifiers.getModifiers( name );
