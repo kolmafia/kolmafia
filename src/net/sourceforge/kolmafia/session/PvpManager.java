@@ -70,25 +70,29 @@ public class PvpManager
 
 	public static int pickStance()
 	{
-		int stance;
-		if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
+		if ( KoLCharacter.getAdjustedMuscle() >= KoLCharacter.getAdjustedMysticality() &&
+		     KoLCharacter.getAdjustedMuscle() >= KoLCharacter.getAdjustedMoxie() )
 		{
-			stance = PvpManager.MUSCLE_STANCE;
+			return PvpManager.MUSCLE_STANCE;
 		}
-		else if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
+
+		if ( KoLCharacter.getAdjustedMysticality() >= KoLCharacter.getAdjustedMuscle() &&
+		     KoLCharacter.getAdjustedMysticality() >= KoLCharacter.getAdjustedMoxie() )
 		{
-			stance = PvpManager.MYST_STANCE;
+			return PvpManager.MYST_STANCE;
 		}
-		else
-		{
-			stance = PvpManager.MOXIE_STANCE;
-		}
-		return stance;
+
+		return PvpManager.MOXIE_STANCE;
 	}
 
 	public static void executePvpRequest( final String mission, int stance )
 	{
 		PvpManager.checkHippyStone();
+		if ( KoLmafia.refusesContinue() )
+		{
+			return;
+		}
+
 		KoLmafia.updateDisplay( "Determining remaining fights..." );
 		RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
 
