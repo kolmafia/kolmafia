@@ -1243,6 +1243,7 @@ public class ItemPool
 	public static final int OLD_SWEATPANTS = 4711;
 	public static final int MARIACHI_HAT = 4718;
 	public static final int HOLLANDAISE_HELMET = 4719;
+	public static final int MICROWAVE_STOGIE = 4721;
 	public static final int LIVER_PIE = 4722;
 	public static final int BADASS_PIE = 4723;
 	public static final int FISH_PIE = 4724;
