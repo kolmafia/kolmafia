@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
@@ -516,6 +517,24 @@ public class CharPaneDecorator
 			}
 			buffer.append( "<br>" );
 			buffer.append( Preferences.getString( "_piePartsCount" ) );
+			buffer.append( "/" );
+			int drops = Preferences.getInteger( "_pieDrops" );
+			int need;
+			if ( drops < 1 )
+			{
+				need = 5;
+			}
+			else
+			{
+				drops -= 1;
+				need = 5 + ( 10 + drops ) * ( drops + 1 ) / 2;
+				need = Math.min( need, 50 );
+				if( familiar.getItem().getItemId() == ItemPool.MICROWAVE_STOGIE )
+				{
+					need -= 5;
+				}
+			}
+			buffer.append( String.valueOf( need ) );
 			buffer.append( " part" );
 			if ( Preferences.getInteger( "_piePartsCount" ) != 1 )
 			{

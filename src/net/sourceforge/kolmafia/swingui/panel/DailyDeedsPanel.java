@@ -2521,6 +2521,24 @@ public class DailyDeedsPanel
 					buffer.append( " pies (" );
 				}
 				buffer.append( Preferences.getString( "_piePartsCount" ) );
+				buffer.append( "/" );
+				int drops = Preferences.getInteger( "_pieDrops" );
+				int need;
+				if ( drops < 1 )
+				{
+					need = 5;
+				}
+				else
+				{
+					drops -= 1;
+					need = 5 + ( 10 + drops ) * ( drops + 1 ) / 2;
+					need = Math.min( need, 50 );
+					if( grinder.getItem().getItemId() == ItemPool.MICROWAVE_STOGIE )
+					{
+						need -= 5;
+					}
+				}
+				buffer.append( String.valueOf( need ) );
 				buffer.append( ")" );
 				shown = true;
 			}
