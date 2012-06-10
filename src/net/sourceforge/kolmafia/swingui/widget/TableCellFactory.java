@@ -37,6 +37,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -48,6 +50,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TableCellFactory
 {
@@ -388,35 +391,121 @@ public class TableCellFactory
 		else if ( originalModel == DatabaseFrame.allItems )
 		{
 			return new String[]
-					{
-						"item name", "item ID", "autosell", "mallprice", "fill", "adv range", "level req"
-					};
+			{
+				"item name", "item ID", "autosell", "mallprice", "fill", "adv range", "level req"
+			};
 		}
 		else if ( originalModel == DatabaseFrame.allFamiliars )
 		{
 			return new String[]
-					{
-						"familiar name", "familiar ID",
-					};
+			{
+				"familiar name", "familiar ID",
+			};
 		}
 		else if ( originalModel == DatabaseFrame.allEffects )
 		{
 			return new String[]
-					{
-						"effect name", "effect ID",
-					};
+			{
+				"effect name", "effect ID",
+			};
 		}
 		else if ( originalModel == DatabaseFrame.allSkills )
 		{
 			return new String[]
-					{
-						"skill name", "skill ID",
-					};
+			{
+				"skill name", "skill ID",
+			};
 		}
 		return new String[]
 		{
 			"not implemented"
 		};
+	}
+
+	public static String getTooltipText( Object value, boolean[] flags )
+	{
+		if ( flags[0] )
+		{
+			return getModifiers( value );
+		}
+		return null;
+	}
+
+	private static String getModifiers( Object value )
+	{
+		// Code almost entirely lifted from GearChangeFrame.
+
+		int modifiersWidth = 100;
+		String name = null;
+		if ( value instanceof AdventureResult )
+		{
+			name = ((AdventureResult) value).getName();
+		}
+		else if ( value instanceof SpecialOutfit )
+		{
+			name = ((SpecialOutfit) value).getName();
+		}
+
+		Modifiers mods = Modifiers.getModifiers( name );
+		if ( mods == null )
+		{
+			return null;
+		}
+		name = mods.getString( Modifiers.INTRINSIC_EFFECT );
+		if ( name.length() > 0 )
+		{
+			Modifiers newMods = new Modifiers();
+			newMods.add( mods );
+			newMods.add( Modifiers.getModifiers( name ) );
+			mods = newMods;
+		}
+
+		StringBuffer buff = new StringBuffer();
+		buff.append( "<html><table><tr><td width=" );
+		buff.append( modifiersWidth );
+		buff.append( ">" );
+
+		for ( int i = 0; i < Modifiers.FLOAT_MODIFIERS; ++i )
+		{
+			float val = mods.get( i );
+			if ( val == 0.0f ) continue;
+			name = Modifiers.getModifierName( i );
+			name = StringUtilities.singleStringReplace( name, "Familiar", "Fam" );
+			name = StringUtilities.singleStringReplace( name, "Experience", "Exp" );
+			name = StringUtilities.singleStringReplace( name, "Damage", "Dmg" );
+			name = StringUtilities.singleStringReplace( name, "Resistance", "Res" );
+			name = StringUtilities.singleStringReplace( name, "Percent", "%" );
+			buff.append( name );
+			buff.append( ":<div align=right>" );
+			buff.append( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( val ) );
+			buff.append( "</div>" );
+		}
+
+		boolean anyBool = false;
+		for ( int i = 1; i < Modifiers.BITMAP_MODIFIERS; ++i )
+		{
+			if ( mods.getRawBitmap( i ) == 0 ) continue;
+			if ( anyBool )
+			{
+				buff.append( ", " );
+			}
+			anyBool = true;
+			buff.append( Modifiers.getBitmapModifierName( i ) );
+		}
+
+		for ( int i = 1; i < Modifiers.BOOLEAN_MODIFIERS; ++i )
+		{
+			if ( !mods.getBoolean( i ) ) continue;
+			if ( anyBool )
+			{
+				buff.append( ", " );
+			}
+			anyBool = true;
+			buff.append( Modifiers.getBooleanModifierName( i ) );
+		}
+
+		buff.append( "</td></tr></table></html>" );
+		return buff.toString();
 	}
 
 }

@@ -403,6 +403,7 @@ public class ShowDescriptionTable
 		{
 			this.setValue( TableCellFactory.get( convertColumnIndexToModel( col ), this.model, value,
 				this.flags, isSelected ) );
+			this.setToolTipText( TableCellFactory.getTooltipText( value , flags ) );
 			
 			if ( isSelected )
 			{
