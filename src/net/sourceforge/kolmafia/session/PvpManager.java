@@ -85,7 +85,7 @@ public class PvpManager
 		return PvpManager.MOXIE_STANCE;
 	}
 
-	public static void executePvpRequest( final String mission, int stance )
+	public static void executePvpRequest( final int attacks, final String mission, int initialStance )
 	{
 		PvpManager.checkHippyStone();
 		if ( KoLmafia.refusesContinue() )
@@ -96,26 +96,35 @@ public class PvpManager
 		KoLmafia.updateDisplay( "Determining remaining fights..." );
 		RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
 
-		if ( stance == 0 )
-		{
-			stance = PvpManager.pickStance();
-		}
-
-		PeeVPeeRequest request = new PeeVPeeRequest( "", stance, mission );
+		PeeVPeeRequest request = new PeeVPeeRequest( "", initialStance, mission );
 		
+		int availableFights = KoLCharacter.getAttacksLeft();
+		int totalFights = attacks > availableFights ? availableFights : attacks;
 		int fightsCompleted = 0;
-		int totalFights = KoLCharacter.getAttacksLeft();
 
-		while ( !KoLmafia.refusesContinue() && KoLCharacter.getAttacksLeft() > 0 )
+		while ( fightsCompleted++ < totalFights )
 		{
+			// Execute the beforePVPScript to change equipment, get
+			// buffs, whatever.
 			KoLmafia.executeBeforePVPScript();
-			KoLmafia.updateDisplay( "Attack " + ( ++fightsCompleted ) + " of " + totalFights );
+
+			// If he wants us to use the "best" stance, choose it
+			// now, since the beforePVPScript can change it
+			if ( initialStance == 0 )
+			{
+				request.addFormField( "stance", String.valueOf( PvpManager.pickStance() ) );
+			}
+
+			KoLmafia.updateDisplay( "Attack " + fightsCompleted + " of " + totalFights );
 			RequestThread.postRequest( request );
 
-			if ( !KoLmafia.refusesContinue() )
+			// If he wants to abort the command, honor it
+			if ( KoLmafia.refusesContinue() )
 			{
-				KoLmafia.forceContinue();
+				break;
 			}
+
+			KoLmafia.forceContinue();
 		}
 
 		if ( KoLmafia.permitsContinue() )
