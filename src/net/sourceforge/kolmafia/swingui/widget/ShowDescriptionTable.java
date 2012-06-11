@@ -99,7 +99,7 @@ import net.sourceforge.kolmafia.webui.RelayLoader;
 import com.jgoodies.binding.adapter.AbstractTableAdapter;
 
 /*
- ShowDescriptionTable is a variant of ShowDescriptionList that extends a TTable instead of a JList.
+ ShowDescriptionTable is a variant of ShowDescriptionList that extends a JXTable instead of a JList.
  It is meant so that you can simply instantiate ShowDescriptionTable instead of ShowDescriptionList,
  and all the "List-specific" methods will be provided in adapter methods.
  */

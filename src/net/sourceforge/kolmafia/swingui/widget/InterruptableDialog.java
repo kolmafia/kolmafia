@@ -73,11 +73,10 @@ public class InterruptableDialog
 			this.result = b;
 		}
 
-		@Override
 		public void run()
 		{
-			this.setResult( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(
-				null, StringUtilities.basicTextWrap( message ), "", JOptionPane.YES_NO_OPTION ) );
+			this.setResult( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+				StringUtilities.basicTextWrap( message ), "", JOptionPane.YES_NO_OPTION ) );
 
 			synchronized ( InterruptableDialog.pauser )
 			{
@@ -108,7 +107,7 @@ public class InterruptableDialog
 		{
 			try
 			{
-				pauser.wait( time ); //wait for <time> millis, unless the dialog notifies the pauser
+				pauser.wait( time ); // wait for <time> millis, unless the dialog notifies the pauser
 			}
 			catch ( InterruptedException e )
 			{
