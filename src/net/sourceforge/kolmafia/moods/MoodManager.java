@@ -870,7 +870,7 @@ public abstract class MoodManager
 
 		String action = "";
 
-		List triggers = MoodManager.currentMood.getTriggers();
+		List triggers = ( MoodManager.currentMood == null ) ? Collections.EMPTY_LIST : MoodManager.currentMood.getTriggers();
 		Iterator triggerIterator = triggers.iterator();
 
 		while ( triggerIterator.hasNext() )
