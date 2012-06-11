@@ -964,14 +964,6 @@ public class Parser
 		{
 			;
 		}
-		else if ( ( result = this.parseInvoke( scope ) ) != null )
-		{
-			;
-		}
-		else if ( ( result = this.parseCall( scope ) ) != null )
-		{
-			;
-		}
 		else if ( ( result = this.parseAssignment( scope ) ) != null )
 		{
 			;
@@ -2680,7 +2672,8 @@ public class Parser
 		}
 
 		Variable current;
-		while ( result != null && this.currentToken() != null && this.currentToken().equals( "." ) )
+
+		while ( result != null && this.currentToken() != null && ( this.currentToken().equals( "." ) || this.currentToken().equals( "[" ) ) )
 		{
 			current = new Variable( result.getType() );
 			current.setExpression( result );
