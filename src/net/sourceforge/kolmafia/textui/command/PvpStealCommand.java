@@ -37,13 +37,14 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.session.PvpManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PvpStealCommand
 	extends AbstractCommand
 {
 	public PvpStealCommand()
 	{
-		this.usage = " flowers | loot | fame [muscle|myst|moxie|ballyhoo] - commit random acts of PvP [using the specified stance].";
+		this.usage = " [attacks] ( flowers | loot | fame) [muscle|myst|moxie|ballyhoo] - commit random acts of PvP [using the specified stance].";
 	}
 
 	@Override
@@ -51,52 +52,74 @@ public class PvpStealCommand
 	{
 		String[] params = parameters.split( " " );
 		
-		KoLmafia.updateDisplay( params[0] );
-		
-		String missionType = params[0];
-		String stanceString;
-		int stance = 0;
-		
+		int count = params.length;
+
+		if ( count == 0 )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Steal what?" );
+			return;
+		}
+
+		int offset = 0;
+
+		int attacks = 0;
+		if ( StringUtilities.isNumeric( params[ 0 ] ) )
+		{
+			attacks = StringUtilities.parseInt( params[ 0 ] );
+			offset += 1;
+		}
+
+		if ( count == offset )
+		{
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Steal " + attacks + " what?" );
+			return;
+		}
+
+		String missionType = params[ offset ];
 		String mission;
-		if ( missionType.equals( "flowers" ) ||
-		     missionType.equals( "fame" ) )
+
+		if ( missionType.equals( "flowers" ) || missionType.equals( "fame" ) )
 		{
 			mission = missionType;
 		}
-		else if ( parameters.startsWith( "loot" ) )
+		else if ( missionType.startsWith( "loot" ) )
 		{
 			mission = "lootwhatever";
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What do you want to steal?" + missionType );
+			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What do you want to steal?" );
 			return;
 		}
+
+		offset += 1;
 		
-		if ( params.length > 1 )
+		String stanceString = "best stat";
+		int stance = 0;
+		
+		if ( count > offset )
 		{
-			stanceString = params[1];
+			stanceString = params[ offset ];
 			if ( stanceString.equals( "muscle" ) )
 			{
 				stance = PvpManager.MUSCLE_STANCE;
 			}
-			
 			else if ( stanceString.equals( "myst" ) )
 			{
 				stance = PvpManager.MYST_STANCE;
 			}
-			
 			else if ( stanceString.equals( "moxie" ) )
 			{
 				stance = PvpManager.MOXIE_STANCE;
 			}
-			
 			else if ( stanceString.equals( "ballyhoo" ) )
 			{
 				stance = PvpManager.BALLYHOO_STANCE;
 			}
 		}
 
-		PvpManager.executePvpRequest( mission, stance );
+		KoLmafia.updateDisplay( "Use " + ( attacks == 0 ? "all remaining" : String.valueOf( attacks ) ) + " PVP attacks to steal " +  missionType + " via " + stanceString );
+
+		PvpManager.executePvpRequest( attacks, mission, stance );
 	}
 }
