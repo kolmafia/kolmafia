@@ -146,6 +146,7 @@ public class FightRequest
 	private static String consultScriptThatDidNothing = null;
 	public static boolean waitingForSpecial;
 	public static String ireallymeanit = null;
+	public static boolean ignoreSpecialEncounter = false;
 
 	public static String lastResponseText = "";
 	private static boolean isTrackingFights = false;
@@ -1761,7 +1762,7 @@ public class FightRequest
 					ResultProcessor.processItem( ItemPool.GRAPPLING_HOOK, -1 );
 				}
 			}
-			else if ( !KoLmafia.ignoreSemirare &&
+			else if ( !FightRequest.ignoreSpecialEncounter &&
 				  ( encounter.equalsIgnoreCase( "angry bassist" ) ||
 				    encounter.equalsIgnoreCase( "blue-haired girl" ) ||
 				    encounter.equalsIgnoreCase( "evil ex-girlfriend" ) ||
@@ -1771,7 +1772,7 @@ public class FightRequest
 			{
 				Preferences.increment( "_hipsterAdv", 1 );
 			}
-			else if ( !KoLmafia.ignoreSemirare &&
+			else if ( !FightRequest.ignoreSpecialEncounter &&
 				  KoLCharacter.inBeecore() &&
 				  ( encounter.equalsIgnoreCase( "beebee gunners" ) ||
 				    encounter.equalsIgnoreCase( "moneybee" ) ||
@@ -1789,7 +1790,7 @@ public class FightRequest
 				TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 20, "Bee window end loc=*", "rparen.gif" );
 			}
-			else if ( !KoLmafia.ignoreSemirare &&
+			else if ( !FightRequest.ignoreSpecialEncounter &&
 				  ( encounter.equalsIgnoreCase( "Candied Yam Golem" ) ||
 					encounter.equalsIgnoreCase( "Malevolent Tofurkey" ) ||
 					encounter.equalsIgnoreCase( "Possessed Can of Cranberry Sauce" ) ||
@@ -1802,7 +1803,7 @@ public class FightRequest
 					encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
 					encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
 					encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
-					encounter.equalsIgnoreCase( "Four-shadowed mime ") ) )
+					encounter.equalsIgnoreCase( "Four-shadowed mime" ) ) )
 			{
 				TurnCounter.stopCounting( "Holiday Monster window begin" );
 				TurnCounter.stopCounting( "Holiday Monster window end" );
