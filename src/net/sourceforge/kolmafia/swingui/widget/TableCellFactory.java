@@ -38,7 +38,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -465,7 +464,7 @@ public class TableCellFactory
 			mods = newMods;
 		}
 
-		StringBuffer buff = new StringBuffer();
+		StringBuilder buff = new StringBuilder();
 		buff.append( "<html><table><tr><td width=" );
 		buff.append( modifiersWidth );
 		buff.append( ">" );
