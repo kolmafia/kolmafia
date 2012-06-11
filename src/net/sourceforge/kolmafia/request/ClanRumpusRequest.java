@@ -479,6 +479,11 @@ public class ClanRumpusRequest
 		// Search for available equipment
 		RequestThread.postRequest( request );
 
+		if ( request.responseText == null )
+		{
+			return;
+		}
+
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
 
