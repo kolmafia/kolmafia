@@ -1724,6 +1724,7 @@ public class FightRequest
 
 			if ( responseText.indexOf( "hear a wolf whistle" ) != -1)
 			{
+				FightRequest.ignoreSpecialEncounter = true;
 				Preferences.increment( "_romanticFightsLeft", -1 );
 				TurnCounter.stopCounting( "Romantic Monster window begin" );
 				TurnCounter.stopCounting( "Romantic Monster window end" );
