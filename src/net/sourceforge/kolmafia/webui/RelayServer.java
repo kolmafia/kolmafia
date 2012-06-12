@@ -169,7 +169,15 @@ public class RelayServer
 	{
 		try
 		{
-			this.serverSocket = new ServerSocket( RelayServer.port, 25, InetAddress.getByName( "127.0.0.1" ) );
+			if ( Preferences.getBoolean( "relayAllowRemoteAccess" ) )
+			{
+				this.serverSocket = new ServerSocket( RelayServer.port, 25 );
+			}
+			else
+			{
+				this.serverSocket = new ServerSocket( RelayServer.port, 25, InetAddress.getLocalHost() );
+			}
+
 			return true;
 		}
 		catch ( Exception e )

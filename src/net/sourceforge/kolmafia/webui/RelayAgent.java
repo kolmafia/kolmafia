@@ -194,6 +194,7 @@ public class RelayAgent
 		this.requestMethod = requestLine.substring( 0, spaceIndex );
 		boolean usePostMethod = this.requestMethod.equals( "POST" );
 		this.path = requestLine.substring( spaceIndex + 1, requestLine.lastIndexOf( " " ) );
+
 		if ( this.path.startsWith( "//" ) )
 		{
 			// A current KoL bug causes URLs to gain an unnecessary
@@ -207,6 +208,9 @@ public class RelayAgent
 		String currentLine;
 		int contentLength = 0;
 
+		String host = null;
+		String referer = null;
+
 		while ( ( currentLine = this.reader.readLine() ) != null && !currentLine.equals( "" ) )
 		{
 			if ( debugging )
@@ -214,63 +218,15 @@ public class RelayAgent
 				RequestLogger.updateDebugLog( currentLine );
 			}
 
+			if ( currentLine.startsWith( "Host: " ) )
+			{
+				host = currentLine.substring( 6 );
+				continue;
+			}
+
 			if ( currentLine.startsWith( "Referer: " ) )
 			{
-				String referer = currentLine.substring( 9 );
-				if ( !referer.equals( "" ) )
-				{
-					boolean validHost = true;
-
-					if ( referer.startsWith( "http://" ) )
-					{
-						int endHostIndex = referer.indexOf( ':', 7 );
-
-						if ( endHostIndex == -1 )
-						{
-							endHostIndex = referer.indexOf( '/', 7 );
-						}
-
-						if ( endHostIndex == -1 )
-						{
-							validHost = false;
-						}
-						else
-						{
-							String refererHost = referer.substring( 7, endHostIndex );
-
-							if ( validRefererHosts.contains( refererHost ) )
-							{
-								// Do nothing
-							}
-							else if ( invalidRefererHosts.contains( refererHost ) )
-							{
-								validHost = false;
-							}
-							else if ( InetAddress.getByName( refererHost ).isLoopbackAddress() )
-							{
-								validRefererHosts.add( refererHost );
-							}
-							else
-							{
-								invalidRefererHosts.add( refererHost );
-								validHost = false;
-							}
-						}
-					}
-					else
-					{
-						validHost = false;
-					}
-
-					if ( !validHost )
-					{
-						RequestLogger.printLine( "Request from bogus referer ignored" );
-						RequestLogger.printLine( "Path: \"" + path + "\"" );
-						RequestLogger.printLine( "Referer: \"" + referer + "\"" );
-						return false;
-					}
-				}
-
+				referer = currentLine.substring( 9 );
 				continue;
 			}
 
@@ -307,6 +263,16 @@ public class RelayAgent
 				}
 				continue;
 			}
+		}
+
+		if ( !isValidReferer( host, referer ) )
+		{
+			RequestLogger.printLine( "Request from bogus referer ignored" );
+			RequestLogger.printLine( "Path: \"" + path + "\"" );
+			RequestLogger.printLine( "Host: \"" + host + "\"" );
+			RequestLogger.printLine( "Referer: \"" + referer + "\"" );
+
+			return false;
 		}
 
 		if ( requestMethod.equals( "POST" ) )
@@ -360,6 +326,74 @@ public class RelayAgent
 		}
 
 		return true;
+	}
+
+	private boolean isValidReferer( String host, String referer )
+	{
+		if ( host != null )
+		{
+			validRefererHosts.add( host );
+		}
+
+		if ( referer == null || referer.equals( "" ) )
+		{
+			return true;
+		}
+
+		if ( !referer.startsWith( "http://" ) )
+		{
+			return false;
+		}
+
+		int endHostIndex = referer.indexOf( '/', 7 );
+
+		if ( endHostIndex == -1 )
+		{
+			endHostIndex = referer.length();
+		}
+
+		String refererHost = referer.substring( 7, endHostIndex );
+
+		if ( validRefererHosts.contains( refererHost ) )
+		{
+			return true;
+		}
+
+		if ( invalidRefererHosts.contains( refererHost ) )
+		{
+			return false;
+		}
+
+		InetAddress refererAddress = null;
+
+		int endNameIndex = refererHost.indexOf( ':' );
+
+		if ( endNameIndex == -1 )
+		{
+			endNameIndex = refererHost.length();
+		}
+
+		String refererName = refererHost.substring( 0, endNameIndex );
+
+		try
+		{
+			refererAddress = InetAddress.getByName( refererName );
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+		}
+
+		if ( refererAddress != null && refererAddress.isLoopbackAddress() )
+		{
+			validRefererHosts.add( refererHost );
+			return true;
+		}
+		else
+		{
+			invalidRefererHosts.add( refererHost );
+			return false;
+		}
 	}
 
 	private boolean shouldSendNotModified()
