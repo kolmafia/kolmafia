@@ -878,6 +878,7 @@ public class RelayRequest
 
 		// Check for a 100% familiar run if the current familiar has zero combat experience.
 		FamiliarData familiar = KoLCharacter.getFamiliar();
+
 		if ( !familiar.isUnexpectedFamiliar() )
 		{
 			return false;
@@ -894,7 +895,7 @@ public class RelayRequest
 
 		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
 
-		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
+		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"></head>" );
 		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
 
 		warning.append( "<table><tr>" );
@@ -906,8 +907,14 @@ public class RelayRequest
 		warning.append( url );
 		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
 		warning.append( CONFIRM_FAMILIAR );
-		warning.append( "=on\"><img src=\"http://images.kingdomofloathing.com/itemimages/");
-		warning.append( FamiliarDatabase.getFamiliarImageLocation( KoLCharacter.getFamiliar().getId() ) );
+		warning.append( "=on\"><img src=\"/images/");
+
+		if ( familiar.getId() != FamiliarData.NO_FAMILIAR.getId() )
+		{
+			warning.append( "itemimages/");
+		}
+
+		warning.append( FamiliarDatabase.getFamiliarImageLocation( familiar.getId() ) );
 		warning.append( "\" width=30 height=30 border=0>" );
 		warning.append( "</a></div></td>" );
 
@@ -919,7 +926,13 @@ public class RelayRequest
 		warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"singleUse('familiar.php', 'action=newfam&ajax=1&newfam=" );
 		warning.append( FamiliarData.getSingleFamiliarRun() );
 		warning.append( "'); void(0);\">" );
-		warning.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/");
+		warning.append( "<img src=\"/images/");
+
+		if ( FamiliarData.getSingleFamiliarRun() != FamiliarData.NO_FAMILIAR.getId() )
+		{
+			warning.append( "itemimages/");
+		}
+
 		warning.append( FamiliarDatabase.getFamiliarImageLocation( FamiliarData.getSingleFamiliarRun() ) );
 		warning.append( "\" width=30 height=30 border=0>" );
 		warning.append( "</a></div></td>" );
@@ -1015,7 +1028,7 @@ public class RelayRequest
 		warning.append( GenericRequest.passwordHash );
 		warning.append( "\"; } </script>" );
 
-		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
+		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"></head>" );
 		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
 
 		warning.append( "<table><tr>" );
@@ -1027,7 +1040,7 @@ public class RelayRequest
 			warning.append( "; border: 1px dashed blue" );
 		}
 
-		warning.append( "\"><a id=\"link1\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd1'); void(0);\" href=\"#\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+		warning.append( "\"><a id=\"link1\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd1'); void(0);\" href=\"#\"><img src=\"/images/itemimages/" );
 		warning.append( item1 );
 		warning.append( "\" width=30 height=30><br /><font size=1>MCD " );
 		warning.append( mcd1 );
@@ -1040,7 +1053,7 @@ public class RelayRequest
 		warning.append( "&" );
 		warning.append( CONFIRM_MCD );
 		warning.append( "=on" );
-		warning.append( "\"><img src=\"http://images.kingdomofloathing.com/adventureimages/" );
+		warning.append( "\"><img src=\"/images/adventureimages/" );
 		warning.append( image );
 		warning.append( "\"></a></td>" );
 
@@ -1053,7 +1066,7 @@ public class RelayRequest
 			warning.append( "; border: 1px dashed blue" );
 		}
 
-		warning.append( "\"><a id=\"link2\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd2'); void(0);\" href=\"#\"><img src=\"http://images.kingdomofloathing.com/itemimages/" );
+		warning.append( "\"><a id=\"link2\" style=\"text-decoration: none\" onClick=\"switchLinks('mcd2'); void(0);\" href=\"#\"><img src=\"/images/itemimages/" );
 		warning.append( item2 );
 		warning.append( "\" width=30 height=30><br /><font size=1>MCD " );
 		warning.append( mcd2 );
@@ -1195,7 +1208,7 @@ public class RelayRequest
 	{
 		StringBuffer warning = new StringBuffer();
 
-		warning.append( "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"><script language=\"Javascript\" src=\"/basics.js\"></script></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>" );
+		warning.append( "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"><script language=\"Javascript\" src=\"/basics.js\"></script></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>" );
 
 		if ( image != null && !image.equals( "" ) )
 		{
@@ -1211,7 +1224,7 @@ public class RelayRequest
 				warning.append( "&" );
 				warning.append( extra );
 			}
-			warning.append( "\"><img id=\"warningImage\" src=\"http://images.kingdomofloathing.com/itemimages/" );
+			warning.append( "\"><img id=\"warningImage\" src=\"/images/itemimages/" );
 			warning.append( image );
 			warning.append( "\" width=30 height=30></a><br></center>" );
 		}
@@ -1250,7 +1263,7 @@ public class RelayRequest
 
 		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
 
-		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"></head>" );
+		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"></head>" );
 		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
 
 		warning.append( "<table><tr>" );
@@ -1262,7 +1275,7 @@ public class RelayRequest
 		warning.append( url );
 		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
 		warning.append( CONFIRM_CLOVER );
-		warning.append( "=on\"><img src=\"http://images.kingdomofloathing.com/itemimages/clover.gif\" width=30 height=30 border=0>" );
+		warning.append( "=on\"><img src=\"/images/itemimages/clover.gif\" width=30 height=30 border=0>" );
 		warning.append( "</a></div></td>" );
 
 		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
@@ -1288,7 +1301,7 @@ public class RelayRequest
 			warning.append( ", " );
 			warning.append( InventoryManager.getCount( ItemPool.TEN_LEAF_CLOVER ) );
 			warning.append( "); void(0);\">" );
-			warning.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/disclover.gif\" width=30 height=30 border=0>" );
+			warning.append( "<img src=\"/images/itemimages/disclover.gif\" width=30 height=30 border=0>" );
 		}
 		warning.append( "</a></div></td>" );
 
