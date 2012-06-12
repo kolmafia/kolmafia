@@ -156,6 +156,12 @@ public class PvpManager
 				continue;
 			}
 
+			// Execute the beforePVPScript to change equipment, get buffs, whatever.
+			KoLmafia.executeBeforePVPScript();
+
+			// Choose current "best" stance
+			request.addFormField( "stance", String.valueOf( PvpManager.pickStance() ) );
+
 			KoLmafia.updateDisplay( "Attacking " + targets[ i ].getPlayerName() + "..." );
 			request.setTarget( targets[ i ].getPlayerName() );
 			request.setTargetType( "0" );
