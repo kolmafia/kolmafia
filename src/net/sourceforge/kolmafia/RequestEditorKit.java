@@ -401,10 +401,6 @@ public class RequestEditorKit
 					"<table class=\"sortable\" id=\"history\"><tr><td class=small>" );
 				StringUtilities.globalStringReplace(
 					buffer, "<tr><td colspan=9", "<tr class=\"sortbottom\" style=\"display:none\"><td colspan=9" );
-				StringUtilities.globalStringReplace(
-					buffer,
-					"<td></td>",
-					"<td><img src=\"http://images.kingdomofloathing.com/itemimages/confused.gif\" title=\"No Data\" alt=\"No Data\" height=30 width=30></td>" );
 			}
 		}
 		else if ( location.startsWith( "barrel.php" ) )
