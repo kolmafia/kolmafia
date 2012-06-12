@@ -99,7 +99,7 @@ public class PvpManager
 		PeeVPeeRequest request = new PeeVPeeRequest( "", initialStance, mission );
 		
 		int availableFights = KoLCharacter.getAttacksLeft();
-		int totalFights = attacks > availableFights ? availableFights : attacks;
+		int totalFights = ( attacks > availableFights || attacks == 0 ) ? availableFights : attacks;
 		int fightsCompleted = 0;
 
 		while ( fightsCompleted++ < totalFights )
