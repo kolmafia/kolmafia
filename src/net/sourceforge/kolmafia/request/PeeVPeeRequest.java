@@ -62,14 +62,19 @@ public class PeeVPeeRequest
 	private static final Pattern ATTACKS_PATTERN =
 		Pattern.compile( "You have (\\d+) fight" );
 
+	private static final Pattern CHALLENGE_PATTERN =
+		Pattern.compile( "<div class=\"fight\"><a.*?who=(\\d+)\"><b>(.*?)</b></a> calls out <a.*?who=(\\d+)\"><b>(.*?)</b></a> for battle!" );
+
 	private static final Pattern WIN_PATTERN =
 		Pattern.compile( "<span[^>]*><b>(.*?)</b> won the fight, <b>(\\d+)</b> to <b>(\\d+)</b>!</span>" );
 
 	private static final Pattern SWAGGER_PATTERN = 
 		Pattern.compile( "You gain a little swagger <b>\\([+](\\d)\\)</b>" );
 
-	private static final Pattern OPPONENT_PATTERN =
-		Pattern.compile( "<b>([\\w\\s]*)</b></a> for battle!" );
+	public static final Pattern RANKED_PATTERN = Pattern.compile( "ranked=([^&]*)" );
+	public static final Pattern WHO_PATTERN = Pattern.compile( "who=([^&]*)" );
+	public static final Pattern STANCE_PATTERN = Pattern.compile( "stance=([^&]*)" );
+	public static final Pattern MISSION_PATTERN = Pattern.compile( "attacktype=([^&]*)" );
 
 	public PeeVPeeRequest()
 	{
@@ -132,45 +137,56 @@ public class PeeVPeeRequest
 		if ( location.indexOf( "place=fight" ) != -1 )
 		{
 			Matcher attacksMatcher = PeeVPeeRequest.ATTACKS_PATTERN.matcher( responseText );
-			if ( attacksMatcher.find() )
-			{
-				KoLCharacter.setAttacksLeft( StringUtilities.parseInt( attacksMatcher.group( 1 ) ) );
-			}
-			else
-			{
-				KoLCharacter.setAttacksLeft( 0 );
-			}
+			KoLCharacter.setAttacksLeft( attacksMatcher.find() ? StringUtilities.parseInt( attacksMatcher.group( 1 ) ) : 0 );
 
 			if ( location.indexOf( "action=fight" ) != -1 )
 			{
+				Matcher challengeMatcher = PeeVPeeRequest.CHALLENGE_PATTERN.matcher( responseText );
 				Matcher winMatcher = PeeVPeeRequest.WIN_PATTERN.matcher( responseText );
 				boolean won = false;
+				int id1 = 0;
+				String me = null;
+				int id2 = 0;
+				String you = null;
 				int result1 = 0;
 				int result2 = 0;
 
+				if ( challengeMatcher.find() )
+				{
+					id1 = Integer.parseInt( challengeMatcher.group( 1 ) );
+					me = challengeMatcher.group( 2 );
+					id2 = Integer.parseInt( challengeMatcher.group( 3 ) );
+					you = challengeMatcher.group( 4 );
+				}
+
 				if ( winMatcher.find() )
 				{
-					String winner = winMatcher.group( 1 ).toLowerCase();
-					String me = KoLCharacter.getUserName().toLowerCase();
+					String winner = winMatcher.group( 1 );
 					won = winner.equals( me );
 					result1 = Integer.parseInt( winMatcher.group( 2 ) );
 					result2 = Integer.parseInt( winMatcher.group( 3 ) );
 				}
 
+				StringBuilder buf = new StringBuilder( "You challenged " );
+				buf.append( you );
+				buf.append( " and " );
+				buf.append( won ? "won" : "lost" );
+				buf.append( " the PvP fight, " );
+				buf.append( String.valueOf( won ? result1 : result2 ) );
+				buf.append( " to " );
+				buf.append( String.valueOf( won ? result2 : result1 ) );
+				buf.append( "!" );
+
+				String message = buf.toString();
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message);
+
 				if ( won )
 				{
-					RequestLogger.printLine( "You won the PvP fight, " + result1 + " to " + result2 + "!" );
-					Matcher loserMatcher = PeeVPeeRequest.OPPONENT_PATTERN.matcher( responseText );
-					if ( loserMatcher.find() )
-					{
-						Preferences.setString(
-						"currentPvpVictories",
-						Preferences.getString( "currentPvpVictories" ) + loserMatcher.group( 1 ) + "," );
-					}
+					Preferences.setString( "currentPvpVictories", Preferences.getString( "currentPvpVictories" ) + you + "," );
 				}
 				else
 				{
-					RequestLogger.printLine( "You lost the PvP fight, " + result2 + " to " + result1 + "!" );
 					PeeVPeeRequest.parseStatLoss( responseText );
 				}
 
@@ -212,6 +228,65 @@ public class PeeVPeeRequest
 		}
 	}
 
+	private static final String getField( final Pattern pattern, final String urlString )
+	{
+		Matcher matcher = pattern.matcher( urlString );
+		return matcher.find() ? matcher.group(1) : null;
+	}
+
+	private static final String getOpponent( final String who, final String ranked )
+	{
+		if ( who != null && !who.equals( "" ) )
+		{
+			return who;
+		}
+
+		if ( ranked != null && ranked.equals( "1" ) )
+		{
+			return "a random opponent";
+		}
+
+		if ( ranked != null && ranked.equals( "2" ) )
+		{
+			return "a random stronger opponent";
+		}
+
+		return "an unknown opponent";
+	}
+
+	private static final String getMission( final String mission )
+	{
+		return ( mission == null ) ?
+			"an unknown mission" :
+			mission.equals( "lootwhatever" ) ?
+			"loot" :
+			mission;
+	}
+
+	private static final String getStance( final String stance )
+	{
+		if ( stance != null )
+		{
+			if ( stance.equals( "1" ) )
+			{
+				return "Bully";
+			}
+			if ( stance.equals( "2" ) )
+			{
+				return "Burninate";
+			}
+			if ( stance.equals( "3" ) )
+			{
+				return "Backstab";
+			}
+			if ( stance.equals( "4" ) )
+			{
+				return "Ballyhoo";
+			}
+		}
+		return "an unknown stance";
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "peevpee.php" ) )
@@ -219,31 +294,58 @@ public class PeeVPeeRequest
 			return false;
 		}
 
-		Matcher matcher = GenericRequest.PLACE_PATTERN.matcher( urlString );
-		String place = matcher.find() ? matcher.group(1) : null;
-
-		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		String action = matcher.find() ? matcher.group(1) : null;
+		String place = PeeVPeeRequest.getField( GenericRequest.PLACE_PATTERN, urlString );
+		String action = PeeVPeeRequest.getField( GenericRequest.ACTION_PATTERN, urlString );
 
 		// Don't log visits to the container document
 		if ( place == null && action == null )
 		{
 			return true;
 		}
-		
-		// place = rules
-		// place = fight
-		// place = boards
-		// place = logs
-		// place = shop
 
-		if ( ( place != null && place.equals( "shop" ) ) ||
-		     ( action != null && action.equals( "buy" ) ) )
+		if ( place == null )
+		{
+			return false;
+		}
+		
+		if ( place.equals( "rules" ) || place.equals( "boards" ) || place.equals( "logs" ) )
+		{
+			return true;
+		}
+
+		if ( place.equals( "shop" ) )
 		{
 			return SwaggerShopRequest.registerRequest( urlString );
 		}
 
-		// Log everything, for now
+		if ( action == null )
+		{
+			return true;
+		}
+
+		if ( place.equals( "fight" ) )
+		{
+			if ( action.equals( "fight" ) )
+			{
+				String ranked = PeeVPeeRequest.getField( PeeVPeeRequest.RANKED_PATTERN, urlString );
+				String who = PeeVPeeRequest.getField( PeeVPeeRequest.WHO_PATTERN, urlString );
+				String stance = PeeVPeeRequest.getField( PeeVPeeRequest.STANCE_PATTERN, urlString );
+				String mission = PeeVPeeRequest.getField( PeeVPeeRequest.MISSION_PATTERN, urlString );
+
+				StringBuilder buf = new StringBuilder( PeeVPeeRequest.getStance( stance ) );
+				buf.append( " " );
+				buf.append( PeeVPeeRequest.getOpponent( who, ranked ) );
+				buf.append( " for " );
+				buf.append( PeeVPeeRequest.getMission( mission ) );
+
+				String message = buf.toString();
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( message );
+			}
+			return true;
+		}
+
+		// Log anything else, for now
 		return false;
 	}
 }
