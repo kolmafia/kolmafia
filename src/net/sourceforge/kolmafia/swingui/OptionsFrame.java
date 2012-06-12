@@ -214,6 +214,7 @@ public class OptionsFrame
 
 			String[][] options =
 			{
+				{ "relayAllowRemoteAccess", "Allow network devices to access relay browser (requires restart)" },
 				{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
 				{ "relayOverridesImages", "Override certain KoL images" },
 				{},
