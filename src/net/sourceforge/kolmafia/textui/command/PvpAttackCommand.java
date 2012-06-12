@@ -63,8 +63,6 @@ public class PvpAttackCommand
 			return;
 		}
 
-		int stance = PvpManager.pickStance();
-
 		String[] names = parameters.split( "\\s*,\\s*" );
 		ProfileRequest[] targets = new ProfileRequest[ names.length ];
 
@@ -102,7 +100,7 @@ public class PvpAttackCommand
 		}
 
 		String mission = KoLCharacter.canInteract() ? "lootwhatever" : "fame";
-		PeeVPeeRequest request = new PeeVPeeRequest( "", stance, mission );
+		PeeVPeeRequest request = new PeeVPeeRequest( "", 0, mission );
 		PvpManager.executePvpRequest( targets, request );
 	}
 }
