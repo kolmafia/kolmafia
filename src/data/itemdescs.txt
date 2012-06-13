@@ -5705,3 +5705,4 @@
 5704	828000331	waxbugbear.gif	wax bugbear
 5705	216949439	waxhat2.gif	wax hat
 5706	321480099	waxpants.gif	wax pants
+5707	531424139	fdkol_medal.gif	FDKOL commendation

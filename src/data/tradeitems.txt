@@ -5713,3 +5713,4 @@
 5704	wax bugbear	usable	none	0
 5705	wax hat	hat	all	70
 5706	wax pants	pants	all	110
+5707	FDKOL commendation	none	display	0

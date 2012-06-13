@@ -99,6 +99,7 @@ Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	Magi
 Feeding Chamber	100	Filthworm Drone
 Fernswarthy's Basement	47	The Beast with n Ears	The Beast with n Eyes	A n Stone Golem		A n-Headed Hydra	The Ghost of Fernswarthy's n great-grandfather	n Bottles of Beer on a Golem	A n-Dimensional Horror
 Fernswarthy's Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
+Fightin' Fire	100	brushfire
 Foyer	100	Fleaman	Ghost	Medusa
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
 Frat House (Stone Age)	100	Caveman Frat Boy	Caveman Frat Pledge	Caveman Sorority Girl
