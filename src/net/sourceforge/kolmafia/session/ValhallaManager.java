@@ -385,6 +385,8 @@ public class ValhallaManager
 		Preferences.setBoolean( "fistTeachingsNinjaSnowmen", false);
 		Preferences.setString( "plantingDate", "");
 		Preferences.setInteger( "plantingDay", -1);
+		Preferences.setInteger( "pyramidPosition", 0 );
+		Preferences.setBoolean( "pyramidBombUsed", false );
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
 	}
