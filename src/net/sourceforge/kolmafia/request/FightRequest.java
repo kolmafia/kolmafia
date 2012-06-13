@@ -1724,7 +1724,7 @@ public class FightRequest
 
 			if ( responseText.indexOf( "hear a wolf whistle" ) != -1)
 			{
-				FightRequest.ignoreSpecialEncounter = true;
+				KoLmafia.ignoreSpecialMonsters();
 				Preferences.increment( "_romanticFightsLeft", -1 );
 				TurnCounter.stopCounting( "Romantic Monster window begin" );
 				TurnCounter.stopCounting( "Romantic Monster window end" );
@@ -1763,7 +1763,7 @@ public class FightRequest
 					ResultProcessor.processItem( ItemPool.GRAPPLING_HOOK, -1 );
 				}
 			}
-			else if ( !FightRequest.ignoreSpecialEncounter &&
+			else if ( !KoLmafia.ignoreSpecialMonsters &&
 				  ( encounter.equalsIgnoreCase( "angry bassist" ) ||
 				    encounter.equalsIgnoreCase( "blue-haired girl" ) ||
 				    encounter.equalsIgnoreCase( "evil ex-girlfriend" ) ||
@@ -1773,7 +1773,7 @@ public class FightRequest
 			{
 				Preferences.increment( "_hipsterAdv", 1 );
 			}
-			else if ( !FightRequest.ignoreSpecialEncounter &&
+			else if ( !KoLmafia.ignoreSpecialMonsters &&
 				  KoLCharacter.inBeecore() &&
 				  ( encounter.equalsIgnoreCase( "beebee gunners" ) ||
 				    encounter.equalsIgnoreCase( "moneybee" ) ||
@@ -1791,7 +1791,7 @@ public class FightRequest
 				TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 20, "Bee window end loc=*", "rparen.gif" );
 			}
-			else if ( !FightRequest.ignoreSpecialEncounter &&
+			else if ( !KoLmafia.ignoreSpecialMonsters &&
 				  ( encounter.equalsIgnoreCase( "Candied Yam Golem" ) ||
 					encounter.equalsIgnoreCase( "Malevolent Tofurkey" ) ||
 					encounter.equalsIgnoreCase( "Possessed Can of Cranberry Sauce" ) ||
@@ -1828,6 +1828,7 @@ public class FightRequest
 			}
 
 			autoAttacked = FightRequest.checkForInitiative( responseText );
+			KoLmafia.ignoreSpecialMonsters = false;
 		}
 
 		// Figure out various things by examining the responseText. Ideally,
