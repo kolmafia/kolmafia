@@ -198,7 +198,12 @@ public class ShowDataCommand
 
 			desiredStream.println( "Advs: " + KoLCharacter.getAdventuresLeft() );
 			desiredStream.println( "Meat: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
-			desiredStream.println( "Drunk: " + KoLCharacter.getInebriety() );
+
+			desiredStream.println();
+
+			desiredStream.println( "Full: " + KoLCharacter.getFullness() + " / " + KoLCharacter.getFullnessLimit() );
+			desiredStream.println( "Drunk: " + KoLCharacter.getInebriety() + " / " + KoLCharacter.getInebrietyLimit() );
+			desiredStream.println( "Spleen: " + KoLCharacter.getSpleenUse() + " / " + KoLCharacter.getSpleenLimit() );
 
 			desiredStream.println();
 			return;
