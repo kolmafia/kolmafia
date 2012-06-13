@@ -2464,7 +2464,7 @@ public class GenericRequest
 			Preferences.setString( "spookyPuttyMonster", "" );
 			ResultProcessor.processItem( ItemPool.SPOOKY_PUTTY_SHEET, 1 );
 			consumed = true;
-			KoLmafia.ignoreSemirare();
+			KoLmafia.ignoreSpecialMonsters();
 			break;
 
 		case ItemPool.RAIN_DOH_MONSTER:
@@ -2472,7 +2472,7 @@ public class GenericRequest
 			Preferences.setString( "rainDohMonster", "" );
 			ResultProcessor.processItem( ItemPool.RAIN_DOH_BOX, 1 );
 			consumed = true;
-			KoLmafia.ignoreSemirare();
+			KoLmafia.ignoreSpecialMonsters();
 			break;
 
 		case ItemPool.SHAKING_CAMERA:
@@ -2480,7 +2480,7 @@ public class GenericRequest
 			Preferences.setString( "cameraMonster", "" );
 			Preferences.setBoolean( "_cameraUsed", true );
 			consumed = true;
-			KoLmafia.ignoreSemirare();
+			KoLmafia.ignoreSpecialMonsters();
 			break;
 
 		case ItemPool.PHOTOCOPIED_MONSTER:
@@ -2488,13 +2488,14 @@ public class GenericRequest
 			Preferences.setString( "photocopyMonster", "" );
 			Preferences.setBoolean( "_photocopyUsed", true );
 			consumed = true;
-			KoLmafia.ignoreSemirare();
+			KoLmafia.ignoreSpecialMonsters();
 			break;
 
 		case ItemPool.WAX_BUGBEAR:
 			itemName = "wax bugbear";
+			Preferences.setString( "waxMonster", "" );
 			consumed = true;
-			KoLmafia.ignoreSemirare();
+			KoLmafia.ignoreSpecialMonsters();
 			break;
 
 		case ItemPool.DEPLETED_URANIUM_SEAL:

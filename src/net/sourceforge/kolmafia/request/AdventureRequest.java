@@ -510,7 +510,6 @@ public class AdventureRequest
 			if ( type.equals( "Combat" ) )
 			{
 				encounter = AdventureRequest.translateGenericType( encounter, responseText );
-				FightRequest.ignoreSpecialEncounter = KoLmafia.ignoreSemirare;
 			}
 			StaticEntity.getClient().registerEncounter( encounter, type, responseText );
 		}

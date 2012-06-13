@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -308,10 +307,10 @@ public class KoLAdventure
 			return true;
 		}
 
-		// Mini-Hipster
+		// Mini-Hipster and Artistic Goth Kid
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();
-		if ( familiar != null && familiar.getId() == FamiliarPool.HIPSTER && Preferences.getInteger( "_hipsterAdv" ) < 7 )
+		if ( familiar != null && ( familiar.getId() == FamiliarPool.HIPSTER || familiar.getId() == FamiliarPool.ARTISTIC_GOTH_KID ) && Preferences.getInteger( "_hipsterAdv" ) < 7 )
 		{
 			return true;
 		}

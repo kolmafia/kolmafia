@@ -1832,12 +1832,12 @@ public abstract class KoLmafia
 		       encounterType == KoLmafia.BADMOON;
 	}
 
-	// Used to ignore semirare monsters re-encountered via Spooky Putty
-	public static boolean ignoreSemirare = false;
+	// Used to ignore special monsters re-encountered via copying
+	public static boolean ignoreSpecialMonsters = false;
 
-	public static void ignoreSemirare()
+	public static void ignoreSpecialMonsters()
 	{
-		KoLmafia.ignoreSemirare = true;
+		KoLmafia.ignoreSpecialMonsters = true;
 	}
 
 	private static void recognizeEncounter( final String encounterName, final String responseText )
@@ -1850,13 +1850,12 @@ public abstract class KoLmafia
 		// ones you shot with a love arrow earlier.
 
 		if ( encounterType == KoLmafia.SEMIRARE &&
-		     !KoLmafia.ignoreSemirare &&
+		     !KoLmafia.ignoreSpecialMonsters &&
 		     responseText.indexOf( "hear a wolf whistle" ) == -1 )
 		{
 			KoLCharacter.registerSemirare();
 			return;
 		}
-		KoLmafia.ignoreSemirare = false;
 
 		if ( encounterType == KoLmafia.NONE )
 		{
