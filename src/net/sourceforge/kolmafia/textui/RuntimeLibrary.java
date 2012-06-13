@@ -4685,8 +4685,19 @@ public abstract class RuntimeLibrary
 	public static Value get_property( Interpreter interpreter, final Value name )
 	{
 		String property = name.toString();
-		return !Preferences.isUserEditable( property ) ? DataTypes.STRING_INIT :
-			new Value( Preferences.getString( property ) );
+
+		Value value = DataTypes.STRING_INIT;
+
+		if ( property.startsWith( "System." ) )
+		{
+			value = new Value( System.getProperty( property.substring( 7 ) ) );
+		}
+		else if ( Preferences.isUserEditable( property ) )
+		{
+			value = new Value( Preferences.getString( property ) );
+		}
+
+		return value;
 	}
 
 	public static Value set_property( Interpreter interpreter, final Value name, final Value value )
