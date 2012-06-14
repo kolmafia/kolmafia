@@ -170,10 +170,12 @@ public class BrowserLauncher
 	static
 	{
 		BrowserLauncher.loadedWithoutErrors = true;
+
 		String osName = System.getProperty( "os.name" );
-		if ( osName.startsWith( "Mac OS" ) )
+		String mrjVersion = System.getProperty( "mrj.version" );
+
+		if ( osName.startsWith( "Mac OS" ) && mrjVersion != null && mrjVersion.length() >= 4 )
 		{
-			String mrjVersion = System.getProperty( "mrj.version" );
 			String majorMRJVersion = mrjVersion.substring( 0, 3 );
 			try
 			{
@@ -947,12 +949,12 @@ public class BrowserLauncher
 		}
 		default:
 		{
-			// Determine whether or not Netscape exists on this system.
-			// If it does, use it.
+			// Determine whether a default open command exists on this system.
+			// If it does, use it.  Otherwise, try to find firefox.
 
 			browser = null;
 
-			String[] browsers = { "xdg-open", "exo-open", "kde-open", "gnome-open", "firefox" };
+			String[] browsers = { "xdg-open", "exo-open", "kde-open", "gnome-open", "open", "firefox" };
 
 			for ( int i = 0; i < browsers.length && browser == null; ++i )
 			{
