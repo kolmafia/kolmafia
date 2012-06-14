@@ -236,6 +236,11 @@ public class PyramidRequest
 		{
 			PyramidRequest.setPyramidBombUsed( matcher.group(2) != null );
 		}
+		else
+		{
+			// It is impossible for the bomb to have been used if the wheel is in another position.
+			PyramidRequest.setPyramidBombUsed( false );
+		}
 
 		return;
 	}
