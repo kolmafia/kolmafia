@@ -115,8 +115,8 @@ public class UseItemRequest
 	// You pull out the trivia card (#57/1200) and read it.
 	private static final Pattern CARD_PATTERN = Pattern.compile( "You pull out the trivia card \\(#(\\d+)/(\\d+)\\) and read it." );
 
-	// Question:  ...?
-	private static final Pattern QA_PATTERN = Pattern.compile( "(Question|Answer): *([^<]*)<" );
+	// <p>Question:  Who wrote the banned detective novel <u>Quest of the Witch Mints</u>?<p>Answer:  Mssr. Johnny Simon.
+	private static final Pattern QA_PATTERN = Pattern.compile( "(Question|Answer): *(.*?[\\.\\?])<" );
 
 	// <center>Total evil: <b>200</b><p>Alcove: <b>50</b><br>Cranny: <b>50</b><br>Niche: <b>50</b><br>Nook: <b>50</b></center>
 	private static final Pattern EVILOMETER_PATTERN =
