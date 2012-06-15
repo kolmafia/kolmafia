@@ -68,8 +68,10 @@ public class NPCPurchaseRequest
 		Pattern.compile( "pirate (?:brochure|pamphlet|tract)" );
 
 	private static Pattern NPCSTOREID_PATTERN = Pattern.compile( "whichstore=([^&]*)" );
+	private static Pattern NPCSHOPID_PATTERN = Pattern.compile( "whichshop=([^&]*)" );
 
 	private String npcStoreId;
+	private String quantityField;
 
 	/**
 	 * Constructs a new <code>NPCPurchaseRequest</code> which retrieves things from NPC stores.
@@ -77,7 +79,7 @@ public class NPCPurchaseRequest
 
 	public NPCPurchaseRequest( final String storeName, final String storeId, final int itemId, final int price )
 	{
-		super( storeId.indexOf( "." ) == -1 ? "store.php" : storeId );
+		super( NPCPurchaseRequest.pickForm( storeId ) );
 
 		this.isMallStore = false;
 		this.item = new AdventureResult( itemId, 1 );
@@ -90,28 +92,48 @@ public class NPCPurchaseRequest
 		this.limit = this.quantity;
 		this.canPurchase = true;
 
-		if ( storeId.indexOf( "." ) == -1 )
-		{
-			this.addFormField( "whichstore", storeId );
-			this.addFormField( "buying", "1" );
-			this.addFormField( "ajax", "1" );
-			this.hashField = "phash";
-		}
-		else if ( storeId.equals( "galaktik.php" ) )
+		this.addFormField( "whichitem", String.valueOf( itemId ) );
+
+		if ( storeId.equals( "galaktik.php" ) )
 		{
 			// Annoying special case.
 			this.addFormField( "action", "buyitem" );
 			this.hashField = "pwd";
+			this.quantityField = "howmany";
 		}
 		else if ( storeId.equals( "town_giftshop.php" ) )
 		{
 			this.addFormField( "action", "buy" );
 			this.hashField = "pwd";
+			this.quantityField = "howmany";
+		}
+		else if ( storeId.equals( "fdkol" ) )
+		{
+			this.addFormField( "whichshop", storeId );
+			this.addFormField( "action", "buyitem" );
+			this.addFormField( "ajax", "1" );
+			this.hashField = "pwd";
+			this.quantityField = "quantity";
+		}
+		else
+		{
+			this.addFormField( "whichstore", storeId );
+			this.addFormField( "buying", "1" );
+			this.addFormField( "ajax", "1" );
+			this.hashField = "phash";
+			this.quantityField = "howmany";
 		}
 
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
-
 		this.timestamp = 0L;
+	}
+
+	public static String pickForm( final String storeId )
+	{
+		return  storeId.indexOf( "." ) != -1 ?
+			storeId :
+			storeId.equals( "fdkol" ) ?
+			"shop.php" :
+			"store.php";
 	}
 
 	public String getStoreId()
@@ -144,7 +166,7 @@ public class NPCPurchaseRequest
 	@Override
 	public void run()
 	{
-		this.addFormField( "howmany", String.valueOf( this.limit ) );
+		this.addFormField( this.quantityField, String.valueOf( this.limit ) );
 
 		super.run();
 	}
@@ -207,10 +229,10 @@ public class NPCPurchaseRequest
 		if ( Preferences.getBoolean( "gapProtection" ) )
 		{
 			if ( KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_SKILL ) ||
-				KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_STRUCTURE ) ||
-				KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_VISION ) ||
-				KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_SPEED ) ||
-				KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_ACCURACY ) )
+			     KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_STRUCTURE ) ||
+			     KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_VISION ) ||
+			     KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_SPEED ) ||
+			     KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_ACCURACY ) )
 			{
 				if ( neededOutfit != 0 )
 				{
@@ -262,17 +284,25 @@ public class NPCPurchaseRequest
 		return true;
 	}
 
-	private final static  AdventureResult SUPER_SKILL = EffectPool.get( "Super Skill" );
-	private final static  AdventureResult SUPER_STRUCTURE = EffectPool.get( "Super Structure" );
-	private final static  AdventureResult SUPER_VISION = EffectPool.get( "Super Vision" );
-	private final static  AdventureResult SUPER_SPEED = EffectPool.get( "Super Speed" );
-	private final static  AdventureResult SUPER_ACCURACY = EffectPool.get( "Super Accuracy" );
+	private final static AdventureResult SUPER_SKILL = EffectPool.get( "Super Skill" );
+	private final static AdventureResult SUPER_STRUCTURE = EffectPool.get( "Super Structure" );
+	private final static AdventureResult SUPER_VISION = EffectPool.get( "Super Vision" );
+	private final static AdventureResult SUPER_SPEED = EffectPool.get( "Super Speed" );
+	private final static AdventureResult SUPER_ACCURACY = EffectPool.get( "Super Accuracy" );
 
 	@Override
 	public void processResults()
 	{
 		String urlString = this.getURLString();
-		NPCPurchaseRequest.parseResponse( urlString, this.responseText );
+
+		if ( urlString.startsWith( "store.php" ) )
+		{
+			NPCPurchaseRequest.parseResponse( urlString, this.responseText );
+		}
+		else if ( urlString.startsWith( "shop.php" ) )
+		{
+			NPCPurchaseRequest.parseShopResponse( urlString, this.responseText );
+		}
 
 		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
 
@@ -281,6 +311,7 @@ public class NPCPurchaseRequest
 			// Normal NPC stores say "You spent xxx Meat" and we
 			// have already parsed that.
 			if ( !urlString.startsWith( "store.php" ) &&
+			     !urlString.startsWith( "shop.php" ) &&
 			     !urlString.startsWith( "galaktik.php" ) )
 			{
 				ResultProcessor.processMeat( -1 * this.getPrice() * quantityAcquired );
@@ -403,6 +434,96 @@ public class NPCPurchaseRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + String.valueOf( priceVal ) + " each from " + storeName );
+
+		return true;
+	}
+
+	public static final void parseShopResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "shop.php" ) )
+		{
+			return;
+		}
+
+		Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return;
+		}
+
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		String itemName = ItemDatabase.getItemName( itemId );
+		int priceVal = NPCStoreDatabase.price( itemName );
+
+		// A "shop" can have items for Meat and also for tokens.  If
+		// there is a Meat price, nothing more to do; normal response
+		// parsing will deduct item acquisition and Meat expenditure.
+		if ( priceVal != 0 )
+		{
+			return;
+		}
+
+		// Perhaps this is a Coinmaster
+		Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
+		if ( !m.find() )
+		{
+			return;
+		}
+
+		String storeId = NPCStoreDatabase.getStoreName( m.group(1) );
+
+		if ( storeId.equals( "fdkol" ) )
+		{
+		}
+	}
+
+	public static final boolean registerShopRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "shop.php" ) )
+		{
+			return false;
+		}
+
+		Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return true;
+		}
+
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		String itemName = ItemDatabase.getItemName( itemId );
+		int priceVal = NPCStoreDatabase.price( itemName );
+
+		Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
+		if ( !m.find() )
+		{
+			return false;
+		}
+
+		String shopId = m.group(1);
+
+		// A "shop" can have items for Meat and also for tokens. If
+		// there is no Meat price, let correct Coinmaster claim it.
+		if ( priceVal == 0 )
+		{
+			if ( shopId.equals( "fdkol" ) )
+			{
+			}
+
+			return false;
+		}
+
+		Matcher quantityMatcher = TransferItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		if ( !quantityMatcher.find() )
+		{
+			return true;
+		}
+
+		String shopName = NPCStoreDatabase.getStoreName( m.group(1) );
+		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + String.valueOf( priceVal ) + " each from " + shopName );
 
 		return true;
 	}

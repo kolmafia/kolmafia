@@ -655,6 +655,11 @@ public class ResponseTextParser
 			SendMailRequest.parseTransfer( location, responseText );
 		}
 
+		else if ( location.startsWith( "shop.php" ) )
+		{
+			NPCPurchaseRequest.parseShopResponse( location, responseText );
+		}
+
 		else if ( location.startsWith( "skills.php" ) )
 		{
 			if ( location.indexOf( "action=useditem" ) != -1 )

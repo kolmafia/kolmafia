@@ -5723,4 +5723,4 @@
 5714	FDKOL tattoo	usable	display	0
 5715	Hjodor's Guide to Arctic Dalmatians	usable	all	0
 5716
-5717	FDKOL	hotcakes	food	all	0
+5717	FDKOL hotcakes	food	all	0

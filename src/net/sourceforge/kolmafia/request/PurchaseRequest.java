@@ -365,6 +365,11 @@ public abstract class PurchaseRequest
 			return NPCPurchaseRequest.registerRequest( urlString );
 		}
 
+		if ( urlString.startsWith( "shop.php" ) )
+		{
+			return NPCPurchaseRequest.registerShopRequest( urlString );
+		}
+
 		return false;
 	}
 }
