@@ -300,3 +300,6 @@ Uncle P's Antiques	p	'Villa' document	100000000
 
 Huggler Memorial Colosseum Snack Bar	q	nailswurst	500
 Huggler Memorial Colosseum Snack Bar	q	used beer	500
+
+FDKOL Requisitions Tent	fdkol	drop of water-37	1000
+FDKOL Requisitions Tent	fdkol	FDKOL hotcakes	5000
