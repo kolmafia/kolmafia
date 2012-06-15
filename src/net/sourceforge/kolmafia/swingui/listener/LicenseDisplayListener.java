@@ -56,6 +56,7 @@ public class LicenseDisplayListener
 		"htmlcleaner-license.txt",
 		"json.txt",
 		"swinglabs-license.txt",
+		"sorttable-license.txt",
 		"unlicensed.htm"
 	};
 
@@ -70,6 +71,7 @@ public class LicenseDisplayListener
 		"HtmlCleaner",
 		"JSON",
 		"SwingLabs",
+		"Sort Table",
 		"Unlicensed"
 	};
 
