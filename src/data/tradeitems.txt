@@ -5676,7 +5676,7 @@
 5667	puppet strings	none, curse	display	0
 5668	bagged stuffed &quot;L&quot;	none, curse	display	0
 5669	stuffed club	weapon	gift	0
-5670
+5670	fettucini &eacute;pines Inconnu	food	all	61
 5671	slap and slap again	drink	all	61
 5672
 5673
@@ -5722,5 +5722,5 @@
 5713	enchanted fire extinguisher	offhand	all	0
 5714	FDKOL tattoo	usable	display	0
 5715	Hjodor's Guide to Arctic Dalmatians	usable	all	0
-5716
+5716	Hjodor's Guide to Arctic Dalmatians (used)	usable	display	0
 5717	FDKOL hotcakes	food	all	0
