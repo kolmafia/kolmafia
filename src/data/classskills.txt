@@ -1,6 +1,8 @@
 3
 # Syntax is:
 # id	Name	Type	MP Cost	Duration[	Level]
+# Type can be: 0 (Passive), 1 (Noncombat item summon), 2 (Noncombat healing)
+# 3 (Noncombat non-shruggable effect), 4 (Noncombat shruggable effect), 5 (Combat)
 
 1	Liver of Steel	0	0	0
 2	Chronic Indigestion	5	5	0
@@ -94,6 +96,7 @@
 80	Thick-Skinned	0	0	0
 81	Chip on your Shoulder	0	0	0
 82	Request Sandwich	1	5	0
+83	Frigidalmatian	3	300	1
 
 # Skills available to Clubbers
 
