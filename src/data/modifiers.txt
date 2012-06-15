@@ -167,6 +167,8 @@ festive holiday hat	Moxie: +1, Cold Resistance: +1, Familiar Effect: "1xFairy, c
 fez of etymology	Moxie: +7, Familiar Effect: "1xLep, cap 30"
 filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1xPotato, cap 15"
 fire	Initiative: +10, Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2"
+# fireman's helmet: +1 FDKOL Commendation per Fire
+fireman's helmet	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
 football helmet	Familiar Effect: "atk, cap 37"
@@ -828,6 +830,7 @@ evil-ass club	Weapon Damage: +25, Monster Level: +15, Spooky Damage: +15, Class:
 # fetus-smashing club
 filthy pestle	Spell Damage: +7
 finger cymbals	Maximum MP: +20
+fire axe	Cold Damage: +200
 fire poi	Hot Damage: +15, Moxie: +3
 fish bazooka	Moxie Percent: +5, Meat Drop: +10
 fish scimitar	Muscle Percent: +5, Weapon Damage Percent: +10
@@ -1253,6 +1256,8 @@ easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 # eelskin shield: Damages Attacking Opponent (Underwater Only)
 eelskin shield	Maximum HP: +55, Maximum MP: +55, Damage Reduction: 13
 enchanted brass knuckles	Critical: 2
+#enchanted fire extinguisher: All Spells Cast Are Cold
+enchanted fire extinguisher	Spell Damage Percent: +100, Cold Spell Damage: +30
 eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
 # fake hand: Gives Extra Offhand Equipment Slot
 fake hand	Weapon Damage: -1
@@ -2802,6 +2807,7 @@ Everything's Zen	Experience Percent (Mysticality): +20
 # Existential Torment: Who are you? Who are you <i>really</i>?
 Expert Oiliness	Equalize: "Mysticality"
 Expert Timing	Item Drop: +20
+Extra-Wet	Hot Resistance: +3
 Extra Sensory Perception	Item Drop: +50
 Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
@@ -3969,6 +3975,7 @@ disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 10
 donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10
 doppelshifter egg	Free Pull
 double-ice gum	Effect: "Wintry Breath", Effect Duration: 10
+drop of water-37	Effect: "Extra-Wet", Effect Duration: 30
 drum of pomade	Effect: "Perfect Hair", Effect Duration: 10
 dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5
 eel battery	Effect: "It's Electric!", Effect Duration: 15

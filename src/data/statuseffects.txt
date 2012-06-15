@@ -1034,3 +1034,5 @@
 1033	Silent Running	dasboot.gif	c781c7a1ab57b20200e07228ef913165	swim sprints
 1034	Water Wings	poolwings.gif	1b8a656358c481bfb2a97126f3ae68f1	use 1 watered-down Red Minotaur
 1035	N-Spatial vision	eyes.gif	81dc1790b51b5fb794222e50646d8d16
+1036	Extra-Wet	doublewater.gif	128eb24cfd0d9996bfa2e26280db8680	use 1 drop of water-37
+1037	Hotcaked	hotcakes.gif	6c3d4400e40b0dd907100e0e7dad2d90	eat 1 FDKOL hotcakes

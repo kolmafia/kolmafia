@@ -5706,3 +5706,13 @@
 5705	216949439	waxhat2.gif	wax hat
 5706	321480099	waxpants.gif	wax pants
 5707	531424139	fdkol_medal.gif	FDKOL commendation
+5708	251354482	doublewater.gif	drop of water-37	drops of water-37
+5709	682209073	firemanhat.gif	fireman's helmet
+5710
+5711
+5712	439484541	firemanaxe.gif	fire axe
+5713	287341107	extinguisher.gif	enchanted fire extinguisher
+5714	503915099	fdkoltattoo.gif	FDKOL tattoo
+5715	862298428	book3.gif	Hjodor's Guide to Arctic Dalmatians
+5716
+5717	167850388	hotcakes.gif	FDKOL hotcakes
