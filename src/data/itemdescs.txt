@@ -5668,8 +5668,8 @@
 5667	475297640	puppetstrings.gif	puppet strings	sets of puppet strings
 5668	847980181	baggedl.gif	bagged stuffed &quot;L&quot;
 5669	916155099	stuffedclub.gif	stuffed club
-5670
-5671	474516688	rocks.gif	slap and slap again
+5670	994892887	bowl.gif	fettucini &eacute;pines Inconnu	bowls of fettucini &eacute;pines Inconnu
+5671	474516688	rocks.gif	slap and slap again	slaps and slaps again
 5672
 5673
 5674	619356758	stuffedl.gif	stuffed &quot;L&quot;
@@ -5714,5 +5714,5 @@
 5713	287341107	extinguisher.gif	enchanted fire extinguisher
 5714	503915099	fdkoltattoo.gif	FDKOL tattoo
 5715	862298428	book3.gif	Hjodor's Guide to Arctic Dalmatians
-5716
+5716	981247067	book3.gif	Hjodor's Guide to Arctic Dalmatians (used)
 5717	167850388	hotcakes.gif	FDKOL hotcakes

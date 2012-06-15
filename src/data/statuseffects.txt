@@ -1036,3 +1036,4 @@
 1035	N-Spatial vision	eyes.gif	81dc1790b51b5fb794222e50646d8d16
 1036	Extra-Wet	doublewater.gif	128eb24cfd0d9996bfa2e26280db8680	use 1 drop of water-37
 1037	Hotcaked	hotcakes.gif	6c3d4400e40b0dd907100e0e7dad2d90	eat 1 FDKOL hotcakes
+1038	Frigidalmatian	frigidal.gif	cce2cc0e019149f19f1d92c67000c3ed	cast 1 Frigidalmatian
