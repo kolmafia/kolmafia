@@ -174,6 +174,12 @@ public class NPCPurchaseRequest
 	@Override
 	public boolean ensureProperAttire()
 	{
+		if ( this.npcStoreId.equals( "fdkol" ) )
+		{
+			// Travoltan trousers do not give a discount
+			return true;
+		}
+
 		int neededOutfit = 0;
 
 		if ( this.npcStoreId.equals( "b" ) )
