@@ -521,4 +521,4 @@ FDKOL Tent	buy	100	FDKOL tattoo
 FDKOL Tent	buy	500	fireman's helmet
 FDKOL Tent	buy	1500	fire axe
 FDKOL Tent	buy	1500	enchanted fire extinguisher
-FDKOL Tent	buy	3500	enchanted fire extinguisher
+FDKOL Tent	buy	3500	Hjodor's Guide to Arctic Dalmatians
