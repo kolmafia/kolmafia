@@ -514,3 +514,11 @@ Bugbear Token	buy	25	bugbear detector
 Bugbear Token	buy	50	UV monocular
 Bugbear Token	buy	60	quantum disintegrator pistol
 Bugbear Token	buy	70	phase-tuned shield generator belt
+
+# Things you can buy with FDKOL commendations
+
+FDKOL Tent	buy	100	FDKOL tattoo
+FDKOL Tent	buy	500	fireman's helmet
+FDKOL Tent	buy	1500	fire axe
+FDKOL Tent	buy	1500	enchanted fire extinguisher
+FDKOL Tent	buy	3500	enchanted fire extinguisher

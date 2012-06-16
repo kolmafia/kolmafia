@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
+import net.sourceforge.kolmafia.request.FDKOLRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
@@ -140,6 +141,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel vendingMachinePanel = null;
 	private CoinmasterPanel swaggerShopPanel = null;
 	private CoinmasterPanel BURTPanel = null;
+	private CoinmasterPanel fdkolPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -267,6 +269,11 @@ public class CoinmastersFrame
 		panel.add( travelerPanel );
 		this.selectorPanel.addPanel( travelerPanel.getPanelSelector(), panel );
 
+		panel = new JPanel( new BorderLayout() );
+		fdkolPanel = new fdkolPanel();
+		panel.add( fdkolPanel );
+		this.selectorPanel.addPanel( fdkolPanel.getPanelSelector(), panel );
+
 		// Removed coinmasters
 		this.selectorPanel.addSeparator();
 		this.selectorPanel.addCategory( "Removed" );
@@ -359,6 +366,7 @@ public class CoinmastersFrame
 		altarOfBonesPanel.update();
 		crimboCartelPanel.update();
 		CRIMBCOGiftShopPanel.update();
+		fdkolPanel.update();
 		this.setTitle();
 	}
 
@@ -701,6 +709,15 @@ public class CoinmastersFrame
 		}
 	}
 
+	private class fdkolPanel
+		extends CoinmasterPanel
+	{
+		public fdkolPanel()
+		{
+			super( FDKOLRequest.FDKOL );
+		}
+	}
+
 	private class IsotopeSmitheryPanel
 		extends CoinmasterPanel
 	{
@@ -938,8 +955,6 @@ public class CoinmastersFrame
 			}
 
 			CoinmasterData data = this.data;
-			AdventureResult token = data.getItem();
-			String property = data.getProperty();
 			int originalBalance = fromStorage ?
 				data.availableStorageTokens() :
 				data.availableTokens();
