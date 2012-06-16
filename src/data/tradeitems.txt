@@ -5025,9 +5025,9 @@
 5016	wasabi-infused sake	drink	all	5
 5017	tobiko-infused sake	drink	all	5
 5018	natto-infused sake	drink	all	5
-5019	wasabi marble soda	usable	all	5
-5020	tobiko marble soda	usable	all	5
-5021	natto marble soda	usable	all	5
+5019	wasabi marble soda	multiple	all	5
+5020	tobiko marble soda	multiple	all	5
+5021	natto marble soda	multiple	all	5
 5022	Alice's Army booster box	usable	all	0
 5023	elderly jawbreaker	multiple	all	30
 5024	marshmallow flamb&eacute;	drink	all	200
