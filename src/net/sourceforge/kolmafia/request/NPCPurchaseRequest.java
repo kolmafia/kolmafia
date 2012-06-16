@@ -451,39 +451,16 @@ public class NPCPurchaseRequest
 			return;
 		}
 
-		Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( !itemMatcher.find() )
-		{
-			return;
-		}
-
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		String itemName = ItemDatabase.getItemName( itemId );
-		int priceVal = NPCStoreDatabase.price( itemName );
-
-		// A "shop" can have items for Meat and also for tokens.  If
-		// there is a Meat price, nothing more to do; normal response
-		// parsing will deduct item acquisition and Meat expenditure.
-		if ( priceVal != 0 )
-		{
-			return;
-		}
-
-		// Perhaps this is a Coinmaster
 		Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
 		if ( !m.find() )
 		{
 			return;
 		}
 
-		String storeId = NPCStoreDatabase.getStoreName( m.group(1) );
-
-		if ( storeId.equals( "fdkol" ) )
+		String shopId = m.group(1);
+		if ( shopId.equals( "fdkol" ) )
 		{
-			if ( FDKOLRequest.buyItems.contains( itemName ) )
-			{
-				FDKOLRequest.parseResponse( urlString, responseText );
-			}
+			FDKOLRequest.parseResponse( urlString, responseText );
 		}
 	}
 

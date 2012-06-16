@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.Map;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -45,6 +46,7 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FDKOLRequest
 	extends CoinMasterRequest
@@ -100,6 +102,21 @@ public class FDKOLRequest
 		}
 
 		CoinmasterData data = FDKOLRequest.FDKOL;
+
+		Matcher m = TransferItemRequest.ITEMID_PATTERN.matcher( location );
+		if ( !m.find() )
+		{
+			CoinMasterRequest.parseBalance( data, responseText );
+			return;
+		}
+
+		int itemId = StringUtilities.parseInt( m.group( 1 ) );
+		AdventureResult item = AdventureResult.findItem( itemId, data.getBuyItems() );
+		if ( item == null )
+		{
+			return;
+		}
+
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
