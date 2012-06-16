@@ -388,15 +388,20 @@ public abstract class MoodManager
 			// Combat rate increasers are not handled by mood
 			// autofill, since KoLmafia has a preference for
 			// non-combats in the area below.
+			// Musk of the Moose, Carlweather's Cantata of Confrontation,
+			// Song of Battle
 
 			if ( skillId == 1019 || skillId == 6016 || skillId == 11019 )
 			{
 				continue;
 			}
 
-			// Song of the Glorious Lunch is not suitable for a mood
+			// Skip skills that aren't mood appropriate because they add effects
+			// outside of battle.
+			// Canticle of Carboloading, The Ode to Booze,
+			// Inigo's Incantation of Inspiration, Song of the Glorious Lunch
 
-			if ( skillId == 11023 )
+			if ( skillId == 3024 || skillId == 6014 || skillId == 6028 || skillId == 11023 )
 			{
 				continue;
 			}
@@ -467,7 +472,7 @@ public abstract class MoodManager
 			for ( int i = 0; i < skillNames.length; ++i )
 			{
 				String effectName = UneffectRequest.skillToEffect( skillNames[ i ] );
-				MoodManager.addTrigger( "lose_effect",effectName, "cast " + rankedBuffs[ i ] );
+				MoodManager.addTrigger( "lose_effect", effectName, "cast " + skillNames[ i ] );
 			}
 
 			return;
