@@ -480,6 +480,10 @@ public class NPCPurchaseRequest
 
 		if ( storeId.equals( "fdkol" ) )
 		{
+			if ( FDKOLRequest.buyItems.contains( itemName ) )
+			{
+				FDKOLRequest.parseResponse( urlString, responseText );
+			}
 		}
 	}
 
@@ -514,6 +518,7 @@ public class NPCPurchaseRequest
 		{
 			if ( shopId.equals( "fdkol" ) )
 			{
+				FDKOLRequest.registerRequest( urlString );
 			}
 
 			return false;
