@@ -153,7 +153,7 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter IV", 35, false ),
 		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter V", 35, false ),
 		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter VI", 35, false ),
-		new MPRestoreItem( "sueling turtle", 15, false ),
+		new MPRestoreItem( "dueling turtle", 15, false ),
 		new MPRestoreItem( "unrefined Mountain Stream syrup", 55, true )
 	};
 

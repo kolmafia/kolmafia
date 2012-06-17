@@ -143,7 +143,8 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter III", 35 ),
 		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter IV", 35 ),
 		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter V", 35 ),
-		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter VI", 35 )
+		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter VI", 35 ),
+		new HPRestoreItem( "dueling turtle", 15 )
 	};
 
 	public static final void setPurchaseBasedSort( final boolean purchaseBasedSort )
