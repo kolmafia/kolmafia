@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -742,7 +743,7 @@ public class AdventureRequest
 				// thank goodness that's over. Worst. Spelling bee. Ever.
 				if ( responseText.indexOf ( "put your pom-poms down" ) != -1 )
 				{
-					QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, "step2" );
+					QuestDatabase.setQuestProgress( Quest.WORSHIP, "step2" );
 				}
 				break;
 				
@@ -764,7 +765,7 @@ public class AdventureRequest
 				// coat, crack your knuckles, and begin to play the sheet music from the diary.
 				if ( responseText.indexOf ( "You make your way to the pipe organ" ) != -1 )
 				{
-					QuestDatabase.setQuestProgress( QuestDatabase.MANOR, "step1" );
+					QuestDatabase.setQuestProgress( Quest.MANOR, "step1" );
 				}
 				break;
 			case 113:
@@ -800,14 +801,14 @@ public class AdventureRequest
 
 				if ( responseText.indexOf( "do see what looks like a collection of small buildings" ) != -1 )
 				{
-					QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step2" );
+					QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step2" );
 				}
 
 				// No Colors Anymore
 				// no black paint: "Okay, fine," you sigh, and trudge off to find some black paint.
 				else if ( responseText.indexOf( "trudge off to find some black paint" ) != -1 )
 				{
-					QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step3" );
+					QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step3" );
 				}
 
 				// with black paint: "Okay, fine," you sigh, and pull a can of black paint out of your
@@ -816,7 +817,7 @@ public class AdventureRequest
 				// Also occurs in Still No Colors Anymore
 				else if ( responseText.indexOf( "you paint the door black as night, black as coal" ) != -1 )
 				{
-					QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step4" );
+					QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step4" );
 				}
 
 				// Walk Without Rhythm
@@ -824,7 +825,7 @@ public class AdventureRequest
 				// no drum machine: Grumbling, you head back toward the oasis.
 				else if ( responseText.indexOf( "Grumbling, you head back toward the oasis" ) != -1 )
 				{
-					QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step5" );
+					QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step5" );
 				}
 				
 				// with drum machine: ... show your drum machine to
@@ -833,7 +834,7 @@ public class AdventureRequest
 				// also happens in Walk Without Rhythm 2
 				else if ( responseText.indexOf( "This thumper will serve you well" ) != -1 )
 				{
-					QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step6" );
+					QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step6" );
 				}
 				break;
 			}

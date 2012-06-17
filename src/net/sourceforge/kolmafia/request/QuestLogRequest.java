@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -95,13 +96,13 @@ public class QuestLogRequest
 
 	public static final boolean isWhiteCitadelAvailable()
 	{
-		String pref = Preferences.getString( QuestDatabase.CITADEL );
+		String pref = Preferences.getString( Quest.CITADEL.getPref() );
 		return pref.equals( QuestDatabase.FINISHED ) || pref.equals( "step5" ) || pref.equals( "step6" );
 	}
 
 	public static final boolean areFriarsAvailable()
 	{
-		return Preferences.getString( QuestDatabase.FRIAR ).equals( QuestDatabase.FINISHED );
+		return Preferences.getString( Quest.FRIAR.getPref() ).equals( QuestDatabase.FINISHED );
 	}
 
 	public static final boolean isBlackMarketAvailable()
@@ -110,14 +111,14 @@ public class QuestLogRequest
 		{
 			return false;
 		}
-		String pref = Preferences.getString( QuestDatabase.MACGUFFIN );
+		String pref = Preferences.getString( Quest.MACGUFFIN.getPref() );
 
 		return pref.equals( QuestDatabase.FINISHED ) || pref.indexOf( "step" ) != -1;
 	}
 
 	public static final boolean isHippyStoreAvailable()
 	{
-		return !Preferences.getString( QuestDatabase.ISLAND_WAR ).equals( "step1" );
+		return !Preferences.getString( Quest.ISLAND_WAR.getPref() ).equals( "step1" );
 	}
 
 	@Override
@@ -168,7 +169,7 @@ public class QuestLogRequest
 		{
 			parseResponse( responseText, 2 );
 
-			GalaktikRequest.setDiscount( QuestLogRequest.finishedQuest( QuestDatabase.GALAKTIK ) );
+			GalaktikRequest.setDiscount( QuestLogRequest.finishedQuest( Quest.GALAKTIK.getPref() ) );
 		}
 
 		else if ( urlString.indexOf( "which=3" ) != -1 )
@@ -183,18 +184,18 @@ public class QuestLogRequest
 	private static void parseResponse( final String responseText, final int source )
 	{
 		Matcher headers = QuestLogRequest.HEADER_PATTERN.matcher( responseText );
-		HashMap map = new HashMap();
+		HashMap<Integer, String> map = new HashMap<Integer, String>();
 
 		while ( headers.find() )
 		{
 			map.put( IntegerPool.get( headers.end() ), headers.group( 1 ) );
 		}
 
-		Iterator it = map.keySet().iterator();
+		Iterator<Integer> it = map.keySet().iterator();
 		while ( it.hasNext() )
 		{
-			Integer key = (Integer) it.next();
-			String header = (String) map.get( key );
+			Integer key = it.next();
+			String header = map.get( key );
 			String cut = responseText.substring( key.intValue() ).split( "</blockquote>" )[ 0 ];
 
 			if ( header.equals( "Council Quests:" ) )
@@ -272,8 +273,8 @@ public class QuestLogRequest
 
 	public static boolean isTavernAvailable()
 	{
-		if ( Preferences.getString( QuestDatabase.RAT ).equals( QuestDatabase.STARTED )
-			|| Preferences.getString( QuestDatabase.RAT ).equals( QuestDatabase.FINISHED ) )
+		if ( Preferences.getString( Quest.RAT.getPref() ).equals( QuestDatabase.STARTED )
+			|| Preferences.getString( Quest.RAT.getPref() ).equals( QuestDatabase.FINISHED ) )
 		{
 			return true;
 		}

@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1047,7 +1048,7 @@ public class ResultProcessor
 				// but there is no message about donating it.
 				KoLCharacter.makeCharitableDonation( 3000 );
 			}
-			QuestDatabase.setQuestProgress( QuestDatabase.PIRATE, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.PIRATE, QuestDatabase.FINISHED );
 			break;
 
 		case ItemPool.MACGUFFIN_DIARY:
@@ -1064,18 +1065,18 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.PHOTOGRAPH_OF_GOD, -1 );
 			ResultProcessor.processItem( ItemPool.HARD_ROCK_CANDY, -1 );
 			ResultProcessor.processItem( ItemPool.OSTRICH_EGG, -1 );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step2" );
 			break;
 
 		case ItemPool.MEGA_GEM:
 			// If you get the Mega Gem, you lose your wet stunt nut
 			// stew
 			ResultProcessor.processItem( ItemPool.WET_STUNT_NUT_STEW, -1 );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, "step4" );
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step4" );
 			break;
 			
 		case ItemPool.HOLY_MACGUFFIN:
-			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.PYRAMID, QuestDatabase.FINISHED );
 			break;
 
 		case ItemPool.CONFETTI:
@@ -1083,11 +1084,11 @@ public class ResultProcessor
 			if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.HOLY_MACGUFFIN, 1 ) ) )
 			{
 				ResultProcessor.processItem( ItemPool.HOLY_MACGUFFIN, -1 );
-				QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, QuestDatabase.FINISHED );
-				QuestDatabase.setQuestProgress( QuestDatabase.MANOR, QuestDatabase.FINISHED );
-				QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, QuestDatabase.FINISHED );
-				QuestDatabase.setQuestProgress( QuestDatabase.PALINDOME, QuestDatabase.FINISHED );
-				QuestDatabase.setQuestProgress( QuestDatabase.MACGUFFIN, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.PYRAMID, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.MANOR, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.PALINDOME, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.MACGUFFIN, QuestDatabase.FINISHED );
 			}
 			break;
 
@@ -1121,16 +1122,16 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.SPOOKY_BICYCLE_CHAIN:
-			if ( combatResults ) QuestDatabase.setQuestIfBetter( QuestDatabase.BUGBEAR, "step3" );
+			if ( combatResults ) QuestDatabase.setQuestIfBetter( Quest.BUGBEAR, "step3" );
 			break;
 
 		case ItemPool.RONALD_SHELTER_MAP:
 		case ItemPool.GRIMACE_SHELTER_MAP:
-			QuestDatabase.setQuestIfBetter( QuestDatabase.GENERATOR, "step1" );
+			QuestDatabase.setQuestIfBetter( Quest.GENERATOR, "step1" );
 			break;
 
 		case ItemPool.SPOOKY_LITTLE_GIRL:
-			QuestDatabase.setQuestIfBetter( QuestDatabase.GENERATOR, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.GENERATOR, "step2" );
 			break;
 
 		case ItemPool.EMU_UNIT:
@@ -1139,7 +1140,7 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.EMU_ROCKET, -1 );
 			ResultProcessor.processItem( ItemPool.EMU_HELMET, -1 );
 			ResultProcessor.processItem( ItemPool.EMU_HARNESS, -1 );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.GENERATOR, "step3" );
+			QuestDatabase.setQuestIfBetter( Quest.GENERATOR, "step3" );
 			break;
 
 		case ItemPool.OVERCHARGED_POWER_SPHERE:
@@ -1229,11 +1230,11 @@ public class ResultProcessor
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 			ResultProcessor.processItem( ItemPool.CARONCH_MAP, -1 );
 			ResultProcessor.processItem( ItemPool.CARONCH_NASTY_BOOTY, -1 );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.PIRATE, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.PIRATE, "step2" );
 			break;
 			
 		case ItemPool.CARONCH_DENTURES:
-			QuestDatabase.setQuestIfBetter( QuestDatabase.PIRATE, "step3" );
+			QuestDatabase.setQuestIfBetter( Quest.PIRATE, "step3" );
 			break;
 
 		case ItemPool.TEN_LEAF_CLOVER:
@@ -1245,7 +1246,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.BAT_BANDANA:
-			QuestDatabase.setQuestProgress( QuestDatabase.BAT, "step4" );
+			QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
 
 		case ItemPool.BATSKIN_BELT:
 		case ItemPool.DRAGONBONE_BELT_BUCKLE:
@@ -1262,7 +1263,7 @@ public class ResultProcessor
 			break;
 			
 		case ItemPool.BONERDAGON_CHEST:
-			QuestDatabase.setQuestProgress( QuestDatabase.CYRPT, "step1" );
+			QuestDatabase.setQuestProgress( Quest.CYRPT, "step1" );
 			break;
 
 		case ItemPool.SNAKEHEAD_CHARM:
@@ -1273,52 +1274,52 @@ public class ResultProcessor
 			break;
 			
 		case ItemPool.TALISMAN:
-			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, "step1" );
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step1" );
 			break;
 
 		case ItemPool.EYE_OF_ED:
-			QuestDatabase.setQuestProgress( QuestDatabase.MANOR, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.MANOR, QuestDatabase.FINISHED );
 			break;
 			
 		case ItemPool.ANCIENT_AMULET:
-			QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.WORSHIP, QuestDatabase.FINISHED );
 			break;
 			
 		case ItemPool.STAFF_OF_FATS:
-			QuestDatabase.setQuestProgress( QuestDatabase.PALINDOME, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.PALINDOME, QuestDatabase.FINISHED );
 			break;
 			
 		case ItemPool.WORM_RIDING_MANUAL_1:
-			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step7" );
+			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step7" );
 			break;
 			
 		case ItemPool.WORM_RIDING_MANUAL_2:
-			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step8" );
+			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step8" );
 			break;
 			
 		case ItemPool.WORM_RIDING_MANUAL_3_15:
-			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step9" );
+			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step9" );
 			break;
 
 		case ItemPool.WORM_RIDING_HOOKS:
 			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_1, -1 );
 			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_2, -1 );
 			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_3_15, -1 );
-			QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step10" );
+			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step10" );
 			break;
 			
 		case ItemPool.CARONCH_MAP:
-			QuestDatabase.setQuestProgress( QuestDatabase.PIRATE, QuestDatabase.STARTED );
+			QuestDatabase.setQuestProgress( Quest.PIRATE, QuestDatabase.STARTED );
 			break;
 			
 		case ItemPool.CARONCH_NASTY_BOOTY:
-			QuestDatabase.setQuestIfBetter( QuestDatabase.PIRATE, "step1" );
+			QuestDatabase.setQuestIfBetter( Quest.PIRATE, "step1" );
 			break;
 			
 		case ItemPool.STEEL_LIVER:
 		case ItemPool.STEEL_STOMACH:
 		case ItemPool.STEEL_SPLEEN:
-			QuestDatabase.setQuestProgress( QuestDatabase.AZAZEL, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.AZAZEL, QuestDatabase.FINISHED );
 			break;
 
 		case ItemPool.DAS_BOOT:

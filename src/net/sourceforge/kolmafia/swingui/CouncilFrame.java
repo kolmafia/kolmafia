@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -162,7 +163,7 @@ public class CouncilFrame
 		else if ( location.startsWith( "pandamonium" ) )
 		{
 			// Quest starts the very instant you click on pandamonium.php
-			QuestDatabase.setQuestIfBetter( QuestDatabase.AZAZEL, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( Quest.AZAZEL, QuestDatabase.STARTED );
 		}
 		else if ( location.startsWith( "plains" ) )
 		{
@@ -229,7 +230,7 @@ public class CouncilFrame
 		
 		if ( responseText.indexOf( "the model bursts into flames and is quickly consumed" ) != -1 )
 		{
-			QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, "step12" );
+			QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step12" );
 		}
 	}
 
@@ -302,7 +303,7 @@ public class CouncilFrame
 			ResultProcessor.processItem( ItemPool.BUTTERKNIFE, -1 );
 			int knownAscensions = Preferences.getInteger( "knownAscensions" );
 			Preferences.setInteger( "lastFriarCeremonyAscension", knownAscensions );
-			QuestDatabase.setQuestProgress( QuestDatabase.FRIAR, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.FRIAR, QuestDatabase.FINISHED );
 			if ( KoLmafia.isAdventuring() )
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Taint cleansed." );
@@ -323,7 +324,7 @@ public class CouncilFrame
 			{
 				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have bridged the Orc Chasm." );
 			}
-			QuestDatabase.setQuestProgress( QuestDatabase.LOL, "step1" );
+			QuestDatabase.setQuestProgress( Quest.LOL, "step1" );
 		}
 	}
 
@@ -351,7 +352,7 @@ public class CouncilFrame
 		if ( oreMatcher.find() )
 		{
 			Preferences.setString( "trapperOre", oreMatcher.group( 1 ) + " ore" );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.TRAPPER, "step1" );
+			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step1" );
 		}
 
 		if ( responseText.indexOf( "Thanks for yer help, Adventurer" ) != -1 ||
@@ -359,7 +360,7 @@ public class CouncilFrame
 		     responseText.indexOf( "Yeti furs, eh?" ) != -1 )
 		{
 			Preferences.setInteger( "lastTr4pz0rQuest", KoLCharacter.getAscensions() );
-			QuestDatabase.setQuestProgress( QuestDatabase.TRAPPER, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.TRAPPER, QuestDatabase.FINISHED );
 		}
 
 		// If you receive items from the trapper, then you
@@ -373,22 +374,22 @@ public class CouncilFrame
 		if ( responseText.indexOf( "asbestos" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "asbestos ore", -3, false ) );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.TRAPPER, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step2" );
 		}
 		else if ( responseText.indexOf( "linoleum" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "linoleum ore", -3, false ) );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.TRAPPER, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step2" );
 		}
 		else if ( responseText.indexOf( "chrome" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "chrome ore", -3, false ) );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.TRAPPER, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step2" );
 		}
 		else if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
 		{
 			ResultProcessor.processResult( new AdventureResult( "goat cheese", -6, false ) );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.TRAPPER, "step3" );
+			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
 		}
 	}
 

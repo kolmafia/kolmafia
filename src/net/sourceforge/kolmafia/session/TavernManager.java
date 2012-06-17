@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -461,7 +462,7 @@ public class TavernManager
 	{
 		if ( responseText.indexOf( "have a few drinks on the house" ) != -1 )
 		{
-			QuestDatabase.setQuestProgress( QuestDatabase.RAT, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.RAT, QuestDatabase.FINISHED );
 		}
 	}
 }

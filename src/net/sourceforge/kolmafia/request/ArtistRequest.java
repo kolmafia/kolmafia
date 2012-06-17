@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -92,14 +93,14 @@ public class ArtistRequest
 		// Great. If I'm going to work, I'll need my paintbrush, my palette, and my paint.
 		if ( responseText.indexOf( "If I'm going to work, I'll need my paintbrush" ) != -1 )
 		{
-			QuestDatabase.setQuestProgress( QuestDatabase.ARTIST, QuestDatabase.STARTED );
+			QuestDatabase.setQuestProgress( Quest.ARTIST, QuestDatabase.STARTED );
 		}
 
 		// Subsequent times:
 		// You still need to find my tools! Please hurry!
 		else if ( responseText.indexOf( "still need to find my tools" ) != -1 )
 		{
-			QuestDatabase.setQuestProgress( QuestDatabase.ARTIST, QuestDatabase.STARTED );
+			QuestDatabase.setQuestProgress( Quest.ARTIST, QuestDatabase.STARTED );
 		}
 
 		// The artist pours the pail of paint into a huge barrel, then
@@ -111,7 +112,7 @@ public class ArtistRequest
 			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PALETTE, -1 );
 			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAINTBRUSH, -1 );
 			ResultProcessor.processItem( ItemPool.PRETENTIOUS_PAIL, -1 );
-			QuestDatabase.setQuestProgress( QuestDatabase.ARTIST, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.ARTIST, QuestDatabase.FINISHED );
 			return;
 		}
 

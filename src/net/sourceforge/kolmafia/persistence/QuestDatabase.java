@@ -56,34 +56,48 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class QuestDatabase
 	extends KoLDatabase
 {
+	public enum Quest
+	{
+			LARVA( "questL02Larva" ),
+			RAT( "questL03Rat" ),
+			BAT( "questL04Bat" ),
+			GOBLIN( "questL05Goblin" ),
+			FRIAR( "questL06Friar" ),
+			CYRPT( "questL07Cyrptic" ),
+			TRAPPER( "questL08Trapper" ),
+			LOL( "questL09Lol" ),
+			GARBAGE( "questL10Garbage" ),
+			MACGUFFIN( "questL11MacGuffin" ),
+			WORSHIP( "questL11Worship" ),
+			MANOR( "questL11Manor" ),
+			PYRAMID( "questL11Pyramid" ),
+			PALINDOME( "questL11Palindome" ),
+			ISLAND_WAR( "questL12War" ),
+			FINAL( "questL13Final" ),
+			CITADEL( "questG02Whitecastle" ),
+			ARTIST( "questM02Artist" ),
+			GALAKTIK( "questM04Galaktic" ),
+			AZAZEL( "questM10Azazel" ),
+			PIRATE( "questM12Pirate" ),
+			GENERATOR( "questF04Elves" ),
+			BUGBEAR( "questM03Bugbear" ),
+			UNTINKER( "questM01Untinker" );
+
+		private String pref;
+
+		private Quest( String pref )
+		{
+			this.pref = pref;
+		}
+
+		public String getPref()
+		{
+			return pref;
+		}
+	}
 	public static final String UNSTARTED = "unstarted";
 	public static final String STARTED = "started";
 	public static final String FINISHED = "finished";
-
-	public static final String LARVA = "questL02Larva";
-	public static final String RAT = "questL03Rat";
-	public static final String BAT = "questL04Bat";
-	public static final String GOBLIN = "questL05Goblin";
-	public static final String FRIAR = "questL06Friar";
-	public static final String CYRPT = "questL07Cyrptic";
-	public static final String TRAPPER = "questL08Trapper";
-	public static final String LOL = "questL09Lol";
-	public static final String GARBAGE = "questL10Garbage";
-	public static final String MACGUFFIN = "questL11MacGuffin";
-	public static final String WORSHIP = "questL11Worship";
-	public static final String MANOR = "questL11Manor";
-	public static final String PYRAMID = "questL11Pyramid";
-	public static final String PALINDOME = "questL11Palindome";
-	public static final String ISLAND_WAR = "questL12War";
-	public static final String FINAL = "questL13Final";
-	public static final String CITADEL = "questG02Whitecastle";
-	public static final String ARTIST = "questM02Artist";
-	public static final String GALAKTIK = "questM04Galaktic";
-	public static final String AZAZEL = "questM10Azazel";
-	public static final String PIRATE = "questM12Pirate";
-	public static final String GENERATOR = "questF04Elves";
-	public static final String BUGBEAR = "questM03Bugbear";
-	public static final String UNTINKER = "questM01Untinker";
 
 	public static final Pattern HTML_WHITESPACE = Pattern.compile( "<[^<]+?>|[\\s\\n]" );
 
@@ -99,7 +113,7 @@ public class QuestDatabase
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "questslog.txt", KoLConstants.QUESTSLOG_VERSION );
 		
-		ArrayList quests = new ArrayList();
+		ArrayList<String[]> quests = new ArrayList<String[]>();
 		String[] data;
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
@@ -109,7 +123,7 @@ public class QuestDatabase
 			quests.add( data );
 		}
 		
-		questLogData = ( String[][] )quests.toArray( new String[ quests.size() ][] );
+		questLogData = quests.toArray( new String[ quests.size() ][] );
 		
 		try
 		{
@@ -122,14 +136,14 @@ public class QuestDatabase
 		
 		reader = FileUtilities.getVersionedReader( "questscouncil.txt", KoLConstants.QUESTSCOUNCIL_VERSION );
 		
-		quests = new ArrayList();
+		quests = new ArrayList<String[]>();
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			quests.add( data );
 		}
 		
-		councilData = ( String[][] )quests.toArray( new String[ quests.size() ][] );
+		councilData = quests.toArray( new String[ quests.size() ][] );
 		
 		try
 		{
@@ -159,6 +173,23 @@ public class QuestDatabase
 
 		// couldn't find a match
 		return "";
+	}
+	
+	public static Quest titleToQuest( final String title )
+	{
+		String pref = titleToPref( title );
+		if ( pref.equals( "" ) )
+		{
+			return null;
+		}
+		for ( Quest q: Quest.values() )
+		{
+			if ( q.getPref().equals( pref ) )
+			{
+				return q;
+			}
+		}
+		return null;
 	}
 
 	public static String prefToTitle( final String pref )
@@ -416,7 +447,7 @@ public class QuestDatabase
 		}
 	}
 
-	public static void setQuestIfBetter( String pref, String status )
+	private static void setQuestIfBetter( String pref, String status )
 	{
 		String currentStatus = Preferences.getString( pref );
 		boolean shouldSet = false;
@@ -470,5 +501,19 @@ public class QuestDatabase
 		{
 			QuestDatabase.setQuestProgress( pref, status );
 		}
+	}
+
+	public static void setQuestIfBetter( Quest quest, String progress )
+	{
+		QuestDatabase.setQuestIfBetter( quest.getPref(), progress );
+	}
+
+	public static void setQuestProgress( Quest quest, String progress )
+	{
+		if ( quest == null )
+		{
+			return;
+		}
+		QuestDatabase.setQuestProgress( quest.getPref(), progress );
 	}
 }
