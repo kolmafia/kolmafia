@@ -68,7 +68,7 @@ import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 public abstract class MPRestoreItemList
 {
 	private static boolean purchaseBasedSort = false;
-	private static HashMap restoreByName = new HashMap();
+	private static HashMap<String, MPRestoreItem> restoreByName = new HashMap<String, MPRestoreItem>();
 
 	public static final MPRestoreItem EXPRESS =
 		new MPRestoreItem( "Platinum Yendorian Express Card", Integer.MAX_VALUE, false );
@@ -138,6 +138,7 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "cotton candy smidgen", 17, false ),
 		new MPRestoreItem( "Dyspepsi-Cola", 12, true ),
 		new MPRestoreItem( "Cloaca-Cola", 12, true ),
+		new MPRestoreItem( "Diet Cloaca Cola", 8, true ),
 		new MPRestoreItem( "cotton candy pinch", 12, false ),
 		new MPRestoreItem( "sugar shard", 8, false ),
 		new MPRestoreItem( "Mountain Stream soda", 8, true ),
@@ -145,7 +146,15 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "black cherry soda", 10, 80, false ),
 		MPRestoreItemList.SELTZER,
 		new MPRestoreItem( "Cherry Cloaca Cola", 8, 80, true ),
-		new MPRestoreItem( "soda water", 4, 70, false )
+		new MPRestoreItem( "soda water", 4, 70, false ),
+		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter I", 35, false ),
+		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter II", 35, false ),
+		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter III", 35, false ),
+		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter IV", 35, false ),
+		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter V", 35, false ),
+		new MPRestoreItem( "Notes from the Elfpocalypse, Chapter VI", 35, false ),
+		new MPRestoreItem( "sueling turtle", 15, false ),
+		new MPRestoreItem( "unrefined Mountain Stream syrup", 55, true )
 	};
 
 	public static final void setPurchaseBasedSort( final boolean purchaseBasedSort )

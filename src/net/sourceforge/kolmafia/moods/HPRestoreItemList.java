@@ -68,7 +68,7 @@ import net.sourceforge.kolmafia.textui.command.NunneryCommand;
 public abstract class HPRestoreItemList
 {
 	private static boolean purchaseBasedSort = false;
-	private static HashMap restoreByName = new HashMap();
+	private static HashMap<String, HPRestoreItem> restoreByName = new HashMap<String, HPRestoreItem>();
 
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 
@@ -137,7 +137,13 @@ public abstract class HPRestoreItemList
 		HPRestoreItemList.OINTMENT,
 		new HPRestoreItem( "cotton candy pinch", 9 ),
 		new HPRestoreItem( "forest tears", 7 ),
-		new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3, 30 )
+		new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3, 30 ),
+		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter I", 35 ),
+		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter II", 35 ),
+		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter III", 35 ),
+		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter IV", 35 ),
+		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter V", 35 ),
+		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter VI", 35 )
 	};
 
 	public static final void setPurchaseBasedSort( final boolean purchaseBasedSort )
