@@ -261,3 +261,4 @@ Events	invasion=5	true	The Bone Star
 Events	adventure=269	true	The Haunted Sorority House	1 choiceadv
 
 Events	plains=brushfire	false	Fightin' Fire
+Events	adventure=290	false	Super-Intense Mega-Grassfire
