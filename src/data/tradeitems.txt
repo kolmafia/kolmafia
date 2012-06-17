@@ -5722,5 +5722,7 @@
 5713	enchanted fire extinguisher	offhand	all	0
 5714	FDKOL tattoo	usable	display	0
 5715	Hjodor's Guide to Arctic Dalmatians	usable	all	0
-5716	Hjodor's Guide to Arctic Dalmatians (used)	usable	display	0
+5716	Hjodor's Guide to Arctic Dalmatians (used)	reusable	display	0
 5717	FDKOL hotcakes	food	all	0
+5718	hot egg	reusable	all	0
+5719	smoking grass	none, combat	all	23

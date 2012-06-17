@@ -5713,6 +5713,8 @@
 5712	439484541	firemanaxe.gif	fire axe
 5713	287341107	extinguisher.gif	enchanted fire extinguisher
 5714	503915099	fdkoltattoo.gif	FDKOL tattoo
-5715	862298428	book3.gif	Hjodor's Guide to Arctic Dalmatians
+5715	862298428	book3.gif	Hjodor's Guide to Arctic Dalmatians	copies of Hjodor's Guide to Arctic Dalmatians
 5716	981247067	book3.gif	Hjodor's Guide to Arctic Dalmatians (used)
 5717	167850388	hotcakes.gif	FDKOL hotcakes
+5718	905055490	hotegg.gif	hot egg
+5719	434336289	smokinggrass.gif	smoking grass	blades of smoking grass
