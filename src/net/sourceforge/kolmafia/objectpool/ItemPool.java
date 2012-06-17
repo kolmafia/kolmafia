@@ -1481,7 +1481,7 @@ public class ItemPool
 	public static final int CRAYON_SHAVINGS = 5703;
 	public static final int WAX_BUGBEAR = 5704;
 	public static final int FDKOL_COMMENDATION = 5707;
-	public static final int HJIDOR_GUIDE = 5715;
+	public static final int HJODOR_GUIDE = 5715;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

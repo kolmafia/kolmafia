@@ -2661,7 +2661,7 @@ public class UseItemRequest
 		case ItemPool.NOTE_FROM_CLANCY:
 		case ItemPool.GRUDGE_BOOK:
 		case ItemPool.JERK_BOOK:
-		case ItemPool.HJIDOR_GUIDE:
+		case ItemPool.HJODOR_GUIDE:
 		{
 			if ( KoLCharacter.inAxecore() && responseText.indexOf( "didn't like to read" ) != -1 )
 			{
@@ -4246,7 +4246,7 @@ public class UseItemRequest
 			return "Chip on your Shoulder";
 		case ItemPool.JERK_BOOK:
 			return "Thick-Skinned";
-		case ItemPool.HJIDOR_GUIDE:
+		case ItemPool.HJODOR_GUIDE:
 			return "Frigidalmatian";
 		}
 
