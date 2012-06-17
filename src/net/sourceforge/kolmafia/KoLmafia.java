@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -900,8 +901,8 @@ public abstract class KoLmafia
 
 		// if the Cyrpt quest is active, force evilometer refresh
 		// (if we don't know evil levels already)
-		if ( Preferences.getString( QuestDatabase.CYRPT ).equals( QuestDatabase.STARTED )
-			|| Preferences.getString( QuestDatabase.CYRPT ).indexOf( "step" ) != -1 )
+		if ( Preferences.getString( Quest.CYRPT.getPref() ).equals( QuestDatabase.STARTED )
+			|| Preferences.getString( Quest.CYRPT.getPref() ).indexOf( "step" ) != -1 )
 		{
 			if ( Preferences.getInteger( "cyrptTotalEvilness" ) == 0 )
 			{
@@ -1918,7 +1919,7 @@ public abstract class KoLmafia
 			if ( InventoryManager.hasItem( ItemPool.HANG_GLIDER ) )
 			{
 				ResultProcessor.processItem( ItemPool.HANG_GLIDER, -1 );
-				QuestDatabase.setQuestProgress( QuestDatabase.CITADEL, "step5" );
+				QuestDatabase.setQuestProgress( Quest.CITADEL, "step5" );
 			}
 			return;
 		}
@@ -1928,7 +1929,7 @@ public abstract class KoLmafia
 			if ( InventoryManager.hasItem( ItemPool.CARONCH_DENTURES ) )
 			{
 				ResultProcessor.processItem( ItemPool.CARONCH_DENTURES, -1 );
-				QuestDatabase.setQuestIfBetter( QuestDatabase.PIRATE, "step4" );
+				QuestDatabase.setQuestIfBetter( Quest.PIRATE, "step4" );
 			}
 
 			if ( InventoryManager.hasItem( ItemPool.FRATHOUSE_BLUEPRINTS ) )

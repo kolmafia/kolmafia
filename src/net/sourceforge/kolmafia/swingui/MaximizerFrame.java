@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -637,8 +638,7 @@ public class MaximizerFrame
 				}
 				else if ( cmd.startsWith( "summon " ) )
 				{
-					if ( !Preferences.getString( QuestDatabase.MANOR ).equals(
-						QuestDatabase.FINISHED ) )
+					if ( !Preferences.getString( Quest.MANOR.getPref() ).equals( QuestDatabase.FINISHED ) )
 					{
 						continue;
 					}

@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -2399,34 +2400,34 @@ public abstract class SorceressLairManager
 		// Work backwards from the end to see what zones are unlocked.
 		if ( responseText.indexOf( "ascend.php" ) != -1 )
 		{
-			QuestDatabase.setQuestProgress( QuestDatabase.FINAL, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.FINAL, QuestDatabase.FINISHED );
 		}
 		else if ( responseText.indexOf( "#Map4" ) != -1 || responseText.indexOf( "towerup2.gif" ) != -1 )
 		{
-			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step5" );
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step5" );
 		}
 		else if ( responseText.indexOf( "#Map3" ) != -1 )
 		{
-			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step4" );
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step4" );
 		}
 		else if ( responseText.indexOf( "#Map2" ) != -1 )
 		{
-			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step4" );
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step4" );
 		}
 		// Cave done - third step
 		else if ( responseText.indexOf( "#Map" ) != -1 || responseText.indexOf( "cave22done" ) != -1 )
 		{
-			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step3" );
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step3" );
 		}
 		// Huge mirror broken - second step
 		else if ( responseText.indexOf( "cave1mirrordone" ) != -1 )
 		{
-			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step2" );
 		}
 		// Passed the three gates - first step
 		else if ( responseText.indexOf( "cave1mirror.gif" ) != -1 )
 		{
-			QuestDatabase.setQuestIfBetter( QuestDatabase.FINAL, "step1" );
+			QuestDatabase.setQuestIfBetter( Quest.FINAL, "step1" );
 		}
 	}
 }

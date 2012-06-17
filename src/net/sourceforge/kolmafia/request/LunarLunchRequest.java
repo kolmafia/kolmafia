@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -118,7 +119,7 @@ public class LunarLunchRequest
 
 	public static String accessible()
 	{
-		if ( !Preferences.getString( QuestDatabase.GENERATOR ).equals( QuestDatabase.FINISHED ) )
+		if ( !Preferences.getString( Quest.GENERATOR.getPref() ).equals( QuestDatabase.FINISHED ) )
 		{
 			return "You need to repair the Elves' Shield Generator to shop at the Lunar Lunch-o-Mat.";
 		}

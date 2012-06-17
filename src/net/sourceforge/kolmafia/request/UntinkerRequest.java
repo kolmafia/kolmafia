@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -188,7 +189,7 @@ public class UntinkerRequest
 		// "Thanks! I'll tell ya, I'm just lost without my screwdriver. Here, lemme mark the Knoll on your map."
 		if ( responseText.indexOf( "I'm just lost without my screwdriver" ) != -1 )
 		{
-			QuestDatabase.setQuestProgress( QuestDatabase.UNTINKER, QuestDatabase.STARTED );
+			QuestDatabase.setQuestProgress( Quest.UNTINKER, QuestDatabase.STARTED );
 		}
 
 		// Visiting the untinker removes screwdriver from inventory.
@@ -196,7 +197,7 @@ public class UntinkerRequest
 		if ( KoLConstants.inventory.contains( UntinkerRequest.SCREWDRIVER ) )
 		{
 			ResultProcessor.processResult( UntinkerRequest.SCREWDRIVER );
-			QuestDatabase.setQuestProgress( QuestDatabase.UNTINKER, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.UNTINKER, QuestDatabase.FINISHED );
 		}
 
 		UntinkerRequest.lastUserId = KoLCharacter.getUserId();

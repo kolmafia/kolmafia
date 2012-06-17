@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -214,7 +215,7 @@ public class GalaktikRequest
 		
 		if ( responseText.indexOf( "I've run out of ingredients for some of my patent" ) != -1 )
 		{
-			QuestDatabase.setQuestProgress( QuestDatabase.GALAKTIK, QuestDatabase.STARTED );
+			QuestDatabase.setQuestProgress( Quest.GALAKTIK, QuestDatabase.STARTED );
 		}
 
 		// Finishing the quest
@@ -230,12 +231,12 @@ public class GalaktikRequest
 			ResultProcessor.processItem( ItemPool.SHYSTERWEED, -3 );
 			ResultProcessor.processItem( ItemPool.SWINDLEBLOSSOM, -3 );
 			GalaktikRequest.discount = true;
-			QuestDatabase.setQuestProgress( QuestDatabase.GALAKTIK, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.GALAKTIK, QuestDatabase.FINISHED );
 		}
 		else if ( responseText.indexOf( "Restore HP (6 Meat each)" ) != -1 ||
 			  responseText.indexOf( "Restore MP (12 Meat each)" ) != -1 )
 		{
-			QuestDatabase.setQuestProgress( QuestDatabase.GALAKTIK, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.GALAKTIK, QuestDatabase.FINISHED );
 			GalaktikRequest.discount = true;
 		}
 		else if ( responseText.indexOf( "Restore HP (10 Meat each)" ) != -1 ||

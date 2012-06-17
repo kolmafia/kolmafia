@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -3102,7 +3103,7 @@ public abstract class ChoiceManager
 		case 146:
 			if ( ChoiceManager.lastDecision == 3 )
 			{
-				QuestDatabase.setQuestProgress( QuestDatabase.ISLAND_WAR, "step1" );
+				QuestDatabase.setQuestProgress( Quest.ISLAND_WAR, "step1" );
 			}
 			break;
 
@@ -3478,7 +3479,7 @@ public abstract class ChoiceManager
 			     text.indexOf( "a sad little servo whine" ) != -1 )
 			{
 				EquipmentManager.discardEquipment( ItemPool.EMU_UNIT );
-				QuestDatabase.setQuestIfBetter( QuestDatabase.GENERATOR, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestIfBetter( Quest.GENERATOR, QuestDatabase.FINISHED );
 			}
 			break;
 
@@ -3651,14 +3652,14 @@ public abstract class ChoiceManager
 			// At least it's not full of trash
 			if ( ChoiceManager.lastDecision == 2  )
 			{
-				QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, "step1" );
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step1" );
 			}
 			break;
 		case 125:
 			// No visible means of support
 			if ( ChoiceManager.lastDecision == 3  )
 			{
-				QuestDatabase.setQuestProgress( QuestDatabase.WORSHIP, "step3" );
+				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step3" );
 			}
 			break;
 			
@@ -3666,7 +3667,7 @@ public abstract class ChoiceManager
 			// Let's Make a Deal!
 			if ( ChoiceManager.lastDecision == 2 )
 			{
-				QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step1" );
+				QuestDatabase.setQuestProgress( Quest.PYRAMID, "step1" );
 			}
 			break;
 
@@ -3786,7 +3787,7 @@ public abstract class ChoiceManager
 			break;
 		case 517:
 			// Mr. Alarm, I presarm
-			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, "step3" );
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step3" );
 			break;
 
 		case 518:

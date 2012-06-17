@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -955,11 +956,11 @@ public class UseItemRequest
 
 		case ItemPool.MACGUFFIN_DIARY:
 			RequestThread.postRequest( new GenericRequest( "diary.php?textversion=1" ) );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.MACGUFFIN, "step2" );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.PYRAMID, QuestDatabase.STARTED );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.MANOR, QuestDatabase.STARTED );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.PALINDOME, QuestDatabase.STARTED );
-			QuestDatabase.setQuestIfBetter( QuestDatabase.WORSHIP, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( Quest.MACGUFFIN, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.PYRAMID, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( Quest.MANOR, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( Quest.WORSHIP, QuestDatabase.STARTED );
 
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
@@ -1942,7 +1943,7 @@ public class UseItemRequest
 			else
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.DICTIONARY, -1 ) );
-				QuestDatabase.setQuestProgress( QuestDatabase.LOL, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.FINISHED );
 			}
 
 			return;
@@ -2279,7 +2280,7 @@ public class UseItemRequest
 				return;
 			}
 
-			QuestDatabase.setQuestProgress( QuestDatabase.MACGUFFIN, "step1" );
+			QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
 
 			// Boris didn't need no stinkin' familiars
 			if ( KoLCharacter.inAxecore() )
@@ -2817,7 +2818,7 @@ public class UseItemRequest
 					ResultProcessor.processItem( ItemPool.WORM_RIDING_HOOKS, -1 );
 				}
 
-				QuestDatabase.setQuestProgress( QuestDatabase.PYRAMID, "step11" );
+				QuestDatabase.setQuestProgress( Quest.PYRAMID, "step11" );
 				return;
 			}
 

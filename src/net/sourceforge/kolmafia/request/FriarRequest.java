@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -116,7 +117,7 @@ public class FriarRequest
 		{
 			Preferences.setBoolean( "friarsBlessingReceived", true );
 			Preferences.setInteger( "lastFriarCeremonyAscension", Preferences.getInteger( "knownAscensions" ));
-			QuestDatabase.setQuestProgress( QuestDatabase.FRIAR, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.FRIAR, QuestDatabase.FINISHED );
 		}
 	}
 

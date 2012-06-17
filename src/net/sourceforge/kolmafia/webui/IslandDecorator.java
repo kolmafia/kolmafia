@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -1351,7 +1352,7 @@ public class IslandDecorator
 
 		Preferences.setString( "sideDefeated", loser );
 		Preferences.setString( "warProgress", "finished" );
-		QuestDatabase.setQuestProgress( QuestDatabase.ISLAND_WAR, QuestDatabase.FINISHED );
+		QuestDatabase.setQuestProgress( Quest.ISLAND_WAR, QuestDatabase.FINISHED );
 		CoinmastersFrame.externalUpdate();
 	}
 
