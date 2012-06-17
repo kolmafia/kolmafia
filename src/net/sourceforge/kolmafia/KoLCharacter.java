@@ -115,6 +115,7 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 public abstract class KoLCharacter
 {
 	private static final Pattern B_PATTERN = Pattern.compile( "[Bb]" );
+	private static final String NONE = "None";
 
 	public static final String ASTRAL_SPIRIT = "Astral Spirit";
 	public static final String AVATAR_OF_BORIS = "Avatar of Boris";
@@ -368,10 +369,10 @@ public abstract class KoLCharacter
 	private static boolean skillsRecalled = false;
 
 	private static int ascensions = 0;
-	private static String ascensionSign = "None";
+	private static String ascensionSign = NONE;
 	private static int ascensionSignType = KoLConstants.NONE;
 	private static int ascensionSignZone = KoLConstants.NONE;
-	private static String ascensionPath = "None";
+	private static String ascensionPath = NONE;
 	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 	private static int mindControlLevel = 0;
 
@@ -625,10 +626,10 @@ public abstract class KoLCharacter
 		KoLCharacter.AWOLtattoo = 0;
 
 		KoLCharacter.ascensions = 0;
-		KoLCharacter.ascensionSign = "None";
+		KoLCharacter.ascensionSign = NONE;
 		KoLCharacter.ascensionSignType = KoLConstants.NONE;
 		KoLCharacter.ascensionSignZone = KoLConstants.NONE;
-		KoLCharacter.ascensionPath = "None";
+		KoLCharacter.ascensionPath = NONE;
 		KoLCharacter.consumptionRestriction = AscensionSnapshot.NOPATH;
 
 		KoLCharacter.mindControlLevel = 0;
@@ -2588,9 +2589,9 @@ public abstract class KoLCharacter
 			KoLCharacter.setHardcore( false );
 
 			// We are no longer subject to path restrictions
-			KoLCharacter.setPath( "None" );
+			KoLCharacter.setPath( NONE );
 
-			if ( oldPath.equals( "Avatar of Boris" ) )
+			if ( oldPath.equals( AVATAR_OF_BORIS ) )
 			{
 				int borisPoints = wasInHardcore ? 2 : 1;
 				Preferences.increment( "borisPoints", borisPoints );
@@ -2624,7 +2625,7 @@ public abstract class KoLCharacter
 			}
 
 			// If leaving Avatar of Boris, wait until player picks a new class.
-			if ( !oldPath.equals( "Avatar of Boris" ) )
+			if ( !oldPath.equals( AVATAR_OF_BORIS ) )
 			{
 				// Run a user-supplied script
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
@@ -2854,7 +2855,7 @@ public abstract class KoLCharacter
 	public static final boolean inAxecore()
 	{
 		// Which, if any, Axecore restrictions are lifted when you free the king?
-		return KoLCharacter.ascensionPath.equals( "Avatar of Boris" );
+		return KoLCharacter.ascensionPath.equals( AVATAR_OF_BORIS );
 	}
 
 	public static final boolean inBugcore()
@@ -3731,7 +3732,7 @@ public abstract class KoLCharacter
 
 	public static final FamiliarData findFamiliar( final String race )
 	{
-		if ( FamiliarData.NO_FAMILIAR.equals( race ) )
+		if ( FamiliarData.NO_FAMILIAR.getRace().equals( race ) )
 		{
 			return FamiliarData.NO_FAMILIAR;
 		}
