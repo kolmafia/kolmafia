@@ -66,6 +66,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -1086,7 +1087,7 @@ public abstract class KoLmafia
 			AdventureResult effect = (AdventureResult) KoLConstants.recentEffects.get( j );
 			AdventureResult.addResultToList( KoLConstants.activeEffects, effect );
 
-			if ( effect.getName().equals( EffectPool.INIGO ) )
+			if ( effect.getName().equals( Effect.INIGO.effectName() ) )
 			{
 				concoctionRefreshNeeded = true;
 			}
@@ -1582,12 +1583,12 @@ public abstract class KoLmafia
 		return StringUtilities.getURLDecode( utfString.toString() );
 	}
 
-	public static final boolean checkRequirements( final List requirements )
+	public static final boolean checkRequirements( final List<AdventureResult> requirements )
 	{
 		return KoLmafia.checkRequirements( requirements, true );
 	}
 
-	public static final boolean checkRequirements( final List requirements, final boolean retrieveItem )
+	public static final boolean checkRequirements( final List<AdventureResult> requirements, final boolean retrieveItem )
 	{
 		AdventureResult[] requirementsArray = new AdventureResult[ requirements.size() ];
 		requirements.toArray( requirementsArray );
@@ -2172,8 +2173,8 @@ public abstract class KoLmafia
 		AdventureResult[] items = new AdventureResult[ KoLConstants.inventory.size() ];
 		KoLConstants.inventory.toArray( items );
 
-		ArrayList autosell = new ArrayList();
-		ArrayList automall = new ArrayList();
+		ArrayList<AdventureResult> autosell = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> automall = new ArrayList<AdventureResult>();
 
 		for ( int i = 0; i < items.length; ++i )
 		{

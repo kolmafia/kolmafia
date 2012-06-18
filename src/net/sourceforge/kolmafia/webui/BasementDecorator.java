@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -346,7 +347,7 @@ public class BasementDecorator
 
 		if ( effect.getComputedBoost() == 0.0f )
 		{
-			if ( effectName.equals( EffectPool.ASTRAL_SHELL ) )
+			if ( effectName.equals( Effect.ASTRAL_SHELL.effectName() ) )
 			{
 				changes.append( "damage absorption/element resist" );
 			}
@@ -418,9 +419,11 @@ public class BasementDecorator
 			this.fullness = 0;
 			this.spleen = 0;
 			this.inebriety = 0;
-			this.isDamageAbsorption = this.name.equals( EffectPool.ASTRAL_SHELL) || this.name.equals( EffectPool.GHOSTLY_SHELL);
+			this.isDamageAbsorption =
+				this.name.equals( Effect.ASTRAL_SHELL.effectName() ) || this.name.equals( Effect.GHOSTLY_SHELL.effectName() );
 			this.isElementalImmunity = BasementRequest.isElementalImmunity( this.name );
-			this.isStatEqualizer = this.name.equals( EffectPool.EXPERT_OILINESS) || this.name.equals( EffectPool.SLIPPERY_OILINESS) || this.name.equals( EffectPool.STABILIZING_OILINESS);
+			this.isStatEqualizer =
+				this.name.equals( Effect.EXPERT_OILINESS.effectName() ) || this.name.equals( Effect.SLIPPERY_OILINESS.effectName() ) || this.name.equals( Effect.STABILIZING_OILINESS.effectName() );
 
 			if ( this.action.startsWith( "use" ) ||
 				this.action.startsWith( "chew" ) ||

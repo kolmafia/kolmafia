@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -431,7 +432,7 @@ public class Macrofier
 				// your skills.
 
 				if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) ||
-				     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
+				     KoLConstants.activeEffects.contains( EffectPool.get( Effect.ON_THE_TRAIL ) ) )
 				{ // ignore
 				}
 				else

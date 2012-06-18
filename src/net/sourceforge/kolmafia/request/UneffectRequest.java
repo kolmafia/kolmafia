@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -79,7 +80,7 @@ public class UneffectRequest
 	private boolean isTimer;
 	private final AdventureResult effect;
 
-	private static final Set currentEffectRemovals = new HashSet();
+	private static final Set<AdventureResult> currentEffectRemovals = new HashSet<AdventureResult>();
 
 	private static final AdventureResult USED_REMEDY = ItemPool.get( ItemPool.REMEDY, -1 );
 
@@ -261,16 +262,16 @@ public class UneffectRequest
 	}
 
 	private static Set REMOVABLE_BY_SKILL;
-	private static Map removeWithSkillMap = new LinkedHashMap();
+	private static Map<String, Set> removeWithSkillMap = new LinkedHashMap<String, Set>();
 
 	private static Set REMOVABLE_BY_ITEM;
-	private static Map removeWithItemMap = new LinkedHashMap();
+	private static Map<Integer, Set> removeWithItemMap = new LinkedHashMap<Integer, Set>();
 
 	static
 	{
-		Set removableEffects;
+		Set<String> removableEffects;
 
-		removableEffects = new HashSet();
+		removableEffects = new HashSet<String>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.ANTIDOTE ), removableEffects );
 		removableEffects.add( "Hardly Poisoned at All" );
 		removableEffects.add( "Majorly Poisoned" );
@@ -278,7 +279,7 @@ public class UneffectRequest
 		removableEffects.add( "Somewhat Poisoned" );
 		removableEffects.add( "Really Quite Poisoned" );
 
-		removableEffects = new HashSet();
+		removableEffects = new HashSet<String>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.TINY_HOUSE ), removableEffects );
 		removableEffects.add( "Beaten Up" );
 		removableEffects.add( "Confused" );
@@ -286,17 +287,17 @@ public class UneffectRequest
 		removableEffects.add( "Sunburned" );
 		removableEffects.add( "Wussiness" );
 
-		removableEffects = new HashSet();
+		removableEffects = new HashSet<String>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.TEARS ), removableEffects );
 		removableEffects.add( "Beaten Up" );
 
 		UneffectRequest.REMOVABLE_BY_ITEM = removeWithItemMap.entrySet();
 
-		removableEffects = new HashSet();
+		removableEffects = new HashSet<String>();
 		removeWithSkillMap.put( "Tongue of the Otter", removableEffects );
 		removableEffects.add( "Beaten Up" );
 
-		removableEffects = new HashSet();
+		removableEffects = new HashSet<String>();
 		removeWithSkillMap.put( "Tongue of the Walrus", removableEffects );
 		removableEffects.add( "Axe Wound" );
 		removableEffects.add( "Beaten Up" );
@@ -305,7 +306,7 @@ public class UneffectRequest
 		removableEffects.add( "Missing Fingers" );
 		removableEffects.add( "Sunburned" );
 
-		removableEffects = new HashSet();
+		removableEffects = new HashSet<String>();
 		removeWithSkillMap.put( "Disco Nap", removableEffects );
 		removableEffects.add( "Confused" );
 		removableEffects.add( "Embarrassed" );
@@ -313,7 +314,7 @@ public class UneffectRequest
 		removableEffects.add( "Sunburned" );
 		removableEffects.add( "Wussiness" );
 
-		removableEffects = new HashSet();
+		removableEffects = new HashSet<String>();
 		removeWithSkillMap.put( "Disco Power Nap", removableEffects );
 		removableEffects.add( "Affronted Decency" );
 		removableEffects.add( "Apathy" );
@@ -335,7 +336,7 @@ public class UneffectRequest
 		removableEffects.add( "\"The Disease\"" );
 		removableEffects.add( "Wussiness" );
 
-		removableEffects = new HashSet();
+		removableEffects = new HashSet<String>();
 		removeWithSkillMap.put( "Pep Talk", removableEffects );
 		removableEffects.add( "Overconfident" );
 
@@ -496,7 +497,7 @@ public class UneffectRequest
 			return;
 		}
 
-		if ( effect.getCount() == Integer.MAX_VALUE && this.effectId != EffectPool.OVERCONFIDENT_ID )
+		if ( effect.getCount() == Integer.MAX_VALUE && this.effectId != Effect.OVERCONFIDENT.effectId() )
 		{
 			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, effect.getName() + " is intrinsic and cannot be removed." );
 			return;
@@ -554,7 +555,7 @@ public class UneffectRequest
 		KoLConstants.activeEffects.remove( this.effect );
 
 		// If you lose Inigo's, what you can craft changes
-		if ( this.effect.getName().equals( EffectPool.INIGO ) )
+		if ( this.effect.getName().equals( Effect.INIGO.effectName() ) )
 		{
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}

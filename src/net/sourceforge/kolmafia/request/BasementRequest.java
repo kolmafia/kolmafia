@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -92,7 +93,7 @@ public class BasementRequest
 	private static int badelement1 = -1, badelement2 = -1, badelement3 = -1;
 	private static AdventureResult badeffect1 = null, badeffect2 = null, badeffect3 = null;
 
-	private static ArrayList desirableEffects = new ArrayList();
+	private static ArrayList<AdventureResult> desirableEffects = new ArrayList<AdventureResult>();
 
 	private static int level1, level2;
 	private static float resistance1, resistance2;
@@ -101,9 +102,9 @@ public class BasementRequest
 	private static String lastResponseText = "";
 	private static String basementErrorMessage = null;
 
-	public static final AdventureResult MUS_EQUAL = EffectPool.get( EffectPool.STABILIZING_OILINESS );
-	public static final AdventureResult MYS_EQUAL = EffectPool.get( EffectPool.EXPERT_OILINESS );
-	public static final AdventureResult MOX_EQUAL = EffectPool.get( EffectPool.SLIPPERY_OILINESS );
+	public static final AdventureResult MUS_EQUAL = EffectPool.get( Effect.STABILIZING_OILINESS );
+	public static final AdventureResult MYS_EQUAL = EffectPool.get( Effect.EXPERT_OILINESS );
+	public static final AdventureResult MOX_EQUAL = EffectPool.get( Effect.SLIPPERY_OILINESS );
 
 	private static final AdventureResult BLACK_PAINT = new AdventureResult( "Red Door Syndrome", 1, true );
 
@@ -488,14 +489,14 @@ public class BasementRequest
 		}
 
 		// Add some effects that resist all elements
-		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ASTRAL_SHELL ) ) )
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.ASTRAL_SHELL ) ) )
 		{
-			BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.ASTRAL_SHELL ) );
+			BasementRequest.desirableEffects.add( EffectPool.get( Effect.ASTRAL_SHELL ) );
 		}
 
-		if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ELEMENTAL_SPHERE ) ) )
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.ELEMENTAL_SPHERE ) ) )
 		{
-			BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.ELEMENTAL_SPHERE ) );
+			BasementRequest.desirableEffects.add( EffectPool.get( Effect.ELEMENTAL_SPHERE ) );
 		}
 
 		if ( !KoLConstants.activeEffects.contains( BasementRequest.BLACK_PAINT ) )
@@ -860,14 +861,14 @@ public class BasementRequest
 			BasementRequest.addDesiredEqualizer();
 
 			// Add some effects that improve Damage Absorption
-			if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ASTRAL_SHELL ) ) )
+			if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.ASTRAL_SHELL ) ) )
 			{
-				BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.ASTRAL_SHELL ) );
+				BasementRequest.desirableEffects.add( EffectPool.get( Effect.ASTRAL_SHELL ) );
 			}
 
-			if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.GHOSTLY_SHELL ) ) )
+			if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.GHOSTLY_SHELL ) ) )
 			{
-				BasementRequest.desirableEffects.add( EffectPool.get( EffectPool.GHOSTLY_SHELL ) );
+				BasementRequest.desirableEffects.add( EffectPool.get( Effect.GHOSTLY_SHELL ) );
 			}
 
 			float damageAbsorb =
@@ -1113,16 +1114,16 @@ public class BasementRequest
 		return true;
 	}
 
-	private static final void getStatBoosters( final ArrayList sourceList, final ArrayList targetList )
+	private static final void getStatBoosters( final ArrayList<AdventureResult> sourceList, final ArrayList<StatBooster> targetList )
 	{
 		// Cache skills to avoid lots of string lookups
 		StatBooster.checkSkills();
 
-		Iterator it = sourceList.iterator();
+		Iterator<AdventureResult> it = sourceList.iterator();
 
 		while ( it.hasNext() )
 		{
-			AdventureResult effect = (AdventureResult) it.next();
+			AdventureResult effect = it.next();
 			if ( !BasementRequest.wantEffect( effect ) )
 			{
 				continue;
@@ -1137,13 +1138,13 @@ public class BasementRequest
 		}
 	}
 
-	private static final void addDesirableEffects( final ArrayList sourceList )
+	private static final void addDesirableEffects( final ArrayList<AdventureResult> sourceList )
 	{
-		Iterator it = sourceList.iterator();
+		Iterator<AdventureResult> it = sourceList.iterator();
 
 		while ( it.hasNext() )
 		{
-			AdventureResult effect = (AdventureResult) it.next();
+			AdventureResult effect = it.next();
 			if ( BasementRequest.wantEffect( effect ) && !BasementRequest.desirableEffects.contains( effect ) )
 			{
 				BasementRequest.desirableEffects.add( effect );
@@ -1170,9 +1171,9 @@ public class BasementRequest
 		return true;
 	}
 
-	public static final ArrayList getStatBoosters()
+	public static final ArrayList<StatBooster> getStatBoosters()
 	{
-		ArrayList targetList = new ArrayList();
+		ArrayList<StatBooster> targetList = new ArrayList<StatBooster>();
 
 		BasementRequest.getStatBoosters( BasementRequest.desirableEffects, targetList );
 

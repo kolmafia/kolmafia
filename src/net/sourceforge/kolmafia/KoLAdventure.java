@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -98,7 +99,7 @@ public class KoLAdventure
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 4, true );
-	public static final AdventureResult PERFUME = EffectPool.get( EffectPool.PERFUME );
+	public static final AdventureResult PERFUME = EffectPool.get( Effect.PERFUME );
 
 	public static KoLAdventure lastVisitedLocation = null;
 	public static boolean locationLogged = false;
@@ -366,7 +367,7 @@ public class KoLAdventure
 			// If the player is not half-astral, then
 			// make sure they are before continuing.
 
-			AdventureResult effect = EffectPool.get( EffectPool.HALF_ASTRAL );
+			AdventureResult effect = EffectPool.get( Effect.HALF_ASTRAL );
 			if ( !KoLConstants.activeEffects.contains( effect ) )
 			{
 				AdventureResult mushroom = ItemPool.get( ItemPool.ASTRAL_MUSHROOM, 1 );
@@ -615,7 +616,7 @@ public class KoLAdventure
 		{
 			// You must be Half-Astral to go on a trip
 
-			AdventureResult effect = EffectPool.get( EffectPool.HALF_ASTRAL );
+			AdventureResult effect = EffectPool.get( Effect.HALF_ASTRAL );
 			int astral = effect.getCount( KoLConstants.activeEffects );
 			if ( astral == 0 )
 			{
@@ -1210,7 +1211,7 @@ public class KoLAdventure
 				return;
 
 			case AdventurePool.ARID_DESERT:
-				AdventureResult hydrated = EffectPool.get( EffectPool.HYDRATED );
+				AdventureResult hydrated = EffectPool.get( Effect.HYDRATED );
 				if ( !KoLConstants.activeEffects.contains( hydrated ) )
 				{
 					( new AdventureRequest( "Oasis in the Desert", "adventure.php", AdventurePool.OASIS_ID ) ).run();

@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -88,7 +89,7 @@ public abstract class MoodManager
 	};
 
 	public static final AdventureResult TURTLING_ROD = ItemPool.get( ItemPool.TURTLING_ROD, 1 );
-	public static final AdventureResult EAU_DE_TORTUE = EffectPool.get( EffectPool.EAU_DE_TORTUE );
+	public static final AdventureResult EAU_DE_TORTUE = EffectPool.get( Effect.EAU_DE_TORTUE );
 
 	private static Mood currentMood = null;
 	private static final SortedListModel availableMoods = new SortedListModel();

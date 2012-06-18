@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -184,7 +185,7 @@ public class ResultProcessor
 		return ResultProcessor.processResults( combatResults, results, null );
 	}
 
-	public static boolean processResults( boolean combatResults, String results, List data )
+	public static boolean processResults( boolean combatResults, String results, List<AdventureResult> data )
 	{
 		ResultProcessor.receivedClover = false;
 		ResultProcessor.receivedDisassembledClover = false;
@@ -213,7 +214,7 @@ public class ResultProcessor
 		return requiresRefresh;
 	}
 
-	public static boolean processNormalResults( boolean combatResults, String results, List data )
+	public static boolean processNormalResults( boolean combatResults, String results, List<AdventureResult> data )
 	{
 		String plainTextResult = KoLConstants.ANYTAG_BUT_ITALIC_PATTERN.matcher( results ).replaceAll( KoLConstants.LINE_BREAK );
 
@@ -258,7 +259,7 @@ public class ResultProcessor
 		return false;
 	}
 
-	private static boolean processNextResult( boolean combatResults, StringTokenizer parsedResults, List data )
+	private static boolean processNextResult( boolean combatResults, StringTokenizer parsedResults, List<AdventureResult> data )
 	{
 		String lastToken = parsedResults.nextToken();
 
@@ -317,7 +318,7 @@ public class ResultProcessor
 		return false;
 	}
 
-	private static void processItem( boolean combatResults, StringTokenizer parsedResults, String acquisition, List data )
+	private static void processItem( boolean combatResults, StringTokenizer parsedResults, String acquisition, List<AdventureResult> data )
 	{
 		String item = parsedResults.nextToken();
 
@@ -379,7 +380,7 @@ public class ResultProcessor
 		ResultProcessor.processItem( combatResults, acquisition, result, data );
 	}
 
-	public static void processItem( boolean combatResults, String acquisition, AdventureResult result, List data )
+	public static void processItem( boolean combatResults, String acquisition, AdventureResult result, List<AdventureResult> data )
 	{
 		if ( data != null )
 		{
@@ -400,7 +401,7 @@ public class ResultProcessor
 		++ResultProcessor.itemSequenceCount;
 	}
 
-	private static boolean processEffect( StringTokenizer parsedResults, String acquisition, List data )
+	private static boolean processEffect( StringTokenizer parsedResults, String acquisition, List<AdventureResult> data )
 	{
 		if ( data != null )
 		{
@@ -439,7 +440,7 @@ public class ResultProcessor
 			AdventureResult.removeResultFromList( KoLConstants.activeEffects, result );
 			// If you lose Inigo's, what you can craft changes
 
-			if ( effectName.equals( EffectPool.INIGO ) )
+			if ( effectName.equals( Effect.INIGO.effectName() ) )
 			{
 				ConcoctionDatabase.setRefreshNeeded( true );
 			}
@@ -461,7 +462,7 @@ public class ResultProcessor
 		return false;
 	}
 
-	public static boolean processGainLoss( String lastToken, final List data )
+	public static boolean processGainLoss( String lastToken, final List<AdventureResult> data )
 	{
 		int periodIndex = lastToken.indexOf( "." );
 		if ( periodIndex != -1 )
@@ -555,7 +556,7 @@ public class ResultProcessor
 		return ResultProcessor.processMeat( text, null );
 	}
 
-	public static boolean processMeat( String lastToken, List data )
+	public static boolean processMeat( String lastToken, List<AdventureResult> data )
 	{
 		AdventureResult result = ResultProcessor.parseResult( lastToken );
 
@@ -593,7 +594,7 @@ public class ResultProcessor
 		return ResultProcessor.processResult( result );
 	}
 
-	public static boolean processStatGain( String lastToken, List data )
+	public static boolean processStatGain( String lastToken, List<AdventureResult> data )
 	{
 		if ( data != null )
 		{
@@ -928,7 +929,7 @@ public class ResultProcessor
 						KoLConstants.activeEffects.remove( i );
 
 						// If you lose Inigo's, what you can craft changes
-						if ( effect.getName().equals( EffectPool.INIGO ) )
+						if ( effect.getName().equals( Effect.INIGO.effectName() ) )
 						{
 							ConcoctionDatabase.setRefreshNeeded( true );
 						}
