@@ -122,6 +122,12 @@ public class FDKOLRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
+		if ( urlString.startsWith( "inv_use.php" ) && urlString.contains( "whichitem=5707" ) )
+		{
+			// This is a simple visit to the FDKOL Rwquisitions Tent
+			return true;
+		}
+
 		// shop.php?pwd&whichshop=fdkol
 		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=fdkol" ) )
 		{
