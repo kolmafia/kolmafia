@@ -57,9 +57,6 @@ public class VolcanoIslandRequest
 	// Subactions
 	private static final String SLIME = "getslime";
 
-	private String action;
-	private String subaction;
-
 	/**
 	 * Constructs a new <code>VolcanoIslandRequest</code>.
 	 *

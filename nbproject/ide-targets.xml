@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." name="KoLmafia-IDE">
+    <import file="../build.xml"/>
+    <!-- TODO: edit the following target according to your needs -->
+    <!-- (more info: http://www.netbeans.org/kb/articles/freeform-config.html#debugj2se) -->
+    <target depends="compile" name="debug-nb">
+        <nbjpdastart addressproperty="jpda.address" name="KoLmafia" transport="dt_socket">
+            <classpath path="${build}"/>
+        </nbjpdastart>
+        <java classname="${main}" classpath="${build}" dir="${dist}" fork="true">
+            <jvmarg value="-Xdebug"/>
+            <jvmarg value="-Xrunjdwp:transport=dt_socket,address=${jpda.address}"/>
+        </java>
+    </target>
+</project>

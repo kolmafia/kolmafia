@@ -78,11 +78,7 @@ public class LogStream
 			if ( KoLDesktop.instanceExists() )
 			{
 				newStream.proxy = file;
-				
-				if ( newStream instanceof LogStream )
-				{
-					SwingUtilities.invokeLater( (LogStream) newStream );
-				}
+				SwingUtilities.invokeLater( (LogStream) newStream );
 			}
 
 			newStream.println();
