@@ -5711,8 +5711,8 @@
 5702	little wooden mannequin	familiar	all	75
 5703	crayon shavings	usable, combat	all	10
 5704	wax bugbear	usable	none	0
-5705	wax hat	hat	all	70
-5706	wax pants	pants	all	110
+5705	wax hat	hat	display	70
+5706	wax pants	pants	display	110
 5707	FDKOL commendation	none	display	0
 5708	drop of water-37	usable	all	0
 5709	fireman's helmet	hat	all	0
