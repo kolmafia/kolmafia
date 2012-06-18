@@ -124,7 +124,7 @@ public class FDKOLRequest
 	{
 		if ( urlString.startsWith( "inv_use.php" ) && urlString.contains( "whichitem=5707" ) )
 		{
-			// This is a simple visit to the FDKOL Rwquisitions Tent
+			// This is a simple visit to the FDKOL Requisitions Tent
 			return true;
 		}
 
@@ -134,7 +134,22 @@ public class FDKOLRequest
 			return false;
 		}
 
+		Matcher m = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !m.find() )
+		{
+			// Just a visit
+			return true;
+		}
+
 		CoinmasterData data = FDKOLRequest.FDKOL;
+		int itemId = StringUtilities.parseInt( m.group( 1 ) );
+		AdventureResult item = AdventureResult.findItem( itemId, data.getBuyItems() );
+		if ( item == null )
+		{
+			// Presumably this is a purchase for Meat.
+			return NPCPurchaseRequest.registerShopRequest( urlString );
+		}
+
 		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 }
