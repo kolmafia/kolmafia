@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -1136,13 +1137,13 @@ public class AdventureRequest
 		if ( this.adventureId.equals( "123" ) )
 		{	// Desert (Ultrahydrated) may also visit the Oasis
 			return KoLConstants.activeEffects.contains(
-				EffectPool.get( EffectPool.HYDRATED ) ) ? 1 : 2;
+				EffectPool.get( Effect.HYDRATED ) ) ? 1 : 2;
 		}
 		String zone = AdventureDatabase.getZone( this.adventureName );
 		if ( zone != null && zone.equals( "The Sea" ) )
 		{
 			return KoLConstants.activeEffects.contains(
-				EffectPool.get( EffectPool.FISHY ) ) ? 1 : 2;
+				EffectPool.get( Effect.FISHY ) ) ? 1 : 2;
 		}
 		return this.formSource.startsWith( "shore" ) ? 3 : 1;
 	}

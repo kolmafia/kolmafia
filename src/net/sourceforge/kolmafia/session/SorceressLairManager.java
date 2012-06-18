@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -90,10 +91,10 @@ public abstract class SorceressLairManager
 	// Items for the entryway
 	public static final AdventureResult NAGAMAR = ItemPool.get( ItemPool.WAND_OF_NAGAMAR, 1 );
 
-	private static final AdventureResult WUSSINESS = EffectPool.get( EffectPool.WUSSINESS );
-	private static final AdventureResult HARDLY_POISONED = EffectPool.get( EffectPool.HARDLY_POISONED );
-	private static final AdventureResult TELEPORTITIS = EffectPool.get( EffectPool.TELEPORTITIS );
-	public static final AdventureResult EARTHEN_FIST = EffectPool.get( EffectPool.EARTHEN_FIST );
+	private static final AdventureResult WUSSINESS = EffectPool.get( Effect.WUSSINESS );
+	private static final AdventureResult HARDLY_POISONED = EffectPool.get( Effect.HARDLY_POISONED );
+	private static final AdventureResult TELEPORTITIS = EffectPool.get( Effect.TELEPORTITIS );
+	public static final AdventureResult EARTHEN_FIST = EffectPool.get( Effect.EARTHEN_FIST );
 
 	private static final AdventureResult STAR_SWORD = ItemPool.get( ItemPool.STAR_SWORD, 1 );
 	private static final AdventureResult STAR_CROSSBOW = ItemPool.get( ItemPool.STAR_CROSSBOW, 1 );

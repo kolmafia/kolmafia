@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -314,7 +315,7 @@ public abstract class HPRestoreItemList
 			}
 
 			if ( this == HPRestoreItemList.GRUB && !KoLConstants.activeEffects.contains(
-				EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
+				EffectPool.get( Effect.FORM_OF_BIRD ) ) )
 			{
 				return;
 			}

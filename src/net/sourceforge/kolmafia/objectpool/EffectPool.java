@@ -39,79 +39,104 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 public class EffectPool
 {
-	public static final String ON_THE_TRAIL = "On the Trail";
-	public static final String EAU_DE_TORTUE= "Eau de Tortue";
+	public enum Effect
+	{
+			ON_THE_TRAIL( "On the Trail", 331 ),
+			EAU_DE_TORTUE( "Eau de Tortue", 263 ),
 
-	public static final String ODE = "Ode to Booze";
-	public static final String MILK = "Got Milk";
-	public static final String GLORIOUS_LUNCH = "Song of the Glorious Lunch";
+			ODE( "Ode to Booze", 71 ),
+			MILK( "Got Milk", 211 ),
+			GLORIOUS_LUNCH( "Song of the Glorious Lunch", 1005 ),
 
-	public static final String FORM_OF_BIRD = "Form of...Bird!";
-	public static final String SHAPE_OF_MOLE = "Shape of...Mole!";
-	public static final String FORM_OF_ROACH = "Form of...Cockroach!";
+			FORM_OF_BIRD( "Form of...Bird!", 511 ),
+			SHAPE_OF_MOLE( "Shape of...Mole!", 510 ),
+			FORM_OF_ROACH( "Form of...Cockroach!", 509 ),
 
-	public static final String HAIKU_STATE_OF_MIND = "Haiku State of Mind";
-	public static final String JUST_THE_BEST_ANAPESTS = "Just the Best Anapests";
+			HAIKU_STATE_OF_MIND( "Haiku State of Mind", 548 ),
+			JUST_THE_BEST_ANAPESTS( "Just the Best Anapests", 1003 ),
 
-	public static final String HALF_ASTRAL = "Half-Astral";
-	public static final String PERFUME = "Knob Goblin Perfume";
-	public static final String ABSINTHE = "Absinthe-Minded";
-	public static final String HYDRATED = "Ultrahydrated";
+			HALF_ASTRAL( "Half-Astral", 183 ),
+			PERFUME( "Knob Goblin Perfume", 9 ),
+			ABSINTHE( "Absinthe-Minded", 357 ),
+			HYDRATED( "Ultrahydrated", 275 ),
 
-	public static final String EXPERT_OILINESS = "Expert Oiliness";
-	public static final String SLIPPERY_OILINESS = "Slippery Oiliness";
-	public static final String STABILIZING_OILINESS = "Stabilizing Oiliness";
+			EXPERT_OILINESS( "Expert Oiliness", 37 ),
+			SLIPPERY_OILINESS( "Slippery Oiliness", 101 ),
+			STABILIZING_OILINESS( "Stabilizing Oiliness", 100 ),
 
-	public static final String ASTRAL_SHELL = "Astral Shell";
-	public static final String ELEMENTAL_SPHERE = "Elemental Saucesphere";
-	public static final String GHOSTLY_SHELL = "Ghostly Shell";
+			ASTRAL_SHELL( "Astral Shell", 52 ),
+			ELEMENTAL_SPHERE( "Elemental Saucesphere", 53 ),
+			GHOSTLY_SHELL( "Ghostly Shell", 18 ),
 
-	public static final String PURPLE_TONGUE = "Purple Tongue";
-	public static final String GREEN_TONGUE = "Green Tongue";
-	public static final String ORANGE_TONGUE = "Orange Tongue";
-	public static final String RED_TONGUE = "Red Tongue";
-	public static final String BLUE_TONGUE = "Blue Tongue";
-	public static final String BLACK_TONGUE = "Black Tongue";
+			PURPLE_TONGUE( "Purple Tongue", 139 ),
+			GREEN_TONGUE( "Green Tongue", 140 ),
+			ORANGE_TONGUE( "Orange Tongue", 141 ),
+			RED_TONGUE( "Red Tongue", 142 ),
+			BLUE_TONGUE( "Blue Tongue", 143 ),
+			BLACK_TONGUE( "Black Tongue", 144 ),
 
-	public static final String BLUE_CUPCAKE = "Cupcake of Choice";
-	public static final String GREEN_CUPCAKE = "The Cupcake of Wrath";
-	public static final String ORANGE_CUPCAKE = "Shiny Happy Cupcake";
-	public static final String PURPLE_CUPCAKE = "Tiny Bubbles in the Cupcake";
-	public static final String PINK_CUPCAKE = "Your Cupcake Senses Are Tingling";
+			BLUE_CUPCAKE( "Cupcake of Choice", 184 ),
+			GREEN_CUPCAKE( "The Cupcake of Wrath", 188 ),
+			ORANGE_CUPCAKE( "Shiny Happy Cupcake", 185 ),
+			PURPLE_CUPCAKE( "Tiny Bubbles in the Cupcake", 186 ),
+			PINK_CUPCAKE( "Your Cupcake Senses Are Tingling", 187 ),
 
-	public static final String FISHY = "Fishy";
-	public static final String BEE_SMELL = "Float Like a Butterfly, Smell Like a Bee";
+			FISHY( "Fishy", 549 ),
+			BEE_SMELL( "Float Like a Butterfly, Smell Like a Bee", 845 ),
 
-	public static final String EARTHEN_FIST = "Earthen Fist";
-	public static final String HARDLY_POISONED = "Hardly Poisoned at All";
-	public static final String INIGO = "Inigo's Incantation of Inspiration";
-	public static final String TELEPORTITIS = "Teleportitis";
-	public static final String TRANSPONDENT = "Transpondent";
-	public static final String WUSSINESS = "Wussiness";
-	
-	public static final String DOWN_THE_RABBIT_HOLE = "Down the Rabbit Hole";
+			EARTHEN_FIST( "Earthen Fist", 907 ),
+			HARDLY_POISONED( "Hardly Poisoned at All", 8 ),
+			INIGO( "Inigo's Incantation of Inspiration", 716 ),
+			TELEPORTITIS( "Teleportitis", 58 ),
+			TRANSPONDENT( "Transpondent", 846 ),
+			WUSSINESS( "Wussiness", 43 ),
 
-	public static final int HARDLY_POISONED_AT_ALL_ID = 8;
+			DOWN_THE_RABBIT_HOLE( "Down the Rabbit Hole", 725 ),
+
+			GOOFBALL_WITHDRAWAL( "Goofball Withdrawal", 111 ),
+			CURSED_BY_RNG( "Cursed by The RNG", 217 ),
+			MAJORLY_POISONED( "Majorly Poisoned", 264 ),
+			A_LITTLE_BIT_POISONED( "A Little Bit Poisoned", 282 ),
+			SOMEWHAT_POISONED( "Somewhat Poisoned", 283 ),
+			REALLY_QUITE_POISONED( "Really Quite Poisoned", 284 ),
+			TOAD_IN_THE_HOLE( "Toad In The Hole", 436 ),
+			CORSICAN_BLESSING( "Brother Corsican's Blessing", 460 ),
+			COATED_IN_SLIME( "Coated in Slime", 633 ),
+			GARISH( "Gar-ish", 918 ),
+			HAUNTING_LOOKS( "Haunting Looks", 937 ),
+			DEAD_SEXY( "Dead Sexy", 938 ),
+			VAMPIN( "Vampin'", 939 ),
+			YIFFABLE_YOU( "Yiffable You", 940 ),
+			BONE_US_ROUND( "The Bone Us Round", 941 ),
+			OVERCONFIDENT( "Overconfident", 1011 );
+
+		private final String name;
+		private final int id;
+
+		private Effect( String name, int id )
+		{
+			this.name = name;
+			this.id = id;
+		}
+
+		public String effectName()
+		{
+			return this.name;
+		}
+
+		public int effectId()
+		{
+			return this.id;
+		}
+	}
+
 	public static final int GOOFBALL_WITHDRAWAL_ID = 111;
 	public static final int CURSED_BY_RNG_ID = 217;
 	public static final int EAU_DE_TORTUE_ID = 263;
-	public static final int MAJORLY_POISONED_ID = 264;
-	public static final int A_LITTLE_BIT_POISONED_ID = 282;
-	public static final int SOMEWHAT_POISONED_ID = 283;
-	public static final int REALLY_QUITE_POISONED_ID = 284;
-	public static final int TOAD_IN_THE_HOLE_ID = 436;
-	public static final int CORSICAN_BLESSING = 460;
 	public static final int FORM_OF_BIRD_ID = 511;
 	public static final int COVERED_IN_SLIME_ID = 633;
-	public static final int GARISH_ID = 918;
-	public static final int HAUNTING_LOOKS_ID = 937;
-	public static final int DEAD_SEXY_ID = 938;
-	public static final int VAMPIN_ID = 939;
-	public static final int YIFFABLE_YOU_ID = 940;
-	public static final int BONE_US_ROUND_ID = 941;
-	public static final int OVERCONFIDENT_ID = 1011;
 
-	public static final AdventureResult get( final int effectId )
+	private static final AdventureResult get( final int effectId )
 	{
 		return EffectPool.get( EffectDatabase.getEffectName( effectId ) );
 	}
@@ -124,5 +149,10 @@ public class EffectPool
 	public static final AdventureResult get( final String effectName, final int turns )
 	{
 		return new AdventureResult( effectName, turns, true );
+	}
+
+	public static AdventureResult get( final Effect effect )
+	{
+		return get( effect.effectId() );
 	}
 }

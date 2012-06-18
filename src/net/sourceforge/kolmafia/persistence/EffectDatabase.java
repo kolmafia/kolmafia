@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -555,12 +556,12 @@ public class EffectDatabase
 
 	public static final int[] POISON_ID = {
    		0,
-   		EffectPool.TOAD_IN_THE_HOLE_ID,
-   		EffectPool.MAJORLY_POISONED_ID,
-   		EffectPool.REALLY_QUITE_POISONED_ID,
-   		EffectPool.SOMEWHAT_POISONED_ID,
-   		EffectPool.A_LITTLE_BIT_POISONED_ID,
-   		EffectPool.HARDLY_POISONED_AT_ALL_ID
+   		Effect.TOAD_IN_THE_HOLE.effectId(),
+   		Effect.MAJORLY_POISONED.effectId(),
+   		Effect.REALLY_QUITE_POISONED.effectId(),
+   		Effect.SOMEWHAT_POISONED.effectId(),
+   		Effect.A_LITTLE_BIT_POISONED.effectId(),
+   		Effect.HARDLY_POISONED.effectId()
    	};
 
 	public static int getPoisonLevel( String text )

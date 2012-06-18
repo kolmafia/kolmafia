@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -593,7 +594,7 @@ public class AreaCombatData
 		}
 
 		float itemModifier = AreaCombatData.getDropRateModifier();
-		boolean stealing = KoLCharacter.isMoxieClass() || KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) );
+		boolean stealing = KoLCharacter.isMoxieClass() || KoLConstants.activeEffects.contains( EffectPool.get( Effect.FORM_OF_BIRD ) );
 		float pocketModifier = ( 100.0f + KoLCharacter.currentNumericModifier( Modifiers.PICKPOCKET_CHANCE ) ) / 100.0f;
 
 		for ( int i = 0; i < items.size(); ++i )

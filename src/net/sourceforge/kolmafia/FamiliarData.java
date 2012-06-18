@@ -49,6 +49,7 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -68,7 +69,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class FamiliarData
 	implements Comparable
 {
-	private static final AdventureResult CORSICAN_BLESSING = EffectPool.get( EffectPool.CORSICAN_BLESSING );
+	private static final AdventureResult CORSICAN_BLESSING = EffectPool.get( Effect.CORSICAN_BLESSING );
 
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 

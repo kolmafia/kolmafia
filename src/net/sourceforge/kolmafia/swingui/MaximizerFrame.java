@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -620,7 +621,7 @@ public class MaximizerFrame
 				else if ( cmd.startsWith( "hatter " ) )
 				{
 					boolean haveEffect = KoLConstants.activeEffects.contains( EffectPool
-						.get( EffectPool.DOWN_THE_RABBIT_HOLE ) );
+						.get( Effect.DOWN_THE_RABBIT_HOLE ) );
 					boolean havePotion = InventoryManager.hasItem( ItemPool.DRINK_ME_POTION );
 					if ( !havePotion && !haveEffect )
 					{

@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -88,9 +89,9 @@ import org.json.JSONObject;
 public class ItemDatabase
 	extends KoLDatabase
 {
-	public static final AdventureResult ODE = EffectPool.get( EffectPool.ODE );
-	public static final AdventureResult MILK = EffectPool.get( EffectPool.MILK );
-	public static final AdventureResult GLORIOUS_LUNCH = EffectPool.get( EffectPool.GLORIOUS_LUNCH );
+	public static final AdventureResult ODE = EffectPool.get( Effect.ODE );
+	public static final AdventureResult MILK = EffectPool.get( Effect.MILK );
+	public static final AdventureResult GLORIOUS_LUNCH = EffectPool.get( Effect.GLORIOUS_LUNCH );
 
 	private static int maxItemId = 0;
 
@@ -102,31 +103,31 @@ public class ItemDatabase
 	private static final StringArray pluralById = new StringArray();
 	private static final StringArray imageById = new StringArray();
 
-	private static final Map nameById = new TreeMap();
-	private static final Map dataNameById = new HashMap();
-	private static final Map descriptionById = new TreeMap();
-	private static final Map itemIdByName = new HashMap();
-	private static final ArrayList itemAliases = new ArrayList();
-	private static final ArrayList pluralAliases = new ArrayList();
-	private static final Map itemIdByPlural = new HashMap();
+	private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
+	private static final Map<Integer, String> dataNameById = new HashMap<Integer, String>();
+	private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
+	private static final Map<String, Object> itemIdByName = new HashMap<String, Object>();
+	private static final ArrayList<String> itemAliases = new ArrayList<String>();
+	private static final ArrayList<String> pluralAliases = new ArrayList<String>();
+	private static final Map<String, Integer> itemIdByPlural = new HashMap<String, Integer>();
 
-	private static final Map itemIdByDescription = new HashMap();
+	private static final Map<String, Integer> itemIdByDescription = new HashMap<String, Integer>();
 
-	private static final Map levelReqByName = new HashMap();
-	public static final Map fullnessByName = new TreeMap();
-	public static final Map inebrietyByName = new TreeMap();
-	public static final Map spleenHitByName = new TreeMap();
-	private static final Map qualityByName = new HashMap();
-	private static final Map notesByName = new HashMap();
-	private static final Map foldGroupsByName = new HashMap();
+	private static final Map<String, Integer> levelReqByName = new HashMap<String, Integer>();
+	public static final Map<String, Integer> fullnessByName = new TreeMap<String, Integer>();
+	public static final Map<String, Integer> inebrietyByName = new TreeMap<String, Integer>();
+	public static final Map<String, Integer> spleenHitByName = new TreeMap<String, Integer>();
+	private static final Map<String, String> qualityByName = new HashMap<String, String>();
+	private static final Map<String, String> notesByName = new HashMap<String, String>();
+	private static final Map<String, ArrayList<Comparable>> foldGroupsByName = new HashMap<String, ArrayList<Comparable>>();
 
 	private static final Map[][][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ][ 2 ];
-	private static final Map advRangeByName = new HashMap();
-	private static final Map unitCostByName = new HashMap();
-	private static final Map advStartByName = new HashMap();
-	private static final Map advEndByName = new HashMap();
+	private static final Map<String, String> advRangeByName = new HashMap<String, String>();
+	private static final Map<String, Integer> unitCostByName = new HashMap<String, Integer>();
+	private static final Map<String, Integer> advStartByName = new HashMap<String, Integer>();
+	private static final Map<String, Integer> advEndByName = new HashMap<String, Integer>();
 
-	private static Set advNames = null;
+	private static Set<String> advNames = null;
 
 	public static final String NONE = "";
 	public static final String CRAPPY = "crappy";
@@ -184,11 +185,11 @@ public class ItemDatabase
 		return "bogus";
 	};
 
-	private static final Map muscleByName = new HashMap();
-	private static final Map mysticalityByName = new HashMap();
-	private static final Map moxieByName = new HashMap();
+	private static final Map<String, String> muscleByName = new HashMap<String, String>();
+	private static final Map<String, String> mysticalityByName = new HashMap<String, String>();
+	private static final Map<String, String> moxieByName = new HashMap<String, String>();
 
-	private static final Map accessById = new HashMap();
+	private static final Map<Integer, String> accessById = new HashMap<Integer, String>();
 	
 	public static final int ATTR_TRADEABLE = 0x00000001;
 	public static final int ATTR_GIFTABLE = 0x00000002;
@@ -206,10 +207,10 @@ public class ItemDatabase
 	public static final int ATTR_MATCHABLE = 0x00002000;
 	public static final int ATTR_FANCY = 0x00004000;
 	
-	private static final HashMap PRIMARY_USE = new HashMap();
-	private static final HashMap INVERSE_PRIMARY_USE = new HashMap();
-	private static final HashMap SECONDARY_USE = new HashMap();
-	private static final TreeMap INVERSE_SECONDARY_USE = new TreeMap();
+	private static final HashMap<String, Integer> PRIMARY_USE = new HashMap<String, Integer>();
+	private static final HashMap<Integer, String> INVERSE_PRIMARY_USE = new HashMap<Integer, String>();
+	private static final HashMap<String, Integer> SECONDARY_USE = new HashMap<String, Integer>();
+	private static final TreeMap<Integer, String> INVERSE_SECONDARY_USE = new TreeMap<Integer, String>();
 	private static final Set secondaryUsageEntrySet;
 
 	private static void definePrimaryUse( final String key, final int usage )
@@ -336,10 +337,10 @@ public class ItemDatabase
 		ItemDatabase.addPseudoItems();
 
 		// Remove per-user item aliases
-		Iterator it = ItemDatabase.itemAliases.iterator();
+		Iterator<String> it = ItemDatabase.itemAliases.iterator();
 		while ( it.hasNext() )
 		{
-			String canonical = (String)it.next();
+			String canonical = it.next();
 			ItemDatabase.itemIdByName.remove( canonical );
 		}
 		ItemDatabase.itemAliases.clear();
@@ -347,7 +348,7 @@ public class ItemDatabase
 		it = ItemDatabase.pluralAliases.iterator();
 		while ( it.hasNext() )
 		{
-			String canonical = (String)it.next();
+			String canonical = it.next();
 			ItemDatabase.itemIdByPlural.remove( canonical );
 		}
 		ItemDatabase.pluralAliases.clear();
@@ -387,7 +388,7 @@ public class ItemDatabase
 			
 			int attrs = 0;
 			String usage = usages[ 0 ];
-			Integer useType = (Integer) ItemDatabase.PRIMARY_USE.get( usage );
+			Integer useType = ItemDatabase.PRIMARY_USE.get( usage );
 			if ( useType == null )
 			{
 				RequestLogger.printLine( "Unknown primary usage for " + name + ": " + usage );
@@ -399,7 +400,7 @@ public class ItemDatabase
 			for ( int i = 1; i < usages.length; ++i )
 			{
 				usage = usages[ i ];
-				useType = (Integer) ItemDatabase.SECONDARY_USE.get( usage );
+				useType = ItemDatabase.SECONDARY_USE.get( usage );
 				if ( useType == null )
 				{
 					RequestLogger.printLine( "Unknown secondary usage for " + name + ": " + usage );
@@ -447,12 +448,12 @@ public class ItemDatabase
 		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.TRADEITEMS_VERSION );
 
-		Iterator it = ItemDatabase.nameByIdKeySet().iterator();
+		Iterator<Integer> it = ItemDatabase.nameByIdKeySet().iterator();
 		int lastInteger = 1;
 
 		while ( it.hasNext() )
 		{
-			Integer nextInteger = (Integer) it.next();
+			Integer nextInteger = it.next();
 			int itemId = nextInteger.intValue();
 
 			// Skip pseudo items
@@ -613,7 +614,7 @@ public class ItemDatabase
 		}
 	}
 
-	private static void readConsumptionData( String filename, int version, Map map )
+	private static void readConsumptionData( String filename, int version, Map<String, Integer> map )
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( filename, version );
 
@@ -693,7 +694,7 @@ public class ItemDatabase
 				continue;
 			}
 
-			ArrayList group = new ArrayList();
+			ArrayList<Comparable> group = new ArrayList<Comparable>();
 			group.add( IntegerPool.get( StringUtilities.parseInt( data[ 0 ] ) ) );
 			for ( int i = 1; i < data.length; ++i )
 			{
@@ -763,7 +764,7 @@ public class ItemDatabase
 		Arrays.sort( ItemDatabase.canonicalNames );
 	}
 
-	private static final void saveConsumptionValues( String[] data, Map map )
+	private static final void saveConsumptionValues( String[] data, Map<String, Integer> map )
 	{
 		if ( data.length < 2 )
 			return;
@@ -823,7 +824,7 @@ public class ItemDatabase
 			return "";
 		}
 
-		String range = (String) ItemDatabase.advRangeByName.get( StringUtilities.getCanonicalName( name ) );
+		String range = ItemDatabase.advRangeByName.get( StringUtilities.getCanonicalName( name ) );
 		return range == null ? "" : range;
 	}
 
@@ -834,11 +835,11 @@ public class ItemDatabase
 			ItemDatabase.advNames = ItemDatabase.unitCostByName.keySet();
 		}
 
-		Iterator it = ItemDatabase.advNames.iterator();
+		Iterator<String> it = ItemDatabase.advNames.iterator();
 
 		while ( it.hasNext() )
 		{
-			String name = (String) it.next();
+			String name = it.next();
 			ItemDatabase.calculateAdventureRange( name );
 		}
 	}
@@ -853,9 +854,9 @@ public class ItemDatabase
 		Concoction c = ConcoctionPool.get( name );
 		int advs = ( c == null ) ? 0 : c.getAdventuresNeeded( 1, true );
 
-		int unitCost = ( (Integer) ItemDatabase.unitCostByName.get( name ) ).intValue();
-		int start = ( (Integer) ItemDatabase.advStartByName.get( name ) ).intValue();
-		int end = ( (Integer) ItemDatabase.advEndByName.get( name ) ).intValue();
+		int unitCost = ItemDatabase.unitCostByName.get( name ).intValue();
+		int start = ItemDatabase.advStartByName.get( name ).intValue();
+		int end = ItemDatabase.advEndByName.get( name ).intValue();
 
 		// Adventure gain modifier #1 is ode or milk, which adds
 		// unitCost adventures to the result.
@@ -930,7 +931,7 @@ public class ItemDatabase
 		ItemDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Float( result / ( unitCost == 0 ? 1 : unitCost ) ) );
 	}
 
-	private static final Map getAdventureMap( final boolean perUnit,
+	private static final Map<String, Float> getAdventureMap( final boolean perUnit,
 						  final boolean gainEffect1, final boolean gainEffect2,
 						  final boolean gainEffect3, final boolean gainEffect4)
 	{
@@ -1360,7 +1361,7 @@ public class ItemDatabase
 
 	public static String getCanonicalName( final Integer itemId )
 	{
-		return StringUtilities.getCanonicalName( (String) ItemDatabase.nameById.get( itemId ) );
+		return StringUtilities.getCanonicalName( ItemDatabase.nameById.get( itemId ) );
 	}
 
 	public static final String getCanonicalName( final String itemName )
@@ -1674,7 +1675,7 @@ public class ItemDatabase
 			return null;
 		}
 
-		return (Integer) ItemDatabase.levelReqByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.levelReqByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final boolean meetsLevelRequirement( final String name )
@@ -1684,7 +1685,7 @@ public class ItemDatabase
 			return false;
 		}
 
-		Integer requirement = (Integer) ItemDatabase.levelReqByName.get( StringUtilities.getCanonicalName( name ) );
+		Integer requirement = ItemDatabase.levelReqByName.get( StringUtilities.getCanonicalName( name ) );
 		return requirement == null ? true : KoLCharacter.getLevel() >= requirement.intValue();
 	}
 
@@ -1694,7 +1695,7 @@ public class ItemDatabase
 		{
 			return null;
 		}
-		return (Integer) ItemDatabase.fullnessByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.fullnessByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final int getFullness( final String name )
@@ -1709,7 +1710,7 @@ public class ItemDatabase
 		{
 			return null;
 		}
-		return (Integer) ItemDatabase.inebrietyByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.inebrietyByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final int getInebriety( final String name )
@@ -1724,7 +1725,7 @@ public class ItemDatabase
 		{
 			return null;
 		}
-		return (Integer) ItemDatabase.spleenHitByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.spleenHitByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final int getSpleenHit( final String name )
@@ -1740,7 +1741,7 @@ public class ItemDatabase
 			return null;
 		}
 
-		return (String) ItemDatabase.qualityByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.qualityByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final String getNotes( final String name )
@@ -1750,7 +1751,7 @@ public class ItemDatabase
 			return null;
 		}
 
-		return (String) ItemDatabase.notesByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.notesByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final ArrayList getFoldGroup( final String name )
@@ -1760,7 +1761,7 @@ public class ItemDatabase
 			return null;
 		}
 
-		return (ArrayList) ItemDatabase.foldGroupsByName.get( StringUtilities.getCanonicalName( name ) );
+		return ItemDatabase.foldGroupsByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
 	public static final float getAdventureRange( final String name )
@@ -1781,7 +1782,7 @@ public class ItemDatabase
 			boolean lunch = KoLConstants.activeEffects.contains( ItemDatabase.GLORIOUS_LUNCH );
 			boolean gourmand = KoLCharacter.hasSkill( "Gourmand" );
 			boolean munchies = Preferences.getInteger( "munchiesPillsUsed" ) > 0;
-			range = (Float) ItemDatabase.getAdventureMap( perUnit,
+			range = ItemDatabase.getAdventureMap( perUnit,
 								      !sushi && milk,
 								      !sushi && lunch,
 								      !sushi && gourmand,
@@ -1790,12 +1791,12 @@ public class ItemDatabase
 		else if ( ItemDatabase.getRawInebriety( name ) != null )
 		{
 			boolean odeEffect = KoLConstants.activeEffects.contains( ItemDatabase.ODE );
-			range = (Float) ItemDatabase.getAdventureMap(
+			range = ItemDatabase.getAdventureMap(
 				perUnit, odeEffect, false, false, false ).get( cname );
 		}
 		else if ( ItemDatabase.getRawSpleenHit( name ) != null )
 		{
-			range = (Float) ItemDatabase.getAdventureMap(
+			range = ItemDatabase.getAdventureMap(
 				perUnit, false, false, false, false ).get( cname );
 		}
 
@@ -1814,7 +1815,7 @@ public class ItemDatabase
 			return "";
 		}
 
-		String range = (String) ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
+		String range = ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
 		return range == null ? "" : range;
 	}
 
@@ -1825,7 +1826,7 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String muscle = (String) ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
+		String muscle = ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
 		float muscleFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MUS_EXPERIENCE_PCT ) + 100.0f ) / 100.0f;
 		String range = (String) ItemDatabase.extractStatRange( muscle, muscleFactor );
 		return range == null ? "+0.0" : range;
@@ -1838,7 +1839,7 @@ public class ItemDatabase
 			return "";
 		}
 
-		String range = (String) ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
+		String range = ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
 		return range == null ? "" : range;
 	}
 
@@ -1849,7 +1850,7 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String mysticality = (String) ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
+		String mysticality = ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
 		float mysticalityFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MYS_EXPERIENCE_PCT ) + 100.0f ) / 100.0f;
 		String range = (String) ItemDatabase.extractStatRange( mysticality, mysticalityFactor );
 		return range == null ? "+0.0" : range;
@@ -1862,7 +1863,7 @@ public class ItemDatabase
 			return "";
 		}
 
-		String range = (String) ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
+		String range = ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
 		return range == null ? "" : range;
 	}
 
@@ -1873,7 +1874,7 @@ public class ItemDatabase
 			return "+0.0";
 		}
 
-		String moxie = (String) ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
+		String moxie = ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
 		float moxieFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MOX_EXPERIENCE_PCT ) + 100.0f ) / 100.0f;
 		String range = (String) ItemDatabase.extractStatRange( moxie, moxieFactor );
 		return range == null ? "+0.0" : range;
@@ -1898,7 +1899,7 @@ public class ItemDatabase
 
 	public static final String getAccessById( final Integer itemId )
 	{
-		return (String) ItemDatabase.accessById.get( itemId );
+		return ItemDatabase.accessById.get( itemId );
 	}
 	
 	public static final int getAttributes( int itemId )
@@ -2016,17 +2017,17 @@ public class ItemDatabase
 
 	public static final String getItemName( final int itemId )
 	{
-		return (String) ItemDatabase.nameById.get( IntegerPool.get( itemId ) );
+		return ItemDatabase.nameById.get( IntegerPool.get( itemId ) );
 	}
 
 	public static final String getItemDataName( final int itemId )
 	{
-		return (String) ItemDatabase.dataNameById.get( IntegerPool.get( itemId ) );
+		return ItemDatabase.dataNameById.get( IntegerPool.get( itemId ) );
 	}
 
 	public static final String getItemDataName( final Integer itemId )
 	{
-		return (String) ItemDatabase.dataNameById.get( itemId );
+		return ItemDatabase.dataNameById.get( itemId );
 	}
 
 	public static final Set dataNameEntrySet()
@@ -2043,7 +2044,7 @@ public class ItemDatabase
 
 	public static final String getItemName( final String descriptionId )
 	{
-		Integer itemId = (Integer) ItemDatabase.itemIdByDescription.get( descriptionId );
+		Integer itemId = ItemDatabase.itemIdByDescription.get( descriptionId );
 		return itemId == null ? null : ItemDatabase.getItemName( itemId.intValue() );
 	}
 
@@ -2056,7 +2057,7 @@ public class ItemDatabase
 
 	public static final int getItemIdFromDescription( final String descriptionId )
 	{
-		Integer itemId = (Integer) ItemDatabase.itemIdByDescription.get( descriptionId );
+		Integer itemId = ItemDatabase.itemIdByDescription.get( descriptionId );
 		return itemId == null ? -1 : itemId.intValue();
 	}
 
@@ -2229,7 +2230,7 @@ public class ItemDatabase
 
 	public static final String typeToPrimaryUsage( final int type )
 	{
-		return (String) ItemDatabase.INVERSE_PRIMARY_USE.get( IntegerPool.get( type ) );
+		return ItemDatabase.INVERSE_PRIMARY_USE.get( IntegerPool.get( type ) );
 	}
 
 	public static final int getConsumptionType( final String itemName )
@@ -2256,15 +2257,15 @@ public class ItemDatabase
 
 	public static final String getDescriptionId( final Integer itemId )
 	{
-		return (String) ItemDatabase.descriptionById.get( itemId );
+		return ItemDatabase.descriptionById.get( itemId );
 	}
 
-	public static final Set nameByIdKeySet()
+	public static final Set<Integer> nameByIdKeySet()
 	{
 		return ItemDatabase.nameById.keySet();
 	}
 
-	public static final Set descriptionIdKeySet()
+	public static final Set<Integer> descriptionIdKeySet()
 	{
 		return ItemDatabase.descriptionById.keySet();
 	}
@@ -2523,7 +2524,7 @@ public class ItemDatabase
 	private static final void setDustyBottle( final int itemId, final int inebriety, final String adventures,
 		final String muscle, final String mysticality, final String moxie, final String note )
 	{
-		String name = StringUtilities.getCanonicalName( (String) ItemDatabase.dataNameById.get( IntegerPool.get( itemId ) ) );
+		String name = StringUtilities.getCanonicalName( ItemDatabase.dataNameById.get( IntegerPool.get( itemId ) ) );
 		ItemDatabase.inebrietyByName.put( name, IntegerPool.get( inebriety ) );
 		ItemDatabase.setConsumptionData( name, inebriety, adventures, muscle, mysticality, moxie, note );
 	}

@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -105,7 +106,7 @@ public class UseItemEnqueuePanel
 		}
 		this.queueTabs = queueTabs;
 
-		ArrayList listeners = new ArrayList();
+		ArrayList<ThreadedListener> listeners = new ArrayList<ThreadedListener>();
 
 		if ( Preferences.getBoolean( "addCreationQueue" ) )
 		{
@@ -478,7 +479,7 @@ public class UseItemEnqueuePanel
 		protected void execute()
 		{
 			RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
-			if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ODE ) ) )
+			if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.ODE ) ) )
 			{
 				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Failed to cast Ode." );
 			}

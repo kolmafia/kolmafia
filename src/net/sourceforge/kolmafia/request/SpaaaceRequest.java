@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -64,7 +65,7 @@ public class SpaaaceRequest
 	public static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) lunar isotope" );
 	public static final AdventureResult ISOTOPE = ItemPool.get( ItemPool.LUNAR_ISOTOPE, 1 );
 	public static final AdventureResult TRANSPONDER = ItemPool.get( ItemPool.TRANSPORTER_TRANSPONDER, 1 );
-	public static final AdventureResult TRANSPONDENT = EffectPool.get( EffectPool.TRANSPONDENT, 1 );
+	public static final AdventureResult TRANSPONDENT = EffectPool.get( Effect.TRANSPONDENT.effectName(), 1 );
 
 	public static boolean isTranspondent = false;
 	public static boolean hasTransponders = false;
