@@ -416,6 +416,27 @@
 	</target>
 
 
+	<!-- ================================================================= -->
+	<!--  runs program with all needed libraries in the path using JRebel  -->
+	<!-- ================================================================= -->
+
+	<target name="exec-jrebel" depends="compile">
+		<copy
+			todir="${build}"
+			overwrite="true"
+			preservelastmodified="true"
+			file="util/rebel.xml" />
+
+		<replaceregexp
+			file="${build}/rebel.xml"
+			match="kolmafia"
+			replace="${basedir}/${build}" />
+
+		<java fork="true" classname="${main}" classpath="${build}" dir="${dist}">
+			<jvmarg line="-javaagent:${jrebel.file} ${exec.vmoptions}" />
+		</java>
+	</target>
+
 	<!-- ============================================= -->
 	<!--  generates the release notes for the archive  -->
 	<!-- ============================================= -->
