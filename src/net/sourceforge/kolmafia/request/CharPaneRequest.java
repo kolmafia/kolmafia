@@ -640,10 +640,7 @@ public class CharPaneRequest
 
 		if ( duration == Integer.MAX_VALUE )
 		{
-			if ( effectName.equalsIgnoreCase( "Temporary Blindness" ) )
-			{
-				effectName = "Temporary Blindness (intrinsic)";
-			}
+			// Intrinsic effect
 		}
 
 		return new AdventureResult( effectName, duration, true );
