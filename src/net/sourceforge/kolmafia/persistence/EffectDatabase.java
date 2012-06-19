@@ -106,19 +106,7 @@ public class EffectDatabase
 				String descId = data.length > 3 ? data[ 3 ] : null;
 				String defaultAction = data.length > 4 ? data[ 4 ] : null;
 
-				EffectDatabase.addToDatabase(
-					effectId, name, image, descId, defaultAction );
-
-				if ( name.equalsIgnoreCase( "Temporary Blindness" ) )
-				{
-					// We need two copies of this effect in
-					// activeEffects, since the intrinsic &
-					// normal versions stack.
-					EffectDatabase.addToDatabase(
-						IntegerPool.get( -2 ),
-						"Temporary Blindness (intrinsic)",
-						image, null, defaultAction );
-				}
+				EffectDatabase.addToDatabase( effectId, name, image, descId, defaultAction );
 			}
 		}
 

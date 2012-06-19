@@ -3384,9 +3384,7 @@ Tar-Struck	Stench Damage: +20
 Techno Bliss	Item Drop: +10
 # Teleportitis: Your position seems uncertain...
 # Temporary Amnesia: Who am I?
-# Temporary Blindness occurs in both normal and intrinsic forms, and they stack.
 Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30
-Temporary Blindness (intrinsic)	Moxie Percent: -25, Item Drop: -75, Initiative: -30
 Temporary Lycanthropy	Muscle Percent: [B]
 Tenacity of the Snapper	Weapon Damage: +8
 Tenuous Grip on Reality	Moxie Percent: -95
