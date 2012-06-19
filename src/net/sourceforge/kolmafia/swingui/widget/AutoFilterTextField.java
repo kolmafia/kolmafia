@@ -61,12 +61,13 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 
 public class AutoFilterTextField
 	extends AutoHighlightTextField
-	implements ActionListener, ListElementFilter, Runnable
+	implements ActionListener, ListElementFilter
 {
 	protected JList list;
 	protected String text;
@@ -80,6 +81,8 @@ public class AutoFilterTextField
 	protected boolean asEQ, asLT, asGT;
 	protected boolean notChecked;
 
+	private FilterDelayThread thread;
+
 	private static final Pattern QTYSEARCH_PATTERN = Pattern.compile(
 		"\\s*#\\s*([<=>]+)\\s*([\\d,]+)\\s*" );
 
@@ -92,29 +95,40 @@ public class AutoFilterTextField
 	public AutoFilterTextField( final JList list )
 	{
 		this.setList( list );
+
 		this.addKeyListener( new FilterListener() );
 		
 		// Make this look like a normal search field on OS X.
 		// Note that the field MUST NOT be forced to a height other than its
 		// preferred height; that produces some ugly visual glitches.
+
 		this.putClientProperty( "JTextField.variant", "search" );
 	}
 
 	public AutoFilterTextField( final JList list, Object initial )
 	{
-		this( list );
+		this.setList( list );
 
-		if ( initial != null )
-		{
-			this.setText( initial.toString() );
-		}
+		this.addKeyListener( new FilterListener() );
+
+		// Make this look like a normal search field on OS X.
+		// Note that the field MUST NOT be forced to a height other than its
+		// preferred height; that produces some ugly visual glitches.
+
+		this.putClientProperty( "JTextField.variant", "search" );
 	}
 
 	public AutoFilterTextField( LockableListModel displayModel )
 	{
 		this.addKeyListener( new FilterListener() );
+
 		this.model = displayModel;
 		this.model.setFilter( this );
+
+		// Make this look like a normal search field on OS X.
+		// Note that the field MUST NOT be forced to a height other than its
+		// preferred height; that produces some ugly visual glitches.
+
 		this.putClientProperty( "JTextField.variant", "search" );
 	}
 
@@ -128,37 +142,15 @@ public class AutoFilterTextField
 
 	public void actionPerformed( final ActionEvent e )
 	{
-		this.update();
+		this.prepareUpdate();
 	}
 
-	private String tempText = null;
-	
-	@Override
 	public void setText( final String text )
 	{
-		this.tempText = text;
-		if ( !SwingUtilities.isEventDispatchThread() )
-		{
-			try
-			{
-				SwingUtilities.invokeAndWait( this );
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
-		}
-		else {
-			this.run();
-		}
+		super.setText( text );
+		this.prepareUpdate();
 	}
 	
-	public void run()
-	{
-		super.setText( this.tempText );
-		this.update();
-	}
-
 	public void update()
 	{
 		try
@@ -365,13 +357,140 @@ public class AutoFilterTextField
 		return -1;
 	}
 
+	public synchronized void prepareUpdate()
+	{
+		if ( AutoFilterTextField.this.thread != null )
+		{
+			AutoFilterTextField.this.thread.prepareUpdate();
+			return;
+		}
+
+		new FilterDelayThread().start();
+	}
+
 	private class FilterListener
 		extends KeyAdapter
 	{
 		@Override
 		public void keyReleased( final KeyEvent e )
 		{
-			AutoFilterTextField.this.update();
+			AutoFilterTextField.this.prepareUpdate();
+		}
+	}
+
+	private class FilterDelayThread
+		extends Thread
+	{
+		private boolean updating = true;
+
+		public void run()
+		{
+			AutoFilterTextField.this.thread = this;
+
+			PauseObject pauser = new PauseObject();
+
+			while ( this.updating )
+			{
+				this.updating = false;
+				pauser.pause( 200 );
+			}
+
+			SwingUtilities.invokeLater( new FilterRunnable() );
+
+			AutoFilterTextField.this.thread = null;
+		}
+
+		public void prepareUpdate()
+		{
+			this.updating = true;
+		}
+	}
+
+	private class FilterRunnable
+		implements Runnable
+	{
+		public void run()
+		{
+			AutoFilterTextField.this.model.setFiltering( true );
+
+			try
+			{
+				this.update();
+			}
+			finally
+			{
+				AutoFilterTextField.this.model.setFiltering( false );
+
+				if ( AutoFilterTextField.this.model.size() > 0 )
+				{
+					AutoFilterTextField.this.model.fireContentsChanged(
+						AutoFilterTextField.this.model, 0, AutoFilterTextField.this.model.size() - 1 );
+				}
+			}
+		}
+
+		public void update()
+		{
+			AutoFilterTextField.this.qtyChecked = false;
+			AutoFilterTextField.this.asChecked = false;
+			AutoFilterTextField.this.notChecked = false;
+			AutoFilterTextField.this.text = AutoFilterTextField.this.getText().toLowerCase();
+
+			Matcher mqty = AutoFilterTextField.QTYSEARCH_PATTERN.matcher( AutoFilterTextField.this.text );
+			if ( mqty.find() )
+			{
+				AutoFilterTextField.this.qtyChecked = true;
+				AutoFilterTextField.this.quantity = StringUtilities.parseInt( mqty.group( 2 ) );
+
+				String op = mqty.group( 1 );
+
+				AutoFilterTextField.this.qtyEQ = op.indexOf( "=" ) != -1;
+				AutoFilterTextField.this.qtyLT = op.indexOf( "<" ) != -1;
+				AutoFilterTextField.this.qtyGT = op.indexOf( ">" ) != -1;
+				AutoFilterTextField.this.text = mqty.replaceFirst( "" );
+			}
+
+			Matcher mas = AutoFilterTextField.ASSEARCH_PATTERN.matcher( AutoFilterTextField.this.text );
+			if ( mas.find() )
+			{
+				AutoFilterTextField.this.asChecked = true;
+				AutoFilterTextField.this.price = StringUtilities.parseInt( mas.group( 2 ) );
+
+				String op = mas.group( 1 );
+
+				AutoFilterTextField.this.asEQ = op.indexOf( "=" ) != -1;
+				AutoFilterTextField.this.asLT = op.indexOf( "<" ) != -1;
+				AutoFilterTextField.this.asGT = op.indexOf( ">" ) != -1;
+				AutoFilterTextField.this.text = mas.replaceFirst( "" );
+			}
+
+			Matcher mnot = AutoFilterTextField.NOTSEARCH_PATTERN.matcher( AutoFilterTextField.this.text );
+			if ( mnot.find() )
+			{
+				AutoFilterTextField.this.notChecked = true;
+				AutoFilterTextField.this.text = mnot.group( 1 );
+			}
+
+			AutoFilterTextField.this.strict = true;
+			AutoFilterTextField.this.model.updateFilter( false );
+
+			if ( AutoFilterTextField.this.model.getSize() == 0 )
+			{
+				AutoFilterTextField.this.strict = false;
+				AutoFilterTextField.this.model.updateFilter( false );
+			}
+
+			if ( AutoFilterTextField.this.list != null )
+			{
+				if ( AutoFilterTextField.this.model.getSize() == 1 )
+				{
+					AutoFilterTextField.this.list.setSelectedIndex( 0 );
+				}
+				else
+				{
+					AutoFilterTextField.this.list.clearSelection();
+				}
+			}
 		}
 	}
 }
