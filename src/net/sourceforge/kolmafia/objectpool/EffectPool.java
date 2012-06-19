@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.objectpool;
 
 import net.sourceforge.kolmafia.AdventureResult;
 
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
-
 public class EffectPool
 {
 	public enum Effect
@@ -136,11 +134,6 @@ public class EffectPool
 	public static final int FORM_OF_BIRD_ID = 511;
 	public static final int COVERED_IN_SLIME_ID = 633;
 
-	private static final AdventureResult get( final int effectId )
-	{
-		return EffectPool.get( EffectDatabase.getEffectName( effectId ) );
-	}
-
 	public static final AdventureResult get( final String effectName )
 	{
 		return new AdventureResult( effectName, 1, true );
@@ -153,6 +146,6 @@ public class EffectPool
 
 	public static AdventureResult get( final Effect effect )
 	{
-		return get( effect.effectId() );
+		return get( effect.effectName() );
 	}
 }
