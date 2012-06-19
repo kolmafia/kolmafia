@@ -138,7 +138,7 @@ public class OptionsFrame
 		selectorPanel.addPanel( " - Relay Browser", new RelayOptionsPanel(), true );
 		selectorPanel.addPanel( " - Text Colors", new ColorOptionsPanel(), true );
 
-		selectorPanel.addPanel( "Login and Logout", new ScriptPanel(), true );
+		selectorPanel.addPanel( "Automation", new ScriptPanel(), true );
 		selectorPanel.addPanel( " - In Ronin", new BreakfastPanel( "Hardcore" ), true );
 		selectorPanel.addPanel( " - After Ronin", new BreakfastPanel( "Softcore" ), true );
 
@@ -1366,7 +1366,6 @@ public class OptionsFrame
 					};
 
 		private final JComboBox looks, toolbars, scripts;
-		private String defaultLookAndFeel;
 
 		public UserInterfacePanel()
 		{
@@ -1383,16 +1382,6 @@ public class OptionsFrame
 			}
 
 			this.looks = new JComboBox( installedLooks );
-
-			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) || System.getProperty( "os.name" ).startsWith(
-				"Win" ) )
-			{
-				this.defaultLookAndFeel = UIManager.getSystemLookAndFeelClassName();
-			}
-			else
-			{
-				this.defaultLookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-			}
 
 			this.toolbars = new JComboBox();
 			this.toolbars.addItem( "Show global menus only" );
@@ -1702,16 +1691,52 @@ public class OptionsFrame
 	{
 		private final ScriptSelectPanel loginScript;
 		private final ScriptSelectPanel logoutScript;
+		
+		private final ScriptSelectPanel recoveryScript;
+		private final ScriptSelectPanel betweenBattleScript;
+		private final ScriptSelectPanel afterAdventureScript;
+		private final ScriptSelectPanel counterScript;
+		
+		private final ScriptSelectPanel kingLiberatedScript;
+		private final ScriptSelectPanel preAscensionScript;
+		private final ScriptSelectPanel postAscensionScript;
+		
+		private final ScriptSelectPanel beforePVPScript;
+		private final ScriptSelectPanel buyScript;
+		private final ScriptSelectPanel plantingScript;
+		private final ScriptSelectPanel chatBotScript;
 
 		public ScriptPanel()
 		{
 			this.loginScript = new ScriptSelectPanel( new AutoHighlightTextField() );
 			this.logoutScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.recoveryScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.betweenBattleScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.afterAdventureScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.counterScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.kingLiberatedScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.preAscensionScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.postAscensionScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.beforePVPScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.buyScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.plantingScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.chatBotScript = new ScriptSelectPanel( new AutoHighlightTextField() );
 
-			VerifiableElement[] elements = new VerifiableElement[ 3 ];
+			VerifiableElement[] elements = new VerifiableElement[ 14 ];
 			elements[ 0 ] = new VerifiableElement( "On Login: ", this.loginScript );
 			elements[ 1 ] = new VerifiableElement( "On Logout: ", this.logoutScript );
-			elements[ 2 ] = new VerifiableElement();
+			elements[ 2 ] = new VerifiableElement( "Recovery: ", this.recoveryScript );
+			elements[ 3 ] = new VerifiableElement( "Before Adventure: ", this.betweenBattleScript );
+			elements[ 4 ] = new VerifiableElement( "After Adventure: ", this.afterAdventureScript );
+			elements[ 5 ] = new VerifiableElement( "Counter Script: ", this.counterScript );
+			elements[ 6 ] = new VerifiableElement( "King Freed: ", this.kingLiberatedScript );
+			elements[ 7 ] = new VerifiableElement( "Pre-Ascension: ", this.preAscensionScript );
+			elements[ 8 ] = new VerifiableElement( "Post-Ascension: ", this.postAscensionScript );
+			elements[ 9 ] = new VerifiableElement( "Before PvP: ", this.beforePVPScript );
+			elements[ 10 ] = new VerifiableElement( "Buy Script: ", this.buyScript );
+			elements[ 11 ] = new VerifiableElement( "Planting: ", this.plantingScript );
+			elements[ 12 ] = new VerifiableElement( "Chatbot Script: ", this.chatBotScript );
+			elements[ 13 ] = new VerifiableElement();
 
 			this.setContent( elements );
 			this.actionCancelled();
@@ -1722,6 +1747,16 @@ public class OptionsFrame
 		{
 			Preferences.setString( "loginScript", this.loginScript.getText() );
 			Preferences.setString( "logoutScript", this.logoutScript.getText() );
+			Preferences.setString( "recoveryScript", this.recoveryScript.getText() );
+			Preferences.setString( "betweenBattleScript", this.betweenBattleScript.getText() );
+			Preferences.setString( "afterAdventureScript", this.afterAdventureScript.getText() );
+			Preferences.setString( "kingLiberatedScript", this.kingLiberatedScript.getText() );
+			Preferences.setString( "preAscensionScript", this.preAscensionScript.getText() );
+			Preferences.setString( "postAscensionScript", this.postAscensionScript.getText() );
+			Preferences.setString( "beforePVPScript", this.beforePVPScript.getText() );
+			Preferences.setString( "buyScript", this.buyScript.getText() );
+			Preferences.setString( "plantingScript", this.plantingScript.getText() );
+			Preferences.setString( "chatBotScript", this.chatBotScript.getText() );
 		}
 
 		@Override
@@ -1732,6 +1767,39 @@ public class OptionsFrame
 
 			String logoutScript = Preferences.getString( "logoutScript" );
 			this.logoutScript.setText( logoutScript );
+
+			String recoveryScript = Preferences.getString( "recoveryScript" );
+			this.recoveryScript.setText( recoveryScript );
+
+			String betweenBattleScript = Preferences.getString( "betweenBattleScript" );
+			this.betweenBattleScript.setText( betweenBattleScript );
+
+			String afterAdventureScript = Preferences.getString( "afterAdventureScript" );
+			this.afterAdventureScript.setText( afterAdventureScript );
+
+			String counterScript = Preferences.getString( "counterScript" );
+			this.counterScript.setText( counterScript );
+
+			String kingLiberatedScript = Preferences.getString( "kingLiberatedScript" );
+			this.kingLiberatedScript.setText( kingLiberatedScript );
+
+			String preAscensionScript = Preferences.getString( "preAscensionScript" );
+			this.preAscensionScript.setText( preAscensionScript );
+
+			String postAscensionScript = Preferences.getString( "postAscensionScript" );
+			this.postAscensionScript.setText( postAscensionScript );
+
+			String beforePVPScript = Preferences.getString( "beforePVPScript" );
+			this.beforePVPScript.setText( beforePVPScript );
+
+			String buyScript = Preferences.getString( "buyScript" );
+			this.buyScript.setText( buyScript );
+
+			String plantingScript = Preferences.getString( "plantingScript" );
+			this.plantingScript.setText( plantingScript );
+
+			String chatBotScript = Preferences.getString( "chatBotScript" );
+			this.chatBotScript.setText( chatBotScript );
 		}
 
 	}
