@@ -145,6 +145,7 @@ public class AutoFilterTextField
 		this.prepareUpdate();
 	}
 
+	@Override
 	public void setText( final String text )
 	{
 		super.setText( text );
@@ -383,6 +384,7 @@ public class AutoFilterTextField
 	{
 		private boolean updating = true;
 
+		@Override
 		public void run()
 		{
 			AutoFilterTextField.this.thread = this;
@@ -392,7 +394,7 @@ public class AutoFilterTextField
 			while ( this.updating )
 			{
 				this.updating = false;
-				pauser.pause( 200 );
+				pauser.pause( 100 );
 			}
 
 			SwingUtilities.invokeLater( new FilterRunnable() );
