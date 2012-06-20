@@ -48,7 +48,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -69,7 +68,6 @@ public class LoginRequest
 	private static final Pattern PLAYERS_PATTERN =
 		Pattern.compile( "There are currently <b>(.*?)</b> players logged in." );
 
-	private static boolean ignoreLoadBalancer = false;
 	private static LoginRequest lastRequest = null;
 	private static long lastLoginAttempt = 0;
 
@@ -93,11 +91,6 @@ public class LoginRequest
 		{
 			Preferences.setBoolean( "saveStateActive", true );
 		}
-	}
-
-	public static final void setIgnoreLoadBalancer( final boolean ignoreLoadBalancer )
-	{
-		LoginRequest.ignoreLoadBalancer = ignoreLoadBalancer;
 	}
 
 	@Override
@@ -143,11 +136,6 @@ public class LoginRequest
 		GenericRequest.reset();
 
 		this.clearDataFields();
-
-		if ( LoginRequest.ignoreLoadBalancer )
-		{
-			this.constructURLString( "game.php" );
-		}
 
 		super.run();
 
