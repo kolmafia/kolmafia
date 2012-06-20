@@ -4600,7 +4600,7 @@ public class UseItemRequest
 			return BURTRequest.registerRequest( urlString );
 
 		case ItemPool.FDKOL_COMMENDATION:
-			return FDKOLRequest.registerRequest( urlString );
+			return FDKOLRequest.registerRequest( urlString, false );
 
 		case ItemPool.FUDGE_WAND:
 			return FudgeWandRequest.registerRequest( urlString );

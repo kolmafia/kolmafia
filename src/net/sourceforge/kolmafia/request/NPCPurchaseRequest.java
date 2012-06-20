@@ -465,7 +465,7 @@ public class NPCPurchaseRequest
 		}
 	}
 
-	public static final boolean registerShopRequest( final String urlString )
+	public static final boolean registerShopRequest( final String urlString, boolean meatOnly )
 	{
 		if ( !urlString.startsWith( "shop.php" ) )
 		{
@@ -494,9 +494,15 @@ public class NPCPurchaseRequest
 		// there is no Meat price, let correct Coinmaster claim it.
 		if ( priceVal == 0 )
 		{
+			// If we've already checked tokens, this is an unknown item
+			if ( meatOnly )
+			{
+				return false;
+			}
+
 			if ( shopId.equals( "fdkol" ) )
 			{
-				FDKOLRequest.registerRequest( urlString );
+				FDKOLRequest.registerRequest( urlString, true );
 			}
 
 			return false;

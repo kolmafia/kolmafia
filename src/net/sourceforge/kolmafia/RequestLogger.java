@@ -869,7 +869,7 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof FDKOLRequest || isExternal ) && FDKOLRequest.registerRequest( urlString ) )
+		if ( ( request instanceof FDKOLRequest || isExternal ) && FDKOLRequest.registerRequest( urlString, false ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
