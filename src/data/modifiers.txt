@@ -2080,7 +2080,7 @@ whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
 wheel	Initiative: +10
 white belt	Muscle: +3, Weapon Damage: +3, Single Equip
 white collar	Meat Drop: +3, Moxie: +1
-# wings of fire	Hot Damage: [5*X], Hot Spell Damage: [5*X]
+wings of fire	Hot Damage: +25, Hot Spell Damage: +25
 woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 wrench bracelet	Muscle: +5, Weapon Damage: +9
 wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip, Nonstackable Watch
