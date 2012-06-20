@@ -37,12 +37,18 @@ import java.math.BigInteger;
 
 import java.security.MessageDigest;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -380,19 +386,50 @@ public class LoginRequest
 			return;
 		}
 
-		String serverCookie = request.formConnection.getHeaderField( "Set-Cookie" );
-		if ( serverCookie != null )
+		// Set-Cookie = [appserver=www10, PHPSESSID=cknnse0t2jkro82el2cn90dfv7; path=/]
+
+		StringBuilder buf = new StringBuilder();
+		String delim = null;
+
+		Map headerFields = request.formConnection.getHeaderFields();
+		Iterator iterator = headerFields.entrySet().iterator();
+
+		while ( iterator.hasNext() )
 		{
-			int semiIndex = serverCookie.indexOf( ";" );
-			if ( semiIndex != -1 )
+			Entry entry = (Entry) iterator.next();
+			String key = (String) entry.getKey();
+			if ( key == null || !key.equals( "Set-Cookie" ) )
 			{
-				GenericRequest.serverCookie = serverCookie.substring( 0, semiIndex );
+				continue;
 			}
-			else
+
+			List cookies = (List)(entry.getValue());
+			Iterator citerator = cookies.iterator();
+			while ( citerator.hasNext() )
 			{
-				GenericRequest.serverCookie = serverCookie;
+				String cookie = (String) citerator.next();
+				if ( !cookie.startsWith( "appserver" ) && !cookie.startsWith( "PHPSESSID" ) )
+				{
+					continue;
+				}
+				int semi = cookie.indexOf( ";" );
+				if ( semi != -1 )
+				{
+					cookie = cookie.substring( 0, semi );
+				}
+				if ( delim == null )
+				{
+					delim = "; ";
+				}
+				else
+				{
+					buf.append( delim );
+				}
+				buf.append( cookie );
 			}
 		}
+
+		GenericRequest.serverCookie = buf.toString();
 
 		// It's possible that KoL will eventually make the redirect
 		// the way it used to be, but enforce the redirect.  If this

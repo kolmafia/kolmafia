@@ -1141,8 +1141,8 @@ public class GenericRequest
 	public void run()
 	{
 		if ( GenericRequest.serverCookie == null &&
-			!( this instanceof LoginRequest ) &&
-			!( this instanceof LogoutRequest ) )
+		     !( this instanceof LoginRequest ) &&
+		     !( this instanceof LogoutRequest ) )
 		{
 			return;
 		}
