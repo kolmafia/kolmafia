@@ -732,6 +732,7 @@ fetus-smashing club	200	Mus: 85	2-handed club
 filthy pestle	60	Mys: 15	1-handed utensil
 finger cymbals	65	Mox: 17	1-handed cymbals
 fire axe	200	Mus: 85	2-handed axe
+fire hose	200	Mox: 85	2-handed hose
 fire poi	190	Mox: 80	2-handed flail
 fish bazooka	200	Mox: 85	2-handed bazooka
 fish scimitar	200	Mus: 85	1-handed sword
@@ -1867,6 +1868,7 @@ whalebone corset	55	Mys: 12
 wheel	30	none
 white belt	40	Mys: 5
 white collar	20	none
+wings of fire	0	Mys: 100
 woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 wristwatch of the white knight	60	Mys: 15
