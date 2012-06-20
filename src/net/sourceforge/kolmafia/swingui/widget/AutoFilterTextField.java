@@ -116,6 +116,11 @@ public class AutoFilterTextField
 		// preferred height; that produces some ugly visual glitches.
 
 		this.putClientProperty( "JTextField.variant", "search" );
+
+		if ( initial != null )
+		{
+			this.setText( initial.toString() );
+		}
 	}
 
 	public AutoFilterTextField( LockableListModel displayModel )
@@ -130,11 +135,6 @@ public class AutoFilterTextField
 		// preferred height; that produces some ugly visual glitches.
 
 		this.putClientProperty( "JTextField.variant", "search" );
-	}
-
-	public void update()
-	{
-		this.prepareUpdate();
 	}
 
 	public void setList( final JList list )
@@ -290,81 +290,12 @@ public class AutoFilterTextField
 		return -1;
 	}
 
-	public synchronized void prepareUpdate()
+	public synchronized void update()
 	{
-		if ( AutoFilterTextField.this.thread != null )
+		try
 		{
-			AutoFilterTextField.this.thread.prepareUpdate();
-			return;
-		}
-
-		AutoFilterTextField.this.thread = new FilterDelayThread();
-
-		AutoFilterTextField.this.thread.start();
-	}
-
-	private class FilterListener
-		extends KeyAdapter
-	{
-		@Override
-		public void keyReleased( final KeyEvent e )
-		{
-			AutoFilterTextField.this.prepareUpdate();
-		}
-	}
-
-	private class FilterDelayThread
-		extends Thread
-	{
-		private boolean updating = true;
-
-		@Override
-		public void run()
-		{
-			PauseObject pauser = new PauseObject();
-
-			while ( this.updating )
-			{
-				this.updating = false;
-				pauser.pause( 100 );
-			}
-
-			SwingUtilities.invokeLater( new FilterRunnable() );
-		}
-
-		public void prepareUpdate()
-		{
-			this.updating = true;
-		}
-	}
-
-	private class FilterRunnable
-		implements Runnable
-	{
-		public void run()
-		{
-			AutoFilterTextField.this.thread = null;
-
 			AutoFilterTextField.this.model.setFiltering( true );
 
-			try
-			{
-				this.update();
-			}
-			finally
-			{
-				AutoFilterTextField.this.model.setFiltering( false );
-
-				if ( AutoFilterTextField.this.model.size() > 0 )
-				{
-					AutoFilterTextField.this.model.fireContentsChanged(
-						AutoFilterTextField.this.model, 0, AutoFilterTextField.this.model.size() - 1 );
-				}
-			}
-		}
-
-		public void update()
-		{
 			AutoFilterTextField.this.qtyChecked = false;
 			AutoFilterTextField.this.asChecked = false;
 			AutoFilterTextField.this.notChecked = false;
@@ -425,6 +356,75 @@ public class AutoFilterTextField
 					AutoFilterTextField.this.list.clearSelection();
 				}
 			}
+		}
+		finally
+		{
+			AutoFilterTextField.this.model.setFiltering( false );
+
+			if ( AutoFilterTextField.this.model.size() > 0 )
+			{
+				AutoFilterTextField.this.model.fireContentsChanged(
+					AutoFilterTextField.this.model, 0, AutoFilterTextField.this.model.size() - 1 );
+			}
+		}
+	}
+
+	public synchronized void prepareUpdate()
+	{
+		if ( AutoFilterTextField.this.thread != null )
+		{
+			AutoFilterTextField.this.thread.prepareUpdate();
+			return;
+		}
+
+		AutoFilterTextField.this.thread = new FilterDelayThread();
+
+		AutoFilterTextField.this.thread.start();
+	}
+
+	private class FilterListener
+		extends KeyAdapter
+	{
+		@Override
+		public void keyReleased( final KeyEvent e )
+		{
+			AutoFilterTextField.this.prepareUpdate();
+		}
+	}
+
+	private class FilterDelayThread
+		extends Thread
+	{
+		private boolean updating = true;
+
+		@Override
+		public void run()
+		{
+			PauseObject pauser = new PauseObject();
+
+			while ( this.updating )
+			{
+				this.updating = false;
+				pauser.pause( 100 );
+			}
+
+			SwingUtilities.invokeLater( new FilterRunnable() );
+		}
+
+		public void prepareUpdate()
+		{
+			this.updating = true;
+		}
+	}
+
+	private class FilterRunnable
+		implements Runnable
+	{
+		public void run()
+		{
+			AutoFilterTextField.this.thread = null;
+
+			AutoFilterTextField.this.update();
 		}
 	}
 }
