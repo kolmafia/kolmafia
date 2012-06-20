@@ -49,8 +49,6 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.StaticEntity;
-
 import net.sourceforge.kolmafia.objectpool.Concoction;
 
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
@@ -351,7 +349,7 @@ public class AutoFilterTextField
 				{
 					AutoFilterTextField.this.list.setSelectedIndex( 0 );
 				}
-				else
+				else if ( AutoFilterTextField.this.list.getSelectedIndices().length != 1 )
 				{
 					AutoFilterTextField.this.list.clearSelection();
 				}
