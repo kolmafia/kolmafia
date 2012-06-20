@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -76,7 +77,7 @@ public class AshMultiLineCommand
 
 		if ( currentLine == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unterminated inline ASH script." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unterminated inline ASH script." );
 			return;
 		}
 

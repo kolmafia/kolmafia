@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
@@ -987,13 +988,13 @@ public class KoLAdventure
 			String message = this.adventureId.equals( AdventurePool.HOBOPOLIS_SEWERS_ID ) ?
 				"Do not venture unprepared into the sewer tunnels!" :
 				"That area is not available.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+			KoLmafia.updateDisplay( MafiaState.ERROR, message );
 			return;
 		}
 
 		if ( this.getFormSource().equals( "shore.php" ) && !KoLCharacter.inFistcore() && KoLCharacter.getAvailableMeat() < 500 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds for shore vacation." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient funds for shore vacation." );
 			return;
 		}
 
@@ -1003,7 +1004,7 @@ public class KoLAdventure
 		{
 			if ( !this.isNonCombatsOnly() && action.indexOf( "dictionary" ) != -1 && FightRequest.DICTIONARY1.getCount( KoLConstants.inventory ) < 1 && FightRequest.DICTIONARY2.getCount( KoLConstants.inventory ) < 1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sorry, you don't have a dictionary." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Sorry, you don't have a dictionary." );
 				return;
 			}
 		}
@@ -1025,7 +1026,7 @@ public class KoLAdventure
 
 		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < this.request.getAdventuresUsed() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Ran out of adventures." );
+			KoLmafia.updateDisplay( MafiaState.PENDING, "Ran out of adventures." );
 			return;
 		}
 
@@ -1038,7 +1039,7 @@ public class KoLAdventure
 			{
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "A dictionary would be useless there." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "A dictionary would be useless there." );
 					return;
 				}
 			}
@@ -1050,21 +1051,21 @@ public class KoLAdventure
 			{
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't hit anything there." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You can't hit anything there." );
 					return;
 				}
 			}
 
 			if ( FightRequest.isInvalidRangedAttack( action ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"Your selected attack skill is useless with ranged weapons." );
 				return;
 			}
 
 			if ( FightRequest.isInvalidShieldlessAttack( action ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"Your selected attack skill is useless without a shield." );
 				return;
 			}
@@ -1218,7 +1219,7 @@ public class KoLAdventure
 				}
 				if ( !KoLConstants.activeEffects.contains( hydrated ) )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ultrahydration failed!" );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Ultrahydration failed!" );
 				}
 				break;
 
@@ -1268,9 +1269,6 @@ public class KoLAdventure
 	// PENDING only when the script could not have known that the attempt
 	// would fail.
 
-	private static final Integer ERROR = IntegerPool.get( KoLConstants.ERROR_STATE );
-	private static final Integer PENDING = IntegerPool.get( KoLConstants.PENDING_STATE );
-
 	private static final Object [][] ADVENTURE_FAILURES =
 	{
 		// KoL bug: returning a blank page. This must be index 0.
@@ -1319,21 +1317,21 @@ public class KoLAdventure
 		{
 			"You're out of adventures",
 			"You're out of adventures.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// Out of adventures in the Daily Dungeon
 		{
 			"You don't have any adventures.",
 			"You're out of adventures.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// Out of adventures at Shore
 		{
 			"You don't have enough Adventures left",
 			"You're out of adventures.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// Out of meat at Shore
@@ -1352,7 +1350,7 @@ public class KoLAdventure
 		{
 			"You're way too beaten up to go on an adventure right now",
 			"You can't adventure at 0 HP.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// Typical Tavern with less than 100 Meat
@@ -1415,7 +1413,7 @@ public class KoLAdventure
 		{
 			"The temporal rift in the plains has closed",
 			"The temporal rift has closed.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// Out of your mining uniform, you are quickly identified as a
@@ -1449,7 +1447,7 @@ public class KoLAdventure
 		{
 			"You break the bottle on the ground",
 			"You are no longer gazing into the bottle.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// You're in the regular dimension now, and don't remember how
@@ -1457,7 +1455,7 @@ public class KoLAdventure
 		{
 			"You're in the regular dimension now",
 			"You are no longer Half-Astral.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// The Factory has faded back into the spectral mists, and
@@ -1473,21 +1471,21 @@ public class KoLAdventure
 		{
 			"can't find any additional ducks",
 			"Nothing more to do here today.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// There are no more ducks here.
 		{
 			"no more ducks here",
 			"Farm area cleared.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// You don't know where that place is.
 		{
 			"You don't know where that place is.",
 			"Use a \"DRINK ME\" potion before trying to adventure here.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// Orchard failure - You try to enter the feeding chamber, but
@@ -1527,28 +1525,28 @@ public class KoLAdventure
 		{
 			"already retrieved all of the stolen Meat",
 			"You already recovered the Nuns' Meat.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// Cobb's Knob King's Chamber after defeating the goblin king.
 		{
 			"You've already slain the Goblin King",
 			"You already defeated the Goblin King.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// The Haert of the Cyrpt after defeating the Bonerdagon
 		{
 			"Bonerdagon has been defeated",
 			"You already defeated the Bonerdagon.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// Any cyrpt area after defeating the sub-boss
 		{
 			"already undefiled",
 			"Cyrpt area cleared.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// This part of the city is awfully unremarkable, now that
@@ -1612,7 +1610,7 @@ public class KoLAdventure
 		{
 			"There's nothing left of Ol' Scratch",
 			"Nothing more to do here.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// There's nothing left in Exposure Esplanade. All of the snow
@@ -1622,7 +1620,7 @@ public class KoLAdventure
 		{
 			"There's nothing left in Exposure Esplanade",
 			"Nothing more to do here.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// The Heap is empty.  Well, let me rephrase that.  It's still
@@ -1631,7 +1629,7 @@ public class KoLAdventure
 		{
 			"The Heap is empty",
 			"Nothing more to do here.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// There's nothing going on here anymore -- the tombs of the
@@ -1639,7 +1637,7 @@ public class KoLAdventure
 		{
 			"There's nothing going on here anymore",
 			"Nothing more to do here.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// There's nothing left in the Purple Light District.  All of
@@ -1648,7 +1646,7 @@ public class KoLAdventure
 		{
 			"There's nothing left in the Purple Light District",
 			"Nothing more to do here.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// The Hoboverlord has been defeated, and Hobopolis Town Square
@@ -1656,7 +1654,7 @@ public class KoLAdventure
 		{
 			"Hobopolis Town Square lies empty",
 			"Nothing more to do here.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// The bathrooms are empty now -- looks like you've taken care
@@ -1664,7 +1662,7 @@ public class KoLAdventure
 		{
 			"bathrooms are empty now",
 			"Nothing more to do here.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// The Skies over Valhalls
@@ -1676,7 +1674,7 @@ public class KoLAdventure
 		{
 			"there's no way you're going all the way through that slash",
 			"You don't have a flying mount.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// You can't do anything without some way of flying.  And
@@ -1688,7 +1686,7 @@ public class KoLAdventure
 		{
 			"You can't do anything without some way of flying",
 			"You don't have a flying mount.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// There are at least two of everything up there, and you're
@@ -1697,7 +1695,7 @@ public class KoLAdventure
 		{
 			"You should  maybe come back when you're at least slightly less drunk",
 			"You are too drunk.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// You don't have the energy to attack a problem this size. Go
@@ -1705,7 +1703,7 @@ public class KoLAdventure
 		{
 			"You don't have the energy to attack a problem this size",
 			"You need at least 20% buffed max MP.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// You're not in good enough shape to deal with a threat this
@@ -1714,7 +1712,7 @@ public class KoLAdventure
 		{
 			"You're not in good enough shape to deal with a threat this large",
 			"You need at least 20% buffed max HP.",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// Your El Vibrato portal has run out of power. You should go
@@ -1722,7 +1720,7 @@ public class KoLAdventure
 		{
 			"Your El Vibrato portal has run out of power",
 			"Your El Vibrato portal has run out of power",
-			KoLAdventure.PENDING
+			MafiaState.PENDING
 		},
 
 		// No longer Transpondent
@@ -1779,15 +1777,15 @@ public class KoLAdventure
 		return null;
 	}
 
-	public static final int adventureFailureSeverity( int index )
+	public static final MafiaState adventureFailureSeverity( int index )
 	{
 		if ( index >= 0 && index < ADVENTURE_FAILURES.length && ADVENTURE_FAILURES[ index ].length > 2 )
 		{
 
-			return ((Integer) ADVENTURE_FAILURES[ index ][ 2 ]).intValue();
+			return (MafiaState) ADVENTURE_FAILURES[ index ][ 2 ];
 		}
 
-		return KoLConstants.ERROR_STATE;
+		return MafiaState.ERROR;
 	}
 
 	public static final boolean recordToSession( final String urlString, final String responseText )

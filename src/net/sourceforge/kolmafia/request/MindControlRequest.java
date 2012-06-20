@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -98,7 +98,7 @@ public class MindControlRequest
 
 		if ( this.level < 0 || this.level > this.maxLevel )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The dial only goes from 0 to " + this.maxLevel + "." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "The dial only goes from 0 to " + this.maxLevel + "." );
 			return;
 		}
 

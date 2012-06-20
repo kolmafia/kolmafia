@@ -36,14 +36,13 @@ package net.sourceforge.kolmafia.webui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class DvorakDecorator
 {
@@ -94,7 +93,7 @@ public abstract class DvorakDecorator
 	{
 		if ( DvorakDecorator.lastResponse == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't appear to be at the tiles puzzle" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't appear to be at the tiles puzzle" );
 			return;
 		}
 

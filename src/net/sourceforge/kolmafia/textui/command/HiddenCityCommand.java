@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -86,7 +86,7 @@ public class HiddenCityCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown Hidden City request: " + parameters );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown Hidden City request: " + parameters );
 			return;
 		}
 

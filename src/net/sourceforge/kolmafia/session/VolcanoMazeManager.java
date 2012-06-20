@@ -43,6 +43,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -522,7 +523,7 @@ public abstract class VolcanoMazeManager
 		// Give up now if we couldn't do that.
 		if ( currentLocation < 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You couldn't find the lava cave" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You couldn't find the lava cave" );
 			return;
 		}
 
@@ -536,7 +537,7 @@ public abstract class VolcanoMazeManager
 
 			if ( next < 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You seem to be stuck" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You seem to be stuck" );
 				return;
 			}
 
@@ -549,7 +550,7 @@ public abstract class VolcanoMazeManager
 			if ( ofound >= VolcanoMazeManager.found )
 			{
 				// This shouldn't happen
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Moving did not discover new platforms" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Moving did not discover new platforms" );
 				return;
 			}
 		}
@@ -596,7 +597,7 @@ public abstract class VolcanoMazeManager
 		VolcanoMap map = VolcanoMazeManager.maps[ VolcanoMazeManager.currentMap ];
 		if ( map == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "We haven't seen the volcanic cave yet" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "We haven't seen the volcanic cave yet" );
 			return;
 		}
 
@@ -607,7 +608,7 @@ public abstract class VolcanoMazeManager
 	{
 		if ( num < 1 || num > MAPS )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Choose map # from 1 - " + MAPS );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Choose map # from 1 - " + MAPS );
 			return;
 		}
 
@@ -615,7 +616,7 @@ public abstract class VolcanoMazeManager
 		VolcanoMap map = VolcanoMazeManager.maps[ num - 1 ];
 		if ( map == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "We haven't seen map #" + num );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "We haven't seen map #" + num );
 			return;
 		}
 
@@ -679,7 +680,7 @@ public abstract class VolcanoMazeManager
 		// Sanity check
 		if ( VolcanoMazeManager.found < CELLS )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "We couldn't discover all the maps" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "We couldn't discover all the maps" );
 			return;
 		}
 
@@ -688,7 +689,7 @@ public abstract class VolcanoMazeManager
 
 		if ( solution == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't get there from here. Swim to shore and try again." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't get there from here. Swim to shore and try again." );
 			return;
 		}
 
@@ -717,7 +718,7 @@ public abstract class VolcanoMazeManager
 		// Sanity check
 		if ( VolcanoMazeManager.found < CELLS )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't know all the maps" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't know all the maps" );
 			return;
 		}
 
@@ -727,7 +728,7 @@ public abstract class VolcanoMazeManager
 
 		if ( solution == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't get there from here. Swim to shore and try again." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't get there from here. Swim to shore and try again." );
 			return;
 		}
 

@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -78,7 +78,7 @@ public class OutfitCommand
 
 		if ( intendedOutfit == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No outfit found matching: " + parameters );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "No outfit found matching: " + parameters );
 			return;
 		}
 

@@ -39,12 +39,12 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
@@ -115,13 +115,13 @@ public class SwaggerShopRequest
 		if ( this.action != null ) {
 			if ( KoLCharacter.isHardcore() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't spend your swagger in Hardcore." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't spend your swagger in Hardcore." );
 				return;
 			}
 
 			if ( KoLCharacter.inRonin() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't spend your swagger until you get out of Ronin." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't spend your swagger until you get out of Ronin." );
 				return;
 			}
 		}

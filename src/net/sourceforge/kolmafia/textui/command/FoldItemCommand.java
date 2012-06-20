@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -89,7 +90,7 @@ public class FoldItemCommand
 		ArrayList group = ItemDatabase.getFoldGroup( targetName );
 		if ( group == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That's not a transformable item!" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "That's not a transformable item!" );
 			return;
 		}
 
@@ -97,7 +98,7 @@ public class FoldItemCommand
 		boolean canShirt = KoLCharacter.hasSkill( "Torso Awaregness" );
 		if ( !canShirt && EquipmentDatabase.isShirt( target ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't make a shirt" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't make a shirt" );
 			return;
 		}
 
@@ -107,7 +108,7 @@ public class FoldItemCommand
 			  KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPECIAL_SAUCE_GLOVE, 1 ) ) );
 		if ( !canStaff && EquipmentDatabase.isChefStaff( target ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't make a chefstaff" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't make a chefstaff" );
 			return;
 		}
 
@@ -127,7 +128,7 @@ public class FoldItemCommand
 		// Sanity check
 		if ( targetIndex == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal error: cannot find " + targetName + " in fold group" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Internal error: cannot find " + targetName + " in fold group" );
 			return;
 		}
 
@@ -193,12 +194,12 @@ public class FoldItemCommand
 			// Too many choices. Let player decide which one
 			if ( multiple )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unequip the item you want to fold into that." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Unequip the item you want to fold into that." );
 				return;
 			}
 			if ( worn == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have anything transformable into that item!" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have anything transformable into that item!" );
 				return;
 			}
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );

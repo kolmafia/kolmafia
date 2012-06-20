@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -227,7 +228,7 @@ public class GoalManager
 
 		if ( !GoalManager.goals.isEmpty() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unable to obtain " +
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Unable to obtain " +
 				goal );
 			GoalManager.clearGoals();
 		}
@@ -247,7 +248,7 @@ public class GoalManager
 		}
 		else if ( GoalManager.goals.isEmpty() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, message );
+			KoLmafia.updateDisplay( MafiaState.PENDING, message );
 		}
 		else
 		{

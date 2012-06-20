@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -243,7 +244,7 @@ public class NPCPurchaseRequest
 				if ( neededOutfit != 0 )
 				{
 					KoLmafia.updateDisplay(
-						KoLConstants.ERROR_STATE,
+						MafiaState.ERROR,
 						"You have a Greatest American Pants buff and buying the necessary " + getItemName() + " would cause you to lose it." );
 
 					return false;
@@ -261,7 +262,7 @@ public class NPCPurchaseRequest
 			if ( neededOutfit != 0 )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE,
+					MafiaState.ERROR,
 					"Aborting implicit outfit change due to potential infinite loop in auto-recovery. Please buy the necessary " + getItemName() + " manually." );
 
 				return false;

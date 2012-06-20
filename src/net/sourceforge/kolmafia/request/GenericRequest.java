@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -1044,7 +1045,7 @@ public class GenericRequest
 				message += " " + EatItemRequest.lastSemirareMessage();
 			}
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+			KoLmafia.updateDisplay( MafiaState.ERROR, message );
 			return true;
 		}
 
@@ -1258,7 +1259,7 @@ public class GenericRequest
 				break;
 			default:
 				KoLmafia.updateDisplay(
-					KoLConstants.ABORT_STATE,
+					MafiaState.ABORT,
 					"\"" + comedyItemID + "\" is not a comedy item number that Mafia recognizes." );
 				return;
 			}
@@ -1319,7 +1320,7 @@ public class GenericRequest
 		if ( this.responseText == null )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ABORT_STATE,
+				MafiaState.ABORT,
 				"Server " + GenericRequest.KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
 			return;
 		}
@@ -1593,7 +1594,7 @@ public class GenericRequest
 				StaticEntity.printStackTrace( e, message );
 			}
 
-			RequestLogger.printLine( KoLConstants.ERROR_STATE, message );
+			RequestLogger.printLine( MafiaState.ERROR, message );
 			this.timeoutCount = TIMEOUT_LIMIT;
 			return true;
 		}
@@ -1651,7 +1652,7 @@ public class GenericRequest
 			if ( this.responseCode != 0 )
 			{
 				String message = "Server returned response code " + this.responseCode + " for " + this.baseURLString;
-				RequestLogger.printLine( KoLConstants.ERROR_STATE, message );
+				RequestLogger.printLine( MafiaState.ERROR, message );
 			}
 
 			if ( this.shouldUpdateDebugLog() )
@@ -1784,7 +1785,7 @@ public class GenericRequest
 			// Otherwise, inform the user in the status
 			// line and abort.
 
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Nightly maintenance. Please restart KoLmafia." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Nightly maintenance. Please restart KoLmafia." );
 			GenericRequest.reset();
 			return true;
 		}
@@ -1899,7 +1900,7 @@ public class GenericRequest
 		{
 			if ( LoginRequest.isInstanceRunning() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, this.baseURLString + ": redirected to a fight page." );
+				KoLmafia.updateDisplay( MafiaState.ABORT, this.baseURLString + ": redirected to a fight page." );
 				FightRequest.initializeAfterFight();
 				return true;
 			}
@@ -1924,7 +1925,7 @@ public class GenericRequest
 			// This is a request which should not have lead to a
 			// fight, but it did.  Notify the user.
 
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, this.baseURLString + ": redirected to a fight page." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, this.baseURLString + ": redirected to a fight page." );
 			return true;
 		}
 
@@ -1932,7 +1933,7 @@ public class GenericRequest
 		{
 			if ( LoginRequest.isInstanceRunning() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, this.baseURLString + ": redirected to a choice page." );
+				KoLmafia.updateDisplay( MafiaState.ABORT, this.baseURLString + ": redirected to a choice page." );
 				ChoiceManager.initializeAfterChoice();
 				return true;
 			}

@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 public class AbortCommand
@@ -47,6 +47,6 @@ public class AbortCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
+		KoLmafia.updateDisplay( MafiaState.ABORT, parameters.length() == 0 ? "Script abort." : parameters );
 	}
 }

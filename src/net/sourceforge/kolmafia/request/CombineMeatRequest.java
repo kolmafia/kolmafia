@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -90,7 +90,7 @@ public class CombineMeatRequest
 
 		if ( cost * count > KoLCharacter.getAvailableMeat() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds to make " + count + " " + name );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient funds to make " + count + " " + name );
 			return;
 		}
 

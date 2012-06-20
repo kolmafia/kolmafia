@@ -51,13 +51,13 @@ import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
@@ -67,14 +67,14 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class EffectDatabase
 {
 	private static String [] canonicalNames = new String[0];
-	private static final Map nameById = new TreeMap();
-	private static final Map dataNameById = new TreeMap();
-	private static final Map effectByName = new TreeMap();
-	private static final HashMap defaultActions = new HashMap();
+	private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
+	private static final Map<Integer, String> dataNameById = new TreeMap<Integer, String>();
+	private static final Map<String, Integer> effectByName = new TreeMap<String, Integer>();
+	private static final HashMap<String, String> defaultActions = new HashMap<String, String>();
 
-	private static final Map imageById = new HashMap();
-	private static final Map descriptionById = new TreeMap();
-	private static final Map effectByDescription = new HashMap();
+	private static final Map<Integer, String> imageById = new HashMap<Integer, String>();
+	private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
+	private static final Map<String, Integer> effectByDescription = new HashMap<String, Integer>();
 
 	public static boolean newEffects = false;
 
@@ -150,7 +150,7 @@ public class EffectDatabase
 
 	public static final String getDefaultAction( final String effectName )
 	{
-		String rv = StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
+		String rv = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
 		if ( rv == null )
 		{
 			return null;
@@ -162,14 +162,14 @@ public class EffectDatabase
 		return rv.split( "\\|" )[0];
 	}
 
-	public static final Iterator getAllActions( final String effectName )
+	public static final Iterator<String> getAllActions( final String effectName )
 	{
-		String actions = StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
+		String actions = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
 		if ( actions == null )
 		{
 			return Collections.EMPTY_LIST.iterator();
 		}
-		ArrayList rv = new ArrayList();
+		ArrayList<String> rv = new ArrayList<String>();
 		String[] pieces = actions.split( "\\|" );
 		for ( int i = 0; i < pieces.length; ++i )
 		{
@@ -195,7 +195,7 @@ public class EffectDatabase
 
 	public static final String getActionNote( final String effectName )
 	{
-		String rv = StringUtilities.getDisplayName( (String) EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
+		String rv = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
 		if ( rv != null && rv.startsWith( "#" ) )
 		{
 			return rv.substring( 1 ).trim();
@@ -214,14 +214,14 @@ public class EffectDatabase
 	{
 		return effectId == -1 ?
 			"Unknown effect" :
-			StringUtilities.getDisplayName( (String) EffectDatabase.nameById.get( IntegerPool.get( effectId ) ) );
+			StringUtilities.getDisplayName( EffectDatabase.nameById.get( IntegerPool.get( effectId ) ) );
 	}
 
 	public static final String getEffectDataName( final int effectId )
 	{
 		return effectId == -1 ?
 			null:
-			(String) EffectDatabase.dataNameById.get( IntegerPool.get( effectId ) );
+			EffectDatabase.dataNameById.get( IntegerPool.get( effectId ) );
 	}
 
 	public static final String getEffectName( final String descriptionId )
@@ -238,10 +238,10 @@ public class EffectDatabase
 
 	public static final String getDescriptionId( final int effectId )
 	{
-		return (String) EffectDatabase.descriptionById.get( IntegerPool.get( effectId ) );
+		return EffectDatabase.descriptionById.get( IntegerPool.get( effectId ) );
 	}
 
-	public static final Set descriptionIdKeySet()
+	public static final Set<Integer> descriptionIdKeySet()
 	{
 		return EffectDatabase.descriptionById.keySet();
 	}
@@ -299,7 +299,7 @@ public class EffectDatabase
 		return EffectDatabase.dataNameById.entrySet();
 	}
 
-	public static final Collection values()
+	public static final Collection<String> values()
 	{
 		return EffectDatabase.nameById.values();
 	}
@@ -416,10 +416,10 @@ public class EffectDatabase
 			lastInteger = effectId + 1;
 
 			String name = (String) entry.getValue();
-			String image = (String) EffectDatabase.imageById.get( nextInteger );
-			String descId = (String) EffectDatabase.descriptionById.get( nextInteger );
+			String image = EffectDatabase.imageById.get( nextInteger );
+			String descId = EffectDatabase.descriptionById.get( nextInteger );
 			String canonicalName = StringUtilities.getCanonicalName( name );
-			String defaultAction = (String) EffectDatabase.defaultActions.get( canonicalName );
+			String defaultAction = EffectDatabase.defaultActions.get( canonicalName );
 			EffectDatabase.writeEffect( writer, effectId, name, image, descId, defaultAction );
 		}
 
@@ -522,7 +522,7 @@ public class EffectDatabase
 				if ( errorIfNone )
 				{
 					KoLmafia.updateDisplay(
-						KoLConstants.ERROR_STATE,
+						MafiaState.ERROR,
 						"[" + effectNameString + "] does not match anything in the status effect database." );
 				}
 
@@ -535,7 +535,7 @@ public class EffectDatabase
 		if ( effectName == null )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "[" + parameters + "] does not match anything in the status effect database." );
+				MafiaState.ERROR, "[" + parameters + "] does not match anything in the status effect database." );
 			return null;
 		}
 

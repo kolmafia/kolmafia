@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
@@ -195,7 +196,7 @@ public class BasementRequest
 
 		if ( BasementRequest.basementErrorMessage != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, BasementRequest.basementErrorMessage );
+			KoLmafia.updateDisplay( MafiaState.ERROR, BasementRequest.basementErrorMessage );
 			return;
 		}
 
@@ -229,7 +230,7 @@ public class BasementRequest
 
 		if ( BasementRequest.basementLevel == lastBasementLevel )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to pass basement test." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to pass basement test." );
 		}
 	}
 

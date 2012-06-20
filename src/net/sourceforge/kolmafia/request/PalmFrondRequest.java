@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 public class PalmFrondRequest
@@ -72,7 +73,7 @@ public class PalmFrondRequest
 
 		if ( this.responseText.indexOf( "You can't" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't make that item." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't make that item." );
 			return;
 		}
 	}

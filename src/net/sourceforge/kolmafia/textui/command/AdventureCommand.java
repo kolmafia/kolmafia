@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -74,7 +74,7 @@ public class AdventureCommand
 			if ( adventureCount == 0 && !adventureCountString.equals( "0" ) && !adventureCountString.equals( "*" ) )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, parameters + " does not exist in the adventure database." );
+					MafiaState.ERROR, parameters + " does not exist in the adventure database." );
 				return;
 			}
 
@@ -84,7 +84,7 @@ public class AdventureCommand
 			if ( adventure == null )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, parameters + " does not exist in the adventure database." );
+					MafiaState.ERROR, parameters + " does not exist in the adventure database." );
 				return;
 			}
 

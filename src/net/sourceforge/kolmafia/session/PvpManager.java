@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -61,7 +61,7 @@ public class PvpManager
 		{
 			if ( !InputFieldUtilities.confirm( "Would you like to break your hippy stone?" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This feature is not available to hippies." );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "This feature is not available to hippies." );
 				return;
 			}
 			new GenericRequest( "campground.php?confirm=on&smashstone=Yep." ).run();
@@ -169,7 +169,7 @@ public class PvpManager
 
 			if ( request.responseText.indexOf( "lost some dignity in the attempt" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You lost to " + targets[ i ].getPlayerName() + "." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You lost to " + targets[ i ].getPlayerName() + "." );
 			}
 		}
 	}

@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -349,14 +350,14 @@ public abstract class TransferItemRequest
 		for ( int i = 0; i < this.attachments.length; ++i )
 		{
 			AdventureResult item = (AdventureResult) this.attachments[ i ];
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+			KoLmafia.updateDisplay( MafiaState.ERROR,
 						"Transfer failed for " + item.toString() );
 		}
 
 		int totalMeat = StringUtilities.parseInt( this.getFormField( this.getMeatField() ) );
 		if ( totalMeat != 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+			KoLmafia.updateDisplay( MafiaState.ERROR,
 						"Transfer failed for " + totalMeat + " meat" );
 		}
 	}

@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -53,7 +53,7 @@ public class SkateParkCommand
 		int buff = SkateParkRequest.placeToBuff( parameters.trim() );
 		if ( buff == -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That's not a valid location in the Skate Park" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "That's not a valid location in the Skate Park" );
 			return;
 		}
 

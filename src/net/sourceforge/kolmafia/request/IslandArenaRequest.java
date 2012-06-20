@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -160,7 +160,7 @@ public class IslandArenaRequest
 	{
 		if ( this.error != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.error );
+			KoLmafia.updateDisplay( MafiaState.ERROR, this.error );
 			return;
 		}
 
@@ -173,7 +173,7 @@ public class IslandArenaRequest
 	{
 		if ( this.responseText == null || this.responseText.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Mysterious Island Arena." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't find the Mysterious Island Arena." );
 			return;
 		}
 

@@ -37,7 +37,7 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -89,7 +89,7 @@ public class FamiliarCommand
 			}
 			if ( !EquipmentManager.familiarItemLockable() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Familiar item can't be locked." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Familiar item can't be locked." );
 				return;
 			}
 			RequestThread.postRequest( new FamiliarRequest( true ) );
@@ -133,7 +133,7 @@ public class FamiliarCommand
 			RequestLogger.printList( matchList );
 			RequestLogger.printLine();
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + parameters + "] has too many matches." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "] has too many matches." );
 		}
 		else if ( matchList.size() == 1 )
 		{
@@ -150,7 +150,7 @@ public class FamiliarCommand
 
 			if ( !change.canEquip() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a " + race + " with your current restrictions." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't equip a " + race + " with your current restrictions." );
 			}
 			else if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 			{
@@ -163,7 +163,7 @@ public class FamiliarCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + parameters + " for a familiar." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a " + parameters + " for a familiar." );
 		}
 	}
 }

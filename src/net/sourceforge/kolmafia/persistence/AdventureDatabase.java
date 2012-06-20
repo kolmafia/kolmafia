@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -957,7 +958,7 @@ public class AdventureDatabase
 					RequestLogger.printLine( (String) matchingNames.get( i ) );
 				}
 
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Multiple matches against " + adventureName + "." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Multiple matches against " + adventureName + "." );
 				return null;
 			}
 

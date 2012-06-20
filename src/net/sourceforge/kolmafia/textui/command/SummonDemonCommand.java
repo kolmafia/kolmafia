@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -65,7 +65,7 @@ public class SummonDemonCommand
 		if ( Preferences.getBoolean( "demonSummoned" ) )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "You've already summoned a demon today." );
+				MafiaState.ERROR, "You've already summoned a demon today." );
 			return;
 		}
 
@@ -114,7 +114,7 @@ public class SummonDemonCommand
 		if ( demon.equals( "" ) )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "You don't know the name of that demon." );
+				MafiaState.ERROR, "You don't know the name of that demon." );
 			return;
 		}
 

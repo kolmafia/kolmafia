@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -84,7 +85,7 @@ public class SpleenItemRequest
 		if ( !ItemDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
@@ -172,7 +173,7 @@ public class SpleenItemRequest
 	{
 		if ( responseText.indexOf( "That item isn't usable in quantity" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal data error: item incorrectly flagged as multi-usable." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Internal data error: item incorrectly flagged as multi-usable." );
 			return;
 		}
 
@@ -183,7 +184,7 @@ public class SpleenItemRequest
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
 			UseItemRequest.lastUpdate = "Your spleen might go kablooie.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 
 			// If we have no spleen data for this item, we can't tell what,
 			// if anything, consumption did to our spleen.

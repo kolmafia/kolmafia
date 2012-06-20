@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -88,7 +88,7 @@ public class CreateItemCommand
 
 			if ( irequest == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				KoLmafia.updateDisplay( MafiaState.ERROR,
 					ConcoctionDatabase.excuse != null ? ConcoctionDatabase.excuse
 					: "That item cannot be created." );
 				return;

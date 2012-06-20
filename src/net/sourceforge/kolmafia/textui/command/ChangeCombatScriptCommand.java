@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Iterator;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
@@ -98,7 +98,7 @@ public class ChangeCombatScriptCommand
 
 			if ( !foundScript )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No matching CCS found!" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No matching CCS found!" );
 				return;
 			}
 		}

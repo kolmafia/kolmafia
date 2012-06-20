@@ -38,6 +38,7 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -79,7 +80,7 @@ public class SendMessageCommand
 
 		if ( splitParameters.length != 2 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Invalid send request." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Invalid send request." );
 			return;
 		}
 
@@ -127,7 +128,7 @@ public class SendMessageCommand
 
 		if ( !isConvertible && meatAmount > 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Please use 'csend' if you need to transfer meat." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Please use 'csend' if you need to transfer meat." );
 			return;
 		}
 
@@ -185,7 +186,7 @@ public class SendMessageCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to send message to " + recipient );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to send message to " + recipient );
 		}
 	}
 }

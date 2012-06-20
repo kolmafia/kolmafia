@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -53,14 +53,14 @@ public class PoolCommand
 		parameters = parameters.trim();
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What stance do you wish to take?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What stance do you wish to take?" );
 			return;
 		}
 
 		String[] split = parameters.split( "," );
 		if ( split.length < 1 || split.length > 3 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Specify from 1 to 3 pool games" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Specify from 1 to 3 pool games" );
 			return;
 		}
 
@@ -71,7 +71,7 @@ public class PoolCommand
 			option[i] = ClanLoungeRequest.findPoolGame( tag );
 			if ( option[i] == 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "I don't understand what a '" + tag + "' pool game is." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "I don't understand what a '" + tag + "' pool game is." );
 				return;
 			}
 		}

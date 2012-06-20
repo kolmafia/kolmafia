@@ -45,6 +45,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -152,7 +153,7 @@ public class ZapRequest
 
 		if ( KoLCharacter.getZapper() == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a wand." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a wand." );
 			return;
 		}
 
@@ -163,7 +164,7 @@ public class ZapRequest
 
 		if ( !KoLConstants.inventory.contains( this.item ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + this.item.getName() + "." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a " + this.item.getName() + "." );
 			return;
 		}
 
@@ -181,7 +182,7 @@ public class ZapRequest
 		// nothing happens."
 		if ( this.responseText.indexOf( "nothing happens" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item.getName() + " is not zappable." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "The " + this.item.getName() + " is not zappable." );
 			return;
 		}
 

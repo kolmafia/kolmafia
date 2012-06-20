@@ -46,6 +46,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
@@ -465,7 +466,7 @@ public abstract class MushroomManager
 
 		if ( square < 1 || square > 16 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Squares are numbered from 1 to 16." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Squares are numbered from 1 to 16." );
 			return false;
 		}
 
@@ -475,7 +476,7 @@ public abstract class MushroomManager
 
 		if ( data == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't plant that." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't plant that." );
 			return false;
 		}
 
@@ -490,7 +491,7 @@ public abstract class MushroomManager
 
 		if ( KoLCharacter.getAvailableMeat() < sporePrice )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that spore." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that spore." );
 			return false;
 		}
 
@@ -561,7 +562,7 @@ public abstract class MushroomManager
 
 		if ( square < 1 || square > 16 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Squares are numbered from 1 to 16." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Squares are numbered from 1 to 16." );
 			return false;
 		}
 
@@ -602,7 +603,7 @@ public abstract class MushroomManager
 	{
 		if ( !MushroomManager.ownsPlot() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You haven't bought a mushroom plot yet." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You haven't bought a mushroom plot yet." );
 			return false;
 		}
 
@@ -615,7 +616,7 @@ public abstract class MushroomManager
 
 		if ( !KoLCharacter.knollAvailable() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the mushroom fields." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't find the mushroom fields." );
 			return false;
 		}
 

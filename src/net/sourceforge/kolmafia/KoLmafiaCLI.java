@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.chat.ChatSender;
 
@@ -529,7 +530,7 @@ public class KoLmafiaCLI
 			// entry field, perhaps), trying to read a line would just hang.
 			if ( this.isGUI )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Multi-line statements cannot be used from the gCLI." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Multi-line statements cannot be used from the gCLI." );
 				return "";
 			}
 
@@ -537,7 +538,7 @@ public class KoLmafiaCLI
 
 			if ( line == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unterminated conditional statement." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Unterminated conditional statement." );
 				return "";
 			}
 			block.append( ";" );
@@ -652,7 +653,7 @@ public class KoLmafiaCLI
 		if ( !this.elseValid )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE,
+				MafiaState.ERROR,
 				"'else' must follow a conditional command, and both must be at the outermost level." );
 			return false;
 		}

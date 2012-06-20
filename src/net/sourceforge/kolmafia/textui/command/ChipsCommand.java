@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -53,14 +53,14 @@ public class ChipsCommand
 		parameters = parameters.trim();
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What kind of chips do you want?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What kind of chips do you want?" );
 			return;
 		}
 
 		String[] split = parameters.split( "," );
 		if ( split.length < 1 || split.length > 3 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Specify from 1 to 3 kinds of chip" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Specify from 1 to 3 kinds of chip" );
 			return;
 		}
 
@@ -71,7 +71,7 @@ public class ChipsCommand
 			option[i] = ClanRumpusRequest.findChips( flavor );
 			if ( option[i] == 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't buy '" + flavor + "' chips" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't buy '" + flavor + "' chips" );
 				return;
 			}
 		}

@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -126,7 +127,7 @@ public class CraftRequest
 		{
 			if ( !CreateItemRequest.autoRepairBoxServant( this.mixingMethod ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Auto-repair was unsuccessful." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Auto-repair was unsuccessful." );
 				return;
 			}
 
@@ -142,7 +143,7 @@ public class CraftRequest
 
 			if ( this.created == 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Creation failed, no results detected." );
 				return;
 			}
 

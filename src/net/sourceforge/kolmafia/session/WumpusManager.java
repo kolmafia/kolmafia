@@ -39,7 +39,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -211,7 +211,7 @@ public abstract class WumpusManager
 		if ( room == null )
 		{
 			// Internal error: unknown room name
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown room in Wumpus cave: the " + name + " chamber");
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown room in Wumpus cave: the " + name + " chamber");
 			return;
 		}
 
@@ -247,7 +247,7 @@ public abstract class WumpusManager
 			{
 				// Should not happen; there are always three
 				// exits from a room.
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal error: " + i + " exits found in " + WumpusManager.current );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Internal error: " + i + " exits found in " + WumpusManager.current );
 				return;
 			}
 			String ename = m.group( 1 ).toLowerCase();
@@ -663,7 +663,7 @@ public abstract class WumpusManager
 		if ( room == null )
 		{
 			// Internal error
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal error: unknown exit #" + decision + " from " + WumpusManager.current );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Internal error: unknown exit #" + decision + " from " + WumpusManager.current );
 			return;
 		}
 

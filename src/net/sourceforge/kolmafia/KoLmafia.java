@@ -62,10 +62,10 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -161,8 +161,8 @@ public abstract class KoLmafia
 	public static boolean redoSkippedAdventures = true;
 
 	public static boolean isMakingRequest = false;
-	public static int continuationState = KoLConstants.CONTINUE_STATE;
-	public static int displayState = KoLConstants.ENABLE_STATE;
+	public static MafiaState continuationState = MafiaState.CONTINUE;
+	public static MafiaState displayState = MafiaState.ENABLE;
 	private static boolean allowDisplayUpdate = true;
 
 	public static final int[] initialStats = new int[ 3 ];
@@ -620,21 +620,21 @@ public abstract class KoLmafia
 
 	public static final void updateDisplay( final String message )
 	{
-		KoLmafia.updateDisplay( KoLConstants.CONTINUE_STATE, message );
+		KoLmafia.updateDisplay( MafiaState.CONTINUE, message );
 	}
 
 	/**
 	 * Updates the currently active display in the <code>KoLmafia</code> session.
 	 */
 
-	public static final void updateDisplay( final int state, final String message )
+	public static final void updateDisplay( final MafiaState state, final String message )
 	{
-		if ( KoLmafia.continuationState == KoLConstants.ABORT_STATE && state != KoLConstants.ABORT_STATE )
+		if ( KoLmafia.continuationState == MafiaState.ABORT && state != MafiaState.ABORT )
 		{
 			return;
 		}
 
-		if ( KoLmafia.continuationState != KoLConstants.PENDING_STATE )
+		if ( KoLmafia.continuationState != MafiaState.PENDING )
 		{
 			KoLmafia.continuationState = state;
 		}
@@ -654,7 +654,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	private static final void updateDisplayState( final int state, final String message )
+	private static final void updateDisplayState( final MafiaState state, final String message )
 	{
 		// Update all panels and frames with the message.
 
@@ -670,7 +670,7 @@ public abstract class KoLmafia
 					( (GenericPanel) panels[ i ] ).setStatusMessage( unicodeMessage );
 				}
 
-				panels[ i ].setEnabled( state != KoLConstants.CONTINUE_STATE );
+				panels[ i ].setEnabled( state != MafiaState.CONTINUE );
 			}
 
 			Frame [] frames = Frame.getFrames();
@@ -696,16 +696,16 @@ public abstract class KoLmafia
 
 	public static final void enableDisplay()
 	{
-		if ( KoLmafia.continuationState == KoLConstants.ABORT_STATE || KoLmafia.continuationState == KoLConstants.ERROR_STATE )
+		if ( KoLmafia.continuationState == MafiaState.ABORT || KoLmafia.continuationState == MafiaState.ERROR )
 		{
-			KoLmafia.updateDisplayState( KoLConstants.ERROR_STATE, "" );
+			KoLmafia.updateDisplayState( MafiaState.ERROR, "" );
 		}
 		else
 		{
-			KoLmafia.updateDisplayState( KoLConstants.ENABLE_STATE,	"" );
+			KoLmafia.updateDisplayState( MafiaState.ENABLE,	"" );
 		}
 
-		KoLmafia.continuationState = KoLConstants.CONTINUE_STATE;
+		KoLmafia.continuationState = MafiaState.CONTINUE;
 	}
 
 	public final void timein( final String name )
@@ -1334,11 +1334,11 @@ public abstract class KoLmafia
 			if ( isAdventure && GoalManager.hasGoals() )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE,
+					MafiaState.ERROR,
 					"Conditions not satisfied after " + ( currentIteration - 1 ) + ( currentIteration == 2 ? " adventure." : " adventures." ) );
 			}
 		}
-		else if ( KoLmafia.continuationState == KoLConstants.PENDING_STATE )
+		else if ( KoLmafia.continuationState == MafiaState.PENDING )
 		{
 			Interpreter.rememberPendingState();
 			KoLmafia.forceContinue();
@@ -1351,14 +1351,14 @@ public abstract class KoLmafia
 	{
 		if ( KoLCharacter.getAdventuresLeft() == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Ran out of adventures." );
+			KoLmafia.updateDisplay( MafiaState.PENDING, "Ran out of adventures." );
 			return;
 		}
 
 		if ( this.handleConditions( items, creatables ) )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.PENDING_STATE, "Conditions satisfied after " + currentIteration + " adventures." );
+				MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures." );
 			return;
 		}
 
@@ -1373,19 +1373,19 @@ public abstract class KoLmafia
 			}
 			else if ( holiday.indexOf( "St. Sneaky Pete's Day" ) == -1 && holiday.indexOf( "Drunksgiving" ) == -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are too drunk to continue." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You are too drunk to continue." );
 				return;
 			}
 			else if ( KoLCharacter.getInebriety() <= 25 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are not drunk enough to continue." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You are not drunk enough to continue." );
 				return;
 			}
 		}
 
 		if ( KoLmafia.abortAfter != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, KoLmafia.abortAfter );
+			KoLmafia.updateDisplay( MafiaState.PENDING, KoLmafia.abortAfter );
 			return;
 		}
 
@@ -1419,7 +1419,7 @@ public abstract class KoLmafia
 		if ( this.handleConditions( items, creatables ) )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.PENDING_STATE, "Conditions satisfied after " + currentIteration + " adventures." );
+				MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures." );
 			return;
 		}
 	}
@@ -1471,7 +1471,7 @@ public abstract class KoLmafia
 
 	public static final boolean permitsContinue()
 	{
-		return KoLmafia.continuationState == KoLConstants.CONTINUE_STATE;
+		return KoLmafia.continuationState == MafiaState.CONTINUE;
 	}
 
 	/**
@@ -1483,7 +1483,7 @@ public abstract class KoLmafia
 
 	public static final boolean refusesContinue()
 	{
-		return KoLmafia.continuationState == KoLConstants.ABORT_STATE;
+		return KoLmafia.continuationState == MafiaState.ABORT;
 	}
 
 	/**
@@ -1494,7 +1494,7 @@ public abstract class KoLmafia
 
 	public static final void forceContinue()
 	{
-		KoLmafia.continuationState = KoLConstants.CONTINUE_STATE;
+		KoLmafia.continuationState = MafiaState.CONTINUE;
 	}
 
 	/**
@@ -1711,7 +1711,7 @@ public abstract class KoLmafia
 			if ( ( priceLimit > 0 && currentPrice > priceLimit ) ||
 				( isAutomated && currentPrice > Preferences.getInteger( "autoBuyPriceLimit" ) ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"Stopped purchasing " + currentRequest.getItemName() + " @ " + KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
 
 				return;
@@ -2158,7 +2158,7 @@ public abstract class KoLmafia
 	{
 		if ( !KoLCharacter.canInteract() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are not yet out of ronin." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You are not yet out of ronin." );
 			return;
 		}
 

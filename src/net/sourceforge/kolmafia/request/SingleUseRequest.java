@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -92,7 +93,7 @@ public class SingleUseRequest
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+			KoLmafia.updateDisplay( MafiaState.ERROR,
 				"SingleUseRequest of item marked neither USABLE nor MULTIPLE" );
 		}
 	}

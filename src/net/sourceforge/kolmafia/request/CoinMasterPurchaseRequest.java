@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -151,7 +152,7 @@ public class CoinMasterPurchaseRequest
 		// Make sure we have enough tokens to buy what we want.
 		if ( this.data.availableTokens() < this.limit * this.price )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that." );
 			return;
 		}
 
@@ -159,7 +160,7 @@ public class CoinMasterPurchaseRequest
 		String message = this.data.accessible();
 		if ( message != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+			KoLmafia.updateDisplay( MafiaState.ERROR, message );
 			return;
 		}
 

@@ -49,6 +49,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -632,7 +633,7 @@ public abstract class CombatActionManager
 			String combo = DiscoCombatHelper.disambiguateCombo( name );
 			if ( combo == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Invalid combo '" + name + "' requested" );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Invalid combo '" + name + "' requested" );
 				Macrofier.resetMacroOverride();
 				return "skip";
 			}

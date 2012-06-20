@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -386,7 +386,7 @@ public class SushiRequest
 
 		if ( !KoLCharacter.hasSushiMat() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need a sushi rolling mat installed in your kitchen in order to roll sushi." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You need a sushi rolling mat installed in your kitchen in order to roll sushi." );
 			return;
 		}
 

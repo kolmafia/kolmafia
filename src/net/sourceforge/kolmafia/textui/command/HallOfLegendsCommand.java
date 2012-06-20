@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -71,7 +71,7 @@ public class HallOfLegendsCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, parameters + " is not a statue." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, parameters + " is not a statue." );
 			return;
 		}
 

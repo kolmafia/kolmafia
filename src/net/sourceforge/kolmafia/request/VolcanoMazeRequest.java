@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -96,7 +96,7 @@ public class VolcanoMazeRequest
 		if ( this.responseText.indexOf( "A niggling voice" ) != -1 )
 		{
 			// Should we auto-equip the LEW?
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip your Legendary Epic Weapon and try again." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Equip your Legendary Epic Weapon and try again." );
 			return;
 		}
 

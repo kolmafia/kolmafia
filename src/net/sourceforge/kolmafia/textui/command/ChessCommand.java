@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -62,7 +62,7 @@ public class ChessCommand
 		{
 			if ( split.length < 2 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Load what board?" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Load what board?" );
 				return;
 			}
 
@@ -88,6 +88,6 @@ public class ChessCommand
 			return;
 		}
 
-		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What do you want to do with the chessboard?" );
+		KoLmafia.updateDisplay( MafiaState.ERROR, "What do you want to do with the chessboard?" );
 	}
 }

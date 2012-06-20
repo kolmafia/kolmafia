@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -189,7 +190,7 @@ public class Speculation
 					// If it can't be equipped, give up
 					if ( slot == -1 )
 					{
-						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a " + match.getName() );
+						KoLmafia.updateDisplay( MafiaState.ERROR, "You can't equip a " + match.getName() );
 						return true;
 					}
 				}
@@ -200,7 +201,7 @@ public class Speculation
 				int slot = EquipmentRequest.slotNumber( params );
 				if ( slot == -1 )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					KoLmafia.updateDisplay( MafiaState.ERROR,
 						"Unknown slot: " + params );
 					return true;
 				}
@@ -211,7 +212,7 @@ public class Speculation
 				int id = FamiliarDatabase.getFamiliarId( params );
 				if ( id == -1 && !params.equals( "none" ) )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					KoLmafia.updateDisplay( MafiaState.ERROR,
 						"Unknown familiar: " + params );
 					return true;
 				}
@@ -223,7 +224,7 @@ public class Speculation
 				int id = FamiliarDatabase.getFamiliarId( params );
 				if ( id == -1 && !params.equals( "none" ) )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					KoLmafia.updateDisplay( MafiaState.ERROR,
 						"Unknown familiar: " + params );
 					return true;
 				}
@@ -237,7 +238,7 @@ public class Speculation
 				List effects = EffectDatabase.getMatchingNames( params );
 				if ( effects.isEmpty() )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					KoLmafia.updateDisplay( MafiaState.ERROR,
 						"Unknown effect: " + params );
 					return true;
 				}
@@ -253,7 +254,7 @@ public class Speculation
 				List effects = EffectDatabase.getMatchingNames( params );
 				if ( effects.isEmpty() )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					KoLmafia.updateDisplay( MafiaState.ERROR,
 						"Unknown effect: " + params );
 					return true;
 				}
@@ -267,7 +268,7 @@ public class Speculation
 			}
 			else
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"I don't know how to speculate about " + cmd );
 				return true;
 			}

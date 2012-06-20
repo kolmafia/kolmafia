@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -44,6 +43,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -242,7 +242,7 @@ public class HermitRequest
 				return;
 			}
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're not allowed to visit the Hermit." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You're not allowed to visit the Hermit." );
 			return;
 		}
 
@@ -269,7 +269,7 @@ public class HermitRequest
 
 		if ( this.responseText.indexOf( "doesn't have that item." ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Today is not a clover day." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Today is not a clover day." );
 			return;
 		}
 
@@ -277,7 +277,7 @@ public class HermitRequest
 
 		if ( this.responseText.indexOf( "You acquire" ) == -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The hermit kept his stuff." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "The hermit kept his stuff." );
 			return;
 		}
 	}

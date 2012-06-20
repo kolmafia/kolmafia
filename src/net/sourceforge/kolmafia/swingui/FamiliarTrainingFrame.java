@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.FamiliarTool;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
@@ -229,9 +230,9 @@ public class FamiliarTrainingFrame
 	}
 
 	@Override
-	public void updateDisplayState( final int displayState )
+	public void updateDisplayState( final MafiaState displayState )
 	{
-		this.training.setEnabled( displayState != KoLConstants.CONTINUE_STATE );
+		this.training.setEnabled( displayState != MafiaState.CONTINUE );
 	}
 
 	@Override
@@ -652,7 +653,7 @@ public class FamiliarTrainingFrame
 						}
 
 						KoLmafia.updateDisplay(
-							KoLConstants.CONTINUE_STATE,
+							MafiaState.CONTINUE,
 							"Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 					}
 				}
@@ -853,14 +854,14 @@ public class FamiliarTrainingFrame
 
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
-			FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "No familiar selected to train." );
+			FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "No familiar selected to train." );
 			return false;
 		}
 
 		if ( !familiar.trainable() )
 		{
 			FamiliarTrainingFrame.statusMessage(
-				KoLConstants.ERROR_STATE, "Don't know how to train a " + familiar.getRace() + " yet." );
+				MafiaState.ERROR, "Don't know how to train a " + familiar.getRace() + " yet." );
 			return false;
 		}
 
@@ -902,7 +903,7 @@ public class FamiliarTrainingFrame
 			// If user canceled, bail now
 			if ( FamiliarTrainingFrame.stop || !KoLmafia.permitsContinue() )
 			{
-				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training session aborted.", true );
+				FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Training session aborted.", true );
 				return false;
 			}
 
@@ -910,14 +911,14 @@ public class FamiliarTrainingFrame
 			if ( KoLCharacter.getAdventuresLeft() < 1 )
 			{
 				FamiliarTrainingFrame.statusMessage(
-					KoLConstants.ERROR_STATE, "Training stopped: out of adventures.", true );
+					MafiaState.ERROR, "Training stopped: out of adventures.", true );
 				return false;
 			}
 
 			// Make sure you have enough meat to pay for the contest
 			if ( KoLCharacter.getAvailableMeat() < 100 )
 			{
-				FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training stopped: out of meat.", true );
+				FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Training stopped: out of meat.", true );
 				return false;
 			}
 
@@ -936,7 +937,7 @@ public class FamiliarTrainingFrame
 			if ( opponent == null )
 			{
 				FamiliarTrainingFrame.statusMessage(
-					KoLConstants.ERROR_STATE, "Couldn't choose a suitable opponent.", true );
+					MafiaState.ERROR, "Couldn't choose a suitable opponent.", true );
 				return false;
 			}
 
@@ -945,7 +946,7 @@ public class FamiliarTrainingFrame
 			if ( !KoLmafia.permitsContinue() )
 			{
 				FamiliarTrainingFrame.statusMessage(
-					KoLConstants.ERROR_STATE, "Training stopped: internal error.", true );
+					MafiaState.ERROR, "Training stopped: internal error.", true );
 				return false;
 			}
 
@@ -967,7 +968,7 @@ public class FamiliarTrainingFrame
 
 		if ( FamiliarTrainingFrame.losses >= 5 )
 		{
-			FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Too many consecutive losses.", true );
+			FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Too many consecutive losses.", true );
 			return false;
 		}
 
@@ -982,7 +983,7 @@ public class FamiliarTrainingFrame
 
 		boolean result = type == FamiliarTrainingFrame.BUFFED ? FamiliarTrainingFrame.buffFamiliar( goal ) : true;
 
-		FamiliarTrainingFrame.statusMessage( KoLConstants.CONTINUE_STATE, "Training session completed." );
+		FamiliarTrainingFrame.statusMessage( MafiaState.CONTINUE, "Training session completed." );
 		return result;
 	}
 
@@ -1004,7 +1005,7 @@ public class FamiliarTrainingFrame
 
 		if ( KoLCharacter.getFamiliar() == FamiliarData.NO_FAMILIAR )
 		{
-			FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "No familiar selected to train." );
+			FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "No familiar selected to train." );
 			return null;
 		}
 
@@ -1013,7 +1014,7 @@ public class FamiliarTrainingFrame
 		if ( KoLCharacter.getAdventuresLeft() < events )
 		{
 			FamiliarTrainingFrame.statusMessage(
-				KoLConstants.ERROR_STATE, "You need to have at least " + events + " adventures available." );
+				MafiaState.ERROR, "You need to have at least " + events + " adventures available." );
 			return null;
 		}
 
@@ -1021,7 +1022,7 @@ public class FamiliarTrainingFrame
 		if ( KoLCharacter.getAvailableMeat() < 100 * events )
 		{
 			FamiliarTrainingFrame.statusMessage(
-				KoLConstants.ERROR_STATE,
+				MafiaState.ERROR,
 				"You need to have at least " + KoLConstants.COMMA_FORMAT.format( 100 * events ) + " meat available." );
 			return null;
 		}
@@ -1101,7 +1102,7 @@ public class FamiliarTrainingFrame
 				if ( FamiliarTrainingFrame.stop || !KoLmafia.permitsContinue() )
 				{
 					FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
-					FamiliarTrainingFrame.statusMessage( KoLConstants.ERROR_STATE, "Training session aborted.", true );
+					FamiliarTrainingFrame.statusMessage( MafiaState.ERROR, "Training session aborted.", true );
 					return null;
 				}
 
@@ -1109,7 +1110,7 @@ public class FamiliarTrainingFrame
 				test[ contest ] = rank + 1;
 
 				FamiliarTrainingFrame.statusMessage(
-					KoLConstants.CONTINUE_STATE,
+					MafiaState.CONTINUE,
 					CakeArenaManager.getEvent( contest + 1 ) + " rank " + ( rank + 1 ) + ": trial " + trial );
 
 				// Choose possible weights
@@ -1122,7 +1123,7 @@ public class FamiliarTrainingFrame
 				{
 					FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
 					FamiliarTrainingFrame.statusMessage(
-						KoLConstants.ERROR_STATE, "Couldn't choose a suitable opponent.", true );
+						MafiaState.ERROR, "Couldn't choose a suitable opponent.", true );
 					return null;
 				}
 
@@ -1131,7 +1132,7 @@ public class FamiliarTrainingFrame
 				{
 					// Informative message only. Do not stop session.
 					FamiliarTrainingFrame.statusMessage(
-						KoLConstants.ERROR_STATE,
+						MafiaState.ERROR,
 						"Internal error: Selected " + CakeArenaManager.getEvent( match ) + " rather than " + CakeArenaManager.getEvent( contest + 1 ) );
 					// Use contest, even if with bad weight
 					match = contest + 1;
@@ -1143,7 +1144,7 @@ public class FamiliarTrainingFrame
 				{
 					FamiliarTrainingFrame.printTrainingResults( trial, status, xp, suckage );
 					FamiliarTrainingFrame.statusMessage(
-						KoLConstants.ERROR_STATE, "Training stopped: internal error.", true );
+						MafiaState.ERROR, "Training stopped: internal error.", true );
 					return null;
 				}
 
@@ -1236,7 +1237,7 @@ public class FamiliarTrainingFrame
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a familiar equipped." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a familiar equipped." );
 			return false;
 		}
 
@@ -1348,23 +1349,23 @@ public class FamiliarTrainingFrame
 			}
 		}
 
-		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
+		KoLmafia.updateDisplay( MafiaState.ERROR, "Can't buff and equip familiar to reach " + weight + " lbs." );
 		return false;
 	}
 
-	private static final void statusMessage( final int state, final String message )
+	private static final void statusMessage( final MafiaState state, final String message )
 	{
 		FamiliarTrainingFrame.statusMessage( state, message, false );
 	}
 
-	private static final void statusMessage( final int state, final String message, boolean restoreOutfit )
+	private static final void statusMessage( final MafiaState state, final String message, boolean restoreOutfit )
 	{
 		if ( restoreOutfit )
 		{
 			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 
-		if ( state == KoLConstants.ERROR_STATE || message.endsWith( "lost." ) )
+		if ( state == MafiaState.ERROR || message.endsWith( "lost." ) )
 		{
 			FamiliarTrainingFrame.results.append( "<font color=red>" + message + "</font><br>" );
 		}
@@ -2199,7 +2200,7 @@ public class FamiliarTrainingFrame
 			if ( next == null || weight < next.weight() )
 			{
 				FamiliarTrainingFrame.statusMessage(
-					KoLConstants.ERROR_STATE, "Could not select gear set to achieve " + weight + " lbs." );
+					MafiaState.ERROR, "Could not select gear set to achieve " + weight + " lbs." );
 
 				if ( next == null )
 				{
@@ -2632,7 +2633,7 @@ public class FamiliarTrainingFrame
 				message = this.familiar.getName() + " lost.";
 			}
 
-			FamiliarTrainingFrame.statusMessage( KoLConstants.CONTINUE_STATE, message );
+			FamiliarTrainingFrame.statusMessage( MafiaState.CONTINUE, message );
 
 			// If a prize was won, report it
 			Matcher prizeMatcher = FamiliarTrainingFrame.PRIZE_PATTERN.matcher( response );
@@ -2642,13 +2643,13 @@ public class FamiliarTrainingFrame
 			if ( prizeMatcher.find() )
 			{
 				prize = prizeMatcher.group( 1 );
-				FamiliarTrainingFrame.statusMessage( KoLConstants.CONTINUE_STATE, "You win a prize: " + prize + "." );
+				FamiliarTrainingFrame.statusMessage( MafiaState.CONTINUE, "You win a prize: " + prize + "." );
 			}
 			else if ( stealMatcher.find() )
 			{
 				prize = stealMatcher.group( 1 );
 				FamiliarTrainingFrame.statusMessage(
-					KoLConstants.CONTINUE_STATE, "Your familiar steals an item: " + prize + "." );
+					MafiaState.CONTINUE, "Your familiar steals an item: " + prize + "." );
 			}
 
 			if ( prize != null )

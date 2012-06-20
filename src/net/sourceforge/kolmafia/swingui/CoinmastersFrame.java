@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -538,7 +539,7 @@ public class CoinmastersFrame
 				String reason = data.canBuy();
 				if ( reason != null )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+					KoLmafia.updateDisplay( MafiaState.ERROR, reason );
 					return;
 				}
 
@@ -574,7 +575,7 @@ public class CoinmastersFrame
 				String reason = data.canBuy();
 				if ( reason != null )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+					KoLmafia.updateDisplay( MafiaState.ERROR, reason );
 					return;
 				}
 
@@ -1094,7 +1095,7 @@ public class CoinmastersFrame
 					String reason = data.canSell();
 					if ( reason != null )
 					{
-						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+						KoLmafia.updateDisplay( MafiaState.ERROR, reason );
 						return;
 					}
 
@@ -1223,7 +1224,7 @@ public class CoinmastersFrame
 					String reason = data.canBuy();
 					if ( reason != null )
 					{
-						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+						KoLmafia.updateDisplay( MafiaState.ERROR, reason );
 						return;
 					}
 

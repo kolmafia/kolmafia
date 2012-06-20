@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -98,7 +99,7 @@ public class RecoveryManager
 			if ( KoLCharacter.getCurrentHP() <= autoStopValue )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ABORT_STATE, "Health fell below " + (int) autoStopValue + ". Auto-abort triggered." );
+					MafiaState.ABORT, "Health fell below " + (int) autoStopValue + ". Auto-abort triggered." );
 				return false;
 			}
 		}
@@ -161,7 +162,7 @@ public class RecoveryManager
 
 		if ( KoLmafia.permitsContinue() && KoLCharacter.getCurrentHP() == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Insufficient health to continue (auto-abort triggered)." );
 		}
 
 		if ( KoLmafia.permitsContinue() && KoLmafia.currentIterationString.length() > 0 )
@@ -499,7 +500,7 @@ public class RecoveryManager
 		}
 		else if ( current < needed )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You ran out of restores." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You ran out of restores." );
 			return false;
 		}
 
@@ -513,7 +514,7 @@ public class RecoveryManager
 
 		if ( current < needed )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Autorecovery failed." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Autorecovery failed." );
 			return false;
 		}
 

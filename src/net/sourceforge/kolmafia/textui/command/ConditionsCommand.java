@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -349,7 +350,7 @@ public class ConditionsCommand
 			if ( !EquipmentManager.addOutfitConditions( lastAdventure ) )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, "No outfit corresponds to " + lastAdventure.getAdventureName() + "." );
+					MafiaState.ERROR, "No outfit corresponds to " + lastAdventure.getAdventureName() + "." );
 			}
 
 			return null;

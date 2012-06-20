@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -82,7 +83,7 @@ public class ClosetCommand
 
 		if ( !parameters.startsWith( "take" ) && !parameters.startsWith( "put" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Invalid closet command." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Invalid closet command." );
 			return;
 		}
 

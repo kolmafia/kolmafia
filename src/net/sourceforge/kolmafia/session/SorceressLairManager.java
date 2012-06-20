@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -614,7 +615,7 @@ public abstract class SorceressLairManager
 			if ( !unlockedQuest )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, "You haven't been given the quest to fight the Sorceress!" );
+					MafiaState.ERROR, "You haven't been given the quest to fight the Sorceress!" );
 				return false;
 			}
 		}
@@ -668,18 +669,18 @@ public abstract class SorceressLairManager
 				{
 				case 0:
 				case 1:
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The sorceress quest has not yet unlocked." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "The sorceress quest has not yet unlocked." );
 					return false;
 				case 2:
 				case 3:
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must complete the entryway first." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You must complete the entryway first." );
 					return false;
 				case 4:
 				case 5:
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must complete the hedge maze first." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You must complete the hedge maze first." );
 					return false;
 				case 6:
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must complete the tower first." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You must complete the tower first." );
 					return false;
 				}
 			}
@@ -831,7 +832,7 @@ public abstract class SorceressLairManager
 
 		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "lair3.php" ) == -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to complete entryway." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to complete entryway." );
 			return;
 		}
 
@@ -979,7 +980,7 @@ public abstract class SorceressLairManager
 				}
 				items += "a " + item.getName();
 			}
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need " + items );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You need " + items );
 			return false;
 		}
 
@@ -1004,7 +1005,7 @@ public abstract class SorceressLairManager
 			return true;
 		}
 
-		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to pass gates!" );
+		KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to pass gates!" );
 		return false;
 	}
 
@@ -1013,14 +1014,14 @@ public abstract class SorceressLairManager
 		// Find the name of the gate from the responseText
 		if ( !gateMatcher.find() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Gate " + gate + " is missing." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Gate " + gate + " is missing." );
 			return;
 		}
 
 		String gateName = gateMatcher.group( 1 );
 		if ( gateName == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to detect gate" + gate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to detect gate" + gate );
 			return;
 		}
 
@@ -1035,7 +1036,7 @@ public abstract class SorceressLairManager
 
 		if ( gateData == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unrecognized gate: " + gateName );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unrecognized gate: " + gateName );
 			return;
 		}
 
@@ -1118,7 +1119,7 @@ public abstract class SorceressLairManager
 			if ( KoLCharacter.getCurrentHP() <= healthNeeded )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
+					MafiaState.ERROR, "You must have more than " + healthNeeded + " HP to proceed." );
 				return requirements;
 			}
 
@@ -1258,13 +1259,13 @@ public abstract class SorceressLairManager
 
 		if ( needWeapon && !EquipmentManager.canEquip( starWeapon.getName() ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Stats too low to equip a star weapon." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Stats too low to equip a star weapon." );
 			return requirements;
 		}
 
 		if ( !EquipmentManager.canEquip( SorceressLairManager.STAR_HAT.getName() ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Stats too low to equip a star hat." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Stats too low to equip a star hat." );
 			return requirements;
 		}
 
@@ -1272,7 +1273,7 @@ public abstract class SorceressLairManager
 
 		if ( !KoLCharacter.inAxecore() && starfish == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't own a Star Starfish!" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a Star Starfish!" );
 			return requirements;
 		}
 
@@ -1292,7 +1293,7 @@ public abstract class SorceressLairManager
 			}
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Cast Worldpunch and try again." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Cast Worldpunch and try again." );
 				return requirements;
 			}
 		}
@@ -1333,7 +1334,7 @@ public abstract class SorceressLairManager
 
 			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "right stuff" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to equip a star weapon." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to equip a star weapon." );
 			}
 
 			// "A fragment of a line hits you really hard
@@ -1342,7 +1343,7 @@ public abstract class SorceressLairManager
 
 			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "knocks you back" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to equip star hat." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to equip star hat." );
 			}
 
 			// "Trog creeps toward the pedestal, but is
@@ -1351,7 +1352,7 @@ public abstract class SorceressLairManager
 
 			if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "You give up" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to equip star starfish." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to equip star starfish." );
 			}
 		}
 
@@ -1481,7 +1482,7 @@ public abstract class SorceressLairManager
 
 		if ( HedgePuzzleRequest.PUZZLE_PIECE.getCount( KoLConstants.inventory ) == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of puzzle pieces." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of puzzle pieces." );
 			return;
 		}
 
@@ -1602,7 +1603,7 @@ public abstract class SorceressLairManager
 		if ( KoLCharacter.getBaseMuscle() < 70 || KoLCharacter.getBaseMysticality() < 70 || KoLCharacter.getBaseMoxie() < 70 )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "You can't enter the chamber unless all base stats are 70 or higher." );
+				MafiaState.ERROR, "You can't enter the chamber unless all base stats are 70 or higher." );
 			return -1;
 		}
 
@@ -1624,7 +1625,7 @@ public abstract class SorceressLairManager
 
 		if ( n < 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Server-side change detected.  Script aborted." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Server-side change detected.  Script aborted." );
 			return -1;
 		}
 
@@ -1714,7 +1715,7 @@ public abstract class SorceressLairManager
 	{
 		if ( KoLCharacter.getAdventuresLeft() == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're out of adventures." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You're out of adventures." );
 			return -1;
 		}
 
@@ -1729,7 +1730,7 @@ public abstract class SorceressLairManager
 
 		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around in the Tower." ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're out of adventures." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You're out of adventures." );
 			return -1;
 		}
 
@@ -1774,7 +1775,7 @@ public abstract class SorceressLairManager
 
 		// Shouldn't get here.
 
-		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Server-side change detected.  Script aborted." );
+		KoLmafia.updateDisplay( MafiaState.ERROR, "Server-side change detected.  Script aborted." );
 		return ItemPool.get( ItemPool.STEAMING_EVIL, 1 );
 	}
 
@@ -1825,7 +1826,7 @@ public abstract class SorceressLairManager
 		String code = SorceressLairManager.getDoorCode();
 		if ( code == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Couldn't solve door code. Do it yourself and come back!" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Couldn't solve door code. Do it yourself and come back!" );
 			return;
 		}
 
@@ -1833,7 +1834,7 @@ public abstract class SorceressLairManager
 		RequestThread.postRequest( request.constructURLString( "lair6.php?action=doorcode&code=" + code ) );
 		if ( request.responseText.indexOf( "the door slides open" ) == -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "I used the wrong code. Sorry." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "I used the wrong code. Sorry." );
 		}
 	}
 
@@ -1962,7 +1963,7 @@ public abstract class SorceressLairManager
 
 		if ( itemCount < 6 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient healing items to continue." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient healing items to continue." );
 			return;
 		}
 
@@ -1978,7 +1979,7 @@ public abstract class SorceressLairManager
 
 		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're out of adventures." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You're out of adventures." );
 			return;
 		}
 
@@ -2026,7 +2027,7 @@ public abstract class SorceressLairManager
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to defeat your shadow." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to defeat your shadow." );
 		}
 	}
 
@@ -2138,7 +2139,7 @@ public abstract class SorceressLairManager
 		RecoveryManager.recoverHP( 51 );
 		if ( KoLCharacter.getCurrentHP() <= 50 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must have more than 50 HP to proceed." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You must have more than 50 HP to proceed." );
 			return;
 		}
 
@@ -2206,14 +2207,14 @@ public abstract class SorceressLairManager
 		// If we can't identify the Sorceress's familiar, give up
 		if ( race == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Server side change: cannot identify Sorceress's familiar" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Server side change: cannot identify Sorceress's familiar" );
 			return;
 		}
 
 		// If not, tell the player to get one and come back.
 		if ( familiar == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Come back with a 20 pound " + race );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Come back with a 20 pound " + race );
 			return;
 		}
 
@@ -2230,7 +2231,7 @@ public abstract class SorceressLairManager
 
 			if ( familiar.getModifiedWeight() < 20 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Come back with a 20 pound " + race );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Come back with a 20 pound " + race );
 				return;
 			}
 		}

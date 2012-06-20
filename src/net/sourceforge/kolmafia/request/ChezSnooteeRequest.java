@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -108,7 +109,7 @@ public class ChezSnooteeRequest
 	{
 		if ( !KoLCharacter.canadiaAvailable() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find " + this.name );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't find " + this.name );
 			return;
 		}
 

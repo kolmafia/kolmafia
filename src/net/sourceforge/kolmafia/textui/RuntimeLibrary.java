@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.LogStream;
@@ -1673,7 +1674,7 @@ public abstract class RuntimeLibrary
 
 	public static Value abort( Interpreter interpreter, final Value string )
 	{
-		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, string.toString() );
+		KoLmafia.updateDisplay( MafiaState.ABORT, string.toString() );
 		return DataTypes.VOID_VALUE;
 	}
 

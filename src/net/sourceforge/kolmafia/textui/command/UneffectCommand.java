@@ -37,6 +37,7 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -71,7 +72,7 @@ public class UneffectCommand
 		List matchingEffects = EffectDatabase.getMatchingNames( parameters );
 		if ( matchingEffects.isEmpty() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown effect: " + parameters );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown effect: " + parameters );
 			return;
 		}
 		else if ( matchingEffects.size() > 1 )
@@ -110,7 +111,7 @@ public class UneffectCommand
 				return;
 			}
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ambiguous effect name: " + parameters );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Ambiguous effect name: " + parameters );
 			RequestLogger.printList( matchingEffects );
 
 			return;

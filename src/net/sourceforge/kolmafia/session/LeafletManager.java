@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -204,7 +204,7 @@ public abstract class LeafletManager
 			}
 			else
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You are too low level for that quest." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You are too low level for that quest." );
 				return CouncilFrame.COUNCIL_VISIT.responseText;
 			}
 		}
@@ -219,7 +219,7 @@ public abstract class LeafletManager
 		}
 		catch ( LeafletException e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
+			KoLmafia.updateDisplay( MafiaState.ERROR, e.getMessage() );
 		}
 
 		return LeafletManager.LEAFLET_REQUEST.responseText;

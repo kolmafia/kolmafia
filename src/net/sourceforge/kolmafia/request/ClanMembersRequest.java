@@ -42,6 +42,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
@@ -183,7 +184,7 @@ public class ClanMembersRequest
 		Matcher clanIdMatcher = ClanMembersRequest.CLANID_PATTERN.matcher( clanIdLookup.responseText );
 		if ( !clanIdMatcher.find() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your character does not belong to a clan." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Your character does not belong to a clan." );
 			return;
 		}
 

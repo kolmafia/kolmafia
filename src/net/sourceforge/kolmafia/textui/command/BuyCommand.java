@@ -37,7 +37,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -81,7 +81,7 @@ public class BuyCommand
 
 			if ( !KoLCharacter.canInteract() && !NPCStoreDatabase.contains( match.getName() ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, match.getName() + ": you are not yet out of ronin, and are unable to buy this item from a NPC store." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, match.getName() + ": you are not yet out of ronin, and are unable to buy this item from a NPC store." );
 				return;
 			}
 

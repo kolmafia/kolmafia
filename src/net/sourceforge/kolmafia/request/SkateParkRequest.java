@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -233,14 +233,14 @@ public class SkateParkRequest
 		if ( index >= 0 )
 		{
 			String failure = KoLAdventure.adventureFailureMessage( index );
-			int severity = KoLAdventure.adventureFailureSeverity( index );
+			MafiaState severity = KoLAdventure.adventureFailureSeverity( index );
 			KoLmafia.updateDisplay( severity, failure );
 			return;
 		}
 
 		if ( SkateParkRequest.parseResponse( urlString, responseText ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already visited " + dataPlace( data ) + " today." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You've already visited " + dataPlace( data ) + " today." );
 			return;
 		}
 
@@ -252,7 +252,7 @@ public class SkateParkRequest
 		String status =	Preferences.getString( "skateParkStatus" );
 		if ( !status.equals( dataState( data ) ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot visit " + dataPlace( data ) + "." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot visit " + dataPlace( data ) + "." );
 			return;
 		}
 	}

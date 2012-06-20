@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -129,7 +130,7 @@ public class UntinkerRequest
 
 		if ( (ConcoctionDatabase.getMixingMethod( this.itemId ) & KoLConstants.CT_MASK) != KoLConstants.COMBINE )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You cannot untinker that item." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot untinker that item." );
 			return;
 		}
 

@@ -38,6 +38,7 @@ import java.util.Stack;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
@@ -239,12 +240,12 @@ public class SpecialOutfit
 				FamiliarData familiar = KoLCharacter.getFamiliar();
 				if ( familiar == FamiliarData.NO_FAMILIAR )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You have no familiar with you." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You have no familiar with you." );
 					continue;
 				}
 				if ( !familiar.canEquip( checkpoint[ i ] ) )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your " + familiar.getRace() + " can't wear a " + checkpoint[ i ].getName() );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Your " + familiar.getRace() + " can't wear a " + checkpoint[ i ].getName() );
 					continue;
 				}
 			}

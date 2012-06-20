@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -55,7 +55,7 @@ public class ModifierMaximizeCommand
 	
 		if ( !MaximizerFrame.maximize( parameters, 0, 0, isSpeculateOnly ) && !isSpeculateOnly )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to meet all requirements via equipment changes." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to meet all requirements via equipment changes." );
 			RequestLogger.printLine( "See the Modifier Maximizer for further suggestions." );
 		}
 	}

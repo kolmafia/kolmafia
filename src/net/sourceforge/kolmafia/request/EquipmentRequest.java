@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -593,7 +594,7 @@ public class EquipmentRequest
 		// If we were given bogus parameters, report the error now
 		if ( this.error != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.error );
+			KoLmafia.updateDisplay( MafiaState.ERROR, this.error );
 			return;
 		}
 
@@ -705,7 +706,7 @@ public class EquipmentRequest
 
 				if ( itemType == KoLConstants.EQUIP_WEAPON && weaponItemId <= 0 )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't dual wield unless you already have a main weapon." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You can't dual wield unless you already have a main weapon." );
 					return;
 				}
 
@@ -714,14 +715,14 @@ public class EquipmentRequest
 					String message = itemType == KoLConstants.EQUIP_WEAPON ?
 						"You can't dual wield while wielding a 2-handed weapon." :
 						"You can't equip an off-hand item while wielding a 2-handed weapon.";
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+					KoLmafia.updateDisplay( MafiaState.ERROR, message );
 					return;
 				}
 
 				if ( itemType == KoLConstants.EQUIP_WEAPON &&
 				     EquipmentDatabase.getWeaponType( itemId ) != EquipmentDatabase.getWeaponType( weaponItemId ) )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't hold a " + this.changeItem.getName() + " in your off-hand when wielding a " + weapon.getName() );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You can't hold a " + this.changeItem.getName() + " in your off-hand when wielding a " + weapon.getName() );
 					return;
 				}
 			}
@@ -843,7 +844,7 @@ public class EquipmentRequest
 
 				if ( result.indexOf( "You put on part of" ) != -1 )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You only put on part of that outfit." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You only put on part of that outfit." );
 					return;
 				}
 
@@ -854,7 +855,7 @@ public class EquipmentRequest
 
 				if ( result.indexOf( "which you possess or can wear" ) != -1 )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're already wearing as much of that outfit as you can." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You're already wearing as much of that outfit as you can." );
 					return;
 				}
 
@@ -865,7 +866,7 @@ public class EquipmentRequest
 				     result.indexOf( "You apply the shiny sticker" ) == -1 &&
 				     result.indexOf( "fold it into an impromptu sword" ) == -1 )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, result );
+					KoLmafia.updateDisplay( MafiaState.ERROR, result );
 					return;
 				}
 			}

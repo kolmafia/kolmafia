@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -173,7 +173,7 @@ public class GalaktikRequest
 	{
 		if ( GalaktikRequest.cureType( this.action ) != null && this.restoreAmount == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.CONTINUE_STATE, "You don't need that cure." );
+			KoLmafia.updateDisplay( MafiaState.CONTINUE, "You don't need that cure." );
 			return;
 		}
 
@@ -189,7 +189,7 @@ public class GalaktikRequest
 
 		if ( this.responseText.indexOf( "You can't afford that" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that cure." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that cure." );
 			return;
 		}
 

@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -100,13 +101,13 @@ public class HeyDezeRequest
 	{
 		if ( !KoLCharacter.inBadMoon() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Styx Pixie." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't find the Styx Pixie." );
 			return;
 		}
 
 		if ( this.effectId == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Choose a stat to buff." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Choose a stat to buff." );
 			return;
 		}
 
@@ -144,14 +145,14 @@ public class HeyDezeRequest
 
 		if ( this.responseText == null || this.responseText.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Styx Pixie." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't find the Styx Pixie." );
 			return;
 		}
 
 		// "You already got a buff today"
 		if ( this.responseText.indexOf( "already got a buff today" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can only visit the Styx Pixie once a day." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can only visit the Styx Pixie once a day." );
 			return;
 		}
 

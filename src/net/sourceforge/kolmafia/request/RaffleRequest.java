@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -92,7 +92,7 @@ public class RaffleRequest
 	{
 		if ( this.source != RaffleRequest.INVENTORY && this.source != RaffleRequest.STORAGE )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Decide where to take meat from." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Decide where to take meat from." );
 			return;
 		}
 
@@ -110,7 +110,7 @@ public class RaffleRequest
 		if ( !RaffleRequest.parseResponse( urlString, responseText ) )
 		{
 			String where = ( this.source == RaffleRequest.INVENTORY ) ? "inventory" : "storage";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have enough meat in " + where );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough meat in " + where );
 			return;
 		}
 	}

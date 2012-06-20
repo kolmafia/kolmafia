@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -123,7 +124,7 @@ public class ArcadeRequest
 			// play Skee-Ball anyway.
 			if ( this.responseText.indexOf( "You don't have any Game Grid tokens" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have any Game Grid tokens." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have any Game Grid tokens." );
 			}
 			else
 			{

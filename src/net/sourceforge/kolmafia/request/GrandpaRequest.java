@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -69,7 +69,7 @@ public class GrandpaRequest
 
 		if ( this.responseText.indexOf( "can't visit the Sea Monkees" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're not equipped to visit the Sea Monkees." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You're not equipped to visit the Sea Monkees." );
 		}
 	}
 

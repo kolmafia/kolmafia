@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -162,7 +163,7 @@ public class MallPurchaseRequest
 
 		if ( this.itemSequenceCount != ResultProcessor.itemSequenceCount )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+			KoLmafia.updateDisplay( MafiaState.ERROR,
 				"Wrong item received - possibly its name or plural has changed." );
 			return;
 		}
@@ -185,7 +186,7 @@ public class MallPurchaseRequest
 
 		if ( this.responseText.indexOf( "You can't afford" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Not enough funds." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Not enough funds." );
 			return;
 		}
 

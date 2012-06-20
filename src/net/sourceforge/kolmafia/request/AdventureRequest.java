@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -184,7 +185,7 @@ public class AdventureRequest
 			AdventureRequest.ZONE_UNLOCK.constructURLString( "mountains.php" ).run();
 			if ( AdventureRequest.ZONE_UNLOCK.responseText.indexOf( "value=80" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "The Orc Chasm has already been bridged." );
+				KoLmafia.updateDisplay( MafiaState.PENDING, "The Orc Chasm has already been bridged." );
 				return;
 			}
 		}
@@ -194,7 +195,7 @@ public class AdventureRequest
 			int adv = KoLCharacter.inFistcore() ? 5 : 3;
 			if ( KoLCharacter.getAdventuresLeft() < adv )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of adventures." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of adventures." );
 				return;
 			}
 		}
@@ -203,7 +204,7 @@ public class AdventureRequest
 		{
 			if ( !InventoryManager.retrieveItem( ItemPool.BRIDGE ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't cross the Orc Chasm." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't cross the Orc Chasm." );
 				return;
 			}
 		}
@@ -225,7 +226,7 @@ public class AdventureRequest
 			int square = BarrelDecorator.recommendSquare();
 			if ( square == 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"All booze in the specified rows has been collected." );
 				return;
 			}
@@ -237,7 +238,7 @@ public class AdventureRequest
 			int square = TavernManager.recommendSquare();
 			if ( square == 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Don't know which square to visit in the Tavern Cellar." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Don't know which square to visit in the Tavern Cellar." );
 				return;
 			}
 			this.addFormField( "whichspot", String.valueOf( square ) );
@@ -281,7 +282,7 @@ public class AdventureRequest
 
 		if ( this.responseText == null || this.responseText.trim().length() == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't get to that area yet." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't get to that area yet." );
 			return;
 		}
 
@@ -294,7 +295,7 @@ public class AdventureRequest
 		{
 			if ( InventoryManager.hasItem( HedgePuzzleRequest.HEDGE_KEY ) && InventoryManager.hasItem( HedgePuzzleRequest.PUZZLE_PIECE ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Unexpected hedge maze puzzle state." );
+				KoLmafia.updateDisplay( MafiaState.PENDING, "Unexpected hedge maze puzzle state." );
 			}
 
 			return;
@@ -302,7 +303,7 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "dungeon.php" ) && this.responseText.indexOf( "You have reached the bottom of today's Dungeon" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Daily dungeon completed." );
+			KoLmafia.updateDisplay( MafiaState.PENDING, "Daily dungeon completed." );
 			return;
 		}
 
@@ -311,7 +312,7 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "lair6.php" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "The sorceress has already been defeated." );
+			KoLmafia.updateDisplay( MafiaState.PENDING, "The sorceress has already been defeated." );
 			return;
 		}
 
@@ -337,7 +338,7 @@ public class AdventureRequest
 		if ( index >= 0 )
 		{
 			String failure = KoLAdventure.adventureFailureMessage( index );
-			int severity = KoLAdventure.adventureFailureSeverity( index );
+			MafiaState severity = KoLAdventure.adventureFailureSeverity( index );
 			KoLmafia.updateDisplay( severity, failure );
 			this.override = 0;
 			return;
@@ -348,7 +349,7 @@ public class AdventureRequest
 
 		if ( this.responseText.indexOf( "No adventure data exists for this location" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Server error.  Please wait and try again." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Server error.  Please wait and try again." );
 			return;
 		}
 
@@ -360,7 +361,7 @@ public class AdventureRequest
 		{
 			if ( !KoLmafia.isAutoStop( this.encounter ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Nothing more to do here." );
+				KoLmafia.updateDisplay( MafiaState.PENDING, "Nothing more to do here." );
 			}
 
 			return;
@@ -399,7 +400,7 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "trickortreat.php" ) && this.responseText.indexOf( "without a costume" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You must wear a costume." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You must wear a costume." );
 			return;
 		}
 	}
@@ -1183,7 +1184,7 @@ public class AdventureRequest
 		}
 
 		RequestSynchFrame.showRequest( AdventureRequest.ZONE_UNLOCK );
-		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unknown adventure type encountered." );
+		KoLmafia.updateDisplay( MafiaState.ABORT, "Unknown adventure type encountered." );
 	}
 
 	public static final void handleDvoraksRevenge( final GenericRequest request )

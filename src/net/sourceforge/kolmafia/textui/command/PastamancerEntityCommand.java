@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -53,7 +53,7 @@ public class PastamancerEntityCommand
 	{
 		if ( KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Only Pastamancers can summon a combat entity" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Only Pastamancers can summon a combat entity" );
 			return;
 		}
 

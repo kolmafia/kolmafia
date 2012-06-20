@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -126,7 +127,7 @@ public class CoinMasterRequest
 	{
 		if ( data == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Visit whom?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Visit whom?" );
 			return;
 		}
 
@@ -138,21 +139,21 @@ public class CoinMasterRequest
 	{
 		if ( data == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Buy from whom?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Buy from whom?" );
 			return;
 		}
 
 		String itemName = it.getName();
 		if ( !data.canBuyItem( itemName ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't buy " + itemName + " from " + data.getMaster() );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't buy " + itemName + " from " + data.getMaster() );
 			return;
 		}
 
 		String reason = data.canBuy();
 		if ( reason != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+			KoLmafia.updateDisplay( MafiaState.ERROR, reason );
 			return;
 		}
 
@@ -165,7 +166,7 @@ public class CoinMasterRequest
 	{
 		if ( data == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sell to whom?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Sell to whom?" );
 			return;
 		}
 
@@ -173,14 +174,14 @@ public class CoinMasterRequest
 		String itemName = it.getName();
 		if ( action == null || !data.canSellItem( itemName ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't sell " + itemName + " to " + data.getMaster() );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't sell " + itemName + " to " + data.getMaster() );
 			return;
 		}
 
 		String reason = data.canSell();
 		if ( reason != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+			KoLmafia.updateDisplay( MafiaState.ERROR, reason );
 			return;
 		}
 
@@ -193,7 +194,7 @@ public class CoinMasterRequest
 		String reason = data.accessible();
 		if ( reason != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+			KoLmafia.updateDisplay( MafiaState.ERROR, reason );
 			return;
 		}
 
@@ -209,7 +210,7 @@ public class CoinMasterRequest
 		String reason = data.accessible();
 		if ( reason != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, reason );
+			KoLmafia.updateDisplay( MafiaState.ERROR, reason );
 			return;
 		}
 
@@ -237,13 +238,13 @@ public class CoinMasterRequest
 
 			if ( this.responseText.indexOf( "You don't have enough" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that item." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that item." );
 				return;
 			}
 
 			if ( this.responseText.indexOf( "You don't have that many of that item" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many of that item to turn in." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have that many of that item to turn in." );
 				return;
 			}
 		}

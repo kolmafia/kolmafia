@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -157,7 +158,7 @@ public class HiddenCityRequest
 		}
 
 		// This should not happen
-		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not pick encounter square to visit." );
+		KoLmafia.updateDisplay( MafiaState.ERROR, "Could not pick encounter square to visit." );
 		return 0;
 	}
 
@@ -248,7 +249,7 @@ public class HiddenCityRequest
 		if ( index >= 0 )
 		{
 			String failure = KoLAdventure.adventureFailureMessage( index );
-			int severity = KoLAdventure.adventureFailureSeverity( index );
+			MafiaState severity = KoLAdventure.adventureFailureSeverity( index );
 			KoLmafia.updateDisplay( severity, failure );
 		}
 	}

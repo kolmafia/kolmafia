@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -80,7 +80,7 @@ public class RichardRequest
 
 		if ( KoLCharacter.getAdventuresLeft() < this.turnCount )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient adventures." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient adventures." );
 			return;
 		}
 

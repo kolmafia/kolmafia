@@ -52,6 +52,7 @@ import javax.swing.ListSelectionModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -481,7 +482,7 @@ public class UseItemEnqueuePanel
 			RequestThread.postRequest( UseSkillRequest.getInstance( "The Ode to Booze", 1 ) );
 			if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.ODE ) ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Failed to cast Ode." );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Failed to cast Ode." );
 			}
 		}
 

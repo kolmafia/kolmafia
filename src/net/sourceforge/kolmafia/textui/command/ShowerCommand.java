@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -53,7 +53,7 @@ public class ShowerCommand
 		parameters = parameters.trim();
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What temperature should your shower be?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What temperature should your shower be?" );
 			return;
 		}
 
@@ -61,7 +61,7 @@ public class ShowerCommand
 		option = ClanLoungeRequest.findShowerOption( parameters );
 		if ( option == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "I don't understand what a '" + parameters + "' shower is." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "I don't understand what a '" + parameters + "' shower is." );
 			return;
 		}
 

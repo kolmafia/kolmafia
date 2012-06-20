@@ -39,7 +39,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -109,7 +109,7 @@ public class NamespaceInterpreter
 				catch ( ScriptException e )
 				{
 					// The user changed the script since it was validated
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
+					KoLmafia.updateDisplay( MafiaState.ERROR, e.getMessage() );
 					return false;
 				}
 				catch ( Exception e )

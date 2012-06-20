@@ -37,6 +37,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -86,7 +87,7 @@ public class UntinkerMenuItem
 
 			if ( untinkerItems.isEmpty() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have any untinkerable items." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have any untinkerable items." );
 				return;
 			}
 

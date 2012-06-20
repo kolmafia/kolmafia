@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -172,7 +173,7 @@ public class PulverizeRequest
 
 		if ( !KoLCharacter.hasSkill( "Pulverize" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't know how to pulverize objects." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't know how to pulverize objects." );
 			return;
 		}
 
@@ -183,7 +184,7 @@ public class PulverizeRequest
 
 		if ( this.item.getCount( KoLConstants.inventory ) < this.item.getCount() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that many " + this.item.getName() + "." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have that many " + this.item.getName() + "." );
 			return;
 		}
 
@@ -196,7 +197,7 @@ public class PulverizeRequest
 	{
 		if ( PulverizeRequest.parseResponse( this.getURLString(), this.responseText ) == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " + this.item + " could not be smashed." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "The " + this.item + " could not be smashed." );
 			return;
 		}
 

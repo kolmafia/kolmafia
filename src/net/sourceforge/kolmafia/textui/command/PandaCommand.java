@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -63,7 +63,7 @@ public class PandaCommand
 		parameters = parameters.trim();
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What do you want to do in Pandamonium?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What do you want to do in Pandamonium?" );
 			return;
 		}
 
@@ -93,7 +93,7 @@ public class PandaCommand
 			String comedy = PandamoniumRequest.getComedyType( type );
 			if ( comedy == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What kind of comedy is \"" + type + "\"?" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "What kind of comedy is \"" + type + "\"?" );
 				return;
 			}
 			request = new PandamoniumRequest( type );
@@ -107,7 +107,7 @@ public class PandaCommand
 			String member = PandamoniumRequest.getBandMember( demon );
 			if ( member == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "I don't think \"" +	demon + "\" is a member of the band." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "I don't think \"" +	demon + "\" is a member of the band." );
 				return;
 			}
 
@@ -115,7 +115,7 @@ public class PandaCommand
 			AdventureResult item = ItemFinder.getFirstMatchingItem( itemName, ItemFinder.ANY_MATCH );
 			if ( item == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "WHAT did you want to give to " + member + "?" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "WHAT did you want to give to " + member + "?" );
 				return;
 			}
 			request = new PandamoniumRequest( member, item.getItemId() );
@@ -123,7 +123,7 @@ public class PandaCommand
 
 		if ( request == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What do you want to do in Pandamonium?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What do you want to do in Pandamonium?" );
 			return;
 		}
 

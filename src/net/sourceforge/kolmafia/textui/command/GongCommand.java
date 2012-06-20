@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -252,7 +252,7 @@ public class GongCommand
 		if ( pos < len )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "Unexpected text after command, starting with: " + parameterList[ pos ] );
+				MafiaState.ERROR, "Unexpected text after command, starting with: " + parameterList[ pos ] );
 			return;
 		}
 		KoLmafia.updateDisplay( "Gong path: " + GongCommand.GONG_PATHS[ path ] );
@@ -273,7 +273,7 @@ public class GongCommand
 	{
 		if ( pos >= parameters.length )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Expected one of: " + optionString );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Expected one of: " + optionString );
 			return 0;
 		}
 		String[] options = optionString.split( " " );
@@ -285,7 +285,7 @@ public class GongCommand
 				return i;
 			}
 		}
-		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Found '" + param + "', but expected one of: " + optionString );
+		KoLmafia.updateDisplay( MafiaState.ERROR, "Found '" + param + "', but expected one of: " + optionString );
 		return 0;
 	}
 
