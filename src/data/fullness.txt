@@ -169,6 +169,7 @@ fancy canap&eacute;s	2	5	awesome	7-10	25-40	25-40	25-40	French slippers (1 time)
 fdkol hotcakes	6	1	awesome	23-27	0	0	0	50 Hotcaked
 festive sausage	3	1	good	8-10	10-20	10-20	10-20	Sausage Festive (5-10 MP regen)
 fettucini inconnu	6	6	awesome	21-29	0	0	47-52
+fiery wing	1	1	good	0	0	0	0	Hot Damage
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55

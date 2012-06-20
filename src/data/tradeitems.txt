@@ -5726,7 +5726,7 @@
 5717	FDKOL hotcakes	food	all	0
 5718	hot egg	reusable	all	0
 5719	smoking grass	none, combat	all	23
-5720
+5720	fiery wing	food	all	0
 5721	wings of fire	accessory	all	0
 5722	fire hose	weapon	all	0
 5723	bottle of fire	usable	all	0

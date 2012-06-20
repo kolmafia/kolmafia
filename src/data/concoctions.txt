@@ -169,6 +169,7 @@ Talisman o' Nam	COMBINE	snakehead charrrm	snakehead charrrm
 boxing glove on a spring	COMBINE	spring	boxing glove
 grass whistle	COMBINE	leaf of grass	leaf of grass
 office-supply crossbow	COMBINE	stolen office supplies	stolen office supplies
+wings of fire	COMBINE	fiery wing	fiery wing
 club of corruption	COMBINE	seal-clubbing club	tainted seal's blood
 corrupt club of corruption	COMBINE	club of corruption	tainted seal's blood
 corrupt club of corrupt corruption	COMBINE	corrupt club of corruption	tainted seal's blood
