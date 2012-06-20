@@ -408,10 +408,6 @@ public class LoginRequest
 			while ( citerator.hasNext() )
 			{
 				String cookie = (String) citerator.next();
-				if ( !cookie.startsWith( "appserver" ) && !cookie.startsWith( "PHPSESSID" ) )
-				{
-					continue;
-				}
 				int semi = cookie.indexOf( ";" );
 				if ( semi != -1 )
 				{

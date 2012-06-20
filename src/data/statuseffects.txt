@@ -1037,3 +1037,4 @@
 1036	Extra-Wet	doublewater.gif	128eb24cfd0d9996bfa2e26280db8680	use 1 drop of water-37
 1037	Hotcaked	hotcakes.gif	6c3d4400e40b0dd907100e0e7dad2d90	eat 1 FDKOL hotcakes
 1038	Frigidalmatian	frigidal.gif	cce2cc0e019149f19f1d92c67000c3ed	cast 1 Frigidalmatian
+1039	The Fire Inside	firebottle.gif	5faf1084fc98cbfdc190fe2b2cca6b58	use 1 bottle of fire
