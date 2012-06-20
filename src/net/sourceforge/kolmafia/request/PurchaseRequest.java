@@ -368,7 +368,7 @@ public abstract class PurchaseRequest
 
 		if ( urlString.startsWith( "shop.php" ) )
 		{
-			return NPCPurchaseRequest.registerShopRequest( urlString );
+			return NPCPurchaseRequest.registerShopRequest( urlString, false );
 		}
 
 		return false;

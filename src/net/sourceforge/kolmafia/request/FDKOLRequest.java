@@ -120,7 +120,7 @@ public class FDKOLRequest
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
-	public static final boolean registerRequest( final String urlString )
+	public static final boolean registerRequest( final String urlString, final boolean noMeat )
 	{
 		if ( urlString.startsWith( "inv_use.php" ) && urlString.contains( "whichitem=5707" ) )
 		{
@@ -147,7 +147,12 @@ public class FDKOLRequest
 		if ( item == null )
 		{
 			// Presumably this is a purchase for Meat.
-			return NPCPurchaseRequest.registerShopRequest( urlString );
+			// If we've already checked Meat, this is an unknown item
+			if ( noMeat )
+			{
+				return false;
+			}
+			return NPCPurchaseRequest.registerShopRequest( urlString, true );
 		}
 
 		return CoinMasterRequest.registerRequest( data, urlString );
