@@ -39,7 +39,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JComboBox;
 
 import javax.swing.text.JTextComponent;
@@ -86,7 +85,7 @@ public class AutoFilterComboBox
 		return (String) ( this.getSelectedItem() != null ? this.getSelectedItem() : this.currentMatch );
 	}
 
-        public void setText( final String text )
+	public void setText( final String text )
 	{
 		if ( this.model.indexOf( text ) != -1 )
 		{
@@ -175,10 +174,7 @@ public class AutoFilterComboBox
 			this.matchString = this.currentMatch.toString().toLowerCase();
 
 			this.editor.setText( this.currentMatch.toString() );
-			this.editor.setCaretPosition( caretPosition );
-			this.editor.setSelectionStart( this.currentName.length() );
-			this.editor.setSelectionEnd( this.matchString.length() );
-
+			this.editor.moveCaretPosition( caretPosition );
 			return;
 		}
 
