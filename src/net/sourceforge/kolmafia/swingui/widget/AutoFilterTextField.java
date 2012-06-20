@@ -132,6 +132,11 @@ public class AutoFilterTextField
 		this.putClientProperty( "JTextField.variant", "search" );
 	}
 
+	public void update()
+	{
+		this.prepareUpdate();
+	}
+
 	public void setList( final JList list )
 	{
 		this.list = list;
@@ -150,79 +155,6 @@ public class AutoFilterTextField
 	{
 		super.setText( text );
 		this.prepareUpdate();
-	}
-	
-	public void update()
-	{
-		try
-		{
-			this.model.setFiltering( true );
-			
-			this.qtyChecked = false;
-			this.asChecked = false;
-			this.notChecked = false;
-			this.text = this.getText().toLowerCase();
-
-			Matcher mqty = AutoFilterTextField.QTYSEARCH_PATTERN.matcher( this.text );
-			if ( mqty.find() )
-			{
-				this.qtyChecked = true;
-				this.quantity = StringUtilities.parseInt( mqty.group( 2 ) );
-				String op = mqty.group( 1 );
-				this.qtyEQ = op.indexOf( "=" ) != -1;
-				this.qtyLT = op.indexOf( "<" ) != -1;
-				this.qtyGT = op.indexOf( ">" ) != -1;
-				this.text = mqty.replaceFirst( "" );
-			}
-
-			Matcher mas = AutoFilterTextField.ASSEARCH_PATTERN.matcher( this.text );
-			if ( mas.find() )
-			{
-				this.asChecked = true;
-				this.price = StringUtilities.parseInt( mas.group( 2 ) );
-				String op = mas.group( 1 );
-				this.asEQ = op.indexOf( "=" ) != -1;
-				this.asLT = op.indexOf( "<" ) != -1;
-				this.asGT = op.indexOf( ">" ) != -1;
-				this.text = mas.replaceFirst( "" );
-			}
-
-			Matcher mnot = AutoFilterTextField.NOTSEARCH_PATTERN.matcher( this.text );
-			if ( mnot.find() )
-			{
-				this.notChecked = true;
-				this.text = mnot.group( 1 );
-			}
-
-			this.strict = true;
-			this.model.updateFilter( false );
-
-			if ( this.model.getSize() == 0 )
-			{
-				this.strict = false;
-				this.model.updateFilter( false );
-			}
-
-			if ( this.list != null )
-			{
-				if ( this.model.getSize() == 1 )
-				{
-					this.list.setSelectedIndex( 0 );
-				}
-				else
-				{
-					this.list.clearSelection();
-				}
-			}
-		}
-		finally
-		{
-			this.model.setFiltering( false );
-			if ( this.model.size() > 0 )
-			{
-				this.model.fireContentsChanged( this.model, 0, this.model.size() - 1 );
-			}
-		}
 	}
 
 	public boolean isVisible( final Object element )
@@ -366,7 +298,9 @@ public class AutoFilterTextField
 			return;
 		}
 
-		new FilterDelayThread().start();
+		AutoFilterTextField.this.thread = new FilterDelayThread();
+
+		AutoFilterTextField.this.thread.start();
 	}
 
 	private class FilterListener
@@ -387,8 +321,6 @@ public class AutoFilterTextField
 		@Override
 		public void run()
 		{
-			AutoFilterTextField.this.thread = this;
-
 			PauseObject pauser = new PauseObject();
 
 			while ( this.updating )
@@ -398,8 +330,6 @@ public class AutoFilterTextField
 			}
 
 			SwingUtilities.invokeLater( new FilterRunnable() );
-
-			AutoFilterTextField.this.thread = null;
 		}
 
 		public void prepareUpdate()
@@ -413,6 +343,8 @@ public class AutoFilterTextField
 	{
 		public void run()
 		{
+			AutoFilterTextField.this.thread = null;
+
 			AutoFilterTextField.this.model.setFiltering( true );
 
 			try
