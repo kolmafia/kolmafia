@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -312,7 +313,7 @@ public class CampgroundRequest
 		     KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP() &&
 		     KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You don't need to rest." );
+			KoLmafia.updateDisplay( MafiaState.PENDING, "You don't need to rest." );
 			return;
 		}
 
@@ -485,7 +486,7 @@ public class CampgroundRequest
 		Matcher m = HOUSING_PATTERN.matcher( responseText );
 		if ( !m.find() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to parse housing!" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to parse housing!" );
 			return;
 		}
 
@@ -534,7 +535,7 @@ public class CampgroundRequest
 			itemId = ItemPool.GINORMOUS_PUMPKIN;
 			break;
 		default:
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
 			break;
 		}
 

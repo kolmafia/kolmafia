@@ -40,7 +40,7 @@ import net.sourceforge.kolmafia.CakeArenaManager;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -98,7 +98,7 @@ public class CakeArenaRequest
 		     this.responseText.indexOf( "You're way too beaten" ) != -1 ||
 		     this.responseText.indexOf( "You're too drunk" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Arena battles aborted!" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Arena battles aborted!" );
 			return;
 		}
 

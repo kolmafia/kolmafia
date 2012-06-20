@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -68,7 +69,7 @@ public class OceanManager
 		String dest = Preferences.getString( "oceanDestination" );
 		if ( dest.equals( "manual" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Pick a course." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Pick a course." );
 			request.showInBrowser( true );
 			return;
 		}
@@ -154,7 +155,7 @@ public class OceanManager
 			if ( stop )
 			{
 				// Show result in browser and stop automation
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Stop" );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Stop" );
 				request.showInBrowser( true );
 				return;
 			}

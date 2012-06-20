@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -910,7 +911,7 @@ public class UseItemRequest
 		     Preferences.getBoolean( "mementoListActive" ) &&
 		     KoLConstants.mementoList.contains( this.itemUsed ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Don't feed mementos to your familiars." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Don't feed mementos to your familiars." );
 			return;
 		}
 
@@ -924,7 +925,7 @@ public class UseItemRequest
 		// they also require some use protection
 		if ( isSealFigurine && !EquipmentManager.wieldingClub() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You really should wield a club before using that." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You really should wield a club before using that." );
 			return;
 		}
 
@@ -935,7 +936,7 @@ public class UseItemRequest
 		case ItemPool.BRICKO_PANTS:
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"You don't have one of those." );
 				return;
 			}
@@ -948,7 +949,7 @@ public class UseItemRequest
 		case ItemPool.STICKER_CROSSBOW:
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"You don't have one of those." );
 				return;
 			}
@@ -1060,7 +1061,7 @@ public class UseItemRequest
 		if ( !ItemDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
@@ -1275,7 +1276,7 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_HOBO:
 			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.HOBO )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Spirit Hobo equipped" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a Spirit Hobo equipped" );
 				return;
 			}
 			EatItemRequest.clearFoodHelper();
@@ -1287,7 +1288,7 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_GHOST:
 			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.GHOST )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Gluttonous Green Ghost equipped" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a Gluttonous Green Ghost equipped" );
 				return;
 			}
 			DrinkItemRequest.clearDrinkHelper();
@@ -1299,7 +1300,7 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_SLIME:
 			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.SLIMELING )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Slimeling equipped" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a Slimeling equipped" );
 				return;
 			}
 			this.addFormField( "action", "binge" );
@@ -1310,7 +1311,7 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_MIMIC:
 			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.STOCKING_MIMIC )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a Stocking Mimic equipped" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a Stocking Mimic equipped" );
 				return;
 			}
 			this.addFormField( "action", "candy" );
@@ -1419,7 +1420,7 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_MIMIC:
 			if ( !UseItemRequest.parseBinge( this.getURLString(), this.responseText ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your current familiar can't use that." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Your current familiar can't use that." );
 			}
 			return;
 		}
@@ -1529,21 +1530,21 @@ public class UseItemRequest
 		     responseText.indexOf( "You are too scared of Bs" ) != -1 )
 		{
 			UseItemRequest.lastUpdate = "You are too scared of Bs";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
 		if ( responseText.indexOf( "be at least level" ) != -1 )
 		{
 			UseItemRequest.lastUpdate = "Item level too high.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
 		if ( responseText.indexOf( "You may not" ) != -1 )
 		{
 			UseItemRequest.lastUpdate = "Pathed ascension.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
@@ -1613,7 +1614,7 @@ public class UseItemRequest
 			if ( !success )
 			{
 				UseItemRequest.lastUpdate = "Consumption helper failed.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 
@@ -1651,7 +1652,7 @@ public class UseItemRequest
 				UseItemRequest.lastUpdate = "Using " + count + " " + ( count == 1 ? name : plural ) + " doesn't make anything interesting.";
 			}
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
@@ -1663,28 +1664,28 @@ public class UseItemRequest
 			if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You already have that familiar.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 
 			if ( responseText.indexOf( "you glance fearfully at the moons" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Can't hatch that familiar in Bad Moon.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 
 			if ( responseText.indexOf( "You don't have a Terrarium to put that in." ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You don't have a Terrarium yet.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 
 			if ( responseText.indexOf( "Boris has no need for familiars" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Boris has no need for familiars!";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 
@@ -1711,7 +1712,7 @@ public class UseItemRequest
 
 		if ( responseText.indexOf( "That item isn't usable in quantity" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Internal data error: item incorrectly flagged as multi-usable." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Internal data error: item incorrectly flagged as multi-usable." );
 			return;
 		}
 
@@ -1722,7 +1723,7 @@ public class UseItemRequest
 		if ( responseText.indexOf( "too full" ) != -1 )
 		{
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
@@ -1901,7 +1902,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "You can't receive things" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You can't open that package yet.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 			else if ( showHTML )
@@ -2007,7 +2008,7 @@ public class UseItemRequest
 			     responseText.indexOf( "don't have time to bang" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Insufficient adventures or sobriety to use a gong.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 
@@ -2025,7 +2026,7 @@ public class UseItemRequest
 						EffectPool.get( Effect.FORM_OF_ROACH ) ) )
 				{
 					UseItemRequest.lastUpdate = "You're still under a gong effect.";
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+					KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 					return;	// can't use another gong yet
 				}
 
@@ -2107,7 +2108,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "pleased me greatly" ) == -1 )
 			{
 				UseItemRequest.lastUpdate = "Your music was inadequate.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2121,7 +2122,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "Sorceress is in another castle" ) == -1 )
 			{
 				UseItemRequest.lastUpdate = "You couldn't make it all the way to the back door.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2195,7 +2196,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "find his glorious treasure" ) == -1 )
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2209,7 +2210,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "deepest part of the tank" ) == -1 )
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2223,7 +2224,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "exact same moment" ) == -1 )
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 				return;
 			}
@@ -2255,7 +2256,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "memorize the location" ) == -1 )
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 				return;
 			}
@@ -2276,7 +2277,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "can't make head or tail of it" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You need a guide.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 				return;
 			}
@@ -2319,7 +2320,7 @@ public class UseItemRequest
 			else
 			{
 				UseItemRequest.lastUpdate = "You don't have everything you need.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2352,7 +2353,7 @@ public class UseItemRequest
 			else
 			{
 				UseItemRequest.lastUpdate = "You need some dingy planks.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2411,7 +2412,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Your mouth is too cold.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2430,7 +2431,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "you'd explode" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You're already under pressure.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2450,7 +2451,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "a little queasy" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Your stomach is too queasy.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2470,7 +2471,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "conflicting emotions" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Your heart is already filled with emotions.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2512,7 +2513,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "you treat the plus sign as a book" ) == -1 )
 			{
 				UseItemRequest.lastUpdate = "You don't know how to use it.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 			else
@@ -2667,7 +2668,7 @@ public class UseItemRequest
 			if ( KoLCharacter.inAxecore() && responseText.indexOf( "didn't like to read" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Boris didn't like to read. ";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 				return;
 			}
@@ -2755,7 +2756,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "not quite bored enough" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You're not bored enough to drink that much tea.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2786,7 +2787,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "Graaangh?" ) == -1 )
 			{
 				UseItemRequest.lastUpdate = "You're missing some parts.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 				return;
 			}
@@ -2846,7 +2847,7 @@ public class UseItemRequest
 
 			if ( !UseItemRequest.lastUpdate.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			}
 
 			// If we are redirected to a fight, the item is
@@ -2887,7 +2888,7 @@ public class UseItemRequest
 
 			if ( !UseItemRequest.lastUpdate.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			}
 
 			// If we are redirected to a fight, the item is
@@ -2941,7 +2942,7 @@ public class UseItemRequest
 
 			if ( !UseItemRequest.lastUpdate.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -2980,7 +2981,7 @@ public class UseItemRequest
 
 			if ( !UseItemRequest.lastUpdate.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -3005,7 +3006,7 @@ public class UseItemRequest
 
 			if ( !UseItemRequest.lastUpdate.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -3050,7 +3051,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "too many songs stuck in your head" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You have the maximum number of AT buffs already.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -3704,7 +3705,7 @@ public class UseItemRequest
 
 			if ( !UseItemRequest.lastUpdate.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 
@@ -3825,14 +3826,14 @@ public class UseItemRequest
 			if ( responseText.indexOf( "You don't have time to screw around in a haunted house" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Insufficient adventures to use a staff guide.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
 			else if ( responseText.indexOf( "You aren't allowed to go to any Haunted Houses right now" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You aren't allowed to go to any Haunted Houses right now.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -3840,7 +3841,7 @@ public class UseItemRequest
 			     responseText.indexOf( "No way. It's boring in there now that everybody is dead." ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "The Haunted Sorority House is unavailable.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 
@@ -3855,7 +3856,7 @@ public class UseItemRequest
 			if ( responseText.indexOf( "You've already got a sexy costume on" ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "You've already got a sexy costume on.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 			return;
@@ -3866,7 +3867,7 @@ public class UseItemRequest
 			     responseText.indexOf( "Your teachings forbid the use of black paint." ) != -1 )
 			{
 				UseItemRequest.lastUpdate = "Your teachings forbid the use of black paint.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 			}
 			return;
@@ -4976,7 +4977,7 @@ public class UseItemRequest
 		}
 		if ( start == -1 || pieces.size() - start < 20 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+			KoLmafia.updateDisplay( MafiaState.ERROR,
 				"Unable to parse conduit levels: " + responseText );
 			return;
 		}
@@ -4993,7 +4994,7 @@ public class UseItemRequest
 			int value = ItemPool.EV_HELMET_LEVELS.indexOf( piece );
 			if ( value == -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"Unable to parse conduit level: " + piece );
 				return;
 			}

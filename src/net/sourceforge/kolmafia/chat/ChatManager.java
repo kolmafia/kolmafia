@@ -428,9 +428,9 @@ public abstract class ChatManager
 		{
 			switch ( KoLmafia.displayState )
 			{
-			case KoLConstants.ABORT_STATE:
-			case KoLConstants.ERROR_STATE:
-			case KoLConstants.ENABLE_STATE:
+			case ABORT:
+			case ERROR:
+			case ENABLE:
 				RequestThread.postRequest( new CharPaneRequest() );
 			}
 		}

@@ -42,7 +42,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -199,18 +199,18 @@ public class Crimbo11Request
 			// Credit Balance can't cash.
 			else if ( responseText.indexOf( "Your fingers are writing checks" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't afford that" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't afford that" );
 			}
 			// You can't send yourself a present.
 			else if ( responseText.indexOf( "You can't send yourself a present" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't send yourself a present" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't send yourself a present" );
 			}
 			// The factory workers inform you that your intended
 			// recipient already has one of those.
 			else if ( responseText.indexOf( "already has one of those" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That person already has that gift" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "That person already has that gift" );
 			}
 			// Invalid gift selected.  Bah Humbug!
 			else if ( responseText.indexOf( "Invalid gift selected" ) != -1 )
@@ -218,7 +218,7 @@ public class Crimbo11Request
 				Matcher itemMatcher = data.getItemMatcher( location );
 				String itemId = itemMatcher.find() ?
 					itemMatcher.group( 1 ) : "unknown";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Item #" + itemId + " is not a valid gift" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Item #" + itemId + " is not a valid gift" );
 			}
 			else
 			{
@@ -226,7 +226,7 @@ public class Crimbo11Request
 				String message = failureMatcher.find() ?
 					failureMatcher.group( 1 ) :
 					"Unknown gifting failure";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+				KoLmafia.updateDisplay( MafiaState.ERROR, message );
 			}
 		}
 		else if ( action.equals( "tradecandy" ) )

@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -64,7 +64,7 @@ public class HatterCommand
 		
 		if ( !RabbitHoleManager.teaPartyAvailable() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You have already attended a Tea Party today." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already attended a Tea Party today." );
 			return;
 		}
 
@@ -91,13 +91,13 @@ public class HatterCommand
 
 			if ( matches.size() > 1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + hat + "] has too many matches." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + hat + "] has too many matches." );
 				return;
 			}
 
 			if ( matches.size() == 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + hat
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a " + hat
 					+ " for a hat." );
 				return;
 			}

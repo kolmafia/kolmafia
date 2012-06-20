@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -111,7 +112,7 @@ public class OlfactionCommand
 			}
 			if ( !isGoals && !isItem && !isMonster )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to interpret your conditions!" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to interpret your conditions!" );
 				return;
 			}
 

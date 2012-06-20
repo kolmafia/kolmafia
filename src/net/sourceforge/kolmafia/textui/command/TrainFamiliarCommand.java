@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
@@ -56,7 +56,7 @@ public class TrainFamiliarCommand
 
 		if ( split.length < 2 || split.length > 3 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Syntax: train type goal" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Syntax: train type goal" );
 			return;
 		}
 
@@ -78,7 +78,7 @@ public class TrainFamiliarCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown training type: " + typeString );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown training type: " + typeString );
 			return;
 		}
 

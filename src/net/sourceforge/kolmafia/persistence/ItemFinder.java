@@ -42,6 +42,7 @@ import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -444,7 +445,7 @@ public class ItemFinder
 		{
 			if ( errorOnFailure )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + parameters + "] has no matches." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "] has no matches." );
 			}
 
 			return null;
@@ -457,7 +458,7 @@ public class ItemFinder
 				RequestLogger.printList( matchList );
 				RequestLogger.printLine();
 
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + parameters + "] has too many matches." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "] has too many matches." );
 			}
 
 			return null;

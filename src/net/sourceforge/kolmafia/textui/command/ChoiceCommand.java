@@ -40,7 +40,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -65,7 +65,7 @@ public class ChoiceCommand
 	{
 		if ( GenericRequest.choiceHandled || ChoiceManager.lastResponseText == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You aren't in a choice adventure." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You aren't in a choice adventure." );
 		}
 		if ( parameters.equals( "" ) )
 		{
@@ -94,7 +94,7 @@ public class ChoiceCommand
 		
 		if ( !choices.containsKey( IntegerPool.get( decision ) ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That isn't one of your choices." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "That isn't one of your choices." );
 		}
 		
 		ChoiceManager.processChoiceAdventure( decision );

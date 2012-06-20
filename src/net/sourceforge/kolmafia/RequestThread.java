@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.SwingUtilities;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
@@ -135,7 +136,7 @@ public abstract class RequestThread
 			{
 				this.method = null;
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, "Could not invoke " + this.objectClass + "." + this.methodName );
+					MafiaState.ERROR, "Could not invoke " + this.objectClass + "." + this.methodName );
 			}
 
 			this.pauser = new PauseObject();
@@ -316,7 +317,7 @@ public abstract class RequestThread
 
 	public static final void declareWorldPeace()
 	{
-		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "KoLmafia declares world peace." );
+		KoLmafia.updateDisplay( MafiaState.ABORT, "KoLmafia declares world peace." );
 		InternalMessage message = new InternalMessage( "KoLmafia declares world peace.", "red" );
 		ChatManager.broadcastEvent( message );
 	}

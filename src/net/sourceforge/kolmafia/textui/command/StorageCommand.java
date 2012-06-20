@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -65,7 +66,7 @@ public class StorageCommand
 		if ( KoLCharacter.inBadMoon() && !KoLCharacter.canInteract() )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "Hagnk's Storage is not available in Bad Moon until you free King Ralph." );
+				MafiaState.ERROR, "Hagnk's Storage is not available in Bad Moon until you free King Ralph." );
 			return;
 		}
 
@@ -76,7 +77,7 @@ public class StorageCommand
 			SpecialOutfit outfit = EquipmentManager.getMatchingOutfit( name );
 			if ( outfit == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No such outfit." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No such outfit." );
 				return;
 			}
 			AdventureResult[] pieces = outfit.getPieces();
@@ -136,14 +137,14 @@ public class StorageCommand
 			if ( items[ i ] != null && storageCount < item.getCount() )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE,
+					MafiaState.ERROR,
 					"You only have " + storageCount + " " + itemName + " in storage (you wanted " + item.getCount() + ")" );
 			}
 
 			if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", itemName ) )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE,
+					MafiaState.ERROR,
 					itemName + " is not trendy enough for you." );
 			}
 		}

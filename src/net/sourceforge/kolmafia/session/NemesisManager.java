@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -253,7 +254,7 @@ public abstract class NemesisManager
 			AdventureResult it = PAPER_STRIPS[ i ];
 			if ( !identifyPaperStrip( it.getItemId() ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Could not identify " + it.getName() );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Could not identify " + it.getName() );
 				success = false;
 			}
 		}

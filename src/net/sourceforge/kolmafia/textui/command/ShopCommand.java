@@ -39,11 +39,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
@@ -71,7 +71,7 @@ public class ShopCommand
 
 		if ( !parameters.startsWith( "take " ) && !parameters.startsWith( "put " ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Invalid shop command." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Invalid shop command." );
 			return;
 		}
 

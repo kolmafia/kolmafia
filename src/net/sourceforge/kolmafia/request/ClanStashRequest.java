@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -199,7 +200,7 @@ public class ClanStashRequest
 
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Movement of items failed." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Movement of items failed." );
 			}
 
 			break;

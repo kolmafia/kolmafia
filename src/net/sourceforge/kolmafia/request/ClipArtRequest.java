@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -79,7 +80,7 @@ public class ClipArtRequest
 			{
 				if ( KoLmafia.permitsContinue() )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Creation failed, no results detected." );
 				}
 
 				return;

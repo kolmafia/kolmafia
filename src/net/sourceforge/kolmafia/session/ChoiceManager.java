@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -2929,7 +2930,7 @@ public abstract class ChoiceManager
 				// This would be a bug in KoL itself.
 				// Bail now and let the user finish by hand.
 
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered choice adventure with no choices." );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Encountered choice adventure with no choices." );
 				request.showInBrowser( true );
 				return;
 			}
@@ -2958,7 +2959,7 @@ public abstract class ChoiceManager
 
 			if ( decision.equals( "0" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Manual control requested for choice #" + choice );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Manual control requested for choice #" + choice );
 				request.showInBrowser( true );
 				ChoiceCommand.printChoices();
 				return;
@@ -2968,7 +2969,7 @@ public abstract class ChoiceManager
 
 			if ( decision.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Unsupported choice adventure #" + whichchoice );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Unsupported choice adventure #" + whichchoice );
 				StaticEntity.printRequestData( request );
 				request.showInBrowser( true );
 				ChoiceCommand.printChoices();
@@ -3707,7 +3708,7 @@ public abstract class ChoiceManager
 			// Stop for Hobopolis bosses
 			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
+				KoLmafia.updateDisplay( MafiaState.PENDING, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
 			}
 			break;
 
@@ -3741,7 +3742,7 @@ public abstract class ChoiceManager
 
 			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+				KoLmafia.updateDisplay( MafiaState.ABORT,
 					"Mother Slime waits for you." );
 			}
 			break;
@@ -3796,7 +3797,7 @@ public abstract class ChoiceManager
 			// Stop for Hobopolis bosses
 			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
+				KoLmafia.updateDisplay( MafiaState.PENDING, ChoiceManager.hobopolisBossName( ChoiceManager.lastChoice ) + " waits for you." );
 			}
 			break;
 
@@ -3815,7 +3816,7 @@ public abstract class ChoiceManager
 			// Behind Closed Doors
 			if ( ChoiceManager.lastDecision == 2 && KoLmafia.isAdventuring() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE,
+				KoLmafia.updateDisplay( MafiaState.ABORT,
 					"The Necbromancer waits for you." );
 			}
 			break;
@@ -4366,7 +4367,7 @@ public abstract class ChoiceManager
 			"sewer tunnel explorations", explorations, false );
 		AdventureResult.addResultToList( KoLConstants.tally, result );
 
-		int state = KoLConstants.CONTINUE_STATE;
+		MafiaState state = MafiaState.CONTINUE;
 		String message = "+" + explorations + " Explorations";
 
 		if ( Preferences.getBoolean( "requireSewerTestItems" ) )
@@ -4401,7 +4402,7 @@ public abstract class ChoiceManager
 			}
 			if ( !missing.equals( "" ) )
 			{
-				state = KoLConstants.ERROR_STATE;
+				state = MafiaState.ERROR;
 				message += ", NEED: " + missing;
 			}
 		}

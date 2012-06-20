@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -69,7 +69,7 @@ public class GalaktikCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown Doc Galaktik request <" + parameters + ">" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown Doc Galaktik request <" + parameters + ">" );
 			return;
 		}
 

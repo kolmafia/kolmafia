@@ -50,6 +50,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
@@ -776,7 +777,7 @@ public class ItemManagePanel
 		{
 			if ( !this.autosell && !KoLCharacter.hasStore() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't own a store in the mall." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a store in the mall." );
 				return;
 			}
 
@@ -859,7 +860,7 @@ public class ItemManagePanel
 
 			if ( !KoLCharacter.hasDisplayCase() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't own a display case in the Cannon Museum." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a display case in the Cannon Museum." );
 				return;
 			}
 

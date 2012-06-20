@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -60,7 +61,7 @@ public class ZapCommand
 	{
 		if ( parameters.length() == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Zap what?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Zap what?" );
 			return;
 		}
 

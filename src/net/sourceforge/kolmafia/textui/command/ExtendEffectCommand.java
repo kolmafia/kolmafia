@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -76,12 +76,12 @@ public class ExtendEffectCommand
 				action = EffectDatabase.getActionNote( effect );
 				if ( action != null )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No direct source for: " + effect );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "No direct source for: " + effect );
 					RequestLogger.printLine( "It may be obtainable via " + action + "." );
 				}
 				else
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No booster known: " + effect );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "No booster known: " + effect );
 				}
 				return;
 			}
@@ -100,11 +100,11 @@ public class ExtendEffectCommand
 		List names = EffectDatabase.getMatchingNames( parameters );
 		if ( names.isEmpty() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown effect: " + parameters );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown effect: " + parameters );
 			return;
 		}
 
-		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ambiguous effect name: " + parameters );
+		KoLmafia.updateDisplay( MafiaState.ERROR, "Ambiguous effect name: " + parameters );
 		RequestLogger.printList( names );
 	}
 }

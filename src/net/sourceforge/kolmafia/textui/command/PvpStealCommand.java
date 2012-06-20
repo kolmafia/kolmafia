@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.session.PvpManager;
@@ -56,7 +56,7 @@ public class PvpStealCommand
 
 		if ( count == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Steal what?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Steal what?" );
 			return;
 		}
 
@@ -71,7 +71,7 @@ public class PvpStealCommand
 
 		if ( count == offset )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Steal " + attacks + " what?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Steal " + attacks + " what?" );
 			return;
 		}
 
@@ -88,7 +88,7 @@ public class PvpStealCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What do you want to steal?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What do you want to steal?" );
 			return;
 		}
 

@@ -38,6 +38,7 @@ import java.io.File;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -96,7 +97,7 @@ public class TestCommand
 		{
 			if ( split.length < 2 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Load what?" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Load what?" );
 				return;
 			}
 
@@ -105,7 +106,7 @@ public class TestCommand
 
 			if ( !file.exists() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "File " + file + " does not exist" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "File " + file + " does not exist" );
 				return;
 			}
 			
@@ -132,7 +133,7 @@ public class TestCommand
 
 		if ( TestCommand.contents == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "no HTML loaded." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "no HTML loaded." );
 		}
 
 		if ( command.equals( "charpane" ) )

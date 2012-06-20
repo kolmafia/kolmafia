@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -70,7 +71,7 @@ public class SkeeballCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "\"" + parameters + "\" doesn't look like a number." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "\"" + parameters + "\" doesn't look like a number." );
 			return;
 		}
 

@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -110,7 +110,7 @@ public class StarChartRequest
 
 		if ( StarChartRequest.parseCreation( this.getURLString(), this.responseText ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't draw that." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't draw that." );
 		}
 	}
 

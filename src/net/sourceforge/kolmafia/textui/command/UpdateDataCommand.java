@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -69,7 +69,7 @@ public class UpdateDataCommand
 		}
 
 		KoLmafia.updateDisplay(
-			KoLConstants.ABORT_STATE,
+			MafiaState.ABORT,
 			"\"update\" doesn't do what you think it does.	Please visit kolmafia.us and download a daily build if you'd like to keep KoLmafia up-to-date between major releases." );
 	}
 }

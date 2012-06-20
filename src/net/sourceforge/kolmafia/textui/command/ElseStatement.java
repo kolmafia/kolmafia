@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 
@@ -50,7 +50,7 @@ public class ElseStatement
 	{
 		if ( !parameters.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Condition not allowed for else." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Condition not allowed for else." );
 			return;
 		}
 		KoLmafiaCLI CLI = this.CLI;

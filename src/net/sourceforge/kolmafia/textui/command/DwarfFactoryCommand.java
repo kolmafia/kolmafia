@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -109,7 +109,7 @@ public class DwarfFactoryCommand
 
 			if ( digits.length() != 7 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Must supply a 7 character digit string" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Must supply a 7 character digit string" );
 				return;
 			}
 			DwarfFactoryRequest.setDigits( digits );

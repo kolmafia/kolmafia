@@ -50,7 +50,7 @@ import javax.swing.JRadioButton;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -137,7 +137,7 @@ public class LootHunterMenuItem
 				int bounty = Preferences.getInteger( "currentBountyItem" );
 				if ( hunterRequest.responseText.indexOf( "already turned in a Bounty today" ) != -1 )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already turned in a bounty today." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You've already turned in a bounty today." );
 					return;
 				}
 
@@ -145,11 +145,11 @@ public class LootHunterMenuItem
 				{
 					KoLAdventure location = AdventureDatabase.getBountyLocation( bounty );
 					AdventureFrame.updateSelectedAdventure( location );
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're already hunting " + ItemDatabase.getPluralName( bounty ) + " in " + location.getAdventureName() + "." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You're already hunting " + ItemDatabase.getPluralName( bounty ) + " in " + location.getAdventureName() + "." );
 				}
 				else
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're already on a bounty hunt." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "You're already on a bounty hunt." );
 				}
 
 				return;

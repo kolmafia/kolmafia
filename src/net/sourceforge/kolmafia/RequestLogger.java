@@ -37,6 +37,7 @@ import java.io.PrintStream;
 
 import java.util.Date;
 import java.util.List;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -231,25 +232,25 @@ public class RequestLogger
 
 	public static final void printLine()
 	{
-		RequestLogger.printLine( KoLConstants.CONTINUE_STATE, "", true );
+		RequestLogger.printLine( MafiaState.CONTINUE, "", true );
 	}
 
 	public static final void printLine( final String message )
 	{
-		RequestLogger.printLine( KoLConstants.CONTINUE_STATE, message, true );
+		RequestLogger.printLine( MafiaState.CONTINUE, message, true );
 	}
 
 	public static final void printLine( final String message, final boolean addToBuffer )
 	{
-		RequestLogger.printLine( KoLConstants.CONTINUE_STATE, message, addToBuffer );
+		RequestLogger.printLine( MafiaState.CONTINUE, message, addToBuffer );
 	}
 
-	public static final void printLine( final int state, final String message )
+	public static final void printLine( final MafiaState state, final String message )
 	{
 		RequestLogger.printLine( state, message, true );
 	}
 
-	public static final void printLine( final int state, String message, boolean addToBuffer )
+	public static final void printLine( final MafiaState state, String message, boolean addToBuffer )
 	{
 		if ( message == null )
 		{
@@ -290,7 +291,7 @@ public class RequestLogger
 		{
 			boolean addedColor = false;
 
-			if ( state == KoLConstants.ERROR_STATE || state == KoLConstants.ABORT_STATE )
+			if ( state == MafiaState.ERROR || state == MafiaState.ABORT )
 			{
 				addedColor = true;
 				colorBuffer.append( "<font color=red>" );

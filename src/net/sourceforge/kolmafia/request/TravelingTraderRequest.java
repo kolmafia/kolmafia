@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -117,7 +118,7 @@ public class TravelingTraderRequest
 	{
 		if ( this.responseText.length() == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The Traveling Trader is not in the Market Square." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "The Traveling Trader is not in the Market Square." );
 			return;
 		}
 		TravelingTraderRequest.parseResponse( this.getURLString(), this.responseText );

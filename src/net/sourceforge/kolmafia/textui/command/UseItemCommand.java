@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -153,7 +154,7 @@ public class UseItemCommand
 					if ( consumpt != KoLConstants.CONSUME_EAT )
 					{
 						KoLmafia.updateDisplay(
-							KoLConstants.ERROR_STATE, currentMatch.getName() + " cannot be consumed." );
+							MafiaState.ERROR, currentMatch.getName() + " cannot be consumed." );
 						return;
 					}
 				}
@@ -166,7 +167,7 @@ public class UseItemCommand
 					if ( consumpt != KoLConstants.CONSUME_DRINK )
 					{
 						KoLmafia.updateDisplay(
-							KoLConstants.ERROR_STATE, currentMatch.getName() + " is not an alcoholic beverage." );
+							MafiaState.ERROR, currentMatch.getName() + " is not an alcoholic beverage." );
 						return;
 					}
 				}
@@ -177,12 +178,12 @@ public class UseItemCommand
 					{
 					case KoLConstants.CONSUME_EAT:
 					case KoLConstants.CONSUME_FOOD_HELPER:
-						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, currentMatch.getName() + " must be eaten." );
+						KoLmafia.updateDisplay( MafiaState.ERROR, currentMatch.getName() + " must be eaten." );
 						return;
 					case KoLConstants.CONSUME_DRINK:
 					case KoLConstants.CONSUME_DRINK_HELPER:
 						KoLmafia.updateDisplay(
-							KoLConstants.ERROR_STATE, currentMatch.getName() + " is an alcoholic beverage." );
+							MafiaState.ERROR, currentMatch.getName() + " is an alcoholic beverage." );
 						return;
 					}
 				}

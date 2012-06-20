@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -121,7 +122,7 @@ public class MrStoreRequest
 			// You can't pull any more items out of storage today.
 			if ( responseText.indexOf( "You can't pull any more items out of storage today" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't pull any more items out of storage today." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't pull any more items out of storage today." );
 			}
 		}
 

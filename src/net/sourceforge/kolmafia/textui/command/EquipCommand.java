@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -118,7 +118,7 @@ public class EquipCommand
 			// If it can't be equipped, give up
 			if ( slot == -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a " + match.getName() );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't equip a " + match.getName() );
 				return;
 			}
 		}
@@ -135,18 +135,18 @@ public class EquipCommand
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 			if ( familiar == FamiliarData.NO_FAMILIAR )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You have no familiar with you." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You have no familiar with you." );
 				return;
 			}
 			if ( !familiar.canEquip( match ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your " + familiar.getRace() + " can't wear a " + match.getName() );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Your " + familiar.getRace() + " can't wear a " + match.getName() );
 				return;
 			}
 		}
 		else if ( !EquipmentManager.canEquip( itemId ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't equip a " + match.getName() );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't equip a " + match.getName() );
 			return;
 		}
 

@@ -43,7 +43,7 @@ import java.util.LinkedHashMap;
 import java.util.Stack;
 import java.util.TreeMap;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.NullStream;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -262,7 +262,7 @@ public class Interpreter
 		catch ( ScriptException e )
 		{
 			String message = CharacterEntities.escape( e.getMessage() );
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, message );
+			KoLmafia.updateDisplay( MafiaState.ERROR, message );
 			return false;
 		}
 		catch ( Exception e )
@@ -297,16 +297,16 @@ public class Interpreter
 		}
 		catch ( ScriptException e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, e.getMessage() );
+			KoLmafia.updateDisplay( MafiaState.ERROR, e.getMessage() );
 		}
 		catch ( StackOverflowError e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Stack overflow during ASH script: " + Parser.getLineAndFile( this.fileName, this.lineNumber ) );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Stack overflow during ASH script: " + Parser.getLineAndFile( this.fileName, this.lineNumber ) );
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e, "", true );
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Script execution aborted" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Script execution aborted" );
 		}
 		return DataTypes.VOID_VALUE;
 	}
@@ -332,7 +332,7 @@ public class Interpreter
 
 			if ( main == null && !topScope.getCommands().hasNext() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to invoke " + functionName );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to invoke " + functionName );
 				return DataTypes.VOID_VALUE;
 			}
 		}

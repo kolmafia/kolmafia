@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -61,7 +62,7 @@ public class TelescopeCommand
 	{
 		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated() && KoLCharacter.getTelescopeUpgrades() > 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your telescope is unavailable in Bad Moon." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Your telescope is unavailable in Bad Moon." );
 			return;
 		}
 
@@ -71,7 +72,7 @@ public class TelescopeCommand
 		int upgrades = KoLCharacter.getTelescopeUpgrades();
 		if ( upgrades < 1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a telescope." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a telescope." );
 			return;
 		}
 
@@ -82,7 +83,7 @@ public class TelescopeCommand
 		{
 			if ( split.length < 2 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Syntax: telescope [look] high|low" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Syntax: telescope [look] high|low" );
 				return;
 			}
 

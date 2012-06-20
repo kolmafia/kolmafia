@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -134,7 +135,7 @@ public class HedgePuzzleRequest
 		HedgePuzzleRequest.parseResponse( this.getURLString(), this.responseText );
 		if ( HedgePuzzleRequest.PUZZLE_PIECE.getCount( KoLConstants.inventory ) == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of puzzle pieces." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of puzzle pieces." );
 			return;
 		}
 	}
@@ -408,7 +409,7 @@ public class HedgePuzzleRequest
 
 		if ( solution == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to compute maze solution." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to compute maze solution." );
 			return;
 		}
 
@@ -421,7 +422,7 @@ public class HedgePuzzleRequest
 
 		if ( solution == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to compute maze solution." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to compute maze solution." );
 			return;
 		}
 
@@ -649,7 +650,7 @@ public class HedgePuzzleRequest
 
 		if ( HedgePuzzleRequest.lastResponseText.indexOf( "You're out of adventures." ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of adventures." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of adventures." );
 		}
 
 	}

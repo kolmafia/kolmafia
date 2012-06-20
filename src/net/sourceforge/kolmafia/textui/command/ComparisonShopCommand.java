@@ -42,6 +42,7 @@ import java.util.TreeSet;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -99,7 +100,7 @@ public class ComparisonShopCommand
 		}
 		if ( names.size() == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No matching items!" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "No matching items!" );
 			return;
 		}
 		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
@@ -124,7 +125,7 @@ public class ComparisonShopCommand
 		}
 		if ( results.size() == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No tradeable items!" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "No tradeable items!" );
 			return;
 		}
 		Collections.sort( results, this );

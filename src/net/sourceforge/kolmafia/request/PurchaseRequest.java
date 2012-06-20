@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 public abstract class PurchaseRequest
@@ -269,7 +270,7 @@ public abstract class PurchaseRequest
 
 		if ( this.item.getItemId() == -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Item not present in KoLmafia database." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Item not present in KoLmafia database." );
 			return;
 		}
 

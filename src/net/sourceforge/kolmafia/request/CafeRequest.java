@@ -41,6 +41,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -135,25 +136,25 @@ public class CafeRequest
 
 		if ( this.fullness > 0 && !KoLCharacter.canEat() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't eat. Why are you here?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't eat. Why are you here?" );
 			return;
 		}
 
 		if ( this.inebriety > 0 && !KoLCharacter.canDrink() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't drink. Why are you here?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't drink. Why are you here?" );
 			return;
 		}
 
 		if ( this.price == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.name + " doesn't sell that." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, this.name + " doesn't sell that." );
 			return;
 		}
 
 		if ( this.price > KoLCharacter.getAvailableMeat() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient funds." );
 			return;
 		}
 
@@ -182,19 +183,19 @@ public class CafeRequest
 
 		if ( this.responseText.indexOf( "This is not currently available to you." ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Couldn't find " + this.name );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Couldn't find " + this.name );
 			return;
 		}
 
 		if ( this.responseText.indexOf( "You're way too drunk already." ) != -1 || this.responseText.indexOf( "You're too full to eat that." ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Consumption limit reached." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Consumption limit reached." );
 			return;
 		}
 
 		if ( this.responseText.indexOf( "You can't afford that item." ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Insufficient funds." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient funds." );
 			return;
 		}
 

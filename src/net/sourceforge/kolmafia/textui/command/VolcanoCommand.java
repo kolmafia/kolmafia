@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
@@ -96,19 +96,19 @@ public class VolcanoCommand
 		{
 			if ( split.length != 3 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Specify x y coordinate to jump to" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Specify x y coordinate to jump to" );
 				return;
 			}
 			int x = VolcanoCommand.getCell( split[1] );
 			if ( x < 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Coordinate 'x' must be between 0 and 12" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Coordinate 'x' must be between 0 and 12" );
 				return;
 			}
 			int y = VolcanoCommand.getCell( split[2] );
 			if ( y < 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Coordinate 'y' must be between 0 and 12" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Coordinate 'y' must be between 0 and 12" );
 				return;
 			}
 			VolcanoMazeManager.move( x, y, command.equals( "movep" ) );
@@ -125,7 +125,7 @@ public class VolcanoCommand
 			int map = VolcanoCommand.getMap( split[1] );
 			if ( map < 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Map # must be between 1 and 5" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Map # must be between 1 and 5" );
 				return;
 			}
 			VolcanoMazeManager.displayMap( map );
@@ -136,32 +136,32 @@ public class VolcanoCommand
 		{
 			if ( split.length != 4 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Specify map x y" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Specify map x y" );
 				return;
 			}
 			int map = VolcanoCommand.getMap( split[1] );
 			if ( map < 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Map # must be between 1 and 5" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Map # must be between 1 and 5" );
 				return;
 			}
 			int x = VolcanoCommand.getCell( split[2] );
 			if ( x < 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Coordinate 'x' must be between 0 and 12" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Coordinate 'x' must be between 0 and 12" );
 				return;
 			}
 			int y = VolcanoCommand.getCell( split[3] );
 			if ( y < 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Coordinate 'y' must be between 0 and 12" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Coordinate 'y' must be between 0 and 12" );
 				return;
 			}
 			VolcanoMazeManager.test( map, x, y );
 			return;
 		}
 
-		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What do you want to do in the volcano?" );
+		KoLmafia.updateDisplay( MafiaState.ERROR, "What do you want to do in the volcano?" );
 	}
 
 	private static int getCell( final String str )

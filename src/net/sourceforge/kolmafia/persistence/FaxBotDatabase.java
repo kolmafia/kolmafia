@@ -41,8 +41,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 
@@ -95,7 +94,7 @@ public class FaxBotDatabase
 		if ( !FaxBotDatabase.configureFaxBot( LOCATION ) &&
 		     !FaxBotDatabase.configureFaxBot( LOCATION2 ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Could not load Faxbot configuration" );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Could not load Faxbot configuration" );
 		}
 
 		// Iterate over all monsters and make a list of categories
@@ -325,7 +324,7 @@ public class FaxBotDatabase
 
 			if ( dom == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Could not load faxbot configuration from " + this.location );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Could not load faxbot configuration from " + this.location );
 				FaxBotDatabase.faxBotError = true;
 				return;
 			}

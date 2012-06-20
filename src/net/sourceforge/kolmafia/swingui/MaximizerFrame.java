@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
@@ -1397,7 +1398,7 @@ public class MaximizerFrame
 			{
 				if ( !m.find() )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+					KoLmafia.updateDisplay( MafiaState.ERROR,
 						"Unable to interpret: " + expr.substring( pos ) );
 					return;
 				}
@@ -1533,7 +1534,7 @@ public class MaximizerFrame
 					SpecialOutfit outfit = EquipmentManager.getMatchingOutfit( keyword );
 					if ( outfit == null || outfit.getOutfitId() <= 0 )
 					{
-						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						KoLmafia.updateDisplay( MafiaState.ERROR,
 							"Unknown or custom outfit: " + keyword );
 						return;
 					}
@@ -1560,7 +1561,7 @@ public class MaximizerFrame
 					int id = FamiliarDatabase.getFamiliarId( keyword );
 					if ( id == -1 )
 					{
-						KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+						KoLmafia.updateDisplay( MafiaState.ERROR,
 							"Unknown familiar: " + keyword );
 						return;
 					}
@@ -1728,7 +1729,7 @@ public class MaximizerFrame
 					continue;
 				}
 
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE,
+				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"Unrecognized keyword: " + keyword );
 				return;
 			}

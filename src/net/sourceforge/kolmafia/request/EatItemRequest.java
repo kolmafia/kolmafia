@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -117,7 +118,7 @@ public class EatItemRequest
 
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Helper not available." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Helper not available." );
 				return;
 			}
 
@@ -140,7 +141,7 @@ public class EatItemRequest
 		if ( !ItemDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
@@ -224,7 +225,7 @@ public class EatItemRequest
 				UseItemRequest.lastUpdate = UseItemRequest.elementalHelper( "Hotform", MonsterDatabase.HEAT, 1000 );
 				if ( !UseItemRequest.lastUpdate.equals( "" ) )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+					KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 					EatItemRequest.queuedFoodHelper = null;
 					return;
 				}
@@ -431,7 +432,7 @@ public class EatItemRequest
 		if ( responseText.indexOf( "too full" ) != -1 )
 		{
 			UseItemRequest.lastUpdate = "Consumption limit reached.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 
 			// If we have no fullness data for this item, we can't tell what,
 			// if anything, consumption did to our fullness.
@@ -508,7 +509,7 @@ public class EatItemRequest
 			if ( !success )
 			{
 				UseItemRequest.lastUpdate = "Consumption helper failed.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 
@@ -635,7 +636,7 @@ public class EatItemRequest
 
 			if ( !UseItemRequest.lastUpdate.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			}
 
 			return;

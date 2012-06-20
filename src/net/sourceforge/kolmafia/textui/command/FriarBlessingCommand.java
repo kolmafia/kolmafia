@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -65,7 +65,7 @@ public class FriarBlessingCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Syntax: friars [blessing] food|familiar|booze" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Syntax: friars [blessing] food|familiar|booze" );
 			return;
 		}
 
@@ -89,7 +89,7 @@ public class FriarBlessingCommand
 
 		if ( action < 1 || action > 3 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Syntax: friars [blessing] food|familiar|booze" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Syntax: friars [blessing] food|familiar|booze" );
 			return;
 		}
 

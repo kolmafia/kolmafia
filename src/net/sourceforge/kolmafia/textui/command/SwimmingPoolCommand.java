@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -53,7 +53,7 @@ public class SwimmingPoolCommand
 		parameters = parameters.trim();
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What do you want to do in the swimming pool?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What do you want to do in the swimming pool?" );
 			return;
 		}
 
@@ -61,7 +61,7 @@ public class SwimmingPoolCommand
 		option = ClanLoungeRequest.findSwimmingOption( parameters );
 		if ( option == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "I don't understand what '" + parameters + "' is." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "I don't understand what '" + parameters + "' is." );
 			return;
 		}
 

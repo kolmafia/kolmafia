@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -219,7 +220,7 @@ public class StorageRequest
 			case EMPTY_STORAGE:
 			case STORAGE_TO_INVENTORY:
 			case PULL_MEAT_FROM_STORAGE:
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Hagnk's Storage is not available in Bad Moon until you free King Ralph." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Hagnk's Storage is not available in Bad Moon until you free King Ralph." );
 				return;
 			}
 		}

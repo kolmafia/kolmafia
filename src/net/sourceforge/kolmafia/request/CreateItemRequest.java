@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -412,7 +413,7 @@ public class CreateItemRequest
 		{
 			if ( !this.autoRepairBoxServant() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Auto-repair was unsuccessful." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Auto-repair was unsuccessful." );
 				break;
 			}
 
@@ -475,7 +476,7 @@ public class CreateItemRequest
 
 				if ( KoLmafia.permitsContinue() )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Creation failed, no results detected." );
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Creation failed, no results detected." );
 				}
 
 				break;
@@ -521,7 +522,7 @@ public class CreateItemRequest
 
 		if ( tool == -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Can't deduce correct tool to use." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Can't deduce correct tool to use." );
 			return;
 		}
 
@@ -542,7 +543,7 @@ public class CreateItemRequest
 
 		if ( ( this.quantityNeeded >= 10 || InventoryManager.hasItem( tool ) ) && !InventoryManager.retrieveItem( tool ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Please purchase a " + ItemDatabase.getItemName( tool ) + " first." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Please purchase a " + ItemDatabase.getItemName( tool ) + " first." );
 			return;
 		}
 
@@ -597,7 +598,7 @@ public class CreateItemRequest
 		{
 			if ( this.getAdventuresUsed() > KoLCharacter.getAdventuresLeft() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Ran out of adventures." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of adventures." );
 				return;
 			}
 

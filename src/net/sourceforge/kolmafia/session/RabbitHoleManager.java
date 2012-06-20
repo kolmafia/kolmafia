@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -1645,7 +1646,7 @@ public abstract class RabbitHoleManager
 		{
 			if ( !InventoryManager.hasItem( ItemPool.DRINK_ME_POTION ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need a DRINK ME! potion to get a hatter buff." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You need a DRINK ME! potion to get a hatter buff." );
 				return;
 			}
 			InventoryManager.retrieveItem( ItemPool.get( ItemPool.DRINK_ME_POTION, 1 ) );
@@ -1655,7 +1656,7 @@ public abstract class RabbitHoleManager
 		RequestThread.postRequest( new EquipmentRequest( hat, EquipmentManager.HAT ) );
 		if ( EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId() != hat.getItemId() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Failed to equip " + hat.getName() + "." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to equip " + hat.getName() + "." );
 			return;
 		}
 
@@ -1696,7 +1697,7 @@ public abstract class RabbitHoleManager
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No matching hat length found." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "No matching hat length found." );
 		}
 	}
 

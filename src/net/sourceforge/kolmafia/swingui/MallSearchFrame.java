@@ -56,6 +56,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -212,13 +213,13 @@ public class MallSearchFrame
 		{
 			if ( MallSearchFrame.this.currentlySearching )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Search stopped." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Search stopped." );
 				return;
 			}
 
 			if ( MallSearchFrame.this.currentlyBuying )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Purchases stopped." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Purchases stopped." );
 				return;
 			}
 

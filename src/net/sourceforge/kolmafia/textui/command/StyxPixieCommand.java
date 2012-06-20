@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -53,7 +54,7 @@ public class StyxPixieCommand
 	{
 		if ( !KoLCharacter.inBadMoon() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Styx unless you are in Bad Moon." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't find the Styx unless you are in Bad Moon." );
 			return;
 		}
 
@@ -74,7 +75,7 @@ public class StyxPixieCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can only buff muscle, mysticality, or moxie." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can only buff muscle, mysticality, or moxie." );
 			return;
 		}
 	}

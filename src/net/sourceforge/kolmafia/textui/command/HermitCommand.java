@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -109,7 +110,7 @@ public class HermitCommand
 		if ( itemId == -1 )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ERROR_STATE, "You can't get a " + parameters + " from the hermit today." );
+				MafiaState.ERROR, "You can't get a " + parameters + " from the hermit today." );
 			return;
 		}
 

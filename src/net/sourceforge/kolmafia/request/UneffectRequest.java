@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -485,7 +486,7 @@ public class UneffectRequest
 		int index = KoLConstants.activeEffects.indexOf( this.effect );
 		if ( index == -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have that effect." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have that effect." );
 			return;
 		}
 
@@ -493,13 +494,13 @@ public class UneffectRequest
 
 		if ( !UneffectRequest.isRemovable( this.effectId ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, effect.getName() + " is unremovable." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, effect.getName() + " is unremovable." );
 			return;
 		}
 
 		if ( effect.getCount() == Integer.MAX_VALUE && this.effectId != Effect.OVERCONFIDENT.effectId() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, effect.getName() + " is intrinsic and cannot be removed." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, effect.getName() + " is intrinsic and cannot be removed." );
 			return;
 		}
 

@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -588,7 +589,7 @@ public abstract class GenericFrame
 	{
 	}
 
-	public void updateDisplayState( final int displayState )
+	public void updateDisplayState( final MafiaState displayState )
 	{
 		// Change the background of the frame based on
 		// the current display state -- but only if the
@@ -599,13 +600,13 @@ public abstract class GenericFrame
 
 		switch ( displayState )
 		{
-		case KoLConstants.ABORT_STATE:
-		case KoLConstants.ERROR_STATE:
+		case ABORT:
+		case ERROR:
 			color = KoLConstants.ERROR_COLOR;
 			enabled = true;
 			break;
 
-		case KoLConstants.ENABLE_STATE:
+		case ENABLE:
 			color = KoLConstants.ENABLED_COLOR;
 			enabled = true;
 			break;

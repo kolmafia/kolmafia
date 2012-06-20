@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacterAdapter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -401,7 +402,7 @@ public class AdventureSelectPanel
 			KoLAdventure request = (KoLAdventure) AdventureSelectPanel.this.locationSelect.getSelectedValue();
 			if ( request == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No location selected." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No location selected." );
 				return;
 			}
 

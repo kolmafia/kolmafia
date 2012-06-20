@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -53,7 +54,6 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import net.sourceforge.kolmafia.webui.RelayServer;
 
 public class PandamoniumRequest
 	extends GenericRequest
@@ -489,7 +489,7 @@ public class PandamoniumRequest
 
 		if ( response == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't appear to be talking to Sven" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't appear to be talking to Sven" );
 			return;
 		}
 

@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -60,7 +61,7 @@ public class MushroomFieldCommand
 		{
 			if ( split.length < 3 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Syntax: field plant square spore" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Syntax: field plant square spore" );
 				return;
 			}
 
@@ -80,7 +81,7 @@ public class MushroomFieldCommand
 
 			if ( spore == -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unknown spore: " + parameters );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown spore: " + parameters );
 				return;
 			}
 
@@ -90,7 +91,7 @@ public class MushroomFieldCommand
 		{
 			if ( split.length < 2 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Syntax: field pick square" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Syntax: field pick square" );
 				return;
 			}
 

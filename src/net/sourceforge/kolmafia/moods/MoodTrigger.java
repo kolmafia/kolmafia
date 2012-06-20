@@ -42,6 +42,7 @@ import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -310,7 +311,7 @@ public class MoodTrigger
 			if ( !UseSkillRequest.lastUpdate.equals( "" ) )
 			{
 				String name = this.skill.getSkillName();
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Mood failed to cast " + casts + " " + name + ": " + UseSkillRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Mood failed to cast " + casts + " " + name + ": " + UseSkillRequest.lastUpdate );
 				RequestThread.declareWorldPeace();
 			}
 

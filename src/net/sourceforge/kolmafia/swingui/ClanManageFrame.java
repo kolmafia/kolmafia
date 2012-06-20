@@ -56,6 +56,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -220,7 +221,7 @@ public class ClanManageFrame
 		{
 			if ( this.isBuffing )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Purchase attempts cancelled." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Purchase attempts cancelled." );
 			}
 		}
 	}

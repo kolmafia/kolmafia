@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -127,20 +128,20 @@ public class CurseRequest
 
 		if ( responseText.indexOf( "You don't have that item" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Have not, throw not." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Have not, throw not." );
 			return;
 		}
 
 		if ( responseText.indexOf( "No message?" ) != -1 ||
 			responseText.indexOf( "no message" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "That item requires a message." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "That item requires a message." );
 			return;
 		}
 
 		if ( responseText.indexOf( "That player could not be found" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, m.group( 1 ) + " evaded your thrown item by the unusual strategy of being nonexistent." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, m.group( 1 ) + " evaded your thrown item by the unusual strategy of being nonexistent." );
 			return;
 		}
 
@@ -148,7 +149,7 @@ public class CurseRequest
 			responseText.indexOf( "cannot be used" ) != -1 ||
 			responseText.indexOf( "can't use this item" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Can't use the item on that player at the moment." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Can't use the item on that player at the moment." );
 			return;
 		}
 

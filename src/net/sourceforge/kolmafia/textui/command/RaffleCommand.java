@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -73,7 +73,7 @@ public class RaffleCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can only get meat from inventory or storage." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can only get meat from inventory or storage." );
 			return;
 		}
 

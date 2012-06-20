@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -590,7 +591,7 @@ public class FightRequest
 		{
 			if ( MonsterStatusTracker.getLastMonsterName().indexOf( FightRequest.RARE_MONSTERS[ i ] ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You have encountered the " + this.encounter );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "You have encountered the " + this.encounter );
 				FightRequest.nextAction = "abort";
 				return;
 			}
@@ -641,7 +642,7 @@ public class FightRequest
 			else if ( problemFamiliar() &&
 				 MonsterStatusTracker.getLastMonsterName().equals( "hulking construct" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Aborting combat automation due to Familiar that can stop automatic item usage." );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Aborting combat automation due to Familiar that can stop automatic item usage." );
 				return;
 			}
 
@@ -719,7 +720,7 @@ public class FightRequest
 				return;
 			}
 
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Consult script '" + scriptName + "' not found." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Consult script '" + scriptName + "' not found." );
 			FightRequest.nextAction = "abort";
 			return;
 		}
@@ -915,7 +916,7 @@ public class FightRequest
 			int[] combo = DiscoCombatHelper.getCombo( name );
 			if ( combo == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Invalid combo '" + name + "' requested" );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Invalid combo '" + name + "' requested" );
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
 				return;
@@ -970,7 +971,7 @@ public class FightRequest
 			if ( itemCount == 0 )
 			{
 				KoLmafia.updateDisplay(
-					KoLConstants.ABORT_STATE, "You don't have enough " + ItemDatabase.getItemName( item1 ) );
+					MafiaState.ABORT, "You don't have enough " + ItemDatabase.getItemName( item1 ) );
 				FightRequest.nextAction = "abort";
 				return;
 			}
@@ -979,7 +980,7 @@ public class FightRequest
 			{
 				if ( itemCount < 1 )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You don't have a dictionary." );
+					KoLmafia.updateDisplay( MafiaState.ABORT, "You don't have a dictionary." );
 					FightRequest.nextAction = "abort";
 					return;
 				}
@@ -1012,7 +1013,7 @@ public class FightRequest
 				else
 				{
 					KoLmafia.updateDisplay(
-						KoLConstants.ABORT_STATE, "You don't have enough " + ItemDatabase.getItemName( item2 ) );
+						MafiaState.ABORT, "You don't have enough " + ItemDatabase.getItemName( item2 ) );
 					FightRequest.nextAction = "abort";
 				}
 
@@ -1287,7 +1288,7 @@ public class FightRequest
 
 		if ( EquipmentDatabase.getWeaponType( weaponId ) == KoLConstants.RANGED )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This skill is useless with ranged weapons." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "This skill is useless with ranged weapons." );
 			return true;
 		}
 
@@ -1303,7 +1304,7 @@ public class FightRequest
 
 		if ( !EquipmentManager.usingShield() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This skill is useless without a shield." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "This skill is useless without a shield." );
 			return true;
 		}
 
@@ -1322,7 +1323,7 @@ public class FightRequest
 
 		if ( zone != null && !zone.equals( "The Sea" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "This skill is useless out of water." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "This skill is useless out of water." );
 			return true;
 		}
 
@@ -1358,7 +1359,7 @@ public class FightRequest
 
 		if ( FightRequest.nextAction != null && FightRequest.nextAction.equals( "abort" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You're on your own, partner." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "You're on your own, partner." );
 		}
 	}
 
@@ -2034,7 +2035,7 @@ public class FightRequest
 			if ( id > 0 )
 			{
 				EquipmentManager.discardEquipment( id );
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your " +
+				KoLmafia.updateDisplay( MafiaState.PENDING, "Your " +
 					m.group( 1 ) + " got slimed." );
 			}
 		}
@@ -2042,7 +2043,7 @@ public class FightRequest
 		if ( responseText.indexOf( "Axel screams, and lets go of your hand" ) != -1 )
 		{
 			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your Spooky little girl ran off." );
+			KoLmafia.updateDisplay( MafiaState.PENDING, "Your Spooky little girl ran off." );
 		}
 
 		// "[slimeling] leaps on your opponent, sliming it for XX damage.  It's inspiring!"
@@ -2058,7 +2059,7 @@ public class FightRequest
 		if ( responseText.indexOf( "have gotten instantly rusty" ) != -1 )
 		{
 			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Your antique greaves got rusted." );
+			KoLmafia.updateDisplay( MafiaState.PENDING, "Your antique greaves got rusted." );
 		}
 
 		// Check for familiar actions
@@ -2180,7 +2181,7 @@ public class FightRequest
 
 			if ( responseText.indexOf( bountyItemName ) == -1 && !problemFamiliar() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Bounty item failed to drop from expected monster." );
+				KoLmafia.updateDisplay( MafiaState.PENDING, "Bounty item failed to drop from expected monster." );
 			}
 		}
 

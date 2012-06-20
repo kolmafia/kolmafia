@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 
@@ -74,7 +75,7 @@ public abstract class ConditionalStatement
 		}
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No condition specified." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "No condition specified." );
 			return false;
 		}
 
@@ -136,7 +137,7 @@ public abstract class ConditionalStatement
 
 		if ( operator == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, parameters + " contains no comparison operator." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, parameters + " contains no comparison operator." );
 			return false;
 		}
 
@@ -158,7 +159,7 @@ public abstract class ConditionalStatement
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, parameters + " is not a valid construct." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, parameters + " is not a valid construct." );
 			return false;
 		}
 
@@ -341,7 +342,7 @@ public abstract class ConditionalStatement
 				}
 
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, "Invalid operand [" + right + "] on right side of operator" );
+					MafiaState.ERROR, "Invalid operand [" + right + "] on right side of operator" );
 			}
 		}
 

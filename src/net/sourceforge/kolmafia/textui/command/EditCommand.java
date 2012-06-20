@@ -38,6 +38,7 @@ import java.io.File;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -57,7 +58,7 @@ public class EditCommand
 	{
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No filename specified." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "No filename specified." );
 			return;
 		}
 		
@@ -83,7 +84,7 @@ public class EditCommand
 
 		if ( scriptFile.isDirectory() )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Can't edit a directory!" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Can't edit a directory!" );
 			return;
 		}
 
@@ -92,7 +93,7 @@ public class EditCommand
 
 		if ( editor.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No external editor specified in Preferences." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "No external editor specified in Preferences." );
 			RequestLogger.printLine( "Full path to this file is " + path );
 			return;
 		}
@@ -105,7 +106,7 @@ public class EditCommand
 		}
 		catch ( Exception e )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Editor launch failed: " + e );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Editor launch failed: " + e );
 		}
 	}
 }

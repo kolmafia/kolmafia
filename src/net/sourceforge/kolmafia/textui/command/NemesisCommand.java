@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -66,7 +66,7 @@ public class NemesisCommand
 			String password = NemesisManager.getPassword();
 			if ( password == null )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have all the paper strips." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have all the paper strips." );
 				return;
 
 			}

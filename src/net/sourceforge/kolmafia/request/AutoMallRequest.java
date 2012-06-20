@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -151,7 +152,7 @@ public class AutoMallRequest
 		// We placed stuff in the mall.
 		if ( this.responseText.indexOf( "You don't have a store." ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a store." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a store." );
 			return;
 		}
 

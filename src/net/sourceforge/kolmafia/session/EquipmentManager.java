@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -552,7 +553,7 @@ public class EquipmentManager
 		}
 		if ( action <= 1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, msg );
+			KoLmafia.updateDisplay( MafiaState.PENDING, msg );
 			return;
 		}
 		ArrayList list = EquipmentManager.historyLists[ slot ];

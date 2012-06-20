@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -61,6 +62,6 @@ public class WinGameCommand
 			pauser.pause( 3000 );
 		}
 
-		KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, messages[ messages.length - 1 ] );
+		KoLmafia.updateDisplay( MafiaState.ERROR, messages[ messages.length - 1 ] );
 	}
 }

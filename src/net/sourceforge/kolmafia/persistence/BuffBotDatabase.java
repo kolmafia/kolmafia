@@ -45,6 +45,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -134,7 +135,7 @@ public class BuffBotDatabase
 		if ( data[ 2 ].equals( BuffBotDatabase.OPTOUT_URL ) )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ABORT_STATE, data[ 0 ] + " has requested to be excluded from scripted requests." );
+				MafiaState.ABORT, data[ 0 ] + " has requested to be excluded from scripted requests." );
 			return 0;
 		}
 

@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -306,7 +307,7 @@ public class CouncilFrame
 			QuestDatabase.setQuestProgress( Quest.FRIAR, QuestDatabase.FINISHED );
 			if ( KoLmafia.isAdventuring() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "Taint cleansed." );
+				KoLmafia.updateDisplay( MafiaState.PENDING, "Taint cleansed." );
 			}
 		}
 	}
@@ -322,7 +323,7 @@ public class CouncilFrame
 			ResultProcessor.processItem( ItemPool.BRIDGE, -1 );
 			if ( KoLmafia.isAdventuring() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have bridged the Orc Chasm." );
+				KoLmafia.updateDisplay( MafiaState.PENDING, "You have bridged the Orc Chasm." );
 			}
 			QuestDatabase.setQuestProgress( Quest.LOL, "step1" );
 		}
@@ -341,7 +342,7 @@ public class CouncilFrame
 			ResultProcessor.processItem( ItemPool.ENCHANTED_BEAN, -1 );
 			if ( KoLmafia.isAdventuring() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.PENDING_STATE, "You have planted a beanstalk." );
+				KoLmafia.updateDisplay( MafiaState.PENDING, "You have planted a beanstalk." );
 			}
 		}
 	}
@@ -403,7 +404,7 @@ public class CouncilFrame
 			// in Softcore by pulling ores.
 			if ( !KoLCharacter.hasSkill( "Worldpunch" ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Try again after you learn Worldpunch." );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Try again after you learn Worldpunch." );
 				return;
 			}
 
@@ -418,7 +419,7 @@ public class CouncilFrame
 			// Perhaps you ran out of MP.
 			if ( !KoLmafia.permitsContinue() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Cast Worldpunch and try again." );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Cast Worldpunch and try again." );
 			}
 
 			RequestThread.postRequest( goatlet );
@@ -434,7 +435,7 @@ public class CouncilFrame
 
 		if ( !EquipmentManager.hasOutfit( 8 ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "You need a mining outfit to continue." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "You need a mining outfit to continue." );
 			return;
 		}
 

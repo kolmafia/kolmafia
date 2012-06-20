@@ -48,6 +48,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -97,7 +98,7 @@ public class ShowDataCommand
 	{
 		if ( parameters.length() == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Print what?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Print what?" );
 			return;
 		}
 

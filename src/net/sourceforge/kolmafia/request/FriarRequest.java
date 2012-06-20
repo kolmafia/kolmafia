@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -79,7 +79,7 @@ public class FriarRequest
 	{
 		if ( this.option == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Decide which friar to visit." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Decide which friar to visit." );
 			return;
 		}
 
@@ -92,7 +92,7 @@ public class FriarRequest
 	{
 		if ( this.responseText == null || this.responseText.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find the Deep Fat Friars." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't find the Deep Fat Friars." );
 			return;
 		}
 

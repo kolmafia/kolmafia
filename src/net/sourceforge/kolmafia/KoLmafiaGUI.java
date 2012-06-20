@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 
 import javax.swing.JTabbedPane;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 
@@ -269,7 +270,7 @@ public class KoLmafiaGUI
 		{
 			if ( !BuffBotDatabase.hasOfferings() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No buffs found to purchase." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No buffs found to purchase." );
 				return;
 			}
 		}
@@ -277,7 +278,7 @@ public class KoLmafiaGUI
 		{
 			if ( CakeArenaManager.getOpponentList().isEmpty() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip a familiar first." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Equip a familiar first." );
 				return;
 			}
 		}
@@ -318,7 +319,7 @@ public class KoLmafiaGUI
 		{
 			if ( CakeArenaManager.getOpponentList().isEmpty() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Equip a familiar first." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Equip a familiar first." );
 				return;
 			}
 		}
@@ -387,13 +388,13 @@ public class KoLmafiaGUI
 		{
 			if ( CharPaneRequest.inValhalla() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't find your display case in Valhalla." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't find your display case in Valhalla." );
 				return;
 			}
 
 			if ( !KoLCharacter.hasDisplayCase() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Sorry, you don't have a display case." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Sorry, you don't have a display case." );
 				return;
 			}
 

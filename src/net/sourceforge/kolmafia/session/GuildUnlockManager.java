@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.session;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -106,12 +107,12 @@ public class GuildUnlockManager
 			item = EquipmentManager.getEquipment( EquipmentManager.PANTS );
 			if ( item == EquipmentRequest.UNEQUIP )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Put on some pants and try again." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Put on some pants and try again." );
 				return;
 			}
 			break;
 		default:
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What class are you?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What class are you?" );
 			return;
 		}
 

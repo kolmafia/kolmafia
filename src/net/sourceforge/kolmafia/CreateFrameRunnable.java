@@ -41,6 +41,7 @@ import java.lang.reflect.Constructor;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -136,7 +137,7 @@ public class CreateFrameRunnable
 
 		if ( this.creator == null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, this.creationType.getName() + " could not be loaded" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, this.creationType.getName() + " could not be loaded" );
 			return;
 		}
 

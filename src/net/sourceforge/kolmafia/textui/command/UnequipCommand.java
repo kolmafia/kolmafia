@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -70,7 +70,7 @@ public class UnequipCommand
 		{
 			if ( EquipmentManager.getFakeHands() == 0 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You're not wearing any fake hands" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You're not wearing any fake hands" );
 			}
 			else
 			{

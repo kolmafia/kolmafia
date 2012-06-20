@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -141,7 +142,7 @@ public class CallScriptCommand
 
 			if ( scriptFile.isDirectory() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, scriptFile.getCanonicalPath() + " is a directory." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, scriptFile.getCanonicalPath() + " is a directory." );
 				return;
 			}
 
@@ -227,7 +228,7 @@ public class CallScriptCommand
 				if ( arguments != null )
 				{
 					KoLmafia.updateDisplay(
-						KoLConstants.ERROR_STATE, "You can only specify arguments for an ASH script" );
+						MafiaState.ERROR, "You can only specify arguments for an ASH script" );
 					return;
 				}
 

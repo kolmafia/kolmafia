@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -140,7 +141,7 @@ public class DrinkItemRequest
 
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Helper not available." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Helper not available." );
 				return;
 			}
 
@@ -163,7 +164,7 @@ public class DrinkItemRequest
 		if ( !ItemDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
@@ -247,7 +248,7 @@ public class DrinkItemRequest
 				UseItemRequest.lastUpdate = UseItemRequest.elementalHelper( "Coldform", MonsterDatabase.COLD, 1000 );
 				if ( !UseItemRequest.lastUpdate.equals( "" ) )
 				{
-					KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+					KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 					DrinkItemRequest.queuedDrinkHelper = null;
 					return;
 				}
@@ -425,7 +426,7 @@ public class DrinkItemRequest
 		if ( responseText.indexOf( "too drunk" ) != -1 )
 		{
 			UseItemRequest.lastUpdate = "Inebriety limit reached.";
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
@@ -470,7 +471,7 @@ public class DrinkItemRequest
 			if ( !success )
 			{
 				UseItemRequest.lastUpdate = "Consumption helper failed.";
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, UseItemRequest.lastUpdate );
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 

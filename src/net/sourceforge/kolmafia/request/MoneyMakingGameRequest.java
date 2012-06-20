@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -172,7 +173,7 @@ public class MoneyMakingGameRequest
 
 		if ( responseText.indexOf( "You can't gamble without a casino pass." ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a casino pass." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a casino pass." );
 			return;
 		}
 
@@ -197,7 +198,7 @@ public class MoneyMakingGameRequest
 
 		if ( error != null )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, error );
+			KoLmafia.updateDisplay( MafiaState.ERROR, error );
 		}
 	}
 

@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -78,19 +78,19 @@ public class TelescopeRequest
 	{
 		if ( KoLCharacter.getTelescopeUpgrades() < 1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a telescope" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a telescope" );
 			return;
 		}
 
 		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated() && KoLCharacter.getTelescopeUpgrades() > 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Your telescope is unavailable in Bad Moon" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Your telescope is unavailable in Bad Moon" );
 			return;
 		}
 
 		if ( this.where != TelescopeRequest.HIGH && this.where != TelescopeRequest.LOW )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't look there." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't look there." );
 			return;
 		}
 
@@ -111,7 +111,7 @@ public class TelescopeRequest
 			// be for one day."
 			if ( this.responseText.indexOf( "already peered" ) != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You've already done that today." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You've already done that today." );
 				return;
 			}
 

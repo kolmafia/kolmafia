@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -66,7 +66,7 @@ public class ThrowItemCommand
 		splitPos = parameters.indexOf( " at " );
 		if ( splitPos == -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No <s>victim</s>recipient specified." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "No <s>victim</s>recipient specified." );
 			return;
 		}
 		String target = parameters.substring( splitPos + 4 ).trim();
@@ -76,7 +76,7 @@ public class ThrowItemCommand
 		{
 			if ( !ItemDatabase.getAttribute( item.getItemId(), ItemDatabase.ATTR_CURSE ) )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "The " +
+				KoLmafia.updateDisplay( MafiaState.ERROR, "The " +
 					item.getName() + " is not properly balanced for throwing." );
 				return;
 			}

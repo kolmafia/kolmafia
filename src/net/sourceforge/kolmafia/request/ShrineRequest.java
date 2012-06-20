@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -174,7 +175,7 @@ public class ShrineRequest
 	{
 		if ( !this.hasStatueKey )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have the appropriate key." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have the appropriate key." );
 			return;
 		}
 		super.run();
@@ -186,7 +187,7 @@ public class ShrineRequest
                 String error = ShrineRequest.parseResponse( this.getURLString(), this.responseText );
                 if ( error != null )
                 {
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, error );
+			KoLmafia.updateDisplay( MafiaState.ERROR, error );
 			return;
                 }
 		KoLmafia.updateDisplay( "Donation complete." );

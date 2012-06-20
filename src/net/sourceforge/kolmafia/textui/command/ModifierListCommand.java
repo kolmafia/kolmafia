@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.DebugModifiers;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 public class ModifierListCommand
@@ -51,12 +51,12 @@ public class ModifierListCommand
 		int count = DebugModifiers.setup( parameters.toLowerCase() );
 		if ( count == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "No matching modifiers - use 'modref' to list." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "No matching modifiers - use 'modref' to list." );
 			return;
 		}
 		else if ( count > 10 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Too many matching modifiers - use 'modref' to list." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Too many matching modifiers - use 'modref' to list." );
 			return;
 		}
 		DebugModifiers.allModifiers();

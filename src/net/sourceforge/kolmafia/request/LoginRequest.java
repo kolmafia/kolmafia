@@ -40,7 +40,7 @@ import java.security.MessageDigest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -280,7 +280,7 @@ public class LoginRequest
 
 		if ( this.responseText.indexOf( "Bad password" ) != -1 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Bad password." );
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Bad password." );
 			return;
 		}
 
@@ -313,7 +313,7 @@ public class LoginRequest
 			// Too many bad logins in too short a time span.
 			int pos = this.responseText.indexOf("Too many");
 			int pos2 = this.responseText.indexOf("<",pos+1);
-			KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, this.responseText.substring(pos,pos2));
+			KoLmafia.updateDisplay( MafiaState.ABORT, this.responseText.substring(pos,pos2));
 			return;
 		}
 
@@ -325,7 +325,7 @@ public class LoginRequest
 			return;
 		}
 
-		KoLmafia.updateDisplay( KoLConstants.ABORT_STATE, "Encountered error in login." );
+		KoLmafia.updateDisplay( MafiaState.ABORT, "Encountered error in login." );
 	}
 
 	public static final boolean executeTimeInRequest( final String requestLocation, final String redirectLocation )

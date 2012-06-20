@@ -374,12 +374,13 @@ public interface KoLConstants
 
 	// Different states of KoLmafia.  Used in order to determine
 	// what is still permitted.
-
-	public static final int ENABLE_STATE = 1;
-	public static final int ERROR_STATE = 2;
-	public static final int ABORT_STATE = 3;
-	public static final int PENDING_STATE = 4;
-	public static final int CONTINUE_STATE = 5;
+	public enum MafiaState {
+		ENABLE,
+		ERROR,
+		ABORT,
+		PENDING,
+		CONTINUE;
+	};
 
 	// Stats / Zodiac Sign categories
 

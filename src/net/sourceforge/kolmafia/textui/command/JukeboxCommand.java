@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -53,14 +53,14 @@ public class JukeboxCommand
 		parameters = parameters.trim();
 		if ( parameters.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Which song do you want to listen to?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Which song do you want to listen to?" );
 			return;
 		}
 
 		int song = ClanRumpusRequest.findSong( parameters );
 		if ( song == 0 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "What kind of a song is that?" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "What kind of a song is that?" );
 			return;
 		}
 

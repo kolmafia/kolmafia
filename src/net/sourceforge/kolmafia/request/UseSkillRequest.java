@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -1089,7 +1090,7 @@ public class UseSkillRequest
 
 		if ( !UseSkillRequest.lastUpdate.equals( "" ) )
 		{
-			int state = shouldStop ? KoLConstants.ABORT_STATE : KoLConstants.CONTINUE_STATE;
+			MafiaState state = shouldStop ? MafiaState.ABORT : MafiaState.CONTINUE;
 			KoLmafia.updateDisplay( state, UseSkillRequest.lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )

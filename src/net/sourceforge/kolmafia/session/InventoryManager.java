@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -397,7 +398,7 @@ public abstract class InventoryManager
 				}
 
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, "Don't know how to retrieve a " + item.getName() );
+					MafiaState.ERROR, "Don't know how to retrieve a " + item.getName() );
 				return null;
 			}
 
@@ -411,7 +412,7 @@ public abstract class InventoryManager
 				}
 
 				KoLmafia.updateDisplay(
-					KoLConstants.ERROR_STATE, "You need " + need + " more " + item.getName() + " to continue." );
+					MafiaState.ERROR, "You need " + need + " more " + item.getName() + " to continue." );
 				return null;
 			}
 
@@ -847,7 +848,7 @@ public abstract class InventoryManager
 				{
 					makeFromComponents = false;
 					KoLmafia.updateDisplay(
-						KoLConstants.ERROR_STATE,
+						MafiaState.ERROR,
 						"The average amount of meat spent on components ("
 							+ KoLConstants.COMMA_FORMAT.format( meatSpend )
 							+ ") for one " + item.getName() + " exceeds autoBuyPriceLimit ("
@@ -923,7 +924,7 @@ public abstract class InventoryManager
 		}
 
 		KoLmafia.updateDisplay(
-			KoLConstants.ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+			MafiaState.ERROR, "You need " + missingCount + " more " + item.getName() + " to continue." );
 
 		return null;
 	}
@@ -1123,7 +1124,7 @@ public abstract class InventoryManager
 		if ( count < needed )
 		{
 			KoLmafia.updateDisplay(
-				KoLConstants.ABORT_STATE, "Unable to acquire " + item.getCount() + " worthless items." );
+				MafiaState.ABORT, "Unable to acquire " + item.getCount() + " worthless items." );
 		}
 
 		return count >= needed;

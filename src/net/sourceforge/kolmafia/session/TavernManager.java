@@ -37,7 +37,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -128,7 +128,7 @@ public class TavernManager
 	{
 		if ( KoLCharacter.getLevel() < 3 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need to level up first." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You need to level up first." );
 			return -1;
 		}
 
@@ -274,7 +274,7 @@ public class TavernManager
 		{
 			if ( faucet == -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to find faucet." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to find faucet." );
 				return -1;
 			}
 
@@ -287,7 +287,7 @@ public class TavernManager
 		{
 			if ( baron == -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to find baron." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to find baron." );
 				return -1;
 			}
 
@@ -300,7 +300,7 @@ public class TavernManager
 		{
 			if ( baron == -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to find baron." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to find baron." );
 				return -1;
 			}
 
@@ -332,7 +332,7 @@ public class TavernManager
 		{
 			if ( unexplored != -1 )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "Unable to finish exploring cellar." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to finish exploring cellar." );
 				return -1;
 			}
 
@@ -416,7 +416,7 @@ public class TavernManager
 
 		if ( KoLCharacter.getLevel() < 3 )
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You need to level up first." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You need to level up first." );
 			return 0;
 		}
 

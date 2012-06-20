@@ -38,7 +38,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -103,7 +103,7 @@ public class EnthroneCommand
 			RequestLogger.printList( matchList );
 			RequestLogger.printLine();
 
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "[" + parameters + "] has too many matches." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "] has too many matches." );
 		}
 		else if ( matchList.size() == 1 )
 		{
@@ -126,7 +126,7 @@ public class EnthroneCommand
 			
 			if ( !change.enthroneable() )
 			{
-				KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You can't enthrone a " + change.getRace() + "!" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't enthrone a " + change.getRace() + "!" );
 				return;
 			}
 			
@@ -146,7 +146,7 @@ public class EnthroneCommand
 		}
 		else
 		{
-			KoLmafia.updateDisplay( KoLConstants.ERROR_STATE, "You don't have a " + parameters + " for a familiar." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a " + parameters + " for a familiar." );
 		}
 	}
 }
