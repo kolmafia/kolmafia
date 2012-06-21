@@ -1154,8 +1154,8 @@
 1145	knob mushroom wine	drink	all	30
 1146	knoll mushroom wine	drink	all	30
 1147	spooky mushroom wine	drink	all	30
-1148	shot of flower schnapps	drink	all	120
-1149	flower petal pie	food	all	45
+1148	shot of flower schnapps	drink	all	11
+1149	flower petal pie	food	all	11
 1150	bottle of single-barrel whiskey	drink	all	0
 1151	giant discarded plastic fork	weapon	all	205
 1152	miniature gravy-covered maypole	familiar	all	0
@@ -5700,10 +5700,10 @@
 5691	pacification grenade	none, combat	all	75
 5692	quantum disintegrator pistol	weapon	display	0
 5693	phase-tuned shield generator belt	accessory	display	0
-5694	Thwaitgold woolybear statuette	none	display	0
+5694	Thwaitgold woollybear statuette	none	display	0
 5695	bugbear detector	accessory	display	0
 5696	bugbear purification pill	usable	all	0
-5697	1 meat	none	all	1
+5697	1 Meat	none	all	1
 5698
 5699
 5700

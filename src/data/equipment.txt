@@ -222,6 +222,7 @@ turtle wax helmet	40	Mox: 5
 turtlemail coif	80	Mox: 25
 viking helmet	20	none
 water-polo cap	200	Mox: 85
+wax hat	50	Mus: 10
 webbed comic mask	10	none
 willowy bonnet	75	Mox: 22
 witch hat	10	none
@@ -393,6 +394,7 @@ trousers of the white knight	60	Mox: 15
 troutpiece	110	Mox: 40
 turtle wax greaves	40	Mox: 5
 turtlemail breeches	80	Mox: 25
+wax pants	50	Mox: 10
 white satin pants	40	Mox: 5
 wumpus-hair loincloth	100	Mox: 35
 yakskin kilt	140	Mox: 55
