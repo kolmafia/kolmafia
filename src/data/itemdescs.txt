@@ -5692,10 +5692,10 @@
 5691	643034783	pacgrenade.gif	pacification grenade
 5692	915600766	bugraygun.gif	quantum disintegrator pistol
 5693	705663632	bugbelt.gif	phase-tuned shield generator belt
-5694	394841381	thwaitwooly.gif	Thwaitgold woolybear statuette
+5694	394841381	thwaitwooly.gif	Thwaitgold woollybear statuette
 5695	320593140	evilometer.gif	bugbear detector
 5696	608714645	pill.gif	bugbear purification pill
-5697	560375054	1meat.gif	1 meat
+5697	560375054	1meat.gif	1 Meat
 5698
 5699
 5700
