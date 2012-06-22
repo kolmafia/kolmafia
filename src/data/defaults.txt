@@ -554,6 +554,7 @@ user	mineLayout2
 user	mineLayout3
 user	mineLayout4
 user	mmgAutoConfirmBets	false
+user	mmgDisabled	false
 user	mmgSearchMinimum
 user	mmgSearchMaximum
 user	moleTunnelLevel	0

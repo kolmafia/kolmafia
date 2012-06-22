@@ -1198,6 +1198,18 @@ public class RelayRequest
 
 		return false;
 	}
+	
+	private boolean sendMMGWarning()
+	{
+		if ( !Preferences.getBoolean( "mmgDisabled" ) )
+		{
+			return false;
+		}
+
+		// The player has asked to be protected from himself
+		this.sendGeneralWarning( "shield_stop.gif", "You may not enter the Money Losing Game.", null );
+		return true;
+	}
 
 	public void sendGeneralWarning( final String image, final String message, final String confirm )
 	{
@@ -1214,19 +1226,29 @@ public class RelayRequest
 		{
 			String url = this.getURLString();
 
-			warning.append( "<center><a href=\"" );
-			warning.append( url );
-			warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
-			warning.append( confirm );
-			warning.append( "=on" );
-			if ( extra != null )
+			warning.append( "<center>" );
+			if ( confirm != null )
 			{
-				warning.append( "&" );
-				warning.append( extra );
+				warning.append( "<a href=\"" );
+				warning.append( url );
+				warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+				warning.append( confirm );
+				warning.append( "=on" );
+				if ( extra != null )
+				{
+					warning.append( "&" );
+					warning.append( extra );
+				}
+				warning.append( "\">" );
 			}
-			warning.append( "\"><img id=\"warningImage\" src=\"/images/itemimages/" );
+			warning.append( "<img id=\"warningImage\" src=\"/images/itemimages/" );
 			warning.append( image );
-			warning.append( "\" width=30 height=30></a><br></center>" );
+			warning.append( "\" width=30 height=30>" );
+			if ( confirm != null )
+			{
+				warning.append( "</a>" );
+			}
+			warning.append( "<br></center>" );
 		}
 
 		warning.append( "<blockquote>" );
@@ -1923,6 +1945,11 @@ public class RelayRequest
 		}
 
 		if ( path.startsWith( "arcade.php" ) && this.sendArcadeWarning() )
+		{
+			return;
+		}
+
+		if ( path.startsWith( "bet.php" ) && this.sendMMGWarning() )
 		{
 			return;
 		}
