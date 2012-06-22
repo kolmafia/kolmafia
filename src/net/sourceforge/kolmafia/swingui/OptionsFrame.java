@@ -332,6 +332,7 @@ public class OptionsFrame
 				{},
 
 				{ "requireSewerTestItems", "Require appropriate test items to adventure in clan sewers " },
+				{ "mmgDisabled", "Disable access to the MMG in the Relay Browser" },
 				{ "mmgAutoConfirmBets", "Auto-confirm bets in the MMG" },
 
 				{},
