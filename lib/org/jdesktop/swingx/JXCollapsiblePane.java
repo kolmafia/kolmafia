@@ -543,9 +543,11 @@ public class JXCollapsiblePane extends JXPanel {
                 if (collapsed) {
                     int dimension = direction.isVertical() ?
                                     wrapper.getHeight() : wrapper.getWidth();
+					int preferredDimension =
+						direction.isVertical() ? getContentPane().getMinimumSize().height : getContentPane().getPreferredSize().width;
                     setAnimationParams(new AnimationParams(30,
                                                            Math.max(8, dimension / 10), 1.0f, 0.01f));
-                    animator.reinit(dimension, 0);
+                    animator.reinit(dimension, preferredDimension );
                     animateTimer.start();
                 } else {
                     int dimension = direction.isVertical() ?
@@ -762,7 +764,13 @@ public void setMinimumSize(Dimension minimumSize) {
                     animateAlpha = animationParams.alphaEnd;
                     // keep the content pane hidden when it is collapsed, other it may
                     // still receive focus.
-                    if (finalDimension > 0) {
+                    int minDimension;
+                    if (direction.isVertical()) {
+                        minDimension = wrapper.getView().getPreferredSize().height;
+                    } else {
+                    	minDimension = wrapper.getView().getPreferredSize().width;
+                    }
+                    if (finalDimension > minDimension) {
                         currentDimension = -1;
                         wrapper.collapsedState = false;
                         validate();
