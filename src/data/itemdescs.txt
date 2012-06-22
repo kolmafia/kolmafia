@@ -4950,7 +4950,7 @@
 4949	290991293	potion13.gif	weremoose spit
 4950	765241883	abomblubber.gif	abominable blubber
 4951	225397508	clipboard.gif	flimsy clipboard
-4952	421468846	baggie.gif	baggie of powdered sugar
+4952	421468846	baggie.gif	baggie of powdered sugar	baggies of powdered sugar
 4953	569079959	corset.gif	whalebone corset
 4954	197489398	ovenmitts.gif	oven mitts
 4955	812575069	overcookie.gif	overcookie
