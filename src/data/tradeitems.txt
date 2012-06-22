@@ -4958,7 +4958,7 @@
 4949	weremoose spit	usable	all	50
 4950	abominable blubber	usable	all	50
 4951	flimsy clipboard	offhand	all	35
-4952	baggie of powdered sugar	usable	all	30
+4952	baggie of powdered sugar	multiple	all	30
 4953	whalebone corset	accessory	all	50
 4954	oven mitts	accessory	all	48
 4955	overcookie	food	all	38
