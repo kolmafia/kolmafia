@@ -263,6 +263,8 @@ public class AccountRequest
 		boolean checked;
 		checked = AccountRequest.getCheckbox( "flag_sellstuffugly", responseText );
 		KoLCharacter.setAutosellMode( checked ? "compact" : "detailed" );
+		checked = AccountRequest.getCheckbox( "flag_lazyinventory", responseText );
+		KoLCharacter.setLazyInventory( checked );
 		checked = AccountRequest.getCheckbox( "flag_unfamequip", responseText );
 		KoLCharacter.setUnequipFamiliar( checked );
 	}
@@ -398,6 +400,13 @@ public class AccountRequest
 		{
 			boolean checked = valueString.equals( "1" );
 			KoLCharacter.setAutosellMode( checked ? "compact" : "detailed" );
+			return;
+		}
+
+		if ( action.equals( "flag_lazyinventory" ) )
+		{
+			boolean checked = valueString.equals( "1" );
+			KoLCharacter.setLazyInventory( checked );
 			return;
 		}
 
@@ -598,6 +607,9 @@ public class AccountRequest
 
 		checked = flags.getInt( "sellstuffugly" ) == 1;
 		KoLCharacter.setAutosellMode( checked ? "compact" : "detailed" );
+
+		checked = flags.getInt( "lazyinventory" ) == 1;
+		KoLCharacter.setLazyInventory( checked );
 
 		checked = flags.getInt( "unfamequip" ) == 1;
 		KoLCharacter.setUnequipFamiliar( checked );
