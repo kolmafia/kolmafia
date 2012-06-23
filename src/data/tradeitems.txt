@@ -5730,3 +5730,4 @@
 5721	wings of fire	accessory	all	0
 5722	fire hose	weapon	all	0
 5723	bottle of fire	usable	all	0
+5724	molten brick	none	all	0

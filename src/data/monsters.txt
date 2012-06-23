@@ -1158,3 +1158,6 @@ A n-Headed Hydra	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] 
 The Ghost of Fernswarthy's n great-grandfather	HP: [0.425*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 100 P: undead
 n Bottles of Beer on a Golem	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Spell: 90 P: object
 A n-Dimensional Horror	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 0 Phys: 90 P: horror
+
+# Fires
+Servant Of Lord Flameface	HP: 0

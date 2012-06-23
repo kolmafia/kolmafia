@@ -5722,3 +5722,4 @@
 5721	446914873	wingsoffire.gif	wings of fire	wingses of fire
 5722	902073594	firehose.gif	fire hose
 5723	819615103	firebottle.gif	bottle of fire
+5724	750075762	burnbrick.gif	molten brick
