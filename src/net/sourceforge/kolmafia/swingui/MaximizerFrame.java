@@ -162,7 +162,7 @@ public class MaximizerFrame
 		"stench res",
 		"sleaze res",
 		"all res",
-		"0.5 mp regen min, 0.5 mp regen max",
+		"mp regen",
 		"ML, 0.001 slime res",
 		"4 clownosity",
 		"7 raveosity",
@@ -1264,7 +1264,7 @@ public class MaximizerFrame
 		private int raveosity = 0;
 		private int beeosity = 2;
 		private int booleanMask, booleanValue;
-		private ArrayList familiars;
+		private ArrayList<FamiliarData> familiars;
 
 		private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
 		String weaponType = null;
@@ -1272,8 +1272,8 @@ public class MaximizerFrame
 		int melee = 0;	// +/-2 or higher: require, +/-1: disallow other type
 		boolean requireShield = false;
 		boolean noTiebreaker = false;
-		HashSet posOutfits, negOutfits;
-		TreeSet posEquip, negEquip;
+		HashSet<String> posOutfits, negOutfits;
+		TreeSet<AdventureResult> posEquip, negEquip;
 
 		private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
 		// Groups: 1=sign 2=weight 3=keyword
@@ -1366,10 +1366,10 @@ public class MaximizerFrame
 			this();
 			Evaluator tiebreaker = new Evaluator();
 			this.tiebreaker = tiebreaker;
-			this.posOutfits = tiebreaker.posOutfits = new HashSet();
-			this.negOutfits = tiebreaker.negOutfits = new HashSet();
-			this.posEquip = tiebreaker.posEquip = new TreeSet();
-			this.negEquip = tiebreaker.negEquip = new TreeSet();
+			this.posOutfits = tiebreaker.posOutfits = new HashSet<String>();
+			this.negOutfits = tiebreaker.negOutfits = new HashSet<String>();
+			this.posEquip = tiebreaker.posEquip = new TreeSet<AdventureResult>();
+			this.negEquip = tiebreaker.negEquip = new TreeSet<AdventureResult>();
 			this.familiars = tiebreaker.familiars = new ArrayList();
 			this.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
 			tiebreaker.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
@@ -1625,6 +1625,18 @@ public class MaximizerFrame
 					this.weight[ Modifiers.SLEAZE_DAMAGE ] = weight;
 					this.weight[ Modifiers.SPOOKY_DAMAGE ] = weight;
 					this.weight[ Modifiers.STENCH_DAMAGE ] = weight;
+					continue;
+				}
+				else if ( keyword.equals( "hp regen" ) )
+				{
+					this.weight[ Modifiers.HP_REGEN_MIN ] = weight / 2;
+					this.weight[ Modifiers.HP_REGEN_MAX ] = weight / 2;
+					continue;
+				}
+				else if ( keyword.equals( "mp regen" ) )
+				{
+					this.weight[ Modifiers.MP_REGEN_MIN ] = weight / 2;
+					this.weight[ Modifiers.MP_REGEN_MAX ] = weight / 2;
 					continue;
 				}
 				else if ( keyword.equals( "init" ) )
@@ -2008,19 +2020,19 @@ public class MaximizerFrame
 		{
 			// Items automatically considered regardless of their score -
 			// synergies, hobo power, brimstone, etc.
-			ArrayList[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
+			ArrayList<AdventureResult>[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
 			// Items to be considered based on their score
-			ArrayList[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
+			ArrayList<AdventureResult>[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
 			for ( int i = ranked.length - 1; i >= 0; --i )
 			{
 				automatic[ i ] = new ArrayList();
-				ranked[ i ] = new ArrayList();
+				ranked[ i ] = new ArrayList<AdventureResult>();
 			}
 
 			float nullScore = this.getScore( new Modifiers() );
 
 			BooleanArray usefulOutfits = new BooleanArray();
-			TreeMap outfitPieces = new TreeMap();
+			TreeMap<AdventureResult, AdventureResult> outfitPieces = new TreeMap<AdventureResult, AdventureResult>();
 			for ( int i = 1; i < EquipmentDatabase.normalOutfits.size(); ++i )
 			{
 				SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get( i );
