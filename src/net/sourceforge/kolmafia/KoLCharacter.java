@@ -378,6 +378,7 @@ public abstract class KoLCharacter
 
 	private static int autoAttackAction = 0;
 	private static String autosellMode = "";
+	private static boolean lazyInventory = false;
 	private static boolean unequipFamiliar = false;
 
 	public static final Object[][] PASTA_GUARDIANS =
@@ -635,6 +636,7 @@ public abstract class KoLCharacter
 		KoLCharacter.mindControlLevel = 0;
 
 		KoLCharacter.autosellMode = "";
+		KoLCharacter.lazyInventory = false;
 		KoLCharacter.unequipFamiliar = false;
 
 		// Clear some of the standard lists so they don't
@@ -2993,6 +2995,28 @@ public abstract class KoLCharacter
 	public static final void setAutosellMode( final String mode )
 	{
 		KoLCharacter.autosellMode = mode;
+	}
+
+	/**
+	 * Accessor method for the current lazy inventory mode
+	 *
+	 * @return boolean
+	 */
+
+	public static final boolean getLazyInventory()
+	{
+		return KoLCharacter.lazyInventory;
+	}
+
+	/**
+	 * Accessor method to set the lazy inventory mode
+	 *
+	 * @param mode the new mode
+	 */
+
+	public static final void setLazyInventory( final boolean mode )
+	{
+		KoLCharacter.lazyInventory = mode;
 	}
 
 	/**
