@@ -544,7 +544,7 @@ user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
 user	manaBurningTrigger	-0.05
 user	maximizerMRULength	0
-user	maximizerMRUList	mainstat;mus;mys;mox;familiar weight;HP;MP;ML;DA;DR;+combat -tie;-combat -tie;initiative;exp;meat drop;item drop;2.0 meat, 1.0 item;item, sea;weapon dmg;ranged dmg;elemental dmg;spell dmg;adv;hot res;cold res;spooky res;stench res;sleaze res;all res;0.5 mp regen min, 0.5 mp regen max;ML, 0.001 slime res;4 clownosity;7 raveosity;+four songs
+user	maximizerMRUList	mainstat;mus;mys;mox;familiar weight;HP;MP;ML;DA;DR;+combat -tie;-combat -tie;initiative;exp;meat drop;item drop;2.0 meat, 1.0 item;item, sea;weapon dmg;ranged dmg;elemental dmg;spell dmg;adv;hot res;cold res;spooky res;stench res;sleaze res;all res;mp regen;ML, 0.001 slime res;4 clownosity;7 raveosity;+four songs
 user	maxManaBurn	1000
 user	mayflyExperience	0
 user	meansuckerPrice	400
