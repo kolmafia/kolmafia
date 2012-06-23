@@ -1428,7 +1428,7 @@ Uncle Hobo's epic beard	200	Mys: 200
 Uncle Hobo's fingerless tinsel gloves	200	Mys: 200
 Unspeakable Earring	150	Mys: 60
 Uranium Omega of Temperance	200	Mys: 85
-UV monocular	0	Mys: 22
+UV monocular	75	Mys: 22
 V for Vivala mask	0	none
 Voluminous Radio Sneakers	0	Mys: 60
 Warehouse 23 bling	0	none
@@ -1619,7 +1619,7 @@ paperclip-on tie	50	none
 pat-a-cake pendant	10	none
 patent leather shoes	30	none
 peace-sign necklace	70	Mys: 20
-phase-tuned shield generator belt	0	Mys: 22
+phase-tuned shield generator belt	75	Mys: 22
 phat turquoise bracelet	70	Mys: 20
 pig-iron bracers	90	Mys: 30
 pink glowstick	20	none
@@ -1870,7 +1870,7 @@ whalebone corset	55	Mys: 12
 wheel	30	none
 white belt	40	Mys: 5
 white collar	20	none
-wings of fire	0	Mys: 100
+wings of fire	100	Mys: 100
 woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 wristwatch of the white knight	60	Mys: 15

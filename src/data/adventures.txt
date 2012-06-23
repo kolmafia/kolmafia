@@ -263,3 +263,5 @@ Events	adventure=269	true	The Haunted Sorority House	1 choiceadv
 Events	plains=brushfire	false	Fightin' Fire
 Events	adventure=290	false	Super-Intense Mega-Grassfire
 Events	adventure=291	false	Fierce Flying Flames
+Events	adventure=292	false	Lord Flameface's Castle Entryway
+Events	adventure=293	false	Lord Flameface's Castle Belfry

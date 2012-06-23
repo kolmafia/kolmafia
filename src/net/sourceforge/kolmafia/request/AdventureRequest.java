@@ -632,6 +632,14 @@ public class AdventureRequest
 				override = "Slime Monster";	// unable to identify exact type
 			}
 			break;
+
+		case 292:
+			// Lord Flameface's Castle Entrance
+			if ( responseText.indexOf( "adventureimages/fireservant" ) != -1 )
+			{
+				override = "Servant Of Lord Flameface";
+			}
+			break;
 		}
 
 		if ( KoLAdventure.lastAdventureIdString().equals( "bathroom" ) )
