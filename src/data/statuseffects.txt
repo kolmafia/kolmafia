@@ -775,11 +775,11 @@
 774	Deadened Palate	bigtongue.gif	feaa31a466af38c0d5c338543b5c4b26	eat 1 sun-dried tofu
 775	Oversaturated Palate	tongue.gif	ca7821189d31957497600f4e890e99f0	drink 1 soyburger juice
 776	Duct Out of Water	bladder.gif	b24aec5b5c8f290e39429be935a75afc	use 1 wet venom duct
-777	Super Skill	snowflakes.gif	33c96a68d990fc0ca96af4dce8f481b0
-778	Super Structure	wallshield.gif	bc2b6a58fad7df279ccb01335cb4b713
-779	Super Vision	xrayspecs.gif	1db6a8bc75e423151c6e0817932dad99
-780	Super Speed	fast.gif	593bd8b1ccbb628a02230246b4e4873d
-781	Super Accuracy	reticle.gif	8ac1abc08fb9969463ecd9a965621b46
+777	Super Skill	snowflakes.gif	33c96a68d990fc0ca96af4dce8f481b0	gap skill
+778	Super Structure	wallshield.gif	bc2b6a58fad7df279ccb01335cb4b713	gap structure
+779	Super Vision	xrayspecs.gif	1db6a8bc75e423151c6e0817932dad99	gap vision
+780	Super Speed	fast.gif	593bd8b1ccbb628a02230246b4e4873d	gap speed
+781	Super Accuracy	reticle.gif	8ac1abc08fb9969463ecd9a965621b46	gap accuracy
 782	Burning, Man	fire.gif	f93ba9c2aba47c4e296f20823bb8d1ac	summon 9
 783	Pie in the Sky	pie.gif	d3fb9bf83be3023e45185af67c3ff185	eat 1 badass pie
 784	Sole Soul	plexipips.gif	92275ab4fe615788255274e22f2aec8f	use 1 PlexiPips
@@ -984,10 +984,10 @@
 983	Destructive Resolve	resolve_feisty.gif	1fbc358b8c7daf280db289b1bec707be	use 1 resolution: be feistier
 984	Kindly Resolve	resolve_kind.gif	853f46db06b5ac93411a309e4df63104	use 1 resolution: be kinder
 985	Fortunate Resolve	resolve_lucky.gif	2e71d195d32f5e12989fa9e6fca99c25	use 1 resolution: be luckier
-986	You Know What's Up	trivia1.gif	5d2b680481201f78e29d2b6419bba180
-987	You Know When to Walk Away	trivia2.gif	92f4b8581b0351082e5f7652578aa6be
-988	You Know Who to Call	trivia3.gif	979565bba2f06ac0413085acb99334e6
-989	You Know Where to Go	trivia4.gif	d596f7038849762099bb5ddcd479f7dd
+986	You Know What's Up	trivia1.gif	5d2b680481201f78e29d2b6419bba180	use 1 Trivial Avocations Card: What?
+987	You Know When to Walk Away	trivia2.gif	92f4b8581b0351082e5f7652578aa6be	use 1 Trivial Avocations Card: When?
+988	You Know Who to Call	trivia3.gif	979565bba2f06ac0413085acb99334e6	use 1 Trivial Avocations Card: Who?
+989	You Know Where to Go	trivia4.gif	d596f7038849762099bb5ddcd479f7dd	use 1 Trivial Avocations Card: Where?
 990	Trivia Master	trivia5.gif	7708ec6dfa757a3d3be799743135b566	use 1 Trivial Avocations Card: What?, 1 Trivial Avocations Card: When?, 1 Trivial Avocations Card: Who?, 1 Trivial Avocations Card: Where?
 991	Cinnamouth	supersucker.gif	201c7e96963c7a0ff24ad97f5a70f066	use 1 Atomic Pop
 992	Gamer Rage	jplumber.gif	549d97093751385831640dc8ad530c80	use 1 Jackass Plumber home game
