@@ -155,6 +155,9 @@ public class LoginManager
 		// Initialize the variables to their initial states to avoid
 		// null pointers getting thrown all over the place
 
+		// Do this first to reset per-player item aliases
+		ItemDatabase.reset();
+
 		KoLCharacter.reset( username );
 
 		// Get rid of cached password hashes in KoLAdventures
@@ -167,7 +170,6 @@ public class LoginManager
 		StoreManager.clearCache();
 		DisplayCaseManager.clearCache();
 		ClanManager.clearCache();
-		ItemDatabase.reset();
 
 		CampgroundRequest.reset();
 		MushroomManager.reset();

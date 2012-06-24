@@ -368,7 +368,7 @@ protein paste	2	7	good	4-8	38-60	0	0	10 Pasty (+50% mus)
 pumpkin pie	3	2	EPIC	16-18	12-24	12-24	12-24
 purple pixel pie	3	1	decent	3-6	12-18	12-18	12-18
 python roll	3	1		9-14	8-16	0	20-30	45/55 Fishy
-quantum taco	0	1		0	0	0	0	#random food
+quantum taco	0	1		0	0	0	0	random food
 queen cookie	1	13	EPIC	4-6	20-40	20-40	20-40	30 Towering Strength, Mitre Cut, Knightlife, The Royal We
 questionable taco	3	1	decent	4-5	0	0	0	lovecat tail
 radio button candy	1	8	EPIC	2-9	30-50	33-49	30-50
