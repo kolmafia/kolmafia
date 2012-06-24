@@ -234,6 +234,17 @@ public class Expression
 				v = eff == null ? 0.0f :
 					Math.max( 0, eff.getCount( KoLConstants.activeEffects ) );
 				break;
+			case 'b':
+				String elem = (String) this.literals.get( (int) s[ --sp ] );
+				int element = elem.equals( "cold" ) ? Modifiers.COLD_RESISTANCE :
+							  elem.equals( "hot" ) ? Modifiers.HOT_RESISTANCE :
+							  elem.equals( "sleaze" ) ? Modifiers.SLEAZE_RESISTANCE :
+							  elem.equals( "spooky" ) ? Modifiers.SPOOKY_RESISTANCE :
+							  elem.equals( "stench" ) ? Modifiers.STENCH_RESISTANCE :
+							  elem.equals( "slime" ) ? Modifiers.SLIME_RESISTANCE :
+							  -1;
+				v = KoLCharacter.currentNumericModifier( element );
+				break;
 			case 'A':
 				v = KoLCharacter.getAscensions();
 				break;

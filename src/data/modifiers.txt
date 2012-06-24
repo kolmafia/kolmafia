@@ -16,6 +16,8 @@
 # Preferences function: pref(text)
 # Effect function: effect(text)
 #	This returns the number of turns remaining of the effect uniquely matching text.
+# Resistance function: res(text)
+#	This returns the number of resistance levels for the listed element
 # There can be at most one of each text function in any single expression.
 # Upper-case letters are varying values:
 #	A - number of Ascensions
@@ -3399,7 +3401,7 @@ The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
 The Chains Down In The Belly-O	MP Regen Min: 20, MP Regen Max: 40
 The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 The Cupcake of Wrath	Monster Level: +10
-# The Fire Inside	Muscle Percent: [10*X], Mysticality Percent: [10*X], Moxie Percent: [10*X]
+The Fire Inside	Muscle Percent: [10*res(hot)], Mysticality Percent: [10*res(hot)], Moxie Percent: [10*res(hot)]
 The Great Tit's Blessing	Monster Level: +20, Moxie Percent: +5
 The Halls of Moxiousness	Experience (Moxie): +3
 The Halls of Muscularity	Experience (Muscle): +3
