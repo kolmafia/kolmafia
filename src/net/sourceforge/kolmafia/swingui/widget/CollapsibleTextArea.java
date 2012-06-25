@@ -66,7 +66,7 @@ public class CollapsibleTextArea
 	{
 		this.label = new JLabel( label );
 
-		this.area = new JTextArea( 1, 30 );
+		this.area = new JTextArea( 1, 10 );
 		area.setLineWrap( true );
 		area.setFont( KoLConstants.DEFAULT_FONT );
 		area.setBorder( BorderFactory.createLineBorder( Color.black ) );
