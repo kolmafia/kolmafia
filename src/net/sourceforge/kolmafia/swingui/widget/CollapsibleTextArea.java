@@ -92,12 +92,14 @@ public class CollapsibleTextArea
 		c.anchor = GridBagConstraints.WEST;
 		c.gridx = 0;
 		c.gridy = 0;
+		c.weightx = 0;
 		c.fill = GridBagConstraints.NONE;
 		this.add( collapser, c );
 
 		c.anchor = GridBagConstraints.EAST;
 		c.gridx = 1;
 		c.gridy = 0;
+		c.weightx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add( area, c );
 

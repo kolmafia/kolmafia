@@ -34,11 +34,11 @@
 package net.sourceforge.kolmafia.swingui;
 
 import com.informit.guides.JDnDList;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,6 +67,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
@@ -1690,41 +1691,70 @@ public class OptionsFrame
 	protected class ScriptPanel
 		extends OptionsPanel
 	{
-		private final ScriptSelectPanel loginScript;
-		private final ScriptSelectPanel logoutScript;
-		
-		private final ScriptSelectPanel recoveryScript;
-		private final ScriptSelectPanel betweenBattleScript;
-		private final ScriptSelectPanel afterAdventureScript;
-		private final ScriptSelectPanel counterScript;
-		
-		private final ScriptSelectPanel kingLiberatedScript;
-		private final ScriptSelectPanel preAscensionScript;
-		private final ScriptSelectPanel postAscensionScript;
-		
-		private final ScriptSelectPanel beforePVPScript;
-		private final ScriptSelectPanel buyScript;
-		private final ScriptSelectPanel plantingScript;
-		private final ScriptSelectPanel chatBotScript;
+		private ScriptSelectPanel loginScript;
+		private ScriptSelectPanel logoutScript;
+
+		private ScriptSelectPanel recoveryScript;
+		private ScriptSelectPanel betweenBattleScript;
+		private ScriptSelectPanel afterAdventureScript;
+		private ScriptSelectPanel counterScript;
+
+		private ScriptSelectPanel kingLiberatedScript;
+		private ScriptSelectPanel preAscensionScript;
+		private ScriptSelectPanel postAscensionScript;
+
+		private ScriptSelectPanel beforePVPScript;
+		private ScriptSelectPanel buyScript;
+		private ScriptSelectPanel plantingScript;
+		private ScriptSelectPanel chatBotScript;
 
 		public ScriptPanel()
 		{
-			this.loginScript = new ScriptSelectPanel( new CollapsibleTextArea( "On Login: " ) );
-			this.logoutScript = new ScriptSelectPanel( new CollapsibleTextArea( "On Logout: " ) );
-			this.recoveryScript = new ScriptSelectPanel( new CollapsibleTextArea( "Recovery: " ) );
-			this.betweenBattleScript = new ScriptSelectPanel( new CollapsibleTextArea( "Before Adventure: " ) );
-			this.afterAdventureScript = new ScriptSelectPanel( new CollapsibleTextArea( "After Adventure: " ) );
-			this.counterScript = new ScriptSelectPanel( new CollapsibleTextArea( "Counter Script: " ) );
-			this.kingLiberatedScript = new ScriptSelectPanel( new CollapsibleTextArea( "King Freed: " ) );
-			this.preAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Ascension: " ) );
-			this.postAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Post-Ascension: " ) );
-			this.beforePVPScript = new ScriptSelectPanel( new CollapsibleTextArea( "Before PvP: " ) );
-			this.buyScript = new ScriptSelectPanel( new CollapsibleTextArea( "Buy Script: " ) );
-			this.plantingScript = new ScriptSelectPanel( new CollapsibleTextArea( "Planting: " ) );
-			this.chatBotScript = new ScriptSelectPanel( new CollapsibleTextArea( "Chatbot Script: " ) );
+			initialize();
 
-			ArrayList<ScriptSelectPanel> list = new ArrayList<ScriptSelectPanel>();
+			final ArrayList<ScriptSelectPanel> list = new ArrayList<ScriptSelectPanel>();
 
+			fillList( list );
+
+			JPanel layoutPanel = makeLayoutPane( list );
+			JScrollPane scrollPane = makeScrollPane( layoutPanel );
+
+			this.contentPane.add( scrollPane );
+			this.actionCancelled();
+		}
+
+		private JScrollPane makeScrollPane( JPanel layoutPanel )
+		{
+			// Make the layout manager understand how the viewport works.
+			JScrollPane scrollPane = new JScrollPane();
+			JViewport vp = new JViewport();
+
+			vp.setPreferredSize( this.contentPane.getPreferredSize() );
+			vp.setView( layoutPanel );
+
+			scrollPane.setViewport( vp );
+
+			return scrollPane;
+		}
+
+		private JPanel makeLayoutPane( final ArrayList<ScriptSelectPanel> list )
+		{
+			JPanel layoutPanel = new JPanel();
+			layoutPanel.setLayout( new BoxLayout( layoutPanel, BoxLayout.Y_AXIS ) );
+
+			for ( int i = 0; i < list.size(); ++i )
+			{
+				JPanel p = new JPanel( new FlowLayout( FlowLayout.TRAILING, 1, 3 ) );
+				p.add( list.get( i ).getLabel() );
+				p.add( list.get( i ) );
+
+				layoutPanel.add( p );
+			}
+			return layoutPanel;
+		}
+
+		private void fillList( final ArrayList<ScriptSelectPanel> list )
+		{
 			list.add( this.loginScript );
 			list.add( this.logoutScript );
 			list.add( this.recoveryScript );
@@ -1738,26 +1768,23 @@ public class OptionsFrame
 			list.add( this.buyScript );
 			list.add( this.plantingScript );
 			list.add( this.chatBotScript );
+		}
 
-			JPanel layoutPanel = new JPanel();
-			layoutPanel.setLayout( new BoxLayout( layoutPanel, BoxLayout.Y_AXIS ) );
-
-			for ( int i = 0; i < list.size(); ++i )
-			{
-				JPanel p = new JPanel( new BorderLayout() );
-				p.add( list.get( i ).getLabel(), BorderLayout.CENTER );
-				p.add( list.get( i ), BorderLayout.EAST );
-
-				p.add( Box.createVerticalStrut( 5 ), BorderLayout.SOUTH );
-
-				layoutPanel.add( p );
-			}
-
-			JScrollPane scrollPane = new JScrollPane( layoutPanel );
-			scrollPane.setViewportView( layoutPanel );
-
-			this.contentPane.add( scrollPane );
-			this.actionCancelled();
+		private void initialize()
+		{
+			this.loginScript = new ScriptSelectPanel( new CollapsibleTextArea( "On Login:" ) );
+			this.logoutScript = new ScriptSelectPanel( new CollapsibleTextArea( "On Logout:" ) );
+			this.recoveryScript = new ScriptSelectPanel( new CollapsibleTextArea( "Recovery:" ) );
+			this.betweenBattleScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Adventure:" ) );
+			this.afterAdventureScript = new ScriptSelectPanel( new CollapsibleTextArea( "Post-Adventure:" ) );
+			this.counterScript = new ScriptSelectPanel( new CollapsibleTextArea( "Counter Script:" ) );
+			this.kingLiberatedScript = new ScriptSelectPanel( new CollapsibleTextArea( "King Freed:" ) );
+			this.preAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Ascension:" ) );
+			this.postAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Post-Ascension:" ) );
+			this.beforePVPScript = new ScriptSelectPanel( new CollapsibleTextArea( "Before PvP:" ) );
+			this.buyScript = new ScriptSelectPanel( new CollapsibleTextArea( "Buy Script:" ) );
+			this.plantingScript = new ScriptSelectPanel( new CollapsibleTextArea( "Planting:" ) );
+			this.chatBotScript = new ScriptSelectPanel( new CollapsibleTextArea( "Chatbot Script:" ) );
 		}
 
 		@Override
