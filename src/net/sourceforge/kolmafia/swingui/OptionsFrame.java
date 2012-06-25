@@ -76,6 +76,8 @@ import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import org.jdesktop.swingx.JXPanel;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
@@ -1739,17 +1741,34 @@ public class OptionsFrame
 
 		private JPanel makeLayoutPane( final ArrayList<ScriptSelectPanel> list )
 		{
-			JPanel layoutPanel = new JPanel();
+			JXPanel layoutPanel = new JXPanel();
 			layoutPanel.setLayout( new BoxLayout( layoutPanel, BoxLayout.Y_AXIS ) );
 
+			//We're going to use BorderLayout for the rows, with the textComponent as the CENTER.
+			//Since the textComponent will gobble up all available space, make the labels on the left a uniform size.
+			int bigDim = list.get( 0 ).getLabel().getPreferredSize().width;
+			for ( int i = 1; i < list.size(); ++i )
+			{
+				if ( list.get( i ).getLabel().getPreferredSize().width > bigDim )
+				{
+					bigDim = list.get( i ).getLabel().getPreferredSize().width;
+				}
+			}
 			for ( int i = 0; i < list.size(); ++i )
 			{
-				JPanel p = new JPanel( new FlowLayout( FlowLayout.TRAILING, 1, 3 ) );
-				p.add( list.get( i ).getLabel() );
-				p.add( list.get( i ) );
+				JXPanel p = new JXPanel( new BorderLayout() );
+				JLabel lab = list.get( i ).getLabel();
+				lab.setPreferredSize( new Dimension( bigDim + 2, lab.getPreferredSize().height ) );
+				p.add( lab, BorderLayout.WEST );
+				p.add( list.get( i ), BorderLayout.CENTER );
+
+				p.add( Box.createVerticalStrut( 5 ), BorderLayout.SOUTH );
 
 				layoutPanel.add( p );
 			}
+
+			//Do resize the horizontal dimension as the viewport resizes.  JXPanel does this by default.
+			layoutPanel.setScrollableTracksViewportHeight( false ); //Don't resize the vertical dimension, let the viewport do that
 			return layoutPanel;
 		}
 
