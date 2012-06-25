@@ -38,7 +38,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -730,7 +734,18 @@ public abstract class GenericFrame
 		int xLocation = 0;
 		int yLocation = 0;
 
-		Dimension screenSize = KoLConstants.TOOLKIT.getScreenSize();
+		Rectangle display = new Rectangle();
+		GraphicsEnvironment ge =
+			GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gs = ge.getScreenDevices();
+		for (int j = 0; j < gs.length; j++) {
+			GraphicsDevice gd = gs[j];
+			GraphicsConfiguration[] gc = gd.getConfigurations();
+			for (int i = 0; i < gc.length; i++) {
+				display = display.union(gc[i].getBounds());
+			}
+		}
+
 		String position = Preferences.getString( this.frameName );
 
 		if ( position == null || position.indexOf( "," ) == -1 )
@@ -749,7 +764,7 @@ public abstract class GenericFrame
 		xLocation = StringUtilities.parseInt( location[ 0 ] );
 		yLocation = StringUtilities.parseInt( location[ 1 ] );
 
-		if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
+		if ( xLocation > display.x && yLocation > display.y && xLocation < ( display.x + display.width ) && yLocation < ( display.y + display.height ) )
 		{
 			this.setLocation( xLocation, yLocation );
 		}
@@ -828,7 +843,7 @@ public abstract class GenericFrame
 
 	public static final void saveBookmarks()
 	{
-		StringBuffer bookmarkData = new StringBuffer();
+		StringBuilder bookmarkData = new StringBuilder();
 
 		for ( int i = 0; i < KoLConstants.bookmarks.getSize(); ++i )
 		{
