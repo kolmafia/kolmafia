@@ -63,6 +63,8 @@ import javax.swing.SwingConstants;
 
 import javax.swing.text.JTextComponent;
 
+import org.jdesktop.swingx.JXCollapsiblePane;
+
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
@@ -74,6 +76,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.CollapsibleTextArea;
 
 public abstract class GenericPanel
 	extends ActionVerifyPanel
@@ -405,7 +408,7 @@ public abstract class GenericPanel
 	public class ScriptSelectPanel
 		extends FileSelectPanel
 	{
-		public ScriptSelectPanel( final AutoHighlightTextField textField )
+		public ScriptSelectPanel( final JComponent textField )
 		{
 			super( textField, true );
 			this.setPath( KoLConstants.SCRIPT_LOCATION );
@@ -416,17 +419,30 @@ public abstract class GenericPanel
 		extends JPanel
 		implements ActionListener, FocusListener
 	{
-		private final AutoHighlightTextField textField;
+		private final JTextComponent textField;
 		private final JButton fileButton;
 		private File path = null;
+		private JLabel label;
 
-		public FileSelectPanel( final AutoHighlightTextField textField, final boolean button )
+		public FileSelectPanel( final JComponent textField, final boolean button )
 		{
 			this.setLayout( new BorderLayout( 0, 0 ) );
 
-			textField.addFocusListener( this );
+			if ( textField instanceof JTextComponent )
+			{
+				this.textField = (JTextComponent) textField;
+			}
+			else if ( textField instanceof CollapsibleTextArea )
+			{
+				this.textField = ( (CollapsibleTextArea) textField ).getArea();
+				this.label = ( (CollapsibleTextArea) textField ).getLabel();
+			}
+			else
+			{
+				this.textField = new JTextField();
+			}
 
-			this.textField = textField;
+			this.textField.addFocusListener( this );
 			this.add( textField, BorderLayout.CENTER );
 
 			if ( button )
@@ -581,6 +597,11 @@ public abstract class GenericPanel
 			}
 
 			GenericPanel.this.actionConfirmed();
+		}
+
+		public JLabel getLabel()
+		{
+			return this.label;
 		}
 	}
 

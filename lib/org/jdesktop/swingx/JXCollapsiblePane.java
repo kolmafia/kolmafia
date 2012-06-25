@@ -544,7 +544,7 @@ public class JXCollapsiblePane extends JXPanel {
                     int dimension = direction.isVertical() ?
                                     wrapper.getHeight() : wrapper.getWidth();
 					int preferredDimension =
-						direction.isVertical() ? getContentPane().getMinimumSize().height : getContentPane().getPreferredSize().width;
+						direction.isVertical() ? getContentPane().getMinimumSize().height : getContentPane().getMinimumSize().width;
                     setAnimationParams(new AnimationParams(30,
                                                            Math.max(8, dimension / 10), 1.0f, 0.01f));
                     animator.reinit(dimension, preferredDimension );
@@ -766,9 +766,9 @@ public void setMinimumSize(Dimension minimumSize) {
                     // still receive focus.
                     int minDimension;
                     if (direction.isVertical()) {
-                        minDimension = wrapper.getView().getPreferredSize().height;
+                        minDimension = wrapper.getView().getMinimumSize().height;
                     } else {
-                    	minDimension = wrapper.getView().getPreferredSize().width;
+                    	minDimension = wrapper.getView().getMinimumSize().width;
                     }
                     if (finalDimension > minDimension) {
                         currentDimension = -1;

@@ -40,7 +40,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -49,7 +48,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-
+import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -102,6 +101,7 @@ import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.CollapsibleTextArea;
 import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -1709,37 +1709,54 @@ public class OptionsFrame
 
 		public ScriptPanel()
 		{
-			this.loginScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.logoutScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.recoveryScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.betweenBattleScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.afterAdventureScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.counterScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.kingLiberatedScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.preAscensionScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.postAscensionScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.beforePVPScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.buyScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.plantingScript = new ScriptSelectPanel( new AutoHighlightTextField() );
-			this.chatBotScript = new ScriptSelectPanel( new AutoHighlightTextField() );
+			this.loginScript = new ScriptSelectPanel( new CollapsibleTextArea( "On Login: " ) );
+			this.logoutScript = new ScriptSelectPanel( new CollapsibleTextArea( "On Logout: " ) );
+			this.recoveryScript = new ScriptSelectPanel( new CollapsibleTextArea( "Recovery: " ) );
+			this.betweenBattleScript = new ScriptSelectPanel( new CollapsibleTextArea( "Before Adventure: " ) );
+			this.afterAdventureScript = new ScriptSelectPanel( new CollapsibleTextArea( "After Adventure: " ) );
+			this.counterScript = new ScriptSelectPanel( new CollapsibleTextArea( "Counter Script: " ) );
+			this.kingLiberatedScript = new ScriptSelectPanel( new CollapsibleTextArea( "King Freed: " ) );
+			this.preAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Pre-Ascension: " ) );
+			this.postAscensionScript = new ScriptSelectPanel( new CollapsibleTextArea( "Post-Ascension: " ) );
+			this.beforePVPScript = new ScriptSelectPanel( new CollapsibleTextArea( "Before PvP: " ) );
+			this.buyScript = new ScriptSelectPanel( new CollapsibleTextArea( "Buy Script: " ) );
+			this.plantingScript = new ScriptSelectPanel( new CollapsibleTextArea( "Planting: " ) );
+			this.chatBotScript = new ScriptSelectPanel( new CollapsibleTextArea( "Chatbot Script: " ) );
 
-			VerifiableElement[] elements = new VerifiableElement[ 14 ];
-			elements[ 0 ] = new VerifiableElement( "On Login: ", this.loginScript );
-			elements[ 1 ] = new VerifiableElement( "On Logout: ", this.logoutScript );
-			elements[ 2 ] = new VerifiableElement( "Recovery: ", this.recoveryScript );
-			elements[ 3 ] = new VerifiableElement( "Before Adventure: ", this.betweenBattleScript );
-			elements[ 4 ] = new VerifiableElement( "After Adventure: ", this.afterAdventureScript );
-			elements[ 5 ] = new VerifiableElement( "Counter Script: ", this.counterScript );
-			elements[ 6 ] = new VerifiableElement( "King Freed: ", this.kingLiberatedScript );
-			elements[ 7 ] = new VerifiableElement( "Pre-Ascension: ", this.preAscensionScript );
-			elements[ 8 ] = new VerifiableElement( "Post-Ascension: ", this.postAscensionScript );
-			elements[ 9 ] = new VerifiableElement( "Before PvP: ", this.beforePVPScript );
-			elements[ 10 ] = new VerifiableElement( "Buy Script: ", this.buyScript );
-			elements[ 11 ] = new VerifiableElement( "Planting: ", this.plantingScript );
-			elements[ 12 ] = new VerifiableElement( "Chatbot Script: ", this.chatBotScript );
-			elements[ 13 ] = new VerifiableElement();
+			ArrayList<ScriptSelectPanel> list = new ArrayList<ScriptSelectPanel>();
 
-			this.setContent( elements );
+			list.add( this.loginScript );
+			list.add( this.logoutScript );
+			list.add( this.recoveryScript );
+			list.add( this.betweenBattleScript );
+			list.add( this.afterAdventureScript );
+			list.add( this.counterScript );
+			list.add( this.kingLiberatedScript );
+			list.add( this.preAscensionScript );
+			list.add( this.postAscensionScript );
+			list.add( this.beforePVPScript );
+			list.add( this.buyScript );
+			list.add( this.plantingScript );
+			list.add( this.chatBotScript );
+
+			JPanel layoutPanel = new JPanel();
+			layoutPanel.setLayout( new BoxLayout( layoutPanel, BoxLayout.Y_AXIS ) );
+
+			for ( int i = 0; i < list.size(); ++i )
+			{
+				JPanel p = new JPanel( new BorderLayout() );
+				p.add( list.get( i ).getLabel(), BorderLayout.CENTER );
+				p.add( list.get( i ), BorderLayout.EAST );
+
+				p.add( Box.createVerticalStrut( 5 ), BorderLayout.SOUTH );
+
+				layoutPanel.add( p );
+			}
+
+			JScrollPane scrollPane = new JScrollPane( layoutPanel );
+			scrollPane.setViewportView( layoutPanel );
+
+			this.contentPane.add( scrollPane );
 			this.actionCancelled();
 		}
 
