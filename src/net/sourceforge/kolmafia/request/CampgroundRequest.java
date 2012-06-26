@@ -458,7 +458,12 @@ public class CampgroundRequest
 	{
 		KoLCharacter.setTelescope( responseText.indexOf( "action=telescope" ) != -1 );
 		KoLCharacter.setBookshelf( responseText.indexOf( "action=bookshelf" ) != -1 );
-		KoLCharacter.setHippyStoneBroken( responseText.indexOf( "smashstone.gif" ) != -1 );
+
+		if ( responseText.contains( "smashstone.gif" ) && !KoLCharacter.getHippyStoneBroken() )
+		{
+			KoLCharacter.setHippyStoneBroken( true );
+			RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
+		}
 
 		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
 		findImage( responseText, "maid.gif", ItemPool.MAID );
