@@ -1024,7 +1024,12 @@ public class UseSkillRequest
 			}
 
 			// Otherwise, obtain the Epic Weapon
-			InventoryManager.retrieveItem( options[ 2 ] );
+			if ( !InventoryManager.retrieveItem( options[ 2 ] ) )
+			{
+				KoLmafia.updateDisplay(
+					MafiaState.ERROR,
+					"You are out of Ronin and need a " + options[ 2 ] + " to cast that. Check item retrieval settings." );
+			}
 			return;
 		}
 
