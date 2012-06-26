@@ -129,7 +129,7 @@ public class Variable
 
 	public void setValue( Interpreter interpreter, final Value targetValue )
 	{
-		if ( this.getBaseType().equals( targetValue.getType() ) )
+		if ( this.getBaseType().equals( DataTypes.ANY_TYPE ) || this.getBaseType().equals( targetValue.getType() ) )
 		{
 			this.content = targetValue;
 			this.expression = null;

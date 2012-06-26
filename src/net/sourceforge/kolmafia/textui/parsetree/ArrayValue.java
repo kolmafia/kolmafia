@@ -118,9 +118,9 @@ public class ArrayValue
 	public void clear()
 	{
 		Value[] array = (Value[]) this.content;
-		for ( int index = 0; index < array.length; ++index )
+		for ( int i = 0; i < array.length; ++i )
 		{
-			array[ index ] = this.getDataType().initialValue();
+			array[ i ] = this.getDataType().initialValue();
 		}
 	}
 
@@ -149,5 +149,29 @@ public class ArrayValue
 			result[ i ] = new Value( i );
 		}
 		return result;
+	}
+
+	@Override
+	public String toJSON()
+	{
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( "[ " );
+
+		Value[] array = (Value[]) this.content;
+
+		for ( int i = 0; i < array.length; ++i )
+		{
+			if ( i > 0 )
+			{
+				buffer.append( ", " );
+			}
+
+			buffer.append( array[ i ].toJSON() );
+		}
+
+		buffer.append( " ]" );
+
+		return buffer.toString();
 	}
 }

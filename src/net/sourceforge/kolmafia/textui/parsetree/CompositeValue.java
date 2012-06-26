@@ -40,6 +40,7 @@ import java.util.Iterator;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.ScriptException;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CompositeValue
 	extends Value
@@ -166,5 +167,42 @@ public class CompositeValue
 	public String toString()
 	{
 		return "composite " + this.type.toString();
+	}
+
+	@Override
+	public String toJSON()
+	{
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( "{ " );
+
+		Value[] keys = this.keys();
+
+		for ( int i = 0; i < keys.length; ++i )
+		{
+			if ( i > 0 )
+			{
+				buffer.append( ", ");
+			}
+
+			String keyJSON = keys[ i ].toJSON();
+
+			if ( !keyJSON.startsWith( "\"" ) )
+			{
+				keyJSON = "\"" + keyJSON + "\"";
+			}
+
+			buffer.append( keyJSON );
+
+			buffer.append( " : " );
+
+			String valueJSON = this.aref( keys[ i ] ).toJSON();
+
+			buffer.append( valueJSON );
+		}
+
+		buffer.append( " }" );
+
+		return buffer.toString();
 	}
 }

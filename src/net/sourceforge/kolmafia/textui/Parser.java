@@ -3333,6 +3333,11 @@ public class Parser
 			return true;
 		}
 
+		if ( lhs.equals( DataTypes.ANY_TYPE ) )
+		{
+			return true;
+		}
+
 		// Noncoercible strings only accept strings
 		if ( lhs.equals( DataTypes.STRICT_STRING_TYPE ) )
 		{
