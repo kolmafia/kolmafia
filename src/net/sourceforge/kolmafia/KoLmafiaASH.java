@@ -249,8 +249,14 @@ public abstract class KoLmafiaASH
 
 			if ( !matches )
 			{
-				matches =
-					it2.hasNext() && ( (VariableReference) it2.next() ).getType().toString().indexOf( filter ) != -1;
+				if ( it2.hasNext() )
+				{
+					VariableReference ref = (VariableReference) it2.next();
+
+					String refType = ref.getType().toString();
+
+					matches = refType == null || refType.indexOf( filter ) != -1;
+				}
 			}
 
 			if ( !matches )
