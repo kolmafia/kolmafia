@@ -38,7 +38,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,6 +48,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -1769,6 +1770,7 @@ public class OptionsFrame
 
 			//Do resize the horizontal dimension as the viewport resizes.  JXPanel does this by default.
 			layoutPanel.setScrollableTracksViewportHeight( false ); //Don't resize the vertical dimension, let the viewport do that
+			layoutPanel.setBorder( BorderFactory.createEmptyBorder( 5, 10, 5, 10 ) );
 			return layoutPanel;
 		}
 
