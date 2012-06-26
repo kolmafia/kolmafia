@@ -144,9 +144,12 @@ public class LockableListModel
 
 	public void sort()
 	{
-		Collections.sort( this.actualElements );
-		Collections.sort( this.visibleElements );
-		this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
+		synchronized ( this.actualElements )
+		{
+			Collections.sort( this.actualElements );
+			Collections.sort( this.visibleElements );
+			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
+		}
 
 		synchronized ( this.mirrorList )
 		{
@@ -169,9 +172,12 @@ public class LockableListModel
 
 	public void sort( final Comparator c )
 	{
-		Collections.sort( this.actualElements, c );
-		Collections.sort( this.visibleElements, c );
-		this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
+		synchronized ( this.actualElements )
+		{
+			Collections.sort( this.actualElements, c );
+			Collections.sort( this.visibleElements, c );
+			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
+		}
 
 		synchronized ( this.mirrorList )
 		{
