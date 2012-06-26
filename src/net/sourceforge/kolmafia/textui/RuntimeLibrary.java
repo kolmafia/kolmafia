@@ -121,6 +121,7 @@ import net.sourceforge.kolmafia.request.CraftRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -896,6 +897,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "familiar_weight", DataTypes.INT_TYPE, params ) );
+		
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "is_familiar_equipment_locked", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "lock_familiar_equipment", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "weapon_hands", DataTypes.INT_TYPE, params ) );
@@ -3796,6 +3803,20 @@ public abstract class RuntimeLibrary
 	{
 		FamiliarData fam = KoLCharacter.findFamiliar( (int) familiar.intValue() );
 		return fam == null ? DataTypes.ZERO_VALUE : new Value( fam.getWeight() );
+	}
+	
+	public static Value is_familiar_equipment_locked( Interpreter interpreter )
+	{
+		return DataTypes.makeBooleanValue( EquipmentManager.familiarItemLocked() );
+	}
+	
+	public static Value lock_familiar_equipment( Interpreter interpreter, Value lock )
+	{
+		if ( ( lock.intValue() == 1 ) ^ EquipmentManager.familiarItemLocked() )
+		{
+			RequestThread.postRequest( new FamiliarRequest( true ) );
+		}
+		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value minstrel_level( Interpreter interpreter )
