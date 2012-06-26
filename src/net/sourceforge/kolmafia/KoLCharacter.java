@@ -611,6 +611,7 @@ public abstract class KoLCharacter
 
 		KoLCharacter.hasBookshelf = false;
 		KoLCharacter.telescopeUpgrades = 0;
+		KoLCharacter.hippyStoneBroken = false;
 
 		KoLCharacter.familiars.clear();
 		KoLCharacter.familiars.add( FamiliarData.NO_FAMILIAR );
@@ -1814,7 +1815,7 @@ public abstract class KoLCharacter
 			end = 200;
 		}
 
-		StringBuffer beginType = new StringBuffer();
+		StringBuilder beginType = new StringBuilder();
 		beginType.append( "Semirare window begin" );
 
 		if ( KoLCharacter.canInteract() )

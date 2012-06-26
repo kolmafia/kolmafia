@@ -93,9 +93,6 @@ public class PvpManager
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Determining remaining fights..." );
-		RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
-
 		PeeVPeeRequest request = new PeeVPeeRequest( "", initialStance, mission );
 		
 		int availableFights = KoLCharacter.getAttacksLeft();
@@ -136,8 +133,6 @@ public class PvpManager
 	public static final void executePvpRequest( final ProfileRequest[] targets, final PeeVPeeRequest request )
 	{
 		PvpManager.checkHippyStone();
-		KoLmafia.updateDisplay( "Determining remaining fights..." );
-		RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
 		
 		for ( int i = 0; i < targets.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0; ++i )
 		{
