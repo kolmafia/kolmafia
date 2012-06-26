@@ -74,15 +74,8 @@ public class CustomCombatAction
 
 		String actionString = this.index + ": " + this.action.replaceAll( "\\s+", " " );
 
-		if ( actionString.length() > 20 )
-		{
-			this.actionString = actionString.substring( 0, 20 ) + "...";
-		}
-		else
-		{
-			this.actionString = actionString;
-		}
-		
+		this.actionString = actionString;
+
 		if ( this.action.equals( "default" ) )
 		{
 			this.sectionReference = "default";
