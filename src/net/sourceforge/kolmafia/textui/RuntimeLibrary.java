@@ -287,6 +287,9 @@ public abstract class RuntimeLibrary
 		// Type conversion functions which allow conversion
 		// of one data format to another.
 
+		params = new Type[] { DataTypes.ANY_TYPE };
+		functions.add( new LibraryFunction( "to_json", DataTypes.STRING_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "to_string", DataTypes.STRING_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
@@ -1878,6 +1881,11 @@ public abstract class RuntimeLibrary
 
 	// Type conversion functions which allow conversion
 	// of one data format to another.
+
+	public static Value to_json( Interpreter interpreter, Value val )
+	{
+		return new Value( val.asProxy().toJSON() );
+	}
 
 	public static Value to_string( Interpreter interpreter, Value val )
 	{

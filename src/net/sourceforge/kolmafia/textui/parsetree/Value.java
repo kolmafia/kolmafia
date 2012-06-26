@@ -38,6 +38,7 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Value
 	extends ParseTreeNode
@@ -342,5 +343,25 @@ public class Value
 	{
 		Interpreter.indentLine( stream, indent );
 		stream.println( "<VALUE " + this.getType() + " [" + this.toString() + "]>" );
+	}
+
+	public String toJSON()
+	{
+		if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
+		{
+			return this.contentLong > 0 ? "true" : "false";
+		}
+		else if ( this.type.equals( DataTypes.TYPE_INT ) )
+		{
+			return String.valueOf( this.contentLong );
+		}
+		else if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
+		{
+			return String.valueOf( Double.longBitsToDouble( this.contentLong ) );
+		}
+		else
+		{
+			return "\"" + StringUtilities.globalStringReplace( this.toString(), "\"", "\\\"" ) + "\"";
+		}
 	}
 }

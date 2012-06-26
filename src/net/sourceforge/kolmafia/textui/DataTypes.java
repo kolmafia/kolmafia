@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DataTypes
 {
+	public static final int TYPE_ANY = 0;
 	public static final int TYPE_VOID = 1;
 	public static final int TYPE_BOOLEAN = 2;
 	public static final int TYPE_INT = 3;
@@ -111,6 +112,7 @@ public class DataTypes
 		KoLCharacter.AVATAR_OF_BORIS
 	};
 
+	public static final Type ANY_TYPE = new Type( null, DataTypes.TYPE_ANY );
 	public static final Type VOID_TYPE = new Type( "void", DataTypes.TYPE_VOID );
 	public static final Type BOOLEAN_TYPE = new Type( "boolean", DataTypes.TYPE_BOOLEAN );
 	public static final Type INT_TYPE = new Type( "int", DataTypes.TYPE_INT );
