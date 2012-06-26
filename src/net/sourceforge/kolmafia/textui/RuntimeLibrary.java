@@ -3820,7 +3820,7 @@ public abstract class RuntimeLibrary
 	
 	public static Value lock_familiar_equipment( Interpreter interpreter, Value lock )
 	{
-		if ( ( lock.intValue() == 1 ) ^ EquipmentManager.familiarItemLocked() )
+		if ( ( lock.intValue() == 1 ) != EquipmentManager.familiarItemLocked() )
 		{
 			RequestThread.postRequest( new FamiliarRequest( true ) );
 		}
