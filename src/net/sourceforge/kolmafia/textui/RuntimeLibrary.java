@@ -790,6 +790,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "pvp_attacks_left", DataTypes.INT_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_clan_id", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_clan_name", DataTypes.STRING_TYPE, params ) );
+
 		// Basic skill and effect functions, including those used
 		// in custom combat consult scripts.
 
@@ -3474,6 +3480,16 @@ public abstract class RuntimeLibrary
 	public static Value pvp_attacks_left( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getAttacksLeft() );
+	}
+
+	public static Value get_clan_id( Interpreter interpreter )
+	{
+		return new Value( ClanManager.getClanId() );
+	}
+
+	public static Value get_clan_name( Interpreter interpreter )
+	{
+		return new Value( ClanManager.getClanName() );
 	}
 
 	// Basic skill and effect functions, including those used

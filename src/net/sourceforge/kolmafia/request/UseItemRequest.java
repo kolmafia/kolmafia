@@ -104,6 +104,7 @@ public class UseItemRequest
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</blockquote></td></tr></table>.*?</body>" );
 	private static final Pattern HELPER_PATTERN = Pattern.compile( "(utensil|whichcard)=(\\d+)" );
+	private static final Pattern BRICKO_PATTERN = Pattern.compile( "You break apart your ([\\w\\s]*)." );
 	private static final Pattern FAMILIAR_NAME_PATTERN =
 		Pattern.compile( "You decide to name (?:.*?) <b>(.*?)</b>" );
 	private static final Pattern FRUIT_TUBING_PATTERN =
@@ -1342,7 +1343,7 @@ public class UseItemRequest
 
 	protected void runOneIteration( final int currentIteration, final int totalIterations, String useTypeAsString )
 	{
-		StringBuffer message = new StringBuffer();
+		StringBuilder message = new StringBuilder();
 
 		message.append( useTypeAsString );
 		message.append( " " );
@@ -1429,6 +1430,19 @@ public class UseItemRequest
 		UseItemRequest.currentItemId = this.itemUsed.getItemId();
 		UseItemRequest.parseConsumption( this.responseText, true );
 		ResponseTextParser.learnRecipe( this.getURLString(), this.responseText );
+	}
+
+	public static final void parseBricko( final String responseText )
+	{
+		if ( responseText.contains( "You break apart your" ) )
+		{
+			Matcher matcher = UseItemRequest.BRICKO_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				AdventureResult brickoItem = new AdventureResult( matcher.group( 1 ), -1 );
+				ResultProcessor.processResult( brickoItem );
+			}
+		}
 	}
 
 	public static final boolean parseBinge( final String urlString, final String responseText )

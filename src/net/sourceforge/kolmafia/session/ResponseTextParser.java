@@ -500,11 +500,17 @@ public class ResponseTextParser
 			}
 
 			// If there is a consumption message, parse it
-			else if ( location.indexOf( "action=message" ) != -1 || location.indexOf( "action=breakbricko" ) != -1 )
+			else if ( location.contains( "action=message" ) )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
 				AWOLQuartermasterRequest.parseResponse( location, responseText );
 				BURTRequest.parseResponse( location, responseText );
+			}
+
+			// If there is a bricko message, parse it
+			else if ( location.contains( "action=breakbricko" ) )
+			{
+				UseItemRequest.parseBricko( responseText );
 			}
 
 			// If there is a binge message, parse it
