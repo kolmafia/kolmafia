@@ -192,6 +192,7 @@ hardened slime hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +
 helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 15"
 helmet turtle	Muscle: +1, Familiar Effect: "atk, cap 2"
 honeycap	Moxie Percent: +5, Item Drop: +10, Ranged Damage: +15, Familiar Effect: "1xPotato, cap 43"
+hot daub bun	Hot Damage: +9, Hot Spell Damage: +9
 ice pick	Item Drop: +15, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "?xVolley, 8xLep, cap 2"
 # insane tophat: We're All Mad Here!
@@ -412,6 +413,7 @@ hippopotamus pants	Maximum HP: +25, Familiar Effect: "1xPotato, 1xGhuol, cap 32"
 hippopotamus skirt	Maximum HP: +25, Familiar Effect: "1xBarrr, 1xFairy, cap 32"
 hobo dungarees	Maximum MP: +500, Mysticality Percent: +5, Familiar Effect: "0.5xVolley, 1xPotato"
 honeybritches	Muscle Percent: +5, Critical: 3, Weapon Damage: +15, Familiar Effect: "sleaze atk, 1xGhuol, cap 43"
+hot daub stand	Hot Damage: +9, Hot Spell Damage: +9
 ironic jogging shorts	Initiative: +10, Damage Absorption: +20, Moxie: -5, Familiar Effect: "1xGhuol, cap 10"
 junk-mail pants	Familiar Effect: "2xBarrr, cap 12"
 leather chaps	Moxie: +8, Muscle: -4, Familiar Effect: "sleaze atk, 1xBarrr, cap 40"
@@ -846,6 +848,7 @@ flamingo mallet	Monster Level: +4, Meat Drop: +5
 fluorescent lightbulb	Maximum MP: +30
 flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
 # fouet de tortue-dressage: +10 to Familiar Damage
+foot-long hot daub	Hot Damage: +9, Hot Spell Damage: +9
 fouet de tortue-dressage	Familiar Weight: +10
 freezin' bindle	Item Drop: +10, Cold Damage: +25
 frigid hanky&#363;	Cold Damage: +6, Moxie: +2, Wiki Name: "frigid hankyu"
@@ -3634,6 +3637,7 @@ Grass Guise	HP Regen Min: 1, HP Regen Max: 3
 Grimy Reaper's Vestments	Spooky Damage: +100, Spooky Spell Damage: +100
 Hodgman's Regal Frippery	Hobo Power: +25
 Hot and Cold Running Ninja Suit	Cold Resistance: +2, Hot Resistance: +2
+Hot Daub Ensemble	Cold Resistance: +3
 Hyperborean Hobo Habiliments	Cold Damage: +50
 Knight's Armor	Pickpocket Chance: +10
 Knob Goblin Elite Guard Uniform	Muscle: +7

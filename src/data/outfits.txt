@@ -84,6 +84,7 @@
 83	Dark Bro's Vestments	The Necbromancer's Hat, The Necbromancer's Stein, The Necbromancer's Shorts
 84	Sucker Samurai Suit	sucker hakama, sucker kabuto, sucker tachi
 85	Wax Wardrobe	wax hat, wax pants
+86	Hot Daub Ensemble	hot daub bun, foot-long hot daub, hot daub stand
 
 # Outfits for which KoL does not provide an outfit id, and thus are
 # given id #0 to tell KoLmafia to treat it in a special way.
