@@ -55,7 +55,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ClanMembersRequest
 	extends GenericRequest
 {
-	private static final Pattern CLANID_PATTERN = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" );
+	private static final Pattern CLANID_PATTERN = Pattern.compile( "Clan: <b><a class=nounder href=\"showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" );
 	private static final Pattern MEMBER_PATTERN =
 		Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">([^<]+)</a></b>&nbsp;</td><td class=small>([^<]*?)&nbsp;</td><td class=small>(\\d+).*?</td>" );
 
@@ -70,7 +70,6 @@ public class ClanMembersRequest
 	private final LockableListModel rankList;
 
 	private String clanId;
-	private String clanName;
 
 	public ClanMembersRequest( final boolean isDetailLookup )
 	{
@@ -81,7 +80,6 @@ public class ClanMembersRequest
 		this.rankList = null;
 
 		this.clanId = "";
-		this.clanName = "";
 	}
 
 	public ClanMembersRequest( final LockableListModel rankList )
@@ -103,7 +101,7 @@ public class ClanMembersRequest
 
 		this.addFormField( "action", "modify" );
 
-		ArrayList fields = new ArrayList();
+		ArrayList<String> fields = new ArrayList<String>();
 
 		String currentId;
 		for ( int i = 0; i < titleChange.length; ++i )
@@ -193,7 +191,6 @@ public class ClanMembersRequest
 		// complete list of clan members in one hit
 
 		this.clanId = clanIdMatcher.group( 1 );
-		this.clanName = clanIdMatcher.group( 2 );
 	}
 
 	@Override
@@ -279,15 +276,5 @@ public class ClanMembersRequest
 			ContactManager.registerPlayerId( name, id );
 			ClanManager.registerMember( name, level, title );
 		}
-	}
-
-	public String getClanId()
-	{
-		return this.clanId;
-	}
-
-	public String getClanName()
-	{
-		return this.clanName;
 	}
 }

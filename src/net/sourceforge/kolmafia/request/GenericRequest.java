@@ -879,7 +879,7 @@ public class GenericRequest
 		// the request wants us to include the password hash, we
 		// include the actual value
 
-		StringBuffer dataBuffer = new StringBuffer();
+		StringBuilder dataBuffer = new StringBuilder();
 		String hashField = this.getHashField();
 
 		for ( int i = 0; i < this.data.size(); ++i )
@@ -932,7 +932,7 @@ public class GenericRequest
 		// This returns the data string as we will display it in the
 		// logs: omitting the actual boring value of the password hash
 
-		StringBuffer dataBuffer = new StringBuffer();
+		StringBuilder dataBuffer = new StringBuilder();
 
 		for ( int i = 0; i < this.data.size(); ++i )
 		{
@@ -1161,7 +1161,7 @@ public class GenericRequest
 		{
 			if ( location.indexOf( "action=leaveclan" ) != -1 || location.indexOf( "action=joinclan" ) != -1 )
 			{
-				ClanManager.resetClanId();
+				ClanManager.clearCache();
 			}
 		}
 
@@ -2668,7 +2668,7 @@ public class GenericRequest
 		try
 		{
 			String line;
-			StringBuffer response = new StringBuffer();
+			StringBuilder response = new StringBuilder();
 
 			while ( ( line = buf.readLine() ) != null )
 			{

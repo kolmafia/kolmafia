@@ -51,6 +51,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -79,17 +80,17 @@ public abstract class ClanManager
 	private static final Pattern WHITELIST_PATTERN = Pattern.compile( "<b>([^<]+)</b> \\(#(\\d+)\\)" );
 
 	private static String snapshotFolder = "clan/";
-	private static String clanId = null;
+	private static int clanId = 0;
 	private static String clanName = null;
 	public static boolean stashRetrieved = false;
 	private static boolean ranksRetrieved = false;
 
-	private static final ArrayList currentMembers = new ArrayList();
-	private static final ArrayList whiteListMembers = new ArrayList();
+	private static final ArrayList<String> currentMembers = new ArrayList<String>();
+	private static final ArrayList<String> whiteListMembers = new ArrayList<String>();
 
-	private static final Map profileMap = ProfileSnapshot.getProfileMap();
-	private static final Map ascensionMap = AscensionSnapshot.getAscensionMap();
-	private static final Map titleMap = new HashMap();
+	private static final Map<String, String> profileMap = ProfileSnapshot.getProfileMap();
+	private static final Map<String, String> ascensionMap = AscensionSnapshot.getAscensionMap();
+	private static final Map<String, String> titleMap = new HashMap<String, String>();
 
 	private static final List battleList = new ArrayList();
 
@@ -110,7 +111,7 @@ public abstract class ClanManager
 		ClanManager.rankList.clear();
 		ClanManager.stashContents.clear();
 
-		ClanManager.clanId = null;
+		ClanManager.clanId = 0;
 		ClanManager.clanName = null;
 	}
 
@@ -124,7 +125,7 @@ public abstract class ClanManager
 		return ClanManager.stashRetrieved;
 	}
 
-	public static final String getClanId()
+	public static final int getClanId()
 	{
 		ClanManager.retrieveClanId();
 		return ClanManager.clanId;
@@ -196,24 +197,18 @@ public abstract class ClanManager
 		}
 	}
 
-	public static final void resetClanId()
-	{
-		ClanManager.clanId = null;
-		ClanManager.clanName = null;
-	}
-
 	private static final void retrieveClanId()
 	{
-		if ( ClanManager.clanId != null )
+		if ( ClanManager.clanId != 0 )
 		{
 			return;
 		}
 
-		ClanMembersRequest cmr = new ClanMembersRequest( false );
-		RequestThread.postRequest( cmr );
+		ProfileRequest clanIdLookup = new ProfileRequest( KoLCharacter.getUserName() );
+		clanIdLookup.run();
 
-		ClanManager.clanId = cmr.getClanId();
-		ClanManager.clanName = cmr.getClanName();
+		ClanManager.clanId = clanIdLookup.getClanId();
+		ClanManager.clanName = clanIdLookup.getClanName();
 	}
 
 	private static final boolean retrieveMemberData( final boolean retrieveProfileData,
@@ -329,7 +324,7 @@ public abstract class ClanManager
 			try
 			{
 				BufferedReader istream = FileUtilities.getReader( profile );
-				StringBuffer profileString = new StringBuffer();
+				StringBuilder profileString = new StringBuilder();
 				String currentLine;
 
 				while ( ( currentLine = istream.readLine() ) != null )
@@ -390,7 +385,7 @@ public abstract class ClanManager
 			try
 			{
 				BufferedReader istream = FileUtilities.getReader( ascension );
-				StringBuffer ascensionString = new StringBuffer();
+				StringBuilder ascensionString = new StringBuilder();
 				String currentLine;
 
 				while ( ( currentLine = istream.readLine() ) != null )
