@@ -5731,3 +5731,8 @@
 5722	fire hose	weapon	all	0
 5723	bottle of fire	usable	all	0
 5724	molten brick	none	all	0
+5725	hot daub	multiple	all	0
+5726	hot daub bun	hat	display	0
+5727	hot daub stand	pants	display	0
+5728	foot-long hot daub	weapon	display	0
+5729	ballpark hot daub	none, combat	all	0

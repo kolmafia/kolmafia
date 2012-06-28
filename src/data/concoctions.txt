@@ -9,6 +9,7 @@
 # SMITH (basic smithing that can be done by Innabox)
 # SSMITH (smithing you have to do yourself - always requires a skill)
 # CRIMBO05, CRIMBO06, CRIMBO07 (historical)
+# ACOMBINE (meat pasting recipes that cannot be untinkered)
 #
 # Additional requirements (add to a basic creation type):
 # MALE, FEMALE (craftable only by a specific gender)
@@ -1968,3 +1969,11 @@ giant yellow gummi bear	SUSE	giant yellow gummi ingot
 red drunki-bear	MIX	bottle of vodka	giant red gummi bear
 green drunki-bear	MIX	bottle of vodka	giant green gummi bear
 yellow drunki-bear	MIX	bottle of vodka	giant yellow gummi bear
+
+# Brushfire items
+
+hot daub	COMBINE	molten brick	drop of water-37
+ballpark hot daub	SUSE	hot daub
+hot daub bun	MUSE	hot daub (15)
+foot-long hot daub	MUSE	hot daub (17)
+hot daub stand	MUSE	hot daub (19)

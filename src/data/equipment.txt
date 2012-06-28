@@ -133,6 +133,7 @@ hardened slime hat	200	Mox: 200
 helm of the white knight	60	Mox: 15
 helmet turtle	10	none
 honeycap	175	Mox: 72
+hot daub bun	85	Mys: 27
 ice pick	100	none
 indie comic hipster glasses	10	none
 insane tophat	30	none
@@ -336,6 +337,7 @@ hippopotamus pants	130	Mox: 50
 hippopotamus skirt	130	Mox: 50
 hobo dungarees	200	Mox: 200
 honeybritches	175	Mox: 72
+hot daub stand	85	Mox: 27
 ironic jogging shorts	40	Mox: 5
 junk-mail pants	50	Mox: 10
 leather chaps	160	Mox: 65
@@ -746,6 +748,7 @@ flaming juggler's balls	100	Mox: 0	1-handed euphemisms
 flamingo mallet	70	Mus: 20	2-handed club
 fluorescent lightbulb	50	Mus: 0	1-handed club
 flypaper staff	80	Mus: 25	2-handed staff
+foot-long hot daub	85 Mus: 27	2-handed club
 fouet de tortue-dressage	20	Mus: 0	1-handed whip
 freezin' bindle	200	Mus: 200	2-handed polearm
 frigid hanky&#363;	80	Mox: 25	2-handed bow
