@@ -5723,7 +5723,7 @@
 5722	902073594	firehose.gif	fire hose
 5723	819615103	firebottle.gif	bottle of fire
 5724	750075762	burnbrick.gif	molten brick
-5725	962493147	claybrick.gif	hot daub
+5725	962493147	claybrick.gif	hot daub	hot daubs
 5726	645623435	clayhat.gif	hot daub bun
 5727	664567456	claypants.gif	hot daub stand
 5728	509723507	clayclub.gif	foot-long hot daub

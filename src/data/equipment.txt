@@ -748,7 +748,7 @@ flaming juggler's balls	100	Mox: 0	1-handed euphemisms
 flamingo mallet	70	Mus: 20	2-handed club
 fluorescent lightbulb	50	Mus: 0	1-handed club
 flypaper staff	80	Mus: 25	2-handed staff
-foot-long hot daub	85 Mus: 27	2-handed club
+foot-long hot daub	85	Mus: 27	2-handed club
 fouet de tortue-dressage	20	Mus: 0	1-handed whip
 freezin' bindle	200	Mus: 200	2-handed polearm
 frigid hanky&#363;	80	Mox: 25	2-handed bow
