@@ -404,6 +404,7 @@
 7115	Release the Boots	5	0	0
 7116	Feed	5	0	0
 7117	Siphon Spirit	5	0	0
+7118	Swirl Cloak	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 
