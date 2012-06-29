@@ -38,6 +38,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -68,15 +69,15 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.text.BadLocationException;
-
 import org.jdesktop.swingx.JXGlassBox;
 import org.jdesktop.swingx.JXPanel;
-import org.jdesktop.swingx.decorator.BorderHighlighter;
+import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.jdesktop.swingx.rollover.RolloverProducer;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -392,6 +393,7 @@ public class StoreManageFrame
 			IntegerRenderer rend = new IntegerRenderer();
 			rend.setHorizontalAlignment( JLabel.RIGHT );
 			this.setDefaultRenderer( Integer.class, rend );
+			this.setDefaultRenderer( String.class, new DefaultTableRenderer() );
 		}
 
 		private void setHighlighters()
@@ -465,17 +467,37 @@ public class StoreManageFrame
 				{
 					if ( !adapter.getComponent().isEnabled() )
 						return false;
-					if ( convertColumnIndexToModel( adapter.column ) != 1 )
+					if ( convertColumnIndexToModel( adapter.column ) != 0 )
 						return false;
-					int cellValue =
-						(Integer) adapter.getValueAt(
-							convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
+					int cellValue = (Integer) adapter.getValueAt( convertRowIndexToModel( adapter.row ), 1 );
 					return (cellValue == 999999999);
 				}
 			};
 
-			BorderHighlighter b = new BorderHighlighter( auto, BorderFactory.createLineBorder( Color.black ) );
-			this.addHighlighter( b );
+			AbstractHighlighter bold = new AbstractHighlighter( auto )
+			{
+				private Font BOLD_FONT;
+				@Override
+				protected Component doHighlight( Component renderer, ComponentAdapter adapter )
+				{
+					if ( adapter.isSelected() )
+					{
+						renderer.setForeground( getSelectionForeground() );
+					}
+					else
+					{
+						renderer.setForeground( getForeground() );
+					}
+					if ( BOLD_FONT == null )
+					{
+						BOLD_FONT = renderer.getFont().deriveFont( Font.BOLD );
+					}
+					renderer.setFont( BOLD_FONT );
+					return renderer;
+				}
+			};
+
+			this.addHighlighter( bold );
 
 			ColorHighlighter c = new ColorHighlighter(mouseOver);
 			c.setForeground( Color.blue );
