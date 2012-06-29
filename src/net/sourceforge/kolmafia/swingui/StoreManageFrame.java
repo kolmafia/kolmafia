@@ -48,6 +48,7 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -99,6 +100,7 @@ import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.table.IntegerRenderer;
 import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -365,7 +367,8 @@ public class StoreManageFrame
 			
 			this.setDefaultEditor( JButton.class, new JButtonHackEditor() );
 			this.setDefaultEditor( Boolean.class, new JButtonHackEditor() );
-			
+			this.setDefaultEditor( Integer.class, new PriceEditor() );
+
 			this.setDefaultRenderer( Boolean.class, new BoolRenderer() );
 			IntegerRenderer rend = new IntegerRenderer();
 			rend.setHorizontalAlignment( JLabel.RIGHT );
@@ -748,6 +751,50 @@ public class StoreManageFrame
 			return this;
 		}
 	}
+
+	private static class PriceEditor
+		extends DefaultCellEditor
+		implements TableCellEditor
+	{
+		private static final AutoHighlightTextField rightField = new AutoHighlightTextField()
+		{
+			@Override
+			public int getHorizontalAlignment()
+			{
+				return JLabel.RIGHT;
+			}
+		};
+
+		public PriceEditor()
+		{
+			this( rightField );
+		}
+
+		public PriceEditor( JTextField textField )
+		{
+			super( textField );
+		}
+
+		@Override
+		public Object getCellEditorValue()
+		{
+			return StringUtilities.parseInt( super.getCellEditorValue().toString() );
+		}
+
+		@Override
+		public Component getTableCellEditorComponent( JTable table, Object value, boolean isSelected, int row,
+			int column )
+		{
+			if ( value == null )
+			{
+				return super.getTableCellEditorComponent( table, value, isSelected, row, column );
+			}
+			( (JTextField) this.editorComponent ).setText( KoLConstants.COMMA_FORMAT.format( value ) );
+			return this.editorComponent;
+		}
+
+	}
+
 }
 
 class LimitGlassBox
