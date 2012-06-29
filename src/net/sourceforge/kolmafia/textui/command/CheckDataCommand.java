@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -188,7 +189,7 @@ public class CheckDataCommand
 			RequestLogger.printLine( "id [" + prof.getPlayerId() + "]" );
 			RequestLogger.printLine( "level [" + prof.getPlayerLevel() + "]" );
 			RequestLogger.printLine( "class [" + prof.getClassType() + "]" );
-			RequestLogger.printLine( "clan [" + prof.getClanName() + "]" );
+			RequestLogger.printLine( "clan [" + ClanManager.getClanName() + "]" );
 			RequestLogger.printLine( "restrict [" + prof.getRestriction() + "]" );
 			return;
 		}
