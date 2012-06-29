@@ -43,8 +43,11 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.TextAttribute;
 import java.io.Serializable;
 import java.util.EventObject;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -74,6 +77,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.decorator.AbstractHighlighter;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
+import org.jdesktop.swingx.decorator.CompoundHighlighter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
 import org.jdesktop.swingx.decorator.Highlighter;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
@@ -178,7 +182,6 @@ public class StoreManageFrame
 
 		ActionListener bob = new ActionListener()
 		{
-			@Override
 			public void actionPerformed( ActionEvent e )
 			{
 				text.setEnabled( check.isSelected() );
@@ -205,19 +208,16 @@ public class StoreManageFrame
 		DocumentListener steve = new DocumentListener()
 		{
 
-			@Override
 			public void insertUpdate( DocumentEvent e )
 			{
 				this.changedUpdate( e );
 			}
 
-			@Override
 			public void removeUpdate( DocumentEvent e )
 			{
 				this.changedUpdate( e );
 			}
 
-			@Override
 			public void changedUpdate( DocumentEvent e )
 			{
 				try
@@ -403,7 +403,6 @@ public class StoreManageFrame
 			
 			HighlightPredicate mouseOver = new HighlightPredicate()
 			{
-				@Override
 				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
 				{
 					if ( !adapter.getComponent().isEnabled() )
@@ -415,7 +414,6 @@ public class StoreManageFrame
 			
 			HighlightPredicate valueChanged = new HighlightPredicate()
 			{
-				@Override
 				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
 				{
 					if ( !adapter.getComponent().isEnabled() )
@@ -444,7 +442,6 @@ public class StoreManageFrame
 			
 			HighlightPredicate warning = new HighlightPredicate()
 			{
-				@Override
 				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
 				{
 					if ( !adapter.getComponent().isEnabled() )
@@ -462,7 +459,6 @@ public class StoreManageFrame
 			
 			HighlightPredicate auto = new HighlightPredicate()
 			{
-				@Override
 				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
 				{
 					if ( !adapter.getComponent().isEnabled() )
@@ -496,22 +492,49 @@ public class StoreManageFrame
 					return renderer;
 				}
 			};
+	
+			AbstractHighlighter underline = new AbstractHighlighter( mouseOver )
+			{
+				private Font UNDERLINE_FONT;
+				@Override
+				protected Component doHighlight( Component renderer, ComponentAdapter adapter )
+				{
+					if ( adapter.isSelected() )
+					{
+						renderer.setForeground( getSelectionForeground() );
+					}
+					else
+					{
+						renderer.setForeground( getForeground() );
+					}
+					if ( UNDERLINE_FONT == null )
+					{
+						Map<TextAttribute, Integer> fontAttributes = new HashMap<TextAttribute, Integer>();
+						fontAttributes.put( TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON );
+						UNDERLINE_FONT = renderer.getFont().deriveFont( fontAttributes );
+					}
+					renderer.setFont( UNDERLINE_FONT );
+					return renderer;
+				}
+			};
+
+			ColorHighlighter mouse = new ColorHighlighter( mouseOver );
+			mouse.setForeground( Color.blue );
+
+			ColorHighlighter change = new ColorHighlighter( valueChanged );
+			change.setBackground( new Color( 0xB5EAAA ) );
+			change.setSelectedBackground( new Color( 0x306754 ) );
+
+			CompoundHighlighter comp = new CompoundHighlighter( underline, mouse );
+
+			ColorHighlighter warn = new ColorHighlighter( warning );
+			warn.setBackground( Color.red );
+			warn.setSelectedBackground( Color.red );
 
 			this.addHighlighter( bold );
-
-			ColorHighlighter c = new ColorHighlighter(mouseOver);
-			c.setForeground( Color.blue );
-			this.addHighlighter( c );
-
-			ColorHighlighter d = new ColorHighlighter( valueChanged );
-			d.setBackground( new Color(0xB5EAAA) );
-			d.setSelectedBackground( new Color(0x306754) );
-			this.addHighlighter( d );
-			
-			ColorHighlighter e = new ColorHighlighter( warning );
-			e.setBackground( Color.red );
-			e.setSelectedBackground( Color.red );
-			this.addHighlighter( e );
+			this.addHighlighter( change );
+			this.addHighlighter( comp );
+			this.addHighlighter( warn );
 		}
 		@Override
 		public boolean isCellEditable( final int row, final int col )
@@ -536,46 +559,38 @@ public class StoreManageFrame
 			 * this way.  Sigh.
 			 */
 
-			@Override
 			public Object getCellEditorValue()
 			{
 				return null;
 			}
 
-			@Override
 			public boolean isCellEditable( EventObject anEvent )
 			{
 				return true;
 			}
 
-			@Override
 			public boolean shouldSelectCell( EventObject anEvent )
 			{
 				return false;
 			}
 
-			@Override
 			public boolean stopCellEditing()
 			{
 				return false;
 			}
 
-			@Override
 			public void cancelCellEditing()
 			{
 			}
 
-			@Override
 			public void addCellEditorListener( CellEditorListener l )
 			{
 			}
 
-			@Override
 			public void removeCellEditorListener( CellEditorListener l )
 			{
 			}
 
-			@Override
 			public Component getTableCellEditorComponent( JTable table, Object value, boolean isSelected, int row,
 				int column )
 			{
