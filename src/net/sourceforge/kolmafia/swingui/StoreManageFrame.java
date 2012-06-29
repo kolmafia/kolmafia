@@ -71,6 +71,7 @@ import javax.swing.text.BadLocationException;
 
 import org.jdesktop.swingx.JXGlassBox;
 import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.decorator.BorderHighlighter;
 import org.jdesktop.swingx.decorator.ColorHighlighter;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.HighlightPredicate;
@@ -371,8 +372,11 @@ public class StoreManageFrame
 			this.getColumnModel().getColumn( 4 ).setResizable( false );
 			this.getColumnModel().getColumn( 3 ).setResizable( false );
 			this.getColumnModel().getColumn( 0 ).setPreferredWidth( 220 );
+			this.getColumnModel().getColumn( 1 ).setPreferredWidth( 100 );
 			this.getTableHeader().setReorderingAllowed( false );
 			this.setAutoResizeMode( AUTO_RESIZE_NEXT_COLUMN );
+			
+			this.setIntercellSpacing( new Dimension(1,1) );
 		}
 
 		private void setEditors()
@@ -435,6 +439,44 @@ public class StoreManageFrame
 					return false;
 				}
 			};
+			
+			HighlightPredicate warning = new HighlightPredicate()
+			{
+				@Override
+				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
+				{
+					if ( !adapter.getComponent().isEnabled() )
+						return false;
+					if ( convertColumnIndexToModel( adapter.column ) != 1 )
+						return false;
+					int cellValue =
+						(Integer) adapter.getValueAt(
+							convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
+					SoldItem it =
+						( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
+					return (cellValue < it.getLowest() * 0.15) && it.getLowest() > 50000;
+				}
+			};
+			
+			HighlightPredicate auto = new HighlightPredicate()
+			{
+				@Override
+				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
+				{
+					if ( !adapter.getComponent().isEnabled() )
+						return false;
+					if ( convertColumnIndexToModel( adapter.column ) != 1 )
+						return false;
+					int cellValue =
+						(Integer) adapter.getValueAt(
+							convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
+					return (cellValue == 999999999);
+				}
+			};
+
+			BorderHighlighter b = new BorderHighlighter( auto, BorderFactory.createLineBorder( Color.black ) );
+			this.addHighlighter( b );
+
 			ColorHighlighter c = new ColorHighlighter(mouseOver);
 			c.setForeground( Color.blue );
 			this.addHighlighter( c );
@@ -443,6 +485,11 @@ public class StoreManageFrame
 			d.setBackground( new Color(0xB5EAAA) );
 			d.setSelectedBackground( new Color(0x306754) );
 			this.addHighlighter( d );
+			
+			ColorHighlighter e = new ColorHighlighter( warning );
+			e.setBackground( Color.red );
+			e.setSelectedBackground( Color.red );
+			this.addHighlighter( e );
 		}
 		@Override
 		public boolean isCellEditable( final int row, final int col )
