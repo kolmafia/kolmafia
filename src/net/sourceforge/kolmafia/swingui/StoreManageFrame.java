@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.table.IntegerRenderer;
 import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
@@ -366,6 +367,9 @@ public class StoreManageFrame
 			this.setDefaultEditor( Boolean.class, new JButtonHackEditor() );
 			
 			this.setDefaultRenderer( Boolean.class, new BoolRenderer() );
+			IntegerRenderer rend = new IntegerRenderer();
+			rend.setHorizontalAlignment( JLabel.RIGHT );
+			this.setDefaultRenderer( Integer.class, rend );
 			
 			Highlighter stripe = HighlighterFactory.createSimpleStriping();
 			this.addHighlighter( stripe );
