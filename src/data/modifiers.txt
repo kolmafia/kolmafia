@@ -507,7 +507,6 @@ Ye Olde Navy Fleece	Meat Drop: +10
 anniversary safety glass vest	Muscle: +1, Mysticality: +1, Moxie: +1
 asbestos apron	Hot Resistance: +3
 astral shirt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +3, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
-barskin cloak	Muscle: +2
 bat-ass leather jacket	Mysticality: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
 cane-mail shirt	Candy Drop: +25, Monster Level: +20, Meat Drop: +15
@@ -534,14 +533,12 @@ hipposkin poncho	Monster Level: +10
 letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 loathing eagle baby-doll shirt	Moxie: +3
 origami pasties	Meat Drop: +30, Softcore Only
-palm-frond cloak	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 pirate shirt	Moxie: +3
 psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
 # red-and-green sweater: Shocking!
 rhinestone cowboy shirt	Muscle: +5
 safety vest	Damage Reduction: 3, Moxie: +5
 sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
-sealhide cloak	Cold Resistance: +2
 shark jumper	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 20, HP Regen Max: 40
 snailmail hauberk	Damage Absorption: +60, HP Regen Min: 6, HP Regen Max: 14, MP Regen Min: 6, MP Regen Max: 14
 soggy wofl t-shirt	Muscle: +3
@@ -552,7 +549,6 @@ sugar shirt	Experience: +3
 supportive bra	Moxie: +3
 turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 tuxedo shirt	Moxie: +7
-# vampire cape
 white hat hacker T-shirt	Critical: 2, Muscle: +2, Mysticality: +2, Moxie: +2
 white snakeskin duster	Muscle: +2, Maximum HP: +10
 wumpus-hair sweater	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +30, Maximum MP: +30
@@ -1469,7 +1465,6 @@ Boss Bat bling	Muscle: +3, Moxie: +3
 Brimstone Bracelet	Mysticality Percent: +50, Muscle Percent: -20, Mana Cost: -3, Single Equip, Brimstone
 Brimstone Brooch	Mysticality Percent: +50, Moxie Percent: -20, Spell Damage: +40, Single Equip, Brimstone
 C.A.R.N.I.V.O.R.E. button	Monster Level: +15
-Cape of the Goblin King	Moxie: +7
 # Cat-Herding Prod: +10 Damage vs. Lions
 Cat-Herding Prod	Muscle: +15, Mysticality: +15, Moxie: +15
 # Chalk Outline: Your Spookiness is Spookier
@@ -1587,7 +1582,6 @@ Radio KoL Flashlight	Mysticality: +15
 Radio KoL Keychain	Muscle: +15
 Radio KoL Maracas	Item Drop: +15
 Radio KoL Patch	Moxie: +15
-Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip
 Ring of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +40, Single Equip
 Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +40, Single Equip
@@ -1791,7 +1785,6 @@ lollipop cufflinks	Mysticality: +5
 lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 makeshift SCUBA gear	Stench Resistance: +2, Item Drop: -100, Initiative: -100, Adventure Underwater
-makeshift cape	Item Drop: +5
 malevolent medallion	Slime Hates It: +1, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, MP Regen Min: 10, MP Regen Max: 30, Single Equip
 # mayfly bait necklace: Allows Summoning of Mayflies in Combat
 mayfly bait necklace	Meat Drop: +10, Item Drop: +10, Single Equip, Softcore Only
@@ -1818,7 +1811,6 @@ pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
 # pair of pearidot earrings: (only in the Candy Diorama)
 pair of pearidot earrings	Item Drop: [100*zone(The Candy Diorama)], Single Equip
 paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip
-paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7, Single Equip
 # pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
 pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
@@ -2068,8 +2060,6 @@ tortoboggan	Moxie: +4, Initiative: +20, Single Equip
 # tourmalime tourniquet: Makes Candy Diorama Fights Harder
 tourmalime tourniquet	Single Equip
 toy crazy train	Meat Drop: +10, Single Equip
-# toy jet pack: Jane!  Get Me Off This Crazy Thing!
-toy jet pack	Single Equip
 toy maglev monorail	Meat Drop: +10, Single Equip
 toy train	Meat Drop: +10, Single Equip
 tube sock	Moxie: +20, Single Equip
@@ -2085,7 +2075,6 @@ whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
 wheel	Initiative: +10
 white belt	Muscle: +3, Weapon Damage: +3, Single Equip
 white collar	Meat Drop: +3, Moxie: +1
-wings of fire	Hot Damage: +25, Hot Spell Damage: +25
 woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 wrench bracelet	Muscle: +5, Weapon Damage: +9
 wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip, Nonstackable Watch
@@ -2095,11 +2084,23 @@ yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 
 # Containers section of modifiers.txt
 
+Cape of the Goblin King	Moxie: +7
+# Lord Flameface's cloak:  Has Cool Swirling Flames
+Lord Flameface's cloak	Cold Resistance: +2
 Mr. Container	Item Drop: +3
 Newbiesport&trade; backpack	Item Drop: +1
 Radio KoL Coffee Mug	Muscle: +10, Mysticality: +10, Moxie: +10, Hot Damage: +10
+Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
+barskin cloak	Muscle: +7
 hemp backpack	Item Drop: +2
+makeshift cape	Item Drop: +5
+palm-frond cloak	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
+paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7, Single Equip
+sealhide cloak	Cold Resistance: +2
+# toy jet pack: Jane!  Get Me Off This Crazy Thing!
+# vampire cape
+wings of fire	Hot Damage: +25, Hot Spell Damage: +25
 
 # Familiar Items section of modifiers.txt
 

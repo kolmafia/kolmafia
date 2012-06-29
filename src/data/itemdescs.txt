@@ -5728,3 +5728,9 @@
 5727	664567456	claypants.gif	hot daub stand
 5728	509723507	clayclub.gif	foot-long hot daub
 5729	445745528	claybomb.gif	ballpark hot daub
+5730
+5731
+5732	174843191	whitecard.gif	blank note
+5733	679161714	blackcube.gif	eerily silent box
+5734	551619929	sausage.gif	forbidden sausage
+5735	153368305	ffcloak.gif	Lord Flameface's cloak

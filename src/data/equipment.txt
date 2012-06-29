@@ -431,7 +431,6 @@ Ye Olde Navy Fleece	100	Mus: 35
 anniversary safety glass vest	10	none
 asbestos apron	170	Mus: 70
 astral shirt	50	none
-barskin cloak	25	none
 bat-ass leather jacket	180	Mus: 77
 bronze breastplate	105	Mus: 37
 cane-mail shirt	100	none
@@ -458,14 +457,12 @@ hipposkin poncho	120	Mus: 45
 letterman's jacket	200	Mus: 200
 loathing eagle baby-doll shirt	45	Mus: 7
 origami pasties	100	none
-palm-frond cloak	140	Mus: 55
 pirate shirt	50	Mus: 10
 psycho sweater	100	Mus: 35
 red-and-green sweater	50	Mox: 35
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
-sealhide cloak	160	Mus: 65
 shark jumper	200	Mus: 85
 snailmail hauberk	165	Mus: 67
 soggy wofl t-shirt	45	Mus: 7
@@ -476,7 +473,6 @@ sugar shirt	100	none
 supportive bra	50	Mox: 10
 turtlemail hauberk	80	Mus: 25
 tuxedo shirt	100	Mus: 35
-vampire cape	20	none
 white hat hacker T-shirt	65	Mus: 17
 white snakeskin duster	45	Mus: 7
 wumpus-hair sweater	110	Mus: 40
@@ -1310,7 +1306,6 @@ Brimstone Bracelet	200	Mys: 30
 Brimstone Brooch	200	Mys: 30
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 CRIMBCO lanyard	0	none
-Cape of the Goblin King	70	Mys: 20
 Cat-Herding Prod	0	none
 Chester's Aquarius medallion	200	Mys: 200
 Chester's moustache	200	Mox: 200
@@ -1411,7 +1406,6 @@ Radio KoL Flashlight	0	none
 Radio KoL Keychain	0	none
 Radio KoL Maracas	0	none
 Radio KoL Patch	0	none
-Rain-Doh red wings	100	none
 Red Balloon of Valor	200	Mys: 85
 Ring of Fire	150	Mys: 60
 Ring of the Sewer Snake	150	Mys: 60
@@ -1595,7 +1589,6 @@ lucky Crimbo tiki necklace	10	none
 lucky bottlecap	200	Mys: 200
 lucky rabbit's foot	60	Mys: 15
 makeshift SCUBA gear	10	none
-makeshift cape	100	Mys: 35
 malevolent medallion	200	Mys: 150
 mayfly bait necklace	0	none
 memory of a cultist's robe	10	none
@@ -1617,7 +1610,6 @@ orange leather lanyard	50	none
 oven mitts	45	Mys: 7
 pacifier necklace	150	Mox: 60
 pair of pearidot earrings	0	none
-paperclip cape	50	none
 paperclip-on tie	50	none
 pat-a-cake pendant	10	none
 patent leather shoes	30	none
@@ -1857,7 +1849,6 @@ torquoise ring	40	none
 tortoboggan	90	Mox: 30
 tourmalime tourniquet	0	none
 toy crazy train	60	Mys: 15
-toy jet pack	175	Mys: 72
 toy maglev monorail	60	Mys: 15
 toy train	60	Mys: 15
 tube sock	200	Mys: 45
@@ -1873,7 +1864,6 @@ whalebone corset	55	Mys: 12
 wheel	30	none
 white belt	40	Mys: 5
 white collar	20	none
-wings of fire	100	Mys: 100
 woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 wristwatch of the white knight	60	Mys: 15
@@ -1883,8 +1873,19 @@ yellow glowstick	20	none
 
 # Containers section of equipment.txt
 
+Cape of the Goblin King	70	none
+Lord Flameface's cloak	0
 Mr. Container	0	none
 Newbiesport&trade; backpack	0	none
 Radio KoL Coffee Mug	0	none
+Rain-Doh red wings	100	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	none
+barskin cloak	25	none
 hemp backpack	0	none
+makeshift cape	100	none
+palm-frond cloak	140	none
+paperclip cape	50	none
+sealhide cloak	160	none
+toy jet pack	175	none
+vampire cape	20	none
+wings of fire	100	none
