@@ -354,6 +354,15 @@ public class StoreManageFrame
 			} );
 			
 			this.setModel( new StoreManageTableModel() );
+
+			doColumnSetup();
+			setEditors();
+			setRenderers();
+			setHighlighters();
+		}
+
+		private void doColumnSetup()
+		{
 			this.getColumnModel().getColumn( 6 ).setPreferredWidth( 44 );
 			this.getColumnModel().getColumn( 6 ).setResizable( false );
 			this.getColumnModel().getColumn( 5 ).setPreferredWidth( 44 );
@@ -364,20 +373,29 @@ public class StoreManageFrame
 			this.getColumnModel().getColumn( 0 ).setPreferredWidth( 220 );
 			this.getTableHeader().setReorderingAllowed( false );
 			this.setAutoResizeMode( AUTO_RESIZE_NEXT_COLUMN );
-			
+		}
+
+		private void setEditors()
+		{
 			this.setDefaultEditor( JButton.class, new JButtonHackEditor() );
 			this.setDefaultEditor( Boolean.class, new JButtonHackEditor() );
 			this.setDefaultEditor( Integer.class, new PriceEditor() );
+		}
 
+		private void setRenderers()
+		{
 			this.setDefaultRenderer( Boolean.class, new BoolRenderer() );
 			IntegerRenderer rend = new IntegerRenderer();
 			rend.setHorizontalAlignment( JLabel.RIGHT );
 			this.setDefaultRenderer( Integer.class, rend );
-			
+		}
+
+		private void setHighlighters()
+		{
 			Highlighter stripe = HighlighterFactory.createSimpleStriping();
 			this.addHighlighter( stripe );
 			
-			HighlightPredicate p = new HighlightPredicate()
+			HighlightPredicate mouseOver = new HighlightPredicate()
 			{
 				@Override
 				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
@@ -389,28 +407,39 @@ public class StoreManageFrame
 				}
 			};
 			
-			HighlightPredicate f = new HighlightPredicate()
+			HighlightPredicate valueChanged = new HighlightPredicate()
 			{
 				@Override
 				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
 				{
 					if ( !adapter.getComponent().isEnabled() )
 						return false;
-					if ( convertColumnIndexToModel( adapter.column ) != 1 )
-						return false;
+					if ( convertColumnIndexToModel( adapter.column ) == 1 )
+					{
 					int cellValue =
 						(Integer) adapter.getValueAt(
 							convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
 					SoldItem it =
 						( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
 					return cellValue != it.getPrice();
+					}
+					if ( convertColumnIndexToModel( adapter.column ) == 4 )
+					{
+						int cellValue =
+								(Integer) adapter.getValueAt(
+									convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
+							SoldItem it =
+								( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
+							return cellValue != it.getLimit();
+					}
+					return false;
 				}
 			};
-			ColorHighlighter c = new ColorHighlighter(p);
+			ColorHighlighter c = new ColorHighlighter(mouseOver);
 			c.setForeground( Color.blue );
 			this.addHighlighter( c );
 
-			ColorHighlighter d = new ColorHighlighter( f );
+			ColorHighlighter d = new ColorHighlighter( valueChanged );
 			d.setBackground( new Color(0xB5EAAA) );
 			d.setSelectedBackground( new Color(0x306754) );
 			this.addHighlighter( d );
