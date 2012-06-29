@@ -73,9 +73,6 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.PreferenceListener;
-import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
-import net.sourceforge.kolmafia.preferences.Preferences;
-
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 
@@ -98,8 +95,6 @@ public class GearChangeFrame
 
 	private boolean isEnabled;
 	private JButton outfitButton;
-
-	private static boolean showContainer;
 
 	private JRadioButton[] weaponTypes;
 	private JCheckBox weapon1H;
@@ -154,28 +149,20 @@ public class GearChangeFrame
 		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
 		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
-		GearChangeFrame.showContainer = Preferences.getBoolean( "showContainerDropdown" );
 		this.setCenterComponent( new JScrollPane( new EquipPanel() ) );
 
 		GearChangeFrame.INSTANCE = this;
-
-		PreferenceListenerRegistry.registerListener( "showContainerDropdown", this );
 
 		RequestThread.executeMethodAfterInitialization( this, "validateSelections" );
 	}
 
 	public void update()
 	{
-		boolean setting = Preferences.getBoolean( "showContainerDropdown" );
-		if ( GearChangeFrame.showContainer != setting )
-		{
-			GearChangeFrame.showContainer = setting;
-			this.removeCenterComponent();
-			this.setCenterComponent( new JScrollPane( new EquipPanel() ) );
-			this.invalidate();
-			this.validate();
-			this.doLayout();
-		}
+		this.removeCenterComponent();
+		this.setCenterComponent( new JScrollPane( new EquipPanel() ) );
+		this.invalidate();
+		this.validate();
+		this.doLayout();
 	}
 
 	@Override
@@ -272,7 +259,7 @@ public class GearChangeFrame
 
 	private static int equipmentRows()
 	{
-		return GearChangeFrame.showContainer ? 22 : 21;
+		return 22;
 	}
 
 	private class EquipPanel
@@ -331,10 +318,8 @@ public class GearChangeFrame
 			}
 			elements[ row++ ] = new VerifiableElement( "", radioPanel2 );
 
-			if ( GearChangeFrame.showContainer )
-			{
-				elements[ row++ ] = new VerifiableElement( "Container: ", GearChangeFrame.this.equipment[ EquipmentManager.CONTAINER ] );
-			}
+			elements[ row++ ] =
+				new VerifiableElement( "Back: ", GearChangeFrame.this.equipment[ EquipmentManager.CONTAINER ] );
 
 			elements[ row++ ] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] );
 			elements[ row++ ] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] );

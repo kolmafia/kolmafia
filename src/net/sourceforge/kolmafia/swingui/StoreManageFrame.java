@@ -622,13 +622,13 @@ public class StoreManageFrame
 				String displayName = StringUtilities.getDisplayName( itemName );
 				value.set( 0, displayName );
 
-				JButton removeItemButton = new JButton( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
+				JButton removeItemButton = new JButton( JComponentUtilities.getImage( "xred.gif" ) );
 				removeItemButton.setToolTipText( "remove item from store" );
 				removeItemButton.addActionListener( new RemoveItemListener( itemName ) );
 				JComponentUtilities.setComponentSize( removeItemButton, new Dimension( 20, 20 ) );
 				value.add( removeItemButton );
 
-				JButton searchItemButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
+				JButton searchItemButton = new JButton( JComponentUtilities.getImage( "forward.gif" ) );
 				searchItemButton.setToolTipText( "price analysis" );
 				searchItemButton.addActionListener( new SearchItemListener( itemName ) );
 				value.add( searchItemButton );
