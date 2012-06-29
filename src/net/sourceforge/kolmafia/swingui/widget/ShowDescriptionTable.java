@@ -50,13 +50,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
-
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.table.ColumnControlButton;
@@ -112,6 +112,7 @@ public class ShowDescriptionTable
 	public ListElementFilter filter;
 
 	private final LockableListModel displayModel, originalModel;
+	private boolean[] flags;
 
 	private AdaptedTableModel adaptedModel;
 
@@ -145,6 +146,14 @@ public class ShowDescriptionTable
 	{
 		this( displayModel, null, visibleRowCount );
 	}
+	
+	public ShowDescriptionTable( final LockableListModel displayModel, final int visibleRowCount, final int visibleColumnCount )
+	{
+		this( displayModel, null, visibleRowCount, visibleColumnCount, new boolean[]
+		{
+			false, false
+		} );
+	}
 
 	public ShowDescriptionTable( final LockableListModel displayModel, final ListElementFilter filter )
 	{
@@ -164,6 +173,7 @@ public class ShowDescriptionTable
 			final int visibleRowCount, final int visibleColumnCount, final boolean[] flags )
 	{
 		this.contextMenu = new JPopupMenu();
+		this.flags = flags;
 
 		boolean isMoodList = displayModel == MoodManager.getTriggers();
 		boolean isEncyclopedia = !displayModel.isEmpty() && displayModel.get( 0 ) instanceof Entry;
@@ -279,8 +289,17 @@ public class ShowDescriptionTable
 		this.setFilters( new HesitantFilter() );
 		this.setDefaultRenderer( String.class, new DescriptionTableRenderer( this.originalModel, flags ) );
 		this.setDefaultRenderer( Integer.class, new DescriptionTableRenderer( this.originalModel, flags ) );
+		this.setDefaultRenderer( JButton.class, new DescriptionTableRenderer( this.originalModel, flags ) );
 		
 		this.setIntercellSpacing( new Dimension( 0, 0 ) );
+	}
+	
+	public void setColumnClasses( Class< ? >[] classDefs )
+	{
+		String[] colNames = TableCellFactory.getColumnNames( this.originalModel, this.flags );
+		this.adaptedModel = new AdaptedTableModel( this.displayModel, colNames, classDefs );
+
+		this.setModel( this.adaptedModel );
 	}
 
 	private class RenderedComparator
@@ -346,15 +365,23 @@ public class ShowDescriptionTable
 	}
 
 	// This is the adapted model object. ListModel -> Wrapper -> TableModel
-	protected class AdaptedTableModel
+	public class AdaptedTableModel
 		extends AbstractTableAdapter
 	{
 		protected LockableListModel model;
+		private Class<?>[] classDefs;
 
 		public AdaptedTableModel( LockableListModel listModel, String[] columnNames )
 		{
 			super( listModel, columnNames );
 			this.model = listModel;
+		}
+
+		public AdaptedTableModel( LockableListModel listModel, String[] columnNames, Class< ? >[] classDefs )
+		{
+			super( listModel, columnNames );
+			this.model = listModel;
+			this.classDefs = classDefs;
 		}
 
 		public Object getValueAt( int rowIndex, int columnIndex )
@@ -375,6 +402,10 @@ public class ShowDescriptionTable
 		@Override
 		public Class<?> getColumnClass( int col )
 		{
+			if ( this.classDefs != null )
+			{
+				return classDefs[ col ];
+			}
 			if ( col == 0 )
 			{
 				// Item name should be the only column that we need to do a String compareTo(). It
@@ -401,8 +432,14 @@ public class ShowDescriptionTable
 		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected,
 				boolean hasFocus, int row, int col )
 		{
-			this.setValue( TableCellFactory.get( convertColumnIndexToModel( col ), this.model, value,
-				this.flags, isSelected ) );
+			Object it =
+				TableCellFactory.get( convertColumnIndexToModel( col ), this.model, value, this.flags, isSelected );
+			if ( it instanceof JButton )
+			{
+				this.setToolTipText( ( (JButton) it ).getToolTipText() );
+				return (Component) it;
+			}
+			this.setValue( it );
 			this.setToolTipText( TableCellFactory.getTooltipText( value , flags ) );
 			
 			if ( isSelected )
@@ -449,6 +486,10 @@ public class ShowDescriptionTable
 			if ( e.isPopupTrigger() )
 			{
 				int index = ShowDescriptionTable.this.rowAtPoint( ( e.getPoint() ) );
+				if ( index == -1 )
+				{
+					return;
+				}
 				ShowDescriptionTable.this.lastSelectIndex = index;
 
 				if ( !ShowDescriptionTable.this.isRowSelected( ( index ) ) )
@@ -502,6 +543,10 @@ public class ShowDescriptionTable
 		{
 			StaticEntity.openRequestFrame( "desc_skill.php?whichskill="
 				+ ( (UseSkillRequest) item ).getSkillId() + "&self=true" );
+		}
+		else if ( item instanceof SoldItem )
+		{
+			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (SoldItem) item ).getItemId() ) );
 		}
 		else if ( item instanceof String )
 		{

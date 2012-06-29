@@ -89,7 +89,7 @@ public abstract class StoreManager
 	private static final LockableListModel sortedSoldItemList = new LockableListModel();
 
 	private static final IntegerArray mallPrices = new IntegerArray();
-	private static final LinkedHashMap mallSearches = new LinkedHashMap();
+	private static final LinkedHashMap<Integer, ArrayList> mallSearches = new LinkedHashMap<Integer, ArrayList>();
 	private static int searchCount = 0;
 	private static final PauseObject pauser = new PauseObject();
 
@@ -212,7 +212,7 @@ public abstract class StoreManager
 	public static final void update( final String storeText, final boolean isPriceManagement )
 	{
 		StoreManager.potentialEarnings = 0;
-		ArrayList newItems = new ArrayList();
+		ArrayList<Comparable> newItems = new ArrayList<Comparable>();
 
 		if ( isPriceManagement )
 		{
@@ -310,7 +310,7 @@ public abstract class StoreManager
 	public static final void parseLog( final String logText )
 	{
 		StoreManager.storeLog.clear();
-		ArrayList currentLog = new ArrayList();
+		ArrayList<Comparable> currentLog = new ArrayList<Comparable>();
 
 		Matcher logMatcher = StoreManager.LOGSPAN_PATTERN.matcher( logText );
 		if ( logMatcher.find() )
@@ -385,10 +385,10 @@ public abstract class StoreManager
 		t1 = System.currentTimeMillis();
 		t0 = t1 - 15 * 1000;
 
-		Iterator i = StoreManager.mallSearches.values().iterator();
+		Iterator<ArrayList> i = StoreManager.mallSearches.values().iterator();
 		while ( i.hasNext() )
 		{
-			ArrayList search = (ArrayList) i.next();
+			ArrayList search = i.next();
 			if ( search == null || search.size() == 0 )
 			{
 				i.remove();
@@ -422,7 +422,7 @@ public abstract class StoreManager
 
 		StoreManager.flushCache();
 
-		ArrayList results = (ArrayList) StoreManager.mallSearches.get( id );
+		ArrayList results = StoreManager.mallSearches.get( id );
 		if ( results != null && results.size() > 0 )
 		{
 			KoLmafia.updateDisplay( "Using cached search results for " + name + "..." );
@@ -482,13 +482,13 @@ public abstract class StoreManager
 		PurchaseRequest[] resultsArray = new PurchaseRequest[ results.size() ];
 		results.toArray( resultsArray );
 
-		TreeMap prices = new TreeMap();
+		TreeMap<Integer, Integer> prices = new TreeMap<Integer, Integer>();
 		Integer currentQuantity, currentPrice;
 
 		for ( int i = 0; i < resultsArray.length; ++i )
 		{
 			currentPrice = IntegerPool.get( resultsArray[ i ].getPrice() );
-			currentQuantity = (Integer) prices.get( currentPrice );
+			currentQuantity = prices.get( currentPrice );
 
 			if ( currentQuantity == null )
 			{
@@ -505,7 +505,7 @@ public abstract class StoreManager
 
 		for ( int i = 0; i < priceArray.length; ++i )
 		{
-			resultSummary.add( "  " + KoLConstants.COMMA_FORMAT.format( ( (Integer) prices.get( priceArray[ i ] ) ).intValue() ) + " @ " + KoLConstants.COMMA_FORMAT.format( priceArray[ i ].intValue() ) + " meat" );
+			resultSummary.add( "  " + KoLConstants.COMMA_FORMAT.format( prices.get( priceArray[ i ] ).intValue() ) + " @ " + KoLConstants.COMMA_FORMAT.format( priceArray[ i ].intValue() ) + " meat" );
 		}
 	}
 
@@ -591,7 +591,7 @@ public abstract class StoreManager
 			super.add( IntegerPool.get( price ) );
 			super.add( IntegerPool.get( lowest ) );
 			super.add( IntegerPool.get( quantity ) );
-			super.add( limit != 0 ? Boolean.TRUE : Boolean.FALSE );
+			super.add( IntegerPool.get( limit ) );
 		}
 
 		public int getItemId()

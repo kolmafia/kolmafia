@@ -57,7 +57,7 @@ import javax.swing.Timer;
  * @version 1.0
  */
 public class JXGlassBox extends JXPanel {
-    private static final int SHOW_DELAY = 30; // ms
+    private static final int SHOW_DELAY = 150; // ms
     private static final int TIMER_INCREMENT = 10; // ms
 
     private float alphaStart = 0.01f;
@@ -84,6 +84,7 @@ public class JXGlassBox extends JXPanel {
 
     public JXGlassBox(float alpha) {
         this();
+        this.alphaEnd = alpha;
         setAlpha(alpha);
     }
 

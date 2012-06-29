@@ -33,36 +33,56 @@
 
 package net.sourceforge.kolmafia.swingui;
 
-import com.sun.java.forums.TableSorter;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.Serializable;
+import java.util.EventObject;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.text.BadLocationException;
+
+import org.jdesktop.swingx.JXGlassBox;
+import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.decorator.ColorHighlighter;
+import org.jdesktop.swingx.decorator.ComponentAdapter;
+import org.jdesktop.swingx.decorator.HighlightPredicate;
+import org.jdesktop.swingx.decorator.Highlighter;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
+import org.jdesktop.swingx.rollover.RolloverProducer;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -73,31 +93,28 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 
-import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
-
 import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
-import net.sourceforge.kolmafia.swingui.table.TransparentTable;
-
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StoreManageFrame
 	extends GenericPanelFrame
 {
-	private static StoreManageFrame INSTANCE = null;
+	protected static StoreManageFrame INSTANCE = null;
 	private static final JLabel searchLabel =
 		JComponentUtilities.createLabel( "Mall Prices", SwingConstants.CENTER, Color.black, Color.white );
 	private static final LockableListModel priceSummary = new LockableListModel();
 
 	private JComboBox sellingList;
-	private JTable addTable, manageTable;
+	protected StoreManageTable manageTable;
 	private JList resultsDisplay;
+	private static StoreManagePanel storeManagePanel;
 
 	public StoreManageFrame()
 	{
@@ -132,6 +149,98 @@ public class StoreManageFrame
 
 		StoreManageFrame.INSTANCE.setTitle( "Store Manager (potential earnings: " + KoLConstants.COMMA_FORMAT.format( potentialEarnings ) + " meat)" );
 	}
+	
+	public static void showGlassBox( int rowIndex, int x, int y)
+	{
+		/*
+		 * This is a fun way to display a little dialog with a checkbox and a textfield.
+		 */
+		final LimitGlassBox box = new LimitGlassBox( rowIndex );
+		final JTextField text = new JTextField();
+		final JCheckBox check = new JCheckBox();
+		SpringLayout layout = new SpringLayout();
+		int limit = (Integer) StoreManageFrame.INSTANCE.manageTable.getModel().getValueAt( rowIndex, 4 );
+		JXPanel panel = new JXPanel( new FlowLayout() );
+
+		box.setLayout( layout );
+
+		text.setPreferredSize( new Dimension( 100, text.getPreferredSize().height ) );
+		check.setOpaque( false );
+
+		check.setSelected( limit > 0 );
+		text.setText( String.valueOf( limit ) );
+		text.setEnabled( limit > 0 );
+
+		ActionListener bob = new ActionListener()
+		{
+			@Override
+			public void actionPerformed( ActionEvent e )
+			{
+				text.setEnabled( check.isSelected() );
+				if ( text.isEnabled() && text.getText().equals( "0" ) )
+				{
+					text.setText( "1" );
+				}
+				if ( !check.isSelected() )
+				{
+					box.setLimit( 0 );
+					if ( text.getText().equals( "1" ) )
+					{
+						text.setText( "0" );
+					}
+				}
+				else
+				{
+					box.setLimit( StringUtilities.parseInt( text.getText() ) );
+				}
+			}
+		};
+		check.addActionListener( bob );
+		
+		DocumentListener steve = new DocumentListener()
+		{
+
+			@Override
+			public void insertUpdate( DocumentEvent e )
+			{
+				this.changedUpdate( e );
+			}
+
+			@Override
+			public void removeUpdate( DocumentEvent e )
+			{
+				this.changedUpdate( e );
+			}
+
+			@Override
+			public void changedUpdate( DocumentEvent e )
+			{
+				try
+				{
+					long lim = StringUtilities.parseLong( e.getDocument().getText( 0, e.getDocument().getLength() ) );
+					box.setLimit( lim );
+				}
+				catch ( BadLocationException e1 )
+				{
+					e1.printStackTrace();
+				}
+			}
+		};
+		text.getDocument().addDocumentListener( steve );
+
+		panel.add( check );
+		panel.add( text );
+		panel.setBorder( BorderFactory.createRaisedBevelBorder() );
+
+		box.add( panel );
+
+		layout.putConstraint( SpringLayout.WEST, panel, x, SpringLayout.WEST, box );
+		layout.putConstraint( SpringLayout.NORTH, panel, y, SpringLayout.NORTH, box );
+
+		StoreManageFrame.INSTANCE.setGlassPane( box );
+
+		box.setVisible( true );
+	}
 
 	private class StoreManagePanel
 		extends GenericPanel
@@ -140,24 +249,15 @@ public class StoreManageFrame
 		{
 			super( "save prices", "auto reprice", true );
 
-			StoreManageFrame.this.addTable = new StoreAddTable();
-			GenericScrollPane addScroller = new GenericScrollPane( StoreManageFrame.this.addTable );
-
-			JComponentUtilities.setComponentSize( addScroller, 500, 50 );
-			JPanel addPanel = new JPanel( new BorderLayout() );
-
-			addPanel.add( StoreManageFrame.this.addTable.getTableHeader(), BorderLayout.NORTH );
-			addPanel.add( addScroller, BorderLayout.CENTER );
-
 			StoreManageFrame.this.manageTable = new StoreManageTable();
+			StoreManageFrame.this.manageTable.setEditable( true );
 			GenericScrollPane manageScroller = new GenericScrollPane( StoreManageFrame.this.manageTable );
 
 			JPanel managePanel = new JPanel( new BorderLayout() );
-			managePanel.add( StoreManageFrame.this.manageTable.getTableHeader(), BorderLayout.NORTH );
 			managePanel.add( manageScroller, BorderLayout.CENTER );
+			JComponentUtilities.setComponentSize( managePanel, 500, 400 );
 
 			JPanel storePanel = new JPanel( new BorderLayout() );
-			storePanel.add( addPanel, BorderLayout.NORTH );
 			storePanel.add( managePanel, BorderLayout.CENTER );
 
 			JPanel searchResults = new SearchResultsPanel();
@@ -202,20 +302,9 @@ public class StoreManageFrame
 					}
 				}
 
-				int oldLimit = 0;
+				int ilim = (Integer) StoreManageFrame.this.manageTable.getModel().getValueAt( i, 4 );
 
-				for ( int j = 0; j < sold.length; ++j )
-				{
-					if ( sold[ j ].getItemId() == itemId[ i ] )
-					{
-						oldLimit = sold[ j ].getLimit();
-						break;
-					}
-				}
-
-				limits[ i ] =
-					( (Boolean) StoreManageFrame.this.manageTable.getValueAt( i, 4 ) ).booleanValue() ? Math.max(
-						1, oldLimit ) : 0;
+				limits[ i ] = ilim > 0 ? ilim : 0;
 			}
 
 			RequestThread.postRequest( new ManageStoreRequest( itemId, prices, limits ) );
@@ -242,103 +331,167 @@ public class StoreManageFrame
 	public static final String UNDERCUT_MESSAGE =
 		"KoLmafia will take items priced at 999,999,999 meat and undercut the current lowest price in the mall.  Would you like KoLmafia to avoid 'minimum possible prices' (100 meat, or twice the autosell value of the item) when doing so?";
 
-	private class StoreListTable
-		extends TransparentTable
-	{
-		public StoreListTable( final ListWrapperTableModel model, final boolean sortable )
-		{
-			super( model );
 
-			if ( sortable )
-			{
-				this.setModel( new TableSorter( this.getModel(), this.getTableHeader() ) );
-			}
-
-			this.getTableHeader().setReorderingAllowed( false );
-
-			this.setRowSelectionAllowed( false );
-
-			this.addMouseListener( new TableButtonListener( this ) );
-
-			this.setOpaque( false );
-			this.setShowGrid( false );
-
-			this.setRowHeight( 28 );
-
-			this.getColumnModel().getColumn( 0 ).setMinWidth( 200 );
-
-			this.getColumnModel().getColumn( 4 ).setMinWidth( 35 );
-			this.getColumnModel().getColumn( 4 ).setMaxWidth( 35 );
-
-			this.getColumnModel().getColumn( 5 ).setMinWidth( 40 );
-			this.getColumnModel().getColumn( 5 ).setMaxWidth( 40 );
-
-			this.getColumnModel().getColumn( 6 ).setMinWidth( 40 );
-			this.getColumnModel().getColumn( 6 ).setMaxWidth( 40 );
-		}
-	}
-
-	private class StoreAddTable
-		extends StoreListTable
-	{
-		public StoreAddTable()
-		{
-			super( new StoreAddTableModel(), false );
-			this.getColumnModel().getColumn( 0 ).setCellEditor( new DefaultCellEditor( StoreManageFrame.this.sellingList ) );
-		}
-	}
-
-	private class StoreAddTableModel
-		extends ListWrapperTableModel
-	{
-		public StoreAddTableModel()
-		{
-			super(
-				new String[] { "Item Name", "Price", " ", "Qty", "Lim", " ", " " },
-				new Class[] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
-				new boolean[] { true, true, false, true, true, false, false },
-				new LockableListModel() );
-
-			LockableListModel dataModel = KoLConstants.inventory.getMirrorImage( new TradeableItemFilter() );
-			StoreManageFrame.this.sellingList = new JComboBox( dataModel );
-
-			Vector value = new Vector();
-			value.add( "- select an item -" );
-			value.add( IntegerPool.get( 0 ) );
-			value.add( IntegerPool.get( 0 ) );
-			value.add( IntegerPool.get( 0 ) );
-			value.add( Boolean.FALSE );
-
-			this.listModel.add( value );
-		}
-
-		@Override
-		public Vector constructVector( final Object o )
-		{
-			Vector value = (Vector) o;
-			if ( value.size() < 7 )
-			{
-				JButton addItemButton = new JButton( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
-				addItemButton.setToolTipText( "add selected item" );
-				addItemButton.addMouseListener( new AddItemListener() );
-				value.add( addItemButton );
-
-				JButton searchItemButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
-				searchItemButton.setToolTipText( "price analysis" );
-				searchItemButton.addMouseListener( new SearchItemListener() );
-				value.add( searchItemButton );
-			}
-
-			return value;
-		}
-	}
-
-	private class StoreManageTable
-		extends StoreListTable
+	protected class StoreManageTable
+		extends ShowDescriptionTable
 	{
 		public StoreManageTable()
 		{
-			super( new StoreManageTableModel(), true );
+			super( StoreManager.getSoldItemList(), 11, 7 );
+
+			this.setColumnClasses( new Class[]
+			{
+				String.class,
+				Integer.class,
+				Integer.class,
+				Integer.class,
+				Boolean.class,
+				JButton.class,
+				JButton.class
+			} );
+			
+			this.setModel( new StoreManageTableModel() );
+			this.getColumnModel().getColumn( 6 ).setPreferredWidth( 44 );
+			this.getColumnModel().getColumn( 6 ).setResizable( false );
+			this.getColumnModel().getColumn( 5 ).setPreferredWidth( 44 );
+			this.getColumnModel().getColumn( 5 ).setResizable( false );
+			this.getColumnModel().getColumn( 4 ).setPreferredWidth( 44 );
+			this.getColumnModel().getColumn( 4 ).setResizable( false );
+			this.getColumnModel().getColumn( 3 ).setResizable( false );
+			this.getColumnModel().getColumn( 0 ).setPreferredWidth( 220 );
+			this.getTableHeader().setReorderingAllowed( false );
+			this.setAutoResizeMode( AUTO_RESIZE_NEXT_COLUMN );
+			
+			this.setDefaultEditor( JButton.class, new JButtonHackEditor() );
+			this.setDefaultEditor( Boolean.class, new JButtonHackEditor() );
+			
+			this.setDefaultRenderer( Boolean.class, new BoolRenderer() );
+			
+			Highlighter stripe = HighlighterFactory.createSimpleStriping();
+			this.addHighlighter( stripe );
+			
+			HighlightPredicate p = new HighlightPredicate()
+			{
+				@Override
+				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
+				{
+					if ( !adapter.getComponent().isEnabled() )
+						return false;
+					Point p = (Point) adapter.getComponent().getClientProperty( RolloverProducer.ROLLOVER_KEY );
+					return p != null && p.y == adapter.row && convertColumnIndexToModel( p.x ) == 1 && convertColumnIndexToModel( adapter.column ) == 1;
+				}
+			};
+			
+			HighlightPredicate f = new HighlightPredicate()
+			{
+				@Override
+				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
+				{
+					if ( !adapter.getComponent().isEnabled() )
+						return false;
+					if ( convertColumnIndexToModel( adapter.column ) != 1 )
+						return false;
+					int cellValue =
+						(Integer) adapter.getValueAt(
+							convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
+					SoldItem it =
+						( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
+					return cellValue != it.getPrice();
+				}
+			};
+			ColorHighlighter c = new ColorHighlighter(p);
+			c.setForeground( Color.blue );
+			this.addHighlighter( c );
+
+			ColorHighlighter d = new ColorHighlighter( f );
+			d.setBackground( new Color(0xB5EAAA) );
+			d.setSelectedBackground( new Color(0x306754) );
+			this.addHighlighter( d );
+		}
+		@Override
+		public boolean isCellEditable( final int row, final int col )
+		{
+			int column = convertColumnIndexToModel( col );
+			if ( column == 1 || column == 4 || column == 5 || column == 6 )
+			{
+				return true;
+			}
+			return false;
+		}
+		
+		private class JButtonHackEditor
+			implements TableCellEditor
+		{
+			/*
+			 * This is an awful, horrible hack, but swing doesn't provide many options otherwise. Since JTables do not
+			 * forward MouseEvents to embedded components, we have to hack around it - override the editor and take
+			 * advantage of the fact that it knows what cell is trying to be edited. The other way to do this is to
+			 * install a mouselistener on the table that converts all mouseevents to row/column coordinates and then
+			 * passes a mouse event to that cell. I find that has way more overhead and is less robust than doing it
+			 * this way.  Sigh.
+			 */
+
+			@Override
+			public Object getCellEditorValue()
+			{
+				return null;
+			}
+
+			@Override
+			public boolean isCellEditable( EventObject anEvent )
+			{
+				return true;
+			}
+
+			@Override
+			public boolean shouldSelectCell( EventObject anEvent )
+			{
+				return false;
+			}
+
+			@Override
+			public boolean stopCellEditing()
+			{
+				return false;
+			}
+
+			@Override
+			public void cancelCellEditing()
+			{
+			}
+
+			@Override
+			public void addCellEditorListener( CellEditorListener l )
+			{
+			}
+
+			@Override
+			public void removeCellEditorListener( CellEditorListener l )
+			{
+			}
+
+			@Override
+			public Component getTableCellEditorComponent( JTable table, Object value, boolean isSelected, int row,
+				int column )
+			{
+				if ( value instanceof Boolean || value instanceof Integer )
+				{
+					Rectangle rect = table.getCellRect( row, column, false );
+					// Look at this nonsense
+					Point p = new Point( rect.x, rect.y );
+					// I hate you Swing
+					SwingUtilities.convertPointToScreen( p, table );
+					// I mean seriously, WTF
+					SwingUtilities.convertPointFromScreen( p, StoreManageFrame.INSTANCE.getContentPane() );
+					StoreManageFrame.showGlassBox( convertRowIndexToModel( row ), p.x + rect.width / 2 - 15, p.y + 13 );
+				}
+				else if ( value instanceof JButton )
+				{
+					( (JButton) value ).doClick( 10 );
+				}
+
+				return null;
+			}
 		}
 	}
 
@@ -355,9 +508,9 @@ public class StoreManageFrame
 		}
 
 		@Override
-		public Vector constructVector( final Object o )
+		public Vector<Serializable> constructVector( final Object o )
 		{
-			Vector value = (Vector) o;
+			Vector<Serializable> value = (Vector<Serializable>) o;
 			if ( value.size() < 7 )
 			{
 				String itemName = (String) value.get( 0 );
@@ -366,52 +519,22 @@ public class StoreManageFrame
 
 				JButton removeItemButton = new JButton( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
 				removeItemButton.setToolTipText( "remove item from store" );
-				removeItemButton.addMouseListener( new RemoveItemListener( itemName ) );
+				removeItemButton.addActionListener( new RemoveItemListener( itemName ) );
+				JComponentUtilities.setComponentSize( removeItemButton, new Dimension( 20, 20 ) );
 				value.add( removeItemButton );
 
 				JButton searchItemButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
 				searchItemButton.setToolTipText( "price analysis" );
-				searchItemButton.addMouseListener( new SearchItemListener( itemName ) );
+				searchItemButton.addActionListener( new SearchItemListener( itemName ) );
 				value.add( searchItemButton );
 			}
 
 			return value;
 		}
-	}
 
-	private class AddItemListener
-		extends ThreadedListener
-	{
-		@Override
-		protected void execute()
+		public SoldItem getSoldItem( int row )
 		{
-			if ( !InputFieldUtilities.finalizeTable( StoreManageFrame.this.addTable ) )
-			{
-				return;
-			}
-
-			AdventureResult soldItem = (AdventureResult) StoreManageFrame.this.sellingList.getSelectedItem();
-			if ( soldItem == null )
-			{
-				return;
-			}
-
-			int price = ( (Integer) StoreManageFrame.this.addTable.getValueAt( 0, 1 ) ).intValue();
-			int quantity = ( (Integer) StoreManageFrame.this.addTable.getValueAt( 0, 3 ) ).intValue();
-
-			if ( quantity <= 0 )
-			{
-				quantity = soldItem.getCount() - quantity;
-			}
-
-			int limit = ( (Boolean) StoreManageFrame.this.addTable.getValueAt( 0, 4 ) ).booleanValue() ? 1 : 0;
-			soldItem = new AdventureResult( soldItem.getItemId(), quantity );
-
-			StoreManageFrame.this.addTable.setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
-			StoreManageFrame.this.addTable.setValueAt( IntegerPool.get( 0 ), 0, 1 );
-			StoreManageFrame.this.addTable.setValueAt( IntegerPool.get( 0 ), 0, 3 );
-
-			RequestThread.postRequest( new AutoMallRequest( soldItem, price, limit ) );
+			return (SoldItem) this.listModel.get( row );
 		}
 	}
 
@@ -419,11 +542,6 @@ public class StoreManageFrame
 		extends ThreadedListener
 	{
 		private final String itemName;
-
-		public SearchItemListener()
-		{
-			this.itemName = null;
-		}
 
 		public SearchItemListener( final String itemName )
 		{
@@ -599,18 +717,57 @@ public class StoreManageFrame
 		}
 	}
 
-	private class TradeableItemFilter
-		implements ListElementFilter
+	public class BoolRenderer
+		extends JCheckBox
+		implements TableCellRenderer
 	{
-		public boolean isVisible( final Object element )
+		public BoolRenderer()
 		{
-			if ( !( element instanceof AdventureResult ) )
-			{
-				return false;
-			}
+			setHorizontalAlignment( JLabel.CENTER );
+		}
 
-			int itemId = ( (AdventureResult) element ).getItemId();
-			return itemId < 1 || ItemDatabase.isTradeable( itemId );
+		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected,
+			boolean hasFocus, int row, int column )
+		{
+			if ( isSelected )
+			{
+				setForeground( table.getSelectionForeground() );
+				//super.setBackground(table.getSelectionBackground());
+				setBackground( table.getSelectionBackground() );
+			}
+			else
+			{
+				setForeground( table.getForeground() );
+				setBackground( table.getBackground() );
+			}
+			setSelected( ( value != null && ( (Integer) value ) > 0 ) );
+			return this;
 		}
 	}
 }
+
+class LimitGlassBox
+	extends JXGlassBox
+{
+	private long limit;
+	private int rowIndex;
+
+	public LimitGlassBox( int rowIndex )
+	{
+		super(1.0f);
+		this.rowIndex = rowIndex;
+		this.limit = (Integer) StoreManageFrame.INSTANCE.manageTable.getModel().getValueAt( rowIndex, 4 );
+	}
+
+	public void setLimit( long lim )
+	{
+		this.limit = lim;
+	}
+
+	@Override
+	public void dismiss()
+	{
+		StoreManageFrame.INSTANCE.manageTable.getModel().setValueAt( (int)limit, rowIndex, 4 );
+		super.dismiss();
+	}
+};
