@@ -359,7 +359,7 @@ public class ProfileRequest
 		else
 		{
 			ClanManager.setClanName( null );
-			ClanManager.setClanId( -1 );
+			ClanManager.setClanId( IntegerPool.get( 0 ) );
 		}
 
 		if ( cleanHTML.indexOf( "\nTitle" ) != -1 )
