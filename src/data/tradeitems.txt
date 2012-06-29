@@ -1251,7 +1251,7 @@
 1242	deflated inflatable dodecapede	grow	all	0
 1243	toy six-seater hovercraft	familiar	all	75
 1244	Glass Balls of the Goblin King	offhand	display	0
-1245	Cape of the Goblin King	accessory	display	0
+1245	Cape of the Goblin King	container	display	0
 1246	rib of the Bonerdagon	weapon	display	0
 1247	vertebra of the Bonerdagon	none	display	0
 1248	Bonerdagon necklace	accessory	display	0
@@ -2086,7 +2086,7 @@
 2077	bucket of anniversary lard	weapon	display	0
 2078	anniversary concrete fedora	hat	display	0
 2079	makeshift turban	hat, usable	all	1000
-2080	makeshift cape	accessory, usable	all	1000
+2080	makeshift cape	container, usable	all	1000
 2081	makeshift skirt	pants, usable	all	1000
 2082	toothbrush	usable	all	72
 2083	makeshift crane	grow, usable	all	1000
@@ -2134,7 +2134,7 @@
 2125	Ye Olde Navy Fleece	shirt	all	105
 2126	bronze breastplate	shirt	all	125
 2127	white hat hacker T-shirt	shirt	all	45
-2128	vampire cape	shirt	all	25
+2128	vampire cape	container	all	25
 2129	possessed top	none, combat	all	35
 2130	killer rag doll	offhand	all	106
 2131	tree-eating kite	none, combat	all	29
@@ -2178,7 +2178,7 @@
 2169	toy space helmet	hat	all	50
 2170	MagiMechTech NanoMechaMech	accessory	all	50
 2171	astronaut pants	pants	all	50
-2172	toy jet pack	accessory	all	50
+2172	toy jet pack	container	all	50
 2173	triangular stone	none	none	0
 2174	mossy stone sphere	none, combat reusable	none	0
 2175	smooth stone sphere	none, combat reusable	none	0
@@ -2489,7 +2489,7 @@
 2480	demon-horned hat	hat	all	75
 2481	demon buckler	offhand	all	85
 2482	demon whip	weapon	all	15
-2483	barskin cloak	shirt	all	30
+2483	barskin cloak	container	all	30
 2484	white snakeskin duster	shirt	all	50
 2485	clownskin harness	shirt	all	65
 2486	demonskin jacket	shirt	all	85
@@ -2617,7 +2617,7 @@
 2608	palm-frond net	none, combat	all	130
 2609	palm-frond capris	pants	all	145
 2610	extra-large palm-frond toupee	hat	all	145
-2611	palm-frond cloak	shirt	all	145
+2611	palm-frond cloak	container	all	145
 2612	ancient vinyl coin purse	multiple	all	50
 2613	rocky raccoon	none, combat	all	75
 2614	mojo filter	multiple	all	125
@@ -4423,7 +4423,7 @@
 4414	colorful plastic ball	multiple	all	0
 4415	sealhide hood	hat	display	55
 4416	sealhide leggings	pants	display	60
-4417	sealhide cloak	shirt	display	50
+4417	sealhide cloak	container	display	50
 4418	sealhide buckler	offhand	display	45
 4419	sealhide whip	weapon	display	35
 4420	sealhide moccasins	accessory	display	75
@@ -4877,7 +4877,7 @@
 4868	paperclip-on tie	accessory	display	0
 4869	paperclip pants	pants	display	0
 4870	paperclip turban	hat	display	0
-4871	paperclip cape	accessory	display	0
+4871	paperclip cape	container	display	0
 4872	glob of Blank-Out	none, combat	display	0
 4873	photocopied monster	usable	none	0
 4874	gaudy key	usable	none	0
@@ -5562,7 +5562,7 @@
 5553	can of Rain-Doh	usable	all	0
 5554	empty Rain-Doh can	none	display	0
 5555
-5556	Rain-Doh red wings	accessory	none	0
+5556	Rain-Doh red wings	container	none	0
 5557	Rain-Doh orange agent	none, combat reusable	none	0
 5558	Rain-Doh yellow laser gun	weapon	none	0
 5559	Rain-Doh green lantern	offhand	none	0
@@ -5727,7 +5727,7 @@
 5718	hot egg	reusable	all	0
 5719	smoking grass	none, combat	all	23
 5720	fiery wing	food	all	0
-5721	wings of fire	accessory	all	0
+5721	wings of fire	container	all	0
 5722	fire hose	weapon	all	0
 5723	bottle of fire	usable	all	0
 5724	molten brick	none	all	0
@@ -5736,3 +5736,9 @@
 5727	hot daub stand	pants	display	0
 5728	foot-long hot daub	weapon	display	0
 5729	ballpark hot daub	none, combat	all	0
+5730
+5731
+5732	blank note	usable	display	0
+5733	eerily silent box	usable	display	0
+5734	forbidden sausage	food	all	0
+5735	Lord Flameface's cloak	container	display	0
