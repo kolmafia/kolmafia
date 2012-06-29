@@ -147,7 +147,7 @@ public class ClanMembersRequest
 		}
 
 		int clanId = ClanManager.getClanId();
-		if ( clanId == -1 )
+		if ( clanId == 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Your character does not belong to a clan." );
 		}
