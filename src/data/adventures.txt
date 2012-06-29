@@ -265,3 +265,4 @@ Events	adventure=290	false	Super-Intense Mega-Grassfire
 Events	adventure=291	false	Fierce Flying Flames
 Events	adventure=292	false	Lord Flameface's Castle Entryway
 Events	adventure=293	false	Lord Flameface's Castle Belfry
+Events	adventure=294	false	Lord Flameface's Throne Room
