@@ -137,6 +137,16 @@ public abstract class ClanManager
 		return ClanManager.clanName;
 	}
 
+	public static final void setClanId( int id )
+	{
+		ClanManager.clanId = id;
+	}
+
+	public static final void setClanName( String name )
+	{
+		ClanManager.clanName = name;
+	}
+
 	public static final SortedListModel getStash()
 	{
 		return ClanManager.stashContents;
@@ -206,9 +216,6 @@ public abstract class ClanManager
 
 		ProfileRequest clanIdLookup = new ProfileRequest( KoLCharacter.getUserName() );
 		clanIdLookup.run();
-
-		ClanManager.clanId = clanIdLookup.getClanId();
-		ClanManager.clanName = clanIdLookup.getClanName();
 	}
 
 	private static final boolean retrieveMemberData( final boolean retrieveProfileData,

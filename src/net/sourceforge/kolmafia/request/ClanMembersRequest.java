@@ -40,7 +40,6 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -55,7 +54,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ClanMembersRequest
 	extends GenericRequest
 {
-	private static final Pattern CLANID_PATTERN = Pattern.compile( "Clan: <b><a class=nounder href=\"showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" );
 	private static final Pattern MEMBER_PATTERN =
 		Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">([^<]+)</a></b>&nbsp;</td><td class=small>([^<]*?)&nbsp;</td><td class=small>(\\d+).*?</td>" );
 
@@ -69,8 +67,6 @@ public class ClanMembersRequest
 	private final boolean isDetailLookup;
 	private final LockableListModel rankList;
 
-	private String clanId;
-
 	public ClanMembersRequest( final boolean isDetailLookup )
 	{
 		super( isDetailLookup ? "clan_detailedroster.php" : "showclan.php" );
@@ -78,8 +74,6 @@ public class ClanMembersRequest
 		this.isLookup = true;
 		this.isDetailLookup = isDetailLookup;
 		this.rankList = null;
-
-		this.clanId = "";
 	}
 
 	public ClanMembersRequest( final LockableListModel rankList )
@@ -152,7 +146,11 @@ public class ClanMembersRequest
 			return;
 		}
 
-		retrieveClanId();
+		int clanId = ClanManager.getClanId();
+		if ( clanId == -1 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Your character does not belong to a clan." );
+		}
 
 		KoLmafia.updateDisplay( "Retrieving clan member list..." );
 
@@ -162,35 +160,11 @@ public class ClanMembersRequest
 		{
 			this.responseText = null;
 
-			this.constructURLString( "showclan.php?whichclan=" + this.clanId + "&page=" + (page++), false );
+			this.constructURLString( "showclan.php?whichclan=" + clanId + "&page=" + (page++), false );
 
 			super.run();
 		}
 		while ( this.responseText != null && this.responseText.indexOf( "next page &gt;&gt;" ) != -1 );
-	}
-
-	private void retrieveClanId()
-	{
-		// First, you need to know which clan you
-		// belong to.  This is done by doing a
-		// profile lookup on yourself.
-
-		KoLmafia.updateDisplay( "Determining clan id..." );
-		ProfileRequest clanIdLookup = new ProfileRequest( KoLCharacter.getUserName() );
-		clanIdLookup.run();
-
-		Matcher clanIdMatcher = ClanMembersRequest.CLANID_PATTERN.matcher( clanIdLookup.responseText );
-		if ( !clanIdMatcher.find() )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Your character does not belong to a clan." );
-			return;
-		}
-
-		// Now that you know which clan you belong
-		// to, you can do a clan lookup to get a
-		// complete list of clan members in one hit
-
-		this.clanId = clanIdMatcher.group( 1 );
 	}
 
 	@Override

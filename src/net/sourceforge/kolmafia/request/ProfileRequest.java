@@ -63,7 +63,7 @@ public class ProfileRequest
 {
 	private static final Pattern DATA_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>" );
 	private static final Pattern NUMERIC_PATTERN = Pattern.compile( "\\d+" );
-	private static final Pattern CLAN_ID_PATTERN = Pattern.compile( "whichclan=(\\d+)" );
+	private static final Pattern CLAN_ID_PATTERN = Pattern.compile( "Clan: <b><a class=nounder href=\"showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" );
 	private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
 	public static final SimpleDateFormat OUTPUT_FORMAT = new SimpleDateFormat( "MM/dd/yy", Locale.US );
 
@@ -83,8 +83,6 @@ public class ProfileRequest
 	private Integer muscle, mysticism, moxie;
 	private String title, rank;
 
-	private String clanName;
-	private int clanId;
 	private int equipmentPower;
 
 	public ProfileRequest( final String playerName )
@@ -351,18 +349,17 @@ public class ProfileRequest
 
 		if ( cleanHTML.indexOf( "\nClan" ) != -1 )
 		{
-			while ( !token.startsWith( "Clan" ) )
-			{
-				token = st.nextToken();
-			}
-
-			this.clanName = st.nextToken();
-
 			Matcher m = CLAN_ID_PATTERN.matcher( this.responseText );
 			if ( m.find() )
 			{
-				this.clanId = StringUtilities.parseInt( m.group( 1 ) );
+				ClanManager.setClanId( StringUtilities.parseInt( m.group( 1 ) ) );
+				ClanManager.setClanName( m.group( 2 ) );
 			}
+		}
+		else
+		{
+			ClanManager.setClanName( null );
+			ClanManager.setClanId( -1 );
 		}
 
 		if ( cleanHTML.indexOf( "\nTitle" ) != -1 )
@@ -476,24 +473,6 @@ public class ProfileRequest
 		return instance;
 	}
 
-	/**
-	 * static final method used by the flower hunter in order to get an
-	 * instance of a profile request based on the data already known.
-	 */
-
-	public static final ProfileRequest getInstance( final String playerName, final String playerId,
-		final String clanName, final Integer playerLevel, final String classType, final Integer pvpRank )
-	{
-		ProfileRequest instance = new ProfileRequest( playerName );
-		instance.playerId = playerId;
-		instance.playerLevel = playerLevel;
-		instance.clanName = clanName == null ? "" : clanName;
-		instance.classType = classType;
-		instance.pvpRank = pvpRank;
-
-		return instance;
-	}
-
 	public void initialize()
 	{
 		if ( this.responseText == null )
@@ -510,18 +489,6 @@ public class ProfileRequest
 	public String getPlayerId()
 	{
 		return this.playerId;
-	}
-
-	public String getClanName()
-	{
-		this.initialize();
-		return this.clanName;
-	}
-
-	public int getClanId()
-	{
-		this.initialize();
-		return this.clanId;
 	}
 
 	public boolean isHardcore()
