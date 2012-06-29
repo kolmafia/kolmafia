@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia.swingui.widget;
 
+
+import javax.swing.JButton;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -91,6 +94,10 @@ public class TableCellFactory
 				return getAllItemsCell( columnIndex, isSelected, (LowerCaseEntry) result, raw );
 			}
 			return getGeneralDatabaseCell( columnIndex, isSelected, (LowerCaseEntry) result, raw );
+		}
+		if ( result instanceof String || result instanceof Integer || result instanceof JButton )
+		{
+			return result;
 		}
 		return null;
 	}
