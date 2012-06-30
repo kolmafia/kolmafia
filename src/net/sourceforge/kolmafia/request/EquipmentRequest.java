@@ -81,7 +81,7 @@ public class EquipmentRequest
 	private static final Pattern OFFHAND_PATTERN =
 		Pattern.compile( "Off-Hand</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>([^<]+)</b> *(<font[^>]*>[^<]*</font>)? *<a[^>]*unequip&type=offhand" );
 	private static final Pattern CONTAINER_PATTERN =
-		Pattern.compile( "Container</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=container" );
+		Pattern.compile( "Back</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=container" );
 	private static final Pattern SHIRT_PATTERN =
 		Pattern.compile( "Shirt</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=shirt" );
 	private static final Pattern PANTS_PATTERN =
@@ -909,51 +909,6 @@ public class EquipmentRequest
 		return !ConcoctionDatabase.getKnownUses( oldItem ).isEmpty() || !ConcoctionDatabase.getKnownUses( newItem ).isEmpty();
 	}
 
-	private static final void parseQuestItems( final String text )
-	{
-		Matcher matcher = EquipmentRequest.ITEMTABLE_PATTERN.matcher( text );
-		while ( matcher.find() )
-		{
-			Matcher itemMatcher = EquipmentRequest.QUESTITEM_PATTERN.matcher( matcher.group( 1 ) );
-			if ( !itemMatcher.find() )
-			{
-				continue;
-			}
-
-			int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-			String relString = itemMatcher.group( 2 );
-			String descId = itemMatcher.group( 3 ) != null ?
-				itemMatcher.group( 4 ) :
-				itemMatcher.group( 5 ) != null ?
-				itemMatcher.group( 6 ) : "";
-			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemName( itemId ) );
-			String realName = itemMatcher.group( 7 );
-			String canonicalName = StringUtilities.getCanonicalName( realName.toLowerCase() );
-			String quantity = itemMatcher.group( 8 );
-
-			if ( itemName == null || !canonicalName.equals( itemName ) )
-			{
-				// Lookup item with api.php for additional info
-				ItemDatabase.registerItem( itemId );
-			}
-
-			// The inventory never has the plural name.
-			int quantityValue =
-				quantity.length() == 0 ? 1 : StringUtilities.parseInt( quantity.substring( 1, quantity.length() - 1 ) );
-			AdventureResult item = new AdventureResult( itemId, quantityValue );
-			int inventoryCount = item.getCount( KoLConstants.inventory );
-
-			// Add the difference between your existing count
-			// and the original count.
-
-			if ( inventoryCount != quantityValue )
-			{
-				item = item.getInstance( quantityValue - inventoryCount );
-				ResultProcessor.tallyResult( item, true );
-			}
-		}
-	}
-
 	public static final void parseBedazzlements( final String responseText )
 	{
 		Matcher matcher = EquipmentRequest.STICKER_PATTERN.matcher( responseText );
@@ -1038,7 +993,7 @@ public class EquipmentRequest
 						 "Offhand: ", EquipmentManager.OFFHAND );
 		EquipmentRequest.parseEquipment( responseText, equipment,
 						 "unequip&type=container", EquipmentRequest.CONTAINER_PATTERN,
-						 "Container: ", EquipmentManager.CONTAINER );
+						 "Back: ", EquipmentManager.CONTAINER );
 		EquipmentRequest.parseEquipment( responseText, equipment,
 						 "unequip&type=shirt", EquipmentRequest.SHIRT_PATTERN,
 						 "Shirt: ", EquipmentManager.SHIRT );
@@ -1126,7 +1081,7 @@ public class EquipmentRequest
 		}
 
 		String name = matcher.group( 3 ).trim();
-		AdventureResult item = equipment[ slot ];
+		AdventureResult item;
 		if ( EquipmentDatabase.contains( name ) )
 		{
 			item = new AdventureResult( name, 1, false );
