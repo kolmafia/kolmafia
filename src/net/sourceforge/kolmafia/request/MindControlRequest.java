@@ -114,8 +114,15 @@ public class MindControlRequest
 	@Override
 	public void processResults()
 	{
-		KoLmafia.updateDisplay( "Mind control device reset." );
-		KoLCharacter.setMindControlLevel( this.level );
+		if ( this.responseText.contains( "the radio" ) || this.responseText.contains( "You switch the dial" ) )
+		{
+			KoLmafia.updateDisplay( "Mind control device reset." );
+			KoLCharacter.setMindControlLevel( this.level );
+		}
+		else
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You failed to set the mind control device" );
+		}
 	}
 
 	public static boolean registerRequest( final String urlString )

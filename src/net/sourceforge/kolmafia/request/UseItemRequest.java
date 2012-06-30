@@ -1219,11 +1219,6 @@ public class UseItemRequest
 		}
 	}
 
-	private static final boolean singleConsume( final int itemId, int consumptionType )
-	{
-		return false;
-	}
-
 	private static final boolean sequentialConsume( final int itemId )
 	{
 		return false;
@@ -3041,6 +3036,8 @@ public class UseItemRequest
 			if ( responseText.indexOf( "You're sick of playing with BRICKOs today" ) != -1 )
 			{
 				Preferences.setInteger( "_brickoFights", 10 );
+				UseItemRequest.lastUpdate = "You're sick of playing with BRICKOs today";
+				KoLmafia.updateDisplay( UseItemRequest.lastUpdate );
 			}
 			// You're too drunk to mess with BRICKO right now.
 
