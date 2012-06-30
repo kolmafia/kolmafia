@@ -1327,7 +1327,6 @@ Gaia beads	175	Mys: 72
 Garter of the Turtle Poacher	150	Mus: 45
 Golden Mr. Accessory	0	none
 Gravyskin Belt of the Sauceblob	150	Mys: 45
-Great S-Cape	10	none
 Green Clover of Justice	200	Mys: 85
 Grimacite galoshes	0	Mys: 17
 Grimacite garter	0	Mys: 17
@@ -1402,6 +1401,7 @@ Purple Horseshoe of Honor	200	Mys: 85
 Putrid Pendant	150	Mys: 60
 Radio KoL Antenna Ball	0	none
 Radio KoL Bottle Opener	0	none
+Radio KoL Coffee Mug	0	none
 Radio KoL Flashlight	0	none
 Radio KoL Keychain	0	none
 Radio KoL Maracas	0	none
@@ -1715,7 +1715,6 @@ stuffed walrus	10	none
 support cummerbund	100	Mys: 35
 tap shoes	90	Mys: 30
 tarrrnished charrrm bracelet	150	Mys: 60
-teddybear backpack	150	Mox: 60
 teflon swim fins	200	Mus: 85
 time halo	50	none
 tin star	60	Mys: 15
@@ -1874,10 +1873,10 @@ yellow glowstick	20	none
 # Containers section of equipment.txt
 
 Cape of the Goblin King	70	none
-Lord Flameface's cloak	0
+Great S-Cape	10	none
+Lord Flameface's cloak	0	none
 Mr. Container	0	none
 Newbiesport&trade; backpack	0	none
-Radio KoL Coffee Mug	0	none
 Rain-Doh red wings	100	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	none
 barskin cloak	25	none
@@ -1886,6 +1885,7 @@ makeshift cape	100	none
 palm-frond cloak	140	none
 paperclip cape	50	none
 sealhide cloak	160	none
+teddybear backpack	150	none
 toy jet pack	175	none
 vampire cape	20	none
 wings of fire	100	none
