@@ -141,7 +141,7 @@ public class EquipmentRequest
 		"hat",
 		"weapon",
 		"off-hand",
-		"container",
+		"back",
 		"shirt",
 		"pants",
 		"acc1",
