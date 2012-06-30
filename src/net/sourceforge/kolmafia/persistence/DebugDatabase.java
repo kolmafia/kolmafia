@@ -472,7 +472,8 @@ public class DebugDatabase
 	public static final String parseType( final String text )
 	{
 		Matcher matcher = DebugDatabase.TYPE_PATTERN.matcher( text );
-		return matcher.find() ? matcher.group( 1 ) : "";
+		String type = matcher.find() ? matcher.group( 1 ) : "";
+		return type.equals( "back item" ) ? "container" : type;
 	}
 
 	public static final int typeToPrimary( final String type )

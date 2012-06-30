@@ -1526,7 +1526,7 @@
 1517
 1518	vampire heart	none	none	0
 1519	Talisman of Bakula	accessory	all	0
-1520	Radio KoL Coffee Mug	container	display	0
+1520	Radio KoL Coffee Mug	accessory	display	0
 1521	Frank Gorshin trophy	none	display	0
 1522	Radio Free Jersey	shirt	display	0
 1523	bottle of used blood	multiple	none	0
@@ -3102,17 +3102,17 @@
 3093	ball-in-a-cup	offhand, reusable	all	0
 3094	set of jacks	offhand, reusable	all	0
 3095	laser-broiled pear	food	all	-155
-3096	polyalloy shield	offhand	all	155
-3097	oversized fish scaler	familiar	all	70
+3096	polyalloy shield	offhand	all	0
+3097	oversized fish scaler	familiar	all	0
 3098	killing feather	none, combat	all	-200
-3099	golden ring	none, combat	all	100
+3099	golden ring	none, combat	all	0
 3100	robotronic egg	none, combat	all	100
-3101	rogue swarmer	none, combat	all	100
-3102	sawblade fragment	none, combat	all	100
-3103	unstable laser battery	none, combat	all	100
-3104	vibrating cyborg knife	weapon	all	155
-3105	immense cyborg hand	weapon	all	155
-3106	cyborg stompin' boot	accessory	all	155
+3101	rogue swarmer	none, combat	all	0
+3102	sawblade fragment	none, combat	all	0
+3103	unstable laser battery	none, combat	all	0
+3104	vibrating cyborg knife	weapon	all	0
+3105	immense cyborg hand	weapon	all	0
+3106	cyborg stompin' boot	accessory	all	0
 3107	deactivated RoboGoose	grow	display	0
 3108	overclocked avian microprocessor	familiar	all	75
 3109	Miniborg stomper	none, combat reusable	all	0
@@ -3274,9 +3274,9 @@
 3265	bag of Crotchety Pine saplings	offhand	none	0
 3266	bag of Saccharine Maple saplings	offhand	none	0
 3267	bag of Laughing Willow saplings	offhand	none	0
-3268	handful of Crotchety Pine needles	usable	all	50
-3269	lump of Saccharine Maple sap	usable, candy	all	50
-3270	handful of Laughing Willow bark	usable	all	50
+3268	handful of Crotchety Pine needles	usable	all	0
+3269	lump of Saccharine Maple sap	usable, candy	all	0
+3270	handful of Laughing Willow bark	usable	all	0
 3271	crotchety pants	pants	display	0
 3272	Saccharine Maple pendant	accessory	display	0
 3273	willowy bonnet	hat	display	0
@@ -3504,12 +3504,12 @@
 3495	sea salt crystal	multiple	all	100
 3496	bazookafish bubble gum	usable, candy	all	5
 3497	bottle of Pete's Sake	drink, fancy	all	70
-3498	invisible bag	hat	all	5
-3499	witch hat	hat	all	5
-3500	beholed bedsheet	hat	all	5
-3501	fancy canap&eacute;s	food	all	50
-3502	thermos of brew	usable	all	50
-3503	giant glass of brandy	drink	all	50
+3498	invisible bag	hat	all	0
+3499	witch hat	hat	all	0
+3500	beholed bedsheet	hat	all	0
+3501	fancy canap&eacute;s	food	all	0
+3502	thermos of brew	usable	all	0
+3503	giant glass of brandy	drink	all	0
 3504	French slippers	accessory	display	0
 3505	LWA ring	accessory	display	0
 3506	LARP membership card	none	display	0
@@ -3641,26 +3641,26 @@
 3632	radioactive chew toy	familiar	all	70
 3633	elven socks	accessory	all	30
 3634	cheap elven gloves	accessory	all	30
-3635	festive holiday hat	hat	all	45
-3636	patent leather shoes	accessory	all	30
-3637	gray bow tie	accessory	all	30
-3638	penguin thesaurus	offhand	all	45
+3635	festive holiday hat	hat	all	0
+3636	patent leather shoes	accessory	all	0
+3637	gray bow tie	accessory	all	0
+3638	penguin thesaurus	offhand	all	0
 3639	blob-shaped Crimbo cookie	food	all	50
 3640	seaweed	none	all	40
 3641	jamfish jam	multiple	all	30
 3642	dragonfish caviar	none	all	90
 3643	pufferfish spine	none, combat	all	25
 3644	depleted Grimacite kneecapping stick	weapon	all	400
-3645	canteen of wine	drink	all	100
-3646	elven <i>limbos</i> gingerbread	food	all	100
-3647	elven whittling knife	weapon	all	400
+3645	canteen of wine	drink	all	0
+3646	elven <i>limbos</i> gingerbread	food	all	0
+3647	elven whittling knife	weapon	all	0
 3648	magic dragonfish fry	grow	all	0
 3649	map to Madness Reef	none	all	0
 3650	toast with jam	food	all	40
-3651	miniature antlers	familiar	all	150
-3652	elven moonshine	drink	all	100
-3653	knuckle sandwich	food	all	100
-3654	psycho sweater	shirt	all	400
+3651	miniature antlers	familiar	all	0
+3652	elven moonshine	drink	all	0
+3653	knuckle sandwich	food	all	0
+3654	psycho sweater	shirt	all	0
 3655	fin-bit wax	familiar	all	75
 3656	tiny plastic Mob Penguin	accessory	all	0
 3657	tiny plastic mutant elf	accessory	all	0
@@ -4108,12 +4108,12 @@
 4099	bumblebee marble	offhand, multiple	all	16
 4100	jet bennie marble	offhand, multiple	all	32
 4101	beige clambroth marble	offhand, multiple	all	64
-4102	steely marble	offhand, multiple	all	128
-4103	beach ball marble	offhand, multiple	all	256
-4104	black catseye marble	offhand, multiple	all	512
-4105	big bumboozer marble	offhand, reusable	all	1024
-4106	chamoisole	shirt	all	2000
-4107	bitter pill	usable	all	1000
+4102	steely marble	offhand, multiple	all	0
+4103	beach ball marble	offhand, multiple	all	0
+4104	black catseye marble	offhand, multiple	all	0
+4105	big bumboozer marble	offhand, reusable	all	0
+4106	chamoisole	shirt	all	0
+4107	bitter pill	usable	all	0
 4108	monstrous monocle	accessory	display	250
 4109	musty moccasins	accessory	display	250
 4110	molten medallion	accessory	display	250
@@ -4152,22 +4152,22 @@
 4143	a ragged paper strip	none	none	10
 4144	a ripped paper strip	none	none	10
 4145	funny paper hat	hat	display	0
-4146	floaty sand	usable	all	10
-4147	charged magnet	offhand	all	1500
+4146	floaty sand	usable	all	0
+4147	charged magnet	offhand	all	0
 4148	floaty stone sphere	grow	all	0
 4149	quadroculars	familiar	all	75
 4150	lint	none	all	3
 4151	dubious peppermint	multiple, candy	all	40
 4152	Elvish delight	usable, candy	all	40
-4153	rockfish stomach	multiple	all	170
+4153	rockfish stomach	multiple	all	0
 4154	live lobster	usable	all	0
 4155	wok lobster	usable	all	0
 4156	floaty pebbles	none	all	0
 4157	floaty gravel	none	all	0
 4158	floaty rock	none	all	0
-4159	rock lobster	grow	all	200
-4160	pebblebr&auml;u	drink	all	50
-4161	rocky road ice cream	food	all	150
+4159	rock lobster	grow	all	0
+4160	pebblebr&auml;u	drink	all	0
+4161	rocky road ice cream	food	all	0
 4162	extra-strength rubber bands	familiar	all	75
 4163	children of the candy corn	usable, candy	all	0
 4164	Good 'n' Slimy	usable, candy	all	0
@@ -4260,15 +4260,15 @@
 4251	fish-oil smoke bomb	none, combat	none	33
 4252	vial of squid ink	usable	none	33
 4253	potion of fishy speed	usable	none	33
-4254	spooky bark	multiple	all	10
+4254	spooky bark	multiple	all	0
 4255	Wolfman Nardz	mp	all	50
 4256	spooky sap	multiple, combat, candy	all	50
 4257	petrified wood	none, combat	all	50
 4258	chocolate-covered scarab beetle	food	all	50
 4259	mulled cider	drink	all	50
-4260	wolfman mask	hat	all	5
-4261	pumpkinhead mask	hat	all	5
-4262	mummy costume	hat	all	5
+4260	wolfman mask	hat	all	0
+4261	pumpkinhead mask	hat	all	0
+4262	mummy costume	hat	all	0
 4263	Ax of L'rose	weapon	display	0
 4264	bark boxers	pants	display	100
 4265	bark beret	hat	display	100
@@ -4370,10 +4370,10 @@
 4361	expired bottle of peppermint schnapps	drink	all	0
 4362	snow halo	familiar	all	75
 4363	elf resistance button	none	none	0
-4364	elven suicide capsule	usable	all	50
-4365	penguin focaccia bread	food	all	95
-4366	herringcello	drink	all	145
-4367	elven cellocello	drink	all	85
+4364	elven suicide capsule	usable	all	0
+4365	penguin focaccia bread	food	all	0
+4366	herringcello	drink	all	0
+4367	elven cellocello	drink	all	0
 4368	wrench handle	none	none	0
 4369	handful of headless bolts	none	none	0
 4370	bottle of agitprop ink	none	none	0
@@ -4383,18 +4383,18 @@
 4374	cardboard elf ear	none	none	0
 4375	spiraling shape	none	none	0
 4376	Crimbomination Contraption	weapon	display	0
-4377	throwing wrench	weapon	all	35
-4378	pair of bolt cutters	weapon	all	65
-4379	poison pen	weapon	all	75
+4377	throwing wrench	weapon	all	0
+4378	pair of bolt cutters	weapon	all	0
+4379	poison pen	weapon	all	0
 4380	speed limit shield	offhand	display	0
-4381	live wire	weapon	all	15
+4381	live wire	weapon	all	0
 4382	misfit dolly	offhand	all	0
 4383	misfit hobby horse	offhand	all	0
 4384	misfit teddy bear	offhand	all	0
-4385	pocketwatch on a chain	offhand	all	150
-4386	cement sandals	accessory	all	100
-4387	night-vision goggles	accessory	all	200
-4388	passable elf mask	hat	all	15
+4385	pocketwatch on a chain	offhand	all	0
+4386	cement sandals	accessory	all	0
+4387	night-vision goggles	accessory	all	0
+4388	passable elf mask	hat	all	0
 4389	peanut brittle shield	offhand, candy	gift	500
 4390	Red Rover BB gun	weapon	gift	500
 4391	red-and-green sweater	shirt	gift	500
@@ -4436,7 +4436,7 @@
 4427
 4428	glowstick on a string	offhand	none	30
 4429	candy necklace	accessory	none	25
-4430	teddybear backpack	accessory	none	45
+4430	teddybear backpack	container	none	45
 4431	NPZR chemistry set	multiple	all	0
 4432	invisibility potion	multiple	all	0
 4433	irresistibility potion	multiple	all	0
@@ -4461,7 +4461,7 @@
 4452	machetito	weapon	all	115
 4453	lawnmower blade	weapon	all	125
 4454	grass clippings	none, combat	all	0
-4455	The Landscaper's leafblower	weapon	all	300
+4455	The Landscaper's leafblower	weapon	all	0
 4456	snowball	none, curse	all	5
 4457	snailmail bits	multiple	all	56
 4458	snailmail coif	hat	all	140
@@ -4500,7 +4500,7 @@
 4491	black BRICKO brick	none, combat	all	50
 4492	green BRICKO brick	none, combat	all	100
 4493	broken BRICKO brick	none, combat	all	200
-4494	BRICKO reactor	none, combat	all	1000
+4494	BRICKO reactor	none, combat	all	0
 4495	BRICKO egg	grow	all	0
 4496	extra-heavy BRICKO brick	familiar	all	75
 4497	recording of The Ballad of Richie Thingfinder	multiple	all	78
@@ -4609,15 +4609,15 @@
 4600	map to the Kegger in the Woods	reusable	none	0
 4601	plastic cup of beer	drink, combat	all	10
 4602	orquette's phone number	none	none	0
-4603	bronze handcuffs	none, combat	all	100
-4604	silver keg	usable	all	150
+4603	bronze handcuffs	none, combat	all	0
+4604	silver keg	usable	all	0
 4605	bottle of Goldschn&ouml;ckered	offhand	display	200
-4606	sun-dried tofu	food	all	25
-4607	soyburger juice	drink	all	20
-4608	respected companion biscuit	usable	all	30
-4609	essential tofu	usable	all	200
-4610	essential soy	usable	all	250
-4611	essential cameraderie	usable	all	225
+4606	sun-dried tofu	food	all	0
+4607	soyburger juice	drink	all	0
+4608	respected companion biscuit	usable	all	0
+4609	essential tofu	usable	all	0
+4610	essential soy	usable	all	0
+4611	essential cameraderie	usable	all	0
 4612	antique souvenir drawing	usable	all	0
 4613	map to the Magic Commune	reusable	none	0
 4614	Crown of Thrones	hat	all	0
@@ -4668,9 +4668,9 @@
 4659	blackberry galoshes	accessory	all	175
 4660	trout fang	weapon	all	155
 4661	poisonous caviar	food	all	200
-4662	wet venom duct	usable	all	75
+4662	wet venom duct	usable	all	0
 4663	Ellsbury's journal	usable	display	250
-4664	Ellsbury's skull	offhand	all	40
+4664	Ellsbury's skull	offhand	all	0
 4665	hot plate	offhand	all	85
 4666	imp unity ring	accessory	all	85
 4667	Victor, the Insult Comic Hellhound Puppet	offhand	none	0
@@ -4990,9 +4990,9 @@
 4981	Alice's Army Horseman	none	all	10
 4982	Alice's Army Coward	none	all	10
 4983	Alice's Army Cleric	none	all	10
-4984	Alice's Army Sniper	none	all	0
-4985	Alice's Army Dervish	none	all	0
-4986	Alice's Army Martyr	none	all	0
+4984	Alice's Army Sniper	none	all	15
+4985	Alice's Army Dervish	none	all	15
+4986	Alice's Army Martyr	none	all	15
 4987	Pack of Alice's Army Foil Cards	usable	all	0
 4988	Alice's Army Foil Swordsman	none	all	1000
 4989	Alice's Army Foil Spearsman	none	all	1000
@@ -5030,10 +5030,10 @@
 5021	natto marble soda	multiple	all	5
 5022	Alice's Army booster box	usable	all	0
 5023	elderly jawbreaker	multiple	all	30
-5024	marshmallow flamb&eacute;	drink	all	200
-5025	cranberry schnapps	drink	all	250
-5026	breaded beer	drink	all	300
-5027	soy cordial	drink	all	350
+5024	marshmallow flamb&eacute;	drink	all	0
+5025	cranberry schnapps	drink	all	0
+5026	breaded beer	drink	all	0
+5027	soy cordial	drink	all	0
 5028	astral bludgeon	weapon	none	0
 5029	astral shield	offhand	none	0
 5030	astral chapeau	hat	none	0
@@ -5202,7 +5202,7 @@
 5193	11-inch knob sausage	none	none	0
 5194	exorcised sandwich	none	none	0
 5195	Banfoy's Boutique Order Form	usable	display	0
-5196	Great S-Cape	accessory	display	0
+5196	Great S-Cape	container	display	0
 5197	Marvelous Unitard	accessory	display	0
 5198	gooey paste	multiple	all	0
 5199	beastly paste	multiple	all	0
@@ -5314,35 +5314,35 @@
 5305	Sceptre of the Torremolinos Prince	offhand	display	111
 5306	Medallion of the Ventrilo Prince	offhand	display	111
 5307	Haunted Sorority House staff guide	usable	all	0
-5308	ghost trap	none, combat	all	120
-5309	chainsaw chain	none, combat	all	90
-5310	silver shotgun shell	none	all	150
-5311	funhouse mirror	none	all	110
-5312	ghostly body paint	usable	all	75
-5313	necrotizing body spray	usable	all	75
-5314	bite-me-red lipstick	usable	all	75
-5315	whisker pencil	usable	all	75
-5316	press-on ribs	usable	all	75
-5317	Rattlin' Chains	usable, candy	all	20
-5318	Gummy Brains	usable, candy	all	20
-5319	Blood 'n' Plenty	usable, candy	all	20
-5320	Lobos Mints	usable, candy	all	20
-5321	Sweet Sword	usable, candy	all	20
-5322	Ecto-Cooler	drink	all	50
-5323	Bartles and BRAAAINS wine cooler	drink	all	50
-5324	Blood Light	drink	all	50
-5325	Silver Bullet beer	drink	all	50
-5326	Bone's Farm &quot;wine&quot;	drink	all	50
-5327	ghost protocol	none, combat	all	200
-5328	sorority brain	usable	all	200
-5329	Nightstalker perfume	usable	all	200
-5330	drum of pomade	usable	all	200
-5331	throwing bone	none, curse	all	200
-5332	extra-see-thru nightie	shirt	all	400
-5333	BRAINS shorts	pants	all	300
-5334	Mesmereyes&trade; contact lenses	accessory	all	450
-5335	cursed scrunchie	accessory	all	350
-5336	extremely skinny jeans	pants	all	450
+5308	ghost trap	none, combat	all	0
+5309	chainsaw chain	none, combat	all	0
+5310	silver shotgun shell	none	all	0
+5311	funhouse mirror	none	all	0
+5312	ghostly body paint	usable	all	0
+5313	necrotizing body spray	usable	all	0
+5314	bite-me-red lipstick	usable	all	0
+5315	whisker pencil	usable	all	0
+5316	press-on ribs	usable	all	0
+5317	Rattlin' Chains	usable, candy	all	0
+5318	Gummy Brains	usable, candy	all	0
+5319	Blood 'n' Plenty	usable, candy	all	0
+5320	Lobos Mints	usable, candy	all	0
+5321	Sweet Sword	usable, candy	all	0
+5322	Ecto-Cooler	drink	all	0
+5323	Bartles and BRAAAINS wine cooler	drink	all	0
+5324	Blood Light	drink	all	0
+5325	Silver Bullet beer	drink	all	0
+5326	Bone's Farm &quot;wine&quot;	drink	all	0
+5327	ghost protocol	none, combat	all	0
+5328	sorority brain	usable	all	0
+5329	Nightstalker perfume	usable	all	0
+5330	drum of pomade	usable	all	0
+5331	throwing bone	none, curse	all	0
+5332	extra-see-thru nightie	shirt	all	0
+5333	BRAINS shorts	pants	all	0
+5334	Mesmereyes&trade; contact lenses	accessory	all	0
+5335	cursed scrunchie	accessory	all	0
+5336	extremely skinny jeans	pants	all	0
 5337	The Necbromancer's Hat	hat	display	0
 5338	The Necbromancer's Stein	offhand	display	0
 5339	The Necbromancer's Shorts	pants	display	0
@@ -5421,17 +5421,17 @@
 5412	Sangria de Menthe	drink	all	0
 5413	candycaine powder	none, combat	all	25
 5414	licorice boa	familiar, candy	all	75
-5415	licorice root	usable, candy	all	45
-5416	banana supersucker	usable, candy	all	400
-5417	pear supersucker	usable, candy	all	400
-5418	lime supersucker	usable, candy	all	400
-5419	kumquat supersucker	usable, candy	all	400
-5420	strawberry supersucker	usable, candy	all	400
-5421	bananarama bangle	accessory, candy	all	500
-5422	pair of pearidot earrings	accessory, candy	all	500
-5423	tourmalime tourniquet	accessory, candy	all	500
-5424	kumquartz ring	accessory, candy	all	500
-5425	strawberyl necklace	accessory, candy	all	500
+5415	licorice root	usable, candy	all	0
+5416	banana supersucker	usable, candy	all	0
+5417	pear supersucker	usable, candy	all	0
+5418	lime supersucker	usable, candy	all	0
+5419	kumquat supersucker	usable, candy	all	0
+5420	strawberry supersucker	usable, candy	all	0
+5421	bananarama bangle	accessory, candy	all	0
+5422	pair of pearidot earrings	accessory, candy	all	0
+5423	tourmalime tourniquet	accessory, candy	all	0
+5424	kumquartz ring	accessory, candy	all	0
+5425	strawberyl necklace	accessory, candy	all	0
 5426	sucker bucket	offhand	display	300
 5427	sucker hakama	pants	display	300
 5428	sucker kabuto	hat	display	300
@@ -5441,10 +5441,10 @@
 5432	grape troll doll	none, combat reusable	all	0
 5433	blue raspberry troll doll	none, combat reusable	all	0
 5434	DNOTC Box	usable	display	0
-5435	fudgecule	none, candy	all	15
+5435	fudgecule	none, candy	all	0
 5436	fudge lily	multiple	all	0
 5437	superheated fudge	none	all	0
-5438	fluid of fudge-finding	multiple	all	30
+5438	fluid of fudge-finding	multiple	all	0
 5439	frigid fudgepuck	none	all	0
 5440	fudgesicle	food	all	0
 5441	wand of fudge control	reusable	display	0
@@ -5460,9 +5460,9 @@
 5451	jealousy stone	none	none	0
 5452	avarice stone	none	none	0
 5453	gluttonous stone	none	none	0
-5454	red gummi ingot	usable, candy	all	300
-5455	green gummi ingot	usable, candy	all	300
-5456	yellow gummi ingot	usable, candy	all	300
+5454	red gummi ingot	usable, candy	all	0
+5455	green gummi ingot	usable, candy	all	0
+5456	yellow gummi ingot	usable, candy	all	0
 5457	Fudgie Roll	usable, candy	display	0
 5458	fudge bunny	food, candy	all	0
 5459	fudge spork	food helper, candy	all	0
@@ -5479,18 +5479,18 @@
 5470	resolution: be kinder	multiple	all	0
 5471	resolution: be more adventurous	multiple	all	0
 5472	resolution: be luckier	multiple	all	0
-5473	giant red gummi ingot	usable	all	600
-5474	giant green gummi ingot	usable	all	600
-5475	giant yellow gummi ingot	usable	all	600
-5476	gummi salamander	usable	all	300
-5477	gummi snake	usable	all	300
-5478	gummi canary	usable	all	300
-5479	giant red gummi bear	food	all	600
-5480	giant green gummi bear	food	all	600
-5481	giant yellow gummi bear	food	all	600
-5482	red drunki-bear	food, candy	all	600
-5483	green drunki-bear	food, candy	all	600
-5484	yellow drunki-bear	food, candy	all	600
+5473	giant red gummi ingot	usable	all	0
+5474	giant green gummi ingot	usable	all	0
+5475	giant yellow gummi ingot	usable	all	0
+5476	gummi salamander	usable	all	0
+5477	gummi snake	usable	all	0
+5478	gummi canary	usable	all	0
+5479	giant red gummi bear	food	all	0
+5480	giant green gummi bear	food	all	0
+5481	giant yellow gummi bear	food	all	0
+5482	red drunki-bear	food, candy	all	0
+5483	green drunki-bear	food, candy	all	0
+5484	yellow drunki-bear	food, candy	all	0
 5485	gummi bowtie	accessory	all	0
 5486	fudge pocket square	accessory	all	0
 5487	lollipop cufflinks	accessory	all	0
