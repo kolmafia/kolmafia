@@ -188,6 +188,7 @@ public class KoLmafiaCLI
 	private class CommandRetrieverThread
 		extends Thread
 	{
+		@Override
 		public void run()
 		{
 			String line;
@@ -237,6 +238,7 @@ public class KoLmafiaCLI
 	private class CommandProcessorThread
 		extends Thread
 	{
+		@Override
 		public void run()
 		{
 			String line;
@@ -479,7 +481,7 @@ public class KoLmafiaCLI
 	{
 		line = line.trim();
 
-		StringBuffer block = new StringBuffer( line );
+		StringBuilder block = new StringBuilder( line );
 		boolean seenCmd = false, needAnotherCmd = false;
 		while ( true )
 		{
@@ -1013,7 +1015,7 @@ public class KoLmafiaCLI
 	public static String buildRelayScriptMenu()
 	{
 		boolean any = false;
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		buf.append( "<select onchange='if (this.selectedIndex>0) { top.mainpane.location=this.options[this.selectedIndex].value; this.options[0].selected=true;}'><option>-run script-</option>" );
 		File[] files = DataUtilities.listFiles( KoLConstants.RELAY_LOCATION );
 		for ( int i = 0; i < files.length; ++i )
@@ -1025,6 +1027,7 @@ public class KoLmafiaCLI
 				buf.append( "<option value='" );
 				buf.append( name );
 				buf.append( "'>" );
+				name = name.replace( "_", " " );
 				buf.append( name.substring( 6, name.length() - 4 ) );
 				buf.append( "</option>" );
 			}
