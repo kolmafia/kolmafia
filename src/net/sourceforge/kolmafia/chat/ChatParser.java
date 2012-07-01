@@ -68,6 +68,9 @@ public class ChatParser
 	private static final Pattern SENDER_PATTERN =
 		Pattern.compile( "(?:<b>)+<a target=mainpane href=\"showplayer\\.php\\?who=([\\-\\d]+)\">([^<]+)</a>\\:?</b>\\:? (.*)(?:</b>)?" );
 
+	private static final Pattern HUGGLER_PATTERN =
+		Pattern.compile( "(.*?) just (devastated|flattened|destroyed|blasted|took out|beat down|conquered|defeated|pounded) (.*?)!<br" );
+
 	private static final Pattern CHANNEL_LISTEN_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 
 	public static void parseChannelList( final List chatMessages, final String content )
@@ -264,6 +267,12 @@ public class ChatParser
 		chatMessages.add( message );
 	}
 
+	private static boolean hugglerRadioMessage( final String line )
+	{
+		Matcher matcher = ChatParser.HUGGLER_PATTERN.matcher( line );
+		return matcher.lookingAt();
+	}
+
 	private static boolean parseChannelMessage( final List chatMessages, final String line )
 	{
 		String channel = null;
@@ -291,16 +300,26 @@ public class ChatParser
 			content = content.substring( 0, content.length() - 4 );
 		}
 
-		Matcher senderMatcher = ChatParser.SENDER_PATTERN.matcher( content );
+		String playerId;
+		String playerName;
 
-		if ( !senderMatcher.lookingAt() )
+		Matcher senderMatcher = ChatParser.SENDER_PATTERN.matcher( content );
+		if ( senderMatcher.lookingAt() )
+		{
+			playerId = senderMatcher.group( 1 ).trim();
+			playerName = senderMatcher.group( 2 ).trim();
+			content = senderMatcher.group( 3 );
+		}
+		else if ( hugglerRadioMessage( content ) )
+		{
+			channel = "/pvp";
+			playerId = "-69";
+			playerName = "HMC Radio";
+		}
+		else
 		{
 			return false;
 		}
-
-		String playerId = senderMatcher.group( 1 ).trim();
-		String playerName = senderMatcher.group( 2 ).trim();
-		content = senderMatcher.group( 3 );
 
 		ChatMessage message;
 
