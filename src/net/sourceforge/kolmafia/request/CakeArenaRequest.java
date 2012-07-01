@@ -94,11 +94,19 @@ public class CakeArenaRequest
 		if ( this.responseText.indexOf( "You can't" ) != -1 ||
 		     this.responseText.indexOf( "You shouldn't" ) != -1 ||
 		     this.responseText.indexOf( "You don't" ) != -1 ||
-		     this.responseText.indexOf( "You need" ) != -1 ||
-		     this.responseText.indexOf( "You're way too beaten" ) != -1 ||
-		     this.responseText.indexOf( "You're too drunk" ) != -1 )
+		     this.responseText.indexOf( "You need" ) != -1 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Arena battles aborted!" );
+			return;
+		}
+		else if ( this.responseText.indexOf( "You're way too beaten" ) != -1 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You're way too beaten up, Arena battles aborted!" );
+			return;
+		}
+		else if ( this.responseText.indexOf( "You're too drunk" ) != -1 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You're too drunk, Arena battles aborted!" );
 			return;
 		}
 
