@@ -451,7 +451,6 @@ public class MaximizerFrame
 
 		current = MaximizerFrame.eval.getScore(
 			KoLCharacter.getCurrentModifiers() );
-		boolean failed = MaximizerFrame.eval.failed;
 
 		Iterator i = Modifiers.getAllModifiers();
 		while ( i.hasNext() )
@@ -827,6 +826,31 @@ public class MaximizerFrame
 					}
 					else if ( Preferences.getBoolean( buffPref ) )
 					{
+						cmd = "";
+					}
+				}
+				else if ( cmd.startsWith( "gap" ) )
+				{
+					AdventureResult pants = EquipmentManager.getEquipment( EquipmentManager.PANTS );
+					if ( InventoryManager.getAccessibleCount( ItemPool.GREAT_PANTS ) == 0 )
+					{
+						if ( includeAll )
+						{
+							text = "(acquire and equip Greatest American Pants for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else if ( Preferences.getInteger( "_gapBuffs" ) >= 5 )
+					{
+						cmd = "";
+					}
+					else if ( pants == null || ( pants.getItemId() != ItemPool.GREAT_PANTS ) )
+					{
+						text = "(equip Greatest American Pants for " + name + ")";
 						cmd = "";
 					}
 				}
@@ -1370,7 +1394,7 @@ public class MaximizerFrame
 			this.negOutfits = tiebreaker.negOutfits = new HashSet<String>();
 			this.posEquip = tiebreaker.posEquip = new TreeSet<AdventureResult>();
 			this.negEquip = tiebreaker.negEquip = new TreeSet<AdventureResult>();
-			this.familiars = tiebreaker.familiars = new ArrayList();
+			this.familiars = tiebreaker.familiars = new ArrayList<FamiliarData>();
 			this.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
 			tiebreaker.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
 			tiebreaker.min = new float[ Modifiers.FLOAT_MODIFIERS ];
@@ -2025,7 +2049,7 @@ public class MaximizerFrame
 			ArrayList<AdventureResult>[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
 			for ( int i = ranked.length - 1; i >= 0; --i )
 			{
-				automatic[ i ] = new ArrayList();
+				automatic[ i ] = new ArrayList<AdventureResult>();
 				ranked[ i ] = new ArrayList<AdventureResult>();
 			}
 
