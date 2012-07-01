@@ -3822,6 +3822,7 @@ Gummi-DNA	Effect: "Sugar Rush", Effect Duration: 3
 Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
 Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
 Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
+Huggler Radio	Free Pull
 Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
 Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 10
 Knob Goblin love potion	Effect: "Knob Goblin Lust Frenzy", Effect Duration: 5
