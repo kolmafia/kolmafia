@@ -147,9 +147,12 @@ public class LockableListModel
 		synchronized ( this.actualElements )
 		{
 			Collections.sort( this.actualElements );
-			Collections.sort( this.visibleElements );
-			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 		}
+		synchronized ( this.visibleElements )
+		{
+			Collections.sort( this.visibleElements );
+		}
+		this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 
 		synchronized ( this.mirrorList )
 		{
@@ -175,9 +178,12 @@ public class LockableListModel
 		synchronized ( this.actualElements )
 		{
 			Collections.sort( this.actualElements, c );
-			Collections.sort( this.visibleElements, c );
-			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 		}
+		synchronized ( this.visibleElements )
+		{
+			Collections.sort( this.visibleElements, c );
+		}
+		this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 
 		synchronized ( this.mirrorList )
 		{
@@ -257,7 +263,10 @@ public class LockableListModel
 			this.updateFilter( false );
 		}
 
-		this.actualElements.add( index, element );
+		synchronized ( this.actualElements )
+		{
+			this.actualElements.add( index, element );
+		}
 		this.addVisibleElement( index, element );
 	}
 
@@ -291,7 +300,10 @@ public class LockableListModel
 		}
 
 		int visibleIndex = model.computeVisibleIndex( index );
-		model.visibleElements.add( visibleIndex, element );
+		synchronized ( model.visibleElements )
+		{
+			model.visibleElements.add( visibleIndex, element );
+		}
 		model.fireIntervalAdded( model, visibleIndex, visibleIndex );
 	}
 
@@ -326,7 +338,11 @@ public class LockableListModel
 
 	public boolean addAll( final int index, final Collection c )
 	{
-		boolean result = this.actualElements.addAll( index, c );
+		boolean result;
+		synchronized ( this.actualElements )
+		{
+			result = this.actualElements.addAll( index, c );
+		}
 		this.updateFilter( false );
 		return result;
 	}
@@ -337,7 +353,10 @@ public class LockableListModel
 
 	public void clear()
 	{
-		this.actualElements.clear();
+		synchronized ( this.actualElements )
+		{
+			this.actualElements.clear();
+		}
 		this.clearVisibleElements();
 	}
 
@@ -372,7 +391,10 @@ public class LockableListModel
 			return;
 		}
 
-		model.visibleElements.clear();
+		synchronized ( model.visibleElements )
+		{
+			model.visibleElements.clear();
+		}
 		model.fireIntervalRemoved( model, 0, originalSize - 1 );
 	}
 
@@ -598,7 +620,10 @@ public class LockableListModel
 		}
 
 		Object returnValue = this.actualElements.get( index );
-		this.actualElements.remove( index );
+		synchronized ( this.actualElements )
+		{
+			this.actualElements.remove( index );
+		}
 		this.removeVisibleElement( index, returnValue );
 
 		return returnValue;
@@ -634,7 +659,10 @@ public class LockableListModel
 		}
 
 		int visibleIndex = model.computeVisibleIndex( index );
-		model.visibleElements.remove( visibleIndex );
+		synchronized ( model.visibleElements )
+		{
+			model.visibleElements.remove( visibleIndex );
+		}
 		model.fireIntervalRemoved( model, visibleIndex, visibleIndex );
 	}
 
@@ -742,23 +770,35 @@ public class LockableListModel
 		{
 			if ( !model.currentFilter.isVisible( element ) )
 			{
-				model.visibleElements.remove( visibleIndex );
+				synchronized ( model.visibleElements )
+				{
+					model.visibleElements.remove( visibleIndex );
+				}
 				model.fireIntervalRemoved( model, visibleIndex, visibleIndex );
 			}
 			else if ( visibleIndex == model.visibleElements.size() )
 			{
-				model.visibleElements.add( visibleIndex, element );
+				synchronized ( model.visibleElements )
+				{
+					model.visibleElements.add( visibleIndex, element );
+				}
 				model.fireIntervalAdded( model, visibleIndex, visibleIndex );
 			}
 			else
 			{
-				model.visibleElements.set( visibleIndex, element );
+				synchronized ( model.visibleElements )
+				{
+					model.visibleElements.set( visibleIndex, element );
+				}
 				model.fireContentsChanged( model, visibleIndex, visibleIndex );
 			}
 		}
 		else if ( model.currentFilter.isVisible( element ) )
 		{
-			model.visibleElements.add( visibleIndex, element );
+			synchronized ( model.visibleElements )
+			{
+				model.visibleElements.add( visibleIndex, element );
+			}
 			model.fireIntervalAdded( model, visibleIndex, visibleIndex );
 		}
 	}
@@ -834,7 +874,10 @@ public class LockableListModel
 			{
 				if ( visibleIndex == this.visibleElements.size() || this.visibleElements.get( visibleIndex ) != element )
 				{
-					this.visibleElements.add( visibleIndex, element );
+					synchronized ( this.visibleElements )
+					{
+						this.visibleElements.add( visibleIndex, element );
+					}
 					this.fireIntervalAdded( this, visibleIndex, visibleIndex );
 				}
 
@@ -842,7 +885,10 @@ public class LockableListModel
 			}
 			else if ( visibleIndex < this.visibleElements.size() && this.visibleElements.get( visibleIndex ) == element )
 			{
-				this.visibleElements.remove( visibleIndex );
+				synchronized ( this.visibleElements )
+				{
+					this.visibleElements.remove( visibleIndex );
+				}
 				this.fireIntervalRemoved( this, visibleIndex, visibleIndex );
 			}
 		}
