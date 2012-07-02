@@ -5734,3 +5734,5 @@
 5733	679161714	blackcube.gif	eerily silent box
 5734	551619929	sausage.gif	forbidden sausage
 5735	153368305	ffcloak.gif	Lord Flameface's cloak
+5736	676152829	drizzlers.gif	Drizzlers&trade; Black Licorice
+5737	221662956	daubbreaker.gif	daub-breaker
