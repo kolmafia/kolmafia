@@ -3808,7 +3808,7 @@ Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
 # Desert Bus pass: Allows Travel to Desert Beach
 Dark Jill-O-Lantern	Free Pull
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
-Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma"
+Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
 Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10
@@ -3974,7 +3974,7 @@ d12	Effect: "Bastard!", Effect Duration: 10
 #d20	Effect: "Natural 20", Effect Duration: 1
 #d20	Effect: "20/20 Vision", Effect Duration: 20d20
 dandy lion cub	Free Pull
-daub-breaker	Effect: "Hot Breath"
+daub-breaker	Effect: "Hot Breath", Effect Duration: 1
 deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 deflated inflatable dodecapede	Free Pull
 delicious comfit?	Effect: "Discomfited", Effect Duration: 10
