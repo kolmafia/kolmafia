@@ -683,6 +683,15 @@ public class UseItemEnqueuePanel
 				}
 			}
 
+			// Don't display memento items
+			for ( Object it : KoLConstants.mementoList )
+			{
+				if ( ( (AdventureResult) it ).getName().equals( creation.getName() ) )
+				{
+					return false;
+				}
+			}
+
 			return super.isVisible( element );
 		}
 	}
