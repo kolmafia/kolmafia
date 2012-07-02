@@ -5742,3 +5742,5 @@
 5733	eerily silent box	usable	display	0
 5734	forbidden sausage	food	all	0
 5735	Lord Flameface's cloak	container	display	0
+5736	Drizzlers&trade; Black Licorice	usable	all	5
+5737	daub-breaker	usable	all	5
