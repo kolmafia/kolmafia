@@ -5728,11 +5728,24 @@
 5727	664567456	claypants.gif	hot daub stand
 5728	509723507	clayclub.gif	foot-long hot daub
 5729	445745528	claybomb.gif	ballpark hot daub
-5730
-5731
+5730	459356574	burger.gif	angst burger
+5731	922162926	potion13.gif	5-hour acrimony
 5732	174843191	whitecard.gif	blank note
 5733	679161714	blackcube.gif	eerily silent box
 5734	551619929	sausage.gif	forbidden sausage
 5735	153368305	ffcloak.gif	Lord Flameface's cloak
 5736	676152829	drizzlers.gif	Drizzlers&trade; Black Licorice
 5737	221662956	daubbreaker.gif	daub-breaker
+5738	506150298	csbackpack.gif	Camp Scout backpack
+5739	572377360	briefcase.gif	CSA fire-starting kit
+5740	237245113	baggie.gif	bag of GORP	bags of GORP
+5741	652054747	goofballs.gif	water purification pills
+5742	713528231	tent1.gif	Camp Scout pup tent
+5743
+5744	829141102	baggie.gif	bag of GORF	bags of GORF
+5745	928675328	librarycard.gif	CSA discount card
+5746
+5747	578604698	fratwarpin.gif	CSA bravery badge
+5748
+5749	619872227	beer.gif	CSA cheerfulness ration
+5750	657706242	grenade.gif	CSA obedience grenade

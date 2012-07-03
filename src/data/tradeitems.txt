@@ -5736,11 +5736,24 @@
 5727	hot daub stand	pants	display	0
 5728	foot-long hot daub	weapon	display	0
 5729	ballpark hot daub	none, combat	all	0
-5730
-5731
+5730	angst burger	food	all	0
+5731	5-hour acrimony	drink	all	0
 5732	blank note	usable	display	0
 5733	eerily silent box	usable	display	0
 5734	forbidden sausage	food	all	0
 5735	Lord Flameface's cloak	container	display	0
 5736	Drizzlers&trade; Black Licorice	usable	all	5
 5737	daub-breaker	usable	all	5
+5738	Camp Scout backpack	container	all	0
+5739	CSA fire-starting kit	usable	display	0
+5740	bag of GORP	food	all	23
+5741	water purification pills	drink	all	23
+5742	Camp Scout pup tent	usable	all	0
+5743
+5744	bag of GORF	food	all	23
+5745	CSA discount card	usable	all	0
+5746
+5747	CSA bravery badge	usable	all	23
+5748
+5749	CSA cheerfulness ration	drink	all	23
+5750	CSA obedience grenade	none, combat	all	23

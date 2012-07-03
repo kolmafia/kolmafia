@@ -549,8 +549,8 @@ PVC staff	200	Mus: 85	2-handed staff
 Pasta of Peril	50	Mys: 10	1-handed utensil
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
 Radio Free Foil	150	Mus: 60	2-handed sword
-Rain-Doh yellow laser gun	100	Mox: 0	1-handed pistol
 Rain-Doh violet bo	100	Mus: 0	2-handed staff
+Rain-Doh yellow laser gun	100	Mox: 0	1-handed pistol
 Red Rover BB gun	50	Mox: 10	2-handed gun
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Ruby Rod	120	Mus: 40	1-handed rod
@@ -1872,6 +1872,7 @@ yellow glowstick	20	none
 
 # Containers section of equipment.txt
 
+Camp Scout backpack	0	none
 Cape of the Goblin King	70	none
 Great S-Cape	10	none
 Lord Flameface's cloak	0	none
