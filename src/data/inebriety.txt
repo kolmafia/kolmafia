@@ -4,6 +4,7 @@
 
 # Drink	Inebriety	Level Req	quality	Adv	Musc	Myst	Moxie
 
+5-hour acrimony	5	0	awesome	0	0	0	0	+10 PVP fights
 a little sump'm sump'm	4	4	good	10-14	0	25-27	8-10
 accidental cider	3	1	decent	3-6	0	0	0
 acqua del piatto merlot	1	10	EPIC	3-10	60	60	60

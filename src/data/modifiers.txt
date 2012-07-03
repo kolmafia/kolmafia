@@ -2084,6 +2084,7 @@ yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 
 # Containers section of modifiers.txt
 
+Camp Scout backpack	Item Drop: +15, Softcore Only
 Cape of the Goblin King	Moxie: +7
 # Lord Flameface's cloak:  Has Cool Swirling Flames
 Lord Flameface's cloak	Cold Resistance: +2
@@ -3334,6 +3335,7 @@ Springy Fusilli	Initiative: +40
 Square to be Hip	Moxie Percent: +10
 Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
 Stabilizing Oiliness	Equalize: "Muscle"
+Standard Issue Bravery	Muscle: +30, Mysticality: +30, Moxie: +30
 Stands Alone	Stench Damage: +10
 Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
 # Stenchform: P. U.
