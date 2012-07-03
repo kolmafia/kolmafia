@@ -2325,6 +2325,7 @@ Fam:Grouper Groupie	Underwater Familiar
 Fam:Happy Medium	Initiative: [W]
 Fam:Hobo Monkey	Leprechaun: 1.25
 Fam:Imitation Crab	Underwater Familiar
+Fam:Jack-in-the-Box	Fairy Effectiveness: [2*floor(pref(_jitbCharge)/2)], Volleyball Effectiveness: [2*floor(pref(_jitbCharge)/2)]
 Fam:Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
 Fam:Llama Lama	Volleyball: 0.5
 Fam:Magic Dragonfish	Spell Damage Percent: [min(2*W,100^zone(The Sea)*100)], Underwater Familiar

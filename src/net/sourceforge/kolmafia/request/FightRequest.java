@@ -2053,6 +2053,27 @@ public class FightRequest
 			Preferences.setFloat("slimelingFullness", fullness );
 		}
 
+		// 1st JitB charge: You turn <name>'s crank for a while. 
+		if ( responseText.indexOf( "'s crank for a while." ) != -1 )
+		{
+			Preferences.setInteger( "_jitbCharge", 1);
+		}
+
+		// 2nd JitB charge: The tension builds as you turn <name>'s crank some more.
+		if ( responseText.indexOf( "'s crank some more." ) != -1 )
+		{
+			Preferences.setInteger( "_jitbCharge", 2);
+		}
+
+		// 3rd JitB charge, popping it: You turn <name>'s crank a little more, and
+		// all of a sudden a horrible grinning clown head emerges with a loud bang.
+		// It wobbles back and forth on the end of its spring, as though dancing to
+		// some sinister calliope music you can't actually hear...
+		if ( responseText.indexOf( "It wobbles back and forth on the end of its spring" ) != -1 )
+		{
+			Preferences.setInteger( "_jitbCharge", 0);
+		}
+
 		// "As you're trying to get away, you sink in the silty muck on
 		// the sea floor. You manage to get yourself unmired, but your
 		// greaves seem to have gotten instantly rusty in the process..."

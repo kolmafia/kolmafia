@@ -125,7 +125,7 @@
 119	Chauvinist Pig	chauvpig.gif	stat0,meat0	4227	bottle of Cochon Noir	0	3	2	1
 120	Stocking Mimic	smimic.gif	combat	4328	bag of many confections	0	0	0	0
 121	Snow Angel	snowangel.gif	combat	4352	snow halo	2	1	3	2
-122	Jack-in-the-Box	jackinthebox.gif	none	4396	brass crank handle	0	0	0	0
+122	Jack-in-the-Box	jackinthebox.gif	stat0,item0	4396	brass crank handle	0	0	0	0
 123	BRICKO chick	brickochick.gif	combat	4495	extra-heavy BRICKO brick	1	2	2	1
 124	Baby Bugged Bugbear	babybugbug.gif	none	4574	bugged beanie	0	0	0	0
 # The following 9 familiars are the 9 April Fool familiars.

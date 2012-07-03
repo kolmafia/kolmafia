@@ -551,6 +551,11 @@ public class CharPaneDecorator
 			}
 			return buffer;
 
+		case FamiliarPool.JACK_IN_THE_BOX:
+			buffer.append( Preferences.getString( "_jitbCharge" ) );
+			buffer.append( "/2 charges" );
+			return buffer;
+
 		case FamiliarPool.ALIEN:
 			buffer.append( Preferences.getString( "_transponderDrops" ) );
 			buffer.append( "/5" );
