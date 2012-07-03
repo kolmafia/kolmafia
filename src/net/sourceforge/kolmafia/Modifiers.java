@@ -2002,7 +2002,8 @@ public class Modifiers
 		if ( effective != 0.0 )
 		{
 			double factor = this.get( Modifiers.VOLLEYBALL_EFFECTIVENESS );
-			if ( factor == 0.0 ) factor = 1.0;
+			// The 0->1 factor for generic familiars conflicts with the JitB
+			if ( factor == 0.0 && familiarId != FamiliarPool.JACK_IN_THE_BOX ) factor = 1.0;
 			factor = factor * Math.sqrt( effective );
 			String tuning = this.getString( Modifiers.FAMILIAR_TUNING );
 			if ( tuning.equals( "Muscle" ) )
@@ -2059,7 +2060,8 @@ public class Modifiers
 		if ( effective != 0.0 )
 		{
 			double factor = this.get( Modifiers.FAIRY_EFFECTIVENESS );
-			if ( factor == 0.0 ) factor = 1.0;
+			// The 0->1 factor for generic familiars conflicts with the JitB
+			if ( factor == 0.0 && familiarId != FamiliarPool.JACK_IN_THE_BOX ) factor = 1.0;
 			this.add( Modifiers.ITEMDROP, factor * (Math.sqrt( 55 * effective ) + effective - 3),
 				"Fairy" );
 		}
