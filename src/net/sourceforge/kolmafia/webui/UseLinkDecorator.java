@@ -559,7 +559,7 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, InventoryManager.getCount( itemId ), "trapper.php" );
 
 			case ItemPool.FORTUNE_COOKIE: {
-				ArrayList uses = new ArrayList();
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 
 				if ( KoLCharacter.canEat() )
 				{
@@ -649,7 +649,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.LOATHING_LEGION_KNIFE:
 			case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE:
 			case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER: {
-				ArrayList uses = new ArrayList();
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 				if ( itemId == ItemPool.LOATHING_LEGION_TATTOO_NEEDLE )
 				{
 					uses.add( new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=" ) );
@@ -692,10 +692,36 @@ public abstract class UseLinkDecorator
 			case ItemPool.GRIMACE_SHELTER_MAP:
 			case ItemPool.STAFF_GUIDE:
 			case ItemPool.FUDGE_WAND:
-			
+			case ItemPool.REFLECTION_OF_MAP:
+
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
+
+			case ItemPool.DRUM_MACHINE:
+			case ItemPool.CARONCH_MAP:
+			case ItemPool.SPOOKY_PUTTY_MONSTER:
+			case ItemPool.RAIN_DOH_MONSTER:
+			case ItemPool.SHAKING_CAMERA:
+			case ItemPool.PHOTOCOPIED_MONSTER:
+			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
+			case ItemPool.WAX_BUGBEAR:
+
+				// Not inline, since the redirection to a fight
+				// doesn't work ajaxified.
+
 				return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
+
+			case ItemPool.GONG:
+				// No use link if already under influence.
+				List active = KoLConstants.activeEffects;
+				if ( active.contains( FightRequest.BIRDFORM ) ||
+				     active.contains( FightRequest.MOLEFORM ) )
+				{
+					return null;
+				}
+				
+				// In-line use link does not work.
+				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
 
 			case ItemPool.BLACK_MARKET_MAP: {
 				int item1;
@@ -747,31 +773,6 @@ public abstract class UseLinkDecorator
 				}
 
 				return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autoworthless=on&autopermit=on&action=trade&quantity=1&whichitem=" );
-
-			case ItemPool.DRUM_MACHINE:
-			case ItemPool.CARONCH_MAP:
-			case ItemPool.SPOOKY_PUTTY_MONSTER:
-			case ItemPool.RAIN_DOH_MONSTER:
-			case ItemPool.SHAKING_CAMERA:
-			case ItemPool.PHOTOCOPIED_MONSTER:
-			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
-				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
-
-			case ItemPool.GONG:
-				// No use link if already under influence.
-				List active = KoLConstants.activeEffects;
-				if ( active.contains( FightRequest.BIRDFORM ) ||
-				     active.contains( FightRequest.MOLEFORM ) )
-				{
-					return null;
-				}
-				
-				// In-line use link does not work.
-				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
-
-			case ItemPool.REFLECTION_OF_MAP:
-				// In-line use link does not work.
-				return new UseLink( itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false );
 
 			default:
 
@@ -839,7 +840,7 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, itemCount, "outfit", "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit );
 			}
 			
-			ArrayList uses = new ArrayList();
+			ArrayList<UseLink> uses = new ArrayList<UseLink>();
 			
 			if ( consumeMethod == KoLConstants.EQUIP_ACCESSORY &&
 			     !EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ).equals( EquipmentRequest.UNEQUIP ) && 
@@ -1482,7 +1483,7 @@ public abstract class UseLinkDecorator
 		@Override
 		public String getItemHTML()
 		{
-			StringBuffer buf = new StringBuffer();
+			StringBuilder buf = new StringBuilder();
 			for ( int i = 0; i < this.links.length; ++i )
 			{
 				if ( i > 0 ) buf.append( "&nbsp;" );
