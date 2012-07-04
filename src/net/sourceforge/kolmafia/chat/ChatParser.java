@@ -73,10 +73,10 @@ public class ChatParser
 	// If you have multiple channels, there is a font surrounding that channel tag
 	// Player names get a <font>
 	private static final Pattern CHANNEL_PATTERN =
-		Pattern.compile( "(?:</span>)?(<span[^>]*>)?(?:<font color=[^>]*>)?(?:\\[([^\\]]*)\\])?(?:</font>)? ?(.*)" );
+		Pattern.compile( "(?:</span>)?(<span[^>]*>)?(?:<font color=[^>]*>)?(?:\\[([^\\]]*)\\])?(?:</font>)? (<i>)?(.*)" );
 
 	private static final Pattern SENDER_PATTERN =
-		Pattern.compile( "(?:<b>)<a target=mainpane href=\"showplayer\\.php\\?who=([-\\d]+)\">(?:<font[^>]*>)?(.*?)(?:</font>)?</a></b>: (.*)" );
+		Pattern.compile( "(?:<b>)<a target=mainpane href=\"showplayer\\.php\\?who=([-\\d]+)\">(?:<font[^>]*>)?(.*?)(?:</font>)?</a></b>:? (.*)" );
 
 	private static final Pattern HUGGLER_PATTERN =
 		Pattern.compile( "(.*?) just (devastated|flattened|destroyed|blasted|took out|beat down|conquered|defeated|pounded) (.*?)!<br" );
@@ -293,22 +293,21 @@ public class ChatParser
 
 		String span = channelMatcher.group( 1 );
 		String channel = channelMatcher.group( 2 );
-		String content = channelMatcher.group( 3 );
+		boolean isAction = channelMatcher.group( 3 ) != null;
+		String content = channelMatcher.group( 4 );
 
 		if ( channel == null )
 		{
 			channel = ChatManager.getCurrentChannel();
 		}
-
-		boolean isAction = false;
-
-		int italicIndex = content.indexOf( "<i>" );
-		int spaceIndex = content.indexOf( "> " ) + 1;
-
-		if ( italicIndex != -1 && italicIndex < spaceIndex )
+		else
 		{
-			isAction = true;
-			content = StringUtilities.singleStringDelete( content, "<i>" );
+			channel = "/" + channel;
+		}
+
+		if ( isAction )
+		{
+			// Strip off the </i>
 			content = content.substring( 0, content.length() - 4 );
 		}
 
