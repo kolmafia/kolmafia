@@ -65,8 +65,18 @@ public class ChatParser
 	private static final Pattern PLAYERID_PATTERN =
 		Pattern.compile( "showplayer\\.php\\?who\\=([-\\d]+)[\'\"][^>]*?>(.*?)</a>" );
 
+	// <span style='font-size:1.1em; font-weight: bold'><font color=green>[pvp]</font> <b><a target=mainpane href="showplayer.php?who=189466"><font color=black>scullyangel</font></b></a>: Hobo bosses don't count.<br></span>
+	// <font color=green>[clan]</font> <b><a target=mainpane href="showplayer.php?who=685853"><font color=black>Light Ninja</font></b></a>: Crap sorry. Could you send them each a terrarium too?<br>
+	// <span style='font-size:.9em; color:#444; font-family: Comic Sans, Comic Sans MS, cursive'><font color=green>[pvp]</font> <b><a target=mainpane href="showplayer.php?who=568742"><font color=black>kevbob</font></b></a>: what we need more of is science. totes.<br></span>
+
+	// A line can have an optional <span></span> surrounding it. The <br> comes BEFORE the </span>
+	// If you have multiple channels, there is a font surrounding that channel tag
+	// Player names get a <font>
+	private static final Pattern CHANNEL_PATTERN =
+		Pattern.compile( "(?:</span>)?(<span[^>]*>)?(?:<font color=[^>]*>)?(?:\\[([^\\]]*)\\])?(?:</font>)? ?(.*)" );
+
 	private static final Pattern SENDER_PATTERN =
-		Pattern.compile( "(?:<b>)+<a target=mainpane href=\"showplayer\\.php\\?who=([\\-\\d]+)\">([^<]+)</a>\\:?</b>\\:? (.*)(?:</b>)?" );
+		Pattern.compile( "(?:<b>)<a target=mainpane href=\"showplayer\\.php\\?who=([-\\d]+)\">(?:<font[^>]*>)?(.*?)(?:</font>)?</a></b>: (.*)" );
 
 	private static final Pattern HUGGLER_PATTERN =
 		Pattern.compile( "(.*?) just (devastated|flattened|destroyed|blasted|took out|beat down|conquered|defeated|pounded) (.*?)!<br" );
@@ -275,15 +285,17 @@ public class ChatParser
 
 	private static boolean parseChannelMessage( final List chatMessages, final String line )
 	{
-		String channel = null;
-		String content = line;
-
-		if ( line.startsWith( "[" ) )
+		Matcher channelMatcher = ChatParser.CHANNEL_PATTERN.matcher( line );
+		if ( !channelMatcher.find() )
 		{
-			channel = "/" + line.substring( 1, line.indexOf( "]" ) );
-			content = line.substring( channel.length() + 2 );
+			return false;
 		}
-		else
+
+		String span = channelMatcher.group( 1 );
+		String channel = channelMatcher.group( 2 );
+		String content = channelMatcher.group( 3 );
+
+		if ( channel == null )
 		{
 			channel = ChatManager.getCurrentChannel();
 		}
@@ -319,6 +331,11 @@ public class ChatParser
 		else
 		{
 			return false;
+		}
+
+		if ( span != null )
+		{
+			content = span + content + "</span>";
 		}
 
 		ChatMessage message;
