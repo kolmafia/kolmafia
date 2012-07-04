@@ -152,19 +152,20 @@ public class NPCStoreDatabase
 		}
 
 		// Check for whether or not the purchase can be made from a
-		// guild store.  Store #1 is moxie classes, store #2 is for
+		// guild store.	 Store #1 is moxie classes, store #2 is for
 		// mysticality classes, and store #3 is for muscle classes.
 
 		String classType = KoLCharacter.getClassType();
 
 		if ( storeId.equals( "1" ) )
 		{
-			return KoLCharacter.isMoxieClass() &&
+			return	KoLCharacter.isMoxieClass() &&
 				KoLCharacter.getGuildStoreOpen();
 		}
 		else if ( storeId.equals( "2" ) )
 		{
-			return (KoLCharacter.isMysticalityClass() || classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9) &&
+			return ( KoLCharacter.isMysticalityClass() ||
+				 ( classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9) ) &&
 				KoLCharacter.getGuildStoreOpen();
 		}
 		else if ( storeId.equals( "3" ) )
@@ -172,6 +173,10 @@ public class NPCStoreDatabase
 			return ( ( KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris() ) ||
 				 ( classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9 ) ) &&
 				KoLCharacter.getGuildStoreOpen();
+		}
+		else if ( storeId.equals( "4" ) || storeId.equals( "5" ) )
+		{
+			return KoLCharacter.knollAvailable();
 		}
 		else if ( storeId.equals( "a" ) )
 		{
@@ -182,56 +187,6 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "b" ) )
 		{
 			return EquipmentManager.hasOutfit( 1 );
-		}
-		else if ( storeId.equals( "r" ) )
-		{
-			boolean available;
-			if ( shopName.equals( "Barrrtleby's Barrrgain Books" ) )
-			{
-				available = !KoLCharacter.inBeecore();
-			}
-			else if ( shopName.equals( "Barrrtleby's Barrrgain Books (Bees Hate You)" ) )
-			{
-				available = KoLCharacter.inBeecore();
-			}
-			else
-			{
-				// What is this?
-				return false;
-			}
-
-			if ( !available )
-			{
-				return false;
-			}
-
-			if ( Preferences.getInteger( "lastPirateEphemeraReset" ) == KoLCharacter.getAscensions()
-				&& !Preferences.getString( "lastPirateEphemera" ).equalsIgnoreCase( itemName ) )
-			{
-				if ( NPCPurchaseRequest.PIRATE_EPHEMERA_PATTERN.matcher( itemName ).matches() )
-				{
-					return false;
-				}
-			}
-			return EquipmentManager.hasOutfit( 9 ) ||
-				InventoryManager.hasItem( ItemPool.PIRATE_FLEDGES );
-		}
-		else if ( storeId.equals( "4" ) || storeId.equals( "5" ) )
-		{
-			return KoLCharacter.knollAvailable();
-		}
-		else if ( storeId.equals( "j" ) )
-		{
-			return KoLCharacter.canadiaAvailable();
-		}
-		else if ( storeId.equals( "k" ) )
-		{
-			return KoLCharacter.getDispensaryOpen();
-		}
-		else if ( storeId.equals( "p" ) )
-		{
-			// Available if we can get to the beach.
-			return true;
 		}
 		else if ( storeId.equals( "h" ) )
 		{
@@ -295,10 +250,14 @@ public class NPCStoreDatabase
 
 			return QuestLogRequest.isHippyStoreAvailable() || EquipmentManager.hasOutfit( outfit );
 		}
-
-		// Check the quest log when determining if you've used the
-		// black market map.
-
+		else if ( storeId.equals( "j" ) )
+		{
+			return KoLCharacter.canadiaAvailable();
+		}
+		else if ( storeId.equals( "k" ) )
+		{
+			return KoLCharacter.getDispensaryOpen();
+		}
 		else if ( storeId.equals( "l" ) )
 		{
 			return QuestLogRequest.isBlackMarketAvailable();
@@ -306,6 +265,44 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "n" ) )
 		{
 			return KoLCharacter.gnomadsAvailable();
+		}
+		else if ( storeId.equals( "p" ) )
+		{
+			// Available if we can get to the beach.
+			return true;
+		}
+		else if ( storeId.equals( "r" ) )
+		{
+			boolean available;
+			if ( shopName.equals( "Barrrtleby's Barrrgain Books" ) )
+			{
+				available = !KoLCharacter.inBeecore();
+			}
+			else if ( shopName.equals( "Barrrtleby's Barrrgain Books (Bees Hate You)" ) )
+			{
+				available = KoLCharacter.inBeecore();
+			}
+			else
+			{
+				// What is this?
+				return false;
+			}
+
+			if ( !available )
+			{
+				return false;
+			}
+
+			if ( Preferences.getInteger( "lastPirateEphemeraReset" ) == KoLCharacter.getAscensions()
+				&& !Preferences.getString( "lastPirateEphemera" ).equalsIgnoreCase( itemName ) )
+			{
+				if ( NPCPurchaseRequest.PIRATE_EPHEMERA_PATTERN.matcher( itemName ).matches() )
+				{
+					return false;
+				}
+			}
+			return EquipmentManager.hasOutfit( 9 ) ||
+				InventoryManager.hasItem( ItemPool.PIRATE_FLEDGES );
 		}
 		else if ( storeId.equals( "v" ) )
 		{
@@ -318,6 +315,10 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "y" ) )
 		{
 			return KoLCharacter.inBadMoon();
+		}
+		else if ( storeId.equals( "fdkol" ) )
+		{
+			return false;
 		}
 		else if ( shopName.equals( "Gift Shop" ) )
 		{
