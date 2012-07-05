@@ -36,9 +36,6 @@ package net.sourceforge.kolmafia.webui;
 import java.util.ArrayList;
 import java.util.Date;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -90,8 +87,8 @@ public class ValhallaDecorator
 
 		reminders.append( "<br><table cellspacing=10 cellpadding=10><tr>" );
 
-		ArrayList skillList = new ArrayList();
-		ArrayList unpermedSkills = new ArrayList();
+		ArrayList<String> skillList = new ArrayList<String>();
+		ArrayList<UseSkillRequest> unpermedSkills = new ArrayList<UseSkillRequest>();
 		for ( int i = 0; i < KoLConstants.availableSkills.size(); ++i )
 		{
 			UseSkillRequest skill = (UseSkillRequest) KoLConstants.availableSkills.get( i );
@@ -130,213 +127,6 @@ public class ValhallaDecorator
 		{
 			return;
 		}
-	}
-
-	// The following is obsolete
-	private static final void decorateOldAfterlife( final String location, final StringBuffer buffer )
-	{
-		// What we're going to do is kill the standard form and replace
-		// it with one that requires a lot less scrolling while still
-		// retaining all of the form fields.  But first, extract needed
-		// information from it.
-
-		ArrayList softSkills = new ArrayList();
-		ArrayList hardSkills = new ArrayList();
-
-		Matcher permedMatcher =
-			Pattern.compile( "<b>Permanent Skills:</b>.*?</table>", Pattern.DOTALL ).matcher( buffer.toString() );
-		if ( permedMatcher.find() )
-		{
-			Matcher skillMatcher =
-				Pattern.compile( "desc_skill.php\\?whichskill=(\\d+)[^>]+>[^<+]+</a>(.*?)</td>" ).matcher(
-					permedMatcher.group() );
-
-			while ( skillMatcher.find() )
-			{
-				softSkills.add( skillMatcher.group( 1 ) );
-				if ( skillMatcher.group( 2 ).length() > 0 )
-				{
-					hardSkills.add( skillMatcher.group( 1 ) );
-				}
-			}
-		}
-
-		ArrayList recentSkills = new ArrayList();
-		Matcher recentMatcher =
-			Pattern.compile( "<b>Current Skills:</b>.*?</table>", Pattern.DOTALL ).matcher( buffer.toString() );
-		if ( recentMatcher.find() )
-		{
-			Matcher skillMatcher = Pattern.compile( "value=(\\d+)" ).matcher( recentMatcher.group() );
-			while ( skillMatcher.find() )
-			{
-				recentSkills.add( skillMatcher.group( 1 ) );
-			}
-		}
-
-		boolean badMoon = buffer.indexOf( "You have unlocked the Bad Moon sign for your next run." ) != -1;
-
-		// Now we begin replacing the standard Valhalla form with one
-		// that is much more compact.
-
-		int endIndex = buffer.indexOf( "</form>" );
-		String suffix = buffer.toString().substring( endIndex + 7 );
-		buffer.delete( buffer.indexOf( "<form" ), buffer.length() );
-
-		String skillListScript =
-			"var a, b; if ( document.getElementById( 'skillsview' ).options[0].selected ) { a = 'soft'; b = 'hard'; } else { a = 'hard'; b = 'soft'; } document.getElementById( a + 'skills' ).style.display = 'inline'; document.getElementById( b + 'skills' ).style.display = 'none'; void(0);";
-
-		// Add some holiday predictions to the page to make things more
-		// useful, since people sometimes forget KoLmafia has a
-		// calendar.
-
-		buffer.append( "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<td><div style=\"background-color: #ffffcc; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-bottom: 10px\"><font size=-1>" );
-		HolidayDatabase.addPredictionHTML( buffer, new Date(), HolidayDatabase.getPhaseStep() );
-		buffer.append( "</font></div></td></tr><tr><td colspan=3><br><br>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<form name=\"ascform\" action=valhalla.php method=post onSubmit=\"document.ascform.whichsign.value = document.ascform.whichsignhc.value; return true;\">" );
-		buffer.append( "<input type=hidden name=action value=\"resurrect\"><input type=hidden name=pwd value=\"" );
-		buffer.append( GenericRequest.passwordHash );
-		buffer.append( "\"><center><table>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<tr><td align=right><b>Lifestyle:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=\"asctype\"><option value=1>Casual</option><option value=2>Softcore</option><option value=3 selected>Hardcore</option></select>" );
-		buffer.append( "</td></tr>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<tr><td align=right><b>New Class:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=\"whichclass\"><option value=0 selected></option>" );
-		buffer.append( "<option value=1>Seal Clubber</option><option value=2>Turtle Tamer</option>" );
-		buffer.append( "<option value=3>Pastamancer</option><option value=4>Sauceror</option>" );
-		buffer.append( "<option value=5>Disco Bandit</option><option value=6>Accordion Thief</option>" );
-		buffer.append( "</select></td></tr>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<tr><td align=right><b>Gender:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=\"gender\"><option value=1" );
-		if ( !KoLCharacter.getAvatar().endsWith( "_f.gif" ) )
-		{
-			buffer.append( " selected" );
-		}
-		buffer.append( ">Male</option><option value=2" );
-		if ( KoLCharacter.getAvatar().endsWith( "_f.gif" ) )
-		{
-			buffer.append( " selected" );
-		}
-		buffer.append( ">Female</option></select>" );
-
-		buffer.append( "</td></tr>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<tr><td colspan=2>&nbsp;</td></tr>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<tr><td align=right><b>Moon Sign:</b>&nbsp;</td><td>" );
-		buffer.append( "<input type=\"hidden\" name=\"whichsign\" value=\"\">" );
-		buffer.append( "<select style=\"width: 250px\" name=\"whichsignhc\"><option value=0 selected></option>" );
-		buffer.append( "<option value=0>-- Muscle signs --</option>" );
-		buffer.append( "<option value=1>The Mongoose (+musc stats)</option>" );
-		buffer.append( "<option value=2>The Wallaby (+fam weight)</option>" );
-		buffer.append( "<option value=3>The Vole (+criticals)</option>" );
-		buffer.append( "<option value=0>-- Mysticality signs --</option>" );
-		buffer.append( "<option value=4>The Platypus (+myst stats)</option>" );
-		buffer.append( "<option value=5>The Opossum (+adv/food)</option>" );
-		buffer.append( "<option value=6>The Marmot (+clovers)</option>" );
-		buffer.append( "<option value=0>-- Moxie signs --</option>" );
-		buffer.append( "<option value=7>The Wombat (+moxie stats)</option>" );
-		buffer.append( "<option value=8>The Blender (+adv/booze)</option>" );
-		buffer.append( "<option value=9>The Packrat (+drops)</option>" );
-		if ( badMoon )
-		{
-			buffer.append( "<option value=0></option>" );
-			buffer.append( "<option value=10>Bad Moon</option>" );
-		}
-		buffer.append( "</select></td></tr>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<tr><td align=right><b>Restrictions:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=\"whichpath\"><option value=0 selected>No dietary restrictions</option><option value=1>Boozetafarian</option><option value=2>Teetotaler</option><option value=3>Oxygenarian</option></select>" );
-		buffer.append( "</td></tr>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<tr><td align=right><b>Skill to Keep:</b>&nbsp;</td><td>" );
-		buffer.append( "<select style=\"width: 250px\" name=keepskill><option value=9999 selected></option><option value=\"-1\" selected>(no skill)</option>" );
-
-		int skillId;
-		for ( int i = 0; i < recentSkills.size(); ++i )
-		{
-			skillId = Integer.parseInt( (String) recentSkills.get( i ) );
-			if ( skillId == 0 )
-			{
-				continue;
-			}
-
-			buffer.append( "<option value=" );
-			buffer.append( skillId );
-			buffer.append( ">" );
-			buffer.append( SkillDatabase.getSkillName( skillId ) );
-
-			if ( skillId % 1000 == 0 )
-			{
-				buffer.append( " (Trivial)" );
-			}
-
-			buffer.append( "</option>" );
-		}
-
-		buffer.append( "</select></td></tr>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<tr><td colspan=2>&nbsp;</td></tr><tr><td>&nbsp;</td><td>" );
-		buffer.append( "<input class=button type=submit value=\"Resurrect\"><input type=hidden name=\"confirm\" value=on></td></tr></table></center></form>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		// Finished with adding all the data in a more compact form.
-		// Now, we go ahead and add in all the missing data that
-		// players might want to look at to see which class to go for
-		// next.
-
-		buffer.append( "<center><br><br><select id=\"skillsview\" onchange=\"" + skillListScript + "\"><option>Unpermed Softcore Skills</option><option selected>Unpermed Hardcore Skills</option></select>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "<br><br><div id=\"softskills\" style=\"display:none\">" );
-		buffer.append( KoLConstants.LINE_BREAK );
-		ValhallaDecorator.createSkillTable( buffer, softSkills );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( "</div><div id=\"hardskills\" style=\"display:inline\">" );
-		buffer.append( KoLConstants.LINE_BREAK );
-		ValhallaDecorator.createSkillTable( buffer, hardSkills );
-		buffer.append( KoLConstants.LINE_BREAK );
-		buffer.append( "</div></center>" );
-		buffer.append( KoLConstants.LINE_BREAK );
-		buffer.append( KoLConstants.LINE_BREAK );
-
-		buffer.append( suffix );
-	}
-
-	private static final void createSkillTable( final StringBuffer buffer, final ArrayList skillList )
-	{
-		buffer.append( "<table width=\"80%\"><tr>" );
-		buffer.append( "<td valign=\"top\" bgcolor=\"#ffcccc\"><table><tr><th style=\"text-decoration: underline; text-align: left;\">Muscle Skills</th></tr><tr><td><font size=\"-1\">" );
-		ValhallaDecorator.listPermanentSkills( buffer, skillList, 1000 );
-		ValhallaDecorator.listPermanentSkills( buffer, skillList, 2000 );
-		buffer.append( "</font></td></tr></table></td>" );
-		buffer.append( "<td valign=\"top\" bgcolor=\"#ccccff\"><table><tr><th style=\"text-decoration: underline; text-align: left;\">Mysticality Skills</th></tr><tr><td><font size=\"-1\">" );
-		ValhallaDecorator.listPermanentSkills( buffer, skillList, 3000 );
-		ValhallaDecorator.listPermanentSkills( buffer, skillList, 4000 );
-		buffer.append( "</font></td></tr></table></td>" );
-		buffer.append( "<td valign=\"top\" bgcolor=\"#ccffcc\"><table><tr><th style=\"text-decoration: underline; text-align: left;\">Moxie Skills</th></tr><tr><td><font size=\"-1\">" );
-		ValhallaDecorator.listPermanentSkills( buffer, skillList, 5000 );
-		ValhallaDecorator.listPermanentSkills( buffer, skillList, 6000 );
-		buffer.append( "</font></td></tr></table></td>" );
-		buffer.append( "</tr></table>" );
 	}
 
 	private static final void listPermableSkills( final StringBuffer buffer, final ArrayList unpermedSkills )
@@ -442,7 +232,7 @@ public class ValhallaDecorator
 		if ( KoLCharacter.getZapper() != null )
 		{
 			buffer.append( "<nobr><a href=\"wand.php?whichwand=" );
-			buffer.append( KoLCharacter.getZapper() );
+			buffer.append( KoLCharacter.getZapper().getItemId() );
 			buffer.append( "\">blow up your zap wand</a></nobr><br>" );
 		}
 
