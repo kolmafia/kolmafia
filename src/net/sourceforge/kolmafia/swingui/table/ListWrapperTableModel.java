@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.swingui.table;
 
 import java.util.Vector;
 
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
@@ -57,16 +58,23 @@ public abstract class ListWrapperTableModel
 	{
 		super( 0, headers.length );
 
+		this.listModel = listModel;
 		this.headers = headers;
 		this.types = types;
 		this.editable = editable;
 
-		for ( int i = 0; i < listModel.size(); ++i )
+		SwingUtilities.invokeLater( new Runnable()
 		{
-			this.insertRow( i, this.constructVector( listModel.get( i ) ) );
-		}
+			public void run()
+			{
+				for ( int i = 0; i < listModel.size(); ++i )
+				{
+					ListWrapperTableModel.this.insertRow(
+						i, ListWrapperTableModel.this.constructVector( listModel.get( i ) ) );
+				}
+			}
+		} );
 
-		this.listModel = listModel;
 		listModel.addListDataListener( this );
 	}
 
@@ -99,14 +107,21 @@ public abstract class ListWrapperTableModel
 
 	public void intervalAdded( final ListDataEvent e )
 	{
-		LockableListModel source = (LockableListModel) e.getSource();
-		int index0 = e.getIndex0();
-		int index1 = e.getIndex1();
-
-		for ( int i = index0; i <= index1; ++i )
+		SwingUtilities.invokeLater( new Runnable()
 		{
-			this.insertRow( i, this.constructVector( source.get( i ) ) );
-		}
+			public void run()
+			{
+				LockableListModel source = (LockableListModel) e.getSource();
+				int index0 = e.getIndex0();
+				int index1 = e.getIndex1();
+
+				for ( int i = index0; i <= index1; ++i )
+				{
+					ListWrapperTableModel.this.insertRow(
+						i, ListWrapperTableModel.this.constructVector( source.get( i ) ) );
+				}
+			}
+		} );
 	}
 
 	/**
@@ -118,14 +133,19 @@ public abstract class ListWrapperTableModel
 
 	public void intervalRemoved( final ListDataEvent e )
 	{
-		LockableListModel source = (LockableListModel) e.getSource();
-		int index0 = e.getIndex0();
-		int index1 = e.getIndex1();
-
-		for ( int i = index1; i >= index0; --i )
+		SwingUtilities.invokeLater( new Runnable()
 		{
-			this.removeRow( i );
-		}
+			public void run()
+			{
+				int index0 = e.getIndex0();
+				int index1 = e.getIndex1();
+
+				for ( int i = index1; i >= index0; --i )
+				{
+					ListWrapperTableModel.this.removeRow( i );
+				}
+			}
+		} );
 	}
 
 	/**
@@ -137,32 +157,40 @@ public abstract class ListWrapperTableModel
 
 	public void contentsChanged( final ListDataEvent e )
 	{
-		LockableListModel source = (LockableListModel) e.getSource();
-		int index0 = e.getIndex0();
-		int index1 = e.getIndex1();
-
-		if ( index0 < 0 || index1 < 0 )
+		SwingUtilities.invokeLater( new Runnable()
 		{
-			return;
-		}
+			public void run()
+			{
+				LockableListModel source = (LockableListModel) e.getSource();
+				int index0 = e.getIndex0();
+				int index1 = e.getIndex1();
 
-		int rowCount = this.getRowCount();
+				if ( index0 < 0 || index1 < 0 )
+				{
+					return;
+				}
 
-		for ( int i = index1; i >= index0; --i )
-		{
-			if ( source.size() < i )
-			{
-				this.removeRow( i );
+				int rowCount = ListWrapperTableModel.this.getRowCount();
+
+				for ( int i = index1; i >= index0; --i )
+				{
+					if ( source.size() < i )
+					{
+						ListWrapperTableModel.this.removeRow( i );
+					}
+					else if ( i > rowCount )
+					{
+						ListWrapperTableModel.this.insertRow(
+							rowCount, ListWrapperTableModel.this.constructVector( source.get( i ) ) );
+					}
+					else
+					{
+						ListWrapperTableModel.this.removeRow( i );
+						ListWrapperTableModel.this.insertRow(
+							i, ListWrapperTableModel.this.constructVector( source.get( i ) ) );
+					}
+				}
 			}
-			else if ( i > rowCount )
-			{
-				this.insertRow( rowCount, this.constructVector( source.get( i ) ) );
-			}
-			else
-			{
-				this.removeRow( i );
-				this.insertRow( i, this.constructVector( source.get( i ) ) );
-			}
-		}
+		} );
 	}
 }
