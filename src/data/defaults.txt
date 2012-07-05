@@ -95,6 +95,7 @@ global	logAcquiredItems	true
 global	logBattleAction	true
 global	logBrowserInteractions	false
 global	logChatMessages	true
+global	logChatRequests	false
 global	logCleanedHTML	false
 global	logDecoratedResponses	false
 global	logFamiliarActions	true

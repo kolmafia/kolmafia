@@ -286,7 +286,7 @@ public class ApiRequest
 
 			// Pull out the current password hash
 			String pwd = JSON.getString( "pwd" );
-			GenericRequest.passwordHash = pwd;
+			GenericRequest.setPasswordHash( pwd );
 
 			// Many config options are available
 			AccountRequest.parseStatus( JSON );

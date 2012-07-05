@@ -969,7 +969,7 @@ public class GenericRequest
 
 	private boolean shouldUpdateDebugLog()
 	{
-		return RequestLogger.isDebugging() && !this.isChatRequest;
+		return RequestLogger.isDebugging() && ( !this.isChatRequest || Preferences.getBoolean( "logChatRequests" ) );
 	}
 
 	private boolean stopForCounters()

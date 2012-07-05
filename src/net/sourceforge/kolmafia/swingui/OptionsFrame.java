@@ -400,8 +400,9 @@ public class OptionsFrame
 				{ "useLastUserAgent", "Use last browser's userAgent" },
 				{ "logBrowserInteractions", "Verbosely log communication between KoLmafia and browser" },
 				{ "logCleanedHTML", "Log cleaned HTML tree of fight pages" },
-				{ "logDecoratedResponses", "Log decorated responses in debug log" },
 				{ "logReadableHTML", "Include line breaks in logged HTML" },
+				{ "logDecoratedResponses", "Log decorated responses in debug log" },
+				{ "logChatRequests", "Include chat-related requests in debug log" },
 			};
 
 			this.setOptions( options );
