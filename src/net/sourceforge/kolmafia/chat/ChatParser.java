@@ -73,7 +73,7 @@ public class ChatParser
 	// If you have multiple channels, there is a font surrounding that channel tag
 	// Player names get a <font>
 	private static final Pattern CHANNEL_PATTERN =
-		Pattern.compile( "(?:</span>)?(<span[^>]*>)?(?:<font color=[^>]*>)?(?:\\[([^\\]]*)\\])?(?:</font>)? (<i>)?(.*)" );
+		Pattern.compile( "(?:</span>)?(<span[^>]*>)?(?:<font color=[^>]*>)?(?:\\[([^\\]]*)\\])?(?:</font>)? ?(<i>)?(.*)" );
 
 	// <b><a target=mainpane href="showplayer.php?who=533033"><font color=black>Lord Kobel</font></a>:</b> yo<br>
 	// <b><a target=mainpane href="showplayer.php?who=1927238"><font color=black>TheLetterKay</font></b></a>: i need to script using maps to safety shelter grimace prime to get me dog hair pills<br><!--lastseen:1315078471-->
