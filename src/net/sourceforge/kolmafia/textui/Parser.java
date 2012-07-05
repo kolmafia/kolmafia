@@ -1738,7 +1738,7 @@ public class Parser
 		Scope scope = new Scope( varList, parentScope );
 		Value expr = this.parseExpression( scope );
 
-		return new SortBy( (VariableReference) aggregate, indexvar, valuevar, expr );
+		return new SortBy( (VariableReference) aggregate, indexvar, valuevar, expr, this );
 	}
 
 	private ForEachLoop parseForeach( final Type functionType, final BasicScope parentScope )
