@@ -19,6 +19,9 @@ asparagus stir-fry	1	3	good	1-5	3-5	2-5	0
 astral hot dog	3	1		6	48-60	48-60	48-60
 babycakes	2	1	crappy	2	0	0	0
 badass pie	2	4	awesome	8-10	10-20	10-20	10-20	20 Pie in the Sky (+2 mus/mys/mox exp)
+bag of gorf	1	3	decent	2	0	0	0	3 Long Live GORF
+bag of gorp	2	1	decent	4	20-30	20-30	20-30
+bag of qwop	1	6	EPIC	5	0	0	0	10 QWOPped Up (-100% Init, Always Fumble)
 balaclava baklava	2	1	decent	2-3	4-6	4-6	4-6
 ballroom blintz	3	1	decent	3-8	0	0	10-12
 banana	1	1	crappy	1	1	1	1	banana peel

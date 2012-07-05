@@ -95,6 +95,8 @@ crimbco ribbon candy schnapps	3	1		4-5	0	0	0	lose 10% boredom
 crimbco wine	3	1	decent	4-8	10-20	10-20	10-20
 crimbojito	2	2	EPIC	10-13	10-20	25-50	10-20
 cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg)
+csa cheerfulness ration	1	6	awesome	4	40-50	40-50	40-50
+csa scoutmaster's "water"	3	3	good	9	20-30	20-30	20-30
 cup of primitive beer	1	12	good	2-4	50-65	0	0	12-15 MP, lose 10-18 HP
 cursed bottle of black-label rum	3	3	good	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	crappy	1	0	0	0
@@ -361,6 +363,7 @@ vodka martini	3	1	decent	5-6	0	0	8-10
 vodka matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
 wasabi-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
+water purification pills	3	1	decent	6	25-35	25-35	25-35
 whiskey and cola	3	1	decent	5-6	0	4-6	4-6	14-16 MP
 whiskey and soda	3	1	decent	5-6	0	8-10	0	3-5 MP
 whiskey bittersweet	3	3	good	5-10	16-20	0	0
