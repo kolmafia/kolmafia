@@ -2534,7 +2534,8 @@ public class DailyDeedsPanel
 					drops -= 1;
 					need = 5 + ( 10 + drops ) * ( drops + 1 ) / 2;
 					need = Math.min( need, 50 );
-					if( grinder.getItem().getItemId() == ItemPool.MICROWAVE_STOGIE )
+					AdventureResult item = grinder.getItem();
+					if( item != null && item.getItemId() == ItemPool.MICROWAVE_STOGIE )
 					{
 						need -= 5;
 					}

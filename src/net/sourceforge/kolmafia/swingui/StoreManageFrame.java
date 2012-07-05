@@ -425,7 +425,7 @@ public class StoreManageFrame
 							convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
 					SoldItem it =
 						( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
-					return cellValue != it.getPrice();
+					return it != null && cellValue != it.getPrice();
 					}
 					if ( convertColumnIndexToModel( adapter.column ) == 4 )
 					{
@@ -434,7 +434,7 @@ public class StoreManageFrame
 									convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
 							SoldItem it =
 								( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
-							return cellValue != it.getLimit();
+							return it != null && cellValue != it.getLimit();
 					}
 					return false;
 				}
@@ -453,7 +453,7 @@ public class StoreManageFrame
 							convertRowIndexToModel( adapter.row ), convertColumnIndexToModel( adapter.column ) );
 					SoldItem it =
 						( (StoreManageTableModel) StoreManageTable.this.getModel() ).getSoldItem( convertRowIndexToModel( adapter.row ) );
-					return (cellValue < it.getLowest() * 0.15) && it.getLowest() > 50000;
+					return it != null && (cellValue < it.getLowest() * 0.15) && it.getLowest() > 50000;
 				}
 			};
 			
