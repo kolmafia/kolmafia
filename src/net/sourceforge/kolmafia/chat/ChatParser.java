@@ -75,8 +75,10 @@ public class ChatParser
 	private static final Pattern CHANNEL_PATTERN =
 		Pattern.compile( "(?:</span>)?(<span[^>]*>)?(?:<font color=[^>]*>)?(?:\\[([^\\]]*)\\])?(?:</font>)? (<i>)?(.*)" );
 
+	// <b><a target=mainpane href="showplayer.php?who=533033"><font color=black>Lord Kobel</font></a>:</b> yo<br>
+	// <b><a target=mainpane href="showplayer.php?who=1927238"><font color=black>TheLetterKay</font></b></a>: i need to script using maps to safety shelter grimace prime to get me dog hair pills<br><!--lastseen:1315078471-->
 	private static final Pattern SENDER_PATTERN =
-		Pattern.compile( "(?:<b>)<a target=mainpane href=\"showplayer\\.php\\?who=([-\\d]+)\">(?:<font[^>]*>)?(.*?)(?:</font>)?</a></b>:? (.*)" );
+		Pattern.compile( "(?:<b>)<a target=mainpane href=\"showplayer\\.php\\?who=([-\\d]+)\">(?:<font[^>]*>)?(.*?)(?:</font>)?</[ab]>:?</[ab]>:? (.*)" );
 
 	private static final Pattern HUGGLER_PATTERN =
 		Pattern.compile( "(.*?) just (devastated|flattened|destroyed|blasted|took out|beat down|conquered|defeated|pounded) (.*?)!<br" );
