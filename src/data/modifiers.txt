@@ -3050,6 +3050,8 @@ Livin' Large	Meat Drop: +10
 Lobos Fresh	Muscle Percent: [10+25*M], Mysticality Percent: [10+25*M], Moxie Percent: [10+25*M]
 Locks Like the Raven	Moxie: +15
 Loco Motives	Weapon Damage: +10, Initiative: +10
+# Long Live GORF: GORF is watching.
+# Long Live GORF: GORF approves.
 Low on the Hog	Meat Drop: +100
 Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Lustful Heart	Moxie: [min(T,20)]
@@ -3193,6 +3195,8 @@ Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max
 Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 Quadrilled	Item Drop: +20
 Quivering with Rage	Muscle Percent: -10
+# QWOPped Up: Always Fumble
+QWOPped Up	Initiative: -100
 Rad-ish	Moxie Percent: +25
 Radiant Personality	Moxie Percent: +30
 Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3, Critical: 2

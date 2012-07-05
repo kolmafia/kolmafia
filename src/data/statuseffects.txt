@@ -1038,5 +1038,6 @@
 1037	Hotcaked	hotcakes.gif	6c3d4400e40b0dd907100e0e7dad2d90	eat 1 FDKOL hotcakes
 1038	Frigidalmatian	frigidal.gif	cce2cc0e019149f19f1d92c67000c3ed	cast 1 Frigidalmatian
 1039	The Fire Inside	firebottle.gif	5faf1084fc98cbfdc190fe2b2cca6b58	use 1 bottle of fire
-1040
+1040	Long Live GORF	baggie.gif	a5848e4882faba3b64f96d373f05791d	eat 1 bag of GORF
 1041	Standard Issue Bravery	fratwarpin.gif	b204d7415629e9bc6ed9c12780d3732d	use 1 CSA bravery badge
+1042	QWOPped Up	qwop.gif	e9cce42128bb887d6053b12cb48760ea	eat 1 bag of QWOP
