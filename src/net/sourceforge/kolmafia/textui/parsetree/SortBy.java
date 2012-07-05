@@ -35,12 +35,15 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import java.lang.IllegalArgumentException;
+
 import java.util.Arrays;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Parser;
 
 public class SortBy
 	extends ParseTreeNode
@@ -49,13 +52,19 @@ public class SortBy
 	private final Variable indexvar, valuevar;
 	private final Value expr;
 
+	// For runtime error messages
+	String fileName;
+	int lineNumber;
+
 	public SortBy( final VariableReference aggregate, final Variable indexvar,
-		final Variable valuevar, final Value expr )
+		       final Variable valuevar, final Value expr, final Parser parser )
 	{
 		this.aggregate = aggregate;
 		this.indexvar = indexvar;
 		this.valuevar = valuevar;
 		this.expr = expr;
+		this.fileName = parser.getShortFileName();
+		this.lineNumber = parser.getLineNumber();
 	}
 
 	@Override
@@ -109,7 +118,15 @@ public class SortBy
 			values[ i ] = new Pair( sortkey, value );
 		}
 		
-		Arrays.sort( values );
+		try
+		{
+			Arrays.sort( values );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			interpreter.setLineAndFile( this.fileName, this.lineNumber );
+			throw interpreter.runtimeException( "Illegal argument exception during sort" );
+		}
 		
 		for ( int i = 0; i < keys.length; ++i )
 		{
