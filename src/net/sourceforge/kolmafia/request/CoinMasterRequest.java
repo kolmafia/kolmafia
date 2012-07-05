@@ -267,6 +267,12 @@ public class CoinMasterRequest
 	}
 
 	@Override
+	public void reconstructFields()
+	{
+		this.constructURLString( this.getURLString() );
+	}
+
+	@Override
 	public void processResults()
 	{
 		CoinMasterRequest.parseResponse( this.data, this.getURLString(), this.responseText );
