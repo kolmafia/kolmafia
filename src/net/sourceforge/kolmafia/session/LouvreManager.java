@@ -840,80 +840,12 @@ public abstract class LouvreManager
 		return val == 0.0f || val == 1.0f;
 	}
 
-	// Predict values for permutation chances for a location, possibly taking into account
-	// the adjacent locations.  We know that the locations are in pairs with identical
-	// permutations; we just need to find out whether it's the pairs starting with an even
-	// location number that are identical, or pairs starting with an odd number.
+	// Predict values for permutation chances for a location.
+	// We can no longer learn anything from adjacent locations,
+	// due to the Great RNG Reseeding of '12.
 	private static final float[] predict( int location )
 	{
-		boolean[] seenChange = new boolean[2];
-		for ( int loc = LouvreManager.FIRST_CHOICE; loc < LouvreManager.LAST_CHOICE; ++loc )
-		{
-			float[] left = derive( loc );
-			float[] right = derive( loc + 1 );
-			boolean definitiveChange = true;
-			for ( int p = 0; p < 7; ++p )
-			{
-				if ( left[ p ] > 0.0f && right[ p ] > 0.0f )
-				{	// The two locations have a non-zero probability of this permutation;
-					// it's therefore possible that they have identical permutations.
-					definitiveChange = false;
-					break;
-				}
-			}
-			seenChange[ loc & 1 ] |= definitiveChange;
-		}
-		
 		float[] curr = derive( location );
-		float[] prev = derive( location - 1 );
-		float[] next = derive( location + 1 );
-		for ( int p = 0; p < 7; ++p )
-		{
-			if ( definitive( curr[ p ] ) )
-			{	// leave it alone
-			}
-			else if ( seenChange[ 0 ] && seenChange[ 1 ] )
-			{	// This should be impossible, unless KoL upgrades to a version of PHP
-				// that fixes the RNG bugs that lead to the ability to predict locations.
-			}
-			else if ( seenChange[ location & 1 ] )
-			{
-				float other = prev[ p ];
-				if ( other == 0.0f )
-				{	// this permutation is impossible
-					curr[ p ] = 0.0f;
-				}
-				else if ( other == 1.0f )
-				{	// all others are now impossible
-					Arrays.fill( curr, 0.0f );
-					curr[ p ] = 1.0f;
-				}
-			}
-			else if ( seenChange[ 1 - (location & 1) ] )
-			{
-				float other = next[ p ];
-				if ( other == 0.0f )
-				{	// this permutation is impossible
-					curr[ p ] = 0.0f;
-				}
-				else if ( other == 1.0f )
-				{	// all others are now impossible
-					Arrays.fill( curr, 0.0f );
-					curr[ p ] = 1.0f;
-				}
-			}
-			else if ( prev[ p ] == 0.0f && next[ p ] == 0.0f )
-			{	// Neither adjacent location has this permutation, and we can't differ
-				// from both.
-				curr[ p ] = 0.0f;
-			}
-			else if ( prev[ p ] == 1.0f && next[ p ] == 1.0f )
-			{	// Both adjacent locations have this permutation, and we can't differ
-				// from both.
-				Arrays.fill( curr, 0.0f );
-				curr[ p ] = 1.0f;
-			}
-		}
 		
 		// Normalize the array so that the values add to 1
 		float total = 0.0f;
