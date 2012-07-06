@@ -201,6 +201,10 @@ public class Expression
 				break;
 			case 's':
 				v = (float) Math.sqrt( s[ --sp ] );
+				if ( Float.isNaN(v) )
+				{
+					v = 0.0f;
+				}
 				break;
 			case 'p':
 				v = StringUtilities.parseFloat( Preferences.getString( (String) this.literals.get( (int) s[ --sp ] ) ) );
