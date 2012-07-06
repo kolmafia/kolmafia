@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.combat;
 
 import java.util.Iterator;
-import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
