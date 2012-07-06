@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.moods.MoodManager;
 
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 

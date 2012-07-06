@@ -1962,7 +1962,6 @@ public class Modifiers
 
 	public void applyFamiliarModifiers( final FamiliarData familiar, AdventureResult famItem )
 	{
-		int familiarId = familiar.getId();
 		int weight = familiar.getWeight();
 
 		weight += (int) this.get( Modifiers.FAMILIAR_WEIGHT );
@@ -2747,7 +2746,6 @@ public class Modifiers
 		while ( it.hasNext() )
 		{
 			Entry entry = (Entry) it.next();
-			Integer key = (Integer) entry.getKey();
 			String name = "Fam:" + (String) entry.getValue();
 			if ( Modifiers.getModifiers( name ) != null )
 			{

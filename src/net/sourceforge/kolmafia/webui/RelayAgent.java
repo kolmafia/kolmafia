@@ -46,7 +46,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;

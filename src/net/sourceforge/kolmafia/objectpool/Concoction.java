@@ -126,7 +126,6 @@ public class Concoction
 		}
 		else
 		{
-			int consumeType = ItemDatabase.getConsumptionType( concoction.getItemId() );
 			this.yield = Math.max( concoction.getCount(), 1 );
 			this.name = concoction.getName();
 

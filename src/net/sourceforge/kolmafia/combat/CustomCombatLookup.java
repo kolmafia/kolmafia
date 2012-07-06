@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CustomCombatLookup

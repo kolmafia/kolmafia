@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;

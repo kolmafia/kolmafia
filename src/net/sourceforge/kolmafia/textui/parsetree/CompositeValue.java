@@ -40,7 +40,6 @@ import java.util.Iterator;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.ScriptException;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CompositeValue
 	extends Value

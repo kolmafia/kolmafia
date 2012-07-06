@@ -119,8 +119,6 @@ public class CombatEncounterKey
 			{
 				boolean foundItem = false;
 
-				List items = monsterData.getItems();
-
 				Iterator itemIterator = monsterData.getItems().iterator();
 
 				while ( !foundItem && itemIterator.hasNext() )
