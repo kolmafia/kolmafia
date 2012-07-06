@@ -5757,3 +5757,12 @@
 5748	CSA all-purpose soap	usable	all	23
 5749	CSA cheerfulness ration	drink	all	23
 5750	CSA obedience grenade	none, combat	all	23
+5751
+5752
+5753
+5754
+5755
+5756
+5757
+5758	Staff of Holiday Sensations	weapon	display	25
+5759	rusty staff	weapon	all	140

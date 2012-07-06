@@ -656,6 +656,7 @@ Staff of the Deepest Freeze	Spell Damage Percent: +200, Cold Spell Damage: +30, 
 Staff of the Grand Flamb&eacute;	Spell Damage Percent: +150, Cold Resistance: +5, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 4
+Staff of Holiday Sensations	Spell Damage Percent: +75, Cold Spell Damage: +15, MP Regen Min: 5, MP Regen Max: 6
 Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of the November Jack-O-Lantern	Spell Damage Percent: +20, Stench Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
@@ -987,6 +988,7 @@ rusty grave robbing shovel	Spooky Damage: +5, Initiative: -10
 rusty piece of rebar	Weapon Damage: +25, Critical: 3
 # rusty speargun: On Critical:  Deals 50-60 additional damage
 rusty speargun	Weapon Damage: +25, Critical: 3
+rusty staff	Spell Damage: +25, Spell Critical Percent: +5
 sabre teeth	Weapon Damage: +4
 # sack of doorknobs
 # saucepan
