@@ -568,6 +568,7 @@ Staff of the Deepest Freeze	10	Mys: 200	1-handed chefstaff
 Staff of the Grand Flamb&eacute;	10	Mys: 125	1-handed chefstaff
 Staff of the Grease Trap	10	Mys: 125	1-handed chefstaff
 Staff of the Greasefire	10	Mys: 20	1-handed chefstaff
+Staff of Holiday Sensations	10	Mys: 75	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
 Staff of the November Jack-O-Lantern	10	Mys: 15	1-handed chefstaff
@@ -880,6 +881,7 @@ rubber band gun	30	Mox: 0	1-handed pistol
 rusty grave robbing shovel	80	Mus: 25	2-handed polearm
 rusty piece of rebar	200	Mus: 85	1-handed club
 rusty speargun	200	Mox: 85	1-handed pistol
+rusty staff	200	Mys: 85	2-handed staff
 sabre teeth	60	Mus: 15	1-handed knife
 sack of doorknobs	110	Mox: 40	2-handed sack
 saucepan	10	Mys: 0	1-handed saucepan

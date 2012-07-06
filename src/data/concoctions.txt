@@ -1026,6 +1026,7 @@ PVC staff	WSMITH	foggy glass globe	vinyl ore
 vinyl shield	ASMITH	rusty valve wheel	vinyl ore
 vinyl boots	ASMITH	waterlogged bootstraps	vinyl ore
 
+rusty staff	ASMITH  rusty compass	rusty piece of rebar
 
 # Time Trappings, smithable by anyone.
 
@@ -1509,6 +1510,7 @@ Staff of the Deepest Freeze	STAFF	Frosty's arm	bowl of fishysoisse	mandarina col
 Staff of the Grand Flamb&eacute;	STAFF	smoldering staff	hot hi mein (3)	flaming mushroom wine	hot wad (10)	flaming feather
 Staff of the Grease Trap	STAFF	giant cheesestick	sleazy hi mein (3)	flat mushroom wine	sleaze wad (10)	flirtatious feather
 Staff of the Greasefire	STAFF	Kentucky-fried meat staff	spicy noodles	bottle of tequila	hot nuggets	sleaze nuggets
+Staff of Holiday Sensations	STAFF	giant candy cane	peppermint patty	Crimbojito	phial of coldness (3)	frozen nunchaku	freezerburned ice cube
 Staff of the Kitchen Floor	STAFF	linoleum staff	stinky hi mein (3)	stinky mushroom wine	stench wad (10)	fetid feather
 Staff of the Midnight Snack	STAFF	spooky staff	fricasseed brains	bottle of popskull	spooky powder (3)	spray paint (3)
 Staff of the Short Order Cook	STAFF	basic meat staff	bowl of cottage cheese	ice-cold Sir Schlitz (3)	twinkly powder (3)	magicalness-in-a-can (5)
