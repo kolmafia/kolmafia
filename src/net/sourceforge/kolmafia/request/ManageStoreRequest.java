@@ -100,9 +100,9 @@ public class ManageStoreRequest
 		this.requestType = ManageStoreRequest.PRICE_MANAGEMENT;
 		for ( int i = 0; i < itemId.length; ++i )
 		{
-			this.addFormField( "price" + itemId[ i ], prices[ i ] == 0 ? "" : String.valueOf( Math.max(
+			this.addFormField( "price[" + itemId[ i ] + "]", prices[ i ] == 0 ? "" : String.valueOf( Math.max(
 				prices[ i ], Math.max( ItemDatabase.getPriceById( itemId[ i ] ), 100 ) ) ) );
-			this.addFormField( "limit" + itemId[ i ], String.valueOf( limits[ i ] ) );
+			this.addFormField( "limit[" + itemId[ i ] + "]", String.valueOf( limits[ i ] ) );
 		}
 	}
 
