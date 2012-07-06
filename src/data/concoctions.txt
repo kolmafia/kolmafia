@@ -1026,7 +1026,7 @@ PVC staff	WSMITH	foggy glass globe	vinyl ore
 vinyl shield	ASMITH	rusty valve wheel	vinyl ore
 vinyl boots	ASMITH	waterlogged bootstraps	vinyl ore
 
-rusty staff	ASMITH  rusty compass	rusty piece of rebar
+rusty staff	ASMITH	rusty compass	rusty piece of rebar
 
 # Time Trappings, smithable by anyone.
 
