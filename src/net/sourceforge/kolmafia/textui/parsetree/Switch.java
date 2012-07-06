@@ -40,8 +40,6 @@ import java.util.Map;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
-
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 

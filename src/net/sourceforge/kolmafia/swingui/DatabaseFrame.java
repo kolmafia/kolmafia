@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 
-import java.util.Comparator;
 import java.util.Map.Entry;
 
 import javax.swing.ListSelectionModel;
@@ -57,7 +56,6 @@ import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.ItemTableManagePanel;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 
 public class DatabaseFrame

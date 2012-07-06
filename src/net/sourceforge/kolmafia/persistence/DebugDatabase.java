@@ -1942,12 +1942,6 @@ public class DebugDatabase
 		boolean stench = false;
 		boolean spooky = false;
 		boolean sleaze = false;
-		String advs= "";
-		String musc= "";
-		String myst= "";
-		String mox= "";
-		String fullness= "";
-		String level= "";
 
 		for ( Node node = element.getFirstChild(); node != null; node = node.getNextSibling() )
 		{

@@ -63,8 +63,6 @@ import javax.swing.SwingConstants;
 
 import javax.swing.text.JTextComponent;
 
-import org.jdesktop.swingx.JXCollapsiblePane;
-
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
@@ -75,7 +73,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
-import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.CollapsibleTextArea;
 
 public abstract class GenericPanel

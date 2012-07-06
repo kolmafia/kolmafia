@@ -231,8 +231,6 @@ public abstract class KoLmafiaASH
 			return;
 		}
 
-		boolean hasDescription = false;
-
 		while ( it.hasNext() )
 		{
 			func = (Function) it.next();
