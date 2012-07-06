@@ -62,7 +62,7 @@ public class NamespaceAddCommand
 			return;
 		}
 
-		if ( namespace.toString().equals( "" ) )
+		if ( namespace.equals( "" ) )
 		{
 			namespace = parameters;
 		}
@@ -71,6 +71,6 @@ public class NamespaceAddCommand
 			namespace = namespace + "," + parameters;
 		}
 
-		Preferences.setString( "commandLineNamespace", namespace.toString() );
+		Preferences.setString( "commandLineNamespace", namespace );
 	}
 }

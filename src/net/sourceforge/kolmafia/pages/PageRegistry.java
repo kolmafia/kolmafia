@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.pages;
 
-import java.lang.reflect.Method;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

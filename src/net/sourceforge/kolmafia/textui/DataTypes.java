@@ -589,7 +589,7 @@ public class DataTypes
 			return DataTypes.COINMASTER_INIT;
 		}
 
-		CoinmasterData content = CoinmasterRegistry.findCoinmaster( name.toString() );
+		CoinmasterData content = CoinmasterRegistry.findCoinmaster( name );
 		if ( content == null )
 		{
 			return returnDefault ? DataTypes.COINMASTER_INIT : null;

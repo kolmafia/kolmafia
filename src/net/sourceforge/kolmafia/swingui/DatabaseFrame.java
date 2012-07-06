@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 
-import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemTableManagePanel;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;

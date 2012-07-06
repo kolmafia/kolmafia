@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.preferences;
 import java.lang.ref.WeakReference;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
