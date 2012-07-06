@@ -566,7 +566,7 @@ public class KoLAdventure
 			}
 
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString(
-				"plains.php" ) );
+				"place.php?whichplace=plains" ) );
 			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "dome.gif" ) != -1;
 			return;
 		}
@@ -755,7 +755,7 @@ public class KoLAdventure
 			// questlog.php?which=3
 			// "You have planted a Beanstalk in the Nearby Plains."
 
-			KoLAdventure.ZONE_UNLOCK.constructURLString( "plains.php" );
+			KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains" );
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 
 			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "beanstalk.php" ) == -1 )
@@ -771,8 +771,8 @@ public class KoLAdventure
 				// Make sure the Council has given you the quest
 				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
-				// Use the enchanted bean buy clicking on the coffee grounds.
-				KoLAdventure.ZONE_UNLOCK.constructURLString( "plains.php?place=grounds" );
+				// Use the enchanted bean by clicking on the coffee grounds.
+				KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains&action=garbage_grounds" );
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 			}
 
