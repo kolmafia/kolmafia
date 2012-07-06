@@ -672,7 +672,7 @@ public abstract class UseLinkDecorator
 				return new UseLink( itemId, itemCount, "read", "diary.php?textversion=1" );
 
 			case ItemPool.ENCHANTED_BEAN:
-				return new UseLink( itemId, "plant", "plains.php?place=grounds" );
+				return new UseLink( itemId, "plant", "place.php?whichplace=plains&action=garbage_grounds" );
 
 			case ItemPool.SPOOKY_SAPLING:
 			case ItemPool.SPOOKY_MAP:
