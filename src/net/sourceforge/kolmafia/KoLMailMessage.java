@@ -174,7 +174,7 @@ public class KoLMailMessage
 
 	public String getMessageHTML()
 	{
-		return this.messageHTML.toString();
+		return this.messageHTML;
 	}
 
 	public String getSenderName()

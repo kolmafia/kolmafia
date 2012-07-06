@@ -1465,7 +1465,7 @@ public abstract class UseLinkDecorator
 				return "<font size=1>[<a href=\"" + this.useLocation + "\">" + this.useType + "</a>]</font>";
 			}
 
-			String[] pieces = this.useLocation.toString().split( "\\?" );
+			String[] pieces = this.useLocation.split( "\\?" );
 
 			return "<font size=1>[<a href=\"javascript:" + "singleUse('" + pieces[ 0 ].trim() + "','" + pieces[ 1 ].trim() + "&ajax=1');void(0);\">" + this.useType + "</a>]</font>";
 		}
