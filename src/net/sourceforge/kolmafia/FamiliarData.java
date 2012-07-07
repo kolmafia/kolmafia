@@ -180,13 +180,13 @@ public class FamiliarData
 			return;
 		}
 
-		float experienceModifier = KoLCharacter.currentNumericModifier( Modifiers.FAMILIAR_EXP );
+		double experienceModifier = KoLCharacter.currentNumericModifier( Modifiers.FAMILIAR_EXP );
 
 		if ( getItem().getItemId() == ItemPool.MAYFLOWER_BOUQUET )
 		{
 			String itemName = getItem().getName();
 			String modifierName = Modifiers.getModifierName( Modifiers.FAMILIAR_EXP );
-			float itemModifier = Modifiers.getNumericModifier( itemName, modifierName );
+			double itemModifier = Modifiers.getNumericModifier( itemName, modifierName );
 
 			experienceModifier -= itemModifier;
 
@@ -495,8 +495,8 @@ public class FamiliarData
 
 		// Get current fixed and percent weight modifiers
 		Modifiers current = KoLCharacter.getCurrentModifiers();
-		float fixed = current.get( Modifiers.FAMILIAR_WEIGHT ) + current.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
-		float percent = current.get( Modifiers.FAMILIAR_WEIGHT_PCT );
+		double fixed = current.get( Modifiers.FAMILIAR_WEIGHT ) + current.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+		double percent = current.get( Modifiers.FAMILIAR_WEIGHT_PCT );
 
 		// If this is not the current familiar, adjust modifiers to
 		// reflect this familiar's current equipment.

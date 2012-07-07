@@ -51,7 +51,7 @@ public class DebugModifiers
 	public static int setup( String parameters )
 	{
 		DebugModifiers.wanted = new HashMap();
-		for ( int i = 0; i < Modifiers.FLOAT_MODIFIERS; ++i )
+		for ( int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i )
 		{
 			String name = Modifiers.getModifierName( i );
 			if ( name.toLowerCase().indexOf( parameters ) != -1 )
@@ -92,7 +92,7 @@ public class DebugModifiers
 	@Override
 	public void add( final int index, final double mod, final String desc )
 	{
-		if ( index < 0 || index >= Modifiers.FLOAT_MODIFIERS || mod == 0.0 )
+		if ( index < 0 || index >= Modifiers.DOUBLE_MODIFIERS || mod == 0.0 )
 		{
 			return;
 		}
@@ -141,8 +141,8 @@ public class DebugModifiers
 			{
 				String name = (String) allmods.next();
 				Modifiers mods = Modifiers.getModifiers( name );
-				float value = mods.get( ikey );
-				if ( value != 0.0f )
+				double value = mods.get( ikey );
+				if ( value != 0.0 )
 				{
 					list.add( new Change( name, value,
 						mods.getBoolean( Modifiers.VARIABLE ) ) );
@@ -194,10 +194,10 @@ public class DebugModifiers
 	implements Comparable
 	{
 		String name;
-		float value;
+		double value;
 		boolean variable;
 		
-		public Change( String name, float value, boolean variable )
+		public Change( String name, double value, boolean variable )
 		{
 			this.name = name;
 			this.value = value;

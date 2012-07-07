@@ -82,11 +82,11 @@ public class Modifiers
 	private static final ArrayList<String> mutexes = new ArrayList<String>();
 	public static String currentLocation = "";
 	public static String currentZone = "";
-	public static float currentML = 4.0f;
+	public static double currentML = 4.0;
 	public static String currentFamiliar = "";
 	public static String mainhandClass = "";
-	public static float hoboPower = 0.0f;
-	public static float currentWeight = 0.0f;
+	public static double hoboPower = 0.0;
+	public static double currentWeight = 0.0;
 	public static boolean unarmed = false;
 
 	private static final Pattern FAMILIAR_EFFECT_PATTERN =
@@ -202,7 +202,7 @@ public class Modifiers
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
-	private static final Object[][] floatModifiers =
+	private static final Object[][] doubleModifiers =
 	{
 		{ "Familiar Weight",
 		  Pattern.compile( "([+-]\\d+) to Familiar Weight" ),
@@ -652,7 +652,7 @@ public class Modifiers
 		},
 	};
 
-	public static final int FLOAT_MODIFIERS = Modifiers.floatModifiers.length;
+	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
 
 	public static final int BOOLEANS = 0;
 	public static final int CLOWNOSITY = 1;
@@ -942,11 +942,11 @@ public class Modifiers
 		rv[ Modifiers.BUFFED_MYS ] = mys + (int) this.get( Modifiers.MYS ) +
 			(int) Math.ceil( this.get( Modifiers.MYS_PCT ) * mys / 100.0 );
 		rv[ Modifiers.BUFFED_MOX ] = mox + (int) this.get( Modifiers.MOX ) +
-			(int) Math.ceil( this.get( Modifiers.MOX_PCT ) * mox / 100.0f);
+			(int) Math.ceil( this.get( Modifiers.MOX_PCT ) * mox / 100.0);
 
 		int hpbase = rv[ Modifiers.BUFFED_MUS ];
 		double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
-		int hp = (int) Math.ceil( (hpbase + 3) * ( C + this.get( Modifiers.HP_PCT ) / 100.0f ) ) + (int) this.get( Modifiers.HP );
+		int hp = (int) Math.ceil( (hpbase + 3) * ( C + this.get( Modifiers.HP_PCT ) / 100.0 ) ) + (int) this.get( Modifiers.HP );
 		rv[ Modifiers.BUFFED_HP ] = Math.max( hp, mus );
 
 		int mpbase = (int) rv[ Modifiers.BUFFED_MYS ];
@@ -957,7 +957,7 @@ public class Modifiers
 			mpbase = (int) rv[ Modifiers.BUFFED_MOX ];
 		}
 		C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
-		int mp = (int) Math.ceil( mpbase * ( C + this.get( Modifiers.MP_PCT ) / 100.0f ) ) + (int) this.get( Modifiers.MP );
+		int mp = (int) Math.ceil( mpbase * ( C + this.get( Modifiers.MP_PCT ) / 100.0 ) ) + (int) this.get( Modifiers.MP );
 		rv[ Modifiers.BUFFED_MP ] = Math.max( mp, mys );
 
 		return rv;
@@ -983,7 +983,7 @@ public class Modifiers
 
 	public static final String getModifierName( final int index )
 	{
-		return Modifiers.modifierName( Modifiers.floatModifiers, index );
+		return Modifiers.modifierName( Modifiers.doubleModifiers, index );
 	}
 
 	public static final String getBitmapModifierName( final int index )
@@ -1045,38 +1045,38 @@ public class Modifiers
 	};
 
 	private static final String COLD =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.COLD_RESISTANCE ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.COLD_RESISTANCE ) + ": ";
 	private static final String HOT =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.HOT_RESISTANCE ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.HOT_RESISTANCE ) + ": ";
 	private static final String SLEAZE =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.SLEAZE_RESISTANCE ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.SLEAZE_RESISTANCE ) + ": ";
 	private static final String SPOOKY =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.SPOOKY_RESISTANCE ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.SPOOKY_RESISTANCE ) + ": ";
 	private static final String STENCH =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.STENCH_RESISTANCE ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.STENCH_RESISTANCE ) + ": ";
 
-	private static final String MOXIE = Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MOX ) + ": ";
-	private static final String MUSCLE = Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MUS ) + ": ";
-	private static final String MYSTICALITY = Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MYS ) + ": ";
+	private static final String MOXIE = Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MOX ) + ": ";
+	private static final String MUSCLE = Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MUS ) + ": ";
+	private static final String MYSTICALITY = Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MYS ) + ": ";
 
 	private static final String MOXIE_PCT =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MOX_PCT ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MOX_PCT ) + ": ";
 	private static final String MUSCLE_PCT =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MUS_PCT ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MUS_PCT ) + ": ";
 	private static final String MYSTICALITY_PCT =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MYS_PCT ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MYS_PCT ) + ": ";
 
-	private static final String HP_TAG = Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.HP ) + ": ";
-	private static final String MP_TAG = Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MP ) + ": ";
+	private static final String HP_TAG = Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.HP ) + ": ";
+	private static final String MP_TAG = Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MP ) + ": ";
 
 	private static final String HP_REGEN_MIN_TAG =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.HP_REGEN_MIN ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.HP_REGEN_MIN ) + ": ";
 	private static final String HP_REGEN_MAX_TAG =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.HP_REGEN_MAX ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.HP_REGEN_MAX ) + ": ";
 	private static final String MP_REGEN_MIN_TAG =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MP_REGEN_MIN ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MP_REGEN_MIN ) + ": ";
 	private static final String MP_REGEN_MAX_TAG =
-		Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.MP_REGEN_MAX ) + ": ";
+		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MP_REGEN_MAX ) + ": ";
 
 	public static int elementalResistance( final int element )
 	{
@@ -1114,9 +1114,9 @@ public class Modifiers
 			}
 
 			currentTest = Modifiers.getModifiers( (String) check[ i ] );
-			float value = ( (Modifiers) currentTest ).get( index );
+			double value = ( (Modifiers) currentTest ).get( index );
 
-			if ( value == 0.0f )
+			if ( value == 0.0 )
 			{
 				continue;
 			}
@@ -1124,11 +1124,11 @@ public class Modifiers
 			currentEffect = new AdventureResult( (String) check[ i ], 1, true );
 			hasEffect = KoLConstants.activeEffects.contains( currentEffect );
 
-			if ( value > 0.0f && !hasEffect )
+			if ( value > 0.0 && !hasEffect )
 			{
 				available.add( currentEffect );
 			}
-			else if ( value < 0.0f && hasEffect )
+			else if ( value < 0.0 && hasEffect )
 			{
 				available.add( currentEffect );
 			}
@@ -1151,7 +1151,7 @@ public class Modifiers
 	
 	public static final int findName( String name )
 	{
-		return Modifiers.findName( Modifiers.floatModifiers, name );
+		return Modifiers.findName( Modifiers.doubleModifiers, name );
 	}
 
 	public static final int findBooleanName( String name )
@@ -1161,7 +1161,7 @@ public class Modifiers
 
 	private String name;
 	private boolean variable;
-	private final float[] floats;
+	private final double[] doubles;
 	private final int[] bitmaps;
 	private final String[] strings;
 	private ModifierExpression[] expressions;
@@ -1169,7 +1169,7 @@ public class Modifiers
 	public Modifiers()
 	{
 		this.variable = false;
-		this.floats = new float[ Modifiers.FLOAT_MODIFIERS ];
+		this.doubles = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		this.bitmaps = new int[ Modifiers.BITMAP_MODIFIERS ];
 		this.strings = new String[ Modifiers.STRING_MODIFIERS ];
 		this.reset();
@@ -1177,36 +1177,36 @@ public class Modifiers
 
 	public void reset()
 	{
-		Arrays.fill( this.floats, 0.0f );
+		Arrays.fill( this.doubles, 0.0 );
 		Arrays.fill( this.bitmaps, 0 );
 		Arrays.fill( this.strings, "" );
 		this.expressions = null;
 	};
 
-	public float get( final int index )
+	public double get( final int index )
 	{
-		if ( index < 0 || index >= this.floats.length )
+		if ( index < 0 || index >= this.doubles.length )
 		{
-			return 0.0f;
+			return 0.0;
 		}
 
-		return this.floats[ index ];
+		return this.doubles[ index ];
 	};
 
-	public float get( final String name )
+	public double get( final String name )
 	{
-		int index = Modifiers.findName( Modifiers.floatModifiers, name );
-		if ( index < 0 || index >= this.floats.length )
+		int index = Modifiers.findName( Modifiers.doubleModifiers, name );
+		if ( index < 0 || index >= this.doubles.length )
 		{
 			index = Modifiers.findName( Modifiers.derivedModifiers, name );
 			if ( index < 0 || index >= Modifiers.DERIVED_MODIFIERS )
 			{
-				return (float) this.getBitmap( name );
+				return this.getBitmap( name );
 			}
 			return this.predict()[ index ];
 		}
 
-		return this.floats[ index ];
+		return this.doubles[ index ];
 	};
 
 	public int getRawBitmap( final int index )
@@ -1297,14 +1297,14 @@ public class Modifiers
 	
 	public boolean set( final int index, final double mod )
 	{
-		if ( index < 0 || index >= this.floats.length )
+		if ( index < 0 || index >= this.doubles.length )
 		{
 			return false;
 		}
 
-		if ( this.floats[ index ] != mod )
+		if ( this.doubles[ index ] != mod )
 		{
-			this.floats[ index ] = (float) mod;
+			this.doubles[ index ] = mod;
 			return true;
 		}
 		return false;
@@ -1372,12 +1372,12 @@ public class Modifiers
 		boolean changed = false;
 		this.name = mods.name;
 
-		float[] copyFloats = mods.floats;
-		for ( int index = 0; index < this.floats.length; ++index )
+		double[] copyDoubles = mods.doubles;
+		for ( int index = 0; index < this.doubles.length; ++index )
 		{
-			if ( this.floats[ index ] != copyFloats[ index ] )
+			if ( this.doubles[ index ] != copyDoubles[ index ] )
 			{
-				this.floats[ index ] = copyFloats[ index ];
+				this.doubles[ index ] = copyDoubles[ index ];
 				changed = true;
 			}
 		}
@@ -1414,46 +1414,46 @@ public class Modifiers
 			
 			// Assume that all the sources of Combat Rate modifiers are of + or - 5%,
 			// and start by obtaining the current value without the diminishing returns taken into account
-			float rate = this.floats[ index ];
-			float extra = Math.abs( rate ) - 25.0f;
-			if ( extra > 0.0f )
+			double rate = this.doubles[ index ];
+			double extra = Math.abs( rate ) - 25.0;
+			if ( extra > 0.0 )
 			{
-				rate = ( 25.0f + ( float ) Math.ceil( extra ) * 5.0f ) * ( rate < 0.0f ? -1.0f : 1.0f );
+				rate = ( 25.0 + Math.ceil( extra ) * 5.0 ) * ( rate < 0.0 ? -1.0 : 1.0 );
 			}
 
 			// Add mod and calculate the new value with the diminishing returns taken into account
-			rate += ( float ) mod;
-			extra = Math.abs( rate ) - 25.0f;
-			if ( extra > 0.0f )
+			rate += mod;
+			extra = Math.abs( rate ) - 25.0;
+			if ( extra > 0.0 )
 			{
-				rate = ( 25.0f + ( float ) Math.ceil( extra / 5.0f ) ) * ( rate < 0.0f ? -1.0f : 1.0f );
+				rate = ( 25.0 + Math.ceil( extra / 5.0 ) ) * ( rate < 0.0 ? -1.0 : 1.0 );
 			}
-			this.floats[ index ] = rate;
+			this.doubles[ index ] = rate;
 			break;
 		case CRITICAL:
 			// Critical hit modifier is maximum, not additive
-			if ( mod > this.floats[ index ] )
+			if ( mod > this.doubles[ index ] )
 			{
-				this.floats[ index ] = (float) mod;
+				this.doubles[ index ] = mod;
 			}
 			break;
 		case MANA_COST:
 			// Total Mana Cost reduction cannot exceed 3
-			this.floats[ index ] += mod;
-			if ( this.floats[ index ] < -3 )
+			this.doubles[ index ] += mod;
+			if ( this.doubles[ index ] < -3 )
 			{
-				this.floats[ index ] = -3;
+				this.doubles[ index ] = -3;
 			}
 			break;
 		case FAMILIAR_WEIGHT_PCT:
 			// The three current sources of -wt% do not stack
-			if ( this.floats[ index ] > mod )
+			if ( this.doubles[ index ] > mod )
 			{
-				this.floats[ index ] = (float) mod;
+				this.doubles[ index ] = mod;
 			}
 			break;
 		default:
-			this.floats[ index ] += mod;
+			this.doubles[ index ] += mod;
 			break;
 		}
 	};
@@ -1481,13 +1481,13 @@ public class Modifiers
 		
 		String name = mods.name;
 
-		// Add in the float modifiers
+		// Add in the double modifiers
 
-		float[] addition = mods.floats;
+		double[] addition = mods.doubles;
 
-		for ( int i = 0; i < this.floats.length; ++i )
+		for ( int i = 0; i < this.doubles.length; ++i )
 		{
-			if ( addition[ i ] != 0.0f )
+			if ( addition[ i ] != 0.0 )
 			{
 				if ( i == Modifiers.ADVENTURES &&
 					(mods.bitmaps[ 0 ] & this.bitmaps[ 0 ] &
@@ -1579,13 +1579,13 @@ public class Modifiers
 
 		Modifiers newMods = new Modifiers();
 		newMods.name = name;
-		float[] newFloats = newMods.floats;
+		double[] newDoubles = newMods.doubles;
 		int[] newBitmaps = newMods.bitmaps;
 		String[] newStrings = newMods.strings;
 
-		for ( int i = 0; i < newFloats.length; ++i )
+		for ( int i = 0; i < newDoubles.length; ++i )
 		{
-			Pattern pattern = Modifiers.modifierTagPattern( Modifiers.floatModifiers, i );
+			Pattern pattern = Modifiers.modifierTagPattern( Modifiers.doubleModifiers, i );
 			if ( pattern == null )
 			{
 				continue;
@@ -1599,13 +1599,13 @@ public class Modifiers
 
 			if ( matcher.group( 1 ) != null )
 			{
-				newFloats[ i ] = Float.parseFloat( matcher.group( 1 ) );
+				newDoubles[ i ] = Double.parseDouble( matcher.group( 1 ) );
 			}
 			else
 			{
 				if ( newMods.expressions == null )
 				{
-					newMods.expressions = new ModifierExpression[ Modifiers.FLOAT_MODIFIERS ];
+					newMods.expressions = new ModifierExpression[ Modifiers.DOUBLE_MODIFIERS ];
 				}
 				newMods.expressions[ i ] = new ModifierExpression( matcher.group( 2 ),
 									   name );
@@ -1708,7 +1708,7 @@ public class Modifiers
 				ModifierExpression expr = this.expressions[ i ];
 				if ( expr != null )
 				{
-					this.floats[ i ] = expr.eval();
+					this.doubles[ i ] = expr.eval();
 				}
 			}
 			return true;
@@ -1843,22 +1843,22 @@ public class Modifiers
 		return false;
 	}
 
-	public static final float getNumericModifier( final String name, final String mod )
+	public static final double getNumericModifier( final String name, final String mod )
 	{
 		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
 		{
-			return 0.0f;
+			return 0.0;
 		}
 		return mods.get( mod );
 	}
 
-	public static final float getNumericModifier( final FamiliarData fam, final String mod, final int passedWeight, final AdventureResult item )
+	public static final double getNumericModifier( final FamiliarData fam, final String mod, final int passedWeight, final AdventureResult item )
 	{
 		int familiarId = fam != null ? fam.getId() : -1;
 		if ( familiarId == -1 )
 		{
-			return 0.0f;
+			return 0.0;
 		}
 		Modifiers tempMods = new Modifiers();
 		tempMods.setFamiliar( fam );
@@ -1870,8 +1870,8 @@ public class Modifiers
 			tempMods.add( Modifiers.getModifiers( item.getName() ) );
 		}
 		int weight = passedWeight + (int) tempMods.get( Modifiers.FAMILIAR_WEIGHT ) + (int) tempMods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT ) + ( fam.getFeasted() ? 10 : 0 );
-		float percent = tempMods.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
-		if ( percent != 0.0f )
+		double percent = tempMods.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0;
+		if ( percent != 0.0 )
 		{
 			weight = (int) Math.floor( weight + weight * percent );
 		}
@@ -1968,8 +1968,8 @@ public class Modifiers
 		weight += (int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
 		weight += ( familiar.getFeasted() ? 10 : 0 );
 
-		float percent = this.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0f;
-		if ( percent != 0.0f )
+		double percent = this.get( Modifiers.FAMILIAR_WEIGHT_PCT ) / 100.0;
+		if ( percent != 0.0 )
 		{
 			weight = (int) Math.floor( weight + weight * percent );
 		}
@@ -2035,7 +2035,7 @@ public class Modifiers
 			if ( factor == 0.0 ) factor = 1.0;
 			// currentML is always >= 4, so we don't need to check for negatives
 			this.add( Modifiers.EXPERIENCE, factor * Math.sqrt( effective ) *
-				(1.0 + Math.sqrt( Modifiers.currentML - 4.0f )) / 10.0, "Sombrero" );
+				(1.0 + Math.sqrt( Modifiers.currentML - 4.0 )) / 10.0, "Sombrero" );
 		}
 
 		effective = cappedWeight * this.get( Modifiers.LEPRECHAUN_WEIGHT );
@@ -2123,7 +2123,7 @@ public class Modifiers
 		Matcher matcher = Modifiers.DR_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.DAMAGE_REDUCTION ) + ": " + matcher.group( 2 );
+			return Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.DAMAGE_REDUCTION ) + ": " + matcher.group( 2 );
 		}
 
 		return null;
@@ -2191,7 +2191,7 @@ public class Modifiers
 		Matcher matcher = Modifiers.DURATION_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			return Modifiers.modifierTag( Modifiers.floatModifiers, Modifiers.EFFECT_DURATION ) + ": " + matcher.group( 1 );
+			return Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.EFFECT_DURATION ) + ": " + matcher.group( 1 );
 		}
 
 		return null;
@@ -2207,9 +2207,9 @@ public class Modifiers
 	{
 		String result;
 
-		// Search the float modifiers first
+		// Search the double modifiers first
 
-		result = Modifiers.parseModifier( Modifiers.floatModifiers, enchantment, false );
+		result = Modifiers.parseModifier( Modifiers.doubleModifiers, enchantment, false );
 		if ( result != null )
 		{
 			return result;
@@ -2288,7 +2288,7 @@ public class Modifiers
 		matcher = Modifiers.COMBAT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
-			String tag = Modifiers.modifierTag( Modifiers.floatModifiers, enchantment.indexOf( "Underwater only" ) == -1 ? Modifiers.COMBAT_RATE : Modifiers.UNDERWATER_COMBAT_RATE );
+			String tag = Modifiers.modifierTag( Modifiers.doubleModifiers, enchantment.indexOf( "Underwater only" ) == -1 ? Modifiers.COMBAT_RATE : Modifiers.UNDERWATER_COMBAT_RATE );
 			return  tag + ": " + ( matcher.group( 1 ).equals( "more" ) ? "+5" : "-5" );
 		}
 
@@ -2506,7 +2506,7 @@ public class Modifiers
 				{
 					continue;
 				}
-				if ( Modifiers.findModifier( Modifiers.floatModifiers, mod ) )
+				if ( Modifiers.findModifier( Modifiers.doubleModifiers, mod ) )
 				{
 					continue;
 				}
@@ -2541,14 +2541,14 @@ public class Modifiers
 		{
 			Modifiers.currentLocation = "";
 			Modifiers.currentZone = "";
-			Modifiers.currentML = 4.0f;
+			Modifiers.currentML = 4.0;
 			return;
 		}
 
 		Modifiers.currentLocation = location.getAdventureName().toLowerCase();
 		Modifiers.currentZone = location.getZone().toLowerCase();
 		AreaCombatData data = location.getAreaSummary();
-		Modifiers.currentML = Math.max( 4.0f, data == null ? 0.0f : data.getAverageML() );
+		Modifiers.currentML = Math.max( 4.0, data == null ? 0.0 : data.getAverageML() );
 	}
 
 	public static void setFamiliar( FamiliarData fam )

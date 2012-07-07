@@ -165,7 +165,7 @@ public class TableCellFactory
 				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
 			return fill > 0 ? fill : null;
 		case 6:
-			float advRange = ItemDatabase.getAdventureRange( advresult.getName() );
+			double advRange = ItemDatabase.getAdventureRange( advresult.getName() );
 			fill =
 				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
 			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
@@ -206,7 +206,7 @@ public class TableCellFactory
 				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
 			return fill > 0 ? fill : null;
 		case 6:
-			float advRange = ItemDatabase.getAdventureRange( advresult.getName() );
+			double advRange = ItemDatabase.getAdventureRange( advresult.getName() );
 			fill =
 				IntegerPool.get( ItemDatabase.getFullness( advresult.getName() ) + ItemDatabase.getInebriety( advresult.getName() ) + ItemDatabase.getSpleenHit( advresult.getName() ) );
 
@@ -246,7 +246,7 @@ public class TableCellFactory
 				IntegerPool.get( ItemDatabase.getFullness( CIRresult.getName() ) + ItemDatabase.getInebriety( CIRresult.getName() ) + ItemDatabase.getSpleenHit( CIRresult.getName() ) );
 			return fill > 0 ? fill : null;
 		case 5:
-			float advRange = ItemDatabase.getAdventureRange( CIRresult.getName() );
+			double advRange = ItemDatabase.getAdventureRange( CIRresult.getName() );
 			fill =
 				IntegerPool.get( ItemDatabase.getFullness( CIRresult.getName() ) + ItemDatabase.getInebriety( CIRresult.getName() ) + ItemDatabase.getSpleenHit( CIRresult.getName() ) );
 			if ( !Preferences.getBoolean( "showGainsPerUnit" ) )
@@ -476,10 +476,10 @@ public class TableCellFactory
 		buff.append( modifiersWidth );
 		buff.append( ">" );
 
-		for ( int i = 0; i < Modifiers.FLOAT_MODIFIERS; ++i )
+		for ( int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i )
 		{
-			float val = mods.get( i );
-			if ( val == 0.0f ) continue;
+			double val = mods.get( i );
+			if ( val == 0.0 ) continue;
 			name = Modifiers.getModifierName( i );
 			name = StringUtilities.singleStringReplace( name, "Familiar", "Fam" );
 			name = StringUtilities.singleStringReplace( name, "Experience", "Exp" );

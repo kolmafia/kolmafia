@@ -214,9 +214,9 @@ public class GearChangeFrame
 		buff.append( GearChangeFrame.INSTANCE.modifiersWidth );
 		buff.append( ">" );
 
-		for ( int i = 0; i < Modifiers.FLOAT_MODIFIERS; ++i )
+		for ( int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i )
 		{
-			float val = mods.get( i );
+			double val = mods.get( i );
 			if ( val == 0.0f ) continue;
 			name = Modifiers.getModifierName( i );
 			name = StringUtilities.singleStringReplace( name, "Familiar", "Fam" );

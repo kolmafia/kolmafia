@@ -291,7 +291,7 @@ public class MaximizerFrame
 
 	public void valueChanged( final ListSelectionEvent e )
 	{
-		float current = MaximizerFrame.eval.getScore(
+		double current = MaximizerFrame.eval.getScore(
 			KoLCharacter.getCurrentModifiers() );
 		boolean failed = MaximizerFrame.eval.failed;
 		Object[] items = this.boostList.getSelectedValues();
@@ -317,7 +317,7 @@ public class MaximizerFrame
 					((Boost) items[ i ]).addTo( spec );
 				}
 			}
-			float score = spec.getScore();
+			double score = spec.getScore();
 			buff.append( KoLConstants.FLOAT_FORMAT.format( score ) );
 			buff.append( " (" );
 			buff.append( KoLConstants.MODIFIER_FORMAT.format( score - current ) );
@@ -387,7 +387,7 @@ public class MaximizerFrame
 			return;
 		}
 
-		float current = MaximizerFrame.eval.getScore( KoLCharacter.getCurrentModifiers() );
+		double current = MaximizerFrame.eval.getScore( KoLCharacter.getCurrentModifiers() );
 
 		if ( maxPrice <= 0 )
 		{
@@ -404,7 +404,7 @@ public class MaximizerFrame
 		{
 			if ( equipLevel > 1 )
 			{
-				MaximizerFrame.boosts.add( new Boost( "", "(folding equipment is not considered yet)", -1, null, 0.0f ) );
+				MaximizerFrame.boosts.add( new Boost( "", "(folding equipment is not considered yet)", -1, null, 0.0 ) );
 			}
 			MaximizerFrame.best = new Spec();
 			MaximizerFrame.best.getScore();
@@ -419,12 +419,12 @@ public class MaximizerFrame
 			}
 			catch ( MaximizerExceededException e )
 			{
-				MaximizerFrame.boosts.add( new Boost( "", "(maximum achieved, no further combinations checked)", -1, null, 0.0f ) );
+				MaximizerFrame.boosts.add( new Boost( "", "(maximum achieved, no further combinations checked)", -1, null, 0.0 ) );
 			}
 			catch ( MaximizerInterruptedException e )
 			{
 				KoLmafia.forceContinue();
-				MaximizerFrame.boosts.add( new Boost( "", "<font color=red>(interrupted, optimality not guaranteed)</font>", -1, null, 0.0f ) );
+				MaximizerFrame.boosts.add( new Boost( "", "<font color=red>(interrupted, optimality not guaranteed)</font>", -1, null, 0.0 ) );
 			}
 			Spec.showProgress();
 			
@@ -461,7 +461,7 @@ public class MaximizerFrame
 				continue;
 			}
 
-			float delta;
+			double delta;
 			boolean isSpecial = false;
 			Spec spec = new Spec();
 			AdventureResult effect = new AdventureResult( name, 1, true );
@@ -487,7 +487,7 @@ public class MaximizerFrame
 				case -1:
 					continue;
 				case 0:
-					if ( delta <= 0.0f ) continue;
+					if ( delta <= 0.0 ) continue;
 					break;
 				case 1:
 					isSpecial = true;
@@ -514,7 +514,7 @@ public class MaximizerFrame
 				case 1:
 					continue;
 				case 0:
-					if ( delta <= 0.0f ) continue;
+					if ( delta <= 0.0 ) continue;
 					break;
 				case -1:
 					isSpecial = true;
@@ -977,13 +977,13 @@ public class MaximizerFrame
 
 		if ( MaximizerFrame.boosts.size() == 0 )
 		{
-			MaximizerFrame.boosts.add( new Boost( "", "(nothing useful found)", 0, null, 0.0f ) );
+			MaximizerFrame.boosts.add( new Boost( "", "(nothing useful found)", 0, null, 0.0 ) );
 		}
 
 		MaximizerFrame.boosts.sort();
 	}
 
-	static private int emitSlot( int slot, int equipLevel, int maxPrice, int priceLevel, float current )
+	static private int emitSlot( int slot, int equipLevel, int maxPrice, int priceLevel, double current )
 	{
 		if ( slot == EquipmentManager.FAMILIAR )
 		{	// Insert any familiar switch at this point
@@ -992,7 +992,7 @@ public class MaximizerFrame
 			{
 				Spec spec = new Spec();
 				spec.setFamiliar( fam );
-				float delta = spec.getScore() - current;
+				double delta = spec.getScore() - current;
 				String cmd, text;
 				cmd = "familiar " + fam.getRace();
 				text = cmd + " (" +
@@ -1022,12 +1022,12 @@ public class MaximizerFrame
 			{
 				return equipLevel;
 			}
-			MaximizerFrame.boosts.add( new Boost( "", "keep " + slotname + ": " + item.getName(), -1, item, 0.0f ) );
+			MaximizerFrame.boosts.add( new Boost( "", "keep " + slotname + ": " + item.getName(), -1, item, 0.0 ) );
 			return equipLevel;
 		}
 		Spec spec = new Spec();
 		spec.equip( slot, item );
-		float delta = spec.getScore() - current;
+		double delta = spec.getScore() - current;
 		String cmd, text;
 		if ( item == null || item.equals( EquipmentRequest.UNEQUIP ) )
 		{
@@ -1281,8 +1281,8 @@ public class MaximizerFrame
 	{
 		public boolean failed, exceeded;
 		private Evaluator tiebreaker;
-		private float[] weight, min, max;
-		private float totalMin, totalMax;
+		private double[] weight, min, max;
+		private double totalMin, totalMax;
 		private int dump = 0;
 		private int clownosity = 0;
 		private int raveosity = 0;
@@ -1381,8 +1381,8 @@ public class MaximizerFrame
 
 		private Evaluator()
 		{
-			this.totalMin = Float.NEGATIVE_INFINITY;
-			this.totalMax = Float.POSITIVE_INFINITY;
+			this.totalMin = Double.NEGATIVE_INFINITY;
+			this.totalMax = Double.POSITIVE_INFINITY;
 		}
 
 		public Evaluator( String expr )
@@ -1395,15 +1395,15 @@ public class MaximizerFrame
 			this.posEquip = tiebreaker.posEquip = new TreeSet<AdventureResult>();
 			this.negEquip = tiebreaker.negEquip = new TreeSet<AdventureResult>();
 			this.familiars = tiebreaker.familiars = new ArrayList<FamiliarData>();
-			this.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
-			tiebreaker.weight = new float[ Modifiers.FLOAT_MODIFIERS ];
-			tiebreaker.min = new float[ Modifiers.FLOAT_MODIFIERS ];
-			tiebreaker.max = new float[ Modifiers.FLOAT_MODIFIERS ];
-			Arrays.fill( tiebreaker.min, Float.NEGATIVE_INFINITY );
-			Arrays.fill( tiebreaker.max, Float.POSITIVE_INFINITY );
+			this.weight = new double[ Modifiers.DOUBLE_MODIFIERS ];
+			tiebreaker.weight = new double[ Modifiers.DOUBLE_MODIFIERS ];
+			tiebreaker.min = new double[ Modifiers.DOUBLE_MODIFIERS ];
+			tiebreaker.max = new double[ Modifiers.DOUBLE_MODIFIERS ];
+			Arrays.fill( tiebreaker.min, Double.NEGATIVE_INFINITY );
+			Arrays.fill( tiebreaker.max, Double.POSITIVE_INFINITY );
 			tiebreaker.parse( MaximizerFrame.TIEBREAKER );
-			this.min = (float[]) tiebreaker.min.clone();
-			this.max = (float[]) tiebreaker.max.clone();
+			this.min = (double[]) tiebreaker.min.clone();
+			this.max = (double[]) tiebreaker.max.clone();
 			this.parse( expr );
 		}
 
@@ -1427,7 +1427,7 @@ public class MaximizerFrame
 					return;
 				}
 				pos = m.end();
-				float weight = StringUtilities.parseFloat(
+				double weight = StringUtilities.parseDouble(
 					m.end( 2 ) == m.start( 2 ) ? m.group( 1 ) + "1"
 						: m.group( 1 ) + m.group( 2 ) );
 
@@ -1476,7 +1476,7 @@ public class MaximizerFrame
 				}
 				else if ( keyword.startsWith( "tie" ) )
 				{
-					this.noTiebreaker = weight < 0.0f;
+					this.noTiebreaker = weight < 0.0;
 					continue;
 				}
 				else if ( keyword.startsWith( "type " ) )
@@ -1486,13 +1486,13 @@ public class MaximizerFrame
 				}
 				else if ( keyword.equals( "shield" ) )
 				{
-					this.requireShield = weight > 0.0f;
+					this.requireShield = weight > 0.0;
 					this.hands = 1;
 					continue;
 				}
 				else if ( keyword.equals( "melee" ) )
 				{
-					this.melee = (int) (weight * 2.0f);
+					this.melee = (int) (weight * 2.0);
 					continue;
 				}
 				else if ( keyword.equals( "empty" ) )
@@ -1536,7 +1536,7 @@ public class MaximizerFrame
 					{
 						return;
 					}
-					if ( weight > 0.0f )
+					if ( weight > 0.0 )
 					{
 						this.posEquip.add( match );
 						equipBeeosity += KoLCharacter.getBeeosity(
@@ -1562,7 +1562,7 @@ public class MaximizerFrame
 							"Unknown or custom outfit: " + keyword );
 						return;
 					}
-					if ( weight > 0.0f )
+					if ( weight > 0.0 )
 					{
 						this.posOutfits.add( outfit.getName() );
 						int bees = 0;
@@ -1589,9 +1589,9 @@ public class MaximizerFrame
 							"Unknown familiar: " + keyword );
 						return;
 					}
-					if ( hadFamiliar && weight < 0.0f ) continue;
+					if ( hadFamiliar && weight < 0.0 ) continue;
 					FamiliarData fam = KoLCharacter.findFamiliar( id );
-					if ( fam == null && weight > 1.0f )
+					if ( fam == null && weight > 1.0 )
 					{	// Allow a familiar to be faked for testing
 						fam = new FamiliarData( id );
 						fam.setWeight( (int) weight );
@@ -1757,7 +1757,7 @@ public class MaximizerFrame
 				if ( boolIndex >= 0 )
 				{
 					this.booleanMask |= 1 << boolIndex;
-					if ( weight > 0.0f )
+					if ( weight > 0.0 )
 					{
 						this.booleanValue |= 1 << boolIndex;
 					}
@@ -1774,7 +1774,7 @@ public class MaximizerFrame
 				equipBeeosity ), outfitBeeosity );
 
 			// Make sure indirect sources have at least a little weight;
-			float fudge = this.weight[ Modifiers.EXPERIENCE ] * 0.0001f;
+			double fudge = this.weight[ Modifiers.EXPERIENCE ] * 0.0001f;
 			this.weight[ Modifiers.MONSTER_LEVEL ] += fudge;
 			this.weight[ Modifiers.MUS_EXPERIENCE ] += fudge;
 			this.weight[ Modifiers.MYS_EXPERIENCE ] += fudge;
@@ -1810,20 +1810,20 @@ public class MaximizerFrame
 			this.weight[ Modifiers.MEAT_BONUS ] += fudge;
 		}
 
-		public float getScore( Modifiers mods )
+		public double getScore( Modifiers mods )
 		{
 			this.failed = false;
 			this.exceeded = false;
 			int[] predicted = mods.predict();
 
-			float score = 0.0f;
-			for ( int i = 0; i < Modifiers.FLOAT_MODIFIERS; ++i )
+			double score = 0.0;
+			for ( int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i )
 			{
-				float weight = this.weight[ i ];
-				float min = this.min[ i ];
-				if ( weight == 0.0f && min == Float.NEGATIVE_INFINITY ) continue;
-				float val = mods.get( i );
-				float max = this.max[ i ];
+				double weight = this.weight[ i ];
+				double min = this.min[ i ];
+				if ( weight == 0.0 && min == Double.NEGATIVE_INFINITY ) continue;
+				double val = mods.get( i );
+				double max = this.max[ i ];
 				switch ( i )
 				{
 				case Modifiers.MUS:
@@ -1837,7 +1837,7 @@ public class MaximizerFrame
 					break;
 				case Modifiers.FAMILIAR_WEIGHT:
 					val += mods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
-					if ( mods.get( Modifiers.FAMILIAR_WEIGHT_PCT ) < 0.0f )
+					if ( mods.get( Modifiers.FAMILIAR_WEIGHT_PCT ) < 0.0 )
 					{
 						val *= 0.5f;
 					}
@@ -1846,13 +1846,13 @@ public class MaximizerFrame
 					val += mods.get( Modifiers.STACKABLE_MANA_COST );
 					break;
 				case Modifiers.INITIATIVE:
-					val += Math.min( 0.0f, mods.get( Modifiers.INITIATIVE_PENALTY ) );
+					val += Math.min( 0.0, mods.get( Modifiers.INITIATIVE_PENALTY ) );
 					break;
 				case Modifiers.MEATDROP:
-					val += 100.0f + Math.min( 0.0f, mods.get( Modifiers.MEATDROP_PENALTY ) ) + mods.get( Modifiers.SPORADIC_MEATDROP ) + mods.get( Modifiers.MEAT_BONUS ) / 10000.0f;
+					val += 100.0 + Math.min( 0.0, mods.get( Modifiers.MEATDROP_PENALTY ) ) + mods.get( Modifiers.SPORADIC_MEATDROP ) + mods.get( Modifiers.MEAT_BONUS ) / 10000.0;
 					break;
 				case Modifiers.ITEMDROP:
-					val += 100.0f + Math.min( 0.0f, mods.get( Modifiers.ITEMDROP_PENALTY ) ) + mods.get( Modifiers.SPORADIC_ITEMDROP );
+					val += 100.0 + Math.min( 0.0, mods.get( Modifiers.ITEMDROP_PENALTY ) ) + mods.get( Modifiers.SPORADIC_ITEMDROP );
 					break;
 				case Modifiers.HP:
 					val = predicted[ Modifiers.BUFFED_HP ];
@@ -1879,11 +1879,11 @@ public class MaximizerFrame
 				case Modifiers.STENCH_RESISTANCE:
 					if ( mods.getBoolean( i - Modifiers.COLD_RESISTANCE + Modifiers.COLD_IMMUNITY ) )
 					{
-						val = 100.0f;
+						val = 100.0;
 					}
 					else if ( mods.getBoolean( i - Modifiers.COLD_RESISTANCE + Modifiers.COLD_VULNERABILITY ) )
 					{
-						val -= 100.0f;
+						val -= 100.0;
 					}
 					break;
 				case Modifiers.EXPERIENCE:
@@ -1956,9 +1956,9 @@ public class MaximizerFrame
 			}
 		}
 
-		public float getTiebreaker( Modifiers mods )
+		public double getTiebreaker( Modifiers mods )
 		{
-			if ( this.noTiebreaker ) return 0.0f;
+			if ( this.noTiebreaker ) return 0.0;
 			return this.tiebreaker.getScore( mods );
 		}
 
@@ -2053,7 +2053,7 @@ public class MaximizerFrame
 				ranked[ i ] = new ArrayList<AdventureResult>();
 			}
 
-			float nullScore = this.getScore( new Modifiers() );
+			double nullScore = this.getScore( new Modifiers() );
 
 			BooleanArray usefulOutfits = new BooleanArray();
 			TreeMap<AdventureResult, AdventureResult> outfitPieces = new TreeMap<AdventureResult, AdventureResult>();
@@ -2076,8 +2076,8 @@ public class MaximizerFrame
 				case -1:
 					continue;
 				case 0:
-					float delta = this.getScore( mods ) - nullScore;
-					if ( delta <= 0.0f ) continue;
+					double delta = this.getScore( mods ) - nullScore;
+					if ( delta <= 0.0 ) continue;
 					break;
 				}
 				usefulOutfits.set( i, true );
@@ -2090,15 +2090,15 @@ public class MaximizerFrame
 				Modifiers mods = Modifiers.getModifiers( (String) syn.next() );
 				int value = ((Integer) syn.next()).intValue();
 				if ( mods == null )	continue;
-				float delta = this.getScore( mods ) - nullScore;
-				if ( delta > 0.0f ) usefulSynergies |= value;
+				double delta = this.getScore( mods ) - nullScore;
+				if ( delta > 0.0 ) usefulSynergies |= value;
 			}
 
 			boolean hoboPowerUseful = false;
 			{
 				Modifiers mods = Modifiers.getModifiers( "_hoboPower" );
 				if ( mods != null &&
-					this.getScore( mods ) - nullScore > 0.0f )
+					this.getScore( mods ) - nullScore > 0.0 )
 				{
 					hoboPowerUseful = true;
 				}
@@ -2108,7 +2108,7 @@ public class MaximizerFrame
 			{
 				Modifiers mods = Modifiers.getModifiers( "_brimstone" );
 				if ( mods != null &&
-					this.getScore( mods ) - nullScore > 0.0f )
+					this.getScore( mods ) - nullScore > 0.0 )
 				{
 					brimstoneUseful = true;
 				}
@@ -2118,7 +2118,7 @@ public class MaximizerFrame
 			{
 				Modifiers mods = Modifiers.getModifiers( "_slimeHate" );
 				if ( mods != null &&
-					this.getScore( mods ) - nullScore > 0.0f )
+					this.getScore( mods ) - nullScore > 0.0 )
 				{
 					slimeHateUseful = true;
 				}
@@ -2128,7 +2128,7 @@ public class MaximizerFrame
 			{
 				Modifiers mods = Modifiers.getModifiers( "_stickers" );
 				if ( mods != null &&
-					this.getScore( mods ) - nullScore > 0.0f )
+					this.getScore( mods ) - nullScore > 0.0 )
 				{
 					stickersUseful = true;
 				}
@@ -2253,7 +2253,7 @@ public class MaximizerFrame
 						}
 						if ( hoboPowerUseful && name.startsWith( "Hodgman's" ) )
 						{
-							Modifiers.hoboPower = 100.0f;
+							Modifiers.hoboPower = 100.0;
 							count |= Evaluator.AUTOMATIC_FLAG;
 							item = item.getInstance( count );
 						}
@@ -2323,11 +2323,11 @@ public class MaximizerFrame
 					}
 
 					if ( ( hoboPowerUseful &&
-							mods.get( Modifiers.HOBO_POWER ) > 0.0f ) ||
+							mods.get( Modifiers.HOBO_POWER ) > 0.0 ) ||
 						( brimstoneUseful &&
 							mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
 						( slimeHateUseful &&
-							mods.get( Modifiers.SLIME_HATES_IT ) > 0.0f ) ||
+							mods.get( Modifiers.SLIME_HATES_IT ) > 0.0 ) ||
 						( stickersUseful &&
 							EquipmentManager.isStickerWeapon( item ) ) ||
 						( this.clownosity > 0 &&
@@ -2353,9 +2353,9 @@ public class MaximizerFrame
 					{
 						slot = Evaluator.WATCHES;
 					}
-					float delta = this.getScore( mods ) - nullScore;
-					if ( delta < 0.0f ) continue;
-					if ( delta == 0.0f )
+					double delta = this.getScore( mods ) - nullScore;
+					if ( delta < 0.0 ) continue;
+					if ( delta == 0.0 )
 					{
 						if ( KoLCharacter.hasEquipped( item ) ) break gotItem;
 						if ( ((count >> Evaluator.INITIAL_SHIFT) & Evaluator.SUBTOTAL_MASK) == 0 ) continue;
@@ -2527,7 +2527,7 @@ public class MaximizerFrame
 		private boolean scored = false;
 		private boolean tiebreakered = false;
 		private boolean exceeded;
-		private float score, tiebreaker;
+		private double score, tiebreaker;
 		private int simplicity;
 		private int beeosity;
 
@@ -2559,7 +2559,7 @@ public class MaximizerFrame
 			return super.toString();
 		}
 
-		public float getScore()
+		public double getScore()
 		{
 			if ( this.scored ) return this.score;
 			if ( !this.calculated ) this.calculate();
@@ -2582,7 +2582,7 @@ public class MaximizerFrame
 			return this.score;
 		}
 
-		public float getTiebreaker()
+		public double getTiebreaker()
 		{
 			if ( this.tiebreakered ) return this.tiebreaker;
 			if ( !this.calculated ) this.calculate();
@@ -2609,12 +2609,12 @@ public class MaximizerFrame
 		{
 			if ( !(o instanceof Spec) ) return 1;
 			Spec other = (Spec) o;
-			int rv = Float.compare( this.getScore(), other.getScore() );
+			int rv = Double.compare( this.getScore(), other.getScore() );
 			if ( this.failed != other.failed ) return this.failed ? -1 : 1;
 			if ( rv != 0 ) return rv;
 			rv = other.beeosity - this.beeosity;
 			if ( rv != 0 ) return rv;
-			rv = Float.compare( this.getTiebreaker(), other.getTiebreaker() );
+			rv = Double.compare( this.getTiebreaker(), other.getTiebreaker() );
 			if ( rv != 0 ) return rv;
 			rv = this.simplicity - other.simplicity;
 			if ( rv != 0 ) return rv;
@@ -3192,11 +3192,11 @@ public class MaximizerFrame
 		private boolean isEquipment, isShrug, priority;
 		private String cmd, text;
 		private int slot;
-		private float boost;
+		private double boost;
 		private AdventureResult item, effect;
 		private FamiliarData fam;
 
-		private Boost( String cmd, String text, AdventureResult item, float boost )
+		private Boost( String cmd, String text, AdventureResult item, double boost )
 		{
 			this.cmd = cmd;
 			this.text = text;
@@ -3210,7 +3210,7 @@ public class MaximizerFrame
 			}
 		}
 
-		public Boost( String cmd, String text, AdventureResult effect, boolean isShrug, AdventureResult item, float boost, boolean priority )
+		public Boost( String cmd, String text, AdventureResult effect, boolean isShrug, AdventureResult item, double boost, boolean priority )
 		{
 			this( cmd, text, item, boost );
 			this.isEquipment = false;
@@ -3219,14 +3219,14 @@ public class MaximizerFrame
 			this.priority = priority;
 		}
 
-		public Boost( String cmd, String text, int slot, AdventureResult item, float boost )
+		public Boost( String cmd, String text, int slot, AdventureResult item, double boost )
 		{
 			this( cmd, text, item, boost );
 			this.isEquipment = true;
 			this.slot = slot;
 		}
 
-		public Boost( String cmd, String text, FamiliarData fam, float boost )
+		public Boost( String cmd, String text, FamiliarData fam, double boost )
 		{
 			this( cmd, text, (AdventureResult) null, boost );
 			this.isEquipment = true;
@@ -3254,7 +3254,7 @@ public class MaximizerFrame
 				return this.priority ? -1 : 1;
 			}
 			if ( this.isEquipment ) return 0;	// preserve order of addition
-			int rv = Float.compare( other.boost, this.boost );
+			int rv = Double.compare( other.boost, this.boost );
 			return rv;
 		}
 

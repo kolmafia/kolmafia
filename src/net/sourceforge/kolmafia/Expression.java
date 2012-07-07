@@ -59,9 +59,9 @@ public class Expression
 	protected ArrayList literals;	// Strings & floats needed by expression
 	protected AdventureResult effect;
 
-	private static float[] cachedStack;
+	private static double[] cachedStack;
 
-	protected synchronized static float[] stackFactory( float[] recycle )
+	protected synchronized static double[] stackFactory( double[] recycle )
 	{
 		if ( recycle != null )
 		{	// Reuse this stack for the next evaluation.
@@ -70,13 +70,13 @@ public class Expression
 		}
 		else if ( cachedStack != null )
 		{	// We have a stack handy; it's yours now.
-			float[] rv = cachedStack;
+			double[] rv = cachedStack;
 			cachedStack = null;
 			return rv;
 		}
 		else
 		{	// We're all out of stacks.
-			return new float[ STACK_SIZE ];
+			return new double[ STACK_SIZE ];
 		}
 	}
 
@@ -110,7 +110,7 @@ public class Expression
 	{
 	}
 
-	public float eval()
+	public double eval()
 	{
 		try
 		{
@@ -120,16 +120,16 @@ public class Expression
 		{
 			KoLmafia.updateDisplay( "Unreasonably complex expression for " + 
 				this.name + ": " + e );
-			return 0.0f;
+			return 0.0;
 		}
 	}
 
-	private float evalInternal()
+	private double evalInternal()
 	{
-		float[] s = stackFactory( null );
+		double[] s = stackFactory( null );
 		int sp = 0;
 		int pc = 0;
-		float v = 0.0f;
+		double v = 0.0;
 
 		while ( true )
 		{
@@ -176,7 +176,7 @@ public class Expression
 				return v;
 
 			case '^':
-				v = (float) Math.pow( s[ --sp ], s[ --sp ] );
+				v = (double) Math.pow( s[ --sp ], s[ --sp ] );
 				break;
 
 			case '*':
@@ -194,21 +194,21 @@ public class Expression
 				break;
 
 			case 'c':
-				v = (float) Math.ceil( s[ --sp ] );
+				v = (double) Math.ceil( s[ --sp ] );
 				break;
 			case 'f':
-				v = (float) Math.floor( s[ --sp ] );
+				v = (double) Math.floor( s[ --sp ] );
 				break;
 			case 's':
-				v = (float) Math.sqrt( s[ --sp ] );
-				if ( Float.isNaN(v) )
+				v = (double) Math.sqrt( s[ --sp ] );
+				if ( Double.isNaN(v) )
 				{
-					v = 0.0f;
+					v = 0.0;
 					KoLmafia.updateDisplay( "Square root of a negative number replaced with zero.");
 				}
 				break;
 			case 'p':
-				v = StringUtilities.parseFloat( Preferences.getString( (String) this.literals.get( (int) s[ --sp ] ) ) );
+				v = StringUtilities.parseDouble( Preferences.getString( (String) this.literals.get( (int) s[ --sp ] ) ) );
 				break;
 			case 'm':
 				v = Math.min( s[ --sp ], s[ --sp ] );
@@ -218,25 +218,25 @@ public class Expression
 				break;
 
 			case '#':
-				v = ((Float) this.literals.get( (int) s[ --sp ] )).floatValue();
+				v = ((Double) this.literals.get( (int) s[ --sp ] )).doubleValue();
 				break;
 				
 			// Valid with ModifierExpression:
 			case 'l':
-				v = Modifiers.currentLocation.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0f : 1.0f;
+				v = Modifiers.currentLocation.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0 : 1.0;
 				break;
 			case 'z':
-				v = Modifiers.currentZone.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0f : 1.0f;
+				v = Modifiers.currentZone.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0 : 1.0;
 				break;
 			case 'w':
-				v = Modifiers.currentFamiliar.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0f : 1.0f;
+				v = Modifiers.currentFamiliar.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0 : 1.0;
 				break;
 			case 'h':
-				v = Modifiers.mainhandClass.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0f : 1.0f;
+				v = Modifiers.mainhandClass.indexOf( (String) this.literals.get( (int) s[ --sp ] ) ) == -1 ? 0.0 : 1.0;
 				break;
 			case 'e':
 				AdventureResult eff = new AdventureResult( (String) this.literals.get( (int) s[ --sp ] ), 1, true );
-				v = eff == null ? 0.0f :
+				v = eff == null ? 0.0 :
 					Math.max( 0, eff.getCount( KoLConstants.activeEffects ) );
 				break;
 			case 'b':
@@ -284,13 +284,13 @@ public class Expression
 				v = KoLCharacter.getFullness();
 				break;
 			case 'G':
-				v = HolidayDatabase.getGrimaciteEffect() / 10.0f;
+				v = HolidayDatabase.getGrimaciteEffect() / 10.0;
 				break;
 			case 'H':
 				v = Modifiers.hoboPower;
 				break;
 			case 'J':
-				v = HolidayDatabase.getHoliday().equals( "Festival of Jarlsberg" ) ? 1.0f : 0.0f;
+				v = HolidayDatabase.getHoliday().equals( "Festival of Jarlsberg" ) ? 1.0 : 0.0;
 				break;
 			case 'L':
 				v = KoLCharacter.getLevel();
@@ -305,7 +305,7 @@ public class Expression
 				v = KoLCharacter.getSpleenUse();
 				break;
 			case 'T':
-				v = this.effect == null ? 0.0f :
+				v = this.effect == null ? 0.0 :
 					Math.max( 1, this.effect.getCount( KoLConstants.activeEffects ) );
 				break;
 			case 'U':
@@ -349,7 +349,7 @@ public class Expression
 				}
 				KoLmafia.updateDisplay( "Evaluator bytecode invalid at " +
 							(pc - 1) + ": " + String.valueOf( this.bytecode ) );
-				return 0.0f;
+				return 0.0;
 			}
 			s[ sp++ ] = v;
 		}
@@ -542,15 +542,15 @@ public class Expression
 		Matcher m = NUM_PATTERN.matcher( this.text );
 		if ( m.matches() )
 		{
-			float v = Float.parseFloat( m.group( 1 ) );
+			double v = Double.parseDouble( m.group( 1 ) );
 			this.text = m.group( 2 );
-			if ( v % 1.0f == 0.0f && v >= -0x7F00 && v < 0x8000 )
+			if ( v % 1.0 == 0.0 && v >= -0x7F00 && v < 0x8000 )
 			{
 				return String.valueOf( (char)((int)v + 0x8000) );
 			}
 			else
 			{
-				return this.literal( new Float( v ), '#' );
+				return this.literal( new Double( v ), '#' );
 			}
 		}
 		if ( this.optional( "-" ) )

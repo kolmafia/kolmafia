@@ -488,7 +488,7 @@ public class ListCellRendererFactory
 			return item.initial + item.creatable <= 0;
 		}
 
-		protected void appendRange( final StringBuffer stringForm, final float range, final String suffix )
+		protected void appendRange( final StringBuffer stringForm, final double range, final String suffix )
 		{
 			String val = ( range == 0.0f ) ? "+0.00" : KoLConstants.ROUNDED_MODIFIER_FORMAT.format( range );
 			this.appendRange( stringForm, val, suffix );

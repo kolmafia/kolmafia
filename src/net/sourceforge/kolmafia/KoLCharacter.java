@@ -1854,12 +1854,12 @@ public abstract class KoLCharacter
 		return KoLCharacter.currentModifiers;
 	}
 
-	public static final float currentNumericModifier( final String name )
+	public static final double currentNumericModifier( final String name )
 	{
 		return KoLCharacter.currentModifiers.get( name );
 	}
 
-	public static final float currentNumericModifier( final int index )
+	public static final double currentNumericModifier( final int index )
 	{
 		return KoLCharacter.currentModifiers.get( index );
 	}
@@ -1945,9 +1945,9 @@ public abstract class KoLCharacter
 	 * Accessor method to retrieve the total current combat percent adjustment
 	 */
 
-	public static final float getCombatRateAdjustment()
+	public static final double getCombatRateAdjustment()
 	{
-		float rate = KoLCharacter.currentModifiers.get( Modifiers.COMBAT_RATE );
+		double rate = KoLCharacter.currentModifiers.get( Modifiers.COMBAT_RATE );
 		if ( Modifiers.currentZone.indexOf( "the sea" ) != -1 )
 		{
 			rate += KoLCharacter.currentModifiers.get( Modifiers.UNDERWATER_COMBAT_RATE );
@@ -1959,7 +1959,7 @@ public abstract class KoLCharacter
 	 * Accessor method to retrieve the total current initiative adjustment
 	 */
 
-	public static final float getInitiativeAdjustment()
+	public static final double getInitiativeAdjustment()
 	{
 		// Penalty is constrained to be non-positive
 		return KoLCharacter.currentModifiers.get( Modifiers.INITIATIVE ) +
@@ -1970,7 +1970,7 @@ public abstract class KoLCharacter
 	 * Accessor method to retrieve the total current fixed experience adjustment
 	 */
 
-	public static final float getExperienceAdjustment()
+	public static final double getExperienceAdjustment()
 	{
 		return KoLCharacter.currentModifiers.get(
 			Modifiers.MUS_EXPERIENCE + KoLCharacter.getPrimeIndex() );
@@ -1982,7 +1982,7 @@ public abstract class KoLCharacter
 	 * @return Total Current Meat Drop Percent Adjustment
 	 */
 
-	public static final float getMeatDropPercentAdjustment()
+	public static final double getMeatDropPercentAdjustment()
 	{
 		// Penalty is constrained to be non-positive
 		return KoLCharacter.currentModifiers.get( Modifiers.MEATDROP ) +
@@ -1995,7 +1995,7 @@ public abstract class KoLCharacter
 	 * @return Total Current Item Drop Percent Adjustment
 	 */
 
-	public static final float getItemDropPercentAdjustment()
+	public static final double getItemDropPercentAdjustment()
 	{
 		return KoLCharacter.currentModifiers.get( Modifiers.ITEMDROP ) +
 			Math.min( KoLCharacter.currentModifiers.get( Modifiers.ITEMDROP_PENALTY ), 0.0f );
@@ -2092,7 +2092,7 @@ public abstract class KoLCharacter
 	public static final int getRestingHP()
 	{
 		int rv = (int) KoLCharacter.currentModifiers.get( Modifiers.BASE_RESTING_HP );
-		float factor = KoLCharacter.currentModifiers.get( Modifiers.RESTING_HP_PCT );
+		double factor = KoLCharacter.currentModifiers.get( Modifiers.RESTING_HP_PCT );
 		if ( factor != 0 )
 		{
 			rv = (int) (rv * (factor + 100.0f) / 100.0f);
@@ -2103,7 +2103,7 @@ public abstract class KoLCharacter
 	public static final int getRestingMP()
 	{
 		int rv = (int) KoLCharacter.currentModifiers.get( Modifiers.BASE_RESTING_MP );
-		float factor = KoLCharacter.currentModifiers.get( Modifiers.RESTING_MP_PCT );
+		double factor = KoLCharacter.currentModifiers.get( Modifiers.RESTING_MP_PCT );
 		if ( factor != 0 )
 		{
 			rv = (int) (rv * (factor + 100.0f) / 100.0f);
@@ -2139,12 +2139,12 @@ public abstract class KoLCharacter
 	}
 
 
-	public static final float elementalResistanceByLevel( final int levels )
+	public static final double elementalResistanceByLevel( final int levels )
 	{
 		return KoLCharacter.elementalResistanceByLevel( levels, true );
 	}
 
-	public static final float elementalResistanceByLevel( final int levels, final boolean mystBonus )
+	public static final double elementalResistanceByLevel( final int levels, final boolean mystBonus )
 	{
 		// salien has a formula which matches my data very nicely:
 		// http://jick-nerfed.us/forums/viewtopic.php?t=4526
@@ -2166,7 +2166,7 @@ public abstract class KoLCharacter
 			value += 5.0;
 		}
 
-		return (float)value;
+		return value;
 	}
 
 	/**
@@ -2175,7 +2175,7 @@ public abstract class KoLCharacter
 	 * @return Total Current Resistance to specified element
 	 */
 
-	public static final float getElementalResistance( final int element )
+	public static final double getElementalResistance( final int element )
 	{
 		if ( element == MonsterDatabase.NONE )
 		{
@@ -4506,10 +4506,10 @@ public abstract class KoLCharacter
 		// Lastly, experience adjustment also implicitly depends on
 		// monster level.  Add that information.
 
-		float monsterLevel = newModifiers.get( Modifiers.MONSTER_LEVEL );
+		double monsterLevel = newModifiers.get( Modifiers.MONSTER_LEVEL );
 		newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 4.0f, "ML/4" );
 
-		float exp = newModifiers.get( Modifiers.EXPERIENCE );
+		double exp = newModifiers.get( Modifiers.EXPERIENCE );
 		if ( exp != 0.0f )
 		{
 			String tuning = newModifiers.getString( Modifiers.STAT_TUNING );

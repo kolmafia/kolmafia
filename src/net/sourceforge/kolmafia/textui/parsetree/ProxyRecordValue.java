@@ -120,9 +120,9 @@ public class ProxyRecordValue
 			return DataTypes.makeIntValue( ((Integer) rv).intValue() );
 		}
 
-		if ( rv instanceof Float )
+		if ( rv instanceof Double )
 		{
-			return DataTypes.makeFloatValue( ((Float) rv).floatValue() );
+			return DataTypes.makeFloatValue( ((Double) rv).doubleValue() );
 		}
 
 		if ( rv instanceof String )
@@ -675,7 +675,7 @@ public class ProxyRecordValue
 			return ((MonsterData) this.content).getMaxMeat();
 		}
 
-		public float get_base_mainstat_exp()
+		public double get_base_mainstat_exp()
 		{
 			return ((MonsterData) this.content).getExperience();
 		}

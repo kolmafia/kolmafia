@@ -147,8 +147,8 @@ public class SpeculateCommand
 
 	private static void doNumeric( final String mod, final Modifiers mods, final StringBuffer buf )
 	{
-		float was = KoLCharacter.currentNumericModifier( mod );
-		float now = mods.get( mod );
+		double was = KoLCharacter.currentNumericModifier( mod );
+		double now = mods.get( mod );
 		if ( now == was )
 		{
 			return;
