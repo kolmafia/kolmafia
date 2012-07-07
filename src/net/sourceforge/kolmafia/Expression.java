@@ -204,6 +204,7 @@ public class Expression
 				if ( Float.isNaN(v) )
 				{
 					v = 0.0f;
+					KoLmafia.updateDisplay( "Square root of a negative number replaced with zero.");
 				}
 				break;
 			case 'p':
