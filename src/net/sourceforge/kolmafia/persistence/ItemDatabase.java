@@ -871,11 +871,11 @@ public class ItemDatabase
 		// 1-3 adventures
 
 		// Consumables that generate no adventures do not benefit from ode or milk.
-		float average = ( start + end ) / 2.0f - advs;
+		double average = ( start + end ) / 2.0 - advs;
 		boolean benefit = ( average != 0.0 );
 
-		float gain0 = benefit ? ( average ) : 0.0f;
-		float gain1 = benefit ? ( average + unitCost ) : 0.0f;
+		double gain0 = benefit ? ( average ) : 0.0;
+		double gain1 = benefit ? ( average + unitCost ) : 0.0;
 
 		// With no effects active, average
 		ItemDatabase.addAdventureRange( name, unitCost, false, false, false, false, gain0 );
@@ -889,12 +889,12 @@ public class ItemDatabase
 			return;
 		}
 
-		float gain2 = benefit ? ( average + unitCost * 2.0f ) : 0.0f;
-		float gain3 = benefit ? ( average + unitCost * 3.0f ) : 0.0f;
-		float gain0a = benefit ? ( average + 2.0f ) : 0.0f;
-		float gain1a = benefit ? ( average + unitCost + 2.0f ) : 0.0f;
-		float gain2a = benefit ? ( average + unitCost * 2.0f + 2.0f ) : 0.0f;
-		float gain3a = benefit ? ( average + unitCost * 3.0f + 2.0f ) : 0.0f;
+		double gain2 = benefit ? ( average + unitCost * 2.0 ) : 0.0;
+		double gain3 = benefit ? ( average + unitCost * 3.0 ) : 0.0;
+		double gain0a = benefit ? ( average + 2.0 ) : 0.0;
+		double gain1a = benefit ? ( average + unitCost + 2.0 ) : 0.0;
+		double gain2a = benefit ? ( average + unitCost * 2.0 + 2.0 ) : 0.0;
+		double gain3a = benefit ? ( average + unitCost * 3.0 + 2.0 ) : 0.0;
 
 		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, false, gain1 );
 		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, false, gain1 );
@@ -924,21 +924,21 @@ public class ItemDatabase
 		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, true, gain3a );
 	}
 
-	private static final void addAdventureRange( final String name, int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final float result )
+	private static final void addAdventureRange( final String name, int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final double result )
 	{
 		// Remove adventure gains from zodiac signs
-		ItemDatabase.getAdventureMap( false, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Float( result ) );
-		ItemDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Float( result / ( unitCost == 0 ? 1 : unitCost ) ) );
+		ItemDatabase.getAdventureMap( false, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Double( result ) );
+		ItemDatabase.getAdventureMap( true, gainEffect1, gainEffect2, gainEffect3, gainEffect4 ).put( name, new Double( result / ( unitCost == 0 ? 1 : unitCost ) ) );
 	}
 
-	private static final Map<String, Float> getAdventureMap( final boolean perUnit,
+	private static final Map<String, Double> getAdventureMap( final boolean perUnit,
 						  final boolean gainEffect1, final boolean gainEffect2,
 						  final boolean gainEffect3, final boolean gainEffect4)
 	{
 		return ItemDatabase.advsByName[ perUnit ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ][ gainEffect3 ? 1 : 0 ][ gainEffect4 ? 1 : 0 ];
 	}
 
-	private static final String extractStatRange( String range, float statFactor )
+	private static final String extractStatRange( String range, double statFactor )
 	{
 		if ( range == null )
 		{
@@ -958,12 +958,12 @@ public class ItemDatabase
 
 		if ( dashIndex == -1 )
 		{
-			float num = isNegative ? 0 - start : start;
+			double num = isNegative ? 0 - start : start;
 			return KoLConstants.SINGLE_PRECISION_FORMAT.format( statFactor * num );
 		}
 
 		int end = StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
-		float num = ( start + end ) / ( isNegative ? -2.0f : 2.0f );
+		double num = ( start + end ) / ( isNegative ? -2.0 : 2.0 );
 		return KoLConstants.SINGLE_PRECISION_FORMAT.format( ( isNegative ? 1 : statFactor ) * num );
 	}
 
@@ -1764,16 +1764,16 @@ public class ItemDatabase
 		return ItemDatabase.foldGroupsByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
-	public static final float getAdventureRange( final String name )
+	public static final double getAdventureRange( final String name )
 	{
 		if ( name == null )
 		{
-			return 0.0f;
+			return 0.0;
 		}
 
 		String cname = StringUtilities.getCanonicalName( name );
 		boolean perUnit = Preferences.getBoolean( "showGainsPerUnit" );
-		Float range = null;
+		Double range = null;
 
 		if ( ItemDatabase.getRawFullness( name ) != null )
 		{
@@ -1802,10 +1802,10 @@ public class ItemDatabase
 
 		if ( range == null )
 		{
-			return 0.0f;
+			return 0.0;
 		}
 
-		return range.floatValue();
+		return range.doubleValue();
 	}
 
 	public static final String getMuscleByName( final String name )
@@ -1827,7 +1827,7 @@ public class ItemDatabase
 		}
 
 		String muscle = ItemDatabase.muscleByName.get( StringUtilities.getCanonicalName( name ) );
-		float muscleFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MUS_EXPERIENCE_PCT ) + 100.0f ) / 100.0f;
+		double muscleFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MUS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		String range = (String) ItemDatabase.extractStatRange( muscle, muscleFactor );
 		return range == null ? "+0.0" : range;
 	}
@@ -1851,7 +1851,7 @@ public class ItemDatabase
 		}
 
 		String mysticality = ItemDatabase.mysticalityByName.get( StringUtilities.getCanonicalName( name ) );
-		float mysticalityFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MYS_EXPERIENCE_PCT ) + 100.0f ) / 100.0f;
+		double mysticalityFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MYS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		String range = (String) ItemDatabase.extractStatRange( mysticality, mysticalityFactor );
 		return range == null ? "+0.0" : range;
 	}
@@ -1875,7 +1875,7 @@ public class ItemDatabase
 		}
 
 		String moxie = ItemDatabase.moxieByName.get( StringUtilities.getCanonicalName( name ) );
-		float moxieFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MOX_EXPERIENCE_PCT ) + 100.0f ) / 100.0f;
+		double moxieFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MOX_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		String range = (String) ItemDatabase.extractStatRange( moxie, moxieFactor );
 		return range == null ? "+0.0" : range;
 	}

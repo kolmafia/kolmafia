@@ -105,7 +105,7 @@ public class Concoction
 	public int freeTotal;
 
 	private int fullness, inebriety, spleenhit;
-	private float mainstatGain;
+	private double mainstatGain;
 
 	public Concoction( final AdventureResult concoction, final int mixingMethod )
 	{
@@ -198,7 +198,7 @@ public class Concoction
 			range = ItemDatabase.getMoxieRange( this.name );
 			break;
 		}
-		this.mainstatGain = StringUtilities.parseFloat( range );
+		this.mainstatGain = StringUtilities.parseDouble( range );
 	}
 
 	public boolean usesIngredient( int itemId )
@@ -300,8 +300,8 @@ public class Concoction
 			return thisCantConsume ? 1 : -1;
 		}
 
-		float adventures1 = ItemDatabase.getAdventureRange( this.name );
-		float adventures2 = ItemDatabase.getAdventureRange( o.name );
+		double adventures1 = ItemDatabase.getAdventureRange( this.name );
+		double adventures2 = ItemDatabase.getAdventureRange( o.name );
 
 		if ( adventures1 != adventures2 )
 		{
@@ -332,8 +332,8 @@ public class Concoction
 			return spleenhit2 - spleenhit1;
 		}
 
-		float gain1 = this.mainstatGain;
-		float gain2 = o.mainstatGain;
+		double gain1 = this.mainstatGain;
+		double gain2 = o.mainstatGain;
 
 		if ( gain1 != gain2 )
 		{

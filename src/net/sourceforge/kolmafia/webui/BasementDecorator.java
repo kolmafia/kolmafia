@@ -344,7 +344,7 @@ public class BasementDecorator
 
 		String effectName = effect.getName();
 
-		if ( effect.getComputedBoost() == 0.0f )
+		if ( effect.getComputedBoost() == 0.0 )
 		{
 			if ( effectName.equals( Effect.ASTRAL_SHELL.effectName() ) )
 			{
@@ -408,7 +408,7 @@ public class BasementDecorator
 			this.name = name;
 
 			this.computedBoost = this.computeBoost();
-			this.effectiveBoost = this.computedBoost > 0.0f ? this.computedBoost : 0 - this.computedBoost;
+			this.effectiveBoost = this.computedBoost > 0.0 ? this.computedBoost : 0 - this.computedBoost;
 
 			this.action =
 				this.computedBoost < 0 ? "uneffect " + name : MoodManager.getDefaultAction( "lose_effect", name );
@@ -489,9 +489,9 @@ public class BasementDecorator
 
 		public int compareTo( final Object o )
 		{
-			if ( this.effectiveBoost == 0.0f )
+			if ( this.effectiveBoost == 0.0 )
 			{
-				if ( ( (StatBooster) o ).effectiveBoost != 0.0f )
+				if ( ( (StatBooster) o ).effectiveBoost != 0.0 )
 				{
 					return -1;
 				}
@@ -506,7 +506,7 @@ public class BasementDecorator
 				return this.name.compareToIgnoreCase( ( (StatBooster) o ).name );
 			}
 
-			if ( ( (StatBooster) o ).effectiveBoost == 0.0f )
+			if ( ( (StatBooster) o ).effectiveBoost == 0.0 )
 			{
 				return 1;
 			}
@@ -532,7 +532,7 @@ public class BasementDecorator
 		public int getItemPrice()
 		{
 			if ( this.item == null ) return 0;
-			if ( MallPriceDatabase.getAge( this.item.getItemId() ) > 7.0f )
+			if ( MallPriceDatabase.getAge( this.item.getItemId() ) > 7.0 )
 			{
 				StoreManager.getMallPrice( this.item );
 			}
@@ -629,16 +629,16 @@ public class BasementDecorator
 				return StatBooster.boostMaxMP( m );
 			}
 
-			float base = StatBooster.getEqualizedStat( BasementRequest.getPrimaryBoost() );
-			float boost =
-				m.get( BasementRequest.getSecondaryBoost() ) + m.get( BasementRequest.getPrimaryBoost() ) * base / 100.0f;
+			double base = StatBooster.getEqualizedStat( BasementRequest.getPrimaryBoost() );
+			double boost =
+				m.get( BasementRequest.getSecondaryBoost() ) + m.get( BasementRequest.getPrimaryBoost() ) * base / 100.0;
 
 			return (int) Math.ceil( boost );
 		}
 
-		public static float getEqualizedStat( final int mod )
+		public static double getEqualizedStat( final int mod )
 		{
-			float currentStat = 0.0f;
+			double currentStat = 0.0;
 
 			switch ( mod )
 			{
@@ -652,7 +652,7 @@ public class BasementDecorator
 				currentStat = KoLCharacter.getBaseMoxie();
 				break;
 			default:
-				return 0.0f;
+				return 0.0;
 			}
 
 			if ( KoLConstants.activeEffects.contains( BasementRequest.MUS_EQUAL ) )
@@ -675,37 +675,37 @@ public class BasementDecorator
 
 		public static int boostMaxHP( final Modifiers m )
 		{
-			float addedMuscleFixed = m.get( Modifiers.MUS );
-			float addedMusclePercent = m.get( Modifiers.MUS_PCT );
+			double addedMuscleFixed = m.get( Modifiers.MUS );
+			double addedMusclePercent = m.get( Modifiers.MUS_PCT );
 			int addedHealthFixed = (int) m.get( Modifiers.HP );
 
-			if ( addedMuscleFixed == 0.0f && addedMusclePercent == 0.0f && addedHealthFixed == 0 )
+			if ( addedMuscleFixed == 0.0 && addedMusclePercent == 0.0 && addedHealthFixed == 0 )
 			{
 				return 0;
 			}
 
-			float muscleBase = StatBooster.getEqualizedStat( Modifiers.MUS_PCT );
-			float muscleBonus = addedMuscleFixed + (float) Math.floor( addedMusclePercent * muscleBase / 100.0f );
-			float muscleMultiplicator = 1.0f;
+			double muscleBase = StatBooster.getEqualizedStat( Modifiers.MUS_PCT );
+			double muscleBonus = addedMuscleFixed + Math.floor( addedMusclePercent * muscleBase / 100.0 );
+			double muscleMultiplicator = 1.0;
 
 			if ( KoLCharacter.isMuscleClass() )
 			{
-				muscleMultiplicator += 0.5f;
+				muscleMultiplicator += 0.5;
 			}
 
 			if ( StatBooster.absOfTin )
 			{
-				muscleMultiplicator += 0.10f;
+				muscleMultiplicator += 0.10;
 			}
 
 			if ( StatBooster.gnomishHardigness )
 			{
-				muscleMultiplicator += 0.05f;
+				muscleMultiplicator += 0.05;
 			}
 
 			if ( StatBooster.spiritOfRavioli )
 			{
-				muscleMultiplicator += 0.25f;
+				muscleMultiplicator += 0.25;
 			}
 
 			return (int) Math.ceil( muscleBonus * muscleMultiplicator ) + addedHealthFixed;
@@ -727,37 +727,37 @@ public class BasementDecorator
 				statPercentModifier = Modifiers.MYS_PCT;
 			}
 
-			float addedStatFixed = m.get( statModifier );
-			float addedStatPercent = m.get( statPercentModifier );
+			double addedStatFixed = m.get( statModifier );
+			double addedStatPercent = m.get( statPercentModifier );
 			int addedManaFixed = (int) m.get( Modifiers.MP );
 
-			if ( addedStatFixed == 0.0f && addedStatPercent == 0.0f && addedManaFixed == 0.0f )
+			if ( addedStatFixed == 0.0 && addedStatPercent == 0.0 && addedManaFixed == 0.0 )
 			{
 				return 0;
 			}
 
-			float statBase = StatBooster.getEqualizedStat( statPercentModifier );
-			float manaBonus = addedStatFixed + addedStatPercent * statBase / 100.0f ;
-			float manaMultiplicator = 1.0f;
+			double statBase = StatBooster.getEqualizedStat( statPercentModifier );
+			double manaBonus = addedStatFixed + addedStatPercent * statBase / 100.0 ;
+			double manaMultiplicator = 1.0;
 
 			if ( KoLCharacter.isMysticalityClass() )
 			{
-				manaMultiplicator += 0.5f;
+				manaMultiplicator += 0.5;
 			}
 
 			if ( StatBooster.gnomishUgnderstanding )
 			{
-				manaMultiplicator += 0.05f;
+				manaMultiplicator += 0.05;
 			}
 
 			if ( StatBooster.marginallyInsane )
 			{
-				manaMultiplicator += 0.1f;
+				manaMultiplicator += 0.1;
 			}
 
 			if ( StatBooster.wisdomOfTheElderTortoise )
 			{
-				manaMultiplicator += 0.5f;
+				manaMultiplicator += 0.5;
 			}
 
 			return (int) Math.ceil( manaBonus * manaMultiplicator ) + addedManaFixed;

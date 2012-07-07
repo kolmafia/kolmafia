@@ -357,7 +357,7 @@ public class CompactSidePane
 				boolean added = false;
 				if ( FamiliarDatabase.isVolleyType( id ) ||
 					FamiliarDatabase.isSombreroType( id ) ||
-					(mods != null && mods.get( Modifiers.VOLLEYBALL_WEIGHT ) != 0.0f) )
+					(mods != null && mods.get( Modifiers.VOLLEYBALL_WEIGHT ) != 0.0) )
 				{
 					stat.add( new FamiliarMenuItem( fam ) );
 					added = true;
@@ -641,7 +641,7 @@ public class CompactSidePane
 			KoLCharacter.getDamageAbsorption() ) );
 		buf.append( "<br>(" );
 		buf.append( KoLConstants.ROUNDED_MODIFIER_FORMAT.format(
-			Math.max( 0.0f, ( (float) Math.sqrt( Math.min( 10000.0f, KoLCharacter.getDamageAbsorption() * 10.0f ) ) - 10.0f ) ) ) );
+			Math.max( 0.0, ( (double) Math.sqrt( Math.min( 10000.0, KoLCharacter.getDamageAbsorption() * 10.0 ) ) - 10.0 ) ) ) );
 		buf.append( "%)<br>DR: " );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(
 			KoLCharacter.getDamageReduction() ) );
@@ -708,61 +708,61 @@ public class CompactSidePane
 			buf.append( " X" );
 		}
 		buf.append( "</td></tr>" );
-		float food = KoLCharacter.currentNumericModifier( Modifiers.FOODDROP );
-		float booze = KoLCharacter.currentNumericModifier( Modifiers.BOOZEDROP );
-		float hat = KoLCharacter.currentNumericModifier( Modifiers.HATDROP );
-		float weapon = KoLCharacter.currentNumericModifier( Modifiers.WEAPONDROP );
-		float offhand = KoLCharacter.currentNumericModifier( Modifiers.OFFHANDDROP );
-		float shirt = KoLCharacter.currentNumericModifier( Modifiers.SHIRTDROP );
-		float pants = KoLCharacter.currentNumericModifier( Modifiers.PANTSDROP );
-		float acc = KoLCharacter.currentNumericModifier( Modifiers.ACCESSORYDROP );
-		if ( food != 0f || booze != 0f || hat != 0f || weapon != 0f ||
-			offhand != 0f || shirt != 0f || pants != 0f || acc != 0f )
+		double food = KoLCharacter.currentNumericModifier( Modifiers.FOODDROP );
+		double booze = KoLCharacter.currentNumericModifier( Modifiers.BOOZEDROP );
+		double hat = KoLCharacter.currentNumericModifier( Modifiers.HATDROP );
+		double weapon = KoLCharacter.currentNumericModifier( Modifiers.WEAPONDROP );
+		double offhand = KoLCharacter.currentNumericModifier( Modifiers.OFFHANDDROP );
+		double shirt = KoLCharacter.currentNumericModifier( Modifiers.SHIRTDROP );
+		double pants = KoLCharacter.currentNumericModifier( Modifiers.PANTSDROP );
+		double acc = KoLCharacter.currentNumericModifier( Modifiers.ACCESSORYDROP );
+		if ( food != 0 || booze != 0 || hat != 0 || weapon != 0 ||
+			offhand != 0 || shirt != 0 || pants != 0 || acc != 0 )
 		{
 			buf.append( "<tr><td colspan=4>Special drops:" );
-			if ( food != 0f )
+			if ( food != 0 )
 			{
 				buf.append( " Food " );
 				buf.append( KoLConstants.MODIFIER_FORMAT.format( food ) );
 				buf.append( '%' );
 			}
-			if ( booze != 0f )
+			if ( booze != 0 )
 			{
 				buf.append( " Booze " );
 				buf.append( KoLConstants.MODIFIER_FORMAT.format( booze ) );
 				buf.append( '%' );
 			}
-			if ( hat != 0f )
+			if ( hat != 0 )
 			{
 				buf.append( " Hat " );
 				buf.append( KoLConstants.MODIFIER_FORMAT.format( hat ) );
 				buf.append( '%' );
 			}
-			if ( weapon != 0f )
+			if ( weapon != 0 )
 			{
 				buf.append( " Weapon " );
 				buf.append( KoLConstants.MODIFIER_FORMAT.format( weapon ) );
 				buf.append( '%' );
 			}
-			if ( offhand != 0f )
+			if ( offhand != 0 )
 			{
 				buf.append( " Offhand " );
 				buf.append( KoLConstants.MODIFIER_FORMAT.format( offhand ) );
 				buf.append( '%' );
 			}
-			if ( shirt != 0f )
+			if ( shirt != 0 )
 			{
 				buf.append( " Shirt " );
 				buf.append( KoLConstants.MODIFIER_FORMAT.format( shirt ) );
 				buf.append( '%' );
 			}
-			if ( pants != 0f )
+			if ( pants != 0 )
 			{
 				buf.append( " Pants " );
 				buf.append( KoLConstants.MODIFIER_FORMAT.format( pants ) );
 				buf.append( '%' );
 			}
-			if ( acc != 0f )
+			if ( acc != 0 )
 			{
 				buf.append( " Accessory " );
 				buf.append( KoLConstants.MODIFIER_FORMAT.format( acc ) );
@@ -845,12 +845,12 @@ public class CompactSidePane
 
 	private void addElement( StringBuffer buf, String name, int dmgModifier )
 	{
-		float wdmg = KoLCharacter.currentNumericModifier( dmgModifier );
-		float sdmg = KoLCharacter.currentNumericModifier(
+		double wdmg = KoLCharacter.currentNumericModifier( dmgModifier );
+		double sdmg = KoLCharacter.currentNumericModifier(
 			dmgModifier - Modifiers.COLD_DAMAGE + Modifiers.COLD_SPELL_DAMAGE );
 		int resist = (int) KoLCharacter.currentNumericModifier(
 			dmgModifier - Modifiers.COLD_DAMAGE + Modifiers.COLD_RESISTANCE );
-		if ( wdmg == 0.0f && sdmg == 0.0f && resist == 0 )
+		if ( wdmg == 0.0 && sdmg == 0.0 && resist == 0 )
 		{
 			return;	// skip this row entirely, it's all zeros
 		}
@@ -872,7 +872,7 @@ public class CompactSidePane
 	{
 		int resist = (int) KoLCharacter.currentNumericModifier(
 			Modifiers.SLIME_RESISTANCE );
-		float percent = KoLCharacter.elementalResistanceByLevel( resist, false );
+		double percent = KoLCharacter.elementalResistanceByLevel( resist, false );
 		int turns = CompactSidePane.SLIMED.getCount( KoLConstants.activeEffects );
 		if ( resist == 0 && turns == 0 )
 		{

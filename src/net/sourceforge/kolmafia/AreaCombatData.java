@@ -51,8 +51,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AreaCombatData
 {
-	private static float lastDropModifier = 0.0f;
-	private static float lastDropMultiplier = 0.0f;
+	private static double lastDropModifier = 0.0;
+	private static double lastDropMultiplier = 0.0;
 
 	private int minHit;
 	private int maxHit;
@@ -309,12 +309,12 @@ public class AreaCombatData
 	public boolean willHitSomething()
 	{
 		int hitStat = EquipmentManager.getAdjustedHitStat();
-		return AreaCombatData.hitPercent( hitStat, this.minHit() ) > 0.0f;
+		return AreaCombatData.hitPercent( hitStat, this.minHit() ) > 0.0;
 	}
 
-	public float getAverageML()
+	public double getAverageML()
 	{
-		float averageML = 0.0f;
+		double averageML = 0.0;
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
@@ -327,7 +327,7 @@ public class AreaCombatData
 			}
 
 			MonsterData monster = this.getMonster( i );
-			float weight = (float) weighting / (float) this.weights;
+			double weight = (double) weighting / (double) this.weights;
 			averageML += weight * monster.getAttack();
 		}
 
@@ -373,23 +373,23 @@ public class AreaCombatData
 		String statName = EquipmentManager.getHitStatType() == KoLConstants.MOXIE ? "Mox" : "Mus";
 		int hitstat = EquipmentManager.getAdjustedHitStat();
 
-		float minHitPercent = AreaCombatData.hitPercent( hitstat, this.minHit() );
-		float maxHitPercent = AreaCombatData.hitPercent( hitstat, this.maxHit );
+		double minHitPercent = AreaCombatData.hitPercent( hitstat, this.minHit() );
+		double maxHitPercent = AreaCombatData.hitPercent( hitstat, this.maxHit );
 		int minPerfectHit = AreaCombatData.perfectHit( hitstat, this.minHit() );
 		int maxPerfectHit = AreaCombatData.perfectHit( hitstat, this.maxHit );
-		float minEvadePercent = AreaCombatData.hitPercent( moxie, this.minEvade() );
-		float maxEvadePercent = AreaCombatData.hitPercent( moxie, this.maxEvade );
+		double minEvadePercent = AreaCombatData.hitPercent( moxie, this.minEvade() );
+		double maxEvadePercent = AreaCombatData.hitPercent( moxie, this.maxEvade );
 		int minPerfectEvade = AreaCombatData.perfectHit( moxie, this.minEvade() );
 		int maxPerfectEvade = AreaCombatData.perfectHit( moxie, this.maxEvade );
 
 		// statGain constants
-		float experienceAdjustment = KoLCharacter.getExperienceAdjustment();
+		double experienceAdjustment = KoLCharacter.getExperienceAdjustment();
 
 		// Area Combat percentage
-		float combatFactor = this.areaCombatPercent() / 100.0f;
+		double combatFactor = this.areaCombatPercent() / 100.0;
 
 		// Iterate once through monsters to calculate average statGain
-		float averageExperience = 0.0f;
+		double averageExperience = 0.0;
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
@@ -402,7 +402,7 @@ public class AreaCombatData
 			}
 
 			MonsterData monster = this.getMonster( i );
-			float weight = (float) weighting / (float) this.weights;
+			double weight = (double) weighting / (double) this.weights;
 			averageExperience += weight * (monster.getExperience() + experienceAdjustment);
 		}
 
@@ -417,7 +417,7 @@ public class AreaCombatData
 
 		if ( this.combats > 0 )
 		{
-			buffer.append( this.format( combatFactor * 100.0f ) + "%" );
+			buffer.append( this.format( combatFactor * 100.0 ) + "%" );
 			buffer.append( "<br><b>Combat XP</b>: " + KoLConstants.FLOAT_FORMAT.format( averageExperience * combatFactor ) );
 		}
 		else if ( this.combats == 0 )
@@ -434,7 +434,7 @@ public class AreaCombatData
 	{
 		int moxie = KoLCharacter.getAdjustedMoxie();
 		int hitstat = EquipmentManager.getAdjustedHitStat();
-		float combatFactor = this.areaCombatPercent() / 100.0f;
+		double combatFactor = this.areaCombatPercent() / 100.0;
 
 		for ( int i = 0; i < this.monsters.size(); ++i )
 		{
@@ -454,17 +454,17 @@ public class AreaCombatData
 		}
 	}
 
-	private String format( final float percentage )
+	private String format( final double percentage )
 	{
 		return String.valueOf( (int) percentage );
 	}
 
-	public float areaCombatPercent()
+	public double areaCombatPercent()
 	{
 		// If we don't have the data, pretend it's all combat
 		if ( this.combats < 0 )
 		{
-			return 100.0f;
+			return 100.0;
 		}
 
 		// Some areas are inherently all combat or no combat
@@ -473,11 +473,11 @@ public class AreaCombatData
 			return this.combats;
 		}
 
-		float pct = this.combats + KoLCharacter.getCombatRateAdjustment();
-		return Math.max( 0.0f, Math.min( 100.0f, pct ) );
+		double pct = this.combats + KoLCharacter.getCombatRateAdjustment();
+		return Math.max( 0.0, Math.min( 100.0, pct ) );
 	}
 
-	private String getRateString( final float minPercent, final int minMargin, final float maxPercent,
+	private String getRateString( final double minPercent, final int minMargin, final double maxPercent,
 		final int maxMargin, final String statName, boolean fullString )
 	{
 		StringBuffer buffer = new StringBuffer();
@@ -516,18 +516,18 @@ public class AreaCombatData
 	}
 
 	private String getMonsterString( final MonsterData monster, final int moxie, final int hitstat,
-		final int weighting, final float combatFactor, final boolean fullString )
+		final int weighting, final double combatFactor, final boolean fullString )
 	{
 		// moxie and hitstat NOT adjusted for monster level, since monster stats now are
 
 		int defense = monster.getDefense();
-		float hitPercent = AreaCombatData.hitPercent( hitstat, defense );
+		double hitPercent = AreaCombatData.hitPercent( hitstat, defense );
 
 		int attack = monster.getAttack();
-		float evadePercent = AreaCombatData.hitPercent( moxie, attack );
+		double evadePercent = AreaCombatData.hitPercent( moxie, attack );
 
 		int health = monster.getHP();
-		float statGain = monster.getExperience();
+		double statGain = monster.getExperience();
 
 		StringBuffer buffer = new StringBuffer();
 
@@ -554,7 +554,7 @@ public class AreaCombatData
 		}
 		else
 		{
-			buffer.append( this.format( 100.0f * combatFactor * weighting / this.weights ) + "%" );
+			buffer.append( this.format( 100.0 * combatFactor * weighting / this.weights ) + "%" );
 		}
 
 		buffer.append( ")<br>Hit: <font color=" + AreaCombatData.elementColor( ed ) + ">" );
@@ -582,8 +582,8 @@ public class AreaCombatData
 			return;
 		}
 
-		float modifier = Math.max( 0.0f, ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0f ) / 100.0f );
-		buffer.append( "<br>Meat: " + this.format( minMeat * modifier ) + "-" + this.format( maxMeat * modifier ) + " (" + this.format( ( minMeat + maxMeat ) * modifier / 2.0f ) + " average)" );
+		double modifier = Math.max( 0.0, ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0 ) / 100.0 );
+		buffer.append( "<br>Meat: " + this.format( minMeat * modifier ) + "-" + this.format( maxMeat * modifier ) + " (" + this.format( ( minMeat + maxMeat ) * modifier / 2.0 ) + " average)" );
 	}
 
 	private void appendItemList( final StringBuffer buffer, final List items, final List pocketRates, boolean fullString )
@@ -593,9 +593,9 @@ public class AreaCombatData
 			return;
 		}
 
-		float itemModifier = AreaCombatData.getDropRateModifier();
+		double itemModifier = AreaCombatData.getDropRateModifier();
 		boolean stealing = KoLCharacter.isMoxieClass() || KoLConstants.activeEffects.contains( EffectPool.get( Effect.FORM_OF_BIRD ) );
-		float pocketModifier = ( 100.0f + KoLCharacter.currentNumericModifier( Modifiers.PICKPOCKET_CHANCE ) ) / 100.0f;
+		double pocketModifier = ( 100.0 + KoLCharacter.currentNumericModifier( Modifiers.PICKPOCKET_CHANCE ) ) / 100.0;
 
 		for ( int i = 0; i < items.size(); ++i )
 		{
@@ -618,10 +618,10 @@ public class AreaCombatData
 
 			buffer.append( "<br>" );
 
-			float stealRate = Math.min( ( (Float) pocketRates.get( i ) ).floatValue() * pocketModifier, 1.0f );
+			double stealRate = Math.min( ( (Double) pocketRates.get( i ) ).doubleValue() * pocketModifier, 1.0 );
 			int rawDropRate = item.getCount() >> 16;
-			float dropRate = Math.min( rawDropRate * itemModifier, 100.0f );
-			float effectiveDropRate = stealRate * 100.0f + ( 1.0f - stealRate ) * dropRate;
+			double dropRate = Math.min( rawDropRate * itemModifier, 100.0 );
+			double effectiveDropRate = stealRate * 100.0 + ( 1.0 - stealRate ) * dropRate;
 
 			String rateRaw = this.format( rawDropRate );
 			String rate1 = this.format( dropRate );
@@ -660,7 +660,7 @@ public class AreaCombatData
 				if ( stealing && rawDropRate > 0 )
 				{
 					buffer.append( " " );
-					buffer.append( Math.min( rawDropRate * pocketModifier, 100.0f ) );
+					buffer.append( Math.min( rawDropRate * pocketModifier, 100.0 ) );
 					buffer.append( "% (pickpocket only)" );
 				}
 				else
@@ -675,7 +675,7 @@ public class AreaCombatData
 					buffer.append( " " );
 					buffer.append( rate2 );
 					buffer.append( "% (" );
-					buffer.append( this.format( stealRate * 100.0f ) );
+					buffer.append( this.format( stealRate * 100.0 ) );
 					buffer.append( "% steal, " );
 					buffer.append( rate1 );
 					buffer.append( "% drop)" );
@@ -690,15 +690,15 @@ public class AreaCombatData
 		}
 	}
 
-	public static final float getDropRateModifier()
+	public static final double getDropRateModifier()
 	{
-		if ( AreaCombatData.lastDropMultiplier != 0.0f && KoLCharacter.getItemDropPercentAdjustment() == AreaCombatData.lastDropModifier )
+		if ( AreaCombatData.lastDropMultiplier != 0.0 && KoLCharacter.getItemDropPercentAdjustment() == AreaCombatData.lastDropModifier )
 		{
 			return AreaCombatData.lastDropMultiplier;
 		}
 
 		AreaCombatData.lastDropModifier = KoLCharacter.getItemDropPercentAdjustment();
-		AreaCombatData.lastDropMultiplier = Math.max( 0.0f, ( 100.0f + AreaCombatData.lastDropModifier ) / 100.0f );
+		AreaCombatData.lastDropMultiplier = Math.max( 0.0, ( 100.0 + AreaCombatData.lastDropModifier ) / 100.0 );
 
 		return AreaCombatData.lastDropMultiplier;
 	}
@@ -733,17 +733,17 @@ public class AreaCombatData
 		return "#000000";
 	}
 
-	public static final float hitPercent( final int attack, final int defense )
+	public static final double hitPercent( final int attack, final int defense )
 	{
 		// ( (Attack - Defense) / 18 ) * 100 + 50 = Hit%
-		float percent = 100.0f * ( attack - defense ) / 18 + 50.0f;
-		if ( percent < 0.0f )
+		double percent = 100.0 * ( attack - defense ) / 18 + 50.0;
+		if ( percent < 0.0 )
 		{
-			return 0.0f;
+			return 0.0;
 		}
-		if ( percent > 100.0f )
+		if ( percent > 100.0 )
 		{
-			return 100.0f;
+			return 100.0;
 		}
 		return percent;
 	}

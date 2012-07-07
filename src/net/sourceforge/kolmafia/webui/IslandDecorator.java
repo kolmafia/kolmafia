@@ -248,10 +248,10 @@ public class IslandDecorator
 			return null;
 		}
 
-		float left = 100000 - current;
-		float mod = ( KoLCharacter.currentNumericModifier( Modifiers.MEATDROP ) + 100.0f ) / 100.0f;
-		float min = BRIGAND_MIN * mod;
-		float max = BRIGAND_MAX * mod;
+		double left = 100000 - current;
+		double mod = ( KoLCharacter.currentNumericModifier( Modifiers.MEATDROP ) + 100.0f ) / 100.0f;
+		double min = BRIGAND_MIN * mod;
+		double max = BRIGAND_MAX * mod;
 
 		int minTurns = (int) Math.ceil( left / max );
 		int maxTurns = (int) Math.ceil( left / min );

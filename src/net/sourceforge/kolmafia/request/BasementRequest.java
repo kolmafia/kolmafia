@@ -71,11 +71,11 @@ import net.sourceforge.kolmafia.webui.BasementDecorator.StatBooster;
 public class BasementRequest
 	extends AdventureRequest
 {
-	private static final float SAFETY_MARGIN = 1.08f;
+	private static final double SAFETY_MARGIN = 1.08;
 
 	private static int basementLevel = 0;
-	private static float basementTestValue = 0;
-	private static float basementTestCurrent = 0;
+	private static double basementTestValue = 0;
+	private static double basementTestCurrent = 0;
 
 	private static String basementTestString = "";
 	public static String basementMonster = "";
@@ -85,7 +85,7 @@ public class BasementRequest
 	private static int primaryBoost = 0;
 	private static int secondaryBoost = 0;
 
-	private static float averageResistanceNeeded = 0.0f;
+	private static double averageResistanceNeeded = 0.0;
 	private static int element1 = -1, element2 = -1;
 	private static int vulnerability = 0;
 	private static int goodelement = -1;
@@ -97,8 +97,8 @@ public class BasementRequest
 	private static ArrayList<AdventureResult> desirableEffects = new ArrayList<AdventureResult>();
 
 	private static int level1, level2;
-	private static float resistance1, resistance2;
-	private static float expected1, expected2;
+	private static double resistance1, resistance2;
+	private static double expected1, expected2;
 
 	private static String lastResponseText = "";
 	private static String basementErrorMessage = null;
@@ -525,9 +525,9 @@ public class BasementRequest
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// total elemental damage is roughly 4.48 * x^1.4.  Assume the worst-case.
 
-		float damage1 =
-			( (float) Math.pow( BasementRequest.basementLevel, 1.4 ) * 4.48f + 8.0f ) * BasementRequest.SAFETY_MARGIN;
-		float damage2 = damage1;
+		double damage1 =
+			( (double) Math.pow( BasementRequest.basementLevel, 1.4 ) * 4.48 + 8.0 ) * BasementRequest.SAFETY_MARGIN;
+		double damage2 = damage1;
 
 		BasementRequest.level1 = KoLCharacter.getElementalResistanceLevels( BasementRequest.element1 );
 		BasementRequest.resistance1 = KoLCharacter.elementalResistanceByLevel( BasementRequest.level1 );
@@ -538,11 +538,11 @@ public class BasementRequest
 		{
 			if ( BasementRequest.element1 == BasementRequest.goodelement )
 			{
-				BasementRequest.resistance1 = 100.0f;
+				BasementRequest.resistance1 = 100.0;
 			}
 			else
 			{
-				BasementRequest.resistance2 = 100.0f;
+				BasementRequest.resistance2 = 100.0;
 			}
 		}
 
@@ -566,15 +566,15 @@ public class BasementRequest
 			}
 		}
 
-		BasementRequest.expected1 = Math.max( 1.0f, damage1 * ( 100.0f - BasementRequest.resistance1 ) / 100.0f );
-		BasementRequest.expected2 = Math.max( 1.0f, damage2 * ( 100.0f - BasementRequest.resistance2 ) / 100.0f );
+		BasementRequest.expected1 = Math.max( 1.0, damage1 * ( 100.0 - BasementRequest.resistance1 ) / 100.0 );
+		BasementRequest.expected2 = Math.max( 1.0, damage2 * ( 100.0 - BasementRequest.resistance2 ) / 100.0 );
 
 		// If you can survive the current elemental test even without a phial,
 		// then don't bother with any extra buffing.
 
 		BasementRequest.basementTestString = "Elemental Resist";
 		BasementRequest.averageResistanceNeeded =
-			Math.max( 0, (int) Math.ceil( 100.0f * ( 1.0f - KoLCharacter.getMaximumHP() / ( damage1 + damage2 ) ) ) );
+			Math.max( 0, (int) Math.ceil( 100.0 * ( 1.0 - KoLCharacter.getMaximumHP() / ( damage1 + damage2 ) ) ) );
 
 		BasementRequest.basementTestCurrent = KoLCharacter.getMaximumHP();
 		BasementRequest.basementTestValue = BasementRequest.expected1 + BasementRequest.expected2;
@@ -615,14 +615,14 @@ public class BasementRequest
 
 		if ( BasementRequest.expected1 >= BasementRequest.expected2 )
 		{
-			if ( 1.0f + BasementRequest.expected2 >= KoLCharacter.getMaximumHP() )
+			if ( 1.0 + BasementRequest.expected2 >= KoLCharacter.getMaximumHP() )
 			{
 				BasementRequest.basementErrorMessage =
 					"You must have at least " + BasementRequest.basementTestValue + "% elemental resistance.";
 				return false;
 			}
 		}
-		else if ( 1.0f + BasementRequest.expected1 >= KoLCharacter.getMaximumHP() )
+		else if ( 1.0 + BasementRequest.expected1 >= KoLCharacter.getMaximumHP() )
 		{
 			BasementRequest.basementErrorMessage =
 				"You must have at least " + BasementRequest.basementTestValue + "% elemental resistance.";
@@ -642,9 +642,9 @@ public class BasementRequest
 
 		RequestThread.postRequest( UseItemRequest.getInstance( BasementRequest.goodphial ) );
 
-		float damage =
+		double damage =
 			BasementRequest.expected1 >= BasementRequest.expected2 ? BasementRequest.expected2 : BasementRequest.expected1;
-		RecoveryManager.recoverHP( (int) ( 1.0f + damage ) );
+		RecoveryManager.recoverHP( (int) ( 1.0 + damage ) );
 
 		return KoLmafia.permitsContinue();
 	}
@@ -678,8 +678,8 @@ public class BasementRequest
 		// According to http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 		// stat requirement is x^1.4 + 2.  Assume the worst-case.
 
-		float statRequirement =
-			( (float) Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0f ) * BasementRequest.SAFETY_MARGIN;
+		double statRequirement =
+			( (double) Math.pow( BasementRequest.basementLevel, 1.4 ) + 2.0 ) * BasementRequest.SAFETY_MARGIN;
 
 		if ( responseText.indexOf( "Lift 'em" ) != -1 || responseText.indexOf( "Push it Real Good" ) != -1 || responseText.indexOf( "Ring that Bell" ) != -1 )
 		{
@@ -795,8 +795,8 @@ public class BasementRequest
 			// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3973,
 			// drain requirement is 1.67 * x^1.4 Assume worst-case.
 
-			float drainRequirement =
-				(float) Math.pow( BasementRequest.basementLevel, 1.4 ) * 1.67f * BasementRequest.SAFETY_MARGIN;
+			double drainRequirement =
+				(double) Math.pow( BasementRequest.basementLevel, 1.4 ) * 1.67 * BasementRequest.SAFETY_MARGIN;
 
 			BasementRequest.basementTestString = "Maximum MP";
 			BasementRequest.basementTestCurrent = KoLCharacter.getMaximumMP();
@@ -849,8 +849,8 @@ public class BasementRequest
 			// http://forums.kingdomofloathing.com/viewtopic.php?t=83342&start=201
 			// drain requirement is 10.0 * x^1.4. Assume worst-case.
 
-			float drainRequirement =
-				(float) Math.pow( BasementRequest.basementLevel, 1.4 ) * 10.0f * BasementRequest.SAFETY_MARGIN;
+			double drainRequirement =
+				(double) Math.pow( BasementRequest.basementLevel, 1.4 ) * 10.0 * BasementRequest.SAFETY_MARGIN;
 
 			BasementRequest.basementTestString = "Maximum HP";
 			BasementRequest.basementTestCurrent = KoLCharacter.getMaximumHP();
@@ -872,9 +872,9 @@ public class BasementRequest
 				BasementRequest.desirableEffects.add( EffectPool.get( Effect.GHOSTLY_SHELL ) );
 			}
 
-			float damageAbsorb =
-				1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;
-			float healthRequirement = drainRequirement * damageAbsorb;
+			double damageAbsorb =
+				1.0 - ( (double) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0 ) - 1.0 ) / 10.0;
+			double healthRequirement = drainRequirement * damageAbsorb;
 
 			BasementRequest.basementTestValue = (int) healthRequirement;
 			BasementRequest.gauntletString =
@@ -887,7 +887,7 @@ public class BasementRequest
 					BasementRequest.changeBasementOutfit( "gauntlet" );
 
 					damageAbsorb =
-						1.0f - ( (float) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0f ) - 1.0f ) / 10.0f;
+						1.0 - ( (double) Math.sqrt( Math.min( 1000, KoLCharacter.getDamageAbsorption() ) / 10.0 ) - 1.0 ) / 10.0;
 					healthRequirement = drainRequirement * damageAbsorb;
 					BasementRequest.basementTestValue = (int) healthRequirement;
 				}
@@ -965,8 +965,8 @@ public class BasementRequest
 
 	private static final String monsterLevelString()
 	{
-		float level =
-			2.0f * (float) Math.pow( BasementRequest.basementLevel, 1.4 ) + KoLCharacter.getMonsterLevelAdjustment();
+		double level =
+			2.0 * (double) Math.pow( BasementRequest.basementLevel, 1.4 ) + KoLCharacter.getMonsterLevelAdjustment();
 		return "Monster: Attack/Defense = " + (int) level;
 	}
 

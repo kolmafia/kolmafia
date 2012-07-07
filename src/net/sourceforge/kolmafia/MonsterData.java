@@ -59,7 +59,7 @@ public class MonsterData
 	private final int beeCount;
 
 	private final ArrayList<AdventureResult> items;
-	private final ArrayList<Float> pocketRates;
+	private final ArrayList<Double> pocketRates;
 
 	public MonsterData( final String name, final Object health,
 		final Object attack, final Object defense, final Object initiative,
@@ -94,7 +94,7 @@ public class MonsterData
 		this.beeCount = beeCount;
 
 		this.items = new ArrayList<AdventureResult>();
-		this.pocketRates = new ArrayList<Float>();
+		this.pocketRates = new ArrayList<Double>();
 	}
 
 	private static int ML()
@@ -109,9 +109,9 @@ public class MonsterData
 		return new MonsterExpression( (String) expr, this.getName() );
 	}
  
-	private float getBeeosity()
+	private double getBeeosity()
 	{
-		return 1.0f + ( KoLCharacter.inBeecore() ? ( this.beeCount * 0.20f ) : 0.0f );
+		return 1.0 + ( KoLCharacter.inBeecore() ? ( this.beeCount / 5.0 ) : 0.0 );
 	}
 
 	public int getHP()
@@ -249,7 +249,7 @@ public class MonsterData
 
 	private boolean shouldSteal( final List checklist )
 	{
-		float dropModifier = AreaCombatData.getDropRateModifier();
+		double dropModifier = AreaCombatData.getDropRateModifier();
 
 		for ( int i = 0; i < checklist.size(); ++i )
 		{
@@ -262,7 +262,7 @@ public class MonsterData
 		return false;
 	}
 
-	private boolean shouldStealItem( AdventureResult item, final float dropModifier )
+	private boolean shouldStealItem( AdventureResult item, final double dropModifier )
 	{
 		if ( !item.isItem() )
 		{
@@ -287,7 +287,7 @@ public class MonsterData
 			case 'b':
 				return false;
 			default:
-				return (item.getCount() >> 16) * dropModifier < 100.0f;
+				return (item.getCount() >> 16) * dropModifier < 100.0;
 			}
 		}
 
@@ -332,34 +332,34 @@ public class MonsterData
 		// based on the integral provided by Buttons on the HCO forums.
 		// http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396
 
-		float probability = 0.0f;
-		float[] coefficients = new float[ this.items.size() ];
+		double probability = 0.0;
+		double[] coefficients = new double[ this.items.size() ];
 
 		for ( int i = 0; i < this.items.size(); ++i )
 		{
-			coefficients[ 0 ] = 1.0f;
+			coefficients[ 0 ] = 1.0;
 			for ( int j = 1; j < coefficients.length; ++j )
 			{
-				coefficients[ j ] = 0.0f;
+				coefficients[ j ] = 0.0;
 			}
 
 			for ( int j = 0; j < this.items.size(); ++j )
 			{
 				AdventureResult item = (AdventureResult) this.items.get( j );
-				probability = (item.getCount() >> 16) / 100.0f;
+				probability = (item.getCount() >> 16) / 100.0;
 				switch ( (char) item.getCount() & 0xFFFF )
 				{
 				case 'p':
-					if ( probability == 0.0f )
+					if ( probability == 0.0 )
 					{	// assume some probability of a pickpocket-only item
-						probability = 0.05f;
+						probability = 0.05;
 					}
 					break;
 				case 'n':
 				case 'c':
 				case 'f':
 				case 'b':
-					probability = 0.0f;
+					probability = 0.0;
 					break;
 				}
 
@@ -379,32 +379,32 @@ public class MonsterData
 				}
 			}
 
-			probability = 0.0f;
+			probability = 0.0;
 
 			for ( int j = 0; j < coefficients.length; ++j )
 			{
 				probability += coefficients[ j ] / ( j + 1 );
 			}
 
-			this.pocketRates.add( new Float( probability ) );
+			this.pocketRates.add( new Double( probability ) );
 		}
 	}
 
-	public float getExperience()
+	public double getExperience()
 	{
 		if ( this.experience == null )
 		{
-			return ( this.getAttack() / this.getBeeosity() ) / 8.0f;
+			return ( this.getAttack() / this.getBeeosity() ) / 8.0;
 		}
 		if ( this.experience instanceof Integer )
 		{
-			return ((Integer) this.experience).intValue() / 2.0f;
+			return ((Integer) this.experience).intValue() / 2.0;
 		}
 		if ( this.experience instanceof String )
 		{
 			this.experience = compile( this.experience );
 		}
-		return ((MonsterExpression) this.experience).eval() / 2.0f;
+		return ((MonsterExpression) this.experience).eval() / 2.0;
 	}
 
 	public boolean willUsuallyMiss()
@@ -422,6 +422,6 @@ public class MonsterData
 	{
 		int hitStat = EquipmentManager.getAdjustedHitStat();
 
-		return AreaCombatData.hitPercent( hitStat - defenseModifier, this.getDefense() ) <= 50.0f;
+		return AreaCombatData.hitPercent( hitStat - defenseModifier, this.getDefense() ) <= 50.0;
 	}
 }

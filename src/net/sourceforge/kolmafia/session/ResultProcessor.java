@@ -506,7 +506,7 @@ public class ResultProcessor
 
 	private static boolean possibleMeatDrop( int drop, int bonus )
 	{
-		float rate = (KoLCharacter.getMeatDropPercentAdjustment() + 100 + bonus) / 100.0f;
+		double rate = (KoLCharacter.getMeatDropPercentAdjustment() + 100 + bonus) / 100.0;
 		return Math.floor( Math.ceil( drop / rate ) * rate ) == drop;
 	}
 
