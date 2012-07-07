@@ -295,9 +295,9 @@ public class Value
 
 		if ( this.type == DataTypes.FLOAT_TYPE )
 		{
-			double tcf = Double.longBitsToDouble( this.contentLong );
-			double icf = Double.longBitsToDouble( it.contentLong );
-			return tcf < icf ? -1 : tcf == icf ? 0 : 1;
+			return Double.compare(
+				Double.longBitsToDouble( this.contentLong ),
+				Double.longBitsToDouble( it.contentLong ) );
 		}
 
 		if ( this.contentString != null && it.contentString != null )
