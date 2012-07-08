@@ -2154,6 +2154,11 @@ public abstract class ChoiceManager
 		// Choice 588 is Machines!
 		// Choice 589 is Autopsy Auturvy
 		// Choice 590 is Not Alone In The Dark
+
+		// Fire! I... have made... fire!
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure595", "CSA fire-starting kit",
+			new String[] { "pvp fights", "hp/mp regen" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

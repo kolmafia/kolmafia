@@ -5741,7 +5741,7 @@
 5740	237245113	baggie.gif	bag of GORP	bags of GORP
 5741	652054747	goofballs.gif	water purification pills
 5742	713528231	tent1.gif	Camp Scout pup tent
-5743	941205636	waterbottle.gif	CSA scoutmaster's "water"
+5743	941205636	waterbottle.gif	CSA scoutmaster's &quot;water&quot;
 5744	829141102	baggie.gif	bag of GORF	bags of GORF
 5745	928675328	librarycard.gif	CSA discount card
 5746	463337393	baggie.gif	bag of QWOP
