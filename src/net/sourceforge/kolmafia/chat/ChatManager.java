@@ -436,6 +436,8 @@ public abstract class ChatManager
 		}
 
 		EventManager.addChatEvent( ChatFormatter.formatChatMessage( message, false ) );
+		String cleanContent = KoLConstants.ANYTAG_PATTERN.matcher( content ).replaceAll( "" );
+		ChatManager.processCommand( "", cleanContent, "Events" );
 		ChatManager.broadcastEvent( message );
 	}
 
