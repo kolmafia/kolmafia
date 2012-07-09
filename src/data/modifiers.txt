@@ -170,7 +170,7 @@ fez of etymology	Moxie: +7, Familiar Effect: "1xLep, cap 30"
 filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1xPotato, cap 15"
 fire	Initiative: +10, Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2"
 # fireman's helmet: +1 FDKOL Commendation per Fire
-fireman's helmet	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+fireman's helmet	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Familiar Effect: "cold atk"
 floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
 football helmet	Familiar Effect: "atk, cap 37"
@@ -2360,7 +2360,9 @@ Throne:Baby Sandworm	Maximum HP: +10, Maximum MP: +10
 Throne:Baby Yeti	Spell Damage Percent: +10
 Throne:Barrrnacle	Familiar Weight: +5
 Throne:Black Cat	Muscle: -10, Mysticality: -10, Moxie: -10
+Throne:Blauvios Kloop	Maximum HP: +10, Maximum MP: +10
 Throne:Blood-Faced Volleyball	Experience (Moxie): +2
+Throne:Bloovian Groose	Maximum HP: +10, Maximum MP: +10
 Throne:BRICKO chick	 Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Throne:Bulky Buddy Box	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne:Casagnova Gnome	Meat Drop: +20, HP Regen Min: 16, HP Regen Max: 20, MP Regen Min: 9, MP Regen Max: 11
@@ -2384,6 +2386,7 @@ Throne:Evil Teddy Bear	Initiative: +20
 Throne:Exotic Parrot	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne:Feral Kobold	Item Drop: +15
 Throne:Feather Boa Constrictor	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne:Flaming Face	Cold Resistance: +3
 Throne:Flaming Gravy Fairy	Hot Damage: +20	
 Throne:Frozen Gravy Fairy	Cold Damage: +20
 Throne:Frumious Bandersnatch	Experience: +2
@@ -2397,6 +2400,7 @@ Throne:Grouper Groupie	Meat Drop: +20
 Throne:Grue	Mysticality Percent: +15
 Throne:Hand Turkey	Meat Drop: +20
 Throne:Hanukkimbo Dreidl	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Happy Medium	Meat Drop: +25
 Throne:He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Hippo Ballerina	Meat Drop: +20
 Throne:Hobo Monkey	Meat Drop: +25
@@ -2434,6 +2438,7 @@ Throne:Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Pair of Ragged Claws	Familiar Weight: +5
 Throne:Pair of Stomping Boots	Weapon Damage Percent: +10
 Throne:Penguin Goodfella	Familiar Weight: +5
+Throne:Peppermint Rhino	Weapon Damage Percent: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne:Personal Raincloud	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Pet Cheezling	Spell Damage Percent: +15, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 2, MP Regen Max: 8
 Throne:Pet Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
@@ -2468,6 +2473,7 @@ Throne:Syncopated Turtle	Initiative: +20
 Throne:Teddy Bear	Initiative: +20
 Throne:Teddy Borg	Initiative: +20
 Throne:Temporal Riftlet	Initiative: +20
+Throne:Tickle-Me Emilio	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne:Underworld Bonsai	Spell Damage Percent: +10
 Throne:Uniclops	Experience (Mysticality): +2

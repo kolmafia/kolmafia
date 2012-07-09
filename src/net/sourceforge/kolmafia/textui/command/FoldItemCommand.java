@@ -177,7 +177,7 @@ public class FoldItemCommand
 		// they have one in inventory, since this is probably what the user wants.
 		if ( targetName.startsWith( "Boris's Helm" ) && slot != EquipmentManager.NONE )
 		{
-			StringBuffer buf = new StringBuffer();
+			StringBuilder buf = new StringBuilder();
 			buf.append( "inventory.php?action=twisthorns&slot=" );
 			buf.append( slot == EquipmentManager.HAT ? "hat" : "familiarequip" );
 			buf.append( "&pwd=" );
@@ -188,6 +188,10 @@ public class FoldItemCommand
 			return;
 		}
 
+		// track the equipment slot if Loathing Legion gear
+		// is being folded without being unequipped
+		int legionSlot = -1;
+		
 		// If nothing in inventory is foldable, consider equipment
 		if ( source == null )
 		{
@@ -202,7 +206,17 @@ public class FoldItemCommand
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have anything transformable into that item!" );
 				return;
 			}
-			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );
+			// If we are switching a Loathing Legion item into another item that goes in the same slot
+			// then we don't need to unequip it first
+			if ( targetName.startsWith( "Loathing Legion" ) &&
+				 ( ItemDatabase.getConsumptionType( target.getItemId() ) == ItemDatabase.getConsumptionType( worn.getItemId() ) ) )
+			{
+				legionSlot = KoLCharacter.equipmentSlot( worn );
+			}
+			else
+			{
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );
+			}
 			source = worn;
 			sourceIndex = wornIndex;
 		}
@@ -215,7 +229,7 @@ public class FoldItemCommand
 		
 		if ( targetName.startsWith( "Loathing Legion" ) )
 		{
-			StringBuffer buf = new StringBuffer();
+			StringBuilder buf = new StringBuilder();
 			buf.append( "inv_use.php?pwd=" );
 			buf.append( GenericRequest.passwordHash );
 			buf.append( "&switch=1" );
@@ -223,9 +237,18 @@ public class FoldItemCommand
 			buf.append( Integer.toString( source.getItemId() ) );
 			buf.append( "&fold=" );
 			buf.append( StringUtilities.getURLEncode( targetName ) );
+			if ( legionSlot != -1 )
+			{
+				buf.append( "&eq=" );
+				buf.append( EquipmentRequest.phpSlotNames[ legionSlot ] );
+			}
 
 			GenericRequest request = new GenericRequest( buf.toString(), false );
 			RequestThread.postRequest( request );
+			if ( legionSlot != -1 )
+			{
+				EquipmentManager.setEquipment( legionSlot, target );
+			}
 			return;
 		}
 
