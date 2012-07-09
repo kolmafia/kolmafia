@@ -572,6 +572,7 @@ Staff of Holiday Sensations	10	Mys: 75	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
 Staff of the November Jack-O-Lantern	10	Mys: 15	1-handed chefstaff
+Staff of the Scummy Sink	10	Mys: 125	1-handed chefstaff
 Staff of the Short Order Cook	10	Mys: 15	1-handed chefstaff
 Staff of the Soupbone	10	Mys: 75	1-handed chefstaff
 Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
@@ -908,6 +909,7 @@ slightly peevedbow	60	Mox: 15	2-handed bow
 slime-covered club	200	Mus: 200	1-handed club
 slime-covered shovel	200	Mus: 200	2-handed polearm
 slime-covered speargun	200	Mox: 200	1-handed pistol
+slime-covered staff	200	Mys: 200	2-handed staff
 slingshot	20	Mox: 0	2-handed slingshot
 smoldering staff	125	Mus: 45	2-handed staff
 soup-chucks	15	Mus: 0	2-handed flail

@@ -5766,3 +5766,5 @@
 5757
 5758	Staff of Holiday Sensations	weapon	display	25
 5759	rusty staff	weapon	all	140
+5760	slime-covered staff	weapon	display	500
+5761	Staff of the Scummy Sink	weapon	display	25
