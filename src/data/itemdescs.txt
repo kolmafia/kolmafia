@@ -5758,3 +5758,5 @@
 5757
 5758	235701538	pepperstaff.gif	Staff of Holiday Sensations
 5759	586597404	rustystaff.gif	rusty staff
+5760	325350654	slimestaff.gif	slime-covered staff
+5761	270811344	scumsinkstaff.gif	Staff of the Scummy Sink

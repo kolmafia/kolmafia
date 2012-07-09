@@ -771,6 +771,12 @@ public abstract class KoLCharacter
 			return baseFullness;
 		}
 
+		if ( KoLCharacter.inBugcore() )
+		{
+			// Unfortunately, bugbear mind-control rays are suppresing your appetite...
+			return baseFullness;
+		}
+
 		if ( KoLCharacter.inBadMoon() )
 		{
 			if ( KoLCharacter.hasSkill( "Pride" ) )
