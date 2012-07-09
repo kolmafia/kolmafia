@@ -117,6 +117,7 @@ public class ValhallaManager
 		ItemPool.get( ItemPool.FISH_OIL_SMOKE_BOMB, 1 ),
 		ItemPool.get( ItemPool.VIAL_OF_SQUID_INK, 1 ),
 		ItemPool.get( ItemPool.POTION_OF_FISHY_SPEED, 1 ),
+		ItemPool.get( ItemPool.AUTOPSY_TWEEZERS, 1 ),
 	};
 
 	public static void preAscension()
