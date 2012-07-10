@@ -176,6 +176,8 @@ public abstract class ClanManager
 		}
 
 		ClanManager.retrieveClanId();
+		ClanMembersRequest cmr = new ClanMembersRequest( false );
+		RequestThread.postRequest( cmr );
 		ClanManager.snapshotFolder =
 			"clan/" + ClanManager.clanId + "/" + KoLConstants.WEEKLY_FORMAT.format( new Date() ) + "/";
 		KoLmafia.updateDisplay( "Clan data retrieved." );
