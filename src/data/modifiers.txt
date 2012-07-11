@@ -668,6 +668,7 @@ Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20,
 Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
 Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
 Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical: 2
+# Tales of the Word Realms: Lends Power to Your Words
 The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
 The Necbromancer's Wizard Staff	Spell Damage Percent: +200, Sleaze Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
 # The Trickster's Trikitixa: Special Attack: Extreme High Note

@@ -5749,7 +5749,7 @@
 5748	604997956	apsoap.gif	CSA all-purpose soap
 5749	619872227	beer.gif	CSA cheerfulness ration
 5750	657706242	grenade.gif	CSA obedience grenade
-5751
+5751	810195365	book4.gif	Tales of the Word Realms
 5752
 5753
 5754
