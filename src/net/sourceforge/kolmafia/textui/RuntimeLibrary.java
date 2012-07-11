@@ -4429,7 +4429,7 @@ public abstract class RuntimeLibrary
 				expr.content = e;
 			}
 		}
-		return new Value( e.eval() );
+		return RuntimeLibrary.eval( interpreter, e );
 	}
 
 	public static Value modifier_eval( Interpreter interpreter, final Value expr )
@@ -4452,7 +4452,19 @@ public abstract class RuntimeLibrary
 				expr.content = e;
 			}
 		}
-		return new Value( e.eval() );
+		return RuntimeLibrary.eval( interpreter, e );
+	}
+
+	private static Value eval( Interpreter interpreter, final Expression expr )
+	{
+		try
+		{
+			return new Value( expr.evalInternal() );
+		}
+		catch ( Exception e )
+		{
+			throw interpreter.runtimeException( "Expression evaluation error: " + e.getMessage() );
+		}
 	}
 
 	public static Value maximize( Interpreter interpreter, final Value maximizerStringValue, final Value isSpeculateOnlyValue )
@@ -4490,7 +4502,7 @@ public abstract class RuntimeLibrary
 				expr.content = e;
 			}
 		}
-		return new Value( e.eval() );
+		return RuntimeLibrary.eval( interpreter, e );
 	}
 
 	public static Value is_online( Interpreter interpreter, final Value arg )

@@ -162,13 +162,20 @@ public class Expression
 		}
 		catch ( ArrayIndexOutOfBoundsException e )
 		{
-			KoLmafia.updateDisplay( "Unreasonably complex expression for " + 
-				this.name + ": " + e );
-			return 0.0;
+			KoLmafia.updateDisplay( "Unreasonably complex expression for " + this.name + ": " + e );
 		}
+		catch ( RuntimeException e )
+		{
+			KoLmafia.updateDisplay( "Expression evaluation error for " + this.name + ": " + e );
+		}
+		catch ( Exception e )
+		{
+			KoLmafia.updateDisplay( "Unexpected exception for " + this.name + ": " + e );
+		}
+		return 0.0;
 	}
 
-	private double evalInternal()
+	public double evalInternal()
 	{
 		double[] s = stackFactory( null );
 		int sp = 0;
@@ -227,7 +234,13 @@ public class Expression
 				v = s[ --sp ] * s[ --sp ];
 				break;
 			case '/':
-				v = s[ --sp ] / s[ --sp ];
+				double numerator = s[ --sp ];
+				double denominator = s[ --sp ];
+				if ( denominator == 0.0 )
+				{
+					throw new ArithmeticException( "Can't divide by zero" );
+				}
+				v = numerator / denominator;
 				break;
 				
 			case '+':
@@ -247,8 +260,7 @@ public class Expression
 				v = (double) Math.sqrt( s[ --sp ] );
 				if ( Double.isNaN(v) )
 				{
-					v = 0.0;
-					KoLmafia.updateDisplay( "Square root of a negative number replaced with zero.");
+					throw new ArithmeticException( "Can't take square root of a negative value" );
 				}
 				break;
 			case 'p':
@@ -391,9 +403,8 @@ public class Expression
 					v = inst - 0x8000;
 					break;
 				}
-				KoLmafia.updateDisplay( "Evaluator bytecode invalid at " +
-							(pc - 1) + ": " + String.valueOf( this.bytecode ) );
-				return 0.0;
+				throw new RuntimeException( "Evaluator bytecode invalid at " +
+							    (pc - 1) + ": " + String.valueOf( this.bytecode ) );
 			}
 			s[ sp++ ] = v;
 		}
