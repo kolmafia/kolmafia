@@ -340,7 +340,7 @@ public abstract class ConsequenceManager
 				buff.setLength( 0 );
 				do
 				{
-					double val = new ModifierExpression( m.group( 1 ), "consequence" ).eval();
+					double val = ModifierExpression.getInstance( m.group( 1 ), "consequence" ).eval();
 					if ( val == (int) val )
 					{	// Avoid decimal point for integer values
 						m.appendReplacement( buff, String.valueOf( (int) val ) );

@@ -41,6 +41,17 @@ public class MonsterExpression
 		super( text, name );
 	}
 
+	public static MonsterExpression getInstance( String text, String name )
+	{
+		MonsterExpression expr = new MonsterExpression( text, name );
+		String errors = expr.getExpressionErrors();
+		if ( errors != null )
+		{
+			KoLmafia.updateDisplay( errors );
+		}
+		return expr;
+	}
+
 	@Override
 	protected String validBytecodes()
 	{
