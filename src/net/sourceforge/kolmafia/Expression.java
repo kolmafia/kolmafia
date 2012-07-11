@@ -59,6 +59,37 @@ public class Expression
 	protected ArrayList literals;	// Strings & floats needed by expression
 	protected AdventureResult effect;
 
+	// If non-null, contains concatenated error strings from compiling bytecode
+	protected StringBuilder error = null;
+
+	protected StringBuilder newError()
+	{
+		if ( this.error == null )
+		{
+			this.error = new StringBuilder();
+		}
+		else
+		{
+			this.error.append( KoLConstants.LINE_BREAK );
+		}
+		return this.error;
+	}
+
+	public String getExpressionErrors()
+	{
+		if ( this.error == null )
+		{
+			return null;
+		}
+		StringBuilder buf = new StringBuilder();
+		buf.append( "Expression syntax errors for '" );
+		buf.append( name );
+		buf.append( "':" );
+		buf.append( KoLConstants.LINE_BREAK );
+		buf.append( this.error );
+		return buf.toString();
+	}
+
 	private static double[] cachedStack;
 
 	protected synchronized static double[] stackFactory( double[] recycle )
@@ -101,9 +132,22 @@ public class Expression
 		this.bytecode = compiled.toCharArray();
 		if ( this.text.length() > 0 )
 		{
-			KoLmafia.updateDisplay( "Expression syntax error for '" + name + "': expected end, found " + this.text );
+			StringBuilder buf = this.newError();
+			buf.append( "Expected end, found " );
+			buf.append( this.text );
 		}
 		this.text = null;
+	}
+
+	public static Expression getInstance( String text, String name )
+	{
+		Expression expr = new Expression( text, name );
+		String errors = expr.getExpressionErrors();
+		if ( errors != null )
+		{
+			KoLmafia.updateDisplay( errors );
+		}
+		return expr;
 	}
 
 	protected void initialize()
@@ -367,8 +411,11 @@ public class Expression
 			this.text = this.text.substring( token.length() );
 			return;
 		}
-		KoLmafia.updateDisplay( "Evaluator syntax error: expected " + token +
-					", found " + this.text );
+		StringBuilder buf = this.newError();
+		buf.append( "Expected " );
+		buf.append( token );
+		buf.append( ", found " );
+		buf.append( this.text );
 	}
 
 	protected String until( String token )
@@ -376,8 +423,11 @@ public class Expression
 		int pos = this.text.indexOf( token );
 		if ( pos == -1 )
 		{
-			KoLmafia.updateDisplay( "Evaluator syntax error: expected " + token +
-						", found " + this.text );
+			StringBuilder buf = this.newError();
+			buf.append( "Expected " );
+			buf.append( token );
+			buf.append( ", found " );
+			buf.append( this.text );
 			return "";
 		}
 		String rv = this.text.substring( 0, pos );
@@ -524,7 +574,8 @@ public class Expression
 
 		if ( this.text.length() == 0 )
 		{
-			KoLmafia.updateDisplay( "Evaluator syntax error: unexpected end of expr" );
+			StringBuilder buf = this.newError();
+			buf.append( "Unexpected end of expr" );
 			return "\u8000";	
 		}
 		rv = this.text.substring( 0, 1 );
@@ -533,8 +584,10 @@ public class Expression
 			this.text = this.text.substring( 1 );
 			if ( Arrays.binarySearch( this.bytecode, rv.charAt( 0 ) ) < 0 )
 			{
-				KoLmafia.updateDisplay( "Evaluator syntax error: '" + rv +
-					"' is not valid in this context" );
+				StringBuilder buf = this.newError();
+				buf.append( "'" );
+				buf.append( rv );
+				buf.append( "' is not valid in this context" );
 				return "\u8000";
 			}
 			return rv;
@@ -557,7 +610,10 @@ public class Expression
 		{
 			return this.value() + "\u8000-";
 		}
-		KoLmafia.updateDisplay( "Evaluator syntax error: can't understand " + this.text );
+
+		StringBuilder buf = this.newError();
+		buf.append( "Can't understand " );
+		buf.append( this.text );
 		this.text = "";
 		return "\u8000";
 	}

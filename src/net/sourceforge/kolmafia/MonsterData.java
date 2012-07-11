@@ -106,7 +106,7 @@ public class MonsterData
 
 	private MonsterExpression compile( Object expr )
 	{
-		return new MonsterExpression( (String) expr, this.getName() );
+		return MonsterExpression.getInstance( (String) expr, this.getName() );
 	}
  
 	private double getBeeosity()

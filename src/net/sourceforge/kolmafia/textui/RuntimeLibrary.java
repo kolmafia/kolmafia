@@ -4418,6 +4418,12 @@ public abstract class RuntimeLibrary
 		else
 		{
 			e = new Expression( expr.toString(), "expression_eval()" );
+			String errors = e.getExpressionErrors();
+			if ( errors != null )
+			{
+				throw interpreter.runtimeException( errors );
+			}
+
 			if ( expr.content == null )
 			{
 				expr.content = e;
@@ -4436,6 +4442,11 @@ public abstract class RuntimeLibrary
 		else
 		{
 			e = new ModifierExpression( expr.toString(), "modifier_eval()" );
+			String errors = e.getExpressionErrors();
+			if ( errors != null )
+			{
+				throw interpreter.runtimeException( errors );
+			}
 			if ( expr.content == null )
 			{
 				expr.content = e;
@@ -4469,6 +4480,11 @@ public abstract class RuntimeLibrary
 		else
 		{
 			e = new MonsterExpression( expr.toString(), "monster_eval()" );
+			String errors = e.getExpressionErrors();
+			if ( errors != null )
+			{
+				throw interpreter.runtimeException( errors );
+			}
 			if ( expr.content == null )
 			{
 				expr.content = e;

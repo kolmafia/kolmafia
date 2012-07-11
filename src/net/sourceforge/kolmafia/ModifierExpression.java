@@ -43,6 +43,17 @@ public class ModifierExpression
 		super( text, name );
 	}
 
+	public static ModifierExpression getInstance( String text, String name )
+	{
+		ModifierExpression expr = new ModifierExpression( text, name );
+		String errors = expr.getExpressionErrors();
+		if ( errors != null )
+		{
+			KoLmafia.updateDisplay( errors );
+		}
+		return expr;
+	}
+
 	@Override
 	protected void initialize()
 	{

@@ -1607,8 +1607,7 @@ public class Modifiers
 				{
 					newMods.expressions = new ModifierExpression[ Modifiers.DOUBLE_MODIFIERS ];
 				}
-				newMods.expressions[ i ] = new ModifierExpression( matcher.group( 2 ),
-									   name );
+				newMods.expressions[ i ] = ModifierExpression.getInstance( matcher.group( 2 ), name );
 			}
 		}
 
