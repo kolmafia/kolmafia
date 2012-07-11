@@ -134,14 +134,15 @@ public class InventoryPanel
 			return;
 		}
 
-		this.equipmentFilters = new FilterRadioButton[ 7 ];
+		this.equipmentFilters = new FilterRadioButton[ 8 ];
 		this.equipmentFilters[ 0 ] = new FilterRadioButton( "weapons", true );
 		this.equipmentFilters[ 1 ] = new FilterRadioButton( "offhand" );
 		this.equipmentFilters[ 2 ] = new FilterRadioButton( "hats" );
-		this.equipmentFilters[ 3 ] = new FilterRadioButton( "shirts" );
-		this.equipmentFilters[ 4 ] = new FilterRadioButton( "pants" );
-		this.equipmentFilters[ 5 ] = new FilterRadioButton( "accessories" );
-		this.equipmentFilters[ 6 ] = new FilterRadioButton( "familiar" );
+		this.equipmentFilters[ 3 ] = new FilterRadioButton( "back" );
+		this.equipmentFilters[ 4 ] = new FilterRadioButton( "shirts" );
+		this.equipmentFilters[ 5 ] = new FilterRadioButton( "pants" );
+		this.equipmentFilters[ 6 ] = new FilterRadioButton( "accessories" );
+		this.equipmentFilters[ 7 ] = new FilterRadioButton( "familiar" );
 
 		ButtonGroup filterGroup = new ButtonGroup();
 		JPanel filterPanel = new JPanel();
@@ -221,21 +222,25 @@ public class InventoryPanel
 			case KoLConstants.EQUIP_HAT:
 				isVisibleWithFilter = InventoryPanel.this.equipmentFilters[ 2 ].isSelected();
 				break;
-
-			case KoLConstants.EQUIP_SHIRT:
+				
+			case KoLConstants.EQUIP_CONTAINER:
 				isVisibleWithFilter = InventoryPanel.this.equipmentFilters[ 3 ].isSelected();
 				break;
 
-			case KoLConstants.EQUIP_PANTS:
+			case KoLConstants.EQUIP_SHIRT:
 				isVisibleWithFilter = InventoryPanel.this.equipmentFilters[ 4 ].isSelected();
 				break;
 
-			case KoLConstants.EQUIP_ACCESSORY:
+			case KoLConstants.EQUIP_PANTS:
 				isVisibleWithFilter = InventoryPanel.this.equipmentFilters[ 5 ].isSelected();
 				break;
 
-			case KoLConstants.EQUIP_FAMILIAR:
+			case KoLConstants.EQUIP_ACCESSORY:
 				isVisibleWithFilter = InventoryPanel.this.equipmentFilters[ 6 ].isSelected();
+				break;
+
+			case KoLConstants.EQUIP_FAMILIAR:
+				isVisibleWithFilter = InventoryPanel.this.equipmentFilters[ 7 ].isSelected();
 				break;
 
 			default:
