@@ -62,11 +62,16 @@ public class PeeVPeeRequest
 	private static final Pattern ATTACKS_PATTERN =
 		Pattern.compile( "You have (\\d+) fight" );
 
-	private static final Pattern CHALLENGE_PATTERN =
+	private static final Pattern CHALLENGE_PATTERN1 =
 		Pattern.compile( "<div class=\"fight\"><a.*?who=(\\d+)\"><b>(.*?)</b></a> calls out <a.*?who=(\\d+)\"><b>(.*?)</b></a> for battle!" );
 
-	private static final Pattern WIN_PATTERN =
+	private static final Pattern CHALLENGE_PATTERN2 =
+		Pattern.compile( "<a.*?who=(\\d+)\">(.*?)</a> vs <a.*?who=(\\d+)\">(.*?)</a>" );
+
+	private static final Pattern WIN_PATTERN1 =
 		Pattern.compile( "<span[^>]*><b>(.*?)</b> won the fight, <b>(\\d+)</b> to <b>(\\d+)</b>!</span>" );
+	private static final Pattern WIN_PATTERN2 =
+		Pattern.compile( "align=\"center\"><b>(.*?)</b> Wins!</td>" );
 
 	private static final Pattern SWAGGER_PATTERN = 
 		Pattern.compile( "You gain a little swagger <b>\\([+](\\d)\\)</b>" );
@@ -141,42 +146,91 @@ public class PeeVPeeRequest
 
 			if ( location.indexOf( "action=fight" ) != -1 )
 			{
-				Matcher challengeMatcher = PeeVPeeRequest.CHALLENGE_PATTERN.matcher( responseText );
-				Matcher winMatcher = PeeVPeeRequest.WIN_PATTERN.matcher( responseText );
+				// You may not attack players who are in Hardcore mode unless you are in Hardcore mode yourself.
+				// You can't attack a player against whom you've already won a fight today.
+				// You can't attack somebody in the same clan as you.
+				// Sorry, I couldn't find the player "sdfsdfs".
+				// You know, once you start hurting yourself, you won't be able to stop, and you'll end up
+				// working for James Spader as a secretary, and constantly letting him spank you. Let's not start down that road.
+				// Include <tr><td> to avoid matching player-supplied messages
+				if ( responseText.contains( "<tr><td>You" ) || responseText.contains( "<tr><td>Sorry" ) )
+				{
+					RequestLogger.printLine( "Invalid target" );
+					return;
+				}
+
+				Matcher swaggerMatcher = PeeVPeeRequest.SWAGGER_PATTERN.matcher( responseText );
+				if ( swaggerMatcher.find() )
+				{
+					Preferences.increment( "availableSwagger", Integer.parseInt( swaggerMatcher.group(1) ) );
+					CoinmastersFrame.externalUpdate();
+				}
+
+				boolean compactResults = false;
+				Matcher challengeMatcher = PeeVPeeRequest.CHALLENGE_PATTERN1.matcher( responseText );
+				Matcher winMatcher;
 				boolean won = false;
-				int id1 = 0;
+				//int id1 = 0;
 				String me = null;
-				int id2 = 0;
+				//int id2 = 0;
 				String you = null;
 				int result1 = 0;
 				int result2 = 0;
 
 				if ( challengeMatcher.find() )
 				{
-					id1 = Integer.parseInt( challengeMatcher.group( 1 ) );
+					//id1 = Integer.parseInt( challengeMatcher.group( 1 ) );
 					me = challengeMatcher.group( 2 );
-					id2 = Integer.parseInt( challengeMatcher.group( 3 ) );
+					//id2 = Integer.parseInt( challengeMatcher.group( 3 ) );
 					you = challengeMatcher.group( 4 );
 				}
-
-				if ( winMatcher.find() )
+				else
 				{
-					String winner = winMatcher.group( 1 );
-					won = winner.equals( me );
-					result1 = Integer.parseInt( winMatcher.group( 2 ) );
-					result2 = Integer.parseInt( winMatcher.group( 3 ) );
+					compactResults = true;
+					challengeMatcher = PeeVPeeRequest.CHALLENGE_PATTERN2.matcher( responseText );
+					if ( challengeMatcher.find() )
+					{
+						//id1 = Integer.parseInt( challengeMatcher.group( 1 ) );
+						me = challengeMatcher.group( 2 );
+						//id2 = Integer.parseInt( challengeMatcher.group( 3 ) );
+						you = challengeMatcher.group( 4 );
+					}
 				}
 
+				if ( !compactResults )
+				{
+					winMatcher = PeeVPeeRequest.WIN_PATTERN1.matcher( responseText );
+					if ( winMatcher.find() )
+					{
+						String winner = winMatcher.group( 1 );
+						won = winner.equals( me );
+						result1 = Integer.parseInt( winMatcher.group( 2 ) );
+						result2 = Integer.parseInt( winMatcher.group( 3 ) );
+					}
+				}
+				else
+				{
+					winMatcher = PeeVPeeRequest.WIN_PATTERN2.matcher( responseText );
+					if ( winMatcher.find() )
+					{
+						String winner = winMatcher.group( 1 );
+						won = winner.equals( me );
+					}
+				}
+				
 				StringBuilder buf = new StringBuilder( "You challenged " );
 				buf.append( you );
 				buf.append( " and " );
 				buf.append( won ? "won" : "lost" );
-				buf.append( " the PvP fight, " );
-				buf.append( String.valueOf( won ? result1 : result2 ) );
-				buf.append( " to " );
-				buf.append( String.valueOf( won ? result2 : result1 ) );
-				buf.append( "!" );
-
+				buf.append( " the PvP fight" );
+				if ( !compactResults )
+				{
+					buf.append( ", " );
+					buf.append( String.valueOf( won ? result1 : result2 ) );
+					buf.append( " to " );
+					buf.append( String.valueOf( won ? result2 : result1 ) );
+					buf.append( "!" );
+				}
 				String message = buf.toString();
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message);
@@ -185,16 +239,9 @@ public class PeeVPeeRequest
 				{
 					Preferences.setString( "currentPvpVictories", Preferences.getString( "currentPvpVictories" ) + you + "," );
 				}
-				else
+				else if ( !compactResults )
 				{
 					PeeVPeeRequest.parseStatLoss( responseText );
-				}
-
-				Matcher swaggerMatcher = PeeVPeeRequest.SWAGGER_PATTERN.matcher( responseText );
-				if ( swaggerMatcher.find() )
-				{
-					Preferences.increment( "availableSwagger", Integer.parseInt( swaggerMatcher.group(1) ) );
-					CoinmastersFrame.externalUpdate();
 				}
 			}
 			return;
