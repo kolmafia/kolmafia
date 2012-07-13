@@ -3172,7 +3172,8 @@ public class MaximizerFrame
 			StringBuffer msg = new StringBuffer();
 			msg.append( MaximizerFrame.bestChecked );
 			msg.append( " combinations checked, best score " );
-			msg.append( MaximizerFrame.best.getScore() );
+			double score = MaximizerFrame.best.getScore();
+			msg.append( KoLConstants.FLOAT_FORMAT.format( score ) );
 			if ( MaximizerFrame.best.failed )
 			{
 				msg.append( " (FAIL)" );
