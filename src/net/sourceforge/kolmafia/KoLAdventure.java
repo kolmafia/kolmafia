@@ -485,7 +485,7 @@ public class KoLAdventure
 		// Adventuring in the mine warehouse or office requires either
 		// Mining Gear or the Dwarvish War Uniform
 
-		if ( this.formSource.equals( "dwarffactory.php" ) || this.adventureId.equals( "176" ) )
+		if ( this.formSource.equals( "dwarffactory.php" ) || this.adventureId.equals( AdventurePool.MINE_OFFICE_ID ) )
 		{
 			int id1 = 8;
 			int id2 = 50;
@@ -533,14 +533,16 @@ public class KoLAdventure
 		// some way of equipping it.  If they do not have one, then
 		// acquire one then try to equip it.
 
-		if ( this.adventureId.equals( AdventurePool.PIXEL_REALM_ID ) )
+		if ( this.adventureId.equals( AdventurePool.PIXEL_REALM_ID ) || this.zone.equals( "Vanya's Castle" ) )
 		{
 			AdventureResult transfunctioner = ItemPool.get( ItemPool.TRANSFUNCTIONER, 1 );
 			if ( !InventoryManager.hasItem( transfunctioner ) )
 			{
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php" ) );
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes1" ) );
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes2" ) );
+				//RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php" ) );
+				//RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes1" ) );
+				//RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes2" ) );
+				// Those URLs are visited when clicking KoL-provided buttons
+				// but they can be skipped for just getting the transfunctioner
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes3" ) );
 			}
 
@@ -748,6 +750,7 @@ public class KoLAdventure
 			     InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) ) )
 			{
 				this.isValidAdventure = true;
+				KoLCharacter.armBeanstalk();
 				return;
 			}
 
@@ -890,6 +893,11 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.WHITEYS_GROVE_ID ) )
 		{
+			if ( !Preferences.getString( "_questG02Whitecastle" ).equals( "unstarted" ) )
+			{
+				this.isValidAdventure = true;
+				return;
+			}
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "woods.php" ) );
 			this.isValidAdventure = KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "grove.gif" ) != -1;
 
