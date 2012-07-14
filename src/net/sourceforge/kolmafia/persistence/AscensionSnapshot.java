@@ -68,7 +68,7 @@ public class AscensionSnapshot
 	public static final int DISCO_BANDIT = 5;
 	public static final int ACCORDION_THIEF = 6;
 
-	private static final Map ascensionMap = new TreeMap();
+	private static final Map<String, String> ascensionMap = new TreeMap<String, String>();
 	private static final List ascensionDataList = new ArrayList();
 	private static final List softcoreAscensionList = new ArrayList();
 	private static final List hardcoreAscensionList = new ArrayList();
@@ -99,7 +99,7 @@ public class AscensionSnapshot
 		AscensionSnapshot.ascensionMap.remove( lowerCaseName );
 	}
 
-	public static final Map getAscensionMap()
+	public static final Map<String, String> getAscensionMap()
 	{
 		return AscensionSnapshot.ascensionMap;
 	}

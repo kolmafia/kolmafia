@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -1717,7 +1718,7 @@ public class IslandDecorator
 			ResultProcessor.processItem( ItemPool.FILTHWORM_QUEEN_HEART, -1 );
 		}
 
-		String side = EquipmentManager.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
+		String side = EquipmentManager.isWearingOutfit( OutfitPool.WAR_HIPPY_OUTFIT ) ? "hippy" : "fratboy";
 		Preferences.setString( "sidequestOrchardCompleted", side );
 
 		// The hippy store is available again.
@@ -1780,7 +1781,7 @@ public class IslandDecorator
 			return;
 		}
 
-		String side = EquipmentManager.isWearingOutfit( 32 ) ? "hippy" : "fratboy";
+		String side = EquipmentManager.isWearingOutfit( OutfitPool.WAR_HIPPY_OUTFIT ) ? "hippy" : "fratboy";
 		Preferences.setString( "sidequestLighthouseCompleted", side );
 		ResultProcessor.processItem( ItemPool.GUNPOWDER, -5 );
 	}

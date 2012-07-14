@@ -60,7 +60,7 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 public abstract class RequestThread
 {
 	private static int nextRequestId = 0;
-	private static Map threadMap = new HashMap();
+	private static Map<Integer,Thread> threadMap = new HashMap<Integer,Thread>();
 
 	public static final void runInParallel( final Runnable action )
 	{

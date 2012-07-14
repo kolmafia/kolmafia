@@ -71,7 +71,7 @@ public abstract class StaticEntity
 	private static int usesRelayWindows = 0;
 	private static boolean isHeadless = System.getProperty( "java.awt.headless", "" ).equals( "true" );
 
-	public static final ArrayList existingPanels = new ArrayList();
+	public static final ArrayList<ActionPanel> existingPanels = new ArrayList<ActionPanel>();
 	private static ActionPanel[] panelArray = new GenericPanel[ 0 ];
 
 	public static String backtraceTrigger = null;
@@ -759,7 +759,7 @@ public abstract class StaticEntity
 
 	public static final String[] getPastUserList()
 	{
-		ArrayList pastUserList = new ArrayList();
+		ArrayList<String> pastUserList = new ArrayList<String>();
 
 		String user;
 		File[] files = DataUtilities.listFiles( UtilityConstants.SETTINGS_LOCATION );

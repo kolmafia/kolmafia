@@ -85,7 +85,7 @@ public class Concoction
 
 	private boolean visited;
 
-	private final List ingredients;
+	private final List<AdventureResult> ingredients;
 	private int param;
 	private AdventureResult[] ingredientArray;
 	private int allocated;
@@ -138,7 +138,7 @@ public class Concoction
 			}
 		}
 
-		this.ingredients = new ArrayList();
+		this.ingredients = new ArrayList<AdventureResult>();
 		this.ingredientArray = new AdventureResult[ 0 ];
 
 		this.price = -1;

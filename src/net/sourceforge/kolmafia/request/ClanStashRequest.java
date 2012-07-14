@@ -300,7 +300,7 @@ public class ClanStashRequest
 		Matcher matcher = ClanStashRequest.ITEM_PATTERN.matcher( stashMatcher.group() );
 
 		int lastFindIndex = 0;
-		ArrayList intermediateList = new ArrayList();
+		ArrayList<AdventureResult> intermediateList = new ArrayList<AdventureResult>();
 
 		while ( matcher.find( lastFindIndex ) )
 		{

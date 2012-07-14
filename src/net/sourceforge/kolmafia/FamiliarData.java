@@ -48,8 +48,6 @@ import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -69,8 +67,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class FamiliarData
 	implements Comparable
 {
-	private static final AdventureResult CORSICAN_BLESSING = EffectPool.get( Effect.CORSICAN_BLESSING );
-
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
 	private static final Pattern REGISTER_PATTERN =
@@ -114,7 +110,7 @@ public class FamiliarData
 		this.id = id;
 		this.name = name;
 		this.race = id == -1 ? "(none)" : FamiliarDatabase.getFamiliarName( id );
-		this.beeware = this.race.indexOf( "b" ) != -1 || this.race.indexOf( "B" ) != -1;
+		this.beeware = this.race != null && this.race.indexOf( "b" ) != -1 || this.race.indexOf( "B" ) != -1;
 
 		this.weight = weight;
 		this.item = item;

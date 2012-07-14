@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -393,7 +394,7 @@ public class KoLAdventure
 
 			// Assume that if you are currently wearing an outfit,
 			// you want to use that method.
-			if ( EquipmentManager.isWearingOutfit( 4 ) )
+			if ( EquipmentManager.isWearingOutfit( OutfitPool.HAREM_OUTFIT ) )
 			{
 				// Harem girl
 				if ( KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) )
@@ -413,7 +414,7 @@ public class KoLAdventure
 					return;
 				}
 			}
-			else if ( EquipmentManager.isWearingOutfit( 5 ) )
+			else if ( EquipmentManager.isWearingOutfit( OutfitPool.KNOB_ELITE_OUTFIT ) )
 			{
 				// Elite Guard
 				if ( InventoryManager.retrieveItem( ItemPool.KNOB_CAKE ) )
@@ -428,13 +429,13 @@ public class KoLAdventure
 			// appropriate outfit or, if we are, we can't use it.
 			// See what we have.
 
-			int outfitId = 0;
+			int outfitId = OutfitPool.NONE;
 
 			// Using the harem girl outfit requires only two pieces and a perfume.
 			// Using the elite guard outfit requires three pieces and Fancy cooking.
 			// Check for the harem girl first.
 
-			if ( EquipmentManager.hasOutfit( 4 ) &&
+			if ( EquipmentManager.hasOutfit( OutfitPool.HAREM_OUTFIT ) &&
 			     ( KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) ||
 			       ( !KoLCharacter.inBeecore() &&
 				 InventoryManager.retrieveItem( ItemPool.KNOB_GOBLIN_PERFUME ) ) ) )
@@ -442,14 +443,14 @@ public class KoLAdventure
 				// We have the harem girl outfit and either
 				// have the effect or, if we are not in
 				// Beecore, have a perfume.
-				outfitId = 4;
+				outfitId = OutfitPool.HAREM_OUTFIT;
 			}
-			else if ( EquipmentManager.hasOutfit( 5 ) &&
+			else if ( EquipmentManager.hasOutfit( OutfitPool.KNOB_ELITE_OUTFIT ) &&
 				  InventoryManager.retrieveItem( ItemPool.KNOB_CAKE ) )
 			{
 				// We have the elite guard uniform and have
 				// made a cake.
-				outfitId = 5;
+				outfitId = OutfitPool.KNOB_ELITE_OUTFIT;
 			}
 			else
 			{
@@ -461,7 +462,7 @@ public class KoLAdventure
 			RequestThread.postRequest( new EquipmentRequest( outfit ) );
 
 			// If we selected the harem girl outfit, use a perfume
-			if ( outfitId == 4 && !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) )
+			if ( outfitId == OutfitPool.HAREM_OUTFIT && !KoLConstants.activeEffects.contains( KoLAdventure.PERFUME ) )
 			{
 				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.KNOB_GOBLIN_PERFUME ) );
 			}
@@ -487,8 +488,8 @@ public class KoLAdventure
 
 		if ( this.formSource.equals( "dwarffactory.php" ) || this.adventureId.equals( AdventurePool.MINE_OFFICE_ID ) )
 		{
-			int id1 = 8;
-			int id2 = 50;
+			int id1 = OutfitPool.MINING_OUTFIT;
+			int id2 = OutfitPool.DWARVISH_UNIFORM;
 
 			if ( !EquipmentManager.isWearingOutfit( id1 ) && !EquipmentManager.isWearingOutfit( id2 ) )
 			{

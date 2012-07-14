@@ -652,7 +652,7 @@ public class CharPaneRequest
 		int onClickIndex = 0;
 
 		KoLConstants.recentEffects.clear();
-		ArrayList visibleEffects = new ArrayList();
+		ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();
 
 		while ( onClickIndex != -1 )
 		{
@@ -909,7 +909,7 @@ public class CharPaneRequest
 	private static final void refreshEffects( final JSONObject JSON )
 		throws JSONException
 	{
-		ArrayList visibleEffects = new ArrayList();
+		ArrayList<AdventureResult> visibleEffects = new ArrayList<AdventureResult>();
 
 		Object o = JSON.get( "effects" );
 		if ( o instanceof JSONObject )

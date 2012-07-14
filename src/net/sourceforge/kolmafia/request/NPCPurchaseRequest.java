@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -64,6 +65,11 @@ public class NPCPurchaseRequest
 {
 	private static final AdventureResult TROUSERS = ItemPool.get( ItemPool.TRAVOLTAN_TROUSERS, 1 );
 	private static final AdventureResult FLEDGES = ItemPool.get( ItemPool.PIRATE_FLEDGES, 1 );
+	private final static AdventureResult SUPER_SKILL = EffectPool.get( "Super Skill" );
+	private final static AdventureResult SUPER_STRUCTURE = EffectPool.get( "Super Structure" );
+	private final static AdventureResult SUPER_VISION = EffectPool.get( "Super Vision" );
+	private final static AdventureResult SUPER_SPEED = EffectPool.get( "Super Speed" );
+	private final static AdventureResult SUPER_ACCURACY = EffectPool.get( "Super Accuracy" );
 
 	public static final Pattern PIRATE_EPHEMERA_PATTERN =
 		Pattern.compile( "pirate (?:brochure|pamphlet|tract)" );
@@ -181,43 +187,43 @@ public class NPCPurchaseRequest
 			return true;
 		}
 
-		int neededOutfit = 0;
+		int neededOutfit = OutfitPool.NONE;
 
 		if ( this.npcStoreId.equals( "b" ) )
 		{
-			neededOutfit = 1;
+			neededOutfit = OutfitPool.BUGBEAR_COSTUME;
 		}
 		else if ( this.npcStoreId.equals( "r" ) )
 		{
 			if ( !KoLCharacter.hasEquipped( NPCPurchaseRequest.FLEDGES ) )
 			{
-				neededOutfit = 9;
+				neededOutfit = OutfitPool.SWASHBUCKLING_GETUP;
 			}
 		}
 		else if ( this.npcStoreId.equals( "h" ) )
 		{
 			if ( this.shopName.equals( "Hippy Store (Pre-War)" ) )
 			{
-				neededOutfit = 2;
+				neededOutfit = OutfitPool.HIPPY_OUTFIT;
 			}
 			else if ( QuestLogRequest.isHippyStoreAvailable() )
 			{
-				neededOutfit = 0;
+				neededOutfit = OutfitPool.NONE;
 			}
 			else if ( this.shopName.equals( "Hippy Store (Hippy)" ) )
 			{
-				neededOutfit = 32;
+				neededOutfit = OutfitPool.WAR_HIPPY_OUTFIT;
 			}
 			else if ( this.shopName.equals( "Hippy Store (Fratboy)" ) )
 			{
-				neededOutfit = 33;
+				neededOutfit = OutfitPool.WAR_FRAT_OUTFIT;
 			}
 		}
 
 		// Only switch outfits if the person is not currently wearing the outfit and if they
 		// have that outfit.
 
-		if ( neededOutfit != 0 )
+		if ( neededOutfit != OutfitPool.NONE )
 		{
 			if ( EquipmentManager.isWearingOutfit( neededOutfit ) )
 			{
@@ -241,7 +247,7 @@ public class NPCPurchaseRequest
 			     KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_SPEED ) ||
 			     KoLConstants.activeEffects.contains( NPCPurchaseRequest.SUPER_ACCURACY ) )
 			{
-				if ( neededOutfit != 0 )
+				if ( neededOutfit != OutfitPool.NONE )
 				{
 					KoLmafia.updateDisplay(
 						MafiaState.ERROR,
@@ -259,7 +265,7 @@ public class NPCPurchaseRequest
 
 		if ( RecoveryManager.isRecoveryActive() )
 		{
-			if ( neededOutfit != 0 )
+			if ( neededOutfit != OutfitPool.NONE )
 			{
 				KoLmafia.updateDisplay(
 					MafiaState.ERROR,
@@ -273,7 +279,7 @@ public class NPCPurchaseRequest
 
 		// If there's an outfit that you need to use, change into it.
 
-		if ( neededOutfit != 0 )
+		if ( neededOutfit != OutfitPool.NONE )
 		{
 			( new EquipmentRequest( EquipmentDatabase.getOutfit( neededOutfit ) ) ).run();
 
@@ -290,12 +296,6 @@ public class NPCPurchaseRequest
 
 		return true;
 	}
-
-	private final static AdventureResult SUPER_SKILL = EffectPool.get( "Super Skill" );
-	private final static AdventureResult SUPER_STRUCTURE = EffectPool.get( "Super Structure" );
-	private final static AdventureResult SUPER_VISION = EffectPool.get( "Super Vision" );
-	private final static AdventureResult SUPER_SPEED = EffectPool.get( "Super Speed" );
-	private final static AdventureResult SUPER_ACCURACY = EffectPool.get( "Super Accuracy" );
 
 	@Override
 	public void processResults()

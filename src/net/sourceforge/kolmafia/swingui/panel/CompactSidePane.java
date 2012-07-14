@@ -837,12 +837,6 @@ public class CompactSidePane
 		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
 	}
 
-	private int predictStat( int base, int stat_pct, int stat )
-	{
-		int rv = (int) (Math.ceil( base * (100.0 + KoLCharacter.currentNumericModifier( stat_pct )) / 100.0 ) + KoLCharacter.currentNumericModifier( stat ));
-		return Math.max( 1, rv );
-	}
-
 	private void addElement( StringBuffer buf, String name, int dmgModifier )
 	{
 		double wdmg = KoLCharacter.currentNumericModifier( dmgModifier );

@@ -1444,24 +1444,6 @@ public class FamiliarTrainingFrame
 		return false;
 	}
 
-	private static final void printWeights( final int[] weights )
-	{
-		StringBuffer text = new StringBuffer();
-
-		text.append( "Possible familiar weights" );
-		text.append( ":" );
-
-		for ( int i = 0; i < weights.length; ++i )
-		{
-			text.append( i > 0 ? ", " : " " );
-			text.append( weights[ i ] );
-		}
-
-		text.append( "<br>" );
-
-		FamiliarTrainingFrame.results.append( text.toString() );
-	}
-
 	private static final void printMatch( final FamiliarStatus status, final ArenaOpponent opponent,
 		final FamiliarTool tool, final int match )
 	{

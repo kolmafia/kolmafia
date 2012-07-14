@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -54,7 +55,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
-import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -463,8 +463,8 @@ public class BreakfastManager
 			return;
 		}
 
-		SpecialOutfit hippy = EquipmentDatabase.getAvailableOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT );
-		SpecialOutfit fratboy = EquipmentDatabase.getAvailableOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT );
+		SpecialOutfit hippy = EquipmentDatabase.getAvailableOutfit( OutfitPool.WAR_HIPPY_OUTFIT );
+		SpecialOutfit fratboy = EquipmentDatabase.getAvailableOutfit( OutfitPool.WAR_FRAT_OUTFIT );
 
 		String lighthouse = Preferences.getString( "sidequestLighthouseCompleted" );
 		SpecialOutfit lighthouseOutfit = sidequestOutfit( lighthouse, hippy, fratboy );

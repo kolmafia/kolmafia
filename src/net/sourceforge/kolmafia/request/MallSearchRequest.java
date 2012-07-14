@@ -206,7 +206,6 @@ public class MallSearchRequest
 
 		// We may need to iterate over multiple pages of search results
 		this.removeFormField( "start" );
-		int next = 0;
 		int page = 1;
 		int limit = 0;
 
@@ -247,7 +246,6 @@ public class MallSearchRequest
 			}
 
 			int end = StringUtilities.parseInt( matcher.group(2) );
-			next = end + 1;
 			this.addFormField( "start", String.valueOf( end ) );
 		}
 

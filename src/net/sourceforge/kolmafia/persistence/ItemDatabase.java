@@ -619,7 +619,6 @@ public class ItemDatabase
 		BufferedReader reader = FileUtilities.getVersionedReader( filename, version );
 
 		String[] data;
-		Integer id;
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{

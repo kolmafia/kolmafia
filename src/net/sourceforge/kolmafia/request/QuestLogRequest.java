@@ -59,8 +59,6 @@ public class QuestLogRequest
 		"You have proven yourself literate.";
 	private static final String DUNGEONS_OF_DOOM =
 		"You have discovered the secret of the Dungeons of Doom.";
-	private static final String HAX0R =
-		"You have summoned the UB3r 31337 HaX0R";
 
 	private static String other = "";
 

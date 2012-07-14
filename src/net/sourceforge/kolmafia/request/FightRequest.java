@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -2479,7 +2480,7 @@ public class FightRequest
 				if ( guardian != -1 )
 				{
 					// Legendary Regalia of the Pasta Master
-					int exp = EquipmentManager.isWearingOutfit( 66 ) ? 2 : 1;
+					int exp = EquipmentManager.isWearingOutfit( OutfitPool.LEGENDARY_PASTA_REGALIA ) ? 2 : 1;
 					Preferences.increment( "pastamancerGhostExperience", exp );
 				}
 			}

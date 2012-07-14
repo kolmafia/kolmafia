@@ -273,7 +273,7 @@ public interface KoLConstants
 	public static final LockableListModel scripts = new LockableListModel();
 	public static final LockableListModel bookmarks = new LockableListModel();
 
-	public static final ArrayList disabledScripts = new ArrayList();
+	public static final ArrayList<String> disabledScripts = new ArrayList<String>();
 	public static final ScriptMRUList scriptMList = 
 			  new ScriptMRUList( "scriptMRUList", "scriptMRULength" );
 	public static final ScriptMRUList maximizerMList =

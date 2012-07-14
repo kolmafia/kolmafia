@@ -536,7 +536,6 @@ public class ListCellRendererFactory
 			}
 
 			StringBuffer stringForm = new StringBuffer();
-			String name = ar.getName();
 
 			stringForm.append( "<html><nobr>" );
 

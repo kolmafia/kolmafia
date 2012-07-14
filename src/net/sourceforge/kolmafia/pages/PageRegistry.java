@@ -40,7 +40,7 @@ import java.util.Set;
 
 public class PageRegistry
 {
-	private static final Set seenLocations = new HashSet();
+	private static final Set<String> seenLocations = new HashSet<String>();
 	private static final Map pagesByLocation = new HashMap();
 
 	public static final boolean isGameAction( String path, String queryString )

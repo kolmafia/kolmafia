@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -65,9 +66,8 @@ public class NPCStoreDatabase
 	extends KoLDatabase
 {
 	private static final HashMultimap NPC_ITEMS = new HashMultimap();
-	private static final AdventureResult LAB_KEY = new AdventureResult( 339, 1 );
 	private static final AdventureResult RABBIT_HOLE = new AdventureResult( "Down the Rabbit Hole", 1, true );
-	private static final Map storeNameById = new TreeMap();
+	private static final Map<String, String> storeNameById = new TreeMap<String, String>();
 
 	static
 	{
@@ -186,7 +186,7 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "b" ) )
 		{
-			return EquipmentManager.hasOutfit( 1 );
+			return EquipmentManager.hasOutfit( OutfitPool.BUGBEAR_COSTUME );
 		}
 		else if ( storeId.equals( "h" ) )
 		{
@@ -194,7 +194,7 @@ public class NPCStoreDatabase
 
 			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
 			{
-				if ( !InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) || !EquipmentManager.hasOutfit( 2 ) )
+				if ( !InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) || !EquipmentManager.hasOutfit( OutfitPool.HIPPY_OUTFIT ) )
 				{
 					return false;
 				}
@@ -221,7 +221,7 @@ public class NPCStoreDatabase
 				return false;
 			}
 
-			int outfit = 0;
+			int outfit = OutfitPool.NONE;
 			if ( shopName.equals( "Hippy Store (Hippy)" ) )
 			{
 				if ( !Preferences.getString( "currentHippyStore" ).equals( "hippy" ) )
@@ -229,7 +229,7 @@ public class NPCStoreDatabase
 					return false;
 				}
 
-				outfit = 32;	// War Hippy Fatigues
+				outfit = OutfitPool.WAR_HIPPY_OUTFIT;
 			}
 
 			else if ( shopName.equals( "Hippy Store (Fratboy)" ) )
@@ -239,7 +239,7 @@ public class NPCStoreDatabase
 					return false;
 				}
 
-				outfit = 33;	// Frat Warrior Fatigues
+				outfit = OutfitPool.WAR_FRAT_OUTFIT;
 			}
 
 			else
@@ -301,7 +301,7 @@ public class NPCStoreDatabase
 					return false;
 				}
 			}
-			return EquipmentManager.hasOutfit( 9 ) ||
+			return EquipmentManager.hasOutfit( OutfitPool.SWASHBUCKLING_GETUP ) ||
 				InventoryManager.hasItem( ItemPool.PIRATE_FLEDGES );
 		}
 		else if ( storeId.equals( "v" ) )

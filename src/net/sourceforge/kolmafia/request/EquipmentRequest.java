@@ -71,9 +71,6 @@ public class EquipmentRequest
 	//
 	// <table class='item' id="ic653" rel="id=653&s=0&q=1&d=0&g=0&t=0&n=1&m=0&u=."><td id='i653' valign=top><b class="ircm"><a onClick='javascript:descitem(126122919,0, event);'>intragalactic rowboat</a></b>&nbsp;<span></span><font size=1><br></font></td></table>
 
-	private static final Pattern ITEMTABLE_PATTERN = Pattern.compile( "<table class='item' (.*?)</table>" );
-	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "id=\"ic(\\d*)\" rel=\"([^\"]*)\">(<td class=\"img\".*?descitem.(\\d*))?.*?<b class=\"ircm\">(<a.*?descitem.(\\d*)[^>]*>)?(elven <i>limbos</i> gingerbread|[^<]+)(?:</a>)?</b>(?:&nbsp;<span>)?([^<]*?)(?:</span>)" );
-
 	private static final Pattern HAT_PATTERN =
 		Pattern.compile( "Hat</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=hat" );
 	private static final Pattern WEAPON_PATTERN =

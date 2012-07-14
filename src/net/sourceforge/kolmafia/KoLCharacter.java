@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -4244,7 +4245,7 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers( outfit.getName() ) );
 			// El Vibrato Relics may have additional benefits based on
 			// punchcards inserted into the helmet:
-			if ( outfit.getOutfitId() == 41 &&
+			if ( outfit.getOutfitId() == OutfitPool.VIBRATO_RELICS &&
 				Preferences.getInteger( "lastEVHelmetReset" ) == KoLCharacter.getAscensions() )
 			{
 				int data = Preferences.getInteger( "lastEVHelmetValue" );

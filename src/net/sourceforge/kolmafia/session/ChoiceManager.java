@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -2632,7 +2633,7 @@ public abstract class ChoiceManager
 			result = new String[ 3 ];
 
 			// Attempt a frontal assault
-			boolean ok1 = EquipmentManager.isWearingOutfit( 3 );
+			boolean ok1 = EquipmentManager.isWearingOutfit( OutfitPool.FRAT_OUTFIT );
 			result[ 0 ] = "Frat Boy Ensemble (" + ( ok1 ? "" : "NOT " ) + "equipped)";
 
 			// Go in through the side door
@@ -3679,7 +3680,7 @@ public abstract class ChoiceManager
 
 		case 162:
 			// Between a Rock and Some Other Rocks
-			if ( KoLmafia.isAdventuring() && !EquipmentManager.isWearingOutfit( 8 ) && !KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) )
+			if ( KoLmafia.isAdventuring() && !EquipmentManager.isWearingOutfit( OutfitPool.MINING_OUTFIT ) && !KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) )
 			{
 				CouncilFrame.unlockGoatlet();
 			}
@@ -4668,7 +4669,7 @@ public abstract class ChoiceManager
 			// be tried again later.
 
 			return decision.equals( "2" ) ? "2" :
-				EquipmentManager.isWearingOutfit( 8 ) ? "1" :
+				EquipmentManager.isWearingOutfit( OutfitPool.MINING_OUTFIT ) ? "1" :
 				KoLCharacter.inFistcore() && KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST )  ? "1" :
 				KoLCharacter.inAxecore() ? "3" :
 				"2";

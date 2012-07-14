@@ -101,7 +101,7 @@ public class ProfileSnapshot
 		ProfileSnapshot.filterList.clear();
 	}
 
-	public static final Map getProfileMap()
+	public static final Map<String, String> getProfileMap()
 	{
 		return ProfileSnapshot.profileMap;
 	}

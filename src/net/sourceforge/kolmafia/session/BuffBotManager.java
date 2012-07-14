@@ -86,16 +86,16 @@ public abstract class BuffBotManager
 	private static int initialRestores = 0;
 	private static boolean isInitializing = false;
 
-	private static final ArrayList saveList = new ArrayList();
-	private static final ArrayList deleteList = new ArrayList();
-	private static final ArrayList sendList = new ArrayList();
+	private static final ArrayList<KoLMailMessage> saveList = new ArrayList<KoLMailMessage>();
+	private static final ArrayList<KoLMailMessage> deleteList = new ArrayList<KoLMailMessage>();
+	private static final ArrayList<SendMailRequest> sendList = new ArrayList<SendMailRequest>();
 
 	private static int messageDisposalSetting;
 	private static String refundMessage;
 	private static String thanksMessage;
 	private static List whiteList = new ArrayList();
 
-	private static final Map buffCostMap = new TreeMap();
+	private static final Map<Integer, Offering> buffCostMap = new TreeMap<Integer, Offering>();
 	private static final SortedListModel buffCostTable = new SortedListModel();
 
 	public static final Pattern MEAT_PATTERN =
