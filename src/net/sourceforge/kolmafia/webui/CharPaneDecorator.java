@@ -474,7 +474,8 @@ public class CharPaneDecorator
 		case FamiliarPool.GIBBERER:
 			buffer.append( String.valueOf( Preferences.getInteger( "extraRolloverAdventures" ) - Preferences.getInteger( "_resolutionAdv" )
 				- Preferences.getInteger( "_hareAdv" ) ) );
-			buffer.append( " adv, " );
+			buffer.append( " adv" );
+			buffer.append( "<br>" );
 			buffer.append( Preferences.getString( "_gibbererCharge" ) );
 			buffer.append( "/15 charges" );
 			return buffer;
@@ -482,7 +483,8 @@ public class CharPaneDecorator
 		case FamiliarPool.HARE:
 			buffer.append( String.valueOf( Preferences.getInteger( "extraRolloverAdventures" ) - Preferences.getInteger( "_resolutionAdv" )
 				-Preferences.getInteger( "_gibbererAdv" ) ) );
-			buffer.append( " adv, " );
+			buffer.append( " adv" );
+			buffer.append( "<br>" );
 			buffer.append( Preferences.getString( "_hareCharge" ) );
 			buffer.append( "/" );
 			AdventureResult dormouse = ItemPool.get( ItemPool.MINIATURE_DORMOUSE, 1 );
@@ -523,7 +525,8 @@ public class CharPaneDecorator
 
 		case FamiliarPool.ARTISTIC_GOTH_KID:
 			buffer.append( Preferences.getString( "_hipsterAdv" ) );
-			buffer.append( "/7 fights, " );
+			buffer.append( "/7 fights" );
+			buffer.append( "<br>" );
 			buffer.append( Preferences.getString( "_gothKidCharge" ) );
 			buffer.append( "/" );
 			buffer.append( CharPaneDecorator.gothKidChargesNeeded() );
