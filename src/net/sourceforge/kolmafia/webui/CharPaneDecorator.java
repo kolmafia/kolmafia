@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -471,9 +472,22 @@ public class CharPaneDecorator
 			return buffer;
 
 		case FamiliarPool.GIBBERER:
+			buffer.append( String.valueOf( Preferences.getInteger( "extraRolloverAdventures" ) - Preferences.getInteger( "_resolutionAdv" )
+				- Preferences.getInteger( "_hareAdv" ) ) );
+			buffer.append( " adv, " );
+			buffer.append( Preferences.getString( "_gibbererCharge" ) );
+			buffer.append( "/15 charges" );
+			return buffer;
+
 		case FamiliarPool.HARE:
-			buffer.append( String.valueOf( Preferences.getInteger( "extraRolloverAdventures" ) - Preferences.getInteger( "_resolutionAdv" ) ) );
-			buffer.append( " adv" );
+			buffer.append( String.valueOf( Preferences.getInteger( "extraRolloverAdventures" ) - Preferences.getInteger( "_resolutionAdv" )
+				-Preferences.getInteger( "_gibbererAdv" ) ) );
+			buffer.append( " adv, " );
+			buffer.append( Preferences.getString( "_hareCharge" ) );
+			buffer.append( "/" );
+			AdventureResult dormouse = ItemPool.get( ItemPool.MINIATURE_DORMOUSE, 1 );
+			buffer.append( EquipmentManager.getEquipment( EquipmentManager.FAMILIAR ) == dormouse ? "12" : "15" );
+			buffer.append( " charges" );
 			return buffer;
 
 		case FamiliarPool.SLIMELING:
@@ -503,9 +517,17 @@ public class CharPaneDecorator
 		}
 
 		case FamiliarPool.HIPSTER:
-		case FamiliarPool.ARTISTIC_GOTH_KID:
 			buffer.append( Preferences.getString( "_hipsterAdv" ) );
 			buffer.append( "/7" );
+			return buffer;
+
+		case FamiliarPool.ARTISTIC_GOTH_KID:
+			buffer.append( Preferences.getString( "_hipsterAdv" ) );
+			buffer.append( "/7 fights, " );
+			buffer.append( Preferences.getString( "_gothKidCharge" ) );
+			buffer.append( "/" );
+			buffer.append( CharPaneDecorator.gothKidChargesNeeded() );
+			buffer.append( " charges" );
 			return buffer;
 
 		case FamiliarPool.GRINDER:
@@ -578,6 +600,26 @@ public class CharPaneDecorator
 		}
 
 		return null;
+	}
+
+	private static int gothKidChargesNeeded()
+	{
+		int fights = Preferences.getInteger( "_gothKidFights" );
+		AdventureResult mannequin = ItemPool.get( ItemPool.LITTLE_MANNEQUIN, 1 );
+		boolean equipWorn = EquipmentManager.getEquipment( EquipmentManager.FAMILIAR ) == mannequin;
+		if ( equipWorn )
+		{
+			return ( fights^2 - fights+  10 )/2;
+		}
+		else
+		{
+			// This is possibly an incomplete formula, but someone would have to kill 710 monsters in a day to find out
+			return ( fights^2 - fights +  14 +
+				Math.max( ( fights-2 ),0 )^2 + Math.max( fights-2,0 ) + Math.max( ( fights-5 ),0 )^2 + Math.max( fights-5,0 ) +
+				Math.max( ( fights-8 ),0 )^2 + Math.max( fights-8,0 ) + Math.max( ( fights-11 ),0 )^2 + Math.max( fights-11,0 ) +
+				Math.max( ( fights-3 ),0 )^2 + Math.max( fights-3,0 ) + Math.max( ( fights-6 ),0 )^2 + Math.max( fights-6,0 ) +
+				Math.max( ( fights-9 ),0 )^2 + Math.max( fights-9,0 ) + Math.max( ( fights-12 ),0 )^2 + Math.max( fights-12,0 ) ) /2;
+		}
 	}
 
 	private static final void decorateEffects( final StringBuffer buffer )

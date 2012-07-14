@@ -1478,6 +1478,7 @@ public class ItemPool
 	public static final int NOTE_FROM_CLANCY = 5682;
 	public static final int BURT = 5683;
 	public static final int AUTOPSY_TWEEZERS = 5687;
+	public static final int LITTLE_MANNEQUIN = 5702;
 	public static final int CRAYON_SHAVINGS = 5703;
 	public static final int WAX_BUGBEAR = 5704;
 	public static final int FDKOL_COMMENDATION = 5707;
