@@ -2134,14 +2134,26 @@ public abstract class ChoiceManager
 		// Choice 577 is Your Minstrel Scamp
 		// Choice 578 is End of the Boris Road
 
-		// Choice 579 is Such Great Heights
+		// Such Great Heights
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure579", "Hidden Temple Heights",
+			new String[] { "mysticality substats", "Nostril of the Serpent then skip adventure", "gain 3 adv then skip adventure" } ),
+
 		// Choice 580 is The Hidden Heart of the Hidden Temple (4 variations)
-		// Choice 581 is Such Great Depths
-		// Choice 582 is Fitting In
+
+		// Such Great Depths
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure581", "Hidden Temple Depths",
+			new String[] { "glowing fungus", "+15 mus/mys/mox then skip adventure", "fight clan of cave bars" } ),
+
+		// Fitting In
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure582", "Hidden Temple",
+			new String[] { "Such Great Heights", "heart of the Hidden Temple", "Such Great Depths" } ),
 
 		// Confusing Buttons
 		new ChoiceSpoiler(
-			"choiceAdventure583", "Hidden Temple",
+			"Woods", "choiceAdventure583", "Hidden Temple",
 			new String[] { "Press a random button" } ), 
 
 		// Unconfusing Buttons
