@@ -83,6 +83,7 @@ public class BreakfastManager
 
 	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
 	private static final AdventureResult key = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
+	private static final boolean useToys = Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
 
 	public static void getBreakfast( final boolean runComplete )
 	{
@@ -95,6 +96,7 @@ public class BreakfastManager
 			checkVIPLounge();
 			readGuildManual();
 			useCrimboToys();
+			useCSAKit();
 			getHermitClovers();
 			harvestGarden();
 			visitBigIsland();
@@ -112,6 +114,18 @@ public class BreakfastManager
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 		KoLmafia.forceContinue();
+	}
+
+	private static void useCSAKit()
+	{
+		if ( !useToys )
+		{
+			return;
+		}
+		if ( InventoryManager.getAccessibleCount( ItemPool.CSA_FIRE_STARTING_KIT ) > 0 && Preferences.getInteger( "choiceAdventure595" ) != 0 )
+		{
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.CSA_FIRE_STARTING_KIT, 1 ) ) );
+		}
 	}
 
 	public static void checkToaster()
@@ -185,7 +199,7 @@ public class BreakfastManager
 
 	public static void useCrimboToys()
 	{
-		if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		if ( useToys )
 		{
 			for ( int i = 0; i < toys.length; ++i )
 			{
