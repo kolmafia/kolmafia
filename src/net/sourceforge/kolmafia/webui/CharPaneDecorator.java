@@ -207,7 +207,7 @@ public class CharPaneDecorator
 				"red" : "black";
 
 			// Craft a replacement for the current value
-			StringBuffer rep = new StringBuffer();
+			StringBuilder rep = new StringBuilder();
 
 			rep.append( matcher.group( 1 ) );
 			rep.append( "<a style=\"color:" );
@@ -324,7 +324,7 @@ public class CharPaneDecorator
 
 		if ( CharPaneRequest.compactCharacterPane )
 		{
-			StringBuffer linkBuffer = new StringBuffer();
+			StringBuilder linkBuffer = new StringBuilder();
 
 			linkBuffer.append( "<td>" );
 
@@ -364,7 +364,7 @@ public class CharPaneDecorator
 		}
 		else
 		{
-			StringBuffer linkBuffer = new StringBuffer();
+			StringBuilder linkBuffer = new StringBuilder();
 
 			linkBuffer.append( "<font size=1>" );
 
@@ -606,19 +606,22 @@ public class CharPaneDecorator
 	{
 		int fights = Preferences.getInteger( "_gothKidFights" );
 		AdventureResult mannequin = ItemPool.get( ItemPool.LITTLE_MANNEQUIN, 1 );
-		boolean equipWorn = EquipmentManager.getEquipment( EquipmentManager.FAMILIAR ) == mannequin;
-		if ( equipWorn )
+		if ( EquipmentManager.getEquipment( EquipmentManager.FAMILIAR ).equals( mannequin ) )
 		{
-			return ( fights^2 - fights+  10 )/2;
+			return (int) ( Math.pow( fights, 2 ) - fights + 10 )/2;
 		}
 		else
 		{
 			// This is possibly an incomplete formula, but someone would have to kill 710 monsters in a day to find out
-			return ( fights^2 - fights +  14 +
-				Math.max( ( fights-2 ),0 )^2 + Math.max( fights-2,0 ) + Math.max( ( fights-5 ),0 )^2 + Math.max( fights-5,0 ) +
-				Math.max( ( fights-8 ),0 )^2 + Math.max( fights-8,0 ) + Math.max( ( fights-11 ),0 )^2 + Math.max( fights-11,0 ) +
-				Math.max( ( fights-3 ),0 )^2 + Math.max( fights-3,0 ) + Math.max( ( fights-6 ),0 )^2 + Math.max( fights-6,0 ) +
-				Math.max( ( fights-9 ),0 )^2 + Math.max( fights-9,0 ) + Math.max( ( fights-12 ),0 )^2 + Math.max( fights-12,0 ) ) /2;
+			return (int) ( Math.pow( fights, 2 ) - fights + 14 +
+				Math.pow(Math.max( ( fights-2 ), 0 ),2) + Math.max( fights-2, 0 ) + 
+				Math.pow(Math.max( ( fights-5 ), 0 ),2) + Math.max( fights-5, 0 ) +
+				Math.pow(Math.max( ( fights-8 ), 0 ),2) + Math.max( fights-8, 0 ) +
+				Math.pow(Math.max( ( fights-11 ), 0 ),2) + Math.max( fights-11, 0 ) - //Subtract stuff below
+				( Math.pow(Math.max( ( fights-3 ), 0 ),2) + Math.max( fights-3, 0 ) +
+				Math.pow(Math.max( ( fights-6 ), 0 ),2) + Math.max( fights-6, 0 ) +
+				Math.pow(Math.max( ( fights-9 ), 0 ),2) + Math.max( fights-9, 0 ) +
+				Math.pow(Math.max( ( fights-12 ), 0 ),2) + Math.max( fights-12, 0 ) ) ) /2;
 		}
 	}
 
@@ -819,7 +822,7 @@ public class CharPaneDecorator
 			return null;
 		}
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		buffer.append( "<font size=2 color=" );
 		buffer.append( fontColor );
@@ -849,7 +852,7 @@ public class CharPaneDecorator
 
 	private static final String dummyEffectTable()
 	{
-		StringBuffer effects = new StringBuffer();
+		StringBuilder effects = new StringBuilder();
 
 		if ( CharPaneRequest.compactCharacterPane )
 		{
