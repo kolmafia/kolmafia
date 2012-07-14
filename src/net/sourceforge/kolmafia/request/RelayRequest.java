@@ -556,7 +556,10 @@ public class RelayRequest
 
 	private void sendLocalImage( final String filename )
 	{
-		File imageFile = FileUtilities.downloadImage( "http://images.kingdomofloathing.com" + filename.substring( 6 ) );
+		String path = filename.endsWith( "favicon.ico" ) ?
+			"http://www.kingdomofloathing.com/favicon.ico" :
+			"http://images.kingdomofloathing.com" + filename.substring( 6 );
+		File imageFile = FileUtilities.downloadImage( path );
 
 		if ( imageFile == null )
 		{
@@ -1627,7 +1630,7 @@ public class RelayRequest
 
 		String path = this.getBasePath();
 
-		if ( path.equals( "missingimage.gif" ) || path.endsWith( "robots.txt" ) || path.endsWith( "favicon.ico" ) )
+		if ( path.equals( "missingimage.gif" ) || path.endsWith( "robots.txt" ) )
 		{
 			this.sendNotFound();
 			return;
@@ -1653,7 +1656,7 @@ public class RelayRequest
 			return;
 		}
 
-		if ( path.startsWith( "images/" ) )
+		if ( path.startsWith( "images/" ) || path.endsWith( "favicon.ico" ) )
 		{
 			// We can override specific images.
 			this.sendOverrideImage( path );
