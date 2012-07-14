@@ -1928,8 +1928,7 @@ public class FightRequest
 		// Track disco skill sequences
 		DiscoCombatHelper.parseFightRound( FightRequest.nextAction, responseText );
 
-		// Check for equipment breakage.
-
+		// Check for equipment breakage that can happen at any time.
 		if ( responseText.indexOf( "Your antique helmet, weakened" ) != -1 )
 		{
 			EquipmentManager.breakEquipment( ItemPool.ANTIQUE_HELMET,
@@ -1981,48 +1980,6 @@ public class FightRequest
 				"Your stick-on eyebrow piercing broke." );
 		}
 
-		if ( responseText.indexOf( "Your sugar chapeau slides" ) != -1 )
-		{
-			EquipmentManager.breakEquipment( ItemPool.SUGAR_CHAPEAU,
-				"Your sugar chapeau shattered." );
-		}
-
-		if ( responseText.indexOf( "your sugar shank handle" ) != -1 )
-		{
-			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHANK,
-				"Your sugar shank shattered." );
-		}
-
-		if ( responseText.indexOf( "drop something as sticky as the sugar shield" ) != -1 )
-		{
-			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHIELD,
-				"Your sugar shield shattered." );
-		}
-
-		if ( responseText.indexOf( "Your sugar shillelagh absorbs the shock" ) != -1 )
-		{
-			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHILLELAGH,
-				"Your sugar shillelagh shattered." );
-		}
-
-		if ( responseText.indexOf( "Your sugar shirt falls apart" ) != -1 )
-		{
-			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHIRT,
-				"Your sugar shirt shattered." );
-		}
-
-		if ( responseText.indexOf( "Your sugar shotgun falls apart" ) != -1 )
-		{
-			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHOTGUN,
-				"Your sugar shotgun shattered." );
-		}
-
-		if ( responseText.indexOf( "Your sugar shorts crack" ) != -1 )
-		{
-			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHORTS,
-				"Your sugar shorts shattered." );
-		}
-
 		// "The Slime draws back and shudders, as if it's about to sneeze.
 		// Then it blasts you with a massive loogie that sticks to your
 		// rusty grave robbing shovel, pulls it off of you, and absorbs
@@ -2050,7 +2007,7 @@ public class FightRequest
 		if ( responseText.indexOf( "leaps on your opponent" ) != -1 )
 		{
 			float fullness = Math.max( Preferences.getFloat( "slimelingFullness" ) - 1.0F, 0.0F );
-			Preferences.setFloat("slimelingFullness", fullness );
+			Preferences.setFloat( "slimelingFullness", fullness );
 		}
 
 		// 1st JitB charge: You turn <name>'s crank for a while. 
@@ -2081,13 +2038,6 @@ public class FightRequest
 		{
 			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
 			KoLmafia.updateDisplay( MafiaState.PENDING, "Your antique greaves got rusted." );
-		}
-
-		// Check for familiar actions
-
-		if ( responseText.indexOf( "shimmers briefly, and you feel it getting earlier." ) != -1 )
-		{
-			Preferences.increment( "_riftletAdv", 1 );
 		}
 
 		if ( responseText.indexOf( "sees that you're about to get attacked and trips it before it can attack you." ) != -1
@@ -2156,11 +2106,6 @@ public class FightRequest
 
 		boolean won = responseText.indexOf( "<!--WINWINWIN-->" ) != -1;
 
-		if ( won )
-		{
-			KoLCharacter.getFamiliar().addCombatExperience( responseText );
-		}
-
 		// If we won, the fight is over for sure. It might be over
 		// anyway. We can detect this in one of two ways: if you have
 		// the CAB enabled, there will be no link to the old combat
@@ -2170,9 +2115,52 @@ public class FightRequest
 		if ( !won &&
 			responseText.indexOf( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
 				"(show old combat form)" :
-				"fight.php" ) != -1 )
+				"action=fight.php" ) != -1 )
 		{
+			// The fight is not over, none of the stuff below needs to be checked
 			return;
+		}
+
+		if ( responseText.indexOf( "Your sugar chapeau slides" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_CHAPEAU,
+				"Your sugar chapeau shattered." );
+		}
+
+		if ( responseText.indexOf( "your sugar shank handle" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHANK,
+				"Your sugar shank shattered." );
+		}
+
+		if ( responseText.indexOf( "drop something as sticky as the sugar shield" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHIELD,
+				"Your sugar shield shattered." );
+		}
+
+		if ( responseText.indexOf( "Your sugar shillelagh absorbs the shock" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHILLELAGH,
+				"Your sugar shillelagh shattered." );
+		}
+
+		if ( responseText.indexOf( "Your sugar shirt falls apart" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHIRT,
+				"Your sugar shirt shattered." );
+		}
+
+		if ( responseText.indexOf( "Your sugar shotgun falls apart" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHOTGUN,
+				"Your sugar shotgun shattered." );
+		}
+
+		if ( responseText.indexOf( "Your sugar shorts crack" ) != -1 )
+		{
+			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHORTS,
+				"Your sugar shorts shattered." );
 		}
 
 		// The turtle blinks at you with gratitude for freeing it from
@@ -2204,13 +2192,6 @@ public class FightRequest
 			{
 				KoLmafia.updateDisplay( MafiaState.PENDING, "Bounty item failed to drop from expected monster." );
 			}
-		}
-
-		// Check for GMoB defeat
-		if ( responseText.indexOf( "guy made of bee pollen" ) != -1 )
-		{
-			// Record that we beat the guy made of bees.
-			Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
 		}
 
 		// Check for runaways. Only a free runaway decreases chance
@@ -2246,22 +2227,9 @@ public class FightRequest
 			Preferences.increment( "_hoboUnderlingSummons", 1 );
 		}
 
-		if ( responseText.contains( "Use of undefined constant itemprocess" ) )
+		if ( responseText.contains( "undefined constant itemprocess" ) )
 		{
 			Preferences.setBoolean( "_softwareGlitchTurnReceived", true );
-		}
-
-		// Increment Organ Grinder combat counter
-		if ( responseText.indexOf( "picking a few choice bits to put in his grinder" ) != -1 ||
-		     responseText.indexOf( "picks some organs out of your opponent and tosses them into his grinder." ) != -1 ||
-		     responseText.indexOf( "squealing something about burning his Longers and Lingers." ) != -1 ||
-		     responseText.indexOf( "chattering about how the upper story on his Gregory is standing up." ) != -1 ||
-		     responseText.indexOf( "My Hampton has a funny feeling about this one, mate" ) != -1 ||
-		     responseText.indexOf( "shivers as he rummages for grindable organs" ) != -1 ||
-		     responseText.indexOf( "squelches around in its body for some grinder fodder" ) != -1 ||
-		     responseText.indexOf( "and harvests a few choice bits for his grinder." ) != -1 )
-		{
-			Preferences.increment( "_piePartsCount", 1 );
 		}
 
 		// Check for worn-out stickers
@@ -2288,90 +2256,172 @@ public class FightRequest
 		}
 
 		// Check for special familiar actions
-		FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
-		switch ( familiar.getId() )
-		{
-		case FamiliarPool.HARE:
-			// <name> pulls an oversized pocketwatch out of his
-			// waistcoat and winds it. "Two days slow, that's what
-			// it is," he says.
-			if ( responseText.indexOf( "oversized pocketwatch" ) != -1 )
-			{
-				Preferences.increment( "extraRolloverAdventures", 1 );
-				Preferences.increment( "_hareAdv", 1 );
-			}
-
-			// The dormouse emerges groggily from <names>'s
-			// waistcoat and gives the watch another turn. He
-			// vanishes back into the pocket with a sleepy 'feed
-			// your head.'
-			break;
-
-		case FamiliarPool.GIBBERER:
-			// <name> mutters dark secrets under his breath, and
-			// you feel time slow down.
-			if ( responseText.indexOf( "you feel time slow down" ) != -1 )
-			{
-				Preferences.increment( "extraRolloverAdventures", 1 );
-				Preferences.increment( "_gibbererAdv", 1 );
-			}
-			break;
-
-		case FamiliarPool.STOCKING_MIMIC:
-			// <name> reaches deep inside himself and pulls out a
-			// big bag of candy. Cool!
-			if ( responseText.indexOf( "pulls out a big bag of candy" ) != -1 )
-			{
-				AdventureResult item = ItemPool.get( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
-				// The Stocking Mimic will do this once a day
-				Preferences.setBoolean( "_bagOfCandy", true );
-				// Add bag of many confections to inventory
-				ResultProcessor.processItem( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
-				// Equip familiar with it
-				familiar.setItem( item );
-			}
-
-			// <name> gorges himself on candy from his bag.
-			if ( responseText.indexOf( "gorges himself on candy from his bag" ) != -1 )
-			{
-				familiar.addNonCombatExperience( 1 );
-			}
-			break;
-
-		case FamiliarPool.HIPSTER:
-			//  The words POWER UP appear above <name>'s head as he
-			//  instantly grows a stupid-looking moustache.
-			if ( responseText.indexOf( "instantly grows a stupid-looking moustache" ) != -1 )
-			{
-				AdventureResult item = ItemPool.get( ItemPool.IRONIC_MOUSTACHE, 1 );
-				// The Mini-Hipster will do this once a day
-				Preferences.setBoolean( "_ironicMoustache", true );
-				// Add ironic moustache to inventory
-				ResultProcessor.processItem( ItemPool.IRONIC_MOUSTACHE, 1 );
-				// Equip familiar with it
-				familiar.setItem( item );
-			}
-			break;
-		}
-
+		
 		// Check for weapon-specific cases
 		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LEAFBLOWER, 1 ) ) )
 		{
-			Preferences.setInteger( "_leafblowerML", Math.min( 25, 1 +
-				Preferences.getInteger( "_leafblowerML" ) ) );
-		}
-
-		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATSEAT, 1 ) ) &&
-			responseText.indexOf( "gains 1 Experience" ) != -1 )
-		{
-			KoLCharacter.getEnthroned().addNonCombatExperience( 1 );
+			Preferences.increment( "_leafblowerML", 1, 25, false );
 		}
 
 		// Cancel any combat modifiers
 		Modifiers.overrideModifier( "fightMods", null );
 
+		// "You pull out your personal massager and use it to work the
+		// kinks out of your neck and your back. You stop there,
+		// though, as nothing below that point is feeling particularly
+		// kinky. Unfortunately, it looks like the batteries in the
+		// thing were only good for that one use."
+
+		if ( responseText.indexOf( "You pull out your personal massager" ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.PERSONAL_MASSAGER, -1 );
+			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
+		}
+
 		if ( won )
 		{
+			// Check for GMoB defeat
+			if ( responseText.indexOf( "guy made of bee pollen" ) != -1 )
+			{
+				// Record that we beat the guy made of bees.
+				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
+			}
+
+			KoLCharacter.getFamiliar().addCombatExperience( responseText );
+
+			FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
+			switch ( familiar.getId() )
+			{
+				case FamiliarPool.RIFTLET:
+					if ( responseText.indexOf( "shimmers briefly, and you feel it getting earlier." ) != -1 )
+					{
+						Preferences.increment( "_riftletAdv", 1 );
+					}
+					break;
+
+				case FamiliarPool.HARE:
+					// <name> pulls an oversized pocketwatch out of his
+					// waistcoat and winds it. "Two days slow, that's what
+					// it is," he says.
+					if ( responseText.indexOf( "oversized pocketwatch" ) != -1 )
+					{
+						Preferences.increment( "extraRolloverAdventures", 1 );
+						Preferences.increment( "_hareAdv", 1 );
+						Preferences.setInteger( "_hareCharge", 0 );
+					}
+					else
+					{
+						Preferences.increment( "_hareCharge", 1 );
+					}
+					break;
+
+				case FamiliarPool.GIBBERER:
+					// <name> mutters dark secrets under his breath, and
+					// you feel time slow down.
+					if ( responseText.indexOf( "you feel time slow down" ) != -1 )
+					{
+						Preferences.increment( "extraRolloverAdventures", 1 );
+						Preferences.increment( "_gibbererAdv", 1 );
+						Preferences.setInteger( "_gibbererCharge", 0 );
+					}
+					else
+					{
+						Preferences.increment( "_gibbererCharge", 1 );
+					}
+					break;
+
+				case FamiliarPool.STOCKING_MIMIC:
+					// <name> reaches deep inside himself and pulls out a
+					// big bag of candy. Cool!
+					if ( responseText.indexOf( "pulls out a big bag of candy" ) != -1 )
+					{
+						AdventureResult item = ItemPool.get( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
+						// The Stocking Mimic will do this once a day
+						Preferences.setBoolean( "_bagOfCandy", true );
+						// Add bag of many confections to inventory
+						ResultProcessor.processItem( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
+						// Equip familiar with it
+						familiar.setItem( item );
+					}
+
+					// <name> gorges himself on candy from his bag.
+					if ( responseText.contains( "gorges himself on candy from his bag" ) )
+					{
+						familiar.addNonCombatExperience( 1 );
+					}
+					break;
+
+				case FamiliarPool.JACK_IN_THE_BOX:
+					// 1st JitB charge: You turn <name>'s crank for a while.
+					// This will fail if a SBIP is equipped, but the message is too short
+					if ( responseText.contains( "'s crank for a while." ) )
+					{
+						Preferences.setInteger( "_jitbCharge", 1 );
+					}
+					// 2nd JitB charge: The tension builds as you turn <name>'s crank some more.
+					else if ( responseText.contains( "'s crank some more." ) )
+					{
+						Preferences.setInteger( "_jitbCharge", 2 );
+					}
+					// 3rd JitB charge, popping it: You turn <name>'s crank a little more, and
+					// all of a sudden a horrible grinning clown head emerges with a loud bang.
+					// It wobbles back and forth on the end of its spring, as though dancing to
+					// some sinister calliope music you can't actually hear...
+					else if ( responseText.contains( "a horrible grinning clown head emerges" ) )
+					{
+						Preferences.setInteger( "_jitbCharge", 0 );
+					}
+					break;
+
+				case FamiliarPool.HIPSTER:
+					//  The words POWER UP appear above <name>'s head as he
+					//  instantly grows a stupid-looking moustache.
+					if ( responseText.indexOf( "instantly grows a stupid-looking moustache" ) != -1 )
+					{
+						AdventureResult item = ItemPool.get( ItemPool.IRONIC_MOUSTACHE, 1 );
+						// The Mini-Hipster will do this once a day
+						Preferences.setBoolean( "_ironicMoustache", true );
+						// Add ironic moustache to inventory
+						ResultProcessor.processItem( ItemPool.IRONIC_MOUSTACHE, 1 );
+						// Equip familiar with it
+						familiar.setItem( item );
+					}
+					break;
+
+				case FamiliarPool.GRINDER:
+					// Increment Organ Grinder combat counter
+					if ( responseText.indexOf( "his body, picking a few choice bits" ) != -1 ||
+						responseText.indexOf( "your opponent and tosses them" ) != -1 ||
+						responseText.indexOf( "his insides, squealing something" ) != -1 ||
+						responseText.indexOf( "grind, chattering" ) != -1 ||
+						responseText.indexOf( "My Hampton has a funny feeling" ) != -1 ||
+						responseText.indexOf( "shivers as he rummages" ) != -1 ||
+						responseText.indexOf( "some grinder fodder, muttering" ) != -1 ||
+						responseText.indexOf( "and harvests a few choice bits" ) != -1 )
+					{
+						Preferences.increment( "_piePartsCount", 1 );
+					}
+					break;
+
+				case FamiliarPool.ARTISTIC_GOTH_KID:
+					if ( responseText.contains( "You gain 1 PvP Fight" ) )
+					{
+						Preferences.setInteger( "_gothKidCharge", 0 );
+						Preferences.increment( "_gothKidFights" );
+					}
+					else
+					{
+						Preferences.increment( "_gothKidCharge", 1 );
+					}
+					break;
+			}
+
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATSEAT, 1 ) ) &&
+				responseText.indexOf( "gains 1 Experience" ) != -1 )
+			{
+				KoLCharacter.getEnthroned().addNonCombatExperience( 1 );
+			}
+
 			String monster = MonsterStatusTracker.getLastMonsterName();
 
 			if ( monster.equalsIgnoreCase( "Black Pudding" ) )
@@ -2433,18 +2483,6 @@ public class FightRequest
 					Preferences.increment( "pastamancerGhostExperience", exp );
 				}
 			}
-		}
-
-		// "You pull out your personal massager and use it to work the
-		// kinks out of your neck and your back. You stop there,
-		// though, as nothing below that point is feeling particularly
-		// kinky. Unfortunately, it looks like the batteries in the
-		// thing were only good for that one use."
-
-		if ( responseText.indexOf( "You pull out your personal massager" ) != -1 )
-		{
-			ResultProcessor.processItem( ItemPool.PERSONAL_MASSAGER, -1 );
-			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
 		}
 
 		FightRequest.clearInstanceData();
@@ -5495,7 +5533,7 @@ public class FightRequest
 		}
 
 		boolean shouldLogAction = Preferences.getBoolean( "logBattleAction" );
-		StringBuffer action = new StringBuffer();
+		StringBuilder action = new StringBuilder();
 
 		// Begin logging all the different combat actions and storing
 		// relevant data for post-processing.
@@ -5626,7 +5664,7 @@ public class FightRequest
 					FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( "skill " + skill );
 					if ( shouldLogAction )
 					{
-						action.append( "casts " + skill.toUpperCase() + "!" );
+						action.append( "casts " ).append( skill.toUpperCase() ).append( "!" );
 					}
 				}
 			}
@@ -5657,7 +5695,7 @@ public class FightRequest
 						FightRequest.nextAction = String.valueOf( itemId );
 						if ( shouldLogAction )
 						{
-							action.append( "uses the " + item );
+							action.append( "uses the " ).append( item );
 						}
 					}
 
@@ -5679,7 +5717,7 @@ public class FightRequest
 							FightRequest.nextAction += "," + String.valueOf( itemId );
 							if ( shouldLogAction )
 							{
-								action.append( " and uses the " + item );
+								action.append( " and uses the " ).append( item );
 							}
 						}
 					}
