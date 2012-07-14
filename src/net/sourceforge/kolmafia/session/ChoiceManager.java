@@ -3978,7 +3978,7 @@ public abstract class ChoiceManager
 				break;
 			}
 
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			buffer.append( "Now walking on the " );
 			buffer.append( newClass );
 			buffer.append( " road." );
@@ -4017,6 +4017,11 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processItem( ItemPool.NOSTRIL_OF_THE_SERPENT, -1 );
 			}
+			break;
+
+		case 595:
+			// Fire! I... have made... fire!
+			Preferences.setBoolean( "_fireStartingKitUsed", true );
 			break;
 		}
 

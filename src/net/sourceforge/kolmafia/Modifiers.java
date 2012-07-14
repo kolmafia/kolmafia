@@ -75,7 +75,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class Modifiers
 	extends KoLDatabase
 {
-	private static final HashMap modifiersByName = new HashMap();
+	private static final HashMap<String, Object> modifiersByName = new HashMap<String, Object>();
 	private static final HashMap<String,String> familiarEffectByName = new HashMap<String,String>();
 	private static final ArrayList<UseSkillRequest> passiveSkills = new ArrayList<UseSkillRequest>();
 	private static final ArrayList synergies = new ArrayList();
