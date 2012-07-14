@@ -835,6 +835,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_ballastTurtleUsed" ) ? 0 : 1;
 
+		case ItemPool.CSA_FIRE_STARTING_KIT:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_fireStartingKitUsed" ) ? 0 : 1;
+
 		}
 
 		switch ( consumptionType )
