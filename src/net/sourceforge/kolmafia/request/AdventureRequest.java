@@ -47,8 +47,10 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -318,7 +320,7 @@ public class AdventureRequest
 
 		// If you haven't unlocked the orc chasm yet, try doing so now.
 
-		if ( this.adventureId.equals( "80" ) && this.responseText.indexOf( "You shouldn't be here." ) != -1 )
+		if ( this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) && this.responseText.indexOf( "You shouldn't be here." ) != -1 )
 		{
 			AdventureRequest bridge = new AdventureRequest( "Bridge the Orc Chasm", "mountains.php", "" );
 			bridge.run();
@@ -386,11 +388,11 @@ public class AdventureRequest
 			}
 		}
 
-		if ( this.adventureId.equals( "70" ) )
+		if ( this.adventureId.equals( AdventurePool.ROULETTE_TABLES_ID ) )
 		{
 			ResultProcessor.processMeat( -10 );
 		}
-		else if ( this.adventureId.equals( "71" ) )
+		else if ( this.adventureId.equals( String.valueOf( AdventurePool.POKER_ROOM ) ) )
 		{
 			ResultProcessor.processMeat( -30 );
 		}

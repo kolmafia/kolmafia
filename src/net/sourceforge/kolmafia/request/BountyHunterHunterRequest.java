@@ -178,11 +178,6 @@ public class BountyHunterHunterRequest
 
 			KoLAdventure adventure = AdventureDatabase.getBountyLocation( itemId );
 			AdventureFrame.updateSelectedAdventure( adventure );
-			AdventureResult bounty = AdventureDatabase.getBounty( adventure );
-			String plural = ItemDatabase.getPluralName( itemId );
-
-			RequestLogger.updateSessionLog();
-			RequestLogger.updateSessionLog( "accept bounty assignment to collect " + bounty.getCount() + " " + plural );
 		}
 
 		CoinMasterRequest.parseResponse( data, location, responseText );

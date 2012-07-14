@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -87,7 +88,6 @@ public class QuartersmasterRequest
 			QuartersmasterRequest.sellPrices
 			);
 
-	public static final int WAR_FRAT_OUTFIT = 33;
 
 	static
 	{
@@ -148,7 +148,7 @@ public class QuartersmasterRequest
 			return "You're not at war.";
 		}
 
-		if ( !EquipmentManager.hasOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT ) )
+		if ( !EquipmentManager.hasOutfit( OutfitPool.WAR_FRAT_OUTFIT ) )
 		{
 			return "You don't have the Frat Warrior Fatigues";
 		}
@@ -159,9 +159,9 @@ public class QuartersmasterRequest
 	@Override
 	public void equip()
 	{
-		if ( !EquipmentManager.isWearingOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT ) )
+		if ( !EquipmentManager.isWearingOutfit( OutfitPool.WAR_FRAT_OUTFIT ) )
 		{
-			SpecialOutfit outfit = EquipmentDatabase.getOutfit( QuartersmasterRequest.WAR_FRAT_OUTFIT );
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( OutfitPool.WAR_FRAT_OUTFIT );
 			EquipmentRequest request = new EquipmentRequest( outfit );
 			RequestThread.postRequest( request );
 		}

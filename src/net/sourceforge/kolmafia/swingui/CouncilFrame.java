@@ -43,8 +43,10 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -188,7 +190,7 @@ public class CouncilFrame
 		}
 		else if ( location.startsWith( "trapper" ) )
 		{
-			CouncilFrame.handleTrapperChange( location, responseText );
+			CouncilFrame.handleTrapperChange( responseText );
 		}
 		else if ( location.startsWith( "trickortreat" ) )
 		{
@@ -347,7 +349,7 @@ public class CouncilFrame
 		}
 	}
 
-	private static final void handleTrapperChange( final String location, final String responseText )
+	private static final void handleTrapperChange( final String responseText )
 	{
 		Matcher oreMatcher = CouncilFrame.ORE_PATTERN.matcher( responseText );
 		if ( oreMatcher.find() )
@@ -396,7 +398,7 @@ public class CouncilFrame
 
 	public static final void unlockGoatlet()
 	{
-		AdventureRequest goatlet = new AdventureRequest( "Goatlet", "adventure.php", "60" );
+		AdventureRequest goatlet = new AdventureRequest( "Goatlet", "adventure.php", AdventurePool.GOATLET_ID );
 
 		if ( KoLCharacter.inFistcore() )
 		{
@@ -433,20 +435,20 @@ public class CouncilFrame
 			return;
 		}
 
-		if ( !EquipmentManager.hasOutfit( 8 ) )
+		if ( !EquipmentManager.hasOutfit( OutfitPool.MINING_OUTFIT ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ABORT, "You need a mining outfit to continue." );
 			return;
 		}
 
-		if ( EquipmentManager.isWearingOutfit( 8 ) )
+		if ( EquipmentManager.isWearingOutfit( OutfitPool.MINING_OUTFIT ) )
 		{
 			RequestThread.postRequest( goatlet );
 			return;
 		}
 
 		SpecialOutfit.createImplicitCheckpoint();
-		( new EquipmentRequest( EquipmentDatabase.getOutfit( 8 ) ) ).run();
+		( new EquipmentRequest( EquipmentDatabase.getOutfit( OutfitPool.MINING_OUTFIT ) ) ).run();
 		RequestThread.postRequest( goatlet );
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}

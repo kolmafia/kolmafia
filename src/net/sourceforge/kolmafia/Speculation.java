@@ -55,7 +55,7 @@ public class Speculation
 {
 	private int MCD;
 	public AdventureResult[] equipment;
-	private ArrayList effects;
+	private ArrayList<AdventureResult> effects;
 	private FamiliarData familiar, enthroned;
 	protected boolean calculated = false;
 	protected Modifiers mods;
@@ -64,7 +64,7 @@ public class Speculation
 	{
 		this.MCD = KoLCharacter.getMindControlLevel();
 		this.equipment = EquipmentManager.allEquipment();			
-		this.effects = new ArrayList();
+		this.effects = new ArrayList<AdventureResult>();
 		this.effects.addAll( KoLConstants.activeEffects );
 		// Strip out intrinsic effects granted by equipment - they will
 		// be readded if appropriate via Intrinsic Effect modifiers.

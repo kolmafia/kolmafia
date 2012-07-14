@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -87,7 +88,7 @@ public class DimemasterRequest
 			DimemasterRequest.sellPrices
 			);
 
-	public static final int WAR_HIPPY_OUTFIT = 32;
+	
 
 	static
 	{
@@ -148,7 +149,7 @@ public class DimemasterRequest
 			return "You're not at war.";
 		}
 
-		if ( !EquipmentManager.hasOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT ) )
+		if ( !EquipmentManager.hasOutfit( OutfitPool.WAR_HIPPY_OUTFIT ) )
 		{
 			return "You don't have the War Hippy Fatigues";
 		}
@@ -159,9 +160,9 @@ public class DimemasterRequest
 	@Override
 	public void equip()
 	{
-		if ( !EquipmentManager.isWearingOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT ) )
+		if ( !EquipmentManager.isWearingOutfit( OutfitPool.WAR_HIPPY_OUTFIT ) )
 		{
-			SpecialOutfit outfit = EquipmentDatabase.getOutfit( DimemasterRequest.WAR_HIPPY_OUTFIT );
+			SpecialOutfit outfit = EquipmentDatabase.getOutfit( OutfitPool.WAR_HIPPY_OUTFIT );
 			EquipmentRequest request = new EquipmentRequest( outfit );
 			RequestThread.postRequest( request );
 		}

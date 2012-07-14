@@ -170,7 +170,7 @@ public abstract class TransferItemRequest
 
 	public ArrayList generateSubInstances()
 	{
-		ArrayList subinstances = new ArrayList();
+		ArrayList<TransferItemRequest> subinstances = new ArrayList<TransferItemRequest>();
 
 		if ( KoLmafia.refusesContinue() )
 		{
@@ -186,7 +186,7 @@ public abstract class TransferItemRequest
 
 		int meatAttachment = 0;
 
-		ArrayList nextAttachments = new ArrayList();
+		ArrayList<AdventureResult> nextAttachments = new ArrayList<AdventureResult>();
 		int index = 0;
 
 		while ( index < this.attachments.length )
@@ -475,7 +475,7 @@ public abstract class TransferItemRequest
 		final Pattern itemPattern, final Pattern quantityPattern,
 		final List source, final int defaultQuantity )
 	{
-		ArrayList itemList = new ArrayList();
+		ArrayList<AdventureResult> itemList = new ArrayList<AdventureResult>();
 
 		Matcher itemMatcher = itemPattern.matcher( urlString );
 		Matcher quantityMatcher = quantityPattern == null ? null : quantityPattern.matcher( urlString );
@@ -519,7 +519,7 @@ public abstract class TransferItemRequest
 	{
 		// Return only items that are on the source list - no default
 
-		ArrayList itemList = new ArrayList();
+		ArrayList<AdventureResult> itemList = new ArrayList<AdventureResult>();
 
 		Matcher itemMatcher = itemPattern.matcher( urlString );
 		Matcher quantityMatcher = quantityPattern == null ? null : quantityPattern.matcher( urlString );
@@ -586,7 +586,7 @@ public abstract class TransferItemRequest
 	public static final ArrayList getItemList( final String responseText, final Pattern outerPattern,
 						   final Pattern innerPattern1, final Pattern innerPattern2 )
 	{
-		ArrayList itemList = new ArrayList();
+		ArrayList<AdventureResult> itemList = new ArrayList<AdventureResult>();
 		Matcher itemMatcher = outerPattern.matcher( responseText );
 
 		while ( itemMatcher.find() )
@@ -599,7 +599,7 @@ public abstract class TransferItemRequest
 		return itemList;
 	}
 
-	public static final void getItemCount( List list, String text, final Pattern pattern )
+	public static final void getItemCount( List<AdventureResult> list, String text, final Pattern pattern )
 	{
 		if ( pattern == null )
 		{
@@ -617,7 +617,7 @@ public abstract class TransferItemRequest
 		}
 	}
 
-	public static final void getCountItem( List list, String text, final Pattern pattern )
+	public static final void getCountItem( List<AdventureResult> list, String text, final Pattern pattern )
 	{
 		if ( pattern == null )
 		{
@@ -693,7 +693,7 @@ public abstract class TransferItemRequest
 			return false;
 		}
 
-		StringBuffer itemListBuffer = new StringBuffer();
+		StringBuilder itemListBuffer = new StringBuilder();
 		itemListBuffer.append( command );
 
 		if ( recipients )

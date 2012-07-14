@@ -53,10 +53,10 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
 public abstract class KoLmafiaASH
 {
-	private static final HashMap relayScriptMap = new HashMap();
+	private static final HashMap<String, File> relayScriptMap = new HashMap<String, File>();
 
-	private static final HashMap TIMESTAMPS = new HashMap();
-	private static final HashMap INTERPRETERS = new HashMap();
+	private static final HashMap<File, Long> TIMESTAMPS = new HashMap<File, Long>();
+	private static final HashMap<File, Interpreter> INTERPRETERS = new HashMap<File, Interpreter>();
 
 	public static final Interpreter NAMESPACE_INTERPRETER = new NamespaceInterpreter();
 
@@ -261,7 +261,7 @@ public abstract class KoLmafiaASH
 				continue;
 			}
 
-			StringBuffer description = new StringBuffer();
+			StringBuilder description = new StringBuilder();
 
 			description.append( func.getType() );
 			description.append( " " );

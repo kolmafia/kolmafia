@@ -123,7 +123,6 @@ public class StoreManageFrame
 	private JComboBox sellingList;
 	protected StoreManageTable manageTable;
 	private JList resultsDisplay;
-	private static StoreManagePanel storeManagePanel;
 
 	public StoreManageFrame()
 	{

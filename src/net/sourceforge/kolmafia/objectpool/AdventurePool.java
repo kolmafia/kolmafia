@@ -44,7 +44,9 @@ public class AdventurePool
 	public static final String BOSSBAT_ID = "34";
 	public static final String DUNGEON_OF_DOOM_ID = "39";
 	public static final int MENAGERIE_LEVEL_2 = 52;
+	public static final String GOATLET_ID = "60";
 	public static final int NINJA_SNOWMEN = 62;
+	public static final String ROULETTE_TABLES_ID = "70";
 	public static final int POKER_ROOM = 71;
 	public static final String PIXEL_REALM_ID = "73";
 	public static final String ORC_CHASM_ID = "80";

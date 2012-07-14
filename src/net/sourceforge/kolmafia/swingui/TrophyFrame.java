@@ -393,9 +393,6 @@ public class TrophyFrame
 			}
 		}
 		
-		private int lastX = -99;
-		private boolean lastExch = false;
-		
 		private int findDrop( int x, int y )
 		{
 			Insets ins = this.getInsets();

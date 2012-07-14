@@ -64,8 +64,8 @@ public class MallPriceDatabase
 	extends KoLDatabase
 {
 	private static final PriceArray prices = new PriceArray();
-	private static final HashSet updated = new HashSet();
-	private static final HashSet submitted = new HashSet();
+	private static final HashSet<String> updated = new HashSet<String>();
+	private static final HashSet<String> submitted = new HashSet<String>();
 	private static int modCount = 0;
 	static
 	{
@@ -304,7 +304,7 @@ public class MallPriceDatabase
 
 	public static class PriceArray
 	{
-		private final ArrayList internalList = new ArrayList();
+		private final ArrayList<Price> internalList = new ArrayList<Price>();
 
 		public Price get( final int index )
 		{
