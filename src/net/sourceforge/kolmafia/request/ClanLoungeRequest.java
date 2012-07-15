@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
+
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -171,11 +173,11 @@ public class ClanLoungeRequest
 
 	public static final Object [][] SWIMMING_OPTIONS = new Object[][]
 	{
-		//{
-		//	"cannonball",
-		//	"item",
-		//	IntegerPool.get( CANNONBALL )
-		//},
+		{
+			"cannonball",
+			"item",
+			IntegerPool.get( CANNONBALL )
+		},
 		{
 			"laps",
 			"ml",
@@ -683,7 +685,7 @@ public class ClanLoungeRequest
 			break;
 
 		case ClanLoungeRequest.SWIMMING_POOL:
-			if ( responseText.indexOf( "Screwing Around" ) != -1 )
+			if ( this.redirectLocation != null && this.redirectLocation.startsWith( "choice.php" ) )
 			{
 				RequestLogger.printLine( "You start screwing around in the swimming pool." );
 			}
@@ -1013,6 +1015,21 @@ public class ClanLoungeRequest
 			// no reason not to anymore.
 			request = new ClanLoungeRequest( ClanLoungeRequest.CRIMBO_TREE );
 			request.run();
+		}
+
+		// Not every clan has a swimming pool
+		if ( VISIT_REQUEST.responseText.contains( "vippool.gif" ) && !Preferences.getBoolean( "_olympicSwimmingPoolItemFound" ) )
+		{
+			try
+			{
+				RequestThread.postRequest( new ClanLoungeRequest( ClanLoungeRequest.SWIMMING_POOL, CANNONBALL ) );
+				RequestThread.postRequest( new ClanLoungeSwimmingPoolRequest( ClanLoungeSwimmingPoolRequest.HANDSTAND ) );
+				RequestThread.postRequest( new ClanLoungeSwimmingPoolRequest( ClanLoungeSwimmingPoolRequest.TREASURE ) );
+			}
+			finally
+			{
+				RequestThread.postRequest( new ClanLoungeSwimmingPoolRequest( ClanLoungeSwimmingPoolRequest.GET_OUT ) );
+			}
 		}
 	}
 

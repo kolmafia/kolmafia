@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -569,6 +570,13 @@ public class RequestLogger
 
 		if ( urlString.indexOf( "?" ) == -1 )
 		{
+			return;
+		}
+
+		// Call ClanLoungeSwimmingPool first because it's an instance of ChoiceManager.
+		if ( ( request instanceof ClanLoungeSwimmingPoolRequest || isExternal ) && ClanLoungeSwimmingPoolRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
 			return;
 		}
 
