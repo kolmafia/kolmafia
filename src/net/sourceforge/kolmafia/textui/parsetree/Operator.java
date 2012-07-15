@@ -298,19 +298,26 @@ public class Operator
 
 			double lfloat = leftValue.toFloatValue().floatValue();
 
-			if ( this.operator.equals( "**" ) && lfloat < 0.0 && Math.rint( rfloat) != rfloat )
+			double val = 0.0;
+
+			if ( this.operator.equals( "**" ) )
 			{
-				throw interpreter.runtimeException( "Taking a negative number to a non-integral power", this.fileName, this.lineNumber );
+				val = Math.pow( lfloat, rfloat );
+				if ( Double.isNaN( val ) || Double.isInfinite( val ) )
+				{
+					throw interpreter.runtimeException( "Invalid exponentiation: cannot take " + lfloat + " ** " + rfloat, this.fileName, this.lineNumber );
+				}
+			}
+			else
+			{
+				val =   this.operator.equals( "+" ) ? lfloat + rfloat :
+					this.operator.equals( "-" ) ? lfloat - rfloat :
+					this.operator.equals( "*" ) ? lfloat * rfloat :
+					this.operator.equals( "/" ) ? lfloat / rfloat :
+					this.operator.equals( "%" ) ? lfloat % rfloat :
+					0.0;
 			}
 
-			double val =
-				this.operator.equals( "+" ) ? lfloat + rfloat :
-				this.operator.equals( "-" ) ? lfloat - rfloat :
-				this.operator.equals( "*" ) ? lfloat * rfloat :
-				this.operator.equals( "/" ) ? lfloat / rfloat :
-				this.operator.equals( "%" ) ? lfloat % rfloat :
-				this.operator.equals( "**" ) ? Math.pow( lfloat, rfloat ) :
-				0.0;
 			result = DataTypes.makeFloatValue( val );
 		}
 
