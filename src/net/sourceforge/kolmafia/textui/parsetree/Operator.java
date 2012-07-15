@@ -297,6 +297,12 @@ public class Operator
 			}
 
 			double lfloat = leftValue.toFloatValue().floatValue();
+
+			if ( this.operator.equals( "**" ) && lfloat < 0.0 && Math.rint( rfloat) != rfloat )
+			{
+				throw interpreter.runtimeException( "Taking a negative number to a non-integral power", this.fileName, this.lineNumber );
+			}
+
 			double val =
 				this.operator.equals( "+" ) ? lfloat + rfloat :
 				this.operator.equals( "-" ) ? lfloat - rfloat :
