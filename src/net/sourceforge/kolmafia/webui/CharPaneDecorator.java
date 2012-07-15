@@ -526,11 +526,14 @@ public class CharPaneDecorator
 		case FamiliarPool.ARTISTIC_GOTH_KID:
 			buffer.append( Preferences.getString( "_hipsterAdv" ) );
 			buffer.append( "/7 fights" );
-			buffer.append( "<br>" );
-			buffer.append( Preferences.getString( "_gothKidCharge" ) );
-			buffer.append( "/" );
-			buffer.append( CharPaneDecorator.gothKidChargesNeeded() );
-			buffer.append( " charges" );
+			if ( KoLCharacter.getHippyStoneBroken() )
+			{
+				buffer.append( "<br>" );
+				buffer.append( Preferences.getString( "_gothKidCharge" ) );
+				buffer.append( "/" );
+				buffer.append( CharPaneDecorator.gothKidChargesNeeded() );
+				buffer.append( " charges" );
+			}
 			return buffer;
 
 		case FamiliarPool.GRINDER:

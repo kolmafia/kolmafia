@@ -2405,14 +2405,17 @@ public class FightRequest
 					break;
 
 				case FamiliarPool.ARTISTIC_GOTH_KID:
-					if ( responseText.contains( "You gain 1 PvP Fight" ) )
+					if ( KoLCharacter.getHippyStoneBroken() )
 					{
-						Preferences.setInteger( "_gothKidCharge", 0 );
-						Preferences.increment( "_gothKidFights" );
-					}
-					else
-					{
-						Preferences.increment( "_gothKidCharge", 1 );
+						if ( responseText.contains( "You gain 1 PvP Fight" ) )
+						{
+							Preferences.setInteger( "_gothKidCharge", 0 );
+							Preferences.increment( "_gothKidFights" );
+						}
+						else
+						{
+							Preferences.increment( "_gothKidCharge", 1 );
+						}
 					}
 					break;
 			}
