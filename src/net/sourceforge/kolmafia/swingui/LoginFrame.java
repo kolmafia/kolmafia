@@ -398,7 +398,7 @@ public class LoginFrame
 			}
 
 			@Override
-			public void findMatch( final int keyCode )
+			public synchronized void findMatch( final int keyCode )
 			{
 				super.findMatch( keyCode );
 				this.setPassword();

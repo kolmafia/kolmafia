@@ -927,7 +927,7 @@ public class ItemManagePanel
 		}
 
 		@Override
-		public void update()
+		public synchronized void update()
 		{
 			if ( ItemManagePanel.this.filters != null )
 			{
