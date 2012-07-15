@@ -152,10 +152,13 @@ public class StorageCommand
 		// *** Should we abort in !KoLmafia.permitsContinue()?
 
 		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
-		int pulls = ConcoctionDatabase.getPullsRemaining();
-		if ( pulls >= 0 )
+		if ( !KoLCharacter.canInteract() )
 		{
-			KoLmafia.updateDisplay( pulls + ( pulls == 1 ? " pull" : " pulls" ) + " remaining," + ConcoctionDatabase.getPullsBudgeted() + " budgeted for automatic use." );
+			int pulls = ConcoctionDatabase.getPullsRemaining();
+			if ( pulls >= 0 )
+			{
+				KoLmafia.updateDisplay( pulls + ( pulls == 1 ? " pull" : " pulls" ) + " remaining," + ConcoctionDatabase.getPullsBudgeted() + " budgeted for automatic use." );
+			}
 		}
 	}
 }
