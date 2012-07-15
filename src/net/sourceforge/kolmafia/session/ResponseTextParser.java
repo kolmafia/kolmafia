@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -318,6 +319,10 @@ public class ResponseTextParser
 			if ( location.indexOf( "whichchoice=562" ) != -1 )
 			{
 				FudgeWandRequest.parseResponse( location, responseText );
+			}
+			else if ( location.indexOf( "whichchoice=585" ) != -1 )
+			{
+				ClanLoungeSwimmingPoolRequest.parseResponse( location, responseText );
 			}
 		}
 
