@@ -227,7 +227,13 @@ public class Expression
 				return v;
 
 			case '^':
-				v = (double) Math.pow( s[ --sp ], s[ --sp ] );
+				double base = s[ --sp ];
+				double expt = s[ --sp ];
+				v = (double) Math.pow( base, expt );
+				if ( Double.isNaN( v ) || Double.isInfinite( v ) )
+				{
+					throw new ArithmeticException( "Invalid exponentiation: cannot take " + base + " ** " + expt );
+				}
 				break;
 
 			case '*':
