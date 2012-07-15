@@ -89,8 +89,7 @@ public abstract class StoreManager
 	private static final LockableListModel sortedSoldItemList = new LockableListModel();
 
 	private static final IntegerArray mallPrices = new IntegerArray();
-	private static final LinkedHashMap<Integer, ArrayList> mallSearches = new LinkedHashMap<Integer, ArrayList>();
-	private static int searchCount = 0;
+	private static final LinkedHashMap<Integer, ArrayList<PurchaseRequest>> mallSearches = new LinkedHashMap<Integer, ArrayList<PurchaseRequest>>();
 	private static final PauseObject pauser = new PauseObject();
 
 	public static boolean soldItemsRetrieved = false;
@@ -212,7 +211,7 @@ public abstract class StoreManager
 	public static final void update( final String storeText, final boolean isPriceManagement )
 	{
 		StoreManager.potentialEarnings = 0;
-		ArrayList<Comparable> newItems = new ArrayList<Comparable>();
+		ArrayList<SoldItem> newItems = new ArrayList<SoldItem>();
 
 		if ( isPriceManagement )
 		{
@@ -310,7 +309,7 @@ public abstract class StoreManager
 	public static final void parseLog( final String logText )
 	{
 		StoreManager.storeLog.clear();
-		ArrayList<Comparable> currentLog = new ArrayList<Comparable>();
+		ArrayList<Comparable<StoreLogEntry>> currentLog = new ArrayList<Comparable<StoreLogEntry>>();
 
 		Matcher logMatcher = StoreManager.LOGSPAN_PATTERN.matcher( logText );
 		if ( logMatcher.find() )
@@ -337,7 +336,7 @@ public abstract class StoreManager
 	}
 
 	private static class StoreLogEntry
-		implements Comparable
+		implements Comparable<StoreLogEntry>
 	{
 		private final int id;
 		private final String text;
@@ -358,9 +357,9 @@ public abstract class StoreManager
 			return this.stringForm;
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final StoreLogEntry o )
 		{
-			if ( o == null || !( o instanceof StoreLogEntry ) )
+			if ( o == null  )
 			{
 				return -1;
 			}
@@ -368,11 +367,11 @@ public abstract class StoreManager
 			switch ( StoreManager.currentLogSort )
 			{
 			case RECENT_FIRST:
-				return ( (StoreLogEntry) o ).id - this.id;
+				return o.id - this.id;
 			case OLDEST_FIRST:
-				return this.id - ( (StoreLogEntry) o ).id;
+				return this.id - o.id;
 			case GROUP_BY_NAME:
-				return this.text.compareToIgnoreCase( ( (StoreLogEntry) o ).text );
+				return this.text.compareToIgnoreCase( o.text );
 			default:
 				return -1;
 			}
@@ -385,16 +384,16 @@ public abstract class StoreManager
 		t1 = System.currentTimeMillis();
 		t0 = t1 - 15 * 1000;
 
-		Iterator<ArrayList> i = StoreManager.mallSearches.values().iterator();
+		Iterator<ArrayList<PurchaseRequest>> i = StoreManager.mallSearches.values().iterator();
 		while ( i.hasNext() )
 		{
-			ArrayList search = i.next();
+			ArrayList<PurchaseRequest> search = i.next();
 			if ( search == null || search.size() == 0 )
 			{
 				i.remove();
 				continue;
 			}
-			long t = ((PurchaseRequest) search.get( 0 )).getTimestamp();
+			long t = search.get( 0 ).getTimestamp();
 			if ( t < t0 || t > t1 )
 			{
 				i.remove();
@@ -408,13 +407,13 @@ public abstract class StoreManager
 	 * Utility method used to search the mall for a specific item.
 	 */
 
-	public static final ArrayList searchMall( final AdventureResult item )
+	public static final ArrayList<PurchaseRequest> searchMall( final AdventureResult item )
 	{
 		int itemId = item.getItemId();
 		if ( itemId <= 0 )
 		{
 			// This should not happen.
-			return new ArrayList();
+			return new ArrayList<PurchaseRequest>();
 		}
 
 		Integer id = IntegerPool.get( itemId );
@@ -422,19 +421,19 @@ public abstract class StoreManager
 
 		StoreManager.flushCache();
 
-		ArrayList results = StoreManager.mallSearches.get( id );
+		ArrayList<PurchaseRequest> results = StoreManager.mallSearches.get( id );
 		if ( results != null && results.size() > 0 )
 		{
 			KoLmafia.updateDisplay( "Using cached search results for " + name + "..." );
 			return results;
 		}
 
-		results = new ArrayList();
+		results = new ArrayList<PurchaseRequest>();
 
 		StoreManager.searchMall( "\"" + name + "\"", results, 10, false );
 
 		// Flush CoinMasterPurchaseRequests
-		Iterator it = results.iterator();
+		Iterator<PurchaseRequest> it = results.iterator();
 		while ( it.hasNext() )
 		{
 			if ( it.next() instanceof CoinMasterPurchaseRequest )
@@ -568,8 +567,8 @@ public abstract class StoreManager
 	 */
 
 	public static class SoldItem
-		extends Vector
-		implements Comparable
+		extends Vector<Object>
+		implements Comparable<Object>
 	{
 		private final int itemId;
 		private final String itemName;
@@ -625,7 +624,7 @@ public abstract class StoreManager
 		}
 
 		@Override
-		public boolean equals( final Object o )
+		public synchronized boolean equals( final Object o )
 		{
 			return o != null && o instanceof SoldItem && ( (SoldItem) o ).itemId == this.itemId;
 		}
@@ -656,7 +655,7 @@ public abstract class StoreManager
 		}
 
 		@Override
-		public String toString()
+		public synchronized String toString()
 		{
 			StringBuilder buffer = new StringBuilder();
 

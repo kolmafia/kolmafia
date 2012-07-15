@@ -205,7 +205,7 @@ public class PulverizePanel
 		}
 
 		@Override
-		public void update()
+		public synchronized void update()
 		{
 			this.others = PulverizePanel.this.filters[ 6 ].isSelected();
 			this.elemMask =
