@@ -1202,6 +1202,11 @@ public class ItemDatabase
 			ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
 		}
 		ItemDatabase.parseItemDescription( id, itemName, power );
+
+		// Add the new item to the ConcoctionPool
+		AdventureResult ar = ItemPool.get( itemId, 1 );
+		Concoction c = new Concoction( ar, KoLConstants.NOCREATE );
+		ConcoctionPool.set( c );
 	}
 
 	private static void parseItemDescription( final Integer id, final String itemName, int power )
