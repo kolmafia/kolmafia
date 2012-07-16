@@ -1243,7 +1243,7 @@
 1242	487309846	deflatdod.gif	deflated inflatable dodecapede	deflated inflatable dodecapedes
 1243	466418961	hovercraf.gif	toy six-seater hovercraft	toy six-seater hovercrafts
 1244	712302065	glassballs.gif	Glass Balls of the Goblin King	sets of Glass Balls of the Goblin King
-1245	711234565	batcape.gif	Cape of the Goblin King	Capes of the Goblin King
+1245	711234565	codpiece2.gif	Codpiece of the Goblin King	Codpieces of the Goblin King
 1246	116165723	rib.gif	rib of the Bonerdagon	ribs of the Bonerdagon
 1247	507415352	vertebra.gif	vertebra of the Bonerdagon	vertebrae of the Bonerdagon
 1248	226168903	vertneck.gif	Bonerdagon necklace	Bonerdagon necklaces

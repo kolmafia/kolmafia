@@ -1251,7 +1251,7 @@
 1242	deflated inflatable dodecapede	grow	all	0
 1243	toy six-seater hovercraft	familiar	all	75
 1244	Glass Balls of the Goblin King	offhand	display	0
-1245	Cape of the Goblin King	container	display	0
+1245	Codpiece of the Goblin King	accessory	display	0
 1246	rib of the Bonerdagon	weapon	display	0
 1247	vertebra of the Bonerdagon	none	display	0
 1248	Bonerdagon necklace	accessory	display	0

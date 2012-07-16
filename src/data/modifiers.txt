@@ -1484,6 +1484,7 @@ Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Dam
 # Claw of the Infernal Seal: 5 Additional Seal Summons Per Day*
 # * This enchantment works even when this item is not equipped
 Claw of the Infernal Seal	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Seal Clubber", Single Equip
+Codpiece of the Goblin King	Moxie: +7, Single Equip
 Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
 # CRIMBCO lanyard: Lets you work harder!
 CRIMBCO lanyard	Single Equip
@@ -2091,7 +2092,6 @@ yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 # Containers section of modifiers.txt
 
 Camp Scout backpack	Item Drop: +15, Softcore Only
-Cape of the Goblin King	Moxie: +7
 # Lord Flameface's cloak:  Has Cool Swirling Flames
 Lord Flameface's cloak	Cold Resistance: +2
 Mr. Container	Item Drop: +3

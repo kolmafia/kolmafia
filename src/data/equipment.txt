@@ -1317,6 +1317,7 @@ Chester's moustache	200	Mox: 200
 Chester's sunglasses	200	Mox: 200
 Choker of the Ultragoth	150	Mys: 60
 Claw of the Infernal Seal	150	Mus: 45
+Codpiece of the Goblin King	70	Mys: 20
 Copper Alpha of Sincerity	200	Mys: 85
 Counterclockwise Watch	200	none
 Dyspepsi-Cola-issue canteen	30	none
@@ -1878,7 +1879,6 @@ yellow glowstick	20	none
 # Containers section of equipment.txt
 
 Camp Scout backpack	0	none
-Cape of the Goblin King	70	none
 Great S-Cape	10	none
 Lord Flameface's cloak	0	none
 Mr. Container	0	none
