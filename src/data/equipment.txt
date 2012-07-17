@@ -1880,18 +1880,18 @@ yellow glowstick	20	none
 
 Camp Scout backpack	0	none
 Great S-Cape	10	none
-Lord Flameface's cloak	0	none
+Lord Flameface's cloak	0	Mys: 75
 Mr. Container	0	none
-Newbiesport&trade; backpack	0	none
+Newbiesport&trade; backpack	0	Mys: 75
 Rain-Doh red wings	100	none
-T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	none
-barskin cloak	25	none
-hemp backpack	0	none
-makeshift cape	100	none
-palm-frond cloak	140	none
-paperclip cape	50	none
-sealhide cloak	160	none
-teddybear backpack	150	none
-toy jet pack	175	none
-vampire cape	20	none
-wings of fire	100	none
+T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	Mus: 85
+barskin cloak	25	Mys: 75
+hemp backpack	0	Mys: 75
+makeshift cape	100	Mys: 75
+palm-frond cloak	140	Mys: 75
+paperclip cape	50	Mys: 75
+sealhide cloak	160	Mys: 75
+teddybear backpack	150	Mys: 75
+toy jet pack	175	Mys: 75
+vampire cape	20	Mys: 75
+wings of fire	100	Mys: 100
