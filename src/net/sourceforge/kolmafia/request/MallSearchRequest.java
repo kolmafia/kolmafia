@@ -40,13 +40,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
-
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
+import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallSearchRequest
@@ -70,7 +71,7 @@ public class MallSearchRequest
 	// (Items 1-10 of 45)
 	private static final Pattern ITERATION_PATTERN = Pattern.compile( "\\(Items (\\d+)-(\\d+) of (\\d+)\\)" );
 
-	private List results;
+	private List<PurchaseRequest> results;
 	private final boolean retainAll;
 	private String searchString;
 
@@ -79,7 +80,7 @@ public class MallSearchRequest
 		super( "mallstore.php" );
 		this.addFormField( "whichstore", String.valueOf( storeId ) );
 
-		this.results = new ArrayList();
+		this.results = new ArrayList<PurchaseRequest>();
 		this.retainAll = true;
 	}
 
@@ -109,7 +110,7 @@ public class MallSearchRequest
 	 * @param retainAll Whether the result list should be cleared before searching
 	 */
 
-	public MallSearchRequest( final String searchString, final int cheapestCount, final List results,
+	public MallSearchRequest( final String searchString, final int cheapestCount, final List<PurchaseRequest> results,
 		final boolean retainAll )
 	{
 		super( searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
@@ -167,12 +168,12 @@ public class MallSearchRequest
 		return dataName;
 	}
 
-	public List getResults()
+	public List<PurchaseRequest> getResults()
 	{
 		return this.results;
 	}
 
-	public void setResults( final List results )
+	public void setResults( final List<PurchaseRequest> results )
 	{
 		this.results = results;
 	}
@@ -247,6 +248,13 @@ public class MallSearchRequest
 
 			int end = StringUtilities.parseInt( matcher.group(2) );
 			this.addFormField( "start", String.valueOf( end ) );
+		}
+
+		// If an exact match, we can think about updating mall_price().
+		if ( this.searchString.startsWith( "\"" ) )
+		{
+			String name = this.getFormField( "pudnuggler" );
+			StoreManager.maybeUpdateMallPrice( AdventureResult.pseudoItem( name ), new ArrayList<PurchaseRequest>( results ) );
 		}
 
 		KoLmafia.updateDisplay( "Search complete." );

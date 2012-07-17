@@ -508,6 +508,14 @@ public abstract class StoreManager
 		}
 	}
 
+	public static final void maybeUpdateMallPrice( final AdventureResult item, final ArrayList results )
+	{
+		if ( StoreManager.mallPrices.get( item.getItemId() ) == 0 )
+		{
+			StoreManager.updateMallPrice( item, results );
+		}
+	}
+
 	public static final void updateMallPrice( final AdventureResult item, final ArrayList results )
 	{
 		if ( item.getItemId() < 1 )
