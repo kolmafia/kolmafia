@@ -48,8 +48,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionPool
 {
-	private static final TreeMap map = new TreeMap();
-	private static Collection values = null;
+	private static final TreeMap<String, Concoction> map = new TreeMap<String, Concoction>();
+	private static Collection<Concoction> values = null;
 	private static final ConcoctionArray cache = new ConcoctionArray();
 
 	static
@@ -79,7 +79,7 @@ public class ConcoctionPool
 	public static Concoction get( final String name )
 	{
 		String cname = StringUtilities.getCanonicalName( name );
-		return (Concoction) ConcoctionPool.map.get( cname );
+		return ConcoctionPool.map.get( cname );
 	}
 
 	public static Concoction get( final AdventureResult ar )
@@ -101,7 +101,7 @@ public class ConcoctionPool
 		}
 	}
 
-	public static Iterator iterator()
+	public static Iterator<Concoction> iterator()
 	{
 		if ( ConcoctionPool.values == null )
 		{
@@ -156,7 +156,7 @@ public class ConcoctionPool
 
 	private static class ConcoctionArray
 	{
-		private final ArrayList internalList = new ArrayList( ItemDatabase.maxItemId() );
+		private final ArrayList<Concoction> internalList = new ArrayList<Concoction>( ItemDatabase.maxItemId() );
 		private int max = 0;
 
 		public ConcoctionArray()
@@ -176,16 +176,20 @@ public class ConcoctionPool
 				return null;
 			}
 
-			return (Concoction) this.internalList.get( index );
+			return this.internalList.get( index );
 		}
 
 		public void set( final int index, final Concoction value )
 		{
-			this.internalList.set( index, value );
 			if ( index > this.max )
 			{
+				for ( int i = max + 1; i <= index; ++i )
+				{
+					this.internalList.add( null );
+				}
 				this.max = index;
 			}
+			this.internalList.set( index, value );
 		}
 
 		public int size()
