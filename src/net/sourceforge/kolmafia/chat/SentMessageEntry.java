@@ -45,7 +45,10 @@ public class SentMessageEntry
 	extends HistoryEntry
 {
 	private static final Pattern DOJAX_PATTERN =
-		Pattern.compile( "<!--js\\(\\s*dojax\\(\\s*['\"](.*?)['\"]\\s*\\)\\s*;?\\s*\\)-->" );
+		Pattern.compile( "<!--js\\(\\s*dojax\\((.*?)\\)-->" );
+
+	private static final Pattern DOJAX_URL_PATTERN =
+		Pattern.compile( "[\'\"]([^\'\"]+\\.php[^\'\"]+)[\'\"]" );
 
 	private static final GenericRequest DOJAX_VISITOR = new GenericRequest( "" );
 
@@ -82,15 +85,22 @@ public class SentMessageEntry
 		GenericRequest request = SentMessageEntry.DOJAX_VISITOR;
 		while ( dojax.find() )
 		{
-			// Force a GET, just like the Browser
-			request.constructURLString( dojax.group( 1 ) );
-			request.constructURLString( request.getFullURLString(), false );
+			String commands = dojax.group( 1 );
 
-			RequestThread.postRequest( SentMessageEntry.DOJAX_VISITOR );
+			Matcher dojaxURLs = SentMessageEntry.DOJAX_URL_PATTERN.matcher( commands );
 
-			if ( request.responseText == null )
+			while ( dojaxURLs.find() )
 			{
-				continue;
+				// Force a GET, just like the Browser
+				request.constructURLString( dojaxURLs.group( 1 ) );
+				request.constructURLString( request.getFullURLString(), false );
+
+				RequestThread.postRequest( SentMessageEntry.DOJAX_VISITOR );
+
+				if ( request.responseText == null )
+				{
+					continue;
+				}
 			}
 		}
 
