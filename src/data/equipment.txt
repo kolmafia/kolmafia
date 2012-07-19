@@ -1894,5 +1894,5 @@ paperclip cape	50	Mys: 75
 sealhide cloak	160	Mys: 75
 teddybear backpack	150	Mys: 75
 toy jet pack	175	Mys: 75
-vampire cape	20	Mys: 75
+vampire cape	20	Mus: 75
 wings of fire	100	Mys: 100
