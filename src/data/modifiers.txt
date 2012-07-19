@@ -1599,6 +1599,8 @@ Slow Talkin' Elliot's dogtags	Muscle: +30, Initiative: -30
 Sneaky Pete's breath spray	Moxie: +10
 Space Trip safety headphones	Monster Level: -100, Damage Reduction: 10, Combat Rate: -5, Single Equip
 Star of Bravery	Maximum HP: +25, Maximum MP: +25, Single Equip
+# Superhero Reboots: Help You Run Faster
+Superhero Reboots	Muscle: +5, Mysticality: +5, Moxie: +5, Initiative: +10
 Talisman o' Nam	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 # Talisman of Baio: All Attributes Increase with Moonlight
 Talisman of Baio	Muscle Percent: [+10*M], Mysticality Percent: [+10*M], Moxie Percent: [+10*M]

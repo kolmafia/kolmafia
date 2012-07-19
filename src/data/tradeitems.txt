@@ -5769,3 +5769,4 @@
 5760	slime-covered staff	weapon	display	500
 5761	Staff of the Scummy Sink	weapon	display	25
 5762	flaming nose	familiar	all	75
+5763	Superhero Reboots	accessory	display	0

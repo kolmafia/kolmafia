@@ -1422,6 +1422,7 @@ Slow Talkin' Elliot's dogtags	200	Mys: 45
 Sneaky Pete's breath spray	80	Mys: 25
 Space Trip safety headphones	100	Mys: 35
 Star of Bravery	200	none
+Superhero Reboots	0	none
 Talisman o' Nam	80	Mys: 25
 Talisman of Baio	200	none
 Talisman of Bakula	200	none
