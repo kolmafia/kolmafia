@@ -5761,3 +5761,4 @@
 5760	325350654	slimestaff.gif	slime-covered staff
 5761	270811344	scumsinkstaff.gif	Staff of the Scummy Sink
 5762	449067753	flamenose.gif	flaming nose
+5763	999275045	reboots.gif	Superhero Reboots
