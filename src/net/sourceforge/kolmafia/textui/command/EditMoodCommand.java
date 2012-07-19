@@ -94,6 +94,13 @@ public class EditMoodCommand
 		String action = ( index < split.length && split[ index ].length() > 0 ) ? split[ index++ ] : MoodManager.getDefaultAction( type, name );
 
 		MoodTrigger trigger = MoodManager.addTrigger( type, name, action );
+
+		if ( trigger == null )
+		{
+			RequestLogger.printLine( "Invalid command: " + cmd + " " + parameters );
+			return;
+		}
+
 		MoodManager.saveSettings();
 
 		RequestLogger.printLine( "Set mood trigger: " + trigger.toString() );
