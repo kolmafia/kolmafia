@@ -1604,6 +1604,8 @@ Talisman o' Nam	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 Talisman of Baio	Muscle Percent: [+10*M], Mysticality Percent: [+10*M], Moxie Percent: [+10*M]
 # Talisman of Bakula: Hemophilia
 Talisman of Bakula	Single Equip
+# The Lost Glasses: Reduce enemy defense by 15%
+The Lost Glasses	Hot Resistance: +2, Single Equip
 The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
 Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
 # Uncle Hobo's epic beard: +6 Adventures per day when equipped (+9 in December)
@@ -2179,6 +2181,7 @@ fishy wand	Familiar Effect: "fishy spells", Generic
 fixed-gear bicycle	Experience: +3, Effect: "stats", Equips On: "Mini-Hipster"
 flaming familiar doppelg&auml;nger	Monster Level: +5, Experience (familiar): +1.5, Softcore Only, Generic
 flaming glowsticks	Familiar Weight: +5
+# flaming nose: Makes Flaming Face More Complete
 funky brass fez	Familiar Weight: +5
 gazing shoes	Familiar Weight: +5
 # giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently.
