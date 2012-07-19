@@ -1425,6 +1425,7 @@ Star of Bravery	200	none
 Talisman o' Nam	80	Mys: 25
 Talisman of Baio	200	none
 Talisman of Bakula	200	none
+The Lost Glasses	0	Mys: 25
 The Ring	150	Mys: 60
 Uncle Hobo's belt	200	Mys: 200
 Uncle Hobo's epic beard	200	Mys: 200

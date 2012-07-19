@@ -5696,9 +5696,9 @@
 5695	320593140	evilometer.gif	bugbear detector
 5696	608714645	pill.gif	bugbear purification pill
 5697	560375054	1meat.gif	1 Meat
-5698
-5699
-5700
+5698	362424597	chestershades.gif	The Lost Glasses	pairs of the Lost Glasses
+5699	367129347	goofballs.gif	The Lost Pill Bottle	Lost Pill Bottles
+5700	320114000	comb.gif	The Lost Comb	Lost Combs
 5701	480226445	mopinggoth.gif	Moping Artistic Goth Kid
 5702	523128911	statue.gif	little wooden mannequin
 5703	683289268	crayonshavings.gif	crayon shavings	handfuls of crayon shavings
@@ -5760,3 +5760,4 @@
 5759	586597404	rustystaff.gif	rusty staff
 5760	325350654	slimestaff.gif	slime-covered staff
 5761	270811344	scumsinkstaff.gif	Staff of the Scummy Sink
+5762	449067753	flamenose.gif	flaming nose

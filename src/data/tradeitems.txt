@@ -5704,9 +5704,9 @@
 5695	bugbear detector	accessory	display	0
 5696	bugbear purification pill	usable	all	0
 5697	1 Meat	none	all	1
-5698
-5699
-5700
+5698	The Lost Glasses	accessory	all	0
+5699	The Lost Pill Bottle	usable	all	0
+5700	The Lost Comb	none, combat	all	0
 5701	Moping Artistic Goth Kid	grow	all	0
 5702	little wooden mannequin	familiar	all	75
 5703	crayon shavings	usable, combat	all	10
@@ -5768,3 +5768,4 @@
 5759	rusty staff	weapon	all	140
 5760	slime-covered staff	weapon	display	500
 5761	Staff of the Scummy Sink	weapon	display	25
+5762	flaming nose	familiar	all	75
