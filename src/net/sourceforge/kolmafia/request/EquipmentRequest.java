@@ -1320,6 +1320,11 @@ public class EquipmentRequest
 			for ( int slot = 0; slot < EquipmentManager.FAMILIAR; ++slot )
 			{
 				AdventureResult piece = equipment[ slot ];
+				// Make a brand-new AdventureResult for each item
+				if ( piece != EquipmentRequest.UNEQUIP )
+				{
+					piece = new AdventureResult( piece.getItemId(), 1 );
+				}
 				outfit.addPiece( piece );
 			}
 
