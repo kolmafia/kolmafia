@@ -741,17 +741,6 @@ public class EatItemRequest
 				continue;
 			}
 
-			// One fortune cookie can contain two identical numbers
-			// and thereby pinpoint the semirare turn.
-			if ( TurnCounter.isCounting( "Fortune Cookie", number ) )
-			{
-				TurnCounter.stopCounting( "Fortune Cookie" );
-				TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
-				TurnCounter.stopCounting( "Semirare window begin" );
-				TurnCounter.stopCounting( "Semirare window end" );
-				return;
-			}
-
 			// Add the new lucky number
 			TurnCounter.startCounting( number, "Fortune Cookie", "fortune.gif" );
 		}
