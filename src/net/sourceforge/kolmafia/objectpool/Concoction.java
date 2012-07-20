@@ -1068,8 +1068,11 @@ public class Concoction
 			runningTotal += ingredient.getAdventuresNeeded( create );
 		}
 
-		return Math.max(
-			runningTotal - ( !considerInigos || this.mixingMethod == KoLConstants.WOK ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), 0 );
+		if ( this.mixingMethod == KoLConstants.WOK )
+		{
+			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), 1 );
+		}
+		return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), 0 );
 	}
 
 	/**
