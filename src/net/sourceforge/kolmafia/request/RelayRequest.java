@@ -970,7 +970,7 @@ public class RelayRequest
 			String action = this.getFormField( "action" );
 			if ( action != null && action.equals( "throneroom" ) && KoLCharacter.mcdAvailable() )
 			{
-				return this.sendBossWarning( "The Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "batcape.gif" );
+				return this.sendBossWarning( "The Knob Goblin King", "goblinking.gif", 3, "glassballs.gif", 7, "codpiece.gif" );
 			}
 		}
 
