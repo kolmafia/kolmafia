@@ -110,7 +110,7 @@
 109	Whitened Teeth	goldfronts.gif	0f3c00c6477cf3c3ca13602bfee2d863	#clan buff
 110	Hopped Up on Goofballs	hoppedup.gif	061ca4225eeb3189b93a4a6c5e47351e	use 1 goofballs
 111	Goofball Withdrawal	withdraw.gif	29b44ff4d574d3698bb85eb97c4d37bc
-112	Antsy in your Pantsy	syrup.gif	ea9571b76d8c4d7df9ba47e27058bcf2	ashq if ( !use(1, $item[sugar-coated pine cone]) ) eat(1, $item[maple syrup]);
+112	Antsy in your Pantsy	syrup.gif	ea9571b76d8c4d7df9ba47e27058bcf2	use 1 sugar-coated pine cone|eat 1 maple syrup
 113	Popping Stomach	rockpops.gif	ab4ca3339e28ef091322625f1b62c71b	use 1 Rock Pops
 114	Dwarven Hardiness	happy.gif	99f5e9eb51172bcac524605eace88feb	eat 1 dwarf bread
 115	Apathy	apathy.gif	4ecdbe1ae06dfa3e3caa02cbf3676ffe	use 1 Mr. Mediocrebar
@@ -125,7 +125,7 @@
 124	Egg-stra Arm	eggplain.gif	f571d1555a2465e9e8fb0fb3b31b18e5	chew 1 yellow striped oyster egg
 125	Egg-headedness	eggplain.gif	e6b783e02fa92072ca81c7585912ba37	chew 1 yellow paisley oyster egg
 126	Egg-cellent Vocabulary	eggplain.gif	f7347c1d229420acff2226dac4125a0a	chew 1 yellow polka-dot oyster egg
-127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72	ashq if ( !use(1, $item[spooky eyeliner]) ) if ( !use(1, $item[spooky lipstick]) ) drink(1, $item[gloomy mushroom wine]);
+127	Gothy	gothy.gif	06cb86ddd689278c5af31423a8210a72	use either 1 spooky eyeliner, 1 spooky lipstick|drink 1 gloomy mushroom wine
 128	Flower Power	flower.gif	e91ceabee446030ff33cc79d06a8d551	drink 1 shot of flower schnapps
 129	Eye of the Lihc	eyeball.gif	19a38797f559f112930b8d33f3dd48e3	eat 1 lihc eye pie
 130	Springy Fusilli	fusilli.gif	bb44871dd165d4dc9b4d35daa46908ef	cast 1 Springy Fusilli
@@ -528,11 +528,11 @@
 527	Carrion' On	bonepile.gif	447b7c96f0e5c93fb9a64f92850f0b3e	chew 1 glimmering buzzard feather
 528	Melancholy Burden	blackbird1.gif	99d1d6de637d4289842cba0ffc2aec19	chew 1 glimmering raven feather
 529	The Great Tit's Blessing	wink.gif	429a69b3cdc061390828454dd06b6825	chew 1 glimmering great tit feather
-530	The Ballad of Richie Thingfinder	richie.gif	ff0e9ff0189cea375f60b5860463518d	ashq if ( !use_skill(1, $skill[The Ballad of Richie Thingfinder]) ) use(1, $item[Recording of The Ballad of Richie Thingfinder]);
-531	Benetton's Medley of Diversity	medley.gif	c8d08f07fdafe4308601d97322ca69dd	ashq if ( !use_skill(1, $skill[Benetton's Medley of Diversity]) ) use(1, $item[Recording of Benetton's Medley of Diversity]);
-532	Elron's Explosive Etude	etude.gif	26318ef7c75a6bf1fa80584e2e8941b3	ashq if ( !use_skill(1, $skill[Elron's Explosive Etude]) ) use(1, $item[Recording of Elron's Explosive Etude]);
-533	Chorale of Companionship	chorale.gif	e9227c476b197f54d5fe6be5e52995b5	ashq if ( !use_skill(1, $skill[Chorale of Companionship]) ) use(1, $item[Recording of Chorale of Companionship]);
-534	Prelude of Precision	prelude.gif	3f442b411c8d73c4116db7b89669b852	ashq if ( !use_skill(1, $skill[Prelude of Precision]) ) use(1, $item[Recording of Prelude of Precision]);
+530	The Ballad of Richie Thingfinder	richie.gif	ff0e9ff0189cea375f60b5860463518d	cast 1 The Ballad of Richie Thingfinder|use 1 recording of The Ballad of Richie Thingfinder
+531	Benetton's Medley of Diversity	medley.gif	c8d08f07fdafe4308601d97322ca69dd	cast 1 Benetton's Medley of Diversity|use 1 recording of Benetton's Medley of Diversity
+532	Elron's Explosive Etude	etude.gif	26318ef7c75a6bf1fa80584e2e8941b3	cast 1 Elron's Explosive Etude|use 1 recording of Elron's Explosive Etude
+533	Chorale of Companionship	chorale.gif	e9227c476b197f54d5fe6be5e52995b5	cast 1 Chorale of Companionship|use 1 recording of Chorale of Companionship
+534	Prelude of Precision	prelude.gif	3f442b411c8d73c4116db7b89669b852	cast 1 Prelude of Precision|use 1 recording of Prelude of Precision
 535	Deadly Lampblade	blacksword.gif	32cfd91b38e4cfd44a05d368aec7cf48	use 1 deadly lampshade
 536	Drenched With Filth	blooddrops.gif	0bae503909ac0e2a21763466adf33d29	use 1 concentrated garbage juice
 537	Hobonic	hobohead.gif	1a4b9db2f98937c155609f54c14cdf7c	#resting in Hobo Fortress
@@ -612,7 +612,7 @@
 611	Lustful Heart	heart.gif	35a0e93898e18f500d1d0c7eec8e8ef1	use 1 love song of naughty innuendo
 612	Clumsy	sad.gif	63fa9abd19f2d77636e52d591b54f589	use 1 concoction of clumsiness
 613	Spectral	specjelly.gif	810bbc77f3ef220d9d77ed395b9cc70c	use either 1 spectral jelly, 1 ghost protocol
-614	Donho's Bubbly Ballad	bubblyballad.gif	3337ba138b0e4d48f070bca9711139b5	ashq if ( !use_skill(1, $skill[Donho's Bubbly Ballad]) ) use(1, $item[Recording of Donho's Bubbly Ballad]);
+614	Donho's Bubbly Ballad	bubblyballad.gif	3337ba138b0e4d48f070bca9711139b5	cast 1 Donho's Bubbly Ballad|use 1 recording of Donho's Bubbly Ballad
 615	Antihangover	martini.gif	eadafbbe6d035eb5a36408dfbb1c85cc	use 1 hair of the fish
 616
 617	Old School Pompadour	pompadour.gif	aff568fdc12724deb962ebcb00e81fb9	use 1 jellyfish gel
@@ -714,7 +714,7 @@
 713	Simply Invisible	blank.gif	3563606030d2e7abf29128b1714dc309	use 1 invisibility potion
 714	Simply Irresistible	magnet.gif	cba956179bd0be43eb87e0f80fc6692c	use 1 irresistibility potion
 715	Simply Irritable	angry.gif	78f093b933f55e50f2cf8d8ee23451d6	use 1 irritability potion
-716	Inigo's Incantation of Inspiration	incantation.gif	13a38b36b281484553a9ea836fd3b2d8	ashq if ( !use_skill(1, $skill[Inigo's Incantation of Inspiration]) ) use(1, $item[Recording of Inigo's Incantation of Inspiration]);
+716	Inigo's Incantation of Inspiration	incantation.gif	13a38b36b281484553a9ea836fd3b2d8	cast 1 Inigo's Incantation of Inspiration|use 1 recording of Inigo's Incantation of Inspiration
 717	Red Misty-Eyed	eyeball.gif	820b089cdb98e5f389fb24448c4d6a37	use 1 sealhide seal doll
 718	B-b-brr!	sphererough.gif	c7cfec0c1b99f8ab69bdd4dd24dd6735	# snowball
 719	Sealed Brain	realbrain.gif	12fa21a06cde21c7a65f2244cd02dacb	use 1 seal-brain elixir
