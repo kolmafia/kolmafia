@@ -5709,7 +5709,7 @@
 5700	The Lost Comb	none, combat	all	0
 5701	Moping Artistic Goth Kid	grow	all	0
 5702	little wooden mannequin	familiar	all	75
-5703	crayon shavings	usable, combat	all	10
+5703	crayon shavings	multiple, combat	all	10
 5704	wax bugbear	usable	none	0
 5705	wax hat	hat	display	70
 5706	wax pants	pants	display	110

@@ -3871,6 +3871,7 @@ Mer-kin fastjuice	Effect: "Juiced Up", Effect Duration: 10
 Mer-kin hidepaint	Effect: "Colorfully Concealed", Effect Duration: 10
 Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration: 10
 Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
+Moping Artistic Goth Kid	Free Pull
 Mortimer's nostrum	Effect: "Limber as Mortimer", Effect Duration: 10
 Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
 My Own Pen Pal kit	Free Pull

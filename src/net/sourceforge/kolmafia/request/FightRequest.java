@@ -2391,14 +2391,13 @@ public class FightRequest
 
 				case FamiliarPool.GRINDER:
 					// Increment Organ Grinder combat counter
-					if ( responseText.indexOf( "his body, picking a few choice bits" ) != -1 ||
+					if ( responseText.indexOf( "a few choice bits" ) != -1 ||
 						responseText.indexOf( "your opponent and tosses them" ) != -1 ||
-						responseText.indexOf( "his insides, squealing something" ) != -1 ||
+						responseText.indexOf( "insides, squealing something" ) != -1 ||
 						responseText.indexOf( "grind, chattering" ) != -1 ||
 						responseText.indexOf( "My Hampton has a funny feeling" ) != -1 ||
-						responseText.indexOf( "shivers as he rummages" ) != -1 ||
-						responseText.indexOf( "some grinder fodder, muttering" ) != -1 ||
-						responseText.indexOf( "and harvests a few choice bits" ) != -1 )
+						responseText.indexOf( "grindable organs, muttering" ) != -1 ||
+						responseText.indexOf( "some grinder fodder, muttering" ) != -1 )
 					{
 						Preferences.increment( "_piePartsCount", 1 );
 					}
