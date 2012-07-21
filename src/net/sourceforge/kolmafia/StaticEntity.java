@@ -410,19 +410,22 @@ public abstract class StaticEntity
 			RequestLogger.openDebugLog();
 		}
 
+		String printMsg;
 		if ( message.startsWith( "Backtrace" ) )
 		{
 			StaticEntity.backtraceTrigger = null;
-			KoLmafia.updateDisplay( "Backtrace triggered, debug log printed." );
+			printMsg = "Backtrace triggered, debug log printed.";
 		}
 		else if ( !message.equals( "" ) )
 		{
-			KoLmafia.updateDisplay( message );
+			printMsg = message;
 		}
 		else
 		{
-			KoLmafia.updateDisplay( "Unexpected error, debug log printed." );
+			printMsg = "Unexpected error, debug log printed.";
 		}
+		KoLmafia.updateDisplay( printMsg );
+		RequestLogger.updateSessionLog( printMsg );
 
 		Throwable cause = t.getCause();
 
