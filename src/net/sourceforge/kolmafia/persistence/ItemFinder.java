@@ -525,6 +525,11 @@ public class ItemFinder
 
 	public static Object[] getMatchingItemList( List sourceList, String itemList )
 	{
+		return getMatchingItemList( sourceList, itemList, true );
+	}
+
+	public static Object[] getMatchingItemList( List sourceList, String itemList, boolean errorOnFailure )
+	{
 		String[] itemNames = itemList.split( "\\s*,\\s*" );
 
 		boolean isMeatMatch = false;
@@ -562,7 +567,7 @@ public class ItemFinder
 
 			if ( !isMeatMatch )
 			{
-				firstMatch = ItemFinder.getFirstMatchingItem( sourceList, itemNames[ i ], ItemFinder.matchType, true );
+				firstMatch = ItemFinder.getFirstMatchingItem( sourceList, itemNames[ i ], ItemFinder.matchType, errorOnFailure );
 			}
 
 			if ( firstMatch != null )
