@@ -61,6 +61,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.textui.command.UseItemCommand;
+import net.sourceforge.kolmafia.textui.command.UseSkillCommand;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -159,6 +161,26 @@ public class EffectDatabase
 		{	// Callers of this API expect an actual command, not a note.
 			return null;
 		}
+		for ( String it: rv.split( "\\|" ) )
+		{
+			String[] split = it.split( " ", 2 );
+			boolean works = true; // assume the command works if we don't check it here
+
+			if ( it.startsWith( "use" ) || it.startsWith( "eat" ) || it.startsWith( "drink" ) || it.startsWith( "chew" ) )
+			{
+				works = UseItemCommand.use( split[ 0 ], split[ 1 ], true );
+			}
+			else if ( it.startsWith( "cast" ) )
+			{
+				works = UseSkillCommand.cast( split[1], true );
+			}
+
+			if ( works )
+			{
+				return it;
+			}
+		}
+		// if nothing worked, fall through and dispatch the command so that an appropriate failure can be printed
 		return rv.split( "\\|" )[0];
 	}
 
