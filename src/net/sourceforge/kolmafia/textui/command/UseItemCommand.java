@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.DrinkItemRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class UseItemCommand
 	extends AbstractCommand
@@ -78,9 +79,14 @@ public class UseItemCommand
 
 	public static void use( final String command, String parameters )
 	{
+		UseItemCommand.use( command, parameters, false );
+	}
+
+	public static boolean use( final String command, String parameters, boolean sim )
+	{
 		if ( parameters.equals( "" ) )
 		{
-			return;
+			return false;
 		}
 
 		boolean either = parameters.startsWith( "either " );
@@ -93,11 +99,11 @@ public class UseItemCommand
 		{
 			if ( KoLCharacter.inBadMoon() && KitchenCommand.visit( parameters ) )
 			{
-				return;
+				return false;
 			}
 			if ( KoLCharacter.canadiaAvailable() && RestaurantCommand.makeChezSnooteeRequest( parameters ) )
 			{
-				return;
+				return false;
 			}
 		}
 
@@ -105,11 +111,11 @@ public class UseItemCommand
 		{
 			if ( KoLCharacter.inBadMoon() && KitchenCommand.visit( parameters ) )
 			{
-				return;
+				return false;
 			}
 			if ( KoLCharacter.gnomadsAvailable() && RestaurantCommand.makeMicroBreweryRequest( parameters ) )
 			{
-				return;
+				return false;
 			}
 		}
 
@@ -155,7 +161,7 @@ public class UseItemCommand
 					{
 						KoLmafia.updateDisplay(
 							MafiaState.ERROR, currentMatch.getName() + " cannot be consumed." );
-						return;
+						return false;
 					}
 				}
 
@@ -168,7 +174,7 @@ public class UseItemCommand
 					{
 						KoLmafia.updateDisplay(
 							MafiaState.ERROR, currentMatch.getName() + " is not an alcoholic beverage." );
-						return;
+						return false;
 					}
 				}
 
@@ -179,12 +185,12 @@ public class UseItemCommand
 					case KoLConstants.CONSUME_EAT:
 					case KoLConstants.CONSUME_FOOD_HELPER:
 						KoLmafia.updateDisplay( MafiaState.ERROR, currentMatch.getName() + " must be eaten." );
-						return;
+						return false;
 					case KoLConstants.CONSUME_DRINK:
 					case KoLConstants.CONSUME_DRINK_HELPER:
 						KoLmafia.updateDisplay(
 							MafiaState.ERROR, currentMatch.getName() + " is an alcoholic beverage." );
-						return;
+						return false;
 					}
 				}
 
@@ -209,15 +215,23 @@ public class UseItemCommand
 							command.equals( "slimeling" ) ?
 							UseItemRequest.getInstance( KoLConstants.CONSUME_SLIME, currentMatch ) :
 							UseItemRequest.getInstance( currentMatch );
+						if ( sim )
+						{
+							// UseItemRequest doesn't really have a "sim" mode, but we can do a pretty good approximation
+							// by checking if maximumUses > 0 and we can physically retrieve the item.
+							return UseItemRequest.maximumUses( currentMatch.getItemId() ) > 0 && !InventoryManager.simRetrieveItem(
+								currentMatch ).equalsIgnoreCase( "fail" );
+						}
 						RequestThread.postRequest( request );
 					}
 
 					if ( level < 2 )
 					{
-						return;
+						return false;
 					}
 				}
 			}
 		}
+		return true;
 	}
 }

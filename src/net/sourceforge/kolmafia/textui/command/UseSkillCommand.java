@@ -60,14 +60,19 @@ public class UseSkillCommand
 		if ( parameters.length() > 0 )
 		{
 			SpecialOutfit.createImplicitCheckpoint();
-			this.cast( parameters );
+			UseSkillCommand.cast( parameters );
 			SpecialOutfit.restoreImplicitCheckpoint();
 			return;
 		}
 		ShowDataCommand.show( "skills" + ( command.equals( "cast" ) ? " cast" : "" ) );
 	}
 
-	private void cast( final String parameters )
+	private static void cast( final String parameters )
+	{
+		UseSkillCommand.cast( parameters, false );
+	}
+
+	public static boolean cast( final String parameters, boolean sim )
 	{
 		String[] buffs = parameters.split( "\\s*,\\s*" );
 
@@ -89,9 +94,13 @@ public class UseSkillCommand
 			String skillName = SkillDatabase.getUsableKnownSkillName( skillNameString );
 			if ( skillName == null )
 			{
+				if ( sim )
+				{
+					return false;
+				}
 				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"You don't have a skill uniquely matching \"" + parameters + "\"" );
-				return;
+				return false;
 			}
 
 			int buffCount = 1;
@@ -108,10 +117,17 @@ public class UseSkillCommand
 			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 			{
 				RequestLogger.printLine( skillName + " (x" + buffCount + ")" );
-				return;
+				return true;
 			}
+			
+			UseSkillRequest request =  UseSkillRequest.getInstance( skillName, splitParameters[ 1 ], buffCount );
 
-			RequestThread.postRequest( UseSkillRequest.getInstance( skillName, splitParameters[ 1 ], buffCount ) );
+			if ( sim )
+			{
+				return request.getMaximumCast() > 0;
+			}
+			RequestThread.postRequest( request );
 		}
+		return true;
 	}
 }
