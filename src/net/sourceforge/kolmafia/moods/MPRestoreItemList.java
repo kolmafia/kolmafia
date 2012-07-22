@@ -103,6 +103,7 @@ public abstract class MPRestoreItemList
 		MPRestoreItemList.NUNS,
 		MPRestoreItemList.OSCUS,
 		MPRestoreItemList.QUARK,
+		new MPRestoreItem( "CSA all-purpose soap", 1000, false ),
 		new MPRestoreItem( "high-pressure seltzer bottle", 175, true ),
 		new MPRestoreItem( "natural fennel soda", 100, false ),
 		new MPRestoreItem( "bottle of Vangoghbitussin", 100, false ),

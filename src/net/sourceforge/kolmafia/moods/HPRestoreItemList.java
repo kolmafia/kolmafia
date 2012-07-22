@@ -101,6 +101,7 @@ public abstract class HPRestoreItemList
 		HPRestoreItemList.COCOON,
 		HPRestoreItemList.NUNS,
 		HPRestoreItemList.HOTTUB,
+		new HPRestoreItem( "Camp Scout pup tent", 1000 ),
 		new HPRestoreItem( "red pixel potion", 110 ),
 		new HPRestoreItem( "really thick bandage", 109 ),
 		new HPRestoreItem( "Pok&euml;mann band-aid", 100 ),
