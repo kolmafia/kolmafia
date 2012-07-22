@@ -139,7 +139,7 @@ public class UseItemCommand
 			ItemFinder.setMatchType( ItemFinder.USE_MATCH );
 		}
 
-		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
+		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters, !sim );
 
 		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
 
