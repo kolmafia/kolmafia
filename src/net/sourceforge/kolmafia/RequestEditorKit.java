@@ -1604,7 +1604,7 @@ public class RequestEditorKit
 			{
 				// He has some of the correct wine in inventory. Highlight it.
 				String find = ">" + name;
-				String replace = " selected>--&gt;" + name + "&lt--";
+				String replace = " selected>--&gt;" + name + "&lt;--";
 				StringUtilities.globalStringReplace( buffer, find, replace );
 			}
 			else
