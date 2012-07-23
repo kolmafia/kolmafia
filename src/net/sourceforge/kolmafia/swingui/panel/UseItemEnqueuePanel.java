@@ -683,12 +683,15 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			// Don't display memento items
-			for ( Object it : KoLConstants.mementoList )
+			// Don't display memento items if memento items are protected from destruction
+			if ( Preferences.getBoolean( "mementoListActive" ) )
 			{
-				if ( ( (AdventureResult) it ).getName().equals( creation.getName() ) )
+				for ( Object it : KoLConstants.mementoList )
 				{
-					return false;
+					if ( ( (AdventureResult) it ).getName().equals( creation.getName() ) )
+					{
+						return false;
+					}
 				}
 			}
 
