@@ -100,6 +100,7 @@ public class EffectPool
 			TOAD_IN_THE_HOLE( "Toad In The Hole", 436 ),
 			CORSICAN_BLESSING( "Brother Corsican's Blessing", 460 ),
 			COATED_IN_SLIME( "Coated in Slime", 633 ),
+			KUNG_FU_FIGHTING( "Kung Fu Fighting", 806 ),
 			GARISH( "Gar-ish", 918 ),
 			HAUNTING_LOOKS( "Haunting Looks", 937 ),
 			DEAD_SEXY( "Dead Sexy", 938 ),

@@ -74,6 +74,8 @@ import net.sourceforge.kolmafia.chat.HistoryEntry;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -145,6 +147,7 @@ public class RelayRequest
 	private static String CONFIRM_TOKENS = "confirm7";
 	private static String CONFIRM_SEAL = "confirm8";
 	private static String CONFIRM_ARCADE = "confirm9";
+	private static String CONFIRM_KUNGFU = "confirm10";
 
 	public RelayRequest( final boolean allowOverride )
 	{
@@ -941,6 +944,72 @@ public class RelayRequest
 		warning.append( "</a></div></td>" );
 
 		warning.append( "</tr></table></center><blockquote>KoLmafia has detected that you may be doing a 100% familiar run.  If you are sure you wish to deviate from this path, click on the familiar on the left.  If this was an accident, please click on the familiar on the right to switch to your 100% familiar." );
+		warning.append( "</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+
+		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+
+		return true;
+	}
+
+	private boolean sendKungFuWarning()
+	{
+		if ( this.getFormField( CONFIRM_KUNGFU ) != null )
+		{
+			return false;
+		}
+
+		// If you don't have the first Kung Fu effect active, there's nothing to warn about
+		if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.KUNG_FU_FIGHTING ) ) )
+		{
+			return false;
+		}
+
+		// If your hands are empty, there's nothing to warn about
+		if ( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).equals( EquipmentRequest.UNEQUIP ) &&
+			 EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).equals( EquipmentRequest.UNEQUIP ) )
+		{
+			return false;
+		}
+
+		StringBuilder warning = new StringBuilder();
+
+		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+
+		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"></head>" );
+		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
+
+		warning.append( "<table><tr>" );
+
+		String url = this.getURLString();
+
+		// Proceed with your hands full
+		warning.append( "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
+		warning.append( url );
+		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+		warning.append( CONFIRM_KUNGFU );
+		warning.append( "=on\"><img src=\"/images/itemimages/kungfu.gif" );
+		warning.append( "\" width=30 height=30 border=0>" );
+		warning.append( "</a></div></td>" );
+
+		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
+
+		// Empty your hands
+		warning.append( "<td align=center valign=center><div id=\"unlucky\" style=\"padding: 4px 4px 4px 4px\">" );
+
+		RelayRequest.redirectedCommandURL = "/inventory.php?which=2";
+
+		//warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"singleUse('familiar.php', 'action=newfam&ajax=1&newfam=" );
+		//warning.append( FamiliarData.getSingleFamiliarRun() );
+		warning.append( "<a style=\"text-decoration: none\" href=\"/KoLmafia/redirectedCommand?cmd=unequip+weapon;unequip+offhand&pwd=" );
+		warning.append( GenericRequest.passwordHash );
+		warning.append( "\">" );
+		warning.append( "<img src=\"/images/itemimages/hand.gif" );
+		warning.append( "\" width=30 height=30 border=0>" );
+		warning.append( "</a></div></td>" );
+
+		warning.append( "</tr></table></center><blockquote>KoLmafia has detected that you are about to lose Kung Fu buffs.  " );
+		warning.append( "If you are sure you wish to lose these buffs, click the icon on the left to adventure.  If this was an accident, " );
+		warning.append( "click the icon on the right to empty your hands." );
 		warning.append( "</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
@@ -1927,7 +1996,7 @@ public class RelayRequest
 			this.waitForRecoveryToComplete();
 		}
 
-		if ( adventureName != null && !isNonCombatsOnly && this.sendFamiliarWarning() )
+		if ( adventureName != null && !isNonCombatsOnly && ( this.sendFamiliarWarning() || this.sendKungFuWarning() ) )
 		{
 			return;
 		}
