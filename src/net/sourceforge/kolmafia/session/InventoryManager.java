@@ -370,6 +370,12 @@ public abstract class InventoryManager
 
 	private static final String retrieveItem( final AdventureResult item, final boolean isAutomated, final boolean sim )
 	{
+		// if we're simulating, we don't need to waste file I/O on disabling/enabling clover protection
+		if ( sim )
+		{
+			return InventoryManager.doRetrieveItem( item, isAutomated, sim );
+		}
+
 		// Disable any preferences that might prevent us from acquiring the item
 
 		boolean cloverProtectActive = Preferences.getBoolean( "cloverProtectActive" );
