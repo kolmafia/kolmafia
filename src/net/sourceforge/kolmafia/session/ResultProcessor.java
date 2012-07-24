@@ -1273,10 +1273,6 @@ public class ResultProcessor
 				ResultProcessor.autoCreate( ItemPool.TALISMAN );
 			}
 			break;
-			
-		case ItemPool.TALISMAN:
-			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step1" );
-			break;
 
 		case ItemPool.EYE_OF_ED:
 			QuestDatabase.setQuestProgress( Quest.MANOR, QuestDatabase.FINISHED );
