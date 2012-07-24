@@ -43,7 +43,9 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -297,11 +299,17 @@ public class GuildRequest
 			if ( InventoryManager.hasItem( ItemPool.CITADEL_SATCHEL ) )
 			{
 				ResultProcessor.processItem( ItemPool.CITADEL_SATCHEL, -1 );
+				QuestDatabase.setQuestProgress( Quest.CITADEL, QuestDatabase.FINISHED );
 			}
 
 			if ( InventoryManager.hasItem( ItemPool.THICK_PADDED_ENVELOPE ) )
 			{
 				ResultProcessor.processItem( ItemPool.THICK_PADDED_ENVELOPE, -1 );
+			}
+
+			if ( responseText.contains( "White Citadel" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.STARTED );
 			}
 
 			return;

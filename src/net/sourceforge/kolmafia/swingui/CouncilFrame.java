@@ -168,7 +168,7 @@ public class CouncilFrame
 			// Quest starts the very instant you click on pandamonium.php
 			QuestDatabase.setQuestIfBetter( Quest.AZAZEL, QuestDatabase.STARTED );
 		}
-		else if ( location.startsWith( "plains" ) )
+		else if ( location.startsWith( "place.php?whichplace=plains" ) )
 		{
 			CouncilFrame.handlePlainsChange( responseText );
 		}
@@ -198,17 +198,7 @@ public class CouncilFrame
 		}
 		else if ( location.startsWith( "woods" ) )
 		{
-			// If we see the Hidden Temple, mark it as unlocked
-			if ( responseText.indexOf( "otherimages/woods/temple.gif" ) != -1 )
-			{
-				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
-			}
-
-			// If we see the link to the empty Black Market, Wu Tang has been defeated
-			if ( responseText.indexOf( "action=emptybm" ) != -1 )
-			{
-				Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
-			}
+			CouncilFrame.handleWoodsChange( responseText );
 		}
 		// Obsolete. Sigh.
 		else if ( location.startsWith( "generate15" ) )
@@ -220,6 +210,26 @@ public class CouncilFrame
 			{
 				ResultProcessor.processItem( ItemPool.STRANGE_CUBE, -1 );
 			}
+		}
+	}
+
+	private static void handleWoodsChange( final String responseText )
+	{
+		if ( responseText.contains( "wcroad.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step1" );
+		}
+
+		// If we see the Hidden Temple, mark it as unlocked
+		if ( responseText.indexOf( "otherimages/woods/temple.gif" ) != -1 )
+		{
+			Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
+		}
+
+		// If we see the link to the empty Black Market, Wu Tang has been defeated
+		if ( responseText.indexOf( "action=emptybm" ) != -1 )
+		{
+			Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
 		}
 	}
 
@@ -346,6 +356,11 @@ public class CouncilFrame
 			{
 				KoLmafia.updateDisplay( MafiaState.PENDING, "You have planted a beanstalk." );
 			}
+		}
+
+		if ( responseText.contains( "dome.gif" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step1" );
 		}
 	}
 

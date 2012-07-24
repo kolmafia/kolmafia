@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -894,7 +895,7 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.WHITEYS_GROVE_ID ) )
 		{
-			if ( !Preferences.getString( "_questG02Whitecastle" ).equals( "unstarted" ) )
+			if ( !Preferences.getString( Quest.CITADEL.getPref() ).equals( "unstarted" ) )
 			{
 				this.isValidAdventure = true;
 				return;
