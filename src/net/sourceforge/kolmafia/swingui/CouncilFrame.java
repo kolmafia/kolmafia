@@ -121,6 +121,13 @@ public class CouncilFrame
 				CouncilFrame.handleSneakyPeteChange( responseText );
 			}
 		}
+		if ( location.startsWith( "beanstalk" ) )
+		{
+			if ( responseText.contains( "airship.gif" ) )
+			{
+				KoLCharacter.armBeanstalk();
+			}
+		}
 		else if ( location.startsWith( "bigisland" ) )
 		{
 			IslandDecorator.parseBigIsland( location, responseText );
@@ -352,6 +359,7 @@ public class CouncilFrame
 		if ( responseText.indexOf( "immediately grows into an enormous beanstalk" ) != -1 )
 		{
 			ResultProcessor.processItem( ItemPool.ENCHANTED_BEAN, -1 );
+			QuestLogRequest.setBeanstalkPlanted();
 			if ( KoLmafia.isAdventuring() )
 			{
 				KoLmafia.updateDisplay( MafiaState.PENDING, "You have planted a beanstalk." );
