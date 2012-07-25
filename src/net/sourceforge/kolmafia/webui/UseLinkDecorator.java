@@ -556,7 +556,7 @@ public abstract class UseLinkDecorator
 			switch ( itemId )
 			{
 			case ItemPool.GOAT_CHEESE:
-				return new UseLink( itemId, InventoryManager.getCount( itemId ), "trapper.php" );
+				return new UseLink( itemId, InventoryManager.getCount( itemId ), "place.php?whichplace=mclargehuge&action=trappercabin" );
 
 			case ItemPool.FORTUNE_COOKIE: {
 				ArrayList<UseLink> uses = new ArrayList<UseLink>();
@@ -1117,7 +1117,7 @@ public abstract class UseLinkDecorator
 			}
 
 			useType = String.valueOf( InventoryManager.getCount( itemId ) );
-			useLocation = "trapper.php";
+			useLocation = "place.php?whichplace=mclargehuge&action=trappercabin";
 			break;
 
 		case ItemPool.FRAUDWORT:

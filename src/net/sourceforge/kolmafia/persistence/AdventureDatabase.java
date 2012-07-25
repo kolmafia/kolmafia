@@ -89,19 +89,19 @@ public class AdventureDatabase
 	private static final LockableListModel adventures = new LockableListModel();
 	private static final AdventureDatabase.AdventureArray allAdventures = new AdventureDatabase.AdventureArray();
 
-	public static final ArrayList PARENT_LIST = new ArrayList();
-	public static final HashMap PARENT_ZONES = new HashMap();
-	public static final HashMap ZONE_DESCRIPTIONS = new HashMap();
+	public static final ArrayList<String> PARENT_LIST = new ArrayList<String>();
+	public static final HashMap<String, String> PARENT_ZONES = new HashMap<String, String>();
+	public static final HashMap<String, String> ZONE_DESCRIPTIONS = new HashMap<String, String>();
 
 	private static final StringArray[] adventureTable = new StringArray[ 4 ];
-	private static final HashMap areaCombatData = new HashMap();
-	private static final HashMap adventureLookup = new HashMap();
-	private static final HashMap cloverLookup = new HashMap();
-	private static final HashMap zoneLookup = new HashMap();
-	private static final HashMap conditionLookup = new HashMap();
-	private static final HashMap bountyLookup = new HashMap();
+	private static final HashMap<String, AreaCombatData> areaCombatData = new HashMap<String, AreaCombatData>();
+	private static final HashMap<String, KoLAdventure> adventureLookup = new HashMap<String, KoLAdventure>();
+	private static final HashMap<String, Boolean> cloverLookup = new HashMap<String, Boolean>();
+	private static final HashMap<String, String> zoneLookup = new HashMap<String, String>();
+	private static final HashMap<String, String> conditionLookup = new HashMap<String, String>();
+	private static final HashMap<String, String> bountyLookup = new HashMap<String, String>();
 
-	private static final HashMap locationByBounty = new HashMap();
+	private static final HashMap<String, KoLAdventure> locationByBounty = new HashMap<String, KoLAdventure>();
 
 	static
 	{
@@ -416,13 +416,13 @@ public class AdventureDatabase
 			}
 
 			// Otherwise log the square as a visit
-			return (KoLAdventure) AdventureDatabase.adventureLookup.get( "hiddencity.php" );
+			return AdventureDatabase.adventureLookup.get( "hiddencity.php" );
 		}
 
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
 
-		KoLAdventure location = (KoLAdventure) AdventureDatabase.adventureLookup.get( adventureURL );
+		KoLAdventure location = AdventureDatabase.adventureLookup.get( adventureURL );
 		return location == null ||
 			location.getRequest() instanceof ClanRumpusRequest ||
 			location.getRequest() instanceof RichardRequest
@@ -476,7 +476,7 @@ public class AdventureDatabase
 
 	public static final String getZone( final String location )
 	{
-		return (String) zoneLookup.get( location );
+		return zoneLookup.get( location );
 	}
 
 	public static final KoLAdventure getBountyLocation( final int itemId )
@@ -486,7 +486,7 @@ public class AdventureDatabase
 
 	public static final KoLAdventure getBountyLocation( final String item )
 	{
-		return item == null ? null : (KoLAdventure) AdventureDatabase.locationByBounty.get( StringUtilities.getCanonicalName( item ) );
+		return item == null ? null : AdventureDatabase.locationByBounty.get( StringUtilities.getCanonicalName( item ) );
 	}
 
 	public static final AdventureResult getBounty( final int itemId )
@@ -503,7 +503,7 @@ public class AdventureDatabase
 	public static final AdventureResult getBounty( final KoLAdventure adventure )
 	{
 		String adventureName = adventure.getAdventureName();
-		String bounty = (String) AdventureDatabase.bountyLookup.get( adventureName );
+		String bounty = AdventureDatabase.bountyLookup.get( adventureName );
 		if ( bounty == null || bounty.equals( "" ) )
 		{
 			return null;
@@ -536,7 +536,7 @@ public class AdventureDatabase
 
 		if ( bountyId != 0 )
 		{
-			String bounty = (String) AdventureDatabase.bountyLookup.get( adventureName );
+			String bounty = AdventureDatabase.bountyLookup.get( adventureName );
 			if ( bounty != null && !bounty.equals( "" ) && ItemDatabase.getItemId( bounty.substring( bounty.indexOf( " " ) ).trim() ) == bountyId )
 			{
 				return bounty;
@@ -577,7 +577,7 @@ public class AdventureDatabase
 		// Otherwise, pull the condition out of the existing
 		// table and return it.
 
-		String conditions = (String) AdventureDatabase.conditionLookup.get( adventureName );
+		String conditions = AdventureDatabase.conditionLookup.get( adventureName );
 		if ( conditions == null || conditions.equals( "" ) )
 		{
 			return def;
@@ -646,7 +646,7 @@ public class AdventureDatabase
 		}
 
 		// Get the combat data
-		return (AreaCombatData) AdventureDatabase.areaCombatData.get( area );
+		return AdventureDatabase.areaCombatData.get( area );
 	}
 
 	public static final String getUnknownName( final String urlString )
@@ -921,8 +921,8 @@ public class AdventureDatabase
 	public static class AdventureArray
 	{
 		private String[] nameArray = new String[0];
-		private final ArrayList nameList = new ArrayList();
-		private final ArrayList internalList = new ArrayList();
+		private final ArrayList<String> nameList = new ArrayList<String>();
+		private final ArrayList<KoLAdventure> internalList = new ArrayList<KoLAdventure>();
 
 		public KoLAdventure get( final int index )
 		{
@@ -931,7 +931,7 @@ public class AdventureDatabase
 				return null;
 			}
 
-			return (KoLAdventure) this.internalList.get( index );
+			return this.internalList.get( index );
 		}
 
 		public void add( final KoLAdventure value )

@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -568,6 +569,11 @@ public class KoLAdventure
 
 				RequestThread.postRequest( new EquipmentRequest( talisman ) );
 			}
+			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.PALINDOME.getPref() ), QuestDatabase.STARTED ) )
+			{
+				this.isValidAdventure = true;
+				return;
+			}
 
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString(
 				"place.php?whichplace=plains" ) );
@@ -836,21 +842,19 @@ public class KoLAdventure
 		     this.adventureId.equals( AdventurePool.BEANBAT_ID ) ||
 		     this.adventureId.equals( AdventurePool.BOSSBAT_ID ) )
 		{
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "bathole.php" ) );
-
-			if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) == -1 )
+			if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) && QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), QuestDatabase.STARTED ) )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
 
-			if ( this.adventureId.equals( AdventurePool.BEANBAT_ID ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) == -1 )
+			if ( this.adventureId.equals( AdventurePool.BEANBAT_ID ) && QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), "step1" ) )
 			{
 				this.isValidAdventure = true;
 				return;
 			}
 
-			if ( this.adventureId.equals( AdventurePool.BOSSBAT_ID ) && KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) == -1 )
+			if ( this.adventureId.equals( AdventurePool.BOSSBAT_ID ) && QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), "step2" ) )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -858,15 +862,15 @@ public class KoLAdventure
 
 			int sonarToUse = 0;
 
-			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockleft.gif" ) != -1 )
+			if ( Preferences.getString( Quest.BAT.getPref() ).equals( QuestDatabase.STARTED ) )
 			{
 				sonarToUse = 3;
 			}
-			else if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockright.gif" ) != -1 )
+			else if ( Preferences.getString( Quest.BAT.getPref() ).equals( "step1" ) )
 			{
 				sonarToUse = 2;
 			}
-			else if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "batrockbottom.gif" ) != -1 )
+			else if ( Preferences.getString( Quest.BAT.getPref() ).equals( "step2" ) )
 			{
 				sonarToUse = 1;
 			}
@@ -914,7 +918,7 @@ public class KoLAdventure
 
 		if ( this.zone.equals( "McLarge" ) && !this.adventureId.equals( AdventurePool.MINE_OFFICE_ID ))
 		{
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mclargehuge.php" ) );
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=mclargehuge" ) );
 			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( this.adventureId ) != -1 )
 			{
 				this.isValidAdventure = true;
@@ -928,7 +932,7 @@ public class KoLAdventure
 			}
 
 			RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "trapper.php" ) );
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=mclargehuge&action=trappercabin" ) );
 
 			this.validate( true );
 			return;

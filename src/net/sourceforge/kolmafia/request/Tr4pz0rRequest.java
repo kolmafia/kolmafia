@@ -63,7 +63,7 @@ public class Tr4pz0rRequest
 		new CoinmasterData(
 			Tr4pz0rRequest.master,
 			Tr4pz0rRequest.class,
-			"trapper.php",
+			"place.php?whichplace=mclargehuge&action=trappercabin",
 			"yeti fur",
 			"You ain't got no furs, son",
 			false,
@@ -120,8 +120,8 @@ public class Tr4pz0rRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		// We only claim trapper.php?action=Yep.
-		if ( !urlString.startsWith( "trapper.php" ) )
+		// We only claim place.php?whichplace=mclargehuge&action=trappercabin?action=Yep.
+		if ( !urlString.startsWith( "place.php?whichplace=mclargehuge&action=trappercabin" ) )
 		{
 			return false;
 		}

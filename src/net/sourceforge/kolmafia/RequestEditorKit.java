@@ -255,7 +255,7 @@ public class RequestEditorKit
 		RequestEditorKit.maps.add( "friars.php" );
 		RequestEditorKit.maps.add( "wormwood.php" );
 		RequestEditorKit.maps.add( "mountains.php" );
-		RequestEditorKit.maps.add( "mclargehuge.php" );
+		RequestEditorKit.maps.add( "place.php?whichplace=mclargehuge" );
 		RequestEditorKit.maps.add( "island.php" );
 		RequestEditorKit.maps.add( "cove.php" );
 		RequestEditorKit.maps.add( "bigisland.php" );
