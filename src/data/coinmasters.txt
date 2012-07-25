@@ -284,8 +284,8 @@ Lunar Lunch-o-Mat	buy	10	1/6th Pound Cake
 # Things you can buy with yeti furs
 
 L33t Tr4pz0r	buy	1	yak skin
-L33t Tr4pz0r	buy	1	penguin skin
-L33t Tr4pz0r	buy	1	hippopotamus skin
+L33t Tr4pz0r	buy	3	penguin skin
+L33t Tr4pz0r	buy	5	hippopotamus skin
 
 # Things you can buy with fat loot tokens
 

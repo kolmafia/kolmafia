@@ -244,6 +244,7 @@ public abstract class KoLmafia
 		{ "Don't You Know Who I Am?", STOP },
 
 		// Adventures that give semirares
+		{ "7-Foot Dwarf Foreman", SEMIRARE },
 		{ "A Menacing Phantom", SEMIRARE },
 		{ "A Shark's Chum", SEMIRARE },
 		{ "A Tight Squeeze", SEMIRARE },
