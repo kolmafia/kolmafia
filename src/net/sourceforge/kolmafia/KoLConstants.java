@@ -139,7 +139,7 @@ public interface KoLConstants
 		},
 		{
 			"Mt. McLargeHuge",
-			"mclargehuge.php"
+			"place.php?whichplace=mclargehuge"
 		},
 		{
 			"Cobb's Knob",

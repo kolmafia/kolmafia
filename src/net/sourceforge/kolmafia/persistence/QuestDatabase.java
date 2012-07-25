@@ -516,4 +516,50 @@ public class QuestDatabase
 		}
 		QuestDatabase.setQuestProgress( quest.getPref(), progress );
 	}
+
+	public static boolean isQuestLaterThan( String first, String second )
+	{
+		if ( first.equals( QuestDatabase.UNSTARTED ) )
+		{
+			return false;
+		}
+		else if ( first.equals( QuestDatabase.STARTED ) )
+		{
+			return second.equals( QuestDatabase.UNSTARTED );
+		}
+		else if ( first.startsWith( "step" ) )
+		{
+			if ( second.equals( QuestDatabase.FINISHED ) )
+			{
+				return false;
+			}
+			else if ( second.startsWith( "step" ) )
+			{
+				try
+				{
+					int currentStepInt = StringUtilities.parseInt( first.substring( 4 ) );
+					int compareToStepInt = StringUtilities.parseInt( second.substring( 4 ) );
+
+					if ( currentStepInt > compareToStepInt )
+					{
+						return true;
+					}
+				}
+				catch ( NumberFormatException e )
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return true;
+			}
+		}
+		else if ( first.equals( QuestDatabase.FINISHED ) )
+		{
+			return !second.equals( QuestDatabase.FINISHED );
+		}
+
+		return false;
+	}
 }

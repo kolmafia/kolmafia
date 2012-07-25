@@ -743,7 +743,7 @@ public class ResponseTextParser
 			ArtistRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "trapper.php" ) )
+		else if ( location.startsWith( "place.php?whichplace=mclargehuge&action=trappercabin" ) )
 		{
 			Tr4pz0rRequest.parseResponse( location, responseText );
 		}
