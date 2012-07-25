@@ -59,10 +59,12 @@ public class QuestLogRequest
 		"You have proven yourself literate.";
 	private static final String DUNGEONS_OF_DOOM =
 		"You have discovered the secret of the Dungeons of Doom.";
+	private static final String BEANSTALK = "You have planted a Beanstalk in the Nearby Plains.";
 
 	private static String other = "";
 
 	private static boolean dungeonOfDoomAvailable = false;
+	private static boolean beanstalkPlanted = false;
 
 	private static final Pattern HEADER_PATTERN = Pattern.compile(  "<b>([^<]*?[^>]*?)</b><p><blockquote>", Pattern.DOTALL );
 	private static final Pattern BODY_PATTERN = Pattern.compile( "(?<=<b>)(.*?[^<>]*?)</b><br>(.*?)(?=<p>)", Pattern.DOTALL );
@@ -176,6 +178,11 @@ public class QuestLogRequest
 
 			ChatManager.setChatLiteracy( QuestLogRequest.other.indexOf( QuestLogRequest.ALTAR_OF_LITERACY ) != -1 );
 			QuestLogRequest.dungeonOfDoomAvailable = QuestLogRequest.other.indexOf( QuestLogRequest.DUNGEONS_OF_DOOM ) != -1;
+			
+			if ( QuestLogRequest.other.contains( QuestLogRequest.BEANSTALK ) )
+			{
+				QuestLogRequest.setBeanstalkPlanted();
+			}
 		}
 	}
 
@@ -277,5 +284,15 @@ public class QuestLogRequest
 			return true;
 		}
 		return false;
+	}
+
+	public static void setBeanstalkPlanted()
+	{
+		QuestLogRequest.beanstalkPlanted = true;
+	}
+	
+	public static boolean isBeanstalkPlanted()
+	{
+		return QuestLogRequest.beanstalkPlanted;
 	}
 }

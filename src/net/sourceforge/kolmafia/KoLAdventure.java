@@ -751,6 +751,12 @@ public class KoLAdventure
 				return;
 			}
 
+			if ( KoLCharacter.beanstalkArmed() )
+			{
+				this.isValidAdventure = true;
+				return;
+			}
+
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
 
@@ -762,29 +768,28 @@ public class KoLAdventure
 				return;
 			}
 
-			// Obviate following request by checking accomplishment:
-			// questlog.php?which=3
-			// "You have planted a Beanstalk in the Nearby Plains."
-
-			KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains" );
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
-
-			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "beanstalk.php" ) == -1 )
+			if ( !QuestLogRequest.isBeanstalkPlanted() )
 			{
-				// We see no beanstalk in the Nearby Plains.
-				// Acquire an enchanted bean and plant it.
-				if ( !KoLAdventure.getEnchantedBean() )
-				{
-					this.isValidAdventure = false;
-					return;
-				}
-
-				// Make sure the Council has given you the quest
-				RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
-
-				// Use the enchanted bean by clicking on the coffee grounds.
-				KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains&action=garbage_grounds" );
+				KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains" );
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
+
+				if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "beanstalk.php" ) == -1 )
+				{
+					// We see no beanstalk in the Nearby Plains.
+					// Acquire an enchanted bean and plant it.
+					if ( !KoLAdventure.getEnchantedBean() )
+					{
+						this.isValidAdventure = false;
+						return;
+					}
+
+					// Make sure the Council has given you the quest
+					RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
+
+					// Use the enchanted bean by clicking on the coffee grounds.
+					KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains&action=garbage_grounds" );
+					RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
+				}
 			}
 
 			// Visit the beanstalk container document. In the old
