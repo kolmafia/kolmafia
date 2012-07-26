@@ -460,6 +460,10 @@ public abstract class UseLinkDecorator
 		{
 			link = new UseLink( 0, "hidden temple", "adventure.php?snarfblat=280" );
 		}
+		else if ( effect.equals( "Dis Abled" ) )
+		{
+			link = new UseLink( 0, "portal to dis", "suburbandis.php" );
+		}
 		else
 		{
 			// There are several effect names which are also items.
