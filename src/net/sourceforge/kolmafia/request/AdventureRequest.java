@@ -247,6 +247,12 @@ public class AdventureRequest
 			this.addFormField( "action", "explore" );
 		}
 
+		else if ( this.formSource.equals( "mining.php" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Automated mining is not currently implemented." );
+			return;
+		}
+
 		super.run();
 
 		if ( this.responseCode != 200 )

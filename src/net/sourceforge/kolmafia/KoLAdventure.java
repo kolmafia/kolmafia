@@ -267,12 +267,12 @@ public class KoLAdventure
 
 	public boolean isNonCombatsOnly()
 	{
-		return this.isNonCombatsOnly && !this.hasWanderingMonsters();
+		return this.isNonCombatsOnly && KoLAdventure.hasWanderingMonsters( this.formSource );
 	}
 
-	private boolean hasWanderingMonsters()
+	public static boolean hasWanderingMonsters( String urlString )
 	{
-		if ( !this.formSource.equals( "adventure.php" ) )
+		if ( !urlString.startsWith( "adventure.php" ) )
 		{
 			return false;
 		}
@@ -299,7 +299,7 @@ public class KoLAdventure
 
 		// Nemesis assassins.
 
-		if ( !InventoryManager.hasItem( ItemPool.VOLCANO_MAP ) )
+		if ( !InventoryManager.hasItem( ItemPool.VOLCANO_MAP ) && !Preferences.getString( "questG04Nemesis" ).equals( "unstarted" ) )
 		{
 			return true;
 		}

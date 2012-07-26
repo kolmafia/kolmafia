@@ -1943,7 +1943,6 @@ public class RelayRequest
 		}
 
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
-		boolean isNonCombatsOnly = adventure != null && adventure.isNonCombatsOnly();
 
 		// Do some checks for the battlefield:
 		// - make sure player doesn't lose a Wossname by accident
@@ -1957,6 +1956,18 @@ public class RelayRequest
 		String adventureName = adventure != null ?
 			adventure.getAdventureName() :
 			AdventureDatabase.getUnknownName( urlString );
+
+		AreaCombatData areaSummary;
+		boolean isNonCombatsOnly = false;
+		if ( adventureName != null )
+		{
+			areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
+			if ( areaSummary != null )
+			{
+				isNonCombatsOnly = areaSummary.combats() == 0 && areaSummary.getMonsterCount() == 0
+							&& !KoLAdventure.hasWanderingMonsters( urlString );
+			}
+		}
 
 		String nextAdventure = 
 			adventureName != null ?

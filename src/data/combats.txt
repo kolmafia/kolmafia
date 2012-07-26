@@ -1,7 +1,7 @@
 1
 # Adventure Area Name	Combat %	Monsters
 #
-# Adventure Area Name must match that in adventures.dat
+# Adventure Area Name must match that in adventures.txt
 #
 # Monsters extracted from Kittiwake's Monster Survival Guide:
 #
@@ -250,11 +250,13 @@ Icy Peak of the Past	-1
 
 # Areas with no combats
 
+Anemone Mine (Mining)	0
 Arrrboretum	0
 Frat House In Disguise	0
 Friar Ceremony Location	0
 Goat Party	0
 Hippy Camp In Disguise	0
+Itznotyerzitz Mine (in Disguise)	0
 Lemon Party	0
 Limerick Dungeon	0
 Mine Foremens' Office	0
@@ -271,4 +273,5 @@ Roulette Tables	0
 # St. Sneaky Pete's Day is unusual in that although it has no combats,
 # you might want a between-battle script to execute.
 St. Sneaky Pete's Day Stupor	-1
+The Knob Shaft (Mining)	0
 Trick-or-Treating	0
