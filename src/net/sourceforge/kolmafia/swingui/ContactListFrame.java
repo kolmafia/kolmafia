@@ -206,21 +206,18 @@ public class ContactListFrame
 		@Override
 		public void mouseClicked( final MouseEvent e )
 		{
-			JList list = (JList) e.getSource();
-
 			// The only event handled by the adapter is a double-click;
 			// when a double-click is detected, a new ChatFrame is created
-			// for the specified player.
+			// for the specified player(s).
 
 			if ( e.getClickCount() == 2 )
 			{
-				int index = list.locationToIndex( e.getPoint() );
+				String[] selectedPlayers = getSelectedPlayers();
+				String bufferKey;
 
-				if ( index >= 0 && index < ContactListFrame.this.contacts.size() )
+				for ( String contact : selectedPlayers )
 				{
-					String contact = getContactName( ContactListFrame.this.contacts.get( index ) );
-					String bufferKey = ChatManager.getBufferKey( contact );
-
+					bufferKey = ChatManager.getBufferKey( contact );
 					ChatManager.openWindow( bufferKey, false );
 				}
 			}
