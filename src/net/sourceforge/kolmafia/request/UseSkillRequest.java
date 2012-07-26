@@ -415,6 +415,9 @@ public class UseSkillRequest
 	{
 		int maximumCast = Integer.MAX_VALUE;
 
+		boolean canCastHoboSong =
+			KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF && KoLCharacter.getLevel() > 14;
+
 		switch ( this.skillId )
 		{
 		// The Smile of Mr. A can be used five times per day per Golden
@@ -529,23 +532,23 @@ public class UseSkillRequest
 			break;
 
 		case UseSkillRequest.THINGFINDER:
-			maximumCast = Math.max( 10 - Preferences.getInteger( "_thingfinderCasts" ), 0 );
+			maximumCast = canCastHoboSong ? Math.max( 10 - Preferences.getInteger( "_thingfinderCasts" ), 0 ) : 0;
 			break;
 
 		case UseSkillRequest.BENETTONS:
-			maximumCast = Math.max( 10 - Preferences.getInteger( "_benettonsCasts" ), 0 );
+			maximumCast = canCastHoboSong ? Math.max( 10 - Preferences.getInteger( "_benettonsCasts" ), 0 ) : 0;
 			break;
 
 		case UseSkillRequest.ELRONS:
-			maximumCast = Math.max( 10 - Preferences.getInteger( "_elronsCasts" ), 0 );
+			maximumCast = canCastHoboSong ? Math.max( 10 - Preferences.getInteger( "_elronsCasts" ), 0 ) : 0;
 			break;
 
 		case UseSkillRequest.COMPANIONSHIP:
-			maximumCast = Math.max( 10 - Preferences.getInteger( "_companionshipCasts" ), 0 );
+			maximumCast = canCastHoboSong ? Math.max( 10 - Preferences.getInteger( "_companionshipCasts" ), 0 ) : 0;
 			break;
 
 		case UseSkillRequest.PRECISION:
-			maximumCast = Math.max( 10 - Preferences.getInteger( "_precisionCasts" ), 0 );
+			maximumCast = canCastHoboSong ? Math.max( 10 - Preferences.getInteger( "_precisionCasts" ), 0 ) : 0;
 			break;
 
 		case UseSkillRequest.DONHOS:
