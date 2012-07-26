@@ -5566,9 +5566,9 @@
 5565	660831377	sammich.gif	PB&BP	PB&BPs
 5566	232765592	sammich.gif	club sandwich	club sandwiches
 5567	978545620	sammich.gif	corned-beef Reuben
-5568
-5569
-5570
+5568	206487152	ninjarope.gif	ninja rope
+5569	523106831	crampons.gif	ninja crampons
+5570	726661902	carabiner.gif	ninja carabiner
 5571	439808527	furfur.gif	Groar's fur
 5572	497799983	thwaitbeetle.gif	Thwaitgold stag beetle statuette
 5573	142371526	blackntan.gif	Drac & Tan
