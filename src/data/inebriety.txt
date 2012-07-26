@@ -22,6 +22,7 @@ banana daiquiri	3	3	good	6-10	10-26	10-26	17-43
 bartles and braaains wine cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Braaaains Over Braaaawwn (+50 dmg vs. Zombies)
 barulio's bottle	4	5	good	11-13	1-5	15-20	5-10
 beertini	3	2	decent	4-8	0	10-12	10-12
+beery blood	2	1	good	0	0	0	0	+3 PvP fights
 beignet milgranet	1	2	awesome	3-5	30-40	30-40	30-40	100 Sugar Rush
 berry-infused sake	4	7	awesome	14-17	0	0	75-120	1 Warm Belly (+hot dmg, +10 Fishy)
 bilge wine	3	1	decent	3-6	0	0	0

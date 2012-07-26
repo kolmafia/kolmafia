@@ -5569,7 +5569,7 @@
 5568
 5569
 5570
-5571
+5571	439808527	furfur.gif	Groar's fur
 5572	497799983	thwaitbeetle.gif	Thwaitgold stag beetle statuette
 5573	142371526	blackntan.gif	Drac & Tan
 5574	784560184	hurricane.gif	Transylvania Sling
@@ -5670,8 +5670,8 @@
 5669	916155099	stuffedclub.gif	stuffed club
 5670	994892887	bowl.gif	fettucini &eacute;pines Inconnu	bowls of fettucini &eacute;pines Inconnu
 5671	474516688	rocks.gif	slap and slap again	slaps and slaps again
-5672
-5673
+5672	956742486	burrito.gif	gunpowder burrito
+5673	558783586	juice.gif	beery blood
 5674	619356758	stuffedl.gif	stuffed &quot;L&quot;
 5675	762938251	redmin.gif	watered-down Red Minotaur
 5676	340353804	pooltorpedo.gif	pool torpedo

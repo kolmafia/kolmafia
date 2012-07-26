@@ -5577,7 +5577,7 @@
 5568
 5569
 5570
-5571
+5571	Groar's fur	none	none	0
 5572	Thwaitgold stag beetle statuette	none	display	0
 5573	Drac & Tan	drink	all	10
 5574	Transylvania Sling	drink	all	25
@@ -5678,8 +5678,8 @@
 5669	stuffed club	weapon	gift	0
 5670	fettucini &eacute;pines Inconnu	food	all	61
 5671	slap and slap again	drink	all	61
-5672
-5673
+5672	gunpowder burrito	food	all	0
+5673	beery blood	drink	all	0
 5674	stuffed &quot;L&quot;	none	display	0
 5675	watered-down Red Minotaur	usable	all	1
 5676	pool torpedo	none, combat	all	1
