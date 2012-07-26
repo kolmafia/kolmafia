@@ -1276,4 +1276,5 @@ user	unknownRecipe5069	true
 user	unknownRecipe5070	true
 user	unknownRecipe5072	true
 user	unknownRecipe5073	true
+user	unknownRecipe5670	true
 user	unknownRecipe5671	true

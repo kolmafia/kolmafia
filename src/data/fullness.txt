@@ -173,6 +173,7 @@ fancy canap&eacute;s	2	5	awesome	7-10	25-40	25-40	25-40	French slippers (1 time)
 fdkol hotcakes	6	1	awesome	23-27	0	0	0	50 Hotcaked
 festive sausage	3	1	good	8-10	10-20	10-20	10-20	Sausage Festive (5-10 MP regen)
 fettucini inconnu	6	6	awesome	21-29	0	0	47-52
+fettucini &eacute;pines Inconnu	3	1	decent	0	0	0	0	+3 PvP Fights
 fiery wing	1	1	good	0	0	0	0	Hot Damage
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
@@ -229,6 +230,7 @@ grimdrop chow mein	4	5		6-11	0	0	0
 grimgerbread house	5	5		10-15	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
 gumdrop chow mein	5	1		9-17	0	0	0	10 Sugar Rush
+gunpowder burrito	2	1	good	0	0	0	0	+3 PvP Fights
 halibut alfredo	4	1		10-15	0	0	0
 handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
 handful of walnuts	1	10	good	2-4	0	0	20-30

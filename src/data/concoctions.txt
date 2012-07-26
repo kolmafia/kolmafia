@@ -614,6 +614,8 @@ rockin' wagon	ACOCK	vodka martini	magical ice cubes
 perpendicular hula	ACOCK	strawberry daiquiri	magical ice cubes
 calle de miel	ACOCK	margarita	magical ice cubes
 
+slap and slap again	MIX	slap and tickle	pretty flower
+
 bungle in the jungle	ACOCK	banana daiquiri	little paper umbrella
 
 tropical swill	ACOCK	Typical Tavern swill	coconut shell
@@ -1298,6 +1300,7 @@ evil spicy noodles	PASTA	evil noodles	spices
 
 fancy schmancy cheese sauce	SAUCE	scrumptious reagent	goat cheese
 fettucini Inconnu	PASTA	fancy schmancy cheese sauce	dry noodles
+fettucini &eacute;pines Inconnu	COOK	fettucini Inconnu	pretty flower
 
 Hell broth	SAUCE	scrumptious reagent	hellion cube
 Hell ramen	PASTA	Hell broth	dry noodles
