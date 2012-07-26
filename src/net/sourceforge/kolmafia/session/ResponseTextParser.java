@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
+import net.sourceforge.kolmafia.request.GnomeTinkerRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
@@ -478,6 +479,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "gamestore" ) )
 		{
 			GameShoppeRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "gnomes.php" ) )
+		{
+			GnomeTinkerRequest.parseCreation( location, responseText );
 		}
 
 		// Keep your current equipment and familiars updated, if you

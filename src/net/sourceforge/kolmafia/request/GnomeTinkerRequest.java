@@ -33,15 +33,24 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class GnomeTinkerRequest
 	extends CreateItemRequest
 {
 	private final AdventureResult[] ingredients;
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "item[123]=(\\d+)" );
 
 	public GnomeTinkerRequest( final Concoction conc )
 	{
@@ -89,5 +98,36 @@ public class GnomeTinkerRequest
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "qty", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
+	}
+
+	@Override
+	public void processResults()
+	{
+		// Since we create one at a time, override processResults so
+		// superclass method doesn't undo ingredient usage.
+
+		if ( GnomeTinkerRequest.parseCreation( this.getURLString(), this.responseText ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't tinker those." );
+		}
+	}
+
+	public static final boolean parseCreation( final String urlString, final String responseText )
+	{
+		// Gnorman deftly assembles your items into something new.
+
+		if ( responseText.indexOf( "Gnorman deftly assembles your items into something new" ) == -1 )
+		{
+			return true;
+		}
+
+		Matcher matcher = GnomeTinkerRequest.ITEM_PATTERN.matcher( urlString );
+		while ( matcher.find() )
+		{
+			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
+			ResultProcessor.processItem( itemId, -1 );
+		}
+
+		return false;
 	}
 }
