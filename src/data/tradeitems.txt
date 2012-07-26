@@ -5574,9 +5574,9 @@
 5565	PB&BP	food	display	5
 5566	club sandwich	food	display	5
 5567	corned-beef Reuben	food	display	5
-5568
-5569
-5570
+5568	ninja rope	none	all	45
+5569	ninja crampons	none	all	45
+5570	ninja carabiner	none	all	45
 5571	Groar's fur	none	none	0
 5572	Thwaitgold stag beetle statuette	none	display	0
 5573	Drac & Tan	drink	all	10
@@ -5770,3 +5770,5 @@
 5761	Staff of the Scummy Sink	weapon	display	25
 5762	flaming nose	familiar	all	75
 5763	Superhero Reboots	accessory	display	0
+5764
+5765	fuzzy earmuffs	hat	display	200

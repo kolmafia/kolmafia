@@ -117,6 +117,7 @@ foolscap fool's cap	40	Mox: 5
 football helmet	150	Mox: 60
 funny paper hat	10	none
 furry green turtle	45	Mox: 7
+fuzzy earmuffs	130	Mys: 50
 ganger bandana	200	Mox: 85
 gasmask	50	Mox: 10
 giant discarded bottlecap	155	Mox: 62

@@ -176,6 +176,7 @@ foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect:
 football helmet	Familiar Effect: "atk, cap 37"
 funny paper hat	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "unknown, cap 2"
 furry green turtle	Moxie: +3, Familiar Effect: "2xPotato, 2xFairy, cap 11"
+fuzzy earmuffs	Mysticality: +11, MP Regen Min: 2, MP Regen Max: 3
 ganger bandana	Muscle Percent: +5, Weapon Damage Percent: +15, Familiar Effect: "atk"
 gasmask	Stench Resistance: +3, Familiar Effect: "?xBarrr, cap 12"
 giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
