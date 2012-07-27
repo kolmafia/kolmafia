@@ -4200,6 +4200,7 @@ pressurized potion of pulchritude	Effect: "Pulchritudinous Pressure", Effect Dur
 probability potion	Effect: "Uncertain", Effect Duration: 10
 # pumpkin carriage: Allows Travel to Desert Beach
 pumpkin juice	Effect: "Juiced and Jacked", Effect Duration: 10
+puppet strings	Free Pull
 purple-frosted astral cupcake	Effect: "Tiny Bubbles in the Cupcake", Effect Duration: 20
 purple snowcone	Effect: "Purple Tongue", Effect Duration: 20
 pygmy bugbear shaman	Free Pull
