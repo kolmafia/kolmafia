@@ -398,7 +398,7 @@ public class GenericRequest
 
 	public GenericRequest( final String newURLString, final boolean usePostMethod )
 	{
-		this.data = new ArrayList<String>();
+		this.data = Collections.synchronizedList( new ArrayList<String>() );
 		if ( !newURLString.equals( "" ) )
 		{
 			this.constructURLString( newURLString, usePostMethod );
@@ -577,12 +577,15 @@ public class GenericRequest
 
 		if ( !allowDuplicates )
 		{
-			Iterator it = this.data.iterator();
-			while ( it.hasNext() )
+			synchronized ( this.data )
 			{
-				if ( ( (String) it.next() ).startsWith( encodedName ) )
+				Iterator<String> it = this.data.iterator();
+				while ( it.hasNext() )
 				{
-					it.remove();
+					if ( it.next().startsWith( encodedName ) )
+					{
+						it.remove();
+					}
 				}
 			}
 		}
@@ -694,19 +697,22 @@ public class GenericRequest
 			element = name + "=" + value;
 		}
 
-		Iterator it = this.data.iterator();
-		while ( it.hasNext() )
+		synchronized ( this.data )
 		{
-			if ( ( (String) it.next() ).equals( element ) )
+			Iterator<String> it = this.data.iterator();
+			while ( it.hasNext() )
 			{
-				return;
+				if ( it.next().equals( element ) )
+				{
+					return;
+				}
 			}
 		}
 
 		this.data.add( element );
 	}
 
-	public List getFormFields()
+	public List<String> getFormFields()
 	{
 		if ( !this.data.isEmpty() )
 		{
@@ -733,11 +739,11 @@ public class GenericRequest
 		return this.findField( this.getFormFields(), key );
 	}
 
-	private String findField( final List data, final String key )
+	private String findField( final List<String> data, final String key )
 	{
 		for ( int i = 0; i < data.size(); ++i )
 		{
-			String datum = (String) data.get( i );
+			String datum = data.get( i );
 
 			int splitIndex = datum.indexOf( "=" );
 			if ( splitIndex == -1 )
@@ -842,12 +848,15 @@ public class GenericRequest
 
 		String encodedName = name + "=";
 
-		Iterator it = this.data.iterator();
-		while ( it.hasNext() )
+		synchronized ( this.data )
 		{
-			if ( ( (String) it.next() ).startsWith( encodedName ) )
+			Iterator<String> it = this.data.iterator();
+			while ( it.hasNext() )
 			{
-				it.remove();
+				if ( it.next().startsWith( encodedName ) )
+				{
+					it.remove();
+				}
 			}
 		}
 	}
@@ -882,34 +891,37 @@ public class GenericRequest
 		StringBuilder dataBuffer = new StringBuilder();
 		String hashField = this.getHashField();
 
-		for ( int i = 0; i < this.data.size(); ++i )
+		synchronized ( this.data )
 		{
-			String element = (String) this.data.get( i );
-
-			if ( element.equals( "" ) )
+			for ( int i = 0; i < this.data.size(); ++i )
 			{
-				continue;
-			}
+				String element = this.data.get( i );
 
-			if ( hashField != null && element.startsWith( hashField ) )
-			{
-				int index = element.indexOf( '=' );
-				int length = hashField.length();
-
-				// If this is exactly the hashfield, either
-				// with or without a value, omit it.
-				if ( length == ( index == -1 ? element.length() : length ) )
+				if ( element.equals( "" ) )
 				{
 					continue;
 				}
-			}
 
-			if ( dataBuffer.length() > 0 )
-			{
-				dataBuffer.append( '&' );
-			}
+				if ( hashField != null && element.startsWith( hashField ) )
+				{
+					int index = element.indexOf( '=' );
+					int length = hashField.length();
 
-			dataBuffer.append( element );
+					// If this is exactly the hashfield, either
+					// with or without a value, omit it.
+					if ( length == ( index == -1 ? element.length() : length ) )
+					{
+						continue;
+					}
+				}
+
+				if ( dataBuffer.length() > 0 )
+				{
+					dataBuffer.append( '&' );
+				}
+
+				dataBuffer.append( element );
+			}
 		}
 
 		if ( hashField != null && !GenericRequest.passwordHash.equals( "" ) )
@@ -934,34 +946,37 @@ public class GenericRequest
 
 		StringBuilder dataBuffer = new StringBuilder();
 
-		for ( int i = 0; i < this.data.size(); ++i )
+		synchronized ( this.data )
 		{
-			String element = (String) this.data.get( i );
+			for ( int i = 0; i < this.data.size(); ++i )
+			{
+				String element = this.data.get( i );
 
-			if ( element.equals( "" ) )
-			{
-				continue;
-			}
+				if ( element.equals( "" ) )
+				{
+					continue;
+				}
 
-			if ( element.startsWith( "pwd=" ) )
-			{
-				element = "pwd";
-			}
-			else if ( element.startsWith( "phash=" ) )
-			{
-				element = "phash";
-			}
-			else if ( element.startsWith( "password=" ) )
-			{
-				element = "password";
-			}
+				if ( element.startsWith( "pwd=" ) )
+				{
+					element = "pwd";
+				}
+				else if ( element.startsWith( "phash=" ) )
+				{
+					element = "phash";
+				}
+				else if ( element.startsWith( "password=" ) )
+				{
+					element = "password";
+				}
 
-			if ( dataBuffer.length() > 0 )
-			{
-				dataBuffer.append( '&' );
-			}
+				if ( dataBuffer.length() > 0 )
+				{
+					dataBuffer.append( '&' );
+				}
 
-			dataBuffer.append( element );
+				dataBuffer.append( element );
+			}
 		}
 
 		return dataBuffer.toString();
