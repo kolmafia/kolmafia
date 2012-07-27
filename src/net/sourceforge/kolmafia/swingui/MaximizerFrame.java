@@ -104,6 +104,8 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -587,6 +589,10 @@ public class MaximizerFrame
 							}
 							else continue;
 						}
+						else if ( item != null && UseItemRequest.maximumUses( item.getItemId() ) == 0 )
+						{
+							continue;
+						}
 					}
 				}
 				else if ( cmd.startsWith( "gong " ) )
@@ -595,7 +601,8 @@ public class MaximizerFrame
 				}
 				else if ( cmd.startsWith( "cast " ) )
 				{
-					if ( !KoLCharacter.hasSkill( UneffectRequest.effectToSkill( name ) ) )
+					String skillName = UneffectRequest.effectToSkill( name );
+					if ( !KoLCharacter.hasSkill( skillName ) || UseSkillRequest.getInstance( skillName ).getMaximumCast() == 0 )
 					{
 						if ( includeAll )
 						{
