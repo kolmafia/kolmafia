@@ -57,8 +57,10 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -75,7 +77,7 @@ public class EquipmentDatabase
 	private static final StringArray itemTypes = new StringArray();
 	private static final StringArray statRequirements = new StringArray();
 
-	private static final HashMap outfitPieces = new HashMap();
+	private static final HashMap<String, Integer> outfitPieces = new HashMap<String, Integer>();
 	public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
 	public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
 
@@ -301,13 +303,13 @@ public class EquipmentDatabase
 		RequestLogger.printLine( "Writing data override: " + output );
 
 		// One map per equipment category
-		Map hats = new TreeMap();
-		Map weapons = new TreeMap();
-		Map offhands = new TreeMap();
-		Map shirts = new TreeMap();
-		Map pants = new TreeMap();
-		Map accessories = new TreeMap();
-		Map containers = new TreeMap();
+		Map<String, Integer> hats = new TreeMap<String, Integer>();
+		Map<String, Integer> weapons = new TreeMap<String, Integer>();
+		Map<String, Integer> offhands = new TreeMap<String, Integer>();
+		Map<String, Integer> shirts = new TreeMap<String, Integer>();
+		Map<String, Integer> pants = new TreeMap<String, Integer>();
+		Map<String, Integer> accessories = new TreeMap<String, Integer>();
+		Map<String, Integer> containers = new TreeMap<String, Integer>();
 
 		// Iterate over all items and assign item id to category
 		Iterator it = ItemDatabase.dataNameEntrySet().iterator();
@@ -935,70 +937,48 @@ public class EquipmentDatabase
 
 	public static final int getOutfitId( final KoLAdventure adventure )
 	{
-		String adventureId = adventure.getAdventureId();
+		int adventureId = Integer.parseInt( adventure.getAdventureId() );
 
-		// Knob goblin barracks has the elite guard outfit
-		if ( adventureId.equals( "257" ) )
+		switch ( adventureId )
 		{
-			return 5;
-		}
+			case AdventurePool.COBB_BARRACKS:
+				return OutfitPool.KNOB_ELITE_OUTFIT;
 
-		// Knob goblin harem has the harem girl disguise
-		if ( adventureId.equals( "259" ) )
-		{
-			return 4;
-		}
+			case AdventurePool.COBB_HAREM:
+				return OutfitPool.HAREM_OUTFIT;
 
-		// The mine has mining gear
-		if ( adventureId.equals( "61" ) )
-		{
-			return 8;
-		}
+			case AdventurePool.ITZNOTYERZITZ_MINE:
+				return OutfitPool.MINING_OUTFIT;
 
-		// The slope has eXtreme cold weather gear
-		if ( adventureId.equals( "63" ) )
-		{
-			return 7;
-		}
+			case AdventurePool.EXTREME_SLOPE:
+				return OutfitPool.EXTREME_COLD_WEATHER_GEAR;
 
-		// Hippies have a filthy hippy disguise
-		if ( adventureId.equals( "26" ) || adventureId.equals( "65" ) )
-		{
-			return 2;
-		}
+			case AdventurePool.HIPPY_CAMP:
+			case AdventurePool.HIPPY_CAMP_DISGUISED:
+				return OutfitPool.HIPPY_OUTFIT;
 
-		// Frat house has a frat house ensemble
-		if ( adventureId.equals( "27" ) || adventureId.equals( "29" ) )
-		{
-			return 3;
-		}
+			case AdventurePool.FRAT_HOUSE:
+			case AdventurePool.FRAT_HOUSE_DISGUISED:
+				return OutfitPool.FRAT_OUTFIT;
 
-		// Pirates have a swashbuckling getup
-		if ( adventureId.equals( "66" ) || adventureId.equals( "67" ) )
-		{
-			return 9;
-		}
+			case AdventurePool.PIRATE_COVE:
+				return OutfitPool.SWASHBUCKLING_GETUP;
 
-		// Choose the uniform randomly
-		if ( adventureId.equals( "85" ) )
-		{
-			return KoLConstants.RNG.nextInt( 2 ) == 0 ? 23 : 24;
-		}
+			// Choose the uniform randomly
+			case AdventurePool.COLA_BATTLEFIELD:
+				return KoLConstants.RNG.nextInt( 2 ) == 0 ? OutfitPool.CLOACA_UNIFORM : OutfitPool.DYSPEPSI_UNIFORM;
 
-		// Cloaca area requires cloaca uniforms
-		if ( adventureId.equals( "86" ) )
-		{
-			return 23;
-		}
+			case AdventurePool.CLOACA_BATTLEFIELD:
+				return OutfitPool.CLOACA_UNIFORM;
 
-		// Dyspepsi area requires dyspepsi uniforms
-		if ( adventureId.equals( "87" ) )
-		{
-			return 24;
-		}
+			case AdventurePool.DYSPEPSI_BATTLEFIELD:
+				return OutfitPool.DYSPEPSI_UNIFORM;
 
-		// No outfit existed for this area
-		return -1;
+			// No outfit existed for this area
+			default:
+				return -1;
+
+		}
 	}
 
 	/**
