@@ -544,6 +544,11 @@ public class QuestDatabase
 					{
 						return true;
 					}
+					else
+					{
+						// step we're comparing to is equal or greater
+						return false;
+					}
 				}
 				catch ( NumberFormatException e )
 				{
