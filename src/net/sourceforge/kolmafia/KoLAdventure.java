@@ -884,7 +884,7 @@ public class KoLAdventure
 			sonarToUse = Math.min( sonarToUse, sonar.getCount( KoLConstants.inventory ) );
 
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SONAR, sonarToUse ) ) );
-			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
+			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "bathole.php" ) );
 
 			if ( this.adventureId.equals( AdventurePool.BATRAT_ID ) )
 			{
