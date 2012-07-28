@@ -37,7 +37,9 @@ public class AdventurePool
 {
 	public static final int DEGRASSI_KNOLL = 18;
 	public static final int FUN_HOUSE = 20;
+	public static final int HIPPY_CAMP = 26;
 	public static final int FRAT_HOUSE = 27;
+	public static final int FRAT_HOUSE_DISGUISED = 29;
 	public static final int BAT_HOLE_ENTRYWAY = 30;
 	public static final String BATRAT_ID = "32";
 	public static final String BEANBAT_ID = "33";
@@ -46,6 +48,8 @@ public class AdventurePool
 	public static final int MENAGERIE_LEVEL_2 = 52;
 	public static final String GOATLET_ID = "60";
 	public static final int NINJA_SNOWMEN = 62;
+	public static final int HIPPY_CAMP_DISGUISED = 65;
+	public static final int PIRATE_COVE = 66;
 	public static final String ROULETTE_TABLES_ID = "70";
 	public static final int POKER_ROOM = 71;
 	public static final String PIXEL_REALM_ID = "73";
@@ -53,8 +57,11 @@ public class AdventurePool
 	public static final String AIRSHIP_ID = "81";
 	public static final String GIANT_CASTLE_ID = "82";
 	public static final String HOLE_IN_THE_SKY_ID = "83";
+	public static final int COLA_BATTLEFIELD = 85;
 	public static final String COLA_BATTLEFIELD_ID = "85";
+	public static final int CLOACA_BATTLEFIELD = 86;
 	public static final String CLOACA_BATTLEFIELD_ID = "86";
+	public static final int DYSPEPSI_BATTLEFIELD = 87;
 	public static final String DYSPEPSI_BATTLEFIELD_ID = "87";
 	public static final String BAD_TRIP_ID = "96";
 	public static final String GREAT_TRIP_ID = "97";
@@ -95,10 +102,14 @@ public class AdventurePool
 	public static final int BARROOM_BRAWL = 233;
 	public static final int NOOB_CAVE = 240;
 	public static final int PANDAMONIUM_SLUMS = 248;
+	public static final int COBB_BARRACKS = 257;
+	public static final int COBB_HAREM = 259;
 	public static final int DEFILED_ALCOVE = 261;
 	public static final int DEFILED_CRANNY = 262;
 	public static final int DEFILED_NICHE = 263;
 	public static final int DEFILED_NOOK = 264;
+	public static final int ITZNOTYERZITZ_MINE = 270;
+	public static final int EXTREME_SLOPE = 273;
 	public static final int CLUMSINESS_GROVE = 277;
 	public static final int MAELSTROM_OF_LOVERS = 278;
 	public static final int GLACIER_OF_JERKS = 279;
