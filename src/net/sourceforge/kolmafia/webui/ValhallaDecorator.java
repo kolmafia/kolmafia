@@ -292,7 +292,12 @@ public class ValhallaDecorator
 		{			
 			buffer.append( "<nobr><a href=\"trophy.php\">buy trophies you're eligible for</a></nobr><br>" );
 		}
-		
+
+		if ( KoLCharacter.getAttacksLeft() > 0 )
+		{
+			buffer.append( "<nobr><a href=\"peevpee.php?place=fight\">Use remaining PVP fights</a></nobr><br>" );
+		}
+
 		ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_EMO_ROE, "Veracity" );
 		ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_WWTNSD_BRACELET, "Veracity" );
 		ValhallaDecorator.developerGift( buffer, ItemPool.STUFFED_COCOABO, "holatuwol" );
