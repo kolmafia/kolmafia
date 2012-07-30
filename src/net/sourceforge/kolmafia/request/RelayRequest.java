@@ -1342,7 +1342,7 @@ public class RelayRequest
 			return false;
 		}
 
-		if ( !Preferences.getBoolean( "cloverProtectActive" ) )
+		if ( !InventoryManager.cloverProtectionActive() )
 		{
 			return false;
 		}

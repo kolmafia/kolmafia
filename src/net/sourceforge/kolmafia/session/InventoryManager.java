@@ -100,6 +100,7 @@ public abstract class InventoryManager
 
 	private static final ArrayListArray listeners = new ArrayListArray();
 	private static int askedAboutCrafting = 0;
+	private static boolean cloverProtectionEnabled = true;
 
 	public static void resetInventory()
 	{
@@ -370,26 +371,23 @@ public abstract class InventoryManager
 
 	private static final String retrieveItem( final AdventureResult item, final boolean isAutomated, final boolean sim )
 	{
-		// if we're simulating, we don't need to waste file I/O on disabling/enabling clover protection
+		// if we're simulating, we don't need to waste time disabling/enabling clover protection
 		if ( sim )
 		{
 			return InventoryManager.doRetrieveItem( item, isAutomated, sim );
 		}
 
-		// Disable any preferences that might prevent us from acquiring the item
-
-		boolean cloverProtectActive = Preferences.getBoolean( "cloverProtectActive" );
 		String rv;
 
 		try
 		{
-			Preferences.setBoolean( "cloverProtectActive", false );
+			InventoryManager.setCloverProtection( false );
 			rv = InventoryManager.doRetrieveItem( item, isAutomated, sim );
 		}
 		finally
 		{
-			// Restore preferences back to what they were before calling retrieveItem
-			Preferences.setBoolean( "cloverProtectActive", cloverProtectActive );
+			// Restore clover protection
+			InventoryManager.setCloverProtection( true );
 		}
 		return rv;
 	}
@@ -1902,5 +1900,17 @@ public abstract class InventoryManager
 		InventoryManager.askedAboutCrafting = KoLCharacter.getUserId();
 
 		return true;
+	}
+
+	public static boolean cloverProtectionActive()
+	{
+		return InventoryManager.cloverProtectionEnabled && Preferences.getBoolean( "cloverProtectActive" );
+	}
+
+	// Accessory function just to _temporarily_ disable clover protection so that messing with preferences is unnecessary.
+
+	private static void setCloverProtection( boolean enabled )
+	{
+		InventoryManager.cloverProtectionEnabled = enabled;
 	}
 }

@@ -110,15 +110,13 @@ public class ResultProcessor
 		return ResultProcessor.receivedClover &&
 		       !GenericRequest.ascending &&
 		       FightRequest.getCurrentRound() == 0 &&
-		       Preferences.getBoolean( "cloverProtectActive" ) &&
+		       InventoryManager.cloverProtectionActive() &&
 		       isCloverURL( formURLString );
 	}
 
 	public static boolean disassembledClovers( String formURLString )
 	{
-		return ResultProcessor.receivedDisassembledClover &&
-		       Preferences.getBoolean( "cloverProtectActive" ) &&
-		       isCloverURL( formURLString );
+		return ResultProcessor.receivedDisassembledClover && InventoryManager.cloverProtectionActive() && isCloverURL( formURLString );
 	}
 
 	private static boolean isCloverURL( String formURLString )
