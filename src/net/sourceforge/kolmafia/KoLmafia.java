@@ -1673,9 +1673,7 @@ public abstract class KoLmafia
 
 		int itemId = currentRequest.getItemId();
 
-		if ( itemId == ItemPool.TEN_LEAF_CLOVER &&
-		     Preferences.getBoolean( "cloverProtectActive" ) &&
-		     !KoLCharacter.inBeecore() )
+		if ( itemId == ItemPool.TEN_LEAF_CLOVER && InventoryManager.cloverProtectionActive() && !KoLCharacter.inBeecore() )
 		{
 			// Our clovers will miraculously turn into disassembled
 			// clovers as soon as they are bought.

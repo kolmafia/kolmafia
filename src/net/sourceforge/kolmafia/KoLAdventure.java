@@ -1089,7 +1089,7 @@ public class KoLAdventure
 			}
 		}
 
-		if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && Preferences.getBoolean( "cloverProtectActive" ) )
+		if ( AdventureDatabase.isPotentialCloverAdventure( adventureName ) && InventoryManager.cloverProtectionActive() )
 		{
 			KoLmafia.protectClovers();
 		}
