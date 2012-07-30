@@ -287,7 +287,7 @@ public class ClanRumpusRequest
 			break;
 
 		case MUSCLE:
-			// If we can do inside Degrassi Knollm use the gym.
+			// If we can do inside Degrassi Knoll use the gym.
 			if ( KoLCharacter.knollAvailable() )
 			{
 				this.constructURLString( "knoll.php" );
@@ -382,19 +382,6 @@ public class ClanRumpusRequest
 	@Override
 	public void processResults()
 	{
-		switch ( this.action )
-		{
-		case MUSCLE:
-		case MYSTICALITY:
-		case MOXIE:
-			KoLmafia.updateDisplay( "Workout completed." );
-			return;
-
-		case SOFA:
-			KoLmafia.updateDisplay( "Resting completed." );
-			return;
-		}
-
 		ClanRumpusRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
@@ -410,6 +397,35 @@ public class ClanRumpusRequest
 
 		if ( action == null )
 		{
+			return;
+		}
+
+		if ( action.equals( "gym" ) )
+		{
+			if ( responseText.contains( "You work it on out." ) ||
+				 responseText.contains( "You study the secrets of the cosmos." ) ||
+				 responseText.contains( "You bake under the artificial sunlight." ) )
+			{
+				KoLmafia.updateDisplay( "Workout completed." );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( MafiaState.ABORT, "You can't access that gym" );
+			}
+		}
+
+		if ( action.equals( "nap" ) )
+		{
+			// You take a nap on the comfy sofa.
+			if ( responseText.contains( "You take a nap" ) )
+			{
+				KoLmafia.updateDisplay( "Resting completed." );
+			}
+			// Either you aren't in a clan or your clan doesn't have a sofa
+			else
+			{
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Resting failed - no Clan Sofa available." );
+			}
 			return;
 		}
 
