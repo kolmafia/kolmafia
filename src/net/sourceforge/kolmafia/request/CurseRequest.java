@@ -152,6 +152,12 @@ public class CurseRequest
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Can't use the item on that player at the moment." );
 			return;
 		}
+		
+		if ( responseText.contains( "You can't fire" ) || responseText.contains( "That player has already been hit" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot arrow that person." );
+			return;
+		}
 
 		RequestLogger.updateSessionLog( "throw " + item +
 			" at " + m.group( 1 ) );
