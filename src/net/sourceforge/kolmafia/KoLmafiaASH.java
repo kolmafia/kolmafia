@@ -252,7 +252,7 @@ public abstract class KoLmafiaASH
 
 					String refType = ref.getType().toString();
 
-					matches = refType == null || refType.indexOf( filter ) != -1;
+					matches = refType != null && refType.indexOf( filter ) != -1;
 				}
 			}
 
