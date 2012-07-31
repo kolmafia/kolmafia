@@ -5748,7 +5748,7 @@
 5739	CSA fire-starting kit	usable	display	0
 5740	bag of GORP	food	all	23
 5741	water purification pills	drink	all	23
-5742	Camp Scout pup tent	hp	all	0
+5742	Camp Scout pup tent	hp, usable	all	0
 5743	CSA scoutmaster's &quot;water&quot;	drink	all	0
 5744	bag of GORF	food	all	23
 5745	CSA discount card	usable	all	0
