@@ -161,6 +161,10 @@ public abstract class NemesisManager
 		{
 			return;
 		}
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
 
 		if ( location.indexOf( "action=door1" ) != -1 )
 		{
