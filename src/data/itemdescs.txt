@@ -5571,30 +5571,30 @@
 5570	726661902	carabiner.gif	ninja carabiner
 5571	439808527	furfur.gif	Groar's fur
 5572	497799983	thwaitbeetle.gif	Thwaitgold stag beetle statuette
-5573	142371526	blackntan.gif	Drac & Tan
+5573	142371526	blackntan.gif	Drac & Tan	Dracs & Tans
 5574	784560184	hurricane.gif	Transylvania Sling
-5575	145928650	shot.gif	Shot of the Living Dead
+5575	145928650	shot.gif	Shot of the Living Dead	Shots of the Living Dead
 5576	623617452	shot.gif	Buttery Knob
 5577	800098645	shot.gif	Slippery Knob
 5578	993247352	shot_f.gif	Flaming Knob
-5579	731340424	rocks.gif	Grasshopper
+5579	731340424	rocks.gif	Grasshopper	Grasshoppers
 5580	628493354	rocks.gif	Locust
-5581	937524662	rocks.gif	Plague of Locusts
-5582	235328112	martini.gif	Red Dwarf
+5581	937524662	rocks.gif	Plague of Locusts	Plagues of Locusts
+5582	235328112	martini.gif	Red Dwarf	Red Dwarves
 5583	849250223	martini.gif	Golden Mean
 5584	877758643	shot.gif	Green Giant
 5585	763933310	daquiri.gif	Aye Aye
 5586	871430740	daquiri.gif	Aye Aye, Captain
 5587	918518172	daquiri.gif	Aye Aye, Tooth Tooth	Aye Aye, Teeth Teeth
 5588	822675650	martini.gif	Humanitini
-5589	282001208	martini.gif	More Humanitini than Humanitini
+5589	282001208	martini.gif	More Humanitini than Humanitini	More Humanitinis than Humanitinis
 5590	839812561	martini_f.gif	Oh, the Humanitini
 5591	238625388	rocks.gif	Great Old Fashioned
 5592	187788581	chamfluteu.gif	Fuzzy Tentacle
 5593	660220677	juice.gif	Crazymaker
 5594	624051601	rocks.gif	Zoodriver
 5595	271632304	rocks.gif	Sloe Comfortable Zoo
-5596	573064017	rocks_f.gif	Sloe Comfortable Zoo on Fire
+5596	573064017	rocks_f.gif	Sloe Comfortable Zoo on Fire	Sloe Comfortable Zoos on Fire
 5597	669900679	tikiglass.gif	Suffering Sinner
 5598	141429574	tikiglass.gif	Suppurating Sinner
 5599	609458941	tikiglass_f.gif	Sizzling Sinner
@@ -5607,7 +5607,7 @@
 5606	314170592	shot.gif	Cement Mixer
 5607	131847953	shot.gif	Jackhammer
 5608	961253398	shot.gif	Dump Truck
-5609	591788825	rocks.gif	Fauna Libre
+5609	591788825	rocks.gif	Fauna Libre	Faunas Libres
 5610	764800019	rocks.gif	Chakra Libre
 5611	617824482	rocks.gif	Aura Libre
 5612	339948065	rocks.gif	Sazerorc
@@ -5622,7 +5622,7 @@
 5621	744271417	rocks.gif	Drunken Philosopher
 5622	600910105	rocks.gif	Drunken Neurologist
 5623	800374329	rocks.gif	Drunken Astrophysicist
-5624	785499840	blackntan.gif	Dark & Starry
+5624	785499840	blackntan.gif	Dark & Starry	Dark & Starries
 5625	560772723	juice.gif	Black Hole
 5626	567089761	rocks.gif	Event Horizon
 5627	793096692	daquiri.gif	Herring Daiquiri
