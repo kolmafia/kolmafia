@@ -2277,6 +2277,10 @@ public abstract class SorceressLairManager
 
 	public static final void decorateGates( final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
 		Matcher gateMatcher = SorceressLairManager.GATE_PATTERN.matcher( buffer );
 		SorceressLairManager.decorateGate( buffer, gateMatcher );
 		SorceressLairManager.decorateGate( buffer, gateMatcher );
@@ -2346,6 +2350,10 @@ public abstract class SorceressLairManager
 
 	public static final void decorateDigitalKey( final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
 		SorceressLairManager.decorateDigitalKey( buffer, "seq1", "up" );
 		SorceressLairManager.decorateDigitalKey( buffer, "seq2", "up" );
 		SorceressLairManager.decorateDigitalKey( buffer, "seq3", "down" );
@@ -2376,6 +2384,10 @@ public abstract class SorceressLairManager
 
 	public static final void decorateHeavyDoor( final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
 		String code = SorceressLairManager.getDoorCode();
 		if ( code != null )
 		{
@@ -2389,6 +2401,10 @@ public abstract class SorceressLairManager
 
 	public static final void decorateFamiliars( final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
 		StringUtilities.insertAfter( buffer, "manages to defeat you.", " <font color=#DD00FF>Angry Goat needed</font>" );
 		StringUtilities.insertAfter( buffer, "eyeing you menacingly.", " <font color=#DD00FF>Barrrnacle needed</font>" );
 		StringUtilities.insertAfter( buffer, "its... er... grin.", " <font color=#DD00FF>Levitating Potato needed</font>" );

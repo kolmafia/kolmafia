@@ -138,6 +138,11 @@ public abstract class BarrelDecorator
 
 	public static final void decorate( final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
+
 		int [] possibles = compute();
 
 		Matcher m = UNSMASHED.matcher( buffer.toString() );

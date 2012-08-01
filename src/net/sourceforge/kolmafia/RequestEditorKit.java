@@ -1175,7 +1175,7 @@ public class RequestEditorKit
 		}
 
 		String[] guardianData = SorceressLairManager.findGuardianByName( monsterName );
-		if ( guardianData != null )
+		if ( guardianData != null && Preferences.getBoolean( "relayShowSpoilers" ) )
 		{
 			String itemName = SorceressLairManager.guardianItem( guardianData );
 			monsterData.append( "<br />Defeated by a <font color=#DD00FF>" + itemName + "</font>" );
@@ -1265,6 +1265,10 @@ public class RequestEditorKit
 
 	private static final void add2ndFloorSpoilers( final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
 		// Insert GMoB/Ballroom song spoilers
 		StringBuilder spoiler = new StringBuilder();
 		if ( Preferences.getBoolean( "guyMadeOfBeesDefeated" ) )
@@ -1310,6 +1314,10 @@ public class RequestEditorKit
 
 	private static final void addWineCellarSpoilers( final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
 		// Change dusty bottle names in item dropdown
 		RequestEditorKit.changeDustyBottleNames( buffer );
 		CellarDecorator.decorate( buffer );
@@ -1318,6 +1326,10 @@ public class RequestEditorKit
 	private static final void identifyDustyBottles( final StringBuffer buffer )
 	{
 		if ( buffer.indexOf( "wine2.gif" ) == -1 )
+		{
+			return;
+		}
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
 		{
 			return;
 		}
@@ -1343,6 +1355,10 @@ public class RequestEditorKit
 	{
 		if ( buffer.indexOf( "exclam.gif" ) == -1 &&
 		     buffer.indexOf( "vial.gif" ) == -1)
+		{
+			return;
+		}
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
 		{
 			return;
 		}
@@ -1389,9 +1405,9 @@ public class RequestEditorKit
 
 		for ( int i = 0; i < potionNames.size(); ++i )
 		{
-			String name = (String) potionNames.get( i );
-			String plural = (String) pluralNames.get( i );
-			String effect = (String) potionEffects.get( i );
+			String name = potionNames.get( i );
+			String plural = pluralNames.get( i );
+			String effect = potionEffects.get( i );
 
 			StringUtilities.globalStringReplace( buffer, name + "</b>", name + effect + "</b>" );
 			if ( plural != null )
