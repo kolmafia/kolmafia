@@ -1863,6 +1863,10 @@ public class RequestEditorKit
 
 	private static final void addChoiceSpoilers( final String location, final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers"  ) )
+		{
+			return;
+		}
 		// Make sure that it's an actual choice adventure
 		String text = buffer.toString();
 
