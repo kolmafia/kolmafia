@@ -545,37 +545,7 @@ public class AdventureDatabase
 
 		String def = "none";
 
-		// If you're at the Friar's gate, return the steel
-		// reward people are most likely looking for.
-
-		int adventureId = StringUtilities.parseInt( adventure.getAdventureId() );
-		if ( adventureId == 79 )
-		{
-			if ( KoLCharacter.canDrink() )
-			{
-				if ( KoLCharacter.getInebrietyLimit() <= 15 )
-				{
-					def = "1 steel margarita";
-				}
-			}
-			else if ( KoLCharacter.canEat() )
-			{
-				if ( KoLCharacter.getFullnessLimit() <= 15 )
-				{
-					def = "1 steel lasagna";
-				}
-			}
-			else
-			{
-				if ( KoLCharacter.getSpleenLimit() <= 15 )
-				{
-					def = "1 steel-scented air freshener";
-				}
-			}
-		}
-
-		// Otherwise, pull the condition out of the existing
-		// table and return it.
+		// Pull the condition out of the table and return it.
 
 		String conditions = AdventureDatabase.conditionLookup.get( adventureName );
 		if ( conditions == null || conditions.equals( "" ) )

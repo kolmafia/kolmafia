@@ -1527,7 +1527,7 @@ disbelief suspenders	50	Mys: 10
 disembodied smile	20	none
 diving muff	200	Mys: 85
 dope gangsta bling-bling	45	Mys: 7
-eXtreme mittens	110	Mys: 40
+eXtreme mittens	110	Mys: 35
 eXtreme nose ring	100	Mys: 10
 elven socks	30	none
 enchanted handwarmer	60	Mys: 15
