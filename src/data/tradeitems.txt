@@ -5770,5 +5770,6 @@
 5761	Staff of the Scummy Sink	weapon	display	25
 5762	flaming nose	familiar	all	75
 5763	Superhero Reboots	accessory	display	0
-5764
+5764	fuzzy busby	hat	display	200
 5765	fuzzy earmuffs	hat	display	200
+5766	fuzzy montera	hat	display	200
