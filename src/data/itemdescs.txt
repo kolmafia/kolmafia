@@ -5585,7 +5585,7 @@
 5584	877758643	shot.gif	Green Giant
 5585	763933310	daquiri.gif	Aye Aye
 5586	871430740	daquiri.gif	Aye Aye, Captain
-5587	918518172	daquiri.gif	Aye Aye, Tooth Tooth
+5587	918518172	daquiri.gif	Aye Aye, Tooth Tooth	Aye Aye, Teeth Teeth
 5588	822675650	martini.gif	Humanitini
 5589	282001208	martini.gif	More Humanitini than Humanitini
 5590	839812561	martini_f.gif	Oh, the Humanitini
@@ -5762,3 +5762,6 @@
 5761	270811344	scumsinkstaff.gif	Staff of the Scummy Sink
 5762	449067753	flamenose.gif	flaming nose
 5763	999275045	reboots.gif	Superhero Reboots
+5764	191752711	fuzzybusby.gif	fuzzy busby
+5765	452458382	fuzzyearmuffs.gif	fuzzy earmuffs
+5766	862695054	fuzzymontera.gif	fuzzy montera
