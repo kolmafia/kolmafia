@@ -370,6 +370,10 @@ public class ClanRumpusRequest
 				return;
 			}
 		}
+		else if ( this.action == ClanRumpusRequest.SOFA )
+		{
+			return;
+		}
 
 		if ( this.action != ClanRumpusRequest.SEARCH )
 		{
