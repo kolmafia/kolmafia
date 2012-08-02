@@ -74,6 +74,11 @@ public class DataFileCache
 			return null;
 		}
 
+		if ( filename.endsWith( ".ash" ) )
+		{
+			return null;
+		}
+
 		File[] parents = new File[]
 		{
 			KoLConstants.SCRIPT_LOCATION,
