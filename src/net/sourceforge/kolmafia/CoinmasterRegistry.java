@@ -56,7 +56,7 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
-import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
+import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
 
@@ -87,7 +87,7 @@ public abstract class CoinmasterRegistry
 		QuartersmasterRequest.FRATBOY,
 		SwaggerShopRequest.SWAGGER_SHOP,
 		TicketCounterRequest.TICKET_COUNTER,
-		Tr4pz0rRequest.L33T_TR4PZ0R,
+		TrapperRequest.TRAPPER,
 		TravelingTraderRequest.TRAVELER,
 		VendingMachineRequest.VENDING_MACHINE,
 	};

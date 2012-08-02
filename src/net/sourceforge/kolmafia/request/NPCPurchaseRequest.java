@@ -463,6 +463,10 @@ public class NPCPurchaseRequest
 		{
 			FDKOLRequest.parseResponse( urlString, responseText );
 		}
+		else if ( shopId.equals( "trapper" ) )
+		{
+			TrapperRequest.parseResponse( urlString, responseText );
+		}
 	}
 
 	public static final boolean registerShopRequest( final String urlString, boolean meatOnly )
@@ -503,6 +507,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "fdkol" ) )
 			{
 				FDKOLRequest.registerRequest( urlString, true );
+			}
+
+			else if ( shopId.equals( "trapper" ) )
+			{
+				TrapperRequest.registerRequest( urlString );
 			}
 
 			return false;

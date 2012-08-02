@@ -127,7 +127,7 @@ import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
-import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
+import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -1093,7 +1093,7 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof Tr4pz0rRequest || isExternal ) && Tr4pz0rRequest.registerRequest( urlString ) )
+		if ( ( request instanceof TrapperRequest || isExternal ) && TrapperRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -1144,6 +1144,12 @@ public class RequestLogger
 		if ( ( request instanceof ZapRequest || isExternal ) && ZapRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// place.php is now a thing. Don't bother registering simple visits to places.
+		if ( urlString.startsWith( "place.php" ) && !urlString.contains( "action=" ) )
+		{
 			return;
 		}
 

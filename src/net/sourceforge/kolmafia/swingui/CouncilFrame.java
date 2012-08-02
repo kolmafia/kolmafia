@@ -75,7 +75,7 @@ public class CouncilFrame
 {
 	public static final CouncilRequest COUNCIL_VISIT = new CouncilRequest();
 
-	private static final Pattern ORE_PATTERN = Pattern.compile( "3 chunks of (\\w+) ore" );
+	private static final Pattern ORE_PATTERN = Pattern.compile( "(\\w+) ore[\\. ]" );
 
 	public CouncilFrame()
 	{
@@ -175,9 +175,19 @@ public class CouncilFrame
 			// Quest starts the very instant you click on pandamonium.php
 			QuestDatabase.setQuestIfBetter( Quest.AZAZEL, QuestDatabase.STARTED );
 		}
-		else if ( location.startsWith( "place.php?whichplace=plains" ) )
+		else if ( location.startsWith( "place.php" ) )
 		{
-			CouncilFrame.handlePlainsChange( responseText );
+			if ( location.contains( "whichplace=plains" ) )
+			{
+				CouncilFrame.handlePlainsChange( responseText );
+			}
+			else if ( location.contains( "whichplace=mclargehuge" ) )
+			{
+				if ( location.contains( "action=trappercabin" ) )
+				{
+					CouncilFrame.handleTrapperChange( responseText );
+				}
+			}
 		}
 		else if ( location.startsWith( "postwarisland" ) )
 		{
@@ -194,10 +204,6 @@ public class CouncilFrame
 		else if ( location.startsWith( "tavern" ) )
 		{
 			TavernManager.handleTavernChange( responseText );
-		}
-		else if ( location.startsWith( "trapper" ) )
-		{
-			CouncilFrame.handleTrapperChange( responseText );
 		}
 		else if ( location.startsWith( "trickortreat" ) )
 		{
@@ -381,41 +387,19 @@ public class CouncilFrame
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step1" );
 		}
 
-		if ( responseText.indexOf( "Thanks for yer help, Adventurer" ) != -1 ||
-		     responseText.indexOf( "You ain't got no furs" ) != -1 ||
-		     responseText.indexOf( "Yeti furs, eh?" ) != -1 )
+		if ( responseText.contains( "He takes the load of cheese and ore" ) )
+		{
+			AdventureResult item = new AdventureResult( Preferences.getString( "trapperOre" ), -3, false );
+			ResultProcessor.processResult( item );
+			ResultProcessor.processResult( new AdventureResult( "goat cheese", -3, false ) );
+			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
+		}
+
+		// I'm plumb stocked up on everythin' 'cept yeti furs, Adventurer.
+		if ( responseText.contains( "I'm back in business" ) )
 		{
 			Preferences.setInteger( "lastTr4pz0rQuest", KoLCharacter.getAscensions() );
 			QuestDatabase.setQuestProgress( Quest.TRAPPER, QuestDatabase.FINISHED );
-		}
-
-		// If you receive items from the trapper, then you
-		// lose some items already in your inventory.
-
-		if ( responseText.indexOf( "You acquire" ) == -1 )
-		{
-			return;
-		}
-
-		if ( responseText.indexOf( "asbestos" ) != -1 )
-		{
-			ResultProcessor.processResult( new AdventureResult( "asbestos ore", -3, false ) );
-			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step2" );
-		}
-		else if ( responseText.indexOf( "linoleum" ) != -1 )
-		{
-			ResultProcessor.processResult( new AdventureResult( "linoleum ore", -3, false ) );
-			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step2" );
-		}
-		else if ( responseText.indexOf( "chrome" ) != -1 )
-		{
-			ResultProcessor.processResult( new AdventureResult( "chrome ore", -3, false ) );
-			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step2" );
-		}
-		else if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
-		{
-			ResultProcessor.processResult( new AdventureResult( "goat cheese", -6, false ) );
-			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
 		}
 	}
 

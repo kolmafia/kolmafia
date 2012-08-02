@@ -38,7 +38,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
+import net.sourceforge.kolmafia.request.TrapperRequest;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
@@ -59,7 +59,7 @@ public class LootTrapperMenuItem
 		protected void execute()
 		{
 			AdventureResult selectedValue =
-				(AdventureResult) InputFieldUtilities.input( "I want skins!", Tr4pz0rRequest.buyItems );
+				(AdventureResult) InputFieldUtilities.input( "I want skins!", TrapperRequest.buyItems );
 
 			if ( selectedValue == null )
 			{
@@ -67,7 +67,7 @@ public class LootTrapperMenuItem
 			}
 
 			int selected = selectedValue.getItemId();
-			int maximumValue = Tr4pz0rRequest.YETI_FUR.getCount( KoLConstants.inventory );
+			int maximumValue = TrapperRequest.YETI_FUR.getCount( KoLConstants.inventory );
 			String message = "(You have " + maximumValue + " furs available)";
 
 			Integer value = InputFieldUtilities.getQuantity( "How many " + selectedValue.getName() + " to get?\n" + message, maximumValue, maximumValue );
@@ -79,7 +79,7 @@ public class LootTrapperMenuItem
 			}
 
 			KoLmafia.updateDisplay( "Visiting the trapper..." );
-			RequestThread.postRequest( new Tr4pz0rRequest( selected, tradeCount ) );
+			RequestThread.postRequest( new TrapperRequest( selected, tradeCount ) );
 		}
 	}
 }

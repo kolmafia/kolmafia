@@ -90,7 +90,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
-import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
+import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
 
@@ -138,7 +138,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel awolPanel = null;
 	private CoinmasterPanel fudgeWandPanel = null;
 	private CoinmasterPanel travelerPanel = null;
-	private CoinmasterPanel tr4pz0rPanel = null;
+	private CoinmasterPanel trapperPanel = null;
 	private CoinmasterPanel vendingMachinePanel = null;
 	private CoinmasterPanel swaggerShopPanel = null;
 	private CoinmasterPanel BURTPanel = null;
@@ -175,9 +175,9 @@ public class CoinmastersFrame
 		this.selectorPanel.addPanel( hermitPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
-		tr4pz0rPanel = new Tr4pz0rPanel();
-		panel.add( tr4pz0rPanel );
-		this.selectorPanel.addPanel( tr4pz0rPanel.getPanelSelector(), panel );
+		trapperPanel = new TrapperPanel();
+		panel.add( trapperPanel );
+		this.selectorPanel.addPanel( trapperPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		vendingMachinePanel = new VendingMachinePanel();
@@ -351,7 +351,7 @@ public class CoinmastersFrame
 		hermitPanel.update();
 		swaggerShopPanel.update();
 		BURTPanel.update();
-		tr4pz0rPanel.update();
+		trapperPanel.update();
 		vendingMachinePanel.update();
 		bigBrotherPanel.update();
 		arcadePanel.update();
@@ -458,12 +458,12 @@ public class CoinmastersFrame
 		}
 	}
 
-	public class Tr4pz0rPanel
+	public class TrapperPanel
 		extends CoinmasterPanel
 	{
-		public Tr4pz0rPanel()
+		public TrapperPanel()
 		{
-			super( Tr4pz0rRequest.L33T_TR4PZ0R );
+			super( TrapperRequest.TRAPPER );
 		}
 	}
 

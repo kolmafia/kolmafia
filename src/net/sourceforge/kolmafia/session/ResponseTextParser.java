@@ -125,7 +125,6 @@ import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
-import net.sourceforge.kolmafia.request.Tr4pz0rRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
@@ -747,11 +746,6 @@ public class ResponseTextParser
 		else if ( location.startsWith( "town_wrong.php" ) )
 		{
 			ArtistRequest.parseResponse( location, responseText );
-		}
-
-		else if ( location.startsWith( "place.php?whichplace=mclargehuge&action=trappercabin" ) )
-		{
-			Tr4pz0rRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "traveler.php" ) )
