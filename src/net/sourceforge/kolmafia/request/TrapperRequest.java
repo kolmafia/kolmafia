@@ -42,91 +42,106 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
-public class Tr4pz0rRequest
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+public class TrapperRequest
 	extends CoinMasterRequest
 {
-	public static String master = "L33t Tr4pz0r"; 
-	public static LockableListModel buyItems = CoinmastersDatabase.getBuyItems( Tr4pz0rRequest.master );
-	private static Map buyPrices = CoinmastersDatabase.getBuyPrices( Tr4pz0rRequest.master );
+	public static String master = "The Trapper"; 
+	public static LockableListModel buyItems = CoinmastersDatabase.getBuyItems( TrapperRequest.master );
+	private static Map buyPrices = CoinmastersDatabase.getBuyPrices( TrapperRequest.master );
 
-	// As you enter the Tr4pz0r's cabin, he leaps up from his table at the
-	// sight of the 78 yeti furs draped across your back.
-
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "the sight of the ([\\d,]+|) ?yeti fur" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "([\\d,]+) yeti fur" );
 	public static final AdventureResult YETI_FUR = ItemPool.get( ItemPool.YETI_FUR, 1 );
-	public static final CoinmasterData L33T_TR4PZ0R =
+	public static final CoinmasterData TRAPPER =
 		new CoinmasterData(
-			Tr4pz0rRequest.master,
-			Tr4pz0rRequest.class,
-			"place.php?whichplace=mclargehuge&action=trappercabin",
+			TrapperRequest.master,
+			TrapperRequest.class,
+			"shop.php?whichshop=trapper",
 			"yeti fur",
-			"You ain't got no furs, son",
+			"no yeti furs",
 			false,
-			Tr4pz0rRequest.TOKEN_PATTERN,
-			Tr4pz0rRequest.YETI_FUR,
+			TrapperRequest.TOKEN_PATTERN,
+			TrapperRequest.YETI_FUR,
 			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
-			"qty",
-			CoinMasterRequest.QTY_PATTERN,
-			"Yep.",
-			Tr4pz0rRequest.buyItems,
-			Tr4pz0rRequest.buyPrices,
+			"quantity",
+			CoinMasterRequest.QUANTITY_PATTERN,
+			"buyitem",
+			TrapperRequest.buyItems,
+			TrapperRequest.buyPrices,
 			null,
 			null,
 			null,
-			"max=on"
+			null
 			);
 
-	public Tr4pz0rRequest()
+	public TrapperRequest()
 	{
-		super( Tr4pz0rRequest.L33T_TR4PZ0R );
+		super( TrapperRequest.TRAPPER );
 	}
 
-	public Tr4pz0rRequest( final String action )
+	public TrapperRequest( final String action )
 	{
-		super( Tr4pz0rRequest.L33T_TR4PZ0R, action );
+		super( TrapperRequest.TRAPPER, action );
 	}
 
-	public Tr4pz0rRequest( final String action, final int itemId, final int quantity )
+	public TrapperRequest( final String action, final int itemId, final int quantity )
 	{
-		super( Tr4pz0rRequest.L33T_TR4PZ0R, action, itemId, quantity );
+		super( TrapperRequest.TRAPPER, action, itemId, quantity );
 	}
 
-	public Tr4pz0rRequest( final String action, final int itemId )
+	public TrapperRequest( final String action, final int itemId )
 	{
 		this( action, itemId, 1 );
 	}
 
-	public Tr4pz0rRequest( final String action, final AdventureResult ar )
+	public TrapperRequest( final String action, final AdventureResult ar )
 	{
 		this( action, ar.getItemId(), ar.getCount() );
 	}
 
-	public Tr4pz0rRequest( final int itemId, final int quantity )
+	public TrapperRequest( final int itemId, final int quantity )
 	{
 		this( "Yep.", itemId, quantity );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		CoinMasterRequest.parseResponse( Tr4pz0rRequest.L33T_TR4PZ0R, urlString, responseText );
+		// I'm plumb stocked up on everythin' 'cept yeti furs, Adventurer.
+		// If you've got any to trade, I'd be much obliged."
+		if ( responseText.contains( "yeti furs" ) )
+		{
+			Preferences.setInteger( "lastTr4pz0rQuest", KoLCharacter.getAscensions() );
+			QuestDatabase.setQuestProgress( Quest.TRAPPER, QuestDatabase.FINISHED );
+		}
+		CoinMasterRequest.parseResponse( TrapperRequest.TRAPPER, urlString, responseText );
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		// We only claim place.php?whichplace=mclargehuge&action=trappercabin?action=Yep.
-		if ( !urlString.startsWith( "place.php?whichplace=mclargehuge&action=trappercabin" ) )
+		if ( urlString.startsWith( "place.php" ) && urlString.contains( "action=trappercabin" ) )
+		{
+			RequestLogger.updateSessionLog( "Visiting the Trapper" );
+			return true;
+		}
+
+		// shop.php?pwd&whichshop=trapper
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=trapper" ) )
 		{
 			return false;
 		}
 
-		CoinmasterData data = Tr4pz0rRequest.L33T_TR4PZ0R;
+		CoinmasterData data = TrapperRequest.TRAPPER;
 		return CoinMasterRequest.registerRequest( data, urlString );
 	}
 
@@ -134,11 +149,11 @@ public class Tr4pz0rRequest
 	{
 		if ( KoLCharacter.getLevel() < 8 )
 		{
-			return "You haven't even met the L33t Tr4pz0r yet";
+			return "You haven't met the Trapper yet";
 		}
-		if ( !KoLCharacter.getTr4pz0rQuestCompleted() )
+		if ( !KoLCharacter.getTrapperQuestCompleted() )
 		{
-			return "You have unfinished business with the L33t Tr4pz0r";
+			return "You have unfinished business with the Trapper";
 		}
 		return null;
 	}

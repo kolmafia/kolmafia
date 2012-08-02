@@ -3706,7 +3706,7 @@ public abstract class KoLCharacter
 		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastTempleUnlock" );
 	}
 
-	public static final boolean getTr4pz0rQuestCompleted()
+	public static final boolean getTrapperQuestCompleted()
 	{
 		return KoLCharacter.getAscensions() == Preferences.getInteger( "lastTr4pz0rQuest" );
 	}
