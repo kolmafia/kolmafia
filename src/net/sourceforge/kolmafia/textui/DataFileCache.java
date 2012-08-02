@@ -89,17 +89,6 @@ public class DataFileCache
 
 		for ( int i = 0; i < parents.length; ++i )
 		{
-			try
-			{
-				parents[ i ] = parents[ i ].getCanonicalFile();
-			}
-			catch ( Exception e )
-			{
-			}
-		}
-		
-		for ( int i = 0; i < parents.length; ++i )
-		{
 			File file = new File( parents[ i ], filename );
 			if ( checkFile( parents, file, true ) )
 			{
@@ -115,8 +104,10 @@ public class DataFileCache
 		
 		filename = filename.substring( filename.lastIndexOf( "\\" ) + 1 );
 		filename = filename.substring( filename.lastIndexOf( "/" ) + 1 );
-		
-		return new File( KoLConstants.DATA_LOCATION, filename );
+
+		file = new File( KoLConstants.DATA_LOCATION, filename );
+
+		return file;
 	}
 
 	private static boolean checkFile( File[] parents, File file, boolean checkExists )
@@ -125,7 +116,9 @@ public class DataFileCache
 		{
 			return false;
 		}
-		
+
+		file = file.getAbsoluteFile();
+
 		try
 		{
 			File settings = KoLConstants.SETTINGS_LOCATION.getCanonicalFile();
@@ -137,11 +130,9 @@ public class DataFileCache
 			
 			while ( file != null )
 			{
-				File canonical = file.getCanonicalFile();
-
 				for ( int i = 0; i < parents.length; ++i )
 				{
-					if ( canonical.equals( parents[ i ] ) )
+					if ( file.equals( parents[ i ] ) )
 					{
 						return true;
 					}
