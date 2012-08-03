@@ -522,7 +522,7 @@ Killer Clownfish	HP: 700 Def: 500 Atk: 500 E: sleaze Meat: 240-360 P: horror	hig
 Knight (Snake)	HP: 130 Def: 115 Atk: 115 P: humanoid	serpentine sword (5)	snake shield (5)
 Knight (Wolf)	HP: 130 Def: 115 Atk: 115 P: humanoid	lupine sword (5)	snarling wolf shield (5)
 Knight in White Satin	HP: 21 Def: 36 Atk: 38 Meat: 24-39 P: humanoid	white sword (15)	white satin pants (15)	white satin shield (8)	white lint (b0)
-Knob Goblin Accountant	HP: 20 Def: 22 Atk: 22 P: goblin	flimsy clipboard (15)	meat stack (25)
+Knob Goblin Accountant	HP: 20 Def: 22 Atk: 22 Meat: 40-60 P: goblin	flimsy clipboard (15)	meat stack (25)
 Knob Goblin Alchemist	HP: 45 Def: 40 Atk: 40 P: goblin	half-baked potion (25)	philosopher's scone (15)	broken petri dish (b0)
 Knob Goblin Assistant Chef	HP: 1 Def: 1 Atk: 2 Meat: 7-9 P: goblin	chef's hat (32)	Knob Goblin tongs (12)	Knob Goblin pants (8)
 Knob Goblin Barbecue Team	HP: 2 Def: 2 Atk: 2 E: heat Meat: 8-12 P: goblin	bowl of cottage cheese (60)	Knob Goblin pants (8)	Knob Goblin tongs (20)	Colon Annihilation Hot Sauce (p20)	bloodstained briquette (b0)

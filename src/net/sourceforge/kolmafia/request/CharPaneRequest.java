@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -124,12 +125,16 @@ public class CharPaneRequest
 
 	public static final void setInteraction()
 	{
-		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( "" ) );
+		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction() );
 	}
 
 	public static final void setInteraction( final boolean interaction )
 	{
 		CharPaneRequest.canInteract = interaction;
+		if ( interaction )
+		{
+			ConcoctionDatabase.setPullsRemaining( -1 );
+		}
 	}
 
 	public static final void setCheckNewLocation( final boolean check )
@@ -204,7 +209,7 @@ public class CharPaneRequest
 
 		CharPaneRequest.checkNewLocation( responseText );
 		CharPaneRequest.refreshEffects( responseText );
-		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction( responseText ) );
+		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction() );
 
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
@@ -283,7 +288,7 @@ public class CharPaneRequest
 		return -1;
 	}
 
-	private static final boolean checkInteraction( final String responseText )
+	private static final boolean checkInteraction()
 	{
 		// If he's freed the king, that's good enough
 		if ( KoLCharacter.kingLiberated() )
@@ -858,7 +863,7 @@ public class CharPaneRequest
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1;
 		KoLCharacter.setHardcore( hardcore );
 
-		boolean casual = JSON.getInt( "casual" ) == 1;
+		//boolean casual = JSON.getInt( "casual" ) == 1;
 		int roninLeft = JSON.getInt( "roninleft" );
 
 		// *** Assume that roninleft always equals 0 if casual
