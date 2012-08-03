@@ -5773,3 +5773,9 @@
 5764	fuzzy busby	hat	display	200
 5765	fuzzy earmuffs	hat	display	200
 5766	fuzzy montera	hat	display	200
+5767	Unagnimated Gnome	grow	all	0
+5768	gnomish swimmer's ears	familiar	none	75
+5769	gnomish coal miner's lung	familiar	none	75
+5770	gnomish tennis elbow	familiar	none	75
+5771	gnomish housemaid's kgnee	familiar	none	75
+5772	gnomish athlete's foot	familiar	none	75

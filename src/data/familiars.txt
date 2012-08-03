@@ -168,3 +168,4 @@
 159	Happy Medium	medium_0.gif	stat0	5639	crystal decanter	0	3	2	2
 160	Artistic Goth Kid	crayongoth.gif	stat0	5701	little wooden mannequin	0	2	2	3
 161	Flaming Face	flameface.gif	combat	5718	flaming nose	3	2	2	1
+162	Reagnimated Gnome	frankengnome.gif	item0	5667		0	0	0	0

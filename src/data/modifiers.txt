@@ -2191,6 +2191,16 @@ funky brass fez	Familiar Weight: +5
 gazing shoes	Familiar Weight: +5
 # giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently.
 gill rings	Familiar Weight: +5
+# gnomish athlete's foot: Lets your gnome kick enemies prior to combat
+gnomish athlete's foot	Equips On: "Reagnimated Gnome"
+# gnomish coal miner's lung: Your gnome's coughing will sometimes block enemy attacks
+gnomish coal miner's lung	Equips On: "Reagnimated Gnome"
+# gnomish housemaid's kgnee: Lets your gnome help out around the house
+gnomish housemaid's kgnee	Equips On: "Reagnimated Gnome"
+# gnomish swimmer's ears: Makes you a better diver
+gnomish swimmer's ears	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Equips On: "Reagnimated Gnome"
+# gnomish tennis elbow: Lets your gnome attack enemies
+gnomish tennis elbow	Equips On: "Reagnimated Gnome"
 green pixie spog	Familiar Weight: +5
 # guard turtle collar: +10 to Familiar Damage
 guard turtle collar	Generic
@@ -3910,6 +3920,7 @@ Tome of Clip Art	Free Pull
 Tome of Snowcone Summoning	Free Pull
 Tome of Sugar Shummoning	Free Pull
 Ultrasoldier Serum	Effect: "Army of One", Effect Duration: 50
+Unagnimated Gnome	Free Pull
 Uncle Greenspan's Bathroom Finance Guide	Effect: "Buy!  Sell!  Buy!  Sell!", Effect Duration: 100
 Underworld acorn	Free Pull
 Valentine	Free Pull
