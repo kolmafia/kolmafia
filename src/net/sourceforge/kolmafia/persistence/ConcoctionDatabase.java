@@ -2171,6 +2171,11 @@ public class ConcoctionDatabase
 
 	public static final void setPullsRemaining( final int pullsRemaining )
 	{
+		if ( ConcoctionDatabase.pullsRemaining == pullsRemaining )
+		{
+			return;
+		}
+		
 		ConcoctionDatabase.pullsRemaining = pullsRemaining;
 
 		if ( !StaticEntity.isHeadless() )
