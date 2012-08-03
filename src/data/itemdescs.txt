@@ -5765,3 +5765,9 @@
 5764	191752711	fuzzybusby.gif	fuzzy busby
 5765	452458382	fuzzyearmuffs.gif	fuzzy earmuffs
 5766	862695054	fuzzymontera.gif	fuzzy montera
+5767	387871192	frankenlarva.gif	Unagnimated Gnome
+5768	112634738	gnomeears.gif	gnomish swimmer's ears
+5769	636098875	blacklung.gif	gnomish coal miner's lung
+5770	214628895	elbow2.gif	gnomish tennis elbow
+5771	803477793	knee.gif	gnomish housemaid's kgnee
+5772	939129651	foot.gif	gnomish athlete's foot

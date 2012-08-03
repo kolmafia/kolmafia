@@ -2172,6 +2172,12 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Item-Driven", "choiceAdventure595", "CSA fire-starting kit",
 			new String[] { "pvp fights", "hp/mp regen" } ),
+
+		// Cake Shaped Arena
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure597", "Reagnimated Gnome",
+			new String[] { "gnomish swimmer's ears", "gnomish coal miner's lung", "gnomish tennis elbow", "gnomish housemaid's kgnee", "gnomish athlete's foot" },
+			new String[] { "5768", "5769", "5770", "5771", "5772" } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
