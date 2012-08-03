@@ -50,6 +50,9 @@ public class ClanSofaCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		RequestThread.postRequest( new ClanRumpusRequest( ClanRumpusRequest.SOFA ).setTurnCount( StringUtilities.parseInt( parameters ) ) );
+		ClanRumpusRequest request = new ClanRumpusRequest( ClanRumpusRequest.SOFA );
+		int count = parameters.equals( "" ) ? 1 : StringUtilities.parseInt( parameters );
+		request.setTurnCount( count );
+		RequestThread.postRequest( request );
 	}
 }
