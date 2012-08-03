@@ -504,7 +504,7 @@ public abstract class ChatManager
 			{
 				BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Logoff requested by " + sender );
 
-				if ( ClanManager.isMember( sender ) )
+				if ( ClanManager.isCurrentMember( sender ) )
 				{
 					KoLmafia.quit();
 				}
@@ -520,7 +520,7 @@ public abstract class ChatManager
 
 		if ( channel.equals( "" ) && content.equalsIgnoreCase( "update" ) )
 		{
-			if ( !ClanManager.isMember( sender ) )
+			if ( !ClanManager.isCurrentMember( sender ) )
 			{
 				return;
 			}

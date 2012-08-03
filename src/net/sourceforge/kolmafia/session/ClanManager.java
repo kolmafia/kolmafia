@@ -163,6 +163,62 @@ public abstract class ClanManager
 		return ClanManager.rankList;
 	}
 
+	private static final void retrieveClanId()
+	{
+		if ( ClanManager.clanId != 0 )
+		{
+			return;
+		}
+
+		ProfileRequest clanIdLookup = new ProfileRequest( KoLCharacter.getUserName() );
+		RequestThread.postRequest( clanIdLookup );
+	}
+
+	private static final void updateCurrentMembers()
+	{
+		ClanManager.currentMembers.clear();
+
+		ClanMembersRequest cmr = new ClanMembersRequest( false );
+		RequestThread.postRequest( cmr );
+		Collections.sort( ClanManager.currentMembers );
+
+		ClanManager.snapshotFolder =
+			"clan/" + ClanManager.clanId + "/" + KoLConstants.WEEKLY_FORMAT.format( new Date() ) + "/";
+
+		KoLmafia.updateDisplay( "Clan data retrieved." );
+	}
+
+	private static final void updateWhiteList()
+	{
+		ClanManager.whiteListMembers.clear();
+
+		GenericRequest whiteListFinder = new GenericRequest( "clan_office.php" );
+		RequestThread.postRequest( whiteListFinder );
+
+		if ( whiteListFinder.responseText == null || !whiteListFinder.responseText.contains( "clan_whitelist.php" ) )
+		{
+			return;
+		}
+
+		whiteListFinder = new GenericRequest( "clan_whitelist.php" );
+		RequestThread.postRequest( whiteListFinder );
+
+		Matcher whiteListMatcher = ClanManager.WHITELIST_PATTERN.matcher( whiteListFinder.responseText );
+		while ( whiteListMatcher.find() )
+		{
+			String currentName = whiteListMatcher.group( 1 );
+			ContactManager.registerPlayerId( currentName, whiteListMatcher.group( 2 ) );
+
+			currentName = currentName.toLowerCase();
+			if ( !ClanManager.currentMembers.contains( currentName ) )
+			{
+				ClanManager.whiteListMembers.add( currentName );
+			}
+		}
+
+		Collections.sort( ClanManager.whiteListMembers );
+	}
+
 	private static final void retrieveClanData()
 	{
 		if ( KoLmafia.isAdventuring() )
@@ -176,48 +232,8 @@ public abstract class ClanManager
 		}
 
 		ClanManager.retrieveClanId();
-		ClanMembersRequest cmr = new ClanMembersRequest( false );
-		RequestThread.postRequest( cmr );
-		ClanManager.snapshotFolder =
-			"clan/" + ClanManager.clanId + "/" + KoLConstants.WEEKLY_FORMAT.format( new Date() ) + "/";
-		KoLmafia.updateDisplay( "Clan data retrieved." );
-
-		GenericRequest whiteListFinder = new GenericRequest( "clan_office.php" );
-		whiteListFinder.run();
-
-		if ( whiteListFinder.responseText != null && whiteListFinder.responseText.indexOf( "clan_whitelist.php" ) != -1 )
-		{
-			whiteListFinder = new GenericRequest( "clan_whitelist.php" );
-			whiteListFinder.run();
-
-			String currentName;
-			Matcher whiteListMatcher = ClanManager.WHITELIST_PATTERN.matcher( whiteListFinder.responseText );
-			while ( whiteListMatcher.find() )
-			{
-				currentName = whiteListMatcher.group( 1 );
-				ContactManager.registerPlayerId( currentName, whiteListMatcher.group( 2 ) );
-
-				currentName = currentName.toLowerCase();
-				if ( !ClanManager.currentMembers.contains( currentName ) )
-				{
-					ClanManager.whiteListMembers.add( currentName );
-				}
-			}
-
-			Collections.sort( ClanManager.currentMembers );
-			Collections.sort( ClanManager.whiteListMembers );
-		}
-	}
-
-	private static final void retrieveClanId()
-	{
-		if ( ClanManager.clanId != 0 )
-		{
-			return;
-		}
-
-		ProfileRequest clanIdLookup = new ProfileRequest( KoLCharacter.getUserName() );
-		clanIdLookup.run();
+		ClanManager.updateCurrentMembers();
+		ClanManager.updateWhiteList();
 	}
 
 	private static final boolean retrieveMemberData( final boolean retrieveProfileData,
@@ -573,6 +589,19 @@ public abstract class ClanManager
 	{
 		ClanManager.retrieveClanData();
 		return ClanManager.whiteListMembers;
+	}
+
+	public static final boolean isCurrentMember( final String memberName )
+	{
+		// If we are busy, we can't go and fetch the member list.
+		if ( KoLmafia.isAdventuring() )
+		{
+			return false;
+		}
+
+		// Force an update every time for this, since players can come and go asynchronously.
+		ClanManager.updateCurrentMembers();
+		return Collections.binarySearch( ClanManager.currentMembers, memberName.toLowerCase() ) > -1;
 	}
 
 	public static final boolean isMember( final String memberName )
