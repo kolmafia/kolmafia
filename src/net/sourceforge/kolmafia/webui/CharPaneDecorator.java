@@ -1014,7 +1014,7 @@ public class CharPaneDecorator
 			}
 			else
 			{
-				nextAppendIndex = text.indexOf( "(", text.indexOf( "<font size=2>", startingIndex ) ) + 1;
+				nextAppendIndex = text.lastIndexOf( "(", text.indexOf( "</font", startingIndex ) ) + 1;
 			}
 
 			buffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
