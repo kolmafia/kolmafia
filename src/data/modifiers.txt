@@ -65,18 +65,18 @@ Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Four Songs, Brimstone, 
 # Cerebral Cloche: Jellyfish Vision
 Cerebral Cloche	Maximum MP: +15, Familiar Effect: "1.5xLep, cap 22"
 Cloaca-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
-Colander of Em-er'il	Mysticality: +11, MP Regen Min: 2, MP Regen Max: 6, Class: "Pastamancer", Familiar Effect: "3xGhuol, cap 12"
+Colander of Em-er'il	Mysticality: +11, MP Regen Min: 2, MP Regen Max: 6, Class: "Pastamancer", Familiar Effect: "3xGhuol, cap 25"
 Crimbo hat	Spooky Resistance: +1, Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
 # Crown of Thrones: Put a Familiar In It!
 # Crown of Thrones: That Familiar gains 1 Experience per Fight
 Crown of Thrones	Softcore Only
 Crown of the Goblin King	Muscle: +10, Familiar Effect: "2xBarrr, 1xGhuol, cap 17"
-Disco 'Fro Pick	Moxie: +11, Initiative: +11, Class: "Disco Bandit", Familiar Effect: "3xGhuol, cap 12"
+Disco 'Fro Pick	Moxie: +11, Initiative: +11, Class: "Disco Bandit", Familiar Effect: "3xGhuol, cap 25"
 Dolphin King's crown	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xGhuol, cap 8"
 Dyspepsi-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
-El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief", Familiar Effect: "3xGhuol, cap 12"
+El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief", Familiar Effect: "3xGhuol, cap 25"
 El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
-Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 12"
+Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 25"
 Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
 Grimacite gasmask	Muscle Percent: [10*G], Weapon Damage: +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Grimacite goggles	Mysticality Percent: [10*G], Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
@@ -94,7 +94,7 @@ Moonthril Circlet	Mysticality Percent: [15*G], Familiar Effect: "2xVolley, cap 2
 Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
 Orcish baseball cap	Muscle: +3, Mysticality: -3, Familiar Effect: "1xVolley, 1xBarrr, cap 15"
 Radio Free Baseball Cap	Moxie: +20, Familiar Effect: "1xLep, 1xFairy, cap 37"
-Scalp of Gorgolok	Muscle: +11, Weapon Damage: +7, Class: "Seal Clubber", Familiar Effect: "3xGhuol, cap 12"
+Scalp of Gorgolok	Muscle: +11, Weapon Damage: +7, Class: "Seal Clubber", Familiar Effect: "3xGhuol, cap 25"
 Seasonal Beret	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Familiar Effect: "1xPotato, ?xFairy, cap 25"
 Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
 Sombrero De Vida	Four Songs, Familiar Effect: "?xVolley, ?xPotato, ?xLep, cap 12"
@@ -3718,7 +3718,7 @@ War Hippy Fatigues	Stench Damage: +15
 Wax Wardrobe	Moxie: +7
 Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
 # Yendorian Finery	Be careful! New moon tonight.
-eXtreme Cold-Weather Gear	Cold Resistance: +3
+eXtreme Cold-Weather Gear	Cold Resistance: +5
 
 # Zodiac Sign section of modifiers.txt
 

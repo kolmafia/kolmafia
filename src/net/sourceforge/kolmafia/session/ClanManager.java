@@ -60,6 +60,8 @@ import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.chat.ChatManager;
+
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 
@@ -101,18 +103,22 @@ public abstract class ClanManager
 	{
 		ProfileSnapshot.clearCache();
 		AscensionSnapshot.clearCache();
-
-		ClanManager.stashRetrieved = false;
-		ClanManager.ranksRetrieved = false;
-
-		ClanManager.profileMap.clear();
-		ClanManager.ascensionMap.clear();
-		ClanManager.battleList.clear();
-		ClanManager.rankList.clear();
-		ClanManager.stashContents.clear();
+		ChatManager.resetClanMessages();
 
 		ClanManager.clanId = 0;
 		ClanManager.clanName = null;
+		ClanManager.stashRetrieved = false;
+		ClanManager.ranksRetrieved = false;
+
+		ClanManager.currentMembers.clear();
+		ClanManager.whiteListMembers.clear();
+
+		ClanManager.profileMap.clear();
+		ClanManager.ascensionMap.clear();
+		ClanManager.titleMap.clear();
+		ClanManager.battleList.clear();
+		ClanManager.rankList.clear();
+		ClanManager.stashContents.clear();
 	}
 
 	public static final void setStashRetrieved()
