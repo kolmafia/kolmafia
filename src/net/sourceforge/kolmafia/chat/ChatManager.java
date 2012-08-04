@@ -523,7 +523,8 @@ public abstract class ChatManager
 		// Otherwise, sometimes clannies want to take advantage of KoLmafia's
 		// automatic chat logging.  In that case...
 
-		if ( channel.equals( "" ) && content.equalsIgnoreCase( "update" ) )
+		if ( channel.equals( "" ) && content.equalsIgnoreCase( "update" ) &&
+		     Preferences.getBoolean( "chatServesUpdates" ) )
 		{
 			if ( !ClanManager.isCurrentMember( sender ) )
 			{

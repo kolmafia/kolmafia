@@ -308,6 +308,7 @@ user	charitableDonations	0
 user	chatbotScript
 user	chatbotScriptExecuted	false
 user	chatLiterate	false
+user	chatServesUpdates	false
 user	chefTurnsUsed	0
 user	chessboardsCleared	0
 user	chosenTrip
