@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.request.MindControlRequest;
@@ -50,6 +51,10 @@ public class MonsterLevelCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
+		if ( !KoLCharacter.mcdAvailable() )
+		{
+			return;
+		}
 		int setting = StringUtilities.parseInt( parameters );
 		RequestThread.postRequest( new MindControlRequest( setting ) );
 	}
