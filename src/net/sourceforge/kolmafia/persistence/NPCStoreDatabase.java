@@ -269,7 +269,7 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "p" ) )
 		{
 			// Available if we can get to the beach.
-			return true;
+			return KoLCharacter.desertBeachAccessible();
 		}
 		else if ( storeId.equals( "r" ) )
 		{

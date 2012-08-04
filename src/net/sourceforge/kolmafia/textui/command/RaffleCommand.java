@@ -33,8 +33,10 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.request.RaffleRequest;
@@ -52,6 +54,11 @@ public class RaffleCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
+		if ( !KoLCharacter.desertBeachAccessible() )
+		{
+			RequestLogger.printLine( "You can't make it to the raffle house" );
+			return;
+		}
 		String[] split = parameters.split( " " );
 		int count = StringUtilities.parseInt( split[ 0 ] );
 
