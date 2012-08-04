@@ -34,7 +34,7 @@
 # can only appear in your first and subsequent odd-numbered ascensions,
 # or "e" if it can only appear in even-numbered ascensions.
 
-8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octorok	Tektite	Zol
+8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle: e1	Goomba: o1	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A Barroom Brawl	100	Drunken 7-foot Dwarf	Plastered Frat Orc	Skeleton with a Mop	Unemployed Knob Goblin	Werecougar
 A Maze of Sewer Tunnels	95	C. H. U. M.	Giant Zombie Goldfish	Sewer Gator	C. H. U. M. chieftain: 0
 A Pile of Old Servers	100	Antique Database Server
@@ -142,7 +142,7 @@ Hobopolis Town Square	95	Normal Hobo	Hodgman, The Hoboverlord: 0
 Hole in the Sky	100	The Astronomer: 3	One-Eyed Willie: o2	The Burrowing Bishop: o2	The Family Jewels: o2	The Hooded Warrior: o2	The Junk: o2	The Pork Sword: o2	The Skinflute: o2	The Trouser Snake: o2	The Twig and Berries: o2	The Axe Wound: e2	The Beaver: e2	The Box: e2	The Bush: e2	The Camel's Toe: e2	The Flange: e2	The Honey Pot: e2	The Little Man in the Canoe: e2	The Muff: e2
 Huge-A-Ma-tron	-1	Castle In The Clouds In The Sky	Fearsome Wacken: 0	Loose Coalition of Yetis, Snowmen, and Goats	Spookyraven Manor	The Whole Kingdom: 0
 Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2	Knott Slanding: -1
-Itznotyerzitz Mine	75	7-Foot Dwarf: 2	7-Foot Dwarf Foreman: 1
+Itznotyerzitz Mine	90	Dopey 7-Foot Dwarf	Grumpy 7-Foot Dwarf	Sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
 Kegger in the Woods	-1	Actual Orcish Frat Boy	Jailbait Orquette	Juvenile Delinquent Orquette	Orcish Juvenile Delinquent	Orcish Frat Wannaboy	Totally Trashed Orquette
 Throne Room	100	The Knob Goblin King
 Cobb's Knob Barracks	-1	Knob Goblin Elite Guard	Off-Duty Knob Goblin Elite Guard	Swarm of Knob Lice
