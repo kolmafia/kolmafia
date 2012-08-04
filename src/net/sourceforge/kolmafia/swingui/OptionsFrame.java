@@ -615,6 +615,7 @@ public class OptionsFrame
 				{ "mergeHobopolisChat", "Merge clan dungeon channel displays into /clan" },
 				{ "greenScreenProtection", "Ignore event messages in KoLmafia chat" },
 				{ "logChatMessages", "Log chats when using KoLmafia (requires restart)" },
+				{ "chatServesUpdates", "Send recent chat messages when a clan member requests an update" },
 			};
 
 			this.setOptions( options );
