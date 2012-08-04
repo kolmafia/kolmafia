@@ -523,11 +523,16 @@ public abstract class ChatManager
 		// Otherwise, sometimes clannies want to take advantage of KoLmafia's
 		// automatic chat logging.  In that case...
 
-		if ( channel.equals( "" ) && content.equalsIgnoreCase( "update" ) &&
-		     Preferences.getBoolean( "chatServesUpdates" ) )
+		if ( channel.equals( "" ) && content.equalsIgnoreCase( "update" ) )
 		{
+			if ( !Preferences.getBoolean( "chatServesUpdates" ) )
+			{
+				KoLmafia.updateDisplay( sender + " tried to retrieve recent clan chat messages from you, but you have that feature disabled." );
+				return;
+			}
 			if ( !ClanManager.isCurrentMember( sender ) )
 			{
+				KoLmafia.updateDisplay( sender + " tried to retrieve recent clan chat messages from you, but they are not in your clan." );
 				return;
 			}
 
@@ -545,6 +550,7 @@ public abstract class ChatManager
 			}
 
 			RequestThread.postRequest( new SendMailRequest( sender, mailContent.toString() ) );
+			KoLmafia.updateDisplay( "Recent clan chat messages were sent to " + sender );
 			return;
 		}
 
