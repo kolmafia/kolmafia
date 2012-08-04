@@ -482,12 +482,17 @@ public abstract class StoreManager
 		results.toArray( resultsArray );
 
 		TreeMap<Integer, Integer> prices = new TreeMap<Integer, Integer>();
-		Integer currentQuantity, currentPrice;
 
 		for ( int i = 0; i < resultsArray.length; ++i )
 		{
-			currentPrice = IntegerPool.get( resultsArray[ i ].getPrice() );
-			currentQuantity = prices.get( currentPrice );
+			PurchaseRequest result = resultsArray[ i ];
+			if ( result instanceof CoinMasterPurchaseRequest )
+			{
+				continue;
+			}
+
+			Integer currentPrice = IntegerPool.get( result.getPrice() );
+			Integer currentQuantity = prices.get( currentPrice );
 
 			if ( currentQuantity == null )
 			{
@@ -528,7 +533,10 @@ public abstract class StoreManager
 		while ( i.hasNext() )
 		{
 			PurchaseRequest req = (PurchaseRequest) i.next();
-			if ( !req.canPurchaseIgnoringMeat() ) continue;
+			if ( req instanceof CoinMasterPurchaseRequest || !req.canPurchaseIgnoringMeat() )
+			{
+				continue;
+			}
 			price = req.getPrice();
 			qty -= req.getLimit();
 			if ( qty <= 0 )
