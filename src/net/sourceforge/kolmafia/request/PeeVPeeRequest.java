@@ -150,10 +150,19 @@ public class PeeVPeeRequest
 				// You can't attack a player against whom you've already won a fight today.
 				// You can't attack somebody in the same clan as you.
 				// Sorry, I couldn't find the player "sdfsdfs".
-				// You know, once you start hurting yourself, you won't be able to stop, and you'll end up
-				// working for James Spader as a secretary, and constantly letting him spank you. Let's not start down that road.
+				// You know, once you start hurting yourself, you won't be able to stop,
+				// and you'll end up working for James Spader as a secretary, and
+				// constantly letting him spank you. Let's not start down that road.
+				//
 				// Include <tr><td> to avoid matching player-supplied messages
-				if ( responseText.contains( "<tr><td>You" ) || responseText.contains( "<tr><td>Sorry" ) )
+				//
+				// On the other hand, the following is a valid message from a loss:
+				// You gain 0 Strengthliness.
+
+				if ( responseText.contains( "<tr><td>You may not" ) ||
+				     responseText.contains( "<tr><td>You can't" ) ||
+				     responseText.contains( "<tr><td>You know" ) ||
+				     responseText.contains( "<tr><td>Sorry" ) )
 				{
 					RequestLogger.printLine( "Invalid target" );
 					return;
