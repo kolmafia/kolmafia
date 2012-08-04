@@ -188,6 +188,12 @@ public class RelayAgent
 			return false;
 		}
 
+		if ( !requestLine.contains( "HTTP/1.1" ) )
+		{
+			KoLmafia.updateDisplay( "Malformed HTTP request from browser." );
+			return false;
+		}
+
 		int spaceIndex = requestLine.indexOf( " " );
 
 		this.requestMethod = requestLine.substring( 0, spaceIndex );
