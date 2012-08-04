@@ -569,6 +569,11 @@ public abstract class KoLCharacter
 
 	public static final void reset()
 	{
+		KoLCharacter.reset( true );
+	}
+
+	public static final void reset( boolean newCharacter )
+	{
 		KoLCharacter.classname = "";
 		KoLCharacter.classtype = null;
 
@@ -643,11 +648,7 @@ public abstract class KoLCharacter
 
 		// Clear some of the standard lists so they don't
 		// carry over from player to player.
-
-		ContactManager.clearMailContacts();
-		DataFileCache.clearCache();
 		GoalManager.clearGoals();
-		EventManager.clearEventHistory();
 		KoLConstants.recentEffects.clear();
 		KoLConstants.activeEffects.clear();
 
@@ -656,8 +657,6 @@ public abstract class KoLCharacter
 		MicroBreweryRequest.reset();
 		HellKitchenRequest.reset();
 
-		ChatManager.resetChatLiteracy();
-		ClanManager.clearCache();
 		DisplayCaseManager.clearCache();
 		DwarfFactoryRequest.reset();
 		EquipmentManager.resetEquipment();
@@ -666,7 +665,6 @@ public abstract class KoLCharacter
 		InventoryManager.resetInventory();
 		MoneyMakingGameManager.reset();
 		SpecialOutfit.forgetCheckpoints();
-		StoreManager.clearCache();
 		VolcanoMazeManager.reset();
 		WumpusManager.reset();
 
@@ -677,6 +675,17 @@ public abstract class KoLCharacter
 		ItemDatabase.calculateAdventureRanges();
 
 		Modifiers.overrideModifier( "_userMods", Preferences.getString( "_userMods" ) );
+
+		// Things that don't need to be reset when you ascend
+		if ( newCharacter )
+		{
+			ContactManager.clearMailContacts();
+			DataFileCache.clearCache();
+			EventManager.clearEventHistory();
+			ChatManager.resetChatLiteracy();
+			ClanManager.clearCache();
+			StoreManager.clearCache();
+		}
 	}
 
 	public static final void resetSkills()

@@ -182,7 +182,7 @@ public class ValhallaManager
 		boolean checkedLiteracy = ChatManager.checkedChatLiteracy();
 		boolean chatLiterate = ChatManager.getChatLiteracy();
 
-		KoLCharacter.reset();
+		KoLCharacter.reset( false );
 
 		if ( checkedLiteracy )
 		{

@@ -81,11 +81,11 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public abstract class ChatManager
 {
-	private static final LinkedList clanMessages = new RollingLinkedList( 20 );
+	private static final LinkedList<ChatMessage> clanMessages = new RollingLinkedList( 20 );
 	private static ChatMessage faxbotMessage = null;
-	private static final Set validChatReplyRecipients = new HashSet();
+	private static final Set<String> validChatReplyRecipients = new HashSet<String>();
 
-	private static final TreeMap instantMessageBuffers = new TreeMap();
+	private static final TreeMap<String, StyledChatBuffer> instantMessageBuffers = new TreeMap<String, StyledChatBuffer>();
 	private static Entry[] bufferEntries = new Entry[ 0 ];
 
 	private static boolean isRunning = false;
@@ -94,8 +94,8 @@ public abstract class ChatManager
 
 	private static String currentChannel = null;
 
-	private static List activeWindows = new ArrayList();
-	private static List activeChannels = new ArrayList();
+	private static List<String> activeWindows = new ArrayList<String>();
+	private static List<String> activeChannels = new ArrayList<String>();
 
 	private static TabbedChatFrame tabbedFrame = null;
 
@@ -126,6 +126,11 @@ public abstract class ChatManager
 	public static final void resetChatLiteracy()
 	{
 		ChatManager.checkedLiteracy = false;
+	}
+
+	public static final void resetClanMessages()
+	{
+		ChatManager.clanMessages.clear();
 	}
 
 	public static final boolean checkedChatLiteracy()
@@ -280,7 +285,7 @@ public abstract class ChatManager
 				fileSuffix = "[" + fileSuffix.substring( 1 ) + "]";
 			}
 
-			StringBuffer fileName = new StringBuffer();
+			StringBuilder fileName = new StringBuilder();
 			fileName.append( KoLConstants.DAILY_FORMAT.format( new Date() ) );
 			fileName.append( "_" );
 			fileName.append( KoLCharacter.baseUserName() );
@@ -525,7 +530,7 @@ public abstract class ChatManager
 				return;
 			}
 
-			StringBuffer mailContent = new StringBuffer();
+			StringBuilder mailContent = new StringBuilder();
 
 			Iterator clanMessageIterator = ChatManager.clanMessages.iterator();
 
