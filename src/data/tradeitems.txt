@@ -405,7 +405,7 @@
 396	penguin shorts	pants	all	140
 397	yakskin pants	pants	all	142
 398	hippopotamus pants	pants	all	141
-399	eXtreme mittens	accessory	all	115
+399	eXtreme mittens	accessory	all	105
 400	handful of drink tickets	multiple	all	90
 401	Knob Kitchen grab-bag	multiple	all	90
 402	swashbuckling pants	pants	all	90
@@ -5724,7 +5724,7 @@
 5715	Hjodor's Guide to Arctic Dalmatians	usable	all	0
 5716	Hjodor's Guide to Arctic Dalmatians (used)	reusable	display	0
 5717	FDKOL hotcakes	food	all	0
-5718	hot egg	reusable	all	0
+5718	hot egg	familiar	all	0
 5719	smoking grass	none, combat	all	23
 5720	fiery wing	food	all	0
 5721	wings of fire	container	all	0
@@ -5748,8 +5748,8 @@
 5739	CSA fire-starting kit	usable	display	0
 5740	bag of GORP	food	all	23
 5741	water purification pills	drink	all	23
-5742	Camp Scout pup tent	hp, usable	all	0
-5743	CSA scoutmaster's &quot;water&quot;	drink	all	0
+5742	Camp Scout pup tent	hp, usable	all	23
+5743	CSA scoutmaster's &quot;water&quot;	drink	all	23
 5744	bag of GORF	food	all	23
 5745	CSA discount card	usable	all	0
 5746	bag of QWOP	food	all	23

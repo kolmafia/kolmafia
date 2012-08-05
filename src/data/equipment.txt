@@ -1448,7 +1448,7 @@ acid-squirting flower	50	Mys: 10
 albatross necklace	90	Mys: 15
 amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
-anniversary balsa wood socks	0	none
+anniversary balsa wood socks	10	none
 anniversary burlap belt	10	none
 arrrgyle socks	70	Mys: 20
 astral belt	50	none
@@ -1896,7 +1896,7 @@ makeshift cape	100	Mys: 75
 palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
 sealhide cloak	160	Mys: 75
-teddybear backpack	150	Mys: 75
+teddybear backpack	150	Mox: 75
 toy jet pack	175	Mys: 75
 vampire cape	20	Mus: 75
 wings of fire	100	Mys: 100
