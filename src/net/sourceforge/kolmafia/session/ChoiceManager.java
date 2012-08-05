@@ -2060,6 +2060,11 @@ public abstract class ChoiceManager
 			"Events", "choiceAdventure554", "Behind the Spooky Curtain",
 			new String[] { "staff guides, ghost trap, kill werewolves", "kill zombies, kill skeletons, costume item", "chainsaw chain, silver item, funhouse mirror, kill vampires" } ),
 
+		// More Locker Than Morlock
+		new ChoiceAdventure(
+			"Mountain", "choiceAdventure556", "Itznotyerzitz Mine",
+			new String[] { "get an outfit piece", "skip adventure" } ),
+
 		// Gingerbread Homestead
 		new ChoiceAdventure(
 			"The Candy Diorama", "choiceAdventure557", "Gingerbread Homestead",
@@ -2129,7 +2134,12 @@ public abstract class ChoiceManager
 		// Choice 572 is Your Minstrel Clamps
 		// Choice 573 is Your Minstrel Stamps
 		// Choice 574 is The Minstrel Cycle Begins
-		// Choice 575 is unknown
+
+		// Duffel on the Double
+		new ChoiceAdventure(
+			"Mountain", "choiceAdventure575", "eXtreme Slope",
+			new String[] { "get an outfit piece", "skip adventure" } ),
+
 		// Choice 576 is Your Minstrel Camps
 		// Choice 577 is Your Minstrel Scamp
 		// Choice 578 is End of the Boris Road
