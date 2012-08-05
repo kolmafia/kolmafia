@@ -1041,6 +1041,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Island", "choiceAdventure191", "F'c'le",
 			new String[] { "moxie substats", "use valuable trinket to banish, or lose hp", "muscle substats", "mysticality substats", "use valuable trinket to banish, or moxie", "use valuable trinket to banish, or muscle", "use valuable trinket to banish, or mysticality", "use valuable trinket to banish, or mainstat" } ),
+		new Object[]{ IntegerPool.get(191), IntegerPool.get(2),
+		  ItemPool.get( ItemPool.VALUABLE_TRINKET, -1 ) },
 
 		// Choice 192 is unknown
 		// Choice 193 is Modular, Dude
@@ -2186,7 +2188,7 @@ public abstract class ChoiceManager
 		// Cake Shaped Arena
 		new ChoiceAdventure(
 			"Item-Driven", "choiceAdventure597", "Reagnimated Gnome",
-			new String[] { "gnomish swimmer's ears", "gnomish coal miner's lung", "gnomish tennis elbow", "gnomish housemaid's kgnee", "gnomish athlete's foot" },
+			new String[] { "gnomish swimmer's ears (underwater)", "gnomish coal miner's lung (block)", "gnomish tennis elbow (damage)", "gnomish housemaid's kgnee (gain advs)", "gnomish athlete's foot (delevel)" },
 			new String[] { "5768", "5769", "5770", "5771", "5772" } ),
 	};
 
