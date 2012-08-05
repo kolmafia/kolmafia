@@ -3615,7 +3615,7 @@ Spirit of Ravioli	Maximum HP Percent: +25
 # Tao of the Terrapin
 # Tempuramancy
 # The Way of Sauce
-Thick-Skinned	Maximum HP: +10, Maximum MP: +10
+Thick-Skinned (Skill)	Maximum HP: +10, Maximum MP: +10
 Thrift and Grift	Meat Drop: +10
 Tolerance of the Kitchen	Hot Resistance: +2
 # Torso Awaregness

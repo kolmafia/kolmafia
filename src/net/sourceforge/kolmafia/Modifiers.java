@@ -1927,7 +1927,12 @@ public class Modifiers
 			UseSkillRequest skill = (UseSkillRequest) Modifiers.passiveSkills.get( i );
 			if ( KoLCharacter.hasSkill( skill ) )
 			{
-				this.add( Modifiers.getModifiers( skill.getSkillName() ) );
+				String name = skill.getSkillName();
+				if ( name.equals( "Thick-Skinned" ) )
+				{
+					name = "Thick-Skinned (Skill)";
+				}
+				this.add( Modifiers.getModifiers( name ) );
 			}
 		}
 
