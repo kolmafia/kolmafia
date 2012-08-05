@@ -980,7 +980,7 @@ public class CreateItemRequest
 		KoLmafia.updateDisplay( "Verifying ingredients for " + this.name + " (" + this.quantityNeeded + ")..." );
 
 		this.calculateYield();
-		boolean foundAllIngredients = true;
+		int yield = this.yield;
 
 		// If this is a combining request, you need meat paste as well.
 		int method = this.mixingMethod & KoLConstants.CT_MASK;
@@ -993,12 +993,13 @@ public class CreateItemRequest
 
 			if ( !InventoryManager.retrieveItem( paste ) )
 			{
-				foundAllIngredients = false;
+				return false;
 			}
 		}
 
 		AdventureResult[] ingredients = (AdventureResult[]) ConcoctionDatabase.getIngredients(
 			this.concoction.getIngredients() ).clone();
+
 		// Sort ingredients by their creatability, so that if the overall creation
 		// is going to fail, it should do so immediately, without wasted effort.
 		Arrays.sort( ingredients, new Comparator() {
@@ -1011,9 +1012,11 @@ public class CreateItemRequest
 				return left.creatable - right.creatable;
 			}
 		} );
-		int yield = this.yield;
 
-		for ( int i = 0; i < ingredients.length && foundAllIngredients; ++i )
+		// Retrieve all the ingredients
+		AdventureResult [] retrievals = new AdventureResult[ ingredients.length ];
+
+		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			// First, calculate the multiplier that's needed
 			// for this ingredient to avoid not making enough
@@ -1038,13 +1041,39 @@ public class CreateItemRequest
 				quantity = ( quantity + yield - 1 ) / yield;
 			}
 
-			if ( !InventoryManager.retrieveItem( ingredients[ i ].getInstance( quantity ) ) )
+			AdventureResult retrieval = ingredients[ i ].getInstance( quantity );
+			if ( !InventoryManager.retrieveItem( retrieval ) )
 			{
-				foundAllIngredients = false;
+				return false;
+			}
+
+			retrievals[ i ] = retrieval;
+		}
+
+		// clockwork clockwise dome = clockwork widget + flange + spring
+		// clockwork widget = flange + cog + sprocket
+		//
+		// Creating a clockwork counterclockwise dome retrieves a flange and a spring and recurses
+		// Creating a clockwork widget sees that it has a flange, retrieves a cog and a socket,
+		//   makes the widget and returns
+		// The previously retrieved flange is no longer present for the clockwork counterclockwise dome
+		//
+		// The issue arises when an ingredient is needed both for this creation and another
+		// ingredient  and we no longer have a necessary ingredient in inventory after, supposedly,
+		// retrieving all the ingredients
+
+		// Make another pass to get ingredients that were consumed
+		// while creating other ingredients.
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			if ( !InventoryManager.retrieveItem( retrievals[ i ] ) )
+			{
+				return false;
 			}
 		}
 
-		return foundAllIngredients;
+		return true;
 	}
 
 	/**
