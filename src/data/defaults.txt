@@ -1227,6 +1227,7 @@ user	choiceAdventure551	0
 user	choiceAdventure552	0
 user	choiceAdventure553	0
 user	choiceAdventure554	0
+user	choiceAdventure556	0
 user	choiceAdventure557	0
 user	choiceAdventure558	0
 user	choiceAdventure559	0
@@ -1244,6 +1245,7 @@ user	choiceAdventure571	1
 user	choiceAdventure572	1
 user	choiceAdventure573	1
 user	choiceAdventure574	1
+user	choiceAdventure575	0
 user	choiceAdventure576	1
 user	choiceAdventure577	1
 user	choiceAdventure578	0
