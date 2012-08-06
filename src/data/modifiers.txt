@@ -4005,6 +4005,8 @@ cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 cream pie	Free Pull
 crimbo elfling	Free Pull
 cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10
+cursed microwave	Free Pull
+cursed pony keg	Free Pull
 custom avatar form	Free Pull
 cyclops eyedrops	Effect: "One Very Clear Eye", Effect Duration: 10
 cymbal syrup	Free Pull, Effect: "Tinnitus", Effect Duration: 20
