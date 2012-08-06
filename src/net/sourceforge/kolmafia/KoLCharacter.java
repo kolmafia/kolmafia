@@ -3164,14 +3164,14 @@ public abstract class KoLCharacter
 
 	public static final boolean mcdAvailable()
 	{
-		switch ( KoLCharacter.ascensionSignType )
+		switch ( KoLCharacter.ascensionSignZone )
 		{
-		case KoLConstants.MYSTICALITY:
+		case KoLConstants.CANADIA:
 			// Direct access to the Mind Control Device
-		case KoLConstants.MUSCLE:
+		case KoLConstants.KNOLL:
 			// detuned radio from Degrassi Knoll General Store
 			return true;
-		case KoLConstants.MOXIE:
+		case KoLConstants.GNOMADS:
 			// Annoyotron available on beach
 			return KoLCharacter.desertBeachAccessible();
 		}
@@ -3180,8 +3180,8 @@ public abstract class KoLCharacter
 
 	public static final boolean desertBeachAccessible()
 	{
-		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.BITCHIN_MEATCAR, 1) ) ||
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.DESERT_BUS_PASS, 1) ) ||
+		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.BITCHIN_MEATCAR, 1 ) ) ||
+				KoLConstants.inventory.contains( ItemPool.get( ItemPool.DESERT_BUS_PASS, 1 ) ) ||
 				KoLConstants.inventory.contains( ItemPool.get( ItemPool.PUMPKIN_CARRIAGE, 1 ) ) ||
 				Preferences.getString( "questG01Meatcar" ).equals( "finished" );
 	}
