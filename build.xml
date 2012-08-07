@@ -253,7 +253,14 @@
 	<target name="jarbundler" depends="init,jar">
 
 		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/${mac.jarbundlerjar}" />
-		<jarbundler dir="${dist}" name="${version-name}" mainclass="${main}" jar="${jarfile}" icon="${mac.icon}" vmoptions="${mac.vmoptions}" />
+		<jarbundler dir="${dist}"
+			    name="${version-name}"
+			    mainclass="${main}"
+			    jar="${jarfile}"
+			    icon="${mac.icon}"
+			    vmoptions="${mac.vmoptions}"
+			    stubfile="${mac.stubfile}"
+			    />
 
 	</target>
 
