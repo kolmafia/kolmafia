@@ -93,8 +93,8 @@ The General Store	m	foam noodle	300
 The General Store	m	inflatable duck	300
 The General Store	m	water wings	300
 The General Store	m	sweet rims	300
+The General Store	m	dingy planks	400
 The General Store	m	Familiar-Gro&trade; Terrarium	500
-The General Store	m	Hatorade	500
 The General Store	m	Desert Bus pass	5000
 
 The General Store	m	E-Z Cook&trade; oven	50
@@ -298,6 +298,7 @@ Uncle P's Antiques	p	fancy tophat	1000000
 Uncle P's Antiques	p	fancy tuxedo pants	1000000
 Uncle P's Antiques	p	'Villa' document	100000000
 
+Huggler Memorial Colosseum Snack Bar	q	Hatorade	500
 Huggler Memorial Colosseum Snack Bar	q	nailswurst	500
 Huggler Memorial Colosseum Snack Bar	q	used beer	500
 
