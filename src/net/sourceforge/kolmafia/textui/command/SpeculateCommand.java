@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -156,13 +157,13 @@ public class SpeculateCommand
 		buf.append( "<tr><td>" );
 		buf.append( mod );
 		buf.append( "</td><td>" );
-		buf.append( now );
+		buf.append( KoLConstants.FLOAT_FORMAT.format( now ) );
 		buf.append( " (" );
 		if ( now > was )
 		{
 			buf.append( "+" );
 		}
-		buf.append( now - was );
+		buf.append( KoLConstants.FLOAT_FORMAT.format( now - was ) );
 		buf.append( ")</td></tr>" );
 	}
 }
