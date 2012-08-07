@@ -1902,15 +1902,25 @@ public class MaximizerFrame
 			}
 			if ( score < this.totalMin ) this.failed = true;
 			if ( score >= this.totalMax ) this.exceeded = true;
-			if ( !this.failed && this.clownosity > 0 &&
-				mods.getBitmap( Modifiers.CLOWNOSITY ) < this.clownosity )
+			// special handling for -osity:
+			// The "weight" specified is actually the desired -osity.
+			// Allow partials to contribute to the score (1:1 ratio) up to the desired value.
+			// Similar to setting a max.
+			if ( !this.failed && this.clownosity > 0 )
 			{
-				this.failed = true;
+				int osity = mods.getBitmap( Modifiers.CLOWNOSITY );
+				if ( osity <= this.clownosity )
+					score = osity;
+				if ( osity < this.clownosity )
+					this.failed = true;
 			}
-			if ( !this.failed && this.raveosity > 0 &&
-				mods.getBitmap( Modifiers.RAVEOSITY ) < this.raveosity )
+			if ( !this.failed && this.raveosity > 0 )
 			{
-				this.failed = true;
+				int osity = mods.getBitmap( Modifiers.RAVEOSITY );
+				if ( osity <= this.raveosity )
+					score = osity;
+				if ( osity < this.raveosity )
+					this.failed = true;
 			}
 			if ( !this.failed && this.booleanMask != 0 &&
 				(mods.getRawBitmap( 0 ) & this.booleanMask) != this.booleanValue )
