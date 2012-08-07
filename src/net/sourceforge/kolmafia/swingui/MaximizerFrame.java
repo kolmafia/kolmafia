@@ -1139,7 +1139,7 @@ public class MaximizerFrame
 	{
 		public MaximizerPanel()
 		{
-			super( "update", "help", new Dimension( 80, 20 ), new Dimension( 420, 20 ) );
+			super( "update", "help", new Dimension( 80, 20 ), new Dimension( 450, 20 ) );
 
 			MaximizerFrame.this.maxPriceField = new AutoHighlightTextField();
 			JComponentUtilities.setComponentSize( MaximizerFrame.this.maxPriceField, 80, -1 );
