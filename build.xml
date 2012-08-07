@@ -267,7 +267,7 @@
 
 		<symlink action="single" link="${dist}/${version-name}" resource="/Applications" failonerror="false" />
 		<exec executable="cp" dir="${dist}">
-			<arg line="-a ${basedir}/${appfile} ${basedir}/${dist}/${version-name}/" />
+			<arg line="-pPR ${basedir}/${appfile} ${basedir}/${dist}/${version-name}/" />
 		</exec>
 
 	        <delete file="${basedir}/${dmgfile}" />
