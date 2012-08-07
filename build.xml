@@ -233,7 +233,7 @@
 	<!--  generate the standard EXE  -->
 	<!-- =========================== -->
 
-	<target name="jsmooth" depends="init,update,jar">
+	<target name="jsmooth" depends="init,jar">
 
 		<copy file="${win.jsmoothfile}" tofile="${win.tmp.jsmoothfile}" />
 		<replace file="${win.tmp.jsmoothfile}" token="dist/KoLmafia.exe" value="${exefile}" />
@@ -250,7 +250,7 @@
 	<!--  generate an application bundle  -->
 	<!-- ================================ -->
 
-	<target name="jarbundler" depends="init,update,jar">
+	<target name="jarbundler" depends="init,jar">
 
 		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/${mac.jarbundlerjar}" />
 		<jarbundler dir="${dist}" name="${version-name}" mainclass="${main}" jar="${jarfile}" icon="${mac.icon}" vmoptions="${mac.vmoptions}" />
@@ -261,7 +261,7 @@
 	<!--  create an OSX disk image  -->
 	<!-- ========================== -->
 
-	<target name="dmg" depends="init,update,jar,jarbundler">
+	<target name="dmg" depends="init,jar,jarbundler">
 
 		<mkdir dir="${dist}/${version-name}" />
 
@@ -284,7 +284,7 @@
 	<!--  create a Debian package   -->
 	<!-- ========================== -->
 
-	<target name="debian" depends="init,update,version,jar,desktop">
+	<target name="debian" depends="init,version,jar,desktop">
 
 		<taskdef name="deb" classname="com.googlecode.ant_deb_task.Deb" classpath="${util}/debian/ant-deb.jar" />
 
@@ -401,7 +401,7 @@
 	<!--  generate the distribution  -->
 	<!-- =========================== -->
 
-	<target name="dist" depends="clean,init,update,tar,jar,jsmooth,dmg">
+	<target name="dist" depends="clean,init,tar,jar,jsmooth,dmg">
 	</target>
 
 
