@@ -70,7 +70,7 @@ public interface KoLConstants
 	public static final String VERSION_NAME = "KoLmafia v15.4";
 	public static final String VERSION_DATE = "Released on August 5, 2012";
 	public static final boolean RELEASED = true;
-	public static final String REVISION = null;
+	public static final String REVISION = "11375";
 
 	// General constants used for calculations and formatting of
 	// strings, as well as for string parsing.
