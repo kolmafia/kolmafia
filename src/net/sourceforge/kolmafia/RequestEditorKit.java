@@ -294,6 +294,7 @@ public class RequestEditorKit
 		}
 
 		// Skip all decorations on the raw KoL api.
+
 		if ( location.startsWith( "api.php" ) )
 		{
 			return;
@@ -301,20 +302,35 @@ public class RequestEditorKit
 
 		// Remove bogus <body> tag preceding <head> tag.  topmenu has
 		// this, but don't assume other pages are flawless
+
 		StringUtilities.singleStringReplace( buffer, "<body><head>", "<head>" );
 
+		// Apply individual page adjustments
+
+		RequestEditorKit.applyPageAdjustments( location, buffer, addComplexFeatures );
+
+		// Apply adjustments that should be on all pages
+
+		RequestEditorKit.applyGlobalAdjustments( location, buffer, addComplexFeatures );
+	}
+
+	protected static final void applyPageAdjustments( final String location, final StringBuffer buffer, final boolean addComplexFeatures )
+	{
 		// Check for charpane first, since it occurs frequently.
+
 		if ( location.startsWith( "charpane.php" ) )
 		{
 			if ( addComplexFeatures )
 			{
 				CharPaneDecorator.decorate( buffer );
 			}
+
 			return;
 		}
 
 		// Handle topmenu
-		if ( location.indexOf( "menu.php" ) != -1 )
+
+		if ( location.contains( "menu.php" ) )
 		{
 			MoonPhaseRequest.decorate( buffer );
 			StringUtilities.singleStringReplace( buffer, "</body>",
@@ -517,7 +533,7 @@ public class RequestEditorKit
 				SorceressLairManager.decorateFamiliars( buffer );
 			}
 		}
-		else if ( location.indexOf( "lchat.php" ) != -1 )
+		else if ( location.contains( "lchat.php" ) )
 		{
 			StringUtilities.globalStringDelete( buffer, "spacing: 0px;" );
 			StringUtilities.globalStringReplace( buffer, "cycles++", "cycles = 0" );
@@ -600,12 +616,14 @@ public class RequestEditorKit
 		{
 			VolcanoMazeManager.decorate( location, buffer );
 		}
-		else if ( location.startsWith( "wand.php" ) &&
-			location.indexOf( "notrim=1" ) == -1 )
+		else if ( location.startsWith( "wand.php" ) && !location.contains( "notrim=1" ) )
 		{
 			ZapRequest.decorate( buffer );
 		}
+	}
 
+	protected static final void applyGlobalAdjustments( final String location, final StringBuffer buffer, final boolean addComplexFeatures )
+	{
 		// Handle changes which happen on a lot of different pages
 		// rather than just one or two.
 
@@ -617,6 +635,7 @@ public class RequestEditorKit
 		RequestEditorKit.addFolioLink( buffer );
 
 		// Now do anything which doesn't work in Java's internal HTML renderer
+
 		if ( addComplexFeatures )
 		{
 			StringUtilities.insertBefore(
@@ -624,8 +643,18 @@ public class RequestEditorKit
 
 			StringUtilities.insertBefore(
 				buffer, "</head>", "<link rel=\"stylesheet\" href=\"/basics.css\" />" );
+		}
 
-			if ( location.indexOf( "?" ) == -1 && RequestEditorKit.maps.contains( location ) )
+		// Skip additional decorations for the character pane and the top menu
+
+		if ( location.startsWith( "charpane.php" ) || location.contains( "menu.php" ) )
+		{
+			return;
+		}
+
+		if ( addComplexFeatures )
+		{
+			if ( !location.contains( "?" ) && RequestEditorKit.maps.contains( location ) )
 			{
 				buffer.insert(
 					buffer.indexOf( "</tr>" ),
@@ -712,6 +741,7 @@ public class RequestEditorKit
 		// might modify or depend on those decorations
 
 		// Change border colors if the user wants something other than blue
+
 		String defaultColor = Preferences.getString( "defaultBorderColor" );
 		if ( !defaultColor.equals( "blue" ) )
 		{
@@ -744,7 +774,7 @@ public class RequestEditorKit
 		}
 
 		// If we are an Avatar of Boris, we can learn a new skill
-		if ( KoLCharacter.inAxecore() && newLevel <= 15)
+		if ( KoLCharacter.inAxecore() && newLevel <= 15 )
 		{
 			links.append( " [<a href=\"da.php?place=gate1\">boris</a>]" );
 			haveLinks = true;
