@@ -187,6 +187,10 @@ public class CouncilFrame
 				{
 					CouncilFrame.handleTrapperChange( responseText );
 				}
+				else if ( location.contains( "action=cloudypeak" ) )
+				{
+					CouncilFrame.handleMcLargehugeChange( responseText );
+				}
 			}
 		}
 		else if ( location.startsWith( "postwarisland" ) )
@@ -223,6 +227,14 @@ public class CouncilFrame
 			{
 				ResultProcessor.processItem( ItemPool.STRANGE_CUBE, -1 );
 			}
+		}
+	}
+
+	private static void handleMcLargehugeChange( String responseText )
+	{
+		if ( responseText.contains( "you spy a crude stone staircase" ) || responseText.contains( "notice a set of crude carved stairs" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
 		}
 	}
 
