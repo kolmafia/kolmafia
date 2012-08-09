@@ -326,7 +326,7 @@ public class DebugDatabase
 		}
 
 		String image = ItemDatabase.getImage( id );
-		String descImage = DebugDatabase.parseImage( text );
+		String descImage = DebugDatabase.parseImage( rawText );
 		if ( !image.equals( descImage ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has image of " + image + " but should be " + descImage + "." );
@@ -424,12 +424,7 @@ public class DebugDatabase
 		}
 
 		Matcher matcher = DebugDatabase.ITEM_DATA_PATTERN.matcher( rawText );
-		if ( !matcher.find() )
-		{
-			return null;
-		}
-
-		return matcher.group( 1 );
+		return matcher.find() ? matcher.group( 1 ) : null;
 	}
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
@@ -1087,8 +1082,8 @@ public class DebugDatabase
 			return;
 		}
 
-		String descriptionImage = DebugDatabase.parseImage( text );
-		if ( !descriptionImage.equals( EffectDatabase.getImage( id ) ) )
+		String descriptionImage = DebugDatabase.parseImage( rawText );
+		if ( !descriptionImage.equals( EffectDatabase.getImageName( id ) ) )
 		{
 			report.println( "# *** " + name + " (" + effectId + ") has image of " + descriptionImage + "." );
 			return;
@@ -1110,11 +1105,10 @@ public class DebugDatabase
 		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
-	private static final Pattern IMAGE_PATTERN = Pattern.compile( "itemimages/(.*?.gif)" );
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( "itemimages/(.*?\\.gif)" );
 	public static final String parseImage( final String text )
 	{
 		Matcher matcher = DebugDatabase.IMAGE_PATTERN.matcher( text );
-
 		return matcher.find() ? matcher.group( 1 ) : "";
 	}
 
@@ -1123,12 +1117,7 @@ public class DebugDatabase
 	public static final String parseEffectDescid( final String text )
 	{
 		Matcher matcher = DebugDatabase.EFFECT_DESCID_PATTERN.matcher( text );
-		if ( !matcher.find() )
-		{
-			return "";
-		}
-
-		return matcher.group( 1 );
+		return matcher.find() ? matcher.group( 1 ) : "";
 	}
 
 	private static final GenericRequest DESC_EFFECT_REQUEST = new GenericRequest( "desc_effect.php" );
