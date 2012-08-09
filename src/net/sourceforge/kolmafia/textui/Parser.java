@@ -1863,6 +1863,11 @@ public class Parser
 			return null;
 		}
 
+		if ( Parser.isReservedWord( name ) )
+		{
+			throw this.parseException( "Reserved word '" + name + "' cannot be an index variable name" );
+		}
+
 		if ( parentScope.findVariable( name ) != null )
 		{
 			throw this.parseException( "Index variable '" + name + "' is already defined" );
