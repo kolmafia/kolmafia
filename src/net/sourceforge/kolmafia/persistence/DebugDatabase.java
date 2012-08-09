@@ -104,7 +104,7 @@ public class DebugDatabase
 	private static final String readWikiData( final String name )
 	{
 		String line = null;
-		StringBuffer wikiRecord = new StringBuffer();
+		StringBuilder wikiRecord = new StringBuilder();
 
 		try
 		{
@@ -128,7 +128,7 @@ public class DebugDatabase
 	 * Utility method which searches for the plural version of the item on the KoL wiki.
 	 */
 
-	public static final void determineWikiData( final String name )
+	/*public static final void determineWikiData( final String name )
 	{
 		String wikiData = DebugDatabase.readWikiData( name );
 
@@ -160,7 +160,7 @@ public class DebugDatabase
 		{
 			RequestLogger.printLine( "autosell: " + sellMatcher.group( 1 ) );
 		}
-	}
+	}*/
 
 	// **********************************************************
 
@@ -171,17 +171,17 @@ public class DebugDatabase
 	private static final String ITEM_DATA = "itemdata.txt";
 	private static final StringArray rawItems = new StringArray();
 
-	private static final Map foods = new TreeMap();
-	private static final Map boozes = new TreeMap();
-	private static final Map hats = new TreeMap();
-	private static final Map weapons = new TreeMap();
-	private static final Map offhands = new TreeMap();
-	private static final Map shirts = new TreeMap();
-	private static final Map pants = new TreeMap();
-	private static final Map accessories = new TreeMap();
-	private static final Map containers = new TreeMap();
-	private static final Map famitems = new TreeMap();
-	private static final Map others = new TreeMap();
+	private static final Map<String, String> foods = new TreeMap<String, String>();
+	private static final Map<String, String> boozes = new TreeMap<String, String>();
+	private static final Map<String, String> hats = new TreeMap<String, String>();
+	private static final Map<String, String> weapons = new TreeMap<String, String>();
+	private static final Map<String, String> offhands = new TreeMap<String, String>();
+	private static final Map<String, String> shirts = new TreeMap<String, String>();
+	private static final Map<String, String> pants = new TreeMap<String, String>();
+	private static final Map<String, String> accessories = new TreeMap<String, String>();
+	private static final Map<String, String> containers = new TreeMap<String, String>();
+	private static final Map<String, String> famitems = new TreeMap<String, String>();
+	private static final Map<String, String> others = new TreeMap<String, String>();
 
 	public static final void checkItems( final int itemId )
 	{
@@ -325,6 +325,15 @@ public class DebugDatabase
 
 		}
 
+		String image = ItemDatabase.getImage( id );
+		String descImage = DebugDatabase.parseImage( text );
+		if ( !image.equals( descImage ) )
+		{
+			report.println( "# *** " + name + " (" + itemId + ") has image of " + image + " but should be " + descImage + "." );
+			correct = false;
+
+		}
+
 		switch ( type )
 		{
 		case KoLConstants.CONSUME_EAT:
@@ -405,7 +414,7 @@ public class DebugDatabase
 		return DebugDatabase.DESC_ITEM_REQUEST.responseText;
 	}
 
-	private static final Pattern ITEM_DATA_PATTERN = Pattern.compile( "<img.*?><(br|blockquote)>(.*?)<script", Pattern.DOTALL );
+	private static final Pattern ITEM_DATA_PATTERN = Pattern.compile( "<div id=\"description\"(.*?)<script", Pattern.DOTALL );
 
 	public static final String itemDescriptionText( final String rawText )
 	{
@@ -420,7 +429,7 @@ public class DebugDatabase
 			return null;
 		}
 
-		return matcher.group( 2 );
+		return matcher.group( 1 );
 	}
 
 	private static final Pattern NAME_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
@@ -626,7 +635,7 @@ public class DebugDatabase
 	{
 		// If the description says "combat", allow "combat" or "combat reusable"
 		if ( ( descAttrs & ItemDatabase.ATTR_COMBAT ) != 0 &&
-		     ( attrs & ItemDatabase.ATTR_COMBAT|ItemDatabase.ATTR_COMBAT_REUSABLE ) == 0 )
+		     ( attrs & ( ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE ) ) == 0 )
 		{
 			return false;
 		}
@@ -731,8 +740,6 @@ public class DebugDatabase
 
 	private static final void checkEquipmentDatum( final String name, final String text, final PrintStream report )
 	{
-		Matcher matcher;
-
 		String type = DebugDatabase.parseType( text );
 		boolean isWeapon = false, isShield = false, hasPower = false;
 
@@ -887,7 +894,7 @@ public class DebugDatabase
 
 	private static final void checkItemModifierDatum( final String name, final String text, final PrintStream report )
 	{
-		ArrayList unknown = new ArrayList();
+		ArrayList<String> unknown = new ArrayList<String>();
 		String known = DebugDatabase.parseItemEnchantments( text, unknown );
 		DebugDatabase.logModifierDatum( name, known, unknown, report );
 	}
@@ -915,7 +922,7 @@ public class DebugDatabase
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
 		Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
 
-	public static final String parseItemEnchantments( final String text, final ArrayList unknown )
+	public static final String parseItemEnchantments( final String text, final ArrayList<String> unknown )
 	{
 		String known = parseStandardEnchantments( text, unknown, DebugDatabase.ITEM_ENCHANTMENT_PATTERN );
 
@@ -947,7 +954,7 @@ public class DebugDatabase
 		return known;
 	}
 
-	private static final String parseStandardEnchantments( final String text, final ArrayList unknown, final Pattern pattern )
+	private static final String parseStandardEnchantments( final String text, final ArrayList<String> unknown, final Pattern pattern )
 	{
 		String known = "";
 
@@ -1007,7 +1014,7 @@ public class DebugDatabase
 	private static final String EFFECT_HTML = "effecthtml.txt";
 	private static final String EFFECT_DATA = "effectdata.txt";
 	private static final StringArray rawEffects = new StringArray();
-	private static final Map effects = new TreeMap();
+	private static final Map<String, String> effects = new TreeMap<String, String>();
 
 	public static final void checkEffects()
 	{
@@ -1080,6 +1087,13 @@ public class DebugDatabase
 			return;
 		}
 
+		String descriptionImage = DebugDatabase.parseImage( text );
+		if ( !descriptionImage.equals( EffectDatabase.getImage( id ) ) )
+		{
+			report.println( "# *** " + name + " (" + effectId + ") has image of " + descriptionImage + "." );
+			return;
+		}
+
 		DebugDatabase.effects.put( name, text );
 	}
 
@@ -1100,12 +1114,8 @@ public class DebugDatabase
 	public static final String parseImage( final String text )
 	{
 		Matcher matcher = DebugDatabase.IMAGE_PATTERN.matcher( text );
-		if ( !matcher.find() )
-		{
-			return "";
-		}
 
-		return matcher.group( 1 );
+		return matcher.find() ? matcher.group( 1 ) : "";
 	}
 
 	// href="desc_effect.php?whicheffect=138ba5cbeccb6334a1d473710372e8d6"
@@ -1204,14 +1214,14 @@ public class DebugDatabase
 	private static final Pattern EFFECT_ENCHANTMENT_PATTERN =
 		Pattern.compile( "<font color=blue><b>(.*)</b></font>", Pattern.DOTALL );
 
-	public static final String parseEffectEnchantments( final String text, final ArrayList unknown )
+	public static final String parseEffectEnchantments( final String text, final ArrayList<String> unknown )
 	{
 		return parseStandardEnchantments( text, unknown, DebugDatabase.EFFECT_ENCHANTMENT_PATTERN );
 	}
 
 	private static final void checkEffectModifierDatum( final String name, final String text, final PrintStream report )
 	{
-		ArrayList unknown = new ArrayList();
+		ArrayList<String> unknown = new ArrayList<String>();
 		String known = DebugDatabase.parseEffectEnchantments( text, unknown );
 		DebugDatabase.logModifierDatum( name, known, unknown, report );
 	}
@@ -1241,7 +1251,7 @@ public class DebugDatabase
 			}
 
 			String currentLine;
-			StringBuffer currentHTML = new StringBuffer();
+			StringBuilder currentHTML = new StringBuilder();
 			BufferedReader reader = FileUtilities.getReader( saveData );
 
 			while ( !( currentLine = reader.readLine() ).equals( "" ) )
@@ -1910,7 +1920,7 @@ public class DebugDatabase
 
 		NodeList elements = doc.getElementsByTagName( "iteminfo" );
 
-		HashSet seen = new HashSet();
+		HashSet<Integer> seen = new HashSet<Integer>();
 		for ( int i = 0; i < elements.getLength(); i++ )
 		{
 			Node element = elements.item( i );
@@ -1929,7 +1939,7 @@ public class DebugDatabase
 	}
 
 	private static final void checkPulverize( final Node element, final PrintStream writer,
-		HashSet seen )
+		HashSet<Integer> seen )
 	{
 		String name= "";
 		int id = -1;
@@ -2198,7 +2208,7 @@ public class DebugDatabase
 				group = group.substring( 0, pos );
 			}
 			Matcher m = DebugDatabase.ZAPITEM_PATTERN.matcher( group );
-			ArrayList items = new ArrayList();
+			ArrayList<String> items = new ArrayList<String>();
 			while ( m.find() )
 			{
 				items.add( m.group( 1 ) );
@@ -2211,9 +2221,9 @@ public class DebugDatabase
 		report.close();
 	}
 
-	private static void checkZapGroup( ArrayList items, PrintStream report )
+	private static void checkZapGroup( ArrayList<String> items, PrintStream report )
 	{
-		String firstItem = (String) items.get( 0 );
+		String firstItem = items.get( 0 );
 		int itemId = ItemDatabase.getItemId( firstItem );
 
 		if ( itemId == -1 )
@@ -2234,7 +2244,7 @@ public class DebugDatabase
 			report.println( "" );
 			return;
 		}
-		ArrayList existing = new ArrayList();
+		ArrayList<String> existing = new ArrayList<String>();
 		existing.addAll( Arrays.asList( zapgroup ) );
 		existing.removeAll( items );
 		items.removeAll( Arrays.asList( zapgroup ) );
