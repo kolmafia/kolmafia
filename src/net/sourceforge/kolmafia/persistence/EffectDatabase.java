@@ -299,10 +299,16 @@ public class EffectDatabase
 	 * @return The name of the corresponding effect
 	 */
 
-	public static final String getImage( final int effectId )
+	public static final String getImageName( final int effectId )
 	{
 		Object imageName = effectId == -1 ? null : EffectDatabase.imageById.get( IntegerPool.get( effectId ) );
-		return imageName == null ? "/images/debug.gif" : "http://images.kingdomofloathing.com/itemimages/" + imageName;
+		return imageName == null ? "" : (String)imageName;
+	}
+
+	public static final String getImage( final int effectId )
+	{
+		String imageName = EffectDatabase.getImageName( effectId );
+		return imageName.equals( "" ) ? "/images/debug.gif" : "http://images.kingdomofloathing.com/itemimages/" + imageName;
 	}
 
 	/**

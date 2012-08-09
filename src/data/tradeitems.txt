@@ -475,7 +475,7 @@
 466	green pixel potion	hpmp, combat	all	50
 467	purple pixel pie	food	all	50
 468	ruby W	none	all	33
-469	wussiness potion	usable	all	28
+469	wussiness potion	usable, combat	all	28
 470	Imp Ale	drink	all	25
 471	hot wing	food	all	32
 472	diamond-studded cane	weapon	all	95
@@ -2443,7 +2443,7 @@
 2434	black eyedrops	multiple	all	0
 2435	Dogsgotnonoz pills	multiple	all	0
 2436	donkey flipbook	multiple	all	0
-2437	New Cloaca-Cola	mp	all	0
+2437	New Cloaca-Cola	mp, combat	all	0
 2438	scented massage oil	usable, combat	all	0
 2439	poltergeist-in-the-jar-o	none, combat	all	0
 2440
@@ -2588,7 +2588,7 @@
 2579	cactus fruit	food	all	35
 2580	scorpion whip	weapon	all	25
 2581	handful of sand	multiple, combat	all	25
-2582	brick of sand	multiple	all	100
+2582	brick of sand	multiple, combat	all	100
 2583	centipede eggs	food	all	66
 2584	wonderwall shield	offhand	all	165
 2585	Colonel Mustard's Lonely Spades Club Jacket	shirt	all	135
@@ -5724,7 +5724,7 @@
 5715	Hjodor's Guide to Arctic Dalmatians	usable	all	0
 5716	Hjodor's Guide to Arctic Dalmatians (used)	reusable	display	0
 5717	FDKOL hotcakes	food	all	0
-5718	hot egg	familiar	all	0
+5718	hot egg	grow	all	0
 5719	smoking grass	none, combat	all	23
 5720	fiery wing	food	all	0
 5721	wings of fire	container	all	0

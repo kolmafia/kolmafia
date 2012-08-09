@@ -5115,7 +5115,7 @@
 5114	159882766	stompbox.gif	stomp box	stomp boxes
 5115
 5116	542484240	aolcom.gif	A. W. O. L. commendation
-5117	529331441	blackbird2.gif	reconstituted crow
+5117	529331441	blackbird1.gif	reconstituted crow
 5118	576544533	birdbrain.gif	bird brain
 5119	980813799	brokenwings.gif	busted wings
 5120	151842381	book4.gif	Massive Manual of Marauder Mockery	Massive Manuals of Marauder Mockery
@@ -5357,7 +5357,7 @@
 5356	275530990	book4.gif	A Beginner's Guide to Charming Snakes (used)
 5357	890650838	book4.gif	Zu Mannk&auml;se Dienen (used)
 5358	274466133	book4.gif	Autobiography Of Dynamite Superman Jones (used)
-5359	961976248	book4.gif	Inigo's Incantation of Inspiration (crumpled)
+5359	961976248	music.gif	Inigo's Incantation of Inspiration (crumpled)
 5360	618055110	book4.gif	Tales of a Kansas Toymaker (used)
 5361	585632918	book4.gif	The Joy of Wassailing (used)
 5362	826471312	book4.gif	CRIMBCO Employee Handbook (chapter 1) (used)
@@ -5680,7 +5680,7 @@
 5679	129136271	speedo.gif	stylish swimsuit
 5680	891641724	lostkey.gif	lost key
 5681	329990148	sammich.gif	P.B.L.T.	P.B.L.Ts.
-5682	742783144	document_thumb.gif	note from Clancy
+5682	742783144	document.gif	note from Clancy
 5683	334424636	burt.gif	BURT	BURTs (Reynolds)
 5684	810042563	juicytrash.gif	handful of juicy garbage	handfuls of juicy garbage
 5685	969839389	bugbearbadge.gif	bugbear communicator badge
@@ -5768,6 +5768,6 @@
 5767	387871192	frankenlarva.gif	Unagnimated Gnome
 5768	112634738	gnomeears.gif	gnomish swimmer's ears
 5769	636098875	blacklung.gif	gnomish coal miner's lung
-5770	214628895	elbow2.gif	gnomish tennis elbow
+5770	214628895	elbow.gif	gnomish tennis elbow
 5771	803477793	knee.gif	gnomish housemaid's kgnee
 5772	939129651	foot.gif	gnomish athlete's foot
