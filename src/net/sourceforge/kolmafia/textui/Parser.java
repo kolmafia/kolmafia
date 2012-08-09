@@ -1768,6 +1768,11 @@ public class Parser
 				throw this.parseException( "Key variable name expected" );
 			}
 
+			if ( Parser.isReservedWord( name ) )
+			{
+				throw this.parseException( "Reserved word '" + name + "' cannot be a key variable name" );
+			}
+
 			if ( names.contains( name ) )
 			{
 				throw this.parseException( "Key variable '" + name + "' is already defined" );
