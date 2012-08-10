@@ -105,7 +105,7 @@ public class MultiUseRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "multiuse.php") )
+		if ( !urlString.startsWith( "multiuse.php") && !urlString.startsWith( "inv_use.php")  )
 		{
 			return false;
 		}
@@ -116,16 +116,20 @@ public class MultiUseRequest
 			return false;
 		}
 
-		Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		int count = 1;
 
-		if ( !quantityMatcher.find() )
+		if ( urlString.startsWith( "multiuse.php") )
 		{
-			return false;
+			Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			if ( !quantityMatcher.find() )
+			{
+				return false;
+			}
+			count = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 		}
 
 		// Item ID of the base item
 		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		int count = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
 		// Find concoction made by multi-using this many of this item
 		Concoction concoction = ConcoctionPool.findConcoction( KoLConstants.MULTI_USE, baseId, count );

@@ -5401,7 +5401,7 @@
 5392	Thwaitgold butterfly statuette	none	display	0
 5393	scrap of sticky paper	none	all	30
 5394	sandpaper	none	all	25
-5395	peppermint sprout	usable, candy	all	0
+5395	peppermint sprout	multiple, candy	all	0
 5396	peppermint twist	usable, candy, fancy	all	0
 5397	peppermint patty	food, candy	all	0
 5398	peppermint crook	none, combat, candy	all	0
