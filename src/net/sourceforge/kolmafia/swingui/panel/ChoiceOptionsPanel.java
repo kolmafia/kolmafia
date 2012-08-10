@@ -1261,7 +1261,7 @@ public class ChoiceOptionsPanel
 				index = 5;
 				break;
 			case 3:	// Spooky Sapling & Sell Bar Skins
-				index = 4;
+				index = 3;
 				break;
 			}
 		case 2:
@@ -1271,7 +1271,7 @@ public class ChoiceOptionsPanel
 				index = 1;
 				break;
 			case 2:	// Tree-holed coin -> Spooky Temple Map
-				index = 3;
+				index = 4;
 				break;
 			case 3:	// Meet Vampire
 				index = 6;
@@ -1290,7 +1290,7 @@ public class ChoiceOptionsPanel
 				index = 2;
 				break;
 			case 3:	// Spooky Temple Map
-				index = 3;
+				index = 4;
 				break;
 			}
 		}
