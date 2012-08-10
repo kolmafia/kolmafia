@@ -1626,7 +1626,7 @@ honeycap	MUSE	handful of honey (37)
 honeybritches	MUSE	handful of honey (42)
 honey dipper	MUSE	handful of honey (69)
 
-peppermint twist	SUSE	peppermint sprout (1)
+peppermint twist	MUSE	peppermint sprout (1)
 peppermint patty	MUSE	peppermint sprout (2)
 peppermint crook	MUSE	peppermint sprout (3)
 cane-mail pants	MUSE	peppermint sprout (10)

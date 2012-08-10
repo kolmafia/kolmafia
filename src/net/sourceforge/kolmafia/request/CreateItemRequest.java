@@ -1246,8 +1246,28 @@ public class CreateItemRequest
 			return CombineMeatRequest.registerRequest( urlString );
 		}
 
+		if ( urlString.startsWith( "multiuse.php" ) )
+		{
+			if ( MultiUseRequest.registerRequest( urlString ) )
+			{
+				return true;
+			}
+
+			if ( SingleUseRequest.registerRequest( urlString ) )
+			{
+				return true;
+			}
+
+			return false;
+		}
+
 		if ( urlString.startsWith( "inv_use.php" ) )
 		{
+			if ( MultiUseRequest.registerRequest( urlString ) )
+			{
+				return true;
+			}
+
 			if ( SingleUseRequest.registerRequest( urlString ) )
 			{
 				return true;
@@ -1286,21 +1306,6 @@ public class CreateItemRequest
 			RequestLogger.updateSessionLog( "Use " + tool );
 
 			return true;
-		}
-
-		if ( urlString.startsWith( "multiuse.php" ) )
-		{
-			if ( SingleUseRequest.registerRequest( urlString ) )
-			{
-				return true;
-			}
-
-			if ( MultiUseRequest.registerRequest( urlString ) )
-			{
-				return true;
-			}
-
-			return false;
 		}
 
 		// Now that we know it's not a special subclass instance,
