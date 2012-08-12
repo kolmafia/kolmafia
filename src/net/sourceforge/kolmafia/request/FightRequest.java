@@ -1883,6 +1883,9 @@ public class FightRequest
 		// Preprocess results and register new items
 		ResultProcessor.registerNewItems( responseText );
 
+		// Track disco skill sequences
+		DiscoCombatHelper.parseFightRound( FightRequest.nextAction, macroMatcher );
+
 		// Clean HTML and process it
 		FightRequest.processNormalResults( responseText, macroMatcher );
 
@@ -1917,17 +1920,12 @@ public class FightRequest
 		{	// page structure is botched - should have already been reported
 			return;
 		}
-		boolean finalRound = macroMatcher.end() ==
-			FightRequest.lastResponseText.length();
 
 		// Look for special effects
 		FightRequest.updateMonsterHealth( responseText );
 
 		// Spend MP and consume items
 		FightRequest.payActionCost( responseText );
-
-		// Track disco skill sequences
-		DiscoCombatHelper.parseFightRound( FightRequest.nextAction, responseText );
 
 		// Check for equipment breakage that can happen at any time.
 		if ( responseText.indexOf( "Your antique helmet, weakened" ) != -1 )
@@ -2100,6 +2098,7 @@ public class FightRequest
 		}
 
 		// Reset round information if the battle is complete.
+		boolean finalRound = macroMatcher.end() == FightRequest.lastResponseText.length();
 		if ( !finalRound )
 		{
 			return;
@@ -2293,130 +2292,130 @@ public class FightRequest
 			FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 			switch ( familiar.getId() )
 			{
-				case FamiliarPool.RIFTLET:
-					if ( responseText.indexOf( "shimmers briefly, and you feel it getting earlier." ) != -1 )
-					{
-						Preferences.increment( "_riftletAdv", 1 );
-					}
-					break;
+			case FamiliarPool.RIFTLET:
+				if ( responseText.indexOf( "shimmers briefly, and you feel it getting earlier." ) != -1 )
+				{
+					Preferences.increment( "_riftletAdv", 1 );
+				}
+				break;
 
-				case FamiliarPool.HARE:
-					// <name> pulls an oversized pocketwatch out of his
-					// waistcoat and winds it. "Two days slow, that's what
-					// it is," he says.
-					if ( responseText.indexOf( "oversized pocketwatch" ) != -1 )
+			case FamiliarPool.HARE:
+				// <name> pulls an oversized pocketwatch out of his
+				// waistcoat and winds it. "Two days slow, that's what
+				// it is," he says.
+				if ( responseText.indexOf( "oversized pocketwatch" ) != -1 )
+				{
+					Preferences.increment( "extraRolloverAdventures", 1 );
+					Preferences.increment( "_hareAdv", 1 );
+					Preferences.setInteger( "_hareCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_hareCharge", 1 );
+				}
+				break;
+
+			case FamiliarPool.GIBBERER:
+				// <name> mutters dark secrets under his breath, and
+				// you feel time slow down.
+				if ( responseText.indexOf( "you feel time slow down" ) != -1 )
+				{
+					Preferences.increment( "extraRolloverAdventures", 1 );
+					Preferences.increment( "_gibbererAdv", 1 );
+					Preferences.setInteger( "_gibbererCharge", 0 );
+				}
+				else
+				{
+					Preferences.increment( "_gibbererCharge", 1 );
+				}
+				break;
+
+			case FamiliarPool.STOCKING_MIMIC:
+				// <name> reaches deep inside himself and pulls out a
+				// big bag of candy. Cool!
+				if ( responseText.indexOf( "pulls out a big bag of candy" ) != -1 )
+				{
+					AdventureResult item = ItemPool.get( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
+					// The Stocking Mimic will do this once a day
+					Preferences.setBoolean( "_bagOfCandy", true );
+					// Add bag of many confections to inventory
+					ResultProcessor.processItem( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
+					// Equip familiar with it
+					familiar.setItem( item );
+				}
+
+				// <name> gorges himself on candy from his bag.
+				if ( responseText.contains( "gorges himself on candy from his bag" ) )
+				{
+					familiar.addNonCombatExperience( 1 );
+				}
+				break;
+
+			case FamiliarPool.JACK_IN_THE_BOX:
+				// 1st JitB charge: You turn <name>'s crank for a while.
+				// This will fail if a SBIP is equipped, but the message is too short
+				if ( responseText.contains( "'s crank for a while." ) )
+				{
+					Preferences.setInteger( "_jitbCharge", 1 );
+				}
+				// 2nd JitB charge: The tension builds as you turn <name>'s crank some more.
+				else if ( responseText.contains( "'s crank some more." ) )
+				{
+					Preferences.setInteger( "_jitbCharge", 2 );
+				}
+				// 3rd JitB charge, popping it: You turn <name>'s crank a little more, and
+				// all of a sudden a horrible grinning clown head emerges with a loud bang.
+				// It wobbles back and forth on the end of its spring, as though dancing to
+				// some sinister calliope music you can't actually hear...
+				else if ( responseText.contains( "a horrible grinning clown head emerges" ) )
+				{
+					Preferences.setInteger( "_jitbCharge", 0 );
+				}
+				break;
+
+			case FamiliarPool.HIPSTER:
+				//  The words POWER UP appear above <name>'s head as he
+				//  instantly grows a stupid-looking moustache.
+				if ( responseText.indexOf( "instantly grows a stupid-looking moustache" ) != -1 )
+				{
+					AdventureResult item = ItemPool.get( ItemPool.IRONIC_MOUSTACHE, 1 );
+					// The Mini-Hipster will do this once a day
+					Preferences.setBoolean( "_ironicMoustache", true );
+					// Add ironic moustache to inventory
+					ResultProcessor.processItem( ItemPool.IRONIC_MOUSTACHE, 1 );
+					// Equip familiar with it
+					familiar.setItem( item );
+				}
+				break;
+
+			case FamiliarPool.GRINDER:
+				// Increment Organ Grinder combat counter
+				if ( responseText.indexOf( "a few choice bits" ) != -1 ||
+				     responseText.indexOf( "your opponent and tosses them" ) != -1 ||
+				     responseText.indexOf( "insides, squealing something" ) != -1 ||
+				     responseText.indexOf( "grind, chattering" ) != -1 ||
+				     responseText.indexOf( "My Hampton has a funny feeling" ) != -1 ||
+				     responseText.indexOf( "grindable organs, muttering" ) != -1 ||
+				     responseText.indexOf( "some grinder fodder, muttering" ) != -1 )
+				{
+					Preferences.increment( "_piePartsCount", 1 );
+				}
+				break;
+
+			case FamiliarPool.ARTISTIC_GOTH_KID:
+				if ( KoLCharacter.getHippyStoneBroken() )
+				{
+					if ( responseText.contains( "You gain 1 PvP Fight" ) )
 					{
-						Preferences.increment( "extraRolloverAdventures", 1 );
-						Preferences.increment( "_hareAdv", 1 );
-						Preferences.setInteger( "_hareCharge", 0 );
+						Preferences.setInteger( "_gothKidCharge", 0 );
+						Preferences.increment( "_gothKidFights" );
 					}
 					else
 					{
-						Preferences.increment( "_hareCharge", 1 );
+						Preferences.increment( "_gothKidCharge", 1 );
 					}
-					break;
-
-				case FamiliarPool.GIBBERER:
-					// <name> mutters dark secrets under his breath, and
-					// you feel time slow down.
-					if ( responseText.indexOf( "you feel time slow down" ) != -1 )
-					{
-						Preferences.increment( "extraRolloverAdventures", 1 );
-						Preferences.increment( "_gibbererAdv", 1 );
-						Preferences.setInteger( "_gibbererCharge", 0 );
-					}
-					else
-					{
-						Preferences.increment( "_gibbererCharge", 1 );
-					}
-					break;
-
-				case FamiliarPool.STOCKING_MIMIC:
-					// <name> reaches deep inside himself and pulls out a
-					// big bag of candy. Cool!
-					if ( responseText.indexOf( "pulls out a big bag of candy" ) != -1 )
-					{
-						AdventureResult item = ItemPool.get( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
-						// The Stocking Mimic will do this once a day
-						Preferences.setBoolean( "_bagOfCandy", true );
-						// Add bag of many confections to inventory
-						ResultProcessor.processItem( ItemPool.BAG_OF_MANY_CONFECTIONS, 1 );
-						// Equip familiar with it
-						familiar.setItem( item );
-					}
-
-					// <name> gorges himself on candy from his bag.
-					if ( responseText.contains( "gorges himself on candy from his bag" ) )
-					{
-						familiar.addNonCombatExperience( 1 );
-					}
-					break;
-
-				case FamiliarPool.JACK_IN_THE_BOX:
-					// 1st JitB charge: You turn <name>'s crank for a while.
-					// This will fail if a SBIP is equipped, but the message is too short
-					if ( responseText.contains( "'s crank for a while." ) )
-					{
-						Preferences.setInteger( "_jitbCharge", 1 );
-					}
-					// 2nd JitB charge: The tension builds as you turn <name>'s crank some more.
-					else if ( responseText.contains( "'s crank some more." ) )
-					{
-						Preferences.setInteger( "_jitbCharge", 2 );
-					}
-					// 3rd JitB charge, popping it: You turn <name>'s crank a little more, and
-					// all of a sudden a horrible grinning clown head emerges with a loud bang.
-					// It wobbles back and forth on the end of its spring, as though dancing to
-					// some sinister calliope music you can't actually hear...
-					else if ( responseText.contains( "a horrible grinning clown head emerges" ) )
-					{
-						Preferences.setInteger( "_jitbCharge", 0 );
-					}
-					break;
-
-				case FamiliarPool.HIPSTER:
-					//  The words POWER UP appear above <name>'s head as he
-					//  instantly grows a stupid-looking moustache.
-					if ( responseText.indexOf( "instantly grows a stupid-looking moustache" ) != -1 )
-					{
-						AdventureResult item = ItemPool.get( ItemPool.IRONIC_MOUSTACHE, 1 );
-						// The Mini-Hipster will do this once a day
-						Preferences.setBoolean( "_ironicMoustache", true );
-						// Add ironic moustache to inventory
-						ResultProcessor.processItem( ItemPool.IRONIC_MOUSTACHE, 1 );
-						// Equip familiar with it
-						familiar.setItem( item );
-					}
-					break;
-
-				case FamiliarPool.GRINDER:
-					// Increment Organ Grinder combat counter
-					if ( responseText.indexOf( "a few choice bits" ) != -1 ||
-						responseText.indexOf( "your opponent and tosses them" ) != -1 ||
-						responseText.indexOf( "insides, squealing something" ) != -1 ||
-						responseText.indexOf( "grind, chattering" ) != -1 ||
-						responseText.indexOf( "My Hampton has a funny feeling" ) != -1 ||
-						responseText.indexOf( "grindable organs, muttering" ) != -1 ||
-						responseText.indexOf( "some grinder fodder, muttering" ) != -1 )
-					{
-						Preferences.increment( "_piePartsCount", 1 );
-					}
-					break;
-
-				case FamiliarPool.ARTISTIC_GOTH_KID:
-					if ( KoLCharacter.getHippyStoneBroken() )
-					{
-						if ( responseText.contains( "You gain 1 PvP Fight" ) )
-						{
-							Preferences.setInteger( "_gothKidCharge", 0 );
-							Preferences.increment( "_gothKidFights" );
-						}
-						else
-						{
-							Preferences.increment( "_gothKidCharge", 1 );
-						}
-					}
-					break;
+				}
+				break;
 			}
 
 			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATSEAT, 1 ) ) &&
@@ -3696,6 +3695,7 @@ public class FightRequest
 		public boolean mosquito = false;
 		public boolean dice = false;
 		public boolean nunnery = false;
+		public boolean ravers = false;
 		public boolean won = false;
 		public Matcher macroMatcher;
 		public int lastCombatItem = -1;
@@ -3719,8 +3719,11 @@ public class FightRequest
 
 			this.shouldRefresh = false;
 
-			// Note if we are fighting The Themthar Hills
+			// Note if we are fighting in The Themthar Hills
 			this.nunnery = MonsterStatusTracker.getLastMonsterName().equals( "dirty thieving brigand" );
+
+			// Note if we are fighting Outside the Club
+			this.ravers = ( KoLAdventure.lastAdventureId() == AdventurePool.OUTSIDE_THE_CLUB );
 
 			if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER )
 			{
@@ -3976,7 +3979,6 @@ public class FightRequest
 
 		if ( name.equals( "hr" ) )
 		{
-			FightRequest.updateRoundData( status.macroMatcher );
 			if ( status.macroMatcher.find() )
 			{
 				FightRequest.registerMacroAction( status.macroMatcher );
@@ -3986,6 +3988,8 @@ public class FightRequest
 			{
 				FightRequest.logText( "unspecified macro action?", status );
 			}
+			DiscoCombatHelper.parseFightRound( FightRequest.nextAction, status.macroMatcher );
+			FightRequest.updateRoundData( status.macroMatcher );
 		}
 		else if ( name.equals( "table" ) )
 		{
@@ -4015,6 +4019,8 @@ public class FightRequest
 			if ( inode == null )
 			{
 				// No image. Parse combat damage.
+				FightRequest.handleRaver( str, status );
+
 				int damage = ( FightRequest.haiku || FightRequest.anapest ) ?
 					FightRequest.parseHaikuDamage( str ) :
 					FightRequest.parseNormalDamage( str );
@@ -4687,6 +4693,22 @@ public class FightRequest
 		}
 		
 		return true;
+	}
+	
+	private static void handleRaver( String text, TagStatus status )
+	{
+		if ( status.ravers && NemesisDecorator.specialRaverMove( text ) )
+		{
+			StringBuilder buffer = new StringBuilder();
+			buffer.append( MonsterStatusTracker.getLastMonsterName() );
+			buffer.append( " uses a special move!" );
+			FightRequest.logText( buffer, status );
+		}
+	}
+
+	private static final void logText( StringBuilder buffer, final TagStatus status )
+	{
+		FightRequest.logText( buffer.toString(), status );
 	}
 
 	private static final void logText( StringBuffer buffer, final TagStatus status )
