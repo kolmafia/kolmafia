@@ -277,7 +277,7 @@ public class DailyDeedsPanel
 		{
 			return;
 		}
-		
+
 		int sCount = 0;
 
 		String[][] fullDeedsList = DailyDeedsPanel.BUILTIN_DEEDS;
@@ -1473,7 +1473,7 @@ public class DailyDeedsPanel
 		/**
 		 * @param command
 		 *                the command to execute. This will also be the displayed button text.
-		 * @param sCount 
+		 * @param sCount
 		 */
 
 		public SimpleDaily( String command, int sCount )
@@ -1489,7 +1489,7 @@ public class DailyDeedsPanel
 		 *                the text that will be displayed on the button
 		 * @param command
 		 *                the command to execute.
-		 * @param sCount 
+		 * @param sCount
 		 */
 
 		public SimpleDaily( String displayText, String command, int sCount )
@@ -1507,7 +1507,7 @@ public class DailyDeedsPanel
 		 *                the command to execute.
 		 * @param maxPref
 		 *                the integer at which to disable the button.
-		 * @param sCount 
+		 * @param sCount
 		 */
 		public SimpleDaily( String displayText, String command, int maxPref, int sCount )
 		{
@@ -2461,49 +2461,86 @@ public class DailyDeedsPanel
 		@Override
 		public void update()
 		{
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			boolean shown = false;
+			int count = 0;
 
-			buffer.append( "Drops: " );
+			buffer.append( "<html>Drops: " );
 
 			FamiliarData pixie = KoLCharacter.findFamiliar( FamiliarPool.PIXIE );
 			int absintheDrops = Preferences.getInteger( "_absintheDrops" );
 			if ( ( pixie != null && pixie.canEquip() ) || absintheDrops > 0  )
 			{
-				if ( shown ) buffer.append( ", " );
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
 				buffer.append( absintheDrops );
 				buffer.append( " absinthe" );
 				shown = true;
+				count++;
 			}
 
 			FamiliarData sandworm = KoLCharacter.findFamiliar( FamiliarPool.SANDWORM );
 			int aguaDrops = Preferences.getInteger( "_aguaDrops" );
 			if ( (sandworm != null && sandworm.canEquip() ) || aguaDrops > 0  )
 			{
-				if ( shown ) buffer.append( ", " );
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
 				buffer.append( aguaDrops );
 				buffer.append( " agua" );
 				shown = true;
+				count++;
 			}
 
 			FamiliarData badger = KoLCharacter.findFamiliar( FamiliarPool.BADGER );
 			int badgerDrops = Preferences.getInteger( "_astralDrops" );
 			if ( ( badger != null && badger.canEquip() ) || badgerDrops > 0 )
 			{
-				if ( shown ) buffer.append( ", " );
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
 				buffer.append( badgerDrops );
 				buffer.append( " astral" );
 				shown = true;
+				count++;
 			}
 
 			FamiliarData llama = KoLCharacter.findFamiliar( FamiliarPool.LLAMA );
 			int gongDrops = Preferences.getInteger( "_gongDrops" );
 			if ( ( llama != null && llama.canEquip() ) || gongDrops > 0 )
 			{
-				if ( shown ) buffer.append( ", " );
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
 				buffer.append( gongDrops );
 				buffer.append( " gong" );
 				shown = true;
+				count++;
 			}
 
 			FamiliarData grinder = KoLCharacter.findFamiliar( FamiliarPool.GRINDER );
@@ -2511,7 +2548,15 @@ public class DailyDeedsPanel
 
 			if ( ( grinder != null && grinder.canEquip() ) || pieDrops > 0 )
 			{
-				if ( shown ) buffer.append( ", " );
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
 				buffer.append( pieDrops );
 				if ( pieDrops == 1 )
 				{
@@ -2543,60 +2588,108 @@ public class DailyDeedsPanel
 				buffer.append( String.valueOf( need ) );
 				buffer.append( ")" );
 				shown = true;
+				count++;
 			}
 
 			FamiliarData tron = KoLCharacter.findFamiliar( FamiliarPool.TRON );
 			int tokenDrops = Preferences.getInteger( "_tokenDrops" );
 			if ( ( tron != null && tron.canEquip() ) || tokenDrops > 0 )
 			{
-				if ( shown ) buffer.append( ", " );
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
 				buffer.append( tokenDrops );
 				buffer.append( " token" );
 				shown = true;
+				count++;
 			}
 
 			FamiliarData alien = KoLCharacter.findFamiliar( FamiliarPool.ALIEN );
 			int alienDrops = Preferences.getInteger( "_transponderDrops" );
 			if ( ( alien != null && alien.canEquip() ) || alienDrops > 0 )
 			{
-				if ( shown ) buffer.append( ", " );
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
 				buffer.append( alienDrops );
 				buffer.append( " transponder" );
 				shown = true;
+				count++;
 			}
 
 			FamiliarData boots = KoLCharacter.findFamiliar( FamiliarPool.BOOTS );
 			if ( boots != null && boots.canEquip() )
 			{
-				if ( shown ) buffer.append( ", " );
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
 				buffer.append( Preferences.getString( "_bootStomps" ) );
 				buffer.append( " stomp" );
 				if ( Preferences.getInteger( "_bootStomps" ) != 1 ) buffer.append( "s" );
 				if ( Preferences.getBoolean( "bootsCharged" ) ) buffer.append( " (C)" );
 				shown = true;
+				count++;
 			}
 
 			FamiliarData groose = KoLCharacter.findFamiliar( FamiliarPool.GROOSE );
 			int grooseDrops = Preferences.getInteger( "_grooseDrops" );
 			if ( ( groose != null && groose.canEquip() ) || grooseDrops > 0 )
 			{
-				if ( shown ) buffer.append( ", " );
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
 				buffer.append( grooseDrops );
 				buffer.append( " grease" );
 				shown = true;
+				count++;
 			}
 
 			FamiliarData kloop = KoLCharacter.findFamiliar( FamiliarPool.KLOOP );
 			int kloopDrops = Preferences.getInteger( "_kloopDrops" );
 			if ( ( kloop != null && kloop.canEquip() ) || kloopDrops > 0 )
 			{
-				if ( shown ) buffer.append( ", " );
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
 				buffer.append( kloopDrops );
 				buffer.append( " folio" );
 				shown = true;
+				count++;
 			}
 
-			this.setShown(shown);
+			buffer.append( "</html>" );
+
+			this.setShown( shown );
 			this.setText( buffer.toString() );
 		}
 	}
@@ -2903,11 +2996,11 @@ public class DailyDeedsPanel
 	{
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		JButton btn;
-		
+
 		static ArrayList<String> effectHats = new ArrayList<String>();
 		ArrayList<?> effects = new ArrayList<Object>();
 		ArrayList<Object> modifiers = new ArrayList<Object>();
-				
+
 		HatterComboListener listener = new HatterComboListener();
 
 		public HatterDaily()
@@ -2935,13 +3028,13 @@ public class DailyDeedsPanel
 			box.removeActionListener( listener );
 			this.box.removeAllItems();
 			box.addActionListener( listener );
-			
+
 			HatterDaily.effectHats = new ArrayList<String>();
 			this.modifiers = new ArrayList<Object>();
 			box.addItem( "Available Hatter Buffs: " );
 			HatterDaily.effectHats.add( null );
 			this.modifiers.add( null );
-			
+
 			//build hat options here
 			List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
 			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliar();
@@ -2952,7 +3045,7 @@ public class DailyDeedsPanel
 			}
 
 			Object[][] hat_data = RabbitHoleManager.HAT_DATA;
-			
+
 			//iterate across hatter buffs (i.e. hat character-lengths) first
 			if ( hats.size() > 0 )
 			{
@@ -2979,7 +3072,7 @@ public class DailyDeedsPanel
 				}
 			}
 			box.setTooltips( modifiers );
-			
+
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = ( InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 )
@@ -2990,10 +3083,10 @@ public class DailyDeedsPanel
 			box.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
 
 			this.setShown( !KoLCharacter.isTrendy() && ( have || active ) && ( !bm || kf ) );
-			
+
 			setComboTarget(btn, "");
 		}
-		
+
 		public static String getEffectHat( int index )
 		{
 			return effectHats.get( index );
@@ -3005,12 +3098,12 @@ public class DailyDeedsPanel
 			public void actionPerformed( final ActionEvent e )
 			{
 				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
-				
+
 				if ( cb.getItemCount() == 0 )
 				{
 					return;
 				}
-				
+
 				if ( cb.getSelectedIndex() == 0 )
 				{
 					setComboTarget( btn, "" );
@@ -3027,7 +3120,7 @@ public class DailyDeedsPanel
 			}
 		}
 
-		
+
 	}
 
 	public static class BanishedDaily
