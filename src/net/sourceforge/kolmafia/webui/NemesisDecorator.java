@@ -212,6 +212,24 @@ public class NemesisDecorator
 		}
 	}
 
+	public static final boolean specialRaverMove( final String text )
+	{
+		String moves[] = NemesisDecorator.findRaver( FightRequest.getLastMonsterName() );
+		if ( moves == null )
+		{
+			return false;
+		}
+		if ( moves.length > 3 && text.contains( moves[3] ) )
+		{
+			return true;
+		}
+		if ( moves.length > 4 && text.contains( moves[4] ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
 	private static final void decorateMove( final StringBuffer buffer, final String move )
 	{
 		StringUtilities.singleStringReplace( buffer, move, "<font color=#DD00FF>" + move + "</font>" );

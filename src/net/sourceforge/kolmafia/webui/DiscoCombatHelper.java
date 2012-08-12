@@ -33,9 +33,13 @@
 
 package net.sourceforge.kolmafia.webui;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -508,10 +512,20 @@ public class DiscoCombatHelper
 		}
 	}
 
-	public static final void parseFightRound( final String action, final String responseText )
+	public static final void parseFightRound( final String action, final Matcher macroMatcher )
 	{
 		if ( !DiscoCombatHelper.canCombo )
 		{
+			return;
+		}
+
+		String responseText;
+		try
+		{
+			responseText = macroMatcher.group();
+		}
+		catch ( IllegalStateException e )
+		{	// page structure is botched - should have already been reported
 			return;
 		}
 
@@ -561,6 +575,7 @@ public class DiscoCombatHelper
 
 		// If we have completed a known disco or rave combo, reset
 		// A combo must have at least two skills.
+		int combo = -1;
 		for ( int i = 0; DiscoCombatHelper.counter > 1 && i < NUM_COMBOS; ++i )
 		{
 			if ( !knownCombo[ i ] || i == RANDOM_RAVE )
@@ -576,6 +591,7 @@ public class DiscoCombatHelper
 			if ( DiscoCombatHelper.counter == data.length &&
 			     DiscoCombatHelper.checkSequence( data, 0 ) )
 			{
+				combo = i;
 				DiscoCombatHelper.counter = 0;
 				break;
 			}
@@ -587,9 +603,21 @@ public class DiscoCombatHelper
 			     data.length == 2 &&
 			     DiscoCombatHelper.checkSequence( data, 1 ) )
 			{
+				combo = i;
 				DiscoCombatHelper.counter = 0;
 				break;
 			}
+		}
+
+		if ( combo >= 0 )
+		{
+			StringBuilder buffer = new StringBuilder();
+			buffer.append( combo < FIRST_RAVE_COMBO ? "Disco" : "Rave" );
+			buffer.append( " combo: " );
+			buffer.append( COMBOS[ combo ][0] );
+			String message = buffer.toString();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 		}
 
 		// If three different rave skills are used in sequence,
@@ -687,6 +715,20 @@ public class DiscoCombatHelper
 		data[0][0] = skill1;
 		data[1][0] = skill2;
 		data[2][0] = skill3;
+
+		StringBuilder buffer = new StringBuilder();
+		buffer.append( "You learned a new Rave Combo!" );
+		buffer.append( KoLConstants.LINE_BREAK );
+		buffer.append( SKILLS[ skill1 ] );
+		buffer.append( " + " );
+		buffer.append( SKILLS[ skill2 ] );
+		buffer.append( " + " );
+		buffer.append( SKILLS[ skill3 ] );
+		buffer.append( " -> " );
+		buffer.append( COMBOS[ combo ][0] );
+		String message = buffer.toString();
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
 	}
 
 	private static final boolean checkSequence( final int[][] data, final int offset )
@@ -824,7 +866,7 @@ public class DiscoCombatHelper
 		buffer.append( "\"><input onclick=\"return killforms(this);\" type=\"submit\" value=\"" );
 		buffer.append( name );
 		buffer.append( "\"" );
-		if ( DiscoCombatHelper.counter > 0 || cost > KoLCharacter.getCurrentMP() )
+		if ( DiscoCombatHelper.counter > 0 && DiscoCombatHelper.counter < 3 || cost > KoLCharacter.getCurrentMP() )
 		{
 			buffer.append( " disabled" );
 		}
