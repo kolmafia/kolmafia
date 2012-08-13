@@ -3979,6 +3979,7 @@ public class FightRequest
 
 		if ( name.equals( "hr" ) )
 		{
+			FightRequest.updateRoundData( status.macroMatcher );
 			if ( status.macroMatcher.find() )
 			{
 				FightRequest.registerMacroAction( status.macroMatcher );
@@ -3989,7 +3990,6 @@ public class FightRequest
 				FightRequest.logText( "unspecified macro action?", status );
 			}
 			DiscoCombatHelper.parseFightRound( FightRequest.nextAction, status.macroMatcher );
-			FightRequest.updateRoundData( status.macroMatcher );
 		}
 		else if ( name.equals( "table" ) )
 		{
