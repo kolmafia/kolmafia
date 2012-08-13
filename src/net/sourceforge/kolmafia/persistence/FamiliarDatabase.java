@@ -71,11 +71,11 @@ public class FamiliarDatabase
 	private static final Map familiarById = new TreeMap();
 	private static final Map familiarByName = new TreeMap();
 
-	private static final Map familiarItemById = new HashMap();
-	private static final Map familiarByItem = new HashMap();
+	private static final Map<Integer, String> familiarItemById = new HashMap();
+	private static final Map<String, Integer> familiarByItem = new HashMap();
 
-	private static final Map familiarLarvaById = new HashMap();
-	private static final Map familiarByLarva = new HashMap();
+	private static final Map<Integer, Integer> familiarLarvaById = new HashMap();
+	private static final Map<Integer, Integer> familiarByLarva = new HashMap();
 
 	private static final Map familiarImageById = new HashMap();
 	private static final Map familiarByImage = new HashMap();
@@ -124,14 +124,14 @@ public class FamiliarDatabase
 				}
 
 				Integer familiarId = IntegerPool.get( id );
-				String familiarName = StringUtilities.getDisplayName( data[ 1 ] );
+				String familiarName = new String( data[ 1 ] );
 				String familiarImage = new String( data[ 2 ] );
 				String familiarType = new String( data[ 3 ] );
 				Integer familiarLarva = Integer.valueOf( data[ 4 ] );
-				String familiarItemName = StringUtilities.getDisplayName( data[ 5 ] );
+				String familiarItemName = new String( data[ 5 ] );
 
-				FamiliarDatabase.familiarById.put( familiarId, familiarName );
-				FamiliarDatabase.familiarByName.put( StringUtilities.getCanonicalName( data[ 1 ] ), familiarId );
+				FamiliarDatabase.familiarById.put( familiarId, StringUtilities.getDisplayName( familiarName ) );
+				FamiliarDatabase.familiarByName.put( StringUtilities.getCanonicalName( familiarName ), familiarId );
 
 				FamiliarDatabase.familiarImageById.put( familiarId, familiarImage );
 				FamiliarDatabase.familiarByImage.put( familiarImage, familiarId );
@@ -148,8 +148,7 @@ public class FamiliarDatabase
 				FamiliarDatabase.familiarByLarva.put( familiarLarva, familiarId );
 
 				FamiliarDatabase.familiarItemById.put( familiarId, familiarItemName );
-				FamiliarDatabase.familiarByItem.put( StringUtilities.getCanonicalName( data[ 5 ] ), familiarId );
-
+				FamiliarDatabase.familiarByItem.put( familiarItemName, familiarId );
 
 				FamiliarDatabase.combatById.set( familiarId.intValue(), familiarType.indexOf( "combat" ) != -1 );
 				FamiliarDatabase.volleyById.set( familiarId.intValue(), familiarType.indexOf( "stat0" ) != -1 );
@@ -269,8 +268,8 @@ public class FamiliarDatabase
 
 	public static final FamiliarData growFamiliarLarva( final int larvaId )
 	{
-		Object familiarId = FamiliarDatabase.familiarByLarva.get( IntegerPool.get( larvaId ) );
-		return familiarId == null ? null : new FamiliarData( ( (Integer) familiarId ).intValue() );
+		Integer familiarId = FamiliarDatabase.familiarByLarva.get( IntegerPool.get( larvaId ) );
+		return familiarId == null ? null : new FamiliarData( familiarId.intValue() );
 	}
 
 	/**
@@ -336,7 +335,7 @@ public class FamiliarDatabase
 
 	public static final String getFamiliarItem( final Integer familiarId )
 	{
-		return (String) FamiliarDatabase.familiarItemById.get( familiarId );
+		return FamiliarDatabase.familiarItemById.get( familiarId );
 	}
 
 	public static final int getFamiliarItemId( final int familiarId )
@@ -352,8 +351,8 @@ public class FamiliarDatabase
 
 	public static final int getFamiliarByItem( final String item )
 	{
-		Object familiarId = FamiliarDatabase.familiarByItem.get( StringUtilities.getCanonicalName( item ) );
-		return familiarId == null ? -1 : ( (Integer) familiarId ).intValue();
+		Integer familiarId = FamiliarDatabase.familiarByItem.get( StringUtilities.getCanonicalName( item ) );
+		return familiarId == null ? -1 : familiarId.intValue();
 	}
 
 	public static final int getFamiliarLarva( final int familiarId )
@@ -363,7 +362,7 @@ public class FamiliarDatabase
 
 	public static final int getFamiliarLarva( final Integer familiarId )
 	{
-		Integer id = (Integer) FamiliarDatabase.familiarLarvaById.get( familiarId );
+		Integer id = FamiliarDatabase.familiarLarvaById.get( familiarId );
 		return id == null ? 0 : id.intValue();
 	}
 

@@ -702,11 +702,12 @@ public class FamiliarData
 			return ItemDatabase.getConsumptionType( itemId ) == KoLConstants.EQUIP_PANTS;
 		}
 
-		String name = item.getName();
-		if ( name.equals( FamiliarDatabase.getFamiliarItem( this.id ) ) )
+		if ( itemId == FamiliarDatabase.getFamiliarItemId( this.id ) )
 		{
 			return true;
 		}
+
+		String name = item.getName();
 
 		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
