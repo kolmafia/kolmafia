@@ -291,6 +291,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Bugbear Invasion " );
 		}
+		else if ( KoLCharacter.inZombiecore() )
+		{
+			sessionStream.print( "Zombie Slayer " );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );

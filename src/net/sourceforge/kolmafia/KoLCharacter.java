@@ -120,6 +120,7 @@ public abstract class KoLCharacter
 
 	public static final String ASTRAL_SPIRIT = "Astral Spirit";
 	public static final String AVATAR_OF_BORIS = "Avatar of Boris";
+	public static final String ZOMBIE_MASTER = "Zombie Master";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -787,6 +788,22 @@ public abstract class KoLCharacter
 			return baseFullness;
 		}
 
+		if ( KoLCharacter.inZombiecore() )
+		{
+			if ( KoLCharacter.hasSkill( "Insatiable Appetite" ) )
+			{
+				baseFullness += 5;
+			}
+
+			if ( KoLCharacter.hasSkill( "Ravenous Pounce" ) )
+			{
+				baseFullness += 5;
+			}
+
+			// Feast of Boris effect?
+			return baseFullness;
+		}
+
 		if ( KoLCharacter.inBadMoon() )
 		{
 			if ( KoLCharacter.hasSkill( "Pride" ) )
@@ -834,6 +851,7 @@ public abstract class KoLCharacter
 	public static final int getInebrietyLimit()
 	{
 		return	KoLCharacter.inAxecore() ? 4 :
+			KoLCharacter.inZombiecore() ? 4 :
 			KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 :
 			KoLCharacter.canDrink() ? 14 :
 			0;
@@ -983,7 +1001,8 @@ public abstract class KoLCharacter
 
 		if ( classType.equals( KoLCharacter.SEAL_CLUBBER ) ||
 			classType.equals( KoLCharacter.TURTLE_TAMER ) ||
-			classType.equals( KoLCharacter.AVATAR_OF_BORIS ) )
+			classType.equals( KoLCharacter.AVATAR_OF_BORIS ) ||
+			classType.equals( KoLCharacter.ZOMBIE_MASTER ) )
 		{
 			return 0;
 		}
@@ -1074,6 +1093,7 @@ public abstract class KoLCharacter
 			classtype == 5 ? KoLCharacter.DISCO_BANDIT :
 			classtype == 6 ? KoLCharacter.ACCORDION_THIEF :
 			classtype == 11 ? KoLCharacter.AVATAR_OF_BORIS :
+			classtype == 12 ? KoLCharacter.ZOMBIE_MASTER :
 			"Unknown";
 
 		KoLCharacter.classtype = classname;
@@ -1143,6 +1163,7 @@ public abstract class KoLCharacter
 	public static final String getClassType( final String classname )
 	{
 		return	classname.equals( KoLCharacter.AVATAR_OF_BORIS ) ? KoLCharacter.AVATAR_OF_BORIS :
+			classname.equals( KoLCharacter.ZOMBIE_MASTER ) ? KoLCharacter.ZOMBIE_MASTER :
 			KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
 			KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER :
 			KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER :
@@ -1156,12 +1177,18 @@ public abstract class KoLCharacter
 	{
 		return	KoLCharacter.classtype == KoLCharacter.SEAL_CLUBBER ||
 			KoLCharacter.classtype == KoLCharacter.TURTLE_TAMER ||
-			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS;
+			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS ||
+			KoLCharacter.classtype == KoLCharacter.ZOMBIE_MASTER;
 	}
 
 	public static final boolean isAvatarOfBoris()
 	{
 		return KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS;
+	}
+
+	public static final boolean isZombieMaster()
+	{
+		return KoLCharacter.classtype == KoLCharacter.ZOMBIE_MASTER;
 	}
 
 	public static final boolean isMysticalityClass()
@@ -2881,6 +2908,12 @@ public abstract class KoLCharacter
 	{
 		// Which, if any, Bugbear Invasion restrictions are lifted when you free the king?
 		return KoLCharacter.ascensionPath.equals( "Bugbear Invasion" );
+	}
+
+	public static final boolean inZombiecore()
+	{
+		// Which, if any, Zombiecore restrictions are lifted when you free the king?
+		return KoLCharacter.ascensionPath.equals( "Zombie Slayer" );
 	}
 
 	public static final boolean isUnarmed()

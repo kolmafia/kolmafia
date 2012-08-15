@@ -409,6 +409,9 @@ public class AfterLifeRequest
 			case 11:
 				buffer.append( "Avatar of Boris" );
 				break;
+			case 12:
+				buffer.append( "Zombie Master" );
+				break;
 			default:
 				buffer.append( "(Class " );
 				buffer.append( String.valueOf( pclass ) );
@@ -479,6 +482,9 @@ public class AfterLifeRequest
 				break;
 			case 9:
 				buffer.append( "a Bugbear Invasion" );
+				break;
+			case 10:
+				buffer.append( "a Zombie Slayer" );
 				break;
 			default:
 				buffer.append( "(Path " );

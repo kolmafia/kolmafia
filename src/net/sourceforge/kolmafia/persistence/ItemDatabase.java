@@ -863,7 +863,7 @@ public class ItemDatabase
 		// Adventure gain modifier #2 is Song of the Glorious Lunch, which adds
 		// unitCost adventures to the result.
 
-		// Adventure gain modifier #3 is Gourmand, which adds
+		// Adventure gain modifier #3 is Gourmand or Neurogourmet, which adds
 		// unitCost adventures to the result.
 
 		// Adventure gain modifier #4 is the munchies pill, which adds
@@ -1784,7 +1784,7 @@ public class ItemDatabase
 			boolean sushi = (ConcoctionDatabase.getMixingMethod( cname ) & KoLConstants.CT_MASK) == KoLConstants.SUSHI;
 			boolean milk = KoLConstants.activeEffects.contains( ItemDatabase.MILK );
 			boolean lunch = KoLConstants.activeEffects.contains( ItemDatabase.GLORIOUS_LUNCH );
-			boolean gourmand = KoLCharacter.hasSkill( "Gourmand" );
+			boolean gourmand = KoLCharacter.hasSkill( "Gourmand" ) || KoLCharacter.hasSkill( "Neurogourmet" );
 			boolean munchies = Preferences.getInteger( "munchiesPillsUsed" ) > 0;
 			range = ItemDatabase.getAdventureMap( perUnit,
 								      !sushi && milk,

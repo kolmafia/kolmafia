@@ -491,6 +491,7 @@ yak anorak	115	Mus: 42
 7-inch discus	200	Mox: 85	1-handed boomerang
 Ax of L'rose	50	Mus: 0	2-handed axe
 BRICKO sword	60	Mus: 0	2-handed club
+Barney's rake	25	Mus: 0	2-handed polearm
 Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 Bjorn's Hammer	50	Mus: 10	1-handed club
 Brimstone Bludgeon	200	Mus: 30	1-handed club
