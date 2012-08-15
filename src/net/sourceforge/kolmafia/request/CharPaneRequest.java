@@ -340,7 +340,7 @@ public class CharPaneRequest
 		}
 		try
 		{
-			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.compactMiscPattern );
+			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.MISC_PATTERNS[ KoLCharacter.inZombiecore() ? 2 : 0 ] );
 		}
 		catch ( Exception e )
 		{
@@ -380,7 +380,7 @@ public class CharPaneRequest
 		}
 		try
 		{
-			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.expandedMiscPattern );
+			CharPaneRequest.handleMiscPoints( responseText, CharPaneRequest.MISC_PATTERNS[ KoLCharacter.inZombiecore() ? 3 : 1 ] );
 		}
 		catch ( Exception e )
 		{
@@ -454,52 +454,97 @@ public class CharPaneRequest
 					    KoLCharacter.getTotalMoxie() );
 	}
 
-	private static final Pattern makeMiscPattern( final String hpString, final String mpString,
-						      final String meatString, final String advString,
-						      final String spacer, final String openTag, final String closeTag )
+	private static final Pattern [][] MISC_PATTERNS =
 	{
-		return Pattern.compile( hpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" + mpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" + meatString + ".*?" + openTag + "(.*?)" + closeTag + ".*?" + advString + ".*?" + openTag + "(.*?)" + closeTag );
-	}
+		// Compact
+		{
+			Pattern.compile( "HP.*?<b>(.*?)/(.*?)</b>" ),
+			Pattern.compile( "MP.*?<b>(.*?)/(.*?)</b>" ),
+			Pattern.compile( "Meat.*?<b>(.*?)</b>" ),
+			Pattern.compile( "Adv.*?<b>(.*?)</b>" ),
+		},
 
-	private static Pattern compactMiscPattern =
-		CharPaneRequest.makeMiscPattern( "HP", "MP", "Meat", "Adv", "", "<b>", "</b>" );
-	private static Pattern expandedMiscPattern =
-		CharPaneRequest.makeMiscPattern( "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
+		// Expanded
+		{
+			Pattern.compile( "hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "mp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "meat\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
+		},
 
-	private static final void handleMiscPoints( final String responseText, final Pattern pattern )
+		// Compact Zombiecore
+		{
+			Pattern.compile( "HP.*?<b>(.*?)/(.*?)</b>" ),
+			Pattern.compile( "Horde: (\\d+)" ),
+			Pattern.compile( "Meat.*?<b>(.*?)</b>" ),
+			Pattern.compile( "Adv.*?<b>(.*?)</b>" ),
+		},
+
+		// Expanded Zombiecore
+		{
+			Pattern.compile( "hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "zombies/horde.*?\\.gif.*?Horde: (\\d+)" ),
+			Pattern.compile( "meat\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
+		},
+	};
+
+	private static final int HP = 0;
+	private static final int MP = 1;
+	private static final int MEAT = 2;
+	private static final int ADV = 3;
+
+	private static final void handleMiscPoints( final String responseText, final Pattern [] patterns )
 		throws Exception
 	{
-		// On the other hand, health and all that good stuff is
-		// complicated, has nested images, and lots of other weird
-		// stuff. Handle it in a non-modular fashion.
+		// Health and all that good stuff is complicated, has nested
+		// images, and lots of other weird stuff. Handle it in a
+		// non-modular fashion.
 
-		Matcher miscMatcher = pattern.matcher( responseText );
-
-		if ( !miscMatcher.find() )
+		Pattern pattern = patterns[ HP ];
+		Matcher matcher = pattern == null ? null : pattern.matcher( responseText );
+		if ( matcher != null && matcher.find() )
 		{
-			return;
+			int currentHP = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+			int maximumHP = StringUtilities.parseInt( matcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+			KoLCharacter.setHP( currentHP, maximumHP, maximumHP );
 		}
 
-		String currentHP = miscMatcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-		String maximumHP = miscMatcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+		pattern = patterns[ MP ];
+		matcher = pattern == null ? null : pattern.matcher( responseText );
+		if ( matcher != null && matcher.find() )
+		{
+			int currentMP = 0;
+			int maximumMP = 0;
+			if ( KoLCharacter.inZombiecore() )
+			{
+				String currentHorde = matcher.group( 1 );
+				currentMP = maximumMP = StringUtilities.parseInt( currentHorde );
+			}
+			else
+			{
+				currentMP = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+				maximumMP = StringUtilities.parseInt( matcher.group( 2 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+			}
+			KoLCharacter.setMP( currentMP, maximumMP, maximumMP );
+		}
 
-		String currentMP = miscMatcher.group( 3 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-		String maximumMP = miscMatcher.group( 4 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+		pattern = patterns[ MEAT ];
+		matcher = pattern == null ? null : pattern.matcher( responseText );
+		if ( matcher != null && matcher.find() )
+		{
+			int availableMeat = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+			KoLCharacter.setAvailableMeat( availableMeat );
+		}
 
-		KoLCharacter.setHP( StringUtilities.parseInt( currentHP ),
-				    StringUtilities.parseInt( maximumHP ),
-				    StringUtilities.parseInt( maximumHP ) );
-		KoLCharacter.setMP( StringUtilities.parseInt( currentMP ),
-				    StringUtilities.parseInt( maximumMP ),
-				    StringUtilities.parseInt( maximumMP ) );
-
-		String availableMeat = miscMatcher.group( 5 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-		KoLCharacter.setAvailableMeat( StringUtilities.parseInt( availableMeat ) );
-
-		String adventuresLeft = miscMatcher.group( 6 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-		int oldAdventures = KoLCharacter.getAdventuresLeft();
-		int newAdventures = StringUtilities.parseInt( adventuresLeft );
-		ResultProcessor.processAdventuresLeft( newAdventures - oldAdventures );
+		pattern = patterns[ ADV ];
+		matcher = pattern == null ? null : pattern.matcher( responseText );
+		if ( matcher != null && matcher.find() )
+		{
+			int oldAdventures = KoLCharacter.getAdventuresLeft();
+			int newAdventures = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+			ResultProcessor.processAdventuresLeft( newAdventures - oldAdventures );
+		}
 	}
 
 	private static final void handleMindControl( final String text, final Pattern [] patterns )

@@ -152,12 +152,12 @@ public class CharSheetRequest
 		// Mana point parsing is exactly the same as hit point
 		// parsing - so this is just a copy-paste of the code.
 
-		int currentMP = 0;
-		int maximumMP = 0;
-
 		// Zombie Masters have no MP
 		if ( !KoLCharacter.inZombiecore() )
 		{
+			int currentMP = 0;
+			int maximumMP = 0;
+
 			while ( !token.startsWith( "Current" ) )
 			{
 				token = cleanContent.nextToken();
@@ -171,9 +171,11 @@ public class CharSheetRequest
 
 			maximumMP = GenericRequest.intToken( cleanContent );
 			token = cleanContent.nextToken();
+
+			KoLCharacter.setMP( currentMP, maximumMP, CharSheetRequest.retrieveBase( token, maximumMP ) );
 		}
 
-		KoLCharacter.setMP( currentMP, maximumMP, CharSheetRequest.retrieveBase( token, maximumMP ) );
+		// *** They DO have a Horde.
 
 		// Players with a custom title will have their actual class shown in this area.
 
