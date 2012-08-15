@@ -156,7 +156,7 @@ public class CompactSidePane
 		labelPanel.setOpaque( false );
 
 		labelPanel.add( new JLabel( "   HP: ", JLabel.RIGHT ) );
-		labelPanel.add( new JLabel( "   MP: ", JLabel.RIGHT ) );
+		labelPanel.add( new JLabel( KoLCharacter.inZombiecore() ? "Horde: " : "   MP: ", JLabel.RIGHT ) );
 		labelPanel.add( new JLabel( "   Meat: ", JLabel.RIGHT ) );
 		labelPanel.add( new JLabel( "   Adv: ", JLabel.RIGHT ) );
 
@@ -529,7 +529,10 @@ public class CompactSidePane
 		this.spleenLabel.setText( KoLCharacter.getSpleenUse() + " / " + KoLCharacter.getSpleenLimit() );
 
 		this.hpLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
-		this.mpLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
+		this.mpLabel.setText( 
+			KoLCharacter.inZombiecore() ?
+			KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) :
+			KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
 		this.meatLabel.setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
                 this.meatLabel.setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
 		this.advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
