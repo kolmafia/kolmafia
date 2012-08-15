@@ -57,6 +57,7 @@ blunt cat claw	1	4	awesome	3-5	45-75	0	0	30 Feline Ferocity (+100% weapon dmg)
 bone meal	2	6	awesome	7-9	12-20	12-20	12-20
 boring spaghetti	3	3	good	6-9	6-8	6-8	6-8
 boris's key lime pie	4	6	awesome	14-16	28-33	0	0	Boris's key
+boss brain	1	1	EPIC	6	10-12	10-12	10-12
 bouillabaise coucher avec moi	5	1		5-9	0	0	0
 bowl of bounty-os	3	4	awesome	12-15	16-24	16-24	16-24	20 Broken Fast (+30% item drop)
 bowl of cottage cheese	2	1	crappy	2	0	0	0
@@ -113,6 +114,7 @@ cool mushroom	2	1	decent	2-3	0	12-15	0
 cool mushroom casserole	4	1	decent	4-12	0	35-40	0
 corned-beef Reuben	3	9	awesome	12-13	28-34	0	0
 cranberries	1	1	crappy	1	0	0	0
+crappy brain	1	1	crappy	1	0	0	0
 crazy little turkish delight	1	2	decent	1-3	0	30-40	0
 cream of pointy mushroom soup	2	1	decent	2-5	0	0	35-40	lose 3 HP
 creamsicle	1	3	good	1-4	8-10	8-10	8-10
@@ -126,6 +128,7 @@ cupcake-in-a-cup	2	7	awesome	4-9	5-10	15-20	5-10	10 Cake Caked (+50% mys)
 cursed black pearl onion	1	1	crappy	1	0	0	0
 cursed sea biscuit	3	3	good	6-11	0	0	0	10 Curse Magnet
 dead lights pie	2	2	awesome	7-9	5-10	20-40	5-10
+decent brain	1	1	decent	1	0	0	0
 dehydrated caviar	1	2	decent	2	0	0	15
 delicious noodles	3	3	good	6-9	0	0	9-25
 delicious salad	3	1	decent	3-5	0	0	0	25% chance of tattoo
@@ -221,6 +224,7 @@ gnocchetti di nietzsche	6	6	awesome	21-29	0	47-52	0
 goat cheese	2	1	crappy	2-3	0	0	0
 goat cheese pizza	3	2	good	3-10	0	0	15-18
 goat cheese taco	2	1	decent	2-5	0	11-33	0
+good brain	1	1	good	1	0	0	0
 gr8ps	1	1	crappy	1	0	0	0
 grapefruit	1	1	crappy	1	0	0	0
 grapes	1	1	crappy	1	0	0	0
@@ -247,6 +251,7 @@ hot date	2	7	good	4-5	0	0	20-30
 hot hi mein	5	7	awesome	21-29	71-75	15-20	30-35	5 Hot Breath (combat skill)
 hot wing	1	1	crappy	1	0	2-5	0
 humpty dumplings	4	5	awesome	13-16	0	70-77	0
+hunter brain	1	1	EPIC	6	10-12	10-12	10-12
 igloo pie	2	2	awesome	7-9	15-20	15-20	5-10
 insanely spicy bean burrito	3	4	awesome	7-14	27-32	0	0
 insanely spicy enchanted bean burrito	3	5	awesome	8-15	0	28-32	0	Chronic Indigestion skill
