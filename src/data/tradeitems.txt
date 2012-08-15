@@ -5779,3 +5779,7 @@
 5770	gnomish tennis elbow	familiar	none	75
 5771	gnomish housemaid's kgnee	familiar	none	75
 5772	gnomish athlete's foot	familiar	none	75
+5773
+5774
+5775
+5776	Barney's rake	weapon	display	30

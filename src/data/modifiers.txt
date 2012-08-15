@@ -568,6 +568,7 @@ yak anorak	MP Regen Min: 3, MP Regen Max: 4
 7-inch discus	Moxie Percent: +5, Weapon Damage Percent: +10
 # Ax of L'rose
 BRICKO sword	Weapon Damage: +6
+Barney's rake	Spooky Damage: +3, Muscle: +3
 Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11, Adventures: +3
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30, Brimstone
@@ -3565,6 +3566,7 @@ Cosmic Ugnderstanding	Maximum MP Percent: +5
 Diminished Gag Reflex	Stench Resistance: +2
 Disco Fever	Ranged Damage: [min(L,15)]
 # Double-Fisted Skull Smashing
+Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 # Eye of the Stoat	+0.5X critical hits, improve smacks
 Fashionably Late	Adventures: +1
@@ -3578,7 +3580,9 @@ Heart of Polyester	Sleaze Resistance: +2
 # Hero of the Half-Shell
 Hide of the Otter	Damage Absorption: +20
 Hide of the Walrus	Damage Absorption: +40
+His Master's Voice	Familiar Weight: +5
 Hungry Eyes	Food Drop: +100
+Hunter's Spirit	Initiative: +100
 # Immaculate Seasoning: auto-choose hot vs. cold
 # Impetuous Sauciness: +5 reagent potion duration
 Intrinsic Spiciness	Spell Damage: [min(L,10)]
@@ -3594,6 +3598,7 @@ Marginally Insane	Maximum MP Percent: +10
 Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: +10, Unarmed
 More to Love	Minstrel Level: +3
 Natural Born Scrabbler	Item Drop: +5
+# Neurogourmet: +1 Adventure per Brain Eaten
 Nimble Fingers	Meat Drop: +20
 Northern Exposure	Cold Resistance: +2
 Overdeveloped Sense of Self Preservation	Initiative: +20
@@ -3603,6 +3608,8 @@ Powers of Observatiogn	Item Drop: +10
 # Salacious Cocktailcrafting
 Sick Pythons	Weapon Damage: +20
 Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
+# Skullcracker: +100% Brain Drops from Monsters
+# Skullcracker: Critical hits occasionally stun opponents
 Slimy Shoulders	Initiative: [pref(skillLevel48)]
 Slimy Sinews	Maximum HP: [pref(skillLevel46)]
 Slimy Synapses	Maximum MP: [pref(skillLevel47)]
@@ -3620,6 +3627,11 @@ Thrift and Grift	Meat Drop: +10
 Tolerance of the Kitchen	Hot Resistance: +2
 # Torso Awaregness
 # Transcendental Noodlecraft
+Undying Greed	Meat Drop: +25
+Unyielding Flesh	Damage Absorption: +100, Damage Reduction: 5
+Vigor Mortis	Muscle Percent: +30
+# Virulence: Critical Hits Improve Infectious Bite
+Virulence	Critical Hit Percent: +10
 Wisdom of the Elder Tortoises	Maximum MP Percent: +50
 
 # Bad Moon passive skills: the Seven Deadly Sins.

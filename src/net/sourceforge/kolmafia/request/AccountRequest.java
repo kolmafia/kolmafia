@@ -666,6 +666,10 @@ public class AccountRequest
 		{
 			path = "Bugbear Invasion";
 		}
+		else if ( path.equals( "10" ) )
+		{
+			path = "Zombie Slayer";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
