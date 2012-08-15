@@ -2716,6 +2716,7 @@ Chocolate Reign	Moxie: +10
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
 Cholestoriffic	Sleaze Damage: [min(100,T)]
 Chorale of Companionship	Familiar Weight: +10
+Chow Downed	Familiar Weight: +5
 Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
 Cinco Elementos	Cold Damage: [5*T], Hot Damage: [5*T], Sleaze Damage: [5*T], Spooky Damage: [5*T], Stench Damage: [5*T]
 Cinnamouth	Hot Damage: +11

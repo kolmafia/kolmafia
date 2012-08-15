@@ -5758,11 +5758,11 @@
 5749	CSA cheerfulness ration	drink	all	23
 5750	CSA obedience grenade	none, combat	all	23
 5751	Tales of the Word Realms	weapon	display	0
-5752
-5753
-5754
-5755
-5756
+5752	crappy brain	food	all	11
+5753	decent brain	food	all	33
+5754	good brain	food	all	77
+5755	boss brain	food	none	111
+5756	hunter brain	food	none	0
 5757
 5758	Staff of Holiday Sensations	weapon	display	25
 5759	rusty staff	weapon	all	140
