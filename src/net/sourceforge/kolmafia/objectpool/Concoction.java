@@ -924,7 +924,7 @@ public class Concoction
 
 		if ( minMake > 0 &&
 		     ( this.mixingMethod == KoLConstants.COMBINE || this.mixingMethod == KoLConstants.ACOMBINE ) &&
-		     !KoLCharacter.knollAvailable() )
+		     ( !KoLCharacter.knollAvailable() || KoLCharacter.inZombiecore() ) )
 		{
 			Concoction c = ConcoctionPool.get( ItemPool.MEAT_PASTE );
 			minMake = Math.min( minMake, c.canMake( needToMake, visited ) );
@@ -1003,7 +1003,7 @@ public class Concoction
 		int method = ( this.mixingMethod & KoLConstants.CT_MASK );
 		if ( create <= 0 ||
 		     (method != KoLConstants.COMBINE && method != KoLConstants.ACOMBINE ) ||
-		     KoLCharacter.knollAvailable() )
+		     ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) )
 		{
 			return 0;
 		}

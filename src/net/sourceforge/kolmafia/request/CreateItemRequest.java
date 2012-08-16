@@ -147,7 +147,7 @@ public class CreateItemRequest
 		String mode = null;
 		int method = this.mixingMethod & KoLConstants.CT_MASK;
 
-		if ( KoLCharacter.knollAvailable() )
+		if ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
 		{
 			if ( method == KoLConstants.COMBINE )
 			{
@@ -680,7 +680,7 @@ public class CreateItemRequest
 			return 0;
 		}
 
-		boolean paste = mode.equals( "combine" ) && !KoLCharacter.knollAvailable();
+		boolean paste = mode.equals( "combine" ) && ( !KoLCharacter.knollAvailable() || KoLCharacter.inZombiecore() );
 		int created = 0;
 
 		m = CRAFT_COMMENT_PATTERN.matcher( responseText );
@@ -893,7 +893,7 @@ public class CreateItemRequest
 
 		case KoLConstants.SMITH:
 
-			return KoLCharacter.knollAvailable() || InventoryManager.retrieveItem( CreateItemRequest.TENDER_HAMMER );
+			return ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) || InventoryManager.retrieveItem( CreateItemRequest.TENDER_HAMMER );
 
 		case KoLConstants.SSMITH:
 
@@ -985,7 +985,7 @@ public class CreateItemRequest
 		// If this is a combining request, you need meat paste as well.
 		int method = this.mixingMethod & KoLConstants.CT_MASK;
 		if ( ( method == KoLConstants.COMBINE || method == KoLConstants.ACOMBINE ) &&
-		     !KoLCharacter.knollAvailable() )
+		     ( !KoLCharacter.knollAvailable() || KoLCharacter.inZombiecore()  ) )
 		{
 			int pasteNeeded = this.concoction.getMeatPasteNeeded(
 				this.quantityNeeded + this.concoction.initial );
@@ -1181,7 +1181,7 @@ public class CreateItemRequest
 		switch ( this.mixingMethod & KoLConstants.CT_MASK )
 		{
 		case KoLConstants.SMITH:
-			return KoLCharacter.knollAvailable() ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+			return ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
 		case KoLConstants.SSMITH:
 			return Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );

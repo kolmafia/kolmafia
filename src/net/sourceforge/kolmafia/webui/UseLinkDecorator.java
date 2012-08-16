@@ -520,7 +520,7 @@ public abstract class UseLinkDecorator
 		{
 		case KoLConstants.COMBINE:
 		case KoLConstants.ACOMBINE:
-			return new UseLink( itemId, itemCount, "combine", KoLCharacter.knollAvailable() ? "knoll.php?place=paster" : "craft.php?mode=combine&a=" );
+			return new UseLink( itemId, itemCount, "combine", ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) ? "knoll.php?place=paster" : "craft.php?mode=combine&a=" );
 
 		case KoLConstants.MIX:
 			return new UseLink( itemId, itemCount, "mix", "craft.php?mode=cocktail&a=" );

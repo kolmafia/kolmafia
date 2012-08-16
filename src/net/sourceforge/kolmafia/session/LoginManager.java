@@ -122,7 +122,7 @@ public class LoginManager
 		if ( Preferences.getBoolean( "autoPlant" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			String currentLayout = Preferences.getString( "plantingScript" );
-			if ( !currentLayout.equals( "" ) && KoLCharacter.knollAvailable() && MushroomManager.ownsPlot() )
+			if ( !currentLayout.equals( "" ) && KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() && MushroomManager.ownsPlot() )
 			{
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + KoLConstants.PLOTS_DIRECTORY + currentLayout + ".ash" );
 			}
