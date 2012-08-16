@@ -3273,6 +3273,7 @@ Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
 Scariberi	Spooky Damage: [min(100,T)]
 # Scarysauce: Damages Attacking Opponents
 Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
+Scavengers Scavenging	Item Drop: +20
 Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Seal Clubbing Frenzy	Muscle: +2

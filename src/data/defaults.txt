@@ -752,6 +752,7 @@ user	warProgress	unstarted
 user	waxMonster
 user	welcomeBackAdv	0
 user	wineCellarProgress	0
+user	zombiePoints	0
 user	_absintheDrops	0
 user	_aguaDrops	0
 user	_akgyxothUsed	false
