@@ -885,8 +885,7 @@ public abstract class KoLmafia
 		KoLCharacter.resetPerAscensionData();
 
 		// Hermit items depend on character class
-
-		HermitRequest.reset();
+		HermitRequest.initialize();
 
 		// Retrieve the contents of the closet and inventory.  We can
 		// detect new items in either location, so let the Inventory
@@ -967,7 +966,6 @@ public abstract class KoLmafia
 	{
 		KoLmafia.isRefreshing = true;
 
-
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages
 
@@ -987,8 +985,7 @@ public abstract class KoLmafia
 		Preferences.setString( "banishingShoutMonsters", "" );
 
 		// Hermit items depend on character class
-
-		HermitRequest.reset();
+		HermitRequest.initialize();
 
 		// Retrieve the contents of the inventory, since quest items
 		// may disappear.

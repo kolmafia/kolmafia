@@ -173,7 +173,7 @@ public class LoginManager
 
 		CampgroundRequest.reset();
 		MushroomManager.reset();
-		HermitRequest.initialize();
+		HermitRequest.reset();
 		SpecialOutfit.forgetCheckpoints();
 
 		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );

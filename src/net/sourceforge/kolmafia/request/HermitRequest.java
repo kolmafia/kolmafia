@@ -156,8 +156,13 @@ public class HermitRequest
 
 	public static final void initialize()
 	{
-		KoLConstants.hermitItems.clear();
-		HermitRequest.buyPrices.clear();
+		HermitRequest.reset();
+
+		if ( KoLCharacter.inZombiecore() )
+		{
+			HermitRequest.resetPurchaseRequests();
+			return;
+		}
 
 		HermitRequest.registerHermitItem( ItemPool.SEAL_TOOTH, PurchaseRequest.MAX_QUANTITY );
 		HermitRequest.registerHermitItem( ItemPool.CHISEL, PurchaseRequest.MAX_QUANTITY );
@@ -173,6 +178,7 @@ public class HermitRequest
 		{
 			HermitRequest.registerHermitItem( ItemPool.ANCIENT_SEAL, PurchaseRequest.MAX_QUANTITY );
 		}
+
 		HermitRequest.registerHermitItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 
 		HermitRequest.resetPurchaseRequests();
@@ -181,7 +187,8 @@ public class HermitRequest
 	public static final void reset()
 	{
 		HermitRequest.checkedForClovers = false;
-		HermitRequest.initialize();
+		KoLConstants.hermitItems.clear();
+		HermitRequest.buyPrices.clear();
 	}
 
 	public static final void resetPurchaseRequests()
@@ -210,13 +217,9 @@ public class HermitRequest
 			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM.getInstance( this.quantity ) );
 		}
 
-		// Otherwise, we are simply visiting and need only one
-		else if ( HermitRequest.getWorthlessItemCount( false ) == 0 )
-		{
-			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM );
-		}
+		// Otherwise, we are simply visiting and don't need any
 
-		if ( HermitRequest.getWorthlessItemCount( false ) == 0 )
+		if ( HermitRequest.getWorthlessItemCount( false ) < this.quantity )
 		{
 			return;
 		}
@@ -232,6 +235,12 @@ public class HermitRequest
 	@Override
 	public void processResults()
 	{
+		// The Hermit has left in the Zombie Slayer path
+		if ( KoLCharacter.inZombiecore() )
+		{
+			return;
+		}
+
 		if ( !HermitRequest.parseHermitTrade( this.getURLString(), this.responseText ) )
 		{
 			// If we got here, the hermit wouldn't talk to us.
@@ -281,11 +290,14 @@ public class HermitRequest
 		}
 	}
 
-	// <tr><td valign=center><input type=radio name=whichitem value=2></td><td valign=center><img src="http://images.kingdomofloathing.com/itemimages/tooth.gif" class=hand onClick='javascript:item(617818041)'></td><td valign=center><b>seal tooth</b></td></tr>
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?item\\(([\\d]+)\\).*?<b>([^<]*)</b>", Pattern.DOTALL );
-
 	public static final boolean parseHermitTrade( final String urlString, final String responseText )
 	{
+		// Nothing special to do if the Hermit has departed
+		if ( KoLCharacter.inZombiecore() )
+		{
+			return true;
+		}
+
 		// There should be a form, or an indication of item receipt,
 		// for all valid hermit requests.
 
@@ -364,6 +376,9 @@ public class HermitRequest
 		return 0 - count;
 	}
 
+	// <td valign=center><img src="http://images.kingdomofloathing.com/itemimages/tooth.gif" class=hand onClick='javascript:item(617818041)'></td><td valign=center><b>seal tooth</b></td></tr>
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "javascript:item\\(([\\d]+)\\).*?<b>([^<]*)</b>", Pattern.DOTALL );
+
 	private static final void parseHermitStock( final String responseText )
 	{
 		// Refresh the Coin Master inventory every time we visit.
@@ -378,26 +393,17 @@ public class HermitRequest
 
 		do
 		{
-			int itemId = StringUtilities.parseInt( matcher.group(1) );
-			String descId = matcher.group(2);
-			String itemName = matcher.group(3);
-			String match = ItemDatabase.getItemDataName( itemId );
-			if ( match == null || !match.equals( itemName ) )
-			{
-				ItemDatabase.registerItem( itemId, itemName, descId );
-			}
+			String descId = matcher.group(1);
+			String itemName = matcher.group(2);
+			int itemId = ItemDatabase.getItemId( itemName );
 
 			// Add it to the Hermit's inventory
 			HermitRequest.registerHermitItem( itemId, PurchaseRequest.MAX_QUANTITY );
 		}
 		while ( matcher.find() );
 
-		int count = 0;
 		Matcher cloverMatcher = CLOVER_PATTERN.matcher( responseText );
-		if ( cloverMatcher.find() )
-		{
-			count = Integer.parseInt( cloverMatcher.group( 1 ) );
-		}
+		int count = cloverMatcher.find() ? Integer.parseInt( cloverMatcher.group( 1 ) ) : 0;
 
 		int index = KoLConstants.hermitItems.indexOf( CLOVER );
 		if ( index < 0 )
