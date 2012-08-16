@@ -474,7 +474,7 @@
 12001	Bite Minion	2	1	0	1
 12002	Lure Minions	2	0	0	2
 12003	Undying Greed	0	0	0	3
-12004	Hunter's Spirit	0	0	0	4
+12004	Hunter's Sprint	0	0	0	4
 12005	Insatiable Hunger	0	0	0	5
 12006	Devour Minions	7	4	0	6
 12007	Indefatigable	0	0	0	7
