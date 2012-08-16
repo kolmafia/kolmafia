@@ -119,6 +119,7 @@ public class SkillDatabase
 	private static final String GNOME_SKILLS = "gnome trainer";
 	private static final String BAD_MOON = "bad moon";
 	private static final String AVATAR_OF_BORIS = "avatar of Boris";
+	private static final String ZOMBIE_MASTER = "zombie master";
 
 	private static final String[] CATEGORIES = new String[]
 	{
@@ -134,6 +135,7 @@ public class SkillDatabase
 		"9XXX",				// 9xxx
 		"10XXX",			// 10xxx
 		SkillDatabase.AVATAR_OF_BORIS,	// 11xxx
+		SkillDatabase.ZOMBIE_MASTER,	// 12xxx
 		// The following are convenience categories, not implied by skill id
 		SkillDatabase.GNOME_SKILLS,
 		SkillDatabase.BAD_MOON

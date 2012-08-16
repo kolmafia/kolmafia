@@ -3584,7 +3584,7 @@ Hide of the Otter	Damage Absorption: +20
 Hide of the Walrus	Damage Absorption: +40
 His Master's Voice	Familiar Weight: +5
 Hungry Eyes	Food Drop: +100
-Hunter's Spirit	Initiative: +100
+Hunter's Sprint	Initiative: +100
 # Immaculate Seasoning: auto-choose hot vs. cold
 # Impetuous Sauciness: +5 reagent potion duration
 Intrinsic Spiciness	Spell Damage: [min(L,10)]
