@@ -881,9 +881,15 @@ public class CharPaneRequest
 		int maxhp = JSON.getInt( "maxhp" );
 		KoLCharacter.setHP( hp, maxhp, maxhp );
 
-		int mp = JSON.getInt( "mp" );
-		int maxmp = JSON.getInt( "maxmp" );
-		KoLCharacter.setMP( mp, maxmp, maxmp );
+		// *** Temporary, I hope: api.php reports the size of your
+		// *** Horde as mp/maxmp - but sometimes is inaccurate.
+		// *** Bug report filed.
+		if (!KoLCharacter.inZombiecore() )
+		{
+			int mp = JSON.getInt( "mp" );
+			int maxmp = JSON.getInt( "maxmp" );
+			KoLCharacter.setMP( mp, maxmp, maxmp );
+		}
 
 		int meat = JSON.getInt( "meat" );
 		KoLCharacter.setAvailableMeat( meat );

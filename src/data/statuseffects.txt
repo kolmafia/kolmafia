@@ -1042,3 +1042,5 @@
 1041	Standard Issue Bravery	fratwarpin.gif	b204d7415629e9bc6ed9c12780d3732d	use 1 CSA bravery badge
 1042	QWOPped Up	qwop.gif	e9cce42128bb887d6053b12cb48760ea	eat 1 bag of QWOP
 1043	Chow Downed	stomach.gif	d5c68e5172cf702fafb76e3dc4a0353f	cast 1 Zombie Chow
+1044
+1045	Scavengers Scavenging	sack1.gif	b0ffbf16b502a892f6ae83ba966ad54e	cast 1 Scavenge
