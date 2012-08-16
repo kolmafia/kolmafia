@@ -310,6 +310,15 @@ public class UntinkerRequest
 		return UntinkerRequest.AVAILABLE_CHECKER.responseText.indexOf( "Degrassi Knoll" ) == -1;
 	}
 
+	private static final String [] UNTINKER_STRINGS =
+	{
+		"Here, lemme mark the Knoll on your map.&quot;",
+		"I lost it at Degrassi Knoll, you'll recall.&quot;",
+		// Zombiecore
+		// *** Need initial message
+		"Oh right, Degrassi Knoll. Okay, I'll be right back.&quot;"
+	};
+
 	public static final void decorate( final String urlString, final StringBuffer buffer )
 	{
 		// We decorate simple visits to the untinker and also
@@ -320,29 +329,11 @@ public class UntinkerRequest
 			return;
 		}
 
-		// Hey, man -- is an adventurer you? I lost my screwdriver
-		// somewhere near Degrassi Knoll, but every time I try to get
-		// it back, the Gnolls punch me in the eye.
-		//
-		// You look pretty tough, though -- do you think you could get
-		// it back for me?
-		//
-		// *** There is now a button on the page to accept his quest.
-		// *** We need to find out what he says when you accept it.
-		//
-		// "Thanks!  I'll tell ya, I'm just lost without my
-		// screwdriver.	 Here, lemme mark the Knoll on your map."
-
-		// Initial response to accepting his quest
-		String test = "Here, lemme mark the Knoll on your map.&quot;";
-		int index = buffer.indexOf( test );
-
-		// Have you had any luck finding my screwdriver? I lost it at
-		// Degrassi Knoll, you'll recall.
-		if ( index == -1 )
+		String test = "";
+		int index = -1;
+		for ( int i = 0; index == -1 && i < UNTINKER_STRINGS.length; ++i )
 		{
-			// Subsequent visits
-			test = "I lost it at Degrassi Knoll, you'll recall.&quot;";
+			test = UNTINKER_STRINGS[ i ];
 			index = buffer.indexOf( test );
 		}
 
