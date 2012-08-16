@@ -790,7 +790,7 @@ public abstract class KoLCharacter
 
 		if ( KoLCharacter.inZombiecore() )
 		{
-			if ( KoLCharacter.hasSkill( "Insatiable Appetite" ) )
+			if ( KoLCharacter.hasSkill( "Insatiable Hunger" ) )
 			{
 				baseFullness += 5;
 			}
