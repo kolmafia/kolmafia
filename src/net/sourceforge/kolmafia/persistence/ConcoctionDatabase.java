@@ -1592,7 +1592,7 @@ public class ConcoctionDatabase
 		// Standard smithing is also possible if the person is in
 		// a muscle sign.
 
-		if ( KoLCharacter.knollAvailable() )
+		if ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
 		{
 			ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.SMITH ] = true;
 			ConcoctionDatabase.ADVENTURE_USAGE[ KoLConstants.SMITH ] = 0;

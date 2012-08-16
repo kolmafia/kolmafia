@@ -76,7 +76,7 @@ public class QuarkCommand
 			KoLmafia.updateDisplay( "You have no unstable quarks." );
 			return;
 		}
-		if ( !KoLCharacter.knollAvailable() )
+		if ( !KoLCharacter.knollAvailable() || KoLCharacter.inZombiecore() )
 		{
 			AdventureResult paste = ItemPool.get( ItemPool.MEAT_PASTE, 1 );
 

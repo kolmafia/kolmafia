@@ -614,7 +614,7 @@ public abstract class MushroomManager
 	{
 		// If you can't go inside Degrassi Knoll, no go
 
-		if ( !KoLCharacter.knollAvailable() )
+		if ( !KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't find the mushroom fields." );
 			return false;

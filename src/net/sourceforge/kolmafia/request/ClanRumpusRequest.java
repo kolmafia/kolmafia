@@ -288,7 +288,7 @@ public class ClanRumpusRequest
 
 		case MUSCLE:
 			// If we can do inside Degrassi Knoll use the gym.
-			if ( KoLCharacter.knollAvailable() )
+			if ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
 			{
 				this.constructURLString( "knoll.php" );
 				this.addFormField( "action", "gym" );

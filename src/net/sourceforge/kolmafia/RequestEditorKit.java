@@ -850,7 +850,7 @@ public class RequestEditorKit
 
 	private static final void decorateInventory( final StringBuffer buffer, final boolean addComplexFeatures )
 	{
-		if ( KoLCharacter.knollAvailable() )
+		if ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
 		{
 			StringUtilities.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );
 		}
