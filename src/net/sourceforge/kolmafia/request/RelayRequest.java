@@ -1167,8 +1167,8 @@ public class RelayRequest
 			return false;
 		}
 
-		// The Avatar of Boris needs no wand
-		if ( KoLCharacter.inAxecore() )
+		// The Avatar of Boris and Zombie Master don't need a wand
+		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() )
 		{
 			return false;
 		}

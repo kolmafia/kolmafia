@@ -528,7 +528,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "lair6.php" ) )
 		{
-			if ( !KoLCharacter.inAxecore() )
+			if ( !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() )
 			{
 				SorceressLairManager.decorateFamiliars( buffer );
 			}
@@ -781,7 +781,8 @@ public class RequestEditorKit
 		}
 
 		// Otherwise, if we are level 15 or less, the guild might have a skill for us
-		else if ( newLevel <= 15 )
+		// Zombie Masters don't get access to new skills by gaining a level
+		else if ( newLevel <= 15 && !KoLCharacter.inZombiecore() )
 		{
 			links.append( " [<a href=\"guild.php\">guild</a>]" );
 			haveLinks = true;

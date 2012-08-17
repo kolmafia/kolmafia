@@ -791,11 +791,12 @@ public class CampgroundRequest
 
 	private static void parseBookTitles( final String responseText )
 	{
-		if ( ( KoLCharacter.inBadMoon() || KoLCharacter.inAxecore() ) &&
+		if ( ( KoLCharacter.inBadMoon() || KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() ) &&
 		     !KoLCharacter.kingLiberated() )
 		{
 			// You can't use Mr. Skills in Bad Moon
 			// You can't use Mr. Skills as an Avatar of Boris
+			// You can't use Mr. Skills as a Zombie Master
 			return;
 		}
 
