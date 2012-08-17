@@ -24,11 +24,46 @@ Smacketeria	3	figurine of an armored seal	500
 Smacketeria	3	turtle pheromones	50
 Smacketeria	3	turtling rod	500
 
-Doc Galaktik's Medicine Show	galaktik.php	anti-anti-antidote	30
-Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Pungent Unguent	30
-Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Ailment Ointment	60
-Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Restorative Balm	120
-Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Homeopathic Elixir	240
+Degrassi Knoll Bakery	4	Gnollish pie tin	30
+Degrassi Knoll Bakery	4	wad of dough	50
+Degrassi Knoll Bakery	4	flat dough	70
+Degrassi Knoll Bakery	4	skewer	80
+Degrassi Knoll Bakery	4	taco shell	80
+Degrassi Knoll Bakery	4	Gnollish casserole dish	150
+
+Degrassi Knoll General Store	5	spring	20
+Degrassi Knoll General Store	5	sprocket	20
+Degrassi Knoll General Store	5	cog	20
+Degrassi Knoll General Store	5	empty meat tank	20
+Degrassi Knoll General Store	5	tires	28
+Degrassi Knoll General Store	5	bugbear beanie	70
+Degrassi Knoll General Store	5	bugbear bungguard	70
+Degrassi Knoll General Store	5	Gnollish plunger	80
+Degrassi Knoll General Store	5	Gnollish flyswatter	80
+Degrassi Knoll General Store	5	frilly skirt	80
+Degrassi Knoll General Store	5	maiden wig	80
+Degrassi Knoll General Store	5	detuned radio	300
+
+The Tweedleporium	a	puff of smoke	100
+The Tweedleporium	a	stuffed porpoise	10000
+The Tweedleporium	a	stuffed pocketwatch	10000
+The Tweedleporium	a	stuffed bandersnatch	10000
+The Tweedleporium	a	stuffed caterpillar	10000
+The Tweedleporium	a	stuffed walrus	10000
+The Tweedleporium	a	stuffed carpenter	10000
+The Tweedleporium	a	stuffed dodo	10000
+The Tweedleporium	a	insane tophat	20000
+The Tweedleporium	a	helm of the white knight	30000
+The Tweedleporium	a	trousers of the white knight	30000
+The Tweedleporium	a	wristwatch of the white knight	30000
+
+Bugbear Bakery	b	Gnollish pie tin	30
+Bugbear Bakery	b	wad of dough	50
+Bugbear Bakery	b	taco shell	80
+Bugbear Bakery	b	skewer	80
+Bugbear Bakery	b	Gnollish casserole dish	150
+Bugbear Bakery	b	rolling pin	500
+Bugbear Bakery	b	unrolling pin	500
 
 Hippy Store (Pre-War)	h	herbs	64
 Hippy Store (Pre-War)	h	orange	70
@@ -63,11 +98,32 @@ Hippy Store (Fratboy)	h	bowl of rye sprouts	300
 Hippy Store (Fratboy)	h	cob of corn	300
 Hippy Store (Fratboy)	h	juniper berries	300
 
-Nervewrecker's Store	y	E-Z Cook&trade; oven	50
-Nervewrecker's Store	y	My First Shaker&trade;	50
-Nervewrecker's Store	y	Queue Du Coq cocktailcrafting kit	500
-Nervewrecker's Store	y	Dramatic&trade; range	500
-Nervewrecker's Store	y	tenderizing hammer	500
+Little Canadia Jewelers	j	piercing post	64
+Little Canadia Jewelers	j	necklace chain	70
+Little Canadia Jewelers	j	ring setting	200
+Little Canadia Jewelers	j	precious piercing post	1000
+Little Canadia Jewelers	j	heavy necklace chain	1000
+Little Canadia Jewelers	j	extra-fancy ring setting	1000
+Little Canadia Jewelers	j	jewelry-making pliers	1000
+Little Canadia Jewelers	j	Really Expensive Jewelry and You	5000
+
+The Knob Dispensary	k	Knob Goblin seltzer	80
+The Knob Dispensary	k	Knob Goblin stink bomb	130
+The Knob Dispensary	k	Knob Goblin nasal spray	150
+The Knob Dispensary	k	Knob Goblin love potion	170
+The Knob Dispensary	k	Knob Goblin eyedrops	200
+The Knob Dispensary	k	Knob Goblin sharpening spray	230
+The Knob Dispensary	k	Knob Goblin steroids	250
+The Knob Dispensary	k	Knob Goblin pet-buffing spray	250
+The Knob Dispensary	k	Knob Goblin learning pill	300
+
+Black Market	l	black cherry soda	80
+Black Market	l	Black Body&trade; spray	300
+Black Market	l	black facepaint	300
+Black Market	l	black sheepskin diploma	300
+Black Market	l	can of black paint	1000
+Black Market	l	forged identification documents	5000
+Black Market	l	exotic parrot egg	500000
 
 The General Store	m	Ben-Gal&trade; Balm	24
 The General Store	m	glittery mascara	24
@@ -102,6 +158,39 @@ The General Store	m	My First Shaker&trade;	50
 The General Store	m	Dramatic&trade; range	1000
 The General Store	m	Queue Du Coq cocktailcrafting kit	1000
 
+Gno-Mart	n	jaba&ntilde;ero-flavored chewing gum	200
+Gno-Mart	n	lime-and-chile-flavored chewing gum	200
+Gno-Mart	n	pickle-flavored chewing gum	200
+Gno-Mart	n	tamarind-flavored chewing gum	200
+Gno-Mart	n	handsomeness potion	300
+Gno-Mart	n	marzipan skull	300
+Gno-Mart	n	Meleegra&trade; pills	300
+Gno-Mart	n	vial of Gnomochloric acid	500
+Gno-Mart	n	flask of Gnomochloric acid	1000
+Gno-Mart	n	jug of Gnomochloric acid	5000
+
+Uncle P's Antiques	p	Clancy's crumhorn	2500
+Uncle P's Antiques	p	fancy black tie	1000000
+Uncle P's Antiques	p	fancy tophat	1000000
+Uncle P's Antiques	p	fancy tuxedo pants	1000000
+Uncle P's Antiques	p	'Villa' document	100000000
+
+Huggler Memorial Colosseum Snack Bar	q	Hatorade	500
+Huggler Memorial Colosseum Snack Bar	q	nailswurst	500
+Huggler Memorial Colosseum Snack Bar	q	used beer	500
+
+Barrrtleby's Barrrgain Books	r	pirate brochure	300
+Barrrtleby's Barrrgain Books	r	pirate pamphlet	300
+Barrrtleby's Barrrgain Books	r	pirate tract	300
+Barrrtleby's Barrrgain Books	r	The Big Book of Pirate Insults	500
+Barrrtleby's Barrrgain Books	r	abridged dictionary	1000
+
+Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate brochure	300
+Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate pamphlet	300
+Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate tract	300
+Barrrtleby's Barrrgain Books (Bees Hate You)	r	Massive Manual of Marauder Mockery	500
+Barrrtleby's Barrrgain Books (Bees Hate You)	r	abridged dictionary	1000
+
 Meatsmith's Shop	s	meatsmithing guide	50
 Meatsmith's Shop	s	sword hilt	100
 Meatsmith's Shop	s	helmet recipe	100
@@ -116,6 +205,56 @@ Meatsmith's Shop	s	bigger stick	1000
 Meatsmith's Shop	s	sinewy crossbow string	1000
 Meatsmith's Shop	s	sturdy sword hilt	1000
 Meatsmith's Shop	s	tenderizing hammer	1000
+
+The Typical Tavern	v	day-old beer	25
+The Typical Tavern	v	plain old beer	50
+The Typical Tavern	v	overpriced &quot;imported&quot; beer	100
+
+White Citadel	w	White Citadel burger	100
+White Citadel	w	White Citadel fries	80
+White Citadel	w	onion shurikens	80
+White Citadel	w	Cherry Cloaca Cola	80
+White Citadel	w	Diet Cloaca Cola	80
+White Citadel	w	Regular Cloaca Cola	80
+
+Nervewrecker's Store	y	E-Z Cook&trade; oven	50
+Nervewrecker's Store	y	My First Shaker&trade;	50
+Nervewrecker's Store	y	Queue Du Coq cocktailcrafting kit	500
+Nervewrecker's Store	y	Dramatic&trade; range	500
+Nervewrecker's Store	y	tenderizing hammer	500
+
+Armory and Leggery	z	cool whip	30
+Armory and Leggery	z	sweet ninja sword	50
+Armory and Leggery	z	suede shortsword	300
+Armory and Leggery	z	25-meat staff	525
+Armory and Leggery	z	bamboo bokuto	750
+Armory and Leggery	z	two-handed depthsword	900
+Armory and Leggery	z	bill bec-de-bardiche glaive-guisarme	1125
+Armory and Leggery	z	slingshot	150
+Armory and Leggery	z	slightly peevedbow	450
+Armory and Leggery	z	lead yo-yo	600
+Armory and Leggery	z	sack of doorknobs	825
+Armory and Leggery	z	lucky ball-and-chain	975
+Armory and Leggery	z	automatic catapult	1125
+Armory and Leggery	z	snorkel	30
+Armory and Leggery	z	Kentucky-style derby	50
+Armory and Leggery	z	pentacorn hat	300
+Armory and Leggery	z	goofily-plumed helmet	525
+Armory and Leggery	z	yellow plastic hard hat	675
+Armory and Leggery	z	wooden salad bowl	900
+Armory and Leggery	z	football helmet	1125
+Armory and Leggery	z	studded leather boxer shorts	50
+Armory and Leggery	z	chain-mail monokini	225
+Armory and Leggery	z	junk-mail pants	375
+Armory and Leggery	z	paper-plate-mail pants	600
+Armory and Leggery	z	troutpiece	825
+Armory and Leggery	z	alpha-mail pants	1050
+
+Doc Galaktik's Medicine Show	galaktik.php	anti-anti-antidote	30
+Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Pungent Unguent	30
+Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Ailment Ointment	60
+Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Restorative Balm	120
+Doc Galaktik's Medicine Show	galaktik.php	Doc Galaktik's Homeopathic Elixir	240
 
 Gift Shop	town_giftshop.php	Valentine	500
 Gift Shop	town_giftshop.php	potted cactus	20
@@ -162,145 +301,6 @@ Gift Shop	town_giftshop.php	rat head balloon	10000
 Gift Shop	town_giftshop.php	mini-zeppelin	20000
 Gift Shop	town_giftshop.php	Mr. Balloon	50000
 Gift Shop	town_giftshop.php	red balloon	100000
-
-Little Canadia Jewelers	j	piercing post	64
-Little Canadia Jewelers	j	necklace chain	70
-Little Canadia Jewelers	j	ring setting	200
-Little Canadia Jewelers	j	precious piercing post	1000
-Little Canadia Jewelers	j	heavy necklace chain	1000
-Little Canadia Jewelers	j	extra-fancy ring setting	1000
-Little Canadia Jewelers	j	jewelry-making pliers	1000
-Little Canadia Jewelers	j	Really Expensive Jewelry and You	5000
-
-Degrassi Knoll Bakery	4	Gnollish pie tin	30
-Degrassi Knoll Bakery	4	wad of dough	50
-Degrassi Knoll Bakery	4	flat dough	70
-Degrassi Knoll Bakery	4	skewer	80
-Degrassi Knoll Bakery	4	taco shell	80
-Degrassi Knoll Bakery	4	Gnollish casserole dish	150
-
-Bugbear Bakery	b	Gnollish pie tin	30
-Bugbear Bakery	b	wad of dough	50
-Bugbear Bakery	b	taco shell	80
-Bugbear Bakery	b	skewer	80
-Bugbear Bakery	b	Gnollish casserole dish	150
-Bugbear Bakery	b	rolling pin	500
-Bugbear Bakery	b	unrolling pin	500
-
-Degrassi Knoll General Store	5	spring	20
-Degrassi Knoll General Store	5	sprocket	20
-Degrassi Knoll General Store	5	cog	20
-Degrassi Knoll General Store	5	empty meat tank	20
-Degrassi Knoll General Store	5	tires	28
-Degrassi Knoll General Store	5	bugbear beanie	70
-Degrassi Knoll General Store	5	bugbear bungguard	70
-Degrassi Knoll General Store	5	Gnollish plunger	80
-Degrassi Knoll General Store	5	Gnollish flyswatter	80
-Degrassi Knoll General Store	5	frilly skirt	80
-Degrassi Knoll General Store	5	maiden wig	80
-Degrassi Knoll General Store	5	detuned radio	300
-
-The Knob Dispensary	k	Knob Goblin seltzer	80
-The Knob Dispensary	k	Knob Goblin stink bomb	130
-The Knob Dispensary	k	Knob Goblin nasal spray	150
-The Knob Dispensary	k	Knob Goblin love potion	170
-The Knob Dispensary	k	Knob Goblin eyedrops	200
-The Knob Dispensary	k	Knob Goblin sharpening spray	230
-The Knob Dispensary	k	Knob Goblin steroids	250
-The Knob Dispensary	k	Knob Goblin pet-buffing spray	250
-The Knob Dispensary	k	Knob Goblin learning pill	300
-
-Armory and Leggery	z	cool whip	30
-Armory and Leggery	z	sweet ninja sword	50
-Armory and Leggery	z	suede shortsword	300
-Armory and Leggery	z	25-meat staff	525
-Armory and Leggery	z	bamboo bokuto	750
-Armory and Leggery	z	two-handed depthsword	900
-Armory and Leggery	z	bill bec-de-bardiche glaive-guisarme	1125
-Armory and Leggery	z	slingshot	150
-Armory and Leggery	z	slightly peevedbow	450
-Armory and Leggery	z	lead yo-yo	600
-Armory and Leggery	z	sack of doorknobs	825
-Armory and Leggery	z	lucky ball-and-chain	975
-Armory and Leggery	z	automatic catapult	1125
-Armory and Leggery	z	snorkel	30
-Armory and Leggery	z	Kentucky-style derby	50
-Armory and Leggery	z	pentacorn hat	300
-Armory and Leggery	z	goofily-plumed helmet	525
-Armory and Leggery	z	yellow plastic hard hat	675
-Armory and Leggery	z	wooden salad bowl	900
-Armory and Leggery	z	football helmet	1125
-Armory and Leggery	z	studded leather boxer shorts	50
-Armory and Leggery	z	chain-mail monokini	225
-Armory and Leggery	z	junk-mail pants	375
-Armory and Leggery	z	paper-plate-mail pants	600
-Armory and Leggery	z	troutpiece	825
-Armory and Leggery	z	alpha-mail pants	1050
-
-White Citadel	w	White Citadel burger	100
-White Citadel	w	White Citadel fries	80
-White Citadel	w	onion shurikens	80
-White Citadel	w	Cherry Cloaca Cola	80
-White Citadel	w	Diet Cloaca Cola	80
-White Citadel	w	Regular Cloaca Cola	80
-
-Gno-Mart	n	jaba&ntilde;ero-flavored chewing gum	200
-Gno-Mart	n	lime-and-chile-flavored chewing gum	200
-Gno-Mart	n	pickle-flavored chewing gum	200
-Gno-Mart	n	tamarind-flavored chewing gum	200
-Gno-Mart	n	handsomeness potion	300
-Gno-Mart	n	marzipan skull	300
-Gno-Mart	n	Meleegra&trade; pills	300
-Gno-Mart	n	vial of Gnomochloric acid	500
-Gno-Mart	n	flask of Gnomochloric acid	1000
-Gno-Mart	n	jug of Gnomochloric acid	5000
-
-Black Market	l	black cherry soda	80
-Black Market	l	Black Body&trade; spray	300
-Black Market	l	black facepaint	300
-Black Market	l	black sheepskin diploma	300
-Black Market	l	can of black paint	1000
-Black Market	l	forged identification documents	5000
-Black Market	l	exotic parrot egg	500000
-
-Barrrtleby's Barrrgain Books	r	pirate brochure	300
-Barrrtleby's Barrrgain Books	r	pirate pamphlet	300
-Barrrtleby's Barrrgain Books	r	pirate tract	300
-Barrrtleby's Barrrgain Books	r	The Big Book of Pirate Insults	500
-Barrrtleby's Barrrgain Books	r	abridged dictionary	1000
-
-Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate brochure	300
-Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate pamphlet	300
-Barrrtleby's Barrrgain Books (Bees Hate You)	r	pirate tract	300
-Barrrtleby's Barrrgain Books (Bees Hate You)	r	Massive Manual of Marauder Mockery	500
-Barrrtleby's Barrrgain Books (Bees Hate You)	r	abridged dictionary	1000
-
-The Tweedleporium	a	puff of smoke	100
-The Tweedleporium	a	stuffed porpoise	10000
-The Tweedleporium	a	stuffed pocketwatch	10000
-The Tweedleporium	a	stuffed bandersnatch	10000
-The Tweedleporium	a	stuffed caterpillar	10000
-The Tweedleporium	a	stuffed walrus	10000
-The Tweedleporium	a	stuffed carpenter	10000
-The Tweedleporium	a	stuffed dodo	10000
-The Tweedleporium	a	insane tophat	20000
-The Tweedleporium	a	helm of the white knight	30000
-The Tweedleporium	a	trousers of the white knight	30000
-The Tweedleporium	a	wristwatch of the white knight	30000
-
-The Typical Tavern	v	day-old beer	25
-The Typical Tavern	v	plain old beer	50
-The Typical Tavern	v	overpriced &quot;imported&quot; beer	100
-
-Uncle P's Antiques	p	Clancy's crumhorn	2500
-Uncle P's Antiques	p	fancy black tie	1000000
-Uncle P's Antiques	p	fancy tophat	1000000
-Uncle P's Antiques	p	fancy tuxedo pants	1000000
-Uncle P's Antiques	p	'Villa' document	100000000
-
-Huggler Memorial Colosseum Snack Bar	q	Hatorade	500
-Huggler Memorial Colosseum Snack Bar	q	nailswurst	500
-Huggler Memorial Colosseum Snack Bar	q	used beer	500
 
 FDKOL Requisitions Tent	fdkol	drop of water-37	1000
 FDKOL Requisitions Tent	fdkol	FDKOL hotcakes	5000
