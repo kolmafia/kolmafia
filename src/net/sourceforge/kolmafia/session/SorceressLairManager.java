@@ -759,7 +759,7 @@ public abstract class SorceressLairManager
 			return;
 		}
 
-		List requirements = new ArrayList();
+		List<AdventureResult> requirements = new ArrayList<AdventureResult>();
 
 		// Next, figure out which instruments are needed for the final
 		// stage of the entryway.
@@ -920,7 +920,7 @@ public abstract class SorceressLairManager
 		// Get a list of items we need to consume to get effects
 		// we don't already have
 
-		List requirements = new ArrayList();
+		List<AdventureResult> requirements = new ArrayList<AdventureResult>();
 		if ( KoLCharacter.inBeecore() )
 		{
 			SorceressLairManager.addGateItem( "gate of bees", requirements );
@@ -940,7 +940,7 @@ public abstract class SorceressLairManager
 			return false;
 		}
 
-		List missing = new ArrayList();
+		List<AdventureResult> missing = new ArrayList<AdventureResult>();
 
 		// Get the necessary items into inventory
 		for ( int i = 0; i < requirements.size(); ++i )
@@ -1009,7 +1009,7 @@ public abstract class SorceressLairManager
 		return false;
 	}
 
-	private static final void addGateItem( final int gate, final Matcher gateMatcher, final List requirements )
+	private static final void addGateItem( final int gate, final Matcher gateMatcher, final List<AdventureResult> requirements )
 	{
 		// Find the name of the gate from the responseText
 		if ( !gateMatcher.find() )
@@ -1028,7 +1028,7 @@ public abstract class SorceressLairManager
 		SorceressLairManager.addGateItem( gateName, requirements );
 	}
 
-	private static final void addGateItem( final String gateName, final List requirements )
+	private static final void addGateItem( final String gateName, final List<AdventureResult> requirements )
 	{
 		// Find the gate in our data
 
@@ -1062,12 +1062,12 @@ public abstract class SorceressLairManager
 		requirements.add( item );
 	}
 
-	private static final List retrieveRhythm( final boolean useCloverForSkeleton )
+	private static final List<AdventureResult> retrieveRhythm( final boolean useCloverForSkeleton )
 	{
 		// Skeleton key and a clover unless you already have the
 		// Really Evil Rhythms
 
-		List requirements = new ArrayList();
+		List<AdventureResult> requirements = new ArrayList<AdventureResult>();
 
 		if ( SorceressLairManager.isItemAvailable( SorceressLairManager.RHYTHM ) )
 		{
@@ -1145,12 +1145,12 @@ public abstract class SorceressLairManager
 		return requirements;
 	}
 
-	private static final List retrieveStrumming()
+	private static final List<AdventureResult> retrieveStrumming()
 	{
 		// Decide on which star weapon should be available for
 		// this whole process.
 
-		List requirements = new ArrayList();
+		List<AdventureResult> requirements = new ArrayList<AdventureResult>();
 		boolean inFistcore = KoLCharacter.inFistcore();
 		boolean inAxecore = KoLCharacter.inAxecore();
 		boolean needWeapon = !inFistcore && !inAxecore;
@@ -1271,7 +1271,7 @@ public abstract class SorceressLairManager
 
 		FamiliarData starfish = KoLCharacter.findFamiliar( "Star Starfish" );
 
-		if ( !KoLCharacter.inAxecore() && starfish == null )
+		if ( !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() && starfish == null )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a Star Starfish!" );
 			return requirements;
@@ -1313,7 +1313,7 @@ public abstract class SorceressLairManager
 
 		RequestThread.postRequest( new EquipmentRequest( SorceressLairManager.STAR_HAT, EquipmentManager.HAT ) );
 
-		if ( !KoLCharacter.inAxecore() )
+		if ( !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() )
 		{
 			RequestThread.postRequest( new FamiliarRequest( starfish ) );
 		}
@@ -1359,11 +1359,11 @@ public abstract class SorceressLairManager
 		return requirements;
 	}
 
-	private static final List retrieveSqueezings()
+	private static final List<AdventureResult> retrieveSqueezings()
 	{
 		// Digital key unless you already have the Squeezings of Woe
 
-		List requirements = new ArrayList();
+		List<AdventureResult> requirements = new ArrayList<AdventureResult>();
 
 		if ( SorceressLairManager.isItemAvailable( SorceressLairManager.SQUEEZINGS ) )
 		{
@@ -1390,9 +1390,9 @@ public abstract class SorceressLairManager
 		return requirements;
 	}
 
-	private static final List retrieveScubaGear()
+	private static final List<AdventureResult> retrieveScubaGear()
 	{
-		List requirements = new ArrayList();
+		List<AdventureResult> requirements = new ArrayList<AdventureResult>();
 
 		// The three hero keys are needed to get the SCUBA gear
 
@@ -2127,8 +2127,8 @@ public abstract class SorceressLairManager
 
 	private static final void familiarBattle( final int n )
 	{
-		// If you are an Avatar of Boris, you don't need - and can't use - familiars
-		if ( KoLCharacter.inAxecore() )
+		// If you are an Avatar of Boris or a Zombie Master, you don't need - and can't use - familiars
+		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() )
 		{
 			SorceressLairManager.familiarBattle( n, false );
 			return;
