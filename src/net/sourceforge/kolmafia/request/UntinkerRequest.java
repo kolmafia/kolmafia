@@ -315,7 +315,7 @@ public class UntinkerRequest
 		"Here, lemme mark the Knoll on your map.&quot;",
 		"I lost it at Degrassi Knoll, you'll recall.&quot;",
 		// Zombiecore
-		// *** Need initial message
+		"Sure, no problem.&quot;",
 		"Oh right, Degrassi Knoll. Okay, I'll be right back.&quot;"
 	};
 
