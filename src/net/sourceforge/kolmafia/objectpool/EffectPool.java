@@ -133,7 +133,22 @@ public class EffectPool
 	public static final int CURSED_BY_RNG_ID = 217;
 	public static final int EAU_DE_TORTUE_ID = 263;
 	public static final int FORM_OF_BIRD_ID = 511;
+
+	public static final int SOUL_CRUSHING_HEADACHE_ID = 465;
 	public static final int COVERED_IN_SLIME_ID = 633;
+	public static final int EVERYTHING_LOOKS_YELLOW_ID = 790;
+	public static final int EVERYTHING_LOOKS_BLUE_ID = 791;
+	public static final int EVERYTHING_LOOKS_RED_ID = 792;
+	public static final int TIMER1_ID = 873;
+	public static final int TIMER2_ID = 874;
+	public static final int TIMER3_ID = 875;
+	public static final int TIMER4_ID = 876;
+	public static final int TIMER5_ID = 877;
+	public static final int TIMER6_ID = 878;
+	public static final int TIMER7_ID = 879;
+	public static final int TIMER8_ID = 880;
+	public static final int TIMER9_ID = 881;
+	public static final int TIMER10_ID = 882;
 
 	public static final AdventureResult get( final String effectName )
 	{

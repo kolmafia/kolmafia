@@ -197,14 +197,40 @@ public class UneffectRequest
 
 	public static final boolean isRemovable( final int effectId )
 	{
+		// http://forums.kingdomofloathing.com/vb/showthread.php?t=195401
+		// 
+		// The following effects should now no longer be removable by any means:
+		// Soul-Crushing Headache
+		// Coated in Slime
+		// Everything Looks Yellow
+		// Everything Looks Blue
+		// Everything Looks Red
+		// Timer effects
+
 		switch ( effectId )
 		{
 		case -1:
+			// So, what about the following?
 		case EffectPool.GOOFBALL_WITHDRAWAL_ID:
 		case EffectPool.EAU_DE_TORTUE_ID:
 		case EffectPool.CURSED_BY_RNG_ID:
 		case EffectPool.FORM_OF_BIRD_ID:
+
+		case EffectPool.SOUL_CRUSHING_HEADACHE_ID:
 		case EffectPool.COVERED_IN_SLIME_ID:
+		case EffectPool.EVERYTHING_LOOKS_YELLOW_ID:
+		case EffectPool.EVERYTHING_LOOKS_BLUE_ID:
+		case EffectPool.EVERYTHING_LOOKS_RED_ID:
+		case EffectPool.TIMER1_ID:
+		case EffectPool.TIMER2_ID:
+		case EffectPool.TIMER3_ID:
+		case EffectPool.TIMER4_ID:
+		case EffectPool.TIMER5_ID:
+		case EffectPool.TIMER6_ID:
+		case EffectPool.TIMER7_ID:
+		case EffectPool.TIMER8_ID:
+		case EffectPool.TIMER9_ID:
+		case EffectPool.TIMER10_ID:
 			return false;
 		default:
 			return true;
