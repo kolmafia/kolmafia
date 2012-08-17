@@ -2185,11 +2185,27 @@ public abstract class ChoiceManager
 			"Item-Driven", "choiceAdventure595", "CSA fire-starting kit",
 			new String[] { "pvp fights", "hp/mp regen" } ),
 
+		// Choice 596 is Dawn of the D'oh
+
 		// Cake Shaped Arena
 		new ChoiceAdventure(
 			"Item-Driven", "choiceAdventure597", "Reagnimated Gnome",
 			new String[] { "gnomish swimmer's ears (underwater)", "gnomish coal miner's lung (block)", "gnomish tennis elbow (damage)", "gnomish housemaid's kgnee (gain advs)", "gnomish athlete's foot (delevel)" },
 			new String[] { "5768", "5769", "5770", "5771", "5772" } ),
+
+		// Choice 598 is Recruitment Jive
+
+		// Choice 599 is A Zombie Master's Bait
+		new Object[]{ IntegerPool.get(599), IntegerPool.get(1),
+		  ItemPool.get( ItemPool.CRAPPY_BRAIN, -1 ) },
+		new Object[]{ IntegerPool.get(599), IntegerPool.get(2),
+		  ItemPool.get( ItemPool.DECENT_BRAIN, -1 ) },
+		new Object[]{ IntegerPool.get(599), IntegerPool.get(3),
+		  ItemPool.get( ItemPool.GOOD_BRAIN, -1 ) },
+
+		// Choice 600 is Summon Minion
+		new Object[]{ IntegerPool.get(600), IntegerPool.get(1),
+		  new AdventureResult( AdventureResult.MEAT, -100 ) },
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

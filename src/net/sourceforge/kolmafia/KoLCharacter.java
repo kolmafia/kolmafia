@@ -121,6 +121,7 @@ public abstract class KoLCharacter
 	public static final String ASTRAL_SPIRIT = "Astral Spirit";
 	public static final String AVATAR_OF_BORIS = "Avatar of Boris";
 	public static final String ZOMBIE_MASTER = "Zombie Master";
+	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -2642,6 +2643,11 @@ public abstract class KoLCharacter
 				int borisPoints = wasInHardcore ? 2 : 1;
 				Preferences.increment( "borisPoints", borisPoints );
 			}
+			else if ( oldPath.equals( ZOMBIE_SLAYER ) )
+			{
+				int zombiePoints = wasInHardcore ? 2 : 1;
+				Preferences.increment( "zombiePoints", zombiePoints );
+			}
 
 			// Ronin is lifted and we can interact freely with the Kingdom
 			KoLCharacter.setRonin( false );
@@ -2652,7 +2658,7 @@ public abstract class KoLCharacter
 			KoLConstants.freepulls.clear();
 			ConcoctionDatabase.setPullsRemaining( -1 );
 
-			// If we are in Beecore or in Trendycore, we can use all familiars again
+			// We can use all familiars again
 			GearChangeFrame.updateFamiliars();
 
 			// If we are in Bad Moon, we can use the bookshelf and
@@ -2670,8 +2676,8 @@ public abstract class KoLCharacter
 				RequestThread.postRequest( new CharSheetRequest() );
 			}
 
-			// If leaving Avatar of Boris, wait until player picks a new class.
-			if ( !oldPath.equals( AVATAR_OF_BORIS ) )
+			// If leaving a path with a unique class, wait until player picks a new class.
+			if ( !oldPath.equals( AVATAR_OF_BORIS ) && !oldPath.equals( ZOMBIE_SLAYER ) )
 			{
 				// Run a user-supplied script
 				KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
