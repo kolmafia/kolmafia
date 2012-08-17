@@ -426,6 +426,14 @@ public class EatItemRequest
 			return;
 		}
 
+		// You're really, really hungry, but that isn't what you're hungry for.
+		if ( KoLCharacter.inZombiecore() && responseText.contains( "that isn't what you're hungry for" ) )
+		{
+			UseItemRequest.lastUpdate = "You can only eat tasty, tasty brains.";
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			return;
+		}
+
 		int fullness = ItemDatabase.getFullness( item.getName() );
 		int count = item.getCount();
 
