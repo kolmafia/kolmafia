@@ -118,6 +118,11 @@ public class ValhallaManager
 		ItemPool.get( ItemPool.VIAL_OF_SQUID_INK, 1 ),
 		ItemPool.get( ItemPool.POTION_OF_FISHY_SPEED, 1 ),
 		ItemPool.get( ItemPool.AUTOPSY_TWEEZERS, 1 ),
+		ItemPool.get( ItemPool.GNOMISH_EAR, 1 ),
+		ItemPool.get( ItemPool.GNOMISH_LUNG, 1 ),
+		ItemPool.get( ItemPool.GNOMISH_ELBOW, 1 ),
+		ItemPool.get( ItemPool.GNOMISH_KNEE, 1 ),
+		ItemPool.get( ItemPool.GNOMISH_FOOT, 1 ),
 	};
 
 	public static void preAscension()
