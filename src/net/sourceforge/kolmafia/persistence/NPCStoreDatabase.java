@@ -159,33 +159,42 @@ public class NPCStoreDatabase
 
 		if ( storeId.equals( "1" ) )
 		{
+			// Shadowy Store
 			return	KoLCharacter.isMoxieClass() &&
 				KoLCharacter.getGuildStoreOpen();
 		}
 		else if ( storeId.equals( "2" ) )
 		{
+			// Gouda's Grimoire and Grocery
 			return ( KoLCharacter.isMysticalityClass() ||
 				 ( classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9) ) &&
 				KoLCharacter.getGuildStoreOpen();
 		}
 		else if ( storeId.equals( "3" ) )
 		{
+			// Smacketeria
 			return ( ( KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris() ) ||
 				 ( classType.equals( KoLCharacter.ACCORDION_THIEF ) && KoLCharacter.getLevel() >= 9 ) ) &&
 				KoLCharacter.getGuildStoreOpen();
 		}
-		else if ( storeId.equals( "4" ) || storeId.equals( "5" ) )
+		else if ( storeId.equals( "4" ) )
 		{
+			// Degrassi Knoll Bakery
+			return KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore();
+		}
+		else if ( storeId.equals( "5" ) )
+		{
+			// Degrassi Knoll General Store
 			return KoLCharacter.knollAvailable();
 		}
 		else if ( storeId.equals( "a" ) )
 		{
-			// You can only get to the Tweedleporium if you can go
-			// Down the Rabbit Hole
+			// The Tweedleporium
 			return KoLConstants.activeEffects.contains( NPCStoreDatabase.RABBIT_HOLE );
 		}
 		else if ( storeId.equals( "b" ) )
 		{
+			// Bugbear Bakery
 			return EquipmentManager.hasOutfit( OutfitPool.BUGBEAR_COSTUME );
 		}
 		else if ( storeId.equals( "h" ) )
@@ -252,24 +261,28 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "j" ) )
 		{
-			return KoLCharacter.canadiaAvailable();
+			// Little Canadia Jewelers
+			return !KoLCharacter.inZombiecore() && KoLCharacter.canadiaAvailable();
 		}
 		else if ( storeId.equals( "k" ) )
 		{
+			// The Knob Dispensary
 			return KoLCharacter.getDispensaryOpen();
 		}
 		else if ( storeId.equals( "l" ) )
 		{
+			// Black Market
 			return QuestLogRequest.isBlackMarketAvailable();
 		}
 		else if ( storeId.equals( "n" ) )
 		{
-			return KoLCharacter.gnomadsAvailable();
+			// Gno-Mart
+			return !KoLCharacter.inZombiecore() && KoLCharacter.gnomadsAvailable();
 		}
 		else if ( storeId.equals( "p" ) )
 		{
-			// Available if we can get to the beach.
-			return KoLCharacter.desertBeachAccessible();
+			// Uncle P's Antiques
+			return !KoLCharacter.inZombiecore() && KoLCharacter.desertBeachAccessible();
 		}
 		else if ( storeId.equals( "r" ) )
 		{
@@ -304,9 +317,15 @@ public class NPCStoreDatabase
 			return EquipmentManager.hasOutfit( OutfitPool.SWASHBUCKLING_GETUP ) ||
 				InventoryManager.hasItem( ItemPool.PIRATE_FLEDGES );
 		}
+		else if ( storeId.equals( "s" ) )
+		{
+			// Meatsmith's Shop
+			return !KoLCharacter.inZombiecore();
+		}
 		else if ( storeId.equals( "v" ) )
 		{
-			return QuestLogRequest.isTavernAvailable();
+			// The Typical Tavern
+			return !KoLCharacter.inZombiecore() && QuestLogRequest.isTavernAvailable();
 		}
 		else if ( storeId.equals( "w" ) )
 		{
@@ -314,11 +333,22 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "y" ) )
 		{
+			// Nervewrecker's Store
 			return KoLCharacter.inBadMoon();
+		}
+		else if ( storeId.equals( "z" ) )
+		{
+			// Armory and Leggery
+			return !KoLCharacter.inZombiecore();
 		}
 		else if ( storeId.equals( "fdkol" ) )
 		{
 			return false;
+		}
+		else if ( storeId.equals( "galaktik.php" ) )
+		{
+			// Doc Galaktik's Medicine Show
+			return !KoLCharacter.inZombiecore();
 		}
 		else if ( shopName.equals( "Gift Shop" ) )
 		{
