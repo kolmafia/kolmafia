@@ -1486,6 +1486,11 @@ public class ItemPool
 	public static final int FDKOL_COMMENDATION = 5707;
 	public static final int HJODOR_GUIDE = 5715;
 	public static final int CSA_FIRE_STARTING_KIT = 5739;
+	public static final int CRAPPY_BRAIN = 5752;
+	public static final int DECENT_BRAIN = 5753;
+	public static final int GOOD_BRAIN = 5754;
+	public static final int BOSS_BRAIN = 5755;
+	public static final int HUNTER_BRAIN = 5756;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
