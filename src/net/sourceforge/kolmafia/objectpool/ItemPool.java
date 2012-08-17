@@ -1491,6 +1491,11 @@ public class ItemPool
 	public static final int GOOD_BRAIN = 5754;
 	public static final int BOSS_BRAIN = 5755;
 	public static final int HUNTER_BRAIN = 5756;
+	public static final int GNOMISH_EAR = 5768;
+	public static final int GNOMISH_LUNG = 5769;
+	public static final int GNOMISH_ELBOW = 5770;
+	public static final int GNOMISH_KNEE = 5771;
+	public static final int GNOMISH_FOOT = 5772;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
