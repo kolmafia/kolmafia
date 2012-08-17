@@ -27,7 +27,7 @@
 21	Whirling Maple Leaf	familiar21.gif	combat	888	tiny Mountie hat	3	1	2	0
 22	Coffee Pixie	familiar22.gif	item0,meat0	897	miniature espresso maker	1	1	3	2
 23	Cheshire Bat	familiar23.gif	stat0,meat0	898	smile-sharpening stone	1	2	3	1
-24	Jill-O-Lantern	familiar24.gif	combat	894	100-Watt bulb	3	1	2	1
+24	Jill-O-Lantern	familiar24.gif	combat,stat0	894	100-Watt bulb	3	1	2	1
 25	Hand Turkey	familiar25.gif	combat,meat0	914	candied yam pinky ring	3	2	1	1
 26	Crimbo Elf	familiar26.gif	combat,item0	924	dental pliers	1	2	1	3
 27	Hanukkimbo Dreidl	familiar27.gif	combat	936	menorette	2	1	3	1
