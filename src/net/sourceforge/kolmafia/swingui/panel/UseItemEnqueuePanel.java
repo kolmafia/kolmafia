@@ -638,6 +638,21 @@ public class UseItemEnqueuePanel
 				}
 			}
 
+			if ( UseItemEnqueuePanel.this.food && KoLCharacter.inZombiecore() )
+			{
+				// If you don't have a GGG equipped, show only brains or a steel lasagna
+				int fam = KoLCharacter.getFamiliar().getId();
+				if ( fam != FamiliarPool.GHOST )
+				{
+					AdventureResult item = creation.getItem();
+					String name = item != null ? item.getName() : null;
+					if ( name != null && !name.contains( "brain" ) && !name.equals( "steel lasagna" ) )
+					{
+						return false;
+					}
+				}
+			}
+
 			// turn-free
 			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )
 			{
