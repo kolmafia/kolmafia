@@ -1802,7 +1802,7 @@ public class Modifiers
 
 			// Set modifiers depending on Character class
 			String classType = KoLCharacter.getClassType();
-			if ( classType == KoLCharacter.SEAL_CLUBBER )
+			if ( classType == KoLCharacter.SEAL_CLUBBER || classType == KoLCharacter.ZOMBIE_MASTER )
 			{
 				this.set( Modifiers.HP_REGEN_MIN, 10.0 );
 				this.set( Modifiers.HP_REGEN_MAX, 12.0 );
@@ -3021,7 +3021,7 @@ public class Modifiers
 	public static final void registerItem( final String name, final String text )
 	{
 		// Examine the item description and decide what it is.
-		ArrayList unknown = new ArrayList();
+		ArrayList<String> unknown = new ArrayList<String>();
 		String known = DebugDatabase.parseItemEnchantments( text, unknown );
 		Modifiers.registerObject( name, unknown, known );
 	}
@@ -3029,7 +3029,7 @@ public class Modifiers
 	public static final void registerEffect( final String name, final String text )
 	{
 		// Examine the item description and decide what it is.
-		ArrayList unknown = new ArrayList();
+		ArrayList<String> unknown = new ArrayList<String>();
 		String known = DebugDatabase.parseEffectEnchantments( text, unknown );
 		Modifiers.registerObject( name, unknown, known );
 	}
