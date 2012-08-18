@@ -57,7 +57,7 @@ public class StorageCommand
 {
 	public StorageCommand()
 	{
-		this.usage = " outfit <name> | <item> [, <item>]... - pull items from Hagnk's storage.";
+		this.usage = " all | outfit <name> | <item> [, <item>]... - pull items from Hagnk's storage.";
 	}
 
 	@Override
@@ -71,7 +71,18 @@ public class StorageCommand
 		}
 
 		Object[] items;
-		if ( parameters.startsWith( "outfit " ) )
+		if ( parameters.trim().equals( "all" ) )
+ 		{
+			if ( !KoLCharacter.canInteract() )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot pull everything while your pulls are limited." );
+				return;
+			}
+
+			RequestThread.postRequest( new StorageRequest( StorageRequest.EMPTY_STORAGE ) );
+			return;
+		}
+		else if ( parameters.startsWith( "outfit " ) )
 		{
 			String name = parameters.substring( 7 ).trim();
 			SpecialOutfit outfit = EquipmentManager.getMatchingOutfit( name );
@@ -81,7 +92,7 @@ public class StorageCommand
 				return;
 			}
 			AdventureResult[] pieces = outfit.getPieces();
-			ArrayList needed = new ArrayList();
+			ArrayList<AdventureResult> needed = new ArrayList<AdventureResult>();
 			for ( int i = 0; i < pieces.length; ++i )
 			{
 				if ( !InventoryManager.hasItem( pieces[ i ] ) )
