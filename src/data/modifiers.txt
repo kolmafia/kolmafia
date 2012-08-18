@@ -3549,6 +3549,7 @@ Your Cupcake Senses Are Tingling	Meat Drop: +30
 Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Yuletide Mutations	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Yuletide Sappiness	Mysticality Percent: +10
+Zomg WTF	Monster Level: +30
 
 # Passive Skills section of modifiers.txt
 
