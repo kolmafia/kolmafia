@@ -5780,6 +5780,6 @@
 5771	gnomish housemaid's kgnee	familiar	none	75
 5772	gnomish athlete's foot	familiar	none	75
 5773
-5774
-5775
+5774	talkative skull	grow	display	0
+5775	shiny gold fronts	familiar	all	75
 5776	Barney's rake	weapon	display	30
