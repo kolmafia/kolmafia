@@ -789,22 +789,6 @@ public abstract class KoLCharacter
 			return baseFullness;
 		}
 
-		if ( KoLCharacter.inZombiecore() )
-		{
-			if ( KoLCharacter.hasSkill( "Insatiable Hunger" ) )
-			{
-				baseFullness += 5;
-			}
-
-			if ( KoLCharacter.hasSkill( "Ravenous Pounce" ) )
-			{
-				baseFullness += 5;
-			}
-
-			// Feast of Boris effect?
-			return baseFullness;
-		}
-
 		if ( KoLCharacter.inBadMoon() )
 		{
 			if ( KoLCharacter.hasSkill( "Pride" ) )
@@ -820,6 +804,22 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.hasSkill( "Stomach of Steel" ) )
 		{
 			baseFullness += 5;
+		}
+
+		if ( KoLCharacter.inZombiecore() )
+		{
+			if ( KoLCharacter.hasSkill( "Insatiable Hunger" ) )
+			{
+				baseFullness += 5;
+			}
+
+			if ( KoLCharacter.hasSkill( "Ravenous Pounce" ) )
+			{
+				baseFullness += 5;
+			}
+
+			// Feast of Boris effect?
+			return baseFullness;
 		}
 
 		// If you are an Avatar of Boris, you are a hearty eater
