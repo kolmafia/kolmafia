@@ -5772,6 +5772,6 @@
 5771	803477793	knee.gif	gnomish housemaid's kgnee
 5772	939129651	foot.gif	gnomish athlete's foot
 5773
-5774
-5775
+5774	925159799	talkskull.gif	talkative skull
+5775	728159680	goldfronts.gif	shiny gold fronts
 5776	357147342	rake.gif	Barney's rake

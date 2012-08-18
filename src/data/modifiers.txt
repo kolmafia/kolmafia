@@ -2277,6 +2277,7 @@ rattlesnake enrager	Familiar Weight: +5
 rhesus monkey	Familiar Weight: +5
 security blankie	Familiar Weight: +5
 serrated proboscis extension	Familiar Weight: +20
+shiny gold fronts	Familiar Weight: +5
 # shock collar: Familiar Will Attack You Less Often
 six-armed sweater	Familiar Weight: +5
 skewer-mounted razor blade	Familiar Weight: +5
