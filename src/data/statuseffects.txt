@@ -1044,3 +1044,4 @@
 1043	Chow Downed	stomach.gif	d5c68e5172cf702fafb76e3dc4a0353f	cast 1 Zombie Chow
 1044
 1045	Scavengers Scavenging	sack1.gif	b0ffbf16b502a892f6ae83ba966ad54e	cast 1 Scavenge
+1046	Zomg WTF	zombhead.gif	13e5a6105695d7d0e0577665f58d7dc0	cast 1 Ag-grave-ation
