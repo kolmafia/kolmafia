@@ -46,8 +46,6 @@ public class AdventurePool
 	public static final String BOSSBAT_ID = "34";
 	public static final String DUNGEON_OF_DOOM_ID = "39";
 	public static final int MENAGERIE_LEVEL_2 = 52;
-	public static final String GOATLET_ID = "60";
-	public static final int NINJA_SNOWMEN = 62;
 	public static final int HIPPY_CAMP_DISGUISED = 65;
 	public static final int PIRATE_COVE = 66;
 	public static final String ROULETTE_TABLES_ID = "70";
@@ -109,6 +107,8 @@ public class AdventurePool
 	public static final int DEFILED_NICHE = 263;
 	public static final int DEFILED_NOOK = 264;
 	public static final int ITZNOTYERZITZ_MINE = 270;
+	public static final String GOATLET_ID = "271";
+	public static final int NINJA_SNOWMEN = 272;
 	public static final int EXTREME_SLOPE = 273;
 	public static final int CLUMSINESS_GROVE = 277;
 	public static final int MAELSTROM_OF_LOVERS = 278;
