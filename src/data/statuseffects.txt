@@ -1045,3 +1045,5 @@
 1044
 1045	Scavengers Scavenging	sack1.gif	b0ffbf16b502a892f6ae83ba966ad54e	cast 1 Scavenge
 1046	Zomg WTF	zombhead.gif	13e5a6105695d7d0e0577665f58d7dc0	cast 1 Ag-grave-ation
+1047	Waking the Dead	clock.gif	8a3cb39e3a54965adfb65095f9f5ea75
+1048	Disquiet Riot	louder.gif	e1807c9d2a15d4dc5a08a46f0dcd59cf	cast 1 Disquiet Riot

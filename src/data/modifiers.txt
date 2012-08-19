@@ -2800,6 +2800,7 @@ Disco Inferno	Moxie: +5, Hot Damage: +3
 Disco Nirvana	Meat Drop: +30
 Disco State of Mind	Moxie: +2
 Discomfited	Initiative: +30
+Disquiet Riot	Combat Rate: -20
 Dizzy with Rage	Moxie Percent: -10
 Don't Rest Ye, Bold Adventurer	Experience: +1
 # Donho's Bubbly Ballad: Makes you a better diver
@@ -3508,6 +3509,7 @@ Void Between the Stars	Cold Damage: +50
 # Voracious Gorging: Item Drop: +X, Food Drop: +Y
 # Wanged: Unable to use obnoxious abbreviations
 # Warm Belly: Makes sushi taste better
+Waking the Dead	Combat Rate: +20
 Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
 Wasabi With You	Weapon Damage Percent: +150
