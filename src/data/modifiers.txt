@@ -2940,7 +2940,7 @@ Gobliny Flavor	Damage Reduction: 5
 Gonna Get You, Sucker	Muscle: +5, Mysticality: +5, Moxie: +5
 Good Karma	Mysticality: +5
 Good with the Ladies	Experience: +3
-Goofball Withdrawal	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
+Goofball Withdrawal	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 # Got Milk: You like food; food tastes good.
 Got Your Boots On	Moxie Percent: +10
 Gothy	Mysticality: +20, Muscle: -10, Moxie: -10
