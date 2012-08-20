@@ -2070,7 +2070,7 @@ public class ItemDatabase
 	 * items.
 	 */
 
-	public static final List getMatchingNames( final String substring )
+	public static final List<String> getMatchingNames( final String substring )
 	{
 		return StringUtilities.getMatchingNames( ItemDatabase.canonicalNames, substring );
 	}

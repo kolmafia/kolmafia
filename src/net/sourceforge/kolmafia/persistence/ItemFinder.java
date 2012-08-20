@@ -74,17 +74,17 @@ public class ItemFinder
 		ItemFinder.matchType = matchType;
 	}
 
-	public static final List getMatchingNames( String searchString )
+	public static final List<String> getMatchingNames( String searchString )
 	{
 		return ItemDatabase.getMatchingNames( searchString );
 	}
 
-	public static final String getFirstMatchingItemName( List nameList, String searchString )
+	public static final String getFirstMatchingItemName( List<String> nameList, String searchString )
 	{
 		return ItemFinder.getFirstMatchingItemName( nameList, searchString, ItemFinder.matchType );
 	}
 
-	public static final String getFirstMatchingItemName( List nameList, String searchString, int filterType )
+	public static final String getFirstMatchingItemName( List<String> nameList, String searchString, int filterType )
 	{
 		if ( nameList == null || nameList.isEmpty() )
 		{
@@ -94,7 +94,7 @@ public class ItemFinder
 		if ( nameList.size() == 1 )
 		{
 
-			String name = (String) nameList.get( 0 );
+			String name = nameList.get( 0 );
 			return ItemDatabase.getCanonicalName( name );
 		}
 
@@ -105,8 +105,8 @@ public class ItemFinder
 		// to non-clockwork in-a-boxes, and DoD potions by flavor.
 		while ( nameList.size() >= 2 )
 		{
-			String name0 = (String) nameList.get( 0 );
-			String name1 = (String) nameList.get( 1 );
+			String name0 = nameList.get( 0 );
+			String name1 = nameList.get( 1 );
 			if ( name0.indexOf( name1 ) != -1 )
 			{
 				nameList.remove( 0 );
@@ -121,7 +121,7 @@ public class ItemFinder
 		if ( nameList.size() == 1 )
 		{
 
-			String name = (String) nameList.get( 0 );
+			String name = nameList.get( 0 );
 			return ItemDatabase.getCanonicalName( name );
 		}
 
@@ -135,8 +135,8 @@ public class ItemFinder
 		// an item that was before or between two qualifying items.
 		while ( nameList.size() >= 2 )
 		{
-			String name0 = (String) nameList.get( 0 );
-			String name1 = (String) nameList.get( 1 );
+			String name0 = nameList.get( 0 );
+			String name1 = nameList.get( 1 );
 			if ( name0.indexOf( name1 ) != -1 )
 			{
 				nameList.remove( 0 );
@@ -153,24 +153,24 @@ public class ItemFinder
 
 		if ( nameList.size() == 1 )
 		{
-			String name = (String) nameList.get( 0 );
+			String name = nameList.get( 0 );
 			return ItemDatabase.getCanonicalName( name );
 		}
 
 		// If there's only one unique item in there, return it.
 
-		Set itemIdSet = new HashSet();
+		Set<Integer> itemIdSet = new HashSet<Integer>();
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			int itemId = ItemDatabase.getItemId( (String) nameList.get( i ) );
+			int itemId = ItemDatabase.getItemId( nameList.get( i ) );
 
 			itemIdSet.add( IntegerPool.get( itemId ) );
 		}
 
 		if ( itemIdSet.size() == 1 )
 		{
-			String name = (String) nameList.get( 0 );
+			String name = nameList.get( 0 );
 			return ItemDatabase.getCanonicalName( name );
 		}
 
@@ -183,7 +183,7 @@ public class ItemFinder
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			itemName = (String) nameList.get( i );
+			itemName = nameList.get( i );
 			if ( !itemName.startsWith( "pix" ) && itemName.endsWith( "candy heart" ) )
 			{
 				if ( rv != null ) return "";
@@ -193,7 +193,7 @@ public class ItemFinder
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			itemName = (String) nameList.get( i );
+			itemName = nameList.get( i );
 			if ( !itemName.startsWith( "abo" ) && !itemName.startsWith( "yel" ) && itemName.endsWith( "snowcone" ) )
 			{
 				if ( rv != null ) return "";
@@ -203,7 +203,7 @@ public class ItemFinder
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			itemName = (String) nameList.get( i );
+			itemName = nameList.get( i );
 			if ( itemName.endsWith( "cupcake" ) )
 			{
 				if ( rv != null ) return "";
@@ -215,7 +215,7 @@ public class ItemFinder
 		return "";
 	}
 
-	private static final void filterNameList( List nameList, int filterType )
+	private static final void filterNameList( List<String> nameList, int filterType )
 	{
 		String itemName;
 		int itemId, useType;
@@ -224,11 +224,11 @@ public class ItemFinder
 		// in the list of matches.  If there are, only return
 		// the restorative items (the others are irrelevant).
 
-		ArrayList restoreList = new ArrayList();
+		ArrayList<String> restoreList = new ArrayList<String>();
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			itemName = (String) nameList.get( i );
+			itemName = nameList.get( i );
 			itemId = ItemDatabase.getItemId( itemName );
 			useType = ItemDatabase.getConsumptionType( itemId );
 
@@ -257,11 +257,11 @@ public class ItemFinder
 		// Check for consumption filters when matching against the
 		// item name.
 
-		Iterator nameIterator = nameList.iterator();
+		Iterator<String> nameIterator = nameList.iterator();
 
 		while ( nameIterator.hasNext() )
 		{
-			itemName = (String) nameIterator.next();
+			itemName = nameIterator.next();
 			itemId = ItemDatabase.getItemId( itemName );
 			useType = ItemDatabase.getConsumptionType( itemId );
 
@@ -337,7 +337,7 @@ public class ItemFinder
 
 		while ( nameIterator.hasNext() )
 		{
-			itemName = (String) nameIterator.next();
+			itemName = nameIterator.next();
 			itemId = ItemDatabase.getItemId( itemName );
 
 			conditionalRemove( nameIterator, itemId != -1 &&
@@ -347,7 +347,7 @@ public class ItemFinder
 		}
 	}
 
-	private static final void conditionalRemove( Iterator iterator, boolean condition )
+	private static final void conditionalRemove( Iterator<String> iterator, boolean condition )
 	{
 		if ( condition )
 		{
@@ -380,7 +380,7 @@ public class ItemFinder
 		return getFirstMatchingItem( KoLConstants.inventory, parameters, filterType, errorOnFailure );
 	}
 
-	public static final AdventureResult getFirstMatchingItem( List sourceList, String parameters, int filterType, boolean errorOnFailure )
+	public static final AdventureResult getFirstMatchingItem( List<?> sourceList, String parameters, int filterType, boolean errorOnFailure )
 	{
 		// Ignore spaces and tabs in front of the parameter string
 
@@ -389,9 +389,19 @@ public class ItemFinder
 			parameters = parameters.substring( 1 );
 		}
 
+		// If there's no valid strings passed in, return
+		if ( parameters.length() == 0 )
+		{
+			if ( errorOnFailure )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Need to provide an item to match." );
+			}
+
+			return null;
+		}
+
 		// Find the item id
 
-		int itemId = -1;
 		int itemCount = 1;
 
 		// First, allow for the person to type without specifying
@@ -423,10 +433,10 @@ public class ItemFinder
 			}
 		}
 
-		List matchList;
+		List<String> matchList;
 		if ( parameters.startsWith( "\u00B6" ) )
 		{
-			matchList = new ArrayList();
+			matchList = new ArrayList<String>();
 			String name = ItemDatabase.getItemName(
 				StringUtilities.parseInt( parameters.substring( 1 ) ) );
 			if ( name != null )
@@ -523,18 +533,18 @@ public class ItemFinder
 		return itemCount <= 0 ? null : firstMatch;
 	}
 
-	public static Object[] getMatchingItemList( List sourceList, String itemList )
+	public static Object[] getMatchingItemList( List<?> sourceList, String itemList )
 	{
 		return getMatchingItemList( sourceList, itemList, true );
 	}
 
-	public static Object[] getMatchingItemList( List sourceList, String itemList, boolean errorOnFailure )
+	public static Object[] getMatchingItemList( List<?> sourceList, String itemList, boolean errorOnFailure )
 	{
 		String[] itemNames = itemList.split( "\\s*,\\s*" );
 
 		boolean isMeatMatch = false;
 		AdventureResult firstMatch = null;
-		ArrayList items = new ArrayList();
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 
 		for ( int i = 0; i < itemNames.length; ++i )
 		{

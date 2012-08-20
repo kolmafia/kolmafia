@@ -49,17 +49,17 @@ import java.util.regex.Pattern;
 
 public class StringUtilities
 {
-	private static final HashMap entityEncodeCache = new HashMap();
-	private static final HashMap entityDecodeCache = new HashMap();
+	private static final HashMap<String, String> entityEncodeCache = new HashMap<String, String>();
+	private static final HashMap<String, String> entityDecodeCache = new HashMap<String, String>();
 
-	private static final HashMap urlEncodeCache = new HashMap();
-	private static final HashMap urlDecodeCache = new HashMap();
+	private static final HashMap<String, String> urlEncodeCache = new HashMap<String, String>();
+	private static final HashMap<String, String> urlDecodeCache = new HashMap<String, String>();
 
-	private static final HashMap displayNameCache = new HashMap();
-	private static final HashMap canonicalNameCache = new HashMap();
+	private static final HashMap<String, String> displayNameCache = new HashMap<String, String>();
+	private static final HashMap<String, String> canonicalNameCache = new HashMap<String, String>();
 
-	private static final HashMap prepositionsMap = new HashMap();
-	private static final WeakHashMap hashCache = new WeakHashMap();
+	private static final HashMap<String, String> prepositionsMap = new HashMap<String, String>();
+	private static final WeakHashMap<String[], int[]> hashCache = new WeakHashMap<String[], int[]>();
 
 	private static final Pattern NONINTEGER_PATTERN = Pattern.compile( "[^0-9\\-]+" );
 
@@ -86,7 +86,7 @@ public class StringUtilities
 
 		if ( cache )
 		{
-			entityString = (String) StringUtilities.entityEncodeCache.get( utf8String );
+			entityString = StringUtilities.entityEncodeCache.get( utf8String );
 		}
 
 		if ( entityString == null )
@@ -137,7 +137,7 @@ public class StringUtilities
 
 		if ( cache )
 		{
-			utf8String = (String) StringUtilities.entityDecodeCache.get( entityString );
+			utf8String = StringUtilities.entityDecodeCache.get( entityString );
 		}
 
 		if ( utf8String == null )
@@ -168,7 +168,7 @@ public class StringUtilities
 			return url;
 		}
 
-		String encodedURL = (String) StringUtilities.urlEncodeCache.get( url );
+		String encodedURL = StringUtilities.urlEncodeCache.get( url );
 
 		if ( encodedURL == null )
 		{
@@ -198,7 +198,7 @@ public class StringUtilities
 			return url;
 		}
 
-		String encodedURL = (String) StringUtilities.urlDecodeCache.get( url );
+		String encodedURL = StringUtilities.urlDecodeCache.get( url );
 
 		if ( encodedURL == null )
 		{
@@ -228,7 +228,7 @@ public class StringUtilities
 			return name;
 		}
 
-		String displayName = (String) StringUtilities.displayNameCache.get( name );
+		String displayName = StringUtilities.displayNameCache.get( name );
 
 		if ( displayName == null )
 		{
@@ -254,7 +254,7 @@ public class StringUtilities
 			return null;
 		}
 
-		String canonicalName = (String) StringUtilities.canonicalNameCache.get( name );
+		String canonicalName = StringUtilities.canonicalNameCache.get( name );
 
 		if ( canonicalName == null )
 		{
@@ -279,7 +279,7 @@ public class StringUtilities
 	 * @param substring The substring for which to search
 	 */
 
-	public static final List getMatchingNames( final String[] names, String searchString )
+	public static final List<String> getMatchingNames( final String[] names, String searchString )
 	{
 		if ( searchString == null )
 		{
@@ -287,7 +287,7 @@ public class StringUtilities
 		}
 
 		boolean isExactMatch = searchString.startsWith( "\"" );
-		List matchList = new ArrayList();
+		List<String> matchList = new ArrayList<String>();
 
 		if ( isExactMatch )
 		{
@@ -323,7 +323,7 @@ public class StringUtilities
 		}
 
 		int nameCount = names.length;
-		int[] hashes = (int[]) StringUtilities.hashCache.get( names );
+		int[] hashes = StringUtilities.hashCache.get( names );
 		if ( hashes == null )
 		{
 			hashes = new int[ nameCount ];
@@ -913,7 +913,7 @@ public class StringUtilities
 		{
 			return text;
 		}
-		String rv = (String) StringUtilities.prepositionsMap.get( m.replaceAll( "@" ) );
+		String rv = StringUtilities.prepositionsMap.get( m.replaceAll( "@" ) );
 		return rv == null ? text : rv;
 	}
 }
