@@ -255,6 +255,11 @@ public abstract class InventoryManager
 		return count;
 	}
 
+	public static final int getEquippedCount( final int itemId )
+	{
+		return InventoryManager.getEquippedCount( ItemPool.get( itemId, 1 ) );
+	}
+
 	public static final int getEquippedCount( final AdventureResult item )
 	{
 		int count = 0;
