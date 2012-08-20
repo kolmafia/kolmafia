@@ -2110,7 +2110,7 @@ T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 barskin cloak	Muscle: +7
 hemp backpack	Item Drop: +2
 makeshift cape	Item Drop: +5
-palm-frond cloak	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
+palm-frond cloak	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
 sealhide cloak	Cold Resistance: +2
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
