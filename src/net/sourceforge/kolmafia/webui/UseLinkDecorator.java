@@ -60,7 +60,6 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -573,10 +572,10 @@ public abstract class UseLinkDecorator
 				uses.add( new UseLink( itemId, itemCount, "smash", "inv_use.php?which=1&whichitem=" ) );
 				if  ( uses.size() == 1 )
 				{
-					return (UseLink) uses.get( 0 );
+					return uses.get( 0 );
 				}
 
-				return new UsesLink( (UseLink[]) uses.toArray( new UseLink[ uses.size() ] ) );
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 			}
 			}
 
@@ -666,9 +665,9 @@ public abstract class UseLinkDecorator
 			
 				if ( uses.size() == 1 )
 				{
-					return (UseLink) uses.get( 0 );
+					return uses.get( 0 );
 				}
-				return new UsesLink( (UseLink[]) uses.toArray( new UseLink[ uses.size() ] ) );
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 			}
 
 			case ItemPool.MACGUFFIN_DIARY:
@@ -772,12 +771,12 @@ public abstract class UseLinkDecorator
 					return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=" );
 				}
 
-				if ( HermitRequest.getWorthlessItemCount() > 0 )
-				{
-					return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autopermit=on&action=trade&quantity=1&whichitem=" );
-				}
-
-				return new UseLink( ItemPool.DINGY_PLANKS, 1, "planks", "hermit.php?autoworthless=on&autopermit=on&action=trade&quantity=1&whichitem=" );
+				return new UseLink(
+					ItemPool.DINGY_PLANKS,
+					1,
+					"buy planks",
+					"store.php?phash=" + GenericRequest.passwordHash + "&whichstore=m&buying=Yep.&howmany=1&whichitem=",
+					true );
 
 			default:
 
@@ -932,11 +931,11 @@ public abstract class UseLinkDecorator
 			
 			if ( uses.size() == 1 )
 			{
-				return (UseLink) uses.get( 0 );
+				return uses.get( 0 );
 			}
 			else
 			{
-				return new UsesLink( (UseLink[]) uses.toArray( new UseLink[ uses.size() ] ) );
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 			}
 
 		case KoLConstants.CONSUME_ZAP:
@@ -1426,7 +1425,7 @@ public abstract class UseLinkDecorator
 			}
 
 			int formIndex = this.useLocation.indexOf( "?" );
-			if ( formIndex != -1 )
+			if ( formIndex != -1 && !this.useLocation.contains( "phash=" ) )
 			{
 				this.useLocation += "&pwd=" + GenericRequest.passwordHash;
 			}
