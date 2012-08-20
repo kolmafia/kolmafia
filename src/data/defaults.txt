@@ -1256,8 +1256,11 @@ user	choiceAdventure582	0
 user	choiceAdventure583	1
 user	choiceAdventure584	0
 user	choiceAdventure595	0
-user	choiceAdventure596	1
+user	choiceAdventure596	0
 user	choiceAdventure597	0
+user	choiceAdventure598	0
+user	choiceAdventure599	0
+user	choiceAdventure600	0
 
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true

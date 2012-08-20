@@ -164,6 +164,18 @@ public class UneffectRequest
 			"Overconfident",
 			"Pep Talk",
 		},
+		{
+			"Chow Downed",
+			"Zombie Chow",
+		},
+		{
+			"Scavengers Scavenging",
+			"Scavenge",
+		},
+		{
+			"Zomg WTF",
+			"Ag-grave-ation",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
