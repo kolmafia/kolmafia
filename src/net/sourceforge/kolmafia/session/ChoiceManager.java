@@ -2834,9 +2834,12 @@ public abstract class ChoiceManager
 			// Welcome to the Footlocker
 			result = new String[ 2 ];
 
-			boolean havePolearm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_POLEARM ) > 0 );
-			boolean havePants = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_PANTS ) > 0 );
-			boolean haveHelm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 );
+			boolean havePolearm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_POLEARM ) > 0 ||
+			                        InventoryManager.getEquippedCount( ItemPool.KNOB_GOBLIN_POLEARM ) > 0 );
+			boolean havePants = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_PANTS ) > 0 ||
+			                      InventoryManager.getEquippedCount( ItemPool.KNOB_GOBLIN_PANTS ) > 0 );
+			boolean haveHelm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 ||
+			                     InventoryManager.getEquippedCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 );
 
 			result [ 0 ] = ( !havePolearm ? "knob goblin elite polearm" :
 			                 !havePants ? "knob goblin elite pants" :
