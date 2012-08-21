@@ -85,7 +85,13 @@ public abstract class ChoiceManager
 	public static int lastDecision = 0;
 	public static String lastResponseText = "";
 
-	private static boolean initializeAfterChoice = false;
+	public enum PostChoiceAction {
+		NONE,
+		INITIALIZE,
+		ASCEND;
+	};
+	
+	private static PostChoiceAction action = PostChoiceAction.NONE;
 
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	public static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
@@ -2240,7 +2246,12 @@ public abstract class ChoiceManager
 
 	public static void initializeAfterChoice()
 	{
-		ChoiceManager.initializeAfterChoice = true;
+		ChoiceManager.action = PostChoiceAction.INITIALIZE;
+	}
+
+	public static void ascendAfterChoice()
+	{
+		ChoiceManager.action = PostChoiceAction.ASCEND;
 	}
 
 	private static final AdventureResult getCost( final int choice, final int decision )
@@ -4051,18 +4062,26 @@ public abstract class ChoiceManager
 
 			}
 
-		if ( ChoiceManager.initializeAfterChoice && text.indexOf( "choice.php" ) == -1 )
+		if ( ChoiceManager.action != PostChoiceAction.NONE && text.indexOf( "choice.php" ) == -1 )
 		{
-			Runnable initializeRunner = new Runnable()
+			Runnable actionRunner = new Runnable()
 			{
 				public void run()
 				{
-					LoginManager.login( KoLCharacter.getUserName() );
-					ChoiceManager.initializeAfterChoice = false;
+					switch ( ChoiceManager.action )
+					{
+					case INITIALIZE:
+						LoginManager.login( KoLCharacter.getUserName() );
+						break;
+					case ASCEND:
+						ValhallaManager.postAscension();
+						break;
+					}
+					ChoiceManager.action = PostChoiceAction.NONE;
 				}
 			};
 
-			RequestThread.runInParallel( initializeRunner );
+			RequestThread.runInParallel( actionRunner );
 		}
 	}
 
@@ -4554,7 +4573,7 @@ public abstract class ChoiceManager
 
 		// Dungeon Fist!
 		case 486:
-			if ( !ChoiceManager.initializeAfterChoice )
+			if ( ChoiceManager.action != PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
 				// the auto script isn't robust enough to handle arbitrary starting points.
 				return ArcadeRequest.autoDungeonFist( stepCount );
@@ -4563,7 +4582,7 @@ public abstract class ChoiceManager
 
 		// Interview With You
 		case 546:
-			if ( !ChoiceManager.initializeAfterChoice )
+			if ( ChoiceManager.action != PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
 				// the auto script isn't robust enough to handle arbitrary starting points.
 				return VampOutManager.autoVampOut( StringUtilities.parseInt( decision ), stepCount, responseText );
@@ -4905,7 +4924,7 @@ public abstract class ChoiceManager
 			return "4";
 
 		case 535:
-			if ( !ChoiceManager.initializeAfterChoice )
+			if ( ChoiceManager.action != PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
 				// the auto script isn't robust enough to handle arbitrary starting points.
 				return SafetyShelterManager.autoRonald( decision, stepCount, responseText );
@@ -4913,7 +4932,7 @@ public abstract class ChoiceManager
 			return "0";
 
 		case 536:
-			if ( !ChoiceManager.initializeAfterChoice )
+			if ( ChoiceManager.action != PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
 				// the auto script isn't robust enough to handle arbitrary starting points.
 				return SafetyShelterManager.autoGrimace( decision, stepCount, responseText );

@@ -1805,9 +1805,8 @@ public class GenericRequest
 			return true;
 		}
 
-		// Check to see if this is a login page redirect.  If it is,
-		// then construct the URL string and notify the browser that it
-		// should change everything.
+		// If this is a login page redirect, construct the URL string
+		// and notify the browser that it should change everything.
 
 		if ( this.formURLString.startsWith( "login.php" ) )
 		{
@@ -1831,6 +1830,28 @@ public class GenericRequest
 			}
 
 			LoginRequest.processLoginRequest( this );
+			return true;
+		}
+
+		// If this is a redirect from valhalla, we are reincarnating
+		if ( this.formURLString.startsWith( "afterlife.php" ) )
+		{
+			// Reset all per-ascension counters
+			KoLmafia.resetCounters();
+
+			// Certain paths send you into a choice adventure.
+			// Defer new-ascension processing until that is done.
+			if ( this.redirectLocation.startsWith( "choice.php" ) )
+			{
+				ChoiceManager.ascendAfterChoice();
+			}
+
+			// Otherwise, do post-ascension processing immediately.
+			else
+			{
+				ValhallaManager.postAscension();
+			}
+
 			return true;
 		}
 
