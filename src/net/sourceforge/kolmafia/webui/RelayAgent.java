@@ -71,7 +71,7 @@ public class RelayAgent
 	extends Thread
 {
 	private static final RelayAutoCombatThread COMBAT_THREAD = new RelayAutoCombatThread();
-	private static final Map lastModified = new HashMap();
+	private static final Map<String, Boolean> lastModified = new HashMap<String, Boolean>();
 
 	private static GenericRequest errorRequest = null;
 	private static String errorRequestPath = null;
@@ -518,18 +518,6 @@ public class RelayAgent
 		else
 		{
 			RequestThread.postRequest( this.request );
-
-			if ( this.path.startsWith( "/afterlife.php" ) && this.request.responseCode == 302 )
-			{
-				if ( this.path.indexOf( "asctype=1" ) != -1 )
-				{
-					KoLmafia.resetCounters();
-				}
-				else
-				{
-					ValhallaManager.postAscension();
-				}
-			}
 		}
 	}
 
@@ -620,6 +608,6 @@ public class RelayAgent
 		}
 	}
 
-	private static Set validRefererHosts = new HashSet();
-	private static Set invalidRefererHosts = new HashSet();
+	private static Set<String> validRefererHosts = new HashSet<String>();
+	private static Set<String> invalidRefererHosts = new HashSet<String>();
 }
