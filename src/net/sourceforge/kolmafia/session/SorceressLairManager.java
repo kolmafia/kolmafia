@@ -784,7 +784,7 @@ public abstract class SorceressLairManager
 		// all the needed requirements.
 
 		requirements.addAll( SorceressLairManager.retrieveRhythm( useCloverForSkeleton ) );
-		requirements.addAll( SorceressLairManager.retrieveStrumming() );
+		requirements.addAll( SorceressLairManager.retrieveStrumming( originalFamiliar ) );
 		requirements.addAll( SorceressLairManager.retrieveSqueezings() );
 		requirements.addAll( SorceressLairManager.retrieveScubaGear() );
 
@@ -1147,7 +1147,7 @@ public abstract class SorceressLairManager
 		return requirements;
 	}
 
-	private static final List<AdventureResult> retrieveStrumming()
+	private static final List<AdventureResult> retrieveStrumming( FamiliarData originalFamiliar )
 	{
 		// Decide on which star weapon should be available for
 		// this whole process.
@@ -1318,6 +1318,12 @@ public abstract class SorceressLairManager
 		if ( !KoLCharacter.inAxecore() && !KoLCharacter.inZombiecore() )
 		{
 			RequestThread.postRequest( new FamiliarRequest( starfish ) );
+		}
+
+		// In zombie runs, you don't need a starfish, but you do need a familiar.  Restore your original familiar a little earlier.
+		if ( KoLCharacter.inZombiecore() )
+		{
+			RequestThread.postRequest( new FamiliarRequest( originalFamiliar ) );
 		}
 
 		KoLmafia.updateDisplay( "Inserting Richard's star key..." );
