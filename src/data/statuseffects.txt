@@ -1042,8 +1042,8 @@
 1041	Standard Issue Bravery	fratwarpin.gif	b204d7415629e9bc6ed9c12780d3732d	use 1 CSA bravery badge
 1042	QWOPped Up	qwop.gif	e9cce42128bb887d6053b12cb48760ea	eat 1 bag of QWOP
 1043	Chow Downed	stomach.gif	d5c68e5172cf702fafb76e3dc4a0353f	cast 1 Zombie Chow
-1044
+1044	Waking the Dead	clock.gif	8a3cb39e3a54965adfb65095f9f5ea75	cast 1 Summon Minion
 1045	Scavengers Scavenging	sack1.gif	b0ffbf16b502a892f6ae83ba966ad54e	cast 1 Scavenge
-1046	Zomg WTF	zombhead.gif	13e5a6105695d7d0e0577665f58d7dc0	cast 1 Ag-grave-ation
-1047	Waking the Dead	clock.gif	8a3cb39e3a54965adfb65095f9f5ea75
+1046	Meat Shielded	meat.gif	564dd67a86e5efcbb1eda8c35aee335e
+1047	Zomg WTF	zombhead.gif	13e5a6105695d7d0e0577665f58d7dc0	cast 1 Ag-grave-ation
 1048	Disquiet Riot	louder.gif	e1807c9d2a15d4dc5a08a46f0dcd59cf	cast 1 Disquiet Riot
