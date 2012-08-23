@@ -254,7 +254,7 @@ public final class ColorFactory
 			if ( it != null )
 				return it;
 		}
-		if ( !ItemDatabase.isDisplayable( itemId ) )
+		if ( ItemDatabase.isQuestItem( itemId ) )
 		{
 			// quest items
 			String it = getQuestColor();

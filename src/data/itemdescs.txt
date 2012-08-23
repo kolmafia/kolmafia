@@ -5775,3 +5775,7 @@
 5774	925159799	talkskull.gif	talkative skull
 5775	728159680	goldfronts.gif	shiny gold fronts
 5776	357147342	rake.gif	Barney's rake
+5777
+5778
+5779
+5780	546744324	pizzacut.gif	ancient ice cream scoop

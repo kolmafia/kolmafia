@@ -786,7 +786,7 @@ public class EquipmentDatabase
 			return -1;
 		}
 
-		if ( !ItemDatabase.isDisplayable( id ) )
+		if ( ItemDatabase.isQuestItem( id ) )
 		{	// quest item
 			return -1;
 		}

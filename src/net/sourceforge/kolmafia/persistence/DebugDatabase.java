@@ -226,13 +226,13 @@ public class DebugDatabase
 
 	private static final void checkItems( final PrintStream report )
 	{
-		Set keys = ItemDatabase.descriptionIdKeySet();
-		Iterator it = keys.iterator();
+		Set<Integer> keys = ItemDatabase.descriptionIdKeySet();
+		Iterator<Integer> it = keys.iterator();
 		int lastId = 0;
 
 		while ( it.hasNext() )
 		{
-			int id = ( (Integer) it.next() ).intValue();
+			int id = ( it.next() ).intValue();
 			if ( id < 1 )
 			{
 				continue;
@@ -378,7 +378,7 @@ public class DebugDatabase
 
 	public static final String itemDescriptionText( final int itemId )
 	{
-		return DebugDatabase.itemDescriptionText( itemId, true );
+		return DebugDatabase.itemDescriptionText( itemId, false );
 	}
 
 	public static final String itemDescriptionText( final int itemId, boolean forceReload )
@@ -452,24 +452,43 @@ public class DebugDatabase
 		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
+	private static final StringBuffer appendAccessTypes( StringBuffer accessTypes, String accessType )
+	{
+		if ( accessTypes.length() > 0 )
+		{
+			return accessTypes.append( "," + accessType );
+		}
+		return accessTypes.append( accessType );
+	}
+
 	public static final String parseAccess( final String text )
 	{
-		if ( text.indexOf( "Quest Item" ) != -1 )
+		StringBuffer accessTypes = new StringBuffer();
+
+		if ( text.contains( "Quest Item" ) )
 		{
-			return "none";
+			accessTypes = appendAccessTypes( accessTypes, ItemDatabase.QUEST_FLAG );
 		}
 
-		if ( text.indexOf( "Gift Item" ) != -1 )
+		// Quest items cannot be gifted or traded
+		else if ( text.contains( "Gift Item" ) )
 		{
-			return "gift";
+			accessTypes = appendAccessTypes( accessTypes, ItemDatabase.GIFT_FLAG );
 		}
 
-		if ( text.indexOf( "Cannot be traded" ) != -1 )
+		// Gift items cannot be (normally) traded
+		else if ( !text.contains( "Cannot be traded" ) )
 		{
-			return "display";
+			accessTypes = appendAccessTypes( accessTypes, ItemDatabase.TRADE_FLAG );
 		}
 
-		return "all";
+		//We shouldn't just check for "discarded", in case "discarded" appears somewhere else in the description.
+		if ( !text.contains( "Cannot be discarded" ) && !text.contains( "Cannot be traded or discarded" ) )
+		{
+			accessTypes = appendAccessTypes( accessTypes, ItemDatabase.DISCARD_FLAG );
+		}
+
+		return accessTypes.toString();
 	}
 
 	private static final Pattern TYPE_PATTERN = Pattern.compile( "Type: <b>(.*?)</b>" );
@@ -500,12 +519,12 @@ public class DebugDatabase
 		{
 			return KoLConstants.CONSUME_DRINK;
 		}
-		if ( type.indexOf( "self or others" ) != -1 )
+		if ( type.contains( "self or others" ) )
 		{
 			// Curse items are special
 			return KoLConstants.NO_CONSUME;
 		}
-		if ( type.indexOf( "usable" ) != -1 || type.equals( "gift package" ) )
+		if ( type.contains( "usable" ) || type.equals( "gift package" ) )
 		{
 			return KoLConstants.CONSUME_USE;
 		}
@@ -552,7 +571,7 @@ public class DebugDatabase
 		{
 			return KoLConstants.EQUIP_PANTS;
 		}
-		if ( type.indexOf( "weapon" ) != -1 )
+		if ( type.contains( "weapon" ) )
 		{
 			return KoLConstants.EQUIP_WEAPON;
 		}
@@ -566,15 +585,15 @@ public class DebugDatabase
 	public static final int typeToSecondary( final String type )
 	{
 		int attributes = 0;
-		if ( type.indexOf( "combat" ) != -1 )
+		if ( type.contains( "combat" ) )
 		{
 			attributes |= ItemDatabase.ATTR_COMBAT;
 		}
-		if ( type.indexOf( "self or others" ) != -1 )
+		if ( type.contains( "self or others" ) )
 		{
 			attributes |= ItemDatabase.ATTR_CURSE;
 		}
-		if ( type.indexOf( "(Fancy" ) != -1 )
+		if ( type.contains( "(Fancy" ) )
 		{
 			attributes |= ItemDatabase.ATTR_FANCY;
 		}
@@ -652,7 +671,7 @@ public class DebugDatabase
 		DebugDatabase.checkLevelMap( report, DebugDatabase.boozes, "Booze" );
 	}
 
-	private static final void checkLevelMap( final PrintStream report, final Map map, final String tag )
+	private static final void checkLevelMap( final PrintStream report, final Map<String, String> map, final String tag )
 	{
 		if ( map.size() == 0 )
 		{
@@ -668,7 +687,7 @@ public class DebugDatabase
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String) keys[ i ];
-			String text = (String) map.get( name );
+			String text = map.get( name );
 			DebugDatabase.checkLevelDatum( name, text, report );
 		}
 	}
@@ -711,7 +730,7 @@ public class DebugDatabase
 		DebugDatabase.checkEquipmentMap( report, DebugDatabase.containers, "Containers" );
 	}
 
-	private static final void checkEquipmentMap( final PrintStream report, final Map map, final String tag )
+	private static final void checkEquipmentMap( final PrintStream report, final Map<String, String> map, final String tag )
 	{
 		if ( map.size() == 0 )
 		{
@@ -728,7 +747,7 @@ public class DebugDatabase
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String) keys[ i ];
-			String text = (String) map.get( name );
+			String text = map.get( name );
 			DebugDatabase.checkEquipmentDatum( name, text, report );
 		}
 	}
@@ -738,15 +757,15 @@ public class DebugDatabase
 		String type = DebugDatabase.parseType( text );
 		boolean isWeapon = false, isShield = false, hasPower = false;
 
-		if ( type.indexOf( "weapon" ) != -1 )
+		if ( type.contains( "weapon" ) )
 		{
 			isWeapon = true;
 		}
-		else if ( type.indexOf( "shield" ) != -1 )
+		else if ( type.contains( "shield" ) )
 		{
 			isShield = true;
 		}
-		else if ( type.indexOf( "hat" ) != -1 || type.indexOf( "pants" ) != -1 || type.indexOf( "shirt" ) != -1 )
+		else if ( type.contains( "hat" ) || type.contains( "pants" ) || type.contains( "shirt" ) )
 		{
 			hasPower = true;
 		}
@@ -829,15 +848,15 @@ public class DebugDatabase
 			}
 		}
 
-		if ( type.indexOf( "weapon" ) != -1 )
+		if ( type.contains( "weapon" ) )
 		{
-			if ( type.indexOf( "ranged" ) != -1 )
+			if ( type.contains( "ranged" ) )
 			{
 				return "Mox: 0";
 			}
-			else if ( type.indexOf( "utensil" ) != -1 ||
-				  type.indexOf( "saucepan" ) != -1 ||
-				  type.indexOf( "chefstaff" ) != -1 )
+			else if ( type.contains( "utensil" ) ||
+				  type.contains( "saucepan" ) ||
+				  type.contains( "chefstaff" ) )
 			{
 				return "Mys: 0";
 			}
@@ -865,7 +884,7 @@ public class DebugDatabase
 		DebugDatabase.checkItemModifierMap( report, DebugDatabase.others, "Everything Else" );
 	}
 
-	private static final void checkItemModifierMap( final PrintStream report, final Map map, final String tag )
+	private static final void checkItemModifierMap( final PrintStream report, final Map<String, String> map, final String tag )
 	{
 		if ( map.size() == 0 )
 		{
@@ -882,7 +901,7 @@ public class DebugDatabase
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String) keys[ i ];
-			String text = (String) map.get( name );
+			String text = map.get( name );
 			DebugDatabase.checkItemModifierDatum( name, text, report );
 		}
 	}
@@ -894,11 +913,11 @@ public class DebugDatabase
 		DebugDatabase.logModifierDatum( name, known, unknown, report );
 	}
 
-	private static final void logModifierDatum( final String name, final String known, final ArrayList unknown, final PrintStream report )
+	private static final void logModifierDatum( final String name, final String known, final ArrayList<String> unknown, final PrintStream report )
 	{
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
-			Modifiers.writeModifierComment( report, name, (String) unknown.get( i ) );
+			Modifiers.writeModifierComment( report, name, unknown.get( i ) );
 		}
 
 		if ( known.equals( "" ) )
@@ -925,7 +944,7 @@ public class DebugDatabase
 		// section of the item description.
 
 		// Damage Reduction can appear in either place
-		if ( known.indexOf( "Damage Reduction" ) == -1 )
+		if ( !known.contains( "Damage Reduction" ) )
 		{
 			String dr = Modifiers.parseDamageReduction( text );
 			known = DebugDatabase.appendModifier( known, dr );
@@ -1029,12 +1048,12 @@ public class DebugDatabase
 
 	private static final void checkEffects(final PrintStream report )
 	{
-		Set keys = EffectDatabase.descriptionIdKeySet();
-		Iterator it = keys.iterator();
+		Set<Integer> keys = EffectDatabase.descriptionIdKeySet();
+		Iterator<Integer> it = keys.iterator();
 
 		while ( it.hasNext() )
 		{
-			int id = ( (Integer) it.next() ).intValue();
+			int id = it.next().intValue();
 			if ( id < 1 )
 			{
 				continue;
@@ -1180,7 +1199,7 @@ public class DebugDatabase
 		DebugDatabase.checkEffectModifierMap( report, DebugDatabase.effects, "Status Effects" );
 	}
 
-	private static final void checkEffectModifierMap( final PrintStream report, final Map map, final String tag )
+	private static final void checkEffectModifierMap( final PrintStream report, final Map<String, String> map, final String tag )
 	{
 		if ( map.size() == 0 )
 		{
@@ -1195,7 +1214,7 @@ public class DebugDatabase
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String) keys[ i ];
-			String text = (String) map.get( name );
+			String text = map.get( name );
 			DebugDatabase.checkEffectModifierDatum( name, text, report );
 		}
 	}
@@ -1243,7 +1262,7 @@ public class DebugDatabase
 			StringBuilder currentHTML = new StringBuilder();
 			BufferedReader reader = FileUtilities.getReader( saveData );
 
-			while ( !( currentLine = reader.readLine() ).equals( "" ) )
+			while ( ( currentLine = reader.readLine() ) != null && !currentLine.equals( "" ) )
 			{
 				currentHTML.setLength( 0 );
 				int currentId = StringUtilities.parseInt( currentLine );
@@ -1269,14 +1288,14 @@ public class DebugDatabase
 		}
 	}
 
-	private static final void saveScrapeData( final Iterator it, final StringArray array, final String fileName )
+	private static final void saveScrapeData( final Iterator<Integer> it, final StringArray array, final String fileName )
 	{
 		File file = new File( UtilityConstants.DATA_LOCATION, fileName );
 		PrintStream livedata = LogStream.openStream( file, true );
 
 		while ( it.hasNext() )
 		{
-			int id = ( (Integer) it.next() ).intValue();
+			int id = it.next().intValue();
 			if ( id < 1 )
 			{
 				continue;
@@ -1342,7 +1361,7 @@ public class DebugDatabase
 
 		// Don't bother checking quest items
 		String access = ItemDatabase.getAccessById( id );
-		if ( access != null && !access.equals( "none" ) )
+		if ( access != null && !access.contains( ItemDatabase.QUEST_FLAG ) )
 		{
 			String wikiData = DebugDatabase.readWikiData( name );
 			Matcher matcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
@@ -2224,10 +2243,10 @@ public class DebugDatabase
 		if ( zapgroup.length == 0 )
 		{
 			report.println( "New group:" );
-			Iterator i = items.iterator();
+			Iterator<String> i = items.iterator();
 			while ( i.hasNext() )
 			{
-				report.print( (String) i.next() );
+				report.print( i.next() );
 				report.print( ", " );
 			}
 			report.println( "" );
@@ -2244,10 +2263,10 @@ public class DebugDatabase
 		}
 		report.println( "Modified group: " + firstItem );
 		report.println( "Added:" );
-		Iterator i = items.iterator();
+		Iterator<String> i = items.iterator();
 		while ( i.hasNext() )
 		{
-			report.print( (String) i.next() );
+			report.print( i.next() );
 			report.print( ", " );
 		}
 		report.println( "" );
@@ -2255,7 +2274,7 @@ public class DebugDatabase
 		i = existing.iterator();
 		while ( i.hasNext() )
 		{
-			report.print( (String) i.next() );
+			report.print( i.next() );
 			report.print( ", " );
 		}
 		report.println( "" );
