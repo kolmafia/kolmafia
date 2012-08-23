@@ -4573,7 +4573,7 @@ public abstract class ChoiceManager
 
 		// Dungeon Fist!
 		case 486:
-			if ( ChoiceManager.action != PostChoiceAction.NONE )
+			if ( ChoiceManager.action == PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
 				// the auto script isn't robust enough to handle arbitrary starting points.
 				return ArcadeRequest.autoDungeonFist( stepCount );
@@ -4582,7 +4582,7 @@ public abstract class ChoiceManager
 
 		// Interview With You
 		case 546:
-			if ( ChoiceManager.action != PostChoiceAction.NONE )
+			if ( ChoiceManager.action == PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
 				// the auto script isn't robust enough to handle arbitrary starting points.
 				return VampOutManager.autoVampOut( StringUtilities.parseInt( decision ), stepCount, responseText );
@@ -4924,7 +4924,7 @@ public abstract class ChoiceManager
 			return "4";
 
 		case 535:
-			if ( ChoiceManager.action != PostChoiceAction.NONE )
+			if ( ChoiceManager.action == PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
 				// the auto script isn't robust enough to handle arbitrary starting points.
 				return SafetyShelterManager.autoRonald( decision, stepCount, responseText );
@@ -4932,7 +4932,7 @@ public abstract class ChoiceManager
 			return "0";
 
 		case 536:
-			if ( ChoiceManager.action != PostChoiceAction.NONE )
+			if ( ChoiceManager.action == PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
 				// the auto script isn't robust enough to handle arbitrary starting points.
 				return SafetyShelterManager.autoGrimace( decision, stepCount, responseText );
