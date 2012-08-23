@@ -599,6 +599,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "is_displayable", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "is_discardable", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "autosell_price", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -3004,7 +3007,12 @@ public abstract class RuntimeLibrary
 
 	public static Value is_displayable( Interpreter interpreter, final Value item )
 	{
-		return DataTypes.makeBooleanValue( ItemDatabase.isDisplayable( (int) item.intValue() ) );
+		return DataTypes.makeBooleanValue( !ItemDatabase.isQuestItem( (int) item.intValue() ) );
+	}
+
+	public static Value is_discardable( Interpreter interpreter, final Value item )
+	{
+		return DataTypes.makeBooleanValue( ItemDatabase.isDiscardable( (int) item.intValue() ) );
 	}
 
 	public static Value is_npc_item( Interpreter interpreter, final Value item )

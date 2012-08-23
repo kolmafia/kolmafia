@@ -129,6 +129,12 @@ public class ItemDatabase
 
 	private static Set<String> advNames = null;
 
+	public static final String QUEST_FLAG = "q";
+	public static final String GIFT_FLAG = "g";
+	public static final String TRADE_FLAG = "t";
+	public static final String DISCARD_FLAG = "d";
+	public static final String BOGUS_FLAG = "z";
+
 	public static final String NONE = "";
 	public static final String CRAPPY = "crappy";
 	public static final String DECENT = "decent";
@@ -164,25 +170,29 @@ public class ItemDatabase
 		{ IntegerPool.get( 4581 ), "bugged Talisman of Baio" },
 	};
 
-	private static final String[] ACCESS =
-	{
-		"none",
-		"display",
-		"gift",
-		"all",
-	};
+	private static final List<String> ACCESS = Arrays.asList
+	(
+		QUEST_FLAG,
+		GIFT_FLAG,
+		TRADE_FLAG,
+		DISCARD_FLAG
+	);
 
 	private final static String parseAccess( final String data )
-	{
-		for ( int i = 0; i < ItemDatabase.ACCESS.length; ++i )
+	{	
+		if ( data.equals( "" ) )
 		{
-			String access = ItemDatabase.ACCESS[ i ];
-			if ( access.equals( data ) )
-			{
-				return access;
+			return data;
+		}
+
+		String[] accessTypes = data.split( "\\s*,\\s*" );
+		for ( String accessType : accessTypes )
+		{
+			if ( !ACCESS.contains( accessType ) ) {
+				return BOGUS_FLAG;
 			}
 		}
-		return "bogus";
+		return data;
 	};
 
 	private static final Map<String, String> muscleByName = new HashMap<String, String>();
@@ -191,21 +201,22 @@ public class ItemDatabase
 
 	private static final Map<Integer, String> accessById = new HashMap<Integer, String>();
 	
-	public static final int ATTR_TRADEABLE = 0x00000001;
+	public static final int ATTR_QUEST = 0x00000001;
 	public static final int ATTR_GIFTABLE = 0x00000002;
-	public static final int ATTR_DISPLAYABLE = 0x00000004;
-	public static final int ATTR_COMBAT = 0x00000008;
-	public static final int ATTR_COMBAT_REUSABLE = 0x00000010;
-	public static final int ATTR_USABLE = 0x00000020;
-	public static final int ATTR_MULTIPLE = 0x00000040;
-	public static final int ATTR_REUSABLE = 0x00000080;
-	public static final int ATTR_SINGLE = 0x00000100;
-	public static final int ATTR_SOLO = 0x00000200;
-	public static final int ATTR_CURSE = 0x00000400;
-	public static final int ATTR_BOUNTY = 0x00000800;
-	public static final int ATTR_CANDY = 0x00001000;
-	public static final int ATTR_MATCHABLE = 0x00002000;
-	public static final int ATTR_FANCY = 0x00004000;
+	public static final int ATTR_TRADEABLE = 0x00000004;
+	public static final int ATTR_DISCARDABLE = 0x00000008;
+	public static final int ATTR_COMBAT = 0x00000010;
+	public static final int ATTR_COMBAT_REUSABLE = 0x00000020;
+	public static final int ATTR_USABLE = 0x00000040;
+	public static final int ATTR_MULTIPLE = 0x00000080;
+	public static final int ATTR_REUSABLE = 0x00000100;
+	public static final int ATTR_SINGLE = 0x00000200;
+	public static final int ATTR_SOLO = 0x00000400;
+	public static final int ATTR_CURSE = 0x00000800;
+	public static final int ATTR_BOUNTY = 0x00001000;
+	public static final int ATTR_CANDY = 0x00002000;
+	public static final int ATTR_MATCHABLE = 0x00004000;
+	public static final int ATTR_FANCY = 0x00008000;
 	
 	private static final HashMap<String, Integer> PRIMARY_USE = new HashMap<String, Integer>();
 	private static final HashMap<Integer, String> INVERSE_PRIMARY_USE = new HashMap<Integer, String>();
@@ -417,9 +428,10 @@ public class ItemDatabase
 			ItemDatabase.nameById.put( id, displayName );
 
 			ItemDatabase.accessById.put( id, access );
-			attrs |= access.equals( "all" ) ? ItemDatabase.ATTR_TRADEABLE : 0;
-			attrs |= access.equals( "all" ) || access.equals( "gift" ) ? ItemDatabase.ATTR_GIFTABLE : 0;
-			attrs |= access.equals( "all" ) || access.equals( "gift" ) || access.equals( "display" ) ? ItemDatabase.ATTR_DISPLAYABLE : 0;
+			attrs |= access.contains( TRADE_FLAG ) ? ItemDatabase.ATTR_TRADEABLE : 0;
+			attrs |= access.contains( GIFT_FLAG ) ? ItemDatabase.ATTR_GIFTABLE : 0;
+			attrs |= access.contains( QUEST_FLAG ) ? ItemDatabase.ATTR_QUEST: 0;
+			attrs |= access.contains( DISCARD_FLAG ) ? ItemDatabase.ATTR_DISCARDABLE : 0;
 			ItemDatabase.attributesById.set( itemId, attrs );
 
 			if ( itemId > ItemDatabase.maxItemId )
@@ -1221,7 +1233,7 @@ public class ItemDatabase
 			// Assume defaults
 			ItemDatabase.useTypeById.set( itemId, KoLConstants.NO_CONSUME );
 			ItemDatabase.attributesById.set( itemId, 0 );
-			ItemDatabase.accessById.put( id, "all" );
+			ItemDatabase.accessById.put( id, TRADE_FLAG + "," + DISCARD_FLAG );
 			ItemDatabase.priceById.set( itemId, 0 );
 			return;
 		}
@@ -1238,9 +1250,10 @@ public class ItemDatabase
 		ItemDatabase.accessById.put( id, access );
 
 		int attrs = DebugDatabase.typeToSecondary( type );
-		attrs |= access.equals( "all" ) ? ItemDatabase.ATTR_TRADEABLE : 0;
-		attrs |= access.equals( "all" ) || access.equals( "gift" ) ? ItemDatabase.ATTR_GIFTABLE : 0;
-		attrs |= access.equals( "all" ) || access.equals( "gift" ) || access.equals( "display" ) ? ItemDatabase.ATTR_DISPLAYABLE : 0;
+		attrs |= access.contains( TRADE_FLAG ) ? ItemDatabase.ATTR_TRADEABLE : 0;
+		attrs |= access.contains( GIFT_FLAG ) ? ItemDatabase.ATTR_GIFTABLE : 0;
+		attrs |= access.contains( QUEST_FLAG ) ? ItemDatabase.ATTR_QUEST : 0;
+		attrs |= access.contains( DISCARD_FLAG ) ? ItemDatabase.ATTR_DISCARDABLE : 0;
 		ItemDatabase.attributesById.set( itemId, attrs );
 
 		int price = DebugDatabase.parsePrice( text );
@@ -1914,7 +1927,7 @@ public class ItemDatabase
 	public static final String attrsToSecondaryUsage( int attrs )
 	{
 		// Mask out attributes which are part of access
-		attrs &= ~( ATTR_TRADEABLE|ATTR_GIFTABLE|ATTR_DISPLAYABLE );
+		attrs &= ~( ATTR_TRADEABLE|ATTR_GIFTABLE|ATTR_QUEST|ATTR_DISCARDABLE );
 
 		// If there are no other attributes, return empty string
 		if ( attrs == 0 )
@@ -1969,14 +1982,25 @@ public class ItemDatabase
 	}
 
 	/**
-	 * Returns true if the item is displayable, otherwise false
+	 * Returns true if the item is a quest item, otherwise false
 	 *
-	 * @return true if item is displayable
+	 * @return true if item is a quest item
 	 */
 
-	public static final boolean isDisplayable( final int itemId )
+	public static final boolean isQuestItem( final int itemId )
 	{
-		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_DISPLAYABLE );
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_QUEST );
+	}
+
+	/**
+	 * Returns true if the item is discardable, otherwise false
+	 *
+	 * @return true if item is discardable
+	 */
+
+	public static final boolean isDiscardable( final int itemId )
+	{
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_DISCARDABLE );
 	}
 
 	/**

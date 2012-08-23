@@ -694,6 +694,7 @@ Zim Merman's guitar	Ranged Damage: +20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 a butt tuba	Sleaze Damage: +15
 acoustic guitarrr	Meat Drop: +8
+ancient ice cream scoop	Spell Damage: +20
 ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 antique spear	Initiative: -30, Weakens Monster
 # archaeologing shovel

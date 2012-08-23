@@ -208,7 +208,7 @@ public abstract class TransferItemRequest
 					continue;
 				}
 
-				if ( !allowNoDisplay && !ItemDatabase.isDisplayable( item.getItemId() ) )
+				if ( !allowNoDisplay && ItemDatabase.isQuestItem( item.getItemId() ) )
 				{
 					continue;
 				}

@@ -233,6 +233,10 @@ public class ProxyRecordValue
 			.add( "inebriety", DataTypes.INT_TYPE )
 			.add( "spleen", DataTypes.INT_TYPE )
 			.add( "notes", DataTypes.STRING_TYPE )
+			.add( "quest", DataTypes.BOOLEAN_TYPE )
+			.add( "gift", DataTypes.BOOLEAN_TYPE )
+			.add( "tradeable", DataTypes.BOOLEAN_TYPE )
+			.add( "discardable", DataTypes.BOOLEAN_TYPE )
 			.add( "combat", DataTypes.BOOLEAN_TYPE )
 			.add( "reusable", DataTypes.BOOLEAN_TYPE )
 			.add( "usable", DataTypes.BOOLEAN_TYPE )
@@ -315,6 +319,30 @@ public class ProxyRecordValue
 		public String get_notes()
 		{
 			return ItemDatabase.getNotes( this.contentString );
+		}
+
+		public boolean get_quest()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			return ItemDatabase.isQuestItem( id );
+		}
+
+		public boolean get_gift()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			return ItemDatabase.isGiftable( id );
+		}
+
+		public boolean get_tradeable()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			return ItemDatabase.isTradeable( id );
+		}
+
+		public boolean get_discardable()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			return ItemDatabase.isDiscardable( id );
 		}
 
 		public boolean get_combat()
