@@ -275,7 +275,8 @@ public class ResultProcessor
 		if ( lastToken.indexOf( "You acquire a skill" ) != -1 ||
 		     lastToken.indexOf( "You learn a skill" ) != -1 ||
 		     lastToken.indexOf( "You gain a skill" ) != -1 ||
-		     lastToken.indexOf( "You have learned a skill" ) != -1)
+		     lastToken.indexOf( "You have learned a skill" ) != -1 ||
+		     lastToken.indexOf( "You acquire a new skill" ) != -1 )
 		{
 			return false;
 		}
