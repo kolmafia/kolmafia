@@ -330,7 +330,7 @@ public class ProxyRecordValue
 		public boolean get_gift()
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
-			return ItemDatabase.isGiftable( id );
+			return ItemDatabase.isGiftItem( id );
 		}
 
 		public boolean get_tradeable()
