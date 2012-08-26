@@ -429,7 +429,7 @@ public class ItemDatabase
 
 			ItemDatabase.accessById.put( id, access );
 			attrs |= access.contains( TRADE_FLAG ) ? ItemDatabase.ATTR_TRADEABLE : 0;
-			attrs |= access.contains( GIFT_FLAG ) ? ItemDatabase.ATTR_GIFTABLE : 0;
+			attrs |= access.contains( TRADE_FLAG ) || access.contains( GIFT_FLAG ) ? ItemDatabase.ATTR_GIFTABLE : 0;
 			attrs |= access.contains( QUEST_FLAG ) ? ItemDatabase.ATTR_QUEST: 0;
 			attrs |= access.contains( DISCARD_FLAG ) ? ItemDatabase.ATTR_DISCARDABLE : 0;
 			ItemDatabase.attributesById.set( itemId, attrs );
