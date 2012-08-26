@@ -202,7 +202,7 @@ public class ItemDatabase
 	private static final Map<Integer, String> accessById = new HashMap<Integer, String>();
 	
 	public static final int ATTR_QUEST = 0x00000001;
-	public static final int ATTR_GIFTABLE = 0x00000002;
+	public static final int ATTR_GIFT = 0x00000002;
 	public static final int ATTR_TRADEABLE = 0x00000004;
 	public static final int ATTR_DISCARDABLE = 0x00000008;
 	public static final int ATTR_COMBAT = 0x00000010;
@@ -429,7 +429,7 @@ public class ItemDatabase
 
 			ItemDatabase.accessById.put( id, access );
 			attrs |= access.contains( TRADE_FLAG ) ? ItemDatabase.ATTR_TRADEABLE : 0;
-			attrs |= access.contains( TRADE_FLAG ) || access.contains( GIFT_FLAG ) ? ItemDatabase.ATTR_GIFTABLE : 0;
+			attrs |= access.contains( GIFT_FLAG ) ? ItemDatabase.ATTR_GIFT : 0;
 			attrs |= access.contains( QUEST_FLAG ) ? ItemDatabase.ATTR_QUEST: 0;
 			attrs |= access.contains( DISCARD_FLAG ) ? ItemDatabase.ATTR_DISCARDABLE : 0;
 			ItemDatabase.attributesById.set( itemId, attrs );
@@ -1251,7 +1251,7 @@ public class ItemDatabase
 
 		int attrs = DebugDatabase.typeToSecondary( type );
 		attrs |= access.contains( TRADE_FLAG ) ? ItemDatabase.ATTR_TRADEABLE : 0;
-		attrs |= access.contains( GIFT_FLAG ) ? ItemDatabase.ATTR_GIFTABLE : 0;
+		attrs |= access.contains( GIFT_FLAG ) ? ItemDatabase.ATTR_GIFT : 0;
 		attrs |= access.contains( QUEST_FLAG ) ? ItemDatabase.ATTR_QUEST : 0;
 		attrs |= access.contains( DISCARD_FLAG ) ? ItemDatabase.ATTR_DISCARDABLE : 0;
 		ItemDatabase.attributesById.set( itemId, attrs );
@@ -1927,7 +1927,7 @@ public class ItemDatabase
 	public static final String attrsToSecondaryUsage( int attrs )
 	{
 		// Mask out attributes which are part of access
-		attrs &= ~( ATTR_TRADEABLE|ATTR_GIFTABLE|ATTR_QUEST|ATTR_DISCARDABLE );
+		attrs &= ~( ATTR_TRADEABLE|ATTR_GIFT|ATTR_QUEST|ATTR_DISCARDABLE );
 
 		// If there are no other attributes, return empty string
 		if ( attrs == 0 )
@@ -1960,6 +1960,28 @@ public class ItemDatabase
 	}
 
 	/**
+	 * Returns true if the item is a quest item, otherwise false
+	 *
+	 * @return true if item is a quest item
+	 */
+
+	public static final boolean isQuestItem( final int itemId )
+	{
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_QUEST );
+	}
+
+	/**
+	 * Returns true if the item is a gift item, otherwise false
+	 *
+	 * @return true if item is a gift item
+	 */
+
+	public static final boolean isGiftItem( final int itemId )
+	{
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_GIFT );
+	}
+
+	/**
 	 * Returns true if the item is tradeable, otherwise false
 	 *
 	 * @return true if item is tradeable
@@ -1978,18 +2000,8 @@ public class ItemDatabase
 
 	public static final boolean isGiftable( final int itemId )
 	{
-		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_GIFTABLE );
-	}
-
-	/**
-	 * Returns true if the item is a quest item, otherwise false
-	 *
-	 * @return true if item is a quest item
-	 */
-
-	public static final boolean isQuestItem( final int itemId )
-	{
-		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_QUEST );
+		return	ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_TRADEABLE ) ||
+			ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_GIFT );
 	}
 
 	/**
