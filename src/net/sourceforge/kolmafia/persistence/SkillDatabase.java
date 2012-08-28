@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -69,9 +70,9 @@ public class SkillDatabase
 	private static String [] canonicalNames = new String[0];
 	private static final Map<Integer, String> skillById = new TreeMap<Integer, String>();
 	private static final Map<Integer, String> dataNameById = new TreeMap<Integer, String>();
-	private static final Map skillByName = new TreeMap();
+	private static final Map<String, Integer> skillByName = new TreeMap<String, Integer>();
 	private static final Map<Integer, Integer> mpConsumptionById = new HashMap<Integer, Integer>();
-	private static final Map skillTypeById = new TreeMap();
+	private static final Map<Integer, Integer> skillTypeById = new TreeMap<Integer, Integer>();
 	private static final Map<Integer, Integer> durationById = new HashMap<Integer, Integer>();
 	private static final Map<Integer, Integer> levelById = new HashMap<Integer, Integer>();
 	private static final Map<Integer, Integer> castsById = new HashMap<Integer, Integer>();
@@ -89,30 +90,6 @@ public class SkillDatabase
 	public static final int COMBAT = 5;
 	public static final int SONG = 6;
 	public static final int COMBAT_NONCOMBAT_REMEDY = 7;
-
-	// Mr. Skills
-	public static final int SNOWCONE = 8000;
-	public static final int STICKER = 8001;
-	public static final int SUGAR = 8002;
-	public static final int CLIP_ART = 8003;
-	public static final int CANDY_HEART = 8100;
-	public static final int PARTY_FAVOR = 8101;
-	public static final int LOVE_SONG = 8102;
-	public static final int BRICKOS = 8103;
-	public static final int DICE = 8104;
-	public static final int RESOLUTIONS = 8105;
-	public static final int HILARIOUS = 8200;
-	public static final int TASTEFUL = 8201;
-	public static final int CARDS = 8202;
-
-	public static final int SMILE_OF_MR_A = 3;
-	public static final int OLFACTION = 19;
-	public static final int RAINBOW = 44;
-	public static final int RAGE_GLAND = 45;
-	public static final int CRIMBO_CANDY = 53;
-	public static final int LUNCH_BREAK = 60;
-	public static final int SUMMON_BONERS = 75;
-	public static final int GOOD_SINGING_VOICE = 11016;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String CONDITIONAL = "conditional";
@@ -213,40 +190,40 @@ public class SkillDatabase
 
 		switch ( skillId.intValue() )
 		{
-		case 3:			// Smile of Mr. A
-		case SNOWCONE:		// Summon Snowcones
-		case STICKER:		// Summon Stickers
-		case SUGAR:		// Summon Sugar Sheets
-		case CLIP_ART:		// Summon Clip Art
-		case CANDY_HEART:	// Summon Candy Hearts
-		case PARTY_FAVOR:	// Summon Party Favor
-		case LOVE_SONG:		// Summon Love Song
-		case BRICKOS:		// Summon BRICKOs
-		case DICE:		// Summon Dice
-		case RESOLUTIONS:	// Summon Resolutions
-		case HILARIOUS:		// Summon Hilarious Objects
-		case TASTEFUL:		// Summon Tasteful Items
-		case CARDS:		// Summon Alice's Army Cards
+		case SkillPool.SMILE_OF_MR_A:
+		case SkillPool.SNOWCONE:
+		case SkillPool.STICKER:
+		case SkillPool.SUGAR:
+		case SkillPool.CLIP_ART:
+		case SkillPool.CANDY_HEART:
+		case SkillPool.PARTY_FAVOR:
+		case SkillPool.LOVE_SONG:
+		case SkillPool.BRICKOS:
+		case SkillPool.DICE:
+		case SkillPool.RESOLUTIONS:
+		case SkillPool.HILARIOUS:
+		case SkillPool.TASTEFUL:
+		case SkillPool.CARDS:
 
 			category = SkillDatabase.MR_SKILLS;
 			break;
 
-		case 10: // Powers of Observatiogn
-		case 11: // Gnefarious Pickpocketing
-		case 12: // Torso Awaregness
-		case 13: // Gnomish Hardigness
-		case 14: // Cosmic Ugnderstanding
+		case SkillPool.OBSERVATIOGN:
+		case SkillPool.GNEFARIOUS_PICKPOCKETING:
+		case SkillPool.TORSO:
+		case SkillPool.GNOMISH_HARDINESS:
+		case SkillPool.COSMIC_UNDERSTANDING:
 
 			category = SkillDatabase.GNOME_SKILLS;
 			break;
 
-		case 21: // Lust
-		case 22: // Gluttony
-		case 23: // Greed
-		case 24: // Sloth
-		case 25: // Wrath
-		case 26: // Envy
-		case 27: // Pride
+		case SkillPool.LUST: // Lust
+		case SkillPool.GLUTTONY: // Gluttony
+		case SkillPool.GREED: // Greed
+		case SkillPool.SLOTH: // Sloth
+		case SkillPool.WRATH: // Wrath
+		case SkillPool.ENVY: // Envy
+		case SkillPool.PRIDE: // Pride
 
 			category = SkillDatabase.BAD_MOON;
 			break;
@@ -335,7 +312,7 @@ public class SkillDatabase
 
 	public static final int getSkillPurchaseCost( final int skillId )
 	{
-		if ( skillId / 1000 == 11 )
+		if ( ( skillId / 1000 == 11 ) || ( skillId / 1000 == 12 ) )
 		{
 			return 0;
 		}
@@ -463,28 +440,28 @@ public class SkillDatabase
 
 		switch ( skillId )
 		{
-		case 1022:	// Clobber
+		case SkillPool.CLOBBER:
 			classType = KoLCharacter.SEAL_CLUBBER;
 			break;
-		case 2023:	// Toss
+		case SkillPool.TOSS:
 			classType = KoLCharacter.TURTLE_TAMER;
 			break;
-		case 3020:	// Spaghetti Spear
+		case SkillPool.SPAGHETTI_SPEAR:
 			classType = KoLCharacter.PASTAMANCER;
 			break;
-		case 4020:	// Salsa Ball
+		case SkillPool.SALSABALL:
 			classType = KoLCharacter.SAUCEROR;
 			break;
-		case 5021:	// Sucker Punch
+		case SkillPool.SUCKERPUNCH:
 			classType = KoLCharacter.DISCO_BANDIT;
 			break;
-		case 6025:	// Sing
+		case SkillPool.SING:
 			classType = KoLCharacter.ACCORDION_THIEF;
 			break;
 
-		case 7008:	// Moxious Maneuver
+		case SkillPool.MOXIOUS_MANEUVER:
 			return Math.max( KoLCharacter.getLevel() + KoLCharacter.getManaCostAdjustment(), 1 );
-		case 7009:	// Magic Missile
+		case SkillPool.MAGIC_MISSILE:
 			return Math.max(
 				Math.min( ( KoLCharacter.getLevel() + 3 ) / 2, 6 ) + KoLCharacter.getManaCostAdjustment(), 1 );
 		}
@@ -526,12 +503,12 @@ public class SkillDatabase
 
 	public static final boolean isLibramSkill( final int skillId )
 	{
-		return	skillId == CANDY_HEART ||
-			skillId == PARTY_FAVOR ||
-			skillId == LOVE_SONG ||
-			skillId == BRICKOS ||
-			skillId == DICE ||
-			skillId == RESOLUTIONS;
+		return	skillId == SkillPool.CANDY_HEART ||
+			skillId == SkillPool.PARTY_FAVOR ||
+			skillId == SkillPool.LOVE_SONG ||
+			skillId == SkillPool.BRICKOS ||
+			skillId == SkillPool.DICE ||
+			skillId == SkillPool.RESOLUTIONS;
 	}
 
 	/**
@@ -688,7 +665,7 @@ public class SkillDatabase
 
 		if ( type == SkillDatabase.SONG )
 		{
-			int multiplier =  KoLCharacter.hasSkill( SkillDatabase.GOOD_SINGING_VOICE ) ? 2 : 1;
+			int multiplier =  KoLCharacter.hasSkill( SkillPool.GOOD_SINGING_VOICE ) ? 2 : 1;
 			return actualDuration * multiplier;
 		}
 
@@ -822,84 +799,67 @@ public class SkillDatabase
 	{
 		switch ( skillId )
 		{
-		case 3:		// The Smile of Mr. A.
-		case 4:		// Arse Shoot
+		case SkillPool.SMILE_OF_MR_A:
+		case SkillPool.ARSE_SHOOT:
 			// Item granted skills
 			return false;
 
-		case 1:		// Liver of Steel
-		case 5:		// Stomach of Steel
-		case 6:		// Spleen of Steel
+		case SkillPool.STEEL_LIVER:
+		case SkillPool.STEEL_STOMACH:
+		case SkillPool.STEEL_SPLEEN:
 			// Steel Organs
 			return false;
 
-		case 21:	// Lust
-		case 22:	// Gluttony
-		case 23:	// Greed
-		case 24:	// Sloth
-		case 25:	// Wrath
-		case 26:	// Envy
-		case 27:	// Pride
+		case SkillPool.LUST:	// Lust
+		case SkillPool.GLUTTONY:	// Gluttony
+		case SkillPool.GREED:	// Greed
+		case SkillPool.SLOTH:	// Sloth
+		case SkillPool.WRATH:	// Wrath
+		case SkillPool.ENVY:	// Envy
+		case SkillPool.PRIDE:	// Pride
 			// Bad Moon skills
 			return false;
 
-		case 49:	// Gothy Handwave
-		case 50:	// Break It On Down
-		case 51:	// Pop and Lock It
-		case 52:	// Run Like the Wind
-		case 3024:	// Canticle of Carboloading
+		case SkillPool.GOTHY_HANDWAVE:
+		case SkillPool.BREAK_IT_ON_DOWN:
+		case SkillPool.POP_AND_LOCK:
+		case SkillPool.CARBOLOADING:
 			// Nemesis skills
 			return false;
 
-		case 64:	// Miyagi Massage
-		case 65:	// Salamander Kata
-		case 66:	// Flying Fire Fist
-		case 67:	// Stinkpalm
-		case 68:	// Seven-Finger Strike
-		case 69:	// Knuckle Sandwich
-		case 70:	// Chilled Monkey Brain Technique
-		case 71:	// Drunken Baby Style
-		case 72:	// Worldpunch
-		case 73:	// Zendo Kobushi Kancho
-			// Way of the Stunning Fist skills
+		case SkillPool.MIYAGI_MASSAGE:
+		case SkillPool.SALAMANDER_KATA:
+		case SkillPool.FLYING_FIRE_FIST:
+		case SkillPool.STINKPALM:
+		case SkillPool.SEVEN_FINGER_STRIKE:
+		case SkillPool.KNUCKLE_SANDWICH:
+		case SkillPool.CHILLED_MONKEY_BRAIN:
+		case SkillPool.DRUNKEN_BABY_STYLE:
+		case SkillPool.WORLDPUNCH:
+		case SkillPool.ZENDO_KOBUSHI_KANCHO:
+			// Way of the Surprising Fist skills
 			return false;
 
-		case 80:	// Thick-Skinned
-		case 81:	// Chip on your Shoulder
-		case 82:	// Request Sandwich
+		case SkillPool.THICK_SKINNED:
+		case SkillPool.CHIP_ON_YOUR_SHOULDER:
+		case SkillPool.REQUEST_SANDWICH:
 			// Auto-HP-Permed
 			return false;
 
-		case 2103:	// Head + Knee Combo
-		case 2105:	// Head + Shield Combo
-		case 2106:	// Knee + Shield Combo
-		case 2107:	// Head + Knee + Shield Combo
-		case 3101:	// Spirit of Cayenne
-		case 3102:	// Spirit of Peppermint
-		case 3103:	// Spirit of Garlic
-		case 3104:	// Spirit of Wormwood
-		case 3105:	// Spirit of Bacon Grease
-		case 3106:	// Spirit of Nothing
+		case SkillPool.HEAD_KNEE:
+		case SkillPool.HEAD_SHIELD:
+		case SkillPool.KNEE_SHIELD:
+		case SkillPool.HEAD_KNEE_SHIELD:
+		case SkillPool.SPIRIT_CAYENNE:
+		case SkillPool.SPIRIT_PEPPERMINT:
+		case SkillPool.SPIRIT_GARLIC:
+		case SkillPool.SPIRIT_WORMWOOD:
+		case SkillPool.SPIRIT_BACON:
+		case SkillPool.SPIRIT_NOTHING:
 			// Derived skills
 			return false;
 
-		case 7008:	// Moxious Maneuver
-			return false;
-
-		case SkillDatabase.SNOWCONE:	// Summon Snowcones
-		case SkillDatabase.STICKER:	// Summon Stickers
-		case SkillDatabase.SUGAR:	// Summon Sugar Sheets
-		case SkillDatabase.CLIP_ART:	// Summon Clip Art
-		case SkillDatabase.CANDY_HEART:	// Summon Candy Hearts
-		case SkillDatabase.PARTY_FAVOR:	// Summon Party Favor
-		case SkillDatabase.LOVE_SONG:	// Summon Love Song
-		case SkillDatabase.BRICKOS:	// Summon BRICKOs
-		case SkillDatabase.DICE:	// Summon Dice
-		case SkillDatabase.RESOLUTIONS:	// Summon Resolutions
-		case SkillDatabase.HILARIOUS:	// Summon Hilarious Objects
-		case SkillDatabase.TASTEFUL:	// Summon Tasteful Items
-		case SkillDatabase.CARDS:	// Summon Alice's Army Cards
-			// Bookshelf skills
+		case SkillPool.MOXIOUS_MANEUVER:
 			return false;
 		}
 
@@ -911,61 +871,71 @@ public class SkillDatabase
 			return false;
 		}
 
+		if ( isBookshelfSkill( skillId ) )
+		{
+			return false;
+		}
+
 		return true;
 	}
 
-	public static final boolean isBookshelfSkill( final String skillName )
+	public static final boolean isBookshelfSkill( final int skillId )
 	{
-		switch ( SkillDatabase.getSkillId( skillName ) )
+		switch ( skillId )
 		{
-		case SkillDatabase.SNOWCONE:	// Summon Snowcones
-		case SkillDatabase.STICKER:	// Summon Stickers
-		case SkillDatabase.SUGAR:	// Summon Sugar Sheets
-		case SkillDatabase.CLIP_ART:	// Summon Clip Art
-		case SkillDatabase.CANDY_HEART:	// Summon Candy Hearts
-		case SkillDatabase.PARTY_FAVOR:	// Summon Party Favor
-		case SkillDatabase.LOVE_SONG:	// Summon Love Song
-		case SkillDatabase.BRICKOS:	// Summon BRICKOs
-		case SkillDatabase.DICE:	// Summon Dice
-		case SkillDatabase.RESOLUTIONS:	// Summon Resolutions
-		case SkillDatabase.HILARIOUS:	// Summon Hilarious Objects
-		case SkillDatabase.TASTEFUL:	// Summon Tasteful Items
-		case SkillDatabase.CARDS:	// Summon Alice's Army Cards
+		case SkillPool.SNOWCONE:
+		case SkillPool.STICKER:
+		case SkillPool.SUGAR:
+		case SkillPool.CLIP_ART:
+		case SkillPool.CANDY_HEART:
+		case SkillPool.PARTY_FAVOR:
+		case SkillPool.LOVE_SONG:
+		case SkillPool.BRICKOS:
+		case SkillPool.DICE:
+		case SkillPool.RESOLUTIONS:
+		case SkillPool.HILARIOUS:
+		case SkillPool.TASTEFUL:
+		case SkillPool.CARDS:
 			return true;
 		}
 
 		return false;
 	}
 
+	public static final boolean isBookshelfSkill( final String skillName )
+	{
+		return isBookshelfSkill( SkillDatabase.getSkillId( skillName ) );
+	}
+
 	public static final int skillToBook( final String skillName )
 	{
 		switch ( SkillDatabase.getSkillId( skillName ) )
 		{
-		case SkillDatabase.SNOWCONE:	// Summon Snowcones
+		case SkillPool.SNOWCONE:
 			return ItemPool.SNOWCONE_BOOK;
-		case SkillDatabase.STICKER:	// Summon Stickers
+		case SkillPool.STICKER:
 			return ItemPool.STICKER_BOOK;
-		case SkillDatabase.SUGAR:	// Summon Sugar Sheets
+		case SkillPool.SUGAR:
 			return ItemPool.SUGAR_BOOK;
-		case SkillDatabase.CLIP_ART:	// Summon Clip Art
+		case SkillPool.CLIP_ART:
 			return ItemPool.CLIP_ART_BOOK;
-		case SkillDatabase.CANDY_HEART:	// Summon Candy Hearts
+		case SkillPool.CANDY_HEART:
 			return ItemPool.CANDY_BOOK;
-		case SkillDatabase.PARTY_FAVOR:	// Summon Party Favor
+		case SkillPool.PARTY_FAVOR:
 			return ItemPool.DIVINE_BOOK;
-		case SkillDatabase.LOVE_SONG:	// Summon Love Song
+		case SkillPool.LOVE_SONG:
 			return ItemPool.LOVE_BOOK;
-		case SkillDatabase.BRICKOS:	// Summon BRICKOs
+		case SkillPool.BRICKOS:
 			return ItemPool.BRICKO_BOOK;
-		case SkillDatabase.DICE:	// Summon Dice
+		case SkillPool.DICE:
 			return ItemPool.DICE_BOOK;
-		case SkillDatabase.RESOLUTIONS:	// Summon Resolutions
+		case SkillPool.RESOLUTIONS:
 			return ItemPool.RESOLUTION_BOOK;
-		case SkillDatabase.HILARIOUS:	// Summon Hilarious Objects
+		case SkillPool.HILARIOUS:
 			return ItemPool.HILARIOUS_BOOK;
-		case SkillDatabase.TASTEFUL:	// Summon Tasteful Items
+		case SkillPool.TASTEFUL:
 			return ItemPool.TASTEFUL_BOOK;
-		case SkillDatabase.CARDS:	// Summon Alice's Army Cards
+		case SkillPool.CARDS:
 			return ItemPool.CARD_GAME_BOOK;
 		}
 

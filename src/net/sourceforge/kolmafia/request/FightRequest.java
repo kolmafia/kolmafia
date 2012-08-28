@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -220,7 +221,7 @@ public class FightRequest
 	private static final String STOMPER_ACTION = "item" + ItemPool.MINIBORG_STOMPER;
 	private static final String LASER_ACTION = "item" + ItemPool.MINIBORG_LASER;
 	private static final String DESTROYER_ACTION = "item" + ItemPool.MINIBORG_DESTROYOBOT;
-	private static final String OLFACTION_ACTION = "skill" + SkillDatabase.OLFACTION;
+	private static final String OLFACTION_ACTION = "skill" + SkillPool.OLFACTION;
 
 	private static boolean castNoodles = false;
 	private static boolean castCleesh = false;
@@ -2501,7 +2502,7 @@ public class FightRequest
 		if ( !pref.equals( "" ) && !KoLConstants.activeEffects.contains( EffectPool.get( Effect.ON_THE_TRAIL ) ) )
 		{
 			haveSkill = KoLCharacter.hasSkill( "Transcendent Olfaction" ) &&
-				( Preferences.getBoolean( "autoManaRestore" ) || KoLCharacter.getCurrentMP() >= SkillDatabase.getMPConsumptionById( SkillDatabase.OLFACTION ) );
+				( Preferences.getBoolean( "autoManaRestore" ) || KoLCharacter.getCurrentMP() >= SkillDatabase.getMPConsumptionById( SkillPool.OLFACTION ) );
 			haveItem = KoLConstants.inventory.contains( FightRequest.EXTRACTOR );
 			if ( (haveSkill | haveItem) && shouldTag( pref, "autoOlfact triggered" ) )
 			{

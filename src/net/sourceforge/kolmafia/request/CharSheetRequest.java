@@ -348,8 +348,8 @@ public class CharSheetRequest
 		GenericRequest.skipTokens( cleanContent, 1 );
 		token = cleanContent.nextToken();
 
-		List newSkillSet = new ArrayList();
-		List permedSkillSet = new ArrayList();
+		List<UseSkillRequest> newSkillSet = new ArrayList<UseSkillRequest>();
+		List<UseSkillRequest> permedSkillSet = new ArrayList<UseSkillRequest>();
 
 		// Loop until we get to Current Familiar, since everything
 		// before that contains the player's skills.
@@ -360,33 +360,18 @@ public class CharSheetRequest
 			{
 				String skillName = token;
 				UseSkillRequest skill = UseSkillRequest.getInstance( skillName );
-				int skillId = SkillDatabase.getSkillId( skillName );
 				boolean shouldAddSkill = true;
 
-				switch ( skillId )
+				if ( SkillDatabase.isBookshelfSkill( skillName ) )
 				{
-				case SkillDatabase.SNOWCONE:
-				case SkillDatabase.STICKER:
-				case SkillDatabase.SUGAR:
-				case SkillDatabase.CLIP_ART:
-				case SkillDatabase.HILARIOUS:
-				case SkillDatabase.TASTEFUL:
-				case SkillDatabase.CARDS:
-				case SkillDatabase.CANDY_HEART:
-				case SkillDatabase.PARTY_FAVOR:
-				case SkillDatabase.LOVE_SONG:
-				case SkillDatabase.BRICKOS:
-				case SkillDatabase.DICE:
-				case SkillDatabase.RESOLUTIONS:
-					shouldAddSkill =
-						( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
+					shouldAddSkill = ( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
 						KoLCharacter.kingLiberated();
-					break;
-				case SkillDatabase.OLFACTION:
-					shouldAddSkill =
-						( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
+				}
+
+				if ( skillName.equals( "Transcendent Olfaction" ) )
+				{
+					shouldAddSkill = ( !KoLCharacter.inBadMoon() && !KoLCharacter.inAxecore() ) ||
 						KoLCharacter.skillsRecalled();
-					break;
 				}
 
 				if ( shouldAddSkill )
