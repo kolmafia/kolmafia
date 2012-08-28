@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -72,7 +73,7 @@ public class UseSkillRequest
 	extends GenericRequest
 	implements Comparable
 {
-	private static final HashMap ALL_SKILLS = new HashMap();
+	private static final HashMap<String, UseSkillRequest> ALL_SKILLS = new HashMap<String, UseSkillRequest>();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=(?:summon|combine)([^&]*)" );
 
@@ -116,23 +117,6 @@ public class UseSkillRequest
 		"Summon Tasteful Items",
 		"Summon Alice's Army Cards",
 	};
-
-	private static final int REQUEST_SANDWICH = 82;
-	private static final int OTTER_TONGUE = 1007;
-	private static final int WALRUS_TONGUE = 1010;
-	private static final int BANDAGES = 3009;
-	private static final int COCOON = 3012;
-	private static final int DISCO_NAP = 5007;
-	private static final int POWER_NAP = 5011;
-	private static final int ODE_TO_BOOZE = 6014;
-	private static final int THINGFINDER = 6020;
-	private static final int BENETTONS = 6021;
-	private static final int ELRONS = 6022;
-	private static final int COMPANIONSHIP = 6023;
-	private static final int PRECISION = 6024;
-	private static final int DONHOS = 6026;
-	private static final int INIGOS = 6028;
-	private static final int DEMAND_SANDWICH = 11021;
 
 	public static String lastUpdate = "";
 	public static int lastSkillUsed = -1;
@@ -249,19 +233,19 @@ public class UseSkillRequest
 	{
 		switch ( SkillDatabase.getSkillId( skillName ) )
 		{
-		case SkillDatabase.SNOWCONE:
-		case SkillDatabase.STICKER:
-		case SkillDatabase.SUGAR:
-		case SkillDatabase.CLIP_ART:
-		case SkillDatabase.HILARIOUS:
-		case SkillDatabase.TASTEFUL:
-		case SkillDatabase.CARDS:
-		case SkillDatabase.CANDY_HEART:
-		case SkillDatabase.PARTY_FAVOR:
-		case SkillDatabase.LOVE_SONG:
-		case SkillDatabase.BRICKOS:
-		case SkillDatabase.DICE:
-		case SkillDatabase.RESOLUTIONS:
+		case SkillPool.SNOWCONE:
+		case SkillPool.STICKER:
+		case SkillPool.SUGAR:
+		case SkillPool.CLIP_ART:
+		case SkillPool.HILARIOUS:
+		case SkillPool.TASTEFUL:
+		case SkillPool.CARDS:
+		case SkillPool.CANDY_HEART:
+		case SkillPool.PARTY_FAVOR:
+		case SkillPool.LOVE_SONG:
+		case SkillPool.BRICKOS:
+		case SkillPool.DICE:
+		case SkillPool.RESOLUTIONS:
 			return "campground.php";
 		}
 
@@ -272,55 +256,55 @@ public class UseSkillRequest
 	{
 		switch ( this.skillId )
 		{
-		case SkillDatabase.SNOWCONE:
+		case SkillPool.SNOWCONE:
 			this.addFormField( "preaction", "summonsnowcone" );
 			break;
 
-		case SkillDatabase.STICKER:
+		case SkillPool.STICKER:
 			this.addFormField( "preaction", "summonstickers" );
 			break;
 
-		case SkillDatabase.SUGAR:
+		case SkillPool.SUGAR:
 			this.addFormField( "preaction", "summonsugarsheets" );
 			break;
 
-		case SkillDatabase.CLIP_ART:
+		case SkillPool.CLIP_ART:
 			this.addFormField( "preaction", "combinecliparts" );
 			break;
 
-		case SkillDatabase.HILARIOUS:
+		case SkillPool.HILARIOUS:
 			this.addFormField( "preaction", "summonhilariousitems" );
 			break;
 
-		case SkillDatabase.TASTEFUL:
+		case SkillPool.TASTEFUL:
 			this.addFormField( "preaction", "summonspencersitems" );
 			break;
 
-		case SkillDatabase.CARDS:
+		case SkillPool.CARDS:
 			this.addFormField( "preaction", "summonaa" );
 			break;
 
-		case SkillDatabase.CANDY_HEART:
+		case SkillPool.CANDY_HEART:
 			this.addFormField( "preaction", "summoncandyheart" );
 			break;
 
-		case SkillDatabase.PARTY_FAVOR:
+		case SkillPool.PARTY_FAVOR:
 			this.addFormField( "preaction", "summonpartyfavor" );
 			break;
 
-		case SkillDatabase.LOVE_SONG:
+		case SkillPool.LOVE_SONG:
 			this.addFormField( "preaction", "summonlovesongs" );
 			break;
 
-		case SkillDatabase.BRICKOS:
+		case SkillPool.BRICKOS:
 			this.addFormField( "preaction", "summonbrickos" );
 			break;
 
-		case SkillDatabase.DICE:
+		case SkillPool.DICE:
 			this.addFormField( "preaction", "summongygax" );
 			break;
 
-		case SkillDatabase.RESOLUTIONS:
+		case SkillPool.RESOLUTIONS:
 			this.addFormField( "preaction", "summonresolutions" );
 			break;
 
@@ -422,60 +406,60 @@ public class UseSkillRequest
 		{
 		// The Smile of Mr. A can be used five times per day per Golden
 		// Mr. Accessory you own
-		case SkillDatabase.SMILE_OF_MR_A:
+		case SkillPool.SMILE_OF_MR_A:
 			maximumCast =
 				Preferences.getInteger( "goldenMrAccessories" ) * 5 -
 				Preferences.getInteger( "_smilesOfMrA" );
 			break;
 
 		// Vent Rage Gland can be used once per day
-		case SkillDatabase.RAGE_GLAND:
+		case SkillPool.RAGE_GLAND:
 			maximumCast = Preferences.getBoolean( "rageGlandVented" ) ? 0 : 1;
 			break;
 
 		// You can take a Lunch Break once a day
-		case SkillDatabase.LUNCH_BREAK:
+		case SkillPool.LUNCH_BREAK:
 
 			maximumCast = Preferences.getBoolean( "_lunchBreak" ) ? 0 : 1;
 			break;
 
 		// Summon "Boner Battalion" can be used once per day
-		case SkillDatabase.SUMMON_BONERS:
+		case SkillPool.SUMMON_BONERS:
 			maximumCast = Preferences.getBoolean( "_bonersSummoned" ) ? 0 : 1;
 			break;
 
-		case UseSkillRequest.REQUEST_SANDWICH:
+		case SkillPool.REQUEST_SANDWICH:
 			maximumCast = Preferences.getBoolean( "_requestSandwichSucceeded" ) ? 0 : 1;
 			break;
 
 		// Tomes can be used three times per day
 
-		case SkillDatabase.SNOWCONE:
-		case SkillDatabase.STICKER:
-		case SkillDatabase.SUGAR:
-		case SkillDatabase.CLIP_ART:
+		case SkillPool.SNOWCONE:
+		case SkillPool.STICKER:
+		case SkillPool.SUGAR:
+		case SkillPool.CLIP_ART:
 
 			maximumCast = Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
 			break;
 
 		// Grimoire items can only be summoned once per day.
-		case SkillDatabase.HILARIOUS:
+		case SkillPool.HILARIOUS:
 
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire1Summons" ), 0 );
 			break;
 
-		case SkillDatabase.TASTEFUL:
+		case SkillPool.TASTEFUL:
 
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire2Summons" ), 0 );
 			break;
 
-		case SkillDatabase.CARDS:
+		case SkillPool.CARDS:
 
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire3Summons" ), 0 );
 			break;
 
 		// You can summon Crimbo candy once a day
-		case SkillDatabase.CRIMBO_CANDY:
+		case SkillPool.CRIMBO_CANDY:
 
 			maximumCast = Math.max( 1 - Preferences.getInteger( "_candySummons" ), 0 );
 			break;
@@ -483,7 +467,7 @@ public class UseSkillRequest
 		// Rainbow Gravitation can be cast 3 times per day.  Each
 		// casting consumes five elemental wads and a twinkly wad
 
-		case SkillDatabase.RAINBOW:
+		case SkillPool.RAINBOW:
 			maximumCast = Math.max( 3 - Preferences.getInteger( "prismaticSummons" ), 0 );
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.COLD_WAD ), maximumCast );
 			maximumCast = Math.min( InventoryManager.getCount( ItemPool.HOT_WAD ), maximumCast );
@@ -496,21 +480,21 @@ public class UseSkillRequest
 		// Transcendental Noodlecraft affects # of summons for
 		// Pastamastery
 
-		case 3006:
+		case SkillPool.TRANSCENDENTAL_NOODLES:
 
 			maximumCast = KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) ? 5 : 3;
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "noodleSummons" ), 0 );
 			break;
 
 		// Canticle of Carboloading can be cast once per day.
-		case 3024:
+		case SkillPool.CARBOLOADING:
 			maximumCast = Preferences.getBoolean( "_carboLoaded" ) ? 0 : 1;
 			break;
 
 		// The Way of Sauce affects # of summons for Advanced
 		// Saucecrafting. So does the Gravyskin Belt of the Sauceblob
 
-		case 4006:
+		case SkillPool.WAY_OF_SAUCE:
 
 			maximumCast = KoLCharacter.hasSkill( "The Way of Sauce" ) ? 5 : 3;
 			if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) &&
@@ -525,41 +509,41 @@ public class UseSkillRequest
 		// Superhuman Cocktailcrafting affects # of summons for
 		// Advanced Cocktailcrafting
 
-		case 5014:
+		case SkillPool.SUPERHUMAN_COCKTAIL:
 
 			maximumCast = KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) ? 5 : 3;
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "cocktailSummons" ), 0 );
 			break;
 
-		case UseSkillRequest.THINGFINDER:
+		case SkillPool.THINGFINDER:
 			maximumCast = canCastHoboSong ? Math.max( 10 - Preferences.getInteger( "_thingfinderCasts" ), 0 ) : 0;
 			break;
 
-		case UseSkillRequest.BENETTONS:
+		case SkillPool.BENETTONS:
 			maximumCast = canCastHoboSong ? Math.max( 10 - Preferences.getInteger( "_benettonsCasts" ), 0 ) : 0;
 			break;
 
-		case UseSkillRequest.ELRONS:
+		case SkillPool.ELRONS:
 			maximumCast = canCastHoboSong ? Math.max( 10 - Preferences.getInteger( "_elronsCasts" ), 0 ) : 0;
 			break;
 
-		case UseSkillRequest.COMPANIONSHIP:
+		case SkillPool.COMPANIONSHIP:
 			maximumCast = canCastHoboSong ? Math.max( 10 - Preferences.getInteger( "_companionshipCasts" ), 0 ) : 0;
 			break;
 
-		case UseSkillRequest.PRECISION:
+		case SkillPool.PRECISION:
 			maximumCast = canCastHoboSong ? Math.max( 10 - Preferences.getInteger( "_precisionCasts" ), 0 ) : 0;
 			break;
 
-		case UseSkillRequest.DONHOS:
+		case SkillPool.DONHOS:
 			maximumCast = Math.max( 50 - Preferences.getInteger( "_donhosCasts" ), 0 );
 			break;
 
-		case UseSkillRequest.INIGOS:
+		case SkillPool.INIGOS:
 			maximumCast = Math.max( 5 - Preferences.getInteger( "_inigosCasts" ), 0 );
 			break;
 
-		case UseSkillRequest.DEMAND_SANDWICH:
+		case SkillPool.DEMAND_SANDWICH:
 			maximumCast = Math.max( 3 - Preferences.getInteger( "_demandSandwich" ), 0 );
 			break;
 		}
@@ -672,7 +656,7 @@ public class UseSkillRequest
 		// Never bother trying to reduce mana consumption when casting
 		// ode to booze or a libram skill
 
-		if ( skillId == UseSkillRequest.ODE_TO_BOOZE || SkillDatabase.isLibramSkill( skillId ) )
+		if ( skillId == SkillPool.ODE_TO_BOOZE || SkillDatabase.isLibramSkill( skillId ) )
 		{
 			return;
 		}
@@ -854,12 +838,12 @@ public class UseSkillRequest
 
 			switch ( this.skillId )
 			{
-			case OTTER_TONGUE:
-			case WALRUS_TONGUE:
-			case DISCO_NAP:
-			case POWER_NAP:
-			case BANDAGES:
-			case COCOON:
+			case SkillPool.OTTER_TONGUE:
+			case SkillPool.WALRUS_TONGUE:
+			case SkillPool.DISCO_NAP:
+			case SkillPool.POWER_NAP:
+			case SkillPool.BANDAGES:
+			case SkillPool.COCOON:
 
 				int healthRestored = HPRestoreItemList.getHealthRestored( this.skillName );
 				int maxPossible = Math.max( 1, ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() ) / healthRestored );
@@ -1264,7 +1248,7 @@ public class UseSkillRequest
 		// For now, simply ignore any call on either URL that doesn't
 		// result in an item, since failures just redisplay the bookshelf
 
-		if ( skillId == SkillDatabase.CLIP_ART && responseText.indexOf( "You acquire" ) == -1 )
+		if ( skillId == SkillPool.CLIP_ART && responseText.indexOf( "You acquire" ) == -1 )
 		{
 			return false;
 		}
@@ -1340,31 +1324,31 @@ public class UseSkillRequest
 			UseSkillRequest.lastUpdate = "You've reached your daily casting limit for that skill.";
 			switch ( skillId )
 			{
-			case UseSkillRequest.THINGFINDER:
+			case SkillPool.THINGFINDER:
 				Preferences.setInteger( "_thingfinderCasts", 10 );
 				break;
 
-			case UseSkillRequest.BENETTONS:
+			case SkillPool.BENETTONS:
 				Preferences.setInteger( "_benettonsCasts", 10 );
 				break;
 
-			case UseSkillRequest.ELRONS:
+			case SkillPool.ELRONS:
 				Preferences.setInteger( "_elronsCasts", 10 );
 				break;
 
-			case UseSkillRequest.COMPANIONSHIP:
+			case SkillPool.COMPANIONSHIP:
 				Preferences.setInteger( "_companionshipCasts", 10 );
 				break;
 
-			case UseSkillRequest.PRECISION:
+			case SkillPool.PRECISION:
 				Preferences.setInteger( "_precisionCasts", 10 );
 				break;
 
-			case UseSkillRequest.DONHOS:
+			case SkillPool.DONHOS:
 				Preferences.setInteger( "_donhosCasts", 50 );
 				break;
 
-			case UseSkillRequest.INIGOS:
+			case SkillPool.INIGOS:
 				Preferences.setInteger( "_inigosCasts", 5 );
 				break;
 			default:
@@ -1387,31 +1371,31 @@ public class UseSkillRequest
 
 			switch ( skillId )
 			{
-			case UseSkillRequest.THINGFINDER:
+			case SkillPool.THINGFINDER:
 				Preferences.setInteger( "_thingfinderCasts", casts );
 				break;
 
-			case UseSkillRequest.BENETTONS:
+			case SkillPool.BENETTONS:
 				Preferences.setInteger( "_benettonsCasts", casts );
 				break;
 
-			case UseSkillRequest.ELRONS:
+			case SkillPool.ELRONS:
 				Preferences.setInteger( "_elronsCasts", casts );
 				break;
 
-			case UseSkillRequest.COMPANIONSHIP:
+			case SkillPool.COMPANIONSHIP:
 				Preferences.setInteger( "_companionshipCasts", casts );
 				break;
 
-			case UseSkillRequest.PRECISION:
+			case SkillPool.PRECISION:
 				Preferences.setInteger( "_precisionCasts", casts );
 				break;
 
-			case UseSkillRequest.DONHOS:
+			case SkillPool.DONHOS:
 				Preferences.setInteger( "_donhosCasts", casts );
 				break;
 
-			case UseSkillRequest.INIGOS:
+			case SkillPool.INIGOS:
 				Preferences.setInteger( "_inigosCasts", casts );
 				break;
 			}
@@ -1450,26 +1434,26 @@ public class UseSkillRequest
 
 		switch ( skillId )
 		{
-		case UseSkillRequest.ODE_TO_BOOZE:
+		case SkillPool.ODE_TO_BOOZE:
 			ConcoctionDatabase.getUsables().sort();
 			break;
 
-		case UseSkillRequest.OTTER_TONGUE:
-		case UseSkillRequest.WALRUS_TONGUE:
-		case UseSkillRequest.DISCO_NAP:
-		case UseSkillRequest.POWER_NAP:
+		case SkillPool.OTTER_TONGUE:
+		case SkillPool.WALRUS_TONGUE:
+		case SkillPool.DISCO_NAP:
+		case SkillPool.POWER_NAP:
 			UneffectRequest.removeEffectsWithSkill( skillId );
 			break;
 
-		case SkillDatabase.SMILE_OF_MR_A:
+		case SkillPool.SMILE_OF_MR_A:
 			Preferences.increment( "_smilesOfMrA" );
 			break;
 
-		case SkillDatabase.RAGE_GLAND:
+		case SkillPool.RAGE_GLAND:
 			Preferences.setBoolean( "rageGlandVented", true );
 			break;
 
-		case SkillDatabase.RAINBOW:
+		case SkillPool.RAINBOW:
 
 			// Each cast of Rainbow Gravitation consumes five
 			// elemental wads and a twinkly wad
@@ -1484,15 +1468,15 @@ public class UseSkillRequest
 			Preferences.increment( "prismaticSummons", count );
 			break;
 
-		case SkillDatabase.LUNCH_BREAK:
+		case SkillPool.LUNCH_BREAK:
 			Preferences.setBoolean( "_lunchBreak", true );
 			break;
 
-		case SkillDatabase.SUMMON_BONERS:
+		case SkillPool.SUMMON_BONERS:
 			Preferences.setBoolean( "_bonersSummoned", true );
 			break;
 
-		case UseSkillRequest.REQUEST_SANDWICH:
+		case SkillPool.REQUEST_SANDWICH:
 			// You take a deep breath and prepare for a Boris-style bellow. Then you remember your manners 
 			// and shout, "If it's not too much trouble, I'd really like a sandwich right now! Please!" 
 			// To your surprise, it works! Someone wanders by slowly and hands you a sandwich, grumbling, 
@@ -1503,61 +1487,61 @@ public class UseSkillRequest
 			}
 			break;
 
-		case 3006:
+		case SkillPool.TRANSCENDENTAL_NOODLES:
 			Preferences.increment( "noodleSummons", count );
 			break;
 
-		case 3024:
+		case SkillPool.CARBOLOADING:
 			Preferences.setBoolean( "_carboLoaded", true );
 			Preferences.increment( "carboLoading", 1 );
 			break;
 
-		case 4006:
+		case SkillPool.WAY_OF_SAUCE:
 			Preferences.increment( "reagentSummons", count );
 			break;
 
-		case 5014:
+		case SkillPool.SUPERHUMAN_COCKTAIL:
 			Preferences.increment( "cocktailSummons", count );
 			break;
 
-		case UseSkillRequest.DEMAND_SANDWICH:
+		case SkillPool.DEMAND_SANDWICH:
 			Preferences.increment( "_demandSandwich", count );
 			break;
 
-		case SkillDatabase.SNOWCONE:
-		case SkillDatabase.STICKER:
-		case SkillDatabase.SUGAR:
-		case SkillDatabase.CLIP_ART:
+		case SkillPool.SNOWCONE:
+		case SkillPool.STICKER:
+		case SkillPool.SUGAR:
+		case SkillPool.CLIP_ART:
 			Preferences.increment( "tomeSummons", count );
 			ConcoctionDatabase.setRefreshNeeded( false );
 			break;
 
-		case SkillDatabase.HILARIOUS:
+		case SkillPool.HILARIOUS:
 			Preferences.increment( "grimoire1Summons", 1 );
 			break;
 
-		case SkillDatabase.TASTEFUL:
+		case SkillPool.TASTEFUL:
 			Preferences.increment( "grimoire2Summons", 1 );
 			break;
 
-		case SkillDatabase.CARDS:
+		case SkillPool.CARDS:
 			Preferences.increment( "grimoire3Summons", 1 );
 			break;
 
-		case SkillDatabase.CRIMBO_CANDY:
+		case SkillPool.CRIMBO_CANDY:
 			Preferences.increment( "_candySummons", 1 );
 			break;
 
-		case SkillDatabase.BRICKOS:
+		case SkillPool.BRICKOS:
 			if ( responseText.indexOf( "BRICKO eye brick" ) != -1 )
 			{
 				Preferences.increment( "_brickoEyeSummons", 1 );
 			}
-		case SkillDatabase.CANDY_HEART:
-		case SkillDatabase.PARTY_FAVOR:
-		case SkillDatabase.LOVE_SONG:
-		case SkillDatabase.DICE:
-		case SkillDatabase.RESOLUTIONS:
+		case SkillPool.CANDY_HEART:
+		case SkillPool.PARTY_FAVOR:
+		case SkillPool.LOVE_SONG:
+		case SkillPool.DICE:
+		case SkillPool.RESOLUTIONS:
 			int cast = Preferences.getInteger( "libramSummons" );
 			mpCost = SkillDatabase.libramSkillMPConsumption( cast + 1, count );
 			Preferences.increment( "libramSummons", count );
@@ -1589,17 +1573,17 @@ public class UseSkillRequest
 
 		if ( action.equals( "snowcone" ) )
 		{
-			return SkillDatabase.SNOWCONE;
+			return SkillPool.SNOWCONE;
 		}
 
 		if ( action.equals( "stickers" ) )
 		{
-			return SkillDatabase.STICKER;
+			return SkillPool.STICKER;
 		}
 
 		if ( action.equals( "sugarsheets" ) )
 		{
-			return SkillDatabase.SUGAR;
+			return SkillPool.SUGAR;
 		}
 
 		if ( action.equals( "cliparts" ) )
@@ -1609,52 +1593,52 @@ public class UseSkillRequest
 				return -1;
 			}
 
-			return SkillDatabase.CLIP_ART;
+			return SkillPool.CLIP_ART;
 		}
 
 		if ( action.equals( "hilariousitems" ) )
 		{
-			return SkillDatabase.HILARIOUS;
+			return SkillPool.HILARIOUS;
 		}
 
 		if ( action.equals( "spencersitems" ) )
 		{
-			return	SkillDatabase.TASTEFUL;
+			return	SkillPool.TASTEFUL;
 		}
 
 		if ( action.equals( "aa" ) )
 		{
-			return	SkillDatabase.CARDS;
+			return	SkillPool.CARDS;
 		}
 
 		if ( action.equals( "candyheart" ) )
 		{
-			return SkillDatabase.CANDY_HEART;
+			return SkillPool.CANDY_HEART;
 		}
 
 		if ( action.equals( "partyfavor" ) )
 		{
-			return SkillDatabase.PARTY_FAVOR;
+			return SkillPool.PARTY_FAVOR;
 		}
 
 		if ( action.equals( "lovesongs" ) )
 		{
-			return SkillDatabase.LOVE_SONG;
+			return SkillPool.LOVE_SONG;
 		}
 
 		if ( action.equals( "brickos" ) )
 		{
-			return SkillDatabase.BRICKOS;
+			return SkillPool.BRICKOS;
 		}
 
 		if ( action.equals( "gygax" ) )
 		{
-			return SkillDatabase.DICE;
+			return SkillPool.DICE;
 		}
 
 		if ( action.equals( "resolutions" ) )
 		{
-			return SkillDatabase.RESOLUTIONS;
+			return SkillPool.RESOLUTIONS;
 		}
 
 		return -1;
