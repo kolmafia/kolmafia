@@ -67,17 +67,17 @@ public class SkillDatabase
 	extends KoLDatabase
 {
 	private static String [] canonicalNames = new String[0];
-	private static final Map skillById = new TreeMap();
-	private static final Map dataNameById = new TreeMap();
+	private static final Map<Integer, String> skillById = new TreeMap<Integer, String>();
+	private static final Map<Integer, String> dataNameById = new TreeMap<Integer, String>();
 	private static final Map skillByName = new TreeMap();
-	private static final Map mpConsumptionById = new HashMap();
+	private static final Map<Integer, Integer> mpConsumptionById = new HashMap<Integer, Integer>();
 	private static final Map skillTypeById = new TreeMap();
-	private static final Map durationById = new HashMap();
-	private static final Map levelById = new HashMap();
-	private static final Map castsById = new HashMap();
+	private static final Map<Integer, Integer> durationById = new HashMap<Integer, Integer>();
+	private static final Map<Integer, Integer> levelById = new HashMap<Integer, Integer>();
+	private static final Map<Integer, Integer> castsById = new HashMap<Integer, Integer>();
 
 	private static final Map skillsByCategory = new HashMap();
-	private static final Map skillCategoryById = new HashMap();
+	private static final Map<Integer, String> skillCategoryById = new HashMap<Integer, String>();
 
 	public static final int ALL = -2;
 	public static final int CASTABLE = -1;
@@ -88,6 +88,7 @@ public class SkillDatabase
 	public static final int BUFF = 4;
 	public static final int COMBAT = 5;
 	public static final int SONG = 6;
+	public static final int COMBAT_NONCOMBAT_REMEDY = 7;
 
 	// Mr. Skills
 	public static final int SNOWCONE = 8000;
@@ -754,7 +755,8 @@ public class SkillDatabase
 		if ( skillType == null )
 			return false;
 		int type = ( (Integer) skillType ).intValue();
-		return type == SUMMON || type == REMEDY || type == SELF_ONLY || type == SONG;
+		return type == SUMMON || type == REMEDY || type == SELF_ONLY ||
+			   type == SONG || type == COMBAT_NONCOMBAT_REMEDY;
 	}
 
 	/**
@@ -787,7 +789,8 @@ public class SkillDatabase
 
 	public static final boolean isCombat( final int skillId )
 	{
-		return SkillDatabase.isType( skillId, SkillDatabase.COMBAT );
+		return SkillDatabase.isType( skillId, SkillDatabase.COMBAT ) ||
+			   SkillDatabase.isType( skillId, SkillDatabase.COMBAT_NONCOMBAT_REMEDY );
 	}
 
 	/**
@@ -904,6 +907,7 @@ public class SkillDatabase
 		{
 		case 7:				// Skills granted by items
 		case 11:			// Avatar of Boris skills
+		case 12:			// Zombie Slayer skills
 			return false;
 		}
 
@@ -972,14 +976,14 @@ public class SkillDatabase
 	 * Returns all skills in the database of the given type.
 	 */
 
-	public static final List getSkillsByType( final int type )
+	public static final List<UseSkillRequest> getSkillsByType( final int type )
 	{
 		return SkillDatabase.getSkillsByType( type, false );
 	}
 
-	public static final List getSkillsByType( final int type, final boolean onlyKnown )
+	public static final List<UseSkillRequest> getSkillsByType( final int type, final boolean onlyKnown )
 	{
-		ArrayList list = new ArrayList();
+		ArrayList<UseSkillRequest> list = new ArrayList<UseSkillRequest>();
 
 		Object[] keys = SkillDatabase.skillTypeById.keySet().toArray();
 
@@ -1000,11 +1004,16 @@ public class SkillDatabase
 			}
 			else if ( type == SkillDatabase.CASTABLE )
 			{
-				shouldAdd = skillType == SUMMON || skillType == REMEDY || skillType == SELF_ONLY || skillType == BUFF || skillType == SONG;
+				shouldAdd = skillType == SUMMON || skillType == REMEDY || skillType == SELF_ONLY || 
+							skillType == BUFF || skillType == SONG || skillType == COMBAT_NONCOMBAT_REMEDY;
 			}
-			else if ( skillId == 3009 )
+			else if ( type == SkillDatabase.COMBAT )
 			{
-				shouldAdd = type == REMEDY || type == COMBAT;
+				shouldAdd = skillType == COMBAT || skillType == COMBAT_NONCOMBAT_REMEDY;
+			}
+			else if ( type == SkillDatabase.REMEDY )
+			{
+				shouldAdd = skillType == REMEDY || skillType == COMBAT_NONCOMBAT_REMEDY;
 			}
 			else
 			{
@@ -1071,7 +1080,6 @@ public class SkillDatabase
 
 	public static final void generateSkillList( final StringBuffer buffer, final boolean appendHTML )
 	{
-		ArrayList uncategorized = new ArrayList();
 		ArrayList[] categories = new ArrayList[ SkillDatabase.CATEGORIES.length ];
 
 		if ( SkillDatabase.skillNames.isEmpty() )
@@ -1181,7 +1189,7 @@ public class SkillDatabase
 	 * Utility method used to retrieve the full name of a skill, given a substring representing it.
 	 */
 	
-	public static final String getSkillName( final String substring, final List list )
+	public static final String getSkillName( final String substring, final List<UseSkillRequest> list )
 	{
 		UseSkillRequest[] skills = new UseSkillRequest[ list.size() ];
 		list.toArray( skills );
@@ -1190,7 +1198,6 @@ public class SkillDatabase
 	
 		int skillIndex = -1;
 		boolean ambiguous = false;
-		int currentIndex;
 	
 		for ( int i = 0; i < skills.length; ++i )
 		{

@@ -3381,7 +3381,14 @@ public abstract class KoLCharacter
 			break;
 
 		case SkillDatabase.COMBAT:
+			KoLCharacter.addCombatSkill( skill.getSkillName() );
+			break;
 
+		case SkillDatabase.COMBAT_NONCOMBAT_REMEDY:
+			KoLConstants.usableSkills.add( skill );
+			KoLConstants.usableSkills.sort();
+			KoLConstants.remedySkills.add( skill );
+			KoLConstants.remedySkills.sort();
 			KoLCharacter.addCombatSkill( skill.getSkillName() );
 			break;
 		}
