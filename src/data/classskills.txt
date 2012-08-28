@@ -3,7 +3,7 @@
 # id	Name	Type	MP Cost	Duration[	Level]
 # Type can be: 0 (Passive), 1 (Noncombat item summon), 2 (Noncombat healing)
 # 3 (Noncombat non-shruggable effect), 4 (Noncombat shruggable effect), 5 (Combat)
-# 6 (Boris Songs) 7 (Combat/Noncombat)
+# 6 (Boris Songs) 7 (Combat/Noncombat healing)
 
 1	Liver of Steel	0	0	0
 2	Chronic Indigestion	5	5	0
@@ -173,7 +173,7 @@
 3006	Pastamastery	1	10	0	5
 3007	Stuffed Mortar Shell	5	13	0	8
 3008	Weapon of the Pastalord	5	24	0	10
-3009	Lasagna Bandages	2	6	0	3
+3009	Lasagna Bandages	7	6	0	3
 3010	Leash of Linguini	3	12	10	11
 3011	Spirit of Rigatoni	0	0	0	7
 3012	Cannelloni Cocoon	2	20	0	12
@@ -501,12 +501,12 @@
 12022	Zombie Chow	3	1	0	2
 12023	Smash & Graaagh	5	2	0	3
 12024	Scavenge	3	2	0	4
-12025	Meat Shields	1	1	0	5
+12025	Meat Shields	5	1	0	5
 12026	Summon Horde	1	0	0	6
 12027	His Master's Voice	0	0	0	7
 12028	Ag-grave-ation	3	3	0	8
 12029	Disquiet Riot	3	5	0	9
-12030	Zombie Maestro	7	9	0	10
+12030	Zombie Maestro	5	9	0	10
 
 # Summoning
 12031	Recruit Zombie	1	0	0
