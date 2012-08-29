@@ -915,6 +915,7 @@ iron pasta spoon	Spell Damage: +10
 ironic battle spoon	Spell Damage: +10
 jack flapper	Spell Damage: +5
 jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
+keel-haulin' knife	Spell Damage: +17
 kneecapping stick	Critical: 3
 knob bugle	Weakens Monster
 lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
