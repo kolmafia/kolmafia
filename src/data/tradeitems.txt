@@ -5759,7 +5759,7 @@
 5742	Camp Scout pup tent	hp, usable	t,d	23
 5743	CSA scoutmaster's &quot;water&quot;	drink	t,d	23
 5744	bag of GORF	food	t,d	23
-5745	CSA discount card	usable	t	0
+5745	CSA discount card	multiple	t	0
 5746	bag of QWOP	food	t,d	23
 5747	CSA bravery badge	usable	t,d	23
 5748	CSA all-purpose soap	mp	t,d	23
@@ -5793,5 +5793,6 @@
 5776	Barney's rake	weapon	d	30
 5777
 5778
-5779
+5779	keel-haulin' knife	weapon	t,d	160
 5780	ancient ice cream scoop	weapon	t,d	180
+5781	soft green echo eyedrop antidote martini	drink	t,d	130

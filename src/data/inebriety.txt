@@ -326,6 +326,7 @@ slug of rum	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of shochu	3	2	crappy	3	0	0	0	10 Brined Liver
 slug of vodka	3	2	crappy	3	0	0	0	10 Brined Liver
 snifter of thoroughly aged brandy	2	1	decent	2-6	0	8-10	0
+soft green echo eyedrop antidote martini	4	5	awesome	11-15	5-10	5-10	35-40
 soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys exp)
 soyburger juice	2	3	crappy	2-4	0	0	0	gain Oversaturated Palate or lose Deadened Palate
 spasmi dolorosi del rene champagne	1	10	EPIC	6-10	60	60	60
