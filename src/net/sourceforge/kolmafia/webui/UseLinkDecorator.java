@@ -1314,6 +1314,15 @@ public abstract class UseLinkDecorator
 			useLocation = "town_wrong.php?place=artist";
 			break;
 
+		case ItemPool.MOLYBDENUM_HAMMER:
+		case ItemPool.MOLYBDENUM_PLIERS:
+		case ItemPool.MOLYBDENUM_SCREWDRIVER:
+		case ItemPool.MOLYBDENUM_WRENCH:
+
+			useType = "yossarian";
+			useLocation = "bigisland.php?action=junkman";
+			break;
+
 		case ItemPool.FILTHWORM_QUEEN_HEART:
 
 			useType = "stand";
