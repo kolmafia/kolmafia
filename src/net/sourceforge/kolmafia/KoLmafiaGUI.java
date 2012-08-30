@@ -343,31 +343,22 @@ public class KoLmafiaGUI
 				}
 			}
 
-			// If the person is in a mysticality sign, make
+			// If the person is in a canadia sign, make
 			// sure you retrieve information from the
 			// restaurant.
 
-			if ( KoLCharacter.canEat() && KoLCharacter.canadiaAvailable() )
+			if ( KoLCharacter.canEat() && KoLCharacter.canadiaAvailable() && KoLConstants.restaurantItems.isEmpty() )
 			{
-				if ( KoLConstants.restaurantItems.isEmpty() )
-				{
-					ChezSnooteeRequest.getMenu();
-				}
+				ChezSnooteeRequest.getMenu();
 			}
 
-			// If the person is in a moxie sign and they
-			// have completed the beach quest, then
+			// If the person is in a gnomad sign and they
+			// have opened the beach, then
 			// retrieve information from the microbrewery.
 
 			if ( KoLCharacter.canDrink() && KoLCharacter.gnomadsAvailable() && KoLConstants.microbreweryItems.isEmpty() )
 			{
-				GenericRequest beachCheck = new GenericRequest( "main.php" );
-				RequestThread.postRequest( beachCheck );
-
-				if ( beachCheck.responseText.indexOf( "beach.php" ) != -1 )
-				{
-					MicroBreweryRequest.getMenu();
-				}
+				MicroBreweryRequest.getMenu();
 			}
 
 			if ( Preferences.getBoolean( "autoSatisfyWithStash" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )

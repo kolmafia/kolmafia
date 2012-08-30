@@ -1230,7 +1230,10 @@ public class GenericRequest
 		}
 		else if ( location.startsWith( "casino.php" ) )
 		{
-			InventoryManager.retrieveItem( ItemPool.CASINO_PASS );
+			if ( !KoLCharacter.inZombiecore() )
+			{
+				InventoryManager.retrieveItem( ItemPool.CASINO_PASS );
+			}
 		}
 		else if ( location.startsWith( "beach.php?action=woodencity" ) )
 		{
