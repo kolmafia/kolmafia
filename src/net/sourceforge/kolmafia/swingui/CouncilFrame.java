@@ -75,7 +75,7 @@ public class CouncilFrame
 {
 	public static final CouncilRequest COUNCIL_VISIT = new CouncilRequest();
 
-	private static final Pattern ORE_PATTERN = Pattern.compile( "(\\w+) ore[\\. ]" );
+	private static final Pattern ORE_PATTERN = Pattern.compile( "(asbestos|linoleum|chrome) ore[\\. ]" );
 
 	public CouncilFrame()
 	{
@@ -399,7 +399,7 @@ public class CouncilFrame
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step1" );
 		}
 
-		if ( responseText.contains( "He takes the load of cheese and ore" ) )
+		else if ( responseText.contains( "He takes the load of cheese and ore" ) )
 		{
 			AdventureResult item = new AdventureResult( Preferences.getString( "trapperOre" ), -3, false );
 			ResultProcessor.processResult( item );
@@ -408,7 +408,7 @@ public class CouncilFrame
 		}
 
 		// I'm plumb stocked up on everythin' 'cept yeti furs, Adventurer.
-		if ( responseText.contains( "I'm back in business" ) )
+		else if ( responseText.contains( "Yeehaw!  I heard the noise" ) )
 		{
 			Preferences.setInteger( "lastTr4pz0rQuest", KoLCharacter.getAscensions() );
 			QuestDatabase.setQuestProgress( Quest.TRAPPER, QuestDatabase.FINISHED );
