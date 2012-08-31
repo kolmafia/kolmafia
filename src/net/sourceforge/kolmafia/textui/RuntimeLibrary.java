@@ -3562,14 +3562,28 @@ public abstract class RuntimeLibrary
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
 
-		if ( SkillDatabase.isCombat( (int) skill.intValue() ) )
+		int skillId = (int) skill.intValue();
+
+		if ( SkillDatabase.isCombat( skillId ) )
 		{
-			for ( int i = 0; i < count && FightRequest.INSTANCE.getAdventuresUsed() == 0; ++i )
+			// If we are in combat, go ahead and cast using fight.php
+
+			if ( FightRequest.getCurrentRound() > 0 )
 			{
-				RuntimeLibrary.use_skill( interpreter, skill );
+				for ( int i = 0; i < count; ++i )
+				{
+					RuntimeLibrary.use_skill( interpreter, skill );
+				}
+
+				return DataTypes.TRUE_VALUE;
 			}
 
-			return DataTypes.TRUE_VALUE;
+			// If we are not in combat, bail if the skill can't be cast
+
+			if ( !SkillDatabase.isNormal( skillId ) )
+			{
+				return DataTypes.FALSE_VALUE;
+			}
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + SkillDatabase.getSkillName( (int) skill.intValue() ) );
@@ -3581,7 +3595,7 @@ public abstract class RuntimeLibrary
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
 
-		if ( SkillDatabase.isCombat( (int) skill.intValue() ) )
+		if ( SkillDatabase.isCombat( (int) skill.intValue() ) && FightRequest.getCurrentRound() > 0 )
 		{
 			return RuntimeLibrary.visit_url( interpreter, "fight.php?action=skill&whichskill=" + (int) skill.intValue() );
 		}
@@ -3601,14 +3615,28 @@ public abstract class RuntimeLibrary
 		// Just in case someone assumed that use_skill would also work
 		// in combat, go ahead and allow it here.
 
-		if ( SkillDatabase.isCombat( (int) skill.intValue() ) )
+		int skillId = (int) skill.intValue();
+
+		if ( SkillDatabase.isCombat( skillId ) )
 		{
-			for ( int i = 0; i < count; ++i )
+			// If we are in combat, go ahead and cast using fight.php
+
+			if ( FightRequest.getCurrentRound() > 0 )
 			{
-				RuntimeLibrary.use_skill( interpreter, skill );
+				for ( int i = 0; i < count; ++i )
+				{
+					RuntimeLibrary.use_skill( interpreter, skill );
+				}
+
+				return DataTypes.TRUE_VALUE;
 			}
 
-			return DataTypes.TRUE_VALUE;
+			// If we are not in combat, bail if the skill can't be cast
+
+			if ( !SkillDatabase.isNormal( skillId ) )
+			{
+				return DataTypes.FALSE_VALUE;
+			}
 		}
 
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "cast", count + " " + SkillDatabase.getSkillName( (int) skill.intValue() ) + " on " + target );
