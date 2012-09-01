@@ -59,7 +59,7 @@ public class ManaBurnManager
 {
 	public static final void burnExtraMana( final boolean isManualInvocation )
 	{
-		if ( KoLmafia.refusesContinue() )
+		if ( KoLmafia.refusesContinue() || KoLCharacter.inZombiecore() )
 		{
 			return;
 		}
@@ -89,6 +89,11 @@ public class ManaBurnManager
 
 	public static final void burnMana( int minimum )
 	{
+		if ( KoLCharacter.inZombiecore() )
+		{
+			return;
+		}
+
 		String nextBurnCast;
 	
 		boolean was = MoodManager.isExecuting;
@@ -139,7 +144,7 @@ public class ManaBurnManager
 		int summonThreshold = Preferences.getInteger( "manaBurnSummonThreshold" );
 		int durationLimit = Preferences.getInteger( "maxManaBurn" ) + KoLCharacter.getAdventuresLeft();
 		ManaBurn chosen = null;
-		ArrayList burns = new ArrayList();
+		ArrayList<ManaBurn> burns = new ArrayList<ManaBurn>();
 	
 		// Rather than maintain mood-related buffs only, maintain any
 		// active effect that the character can auto-cast. Examine all
@@ -321,7 +326,7 @@ public class ManaBurnManager
 		}
 		
 		int nextCast = Preferences.getInteger( "libramSummons" );
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		for ( int i = 0; i < skillCount; ++i )
 		{
 			int thisCast = (castCount + skillCount - 1 - i) / skillCount;
