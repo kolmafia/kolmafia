@@ -55,6 +55,12 @@ public class BurnMpCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
+		// Zombie Masters don't have a maximum "MP", so there is no need to burn mana
+		if ( KoLCharacter.inZombiecore() )
+		{
+			return;
+		}
+		
 		// Remove extra words. For example, "mana"
 		int space = parameters.indexOf( " " );
 		if ( space != -1)
