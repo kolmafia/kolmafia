@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 
@@ -65,7 +65,7 @@ public class RestCampgroundMenuItem
 			CampgroundRequest request = new CampgroundRequest( "rest" );
 			int turnCountValue = StringUtilities.parseInt( turnCount );
 
-			StaticEntity.getClient().makeRequest( request, turnCountValue );
+			KoLmafia.makeRequest( request, turnCountValue );
 		}
 	}
 }

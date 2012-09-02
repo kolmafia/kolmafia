@@ -222,7 +222,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
-		
+
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -909,7 +909,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "familiar_weight", DataTypes.INT_TYPE, params ) );
-		
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "is_familiar_equipment_locked", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -933,7 +933,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "minstrel_instrument", DataTypes.ITEM_TYPE, params ) );
-		
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "minstrel_quest", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -960,7 +960,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "have_display", DataTypes.BOOLEAN_TYPE, params ) );
-		
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "hippy_stone_broken", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -1838,7 +1838,7 @@ public abstract class RuntimeLibrary
 		RelayRequest relayRequest = interpreter.getRelayRequest();
 
 		// If so, use a RelayRequest rather than a GenericRequest
-		GenericRequest request = ( relayRequest == null ) ? 
+		GenericRequest request = ( relayRequest == null ) ?
 			new GenericRequest( "" ) : new RelayRequest( false );
 
 		// Build the desired URL
@@ -1907,7 +1907,7 @@ public abstract class RuntimeLibrary
 		// because int Values compare differently than string Values.
 		return val.toStringValue();
 	}
-	
+
 	public static Value to_string( Interpreter interpreter, Value val, Value fmt )
 	{
 		try
@@ -2353,7 +2353,7 @@ public abstract class RuntimeLibrary
 
 			KoLmafia.redoSkippedAdventures = false;
 
-			StaticEntity.getClient().makeRequest( adventure, 1 );
+			KoLmafia.makeRequest( adventure, 1 );
 		}
 		finally
 		{
@@ -3864,12 +3864,12 @@ public abstract class RuntimeLibrary
 		FamiliarData fam = KoLCharacter.findFamiliar( (int) familiar.intValue() );
 		return fam == null ? DataTypes.ZERO_VALUE : new Value( fam.getWeight() );
 	}
-	
+
 	public static Value is_familiar_equipment_locked( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( EquipmentManager.familiarItemLocked() );
 	}
-	
+
 	public static Value lock_familiar_equipment( Interpreter interpreter, Value lock )
 	{
 		if ( ( lock.intValue() == 1 ) != EquipmentManager.familiarItemLocked() )
@@ -3889,7 +3889,7 @@ public abstract class RuntimeLibrary
 		AdventureResult item = KoLCharacter.getCurrentInstrument();
 		return item == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( item.getName(), true );
 	}
-	
+
 	public static Value minstrel_quest( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.minstrelAttention );
@@ -3934,7 +3934,7 @@ public abstract class RuntimeLibrary
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.hasDisplayCase() );
 	}
-	
+
 	public static Value hippy_stone_broken( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.getHippyStoneBroken() );

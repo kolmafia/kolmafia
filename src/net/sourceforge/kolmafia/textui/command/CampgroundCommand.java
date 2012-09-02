@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 
@@ -61,6 +61,6 @@ public class CampgroundCommand
 			count = StringUtilities.parseInt( parameterList[ 1 ] );
 		}
 
-		StaticEntity.getClient().makeRequest( request, count );
+		KoLmafia.makeRequest( request, count );
 	}
 }

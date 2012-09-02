@@ -59,7 +59,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 
@@ -212,7 +211,7 @@ public class ClanManageFrame
 		@Override
 		public void actionConfirmed()
 		{
-			StaticEntity.getClient().makeRequest(
+			KoLmafia.makeRequest(
 				(Runnable) this.buffField.getSelectedItem(), InputFieldUtilities.getValue( this.countField ) );
 		}
 
