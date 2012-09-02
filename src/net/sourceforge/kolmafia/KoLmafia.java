@@ -48,7 +48,6 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -109,7 +108,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BadMoonManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
-import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
@@ -2031,83 +2029,6 @@ public abstract class KoLmafia
 
 			return this.type.equals( "Combat" ) ? 1 : -1;
 		}
-	}
-
-	public final String[] extractTargets( final String targetList )
-	{
-		// If there are no targets in the list, then
-		// return absolutely nothing.
-
-		if ( targetList == null || targetList.trim().length() == 0 )
-		{
-			return new String[ 0 ];
-		}
-
-		// Otherwise, split the list of targets, and
-		// determine who all the unique targets are.
-
-		String[] targets = targetList.trim().split( "\\s*,\\s*" );
-		for ( int i = 0; i < targets.length; ++i )
-		{
-			targets[ i ] =
-				ContactManager.getPlayerId( targets[ i ] ) == null ? targets[ i ] : ContactManager.getPlayerId( targets[ i ] );
-		}
-
-		// Sort the list in order to increase the
-		// speed of duplicate detection.
-
-		Arrays.sort( targets );
-
-		// Determine who all the duplicates are.
-
-		int uniqueListSize = targets.length;
-		for ( int i = 1; i < targets.length; ++i )
-		{
-			if ( targets[ i ].equals( targets[ i - 1 ] ) )
-			{
-				targets[ i - 1 ] = null;
-				--uniqueListSize;
-			}
-		}
-
-		// Now, create the list of unique targets;
-		// if the list has the same size as the original,
-		// you can skip this step.
-
-		if ( uniqueListSize != targets.length )
-		{
-			int addedCount = 0;
-			String[] uniqueList = new String[ uniqueListSize ];
-			for ( int i = 0; i < targets.length; ++i )
-			{
-				if ( targets[ i ] != null )
-				{
-					uniqueList[ addedCount++ ] = targets[ i ];
-				}
-			}
-
-			targets = uniqueList;
-		}
-
-		// Convert all the user Ids back to the
-		// original player names so that the results
-		// are easy to understand for the user.
-
-		for ( int i = 0; i < targets.length; ++i )
-		{
-			targets[ i ] =
-				ContactManager.getPlayerName( targets[ i ] ) == null ? targets[ i ] : ContactManager.getPlayerName( targets[ i ] );
-		}
-
-		// Sort the list one more time, this time
-		// by player name.
-
-		Arrays.sort( targets );
-
-		// Parsing complete. Return the list of
-		// unique targets.
-
-		return targets;
 	}
 
 	public final void deleteAdventureOverride()
