@@ -53,7 +53,6 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
@@ -126,7 +125,7 @@ public class UseItemRequest
 	private static final Pattern EVILOMETER_PATTERN =
 		Pattern.compile( "<center>Total evil: <b>(\\d+)</b><p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b></center>" );
 
-	private static final Pattern KEYOTRON_PATTERN = 
+	private static final Pattern KEYOTRON_PATTERN =
 		Pattern.compile( "Medbay:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
 			+ "<tr><td align=right>Waste Processing:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
 			+ "<tr><td align=right>Sonar:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
@@ -416,7 +415,7 @@ public class UseItemRequest
 			}
 			break;
 		}
-		
+
 		// Check binge requests before checking fullness or inebriety
 		switch ( consumptionType )
 		{
@@ -596,7 +595,7 @@ public class UseItemRequest
 		case ItemPool.SPICE_MELANGE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "spiceMelangeUsed" ) ? 0 : 1;
-			
+
 		case ItemPool.BORROWED_TIME:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_borrowedTimeUsed" ) ? 0 : 1;
@@ -633,10 +632,10 @@ public class UseItemRequest
 			if ( Preferences.getString( "_feastedFamiliars" ).indexOf( familiar ) != -1 )
 			{
 				UseItemRequest.limiter = "a previous " + familiar + " feasting";
-				return 0; 
+				return 0;
 			}
 			UseItemRequest.limiter = "daily limit";
-			return Math.max( 0, 5 - Preferences.getInteger( "_feastUsed" ) ); 
+			return Math.max( 0, 5 - Preferences.getInteger( "_feastUsed" ) );
 
 		case ItemPool.MILK_OF_MAGNESIUM:
 			UseItemRequest.limiter = "remaining fullness";
@@ -2974,7 +2973,7 @@ public class UseItemRequest
 
 		case ItemPool.D12: {
 
-			// You draw the bow and roll [X]d12 to see how far the arrow flies. 
+			// You draw the bow and roll [X]d12 to see how far the arrow flies.
 
 			Matcher m = ARROW_PATTERN.matcher( responseText );
 			String distance = m.find() ? m.group( 1 ) : "";
@@ -3828,14 +3827,14 @@ public class UseItemRequest
 
 		case ItemPool.MOVEABLE_FEAST:
 			// The table is looking pretty bare -- you should wait
-			// until tomorrow, and let some of the food magically regenerate. 
+			// until tomorrow, and let some of the food magically regenerate.
 			if ( responseText.indexOf( "wait until tomorrow" ) != -1 )
 			{
 				Preferences.setInteger( "_feastUsed", 5 );
 			}
 
 			// <name> chows down on the moveable feast,
-			// then leans back, sighs, and loosens his belt a couple of notches. 
+			// then leans back, sighs, and loosens his belt a couple of notches.
 			else if ( responseText.indexOf( "chows down" ) != -1 )
 			{
 				Preferences.increment( "_feastUsed", 1 );
@@ -4015,7 +4014,7 @@ public class UseItemRequest
 		case ItemPool.CHOCOLATE_DISCO_BALL:
 		case ItemPool.CHOCOLATE_STOLEN_ACCORDION:
 			Preferences.increment( "_chocolatesUsed" );
-			return;			
+			return;
 
 		case ItemPool.CREEPY_VOODOO_DOLL:
 			Preferences.setBoolean( "_creepyVoodooDollUsed", true );
@@ -4117,7 +4116,6 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.LEFT_BEAR_ARM, 1 );
 			}
 			return;
-			
 		}
 	}
 
@@ -4345,7 +4343,7 @@ public class UseItemRequest
 		Preferences.setInteger( "cyrptNicheEvilness", niche );
 		Preferences.setInteger( "cyrptNookEvilness", nook );
 	}
-	
+
 	private static final void getBugbearBiodataLevels( String responseText )
 	{
 		int medbay = 0;
@@ -4357,9 +4355,9 @@ public class UseItemRequest
 		int engineering = 0;
 		int navigation = 0;
 		int galley = 0;
-		
+
 		Matcher matcher = UseItemRequest.KEYOTRON_PATTERN.matcher( responseText );
-		
+
 		if ( matcher.find() )
 		{
 			medbay = StringUtilities.parseInt( matcher.group( 1 ) );
@@ -4376,7 +4374,7 @@ public class UseItemRequest
 		{
 			return;
 		}
-		
+
 		Preferences.setInteger( "biodataMedbay", medbay );
 		Preferences.setInteger( "biodataWasteProcessing", wasteProcessing );
 		Preferences.setInteger( "biodataSonar", sonar );
@@ -4387,7 +4385,7 @@ public class UseItemRequest
 		Preferences.setInteger( "biodataNavigation", navigation );
 		Preferences.setInteger( "biodataGalley", galley );
 		Preferences.setInteger( "lastKeyotronUse", KoLCharacter.getAscensions() );
-		
+
 		return;
 	}
 
@@ -4395,7 +4393,7 @@ public class UseItemRequest
 	{
 		if ( showHTML )
 		{
-			StaticEntity.getClient().showHTML(
+			KoLmafia.showHTML(
 				"inventory.php?action=message", UseItemRequest.trimInventoryText( text ) );
 		}
 	}
@@ -4499,7 +4497,7 @@ public class UseItemRequest
 	private static final AdventureResult extractHelper( final String urlString )
 	{
 		if ( !urlString.startsWith( "inv_eat.php" ) &&
-		     !urlString.startsWith( "inv_booze.php" ) &&	 
+		     !urlString.startsWith( "inv_booze.php" ) &&
 		     !urlString.startsWith( "inv_use.php" ) )
 		{
 			return null;
