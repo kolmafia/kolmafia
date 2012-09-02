@@ -2125,7 +2125,7 @@ public abstract class KoLmafia
 		KoLmafia.updateDisplay( "Please restart KoLmafia to complete the update." );
 	}
 
-	public void gc()
+	public static void gc()
 	{
 		int mem1 = (int) ( Runtime.getRuntime().freeMemory() >> 10 );
 		System.gc();
