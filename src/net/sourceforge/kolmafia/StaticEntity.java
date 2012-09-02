@@ -66,7 +66,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class StaticEntity
 {
-	private static KoLmafia client;
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
 
