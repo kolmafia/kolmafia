@@ -191,7 +191,7 @@ public class ForLoop
 
 		if ( current != end && increment == 0 )
 		{
-			throw interpreter.runtimeException( "Start not equal to end and increment equals 0", this.fileName, this.lineNumber );
+			throw Interpreter.runtimeException( "Start not equal to end and increment equals 0", this.fileName, this.lineNumber );
 		}
 
 		while ( up && current <= end || !up && current >= end )

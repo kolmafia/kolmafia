@@ -74,7 +74,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Stack;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -97,7 +96,7 @@ public class ChatBuffer
 {
 	private static final Pattern TAG_PATTERN = Pattern.compile( "<\\s*([^\\s>]+)(.*?)>" );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--(.*?)-->" );
-	
+
 	private final String title;
 
 	private final StringBuffer content = new StringBuffer();
@@ -305,12 +304,12 @@ public class ChatBuffer
 	/**
 	 * Returns all the content stored within this chat buffer.
 	 */
-	
+
 	public String getContent()
 	{
 		return this.content.toString();
 	}
-	
+
 	/**
 	 * Returns all the styled content stored within this chat buffer.
 	 */
@@ -365,7 +364,7 @@ public class ChatBuffer
 			{
 				return;	// outdated by a subsequent display reset
 			}
-			
+
 			Iterator paneIterator = ChatBuffer.this.displayPanes.iterator();
 
 			while ( paneIterator.hasNext() )
@@ -392,15 +391,15 @@ public class ChatBuffer
 		public AppendHandler( final String newContent )
 		{
 			// Check for imbalanced HTML here
-			
+
 			Stack openTags = new Stack();
 			Set skippedTags = new HashSet();
 			StringBuffer buffer = new StringBuffer();
-			
+
 			String noCommentsContent = COMMENT_PATTERN.matcher( newContent ).replaceAll( "" );
 
 			Matcher tagMatcher = TAG_PATTERN.matcher( noCommentsContent );
-			
+
 			while ( tagMatcher.find() )
 			{
 				String tagName = tagMatcher.group( 1 );
@@ -422,7 +421,7 @@ public class ChatBuffer
 							replacement.append( "</" );
 							replacement.append( openTag );
 							replacement.append( ">" );
-							
+
 							if ( openTag.equalsIgnoreCase( closeTag ) )
 							{
 								break;
@@ -448,7 +447,7 @@ public class ChatBuffer
 
 					replacement.append( "<$1$2>" );
 				}
-				
+
 				tagMatcher.appendReplacement( buffer, replacement.toString() );
 			}
 
@@ -461,9 +460,9 @@ public class ChatBuffer
 				buffer.append( openTag );
 				buffer.append( ">" );
 			}
-			
+
 			this.newContent = buffer.toString();
-			
+
 			this.resetSequence = ChatBuffer.this.resetSequence;
 		}
 
@@ -473,7 +472,7 @@ public class ChatBuffer
 			{
 				return;	// outdated by a subsequent display reset
 			}
-			
+
 			Iterator paneIterator = ChatBuffer.this.displayPanes.iterator();
 
 			while ( paneIterator.hasNext() )

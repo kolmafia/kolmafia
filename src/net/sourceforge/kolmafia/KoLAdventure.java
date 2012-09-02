@@ -526,8 +526,8 @@ public class KoLAdventure
 					return;
 				}
 
-				RequestThread.postRequest( new EquipmentRequest( outfit ) );	 
-			}	 
+				RequestThread.postRequest( new EquipmentRequest( outfit ) );
+			}
 			this.isValidAdventure = true;
 			return;
 		}
@@ -1027,7 +1027,7 @@ public class KoLAdventure
 			}
 		}
 
-		if ( this.areaSummary != null && !KoLCharacter.inZombiecore() && this.areaSummary.poison() <= Preferences.getInteger( "autoAntidote" ) 
+		if ( this.areaSummary != null && !KoLCharacter.inZombiecore() && this.areaSummary.poison() <= Preferences.getInteger( "autoAntidote" )
 				&& !KoLCharacter.hasEquipped( ItemPool.get(	ItemPool.BEZOAR_RING, 1 ) ) )
 		{
 			InventoryManager.retrieveItem( ItemPool.ANTIDOTE );
@@ -1891,7 +1891,7 @@ public class KoLAdventure
 		// keep the GUI synchronized.
 
 		KoLAdventure.setNextLocation( KoLAdventure.lastVisitedLocation, location );
-		StaticEntity.getClient().registerAdventure( location );
+		KoLmafia.registerAdventure( location );
 
 		String message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
 		RequestLogger.printLine();

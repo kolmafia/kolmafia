@@ -245,7 +245,7 @@ public class AdventureFrame
 	@Override
 	public void dispose()
 	{
-		Preferences.setInteger( "defaultDropdownSplit", this.sessionGrid.getLastDividerLocation() );
+		Preferences.setInteger( "defaultDropdownSplit", AdventureFrame.sessionGrid.getLastDividerLocation() );
 		super.dispose();
 	}
 }

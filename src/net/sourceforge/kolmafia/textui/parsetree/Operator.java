@@ -278,7 +278,7 @@ public class Operator
 			// only get here if the operator is "+".
 			if ( !this.operator.equals( "+" ) )
 			{
-				throw interpreter.runtimeException( "Operator '" + this.operator + "' applied to string operands", this.fileName, this.lineNumber );
+				throw Interpreter.runtimeException( "Operator '" + this.operator + "' applied to string operands", this.fileName, this.lineNumber );
 			}
 
 			String string = leftValue.toStringValue().toString() + rightValue.toStringValue().toString();
@@ -293,7 +293,7 @@ public class Operator
 			if (  ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
 			      rfloat == 0.0 )
 			{
-				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
+				throw Interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
 
 			double lfloat = leftValue.toFloatValue().floatValue();
@@ -305,7 +305,7 @@ public class Operator
 				val = Math.pow( lfloat, rfloat );
 				if ( Double.isNaN( val ) || Double.isInfinite( val ) )
 				{
-					throw interpreter.runtimeException( "Invalid exponentiation: cannot take " + lfloat + " ** " + rfloat, this.fileName, this.lineNumber );
+					throw Interpreter.runtimeException( "Invalid exponentiation: cannot take " + lfloat + " ** " + rfloat, this.fileName, this.lineNumber );
 				}
 			}
 			else
@@ -344,7 +344,7 @@ public class Operator
 			if (  ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
 			      rint == 0 )
 			{
-				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
+				throw Interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
 
 			long lint = leftValue.intValue();
@@ -474,7 +474,7 @@ public class Operator
 		// Unknown operator
 		if ( rhs == null )
 		{
-			throw interpreter.runtimeException( "Internal error: missing right operand.", this.fileName, this.lineNumber );
+			throw Interpreter.runtimeException( "Internal error: missing right operand.", this.fileName, this.lineNumber );
 		}
 
 		// Binary operators with optional right values
@@ -561,7 +561,7 @@ public class Operator
 		// Ensure type compatibility of operands
 		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), this ) )
 		{
-			throw interpreter.runtimeException( "Internal error: left hand side and right hand side do not correspond", this.fileName, this.lineNumber );
+			throw Interpreter.runtimeException( "Internal error: left hand side and right hand side do not correspond", this.fileName, this.lineNumber );
 		}
 
 		// Special binary operator: <aggref> contains <any>
@@ -633,7 +633,7 @@ public class Operator
 		}
 
 		// Unknown operator
-		throw interpreter.runtimeException( "Internal error: illegal operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
+		throw Interpreter.runtimeException( "Internal error: illegal operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
 	}
 
 	@Override

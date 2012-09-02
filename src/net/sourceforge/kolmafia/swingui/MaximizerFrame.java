@@ -272,7 +272,7 @@ public class MaximizerFrame
 
 		this.setCenterComponent( wrapperPanel );
 
-		if ( this.eval != null )
+		if ( MaximizerFrame.eval != null )
 		{
 			this.valueChanged( null );
 		}
@@ -429,9 +429,9 @@ public class MaximizerFrame
 				MaximizerFrame.boosts.add( new Boost( "", "<font color=red>(interrupted, optimality not guaranteed)</font>", -1, null, 0.0 ) );
 			}
 			Spec.showProgress();
-			
+
 			boolean[] alreadyDone = new boolean[ EquipmentManager.ALL_SLOTS ];
-			
+
 			for ( int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; ++slot )
 			{
 				if ( MaximizerFrame.best.equipment[ slot ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE &&
@@ -2154,7 +2154,7 @@ public class MaximizerFrame
 			// This relies on the special sauce glove having a lower ID
 			// than any chefstaff.
 			boolean gloveAvailable = false;
-			
+
 			int id = 0;
 			while ( (id = EquipmentDatabase.nextEquipmentItemId( id )) != -1 )
 			{
@@ -2275,7 +2275,7 @@ public class MaximizerFrame
 							item = item.getInstance( count );
 						}
 						break;
-						
+
 					case EquipmentManager.ACCESSORY1:
 						if ( id == ItemPool.SPECIAL_SAUCE_GLOVE &&
 							KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR )
@@ -3051,7 +3051,7 @@ public class MaximizerFrame
 				}
 				this.equipment[ EquipmentManager.WEAPON ] = EquipmentRequest.UNEQUIP;
 			}
-			else if ( !chefstaffable && 
+			else if ( !chefstaffable &&
 				EquipmentDatabase.getItemType( this.equipment[ EquipmentManager.WEAPON ].getItemId() ).equals( "chefstaff" ) )
 			{
 				return;

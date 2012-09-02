@@ -140,7 +140,7 @@ public class TrophyFrame
 			while ( i.hasNext() )
 			{
 				Trophy t = (Trophy) i.next();
-				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + 
+				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" +
 					t.filename );
 				(t.visible ? this.shownList : this.hiddenList).add(
 					new DraggableTrophy( t ) );
@@ -150,7 +150,7 @@ public class TrophyFrame
 			this.hiddenList.revalidate();
 			this.hiddenList.repaint();
 		}
-		
+
 		public void doSave()
 		{
 			ArrayList trophies = new ArrayList();
@@ -189,7 +189,7 @@ public class TrophyFrame
 			this.hiddenList.doAutoSort();
 		}
 	}
-	
+
 	private static class TrophyScrollPane
 		extends JScrollPane
 	{
@@ -200,17 +200,17 @@ public class TrophyFrame
 			this.getVerticalScrollBar().setUnitIncrement( 25 );
 		}
 	}
-	
+
 	private static class TrophyPanel
 		extends JPanel
 		implements LayoutManager, DropTargetListener
 	{
 		private boolean shown;
-		protected static TrophyPanel sourceList = null;
-		protected static DraggableTrophy source = null;
-		protected static int destIndex = -1;
-		protected static boolean isExchange = false;
-		
+		private static TrophyPanel sourceList = null;
+		private static DraggableTrophy source = null;
+		private int destIndex = -1;
+		private boolean isExchange = false;
+
 		public TrophyPanel( boolean shown )
 		{
 			super( null );
@@ -219,7 +219,7 @@ public class TrophyFrame
 			new DropTarget( this, DnDConstants.ACTION_MOVE | DnDConstants.ACTION_LINK,
 				(DropTargetListener) this );
 		}
-		
+
 		public void addChildrenToList( ArrayList list )
 		{
 			int nc = this.getComponentCount();
@@ -238,7 +238,7 @@ public class TrophyFrame
 			{
 				((DraggableTrophy) this.getComponent( i )).score = Integer.MAX_VALUE;
 			}
-			
+
 			for ( int i = 0; i < nc - 2; ++i )
 			{
 				DraggableTrophy one = (DraggableTrophy) this.getComponent( i );
@@ -262,37 +262,37 @@ public class TrophyFrame
 		}
 
 		/* Required methods for DropTargetListener */
-		
+
 		public void dragEnter( DropTargetDragEvent dtde )
 		{
 		}
-		
+
 		public void dragOver( DropTargetDragEvent dtde )
 		{
 			Point xy = dtde.getLocation();
 			dtde.acceptDrag( this.findDrop( xy.x, xy.y ) );
 		}
-		
+
 		public void dropActionChanged( DropTargetDragEvent dtde )
 		{
 			Point xy = dtde.getLocation();
 			dtde.acceptDrag( this.findDrop( xy.x, xy.y ) );
 		}
-		
+
 		public void dragExit( DropTargetEvent dte )
 		{
 		}
-		
+
 		public void drop( DropTargetDropEvent dtde )
 		{
 			Point xy = dtde.getLocation();
 			dtde.acceptDrop( this.findDrop( xy.x, xy.y ) );
-			if ( this.source == null )
+			if ( TrophyPanel.source == null )
 			{	// something dropped from elsewhere, ignore it.
 			}
 			else
 			{
-				int sourceIndex = this.source.getIndex();
+				int sourceIndex = TrophyPanel.source.getIndex();
 				int destIndex = this.destIndex;
 				if ( this.isExchange )
 				{
@@ -300,60 +300,60 @@ public class TrophyFrame
 						(DraggableTrophy) this.getComponent( destIndex );
 					//System.out.println( this.source.getSimilarity( dest ) + " " +
 					//	this.source.trophy.name + "/" + dest.trophy.name );
-					if ( this.sourceList == this )
+					if ( TrophyPanel.sourceList == this )
 					{
 						if ( sourceIndex < destIndex )
 						{
 							this.add( dest, sourceIndex );
-							this.add( this.source, destIndex );
+							this.add( TrophyPanel.source, destIndex );
 						}
 						else
 						{
-							this.add( this.source, destIndex );
+							this.add( TrophyPanel.source, destIndex );
 							this.add( dest, sourceIndex );
 						}
 					}
 					else
 					{
-						this.add( this.source, destIndex );
-						this.sourceList.add( dest, sourceIndex );
+						this.add( TrophyPanel.source, destIndex );
+						TrophyPanel.sourceList.add( dest, sourceIndex );
 					}
 				}
 				else	// move, instead of exchange
 				{
-					if ( this.sourceList == this && destIndex >= sourceIndex )
+					if ( TrophyPanel.sourceList == this && destIndex >= sourceIndex )
 					{
 						--destIndex;
 					}
-					this.add( this.source, destIndex );
+					this.add( TrophyPanel.source, destIndex );
 				}
 				this.revalidate();
 				this.repaint();
-				if ( this.sourceList != this )
+				if ( TrophyPanel.sourceList != this )
 				{
-					this.sourceList.revalidate();
-					this.sourceList.repaint();
+					TrophyPanel.sourceList.revalidate();
+					TrophyPanel.sourceList.repaint();
 				}
-				this.source = null;
+				TrophyPanel.source = null;
 			}
 			dtde.dropComplete( true );
 		}
-		
+
 		/* Required methods for LayoutManager */
-		
+
 		public void addLayoutComponent( String name, Component comp )
 		{
 		}
-		
+
 		public void removeLayoutComponent( Component comp )
 		{
 		}
-		
+
 		public Dimension minimumLayoutSize( Container parent )
 		{
 			return this.preferredLayoutSize( parent );
 		}
-		
+
 		public Dimension preferredLayoutSize( Container parent )
 		{
 			int nc = parent.getComponentCount();
@@ -371,7 +371,7 @@ public class TrophyFrame
 			return new Dimension( 600 + ins.left + ins.right,
 				100 * height + ins.top + ins.bottom );
 		}
-		
+
 		public void layoutContainer( Container parent )
 		{
 			Insets ins = parent.getInsets();
@@ -392,7 +392,7 @@ public class TrophyFrame
 				++line;
 			}
 		}
-		
+
 		private int findDrop( int x, int y )
 		{
 			Insets ins = this.getInsets();
@@ -420,17 +420,17 @@ public class TrophyFrame
 			return isExchange ? DnDConstants.ACTION_LINK : DnDConstants.ACTION_MOVE;
 		}
 	}
-	
+
 	private static class DraggableTrophy
 		extends JLabel
 		implements DragGestureListener, DragSourceListener
 	{
 		public Trophy trophy;
-		private static final DragSource dragSource = DragSource.getDefaultDragSource();
-		private static final HashMap similarities = new HashMap();
+		private final DragSource dragSource = DragSource.getDefaultDragSource();
+		private final HashMap similarities = new HashMap();
 		private int[] cache;
 		public int score;
-		
+
 		public DraggableTrophy( Trophy trophy )
 		{
 			super( JComponentUtilities.getImage( trophy.filename ) );
@@ -442,7 +442,7 @@ public class TrophyFrame
 				DnDConstants.ACTION_MOVE | DnDConstants.ACTION_LINK,
 				(DragGestureListener) this );
 		}
-		
+
 		public int getIndex()
 		{
 			Container parent = this.getParent();
@@ -456,7 +456,7 @@ public class TrophyFrame
 			}
 			return -1;	// wut?
 		}
-		
+
 		public int getSimilarity( DraggableTrophy other )
 		{
 			Integer key, rv;
@@ -464,24 +464,24 @@ public class TrophyFrame
 			int id2 = other.trophy.id;
 			key = IntegerPool.get( id1 < id2 ? (id1 << 16 ) | id2 :
 				(id2 << 16) | id1 );
-			rv = (Integer) DraggableTrophy.similarities.get( key );
+			rv = (Integer) this.similarities.get( key );
 			if ( rv != null ) return rv.intValue();
 			int[] img1 = this.grab();
 			int[] img2 = other.grab();
 			int score = 0;
 			for ( int i = Math.min( img1.length, img2.length ) - 1; i >= 0; --i )
 			{
-				score += Math.abs( (img1[ i ] & 0xFF) - (img2[ i ] & 0xFF) );			
+				score += Math.abs( (img1[ i ] & 0xFF) - (img2[ i ] & 0xFF) );
 			}
-			
-			DraggableTrophy.similarities.put( key, IntegerPool.get( score ) );
+
+			this.similarities.put( key, IntegerPool.get( score ) );
 			return score;
 		}
-		
+
 		private int[] grab()
 		{
 			if ( this.cache != null ) return this.cache;
-			
+
 			PixelGrabber g = new PixelGrabber(
 				this.createImage(
 					new FilteredImageSource(
@@ -496,7 +496,7 @@ public class TrophyFrame
 			{
 				return new int[ 0 ];
 			}
-			
+
 			Object rv = g.getPixels();
 			if ( rv instanceof int[] )
 			{
@@ -505,9 +505,9 @@ public class TrophyFrame
 			}
 			return new int[ 0 ];	// don't know how to handle any other format
 		}
-		
+
 		/* Methods required by DragGestureListener */
-		
+
 		public void dragGestureRecognized( DragGestureEvent dge )
 		{
 			TrophyPanel.source = this;
@@ -518,25 +518,25 @@ public class TrophyFrame
 			//	new Point( -50, -50 ), new StringSelection( this.trophy.name ),
 			//	(DragSourceListener) this);
 		}
-		
+
 		/* Methods required by DragSourceListener */
-		
+
 		public void dragEnter( DragSourceDragEvent dsde )
 		{
 		}
-		
+
 		public void dragOver( DragSourceDragEvent dsde )
 		{
 		}
-		
+
 		public void dropActionChanged( DragSourceDragEvent dsde )
 		{
 		}
-		
+
 		public void dragExit( DragSourceEvent dse )
 		{
 		}
-		
+
 		public void dragDropEnd( DragSourceDropEvent dsde )
 		{
 		}

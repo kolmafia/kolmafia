@@ -22,7 +22,6 @@
 package org.jdesktop.swingx.plaf.macosx;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -47,17 +46,17 @@ import org.jdesktop.swingx.plaf.UIManagerExt;
 import org.jdesktop.swingx.plaf.basic.BasicErrorPaneUI;
 
 /**
- * 
+ *
  * Ok, the Title becomes the first line in the error dialog
- * 
- * The text immediately follows. Then come the "Details". This is a 
+ *
+ * The text immediately follows. Then come the "Details". This is a
  * toggle button with an icon and text but no border and no background. The icon
  * looks like a tree toggle (arrow right or down).
- * 
+ *
  * There is then more optional text. The best way to support this is to look
  * in the client properties of the JXErrorPane for any "sub text". Ideally this
  * sub text would be part of the ErrorInfo. Maybe I should just add it there?
- * 
+ *
  * Finally come the buttons. If there is no report action and the error < fatal,
  * the shown ok button should say "close". Otherwise, if there is no report action
  * but the error >= fatal, it should say "Exit Application". If there is a report
@@ -65,7 +64,7 @@ import org.jdesktop.swingx.plaf.basic.BasicErrorPaneUI;
  * the report button. If there is a report action and the error >= fatal, then
  * one button should say "Exit", and the report button should say
  * "Send Report and Exit".
- * 
+ *
  * Whenever either button is clicked (ok button or report button), the "close dialog"
  * procedure should occur.
  *
@@ -74,7 +73,7 @@ import org.jdesktop.swingx.plaf.basic.BasicErrorPaneUI;
 public class MacOSXErrorPaneUI extends BasicErrorPaneUI {
     private JLabel titleLabel;
     private JEditorPane disclaimerText; // this is actually part of the details!!!
-    
+
     //---------------------------------------------------------- constructor
     /** Creates a new instance of BasicErrorPanelUI */
     public MacOSXErrorPaneUI() {
@@ -91,7 +90,7 @@ protected void configureDetailsButton(boolean expanded) {
             detailButton.setIcon(UIManager.getIcon("Tree.collapsedIcon"));
         }
     }
-    
+
     @Override
 protected void configureReportAction(AbstractActionExt reportAction) {
         reportAction.setName(UIManagerExt.getString(CLASS_NAME + ".report_button_text", pane.getLocale()));
@@ -99,7 +98,7 @@ protected void configureReportAction(AbstractActionExt reportAction) {
 //        reportButton.setPreferredSize(new Dimension(100, 30));
 //        reportButton.setMinimumSize(new Dimension(100, 30));
     }
-    
+
     public static ComponentUI createUI(JComponent c) {
         return new MacOSXErrorPaneUI();
     }
@@ -133,7 +132,7 @@ protected void configureReportAction(AbstractActionExt reportAction) {
         frame.setTitle(" ");
         return frame;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -155,7 +154,7 @@ protected void configureReportAction(AbstractActionExt reportAction) {
         }
         return layout;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -166,7 +165,7 @@ protected LayoutManager createDetailPanelLayout() {
         copyToClipboardButton.setVisible(false);
         return layout;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -175,12 +174,12 @@ protected void reinit() {
         super.reinit();
         ErrorInfo info = pane == null ? null : pane.getErrorInfo();
         titleLabel.setText(info == null ? "Unknown Error" : info.getTitle());
-        
+
         Object finePrint = pane.getClientProperty("fine-print");
         String text = finePrint == null ? null : finePrint.toString();
         disclaimerText.setText(text);
         disclaimerText.setVisible(text != null);
-        
+
         if (info != null && info.getErrorLevel() == ErrorLevel.FATAL) {
             closeButton.setText(UIManagerExt.getString(CLASS_NAME + ".fatal_button_text", closeButton.getLocale()));
         } else {
@@ -195,17 +194,17 @@ protected void reinit() {
 protected int getDetailsHeight() {
         return 150;
     }
-    
+
     private void createExtraComponents() {
         titleLabel = new JLabel("Unknown Error");
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD));
         pane.add(titleLabel);
-        
+
         Font f = errorMessage.getFont();
         if (f != null) {
             errorMessage.setFont(f.deriveFont(f.getSize() - 2f));
         }
-        
+
         disclaimerText = new JEditorPane();
         disclaimerText.setContentType("text/html");
         disclaimerText.setVisible(false);
@@ -216,14 +215,14 @@ protected int getDetailsHeight() {
             disclaimerText.setFont(f.deriveFont(f.getSize() - 2f));
         }
         pane.add(disclaimerText);
-        
+
         detailButton.setBorderPainted(false);
         detailButton.setContentAreaFilled(false);
         detailButton.setBorder(BorderFactory.createEmptyBorder());
         detailButton.setMargin(new Insets(0, 0, 0 ,0));
         detailButton.setIcon(UIManager.getIcon("Tree.collapsedIcon"));
         detailButton.setText(UIManagerExt.getString(CLASS_NAME + ".details_expand_text", detailButton.getLocale()));
-        
+
         closeButton.setText(UIManagerExt.getString(CLASS_NAME + ".ok_button_text", closeButton.getLocale()));
     }
 }

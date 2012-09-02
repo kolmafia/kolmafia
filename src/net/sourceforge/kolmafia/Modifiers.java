@@ -951,7 +951,7 @@ public class Modifiers
 
 		int mpbase = (int) rv[ Modifiers.BUFFED_MYS ];
 		if ( this.getBoolean( Modifiers.MOXIE_CONTROLS_MP ) ||
-			(this.getBoolean( Modifiers.MOXIE_MAY_CONTROL_MP ) && 
+			(this.getBoolean( Modifiers.MOXIE_MAY_CONTROL_MP ) &&
 				(int) rv[ Modifiers.BUFFED_MOX ] > mpbase) )
 		{
 			mpbase = (int) rv[ Modifiers.BUFFED_MOX ];
@@ -1148,7 +1148,7 @@ public class Modifiers
 		}
 		return -1;
 	};
-	
+
 	public static final int findName( String name )
 	{
 		return Modifiers.findName( Modifiers.doubleModifiers, name );
@@ -1294,7 +1294,7 @@ public class Modifiers
 
 		return this.strings[ index ];
 	};
-	
+
 	public boolean set( final int index, final double mod )
 	{
 		if ( index < 0 || index >= this.doubles.length )
@@ -1401,7 +1401,7 @@ public class Modifiers
 				changed = true;
 			}
 		}
-		
+
 		return changed;
 	}
 
@@ -1411,7 +1411,7 @@ public class Modifiers
 		{
 		case COMBAT_RATE:
 			// Combat Rate has diminishing returns beyond + or - 25%
-			
+
 			// Assume that all the sources of Combat Rate modifiers are of + or - 5%,
 			// and start by obtaining the current value without the diminishing returns taken into account
 			double rate = this.doubles[ index ];
@@ -1478,7 +1478,7 @@ public class Modifiers
 		{
 			return;
 		}
-		
+
 		String name = mods.name;
 
 		// Add in the double modifiers
@@ -1498,14 +1498,14 @@ public class Modifiers
 				this.add( i, addition[ i ], name );
 			}
 		}
-		
+
 		// Add in string modifiers as appropriate.
 		// Note that there are '==' comparisons with the empty string here:
 		// this is safe because the initializing empty string for the
 		// strings array is contained in the same source file (in reset()),
 		// and is therefore guaranteed by Java to refer to the same string
 		// object, not merely an equal one.
-		
+
 		String val;
 		val = mods.strings[ Modifiers.EQUALIZE ];
 		if ( val != "" && this.strings[ Modifiers.EQUALIZE ] == "" )
@@ -1692,7 +1692,7 @@ public class Modifiers
 		{
 			newBitmaps[ 0 ] |= 1 << Modifiers.VARIABLE;
 		}
-		
+
 		Modifiers.modifiersByName.put( name, newMods );
 
 		return newMods;
@@ -1860,7 +1860,7 @@ public class Modifiers
 			return 0.0;
 		}
 		Modifiers tempMods = new Modifiers();
-		tempMods.setFamiliar( fam );
+		Modifiers.setFamiliar( fam );
 		if ( familiarId != FamiliarPool.HATRACK && familiarId != FamiliarPool.SCARECROW )
 		{
 			// Mad Hatrack ... hats do not give their normal modifiers
@@ -1941,7 +1941,7 @@ public class Modifiers
 			this.add( Modifiers.FAMILIAR_WEIGHT, -10, "dodecapede sympathy" );
 		}
 	}
-	
+
 	public void applySynergies()
 	{
 		int synergetic = this.getRawBitmap( Modifiers.SYNERGETIC );
@@ -1987,7 +1987,7 @@ public class Modifiers
 		int familiarId = familiar.getId();
 		weight = Math.max( 1, weight );
 		Modifiers.currentWeight = weight;
-		
+
 		this.add( Modifiers.getModifiers( "fam:" + familiar.getRace() ) );
 		if ( famItem != null )
 		{
@@ -2022,7 +2022,7 @@ public class Modifiers
 				this.add( Modifiers.MOX_EXPERIENCE, factor, "Tuned Volleyball" );
 			}
 			else
-			{			
+			{
 				this.add( Modifiers.EXPERIENCE, factor, "Volleyball" );
 			}
 		}
@@ -2085,10 +2085,10 @@ public class Modifiers
 			break;
 		}
 	}
-	
+
 	public static final String getFamiliarEffect( final String itemName )
 	{
-		return (String) Modifiers.familiarEffectByName.get( 
+		return (String) Modifiers.familiarEffectByName.get(
 			StringUtilities.getCanonicalName( itemName ) );
 	}
 
@@ -2581,7 +2581,7 @@ public class Modifiers
 
 			String modifiers = new String( data[ 1 ] );
 			Modifiers.modifiersByName.put( name, modifiers );
-			
+
 			Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher( modifiers );
 			if ( matcher.find() )
 			{
@@ -2599,7 +2599,7 @@ public class Modifiers
 				}
 				Modifiers.modifiersByName.put( "fameq:" + name, effect );
 			}
-			
+
 			if ( name.startsWith( "synergy" ) )
 			{
 				String[] pieces = name.split( "\\Q" + name.substring( 7, 8 ) );

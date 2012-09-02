@@ -59,7 +59,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
-import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
@@ -272,7 +271,7 @@ public class BreakfastManager
 			{
 				continue;
 			}
-			     
+
 			if ( !KoLCharacter.hasSkill( skill ) )
 			{
 				continue;

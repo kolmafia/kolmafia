@@ -50,7 +50,6 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -522,7 +521,7 @@ public class AdventureRequest
 			{
 				encounter = AdventureRequest.translateGenericType( encounter, responseText );
 			}
-			StaticEntity.getClient().registerEncounter( encounter, type, responseText );
+			KoLmafia.registerEncounter( encounter, type, responseText );
 		}
 
 		return encounter;
@@ -764,7 +763,7 @@ public class AdventureRequest
 					QuestDatabase.setQuestProgress( Quest.WORSHIP, "step2" );
 				}
 				break;
-				
+
 			case 19:
 				// Limerick Dungeon
 				for ( int i = 0; i < LIMERICKS.length; ++i )
@@ -845,10 +844,10 @@ public class AdventureRequest
 				{
 					QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step5" );
 				}
-				
+
 				// with drum machine: ... show your drum machine to
 				// Gnasir. He nods approvingly. "Well chosen. This thumper will serve you well.
-				
+
 				// also happens in Walk Without Rhythm 2
 				else if ( responseText.indexOf( "This thumper will serve you well" ) != -1 )
 				{
@@ -1205,7 +1204,7 @@ public class AdventureRequest
 
 	public static final void handleDvoraksRevenge( final GenericRequest request )
 	{
-		StaticEntity.getClient().registerEncounter( "Dvorak's Revenge", "Noncombat", null );
+		KoLmafia.registerEncounter( "Dvorak's Revenge", "Noncombat", null );
 		RequestLogger.printLine( "Encounter: Dvorak's Revenge" );
 		RequestLogger.updateSessionLog( "Encounter: Dvorak's Revenge" );
 
