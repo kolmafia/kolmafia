@@ -405,6 +405,24 @@
 7116	Feed	5	0	0
 7117	Siphon Spirit	5	0	0
 7118	Swirl Cloak	5	0	0
+7119
+7120	Quick Attack	5	0	0
+7121	Rive Armor	5	0	0
+7122	Brutal Strike	5	0	0
+7123	First Aid	5	0	0
+7124	Firebolt	5	0	0
+7125	Chillblain	5	0	0
+7126	Forceblast	5	0	0
+7127	Vampiric Tendrils	5	0	0
+7128	Draw New Tiles	5	0	0
+7129	Run Away	5	0	0
+7130
+7131	Kodiak Moment	5	0	0
+7132	Grizzly Scene	5	0	0
+7133	Bear-Backrub	5	0	0
+7134	Bear-ly Legal	5	0	0
+7135	Bear Hug	5	0	0
+7136	I Can Bearly Hear You Over the Applause	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

@@ -148,6 +148,7 @@ jewel-eyed wizard hat	10	none
 knobby helmet turtle	20	none
 leather aviator's cap	50	Mox: 10
 leather mask	60	Mox: 15
+left bear arm	0	none
 lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
 longhaired hippy wig	200	Mox: 85
@@ -192,6 +193,7 @@ rave visor	150	Mox: 60
 ravioli hat	10	none
 red traffic cone	60	Mox: 15
 reinforced beaded headband	170	Mox: 70
+right bear arm	100	Mus: 0	1-handed club
 rusty diving helmet	200	Mox: 85
 safarrri hat	90	Mox: 30
 samurai turtle helmet	25	none

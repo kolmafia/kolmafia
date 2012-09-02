@@ -921,6 +921,8 @@ knob bugle	Weakens Monster
 lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
 lawnmower blade	Weapon Damage: +15
 lead pipe	Muscle: +6, Mysticality: +6
+# left bear arm: Lets you act like a bear
+left bear arm	Muscle Percent: +10, Maximum HP: +30, Damage Reduction: 10
 # lead yo-yo
 linoleum crossbow	Moxie: +7, Spell Damage: +7
 linoleum staff	Mysticality: +7, Spell Damage: +7
@@ -989,6 +991,8 @@ repeating crossbow	Moxie: +2, Critical: 3
 rib of the Bonerdagon	Muscle: +5, Mysticality: +5, Spell Damage: +15
 ridiculously huge sword	Weapon Damage: +12, Muscle: +4
 ridiculously overelaborate ninja weapon	Critical: 3, Fumble: 3
+# right bear arm: Lets you act like a bear
+right bear arm	Muscle Percent: +10, Weapon Damage Percent: +30
 roboduck-on-a-string	Weapon Damage: +5, Item Drop: +5
 rubber axe	Sleaze Damage: +2
 rubber band gun	Moxie: +5
@@ -3443,6 +3447,7 @@ Tenuous Grip on Reality	Moxie Percent: -95
 Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Thaumodynamic	Experience Percent (Mysticality): +5
 # The 'Tussin: Wait, What?
+The Applause That Refreshes	Muscle: +10, Mysticality: +10, Moxie: +10, Experience: +3
 The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
 # The Bone Us Round
 # The Captain's Hammer: +50 Physical Damage (when Unarmed)

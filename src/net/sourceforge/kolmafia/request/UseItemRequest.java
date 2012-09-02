@@ -839,6 +839,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_fireStartingKitUsed" ) ? 0 : 1;
 
+		case ItemPool.LEFT_BEAR_ARM:
+			UseItemRequest.limiter = "insufficient right bear arms";
+			return InventoryManager.getCount( ItemPool.RIGHT_BEAR_ARM );
+
 		}
 
 		switch ( consumptionType )
@@ -4099,6 +4103,19 @@ public class UseItemRequest
 
 		case ItemPool.BALLAST_TURTLE:
 			Preferences.setBoolean( "_ballastTurtleUsed", true );
+			return;
+
+		case ItemPool.LEFT_BEAR_ARM:
+			// Both bear arms are used up to create the box
+			// You find a box, carefully label it, and shove a couple of bear arms into it.
+			if ( responseText.contains( "You find a box" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.RIGHT_BEAR_ARM );
+			}
+			else
+			{
+				ResultProcessor.processItem( ItemPool.LEFT_BEAR_ARM, 1 );
+			}
 			return;
 			
 		}
