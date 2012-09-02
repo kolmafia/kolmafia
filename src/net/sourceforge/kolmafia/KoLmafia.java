@@ -2031,7 +2031,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	public final void deleteAdventureOverride()
+	public static final void deleteAdventureOverride()
 	{
 		for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
 		{
