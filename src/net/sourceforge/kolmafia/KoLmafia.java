@@ -605,16 +605,6 @@ public abstract class KoLmafia
 		}
 	}
 
-	/**
-	 * Constructs a new <code>KoLmafia</code> object. All data fields are
-	 * initialized to their default values, the global settings are loaded
-	 * from disk.
-	 */
-
-	public KoLmafia()
-	{
-	}
-
 	public static final boolean isSessionEnding()
 	{
 		return KoLmafia.SESSION_ENDING;
