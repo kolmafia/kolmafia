@@ -810,9 +810,9 @@ public abstract class KoLmafia
 		TurnCounter.stopCounting( "Holiday Monster window end" );
 	}
 
-	public void refreshSession()
+	public static void refreshSession()
 	{
-		this.refreshSessionData();
+		KoLmafia.refreshSessionData();
 
 		// Check to see if you need to reset the counters.
 
@@ -845,7 +845,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	private void refreshSessionData()
+	private static void refreshSessionData()
 	{
 		KoLmafia.isRefreshing = true;
 
@@ -1032,7 +1032,7 @@ public abstract class KoLmafia
 	 * Used to reset the session tally to its original values.
 	 */
 
-	public void resetSession()
+	public static void resetSession()
 	{
 		KoLConstants.encounterList.clear();
 		KoLConstants.adventureList.clear();

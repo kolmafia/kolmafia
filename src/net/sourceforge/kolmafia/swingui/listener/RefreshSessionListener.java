@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.listener;
 
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.KoLmafia;
 
 
 public class RefreshSessionListener
@@ -42,7 +42,7 @@ public class RefreshSessionListener
 	@Override
 	protected void execute()
 	{
-		StaticEntity.getClient().refreshSession();
+		KoLmafia.refreshSession();
 	}
 }
 

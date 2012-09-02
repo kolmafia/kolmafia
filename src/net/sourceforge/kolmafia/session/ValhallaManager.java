@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 
@@ -212,14 +211,14 @@ public class ValhallaManager
 		UntinkerRequest.reset();
 		ValhallaManager.resetPerAscensionCounters();
 
-		StaticEntity.getClient().resetSession();
+		KoLmafia.resetSession();
 	}
 
 	public static void postAscension()
 	{
 		ItemDatabase.reset();
 
-		StaticEntity.getClient().refreshSession();
+		KoLmafia.refreshSession();
 
 		EquipmentManager.updateEquipmentLists();
 		ConcoctionDatabase.refreshConcoctions( true );
@@ -260,7 +259,7 @@ public class ValhallaManager
 
 		// Pull a VIP key and report on whether a present is available
 		ClanLoungeRequest.visitLounge();
-		
+
 		//force rebuild of daily deeds panel
 		PreferenceListenerRegistry.firePreferenceChanged( "dailyDeedsOptions" );
 	}

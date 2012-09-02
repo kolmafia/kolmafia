@@ -181,11 +181,11 @@ public class LoginManager
 
 		// Perform requests to read current character's data
 
-		StaticEntity.getClient().refreshSession();
+		KoLmafia.refreshSession();
 
 		// Reset the session tally and encounter list
 
-		StaticEntity.getClient().resetSession();
+		KoLmafia.resetSession();
 
 		// Open the session log and indicate that we've logged in.
 
