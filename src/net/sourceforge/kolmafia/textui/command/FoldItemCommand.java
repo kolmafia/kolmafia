@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.ArrayList;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -152,7 +153,7 @@ public class FoldItemCommand
 				source = item;
 				break;
 			}
-
+			
 			// If we have this item equipped, remember where
 			int where = KoLCharacter.equipmentSlot( item );
 			if ( where != EquipmentManager.NONE )
@@ -248,6 +249,9 @@ public class FoldItemCommand
 			if ( legionSlot != -1 )
 			{
 				EquipmentManager.setEquipment( legionSlot, target );
+				KoLCharacter.recalculateAdjustments();
+				KoLCharacter.updateStatus();
+				RequestLogger.printLine( "Now wearing " + targetName );
 			}
 			return;
 		}

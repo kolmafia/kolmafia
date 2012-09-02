@@ -5233,20 +5233,24 @@ public class FightRequest
 
 		switch ( skillId )
 		{
-		case 49:   // Gothy Handwave
+		case SkillPool.GOTHY_HANDWAVE:
 			NemesisDecorator.useGothyHandwave( MonsterStatusTracker.getLastMonsterName(), responseText );
 			break;
 
-		case 55:   // Volcanometeor Showeruption
+		case SkillPool.VOLCANOMETEOR:
 			ResultProcessor.processItem( ItemPool.VOLCANIC_ASH, -1 );
 			break;
 
-		case 3004:
+		case SkillPool.ENTANGLING_NOODLES:
 			FightRequest.castNoodles = true;
 			return;
 
-		case 7024:	// Summon Mayfly Swarm
-			if ( responseText.indexOf( "mayfly bait and swing it" ) != -1 )
+		case SkillPool.MAYFLY_SWARM:
+			if ( responseText.contains( "mayfly bait and swing it" ) ||
+			     responseText.contains( "May flies when" ) ||
+			     responseText.contains( "mayflies buzz in" ) ||
+			     responseText.contains( "mayflies, with bait" ) ||
+				 responseText.contains( "mayflies respond" ) )
 			{
 				Preferences.increment( "_mayflySummons", 1 );
 				Preferences.increment( "mayflyExperience",
@@ -5254,77 +5258,78 @@ public class FightRequest
 			}
 			break;
 
-		case 7038: // Vicious Talon Slash
-		case 7039: // All-You-Can-Beat Wing Buffet
+		case SkillPool.VICIOUS_TALON_SLASH:
+		case SkillPool.WING_BUFFET:
 			Preferences.increment( "birdformRoc", 1 );
 			break;
 
-		case 7040: // Tunnel Upwards
+		case SkillPool.TUNNEL_UP:
 			Preferences.increment( "moleTunnelLevel", 1 );
 			break;
 
-		case 7041: // Tunnel Downwards
+		case SkillPool.TUNNEL_DOWN:
 			Preferences.increment( "moleTunnelLevel", -1 );
 			break;
 
-		case 7042: // Rise From Your Ashes
+		case SkillPool.RISE_FROM_YOUR_ASHES:
 			Preferences.increment( "birdformHot", 1 );
 			break;
 
-		case 7043: // Antarctic Flap
+		case SkillPool.ANTARCTIC_FLAP:
 			Preferences.increment( "birdformCold", 1 );
 			break;
 
-		case 7044: // The Statue Treatment
+		case SkillPool.STATUE_TREATMENT:
 			Preferences.increment( "birdformStench", 1 );
 			break;
 
-		case 7045: // Feast on Carrion
+		case SkillPool.FEAST_ON_CARRION:
 			Preferences.increment( "birdformSpooky", 1 );
 			break;
 
-		case 7046: // Give Your Opponent "The Bird"
+		case SkillPool.GIVE_OPPONENT_THE_BIRD:
 			Preferences.increment( "birdformSleaze", 1 );
 			break;
 
-		case 7050: // Ask the hobo to tell you a joke
+		case SkillPool.HOBO_JOKE:
 			Modifiers.overrideModifier( "fightMods", "Meat Drop: +100" );
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 			break;
 
-		case 7051: // Ask the hobo to dance for you
+		case SkillPool.HOBO_DANCE:
 			Modifiers.overrideModifier( "fightMods", "Item Drop: +100" );
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 			break;
 
-		case 7108: // Fire a badly romantic arrow
+		case SkillPool.BADLY_ROMANTIC_ARROW:
 			Preferences.increment( "_badlyRomanticArrows", 1 );
 			break;
 
-		case 7109: // Fire a boxing-glove arrow
+		case SkillPool.BOXING_GLOVE_ARROW:
 			Preferences.increment( "_boxingGloveArrows", 1 );
 			break;
 
-		case 7110: // Fire a poison arrow
+		case SkillPool.POISON_ARROW:
 			Preferences.increment( "_poisonArrows", 1 );
 			break;
 
-		case 7111: // Fire a fingertrap arrow
+		case SkillPool.FINGERTRAP_ARROW:
 			Preferences.increment( "_fingertrapArrows", 1 );
 			break;
 
-		case 7113: // Squeeze Stress Ball
+		case SkillPool.SQUEEZE_STRESS_BALL:
 			FightRequest.squeezedStressBall = true;
 			Preferences.increment( "_stressBallSqueezes", 1 );
 			return;
 
-		case 7115: // Release the Boots
+		case SkillPool.RELEASE_BOOTS:
 			FightRequest.canStomp = false;
 			Preferences.increment( "_bootStomps", 1 );
 			break;
-		case 7117: // Siphon Spirits
+			
+		case SkillPool.SIPHON_SPIRITS:
 			Preferences.increment( "_mediumSiphons", 1 );
 			break;
 		}
