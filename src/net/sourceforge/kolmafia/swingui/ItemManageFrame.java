@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
@@ -74,6 +73,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 
+import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.CreateSpecialPanel;
@@ -123,7 +123,7 @@ public class ItemManageFrame
 
 		JTabbedPane queueTabs;
 		UseItemDequeuePanel dequeuePanel;
-		
+
 		ItemManageFrame.selectorPanel = new CardLayoutSelectorPanel( "itemManagerIndex" );
 
 		selectorPanel.addPanel( "Usable", new UseItemPanel() );
@@ -212,10 +212,10 @@ public class ItemManageFrame
 		selectorPanel.setSelectedIndex( Preferences.getInteger( "itemManagerIndex" ) );
 
 		this.setCenterComponent( selectorPanel );
-		
+
 		ItemManageFrame.setHeaderStates();
 	}
-	
+
 	public static void saveHeaderStates()
 	{
 		if ( ItemManageFrame.selectorPanel == null )
@@ -251,10 +251,10 @@ public class ItemManageFrame
 					.collectHeaderStates().toString() );
 			}
 		}
-		
+
 		Preferences.setString( "headerStates", builder.toString() );
 	}
-	
+
 	public static void setHeaderStates()
 	{
 		ArrayList<JComponent> panels = ItemManageFrame.selectorPanel.panels;
@@ -262,7 +262,7 @@ public class ItemManageFrame
 		// first, parse the raw string
 
 		String rawPref = Preferences.getString( "headerStates" );
-		
+
 		if ( rawPref.length() < 1 )
 		{
 			return;
@@ -465,7 +465,7 @@ public class ItemManageFrame
 			}
 
 			KoLmafia.updateDisplay( "Gathering data..." );
-			StaticEntity.getClient().makeEndOfRunSaleRequest( selected == JOptionPane.YES_OPTION );
+			StoreManager.endOfRunSale( selected == JOptionPane.YES_OPTION );
 		}
 	}
 
@@ -764,7 +764,7 @@ public class ItemManageFrame
 		{
 		}
 	}
-	
+
 	@Override
 	public void dispose()
 	{

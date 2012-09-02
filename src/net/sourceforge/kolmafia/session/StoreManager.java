@@ -47,16 +47,21 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
+import net.sourceforge.kolmafia.request.AutoMallRequest;
+import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -64,6 +69,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -728,5 +734,79 @@ public abstract class StoreManager
 
 		RequestThread.postRequest( new ManageStoreRequest( itemId, prices, limits ) );
 		KoLmafia.updateDisplay( "Repricing complete." );
+	}
+
+	public static void endOfRunSale( boolean avoidMinPrice )
+	{
+		if ( !KoLCharacter.canInteract() )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You are not yet out of ronin." );
+			return;
+		}
+
+		if ( !InputFieldUtilities.confirm( "Are you sure you'd like to host an end-of-run sale?" ) )
+		{
+			return;
+		}
+
+		// Only place items in the mall which are not
+		// sold in NPC stores and can be autosold.
+
+		AdventureResult[] items = new AdventureResult[ KoLConstants.inventory.size() ];
+		KoLConstants.inventory.toArray( items );
+
+		ArrayList<AdventureResult> autosell = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> automall = new ArrayList<AdventureResult>();
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( items[ i ].getItemId() == ItemPool.MEAT_PASTE || items[ i ].getItemId() == ItemPool.MEAT_STACK || items[ i ].getItemId() == ItemPool.DENSE_STACK )
+			{
+				continue;
+			}
+
+			if ( !ItemDatabase.isTradeable( items[ i ].getItemId() ) )
+			{
+				continue;
+			}
+
+			if ( ItemDatabase.getPriceById( items[ i ].getItemId() ) <= 0 )
+			{
+				continue;
+			}
+
+			if ( NPCStoreDatabase.contains( items[ i ].getName(), false ) )
+			{
+				autosell.add( items[ i ] );
+			}
+			else
+			{
+				automall.add( items[ i ] );
+			}
+		}
+
+		// Now, place all the items in the mall at the
+		// maximum possible price. This allows KoLmafia
+		// to determine the minimum price.
+
+		if ( autosell.size() > 0 && KoLmafia.permitsContinue() )
+		{
+			RequestThread.postRequest( new AutoSellRequest( autosell.toArray() ) );
+		}
+
+		if ( automall.size() > 0 && KoLmafia.permitsContinue() )
+		{
+			RequestThread.postRequest( new AutoMallRequest( automall.toArray() ) );
+		}
+
+		// Now, remove all the items that you intended
+		// to remove from the store due to pricing issues.
+
+		if ( KoLmafia.permitsContinue() )
+		{
+			priceItemsAtLowestPrice( avoidMinPrice );
+		}
+
+		KoLmafia.updateDisplay( "Undercutting sale complete." );
 	}
 }
