@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.persistence.Aliases;
 
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.LoginRequest;
 
@@ -151,6 +152,7 @@ public class KoLmafiaCLI
 			}
 
 			System.out.println();
+			Preferences.setBoolean( "saveStateActive", true );
 			RequestThread.postRequest( new LoginRequest( username, password ) );
 		}
 		catch ( IOException e )
