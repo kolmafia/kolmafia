@@ -45,7 +45,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -90,7 +89,7 @@ public class GoalManager
 	public static final void clearGoals()
 	{
 		GoalManager.goals.clear();
-		
+
 		for ( int i = 0; i < 3; ++i )
 		{
 			GoalManager.GOAL_SUBSTATS_COUNTS[ i ] = 0;
@@ -125,7 +124,7 @@ public class GoalManager
 	public static final void addGoal( AdventureResult goal )
 	{
 		String goalName = goal.getName();
-		
+
 		if ( goalName.equals( AdventureResult.SUBSTATS ) )
 		{
 			if ( !GoalManager.goals.contains( goal ) )
@@ -170,7 +169,7 @@ public class GoalManager
 
 			return;
 		}
-			
+
 		int currentGoalCount = goal.getCount( GoalManager.goals );
 		int desiredGoalCount = goal.getCount();
 
@@ -224,7 +223,7 @@ public class GoalManager
 		GoalManager.clearGoals();
 		GoalManager.addGoal( goal );
 
-		StaticEntity.getClient().makeRequest( location, KoLCharacter.getAdventuresLeft() );
+		KoLmafia.makeRequest( location, KoLCharacter.getAdventuresLeft() );
 
 		if ( !GoalManager.goals.isEmpty() )
 		{
@@ -239,7 +238,7 @@ public class GoalManager
 	public static final void checkAutoStop( String message )
 	{
 		boolean hasOtherGoals = false;
-		
+
 		GoalManager.updateProgress( GoalManager.GOAL_AUTOSTOP );
 
 		if ( !KoLmafia.isAdventuring() )

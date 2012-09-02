@@ -39,7 +39,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
@@ -104,6 +103,6 @@ public class AdventureCommand
 			return;
 		}
 
-		StaticEntity.getClient().makeRequest( adventure, adventureCount );
+		KoLmafia.makeRequest( adventure, adventureCount );
 	}
 }

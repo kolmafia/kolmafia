@@ -1130,7 +1130,7 @@ public abstract class KoLmafia
 	 * @param iterations The number of times the request should be repeated
 	 */
 
-	public void makeRequest( final Runnable request, final int iterations )
+	public static void makeRequest( final Runnable request, final int iterations )
 	{
 		try
 		{
@@ -1168,7 +1168,7 @@ public abstract class KoLmafia
 				}
 			}
 
-			this.executeRequest( request, iterations, wasAdventuring );
+			KoLmafia.executeRequest( request, iterations, wasAdventuring );
 
 			if ( request instanceof KoLAdventure && !wasAdventuring )
 			{
@@ -1209,7 +1209,7 @@ public abstract class KoLmafia
 		return false;
 	}
 
-	private boolean handleConditions( final AdventureResult[] items, final CreateItemRequest[] creatables )
+	private static boolean handleConditions( final AdventureResult[] items, final CreateItemRequest[] creatables )
 	{
 		if ( items.length == 0 )
 		{
@@ -1263,7 +1263,7 @@ public abstract class KoLmafia
 		KoLmafia.abortAfter = msg;
 	}
 
-	private void executeRequest( final Runnable request, final int totalIterations, final boolean wasAdventuring )
+	private static void executeRequest( final Runnable request, final int totalIterations, final boolean wasAdventuring )
 	{
 		Interpreter.forgetPendingState();
 
@@ -1314,7 +1314,7 @@ public abstract class KoLmafia
 			int runBeforeRequest = KoLCharacter.getCurrentRun();
 			KoLmafia.tookChoice = false;
 
-			this.executeRequestOnce( request, wasAdventuring, currentIteration, totalIterations, items, creatables );
+			KoLmafia.executeRequestOnce( request, wasAdventuring, currentIteration, totalIterations, items, creatables );
 
 			if ( isAdventure && KoLmafia.redoSkippedAdventures &&
 			     runBeforeRequest == KoLCharacter.getCurrentRun() )
@@ -1359,7 +1359,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	private void executeAdventureOnce( final KoLAdventure adventure, boolean wasAdventuring,
+	private static void executeAdventureOnce( final KoLAdventure adventure, boolean wasAdventuring,
 		final int currentIteration, final int totalIterations, final AdventureResult[] items,
 		final CreateItemRequest[] creatables )
 	{
@@ -1369,7 +1369,7 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( this.handleConditions( items, creatables ) )
+		if ( KoLmafia.handleConditions( items, creatables ) )
 		{
 			KoLmafia.updateDisplay(
 				MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures." );
@@ -1430,7 +1430,7 @@ public abstract class KoLmafia
 
 		KoLmafia.executeAfterAdventureScript();
 
-		if ( this.handleConditions( items, creatables ) )
+		if ( KoLmafia.handleConditions( items, creatables ) )
 		{
 			KoLmafia.updateDisplay(
 				MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures." );
@@ -1438,12 +1438,12 @@ public abstract class KoLmafia
 		}
 	}
 
-	private void executeRequestOnce( final Runnable request, final boolean wasAdventuring, final int currentIteration,
+	private static void executeRequestOnce( final Runnable request, final boolean wasAdventuring, final int currentIteration,
 		final int totalIterations, final AdventureResult[] items, final CreateItemRequest[] creatables )
 	{
 		if ( request instanceof KoLAdventure )
 		{
-			this.executeAdventureOnce(
+			KoLmafia.executeAdventureOnce(
 				(KoLAdventure) request, wasAdventuring, currentIteration, totalIterations, items, creatables );
 			return;
 		}

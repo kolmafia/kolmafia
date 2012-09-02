@@ -75,7 +75,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
@@ -448,7 +447,7 @@ public class AdventureSelectPanel
 			AdventureSelectPanel.this.countField.setValue( requestCount );
 			boolean resetCount = requestCount == KoLCharacter.getAdventuresLeft();
 
-			StaticEntity.getClient().makeRequest( request, requestCount );
+			KoLmafia.makeRequest( request, requestCount );
 
 			if ( resetCount )
 			{
