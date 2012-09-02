@@ -721,7 +721,7 @@ public abstract class KoLmafia
 		KoLmafia.continuationState = MafiaState.CONTINUE;
 	}
 
-	public final void timein( final String name )
+	public static final void timein( final String name )
 	{
 		// Save the current user settings to disk
 		Preferences.reset( null );

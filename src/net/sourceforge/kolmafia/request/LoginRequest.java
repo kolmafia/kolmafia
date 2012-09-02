@@ -432,7 +432,7 @@ public class LoginRequest
 
 		if ( LoginRequest.isTimingIn )
 		{
-			StaticEntity.getClient().timein( name );
+			KoLmafia.timein( name );
 		}
 		else
 		{
