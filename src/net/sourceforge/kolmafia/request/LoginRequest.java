@@ -47,7 +47,6 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -87,10 +86,6 @@ public class LoginRequest
 		Preferences.setString( this.username, "displayName", this.username );
 
 		this.password = password;
-		if ( StaticEntity.getClient() instanceof KoLmafiaCLI )
-		{
-			Preferences.setBoolean( "saveStateActive", true );
-		}
 	}
 
 	@Override
