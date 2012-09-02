@@ -1496,6 +1496,9 @@ public class ItemPool
 	public static final int GNOMISH_ELBOW = 5770;
 	public static final int GNOMISH_KNEE = 5771;
 	public static final int GNOMISH_FOOT = 5772;
+	public static final int BOX_OF_BEAR_ARM = 5790;
+	public static final int RIGHT_BEAR_ARM = 5791;
+	public static final int LEFT_BEAR_ARM = 5792;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -5796,3 +5796,14 @@
 5779	keel-haulin' knife	weapon	t,d	160
 5780	ancient ice cream scoop	weapon	t,d	180
 5781	soft green echo eyedrop antidote martini	drink	t,d	130
+5782
+5783
+5784
+5785
+5786
+5787
+5788
+5789
+5790	box of bear arms	usable	t	0
+5791	right bear arm	weapon	t	0
+5792	left bear arm	usable, offhand	t	0

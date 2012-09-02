@@ -176,6 +176,17 @@ public class ValhallaManager
 		// Harvest your garden
 		CampgroundRequest.harvestCrop();
 
+		// Repackage bear arms
+		AdventureResult leftArm = ItemPool.get( ItemPool.LEFT_BEAR_ARM, 1 );
+		AdventureResult rightArm = ItemPool.get( ItemPool.RIGHT_BEAR_ARM, 1 );
+		AdventureResult armBox = ItemPool.get( ItemPool.BOX_OF_BEAR_ARM, 1 );
+		if ( KoLConstants.inventory.contains( leftArm ) && KoLConstants.inventory.contains( rightArm )
+			 && !KoLConstants.inventory.contains( armBox ) )
+		{
+			UseItemRequest arm = UseItemRequest.getInstance( leftArm );
+			RequestThread.postRequest( arm );
+		}
+
 		// As the final action before we enter the gash, run a user supplied script
 		// If script aborts, we will not jump.
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "preAscensionScript" ) );

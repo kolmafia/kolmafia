@@ -1047,3 +1047,4 @@
 1046	Meat Shielded	meat.gif	564dd67a86e5efcbb1eda8c35aee335e
 1047	Zomg WTF	zombhead.gif	13e5a6105695d7d0e0577665f58d7dc0	cast 1 Ag-grave-ation
 1048	Disquiet Riot	louder.gif	e1807c9d2a15d4dc5a08a46f0dcd59cf	cast 1 Disquiet Riot
+1049	The Applause That Refreshes	bear_applause.gif	fc7aca601a33ede554d959f60bcfb6bf

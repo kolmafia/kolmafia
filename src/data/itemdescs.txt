@@ -5780,3 +5780,14 @@
 5779	417588957	knife.gif	keel-haulin' knife
 5780	546744324	pizzacut.gif	ancient ice cream scoop
 5781	724294866	martini.gif		soft green echo eyedrop antidote martini
+5782
+5783
+5784
+5785
+5786
+5787
+5788
+5789
+5790	424762876	beararms.gif	box of bear arms
+5791	409034560	beararm_right.gif	right bear arm
+5792	208749545	beararm_left.gif	left bear arm
