@@ -352,7 +352,7 @@ public abstract class KoLmafia
 
 		}
 
-		boolean useGUI = true;
+		StaticEntity.setGUIRequired( true );
 
 		for ( int i = 0; i < args.length; ++i )
 		{
@@ -377,11 +377,11 @@ public abstract class KoLmafia
 			}
 			else if ( args[ i ].equalsIgnoreCase( "--CLI" ) )
 			{
-				useGUI = false;
+				StaticEntity.setGUIRequired( false );
 			}
 			else if ( args[ i ].equalsIgnoreCase( "--GUI" ) )
 			{
-				useGUI = true;
+				StaticEntity.setGUIRequired( true );
 			}
 		}
 
@@ -508,7 +508,7 @@ public abstract class KoLmafia
 		// Now run the main routines for each, so that
 		// you have an interface.
 
-		if ( useGUI )
+		if ( StaticEntity.isGUIRequired() )
 		{
 			KoLmafiaGUI.initialize();
 		}
@@ -526,7 +526,7 @@ public abstract class KoLmafia
 
 		for ( int i = 0; i < args.length; ++i )
 		{
-			if ( args[ i ].equalsIgnoreCase( "--CLI" ) )
+			if ( args[ i ].equalsIgnoreCase( "--CLI" ) || args[ i ].equalsIgnoreCase( "--GUI" ) )
 			{
 				continue;
 			}
@@ -545,7 +545,7 @@ public abstract class KoLmafia
 
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + actualScript );
 		}
-		else if ( !useGUI )
+		else if ( !StaticEntity.isGUIRequired() )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.attemptLogin( "" );
 		}
@@ -558,7 +558,7 @@ public abstract class KoLmafia
 		// Always read input from the command line when you're not
 		// in GUI mode.
 
-		if ( !useGUI )
+		if ( !StaticEntity.isGUIRequired() )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.listenForCommands();
 		}

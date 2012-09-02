@@ -69,6 +69,8 @@ public abstract class StaticEntity
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
+
+	private static boolean isGUIRequired = false;
 	private static boolean isHeadless = System.getProperty( "java.awt.headless", "" ).equals( "true" );
 
 	public static final ArrayList<ActionPanel> existingPanels = new ArrayList<ActionPanel>();
@@ -127,6 +129,16 @@ public abstract class StaticEntity
 			version = version.substring( 10 );
 		}
 		return StringUtilities.isNumeric( version ) ? StringUtilities.parseInt( version ) : 0;
+	}
+
+	public static final void setGUIRequired( boolean isGUIRequired )
+	{
+		StaticEntity.isGUIRequired = isGUIRequired;
+	}
+
+	public static final boolean isGUIRequired()
+	{
+		return StaticEntity.isGUIRequired && !StaticEntity.isHeadless;
 	}
 
 	public static final void setClient( final KoLmafia client )

@@ -511,7 +511,7 @@ public abstract class GenericFrame
 
 	protected void checkForLogout()
 	{
-		if ( StaticEntity.getClient() instanceof KoLmafiaGUI && !GenericFrame.instanceExists() )
+		if ( StaticEntity.isGUIRequired() && !GenericFrame.instanceExists() )
 		{
 			RequestThread.runInParallel( new LogoutRunnable() );
 		}
