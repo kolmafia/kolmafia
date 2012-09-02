@@ -61,7 +61,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -252,7 +251,7 @@ public class MallSearchFrame
 			MallSearchFrame.this.currentlyBuying = true;
 
 			SpecialOutfit.createImplicitCheckpoint();
-			StaticEntity.getClient().makePurchases( MallSearchFrame.this.results, purchases, count, false );
+			KoLmafia.makePurchases( MallSearchFrame.this.results, purchases, count, false );
 			SpecialOutfit.restoreImplicitCheckpoint();
 
 			MallSearchFrame.this.currentlyBuying = false;

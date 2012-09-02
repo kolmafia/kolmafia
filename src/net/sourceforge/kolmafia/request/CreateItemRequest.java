@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -499,7 +498,7 @@ public class CreateItemRequest
 	{
 		makeDough( false );
 	}
-	
+
 	public void makeDough( boolean onHand )
 	{
 		int input = -1;
@@ -533,8 +532,7 @@ public class CreateItemRequest
 			// Using makePurchases directly because retrieveItem does not handle this recursion gracefully.
 			AdventureResult dough = ItemPool.get( ItemPool.DOUGH, this.quantityNeeded );
 			ArrayList results = StoreManager.searchMall( dough );
-			StaticEntity.getClient()
-				.makePurchases( results, results.toArray(), dough.getCount(), false, 50 );
+			KoLmafia.makePurchases( results, results.toArray(), dough.getCount(), false, 50 );
 		}
 
 		// If we don't have the correct tool, and the person wishes to
@@ -841,7 +839,7 @@ public class CreateItemRequest
 			{
 				( new EquipmentRequest( hammer, slot ) ).run();
 			}
-			
+
 			return KoLCharacter.hasEquipped( hammer, slot );
 		}
 
