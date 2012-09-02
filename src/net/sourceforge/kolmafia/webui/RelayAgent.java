@@ -62,7 +62,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
-import net.sourceforge.kolmafia.session.ValhallaManager;
 
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;

@@ -57,18 +57,18 @@ import org.jdesktop.swingx.plaf.UIManagerExt;
 
 /**
  * Base implementation of <code>Header</code> UI. <p>
- * 
+ *
  * PENDING JW: This implementation is unusual in that it does not keep a reference
  * to the component it controls. Typically, such is only the case if the ui is
- * shared between instances. Historical? A consequence is that the un/install methods 
- * need to carry the header as parameter. Which looks funny when at the same time 
+ * shared between instances. Historical? A consequence is that the un/install methods
+ * need to carry the header as parameter. Which looks funny when at the same time
  * the children of the header are instance fields in this. Should think about cleanup:
  * either get rid off the instance fields here, or reference the header and remove
  * the param (would break subclasses).<p>
- * 
+ *
  * PENDING JW: keys for uidefaults are inconsistent - most have prefix "JXHeader." while
  * defaultIcon has prefix "Header." <p>
- * 
+ *
  * @author rbair
  * @author rah003
  * @author Jeanette Winzenburg
@@ -199,10 +199,10 @@ public class BasicHeaderUI extends HeaderUI {
     /**
      * Installs default header properties.
      * <p>
-     * 
+     *
      * NOTE: this method is called before the children are created, so must not
      * try to access any of those!.
-     * 
+     *
      * @param header the header to install.
      */
     protected void installDefaults(JXHeader header) {
@@ -253,17 +253,17 @@ public class BasicHeaderUI extends HeaderUI {
             header.setDescriptionForeground(descForeground != null ? descForeground
                     : UIManagerExt.getColor("Label.foreground"));
         }
-        
+
         // icon label properties
         if (isUIInstallable(header.getIcon())) {
             header.setIcon(UIManager.getIcon("Header.defaultIcon"));
         }
     }
-    
+
     /**
      * Uninstalls the given header's default properties. This implementation
      * does nothing.
-     * 
+     *
      * @param h the header to ininstall the properties from.
      */
     protected void uninstallDefaults(JXHeader h) {
@@ -272,7 +272,7 @@ public class BasicHeaderUI extends HeaderUI {
     /**
      * Creates, configures, adds contained components.
      * PRE: header's default properties must be set before calling this.
-     * 
+     *
      * @param header the header to install the components into.
      */
     protected void installComponents(JXHeader header) {
@@ -286,7 +286,7 @@ public class BasicHeaderUI extends HeaderUI {
 
     /**
      * Unconfigures, removes and nulls contained components.
-     * 
+     *
      * @param header the header to install the components into.
      */
     protected void uninstallComponents(JXHeader header) {
@@ -301,7 +301,7 @@ public class BasicHeaderUI extends HeaderUI {
 
     /**
      * Configures the component default properties from the given header.
-     * 
+     *
      * @param header the header to install the components into.
      */
     protected void installComponentDefaults(JXHeader header) {
@@ -319,10 +319,10 @@ public class BasicHeaderUI extends HeaderUI {
         imagePanel.setIcon(header.getIcon());
 
     }
-    
+
     /**
-     * Returns a Font based on the param which is not of type UIResource. 
-     * 
+     * Returns a Font based on the param which is not of type UIResource.
+     *
      * @param font the base font
      * @return a font not of type UIResource, may be null.
      */
@@ -331,10 +331,10 @@ public class BasicHeaderUI extends HeaderUI {
         // PENDING JW: correct way to create another font instance?
        return font.deriveFont(font.getAttributes());
     }
-    
+
     /**
-     * Returns a Color based on the param which is not of type UIResource. 
-     * 
+     * Returns a Color based on the param which is not of type UIResource.
+     *
      * @param color the base color
      * @return a color not of type UIResource, may be null.
      */
@@ -344,24 +344,24 @@ public class BasicHeaderUI extends HeaderUI {
         float[] rgb = color.getRGBComponents(null);
         return new Color(rgb[0], rgb[1], rgb[2], rgb[3]);
     }
-    
+
     /**
      * Checks and returns whether the given property should be replaced
      * by the UI's default value.<p>
-     * 
+     *
      * PENDING JW: move as utility method ... where?
-     * 
+     *
      * @param property the property to check.
      * @return true if the given property should be replaced by the UI#s
-     *   default value, false otherwise. 
+     *   default value, false otherwise.
      */
     private boolean isUIInstallable(Object property) {
        return (property == null) || (property instanceof UIResource);
     }
-    
+
     /**
      * Uninstalls component defaults. This implementation does nothing.
-     * 
+     *
      * @param header the header to uninstall from.
      */
     protected void uninstallComponentDefaults(JXHeader header) {
@@ -381,8 +381,8 @@ public class BasicHeaderUI extends HeaderUI {
                     View v = (View) descriptionPane.getClientProperty(BasicHTML.propertyKey);
                     // view might get lost on LAF change ...
                     if (v == null) {
-                        descriptionPane.putClientProperty(BasicHTML.propertyKey, 
-                                descriptionPane.getMultiLineSupport().createView(descriptionPane));
+                        descriptionPane.putClientProperty(BasicHTML.propertyKey,
+                        	JXLabel.MultiLineSupport.createView(descriptionPane));
                         v = (View) descriptionPane.getClientProperty(BasicHTML.propertyKey);
                     }
                     if (v != null) {
@@ -450,14 +450,14 @@ public class BasicHeaderUI extends HeaderUI {
             h.add(imagePanel, new GridBagConstraints(0, 0, 1, 2, 0.0, 1.0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.NONE, new Insets(12, 11, 0, 11), 0, 0));
         }
     }
-    
-    
+
+
 
     protected Painter createBackgroundPainter() {
         MattePainter p = new MattePainter(new GradientPaint(0, 0, gradientLightColor, 1, 0, gradientDarkColor));
         p.setPaintStretched(true);
         return new PainterUIResource(p);
     }
-    
-    
+
+
 }

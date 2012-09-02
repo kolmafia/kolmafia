@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -303,7 +302,7 @@ public class DiscoCombatHelper
 		}
 		return -1;
 	}
-	
+
 	public static String disambiguateCombo( String name )
 	{
 		name = name.trim().toLowerCase();
@@ -316,7 +315,7 @@ public class DiscoCombatHelper
 		}
 		return null;
 	}
-	
+
 	public static int[] getCombo( String name )
 	{
 		name = name.trim().toLowerCase();
@@ -329,14 +328,14 @@ public class DiscoCombatHelper
 		}
 		return null;
 	}
-	
+
 	private static int[] getCombo( final int combo )
 	{
 		if ( !DiscoCombatHelper.canCombo || !knownCombo[ combo ] )
 		{
 			return null;
 		}
-		
+
 		int[][] data = COMBO_SKILLS[ combo ];
 		int[] rv = new int[ data.length ];
 		for ( int i = 0; i < data.length; ++i )
@@ -375,7 +374,7 @@ public class DiscoCombatHelper
 				{
 					continue;
 				}
-				
+
 				for ( int test = FIRST_RAVE_COMBO; test < RANDOM_RAVE; ++test )
 				{
 					int[][] testdata = COMBO_SKILLS[ test ];
@@ -756,7 +755,7 @@ public class DiscoCombatHelper
 		}
 		return true;
 	}
-	
+
 	private static final StringBuffer generateTable()
 	{
 		StringBuffer buffer = new StringBuffer();
@@ -893,7 +892,7 @@ public class DiscoCombatHelper
 		{
 			isEnabled &= KoLCharacter.hasSkill( skillName );
 		}
-			       
+
 		// Make sure we have the MP to use the skill
 		if ( isEnabled )
 		{

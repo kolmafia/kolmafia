@@ -69,7 +69,6 @@ import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 import javax.swing.text.WrappedPlainView;
 import org.jdesktop.swingx.painter.AbstractPainter;
-import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
 
 /**
@@ -113,24 +112,24 @@ import org.jdesktop.swingx.painter.Painter;
  * @author mario_cesar
  */
 public class JXLabel extends JLabel {
-    
+
     /**
      * Text alignment enums. Controls alignment of the text when line wrapping is enabled.
      */
     public enum TextAlignment implements IValue {
         LEFT(StyleConstants.ALIGN_LEFT), CENTER(StyleConstants.ALIGN_CENTER), RIGHT(StyleConstants.ALIGN_RIGHT), JUSTIFY(StyleConstants.ALIGN_JUSTIFIED);
-        
+
         private int value;
         private TextAlignment(int val) {
             value = val;
         }
-        
+
         public int getValue() {
             return value;
         }
 
     }
-    
+
     protected interface IValue {
         int getValue();
     }
@@ -164,7 +163,7 @@ public class JXLabel extends JLabel {
     private int occupiedWidth;
 
     private static final String oldRendererKey = "was" + BasicHTML.propertyKey;
-    
+
 //    private static final Logger log = Logger.getAnonymousLogger();
 //    static {
 //        log.setLevel(Level.FINEST);
@@ -245,7 +244,7 @@ public class JXLabel extends JLabel {
 	protected void doPaint(Graphics2D g, JXLabel label, int width, int height) {
                 Insets i = getInsets();
                 g = (Graphics2D) g.create(-i.left, -i.top, width, height);
-                
+
                 try {
                     label.paint(g);
                 } finally {
@@ -259,7 +258,7 @@ public class JXLabel extends JLabel {
 	protected boolean shouldUseCache() {
                 return false;
             }
-            
+
             @Override
             public boolean equals(Object obj) {
                 return obj != null && this.getClass().equals(obj.getClass());
@@ -365,7 +364,7 @@ public class JXLabel extends JLabel {
     public final Painter getBackgroundPainter() {
         return backgroundPainter;
     }
-    
+
     /**
      * Gets current value of text rotation in rads.
      *
@@ -394,8 +393,8 @@ public class JXLabel extends JLabel {
             if (view == null) {
                 if (isLineWrap() && !MultiLineSupport.isHTML(getText())) {
                     // view might get lost on LAF change ...
-                    putClientProperty(BasicHTML.propertyKey, 
-                            getMultiLineSupport().createView(this));
+                    putClientProperty(BasicHTML.propertyKey,
+                    	JXLabel.MultiLineSupport.createView(this));
                     view = (View) getClientProperty(BasicHTML.propertyKey);
                 } else {
                     return size;
@@ -690,7 +689,7 @@ public class JXLabel extends JLabel {
     public boolean isPaintBorderInsets() {
         return paintBorderInsets;
     }
-    
+
     @Override
     public boolean isOpaque() {
         return painting ? false : super.isOpaque();
@@ -733,7 +732,7 @@ public class JXLabel extends JLabel {
             Insets i = getInsets();
             if (backgroundPainter != null) {
                 Graphics2D tmp = (Graphics2D) g.create();
-                
+
                 try {
                     if (!isPaintBorderInsets()) {
                         tmp.translate(i.left, i.top);
@@ -998,7 +997,7 @@ public class JXLabel extends JLabel {
             BasicEditorKit kit = getFactory();
             float rightIndent = 0;
             if (c.getIcon() != null && c.getHorizontalTextPosition() != SwingConstants.CENTER) {
-                rightIndent = c.getIcon().getIconWidth() + c.getIconTextGap(); 
+                rightIndent = c.getIcon().getIconWidth() + c.getIconTextGap();
             }
             Document doc = kit.createDefaultDocument(c.getFont(), c.getForeground(), c.getTextAlignment(), rightIndent);
             Reader r = new StringReader(c.getText() == null ? "" : c.getText());
@@ -1149,7 +1148,7 @@ public class JXLabel extends JLabel {
             //setSize(c.getMaxLineSpan() > -1 ? c.getMaxLineSpan() : view.getPreferredSpan(X_AXIS), view.getPreferredSpan(Y_AXIS));
             setSize(c.getMaxLineSpan() > -1 ? c.getMaxLineSpan() : w, host.getVisibleRect().height);
         }
-        
+
         @Override
         protected void updateLayout(ElementChange ec, DocumentEvent e, Shape a) {
             if ( (a != null)) {

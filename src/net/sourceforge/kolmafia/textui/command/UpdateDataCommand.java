@@ -58,7 +58,7 @@ public class UpdateDataCommand
 
 		if ( parameters.equalsIgnoreCase( "save" ) )
 		{
-			this.CLI.saveDataOverride();
+			KoLmafia.saveDataOverride();
 			return;
 		}
 

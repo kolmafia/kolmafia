@@ -1628,9 +1628,9 @@ public class Parser
 
 			this.readToken(); //read }
 		}
-		
+
 		// catch clauses would be parsed here
-		
+
 		if ( this.currentToken() == null || !this.currentToken().equals( "finally" ) )
 		{	// this would not be an error if at least one catch was present
 			throw this.parseException( "\"try\" without \"finally\" is pointless" );
@@ -3656,7 +3656,7 @@ public class Parser
 
 	private final ScriptException undefinedFunctionException( final String name, final ValueList params )
 	{
-		return this.parseException( this.undefinedFunctionMessage( name, params ) );
+		return this.parseException( Parser.undefinedFunctionMessage( name, params ) );
 	}
 
 	private final ScriptException multiplyDefinedFunctionException( final String name, final VariableReferenceList params )
@@ -3676,7 +3676,7 @@ public class Parser
 		buffer.append( "' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts." );
 		return buffer.toString();
 	}
-	
+
 	public final void warning( final String msg )
 	{
 		RequestLogger.printLine( "WARNING: " + msg + " " + this.getLineAndFile() );

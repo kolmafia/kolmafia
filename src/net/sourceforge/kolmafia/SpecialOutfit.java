@@ -168,7 +168,7 @@ public class SpecialOutfit
 		if ( piece != EquipmentRequest.UNEQUIP )
 		{
 			this.pieces.add( piece );
-			this.hash |= this.pieceHash( piece );
+			this.hash |= SpecialOutfit.pieceHash( piece );
 		}
 	}
 

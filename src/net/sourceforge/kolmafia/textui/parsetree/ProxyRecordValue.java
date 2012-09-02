@@ -93,8 +93,7 @@ public class ProxyRecordValue
 		Object rv;
 		try
 		{
-			rv = this.getClass().getMethod(
-				"get_" + type.getFieldNames()[ index ], null ).invoke( this, null );
+			rv = this.getClass().getMethod( "get_" + type.getFieldNames()[ index ] ).invoke( this );
 		}
 		catch ( InvocationTargetException e )
 		{
@@ -718,7 +717,7 @@ public class ProxyRecordValue
 		public Value get_poison()
 		{
 			int poisonLevel = ((MonsterData) this.content).getPoison();
-			String poisonName = poisonLevel == Integer.MAX_VALUE ? 
+			String poisonName = poisonLevel == Integer.MAX_VALUE ?
 				"none" :
 				EffectDatabase.getEffectName( EffectDatabase.POISON_ID[ poisonLevel ] );
 			return DataTypes.parseEffectValue( poisonName, true );
