@@ -59,7 +59,6 @@ import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -259,7 +258,7 @@ public class SendMessageFrame
 		attachmentsArray[ this.attachments.size() ] =
 			new AdventureResult( AdventureResult.MEAT, InputFieldUtilities.getValue( this.attachedMeat, 0 ) );
 
-		String[] recipients = StaticEntity.getClient().extractTargets( (String) this.recipientEntry.getSelectedItem() );
+		String[] recipients = ContactManager.extractTargets( (String) this.recipientEntry.getSelectedItem() );
 
 		for ( int i = 0; i < recipients.length; ++i )
 		{

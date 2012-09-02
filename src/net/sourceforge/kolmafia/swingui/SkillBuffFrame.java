@@ -53,7 +53,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -197,7 +196,7 @@ public class SkillBuffFrame
 			}
 
 			String[] targets =
-				StaticEntity.getClient().extractTargets( (String) SkillBuffFrame.this.targetSelect.getSelectedItem() );
+				ContactManager.extractTargets( (String) SkillBuffFrame.this.targetSelect.getSelectedItem() );
 
 			int buffCount = !maxBuff ? InputFieldUtilities.getValue( SkillBuffFrame.this.amountField, 1 ) : Integer.MAX_VALUE;
 			if ( buffCount == 0 )
