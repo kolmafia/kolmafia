@@ -65,7 +65,6 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.PrefixMap;
 
 public class KoLmafiaCLI
-	extends KoLmafia
 {
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 

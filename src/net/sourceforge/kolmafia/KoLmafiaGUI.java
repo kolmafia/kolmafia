@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.request.ClanWarRequest;
 import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
@@ -70,7 +69,6 @@ import net.sourceforge.kolmafia.swingui.CakeArenaFrame;
 import net.sourceforge.kolmafia.swingui.CalendarFrame;
 import net.sourceforge.kolmafia.swingui.ClanManageFrame;
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
-import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.swingui.LoginFrame;
@@ -90,7 +88,6 @@ import net.sourceforge.kolmafia.webui.RelayServer;
 import tab.CloseTabbedPane;
 
 public class KoLmafiaGUI
-	extends KoLmafia
 {
 	/**
 	 * The main method. Currently, it instantiates a single instance of the <code>KoLmafia</code>after setting the
@@ -99,9 +96,6 @@ public class KoLmafiaGUI
 
 	public static final void initialize()
 	{
-		KoLmafiaGUI session = new KoLmafiaGUI();
-		StaticEntity.setClient( session );
-
 		KoLmafiaGUI.initializeLoginInterface();
 
 		// All that completed, check to see if there is an auto-login

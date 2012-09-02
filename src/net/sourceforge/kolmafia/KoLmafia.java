@@ -515,7 +515,6 @@ public abstract class KoLmafia
 		}
 		else
 		{
-			StaticEntity.setClient( KoLmafiaCLI.DEFAULT_SHELL );
 			RequestLogger.openStandard();
 		}
 

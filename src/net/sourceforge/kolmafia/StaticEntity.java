@@ -141,16 +141,6 @@ public abstract class StaticEntity
 		return StaticEntity.isGUIRequired && !StaticEntity.isHeadless;
 	}
 
-	public static final void setClient( final KoLmafia client )
-	{
-		StaticEntity.client = client;
-	}
-
-	public static final KoLmafia getClient()
-	{
-		return StaticEntity.client;
-	}
-
 	public static final void registerPanel( final ActionPanel panel )
 	{
 		synchronized ( StaticEntity.existingPanels )
