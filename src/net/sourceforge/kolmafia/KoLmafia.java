@@ -38,6 +38,7 @@ import java.awt.Frame;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.RandomAccessFile;
 
@@ -340,6 +341,23 @@ public abstract class KoLmafia
 
 	public static final void main( final String[] args )
 	{
+		System.out.println();
+		System.out.println( StaticEntity.getVersion() );
+		System.out.println( KoLConstants.VERSION_DATE );
+		System.out.println();
+
+		try
+		{
+			System.out.println( "Currently Running on " + System.getProperty( "os.name" ) );
+			System.out.println( "Local Directory is " + KoLConstants.ROOT_LOCATION.getCanonicalPath() );
+			System.out.println( "Using Java " + System.getProperty( "java.version" ) );
+			System.out.println();
+		}
+		catch ( IOException e )
+		{
+
+		}
+
 		boolean useGUI = true;
 
 		for ( int i = 0; i < args.length; ++i )
@@ -361,9 +379,6 @@ public abstract class KoLmafia
 			}
 			else if ( args[ i ].equalsIgnoreCase( "--VERSION" ) )
 			{
-				System.out.println( KoLConstants.VERSION_NAME );
-				System.out.println( KoLConstants.VERSION_DATE );
-
 				System.exit( 0 );
 			}
 			else if ( args[ i ].equalsIgnoreCase( "--CLI" ) )
@@ -505,7 +520,8 @@ public abstract class KoLmafia
 		}
 		else
 		{
-			KoLmafiaCLI.initialize();
+			StaticEntity.setClient( KoLmafiaCLI.DEFAULT_SHELL );
+			RequestLogger.openStandard();
 		}
 
 		// Now, maybe the person wishes to run something
@@ -929,7 +945,7 @@ public abstract class KoLmafia
 			RequestThread.postRequest( new StorageRequest() );
 			CafeRequest.pullLARPCard();
 		}
-		
+
 		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.KEYOTRON, 1 ) ) && Preferences.getInteger( "lastKeyotronUse" ) != KoLCharacter.getAscensions() )
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.KEYOTRON ) );

@@ -89,29 +89,6 @@ public class KoLmafiaCLI
 	public static int FULL_LINE_CMD = 1;
 	public static int FLOW_CONTROL_CMD = 2;
 
-	public static final void initialize()
-	{
-		System.out.println();
-		System.out.println( StaticEntity.getVersion() );
-		System.out.println( KoLConstants.VERSION_DATE );
-		System.out.println();
-
-		try
-		{
-			System.out.println( "Currently Running on " + System.getProperty( "os.name" ) );
-			System.out.println( "Local Directory is " + KoLConstants.ROOT_LOCATION.getCanonicalPath() );
-			System.out.println( "Using Java " + System.getProperty( "java.version" ) );
-			System.out.println();
-		}
-		catch ( IOException e )
-		{
-
-		}
-
-		StaticEntity.setClient( KoLmafiaCLI.DEFAULT_SHELL );
-		RequestLogger.openStandard();
-	}
-
 	/**
 	 * Constructs a new <code>KoLmafiaCLI</code> object. All data fields are initialized to their default values, the
 	 * global settings are loaded from disk.
