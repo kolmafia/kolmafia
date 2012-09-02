@@ -216,7 +216,7 @@ public class LoginManager
 		// Rebuild Scripts menu if needed
 		GenericFrame.compileScripts();
 
-		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
+		if ( StaticEntity.isGUIRequired() )
 		{
 			KoLmafiaGUI.intializeMainInterfaces();
 		}

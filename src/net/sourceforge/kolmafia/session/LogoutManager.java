@@ -72,7 +72,7 @@ public class LogoutManager
 		// If you need to allow for another login, create a login frame
 		// to ensure that there is an active frame to display messages.
 
-		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
+		if ( StaticEntity.isGUIRequired() )
 		{
 			KoLmafiaGUI.constructFrame( LoginFrame.class );
 		}
