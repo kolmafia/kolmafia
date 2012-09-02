@@ -224,7 +224,7 @@ public class KoLmafiaCLI
 			{
 				line = KoLmafiaCLI.this.getNextLine( " > " );
 
-				if ( StaticEntity.getClient() == KoLmafiaCLI.this )
+				if ( KoLmafiaCLI.DEFAULT_SHELL == KoLmafiaCLI.this )
 				{
 					KoLmafia.forceContinue();
 				}
@@ -236,7 +236,7 @@ public class KoLmafiaCLI
 					KoLmafiaCLI.this.isGUI = true;
 				}
 
-				if ( StaticEntity.getClient() == KoLmafiaCLI.this )
+				if ( KoLmafiaCLI.DEFAULT_SHELL == KoLmafiaCLI.this )
 				{
 					KoLmafia.forceContinue();
 				}
@@ -251,7 +251,7 @@ public class KoLmafiaCLI
 
 		while ( line == null )
 		{
-			if ( message != null && KoLmafiaCLI.this.queuedLines.isEmpty() && StaticEntity.getClient() == KoLmafiaCLI.this && KoLmafiaCLI.this.retriever.isAlive() )
+			if ( message != null && KoLmafiaCLI.this.queuedLines.isEmpty() && KoLmafiaCLI.DEFAULT_SHELL == KoLmafiaCLI.this && KoLmafiaCLI.this.retriever.isAlive() )
 			{
 				RequestLogger.printLine();
 
@@ -274,7 +274,7 @@ public class KoLmafiaCLI
 				return null;
 			}
 
-			if ( StaticEntity.getClient() == KoLmafiaCLI.this )
+			if ( KoLmafiaCLI.DEFAULT_SHELL == KoLmafiaCLI.this )
 			{
 				RequestLogger.printLine();
 			}
@@ -296,7 +296,7 @@ public class KoLmafiaCLI
 	{
 		KoLmafia.forceContinue();
 
-		if ( StaticEntity.getClient() == KoLmafiaCLI.this )
+		if ( KoLmafiaCLI.DEFAULT_SHELL == KoLmafiaCLI.this )
 		{
 			this.retriever.start();
 			this.processor.start();
