@@ -785,7 +785,7 @@ public abstract class InventoryManager
 			}
 
 			ArrayList results = StoreManager.searchMall( item );
-			StaticEntity.getClient().makePurchases(
+			KoLmafia.makePurchases(
 				results, results.toArray(), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
 			StoreManager.updateMallPrice( item, results );
 
@@ -929,7 +929,7 @@ public abstract class InventoryManager
 			}
 
 			ArrayList results = StoreManager.searchMall( item );
-			StaticEntity.getClient().makePurchases(
+			KoLmafia.makePurchases(
 				results, results.toArray(), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
 			StoreManager.updateMallPrice( item, results );
 			missingCount = item.getCount() - item.getCount( KoLConstants.inventory );

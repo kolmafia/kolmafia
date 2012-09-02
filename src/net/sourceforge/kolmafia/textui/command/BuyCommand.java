@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -86,7 +85,7 @@ public class BuyCommand
 			}
 
 			ArrayList results = StoreManager.searchMall( match );
-			StaticEntity.getClient().makePurchases( results, results.toArray(), match.getCount(), false, priceLimit );
+			KoLmafia.makePurchases( results, results.toArray(), match.getCount(), false, priceLimit );
 			StoreManager.updateMallPrice( match, results );
 		}
 	}
