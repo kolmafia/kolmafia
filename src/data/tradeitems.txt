@@ -5806,4 +5806,4 @@
 5789
 5790	box of bear arms	usable	t	0
 5791	right bear arm	weapon	t	0
-5792	left bear arm	usable, offhand	t	0
+5792	left bear arm	offhand, usable	t	0
