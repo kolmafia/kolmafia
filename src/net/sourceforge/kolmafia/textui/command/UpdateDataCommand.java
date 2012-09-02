@@ -52,7 +52,7 @@ public class UpdateDataCommand
 	{
 		if ( parameters.equalsIgnoreCase( "clear" ) )
 		{
-			this.CLI.deleteAdventureOverride();
+			KoLmafia.deleteAdventureOverride();
 			return;
 		}
 
