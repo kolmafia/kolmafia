@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
@@ -67,6 +68,6 @@ public class MonsterDataCommand
 		data.getMonsterData( buffer, false );
 		buffer.append( "</html>" );
 
-		this.CLI.showHTML( "", buffer.toString() );
+		KoLmafiaCLI.showHTML( buffer.toString() );
 	}
 }

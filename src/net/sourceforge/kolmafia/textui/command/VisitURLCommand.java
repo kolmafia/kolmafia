@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -49,7 +50,7 @@ public class VisitURLCommand
 	public void run( String cmd, String parameters )
 	{
 		String url = cmd.equals( "text" ) ? parameters : cmd;
-		
+
 		GenericRequest visitor = new GenericRequest( url );
 
 		if ( GenericRequest.shouldIgnore( visitor ) )
@@ -61,7 +62,7 @@ public class VisitURLCommand
 
 		if ( cmd.equals( "text" ) )
 		{
-			this.CLI.showHTML( visitor.getURLString(), visitor.responseText );
+			KoLmafiaCLI.showHTML( visitor.responseText );
 		}
 	}
 

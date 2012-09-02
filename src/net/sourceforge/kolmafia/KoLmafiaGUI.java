@@ -432,14 +432,6 @@ public class KoLmafiaGUI
 		( new CreateFrameRunnable( frameClass ) ).run();
 	}
 
-	@Override
-	public void showHTML( final String location, final String text )
-	{
-		GenericRequest request = new GenericRequest( location );
-		request.responseText = text;
-		DescriptionFrame.showRequest( request );
-	}
-
 	public static JTabbedPane getTabbedPane()
 	{
 		return Preferences.getBoolean( "useDecoratedTabs" ) ? new CloseTabbedPane() : new JTabbedPane();

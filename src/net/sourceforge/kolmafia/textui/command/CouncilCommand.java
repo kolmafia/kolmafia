@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
@@ -52,7 +53,7 @@ public class CouncilCommand
 	{
 		RequestThread.postRequest( CouncilFrame.COUNCIL_VISIT );
 
-		this.CLI.showHTML( "council.php", StringUtilities.singleStringReplace(
+		KoLmafiaCLI.showHTML( StringUtilities.singleStringReplace(
 			CouncilFrame.COUNCIL_VISIT.responseText, "<a href=\"town.php\">Back to Seaside Town</a>", "" ) );
 	}
 }

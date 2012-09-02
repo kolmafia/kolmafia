@@ -116,6 +116,7 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 
@@ -1468,7 +1469,18 @@ public abstract class KoLmafia
 	 * Show an HTML string to the user
 	 */
 
-	public abstract void showHTML( String location, String text );
+	public static void showHTML( String location, String text )
+	{
+		if ( !GenericFrame.instanceExists() )
+		{
+			KoLmafiaCLI.showHTML( text );
+			return;
+		}
+
+		GenericRequest request = new GenericRequest( location );
+		request.responseText = text;
+		DescriptionFrame.showRequest( request );
+	}
 
 	/**
 	 * Retrieves whether or not continuation of an adventure or request is permitted by the or by current circumstances
