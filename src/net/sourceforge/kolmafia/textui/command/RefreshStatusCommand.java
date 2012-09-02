@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
@@ -60,7 +59,7 @@ public class RefreshStatusCommand
 	{
 		if ( parameters.equals( "all" ) )
 		{
-			StaticEntity.getClient().refreshSession();
+			KoLmafia.refreshSession();
 			return;
 		}
 		else if ( parameters.equals( "status" ) || parameters.equals( "effects" ) )

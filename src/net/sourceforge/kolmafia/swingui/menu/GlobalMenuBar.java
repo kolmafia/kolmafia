@@ -40,7 +40,6 @@ import javax.swing.JSeparator;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.LeafletManager;
@@ -100,9 +99,9 @@ public class GlobalMenuBar
 		JMenu toolsMenu = new JMenu( "Tools" );
 		this.add( toolsMenu );
 
-		toolsMenu.add( new InvocationMenuItem( "Clear Results", StaticEntity.getClient(), "resetSession" ) );
+		toolsMenu.add( new InvocationMenuItem( "Clear Results", KoLmafia.class, "resetSession" ) );
 		toolsMenu.add( new InvocationMenuItem( "Stop Everything", RequestThread.class, "declareWorldPeace" ) );
-		toolsMenu.add( new InvocationMenuItem( "Refresh Session", StaticEntity.getClient(), "refreshSession" ) );
+		toolsMenu.add( new InvocationMenuItem( "Refresh Session", KoLmafia.class, "refreshSession" ) );
 
 		toolsMenu.add( new JSeparator() );
 
