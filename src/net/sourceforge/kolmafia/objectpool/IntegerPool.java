@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.objectpool;
 public class IntegerPool
 {
 	private static final int MIN_VALUE = -2;
-	private static final int MAX_VALUE = 12000;
+	private static final int MAX_VALUE = 13000;
 
 	private static final int RANGE = ( IntegerPool.MAX_VALUE - IntegerPool.MIN_VALUE ) + 1;
 
