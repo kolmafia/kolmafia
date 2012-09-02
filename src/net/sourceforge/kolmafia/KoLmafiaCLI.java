@@ -817,6 +817,7 @@ public class KoLmafiaCLI
 		new SpeculateCommand().register( "speculate" ).register( "whatif" );
 		new StickersCommand().registerPrefix( "sticker" );
 		new StorageCommand().register( "hagnk" ).register( "pull" );
+		new GarbageCollectCommand().register("gc");
 		new GrayGUICommand().register( "graygui" ).register( "greygui" ).register( "jstack" );
 		new HeapDumpCommand().register( "jmap" ).register( "heapdump" );
 		new StyxPixieCommand().register( "styx" );

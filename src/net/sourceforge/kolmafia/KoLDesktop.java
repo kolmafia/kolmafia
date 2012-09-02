@@ -406,7 +406,7 @@ public class KoLDesktop
 
 		toolbarPanel.add( this.memoryUsageLabel );
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
-		toolbarPanel.add( new InvocationButton( "Collect Garbage", "trashield.gif", StaticEntity.getClient(), "gc" ) );
+		toolbarPanel.add( new InvocationButton( "Collect Garbage", "trashield.gif", KoLmafia.class, "gc" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 5 ) );
 
