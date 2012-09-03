@@ -5778,7 +5778,7 @@
 5777
 5778
 5779	417588957	knife.gif	keel-haulin' knife
-5780	546744324	pizzacut.gif	ancient ice cream scoop
+5780	546744324	icscoop.gif	ancient ice cream scoop
 5781	724294866	martini.gif		soft green echo eyedrop antidote martini
 5782
 5783
