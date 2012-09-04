@@ -465,7 +465,7 @@ sticky meat pants	Moxie: +3, Familiar Effect: "1xPotato, cap 11"
 sticky meat skirt	Moxie: +3, Familiar Effect: "1xPotato, 3xFairy, cap 11"
 stinky cheese diaper	Softcore Only, Adventures: [max(1,min(10,floor(pref(_stinkyCheeseCount)/10)))], Familiar Effect: "stench atk, 1.5xVolley, cap 25"
 studded leather boxer shorts	Familiar Effect: "4xVolley, cap 5"
-stylish swimsuit	Moxie: +5, Sleaze Damage: +10
+stylish swimsuit	Moxie: +5, Sleaze Damage: [5-5*X]
 sucker hakama	Damage Reduction: 5
 sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Familiar Effect: "2xVolley, 1xLep, cap 25"
 swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
