@@ -4110,29 +4110,67 @@ public abstract class RuntimeLibrary
 	public static Value insert( Interpreter interpreter, final Value buffer, final Value index, final Value s )
 	{
 		StringBuffer current = (StringBuffer) buffer.rawValue();
-		current.insert( (int) index.intValue(), s.toString() );
+		int offset = (int) index.intValue();
+		if ( offset < 0 || offset > current.length() )
+		{
+			throw interpreter.runtimeException( "Index " + index + " out of bounds" );
+		}
+		current.insert( offset, s.toString() );
 		return buffer;
 	}
 
-	public static Value replace( Interpreter interpreter, final Value buffer, final Value start, final Value end,
+	public static Value replace( Interpreter interpreter, final Value buffer, final Value start, final Value finish,
 		final Value s )
 	{
 		StringBuffer current = (StringBuffer) buffer.rawValue();
-		current.replace( (int) start.intValue(), (int) end.intValue(), s.toString() );
+		int begin = (int) start.intValue();
+		if ( begin < 0 )
+		{
+			throw interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
+		}
+		int end = (int) finish.intValue();
+		if ( end > current.length() )
+		{
+			throw interpreter.runtimeException( "End index " + end + " out of bounds" );
+		}
+		if ( begin > end )
+		{
+			throw interpreter.runtimeException( "Begin index " + begin + " greater than end index " + end );
+		}
+		current.replace( begin, end, s.toString() );
 		return buffer;
 	}
 
-	public static Value delete( Interpreter interpreter, final Value buffer, final Value start, final Value end )
+	public static Value delete( Interpreter interpreter, final Value buffer, final Value start, final Value finish )
 	{
 		StringBuffer current = (StringBuffer) buffer.rawValue();
-		current.delete( (int) start.intValue(), (int) end.intValue() );
+		int begin = (int) start.intValue();
+		if ( begin < 0 )
+		{
+			throw interpreter.runtimeException( "Begin index " + begin + " out of bounds" );
+		}
+		int end = (int) finish.intValue();
+		if ( end > current.length() )
+		{
+			throw interpreter.runtimeException( "End index " + end + " out of bounds" );
+		}
+		if ( begin > end )
+		{
+			throw interpreter.runtimeException( "Begin index " + begin + " greater than end index " + end );
+		}
+		current.delete( begin, end );
 		return buffer;
 	}
 
 	public static Value set_length( Interpreter interpreter, final Value buffer, final Value i )
 	{
 		StringBuffer current = (StringBuffer) buffer.rawValue();
-		current.setLength( (int) i.intValue() );
+		int length = (int) i.intValue();
+		if ( length < 0 )
+		{
+			throw interpreter.runtimeException( "Desired length is less than zero" );
+		}
+		current.setLength( length );
 		return DataTypes.VOID_VALUE;
 	}
 
