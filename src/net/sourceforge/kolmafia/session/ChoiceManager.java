@@ -2200,18 +2200,8 @@ public abstract class ChoiceManager
 			new String[] { "5768", "5769", "5770", "5771", "5772" } ),
 
 		// Choice 598 is Recruitment Jive
-
 		// Choice 599 is A Zombie Master's Bait
-		new Object[]{ IntegerPool.get(599), IntegerPool.get(1),
-		  ItemPool.get( ItemPool.CRAPPY_BRAIN, -1 ) },
-		new Object[]{ IntegerPool.get(599), IntegerPool.get(2),
-		  ItemPool.get( ItemPool.DECENT_BRAIN, -1 ) },
-		new Object[]{ IntegerPool.get(599), IntegerPool.get(3),
-		  ItemPool.get( ItemPool.GOOD_BRAIN, -1 ) },
-
 		// Choice 600 is Summon Minion
-		new Object[]{ IntegerPool.get(600), IntegerPool.get(1),
-		  new AdventureResult( AdventureResult.MEAT, -100 ) },
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -3601,6 +3591,43 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processItem( ItemPool.AUTOPSY_TWEEZERS, -1 );
 			}
+			return;
+
+		case 599:
+			// A Zombie Master's Bait
+			if ( request.getFormField( "quantity" ) == null )
+			{
+				return;
+			}
+
+			AdventureResult brain;
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				brain = ItemPool.get( ItemPool.CRAPPY_BRAIN, 1 );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				brain = ItemPool.get( ItemPool.DECENT_BRAIN, 1 );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				brain = ItemPool.get( ItemPool.GOOD_BRAIN, 1 );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				brain = ItemPool.get( ItemPool.BOSS_BRAIN, 1 );
+			}
+			else
+			{
+				return;
+			}
+
+			int quantity = StringUtilities.parseInt( request.getFormField( "quantity" ) );
+			int inventoryCount = brain.getCount( KoLConstants.inventory );
+			brain = brain.getInstance( -1 * Math.min( quantity, inventoryCount ) );
+
+			ResultProcessor.processResult( brain );
+
 			return;
 		}
 
