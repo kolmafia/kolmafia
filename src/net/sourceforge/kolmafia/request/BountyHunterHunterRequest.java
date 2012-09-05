@@ -43,6 +43,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -123,6 +124,7 @@ public class BountyHunterHunterRequest
 	}
 
 	private static final Pattern BOUNTY_PATTERN = Pattern.compile( "I'm still waiting for you to bring me (\\d+) (.*?), Bounty Hunter!" );
+	private static final Pattern ZOMBIE_BOUNTY_PATTERN = Pattern.compile( "you've promised to bring him (\\d+) (.*?) from" );
 	public static void parseResponse( final String location, final String responseText )
 	{
 		CoinmasterData data = BountyHunterHunterRequest.BHH;
@@ -132,7 +134,21 @@ public class BountyHunterHunterRequest
 			// I'm still waiting for you to bring me 5 discarded
 			// pacifiers, Bounty Hunter!
 
-			Matcher matcher = BountyHunterHunterRequest.BOUNTY_PATTERN.matcher( responseText );
+			// Zombiecore
+			// Watching this reminds you of the fact that you've promised
+			// to bring him 8 chunks of hobo gristle from
+			// the half-orc hoboes in The Sleazy Back Alley.
+
+			Matcher matcher;
+			if ( KoLCharacter.inZombiecore() )
+			{
+				matcher = BountyHunterHunterRequest.ZOMBIE_BOUNTY_PATTERN.matcher( responseText );
+			}
+			else
+			{
+				matcher = BountyHunterHunterRequest.BOUNTY_PATTERN.matcher( responseText );
+			}
+
 			if ( matcher.find() )
 			{
 				int count = StringUtilities.parseInt( matcher.group(1) );
@@ -154,7 +170,14 @@ public class BountyHunterHunterRequest
 			// Can't hack it, eh? Well, that's okay. I'm sure some other 
 			// Bounty Hunter will step up. Maybe you should try something 
 			// more appropriate to your Bounty Hunting skills.
-			if ( responseText.contains( "Can't hack it, eh?" ) )
+
+			// Zombiecore
+			// You shrug, deciding to hell with it.
+			// He has plenty enough bits of gristle and things
+			// to keep him happy for a while.
+
+			if ( responseText.contains( "Can't hack it, eh?" ) ||
+			     responseText.contains( "to hell with it" ) )
 			{
 				BountyHunterHunterRequest.abandonBounty();
 			}
@@ -163,7 +186,8 @@ public class BountyHunterHunterRequest
 		if ( action.equals( "takebounty" ) )
 		{
 			// All right, then!  Get out there and collect those empty aftershave bottles!
-			if ( !responseText.contains( "All right, then!" ) )
+			if ( !responseText.contains( "All right, then!" ) &&
+			     !responseText.contains( "Okay then, I'll see what I can do" ) )
 			{
 				return;
 			}
