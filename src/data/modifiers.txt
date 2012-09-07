@@ -4278,7 +4278,6 @@ sealhide seal doll	Effect: "Red Misty-Eyed", Effect Duration: 10
 sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
 shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
-shiny gold fronts	Familiar Weight: +5
 siesta-ing Casagnova gnome	Free Pull
 silk garter snake	Free Pull
 sizzling seal fat	Effect: "Sizzling with Fury", Effect Duration: 10

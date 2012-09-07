@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -341,6 +342,12 @@ public class UseSkillRequest
 
 	public void setBuffCount( int buffCount )
 	{
+		if ( SkillDatabase.isNonMpCostSkill( skillId ) )
+		{
+			this.buffCount = buffCount;
+			return;
+		}
+
 		int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
 		if ( mpCost == 0 )
 		{
@@ -546,6 +553,14 @@ public class UseSkillRequest
 		case SkillPool.DEMAND_SANDWICH:
 			maximumCast = Math.max( 3 - Preferences.getInteger( "_demandSandwich" ), 0 );
 			break;
+
+		case SkillPool.SUMMON_MINION:
+			maximumCast = KoLCharacter.getAvailableMeat() / 100;
+			break;
+
+		case SkillPool.SUMMON_HORDE:
+			maximumCast = KoLCharacter.getAvailableMeat() / 1000;
+			break;
 		}
 
 		return maximumCast;
@@ -748,6 +763,10 @@ public class UseSkillRequest
 
 		this.isRunning = true;
 		this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
+		if( this.skillId == SkillPool.SUMMON_MINION || this.skillId == SkillPool.SUMMON_HORDE )
+		{
+			ChoiceManager.setSkillUses( this.buffCount );
+		}
 		this.useSkillLoop();
 		this.isRunning = false;
 	}
@@ -756,6 +775,13 @@ public class UseSkillRequest
 	{
 		if ( KoLmafia.refusesContinue() )
 		{
+			return;
+		}
+
+		if ( SkillDatabase.isNonMpCostSkill( skillId ) )
+		{
+			// If the skill doesn't use MP then MP restoring and checking can be skipped
+			super.run();
 			return;
 		}
 

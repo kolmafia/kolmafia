@@ -149,4 +149,6 @@ public class SkillPool
 	public static final int CARDS = 8202;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int DEMAND_SANDWICH = 11021;
+	public static final int SUMMON_MINION = 12021;
+	public static final int SUMMON_HORDE = 12026;
 }

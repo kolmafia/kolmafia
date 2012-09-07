@@ -767,7 +767,7 @@ public class SkillDatabase
 	public static final boolean isCombat( final int skillId )
 	{
 		return SkillDatabase.isType( skillId, SkillDatabase.COMBAT ) ||
-			   SkillDatabase.isType( skillId, SkillDatabase.COMBAT_NONCOMBAT_REMEDY );
+				SkillDatabase.isType( skillId, SkillDatabase.COMBAT_NONCOMBAT_REMEDY );
 	}
 
 	/**
@@ -789,6 +789,19 @@ public class SkillDatabase
 	{
 		Object skillType = SkillDatabase.skillTypeById.get( IntegerPool.get( skillId ) );
 		return skillType == null ? false : ( (Integer) skillType ).intValue() == type;
+	}
+
+	public static final boolean isNonMpCostSkill( final int skillId )
+	{
+		switch ( skillId )
+		{
+			case SkillPool.SMILE_OF_MR_A:
+			case SkillPool.SUMMON_MINION:
+			case SkillPool.SUMMON_HORDE:
+				return true;
+			default:
+				return false;
+		}
 	}
 
 	/**
