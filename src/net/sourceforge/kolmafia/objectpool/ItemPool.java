@@ -1471,6 +1471,7 @@ public class ItemPool
 	public static final int TRUSTY = 5552;
 	public static final int RAIN_DOH_BOX = 5563;
 	public static final int RAIN_DOH_MONSTER = 5564;
+	public static final int GROARS_FUR = 5571;
 	public static final int NOSTRIL_OF_THE_SERPENT = 5645;
 	public static final int BORIS_HELM = 5648;
 	public static final int BORIS_HELM_ASKEW = 5650;
