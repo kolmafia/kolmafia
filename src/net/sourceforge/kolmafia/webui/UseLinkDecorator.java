@@ -1123,6 +1123,12 @@ public abstract class UseLinkDecorator
 			useLocation = "place.php?whichplace=mclargehuge&action=trappercabin";
 			break;
 
+		case ItemPool.GROARS_FUR:
+
+			useType = "trapper";
+			useLocation = "place.php?whichplace=mclargehuge&action=trappercabin";
+			break;
+
 		case ItemPool.FRAUDWORT:
 		case ItemPool.SHYSTERWEED:
 		case ItemPool.SWINDLEBLOSSOM:
