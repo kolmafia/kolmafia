@@ -7,7 +7,7 @@
 
 1	Liver of Steel	0	0	0
 2	Chronic Indigestion	5	5	0
-3	The Smile of Mr. A.	4	5	40
+3	The Smile of Mr. A.	4	0	40
 4	Arse Shoot	4	5	0
 5	Stomach of Steel	0	0	0
 6	Spleen of Steel	0	0	0
@@ -515,7 +515,7 @@
 
 # Master of the Zombie
 
-12021	Summon Minion	1	0	0	1
+12021	Summon Minion	3	0	0	1
 12022	Zombie Chow	3	1	0	2
 12023	Smash & Graaagh	5	2	0	3
 12024	Scavenge	3	2	0	4

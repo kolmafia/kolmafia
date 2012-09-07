@@ -84,6 +84,7 @@ public abstract class ChoiceManager
 	public static int lastChoice = 0;
 	public static int lastDecision = 0;
 	public static String lastResponseText = "";
+	private static int skillUses = 0;
 
 	public enum PostChoiceAction {
 		NONE,
@@ -2978,6 +2979,7 @@ public abstract class ChoiceManager
 
 		for ( int stepCount = 0; request.responseText.indexOf( "action=choice.php" ) != -1; ++stepCount )
 		{
+			request.clearDataFields();
 			Matcher choiceMatcher = ChoiceManager.CHOICE_PATTERN.matcher( request.responseText );
 
 			if ( !choiceMatcher.find() )
@@ -3037,7 +3039,6 @@ public abstract class ChoiceManager
 
 			decision = ChoiceManager.pickOutfitChoice( option, decision );
 
-			request.clearDataFields();
 			request.addFormField( "whichchoice", whichchoice );
 			request.addFormField( "option", decision );
 			request.addFormField( "pwd", GenericRequest.passwordHash );
@@ -4540,6 +4541,15 @@ public abstract class ChoiceManager
 			// Fighters of Fighting
 			decision = ArcadeRequest.autoChoiceFightersOfFighting( request );
 			break;
+
+		case 600:
+			// Summon Minion
+			if ( ChoiceManager.skillUses > 0 )
+			{
+				// Add the quantity field here and let the decision get added later
+				request.addFormField( "quantity", String.valueOf( ChoiceManager.skillUses ) );
+			}
+			break;
 		}
 
 		if ( decision == null )
@@ -4615,6 +4625,28 @@ public abstract class ChoiceManager
 				return VampOutManager.autoVampOut( StringUtilities.parseInt( decision ), stepCount, responseText );
 			}
 			return "0";
+
+		// Summon Minion is a skill
+		case 600:
+			if ( ChoiceManager.skillUses > 0 )
+			{
+				ChoiceManager.skillUses = 0;
+				return "1";
+			}
+			else
+			{
+				return "2";
+			}
+
+		// Summon Horde is a skill
+		case 601:
+			if ( ChoiceManager.skillUses > 0 )
+			{
+				// This skill has to be done 1 cast at a time
+				ChoiceManager.skillUses--;
+				return "1";
+			}
+			return "2";
 		}
 
 		// If the user wants manual control, let 'em have it.
@@ -5410,5 +5442,11 @@ public abstract class ChoiceManager
 		}
 
 		return null;
+	}
+
+	public static final void setSkillUses( int uses )
+	{
+		// Used for casting skills that lead to a choice adventure
+		ChoiceManager.skillUses = uses;
 	}
 }
