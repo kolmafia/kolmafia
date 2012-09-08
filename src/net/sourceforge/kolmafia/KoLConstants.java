@@ -320,7 +320,7 @@ public interface KoLConstants
 		"foldgroups.txt",
 		"fullness.txt",
 		"inebriety.txt",
-		"itemdescs.txt",
+		"items.txt",
 		"mallprices.txt",
 		"modifiers.txt",
 		"monsters.txt",
@@ -331,7 +331,6 @@ public interface KoLConstants
 		"pulverize.txt",
 		"spleenhit.txt",
 		"statuseffects.txt",
-		"tradeitems.txt",
 		"zapgroups.txt",
 		"zonelist.txt"
 	};
@@ -351,7 +350,7 @@ public interface KoLConstants
 	public static final int FOLDGROUPS_VERSION = 1;
 	public static final int FULLNESS_VERSION = 2;
 	public static final int INEBRIETY_VERSION = 2;
-	public static final int ITEMDESCS_VERSION = 2;
+	public static final int ITEMS_VERSION = 1;
 	public static final int MODIFIERS_VERSION = 2;
 	public static final int MONSTERS_VERSION = 4;
 	public static final int NONFILLING_VERSION = 1;
@@ -363,7 +362,6 @@ public interface KoLConstants
 	public static final int QUESTSLOG_VERSION = 1;
 	public static final int SPLEENHIT_VERSION = 3;
 	public static final int STATUSEFFECTS_VERSION = 3;
-	public static final int TRADEITEMS_VERSION = 4;
 	public static final int ZAPGROUPS_VERSION = 1;
 	public static final int ZONELIST_VERSION = 1;
 

@@ -283,8 +283,6 @@ public class DebugDatabase
 
 		}
 
-		boolean correct = true;
-
 		int type = ItemDatabase.getConsumptionType( itemId );
 		String descType = DebugDatabase.parseType( text );
 		int descPrimary = DebugDatabase.typeToPrimary( descType );
@@ -292,8 +290,6 @@ public class DebugDatabase
 		{
 			String primary = ItemDatabase.typeToPrimaryUsage( type );
 			report.println( "# *** " + name + " (" + itemId + ") has primary usage of " + primary + " but is described as " + descType + "." );
-			correct = false;
-
 		}
 
 		int attrs = ItemDatabase.getAttributes( itemId );
@@ -303,8 +299,6 @@ public class DebugDatabase
 			String secondary = ItemDatabase.attrsToSecondaryUsage( attrs );
 			String descSecondary = ItemDatabase.attrsToSecondaryUsage( descAttrs );
 			report.println( "# *** " + name + " (" + itemId + ") has secondary usage of " + secondary + " but is described as " + descSecondary + "." );
-			correct = false;
-
 		}
 
 		int price = ItemDatabase.getPriceById( itemId );
@@ -312,8 +306,6 @@ public class DebugDatabase
 		if ( price != descPrice && ( price >= 0 || descPrice != 0 ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has price of " + price + " but should be " + descPrice + "." );
-			correct = false;
-
 		}
 
 		String access = ItemDatabase.getAccessById( id );
@@ -321,8 +313,6 @@ public class DebugDatabase
 		if ( !access.equals( descAccess ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has access of " + access + " but should be " + descAccess + "." );
-			correct = false;
-
 		}
 
 		String image = ItemDatabase.getImage( id );
@@ -330,8 +320,6 @@ public class DebugDatabase
 		if ( !image.equals( descImage ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has image of " + image + " but should be " + descImage + "." );
-			correct = false;
-
 		}
 
 		switch ( type )
@@ -371,7 +359,10 @@ public class DebugDatabase
 			break;
 		}
 
-		ItemDatabase.writeTradeitem( report, itemId, name, type, attrs, descAccess, descPrice );
+		String descId = ItemDatabase.getDescriptionId( id );
+		String plural = ItemDatabase.getPluralById( id );
+
+		report.println( ItemDatabase.itemString( itemId, name, descId, image, type, attrs, access, price, plural ) );
 	}
 
 	private static final GenericRequest DESC_ITEM_REQUEST = new GenericRequest( "desc_item.php" );

@@ -302,8 +302,7 @@ public class ItemDatabase
 
 		ItemDatabase.itemIdByName.clear();
 
-		ItemDatabase.readTradeItems();
-		ItemDatabase.readItemDescriptions();
+		ItemDatabase.readItems();
 
 		ItemDatabase.readConsumptionData( "fullness.txt", KoLConstants.FULLNESS_VERSION, ItemDatabase.fullnessByName );
 		ItemDatabase.readConsumptionData( "inebriety.txt", KoLConstants.INEBRIETY_VERSION, ItemDatabase.inebrietyByName );
@@ -318,13 +317,13 @@ public class ItemDatabase
 
 	private static void miniReset()
 	{
-		BufferedReader reader = FileUtilities.getVersionedReader( "tradeitems.txt", KoLConstants.TRADEITEMS_VERSION );
+		BufferedReader reader = FileUtilities.getVersionedReader( "items.txt", KoLConstants.ITEMS_VERSION );
 
 		String[] data;
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length < 5 )
+			if ( data.length < 7 )
 			{
 				continue;
 			}
@@ -367,36 +366,40 @@ public class ItemDatabase
 		ItemDatabase.saveCanonicalNames();
 	}
 
-	private static void readTradeItems()
+	private static void readItems()
 	{
-		BufferedReader reader = FileUtilities.getVersionedReader( "tradeitems.txt", KoLConstants.TRADEITEMS_VERSION );
-
+		BufferedReader reader = FileUtilities.getVersionedReader( "items.txt", KoLConstants.ITEMS_VERSION );
 		String[] data;
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length < 5 )
+			if ( data.length < 7 )
 			{
 				continue;
 			}
 
 			int itemId = StringUtilities.parseInt( data[ 0 ] );
-			String name = new String( data[ 1 ] );
-
-			if ( itemId < 0 )
-			{
-				RequestLogger.printLine( "Bogus item: id = " + itemId + " name = " + name );
-				continue;
-			}
-
-			String[] usages = data[ 2 ].split( "\\s*,\\s*" );
-			String access = ItemDatabase.parseAccess( data[ 3 ] );
-			int price = StringUtilities.parseInt( data[ 4 ] );
-
 			Integer id = IntegerPool.get( itemId );
+
+			String name = data[ 1 ];
 			String displayName = StringUtilities.getDisplayName( name );
 			String canonicalName = StringUtilities.getCanonicalName( name );
-			
+
+			String descId = data[ 2 ];
+			if ( StringUtilities.isNumeric( descId ) )
+			{
+				descId = new String( descId );
+				ItemDatabase.descriptionById.put( id, descId );
+				ItemDatabase.itemIdByDescription.put( descId, id );
+			}
+
+			String image = data[ 3 ];
+			ItemDatabase.imageById.set( itemId, image );
+
+			String[] usages = data[ 4 ].split( "\\s*,\\s*" );
+			String access = ItemDatabase.parseAccess( data[ 5 ] );
+			int price = StringUtilities.parseInt( data[ 6 ] );
+
 			int attrs = 0;
 			String usage = usages[ 0 ];
 			Integer useType = ItemDatabase.PRIMARY_USE.get( usage );
@@ -421,9 +424,8 @@ public class ItemDatabase
 					attrs |= useType.intValue();
 				}
 			}
-			
-			ItemDatabase.priceById.set( itemId, price );
 
+			ItemDatabase.priceById.set( itemId, price );
 			ItemDatabase.dataNameById.put( id, name );
 			ItemDatabase.nameById.put( id, displayName );
 
@@ -442,6 +444,13 @@ public class ItemDatabase
 			ItemDatabase.itemIdByName.put( canonicalName, id );
 
 			ItemDatabase.nameLength.set( itemId, displayName.length() );
+			
+			if ( data.length == 8 )
+			{
+				String plural = new String( data[ 7 ] );
+				ItemDatabase.pluralById.set( itemId, plural );
+				ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
+			}
 		}
 
 		try
@@ -452,51 +461,6 @@ public class ItemDatabase
 		{
 			StaticEntity.printStackTrace( e );
 		}
-	}
-
-	public static void writeTradeitems( final File output )
-	{
-		RequestLogger.printLine( "Writing data override: " + output );
-		PrintStream writer = LogStream.openStream( output, true );
-		writer.println( KoLConstants.TRADEITEMS_VERSION );
-
-		Iterator<Integer> it = ItemDatabase.nameByIdKeySet().iterator();
-		int lastInteger = 1;
-
-		while ( it.hasNext() )
-		{
-			Integer nextInteger = it.next();
-			int itemId = nextInteger.intValue();
-
-			// Skip pseudo items
-			if ( itemId == 13 )
-			{
-				continue;
-			}
-
-			String name = ItemDatabase.getItemDataName( nextInteger );
-			// Skip bogus item ids
-			if ( itemId < 1 )
-			{
-				RequestLogger.printLine( "Bogus item: id = " + itemId + " name = " + name );
-				continue;
-			}
-
-			for ( int i = lastInteger; i < itemId; ++i )
-			{
-				writer.println( i );
-			}
-
-			lastInteger = itemId + 1;
-
-			int type = ItemDatabase.getConsumptionType( itemId );
-			int attrs = ItemDatabase.getAttributes( itemId );
-			String access = ItemDatabase.getAccessById( nextInteger );
-			int price = ItemDatabase.getPriceById( itemId );
-			ItemDatabase.writeTradeitem( writer, itemId, name, type, attrs, access, price );
-		}
-
-		writer.close();
 	}
 
 	public static void writeConsumable( final PrintStream writer, final String name, final int size,
@@ -523,27 +487,11 @@ public class ItemDatabase
 			( notes == null ? "" : ("\t" + notes ) );
 	}
 
-	public static void writeTradeitem( final PrintStream writer, final int itemId, final String name,
-					   final int type, final int attrs, final String access, final int price )
-	{
-		writer.println( ItemDatabase.tradeitemString( itemId, name, type, attrs, access, price ) );
-	}
-
-	public static String tradeitemString( final int itemId, final String name, final int type,
-					      final int attrs, final String access, final int price )
-	{
-		return itemId + "\t" +
-		       name + "\t" +
-		       typeToPrimaryUsage( type ) + attrsToSecondaryUsage( attrs ) + "\t" +
-		       access + "\t" +
-		       price;
-	}
-
-	public static void writeItemdescs( final File output )
+	public static void writeItems( final File output )
 	{
 		RequestLogger.printLine( "Writing data override: " + output );
 		PrintStream writer = LogStream.openStream( output, true );
-		writer.println( KoLConstants.ITEMDESCS_VERSION );
+		writer.println( KoLConstants.ITEMS_VERSION );
 
 		Iterator it = ItemDatabase.descriptionIdEntrySet().iterator();
 		int lastInteger = 1;
@@ -566,64 +514,31 @@ public class ItemDatabase
 			}
 
 			lastInteger = itemId + 1;
-
 			String descId = (String) entry.getValue();
 			String name = ItemDatabase.getItemDataName( nextInteger );
 			String image = ItemDatabase.getImage( itemId );
 			String plural = ItemDatabase.getPluralById( itemId );
-			writer.println( ItemDatabase.itemdescString( itemId, descId, image, name, plural ) );
+			int type = ItemDatabase.getConsumptionType( itemId );
+			int attrs = ItemDatabase.getAttributes( itemId );
+			String access = ItemDatabase.getAccessById( nextInteger );
+			int price = ItemDatabase.getPriceById( itemId );
+			writer.println( ItemDatabase.itemString( itemId, name, descId, image, type, attrs, access, price, plural ) );
 		}
 
 		writer.close();
 	}
 
-	public static String itemdescString( final int itemId, final String descId, final String image, final String name, final String plural)
+	public static void writeItem()
 	{
-		return itemId + "\t" + descId + "\t" + image + "\t" + name + ( plural.equals( "" ) ? "" : "\t" + plural );
+
 	}
 
-	private static void readItemDescriptions()
+	public static String itemString( final int itemId, final String name, final String descId, final String image,
+			final int type, final int attrs, final String access, final int autosell, final String plural )
 	{
-		BufferedReader reader = FileUtilities.getVersionedReader( "itemdescs.txt", KoLConstants.ITEMDESCS_VERSION );
-		String[] data;
-
-		while ( ( data = FileUtilities.readData( reader ) ) != null )
-		{
-			if ( data.length < 3 )
-			{
-				continue;
-			}
-
-			int itemId = StringUtilities.parseInt( data[ 0 ].trim() );
-			Integer id = IntegerPool.get( itemId );
-			String descId = data[1];
-
-			if ( StringUtilities.isNumeric( descId ) )
-			{
-				descId = new String( descId );
-				ItemDatabase.descriptionById.put( id, descId );
-				ItemDatabase.itemIdByDescription.put( descId, id );
-			}
-
-			String image = data[2];
-			ItemDatabase.imageById.set( itemId, image );
-
-			if ( data.length > 4 )
-			{
-				String plural = new String( data[ 4 ] );
-				ItemDatabase.pluralById.set( itemId, plural );
-				ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
-			}
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
+		return itemId + "\t" + name + "\t" + descId + "\t" + image + "\t" +
+				typeToPrimaryUsage( type ) + attrsToSecondaryUsage( attrs ) + "\t" +
+				access + "\t" + autosell + ( plural.equals( "" ) ? "" : "\t" + plural );
 	}
 
 	private static void readConsumptionData( String filename, int version, Map<String, Integer> map )
@@ -663,7 +578,6 @@ public class ItemDatabase
 		BufferedReader reader = FileUtilities.getVersionedReader( "nonfilling.txt", KoLConstants.NONFILLING_VERSION );
 
 		String[] data;
-		Integer id;
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
@@ -1258,14 +1172,11 @@ public class ItemDatabase
 
 		int price = DebugDatabase.parsePrice( text );
 		ItemDatabase.priceById.set( itemId, price );
-
-		// Print what goes in tradeitems.txt and itemdescs.txt
-		RequestLogger.printLine( "--------------------" );
-		RequestLogger.printLine( ItemDatabase.tradeitemString( itemId, itemName, usage, attrs, access, price ) );
-
 		String plural = ItemDatabase.getPluralById( itemId );
 
-		RequestLogger.printLine( ItemDatabase.itemdescString( itemId, descId, image, itemName, plural ) );
+		// Print what goes in items.txt
+		RequestLogger.printLine( "--------------------" );
+		RequestLogger.printLine( ItemDatabase.itemString( itemId, itemName, descId, image, usage, attrs, access, price, plural ) );
 
 		if ( EquipmentDatabase.isEquipment( usage ) )
 		{
@@ -1936,7 +1847,7 @@ public class ItemDatabase
 		}
 
 		// Otherwise, iterate over bits
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		Iterator it = ItemDatabase.secondaryUsageEntrySet.iterator();
 
 		while ( it.hasNext() )
