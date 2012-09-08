@@ -788,43 +788,42 @@ public class Maximizer
 		{
 			cmd = "equip " + slotname + " " + item.getName();
 			text = cmd + " (";
-			int count = item.getCount();
+
+			CheckedItem checkedItem = (CheckedItem) item;
+
 			int price = 0;
 
-			// The "initial" quantity comes from
-			// InventoryManager.getAccessibleCount.
-			// It can include inventory, closet, and
-			// storage.  However, anything that is included should
-			// also be supported by retrieveItem(), so we don't need
-			// to take any special action here.  Displaying the method
-			// that will be used would still be useful, though.
-			if ( ((count >> Evaluator.INITIAL_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+			// The "initial" quantity comes from InventoryManager.getAccessibleCount.
+			// It can include inventory, closet, and storage.  However, anything that
+			// is included should also be supported by retrieveItem(), so we don't need
+			// to take any special action here.  Displaying the method that will be used
+			// would still be useful, though.
+			if ( checkedItem.initial != 0 )
 			{
-				String method = InventoryManager.simRetrieveItem(
-					item.getInstance( 1 ) );
+				String method = InventoryManager.simRetrieveItem( item.getInstance( 1 ) );
 				if ( !method.equals( "have" ) )
 				{
 					text = method + " & " + text;
 				}
 			}
-			else if ( ((count >> Evaluator.CREATABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+			else if ( checkedItem.creatable != 0 )
 			{
 				text = "make & " + text;
 			}
-			else if ( ((count >> Evaluator.NPCBUYABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+			else if ( checkedItem.npcBuyable != 0 )
 			{
 				text = "buy & " + text;
 				cmd = "buy 1 \u00B6" + item.getItemId() +
 						";" + cmd;
 				price = ConcoctionPool.get( item ).price;
 			}
-			else if ( ((count >> Evaluator.FOLDABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+			else if ( checkedItem.foldable != 0 )
 			{
 				text = "fold & " + text;
 				cmd = "fold \u00B6" + item.getItemId() +
 						";" + cmd;
 			}
-			else if ( ((count >> Evaluator.PULLABLE_SHIFT) & Evaluator.SUBTOTAL_MASK) != 0 )
+			else if ( checkedItem.pullable != 0 )
 			{
 				text = "pull & " + text;
 				cmd = "pull 1 \u00B6" + item.getItemId() +
