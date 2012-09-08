@@ -62,7 +62,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.maximizer.Evaluator;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.maximizer.Spec;
 
 
 
@@ -84,7 +87,7 @@ public class MaximizerFrame
 	implements ListSelectionListener
 {
 	public static final LockableListModel boosts = new LockableListModel();
-	public static Maximizer.Evaluator eval;
+	public static Evaluator eval;
 
 	public static boolean firstTime = true;
 
@@ -148,7 +151,7 @@ public class MaximizerFrame
 	private final ShowDescriptionList boostList;
 	private JLabel listTitle = null;
 
-	public static Maximizer.Spec best;
+	public static Spec best;
 	public static int bestChecked;
 	public static long bestUpdate;
 
@@ -267,12 +270,12 @@ public class MaximizerFrame
 		}
 		else
 		{
-			Maximizer.Spec spec = new Maximizer.Spec();
+			Spec spec = new Spec();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				if ( items[ i ] instanceof Maximizer.Boost )
+				if ( items[ i ] instanceof Boost )
 				{
-					((Maximizer.Boost) items[ i ]).addTo( spec );
+					((Boost) items[ i ]).addTo( spec );
 				}
 			}
 			double score = spec.getScore();
@@ -383,9 +386,9 @@ public class MaximizerFrame
 			while ( i.hasNext() )
 			{
 				Object boost = i.next();
-				if ( boost instanceof Maximizer.Boost )
+				if ( boost instanceof Boost )
 				{
-					boolean did = ((Maximizer.Boost) boost).execute( true );
+					boolean did = ((Boost) boost).execute( true );
 					if ( !KoLmafia.permitsContinue() ) return;
 					any |= did;
 				}
@@ -404,9 +407,9 @@ public class MaximizerFrame
 			Object[] boosts = this.elementList.getSelectedValues();
 			for ( int i = 0; i < boosts.length; ++i )
 			{
-				if ( boosts[ i ] instanceof Maximizer.Boost )
+				if ( boosts[ i ] instanceof Boost )
 				{
-					boolean did = ((Maximizer.Boost) boosts[ i ]).execute( false );
+					boolean did = ((Boost) boosts[ i ]).execute( false );
 					if ( !KoLmafia.permitsContinue() ) return;
 					any |= did;
 				}

@@ -71,7 +71,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -505,9 +505,9 @@ public class ShowDescriptionTable
 
 	public static final void showGameDescription( Object item )
 	{
-		if ( item instanceof Maximizer.Boost )
+		if ( item instanceof Boost )
 		{
-			item = ( (Maximizer.Boost) item ).getItem();
+			item = ( (Boost) item ).getItem();
 		}
 
 		if ( item instanceof AdventureResult )
@@ -575,9 +575,9 @@ public class ShowDescriptionTable
 		boolean isEffect = false;
 		boolean isSkill = false;
 
-		if ( item instanceof Maximizer.Boost )
+		if ( item instanceof Boost )
 		{
-			item = ( (Maximizer.Boost) item ).getItem();
+			item = ( (Boost) item ).getItem();
 		}
 
 		if ( item instanceof AdventureResult )
