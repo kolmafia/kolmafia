@@ -50,8 +50,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 
-public class Spec
-extends Speculation
+public class MaximizerSpeculation
+	extends Speculation
 implements Comparable, Cloneable
 {
 	private boolean scored = false;
@@ -69,7 +69,7 @@ implements Comparable, Cloneable
 	{
 		try
 		{
-			Spec copy = (Spec) super.clone();
+			MaximizerSpeculation copy = (MaximizerSpeculation) super.clone();
 			copy.equipment = (AdventureResult[]) this.equipment.clone();
 			return copy;
 		}
@@ -137,8 +137,8 @@ implements Comparable, Cloneable
 
 	public int compareTo( Object o )
 	{
-		if ( !(o instanceof Spec) ) return 1;
-		Spec other = (Spec) o;
+		if ( !(o instanceof MaximizerSpeculation) ) return 1;
+		MaximizerSpeculation other = (MaximizerSpeculation) o;
 		int rv = Double.compare( this.getScore(), other.getScore() );
 		if ( this.failed != other.failed ) return this.failed ? -1 : 1;
 		if ( rv != 0 ) return rv;
@@ -634,13 +634,13 @@ implements Comparable, Cloneable
 		this.tiebreakered = false;
 		if ( this.compareTo( MaximizerFrame.best ) > 0 )
 		{
-			MaximizerFrame.best = (Spec) this.clone();
+			MaximizerFrame.best = (MaximizerSpeculation) this.clone();
 		}
 		MaximizerFrame.bestChecked++;
 		long t = System.currentTimeMillis();
 		if ( t > MaximizerFrame.bestUpdate )
 		{
-			Spec.showProgress();
+			MaximizerSpeculation.showProgress();
 			MaximizerFrame.bestUpdate = t + 5000;
 		}
 		this.restore( mark );
