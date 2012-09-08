@@ -53,20 +53,13 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -95,29 +88,6 @@ public class Evaluator
 	private static final String TIEBREAKER = "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, 1 critical, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage";
 	private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
 	// Groups: 1=sign 2=weight 3=keyword
-
-	// The counts of possible equipment items are overloaded:
-	// The total available for use is in the low bits, masked by TOTAL_MASK.
-	// Amount from individual sources are in bitfields shifted by one of
-	// the XXX_SHIFT amounts, masked by SUBTOTAL_MASK.
-	// BUYABLE_FLAG is set if further items can be bought from the Mall.
-	// AUTOMATIC_FLAG is set if the item must be considered regardless
-	// of its ranking.
-	// CONDITIONAL_FLAG is set for items that may turn out to be unusable
-	// due to interactions with other equipment.  They're accurately
-	// described by their modifiers, so the special handling of AUTOMATIC
-	// isn't appropriate, but on the other hand they should never displace
-	// an unconditionally useful item from the shortlist.
-	public static final int TOTAL_MASK = 0xFF;
-	public static final int SUBTOTAL_MASK = 0x0F;
-	public static final int INITIAL_SHIFT = 8;
-	public static final int CREATABLE_SHIFT = 12;
-	public static final int NPCBUYABLE_SHIFT = 16;
-	public static final int FOLDABLE_SHIFT = 20;
-	public static final int PULLABLE_SHIFT = 24;
-	public static final int BUYABLE_FLAG = 1 << 28;
-	public static final int AUTOMATIC_FLAG = 1 << 29;
-	public static final int CONDITIONAL_FLAG = 1 << 30;
 
 	// Equipment slots, that aren't the primary slot of any item type,
 	// that are repurposed here (rather than making the array bigger).
@@ -779,82 +749,18 @@ public class Evaluator
 		return 0;
 	}
 
-	private AdventureResult checkItem( int id, int equipLevel, int maxPrice, int priceLevel )
-	{
-		int count = Math.min( Evaluator.SUBTOTAL_MASK,
-			InventoryManager.getAccessibleCount( id ) );
-		count |= count << Evaluator.INITIAL_SHIFT;
-		if ( (count & Evaluator.TOTAL_MASK) >= 3 || equipLevel < 2 )
-		{
-			return ItemPool.get( id, count );
-		}
-
-		Concoction c = ConcoctionPool.get( id );
-		int create = Math.min( Evaluator.SUBTOTAL_MASK, c.creatable );
-		count += (create << Evaluator.CREATABLE_SHIFT) | create;
-
-		int buy = 0;
-		if ( c.price > 0 )
-		{
-			buy = Math.min( Evaluator.SUBTOTAL_MASK, maxPrice / c.price );
-			count += (buy << Evaluator.NPCBUYABLE_SHIFT) | buy;
-		}
-
-		// TODO: check foldability
-
-		if ( (count & Evaluator.TOTAL_MASK) >= 3 || equipLevel < 3 )
-		{
-			return ItemPool.get( id, count );
-		}
-
-		if ( KoLCharacter.isTrendy() && !TrendyRequest.isTrendy( "Items", ItemPool.get( id, 0 ).getName() ) )
-		{	// Trendy characters can't buy or pull untrendy items
-			count = 0;
-		}
-		else if ( KoLCharacter.canInteract() )
-		{	// consider Mall buying
-			if ( count == 0 && ItemDatabase.isTradeable( id ) )
-			{	// but only if none are otherwise available
-				if ( priceLevel == 0 ||
-					MallPriceDatabase.getPrice( id ) < maxPrice * 2 )
-				{
-					count = 1 | Evaluator.BUYABLE_FLAG;
-				}
-			}
-		}
-		else if ( !KoLCharacter.isHardcore() )
-		{	// consider pulling
-			int pull = ItemPool.get( id, 0 ).getCount( KoLConstants.storage );
-			count += (pull << Evaluator.PULLABLE_SHIFT) | pull;
-		}
-		return ItemPool.get( id, count );
-	}
-
-	private AdventureResult validateItem( AdventureResult item, int maxPrice, int priceLevel )
-	{
-		if ( priceLevel <= 0 ) return item;
-		int count = item.getCount();
-		if ( (count & Evaluator.BUYABLE_FLAG) == 0 ) return item;
-		int price = StoreManager.getMallPrice( item );
-		if ( price <= 0 || price > maxPrice )
-		{
-			return item.getInstance( count - 1 );
-		}
-		return item;
-	}
-
 	public void enumerateEquipment( int equipLevel, int maxPrice, int priceLevel )
 		throws MaximizerInterruptedException
 	{
 		// Items automatically considered regardless of their score -
 		// synergies, hobo power, brimstone, etc.
-		ArrayList<AdventureResult>[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
+		ArrayList<CheckedItem>[] automatic = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
 		// Items to be considered based on their score
-		ArrayList<AdventureResult>[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
+		ArrayList<CheckedItem>[] ranked = new ArrayList[ EquipmentManager.ALL_SLOTS + this.familiars.size() ];
 		for ( int i = ranked.length - 1; i >= 0; --i )
 		{
-			automatic[ i ] = new ArrayList<AdventureResult>();
-			ranked[ i ] = new ArrayList<AdventureResult>();
+			automatic[ i ] = new ArrayList<CheckedItem>();
+			ranked[ i ] = new ArrayList<CheckedItem>();
 		}
 
 		double nullScore = this.getScore( new Modifiers() );
@@ -949,7 +855,7 @@ public class Evaluator
 			if ( slot < 0 || slot >= EquipmentManager.ALL_SLOTS ) continue;
 			AdventureResult preItem = ItemPool.get( id, 1 );
 			String name = preItem.getName();
-			AdventureResult item = null;
+			CheckedItem item = null;
 			if ( this.negEquip.contains( preItem ) ) continue;
 			if ( KoLCharacter.inBeecore() &&
 				KoLCharacter.getBeeosity( name ) > this.beeosity )
@@ -959,7 +865,7 @@ public class Evaluator
 			boolean famCanEquip = KoLCharacter.getFamiliar().canEquip( preItem );
 			if ( famCanEquip && slot != EquipmentManager.FAMILIAR )
 			{
-				item = this.checkItem( id, equipLevel, maxPrice, priceLevel );
+				item = new CheckedItem( id, equipLevel, maxPrice, priceLevel );
 				if ( item.getCount() != 0 )
 				{
 					ranked[ EquipmentManager.FAMILIAR ].add( item );
@@ -971,7 +877,7 @@ public class Evaluator
 				if ( !fam.canEquip( preItem ) ) continue;
 				if ( item == null )
 				{
-					item = this.checkItem( id, equipLevel, maxPrice, priceLevel );
+					item = new CheckedItem( id, equipLevel, maxPrice, priceLevel );
 				}
 				if ( item.getCount() != 0 )
 				{
@@ -982,10 +888,13 @@ public class Evaluator
 			if ( !EquipmentManager.canEquip( id ) ) continue;
 			if ( item == null )
 			{
-				item = this.checkItem( id, equipLevel, maxPrice, priceLevel );
+				item = new CheckedItem( id, equipLevel, maxPrice, priceLevel );
 			}
-			int count = item.getCount();
-			if ( count == 0 ) continue;
+
+			if ( item.getCount() == 0 )
+			{
+				continue;
+			}
 
 			int auxSlot = -1;
 		gotItem:
@@ -1058,8 +967,7 @@ public class Evaluator
 					if ( hoboPowerUseful && name.startsWith( "Hodgman's" ) )
 					{
 						Modifiers.hoboPower = 100.0;
-						count |= Evaluator.AUTOMATIC_FLAG;
-						item = item.getInstance( count );
+						item.automaticFlag = true;
 					}
 					break;
 
@@ -1068,13 +976,14 @@ public class Evaluator
 						KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR )
 						&& !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) )
 					{
-						item = this.validateItem( item, maxPrice, priceLevel );
-						count = item.getCount();
-						if ( (count & Evaluator.TOTAL_MASK) == 0 )
+						item.validate( maxPrice, priceLevel );
+
+						if ( item.getCount() == 0 )
 						{
 							continue;
 						}
-						item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+
+						item.automaticFlag = true;
 						gloveAvailable = true;
 						break gotItem;
 					}
@@ -1083,9 +992,9 @@ public class Evaluator
 
 				if ( usefulOutfits.get( EquipmentDatabase.getOutfitWithItem( id ) ) )
 				{
-					item = this.validateItem( item, maxPrice, priceLevel );
-					count = item.getCount();
-					if ( (count & Evaluator.TOTAL_MASK) == 0 )
+					item.validate( maxPrice, priceLevel );
+
+					if ( item.getCount() == 0 )
 					{
 						continue;
 					}
@@ -1095,8 +1004,7 @@ public class Evaluator
 				if ( KoLCharacter.hasEquipped( item ) )
 				{	// Make sure the current item in each slot is considered
 					// for keeping, unless it's actively harmful.
-					count |= Evaluator.AUTOMATIC_FLAG;
-					item = item.getInstance( count );
+					item.automaticFlag = true;
 				}
 
 				Modifiers mods = Modifiers.getModifiers( name );
@@ -1107,13 +1015,12 @@ public class Evaluator
 
 				if ( mods.getBoolean( Modifiers.SINGLE ) )
 				{
-					count = (count & ~Evaluator.TOTAL_MASK) | 1;
-					item = item.getInstance( count );
+					item.singleFlag = true;
 				}
 
 				if ( this.posEquip.contains( item ) )
 				{
-					item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+					item.automaticFlag = true;
 					break gotItem;
 				}
 
@@ -1122,7 +1029,7 @@ public class Evaluator
 				case -1:
 					continue;
 				case 1:
-					item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+					item.automaticFlag = true;
 					break gotItem;
 				}
 
@@ -1141,7 +1048,7 @@ public class Evaluator
 					( (mods.getRawBitmap( Modifiers.SYNERGETIC )
 						& usefulSynergies) != 0 ) )
 				{
-					item = item.getInstance( count | Evaluator.AUTOMATIC_FLAG );
+					item.automaticFlag = true;
 					break gotItem;
 				}
 
@@ -1162,15 +1069,15 @@ public class Evaluator
 				if ( delta == 0.0 )
 				{
 					if ( KoLCharacter.hasEquipped( item ) ) break gotItem;
-					if ( ((count >> Evaluator.INITIAL_SHIFT) & Evaluator.SUBTOTAL_MASK) == 0 ) continue;
-					if ( (count & Evaluator.AUTOMATIC_FLAG) != 0 ) continue;
+					if ( item.initial == 0 ) continue;
+					if ( item.automaticFlag ) continue;
 				}
 
 				if ( mods.getBoolean( Modifiers.UNARMED ) ||
 					mods.getRawBitmap( Modifiers.MUTEX ) != 0 )
 				{	// This item may turn out to be unequippable, so don't
 					// count it towards the shortlist length.
-					item = item.getInstance( count | Evaluator.CONDITIONAL_FLAG );
+					item.conditionalFlag = true;
 				}
 			}
 			// "break gotItem" goes here
@@ -1184,11 +1091,11 @@ public class Evaluator
 			{
 				RequestLogger.printLine( "SLOT " + slot );
 			}
-			ArrayList list = ranked[ slot ];
-			ListIterator i = list.listIterator();
-			while ( i.hasNext() )
+			ArrayList<CheckedItem> checkedItemList = ranked[ slot ];
+			ArrayList<MaximizerSpeculation> speculationList = new ArrayList<MaximizerSpeculation>();
+
+			for ( CheckedItem item : checkedItemList )
 			{
-				AdventureResult item = (AdventureResult) i.next();
 				MaximizerSpeculation spec = new MaximizerSpeculation();
 				spec.attachment = item;
 				int useSlot = slot;
@@ -1213,28 +1120,31 @@ public class Evaluator
 				}
 				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 				spec.equipment[ useSlot ] = item;
-				i.set( spec );
+
+				speculationList.add( spec );
 			}
-			Collections.sort( list );
+
+			Collections.sort( speculationList );
+
 			if ( this.dump > 1 )
 			{
-				RequestLogger.printLine( list.toString() );
+				RequestLogger.printLine( speculationList.toString() );
 			}
-			i = list.listIterator( list.size() );
+
+			ListIterator<MaximizerSpeculation> speculationIterator = speculationList.listIterator( speculationList.size() );
+
 			int total = 0;
 			int beeotches = 0;
 			int beeosity = 0;
 			int b;
 			int useful = this.maxUseful( slot );
-			while ( i.hasPrevious() )
+
+			while ( speculationIterator.hasPrevious() )
 			{
-				AdventureResult item = ((MaximizerSpeculation) i.previous()).attachment;
-				item = this.validateItem( item, maxPrice, priceLevel );
-				int count = item.getCount();
-				boolean auto = (count & Evaluator.AUTOMATIC_FLAG) != 0;
-				boolean cond = (count & Evaluator.CONDITIONAL_FLAG) != 0;
-				count &= TOTAL_MASK;
-				if ( count == 0 )
+				CheckedItem item = speculationIterator.previous().attachment;
+				item.validate( maxPrice, priceLevel );
+
+				if ( item.getCount() == 0 )
 				{
 					continue;
 				}
@@ -1245,31 +1155,31 @@ public class Evaluator
 					// in this slot's shortlist, since it may turn out to be
 					// advantageous to use up all our allowed beeosity on
 					// other slots.
-					if ( auto )
+					if ( item.automaticFlag )
 					{
 						automatic[ slot ].add( item );
-						beeotches += count;
-						beeosity += b * count;
+						beeotches += item.getCount();
+						beeosity += b * item.getCount();
 					}
 					else if ( total < useful && beeotches < useful &&
 						beeosity < this.beeosity )
 					{
 						automatic[ slot ].add( item );
-						beeotches += count;
-						beeosity += b * count;
+						beeotches += item.getCount();
+						beeosity += b * item.getCount();
 					}
 				}
-				else if ( auto )
+				else if ( item.automaticFlag )
 				{
 					automatic[ slot ].add( item );
-					total += count;
+					total += item.getCount();
 				}
 				else if ( total < useful )
 				{
 					automatic[ slot ].add( item );
-					if ( !cond )
+					if ( !item.conditionalFlag )
 					{
-						total += count;
+						total += item.getCount();
 					}
 				}
 			}

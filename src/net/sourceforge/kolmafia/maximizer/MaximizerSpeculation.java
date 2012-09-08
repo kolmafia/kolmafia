@@ -61,7 +61,7 @@ implements Comparable, Cloneable
 	private int beeosity;
 
 	public boolean failed = false;
-	public AdventureResult attachment;
+	public CheckedItem attachment;
 
 	@Override
 	public Object clone()
@@ -148,10 +148,13 @@ implements Comparable, Cloneable
 		rv = this.simplicity - other.simplicity;
 		if ( rv != 0 ) return rv;
 		if ( this.attachment != null && other.attachment != null )
-		{	// prefer items that you don't have to buy
-			rv = (other.attachment.getCount() & Evaluator.BUYABLE_FLAG) -
-				 (this.attachment.getCount() & Evaluator.BUYABLE_FLAG);
-			if ( rv != 0 ) return rv;
+		{
+			// prefer items that you don't have to buy
+			if ( this.attachment.buyableFlag != other.attachment.buyableFlag )
+			{
+				 return this.attachment.buyableFlag ? -1 : 1;
+			}
+
 			if ( KoLCharacter.inBeecore() )
 			{	// prefer fewer Bs
 				rv = KoLCharacter.getBeeosity( other.attachment.getName() ) -
@@ -204,7 +207,7 @@ implements Comparable, Cloneable
 				}
 				AdventureResult item = (AdventureResult) outfitPieces.get( pieces[ idx ] );
 				if ( item == null ) break;	// not available
-				int count = item.getCount() & Evaluator.TOTAL_MASK;
+				int count = item.getCount();
 				int slot = EquipmentManager.itemIdToEquipmentType( item.getItemId() );
 
 				switch ( slot )
@@ -278,7 +281,7 @@ implements Comparable, Cloneable
 			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
 				AdventureResult item = (AdventureResult) possible.get( pos );
-				int count = item.getCount() & Evaluator.TOTAL_MASK;
+				int count = item.getCount();
 				if ( item.equals( this.equipment[ EquipmentManager.OFFHAND ] ) )
 				{
 					--count;
@@ -321,7 +324,7 @@ implements Comparable, Cloneable
 			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
 				AdventureResult item = (AdventureResult) possible.get( pos );
-				int count = item.getCount() & Evaluator.TOTAL_MASK;
+				int count = item.getCount();
 				//if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 				//{
 				//	--count;
@@ -356,7 +359,7 @@ implements Comparable, Cloneable
 			for ( ; pos < possible.size(); ++pos )
 			{
 				AdventureResult item = (AdventureResult) possible.get( pos );
-				int count = item.getCount() & Evaluator.TOTAL_MASK;
+				int count = item.getCount();
 				if ( item.equals( this.equipment[ EquipmentManager.ACCESSORY1 ] ) )
 				{
 					--count;
@@ -431,7 +434,7 @@ implements Comparable, Cloneable
 			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
 				AdventureResult item = (AdventureResult) possible.get( pos );
-				int count = item.getCount() & Evaluator.TOTAL_MASK;
+				int count = item.getCount();
 				if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 				{
 					--count;
@@ -464,7 +467,7 @@ implements Comparable, Cloneable
 				for ( int pos = 0; pos < possible.size(); ++pos )
 				{
 					AdventureResult item = (AdventureResult) possible.get( pos );
-					int count = item.getCount() & Evaluator.TOTAL_MASK;
+					int count = item.getCount();
 					//if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 					//{
 					//	--count;
@@ -496,7 +499,7 @@ implements Comparable, Cloneable
 			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
 				AdventureResult item = (AdventureResult) possible.get( pos );
-				int count = item.getCount() & Evaluator.TOTAL_MASK;
+				int count = item.getCount();
 				if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 				{
 					--count;
@@ -540,7 +543,7 @@ implements Comparable, Cloneable
 				{
 					continue;
 				}
-				int count = item.getCount() & Evaluator.TOTAL_MASK;
+				int count = item.getCount();
 				if ( item.equals( this.equipment[ EquipmentManager.OFFHAND ] ) )
 				{
 					--count;
@@ -607,7 +610,7 @@ implements Comparable, Cloneable
 			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
 				AdventureResult item = (AdventureResult) possible.get( pos );
-				int count = item.getCount() & Evaluator.TOTAL_MASK;
+				int count = item.getCount();
 				if ( item.equals( this.equipment[ EquipmentManager.WEAPON ] ) )
 				{
 					--count;
