@@ -67,7 +67,6 @@ import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -85,14 +84,15 @@ public class Evaluator
 	private ArrayList<FamiliarData> familiars;
 
 	private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
-	String weaponType = null;
-	int hands = 0;
+	public String weaponType = null;
+	public int hands = 0;
 	public int melee = 0;	// +/-2 or higher: require, +/-1: disallow other type
-	boolean requireShield = false;
-	boolean noTiebreaker = false;
-	HashSet<String> posOutfits, negOutfits;
-	TreeSet<AdventureResult> posEquip, negEquip;
+	public boolean requireShield = false;
+	public boolean noTiebreaker = false;
+	public HashSet<String> posOutfits, negOutfits;
+	public TreeSet<AdventureResult> posEquip, negEquip;
 
+	private static final String TIEBREAKER = "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, 1 critical, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage";
 	private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
 	// Groups: 1=sign 2=weight 3=keyword
 
@@ -195,7 +195,7 @@ public class Evaluator
 		tiebreaker.max = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		Arrays.fill( tiebreaker.min, Double.NEGATIVE_INFINITY );
 		Arrays.fill( tiebreaker.max, Double.POSITIVE_INFINITY );
-		tiebreaker.parse( MaximizerFrame.TIEBREAKER );
+		tiebreaker.parse( Evaluator.TIEBREAKER );
 		this.min = (double[]) tiebreaker.min.clone();
 		this.max = (double[]) tiebreaker.max.clone();
 		this.parse( expr );

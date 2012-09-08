@@ -56,14 +56,12 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.maximizer.Boost;
-import net.sourceforge.kolmafia.maximizer.Evaluator;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
 
@@ -86,11 +84,6 @@ public class MaximizerFrame
 	extends GenericFrame
 	implements ListSelectionListener
 {
-	public static final LockableListModel boosts = new LockableListModel();
-	public static Evaluator eval;
-
-	public static boolean firstTime = true;
-
 	private static String [] expressions =
 	{
 		"mainstat",
@@ -130,14 +123,6 @@ public class MaximizerFrame
 		"+four songs",
 	};
 
-	public static String [] maximizationCategories =
-	{
-		"_hoboPower",
-		"_brimstone",
-		"_slimeHate",
-		"_stickers",
-	};
-
 	public static final JComboBox expressionSelect = new JComboBox( expressions );
 	static
 	{	// This has to be done before the constructor runs, since the
@@ -150,12 +135,6 @@ public class MaximizerFrame
 	private JCheckBox includeAll;
 	private final ShowDescriptionList boostList;
 	private JLabel listTitle = null;
-
-	public static MaximizerSpeculation best;
-	public static int bestChecked;
-	public static long bestUpdate;
-
-	public static final String TIEBREAKER = "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, 1 critical, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage";
 
 	private static final String HELP_STRING = "<html><table width=750><tr><td>" +
 		"<h3>General</h3>" +
@@ -224,14 +203,14 @@ public class MaximizerFrame
 		JPanel wrapperPanel = new JPanel( new BorderLayout() );
 		wrapperPanel.add( new MaximizerPanel(), BorderLayout.NORTH );
 
-		this.boostList = new ShowDescriptionList( MaximizerFrame.boosts, 12 );
+		this.boostList = new ShowDescriptionList( Maximizer.boosts, 12 );
 		this.boostList.addListSelectionListener( this );
 
 		wrapperPanel.add( new BoostsPanel( this.boostList ), BorderLayout.CENTER );
 
 		this.setCenterComponent( wrapperPanel );
 
-		if ( MaximizerFrame.eval != null )
+		if ( Maximizer.eval != null )
 		{
 			this.valueChanged( null );
 		}
@@ -252,9 +231,9 @@ public class MaximizerFrame
 
 	public void valueChanged( final ListSelectionEvent e )
 	{
-		double current = MaximizerFrame.eval.getScore(
+		double current = Maximizer.eval.getScore(
 			KoLCharacter.getCurrentModifiers() );
-		boolean failed = MaximizerFrame.eval.failed;
+		boolean failed = Maximizer.eval.failed;
 		Object[] items = this.boostList.getSelectedValues();
 
 		StringBuffer buff = new StringBuffer( "Current score: " );
@@ -382,7 +361,7 @@ public class MaximizerFrame
 		{
 			KoLmafia.forceContinue();
 			boolean any = false;
-			Iterator i = MaximizerFrame.boosts.iterator();
+			Iterator i = Maximizer.boosts.iterator();
 			while ( i.hasNext() )
 			{
 				Object boost = i.next();

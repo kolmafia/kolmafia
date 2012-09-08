@@ -50,6 +50,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -67,7 +68,6 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
-import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -2892,11 +2892,11 @@ public class Modifiers
 
 		// Make a map of maximization categories
 		Map maximization = new TreeMap();
-		int maximizationCount = MaximizerFrame.maximizationCategories.length;
+		int maximizationCount = Maximizer.maximizationCategories.length;
 
 		for ( int i = 0; i < maximizationCount; ++i )
 		{
-			maximization.put( MaximizerFrame.maximizationCategories[i], null );
+			maximization.put( Maximizer.maximizationCategories[i], null );
 		}
 
 		// Open the output file

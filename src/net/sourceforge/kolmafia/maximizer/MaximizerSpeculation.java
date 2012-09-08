@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.utilities.BooleanArray;
 
 public class MaximizerSpeculation
@@ -93,21 +92,21 @@ implements Comparable, Cloneable
 	{
 		if ( this.scored ) return this.score;
 		if ( !this.calculated ) this.calculate();
-		this.score = MaximizerFrame.eval.getScore( this.mods );
+		this.score = Maximizer.eval.getScore( this.mods );
 		if ( KoLCharacter.inBeecore() )
 		{
 			this.beeosity = KoLCharacter.getBeeosity( this.equipment );
 		}
-		MaximizerFrame.eval.checkEquipment( this.mods, this.equipment,
+		Maximizer.eval.checkEquipment( this.mods, this.equipment,
 			this.beeosity );
-		this.failed = MaximizerFrame.eval.failed;
+		this.failed = Maximizer.eval.failed;
 		if ( (this.mods.getRawBitmap( Modifiers.MUTEX_VIOLATIONS )
 			& ~KoLCharacter.currentRawBitmapModifier( Modifiers.MUTEX_VIOLATIONS )) != 0 )
 		{	// We're speculating about something that would create a
 			// mutex problem that the player didn't already have.
 			this.failed = true;
 		}
-		this.exceeded = MaximizerFrame.eval.exceeded;
+		this.exceeded = Maximizer.eval.exceeded;
 		this.scored = true;
 		return this.score;
 	}
@@ -116,7 +115,7 @@ implements Comparable, Cloneable
 	{
 		if ( this.tiebreakered ) return this.tiebreaker;
 		if ( !this.calculated ) this.calculate();
-		this.tiebreaker = MaximizerFrame.eval.getTiebreaker( this.mods );
+		this.tiebreaker = Maximizer.eval.getTiebreaker( this.mods );
 		this.tiebreakered = true;
 		this.simplicity = 0;
 		for ( int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot )
@@ -558,7 +557,7 @@ implements Comparable, Cloneable
 			}
 
 			// if ( any && <no unarmed items in shortlists> ) return;
-			if ( MaximizerFrame.eval.melee < -1 || MaximizerFrame.eval.melee > 1 )
+			if ( Maximizer.eval.melee < -1 || Maximizer.eval.melee > 1 )
 			{
 				return;
 			}
@@ -632,16 +631,16 @@ implements Comparable, Cloneable
 		this.calculated = false;
 		this.scored = false;
 		this.tiebreakered = false;
-		if ( this.compareTo( MaximizerFrame.best ) > 0 )
+		if ( this.compareTo( Maximizer.best ) > 0 )
 		{
-			MaximizerFrame.best = (MaximizerSpeculation) this.clone();
+			Maximizer.best = (MaximizerSpeculation) this.clone();
 		}
-		MaximizerFrame.bestChecked++;
+		Maximizer.bestChecked++;
 		long t = System.currentTimeMillis();
-		if ( t > MaximizerFrame.bestUpdate )
+		if ( t > Maximizer.bestUpdate )
 		{
 			MaximizerSpeculation.showProgress();
-			MaximizerFrame.bestUpdate = t + 5000;
+			Maximizer.bestUpdate = t + 5000;
 		}
 		this.restore( mark );
 		if ( !KoLmafia.permitsContinue() )
@@ -700,11 +699,11 @@ implements Comparable, Cloneable
 	public static void showProgress()
 	{
 		StringBuffer msg = new StringBuffer();
-		msg.append( MaximizerFrame.bestChecked );
+		msg.append( Maximizer.bestChecked );
 		msg.append( " combinations checked, best score " );
-		double score = MaximizerFrame.best.getScore();
+		double score = Maximizer.best.getScore();
 		msg.append( KoLConstants.FLOAT_FORMAT.format( score ) );
-		if ( MaximizerFrame.best.failed )
+		if ( Maximizer.best.failed )
 		{
 			msg.append( " (FAIL)" );
 		}
