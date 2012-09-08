@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.session.ContactManager;
 
 import net.sourceforge.kolmafia.swingui.BuffBotFrame;
+import net.sourceforge.kolmafia.utilities.LogStream;
 
 
 public class BuffBotHome

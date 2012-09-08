@@ -56,7 +56,6 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.LogStream;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -64,6 +63,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.MushroomManager;
 
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+import net.sourceforge.kolmafia.utilities.LogStream;
 
 public class MushroomPlotPanel
 	extends JPanel

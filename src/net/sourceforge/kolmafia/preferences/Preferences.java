@@ -52,7 +52,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.LogStream;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
@@ -66,6 +65,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
