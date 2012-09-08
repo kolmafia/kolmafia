@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
+import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -74,7 +75,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
-import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -2235,7 +2235,7 @@ public abstract class SorceressLairManager
 		// If we can buff it to above 20 pounds, try again.
 		if ( familiar.getModifiedWeight() < 20 )
 		{
-			MaximizerFrame.maximize( "familiar weight -tie", 0, 0, false );
+			Maximizer.maximize( "familiar weight -tie", 0, 0, false );
 
 			if ( familiar.getModifiedWeight() < 20 )
 			{
