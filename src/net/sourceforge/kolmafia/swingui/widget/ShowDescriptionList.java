@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
 
@@ -82,7 +83,6 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
-import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -236,9 +236,9 @@ public class ShowDescriptionList
 
 	public static final void showGameDescription( Object item )
 	{
-		if ( item instanceof MaximizerFrame.Boost )
+		if ( item instanceof Maximizer.Boost )
 		{
-			item = ((MaximizerFrame.Boost) item).getItem();
+			item = ((Maximizer.Boost) item).getItem();
 		}
 
 		if ( item instanceof AdventureResult )
@@ -292,9 +292,9 @@ public class ShowDescriptionList
 		boolean isEffect = false;
 		boolean isSkill = false;
 
-		if ( item instanceof MaximizerFrame.Boost )
+		if ( item instanceof Maximizer.Boost )
 		{
-			item = ((MaximizerFrame.Boost) item).getItem();
+			item = ((Maximizer.Boost) item).getItem();
 		}
 
 		if ( item instanceof AdventureResult )

@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
+import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -150,7 +151,6 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
@@ -4553,7 +4553,7 @@ public abstract class RuntimeLibrary
 		int priceLevel = (int) priceLevelValue.intValue();
 		boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
 
-		return new Value( MaximizerFrame.maximize( maximizerString, maxPrice, priceLevel, isSpeculateOnly ) );
+		return new Value( Maximizer.maximize( maximizerString, maxPrice, priceLevel, isSpeculateOnly ) );
 	}
 
 	public static Value monster_eval( Interpreter interpreter, final Value expr )

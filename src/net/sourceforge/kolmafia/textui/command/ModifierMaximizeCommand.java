@@ -38,7 +38,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.swingui.MaximizerFrame;
+import net.sourceforge.kolmafia.maximizer.Maximizer;
 
 public class ModifierMaximizeCommand
 	extends AbstractCommand
@@ -53,7 +53,7 @@ public class ModifierMaximizeCommand
 	{
 		boolean isSpeculateOnly = KoLmafiaCLI.isExecutingCheckOnlyCommand;
 	
-		if ( !MaximizerFrame.maximize( parameters, 0, 0, isSpeculateOnly ) && !isSpeculateOnly )
+		if ( !Maximizer.maximize( parameters, 0, 0, isSpeculateOnly ) && !isSpeculateOnly )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to meet all requirements via equipment changes." );
 			RequestLogger.printLine( "See the Modifier Maximizer for further suggestions." );
