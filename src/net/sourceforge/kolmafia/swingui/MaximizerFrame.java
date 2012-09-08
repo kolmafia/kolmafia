@@ -65,7 +65,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Evaluator;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
-import net.sourceforge.kolmafia.maximizer.Spec;
+import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
 
 
 
@@ -151,7 +151,7 @@ public class MaximizerFrame
 	private final ShowDescriptionList boostList;
 	private JLabel listTitle = null;
 
-	public static Spec best;
+	public static MaximizerSpeculation best;
 	public static int bestChecked;
 	public static long bestUpdate;
 
@@ -270,7 +270,7 @@ public class MaximizerFrame
 		}
 		else
 		{
-			Spec spec = new Spec();
+			MaximizerSpeculation spec = new MaximizerSpeculation();
 			for ( int i = 0; i < items.length; ++i )
 			{
 				if ( items[ i ] instanceof Boost )

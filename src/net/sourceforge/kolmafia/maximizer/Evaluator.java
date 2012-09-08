@@ -1189,7 +1189,7 @@ public class Evaluator
 			while ( i.hasNext() )
 			{
 				AdventureResult item = (AdventureResult) i.next();
-				Spec spec = new Spec();
+				MaximizerSpeculation spec = new MaximizerSpeculation();
 				spec.attachment = item;
 				int useSlot = slot;
 				switch ( slot )
@@ -1228,7 +1228,7 @@ public class Evaluator
 			int useful = this.maxUseful( slot );
 			while ( i.hasPrevious() )
 			{
-				AdventureResult item = ((Spec) i.previous()).attachment;
+				AdventureResult item = ((MaximizerSpeculation) i.previous()).attachment;
 				item = this.validateItem( item, maxPrice, priceLevel );
 				int count = item.getCount();
 				boolean auto = (count & Evaluator.AUTOMATIC_FLAG) != 0;
@@ -1284,7 +1284,7 @@ public class Evaluator
 		automatic[ Evaluator.OFFHAND_MELEE ].addAll( automatic[ EquipmentManager.OFFHAND ] );
 		automatic[ Evaluator.OFFHAND_RANGED ].addAll( automatic[ EquipmentManager.OFFHAND ] );
 
-		Spec spec = new Spec();
+		MaximizerSpeculation spec = new MaximizerSpeculation();
 		// The threshold in the slots array that indicates that a slot
 		// should be considered will be either >= 1 or >= 0, depending
 		// on whether inclusive or exclusive slot specs were used.

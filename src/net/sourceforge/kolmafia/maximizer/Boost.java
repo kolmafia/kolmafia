@@ -117,7 +117,7 @@ implements Comparable
 		return true;
 	}
 
-	public void addTo( Spec spec )
+	public void addTo( MaximizerSpeculation spec )
 	{
 		if ( this.isEquipment )
 		{

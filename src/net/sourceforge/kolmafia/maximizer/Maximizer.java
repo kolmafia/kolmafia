@@ -130,7 +130,7 @@ public class Maximizer
 			{
 				MaximizerFrame.boosts.add( new Boost( "", "(folding equipment is not considered yet)", -1, null, 0.0 ) );
 			}
-			MaximizerFrame.best = new Spec();
+			MaximizerFrame.best = new MaximizerSpeculation();
 			MaximizerFrame.best.getScore();
 			// In case the current outfit scores better than any tried combination,
 			// due to some newly-added constraint (such as +melee):
@@ -150,7 +150,7 @@ public class Maximizer
 				KoLmafia.forceContinue();
 				MaximizerFrame.boosts.add( new Boost( "", "<font color=red>(interrupted, optimality not guaranteed)</font>", -1, null, 0.0 ) );
 			}
-			Spec.showProgress();
+			MaximizerSpeculation.showProgress();
 
 			boolean[] alreadyDone = new boolean[ EquipmentManager.ALL_SLOTS ];
 
@@ -187,7 +187,7 @@ public class Maximizer
 
 			double delta;
 			boolean isSpecial = false;
-			Spec spec = new Spec();
+			MaximizerSpeculation spec = new MaximizerSpeculation();
 			AdventureResult effect = new AdventureResult( name, 1, true );
 			name = effect.getName();
 			boolean hasEffect = KoLConstants.activeEffects.contains( effect );
@@ -719,7 +719,7 @@ public class Maximizer
 			FamiliarData fam = MaximizerFrame.best.getFamiliar();
 			if ( !fam.equals( KoLCharacter.getFamiliar() ) )
 			{
-				Spec spec = new Spec();
+				MaximizerSpeculation spec = new MaximizerSpeculation();
 				spec.setFamiliar( fam );
 				double delta = spec.getScore() - current;
 				String cmd, text;
@@ -754,7 +754,7 @@ public class Maximizer
 			MaximizerFrame.boosts.add( new Boost( "", "keep " + slotname + ": " + item.getName(), -1, item, 0.0 ) );
 			return equipLevel;
 		}
-		Spec spec = new Spec();
+		MaximizerSpeculation spec = new MaximizerSpeculation();
 		spec.equip( slot, item );
 		double delta = spec.getScore() - current;
 		String cmd, text;
