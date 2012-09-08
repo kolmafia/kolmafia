@@ -31,7 +31,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.utilities;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +41,9 @@ import java.io.PrintStream;
 import java.util.Date;
 
 import javax.swing.SwingUtilities;
+
+import net.sourceforge.kolmafia.KoLDesktop;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.UtilityConstants;
