@@ -1045,8 +1045,7 @@ public abstract class KoLmafia
 	{
 		if ( ItemDatabase.newItems )
 		{
-			ItemDatabase.writeTradeitems( new File( UtilityConstants.DATA_LOCATION, "tradeitems.txt" ) );
-			ItemDatabase.writeItemdescs( new File( UtilityConstants.DATA_LOCATION, "itemdescs.txt" ) );
+			ItemDatabase.writeItems( new File( UtilityConstants.DATA_LOCATION, "items.txt" ) );
 		}
 
 		if ( EquipmentDatabase.newEquipment )
@@ -1516,7 +1515,7 @@ public abstract class KoLmafia
 	{
 		String utfString = StringUtilities.getURLEncode( password );
 
-		StringBuffer encodedString = new StringBuffer();
+		StringBuilder encodedString = new StringBuilder();
 		char currentCharacter;
 		for ( int i = 0; i < utfString.length(); ++i )
 		{
@@ -1582,7 +1581,7 @@ public abstract class KoLmafia
 		}
 
 		String hexString = ( new BigInteger( password, 10 ) ).toString( 36 );
-		StringBuffer utfString = new StringBuffer();
+		StringBuilder utfString = new StringBuilder();
 		for ( int i = 0; i < hexString.length(); ++i )
 		{
 			utfString.append( '%' );
