@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.maximizer;
 import java.util.Collections;
 import java.util.Iterator;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -74,6 +76,23 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Maximizer
 {
+	private static boolean firstTime = true;
+
+	public static final LockableListModel boosts = new LockableListModel();
+	public static Evaluator eval;
+
+	public static String [] maximizationCategories =
+	{
+		"_hoboPower",
+		"_brimstone",
+		"_slimeHate",
+		"_stickers",
+	};
+
+	public static MaximizerSpeculation best;
+	public static int bestChecked;
+	public static long bestUpdate;
+
 	public static boolean maximize( String maximizerString, int maxPrice, int priceLevel, boolean isSpeculationOnly )
 	{
 		MaximizerFrame.expressionSelect.setSelectedItem( maximizerString );
@@ -92,10 +111,10 @@ public class Maximizer
 			return false;
 		}
 
-		Modifiers mods = MaximizerFrame.best.calculate();
+		Modifiers mods = Maximizer.best.calculate();
 		Modifiers.overrideModifier( "_spec", mods );
 
-		return !MaximizerFrame.best.failed;
+		return !Maximizer.best.failed;
 	}
 
 	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll )
@@ -103,7 +122,7 @@ public class Maximizer
 		KoLmafia.forceContinue();
 		String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
 		KoLConstants.maximizerMList.addItem( maxMe );
-		MaximizerFrame.eval = new Evaluator( maxMe );
+		Maximizer.eval = new Evaluator( maxMe );
 
 		// parsing error
 		if ( !KoLmafia.permitsContinue() )
@@ -111,7 +130,7 @@ public class Maximizer
 			return;
 		}
 
-		double current = MaximizerFrame.eval.getScore( KoLCharacter.getCurrentModifiers() );
+		double current = Maximizer.eval.getScore( KoLCharacter.getCurrentModifiers() );
 
 		if ( maxPrice <= 0 )
 		{
@@ -119,36 +138,36 @@ public class Maximizer
 				KoLCharacter.getAvailableMeat() );
 		}
 
-		KoLmafia.updateDisplay( MaximizerFrame.firstTime ?
+		KoLmafia.updateDisplay( Maximizer.firstTime ?
 			"Maximizing (1st time may take a while)..." : "Maximizing..." );
-		MaximizerFrame.firstTime = false;
+		Maximizer.firstTime = false;
 
-		MaximizerFrame.boosts.clear();
+		Maximizer.boosts.clear();
 		if ( equipLevel != 0 )
 		{
 			if ( equipLevel > 1 )
 			{
-				MaximizerFrame.boosts.add( new Boost( "", "(folding equipment is not considered yet)", -1, null, 0.0 ) );
+				Maximizer.boosts.add( new Boost( "", "(folding equipment is not considered yet)", -1, null, 0.0 ) );
 			}
-			MaximizerFrame.best = new MaximizerSpeculation();
-			MaximizerFrame.best.getScore();
+			Maximizer.best = new MaximizerSpeculation();
+			Maximizer.best.getScore();
 			// In case the current outfit scores better than any tried combination,
 			// due to some newly-added constraint (such as +melee):
-			MaximizerFrame.best.failed = true;
-			MaximizerFrame.bestChecked = 0;
-			MaximizerFrame.bestUpdate = System.currentTimeMillis() + 5000;
+			Maximizer.best.failed = true;
+			Maximizer.bestChecked = 0;
+			Maximizer.bestUpdate = System.currentTimeMillis() + 5000;
 			try
 			{
-				MaximizerFrame.eval.enumerateEquipment( equipLevel, maxPrice, priceLevel );
+				Maximizer.eval.enumerateEquipment( equipLevel, maxPrice, priceLevel );
 			}
 			catch ( MaximizerExceededException e )
 			{
-				MaximizerFrame.boosts.add( new Boost( "", "(maximum achieved, no further combinations checked)", -1, null, 0.0 ) );
+				Maximizer.boosts.add( new Boost( "", "(maximum achieved, no further combinations checked)", -1, null, 0.0 ) );
 			}
 			catch ( MaximizerInterruptedException e )
 			{
 				KoLmafia.forceContinue();
-				MaximizerFrame.boosts.add( new Boost( "", "<font color=red>(interrupted, optimality not guaranteed)</font>", -1, null, 0.0 ) );
+				Maximizer.boosts.add( new Boost( "", "<font color=red>(interrupted, optimality not guaranteed)</font>", -1, null, 0.0 ) );
 			}
 			MaximizerSpeculation.showProgress();
 
@@ -156,7 +175,7 @@ public class Maximizer
 
 			for ( int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; ++slot )
 			{
-				if ( MaximizerFrame.best.equipment[ slot ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE &&
+				if ( Maximizer.best.equipment[ slot ].getItemId() == ItemPool.SPECIAL_SAUCE_GLOVE &&
 					EquipmentManager.getEquipment( slot ).getItemId() != ItemPool.SPECIAL_SAUCE_GLOVE )
 				{
 					equipLevel = Maximizer.emitSlot( slot, equipLevel, maxPrice, priceLevel, current );
@@ -173,7 +192,7 @@ public class Maximizer
 			}
 		}
 
-		current = MaximizerFrame.eval.getScore(
+		current = Maximizer.eval.getScore(
 			KoLCharacter.getCurrentModifiers() );
 
 		Iterator i = Modifiers.getAllModifiers();
@@ -205,7 +224,7 @@ public class Maximizer
 					// uneffecting the conflicting effect, but for now just skip.
 					continue;
 				}
-				switch ( MaximizerFrame.eval.checkConstraints(
+				switch ( Maximizer.eval.checkConstraints(
 					Modifiers.getModifiers( name ) ) )
 				{
 				case -1:
@@ -232,7 +251,7 @@ public class Maximizer
 			{
 				spec.removeEffect( effect );
 				delta = spec.getScore() - current;
-				switch ( MaximizerFrame.eval.checkConstraints(
+				switch ( Maximizer.eval.checkConstraints(
 					Modifiers.getModifiers( name ) ) )
 				{
 				case 1:
@@ -698,25 +717,25 @@ public class Maximizer
 				{
 					text = "...or " + text;
 				}
-				MaximizerFrame.boosts.add( new Boost( cmd, text, effect, hasEffect,
+				Maximizer.boosts.add( new Boost( cmd, text, effect, hasEffect,
 					item, delta, isSpecial ) );
 				orFlag = true;
 			}
 		}
 
-		if ( MaximizerFrame.boosts.size() == 0 )
+		if ( Maximizer.boosts.size() == 0 )
 		{
-			MaximizerFrame.boosts.add( new Boost( "", "(nothing useful found)", 0, null, 0.0 ) );
+			Maximizer.boosts.add( new Boost( "", "(nothing useful found)", 0, null, 0.0 ) );
 		}
 
-		MaximizerFrame.boosts.sort();
+		Maximizer.boosts.sort();
 	}
 
 	public static int emitSlot( int slot, int equipLevel, int maxPrice, int priceLevel, double current )
 	{
 		if ( slot == EquipmentManager.FAMILIAR )
 		{	// Insert any familiar switch at this point
-			FamiliarData fam = MaximizerFrame.best.getFamiliar();
+			FamiliarData fam = Maximizer.best.getFamiliar();
 			if ( !fam.equals( KoLCharacter.getFamiliar() ) )
 			{
 				MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -735,13 +754,13 @@ public class Maximizer
 				}
 				else
 				{
-					MaximizerFrame.boosts.add( boost );
+					Maximizer.boosts.add( boost );
 				}
 			}
 		}
 
 		String slotname = EquipmentRequest.slotNames[ slot ];
-		AdventureResult item = MaximizerFrame.best.equipment[ slot ];
+		AdventureResult item = Maximizer.best.equipment[ slot ];
 		AdventureResult curr = EquipmentManager.getEquipment( slot );
 		if ( curr.equals( item ) )
 		{
@@ -751,7 +770,7 @@ public class Maximizer
 			{
 				return equipLevel;
 			}
-			MaximizerFrame.boosts.add( new Boost( "", "keep " + slotname + ": " + item.getName(), -1, item, 0.0 ) );
+			Maximizer.boosts.add( new Boost( "", "keep " + slotname + ": " + item.getName(), -1, item, 0.0 ) );
 			return equipLevel;
 		}
 		MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -836,12 +855,12 @@ public class Maximizer
 			if ( !KoLmafia.permitsContinue() )
 			{
 				equipLevel = 1;
-				MaximizerFrame.boosts.add( boost );
+				Maximizer.boosts.add( boost );
 			}
 		}
 		else
 		{
-			MaximizerFrame.boosts.add( boost );
+			Maximizer.boosts.add( boost );
 		}
 		return equipLevel;
 	}
