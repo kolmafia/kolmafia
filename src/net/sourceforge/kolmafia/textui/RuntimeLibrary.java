@@ -575,6 +575,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_inventory", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_shop", DataTypes.RESULT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_campground", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -2814,6 +2817,35 @@ public abstract class RuntimeLibrary
 			value.aset(
 				DataTypes.parseItemValue( items[i].getName(), true ),
 				DataTypes.parseIntValue( String.valueOf( items[i].getCount() ), true ) );
+		}
+
+		return value;
+	}
+
+	public static Value get_shop( Interpreter interpreter )
+	{
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+
+		if ( !KoLCharacter.hasStore() )
+		{
+			return value;
+		}
+
+		if ( !StoreManager.soldItemsRetrieved )
+		{
+			RequestThread.postRequest( new ManageStoreRequest() );
+		}
+
+
+		LockableListModel list = StoreManager.getSoldItemList();
+		SoldItem item;
+
+		for ( int i = 0; i < list.size(); ++i )
+		{
+			item = ( (SoldItem) list.get( i ) );
+			value.aset(
+				DataTypes.parseItemValue( item.getItemName(), true ),
+				DataTypes.parseIntValue( String.valueOf( item.getQuantity() ), true ) );
 		}
 
 		return value;
