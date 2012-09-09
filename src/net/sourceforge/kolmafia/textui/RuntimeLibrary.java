@@ -2816,7 +2816,7 @@ public abstract class RuntimeLibrary
 		{
 			value.aset(
 				DataTypes.parseItemValue( items[i].getName(), true ),
-				DataTypes.parseIntValue( String.valueOf( items[i].getCount() ), true ) );
+				new Value( items[i].getCount() ) );
 		}
 
 		return value;
@@ -2845,7 +2845,7 @@ public abstract class RuntimeLibrary
 			item = ( (SoldItem) list.get( i ) );
 			value.aset(
 				DataTypes.parseItemValue( item.getItemName(), true ),
-				DataTypes.parseIntValue( String.valueOf( item.getQuantity() ), true ) );
+				new Value( item.getQuantity() ) );
 		}
 
 		return value;
@@ -2862,7 +2862,7 @@ public abstract class RuntimeLibrary
 		{
 			value.aset(
 				DataTypes.parseItemValue( items[i].getName(), true ),
-				DataTypes.parseIntValue( String.valueOf( items[i].getCount() ), true ) );
+				new Value( items[i].getCount() ) );
 		}
 
 		return value;
@@ -3577,7 +3577,7 @@ public abstract class RuntimeLibrary
 
 			value.aset(
 				DataTypes.parseEffectValue( effect.getName(), true ),
-				DataTypes.parseIntValue( String.valueOf( duration ), true ) );
+				new Value ( duration ) );
 		}
 
 		return value;
