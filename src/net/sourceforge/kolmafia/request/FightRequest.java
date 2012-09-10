@@ -2220,6 +2220,12 @@ public class FightRequest
 			Preferences.setBoolean( "_stinkyCheeseBanisherUsed", true );
 		}
 
+		// You hug him with your filthy rotting arms.
+		if ( responseText.contains( "with your filthy rotting arms." ) )
+		{
+			Preferences.increment( "_bearHugs", 1 );
+		}
+
 		// The first part is for a hobo underling being summoned
 		// The second part is from using a dinged-up triangle to summon it
 		if ( responseText.contains( "A hobo runs up to you" ) &&
@@ -5247,9 +5253,9 @@ public class FightRequest
 
 		case SkillPool.MAYFLY_SWARM:
 			if ( responseText.contains( "mayfly bait and swing it" ) ||
-			     responseText.contains( "May flies when" ) ||
-			     responseText.contains( "mayflies buzz in" ) ||
-			     responseText.contains( "mayflies, with bait" ) ||
+				 responseText.contains( "May flies when" ) ||
+				 responseText.contains( "mayflies buzz in" ) ||
+				 responseText.contains( "mayflies, with bait" ) ||
 				 responseText.contains( "mayflies respond" ) )
 			{
 				Preferences.increment( "_mayflySummons", 1 );
@@ -5647,7 +5653,8 @@ public class FightRequest
 					return true;
 				}
 
-				String skill = SkillDatabase.getSkillName( StringUtilities.parseInt( skillId ) );
+				int skillNumber = StringUtilities.parseInt( skillId );
+				String skill = SkillDatabase.getSkillName( skillNumber );
 				if ( skill == null )
 				{
 					if ( shouldLogAction )
@@ -5657,7 +5664,7 @@ public class FightRequest
 				}
 				else
 				{
-					if ( skillId.equals( "19" ) )
+					if ( skillNumber == SkillPool.OLFACTION )
 					{
 						if ( !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
 						{
@@ -5666,7 +5673,7 @@ public class FightRequest
 							FightRequest.canOlfact = false;
 						}
 					}
-					else if ( skillId.equals( "7108" ) )
+					else if ( skillNumber == SkillPool.BADLY_ROMANTIC_ARROW )
 					{
 						boolean hasQuake = EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
 						int fights = hasQuake ? 3 : 2;
@@ -5678,13 +5685,13 @@ public class FightRequest
 						TurnCounter.startCounting( 16, "Romantic Monster window begin loc=*", "lparen.gif" );
 						TurnCounter.startCounting( 26, "Romantic Monster window end loc=*", "rparen.gif" );
 					}
-					else if ( skillId.equals( "11020" ) )
+					else if ( skillNumber == SkillPool.BANISHING_SHOUT )
 					{
 						String pref = MonsterStatusTracker.getLastMonsterName();
 						String[] monsters = Preferences.getString( "banishingShoutMonsters" ).split( "\\|" );
 						for ( int i = 0; i < monsters.length && i < 2; ++i )
 						{
-							if ( monsters[ i ].length() > 0 )
+						if ( monsters[ i ].length() > 0 )
 							{
 								pref += "|" + monsters[ i ];
 							}
