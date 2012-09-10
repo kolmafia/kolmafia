@@ -216,6 +216,11 @@ public class UseItemEnqueuePanel
 			boolean haveGhost = KoLCharacter.findFamiliar( FamiliarPool.GHOST ) != null;
 			this.buttons[ bingeIndex ].setEnabled( haveGhost );
 
+			// The milk listener is just after the ghost listener
+			boolean haveMilk = InventoryManager.getCount( ItemPool.MILK_OF_MAGNESIUM ) > 0 ||
+								KoLCharacter.hasSkill( "Song of the Glorious Lunch" );
+			this.buttons[ bingeIndex + 1 ].setEnabled( haveMilk );
+
 			// We gray out the distend button unless we have a
 			// pill, and haven't used one today.
 			//
@@ -232,6 +237,10 @@ public class UseItemEnqueuePanel
 		{
 			boolean haveHobo = KoLCharacter.findFamiliar( FamiliarPool.HOBO ) != null;
 			this.buttons[ bingeIndex ].setEnabled( haveHobo );
+
+			// The ode listener is just after the hobo listener
+			boolean haveOde = KoLCharacter.hasSkill( "The Ode to Booze" );
+			this.buttons[ bingeIndex + 1 ].setEnabled( haveOde );
 
 			// We gray out the dog hair button unless we have
 			// inebriety, have a pill, and haven't used one today.

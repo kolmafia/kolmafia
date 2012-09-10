@@ -767,6 +767,7 @@ user	_ballastTurtleUsed	false
 user	_ballInACupUsed	false
 user	_ballpit	false
 user	_banderRunaways	0
+user	_bearHugs	0
 user	_beerLensDrops	0
 user	_benettonsCasts	0
 user	_bonersSummoned	false
