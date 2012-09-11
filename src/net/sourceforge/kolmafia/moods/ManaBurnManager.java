@@ -154,16 +154,25 @@ public class ManaBurnManager
 		{
 			AdventureResult currentEffect = (AdventureResult) KoLConstants.activeEffects.get( i );
 			String skillName = UneffectRequest.effectToSkill( currentEffect.getName() );
-	
+
 			// Only cast if the player knows the skill
-	
-			if ( !SkillDatabase.contains( skillName ) || !KoLCharacter.hasSkill( skillName ) )
+
+			if ( !KoLCharacter.hasSkill( skillName ) )
 			{
 				continue;
 			}
-	
+
+			// Only cast if the MP cost is non-zero, since otherwise you'd
+			// be in an infinite loop
+
 			int skillId = SkillDatabase.getSkillId( skillName );
-			
+			int mpCost = SkillDatabase.getMPConsumptionById( skillId );
+
+			if ( mpCost <= 0 )
+			{
+				continue;
+			}
+
 			int priority = Preferences.getInteger( "skillBurn" + skillId ) + 100;
 			// skillBurnXXXX values offset by 100 so that missing prefs read
 			// as 100% by default.
@@ -208,7 +217,7 @@ public class ManaBurnManager
 			// the turns of this effect, so that a slow but steady
 			// MP gain won't be used exclusively on the cheaper effect.
 	
-			if ( SkillDatabase.getMPConsumptionById( skillId ) > allowedMP )
+			if ( mpCost > allowedMP )
 			{
 				durationLimit = Math.max( 10, Math.min( currentDuration * 2, durationLimit ) );
 				continue;
