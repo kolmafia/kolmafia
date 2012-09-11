@@ -96,13 +96,15 @@ public class ManageStoreRequest
 	{
 		super( "manageprices.php" );
 		this.addFormField( "action", "update" );
+		int formInt;
 
 		this.requestType = ManageStoreRequest.PRICE_MANAGEMENT;
 		for ( int i = 0; i < itemId.length; ++i )
 		{
-			this.addFormField( "price[" + itemId[ i ] + "]", prices[ i ] == 0 ? "" : String.valueOf( Math.max(
+			formInt = ( ( i - 1 ) / 100 ); //Group the form fields for every 100 items.
+			this.addFormField( "price" + formInt + "[" + itemId[ i ] + "]", prices[ i ] == 0 ? "" : String.valueOf( Math.max(
 				prices[ i ], Math.max( ItemDatabase.getPriceById( itemId[ i ] ), 100 ) ) ) );
-			this.addFormField( "limit[" + itemId[ i ] + "]", String.valueOf( limits[ i ] ) );
+			this.addFormField( "limit" + formInt + "[" + itemId[ i ] + "]", String.valueOf( limits[ i ] ) );
 		}
 	}
 

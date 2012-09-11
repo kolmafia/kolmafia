@@ -71,7 +71,6 @@ import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
-import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class StoreManager
@@ -80,7 +79,7 @@ public abstract class StoreManager
 	private static final Pattern ADDER_PATTERN =
 		Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)( *\\((\\d*)\\))?</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" );
 	private static final Pattern PRICER_PATTERN =
-		Pattern.compile( "<tr><td><b>(?!Item:)(.*?)&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price\\[(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" );
+		Pattern.compile( "<tr><td><b>(.*?)&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price\\d+\\[(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" );
 
 	private static final int RECENT_FIRST = 1;
 	private static final int OLDEST_FIRST = 2;
@@ -96,7 +95,6 @@ public abstract class StoreManager
 
 	private static final IntegerArray mallPrices = new IntegerArray();
 	private static final LinkedHashMap<Integer, ArrayList<PurchaseRequest>> mallSearches = new LinkedHashMap<Integer, ArrayList<PurchaseRequest>>();
-	private static final PauseObject pauser = new PauseObject();
 
 	public static boolean soldItemsRetrieved = false;
 
@@ -214,8 +212,10 @@ public abstract class StoreManager
 		StoreManager.storeLog.sort();
 	}
 
-	public static final void update( final String storeText, final boolean isPriceManagement )
+	public static final void update( String storeText, final boolean isPriceManagement )
 	{
+		//Strip introductory "header" from the string so that we can simplify the matcher.
+		storeText = storeText.substring( storeText.indexOf( "in Mall:</b></td></tr>" ) + 22 );
 		StoreManager.potentialEarnings = 0;
 		ArrayList<SoldItem> newItems = new ArrayList<SoldItem>();
 
@@ -469,7 +469,7 @@ public abstract class StoreManager
 			return;
 		}
 
-		ArrayList results = new ArrayList();
+		ArrayList<PurchaseRequest> results = new ArrayList<PurchaseRequest>();
 
 		// With the search string properly formatted, issue
 		// the search request.
