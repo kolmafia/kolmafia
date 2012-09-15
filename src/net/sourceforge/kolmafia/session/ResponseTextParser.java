@@ -183,7 +183,7 @@ public class ResponseTextParser
 			return false;
 		}
 
-		if ( location.endsWith( "menu.php") ||
+		if ( location.endsWith( "menu.php" ) ||
 		     location.startsWith( "actionbar" ) )
 		{
 			return false;

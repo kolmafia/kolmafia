@@ -141,7 +141,7 @@ public abstract class ChoiceManager
 	};
 
 	public static class ChoiceAdventure
-		implements Comparable
+		implements Comparable<ChoiceAdventure>
 	{
 		private final String zone;
 		private final String setting;
@@ -213,7 +213,7 @@ public abstract class ChoiceManager
 			return this.spoilers;
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final ChoiceAdventure o )
 		{
 			if ( ChoiceManager.choicesOrderedByName )
 			{

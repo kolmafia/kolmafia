@@ -83,9 +83,9 @@ public class ProfileSnapshot
 		"Number of days idle"
 	};
 
-	private static final Map levelMap = new TreeMap();
-	private static final Map profileMap = new TreeMap();
-	private static final Map rosterMap = new TreeMap();
+	private static final Map<String, String> levelMap = new TreeMap<String, String>();
+	private static final Map<String, String> profileMap = new TreeMap<String, String>();
+	private static final Map<String, String> rosterMap = new TreeMap<String, String>();
 
 	private static final LockableListModel filterList = new LockableListModel();
 	private static final ClanMembersRequest request = new ClanMembersRequest( true );
@@ -150,7 +150,7 @@ public class ProfileSnapshot
 		}
 
 		ProfileSnapshot.filterList.clear();
-		ArrayList interimList = new ArrayList();
+		ArrayList<ProfileRequest> interimList = new ArrayList<ProfileRequest>();
 
 		String[] names = new String[ ProfileSnapshot.profileMap.size() ];
 		ProfileSnapshot.profileMap.keySet().toArray( names );
@@ -252,7 +252,7 @@ public class ProfileSnapshot
 		String[] members = new String[ ProfileSnapshot.profileMap.size() ];
 		ProfileSnapshot.profileMap.keySet().toArray( members );
 
-		StringBuffer strbuf = new StringBuffer();
+		StringBuilder strbuf = new StringBuilder();
 
 		strbuf.append( "<html><head>" );
 		strbuf.append( "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" );
@@ -281,7 +281,7 @@ public class ProfileSnapshot
 		strbuf.append( "</h2>" );
 		strbuf.append( KoLConstants.LINE_BREAK );
 
-		ArrayList rankList = new ArrayList();
+		ArrayList<String> rankList = new ArrayList<String>();
 
 		ProfileRequest memberLookup;
 		for ( int i = 0; i < members.length; ++i )
@@ -357,7 +357,7 @@ public class ProfileSnapshot
 	private static final String getOverviewDetail( final String memberName, final boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = ProfileSnapshot.getProfile( memberName );
-		StringBuffer strbuf = new StringBuffer();
+		StringBuilder strbuf = new StringBuilder();
 
 		// No matter what happens, you need to make sure
 		// to print the player's name first.
@@ -444,19 +444,19 @@ public class ProfileSnapshot
 
 	private static final String getStatsSummary( final String[] members )
 	{
-		StringBuffer strbuf = new StringBuffer();
+		StringBuilder strbuf = new StringBuilder();
 
-		ArrayList classList = new ArrayList();
-		ArrayList powerList = new ArrayList();
-		ArrayList karmaList = new ArrayList();
+		ArrayList<String> classList = new ArrayList<String>();
+		ArrayList<Integer> powerList = new ArrayList<Integer>();
+		//ArrayList karmaList = new ArrayList();
 
-		ArrayList meatList = new ArrayList();
-		ArrayList turnsList = new ArrayList();
-		ArrayList pvpList = new ArrayList();
+		//ArrayList meatList = new ArrayList();
+		ArrayList<Integer> turnsList = new ArrayList<Integer>();
+		ArrayList<Integer> pvpList = new ArrayList<Integer>();
 
-		ArrayList musList = new ArrayList();
-		ArrayList mysList = new ArrayList();
-		ArrayList moxList = new ArrayList();
+		ArrayList<Integer> musList = new ArrayList<Integer>();
+		ArrayList<Integer> mysList = new ArrayList<Integer>();
+		ArrayList<Integer> moxList = new ArrayList<Integer>();
 
 		// Iterate through the list of clan members
 		// and populate the lists.
@@ -468,7 +468,7 @@ public class ProfileSnapshot
 			memberLookup = ProfileSnapshot.getProfile( members[ i ] );
 
 			classList.add( memberLookup.getClassType() );
-			meatList.add( memberLookup.getCurrentMeat() );
+			//meatList.add( memberLookup.getCurrentMeat() );
 			turnsList.add( memberLookup.getTurnsPlayed() );
 			pvpList.add( memberLookup.getPvpRank() );
 
@@ -476,7 +476,7 @@ public class ProfileSnapshot
 			mysList.add( memberLookup.getMysticism() );
 			moxList.add( memberLookup.getMoxie() );
 			powerList.add( memberLookup.getPower() );
-			karmaList.add( memberLookup.getKarma() );
+			//karmaList.add( memberLookup.getKarma() );
 		}
 
 		Collections.sort( classList );
@@ -547,7 +547,7 @@ public class ProfileSnapshot
 	private static final String getStatsDetail( final String memberName, final boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = ProfileSnapshot.getProfile( memberName );
-		StringBuffer strbuf = new StringBuffer();
+		StringBuilder strbuf = new StringBuilder();
 
 		// No matter what happens, you need to make sure
 		// to print the player's name first.
@@ -629,10 +629,10 @@ public class ProfileSnapshot
 
 	private static final String getSocialSummary( final String[] members )
 	{
-		StringBuffer strbuf = new StringBuffer();
+		StringBuilder strbuf = new StringBuilder();
 
-		ArrayList foodList = new ArrayList();
-		ArrayList drinkList = new ArrayList();
+		ArrayList<String> foodList = new ArrayList<String>();
+		ArrayList<String> drinkList = new ArrayList<String>();
 
 		ProfileRequest memberLookup;
 
@@ -664,7 +664,7 @@ public class ProfileSnapshot
 	private static final String getSocialDetail( final String memberName, final boolean localProfileLink )
 	{
 		ProfileRequest memberLookup = ProfileSnapshot.getProfile( memberName );
-		StringBuffer strbuf = new StringBuffer();
+		StringBuilder strbuf = new StringBuilder();
 
 		// No matter what happens, you need to make sure
 		// to print the player's name first.

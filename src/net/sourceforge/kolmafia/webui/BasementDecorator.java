@@ -219,9 +219,6 @@ public class BasementDecorator
 			String computeFunction =
 				"computeNetBoost(" + BasementRequest.getBasementTestCurrent() + "," + BasementRequest.getBasementTestValue() + ");";
 
-			String modifierName = Modifiers.getModifierName( BasementRequest.getActualStatNeeded() );
-			modifierName = StringUtilities.globalStringDelete( modifierName, "Maximum " ).toLowerCase();
-
 			changes.append( "<tr><td style=\"width:90%;\"><select onchange=\"" );
 			changes.append( computeFunction );
 			changes.append( "\" id=\"potion\" style=\"width: 100%;\" multiple size=5>" );
@@ -377,7 +374,7 @@ public class BasementDecorator
 	}
 
 	public static class StatBooster
-		implements Comparable
+		implements Comparable<StatBooster>
 	{
 		private final String name, action;
 		private final int computedBoost;
@@ -487,7 +484,7 @@ public class BasementDecorator
 			return o instanceof StatBooster && this.name.equals( ( (StatBooster) o ).name );
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final StatBooster o )
 		{
 			if ( this.effectiveBoost == 0.0 )
 			{

@@ -89,7 +89,7 @@ public class ShopCommand
 	{
 		String[] itemNames = parameters.split( "\\s*,\\s*" );
 
-		ArrayList items = new ArrayList();
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 		IntegerArray prices = new IntegerArray();
 		IntegerArray limits = new IntegerArray();
 

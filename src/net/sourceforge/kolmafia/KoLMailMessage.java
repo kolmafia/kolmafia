@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class KoLMailMessage
-	implements Comparable
+	implements Comparable<KoLMailMessage>
 {
 	private static final SimpleDateFormat TIMESTAMP_FORMAT =
 		new SimpleDateFormat( "EEEE, MMMM dd, yyyy, hh:mmaa", Locale.US );
@@ -146,7 +146,7 @@ public class KoLMailMessage
 		return this.senderName + " @ " + this.messageDate;
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final KoLMailMessage o )
 	{
 		return o == null || !( o instanceof KoLMailMessage ) ? -1 : this.messageId.compareTo( ( (KoLMailMessage) o ).messageId );
 	}

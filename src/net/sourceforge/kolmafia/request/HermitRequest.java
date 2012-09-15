@@ -66,7 +66,7 @@ public class HermitRequest
 {
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have ([\\d,]+) tradable items" );
 	public static final AdventureResult WORTHLESS_ITEM = ItemPool.get( ItemPool.WORTHLESS_ITEM, 1 );
-	private static final Map buyPrices = new TreeMap();
+	private static final Map<String, Integer> buyPrices = new TreeMap<String, Integer>();
 
 	public static final CoinmasterData HERMIT =
 		new CoinmasterData(

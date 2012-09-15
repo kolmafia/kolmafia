@@ -532,7 +532,7 @@ public class StringUtilities
 			return originalString;
 		}
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append( originalString.substring( 0, lastIndex ) );
 		buffer.append( replaceString );
 		buffer.append( originalString.substring( lastIndex + searchString.length() ) );
@@ -582,7 +582,7 @@ public class StringUtilities
 			return originalString;
 		}
 
-		StringBuffer buffer = new StringBuffer( originalString );
+		StringBuilder buffer = new StringBuilder( originalString );
 		while ( lastIndex != -1 )
 		{
 			buffer.replace( lastIndex, lastIndex + searchString.length(), replaceString );
@@ -864,7 +864,7 @@ public class StringUtilities
 			return text;
 		}
 
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		while ( text.length() > 0 )
 		{

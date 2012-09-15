@@ -191,7 +191,7 @@ public class DebugModifiers
 	}
 	
 	private static class Change
-	implements Comparable
+	implements Comparable<Change>
 	{
 		String name;
 		double value;
@@ -212,7 +212,7 @@ public class DebugModifiers
 				( this.variable? "v" : "" ) + "</td>";
 		}
 	
-		public int compareTo( Object o )
+		public int compareTo( Change o )
 		{
 			Change other = (Change) o;
 			if ( this.value < other.value ) return 1;

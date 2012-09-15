@@ -62,7 +62,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  */
 
 public class Concoction
-	implements Comparable
+	implements Comparable<Concoction>
 {
 	private static final int FOOD_PRIORITY = 1;
 	private static final int BOOZE_PRIORITY = 2;
@@ -234,7 +234,7 @@ public class Concoction
 		return this.isReagentPotion;
 	}
 
-	public int compareTo( final Object other )
+	public int compareTo( final Concoction other )
 	{
 		if ( other == null || !( other instanceof Concoction ) )
 		{
@@ -695,7 +695,7 @@ public class Concoction
 		int maxSuccess = this.initial;
 		int minFailure = Integer.MAX_VALUE;
 		int guess = maxSuccess + 1;
-		ArrayList visited = new ArrayList();
+		ArrayList<Concoction> visited = new ArrayList<Concoction>();
 		Iterator i;
 
 		int id = this.getItemId();
@@ -768,7 +768,7 @@ public class Concoction
 		int maxSuccess = this.initial;
 		int minFailure = Integer.MAX_VALUE;
 		int guess = maxSuccess + 1;
-		ArrayList visited = new ArrayList();
+		ArrayList<Concoction> visited = new ArrayList<Concoction>();
 		Iterator i;
 
 		while ( true )
@@ -813,11 +813,11 @@ public class Concoction
 	// accurate.  This method will be called with distinct requested
 	// values until some N is found to be possible, while N+1 is impossible.
 
-	private int canMake( int requested, ArrayList visited )
+	private int canMake( int requested, ArrayList<Concoction> visited )
 	{
 		return canMake( requested, visited, false );
 	}
-	private int canMake( int requested, ArrayList visited, boolean turnFreeOnly )
+	private int canMake( int requested, ArrayList<Concoction> visited, boolean turnFreeOnly )
 	{
 		if ( !this.visited )
 		{

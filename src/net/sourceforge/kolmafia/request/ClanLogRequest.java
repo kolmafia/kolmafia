@@ -86,7 +86,7 @@ public class ClanLogRequest
 		Pattern.compile( ClanLogRequest.TIME_REGEX + ": ([^<]*?) launched an attack against (.*?)\\.<br>" );
 	private static final Pattern LOGENTRY_PATTERN = Pattern.compile( "\t<li class=\"(.*?)\">(.*?): (.*?)</li>" );
 
-	private final Map stashMap = new TreeMap();
+	private final Map<String, List<StashLogEntry>> stashMap = new TreeMap<String, List<StashLogEntry>>();
 
 	public ClanLogRequest()
 	{
@@ -145,7 +145,7 @@ public class ClanLogRequest
 	{
 		this.stashMap.clear();
 
-		List entryList = null;
+		List<StashLogEntry> entryList = null;
 		StashLogEntry entry = null;
 
 		if ( file.exists() )
@@ -165,10 +165,10 @@ public class ClanLogRequest
 						if ( line.startsWith( " " ) )
 						{
 							currentMember = line.substring( 1, line.length() - 1 );
-							entryList = (List) this.stashMap.get( currentMember );
+							entryList = this.stashMap.get( currentMember );
 							if ( entryList == null )
 							{
-								entryList = new ArrayList();
+								entryList = new ArrayList<StashLogEntry>();
 								this.stashMap.put( currentMember, entryList );
 							}
 						}
@@ -207,7 +207,7 @@ public class ClanLogRequest
 		PrintStream ostream = LogStream.openStream( file, true );
 		Object[] entries;
 
-		List entryList = null;
+		List<StashLogEntry> entryList = null;
 		ostream.println( "<html><head>" );
 		ostream.println( "<title>Clan Stash Log @ " + ( new Date() ).toString() + "</title>" );
 		ostream.println( "<style><!--" );
@@ -233,7 +233,7 @@ public class ClanLogRequest
 		{
 			ostream.println( " " + members[ i ] + ":" );
 
-			entryList = (List) this.stashMap.get( members[ i ] );
+			entryList = this.stashMap.get( members[ i ] );
 			Collections.sort( entryList );
 			entries = entryList.toArray();
 
@@ -265,11 +265,11 @@ public class ClanLogRequest
 		int lastItemId;
 		int entryCount;
 
-		List entryList;
+		List<StashLogEntry> entryList;
 		String currentMember;
 
 		StashLogEntry entry;
-		StringBuffer entryBuffer = new StringBuffer();
+		StringBuilder entryBuffer = new StringBuilder();
 		Matcher entryMatcher = Pattern.compile( regex, Pattern.DOTALL ).matcher( this.responseText );
 
 		while ( entryMatcher.find() )
@@ -281,10 +281,10 @@ public class ClanLogRequest
 
 				if ( !this.stashMap.containsKey( currentMember ) )
 				{
-					this.stashMap.put( currentMember, new ArrayList() );
+					this.stashMap.put( currentMember, new ArrayList<StashLogEntry>() );
 				}
 
-				entryList = (List) this.stashMap.get( currentMember );
+				entryList = this.stashMap.get( currentMember );
 				entryCount = StringUtilities.parseInt( entryMatcher.group( 3 ) );
 
 				lastItemId = ItemDatabase.getItemId( entryMatcher.group( 4 ), entryCount );
@@ -316,7 +316,7 @@ public class ClanLogRequest
 
 	private void handleBattles()
 	{
-		List entryList;
+		List<StashLogEntry> entryList;
 		String currentMember;
 
 		StashLogEntry entry;
@@ -329,10 +329,10 @@ public class ClanLogRequest
 				currentMember = entryMatcher.group( 2 ).trim();
 				if ( !this.stashMap.containsKey( currentMember ) )
 				{
-					this.stashMap.put( currentMember, new ArrayList() );
+					this.stashMap.put( currentMember, new ArrayList<StashLogEntry>() );
 				}
 
-				entryList = (List) this.stashMap.get( currentMember );
+				entryList = this.stashMap.get( currentMember );
 				entry =
 					new StashLogEntry(
 						ClanLogRequest.WAR_BATTLE,
@@ -362,7 +362,7 @@ public class ClanLogRequest
 		String regex =
 			ClanLogRequest.TIME_REGEX + ": ([^<]*?) \\(#\\d+\\) " + searchString + "(.*?)" + suffixString + "\\.?<br>";
 
-		List entryList;
+		List<StashLogEntry> entryList;
 		String currentMember;
 
 		StashLogEntry entry;
@@ -376,10 +376,10 @@ public class ClanLogRequest
 				currentMember = entryMatcher.group( descriptionString.endsWith( " " ) ? 3 : 2 ).trim();
 				if ( !this.stashMap.containsKey( currentMember ) )
 				{
-					this.stashMap.put( currentMember, new ArrayList() );
+					this.stashMap.put( currentMember, new ArrayList<StashLogEntry>() );
 				}
 
-				entryList = (List) this.stashMap.get( currentMember );
+				entryList = this.stashMap.get( currentMember );
 				entryString =
 					descriptionString.endsWith( " " ) ? descriptionString + entryMatcher.group( 2 ) : descriptionString;
 				entry =
@@ -404,17 +404,14 @@ public class ClanLogRequest
 	}
 
 	public static class StashLogEntry
-		implements Comparable
+		implements Comparable<StashLogEntry>
 	{
-		private final String entryType;
 		private Date timestamp;
-		private final String entry, stringform;
+		private final String stringform;
 
 		public StashLogEntry( final String entryType, final Date timestamp, final String entry )
 		{
-			this.entryType = entryType;
 			this.timestamp = timestamp;
-			this.entry = entry;
 
 			this.stringform =
 				"\t<li class=\"" + entryType + "\">" + ClanLogRequest.STASH_FORMAT.format( timestamp ) + ": " + entry + "</li>";
@@ -425,7 +422,7 @@ public class ClanLogRequest
 			Matcher entryMatcher = ClanLogRequest.LOGENTRY_PATTERN.matcher( stringform );
 			entryMatcher.find();
 
-			this.entryType = entryMatcher.group( 1 );
+			//this.entryType = entryMatcher.group( 1 );
 
 			try
 			{
@@ -440,11 +437,10 @@ public class ClanLogRequest
 				this.timestamp = new Date();
 			}
 
-			this.entry = entryMatcher.group( 3 );
 			this.stringform = stringform;
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final StashLogEntry o )
 		{
 			return o == null || !( o instanceof StashLogEntry ) ? -1 : this.timestamp.before( ( (StashLogEntry) o ).timestamp ) ? 1 : this.timestamp.after( ( (StashLogEntry) o ).timestamp ) ? -1 : 0;
 		}

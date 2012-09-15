@@ -34,7 +34,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 public class HTMLListEntry
-	implements Comparable
+	implements Comparable<HTMLListEntry>
 {
 	private Comparable value;
 	private String color;
@@ -46,7 +46,7 @@ public class HTMLListEntry
 		this.setColor( color );
 	}
 
-	public int compareTo( Object o )
+	public int compareTo( HTMLListEntry o )
 	{
 		Object compareValue;
 		

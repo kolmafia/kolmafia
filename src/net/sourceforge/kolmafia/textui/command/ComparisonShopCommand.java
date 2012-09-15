@@ -76,7 +76,7 @@ public class ComparisonShopCommand
 			parameters = parameters.substring( 0, pos ).trim();
 		}
 		String[] pieces = parameters.split( "\\s*,\\s*" );
-		TreeSet names = new TreeSet();
+		TreeSet<String> names = new TreeSet<String>();
 		for ( int i = 0; i < pieces.length; ++i )
 		{
 			String piece = pieces[ i ];
@@ -108,7 +108,7 @@ public class ComparisonShopCommand
 			RequestLogger.printList( Arrays.asList( names.toArray() ) );
 			return;
 		}
-		ArrayList results = new ArrayList();
+		ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
 		Iterator i = names.iterator();
 		while ( i.hasNext() )
 		{

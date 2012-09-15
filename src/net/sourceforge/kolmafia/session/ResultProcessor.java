@@ -1597,7 +1597,7 @@ public class ResultProcessor
 		CreateItemRequest creator = CreateItemRequest.getInstance( itemId );
 
 		// getQuantityPossible() should take meat paste or
-		// Muscle Sign into account
+		// Knoll Sign into account
 
 		int possible = creator.getQuantityPossible();
 

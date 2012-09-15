@@ -51,7 +51,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 public class RelayServer
 	implements Runnable
 {
-	public static final ArrayList agentThreads = new ArrayList();
+	public static final ArrayList<RelayAgent> agentThreads = new ArrayList<RelayAgent>();
 
 	private static long lastStatusMessage = 0;
 	private static Thread relayThread = null;

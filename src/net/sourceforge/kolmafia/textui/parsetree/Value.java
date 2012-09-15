@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Value
 	extends ParseTreeNode
-	implements Comparable
+	implements Comparable<Value>
 {
 	public Type type;
 
@@ -279,7 +279,7 @@ public class Value
 		return value.asProxy();
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final Value o )
 	{
 		if ( !( o instanceof Value ) )
 		{
@@ -325,7 +325,7 @@ public class Value
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o == null || !( o instanceof Value ) ? false : this.compareTo( (Comparable) o ) == 0;
+		return o == null || !( o instanceof Value ) ? false : this.compareTo( (Value) o ) == 0;
 	}
 
 	public void dumpValue( final PrintStream writer )

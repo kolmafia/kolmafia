@@ -57,7 +57,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmasterData
-	implements Comparable
+	implements Comparable<CoinmasterData>
 {
 	private final String master;
 	private final Class requestClass;
@@ -429,11 +429,6 @@ public class CoinmasterData
 	public boolean equals( final Object o )
 	{
 		return o != null && o instanceof CoinmasterData && this.master == ( (CoinmasterData) o ).master;
-	}
-
-	public int compareTo( final Object o )
-	{
-		return o == null || !( o instanceof CoinmasterData ) ? 1 : this.compareTo( (CoinmasterData) o );
 	}
 
 	public int compareTo( final CoinmasterData cd )

@@ -83,7 +83,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DungeonDecorator;
 
 public class KoLAdventure
-	implements Comparable, Runnable
+	implements Comparable<KoLAdventure>, Runnable
 {
 	public static final String[][] DEMON_TYPES =
 	{
@@ -1925,7 +1925,7 @@ public class KoLAdventure
 		return Preferences.getBoolean( "logReverseOrder" ) ? KoLCharacter.getAdventuresLeft() : KoLCharacter.getCurrentRun() + 1;
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final KoLAdventure o )
 	{
 		if ( o == null || !( o instanceof KoLAdventure ) )
 		{

@@ -38,7 +38,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 
 public class Boost
-implements Comparable
+implements Comparable<Boost>
 {
 	private boolean isEquipment, isShrug, priority;
 	private String cmd, text;
@@ -91,7 +91,7 @@ implements Comparable
 		return this.text;
 	}
 
-	public int compareTo( Object o )
+	public int compareTo( Boost o )
 	{
 		if ( !(o instanceof Boost) ) return -1;
 		Boost other = (Boost) o;

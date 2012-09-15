@@ -190,7 +190,7 @@ public abstract class MoodManager
 		return MoodManager.displayList;
 	}
 	
-	public static final List getTriggers( String moodName )
+	public static final List<String> getTriggers( String moodName )
 	{
 		if ( moodName == null || moodName.length() == 0 )
 		{
@@ -217,7 +217,7 @@ public abstract class MoodManager
 	public static final void addTriggers( final Object[] nodes, final int duration )
 	{
 		MoodManager.removeTriggers( nodes );
-		StringBuffer newAction = new StringBuffer();
+		StringBuilder newAction = new StringBuilder();
 
 		for ( int i = 0; i < nodes.length; ++i )
 		{
@@ -374,8 +374,8 @@ public abstract class MoodManager
 		UseSkillRequest[] skills = new UseSkillRequest[ KoLConstants.availableSkills.size() ];
 		KoLConstants.availableSkills.toArray( skills );
 
-		ArrayList thiefSkills = new ArrayList();
-		ArrayList borisSongs = new ArrayList();
+		ArrayList<String> thiefSkills = new ArrayList<String>();
+		ArrayList<String> borisSongs = new ArrayList<String>();
 
 		for ( int i = 0; i < skills.length; ++i )
 		{
@@ -454,7 +454,7 @@ public abstract class MoodManager
 		MoodManager.minimalSet();
 	}
 
-	private static final void pickSkills( final List skills, final int limit, final String [] rankedBuffs )
+	private static final void pickSkills( final List<String> skills, final int limit, final String [] rankedBuffs )
 	{
 		if ( skills.isEmpty() )
 		{
@@ -568,7 +568,7 @@ public abstract class MoodManager
 		// First we determine which buffs are already affecting the
 		// character in question.
 
-		ArrayList thiefBuffs = new ArrayList();
+		ArrayList<AdventureResult> thiefBuffs = new ArrayList<AdventureResult>();
 		for ( int i = 0; i < effects.length; ++i )
 		{
 			String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
@@ -585,8 +585,8 @@ public abstract class MoodManager
 		// Then, we determine the triggers which are thief skills, and
 		// thereby would be cast at this time.
 
-		ArrayList thiefKeep = new ArrayList();
-		ArrayList thiefNeed = new ArrayList();
+		ArrayList<AdventureResult> thiefKeep = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> thiefNeed = new ArrayList<AdventureResult>();
 		
 		List triggers = MoodManager.currentMood.getTriggers();
 		
@@ -681,7 +681,7 @@ public abstract class MoodManager
 			return Collections.EMPTY_LIST;
 		}
 
-		ArrayList missing = new ArrayList();
+		ArrayList<AdventureResult> missing = new ArrayList<AdventureResult>();
 		Iterator triggerIterator = triggers.iterator();
 
 		while ( triggerIterator.hasNext() )
@@ -790,7 +790,7 @@ public abstract class MoodManager
 		while ( moodIterator.hasNext() )
 		{
 			Mood mood = (Mood) moodIterator.next();
-			writer.println( mood.toSettingString() );;
+			writer.println( mood.toSettingString() );
 		}
 
 		writer.close();

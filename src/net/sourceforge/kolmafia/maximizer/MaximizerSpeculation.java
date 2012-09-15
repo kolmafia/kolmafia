@@ -51,7 +51,7 @@ import net.sourceforge.kolmafia.utilities.BooleanArray;
 
 public class MaximizerSpeculation
 	extends Speculation
-implements Comparable, Cloneable
+implements Comparable<MaximizerSpeculation>, Cloneable
 {
 	private boolean scored = false;
 	private boolean tiebreakered = false;
@@ -134,7 +134,7 @@ implements Comparable, Cloneable
 		return this.tiebreaker;
 	}
 
-	public int compareTo( Object o )
+	public int compareTo( MaximizerSpeculation o )
 	{
 		if ( !(o instanceof MaximizerSpeculation) ) return 1;
 		MaximizerSpeculation other = (MaximizerSpeculation) o;
@@ -324,7 +324,7 @@ implements Comparable, Cloneable
 			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
 				AdventureResult item = (AdventureResult) possible.get( pos );
-				int count = item.getCount();
+				//int count = item.getCount();
 				//if ( item.equals( this.equipment[ EquipmentManager.FAMILIAR ] ) )
 				//{
 				//	--count;
@@ -534,7 +534,7 @@ implements Comparable, Cloneable
 		if ( this.equipment[ EquipmentManager.WEAPON ] == null )
 		{
 			ArrayList possible = possibles[ EquipmentManager.WEAPON ];
-			boolean any = false;
+			//boolean any = false;
 			for ( int pos = 0; pos < possible.size(); ++pos )
 			{
 				AdventureResult item = (AdventureResult) possible.get( pos );
@@ -555,7 +555,7 @@ implements Comparable, Cloneable
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.WEAPON ] = item;
 				this.tryOffhands( possibles );
-				any = true;
+				//any = true;
 				this.restore( mark );
 			}
 
@@ -701,7 +701,7 @@ implements Comparable, Cloneable
 
 	public static void showProgress()
 	{
-		StringBuffer msg = new StringBuffer();
+		StringBuilder msg = new StringBuilder();
 		msg.append( Maximizer.bestChecked );
 		msg.append( " combinations checked, best score " );
 		double score = Maximizer.best.getScore();

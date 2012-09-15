@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.moods;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 public class ManaBurn
-	implements Comparable
+	implements Comparable<ManaBurn>
 {
 	private final int skillId;
 	private final String skillName;
@@ -81,7 +81,7 @@ public class ManaBurn
 		return this.getMPCost();
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final ManaBurn o )
 	{
 		return this.duration - ( (ManaBurn) o ).duration;
 	}

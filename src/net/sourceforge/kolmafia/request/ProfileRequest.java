@@ -59,7 +59,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ProfileRequest
 	extends GenericRequest
-	implements Comparable
+	implements Comparable<ProfileRequest>
 {
 	private static final Pattern DATA_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>" );
 	private static final Pattern NUMERIC_PATTERN = Pattern.compile( "\\d+" );
@@ -642,7 +642,7 @@ public class ProfileRequest
 	}
 
 	private static final Pattern GOBACK_PATTERN =
-		Pattern.compile( "http://www[2345678]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)" );
+		Pattern.compile( "http://www\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)" );
 
 	@Override
 	public void processResults()
@@ -657,7 +657,7 @@ public class ProfileRequest
 		this.refreshFields();
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final ProfileRequest o )
 	{
 		if ( o == null || !( o instanceof ProfileRequest ) )
 		{

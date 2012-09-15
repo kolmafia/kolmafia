@@ -48,16 +48,16 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpecialOutfit
-	implements Comparable
+	implements Comparable<SpecialOutfit>
 {
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=[\'\"]?(.*?)[\'\"]?>(.*?)</option>" );
 
-	private static final Stack implicitPoints = new Stack();
-	private static final Stack explicitPoints = new Stack();
+	private static final Stack<AdventureResult[]> implicitPoints = new Stack<AdventureResult[]>();
+	private static final Stack<AdventureResult[]> explicitPoints = new Stack<AdventureResult[]>();
 
 	private int outfitId;
 	private String outfitName;
-	private final ArrayList pieces;
+	private final ArrayList<AdventureResult> pieces;
 	private int hash;
 
 	public static final String NO_CHANGE = " - No Change - ";
@@ -73,7 +73,7 @@ public class SpecialOutfit
 		// The name is normally a substring of the equipment page,
 		// and would keep that entire page in memory if not copied.
 		this.outfitName = new String( outfitName );
-		this.pieces = new ArrayList();
+		this.pieces = new ArrayList<AdventureResult>();
 		this.hash = 0;
 	}
 
@@ -102,7 +102,7 @@ public class SpecialOutfit
 
 	public boolean isWearing( int hash )
 	{
-		if ( (hash & this.hash) != this.hash ) return false;
+		if ( ( hash & this.hash ) != this.hash ) return false;
 
 		for ( int i = 0; i < this.pieces.size(); ++i )
 		{
@@ -122,7 +122,7 @@ public class SpecialOutfit
 
 	public boolean isWearing( AdventureResult[] equipment, int hash )
 	{
-		if ( (hash & this.hash) != this.hash ) return false;
+		if ( ( hash & this.hash ) != this.hash ) return false;
 
 		for ( int i = 0; i < this.pieces.size(); ++i )
 		{
@@ -204,7 +204,7 @@ public class SpecialOutfit
 		return this.outfitName.equalsIgnoreCase( ( (SpecialOutfit) o ).outfitName );
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final SpecialOutfit o )
 	{
 		if ( o == null || !( o instanceof SpecialOutfit ) )
 		{

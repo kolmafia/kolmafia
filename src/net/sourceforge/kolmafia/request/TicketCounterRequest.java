@@ -130,4 +130,4 @@ public class TicketCounterRequest
 	{
 		RequestThread.postRequest( new TicketCounterRequest( "redeem", itemId, count ) );
 	}
-}
+	}

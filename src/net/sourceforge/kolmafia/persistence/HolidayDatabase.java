@@ -952,7 +952,7 @@ public class HolidayDatabase
 
 	public static final String[] getHolidayPredictions( final Date time )
 	{
-		List holidayList = new ArrayList();
+		List<HolidayEntry> holidayList = new ArrayList<HolidayEntry>();
 		int currentCalendarDay = HolidayDatabase.getCalendarDay( time );
 
 		int[] calendarDayAsArray;
@@ -1014,7 +1014,7 @@ public class HolidayDatabase
 	}
 
 	private static class HolidayEntry
-		implements Comparable
+		implements Comparable<HolidayEntry>
 	{
 		private final int offset;
 		private final String name;
@@ -1025,7 +1025,7 @@ public class HolidayDatabase
 			this.name = name;
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final HolidayEntry o )
 		{
 			if ( o == null || !( o instanceof HolidayEntry ) )
 			{

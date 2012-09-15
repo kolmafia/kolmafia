@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class ClanWarRequest
 	extends GenericRequest
-	implements Comparable
+	implements Comparable<ClanWarRequest>
 {
 	private static final Pattern CLANID_PATTERN =
 		Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>([^<]+)</td><td>([\\d]+)</td>" );
@@ -190,11 +190,6 @@ public class ClanWarRequest
 	public String toString()
 	{
 		return this.name;
-	}
-
-	public int compareTo( final Object o )
-	{
-		return o == null || !( o instanceof ClanWarRequest ) ? -1 : this.compareTo( (ClanWarRequest) o );
 	}
 
 	public int compareTo( final ClanWarRequest car )

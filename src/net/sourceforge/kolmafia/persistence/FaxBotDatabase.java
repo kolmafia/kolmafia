@@ -160,7 +160,7 @@ public class FaxBotDatabase
 	}
 
 	public static class FaxBot
-		implements Comparable
+		implements Comparable<FaxBot>
 	{
 		private final String name;
 		private final int playerId;
@@ -198,7 +198,7 @@ public class FaxBotDatabase
 			return this.name.equals( that.name );
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final FaxBot o )
 		{
 			if ( o == null || !( o instanceof FaxBot ) )
 			{
@@ -211,7 +211,7 @@ public class FaxBotDatabase
 	}
 
 	public static class Monster
-		implements Comparable
+		implements Comparable<Monster>
 	{
 		private final String name;
 		private final String command;
@@ -267,7 +267,7 @@ public class FaxBotDatabase
 			return this.name.equals( that.name );
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final Monster o )
 		{
 			if ( o == null || !( o instanceof Monster ) )
 			{
