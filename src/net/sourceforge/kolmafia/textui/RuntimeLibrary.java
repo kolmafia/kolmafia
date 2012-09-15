@@ -222,7 +222,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
-
+		
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "user_confirm", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -912,7 +912,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "familiar_weight", DataTypes.INT_TYPE, params ) );
-
+		
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "is_familiar_equipment_locked", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -936,7 +936,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "minstrel_instrument", DataTypes.ITEM_TYPE, params ) );
-
+		
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "minstrel_quest", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -963,7 +963,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "have_display", DataTypes.BOOLEAN_TYPE, params ) );
-
+		
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "hippy_stone_broken", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -1841,7 +1841,7 @@ public abstract class RuntimeLibrary
 		RelayRequest relayRequest = interpreter.getRelayRequest();
 
 		// If so, use a RelayRequest rather than a GenericRequest
-		GenericRequest request = ( relayRequest == null ) ?
+		GenericRequest request = ( relayRequest == null ) ? 
 			new GenericRequest( "" ) : new RelayRequest( false );
 
 		// Build the desired URL
@@ -1910,7 +1910,7 @@ public abstract class RuntimeLibrary
 		// because int Values compare differently than string Values.
 		return val.toStringValue();
 	}
-
+	
 	public static Value to_string( Interpreter interpreter, Value val, Value fmt )
 	{
 		try

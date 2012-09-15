@@ -523,7 +523,7 @@ public abstract class KoLmafia
 		// on startup, and they associated KoLmafia with
 		// some non-ASH file extension. This will run it.
 
-		StringBuffer initialScript = new StringBuffer();
+		StringBuilder initialScript = new StringBuilder();
 
 		for ( int i = 0; i < args.length; ++i )
 		{
@@ -1677,7 +1677,7 @@ public abstract class KoLmafia
 		}
 
 		PurchaseRequest currentRequest = (PurchaseRequest) purchases[ 0 ];
-		int currentPrice = currentRequest.getPrice();
+		int currentPrice = 0;
 
 		int itemId = currentRequest.getItemId();
 
@@ -1992,7 +1992,7 @@ public abstract class KoLmafia
 	}
 
 	private static class RegisteredEncounter
-		implements Comparable
+		implements Comparable<RegisteredEncounter>
 	{
 		private final String type;
 		private final String name;
@@ -2016,7 +2016,7 @@ public abstract class KoLmafia
 			return "<html>" + this.stringform + " (" + this.encounterCount + ")</html>";
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final RegisteredEncounter o )
 		{
 			if ( !( o instanceof RegisteredEncounter ) || o == null )
 			{

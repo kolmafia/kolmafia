@@ -154,7 +154,7 @@ public class BuffBotHome
 	}
 
 	private static class BuffRecord
-		implements Comparable
+		implements Comparable<BuffRecord>
 	{
 		private int count;
 		private final String name;
@@ -190,7 +190,7 @@ public class BuffBotHome
 			return !this.deny;
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final BuffRecord o )
 		{
 			return this.name.compareToIgnoreCase( ( (BuffRecord) o ).name );
 		}

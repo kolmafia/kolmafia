@@ -72,7 +72,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UseSkillRequest
 	extends GenericRequest
-	implements Comparable
+	implements Comparable<UseSkillRequest>
 {
 	private static final HashMap<String, UseSkillRequest> ALL_SKILLS = new HashMap<String, UseSkillRequest>();
 	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
@@ -379,7 +379,7 @@ public class UseSkillRequest
 		this.buffCount = buffCount;
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final UseSkillRequest o )
 	{
 		if ( o == null || !( o instanceof UseSkillRequest ) )
 		{

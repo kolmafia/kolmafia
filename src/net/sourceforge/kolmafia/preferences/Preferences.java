@@ -75,7 +75,7 @@ public class Preferences
 	private static final byte [] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
 
 	private static final String [] characterMap = new String[ 65536 ];
-	private static final HashMap propertyNames = new HashMap();
+	private static final HashMap<String, String> propertyNames = new HashMap<String, String>();
 
 	private static final HashMap userNames = new HashMap();
 	private static final TreeMap userValues = new TreeMap();

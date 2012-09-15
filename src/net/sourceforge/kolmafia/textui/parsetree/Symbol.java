@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 public abstract class Symbol
 	extends ParseTreeNode
-	implements Comparable
+	implements Comparable<Symbol>
 {
 	public String name;
 
@@ -53,7 +53,7 @@ public abstract class Symbol
 		return this.name;
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final Symbol o )
 	{
 		if ( !( o instanceof Symbol ) )
 		{

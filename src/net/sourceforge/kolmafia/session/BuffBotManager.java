@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -93,7 +94,7 @@ public abstract class BuffBotManager
 	private static int messageDisposalSetting;
 	private static String refundMessage;
 	private static String thanksMessage;
-	private static List whiteList = new ArrayList();
+	private static List<String> whiteList = new ArrayList<String>();
 
 	private static final Map<Integer, Offering> buffCostMap = new TreeMap<Integer, Offering>();
 	private static final SortedListModel buffCostTable = new SortedListModel();
@@ -768,7 +769,7 @@ public abstract class BuffBotManager
 		case 1:
 
 			int instanceCount = BuffBotHome.getInstanceCount( meatSent, recipient );
-			if ( instanceCount == 0 || buff.casts.length == 1 && buff.getLowestBuffId() == 6014 && instanceCount == 1 )
+			if ( instanceCount == 0 || buff.casts.length == 1 && buff.getLowestBuffId() == SkillPool.ODE_TO_BOOZE && instanceCount == 1 )
 			{
 				break;
 			}
@@ -807,7 +808,7 @@ public abstract class BuffBotManager
 	}
 
 	public static class Offering
-		implements Comparable
+		implements Comparable<Offering>
 	{
 		private final String botName;
 		private final int price;
@@ -1052,7 +1053,7 @@ public abstract class BuffBotManager
 				AdventureResult.MEAT, this.price ) );
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final Offering o )
 		{
 			if ( o == null || !( o instanceof Offering ) )
 			{

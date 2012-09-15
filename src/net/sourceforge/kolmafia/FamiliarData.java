@@ -65,7 +65,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarData
-	implements Comparable
+	implements Comparable<FamiliarData>
 {
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
@@ -642,11 +642,6 @@ public class FamiliarData
 	public boolean equals( final Object o )
 	{
 		return o != null && o instanceof FamiliarData && this.id == ( (FamiliarData) o ).id;
-	}
-
-	public int compareTo( final Object o )
-	{
-		return o == null || !( o instanceof FamiliarData ) ? 1 : this.compareTo( (FamiliarData) o );
 	}
 
 	public int compareTo( final FamiliarData fd )

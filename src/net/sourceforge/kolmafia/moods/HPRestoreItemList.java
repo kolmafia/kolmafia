@@ -198,7 +198,7 @@ public abstract class HPRestoreItemList
 	}
 
 	public static class HPRestoreItem
-		implements Comparable
+		implements Comparable<HPRestoreItem>
 	{
 		private final String restoreName;
 		private int healthPerUse;
@@ -265,7 +265,7 @@ public abstract class HPRestoreItemList
 			return name.indexOf( "b" ) == -1 && name.indexOf( "B" ) == -1 ;
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final HPRestoreItem o )
 		{
 			// Health restores are special because skills are preferred
 			// over items, so test for that first.

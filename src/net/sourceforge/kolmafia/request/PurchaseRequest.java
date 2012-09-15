@@ -41,7 +41,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 public abstract class PurchaseRequest
 	extends GenericRequest
-	implements Comparable
+	implements Comparable<PurchaseRequest>
 {
 	public static final int MAX_QUANTITY = 16777215;
 
@@ -174,7 +174,7 @@ public abstract class PurchaseRequest
 	@Override
 	public String toString()
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		buffer.append( "<html><nobr>" );
 		if ( !this.canPurchase() )
@@ -297,11 +297,6 @@ public abstract class PurchaseRequest
 		super.run();
 	}
 
-	public int compareTo( final Object o )
-	{
-		return o == null || !( o instanceof PurchaseRequest ) ? 1 : this.compareTo( (PurchaseRequest) o );
-	}
-
 	public static final void setUsePriceComparison( final boolean usePriceComparison )
 	{
 		PurchaseRequest.usePriceComparison = usePriceComparison;
@@ -309,6 +304,10 @@ public abstract class PurchaseRequest
 
 	public int compareTo( final PurchaseRequest pr )
 	{
+		if ( pr == null )
+		{
+			return -1;
+		}
 		if ( !PurchaseRequest.usePriceComparison )
 		{
 			int nameComparison = this.item.getName().compareToIgnoreCase( pr.item.getName() );

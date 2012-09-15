@@ -74,7 +74,7 @@ public class VariableReference
 	}
 
 	@Override
-	public int compareTo( final Object o )
+	public int compareTo( final Value o )
 	{
 		return this.target.getName().compareTo( ( (VariableReference) o ).target.getName() );
 	}

@@ -209,7 +209,7 @@ public abstract class MPRestoreItemList
 	}
 
 	public static class MPRestoreItem
-		implements Comparable
+		implements Comparable<MPRestoreItem>
 	{
 		private final String itemName;
 		private int manaPerUse;
@@ -256,7 +256,7 @@ public abstract class MPRestoreItemList
 			return this.isCombatUsable;
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final MPRestoreItem o )
 		{
 			MPRestoreItem mpi = (MPRestoreItem) o;
 

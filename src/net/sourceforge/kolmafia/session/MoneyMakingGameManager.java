@@ -71,7 +71,7 @@ public class MoneyMakingGameManager
 	private static Object lock = new Object();
 
 	// Current bets offered by others
-	private static ArrayList offered = new ArrayList();
+	private static ArrayList<Bet> offered = new ArrayList<Bet>();
 
 	// The amount I won or lost from the last bet I took
 	private static int lastWinnings = 0;
@@ -80,16 +80,16 @@ public class MoneyMakingGameManager
 	private static ArrayList active = new ArrayList();
 
 	// Bets I've made that are taken with no notification yet
-	private static LinkedList taken = new LinkedList();
+	private static LinkedList<Bet> taken = new LinkedList<Bet>();
 
 	// The last bet I made
 	private static Bet lastBet = null;
 
 	// Events received but not yet matched
-	private static LinkedList received = new LinkedList();
+	private static LinkedList<Event> received = new LinkedList<Event>();
 
 	// Events received and matched to taken bets
-	private static LinkedList resolved = new LinkedList();
+	private static LinkedList<Event> resolved = new LinkedList<Event>();
 
 	// The last event handled
 	private static Event lastEvent = null;
@@ -211,7 +211,7 @@ public class MoneyMakingGameManager
 		synchronized ( MoneyMakingGameManager.lock )
 		{
 			// Constructed list of currently outstanding bets
-			ArrayList current = new ArrayList();
+			ArrayList<Bet> current = new ArrayList<Bet>();
 
 			// Assume there is no newly placed bet
 			MoneyMakingGameManager.lastBet = null;
@@ -741,7 +741,7 @@ public class MoneyMakingGameManager
 	}
 
 	public static class Bet
-		implements Comparable
+		implements Comparable<Bet>
 	{
 		private final int betId;
 		private final int amount;
@@ -807,10 +807,14 @@ public class MoneyMakingGameManager
 		@Override
 		public boolean equals( final Object o )
 		{
-			return this.compareTo( o ) == 0;
+			if ( o instanceof Bet )
+			{
+			return this.compareTo( (Bet) o ) == 0;
+			}
+			return false;
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final Bet o )
 		{
 			if ( o instanceof Bet )
 			{
@@ -827,7 +831,7 @@ public class MoneyMakingGameManager
 	}
 
 	public static class Event
-		implements Comparable
+		implements Comparable<Event>
 	{
 		private Bet bet;
 		private final String player;
@@ -879,7 +883,7 @@ public class MoneyMakingGameManager
 			return this.winnings;
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final Event o )
 		{
 			if ( !( o instanceof Event ) )
 			{

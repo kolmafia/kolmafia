@@ -662,9 +662,9 @@ public class FamiliarTrainingFrame
 			private class EquipAllListener
 				extends ThreadedListener
 			{
-				private final ArrayList closetItems = new ArrayList();
-				private final ArrayList storageItems = new ArrayList();
-				private final ArrayList requests = new ArrayList();
+				private final ArrayList<AdventureResult> closetItems = new ArrayList<AdventureResult>();
+				private final ArrayList<AdventureResult> storageItems = new ArrayList<AdventureResult>();
+				private final ArrayList<GenericRequest> requests = new ArrayList<GenericRequest>();
 
 				@Override
 				protected void execute()
@@ -1174,7 +1174,7 @@ public class FamiliarTrainingFrame
 		// Derived skill rankings
 		int skills[] = new int[ 4 ];
 
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 
 		text.append( "<br>Results for " + KoLCharacter.getFamiliar().getRace() + " after " + trial + " trials using " + status.turnsUsed() + " turns:<br><br>" );
 
@@ -1451,7 +1451,7 @@ public class FamiliarTrainingFrame
 		int weight = tool.bestWeight();
 		int diff = tool.difference();
 
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 		int round = status.turnsUsed() + 1;
 		text.append( "Round " + round + ": " );
 		text.append( familiar.getName() );
@@ -1592,10 +1592,10 @@ public class FamiliarTrainingFrame
 		AdventureResult[] tp = new AdventureResult[ 3 ];
 
 		// Weights
-		TreeSet weights;
+		TreeSet<Integer> weights;
 
 		// Gear sets
-		ArrayList gearSets;
+		ArrayList<GearSet> gearSets;
 
 		public FamiliarStatus()
 		{
@@ -1611,10 +1611,10 @@ public class FamiliarTrainingFrame
 			this.turns = 0;
 
 			// Initialize set of weights
-			this.weights = new TreeSet();
+			this.weights = new TreeSet<Integer>();
 
 			// Initialize the list of GearSets
-			this.gearSets = new ArrayList();
+			this.gearSets = new ArrayList<GearSet>();
 
 			// Check skills and equipment
 			this.updateStatus();
@@ -2834,7 +2834,7 @@ public class FamiliarTrainingFrame
 
 		public String printAvailableBuffs()
 		{
-			StringBuffer text = new StringBuffer();
+			StringBuilder text = new StringBuilder();
 
 			text.append( "Castable buffs:" );
 			if ( FamiliarTrainingFrame.empathyAvailable )
@@ -2856,7 +2856,7 @@ public class FamiliarTrainingFrame
 
 		public String printCurrentBuffs()
 		{
-			StringBuffer text = new StringBuffer();
+			StringBuilder text = new StringBuilder();
 
 			text.append( "Current buffs:" );
 			if ( FamiliarTrainingFrame.sympathyAvailable )
@@ -2912,7 +2912,7 @@ public class FamiliarTrainingFrame
 
 		public String printCurrentEquipment()
 		{
-			StringBuffer text = new StringBuffer();
+			StringBuilder text = new StringBuilder();
 
 			text.append( "Current equipment:" );
 
@@ -2990,7 +2990,7 @@ public class FamiliarTrainingFrame
 
 		public String printAvailableEquipment()
 		{
-			StringBuffer text = new StringBuffer();
+			StringBuilder text = new StringBuilder();
 
 			text.append( "Available equipment:" );
 
@@ -3072,7 +3072,7 @@ public class FamiliarTrainingFrame
 		}
 
 		private class GearSet
-			implements Comparable
+			implements Comparable<GearSet>
 		{
 			public AdventureResult weapon;
 			public AdventureResult offhand;
@@ -3109,7 +3109,7 @@ public class FamiliarTrainingFrame
 					this.weapon, this.offhand, this.acc1, this.acc2, this.acc3, this.item, this.hat );
 			}
 
-			public int compareTo( final Object o )
+			public int compareTo( final GearSet o )
 			{
 				// Keep in mind that all unequips are considered
 				// better than equips, so unequips have a change
@@ -3167,7 +3167,7 @@ public class FamiliarTrainingFrame
 			@Override
 			public String toString()
 			{
-				StringBuffer text = new StringBuffer();
+				StringBuilder text = new StringBuilder();
 				text.append( "(" );
 				if ( this.weapon == null )
 				{

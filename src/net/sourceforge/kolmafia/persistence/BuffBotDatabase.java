@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -74,11 +75,11 @@ public class BuffBotDatabase
 	private static boolean hasNameList = false;
 	private static boolean isInitialized = false;
 
-	private static final ArrayList nameList = new ArrayList();
-	private static final TreeMap buffDataMap = new TreeMap();
+	private static final ArrayList<String> nameList = new ArrayList<String>();
+	private static final TreeMap<String, String[]> buffDataMap = new TreeMap<String, String[]>();
 
-	private static final TreeMap normalOfferings = new TreeMap();
-	private static final TreeMap freeOfferings = new TreeMap();
+	private static final TreeMap<String, LockableListModel> normalOfferings = new TreeMap<String, LockableListModel>();
+	private static final TreeMap<String, LockableListModel> freeOfferings = new TreeMap<String, LockableListModel>();
 
 	// Variables to know whether or not the buffbot database
 	// has been fully initialized during initialization.
@@ -349,7 +350,7 @@ public class BuffBotDatabase
 				return;
 			}
 
-			StringBuffer responseText = new StringBuffer();
+			StringBuilder responseText = new StringBuilder();
 			BufferedReader reader = FileUtilities.getReader( this.location );
 
 			if ( reader == null )
@@ -398,11 +399,11 @@ public class BuffBotDatabase
 
 					if ( name.startsWith( "Jaba" ) )
 					{
-						name = SkillDatabase.getSkillName( 4011 );
+						name = SkillDatabase.getSkillName( SkillPool.JABANERO_SAUCESPHERE );
 					}
 					else if ( name.startsWith( "Jala" ) )
 					{
-						name = SkillDatabase.getSkillName( 4008 );
+						name = SkillDatabase.getSkillName( SkillPool.JALAPENO_SAUCESPHERE );
 					}
 
 					int price = StringUtilities.parseInt( priceMatcher.group( 1 ).trim() );

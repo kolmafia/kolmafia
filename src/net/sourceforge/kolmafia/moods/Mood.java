@@ -45,16 +45,16 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 
 public class Mood
-	implements Comparable
+	implements Comparable<Mood>
 {
 	private String name;
-	private List parentNames;
+	private List<String> parentNames;
 	private SortedListModel localTriggers;
 
 	public Mood( String name )
 	{
 		this.name = name;
-		this.parentNames = new ArrayList();
+		this.parentNames = new ArrayList<String>();
 		
 		int extendsIndex = this.name.indexOf( " extends " );
 		
@@ -108,7 +108,7 @@ public class Mood
 		return this.parentNames;
 	}
 	
-	public void setParentNames( List parentNames )
+	public void setParentNames( List<String> parentNames )
 	{
 		this.parentNames.clear();
 		this.parentNames.addAll( parentNames );
@@ -120,9 +120,9 @@ public class Mood
 		return !this.name.equals( "apathetic" ) && !getTriggers().isEmpty();
 	}
 	
-	public List getTriggers()
+	public List<String> getTriggers()
 	{
-		ArrayList triggers = new ArrayList();
+		ArrayList<String> triggers = new ArrayList<String>();
 		
 		if ( !this.parentNames.isEmpty() )
 		{
@@ -132,7 +132,7 @@ public class Mood
 			{
 				String parentName = (String) parentNameIterator.next();
 				
-				List parentTriggers = MoodManager.getTriggers( parentName );
+				List<String> parentTriggers = MoodManager.getTriggers( parentName );
 				
 				triggers.removeAll( parentTriggers );
 				triggers.addAll( parentTriggers );
@@ -193,7 +193,7 @@ public class Mood
 			return "";
 		}
 		
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		buffer.append( "[ " );
 		buffer.append( this.toString() );
 		buffer.append( " ]" );
@@ -214,7 +214,7 @@ public class Mood
 	@Override
 	public String toString()
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		buffer.append( this.name );
 		
@@ -249,7 +249,7 @@ public class Mood
 		return this.name.hashCode();
 	}
 
-	public int compareTo( Object o )
+	public int compareTo( Mood o )
 	{
 		if ( o == null || !( o instanceof Mood ) )
 		{

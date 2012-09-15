@@ -56,7 +56,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AdventureResult
-	implements Comparable
+	implements Comparable<AdventureResult>
 {
 	public static final String[] STAT_NAMES = { "muscle", "mysticality", "moxie" };
 
@@ -845,7 +845,7 @@ public class AdventureResult
 	 * Return values are consistent with the rules laid out in {@link java.lang.Comparable#compareTo(Object)}.
 	 */
 
-	public int compareTo( final Object o )
+	public int compareTo( final AdventureResult o )
 	{
 		if ( o == this ) return 0;
 		if ( !( o instanceof AdventureResult ) )
@@ -994,7 +994,7 @@ public class AdventureResult
 		sourceList.set( index, sumResult );
 	}
 
-	public static final void addOrRemoveResultToList( final List sourceList, final AdventureResult result )
+	public static final void addOrRemoveResultToList( final List<AdventureResult> sourceList, final AdventureResult result )
 	{
 		int index = sourceList.indexOf( result );
 
@@ -1303,7 +1303,7 @@ public class AdventureResult
 		{
 			if ( this.name.equals( AdventureResult.SUBSTATS ) )
 			{
-				StringBuffer stats = new StringBuffer();
+				StringBuilder stats = new StringBuilder();
 	
 				if ( this.counts[ 0 ] > 0 )
 				{
@@ -1412,7 +1412,6 @@ public class AdventureResult
 
 			for ( int i = 0; i < this.matches.length && !hasMatch; ++i )
 			{
-				String match = this.matches[ i ];
 				hasMatch = arName.indexOf( this.matches[ i ] ) != -1;
 			}
 

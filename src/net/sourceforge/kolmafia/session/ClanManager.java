@@ -591,7 +591,7 @@ public abstract class ClanManager
 	 * Retrieves the clan membership in the form of a list object.
 	 */
 
-	public static final List getWhiteList()
+	public static final List<String> getWhiteList()
 	{
 		ClanManager.retrieveClanData();
 		return ClanManager.whiteListMembers;

@@ -40,7 +40,7 @@ import java.util.List;
 public class KoLDatabase
 {
 	private static class ItemCounter
-		implements Comparable
+		implements Comparable<ItemCounter>
 	{
 		private final int count;
 		private final String name;
@@ -51,7 +51,7 @@ public class KoLDatabase
 			this.count = count;
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final ItemCounter o )
 		{
 			ItemCounter ic = (ItemCounter) o;
 
@@ -70,14 +70,14 @@ public class KoLDatabase
 		}
 	}
 
-	public static final String getBreakdown( final List items )
+	public static final String getBreakdown( final List<String> items )
 	{
 		if ( items.isEmpty() )
 		{
 			return KoLConstants.LINE_BREAK;
 		}
 
-		StringBuffer strbuf = new StringBuffer();
+		StringBuilder strbuf = new StringBuilder();
 		strbuf.append( KoLConstants.LINE_BREAK );
 
 		Object[] itemArray = new Object[ items.size() ];

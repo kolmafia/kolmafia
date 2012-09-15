@@ -65,7 +65,7 @@ public class ReleaseNotes
 
 		OUTPUT_LOCATION.createNewFile();
 
-		ArrayList revisionHistory = getRevisionHistory( INPUT_LOCATION, VIEW_REVISION_ROOT );
+		ArrayList<Revision> revisionHistory = getRevisionHistory( INPUT_LOCATION, VIEW_REVISION_ROOT );
 		Collections.sort( revisionHistory );
 
 		PrintStream ostream = new PrintStream( new FileOutputStream( OUTPUT_LOCATION ) );
@@ -79,10 +79,10 @@ public class ReleaseNotes
 		ostream.close();
 	}
 
-	private static ArrayList getRevisionHistory( File input, String viewRoot )
+	private static ArrayList<Revision> getRevisionHistory( File input, String viewRoot )
 		throws Exception
 	{
-		ArrayList revisionHistory = new ArrayList();
+		ArrayList<Revision> revisionHistory = new ArrayList<Revision>();
 
 		if ( !input.exists() )
 		{
@@ -134,7 +134,7 @@ public class ReleaseNotes
 	}
 
 	private static class Revision
-		implements Comparable
+		implements Comparable<Revision>
 	{
 		private int revisionId;
 		private StringBuffer contents;
@@ -165,7 +165,7 @@ public class ReleaseNotes
 			return contents.toString();
 		}
 
-		public int compareTo( Object o )
+		public int compareTo( Revision o )
 		{
 			return this.revisionId - ((Revision)o).revisionId;
 		}

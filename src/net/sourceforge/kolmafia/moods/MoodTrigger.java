@@ -59,7 +59,7 @@ import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MoodTrigger
-	implements Comparable
+	implements Comparable<MoodTrigger>
 {
 	private static Map knownSources = new HashMap();
 
@@ -363,7 +363,7 @@ public class MoodTrigger
 		return this.isThiefTrigger;
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final MoodTrigger o )
 	{
 		if ( o == null || !( o instanceof MoodTrigger ) )
 		{

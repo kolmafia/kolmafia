@@ -407,7 +407,7 @@ public class CouncilFrame
 			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
 		}
 
-		// I'm plumb stocked up on everythin' 'cept yeti furs, Adventurer.
+		// Yeehaw!  I heard the noise and seen them mists dissapatin' from clear down here!  Ya done it!  Ya rightly done it!
 		else if ( responseText.contains( "Yeehaw!  I heard the noise" ) )
 		{
 			Preferences.setInteger( "lastTr4pz0rQuest", KoLCharacter.getAscensions() );

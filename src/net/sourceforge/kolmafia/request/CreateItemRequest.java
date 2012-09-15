@@ -66,7 +66,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CreateItemRequest
 	extends GenericRequest
-	implements Comparable
+	implements Comparable<CreateItemRequest>
 {
 	public static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
 
@@ -371,10 +371,14 @@ public class CreateItemRequest
 	@Override
 	public boolean equals( final Object o )
 	{
-		return this.compareTo( o ) == 0;
+		if ( o instanceof CreateItemRequest )
+		{
+			return this.compareTo( (CreateItemRequest) o ) == 0;
+		}
+		return false;
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final CreateItemRequest o )
 	{
 		return o == null ? -1 : this.getName().compareToIgnoreCase( ( (CreateItemRequest) o ).getName() );
 	}
@@ -1461,7 +1465,7 @@ public class CreateItemRequest
 			return ConcoctionDatabase.getIngredients( itemId );
 		}
 
-		ArrayList ingredients = new ArrayList();
+		ArrayList<AdventureResult> ingredients = new ArrayList<AdventureResult>();
 		Matcher matcher;
 
 		if ( urlString.startsWith( "craft.php" ) )

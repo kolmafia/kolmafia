@@ -56,7 +56,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterDatabase
 {
-	private static final Map MONSTER_DATA = new TreeMap();
+	private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<String, MonsterData>();
 	private static String[] MONSTER_STRINGS = null;
 
 	// Elements
@@ -298,7 +298,7 @@ public class MonsterDatabase
 			MonsterDatabase.MONSTER_DATA.keySet().toArray( MonsterDatabase.MONSTER_STRINGS );
 		}
 
-		List matchingNames = StringUtilities.getMatchingNames( MonsterDatabase.MONSTER_STRINGS, keyName );
+		List<String> matchingNames = StringUtilities.getMatchingNames( MonsterDatabase.MONSTER_STRINGS, keyName );
 
 		if ( matchingNames.size() != 1 )
 		{
@@ -534,7 +534,7 @@ public class MonsterDatabase
 		}
 		// Must paste the entire expression back together, since we're
 		// splitting the tokens on spaces.
-		StringBuffer temp = new StringBuffer( value );
+		StringBuilder temp = new StringBuilder( value );
 		while ( !value.endsWith( "]" ) && tokens.hasMoreTokens() )
 		{
 			value = tokens.nextToken();

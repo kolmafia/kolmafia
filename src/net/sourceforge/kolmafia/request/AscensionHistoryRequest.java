@@ -63,7 +63,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AscensionHistoryRequest
 	extends GenericRequest
-	implements Comparable
+	implements Comparable<AscensionHistoryRequest>
 {
 	private static boolean isSoftcoreComparator = true;
 
@@ -72,7 +72,7 @@ public class AscensionHistoryRequest
 
 	private final String playerName;
 	private final String playerId;
-	private final List ascensionData;
+	private final List<AscensionDataField> ascensionData;
 	private int hardcoreCount, softcoreCount;
 
 	public AscensionHistoryRequest( final String playerName, final String playerId )
@@ -85,7 +85,7 @@ public class AscensionHistoryRequest
 		this.playerName = playerName;
 		this.playerId = playerId;
 
-		this.ascensionData = new ArrayList();
+		this.ascensionData = new ArrayList<AscensionDataField>();
 	}
 
 	public static final void setComparator( final boolean isSoftcoreComparator )
@@ -96,7 +96,7 @@ public class AscensionHistoryRequest
 	@Override
 	public String toString()
 	{
-		StringBuffer stringForm = new StringBuffer();
+		StringBuilder stringForm = new StringBuilder();
 		stringForm.append( "<tr><td><a href=\"ascensions/" + ClanManager.getURLName( this.playerName ) + "\"><b>" );
 
 		String name = ContactManager.getPlayerName( this.playerId );
@@ -109,7 +109,7 @@ public class AscensionHistoryRequest
 		return stringForm.toString();
 	}
 
-	public int compareTo( final Object o )
+	public int compareTo( final AscensionHistoryRequest o )
 	{
 		return o == null || !( o instanceof AscensionHistoryRequest ) ? -1 : AscensionHistoryRequest.isSoftcoreComparator ? ( (AscensionHistoryRequest) o ).softcoreCount - this.softcoreCount : ( (AscensionHistoryRequest) o ).hardcoreCount - this.hardcoreCount;
 	}
@@ -199,7 +199,7 @@ public class AscensionHistoryRequest
 		try
 		{
 			BufferedReader istream = FileUtilities.getReader( backupFile );
-			StringBuffer ascensionBuffer = new StringBuffer();
+			StringBuilder ascensionBuffer = new StringBuilder();
 			String currentLine;
 
 			while ( ( currentLine = istream.readLine() ) != null )
@@ -453,7 +453,7 @@ public class AscensionHistoryRequest
 	}
 
 	public static class AscensionDataField
-		implements Comparable
+		implements Comparable<AscensionDataField>
 	{
 		private String playerName;
 		private String playerId;
@@ -616,7 +616,7 @@ public class AscensionHistoryRequest
 			return isSoftcore == this.isSoftcore && ( pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId ) && ( classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId );
 		}
 
-		public int compareTo( final Object o )
+		public int compareTo( final AscensionDataField o )
 		{
 			if ( o == null || !( o instanceof AscensionDataField ) )
 			{
