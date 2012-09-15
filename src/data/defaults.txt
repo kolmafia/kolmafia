@@ -804,6 +804,7 @@ user	_gapBuffs	0
 user	_gibbererAdv	0
 user	_gibbererCharge	0
 user	_gnollEyeUsed	false
+user	_gnomeAdv	0
 user	_gongDrops	0
 user	_gothKidFights	0
 user	_gothKidCharge	0

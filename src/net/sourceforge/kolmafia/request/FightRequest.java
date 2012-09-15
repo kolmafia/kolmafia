@@ -2306,6 +2306,13 @@ public class FightRequest
 				}
 				break;
 
+			case FamiliarPool.REAGNIMATED_GNOME:
+				if ( responseText.indexOf( "You gain 1 Adventure" ) != -1 )
+				{
+					Preferences.increment( "_gnomeAdv", 1 );
+				}
+				break;
+
 			case FamiliarPool.HARE:
 				// <name> pulls an oversized pocketwatch out of his
 				// waistcoat and winds it. "Two days slow, that's what

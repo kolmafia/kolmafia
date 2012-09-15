@@ -2706,6 +2706,7 @@ public class DailyDeedsPanel
 			this.addListener( "_riftletAdv" );
 			this.addListener( "_timeHelmetAdv" );
 			this.addListener( "_vmaskAdv" );
+			this.addListener( "_gnomeAdv" );
 			this.addLabel( "" );
 		}
 
@@ -2722,17 +2723,21 @@ public class DailyDeedsPanel
 				|| Preferences.getInteger( "_timeHelmetAdv" ) > 0;
 			boolean hf5 = InventoryManager.getCount( ItemPool.V_MASK ) > 0
 				|| Preferences.getInteger( "_vmaskAdv" ) > 0;
+			FamiliarData gnome = KoLCharacter.findFamiliar( FamiliarPool.REAGNIMATED_GNOME );
+			boolean hf6 = gnome != null && gnome.canEquip() ;
 			String text = "Advs: ";
 			if( hf1 ) text = text + Preferences.getInteger( "_gibbererAdv" ) + " gibberer";
-			if( hf1 && (hf2 || hf3 || hf4 || hf5) ) text = text + ", ";
+			if( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
 			if( hf2 ) text = text + Preferences.getInteger( "_hareAdv" ) + " hare";
-			if( hf2 && (hf3 || hf4 || hf5) ) text = text + ", ";
+			if( hf2 && ( hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
 			if( hf3 ) text = text + Preferences.getInteger( "_riftletAdv" ) + " riftlet";
-			if( hf3 && (hf4 || hf5) ) text = text + ", ";
+			if( hf3 && ( hf4 || hf5 || hf6 ) ) text = text + ", ";
 			if( hf4 ) text = text + Preferences.getInteger( "_timeHelmetAdv" ) + " time helmet";
-			if( hf4 && hf5 ) text = text + ", ";
+			if( hf4 && ( hf5 || hf6 ) ) text = text + ", ";
 			if( hf5 ) text = text + Preferences.getInteger( "_vmaskAdv" ) + " V mask";
-			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 );
+			if( hf5 && hf6 ) text = text + ", ";
+			if( hf6 ) text = text + Preferences.getInteger( "_gnomeAdv" ) + " gnome";
+			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 );
 			this.setText( text );
 		}
 	}

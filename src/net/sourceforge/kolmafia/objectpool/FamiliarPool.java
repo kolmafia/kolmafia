@@ -99,4 +99,5 @@ public class FamiliarPool
 	public static final int KLOOP = 155;
 	public static final int HAPPY_MEDIUM = 159;
 	public static final int	ARTISTIC_GOTH_KID = 160;
+	public static final int	REAGNIMATED_GNOME = 162;
 }
