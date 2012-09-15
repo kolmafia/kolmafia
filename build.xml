@@ -182,7 +182,7 @@
 			nowarn="on"
 			includeantruntime="false"
 			errorProperty="compile.failed" />
-
+		
 		<antcall target="unversion" />
 
 		<fail if="compile.failed" message="Failed to compile KoLmafia source code" />
@@ -449,10 +449,6 @@
 	<!-- ============================================= -->
 
 	<target name="notes" depends="jar">
-		<!--
-		Yeah, this looked easy.
-		I just have to get ${logfile} to match the ReleaseNotes code...
-		Not tonight
 
 		<exec executable="svn" failifexecutionfails="false" output="${logfile}">
 			<arg value="log" />
@@ -460,8 +456,10 @@
 			<arg value="${svn.revision.base}:HEAD" />
 			<arg value="${root}" />
 		</exec>
-		-->
+
 		<java fork="true" classname="net.sourceforge.kolmafia.utilities.ReleaseNotes" classpath="${jarfile}" dir="${dist}" />
+
+		<delete file="${logfile}" failonerror="false" />
 	</target>
 
 	<!-- ======================================= -->

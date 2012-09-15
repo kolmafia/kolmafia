@@ -805,10 +805,18 @@ public class DebugDatabase
 	}
 
 	private static final Pattern POWER_PATTERN = Pattern.compile( "Power: <b>(\\d+)</b>" );
+	private static final Pattern DAMAGE_PATTERN_WEAPON = Pattern.compile( "Damage: <b>[\\d+] - (\\d+)</b>" );
 	public static final int parsePower( final String text )
 	{
 		Matcher matcher = DebugDatabase.POWER_PATTERN.matcher( text );
-		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+		// This should match non-weapon power
+		if ( matcher.find() )
+		{
+			return StringUtilities.parseInt( matcher.group( 1 ) );
+		}
+		// This will match weapon damage and use it to calculate power
+		matcher = DebugDatabase.DAMAGE_PATTERN_WEAPON.matcher( text );
+		return matcher.find() ? ( StringUtilities.parseInt( matcher.group( 1 ) ) * 5 ) : 0;
 	}
 
 	private static final Pattern WEAPON_PATTERN = Pattern.compile( "weapon [(](.*?)[)]" );
