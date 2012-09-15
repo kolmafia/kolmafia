@@ -92,21 +92,6 @@ public class MallSearchRequest
 	 * @param searchString The string (including wildcards) for the item to be found
 	 * @param cheapestCount The number of stores to show; use a non-positive number to show all
 	 * @param results The sorted list in which to store the results
-	 */
-
-	public MallSearchRequest( final String searchString, final int cheapestCount, final List results )
-	{
-		this( searchString, cheapestCount, results, false );
-	}
-
-	/**
-	 * Constructs a new <code>MallSearchRequest</code> which searches for the given item, storing the results in the
-	 * given <code>ListModel</code>. Note that the search string is exactly the same as the way KoL does it at the
-	 * current time.
-	 *
-	 * @param searchString The string (including wildcards) for the item to be found
-	 * @param cheapestCount The number of stores to show; use a non-positive number to show all
-	 * @param results The sorted list in which to store the results
 	 * @param retainAll Whether the result list should be cleared before searching
 	 */
 
@@ -251,7 +236,7 @@ public class MallSearchRequest
 		}
 
 		// If an exact match, we can think about updating mall_price().
-		if ( this.searchString.startsWith( "\"" ) )
+		if ( this.searchString != null && this.searchString.startsWith( "\"" ) )
 		{
 			String name = this.getFormField( "pudnuggler" );
 			StoreManager.maybeUpdateMallPrice( AdventureResult.pseudoItem( name ), new ArrayList<PurchaseRequest>( results ) );
@@ -566,7 +551,7 @@ public class MallSearchRequest
 
 			String storeString = MallPurchaseRequest.getStoreString( itemId, price );
 
-			StringBuffer buyers = new StringBuffer();
+			StringBuilder buyers = new StringBuilder();
 			buyers.append( "<td valign=\"center\" class=\"buyers\">" );
 			buyers.append( "[<a href=\"mallstore.php?buying=1&quantity=1&whichitem=" );
 			buyers.append( storeString );
