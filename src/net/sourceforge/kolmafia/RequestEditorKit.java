@@ -143,6 +143,7 @@ public class RequestEditorKit
 	private static final Pattern OPTION_PATTERN = Pattern.compile( "name=option value=(\\d+)" );
 	private static final Pattern OUTFIT_FORM_PATTERN = Pattern.compile( "<form name=outfit.*?</form>", Pattern.DOTALL );
 	private static final Pattern OPTGROUP_PATTERN = Pattern.compile( "<optgroup label=['\"]([^']*)['\"]>(.*?)</optgroup>", Pattern.DOTALL );
+	private static final Pattern NOLABEL_CUSTOM_OUTFITS_PATTERN = Pattern.compile( "\\(select an outfit\\)</option>(<option.*?)<optgroup", Pattern.DOTALL );
 
 	private static final Pattern ALTAR_PATTERN = Pattern.compile( "'An altar with a carving of a god of ([^']*)'" );
 	private static final Pattern ROUND_SEP_PATTERN = Pattern.compile( "<(?:b>Combat!</b>|hr.*?>)" );
@@ -904,6 +905,14 @@ public class RequestEditorKit
 
 		StringBuffer obuffer = new StringBuffer();
 		obuffer.append( "<table>" );
+
+		// If there aren't any normal outfits, the Custom Outfits label is absent
+		Matcher cmatcher = NOLABEL_CUSTOM_OUTFITS_PATTERN.matcher( fmatcher.group() );
+		if ( cmatcher.find() )
+		{
+			String options = cmatcher.group( 1 );
+			addOutfitGroup( obuffer, "outfit2", "Custom", "a custom", options );
+		}
 
 		// Find option groups in the whichoutfit drop down
 		Matcher omatcher = OPTGROUP_PATTERN.matcher( fmatcher.group() );
