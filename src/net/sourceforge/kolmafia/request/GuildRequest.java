@@ -340,6 +340,20 @@ public class GuildRequest
 			return;
 		}
 
+		if ( place != null && place.equals( "challenge" ) )
+		{
+			// "Eleven inches!" he exclaims.
+			if ( responseText.contains( "Eleven inches" ) )
+			{
+				ResultProcessor.processItem( ItemPool.BIG_KNOB_SAUSAGE, -1 );
+			}
+			// You hand the captured poltersandwich to Gorgonzola.
+			if ( responseText.contains( "captured poltersandwich" ) )
+			{
+				ResultProcessor.processItem( ItemPool.EXORCISED_SANDWICH, -1 );
+			}
+		}
+
 		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
 
