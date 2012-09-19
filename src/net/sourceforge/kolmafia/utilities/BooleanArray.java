@@ -36,13 +36,13 @@ package net.sourceforge.kolmafia.utilities;
 import java.util.ArrayList;
 
 /**
- * Internal class which functions exactly an array of boolean, except it uses "sets" and "gets" like a list. This
- * could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
+ * Internal class which functions exactly an array of boolean, except it uses "sets" and "gets" like a list. This could
+ * be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
  */
 
 public class BooleanArray
 {
-	private final ArrayList internalList = new ArrayList();
+	private final ArrayList<Boolean> internalList = new ArrayList<Boolean>();
 
 	public boolean get( final int index )
 	{

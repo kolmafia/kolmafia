@@ -118,7 +118,6 @@ public abstract class InventoryManager
 		//
 		// account.php?pwd&action=flag_lazyinventory&value=0&ajax=1
 		boolean lazy = KoLCharacter.getLazyInventory();
-		GenericRequest request = null;
 
 		try
 		{
@@ -784,7 +783,7 @@ public abstract class InventoryManager
 				return "buy";
 			}
 
-			ArrayList results = StoreManager.searchMall( item );
+			ArrayList< ? > results = StoreManager.searchMall( item );
 			KoLmafia.makePurchases(
 				results, results.toArray(), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
 			StoreManager.updateMallPrice( item, results );
@@ -928,7 +927,7 @@ public abstract class InventoryManager
 				return "buy";
 			}
 
-			ArrayList results = StoreManager.searchMall( item );
+			ArrayList< ? > results = StoreManager.searchMall( item );
 			KoLmafia.makePurchases(
 				results, results.toArray(), InventoryManager.getPurchaseCount( itemId, missingCount ), isAutomated );
 			StoreManager.updateMallPrice( item, results );
@@ -1175,10 +1174,10 @@ public abstract class InventoryManager
 	private static void transferChewingGumItems(
 		final AdventureResult[] items, final boolean moveOne, final boolean moveToCloset )
 	{
-		List source = moveToCloset ? KoLConstants.inventory : KoLConstants.closet;
-		List destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
+		List< ? > source = moveToCloset ? KoLConstants.inventory : KoLConstants.closet;
+		List< ? > destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
 
-		List attachmentList = new ArrayList();
+		List<AdventureResult> attachmentList = new ArrayList<AdventureResult>();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
@@ -1208,7 +1207,7 @@ public abstract class InventoryManager
 	{
 		InventoryManager.transferChewingGumItems( InventoryManager.WORTHLESS_ITEMS, false, moveToCloset );
 
-		List destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
+		List< ? > destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
 
 		int trinketCount = HermitRequest.TRINKET.getCount( destination );
 		int gewgawCount = HermitRequest.GEWGAW.getCount( destination );
@@ -1559,7 +1558,7 @@ public abstract class InventoryManager
 		return InventoryManager.hasAnyIngredient( itemId, null );
 	}
 
-	private static final boolean hasAnyIngredient( final int itemId, HashSet seen )
+	private static final boolean hasAnyIngredient( final int itemId, HashSet<Integer> seen )
 	{
 		if ( itemId < 0 )
 		{
@@ -1600,7 +1599,7 @@ public abstract class InventoryManager
 
 		if ( seen == null )
 		{
-			seen = new HashSet();
+			seen = new HashSet<Integer>();
 		}
 		else if ( seen.contains( key ) )
 		{
@@ -1685,25 +1684,25 @@ public abstract class InventoryManager
 			return;
 		}
 
-		ArrayList list = InventoryManager.listeners.get( itemId );
+		ArrayList<WeakReference<PreferenceListener>> list = InventoryManager.listeners.get( itemId );
 		if ( list == null )
 		{
-			list = new ArrayList();
+			list = new ArrayList<WeakReference<PreferenceListener>>();
 			InventoryManager.listeners.set( itemId, list );
 		}
 
-		list.add( new WeakReference( listener ) );
+		list.add( new WeakReference<PreferenceListener>( listener ) );
 	}
 
 	public static final void fireInventoryChanged( final int itemId )
 	{
-		ArrayList list = InventoryManager.listeners.get( itemId );
+		ArrayList<WeakReference<PreferenceListener>> list = InventoryManager.listeners.get( itemId );
 		if ( list != null )
 		{
-			Iterator i = list.iterator();
+			Iterator<WeakReference<PreferenceListener>> i = list.iterator();
 			while ( i.hasNext() )
 			{
-				WeakReference reference = (WeakReference) i.next();
+				WeakReference<PreferenceListener> reference = i.next();
 				PreferenceListener listener = (PreferenceListener) reference.get();
 
 				if ( listener == null )
@@ -1730,7 +1729,7 @@ public abstract class InventoryManager
 
 	private static class ArrayListArray
 	{
-		private final ArrayList internalList = new ArrayList( ItemDatabase.maxItemId() );
+		private final ArrayList<ArrayList<WeakReference<PreferenceListener>>> internalList = new ArrayList<ArrayList<WeakReference<PreferenceListener>>>( ItemDatabase.maxItemId() );
 
 		public ArrayListArray()
 		{
@@ -1741,17 +1740,17 @@ public abstract class InventoryManager
 			}
 		}
 
-		public ArrayList get( final int index )
+		public ArrayList<WeakReference<PreferenceListener>> get( final int index )
 		{
 			if ( index < 0 || index >= this.internalList.size() )
 			{
 				return null;
 			}
 
-			return (ArrayList) this.internalList.get( index );
+			return this.internalList.get( index );
 		}
 
-		public void set( final int index, final ArrayList value )
+		public void set( final int index, final ArrayList<WeakReference<PreferenceListener>> value )
 		{
 			this.internalList.set( index, value );
 		}
@@ -1761,7 +1760,7 @@ public abstract class InventoryManager
 		throws JSONException
 	{
 		// {"1":"1","2":"1" ... }
-		Iterator keys = JSON.keys();
+		Iterator< ? > keys = JSON.keys();
 		while ( keys.hasNext() )
 		{
 			String key = (String) keys.next();

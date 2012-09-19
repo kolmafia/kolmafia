@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.utilities;
 import java.util.LinkedList;
 
 public class RollingLinkedList
-	extends LinkedList
+	extends LinkedList<Object>
 {
 	private int limit;
 

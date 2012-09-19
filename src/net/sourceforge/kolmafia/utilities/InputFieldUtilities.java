@@ -79,7 +79,7 @@ public class InputFieldUtilities
 		if ( StaticEntity.isHeadless() )
 		{
 			RequestLogger.printLine( message );
-			String reply = KoLmafiaCLI.DEFAULT_SHELL.getNextLine( "Press enter to continue..." );
+			KoLmafiaCLI.DEFAULT_SHELL.getNextLine( "Press enter to continue..." );
 
 			return;
 		}
@@ -242,7 +242,7 @@ public class InputFieldUtilities
 		if ( StaticEntity.isHeadless() )
 		{
 			RequestLogger.printLine( message );
-			List visibleInputs = new ArrayList();
+			List<Object> visibleInputs = new ArrayList<Object>();
 
 			for ( int i = 0; i < inputs.size(); ++i )
 			{
@@ -261,7 +261,7 @@ public class InputFieldUtilities
 
 			String[] replyList = reply.split( "\\s*,\\s*" );
 
-			Set selectedValues = new HashSet();
+			Set<Object> selectedValues = new HashSet<Object>();
 
 			for ( int i = 0; i < replyList.length; ++i )
 			{
@@ -280,14 +280,14 @@ public class InputFieldUtilities
 		selector.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 
 		JPanel panel = new JPanel( new BorderLayout() );
-		panel.add( filter == null ? new AutoFilterTextField( selector ) :
-			new AutoFilterTextField( selector ) {
-				@Override
-				public boolean isVisible( Object o )
-				{
-					return filter.isVisible( o ) && super.isVisible( o );
-				}			
-			}, BorderLayout.NORTH );
+		panel.add( filter == null ? new AutoFilterTextField( selector ) : new AutoFilterTextField( selector )
+		{
+			@Override
+			public boolean isVisible( Object o )
+			{
+				return filter.isVisible( o ) && super.isVisible( o );
+			}
+		}, BorderLayout.NORTH );
 		inputs.updateFilter( false );
 		panel.add( new GenericScrollPane( selector ), BorderLayout.CENTER );
 
