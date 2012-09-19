@@ -374,7 +374,7 @@ public abstract class HPRestoreItemList
 					return;
 				}
 
-				ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.HOTTUB );
+				new ClanLoungeRequest( ClanLoungeRequest.HOTTUB );
 				return;
 			}
 

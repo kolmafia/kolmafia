@@ -36,11 +36,11 @@ package net.sourceforge.kolmafia.utilities;
 public class HTMLListEntry
 	implements Comparable<HTMLListEntry>
 {
-	private Comparable value;
+	private String value;
 	private String color;
 	private String htmlText;
 
-	public HTMLListEntry( Comparable value, String color )
+	public HTMLListEntry( String value, String color )
 	{
 		this.value = value;
 		this.setColor( color );
@@ -48,21 +48,14 @@ public class HTMLListEntry
 
 	public int compareTo( HTMLListEntry o )
 	{
-		Object compareValue;
-		
-		if ( o instanceof HTMLListEntry )
-		{
-			compareValue = ( (HTMLListEntry) o ).value;
-		}
-		else
-		{
-			compareValue = o;
-		}
+		String compareValue;
+
+		compareValue = o.value;
 
 		return this.value.compareTo( compareValue );
 	}
-	
-	public Comparable getValue()
+
+	public String getValue()
 	{
 		return this.value;
 	}
@@ -70,14 +63,14 @@ public class HTMLListEntry
 	public void updateColor()
 	{
 	}
-	
+
 	public void setColor( String color )
 	{
 		if ( this.color != null && this.color.equals( color ) )
 		{
 			return;
 		}
-	
+
 		this.color = color;
 		this.htmlText = "<html><font color=\"" + color + "\">" + value + "</font></html>";
 	}

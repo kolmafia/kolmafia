@@ -69,7 +69,7 @@ public class ReleaseNotes
 		Collections.sort( revisionHistory );
 
 		PrintStream ostream = new PrintStream( new FileOutputStream( OUTPUT_LOCATION ) );
-		Iterator revisionIterator = revisionHistory.iterator();
+		Iterator<Revision> revisionIterator = revisionHistory.iterator();
 
 		while ( revisionIterator.hasNext() )
 		{

@@ -39,33 +39,31 @@ import java.util.HashMap;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 /**
- * This is a basic implementation of a non-shrinking, order-preserving multimap.
- * put() takes an int key, and an arbitrary Object.
- *
- * get() returns an ArrayList of all Objects with the specified key, in their
- * original insertion order, or null if there were none.
+ * This is a basic implementation of a non-shrinking, order-preserving multimap. put() takes an int key, and an
+ * arbitrary Object. get() returns an ArrayList of all Objects with the specified key, in their original insertion
+ * order, or null if there were none.
  */
 
 public class HashMultimap
-	extends HashMap
+	extends HashMap<Integer, ArrayList<Object>>
 {
 	public final void put( int key, Object value )
 	{
 		Integer okey = IntegerPool.get( key );
-		ArrayList curr = (ArrayList) super.get( okey );
+		ArrayList<Object> curr = super.get( okey );
 
 		if ( curr == null )
 		{
-			curr = new ArrayList();
+			curr = new ArrayList<Object>();
 			super.put( okey, curr );
 		}
 
 		curr.add( value );
-		curr.trimToSize();	// minimize wasted space
+		curr.trimToSize(); // minimize wasted space
 	}
 
-	public final ArrayList get( int key )
+	public final ArrayList<Object> get( int key )
 	{
-		return (ArrayList) super.get( IntegerPool.get( key ) );
+		return super.get( IntegerPool.get( key ) );
 	}
 }

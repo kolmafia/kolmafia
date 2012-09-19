@@ -81,12 +81,12 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public abstract class ChatManager
 {
-	private static final LinkedList<ChatMessage> clanMessages = new RollingLinkedList( 20 );
+	private static final LinkedList<Object> clanMessages = new RollingLinkedList( 20 );
 	private static ChatMessage faxbotMessage = null;
 	private static final Set<String> validChatReplyRecipients = new HashSet<String>();
 
 	private static final TreeMap<String, StyledChatBuffer> instantMessageBuffers = new TreeMap<String, StyledChatBuffer>();
-	private static Entry[] bufferEntries = new Entry[ 0 ];
+	private static Entry<?,?>[] bufferEntries = new Entry[ 0 ];
 
 	private static boolean isRunning = false;
 	private static boolean checkedLiteracy = false;
@@ -267,7 +267,7 @@ public abstract class ChatManager
 
 	public static final StyledChatBuffer getBuffer( final String bufferKey )
 	{
-		StyledChatBuffer buffer = (StyledChatBuffer) ChatManager.instantMessageBuffers.get( bufferKey );
+		StyledChatBuffer buffer = ChatManager.instantMessageBuffers.get( bufferKey );
 
 		if ( buffer != null )
 		{
@@ -328,9 +328,9 @@ public abstract class ChatManager
 		ChatManager.triviaGameActive = false;
 	}
 
-	public static void processMessages( final List messages )
+	public static void processMessages( final List< ? > messages )
 	{
-		Iterator messageIterator = messages.iterator();
+		Iterator< ? > messageIterator = messages.iterator();
 
 		while ( messageIterator.hasNext() )
 		{
@@ -538,7 +538,7 @@ public abstract class ChatManager
 
 			StringBuilder mailContent = new StringBuilder();
 
-			Iterator clanMessageIterator = ChatManager.clanMessages.iterator();
+			Iterator<Object> clanMessageIterator = ChatManager.clanMessages.iterator();
 
 			while ( clanMessageIterator.hasNext() )
 			{
@@ -708,11 +708,11 @@ public abstract class ChatManager
 		}
 
 		String selectedWindow = null;
-		Iterator channelIterator = ChatManager.activeChannels.iterator();
+		Iterator<String> channelIterator = ChatManager.activeChannels.iterator();
 
 		while ( channelIterator.hasNext() )
 		{
-			String channel = (String) channelIterator.next();
+			String channel = channelIterator.next();
 
 			if ( channel.startsWith( "/" ) && !channel.equals( closedWindow ) )
 			{

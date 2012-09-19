@@ -76,7 +76,7 @@ map.
 */
 
 public class PrefixMap
-	extends TreeMap
+	extends TreeMap<String, Object>
 {
 	// Return values for getKeyType
 	public static final int NOT_A_KEY = 0;

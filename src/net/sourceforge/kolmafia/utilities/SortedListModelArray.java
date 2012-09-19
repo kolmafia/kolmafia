@@ -38,13 +38,13 @@ import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
- * Internal class which functions exactly an array of sorted lists, except it uses "sets" and "gets" like a list.
- * This could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
+ * Internal class which functions exactly an array of sorted lists, except it uses "sets" and "gets" like a list. This
+ * could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
  */
 
 public class SortedListModelArray
 {
-	private final ArrayList internalList = new ArrayList();
+	private final ArrayList<SortedListModel> internalList = new ArrayList<SortedListModel>();
 
 	public SortedListModel get( final int index )
 	{

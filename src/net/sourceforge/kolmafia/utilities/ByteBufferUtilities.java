@@ -45,19 +45,19 @@ import java.util.ArrayList;
 public class ByteBufferUtilities
 {
 	private static final byte[] EMPTY_BYTE_ARRAY = new byte[ 0 ];
-	
-	private static final ArrayList BYTEARRAYS = new ArrayList();
-	private static final ArrayList BYTEARRAYS_STATUS = new ArrayList();
 
-	private static final ArrayList BYTESTREAMS = new ArrayList();
-	private static final ArrayList BYTESTREAMS_STATUS = new ArrayList();
+	private static final ArrayList<byte[]> BYTEARRAYS = new ArrayList<byte[]>();
+	private static final ArrayList<Boolean> BYTEARRAYS_STATUS = new ArrayList<Boolean>();
+
+	private static final ArrayList<ByteArrayOutputStream> BYTESTREAMS = new ArrayList<ByteArrayOutputStream>();
+	private static final ArrayList<Boolean> BYTESTREAMS_STATUS = new ArrayList<Boolean>();
 
 	public static byte[] read( File file )
 	{
 		try
 		{
 			FileInputStream istream = new FileInputStream( file );
-			
+
 			return ByteBufferUtilities.read( istream );
 		}
 		catch ( IOException e )
@@ -65,19 +65,19 @@ public class ByteBufferUtilities
 			return EMPTY_BYTE_ARRAY;
 		}
 	}
-	
+
 	public static byte[] read( InputStream istream )
 	{
 		if ( istream == null )
 		{
 			return EMPTY_BYTE_ARRAY;
 		}
-		
+
 		ByteArrayOutputStream ostream = ByteBufferUtilities.getOutputStream();
 		ByteBufferUtilities.read( istream, ostream );
 		byte[] data = ostream.toByteArray();
 		ByteBufferUtilities.returnOutputStream( ostream );
-		
+
 		return data;
 	}
 
@@ -111,7 +111,7 @@ public class ByteBufferUtilities
 		catch ( IOException e )
 		{
 		}
-		
+
 		try
 		{
 			istream.close();
@@ -120,7 +120,7 @@ public class ByteBufferUtilities
 		{
 		}
 	}
-	
+
 	private synchronized static byte[] getBuffer()
 	{
 		for ( int i = 0; i < ByteBufferUtilities.BYTEARRAYS_STATUS.size(); ++i )
@@ -139,7 +139,7 @@ public class ByteBufferUtilities
 
 		return buffer;
 	}
-	
+
 	private static void returnBuffer( byte[] buffer )
 	{
 		for ( int i = 0; i < ByteBufferUtilities.BYTEARRAYS_STATUS.size(); ++i )
@@ -151,7 +151,7 @@ public class ByteBufferUtilities
 			}
 		}
 	}
-	
+
 	private synchronized static ByteArrayOutputStream getOutputStream()
 	{
 		for ( int i = 0; i < ByteBufferUtilities.BYTESTREAMS_STATUS.size(); ++i )
@@ -170,11 +170,11 @@ public class ByteBufferUtilities
 
 		return ostream;
 	}
-	
+
 	private static void returnOutputStream( ByteArrayOutputStream outputStream )
 	{
 		outputStream.reset();
-		
+
 		for ( int i = 0; i < ByteBufferUtilities.BYTEARRAYS_STATUS.size(); ++i )
 		{
 			if ( ByteBufferUtilities.BYTESTREAMS.get( i ) == outputStream )

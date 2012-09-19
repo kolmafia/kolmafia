@@ -42,7 +42,7 @@ import java.util.ArrayList;
 
 public class StringArray
 {
-	private final ArrayList internalList = new ArrayList();
+	private final ArrayList<String> internalList = new ArrayList<String>();
 
 	public String get( final int index )
 	{

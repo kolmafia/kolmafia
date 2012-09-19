@@ -39,13 +39,13 @@ import java.util.Iterator;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 /**
- * Internal class which functions exactly an array of integers, except it uses "sets" and "gets" like a list. This
- * could be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
+ * Internal class which functions exactly an array of integers, except it uses "sets" and "gets" like a list. This could
+ * be done with generics (Java 1.5) but is done like this so that we get backwards compatibility.
  */
 
 public class IntegerArray
 {
-	private final ArrayList internalList = new ArrayList();
+	private final ArrayList<Integer> internalList = new ArrayList<Integer>();
 
 	public void add( final int value )
 	{
@@ -75,11 +75,11 @@ public class IntegerArray
 	public int[] toArray()
 	{
 		int[] array = new int[ this.internalList.size() ];
-		Iterator iterator = this.internalList.iterator();
+		Iterator<Integer> iterator = this.internalList.iterator();
 
 		for ( int i = 0; i < array.length; ++i )
 		{
-			array[ i ] = ((Integer) iterator.next()).intValue();
+			array[ i ] = ( (Integer) iterator.next() ).intValue();
 		}
 
 		return array;

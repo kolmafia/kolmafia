@@ -40,14 +40,14 @@ import java.util.Set;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class LowerCaseEntry
-	implements Entry
+	implements Entry<Object, Object>
 {
-	private final Entry original;
+	private final Entry<Object, Object> original;
 	private final Object key;
 	private Object value;
 	private String pairString, lowercase;
 
-	private LowerCaseEntry( final Entry original )
+	private LowerCaseEntry( final Entry<Object, Object> original )
 	{
 		this.original = original;
 		this.key = original.getKey();
@@ -105,14 +105,14 @@ public class LowerCaseEntry
 		return this.lowercase;
 	}
 
-	public static final LockableListModel createListModel( final Set entries )
+	public static final LockableListModel createListModel( final Set<Entry<Object, Object>> entries )
 	{
 		LockableListModel model = new LockableListModel();
 
-		Iterator it = entries.iterator();
+		Iterator<Entry<Object, Object>> it = entries.iterator();
 		while ( it.hasNext() )
 		{
-			model.add( new LowerCaseEntry( (Entry) it.next() ) );
+			model.add( new LowerCaseEntry( it.next() ) );
 		}
 
 		return model;
