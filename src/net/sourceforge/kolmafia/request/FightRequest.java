@@ -1808,7 +1808,11 @@ public class FightRequest
 					encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
 					encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
 					encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
-					encounter.equalsIgnoreCase( "Four-shadowed mime" ) ) )
+					encounter.equalsIgnoreCase( "Four-shadowed mime" ) ||
+					encounter.equalsIgnoreCase( "ambulatory pirate" ) ||
+					encounter.equalsIgnoreCase( "migratory pirate" ) ||
+					encounter.equalsIgnoreCase( "peripatetic pirate" )
+					) )
 			{
 				TurnCounter.stopCounting( "Holiday Monster window begin" );
 				TurnCounter.stopCounting( "Holiday Monster window end" );
@@ -1841,7 +1845,7 @@ public class FightRequest
 		FightRequest.parseBangPotion( responseText );
 		FightRequest.parseStoneSphere( responseText );
 		FightRequest.parsePirateInsult( responseText );
-		FightRequest.parseGrubUsage( location, responseText );
+		FightRequest.parseGrubUsage( responseText );
 		FightRequest.parseGhostSummoning( location, responseText );
 		FightRequest.parseFlyerUsage( location, responseText );
 
@@ -2795,14 +2799,8 @@ public class FightRequest
 		}
 	}
 
-	private static final void parseGrubUsage( final String location, final String responseText )
+	private static final void parseGrubUsage( final String responseText )
 	{
-		// URL no longer a meaningful test of whether a grub was used
-		if ( false )	//location.indexOf( "7074" ) == -1 )
-		{
-			return;
-		}
-
 		// You concentrate on one of the burrowgrubs digging its way
 		// through your body, and absorb it into your bloodstream.
 		// It's refreshingly disgusting!

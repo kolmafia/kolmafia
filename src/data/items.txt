@@ -5666,7 +5666,7 @@
 5649	staph of homophones	771181541	carvedstaff.gif	weapon	t,d	135	staphes of homophones
 5650	Boris's Helm (askew)	253607655	borishelmaskew.gif	hat, usable	t	0
 5651	mime soul fragment	687015026	mimefrag.gif	none	t	0
-5652
+5652	Monster Manuel	354218669	monstermanuel.gif	usable	t	0
 5653	key-o-tron	335730473	keyotron.gif	reusable	q	0
 5654	nailswurst	251468978	brat.gif	food	t,d	50	nailswursten
 5655	used beer	629334636	beer.gif	drink	t,d	50	cans of used beer
