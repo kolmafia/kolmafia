@@ -464,7 +464,6 @@ public class FightRequest
 	public static final boolean canOlfact()
 	{
 		return FightRequest.canOlfact && !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
-
 	}
 
 	public static void initializeAfterFight()
@@ -1758,7 +1757,6 @@ public class FightRequest
 			if ( encounter.equalsIgnoreCase( "Ancient Protector Spirit" ) )
 			{
 				HiddenCityRequest.addHiddenCityLocation( 'P' );
-
 			}
 			else if ( encounter.equalsIgnoreCase( "giant octopus" ) )
 			{
@@ -2014,27 +2012,6 @@ public class FightRequest
 			Preferences.setFloat( "slimelingFullness", fullness );
 		}
 
-		// 1st JitB charge: You turn <name>'s crank for a while. 
-		if ( responseText.indexOf( "'s crank for a while." ) != -1 )
-		{
-			Preferences.setInteger( "_jitbCharge", 1);
-		}
-
-		// 2nd JitB charge: The tension builds as you turn <name>'s crank some more.
-		if ( responseText.indexOf( "'s crank some more." ) != -1 )
-		{
-			Preferences.setInteger( "_jitbCharge", 2);
-		}
-
-		// 3rd JitB charge, popping it: You turn <name>'s crank a little more, and
-		// all of a sudden a horrible grinning clown head emerges with a loud bang.
-		// It wobbles back and forth on the end of its spring, as though dancing to
-		// some sinister calliope music you can't actually hear...
-		if ( responseText.indexOf( "It wobbles back and forth on the end of its spring" ) != -1 )
-		{
-			Preferences.setInteger( "_jitbCharge", 0);
-		}
-
 		// "As you're trying to get away, you sink in the silty muck on
 		// the sea floor. You manage to get yourself unmired, but your
 		// greaves seem to have gotten instantly rusty in the process..."
@@ -2042,13 +2019,6 @@ public class FightRequest
 		{
 			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
 			KoLmafia.updateDisplay( MafiaState.PENDING, "Your antique greaves got rusted." );
-		}
-
-		if ( responseText.indexOf( "sees that you're about to get attacked and trips it before it can attack you." ) != -1
-			|| responseText.indexOf( "does the Time Warp, then does the Time Warp again. Clearly, madness has taken its toll on him." ) != -1
-			|| responseText.indexOf( "The air shimmers around you." ) != -1 )
-		{
-			Preferences.increment( "_timeHelmetAdv", 1 );
 		}
 
 		if ( responseText.indexOf( "into last week. It saves you some time, because you already beat" ) != -1 )
@@ -2080,6 +2050,32 @@ public class FightRequest
 			}
 
 			blindIndex = responseText.indexOf( "... something.</div>", blindIndex + 1 );
+		}
+
+		String action = FightRequest.nextAction;
+		int skillNumber = 0;
+		if ( action != null && action.startsWith( "skill" ) )
+		{
+			skillNumber = StringUtilities.parseInt( action.substring( 5 ) );
+		}
+
+		if ( skillNumber == SkillPool.BADLY_ROMANTIC_ARROW && responseText.contains( "fires a badly romantic" ) )
+		{
+			boolean hasQuake = EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
+			int fights = hasQuake ? 3 : 2;
+			Preferences.setInteger( "_romanticFightsLeft", fights );
+			Preferences.setString( "romanticTarget", MonsterStatusTracker.getLastMonsterName() );
+
+			TurnCounter.stopCounting( "Romantic Monster window begin" );
+			TurnCounter.stopCounting( "Romantic Monster window end" );
+			TurnCounter.startCounting( 16, "Romantic Monster window begin loc=*", "lparen.gif" );
+			TurnCounter.startCounting( 26, "Romantic Monster window end loc=*", "rparen.gif" );
+		}
+		if ( skillNumber == SkillPool.OLFACTION && responseText.contains( "fill your entire being" ) )
+		{
+			Preferences.setString( "olfactedMonster", MonsterStatusTracker.getLastMonsterName() );
+			Preferences.setString( "autoOlfact", "" );
+			FightRequest.canOlfact = false;
 		}
 
 		switch ( KoLAdventure.lastAdventureId() )
@@ -2124,6 +2120,22 @@ public class FightRequest
 		{
 			// The fight is not over, none of the stuff below needs to be checked
 			return;
+		}
+
+		// Banishing Shout has lots of success messages.  Check for the failure message instead
+		if ( ( skillNumber == SkillPool.BANISHING_SHOUT && !responseText.contains( "but this foe refuses" ) ) ||
+			   skillNumber == SkillPool.HOWL_ALPHA && responseText.contains( "your opponent turns and runs" ) )
+		{
+			String pref = MonsterStatusTracker.getLastMonsterName();
+			String[] monsters = Preferences.getString( "banishingShoutMonsters" ).split( "\\|" );
+			for ( int i = 0; i < monsters.length && i < 2; ++i )
+			{
+			if ( monsters[ i ].length() > 0 )
+				{
+					pref += "|" + monsters[ i ];
+				}
+			}
+			Preferences.setString( "banishingShoutMonsters", pref );
 		}
 
 		if ( responseText.indexOf( "Your sugar chapeau slides" ) != -1 )
@@ -2388,6 +2400,15 @@ public class FightRequest
 				else if ( responseText.contains( "a horrible grinning clown head emerges" ) )
 				{
 					Preferences.setInteger( "_jitbCharge", 0 );
+				}
+				break;
+				
+			case FamiliarPool.HATRACK:
+				if ( responseText.indexOf( "sees that you're about to get attacked and trips it before it can attack you." ) != -1
+					|| responseText.indexOf( "does the Time Warp, then does the Time Warp again. Clearly, madness has taken its toll on him." ) != -1
+					|| responseText.indexOf( "The air shimmers around you." ) != -1 )
+				{
+					Preferences.increment( "_timeHelmetAdv", 1 );
 				}
 				break;
 
@@ -3226,12 +3247,11 @@ public class FightRequest
 		return 0;
 	}
 
-	private static final Pattern HAIKU_DAMAGE2_PATTERN =
-		Pattern.compile( "<b>(?:<font color=[\"]?(\\w+)[\"]?>)?([\\d,]+)(?:</font>)?</b> damage" );
-
 	public static Pattern HAIKU_PATTERN = Pattern.compile( "<td valign=center[^>]*>(.*?)</td>" );
 
 	private static Pattern INT_PATTERN = Pattern.compile( "\\d+" );
+
+	private static Pattern SPACE_INT_PATTERN = Pattern.compile( " \\d+" );
 
 	private static Pattern EFF_PATTERN = Pattern.compile( "eff\\(['\"](.*?)['\"]" );
 
@@ -4080,7 +4100,7 @@ public class FightRequest
 
 					int itemId = ItemDatabase.getItemIdFromDescription( m.group() );
 					AdventureResult result = ItemPool.get( itemId, 1 );
-					ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+					ResultProcessor.processItem( true, "You acquire an item:", result, (List<AdventureResult>) null );
 					if ( str.indexOf( "Item unequipped:" ) != -1 )
 					{	// Item removed by Zombo
 						EquipmentManager.discardEquipment( itemId );
@@ -4156,7 +4176,7 @@ public class FightRequest
 			if ( image.equals( "nicesword.gif" ) )
 			{
 				// You modify monster attack power
-				Matcher m = INT_PATTERN.matcher( str );
+				Matcher m = SPACE_INT_PATTERN.matcher( str );
 				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
 				if ( status.logMonsterHealth )
 				{
@@ -5669,41 +5689,6 @@ public class FightRequest
 				}
 				else
 				{
-					if ( skillNumber == SkillPool.OLFACTION )
-					{
-						if ( !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) )
-						{
-							Preferences.setString( "olfactedMonster", MonsterStatusTracker.getLastMonsterName() );
-							Preferences.setString( "autoOlfact", "" );
-							FightRequest.canOlfact = false;
-						}
-					}
-					else if ( skillNumber == SkillPool.BADLY_ROMANTIC_ARROW )
-					{
-						boolean hasQuake = EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
-						int fights = hasQuake ? 3 : 2;
-						Preferences.setInteger( "_romanticFightsLeft", fights );
-						Preferences.setString( "romanticTarget", MonsterStatusTracker.getLastMonsterName() );
-
-						TurnCounter.stopCounting( "Romantic Monster window begin" );
-						TurnCounter.stopCounting( "Romantic Monster window end" );
-						TurnCounter.startCounting( 16, "Romantic Monster window begin loc=*", "lparen.gif" );
-						TurnCounter.startCounting( 26, "Romantic Monster window end loc=*", "rparen.gif" );
-					}
-					else if ( skillNumber == SkillPool.BANISHING_SHOUT )
-					{
-						String pref = MonsterStatusTracker.getLastMonsterName();
-						String[] monsters = Preferences.getString( "banishingShoutMonsters" ).split( "\\|" );
-						for ( int i = 0; i < monsters.length && i < 2; ++i )
-						{
-						if ( monsters[ i ].length() > 0 )
-							{
-								pref += "|" + monsters[ i ];
-							}
-						}
-						Preferences.setString( "banishingShoutMonsters", pref );
-					}
-
 					FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( "skill " + skill );
 					if ( shouldLogAction )
 					{
