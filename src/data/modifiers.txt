@@ -2624,6 +2624,7 @@ Baconstoned	Mysticality Percent: +50, Spell Damage: +11
 # Bad Luck: Uh Oh...
 Badger Underfoot	Meat Drop: +20
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
+# Bandananit: Makes you look like a dirty thieving brigand
 Barking Dogs	Muscle Percent: -50, Initiative: -50
 Barking Mad	Mysticality Percent: +100
 Bastard!	Weapon Damage: +12
@@ -2633,6 +2634,7 @@ Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Cold 
 Bats in the Belfry	Mysticality Percent: +10
 Beastly Flavor	Familiar Weight: +3
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
+# Bedraggled Dragoon: Makes you look like a drowned sailor
 # Beer in Your Shoes: More likely to fumble
 # Beer in Your Shoes: Continually take damage
 Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)], Stench Damage: [min(L,11)], Spooky Damage: [min(L,11)], Sleaze Damage: [min(L,11)]
@@ -2663,6 +2665,7 @@ Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
 # Bone Homie: Bites Your Enemies
 # Boner Battalion: BONERS HO!
+# Bony Dancer: Makes you look like a tapdancing skeleton
 # Booing Radly: +50 Damage vs. Ghosts
 Bootyliciousness	Item Drop: +10
 Bottle in front of Me	Spell Damage: +15
@@ -2787,6 +2790,7 @@ Dances with Tweedles	Meat Drop: +40
 Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
 Danish Cunning	Pickpocket Chance: +25
+# Dawn of the Goblin: Makes you look like a tribal goblin
 # Dead Sexy
 # Deadened palate: Bleah
 Deadly Flashing Blade	Weapon Damage: +10
@@ -2888,6 +2892,7 @@ Filled with Magic	Spell Damage Percent: +100
 Finstrong	Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(The Sea)], Meat Drop Penalty: [30*zone(The Sea)]
 Fire Down Below	Hot Damage: [min(100,T)]
 Fireproof Lips	Hot Resistance: +9
+# First, Like, Do No Harm?: Makes you look like a Sorority Nurse
 First Eye Blind	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Fishbreath	Stench Damage: +15
 Fishily Speeding	Initiative: +50
@@ -2900,8 +2905,10 @@ Flaming Weapon	Hot Damage: +3
 Flamingly Floral	Hot Damage: +50
 Flared Nostrils	Stench Vulnerability
 Flashing Eyes	Meat Drop: +30
+# Flayer Flavor: Makes you look like a mind flayer
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+# Fly for a White Guy: Makes you look like a Gnollish Flyslayer
 # Foe-Splattered: Can't use Bifurcating Blow
 Fondid	Monster Level: +15
 # Form of...Bird!: You're a Bird
@@ -2941,7 +2948,9 @@ Ginger Snapped	Spooky Damage: +10
 Gleaming White Teeth	Moxie Percent: +50
 Glittering Eyelashes	Mysticality Percent: +15
 Gnawed-Off Arm	Muscle: -5
+# Gnomedome: Makes you look like a menacing lawn gnome
 Go Get 'Em, Tiger!	Muscle Percent: +15
+# Goat Gotten: Makes you look like a dairy goat
 Gobliny Flavor	Damage Reduction: 5
 Gonna Get You, Sucker	Muscle: +5, Mysticality: +5, Moxie: +5
 Good Karma	Mysticality: +5
@@ -2955,9 +2964,11 @@ Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
 Greedy Resolve	Meat Drop: +30
+# Green, Uneasy: Makes you look like a frog
 Greasy Flavor	Weapon Damage: +30
 Green Tongue	Familiar Weight: +5, Experience (familiar): +2
 Grilled	Muscle: -10
+# Grillin' Like a Villain: Makes you look like a toothy pirate
 Grimace	Monster Level: +25, Slime Resistance: +1
 Grrrrrrreat!	Experience (Muscle): +10
 Grulched	Stench Damage: +25, Monster Level: +20
@@ -2970,6 +2981,7 @@ Gutterminded	Sleaze Damage: +50
 # Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
 Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
+# Ham(ster)-Handed: Makes you look like a skeletal hamster
 Hammered	Weapon Damage Percent: +50
 # Hammertime: Seriously, your pants are huge
 Happy Salamander	Familiar Weight: +3
@@ -3066,6 +3078,7 @@ Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(Th
 # Just the Best Anapests: Da da dee, da da dee
 Kindly Resolve	Familiar Weight: +5
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
+# Kitty Littered: Makes you look like an Iiti Kitty
 Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
 Koyaaniskumquatsi	Mysticality Percent: +100, Monster Level: +30
@@ -3082,6 +3095,7 @@ Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
 # Light!
 # Light-Headed: Increased chance of fumbling
 Light-Headed	Mysticality Percent: -30
+# Like an Egyptian: Makes you look like a tomb servant
 # Limber as Mortimer: +100% Gear Drops from Monsters
 Liquid Courage	Experience: +3
 # Literally Insane
@@ -3092,6 +3106,7 @@ Locks Like the Raven	Moxie: +15
 Loco Motives	Weapon Damage: +10, Initiative: +10
 # Long Live GORF: GORF is watching.
 # Long Live GORF: GORF approves.
+# Lord of Acid: Makes you look like an acid blob
 Low on the Hog	Meat Drop: +100
 Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Lustful Heart	Moxie: [min(T,20)]
@@ -3154,6 +3169,7 @@ New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +
 Newt Gets In Your Eyes	Moxie: +25
 Night Vision	Meat Drop: +30
 Ninja, Please	Critical: 3
+# No Squealer Healer: Makes you look like a Quiet Healer
 No Vertigo	Initiative: +20
 No Worries	Experience: +3
 # O Hai!
@@ -3169,6 +3185,7 @@ Old School Pompadour	Moxie Percent: +30, Initiative: +30
 Oleaginous Soles	Initiative: +40
 Omphaloskepsis	Damage Reduction: [L], Meat Drop (sporadic): +4.25, Item Drop (sporadic): +4.25, Experience: +0.6375
 On Pins and Needles	Initiative: +23
+# On the Homeo Path: Makes you look like a War Hippy Homeopath
 On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
 Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
@@ -3178,6 +3195,7 @@ Orange Tongue	Experience: +3
 Orc Chops	Muscle: +50
 Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
 Oriental Mysticism	Mysticality Percent: +5
+# Osseous George: Makes you look like a skeletal monkey
 Over the Ocean	Experience: [min(100,T/5)]
 Overconfident	Monster Level: +30
 # Oversaturated Palate: Blech
@@ -3265,6 +3283,7 @@ Refuse Reflux	Stench Damage: [min(100,T)]
 Reptilian Fortitude	Maximum HP: +30
 Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
+# Robbin' Like a Goblin: Makes you look like a Knob Goblin Embezzler
 Rootin' Around	Candy Drop: +25
 Rushin' Hands	Weapon Damage: +3
 Salamander In Your Stomach	Mysticality: +25
@@ -3292,10 +3311,14 @@ Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: 
 Shamboozled	Moxie Percent: +50
 Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Shape of...Mole!: You're a Mole
+# Sharin' Stone: Makes you look like a Stone Golem
 # Sharp Weapon: +3-5 Weapon Damage
 Shiny Happy Cupcake	Experience: +3
 Shiny Happy Weapon	Muscle: +20
 Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
+# Shocking Biology: Makes you look like an unholy diver
+# Short of Breath: Makes you look like a pygmy blowgunner
+# Short on Options: Makes you look like a pygmy headhunter
 Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
 # Silent Running: Decreased chance of random PvP Attacks
@@ -3338,6 +3361,7 @@ Socialismydia	Item Drop: -50
 Solar Flair	Hot Damage: +20
 Sole Soul	Item Drop: [min(300,T)]
 Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
+# Something's Amistress: Makes you look like the remains of a jilted mistress
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
 Song of Accompaniment	Minstrel Level: +3
 # Song of Battle: Combat Rate: +???, Never Miss
@@ -3356,6 +3380,7 @@ Sparkling Consciousness	Mysticality Percent: +100
 Spell Transfer Complete	Experience (Mysticality): +5
 Spicy Limeness	Muscle: -5, Moxie: +5
 Spicy Mouth	Mysticality: +5, Moxie: -5
+# Spike-and-span: Makes you look like a spiny skelelton
 Spiky Hair	Muscle: +6, Moxie: +6
 Spirit of Alph	Muscle Percent: +10
 # Spirit of Bacon Grease: All Spells Cast Are Sleazy
@@ -3412,6 +3437,7 @@ Sugary Tongue	Moxie Percent: +30
 Sunburned	Muscle: -2, Moxie: -2
 Supafly	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +30, Sleaze Damage: +10, Sleaze Resistance: +2
 Super Accuracy	Critical: 5
+# Super Calloused Agile Mystic: Makes you look like an ancient insane monk
 # Super Skill: Combat Skills/Spells cost 0 MP
 Super Speed	Moxie Percent: +100
 Super Structure	Damage Absorption: +500, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5
@@ -3454,12 +3480,15 @@ The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
 The Chains Down In The Belly-O	MP Regen Min: 20, MP Regen Max: 40
 The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 The Cupcake of Wrath	Monster Level: +10
+# The Eyes Have It: Makes you have an Urge to Stare at Your Hands
 The Fire Inside	Muscle Percent: [10*res(hot)], Mysticality Percent: [10*res(hot)], Moxie Percent: [10*res(hot)]
 The Great Tit's Blessing	Monster Level: +20, Moxie Percent: +5
+# The Great White Mope: Makes you look like a confused goth music student
 The Halls of Moxiousness	Experience (Moxie): +3
 The Halls of Muscularity	Experience (Muscle): +3
 The Halls of Mysticality	Experience (Mysticality): +3
 The HeyDezebound Heart	Item Drop: [min(300,T)], Muscle Percent: [-T], Mysticality Percent: [-T], Moxie Percent: [-T], Experience: [floor(T/5)]
+# The Kobold and the Kobeautiful: Makes you look like a large kobold
 The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 The Moxious Madrigal	Moxie: +10
 The Pleasures of the Flesh	Muscle Percent: [T], Mysticality Percent: [T], Moxie Percent: [T], 
@@ -3511,12 +3540,15 @@ Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
 Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
 Violent Night	Critical: 2
+# Visibly Goth: Makes you look like a Goth Giant
 Vitamin-Maxed	Muscle Percent: +10
 Void Between the Stars	Cold Damage: +50
 # Voracious Gorging: Item Drop: +X, Food Drop: +Y
+# Walking Carpet: Makes you look like a grouchy furry monster
 # Wanged: Unable to use obnoxious abbreviations
 # Warm Belly: Makes sushi taste better
 Waking the Dead	Combat Rate: +20
+# Warlock Fairy Wizard Sorcerer: Makes you look like a spooky gravy fairy warlock
 Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
 Wasabi With You	Weapon Damage Percent: +150
@@ -3528,6 +3560,7 @@ Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Well-Swabbed Ear	Initiative: +30
 Well-preserved	HP Regen Min: 150, HP Regen Max: 200
+# Well Excuuuuse Me!: Makes you look like a wacky pirate
 # Wet Willied: Your familiar can breathe underwater
 What's That Smell?	Stench Damage: +3
 White Knuckles	Never Fumble
@@ -3554,6 +3587,7 @@ You Know What's Up	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent:
 You Know When to Walk Away	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+# You're a Brick . . . Ooze: Makes you look like a BRICKO ooze
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
 Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -3850,6 +3884,7 @@ BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
 Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 10
 Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10
 Blood 'n' Plenty	Effect: "Sugar Rush", Effect Duration: 10
+BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 Bright Water	Effect: "Bright!", Effect Duration: 10
 Cheshire Bitten	Free Pull
 Clan VIP Lounge invitation	Free Pull
@@ -3873,11 +3908,13 @@ Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
 Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
 Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
+Enchanted Flyswatter	Effect: "Fly for a White Guy", Effect Duration: 30
 Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10
 Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
 Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
 Fly-By-Knight Heraldry form	Free Pull
 Frogade	Effect: "Frog In Your Throat", Effect Duration: [R]
+Fu Manchu Wax	Effect: "Super Calloused Agile Mystic", Effect Duration: 30
 Fudgie Roll	Effect: "Sugar Rush", Effect Duration: 20
 Fuzzby	Free Pull
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
@@ -3886,6 +3923,7 @@ Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
 Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
 Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
 Huggler Radio	Free Pull
+Iiti Kitty Gumdrop	Effect: "Kitty Littered",      Effect Duration: 30
 Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
 Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 10
 Knob Goblin love potion	Effect: "Knob Goblin Lust Frenzy", Effect Duration: 5
@@ -3920,6 +3958,7 @@ Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5
 Nuclear Blastball	Effect: "Taste the Inferno", Effect Duration: 50
 Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
 Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20
+Osk'r Chow	Effect: "Walking Carpet", Effect Duration: 100
 Pain Dip	Effect: "The HeyDezebound Heart"
 Piddles	Effect: "Belch the Rainbow&trade;", Effect Duration: 10
 PlexiPips	Effect: "Sole Soul"
@@ -3932,13 +3971,16 @@ SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 Schmalz's First Prize Beer	Free Pull
 Scratch 'n' Sniff Sticker Tome	Free Pull
 Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
+Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
 Small Medium	Free Pull
 Sorcerers of the Shore Grimoire	Free Pull
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
+Stone Golem pebbles	Effect: "Sharin' Stone", Effect Duration: 100
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
 Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
 Sweet Sword	Effect: "Sugar Rush", Effect Duration: 10
 Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
+Tears of the Quiet Healer	Effect: "No Squealer Healer", Effect Duration: 30
 The Groose in the Hoose	Free Pull
 The Kloop in the Coop	Free Pull
 Tome of Clip Art	Free Pull
@@ -3981,6 +4023,7 @@ black facepaint	Effect: "Black Face", Effect Duration: 10
 black sheepskin diploma	Effect: "Erudite", Effect Duration: 10
 black snowcone	Effect: "Black Tongue", Effect Duration: 20
 blackberry polite	Effect: "Blackberry Politeness", Effect Duration: [R]
+blob of acid	Effect: "Lord of Acid", Effect Duration: 50
 blood of the Wereseal	Effect: "Temporary Lycanthropy", Effect Duration: 10
 blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
 blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
@@ -3995,6 +4038,7 @@ bottled inspiration	Effect: "Inspired!", Effect Duration: 10
 box of sunshine	Free Pull
 breath mint	Effect: "Sugar Rush", Effect Duration: 3
 brick	Free Pull
+brigand brittle	Effect: "Bandananit", Effect Duration: 50
 calm attention-deficit demon	Free Pull
 can of Binarrrca	Free Pull, Effect: "Talking Like a Pirate", Effect Duration: 50
 can of black paint	Effect: "Red Door Syndrome", Effect Duration: 10
@@ -4011,6 +4055,7 @@ chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
 chocolate-covered caviar	Effect: "Sugar Rush", Effect Duration: 10
 chunk of rock salt	Effect: "Fresh Scent", Effect Duration: 10
 class five ecto-larva	Free Pull
+clove-flavored lip balm	Effect: "The Great White Mope", Effect Duration: 30
 coffee sprite	Free Pull
 cold nuggets	Effect: "Frigid Weapon", Effect Duration: 5
 cold powder	Effect: "Insulated Trousers", Effect Duration: 5
@@ -4058,6 +4103,7 @@ dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5
 eel battery	Effect: "It's Electric!", Effect Duration: 15
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
+embezzler's oil	Effect: "Robbin' Like a Goblin", Effect Duration: 50
 emo roe	Free Pull
 ennui-flavored potato chips	Effect: "Also Schmeckt Zarathustra", Effect Duration: 10
 essential cameraderie	Effect: "2 Hearts, 1 Mind", Effect Duration: 50
@@ -4086,10 +4132,12 @@ fish-liver oil	Effect: "Fishy Fortification", Effect Duration: 5
 flask of baconstone juice	Effect: "Baconstoned", Effect Duration: 10
 flask of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 10
 flask of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 10
+flayed mind	Effect: "Flayer Flavor", Effect Duration: 50
 floaty sand	Effect: "5 Pounds Lighter", Effect Duration: 10
 floaty stone sphere	Free Pull
 fluid of fudge-finding	Effect: "Fudgehound", Effect Duration: 5
 freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
+frog lip-print	Effect: "Green, Uneasy", Effect Duration: 30
 frost-rimed seal hide	Effect: "Cold Hard Skin", Effect Duration: 10
 frostbite-flavored Hob-O	Effect: "Tundra Mouth"
 fry-oil-flavored Hob-O	Effect: "Cholestoriffic"
@@ -4097,11 +4145,15 @@ fudge lily	Effect: "Stop and Smell the Fudge", Effect Duration: 20
 funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
 fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux"
+gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
+giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
+gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
 glass of warm water	Free Pull
 glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 glowing frisbee	Free Pull
 glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
+gold toothbrush	Effect: "Grillin' Like a Villain", Effect Duration: 30
 goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 graveyard snowglobe	Effect: "Cold, Dead Hands", Effect Duration: 20
 green-frosted astral cupcake	Effect: "The Cupcake of Wrath", Effect Duration: 20
@@ -4130,6 +4182,7 @@ heart necklace	Free Pull
 henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
 hibernating robot reindeer	Free Pull
+holistic headache remedy	Effect: "On the Homeo Path", Effect Duration: 50
 holly-flavored Hob-O	Effect: "Holiday Bliss"
 homeless hobo spirit	Free Pull
 honey stick	Effect: "Stuck That Way", Effect Duration: 10
@@ -4145,6 +4198,7 @@ irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
 irresistibility potion	Effect: "Simply Irresistible", Effect Duration: 20
 irritability potion	Effect: "Simply Irritable", Effect Duration: 20
 jaba&ntilde;ero-flavored chewing gum	Effect: "Spicy Mouth", Effect Duration: 5
+janglin' bones	Effect: "Bony Dancer", Effect Duration: 30
 jar of &quot;Creole Lady&quot; marrrmalade	Effect: "Savage Beast Inside", Effect Duration: 10
 jazz soap	Free Pull, Effect: "Jazz Hands", Effect Duration: 20
 jellyfish gel	Effect: "Old School Pompadour", Effect Duration: 10
@@ -4152,6 +4206,7 @@ jitterbug larva	Free Pull
 jug of baconstone juice	Effect: "Baconstoned", Effect Duration: 50
 jug of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 50
 jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
+kobold kibble	Effect: "The Kobold and the Kobeautiful", Effect Duration: 50
 kumquat supersucker	Effect: "Koyaaniskumquatsi ", Effect Duration: 30
 lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
 lesser grodulated violet	Effect: "Fustulent", Effect Duration: 10
@@ -4215,6 +4270,7 @@ pine tar	Effect: "Sticky Hands", Effect Duration: 30
 pink-frosted astral cupcake	Effect: "Your Cupcake Senses Are Tingling", Effect Duration: 20
 pink candy heart	Effect: "Heart of Pink", Effect Duration: 10
 pirate brochure	Effect: "Muscularrr", Effect Duration: 10
+pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
 pirate tract	Effect: "Carrrsmic", Effect Duration: 10
 pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
@@ -4244,6 +4300,8 @@ puppet strings	Free Pull
 purple-frosted astral cupcake	Effect: "Tiny Bubbles in the Cupcake", Effect Duration: 20
 purple snowcone	Effect: "Purple Tongue", Effect Duration: 20
 pygmy bugbear shaman	Free Pull
+pygmy dart	Effect: "Short of Breath", Effect Duration: 30
+pygmy papers	Effect: "Short on Options", Effect Duration: 30
 pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
 recording of Benetton's Medley of Diversity	Effect: "Benetton's Medley of Diversity", Effect Duration: 20
@@ -4267,20 +4325,25 @@ resolution: be wealthier	Effect: "Greedy Resolve", Effect Duration: 20
 ribbon candy	Effect: "Sugar Rush", Effect Duration: 10
 roll of toilet paper	Free Pull
 salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
+salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 sane hatrack	Free Pull
 scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
+scrunchie tourniquet	Effect: "First, Like, Do No Harm?", Effect Duration: 50
 sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 sea salt crystal	Effect: "Salty Dogs", Effect Duration: 5
 seal eyeball	Effect: "Eye of the Seal", Effect Duration: 10
 seal lube	Effect: "Lubed", Effect Duration: 10
 seal-brain elixir	Effect: "Sealed Brain", Effect Duration: 20
 sealhide seal doll	Effect: "Red Misty-Eyed", Effect Duration: 10
+secret mummy herbs and spices	Effect: "Like an Egyptian", Effect Duration: 30
 sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
 shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
 siesta-ing Casagnova gnome	Free Pull
 silk garter snake	Free Pull
 sizzling seal fat	Effect: "Sizzling with Fury", Effect Duration: 10
+skelelton spine	Effect: "Spike-and-span", Effect Duration: 30
+skeletal banana	Effect: "Osseous George", Effect Duration: 30
 sleaze nuggets	Effect: "Sleazy Weapon", Effect Duration: 5
 sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 sleeping piano cat	Free Pull
@@ -4288,6 +4351,7 @@ snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
 sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
 spooky eyeliner	Effect: "Gothy", Effect Duration: 10
+spooky gravy fairy warlock hat	Effect: "Warlock Fairy Wizard Sorcerer", Effect Duration: 50
 spooky lipstick	Effect: "Gothy", Effect Duration: 10
 spooky nuggets	Effect: "Spooky Weapon", Effect Duration: 5
 spooky powder	Effect: "Spookypants", Effect Duration: 5
@@ -4297,6 +4361,7 @@ squamous polyp	Free Pull
 stench nuggets	Effect: "Stinky Weapon", Effect Duration: 5
 stench powder	Effect: "Smelly Pants", Effect Duration: 5
 sterno-flavored Hob-O	Effect: "Fire Down Below"
+stick-on gnome beard	Effect: "Gnomedome", Effect Duration: 100
 strawberry supersucker	Effect: "Strawberry Alarm", Effect Duration: 30
 strawberry-flavored Hob-O	Effect: "Scariberi"
 stuffed-shirt scarecrow	Free Pull
@@ -4311,12 +4376,14 @@ tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 tamarind-flavored chewing gum	Effect: "Tamarind Torment", Effect Duration: 5
 teeny-tiny magic scroll	Effect: "Happy Trails", Effect Duration: 10
 temporary teardrop tattoo	Effect: "Crocodile Tear", Effect Duration: 15
+temporary tribal tattoo	Effect: "Dawn of the Goblin", Effect Duration: 50
 tempura air	Effect: "Pumped Stomach", Effect Duration: 20
 thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 time sleigh	Free Pull
 time's arrow	Free Pull
 tin magnolia	Effect: "Tin, Man", Effect Duration: 10
 tiny bottle of absinthe	Effect: "Absinthe-Minded", Effect Duration: 10
+tiny canopic jar	Effect: "Ham(ster)-Handed", Effect Duration: 30
 tobiko marble soda	Effect: "Pisces in the Skyces", Effect Duration: 15
 tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]
 too legit potion	Effect: "Hammertime", Effect Duration: 30
@@ -4326,6 +4393,7 @@ tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
 unemployed hunchbacked minion	Free Pull
+unholy water	Effect: "Shocking Biology", Effect Duration: 30
 uniclops egg	Free Pull
 unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
 unwound cymbal-playing monkey	Free Pull
