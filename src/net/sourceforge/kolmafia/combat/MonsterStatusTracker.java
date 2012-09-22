@@ -54,12 +54,18 @@ public class MonsterStatusTracker
 	private static int healthModifier = 0;
 	private static int attackModifier = 0;
 	private static int defenseModifier = 0;
+	private static int healthManuel = 0;
+	private static int attackManuel = 0;
+	private static int defenseManuel = 0;
 
 	public static final void reset()
 	{
 		MonsterStatusTracker.healthModifier = 0;
 		MonsterStatusTracker.attackModifier = 0;
 		MonsterStatusTracker.defenseModifier = 0;
+		MonsterStatusTracker.healthManuel = 0;
+		MonsterStatusTracker.attackManuel = 0;
+		MonsterStatusTracker.defenseManuel = 0;
 	}
 
 	public static final MonsterData getLastMonster()
@@ -106,7 +112,7 @@ public class MonsterStatusTracker
 		return MonsterStatusTracker.monsterData.getItems().contains( item );
 	}
 
-	public static final boolean dropsItems( List items )
+	public static final boolean dropsItems( List<AdventureResult> items )
 	{
 		if ( items.isEmpty() || MonsterStatusTracker.monsterData == null )
 		{
@@ -131,6 +137,11 @@ public class MonsterStatusTracker
 		if ( MonsterStatusTracker.monsterData == null )
 		{
 			return 0;
+		}
+
+		if ( MonsterStatusTracker.healthManuel > 0 )
+		{
+			return MonsterStatusTracker.healthManuel;
 		}
 
 		return MonsterStatusTracker.monsterData.getHP() - MonsterStatusTracker.healthModifier;
@@ -174,6 +185,11 @@ public class MonsterStatusTracker
 			return 0;
 		}
 
+		if ( MonsterStatusTracker.attackManuel > 0 )
+		{
+			return MonsterStatusTracker.attackManuel;
+		}
+
 		int baseAttack = MonsterStatusTracker.monsterData.getAttack();
 		int adjustedAttack = baseAttack + MonsterStatusTracker.attackModifier;
 		return baseAttack == 0 ? adjustedAttack: Math.max( adjustedAttack, 1 );
@@ -187,11 +203,6 @@ public class MonsterStatusTracker
 		}
 
 		return MonsterStatusTracker.monsterData.getAttackElement();
-	}
-
-	public static final void raiseMonsterAttack( int amount )
-	{
-		MonsterStatusTracker.attackModifier += amount;
 	}
 
 	public static final void lowerMonsterAttack( int amount )
@@ -231,6 +242,11 @@ public class MonsterStatusTracker
 			return 0;
 		}
 
+		if ( MonsterStatusTracker.defenseManuel > 0 )
+		{
+			return MonsterStatusTracker.defenseManuel;
+		}
+
 		int baseDefense = MonsterStatusTracker.monsterData.getDefense();
 		int adjustedDefense = baseDefense + MonsterStatusTracker.defenseModifier;
 		return baseDefense == 0 ? adjustedDefense : Math.max( adjustedDefense, 1 );
@@ -254,11 +270,6 @@ public class MonsterStatusTracker
 		}
 
 		return MonsterStatusTracker.monsterData.getPhylum();
-	}
-
-	public static final void raiseMonsterDefense( int amount )
-	{
-		MonsterStatusTracker.defenseModifier += amount;
 	}
 
 	public static final void lowerMonsterDefense( int amount )
@@ -299,6 +310,13 @@ public class MonsterStatusTracker
 		}
 
 		return MonsterStatusTracker.monsterData.getPoison();
+	}
+
+	public static void setManuelStats( int attack, int defense, int hp )
+	{
+		MonsterStatusTracker.attackManuel = attack;
+		MonsterStatusTracker.defenseManuel = defense;
+		MonsterStatusTracker.healthManuel = hp;
 	}
 
 }

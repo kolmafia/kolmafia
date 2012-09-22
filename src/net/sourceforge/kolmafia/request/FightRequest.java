@@ -184,6 +184,8 @@ public class FightRequest
 		Pattern.compile( "^.*$", Pattern.DOTALL );
 	private static final Pattern MACRO_COMPACT_PATTERN =
 		Pattern.compile( "(?:#.*?)?([;\\n])[\\s;\\n]*" );
+	private static final Pattern MANUEL_PATTERN =
+		Pattern.compile( "var monsterstats = \\{\"hp\":\"(\\d+)\",\"def\":\"(\\d+)\",\"off\":\"(\\d+)");
 
 	private static final Pattern NS_ML_PATTERN =
 		Pattern.compile( "The Sorceress pauses for a moment\\, mutters some words under her breath\\, and straightens out her dress\\. Her skin seems to shimmer for a moment\\." );
@@ -4006,6 +4008,15 @@ public class FightRequest
 				FightRequest.logText( "your opponent becomes " + newMonster + "!", status );
 			}
 
+			m = MANUEL_PATTERN.matcher( node.getText() );
+			if ( m.find() )
+			{
+				int attack = StringUtilities.parseInt( m.group( 1 ) );
+				int defense = StringUtilities.parseInt( m.group( 2 ) );
+				int hp = StringUtilities.parseInt( m.group( 3 ) );
+				MonsterStatusTracker.setManuelStats( attack, defense, hp );
+			}
+
 			return;
 		}
 
@@ -4031,7 +4042,7 @@ public class FightRequest
 			if ( cl != null && cl.equals( "item" ) && rel != null )
 			{
 				AdventureResult result = ItemDatabase.itemFromRelString( rel );
-				ResultProcessor.processItem( true, "You acquire an item:", result, (List) null );
+				ResultProcessor.processItem( true, "You acquire an item:", result, (List<AdventureResult>) null );
 				return;
 			}
 
