@@ -5807,3 +5807,66 @@
 5790	box of bear arms	424762876	beararms.gif	usable	t	0
 5791	right bear arm	409034560	beararm_right.gif	weapon	t	0
 5792	left bear arm	208749545	beararm_left.gif	offhand, usable	t	0
+5793
+5794
+5795	Enchanted Flyswatter	289657598	swatter.gif	usable	t,d	5
+5796
+5797
+5798
+5799
+5800
+5801
+5802
+5803
+5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	usable	t,d	5
+5805
+5806
+5807
+5808
+5809
+5810	Tears of the Quiet Healer	567473707	vial.gif	usable	t,d	5
+5811	giant tube of black lipstick	679762287	lipstick.gif	usable	t,d	5
+5812	skelelton spine	920394324	spine.gif	usable	t,d	5
+5813
+5814	blob of acid	870769832	wad.gif	usable	t,d	5
+5815	flayed mind	522146420	realbrain.gif	usable	t,d	5
+5816	kobold kibble	873527872	float_pebbles.gif	usable	t,d	5
+5817
+5818	Stone Golem pebbles	382105723	float_pebbles.gif	usable	t,d	5
+5819	spooky gravy fairy warlock hat	260012099	tinyhat.gif	usable	t,d	5
+5820
+5821	frog lip-print	682825120	frogkiss.gif	usable	t,d	5
+5822	gazely stare	139782932	gaze.gif	usable	t,d	5
+5823	tiny canopic jar	641183026	canopicjar.gif	usable	t,d	5
+5824	clove-flavored lip balm	968477859	balm.gif	usable	t,d	5
+5825
+5826
+5827	skeletal banana	331313479	bananabone.gif	usable	t,d	5
+5828	gilt perfume bottle	320032645	jperfume.gif	usable	t,d	5
+5829	janglin' bones	380726338	bonechips.gif	usable	t,d	5
+5830	pygmy papers	185465428	briefcase.gif	usable	t,d	5
+5831	pygmy dart	756561090	ancientdart.gif	usable	t,d	5
+5832	secret mummy herbs and spices	785012152	disease.gif	usable	t,d	5
+5833	brigand brittle	364101514	pepperbark.gif	usable	t,d	5
+5834	holistic headache remedy	541916407	bark2.gif	usable	t,d	5
+5835	scrunchie tourniquet	218745388	gauzegarter.gif	usable	t,d	5
+5836	embezzler's oil	968949884	vial.gif	usable	t,d	5
+5837	Fu Manchu Wax	992259508	balm.gif	usable	t,d	5
+5838	Iiti Kitty Gumdrop	847088897	gumdrop.gif	usable	t,d	5
+5839
+5840
+5841
+5842	gold toothbrush	397328678	toothbrush.gif	usable	t,d	5
+5843	pirate cream pie	438610679	pie.gif	usable	t,d	5
+5844
+5845
+5846	salt water taffy	484100629	taffy.gif	usable	t,d	5
+5847	unholy water	163120400	vial.gif	usable	t,d	5
+5848
+5849
+5850
+5851	temporary tribal tattoo	561858084	tribaltat.gif	usable	t,d	5
+5852
+5853	stick-on gnome beard	918088506	epicbeard.gif	usable	t,d	5
+5854	BRICKO stud	678283294	brickonub.gif	usable	t,d	5
+5855	Osk'r Chow	842211802	float_pebbles.gif	usable	t,d	5

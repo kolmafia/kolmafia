@@ -1048,3 +1048,66 @@
 1047	Zomg WTF	zombhead.gif	13e5a6105695d7d0e0577665f58d7dc0	cast 1 Ag-grave-ation
 1048	Disquiet Riot	louder.gif	e1807c9d2a15d4dc5a08a46f0dcd59cf	cast 1 Disquiet Riot
 1049	The Applause That Refreshes	bear_applause.gif	fc7aca601a33ede554d959f60bcfb6bf
+1050
+1051
+1052	Fly for a White Guy	swatter.gif	d5dc6dd0392e18e9d71e80517ff211c8	use 1 Enchanted Flyswatter
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+1061	Goat Gotten	goatcheese.gif	464244afabd87516c0611015c5010310	use 1 Shivering Ch&egrave;vre
+1062
+1063
+1064
+1065
+1066
+1067	No Squealer Healer	vial.gif	f47709a5d308f9ea5347fb160e8afe1c	use 1 Tears of the Quiet Healer
+1068	Visibly Goth	lipstick.gif	a79c4220b2c68e9fc3517938af2880e2	use 1 giant tube of black lipstick
+1069	Spike-and-span	spine.gif	9c6d5a6bc8d4a75d094f14f6f0739954	use 1 skelelton spine
+1070
+1071	Lord of Acid	wad.gif	3d5bf3104970c981fa07b9de18b50393	use 1 blob of acid
+1072	Flayer Flavor	realbrain.gif	26a2fce9449da72ada69ceb5b69b1281	use 1 flayed mind
+1073	The Kobold and the Kobeautiful	float_pebbles.gif	1e422ac0983380c9c29badb6e6dd9b4d	use 1 kobold kibble
+1075	Sharin' Stone	float_pebbles.gif	52810ed8217ef3176831719436891123	use 1 Stone Golem pebbles
+1075
+1076	Warlock Fairy Wizard Sorcerer	tinyhat.gif	29330784be2afdb7ea754abb5539bf28	use 1 spooky gravy fairy warlock hat
+1077
+1078	Green, Uneasy	frogkiss.gif	7e7aa1e588b933863373dcf5767f7de2	use 1 frog lip-print
+1079	The Eyes Have It	gaze.gif	97469e14d6df951eacd00008fd17ce21	use 1 gazely stare
+1080	Ham(ster)-Handed	canopicjar.gif	8bde7a38ed7519079ff2cbf390255d24	use 1 tiny canopic jar
+1081	The Great White Mope	balm.gif	2e84588f75145dbd97910619b0db720d	use 1 clove-flavored lip balm
+1082
+1083
+1084	Osseous George	bananabone.gif	af54aaa271dd510ad480920de3a6e346	use 1 skeletal banana
+1085	Something's Amistress	jperfume.gif	d69b8c6f8ab6829ee0c8d7fe58124882	use 1 gilt perfume bottle
+1086	Bony Dancer	bonechips.gif	f9aed746eee4ff7d1fec4952b9b2d9b4	use 1 janglin' bones
+1087	Short on Options	briefcase.gif	e90deebfaf0639794b900494dff4d620	use 1 pygmy papers
+1088	Short of Breath	ancientdart.gif	a22b4dcb0871628d1ab9b817399c3f38	use 1 pygmy dart
+1089	Like an Egyptian	disease.gif	b2c2152b218b68fae6d6897d0098897e	use 1 secret mummy herbs and spices
+1090	Bandananit	pepperbark.gif	b3127c377c574f6889768e6545247f8d	use 1 brigand brittle
+1091	On the Homeo Path	bark2.gif	4495224ccef19cf64ba6ed5a5d4a8000	use 1 holistic headache remedy
+1092	First, Like, Do No Harm?	gauzegarter.gif	5f742fd1b397dc70f5ee5e1b56a95fa5	use 1 scrunchie tourniquet
+1093	Robbin' Like a Goblin	vial.gif	b1be4c4f9739d28aeb0bb17d72f81dbd	use 1 embezzler's oil
+1094	Super Calloused Agile Mystic	balm.gif	4b539c18d2b36010ef2ef4afcca08d2e	use 1 Fu Manchu Wax
+1095	Kitty Littered	gumdrop.gif	7908723214b330b3f564761b83ac2785	use 1 Iiti Kitty Gumdrop
+1096
+1097
+1098
+1099	Grillin' Like a Villain	toothbrush.gif	3e21ae7ab11d8c05aff31aa32c1d443c	use 1 gold toothbrush
+1100	Well Excuuuuse Me!	pie.gif	93771472bb05878e945ee458217ac54b	use 1 pirate cream pie
+1101
+1102
+1103	Bedraggled Dragoon	taffy.gif	d1aa2761e2b34dcbeca019163ae817b7	use 1 salt water taffy
+1104	Shocking Biology	vial.gif	792832c31d96f91d4f7e629978c3a77f	use 1 unholy water
+1105
+1106
+1107
+1108	Dawn of the Goblin	tribaltat.gif	26f43e4d6e598f266a39dbacfc0b5653	use 1 temporary tribal tattoo
+1109
+1110	Gnomedome	epicbeard.gif	7f7ce0dc3e85b9c341aa384f79a911aa	use 1 stick-on gnome beard
+1111	You're a Brick . . . Ooze	brickonub.gif	bf469841c66875b125cdfaff5168b3b9	use 1 BRICKO stud
+1112	Walking Carpet	float_pebbles.gif	cdbea030883e5e4032b2905871a6ceec	use 1 Osk'r Chow
