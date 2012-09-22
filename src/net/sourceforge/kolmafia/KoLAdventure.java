@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
@@ -607,6 +608,18 @@ public class KoLAdventure
 			}
 
 			this.isValidAdventure = unlocked;
+			return;
+		}
+
+		if ( this.adventureId.equals( AdventurePool.SHROUDED_PEAK_ID ) )
+		{
+			this.isValidAdventure = Preferences.getString( Quest.TRAPPER.getPref() ).equals( "step3" );
+			if ( !this.isValidAdventure )
+			{
+				return;
+			}
+
+			this.isValidAdventure = KoLCharacter.getElementalResistanceLevels( MonsterDatabase.COLD ) > 4;
 			return;
 		}
 

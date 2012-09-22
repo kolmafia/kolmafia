@@ -114,4 +114,5 @@ public class AdventurePool
 	public static final int MAELSTROM_OF_LOVERS = 278;
 	public static final int GLACIER_OF_JERKS = 279;
 	public static final String HIDDEN_TEMPLE_ID = "280";
+	public static final String SHROUDED_PEAK_ID = "cloudypeak2";
 }
