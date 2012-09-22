@@ -4011,9 +4011,9 @@ public class FightRequest
 			m = MANUEL_PATTERN.matcher( node.getText() );
 			if ( m.find() )
 			{
-				int attack = StringUtilities.parseInt( m.group( 1 ) );
+				int hp = StringUtilities.parseInt( m.group( 1 ) );
 				int defense = StringUtilities.parseInt( m.group( 2 ) );
-				int hp = StringUtilities.parseInt( m.group( 3 ) );
+				int attack = StringUtilities.parseInt( m.group( 3 ) );
 				MonsterStatusTracker.setManuelStats( attack, defense, hp );
 			}
 
