@@ -5823,7 +5823,7 @@
 5806
 5807
 5808
-5809
+5809	Knob Goblin Mutagen	436545864	lovepotion.gif	usable	t,d	5
 5810	Tears of the Quiet Healer	567473707	vial.gif	usable	t,d	5
 5811	giant tube of black lipstick	679762287	lipstick.gif	usable	t,d	5
 5812	skelelton spine	920394324	spine.gif	usable	t,d	5
@@ -5840,7 +5840,7 @@
 5823	tiny canopic jar	641183026	canopicjar.gif	usable	t,d	5
 5824	clove-flavored lip balm	968477859	balm.gif	usable	t,d	5
 5825
-5826
+5826	zombie hollandaise	717455927	gravy.gif	usable	t,d	5
 5827	skeletal banana	331313479	bananabone.gif	usable	t,d	5
 5828	gilt perfume bottle	320032645	jperfume.gif	usable	t,d	5
 5829	janglin' bones	380726338	bonechips.gif	usable	t,d	5
@@ -5862,9 +5862,9 @@
 5845
 5846	salt water taffy	484100629	taffy.gif	usable	t,d	5
 5847	unholy water	163120400	vial.gif	usable	t,d	5
-5848
-5849
-5850
+5848	Bangyomaman battle juice	291581343	flask.gif	usable	t,d	5
+5849	handyman &quot;hand soap&quot;	285117650	handsoap.gif	usable	t,d	5
+5850	space marine flash grenade	466376984	grenade.gif	usable	t,d	5
 5851	temporary tribal tattoo	561858084	tribaltat.gif	usable	t,d	5
 5852
 5853	stick-on gnome beard	918088506	epicbeard.gif	usable	t,d	5
@@ -5876,5 +5876,5 @@
 5859
 5860
 5861
-5862	Tome of Rad Libs	901132469 radlibtome.gif	usable	t	0
+5862	Tome of Rad Libs	901132469	radlibtome.gif	usable	t	0
 5863	Rad Lib	968972760	radlib.gif	usable	t,d	5

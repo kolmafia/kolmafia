@@ -1064,7 +1064,7 @@
 1063
 1064
 1065
-1066
+1066	Weirdly Scientific	lovepotion.gif	9b22f8d286e36373e666fed2a13f93d1	use 1 Knob Goblin Mutagen
 1067	No Squealer Healer	vial.gif	f47709a5d308f9ea5347fb160e8afe1c	use 1 Tears of the Quiet Healer
 1068	Visibly Goth	lipstick.gif	a79c4220b2c68e9fc3517938af2880e2	use 1 giant tube of black lipstick
 1069	Spike-and-span	spine.gif	9c6d5a6bc8d4a75d094f14f6f0739954	use 1 skelelton spine
@@ -1081,7 +1081,7 @@
 1080	Ham(ster)-Handed	canopicjar.gif	8bde7a38ed7519079ff2cbf390255d24	use 1 tiny canopic jar
 1081	The Great White Mope	balm.gif	2e84588f75145dbd97910619b0db720d	use 1 clove-flavored lip balm
 1082
-1083
+1083	Chef Brains-are-dee	gravy.gif	fb25d3aa14af650dc51d85941a044ae6	use 1 zombie hollandaise
 1084	Osseous George	bananabone.gif	af54aaa271dd510ad480920de3a6e346	use 1 skeletal banana
 1085	Something's Amistress	jperfume.gif	d69b8c6f8ab6829ee0c8d7fe58124882	use 1 gilt perfume bottle
 1086	Bony Dancer	bonechips.gif	f9aed746eee4ff7d1fec4952b9b2d9b4	use 1 janglin' bones
@@ -1103,9 +1103,9 @@
 1102
 1103	Bedraggled Dragoon	taffy.gif	d1aa2761e2b34dcbeca019163ae817b7	use 1 salt water taffy
 1104	Shocking Biology	vial.gif	792832c31d96f91d4f7e629978c3a77f	use 1 unholy water
-1105
-1106
-1107
+1105	Pug Ugly flask.gif	7ee7811623305bf11b1c3fe8ad792c0f	use 1 Bangyomaman battle juice
+1106	Jay Walking handsoap.gif 760a70ad54326538803bbc9c39edbafe use 1 handyman &quot;hand soap&quot;
+1107	RIP AND TEAR	grenade.gif	446e490ff2aedc7731ca12c8855b8e54	use 1 space marine flash grenade
 1108	Dawn of the Goblin	tribaltat.gif	26f43e4d6e598f266a39dbacfc0b5653	use 1 temporary tribal tattoo
 1109
 1110	Gnomedome	epicbeard.gif	7f7ce0dc3e85b9c341aa384f79a911aa	use 1 stick-on gnome beard
