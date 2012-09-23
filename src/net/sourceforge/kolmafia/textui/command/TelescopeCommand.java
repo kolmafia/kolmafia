@@ -104,11 +104,14 @@ public class TelescopeCommand
 
 		if ( command.equals( "low" ) )
 		{
+			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW ) );
 			upgrades = KoLCharacter.getTelescopeUpgrades();
 		}
-
-		// Make sure we've looked through the telescope since we last ascended
-		KoLCharacter.checkTelescope();
+		else
+		{
+			// Make sure we've looked through the telescope since we last ascended
+			KoLCharacter.checkTelescope();
+		}
 
 		// Display what you saw through the telescope
 		RequestLogger.printLine( "You have a telescope with " + ( upgrades - 1 ) + " additional upgrades" );
