@@ -60,16 +60,16 @@ public class TelescopeCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated() && KoLCharacter.getTelescopeUpgrades() > 0 )
+		// Find out how good our telescope is.
+		KoLCharacter.setTelescope( false );
+		int upgrades = KoLCharacter.getTelescopeUpgrades();
+
+		if ( KoLCharacter.inBadMoon() && !KoLCharacter.kingLiberated() && upgrades > 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Your telescope is unavailable in Bad Moon." );
 			return;
 		}
 
-		// Find out how good our telescope is.
-		KoLCharacter.setTelescope( false );
-
-		int upgrades = KoLCharacter.getTelescopeUpgrades();
 		if ( upgrades < 1 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a telescope." );
@@ -104,14 +104,11 @@ public class TelescopeCommand
 
 		if ( command.equals( "low" ) )
 		{
-			RequestThread.postRequest( new TelescopeRequest( TelescopeRequest.LOW ) );
 			upgrades = KoLCharacter.getTelescopeUpgrades();
 		}
-		else
-		{
-			// Make sure we've looked through the telescope since we last ascended
-			KoLCharacter.checkTelescope();
-		}
+
+		// Make sure we've looked through the telescope since we last ascended
+		KoLCharacter.checkTelescope();
 
 		// Display what you saw through the telescope
 		RequestLogger.printLine( "You have a telescope with " + ( upgrades - 1 ) + " additional upgrades" );

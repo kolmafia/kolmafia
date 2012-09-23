@@ -5870,3 +5870,11 @@
 5853	stick-on gnome beard	918088506	epicbeard.gif	usable	t,d	5
 5854	BRICKO stud	678283294	brickonub.gif	usable	t,d	5
 5855	Osk'r Chow	842211802	float_pebbles.gif	usable	t,d	5
+5856
+5857
+5858
+5859
+5860
+5861
+5862	Tome of Rad Libs	901132469 radlibtome.gif	usable	t	0
+5863	Rad Lib	968972760	radlib.gif	usable	t,d	5

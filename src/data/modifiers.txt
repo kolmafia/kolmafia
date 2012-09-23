@@ -3984,6 +3984,7 @@ Tears of the Quiet Healer	Effect: "No Squealer Healer", Effect Duration: 30
 The Groose in the Hoose	Free Pull
 The Kloop in the Coop	Free Pull
 Tome of Clip Art	Free Pull
+Tome of Rad Libs	Free Pull
 Tome of Snowcone Summoning	Free Pull
 Tome of Sugar Shummoning	Free Pull
 Ultrasoldier Serum	Effect: "Army of One", Effect Duration: 50
