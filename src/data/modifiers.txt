@@ -2719,6 +2719,7 @@ Chalky White Pallor	Mysticality Percent: +50
 Chapped Legs	Muscle: -4, Moxie: +8
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
+# Chef Brains-are-dee: Makes you look like a zombie chef
 Chihuahua Underfoot	Monster Level: +20
 Chilblains of the Corn	Spooky Damage: +5
 Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
@@ -3067,6 +3068,7 @@ Jackasses' Symphony of Destruction	Weapon Damage: +12, Spell Damage: +12
 Jalape&ntilde;o Saucesphere	Damage Reduction: 3
 # Jammin': Deal extra damage as the fight goes on
 # Jammin': and on...
+# Jay Walking: Makes you look like "Handyman" Jay Android
 # Jazz Hands
 Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 Jerky, Boy	Mysticality Percent: +25
@@ -3078,7 +3080,7 @@ Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(Th
 # Just the Best Anapests: Da da dee, da da dee
 Kindly Resolve	Familiar Weight: +5
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
-# Kitty Littered: Makes you look like an Iiti Kitty
+# Kitty Littered: Makes you look like an Iiti Kitty 
 Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
 Koyaaniskumquatsi	Mysticality Percent: +100, Monster Level: +30
@@ -3244,6 +3246,7 @@ Proficient Pressure	Experience: +8
 Pronounced Potency	Weapon Damage: +5
 Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
+# Pug Ugly: Makes you look like a Bangyomaman Warrior
 Puissant Pressure	Muscle Percent: +300
 Pulchritudinous Pressure	Moxie Percent: +300
 Pumped Stomach	Adventure Underwater
@@ -3283,6 +3286,7 @@ Refuse Reflux	Stench Damage: [min(100,T)]
 Reptilian Fortitude	Maximum HP: +30
 Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
+# RIP AND TEAR: Makes you look like a Space Marine
 # Robbin' Like a Goblin: Makes you look like a Knob Goblin Embezzler
 Rootin' Around	Candy Drop: +25
 Rushin' Hands	Weapon Damage: +3
@@ -3488,7 +3492,7 @@ The Halls of Moxiousness	Experience (Moxie): +3
 The Halls of Muscularity	Experience (Muscle): +3
 The Halls of Mysticality	Experience (Mysticality): +3
 The HeyDezebound Heart	Item Drop: [min(300,T)], Muscle Percent: [-T], Mysticality Percent: [-T], Moxie Percent: [-T], Experience: [floor(T/5)]
-# The Kobold and the Kobeautiful: Makes you look like a large kobold
+# The Kobold and the Kobeautiful: Makes you look like a large kobold 
 The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 The Moxious Madrigal	Moxie: +10
 The Pleasures of the Flesh	Muscle Percent: [T], Mysticality Percent: [T], Moxie Percent: [T], 
@@ -3557,6 +3561,7 @@ Weapon of Mass Destruction	Weapon Damage Percent: +30
 Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 # Weird Flavor: ???
+# Weirdly Scientific: Makes you look like a Sub-Assistant Knob Mad Scientist
 Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Well-Swabbed Ear	Initiative: +30
 Well-preserved	HP Regen Min: 150, HP Regen Max: 200
@@ -3879,6 +3884,7 @@ Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 Apathargic Bandersnatch	Free Pull
 Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
 Atomic Pop	Effect: "Cinnamouth", Effect Duration: 10
+Bangyomaman battle juice	Effect: "Pug Ugly", Effect Duration: 50
 Ben-Gal&trade; Balm	Effect: "Go Get 'Em, Tiger!", Effect Duration: 3
 BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
 Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 10
@@ -3927,6 +3933,7 @@ Iiti Kitty Gumdrop	Effect: "Kitty Littered",      Effect Duration: 30
 Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
 Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 10
 Knob Goblin love potion	Effect: "Knob Goblin Lust Frenzy", Effect Duration: 5
+Knob Goblin Mutagen	Effect: "Weirdly Scientific", Effect Duration: 30
 Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 10
 Knob Goblin perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
 Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 10
@@ -4179,6 +4186,7 @@ handful of Laughing Willow bark	Effect: "Barking Mad", Effect Duration: 100
 handful of hand chalk	Effect: "Chalky Hand", Effect Duration: 5
 handful of pine needles	Effect: "Hippy Stench", Effect Duration: 10
 handsomeness potion	Effect: "Mysteriously Handsome", Effect Duration: 5
+handyman &quot;hand soap&quot;	Effect: "Jay Walking", Effect Duration: 50
 heart necklace	Free Pull
 henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
@@ -4350,6 +4358,7 @@ sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 sleeping piano cat	Free Pull
 snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
 sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
+space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
 sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
 spooky eyeliner	Effect: "Gothy", Effect Duration: 10
 spooky gravy fairy warlock hat	Effect: "Warlock Fairy Wizard Sorcerer", Effect Duration: 50
@@ -4417,6 +4426,7 @@ wizard action figure	Free Pull
 yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
 yellow snowcone	Effect: "Yellow Tongue", Effect Duration: 20
 yuletide troll chrysalis	Free Pull
+zombie hollandaise	Effect: "Chef Brains-are-dee", Effect Duration: 30
 
 Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
 Bash-&#332;s cereal	Wiki Name: "Bash-Os cereal"
