@@ -128,7 +128,7 @@ public class UseItemEnqueuePanel
 			listeners.add( new OdeListener() );
 			listeners.add( new DogHairListener() );
 		}
-		else if (this.spleen )
+		else if ( this.spleen )
 		{
 			listeners.add( new MojoListener() );
 		}
@@ -251,6 +251,16 @@ public class UseItemEnqueuePanel
 			boolean havepill = InventoryManager.getCount( ItemPool.SYNTHETIC_DOG_HAIR_PILL ) > 0;
 			boolean usedpill = Preferences.getBoolean( "_syntheticDogHairPillUsed" );
 			boolean canFlush = havedrunk && ( havepill && !usedpill );
+			this.buttons[ flushIndex ].setEnabled( canFlush );
+		}
+
+		if ( isEnabled && this.spleen )
+		{
+			int flushIndex = this.buttons.length - 1;
+			boolean haveFilter = InventoryManager.getCount( ItemPool.MOJO_FILTER ) > 0;
+			boolean haveSpleen = KoLCharacter.getSpleenUse() > 0;
+			boolean canUseFilter = Preferences.getInteger( "currentMojoFilters" ) < 3;
+			boolean canFlush = haveFilter && haveSpleen && canUseFilter;
 			this.buttons[ flushIndex ].setEnabled( canFlush );
 		}
 	}

@@ -3140,7 +3140,7 @@ public class DailyDeedsPanel
 		@Override
 		public void update()
 		{
-			boolean ban = KoLCharacter.hasSkill( "Banishing Shout" );
+			boolean ban = KoLCharacter.hasSkill( "Banishing Shout" ) || KoLCharacter.hasSkill( "Howl of the Alpha" );
 			String text = "Banished monsters: " + Preferences.getString( "banishingShoutMonsters" ).replaceAll( "\\|", ", " );
 			this.setText( text );
 			this.setShown( ban );
