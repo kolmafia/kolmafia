@@ -5877,4 +5877,5 @@
 5860
 5861
 5862	Tome of Rad Libs	901132469	radlibtome.gif	usable	t	0
-5863	Rad Lib	968972760	radlib.gif	usable	t,d	5
+5863	Rad Lib	968972760	radlib.gif	usable	t,d	5	Rad Libs
+5864	papier-m&acirc;ch&eacute; glob	883548079	macheglob.gif	usable	d	5

@@ -138,6 +138,7 @@ public class SkillPool
 	public static final int STICKER = 8001;
 	public static final int SUGAR = 8002;
 	public static final int CLIP_ART = 8003;
+	public static final int RAD_LIB = 8004;
 	public static final int CANDY_HEART = 8100;
 	public static final int PARTY_FAVOR = 8101;
 	public static final int LOVE_SONG = 8102;

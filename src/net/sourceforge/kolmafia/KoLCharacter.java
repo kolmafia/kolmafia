@@ -3536,6 +3536,17 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method to look up whether or not the character can summon rad libs
+	 *
+	 * @return <code>true</code> if clip art can be summoned by this character
+	 */
+
+	public static final boolean canSummonRadLibs()
+	{
+		return KoLCharacter.hasSkill( "Summon Rad Libs" );
+	}
+
+	/**
 	 * Accessor method to look up whether or not the character can smith weapons.
 	 *
 	 * @return <code>true</code> if this character can smith advanced weapons

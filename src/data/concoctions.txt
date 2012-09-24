@@ -1843,6 +1843,9 @@ broken clock	CLIPART	9	9	10
 dethklok	CLIPART	9	9	8
 glacial clock	CLIPART	9	9	7
 
+# Rad Libs recipes
+papier-m&acirc;ch&eacute;	COOK	Rad Lib	soda water
+
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
 

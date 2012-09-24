@@ -100,6 +100,7 @@ public class UseSkillRequest
 		"Summon Sugar Sheets",
 		// Summon Clip Art requires extra parameters
 		// "Summon Clip Art",
+		"Summon Rad Libs"
 	};
 
 	public static final String[] LIBRAM_SKILLS =
@@ -238,6 +239,7 @@ public class UseSkillRequest
 		case SkillPool.STICKER:
 		case SkillPool.SUGAR:
 		case SkillPool.CLIP_ART:
+		case SkillPool.RAD_LIB:
 		case SkillPool.HILARIOUS:
 		case SkillPool.TASTEFUL:
 		case SkillPool.CARDS:
@@ -271,6 +273,10 @@ public class UseSkillRequest
 
 		case SkillPool.CLIP_ART:
 			this.addFormField( "preaction", "combinecliparts" );
+			break;
+
+		case SkillPool.RAD_LIB:
+			this.addFormField( "preaction", "summonradlibs" );
 			break;
 
 		case SkillPool.HILARIOUS:
@@ -445,6 +451,7 @@ public class UseSkillRequest
 		case SkillPool.STICKER:
 		case SkillPool.SUGAR:
 		case SkillPool.CLIP_ART:
+		case SkillPool.RAD_LIB:
 
 			maximumCast = Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
 			break;
@@ -1538,6 +1545,7 @@ public class UseSkillRequest
 		case SkillPool.STICKER:
 		case SkillPool.SUGAR:
 		case SkillPool.CLIP_ART:
+		case SkillPool.RAD_LIB:
 			Preferences.increment( "tomeSummons", count );
 			ConcoctionDatabase.setRefreshNeeded( false );
 			break;
@@ -1620,6 +1628,11 @@ public class UseSkillRequest
 			}
 
 			return SkillPool.CLIP_ART;
+		}
+
+		if ( action.equals( "radlibs" ) )
+		{
+			return SkillPool.RAD_LIB;
 		}
 
 		if ( action.equals( "hilariousitems" ) )
