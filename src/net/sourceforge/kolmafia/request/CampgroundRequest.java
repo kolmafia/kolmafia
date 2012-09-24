@@ -746,6 +746,10 @@ public class CampgroundRequest
 			"Summon Clip Art"
 		},
 		{
+			"Tome of Rad Libs",
+			"Summon Rad Libs"
+		},
+		{
 			// The bookshelf currently says:
 			// "McPhee's Grimoire of Hilarious Item Summoning"
 			// gives access to "Summon Hilarious Items".
