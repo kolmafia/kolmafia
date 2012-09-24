@@ -1844,7 +1844,15 @@ dethklok	CLIPART	9	9	8
 glacial clock	CLIPART	9	9	7
 
 # Rad Libs recipes
-papier-m&acirc;ch&eacute;	COOK	Rad Lib	soda water
+papier-m&acirc;ch&eacute; glob	COOK	Rad Lib	soda water
+
+papier-mochi	MUSE	papier-m&acirc;ch&eacute; glob (2)
+papier-m&acirc;chaeranthera	MUSE	papier-m&acirc;ch&eacute; glob (3)
+papier-m&acirc;ch&eacute; toothpicks	MUSE	papier-m&acirc;ch&eacute; glob (4)
+papier-m&acirc;ch&eacute;te	MUSE	papier-m&acirc;ch&eacute; glob (5)
+papier-masque	MUSE	papier-m&acirc;ch&eacute; glob (7)
+papier-mitre	MUSE	papier-m&acirc;ch&eacute; glob (9)
+papier-m&acirc;churidars	MUSE	papier-m&acirc;ch&eacute; glob (11)
 
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.

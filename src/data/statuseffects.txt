@@ -1111,3 +1111,12 @@
 1110	Gnomedome	epicbeard.gif	7f7ce0dc3e85b9c341aa384f79a911aa	use 1 stick-on gnome beard
 1111	You're a Brick . . . Ooze	brickonub.gif	bf469841c66875b125cdfaff5168b3b9	use 1 BRICKO stud
 1112	Walking Carpet	float_pebbles.gif	cdbea030883e5e4032b2905871a6ceec	use 1 Osk'r Chow
+1113
+1114
+1115
+1116
+1117
+1118
+1119	Altered	Wavelengths nopic.gif	cd23f6685ed4f7e2648998a4020f1265	use 1 papier-mochi
+1120	Stopping	to Smell the Flowers nopic.gif	00c2131ddee16ce4278a0047946ed99e	use 1 papier-m&acirc;chaeranthera
+1121	Eyes	Wide Propped nopic.gif	471d1af8ce58cd6214fa35ea7e73c2c3	use 1 papier-m&acirc;ch&eacute; toothpicks

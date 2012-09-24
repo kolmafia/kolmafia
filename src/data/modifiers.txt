@@ -239,6 +239,8 @@ outrageous sombrero	Moxie: +5, Muscle: +5, Mysticality: +5, Initiative: -20, Fam
 pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
 panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
 paperclip turban	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +5, Maximum MP: +5, Damage Reduction: +5, Familiar Effect: "atk, cap 12"
+# papier-mitre: Helps you describe things
+papier-mitre	Familiar Weight: +5, PvP Fights: +2
 # parasitic headgnawer: Deals 30-45 damage to attackers
 parasitic headgnawer	Familiar Effect: "atk, cap 7"
 # party hat: (On the Festival of Jarlsberg only)
@@ -438,6 +440,8 @@ palm-frond capris	Moxie: +4, Maximum HP: +30, Maximum MP: +30, Familiar Effect: 
 pants of the Slug Lord	Stench Resistance: +2, Familiar Effect: "stench atk, cap 8"
 paper-plate-mail pants	Familiar Effect: "prismatic atk, 2xBarrr, cap 20"
 paperclip pants	Adventures: +2, Initiative: +15, Familiar Effect: "atk, 3xBarrr, cap 12"
+# papier-m&acirc;churidars: Improves things
+papier-m&acirc;churidars	Initiative: +25, Never Fumble
 parasitic tentacles	Initiative: +30, Familiar Effect: "spooky atk, 5xBarrr, cap 7"
 penguin shorts	Initiative: +20, Familiar Effect: "cold atk, 1xGhuol, cap 30"
 penguinskin mini-kilt	Initiative: +20, Familiar Effect: "cold atk, cap 30"
@@ -953,6 +957,8 @@ out-of-tune biwa	Ranged Damage: +2
 oversized pizza cutter	Spell Damage: +13
 pair of bolt cutters	Weakens Monster
 palm-frond whip	Weapon Damage: +30
+# papier-m&acirc;ch&eacute;te: Makes actions more exciting
+papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 parasitic claw	Weapon Damage: +15
 # pasta spoon
 penguin whip	Meat Drop: +3
@@ -1832,6 +1838,8 @@ pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
 # pair of pearidot earrings: (only in the Candy Diorama)
 pair of pearidot earrings	Item Drop: [100*zone(The Candy Diorama)], Single Equip
 paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip
+# papier-masque: Makes your possessions seem more interesting
+papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
 # pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
 pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
@@ -2594,6 +2602,7 @@ All Fired Up	Initiative: +30
 All Wound Up	Spell Damage Percent: [202-2*T], Weapon Damage Percent: [202-2*T]
 Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Also Schmeckt Zarathustra	Mysticality: +30
+Altered Wavelengths	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 # Amorous Avarice: Meat Drop: +X
 Amorous	Moxie: +5, Sleaze Damage: +5
 Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -2869,6 +2878,7 @@ Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
 Eye of the Seal	Item Drop: +10
+Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
 Familial Ties	Familiar Weight: [10*zone(The Sea)]
 Fan-Cooled	Cold Damage: +10
 Fancy Feasted	Moxie Percent: +20
@@ -3405,6 +3415,7 @@ Spooky Weapon	Spooky Damage: +3
 # Spookyform: Ooooooooooooooooh
 Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
 Spookypants	Spooky Resistance: +1
+Stopping to Smell the Flowers	Experience: +3
 Springy Fusilli	Initiative: +40
 Square to be Hip	Moxie Percent: +10
 Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
@@ -4256,6 +4267,9 @@ organ grinder	Free Pull
 orphan baby yeti	Free Pull
 panicked kernel	Free Pull
 panty raider camouflage	Effect: "Hiding in Plain Sight", Effect Duration: 10
+papier-m&acirc;chaeranthera	Effect: "Stopping to Smell the Flowers", Effect Duration: 40
+papier-m&acirc;ch&eacute; toothpicks	Effect: "Eyes Wide Propped", Effect Duration: 40
+papier-mochi	Effect: "Altered Wavelengths", Effect Duration: 40
 papotion of papower	Effect: "Papowerful", Effect Duration: [R]
 passed-out psychedelic bear	Free Pull
 peach lozenge	Effect: "The Halls of Moxiousness", Effect Duration: [R]

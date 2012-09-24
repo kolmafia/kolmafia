@@ -5879,3 +5879,11 @@
 5862	Tome of Rad Libs	901132469	radlibtome.gif	usable	t	0
 5863	Rad Lib	968972760	radlib.gif	usable	t,d	5	Rad Libs
 5864	papier-m&acirc;ch&eacute; glob	883548079	macheglob.gif	usable	d	5
+5865	papier-mochi	392273161	machemochi.gif	usable	d	10
+5866	papier-m&acirc;chaeranthera	864484289	macheflower.gif	usable	d	15
+5867	papier-mm&acirc;ch&eacute; toothpicks	267596873	machetoothpicks.gif	usable	d	20
+5868	papier-mm&acirc;ch&eacute;te	939197198	machemachete.gif	weapon	d	25
+5869
+5870	papier-masque	716668190	machemasque.gif	accessory	d	35
+5871	papier-mitre	195976820	machemitre.gif	hat	d	45
+5872	papier-m&acirc;churidars	970295037	machepants.gif	pants	d	55
