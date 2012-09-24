@@ -175,6 +175,7 @@ outrageous sombrero	100	none
 pail	30	none
 panhandle panhandling hat	150	Mus: 175
 paperclip turban	50	none
+papier-mitre	100	Mox: 20
 parasitic headgnawer	30	none
 party hat	30	none
 passable elf mask	10	none
@@ -363,6 +364,7 @@ palm-frond capris	140	Mox: 55
 pants of the Slug Lord	35	Mox: 2
 paper-plate-mail pants	80	Mox: 25
 paperclip pants	50	none
+papier-m&acirc;churidars	100	Mox: 20
 parasitic tentacles	30	none
 penguin shorts	120	Mox: 45
 penguinskin mini-kilt	120	Mox: 45
@@ -847,6 +849,7 @@ out-of-tune biwa	30	Mox: 0	2-handed guitar
 oversized pizza cutter	100	Mys: 35	1-handed utensil
 pair of bolt cutters	60	Mus: 15	2-handed club
 palm-frond whip	25	Mus: 0	1-handed whip
+papier-m&acirc;ch&eacute;te	100	Mus: 20	1-handed sword
 parasitic claw	30	Mus: 0	1-handed club
 pasta spoon	10	Mys: 0	1-handed utensil
 penguin whip	20	Mus: 0	1-handed whip
@@ -1628,6 +1631,7 @@ oven mitts	45	Mys: 7
 pacifier necklace	150	Mox: 60
 pair of pearidot earrings	0	none
 paperclip-on tie	50	none
+papier-masque	0	Mys: 20
 pat-a-cake pendant	10	none
 patent leather shoes	30	none
 peace-sign necklace	70	Mys: 20
