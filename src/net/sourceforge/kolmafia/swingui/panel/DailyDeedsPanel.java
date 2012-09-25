@@ -2376,10 +2376,17 @@ public class DailyDeedsPanel
 			boolean bf = !KoLCharacter.isHardcore() ||
 				(KoLCharacter.isHardcore() && KoLCharacter.hasSkill( "Summon BRICKOs" ));
 			FamiliarData hipster = KoLCharacter.findFamiliar( FamiliarPool.HIPSTER );
+			FamiliarData goth = KoLCharacter.findFamiliar( FamiliarPool.ARTISTIC_GOTH_KID );
 			boolean hh = hipster != null && hipster.canEquip() ;
+			boolean hg = goth != null && goth.canEquip() ;
+			boolean hf = hh || hg;
+			String ff = "";
+			if ( hh && hg ) ff = "hipster+goth";
+			else if ( hh ) ff = "hipster";
+			else if ( hg ) ff = "goth";
 			boolean sc = KoLCharacter.getClassType().equals(KoLCharacter.SEAL_CLUBBER);
 
-			this.setShown( bf || hh || sc );
+			this.setShown( bf || hf || sc );
 			int maxSummons = 5;
 			if ( KoLCharacter.hasEquipped( DailyDeedsPanel.INFERNAL_SEAL_CLAW ) ||
 			     DailyDeedsPanel.INFERNAL_SEAL_CLAW.getCount( KoLConstants.inventory ) > 0 )
@@ -2388,9 +2395,9 @@ public class DailyDeedsPanel
 			}
 			String text = "Fights: ";
 			if( bf ) text = text + Preferences.getInteger( "_brickoFights" ) + "/10 BRICKO";
-			if( bf && ( hh || sc ) ) text = text + ", ";
-			if( hh ) text = text + Preferences.getInteger( "_hipsterAdv" ) + "/7 hipster";
-			if( hh && sc ) text = text + ", ";
+			if( bf && ( hf || sc ) ) text = text + ", ";
+			if( hf ) text = text + Preferences.getInteger( "_hipsterAdv" ) + "/7 "+ff;
+			if( hf && sc ) text = text + ", ";
 			if( sc ) text = text + Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned";
 			this.setText( text );
 		}
