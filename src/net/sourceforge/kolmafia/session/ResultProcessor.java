@@ -1489,6 +1489,7 @@ public class ResultProcessor
 			{
 				Preferences.increment( "_pieDrops", 1 );
 				Preferences.setInteger( "_piePartsCount", -1 );
+				Preferences.setString( "pieStuffing", "" );
 			}
 			break;
 

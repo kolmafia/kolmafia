@@ -2431,15 +2431,47 @@ public class FightRequest
 
 			case FamiliarPool.GRINDER:
 				// Increment Organ Grinder combat counter
-				if ( responseText.indexOf( "a few choice bits" ) != -1 ||
-				     responseText.indexOf( "your opponent and tosses them" ) != -1 ||
-				     responseText.indexOf( "insides, squealing something" ) != -1 ||
-				     responseText.indexOf( "grind, chattering" ) != -1 ||
-				     responseText.indexOf( "My Hampton has a funny feeling" ) != -1 ||
-				     responseText.indexOf( "grindable organs, muttering" ) != -1 ||
-				     responseText.indexOf( "some grinder fodder, muttering" ) != -1 )
+				String piediv = "".equals(Preferences.getString( "pieStuffing" ))?"":",";
+				if ( responseText.indexOf( "some grinder fodder, muttering" ) != -1 )
 				{
 					Preferences.increment( "_piePartsCount", 1 );
+					String s = Preferences.getString( "pieStuffing" ) + piediv + "fish";
+					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+				} else if ( responseText.indexOf( "harvests a few choice bits for his grinder" ) != -1 )
+				{
+					Preferences.increment( "_piePartsCount", 1 );
+					String s = Preferences.getString( "pieStuffing" ) + piediv + "boss";
+					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+				} else if ( responseText.indexOf( "a few choice bits" ) != -1 )
+				{
+					Preferences.increment( "_piePartsCount", 1 );
+					String s = Preferences.getString( "pieStuffing" ) + piediv + "normal";
+					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+				} else if ( responseText.indexOf( "your opponent and tosses them" ) != -1 )
+				{
+					Preferences.increment( "_piePartsCount", 1 );
+					String s = Preferences.getString( "pieStuffing" ) + piediv + "stench";
+					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+				} else if ( responseText.indexOf( "insides, squealing something" ) != -1 )
+				{
+					Preferences.increment( "_piePartsCount", 1 );
+					String s = Preferences.getString( "pieStuffing" ) + piediv + "hot";
+					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+				} else if ( responseText.indexOf( "grind, chattering" ) != -1 )
+				{
+					Preferences.increment( "_piePartsCount", 1 );
+					String s = Preferences.getString( "pieStuffing" ) + piediv + "spooky";
+					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+				} else if ( responseText.indexOf( "My Hampton has a funny feeling" ) != -1 )
+				{
+					Preferences.increment( "_piePartsCount", 1 );
+					String s = Preferences.getString( "pieStuffing" ) + piediv + "sleaze";
+					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+				} else if ( responseText.indexOf( "grindable organs, muttering" ) != -1 )
+				{
+					Preferences.increment( "_piePartsCount", 1 );
+					String s = Preferences.getString( "pieStuffing" ) + piediv + "cold";
+					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
 				}
 				break;
 

@@ -581,6 +581,7 @@ user	pastamancerOrbedName
 user	pastamancerOrbedType
 user	pendingMapReflections	0
 user	photocopyMonster
+user	pieStuffing
 user	plantingDate
 user	plantingDay	-1
 user	plantingLength
