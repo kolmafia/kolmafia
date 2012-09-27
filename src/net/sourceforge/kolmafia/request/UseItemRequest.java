@@ -842,6 +842,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "insufficient right bear arms";
 			return InventoryManager.getCount( ItemPool.RIGHT_BEAR_ARM );
 
+		case ItemPool.LEGENDARY_BEAT:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_legendaryBeat" ) ? 0 : 1;
+
 		}
 
 		switch ( consumptionType )

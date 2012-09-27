@@ -488,7 +488,7 @@ public class CharPaneDecorator
 			buffer.append( Preferences.getString( "_hareCharge" ) );
 			buffer.append( "/" );
 			AdventureResult dormouse = ItemPool.get( ItemPool.MINIATURE_DORMOUSE, 1 );
-			buffer.append( EquipmentManager.getEquipment( EquipmentManager.FAMILIAR ) == dormouse ? "12" : "15" );
+			buffer.append( EquipmentManager.getEquipment( EquipmentManager.FAMILIAR ).equals( dormouse ) ? "12" : "15" );
 			buffer.append( " charges" );
 			return buffer;
 
