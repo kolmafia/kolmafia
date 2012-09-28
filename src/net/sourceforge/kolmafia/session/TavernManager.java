@@ -247,8 +247,10 @@ public class TavernManager
 			KoLCharacter.getCurrentHP() > 0 &&
 			KoLCharacter.getAdventuresLeft() > 0 )
 		{
-			// TavernRequest will visit the next unexplored square
+			// Tell TavernRequest to visit the next unexplored square
+			TavernManager.overrideSquare = TavernManager.nextUnexploredSquare();
 			RequestThread.postRequest( adventure );
+			TavernManager.overrideSquare = -1;
 
 			// See what we discovered
 			layout = TavernRequest.tavernLayout();
