@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -217,9 +218,12 @@ public class UseItemEnqueuePanel
 			this.buttons[ bingeIndex ].setEnabled( haveGhost );
 
 			// The milk listener is just after the ghost listener
-			boolean haveMilk = InventoryManager.getCount( ItemPool.MILK_OF_MAGNESIUM ) > 0 ||
-								KoLCharacter.hasSkill( "Song of the Glorious Lunch" );
-			this.buttons[ bingeIndex + 1 ].setEnabled( haveMilk );
+			boolean milkAvailable = InventoryManager.getAccessibleCount( ItemPool.MILK_OF_MAGNESIUM ) > 0
+						|| ( KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
+						|| KoLCharacter.hasSkill( "Song of the Glorious Lunch" )
+						|| CreateItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ), false ).getQuantityPossible() > 0;
+								
+			this.buttons[ bingeIndex + 1 ].setEnabled( milkAvailable );
 
 			// We gray out the distend button unless we have a
 			// pill, and haven't used one today.
@@ -257,10 +261,11 @@ public class UseItemEnqueuePanel
 		if ( isEnabled && this.spleen )
 		{
 			int flushIndex = this.buttons.length - 1;
-			boolean haveFilter = InventoryManager.getCount( ItemPool.MOJO_FILTER ) > 0;
+			boolean filterAvailable = InventoryManager.getAccessibleCount( ItemPool.MOJO_FILTER ) > 0 ||
+					( KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) );
 			boolean haveSpleen = KoLCharacter.getSpleenUse() > 0;
 			boolean canUseFilter = Preferences.getInteger( "currentMojoFilters" ) < 3;
-			boolean canFlush = haveFilter && haveSpleen && canUseFilter;
+			boolean canFlush = filterAvailable && haveSpleen && canUseFilter;
 			this.buttons[ flushIndex ].setEnabled( canFlush );
 		}
 	}

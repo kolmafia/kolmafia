@@ -2741,6 +2741,7 @@ Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
 Cinco Elementos	Cold Damage: [5*T], Hot Damage: [5*T], Sleaze Damage: [5*T], Spooky Damage: [5*T], Stench Damage: [5*T]
 Cinnamouth	Hot Damage: +11
 Clean-Shaven	Moxie: +5
+# Clean to the Bone: Makes you look like a skullery maid
 Cletus's Canticle of Celerity	Initiative: +20
 # Clumsy: Always Fumble
 Clyde's Blessing	Item Drop: +50
@@ -3132,6 +3133,7 @@ Mallowed Out	Moxie Percent: [min(500,+5*T)], Muscle Percent: [min(500,+5*T)], My
 Man's Worst Enemy	Familiar Weight: +5
 Marco Polarity	Experience (Mysticality): [L]
 Mariachi Mood	Maximum HP: +3, Moxie: +1
+# Matador Nemesis: Makes you look like a raging bull
 Material Witness	Meat Drop: +10
 Meatwise	Meat Drop: +35
 Melancholy Burden	Item Drop: +60
@@ -3241,6 +3243,7 @@ Pneumatic	Adventure Underwater
 Pockets of Fire	Hot Damage: +10
 Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Polka of Plenty	Meat Drop: +50
+# Polyphonic Yawn: Makes you look like a Drab Bard
 Ponderous Potency	Weapon Damage: +20
 Pop-eyed	Weapon Damage: +30
 # Popping Stomach: Tee-hee!
@@ -3475,6 +3478,7 @@ Synthesized	Damage Reduction: 8, Weapon Damage: -8
 # Talking Like a Pirate: Arrr.
 Tamarind Torment	Muscle: +5, Moxie: -5
 Tangled Up	Moxie Percent: -20
+# Tango, O Gnat: Makes you look like a Tan Gnat
 # Tar-Struck: Continually take damage
 Tar-Struck	Stench Damage: +20
 # Taste the Inferno: It burns! It burns!
@@ -3990,6 +3994,7 @@ Schmalz's First Prize Beer	Free Pull
 Scratch 'n' Sniff Sticker Tome	Free Pull
 Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
 Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
+Skullery Maid's Knee	Effect: "Clean to the Bone", Effect Duration: 30
 Small Medium	Free Pull
 Sorcerers of the Shore Grimoire	Free Pull
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
@@ -4058,6 +4063,7 @@ box of sunshine	Free Pull
 breath mint	Effect: "Sugar Rush", Effect Duration: 3
 brick	Free Pull
 brigand brittle	Effect: "Bandananit", Effect Duration: 50
+bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
 calm attention-deficit demon	Free Pull
 can of Binarrrca	Free Pull, Effect: "Talking Like a Pirate", Effect Duration: 50
 can of black paint	Effect: "Red Door Syndrome", Effect Duration: 10
@@ -4168,6 +4174,8 @@ gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
 giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
 gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
+glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
+glass of warm milk	Effect: "Polyphonic Yawn", Effect Duration: 30
 glass of warm water	Free Pull
 glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 glowing frisbee	Free Pull
