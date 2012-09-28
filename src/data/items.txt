@@ -5808,18 +5808,18 @@
 5791	right bear arm	409034560	beararm_right.gif	weapon	t	0
 5792	left bear arm	208749545	beararm_left.gif	offhand, usable	t	0
 5793
-5794
+5794	Enchanted Plunger	286405091	plunger.gif	usable	t,d	5
 5795	Enchanted Flyswatter	289657598	swatter.gif	usable	t,d	5
 5796
-5797
+5797	Missing Eye Simulation Device	127128302	eyepatch.gif	usable	t,d	5
 5798
-5799
+5799	eldritch dough	613464615	dough.gif	usable	t,d	5
 5800
 5801
 5802
-5803
+5803	White Chocolate Golem Seeds	741418840	chips.gif	usable	t,d	5
 5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	usable	t,d	5	slices of Shivering Ch&egrave;vre
-5805
+5805	giant breath mint	664766664	lifesaver.gif	usable	t,d	5
 5806
 5807	glass of warm milk	734455157	milk.gif	usable	t,d	5
 5808	glass of gnat milk	352544230	milk.gif	usable	t,d	5
@@ -5831,7 +5831,7 @@
 5814	blob of acid	870769832	wad.gif	usable	t,d	5
 5815	flayed mind	522146420	realbrain.gif	usable	t,d	5
 5816	kobold kibble	873527872	float_pebbles.gif	usable	t,d	5
-5817
+5817	forest spirit rattle	147970558	foresthead.gif	usable	t,d	5
 5818	Stone Golem pebbles	382105723	float_pebbles.gif	usable	t,d	5
 5819	spooky gravy fairy warlock hat	260012099	tinyhat.gif	usable	t,d	5
 5820	bull blubber	936998869	wad.gif	usable	t,d	5
@@ -5853,9 +5853,9 @@
 5836	embezzler's oil	968949884	vial.gif	usable	t,d	5
 5837	Fu Manchu Wax	992259508	balm.gif	usable	t,d	5
 5838	Iiti Kitty Gumdrop	847088897	gumdrop.gif	usable	t,d	5
-5839
-5840
-5841
+5839	ravenous eye	553037969	hungryeye.gif	usable	t,d	5
+5840	Rogue Windmill Rouge	653603057	balm.gif	usable	t,d 5
+5841	A muse-bouche	704527194	amusebouche.gif	usable	t,d	5
 5842	gold toothbrush	397328678	toothbrush.gif	usable	t,d	5
 5843	pirate cream pie	438610679	pie.gif	usable	t,d	5
 5844
@@ -5866,7 +5866,7 @@
 5849	handyman &quot;hand soap&quot;	285117650	handsoap.gif	usable	t,d	5	bottles of handyman &quot;hand soap&quot;
 5850	space marine flash grenade	466376984	grenade.gif	usable	t,d	5
 5851	temporary tribal tattoo	561858084	tribaltat.gif	usable	t,d	5
-5852
+5852	oil-filled donut	465286659	jellydonut.gif	usable	t,d	5
 5853	stick-on gnome beard	918088506	epicbeard.gif	usable	t,d	5
 5854	BRICKO stud	678283294	brickonub.gif	usable	t,d	5
 5855	Osk'r Chow	842211802	float_pebbles.gif	usable	t,d	5
