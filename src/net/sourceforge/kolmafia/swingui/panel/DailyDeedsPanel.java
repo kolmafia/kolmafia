@@ -2553,7 +2553,7 @@ public class DailyDeedsPanel
 			FamiliarData grinder = KoLCharacter.findFamiliar( FamiliarPool.GRINDER );
 			int pieDrops = Preferences.getInteger( "_pieDrops" );
 
-			if ( ( grinder != null && grinder.canEquip() ) || pieDrops > 0 )
+			if ( ( grinder != null && ( grinder.canEquip() ) || pieDrops > 0 ) )
 			{
 				if ( count >= 5 )
 				{

@@ -2650,6 +2650,7 @@ Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)], Sten
 Bells in the Batfry	Moxie Percent: +10
 Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
 Bestial Sympathy	Familiar Weight: +3
+# Better Off Bread: Makes you look like a Bread Golem
 Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Big Veiny Brain	Experience: +2, Meat Drop: -20, Item Drop: -10
 Bilious	Monster Level: +25, Slime Resistance: +1
@@ -2960,6 +2961,7 @@ Ginger Snapped	Spooky Damage: +10
 Gleaming White Teeth	Moxie Percent: +50
 Glittering Eyelashes	Mysticality Percent: +15
 Gnawed-Off Arm	Muscle: -5
+# Gnollivision: Makes you look like a one-eyed Gnoll
 # Gnomedome: Makes you look like a menacing lawn gnome
 Go Get 'Em, Tiger!	Muscle Percent: +15
 # Goat Gotten: Makes you look like a dairy goat
@@ -3155,6 +3157,7 @@ Minty Freshness	Moxie Percent: +10
 Missing Eyebrows	Moxie: -3
 Missing Fingers	Muscle: -3
 # Missing Kidney: Call 911 Immediately
+# Mister Master: Makes you look like a master of ceremonies
 Mistified	Damage Reduction: 30
 Mitre Cut	 Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
 Mmmmmelon	Item Drop: +30
@@ -3257,6 +3260,7 @@ Pride of the Vampire	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percen
 Prince of Seaside Town	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Proficient Pressure	Experience: +8
 Pronounced Potency	Weapon Damage: +5
+# Pros Only: Makes you look like a sensitive poet-type
 Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
 # Pug Ugly: Makes you look like a Bangyomaman Warrior
@@ -3282,6 +3286,7 @@ Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Rampage!	Weapon Damage Percent: +50
 Rat-Faced	Moxie Percent: +10
+# Rattlin' Head: Makes you look like a forest spirit
 Rave Concentration	Item Drop: +30
 Rave Nirvana	Meat Drop: +50
 Raving Lunatic	Weapon Damage: +20
@@ -3425,6 +3430,7 @@ Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
 Stabilizing Oiliness	Equalize: "Muscle"
 Standard Issue Bravery	Muscle: +30, Mysticality: +30, Moxie: +30
 Stands Alone	Stench Damage: +10
+# Stark Raven Mad: Makes you look like a raven
 Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
 # Stenchform: P. U.
 Stenchform	Stench Immunity, Cold Vulnerability, Sleaze Vulnerability
@@ -3475,6 +3481,7 @@ Swimming Head	Item Drop: [25*zone(The Sea)]
 # Swimming with Sharks: Makes you a better diver
 Swimming with Sharks	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)], Meat Drop: +20
 Synthesized	Damage Reduction: 8, Weapon Damage: -8
+# Taking the Plunge: Makes you look like a Gnollish Plungermaster
 # Talking Like a Pirate: Arrr.
 Tamarind Torment	Muscle: +5, Moxie: -5
 Tangled Up	Moxie Percent: -20
@@ -3526,6 +3533,7 @@ There Wolf	Weapon Damage Percent: +100
 Thick-Skinned	Maximum HP: +50
 Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Three Days Slow	Experience (familiar): +3
+# Three King-sized Sheets to the Wind: Makes you look like a Booze Giant
 Ticking Clock	Initiative: +30
 Tin, Man	Damage Reduction: 5
 Tingly Biceps	Muscle: +5
@@ -3534,6 +3542,7 @@ Tingly Wrists	Mysticality: +5
 # Tinnitus
 Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 # Toad In The Hole: Continually take damage
+# To Protect and Servo: Makes you look like a cyborg policeman
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Transcendental Wind	Mysticality: +50
@@ -3894,6 +3903,7 @@ _stickers	Item Drop: +25, Experience: +2, Meat Drop: +25, Muscle Percent: +10, M
 
 &quot;DRINK ME&quot; potion	Effect: "Down the Rabbit Hole", Effect Duration: 20
 1/6th Pound Cake	Effect: "Heal Thy Nanoself", Effect Duration: 100
+A muse-bouche	Effect: "Pros Only", Effect Duration: 30
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
 Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 Apathargic Bandersnatch	Free Pull
@@ -3930,6 +3940,7 @@ Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
 Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Enchanted Flyswatter	Effect: "Fly for a White Guy", Effect Duration: 30
+Enchanted Plunger	Effect: "Taking the Plunge", Effect Duration: 30
 Everlasting Deckswabber	Effect: "Sugar Rush", Effect Duration: 10
 Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
 Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
@@ -3969,6 +3980,7 @@ Mer-kin fastjuice	Effect: "Juiced Up", Effect Duration: 10
 Mer-kin hidepaint	Effect: "Colorfully Concealed", Effect Duration: 10
 Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration: 10
 Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
+Missing Eye Simulation Device	Effect: "Gnollivision", Effect Duration: 30
 Moping Artistic Goth Kid	Free Pull
 Mortimer's nostrum	Effect: "Limber as Mortimer", Effect Duration: 10
 Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
@@ -3989,6 +4001,7 @@ Polka Pop	Effect: "Polka Face", Effect Duration: 10
 Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
 Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
+Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
 SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 Schmalz's First Prize Beer	Free Pull
 Scratch 'n' Sniff Sticker Tome	Free Pull
@@ -4016,6 +4029,7 @@ Uncle Greenspan's Bathroom Finance Guide	Effect: "Buy!  Sell!  Buy!  Sell!", Eff
 Underworld acorn	Free Pull
 Valentine	Free Pull
 Wax Flask	Effect: "Over the Ocean"
+White Chocolate Golem Seeds	Effect: "Chocolate Reign", Effect Duration: 30
 Wint-O-Fresh mint	Effect: "Sugar Rush", Effect Duration: 3
 Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
 a cute angel	Free Pull
@@ -4127,6 +4141,7 @@ drum of pomade	Effect: "Perfect Hair", Effect Duration: 10
 dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5
 eel battery	Effect: "It's Electric!", Effect Duration: 15
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
+eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
 elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 embezzler's oil	Effect: "Robbin' Like a Goblin", Effect Duration: 50
 emo roe	Free Pull
@@ -4161,6 +4176,7 @@ flayed mind	Effect: "Flayer Flavor", Effect Duration: 50
 floaty sand	Effect: "5 Pounds Lighter", Effect Duration: 10
 floaty stone sphere	Free Pull
 fluid of fudge-finding	Effect: "Fudgehound", Effect Duration: 5
+forest spirit rattle	Effect: "Rattlin' Head", Effect Duration: 50
 freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
 frog lip-print	Effect: "Green, Uneasy", Effect Duration: 30
 frost-rimed seal hide	Effect: "Cold Hard Skin", Effect Duration: 10
@@ -4172,6 +4188,7 @@ fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux"
 gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
+giant breath mint	Effect: "Three King-sized Sheets to the Wind", Effect Duration: 30
 giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
 gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
 glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
@@ -4263,6 +4280,7 @@ natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
 necrotizing body spray	Effect: "Dead Sexy", Effect Duration: 30
 nervous tick egg	Free Pull
 neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
+oil-filled donut	Effect: "To Protect and Servo", Effect Duration: 50
 oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
 oil of stability	Effect: "Stabilizing Oiliness", Effect Duration: [R]
@@ -4335,6 +4353,7 @@ pygmy dart	Effect: "Short of Breath", Effect Duration: 30
 pygmy papers	Effect: "Short on Options", Effect Duration: 30
 pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
+ravenous eye	Effect: "Stark Raven Mad", Effect Duration: 50
 recording of Benetton's Medley of Diversity	Effect: "Benetton's Medley of Diversity", Effect Duration: 20
 recording of Chorale of Companionship	Effect: "Chorale of Companionship", Effect Duration: 20
 recording of Donho's Bubbly Ballad	Effect: "Donho's Bubbly Ballad", Effect Duration: 20
