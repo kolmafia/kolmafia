@@ -5818,11 +5818,11 @@
 5801
 5802
 5803
-5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	usable	t,d	5
+5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	usable	t,d	5	slices of Shivering Ch&egrave;vre
 5805
 5806
-5807
-5808
+5807	glass of warm milk	734455157	milk.gif	usable	t,d	5
+5808	glass of gnat milk	352544230	milk.gif	usable	t,d	5
 5809	Knob Goblin Mutagen	436545864	lovepotion.gif	usable	t,d	5
 5810	Tears of the Quiet Healer	567473707	vial.gif	usable	t,d	5
 5811	giant tube of black lipstick	679762287	lipstick.gif	usable	t,d	5
@@ -5834,12 +5834,12 @@
 5817
 5818	Stone Golem pebbles	382105723	float_pebbles.gif	usable	t,d	5
 5819	spooky gravy fairy warlock hat	260012099	tinyhat.gif	usable	t,d	5
-5820
+5820	bull blubber	936998869	wad.gif	usable	t,d	5
 5821	frog lip-print	682825120	frogkiss.gif	usable	t,d	5
 5822	gazely stare	139782932	gaze.gif	usable	t,d	5
 5823	tiny canopic jar	641183026	canopicjar.gif	usable	t,d	5
 5824	clove-flavored lip balm	968477859	balm.gif	usable	t,d	5
-5825
+5825	Skullery Maid's Knee	861447669	fingerbone.gif	usable	t,d	5
 5826	zombie hollandaise	717455927	gravy.gif	usable	t,d	5
 5827	skeletal banana	331313479	bananabone.gif	usable	t,d	5
 5828	gilt perfume bottle	320032645	jperfume.gif	usable	t,d	5
@@ -5863,7 +5863,7 @@
 5846	salt water taffy	484100629	taffy.gif	usable	t,d	5
 5847	unholy water	163120400	vial.gif	usable	t,d	5
 5848	Bangyomaman battle juice	291581343	flask.gif	usable	t,d	5
-5849	handyman &quot;hand soap&quot;	285117650	handsoap.gif	usable	t,d	5
+5849	handyman &quot;hand soap&quot;	285117650	handsoap.gif	usable	t,d	5	bottles of handyman &quot;hand soap&quot;
 5850	space marine flash grenade	466376984	grenade.gif	usable	t,d	5
 5851	temporary tribal tattoo	561858084	tribaltat.gif	usable	t,d	5
 5852

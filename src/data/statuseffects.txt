@@ -1062,8 +1062,8 @@
 1061	Goat Gotten	goatcheese.gif	464244afabd87516c0611015c5010310	use 1 Shivering Ch&egrave;vre
 1062
 1063
-1064
-1065
+1064	Polyphonic Yawn	milk.gif	cda161500be5dc5d703918449233ac2b	use 1 glass of warm milk
+1065	Tango, O Gnat	milk.gif	127922a19726ca3ecea506ae805ed6f4	use 1 glass of gnat milk
 1066	Weirdly Scientific	lovepotion.gif	9b22f8d286e36373e666fed2a13f93d1	use 1 Knob Goblin Mutagen
 1067	No Squealer Healer	vial.gif	f47709a5d308f9ea5347fb160e8afe1c	use 1 Tears of the Quiet Healer
 1068	Visibly Goth	lipstick.gif	a79c4220b2c68e9fc3517938af2880e2	use 1 giant tube of black lipstick
@@ -1075,12 +1075,12 @@
 1075	Sharin' Stone	float_pebbles.gif	52810ed8217ef3176831719436891123	use 1 Stone Golem pebbles
 1075
 1076	Warlock Fairy Wizard Sorcerer	tinyhat.gif	29330784be2afdb7ea754abb5539bf28	use 1 spooky gravy fairy warlock hat
-1077
+1077	Matador Nemesis	wad.gif	419bfcb89d68328180fda36f12855659	use 1 bull blubber
 1078	Green, Uneasy	frogkiss.gif	7e7aa1e588b933863373dcf5767f7de2	use 1 frog lip-print
 1079	The Eyes Have It	gaze.gif	97469e14d6df951eacd00008fd17ce21	use 1 gazely stare
 1080	Ham(ster)-Handed	canopicjar.gif	8bde7a38ed7519079ff2cbf390255d24	use 1 tiny canopic jar
 1081	The Great White Mope	balm.gif	2e84588f75145dbd97910619b0db720d	use 1 clove-flavored lip balm
-1082
+1082	Clean to the Bone	fingerbone.gif	c3f9eb05321a828968dc3fe22d9e20be	use 1 Skullery Maid's Knee
 1083	Chef Brains-are-dee	gravy.gif	fb25d3aa14af650dc51d85941a044ae6	use 1 zombie hollandaise
 1084	Osseous George	bananabone.gif	af54aaa271dd510ad480920de3a6e346	use 1 skeletal banana
 1085	Something's Amistress	jperfume.gif	d69b8c6f8ab6829ee0c8d7fe58124882	use 1 gilt perfume bottle
