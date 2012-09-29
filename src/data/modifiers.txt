@@ -959,6 +959,8 @@ pair of bolt cutters	Weakens Monster
 palm-frond whip	Weapon Damage: +30
 # papier-m&acirc;ch&eacute;te: Makes actions more exciting
 papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+# papier-m&acirc;chine gun: Makes actions more exciting
+papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 parasitic claw	Weapon Damage: +15
 # pasta spoon
 penguin whip	Meat Drop: +3
@@ -2641,6 +2643,7 @@ Basted	Sleaze Damage: +10, Damage Reduction: -2
 Bat Attitude	Spell Damage Percent: +100
 Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Bats in the Belfry	Mysticality Percent: +10
+# Batted Around: Makes you look like a perpendicular bat
 Beastly Flavor	Familiar Weight: +3
 Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 # Bedraggled Dragoon: Makes you look like a drowned sailor
@@ -2743,6 +2746,7 @@ Cinco Elementos	Cold Damage: [5*T], Hot Damage: [5*T], Sleaze Damage: [5*T], Spo
 Cinnamouth	Hot Damage: +11
 Clean-Shaven	Moxie: +5
 # Clean to the Bone: Makes you look like a skullery maid
+# Clerical Aura: Makes you look like Father McGruber
 Cletus's Canticle of Celerity	Initiative: +20
 # Clumsy: Always Fumble
 Clyde's Blessing	Item Drop: +50
@@ -2833,6 +2837,7 @@ Draggin' Balls	Moxie: +6, Muscle: -3
 Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Drenched With Filth	Stench Damage: +75
+# Dress to Kill: Makes you look like a Gnollish Crossdresser
 Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
 Drunk With Power	Spell Damage Percent: +100
 Duct Out of Water	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
@@ -2867,6 +2872,7 @@ Employee of the Month	Muscle: +10, Mysticality: +10, Moxie: +10
 Engorged Weapon	Weapon Damage: +10
 Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
 Enraged	Muscle Percent: +10
+# Ermahgerd, Burke: Makes you look like Special Agent Wallace Burke Corrigan
 Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10
 Everything's Zen	Experience Percent (Mysticality): +20
@@ -2954,6 +2960,7 @@ Gamer Rage	Weapon Damage Percent: +50, Spell Damage Percent: +50
 Gaze of the Lightning God	Spell Damage Percent: +50, Experience (Mysticality): +3, MP Regen Min: 4, MP Regen Max: 5
 Gaze of the Trickster God	Ranged Damage: +30, Sleaze Damage: +30, Experience (Moxie): +3, Initiative: +30
 Gaze of the Volcano God	Weapon Damage Percent: +50, Hot Damage: +25, Experience (Muscle): +3, HP Regen Min: 8, HP Regen Max: 10
+# Gearhead Gear: Makes you look like a Gnollish Gearhead
 Gelded	Monster Level: +5
 # Get Me Off This Crazy Thing!: Jane!
 Ghostly Shell	Damage Absorption: +80
@@ -3086,6 +3093,7 @@ Jalape&ntilde;o Saucesphere	Damage Reduction: 3
 Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 Jerky, Boy	Mysticality Percent: +25
 # Jingle Jangle Jingle
+# Jinkies!: Makes you look like Norville Rogers
 Joyful Resolve	Item Drop: +15
 Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
 # Juiced Up: Makes you a better diver
@@ -3285,6 +3293,7 @@ Rage of the Reindeer	Weapon Damage: +10, Muscle Percent: +10
 Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Hot Damage: +15, Hot Resistance: +3, Cold Damage: +15, Cold Resistance: +3, Stench Damage: +15, Stench Resistance: +3, Spooky Damage: +15, Spooky Resistance: +3, Sleaze Damage: +15, Sleaze Resistance: +3
 Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Rampage!	Weapon Damage Percent: +50
+# Ravonovichy: Makes you look like Father Nikolai Ravonovich
 Rat-Faced	Moxie Percent: +10
 # Rattlin' Head: Makes you look like a forest spirit
 Rave Concentration	Item Drop: +30
@@ -3904,6 +3913,7 @@ _stickers	Item Drop: +25, Experience: +2, Meat Drop: +25, Muscle Percent: +10, M
 &quot;DRINK ME&quot; potion	Effect: "Down the Rabbit Hole", Effect Duration: 20
 1/6th Pound Cake	Effect: "Heal Thy Nanoself", Effect Duration: 100
 A muse-bouche	Effect: "Pros Only", Effect Duration: 30
+Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
 Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 Apathargic Bandersnatch	Free Pull
@@ -3949,6 +3959,8 @@ Frogade	Effect: "Frog In Your Throat", Effect Duration: [R]
 Fu Manchu Wax	Effect: "Super Calloused Agile Mystic", Effect Duration: 30
 Fudgie Roll	Effect: "Sugar Rush", Effect Duration: 20
 Fuzzby	Free Pull
+Gearhead Goo	Effect: "Gearhead Gear", Effect Duration: 30
+Gnollish Crossdress	Effect: "Dress to Kill", Effect Duration: 30
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
 Gummi-DNA	Effect: "Sugar Rush", Effect Duration: 3
 Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
@@ -4005,6 +4017,7 @@ Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
 SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 Schmalz's First Prize Beer	Free Pull
 Scratch 'n' Sniff Sticker Tome	Free Pull
+Scuba Snack	Effect: "Jinkies!", Effect Duration: 100
 Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
 Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
 Skullery Maid's Knee	Effect: "Clean to the Bone", Effect Duration: 30
@@ -4065,6 +4078,7 @@ blob of acid	Effect: "Lord of Acid", Effect Duration: 50
 blood of the Wereseal	Effect: "Temporary Lycanthropy", Effect Duration: 10
 blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
 blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
+booby trap	Effect: "Ravonovichy", Effect Duration: 100
 bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
 bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
 bottle of black cat tonic	Effect: "Contagious Bad Luck", Effect Duration: 10
@@ -4304,6 +4318,7 @@ pear supersucker	Effect: "Dirty Pear", Effect Duration: 30
 peppermint twist	Effect: "Peppermint Twisted", Effect Duration: 10
 perfectly ordinary frog	Free Pull
 perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
+perpendicular guano	Effect: "Batted Around", Effect Duration: 30
 personal raindrop	Free Pull
 personalized coffee mug	Free Pull
 phial of coldness	Effect: "Coldform", Effect Duration: [R]
@@ -4454,6 +4469,7 @@ vial of brown slime	Effect: "A Little Bit Poisoned", Effect Duration: 5
 vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
+votive candle	Effect: "Clerical Aura", Effect Duration: 100
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
 weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20

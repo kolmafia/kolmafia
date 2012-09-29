@@ -5810,13 +5810,13 @@
 5793
 5794	Enchanted Plunger	286405091	plunger.gif	usable	t,d	5
 5795	Enchanted Flyswatter	289657598	swatter.gif	usable	t,d	5
-5796
+5796	Gearhead Goo	791730484	vial.gif	usable	t,d	5
 5797	Missing Eye Simulation Device	127128302	eyepatch.gif	usable	t,d	5
-5798
+5798	Gnollish Crossdress	421957448	skirt.gif	usable	t,d	5
 5799	eldritch dough	613464615	dough.gif	usable	t,d	5
 5800
 5801
-5802
+5802	perpendicular guano	502945833	perpguano.gif	usable	t,d	5
 5803	White Chocolate Golem Seeds	741418840	chips.gif	usable	t,d	5
 5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	usable	t,d	5	slices of Shivering Ch&egrave;vre
 5805	giant breath mint	664766664	lifesaver.gif	usable	t,d	5
@@ -5870,11 +5870,11 @@
 5853	stick-on gnome beard	918088506	epicbeard.gif	usable	t,d	5
 5854	BRICKO stud	678283294	brickonub.gif	usable	t,d	5
 5855	Osk'r Chow	842211802	float_pebbles.gif	usable	t,d	5
-5856
+5856	Scuba Snack	242148934	scoobysnack.gif	usable	t,d	5
 5857
-5858
-5859
-5860
+5858	votive candle	324654941	votive.gif	usable	t,d	5
+5859	booby trap	623472296	boobytrap.gif	usable	t,d	5
+5860	Agent Corrigan's cigarette	717767231	cigarette.gif	usable	t,d	5
 5861
 5862	Tome of Rad Libs	901132469	radlibtome.gif	usable	t	0
 5863	Rad Lib	968972760	radlib.gif	usable	t,d	5	Rad Libs
@@ -5883,7 +5883,7 @@
 5866	papier-m&acirc;chaeranthera	864484289	macheflower.gif	usable	d	15
 5867	papier-m&acirc;ch&eacute; toothpicks	267596873	machetoothpicks.gif	usable	d	20
 5868	papier-m&acirc;ch&eacute;te	939197198	machemachete.gif	weapon	d	25
-5869
+5869	papier-m&acirc;chine gun	437061769	machegun.gif	weapon	d	30
 5870	papier-masque	716668190	machemasque.gif	accessory	d	35
 5871	papier-mitre	195976820	machemitre.gif	hat	d	45
 5872	papier-m&acirc;churidars	970295037	machepants.gif	pants	d	55

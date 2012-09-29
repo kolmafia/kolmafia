@@ -1051,13 +1051,13 @@
 1050
 1051	Taking the Plunge	plunger.gif	3d62f47d08ae64f04cad1f6a6b94d7c0	use 1 Enchanted Plunger
 1052	Fly for a White Guy	swatter.gif	d5dc6dd0392e18e9d71e80517ff211c8	use 1 Enchanted Flyswatter
-1053
+1053	Gearhead Gear	vial.gif	6c3e9085f5cddea6eaa1fe28627f73a6	use 1 Gearhead Goo
 1054	Gnollivision	eyepatch.gif	55c90bf4379a689027d505ccdd35263e	use 1 Missing Eye Simulation Device
-1055
+1055	Dress to Kill	skirt.gif	fa843311d6d1f234e254d990363961f5	use 1 Gnollish Crossdress
 1056	Better Off Bread	dough.gif	ce0519daf4764e69d9ba52da0b0e7127	use 1 eldritch dough
 1057
 1058
-1059
+1059	Batted Around	perpguano.gif	6c35aa714f931fb9a387d48e9bbb9323	use 1 perpendicular guano
 1060
 1061	Goat Gotten	goatcheese.gif	464244afabd87516c0611015c5010310	use 1 Shivering Ch&egrave;vre
 1062	Three King-sized Sheets to the Wind	lifesaver.gif	0fa2345811faba8cd2aa846bed0b7c89	use 1 giant breath mint
@@ -1111,11 +1111,11 @@
 1110	Gnomedome	epicbeard.gif	7f7ce0dc3e85b9c341aa384f79a911aa	use 1 stick-on gnome beard
 1111	You're a Brick . . . Ooze	brickonub.gif	bf469841c66875b125cdfaff5168b3b9	use 1 BRICKO stud
 1112	Walking Carpet	float_pebbles.gif	cdbea030883e5e4032b2905871a6ceec	use 1 Osk'r Chow
-1113
+1113	Jinkies!	scoobysnack.gif	375e1b3838953306343ce21da23e99a9	use 1 Scuba Snack
 1114
-1115
-1116
-1117
+1115	Clerical Aura	votive.gif	d26a942a66cbe60313ff55c81def5624	use 1 votive candle
+1116	Ravonovichy	boobytrap.gif	302340d940b3fc80d684ca0b58f763e5	use 1 booby trap
+1117	Ermahgerd, Burke	cigarette.gif	b3ab2310ef241e43e9516aed94de83c5	use 1 Agent Corrigan's cigarette
 1118
 1119	Altered	Wavelengths nopic.gif	cd23f6685ed4f7e2648998a4020f1265	use 1 papier-mochi
 1120	Stopping	to Smell the Flowers nopic.gif	00c2131ddee16ce4278a0047946ed99e	use 1 papier-m&acirc;chaeranthera
