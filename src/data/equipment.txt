@@ -850,6 +850,7 @@ oversized pizza cutter	100	Mys: 35	1-handed utensil
 pair of bolt cutters	60	Mus: 15	2-handed club
 palm-frond whip	25	Mus: 0	1-handed whip
 papier-m&acirc;ch&eacute;te	100	Mus: 20	1-handed sword
+papier-m&acirc;chine gun	100	Mox: 20	1-handed pistol
 parasitic claw	30	Mus: 0	1-handed club
 pasta spoon	10	Mys: 0	1-handed utensil
 penguin whip	20	Mus: 0	1-handed whip
