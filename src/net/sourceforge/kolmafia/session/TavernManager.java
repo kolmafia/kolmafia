@@ -72,7 +72,7 @@ public class TavernManager
 	// 21->22  23->24->25
 
 	private static Integer [] searchOrder = {
-		// PrimitiveAutoBoxCache.valueOf(  5 ),
+		// IntegerPool.get( 5 ),
 		IntegerPool.get(  4 ), IntegerPool.get(  3 ), IntegerPool.get(  2 ),
 		IntegerPool.get(  1 ), IntegerPool.get(  6 ), IntegerPool.get( 11 ),
 		IntegerPool.get( 16 ), IntegerPool.get( 21 ), IntegerPool.get( 22 ),
@@ -248,7 +248,7 @@ public class TavernManager
 			KoLCharacter.getAdventuresLeft() > 0 )
 		{
 			// Tell TavernRequest to visit the next unexplored square
-			TavernManager.overrideSquare = TavernManager.nextUnexploredSquare();
+			TavernManager.overrideSquare = TavernManager.nextUnexploredSquare() - 1;
 			RequestThread.postRequest( adventure );
 			TavernManager.overrideSquare = -1;
 
