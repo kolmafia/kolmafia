@@ -5859,7 +5859,7 @@
 5842	gold toothbrush	397328678	toothbrush.gif	usable	t,d	5
 5843	pirate cream pie	438610679	pie.gif	usable	t,d	5
 5844
-5845
+5845	compressed air canister	564731061	canteen.gif	usable	t,d	5
 5846	salt water taffy	484100629	taffy.gif	usable	t,d	5
 5847	unholy water	163120400	vial.gif	usable	t,d	5
 5848	Bangyomaman battle juice	291581343	flask.gif	usable	t,d	5
