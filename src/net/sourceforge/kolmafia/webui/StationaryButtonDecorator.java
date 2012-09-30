@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -55,18 +56,16 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StationaryButtonDecorator
 {
-	private static final ArrayList combatHotkeys = new ArrayList();
+	private static final ArrayList<String> combatHotkeys = new ArrayList<String>();
 
 	private static final boolean builtInSkill( final String skillId )
 	{
-		// Entangling Noodles
-		if ( skillId.equals( "3004" ) )
+		if ( skillId.equals( String.valueOf( SkillPool.ENTANGLING_NOODLES ) ) )
 		{
 			return true;
 		}
 
-		// Transcendent Olfaction
-		if ( skillId.equals( "19" ) )
+		if ( skillId.equals( String.valueOf( SkillPool.OLFACTION ) ) )
 		{
 			return true;
 		}
@@ -183,7 +182,7 @@ public class StationaryButtonDecorator
 
 				// Build the CAB in a new StringBuffer
 
-				StringBuffer CAB = new StringBuffer();
+				StringBuilder CAB = new StringBuilder();
 				boolean choice = buffer.indexOf( "<input" ) != -1;
 
 				CAB.append( "<img src='http://images.kingdomofloathing.com/itemimages/blank.gif' id='dragged'>" );
@@ -260,7 +259,14 @@ public class StationaryButtonDecorator
 
 				
 				insertIndex = buffer.indexOf( "</body>" );
-				buffer.insert( insertIndex, "</div></div>" );
+				if ( insertIndex > -1 )
+				{
+					buffer.insert( insertIndex, "</div></div>" );
+				}
+				else
+				{
+					buffer.append( "</div></div>" );
+				}
 				// *** End of 'overflow' div
 				// *** End of 'content' div
 			}

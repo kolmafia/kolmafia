@@ -1072,7 +1072,7 @@
 1071	Lord of Acid	wad.gif	3d5bf3104970c981fa07b9de18b50393	use 1 blob of acid
 1072	Flayer Flavor	realbrain.gif	26a2fce9449da72ada69ceb5b69b1281	use 1 flayed mind
 1073	The Kobold and the Kobeautiful	float_pebbles.gif	1e422ac0983380c9c29badb6e6dd9b4d	use 1 kobold kibble
-1074	Rattlin' Head foresthead.gif 94ecef21b533265b449650422ecf451b use 1 forest spirit rattle
+1074	Rattlin' Head	foresthead.gif	94ecef21b533265b449650422ecf451b	use 1 forest spirit rattle
 1075	Sharin' Stone	float_pebbles.gif	52810ed8217ef3176831719436891123	use 1 Stone Golem pebbles
 1076	Warlock Fairy Wizard Sorcerer	tinyhat.gif	29330784be2afdb7ea754abb5539bf28	use 1 spooky gravy fairy warlock hat
 1077	Matador Nemesis	wad.gif	419bfcb89d68328180fda36f12855659	use 1 bull blubber
@@ -1100,11 +1100,11 @@
 1099	Grillin' Like a Villain	toothbrush.gif	3e21ae7ab11d8c05aff31aa32c1d443c	use 1 gold toothbrush
 1100	Well Excuuuuse Me!	pie.gif	93771472bb05878e945ee458217ac54b	use 1 pirate cream pie
 1101
-1102
+1102	Dug Out	canteen.gif	bc21768963d98ca568818a9bc2b1f0d8	use 1 compressed air canister
 1103	Bedraggled Dragoon	taffy.gif	d1aa2761e2b34dcbeca019163ae817b7	use 1 salt water taffy
 1104	Shocking Biology	vial.gif	792832c31d96f91d4f7e629978c3a77f	use 1 unholy water
-1105	Pug Ugly flask.gif	7ee7811623305bf11b1c3fe8ad792c0f	use 1 Bangyomaman battle juice
-1106	Jay Walking handsoap.gif 760a70ad54326538803bbc9c39edbafe use 1 handyman &quot;hand soap&quot;
+1105	Pug Ugly	flask.gif	7ee7811623305bf11b1c3fe8ad792c0f	use 1 Bangyomaman battle juice
+1106	Jay Walking	handsoap.gif	760a70ad54326538803bbc9c39edbafe	use 1 handyman &quot;hand soap&quot;
 1107	RIP AND TEAR	grenade.gif	446e490ff2aedc7731ca12c8855b8e54	use 1 space marine flash grenade
 1108	Dawn of the Goblin	tribaltat.gif	26f43e4d6e598f266a39dbacfc0b5653	use 1 temporary tribal tattoo
 1109	To Protect and Servo	jellydonut.gif	39c2702c21113b8277938a87d4fb5234	use 1 oil-filled donut
@@ -1117,6 +1117,6 @@
 1116	Ravonovichy	boobytrap.gif	302340d940b3fc80d684ca0b58f763e5	use 1 booby trap
 1117	Ermahgerd, Burke	cigarette.gif	b3ab2310ef241e43e9516aed94de83c5	use 1 Agent Corrigan's cigarette
 1118
-1119	Altered	Wavelengths nopic.gif	cd23f6685ed4f7e2648998a4020f1265	use 1 papier-mochi
-1120	Stopping	to Smell the Flowers nopic.gif	00c2131ddee16ce4278a0047946ed99e	use 1 papier-m&acirc;chaeranthera
-1121	Eyes	Wide Propped nopic.gif	471d1af8ce58cd6214fa35ea7e73c2c3	use 1 papier-m&acirc;ch&eacute; toothpicks
+1119	Altered Wavelengths	nopic.gif	cd23f6685ed4f7e2648998a4020f1265	use 1 papier-mochi
+1120	Stopping to Smell the Flowers	nopic.gif	00c2131ddee16ce4278a0047946ed99e	use 1 papier-m&acirc;chaeranthera
+1121	Eyes Wide Propped	nopic.gif	471d1af8ce58cd6214fa35ea7e73c2c3	use 1 papier-m&acirc;ch&eacute; toothpicks

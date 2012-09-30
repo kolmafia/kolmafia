@@ -2841,6 +2841,7 @@ Drenched With Filth	Stench Damage: +75
 Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
 Drunk With Power	Spell Damage Percent: +100
 Duct Out of Water	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
+# Dug Out: Makes you look like a spelunking astronaut
 Duhhh	Mysticality: -20
 Dwarven Hardiness	Muscle Percent: +5
 # Earthen Fist: +10 damage to Fist techniques
@@ -4114,6 +4115,7 @@ cold nuggets	Effect: "Frigid Weapon", Effect Duration: 5
 cold powder	Effect: "Insulated Trousers", Effect Duration: 5
 cold-filtered water	Effect: "Purity of Spirit", Effect Duration: 10
 cologne of contempt	Effect: "Contemptible Emanations", Effect Duration: [R]
+compressed air canister	Effect: "Dug Out", Effect Duration: 30
 concentrated cordial of concentration	Effect: "Concentrated Concentration", Effect Duration: [R]
 concentrated garbage juice	Effect: "Drenched With Filth", Effect Duration: 20
 concoction of clumsiness	Effect: "Clumsy", Effect Duration: [R]
