@@ -511,7 +511,7 @@ Hellseal pup	HP: 85 Def: 85 Atk: 85 P: demon	hellseal whisker (0)	hellseal claw 
 Herman East, Relivinator	HP: 52 Def: 43 Atk: 39	hunter brain (100n)
 High Priest of Ki'rhuss	HP: 110 Def: 110 Atk: 110 P: humanoid
 Hobelf	HP: 500 Def: 350 Atk: 350 P: hobo	bindlestocking (0)	hobo nickel (c15)	sleeping stocking (0)	Tales of a Kansas Toymaker (0)	The Joy of Wassailing (0)
-Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
+Hockey Elemental	HP: 40 Def: 65 Atk: 65 P: elemental	hockey stick of furious angry rage (100)
 Hodgman, The Hoboverlord	BOSS HP: 25000 Def: 750 Atk: 750 P: hobo	Hodgman's bow tie (0)	Hodgman's porkpie hat (0)	Hodgman's lobsterskin pants (0)	Hodgman's almanac (0)	Hodgman's lucky sock (0)	Hodgman's metal detector (0)	Hodgman's varcolac paw (0)	Hodgman's harmonica (0)	Hodgman's garbage sticker (0)	Hodgman's cane (0)	Hodgman's whackin' stick (0)	Hodgman's disgusting technicolor overcoat (0)	Hodgman's imaginary hamster (0)	hobo fortress blueprints (0)	stuffed Hodgman (0)	Hodgman's blanket (0)	tin cup of mulligan stew (0)	Hodgman's journal #1: The Lean Times (0)	Hodgman's journal #2: Entrepreneurythmics (0)	Hodgman's journal #3: Pumping Tin (0)	Hodgman's journal #4: View From The Big Top (0)
 Hostile Amoeba	HP: 20 Def: 25 Atk: 20 P: slime	memory of an A (20)	memory of a C (20)
 Hot Hobo	HP: 500 Def: 350 Atk: 350 E: heat P: hobo	bed of coals (0)	hobo nickel (c15)	flamin' bindle (0)	Tales from the Fireside (0)	Kissin' Cousins (0)
