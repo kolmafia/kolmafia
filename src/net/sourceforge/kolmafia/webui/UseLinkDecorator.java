@@ -1375,6 +1375,29 @@ public abstract class UseLinkDecorator
 			useLocation = "volcanoisland.php?action=tniat";
 			break;
 
+		case ItemPool.NOSTRIL_OF_THE_SERPENT:
+			if ( !InventoryManager.hasItem( ItemPool.STONE_WOOL ) )
+			{
+				return null;
+			}
+
+			useType = "stone wool";
+			useLocation = "inv_use.php?which=3&whichitem=";
+			itemId = ItemPool.STONE_WOOL;
+			break;
+
+		case ItemPool.ANCIENT_BOMB:
+		case ItemPool.ANCIENT_BRONZE_TOKEN:
+			if ( !InventoryManager.hasItem( ItemPool.TOMB_RATCHET ) )
+			{
+				return null;
+			}
+
+			useType = "ratchet";
+			useLocation = "inv_use.php?which=3&whichitem=";
+			itemId = ItemPool.TOMB_RATCHET;
+			break;
+
 		default:
 
 			// Bounty items get a count and a link to the Bounty

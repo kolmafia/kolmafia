@@ -3435,6 +3435,7 @@ Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
 Spookypants	Spooky Resistance: +1
 Stopping to Smell the Flowers	Experience: +3
 Springy Fusilli	Initiative: +40
+# Square Jaw And Everything Else: Makes you look like Scott the Miner
 Square to be Hip	Moxie Percent: +10
 Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
 Stabilizing Oiliness	Equalize: "Muscle"
@@ -4221,6 +4222,7 @@ green candy heart	Effect: "Heart of Green", Effect Duration: 10
 green snowcone	Effect: "Green Tongue", Effect Duration: 20
 gremlin juice	Effect: "Comic Violence", Effect Duration: 5
 gremlin mutagen	Effect: "Mutated"
+grey cube	Effect: "Square Jaw And Everything Else", Effect
 groupie spangles	Effect: "Spangled Star", Effect Duration: 5
 gummi ammonite	Effect: "Sugar Rush", Effect Duration: 100
 gummi belemnite	Effect: "Sugar Rush", Effect Duration: 100

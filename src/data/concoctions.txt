@@ -1853,6 +1853,8 @@ papier-m&acirc;ch&eacute;te	MUSE	papier-m&acirc;ch&eacute; glob (5)
 papier-masque	MUSE	papier-m&acirc;ch&eacute; glob (7)
 papier-mitre	MUSE	papier-m&acirc;ch&eacute; glob (9)
 papier-m&acirc;churidars	MUSE	papier-m&acirc;ch&eacute; glob (11)
+papier-m&acirc;ch&eacute; plaque	MUSE	papier-m&acirc;ch&eacute; glob (23)
+papier-m&acirc;ch&eacute; handle	MUSE	papier-m&acirc;ch&eacute; glob (37)
 
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
