@@ -5871,7 +5871,7 @@
 5854	BRICKO stud	678283294	brickonub.gif	usable	t,d	5
 5855	Osk'r Chow	842211802	float_pebbles.gif	usable	t,d	5
 5856	Scuba Snack	242148934	scoobysnack.gif	usable	t,d	5
-5857
+5857	grey cube	125608055	cube.gif	usable	t,d	5
 5858	votive candle	324654941	votive.gif	usable	t,d	5
 5859	booby trap	623472296	boobytrap.gif	usable	t,d	5
 5860	Agent Corrigan's cigarette	717767231	cigarette.gif	usable	t,d	5
@@ -5887,3 +5887,5 @@
 5870	papier-masque	716668190	machemasque.gif	accessory	d	35
 5871	papier-mitre	195976820	machemitre.gif	hat	d	45
 5872	papier-m&acirc;churidars	970295037	machepants.gif	pants	d	55
+5873	papier-m&acirc;ch&eacute; plaque	896457494	macheplaque.gif	none	d	115
+5874	papier-m&acirc;ch&eacute; handle	143770005	machehandle.gif	none	d	185

@@ -1112,7 +1112,7 @@
 1111	You're a Brick . . . Ooze	brickonub.gif	bf469841c66875b125cdfaff5168b3b9	use 1 BRICKO stud
 1112	Walking Carpet	float_pebbles.gif	cdbea030883e5e4032b2905871a6ceec	use 1 Osk'r Chow
 1113	Jinkies!	scoobysnack.gif	375e1b3838953306343ce21da23e99a9	use 1 Scuba Snack
-1114
+1114	Square Jaw And Everything Else	cube.gif	65f9e02c9758fd14111d1ace76c57db4	use 1 grey cube
 1115	Clerical Aura	votive.gif	d26a942a66cbe60313ff55c81def5624	use 1 votive candle
 1116	Ravonovichy	boobytrap.gif	302340d940b3fc80d684ca0b58f763e5	use 1 booby trap
 1117	Ermahgerd, Burke	cigarette.gif	b3ab2310ef241e43e9516aed94de83c5	use 1 Agent Corrigan's cigarette
