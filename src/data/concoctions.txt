@@ -1860,6 +1860,7 @@ papier-m&acirc;ch&eacute; handle	MUSE	papier-m&acirc;ch&eacute; glob (37)
 skeleton quiche	MUSE	skeleton (3)
 skeletal scabbard	MUSE	skeleton (4)
 crystal skeleton vodka	MUSE	skeleton (5)
+skeletal skiff	MUSE	skeleton (7)
 Bonestabber	MUSE	skeleton (11)
 
 # Crimbo toys.  These are items which are created at Uncle Crimbo
