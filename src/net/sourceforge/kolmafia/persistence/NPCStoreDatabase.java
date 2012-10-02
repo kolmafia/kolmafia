@@ -203,7 +203,7 @@ public class NPCStoreDatabase
 
 			if ( shopName.equals( "Hippy Store (Pre-War)" ) )
 			{
-				if ( !InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) || !EquipmentManager.hasOutfit( OutfitPool.HIPPY_OUTFIT ) )
+				if ( !( InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) || InventoryManager.hasItem( ItemPool.SKIFF ) ) || !EquipmentManager.hasOutfit( OutfitPool.HIPPY_OUTFIT ) )
 				{
 					return false;
 				}

@@ -5899,6 +5899,6 @@
 5882	skeleton skis	379222505	skeletonskis.gif	accessory	t,d	10
 5883	skeleton quiche	215841445	klpie.gif	food	t,d	15
 5884	skeletal scabbard	166884321	scabbard.gif	accessory	t,d	20
-5885
+5885	skeletal skiff	979032491	boneskiff.gif	none	q	0
 5886	Bonestabber	999100716	awesomesword.gif	weapon	t,d	55
 5887	crystal skeleton vodka	653313696	crystalskel.gif	drink	t,d	25

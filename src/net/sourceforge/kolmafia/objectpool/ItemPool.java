@@ -1504,6 +1504,7 @@ public class ItemPool
 	public static final int RAD_LIB_BOOK = 5862;
 	public static final int DRAGON_TEETH = 5880;
 	public static final int SKELETON = 5881;
+	public static final int SKIFF = 5885;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
