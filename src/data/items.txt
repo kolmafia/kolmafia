@@ -5875,7 +5875,7 @@
 5858	votive candle	324654941	votive.gif	usable	t,d	5
 5859	booby trap	623472296	boobytrap.gif	usable	t,d	5
 5860	Agent Corrigan's cigarette	717767231	cigarette.gif	usable	t,d	5
-5861
+5861	good ash	221914773	disease.gif	usable	t,d	5
 5862	Tome of Rad Libs	901132469	radlibtome.gif	usable	t	0
 5863	Rad Lib	968972760	radlib.gif	usable	t,d	5	Rad Libs
 5864	papier-m&acirc;ch&eacute; glob	883548079	macheglob.gif	usable	d	5
@@ -5889,3 +5889,16 @@
 5872	papier-m&acirc;churidars	970295037	machepants.gif	pants	d	55
 5873	papier-m&acirc;ch&eacute; plaque	896457494	macheplaque.gif	none	d	115
 5874	papier-m&acirc;ch&eacute; handle	143770005	machehandle.gif	none	d	185
+5875
+5876
+5877
+5878
+5879	Pete & Jackie's Dragon Tooth Emporium Catalog	127406602	teethcatalog.gif	usable	t	0
+5880	packet of dragon's teeth	593373158	teethpacket.gif	usable		0
+5881	skeleton	991177466	skeleton.gif	multiple	t,d	5	skeletons
+5882	skeleton skis	379222505	skeletonskis.gif	accessory	t,d	10
+5883	skeleton quiche	215841445	klpie.gif	food	t,d	15
+5884	skeletal scabbard	166884321	scabbard.gif	accessory	t,d	20
+5885
+5886	Bonestabber	999100716	awesomesword.gif	weapon	t,d	55
+5887	crystal skeleton vodka	653313696	crystalskel.gif	drink	t,d	25

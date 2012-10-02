@@ -357,36 +357,59 @@ public class ValhallaDecorator
 	{
 		boolean havePumpkin = InventoryManager.hasItem( ItemPool.PUMPKIN_SEEDS );
 		boolean havePeppermint = InventoryManager.hasItem( ItemPool.PEPPERMINT_PACKET );
-		if ( !havePumpkin && !havePeppermint )
+		boolean haveSkeleton = InventoryManager.hasItem( ItemPool.DRAGON_TEETH );
+		if ( !havePumpkin && !havePeppermint && !haveSkeleton )
 		{
 			return;
 		}
-		buffer.append( "Garden: " );
+		boolean needSeparator = false;
+
+		buffer.append( "Garden: plant " );
 		if ( havePumpkin )
 		{
-			buffer.append( "plant <a href=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+pumpkin+seeds;" );
+			if ( needSeparator )
+			{
+				buffer.append( " or " );
+			}
+			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+pumpkin+seeds;" );
 			buffer.append( "+use+packet+of+pumpkin+seeds&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
 			buffer.append( "\">pumpkin</a>" );
-
-		}
-		if ( havePumpkin && havePeppermint )
-		{
-			buffer.append( "; " );
+			needSeparator = true;
 		}
 		if ( havePeppermint )
 		{
-			buffer.append( "plant <a href=\"/KoLmafia/redirectedCommand?cmd=acquire+Peppermint+Pip+Packet;" );
+			if ( needSeparator )
+			{
+				buffer.append( " or " );
+			}
+			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=acquire+Peppermint+Pip+Packet;" );
 			buffer.append( "+use+Peppermint+Pip+Packet&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
 			buffer.append( "\">peppermint</a>" );
+			needSeparator = true;
 		}
-		if ( CampgroundRequest.getCrop() != null )
+		if ( haveSkeleton )
 		{
-			AdventureResult crop = CampgroundRequest.getCrop();
-			String cropString = ( crop.getName().indexOf( "peppermint" ) != -1 
-				|| crop.getName().indexOf( "candy cane" ) != -1 ) ? "Peppermint"
-				: ( crop.getName().indexOf( "pumpkin" ) != -1 ) ? "Pumpkin" : "Unknown";
+			if ( needSeparator )
+			{
+				buffer.append( " or " );
+			}
+			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+dragon's+teeth;" );
+			buffer.append( "+use+packet+of+dragon's+teeth&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">skeleton</a>" );
+			needSeparator = true;
+		}
+		AdventureResult crop = CampgroundRequest.getCrop();
+		if ( crop != null )
+		{
+			String cropName = crop.getName();
+			String cropString = ( cropName.contains( "peppermint" )
+				|| cropName.contains( "candy cane" ) ) ? "Peppermint"
+				: ( cropName.contains( "pumpkin" ) ) ? "Pumpkin"
+				: ( cropName.contains( "skeleton" ) ) ? "Skeleton"
+				: "Unknown";
 			buffer.append( " (currently " + cropString + ")" );
 		}
 		buffer.append( "<br>" );

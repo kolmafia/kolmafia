@@ -498,6 +498,7 @@ BRICKO sword	60	Mus: 0	2-handed club
 Barney's rake	25	Mus: 0	2-handed polearm
 Bigger Bugfinder Blade	200	Mus: 85	2-handed sword
 Bjorn's Hammer	50	Mus: 10	1-handed club
+Bonestabber	100	Mus: 0	1-handed sword
 Brimstone Bludgeon	200	Mus: 30	1-handed club
 Bugfinder Blade	180	Mus: 75	2-handed sword
 C.B.F.G.	150	Mox: 60	2-handed rifle
@@ -1703,6 +1704,8 @@ shiny tribal beads	80	Mys: 25
 shock belt	80	none
 silver tongue charrrm bracelet	190	Mys: 80
 sk8board	70	Mys: 20
+skeletal scabbard	0	none
+skeleton skis	0	none
 slime convention pin	10	none
 slime-covered necklace	200	Mys: 200
 snow belt	50	Mys: 10

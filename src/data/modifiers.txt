@@ -575,6 +575,8 @@ BRICKO sword	Weapon Damage: +6
 Barney's rake	Spooky Damage: +3, Muscle: +3
 Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11, Adventures: +3
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
+# Bonestabber: +30 Damage vs. Skeletons
+Bonestabber	Spooky Resistance: +3, Spooky Damage: +10, Monster Level: +5
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30, Brimstone
 Bugfinder Blade	Muscle: +7, Mysticality: +7, Moxie: +7
 C.B.F.G.	Hot Damage: +10, Stench Damage: +10
@@ -1918,6 +1920,8 @@ shiny tribal beads	Mysticality: +6
 shock belt	Single Equip
 silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 sk8board	Initiative: +15
+# skeletal scabbard: Doubles the damage dealt by swords
+skeleton skis	Initiative: +25, Cold Damage: +5, Spooky Damage: +5, Single Equip
 slime convention pin	Moxie: -1
 slime-covered necklace	Weapon Damage: [50*zone(The Slime Tube)], Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200
 snow belt	Cold Damage: +6, Single Equip
@@ -2897,6 +2901,7 @@ Fastbreaker	Muscle Percent: +20
 Fat Leon's Phat Loot Lyric	Item Drop: +20
 Fearless	Monster Level: -10
 Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
+# Feeling a Little Wesley: Makes you look like Wesley J. "Wes" Campbell
 Feet of Grapefruit	Experience (Mysticality): +3
 Feet of Strawberry	Experience (Moxie): +3
 Feet of Watermelon	Experience (Muscle): +3
@@ -4215,6 +4220,7 @@ glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 glowing frisbee	Free Pull
 glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
 gold toothbrush	Effect: "Grillin' Like a Villain", Effect Duration: 30
+good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
 goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 graveyard snowglobe	Effect: "Cold, Dead Hands", Effect Duration: 20
 green-frosted astral cupcake	Effect: "The Cupcake of Wrath", Effect Duration: 20
