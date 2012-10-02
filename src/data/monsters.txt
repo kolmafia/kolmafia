@@ -906,7 +906,7 @@ The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze P: constellation	line (30)
 The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze P: constellation	line (30)	star (30)	star (30)
 The Whole Kingdom	HP: 10000000 Def: 1 Atk: 1 Phys: 100 P: object
 Three Skeleton Invaders	HP: 80 Def: 80 Atk: 80 Init: 50	bone chips (30)	bone chips (20)	bone chips (10)
-Thug 1 and Thug 2	BOSS HP: 0 P: undead	jealousy stone (100)
+Thug 1 and Thug 2	BOSS HP: 0 P: demihuman	jealousy stone (100)
 Timmy Tofurkey	HP: 90 Def: 45 Atk: 40 P: demihuman	sun-dried tofu (0)
 Timmy Tofurkey Cast Member	HP: 110 Def: 70 Atk: 60 P: humanoid	sun-dried tofu (0)
 Tipsy Pirate	HP: 73 Def: 80 Atk: 80 Meat: 36-54 P: pirate	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
@@ -1127,10 +1127,10 @@ Possessed Can of Cranberry Sauce	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3] P: unde
 Stuffing Golem	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3] P: object	single-serving herbal stuffing (c100)	herbal stuffing (c100)
 
 # The Red Queen's Garden
-Beelephant	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: beast	bucket of honey (20)	elephant stinger (0)	reflection of a map (c10)
-Tiger-Lily	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: plant	eye of the Tiger-lily (0)	Tiger-lily's milk (20)	reflection of a map (c10)
-Snapdragon	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: plant	dragon snaps (20)	snapdragon pistil (0)	reflection of a map (c10)
-Wasp in a Wig	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: bug	powdered donut (20)	powdered wig (0)	reflection of a map (c10)
+Beelephant	HP: [(min(200,MUS)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: beast	bucket of honey (20)	elephant stinger (0)	reflection of a map (c10)
+Tiger-Lily	HP: [(min(200,MUS)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: plant	eye of the Tiger-lily (0)	Tiger-lily's milk (20)	reflection of a map (c10)
+Snapdragon	HP: [(min(200,MUS)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: plant	dragon snaps (20)	snapdragon pistil (0)	reflection of a map (c10)
+Wasp in a Wig	HP: [(min(200,MUS)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: bug	powdered donut (20)	powdered wig (0)	reflection of a map (c10)
 
 # April Fool's Day
 CDMoyer's Butt	HP: 52 Def: 76 Atk: 69	Red Pill (100)
