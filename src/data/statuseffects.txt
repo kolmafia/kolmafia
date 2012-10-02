@@ -1116,7 +1116,7 @@
 1115	Clerical Aura	votive.gif	d26a942a66cbe60313ff55c81def5624	use 1 votive candle
 1116	Ravonovichy	boobytrap.gif	302340d940b3fc80d684ca0b58f763e5	use 1 booby trap
 1117	Ermahgerd, Burke	cigarette.gif	b3ab2310ef241e43e9516aed94de83c5	use 1 Agent Corrigan's cigarette
-1118
+1118	Feeling a Little Wesley	disease.gif	2faea6a628e127997296956613465227	use 1 good ash
 1119	Altered Wavelengths	nopic.gif	cd23f6685ed4f7e2648998a4020f1265	use 1 papier-mochi
 1120	Stopping to Smell the Flowers	nopic.gif	00c2131ddee16ce4278a0047946ed99e	use 1 papier-m&acirc;chaeranthera
 1121	Eyes Wide Propped	nopic.gif	471d1af8ce58cd6214fa35ea7e73c2c3	use 1 papier-m&acirc;ch&eacute; toothpicks

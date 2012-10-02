@@ -139,6 +139,7 @@ public class CampgroundRequest
 	public static final AdventureResult GINORMOUS_PUMPKIN = ItemPool.get( ItemPool.GINORMOUS_PUMPKIN, 1 );
 	public static final AdventureResult PEPPERMINT_SPROUT = ItemPool.get( ItemPool.PEPPERMINT_SPROUT, 1 );
 	public static final AdventureResult GIANT_CANDY_CANE = ItemPool.get( ItemPool.GIANT_CANDY_CANE, 1 );
+	public static final AdventureResult SKELETON = ItemPool.get( ItemPool.SKELETON, 1 );
 
 	public static final AdventureResult [] CROPS =
 	{
@@ -147,6 +148,7 @@ public class CampgroundRequest
 		CampgroundRequest.GINORMOUS_PUMPKIN,
 		CampgroundRequest.PEPPERMINT_SPROUT,
 		CampgroundRequest.GIANT_CANDY_CANE,
+		CampgroundRequest.SKELETON,
 	};
 
 	public static void reset()
@@ -190,7 +192,7 @@ public class CampgroundRequest
 
 	private static void setCampgroundItem( final int itemId, int count )
 	{
-		CampgroundRequest.setCampgroundItem ( ItemPool.get( itemId, count ) );
+		CampgroundRequest.setCampgroundItem( ItemPool.get( itemId, count ) );
 	}
 
 	private static void setCampgroundItem( final AdventureResult item )
@@ -485,6 +487,7 @@ public class CampgroundRequest
 		findImage( responseText, "pepperpatch_3.gif", ItemPool.PEPPERMINT_SPROUT, 9 );
 		findImage( responseText, "pepperpatch_4.gif", ItemPool.PEPPERMINT_SPROUT, 12 );
 		findImage( responseText, "pepperpatch_huge.gif", ItemPool.GIANT_CANDY_CANE, 1 );
+		findImage( responseText, "bonegarden1.gif", ItemPool.SKELETON, 5 );
 	}
 
 	private static final void parseDwelling( final String responseText )
