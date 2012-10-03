@@ -5902,3 +5902,5 @@
 5885	skeletal skiff	979032491	boneskiff.gif	none	q	0
 5886	Bonestabber	999100716	awesomesword.gif	weapon	t,d	55
 5887	crystal skeleton vodka	653313696	crystalskel.gif	drink	t,d	25
+5888	Lazybones&trade; recliner 274152200 bonerecliner.gif usable t,d 75
+5889	auxiliary backbone	289762965	auxspine.gif	container	t,d	45

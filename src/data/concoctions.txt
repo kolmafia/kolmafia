@@ -1861,7 +1861,9 @@ skeleton quiche	MUSE	skeleton (3)
 skeletal scabbard	MUSE	skeleton (4)
 crystal skeleton vodka	MUSE	skeleton (5)
 skeletal skiff	MUSE	skeleton (7)
+auxiliary backbone	MUSE	skeleton (9)
 Bonestabber	MUSE	skeleton (11)
+Lazybones&trade; recliner	MUSE	skeleton (13)
 
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
