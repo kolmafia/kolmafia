@@ -2127,6 +2127,7 @@ Newbiesport&trade; backpack	Item Drop: +1
 Radio KoL Coffee Mug	Muscle: +10, Mysticality: +10, Moxie: +10, Hot Damage: +10
 Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
+auxiliary backbone	PvP Fights: +3
 barskin cloak	Muscle: +7
 hemp backpack	Item Drop: +2
 makeshift cape	Item Drop: +5
@@ -3725,6 +3726,7 @@ Vigor Mortis	Muscle Percent: +30
 # Virulence: Critical Hits Improve Infectious Bite
 Virulence	Critical Hit Percent: +10
 Wisdom of the Elder Tortoises	Maximum MP Percent: +50
+Zombie Maestro	Mana Cost: -1
 
 # Bad Moon passive skills: the Seven Deadly Sins.
 # The skills positively or negatively modify seven aspects of gameplay
