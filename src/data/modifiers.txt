@@ -2682,6 +2682,7 @@ Bloody Hand	Muscle: -1
 # Bloody-minded	+50 Damage vs. Vampires
 Blue Tongue	Item Drop: +30
 # Bone Homie: Bites Your Enemies
+# Boned Up: Makes you look like a Smart Skelton
 # Boner Battalion: BONERS HO!
 # Bony Dancer: Makes you look like a tapdancing skeleton
 # Booing Radly: +50 Damage vs. Ghosts
@@ -4031,6 +4032,7 @@ Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
 Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
 Skullery Maid's Knee	Effect: "Clean to the Bone", Effect Duration: 30
 Small Medium	Free Pull
+Smart Bone Dust	Effect: "Boned Up", Effect Duration: 30
 Sorcerers of the Shore Grimoire	Free Pull
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 Stone Golem pebbles	Effect: "Sharin' Stone", Effect Duration: 100
