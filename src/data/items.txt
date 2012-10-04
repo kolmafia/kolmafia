@@ -5815,7 +5815,7 @@
 5798	Gnollish Crossdress	421957448	skirt.gif	usable	t,d	5
 5799	eldritch dough	613464615	dough.gif	usable	t,d	5
 5800
-5801
+5801	Smart Bone Dust	635486984	powder.gif	usable	t,d	5
 5802	perpendicular guano	502945833	perpguano.gif	usable	t,d	5
 5803	White Chocolate Golem Seeds	741418840	chips.gif	usable	t,d	5
 5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	usable	t,d	5	slices of Shivering Ch&egrave;vre

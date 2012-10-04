@@ -473,7 +473,7 @@
 472	Curse Magnet	magnet.gif	9fd16eaa10734b8a2ec863c3a8dcb2f3	#cursed sea biscuit or bottle of black-label rum
 473	Heart of Black	blackheart.gif	e2581a97190380f369765dc64a331f2e	use 1 black candy heart
 474	Tinnitus	humanears.gif	b32be9b2066524eac19a2047e30949a8	use 1 cymbal syrup
-475
+475	Om Nom Nom	tinykitty.gif	5b6c1ff235ac38c3b8ace81f8ccfbde5
 476	Fastbreaker	egg.gif	26b63167bac613555243adf35c9ef58e	#vitachoconutriment capsule
 477	Afternoon Insight	snowflakes.gif	8e7a70c89d678195f247989106e68eb2	#vitachoconutriment capsule
 478	Fancy Feasted	monocle.gif	c7c091c77690a7e032874840412e3b17	#vitachoconutriment capsule
@@ -1056,7 +1056,7 @@
 1055	Dress to Kill	skirt.gif	fa843311d6d1f234e254d990363961f5	use 1 Gnollish Crossdress
 1056	Better Off Bread	dough.gif	ce0519daf4764e69d9ba52da0b0e7127	use 1 eldritch dough
 1057
-1058
+1058	Boned Up	powder.gif	91f915342b4b58b4ae5dd4ecf94f9cf4	use 1 Smart Bone Dust
 1059	Batted Around	perpguano.gif	6c35aa714f931fb9a387d48e9bbb9323	use 1 perpendicular guano
 1060
 1061	Goat Gotten	goatcheese.gif	464244afabd87516c0611015c5010310	use 1 Shivering Ch&egrave;vre
