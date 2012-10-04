@@ -218,6 +218,8 @@ public class OptionsFrame
 
 			String[][] options =
 			{
+				{ "relayShowSpoilers", "Show blatant spoilers for choices and puzzles" },
+				{},
 				{ "relayAllowRemoteAccess", "Allow network devices to access relay browser (requires restart)" },
 				{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
 				{ "relayOverridesImages", "Override certain KoL images" },
@@ -251,7 +253,6 @@ public class OptionsFrame
 				{},
 				{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
 				{ "arcadeGameHints", "Provide hints for Arcade games" },
-				{ "relayShowSpoilers", "Show blatant spoilers for choices and puzzles" },
 			};
 
 			this.setOptions( options );
