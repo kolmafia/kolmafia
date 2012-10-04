@@ -5854,7 +5854,7 @@
 5837	Fu Manchu Wax	992259508	balm.gif	usable	t,d	5
 5838	Iiti Kitty Gumdrop	847088897	gumdrop.gif	usable	t,d	5
 5839	ravenous eye	553037969	hungryeye.gif	usable	t,d	5
-5840	Rogue Windmill Rouge	653603057	balm.gif	usable	t,d 5
+5840	Rogue Windmill Rouge	653603057	balm.gif	usable	t,d	5
 5841	A muse-bouche	704527194	amusebouche.gif	usable	t,d	5
 5842	gold toothbrush	397328678	toothbrush.gif	usable	t,d	5
 5843	pirate cream pie	438610679	pie.gif	usable	t,d	5
