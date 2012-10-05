@@ -77,7 +77,7 @@ public class SkillDatabase
 	private static final Map<Integer, Integer> levelById = new HashMap<Integer, Integer>();
 	private static final Map<Integer, Integer> castsById = new HashMap<Integer, Integer>();
 
-	private static final Map skillsByCategory = new HashMap();
+	private static final Map<String, ArrayList<String>> skillsByCategory = new HashMap<String, ArrayList<String>>();
 	private static final Map<Integer, String> skillCategoryById = new HashMap<Integer, String>();
 
 	public static final int ALL = -2;
@@ -90,6 +90,7 @@ public class SkillDatabase
 	public static final int COMBAT = 5;
 	public static final int SONG = 6;
 	public static final int COMBAT_NONCOMBAT_REMEDY = 7;
+	public static final int COMBAT_PASSIVE = 8;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String CONDITIONAL = "conditional";
@@ -129,7 +130,7 @@ public class SkillDatabase
 		for ( int i = 0; i < SkillDatabase.CATEGORIES.length; ++i )
 		{
 			String category = SkillDatabase.CATEGORIES[ i ];
-			SkillDatabase.skillsByCategory.put( category, new ArrayList() );
+			SkillDatabase.skillsByCategory.put( category, new ArrayList<String>() );
 		}
 
 		BufferedReader reader = FileUtilities.getVersionedReader( "classskills.txt", KoLConstants.CLASSSKILLS_VERSION );
@@ -238,7 +239,7 @@ public class SkillDatabase
 		}
 
 		SkillDatabase.skillCategoryById.put( skillId, category );
-		( (ArrayList) SkillDatabase.skillsByCategory.get( category ) ).add( displayName );
+		( SkillDatabase.skillsByCategory.get( category ) ).add( displayName );
 		
 		SkillDatabase.castsById.put( skillId, IntegerPool.get(0) );
 	}
@@ -996,11 +997,15 @@ public class SkillDatabase
 			}
 			else if ( type == SkillDatabase.COMBAT )
 			{
-				shouldAdd = skillType == COMBAT || skillType == COMBAT_NONCOMBAT_REMEDY;
+				shouldAdd = skillType == COMBAT || skillType == COMBAT_NONCOMBAT_REMEDY || skillType == COMBAT_PASSIVE;
 			}
 			else if ( type == SkillDatabase.REMEDY )
 			{
 				shouldAdd = skillType == REMEDY || skillType == COMBAT_NONCOMBAT_REMEDY;
+			}
+			else if ( type == SkillDatabase.PASSIVE )
+			{
+				shouldAdd = skillType == PASSIVE || skillType == COMBAT_PASSIVE;
 			}
 			else
 			{
@@ -1063,11 +1068,11 @@ public class SkillDatabase
 		return SkillDatabase.skillById.entrySet();
 	}
 
-	private static final ArrayList skillNames = new ArrayList();
+	private static final ArrayList<String> skillNames = new ArrayList<String>();
 
 	public static final void generateSkillList( final StringBuffer buffer, final boolean appendHTML )
 	{
-		ArrayList[] categories = new ArrayList[ SkillDatabase.CATEGORIES.length ];
+		ArrayList<String>[] categories = new ArrayList[ SkillDatabase.CATEGORIES.length ];
 
 		if ( SkillDatabase.skillNames.isEmpty() )
 		{
@@ -1076,8 +1081,8 @@ public class SkillDatabase
 
 		for ( int i = 0; i < categories.length; ++i )
 		{
-			categories[ i ] = new ArrayList();
-			categories[ i ].addAll( (ArrayList) SkillDatabase.skillsByCategory.get( SkillDatabase.CATEGORIES[ i ] ) );
+			categories[ i ] = new ArrayList<String>();
+			categories[ i ].addAll( SkillDatabase.skillsByCategory.get( SkillDatabase.CATEGORIES[ i ] ) );
 
 			for ( int j = 0; j < categories[ i ].size(); ++j )
 			{
@@ -1117,7 +1122,7 @@ public class SkillDatabase
 	}
 
 	private static final void appendSkillList( final StringBuffer buffer, final boolean appendHTML,
-		final String listName, final ArrayList list )
+		final String listName, final ArrayList<String> list )
 	{
 		if ( list.isEmpty() )
 		{
