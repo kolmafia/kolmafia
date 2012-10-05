@@ -1129,107 +1129,107 @@ evil tomato juice of powerful power	SAUCE	nauseating reagent	tomato
 # Slime potions. Unlike regular potions, saucerors only get one potion
 # per brewing
 
-vial of red slime	SAUCE, MANUAL	vial of red slime	vial of red slime
-vial of yellow slime	SAUCE, MANUAL	vial of yellow slime	vial of yellow slime
-vial of blue slime	SAUCE, MANUAL	vial of blue slime	vial of blue slime
+vial of red slime	REAGENT, MANUAL	vial of red slime	vial of red slime
+vial of yellow slime	REAGENT, MANUAL	vial of yellow slime	vial of yellow slime
+vial of blue slime	REAGENT, MANUAL	vial of blue slime	vial of blue slime
 
-vial of orange slime	SAUCE	vial of red slime	vial of yellow slime
-vial of orange slime	SAUCE	vial of red slime	vial of amber slime
-vial of orange slime	SAUCE	vial of yellow slime	vial of vermilion slime
-vial of orange slime	SAUCE	vial of vermilion slime	vial of amber slime
-vial of orange slime	SAUCE, MANUAL	vial of orange slime	vial of orange slime
+vial of orange slime	REAGENT	vial of red slime	vial of yellow slime
+vial of orange slime	REAGENT	vial of red slime	vial of amber slime
+vial of orange slime	REAGENT	vial of yellow slime	vial of vermilion slime
+vial of orange slime	REAGENT	vial of vermilion slime	vial of amber slime
+vial of orange slime	REAGENT, MANUAL	vial of orange slime	vial of orange slime
 
-vial of green slime	SAUCE	vial of yellow slime	vial of blue slime
-vial of green slime	SAUCE	vial of blue slime	vial of chartreuse slime
-vial of green slime	SAUCE	vial of yellow slime	vial of teal slime
-vial of green slime	SAUCE	vial of chartreuse slime	vial of teal slime
-vial of green slime	SAUCE, MANUAL	vial of green slime	vial of green slime
+vial of green slime	REAGENT	vial of yellow slime	vial of blue slime
+vial of green slime	REAGENT	vial of blue slime	vial of chartreuse slime
+vial of green slime	REAGENT	vial of yellow slime	vial of teal slime
+vial of green slime	REAGENT	vial of chartreuse slime	vial of teal slime
+vial of green slime	REAGENT, MANUAL	vial of green slime	vial of green slime
 
-vial of violet slime	SAUCE	vial of red slime	vial of blue slime
-vial of violet slime	SAUCE	vial of blue slime	vial of purple slime
-vial of violet slime	SAUCE	vial of red slime	vial of indigo slime
-vial of violet slime	SAUCE	vial of indigo slime	vial of purple slime
-vial of violet slime	SAUCE, MANUAL	vial of violet slime	vial of violet slime
+vial of violet slime	REAGENT	vial of red slime	vial of blue slime
+vial of violet slime	REAGENT	vial of blue slime	vial of purple slime
+vial of violet slime	REAGENT	vial of red slime	vial of indigo slime
+vial of violet slime	REAGENT	vial of indigo slime	vial of purple slime
+vial of violet slime	REAGENT, MANUAL	vial of violet slime	vial of violet slime
 
-vial of vermilion slime	SAUCE	vial of red slime	vial of orange slime
-vial of vermilion slime	SAUCE	vial of orange slime	vial of vermilion slime
-vial of vermilion slime	SAUCE	vial of red slime	vial of vermilion slime
-vial of vermilion slime	SAUCE, MANUAL	vial of vermilion slime	vial of vermilion slime
+vial of vermilion slime	REAGENT	vial of red slime	vial of orange slime
+vial of vermilion slime	REAGENT	vial of orange slime	vial of vermilion slime
+vial of vermilion slime	REAGENT	vial of red slime	vial of vermilion slime
+vial of vermilion slime	REAGENT, MANUAL	vial of vermilion slime	vial of vermilion slime
 
-vial of amber slime	SAUCE	vial of yellow slime	vial of orange slime
-vial of amber slime	SAUCE, MANUAL	vial of orange slime	vial of amber slime
-vial of amber slime	SAUCE, MANUAL	vial of yellow slime	vial of amber slime
-vial of amber slime	SAUCE, MANUAL	vial of amber slime	vial of amber slime
+vial of amber slime	REAGENT	vial of yellow slime	vial of orange slime
+vial of amber slime	REAGENT, MANUAL	vial of orange slime	vial of amber slime
+vial of amber slime	REAGENT, MANUAL	vial of yellow slime	vial of amber slime
+vial of amber slime	REAGENT, MANUAL	vial of amber slime	vial of amber slime
 
-vial of chartreuse slime	SAUCE	vial of yellow slime	vial of green slime
-vial of chartreuse slime	SAUCE, MANUAL	vial of green slime	vial of chartreuse slime
-vial of chartreuse slime	SAUCE, MANUAL	vial of yellow slime	vial of chartreuse slime
-vial of chartreuse slime	SAUCE, MANUAL	vial of chartreuse slime	vial of chartreuse slime
+vial of chartreuse slime	REAGENT	vial of yellow slime	vial of green slime
+vial of chartreuse slime	REAGENT, MANUAL	vial of green slime	vial of chartreuse slime
+vial of chartreuse slime	REAGENT, MANUAL	vial of yellow slime	vial of chartreuse slime
+vial of chartreuse slime	REAGENT, MANUAL	vial of chartreuse slime	vial of chartreuse slime
 
-vial of teal slime	SAUCE	vial of blue slime	vial of green slime
-vial of teal slime	SAUCE, MANUAL	vial of blue slime	vial of teal slime
-vial of teal slime	SAUCE, MANUAL	vial of green slime	vial of teal slime
-vial of teal slime	SAUCE, MANUAL	vial of teal slime	vial of teal slime
+vial of teal slime	REAGENT	vial of blue slime	vial of green slime
+vial of teal slime	REAGENT, MANUAL	vial of blue slime	vial of teal slime
+vial of teal slime	REAGENT, MANUAL	vial of green slime	vial of teal slime
+vial of teal slime	REAGENT, MANUAL	vial of teal slime	vial of teal slime
 
-vial of purple slime	SAUCE	vial of red slime	vial of violet slime
-vial of purple slime	SAUCE, MANUAL	vial of red slime	vial of purple slime
-vial of purple slime	SAUCE, MANUAL	vial of violet slime	vial of purple slime
-vial of purple slime	SAUCE, MANUAL	vial of purple slime	vial of purple slime
+vial of purple slime	REAGENT	vial of red slime	vial of violet slime
+vial of purple slime	REAGENT, MANUAL	vial of red slime	vial of purple slime
+vial of purple slime	REAGENT, MANUAL	vial of violet slime	vial of purple slime
+vial of purple slime	REAGENT, MANUAL	vial of purple slime	vial of purple slime
 
-vial of indigo slime	SAUCE	vial of blue slime	vial of violet slime
-vial of indigo slime	SAUCE, MANUAL	vial of blue slime	vial of indigo slime
-vial of indigo slime	SAUCE, MANUAL	vial of violet slime	vial of indigo slime
-vial of indigo slime	SAUCE, MANUAL	vial of indigo slime	vial of indigo slime
+vial of indigo slime	REAGENT	vial of blue slime	vial of violet slime
+vial of indigo slime	REAGENT, MANUAL	vial of blue slime	vial of indigo slime
+vial of indigo slime	REAGENT, MANUAL	vial of violet slime	vial of indigo slime
+vial of indigo slime	REAGENT, MANUAL	vial of indigo slime	vial of indigo slime
 
-vial of brown slime	SAUCE, MANUAL	vial of amber slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of amber slime	vial of chartreuse slime
-vial of brown slime	SAUCE, MANUAL	vial of amber slime	vial of indigo slime
-vial of brown slime	SAUCE, MANUAL	vial of amber slime	vial of purple slime
-vial of brown slime	SAUCE, MANUAL	vial of amber slime	vial of teal slime
-vial of brown slime	SAUCE, MANUAL	vial of blue slime	vial of amber slime
-vial of brown slime	SAUCE, MANUAL	vial of blue slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of blue slime	vial of orange slime
-vial of brown slime	SAUCE, MANUAL	vial of blue slime	vial of vermilion slime
-vial of brown slime	SAUCE, MANUAL	vial of brown slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of chartreuse slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of chartreuse slime	vial of indigo slime
-vial of brown slime	SAUCE, MANUAL	vial of chartreuse slime	vial of purple slime
-vial of brown slime	SAUCE, MANUAL	vial of green slime	vial of amber slime
-vial of brown slime	SAUCE, MANUAL	vial of green slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of green slime	vial of indigo slime
-vial of brown slime	SAUCE, MANUAL	vial of green slime	vial of purple slime
-vial of brown slime	SAUCE, MANUAL	vial of green slime	vial of vermilion slime
-vial of brown slime	SAUCE, MANUAL	vial of green slime	vial of violet slime
-vial of brown slime	SAUCE, MANUAL	vial of indigo slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of orange slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of orange slime	vial of chartreuse slime
-vial of brown slime	SAUCE, MANUAL	vial of orange slime	vial of green slime
-vial of brown slime	SAUCE, MANUAL	vial of orange slime	vial of indigo slime
-vial of brown slime	SAUCE, MANUAL	vial of orange slime	vial of purple slime
-vial of brown slime	SAUCE, MANUAL	vial of orange slime	vial of teal slime
-vial of brown slime	SAUCE, MANUAL	vial of orange slime	vial of violet slime
-vial of brown slime	SAUCE, MANUAL	vial of purple slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of red slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of red slime	vial of chartreuse slime
-vial of brown slime	SAUCE, MANUAL	vial of red slime	vial of green slime
-vial of brown slime	SAUCE, MANUAL	vial of red slime	vial of teal slime
-vial of brown slime	SAUCE, MANUAL	vial of teal slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of teal slime	vial of indigo slime
-vial of brown slime	SAUCE, MANUAL	vial of teal slime	vial of purple slime
-vial of brown slime	SAUCE, MANUAL	vial of vermilion slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of vermilion slime	vial of chartreuse slime
-vial of brown slime	SAUCE, MANUAL	vial of vermilion slime	vial of indigo slime
-vial of brown slime	SAUCE, MANUAL	vial of vermilion slime	vial of purple slime
-vial of brown slime	SAUCE, MANUAL	vial of vermilion slime	vial of teal slime
-vial of brown slime	SAUCE, MANUAL	vial of violet slime	vial of amber slime
-vial of brown slime	SAUCE, MANUAL	vial of violet slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of violet slime	vial of chartreuse slime
-vial of brown slime	SAUCE, MANUAL	vial of violet slime	vial of teal slime
-vial of brown slime	SAUCE, MANUAL	vial of violet slime	vial of vermilion slime
-vial of brown slime	SAUCE, MANUAL	vial of yellow slime	vial of brown slime
-vial of brown slime	SAUCE, MANUAL	vial of yellow slime	vial of indigo slime
-vial of brown slime	SAUCE, MANUAL	vial of yellow slime	vial of purple slime
-vial of brown slime	SAUCE, MANUAL	vial of yellow slime	vial of violet slime
+vial of brown slime	REAGENT, MANUAL	vial of amber slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of amber slime	vial of chartreuse slime
+vial of brown slime	REAGENT, MANUAL	vial of amber slime	vial of indigo slime
+vial of brown slime	REAGENT, MANUAL	vial of amber slime	vial of purple slime
+vial of brown slime	REAGENT, MANUAL	vial of amber slime	vial of teal slime
+vial of brown slime	REAGENT, MANUAL	vial of blue slime	vial of amber slime
+vial of brown slime	REAGENT, MANUAL	vial of blue slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of blue slime	vial of orange slime
+vial of brown slime	REAGENT, MANUAL	vial of blue slime	vial of vermilion slime
+vial of brown slime	REAGENT, MANUAL	vial of brown slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of chartreuse slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of chartreuse slime	vial of indigo slime
+vial of brown slime	REAGENT, MANUAL	vial of chartreuse slime	vial of purple slime
+vial of brown slime	REAGENT, MANUAL	vial of green slime	vial of amber slime
+vial of brown slime	REAGENT, MANUAL	vial of green slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of green slime	vial of indigo slime
+vial of brown slime	REAGENT, MANUAL	vial of green slime	vial of purple slime
+vial of brown slime	REAGENT, MANUAL	vial of green slime	vial of vermilion slime
+vial of brown slime	REAGENT, MANUAL	vial of green slime	vial of violet slime
+vial of brown slime	REAGENT, MANUAL	vial of indigo slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of orange slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of orange slime	vial of chartreuse slime
+vial of brown slime	REAGENT, MANUAL	vial of orange slime	vial of green slime
+vial of brown slime	REAGENT, MANUAL	vial of orange slime	vial of indigo slime
+vial of brown slime	REAGENT, MANUAL	vial of orange slime	vial of purple slime
+vial of brown slime	REAGENT, MANUAL	vial of orange slime	vial of teal slime
+vial of brown slime	REAGENT, MANUAL	vial of orange slime	vial of violet slime
+vial of brown slime	REAGENT, MANUAL	vial of purple slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of red slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of red slime	vial of chartreuse slime
+vial of brown slime	REAGENT, MANUAL	vial of red slime	vial of green slime
+vial of brown slime	REAGENT, MANUAL	vial of red slime	vial of teal slime
+vial of brown slime	REAGENT, MANUAL	vial of teal slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of teal slime	vial of indigo slime
+vial of brown slime	REAGENT, MANUAL	vial of teal slime	vial of purple slime
+vial of brown slime	REAGENT, MANUAL	vial of vermilion slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of vermilion slime	vial of chartreuse slime
+vial of brown slime	REAGENT, MANUAL	vial of vermilion slime	vial of indigo slime
+vial of brown slime	REAGENT, MANUAL	vial of vermilion slime	vial of purple slime
+vial of brown slime	REAGENT, MANUAL	vial of vermilion slime	vial of teal slime
+vial of brown slime	REAGENT, MANUAL	vial of violet slime	vial of amber slime
+vial of brown slime	REAGENT, MANUAL	vial of violet slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of violet slime	vial of chartreuse slime
+vial of brown slime	REAGENT, MANUAL	vial of violet slime	vial of teal slime
+vial of brown slime	REAGENT, MANUAL	vial of violet slime	vial of vermilion slime
+vial of brown slime	REAGENT, MANUAL	vial of yellow slime	vial of brown slime
+vial of brown slime	REAGENT, MANUAL	vial of yellow slime	vial of indigo slime
+vial of brown slime	REAGENT, MANUAL	vial of yellow slime	vial of purple slime
+vial of brown slime	REAGENT, MANUAL	vial of yellow slime	vial of violet slime
 
 # CLEESH potions
 

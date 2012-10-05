@@ -525,7 +525,7 @@
 12027	His Master's Voice	0	0	0	7
 12028	Ag-grave-ation	3	3	0	8
 12029	Disquiet Riot	3	5	0	9
-12030	Zombie Maestro	5	9	0	10
+12030	Zombie Maestro	8	9	0	10
 
 # Summoning
 12031	Recruit Zombie	1	0	0

@@ -5889,9 +5889,9 @@
 5872	papier-m&acirc;churidars	970295037	machepants.gif	pants	d	55
 5873	papier-m&acirc;ch&eacute; plaque	896457494	macheplaque.gif	none	d	115
 5874	papier-m&acirc;ch&eacute; handle	143770005	machehandle.gif	none	d	185
-5875
-5876
-5877
+5875	papier-m&acirc;ch&eacute; base	746479844	machebase.gif	none	d	345
+5876	papier-m&acirc;ch&eacute; bowl	801154849	machebowl.gif	usable	d	555
+5877	papier-m&acirc;ch&eacute; trophy pi&ntilde;ata	883655433	machetrophy.gif	usable	d	1000
 5878
 5879	Pete & Jackie's Dragon Tooth Emporium Catalog	127406602	teethcatalog.gif	usable	t	0
 5880	packet of dragon's teeth	593373158	teethpacket.gif	usable		0
