@@ -445,15 +445,31 @@ public class UseSkillRequest
 			maximumCast = Preferences.getBoolean( "_requestSandwichSucceeded" ) ? 0 : 1;
 			break;
 
-		// Tomes can be used three times per day
+		// Tomes can be used three times per day.  In aftercore, each tome can be used 3 times per day.
 
 		case SkillPool.SNOWCONE:
-		case SkillPool.STICKER:
-		case SkillPool.SUGAR:
-		case SkillPool.CLIP_ART:
-		case SkillPool.RAD_LIB:
+			maximumCast = KoLCharacter.canInteract() ? Math.max( 3 - Preferences.getInteger( "_snowconeSummons" ), 0 ) :
+				Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
+			break;
 
-			maximumCast = Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
+		case SkillPool.STICKER:
+			maximumCast = KoLCharacter.canInteract() ? Math.max( 3 - Preferences.getInteger( "_stickerSummons" ), 0 ) :
+				Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
+			break;
+
+		case SkillPool.SUGAR:
+			maximumCast = KoLCharacter.canInteract() ? Math.max( 3 - Preferences.getInteger( "_sugarSummons" ), 0 ) :
+				Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
+			break;
+
+		case SkillPool.CLIP_ART:
+			maximumCast = KoLCharacter.canInteract() ? Math.max( 3 - Preferences.getInteger( "_clipartSummons" ), 0 ) :
+				Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
+			break;
+
+		case SkillPool.RAD_LIB:
+			maximumCast = KoLCharacter.canInteract() ? Math.max( 3 - Preferences.getInteger( "_radlibSummons" ), 0 ) :
+				Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
 			break;
 
 		// Grimoire items can only be summoned once per day.
@@ -1542,10 +1558,31 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.SNOWCONE:
+			Preferences.increment( "_snowconeSummons", count );
+			Preferences.increment( "tomeSummons", count );
+			ConcoctionDatabase.setRefreshNeeded( false );
+			break;
+
 		case SkillPool.STICKER:
+			Preferences.increment( "_stickerSummons", count );
+			Preferences.increment( "tomeSummons", count );
+			ConcoctionDatabase.setRefreshNeeded( false );
+			break;
+
 		case SkillPool.SUGAR:
+			Preferences.increment( "_snugarSummons", count );
+			Preferences.increment( "tomeSummons", count );
+			ConcoctionDatabase.setRefreshNeeded( false );
+			break;
+
 		case SkillPool.CLIP_ART:
+			Preferences.increment( "_clipartSummons", count );
+			Preferences.increment( "tomeSummons", count );
+			ConcoctionDatabase.setRefreshNeeded( false );
+			break;
+
 		case SkillPool.RAD_LIB:
+			Preferences.increment( "_radlibSummons", count );
 			Preferences.increment( "tomeSummons", count );
 			ConcoctionDatabase.setRefreshNeeded( false );
 			break;

@@ -786,6 +786,7 @@ user	_companionshipCasts	0
 user	_chipBags	0
 user	_chocolateCigarsUsed	0
 user	_chocolatesUsed	0
+user	_clipartSummons	0
 user	_coalPaperweightUsed	false
 user	_creepyVoodooDollUsed	false
 user	_crimboTree	false
@@ -852,6 +853,7 @@ user	_pneumaticityPotionUsed	false
 user	_poisonArrows	0
 user	_poolGames	0
 user	_precisionCasts	0
+user	_radlibSummons	0
 user	_raindohCopiesMade	0
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
@@ -867,13 +869,16 @@ user	_skateBuff3	false
 user	_skateBuff4	false
 user	_skateBuff5	false
 user	_smilesOfMrA	0
+user	_snowconeSummons	0
 user	_softwareGlitchTurnReceived	false
 user	_stabonicScrollUsed	false
+user	_stickerSummons	0
 user	_stinkyCheeseCount	0
 user	_stinkyCheeseBanisherUsed	false
 user	_stressBallSqueezes	0
 user	_stuffedPocketwatchUsed	false
 user	_styxSprayUsed	false
+user	_sugarSummons	0
 user	_syntheticDogHairPillUsed	false
 user	_templeHiddenPower	false
 user	_tempuraAirUsed	false
