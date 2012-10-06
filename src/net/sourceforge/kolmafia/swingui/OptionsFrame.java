@@ -1955,8 +1955,18 @@ public class OptionsFrame
 
 			this.tomeSkills =
 				new SkillMenu( "Tome Skills", UseSkillRequest.TOME_SKILLS, "tomeSkills" + this.breakfastType );
-			this.tomeSkills.addActionListener( this );
-			centerPanel.add( this.tomeSkills );
+			if ( this.breakfastType.equals( "Hardcore" ) )
+			{
+				// Only show this option in the In Ronin panel
+				this.tomeSkills.addActionListener( this );
+				centerPanel.add( this.tomeSkills );
+			}
+			else
+			{
+				// Always select "All Tome Skills" in the hidden After Ronin panel
+				this.tomeSkills.setSelectedIndex( 1 );
+				this.tomeSkills.setPreference();
+			}
 
 			this.libramSkills =
 				new SkillMenu( "Libram Skills", UseSkillRequest.LIBRAM_SKILLS, "libramSkills" + this.breakfastType );

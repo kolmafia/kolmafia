@@ -169,7 +169,7 @@ global	stealthLogin	true
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	false
 global	tomeSkillsHardcore	Summon Snowcone
-global	tomeSkillsSoftcore	Summon Snowcone
+global	tomeSkillsSoftcore	all
 global	toolbarPosition	1
 global	useChatToolbar	true
 global	useContactsFrame	true

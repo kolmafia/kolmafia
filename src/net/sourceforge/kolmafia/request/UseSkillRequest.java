@@ -1570,7 +1570,7 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.SUGAR:
-			Preferences.increment( "_snugarSummons", count );
+			Preferences.increment( "_sugarSummons", count );
 			Preferences.increment( "tomeSummons", count );
 			ConcoctionDatabase.setRefreshNeeded( false );
 			break;

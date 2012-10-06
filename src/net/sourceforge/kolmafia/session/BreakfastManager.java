@@ -409,9 +409,10 @@ public class BreakfastManager
 		switch ( type )
 		{
 		case KoLConstants.TOME:
-			// Tomes can be used three times a day, spread among
-			// all available tomes.
-			totalCasts = 3;
+			// In Ronin or Hardcore, Tomes can be used three times a day,
+			// spread among all available tomes.
+			// In other cases, all available tomes can be cast three times a day.
+			totalCasts = KoLCharacter.canInteract() ? skillCount * 3 : 3;
 			break;
 		case KoLConstants.GRIMOIRE:
 			// Grimoires can be used once a day, each.
