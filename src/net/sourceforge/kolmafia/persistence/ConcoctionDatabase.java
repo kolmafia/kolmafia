@@ -1854,7 +1854,8 @@ public class ConcoctionDatabase
 		boolean hasClipArt = KoLCharacter.hasSkill( "Summon Clip Art" ) &&
 			( !KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled() );
 		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CLIPART ] = hasClipArt &&
-			Preferences.getInteger( "tomeSummons" ) < 3;
+			( KoLCharacter.canInteract() ? Preferences.getInteger( "_clipartSummons" ) < 3 : 
+			Preferences.getInteger( "tomeSummons" ) < 3 );
 		ConcoctionDatabase.CREATION_COST[ KoLConstants.CLIPART ] =
 			Preferences.getInteger( "valueOfTome" );
 		ConcoctionDatabase.EXCUSE[ KoLConstants.CLIPART ] =
