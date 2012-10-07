@@ -185,7 +185,7 @@ public class FightRequest
 	private static final Pattern MACRO_COMPACT_PATTERN =
 		Pattern.compile( "(?:#.*?)?([;\\n])[\\s;\\n]*" );
 	private static final Pattern MANUEL_PATTERN =
-		Pattern.compile( "var monsterstats = \\{\"hp\":\"(\\d+)\",\"def\":\"(\\d+)\",\"off\":\"(\\d+)");
+		Pattern.compile( "var monsterstats = \\{\"hp\":\"(\\d+)\",\"def\":\"(-)?(\\d+)\",\"off\":\"(-)?(\\d+)");
 
 	private static final Pattern NS_ML_PATTERN =
 		Pattern.compile( "The Sorceress pauses for a moment\\, mutters some words under her breath\\, and straightens out her dress\\. Her skin seems to shimmer for a moment\\." );
@@ -4044,8 +4044,25 @@ public class FightRequest
 			if ( m.find() )
 			{
 				int hp = StringUtilities.parseInt( m.group( 1 ) );
-				int defense = StringUtilities.parseInt( m.group( 2 ) );
-				int attack = StringUtilities.parseInt( m.group( 3 ) );
+				int defense;
+				// Attack and defense can't really go negative, but Manuel can report negative values
+				if ( m.group( 2 ) != null )
+				{
+					defense = 1;
+				}
+				else
+				{
+					defense = StringUtilities.parseInt( m.group( 3 ) );
+				}
+				int attack;
+				if ( m.group( 4 ) != null )
+				{
+					attack = 1;
+				}
+				else
+				{
+					attack = StringUtilities.parseInt( m.group( 5 ) );
+				}
 				MonsterStatusTracker.setManuelStats( attack, defense, hp );
 			}
 
