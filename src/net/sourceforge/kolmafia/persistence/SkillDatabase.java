@@ -492,7 +492,7 @@ public class SkillDatabase
 			return 0;
 		}
 
-		int adjustment = KoLCharacter.getManaCostAdjustment( SkillDatabase.getSkillType( skillId ) == SkillDatabase.COMBAT );
+		int adjustment = KoLCharacter.getManaCostAdjustment( SkillDatabase.isCombat( skillId ) );
 		return Math.max( cost + adjustment, 1 );
 	}
 
@@ -746,7 +746,8 @@ public class SkillDatabase
 
 	public static final boolean isPassive( final int skillId )
 	{
-		return SkillDatabase.isType( skillId, SkillDatabase.PASSIVE );
+		return SkillDatabase.isType( skillId, SkillDatabase.PASSIVE ) ||
+				SkillDatabase.isType( skillId, SkillDatabase.COMBAT_PASSIVE );
 	}
 
 	/**
@@ -769,7 +770,8 @@ public class SkillDatabase
 	public static final boolean isCombat( final int skillId )
 	{
 		return SkillDatabase.isType( skillId, SkillDatabase.COMBAT ) ||
-				SkillDatabase.isType( skillId, SkillDatabase.COMBAT_NONCOMBAT_REMEDY );
+		       SkillDatabase.isType( skillId, SkillDatabase.COMBAT_NONCOMBAT_REMEDY ) ||
+		       SkillDatabase.isType( skillId, SkillDatabase.COMBAT_PASSIVE );
 	}
 
 	/**

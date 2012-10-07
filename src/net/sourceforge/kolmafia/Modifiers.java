@@ -1916,7 +1916,7 @@ public class Modifiers
 					continue;
 				}
 
-				if ( SkillDatabase.getSkillType( SkillDatabase.getSkillId( skill ) ) == SkillDatabase.PASSIVE )
+				if ( SkillDatabase.isPassive( SkillDatabase.getSkillId( skill ) ) )
 				{
 					Modifiers.passiveSkills.add( UseSkillRequest.getUnmodifiedInstance( skill ) );
 				}
@@ -2805,7 +2805,7 @@ public class Modifiers
 			Entry entry = (Entry) it.next();
 			Integer key = (Integer) entry.getKey();
 			String name = (String) entry.getValue();
-			if ( SkillDatabase.getSkillType( key.intValue() ) == SkillDatabase.PASSIVE )
+			if ( SkillDatabase.isPassive( key.intValue() ) )
 			{
 				passives.put( name, null );
 			}
