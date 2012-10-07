@@ -3,7 +3,7 @@
 # id	Name	Type	MP Cost	Duration[	Level]
 # Type can be: 0 (Passive), 1 (Noncombat item summon), 2 (Noncombat healing)
 # 3 (Noncombat non-shruggable effect), 4 (Noncombat shruggable effect), 5 (Combat)
-# 6 (Boris Songs) 7 (Combat/Noncombat healing)
+# 6 (Boris Songs) 7 (Combat/Noncombat healing) 8 (Combat/Passive)
 
 1	Liver of Steel	0	0	0
 2	Chronic Indigestion	5	5	0

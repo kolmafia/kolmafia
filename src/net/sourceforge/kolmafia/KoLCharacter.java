@@ -3391,6 +3391,10 @@ public abstract class KoLCharacter
 			KoLConstants.remedySkills.sort();
 			KoLCharacter.addCombatSkill( skill.getSkillName() );
 			break;
+
+		case SkillDatabase.COMBAT_PASSIVE:
+			KoLCharacter.addCombatSkill( skill.getSkillName() );
+			break;
 		}
 	}
 
