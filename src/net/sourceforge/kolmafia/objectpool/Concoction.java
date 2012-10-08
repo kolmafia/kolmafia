@@ -978,7 +978,7 @@ public class Concoction
 
 		if ( minMake > 0 && (method == KoLConstants.CLIPART) )
 		{
-			Concoction c = ConcoctionDatabase.tomeLimit;
+			Concoction c = ConcoctionDatabase.clipArtLimit;
 			minMake = Math.min( minMake, c.canMake( needToMake, visited, turnFreeOnly ) );
 			if ( Concoction.debug )
 			{
