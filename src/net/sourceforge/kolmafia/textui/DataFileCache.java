@@ -67,25 +67,32 @@ public class DataFileCache
 		DataFileCache.dataFileDataCache.clear();
 	}
 	
-	public static File getFile( String filename )
+	public static File getFile( String filename, boolean readOnly )
 	{
 		if ( filename.startsWith( "http" ) )
 		{
 			return null;
 		}
 
-		if ( filename.endsWith( ".ash" ) )
-		{
-			return null;
-		}
+		File[] parents;
 
-		File[] parents = new File[]
+		if ( !readOnly && filename.endsWith( ".ash" ) )
 		{
-			KoLConstants.SCRIPT_LOCATION,
-			KoLConstants.RELAY_LOCATION,
-			UtilityConstants.DATA_LOCATION,
-			UtilityConstants.ROOT_LOCATION
-		};
+			parents = new File[]
+			{
+				UtilityConstants.DATA_LOCATION
+			};
+		}
+		else
+		{
+			parents = new File[]
+			{
+				KoLConstants.SCRIPT_LOCATION,
+				KoLConstants.RELAY_LOCATION,
+				UtilityConstants.DATA_LOCATION,
+				UtilityConstants.ROOT_LOCATION
+			};
+		}
 
 		for ( int i = 0; i < parents.length; ++i )
 		{
@@ -150,18 +157,19 @@ public class DataFileCache
 
 	public static BufferedReader getReader( final String filename )
 	{
-		if ( filename.startsWith( "http" ) )
-		{
-			return DataUtilities.getReader( "", filename );
-		}
-
 		byte[] data = DataFileCache.getBytes( filename );
+
 		return DataUtilities.getReader( new ByteArrayInputStream( data ) );
 	}
 
 	public static byte[] getBytes( final String filename )
 	{
-		File input = DataFileCache.getFile( filename );
+		File input = DataFileCache.getFile( filename, true );
+
+		if ( input == null )
+		{
+			return new byte[0];
+		}
 
 		long modifiedTime = input.lastModified();
 
@@ -202,12 +210,7 @@ public class DataFileCache
 
 	public static Value printBytes( final String filename, final byte[] data )
 	{
-		if ( filename.startsWith( "http" ) )
-		{
-			return DataTypes.FALSE_VALUE;
-		}
-
-		File output = DataFileCache.getFile( filename );
+		File output = DataFileCache.getFile( filename, false );
 
 		if ( output == null )
 		{
