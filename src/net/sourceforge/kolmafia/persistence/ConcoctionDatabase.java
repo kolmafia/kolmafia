@@ -115,7 +115,7 @@ public class ConcoctionDatabase
 	private static final SortedListModel queuedSpleenIngredients = new SortedListModel();
 
 	public static final Concoction stillsLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
-	public static final Concoction tomeLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
+	public static final Concoction clipArtLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 	public static final Concoction adventureLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 	public static final Concoction turnFreeLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
 	public static final Concoction meatLimit = new Concoction( (AdventureResult) null, KoLConstants.NOCREATE );
@@ -1521,11 +1521,12 @@ public class ConcoctionDatabase
 		// Tomes are also also also considered Item #0 in the event that the
 		// concoction requires a tome summon.
 
-		ConcoctionDatabase.tomeLimit.total = 3 - Preferences.getInteger( "tomeSummons" );
-		ConcoctionDatabase.tomeLimit.initial =
-			ConcoctionDatabase.tomeLimit.total - ConcoctionDatabase.queuedTomesUsed;
-		ConcoctionDatabase.tomeLimit.creatable = 0;
-		ConcoctionDatabase.tomeLimit.visibleTotal = ConcoctionDatabase.tomeLimit.total;
+		String pref = KoLCharacter.canInteract() ? "_clipartSummons" : "tomeSummons";
+		ConcoctionDatabase.clipArtLimit.total = 3 - Preferences.getInteger( pref );
+		ConcoctionDatabase.clipArtLimit.initial =
+			ConcoctionDatabase.clipArtLimit.total - ConcoctionDatabase.queuedTomesUsed;
+		ConcoctionDatabase.clipArtLimit.creatable = 0;
+		ConcoctionDatabase.clipArtLimit.visibleTotal = ConcoctionDatabase.clipArtLimit.total;
 
 		// Meat is also also considered Item #0 in the event that the
 		// concoction will create paste/stacks or buy NPC items.
