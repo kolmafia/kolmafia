@@ -95,7 +95,7 @@ public class UseItemCommand
 			parameters = parameters.substring( 7 ).trim();
 		}
 
-		if ( command.equals( "eat" ) || command.equals( "eatsilent" ) )
+		if ( !sim && ( command.equals( "eat" ) || command.equals( "eatsilent" ) ) )
 		{
 			if ( KoLCharacter.inBadMoon() && KitchenCommand.visit( parameters ) )
 			{
@@ -107,7 +107,7 @@ public class UseItemCommand
 			}
 		}
 
-		if ( command.equals( "drink" ) || command.equals( "overdrink" ) )
+		if ( !sim && ( command.equals( "drink" ) || command.equals( "overdrink" ) ) )
 		{
 			if ( KoLCharacter.inBadMoon() && KitchenCommand.visit( parameters ) )
 			{
