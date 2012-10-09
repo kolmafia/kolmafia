@@ -489,6 +489,13 @@ public class CampgroundRequest
 		findImage( responseText, "pepperpatch_huge.gif", ItemPool.GIANT_CANDY_CANE, 1 );
 		findImage( responseText, "bonegarden0.gif", ItemPool.SKELETON, 0 );
 		findImage( responseText, "bonegarden1.gif", ItemPool.SKELETON, 5 );
+		findImage( responseText, "bonegarden2.gif", ItemPool.SKELETON, 10 );
+		findImage( responseText, "bonegarden3.gif", ItemPool.SKELETON, 15 );
+		findImage( responseText, "bonegarden4.gif", ItemPool.SKELETON, 20 );
+		findImage( responseText, "bonegarden5.gif", ItemPool.SKELETON, 25 );
+		// This is day 6 for A Bone Garden.  It triggers a combat, so it should never be automatically picked.
+		// Setting a negative number of items will make it possible to tell that it isn't empty.
+		findImage( responseText, "bonegarden_spoilzlul.gif", ItemPool.SKELETON, -1 );
 	}
 
 	private static final void parseDwelling( final String responseText )
