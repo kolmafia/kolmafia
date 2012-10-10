@@ -42,7 +42,7 @@ A Skeleton Invasion!	100	Skeleton Invader	Two Skeleton Invaders	Three Skeleton I
 A Well-Groomed Lawn	100	Menacing lawn gnome	Mowing lawn gnome	Mounted lawn gnome
 An Octopus's Garden	95	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae
 Anemone Mine	-1	Anemone Combatant	Killer Clownfish	Mer-kin Miner
-Astral Mushroom (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Sky)	Trippy Floating Head (Stench)	Trippy Floating Head (Todd)	Zombie Baby
+Astral Mushroom (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Casey Kasem)	Trippy Floating Head (Grand Moff Tarkin)	Trippy Floating Head (Mona Lisa)	Zombie Baby
 Astral Mushroom (Great Trip)	100	Bustle in the Hedgerow	Gathering of Angels?	Higher Plane Serpents	The Angels of Avalon	The Elders of the Gentle Race
 Astral Mushroom (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	The Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
 Atomic Crimbo Toy Factory	100	Mutant Circuit-Soldering Elf	Mutant Cookie-Baking Elf	Mutant Doll-Dressing Elf	Mutant Gift-Wrapping Elf	Mutant Whistle-Carving Elf
@@ -208,7 +208,7 @@ The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons	Rene C. Corman
 The Clumsiness Grove	100	The Sorrowful Hickory	The Suffering Juniper	The Tormented Baobab	The Whimpering Willow	The Woeful Magnolia	The Bat in the Spats (0)	The Thorax (0)
 The Dive Bar	100	Lounge Lizardfish	Mer-kin tippler	Nurse Shark
 The Domed City of Ronaldus	100	Dogcat	Ferrelf	Hamsterpus	Overarmed Survivor	Primitive Survivor	Unlikely Survivor
-The Domed City of Grimacia	100	Alielef	Cat-Alien	Dog-Alien	Grizzled Survivor	Unhinged Survivor	Whiny Survivor
+The Domed City of Grimacia	100	Alielf	Cat-Alien	Dog-Alien	Grizzled Survivor	Unhinged Survivor	Whiny Survivor
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant (0)	The Large-Bellied Snitch (0)
 The Haunted Sorority House	-1	Sexy Sorority Ghost	Sexy Sorority Skeleton	Sexy Sorority Vampire	Sexy Sorority Werewolf	Sexy Sorority Zombie
