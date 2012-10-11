@@ -96,6 +96,7 @@ crimbco ribbon candy schnapps	3	1		4-5	0	0	0	lose 10% boredom
 crimbco wine	3	1	decent	4-8	10-20	10-20	10-20
 crimbojito	2	2	EPIC	10-13	10-20	25-50	10-20
 cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg)
+crystal skeleton vodka	3	1	EPIC	15-17	15-35	15-35	15-35	20 Aykrophobia (+25% item drop, +spooky dmg, +15 ML)
 csa cheerfulness ration	1	6	awesome	4	40-50	40-50	40-50
 csa scoutmaster's &quot;water&quot;	3	3	good	9	20-30	20-30	20-30
 cup of primitive beer	1	12	good	2-4	50-65	0	0	12-15 MP, lose 10-18 HP

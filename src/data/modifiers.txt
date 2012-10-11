@@ -340,6 +340,7 @@ Knob Goblin elite pants	Moxie: +3, Familiar Effect: "2xBarrr, cap 15"
 Knob Goblin harem pants	Moxie: +1, Familiar Effect: "prismatic atk, sleaze atk, 7xPotato, cap 2"
 Knob Goblin pants	Muscle: +1, Familiar Effect: "atk, cap 6"
 Krakrox's Loincloth	Muscle: +11, Initiative: +15, Class: "Seal Clubber", Familiar Effect: "1xVolley, 1xPotato, cap 31"
+Leapin' Trousers	Muscle: +4, Mysticality: +4, Moxie: +4, Adventures: +1
 Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief", Familiar Effect: "atk, 1xGhuol, cap 31"
 Moonthril Greaves	Muscle Percent: [10*G], Mysticality Percent: [10*G], Moxie Percent: [10*G], Familiar Effect: "cap 25"
 Newman's Own Trousers	Mysticality: +11, MP Regen Min: 3, MP Regen Max: 7, Class: "Sauceror", Familiar Effect: "prismatic atk, hot atk, 1xPotato, cap 31"
@@ -1207,6 +1208,7 @@ Oscus's garbage can lid	Stench Damage: +20, Damage Reduction: 15
 # Raggedy Hippy doll
 # Rain-Doh green lantern: Makes Spells Smell Worse
 Rain-Doh green lantern	Maximum MP: +20, Softcore Only
+Rainbow Jello Mould	Moxie Percent: +50
 Sceptre of the Torremolinos Prince	Mysticality Percent: +12
 Seven Loco	Booze Drop: +5, Candy Drop: +5
 # Sinful Desires: All Spells Cast Are Sleazy
@@ -2296,6 +2298,7 @@ rat head balloon	Familiar Weight: -3, Generic
 rat tooth polish	Familiar Weight: +5
 rattlesnake enrager	Familiar Weight: +5
 rhesus monkey	Familiar Weight: +5
+ribcage rollcage	Familiar Weight: +5
 security blankie	Familiar Weight: +5
 serrated proboscis extension	Familiar Weight: +20
 shiny gold fronts	Familiar Weight: +5
@@ -2635,6 +2638,7 @@ Ass Over Teakettle	Initiative: +50
 Assaulted with Pepper	Monster Level: +20
 Astral Shell	Damage Absorption: +80, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Axe Wound	Muscle: -5
+Aykrophobia	Item Drop: +25, Spooky Damage: +20, Monster Level: +15
 # B-b-brr!
 Baconstoned	Mysticality Percent: +50, Spell Damage: +11
 # Bad Luck: Uh Oh...
@@ -3368,6 +3372,8 @@ Simply Irritable	Monster Level: +15
 Simulation Stimulation	Experience (Moxie): +5
 Sinuses For Miles	Meat Drop: +200
 Sizzling with Fury	Hot Damage: +25, Initiative: +60
+Skeletal Buddy	Experience: +2
+# Ski Ballin': Makes you look like an eXtreme cross-country hippy
 Sleaze-Resistant Trousers	Sleaze Resistance: +1
 # Sleazeform: Wink Wink, Nudge Nudge
 Sleazeform	Sleaze Immunity, Cold Vulnerability, Spooky Vulnerability
@@ -3799,6 +3805,7 @@ Mining Gear	Meat Drop: +5
 OK Lumberjack Outfit	Critical: 2
 Palmist Paraphernalia	Moxie: +7
 # Paperclippery	Helpful!
+Pinata Provisions	Damage Reduction: +15
 Pork Elf Prizes	Item Drop: +10
 Primitive Radio Duds	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Pyretic Panhandler Paraphernalia	Hot Spell Damage: +40, MP Regen Min: 20, MP Regen Max: 30
@@ -4171,6 +4178,7 @@ eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
 elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 embezzler's oil	Effect: "Robbin' Like a Goblin", Effect Duration: 50
 emo roe	Free Pull
+enchanted meusli	Effect: "Ski Ballin'", Effect Duration: 30
 ennui-flavored potato chips	Effect: "Also Schmeckt Zarathustra", Effect Duration: 10
 essential cameraderie	Effect: "2 Hearts, 1 Mind", Effect Duration: 50
 essential soy	Effect: "Electrolyte Fantastic", Effect Duration: 50

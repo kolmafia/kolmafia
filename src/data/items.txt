@@ -5557,7 +5557,7 @@
 5540	desktop zen garden	618386151	zengarden.gif	usable	t,d	20
 5541	Vivian's Vitamin	287175202	stimpill2.gif	usable	t,d	75
 5542	pink-belly slapper	843267797	slapper.gif	none, combat	t,d	80
-5543
+5543	Leapin' Trousers	610976794	knightpants.gif	pants		0
 5544	green eggnog	237276764	coffeecup.gif	drink	t	0	glasses of green eggnog
 5545	green hamhock	434954792	ham.gif	food	t	0
 5546	The Thorax's Codex of Tormenting Plants	243374322	book3.gif	usable	t	0	copies of The Thorax's Codex of Tormenting Plants
@@ -5820,7 +5820,7 @@
 5803	White Chocolate Golem Seeds	741418840	chips.gif	usable	t,d	5
 5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	usable	t,d	5	slices of Shivering Ch&egrave;vre
 5805	giant breath mint	664766664	lifesaver.gif	usable	t,d	5
-5806
+5806	enchanted meusli	993446035	mueslix.gif	usable	t,d	5
 5807	glass of warm milk	734455157	milk.gif	usable	t,d	5
 5808	glass of gnat milk	352544230	milk.gif	usable	t,d	5
 5809	Knob Goblin Mutagen	436545864	lovepotion.gif	usable	t,d	5
@@ -5892,7 +5892,7 @@
 5875	papier-m&acirc;ch&eacute; base	746479844	machebase.gif	none	d	345
 5876	papier-m&acirc;ch&eacute; bowl	801154849	machebowl.gif	usable	d	555
 5877	papier-m&acirc;ch&eacute; trophy pi&ntilde;ata	883655433	machetrophy.gif	usable	d	1000
-5878
+5878	Rainbow Jello Mould	652392438	raindohempty.gif	offhand		0
 5879	Pete & Jackie's Dragon Tooth Emporium Catalog	127406602	teethcatalog.gif	usable	t	0
 5880	packet of dragon's teeth	593373158	teethpacket.gif	usable		0
 5881	skeleton	991177466	skeleton.gif	multiple	t,d	5	skeletons
@@ -5904,3 +5904,5 @@
 5887	crystal skeleton vodka	653313696	crystalskel.gif	drink	t,d	25
 5888	Lazybones&trade; recliner	274152200	bonerecliner.gif	usable	t,d	75
 5889	auxiliary backbone	289762965	auxspine.gif	container	t,d	45
+5890	skulldozer egg	454434202	eggplain.gif	grow	t	0
+5891	ribcage rollcage	726852767	rollcage.gif	familiar	t,d	75

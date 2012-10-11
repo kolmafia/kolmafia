@@ -154,35 +154,41 @@ public class CharPaneDecorator
 
 		float current = KoLCharacter.getCurrentHP();
 		float maximum = KoLCharacter.getMaximumHP();
-		float target = Preferences.getFloat( "hpAutoRecoveryTarget" );
-		float threshold = maximum; // * target
+		//float target = Preferences.getFloat( "hpAutoRecoveryTarget" );
+		//float threshold = maximum; // * target
 		float dangerous = maximum * Preferences.getFloat( "hpAutoRecovery" );
 
-		CharPaneDecorator.addRestoreLink( buffer, true, current, threshold, dangerous );
+		CharPaneDecorator.addRestoreLink( buffer, true, current, maximum, dangerous ); // replace maximum with threshold if above code is changed
 
 		// Next, replace MP information with a restore MP link, if necessary
 
 		current = KoLCharacter.getCurrentMP();
 		maximum = KoLCharacter.getMaximumMP();
-		target = Preferences.getFloat( "mpAutoRecoveryTarget" );
-		threshold = maximum; // * target
+		//target = Preferences.getFloat( "mpAutoRecoveryTarget" );
+		//threshold = maximum; // * target
 		dangerous = maximum * Preferences.getFloat( "mpAutoRecovery" );
 
-		CharPaneDecorator.addRestoreLink( buffer, false, current, threshold, dangerous );
+		CharPaneDecorator.addRestoreLink( buffer, false, current, maximum, dangerous ); // replace maximum with threshold if above code is changed
 	}
 
+	//
 	// Normal:
 	//
-	//     <td align=center><img src="http://images.kingdomofloathing.com/itemimages/hp.gif" class=hand onclick='doc("hp");' title="Hit Points" alt="Hit Points"><br><span class=black>219&nbsp;/&nbsp;238</span></td>
-	//     <td align=center><img src="http://images.kingdomofloathing.com/itemimages/mp.gif" class=hand onclick='doc("mp");' title="Muscularity Points" alt="Muscularity Points"><br><span class=black>44&nbsp;/&nbsp;54</span></td>
-	// 
+	//     <td align=center><img src="http://images.kingdomofloathing.com/itemimages/hp.gif" class=hand onclick='doc("hp");' title="Hit Points" alt="Hit Points"><br><span class=black>55&nbsp;/&nbsp;55</span></td>
+	//     <td align=center><img src="http://images.kingdomofloathing.com/itemimages/mp.gif" class=hand onclick='doc("mp");' title="Mana Points" alt="Mana Points"><br><span class=black>76&nbsp;/&nbsp;76</span></td>
+	//
+	// Slim HP:
+	//
+	//     <td><img src=http://images.kingdomofloathing.com/itemimages/hp.gif title="Hit Points" alt="Hit Points" onclick='doc("hp");' width=20 height=20></td><td valign=center><span class=black>38&nbsp;/&nbsp;58</span>&nbsp;&nbsp;</td>
+	//     <td><img src=http://images.kingdomofloathing.com/itemimages/mp.gif title="Mana Points" alt="Mana Points" onclick='doc("mp");' width=20 height=20></td><td valign=center><span class=black>70&nbsp;/&nbsp;122</span></td></tr><tr><td>
+	//
 	// Compact:
 	//
 	//   <tr><td align=right>HP:</td><td align=left><b><font color=black>792/792</font></b></td></tr>
 	//   <tr><td align=right>MP:</td><td align=left><b>1398/1628</b></td></tr>
 
-	private static final Pattern POINTS_PATTERN = Pattern.compile( "(<td.*?<br><span.*?>)([\\d,]+)(&nbsp;.*?</td>)" );
-	private static final Pattern COMPACT_POINTS_PATTERN = Pattern.compile( "(<td.*?<b>)(?:<font.*?>)?(\\d+)(.*?(?:</font>)?</b></td>)" );
+	private static final Pattern POINTS_PATTERN = Pattern.compile( "(doc\\(['\"](hp|mp)[^r]*r><span\\s+class=['\"]?(black|red)['\"]?>)(\\d+)" );
+	private static final Pattern COMPACT_POINTS_PATTERN = Pattern.compile( "((HP|MP):</td><td[^>]*><b>(?:<font\\s+color=['\"]?(black|red)['\"]?>)?)(\\d+)" );
 
 	private static final void addRestoreLink( final StringBuffer buffer, final boolean hp, final float current, final float threshold, final float dangerous )
 	{
@@ -192,76 +198,34 @@ public class CharPaneDecorator
 			return;
 		}
 
-		// Locate current value
-		String text = hp ?
-			CharPaneDecorator.getHPDatum( buffer ) :
-			CharPaneDecorator.getMPDatum( buffer );
-		
-		Matcher matcher = CharPaneRequest.compactCharacterPane ? 
-			CharPaneDecorator.COMPACT_POINTS_PATTERN.matcher( text ) :
-			CharPaneDecorator.POINTS_PATTERN.matcher( text );
-
-		if ( matcher.find() )
+		Matcher matcher = CharPaneRequest.compactCharacterPane ? COMPACT_POINTS_PATTERN.matcher( buffer ) : POINTS_PATTERN.matcher( buffer );
+		while ( matcher.find() )
 		{
-			String color = text.indexOf( "red" ) != -1 || current <= dangerous ?
-				"red" : "black";
+			String stat = matcher.group( 2 ).toUpperCase();
 
-			// Craft a replacement for the current value
-			StringBuilder rep = new StringBuilder();
+			if ( ( stat.equals( "HP" ) && hp ) || ( stat.equals( "MP" ) && !hp ) )
+			{
+				StringBuilder rep = new StringBuilder();
 
-			rep.append( matcher.group( 1 ) );
-			rep.append( "<a style=\"color:" );
-			rep.append( color );
-			rep.append( "\" title=\"Restore your " );
-			rep.append( hp ? "HP" : "MP" );
-			rep.append( "\" href=\"/KoLmafia/sideCommand?cmd=restore+" );
-			rep.append( hp ? "hp" : "mp" );
-			rep.append( "&pwd=" );
-			rep.append( GenericRequest.passwordHash );
-			rep.append( "\">" );
-			rep.append( matcher.group( 2 ) );
-			rep.append( "</a>" );
-			rep.append( matcher.group( 3 ) );
+				String color = current > dangerous ? matcher.group( 3 ) == null ? "black" : matcher.group( 3 ) : "red";
 
-			// Replace the original text with the replacement
-			StringUtilities.singleStringReplace( buffer, text, rep.toString() );
+				rep.append( matcher.group( 1 ) );
+				rep.append( "<a style=\"color:" );
+				rep.append( color );
+				rep.append( "\" title=\"Restore your " );
+				rep.append( stat );
+				rep.append( "\" href=\"/KoLmafia/sideCommand?cmd=restore+" );
+				rep.append( stat );
+				rep.append( "&pwd=" );
+				rep.append( GenericRequest.passwordHash );
+				rep.append( "\">" );
+				rep.append( matcher.group( 4 ) );
+				rep.append( "</a>" );
+
+				StringUtilities.singleStringReplace( buffer, matcher.group( 0 ), rep.toString() );
+				return;
+			}
 		}
-	}
-
-	private static final String getHPDatum( final StringBuffer buffer )
-	{
-		int startIndex, endIndex;
-
-		if ( CharPaneRequest.compactCharacterPane )
-		{
-			startIndex = buffer.indexOf( "<td align=right>HP:" );
-			endIndex = buffer.indexOf( "</tr>", startIndex );
-		}
-		else
-		{
-			startIndex = buffer.indexOf( "<td align=center><img src=\"http://images.kingdomofloathing.com/itemimages/hp.gif" );
-			endIndex = buffer.indexOf( "</td>", startIndex ) + 5;
-		}
-
-		return startIndex < 0 ? "" : buffer.substring( startIndex, endIndex );
-	}
-
-	private static final String getMPDatum( final StringBuffer buffer )
-	{
-		int startIndex, endIndex;
-
-		if ( CharPaneRequest.compactCharacterPane )
-		{
-			startIndex = buffer.indexOf( "<td align=right>MP:" );
-			endIndex = buffer.indexOf( "</tr>", startIndex );
-		}
-		else
-		{
-			startIndex = buffer.indexOf( "<td align=center><img src=\"http://images.kingdomofloathing.com/itemimages/mp.gif" );
-			endIndex = buffer.indexOf( "</td>", startIndex ) + 5;
-		}
-
-		return startIndex < 0 ? "" : buffer.substring( startIndex, endIndex );
 	}
 
 	private static final Pattern LASTADV_PATTERN = Pattern.compile(
@@ -409,7 +373,7 @@ public class CharPaneDecorator
 			buffer.insert( pos + 16, annotations );
 		}
 	}
-	
+
 	public static final StringBuffer getFamiliarAnnotation()
 	{
 		FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
@@ -508,7 +472,7 @@ public class CharPaneDecorator
 				// each stack drops on the turn it's expected to with
 				// no variance
 				// int expectedTurns = ( got + 1 ) * ( got // + 2 ) / 2;
-			
+
 				buffer.append( "; " );
 				buffer.append( String.valueOf( got ) );
 				buffer.append( "/" );
@@ -618,16 +582,12 @@ public class CharPaneDecorator
 		}
 		else
 		{
-			// This is possibly an incomplete formula, but someone would have to kill 710 monsters in a day to find out
-			return (int) ( Math.pow( fights, 2 ) - fights + 14 +
-				Math.pow(Math.max( ( fights-2 ), 0 ),2) + Math.max( fights-2, 0 ) + 
-				Math.pow(Math.max( ( fights-5 ), 0 ),2) + Math.max( fights-5, 0 ) +
-				Math.pow(Math.max( ( fights-8 ), 0 ),2) + Math.max( fights-8, 0 ) +
-				Math.pow(Math.max( ( fights-11 ), 0 ),2) + Math.max( fights-11, 0 ) - //Subtract stuff below
-				( Math.pow(Math.max( ( fights-3 ), 0 ),2) + Math.max( fights-3, 0 ) +
-				Math.pow(Math.max( ( fights-6 ), 0 ),2) + Math.max( fights-6, 0 ) +
-				Math.pow(Math.max( ( fights-9 ), 0 ),2) + Math.max( fights-9, 0 ) +
-				Math.pow(Math.max( ( fights-12 ), 0 ),2) + Math.max( fights-12, 0 ) ) ) /2;
+			int[] goth = {7,7,8,11,15,20,27,35,44,55,67,80,95,111,128};
+			if ( fights > 14 )
+			{
+				fights = 14;
+			}
+			return goth[ fights ];
 		}
 	}
 
@@ -938,7 +898,9 @@ public class CharPaneDecorator
 					buffer.append( escapedEffectName );
 					buffer.append( "\" title=\"" );
 					buffer.append( escapedEffectName );
-					buffer.append( "\" onClick='eff(\"" + descriptionId + "\");'></td>" );
+					buffer.append( "\" onClick='eff(\"" );
+					buffer.append( descriptionId );
+					buffer.append( "\");'></td>" );
 				}
 
 				if ( !CharPaneRequest.compactCharacterPane || Preferences.getBoolean( "relayTextualizesEffects" ) )
@@ -1054,7 +1016,8 @@ public class CharPaneDecorator
 			else if ( effectName.equalsIgnoreCase( "Shape of...Mole!" ) )
 			{
 				int level = Preferences.getInteger( "moleTunnelLevel" );
-				buffer.append( (level >= 0 ? "+" : "") + level );
+				buffer.append( level >= 0 ? "+" : "" );
+				buffer.append( level );
 				buffer.append( ", " );
 			}
 			else if ( effectName.equalsIgnoreCase( "Form of...Bird!" ) )
@@ -1248,7 +1211,9 @@ public class CharPaneDecorator
 			buffer.append( "<tr><td>" );
 			if ( url != null )
 			{
-				buffer.append( "<a href=\"" + url + "\" target=\"mainpane\">" );
+				buffer.append( "<a href=\"" );
+				buffer.append( url );
+				buffer.append( "\" target=\"mainpane\">" );
 			}
 			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
 			buffer.append( current.getImage() );
@@ -1276,7 +1241,9 @@ public class CharPaneDecorator
 			buffer.append( "<tr><td>" );
 			if ( url != null )
 			{
-				buffer.append( "<a href=\"" + url + "\" target=\"mainpane\">" );
+				buffer.append( "<a href=\"" );
+				buffer.append( url );
+				buffer.append( "\" target=\"mainpane\">" );
 			}
 			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
 			buffer.append( current.getImage() );
