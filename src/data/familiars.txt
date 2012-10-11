@@ -170,3 +170,4 @@
 161	Flaming Face	flameface.gif	combat	5718	flaming nose	3	2	2	1
 162	Reagnimated Gnome	frankengnome.gif	item0	5767		0	0	0	0
 163	Hovering Skull	talkskull.gif	stat0,combat	5774	shiny gold fronts	0	0	0	0
+164	Mini-Skulldozer	minidozer.gif	combat	5890	ribcage rollcage	2	1	3	0

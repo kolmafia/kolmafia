@@ -270,6 +270,7 @@ Knob Goblin elite pants	60	Mox: 15
 Knob Goblin harem pants	10	none
 Knob Goblin pants	25	none
 Krakrox's Loincloth	125	Mus: 30
+Leapin' Trousers	12	none
 Lederhosen of the Night	125	Mox: 30
 Moonthril Greaves	100	Mox: 40
 Newman's Own Trousers	125	Mys: 30
@@ -1060,6 +1061,7 @@ Operation Patriot Shield	240	none	shield
 Oscus's garbage can lid	240	Mus: 200	shield
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
+Rainbow Jello Mould	0	Mus: 10
 Sceptre of the Torremolinos Prince	0	none
 Seven Loco	0	none
 Sinful Desires	30	none
