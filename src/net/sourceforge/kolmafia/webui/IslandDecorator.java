@@ -426,11 +426,11 @@ public class IslandDecorator
 
 	private static final int[] HERO_UNLOCK =
 	{
-		458,
-		606,
-		658,
-		766,
-		880,
+		500,
+		600,
+		700,
+		800,
+		900,
 	};
 
 	private static final String[] HIPPY_HERO =
