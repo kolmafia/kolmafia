@@ -57,8 +57,8 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 public class DataFileCache
 {
 	private static RollingLinkedList recentlyUsedList = new RollingLinkedList( 500 ); 
-	private static Map dataFileTimestampCache = new HashMap();
-	private static Map dataFileDataCache = new HashMap();
+	private static Map<String, Long> dataFileTimestampCache = new HashMap<String, Long>();
+	private static Map<String, byte[]> dataFileDataCache = new HashMap<String, byte[]>();
 
 	public static void clearCache()
 	{
@@ -69,7 +69,7 @@ public class DataFileCache
 	
 	public static File getFile( String filename, boolean readOnly )
 	{
-		if ( filename.startsWith( "http" ) )
+		if ( filename.startsWith( "http://" ) )
 		{
 			return null;
 		}
@@ -157,6 +157,10 @@ public class DataFileCache
 
 	public static BufferedReader getReader( final String filename )
 	{
+		if ( filename.startsWith( "http://" ) )
+		{
+			return DataUtilities.getReader( "", filename );
+		}
 		byte[] data = DataFileCache.getBytes( filename );
 
 		return DataUtilities.getReader( new ByteArrayInputStream( data ) );
@@ -173,7 +177,7 @@ public class DataFileCache
 
 		long modifiedTime = input.lastModified();
 
-		Long cacheModifiedTime = (Long) dataFileTimestampCache.get( filename );
+		Long cacheModifiedTime = dataFileTimestampCache.get( filename );
 
 		if ( cacheModifiedTime != null && cacheModifiedTime.longValue() == modifiedTime )
 		{
