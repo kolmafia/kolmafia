@@ -2609,7 +2609,7 @@ Alchemical, Brother	Mysticality Percent: +30
 # All Covered In Whatsit: More likely to fumble
 # All Covered In Whatsit: Continually take damage
 All Fired Up	Initiative: +30
-All Wound Up	Spell Damage Percent: [202-2*T], Weapon Damage Percent: [202-2*T]
+All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
 Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Also Schmeckt Zarathustra	Mysticality: +30
 Altered Wavelengths	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
@@ -2709,7 +2709,7 @@ Brother Flying Burrito's Blessing	Food Drop: +30
 Brother Smothers's Blessing	Booze Drop: +30
 # Bruised Jaw: Mruimed Maw
 Bubble, Bubble	Moxie: -5, Muscle: +5
-Bubble Vision	Item Drop: [101-T]
+Bubble Vision	Item Drop: [max(0,101-T)]
 Buff as a Baobab	Experience Percent (Muscle): +20
 # Buggy Flavor: 25% chance of poisoning opponent
 Bureaucratized	Familiar Weight: +10
@@ -2721,7 +2721,7 @@ Burning Heart	Hot Damage: +10, Damage Reduction: -2
 # Busker Do
 Busy Bein' Delicious	Moxie: +5
 Butt-Rock Hair	Moxie Percent: +15
-Buy! Sell! Buy! Sell!	Meat Drop: [202-2*T]
+Buy! Sell! Buy! Sell!	Meat Drop: [max(0,202-2*T)]
 Cake Caked	Mysticality Percent: +50
 Can Has Cyborger	Moxie Percent: +10
 Can't Be a Chooser	Meat Drop: +30
@@ -2752,7 +2752,7 @@ Cholestoriffic	Sleaze Damage: [min(100,T)]
 Chorale of Companionship	Familiar Weight: +10
 Chow Downed	Familiar Weight: +5
 Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
-Cinco Elementos	Cold Damage: [5*T], Hot Damage: [5*T], Sleaze Damage: [5*T], Spooky Damage: [5*T], Stench Damage: [5*T]
+Cinco Elementos	Cold Damage: [min(2500,5*T)], Hot Damage: [min(2500,5*T)], Sleaze Damage: [min(2500,5*T)], Spooky Damage: [min(2500,5*T)], Stench Damage: [min(2500,5*T)]
 Cinnamouth	Hot Damage: +11
 Clean-Shaven	Moxie: +5
 # Clean to the Bone: Makes you look like a skullery maid
@@ -3537,11 +3537,11 @@ The Great Tit's Blessing	Monster Level: +20, Moxie Percent: +5
 The Halls of Moxiousness	Experience (Moxie): +3
 The Halls of Muscularity	Experience (Muscle): +3
 The Halls of Mysticality	Experience (Mysticality): +3
-The HeyDezebound Heart	Item Drop: [min(300,T)], Muscle Percent: [-T], Mysticality Percent: [-T], Moxie Percent: [-T], Experience: [floor(T/5)]
+The HeyDezebound Heart	Item Drop: [min(300,T)], Muscle Percent: [max(-1000,-T)], Mysticality Percent: [max(-1000,-T)], Moxie Percent: [max(-1000,-T)], Experience: [min(100,floor(T/5))]
 # The Kobold and the Kobeautiful: Makes you look like a large kobold 
 The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 The Moxious Madrigal	Moxie: +10
-The Pleasures of the Flesh	Muscle Percent: [T], Mysticality Percent: [T], Moxie Percent: [T], 
+The Pleasures of the Flesh	Muscle Percent: [min(300,T)], Mysticality Percent: [min(300,T)], Moxie Percent: [min(300,T)], 
 The Q Is Talking To You	Mysticality Percent: +10
 The Rage	Muscle Percent: +50, Mysticality Percent: -50
 The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
