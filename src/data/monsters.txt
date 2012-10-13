@@ -466,8 +466,10 @@ Gnollish War Chef	HP: 9 Def: 15 Atk: 14 Meat: 20-28 P: demihuman	Gnollish slotte
 Gnomester Blomester	HP: 35 Def: 35 Atk: 35 P: demihuman	cog (15)	spring (15)	flange (5)
 Gnu Jack Gnome	HP: 35 Def: 35 Atk: 35 P: demihuman	sprocket (15)	spring (15)	flange (5)
 Goomba	Atk: 20 Def: 20 HP: 15 P: beast	black pixel (50)	red pixel (80)	white pixel (50)
-Gorgolok, the Demonic Hellseal	BOSS HP: 400 Def: 200 Atk: 200 Phys: 40 P: demon
-Gorgolok, the Infernal Seal	BOSS HP: 220 Def: 170 Atk: 170 P: demon
+Gorgolok, the Demonic Hellseal	BOSS HP: 400 Def: 200 Atk: 200 Phys: 40 P: demon	Claw of the Infernal Seal (100)	Instant Karma (c100)	heart of the volcano (c100)
+Gorgolok, the Infernal Seal (Inner Sanctum)	BOSS HP: 30 Def: 30 Atk: 27 P: demon	Scalp of Gorgolok (100)
+Gorgolok, the Infernal Seal (The Nemesis' Lair)	BOSS HP: 220 Def: 170 Atk: 170 Init: 80 P: demon	Krakrox's Loincloth (100)
+Gorgolok, the Infernal Seal (Volcanic Cave)	BOSS HP: 260 Def: 185 Atk: 185 P: demon
 Goth Giant	Atk: 130 Def: 130 HP: 150 Meat: 120-180 P: demihuman	awful poetry journal (30)	thin black candle (30)	Warm Subject gift certificate (30)
 Grass Elemental	Atk: 60 Def: 60 HP: 50 P: elemental	leaf of grass (0)
 Grassy Pirate	Atk: 140 Def: 140 HP: 120 P: pirate	grassy cutlass (10)
@@ -573,8 +575,10 @@ lowercase K	Atk: 57 Def: 55 HP: 60 P: demihuman	equal sign (15)	left parenthesis
 Lumberjack Supervisor	HP: 40 Def: 40 Atk: 40 Meat: 24-36 P: humanoid	balaclava (5)	balaclava baklava (25)
 Lumberjill	HP: 36 Def: 36 Atk: 36 Meat: 16-24 P: humanoid	Blatantly Canadian (30)	maple syrup (30)	supportive bra (c20)
 Lumberjuan	HP: 35 Def: 35 Atk: 35 Meat: 16-24 P: humanoid	los chinos (5)	leaflet (15)	wooden axe (5)
-Lumpy, the Demonic Sauceblob	BOSS HP: 500 Def: 200 Atk: 200 Init: 100 Phys: 25 P: demon
-Lumpy, the Sinister Sauceblob	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 Phys: 40 P: slime
+Lumpy, the Demonic Sauceblob	BOSS HP: 500 Def: 200 Atk: 200 Init: 100 Phys: 40 P: demon	Gravyskin Belt of the Sauceblob (100)	Instant Karma (c100)	heart of the volcano (c100)
+Lumpy, the Sinister Sauceblob (Inner Sanctum)	BOSS HP: 30 Def: 30 Atk: 27 P: slime	Ancient Saucehelm (100)
+Lumpy, the Sinister Sauceblob (The Nemesis' Lair)	BOSS HP: 220 Def: 170 Atk: 170 Init: 80 P: slime	Newman's Own Trousers (100)
+Lumpy, the Sinister Sauceblob (Volcanic Cave)	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 Phys: 25 P: slime
 Mad Bugbears	HP: 13 Def: 17 Atk: 16 P: beast
 Mad Flagellate	Atk: 25 Def: 20 HP: 20 P: bug	memory of a G (20)	memory of a T (20)
 Magic Dragonfish	HP: 750 Def: 400 Atk: 500 Meat: 160-240 P: fish	rough fish scale (n4)	seaweed (n5)	dragonfish caviar (n5)
@@ -778,8 +782,10 @@ Smooth Jazz Scabie	HP: 140 Def: 100 Atk: 95 P: bug	can-you-dig-it? (0)
 Snow Queen	Atk: 107 Def: 105 HP: 70 E: cold Phys: 100 P: elemental	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
 Some Bad ASCII Art	Atk: 85 Def: 85 HP: 75 P: object	ASCII shirt (c100)	 30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
 Some Zombie Waltzers	Atk: 110 Def: 110 HP: 120 Meat: 80-120 E: spooky P: undead	ballroom blintz (15)	dance card (15)
-Somerset Lopez, Demon Mariachi	BOSS HP: 1000 Def: 200 Atk: 200 Init: 100 P: demon
-Somerset Lopez, Dread Mariachi	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 P: humanoid
+Somerset Lopez, Demon Mariachi	BOSS HP: 1000 Def: 200 Atk: 200 Init: 100 P: demon	La Hebilla del Cintur&oacute;n de Lopez (100)	Instant Karma (c100)	heart of the volcano (c100)
+Somerset Lopez, Dread Mariachi (Inner Sanctum)	BOSS HP: 30 Def: 30 Atk: 27 P: humanoid	El Sombrero De Lopez (100)
+Somerset Lopez, Dread Mariachi (The Nemesis' Lair)	BOSS HP: 220 Def: 170 Atk: 170 Init: 80 P: humanoid	Lederhosen of the Night (100)
+Somerset Lopez, Dread Mariachi (Volcanic Cave)	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 P: humanoid
 Sorority Nurse	Atk: 170 Def: 175 HP: 200 E: sleaze P: orc	energy drink IV (18)	gauze garter (20)	gauze garter (7)	kick-ass kicks (2)	PADL Phone (3)
 Sorority Operator	Atk: 185 Def: 180 HP: 200 E: sleaze P: orc	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (18)	PADL Phone (18)	PADL Phone (18)	white class ring (31)
 Space Marine	Atk: 160 Def: 150 HP: 140 P: humanoid	facehugging alien (0)	physiostim pill (0)	essence of fright (c100)
@@ -796,8 +802,10 @@ Spooky Mummy	Atk: 4 Def: 4 HP: 3 Meat: 8-15 E: spooky P: undead	dried face (10)	
 Spooky Vampire	Atk: 3 Def: 4 HP: 2 E: spooky Meat: 4-7 P: undead	vampire heart (c100)	vampire cape (c4)
 Spookyraven Manor	HP: 120 Def: 80 Atk: 80 P: object	collection of tiny spooky objects (0)
 Spunky Princess	Atk: 90 Def: 90 HP: 75 Init: 90 Meat: 88-132 P: humanoid	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
-Stella, the Demonic Turtle Poacher	BOSS HP: 1000 Def: 200 Atk: 200 Init: 100 P: demon
-Stella, the Turtle Poacher	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 P: humanoid
+Stella, the Demonic Turtle Poacher	BOSS HP: 1000 Def: 200 Atk: 200 Init: 100 P: demon	Garter of the Turtle Poacher (100)	Instant Karma (c100)	heart of the volcano (c100)
+Stella, the Turtle Poacher (Inner Sanctum)	BOSS HP: 30 Def: 30 Atk: 27 Init: 60 P: humanoid	Elder Turtle Shell (100)
+Stella, the Turtle Poacher (The Nemesis' Lair)	BOSS HP: 220 Def: 170 Atk: 170 Init: 80 P: humanoid	Galapagosian Cuisses (100)
+Stella, the Turtle Poacher (Volcanic Cave)	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 P: humanoid
 Stench Hobo	HP: 500 Def: 350 Atk: 350 E: stench P: hobo	hobo nickel (c15)	stinkin' bindle (0)	Biddy Cracker's Old-Fashioned Cookbook (0)	Travels with Jerry (0)	filth-encrusted futon (0)
 Stocking-stuffing Zombie		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Stone Temple Pirate	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS)+ML] Atk: [min(50,MOX)+ML] P: object	ancient poisoned dart (35)	eyepatch (15)
@@ -845,7 +853,7 @@ The Camel's Toe	Atk: 158 Def: 158 HP: 150 E: sleaze P: constellation	line (30)	l
 The Clownlord Beelzebozo	BOSS Atk: 27 Def: 30 HP: 40 P: horror	empty greasepaint tube (b0)
 The Colollilossus	HP: 0	all-year sucker (100)
 The Darkness	Atk: 99999 Def: 99999 HP: 99999
-The Demon of New Wave	BOSS HP: 500 Def: 200 Atk: [MOX-4] Init: 100 Phys: 40 P: demon
+The Demon of New Wave	BOSS HP: 500 Def: 200 Atk: [MOX-4] Init: 100 Phys: 40 P: demon	Bling of the New Wave (100)	Instant Karma (c100)	heart of the volcano (c100)
 The Family Jewels	Atk: 156 Def: 156 HP: 150 E: sleaze P: constellation	star (30)	star (30)	star (30)
 The Fickle Finger of F8	Atk: 99999 Def: 99999 HP: 99999
 The Flange	Atk: 159 Def: 159 HP: 150 E: sleaze P: constellation	line (30)	line (30)	star (30)
@@ -870,9 +878,13 @@ The Pork Sword	Atk: 162 Def: 162 HP: 150 E: sleaze P: constellation	line (30)	st
 The Queen Filthworm	BOSS Atk: 173 Def: 173 HP: 195 Init: 50 Meat: 1000 E: stench P: bug	heart of the filthworm queen (100)
 The Remains of a Jilted Mistress	Atk: 164 Def: 155 HP: 145 ED: spooky P: undead	antique hand mirror (40)
 The Skinflute	Atk: 158 Def: 158 HP: 150 E: sleaze P: constellation	star (30)	star (30)	line (30)	line (30)
-The Spaghetti Demon	BOSS HP: 600 Def: 200 Atk: 200 Init: 100 P: demon
-The Spaghetti Elemental	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 P: elemental
-The Spirit of New Wave	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 P: undead
+The Spaghetti Demon	BOSS HP: 600 Def: 200 Atk: 200 Init: 100 P: demon	Bandolier of the Spaghetti Elemental (100)	Instant Karma (c100)	heart of the volcano (c100)
+The Spaghetti Elemental (Inner Sanctum)	BOSS HP: 30 Def: 30 Atk: 27 P: elemental	Colander of Em-er'il (100)
+The Spaghetti Elemental (The Nemesis' Lair)	BOSS HP: 220 Def: 170 Atk: 170 Init: 80 P: elemental	Angelhair Culottes (100)
+The Spaghetti Elemental (Volcanic Cave)	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 P: elemental
+The Spirit of New Wave (Inner Sanctum)	BOSS HP: 30 Def: 30 Atk: 27 P: undead	Disco 'Fro Pick (100)
+The Spirit of New Wave (The Nemesis' Lair)	BOSS HP: 220 Def: 170 Atk: 170 Init: 80 P: undead	Volartta's bellbottoms (100)
+The Spirit of New Wave (Volcanic Cave)	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 P: undead
 The Temporal Bandit	HP: 50	Counterclockwise Watch (100)
 The Terrible Pinch	BOSS Atk: 150 Def: 150 HP: 1000 P: demihuman	lecherous stone (100)
 The Thing with No Name	BOSS Atk: 200 Def: 250 HP: 1000 P: undead	green eggnog (0)	green hamhock (0)	The Thorax's Codex of Tormenting Plants (0)	Ghost Pinching Quarterly (0)	The Snitch's Manifesto (0)

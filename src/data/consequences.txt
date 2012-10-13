@@ -69,6 +69,25 @@ MONSTER	The Darkness	darkness\.gif	"The Darkness (blind)"
 MONSTER	Ed the Undying	/ed(\d)\.gif	"Ed the Undying ($1)"
 MONSTER	Ed the Undying	.	"Ed the Undying (1)"
 
+MONSTER	Gorgolok, the Infernal Seal	seal\.gif	"Gorgolok, the Infernal Seal (Inner Sanctum)"
+MONSTER	Gorgolok, the Infernal Seal	1_2\.gif	"Gorgolok, the Infernal Seal (The Nemesis' Lair)"
+MONSTER	Gorgolok, the Infernal Seal	1_3\.gif	"Gorgolok, the Infernal Seal (Volcanic Cave)"
+MONSTER	Stella, the Turtle Poacher 	poacher\.gif	"Stella, the Turtle Poacher (Inner Sanctum)"
+MONSTER	Stella, the Turtle Poacher 	2_2\.gif	"Stella, the Turtle Poacher (The Nemesis' Lair)"
+MONSTER	Stella, the Turtle Poacher 	2_3\.gif	"Stella, the Turtle Poacher (Volcanic Cave)"
+MONSTER	Spaghetti Elemental	spagdemon\.gif	"The Spaghetti Elemental (Inner Sanctum)"
+MONSTER	Spaghetti Elemental	3_2\.gif	"The Spaghetti Elemental (The Nemesis' Lair)
+MONSTER	Spaghetti Elemental	3_3\.gif	"The Spaghetti Elemental (Volcanic Cave)
+MONSTER Lumpy, the Sinister Sauceblob	sauceblob\.gif	"Lumpy, the Sinister Sauceblob (Inner Sanctum)"
+MONSTER Lumpy, the Sinister Sauceblob	4_2\.gif	"Lumpy, the Sinister Sauceblob (The Nemesis' Lair)
+MONSTER Lumpy, the Sinister Sauceblob	4_3\.gif	"Lumpy, the Sinister Sauceblob (Volcanic Cave)
+MONSTER	Spirit of New Wave	newwave\.gif	"The Spirit of New Wave (Inner Sanctum)"
+MONSTER	Spirit of New Wave	5_2\.gif	"The Spirit of New Wave (The Nemesis' Lair)"
+MONSTER	Spirit of New Wave	5_3\.gif	"The Spirit of New Wave (Volcanic Cave)"
+MONSTER	Somerset Lopez, Dread Mariachi	mariachi\.gif	"Somerset Lopez, Dread Mariachi (Inner Sanctum)"
+MONSTER	Somerset Lopez, Dread Mariachi	6_2\.gif	"Somerset Lopez, Dread Mariachi (The Nemesis' Lair)"
+MONSTER	Somerset Lopez, Dread Mariachi	6_3\.gif	"Somerset Lopez, Dread Mariachi (Volcanic Cave)"
+
 MONSTER	Shadow Lemming Trampler	.	"Your Shadow"
 MONSTER	Shadow Tern Slapper	.	"Your Shadow"
 MONSTER	Shadow Puffin Intimidator	.	"Your Shadow"
