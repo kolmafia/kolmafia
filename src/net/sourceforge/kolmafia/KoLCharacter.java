@@ -818,7 +818,8 @@ public abstract class KoLCharacter
 				baseFullness += 5;
 			}
 
-			// Feast of Boris effect?
+			// Today is the Feast of Boris. Brains, brains, brains!
+			// However, maximum fullness is not increased.
 			return baseFullness;
 		}
 
