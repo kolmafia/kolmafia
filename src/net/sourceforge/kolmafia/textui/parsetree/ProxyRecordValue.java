@@ -642,6 +642,9 @@ public class ProxyRecordValue
 			.add( "base_hp", DataTypes.INT_TYPE )
 			.add( "base_attack", DataTypes.INT_TYPE )
 			.add( "base_defense", DataTypes.INT_TYPE )
+			.add( "raw_hp", DataTypes.INT_TYPE )
+			.add( "raw_attack", DataTypes.INT_TYPE )
+			.add( "raw_defense", DataTypes.INT_TYPE )
 			.add( "base_initiative", DataTypes.INT_TYPE )
 			.add( "attack_element", DataTypes.ELEMENT_TYPE )
 			.add( "defense_element", DataTypes.ELEMENT_TYPE )
@@ -666,6 +669,21 @@ public class ProxyRecordValue
 		public int get_base_attack()
 		{
 			return ((MonsterData) this.content).getAttack();
+		}
+
+		public int get_raw_hp()
+		{
+			return ((MonsterData) this.content).getRawHP();
+		}
+
+		public int get_raw_attack()
+		{
+			return ((MonsterData) this.content).getRawAttack();
+		}
+
+		public int get_raw_defense()
+		{
+			return ((MonsterData) this.content).getRawDefense();
 		}
 
 		public int get_base_defense()
