@@ -805,7 +805,7 @@ public class DebugDatabase
 	}
 
 	private static final Pattern POWER_PATTERN = Pattern.compile( "Power: <b>(\\d+)</b>" );
-	private static final Pattern DAMAGE_PATTERN_WEAPON = Pattern.compile( "Damage: <b>[\\d+] - (\\d+)</b>" );
+	private static final Pattern DAMAGE_PATTERN_WEAPON = Pattern.compile( "Damage: <b>[\\d]+ - (\\d+)</b>" );
 	public static final int parsePower( final String text )
 	{
 		Matcher matcher = DebugDatabase.POWER_PATTERN.matcher( text );

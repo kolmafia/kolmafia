@@ -5131,7 +5131,7 @@
 5114	stomp box	159882766	stompbox.gif	familiar	t	0	stomp boxes
 5115
 5116	A. W. O. L. commendation	542484240	aolcom.gif	reusable		0
-5117	reconstituted crow	529331441	blackbird1.gif	grow	q	0
+5117	reconstituted crow	529331441	blackbird2.gif	grow	q	0
 5118	bird brain	576544533	birdbrain.gif	none	q	0
 5119	busted wings	980813799	brokenwings.gif	none	q	0
 5120	Massive Manual of Marauder Mockery	151842381	book4.gif	none, combat reusable	t,d	250	Massive Manuals of Marauder Mockery
