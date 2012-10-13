@@ -67,8 +67,8 @@ public interface KoLConstants
 	// Version information for the current version of KoLmafia.
 	// Rendered in various locations and therefore made public.
 
-	public static final String VERSION_NAME = "KoLmafia v15.6";
-	public static final String VERSION_DATE = "Released on September 15, 2012";
+	public static final String VERSION_NAME = "KoLmafia v15.7";
+	public static final String VERSION_DATE = "Released on October 13, 2012";
 	public static final boolean RELEASED = true;
 	public static final String REVISION = null;
 
@@ -667,7 +667,7 @@ public interface KoLConstants
 	public static final LockableListModel combatSkills = new LockableListModel();
 
 	public static final LockableListModel activeEffects = new LockableListModel();
-	public static final ArrayList recentEffects = new ArrayList();
+	public static final ArrayList<AdventureResult> recentEffects = new ArrayList<AdventureResult>();
 
 	public static final LockableListModel hermitItems = new LockableListModel();
 	public static final LockableListModel restaurantItems = new LockableListModel();
