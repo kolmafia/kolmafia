@@ -132,6 +132,23 @@ public class MonsterData
 		return Math.max( 1, (int) (((MonsterExpression) this.health).eval() * getBeeosity() ) );
 	}
 
+	public int getRawHP()
+	{
+		if ( this.health == null )
+		{
+			return 0;
+		}
+		if ( this.health instanceof Integer )
+		{
+			return ((Integer) this.health).intValue();
+		}
+		if ( this.health instanceof String )
+		{
+			this.health = compile( this.health );
+		}
+		return Math.max( 1, (int) (((MonsterExpression) this.health).eval() ) );
+	}
+
 	public int getAttack()
 	{
 		if ( this.attack == null )
@@ -148,6 +165,23 @@ public class MonsterData
 			this.attack = compile( this.attack );
 		}
 		return Math.max( 1, (int) (((MonsterExpression) this.attack).eval() * getBeeosity() ) );
+	}
+
+	public int getRawAttack()
+	{
+		if ( this.attack == null )
+		{
+			return 0;
+		}
+		if ( this.attack instanceof Integer )
+		{
+			return ((Integer) this.attack).intValue();
+		}
+		if ( this.attack instanceof String )
+		{
+			this.attack = compile( this.attack );
+		}
+		return Math.max( 1, (int) (((MonsterExpression) this.attack).eval() ) );
 	}
 
 	public int getDefense()
@@ -167,6 +201,23 @@ public class MonsterData
 			this.defense = compile( this.defense );
 		}
 		return Math.max( 1, (int) (((MonsterExpression) this.defense).eval() * getBeeosity() ) );
+	}
+
+	public int getRawDefense()
+	{
+		if ( this.defense == null )
+		{
+			return 0;
+		}
+		if ( this.defense instanceof Integer )
+		{
+			return ((Integer) this.defense).intValue();
+		}
+		if ( this.defense instanceof String )
+		{
+			this.defense = compile( this.defense );
+		}
+		return Math.max( 1, (int) (((MonsterExpression) this.defense).eval() ) );
 	}
 
 	public int getInitiative()
