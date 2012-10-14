@@ -125,7 +125,7 @@
 # http://forums.hardcoreoxygenation.com/viewtopic.php?t=1795
 
 "Handyman" Jay Android	Atk: 150 Def: 150 HP: 150 P: object	neurostim pill (0)	physiostim pill (0)	sham champagne (0)	essence of kink (c100)
-1335 HaXx0r	Atk: 81 Def: 80 HP: 71 Meat: 24-36 P: humanoid	334 scroll (20)	Dyspepsi-Cola (70)	1337 7r0uZ0RZ (15)
+1335 HaXx0r	Atk: 81 Def: 81 HP: 71 Meat: 24-36 P: humanoid	334 scroll (20)	Dyspepsi-Cola (70)	1337 7r0uZ0RZ (15)
 7-Foot Dwarf	HP: 40 Def: 53 Atk: 53 Meat: 34-48 P: demihuman	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
 7-Foot Dwarf Foreman	Atk: 57 Def: 57 HP: 50 Meat: 48-72 P: demihuman	miner's helmet (30)	miner's pants (30)	7-Foot Dwarven mattock (30)
 7-Foot Dwarf Replicant	Atk: 145 Def: 145 HP: 155 P: object	cyber-mattock (0)	neurostim pill (0)	essence of stench (c100)
@@ -179,12 +179,12 @@ BASIC Elemental	Atk: 50 Def: 50 HP: 40 P: elemental	GOTO (0)
 Batrat	Atk: 23 Def: 23 HP: 20 Meat: 18-28 P: beast	bat wing (15)	bat guano (15)	batgut (15)	sonar-in-a-biscuit (15)
 Batwinged Gremlin	Atk: 169 Def: 170 HP: 170 Meat: 40-60 P: demihuman	gremlin juice (3)	molybdenum hammer (c0)
 Bazookafish	HP: 500 Def: 325 Atk: 375 Meat: 176-264 P: fish	bazookafish bubble gum (42)	bazookafish bubble gum (8)	dull fish scale (n15)	fish bazooka (n2)
-Beanbat	Atk: 21 Def: 20 HP: 18 Meat: 28-43 P: beast	enchanted bean (50)	sonar-in-a-biscuit (10)
+Beanbat	Atk: 21 Def: 21 HP: 18 Meat: 28-43 P: beast	enchanted bean (50)	sonar-in-a-biscuit (10)
 Beefy Bodyguard Bat	Atk: 25 Def: 25 HP: 25 Meat: 200-300 P: beast
 Beer Batter	Atk: 99999 Def: 99999 HP: 99999
 Beer Bongadier	Atk: 180 Def: 195 HP: 210 E: sleaze P: orc	beer bong (20)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (2)
 Best-Selling Novelist	Atk: 99999 Def: 99999 HP: 99999
-Big Creepy Spider	Atk: 1 Def: 0 HP: 1 Meat: 4-6 "Hardly Poisoned at All" P: bug	spider web (25)	spider web (25)
+Big Creepy Spider	Atk: 1 Def: 1 HP: 1 Meat: 4-6 "Hardly Poisoned at All" P: bug	spider web (25)	spider web (25)
 Big Meat Golem	Atk: 99999 Def: 99999 HP: 99999
 Big Swarm of Ghuol Whelps	HP: 150 Def: 50 Atk: 50 E: spooky P: undead
 Bizarre Construct	HP: 300 Def: 300 Atk: 300 P: object	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
@@ -285,7 +285,7 @@ Cluster of Angry Bacteria	Atk: 20 Def: 20 HP: 25 P: bug	memory of an A (20)	memo
 Cobb's Knob Oven	Atk: 20 Def: 20 HP: 20 E: heat P: object	oven mitts (5)	overcookie (20)
 Cold Hobo	HP: 500 Def: 350 Atk: 350 E: cold P: hobo	hobo nickel (c15)	freezin' bindle (0)	Maxing, Relaxing (0)	Blizzards I Have Died In (0)	frigid air mattress (0)
 Collapsed Mineshaft Golem	Atk: 99999 Def: 99999 HP: 99999
-Completely Different Spider	Atk: 1 Def: 0 HP: 1 Meat: 4-6 "Hardly Poisoned at All" P: bug	spider web (25)	spider web (25)
+Completely Different Spider	Atk: 1 Def: 1 HP: 1 Meat: 4-6 "Hardly Poisoned at All" P: bug	spider web (25)	spider web (25)
 Concert Pianist	Atk: 99999 Def: 99999 HP: 99999 P: humanoid
 Confused Goth Music Student	Atk: 9 Def: 9 HP: 9 P: humanoid	pocket theremin (10)
 Conjoined Zmombie	Atk: 73 Def: 70 HP: 120 E: spooky Meat: 224-338 P: undead	cranberries (29)	cranberries (8)	loose teeth (8)	grateful undead t-shirt (1)
@@ -336,7 +336,7 @@ Drowned Sailor	HP: 700 Def: 450 Atk: 400 E: spooky Meat: 120-180 P: undead	moist
 Drunk Duck	Atk: 165 Def: 175 HP: 170 Meat: 188-216 P: beast	bottle of gin (0)	bottle of rum (0)	bottle of tequila (0)	bottle of vodka (0)	bottle of whiskey (0)	boxed wine (0)	duct tape (0)
 Drunk Goat	Atk: 68 Def: 68 HP: 50 Meat: 36-54 P: beast	bottle of whiskey (25)	goat beard (5)	billy idol (b0)
 Drunken 7-foot Dwarf	HP: 7 Def: 10 Atk: 8 P: demihuman	bottle of whiskey (20)	bottle of whiskey (20)
-Drunken Half-Orc Hobo	Atk: 1 Def: 0 HP: 1 E: stench P: hobo	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)	hobo gristle (b0)
+Drunken Half-Orc Hobo	Atk: 1 Def: 1 HP: 1 E: stench P: hobo	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)	hobo gristle (b0)
 Drunken Rat	Atk: 10 Def: 10 HP: 8 Meat: 8-12 P: beast	rat whisker (100)	rat appendix (20)
 Drunken Rat King	Atk: 40 Def: 40 HP: 32 P: beast	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat appendix (0)	rat appendix (0)	rat appendix (0)	tangle of rat tails (0)
 Dyspepsi-Cola General	HP: 40 Def: 30 Atk: 30 P: humanoid	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
@@ -383,7 +383,7 @@ Fancy Bath Slug	Atk: 99999 Def: 99999 HP: 99999
 Fearsome Wacken	HP: 200 Def: 90 Atk: 90 P: beast	Crazyleg's razor (100)
 Felonia, Queen of the Spooky Gravy Fairies	BOSS Atk: 75 Def: 75 HP: 80 E: spooky P: plant
 Ferocious Bugbear	Atk: 3 Def: 3 HP: 5 Meat: 16-24 P: beast	bugbear beanie (20)	bugbear bungguard (20)
-Fiendish Can of Asparagus	Atk: 2 Def: 0 HP: 1 E: stench Meat: 4-6 P: undead	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)	shredded can label (b0)
+Fiendish Can of Asparagus	Atk: 2 Def: 1 HP: 1 E: stench Meat: 4-6 P: undead	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)	shredded can label (b0)
 Figure-Skating Duck	Atk: 179 Def: 172 HP: 180 Meat: 139-171 E: cold P: beast	frozen feather (10)	duct tape (5)
 Filthworm Drone	Atk: 167 Def: 167 HP: 185 Init: 50 Meat: 56-84 E: stench P: bug	filthworm drone scent gland (10)
 Filthworm Royal Guard	Atk: 169 Def: 169 HP: 190 Init: 50 Meat: 80-120 E: stench P: bug	filthworm royal guard scent gland (10)
@@ -676,7 +676,7 @@ Panicking Knott Yeti	Atk: 105 Def: 103 HP: 90 E: cold Meat: 168-234 P: beast	yet
 Panty Raider Frat Boy	Atk: 200 Def: 200 HP: 250 E: sleaze P: orc	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 Paper Towelgeist	Atk: 4 Def: 4 HP: 6 P: undead	cardboard katana (5)
 Pencil Golem	Atk: 15 Def: 15 HP: 11 P: object
-Pernicious Puddle of Pesto	Atk: 21 Def: 20 HP: 18 P: slime	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
+Pernicious Puddle of Pesto	Atk: 21 Def: 21 HP: 18 P: slime	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 Perpendicular Bat	Atk: 18 Def: 18 HP: 12 Meat: 26-40 P: beast	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)
 Pine Bat	Atk: 14 Def: 12 HP: 8 EA: stench Meat: 18-27 P: beast	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
 Plaque of Locusts	Atk: 134 Def: 138 HP: 140 P: bug	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
@@ -730,7 +730,7 @@ Sabre-Toothed Goat	Atk: 68 Def: 68 HP: 50 Meat: 44-66 P: beast	goat beard (5)	Sa
 Sabre-Toothed Lime	HP: 8 Def: 14 Atk: 14 P: beast
 Safari Jack, Small-Game Hunter	Atk: 115 Def: 115 HP: 150 P: humanoid	secret tropical island volcano lair map (100)	Safari Jack's moustache (100)	untamable turtle (100)
 Salamander	HP: [3] Def: [3] Atk: [3] Meat: 8-12 P: beast	salamander spleen (100)
-Sassy Pirate	Atk: 61 Def: 60 HP: 51 Meat: 17-24 P: pirate	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
+Sassy Pirate	Atk: 61 Def: 61 HP: 51 Meat: 17-24 P: pirate	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
 Scary Clown	Atk: 19 Def: 19 HP: 15 E: spooky Meat: 20-32 P: horror	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	big bass drum (4)	clown skin (10)	polka-dot bow tie (p5)	empty greasepaint tube (b0)
 Scary Pirate	HP: 200 Def: 150 Atk: 150 E: spooky Meat: 35-55 P: pirate	cursed breeches (n0)	cursed cutlass (n0)	cursed eyepatch (n0)
 School of Wizardfish	HP: 400 Def: 300 Atk: 300 Meat: 160-240 P: fish	dull fish scale (n15)	fishy wand (c0)	glistening fish meat (n5)
@@ -765,7 +765,7 @@ Skullbat	Atk: 16 Def: 16 HP: 10 EA: spooky Meat: 25-37 P: beast	broken skull (40
 Skulldozer	Atk: 0 Def: 0 HP: 0	skulldozer egg (0)
 Skullery Maid	Atk: 3 Def: 4 HP: 4 P: undead	bottle of popskull (30)	dishrag (5)
 Sleaze Hobo	HP: 500 Def: 350 Atk: 350 E: sleaze P: hobo	hobo nickel (c15)	sleazy bindle (0)	Summer Nights (0)	Sensual Massage for Creeps (0)	stained mattress (0)
-Sleeping Knob Goblin Guard	Atk: 0 Def: 0 HP: 1 Meat: 4-6 P: goblin	viking helmet (32)	Knob Goblin pants (8)	Knob Goblin scimitar (32)
+Sleeping Knob Goblin Guard	Atk: 0 Def: 1 HP: 1 Meat: 4-6 P: goblin	viking helmet (32)	Knob Goblin pants (8)	Knob Goblin scimitar (32)
 Sleepy 7-Foot Dwarf	Atk: 53 Def: 53 HP: 40 Meat: 32-48 P: demihuman	miner's pants (9)
 Sleepy Mariachi	HP: 110 Def: 120 Atk: 120 P: humanoid	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 Slick Lihc	Atk: 59 Def: 60 HP: 50 E: spooky P: undead	lihc eye (20)	lihc face (7)	shimmering tendrils (c5)
