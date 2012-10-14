@@ -312,7 +312,7 @@ Daft punk	Atk: 160 Def: 160 HP: 210 P: humanoid
 Dairy Goat	Atk: 68 Def: 68 HP: 50 Meat: 40-60 P: beast	glass of goat's milk (20)	goat cheese (40)	billy idol (b0)
 Dairy Ooze	HP: 8 Def: 13 Atk: 13 Meat: 11-15 P: slime
 Danglin' Chad	Atk: 210 Def: 210 HP: 320 Meat: 297-342 E: sleaze	Danglin' Chad's loincloth (100)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)	white class ring (0)
-Deadly Venomtrout	HP: 165 Def: 150 Atk: 150 P: fish	Trout fang (0)	poisonous caviar (0)
+Deadly Venomtrout	Atk: 130 Def: 130 HP: 150 P: fish	Trout fang (0)	poisonous caviar (0)
 Deadwood Tree	HP: 0	petrified wood (5)	spooky bark (10)	spooky sap (5)
 Decal-applying Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Decent Lumberjack	HP: 35 Def: 35 Atk: 35 Meat: 16-24 P: humanoid	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
@@ -506,7 +506,7 @@ Hulking Construct	Atk: 500 Def: 500 HP: 1000000 Phys: 100 P: object	El Vibrato p
 Hung-over Half-Orc Hobo	Atk: 1 Def: 0 HP: 1 E: stench P: hobo	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)	hobo gristle (b0)
 Hunter-Gatherer Cave Elf		tooth (15)	tooth (5)
 Hunting Seal	Atk: 95 Def: 95 HP: 120 P: demon
-Hustled Spectre	HP: 35 Atk: 25 P: undead	cube of billiard chalk (100)
+Hustled Spectre	Atk: 25 Def: 25 HP: 35 P: undead	cube of billiard chalk (100)
 Hypnotist of Hey Deze	HP: 80 Def: 50 Atk: 50	hypnodisk (100)
 Ice Cube	Atk: 99999 Def: 99999 HP: 99999
 Ice Skate	Atk: 400 Def: 500 HP: 600 Meat: 80-120 P: fish	collapsible baton (0)	skate blade (0)	skate skin (0)	spangly unitard (0)
@@ -644,13 +644,13 @@ Mutant Whistle-Carving Elf		elven <i>limbos</i> gingerbread (0)	elven whittling 
 Naughty Sorority Nurse	Atk: 180 Def: 185 HP: 160 ED: sleaze P: orc	energy drink IV (27)	gauze garter (25)	gauze garter (16)	kick-ass kicks (2)	PADL Phone (3)
 Neil	Atk: 195 Def: 195 HP: 240 ED: stench Meat: 182-187	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	longhaired hippy wig (100)	reinforced beaded headband (0)
 Neptune Flytrap	HP: 700 Def: 400 Atk: 450 "Really Quite Poisoned" P: plant	flytrap pellet (n30)	water-polo cap (c0)	wriggling flytrap pellet (c0)
-Neptune, the Dog that Is a Respected Equal and Not a Pet	HP: 80 Def: 40 Atk: 45 P: beast	respected companion biscuit (0)
+Neptune, the Dog that Is a Respected Equal and Not a Pet	Atk: 45 Def: 45 HP: 80 P: beast	respected companion biscuit (0)
 Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	HP: 100 Def: 65 Atk: 65 P: beast	respected companion biscuit (0)
 Newt	HP: [3] Def: [3] Atk: [3] Meat: 8-12 P: beast	eye of newt (100)
 Next-Generation Frat Boy	Atk: 190 Def: 190 HP: 200 Meat: 150-200 E: sleaze	beaten-up Chucks (100)	white class ring (100)	kick-ass kicks (0)	beer helmet (0)	distressed denim pants (0)
 Ninja Snowman (Chopsticks)	Atk: 85 Def: 85 HP: 70 ED: cold P: elemental	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)	coal button (b0)
 Ninja Snowman (Hilt/Mask)	Atk: 85 Def: 85 HP: 70 E: cold P: elemental	cold ninja mask (10)	frigid ninja stars (20)	frozen nunchaku (5)	icy katana hilt (15)	coal button (b0)
-Ninja Snowman Assassin	HP: 1 Def: 135 Atk: 135 E: cold P: elemental	Ninja rope (n100)	Ninja crampons (n100)	Ninja carabiner (n100)
+Ninja Snowman Assassin	Atk: 150 Def: 150 HP: 0 E: cold P: elemental	Ninja rope (n100)	Ninja crampons (n100)	Ninja carabiner (n100)
 Ninja Snowman Janitor	Atk: 80 Def: 90 HP: 70 ED: cold P: elemental	frigid ninja stars (20)	ninja mop (5)	pail (10)	coal button (b0)
 Ninja Snowman Weaponmaster	Atk: 90 Def: 90 HP: 80 ED: cold P: elemental	ridiculously overelaborate ninja weapon (5)	frigid ninja stars (20)	frozen nunchaku (5)	frigid hanky&#363; (0)	frigid mote (p5)	coal button (b0)
 Normal Hobo	HP: 400 Def: 300 Atk: 300 P: hobo	hobo nickel (c15)	Mr. Joe's bangles (0)	corncob pipe (0)	panhandle panhandling hat (0)	frayed rope belt (0)	cup of infinite pencils (0)	'WILL WORK FOR BOOZE' sign (0)	lucky bottlecap (0)	rusty piece of rebar (0)
@@ -667,7 +667,7 @@ Orcish Frat Boy (Music Lover)	Atk: 39 Def: 39 HP: 30 E: sleaze Meat: 24-39 P: or
 Orcish Frat Boy (Paddler)	Atk: 40 Def: 40 HP: 30 E: sleaze Meat: 24-39 P: orc	bottle of gin (20)	Ice-cold Sir Schlitz (20)	Orcish cargo shorts (5)	deodorant (5)	packet of beer nuts (p15)	empty aftershave bottle (b0)
 Orcish Frat Boy (Pledge)	Atk: 41 Def: 41 HP: 30 E: sleaze Meat: 24-39 P: orc	bottle of vodka (20)	homoerotic frat-paddle (5)	Ice-cold Sir Schlitz (20)	deodorant (5)	frilly skirt (0)	packet of beer nuts (p15)	empty aftershave bottle (b0)
 Orcish Frat Boy Spy	HP: 180 Def: 170 Atk: 165 E: sleaze P: orc	beer helmet (30)	distressed denim pants (30)	bejeweled pledge pin (30)
-Orcish Frat Wannaboy	HP: 90 Def: 60 Atk: 40 E: sleaze P: orc	plastic cup of beer (100)
+Orcish Frat Wannaboy	Atk: 38 Def: 60 HP: 90 E: sleaze P: orc	plastic cup of beer (100)
 Orcish Juvenile Delinquent	HP: 80 Def: 45 Atk: 35 E: sleaze P: orc	plastic cup of beer (100)
 Oscus	BOSS HP: 6500 Def: 500 Atk: 500 E: stench P: hobo	The Ballad of Richie Thingfinder (0)	jar of fermented pickle juice (0)	Oscus's dumpster waders (0)	Oscus's pelt (0)	Wand of Oscus (0)	Oscus's flypaper pants (f20)	Oscus's garbage can lid (f20)	Oscus's neverending soda (f20)
 Overdone Flame-Broiled Meat Blob	Atk: 4 Def: 2 HP: 2 E: heat Meat: 16-24 P: slime	meat paste (40)	meat paste (40)	meat paste (40)
@@ -693,6 +693,7 @@ Poutine Ooze	HP: 3 Def: 3 Atk: 3 P: slime	poutine (40)
 Pr Imp	Atk: 60 Def: 60 HP: 60 E: heat Init: 45 Meat: 48-58 P: demon	imp air (15)
 Pretty Fly	Atk: 99999 Def: 99999 HP: 99999
 Procrastination Giant	Atk: 125 Def: 125 HP: 150 Meat: 120-180 P: demihuman	procrastination potion (30)
+Professor Jacking	Atk: 85 Def: 85 HP: 200
 Propaganda-Spewin' Elf	P: crimbo	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
 Protagonist	Atk: 100 Def: 100 HP: 80 Init: 80 Meat: 80-120 P: humanoid	phonics down (40)	ridiculously huge sword (10)	super-spiky hair gel (20)	ocarina of space (5)
 Protector Spectre	Atk: 164 Def: 168 HP: 100 Phys: 100	ancient amulet (100)	spectre scepter (100)
@@ -778,7 +779,7 @@ Slithering Hollandaise Glob	Atk: 24 Def: 24 HP: 21 P: slime	a creased paper stri
 Slow Talkin' Elliot	Atk: 190 Def: 190 HP: 200 Meat: 130-154 E: stench	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	Slow Talkin' Elliot's dogtags (100)
 Smarmy Pirate	Atk: 65 Def: 65 HP: 55 E: sleaze Meat: 22-34 P: pirate	bottle of rum (50)	eyepatch (10)	flaregun (30)	Jolly Roger charrrm bracelet (20)	vial of pirate sweat (b0)
 Smart Skelton	Atk: 20 Def: 20 HP: 11 E: spooky P: undead	smart skull (50)
-Smooth Jazz Scabie	HP: 140 Def: 100 Atk: 95 P: bug	can-you-dig-it? (0)
+Smooth Jazz Scabie	Atk: 95 Def: 95 HP: 140 P: bug	can-you-dig-it? (0)
 Snow Queen	Atk: 107 Def: 105 HP: 70 E: cold Phys: 100 P: elemental	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
 Some Bad ASCII Art	Atk: 85 Def: 85 HP: 75 P: object	ASCII shirt (c100)	 30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
 Some Zombie Waltzers	Atk: 110 Def: 110 HP: 120 Meat: 80-120 E: spooky P: undead	ballroom blintz (15)	dance card (15)
@@ -818,7 +819,7 @@ Striking Stocking-Stuffer Elf		length of string (10)	stuffing (10)	wooden block 
 Sub-Assistant Knob Mad Scientist	Atk: 1 Def: 2 HP: 1 Meat: 5-7 P: goblin	Knob Goblin firecracker (100)	Knob Goblin pants (9)	strongness elixir (30)
 Suckubus	Atk: 55 Def: 55 HP: 55 Init: 35 E: heat Meat: 35-45 P: demon	bus pass (20)
 Surprised Mariachi	HP: 125 Def: 130 Atk: 130 P: humanoid	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
-Susie Soyburger	HP: 90 Def: 35 Atk: 50 P: demihuman	soyburger juice (0)
+Susie Soyburger	Atk: 50 Def: 40 HP: 90 P: demihuman	soyburger juice (0)
 Susie Soyburger Cast Member	HP: 110 Def: 60 Atk: 70 P: humanoid	soyburger juice (0)
 Swamp Duck	Atk: 169 Def: 178 HP: 190 Meat: 120-172 E: stench P: beast	fetid feather (10)	duct tape (5)
 Swarm of Fire Ants	Atk: 142 Def: 133 HP: 136 E: heat P: bug	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
@@ -871,9 +872,9 @@ The Man	BOSS Atk: 250 Def: 250 HP: 2000 ED: sleaze P: humanoid	really dense meat
 The Mariachi With No Name	Atk: 115 Def: 115 HP: 150 P: humanoid	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
 The Master of Thieves	Atk: 70	Platinum Yendorian Express Card (100)
 The Muff	Atk: 153 Def: 153 HP: 150 E: sleaze P: constellation	line (30)	line (30)	star (30)
-The Naughty Sorceress	BOSS HP: 400 Def: 190 Atk: 190 Exp: 0 Skill: 50 Item: 25 P: humanoid
+The Naughty Sorceress	BOSS Atk: 190 Def: 190 HP: 400 Exp: 0 Skill: 50 Item: 25 P: humanoid
 The Naughty Sorceress (2)	BOSS Atk: 205 Def: 205 HP: 600 Exp: 0 Skill: 50 Item: 25 P: humanoid
-The Naughty Sorceress (3)	BOSS HP: 10000000 Def: 10000000 Atk: 10000000 Exp: 500	Instant Karma (c100)
+The Naughty Sorceress (3)	BOSS Atk: 9999999 Def: 9999999 HP: 9999999 Exp: 500	Instant Karma (c100)
 The Pork Sword	Atk: 162 Def: 162 HP: 150 E: sleaze P: constellation	line (30)	star (30)	star (30)
 The Queen Filthworm	BOSS Atk: 173 Def: 173 HP: 195 Init: 50 Meat: 1000 E: stench P: bug	heart of the filthworm queen (100)
 The Remains of a Jilted Mistress	Atk: 164 Def: 155 HP: 145 ED: spooky P: undead	antique hand mirror (40)
@@ -894,7 +895,7 @@ The Twig and Berries	Def: 152 Atk: 152 HP: 150 E: sleaze P: constellation	line (
 The Whole Kingdom	HP: 10000000 Def: 1 Atk: 1 Phys: 100 P: object
 Three Skeleton Invaders	HP: 80 Def: 80 Atk: 80 Init: 50	bone chips (30)	bone chips (20)	bone chips (10)
 Thug 1 and Thug 2	BOSS Atk: 150 Def: 150 HP: 1000 P: demihuman	jealousy stone (100)
-Timmy Tofurkey	HP: 90 Def: 45 Atk: 40 P: demihuman	sun-dried tofu (0)
+Timmy Tofurkey	Atk: 40 Def: 50 HP: 90 P: demihuman	sun-dried tofu (0)
 Timmy Tofurkey Cast Member	HP: 110 Def: 70 Atk: 60 P: humanoid	sun-dried tofu (0)
 Tipsy Pirate	Atk: 80 Def: 80 HP: 70 Meat: 36-54 P: pirate	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
 Toilet Papergeist	Atk: 88 Def: 100 HP: 105 ED: spooky P: undead	cardboard wakizashi (5)	roll of toilet paper (50)
@@ -908,7 +909,7 @@ Tonic Water Elemental	Atk: 18 Def: 18 HP: 14 Meat: 17-20 P: elemental
 Toothy Pirate	Atk: 83 Def: 85 HP: 75 Meat: 36-54 P: pirate	bottle of rum (20)	cocktail napkin (10)
 Toothy Sklelton	Atk: 57 Def: 58 HP: 50 E: spooky P: undead	loose teeth (20)	loose teeth (20)	skeleton bone (20)	bone flute (10)	evil eye (20)
 Topiary Golem	Atk: 235 Def: 235 HP: 220 P: plant	hedge maze puzzle (60)
-Totally Trashed Orquette	HP: 90 Def: 60 Atk: 50 E: sleaze P: orc	orquette's phone number (c100)
+Totally Trashed Orquette	Atk: 48 Def: 60 HP: 90 E: sleaze P: orc	orquette's phone number (c100)
 Towering Construct	HP: 450 Def: 400 Atk: 350 P: object	El Vibrato punchcard (165 holes) (1)	El Vibrato punchcard (176 holes) (1)
 Toy-making creature from the Gray Lagoon		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Tribal Goblin	Atk: 60 Def: 50 HP: 60 P: goblin	goblin autoblowgun (0)	goblin hunting spear (0)	shiny tribal beads (0)
@@ -932,7 +933,7 @@ Urchin Urchin	Atk: 400 Def: 350 HP: 600 P: fish	mermaid's purse (0)	bazookafish 
 Vampire Bat	Atk: 17 Def: 16 HP: 10 Meat: 34-54 P: beast	bat wing (15)	batgut (15)	sonar-in-a-biscuit (10)
 Vampire Clam	Atk: 19 Def: 19 HP: 14 P: undead	vampire pearl (p35)
 Vampire Duck	Atk: 175 Def: 170 HP: 190 Meat: 131-165 E: spooky P: beast	frightful feather (10)	duct tape (5)	vampire glitter (c0)
-Vanya's Creature	BOSS HP: 3000 Def: 900 Atk: 1000 Meat: 1200-1800 Phys: 50 E: spooky P: object	pixel orb (n100)
+Vanya's Creature	BOSS Atk: 1000 Def: 1000 HP: 3000 Meat: 1200-1800 Phys: 50 E: spooky P: object	pixel orb (n100)
 Vegetable Gremlin	Atk: 168 Def: 172 HP: 170 Meat: 40-60 P: demihuman	gremlin juice (3)	molybdenum screwdriver (c0)
 Vendor Slime	HP: 160 Def: 145 Atk: 145 P: slime	vial of red slime (f66)
 Vengeful Turtle Spectre	HP: 18 Def: 21 Atk: 21 P: undead	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
@@ -979,7 +980,7 @@ War Pledge	Atk: 165 Def: 165 HP: 180 E: sleaze P: orc	distressed denim pants (5)
 Warehouse worker	HP: 208 Def: 144 Atk: 160 P: humanoid	crowbar (0)
 Warty Pirate	Atk: 120 Def: 120 HP: 110 Meat: 64-96 P: pirate	copper ha'penny charrrm (10)	fish-liver oil (30)	vinegar-soaked lemon slice (30)
 Warwelf	Atk: 4 Def: 3 HP: 2 Meat: 10-14 P: humanoid
-Water Spider	HP: 160 Def: 150 Atk: 150 P: bug	wet venom duct (0)
+Water Spider	Atk: 130 Def: 130 HP: 150 P: bug	wet venom duct (0)
 Wealthy Pirate	Atk: 120 Def: 120 HP: 110 Meat: 160-240 P: pirate	booty chest charrrm (10)	solid gold pegleg (5)	fat wallet (p10)
 Weapons-assembly Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Werecougar	HP: 6 Def: 8 Atk: 8 P: humanoid	margarita (10)	sangria (10)	strawberry daiquiri (10)	tequila with training wheels (10)
@@ -1032,17 +1033,17 @@ Wu Tang the Betrayer	HP: 500 Def: 145 Atk: 145	forged identification documents (
 # Bugbear Invasion
 
 Scavenger Bugbear	Atk: 5 Def: 5 HP: 5 P: beast	BURT (n100)
-Creepy Eye-Stalk Tentacle Monster	HP: 0 Def: 0 Atk: 0 P: horror	handful of juicy garbage (0)
-Grouchy Furry Monster	HP: 0 Def: 0 Atk: 0 P: beast	handful of juicy garbage (0)
+Creepy Eye-Stalk Tentacle Monster	Atk 8 Def: 6 HP: 6 P: horror	handful of juicy garbage (0)
+Grouchy Furry Monster	Atk: 6 Def: 7 HP: 8 P: beast	handful of juicy garbage (0)
 
 Hypodermic Bugbear	Atk: 8 Def: 8 HP: 8 P: beast	BURT (n100)
-Anesthesiologist Bugbear	Atk: 12 Def: 9 HP: 10 P: beast	BURT (n100)
+Anesthesiologist Bugbear	Atk: 12 Def: 8 HP: 10 P: beast	BURT (n100)
 Bugbear Robo-Surgeon	Atk: 15 Def: 25 HP: 20 P: object
 
 Batbugbear	Atk: 25 Def: 25 HP: 25 P: beast	BURT (n100)
 
 Bugbear Scientist	Atk: 45 Def: 45 HP: 50 P: beast	BURT (n100)
-Spiderbugbear	HP: 0 Def: 0 Atk: 0 P: beast	quantum nanopolymer spider web (0)
+Spiderbugbear	Atk: 55 Def: 55 HP: 50 P: beast	quantum nanopolymer spider web (0)
 
 Bugaboo	Atk: 60 Def: 60 HP: 70 P: undead	BURT (n100)
 Bugbear Mortician	Atk: 65 Def: 85 HP: 60 P: beast	bugbear autopsy tweezers (n100)
@@ -1050,13 +1051,13 @@ Bugbear Mortician	Atk: 65 Def: 85 HP: 60 P: beast	bugbear autopsy tweezers (n100
 Black Ops Bugbear	Atk: 90 Def: 90 HP: 100 P: beast	BURT (n100)
 
 Battlesuit Bugbear Type	Atk: 125 Def: 125 HP: 150 P: beast	BURT (n100)
-Bugbear Drone	Atk: 134 Def: 135 HP: 150 P: object	drone self-destruct chip (0)
-Liquid Metal Bugbear	HP: 0 Def: 0 Atk: 0 P: object
+Bugbear Drone	Atk: 135 Def: 135 HP: 150 P: object	drone self-destruct chip (0)
+Liquid Metal Bugbear	Atk: 140 Def: 180 HP: 175 P: object
 
 Ancient Unspeakable Bugbear	Atk: 140 Def: 140 HP: 150 P: beast	BURT (n100)
-N-space Virtual Assistant	HP: 0 Def: 0 Atk: 0 P: object
+N-space Virtual Assistant	Atk: 175 Def: 175 HP: 180 P: object
 
-Trendy Bugbear Chef	HP: 0 Def: 0 Atk: 0 P: beast	BURT (n100)
+Trendy Bugbear Chef	Atk: 200 Def: 200 HP: 250 P: beast	BURT (n100)
 Angry Cavebugbear	Atk: 220 Def: 235 HP: 300 P: beast
 
 Bugbear Captain	BOSS Atk: 280 Def: 320 HP: 1337
@@ -1198,15 +1199,15 @@ La Novia Cad&aacute;ver	HP: [HP] Def: [MUS-3] Atk: [MOX-3]	red-headed corpse (c1
 La Persona Inocente Cad&aacute;ver	HP: [HP] Def: [MUS-3] Atk: [MOX-3]	corpsebite (c100)	Corpse Island iced tea (c100)
 
 # Infernal Seals
-broodling seal	HP: 95 Def: 103 Atk: 80 P: demon	severed flipper (35)
-Centurion of Sparky	HP: 201 Def: 195 Atk: 150 P: horror	ingot of seal-iron (35)
+broodling seal	Atk: 80 Def: 100 HP: 100 P: demon	severed flipper (35)
+Centurion of Sparky	Atk: 150 Def: 200 HP: 200 P: horror	ingot of seal-iron (35)
 hermetic seal	Atk: 110 Def: 200 HP: 150 P: demon	powdered sealbone (100)
-Spawn of Wally	HP: 15 Def: 10 Atk: 10 P: horror	tainted seal's blood (100)
-heat seal	HP: 208 Def: 176 Atk: 178 P: demon	Abyssal ember (5)	sizzling seal fat (35)
-navy seal	Atk: 175 Def: 175 HP: 200 P: demon	frost-rimed seal hide (35)	frozen seal spine (5)
-Servant of Grodstank	HP: 201 Def: 173 Atk: 174 P: horror	fustulent seal grulch (35)	infernal toilet brush (5)
+heat seal	Atk: 175 Def: 175 HP: 200 P: demon	Abyssal ember (5)	sizzling seal fat (35)
+navy seal	HP: 200 Atk: 175 Def: 175 P: demon	frost-rimed seal hide (35)	frozen seal spine (5)
+Servant of Grodstank	Atk: 175 Def: 175 HP: 200 P: horror	fustulent seal grulch (35)	infernal toilet brush (5)
 shadow of Black Bubbles	Atk: 175 Def: 175 HP: 200 P: horror	scrap of shadow (35)	shadowy seal eye (5)
-watertight seal	HP: 404 Def: 350 Atk: 351 P: demon	hyperinflated seal lung (100)
+Spawn of Wally	HP: 15 Atk: 10 Def: 10 P: horror	tainted seal's blood (100)
+watertight seal	Atk: 350 Def: 350 HP: 400 P: demon	hyperinflated seal lung (100)
 wet seal	Atk: 175 Def: 175 HP: 200 P: demon	mannequin leg (5)	seal lube (35)
 
 # Hipster associates
