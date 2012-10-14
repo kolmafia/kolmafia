@@ -654,6 +654,7 @@ public class ProxyRecordValue
 			.add( "phylum", DataTypes.PHYLUM_TYPE )
 			.add( "poison", DataTypes.EFFECT_TYPE )
 			.add( "boss", DataTypes.BOOLEAN_TYPE )
+			.add( "image", DataTypes.STRING_TYPE )
 			.finish( "monster proxy" );
 
 		public MonsterProxy( Value obj )
@@ -744,6 +745,11 @@ public class ProxyRecordValue
 		public boolean get_boss()
 		{
 			return ((MonsterData) this.content).isBoss();
+		}
+
+		public String get_image()
+		{
+			return ((MonsterData) this.content).getImage();
 		}
 	}
 

@@ -58,6 +58,7 @@ public class MonsterDatabase
 {
 	private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<String, MonsterData>();
 	private static String[] MONSTER_STRINGS = null;
+	private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<String, MonsterData>();
 
 	// Elements
 	public static final int NONE = 0;
@@ -180,6 +181,7 @@ public class MonsterDatabase
 	public static final void refreshMonsterTable()
 	{
 		MonsterDatabase.MONSTER_DATA.clear();
+		MonsterDatabase.MONSTER_IMAGES.clear();
 
 		BufferedReader reader = FileUtilities.getVersionedReader( "monsters.txt", KoLConstants.MONSTERS_VERSION );
 		String[] data;
@@ -219,6 +221,11 @@ public class MonsterDatabase
 				String keyName = CombatActionManager.encounterKey( data[ 0 ], true );
 				StringUtilities.registerPrepositions( keyName );
 				MonsterDatabase.MONSTER_DATA.put( keyName, monster );
+				String image = monster.getImage();
+				if ( !image.equals( "" ) )
+				{
+					MonsterDatabase.MONSTER_IMAGES.put( image, monster );
+				}
 			}
 		}
 
@@ -305,7 +312,12 @@ public class MonsterDatabase
 			return null;
 		}
 
-		return (MonsterData) MonsterDatabase.MONSTER_DATA.get( matchingNames.get( 0 ) );
+		return MonsterDatabase.MONSTER_DATA.get( matchingNames.get( 0 ) );
+	}
+
+	public static final MonsterData findMonsterByImage( final String image )
+	{
+		return MonsterDatabase.MONSTER_IMAGES.get( image );
 	}
 
 	// Register an unknown monster
@@ -342,6 +354,7 @@ public class MonsterDatabase
 		int phylum = MonsterDatabase.NONE;
 		int poison = Integer.MAX_VALUE;
 		boolean boss = false;
+		String image = null;
 
 		StringTokenizer tokens = new StringTokenizer( s, " " );
 		while ( tokens.hasMoreTokens() )
@@ -504,6 +517,16 @@ public class MonsterDatabase
 					continue;
 				}
 
+				else if ( option.equals( "Image:" ) )
+				{
+					if ( tokens.hasMoreTokens() )
+					{
+						value = tokens.nextToken();
+						image = value;
+						continue;
+					}
+				}
+
 				RequestLogger.printLine( "Monster: \"" + name + "\": unknown option: " + option );
 			}
 			catch ( Exception e )
@@ -517,8 +540,10 @@ public class MonsterDatabase
 			return null;
 		}
 
-		return new MonsterData( name, health, attack, defense, initiative, experience,
-			attackElement, defenseElement, minMeat, maxMeat, phylum, poison, boss );
+		monster = new MonsterData( name, health, attack, defense, initiative, experience,
+					   attackElement, defenseElement, minMeat, maxMeat, phylum, poison, boss,
+					   image );
+		return monster;
 	}
 
 	private static final Object parseNumeric( StringTokenizer tokens )
