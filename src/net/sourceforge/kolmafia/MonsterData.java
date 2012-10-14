@@ -56,6 +56,7 @@ public class MonsterData
 	private final int phylum;
 	private final int poison;
 	private final boolean boss;
+	private final String image;
 	private final int beeCount;
 
 	private final ArrayList<AdventureResult> items;
@@ -65,7 +66,8 @@ public class MonsterData
 		final Object attack, final Object defense, final Object initiative,
 		final Object experience, final int attackElement,
 		final int defenseElement, final int minMeat, final int maxMeat,
-		final int phylum, final int poison, final boolean boss )
+		final int phylum, final int poison, final boolean boss,
+		final String image )
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
 
@@ -81,6 +83,7 @@ public class MonsterData
 		this.phylum = phylum;
 		this.poison = poison;
 		this.boss = boss;
+		this.image = image;
 
 		int beeCount = 0;
 		for ( int i = 0; i < name.length(); ++i )
@@ -270,6 +273,11 @@ public class MonsterData
 	public boolean isBoss()
 	{
 		return this.boss;
+	}
+
+	public String getImage()
+	{
+		return this.image == null ? "" : this.image;
 	}
 
 	public List getItems()

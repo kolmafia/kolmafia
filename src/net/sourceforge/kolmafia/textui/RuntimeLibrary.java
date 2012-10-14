@@ -373,6 +373,8 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_monster", DataTypes.MONSTER_TYPE, params ) );
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "image_to_monster", DataTypes.MONSTER_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_slot", DataTypes.SLOT_TYPE, params ) );
@@ -2088,6 +2090,12 @@ public abstract class RuntimeLibrary
 	public static Value to_monster( Interpreter interpreter, final Value value )
 	{
 		return DataTypes.parseMonsterValue( value.toString(), true );
+	}
+
+	public static Value image_to_monster( Interpreter interpreter, final Value value )
+	{
+		MonsterData monster = MonsterDatabase.findMonsterByImage( value.toString() );
+		return DataTypes.parseMonsterValue( monster != null ? monster.getName() : "", true );
 	}
 
 	public static Value to_slot( Interpreter interpreter, final Value item )
