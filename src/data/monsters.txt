@@ -377,7 +377,7 @@ eXtreme Cross-Country Hippy	Atk: 73 Def: 73 HP: 65 E: stench P: hippy	eXtreme sc
 eXtreme Orcish Snowboarder	Atk: 74 Def: 74 HP: 65 Meat: 32-48 E: sleaze P: orc	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p5)	eXtreme Bi-Polar Fleece Vest (c5)
 eXtreme Sports Orcs	Atk: 39 Def: 38 HP: 30 E: sleaze Meat: 24-36 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 Fallen Archfiend	Atk: 50 Def: 50 HP: 50 E: heat Meat: 36-54 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)
-Family of Kobolds	Atk: 100000 P: demihuman	kobold treasure hoard (100)
+Family of Kobolds	Atk: 99999 Def: 99999 HP: 99999 P: demihuman	kobold treasure hoard (100)
 Fan Slime	HP: 150 Def: 140 Atk: 140 P: slime	vial of yellow slime (f66)
 Fancy Bath Slug	Atk: 99999 Def: 99999 HP: 99999
 Fearsome Wacken	HP: 200 Def: 90 Atk: 90 P: beast	Crazyleg's razor (100)
@@ -847,9 +847,9 @@ The Big Wisniewski	BOSS Atk: 250 Def: 250 HP: 2000 ED: stench	solid gold bowling
 The Black Knight	Atk: 123 Def: 135 HP: 135 Meat: 73-105 P: humanoid	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
 The Bonerdagon	BOSS Atk: 90 Def: 90 HP: 120 Item: 25 Skill: 50 E: spooky P: undead
 The Boss Bat	BOSS Atk: 33 Def: 33 HP: 40
-The Box	Atk: 150 Def: 150 HP: 150 E: sleaze P: constellation	line (30)	line (30)	line (30)
+The Box	Atk: 150 Def: 150 HP: 150 E: sleaze P: constellation Image: box.gif	line (30)	line (30)	line (30)
 The Burrowing Bishop	Atk: 163 Def: 163 HP: 150 E: sleaze P: constellation	line (30)	line (30)	star (30)
-The Bush	Atk: 156 Def: 156 HP: 150 E: sleaze P: constellation	star (30)	star (30)	star (30)
+The Bush	Atk: 156 Def: 156 HP: 150 E: sleaze P: constellation Image: bush.gif	star (30)	star (30)	star (30)
 The Camel's Toe	Atk: 158 Def: 158 HP: 150 E: sleaze P: constellation	line (30)	line (30)	star (30)	star (30)
 The Clownlord Beelzebozo	BOSS Atk: 27 Def: 30 HP: 40 P: horror	empty greasepaint tube (b0)
 The Colollilossus	HP: 0	all-year sucker (100)
@@ -1257,13 +1257,13 @@ reanimated demon skeleton	HP: 250 Def: 250 Atk: 250 Phys: 100 P: undead	fossiliz
 reanimated giant spider skeleton	HP: 300 Def: 300 Atk: 300 Phys: 100 P: undead	fossilized necklace (c100)
 
 # Fernswarthy's Basement
-The Beast with n Ears	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: horror
-The Beast with n Eyes	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 100 P: horror
-A n Stone Golem	HP: [0.85*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 50 P: object
-A n-Headed Hydra	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: beast
+The Beast with n Ears	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: horror Image: earbeast.gif
+The Beast with n Eyes	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 100 P: horror Image: eyebeast.gif
+A n Stone Golem	HP: [0.85*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 50 P: object Image: stonegolem.gif
+A n-Headed Hydra	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: beast Image: hydra.gif
 The Ghost of Fernswarthy's n great-grandfather	HP: [0.425*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 100 P: undead
-n Bottles of Beer on a Golem	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Spell: 90 P: object
-A n-Dimensional Horror	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 0 Phys: 90 P: horror
+n Bottles of Beer on a Golem	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Spell: 90 P: object Image: beergolem.gif
+A n-Dimensional Horror	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 0 Phys: 90 P: horror Image: dimhorror.gif
 
 # Fires
 Servant Of Lord Flameface	HP: 0
