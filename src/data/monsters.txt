@@ -804,7 +804,7 @@ Spooky Vampire	Atk: 3 Def: 4 HP: 2 E: spooky Meat: 4-7 P: undead	vampire heart (
 Spookyraven Manor	HP: 120 Def: 80 Atk: 80 P: object	collection of tiny spooky objects (0)
 Spunky Princess	Atk: 90 Def: 90 HP: 75 Init: 90 Meat: 88-132 P: humanoid	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
 Stella, the Demonic Turtle Poacher	BOSS HP: 1000 Def: 200 Atk: 200 Init: 100 P: demon	Garter of the Turtle Poacher (100)	Instant Karma (c100)	heart of the volcano (c100)
-Stella, the Turtle Poacher (Inner Sanctum)	BOSS HP: 30 Def: 30 Atk: 27 Init: 60 P: humanoid Image: poacher.gif	Elder Turtle Shell (100)
+Stella, the Turtle Poacher (Inner Sanctum)	BOSS Atk: 27 Def: 27 HP: 30 Init: 60 P: humanoid Image: poacher.gif	Elder Turtle Shell (100)
 Stella, the Turtle Poacher (The Nemesis' Lair)	BOSS HP: 220 Def: 170 Atk: 170 Init: 80 P: humanoid Image: 2_2.gif	Galapagosian Cuisses (100)
 Stella, the Turtle Poacher (Volcanic Cave)	BOSS HP: 260 Def: 185 Atk: 185 Init: 90 P: humanoid Image: 2_3.gif
 Stench Hobo	Atk: 350 Def: 350 HP: 500 E: stench P: hobo	hobo nickel (c15)	stinkin' bindle (0)	Biddy Cracker's Old-Fashioned Cookbook (0)	Travels with Jerry (0)	filth-encrusted futon (0)
@@ -854,7 +854,7 @@ The Camel's Toe	Atk: 158 Def: 158 HP: 150 E: sleaze P: constellation	line (30)	l
 The Clownlord Beelzebozo	BOSS Atk: 27 Def: 30 HP: 40 P: horror	empty greasepaint tube (b0)
 The Colollilossus	HP: 0	all-year sucker (100)
 The Darkness	Atk: 99999 Def: 99999 HP: 99999 Image: rorshach.gif
-The Demon of New Wave	BOSS HP: 500 Def: 200 Atk: [MOX-4] Init: 100 Phys: 40 P: demon	Bling of the New Wave (100)	Instant Karma (c100)	heart of the volcano (c100)
+The Demon of New Wave	BOSS Atk: 200 Def: 200 HP: 500 Init: 100 Phys: 40 P: demon	Bling of the New Wave (100)	Instant Karma (c100)	heart of the volcano (c100)
 The Family Jewels	Atk: 156 Def: 156 HP: 150 E: sleaze P: constellation	star (30)	star (30)	star (30)
 The Fickle Finger of F8	Atk: 99999 Def: 99999 HP: 99999
 The Flange	Atk: 159 Def: 159 HP: 150 E: sleaze P: constellation	line (30)	line (30)	star (30)
@@ -977,7 +977,7 @@ War Hippy Sky Captain	Atk: 185 Def: 175 HP: 200 E: stench P: hippy	bullet-proof 
 War Hippy Spy	HP: 180 Def: 170 Atk: 165 E: stench P: hippy	bullet-proof corduroys (30)	reinforced beaded headband (30)	round purple sunglasses (30)
 War Hippy Windtalker	Atk: 185 Def: 180 HP: 200 E: stench P: hippy	bullet-proof corduroys (1)	communications windchimes (18)	communications windchimes (18)	communications windchimes (18)	Lockenstock&trade; sandals (2)	reinforced beaded headband (1)	round purple sunglasses (1)	green clay bead (30)
 War Pledge	Atk: 165 Def: 165 HP: 180 E: sleaze P: orc	distressed denim pants (5)	bejeweled pledge pin (5)	beer helmet (5)
-Warehouse worker	HP: 208 Def: 144 Atk: 160 P: humanoid	crowbar (0)
+Warehouse worker	Atk: 160 Def: 160 HP: 210 P: humanoid	crowbar (0)
 Warty Pirate	Atk: 120 Def: 120 HP: 110 Meat: 64-96 P: pirate	copper ha'penny charrrm (10)	fish-liver oil (30)	vinegar-soaked lemon slice (30)
 Warwelf	Atk: 4 Def: 3 HP: 2 Meat: 10-14 P: humanoid
 Water Spider	Atk: 130 Def: 130 HP: 150 P: bug	wet venom duct (0)
