@@ -161,6 +161,7 @@ public class GenericRequest
 	private String formURLString;
 	private String baseURLString;
 
+	public boolean isExternalRequest = false;
 	public boolean isChatRequest = false;
 
 	protected List<String> data;
@@ -460,6 +461,8 @@ public class GenericRequest
 			this.baseURLString = this.baseURLString.substring( 1 );
 		}
 
+		this.isExternalRequest = ( this.baseURLString.startsWith( "http://" ) || this.baseURLString.startsWith( "https://" ) );
+
 		if ( queryString == null )
 		{
 			this.formURLString = this.baseURLString;
@@ -482,8 +485,8 @@ public class GenericRequest
 
 		this.isChatRequest =
 			this.formURLString.startsWith( "chat.php" ) ||
-				this.formURLString.startsWith( "newchatmessages.php" ) ||
-				this.formURLString.startsWith( "submitnewchat.php" );
+			this.formURLString.startsWith( "newchatmessages.php" ) ||
+			this.formURLString.startsWith( "submitnewchat.php" );
 
 		return this;
 	}
@@ -879,7 +882,7 @@ public class GenericRequest
 
 	public String getHashField()
 	{
-		return "pwd";
+		return ( !this.isExternalRequest ? "pwd" : null );
 	}
 
 	private String getDataString()
@@ -957,17 +960,19 @@ public class GenericRequest
 					continue;
 				}
 
-				if ( element.startsWith( "pwd=" ) )
-				{
-					element = "pwd";
-				}
-				else if ( element.startsWith( "phash=" ) )
-				{
-					element = "phash";
-				}
-				else if ( element.startsWith( "password=" ) )
-				{
-					element = "password";
+				if ( !this.isExternalRequest ) {
+					if ( element.startsWith( "pwd=" ) )
+					{
+						element = "pwd";
+					}
+					else if ( element.startsWith( "phash=" ) )
+					{
+						element = "phash";
+					}
+					else if ( element.startsWith( "password=" ) )
+					{
+						element = "password";
+					}
 				}
 
 				if ( dataBuffer.length() > 0 )
@@ -1505,7 +1510,7 @@ public class GenericRequest
 				this.formConnection.addRequestProperty(
 					"Cookie", GenericRequest.inventoryCookie + "; " + GenericRequest.serverCookie );
 			}
-			else if ( !this.formURLString.startsWith( "http:" ) && !this.formURLString.startsWith( "https:" ) )
+			else if ( !this.isExternalRequest )
 			{
 				this.formConnection.addRequestProperty( "Cookie", GenericRequest.serverCookie );
 			}
@@ -1542,7 +1547,7 @@ public class GenericRequest
 
 		URL context = null;
 
-		if ( !urlString.startsWith( "http:" ) && !urlString.startsWith( "https:" ) )
+		if ( !this.isExternalRequest )
 		{
 			if ( Preferences.getBoolean( "useSecureLogin" ) && urlString.indexOf( "login.php" ) != -1 )
 			{
