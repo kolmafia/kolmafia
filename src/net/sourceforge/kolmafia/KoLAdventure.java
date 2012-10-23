@@ -1471,6 +1471,13 @@ public class KoLAdventure
 			"There are no Hippy soldiers left.",
 		},
 
+		// Worm Wood while not Absinthe Minded
+		{
+			"For some reason, you can't find your way back there",
+			"You need to be Absinthe Minded to go there.",
+			MafiaState.PENDING
+		},
+
 		// "You can't take it any more. The confusion, the nostalgia,
 		// the inconsistent grammar. You break the bottle on the
 		// ground, and stomp it to powder."

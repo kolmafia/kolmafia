@@ -588,7 +588,7 @@ Malevolent Hair Clog	Atk: 95 Def: 90 HP: 85 ED: spooky P: horror	gob of wet hair
 Malevolent Magnetic Field	HP: 100 Def: 85 Atk: 75 P: strange	bottle of gin (0)
 Mammon the Elephant	BOSS Atk: 150 Def: 150 HP: 50000 P: beast	avarice stone (100)
 Man-Eating Plant	Atk: 7 Def: 9 HP: 10 P: plant
-Marcus Macurgeon	HP: 0 P: undead	jar full of wind (0)	jar full of wind (0)	 purple prose pen (0)
+Marcus Macurgeon	HP: 0 P: undead	jar full of wind (0)	jar full of wind (0)	purple prose pen (0)
 Mariachi Bandolero	Atk: 95 Def: 95 HP: 120 P: humanoid
 Mariachi Bruiser	HP: 210 Def: 160 Atk: 160 P: humanoid	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 Mariachi Calavera	Atk: 22 Def: 22 HP: 30 P: undead	bottle of tequila (30)	marzipan skull (30)	calavera concertina (p5)	callused fingerbone (b0)
@@ -615,7 +615,7 @@ Mind Flayer	Atk: 59 Def: 60 HP: 77 P: horror	mind flayer corpse (25)	cornuthaum 
 Mine Crab	HP: 850 Def: 600 Atk: 700 Meat: 200-300 P: fish	live nautical mine (n20)
 Mob Penguin Arsonist	P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Caporegime	P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Demolitionist	P: penguin	Crimbuck 	herringcello	penguin focaccia bread
+Mob Penguin Demolitionist	P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Enforcer	P: penguin	patent leather shoes (0)
 Mob Penguin Goon	P: penguin	Crimbuck	herringcello	penguin focaccia bread
 # Mob Penguin Goon	P: penguin	penguin thesaurus (0)
@@ -781,7 +781,7 @@ Smarmy Pirate	Atk: 65 Def: 65 HP: 55 E: sleaze Meat: 22-34 P: pirate	bottle of r
 Smart Skelton	Atk: 20 Def: 20 HP: 11 E: spooky P: undead	smart skull (50)
 Smooth Jazz Scabie	Atk: 95 Def: 95 HP: 140 P: bug	can-you-dig-it? (0)
 Snow Queen	Atk: 107 Def: 105 HP: 70 E: cold Phys: 100 P: elemental	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
-Some Bad ASCII Art	Atk: 85 Def: 85 HP: 75 P: object	ASCII shirt (c100)	 30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
+Some Bad ASCII Art	Atk: 85 Def: 85 HP: 75 P: object	ASCII shirt (c100)	30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
 Some Zombie Waltzers	Atk: 110 Def: 110 HP: 120 Meat: 80-120 E: spooky P: undead	ballroom blintz (15)	dance card (15)
 Somerset Lopez, Demon Mariachi	BOSS HP: 1000 Def: 200 Atk: 200 Init: 100 P: demon	La Hebilla del Cintur&oacute;n de Lopez (100)	Instant Karma (c100)	heart of the volcano (c100)
 Somerset Lopez, Dread Mariachi (Inner Sanctum)	BOSS Atk: 27 Def: 27 HP: 30 P: humanoid Image: mariachi.gif	El Sombrero De Lopez (100)
@@ -823,7 +823,7 @@ Susie Soyburger	Atk: 50 Def: 40 HP: 90 P: demihuman	soyburger juice (0)
 Susie Soyburger Cast Member	HP: 110 Def: 60 Atk: 70 P: humanoid	soyburger juice (0)
 Swamp Duck	Atk: 169 Def: 178 HP: 190 Meat: 120-172 E: stench P: beast	fetid feather (10)	duct tape (5)
 Swarm of Fire Ants	Atk: 142 Def: 133 HP: 136 E: heat P: bug	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
-Swarm of fudgewasps	HP: 500 Def: 450 Atk: 450 P: bug 	fudgecule (c100)
+Swarm of fudgewasps	HP: 500 Def: 450 Atk: 450 P: bug	fudgecule (c100)
 Swarm of Ghuol Whelps	Atk: 50 Def: 50 HP: 100 E: spooky P: undead
 Swarm of Killer Bees	Atk: 59 Def: 59 HP: 75 "Somewhat Poisoned" P: bug	baby killer bee (5)	royal jelly (25)
 Swarm of Knob Lice	Atk: 25 Def: 25 HP: 30 Phys: 50 P: bug
@@ -1128,7 +1128,7 @@ Usher	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+
 # Rogue Windmill
 Can-can Dancer	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	can-can-in-a-can (20)
 Courtesan	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	bottle of realpagne (20)
-Master of Ceremonies	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	escargotsicle (20)
+The Master of Ceremonies	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	escargotsicle (20)
 Sensitive Poet-type	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	sensitive poetry journal (20)
 Voyeuristic Artist	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	Bohemian rhapsody (20)
 
