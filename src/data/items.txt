@@ -5775,7 +5775,7 @@
 5758	Staff of Holiday Sensations	235701538	pepperstaff.gif	weapon	d	25
 5759	rusty staff	586597404	rustystaff.gif	weapon	t,d	140
 5760	slime-covered staff	325350654	slimestaff.gif	weapon	d	500
-5761	Staff of The Scummy Sink	270811344	scumsinkstaff.gif	weapon	d	25
+5761	Staff of the Scummy Sink	270811344	scumsinkstaff.gif	weapon	d	25
 5762	flaming nose	449067753	flamenose.gif	familiar	t,d	75
 5763	Superhero Reboots	999275045	reboots.gif	accessory		0
 5764	fuzzy busby	191752711	fuzzybusby.gif	hat	d	200
