@@ -632,6 +632,7 @@ public class RequestEditorKit
 		RequestEditorKit.identifyDustyBottles( buffer );
 		RequestEditorKit.changePotionImages( buffer );
 		RequestEditorKit.decorateLevelGain( buffer );
+		RequestEditorKit.addAbsintheLink( buffer );
 		RequestEditorKit.addTransponderLink( buffer );
 		RequestEditorKit.addFolioLink( buffer );
 
@@ -847,6 +848,27 @@ public class RequestEditorKit
 		}
 
 		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.DEVILISH_FOLIO, 1, "use devilish folio", "inv_use.php?which=3&whichitem=" );
+		buffer.insert( index + test.length(), link.getItemHTML() );
+	}
+
+	private static final void addAbsintheLink( final StringBuffer buffer )
+	{
+		// For some reason, you can't find your way back there.
+
+		String test = "For some reason, you can't find your way back there.";
+		int index = buffer.indexOf( test );
+
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		if ( ItemPool.get( ItemPool.ABSINTHE, 1 ).getCount( KoLConstants.inventory ) == 0 )
+		{
+			return;
+		}
+
+		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.ABSINTHE, 1, "use absinthe", "inv_use.php?which=3&whichitem=" );
 		buffer.insert( index + test.length(), link.getItemHTML() );
 	}
 
