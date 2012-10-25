@@ -927,6 +927,7 @@ slime-covered speargun	200	Mox: 200	1-handed pistol
 slime-covered staff	200	Mys: 200	2-handed staff
 slingshot	20	Mox: 0	2-handed slingshot
 smoldering staff	125	Mus: 45	2-handed staff
+soul knife	100	Mus: 0	1-handed knife
 soup-chucks	15	Mus: 0	2-handed flail
 soylent staff	100	Mus: 35	2-handed staff
 spiked femur	100	Mus: 35	1-handed club
@@ -1716,6 +1717,7 @@ solid baconstone earring	110	Mys: 40
 solid baconstone necklace	110	Mys: 40
 solid baconstone ring	110	Mys: 40
 solid gold pegleg	150	Mys: 60
+soul mask	0	none
 soul monocle	0	none
 spade necklace	10	none
 spaghetti cult robe	10	none
