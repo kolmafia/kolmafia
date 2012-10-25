@@ -1043,6 +1043,7 @@ slime-covered speargun	Weapon Damage: [50*zone(The Slime Tube)+25], Critical: 3
 slime-covered staff	Spell Damage: +60, Initiative: -10
 # slingshot
 smoldering staff	Mysticality: +7, Moxie: +5, Stench Spell Damage: +11
+# soul knife: Can harm True Mimes
 soup-chucks	Hot Damage: +2
 soylent staff	Mysticality: +4, Spell Damage: +10
 spiked femur	Spooky Damage: +6
@@ -1932,6 +1933,7 @@ solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single
 solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
 solid baconstone ring	Mysticality: +12, Maximum MP: +30, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 solid gold pegleg	Initiative: -50, Single Equip
+# soul mask: Changes Your Avatar
 # soul monocle: Reveals secrets
 # spade necklace
 # spaghetti cult robe

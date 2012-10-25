@@ -5981,10 +5981,10 @@
 5964	
 5965	
 5966	soul monocle	744020398	soulmonocle.gif	accessory		0
-5967	
-5968	
-5969	
-5970	
+5967	soul doorbell	498403310	souldoorbell.gif	usable	t	0
+5968	soul coin	381312268	soulcoin.gif	none	t	0
+5969	soul knife	244431022	soulknife.gif	weapon	t	0
+5970	soul mask	799134456	soulmask.gif	accessory	t	0
 5971	record of infuriating silence	211644183	record.gif	usable	t	0
 5972	
 5973	record of tranquil silence	722978031	record.gif	usable	t	0
