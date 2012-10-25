@@ -5984,3 +5984,10 @@
 5967	
 5968	
 5969	
+5970	
+5971	record of infuriating silence	211644183	record.gif	usable	t	0
+5972	
+5973	record of tranquil silence	722978031	record.gif	usable	t	0
+5974	
+5975	record of menacing silence	477678639	record.gif	usable	t	0
+5976
