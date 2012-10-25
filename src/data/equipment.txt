@@ -1716,6 +1716,7 @@ solid baconstone earring	110	Mys: 40
 solid baconstone necklace	110	Mys: 40
 solid baconstone ring	110	Mys: 40
 solid gold pegleg	150	Mys: 60
+soul monocle	0	none
 spade necklace	10	none
 spaghetti cult robe	10	none
 spaghetti cult rosary	140	Mys: 55
