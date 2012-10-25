@@ -3185,6 +3185,8 @@ public abstract class ChoiceManager
 	}
 
 	private static final Pattern SKELETON_PATTERN = Pattern.compile( "You defeated <b>(\\d+)</b> skeletons" );
+	private static final Pattern FOG_PATTERN = Pattern.compile( "<font color=#999999 size=\\+3><b>(.*?)</b></font>" );
+
 	public static void postChoice1( final GenericRequest request )
 	{
 		// Things that can or need to be done BEFORE processing results.
@@ -4088,7 +4090,17 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 613:
+			// Behind the door there is a fog
+			Matcher fogMatcher = FOG_PATTERN.matcher( text );
+			if ( fogMatcher.find() )
+			{
+				String message = "Message: \"" + fogMatcher.group(1) + "\"";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 			}
+			break;
+		}
 
 		if ( ChoiceManager.action != PostChoiceAction.NONE && text.indexOf( "choice.php" ) == -1 )
 		{
