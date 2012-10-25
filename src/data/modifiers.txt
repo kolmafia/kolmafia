@@ -1932,6 +1932,7 @@ solid baconstone earring	Mysticality: +8, Maximum MP: +15, Mana Cost: -1, Single
 solid baconstone necklace	Mysticality: +10, Spell Damage: +15, Single Equip
 solid baconstone ring	Mysticality: +12, Maximum MP: +30, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 solid gold pegleg	Initiative: -50, Single Equip
+# soul monocle: Reveals secrets
 # spade necklace
 # spaghetti cult robe
 spaghetti cult rosary	Maximum MP: +50

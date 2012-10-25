@@ -3185,7 +3185,7 @@ public abstract class ChoiceManager
 	}
 
 	private static final Pattern SKELETON_PATTERN = Pattern.compile( "You defeated <b>(\\d+)</b> skeletons" );
-	private static final Pattern FOG_PATTERN = Pattern.compile( "<font color=#999999 size=\\+3><b>(.*?)</b></font>" );
+	private static final Pattern FOG_PATTERN = Pattern.compile( "<font.*?><b>(.*?)</b></font>" );
 
 	public static void postChoice1( final GenericRequest request )
 	{
