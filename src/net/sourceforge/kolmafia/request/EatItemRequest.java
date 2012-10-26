@@ -290,6 +290,12 @@ public class EatItemRequest
 			return false;
 		}
 
+		int PvPGain = ItemDatabase.getPvPFights( itemName );
+		if ( !UseItemRequest.askAboutPvP( PvPGain ) )
+		{
+			return false;
+		}
+
 		// If we are not a Pastamancer, that's good enough. If we are,
 		// make sure the player isn't going to accidentally scuttle the
 		// stupid Spaghettihose trophy.

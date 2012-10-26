@@ -161,6 +161,8 @@ public class UseItemRequest
 	protected static AdventureResult lastHelperUsed = null;
 	private static int currentItemId = -1;
 
+	private static int askedAboutPvP = 0;
+
 	public static final UseItemRequest getInstance( final int itemId )
 	{
 		return UseItemRequest.getInstance( itemId, 1 );
@@ -339,6 +341,37 @@ public class UseItemRequest
 		}
 
 		return false;
+	}
+
+	protected static boolean askAboutPvP( final int PvPGain )
+	{
+		// If we've already asked about PvP, don't nag.
+		if ( UseItemRequest.askedAboutPvP == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+
+		// Does this item even give us PvP fights?
+		if (  PvPGain <= 0 )
+		{
+			return true;
+		}
+		
+		// Is the hippy stone broken?
+		if ( KoLCharacter.getHippyStoneBroken() ) 
+		{
+			return true;
+		}
+
+		String message = "Are you sure you want consume that before breaking the hippy stone?";
+		if ( !InputFieldUtilities.confirm( message ) )
+		{
+			return false;
+		}
+
+		UseItemRequest.askedAboutPvP = KoLCharacter.getUserId();
+
+		return true;
 	}
 
 	public int getConsumptionType()

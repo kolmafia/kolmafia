@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class SpleenItemRequest
 	extends UseItemRequest
@@ -119,6 +120,11 @@ public class SpleenItemRequest
 
 		for ( int i = 1; i <= iterations && KoLmafia.permitsContinue(); ++i )
 		{
+			if ( !this.allowSpleenConsumption() )
+			{
+				return;
+			}
+
 			this.constructURLString( originalURLString );
 			this.useOnce( i, iterations, "Using" );
 		}
@@ -167,6 +173,24 @@ public class SpleenItemRequest
 	private final boolean singleConsume()
 	{
 		return this.consumptionType == KoLConstants.CONSUME_USE;
+	}
+
+	private final boolean allowSpleenConsumption()
+	{
+		if ( !GenericFrame.instanceExists() )
+		{
+			return true;
+		}
+
+		String itemName = this.itemUsed.getName();
+
+		int PvPGain = ItemDatabase.getPvPFights( itemName );
+		if ( !UseItemRequest.askAboutPvP( PvPGain ) )
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	public static final void parseConsumption( final AdventureResult item, final AdventureResult helper, final String responseText )
