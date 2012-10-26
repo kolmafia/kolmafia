@@ -271,7 +271,7 @@ public class Macrofier
 			RequestLogger.printLine( "" );
 		}
 
-		HashSet allCalls = new HashSet();
+		HashSet<String> allCalls = new HashSet<String>();
 		Matcher m = Macrofier.ALLCALLS_PATTERN.matcher( macro );
 
 		while ( m.find() )

@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -700,14 +699,14 @@ public class ProxyRecordValue
 		public Value get_attack_element()
 		{
 			return DataTypes.parseElementValue(
-				MonsterDatabase.elementNames[ ((MonsterData) this.content).getAttackElement() ],
+				((MonsterData) this.content).getAttackElement().toString(),
 				true );
 		}
 
 		public Value get_defense_element()
 		{
 			return DataTypes.parseElementValue(
-				MonsterDatabase.elementNames[ ((MonsterData) this.content).getDefenseElement() ],
+				((MonsterData) this.content).getDefenseElement().toString(),
 				true );
 		}
 
@@ -729,7 +728,7 @@ public class ProxyRecordValue
 		public Value get_phylum()
 		{
 			return DataTypes.parsePhylumValue(
-				MonsterDatabase.phylumNames[ ((MonsterData) this.content).getPhylum() ],
+				((MonsterData) this.content).getPhylum().toString(),
 				true );
 		}
 

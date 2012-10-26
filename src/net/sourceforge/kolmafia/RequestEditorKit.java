@@ -1158,7 +1158,7 @@ public class RequestEditorKit
 		// or monster element
 		if ( monster.getHP() == 0 &&
 		     monster.getItems().isEmpty() &&
-		     monster.getDefenseElement() == MonsterDatabase.NONE )
+		     monster.getDefenseElement() == MonsterDatabase.Element.NONE )
 		{
 			return;
 		}
@@ -1217,7 +1217,7 @@ public class RequestEditorKit
 		monsterData.append( ", Def: " );
 		monsterData.append( MonsterStatusTracker.getMonsterDefense() );
 		monsterData.append( ", Type: " );
-		monsterData.append( MonsterDatabase.phylumNames[ MonsterStatusTracker.getMonsterPhylum() ] );
+		monsterData.append( MonsterStatusTracker.getMonsterPhylum().toString() );
 
 		if ( monsterName.indexOf( "pirate" ) != -1 && !( monsterName.equalsIgnoreCase( "Stone Temple Pirate" ) ) )
 		{
@@ -1311,8 +1311,8 @@ public class RequestEditorKit
 		buffer.insert( insertionPointForData, monsterData.toString() );
 
 		// Insert color for monster element
-		int monsterElement = monster.getDefenseElement();
-		if ( !haiku && monsterElement != MonsterDatabase.NONE )
+		MonsterDatabase.Element monsterElement = monster.getDefenseElement();
+		if ( !haiku && monsterElement != MonsterDatabase.Element.NONE )
 		{
 			int insertionPointForElement = nameIndex + 6;
 			buffer.insert( insertionPointForElement, "class=\"element" + monsterElement + "\" " );

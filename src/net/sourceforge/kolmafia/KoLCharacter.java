@@ -44,6 +44,10 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
+import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
@@ -59,7 +63,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
@@ -373,8 +377,8 @@ public abstract class KoLCharacter
 
 	private static int ascensions = 0;
 	private static String ascensionSign = NONE;
-	private static int ascensionSignType = KoLConstants.NONE;
-	private static int ascensionSignZone = KoLConstants.NONE;
+	private static ZodiacType ascensionSignType = ZodiacType.NONE;
+	private static ZodiacZone ascensionSignZone = ZodiacZone.NONE;
 	private static String ascensionPath = NONE;
 	private static int consumptionRestriction = AscensionSnapshot.NOPATH;
 	private static int mindControlLevel = 0;
@@ -637,8 +641,8 @@ public abstract class KoLCharacter
 
 		KoLCharacter.ascensions = 0;
 		KoLCharacter.ascensionSign = NONE;
-		KoLCharacter.ascensionSignType = KoLConstants.NONE;
-		KoLCharacter.ascensionSignZone = KoLConstants.NONE;
+		KoLCharacter.ascensionSignType = ZodiacType.NONE;
+		KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
 		KoLCharacter.ascensionPath = NONE;
 		KoLCharacter.consumptionRestriction = AscensionSnapshot.NOPATH;
 
@@ -1205,12 +1209,12 @@ public abstract class KoLCharacter
 			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF;
 	}
 
-	public static final int mainStat()
+	public static final Stat mainStat()
 	{
-		return  KoLCharacter.isMuscleClass() ? KoLConstants.MUSCLE :
-			KoLCharacter.isMysticalityClass() ? KoLConstants.MYSTICALITY :
-			KoLCharacter.isMoxieClass() ? KoLConstants.MOXIE :
-			KoLConstants.NONE;
+		return  KoLCharacter.isMuscleClass() ? Stat.MUSCLE :
+			KoLCharacter.isMysticalityClass() ? Stat.MYSTICALITY :
+			KoLCharacter.isMoxieClass() ? Stat.MOXIE :
+			Stat.NONE;
 	}
 
 	/**
@@ -2162,21 +2166,21 @@ public abstract class KoLCharacter
 	 * @return Total Current Resistance to specified element
 	 */
 
-	public static final int getElementalResistanceLevels( final int element )
+	public static final int getElementalResistanceLevels( final Element element )
 	{
 		switch ( element )
 		{
-		case MonsterDatabase.COLD:
+		case COLD:
 			return (int) KoLCharacter.currentModifiers.get( Modifiers.COLD_RESISTANCE );
-		case MonsterDatabase.HEAT:
+		case HOT:
 			return (int) KoLCharacter.currentModifiers.get( Modifiers.HOT_RESISTANCE );
-		case MonsterDatabase.SLEAZE:
+		case SLEAZE:
 			return (int) KoLCharacter.currentModifiers.get( Modifiers.SLEAZE_RESISTANCE );
-		case MonsterDatabase.SPOOKY:
+		case SPOOKY:
 			return (int) KoLCharacter.currentModifiers.get( Modifiers.SPOOKY_RESISTANCE );
-		case MonsterDatabase.STENCH:
+		case STENCH:
 			return (int) KoLCharacter.currentModifiers.get( Modifiers.STENCH_RESISTANCE );
-		case MonsterDatabase.SLIME:
+		case SLIME:
 			return (int) KoLCharacter.currentModifiers.get( Modifiers.SLIME_RESISTANCE );
 		default:
 			return 0;
@@ -2220,14 +2224,14 @@ public abstract class KoLCharacter
 	 * @return Total Current Resistance to specified element
 	 */
 
-	public static final double getElementalResistance( final int element )
+	public static final double getElementalResistance( final Element element )
 	{
-		if ( element == MonsterDatabase.NONE )
+		if ( element == Element.NONE )
 		{
 			return 0.0f;
 		}
 		int levels = KoLCharacter.getElementalResistanceLevels( element );
-		return KoLCharacter.elementalResistanceByLevel( levels, element != MonsterDatabase.SLIME );
+		return KoLCharacter.elementalResistanceByLevel( levels, element != Element.SLIME );
 	}
 
 	/**
@@ -2771,7 +2775,7 @@ public abstract class KoLCharacter
 	 * @return int
 	 */
 
-	public static final int getSignStat()
+	public static final ZodiacType getSignStat()
 	{
 		return KoLCharacter.ascensionSignType;
 	}
@@ -2782,7 +2786,7 @@ public abstract class KoLCharacter
 	 * @return int
 	 */
 
-	public static final int getSignZone()
+	public static final ZodiacZone getSignZone()
 	{
 		return KoLCharacter.ascensionSignZone;
 	}
@@ -2818,58 +2822,58 @@ public abstract class KoLCharacter
 
 		if ( ascensionSign.equals( "Mongoose" ) )
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.MUSCLE;
-			KoLCharacter.ascensionSignZone = KoLConstants.KNOLL;
+			KoLCharacter.ascensionSignType = ZodiacType.MUSCLE;
+			KoLCharacter.ascensionSignZone = ZodiacZone.KNOLL;
 		}
 		else if ( ascensionSign.equals( "Platypus" ) )
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.MUSCLE;
-			KoLCharacter.ascensionSignZone = KoLConstants.CANADIA;
+			KoLCharacter.ascensionSignType = ZodiacType.MUSCLE;
+			KoLCharacter.ascensionSignZone = ZodiacZone.CANADIA;
 		}
 		else if ( ascensionSign.equals( "Wombat" ) )
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.MUSCLE;
-			KoLCharacter.ascensionSignZone = KoLConstants.GNOMADS;
+			KoLCharacter.ascensionSignType = ZodiacType.MUSCLE;
+			KoLCharacter.ascensionSignZone = ZodiacZone.GNOMADS;
 		}
 		else if ( ascensionSign.equals( "Wallaby" ) )
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.MYSTICALITY;
-			KoLCharacter.ascensionSignZone = KoLConstants.KNOLL;
+			KoLCharacter.ascensionSignType = ZodiacType.MYSTICALITY;
+			KoLCharacter.ascensionSignZone = ZodiacZone.KNOLL;
 		}
 		else if ( ascensionSign.equals( "Opossum" ) )
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.MYSTICALITY;
-			KoLCharacter.ascensionSignZone = KoLConstants.CANADIA;
+			KoLCharacter.ascensionSignType = ZodiacType.MYSTICALITY;
+			KoLCharacter.ascensionSignZone = ZodiacZone.CANADIA;
 		}
 		else if ( ascensionSign.equals( "Blender" ) )
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.MYSTICALITY;
-			KoLCharacter.ascensionSignZone = KoLConstants.GNOMADS;
+			KoLCharacter.ascensionSignType = ZodiacType.MYSTICALITY;
+			KoLCharacter.ascensionSignZone = ZodiacZone.GNOMADS;
 		}
 		else if ( ascensionSign.equals( "Vole" ) )
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.MOXIE;
-			KoLCharacter.ascensionSignZone = KoLConstants.KNOLL;
+			KoLCharacter.ascensionSignType = ZodiacType.MOXIE;
+			KoLCharacter.ascensionSignZone = ZodiacZone.KNOLL;
 		}
 		else if ( ascensionSign.equals( "Marmot" ) )
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.MOXIE;
-			KoLCharacter.ascensionSignZone = KoLConstants.CANADIA;
+			KoLCharacter.ascensionSignType = ZodiacType.MOXIE;
+			KoLCharacter.ascensionSignZone = ZodiacZone.CANADIA;
 		}
 		else if ( ascensionSign.equals( "Packrat" ) )
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.MOXIE;
-			KoLCharacter.ascensionSignZone = KoLConstants.GNOMADS;
+			KoLCharacter.ascensionSignType = ZodiacType.MOXIE;
+			KoLCharacter.ascensionSignZone = ZodiacZone.GNOMADS;
 		}
 		else if ( ascensionSign.equals( "Bad Moon" ) )
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.BAD_MOON;
-			KoLCharacter.ascensionSignZone = KoLConstants.NONE;
+			KoLCharacter.ascensionSignType = ZodiacType.BAD_MOON;
+			KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
 		}
 		else
 		{
-			KoLCharacter.ascensionSignType = KoLConstants.NONE;
-			KoLCharacter.ascensionSignZone = KoLConstants.NONE;
+			KoLCharacter.ascensionSignType = ZodiacType.NONE;
+			KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
 		}
 	}
 
@@ -3109,7 +3113,7 @@ public abstract class KoLCharacter
 
 	public static final boolean inMuscleSign()
 	{
-		return KoLCharacter.ascensionSignType == KoLConstants.MUSCLE;
+		return KoLCharacter.ascensionSignType == ZodiacType.MUSCLE;
 	}
 
 	/**
@@ -3122,7 +3126,7 @@ public abstract class KoLCharacter
 
 	public static final boolean inMysticalitySign()
 	{
-		return KoLCharacter.ascensionSignType == KoLConstants.MYSTICALITY;
+		return KoLCharacter.ascensionSignType == ZodiacType.MYSTICALITY;
 	}
 
 	/**
@@ -3134,7 +3138,7 @@ public abstract class KoLCharacter
 
 	public static final boolean inMoxieSign()
 	{
-		return KoLCharacter.ascensionSignType == KoLConstants.MOXIE;
+		return KoLCharacter.ascensionSignType == ZodiacType.MOXIE;
 	}
 
 	/**
@@ -3146,7 +3150,7 @@ public abstract class KoLCharacter
 
 	public static final boolean inBadMoon()
 	{
-		return KoLCharacter.ascensionSignType == KoLConstants.BAD_MOON;
+		return KoLCharacter.ascensionSignType == ZodiacType.BAD_MOON;
 	}
 
 	/**
@@ -3162,7 +3166,7 @@ public abstract class KoLCharacter
 
 	public static final boolean knollAvailable()
 	{
-		return KoLCharacter.ascensionSignZone == KoLConstants.KNOLL;
+		return KoLCharacter.ascensionSignZone == ZodiacZone.KNOLL;
 	}
 
 	/**
@@ -3177,7 +3181,7 @@ public abstract class KoLCharacter
 
 	public static final boolean canadiaAvailable()
 	{
-		return KoLCharacter.ascensionSignZone == KoLConstants.CANADIA;
+		return KoLCharacter.ascensionSignZone == ZodiacZone.CANADIA;
 	}
 
 	/**
@@ -3191,7 +3195,7 @@ public abstract class KoLCharacter
 
 	public static final boolean gnomadsAvailable()
 	{
-		return KoLCharacter.ascensionSignZone == KoLConstants.GNOMADS && KoLCharacter.desertBeachAccessible();
+		return KoLCharacter.ascensionSignZone == ZodiacZone.GNOMADS && KoLCharacter.desertBeachAccessible();
 	}
 
 	/**
@@ -3206,12 +3210,12 @@ public abstract class KoLCharacter
 	{
 		switch ( KoLCharacter.ascensionSignZone )
 		{
-		case KoLConstants.CANADIA:
+		case CANADIA:
 			// Direct access to the Mind Control Device
-		case KoLConstants.KNOLL:
+		case KNOLL:
 			// detuned radio from Degrassi Knoll General Store
 			return true;
-		case KoLConstants.GNOMADS:
+		case GNOMADS:
 			// Annoyotron available on beach
 			return KoLCharacter.desertBeachAccessible();
 		}

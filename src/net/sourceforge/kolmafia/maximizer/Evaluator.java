@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -915,12 +916,12 @@ public class Evaluator
 					{
 						continue;
 					}
-					int stat = EquipmentDatabase.getWeaponType( id );
-					if ( this.melee > 0 && stat != KoLConstants.MELEE )
+					WeaponType weaponType = EquipmentDatabase.getWeaponType( id );
+					if ( this.melee > 0 && weaponType != WeaponType.MELEE )
 					{
 						continue;
 					}
-					if ( this.melee < 0 && stat != KoLConstants.RANGED )
+					if ( this.melee < 0 && weaponType != WeaponType.RANGED )
 					{
 						continue;
 					}
@@ -945,12 +946,12 @@ public class Evaluator
 						}
 						else if ( !this.requireShield )
 						{
-							switch ( stat )
+							switch ( weaponType )
 							{
-							case KoLConstants.MELEE:
+							case MELEE:
 								auxSlot = Evaluator.OFFHAND_MELEE;
 								break;
-							case KoLConstants.RANGED:
+							case RANGED:
 								auxSlot = Evaluator.OFFHAND_RANGED;
 								break;
 							}

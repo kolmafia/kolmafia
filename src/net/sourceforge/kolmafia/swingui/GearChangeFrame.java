@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
@@ -209,7 +210,7 @@ public class GearChangeFrame
 			mods = newMods;
 		}
 
-		StringBuffer buff = new StringBuffer();
+		StringBuilder buff = new StringBuilder();
 		buff.append( "<html><table><tr><td width=" );
 		buff.append( GearChangeFrame.INSTANCE.modifiersWidth );
 		buff.append( ">" );
@@ -762,7 +763,7 @@ public class GearChangeFrame
 
 	private List validHatItems( final AdventureResult currentHat )
 	{
-		List items = new ArrayList();
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
 
 		// Search inventory for hats
 		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
@@ -790,7 +791,7 @@ public class GearChangeFrame
 		return items;
 	}
 
-	private void addHat( final List items, final AdventureResult item )
+	private void addHat( final List<AdventureResult> items, final AdventureResult item )
 	{
 		if ( !addItem( items, item, KoLConstants.EQUIP_HAT ) )
 		{
@@ -802,7 +803,7 @@ public class GearChangeFrame
 
 	private List validPantsItems( final AdventureResult currentPants )
 	{
-		List items = new ArrayList();
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
 
 		// Search inventory for pantss
 		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
@@ -830,7 +831,7 @@ public class GearChangeFrame
 		return items;
 	}
 
-	private void addPants( final List items, final AdventureResult item )
+	private void addPants( final List<AdventureResult> items, final AdventureResult item )
 	{
 		if ( !addItem( items, item, KoLConstants.EQUIP_PANTS ) )
 		{
@@ -842,7 +843,7 @@ public class GearChangeFrame
 
 	private List validWeaponItems( final AdventureResult currentWeapon )
 	{
-		List items = new ArrayList();
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
 
 		if ( KoLCharacter.inFistcore() )
 		{
@@ -883,7 +884,7 @@ public class GearChangeFrame
 		return items;
 	}
 
-	private void addWeapon( final List items, final AdventureResult item )
+	private void addWeapon( final List<AdventureResult> items, final AdventureResult item )
 	{
 		if ( !addItem( items, item, KoLConstants.EQUIP_WEAPON ) )
 		{
@@ -935,9 +936,9 @@ public class GearChangeFrame
 
 		switch ( EquipmentDatabase.getWeaponType( weapon.getName() ) )
 		{
-		case KoLConstants.MELEE:
+		case MELEE:
 			return this.weaponTypes[ 1 ].isSelected();
-		case KoLConstants.RANGED:
+		case RANGED:
 			return this.weaponTypes[ 2 ].isSelected();
 		}
 		return false;
@@ -945,7 +946,7 @@ public class GearChangeFrame
 
 	private List validOffhandItems( final AdventureResult weapon, final AdventureResult offhandItem )
 	{
-		List items = new ArrayList();
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
 
 		// In Fistcore, you must have both hands free.
 		// In Axecore, you can equip only Trusty, a two-handed axe
@@ -965,7 +966,7 @@ public class GearChangeFrame
 
 		// The type of weapon in the off hand must
 		// agree with the weapon in the main hand
-		int type = EquipmentDatabase.getWeaponType( weapon.getName() );
+		WeaponType type = EquipmentDatabase.getWeaponType( weapon.getName() );
 
 		// Search inventory for suitable items
 
@@ -1002,7 +1003,7 @@ public class GearChangeFrame
 		return items;
 	}
 
-	private boolean validOffhandItem( final AdventureResult currentItem, boolean weapons, final int type )
+	private boolean validOffhandItem( final AdventureResult currentItem, boolean weapons, final WeaponType type )
 	{
 		switch ( ItemDatabase.getConsumptionType( currentItem.getItemId() ) )
 		{
@@ -1068,7 +1069,7 @@ public class GearChangeFrame
 
 	private List validFamiliars( final FamiliarData currentFamiliar )
 	{
-		List familiars = new ArrayList();
+		List<FamiliarData> familiars = new ArrayList<FamiliarData>();
 
 		// Look at terrarium
 

@@ -47,7 +47,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -222,7 +222,7 @@ public class EatItemRequest
 			int helperItemId = EatItemRequest.queuedFoodHelper.getItemId(); 
 			if ( helperItemId == ItemPool.SCRATCHS_FORK )
 			{
-				UseItemRequest.lastUpdate = UseItemRequest.elementalHelper( "Hotform", MonsterDatabase.HEAT, 1000 );
+				UseItemRequest.lastUpdate = UseItemRequest.elementalHelper( "Hotform", Element.HOT, 1000 );
 				if ( !UseItemRequest.lastUpdate.equals( "" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );

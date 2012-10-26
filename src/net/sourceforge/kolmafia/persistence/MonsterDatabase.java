@@ -60,115 +60,139 @@ public class MonsterDatabase
 	private static String[] MONSTER_STRINGS = null;
 	private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<String, MonsterData>();
 
-	// Elements
-	public static final int NONE = 0;
-	public static final int COLD = 1;
-	public static final int HEAT = 2;
-	public static final int SLEAZE = 3;
-	public static final int SPOOKY = 4;
-	public static final int STENCH = 5;
-	public static final int SLIME = 6;
-
-	public static final String[] elementNames =
+	public enum Element
 	{
-		"none",
-		"cold",
-		"hot",
-		"sleaze",
-		"spooky",
-		"stench",
-		"slime"
-	};
+		NONE( "none" ),
+		COLD( "cold" ),
+		HOT( "hot" ),
+		SLEAZE( "sleaze" ),
+		SPOOKY( "spooky" ),
+		STENCH( "stench" ),
+		SLIME( "slime" );
 
-	// Phila
-	public static final int BEAST = 1;
-	public static final int BUG = 2;
-	public static final int CONSTELLATION = 3;
-	public static final int CRIMBO  = 4;
-	public static final int DEMIHUMAN = 5;
-	public static final int DEMON = 6;
-	public static final int ELEMENTAL = 7;
-	public static final int FISH = 8;
-	public static final int GOBLIN = 9;
-	public static final int HIPPY = 10;
-	public static final int HOBO = 11;
-	public static final int HUMANOID = 12;
-	public static final int HORROR = 13;
-	public static final int MER_KIN = 14;
-	public static final int OBJECT = 15;
-	public static final int ORC = 16;
-	public static final int PENGUIN = 17;
-	public static final int PIRATE = 18;
-	public static final int PLANT = 19;
-	public static final int SLIMES = 20;
-	public static final int STRANGE = 21;
-	public static final int UNDEAD = 22;
+		private final String name;
 
-	public static final String[] phylumNames =
-	{
-		"none",
-		"beast",
-		"bug",
-		"constellation",
-		"crimbo",
-		"demihuman",
-		"demon",
-		"elemental",
-		"fish",
-		"goblin",
-		"hippy",
-		"hobo",
-		"humanoid",
-		"horror",
-		"mer-kin",
-		"object",
-		"orc",
-		"penguin",
-		"pirate",
-		"plant",
-		"slime",
-		"strange",
-		"undead",
-	};
-
-	public static final int elementNumber( final String name )
-	{
-		for ( int i = 0; i < MonsterDatabase.elementNames.length; ++i )
+		private Element( String name )
 		{
-			if ( name.equals( MonsterDatabase.elementNames[ i ] ) )
-			{
-				return i;
-			}
+			this.name = name;
 		}
-		return -1;
+
+		@Override
+		public String toString()
+		{
+			return this.name;
+		}
+
+		public static Element fromString( String text )
+		{
+			if ( text != null )
+			{
+				for ( Element elem : Element.values() )
+				{
+					if ( text.equals( elem.name ) )
+					{
+						return elem;
+					}
+				}
+			}
+			return Element.NONE;
+		}
 	}
 
-	public static final int phylumNumber( final String name )
+	public enum Phylum
 	{
-		for ( int i = 0; i < MonsterDatabase.phylumNames.length; ++i )
+		NONE( "none" ),
+		BEAST( "beast" ),
+		BUG( "bug" ),
+		CONSTELLATION( "constellation" ),
+		CRIMBO( "crimbo" ),
+		DEMIHUMAN( "demihuman" ),
+		DEMON( "demon" ),
+		ELEMENTAL( "elemental" ),
+		FISH( "fish" ),
+		GOBLIN( "goblin" ),
+		HIPPY( "hippy" ),
+		HOBO( "hobo" ),
+		HUMANOID( "humanoid" ),
+		HORROR( "horror" ),
+		MER_KIN( "mer-kin" ),
+		OBJECT( "object" ),
+		ORC( "orc" ),
+		PENGUIN( "penguin" ),
+		PIRATE( "pirate" ),
+		PLANT( "plant" ),
+		SLIME( "slime" ),
+		STRANGE( "strange" ),
+		UNDEAD( "undead" );
+
+		private final String name;
+
+		private Phylum( String name )
 		{
-			if ( name.equals( MonsterDatabase.phylumNames[ i ] ) )
-			{
-				return i;
-			}
+			this.name = name;
 		}
-		return -1;
+
+		@Override
+		public String toString()
+		{
+			return this.name;
+		}
 	}
 
-	public static final boolean elementalVulnerability( final int element1, final int element2 )
+	public static final String[] ELEMENT_ARRAY = new String[ Element.values().length ];
+	public static final String[] PHYLUM_ARRAY = new String[ Phylum.values().length ];
+
+	static
+	{
+		for ( int i = 0; i < Element.values().length; i++ )
+		{
+			ELEMENT_ARRAY[ i ] = Element.values()[i].toString();
+		}
+
+		for ( int i = 0; i < Phylum.values().length; i++ )
+		{
+			PHYLUM_ARRAY[ i ] = Phylum.values()[i].toString();
+		}
+	}
+
+	public static final Element stringToElement( final String name )
+	{
+		for ( Element elem : Element.values() )
+		{
+			if ( name.equals( elem.toString() ) )
+			{
+				return elem;
+			}
+		}
+		return Element.NONE;
+	}
+
+	public static final Phylum phylumNumber( final String name )
+	{
+		for ( Phylum phylum : Phylum.values() )
+		{
+			if ( name.equals( phylum.toString() ) )
+			{
+				return phylum;
+			}
+		}
+		return Phylum.NONE;
+	}
+
+	public static final boolean elementalVulnerability( final Element element1, final Element element2 )
 	{
 		switch ( element1 )
 		{
 		case COLD:
-			return element2 == MonsterDatabase.HEAT || element2 == MonsterDatabase.SPOOKY;
-		case HEAT:
-			return element2 == MonsterDatabase.SLEAZE || element2 == MonsterDatabase.STENCH;
+			return element2 == Element.HOT || element2 == Element.SPOOKY;
+		case HOT:
+			return element2 == Element.SLEAZE || element2 == Element.STENCH;
 		case SLEAZE:
-			return element2 == MonsterDatabase.COLD || element2 == MonsterDatabase.SPOOKY;
+			return element2 == Element.COLD || element2 == Element.SPOOKY;
 		case SPOOKY:
-			return element2 == MonsterDatabase.HEAT || element2 == MonsterDatabase.STENCH;
+			return element2 == Element.HOT || element2 == Element.STENCH;
 		case STENCH:
-			return element2 == MonsterDatabase.SLEAZE || element2 == MonsterDatabase.COLD;
+			return element2 == Element.SLEAZE || element2 == Element.COLD;
 		}
 		return false;
 	}
@@ -349,9 +373,9 @@ public class MonsterDatabase
 		Object experience = null;
 		int minMeat = 0;
 		int maxMeat = 0;
-		int attackElement = MonsterDatabase.NONE;
-		int defenseElement = MonsterDatabase.NONE;
-		int phylum = MonsterDatabase.NONE;
+		Element attackElement = Element.NONE;
+		Element defenseElement = Element.NONE;
+		Phylum phylum = Phylum.NONE;
 		int poison = Integer.MAX_VALUE;
 		boolean boss = false;
 		String image = null;
@@ -422,8 +446,8 @@ public class MonsterDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						int element = MonsterDatabase.parseElement( value );
-						if ( element != MonsterDatabase.NONE )
+						Element element = MonsterDatabase.parseElement( value );
+						if ( element != Element.NONE )
 						{
 							attackElement = element;
 							defenseElement = element;
@@ -437,8 +461,8 @@ public class MonsterDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						int element = MonsterDatabase.parseElement( value );
-						if ( element != MonsterDatabase.NONE )
+						Element element = MonsterDatabase.parseElement( value );
+						if ( element != Element.NONE )
 						{
 							defenseElement = element;
 							continue;
@@ -451,8 +475,8 @@ public class MonsterDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						int element = MonsterDatabase.parseElement( value );
-						if ( element != MonsterDatabase.NONE )
+						Element element = MonsterDatabase.parseElement( value );
+						if ( element != Element.NONE )
 						{
 							attackElement = element;
 							continue;
@@ -485,8 +509,8 @@ public class MonsterDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						int num = MonsterDatabase.parsePhylum( value );
-						if ( num != MonsterDatabase.NONE )
+						Phylum num = MonsterDatabase.parsePhylum( value );
+						if ( num != Phylum.NONE )
 						{
 							phylum = num;
 							continue;
@@ -569,125 +593,27 @@ public class MonsterDatabase
 		return temp.substring( 1, temp.length() - 1 );
 	}
 
-	private static final int parseElement( final String s )
+	private static final Element parseElement( final String s )
 	{
-		if ( s.equals( "heat" ) )
+		for ( Element elem : Element.values() )
 		{
-			return MonsterDatabase.HEAT;
+			if ( elem.toString().equals( s ) )
+			{
+				return elem;
+			}
 		}
-		if ( s.equals( "cold" ) )
-		{
-			return MonsterDatabase.COLD;
-		}
-		if ( s.equals( "stench" ) )
-		{
-			return MonsterDatabase.STENCH;
-		}
-		if ( s.equals( "spooky" ) )
-		{
-			return MonsterDatabase.SPOOKY;
-		}
-		if ( s.equals( "sleaze" ) )
-		{
-			return MonsterDatabase.SLEAZE;
-		}
-		if ( s.equals( "slime" ) )
-		{
-			return MonsterDatabase.SLIME;
-		}
-		return MonsterDatabase.NONE;
+		return Element.NONE;
 	}
 
-	private static final int parsePhylum( final String s )
+	private static final Phylum parsePhylum( final String s )
 	{
-		if ( s.equals( "beast" ) )
+		for ( Phylum phylum : Phylum.values() )
 		{
-			return MonsterDatabase.BEAST;
+			if ( phylum.toString().equals( s ) )
+			{
+				return phylum;
+			}
 		}
-		if ( s.equals( "bug" ) )
-		{
-			return MonsterDatabase.BUG;
-		}
-		if ( s.equals( "constellation" ) )
-		{
-			return MonsterDatabase.CONSTELLATION;
-		}
-		if ( s.equals( "crimbo" ) )
-		{
-			return MonsterDatabase.CRIMBO ;
-		}
-		if ( s.equals( "demihuman" ) )
-		{
-			return MonsterDatabase.DEMIHUMAN;
-		}
-		if ( s.equals( "demon" ) )
-		{
-			return MonsterDatabase.DEMON;
-		}
-		if ( s.equals( "elemental" ) )
-		{
-			return MonsterDatabase.ELEMENTAL;
-		}
-		if ( s.equals( "fish" ) )
-		{
-			return MonsterDatabase.FISH;
-		}
-		if ( s.equals( "goblin" ) )
-		{
-			return MonsterDatabase.GOBLIN;
-		}
-		if ( s.equals( "hippy" ) )
-		{
-			return MonsterDatabase.HIPPY;
-		}
-		if ( s.equals( "hobo" ) )
-		{
-			return MonsterDatabase.HOBO;
-		}
-		if ( s.equals( "humanoid" ) )
-		{
-			return MonsterDatabase.HUMANOID;
-		}
-		if ( s.equals( "horror" ) )
-		{
-			return MonsterDatabase.HORROR;
-		}
-		if ( s.equals( "mer-kin" ) )
-		{
-			return MonsterDatabase.MER_KIN;
-		}
-		if ( s.equals( "object" ) )
-		{
-			return MonsterDatabase.OBJECT;
-		}
-		if ( s.equals( "orc" ) )
-		{
-			return MonsterDatabase.ORC;
-		}
-		if ( s.equals( "penguin" ) )
-		{
-			return MonsterDatabase.PENGUIN;
-		}
-		if ( s.equals( "pirate" ) )
-		{
-			return MonsterDatabase.PIRATE;
-		}
-		if ( s.equals( "plant" ) )
-		{
-			return MonsterDatabase.PLANT;
-		}
-		if ( s.equals( "slime" ) )
-		{
-			return MonsterDatabase.SLIMES;
-		}
-		if ( s.equals( "strange" ) )
-		{
-			return MonsterDatabase.STRANGE;
-		}
-		if ( s.equals( "undead" ) )
-		{
-			return MonsterDatabase.UNDEAD;
-		}
-		return MonsterDatabase.NONE;
+		return Phylum.NONE;
 	}
 }

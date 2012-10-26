@@ -161,7 +161,7 @@ public class ItemDatabase
 			}
 		}
 	}
-	
+
 	private static Object[][] ALIASES = {
 		{ IntegerPool.get( 4577 ), "bugged bonnet" },
 		{ IntegerPool.get( 4578 ), "bugged meat stabbing club" },
@@ -179,7 +179,7 @@ public class ItemDatabase
 	);
 
 	private final static String parseAccess( final String data )
-	{	
+	{
 		if ( data.equals( "" ) )
 		{
 			return data;
@@ -193,14 +193,14 @@ public class ItemDatabase
 			}
 		}
 		return data;
-	};
+	}
 
 	private static final Map<String, String> muscleByName = new HashMap<String, String>();
 	private static final Map<String, String> mysticalityByName = new HashMap<String, String>();
 	private static final Map<String, String> moxieByName = new HashMap<String, String>();
 
 	private static final Map<Integer, String> accessById = new HashMap<Integer, String>();
-	
+
 	public static final int ATTR_QUEST = 0x00000001;
 	public static final int ATTR_GIFT = 0x00000002;
 	public static final int ATTR_TRADEABLE = 0x00000004;
@@ -217,7 +217,7 @@ public class ItemDatabase
 	public static final int ATTR_CANDY = 0x00002000;
 	public static final int ATTR_MATCHABLE = 0x00004000;
 	public static final int ATTR_FANCY = 0x00008000;
-	
+
 	private static final HashMap<String, Integer> PRIMARY_USE = new HashMap<String, Integer>();
 	private static final HashMap<Integer, String> INVERSE_PRIMARY_USE = new HashMap<Integer, String>();
 	private static final HashMap<String, Integer> SECONDARY_USE = new HashMap<String, Integer>();
@@ -266,7 +266,7 @@ public class ItemDatabase
 		ItemDatabase.definePrimaryUse( "drink helper", KoLConstants.CONSUME_DRINK_HELPER );
 		ItemDatabase.definePrimaryUse( "sticker", KoLConstants.CONSUME_STICKER );
 		ItemDatabase.definePrimaryUse( "guardian", KoLConstants.CONSUME_GUARDIAN );
-		
+
 		ItemDatabase.defineSecondaryUse( "usable", ItemDatabase.ATTR_USABLE );
 		ItemDatabase.defineSecondaryUse( "multiple", ItemDatabase.ATTR_MULTIPLE );
 		ItemDatabase.defineSecondaryUse( "reusable", ItemDatabase.ATTR_REUSABLE );
@@ -444,7 +444,7 @@ public class ItemDatabase
 			ItemDatabase.itemIdByName.put( canonicalName, id );
 
 			ItemDatabase.nameLength.set( itemId, displayName.length() );
-			
+
 			if ( data.length == 8 )
 			{
 				String plural = new String( data[ 7 ] );
@@ -583,13 +583,13 @@ public class ItemDatabase
 		{
 			if ( data.length < 2 )
 				continue;
-	
+
 			String name = StringUtilities.getCanonicalName( data[ 0 ] );
 			ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 1 ] ) );
-	
+
 			if ( data.length < 3 )
 				continue;
-	
+
 			String notes = data[ 2 ];
 			if ( notes.length() > 0 )
 			{
@@ -672,7 +672,7 @@ public class ItemDatabase
 			String name = StringUtilities.getCanonicalName( SushiRequest.SUSHI[i] );
 			itemIdByName.put( name, id );
 		}
-		
+
 		// Miscellaneous aliases for untypeable item names
 		for ( int i = 0; i < ItemDatabase.ALIASES.length; ++i )
 		{
@@ -1847,7 +1847,7 @@ public class ItemDatabase
 	{
 		return ItemDatabase.accessById.get( itemId );
 	}
-	
+
 	public static final int getAttributes( int itemId )
 	{
 		return ItemDatabase.attributesById.get( itemId );
@@ -1954,7 +1954,7 @@ public class ItemDatabase
 	{
 		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_BOUNTY );
 	}
- 
+
 	/**
 	 * Returns true if the item is a fancy ingredient, otherwise false
 	 *
@@ -1965,7 +1965,7 @@ public class ItemDatabase
 	{
 		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_FANCY );
 	}
- 
+
 	/**
 	 * Returns true if the item is a candy, otherwise false
 	 *
@@ -2279,7 +2279,7 @@ public class ItemDatabase
 		// You gain 0-2X Enchantedness.
 		// You gain 0-2X Chutzpah.
 		// You gain 1 Drunkenness.
-		// 
+		//
 		// X is equal to your level with a minimum of 3 and a maximum of 11
 
 		String name = "astral pilsner";
@@ -2321,7 +2321,7 @@ public class ItemDatabase
 		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
 
 		// astral energy drink
-		// 
+		//
 		// You gain X Adventures.
 		// (You gain 8 Spleen.)
 		//

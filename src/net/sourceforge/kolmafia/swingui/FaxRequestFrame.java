@@ -220,7 +220,7 @@ public class FaxRequestFrame
 		// We can try several times...
 		PauseObject pauser = new PauseObject();
 
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		buf.append( "Asking " );
 		buf.append( botName );
 		buf.append( " to send a fax" );

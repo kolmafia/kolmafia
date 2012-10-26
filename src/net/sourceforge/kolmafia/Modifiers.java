@@ -61,7 +61,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -1079,19 +1079,19 @@ public class Modifiers
 	private static final String MP_REGEN_MAX_TAG =
 		Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.MP_REGEN_MAX ) + ": ";
 
-	public static int elementalResistance( final int element )
+	public static int elementalResistance( final Element element ) //unused?
 	{
 		switch ( element )
 		{
-		case MonsterDatabase.COLD:
+		case COLD:
 			return Modifiers.COLD_RESISTANCE;
-		case MonsterDatabase.HEAT:
+		case HOT:
 			return Modifiers.HOT_RESISTANCE;
-		case MonsterDatabase.SLEAZE:
+		case SLEAZE:
 			return Modifiers.SLEAZE_RESISTANCE;
-		case MonsterDatabase.SPOOKY:
+		case SPOOKY:
 			return Modifiers.SPOOKY_RESISTANCE;
-		case MonsterDatabase.STENCH:
+		case STENCH:
 			return Modifiers.STENCH_RESISTANCE;
 		}
 		return -1;

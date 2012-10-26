@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.ModifierExpression;
@@ -107,6 +108,8 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -1516,7 +1519,7 @@ public abstract class RuntimeLibrary
 
 	private static void batchCommand( Interpreter interpreter, String cmd, String prefix, String params )
 	{
-		LinkedHashMap batched = interpreter.batched;
+		LinkedHashMap<String, StringBuffer> batched = interpreter.batched;
 		if ( batched == null )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( cmd,
@@ -1595,7 +1598,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( interpreter.batched == null )
 		{
-			interpreter.batched = new LinkedHashMap();
+			interpreter.batched = new LinkedHashMap<String, StringBuffer>();
 		}
 		return DataTypes.VOID_VALUE;
 	}
@@ -2278,7 +2281,7 @@ public abstract class RuntimeLibrary
 		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, files.length );
 		ArrayValue value = new ArrayValue( type );
 
-		StringBuffer contents = new StringBuffer();
+		StringBuilder contents = new StringBuilder();
 
 		for ( int i = 0; i < files.length; ++i )
 		{
@@ -3389,30 +3392,30 @@ public abstract class RuntimeLibrary
 
 	public static Value my_basestat( Interpreter interpreter, final Value arg )
 	{
-		int stat = (int) arg.intValue();
+		String stat = arg.toString();
 
-		if ( stat == KoLConstants.MUSCLE )
+		if ( stat.equalsIgnoreCase( Stat.MUSCLE.toString() ) )
 		{
 			return new Value( KoLCharacter.getBaseMuscle() );
 		}
-		if ( stat == KoLConstants.MYSTICALITY )
+		if ( stat.equalsIgnoreCase( Stat.MYSTICALITY.toString() ) )
 		{
 			return new Value( KoLCharacter.getBaseMysticality() );
 		}
-		if ( stat == KoLConstants.MOXIE )
+		if ( stat.equalsIgnoreCase( Stat.MOXIE.toString() ) )
 		{
 			return new Value( KoLCharacter.getBaseMoxie() );
 		}
 
-		if ( stat == KoLConstants.MUSCLE + 3 )
+		if ( stat.equalsIgnoreCase( Stat.SUBMUSCLE.toString() ) )
 		{
 			return new Value( (int) KoLCharacter.getTotalMuscle() );
 		}
-		if ( stat == KoLConstants.MYSTICALITY + 3 )
+		if ( stat.equalsIgnoreCase( Stat.SUBMYST.toString() ) )
 		{
 			return new Value( (int) KoLCharacter.getTotalMysticality() );
 		}
-		if ( stat == KoLConstants.MOXIE + 3 )
+		if ( stat.equalsIgnoreCase( Stat.SUBMOXIE.toString() ) )
 		{
 			return new Value( (int) KoLCharacter.getTotalMoxie() );
 		}
@@ -3422,17 +3425,17 @@ public abstract class RuntimeLibrary
 
 	public static Value my_buffedstat( Interpreter interpreter, final Value arg )
 	{
-		int stat = (int) arg.intValue();
+		String stat = arg.toString();
 
-		if ( stat == KoLConstants.MUSCLE )
+		if ( stat.equalsIgnoreCase( Stat.MUSCLE.toString() ) )
 		{
 			return new Value( KoLCharacter.getAdjustedMuscle() );
 		}
-		if ( stat == KoLConstants.MYSTICALITY )
+		if ( stat.equalsIgnoreCase( Stat.MYSTICALITY.toString() ) )
 		{
 			return new Value( KoLCharacter.getAdjustedMysticality() );
 		}
-		if ( stat == KoLConstants.MOXIE )
+		if ( stat.equalsIgnoreCase( Stat.MOXIE.toString() ) )
 		{
 			return new Value( KoLCharacter.getAdjustedMoxie() );
 		}
@@ -3845,9 +3848,9 @@ public abstract class RuntimeLibrary
 
 	public static Value weapon_type( Interpreter interpreter, final Value item )
 	{
-		int stat = EquipmentDatabase.getWeaponStat( (int) item.intValue() );
-		return stat == KoLConstants.MUSCLE ? DataTypes.MUSCLE_VALUE : stat == KoLConstants.MYSTICALITY ? DataTypes.MYSTICALITY_VALUE :
-			stat == KoLConstants.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.STAT_INIT;
+		Stat stat = EquipmentDatabase.getWeaponStat( (int) item.intValue() );
+		return stat == Stat.MUSCLE ? DataTypes.MUSCLE_VALUE : stat == Stat.MYSTICALITY ? DataTypes.MYSTICALITY_VALUE :
+			stat == Stat.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.STAT_INIT;
 	}
 
 	public static Value get_power( Interpreter interpreter, final Value item )
@@ -3999,7 +4002,7 @@ public abstract class RuntimeLibrary
 
 	public static Value extract_meat( Interpreter interpreter, final Value string )
 	{
-		ArrayList data = new ArrayList();
+		ArrayList<AdventureResult> data = new ArrayList<AdventureResult>();
 		ResultProcessor.processResults( false,
 			StringUtilities.globalStringReplace( string.toString(), "- ", "-" ),
 			data );
@@ -4020,7 +4023,7 @@ public abstract class RuntimeLibrary
 
 	public static Value extract_items( Interpreter interpreter, final Value string )
 	{
-		ArrayList data = new ArrayList();
+		ArrayList<AdventureResult> data = new ArrayList<AdventureResult>();
 		ResultProcessor.processResults( false,
 			StringUtilities.globalStringReplace( string.toString(), "- ", "-" ),
 			data );
@@ -4943,7 +4946,7 @@ public abstract class RuntimeLibrary
 		}
 		catch ( Exception e )
 		{
-			StringBuffer buffer = new StringBuffer( "Invalid line in data file" );
+			StringBuilder buffer = new StringBuilder( "Invalid line in data file" );
 			if ( data != null )
 			{
 				buffer.append( ": \"" );
@@ -5173,7 +5176,9 @@ public abstract class RuntimeLibrary
 	{
 		if ( arg.getType().equals( DataTypes.TYPE_ELEMENT ) )
 		{
-			return new Value( KoLCharacter.getElementalResistance( (int) arg.intValue() ) );
+			String elementName = arg.toString();
+			Element elem = Element.fromString( elementName );
+			return new Value( KoLCharacter.getElementalResistance( elem ) );
 		}
 
 		MonsterData monster = (MonsterData) arg.rawValue();
@@ -5218,13 +5223,13 @@ public abstract class RuntimeLibrary
 
 	public static Value current_hit_stat( Interpreter interpreter )
 	{
-		return EquipmentManager.getHitStatType() == KoLConstants.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.MUSCLE_VALUE;
+		return EquipmentManager.getHitStatType() == Stat.MOXIE ? DataTypes.MOXIE_VALUE : DataTypes.MUSCLE_VALUE;
 	}
 
 	public static Value monster_element( Interpreter interpreter )
 	{
-		int element = MonsterStatusTracker.getMonsterDefenseElement();
-		return new Value( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
+		Element element = MonsterStatusTracker.getMonsterDefenseElement();
+		return new Value( DataTypes.ELEMENT_TYPE, element.toString() );
 	}
 
 	public static Value monster_element( Interpreter interpreter, final Value arg )
@@ -5235,8 +5240,8 @@ public abstract class RuntimeLibrary
 			return DataTypes.ELEMENT_INIT;
 		}
 
-		int element = monster.getDefenseElement();
-		return new Value( DataTypes.ELEMENT_TYPE, element, MonsterDatabase.elementNames[ element ] );
+		Element element = monster.getDefenseElement();
+		return new Value( DataTypes.ELEMENT_TYPE, element.toString() );
 	}
 
 	public static Value monster_attack( Interpreter interpreter )
@@ -5289,8 +5294,8 @@ public abstract class RuntimeLibrary
 
 	public static Value monster_phylum( Interpreter interpreter )
 	{
-		int phylum = MonsterStatusTracker.getMonsterPhylum();
-		return new Value( DataTypes.PHYLUM_TYPE, phylum, MonsterDatabase.phylumNames[ phylum ] );
+		Phylum phylum = MonsterStatusTracker.getMonsterPhylum();
+		return new Value( DataTypes.PHYLUM_TYPE, phylum.toString() );
 	}
 
 	public static Value monster_phylum( Interpreter interpreter, final Value arg )
@@ -5301,8 +5306,8 @@ public abstract class RuntimeLibrary
 			return DataTypes.PHYLUM_INIT;
 		}
 
-		int phylum = monster.getPhylum();
-		return new Value( DataTypes.PHYLUM_TYPE, phylum, MonsterDatabase.phylumNames[ phylum ] );
+		Phylum phylum = monster.getPhylum();
+		return new Value( DataTypes.PHYLUM_TYPE, phylum.toString() );
 	}
 
 	public static Value item_drops( Interpreter interpreter )

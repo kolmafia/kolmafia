@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -245,7 +245,7 @@ public class DrinkItemRequest
 			int helperItemId = DrinkItemRequest.queuedDrinkHelper.getItemId(); 
 			if ( helperItemId == ItemPool.FROSTYS_MUG )
 			{
-				UseItemRequest.lastUpdate = UseItemRequest.elementalHelper( "Coldform", MonsterDatabase.COLD, 1000 );
+				UseItemRequest.lastUpdate = UseItemRequest.elementalHelper( "Coldform", Element.COLD, 1000 );
 				if ( !UseItemRequest.lastUpdate.equals( "" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );

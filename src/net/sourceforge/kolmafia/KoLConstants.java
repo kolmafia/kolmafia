@@ -380,30 +380,61 @@ public interface KoLConstants
 		CONTINUE;
 	};
 
-	// Stats / Zodiac Sign categories
+	public enum Stat
+	{
+		MUSCLE( "Muscle" ),
+		MYSTICALITY( "Mysticality" ),
+		MOXIE( "Moxie" ),
+		SUBMUSCLE( "SubMuscle" ),
+		SUBMYST( "SubMysticality" ),
+		SUBMOXIE( "SubMoxie" ),
+		NONE( "None" );
 
-	public static final int NONE = 0;
-	public static final int MUSCLE = 1;
-	public static final int MYSTICALITY = 2;
-	public static final int MOXIE = 3;
-	public static final int BAD_MOON = 4;
+		private final String name;
 
-	public static final int KNOLL = 1;
-	public static final int CANADIA = 2;
-	public static final int GNOMADS = 3;
+		private Stat( String name )
+		{
+			this.name = name;
+		}
 
-	// Weapon Types
+		@Override
+		public String toString()
+		{
+			return this.name;
+		}
+	}
 
-	public static final int MELEE = 1;
-	public static final int RANGED = 2;
+	public enum ZodiacType
+	{
+		NONE,
+		MUSCLE,
+		MYSTICALITY,
+		MOXIE,
+		BAD_MOON
+	}
+
+	public enum ZodiacZone
+	{
+		KNOLL,
+		CANADIA,
+		GNOMADS,
+		NONE
+	}
+
+	public enum WeaponType
+	{
+		MELEE,
+		RANGED,
+		NONE
+	}
 
 	// Mystical Book Types
-
-	public static final int TOME = 1;
-	public static final int GRIMOIRE = 2;
-	public static final int LIBRAM = 3;
-
-	// Item consumption types
+	public enum BookType
+	{
+		TOME,
+		GRIMOIRE,
+		LIBRAM
+	}
 
 	public static final int NO_CONSUME = 0;
 	public static final int CONSUME_EAT = 1;

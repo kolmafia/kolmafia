@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -52,6 +52,8 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -156,12 +158,12 @@ public class DataTypes
 
 	public static final Value[] STAT_VALUES =
 	{
-		new Value( DataTypes.STAT_TYPE, KoLConstants.MUSCLE, DataTypes.STATS[ 0 ] ),
-		new Value( DataTypes.STAT_TYPE, KoLConstants.MYSTICALITY, DataTypes.STATS[ 1 ] ),
-		new Value( DataTypes.STAT_TYPE, KoLConstants.MOXIE, DataTypes.STATS[ 2 ] ),
-		new Value( DataTypes.STAT_TYPE, KoLConstants.MUSCLE + 3, DataTypes.STATS[ 3 ] ),
-		new Value( DataTypes.STAT_TYPE, KoLConstants.MYSTICALITY + 3, DataTypes.STATS[ 4 ] ),
-		new Value( DataTypes.STAT_TYPE, KoLConstants.MOXIE + 3, DataTypes.STATS[ 5 ] ),
+		new Value( DataTypes.STAT_TYPE, Stat.MUSCLE.toString() ),
+		new Value( DataTypes.STAT_TYPE, Stat.MYSTICALITY.toString() ),
+		new Value( DataTypes.STAT_TYPE, Stat.MOXIE.toString() ),
+		new Value( DataTypes.STAT_TYPE, Stat.SUBMUSCLE.toString() ),
+		new Value( DataTypes.STAT_TYPE, Stat.SUBMYST.toString() ),
+		new Value( DataTypes.STAT_TYPE, Stat.SUBMOXIE.toString() ),
 	};
 
 	public static final Value VOID_VALUE = new Value();
@@ -387,18 +389,6 @@ public class DataTypes
 		return new Value( DataTypes.CLASS_TYPE, num, DataTypes.CLASSES[ num ] );
 	}
 
-	public static final int statToInt( final String name )
-	{
-		for ( int i = 0; i < DataTypes.STATS.length; ++i )
-		{
-			if ( name.equalsIgnoreCase( DataTypes.STATS[ i ] ) )
-			{
-				return (int) STAT_VALUES[ i ].intValue();
-			}
-		}
-		return -1;
-	}
-
 	public static final Value parseStatValue( final String name, final boolean returnDefault )
 	{
 		if ( name == null || name.equals( "" ) )
@@ -411,9 +401,9 @@ public class DataTypes
 			return DataTypes.STAT_INIT;
 		}
 
-		for ( int i = 0; i < DataTypes.STATS.length; ++i )
+		for ( int i = 0; i < DataTypes.STAT_VALUES.length; ++i )
 		{
-			if ( name.equalsIgnoreCase( DataTypes.STATS[ i ] ) )
+			if ( name.equalsIgnoreCase( DataTypes.STAT_VALUES[ i ].toString() ) )
 			{
 				return STAT_VALUES[ i ];
 			}
@@ -546,14 +536,14 @@ public class DataTypes
 			return DataTypes.ELEMENT_INIT;
 		}
 
-		int num = MonsterDatabase.elementNumber( name );
-		if ( num == -1 )
+		Element elem = MonsterDatabase.stringToElement( name );
+		if ( elem == Element.NONE )
 		{
 			return returnDefault ? DataTypes.ELEMENT_INIT : null;
 		}
 
-		name = MonsterDatabase.elementNames[ num ];
-		return new Value( DataTypes.ELEMENT_TYPE, num, name );
+		name = elem.toString();
+		return new Value( DataTypes.ELEMENT_TYPE, name );
 	}
 
 	public static final Value parsePhylumValue( String name, final boolean returnDefault )
@@ -568,14 +558,14 @@ public class DataTypes
 			return DataTypes.PHYLUM_INIT;
 		}
 
-		int num = MonsterDatabase.phylumNumber( name );
-		if ( num == -1 )
+		Phylum phylum = MonsterDatabase.phylumNumber( name );
+		if ( phylum == Phylum.NONE )
 		{
 			return returnDefault ? DataTypes.PHYLUM_INIT : null;
 		}
 
-		name = MonsterDatabase.phylumNames[ num ];
-		return new Value( DataTypes.PHYLUM_TYPE, num, name );
+		name = phylum.toString();
+		return new Value( DataTypes.PHYLUM_TYPE, name );
 	}
 
 	public static final Value parseCoinmasterValue( String name, final boolean returnDefault )
@@ -751,19 +741,19 @@ public class DataTypes
 			return (String) InputFieldUtilities.input( message, EquipmentRequest.slotNames );
 
 		case TYPE_ELEMENT:
-			return (String) InputFieldUtilities.input( message, MonsterDatabase.elementNames );
+			return (String) InputFieldUtilities.input( message, MonsterDatabase.Element.values().toString() );
 
 		case TYPE_COINMASTER:
 			return (String) InputFieldUtilities.input( message, CoinmasterRegistry.MASTERS );
 
 		case TYPE_PHYLUM:
-			return (String) InputFieldUtilities.input( message, MonsterDatabase.phylumNames );
+			return (String) InputFieldUtilities.input( message, MonsterDatabase.Phylum.values().toString() );
 
 		case TYPE_CLASS:
 			return (String) InputFieldUtilities.input( message, DataTypes.CLASSES );
 
 		case TYPE_STAT:
-			return (String) InputFieldUtilities.input( message, DataTypes.STATS );
+			return (String) InputFieldUtilities.input( message, Stat.values().toString() );
 
 		case TYPE_INT:
 		case TYPE_FLOAT:

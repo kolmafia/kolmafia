@@ -173,49 +173,52 @@ public abstract class KoLmafia
 	public static String statDay;
 
 	// Types of special encounters
-	public static final String NONE = "0";
-	public static final String STOP = "1";
-	public static final String SEMIRARE = "2";
-	public static final String GLYPH = "3";
-	public static final String BADMOON = "4";
-
-	public static final String[][] SPECIAL_ENCOUNTERS =
+	private enum EncounterTypes
 	{
-		{ "History is Fun!", STOP },
-		{ "It's A Sign!", STOP },
-		{ "The Manor in Which You're Accustomed", STOP },
-		{ "Under the Knife", STOP },
-		{ "The Oracle Will See You Now", STOP },
-		{ "A Grave Situation", STOP },
-		{ "Take a Dusty Look!", STOP },
-		{ "Drawn Onward", STOP },
+		NONE,
+		STOP,
+		SEMIRARE,
+		GLYPH,
+		BADMOON
+	}
+
+	public static final Object[][] SPECIAL_ENCOUNTERS =
+	{
+		{ "History is Fun!", EncounterTypes.STOP },
+		{ "It's A Sign!", EncounterTypes.STOP },
+		{ "The Manor in Which You're Accustomed", EncounterTypes.STOP },
+		{ "Under the Knife", EncounterTypes.STOP },
+		{ "The Oracle Will See You Now", EncounterTypes.STOP },
+		{ "A Grave Situation", EncounterTypes.STOP },
+		{ "Take a Dusty Look!", EncounterTypes.STOP },
+		{ "Drawn Onward", EncounterTypes.STOP },
 		// The following is unnecessary, since you can use "1 choice" as a goal
-		{ "Mr. Alarm, I Presarm", STOP },
-		{ "We'll All Be Flat", STOP },
-		{ "You and the Cap'm Make it Hap'm", STOP },
+		{ "Mr. Alarm, I Presarm", EncounterTypes.STOP },
+		{ "We'll All Be Flat", EncounterTypes.STOP },
+		{ "You and the Cap'm Make it Hap'm", EncounterTypes.STOP },
 		// The following is unnecessary, since you can use "blueprints" as a goal
-		{ "This Adventure Bites", STOP },
-		{ "It's Always Swordfish", STOP },
-		{ "Granny, Does Your Dogfish Bite?", STOP },
-		{ "Not a Micro Fish", STOP },
-		{ "You've Hit Bottom", STOP },
-		{ "Ode to the Sea", STOP },
-		{ "Boxing the Juke", STOP },
+		{ "This Adventure Bites", EncounterTypes.STOP },
+		{ "It's Always Swordfish", EncounterTypes.STOP },
+		{ "Granny, Does Your Dogfish Bite?", EncounterTypes.STOP },
+		{ "Not a Micro Fish", EncounterTypes.STOP },
+		{ "You've Hit Bottom", EncounterTypes.STOP },
+		{ "Ode to the Sea", EncounterTypes.STOP },
+		{ "Boxing the Juke", EncounterTypes.STOP },
 
 		// Adventures that start the Around the World Quest
 
-		{ "I Just Wanna Fly", STOP },
-		{ "Me Just Want Fly", STOP },
+		{ "I Just Wanna Fly", EncounterTypes.STOP },
+		{ "Me Just Want Fly", EncounterTypes.STOP },
 
 		// Adventure in the Arid, Extra-Dry desert until you find the
 		// Oasis
 
-		{ "Let's Make a Deal!", STOP },
+		{ "Let's Make a Deal!", EncounterTypes.STOP },
 
 		// Get Ultra-hydrated and adventure in the Arid, Extra-Dry
 		// desert until you are given the task to find a stone rose.
 
-		{ "A Sietch in Time", STOP },
+		{ "A Sietch in Time", EncounterTypes.STOP },
 
 		// Adventure in Oasis until you have a stone rose and a drum
 		// machine. Buy black paint.
@@ -224,7 +227,7 @@ public abstract class KoLmafia
 		// you are tasked to find the missing pages from the
 		// worm-riding manual.
 
-		{ "Walk Without Rhythm", STOP },
+		{ "Walk Without Rhythm", EncounterTypes.STOP },
 
 		// Adventure in Oasis until you have worm-riding manual pages
 		// 3-15.
@@ -232,76 +235,76 @@ public abstract class KoLmafia
 		// worm-riding hooks.
 
 		// The following is unnecessary, since you can use "worm-riding hooks" as a goal
-		{ "The Sleeper Has Awakened", STOP },
+		{ "The Sleeper Has Awakened", EncounterTypes.STOP },
 
 		// Axecore Clancy Adventures
-		{ "Jackin' the Jukebox", STOP },
-		{ "A Miner Variation", STOP },
-		{ "Mercury Rising", STOP },
-		{ "Don't You Know Who I Am?", STOP },
+		{ "Jackin' the Jukebox", EncounterTypes.STOP },
+		{ "A Miner Variation", EncounterTypes.STOP },
+		{ "Mercury Rising", EncounterTypes.STOP },
+		{ "Don't You Know Who I Am?", EncounterTypes.STOP },
 
 		// Adventures that give semirares
-		{ "7-Foot Dwarf Foreman", SEMIRARE },
-		{ "A Menacing Phantom", SEMIRARE },
-		{ "A Shark's Chum", SEMIRARE },
-		{ "A Tight Squeeze", SEMIRARE },
-		{ "All The Rave", SEMIRARE },
-		{ "Baa'baa'bu'ran", SEMIRARE },
-		{ "Bad ASCII Art", SEMIRARE },
-		{ "Blaaargh! Blaaargh!", SEMIRARE },
-		{ "C. H. U. M. chieftain", SEMIRARE },
-		{ "Cold Comfort", SEMIRARE },
-		{ "Filth, Filth, and More Filth", SEMIRARE },
-		{ "Flowers for You", SEMIRARE },
-		{ "Hands On", SEMIRARE },
-		{ "How Does He Smell?", SEMIRARE },
-		{ "In the Still of the Alley", SEMIRARE },
-		{ "It's The Only Way To Be Sure", SEMIRARE },
-		{ "Juicy!", SEMIRARE },
-		{ "Knob Goblin Elite Guard Captain", SEMIRARE },
-		{ "Knob Goblin Embezzler", SEMIRARE },
-		{ "Le Chauve-Souris du Parfum", SEMIRARE },
-		{ "Like the Sunglasses, But Less Comfortable", SEMIRARE },
-		{ "Lunchboxing", SEMIRARE },
-		{ "Maybe It's a Sexy Snake!", SEMIRARE },
-		{ "Monty of County Crisco", SEMIRARE },
-		{ "Natural Selection", SEMIRARE },
-		{ "Not Quite as Cold as Ice", SEMIRARE },
-		{ "Play Misty For Me", SEMIRARE },
-		{ "Prior to Always", SEMIRARE },
-		{ "Rokay, Raggy!", SEMIRARE },
-		{ "Sand in the Vaseline", SEMIRARE },
-		{ "Some Bricks Do, In Fact, Hang in the Air", SEMIRARE },
-		{ "The Bleary-Eyed Cyclops", SEMIRARE },
-		{ "The Latest Sorcerous Developments", SEMIRARE },
-		{ "The Pilsbury Doughjerk", SEMIRARE },
-		{ "The Time This Fire", SEMIRARE },
-		{ "Two Sizes Too Small", SEMIRARE },
-		{ "What a Tosser", SEMIRARE },
-		{ "Yo Ho Ho and a Bottle of Whatever This Is", SEMIRARE },
-		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", SEMIRARE },
+		{ "7-Foot Dwarf Foreman", EncounterTypes.SEMIRARE },
+		{ "A Menacing Phantom", EncounterTypes.SEMIRARE },
+		{ "A Shark's Chum", EncounterTypes.SEMIRARE },
+		{ "A Tight Squeeze", EncounterTypes.SEMIRARE },
+		{ "All The Rave", EncounterTypes.SEMIRARE },
+		{ "Baa'baa'bu'ran", EncounterTypes.SEMIRARE },
+		{ "Bad ASCII Art", EncounterTypes.SEMIRARE },
+		{ "Blaaargh! Blaaargh!", EncounterTypes.SEMIRARE },
+		{ "C. H. U. M. chieftain", EncounterTypes.SEMIRARE },
+		{ "Cold Comfort", EncounterTypes.SEMIRARE },
+		{ "Filth, Filth, and More Filth", EncounterTypes.SEMIRARE },
+		{ "Flowers for You", EncounterTypes.SEMIRARE },
+		{ "Hands On", EncounterTypes.SEMIRARE },
+		{ "How Does He Smell?", EncounterTypes.SEMIRARE },
+		{ "In the Still of the Alley", EncounterTypes.SEMIRARE },
+		{ "It's The Only Way To Be Sure", EncounterTypes.SEMIRARE },
+		{ "Juicy!", EncounterTypes.SEMIRARE },
+		{ "Knob Goblin Elite Guard Captain", EncounterTypes.SEMIRARE },
+		{ "Knob Goblin Embezzler", EncounterTypes.SEMIRARE },
+		{ "Le Chauve-Souris du Parfum", EncounterTypes.SEMIRARE },
+		{ "Like the Sunglasses, But Less Comfortable", EncounterTypes.SEMIRARE },
+		{ "Lunchboxing", EncounterTypes.SEMIRARE },
+		{ "Maybe It's a Sexy Snake!", EncounterTypes.SEMIRARE },
+		{ "Monty of County Crisco", EncounterTypes.SEMIRARE },
+		{ "Natural Selection", EncounterTypes.SEMIRARE },
+		{ "Not Quite as Cold as Ice", EncounterTypes.SEMIRARE },
+		{ "Play Misty For Me", EncounterTypes.SEMIRARE },
+		{ "Prior to Always", EncounterTypes.SEMIRARE },
+		{ "Rokay, Raggy!", EncounterTypes.SEMIRARE },
+		{ "Sand in the Vaseline", EncounterTypes.SEMIRARE },
+		{ "Some Bricks Do, In Fact, Hang in the Air", EncounterTypes.SEMIRARE },
+		{ "The Bleary-Eyed Cyclops", EncounterTypes.SEMIRARE },
+		{ "The Latest Sorcerous Developments", EncounterTypes.SEMIRARE },
+		{ "The Pilsbury Doughjerk", EncounterTypes.SEMIRARE },
+		{ "The Time This Fire", EncounterTypes.SEMIRARE },
+		{ "Two Sizes Too Small", EncounterTypes.SEMIRARE },
+		{ "What a Tosser", EncounterTypes.SEMIRARE },
+		{ "Yo Ho Ho and a Bottle of Whatever This Is", EncounterTypes.SEMIRARE },
+		{ "You Can Top Our Desserts, But You Can't Beat Our Meats", EncounterTypes.SEMIRARE },
 
 		// Adventuring with the hobo code binder equipped - Glyph Adventures
-		{ "A Funny Thing Happened On the Way", GLYPH },
-		{ "Bacon Bacon Bacon", GLYPH },
-		{ "Breakfast of Champions", GLYPH },
-		{ "Elbereth? Who's Elbereth?", GLYPH },
-		{ "For Sale By Squatter", GLYPH },
-		{ "God Bless, Bra", GLYPH },
-		{ "He's a Melancholy Drunk", GLYPH },
-		{ "How Do I Shot Web?", GLYPH },
-		{ "How Dry I Am", GLYPH },
-		{ "It's In the Cards", GLYPH },
-		{ "My Little Stowaway", GLYPH },
-		{ "Not So Much With the Corncob Pipes, Either.", GLYPH },
-		{ "Not a Standard-Issue Windowsill, Obviously", GLYPH },
-		{ "Now You're a Hero", GLYPH },
-		{ "Number 163", GLYPH },
-		{ "Stumped", GLYPH },
-		{ "They Gave at the Morgue", GLYPH },
-		{ "They Hate Mimes, Too", GLYPH },
-		{ "They Hate That", GLYPH },
-		{ "Thud", GLYPH },
+		{ "A Funny Thing Happened On the Way", EncounterTypes.GLYPH },
+		{ "Bacon Bacon Bacon", EncounterTypes.GLYPH },
+		{ "Breakfast of Champions", EncounterTypes.GLYPH },
+		{ "Elbereth? Who's Elbereth?", EncounterTypes.GLYPH },
+		{ "For Sale By Squatter", EncounterTypes.GLYPH },
+		{ "God Bless, Bra", EncounterTypes.GLYPH },
+		{ "He's a Melancholy Drunk", EncounterTypes.GLYPH },
+		{ "How Do I Shot Web?", EncounterTypes.GLYPH },
+		{ "How Dry I Am", EncounterTypes.GLYPH },
+		{ "It's In the Cards", EncounterTypes.GLYPH },
+		{ "My Little Stowaway", EncounterTypes.GLYPH },
+		{ "Not So Much With the Corncob Pipes, Either.", EncounterTypes.GLYPH },
+		{ "Not a Standard-Issue Windowsill, Obviously", EncounterTypes.GLYPH },
+		{ "Now You're a Hero", EncounterTypes.GLYPH },
+		{ "Number 163", EncounterTypes.GLYPH },
+		{ "Stumped", EncounterTypes.GLYPH },
+		{ "They Gave at the Morgue", EncounterTypes.GLYPH },
+		{ "They Hate Mimes, Too", EncounterTypes.GLYPH },
+		{ "They Hate That", EncounterTypes.GLYPH },
+		{ "Thud", EncounterTypes.GLYPH },
 	};
 
 	private static final boolean acquireFileLock( final String suffix )
@@ -976,7 +979,7 @@ public abstract class KoLmafia
 		// Retrieve the character sheet. It's necessary to do this
 		// before concoctions have a chance to get refreshed.
 
-		// Clear skills first, since we no longer know Boris skills
+		// Clear skills first, since we no longer know Avatar skills
 		KoLCharacter.resetSkills();
 
 		request = new CharSheetRequest();
@@ -988,12 +991,10 @@ public abstract class KoLmafia
 		// Hermit items depend on character class
 		HermitRequest.initialize();
 
-		// Retrieve the contents of the inventory, since quest items
-		// may disappear.
+		// Retrieve inventory contents, since quest items may disappear.
 		InventoryManager.refresh();
 
 		// Retrieve the Terrarium
-
 		RequestThread.postRequest( new FamiliarRequest() );
 
 		// Retrieve the bookshelf
@@ -1082,7 +1083,7 @@ public abstract class KoLmafia
 
 		for ( int j = 0; j < KoLConstants.recentEffects.size(); ++j )
 		{
-			AdventureResult effect = (AdventureResult) KoLConstants.recentEffects.get( j );
+			AdventureResult effect = KoLConstants.recentEffects.get( j );
 			AdventureResult.addResultToList( KoLConstants.activeEffects, effect );
 
 			if ( effect.getName().equals( Effect.INIGO.effectName() ) )
@@ -1810,22 +1811,22 @@ public abstract class KoLmafia
 		}
 	}
 
-	public static final String encounterType( final String encounterName )
+	public static final EncounterTypes encounterType( final String encounterName )
 	{
 		for ( int i = 0; i < KoLmafia.SPECIAL_ENCOUNTERS.length; ++i )
 		{
-			if ( encounterName.equalsIgnoreCase( KoLmafia.SPECIAL_ENCOUNTERS[ i ][ 0 ] ) )
+			if ( encounterName.equalsIgnoreCase( (String) KoLmafia.SPECIAL_ENCOUNTERS[ i ][ 0 ] ) )
 			{
-				return KoLmafia.SPECIAL_ENCOUNTERS[ i ][ 1 ];
+				return (EncounterTypes) KoLmafia.SPECIAL_ENCOUNTERS[ i ][ 1 ];
 			}
 		}
 
 		if ( BadMoonManager.specialAdventure( encounterName ) )
 		{
-			return KoLmafia.BADMOON;
+			return KoLmafia.EncounterTypes.BADMOON;
 		}
 
-		return KoLmafia.NONE;
+		return KoLmafia.EncounterTypes.NONE;
 	}
 
 	public static final boolean isAutoStop( final String encounterName )
@@ -1835,10 +1836,10 @@ public abstract class KoLmafia
 			return false;
 		}
 
-		String encounterType = KoLmafia.encounterType( encounterName );
-		return encounterType == KoLmafia.STOP ||
-		       encounterType == KoLmafia.GLYPH ||
-		       encounterType == KoLmafia.BADMOON;
+		EncounterTypes encounterType = KoLmafia.encounterType( encounterName );
+		return encounterType == EncounterTypes.STOP ||
+		       encounterType == EncounterTypes.GLYPH ||
+		       encounterType == EncounterTypes.BADMOON;
 	}
 
 	// Used to ignore special monsters re-encountered via copying
@@ -1851,14 +1852,14 @@ public abstract class KoLmafia
 
 	private static void recognizeEncounter( final String encounterName, final String responseText )
 	{
-		String encounterType = KoLmafia.encounterType( encounterName );
+		EncounterTypes encounterType = KoLmafia.encounterType( encounterName );
 
 		// You stop for a moment to catch your breath, and possibly a
 		// cold, and hear a wolf whistle from behind you. You spin
 		// around and see <monster> that looks suspiciously like the
 		// ones you shot with a love arrow earlier.
 
-		if ( encounterType == KoLmafia.SEMIRARE &&
+		if ( encounterType == EncounterTypes.SEMIRARE &&
 		     !KoLmafia.ignoreSpecialMonsters &&
 		     responseText.indexOf( "hear a wolf whistle" ) == -1 )
 		{
@@ -1866,17 +1867,17 @@ public abstract class KoLmafia
 			return;
 		}
 
-		if ( encounterType == KoLmafia.NONE )
+		if ( encounterType == EncounterTypes.NONE )
 		{
 			return;
 		}
 
-		if ( encounterType == KoLmafia.BADMOON )
+		if ( encounterType == EncounterTypes.BADMOON )
 		{
 			BadMoonManager.registerAdventure( encounterName );
 		}
 
-		if ( encounterType == KoLmafia.STOP || encounterType == KoLmafia.GLYPH || encounterType == KoLmafia.BADMOON )
+		if ( encounterType == EncounterTypes.STOP || encounterType == EncounterTypes.GLYPH || encounterType == EncounterTypes.BADMOON )
 		{
 			GoalManager.checkAutoStop( encounterName );
 		}

@@ -38,8 +38,8 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -59,7 +59,7 @@ public class HeyDezeRequest
 
 	private static final Pattern ID_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
 
-	public HeyDezeRequest( final int stat )
+	public HeyDezeRequest( final Stat stat )
 	{
 		super( "heydeze.php" );
 
@@ -67,17 +67,17 @@ public class HeyDezeRequest
 
 		switch ( stat )
 		{
-		case KoLConstants.MUSCLE:
+		case MUSCLE:
 			// Hella Tough
 			this.effectId = 446;
 			this.desc = "tougher";
 			break;
-		case KoLConstants.MYSTICALITY:
+		case MYSTICALITY:
 			// Hella Smart
 			this.effectId = 447;
 			this.desc = "smarter";
 			break;
-		case KoLConstants.MOXIE:
+		case MOXIE:
 			// Hella Smooth
 			this.effectId = 448;
 			this.desc = "smoother";
@@ -170,7 +170,7 @@ public class HeyDezeRequest
 			Matcher m = COST_PATTERN.matcher( responseText );
 			if ( m.find() )
 			{
-				int price = StringUtilities.parseInt( m.group( 1 ) );;
+				int price = StringUtilities.parseInt( m.group( 1 ) );
 				Preferences.setInteger( "meansuckerPrice", price );
 			}
 			return;

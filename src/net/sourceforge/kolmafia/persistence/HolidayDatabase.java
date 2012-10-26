@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -923,26 +924,26 @@ public class HolidayDatabase
 	 * recognized as "stat days" in this method.
 	 */
 
-	public static final int statDay( final Date time )
+	public static final Stat statDay( final Date time )
 	{
 		switch ( HolidayDatabase.SPECIAL[ HolidayDatabase.getCalendarDay( time ) ] )
 		{
 		case HolidayDatabase.SP_MUSDAY:
-			return KoLConstants.MUSCLE;
+			return Stat.MUSCLE;
 		case HolidayDatabase.SP_MYSDAY:
-			return KoLConstants.MYSTICALITY;
+			return Stat.MYSTICALITY;
 		case HolidayDatabase.SP_MOXDAY:
-			return KoLConstants.MOXIE;
+			return Stat.MOXIE;
 		}
-		return KoLConstants.NONE;
+		return Stat.NONE;
 	}
 
 	public static final String currentStatDay()
 	{
-		int stat = HolidayDatabase.statDay( new Date() );
-		return	stat == KoLConstants.MUSCLE ? "Muscle Day" :
-			stat == KoLConstants.MYSTICALITY ? "Mysticality Day" :
-			stat == KoLConstants.MOXIE ? "Moxie Day" :
+		Stat stat = HolidayDatabase.statDay( new Date() );
+		return	stat == Stat.MUSCLE ? "Muscle Day" :
+			stat == Stat.MYSTICALITY ? "Mysticality Day" :
+			stat == Stat.MOXIE ? "Moxie Day" :
 			"None";
 	}
 

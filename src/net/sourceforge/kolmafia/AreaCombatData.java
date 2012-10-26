@@ -37,11 +37,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.kolmafia.KoLConstants.Stat;
+
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -370,7 +373,7 @@ public class AreaCombatData
 
 		int moxie = KoLCharacter.getAdjustedMoxie();
 
-		String statName = EquipmentManager.getHitStatType() == KoLConstants.MOXIE ? "Mox" : "Mus";
+		String statName = EquipmentManager.getHitStatType() == Stat.MOXIE ? "Mox" : "Mus";
 		int hitstat = EquipmentManager.getAdjustedHitStat();
 
 		double minHitPercent = AreaCombatData.hitPercent( hitstat, this.minHit() );
@@ -480,7 +483,7 @@ public class AreaCombatData
 	private String getRateString( final double minPercent, final int minMargin, final double maxPercent,
 		final int maxMargin, final String statName, boolean fullString )
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		buffer.append( this.format( minPercent ) );
 		buffer.append( "%/" );
@@ -531,9 +534,9 @@ public class AreaCombatData
 
 		StringBuffer buffer = new StringBuffer();
 
-		int ed = monster.getDefenseElement();
-		int ea = monster.getAttackElement();
-		int element = ed == MonsterDatabase.NONE ? ea : ed;
+		Element ed = monster.getDefenseElement();
+		Element ea = monster.getAttackElement();
+		Element element = ed == Element.NONE ? ea : ed;
 
 		// Color the monster name according to its element
 		buffer.append( " <font color=" + AreaCombatData.elementColor( element ) + "><b>" );
@@ -703,34 +706,25 @@ public class AreaCombatData
 		return AreaCombatData.lastDropMultiplier;
 	}
 
-	public static final String elementColor( final int element )
+	public static final String elementColor( final Element element )
 	{
-		if ( element == MonsterDatabase.HEAT )
+		switch ( element )
 		{
-			return "#ff0000";
+			case HOT:
+				return "#ff0000";
+			case COLD:
+				return "#0000ff";
+			case STENCH:
+				return "#008000";
+			case SPOOKY:
+				return "#808080";
+			case SLEAZE:
+				return "#8a2be2";
+			case SLIME:
+				return "#006400";
+			default:
+				return "#000000";
 		}
-		if ( element == MonsterDatabase.COLD )
-		{
-			return "#0000ff";
-		}
-		if ( element == MonsterDatabase.STENCH )
-		{
-			return "#008000";
-		}
-		if ( element == MonsterDatabase.SPOOKY )
-		{
-			return "#808080";
-		}
-		if ( element == MonsterDatabase.SLEAZE )
-		{
-			return "#8a2be2";
-		}
-		if ( element == MonsterDatabase.SLIME )
-		{
-			return "#006400";
-		}
-
-		return "#000000";
 	}
 
 	public static final double hitPercent( final int attack, final int defense )

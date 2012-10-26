@@ -50,6 +50,8 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -647,72 +649,72 @@ public class EquipmentDatabase
 		}
 	}
 
-	public static final int getWeaponStat( final int itemId )
+	public static final Stat getWeaponStat( final int itemId )
 	{
 		int consumptionType = ItemDatabase.getConsumptionType( itemId );
 
 		if ( consumptionType != KoLConstants.EQUIP_WEAPON )
 		{
-			return KoLConstants.NONE;
+			return Stat.NONE;
 		}
 
 		String req = EquipmentDatabase.getEquipRequirement( itemId );
 
 		if ( req.startsWith( "Mox:" ) )
 		{
-			return KoLConstants.MOXIE;
+			return Stat.MOXIE;
 		}
 
 		if ( req.startsWith( "Mys:" ) )
 		{
-			return KoLConstants.MYSTICALITY;
+			return Stat.MYSTICALITY;
 		}
 
-		return KoLConstants.MUSCLE;
+		return Stat.MUSCLE;
 	}
 
-	public static final int getWeaponStat( final String itemName )
+	public static final Stat getWeaponStat( final String itemName )
 	{
 		if ( itemName == null )
 		{
-			return KoLConstants.NONE;
+			return Stat.NONE;
 		}
 
 		int itemId = ItemDatabase.getItemId( itemName );
 
 		if ( itemId == -1 )
 		{
-			return KoLConstants.NONE;
+			return Stat.NONE;
 		}
 
 		return EquipmentDatabase.getWeaponStat( itemId );
 	}
 
-	public static final int getWeaponType( final int itemId )
+	public static final WeaponType getWeaponType( final int itemId )
 	{
 		switch ( EquipmentDatabase.getWeaponStat( itemId ) )
 		{
-		case KoLConstants.NONE:
-			return KoLConstants.NONE;
-		case KoLConstants.MOXIE:
-			return KoLConstants.RANGED;
+		case NONE:
+			return WeaponType.NONE;
+		case MOXIE:
+			return WeaponType.RANGED;
 		default:
-			return KoLConstants.MELEE;
+			return WeaponType.MELEE;
 		}
 	}
 
-	public static final int getWeaponType( final String itemName )
+	public static final WeaponType getWeaponType( final String itemName )
 	{
 		if ( itemName == null )
 		{
-			return KoLConstants.NONE;
+			return WeaponType.NONE;
 		}
 
 		int itemId = ItemDatabase.getItemId( itemName );
 
 		if ( itemId == -1 )
 		{
-			return KoLConstants.NONE;
+			return WeaponType.NONE;
 		}
 
 		return EquipmentDatabase.getWeaponType( itemId );
@@ -988,7 +990,7 @@ public class EquipmentDatabase
 
 	public static class SpecialOutfitArray
 	{
-		private final ArrayList internalList = new ArrayList();
+		private final ArrayList<SpecialOutfit> internalList = new ArrayList<SpecialOutfit>();
 
 		public SpecialOutfit get( final int index )
 		{

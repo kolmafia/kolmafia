@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -1289,7 +1290,7 @@ public class FightRequest
 
 		int weaponId = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
 
-		if ( EquipmentDatabase.getWeaponType( weaponId ) == KoLConstants.RANGED )
+		if ( EquipmentDatabase.getWeaponType( weaponId ) == WeaponType.RANGED )
 		{
 			KoLmafia.updateDisplay( MafiaState.ABORT, "This skill is useless with ranged weapons." );
 			return true;

@@ -41,6 +41,8 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -195,11 +197,11 @@ public class MonsterStatusTracker
 		return baseAttack == 0 ? adjustedAttack: Math.max( adjustedAttack, 1 );
 	}
 
-	public static final int getMonsterAttackElement()
+	public static final Element getMonsterAttackElement()
 	{
 		if ( MonsterStatusTracker.monsterData == null )
 		{
-			return MonsterDatabase.NONE;
+			return Element.NONE;
 		}
 
 		return MonsterStatusTracker.monsterData.getAttackElement();
@@ -252,21 +254,21 @@ public class MonsterStatusTracker
 		return baseDefense == 0 ? adjustedDefense : Math.max( adjustedDefense, 1 );
 	}
 
-	public static final int getMonsterDefenseElement()
+	public static final Element getMonsterDefenseElement()
 	{
 		if ( MonsterStatusTracker.monsterData == null )
 		{
-			return MonsterDatabase.NONE;
+			return Element.NONE;
 		}
 
 		return MonsterStatusTracker.monsterData.getDefenseElement();
 	}
 
-	public static final int getMonsterPhylum()
+	public static final Phylum getMonsterPhylum()
 	{
 		if ( MonsterStatusTracker.monsterData == null )
 		{
-			return MonsterDatabase.NONE;
+			return Phylum.NONE;
 		}
 
 		return MonsterStatusTracker.monsterData.getPhylum();

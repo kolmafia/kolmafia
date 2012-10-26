@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -79,7 +80,7 @@ public class GuildUnlockManager
 
 		KoLmafia.updateDisplay( "Completing guild task..." );
 
-		int stat = KoLCharacter.mainStat();
+		Stat stat = KoLCharacter.mainStat();
 
 		String locationName;
 		String snarfblat;
@@ -88,19 +89,19 @@ public class GuildUnlockManager
 
 		switch ( stat )
 		{
-		case KoLConstants.MUSCLE:
+		case MUSCLE:
 			locationName = "Outskirts of The Knob";
 			snarfblat = AdventurePool.OUTSKIRTS_OF_THE_KNOB_ID;
 			choice = "543";
 			item = ItemPool.get( ItemPool.BIG_KNOB_SAUSAGE, 1 );
 			break;
-		case KoLConstants.MYSTICALITY:
+		case MYSTICALITY:
 			locationName = "Haunted Pantry";
 			snarfblat = AdventurePool.HAUNTED_PANTRY_ID;
 			choice = "544";
 			item = ItemPool.get( ItemPool.EXORCISED_SANDWICH, 1 );
 			break;
-		case KoLConstants.MOXIE:
+		case MOXIE:
 			locationName = "Sleazy Back Alley";
 			snarfblat = AdventurePool.SLEAZY_BACK_ALLEY_ID;
 			choice = "542";
@@ -144,7 +145,7 @@ public class GuildUnlockManager
 		Preferences.setInteger( setting, oldChoice );
 
 		// Put on your pants back on
-		if ( stat == KoLConstants.MOXIE )
+		if ( stat == Stat.MOXIE )
 		{
 			KoLmafia.updateDisplay( "Putting your pants back on..." );
 			RequestThread.postRequest( new EquipmentRequest( item ) );

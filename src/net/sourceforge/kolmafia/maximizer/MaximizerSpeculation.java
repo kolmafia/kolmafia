@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
@@ -589,17 +590,17 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		if ( this.equipment[ EquipmentManager.OFFHAND ] == null )
 		{
 			ArrayList possible;
-			int weaponType = -1;
+			WeaponType weaponType = WeaponType.NONE;
 			if ( KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) )
 			{
 				weaponType = EquipmentDatabase.getWeaponType( weapon );
 			}
 			switch ( weaponType )
 			{
-			case KoLConstants.MELEE:
+			case MELEE:
 				possible = possibles[ Evaluator.OFFHAND_MELEE ];
 				break;
-			case KoLConstants.RANGED:
+			case RANGED:
 				possible = possibles[ Evaluator.OFFHAND_RANGED ];
 				break;
 			default:

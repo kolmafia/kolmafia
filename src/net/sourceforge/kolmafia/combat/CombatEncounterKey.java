@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 public class CombatEncounterKey
 {
@@ -53,8 +55,8 @@ public class CombatEncounterKey
 	private String encounterKey;
 	private String monsterName;
 
-	private int elementNumber;
-	private int phylumNumber;
+	private Element element;
+	private Phylum phylum;
 	private int itemId;
 
 	public CombatEncounterKey( String encounterKey )
@@ -62,8 +64,8 @@ public class CombatEncounterKey
 		this.encounterKey = encounterKey.trim();
 		this.monsterName = this.encounterKey;
 
-		this.elementNumber = -1;
-		this.phylumNumber = -1;
+		this.element = Element.NONE;
+		this.phylum = Phylum.NONE;
 		this.itemId = -1;
 
 		Matcher elementMatcher = ELEMENT_PATTERN.matcher( this.monsterName );
@@ -72,7 +74,7 @@ public class CombatEncounterKey
 		{
 			String elementName = elementMatcher.group( 1 );
 
-			this.elementNumber = MonsterDatabase.elementNumber( elementName );
+			this.element = MonsterDatabase.stringToElement( elementName );
 		}
 
 		this.monsterName = elementMatcher.replaceAll( "" ).trim();
@@ -83,7 +85,7 @@ public class CombatEncounterKey
 		{
 			String phylumName = phylumMatcher.group( 1 );
 
-			this.phylumNumber = MonsterDatabase.phylumNumber( phylumName );
+			this.phylum = MonsterDatabase.phylumNumber( phylumName );
 		}
 
 		this.monsterName = phylumMatcher.replaceAll( "" ).trim();
@@ -104,12 +106,12 @@ public class CombatEncounterKey
 	{
 		if ( monsterData != null )
 		{
-			if ( this.elementNumber != -1 && monsterData.getDefenseElement() != this.elementNumber )
+			if ( this.element != Element.NONE && monsterData.getDefenseElement() != this.element )
 			{
 				return false;
 			}
 
-			if ( this.phylumNumber != -1 && monsterData.getPhylum() != this.phylumNumber )
+			if ( this.phylum != Phylum.NONE && monsterData.getPhylum() != this.phylum )
 			{
 				return false;
 			}

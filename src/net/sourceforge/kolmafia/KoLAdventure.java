@@ -49,7 +49,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
@@ -619,7 +619,7 @@ public class KoLAdventure
 				return;
 			}
 
-			this.isValidAdventure = KoLCharacter.getElementalResistanceLevels( MonsterDatabase.COLD ) > 4;
+			this.isValidAdventure = KoLCharacter.getElementalResistanceLevels( Element.COLD ) > 4;
 			return;
 		}
 

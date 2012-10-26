@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -86,7 +87,7 @@ public abstract class ChoiceManager
 	public static String lastResponseText = "";
 	private static int skillUses = 0;
 
-	public enum PostChoiceAction {
+	private enum PostChoiceAction {
 		NONE,
 		INITIALIZE,
 		ASCEND;
@@ -2637,16 +2638,13 @@ public abstract class ChoiceManager
 			result = new String[ 6 ];
 
 			// The choices are based on character class.
-
-			int stat = KoLCharacter.getPrimeIndex() + 1;
-
 			// Mus: combat, shot of rotgut (2948), drunkenness
 			// Mys: drunkenness, shot of rotgut (2948), shot of rotgut (2948)
 			// Mox: combat, drunkenness, shot of rotgut (2948)
 
-			result[ 0 ] = stat == KoLConstants.MYSTICALITY ? "3 drunk and stats (varies by class)" : "enter combat (varies by class)";
-			result[ 1 ] = stat == KoLConstants.MOXIE ? "3 drunk and stats (varies by class)" : "shot of rotgut (varies by class)";
-			result[ 2 ] = stat == KoLConstants.MUSCLE ? "3 drunk and stats (varies by class)" : "shot of rotgut (varies by class)";
+			result[ 0 ] = KoLCharacter.isMysticalityClass() ? "3 drunk and stats (varies by class)" : "enter combat (varies by class)";
+			result[ 1 ] = KoLCharacter.isMoxieClass() ? "3 drunk and stats (varies by class)" : "shot of rotgut (varies by class)";
+			result[ 2 ] = KoLCharacter.isMuscleClass() ? "3 drunk and stats (varies by class)" : "shot of rotgut (varies by class)";
 			result[ 3 ] = "always 3 drunk & stats";
 			result[ 4 ] = "always shot of rotgut";
 			result[ 5 ] = "combat (or rotgut if Myst class)";
@@ -4117,7 +4115,7 @@ public abstract class ChoiceManager
 						ValhallaManager.postAscension();
 						break;
 					}
-					ChoiceManager.action = PostChoiceAction.NONE;
+				ChoiceManager.action = PostChoiceAction.NONE;
 				}
 			};
 
@@ -4878,11 +4876,11 @@ public abstract class ChoiceManager
 				if ( trink ) return "2";
 				switch ( KoLCharacter.mainStat() )
 				{
-				case KoLConstants.MUSCLE:
+				case MUSCLE:
 					return "3";
-				case KoLConstants.MYSTICALITY:
+				case MYSTICALITY:
 					return "4";
-				case KoLConstants.MOXIE:
+				case MOXIE:
 					return "1";
 				default:
 					return "0";
