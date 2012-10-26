@@ -1505,6 +1505,12 @@ public class ItemPool
 	public static final int DRAGON_TEETH = 5880;
 	public static final int SKELETON = 5881;
 	public static final int SKIFF = 5885;
+	public static final int INFURIATING_SILENCE_RECORD = 5971;
+	public static final int INFURIATING_SILENCE_RECORD_USED = 5972;
+	public static final int TRANQUIL_SILENCE_RECORD = 5973;
+	public static final int TRANQUIL_SILENCE_RECORD_USED = 5974;
+	public static final int MENACING_SILENCE_RECORD = 5975;
+	public static final int MENACING_SILENCE_RECORD_USED = 5976;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

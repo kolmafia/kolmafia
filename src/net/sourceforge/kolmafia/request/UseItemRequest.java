@@ -2726,6 +2726,12 @@ public class UseItemRequest
 		case ItemPool.GRUDGE_BOOK:
 		case ItemPool.JERK_BOOK:
 		case ItemPool.HJODOR_GUIDE:
+		case ItemPool.INFURIATING_SILENCE_RECORD:
+		case ItemPool.INFURIATING_SILENCE_RECORD_USED:
+		case ItemPool.TRANQUIL_SILENCE_RECORD:
+		case ItemPool.TRANQUIL_SILENCE_RECORD_USED:
+		case ItemPool.MENACING_SILENCE_RECORD:
+		case ItemPool.MENACING_SILENCE_RECORD_USED:
 		{
 			if ( KoLCharacter.inAxecore() && responseText.indexOf( "didn't like to read" ) != -1 )
 			{
@@ -4329,6 +4335,15 @@ public class UseItemRequest
 			return "Thick-Skinned";
 		case ItemPool.HJODOR_GUIDE:
 			return "Frigidalmatian";
+		case ItemPool.INFURIATING_SILENCE_RECORD:
+		case ItemPool.INFURIATING_SILENCE_RECORD_USED:
+			return "Silent Slam";
+		case ItemPool.TRANQUIL_SILENCE_RECORD:
+		case ItemPool.TRANQUIL_SILENCE_RECORD_USED:
+			return "Silent Squirt";
+		case ItemPool.MENACING_SILENCE_RECORD:
+		case ItemPool.MENACING_SILENCE_RECORD_USED:
+			return "Silent Slice";
 		}
 
 		return null;
