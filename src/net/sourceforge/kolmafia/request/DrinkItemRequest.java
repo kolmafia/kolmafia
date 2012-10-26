@@ -303,11 +303,12 @@ public class DrinkItemRequest
 		int count = this.itemUsed.getCount();
 		String itemName = this.itemUsed.getName();
 		String advGain = ItemDatabase.getAdvRangeByName( itemName );
+		int PvPGain = ItemDatabase.getPvPFights( itemName );
 
-		return DrinkItemRequest.allowBoozeConsumption( inebriety, count, advGain );
+		return DrinkItemRequest.allowBoozeConsumption( inebriety, count, advGain, PvPGain );
 	}
 
-	public static final boolean allowBoozeConsumption( final int inebriety, final int count, String advGain )
+	public static final boolean allowBoozeConsumption( final int inebriety, final int count, String advGain, final int PvPGain )
 	{
 		int inebrietyBonus = inebriety * count;
 		if ( inebrietyBonus < 1 )
@@ -330,8 +331,13 @@ public class DrinkItemRequest
 			return false;
 		}
 
+		if ( !UseItemRequest.askAboutPvP( PvPGain ) )
+		{
+			return false;
+		}
+
 		// Make sure the player does not overdrink if they still
-		// have PvP attacks remaining.
+		// have adventures remaining.
 
 		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() &&
 		     DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )

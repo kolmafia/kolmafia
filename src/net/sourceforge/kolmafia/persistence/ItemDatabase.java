@@ -1682,6 +1682,24 @@ public class ItemDatabase
 		return ItemDatabase.notesByName.get( StringUtilities.getCanonicalName( name ) );
 	}
 
+	private static Pattern PVP_NOTES_PATTERN = Pattern.compile( "\\+?(\\d+) PvP fights?", Pattern.CASE_INSENSITIVE );
+
+	public static final int getPvPFights( final String name )
+	{
+		int PvPFights = 0;
+		String notes = ItemDatabase.getNotes( name );
+
+		if ( notes != null ) {
+			Matcher matcher = PVP_NOTES_PATTERN.matcher( ItemDatabase.getNotes( name ) );
+
+			if ( matcher.find() ) {
+				PvPFights = Integer.parseInt( matcher.group(1) );
+			}
+		}
+
+		return PvPFights;
+	}
+
 	public static final ArrayList getFoldGroup( final String name )
 	{
 		if ( name == null )
