@@ -98,6 +98,9 @@
 81	Chip on your Shoulder	0	0	0
 82	Request Sandwich	1	5	0
 83	Frigidalmatian	3	300	1
+84	Silent Slam	5	5	0
+85	Silent Squirt	5	10	0
+86	Silent Slice	5	5	0
 
 # Skills available to Clubbers
 
