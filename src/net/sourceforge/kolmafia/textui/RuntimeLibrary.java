@@ -2149,7 +2149,7 @@ public abstract class RuntimeLibrary
 	public static Value to_url( Interpreter interpreter, final Value value )
 	{
 		KoLAdventure adventure = (KoLAdventure) value.rawValue();
-		return new Value( adventure.getRequest().getURLString() );
+		return ( adventure == null ) ? DataTypes.STRING_INIT : new Value( adventure.getRequest().getURLString() );
 	}
 
 	// Functions related to daily information which get
