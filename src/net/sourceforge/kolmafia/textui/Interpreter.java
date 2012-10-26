@@ -96,7 +96,7 @@ public class Interpreter
 	private boolean hadPendingState;
 
 	// For use by RuntimeLibrary's CLI command batching feature
-	LinkedHashMap batched;
+	LinkedHashMap<String, StringBuffer> batched;
 
 	// For use in ASH relay scripts
 	private RelayRequest relayRequest = null;
@@ -450,7 +450,7 @@ public class Interpreter
 
 		if ( index < args && lastParam != null )
 		{
-			StringBuffer inputs = new StringBuffer();
+			StringBuilder inputs = new StringBuilder();
 			for ( int i = index - 1; i < args; ++i )
 			{
 				inputs.append( parameters[ i ] + " " );

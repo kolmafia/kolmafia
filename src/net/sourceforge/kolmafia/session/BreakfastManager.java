@@ -38,7 +38,7 @@ import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.BookType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
@@ -335,9 +335,9 @@ public class BreakfastManager
 	{
 		boolean done = true;
 
-		done &= castBookSkills( getBreakfastTomeSkills(), KoLConstants.TOME, allowRestore, manaRemaining );
-		done &= castBookSkills( getBreakfastGrimoireSkills(), KoLConstants.GRIMOIRE, allowRestore, manaRemaining );
-		castBookSkills( getBreakfastLibramSkills(), KoLConstants.LIBRAM, allowRestore, manaRemaining );
+		done &= castBookSkills( getBreakfastTomeSkills(), BookType.TOME, allowRestore, manaRemaining );
+		done &= castBookSkills( getBreakfastGrimoireSkills(), BookType.GRIMOIRE, allowRestore, manaRemaining );
+		castBookSkills( getBreakfastLibramSkills(), BookType.LIBRAM, allowRestore, manaRemaining );
 
 		return done;
 	}
@@ -391,7 +391,7 @@ public class BreakfastManager
 		return list;
 	}
 
-	public static boolean castBookSkills( final List castable, final int type, final boolean allowRestore, final int manaRemaining )
+	public static boolean castBookSkills( final List castable, final BookType type, final boolean allowRestore, final int manaRemaining )
 	{
 		int skillCount = castable.size();
 
@@ -408,17 +408,17 @@ public class BreakfastManager
 
 		switch ( type )
 		{
-		case KoLConstants.TOME:
+		case TOME:
 			// In Ronin or Hardcore, Tomes can be used three times a day,
 			// spread among all available tomes.
 			// In other cases, all available tomes can be cast three times a day.
 			totalCasts = KoLCharacter.canInteract() ? skillCount * 3 : 3;
 			break;
-		case KoLConstants.GRIMOIRE:
+		case GRIMOIRE:
 			// Grimoires can be used once a day, each.
 			totalCasts = skillCount;
 			break;
-		case KoLConstants.LIBRAM:
+		case LIBRAM:
 			// Librams can be used as many times per day as you
 			// have mana available.
 			totalCasts = SkillDatabase.libramSkillCasts( KoLCharacter.getCurrentMP() - manaRemaining );

@@ -34,8 +34,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -63,15 +63,15 @@ public class StyxPixieCommand
 
 		if ( command.equalsIgnoreCase( "muscle" ) )
 		{
-			RequestThread.postRequest( new HeyDezeRequest( KoLConstants.MUSCLE ) );
+			RequestThread.postRequest( new HeyDezeRequest( Stat.MUSCLE ) );
 		}
 		else if ( command.equalsIgnoreCase( "mysticality" ) )
 		{
-			RequestThread.postRequest( new HeyDezeRequest( KoLConstants.MYSTICALITY ) );
+			RequestThread.postRequest( new HeyDezeRequest( Stat.MYSTICALITY ) );
 		}
 		else if ( command.equalsIgnoreCase( "moxie" ) )
 		{
-			RequestThread.postRequest( new HeyDezeRequest( KoLConstants.MOXIE ) );
+			RequestThread.postRequest( new HeyDezeRequest( Stat.MOXIE ) );
 		}
 		else
 		{

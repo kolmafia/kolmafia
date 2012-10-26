@@ -274,13 +274,13 @@ public class Type
 			this.addValues( list, MonsterDatabase.entrySet() );
 			break;
 		case DataTypes.TYPE_ELEMENT:
-			this.addValues( list, MonsterDatabase.elementNames, 1, -1 );
+			this.addValues( list, MonsterDatabase.ELEMENT_ARRAY, 1, -1 );
 			break;
 		case DataTypes.TYPE_COINMASTER:
 			this.addValues( list, CoinmasterRegistry.MASTERS );
 			break;
 		case DataTypes.TYPE_PHYLUM:
-			this.addValues( list, MonsterDatabase.phylumNames, 1, -1 );
+			this.addValues( list, MonsterDatabase.PHYLUM_ARRAY, 1, -1 );
 			break;
 		default:
 			return null;

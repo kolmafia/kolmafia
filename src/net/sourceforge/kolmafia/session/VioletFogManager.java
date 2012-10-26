@@ -308,7 +308,7 @@ public abstract class VioletFogManager
 
 	public static final void saveMap()
 	{
-		StringBuffer map = new StringBuffer();
+		StringBuilder map = new StringBuilder();
 
 		for ( int i = 0; i < VioletFogManager.FogChoiceTable.length; ++i )
 		{

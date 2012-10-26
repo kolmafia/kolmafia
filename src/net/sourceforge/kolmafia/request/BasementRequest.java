@@ -61,6 +61,8 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -86,12 +88,12 @@ public class BasementRequest
 	private static int secondaryBoost = 0;
 
 	private static double averageResistanceNeeded = 0.0;
-	private static int element1 = -1, element2 = -1;
+	private static Element element1 = Element.NONE, element2 = Element.NONE;
 	private static int vulnerability = 0;
-	private static int goodelement = -1;
+	private static Element goodelement = Element.NONE;
 	private static AdventureResult goodphial = null;
 	private static AdventureResult goodeffect = null;
-	private static int badelement1 = -1, badelement2 = -1, badelement3 = -1;
+	private static Element badelement1 = Element.NONE, badelement2 = Element.NONE, badelement3 = Element.NONE;
 	private static AdventureResult badeffect1 = null, badeffect2 = null, badeffect3 = null;
 
 	private static ArrayList<AdventureResult> desirableEffects = new ArrayList<AdventureResult>();
@@ -281,7 +283,11 @@ public class BasementRequest
 
 		if ( BasementRequest.basementTestString.equals( "Elemental Resist" ) )
 		{
-			return BasementRequest.basementTestString + " Test: +" + BasementRequest.level1 + " " + MonsterDatabase.elementNames[ BasementRequest.element1 ] + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance1 ) + "%" + ( BasementRequest.vulnerability == 1 ? " (vulnerable) " : "" )  + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) + " hp), +" + BasementRequest.level2 + " " + MonsterDatabase.elementNames[ BasementRequest.element2 ] + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance2 ) + "%" + ( BasementRequest.vulnerability == 2 ? " (vulnerable) " : "" ) + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected2 ) + " hp)";
+			return BasementRequest.basementTestString + " Test: +" + BasementRequest.level1 + " " + BasementRequest.element1.toString() + " " + 
+					KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance1 ) + "%" + ( BasementRequest.vulnerability == 1 ? " (vulnerable) " : "" )  +
+					" (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) + " hp), +" + BasementRequest.level2 + " " +
+					BasementRequest.element2.toString() + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance2 ) + "%" +
+					( BasementRequest.vulnerability == 2 ? " (vulnerable) " : "" ) + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected2 ) + " hp)";
 		}
 
 		if ( BasementRequest.basementTestString.startsWith( "Encounter" ) )
@@ -301,7 +307,12 @@ public class BasementRequest
 	{
 		if ( BasementRequest.basementTestString.equals( "Elemental Resist" ) )
 		{
-			return "<u>" + BasementRequest.basementTestString + "</u><br/>Current: +" + BasementRequest.level1 + " " + MonsterDatabase.elementNames[ BasementRequest.element1 ] + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance1 ) + "%" + ( BasementRequest.vulnerability == 1 ? " (vulnerable) " : "" ) + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) + " hp), +" + BasementRequest.level2 + " " + MonsterDatabase.elementNames[ BasementRequest.element2 ] + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance2 ) + "%" + ( BasementRequest.vulnerability == 2 ? " (vulnerable) " : "" ) + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected2 ) + " hp)</br>" + "Needed: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.averageResistanceNeeded ) + "% average resistance or " + BasementRequest.goodeffect.getName();
+			return "<u>" + BasementRequest.basementTestString + "</u><br/>Current: +" + BasementRequest.level1 + " " + 
+					BasementRequest.element1.toString() + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance1 ) + "%" +
+					( BasementRequest.vulnerability == 1 ? " (vulnerable) " : "" ) + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected1 ) + " hp), +" +
+					BasementRequest.level2 + " " + BasementRequest.element2.toString() + " " + KoLConstants.COMMA_FORMAT.format( BasementRequest.resistance2 ) + "%" +
+					( BasementRequest.vulnerability == 2 ? " (vulnerable) " : "" ) + " (" + KoLConstants.COMMA_FORMAT.format( BasementRequest.expected2 ) + " hp)</br>" +
+					"Needed: " + KoLConstants.COMMA_FORMAT.format( BasementRequest.averageResistanceNeeded ) + "% average resistance or " + BasementRequest.goodeffect.getName();
 		}
 
 		if ( BasementRequest.basementTestString.startsWith( "Monster" ) )
@@ -352,107 +363,107 @@ public class BasementRequest
 	{
 		if ( responseText.indexOf( "<b>Peace, Bra!</b>" ) != -1 )
 		{
-			BasementRequest.element1 = MonsterDatabase.STENCH;
-			BasementRequest.element2 = MonsterDatabase.SLEAZE;
+			BasementRequest.element1 = Element.STENCH;
+			BasementRequest.element2 = Element.SLEAZE;
 
 			BasementRequest.goodelement = BasementRequest.element2;
 			BasementRequest.goodphial = BasementRequest.SLEAZE_PHIAL;
 			BasementRequest.goodeffect = BasementRequest.SLEAZE_FORM;
 
 			// Stench is vulnerable to Sleaze
-			BasementRequest.badelement1 = MonsterDatabase.STENCH;
+			BasementRequest.badelement1 = Element.STENCH;
 			BasementRequest.badeffect1 = BasementRequest.STENCH_FORM;
 
 			// Spooky is vulnerable to Stench
-			BasementRequest.badelement2 = MonsterDatabase.SPOOKY;
+			BasementRequest.badelement2 = Element.SPOOKY;
 			BasementRequest.badeffect2 = BasementRequest.SPOOKY_FORM;
 
 			// Hot is vulnerable to Sleaze and Stench
-			BasementRequest.badelement3 = MonsterDatabase.HEAT;
+			BasementRequest.badelement3 = Element.HOT;
 			BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Singled Out</b>" ) != -1 )
 		{
-			BasementRequest.element1 = MonsterDatabase.COLD;
-			BasementRequest.element2 = MonsterDatabase.SLEAZE;
+			BasementRequest.element1 = Element.COLD;
+			BasementRequest.element2 = Element.SLEAZE;
 
 			BasementRequest.goodelement = BasementRequest.element1;
 			BasementRequest.goodphial = BasementRequest.COLD_PHIAL;
 			BasementRequest.goodeffect = BasementRequest.COLD_FORM;
 
 			// Sleaze is vulnerable to Cold
-			BasementRequest.badelement1 = MonsterDatabase.SLEAZE;
+			BasementRequest.badelement1 = Element.SLEAZE;
 			BasementRequest.badeffect1 = BasementRequest.SLEAZE_FORM;
 
 			// Stench is vulnerable to Cold
-			BasementRequest.badelement2 = MonsterDatabase.STENCH;
+			BasementRequest.badelement2 = Element.STENCH;
 			BasementRequest.badeffect2 = BasementRequest.STENCH_FORM;
 
 			// Hot is vulnerable to Sleaze
-			BasementRequest.badelement3 = MonsterDatabase.HEAT;
+			BasementRequest.badelement3 = Element.HOT;
 			BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Still Better than Pistachio</b>" ) != -1 )
 		{
-			BasementRequest.element1 = MonsterDatabase.STENCH;
-			BasementRequest.element2 = MonsterDatabase.HEAT;
+			BasementRequest.element1 = Element.STENCH;
+			BasementRequest.element2 = Element.HOT;
 
 			BasementRequest.goodelement = BasementRequest.element1;
 			BasementRequest.goodphial = BasementRequest.STENCH_PHIAL;
 			BasementRequest.goodeffect = BasementRequest.STENCH_FORM;
 
 			// Cold is vulnerable to Hot
-			BasementRequest.badelement1 = MonsterDatabase.COLD;
+			BasementRequest.badelement1 = Element.COLD;
 			BasementRequest.badeffect1 = BasementRequest.COLD_FORM;
 
 			// Spooky is vulnerable to Hot
-			BasementRequest.badelement2 = MonsterDatabase.SPOOKY;
+			BasementRequest.badelement2 = Element.SPOOKY;
 			BasementRequest.badeffect2 = BasementRequest.SPOOKY_FORM;
 
 			// Hot is vulnerable to Stench
-			BasementRequest.badelement3 = MonsterDatabase.HEAT;
+			BasementRequest.badelement3 = Element.HOT;
 			BasementRequest.badeffect3 = BasementRequest.HOT_FORM;
 		}
 		else if ( responseText.indexOf( "<b>Unholy Writes</b>" ) != -1 )
 		{
-			BasementRequest.element1 = MonsterDatabase.HEAT;
-			BasementRequest.element2 = MonsterDatabase.SPOOKY;
+			BasementRequest.element1 = Element.HOT;
+			BasementRequest.element2 = Element.SPOOKY;
 
 			BasementRequest.goodelement = BasementRequest.element1;
 			BasementRequest.goodphial = BasementRequest.HOT_PHIAL;
 			BasementRequest.goodeffect = BasementRequest.HOT_FORM;
 
 			// Cold is vulnerable to Spooky
-			BasementRequest.badelement1 = MonsterDatabase.COLD;
+			BasementRequest.badelement1 = Element.COLD;
 			BasementRequest.badeffect1 = BasementRequest.COLD_FORM;
 
 			// Spooky is vulnerable to Hot
-			BasementRequest.badelement2 = MonsterDatabase.SPOOKY;
+			BasementRequest.badelement2 = Element.SPOOKY;
 			BasementRequest.badeffect2 = BasementRequest.SPOOKY_FORM;
 
 			// Sleaze is vulnerable to Spooky
-			BasementRequest.badelement3 = MonsterDatabase.SLEAZE;
+			BasementRequest.badelement3 = Element.SLEAZE;
 			BasementRequest.badeffect3 = BasementRequest.SLEAZE_FORM;
 		}
 		else if ( responseText.indexOf( "<b>The Unthawed</b>" ) != -1 )
 		{
-			BasementRequest.element1 = MonsterDatabase.COLD;
-			BasementRequest.element2 = MonsterDatabase.SPOOKY;
+			BasementRequest.element1 = Element.COLD;
+			BasementRequest.element2 = Element.SPOOKY;
 
 			BasementRequest.goodelement = BasementRequest.element2;
 			BasementRequest.goodphial = BasementRequest.SPOOKY_PHIAL;
 			BasementRequest.goodeffect = BasementRequest.SPOOKY_FORM;
 
 			// Cold is vulnerable to Spooky
-			BasementRequest.badelement1 = MonsterDatabase.COLD;
+			BasementRequest.badelement1 = Element.COLD;
 			BasementRequest.badeffect1 = BasementRequest.COLD_FORM;
 
 			// Stench is vulnerable to Cold
-			BasementRequest.badelement2 = MonsterDatabase.STENCH;
+			BasementRequest.badelement2 = Element.STENCH;
 			BasementRequest.badeffect2 = BasementRequest.STENCH_FORM;
 
 			// Sleaze is vulnerable to Cold
-			BasementRequest.badelement3 = MonsterDatabase.SLEAZE;
+			BasementRequest.badelement3 = Element.SLEAZE;
 			BasementRequest.badeffect3 = BasementRequest.SLEAZE_FORM;
 		}
 		else
@@ -1037,20 +1048,20 @@ public class BasementRequest
 		BasementRequest.basementTestString = "None";
 		BasementRequest.basementTestValue = 0;
 
-		BasementRequest.element1 = -1;
-		BasementRequest.element2 = -1;
+		BasementRequest.element1 = Element.NONE;
+		BasementRequest.element2 = Element.NONE;
 		BasementRequest.vulnerability = 0;
 
-		BasementRequest.goodelement = -1;
+		BasementRequest.goodelement = Element.NONE;
 		BasementRequest.goodphial = null;
 		BasementRequest.goodeffect = null;
 
 		BasementRequest.badeffect1 = null;
 		BasementRequest.badeffect2 = null;
 		BasementRequest.badeffect3 = null;
-		BasementRequest.badelement1 = -1;
-		BasementRequest.badelement2 = -1;
-		BasementRequest.badelement3 = -1;
+		BasementRequest.badelement1 = Element.NONE;
+		BasementRequest.badelement2 = Element.NONE;
+		BasementRequest.badelement3 = Element.NONE;
 
 		Matcher levelMatcher = BasementRequest.BASEMENT_PATTERN.matcher( responseText );
 		if ( !levelMatcher.find() )

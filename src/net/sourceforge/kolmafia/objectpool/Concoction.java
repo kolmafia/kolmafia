@@ -188,13 +188,13 @@ public class Concoction
 		String range = "+0.0";
 		switch ( KoLCharacter.mainStat() )
 		{
-		case KoLConstants.MUSCLE:
+		case MUSCLE:
 			range = ItemDatabase.getMuscleRange( this.name );
 			break;
-		case KoLConstants.MYSTICALITY:
+		case MYSTICALITY:
 			range = ItemDatabase.getMysticalityRange( this.name );
 			break;
-		case KoLConstants.MOXIE:
+		case MOXIE:
 			range = ItemDatabase.getMoxieRange( this.name );
 			break;
 		}

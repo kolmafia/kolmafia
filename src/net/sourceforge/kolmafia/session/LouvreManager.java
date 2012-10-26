@@ -245,7 +245,7 @@ public abstract class LouvreManager
 
 	public static final void saveMap()
 	{
-		StringBuffer map = new StringBuffer();
+		StringBuilder map = new StringBuilder();
 
 		for ( int i = 0; i < LouvreManager.LouvreChoiceTable.length; ++i )
 		{
@@ -623,7 +623,7 @@ public abstract class LouvreManager
 		case 0:
 			// return "";
 			float[] probs = probabilities( choice )[ which ];
-			StringBuffer buf = new StringBuffer( "Calculated probabilities:" );
+			StringBuilder buf = new StringBuilder( "Calculated probabilities:" );
 			for ( int i = 0; i < 3; ++i )
 			{
 				if ( probs[ i ] < 0.01f )

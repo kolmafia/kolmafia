@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
@@ -1424,7 +1425,7 @@ public class UseItemRequest
 		}
 	}
 
-	public static String elementalHelper( String remove, int resist, int amount )
+	public static String elementalHelper( String remove, Element resist, int amount )
 	{
 		AdventureResult effect = new AdventureResult( remove, 1, true );
 		if ( KoLConstants.activeEffects.contains( effect ) )
@@ -5017,8 +5018,8 @@ public class UseItemRequest
 
 		case ItemPool.D10:
 			// 1d10 gives you a monster
-			// 2d10 gives you a random adventure at no cost.
-			turns = item.getCount() == 1 ? 1 : 0;
+			// 2d10 gives you a random result and takes a turn
+			turns = ( item.getCount() == 1 || item.getCount() == 2 ) ? 1 : 0;
 			break;
 
 		case ItemPool.REFLECTION_OF_MAP:

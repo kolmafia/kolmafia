@@ -142,7 +142,7 @@ public class ChatFormatter
 
 	public static final String formatChatMessage( final ChatMessage message, boolean includeTimestamp )
 	{
-		StringBuffer displayHTML = new StringBuffer();
+		StringBuilder displayHTML = new StringBuilder();
 
 		if ( includeTimestamp )
 		{

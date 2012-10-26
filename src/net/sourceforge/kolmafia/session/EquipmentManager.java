@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -933,9 +935,9 @@ public class EquipmentManager
 		EquipmentManager.equipmentLists[ listIndex ].setSelectedItem( equippedItem );
 	}
 
-	private static final void updateEquipmentList( final int filterId, final List currentList )
+	private static final void updateEquipmentList( final int filterId, final List<AdventureResult> currentList )
 	{
-		ArrayList temporary = new ArrayList();
+		ArrayList<AdventureResult> temporary = new ArrayList<AdventureResult>();
 		temporary.add( EquipmentRequest.UNEQUIP );
 
 		// If the character is currently equipped with a one-handed
@@ -943,7 +945,7 @@ public class EquipmentManager
 		// weapons, then also allow one-handed weapons in the off-hand.
 
 		boolean dual = getWeaponHandedness() == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
-		int weaponType = EquipmentManager.getWeaponType();
+		WeaponType weaponType = EquipmentManager.getWeaponType();
 		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
 		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
@@ -1240,7 +1242,7 @@ public class EquipmentManager
 	 * @return int MELEE or RANGED
 	 */
 
-	public static final int getWeaponType()
+	public static final WeaponType getWeaponType()
 	{
 		return EquipmentDatabase.getWeaponType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getName() );
 	}
@@ -1252,14 +1254,14 @@ public class EquipmentManager
 	 * @return int MOXIE or MUSCLE
 	 */
 
-	public static final int getHitStatType()
+	public static final Stat getHitStatType()
 	{
 		switch ( EquipmentManager.getWeaponType() )
 		{
-		case KoLConstants.RANGED:
-			return KoLConstants.MOXIE;
+		case RANGED:
+			return Stat.MOXIE;
 		default:
-			return KoLConstants.MUSCLE;
+			return Stat.MUSCLE;
 		}
 	}
 
@@ -1274,16 +1276,16 @@ public class EquipmentManager
 		switch ( getHitStatType() )
 		{
 		default:
-		case KoLConstants.MUSCLE:
+		case MUSCLE:
 			int hitStat = KoLCharacter.getAdjustedMuscle();
 			if ( Modifiers.unarmed && KoLCharacter.hasSkill( "Master of the Surprising Fist" ) )
 			{
 				hitStat += 20;
 			}
 			return hitStat;
-		case KoLConstants.MYSTICALITY:
+		case MYSTICALITY:
 			return KoLCharacter.getAdjustedMysticality();
-		case KoLConstants.MOXIE:
+		case MOXIE:
 			return KoLCharacter.getAdjustedMoxie();
 		}
 	}

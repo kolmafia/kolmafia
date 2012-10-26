@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -49,11 +51,11 @@ public class MonsterData
 	private Object defense;
 	private Object initiative;
 	private Object experience;
-	private final int attackElement;
-	private final int defenseElement;
+	private final Element attackElement;
+	private final Element defenseElement;
 	private final int minMeat;
 	private final int maxMeat;
-	private final int phylum;
+	private final Phylum phylum;
 	private final int poison;
 	private final boolean boss;
 	private final String image;
@@ -64,9 +66,9 @@ public class MonsterData
 
 	public MonsterData( final String name, final Object health,
 		final Object attack, final Object defense, final Object initiative,
-		final Object experience, final int attackElement,
-		final int defenseElement, final int minMeat, final int maxMeat,
-		final int phylum, final int poison, final boolean boss,
+		final Object experience, final Element attackElement,
+		final Element defenseElement, final int minMeat, final int maxMeat,
+		final Phylum phylum, final int poison, final boolean boss,
 		final String image )
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
@@ -240,12 +242,12 @@ public class MonsterData
 		return (int) ((MonsterExpression) this.initiative).eval();
 	}
 
-	public int getAttackElement()
+	public Element getAttackElement()
 	{
 		return this.attackElement;
 	}
 
-	public int getDefenseElement()
+	public Element getDefenseElement()
 	{
 		return this.defenseElement;
 	}
@@ -260,7 +262,7 @@ public class MonsterData
 		return this.maxMeat;
 	}
 
-	public int getPhylum()
+	public Phylum getPhylum()
 	{
 		return this.phylum;
 	}
@@ -280,7 +282,7 @@ public class MonsterData
 		return this.image == null ? "" : this.image;
 	}
 
-	public List getItems()
+	public List<AdventureResult> getItems()
 	{
 		return this.items;
 	}

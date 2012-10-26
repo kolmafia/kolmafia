@@ -571,7 +571,7 @@ public class OptionsFrame
 		@Override
 		public void saveSettings()
 		{
-			StringBuffer settingString = new StringBuffer();
+			StringBuilder settingString = new StringBuilder();
 			if ( this.list.size() != 0 )
 			{
 				settingString.append( (String) this.list.getElementAt( 0 ) );
@@ -967,8 +967,8 @@ public class OptionsFrame
 				return;
 			}
 
-			StringBuffer frameString = new StringBuffer();
-			StringBuffer desktopString = new StringBuffer();
+			StringBuilder frameString = new StringBuilder();
+			StringBuilder desktopString = new StringBuilder();
 
 			for ( int i = 0; i < this.startupList.getSize(); ++i )
 			{
@@ -1286,7 +1286,7 @@ public class OptionsFrame
 				return;
 			}
 
-			StringBuffer frameString = new StringBuffer();
+			StringBuilder frameString = new StringBuilder();
 
 			for ( int i = 0; i < this.deedsList.getSize(); ++i )
 			{
@@ -1998,7 +1998,7 @@ public class OptionsFrame
 
 		public void actionConfirmed()
 		{
-			StringBuffer skillString = new StringBuffer();
+			StringBuilder skillString = new StringBuilder();
 
 			for ( int i = 0; i < UseSkillRequest.BREAKFAST_SKILLS.length; ++i )
 			{

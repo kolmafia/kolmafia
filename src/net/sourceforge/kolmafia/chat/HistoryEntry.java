@@ -48,12 +48,12 @@ public class HistoryEntry
 
 	private final long localLastSeen;
 	private final long serverLastSeen;
-	private final List chatMessages;
+	private final List<ChatMessage> chatMessages;
 
 	public HistoryEntry( final ChatMessage message, final long localLastSeen )
 	{
 		this.localLastSeen = localLastSeen;
-		this.chatMessages = new ArrayList();
+		this.chatMessages = new ArrayList<ChatMessage>();
 
 		this.chatMessages.add( message );
 
@@ -64,7 +64,7 @@ public class HistoryEntry
 	public HistoryEntry( final String responseText, final long localLastSeen )
 	{
 		this.localLastSeen = localLastSeen;
-		this.chatMessages = new ArrayList();
+		this.chatMessages = new ArrayList<ChatMessage>();
 
 		Matcher matcher = responseText != null ?
 			HistoryEntry.LASTSEEN_PATTERN.matcher( responseText ) :
@@ -104,7 +104,7 @@ public class HistoryEntry
 		return this.serverLastSeen;
 	}
 
-	public List getChatMessages()
+	public List<ChatMessage> getChatMessages()
 	{
 		return this.chatMessages;
 	}

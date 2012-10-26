@@ -70,7 +70,7 @@ public class GoalManager
 
 	public static final String getGoalString()
 	{
-		StringBuffer conditionString = new StringBuffer();
+		StringBuilder conditionString = new StringBuilder();
 
 		for ( int i = 0; i < GoalManager.goals.size(); ++i )
 		{
@@ -237,8 +237,6 @@ public class GoalManager
 
 	public static final void checkAutoStop( String message )
 	{
-		boolean hasOtherGoals = false;
-
 		GoalManager.updateProgress( GoalManager.GOAL_AUTOSTOP );
 
 		if ( !KoLmafia.isAdventuring() )

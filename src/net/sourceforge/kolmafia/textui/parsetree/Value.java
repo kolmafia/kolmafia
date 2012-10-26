@@ -84,6 +84,12 @@ public class Value
 		this.type = type;
 	}
 
+	public Value( final Type type, final String contentString )
+	{
+		this.type = type;
+		this.contentString = contentString;
+	}
+
 	public Value( final Type type, final long contentLong, final String contentString )
 	{
 		this.type = type;

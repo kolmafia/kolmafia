@@ -37,7 +37,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -73,11 +72,11 @@ public class GuildRequest
 	{
 		switch ( KoLCharacter.mainStat() )
 		{
-		case KoLConstants.MUSCLE:
+		case MUSCLE:
 			return "The Brotherhood of the Smackdown";
-		case KoLConstants.MYSTICALITY:
+		case MYSTICALITY:
 			return "The League of Chef-Magi";
-		case KoLConstants.MOXIE:
+		case MOXIE:
 			return "The Department of Shadowy Arts and Crafts";
 		}
 
@@ -88,11 +87,11 @@ public class GuildRequest
 	{
 		switch ( KoLCharacter.mainStat() )
 		{
-		case KoLConstants.MUSCLE:
+		case MUSCLE:
 			return "The Smacketeria";
-		case KoLConstants.MYSTICALITY:
+		case MYSTICALITY:
 			return "Gouda's Grimoire and Grocery";
-		case KoLConstants.MOXIE:
+		case MOXIE:
 			return "The Shadowy Store";
 		}
 
@@ -103,11 +102,11 @@ public class GuildRequest
 	{
 		switch ( KoLCharacter.mainStat() )
 		{
-		case KoLConstants.MUSCLE:
+		case MUSCLE:
 			return "The Malus of Forethought";
-		case KoLConstants.MYSTICALITY:
+		case MYSTICALITY:
 			return "The Wok of Ages";
-		case KoLConstants.MOXIE:
+		case MOXIE:
 			return "Nash Crosby's Still";
 		}
 
@@ -118,11 +117,11 @@ public class GuildRequest
 	{
 		switch ( KoLCharacter.mainStat() )
 		{
-		case KoLConstants.MUSCLE:
+		case MUSCLE:
 			return "Gunther, Lord of the Smackdown";
-		case KoLConstants.MYSTICALITY:
+		case MYSTICALITY:
 			return "Gorgonzola, the Chief Chef";
-		case KoLConstants.MOXIE:
+		case MOXIE:
 			return "Shifty, the Thief Chief";
 		}
 
@@ -133,11 +132,11 @@ public class GuildRequest
 	{
 		switch ( KoLCharacter.mainStat() )
 		{
-		case KoLConstants.MUSCLE:
+		case MUSCLE:
 			return "Torg, the Trainer";
-		case KoLConstants.MYSTICALITY:
+		case MYSTICALITY:
 			return "Brie, the Trainer";
-		case KoLConstants.MOXIE:
+		case MOXIE:
 			return "Lefty, the Trainer";
 		}
 
@@ -148,11 +147,11 @@ public class GuildRequest
 	{
 		switch ( KoLCharacter.mainStat() )
 		{
-		case KoLConstants.MUSCLE:
+		case MUSCLE:
 			return "Olaf the Janitor";
-		case KoLConstants.MYSTICALITY:
+		case MYSTICALITY:
 			return "Blaine";
-		case KoLConstants.MOXIE:
+		case MOXIE:
 			return "Izzy the Lizard";
 		}
 

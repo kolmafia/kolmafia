@@ -37,7 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -316,7 +316,7 @@ public class AccountRequest
 			KoLCharacter.setHardcore( true );
 			KoLCharacter.setSign( "Bad Moon" );
 		}
-		else if ( KoLCharacter.getSignStat() == KoLConstants.BAD_MOON )
+		else if ( KoLCharacter.getSignStat() == ZodiacType.BAD_MOON )
 		{
 			KoLCharacter.setSign( "None" );
 		}

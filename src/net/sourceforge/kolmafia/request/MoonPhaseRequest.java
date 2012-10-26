@@ -128,7 +128,7 @@ public class MoonPhaseRequest
 
 		if ( Preferences.getBoolean( "relayAddsQuickScripts" ) )
 		{
-			StringBuffer selectBuffer = new StringBuffer();
+			StringBuilder selectBuffer = new StringBuilder();
 			selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
 			selectBuffer.append( "<select id=\"scriptbar\">" );
 
@@ -190,7 +190,7 @@ public class MoonPhaseRequest
 		}
 
 		String originalMenu = menuMatcher.group( 1 );
-		StringBuffer gotoMenu = new StringBuffer();
+		StringBuilder gotoMenu = new StringBuilder();
 		gotoMenu.append( originalMenu );
 
 		// Add special convenience areas not in normal menu
