@@ -54,6 +54,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -165,6 +166,27 @@ public class MallPriceDatabase
 		}
 		RequestLogger.printLine( count + " price" + ( count != 1 ? "s" : "" ) +
 			" updated from " + filename );
+	}
+
+	public static void updatePricesInParallel( String filename )
+	{
+		RequestThread.runInParallel( new UpdatePricesRunnable( filename ) );
+	}
+
+	private static class UpdatePricesRunnable
+		implements Runnable
+	{
+		private String filename;
+
+		public UpdatePricesRunnable(  String filename )
+		{
+			this.filename = filename;
+		}
+
+		public void run()
+		{
+			MallPriceDatabase.updatePrices( this.filename );
+		}
 	}
 
 	public static void recordPrice( int itemId, int price )
