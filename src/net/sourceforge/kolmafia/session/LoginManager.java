@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -113,7 +114,7 @@ public class LoginManager
 
 		if ( Preferences.getBoolean( "sharePriceData" ) )
 		{
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "update prices http://kolmafia.us/scripts/updateprices.php?action=getmap" );
+			MallPriceDatabase.updatePricesInParallel( "http://kolmafia.us/scripts/updateprices.php?action=getmap" );
 		}
 
 		// Also, do mushrooms, if a mushroom script has already
