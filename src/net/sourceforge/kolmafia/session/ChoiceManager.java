@@ -2204,6 +2204,10 @@ public abstract class ChoiceManager
 		// Choice 598 is Recruitment Jive
 		// Choice 599 is A Zombie Master's Bait
 		// Choice 600 is Summon Minion
+
+		// Choice 612 is Behind the world there is a door...
+		// Choice 613 is Behind the door there is a fog
+		// Choice 614 is Near the fog there is an... anvil?
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -3629,6 +3633,24 @@ public abstract class ChoiceManager
 
 			ResultProcessor.processResult( brain );
 
+			return;
+
+		case 614:
+			// Near the fog there is an... anvil?
+			if ( text.indexOf( "You acquire" ) == -1 )
+			{
+				return;
+			}
+			int souls =
+				ChoiceManager.lastDecision == 1 ? 3 :
+				ChoiceManager.lastDecision == 2 ? 11 :
+				ChoiceManager.lastDecision == 3 ? 23 :
+				ChoiceManager.lastDecision == 4 ? 37 :
+				0;
+			if ( souls > 0 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.MIME_SOUL_FRAGMENT, 0 - souls ) );
+			}
 			return;
 		}
 
