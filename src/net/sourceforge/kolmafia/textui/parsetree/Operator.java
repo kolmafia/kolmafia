@@ -155,10 +155,13 @@ public class Operator
 	public static boolean isStringLike( Type type )
 	{
 		return type.equals( DataTypes.TYPE_STRING ) ||
-		       type.equals( DataTypes.TYPE_BUFFER ) ||
-		       type.equals( DataTypes.TYPE_LOCATION ) ||
-		       type.equals( DataTypes.TYPE_MONSTER ) ||
-		       type.equals( DataTypes.TYPE_COINMASTER );
+				type.equals( DataTypes.TYPE_BUFFER ) ||
+				type.equals( DataTypes.TYPE_LOCATION ) ||
+				type.equals( DataTypes.TYPE_MONSTER ) ||
+				type.equals( DataTypes.STAT_TYPE ) ||
+				type.equals( DataTypes.ELEMENT_TYPE ) ||
+				type.equals( DataTypes.PHYLUM_TYPE ) ||
+				type.equals( DataTypes.TYPE_COINMASTER );
 	}
 
 	public boolean isArithmetic()

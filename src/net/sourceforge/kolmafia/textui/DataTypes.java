@@ -153,8 +153,15 @@ public class DataTypes
 	// Common values
 
 	public static final String[] BOOLEANS = { "true", "false" };
-	public static final String[] STATS = { "Muscle", "Mysticality", "Moxie",
-		"SubMuscle", "SubMysticality", "SubMoxie" };
+
+	public static final String[] STAT_ARRAY = new String[ Stat.values().length ];
+	static
+	{
+		for ( int i = 0; i < Stat.values().length; i++ )
+		{
+			STAT_ARRAY[ i ] = Stat.values()[i].toString();
+		}
+	}
 
 	public static final Value[] STAT_VALUES =
 	{
@@ -741,19 +748,19 @@ public class DataTypes
 			return (String) InputFieldUtilities.input( message, EquipmentRequest.slotNames );
 
 		case TYPE_ELEMENT:
-			return (String) InputFieldUtilities.input( message, MonsterDatabase.Element.values().toString() );
+			return (String) InputFieldUtilities.input( message, MonsterDatabase.ELEMENT_ARRAY );
 
 		case TYPE_COINMASTER:
 			return (String) InputFieldUtilities.input( message, CoinmasterRegistry.MASTERS );
 
 		case TYPE_PHYLUM:
-			return (String) InputFieldUtilities.input( message, MonsterDatabase.Phylum.values().toString() );
+			return (String) InputFieldUtilities.input( message, MonsterDatabase.PHYLUM_ARRAY );
 
 		case TYPE_CLASS:
 			return (String) InputFieldUtilities.input( message, DataTypes.CLASSES );
 
 		case TYPE_STAT:
-			return (String) InputFieldUtilities.input( message, Stat.values().toString() );
+			return (String) InputFieldUtilities.input( message, DataTypes.STAT_ARRAY );
 
 		case TYPE_INT:
 		case TYPE_FLOAT:
