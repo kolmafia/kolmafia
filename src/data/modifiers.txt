@@ -1214,6 +1214,7 @@ Sceptre of the Torremolinos Prince	Mysticality Percent: +12
 Seven Loco	Booze Drop: +5, Candy Drop: +5
 # Sinful Desires: All Spells Cast Are Sleazy
 Sinful Desires	Spell Damage: +10
+Solstice Shield	Muscle Percent: [25*G], Mysticality Percent: [25*G], Moxie Percent: [25*G], Damage Absorption: +20
 # Spanish fly trap
 Sword of the Brouhaha Prince	Muscle Percent: +12
 The Necbromancer's Stein	Spell Damage Percent: +100, Spooky Spell Damage: +30
@@ -3688,6 +3689,7 @@ Hungry Eyes	Food Drop: +100
 Hunter's Sprint	Initiative: +100
 # Immaculate Seasoning: auto-choose hot vs. cold
 # Impetuous Sauciness: +5 reagent potion duration
+Indefatigable	HP Regen Min: +16, HP Regen Max: +20
 Intrinsic Spiciness	Spell Damage: [min(L,10)]
 # Legendary Appetite: Increase stomach capacity by 5
 Legendary Bravado	Muscle: +10, Mysticality: +10, Moxie: +10
