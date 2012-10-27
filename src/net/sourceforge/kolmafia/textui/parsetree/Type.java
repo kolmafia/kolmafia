@@ -256,7 +256,7 @@ public class Type
 			this.addValues( list, DataTypes.CLASSES );
 			break;
 		case DataTypes.TYPE_STAT:
-			this.addValues( list, DataTypes.STATS, 0, 3 );
+			this.addValues( list, DataTypes.STAT_ARRAY, 1, 3 );
 			break;
 		case DataTypes.TYPE_SKILL:
 			this.addValues( list, SkillDatabase.entrySet() );
