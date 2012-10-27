@@ -1066,6 +1066,7 @@ Rainbow Jello Mould	0	Mus: 10
 Sceptre of the Torremolinos Prince	0	none
 Seven Loco	0	none
 Sinful Desires	30	none
+Solstice Shield	0	none
 Spanish fly trap	10	none
 Stupid University Diploma	0	none
 Sword of the Brouhaha Prince	0	none

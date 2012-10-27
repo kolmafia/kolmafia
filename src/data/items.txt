@@ -5820,7 +5820,7 @@
 5803	White Chocolate Golem Seeds	741418840	chips.gif	usable	t,d	5
 5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	usable	t,d	5	slices of Shivering Ch&egrave;vre
 5805	giant breath mint	664766664	lifesaver.gif	usable	t,d	5
-5806	enchanted meusli	993446035	mueslix.gif	usable	t,d	5
+5806	enchanted muesli	993446035	mueslix.gif	usable	t,d	5
 5807	glass of warm milk	734455157	milk.gif	usable	t,d	5
 5808	glass of gnat milk	352544230	milk.gif	usable	t,d	5
 5809	Knob Goblin Mutagen	436545864	lovepotion.gif	usable	t,d	5
@@ -5926,7 +5926,7 @@
 5909	
 5910	
 5911	
-5912	
+5912	Solstice Shield	120888971	shield.gif	offhand			0
 5913	
 5914	
 5915	
@@ -5986,8 +5986,8 @@
 5969	soul knife	244431022	soulknife.gif	weapon	t	0
 5970	soul mask	799134456	soulmask.gif	accessory	t	0
 5971	record of infuriating silence	211644183	record.gif	usable	t	0
-5972	
+5972	record of infuriating silence (used)	558708810	record.gif	usable		0
 5973	record of tranquil silence	722978031	record.gif	usable	t	0
-5974	
+5974	record of tranquil silence (used)	461968850	record.gif	usable		0
 5975	record of menacing silence	477678639	record.gif	usable	t	0
-5976
+5976	record of menacing silence (used)	126984084	record.gif	usable		0
