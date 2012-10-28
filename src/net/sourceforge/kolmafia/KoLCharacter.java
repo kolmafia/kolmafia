@@ -868,6 +868,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.getInebriety() > KoLCharacter.getInebrietyLimit();
 	}
 
+	public static final void setSpleenUse( int spleenUse )
+	{
+		Preferences.setInteger( "currentSpleenUse", spleenUse );
+	}
+
 	public static final int getSpleenUse()
 	{
 		return Preferences.getInteger( "currentSpleenUse" );
