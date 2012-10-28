@@ -599,10 +599,10 @@ horizontal tango	ACOCK	wine spritzer	little paper umbrella
 roll in the hay	ACOCK	whiskey and soda	little paper umbrella
 ducha de oro	ACOCK	tequila sunrise	little paper umbrella
 
-an evil little sump'm sump'm	ACOCK	martini	evil paper umbrella
-evil ducha de oro	ACOCK	tequila sunrise	evil paper umbrella
-evil horizontal tango	ACOCK	wine spritzer	evil paper umbrella
-evil roll in the hay	ACOCK	whiskey and soda	evil paper umbrella
+an evil little sump'm sump'm	MIX, AC	martini	evil paper umbrella
+evil ducha de oro	MIX, AC	tequila sunrise	evil paper umbrella
+evil horizontal tango	MIX, AC	wine spritzer	evil paper umbrella
+evil roll in the hay	MIX, AC	whiskey and soda	evil paper umbrella
 
 fuzzbump	ACOCK	whiskey sour	coconut shell
 slip 'n' slide	ACOCK	screwdriver	coconut shell
