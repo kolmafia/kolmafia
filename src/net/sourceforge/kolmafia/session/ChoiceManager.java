@@ -43,7 +43,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -3183,6 +3182,15 @@ public abstract class ChoiceManager
 		case 539:
 			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
 			break;
+
+		// Behind the world there is a door...
+		case 612:
+			TurnCounter.stopCounting( "Silent Invasion window begin" );
+			TurnCounter.stopCounting( "Silent Invasion window end" );
+			TurnCounter.startCounting( 35, "Silent Invasion window begin loc=*", "lparen.gif" );
+			TurnCounter.startCounting( 40, "Silent Invasion window end loc=*", "rparen.gif" );
+			break;
+
 		}
 	}
 
@@ -4112,12 +4120,15 @@ public abstract class ChoiceManager
 
 		case 613:
 			// Behind the door there is a fog
-			Matcher fogMatcher = FOG_PATTERN.matcher( text );
-			if ( fogMatcher.find() )
+			if ( ChoiceManager.lastDecision == 1 )
 			{
-				String message = "Message: \"" + fogMatcher.group(1) + "\"";
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
+				Matcher fogMatcher = FOG_PATTERN.matcher( text );
+				if ( fogMatcher.find() )
+				{
+					String message = "Message: \"" + fogMatcher.group(1) + "\"";
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+				}
 			}
 			break;
 		}
@@ -5358,7 +5369,7 @@ public abstract class ChoiceManager
 		// Build a "Goal" button
 		StringBuffer button = new StringBuffer();
 		String url = "/KoLmafia/specialCommand?cmd=choice-goal&pwd=" + GenericRequest.passwordHash;
-		button.append( "<form name=goalform action='" + url + "' method=post>" );
+		button.append( "<form name=goalform action='" ).append( url ).append( "' method=post>" );
 		button.append( "<input class=button type=submit value=\"Go To Goal\">" );
 
 		// Add the goal
