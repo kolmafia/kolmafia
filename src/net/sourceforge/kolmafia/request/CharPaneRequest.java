@@ -897,6 +897,9 @@ public class CharPaneRequest
 		int full = JSON.getInt( "full" );
 		KoLCharacter.setFullness( full );
 
+		int spleen = JSON.getInt( "spleen" );
+		KoLCharacter.setSpleenUse( spleen );
+
 		int adventures = JSON.getInt( "adventures" );
 		KoLCharacter.setAdventuresLeft( adventures );
 
