@@ -171,6 +171,15 @@ public class TurnCounter
 		return this.label.equals( ( (TurnCounter) o ).label ) && this.value == ( (TurnCounter) o ).value;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		int hash = 0;
+		hash += this.value;
+		hash += 31 * (this.label != null ? this.label.hashCode() : 0);
+		return hash;
+	}
+
 	public int compareTo( final TurnCounter o )
 	{
 		if ( o == null || !( o instanceof TurnCounter ) )

@@ -1097,7 +1097,7 @@ public class Modifiers
 		return -1;
 	}
 
-	public static ArrayList getPotentialChanges( final int index )
+	public static ArrayList<AdventureResult> getPotentialChanges( final int index )
 	{
 		ArrayList<AdventureResult> available = new ArrayList<AdventureResult>();
 

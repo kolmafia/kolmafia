@@ -89,7 +89,7 @@ public class ClanBuffRequest
 	@Override
 	public String toString()
 	{
-		StringBuffer stringForm = new StringBuffer();
+		StringBuilder stringForm = new StringBuilder();
 		int size = this.buffId % 10;
 		int gift = this.buffId / 10;
 

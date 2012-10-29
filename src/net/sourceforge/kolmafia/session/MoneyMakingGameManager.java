@@ -154,7 +154,6 @@ public class MoneyMakingGameManager
 	private static final Bet findBet( final int id, List list )
 	{
 		Iterator it = list.iterator();
-		int index = 0;
 		while ( it.hasNext() )
 		{
 			Bet bet = (Bet) it.next();
@@ -812,6 +811,12 @@ public class MoneyMakingGameManager
 			return this.compareTo( (Bet) o ) == 0;
 			}
 			return false;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return this.betId;
 		}
 
 		public int compareTo( final Bet o )

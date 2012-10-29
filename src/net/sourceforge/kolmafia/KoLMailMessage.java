@@ -157,6 +157,12 @@ public class KoLMailMessage
 		return o == null || !( o instanceof KoLMailMessage ) ? false : this.messageId.equals( ( (KoLMailMessage) o ).messageId );
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return this.messageId != null ? this.messageId.hashCode() : 0;
+	}
+
 	public String getMessageId()
 	{
 		return this.messageId;

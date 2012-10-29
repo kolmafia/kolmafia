@@ -1057,6 +1057,15 @@ public class HolidayDatabase
 		}
 
 		@Override
+		public int hashCode()
+		{
+			int hash = 0;
+			hash += this.offset;
+			hash += this.name != null ? this.name.hashCode() : 0;
+			return hash;
+		}
+
+		@Override
 		public String toString()
 		{
 			return this.name + ": " + getDayCountAsString( offset );

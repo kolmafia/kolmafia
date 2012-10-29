@@ -644,6 +644,12 @@ public class FamiliarData
 		return o != null && o instanceof FamiliarData && this.id == ( (FamiliarData) o ).id;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return this.id;
+	}
+
 	public int compareTo( final FamiliarData fd )
 	{
 		return this.race.compareToIgnoreCase( fd.race );

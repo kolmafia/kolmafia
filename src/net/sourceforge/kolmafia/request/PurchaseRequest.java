@@ -348,7 +348,17 @@ public abstract class PurchaseRequest
 	@Override
 	public boolean equals( final Object o )
 	{
-		return o == null || !( o instanceof PurchaseRequest ) ? false : this.shopName.equals( ( (PurchaseRequest) o ).shopName ) && this.item.getItemId() == ( (PurchaseRequest) o ).item.getItemId();
+		return o == null || !( o instanceof PurchaseRequest ) ? false : this.shopName.equals( ( (PurchaseRequest) o ).shopName )
+				&& this.item.getItemId() == ( (PurchaseRequest) o ).item.getItemId();
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hash = 0;
+		hash += this.shopName != null ? this.shopName.hashCode() : 0;
+		hash += this.item != null ? this.item.hashCode() : 0;
+		return hash;
 	}
 
 	public static boolean registerRequest( final String urlString )

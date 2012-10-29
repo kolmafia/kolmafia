@@ -230,5 +230,11 @@ public class CakeArenaManager
 		{
 			return o != null && o instanceof ArenaOpponent && this.id == ( (ArenaOpponent) o ).id;
 		}
+
+		@Override
+		public int hashCode()
+		{
+			return this.id;
+		}
 	}
 }

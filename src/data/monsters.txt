@@ -828,7 +828,7 @@ Swarm of Ghuol Whelps	Atk: 50 Def: 50 HP: 100 E: spooky P: undead
 Swarm of Killer Bees	Atk: 59 Def: 59 HP: 75 "Somewhat Poisoned" P: bug	baby killer bee (5)	royal jelly (25)
 Swarm of Knob Lice	Atk: 25 Def: 25 HP: 30 Phys: 50 P: bug
 swarm of lowercase As	Atk: 59 Def: 59 HP: 75 P: bug	lowercase A (5)	percent sign (25)
-Swarm of Scarab Beatles	Atk: 136 Def: 130 HP: 131 E: spooky P: bug	Colonel Mustard's Lonely Spades Club Jacket (c1)	Corporal Fennel's Lonely Clubs Club Jacket (c1)	General Sage's Lonely Diamonds Club Jacket (c1)	Private Pepper's Lonely Hearts Club Jacket (c1)	savoy truffle (10)	rocky raccoon (40)	mojo filter (5)	Maxwell's Silver Hammer (5)	carbonated water lily (10)	palm frond (10)	hot date (5)	happiness (5)
+Swarm of Scarab Beatles	Atk: 136 Def: 130 HP: 131 Meat: 140-210 E: spooky P: bug	Colonel Mustard's Lonely Spades Club Jacket (c1)	Corporal Fennel's Lonely Clubs Club Jacket (c1)	General Sage's Lonely Diamonds Club Jacket (c1)	Private Pepper's Lonely Hearts Club Jacket (c1)	savoy truffle (10)	rocky raccoon (40)	mojo filter (5)	Maxwell's Silver Hammer (5)	carbonated water lily (10)	palm frond (10)	hot date (5)	happiness (5)
 Swarthy Pirate	Atk: 63 Def: 63 HP: 53 Meat: 20-32 P: pirate	leotarrrd (10)	pirate pelvis (20)	stuffed shoulder parrot (10)
 Taco Cat	Atk: 139 Def: 146 HP: 145 Meat: 32-49 P: beast	cat appendix (30)	catgut (30)	taco shell (30)
 Talking Head	HP: 21 Def: 24 Atk: 24 P: strange	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	evil paper umbrella (0)

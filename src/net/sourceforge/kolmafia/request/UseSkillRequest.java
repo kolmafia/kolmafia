@@ -1159,6 +1159,12 @@ public class UseSkillRequest
 			( (UseSkillRequest) o ).getSkillName() );
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return this.skillId;
+	}
+
 	public static final UseSkillRequest getInstance( final int skillId )
 	{
 		return UseSkillRequest.getInstance( SkillDatabase.getSkillName( skillId ) );

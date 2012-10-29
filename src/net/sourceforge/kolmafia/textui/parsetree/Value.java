@@ -334,6 +334,16 @@ public class Value
 		return o == null || !( o instanceof Value ) ? false : this.compareTo( (Value) o ) == 0;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		int hash;
+		hash = this.type != null ? this.type.hashCode() : 0;
+		hash = hash + 31 * (int) this.contentLong;
+		hash = hash + 31 * ( this.contentString != null ? this.contentString.hashCode() : 0 );
+		return hash;
+	}
+
 	public void dumpValue( final PrintStream writer )
 	{
 		writer.print( this.toStringValue().toString() );

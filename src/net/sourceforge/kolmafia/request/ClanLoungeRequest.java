@@ -726,7 +726,7 @@ public class ClanLoungeRequest
 		{
 			return;
 		}
-		
+
 		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );
 		if ( hottubMatcher.find() )
 		{
@@ -946,7 +946,7 @@ public class ClanLoungeRequest
 				Preferences.setBoolean( "_olympicSwimmingPool", true );
 				return;
 			}
-			
+
 			Matcher m = LAPS_PATTERN.matcher( responseText );
 			if ( m.find() )
 			{

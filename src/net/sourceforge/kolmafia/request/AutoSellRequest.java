@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.AccountRequest.Tab;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -97,7 +99,7 @@ public class AutoSellRequest
 		// Get the autosell mode the first time we need it
 		if ( KoLCharacter.getAutosellMode().equals( "" ) )
 		{
-			RequestThread.postRequest( new AccountRequest( AccountRequest.INVENTORY ) );
+			RequestThread.postRequest( new AccountRequest( Tab.INVENTORY ) );
 		}
 
 		return KoLCharacter.getAutosellMode().equals( "detailed" ) ?
@@ -192,7 +194,7 @@ public class AutoSellRequest
 	@Override
 	public ArrayList generateSubInstances()
 	{
-		ArrayList subinstances = new ArrayList();
+		ArrayList<TransferItemRequest> subinstances = new ArrayList<TransferItemRequest>();
 
 		if ( KoLmafia.refusesContinue() )
 		{
@@ -208,9 +210,9 @@ public class AutoSellRequest
 		// Look at all of the attachments and divide them into groups:
 		// all, all but one, another quantity
 
-		ArrayList all = new ArrayList();
-		ArrayList allButOne = new ArrayList();
-		HashSet others = new HashSet();
+		ArrayList<AdventureResult> all = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> allButOne = new ArrayList<AdventureResult>();
+		HashSet<AdventureResult> others = new HashSet<AdventureResult>();
 
 		for ( int index = 0; index < this.attachments.length; ++index )
 		{
@@ -274,7 +276,7 @@ public class AutoSellRequest
 		// its own subinstance
 		while ( others.size() > 0 )
 		{
-			ArrayList items = new ArrayList();
+			ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 			Iterator it = others.iterator();
 
 			int count = -1;

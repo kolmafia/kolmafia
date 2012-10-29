@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -1045,6 +1046,17 @@ public abstract class BuffBotManager
 
 			Offering off = (Offering) o;
 			return this.botName.equalsIgnoreCase( off.botName ) && this.price == off.price && this.turns == off.turns && this.free == off.free;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			int hash = 0;
+			hash = this.botName != null ? this.botName.hashCode() : 0;
+			hash = 31 * hash + this.price;
+			hash = 31 * hash + (this.free ? 1 : 0);
+			hash = 31 * hash + Arrays.hashCode( this.turns );
+			return hash;
 		}
 
 		public SendMailRequest toRequest()

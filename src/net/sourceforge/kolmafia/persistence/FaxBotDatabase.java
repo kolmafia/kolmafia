@@ -198,6 +198,12 @@ public class FaxBotDatabase
 			return this.name.equals( that.name );
 		}
 
+		@Override
+		public int hashCode()
+		{
+			return this.name != null ? this.name.hashCode() : 0;
+		}
+
 		public int compareTo( final FaxBot o )
 		{
 			if ( o == null || !( o instanceof FaxBot ) )
@@ -265,6 +271,12 @@ public class FaxBotDatabase
 
 			Monster that = (Monster) o;
 			return this.name.equals( that.name );
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return this.name != null ? this.name.hashCode() : 0;
 		}
 
 		public int compareTo( final Monster o )
