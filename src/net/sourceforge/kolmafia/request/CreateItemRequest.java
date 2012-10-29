@@ -378,6 +378,12 @@ public class CreateItemRequest
 		return false;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return this.name != null ? this.name.toLowerCase().hashCode() : 0;
+	}
+
 	public int compareTo( final CreateItemRequest o )
 	{
 		return o == null ? -1 : this.getName().compareToIgnoreCase( ( (CreateItemRequest) o ).getName() );
@@ -1318,7 +1324,7 @@ public class CreateItemRequest
 		boolean usesTurns = false;
 		boolean isCreationURL = false;
 
-		StringBuffer command = new StringBuffer();
+		StringBuilder command = new StringBuilder();
 
 		if ( urlString.startsWith( "craft.php" ) )
 		{

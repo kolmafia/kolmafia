@@ -484,6 +484,12 @@ public class BasementDecorator
 			return o instanceof StatBooster && this.name.equals( ( (StatBooster) o ).name );
 		}
 
+		@Override
+		public int hashCode()
+		{
+			return this.name != null ? this.name.hashCode() : 0;
+		}
+
 		public int compareTo( final StatBooster o )
 		{
 			if ( this.effectiveBoost == 0.0 )

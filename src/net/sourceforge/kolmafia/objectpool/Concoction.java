@@ -364,6 +364,12 @@ public class Concoction
 		return this.name.equals( ( (Concoction) o ).name );
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return this.name != null ? this.name.hashCode() : 0;
+	}
+
 	public AdventureResult getItem()
 	{
 		return this.concoction;

@@ -452,6 +452,12 @@ public class ClanLogRequest
 		}
 
 		@Override
+		public int hashCode()
+		{
+			return this.stringform != null ? this.stringform.hashCode() : 0;
+		}
+
+		@Override
 		public String toString()
 		{
 			return this.stringform;

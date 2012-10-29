@@ -61,7 +61,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MoodTrigger
 	implements Comparable<MoodTrigger>
 {
-	private static Map knownSources = new HashMap();
+	private static Map<String, Set<String>> knownSources = new HashMap<String, Set<String>>();
 
 	private int skillId = -1;
 	private final AdventureResult effect;
@@ -134,11 +134,11 @@ public class MoodTrigger
 
 		if ( type != null && type.equals( "lose_effect" ) && effect != null )
 		{
-			Set existingActions = (Set) MoodTrigger.knownSources.get( effect.getName() );
+			Set<String> existingActions = (Set<String>) MoodTrigger.knownSources.get( effect.getName() );
 
 			if ( existingActions == null )
 			{
-				existingActions = new LinkedHashSet();
+				existingActions = new LinkedHashSet<String>();
 				MoodTrigger.knownSources.put( effect.getName(), existingActions );
 			}
 
@@ -165,7 +165,7 @@ public class MoodTrigger
 			return "";
 		}
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
 		Iterator actionIterator = existingActions.iterator();
 
@@ -284,6 +284,15 @@ public class MoodTrigger
 		}
 
 		return this.name.equals( mt.name );
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hash = 0;
+		hash += this.type != null ? this.type.hashCode() : 0;
+		hash += 31 * this.name != null ? this.name.hashCode() : 0;
+		return hash;
 	}
 
 	public void execute( final int multiplicity )

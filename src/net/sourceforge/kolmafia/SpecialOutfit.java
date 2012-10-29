@@ -204,6 +204,12 @@ public class SpecialOutfit
 		return this.outfitName.equalsIgnoreCase( ( (SpecialOutfit) o ).outfitName );
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return this.outfitId;
+	}
+
 	public int compareTo( final SpecialOutfit o )
 	{
 		if ( o == null || !( o instanceof SpecialOutfit ) )

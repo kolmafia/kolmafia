@@ -651,6 +651,12 @@ public abstract class StoreManager
 			return o != null && o instanceof SoldItem && ( (SoldItem) o ).itemId == this.itemId;
 		}
 
+		@Override
+		public int hashCode()
+		{
+			return this.itemId;
+		}
+
 		public int compareTo( final Object o )
 		{
 			if ( o == null || !( o instanceof SoldItem ) )

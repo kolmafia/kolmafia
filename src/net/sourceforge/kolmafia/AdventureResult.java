@@ -602,7 +602,7 @@ public class AdventureResult
 	{
 		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
 
-		StringBuffer nameBuilder = new StringBuffer( parsedItem.nextToken().trim() );
+		StringBuilder nameBuilder = new StringBuilder( parsedItem.nextToken().trim() );
 		int count = 1;
 		while ( parsedItem.hasMoreTokens() )
 		{

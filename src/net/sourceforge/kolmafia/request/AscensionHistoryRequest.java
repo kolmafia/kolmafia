@@ -510,7 +510,7 @@ public class AscensionHistoryRequest
 			}
 
 			this.stringForm = new StringBuffer();
-			this.stringForm.append( "<tr><td><a href=\"ascensions/" + ClanManager.getURLName( this.playerName ) + "\"><b>" );
+			this.stringForm.append( "<tr><td><a href=\"ascensions/" ).append( ClanManager.getURLName( this.playerName ) ).append( "\"><b>" );
 			this.stringForm.append( this.playerName );
 			this.stringForm.append( "</b></a>&nbsp;(" );
 
@@ -603,6 +603,12 @@ public class AscensionHistoryRequest
 		public boolean equals( final Object o )
 		{
 			return o != null && o instanceof AscensionDataField && this.playerId.equals( ( (AscensionDataField) o ).playerId );
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return this.playerId != null ? this.playerId.hashCode() : 0;
 		}
 
 		public boolean matchesFilter( final boolean isSoftcore, final int pathFilter, final int classFilter,

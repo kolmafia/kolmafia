@@ -431,6 +431,12 @@ public class CoinmasterData
 		return o != null && o instanceof CoinmasterData && this.master == ( (CoinmasterData) o ).master;
 	}
 
+	@Override
+	public int hashCode()
+	{
+		return this.master != null ? this.master.hashCode() : 0;
+	}
+
 	public int compareTo( final CoinmasterData cd )
 	{
 		return this.master.compareToIgnoreCase( cd.master );

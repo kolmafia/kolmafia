@@ -200,6 +200,12 @@ public class BuffBotHome
 		{
 			return this.name.equalsIgnoreCase( ( (BuffRecord) o ).name );
 		}
+
+		@Override
+		public int hashCode()
+		{
+			return this.name != null ? this.name.hashCode() : 0;
+		}
 	}
 
 	/**

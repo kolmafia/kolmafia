@@ -54,54 +54,49 @@ public class AccountRequest
 	private static final Pattern SELECTED_PATTERN =
 		Pattern.compile( "selected=\"selected\" value=\"?(\\d+)\"?>" );
 
-	public static final int ALL = 0;
-	public static final int INTERFACE = 1;
-	public static final int INVENTORY = 2;
-	public static final int CHAT = 3;
-	public static final int COMBAT = 4;
-	public static final int ACCOUNT = 5;
-	public static final int PROFILE = 6;
-	public static final int PRIVACY = 7;
+	public enum Tab
+	{
+		ALL( null ),
+		INTERFACE( "interface" ),
+		INVENTORY( "inventory" ),
+		CHAT( "chat" ),
+		COMBAT( "combat" ),
+		ACCOUNT( "account" ),
+		PROFILE( "profile" ),
+		PRIVACY( "privacy" ),
+		NONE( null );
 
-	private int tab;
+		private final String name;
+
+		private Tab( String name )
+		{
+			this.name = name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return this.name;
+		}
+	}
+
+	private Tab tab;
 
 	public AccountRequest()
 	{
-		this( ALL );
+		this( Tab.ALL );
 	}
 
-	public AccountRequest( final int tab )
+	public AccountRequest( final Tab tab )
 	{
 		super( "account.php" );
 		this.tab = tab;
 
-		String field = getTabField( tab );
+		String field = tab.toString();
 		if ( field != null )
 		{
 			this.addFormField( "tab", field );
 		}
-	}
-
-	private static final String getTabField( final int tab )
-	{
-		switch ( tab )
-		{
-		case INTERFACE:
-			return "interface";
-		case INVENTORY:
-			return "inventory";
-		case CHAT:
-			return "chat";
-		case COMBAT:
-			return "combat";
-		case ACCOUNT:
-			return "account";
-		case PROFILE:
-			return "profile";
-		case PRIVACY:
-			return "privacy";
-		}
-		return null;
 	}
 
 	private static final Pattern TAB_PATTERN =
@@ -109,11 +104,11 @@ public class AccountRequest
 	private static final Pattern LOADTAB_PATTERN =
 		Pattern.compile( "action=loadtab&value=([^&]*)" );
 
-	private static final int getTab( final String urlString )
+	private static final Tab getTab( final String urlString )
 	{
 		if ( urlString.equals( "account.php" ) )
 		{
-			return AccountRequest.INTERFACE;
+			return Tab.INTERFACE;
 		}
 
 		Matcher m = TAB_PATTERN.matcher( urlString );
@@ -122,41 +117,20 @@ public class AccountRequest
 			m = LOADTAB_PATTERN.matcher( urlString );
 			if ( !m.find() )
 			{
-				return -1;
+				return Tab.NONE;
 			}
 		}
 
 		String tabName = m.group(1);
-		if ( tabName.equals( "interface" ) )
+		for ( Tab tab : Tab.values() )
 		{
-			return INTERFACE;
+			if ( tabName.equals( tab.toString() ) )
+			{
+				return tab;
+			}
 		}
-		if ( tabName.equals( "inventory" ) )
-		{
-			return INVENTORY;
-		}
-		if ( tabName.equals( "chat" ) )
-		{
-			return CHAT;
-		}
-		if ( tabName.equals( "combat" ) )
-		{
-			return COMBAT;
-		}
-		if ( tabName.equals( "account" ) )
-		{
-			return ACCOUNT;
-		}
-		if ( tabName.equals( "profile" ) )
-		{
-			return PROFILE;
-		}
-		if ( tabName.equals( "privacy" ) )
-		{
-			return PRIVACY;
-		}
-
-		return -1;
+		
+		return Tab.NONE;
 	}
 
 	@Override
@@ -168,15 +142,15 @@ public class AccountRequest
 	@Override
 	public void run()
 	{
-		if ( this.tab == ALL )
+		if ( this.tab == Tab.ALL )
 		{
-			RequestThread.postRequest( new AccountRequest( INTERFACE ) );
-			RequestThread.postRequest( new AccountRequest( INVENTORY ) );
-			// RequestThread.postRequest( new AccountRequest ( CHAT ) );
-			RequestThread.postRequest( new AccountRequest( COMBAT ) );
-			RequestThread.postRequest( new AccountRequest( ACCOUNT ) );
-			// RequestThread.postRequest( new AccountRequest ( PROFILE ) );
-			// RequestThread.postRequest( new AccountRequest ( PRIVACY ) );
+			RequestThread.postRequest( new AccountRequest( Tab.INTERFACE ) );
+			RequestThread.postRequest( new AccountRequest( Tab.INVENTORY ) );
+			// RequestThread.postRequest( new AccountRequest ( Tab.CHAT ) );
+			RequestThread.postRequest( new AccountRequest( Tab.COMBAT ) );
+			RequestThread.postRequest( new AccountRequest( Tab.ACCOUNT ) );
+			// RequestThread.postRequest( new AccountRequest ( Tab.PROFILE ) );
+			// RequestThread.postRequest( new AccountRequest ( Tab.PRIVACY ) );
 		}
 		else
 		{
