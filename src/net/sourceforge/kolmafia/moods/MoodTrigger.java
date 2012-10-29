@@ -291,7 +291,7 @@ public class MoodTrigger
 	{
 		int hash = 0;
 		hash += this.type != null ? this.type.hashCode() : 0;
-		hash += 31 * this.name != null ? this.name.hashCode() : 0;
+		hash += 31 * (this.name != null ? this.name.hashCode() : 0);
 		return hash;
 	}
 
