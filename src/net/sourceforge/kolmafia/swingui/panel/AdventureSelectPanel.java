@@ -262,11 +262,14 @@ public class AdventureSelectPanel
 			return;
 		}
 
-		this.locationSelect.setSelectedValue( location, true );
-		this.locationSelect.ensureIndexIsVisible( this.locationSelect.getSelectedIndex() );
+		synchronized ( this.locationSelect )
+		{
+			this.locationSelect.setSelectedValue( location, true );
+			this.locationSelect.ensureIndexIsVisible( this.locationSelect.getSelectedIndex() );
+		}
 	}
 
-	public void addSelectedLocationListener( final ListSelectionListener listener )
+	public synchronized void addSelectedLocationListener( final ListSelectionListener listener )
 	{
 		this.locationSelect.addListSelectionListener( listener );
 	}
