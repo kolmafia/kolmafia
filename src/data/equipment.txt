@@ -202,6 +202,7 @@ seal-skull helmet	10	none
 sealhide hood	160	Mox: 65
 sequined fez	80	Mox: 25
 shapeless wide-brimmed hat	200	Mox: 200
+silent beret	13	none
 sinister demon mask	100	Mox: 35
 skeletortoise	30	none
 sleep mask	150	Mox: 60
