@@ -5991,3 +5991,4 @@
 5974	record of tranquil silence (used)	461968850	record.gif	usable		0
 5975	record of menacing silence	477678639	record.gif	usable	t	0
 5976	record of menacing silence (used)	126984084	record.gif	usable		0
+5977	silent beret	553150840	mimeberet.gif	hat	t	0

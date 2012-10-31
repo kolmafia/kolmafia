@@ -269,6 +269,7 @@ seal-skull helmet	Weapon Damage: +1, Familiar Effect: "atk, cap 2"
 sealhide hood	Initiative: +20, Familiar Effect: "atk, 1xBarrr, cap 40"
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
+silent beret	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Initiative: -50, Combat Rate: -5
 sinister demon mask	Spooky Damage: +25, HP Regen Min: 10, HP Regen Max: 25, Food Drop: +25
 skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 # sleep mask: Can't see nothin'

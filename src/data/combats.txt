@@ -205,7 +205,7 @@ The Brinier Deepers	100	Bazookafish	Clubfish	Scimitarfish
 The Briniest Deepests	100	Acoustic Electric Eel	Decent White Shark	Ganger
 The Broodling Grounds	100	hellseal pup	mother hellseal: 0
 The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons	Rene C. Corman
-The Clumsiness Grove	100	The Sorrowful Hickory	The Suffering Juniper	The Tormented Baobab	The Whimpering Willow	The Woeful Magnolia	The Bat in the Spats (0)	The Thorax (0)
+The Clumsiness Grove	100	Sorrowful Hickory	Suffering Juniper	Tormented Baobab	Whimpering Willow	Woeful Magnolia	The Bat in the Spats (0)	The Thorax (0)
 The Dive Bar	100	Lounge Lizardfish	Mer-kin tippler	Nurse Shark
 The Domed City of Ronaldus	100	Dogcat	Ferrelf	Hamsterpus	Overarmed Survivor	Primitive Survivor	Unlikely Survivor
 The Domed City of Grimacia	100	Alielf	Cat-Alien	Dog-Alien	Grizzled Survivor	Unhinged Survivor	Whiny Survivor
@@ -218,7 +218,7 @@ The Maelstrom of Lovers	100	Bettie Barulio	Marcus Macurgeon	Marvin J. Sunny	Mort
 The Marinara Trench	95	Diving Belle	Fisherfish	Giant Squid	Mer-kin Diver
 The Mer-Kin Outpost	100	Mer-kin Burglar	Mer-kin Healer	Mer-kin Raider
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
-The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal: 0	warehouse worker	Stella, the Turtle Poacher: 0	evil spaghetti cult zealot	Spaghetti Elemental: 0	security slime	Lumpy, the Sinister Sauceblob: 0	daft punk	The Spirit of New Wave: 0	mariachi bruiser	Somerset Lopez, Dread Mariachi: 0
+The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanctum): 0	warehouse worker	Stella, the Turtle Poacher (Inner Sanctum): 0	evil spaghetti cult zealot	Spaghetti Elemental (Inner Sanctum): 0	security slime	Lumpy, the Sinister Sauceblob (Inner Sanctum): 0	daft punk	The Spirit of New Wave (Inner Sanctum): 0	mariachi bruiser	Somerset Lopez, Dread Mariachi (Inner Sanctum): 0
 The Outer Compound	100	guard turtle
 The Primordial Soup	-1	Cluster of Angry Bacteria	Corrosive Algae	Hostile Amoeba	Mad Flagellate	Violent Fungus	Cyrus the Virus: 0
 The Purple Light District	-1	Sleaze Hobo	Chester: 0
