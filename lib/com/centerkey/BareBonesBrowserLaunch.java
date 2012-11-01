@@ -142,17 +142,14 @@ public class BareBonesBrowserLaunch
 				}
 			}
 
-			if ( loadAWTDesktopBrowser( url ) )
-			{
-				return;
-			}
-
 			try
 			{
 				Process process = runtime.exec( new String[] { "cmd.exe", "/c", browser, url } );
 
 				process.waitFor();
 				process.exitValue();
+
+				return;
 			}
 			catch ( Exception e )
 			{
