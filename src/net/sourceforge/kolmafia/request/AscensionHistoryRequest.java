@@ -47,7 +47,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
@@ -133,7 +132,7 @@ public class AscensionHistoryRequest
 
 	private String getBackupFileData()
 	{
-		File clan = new File( UtilityConstants.ROOT_LOCATION, "clan" );
+		File clan = new File( KoLConstants.ROOT_LOCATION, "clan" );
 		if ( !clan.exists() )
 		{
 			return "";

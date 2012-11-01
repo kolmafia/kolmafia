@@ -42,7 +42,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -68,7 +67,7 @@ public class VersionDataPanel
 		" ",
 		"Current Running on " + System.getProperty( "os.name" ),
 		"Local Directory is " + System.getProperty( "user.dir" ),
-		"Settings in " + UtilityConstants.ROOT_LOCATION.getAbsolutePath(),
+		"Settings in " + KoLConstants.ROOT_LOCATION.getAbsolutePath(),
 		"Using Java v" + System.getProperty( "java.runtime.version" )
 	};
 

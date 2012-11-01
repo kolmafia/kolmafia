@@ -49,7 +49,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
@@ -78,7 +77,7 @@ public class MallPriceDatabase
 	private static int updatePrices( String filename, boolean allowOverride )
 	{
 		BufferedReader reader = DataUtilities.getReader(
-			UtilityConstants.DATA_DIRECTORY, filename, allowOverride );
+			KoLConstants.DATA_DIRECTORY, filename, allowOverride );
 
 		String line = FileUtilities.readLine( reader );
 		if ( line == null )
@@ -208,7 +207,7 @@ public class MallPriceDatabase
 
 	private static void writePrices()
 	{
-		File output = new File( UtilityConstants.DATA_LOCATION, "mallprices.txt" );
+		File output = new File( KoLConstants.DATA_LOCATION, "mallprices.txt" );
 		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.MALLPRICES_VERSION );
 
@@ -256,7 +255,7 @@ public class MallPriceDatabase
 			w.write( "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n" );
 
 			BufferedReader reader = DataUtilities.getReader(
-				UtilityConstants.DATA_DIRECTORY, "mallprices.txt", true );
+				KoLConstants.DATA_DIRECTORY, "mallprices.txt", true );
 			String line;
 			while ( (line = FileUtilities.readLine( reader )) != null )
 			{

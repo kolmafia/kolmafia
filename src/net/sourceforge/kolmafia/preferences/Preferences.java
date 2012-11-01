@@ -49,7 +49,6 @@ import java.util.Properties;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 
@@ -89,7 +88,7 @@ public class Preferences
 	{
 		initializeMaps();
 
-		Preferences.globalPropertiesFile = new File( UtilityConstants.SETTINGS_LOCATION,
+		Preferences.globalPropertiesFile = new File( KoLConstants.SETTINGS_LOCATION,
 			Preferences.baseUserName( "" ) + "_prefs.txt" );
 
 		Preferences.globalValues.clear();
@@ -120,7 +119,7 @@ public class Preferences
 			return;
 		}
 
-		Preferences.userPropertiesFile = new File( UtilityConstants.SETTINGS_LOCATION,
+		Preferences.userPropertiesFile = new File( KoLConstants.SETTINGS_LOCATION,
 			Preferences.baseUserName( username ) + "_prefs.txt" );
 
 		Preferences.userValues.clear();

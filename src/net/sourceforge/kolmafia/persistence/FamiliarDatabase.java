@@ -48,7 +48,6 @@ import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -513,7 +512,7 @@ public class FamiliarDatabase
 
 	public static final void saveDataOverride()
 	{
-		FamiliarDatabase.writeFamiliars( new File( UtilityConstants.DATA_LOCATION, "familiars.txt" ) );
+		FamiliarDatabase.writeFamiliars( new File( KoLConstants.DATA_LOCATION, "familiars.txt" ) );
 		FamiliarDatabase.newFamiliars = false;
 	}
 

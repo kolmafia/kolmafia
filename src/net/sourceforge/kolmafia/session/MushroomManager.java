@@ -42,8 +42,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -792,7 +790,7 @@ public abstract class MushroomManager
 
 	private static final void copyMushroomImage( final String location )
 	{
-		File source = new File( UtilityConstants.IMAGE_LOCATION, location );
+		File source = new File( KoLConstants.IMAGE_LOCATION, location );
 		File destination = new File( KoLConstants.PLOTS_LOCATION + "/" + location );
 
 		FileUtilities.copyFile( source, destination );

@@ -42,11 +42,11 @@ import java.util.Date;
 
 import javax.swing.SwingUtilities;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
+
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.StaticEntity;
-
-import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class LogStream
 	extends PrintStream
@@ -56,7 +56,7 @@ public class LogStream
 
 	public static final PrintStream openStream( final String filename, final boolean forceNewFile )
 	{
-		return LogStream.openStream( new File( UtilityConstants.ROOT_LOCATION, filename ), forceNewFile );
+		return LogStream.openStream( new File( KoLConstants.ROOT_LOCATION, filename ), forceNewFile );
 	}
 
 	public static final PrintStream openStream( final File file, final boolean forceNewFile )

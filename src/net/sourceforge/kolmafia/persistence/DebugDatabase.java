@@ -52,8 +52,6 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
@@ -1239,7 +1237,7 @@ public class DebugDatabase
 
 	private static final PrintStream openReport( final String fileName )
 	{
-		return LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, fileName ), true );
+		return LogStream.openStream( new File( KoLConstants.DATA_LOCATION, fileName ), true );
 	}
 
 	private static final void loadScrapeData( final StringArray array, final String fileName )
@@ -1251,7 +1249,7 @@ public class DebugDatabase
 
 		try
 		{
-			File saveData = new File( UtilityConstants.DATA_LOCATION, fileName );
+			File saveData = new File( KoLConstants.DATA_LOCATION, fileName );
 			if ( !saveData.exists() )
 			{
 				return;
@@ -1289,7 +1287,7 @@ public class DebugDatabase
 
 	private static final void saveScrapeData( final Iterator<Integer> it, final StringArray array, final String fileName )
 	{
-		File file = new File( UtilityConstants.DATA_LOCATION, fileName );
+		File file = new File( KoLConstants.DATA_LOCATION, fileName );
 		PrintStream livedata = LogStream.openStream( file, true );
 
 		while ( it.hasNext() )
@@ -1316,7 +1314,7 @@ public class DebugDatabase
 	public static final void checkPlurals( int itemId )
 	{
 		RequestLogger.printLine( "Checking plurals..." );
-		PrintStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "plurals.txt" ), true );
+		PrintStream report = LogStream.openStream( new File( KoLConstants.DATA_LOCATION, "plurals.txt" ), true );
 
 		if ( itemId == 0 )
 		{
@@ -1658,7 +1656,7 @@ public class DebugDatabase
 	{
 		RequestLogger.printLine( "Checking consumption data..." );
 
-		PrintStream writer = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "consumption.txt" ), true );
+		PrintStream writer = LogStream.openStream( new File( KoLConstants.DATA_LOCATION, "consumption.txt" ), true );
 
 		DebugDatabase.checkEpicure( writer );
 		DebugDatabase.checkMixologist( writer );
@@ -1901,7 +1899,7 @@ public class DebugDatabase
 	{
 		RequestLogger.printLine( "Checking pulverization data..." );
 
-		PrintStream writer = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "pulvereport.txt" ), true );
+		PrintStream writer = LogStream.openStream( new File( KoLConstants.DATA_LOCATION, "pulvereport.txt" ), true );
 
 		DebugDatabase.checkAnvil( writer );
 
@@ -2202,7 +2200,7 @@ public class DebugDatabase
 	public static final void checkZapGroups()
 	{
 		RequestLogger.printLine( "Checking zap groups..." );
-		PrintStream report = LogStream.openStream( new File( UtilityConstants.DATA_LOCATION, "zapreport.txt" ), true );
+		PrintStream report = LogStream.openStream( new File( KoLConstants.DATA_LOCATION, "zapreport.txt" ), true );
 
 		String[] groups = DebugDatabase.ZAPGROUP_PATTERN.split(
 			DebugDatabase.readWikiData( "Zapping" ) );

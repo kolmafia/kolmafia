@@ -48,7 +48,8 @@ import java.util.StringTokenizer;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
+
+import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -238,7 +239,7 @@ public abstract class StaticEntity
 			{
 				try
 				{
-					FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.dll" );
+					FileUtilities.loadLibrary( KoLConstants.IMAGE_LOCATION, "", "TrayIcon12.dll" );
 					StaticEntity.usesSystemTray = 1;
 				}
 				catch ( Exception e )
@@ -694,7 +695,7 @@ public abstract class StaticEntity
 				{
 					++fileIndex;
 					jmapFileName = "kolmafia" + fileIndex + ".hprof";
-					jmapFile = new File( UtilityConstants.ROOT_LOCATION, jmapFileName );
+					jmapFile = new File( KoLConstants.ROOT_LOCATION, jmapFileName );
 				}
 				while ( jmapFile.exists() );
 
@@ -703,7 +704,7 @@ public abstract class StaticEntity
 
 			command[ 2 ] = pid;
 
-			Process process = runtime.exec( command, new String[ 0 ], UtilityConstants.ROOT_LOCATION );
+			Process process = runtime.exec( command, new String[ 0 ], KoLConstants.ROOT_LOCATION );
 
 			BufferedReader reader = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
 
@@ -766,7 +767,7 @@ public abstract class StaticEntity
 		ArrayList<String> pastUserList = new ArrayList<String>();
 
 		String user;
-		File[] files = DataUtilities.listFiles( UtilityConstants.SETTINGS_LOCATION );
+		File[] files = DataUtilities.listFiles( KoLConstants.SETTINGS_LOCATION );
 
 		for ( int i = 0; i < files.length; ++i )
 		{

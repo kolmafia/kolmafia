@@ -50,9 +50,8 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.java.dev.spellcast.utilities.UtilityConstants;
-import net.sourceforge.kolmafia.KoLCharacter;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -265,9 +264,9 @@ public abstract class ClanManager
 			currentAscensionData = (String) ClanManager.ascensionMap.get( names[ i ] );
 
 			filename = ClanManager.getFileName( names[ i ] );
-			profile = new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "profiles/" + filename );
+			profile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "profiles/" + filename );
 			ascensionData =
-				new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "ascensions/" + filename );
+				new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "ascensions/" + filename );
 
 			if ( retrieveProfileData )
 			{
@@ -347,7 +346,7 @@ public abstract class ClanManager
 	{
 		File profile =
 			new File(
-				UtilityConstants.ROOT_LOCATION,
+				KoLConstants.ROOT_LOCATION,
 				ClanManager.snapshotFolder + "profiles/" + ClanManager.getFileName( name ) );
 
 		if ( profile.exists() )
@@ -408,7 +407,7 @@ public abstract class ClanManager
 	{
 		File ascension =
 			new File(
-				UtilityConstants.ROOT_LOCATION,
+				KoLConstants.ROOT_LOCATION,
 				ClanManager.snapshotFolder + "ascensions/" + ClanManager.getFileName( name ) );
 
 		if ( ascension.exists() )
@@ -510,10 +509,10 @@ public abstract class ClanManager
 	{
 		ClanManager.retrieveClanData();
 
-		File standardFile = new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "standard.htm" );
-		File softcoreFile = new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "softcore.htm" );
-		File hardcoreFile = new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "hardcore.htm" );
-		File sortingScript = new File( UtilityConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "sorttable.js" );
+		File standardFile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "standard.htm" );
+		File softcoreFile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "softcore.htm" );
+		File hardcoreFile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "hardcore.htm" );
+		File sortingScript = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "sorttable.js" );
 
 		// If initialization was unsuccessful, then there isn't
 		// enough data to create a clan ProfileSnapshot.

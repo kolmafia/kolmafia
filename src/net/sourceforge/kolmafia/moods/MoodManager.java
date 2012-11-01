@@ -45,7 +45,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -99,7 +98,7 @@ public abstract class MoodManager
 
 	public static final File getFile()
 	{
-		return new File( UtilityConstants.SETTINGS_LOCATION, KoLCharacter.baseUserName() + "_moods.txt" );
+		return new File( KoLConstants.SETTINGS_LOCATION, KoLCharacter.baseUserName() + "_moods.txt" );
 	}
 
 	public static final boolean isExecuting()

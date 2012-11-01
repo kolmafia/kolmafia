@@ -39,8 +39,6 @@ import java.io.PrintStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -141,7 +139,7 @@ public class OceanManager
 			if ( save )
 			{
 				// Save the response Text
-				File output = new File( UtilityConstants.DATA_LOCATION, "ocean.html" );
+				File output = new File( KoLConstants.DATA_LOCATION, "ocean.html" );
 				PrintStream writer = LogStream.openStream( output, false );
 
 				// Trim to contain only HTML body

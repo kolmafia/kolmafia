@@ -48,7 +48,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -67,7 +66,7 @@ public class CustomItemDatabase
 	extends Properties
 {
 	private static final CustomItemDatabase INSTANCE = new CustomItemDatabase();
-	private static final File KILT_FILE = new File( UtilityConstants.DATA_LOCATION, "tehkilt.txt" );
+	private static final File KILT_FILE = new File( KoLConstants.DATA_LOCATION, "tehkilt.txt" );
 
 	private static final Pattern EQUIP_PATTERN =
 		Pattern.compile( "<tr><td width=30 height=30><img src=\"[^\"]+\" class=hand onClick='descitem\\(\\d+\\)'></td><td valign=center><b>([^<]+)</b></td></tr>" );
