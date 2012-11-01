@@ -77,7 +77,6 @@ public interface KoLConstants
 
 	public static final Random RNG = new Random();
 	public static final Font DEFAULT_FONT = ( new JTextField() ).getFont();
-	public static final String LINE_BREAK = System.getProperty( "line.separator" );
 	public static final Pattern LINE_BREAK_PATTERN = Pattern.compile( "\\s*[\r\n]+\\s*" );
 
 	public static final Pattern ANYTAG_PATTERN = Pattern.compile( "<.*?>" );
@@ -293,15 +292,15 @@ public interface KoLConstants
 	public static final String RELAY_DIRECTORY = "relay/";
 
 	public static final File BUFFBOT_LOCATION =
-		new File( UtilityConstants.ROOT_LOCATION, KoLConstants.BUFFBOT_DIRECTORY );
-	public static final File CCS_LOCATION = new File( UtilityConstants.ROOT_LOCATION, KoLConstants.CCS_DIRECTORY );
+		new File( KoLConstants.ROOT_LOCATION, KoLConstants.BUFFBOT_DIRECTORY );
+	public static final File CCS_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.CCS_DIRECTORY );
 	public static final File CHATLOG_LOCATION =
-		new File( UtilityConstants.ROOT_LOCATION, KoLConstants.CHATLOG_DIRECTORY );
-	public static final File PLOTS_LOCATION = new File( UtilityConstants.ROOT_LOCATION, KoLConstants.PLOTS_DIRECTORY );
-	public static final File SCRIPT_LOCATION = new File( UtilityConstants.ROOT_LOCATION, KoLConstants.SCRIPT_DIRECTORY );
+		new File( KoLConstants.ROOT_LOCATION, KoLConstants.CHATLOG_DIRECTORY );
+	public static final File PLOTS_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.PLOTS_DIRECTORY );
+	public static final File SCRIPT_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.SCRIPT_DIRECTORY );
 	public static final File SESSIONS_LOCATION =
-		new File( UtilityConstants.ROOT_LOCATION, KoLConstants.SESSIONS_DIRECTORY );
-	public static final File RELAY_LOCATION = new File( UtilityConstants.ROOT_LOCATION, KoLConstants.RELAY_DIRECTORY );
+		new File( KoLConstants.ROOT_LOCATION, KoLConstants.SESSIONS_DIRECTORY );
+	public static final File RELAY_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.RELAY_DIRECTORY );
 
 	// All data files that can be overridden
 

@@ -36,7 +36,13 @@ package net.java.dev.spellcast.utilities;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.SystemColor;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -61,7 +67,6 @@ public class LicenseDisplay
 	public static final int IMAGE_FILE = 1;
 
 	private final String[] fileNames;
-	private final int[] fileTypes;
 	private final CardLayout cards;
 	private final JPanel content;
 	private final JList listing;
@@ -78,13 +83,6 @@ public class LicenseDisplay
 		this.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
 
 		this.fileNames = fileNames;
-
-		this.fileTypes = new int[ fileNames.length ];
-		for ( int i = 0; i < fileNames.length; ++i )
-		{
-			this.fileTypes[ i ] =
-				fileNames[ i ].endsWith( ".txt" ) || fileNames[ i ].endsWith( ".htm" ) || fileNames[ i ].endsWith( ".html" ) ? LicenseDisplay.DATA_FILE : LicenseDisplay.IMAGE_FILE;
-		}
 
 		this.cards = new CardLayout( 5, 5 );
 		this.content = new JPanel( this.cards );
@@ -107,10 +105,23 @@ public class LicenseDisplay
 
 		for ( int i = 0; i < fileNames.length; ++i )
 		{
+			JComponent licenseDisplay = null;
+			String fileName = fileNames[ i ];
+
+			if ( fileName.endsWith( ".txt" ) || fileName.endsWith( ".htm" ) || fileName.endsWith( ".html" ) )
+			{
+				licenseDisplay = getEditorDisplay( fileName );
+			}
+			else
+			{
+				licenseDisplay = getImageDisplay( fileName );
+			}
+
 			JComponent nextLicense =
 				new JScrollPane(
-					this.getLicenseDisplay( i ), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+					licenseDisplay, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER );
+
 			JComponentUtilities.setComponentSize( nextLicense, 540, 400 );
 
 			model.add( tabNames[ i ] );
@@ -144,117 +155,108 @@ public class LicenseDisplay
 		}
 	}
 
-	private JComponent getLicenseDisplay( final int index )
+	private JComponent getEditorDisplay( final String fileName )
 	{
-		JComponent licenseDisplay = null;
+		BufferedReader buf = DataUtilities.getReader( "licenses", fileName );
 
-		switch ( this.fileTypes[ index ] )
+		// in the event that the license display could not be found, return a blank
+		// label indicating that the license could not be found
+
+		if ( buf == null )
 		{
-		case DATA_FILE:
+			return this.getNoLicenseNotice();
+		}
+
+		JEditorPane licenseDisplay = new JEditorPane();
+		boolean plainText = fileName.endsWith( ".txt" );
+
+		StringBuilder licenseText = new StringBuilder();
+		String line;
+
+		try
 		{
-			licenseDisplay = new JEditorPane();
-			java.io.BufferedReader buf = DataUtilities.getReader( "licenses", this.fileNames[ index ] );
-
-			boolean plainText = this.fileNames[ index ].endsWith( ".txt" );
-
-
-			// in the event that the license display could not be found, return a blank
-			// label indicating that the license could not be found
-			if ( buf == null )
+			while ( ( line = buf.readLine() ) != null )
 			{
-				return this.getNoLicenseNotice();
-			}
+				int start = 0;
 
-			StringBuilder licenseText = new StringBuilder();
-			String line;
-
-			try
-			{
-				while ( ( line = buf.readLine() ) != null )
+				if ( plainText )
 				{
-					int start = 0;
+					int end = line.indexOf( '<' );
 
-					if ( plainText )
+					while ( end != -1 )
 					{
-						int end = line.indexOf( '<' );
+						licenseText.append( line.substring( start, end ) );
+						licenseText.append( "&lt;" );
 
-						while ( end != -1 )
+						start = end + 1;
+
+						if ( start == line.length() )
 						{
-							licenseText.append( line.substring( start, end ) );
-							licenseText.append( "&lt;" );
-
-							start = end + 1;
-
-							if ( start == line.length() )
-							{
-								break;
-							}
-
-							end = line.indexOf( '<', start );
+							break;
 						}
-					}
 
-					if ( start < line.length() )
-					{
-						licenseText.append( line.substring( start ) );
+						end = line.indexOf( '<', start );
 					}
-
-					licenseText.append( System.getProperty( "line.separator" ) );
 				}
-			}
-			catch ( java.io.IOException e )
-			{
-			}
 
-			if ( plainText )
-			{
-				licenseText.insert( 0, "<blockquote><pre style=\"font-family: Verdana; font-size: small\">" );
-				licenseText.append( "</pre></blockquote>" );
-			}
-			else
-			{
-				licenseText.insert( 0, "<blockquote style=\"font-family: Verdana; font-size: small\">" );
-				licenseText.append( "</blockquote>" );
-			}
-
-			( (JEditorPane) licenseDisplay ).setContentType( "text/html" );
-			( (JEditorPane) licenseDisplay ).setText( licenseText.toString() );
-			( (JEditorPane) licenseDisplay ).setCaretPosition( 0 );
-			( (JEditorPane) licenseDisplay ).setEditable( false );
-			( (JEditorPane) licenseDisplay ).addHyperlinkListener( new HyperlinkAdapter() );
-
-			break;
-		}
-		case IMAGE_FILE:
-		{
-			try
-			{
-				javax.swing.ImageIcon licenseImage = JComponentUtilities.getImage( "licenses", this.fileNames[ index ] );
-				if ( licenseImage == null )
+				if ( start < line.length() )
 				{
-					return this.getNoLicenseNotice();
+					licenseText.append( line.substring( start ) );
 				}
 
-				licenseDisplay = new JLabel( licenseImage );
-				break;
-			}
-			catch ( Exception e )
-			{
-				System.out.println( e );
-				e.printStackTrace();
+				licenseText.append( UtilityConstants.LINE_BREAK );
 			}
 		}
+		catch ( IOException e )
+		{
 		}
+
+		if ( plainText )
+		{
+			licenseText.insert( 0, "<blockquote><pre style=\"font-family: Verdana; font-size: small\">" );
+			licenseText.append( "</pre></blockquote>" );
+		}
+		else
+		{
+			licenseText.insert( 0, "<blockquote style=\"font-family: Verdana; font-size: small\">" );
+			licenseText.append( "</blockquote>" );
+		}
+
+		licenseDisplay.setContentType( "text/html" );
+		licenseDisplay.setText( licenseText.toString() );
+		licenseDisplay.setCaretPosition( 0 );
+		licenseDisplay.setEditable( false );
+		licenseDisplay.addHyperlinkListener( new HyperlinkAdapter() );
 
 		return licenseDisplay;
+	}
+
+	private JComponent getImageDisplay( final String fileName )
+	{
+		try
+		{
+			ImageIcon licenseImage = JComponentUtilities.getImage( "licenses", fileName );
+
+			if ( licenseImage != null )
+			{
+				return new JLabel( licenseImage );
+			}
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
+		}
+
+		return this.getNoLicenseNotice();
 	}
 
 	private JComponent getNoLicenseNotice()
 	{
 		JLabel noLicenseNotice =
 			JComponentUtilities.createLabel(
-				"No license could be found", SwingConstants.CENTER, java.awt.SystemColor.activeCaption,
-				java.awt.Color.white );
+				"No license could be found", SwingConstants.CENTER, SystemColor.activeCaption,
+				Color.white );
+
 		return noLicenseNotice;
 	}
 
