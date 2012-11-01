@@ -2679,7 +2679,7 @@ Billiards Belligerence	Weapon Damage Percent: +50, Familiar Weight: +5
 # Biologically Shocked: Unleash strange forces in combat
 Bitterskin	Slime Hates It: +1
 Black Face	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
-Black Tongue	Familiar Weight: +5, Experience: +3, Meat Drop: +30, Item Drop: +30, HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20, Experience (familiar): +2
+Black Tongue	Familiar Weight: +5, Experience: +3, Meat Drop: +50, Item Drop: +30, HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20, Experience (familiar): +2
 Blackberry Politeness	Meat Drop: +20
 # Blessed by the RNG: ???
 Blessing of Bulbazinalli	Damage Reduction: 10
