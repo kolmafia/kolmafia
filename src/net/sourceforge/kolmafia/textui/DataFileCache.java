@@ -45,7 +45,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 
@@ -80,7 +79,7 @@ public class DataFileCache
 		{
 			parents = new File[]
 			{
-				UtilityConstants.DATA_LOCATION
+				KoLConstants.DATA_LOCATION
 			};
 		}
 		else
@@ -89,8 +88,8 @@ public class DataFileCache
 			{
 				KoLConstants.SCRIPT_LOCATION,
 				KoLConstants.RELAY_LOCATION,
-				UtilityConstants.DATA_LOCATION,
-				UtilityConstants.ROOT_LOCATION
+				KoLConstants.DATA_LOCATION,
+				KoLConstants.ROOT_LOCATION
 			};
 		}
 

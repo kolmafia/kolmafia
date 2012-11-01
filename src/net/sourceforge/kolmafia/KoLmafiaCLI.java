@@ -43,7 +43,8 @@ import java.util.LinkedList;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
+
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.chat.ChatSender;
@@ -903,7 +904,7 @@ public class KoLmafiaCLI
 			return scriptFile.isDirectory() ? null : scriptFile;
 		}
 
-		scriptFile = new File( UtilityConstants.ROOT_LOCATION, filename );
+		scriptFile = new File( KoLConstants.ROOT_LOCATION, filename );
 		if ( scriptFile.exists() )
 		{
 			return scriptFile.isDirectory() ? null : scriptFile;

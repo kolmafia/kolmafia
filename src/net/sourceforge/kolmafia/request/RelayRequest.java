@@ -51,7 +51,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
@@ -530,7 +529,7 @@ public class RelayRequest
 		{
 			// Copy built-in override file to images
 			String filename = IMAGES[ i ];
-			File cachedFile = new File( UtilityConstants.ROOT_LOCATION, filename );
+			File cachedFile = new File( KoLConstants.ROOT_LOCATION, filename );
 			cachedFile.delete();
 		}
 	}
@@ -547,7 +546,7 @@ public class RelayRequest
 				{
 					// Copy built-in override file to images
 					int index = filename.lastIndexOf( "/" );
-					File cachedFile = new File( UtilityConstants.ROOT_LOCATION, filename.substring( 0, index ) );
+					File cachedFile = new File( KoLConstants.ROOT_LOCATION, filename.substring( 0, index ) );
 					String localname = filename.substring( index + 1 );
 					FileUtilities.loadLibrary( cachedFile, RelayRequest.OVERRIDE_DIRECTORY, localname );
 					break;

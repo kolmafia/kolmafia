@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -102,7 +100,7 @@ public class TestCommand
 			}
 
 			String fileName = split[ 1 ];
-			File file = new File( UtilityConstants.DATA_LOCATION, fileName );
+			File file = new File( KoLConstants.DATA_LOCATION, fileName );
 
 			if ( !file.exists() )
 			{

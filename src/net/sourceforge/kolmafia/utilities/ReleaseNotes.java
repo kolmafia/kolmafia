@@ -44,13 +44,12 @@ import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.sourceforge.kolmafia.KoLConstants;
 
 public class ReleaseNotes
 {
-	private static final String LINE_BREAK = System.getProperty( "line.separator" );
-	private static final File INPUT_LOCATION = new File( UtilityConstants.ROOT_LOCATION, "history.txt" );
-	private static final File OUTPUT_LOCATION = new File( UtilityConstants.ROOT_LOCATION, "release.txt" );
+	private static final File INPUT_LOCATION = new File( KoLConstants.ROOT_LOCATION, "history.txt" );
+	private static final File OUTPUT_LOCATION = new File( KoLConstants.ROOT_LOCATION, "release.txt" );
 	private static final String VIEW_REVISION_ROOT = "http://kolmafia.svn.sourceforge.net/viewvc/kolmafia?view=rev&revision=";
 
 	private	 static final Pattern REVISION_PATTERN = Pattern.compile( "r(\\d+)" ); 
@@ -150,13 +149,13 @@ public class ReleaseNotes
 			contents.append( "]" );
 			contents.append( revision );
 			contents.append( "[/url]" );
-			contents.append( LINE_BREAK );
+			contents.append( KoLConstants.LINE_BREAK );
 		}
 
 		public void addMessage( String message )
 		{
 			contents.append( message );
-			contents.append( LINE_BREAK );
+			contents.append( KoLConstants.LINE_BREAK );
 		}
 
 		@Override

@@ -81,7 +81,6 @@ import org.jdesktop.swingx.JXPanel;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -1579,14 +1578,14 @@ public class OptionsFrame
 			String helpText = "";
 			String path = null;
 
-			if ( UtilityConstants.USE_OSX_STYLE_DIRECTORIES )
+			if ( KoLConstants.USE_OSX_STYLE_DIRECTORIES )
 			{
 				button = false;
 				path = "/Applications";
 				helpText =
 					"If KoLmafia opens a browser other than your default, enter the name of your preferred browser here. The browser must be in your Applications directory";
 			}
-			else if ( UtilityConstants.USE_LINUX_STYLE_DIRECTORIES )
+			else if ( KoLConstants.USE_LINUX_STYLE_DIRECTORIES )
 			{
 				button = true;
 				path = "/";

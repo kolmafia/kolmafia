@@ -61,7 +61,8 @@ import apple.dts.samplecode.osxadapter.OSXAdapter;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
+
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -601,7 +602,7 @@ public abstract class KoLmafia
 
 		for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
 		{
-			File outdated = new File( UtilityConstants.DATA_LOCATION, KoLConstants.OVERRIDE_DATA[ i ] );
+			File outdated = new File( KoLConstants.DATA_LOCATION, KoLConstants.OVERRIDE_DATA[ i ] );
 			if ( outdated.exists() )
 			{
 				outdated.delete();
@@ -1046,27 +1047,27 @@ public abstract class KoLmafia
 	{
 		if ( ItemDatabase.newItems )
 		{
-			ItemDatabase.writeItems( new File( UtilityConstants.DATA_LOCATION, "items.txt" ) );
+			ItemDatabase.writeItems( new File( KoLConstants.DATA_LOCATION, "items.txt" ) );
 		}
 
 		if ( EquipmentDatabase.newEquipment )
 		{
-			EquipmentDatabase.writeEquipment( new File( UtilityConstants.DATA_LOCATION, "equipment.txt" ) );
+			EquipmentDatabase.writeEquipment( new File( KoLConstants.DATA_LOCATION, "equipment.txt" ) );
 		}
 
 		if ( EffectDatabase.newEffects )
 		{
-			EffectDatabase.writeEffects( new File( UtilityConstants.DATA_LOCATION, "statuseffects.txt" ) );
+			EffectDatabase.writeEffects( new File( KoLConstants.DATA_LOCATION, "statuseffects.txt" ) );
 		}
 
 		if ( ItemDatabase.newItems || EquipmentDatabase.newEquipment || EffectDatabase.newEffects)
 		{
-			Modifiers.writeModifiers( new File( UtilityConstants.DATA_LOCATION, "modifiers.txt" ) );
+			Modifiers.writeModifiers( new File( KoLConstants.DATA_LOCATION, "modifiers.txt" ) );
 		}
 
 		if ( FamiliarDatabase.newFamiliars )
 		{
-			FamiliarDatabase.writeFamiliars( new File( UtilityConstants.DATA_LOCATION, "familiars.txt" ) );
+			FamiliarDatabase.writeFamiliars( new File( KoLConstants.DATA_LOCATION, "familiars.txt" ) );
 		}
 	}
 
@@ -2037,7 +2038,7 @@ public abstract class KoLmafia
 	{
 		for ( int i = 0; i < KoLConstants.OVERRIDE_DATA.length; ++i )
 		{
-			File dest = new File( UtilityConstants.DATA_LOCATION,
+			File dest = new File( KoLConstants.DATA_LOCATION,
 				KoLConstants.OVERRIDE_DATA[ i ] );
 			if ( dest.exists() )
 			{

@@ -49,9 +49,9 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDesktop;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
@@ -75,11 +75,11 @@ public abstract class SystemTrayFrame
 		// Now, make calls to SystemTrayIconManager in order
 		// to make use of the system tray.
 
-		FileUtilities.loadLibrary( UtilityConstants.IMAGE_LOCATION, "", "TrayIcon12.gif" );
+		FileUtilities.loadLibrary( KoLConstants.IMAGE_LOCATION, "", "TrayIcon12.gif" );
 
 		try
 		{
-			File iconfile = new File( UtilityConstants.IMAGE_LOCATION, "TrayIcon12.dll" );
+			File iconfile = new File( KoLConstants.IMAGE_LOCATION, "TrayIcon12.dll" );
 			System.load( iconfile.getCanonicalPath() );
 			WindowsTrayIcon.initTrayIcon( "KoLmafia" );
 

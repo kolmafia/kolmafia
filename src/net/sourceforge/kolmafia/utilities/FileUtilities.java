@@ -51,7 +51,6 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -65,7 +64,7 @@ public class FileUtilities
 
 	public static final BufferedReader getReader( final String filename )
 	{
-		return FileUtilities.getReader( DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename ) );
+		return FileUtilities.getReader( DataUtilities.getReader( KoLConstants.DATA_DIRECTORY, filename ) );
 	}
 
 	public static final BufferedReader getReader( final File file )
@@ -90,7 +89,7 @@ public class FileUtilities
 
 	public static final BufferedReader getVersionedReader( final String filename, final int version )
 	{
-		BufferedReader reader = FileUtilities.getReader( DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename, true ) );
+		BufferedReader reader = FileUtilities.getReader( DataUtilities.getReader( KoLConstants.DATA_DIRECTORY, filename, true ) );
 
 		// If no file, no reader
 		if ( reader == null )
@@ -132,7 +131,7 @@ public class FileUtilities
 
 		// Override file is wrong version. Get built-in file
 
-		reader = DataUtilities.getReader( UtilityConstants.DATA_DIRECTORY, filename, false );
+		reader = DataUtilities.getReader( KoLConstants.DATA_DIRECTORY, filename, false );
 		// Don't forget to skip past its version number:
 		FileUtilities.readLine( reader );
 		return reader;
@@ -319,13 +318,13 @@ public class FileUtilities
 			localname = localname.substring( 7 );
 		}
 
-		File localfile = new File( UtilityConstants.IMAGE_LOCATION, localname );
+		File localfile = new File( KoLConstants.IMAGE_LOCATION, localname );
 
 		if ( !localfile.exists() || localfile.length() == 0 )
 		{
 			if ( JComponentUtilities.getImage( localname ) != null )
 			{
-				loadLibrary( UtilityConstants.IMAGE_LOCATION, UtilityConstants.IMAGE_DIRECTORY, localname );
+				loadLibrary( KoLConstants.IMAGE_LOCATION, KoLConstants.IMAGE_DIRECTORY, localname );
 			}
 			else
 			{
@@ -336,7 +335,7 @@ public class FileUtilities
 		try
 		{
 			String localfilePath = localfile.getCanonicalPath();
-			String imagePath = UtilityConstants.IMAGE_LOCATION.getCanonicalPath();
+			String imagePath = KoLConstants.IMAGE_LOCATION.getCanonicalPath();
 
 			if ( !localfilePath.startsWith( imagePath ) )
 			{

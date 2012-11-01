@@ -65,7 +65,6 @@ import javax.swing.text.JTextComponent;
 
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -492,7 +491,7 @@ public abstract class GenericPanel
 		private String getRelativePath( final String text )
 			throws IOException
 		{
-			File root = UtilityConstants.ROOT_LOCATION;
+			File root = KoLConstants.ROOT_LOCATION;
 			String rootPath = root.getCanonicalPath();
 
 			if ( rootPath.endsWith( File.separator ) )

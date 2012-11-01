@@ -50,9 +50,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -104,7 +103,7 @@ public class ClanLogRequest
 	{
 		KoLmafia.updateDisplay( "Retrieving clan stash log..." );
 
-		File file = new File( UtilityConstants.ROOT_LOCATION, "clan/" + ClanManager.getClanId() + "/stashlog.htm" );
+		File file = new File( KoLConstants.ROOT_LOCATION, "clan/" + ClanManager.getClanId() + "/stashlog.htm" );
 
 		this.loadPreviousData( file );
 		super.run();

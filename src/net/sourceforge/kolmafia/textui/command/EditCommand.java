@@ -35,8 +35,6 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -66,14 +64,14 @@ public class EditCommand
 
 		if ( scriptFile == null )
 		{
-			scriptFile = new File( UtilityConstants.DATA_LOCATION, parameters );
+			scriptFile = new File( KoLConstants.DATA_LOCATION, parameters );
 			if ( !scriptFile.exists() )
 			{
 				if ( parameters.indexOf( "/" ) != -1 ||
 					parameters.indexOf( "\\" ) != -1 )
 				{	// Let user explicitly give the top-level directory,
 					// as in "edit data/mymap.txt".
-					scriptFile = new File( UtilityConstants.ROOT_LOCATION, parameters );
+					scriptFile = new File( KoLConstants.ROOT_LOCATION, parameters );
 				}
 				else
 				{	// Assume scripts folder for bare filename

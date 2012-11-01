@@ -42,8 +42,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-import net.java.dev.spellcast.utilities.UtilityConstants;
-
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -55,7 +53,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Aliases
 {
-	private static final File ALIAS_FILE = new File( UtilityConstants.SETTINGS_LOCATION, "GLOBAL_aliases.txt" );
+	private static final File ALIAS_FILE = new File( KoLConstants.SETTINGS_LOCATION, "GLOBAL_aliases.txt" );
 	private static final TreeMap aliasMap = new TreeMap();
 
 	private static boolean loadedAliases = false;
@@ -68,7 +66,7 @@ public class Aliases
 			return;
 		}
 
-		File oldAliasFile = new File( UtilityConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" );
+		File oldAliasFile = new File( KoLConstants.SETTINGS_LOCATION, "aliases_GLOBAL.txt" );
 		if ( oldAliasFile.exists() )
 		{
 			oldAliasFile.renameTo( Aliases.ALIAS_FILE );

@@ -40,7 +40,6 @@ import java.io.PrintStream;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -49,7 +48,7 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 
 public class FlaggedItems
 {
-	private static final File itemFlagsFile = new File( UtilityConstants.DATA_LOCATION, "itemflags.txt" );
+	private static final File itemFlagsFile = new File( KoLConstants.DATA_LOCATION, "itemflags.txt" );
 
 	public static final String[] COMMON_JUNK =
 	{
