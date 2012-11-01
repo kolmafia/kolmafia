@@ -241,11 +241,12 @@ public class BareBonesBrowserLaunch
 
 	private static void loadUnixBrowser( String browser, String url )
 	{
+		Runtime runtime = Runtime.getRuntime();
+
 		if ( browser != null && !browser.equals( "" ) )
 		{
 			try
 			{
-				Runtime runtime = Runtime.getRuntime();
 				Process process = runtime.exec( browser + " " + url );
 
 				process.waitFor();
@@ -257,13 +258,6 @@ public class BareBonesBrowserLaunch
 			{
 			}
 		}
-
-		if ( loadAWTDesktopBrowser( url ) )
-		{
-			return;
-		}
-
-		Runtime runtime = Runtime.getRuntime();
 
 		if ( unixDefaultBrowser == null )
 		{
