@@ -2278,6 +2278,7 @@ mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 # moonglasses: Makes Familiar Less Sensitive to Light
 # moveable feast: Familiar will start food fights!
 moveable feast	Familiar Weight: +5, Experience (familiar): +1, Softcore Only, Generic
+# nanorhino credit card: Helps your Nano-Rhino charge
 # origami &quot;gentlemen's&quot; magazine: + 10 lbs. of Ghuol Whelp
 origami &quot;gentlemen's&quot; magazine	Softcore Only, Generic
 overclocked avian microprocessor	Familiar Weight: +5
@@ -4165,6 +4166,7 @@ d12	Effect: "Bastard!", Effect Duration: 10
 dandy lion cub	Free Pull
 daub-breaker	Effect: "Hot Breath", Effect Duration: 1
 deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
+deactivated nanobots	Free Pull
 deflated inflatable dodecapede	Free Pull
 delicious comfit?	Effect: "Discomfited", Effect Duration: 10
 deodorant	Effect: "Fresh Scent", Effect Duration: 10
