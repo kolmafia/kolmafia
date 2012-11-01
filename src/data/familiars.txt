@@ -171,3 +171,6 @@
 162	Reagnimated Gnome	frankengnome.gif	item0	5767		0	0	0	0
 163	Hovering Skull	talkskull.gif	stat0,combat	5774	shiny gold fronts	0	0	0	0
 164	Mini-Skulldozer	minidozer.gif	combat	5890	ribcage rollcage	2	1	3	0
+165
+166
+167	Nanorhino	nanorhino.gif	combat	5911	nanorhino credit card	3	1	1	03

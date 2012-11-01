@@ -5924,8 +5924,8 @@
 5907	
 5908	
 5909	
-5910	
-5911	
+5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0
+5911	nanorhino credit card	776155074	littlecard.gif	familiar	t,d	75
 5912	Solstice Shield	120888971	shield.gif	offhand			0
 5913	
 5914	
