@@ -79,7 +79,7 @@
 78	Uncle Hobo's Rags	Uncle Hobo's stocking cap, Uncle Hobo's gift baggy pants, Uncle Hobo's epic beard
 79	Paperclippery	paperclip-on tie, paperclip pants, paperclip turban, paperclip cape
 80	Cold Comforts	double-ice cap, double-ice box, double-ice britches
-81	Bits o' Honey	honeycap, honey dipper, honey britches
+81	Bits o' Honey	honeycap, honey dipper, honeybritches
 82	Luniform	Moonthril Circlet, Moonthril Flamberge, Moonthril Greaves
 83	Dark Bro's Vestments	The Necbromancer's Hat, The Necbromancer's Stein, The Necbromancer's Shorts
 84	Sucker Samurai Suit	sucker hakama, sucker kabuto, sucker tachi
