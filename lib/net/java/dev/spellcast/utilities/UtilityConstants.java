@@ -45,6 +45,8 @@ import java.io.File;
 
 public interface UtilityConstants
 {
+	public static final String LINE_BREAK = System.getProperty( "line.separator" );
+
 	public static final ClassLoader SYSTEM_CLASSLOADER = ClassLoader.getSystemClassLoader();
 	public static final ClassLoader MAINCLASS_CLASSLOADER =
 		net.java.dev.spellcast.utilities.UtilityConstants.class.getClassLoader();

@@ -485,7 +485,7 @@ public class DataUtilities
 
 		// finally, replace all the new lines with the <br> tag
 		html =
-			html.replaceAll( System.getProperty( "line.separator" ), "<br>" + System.getProperty( "line.separator" ) );
+			html.replaceAll( UtilityConstants.LINE_BREAK, "<br>" + UtilityConstants.LINE_BREAK );
 
 		// the conversion to HTML is complete
 		return html;

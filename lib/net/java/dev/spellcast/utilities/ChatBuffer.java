@@ -114,7 +114,6 @@ public class ChatBuffer
 
 	private PrintWriter logWriter;
 
-	protected static final String NEW_LINE = System.getProperty( "line.separator" );
 	protected static final HashMap ACTIVE_LOG_FILES = new HashMap();
 
 	private static final int MAXIMUM_LENGTH = 50000;
