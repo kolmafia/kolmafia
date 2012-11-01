@@ -52,7 +52,7 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.stanford.ejalbert.BrowserLauncher;
+import com.centerkey.BareBonesBrowserLaunch;
 
 public class LicenseDisplay
 	extends JFrame
@@ -165,7 +165,7 @@ public class LicenseDisplay
 				return this.getNoLicenseNotice();
 			}
 
-			StringBuffer licenseText = new StringBuffer();
+			StringBuilder licenseText = new StringBuilder();
 			String line;
 
 			try
@@ -266,7 +266,7 @@ public class LicenseDisplay
 			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
 			{
 				String location = e.getDescription();
-				BrowserLauncher.openURL( location );
+				BareBonesBrowserLaunch.openURL( location );
 			}
 		}
 	}
