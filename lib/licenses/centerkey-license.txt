@@ -1,0 +1,11 @@
+/////////////////////////////////////////////////////////
+//  Bare Bones Browser Launch                          //
+//  Version 3.1 (June 6, 2010)                         //
+//  By Dem Pilafian                                    //
+//  Supports:                                          //
+//     Mac OS X, GNU/Linux, Unix, Windows XP/Vista/7   //
+//  Example Usage:                                     //
+//     String url = "http://www.centerkey.com/";       //
+//     BareBonesBrowserLaunch.openURL(url);            //
+//  Public Domain Software -- Free to Use as You Like  //
+/////////////////////////////////////////////////////////

@@ -49,7 +49,6 @@ public class LicenseDisplayListener
 	{
 		"kolmafia-license.txt",
 		"spellcast-license.txt",
-		"browserlauncher-license.htm",
 		"sungraphics-license.txt",
 		"jsmooth-license.txt",
 		"osxadapter-license.txt",
@@ -57,6 +56,7 @@ public class LicenseDisplayListener
 		"json.txt",
 		"swinglabs-license.txt",
 		"sorttable-license.txt",
+		"centerkey-license.txt",
 		"unlicensed.htm"
 	};
 

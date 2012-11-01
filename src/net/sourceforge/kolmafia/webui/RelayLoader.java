@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.webui;
 
-import edu.stanford.ejalbert.BrowserLauncher;
+import com.centerkey.BareBonesBrowserLaunch;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,30 +88,9 @@ public class RelayLoader
 	{
 		String preferredBrowser = Preferences.getString( "preferredWebBrowser" );
 
-		if ( !preferredBrowser.equals( "" ) )
-		{
-			File preferredBrowserFile = new File( UtilityConstants.ROOT_LOCATION, preferredBrowser );
+		String location = this.location;
 
-			if ( preferredBrowserFile.exists() )
-			{
-				try
-				{
-					preferredBrowser = preferredBrowserFile.getCanonicalPath();
-				}
-				catch ( IOException e )
-				{
-
-				}
-			}
-		}
-
-		if ( currentBrowser == null || !currentBrowser.equals( preferredBrowser ) )
-		{
-			System.setProperty( "os.browser", preferredBrowser );
-			currentBrowser = preferredBrowser;
-		}
-
-		if ( this.location.startsWith( "/" ) )
+		if ( location.startsWith( "/" ) )
 		{
 			RelayLoader.startRelayServer();
 
@@ -125,12 +104,10 @@ public class RelayLoader
 				pauser.pause( 200 );
 			}
 
-			BrowserLauncher.openURL( "http://127.0.0.1:" + RelayServer.getPort() + this.location );
+			location = "http://127.0.0.1:" + RelayServer.getPort() + this.location;
 		}
-		else
-		{
-			BrowserLauncher.openURL( this.location );
-		}
+
+		BareBonesBrowserLaunch.openURL( preferredBrowser, location );
 	}
 
 	public static final synchronized void startRelayServer()
