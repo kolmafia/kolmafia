@@ -342,6 +342,8 @@ public class BareBonesBrowserLaunch
 		}
 		catch ( Exception e )
 		{
+			awtUseReflection = false;
+
 			return false;
 		}
 	}
