@@ -13,6 +13,9 @@ import java.lang.reflect.Method;
 
 import java.net.URI;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class BareBonesBrowserLaunch
 {
 	public static void openURL( String url )
@@ -50,6 +53,8 @@ public class BareBonesBrowserLaunch
 
 	private static File findWindowsBrowser( String browser )
 	{
+		// Check if it's an absolute path.
+
 		File file = new File( browser );
 
 		if ( file.exists() )
@@ -57,69 +62,111 @@ public class BareBonesBrowserLaunch
 			return file;
 		}
 
-		String executable = null;
+		String executable = browser.contains( "." ) ?  browser : ( browser + ".exe" );
 
-		if ( browser.equalsIgnoreCase( "opera" ) )
+		// Check if it's on the path.
+
+		String pathResult = null;
+
+		try
 		{
-			executable = "Opera\\opera.exe";
+			Runtime runtime = Runtime.getRuntime();
+			Process process = runtime.exec( new String[] { "where.exe", executable } );
+
+			BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+			pathResult = stream.readLine();
+
+			process.waitFor();
+			process.exitValue();
 		}
-		else if ( browser.equalsIgnoreCase( "firefox" ) )
+		catch ( Exception e )
 		{
-			executable = "Mozilla Firefox\firefox.exe";
-		}
-		else if ( browser.equalsIgnoreCase( "chrome" ) )
-		{
-			executable = "Google\\Chrome\\Application\\chrome.exe";
-		}
-		else if ( browser.equalsIgnoreCase( "iexplore" ) )
-		{
-			executable = "Internet Explorer\\iexplore.exe";
+			e.printStackTrace();
 		}
 
-		if ( executable == null )
+		if ( pathResult != null && pathResult.contains( "\\" ) )
+		{
+			return new File( pathResult );
+		}
+
+		// Check if it's relative to a common environment variable.
+
+		file = findWindowsBrowser( System.getenv( "ProgramFiles" ), executable );
+
+		if ( file != null && file.exists() )
+		{
+			return file;
+		}
+
+		file = findWindowsBrowser( System.getenv( "ProgramFiles(x86)" ), executable );
+
+		if ( file != null && file.exists() )
+		{
+			return file;
+		}
+
+		String localAppData = System.getenv( "LocalAppData" );
+
+		if ( localAppData == null || localAppData.equals( "" ) )
+		{
+			String userProfile = System.getenv( "UserProfile" );
+
+			if ( userProfile != null && !userProfile.equals( "" ) )
+			{
+				localAppData = userProfile + "\\Local Settings\\Application Data";
+			}
+		}
+
+		file = findWindowsBrowser( localAppData, executable );
+
+		if ( file != null && file.exists() )
+		{
+			return file;
+		}
+
+		file = findWindowsBrowser( System.getenv( "AppData" ), executable );
+
+		if ( file != null && file.exists() )
+		{
+			return file;
+		}
+
+		return null;
+	}
+
+	private static File findWindowsBrowser( String basePath, String executable )
+	{
+		if ( basePath == null || basePath.equals( "" ) )
 		{
 			return null;
 		}
 
-		file = new File( System.getProperty( "user.home" ), "Local Settings\\Application Data\\" + executable );
+		File baseFolder = new File( basePath );
 
-		if ( file.exists() )
+		String dirResult = null;
+
+		try
 		{
-			return file;
+			Runtime runtime = Runtime.getRuntime();
+			Process process = runtime.exec( "cmd.exe /c dir /b /s " + executable, null, baseFolder );
+
+			BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
+			dirResult = stream.readLine();
+
+			process.waitFor();
+			process.exitValue();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace();
 		}
 
-		file = new File( System.getProperty( "user.home" ), "AppData\\Local\\" + executable );
-
-		if ( file.exists() )
+		if ( dirResult == null || dirResult.equals( "" ) || dirResult.equals( "File Not Found" ) )
 		{
-			return file;
+			return null;
 		}
 
-		for ( char drive = 'C'; drive <= 'Z'; ++drive )
-		{
-			file = new File( drive + ":\\Windows\\system32\\" + executable );
-
-			if ( file.exists() )
-			{
-				return file;
-			}
-
-			file = new File( drive + ":\\Program Files\\" + executable );
-
-			if ( file.exists() )
-			{
-				return file;
-			}
-
-			file = new File( drive + ":\\Program Files (x86)\\" + executable );
-
-			if ( file.exists() )
-			{
-				return file;
-			}
-		}
-
-		return null;
+		return new File( dirResult );
 	}
 
 	private static void loadWindowsBrowser( String browser, String url )
@@ -128,32 +175,45 @@ public class BareBonesBrowserLaunch
 
 		if ( browser != null && !browser.equals( "" ) )
 		{
-			File browserFile = findWindowsBrowser( browser );
+			String browserPath = windowsBrowsers.get( browser );
 
-			if ( browserFile != null )
+			if ( browserPath == null )
+			{
+				File browserFile = findWindowsBrowser( browser );
+
+				if ( browserFile != null )
+				{
+					try
+					{
+						browserPath = "\"" + browserFile.getCanonicalPath() + "\"";
+					}
+					catch ( Exception e )
+					{
+						browserPath = "\"" + browserFile.getAbsolutePath() + "\"";
+					}
+				}
+				else
+				{
+					browserPath = "";
+				}
+
+				windowsBrowsers.put( browser, browserPath );
+			}
+
+			if ( !browserPath.equals( "" ) )
 			{
 				try
 				{
-					browser = "\"" + browserFile.getCanonicalPath() + "\"";
+					Process process = runtime.exec( "cmd.exe /c " + browserPath + " " + url );
+					process.waitFor();
+					process.exitValue();
+
+					return;
 				}
 				catch ( Exception e )
 				{
-					browser = browserFile.getAbsolutePath();
+					e.printStackTrace();
 				}
-			}
-
-			try
-			{
-				Process process = runtime.exec( new String[] { "cmd.exe", "/c", browser, url } );
-
-				process.waitFor();
-				process.exitValue();
-
-				return;
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace();
 			}
 		}
 
@@ -164,7 +224,7 @@ public class BareBonesBrowserLaunch
 
 		try
 		{
-			Process process = runtime.exec( new String[] { "cmd.exe", "/c", "rundll32.exe", "url.dll,FileProtocolHandler", url } );
+			Process process = runtime.exec( "cmd.exe /c rundll32.exe url.dll,FileProtocolHandler " + url );
 			process.waitFor();
 			process.exitValue();
 		}
@@ -395,6 +455,7 @@ public class BareBonesBrowserLaunch
 		}
 	}
 
+	private static Map<String, String> windowsBrowsers = new ConcurrentHashMap<String, String>();
 	private static boolean macUseReflection = true;
 	private static Method macOpenURLMethod = null;
 	private static String unixDefaultBrowser = null;
