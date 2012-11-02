@@ -153,6 +153,7 @@ public class BareBonesBrowserLaunch
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace();
 			}
 		}
 
@@ -169,6 +170,7 @@ public class BareBonesBrowserLaunch
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace();
 		}
 	}
 
@@ -203,6 +205,7 @@ public class BareBonesBrowserLaunch
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace();
 			}
 		}
 
@@ -233,6 +236,7 @@ public class BareBonesBrowserLaunch
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace();
 			}
 		}
 
@@ -256,6 +260,7 @@ public class BareBonesBrowserLaunch
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace();
 			}
 		}
 
@@ -280,6 +285,7 @@ public class BareBonesBrowserLaunch
 				}
 				catch ( Exception e )
 				{
+					e.printStackTrace();
 				}
 			}
 
@@ -299,6 +305,7 @@ public class BareBonesBrowserLaunch
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace();
 			}
 		}
 	}
@@ -336,6 +343,8 @@ public class BareBonesBrowserLaunch
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace();
+
 			awtUseReflection = false;
 
 			return false;
