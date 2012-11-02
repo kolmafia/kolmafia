@@ -352,6 +352,6 @@ public class BareBonesBrowserLaunch
 
 	private static final String[] UNIX_BROWSERS =
 	{
-		"sensible-browser", "xdg-open", "exo-open", "kde-open", "gnome-open", "open", "firefox"
+		"sensible-browser", "xdg-open", "exo-open", "kde-open", "gnome-open", "gvfs-open", "open", "firefox"
 	};
 }
