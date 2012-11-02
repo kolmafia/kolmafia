@@ -51,169 +51,39 @@ public class BareBonesBrowserLaunch
 		}
 	}
 
-	private static File findWindowsBrowser( String browser )
-	{
-		// Check if it's an absolute path.
-
-		File file = new File( browser );
-
-		if ( file.exists() )
-		{
-			return file;
-		}
-
-		String executable = browser.contains( "." ) ?  browser : ( browser + ".exe" );
-
-		// Check if it's on the path.
-
-		String pathResult = null;
-
-		try
-		{
-			Runtime runtime = Runtime.getRuntime();
-			Process process = runtime.exec( new String[] { "where.exe", executable } );
-
-			BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-			pathResult = stream.readLine();
-
-			process.waitFor();
-			process.exitValue();
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace();
-		}
-
-		if ( pathResult != null && pathResult.contains( "\\" ) )
-		{
-			return new File( pathResult );
-		}
-
-		// Check if it's relative to a common environment variable.
-
-		file = findWindowsBrowser( System.getenv( "ProgramFiles" ), executable );
-
-		if ( file != null && file.exists() )
-		{
-			return file;
-		}
-
-		file = findWindowsBrowser( System.getenv( "ProgramFiles(x86)" ), executable );
-
-		if ( file != null && file.exists() )
-		{
-			return file;
-		}
-
-		String localAppData = System.getenv( "LocalAppData" );
-
-		if ( localAppData == null || localAppData.equals( "" ) )
-		{
-			String userProfile = System.getenv( "UserProfile" );
-
-			if ( userProfile != null && !userProfile.equals( "" ) )
-			{
-				localAppData = userProfile + "\\Local Settings\\Application Data";
-			}
-		}
-
-		file = findWindowsBrowser( localAppData, executable );
-
-		if ( file != null && file.exists() )
-		{
-			return file;
-		}
-
-		file = findWindowsBrowser( System.getenv( "AppData" ), executable );
-
-		if ( file != null && file.exists() )
-		{
-			return file;
-		}
-
-		return null;
-	}
-
-	private static File findWindowsBrowser( String basePath, String executable )
-	{
-		if ( basePath == null || basePath.equals( "" ) )
-		{
-			return null;
-		}
-
-		File baseFolder = new File( basePath );
-
-		String dirResult = null;
-
-		try
-		{
-			Runtime runtime = Runtime.getRuntime();
-			Process process = runtime.exec( "cmd.exe /c dir /b /s " + executable, null, baseFolder );
-
-			BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-			dirResult = stream.readLine();
-
-			process.waitFor();
-			process.exitValue();
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace();
-		}
-
-		if ( dirResult == null || dirResult.equals( "" ) || dirResult.equals( "File Not Found" ) )
-		{
-			return null;
-		}
-
-		return new File( dirResult );
-	}
-
 	private static void loadWindowsBrowser( String browser, String url )
 	{
 		Runtime runtime = Runtime.getRuntime();
 
 		if ( browser != null && !browser.equals( "" ) )
 		{
-			String browserPath = windowsBrowsers.get( browser );
+			String executable = "start " + browser;
 
-			if ( browserPath == null )
-			{
-				File browserFile = findWindowsBrowser( browser );
+			File file = new File( browser.contains( "." ) ? browser : ( browser + ".exe" ) );
 
-				if ( browserFile != null )
-				{
-					try
-					{
-						browserPath = "\"" + browserFile.getCanonicalPath() + "\"";
-					}
-					catch ( Exception e )
-					{
-						browserPath = "\"" + browserFile.getAbsolutePath() + "\"";
-					}
-				}
-				else
-				{
-					browserPath = "";
-				}
-
-				windowsBrowsers.put( browser, browserPath );
-			}
-
-			if ( !browserPath.equals( "" ) )
+			if ( file.exists() )
 			{
 				try
 				{
-					Process process = runtime.exec( "cmd.exe /c " + browserPath + " " + url );
-					process.waitFor();
-					process.exitValue();
-
-					return;
+					executable = "\"" + file.getCanonicalPath() + "\"";
 				}
 				catch ( Exception e )
 				{
-					e.printStackTrace();
+					executable = "\"" + file.getAbsolutePath() + "\"";
 				}
+			}
+
+			try
+			{
+				Process process = runtime.exec( "cmd.exe /c " + executable + " " + url );
+				process.waitFor();
+				process.exitValue();
+
+				return;
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace();
 			}
 		}
 
@@ -455,7 +325,6 @@ public class BareBonesBrowserLaunch
 		}
 	}
 
-	private static Map<String, String> windowsBrowsers = new ConcurrentHashMap<String, String>();
 	private static boolean macUseReflection = true;
 	private static Method macOpenURLMethod = null;
 	private static String unixDefaultBrowser = null;
@@ -466,6 +335,6 @@ public class BareBonesBrowserLaunch
 
 	private static final String[] UNIX_BROWSERS =
 	{
-		"sensible-browser", "xdg-open", "exo-open", "kde-open", "gnome-open", "gvfs-open", "open", "firefox", "netscape"
+		"xdg-open", "exo-open", "kde-open", "gnome-open", "gvfs-open", "sensible-browser", "open", "firefox", "netscape"
 	};
 }
