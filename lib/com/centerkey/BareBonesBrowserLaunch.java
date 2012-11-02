@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import java.net.URI;
@@ -222,6 +223,11 @@ public class BareBonesBrowserLaunch
 			}
 		}
 
+		if ( loadAWTDesktopBrowser( url ) )
+		{
+			return;
+		}
+
 		for ( String unixBrowser : UNIX_BROWSERS )
 		{
 			boolean tryBrowser = true;
@@ -296,8 +302,26 @@ public class BareBonesBrowserLaunch
 				Method getDesktopMethod = desktopClass.getDeclaredMethod( "getDesktop" );
 				awtDesktopObject = getDesktopMethod.invoke( null );
 			}
-			catch ( Exception e )
+			catch ( ClassNotFoundException e )
 			{
+				awtUseReflection = false;
+			}
+			catch ( IllegalAccessException e )
+			{
+				e.printStackTrace();
+
+				awtUseReflection = false;
+			}
+			catch ( InvocationTargetException e )
+			{
+				e.printStackTrace();
+
+				awtUseReflection = false;
+			}
+			catch ( NoSuchMethodException e )
+			{
+				e.printStackTrace();
+
 				awtUseReflection = false;
 			}
 		}
