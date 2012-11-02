@@ -245,12 +245,11 @@ public class BareBonesBrowserLaunch
 
 	private static void loadUnixBrowser( String browser, String url )
 	{
-		Runtime runtime = Runtime.getRuntime();
-
 		if ( browser != null && !browser.equals( "" ) )
 		{
 			try
 			{
+				Runtime runtime = Runtime.getRuntime();
 				Process process = runtime.exec( browser + " " + url );
 
 				process.waitFor();
@@ -264,23 +263,78 @@ public class BareBonesBrowserLaunch
 			}
 		}
 
-		if ( unixDefaultBrowser == null )
+		loadDefaultUnixBrowser( true, url );
+	}
+
+	private static void loadDefaultUnixBrowser( boolean checkWhichResult, String url )
+	{
+		Runtime runtime = Runtime.getRuntime();
+
+		if ( unixDefaultBrowser != null )
 		{
-			for ( String unixBrowser : UNIX_BROWSERS )
+			if ( unixDefaultBrowser.equals( "" ) )
 			{
+				System.err.println( "Could not find a usable browser" );
+				return;
+			}
+
+			try
+			{
+				Process process = runtime.exec( unixDefaultBrowser + " " + url );
+				process.waitFor();
+				process.exitValue();
+
+				return;
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace();
+			}
+		}
+
+		for ( String unixBrowser : UNIX_BROWSERS )
+		{
+			boolean tryBrowser = true;
+
+			if ( checkWhichResult )
+			{
+				String whichResult = null;
+
 				try
 				{
 					Process process = runtime.exec( "which " + unixBrowser );
 
 					BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
-					String whichResult = stream.readLine();
+					whichResult = stream.readLine();
 
 					process.waitFor();
 					process.exitValue();
+				}
+				catch ( Exception e )
+				{
+					e.printStackTrace();
+				}
 
-					if ( whichResult != null && !whichResult.equals( "" ) && !whichResult.contains( " " ) )
+				if ( whichResult == null || whichResult.equals( "" ) || whichResult.contains( " " ) )
+				{
+					tryBrowser = false;
+				}
+			}
+
+			if ( tryBrowser )
+			{
+				try
+				{
+					Process process = runtime.exec( unixBrowser + " " + url );
+					process.waitFor();
+
+					int exitValue = process.exitValue();
+
+					if ( exitValue == 0 )
 					{
 						unixDefaultBrowser = unixBrowser;
+
+						return;
 					}
 				}
 				catch ( Exception e )
@@ -288,25 +342,15 @@ public class BareBonesBrowserLaunch
 					e.printStackTrace();
 				}
 			}
-
-			if ( unixDefaultBrowser == null )
-			{
-				unixDefaultBrowser = "";
-			}
 		}
 
-		if ( !unixDefaultBrowser.equals( "" ) )
+		if ( checkWhichResult )
 		{
-			try
-			{
-				Process process = runtime.exec( unixDefaultBrowser + " " + url );
-				process.waitFor();
-				process.exitValue();
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace();
-			}
+			loadDefaultUnixBrowser( false, url );
+		}
+		else
+		{
+			unixDefaultBrowser = "";
 		}
 	}
 
@@ -361,6 +405,6 @@ public class BareBonesBrowserLaunch
 
 	private static final String[] UNIX_BROWSERS =
 	{
-		"sensible-browser", "xdg-open", "exo-open", "kde-open", "gnome-open", "gvfs-open", "open", "firefox"
+		"sensible-browser", "xdg-open", "exo-open", "kde-open", "gnome-open", "gvfs-open", "open", "firefox", "netscape"
 	};
 }
