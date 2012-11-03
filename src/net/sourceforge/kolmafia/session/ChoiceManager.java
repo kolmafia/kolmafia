@@ -4135,24 +4135,16 @@ public abstract class ChoiceManager
 
 		if ( ChoiceManager.action != PostChoiceAction.NONE && text.indexOf( "choice.php" ) == -1 )
 		{
-			Runnable actionRunner = new Runnable()
+			switch ( ChoiceManager.action )
 			{
-				public void run()
-				{
-					switch ( ChoiceManager.action )
-					{
-					case INITIALIZE:
-						LoginManager.login( KoLCharacter.getUserName() );
-						break;
-					case ASCEND:
-						ValhallaManager.postAscension();
-						break;
-					}
-				ChoiceManager.action = PostChoiceAction.NONE;
-				}
-			};
-
-			RequestThread.runInParallel( actionRunner );
+			case INITIALIZE:
+				LoginManager.login( KoLCharacter.getUserName() );
+				break;
+			case ASCEND:
+				ValhallaManager.postAscension();
+				break;
+			}
+			ChoiceManager.action = PostChoiceAction.NONE;
 		}
 	}
 
