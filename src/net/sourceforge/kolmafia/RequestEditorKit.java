@@ -888,7 +888,7 @@ public class RequestEditorKit
 		AdventureResult wand = KoLCharacter.getZapper();
 		if ( wand != null )
 		{
-			links.append( "&nbsp;&nbsp;[<a href=\"wand.php?whichwand=" + wand.getItemId() + "\">zap items</a>]" );
+			links.append( "&nbsp;&nbsp;[<a href=\"wand.php?whichwand=" ).append( wand.getItemId() ).append( "\">zap items</a>]" );
 		}
 
 
@@ -1240,7 +1240,7 @@ public class RequestEditorKit
 		if ( guardianData != null && Preferences.getBoolean( "relayShowSpoilers" ) )
 		{
 			String itemName = SorceressLairManager.guardianItem( guardianData );
-			monsterData.append( "<br />Defeated by a <font color=#DD00FF>" + itemName + "</font>" );
+			monsterData.append( "<br />Defeated by a <font color=#DD00FF>" ).append( itemName ).append( "</font>" );
 
 			// Auto-select the correct item in the dropdown, which
 			// must be later in the buffer than insertionPoint
@@ -1597,7 +1597,6 @@ public class RequestEditorKit
 	}
 
 	private static final Pattern GLYPH_PATTERN = Pattern.compile( "title=\"Arcane Glyph #(\\d)\"" );
-	private static final String[] ORDINALS = { "1st ", "2nd ", "3rd " };
 
 	private static final void changeDustyBottleNames( final StringBuffer buffer )
 	{
