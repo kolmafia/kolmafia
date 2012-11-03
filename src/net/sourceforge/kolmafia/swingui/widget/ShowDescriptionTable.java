@@ -241,6 +241,32 @@ public class ShowDescriptionTable
 
 		this.addMouseListener( new PopupListener() );
 
+		// Add functionality for scrolling to an entry when the user types in a partial name.
+		// This is provided natively by JList, but needs to be added here because tables do not natively provide
+		// this behavior (for obvious reasons).
+		this.addKeyListener( new KeyAdapter()
+		{
+			private long saved_ms;
+			private int TIMETOWAIT = 700;
+			private String searchField = "";
+
+			@Override
+			public void keyTyped( KeyEvent e )
+			{
+				// the search "resets" after a brief pause.  700ms feels about right.
+				if ( System.currentTimeMillis() - this.saved_ms < TIMETOWAIT )
+				{
+					this.searchField = this.searchField + e.getKeyChar();
+				}
+				else
+				{
+					this.searchField = "" + e.getKeyChar();
+				}
+				ShowDescriptionTable.this.fireSearch( searchField );
+				this.saved_ms = System.currentTimeMillis();
+			}
+		} );
+
 		this.originalModel = displayModel;
 		this.displayModel = filter == null ? displayModel.getMirrorImage() : displayModel
 			.getMirrorImage( filter );
@@ -293,7 +319,21 @@ public class ShowDescriptionTable
 		
 		this.setIntercellSpacing( new Dimension( 0, 0 ) );
 	}
-	
+
+	protected void fireSearch( String searchField )
+	{
+		for ( int i = 0; i < this.getRowCount(); i++ )
+		{
+			String val = this.getValueAt( i, convertColumnIndexToModel( 0 ) ).toString().toLowerCase();
+			if ( val.startsWith( searchField.toLowerCase() ) )
+			{
+				ShowDescriptionTable.this.setRowSelectionInterval( i, i );
+				ShowDescriptionTable.this.scrollCellToVisible( i, i );
+				break;
+			}
+		}
+	}
+
 	public void setColumnClasses( Class< ? >[] classDefs )
 	{
 		String[] colNames = TableCellFactory.getColumnNames( this.originalModel, this.flags );
