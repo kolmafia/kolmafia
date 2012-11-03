@@ -127,6 +127,7 @@ public class SkillPool
 	public static final int GIVE_OPPONENT_THE_BIRD = 7046;
 	public static final int HOBO_JOKE = 7050;
 	public static final int HOBO_DANCE = 7051;
+	public static final int SUMMON_HOBO = 7052;
 	public static final int BADLY_ROMANTIC_ARROW = 7108;
 	public static final int BOXING_GLOVE_ARROW = 7109;
 	public static final int POISON_ARROW = 7110;
