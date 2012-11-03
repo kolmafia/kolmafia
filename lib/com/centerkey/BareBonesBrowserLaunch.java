@@ -58,7 +58,7 @@ public class BareBonesBrowserLaunch
 
 		if ( browser != null && !browser.equals( "" ) )
 		{
-			String executable = "start " + browser;
+			String executable = null;
 
 			File file = new File( browser.contains( "." ) ? browser : ( browser + ".exe" ) );
 
@@ -72,6 +72,14 @@ public class BareBonesBrowserLaunch
 				{
 					executable = "\"" + file.getAbsolutePath() + "\"";
 				}
+			}
+			else if ( !browser.contains( "\"" ) && ( browser.contains( " " ) || browser.contains( "%" ) ) )
+			{
+				executable = "start \"" + browser + "\"";
+			}
+			else
+			{
+				executable = "start " + browser;
 			}
 
 			try
