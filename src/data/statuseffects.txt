@@ -1126,3 +1126,7 @@
 1125	Skeletal Rogue	skeleton_r.gif	8403081d183428a78c68adcde6fed4d3
 1126	Skeletal Buddy	skeleton_p.gif	406b7798950700127bf6cb13b19bcefa
 1127	Aykrophobia	crystalskull.gif	93aa0fce5154508eca3a0bf4ab2c4e16	drink 1 crystal skeleton vodka
+1128	Bonelording	spikebone.gif	165c98cd2a9d3aaf405f419aa552a2c7
+1129	Nanobrawny	nanobrawny.gif	2996d91c753eb6cf2d93b159229d90e6
+1130	Nanobrainy	nanobrainy.gif	47e756959f85d403d1422bae39e7e456
+1131	Nanoballsy	nanoballsy.gif	88a4a61ac68e862249f5be9d1f75a0fe

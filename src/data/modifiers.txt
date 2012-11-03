@@ -2693,6 +2693,7 @@ Bloody Hand	Muscle: -1
 Blue Tongue	Item Drop: +30
 # Bone Homie: Bites Your Enemies
 # Boned Up: Makes you look like a Smart Skelton
+Bonelording	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Spooky Damage: +25
 # Boner Battalion: BONERS HO!
 # Bony Dancer: Makes you look like a tapdancing skeleton
 # Booing Radly: +50 Damage vs. Ghosts
@@ -2808,6 +2809,7 @@ Crotchety, Pining	Muscle Percent: +100
 Cruisin' for a Bruisin'	Weapon Damage Percent: +100
 Crusty Head	Damage Reduction: 10
 # Cunctatitis: Eh.  You'll figure out what this effect does later...
+Cunctatitis: Initiative: -1000
 Cupcake of Choice	Item Drop: +30
 Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Curiosity of Br'er Tarrypin	Experience (familiar): +1
@@ -3204,6 +3206,9 @@ Mystic Pickleness	Mysticality: +5, Muscle: -5
 Mystically Oiled	Mysticality Percent: +100
 N-Spatial vision	Mysticality Percent: -30
 Nano-juiced	Muscle Percent: +15
+Nanoballsy	Moxie Percent: +25, Initiative: +20, Pickpocket Chance: +30
+Nanobrainy	Mysticality Percent: +50, Spell Damage: +20, MP Regen Min: 2, MP Regen Max: 4
+Nanobrawny	Muscle Percent: +25, Weapon Damage: +10, HP Regen Min: 4, HP Regen Max: 8
 Natural 1	Initiative: -100
 Natural 20	Initiative: +100
 # Nerf'd: Less powerful than you were before
