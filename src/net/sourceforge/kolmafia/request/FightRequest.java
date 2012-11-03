@@ -2073,11 +2073,21 @@ public class FightRequest
 			TurnCounter.startCounting( 16, "Romantic Monster window begin loc=*", "lparen.gif" );
 			TurnCounter.startCounting( 26, "Romantic Monster window end loc=*", "rparen.gif" );
 		}
+
 		if ( skillNumber == SkillPool.OLFACTION && responseText.contains( "fill your entire being" ) )
 		{
 			Preferences.setString( "olfactedMonster", MonsterStatusTracker.getLastMonsterName() );
 			Preferences.setString( "autoOlfact", "" );
 			FightRequest.canOlfact = false;
+		}
+
+		// The first part is for a hobo underling being summoned
+		// The second part is from using a dinged-up triangle to summon it
+		if ( skillNumber == SkillPool.SUMMON_HOBO
+		     &&  responseText.contains( "A hobo runs up to you" )
+		     && !responseText.contains( "You give the triangle a vigorous ringing." ) )
+		{
+			Preferences.increment( "_hoboUnderlingSummons", 1 );
 		}
 
 		switch ( KoLAdventure.lastAdventureId() )
@@ -2242,14 +2252,6 @@ public class FightRequest
 		if ( responseText.contains( "with your filthy rotting arms." ) )
 		{
 			Preferences.increment( "_bearHugs", 1 );
-		}
-
-		// The first part is for a hobo underling being summoned
-		// The second part is from using a dinged-up triangle to summon it
-		if ( responseText.contains( "A hobo runs up to you" ) &&
-			 !responseText.contains( "You give the triangle a vigorous ringing." ) )
-		{
-			Preferences.increment( "_hoboUnderlingSummons", 1 );
 		}
 
 		if ( responseText.contains( "undefined constant itemprocess" ) )
