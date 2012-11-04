@@ -322,6 +322,10 @@ public class ShowDescriptionTable
 
 	protected void fireSearch( String searchField )
 	{
+		if ( convertColumnIndexToModel( this.getSelectedColumn() ) != 0 )
+		{
+			return;
+		}
 		for ( int i = 0; i < this.getRowCount(); i++ )
 		{
 			String val = this.getValueAt( i, convertColumnIndexToModel( 0 ) ).toString().toLowerCase();
