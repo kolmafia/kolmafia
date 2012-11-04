@@ -54,21 +54,31 @@ public class RaffleRequest
 	private static final Pattern WHERE_PATTERN = Pattern.compile( "where=(\\d+)" );
 	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
-	public static final int INVENTORY = 0;
-	public static final int STORAGE = 1;
+	public enum RaffleSource
+	{
+		INVENTORY( "0" ),
+		STORAGE( "1" );
 
-	private final int count;
-	private final int source;
+		private String name;
 
-	public RaffleRequest( final int count, int source )
+		private RaffleSource( String name )
+		{
+			this.name = name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return this.name;
+		}
+	}
+
+	public RaffleRequest( final int count, RaffleSource source )
 	{
 		super( "raffle.php" );
 
-		this.count = count;
-		this.source = source;
-
 		this.addFormField( "action", "buy" );
-		this.addFormField( "where", String.valueOf( source ) );
+		this.addFormField( "where", source.toString() );
 		this.addFormField( "quantity", String.valueOf( count ) );
 	}
 
@@ -77,22 +87,22 @@ public class RaffleRequest
 		this( count, RaffleRequest.chooseMeatSource() );
 	}
 
-	private static int chooseMeatSource()
+	private static RaffleSource chooseMeatSource()
 	{
 		if ( KoLCharacter.isHardcore() || KoLCharacter.inRonin() )
 		{
-			return RaffleRequest.STORAGE;
+			return RaffleSource.STORAGE;
 		}
 
-		return RaffleRequest.INVENTORY;
+		return RaffleSource.INVENTORY;
 	}
 
 	@Override
 	public void run()
 	{
-		if ( this.source != RaffleRequest.INVENTORY && this.source != RaffleRequest.STORAGE )
+		if ( KoLCharacter.inZombiecore() )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Decide where to take meat from." );
+			KoLmafia.updateDisplay( "You can't buy tickets as a Zombie" );
 			return;
 		}
 
@@ -103,48 +113,48 @@ public class RaffleRequest
 	@Override
 	public void processResults()
 	{
-		String urlString = this.getURLString();
-		String responseText = this.responseText;
-
-		// You cannot afford that many tickets.
-		if ( !RaffleRequest.parseResponse( urlString, responseText ) )
-		{
-			String where = ( this.source == RaffleRequest.INVENTORY ) ? "inventory" : "storage";
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough meat in " + where );
-			return;
-		}
+		RaffleRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseResponse( final String urlString, final String responseText )
+	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "raffle.php" ) )
 		{
-			return true;
-		}
-
-		if ( responseText.indexOf( "You cannot afford" ) != -1 )
-		{
-			return false;
+			return;
 		}
 
 		Matcher matcher = RaffleRequest.WHERE_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
-			return true;
+			return;
 		}
 
-		int where = StringUtilities.parseInt( matcher.group(1) );
+		String where = matcher.group(1);
+
+		// You cannot afford that many tickets.
+		if ( responseText.contains( "You cannot afford" ) )
+		{
+			String loc = where.equals( RaffleSource.INVENTORY.toString() ) ? "inventory" : "storage";
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough meat in " + loc );
+			return;
+		}
+
+		if ( !responseText.contains( "Here you go" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Ticket purchase failed" );
+			return;
+		}
 
 		matcher = RaffleRequest.QUANTITY_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
-			return true;
+			return;
 		}
 
 		int quantity = StringUtilities.parseInt( matcher.group(1) );
 		int cost = 1000 * quantity;
 
-		if ( where == RaffleRequest.STORAGE )
+		if ( where.equals( RaffleSource.STORAGE.toString() ) )
 		{
 			KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - cost );
 		}
@@ -155,8 +165,6 @@ public class RaffleRequest
 
 		AdventureResult item = new AdventureResult( ItemPool.RAFFLE_TICKET, quantity );
 		ResultProcessor.processItem( false, "You acquire", item, null );
-
-		return true;
 	}
 
 	public static final boolean registerRequest( final String location )
@@ -173,8 +181,9 @@ public class RaffleRequest
 			return true;
 		}
 
-		int where = StringUtilities.parseInt( matcher.group(1) );
-		String loc = where == RaffleRequest.INVENTORY ? "inventory" : where == RaffleRequest.STORAGE ? "storage" : "nowhere";
+		String where = matcher.group(1);
+		String loc = where.equals( RaffleSource.INVENTORY.toString() ) ? "inventory" :
+					 where.equals( RaffleSource.STORAGE.toString() ) ? "storage" : "nowhere";
 
 		matcher = RaffleRequest.QUANTITY_PATTERN.matcher( location );
 		if ( !matcher.find() )
