@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.request.RaffleRequest;
+import net.sourceforge.kolmafia.request.RaffleRequest.RaffleSource;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -54,7 +55,7 @@ public class RaffleCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( !KoLCharacter.desertBeachAccessible() )
+		if ( !KoLCharacter.desertBeachAccessible() || KoLCharacter.inZombiecore() )
 		{
 			RequestLogger.printLine( "You can't make it to the raffle house" );
 			return;
@@ -68,15 +69,15 @@ public class RaffleCommand
 			return;
 		}
 
-		int source;
+		RaffleSource source;
 
 		if ( split[ 1 ].equals( "inventory" ) )
 		{
-			source = RaffleRequest.INVENTORY;
+			source = RaffleSource.INVENTORY;
 		}
 		else if ( split[ 1 ].equals( "storage" ) )
 		{
-			source = RaffleRequest.STORAGE;
+			source = RaffleSource.STORAGE;
 		}
 		else
 		{
