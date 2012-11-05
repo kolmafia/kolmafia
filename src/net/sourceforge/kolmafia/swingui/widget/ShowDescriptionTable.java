@@ -246,13 +246,20 @@ public class ShowDescriptionTable
 		// this behavior (for obvious reasons).
 		this.addKeyListener( new KeyAdapter()
 		{
-			private long saved_ms;
+			private long saved_ms = 0;
 			private int TIMETOWAIT = 700;
 			private String searchField = "";
 
 			@Override
 			public void keyTyped( KeyEvent e )
 			{
+				if ( e.isMetaDown() )
+				{
+					// Workaround mac-specific issue: when meta (command) is pressed, keyTyped events still fire.
+					// This is undesirable since meta-a is supposed to select all.  Notably, command-a on windows
+					// does not encounter this problem.
+					return;
+				}
 				// the search "resets" after a brief pause.  700ms feels about right.
 				if ( System.currentTimeMillis() - this.saved_ms < TIMETOWAIT )
 				{
