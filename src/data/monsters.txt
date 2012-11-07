@@ -1257,13 +1257,13 @@ reanimated demon skeleton	HP: 250 Def: 250 Atk: 250 Phys: 100 P: undead	fossiliz
 reanimated giant spider skeleton	HP: 300 Def: 300 Atk: 300 Phys: 100 P: undead	fossilized necklace (c100)
 
 # Fernswarthy's Basement
-The Beast with n Ears	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: horror Image: earbeast.gif
-The Beast with n Eyes	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 100 P: horror Image: eyebeast.gif
-A n Stone Golem	HP: [0.85*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 50 P: object Image: stonegolem.gif
-A n-Headed Hydra	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: beast Image: hydra.gif
-The Ghost of Fernswarthy's n great-grandfather	HP: [0.425*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 100 P: undead
-n Bottles of Beer on a Golem	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Spell: 90 P: object Image: beergolem.gif
-A n-Dimensional Horror	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 0 Phys: 90 P: horror Image: dimhorror.gif
+Beast with X Ears	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: horror Image: earbeast.gif
+Beast with X Eyes	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 100 P: horror Image: eyebeast.gif
+X Stone Golem	HP: [0.85*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 50 P: object Image: stonegolem.gif
+X-headed Hydra	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 P: beast Image: hydra.gif
+Ghost of Fernswarthy's Grandfather	HP: [0.425*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Phys: 100 P: undead
+X Bottles of Beer on a Golem	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 70 Spell: 90 P: object Image: beergolem.gif
+X-dimensional Horror	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 0 Phys: 90 P: horror Image: dimhorror.gif
 
 # Fires
 Servant Of Lord Flameface	HP: 0

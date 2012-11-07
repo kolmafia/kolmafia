@@ -97,7 +97,7 @@ F'c'le	80	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate
 Family Plot	100	Vampire Duck	Zombie Duck
 Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess
 Feeding Chamber	100	Filthworm Drone
-Fernswarthy's Basement	47	The Beast with n Ears	The Beast with n Eyes	A n Stone Golem		A n-Headed Hydra	The Ghost of Fernswarthy's n great-grandfather	n Bottles of Beer on a Golem	A n-Dimensional Horror
+Fernswarthy's Basement	47	Beast with X Ears	Beast with X Eyes	X Stone Golem		X-headed Hydra	Ghost of Fernswarthy's Grandfather	X Bottles of Beer on a Golem	X-dimensional Horror
 Fernswarthy's Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
 Fightin' Fire	100	brushfire
 Foyer	100	Fleaman	Ghost	Medusa
