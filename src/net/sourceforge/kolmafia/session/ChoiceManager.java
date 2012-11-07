@@ -3679,6 +3679,13 @@ public abstract class ChoiceManager
 
 		switch ( ChoiceManager.lastChoice )
 		{
+		case 3:
+			// The Oracle Will See You Now
+			if ( text.contains( "actually a book" ) )
+			{
+				Preferences.setInteger( "lastPlusSignUnlock", KoLCharacter.getAscensions() );
+			}
+			break;
 		case 7:
 			// How Depressing
 
