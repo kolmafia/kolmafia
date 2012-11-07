@@ -40,12 +40,17 @@ public class RelayBrowserCommand
 {
 	public RelayBrowserCommand()
 	{
-		this.usage = " - open the relay browser.";
+		this.usage = " [nobrowser] - start the relay server and/or open the relay browser.";
 	}
 
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		RelayLoader.openRelayBrowser();
+		if ( parameters.equals( "nobrowser" ) )
+		{
+			RelayLoader.startRelayServer();
+		}
+		else
+			RelayLoader.openRelayBrowser();
 	}
 }
