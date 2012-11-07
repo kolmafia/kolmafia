@@ -2670,6 +2670,9 @@ public abstract class KoLCharacter
 
 			// We can use all familiars again
 			GearChangeFrame.updateFamiliars();
+			
+			// Breakfast may want to be re-run, for various reasons
+			Preferences.setBoolean( "breakfastCompleted", false );
 
 			// If we are in Bad Moon, we can use the bookshelf and
 			// telescope again.
