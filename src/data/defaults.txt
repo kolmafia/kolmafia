@@ -499,6 +499,7 @@ user	lastPirateInsult6	false
 user	lastPirateInsult7	false
 user	lastPirateInsult8	false
 user	lastPirateInsultReset	-1
+user	lastPlusSignUnlock	-1
 user	lastPorkoBoard
 user	lastPorkoPayouts
 user	lastPorkoExpected
