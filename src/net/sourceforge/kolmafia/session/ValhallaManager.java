@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GalaktikRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -122,6 +123,13 @@ public class ValhallaManager
 		ItemPool.get( ItemPool.GNOMISH_ELBOW, 1 ),
 		ItemPool.get( ItemPool.GNOMISH_KNEE, 1 ),
 		ItemPool.get( ItemPool.GNOMISH_FOOT, 1 ),
+	};
+
+	private static final AdventureResult[] FREEPULL = new AdventureResult[]
+	{
+		ClanLoungeRequest.VIP_KEY,
+		ItemPool.get( ItemPool.CURSED_KEG, 1 ),
+		ItemPool.get( ItemPool.CURSED_MICROWAVE, 1 ),
 	};
 
 	public static void preAscension()
@@ -239,16 +247,6 @@ public class ValhallaManager
 		TurnCounter.startCounting( 70, "Semirare window begin", "lparen.gif" );
 		TurnCounter.startCounting( 80, "Semirare window end loc=*", "rparen.gif" );
 
-		// If you are in Beecore, watch out for wandering bees!
-		if ( KoLCharacter.inBeecore() )
-		{
-			// Until the interval to the first bee is spaded, don't
-			// bother setting a counter.
-			//
-			// TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
-			// TurnCounter.startCounting( 20, "Bee window end loc=*", "rparen.gif" );
-		}
-
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
 
@@ -257,11 +255,28 @@ public class ValhallaManager
 			RequestThread.postRequest( new GalaktikRequest( "startquest" ) );
 		}
 
-		// Pull a VIP key and report on whether a present is available
-		ClanLoungeRequest.visitLounge();
+		ValhallaManager.pullFreeItems();
 
 		//force rebuild of daily deeds panel
 		PreferenceListenerRegistry.firePreferenceChanged( "dailyDeedsOptions" );
+	}
+
+	// Pull items that
+	private static void pullFreeItems()
+	{
+		for ( int i = 0; i < ValhallaManager.FREEPULL.length; ++i )
+		{
+			AdventureResult item = ValhallaManager.FREEPULL[i];
+			if ( item.getCount( KoLConstants.inventory ) > 0 )
+			{
+				continue;
+			}
+
+			if ( item.getCount( KoLConstants.freepulls ) > 0 )
+			{
+				RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, item ) );
+			}
+		}
 	}
 
 	private static final void logNewAscension()

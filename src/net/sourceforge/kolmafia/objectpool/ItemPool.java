@@ -1478,6 +1478,8 @@ public class ItemPool
 	public static final int BORIS_HELM_ASKEW = 5650;
 	public static final int MIME_SOUL_FRAGMENT = 5651;
 	public static final int KEYOTRON = 5653;
+	public static final int CURSED_MICROWAVE = 5663;
+	public static final int CURSED_KEG = 5664;
 	public static final int JERK_BOOK = 5665;
 	public static final int GRUDGE_BOOK = 5666;
 	public static final int NOTE_FROM_CLANCY = 5682;

@@ -791,6 +791,8 @@ user	_clipartSummons	0
 user	_coalPaperweightUsed	false
 user	_creepyVoodooDollUsed	false
 user	_crimboTree	false
+user	_cursedKegUsed	false
+user	_cursedMicrowaveUsed	false
 user	_darkChocolateHeart	false
 user	_deluxeKlawSummons	0
 user	_demandSandwich	0
