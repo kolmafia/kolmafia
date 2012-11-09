@@ -880,6 +880,14 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_legendaryBeat" ) ? 0 : 1;
 
+		case ItemPool.CURSED_MICROWAVE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_cursedMicrowaveUsed" ) ? 0 : 1;
+
+		case ItemPool.CURSED_KEG:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_cursedKegUsed" ) ? 0 : 1;
+
 		}
 
 		switch ( consumptionType )
@@ -4162,6 +4170,15 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.LEFT_BEAR_ARM, 1 );
 			}
 			return;
+
+		case ItemPool.CURSED_KEG:
+			Preferences.setBoolean( "_cursedKegUsed", true );
+			return;
+
+		case ItemPool.CURSED_MICROWAVE:
+			Preferences.setBoolean( "_cursedMicrowaveUsed", true );
+			return;
+
 		}
 	}
 
