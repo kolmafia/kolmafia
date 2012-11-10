@@ -135,6 +135,7 @@ public class SkillPool
 	public static final int SQUEEZE_STRESS_BALL = 7113;
 	public static final int RELEASE_BOOTS = 7115;
 	public static final int SIPHON_SPIRITS = 7117;
+	public static final int UNLEASH_NANITES = 7137;
 	public static final int SNOWCONE = 8000;
 	public static final int STICKER = 8001;
 	public static final int SUGAR = 8002;

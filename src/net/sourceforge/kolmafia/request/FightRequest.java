@@ -2074,11 +2074,16 @@ public class FightRequest
 			TurnCounter.startCounting( 26, "Romantic Monster window end loc=*", "rparen.gif" );
 		}
 
-		if ( skillNumber == SkillPool.OLFACTION && responseText.contains( "fill your entire being" ) )
+		else if ( skillNumber == SkillPool.OLFACTION && responseText.contains( "fill your entire being" ) )
 		{
 			Preferences.setString( "olfactedMonster", MonsterStatusTracker.getLastMonsterName() );
 			Preferences.setString( "autoOlfact", "" );
 			FightRequest.canOlfact = false;
+		}
+
+		else if ( skillNumber == SkillPool.UNLEASH_NANITES && responseText.contains( "You roar with sudden power" ) )
+		{
+			Preferences.setString( "_nanorhinoBanishedMonster", MonsterStatusTracker.getLastMonsterName() );
 		}
 
 		// The first part is for a hobo underling being summoned
@@ -2438,42 +2443,42 @@ public class FightRequest
 				{
 					Preferences.increment( "_piePartsCount", 1 );
 					String s = Preferences.getString( "pieStuffing" ) + piediv + "fish";
-					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+					if ( Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
 				} else if ( responseText.indexOf( "harvests a few choice bits for his grinder" ) != -1 )
 				{
 					Preferences.increment( "_piePartsCount", 1 );
 					String s = Preferences.getString( "pieStuffing" ) + piediv + "boss";
-					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+					if ( Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
 				} else if ( responseText.indexOf( "a few choice bits" ) != -1 )
 				{
 					Preferences.increment( "_piePartsCount", 1 );
 					String s = Preferences.getString( "pieStuffing" ) + piediv + "normal";
-					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+					if ( Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
 				} else if ( responseText.indexOf( "your opponent and tosses them" ) != -1 )
 				{
 					Preferences.increment( "_piePartsCount", 1 );
 					String s = Preferences.getString( "pieStuffing" ) + piediv + "stench";
-					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+					if ( Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
 				} else if ( responseText.indexOf( "insides, squealing something" ) != -1 )
 				{
 					Preferences.increment( "_piePartsCount", 1 );
 					String s = Preferences.getString( "pieStuffing" ) + piediv + "hot";
-					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+					if ( Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
 				} else if ( responseText.indexOf( "grind, chattering" ) != -1 )
 				{
 					Preferences.increment( "_piePartsCount", 1 );
 					String s = Preferences.getString( "pieStuffing" ) + piediv + "spooky";
-					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+					if ( Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
 				} else if ( responseText.indexOf( "My Hampton has a funny feeling" ) != -1 )
 				{
 					Preferences.increment( "_piePartsCount", 1 );
 					String s = Preferences.getString( "pieStuffing" ) + piediv + "sleaze";
-					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+					if ( Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
 				} else if ( responseText.indexOf( "grindable organs, muttering" ) != -1 )
 				{
 					Preferences.increment( "_piePartsCount", 1 );
 					String s = Preferences.getString( "pieStuffing" ) + piediv + "cold";
-					if(Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
+					if ( Preferences.getInteger( "_piePartsCount") != 0 ) Preferences.setString( "pieStuffing", s );
 				}
 				break;
 
