@@ -1591,7 +1591,7 @@ public abstract class RuntimeLibrary
 		}
 		String value = relayRequest.getPath();
 		int quest = value.indexOf( "?" );
-		return quest == -1 ? DataTypes.STRING_INIT : new Value( value.substring( 1, quest ) );
+		return quest == -1 ? DataTypes.STRING_INIT : new Value( value.substring( quest ) );
 	}
 
 	public static Value batch_open( Interpreter interpreter )
