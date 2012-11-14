@@ -92,6 +92,15 @@ public class MonsterStatusTracker
 			MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName, false );
 		}
 
+		if ( MonsterStatusTracker.monsterData == null && monsterName.startsWith( "the " ) )
+		{
+			MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 4 ), false );
+			if ( MonsterStatusTracker.monsterData != null )
+			{
+				monsterName = monsterName.substring( 4 );
+			}
+		}
+
 		if ( MonsterStatusTracker.monsterData == null )
 		{
 			// Temporarily register the unknown monster so that
