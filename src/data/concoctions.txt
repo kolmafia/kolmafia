@@ -2007,3 +2007,12 @@ ballpark hot daub	SUSE	hot daub
 hot daub bun	MUSE	hot daub (15)
 foot-long hot daub	MUSE	hot daub (17)
 hot daub stand	MUSE	hot daub (19)
+
+oily boid	MUSE	bubblin' crude (3)
+oil cap	MUSE	bubblin' crude (8)
+oil lamp	MUSE	bubblin' crude (9)
+oil slacks	MUSE	bubblin' crude (10)
+oil pan	MUSE	bubblin' crude (11)
+jar of oil	MUSE	bubblin' crude (12)
+
+blessed large box	COMBINE	large box	ten-leaf clover

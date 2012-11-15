@@ -1130,3 +1130,14 @@
 1129	Nanobrawny	nanobrawny.gif	2996d91c753eb6cf2d93b159229d90e6
 1130	Nanobrainy	nanobrainy.gif	47e756959f85d403d1422bae39e7e456
 1131	Nanoballsy	nanoballsy.gif	88a4a61ac68e862249f5be9d1f75a0fe
+1132
+1133
+1134
+1135
+1136
+1137
+1138	Using Protection	sheet.gif	b5d312d927d71ad04dc95d616dba7d6e	use 1 orcish rubber
+1139	Well-Lubed	tube.gif	70e45e5eb1c088d49c873dafbde1b745	use 1 orcish nailing lube
+1140	Hairy Palms	hand.gif	534a712e2c6a15dacecb551a46366843	use 1 orcish hand lotion
+1141
+1142	Neutered Nostrils	potion4.gif	79fda8863783295d4ea2b67319974c07	use 1 Polysniff Perfume

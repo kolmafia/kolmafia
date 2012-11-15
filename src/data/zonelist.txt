@@ -36,6 +36,7 @@ Pandamonium	Pandamonium	Pandamonium
 Mountain	Mountain	Big Mountains
 McLarge	Mountain	Mt. McLargeHuge
 Dungeon	Mountain	Dungeon Full of Dungeons
+Highlands	Mountain	Highlands
 
 Beach	Beach	Desert Beach
 Pyramid	Beach	Ancient Buried Pyramid

@@ -167,6 +167,7 @@ mummy costume	10	none
 mummy mask	170	Mox: 70
 nasty rat mask	180	Mox: 75
 nurse's hat	200	Mox: 85
+oil cap	115	Mox: 42
 opera mask	10	none
 orange peel hat	200	Mox: 85
 orange traffic cone	60	Mox: 15
@@ -285,6 +286,7 @@ The Necbromancer's Shorts	200	Mox: 200
 Travoltan trousers	100	none
 Tropical Crimbo Shorts	100	Mox: 35
 Uncle Hobo's gift baggy pants	200	Mox: 200
+Whoompa Fur Pants	110	Mox: 40
 Volartta's bellbottoms	125	Mox: 30
 Voluminous Radio Pants	150	Mox: 60
 Zombo's grievous greaves	200	Mus: 200
@@ -359,6 +361,7 @@ miner's pants	80	Mox: 25
 monster pants	70	none
 mostly rat-hide leggings	200	Mox: 200
 ninja hot pants	70	Mox: 20
+oil slacks	120	Mox: 45
 old patched suit-pants	200	Mox: 200
 old school Mafia knickerbockers	100	Mox: 35
 old sweatpants	10	none
@@ -846,6 +849,7 @@ obsidian dagger	30	Mus: 10	1-handed knife
 ocarina of space	120	Mox: 45	2-handed flute
 octopus's spade	200	Mus: 85	1-handed knife
 office-supply crossbow	50	Mox: 10	2-handed crossbow
+oil pan	125	Mys: 47	1-handed saucepan
 old school Mafi<i>a kni</i>cke&frac12;&aelig;	117	Mys: 41	1-handed sword
 origami riding crop	100	Mus: 0	1-handed crop
 out-of-tune biwa	30	Mox: 0	2-handed guitar
@@ -1192,7 +1196,9 @@ mole skin notebook	40	none
 moxie magnet	30	none
 naughty fortune teller	0	none
 off-hand balloon	10	none
+oil lamp	0	Mus: 45
 old-school flying disc	220	Mus: 200	shield
+orcish stud-finder	0	Mys: 27
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
 padded tortoise	100	Mus: 35	shield
@@ -1562,6 +1568,7 @@ floaty rock necklace	100	Mys: 35
 foam noodle	10	none
 fossilized necklace	50	none
 frayed rope belt	200	Mys: 200
+freshwater pearl necklace	0	Mys: 25
 frosty halo	50	none
 fudge pocket square	0	none
 fudgecycle	200	Mys: 85
@@ -1579,6 +1586,7 @@ glow-in-the-dark wristwatch	0	none
 glowing red eye	150	Mys: 60
 gnatwing earring	90	Mys: 30
 gnoll-tooth necklace	80	Mys: 10
+gold wedding ring	0	none
 gray bow tie	30	none
 green glowstick	20	none
 groovy prism necklace	150	Mys: 60
@@ -1634,6 +1642,7 @@ offensive moustache	0	none
 old soft shoes	200	Mys: 200
 orange glowstick	20	none
 orange leather lanyard	50	none
+orc wrist	0	Mys: 32
 oven mitts	45	Mys: 7
 pacifier necklace	150	Mox: 60
 pair of pearidot earrings	0	none
@@ -1695,6 +1704,7 @@ rubber WWSPD? bracelet	10	none
 rubber WWtNSD? bracelet	10	none
 rum barrel charrrm bracelet	110	Mys: 40
 rusty chain necklace	180	Mys: 75
+screwing pooch	0	Mys: 27
 sealhide belt	160	Mys: 65
 sealhide gloves	160	Mys: 65
 sealhide moccasins	160	Mys: 65
@@ -1735,6 +1745,7 @@ stainless steel suspenders	90	Mys: 30
 stick-on eyebrow piercing	10	none
 sticky gloves	70	none
 stinky cheese eye	0	none
+stolen necklace	0	Mys: 30
 strawberyl necklace	0	none
 streetfighting champion's belt	100	Mus: 35
 string of blue beads	10	none
@@ -1915,6 +1926,7 @@ auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
 hemp backpack	0	Mys: 75
 makeshift cape	100	Mys: 75
+Misty Cloak	0	Mus: 75
 palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
 sealhide cloak	160	Mys: 75
