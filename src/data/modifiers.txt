@@ -231,6 +231,7 @@ mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
 mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
 nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "atk"
+oil cap	MP Regen Min: 2, MP Regen Max: 4, Sleaze Resistance: +2
 opera mask	Moxie: -5, Familiar Effect: "spooky atk, 1xBarrr, cap 2"
 orange peel hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Familiar Effect: "atk, 1xVolley"
 orange traffic cone	Moxie: +3, Spooky Resistance: +2
@@ -360,6 +361,7 @@ Tropical Crimbo Shorts	Initiative: +30, Familiar Effect: "1xPotato"
 Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +1, Familiar Effect: "1xPotato, 1xGhuol"
 Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit", Familiar Effect: "1xPotato, 1.5xFairy, cap 31"
 Voluminous Radio Pants	HP Regen Min: 0, HP Regen Max: 5
+Whoompa Fur Pants	Stench Damage: +10, Stench Resistance: +2
 Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Turtle Tamer", Familiar Effect: "spooky atk, prismatic atk, 1xBarrr"
 alpha-mail pants	Familiar Effect: "atk, 1xBarrr, cap 35"
 antique greaves	Initiative: -10, Familiar Effect: "1xBarrr"
@@ -435,6 +437,7 @@ miner's pants	Damage Absorption: +20, Familiar Effect: "prismatic atk, 1.5xPotat
 monster pants	Critical: 3, Familiar Effect: "3xVolley, 1xPotato, cap 17"
 mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5, Familiar Effect: "stench atk, 1xPotato"
 ninja hot pants	Hot Damage: +4, Familiar Effect: "hot atk, prismatic atk, 1xPotato, cap 17"
+oil slacks	Initiative: +20
 old patched suit-pants	Monster Level: +40, Moxie Percent: +5, Familiar Effect: "1xPotato, 0.5xFairy"
 old school Mafia knickerbockers	Muscle: +25, Mysticality: +25, Moxie: +25, Familiar Effect: "cap 25"
 old sweatpants	Familiar Effect: "1xPotato, cap 2"
@@ -954,6 +957,7 @@ obsidian dagger	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damag
 ocarina of space	Muscle: +4, Mysticality: +4, Moxie: +4, Ranged Damage: +5, Experience: +2
 octopus's spade	Item Drop: +5, Initiative: +10, Weapon Damage: +15
 office-supply crossbow	Moxie: +3, Ranged Damage: +3
+oil pan	Mysticality Percent: +10
 old school Mafi<i>a kni</i>cke&frac12;&aelig;	Ranged Damage: +27
 # origami riding crop: Makes you prone to innuendo (heh heh)
 origami riding crop	Sleaze Damage: +10, Initiative: +15, Softcore Only
@@ -1353,7 +1357,9 @@ moxie magnet	Moxie Controls MP
 # naughty fortune teller: + Some Stats Per Fight
 naughty fortune teller	Softcore Only
 off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
+oil lamp	Sleaze Damage: +5, Hot Damage: +5
 old-school flying disc	Muscle Percent: +15, Damage Reduction: 10, Familiar Weight: +5
+orcish stud-finder	Weapon Damage: +5, Sleaze Damage: +5
 # oyster basket
 oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 padded tortoise	Damage Absorption: +20, HP Regen Min: 4, HP Regen Max: 8, Damage Reduction: 6
@@ -1761,6 +1767,7 @@ floaty rock necklace	Spell Critical Percent: +10
 # foam noodle
 fossilized necklace	Muscle: [2*pref(fossilB)], Mysticality: [2*pref(fossilB)], Moxie: [2*pref(fossilB)], Spell Damage: [2*pref(fossilS)], Weapon Damage: [3*pref(fossilN)], Muscle Percent: [3*pref(fossilW)], Mysticality Percent: [3*pref(fossilW)], Moxie Percent: [3*pref(fossilW)], Hot Damage: [3*pref(fossilD)], Spooky Damage: [3*pref(fossilP)]
 frayed rope belt	Moxie Percent: +10, Single Equip
+freshwater pearl necklace	Spell Critical Percent: +5
 frosty halo	Item Drop: +25, Unarmed, Single Equip
 fudge pocket square	Muscle: +5
 fudgecycle	Adventures: +7, Candy Drop: +100, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Single Equip
@@ -1779,6 +1786,8 @@ glow-in-the-dark wristwatch	Mysticality: [9-M], Spell Damage: [9-M], Adventures:
 glowing red eye	Spooky Resistance: +2
 gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
+# gold wedding ring: 75% Chance of Preventing Negative Status Attacks
+gold wedding ring	Adventures: +1
 gray bow tie	Moxie: +1, Spooky Resistance: +1
 green glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 # groovy prism necklace: Deals a rainbow of damage to attackers
@@ -1842,6 +1851,7 @@ offensive moustache	PvP Fights: +7, Single Equip
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 orange leather lanyard	Weapon Damage: +15, Single Equip
+# orc wrist: +15 Damage vs. Orcs
 oven mitts	Hot Resistance: +2, Single Equip
 pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
 # pair of pearidot earrings: (only in the Candy Diorama)
@@ -1910,6 +1920,7 @@ round purple sunglasses	Sleaze Resistance: +1, Single Equip
 # rubber WWtNSD? bracelet
 rum barrel charrrm bracelet	Booze Drop: +5
 rusty chain necklace	Muscle: +9, Maximum HP: +25
+screwing pooch	Item Drop: +3
 sealhide belt	Maximum HP: +25, Maximum MP: +25
 sealhide gloves	Weapon Damage: +10
 sealhide moccasins	Muscle: +5, Mysticality: +5, Moxie: +5, Single Equip
@@ -1953,6 +1964,7 @@ stainless steel suspenders	Damage Absorption: +60, Maximum MP: +40, Moxie Percen
 stick-on eyebrow piercing	Muscle: +1
 sticky gloves	Pickpocket Chance: +20, Single Equip
 stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))]
+stolen necklace	PvP Fights: +1, Spooky Damage: +5
 # strawberyl necklace: (only in the Candy Diorama)
 strawberyl necklace	Spell Damage Percent: [200*zone(The Candy Diorama)], Single Equip
 streetfighting champion's belt	Maximum HP: +40, Maximum MP: +40, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8, Critical: 3, Single Equip
@@ -2138,6 +2150,7 @@ auxiliary backbone	PvP Fights: +3
 barskin cloak	Muscle: +7
 hemp backpack	Item Drop: +2
 makeshift cape	Item Drop: +5
+Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
 palm-frond cloak	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
 sealhide cloak	Cold Resistance: +2
@@ -3019,6 +3032,7 @@ Gummiheart	Muscle: +100
 Gummiskin	Moxie: +100
 Gutterminded	Sleaze Damage: +50
 # Haiku State of Mind: large penalty to result parsing
+Hairy Palms	Never Fumble, MP Regen Min: 3, MP Regen Max: 4, HP Regen Min: 6, HP Regen Max: 8
 # Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
 Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
@@ -3213,6 +3227,7 @@ Natural 1	Initiative: -100
 Natural 20	Initiative: +100
 # Nerf'd: Less powerful than you were before
 Neuromancy	Mysticality Percent: +10
+Neutered Nostrils	Stench Resistance: +2
 New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Newt Gets In Your Eyes	Moxie: +25
 Night Vision	Meat Drop: +30
@@ -3598,6 +3613,7 @@ Twinkly Weapon	Weapon Damage: +3
 Unpopular	Monster Level: +30
 Unusual Fashion Sense	Damage Absorption: +50
 Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
+Using Protection	Mana Cost: -2
 # Vampin'
 # Vanity Rage: Weapon Damage: +X, Spell Damage: +X
 Very Clean Guns	Ranged Damage: +20
@@ -3621,6 +3637,7 @@ Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
 # Weird Flavor: ???
 # Weirdly Scientific: Makes you look like a Sub-Assistant Knob Mad Scientist
+Well-Lubed	Weapon Damage Percent: +10
 Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Well-Swabbed Ear	Initiative: +30
 Well-preserved	HP Regen Min: 150, HP Regen Max: 200
@@ -3814,6 +3831,7 @@ Legendary Regalia of the Master Squeezeboxer	Pickpocket Chance: +50
 Luniform	Weapon Damage Percent: +25, Spell Damage Percent: +25
 Mining Gear	Meat Drop: +5
 # Mutant Couture	Release Your Inner Mutant
+Oil Rig	Initiative: +30
 OK Lumberjack Outfit	Critical: 2
 Palmist Paraphernalia	Moxie: +7
 # Paperclippery	Helpful!
@@ -4039,6 +4057,7 @@ Piddles	Effect: "Belch the Rainbow&trade;", Effect Duration: 10
 PlexiPips	Effect: "Sole Soul"
 Pok&euml;mann band-aid	Effect: "Aided and Abetted", Effect Duration: 10
 Polka Pop	Effect: "Polka Face", Effect Duration: 10
+Polysniff Perfume	Effect: "Neutered Nostrils", Effect Duration: 10
 Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
 Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
@@ -4338,6 +4357,9 @@ orange-frosted astral cupcake	Effect: "Shiny Happy Cupcake", Effect Duration: 20
 orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5
 orange candy heart	Effect: "Heart of Orange", Effect Duration: 10
 orange snowcone	Effect: "Orange Tongue", Effect Duration: 20
+orcish hand lotion	Effect: "Hairy Palms", Effect Duration: 10
+orcish nailing lube	Effect: "Well-Lubed", Effect Duration: 10
+orcish rubber	Effect: "Using Protection", Effect Duration: 10
 organ grinder	Free Pull
 orphan baby yeti	Free Pull
 panicked kernel	Free Pull
@@ -4479,6 +4501,7 @@ teeny-tiny magic scroll	Effect: "Happy Trails", Effect Duration: 10
 temporary teardrop tattoo	Effect: "Crocodile Tear", Effect Duration: 15
 temporary tribal tattoo	Effect: "Dawn of the Goblin", Effect Duration: 50
 tempura air	Effect: "Pumped Stomach", Effect Duration: 20
+that gum you like	Effect: "Sugar Rush", Effect Duration: 5
 thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 time sleigh	Free Pull
 time's arrow	Free Pull

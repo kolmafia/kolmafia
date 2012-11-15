@@ -5367,7 +5367,7 @@
 5350	A Crimbo Carol, Ch. 4 (used)	713267731	book3.gif	reusable	d	1000
 5351	A Crimbo Carol, Ch. 5 (used)	269081092	book3.gif	reusable	d	1000
 5352	A Crimbo Carol, Ch. 6 (used)	955971327	book3.gif	reusable	d	1000
-5353
+5353	jar of oil	286097450	oiljar.gif	none	q	0
 5354	The Art of Slapfighting (used)	216432791	book4.gif	reusable	d	1000
 5355	Uncle Romulus (used)	684007394	book4.gif	reusable	d	1000
 5356	A Beginner's Guide to Charming Snakes (used)	275530990	book4.gif	reusable	d	1000
@@ -5518,7 +5518,7 @@
 5501	Jackass Plumber home game	242884184	jplumber.gif	reusable		0
 5502	Trivial Avocations board game	155160111	triviagame.gif	reusable		0
 5503	Tickle-Me Emilio	644358901	emilio.gif	grow		0
-5504
+5504	blessed large box	948466295	lparen.gif	usable	q	0
 5505	pack of pogs	449463152	pogpack.gif	multiple	t	0	packs of pogs
 5506	jerky coins	806048402	jerkycoins.gif	food	t	0	stacks of jerky coins
 5507	Go-Wassail	499208335	gowassail.gif	drink	t	0
@@ -5796,14 +5796,14 @@
 5779	keel-haulin' knife	417588957	knife.gif	weapon	t,d	160
 5780	ancient ice cream scoop	546744324	icscoop.gif	weapon	t,d	180
 5781	soft green echo eyedrop antidote martini	724294866	martini.gif	drink	t,d	130
-5782
-5783
-5784
-5785
-5786
-5787
-5788
-5789
+5782	morningwood plank	421802258	plank1.gif	none	q	0
+5783	raging hardwood plank	735472423	plank2.gif	none	q	0
+5784	weirdwood plank	268261607	plank3.gif	none	q	0
+5785	thick caulk	222380345	caulk.gif	none	q	0
+5786	long hard screw	602324275	longscrew.gif	none	q	0
+5787	messy butt joint	732783566	buttjoint.gif	none	q	0
+5788	smut orc keepsake box	252389564	keepsakebox.gif	usable	t	0
+5789	bubblin' crude	856998415	crudeoil.gif	multiple	t	0
 5790	box of bear arms	424762876	beararms.gif	usable	t	0
 5791	right bear arm	409034560	beararm_right.gif	weapon	t	0
 5792	left bear arm	208749545	beararm_left.gif	offhand, usable	t	0
@@ -5906,7 +5906,7 @@
 5889	auxiliary backbone	289762965	auxspine.gif	container	t,d	45
 5890	skulldozer egg	454434202	eggplain.gif	grow	t	0
 5891	ribcage rollcage	726852767	rollcage.gif	familiar	t,d	75
-5892	
+5892	that gum you like	554400519	fishgum.gif	usable	t,d	15
 5893	
 5894	
 5895	
@@ -5923,7 +5923,7 @@
 5906	
 5907	
 5908	
-5909	
+5909	gold wedding ring	139779467	weddingring.gif	accessory	d	11000
 5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0
 5911	nanorhino credit card	776155074	littlecard.gif	familiar	t,d	75
 5912	Solstice Shield	120888971	shield.gif	offhand			0
@@ -5978,7 +5978,7 @@
 5961	
 5962	
 5963	
-5964	
+5964	A-Boo clue	646443068	map.gif	usable	q	0
 5965	
 5966	soul monocle	744020398	soulmonocle.gif	accessory		0
 5967	soul doorbell	498403310	souldoorbell.gif	usable	t	0
@@ -5992,3 +5992,73 @@
 5975	record of menacing silence	477678639	record.gif	usable	t	0
 5976	record of menacing silence (used)	126984084	record.gif	usable		0
 5977	silent beret	553150840	mimeberet.gif	hat	t	0
+5978
+5979
+5980
+5981
+5982
+5983
+5984
+5985
+5986
+5987
+5988
+5989
+5990
+5991
+5992
+5993
+5994
+5995
+5996
+5997
+5998
+5999
+6000
+6001
+6002
+6003
+6004
+6005
+6006
+6007
+6008
+6009
+6010
+6011	orc wrist	143621823	orcwrist.gif	accessory	t,d	45
+6012	freshwater pearl necklace	555121884	candynecklace.gif	accessory	t,d	95
+6013	orcish stud-finder	655691201	studfinder.gif	offhand	t,d	60
+6014	screwing pooch	331523616	pouch.gif	accessory	t,d	40
+6015	orcish hand lotion	188062928	handlotion.gif	usable	t,d	65
+6016	orcish rubber	846260644	sheet.gif	usable	t,d	70
+6017	orcish nailing lube	451592558	tube.gif	usable	t,d	55
+6018	backwoods screwdriver	654728754	rocks.gif	drink	t,d	35
+6019
+6020
+6021
+6022
+6023	Whoompa Fur Pants	246273677	woompapants.gif	pants	t,d	95
+6024
+6025	Polysniff Perfume	858641829	potion4.gif	usable	t,d	45
+6026	Duskwalker syringe	311982559	syringe2.gif	none, combat	t,d	30
+6027
+6028
+6029
+6030
+6031
+6032
+6033	stolen necklace	674786356	stolenecklace.gif	accessory	t,d	80
+6034
+6035
+6036
+6037	creepy ginger ale	346438834	soda2.gif	usable	t,d	25
+6038
+6039	oil cap	956079813	oilcap.gif	hat	t,d	145
+6040	oil lamp	851791842	oillamp.gif	offhand	t,d	130
+6041	oil slacks	452627138	oilslacks.gif	pants	t,d	110
+6042	oil pan	522478334	oilpan.gif	weapon	t,d	150
+6043	oily boid	495755429	oilyboid.gif	none, combat	t,d	15
+6044
+6045
+6046
+6047	Misty Cloak	124569077	mistcloak.gif	container	t,d	1000
