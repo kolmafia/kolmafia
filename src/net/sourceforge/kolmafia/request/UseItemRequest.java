@@ -2741,9 +2741,17 @@ public class UseItemRequest
 		case ItemPool.MENACING_SILENCE_RECORD:
 		case ItemPool.MENACING_SILENCE_RECORD_USED:
 		{
-			if ( KoLCharacter.inAxecore() && responseText.indexOf( "didn't like to read" ) != -1 )
+			if ( KoLCharacter.inAxecore() && responseText.contains( "didn't like to read" ) )
 			{
 				UseItemRequest.lastUpdate = "Boris didn't like to read. ";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+
+			if ( KoLCharacter.inClasscore() && responseText.contains( "This item doesn't seem very classy." ) )
+			{
+				UseItemRequest.lastUpdate = "This item doesn't seem very classy. ";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				ResultProcessor.processResult( item );
 				return;

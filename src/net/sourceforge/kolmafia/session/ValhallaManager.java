@@ -325,6 +325,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Zombie Slayer " );
 		}
+		else if ( KoLCharacter.inClasscore() )
+		{
+			sessionStream.print( "Class Act " );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );
