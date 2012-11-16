@@ -332,24 +332,24 @@ public class AfterLifeRequest
 			}
 			int type = StringUtilities.parseInt( m.group( 1 ) );
 
-			StringBuffer buffer = new StringBuffer();
-			buffer.append( "Ascend as a " );
+			StringBuilder builder = new StringBuilder();
+			builder.append( "Ascend as a " );
 
 			switch ( type )
 			{
 			case 1:
-				buffer.append( "Casual" );
+				builder.append( "Casual" );
 				break;
 			case 2:
-				buffer.append( "Normal" );
+				builder.append( "Normal" );
 				break;
 			case 3:
-				buffer.append( "Hardcore" );
+				builder.append( "Hardcore" );
 				break;
 			default:
-				buffer.append( "(Type " );
-				buffer.append( String.valueOf( type ) );
-				buffer.append( ")" );
+				builder.append( "(Type " );
+				builder.append( String.valueOf( type ) );
+				builder.append( ")" );
 				break;
 			}
 
@@ -360,20 +360,20 @@ public class AfterLifeRequest
 			}
 			int gender = StringUtilities.parseInt( m.group( 1 ) );
 
-			buffer.append( " " );
+			builder.append( " " );
 
 			switch ( gender )
 			{
 			case 1:
-				buffer.append( "Male" );
+				builder.append( "Male" );
 				break;
 			case 2:
-				buffer.append( "Female" );
+				builder.append( "Female" );
 				break;
 			default:
-				buffer.append( "(Gender " );
-				buffer.append( String.valueOf( gender ) );
-				buffer.append( ")" );
+				builder.append( "(Gender " );
+				builder.append( String.valueOf( gender ) );
+				builder.append( ")" );
 				break;
 			}
 
@@ -384,38 +384,38 @@ public class AfterLifeRequest
 			}
 			int pclass = StringUtilities.parseInt( m.group( 1 ) );
 
-			buffer.append( " " );
+			builder.append( " " );
 
 			switch ( pclass )
 			{
 			case 1:
-				buffer.append( "Seal Clubber" );
+				builder.append( "Seal Clubber" );
 				break;
 			case 2:
-				buffer.append( "Turtle Tamer" );
+				builder.append( "Turtle Tamer" );
 				break;
 			case 3:
-				buffer.append( "Pastamancer" );
+				builder.append( "Pastamancer" );
 				break;
 			case 4:
-				buffer.append( "Sauceror" );
+				builder.append( "Sauceror" );
 				break;
 			case 5:
-				buffer.append( "Disco Bandit" );
+				builder.append( "Disco Bandit" );
 				break;
 			case 6:
-				buffer.append( "Accordion Thief" );
+				builder.append( "Accordion Thief" );
 				break;
 			case 11:
-				buffer.append( "Avatar of Boris" );
+				builder.append( "Avatar of Boris" );
 				break;
 			case 12:
-				buffer.append( "Zombie Master" );
+				builder.append( "Zombie Master" );
 				break;
 			default:
-				buffer.append( "(Class " );
-				buffer.append( String.valueOf( pclass ) );
-				buffer.append( ")" );
+				builder.append( "(Class " );
+				builder.append( String.valueOf( pclass ) );
+				builder.append( ")" );
 				break;
 			}
 
@@ -425,25 +425,25 @@ public class AfterLifeRequest
 				return true;
 			}
 
-			buffer.append( " under the " );
+			builder.append( " under the " );
 
 			int sign = StringUtilities.parseInt( m.group( 1 ) );
 			if ( sign >= 1 && sign <= KoLCharacter.ZODIACS.length )
 			{
-				buffer.append( KoLCharacter.ZODIACS[ sign - 1 ] );
+				builder.append( KoLCharacter.ZODIACS[ sign - 1 ] );
 			}
 			else if ( sign == 10 )
 			{
-				buffer.append( "Bad Moon" );
+				builder.append( "Bad Moon" );
 			}
 			else
 			{
-				buffer.append( "(Sign " );
-				buffer.append( String.valueOf( sign ) );
-				buffer.append( ")" );
+				builder.append( "(Sign " );
+				builder.append( String.valueOf( sign ) );
+				builder.append( ")" );
 			}
 
-			buffer.append( " sign" );
+			builder.append( " sign" );
 
 			m = PATH_PATTERN.matcher( urlString );
 			if ( !m.find() )
@@ -452,54 +452,56 @@ public class AfterLifeRequest
 			}
 			int path = StringUtilities.parseInt( m.group( 1 ) );
 
-			buffer.append( " on " );
+			builder.append( " on " );
 
 			switch ( path )
 			{
 			case 0:
-				buffer.append( "no" );
+				builder.append( "no" );
 				break;
 			case 1:
-				buffer.append( "a Boozetafarians" );
+				builder.append( "a Boozetafarians" );
 				break;
 			case 2:
-				buffer.append( "a Teetotaler" );
+				builder.append( "a Teetotaler" );
 				break;
 			case 3:
-				buffer.append( "an Oxygenarian" );
+				builder.append( "an Oxygenarian" );
 				break;
 			case 4:
-				buffer.append( "a Bees Hate You" );
+				builder.append( "a Bees Hate You" );
 				break;
 			case 6:
-				buffer.append( "a Way of the Surprising Fist" );
+				builder.append( "a Way of the Surprising Fist" );
 				break;
 			case 7:
-				buffer.append( "a Trendy" );
+				builder.append( "a Trendy" );
 				break;
 			case 8:
-				buffer.append( "an Avatar of Boris" );
+				builder.append( "an Avatar of Boris" );
 				break;
 			case 9:
-				buffer.append( "a Bugbear Invasion" );
+				builder.append( "a Bugbear Invasion" );
 				break;
 			case 10:
-				buffer.append( "a Zombie Slayer" );
+				builder.append( "a Zombie Slayer" );
 				break;
+			case 11:
+				builder.append( "a Class Act" );
 			default:
-				buffer.append( "(Path " );
-				buffer.append( String.valueOf( path ) );
-				buffer.append( ")" );
+				builder.append( "(Path " );
+				builder.append( String.valueOf( path ) );
+				builder.append( ")" );
 				break;
 			}
 
-			buffer.append( " path," );
+			builder.append( " path," );
 
-			buffer.append( " banking " );
-			buffer.append( String.valueOf( karma ) );
-			buffer.append( " Karma." );
+			builder.append( " banking " );
+			builder.append( String.valueOf( karma ) );
+			builder.append( " Karma." );
 
-			message = buffer.toString();
+			message = builder.toString();
 		}
 
 		if ( message == null )

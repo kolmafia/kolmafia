@@ -491,7 +491,9 @@ public class AccountRequest
 		     action.equals( "Drop+Way+of+the+Surprising+Fist" ) ||
 		     action.equals( "Drop+Trendy" ) ||
 		     action.equals( "Drop+Avatar+of+Boris" ) ||
-		     action.equals( "Drop+Bugbear+Invasion") )
+		     action.equals( "Drop+Bugbear+Invasion" ) ||
+			 action.equals( "Drop+Zombie+Slayer" ) ||
+			 action.equals( "Drop+Class+Act" ) )
 		{
 			if ( location.indexOf( "unpathconfirm=1" ) != -1 )
 			{
