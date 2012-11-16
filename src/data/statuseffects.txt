@@ -1139,5 +1139,5 @@
 1138	Using Protection	sheet.gif	b5d312d927d71ad04dc95d616dba7d6e	use 1 orcish rubber
 1139	Well-Lubed	tube.gif	70e45e5eb1c088d49c873dafbde1b745	use 1 orcish nailing lube
 1140	Hairy Palms	hand.gif	534a712e2c6a15dacecb551a46366843	use 1 orcish hand lotion
-1141
+1141	The Glistening	blankoutglob.gif	95a20a402469fefbd7dacc5a27e5b558	use 1 vial of The Glistening
 1142	Neutered Nostrils	potion4.gif	79fda8863783295d4ea2b67319974c07	use 1 Polysniff Perfume
