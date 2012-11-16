@@ -321,6 +321,7 @@ demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
 distressed denim pants	170	Mox: 70
 double-ice britches	70	Mox: 20
+dress pants	115	Mox: 42
 duct tape dockers	195	Mox: 82
 dungeoneer's dungarees	30	none
 dwarvish war kilt	165	Mox: 67
@@ -404,6 +405,7 @@ swashbuckling pants	80	Mox: 25
 tighty whiteys	40	Mox: 5
 time trousers	100	Mox: 35
 tree skirt	100	Mox: 35
+troll britches	115	Mox: 42
 trousers of the white knight	60	Mox: 15
 troutpiece	110	Mox: 40
 turtle wax greaves	40	Mox: 5
@@ -571,6 +573,7 @@ Ruby Rod	120	Mus: 40	1-handed rod
 Seeger's Unstoppable Banjo	200	Mox: 60	2-handed banjo
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Sledgehammer of the V&aelig;lkyr	200	Mus: 60	1-handed club
+Space Tourist Phaser	100	Mox: 35	1-handed pistol
 Spirit Precipice	135	Mus: 45	2-handed sword
 Spooky Putty ball	100	Mox: 0	1-handed superball
 Spooky Putty snake	10	Mys: 0	1-handed chefstaff
@@ -1081,6 +1084,7 @@ Tiki lighter	20	none
 Tuesday's ruby	120	Mys: 45
 Victor, the Insult Comic Hellhound Puppet	10	none
 Wand of Oscus	200	Mys: 200
+Whatsian Ionic Pliers	110	Mys: 40
 Zombo's shield	240	Mus: 200	shield
 adhesive tape dolly	0	none
 ancient calendar	70	Mus: 20	shield
@@ -1342,9 +1346,11 @@ Chester's moustache	200	Mox: 200
 Chester's sunglasses	200	Mox: 200
 Choker of the Ultragoth	150	Mys: 60
 Claw of the Infernal Seal	150	Mus: 45
+Claybender glasses	100	Mys: 35
 Codpiece of the Goblin King	70	Mys: 20
 Copper Alpha of Sincerity	200	Mys: 85
 Counterclockwise Watch	200	none
+Duskwalker fangs	105	Mys: 37
 Dyspepsi-Cola-issue canteen	30	none
 E.M.U. Unit	0	none
 Earring of Fire	150	Mys: 60
@@ -1482,6 +1488,7 @@ baconstone earring	50	Mys: 10
 baconstone pendant	50	Mys: 10
 baconstone ring	50	Mys: 10
 badass belt	100	Mys: 35
+badge of authority	110	Mys: 40
 bananarama bangle	0	none
 baneful bandolier	200	Mus: 150
 bark bracelet	40	Mys: 5
@@ -1580,6 +1587,7 @@ garish pinky ring	50	Mys: 10
 gearbox necklace	180	Mys: 75
 giant designer sunglasses	10	none
 giant diamond ring	0	none
+giant motorcycle boots	120	Mus: 45
 giant pinky ring	100	Mys: 35
 glacial clock	30	none
 glow-in-the-dark wristwatch	0	none
@@ -1927,6 +1935,7 @@ barskin cloak	25	Mys: 75
 hemp backpack	0	Mys: 75
 makeshift cape	100	Mys: 75
 Misty Cloak	0	Mus: 75
+Misty Robe	130	Mys: 75
 palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
 sealhide cloak	160	Mys: 75

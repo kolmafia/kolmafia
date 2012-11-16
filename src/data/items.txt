@@ -2454,7 +2454,7 @@
 2437	New Cloaca-Cola	791269713	cloaca.gif	mp, combat	t	0	cans of New Cloaca-Cola
 2438	scented massage oil	530550627	vial.gif	usable, combat	t	0	vials of scented massage oil
 2439	poltergeist-in-the-jar-o	844616801	moonshine.gif	none, combat	t	0	poltergeists-in-the-jars-o
-2440
+2440	unnatural gas	180343585	moonshine.gif	none, combat	t	0
 2441	Knob Goblin encryption key	591787452	page.gif	none	q	0
 2442	Cobb's Knob map	325883819	map.gif	usable	q	0
 2443	pink glowstick	199035416	glowstick.gif	accessory		0	pink glowstyx
@@ -5129,7 +5129,7 @@
 5112	My Own Pen Pal kit	544609748	ppkit.gif	usable	t	0
 5113	packet of orchid seeds	382164254	seeds.gif	usable		0	packets of orchid seeds
 5114	stomp box	159882766	stompbox.gif	familiar	t	0	stomp boxes
-5115
+5115	rusty hedge trimmers	540081787	hedgeclippers.gif	usable	t,d	85
 5116	A. W. O. L. commendation	542484240	aolcom.gif	reusable		0
 5117	reconstituted crow	529331441	blackbird2.gif	grow	q	0
 5118	bird brain	576544533	birdbrain.gif	none	q	0
@@ -5384,7 +5384,7 @@
 5367	Field Guide to Skeletal Anatomy (shredded)	989897814	book.gif	reusable	d	1000	shredded Field Guides to Skeletal Anatomy
 5368	Ellsbury's journal (used)	715682439	book3.gif	reusable	d	250
 5369	KoL Con 8-Bit power bracelet	246756989	8bitbracelet.gif	accessory		0
-5370
+5370	miniature boiler	951423469	miniboiler.gif	none, combat	t	0
 5371	stuffed-shirt scarecrow	374484104	pantscrow.gif	grow	t	0
 5372	tiny plastic trollipop	981783351	tptrollipop.gif	accessory	t	0
 5373	tiny plastic Fudge Wizard	529660168	tpfudgewizard.gif	accessory	t	0
@@ -6034,25 +6034,25 @@
 6017	orcish nailing lube	451592558	tube.gif	usable	t,d	55
 6018	backwoods screwdriver	654728754	rocks.gif	drink	t,d	35
 6019
-6020
-6021
-6022
+6020	Claybender glasses	718638398	potterglasses.gif	accessory	t,d	90
+6021	Duskwalker fangs	277539982	dipshitfangs.gif	accessory	t,d	80
+6022	Space Tourist Phaser	744444657	phaser.gif	weapon	t,d	100
 6023	Whoompa Fur Pants	246273677	woompapants.gif	pants	t,d	95
-6024
+6024	Whatsian Ionic Pliers	623667945	ionicpliers.gif	offhand	t,d	120
 6025	Polysniff Perfume	858641829	potion4.gif	usable	t,d	45
 6026	Duskwalker syringe	311982559	syringe2.gif	none, combat	t,d	30
-6027
-6028
-6029
-6030
-6031
-6032
+6027	Space Tours Tripple	925766700	tripple.gif	usable, combat		0
+6028	Battlie Light Saver	317675629	lightsaver.gif	none, combat	t,d	55
+6029	T.U.R.D.S. Key	253258701	tardiskey.gif	none, combat	t,d	60
+6030	dress pants	175411161	dresspants.gif	pants	t,d	85
+6031	badge of authority	169400920	badge.gif	accessory	t,d	90
+6032	giant motorcycle boots	633973540	velcroboots.gif	accessory	t,d	110
 6033	stolen necklace	674786356	stolenecklace.gif	accessory	t,d	80
-6034
-6035
-6036
+6034	troll britches	767534621	britches.gif	pants	t,d	85
+6035	vial of The Glistening	433931284	vial.gif	usable	t,d	35
+6036	artisanal limoncello	600239338	beerbottle.gif	drink	t,d	40
 6037	creepy ginger ale	346438834	soda2.gif	usable	t,d	25
-6038
+6038	incredible pizza	308788165	pizza.gif	food	t,d	50
 6039	oil cap	956079813	oilcap.gif	hat	t,d	145
 6040	oil lamp	851791842	oillamp.gif	offhand	t,d	130
 6041	oil slacks	452627138	oilslacks.gif	pants	t,d	110
@@ -6062,3 +6062,4 @@
 6045
 6046
 6047	Misty Cloak	124569077	mistcloak.gif	container	t,d	1000
+6048	Misty Robe	307169061	mistcloak.gif	container	t,d	1000
