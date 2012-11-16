@@ -2935,6 +2935,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( "Zombie Slayer" );
 	}
 
+	public static final boolean inClasscore()
+	{
+		return KoLCharacter.ascensionPath.equals( "Class Act" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
