@@ -6059,7 +6059,7 @@
 6042	oil pan	522478334	oilpan.gif	weapon	t,d	150
 6043	oily boid	495755429	oilyboid.gif	none, combat	t,d	15
 6044	woim	284361671	woim.gif	grow	t	0
-6045
+6045	Thwaitgold praying mantis statuette	626328208	thwaitmantis.gif	none		0
 6046
 6047	Misty Cloak	124569077	mistcloak.gif	container	t,d	1000
 6048	Misty Robe	307169061	mistcloak.gif	container	t,d	1000
