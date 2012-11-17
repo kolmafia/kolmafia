@@ -960,7 +960,8 @@ public class GenericRequest
 					continue;
 				}
 
-				if ( !this.isExternalRequest ) {
+				if ( !this.isExternalRequest )
+				{
 					if ( element.startsWith( "pwd=" ) )
 					{
 						element = "pwd";
@@ -1229,7 +1230,7 @@ public class GenericRequest
 				Preferences.setBoolean( "autoSatisfyWithNPCs", false );
 			}
 		}
-		else if ( location.startsWith( "mountains.php?orcs=1" ) )
+		else if ( location.equals( "place.php?whichplace=orc_chasm&action=bridge0" ) )
 		{
 			InventoryManager.retrieveItem( ItemPool.BRIDGE );
 		}

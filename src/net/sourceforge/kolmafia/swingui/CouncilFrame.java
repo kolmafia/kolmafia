@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
@@ -162,10 +163,6 @@ public class CouncilFrame
 		{
 			SorceressLairManager.handleQuestChange( location, responseText );
 		}
-		else if ( location.startsWith( "mountains" ) )
-		{
-			CouncilFrame.handleMountainsChange( responseText );
-		}
 		else if ( location.startsWith( "manor3" ) )
 		{
 			WineCellarRequest.handleCellarChange( responseText );
@@ -191,6 +188,10 @@ public class CouncilFrame
 				{
 					CouncilFrame.handleMcLargehugeChange( responseText );
 				}
+			}
+			else if ( location.contains( "whichplace=orc_chasm" ) )
+			{
+				CouncilFrame.handleChasmChange( responseText );
 			}
 		}
 		else if ( location.startsWith( "postwarisland" ) )
@@ -349,15 +350,16 @@ public class CouncilFrame
 		}
 	}
 
-	private static final void handleMountainsChange( final String responseText )
+	private static final void handleChasmChange( final String responseText )
 	{
-		// You approach the Orc Chasm, and whip out your trusty bridge.
-		// You place the bridge across the chasm, and the path to the
-		// Valley is clear.
-
-		if ( responseText.indexOf( "trusty bridge" ) != -1 )
+		if ( responseText.contains( "Huzzah!  The bridge is finished!" ) )
 		{
-			ResultProcessor.processItem( ItemPool.BRIDGE, -1 );
+			ResultProcessor.processItem( ItemPool.MORNINGWOOD_PLANK, -1 * InventoryManager.getCount( ItemPool.MORNINGWOOD_PLANK ) );
+			ResultProcessor.processItem( ItemPool.HARDWOOD_PLANK, -1 * InventoryManager.getCount( ItemPool.HARDWOOD_PLANK ) );
+			ResultProcessor.processItem( ItemPool.WEIRWOOD_PLANK, -1 * InventoryManager.getCount( ItemPool.WEIRWOOD_PLANK ) );
+			ResultProcessor.processItem( ItemPool.THICK_CAULK, -1 * InventoryManager.getCount( ItemPool.THICK_CAULK ) );
+			ResultProcessor.processItem( ItemPool.LONG_SCREW, -1 * InventoryManager.getCount( ItemPool.LONG_SCREW ) );
+			ResultProcessor.processItem( ItemPool.BUTT_JOINT, -1 * InventoryManager.getCount( ItemPool.BUTT_JOINT ) );
 			if ( KoLmafia.isAdventuring() )
 			{
 				KoLmafia.updateDisplay( MafiaState.PENDING, "You have bridged the Orc Chasm." );

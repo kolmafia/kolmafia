@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -710,6 +711,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 			case ItemPool.WAX_BUGBEAR:
 			case ItemPool.DOLPHIN_WHISTLE:
+			case ItemPool.RUSTY_HEDGE_TRIMMERS:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.
@@ -1219,9 +1221,21 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.BRIDGE:
 		case ItemPool.DICTIONARY:
+		case ItemPool.MORNINGWOOD_PLANK:
+		case ItemPool.HARDWOOD_PLANK:
+		case ItemPool.WEIRWOOD_PLANK:
+		case ItemPool.THICK_CAULK:
+		case ItemPool.LONG_SCREW:
+		case ItemPool.BUTT_JOINT:
+
+			int urlEnd = OrcChasmRequest.getChasmProgress();
+			if ( urlEnd == 30 )
+			{
+				break;
+			}
 
 			useType = "chasm";
-			useLocation = "mountains.php?orcs=1";
+			useLocation = "place.php?whichplace=orc_chasm&action=bridge" + urlEnd;
 			break;
 
 		// Link to the frat house if you acquired a Spanish Fly

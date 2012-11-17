@@ -205,15 +205,6 @@ public class AdventureRequest
 			}
 		}
 
-		else if ( this.formSource.equals( "mountains.php" ) )
-		{
-			if ( !InventoryManager.retrieveItem( ItemPool.BRIDGE ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't cross the Orc Chasm." );
-				return;
-			}
-		}
-
 		if ( this.formSource.equals( "dungeon.php" ) )
 		{
 			this.data.clear();

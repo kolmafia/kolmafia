@@ -6063,5 +6063,5 @@
 6046
 6047	Misty Cloak	124569077	mistcloak.gif	container	t,d	1000
 6048	Misty Robe	307169061	mistcloak.gif	container	t,d	1000
-6049
+6049	Misty Cape	754803274	mistcloak.gif	container	t,d	1000
 6050	woimbook	341149958	tinybook.gif	familiar	t,d	75
