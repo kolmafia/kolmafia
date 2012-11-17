@@ -138,6 +138,7 @@ public class Modifiers
 	public static final int SLEAZE_SPELL_DAMAGE = 36;
 	public static final int SPOOKY_SPELL_DAMAGE = 37;
 	public static final int STENCH_SPELL_DAMAGE = 38;
+	public static final int UNDERWATER_COMBAT_RATE = 39;
 	public static final int FUMBLE = 40;
 	public static final int HP_REGEN_MIN = 41;
 	public static final int HP_REGEN_MAX = 42;
@@ -198,7 +199,6 @@ public class Modifiers
 	public static final int MYS_EXPERIENCE_PCT = 97;
 	public static final int MOX_EXPERIENCE_PCT = 98;
 	public static final int MINSTREL_LEVEL = 99;
-	public static final int UNDERWATER_COMBAT_RATE = 100;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -392,6 +392,10 @@ public class Modifiers
 		{ "Stench Spell Damage",
 		  Pattern.compile( "^([+-]\\d+) (Damage )?to <font color=green>Stench Spells</font>" ),
 		  Pattern.compile( "Stench Spell Damage: " + EXPR )
+		},
+		{ "Underwater Combat Rate",
+		  null,
+		  Pattern.compile( "Combat Rate \\(Underwater\\): " + EXPR )
 		},
 		{ "Fumble",
 		  Pattern.compile( "(\\d+)x chance of Fumble" ),
@@ -641,10 +645,6 @@ public class Modifiers
 		{ "Minstrel Level",
 		  Pattern.compile( "([+-]\\d+) to Minstrel Level" ),
 		  Pattern.compile( "Minstrel Level: " + EXPR )
-		},
-		{ "Underwater Combat Rate",
-		  null,
-		  Pattern.compile( "Combat Rate \\(Underwater\\): " + EXPR )
 		},
 	};
 
