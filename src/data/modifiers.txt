@@ -2379,6 +2379,7 @@ unspeakable lozenges	Familiar Weight: +5
 velvet choker	Familiar Weight: +5
 wax lips	Experience: +3, Softcore Only, Generic
 # weegee sqouija: Hobo's Booze Is More Effective
+woimbook	Familiar Weight: +5
 woolen cravat	Familiar Weight: +5
 # zen motorcycle: Makes Llama Lamas friendlier
 

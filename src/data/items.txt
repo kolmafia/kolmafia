@@ -6058,8 +6058,10 @@
 6041	oil slacks	452627138	oilslacks.gif	pants	t,d	110
 6042	oil pan	522478334	oilpan.gif	weapon	t,d	150
 6043	oily boid	495755429	oilyboid.gif	none, combat	t,d	15
-6044
+6044	woim	284361671	woim.gif	grow	t	0
 6045
 6046
 6047	Misty Cloak	124569077	mistcloak.gif	container	t,d	1000
 6048	Misty Robe	307169061	mistcloak.gif	container	t,d	1000
+6049
+6050	woimbook	341149958	tinybook.gif	familiar	t,d	75
