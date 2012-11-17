@@ -2160,6 +2160,7 @@ auxiliary backbone	PvP Fights: +3
 barskin cloak	Muscle: +7
 hemp backpack	Item Drop: +2
 makeshift cape	Item Drop: +5
+Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
 Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
 Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
 palm-frond cloak	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1

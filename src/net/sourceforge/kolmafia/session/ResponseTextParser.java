@@ -105,6 +105,7 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.NemesisRequest;
+import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PhineasRequest;
@@ -195,7 +196,6 @@ public class ResponseTextParser
 		     location.startsWith( "desc" ) ||
 		     location.startsWith( "quest" ) )
 		{
-
 			return false;
 		}
 
@@ -629,6 +629,14 @@ public class ResponseTextParser
 		else if ( location.startsWith( "peevpee.php" ) )
 		{
 			PeeVPeeRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "place.php" ) )
+		{
+			if ( location.contains( "whichplace=orc_chasm" ) )
+			{
+				OrcChasmRequest.parseResponse( location, responseText );
+			}
 		}
 
 		else if ( location.startsWith( "pyramid.php" ) )

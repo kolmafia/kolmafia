@@ -1329,11 +1329,12 @@ public class ItemPool
 	public static final int CREEPY_VOODOO_DOLL = 5062;
 	public static final int TINY_BLACK_HOLE = 5069;
 	public static final int PEN_PAL_KIT = 5112;
+	public static final int RUSTY_HEDGE_TRIMMERS = 5115;
 	public static final int AWOL_COMMENDATION = 5116;
-	public static final int SKELETON_BOOK = 5124;
 	public static final int RECONSTITUTED_CROW = 5117;
 	public static final int BIRD_BRAIN = 5118;
 	public static final int BUSTED_WINGS = 5119;
+	public static final int SKELETON_BOOK = 5124;
 	public static final int LUNAR_ISOTOPE = 5134;
 	public static final int EMU_JOYSTICK = 5135;
 	public static final int EMU_ROCKET = 5136;
@@ -1501,6 +1502,12 @@ public class ItemPool
 	public static final int GNOMISH_ELBOW = 5770;
 	public static final int GNOMISH_KNEE = 5771;
 	public static final int GNOMISH_FOOT = 5772;
+	public static final int MORNINGWOOD_PLANK = 5782;
+	public static final int HARDWOOD_PLANK = 5783;
+	public static final int WEIRWOOD_PLANK = 5784;
+	public static final int THICK_CAULK = 5785;
+	public static final int LONG_SCREW = 5786;
+	public static final int BUTT_JOINT = 5787;
 	public static final int BOX_OF_BEAR_ARM = 5790;
 	public static final int RIGHT_BEAR_ARM = 5791;
 	public static final int LEFT_BEAR_ARM = 5792;

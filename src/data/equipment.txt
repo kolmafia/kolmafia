@@ -1934,6 +1934,7 @@ auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
 hemp backpack	0	Mys: 75
 makeshift cape	100	Mys: 75
+Misty Cape	0	Mox: 75
 Misty Cloak	0	Mus: 75
 Misty Robe	130	Mys: 75
 palm-frond cloak	140	Mys: 75
