@@ -334,7 +334,7 @@ nailswurst	2	1	crappy	0	0	0	0	1 PvP Fight
 nanite-infested candy cane	1	4	good	1-5	11-20	11-20	11-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 nanite-infested fruitcake	3	1	decent	3-6	15-20	15-20	15-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 nanite-infested gingerbread bugbear	1	4	good	1-5	21-40	21-40	21-40	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
-natto pocky	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (3x critical, +15% critical spell)
+natto pocky	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (+15% critical, +15% critical spell)
 new and improved crimbco reconstituted gruel	4	1		7-8	0	0	0	lose 20% boredom
 nutty organic salad	3	11	awesome	12-15	0	31-40	0
 occult jelly donut	1	4	awesome	3-5	0	40-60	0	30 Filled With Magic (+100% spell dmg)

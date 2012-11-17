@@ -441,18 +441,18 @@ public class DebugDatabase
 		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
-	private static final StringBuffer appendAccessTypes( StringBuffer accessTypes, String accessType )
+	private static final StringBuilder appendAccessTypes( StringBuilder accessTypes, String accessType )
 	{
 		if ( accessTypes.length() > 0 )
 		{
-			return accessTypes.append( "," + accessType );
+			return accessTypes.append( "," ).append( accessType );
 		}
 		return accessTypes.append( accessType );
 	}
 
 	public static final String parseAccess( final String text )
 	{
-		StringBuffer accessTypes = new StringBuffer();
+		StringBuilder accessTypes = new StringBuilder();
 
 		if ( text.contains( "Quest Item" ) )
 		{
@@ -980,9 +980,6 @@ public class DebugDatabase
 		StringUtilities.globalStringDelete(
 			enchantments,
 			"<b>NOTE:</b> Items that reduce the MP cost of skills will not do so by more than 3 points, in total." );
-		StringUtilities.globalStringDelete(
-			enchantments,
-			"<b>NOTE:</b> If you wear multiple items that increase Critical Hit chances, only the highest multiplier applies." );
 		StringUtilities.globalStringReplace( enchantments, "<br>", "\n" );
 		StringUtilities.globalStringReplace( enchantments, "<Br>", "\n" );
 
