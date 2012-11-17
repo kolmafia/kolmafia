@@ -2682,8 +2682,10 @@ public abstract class KoLCharacter
 				KoLCharacter.checkTelescope();
 			}
 
-			// If we were in Hardcore, automatically recall skills
-			else if ( wasInHardcore )
+			// If we were in Hardcore or a path that limits skills, automatically recall skills
+			// Paths that require you to choose your class at the end will refresh skills later
+			else if ( wasInHardcore || oldPath.equals( "Trendy" ) || oldPath.equals( "Class Act" )
+					  || oldPath.equals( "Way of the Surprising Fist" ) )
 			{
 				// Normal permed skills
 				RequestThread.postRequest( new CharSheetRequest() );
