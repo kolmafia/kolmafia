@@ -656,9 +656,6 @@ public class CompactSidePane
 			KoLCharacter.currentNumericModifier( Modifiers.RANGED_DAMAGE_PCT ) ) );
 		buf.append( "%</td></tr><tr><td>Critical</td>" );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(
-			KoLCharacter.currentNumericModifier( Modifiers.CRITICAL ) ) );
-		buf.append( " X<br>" );
-		buf.append( KoLConstants.MODIFIER_FORMAT.format(
 			KoLCharacter.currentNumericModifier( Modifiers.CRITICAL_PCT ) ) );
 		buf.append( "%</td><td rowspan=2>MP cost:<br>" );
 		buf.append( KoLConstants.MODIFIER_FORMAT.format(

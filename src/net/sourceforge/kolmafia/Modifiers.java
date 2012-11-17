@@ -138,7 +138,6 @@ public class Modifiers
 	public static final int SLEAZE_SPELL_DAMAGE = 36;
 	public static final int SPOOKY_SPELL_DAMAGE = 37;
 	public static final int STENCH_SPELL_DAMAGE = 38;
-	public static final int CRITICAL = 39;
 	public static final int FUMBLE = 40;
 	public static final int HP_REGEN_MIN = 41;
 	public static final int HP_REGEN_MAX = 42;
@@ -393,10 +392,6 @@ public class Modifiers
 		{ "Stench Spell Damage",
 		  Pattern.compile( "^([+-]\\d+) (Damage )?to <font color=green>Stench Spells</font>" ),
 		  Pattern.compile( "Stench Spell Damage: " + EXPR )
-		},
-		{ "Critical",
-		  Pattern.compile( "(\\d+)x chance of Critical Hit" ),
-		  Pattern.compile( "Critical: " + EXPR )
 		},
 		{ "Fumble",
 		  Pattern.compile( "(\\d+)x chance of Fumble" ),
@@ -1430,13 +1425,6 @@ public class Modifiers
 				rate = ( 25.0 + Math.ceil( extra / 5.0 ) ) * ( rate < 0.0 ? -1.0 : 1.0 );
 			}
 			this.doubles[ index ] = rate;
-			break;
-		case CRITICAL:
-			// Critical hit modifier is maximum, not additive
-			if ( mod > this.doubles[ index ] )
-			{
-				this.doubles[ index ] = mod;
-			}
 			break;
 		case MANA_COST:
 			// Total Mana Cost reduction cannot exceed 3

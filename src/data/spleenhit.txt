@@ -77,7 +77,7 @@ oily paste	4	4		5-10	18-22	18-22	18-22	Oily Flavor (+15 mus)
 orc paste	4	4		5-10	18-22	18-22	18-22	Fratty Flavor (+15 mox)
 patent antipsychotics	1	1		0	0	10-12	0
 penguin paste	4	4		5-10	18-22	18-22	18-22	Penguinny Flavor (cold dmg/res)
-pirate paste	4	4		5-10	18-22	18-22	18-22	Piratey Flavor (+2% critical)
+pirate paste	4	4		5-10	18-22	18-22	18-22	Piratey Flavor (+5% critical)
 prismatic wad	3	7		5-7	50-60	50-60	50-60	10 Rainbow Bright (+30% all, prismatic dmg/res)
 puce paisley oyster egg	1	1		0	11-15	11-15	0
 puce polka-dot oyster egg	1	1		0	11-15	0	11-15

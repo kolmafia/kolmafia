@@ -247,7 +247,7 @@ mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sleeper)
 mutagin 'n' tonic	5	5		10-15	0	0	0
 nanite-infested eggnog	3	3	good	5-10	0	16-30	16-30	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
-natto-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (3x critical, +15% critical spell)
+natto-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (+15% critical, +15% critical spell)
 neuromancer	4	6	awesome	14-18	25-27	0	16-20
 ocean motion	4	4	good	10-14	25-27	8-10	0
 oh, the humanitini	2	8	awesome	8-9	15-20	15-20	15-20	Restores HP
