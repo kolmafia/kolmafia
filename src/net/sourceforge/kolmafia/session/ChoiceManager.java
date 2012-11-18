@@ -3643,6 +3643,14 @@ public abstract class ChoiceManager
 
 			return;
 
+		// The Horror...
+		case 611:
+			if ( text.contains( "You follow the map to" ) )
+			{
+				ResultProcessor.processItem( ItemPool.BOO_CLUE, -1 );
+			}
+			return;
+
 		case 614:
 			// Near the fog there is an... anvil?
 			if ( text.indexOf( "You acquire" ) == -1 )

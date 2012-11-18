@@ -5978,7 +5978,7 @@
 5961	
 5962	
 5963	
-5964	A-Boo clue	646443068	map.gif	usable	q	0
+5964	A-Boo clue	646443068	map.gif	reusable	q	0
 5965	
 5966	soul monocle	744020398	soulmonocle.gif	accessory		0
 5967	soul doorbell	498403310	souldoorbell.gif	usable	t	0

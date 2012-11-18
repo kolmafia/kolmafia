@@ -1504,7 +1504,7 @@ public class ItemPool
 	public static final int GNOMISH_FOOT = 5772;
 	public static final int MORNINGWOOD_PLANK = 5782;
 	public static final int HARDWOOD_PLANK = 5783;
-	public static final int WEIRWOOD_PLANK = 5784;
+	public static final int WEIRDWOOD_PLANK = 5784;
 	public static final int THICK_CAULK = 5785;
 	public static final int LONG_SCREW = 5786;
 	public static final int BUTT_JOINT = 5787;
@@ -1515,6 +1515,7 @@ public class ItemPool
 	public static final int DRAGON_TEETH = 5880;
 	public static final int SKELETON = 5881;
 	public static final int SKIFF = 5885;
+	public static final int BOO_CLUE = 5964;
 	public static final int INFURIATING_SILENCE_RECORD = 5971;
 	public static final int INFURIATING_SILENCE_RECORD_USED = 5972;
 	public static final int TRANQUIL_SILENCE_RECORD = 5973;
