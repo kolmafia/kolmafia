@@ -6033,7 +6033,7 @@
 6016	orcish rubber	846260644	sheet.gif	usable	t,d	70
 6017	orcish nailing lube	451592558	tube.gif	usable	t,d	55
 6018	backwoods screwdriver	654728754	rocks.gif	drink	t,d	35
-6019
+6019	loadstone	542996759	loadstone.gif	offhand	t	0
 6020	Claybender glasses	718638398	potterglasses.gif	accessory	t,d	90
 6021	Duskwalker fangs	277539982	dipshitfangs.gif	accessory	t,d	80
 6022	Space Tourist Phaser	744444657	phaser.gif	weapon	t,d	100

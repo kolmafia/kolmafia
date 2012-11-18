@@ -1342,6 +1342,7 @@ killer rag doll	Muscle: +3
 left-handed melodica	Ranged Damage: +25, Class: "Accordion Thief"
 lemonade marble	Cold Spell Damage: +45
 little round pebble	Initiative: +50
+loadstone	Meat Drop: +10
 lucky lighter	Hot Damage: +6, Critical Hit Percent: 5
 mad scientist's sock monkey	Moxie: +3
 magic lamp	Mysticality: +5
@@ -2427,6 +2428,7 @@ Throne:Adorable Seal Larva	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP
 Throne:Ancient Yuletide Troll	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne:Angry Goat	Muscle Percent: +15
 Throne:Animated Macaroni Duck	Familiar Weight: +5
+Throne:Artistic Goth Kid	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 3, MP Regen Max: 4
 Throne:Astral Badger	Maximum HP: +10, Maximum MP: +10
 Throne:Attention-Deficit Demon	Meat Drop: +20
 Throne:Autonomous Disco Ball	Familiar Weight: +5
@@ -2437,7 +2439,7 @@ Throne:Baby Sandworm	Maximum HP: +10, Maximum MP: +10
 Throne:Baby Yeti	Spell Damage Percent: +10
 Throne:Barrrnacle	Familiar Weight: +5
 Throne:Black Cat	Muscle: -10, Mysticality: -10, Moxie: -10
-Throne:Blauvios Kloop	Maximum HP: +10, Maximum MP: +10
+Throne:Blavious Kloop	Maximum HP: +10, Maximum MP: +10
 Throne:Blood-Faced Volleyball	Experience (Moxie): +2
 Throne:Bloovian Groose	Maximum HP: +10, Maximum MP: +10
 Throne:BRICKO chick	 Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -2482,6 +2484,7 @@ Throne:He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Hippo Ballerina	Meat Drop: +20
 Throne:Hobo Monkey	Meat Drop: +25
 Throne:Holiday Log	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne:Hovering Skull	Experience (Moxie): +2
 Throne:Hovering Sombrero	Experience (Mysticality): +2
 Throne:Howling Balloon Monkey	Spell Damage Percent: +10
 Throne:Hunchbacked Minion	Experience (Muscle): +2
@@ -2501,16 +2504,20 @@ Throne:Magic Dragonfish	Spell Damage Percent: +15, HP Regen Min: 10, HP Regen Ma
 Throne:MagiMechTech MicroMechaMech	Muscle Percent: +15
 Throne:Mariachi Chihuahua	Experience (Moxie): +2
 Throne:Midget Clownfish	Spell Damage Percent: +10
+Throne:Mini-Hipster	Muscle: +10, Mysticality: +10, Moxie, +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
+Throne:Mini-Skulldozer:	Initiative: +20
 Throne:Misshapen Animal Skeleton	Familiar Weight: +5
 Throne:Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Mutant Cactus Bud	Meat Drop: +20
 Throne:Mutant Fire Ant	Hot Damage: +20
 Throne:Mutant Gila Monster	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne:Nanorhino	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10
 Throne:Nervous Tick	Experience (Moxie): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne:Ninja Pirate Zombie Robot	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne:Ninja Snowflake	Moxie Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne:O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
 Throne:Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
+Throne:Oily Woim	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10
 Throne:Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Pair of Ragged Claws	Familiar Weight: +5
 Throne:Pair of Stomping Boots	Weapon Damage Percent: +10
@@ -2520,15 +2527,18 @@ Throne:Personal Raincloud	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Pet Cheezling	Spell Damage Percent: +15, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 2, MP Regen Max: 8
 Throne:Pet Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne:Piano Cat	Meat Drop: +20
+Throne:Pottery Barn Owl	Hot Damage: +10
 Throne:Psychedelic Bear	Meat Drop: +20
 Throne:Purse Rat	Experience: +2
 Throne:Pygmy Bugbear Shaman	Experience (Mysticality): +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne:Ragamuffin Imp	Mysticality Percent: +15
+Throne:Reagnimated Gnome	Spooky Damage: +15
 Throne:Reassembled Blackbird	Item Drop: +10
 Throne:Reconstituted Crow	Item Drop: +10
 Throne:RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Rock Lobster	Spell Damage Percent: +15, MP Regen Min: 11, MP Regen Max: 15
+Throne:Rogue Program	Spell Damage Percent: 10
 Throne:Sabre-Toothed Lime	Moxie Percent: +15
 Throne:Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne:Sleazy Gravy Fairy	Sleaze Damage: +20
