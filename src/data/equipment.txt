@@ -1182,6 +1182,7 @@ killer rag doll	110	Mys: 40
 left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
 little round pebble	45	Mys: 7
+loadstone	0	Mys: 32
 lucky lighter	0	Mys: 2
 mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none
