@@ -1223,7 +1223,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.DICTIONARY:
 		case ItemPool.MORNINGWOOD_PLANK:
 		case ItemPool.HARDWOOD_PLANK:
-		case ItemPool.WEIRWOOD_PLANK:
+		case ItemPool.WEIRDWOOD_PLANK:
 		case ItemPool.THICK_CAULK:
 		case ItemPool.LONG_SCREW:
 		case ItemPool.BUTT_JOINT:
