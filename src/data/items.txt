@@ -4968,7 +4968,7 @@
 4951	flimsy clipboard	225397508	clipboard.gif	offhand	t,d	35
 4952	baggie of powdered sugar	421468846	baggie.gif	multiple	t,d	30	baggies of powdered sugar
 4953	whalebone corset	569079959	corset.gif	accessory	t,d	50
-4954	oven mitts	197489398	ovenmitts.gif	accessory	t,d	48
+4954	oven mitts	197489398	ovenmitts.gif	accessory	t,d	48	pairs of oven mitts
 4955	overcookie	812575069	overcookie.gif	food	t,d	38
 4956	philosopher's scone	688352193	scone.gif	food	t,d	57
 4957	half-baked potion	954191945	potion6.gif	usable	t,d	42
@@ -5691,7 +5691,7 @@
 5674	stuffed &quot;L&quot;	619356758	stuffedl.gif	none		0
 5675	watered-down Red Minotaur	762938251	redmin.gif	usable	t,d	1
 5676	pool torpedo	340353804	pooltorpedo.gif	none, combat	t,d	1
-5677	Ze&trade; goggles	179669496	zegoggles.gif	hat	t	0
+5677	Ze&trade; goggles	179669496	zegoggles.gif	hat	t	0	pairs of Ze&trade; goggles
 5678	soggy used band-aid	737657801	soggybandaid.gif	none, combat	t	0
 5679	stylish swimsuit	129136271	speedo.gif	pants	t,d	1
 5680	lost key	891641724	lostkey.gif	usable	t	0
@@ -5830,7 +5830,7 @@
 5813
 5814	blob of acid	870769832	wad.gif	usable	t,d	5
 5815	flayed mind	522146420	realbrain.gif	usable	t,d	5
-5816	kobold kibble	873527872	float_pebbles.gif	usable	t,d	5
+5816	kobold kibble	873527872	float_pebbles.gif	usable	t,d	5	handfuls of kobold kibble
 5817	forest spirit rattle	147970558	foresthead.gif	usable	t,d	5
 5818	Stone Golem pebbles	382105723	float_pebbles.gif	usable	t,d	5
 5819	spooky gravy fairy warlock hat	260012099	tinyhat.gif	usable	t,d	5
@@ -5841,7 +5841,7 @@
 5824	clove-flavored lip balm	968477859	balm.gif	usable	t,d	5
 5825	Skullery Maid's Knee	861447669	fingerbone.gif	usable	t,d	5
 5826	zombie hollandaise	717455927	gravy.gif	usable	t,d	5
-5827	skeletal banana	331313479	bananabone.gif	usable	t,d	5
+5827	skeletal banana	331313479	bananabone.gif	usable	t,d	5	bunch of skeletal bananas
 5828	gilt perfume bottle	320032645	jperfume.gif	usable	t,d	5
 5829	janglin' bones	380726338	bonechips.gif	usable	t,d	5
 5830	pygmy papers	185465428	briefcase.gif	usable	t,d	5
