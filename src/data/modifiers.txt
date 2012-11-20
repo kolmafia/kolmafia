@@ -2994,6 +2994,7 @@ Freaked Out	Spooky Damage: +10, Damage Reduction: -2
 Free Bird	Mysticality: +20
 Fresh Scent	Combat Rate: -5
 Frigid Weapon	Cold Damage: +3
+# Frigidalmatian: Bites your foes
 Frog In Your Throat	Muscle: +25
 Frostbitten	Cold Damage: +10, Damage Reduction: -2
 # Frosty the Hitman: +0-2 <font color=red>Hot Damage</font>
