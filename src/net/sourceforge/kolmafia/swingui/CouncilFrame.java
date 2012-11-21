@@ -406,7 +406,7 @@ public class CouncilFrame
 			AdventureResult item = new AdventureResult( Preferences.getString( "trapperOre" ), -3, false );
 			ResultProcessor.processResult( item );
 			ResultProcessor.processResult( new AdventureResult( "goat cheese", -3, false ) );
-			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step3" );
+			QuestDatabase.setQuestIfBetter( Quest.TRAPPER, "step2" );
 		}
 
 		// Yeehaw!  I heard the noise and seen them mists dissapatin' from clear down here!  Ya done it!  Ya rightly done it!
