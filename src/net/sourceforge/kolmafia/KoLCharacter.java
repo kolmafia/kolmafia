@@ -774,22 +774,10 @@ public abstract class KoLCharacter
 			baseFullness++;
 		}
 
-		// Challenge paths preclude Stomach of Steel and Feast of Boris
-		if ( KoLCharacter.inBeecore() )
+		if ( KoLCharacter.inBeecore() || KoLCharacter.isTrendy() ||
+			 KoLCharacter.inBugcore() || KoLCharacter.inClasscore() )
 		{
-			// Today is the Feast of B... Aww, crap.
-			return baseFullness;
-		}
-
-		if ( KoLCharacter.isTrendy() )
-		{
-			// Today is the Feast of Boris. More like the Feast of Boring... Pass.
-			return baseFullness;
-		}
-
-		if ( KoLCharacter.inBugcore() )
-		{
-			// Unfortunately, bugbear mind-control rays are suppresing your appetite...
+			// No bonus fullness is available in these paths
 			return baseFullness;
 		}
 
@@ -822,8 +810,6 @@ public abstract class KoLCharacter
 				baseFullness += 5;
 			}
 
-			// Today is the Feast of Boris. Brains, brains, brains!
-			// However, maximum fullness is not increased.
 			return baseFullness;
 		}
 
@@ -837,11 +823,17 @@ public abstract class KoLCharacter
 				baseFullness += 5;
 			}
 
-			// Today is the Feast of Boris. Yay, you!
 			return baseFullness;
 		}
 
-		return KoLCharacter.isFullnessIncreased ? baseFullness + 15 : baseFullness;
+		if ( KoLCharacter.isFullnessIncreased && ( KoLCharacter.getPath().equals( "None" ) || KoLCharacter.getPath().equals( "Teetotaler" ) ) )
+		{
+			// Challenge paths do not give bonus fullness for Feast of Boris.  Check for
+			// paths that give bonus fullness instead of excluding all other paths.
+			baseFullness += 15;
+		}
+
+		return baseFullness;
 	}
 
 	public static final void setInebriety( final int inebriety )
