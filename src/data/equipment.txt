@@ -836,6 +836,7 @@ linoleum staff	120	Mus: 45	2-handed staff
 linoleum sword	110	Mus: 40	2-handed sword
 little paper umbrella	30	Mus: 0	1-handed umbrella
 live wire	10	Mus: 0	1-handed whip
+logging axe	75	Mus: 22	2-handed axe
 lucky ball-and-chain	130	Mox: 50	2-handed flail
 lupine sword	115	Mus: 42	1-handed sword
 machetito	110	Mus: 40	1-handed sword
