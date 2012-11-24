@@ -174,4 +174,4 @@
 165
 166
 167	Nanorhino	nanorhino.gif	combat	5910	nanorhino credit card	3	1	1	3
-168	Oily Woim	woim.gif	none	6044	woimbook	0	0	0	0
+168	Oily Woim	woim.gif	none	6044	woimbook	2	1	3	1
