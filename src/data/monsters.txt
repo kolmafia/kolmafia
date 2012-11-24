@@ -377,6 +377,7 @@ Elf Hobo	HP: 40 Def: 30 Atk: 30 P: hobo	bindlestocking (0)	bottle of rum (0)	bot
 Elite Beer Bongadier	Atk: 190 Def: 205 HP: 230 E: sleaze P: orc	beer bong (30)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (4)	PADL Phone (3)
 Empty Suit of Armor	Atk: 115 Def: 115 HP: 120 ED: spooky P: object	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
 Endangered Inflatable White Tiger	Atk: 99999 Def: 99999 HP: [99999]
+enormous blob of gray goo	Atk: [230] Def: [267] HP: [250] P: horror
 Enraged Cow	Atk: 99999 Def: 99999 HP: [99999]
 Erudite Gremlin	Atk: 171 Def: 169 HP: 170 Meat: 40-60 P: demihuman	gremlin juice (3)	molybdenum crescent wrench (c0)
 Essence of Interspecies Respect	HP: 50 Def: 25 Atk: 25 P: elemental	essential cameraderie (0)
@@ -581,12 +582,14 @@ Koopa Troopa	Atk: 20 Def: 20 HP: 15 P: beast	black pixel (50)	green pixel (80)	w
 L Imp	Atk: 44 Def: 44 HP: 44 E: hot Meat: 24-36 P: demon	Imp Ale (30)	cast (30)	flaming crutch (30)
 Lamz0r N00b	Atk: 79 Def: 79 HP: 69 Meat: 24-36 P: humanoid	33398 scroll (30)	draggin' ball hat (10)	plastic guitar (10)	Nardz energy beverage (p30)
 Large Kobold	Atk: 57 Def: 55 HP: 60 P: demihuman	ring of aggravate monster (15)	small box (40)	worthless piece of yellow glass (b0)
+largish blob of gray goo	Atk: [98] Def: [117] HP: [110] P: horror
 Larry of the Field of Signs	BOSS Atk: 70 Def: 70 HP: 70 Init: 50 P: demon	observational glasses (100)
 Larval Filthworm	Atk: 165 Def: 165 HP: 180 Init: 50 Meat: 41-60 E: stench P: bug	filthworm hatchling scent gland (10)
 Lemon-In-The-Box	Atk: 17 Def: 17 HP: 12 P: object	box (20)	lemon (50)
 Lesser Fruit Golem	Atk: 17 Def: 17 HP: 9 P: object	grapefruit (15)	grapes (15)	lemon (15)	orange (15)	strawberry (15)
 Lihc	Atk: 20 Def: 20 HP: 11 ED: spooky EA: spooky EA: sleaze Meat: 29-43 P: undead	lihc eye (30)
 Liquid Metal Robot	Atk: 140 Def: 160 HP: 150 P: object	physiostim pill (0)	pool of liquid metal (0)	essence of cold (c100)
+little blob of gray goo	Atk: [36] Def: [45] HP: [45] P: horror
 Little Man in the Canoe	Atk: 165 Def: 165 HP: 150 E: sleaze P: constellation	line (30)	star (30)	star (30)
 Lobsterfrogman	Atk: 171 Def: 169 HP: 190 Meat: 78 P: beast	barrel of gunpowder (n100)
 Lollicat	HP: 30 Def: 20 Atk: 20 P: humanoid	lollipop stick (10)	pearidot (c1)
