@@ -271,6 +271,7 @@ public abstract class KoLmafia
 		{ "Monty of County Crisco", EncounterTypes.SEMIRARE },
 		{ "Natural Selection", EncounterTypes.SEMIRARE },
 		{ "Not Quite as Cold as Ice", EncounterTypes.SEMIRARE },
+		{ "Oh, There Have it Gone", EncounterTypes.SEMIRARE },
 		{ "Play Misty For Me", EncounterTypes.SEMIRARE },
 		{ "Prior to Always", EncounterTypes.SEMIRARE },
 		{ "Rokay, Raggy!", EncounterTypes.SEMIRARE },

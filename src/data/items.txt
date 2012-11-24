@@ -5360,7 +5360,7 @@
 5343	The Necbronomicon (used)	862597561	necbronomicon.gif	reusable	d	1000
 5344	sorority girl's box	115535139	sororbox.gif	usable	g	0	sorority girl's boxess
 5345	Necbro wafers	681226889	necbrowafers.gif	usable, candy	t,d	40
-5346
+5346	death blossom	139013731	flower.gif	none, combat	t	0
 5347	A Crimbo Carol, Ch. 1 (used)	920942749	book3.gif	reusable	d	1000
 5348	A Crimbo Carol, Ch. 2 (used)	601885612	book3.gif	reusable	d	1000
 5349	A Crimbo Carol, Ch. 3 (used)	297784549	book3.gif	reusable	d	1000
@@ -6024,7 +6024,7 @@
 6007
 6008
 6009
-6010
+6010	logging axe	825250350	loggingaxe.gif	weapon	t	0
 6011	orc wrist	143621823	orcwrist.gif	accessory	t,d	45
 6012	freshwater pearl necklace	555121884	candynecklace.gif	accessory	t,d	95
 6013	orcish stud-finder	655691201	studfinder.gif	offhand	t,d	60
