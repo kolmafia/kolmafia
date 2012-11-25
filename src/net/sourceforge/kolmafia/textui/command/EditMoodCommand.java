@@ -73,25 +73,32 @@ public class EditMoodCommand
 			return;
 		}
 
-		String[] split = parameters.split( "\\s*,\\s*" );
+		int start = 0;
+		int end = parameters.indexOf( ',' );
 
-		int index = 0;
-
-		String type = "lose_effect";
-
-		if ( ( split[ index ].equals( "lose_effect" ) || split[ index ].equals( "gain_effect" ) || split[ index ].equals( "unconditional" ) ) )
-		{
-			type = split[ index++ ];
-		}
-
-		if ( index >= split.length )
+		if ( end == -1 )
 		{
 			RequestLogger.printLine( "Invalid command: " + cmd + " " + parameters );
 			return;
 		}
 
-		String name = split[ index++ ];
-		String action = ( index < split.length && split[ index ].length() > 0 ) ? split[ index++ ] : MoodManager.getDefaultAction( type, name );
+		String type = parameters.substring( start, end );
+		type = type.trim();
+
+		if ( !type.equals( "lose_effect" ) && !type.equals( "gain_effect" ) && !type.equals( "unconditional" ) )
+		{
+			type = "lose_effect";
+			end = -1;
+		}
+
+		start = end + 1;
+		end = parameters.indexOf( ',', start );
+
+		String name = ( end != -1 ) ? parameters.substring( start, end ) : parameters.substring( start );
+		name = name.trim();
+
+		String action = ( end != -1 ) ? parameters.substring( end + 1 ) : MoodManager.getDefaultAction( type, name );
+		action = action.trim();
 
 		MoodTrigger trigger = MoodManager.addTrigger( type, name, action );
 
