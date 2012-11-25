@@ -313,7 +313,7 @@ public class Macrofier
 
 	protected static void macroAction( StringBuffer macro, String action, final int finalRound )
 	{
-		if ( action.length() == 0 || action.equals( "skip" ) )
+		if ( action.length() == 0 || action.equals( "skip" ) || action.startsWith( "note " ) )
 		{
 			return;
 		}
@@ -329,7 +329,7 @@ public class Macrofier
 			{
 				action = action.substring( 0, action.length() - 1 );
 			}
-		
+
 			macro.append( action );
 			macro.append( '\n' );
 
