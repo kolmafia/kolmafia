@@ -3132,6 +3132,7 @@ Indescribable Flavor	Spell Damage: +30
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Inky Camouflage	Combat Rate: -5
 # Innuendo Shopping
+# Inocente, In a Sense: Te hace ver como un Persona Inocente Cadáver
 Inscrutable exoskeleton	Damage Absorption: +300
 Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
@@ -4544,6 +4545,7 @@ true grit	Effect: "Truly Gritty", Effect Duration: 10
 tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
+una poca de gracia	Effect: "Inocente, In a Sense", Effect Duration: 100
 unemployed hunchbacked minion	Free Pull
 unholy water	Effect: "Shocking Biology", Effect Duration: 30
 uniclops egg	Free Pull

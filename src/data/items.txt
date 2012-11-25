@@ -5858,7 +5858,7 @@
 5841	A muse-bouche	704527194	amusebouche.gif	usable	t,d	5
 5842	gold toothbrush	397328678	toothbrush.gif	usable	t,d	5
 5843	pirate cream pie	438610679	pie.gif	usable	t,d	5
-5844
+5844	una poca de gracia	764928766	music.gif	usable	t,d	5
 5845	compressed air canister	564731061	canteen.gif	usable	t,d	5
 5846	salt water taffy	484100629	taffy.gif	usable	t,d	5
 5847	unholy water	163120400	vial.gif	usable	t,d	5

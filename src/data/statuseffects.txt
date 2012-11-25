@@ -1099,7 +1099,7 @@
 1098	Pros Only	amusebouche.gif	957561dc3544ba4c7bb70ce63b80bdb0	use 1 A muse-bouche
 1099	Grillin' Like a Villain	toothbrush.gif	3e21ae7ab11d8c05aff31aa32c1d443c	use 1 gold toothbrush
 1100	Well Excuuuuse Me!	pie.gif	93771472bb05878e945ee458217ac54b	use 1 pirate cream pie
-1101
+1101	Inocente, In a Sense	music.gif	3f0cd2f69cf3605a0b2ad98bcd3ec9a5	use 1 una poca de gracia
 1102	Dug Out	canteen.gif	bc21768963d98ca568818a9bc2b1f0d8	use 1 compressed air canister
 1103	Bedraggled Dragoon	taffy.gif	d1aa2761e2b34dcbeca019163ae817b7	use 1 salt water taffy
 1104	Shocking Biology	vial.gif	792832c31d96f91d4f7e629978c3a77f	use 1 unholy water

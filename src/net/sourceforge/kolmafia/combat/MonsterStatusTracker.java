@@ -92,12 +92,23 @@ public class MonsterStatusTracker
 			MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName, false );
 		}
 
-		if ( MonsterStatusTracker.monsterData == null && monsterName.startsWith( "the " ) )
+		if ( MonsterStatusTracker.monsterData == null )
 		{
-			MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 4 ), false );
-			if ( MonsterStatusTracker.monsterData != null )
+			if ( monsterName.startsWith( "the " ) )
 			{
-				monsterName = monsterName.substring( 4 );
+				MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 4 ), false );
+				if ( MonsterStatusTracker.monsterData != null )
+				{
+					monsterName = monsterName.substring( 4 );
+				}
+			}
+			else if ( monsterName.startsWith( "el " ) || monsterName.startsWith( "la " ) )
+			{
+				MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 3 ), false );
+				if ( MonsterStatusTracker.monsterData != null )
+				{
+					monsterName = monsterName.substring( 3 );
+				}
 			}
 		}
 
