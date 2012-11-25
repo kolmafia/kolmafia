@@ -36,7 +36,11 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLCharacter;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -45,7 +49,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class OrcChasmRequest
 	extends GenericRequest
 {
-	private static int chasmProgress = 0;
 	private static final Pattern ACTION_PATTERN = Pattern.compile( "action=bridge([^>]*)" );
 
 	public OrcChasmRequest()
@@ -73,11 +76,11 @@ public class OrcChasmRequest
 		{
 			if ( action.equals( "_done" ) )
 			{
-				setChasmProgress( 30 );
+				OrcChasmRequest.setChasmProgress( 30 );
 			}
 			else
 			{
-				setChasmProgress( StringUtilities.parseInt( action ) );
+				OrcChasmRequest.setChasmProgress( StringUtilities.parseInt( action ) );
 			}
 		}
 
@@ -87,13 +90,27 @@ public class OrcChasmRequest
 		}
 	}
 
-	private static final void setChasmProgress( int progress )
+	private static final void ensureUpdatedChasm()
 	{
-		OrcChasmRequest.chasmProgress = progress;
+		int lastAscension = Preferences.getInteger( "lastChasmReset" );
+		if ( lastAscension < KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastChasmReset", KoLCharacter.getAscensions() );
+			
+			Preferences.setInteger( "chasmBridgeProgress", 0 );
+		}
 	}
 
 	public static final int getChasmProgress()
 	{
-		return OrcChasmRequest.chasmProgress;
+		OrcChasmRequest.ensureUpdatedChasm();
+		return Preferences.getInteger( "chasmBridgeProgress" );
 	}
+
+	public static final void setChasmProgress( int progress )
+	{
+		OrcChasmRequest.ensureUpdatedChasm();
+		Preferences.setInteger( "chasmBridgeProgress", progress );
+	}
+
 }
