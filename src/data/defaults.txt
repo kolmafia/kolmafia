@@ -305,6 +305,7 @@ user	camerasUsed	0
 user	carboLoading	0
 user	cellarLayout	0
 user	charitableDonations	0
+user	chasmBridgeProgress	0
 user	chatbotScript
 user	chatbotScriptExecuted	false
 user	chatLiterate	false
@@ -420,6 +421,7 @@ user	lastCellarReset	-1
 user	lastChanceBurn
 user	lastChanceThreshold	100
 user	lastChessboard
+user	lastChasmReset	-1
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
 user	lastDispensaryOpen	-1
