@@ -37,11 +37,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -74,6 +76,7 @@ public class OrcChasmRequest
 
 		if ( action != null )
 		{
+			int previous = OrcChasmRequest.getChasmProgress();
 			if ( action.equals( "_done" ) )
 			{
 				OrcChasmRequest.setChasmProgress( 30 );
@@ -82,6 +85,8 @@ public class OrcChasmRequest
 			{
 				OrcChasmRequest.setChasmProgress( StringUtilities.parseInt( action ) );
 			}
+			int current = OrcChasmRequest.getChasmProgress();
+			OrcChasmRequest.subtractBridgeParts( current - previous );
 		}
 
 		if ( responseText.contains( "You disassemble it into usable lumber and fasteners." ) )
@@ -107,10 +112,44 @@ public class OrcChasmRequest
 		return Preferences.getInteger( "chasmBridgeProgress" );
 	}
 
-	public static final void setChasmProgress( int progress )
+	private static final void setChasmProgress( int progress )
 	{
 		OrcChasmRequest.ensureUpdatedChasm();
 		Preferences.setInteger( "chasmBridgeProgress", progress );
+	}
+
+	private static final void subtractBridgeParts( final int parts )
+	{
+		if ( parts == 0 )
+		{
+			return;
+		}
+		int remove;
+		int lumber = parts;
+		//remove morningwood plank
+		remove = Math.min( lumber, InventoryManager.getCount( ItemPool.MORNINGWOOD_PLANK ) );
+		ResultProcessor.processItem( ItemPool.MORNINGWOOD_PLANK, -remove );
+		lumber -= remove;
+		//remove raging hardwood plank
+		remove = Math.min( lumber, InventoryManager.getCount( ItemPool.HARDWOOD_PLANK ) );
+		ResultProcessor.processItem( ItemPool.HARDWOOD_PLANK, -remove );
+		lumber -= remove;
+		//remove weirdwood plank
+		remove = Math.min( lumber, InventoryManager.getCount( ItemPool.WEIRDWOOD_PLANK ) );
+		ResultProcessor.processItem( ItemPool.WEIRDWOOD_PLANK, -remove );
+
+		int fastener = parts;
+		//remove thick caulk
+		remove = Math.min( fastener, InventoryManager.getCount( ItemPool.THICK_CAULK ) );
+		ResultProcessor.processItem( ItemPool.THICK_CAULK, -remove );
+		fastener -= remove;
+		//remove long hard screw
+		remove = Math.min( fastener, InventoryManager.getCount( ItemPool.LONG_SCREW ) );
+		ResultProcessor.processItem( ItemPool.LONG_SCREW, -remove );
+		fastener -= remove;
+		//remove messy butt joint
+		remove = Math.min( fastener, InventoryManager.getCount( ItemPool.BUTT_JOINT ) );
+		ResultProcessor.processItem( ItemPool.BUTT_JOINT, -remove );
 	}
 
 }
