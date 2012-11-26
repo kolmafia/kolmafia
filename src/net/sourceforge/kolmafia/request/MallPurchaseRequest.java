@@ -195,6 +195,7 @@ public class MallPurchaseRequest
 		if ( this.responseText.indexOf( "That player will not sell to you" ) != -1 )
 		{
 			KoLmafia.updateDisplay( "You are on this shop's ignore list (#" + this.shopId + "). Skipping..." );
+			RequestLogger.updateSessionLog( "You are on this shop's ignore list (#" + this.shopId + "). Skipping...");
 			return;
 		}
 
