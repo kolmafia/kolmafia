@@ -432,6 +432,12 @@ public class ListCellRendererFactory
 				boolean turnFreeOnly = Preferences.getBoolean( "showTurnFreeOnly" );
 				int modified = ( turnFreeOnly ? item.getTurnFreeAvailable() : item.getAvailable() );
 				int initial = item.getItem().getCount( KoLConstants.inventory );
+				
+				// hack for clip art summons: if "no-summon" is checked, only show on-hand items
+				if ( item != null && ( item.getMixingMethod() & KoLConstants.CT_MASK ) == KoLConstants.CLIPART && Preferences.getBoolean( "showNoSummonOnly" ) )
+				{
+					modified = initial;
+				}
 
 				if ( item.price > 0 )
 				{
