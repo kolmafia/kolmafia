@@ -150,7 +150,7 @@ public class UseItemEnqueuePanel
 
 		this.filters[ 0 ] = new JCheckBox( "no create" );
 		this.filters[ 1 ] = new TurnFreeCheckbox();
-		this.filters[ 2 ] = new JCheckBox( "no summon" );
+		this.filters[ 2 ] = new NoSummonCheckbox();
 		this.filters[ 3 ] = new JCheckBox( "+mus only" );
 		this.filters[ 4 ] = new JCheckBox( "+mys only" );
 		this.filters[ 5 ] = new JCheckBox( "+mox only" );
@@ -689,8 +689,7 @@ public class UseItemEnqueuePanel
 			if ( UseItemEnqueuePanel.this.filters[ 2 ].isSelected() )
 			{
 				AdventureResult item = creation.getItem();
-				if ( item != null && 
-					( creation.getMixingMethod() & KoLConstants.CT_MASK ) == KoLConstants.CLIPART )
+				if ( item != null && ( creation.getMixingMethod() & KoLConstants.CT_MASK ) == KoLConstants.CLIPART && item.getCount( KoLConstants.inventory ) == 0 )
 				{
 					return false;
 				}
@@ -780,6 +779,23 @@ public class UseItemEnqueuePanel
 			super( "turn-free", "showTurnFreeOnly" );
 
 			this.setToolTipText( "Only show creations that will not take a turn" );
+		}
+
+		@Override
+		protected void handleClick()
+		{
+			ConcoctionDatabase.getUsables().sort();
+		}
+	}
+
+	private static class NoSummonCheckbox
+		extends PreferenceListenerCheckBox
+	{
+		public NoSummonCheckbox()
+		{
+			super( "no-summon", "showNoSummonOnly" );
+
+			this.setToolTipText( "Do not show creations that use up summoning charges" );
 		}
 
 		@Override
