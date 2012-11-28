@@ -59,6 +59,7 @@ public class MonsterStatusTracker
 	private static int healthManuel = 0;
 	private static int attackManuel = 0;
 	private static int defenseManuel = 0;
+	private static boolean manuelFound = false;
 
 	public static final void reset()
 	{
@@ -68,6 +69,7 @@ public class MonsterStatusTracker
 		MonsterStatusTracker.healthManuel = 0;
 		MonsterStatusTracker.attackManuel = 0;
 		MonsterStatusTracker.defenseManuel = 0;
+		MonsterStatusTracker.manuelFound = false;
 	}
 
 	public static final MonsterData getLastMonster()
@@ -161,7 +163,7 @@ public class MonsterStatusTracker
 			return 0;
 		}
 
-		if ( MonsterStatusTracker.healthManuel > 0 )
+		if ( MonsterStatusTracker.manuelFound )
 		{
 			return MonsterStatusTracker.healthManuel;
 		}
@@ -207,7 +209,7 @@ public class MonsterStatusTracker
 			return 0;
 		}
 
-		if ( MonsterStatusTracker.attackManuel > 0 )
+		if ( MonsterStatusTracker.manuelFound )
 		{
 			return MonsterStatusTracker.attackManuel;
 		}
@@ -264,7 +266,7 @@ public class MonsterStatusTracker
 			return 0;
 		}
 
-		if ( MonsterStatusTracker.defenseManuel > 0 )
+		if ( MonsterStatusTracker.manuelFound )
 		{
 			return MonsterStatusTracker.defenseManuel;
 		}
@@ -339,6 +341,7 @@ public class MonsterStatusTracker
 		MonsterStatusTracker.attackManuel = attack;
 		MonsterStatusTracker.defenseManuel = defense;
 		MonsterStatusTracker.healthManuel = hp;
+		MonsterStatusTracker.manuelFound = true;
 	}
 
 }

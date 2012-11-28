@@ -4051,24 +4051,15 @@ public class FightRequest
 			if ( m.find() )
 			{
 				int hp = StringUtilities.parseInt( m.group( 1 ) );
-				int defense;
-				// Attack and defense can't really go negative, but Manuel can report negative values
+				int defense = StringUtilities.parseInt( m.group( 3 ) );
 				if ( m.group( 2 ) != null )
 				{
-					defense = 1;
+					defense *= -1;
 				}
-				else
-				{
-					defense = StringUtilities.parseInt( m.group( 3 ) );
-				}
-				int attack;
+				int attack = StringUtilities.parseInt( m.group( 5 ) );
 				if ( m.group( 4 ) != null )
 				{
-					attack = 1;
-				}
-				else
-				{
-					attack = StringUtilities.parseInt( m.group( 5 ) );
+					attack *= -1;
 				}
 				MonsterStatusTracker.setManuelStats( attack, defense, hp );
 			}
