@@ -1142,4 +1142,4 @@
 1141	The Glistening	blankoutglob.gif	95a20a402469fefbd7dacc5a27e5b558	use 1 vial of The Glistening
 1142	Neutered Nostrils	potion4.gif	79fda8863783295d4ea2b67319974c07	use 1 Polysniff Perfume
 1143	Your Interest is Peaked	magnify.gif	d53ec15713b6be9d6c1b090b2cfd1f47
-1144	Ginger Fightis	purse.gif		use 1 fireclutch
+1144	Ginger Fightis	purse.gif	a636530613396656819a3a45be1983c3	use 1 fireclutch
