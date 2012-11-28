@@ -1068,7 +1068,7 @@
 1067	No Squealer Healer	vial.gif	f47709a5d308f9ea5347fb160e8afe1c	use 1 Tears of the Quiet Healer
 1068	Visibly Goth	lipstick.gif	a79c4220b2c68e9fc3517938af2880e2	use 1 giant tube of black lipstick
 1069	Spike-and-span	spine.gif	9c6d5a6bc8d4a75d094f14f6f0739954	use 1 skelelton spine
-1070
+1070	Putting the Orc in Porcine	bigglasses.gif	55cf03ae70fed713a8410c2f2128c7d1	use 1 smut orc sunglasses
 1071	Lord of Acid	wad.gif	3d5bf3104970c981fa07b9de18b50393	use 1 blob of acid
 1072	Flayer Flavor	realbrain.gif	26a2fce9449da72ada69ceb5b69b1281	use 1 flayed mind
 1073	The Kobold and the Kobeautiful	float_pebbles.gif	1e422ac0983380c9c29badb6e6dd9b4d	use 1 kobold kibble
