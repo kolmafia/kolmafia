@@ -147,10 +147,11 @@ public class UseSkillRequest
 	{
 		ItemPool.get( ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 1 ),
 		ItemPool.get( ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 1 ),
+		ItemPool.get( ItemPool.OIL_PAN, 1 ),
 		ItemPool.get( ItemPool.FIVE_ALARM_SAUCEPAN, 1 ),
 		ItemPool.get( ItemPool.SAUCEPAN, 1 )
 	};
-	public static final int[] SAUCE_WEAPONS_BONUS = new int[] { 15, 10, 5, 0 };
+	public static final int[] SAUCE_WEAPONS_BONUS = new int[] { 15, 10, 7, 5, 0 };
 
 	public static final AdventureResult[] THIEF_WEAPONS = new AdventureResult[]
 	{

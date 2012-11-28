@@ -438,7 +438,7 @@ shrapnel jelly donut	1	4	awesome	3-5	40-60	0	0	30 Filled With Magic (+100% spell
 single-serving herbal stuffing	4	1	awesome	12-16	0	0	32-35
 sizzling weasel on a stick	5	1	EPIC	60-80	0	0	220-400
 six tiny wedges of goat cheese	2	1	crappy	3	0	0	0
-skeleton quiche	2	3	EPIC	0	0	0	0
+skeleton quiche	2	3	EPIC	10-12	5-15	5-15	5-15
 skewered cat appendix	2	1	decent	2-5	7-17	0	0
 skull-shaped crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Carol of the Bones (+10% mus)
 sleazy hi mein	5	7	awesome	21-29	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
