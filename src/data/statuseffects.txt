@@ -1055,7 +1055,7 @@
 1054	Gnollivision	eyepatch.gif	55c90bf4379a689027d505ccdd35263e	use 1 Missing Eye Simulation Device
 1055	Dress to Kill	skirt.gif	fa843311d6d1f234e254d990363961f5	use 1 Gnollish Crossdress
 1056	Better Off Bread	dough.gif	ce0519daf4764e69d9ba52da0b0e7127	use 1 eldritch dough
-1057
+1057	Beginning at Home	choker.gif	6466f68c2634e234b5eabcaffd593cd7	use 1 Charity's choker
 1058	Boned Up	powder.gif	91f915342b4b58b4ae5dd4ecf94f9cf4	use 1 Smart Bone Dust
 1059	Batted Around	perpguano.gif	6c35aa714f931fb9a387d48e9bbb9323	use 1 perpendicular guano
 1060
@@ -1141,4 +1141,5 @@
 1140	Hairy Palms	hand.gif	534a712e2c6a15dacecb551a46366843	use 1 orcish hand lotion
 1141	The Glistening	blankoutglob.gif	95a20a402469fefbd7dacc5a27e5b558	use 1 vial of The Glistening
 1142	Neutered Nostrils	potion4.gif	79fda8863783295d4ea2b67319974c07	use 1 Polysniff Perfume
-1143 Your Interest is Peaked magnify.gif d53ec15713b6be9d6c1b090b2cfd1f47
+1143	Your Interest is Peaked	magnify.gif	d53ec15713b6be9d6c1b090b2cfd1f47
+1144	Ginger Fightis	purse.gif		use 1 fireclutch

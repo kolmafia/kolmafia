@@ -5569,7 +5569,7 @@
 5552	Trusty	846990311	trusty.gif	weapon	q	0
 5553	can of Rain-Doh	572522502	raindoh.gif	usable	t	0	cans of Rain-Doh
 5554	empty Rain-Doh can	817677410	raindohempty.gif	none		0
-5555
+5555	fireclutch	348132593	purse.gif	usable	t,d	5
 5556	Rain-Doh red wings	233745367	raindohwings.gif	container	q	0
 5557	Rain-Doh orange agent	631939931	raindohagent.gif	none, combat reusable	q	0
 5558	Rain-Doh yellow laser gun	964864008	raindohgun.gif	weapon	q	0
@@ -5814,7 +5814,7 @@
 5797	Missing Eye Simulation Device	127128302	eyepatch.gif	usable	t,d	5
 5798	Gnollish Crossdress	421957448	skirt.gif	usable	t,d	5
 5799	eldritch dough	613464615	dough.gif	usable	t,d	5
-5800
+5800	Charity's choker	899043052	choker.gif	usable	t,d	5
 5801	Smart Bone Dust	635486984	powder.gif	usable	t,d	5
 5802	perpendicular guano	502945833	perpguano.gif	usable	t,d	5
 5803	White Chocolate Golem Seeds	741418840	chips.gif	usable	t,d	5
@@ -5926,7 +5926,7 @@
 5909	gold wedding ring	139779467	weddingring.gif	accessory	d	11000
 5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0
 5911	nanorhino credit card	776155074	littlecard.gif	familiar	t,d	75
-5912	Solstice Shield	120888971	shield.gif	offhand			0
+5912	Solstice Shield	120888971	shield.gif	offhand			0	0
 5913	
 5914	
 5915	
