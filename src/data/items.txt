@@ -5827,7 +5827,7 @@
 5810	Tears of the Quiet Healer	567473707	vial.gif	usable	t,d	5
 5811	giant tube of black lipstick	679762287	lipstick.gif	usable	t,d	5
 5812	skelelton spine	920394324	spine.gif	usable	t,d	5
-5813
+5813	smut orc sunglasses	151874300	bigglasses.gif	usable	t,d	5
 5814	blob of acid	870769832	wad.gif	usable	t,d	5
 5815	flayed mind	522146420	realbrain.gif	usable	t,d	5
 5816	kobold kibble	873527872	float_pebbles.gif	usable	t,d	5	handfuls of kobold kibble

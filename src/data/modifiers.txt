@@ -3346,6 +3346,7 @@ Pumped Stomach	Adventure Underwater
 Pumped Up	Muscle: +5
 Purity of Spirit	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
+# Putting the Orc in Porcine: Makes you look like a smutorc pervert
 Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 Quadrilled	Item Drop: +20
 Quivering with Rage	Muscle Percent: -10
@@ -4503,6 +4504,7 @@ skeletal banana	Effect: "Osseous George", Effect Duration: 30
 sleaze nuggets	Effect: "Sleazy Weapon", Effect Duration: 5
 sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 sleeping piano cat	Free Pull
+smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
 snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
 sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
