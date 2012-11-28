@@ -2179,6 +2179,11 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure584", "Hidden Temple",
 			new String[] { "Hidden Temple (Stone) - muscle substats", "Hidden Temple (Sun) - gain ancient calendar fragment", "Hidden Temple (Gargoyle) - MP", "Hidden Temple (Pikachutlotal) - Hidden City unlock" } ), 
+			
+		// A Lost Room
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure594", "Lost Key",
+			new String[] { "lost glasses", "lost comb", "lost pill bottle" } ), 
 
 		// Choice 585 is Screwing Around!
 		// Choice 586 is All We Are Is Radio Huggler
@@ -2380,6 +2385,11 @@ public abstract class ChoiceManager
 			// Add "Go To Goal" button for Interview With You
 			VampOutManager.addGoalButton( buffer );
 			break;
+			
+		case 594:
+			// Add "Go To Goal" button for a Lost Room
+			LostKeyManager.addGoalButton( buffer );
+			break;
 		}
 	}
 
@@ -2416,6 +2426,12 @@ public abstract class ChoiceManager
 
 		// Nope. See if it's Interview with you.
 		if ( choice == 546 )
+		{
+			return null;
+		}
+
+		// See if it's A Lost Room
+		if ( choice == 594 )
 		{
 			return null;
 		}
@@ -5257,6 +5273,14 @@ public abstract class ChoiceManager
 
 			int amount = 3 + StringUtilities.parseInt( decision );
 			return InventoryManager.getCount( ItemPool.LOLLIPOP_STICK ) >= amount ? decision : "6";
+			
+		case 594:
+			if ( ChoiceManager.action == PostChoiceAction.NONE )
+			{	// Don't automate this if we logged in in the middle of the game -
+				// the auto script isn't robust enough to handle arbitrary starting points.
+				return LostKeyManager.autoKey( decision, stepCount, responseText );
+			}
+			return "0";
 		}
 
 		return decision;
