@@ -2702,6 +2702,7 @@ Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 # Bedraggled Dragoon: Makes you look like a drowned sailor
 # Beer in Your Shoes: More likely to fumble
 # Beer in Your Shoes: Continually take damage
+# Beginning at Home: Makes you look like Charity the Zombie Hunter
 Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)], Stench Damage: [min(L,11)], Spooky Damage: [min(L,11)], Sleaze Damage: [min(L,11)]
 Bells in the Batfry	Moxie Percent: +10
 Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
@@ -3023,6 +3024,7 @@ Gaze of the Volcano God	Weapon Damage Percent: +50, Hot Damage: +25, Experience 
 Gelded	Monster Level: +5
 # Get Me Off This Crazy Thing!: Jane!
 Ghostly Shell	Damage Absorption: +80
+# Ginger Fightis: Makes you look like a creepy ginger twin
 Ginger Snapped	Spooky Damage: +10
 Gleaming White Teeth	Moxie Percent: +50
 Glittering Eyelashes	Mysticality Percent: +15
@@ -4004,6 +4006,7 @@ Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10
 Blood 'n' Plenty	Effect: "Sugar Rush", Effect Duration: 10
 BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 Bright Water	Effect: "Bright!", Effect Duration: 10
+Charity's choker	Effect: "Beginning at Home", Effect Duration: 100
 Cheshire Bitten	Free Pull
 Clan VIP Lounge invitation	Free Pull
 Clan VIP Lounge key	Free Pull
@@ -4262,6 +4265,7 @@ fake blood	Effect: "Bloody Bloody Bloody!", Effect Duration: 10
 filthworm drone scent gland	Effect: "Filthworm Drone Stench", Effect Duration: 10
 filthworm hatchling scent gland	Effect: "Filthworm Larva Stench", Effect Duration: 10
 filthworm royal guard scent gland	Effect: "Filthworm Guard Stench", Effect Duration: 10
+fireclutch	Effect: "Ginger Fightis", Effect Duration: 50
 fire flower	Effect: "Flamingly Floral", Effect Duration: 10
 fish juice box	Effect: "Fishy", Effect Duration: 20
 fish-liver oil	Effect: "Fishy Fortification", Effect Duration: 5
