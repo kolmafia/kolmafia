@@ -617,7 +617,7 @@ user	questL05Goblin	unstarted
 user	questL06Friar	unstarted
 user	questL07Cyrptic	unstarted
 user	questL08Trapper	unstarted
-user	questL09Lol	unstarted
+user	questL09Topping	unstarted
 user	questL10Garbage	unstarted
 user	questL11MacGuffin	unstarted
 user	questL11Worship	unstarted
@@ -640,6 +640,7 @@ user	questM11Postal	unstarted
 user	questM12Pirate	unstarted
 user	questM13Escape	unstarted
 user	questM14Bounty	unstarted
+user	questM15Lol	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false
