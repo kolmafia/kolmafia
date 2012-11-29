@@ -2014,7 +2014,7 @@ public class UseItemRequest
 			else
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.DICTIONARY, -1 ) );
-				QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
 			}
 
 			return;
