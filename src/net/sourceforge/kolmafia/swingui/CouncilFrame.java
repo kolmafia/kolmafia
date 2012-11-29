@@ -364,7 +364,7 @@ public class CouncilFrame
 			{
 				KoLmafia.updateDisplay( MafiaState.PENDING, "You have bridged the Orc Chasm." );
 			}
-			QuestDatabase.setQuestProgress( Quest.LOL, "step1" );
+			QuestDatabase.setQuestProgress( Quest.TOPPING, "step1" );
 		}
 	}
 

@@ -65,7 +65,7 @@ public class QuestDatabase
 			FRIAR( "questL06Friar" ),
 			CYRPT( "questL07Cyrptic" ),
 			TRAPPER( "questL08Trapper" ),
-			LOL( "questL09Lol" ),
+			TOPPING( "questL09Topping" ),
 			GARBAGE( "questL10Garbage" ),
 			MACGUFFIN( "questL11MacGuffin" ),
 			WORSHIP( "questL11Worship" ),
