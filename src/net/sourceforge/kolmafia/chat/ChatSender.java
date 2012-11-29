@@ -64,7 +64,7 @@ public class ChatSender
 
 	private static boolean scriptedMessagesEnabled = true;
 
-	private static final ArrayList CHANNEL_COMMANDS = new ArrayList();
+	private static final ArrayList<String> CHANNEL_COMMANDS = new ArrayList<String>();
 
 	static
 	{
@@ -107,20 +107,20 @@ public class ChatSender
 			return;
 		}
 
-		List grafs = getGrafs( contact, message );
+		List<String> grafs = getGrafs( contact, message );
 
 		if ( grafs == null )
 		{
 			return;
 		}
 
-		Iterator grafIterator = grafs.iterator();
+		Iterator<String> grafIterator = grafs.iterator();
 
 		List accumulatedMessages = new LinkedList();
 
 		while ( grafIterator.hasNext() )
 		{
-			String graf = (String) grafIterator.next();
+			String graf = grafIterator.next();
 
 			String responseText = ChatSender.sendMessage( accumulatedMessages, graf, false, channelRestricted );
 
@@ -221,7 +221,7 @@ public class ChatSender
 		}
 		else if ( graf.startsWith( "/who " ) || graf.equals( "/f" ) || graf.equals( "/friends" ) || graf.equals( "/romans" ) || graf.equals( "/clannies" ) )
 		{
-			ChatParser.parseContacts( newMessages, request.responseText );
+			ChatParser.parseContacts( newMessages, request.responseText, graf.equals( "/clannies" ) );
 		}
 		else
 		{
@@ -233,9 +233,9 @@ public class ChatSender
 		return newMessages;
 	}
 
-	private static final List getGrafs( String contact, String message )
+	private static final List<String> getGrafs( String contact, String message )
 	{
-		List grafs = new LinkedList();
+		List<String> grafs = new LinkedList<String>();
 
 		if ( message.startsWith( "/do " ) || message.startsWith( "/run " ) || message.startsWith( "/cli " ) )
 		{

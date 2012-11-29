@@ -85,7 +85,7 @@ public class ChatParser
 
 	private static final Pattern CHANNEL_LISTEN_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 
-	public static void parseChannelList( final List chatMessages, final String content )
+	public static void parseChannelList( final List<EnableMessage> chatMessages, final String content )
 	{
 		Matcher channelMatcher = ChatParser.CHANNEL_LISTEN_PATTERN.matcher( content );
 
@@ -113,20 +113,29 @@ public class ChatParser
 		}
 	}
 
-	public static void parseContacts( final List chatMessages, final String content )
+	public static void parseContacts( final List<WhoMessage> chatMessages, final String content, final boolean isClannies )
 	{
 		Matcher titleMatcher = TITLE_PATTERN.matcher( content );
 
 		String title = titleMatcher.find() ? titleMatcher.group( 1 ) : "Contacts Online";
 
-		Map contacts = new TreeMap();
+		Map<String, Boolean> contacts = new TreeMap<String, Boolean>();
 
-		Matcher whoMatcher = WHO_PATTERN.matcher( content );
+		Matcher whoMatcher;
+		
+		if ( isClannies )
+		{
+			whoMatcher = PLAYERID_PATTERN.matcher( content );
+		}
+		else
+		{
+			whoMatcher = WHO_PATTERN.matcher( content );
+		}
 
 		while ( whoMatcher.find() )
 		{
 			String playerName = whoMatcher.group( 2 );
-			String color = whoMatcher.group( 1 );
+			String color = isClannies ? "black" : whoMatcher.group( 1 );
 			boolean inChat = color.equals( "black" ) || color.equals( "blue" );
 
 			contacts.put( playerName, inChat ? Boolean.TRUE : Boolean.FALSE );
@@ -143,7 +152,7 @@ public class ChatParser
 		ContactManager.updateContactList( title, contacts );
 	}
 
-	public static void parseChannel( final List chatMessages, final String content )
+	public static void parseChannel( final List<ChatMessage> chatMessages, final String content )
 	{
 		int startIndex = content.indexOf( ":" ) + 2;
 		int dotIndex = content.indexOf( "." );
@@ -161,7 +170,7 @@ public class ChatParser
 		}
 	}
 
-	public static void parseSwitch( final List chatMessages, final String content )
+	public static void parseSwitch( final List<EnableMessage> chatMessages, final String content )
 	{
 		int startIndex = content.indexOf( ":" ) + 2;
 		int dotIndex = content.indexOf( "." );
@@ -176,7 +185,7 @@ public class ChatParser
 		}
 	}
 
-	public static void parseListen( final List chatMessages, final String content )
+	public static void parseListen( final List<ChatMessage> chatMessages, final String content )
 	{
 		int startIndex = content.indexOf( ":" ) + 2;
 		int dotIndex = content.indexOf( "." );
@@ -202,7 +211,7 @@ public class ChatParser
 		}
 	}
 
-	public static void parseLines( final List chatMessages, final String content )
+	public static void parseLines( final List<ChatMessage> chatMessages, final String content )
 	{
 		ChatParser.parsePlayerIds( content );
 
@@ -241,7 +250,7 @@ public class ChatParser
 		}
 	}
 
-	public static void parseLine( final List chatMessages, String line )
+	public static void parseLine( final List<ChatMessage> chatMessages, String line )
 	{
 		// Empty messages do not need to be processed; therefore,
 		// return if one was retrieved.
@@ -285,7 +294,7 @@ public class ChatParser
 		return matcher.lookingAt();
 	}
 
-	private static boolean parseChannelMessage( final List chatMessages, final String line )
+	private static boolean parseChannelMessage( final List<ChatMessage> chatMessages, final String line )
 	{
 		Matcher channelMatcher = ChatParser.CHANNEL_PATTERN.matcher( line );
 		if ( !channelMatcher.find() )
@@ -355,7 +364,7 @@ public class ChatParser
 		return true;
 	}
 
-	private static void parsePrivateReceiveMessage( final List chatMessages, final String line )
+	private static void parsePrivateReceiveMessage( final List<ChatMessage> chatMessages, final String line )
 	{
 		String sender = line.substring( 0, line.indexOf( " (" ) );
 		sender = KoLConstants.ANYTAG_PATTERN.matcher( sender ).replaceAll( "" );
@@ -372,7 +381,7 @@ public class ChatParser
 		chatMessages.add( message );
 	}
 
-	private static void parsePrivateSendMessage( final List chatMessages, final String line )
+	private static void parsePrivateSendMessage( final List<ChatMessage> chatMessages, final String line )
 	{
 		String sender = KoLCharacter.getUserName();
 
