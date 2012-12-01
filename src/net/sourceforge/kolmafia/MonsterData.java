@@ -198,8 +198,7 @@ public class MonsterData
 		if ( this.defense instanceof Integer )
 		{
 			int defense = ((Integer) this.defense).intValue();
-			return defense == 0 ? 0 :
-				(int) Math.floor( Math.max( 1, (int) Math.ceil( 0.9 * ( defense + ML() ) ) ) * getBeeosity() );
+			return defense == 0 ? 0 : (int) Math.floor( Math.max( 1, defense + ML() ) * getBeeosity() );
 		}
 		if ( this.defense instanceof String )
 		{
