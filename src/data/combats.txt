@@ -64,7 +64,7 @@ Belowdecks	100	Gaudy Pirate	Grassy Pirate	Gritty Pirate	Groovy Pirate	Grungy Pir
 Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow	Blackberry Bush
 Bog	100	Rattlin' Duck	Swamp Duck
 Boss Bat's Lair	100	Beefy Bodyguard Bat	Boss Bat
-Bugbear Pens	100	An Angry Bugbear: 3	A Bugged Bugbear: 3	Mad Bugbears: 3	A Revolting Bugbear: 3	A Revolving Bugbear: 3	An Annoying Spooky Gravy Fairy: 2
+Bugbear Pens	100	Angry Bugbear: 3	Bugged Bugbear: 3	Mad Bugbears: 3	Revolting Bugbear: 3	Revolving Bugbear: 3	Annoying Spooky Gravy Fairy: 2
 Burnbarrel Blvd.	-1	Hot Hobo	Ol' Scratch: 0
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
 Chapel	100
@@ -170,7 +170,7 @@ Noob Cave	100	Crate
 Oasis in the Desert	100	Blur	Oasis Monster	Rolling Stone	Swarm of Scarab Beatles
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
 Old Crimbo Town Toy Factory	100	Mob Penguin Goon	Mob Penguin Hitpenguin	Mob Penguin Enforcer	Mob Penguin Psychopath	Mob Penguin Racketeer
-Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Rampaging Adding Machine	Spam Witch	XXX pr0n	Some Bad ASCII Art: 0
+Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Rampaging Adding Machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 Other Back 40	100	Greasy Duck
 Outskirts of Camp	70	Axe Handle	Cloud of Disembodied Whiskers	Poutine Ooze	Forest Spirit
 Outskirts of The Knob	80	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
