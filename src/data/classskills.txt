@@ -444,6 +444,7 @@
 8200	Summon Hilarious Objects	1	5	0
 8201	Summon Tasteful Items	1	5	0
 8202	Summon Alice's Army Cards	1	5	0
+8203	Summon Geeky Gifts	1	5	0
 
 # Skills available to Avatars of Boris
 

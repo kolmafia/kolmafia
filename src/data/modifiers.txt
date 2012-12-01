@@ -708,6 +708,7 @@ Zim Merman's guitar	Ranged Damage: +20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 a butt tuba	Sleaze Damage: +15
 acoustic guitarrr	Meat Drop: +8
+# airblaster gun: Blasts Air (Duh.)
 ancient ice cream scoop	Spell Damage: +20
 ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 antique spear	Initiative: -30, Weakens Monster
@@ -1189,7 +1190,11 @@ Loathing Legion tape measure	Critical Hit Percent: 10, Softcore Only
 Medallion of the Ventrilo Prince	Moxie Percent: +12
 Mer-kin roundshield	Damage Reduction: 5, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
+Microplushie: Bropane	Weapon Damage: +3
+Microplushie: Gothochondria	Spooky Damage: +2
+Microplushie: Hippylase	Stench Damage: +2
 Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
+# Mr. Haggis: Haggis!
 # Mylar balloon
 # Necrotelicomnicon: All Spells Cast Are Spooky
 Necrotelicomnicon	Spell Damage: +10
@@ -1669,6 +1674,8 @@ Zinc Delta of Tranquility	Muscle: +8, Mysticality: +8, Moxie: +8, Item Drop: +8,
 Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 # acid-squirting flower: Damages Attacking Opponent
 acid-squirting flower	Single Equip
+# actual reality goggles: Reveals peoples' true nature
+actual reality goggles	Single Equip
 albatross necklace	Mysticality Percent: +10, Single Equip
 amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
 amulet of extreme plot significance	Maximum MP: +30
@@ -1860,6 +1867,7 @@ night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 observational glasses	Item Drop: +5
 offensive moustache	PvP Fights: +7, Single Equip
 # old soft shoes: +30% Item Drops from Hobos
+# old-school calculator watch: Math!
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 orange glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 orange leather lanyard	Weapon Damage: +15, Single Equip
@@ -3199,6 +3207,7 @@ Lustful Heart	Moxie: [min(T,20)]
 Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [+2*M]
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 Mad at Science	Muscle: +3
+# Magic Tongue: Everything tastes weird
 Maid Disservice	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -90, Muscle: -11, Mysticality: -11, Moxie: -11
 Make Meat FA$T!	Meat Drop: +20
@@ -3347,6 +3356,7 @@ Pumped Up	Muscle: +5
 Purity of Spirit	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 # Putting the Orc in Porcine: Makes you look like a smutorc pervert
+Puzzle Fury	Spell Damage Percent: +25
 Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 Quadrilled	Item Drop: +20
 Quivering with Rage	Muscle Percent: -10
@@ -3413,6 +3423,7 @@ Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Shape of...Mole!: You're a Mole
 # Sharin' Stone: Makes you look like a Stone Golem
 # Sharp Weapon: +3-5 Weapon Damage
+# Sheepskinned: Your regular attacks deal Sleaze damage
 Shiny Happy Cupcake	Experience: +3
 Shiny Happy Weapon	Muscle: +20
 Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
@@ -3992,6 +4003,7 @@ _stickers	Item Drop: +25, Experience: +2, Meat Drop: +25, Muscle Percent: +10, M
 
 &quot;DRINK ME&quot; potion	Effect: "Down the Rabbit Hole", Effect Duration: 20
 1/6th Pound Cake	Effect: "Heal Thy Nanoself", Effect Duration: 100
+37x37x37 puzzle cube	Effect: "Puzzle Fury", Effect Duration: 10
 A muse-bouche	Effect: "Pros Only", Effect Duration: 30
 Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
@@ -4115,6 +4127,7 @@ Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
 Tears of the Quiet Healer	Effect: "No Squealer Healer", Effect Duration: 30
 The Groose in the Hoose	Free Pull
 The Kloop in the Coop	Free Pull
+Thinknerd's Grimoire of Geeky Gifts	Free Pull
 Tome of Clip Art	Free Pull
 Tome of Rad Libs	Free Pull
 Tome of Snowcone Summoning	Free Pull
@@ -4316,6 +4329,7 @@ gummi salamander	Effect: "Gummiheart", Effect Duration: 1
 gummi snake	Effect: "Gummibrain", Effect Duration: 1
 gummi trilobite	Effect: "Sugar Rush", Effect Duration: 100
 gun cleaning kit	Effect: "Very Clean Guns", Effect Duration: 20
+haggis-infused soap	Effect: "Sheepskinned", Effect Duration: 20
 hair of the fish	Effect: "Antihangover", Effect Duration: 10
 half-baked potion	Effect Duration: 5
 half-orchid	Effect: "Bestial Sympathy", Effect Duration: 10
@@ -4371,6 +4385,7 @@ love song of sugary cuteness	Effect: "Sweet Heart", Effect Duration: 5
 love song of vague ambiguity	Effect: "Broken Heart", Effect Duration: 5
 lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
 mafia aria	Effect: "Macho Profundo", Effect Duration: 5
+magicberry tablets	Effect: "Magic Tongue"
 mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
 milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]

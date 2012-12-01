@@ -118,6 +118,7 @@ public class UseSkillRequest
 		"Summon Hilarious Objects",
 		"Summon Tasteful Items",
 		"Summon Alice's Army Cards",
+		"Summon Geeky Gifts",
 	};
 
 	public static String lastUpdate = "";
@@ -243,6 +244,7 @@ public class UseSkillRequest
 		case SkillPool.RAD_LIB:
 		case SkillPool.HILARIOUS:
 		case SkillPool.TASTEFUL:
+		case SkillPool.GEEKY:
 		case SkillPool.CARDS:
 		case SkillPool.CANDY_HEART:
 		case SkillPool.PARTY_FAVOR:
@@ -290,6 +292,10 @@ public class UseSkillRequest
 
 		case SkillPool.CARDS:
 			this.addFormField( "preaction", "summonaa" );
+			break;
+
+		case SkillPool.GEEKY:
+			this.addFormField( "preaction", "summonthinknerd" );
 			break;
 
 		case SkillPool.CANDY_HEART:
@@ -433,7 +439,6 @@ public class UseSkillRequest
 
 		// You can take a Lunch Break once a day
 		case SkillPool.LUNCH_BREAK:
-
 			maximumCast = Preferences.getBoolean( "_lunchBreak" ) ? 0 : 1;
 			break;
 
@@ -475,23 +480,23 @@ public class UseSkillRequest
 
 		// Grimoire items can only be summoned once per day.
 		case SkillPool.HILARIOUS:
-
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire1Summons" ), 0 );
 			break;
 
 		case SkillPool.TASTEFUL:
-
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire2Summons" ), 0 );
 			break;
 
 		case SkillPool.CARDS:
-
 			maximumCast = Math.max( 1 - Preferences.getInteger( "grimoire3Summons" ), 0 );
+			break;
+
+		case SkillPool.GEEKY:
+			maximumCast = Math.max( 1 - Preferences.getInteger( "_grimoireGeekySummons" ), 0 );
 			break;
 
 		// You can summon Crimbo candy once a day
 		case SkillPool.CRIMBO_CANDY:
-
 			maximumCast = Math.max( 1 - Preferences.getInteger( "_candySummons" ), 0 );
 			break;
 
@@ -512,7 +517,6 @@ public class UseSkillRequest
 		// Pastamastery
 
 		case SkillPool.TRANSCENDENTAL_NOODLES:
-
 			maximumCast = KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) ? 5 : 3;
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "noodleSummons" ), 0 );
 			break;
@@ -526,7 +530,6 @@ public class UseSkillRequest
 		// Saucecrafting. So does the Gravyskin Belt of the Sauceblob
 
 		case SkillPool.WAY_OF_SAUCE:
-
 			maximumCast = KoLCharacter.hasSkill( "The Way of Sauce" ) ? 5 : 3;
 			if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) &&
 			     ( KoLCharacter.hasEquipped( UseSkillRequest.SAUCEBLOB_BELT ) ||
@@ -541,7 +544,6 @@ public class UseSkillRequest
 		// Advanced Cocktailcrafting
 
 		case SkillPool.SUPERHUMAN_COCKTAIL:
-
 			maximumCast = KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) ? 5 : 3;
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "cocktailSummons" ), 0 );
 			break;
@@ -1606,6 +1608,10 @@ public class UseSkillRequest
 			Preferences.increment( "grimoire3Summons", 1 );
 			break;
 
+		case SkillPool.GEEKY:
+			Preferences.increment( "_grimoireGeekySummons", 1 );
+			break;
+
 		case SkillPool.CRIMBO_CANDY:
 			Preferences.increment( "_candySummons", 1 );
 			break;
@@ -1686,12 +1692,17 @@ public class UseSkillRequest
 
 		if ( action.equals( "spencersitems" ) )
 		{
-			return	SkillPool.TASTEFUL;
+			return SkillPool.TASTEFUL;
 		}
 
 		if ( action.equals( "aa" ) )
 		{
-			return	SkillPool.CARDS;
+			return SkillPool.CARDS;
+		}
+
+		if ( action.equals( "thinknerd" ) )
+		{
+			return SkillPool.GEEKY;
 		}
 
 		if ( action.equals( "candyheart" ) )
