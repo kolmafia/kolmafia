@@ -817,6 +817,7 @@ user	_gnomeAdv	0
 user	_gongDrops	0
 user	_gothKidFights	0
 user	_gothKidCharge	0
+user	_grimoireGeekySummons	0
 user	_grooseDrops	0
 user	_guildManualUsed	false
 user	_hareAdv	0

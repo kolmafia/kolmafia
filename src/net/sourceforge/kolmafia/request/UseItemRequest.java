@@ -267,7 +267,7 @@ public class UseItemRequest
 				return "multiuse.php";
 			}
 			return "inv_use.php";
-		case  KoLConstants.INFINITE_USES:
+		case KoLConstants.INFINITE_USES:
 		{
 			int type = ItemDatabase.getConsumptionType( item.getItemId() );
 			return type == KoLConstants.CONSUME_MULTIPLE ?
@@ -2649,6 +2649,7 @@ public class UseItemRequest
 		case ItemPool.HILARIOUS_BOOK:
 		case ItemPool.TASTEFUL_BOOK:
 		case ItemPool.CARD_GAME_BOOK:
+		case ItemPool.GEEKY_BOOK:
 			// Librams
 		case ItemPool.CANDY_BOOK:
 		case ItemPool.DIVINE_BOOK:
@@ -4210,6 +4211,8 @@ public class UseItemRequest
 			return "Summon Tasteful Items";
 		case ItemPool.CARD_GAME_BOOK:
 			return "Summon Alice's Army Cards";
+		case ItemPool.GEEKY_BOOK:
+			return "Summon Geeky Gifts";
 		case ItemPool.CANDY_BOOK:
 			return "Summon Candy Hearts";
 		case ItemPool.DIVINE_BOOK:

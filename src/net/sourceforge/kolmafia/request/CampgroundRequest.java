@@ -780,6 +780,10 @@ public class CampgroundRequest
 			"Summon Alice's Army Cards",
 		},
 		{
+			"Thinknerd's Grimoire of Geeky Gifts",
+			"Summon Geeky Gifts",
+		},
+		{
 			"Libram of Candy Heart Summoning",
 			"Summon Candy Hearts",
 		},

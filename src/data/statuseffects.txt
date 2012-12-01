@@ -1143,3 +1143,15 @@
 1142	Neutered Nostrils	potion4.gif	79fda8863783295d4ea2b67319974c07	use 1 Polysniff Perfume
 1143	Your Interest is Peaked	magnify.gif	d53ec15713b6be9d6c1b090b2cfd1f47
 1144	Ginger Fightis	purse.gif	a636530613396656819a3a45be1983c3	use 1 fireclutch
+1145
+1146
+1147
+1148
+1149	Sheepskinned	haggissoap.gif	67409c43fa3b981dca486ef689941902	use 1 haggis-infused soap
+1150	Magic Tongue	bigtongue.gif	8e74c0f8246ed46fd0cd60423fa75f56	use 1 magicberry tablets
+1151
+1152
+1153
+1154
+1155
+1156	Puzzle Fury	37cube.gif	8113e8a09a4d2a928f43e08211b18d58	use 1 37x37x37 puzzle cube

@@ -228,6 +228,7 @@ margarita	3	1	decent	5-6	8-10	0	0
 marshmallow flamb&eacute;	2	3	EPIC	11-13	46-79	0	0	10 Sugar Rush
 martini	3	1	decent	5-6	0	0	8-10
 mcmillicancuddy's special lager	1	10	good	2-4	10-15	10-15	10-15	10-20 MP
+McLeod's Hard Haggis-Ade	2	2	decent	0	0	0	0
 melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fishy)
 melted jell-o shot	1	10	good	2-4	0-40	0-40	0-40
 mimosette	3	3	good	5-10	16-20	0	0
