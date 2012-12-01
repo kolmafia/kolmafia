@@ -1193,6 +1193,7 @@ Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
 Microplushie: Bropane	Weapon Damage: +3
 Microplushie: Gothochondria	Spooky Damage: +2
 Microplushie: Hippylase	Stench Damage: +2
+Microplushie: Otakulone	Maximum MP: +4
 Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
 # Mr. Haggis: Haggis!
 # Mylar balloon

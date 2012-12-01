@@ -616,7 +616,7 @@ Zim Merman's guitar	200	Mox: 85	2-handed guitar
 Zombo's shoulder blade	200	Mus: 200	2-handed sword
 a butt tuba	145	Mox: 57	2-handed horn
 acoustic guitarrr	140	Mox: 55	2-handed guitar
-airblaster gun	10	Mox: 0 1-handed pistol
+airblaster gun	10	Mox: 0	1-handed pistol
 ancient ice cream scoop	170	Mys: 70	1-handed utensil
 ancient stone fist	85	Mus: 27	1-handed club
 antique spear	200	Mus: 85	1-handed polearm
@@ -1066,6 +1066,7 @@ Mer-kin takebag	200	Mys: 85
 Microplushie: Bropane	0	none
 Microplushie: Gothochondria	5	none
 Microplushie: Hippylase	5	none
+Microplushie: Otakulone	0	none
 Mr. Balloon	10	none
 Mr. Haggis	0	none
 Mylar balloon	10	none
