@@ -6087,31 +6087,31 @@
 6070
 6071	Thinknerd's Grimoire of Geeky Gifts	722194360	nerdgrimoire.gif	usable	t	0
 6072	confusing LED clock	829648981	ledclock.gif	usable	t	0
-6073	haggis-infused soap	551687728	haggissoap.gif	usable	t,d	5
-6074	magicberry tablets	211306489	magicberry.gif	usable	t,d	5
-6075	37x37x37 puzzle cube	197804421	37cube.gif	usable	t,d	5
+6073	haggis-infused soap	551687728	haggissoap.gif	usable	t,d	5	bars of haggis-infused soap
+6074	magicberry tablets	211306489	magicberry.gif	usable	t,d	5	packs of magicberry tablets
+6075	37x37x37 puzzle cube	197804421	37cube.gif	usable	t,d	5	37x37x37 puzzle cubes
 6076	McLeod's Hard Haggis-Ade	331717178	beerbottle.gif	drink	t,d	5
-6077	haggis-wrapped haggis-stuffed haggis	798617298	bighaggis.gif	food	t,d	5
-6078	home robotics kit	269335110	robokit.gif	usable	t,d	5
+6077	haggis-wrapped haggis-stuffed haggis	798617298	bighaggis.gif	food	t,d	5	haggis-wrapped haggis-stuffed haggises
+6078	home robotics kit	269335110	robokit.gif	usable	t,d	5	home robotics kits
 6079	old-school calculator watch	859101038	calcwatch.gif	accessory	t,d	5
-6080	haggis socks	763374333	haggissocks.gif	accessory	t,d	5
-6081	airblaster gun	348707874	airzooka.gif	weapon	t,d	5
+6080	haggis socks	763374333	haggissocks.gif	accessory	t,d	5	pairs of haggis socks
+6081	airblaster gun	348707874	airzooka.gif	weapon	t,d	5	airblaster guns
 6082	Thinknerd T-shirt grab bag	974426576	foodbag.gif	usable	t,d	5
-6083	actual reality goggles	675430268	steamgoggles.gif	accessory	t,d	5
+6083	actual reality goggles	675430268	steamgoggles.gif	accessory	t,d	5	pairs of actual reality goggles
 6084	Mr. Haggis	699314542	mrhaggis.gif	offhand	t,d	5
-6085	magnetic sculpture kit	766116902	magsculpt.gif	usable	t,d	5
-6086	Microplushie: Otakulone	733763278	microp1.gif	offhand	g,d 5
-6087	Microplushie: Hippylase	923477881	microp2.gif	offhand	g,d	5
-6088	Microplushie: Bropane	205300982	microp3.gif	offhand	g,d	5
+6085	magnetic sculpture kit	766116902	magsculpt.gif	usable	t,d	5	magnetic sculpture kits
+6086	Microplushie: Otakulone	733763278	microp1.gif	offhand	g,d	5
+6087	Microplushie: Hippylase	923477881	microp2.gif	offhand	g,d	5	Microplushie: Hippylasers
+6088	Microplushie: Bropane	205300982	microp3.gif	offhand	g,d	5	Microplushie: Bropanes
 6089	Microplushie: Sororitrate	850647554	microp4.gif	offhand	g,d	5
 6090	Microplushie: Gothochondria	571727614	microp5.gif	offhand	g,d	5
 6091	Microplushie: Raverdrine	229101236	microp6.gif	offhand	g,d	5
-6092
+6092	Microplushie: Hobomosome	357915186	microp7.gif	offhand	g,d	5
 6093	Microplushie: Ermahgerdic Acid	675644361	microp8.gif	offhand	g,d	5
-6094
+6094	Microplushie: Dorkonide		519340270	microp9.gif	offhand	g,d	5	Microplushie: Dorkonides
 6095	Microplushie: Fauxnerditide	727690964	microp10.gif	offhand	g,d	5
-6096	Microplushie: Hipsterine	773905614	microp11.gif	offhand	g,d	5
-6097	classy monkey	662446155	tuxmonkey.gif	none, combat	t,d	5
+6096	Microplushie: Hipsterine	773905614	microp11.gif	offhand	g,d	5	Microplushie: Hipsterines
+6097	classy monkey	662446155	tuxmonkey.gif	none, combat	t,d	5	classy monkeys
 6098
 6099	Thinknerd T-Shirt	463737369	btee2.gif	shirt	d	5
 6100	pile of useless robot parts	170664076	elecparts.gif	usable	d	5

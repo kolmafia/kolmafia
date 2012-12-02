@@ -1192,11 +1192,13 @@ Medallion of the Ventrilo Prince	Moxie Percent: +12
 Mer-kin roundshield	Damage Reduction: 5, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
 Microplushie: Bropane	Weapon Damage: +3
+Microplushie: Dorkonide	Muscle: +1, Mysticality: +1, Moxie: +1
 Microplushie: Ermahgerdic Acid	Hot Damage: +2
 Microplushie: Fauxnerditide	Moxie: +2
 Microplushie: Gothochondria	Spooky Damage: +2
 Microplushie: Hippylase	Stench Damage: +2
 Microplushie: Hipsterine	Monster Level: +1
+Microplushie: Hobomosome	Stench Resistance: +1
 Microplushie: Otakulone	Maximum MP: +4
 Microplushie: Raverdrine	Maximum HP: +8
 Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
