@@ -5807,7 +5807,7 @@
 5790	box of bear arms	424762876	beararms.gif	usable	t	0
 5791	right bear arm	409034560	beararm_right.gif	weapon	t	0
 5792	left bear arm	208749545	beararm_left.gif	offhand, usable	t	0
-5793
+5793	Hat O' Nine Tails	748238370	con9hat.gif	hat		0
 5794	Enchanted Plunger	286405091	plunger.gif	usable	t,d	5
 5795	Enchanted Flyswatter	289657598	swatter.gif	usable	t,d	5
 5796	Gearhead Goo	791730484	vial.gif	usable	t,d	5
@@ -6108,7 +6108,7 @@
 6091	Microplushie: Raverdrine	229101236	microp6.gif	offhand	g,d	5
 6092	Microplushie: Hobomosome	357915186	microp7.gif	offhand	g,d	5
 6093	Microplushie: Ermahgerdic Acid	675644361	microp8.gif	offhand	g,d	5
-6094	Microplushie: Dorkonide		519340270	microp9.gif	offhand	g,d	5	Microplushie: Dorkonides
+6094	Microplushie: Dorkonide	519340270	microp9.gif	offhand	g,d	5	Microplushie: Dorkonides
 6095	Microplushie: Fauxnerditide	727690964	microp10.gif	offhand	g,d	5
 6096	Microplushie: Hipsterine	773905614	microp11.gif	offhand	g,d	5	Microplushie: Hipsterines
 6097	classy monkey	662446155	tuxmonkey.gif	none, combat	t,d	5	classy monkeys

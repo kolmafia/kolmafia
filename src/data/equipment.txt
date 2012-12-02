@@ -24,6 +24,7 @@ Elder Turtle Shell	100	Mus: 15
 Frosty's old silk hat	200	Mus: 200
 Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
+Hat O' Nine Tails	10	none
 Hodgman's porkpie hat	200	Mox: 200
 Hollandaise helmet	10	none
 Kentucky-style derby	20	none
