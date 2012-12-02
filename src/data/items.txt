@@ -5924,11 +5924,11 @@
 5907	
 5908	
 5909	gold wedding ring	139779467	weddingring.gif	accessory	d	11000
-5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0
+5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0	boxes of deactivated nanobots
 5911	nanorhino credit card	776155074	littlecard.gif	familiar	t,d	75
 5912	Solstice Shield	120888971	shield.gif	offhand			0	0
 5913	
-5914	
+5914	sweet mochi ball	685433996	mochiball.gif	usable	t	0
 5915	
 5916	
 5917	
@@ -6065,10 +6065,10 @@
 6048	Misty Robe	307169061	mistcloak.gif	container	t,d	1000
 6049	Misty Cape	754803274	mistcloak.gif	container	t,d	1000
 6050	woimbook	341149958	tinybook.gif	familiar	t,d	75
-6051
-6052
-6053
-6054
+6051	Taco Dan's Taco Stand Flier	937938567	tacoflyer.gif	reusable	t	0
+6052	Taco Dan's Taco Stand Taco	853160405	taco.gif	food	t,d	15
+6053	Taco Dan's Taco Stand's Chimichangarita	224117850	daquiri.gif	drink	t,d	15
+6054	Taco Dan's Taco Stand's Chillacious Churro	127551554	blintz.gif	usable	t,d 15
 6055
 6056
 6057
@@ -6093,8 +6093,8 @@
 6076	McLeod's Hard Haggis-Ade	331717178	beerbottle.gif	drink	t,d	5
 6077	haggis-wrapped haggis-stuffed haggis	798617298	bighaggis.gif	food	t,d	5
 6078	home robotics kit	269335110	robokit.gif	usable	t,d	5
-6079	old-school calculator watch	859101038	calcwatch.gif	accessory	t,d 5
-6080	
+6079	old-school calculator watch	859101038	calcwatch.gif	accessory	t,d	5
+6080	haggis socks	763374333	haggissocks.gif	accessory	t,d	5
 6081	airblaster gun	348707874	airzooka.gif	weapon	t,d	5
 6082	Thinknerd T-shirt grab bag	974426576	foodbag.gif	usable	t,d	5
 6083	actual reality goggles	675430268	steamgoggles.gif	accessory	t,d	5
@@ -6103,15 +6103,17 @@
 6086	Microplushie: Otakulone	733763278	microp1.gif	offhand	g,d 5
 6087	Microplushie: Hippylase	923477881	microp2.gif	offhand	g,d	5
 6088	Microplushie: Bropane	205300982	microp3.gif	offhand	g,d	5
-6089
+6089	Microplushie: Sororitrate	850647554	microp4.gif	offhand	g,d	5
 6090	Microplushie: Gothochondria	571727614	microp5.gif	offhand	g,d	5
-6091
+6091	Microplushie: Raverdrine	229101236	microp6.gif	offhand	g,d	5
 6092
-6093
+6093	Microplushie: Ermahgerdic Acid	675644361	microp8.gif	offhand	g,d	5
 6094
-6095
-6096
+6095	Microplushie: Fauxnerditide	727690964	microp10.gif	offhand	g,d	5
+6096	Microplushie: Hipsterine	773905614	microp11.gif	offhand	g,d	5
 6097	classy monkey	662446155	tuxmonkey.gif	none, combat	t,d	5
 6098
-6099
+6099	Thinknerd T-Shirt	463737369	btee2.gif	shirt	d	5
 6100	pile of useless robot parts	170664076	elecparts.gif	usable	d	5
+6101	homemade robot	271396619	builtbot.gif	grow		0
+6102	homemade robot gear	325469658	sprocket.gif	familiar	t,d	75

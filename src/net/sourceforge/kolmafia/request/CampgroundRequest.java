@@ -780,7 +780,7 @@ public class CampgroundRequest
 			"Summon Alice's Army Cards",
 		},
 		{
-			"Thinknerd's Grimoire of Geeky Gifts",
+			"Thinknerd Grimoire",
 			"Summon Geeky Gifts",
 		},
 		{
