@@ -1065,11 +1065,13 @@ Medallion of the Ventrilo Prince	0	none
 Mer-kin roundshield	215	Mus: 85	shield
 Mer-kin takebag	200	Mys: 85
 Microplushie: Bropane	0	none
+Microplushie: Dorkonide	0	none
 Microplushie: Ermahgerdic Acid	0	none
 Microplushie: Fauxnerditide	0	none
 Microplushie: Gothochondria	5	none
 Microplushie: Hippylase	5	none
 Microplushie: Hipsterine	0	none
+Microplushie: Hobomosome	0	none
 Microplushie: Otakulone	0	none
 Microplushie: Raverdrine	0	none
 Microplushie: Sororitrate	0	none
