@@ -889,6 +889,7 @@ user	_stuffedPocketwatchUsed	false
 user	_styxSprayUsed	false
 user	_sugarSummons	0
 user	_syntheticDogHairPillUsed	false
+user	_tacoFlierUsed	false
 user	_templeHiddenPower	false
 user	_tempuraAirUsed	false
 user	_thingfinderCasts	0

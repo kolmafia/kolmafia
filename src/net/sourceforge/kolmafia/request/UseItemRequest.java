@@ -888,6 +888,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_cursedKegUsed" ) ? 0 : 1;
 
+		case ItemPool.TACO_FLIER:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_tacoFlierUsed" ) ? 0 : 1;
+
 		}
 
 		switch ( consumptionType )
@@ -4186,6 +4190,10 @@ public class UseItemRequest
 
 		case ItemPool.CURSED_MICROWAVE:
 			Preferences.setBoolean( "_cursedMicrowaveUsed", true );
+			return;
+
+		case ItemPool.TACO_FLIER:
+			Preferences.setBoolean( "_tacoFlierUsed", true );
 			return;
 
 		}

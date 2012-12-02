@@ -516,6 +516,7 @@ Moonthril Cuirass	Monster Level: [10*G]
 Mr. Shirt	Muscle: +1, Mysticality: +1, Moxie: +1
 # Private Pepper's Lonely Hearts Club Jacket: 50% Discount on Gift Packages
 Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Single Equip
+# Thinknerd T-Shirt	enchantment varies per player?
 Ultracolor&trade; shirt	Spooky Damage: [E], Stench Damage: [E], Hot Damage: [E], Cold Damage: [E], Sleaze Damage: [E]
 Ye Olde Navy Fleece	Meat Drop: +10
 anniversary safety glass vest	Muscle: +1, Mysticality: +1, Moxie: +1
@@ -1191,9 +1192,13 @@ Medallion of the Ventrilo Prince	Moxie Percent: +12
 Mer-kin roundshield	Damage Reduction: 5, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
 Microplushie: Bropane	Weapon Damage: +3
+Microplushie: Ermahgerdic Acid	Hot Damage: +2
+Microplushie: Fauxnerditide	Moxie: +2
 Microplushie: Gothochondria	Spooky Damage: +2
 Microplushie: Hippylase	Stench Damage: +2
+Microplushie: Hipsterine	Monster Level: +1
 Microplushie: Otakulone	Maximum MP: +4
+Microplushie: Raverdrine	Maximum HP: +8
 Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
 # Mr. Haggis: Haggis!
 # Mylar balloon
@@ -1814,6 +1819,8 @@ green glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 groovy prism necklace	Single Equip
 grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
 gummi bowtie	Moxie: +5
+# haggis socks: Allows you to deliver disgusting kicks
+haggis socks	Initiative: +5
 hamethyst bracelet	Muscle: +3, Critical Hit Percent: 5, Single Equip
 hamethyst earring	Muscle: +3, Critical Hit Percent: 5
 hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +2, Single Equip
@@ -4124,6 +4131,7 @@ Stone Golem pebbles	Effect: "Sharin' Stone", Effect Duration: 100
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
 Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
 Sweet Sword	Effect: "Sugar Rush", Effect Duration: 10
+Taco Dan's Taco Stand's Chillacious Churro	Effect: "Churro Chiaroscuro", Effect Duration: 5
 Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
 Tears of the Quiet Healer	Effect: "No Squealer Healer", Effect Duration: 30
 The Groose in the Hoose	Free Pull

@@ -1155,3 +1155,8 @@
 1154
 1155
 1156	Puzzle Fury	37cube.gif	8113e8a09a4d2a928f43e08211b18d58	use 1 37x37x37 puzzle cube
+1157
+1158
+1159
+1160
+1161	Churro Chiaroscuro blintz.gif	5d5583050168f43d91bc251d36f7ace7	use 1 Taco Dan's Taco Stand's Chillacious Churro
