@@ -80,6 +80,7 @@ Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Fami
 Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
 Grimacite gasmask	Muscle Percent: [10*G], Weapon Damage: +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Grimacite goggles	Mysticality Percent: [10*G], Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
+Hat O' Nine Tails	Moxie Percent: 9
 Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "0.5xVolley, 0.5xFairy"
 Hollandaise helmet	Spell Damage: +1, Familiar Effect: "atk, cap 2"
 Kentucky-style derby	Familiar Effect: "atk, cap 5"
