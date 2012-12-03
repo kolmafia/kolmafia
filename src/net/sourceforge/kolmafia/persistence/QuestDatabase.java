@@ -385,65 +385,38 @@ public class QuestDatabase
 
 	public static void handleCouncilText( String responseText )
 	{
-		String cleanedResponse = QuestDatabase.HTML_WHITESPACE.matcher( responseText ).replaceAll( "" )
-			.toLowerCase();
-		String cleanedQuest = "";
+		// First, tokenize by <p> tags in the responseText, since there can be multiple quests we need to set.
+		// This ultimately means that each quest gets set n times when it has n paragraphs - technically weird, but not really an issue other than the minor disk I/O.
 
-		String pref = "";
-		String status = "";
+		String[] responseTokens = responseText.split( "<p>" );
+		String cleanedResponseToken = "";
+		String cleanedQuestToken = "";
 
-		boolean found = false;
-		for ( int i = 0; i < councilData.length && !found; ++i )
+		for ( String responseToken : responseTokens )
 		{
-			for ( int j = 2; j < councilData[ i ].length && !found; ++j )
+			cleanedResponseToken = QuestDatabase.HTML_WHITESPACE.matcher( responseToken ).replaceAll( "" ).toLowerCase();
+			for ( int i = 0; i < councilData.length; ++i )
 			{
-				cleanedQuest = QuestDatabase.HTML_WHITESPACE.matcher( councilData[ i ][ j ] )
-					.replaceAll( "" ).toLowerCase();
-				if ( cleanedResponse.indexOf( cleanedQuest ) != -1 )
+				for ( int j = 2; j < councilData[ i ].length; ++j )
 				{
-					pref = councilData[ i ][ 0 ];
-					status = councilData[ i ][ 1 ];
-					found = true;
-				}
-			}
-		}
+					// Now, we have to split the councilData entry by <p> tags too.
+					// Assume that no two paragraphs are identical, otherwise more loop termination logic is needed.
 
-		if ( !found )
-		{
-			String questStart = "";
-			String questEnd = "";
+					String[] councilTokens = councilData[ i ][ j ].split( "<p>" );
 
-			for ( int i = 0; i < councilData.length && !found; ++i )
-			{
-				for ( int j = 2; j < councilData[ i ].length && !found; ++j )
-				{
-					cleanedQuest = QuestDatabase.HTML_WHITESPACE.matcher( councilData[ i ][ j ] )
-						.replaceAll( "" ).toLowerCase();
-					if ( cleanedQuest.length() <= 100 )
+					for ( String councilToken : councilTokens )
 					{
-						questStart = cleanedQuest;
-						questEnd = cleanedQuest;
-					}
-					else
-					{
-						questStart = cleanedQuest.substring( 0, 100 );
-						questEnd = cleanedQuest.substring( cleanedQuest.length() - 100 );
-					}
+						cleanedQuestToken =
+							QuestDatabase.HTML_WHITESPACE.matcher( councilToken ).replaceAll( "" ).toLowerCase();
 
-					if ( cleanedResponse.indexOf( questStart ) != -1
-						|| cleanedResponse.indexOf( questEnd ) != -1 )
-					{
-						pref = councilData[ i ][ 0 ];
-						status = councilData[ i ][ 1 ];
-						found = true;
+						if ( cleanedResponseToken == cleanedQuestToken )
+						{
+							setQuestIfBetter( councilData[ i ][ 0 ], councilData[ i ][ 1 ] );
+							break;
+						}
 					}
 				}
 			}
-		}
-
-		if ( found )
-		{
-			setQuestIfBetter( pref, status );
 		}
 	}
 
