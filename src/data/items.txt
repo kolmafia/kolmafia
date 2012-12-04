@@ -6041,7 +6041,7 @@
 6024	Whatsian Ionic Pliers	623667945	ionicpliers.gif	offhand	t,d	120
 6025	Polysniff Perfume	858641829	potion4.gif	usable	t,d	45	vials of Polysniff Perfume
 6026	Duskwalker syringe	311982559	syringe2.gif	none, combat	t,d	30
-6027	Space Tours Tripple	925766700	tripple.gif	usable, combat		0
+6027	Space Tours Tripple	925766700	tripple.gif	usable, combat	t	0
 6028	Battlie Light Saver	317675629	lightsaver.gif	none, combat	t,d	55
 6029	T.U.R.D.S. Key	253258701	tardiskey.gif	none, combat	t,d	60
 6030	dress pants	175411161	dresspants.gif	pants	t,d	85
