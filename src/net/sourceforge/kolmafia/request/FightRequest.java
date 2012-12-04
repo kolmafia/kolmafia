@@ -1819,6 +1819,17 @@ public class FightRequest
 				TurnCounter.startCounting( 25, "Holiday Monster window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 35, "Holiday Monster window end loc=*", "rparen.gif" );
 			}
+			else if ( !KoLmafia.ignoreSpecialMonsters &&
+				  ( encounter.equalsIgnoreCase( "Sign-Twirling Crimbo Elf" ) ||
+				    encounter.equalsIgnoreCase( "Tacobuilding Crimbo Elf" ) ||
+				    encounter.equalsIgnoreCase( "Taco-Clad Crimbo Elf" )
+				    ) )
+			{
+				TurnCounter.stopCounting( "Taco Elf window begin" );
+				TurnCounter.stopCounting( "Taco Elf window end" );
+				TurnCounter.startCounting( 35, "Taco Elf window begin loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 40, "Taco Elf window end loc=*", "rparen.gif" );
+			}
 
 			MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
 

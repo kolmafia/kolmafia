@@ -1294,6 +1294,6 @@ X-dimensional Horror	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML
 Servant Of Lord Flameface	HP: 0
 
 # Crimbo 2012
-sign-twirling Crimbo elf	HP: [max(1,ML)] Atk: [ML] Def: [ML]	Taco Dan's Taco Stand Chillacious Churro (0)	Taco Dan's Taco Stand Flier (100)
-tacobuilding elf	HP: [max(1,ML)] Atk: [ML] Def: [ML]	Taco Dan's Taco Stand Chimichangarita (0)	Taco Dan's Taco Stand Taco (0)	Taco Dan's Taco Stand Flier (100)
-taco-clad Crimbo elf	HP: [max(1,ML)] Atk: [ML] Def: [ML]	Taco Dan's Taco Stand Taco (100)
+Sign-Twirling Crimbo Elf	HP: [max(1,ML)] Atk: [ML] Def: [ML]	Taco Dan's Taco Stand Chillacious Churro (0)	Taco Dan's Taco Stand Flier (100)
+Tacobuilding Crimbo Elf	HP: [max(1,ML)] Atk: [ML] Def: [ML]	Taco Dan's Taco Stand Chimichangarita (0)	Taco Dan's Taco Stand Taco (0)	Taco Dan's Taco Stand Flier (100)
+Taco-Clad Crimbo Elf	HP: [max(1,ML)] Atk: [ML] Def: [ML]	Taco Dan's Taco Stand Taco (100)

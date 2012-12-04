@@ -87,6 +87,8 @@ public class AdventureRequest
 	private static final Pattern SLIME_MONSTER_IMG = Pattern.compile(
 		"slime(\\d)_\\d\\.gif" );
 
+	private static final Pattern MONSTER_IMAGE = Pattern.compile( "adventureimages/(.*?)\\.gif" );
+
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
 
 	private final String adventureName;
@@ -568,6 +570,14 @@ public class AdventureRequest
 		}
 
 		String override = null;
+		String image = null;
+
+		Matcher monster = AdventureRequest.MONSTER_IMAGE.matcher( responseText );
+		if ( monster.find() )
+		{
+			image = monster.group( 1 );
+		}
+
 		switch ( KoLAdventure.lastAdventureId() )
 		{
 		case 167:
@@ -637,22 +647,32 @@ public class AdventureRequest
 
 		case 292:
 			// Lord Flameface's Castle Entrance
-			if ( responseText.indexOf( "adventureimages/fireservant" ) != -1 )
+			if ( image != null && image.equals( "fireservant" ) )
 			{
 				override = "Servant Of Lord Flameface";
 			}
 			break;
 		}
 
-		if ( KoLAdventure.lastAdventureIdString().equals( "bathroom" ) )
+		if ( override == null && KoLAdventure.lastAdventureIdString().equals( "bathroom" ) )
 		{
 			override = "Elf Hobo";
+		}
+
+		if ( override == null )
+		{
+			override =
+				image.equals( "tacoelf_sign" ) ? "Sign-Twirling Crimbo Elf" :
+				image.equals( "tacoelf_taco" ) ? "Taco-Clad Crimbo Elf" :
+				image.equals( "tacoelf_cart" ) ? "Tacobuilding Crimbo Elf" :
+				null;
 		}
 
 		if ( override != null && MonsterDatabase.findMonster( encounter, false ) == null )
 		{
 			return override;
 		}
+
 		return encounter;
 	}
 
