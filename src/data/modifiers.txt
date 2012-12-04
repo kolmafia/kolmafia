@@ -2009,7 +2009,6 @@ stuffed walrus	Synergetic
 support cummerbund	Maximum HP: +20
 tap shoes	Moxie: +11, Initiative: -20, Single Equip
 tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
-teddybear backpack	Meat Drop: +10, Single Equip, Raveosity: +1
 # teflon swim fins: Makes you a better diver
 teflon swim fins	Moxie Percent: -5, Initiative: +25, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 time halo	Adventures: +5, Unarmed, Single Equip
@@ -2188,6 +2187,7 @@ palm-frond cloak	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1,
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
 sealhide cloak	Cold Resistance: +2
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
+teddybear backpack	Meat Drop: +10, Raveosity: +1
 # vampire cape
 wings of fire	Hot Damage: +25, Hot Spell Damage: +25
 
