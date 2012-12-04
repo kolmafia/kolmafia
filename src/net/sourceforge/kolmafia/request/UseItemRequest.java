@@ -2019,8 +2019,17 @@ public class UseItemRequest
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.DICTIONARY, -1 ) );
 				QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.FINISHED );
 			}
 
+			return;
+
+		case ItemPool.MISTY_CLOAK:
+		case ItemPool.MISTY_ROBE:
+		case ItemPool.MISTY_CAPE:
+
+			QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.STARTED );
 			return;
 
 		case ItemPool.ELITE_SCROLL:
