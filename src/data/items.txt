@@ -6067,8 +6067,8 @@
 6050	woimbook	341149958	tinybook.gif	familiar	t,d	75
 6051	Taco Dan's Taco Stand Flier	937938567	tacoflyer.gif	reusable	t	0
 6052	Taco Dan's Taco Stand Taco	853160405	taco.gif	food	t,d	15
-6053	Taco Dan's Taco Stand's Chimichangarita	224117850	daquiri.gif	drink	t,d	15
-6054	Taco Dan's Taco Stand's Chillacious Churro	127551554	blintz.gif	usable	t,d	15
+6053	Taco Dan's Taco Stand Chimichangarita	224117850	daquiri.gif	drink	t,d	15
+6054	Taco Dan's Taco Stand Chillacious Churro	127551554	blintz.gif	usable	t,d	15
 6055
 6056
 6057
