@@ -81,7 +81,8 @@ public class QuestDatabase
 			PIRATE( "questM12Pirate" ),
 			GENERATOR( "questF04Elves" ),
 			BUGBEAR( "questM03Bugbear" ),
-			UNTINKER( "questM01Untinker" );
+			UNTINKER( "questM01Untinker" ),
+			LOL( "questM15Lol" );
 
 		private String pref;
 

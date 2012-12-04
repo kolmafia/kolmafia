@@ -680,7 +680,7 @@ public class UseItemEnqueuePanel
 			// turn-free
 			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )
 			{
-				if ( creation.getTurnFreeAvailable() == 0 && !KoLConstants.restaurantItems.contains( creation ) && !KoLConstants.microbreweryItems.contains( creation ) )
+				if ( creation.getTurnFreeAvailable() == 0 && !KoLConstants.restaurantItems.contains( creation.getName() ) && !KoLConstants.microbreweryItems.contains( creation.getName() ) )
 				{
 					return false;
 				}

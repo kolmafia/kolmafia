@@ -1523,6 +1523,9 @@ public class ItemPool
 	public static final int MENACING_SILENCE_RECORD = 5975;
 	public static final int MENACING_SILENCE_RECORD_USED = 5976;
 	public static final int OIL_PAN = 6042;
+	public static final int MISTY_CLOAK = 6047;
+	public static final int MISTY_ROBE = 6048;
+	public static final int MISTY_CAPE = 6049;
 	public static final int	TACO_FLIER = 6051;
 	public static final int GEEKY_BOOK = 6071;
 
