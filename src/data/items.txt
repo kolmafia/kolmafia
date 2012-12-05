@@ -5927,7 +5927,7 @@
 5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0	boxes of deactivated nanobots
 5911	nanorhino credit card	776155074	littlecard.gif	familiar	t,d	75
 5912	Solstice Shield	120888971	shield.gif	offhand			0	0
-5913	
+5913	powdered candy sushi set	292870983	sushitray.gif	usable	t	0
 5914	sweet mochi ball	685433996	mochiball.gif	usable	t	0
 5915	
 5916	

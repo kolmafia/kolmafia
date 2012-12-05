@@ -4468,6 +4468,7 @@ potion of temporary gr8tness	Effect: "Gr8tness", Effect Duration: [R]
 potion of the captain's hammer	Effect: "The Captain's Hammer", Effect Duration: 20
 potion of the field gar	Effect: "Gar-ish", Effect Duration: 10
 potion of the litterbox	Effect: "Litterboxing", Effect Duration: 20
+powdered candy sushi set	Effect: "Fishy", Effect Duration: 30
 powdered toad horn	Effect: "Squirming Like a Toad", Effect Duration: 10
 press-on ribs	Effect: "The Bone Us Round", Effect Duration: 30
 pressurized potion of perception	Effect: "Perceptive Pressure", Effect Duration: [R]
