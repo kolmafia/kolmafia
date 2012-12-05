@@ -330,6 +330,10 @@ public class UneffectRequest
 		removableEffects = new HashSet<String>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.TEARS ), removableEffects );
 		removableEffects.add( "Beaten Up" );
+		
+		removableEffects = new HashSet<String>();
+		removeWithItemMap.put( IntegerPool.get( ItemPool.TRIPPLES ), removableEffects );
+		removableEffects.add( "Beaten Up" );
 
 		UneffectRequest.REMOVABLE_BY_ITEM = removeWithItemMap.entrySet();
 
