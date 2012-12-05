@@ -313,7 +313,7 @@ public class Maximizer
 					cmd.startsWith( "drink " ) || cmd.startsWith( "eat " ) )
 				{
 					// Hardcoded exception for "Trivia Master", which has a non-standard use command.
-					if ( !KoLCharacter.canInteract() && cmd.indexOf( "Trivial Avocations Card" ) != -1 )
+					if ( cmd.contains( "use 1 Trivial Avocations Card: What?, 1 Trivial Avocations Card: When?" ) && !MoodManager.canMasterTrivia() )
 					{
 						continue;
 					}
