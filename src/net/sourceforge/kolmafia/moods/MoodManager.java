@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -933,5 +934,17 @@ public abstract class MoodManager
 			action.indexOf( "oasis" ) != -1 ||
 			action.indexOf( "turtle pheromones" ) != -1 ||
 			action.indexOf( "gong" ) != -1;
+	}
+
+	public static final boolean canMasterTrivia()
+	{
+		if ( KoLCharacter.canInteract() )
+		{
+			return true;
+		}
+		return ( InventoryManager.getAccessibleCount( ItemPool.WHAT_CARD ) > 0 
+					&& InventoryManager.getAccessibleCount( ItemPool.WHEN_CARD ) > 0 
+					&& InventoryManager.getAccessibleCount( ItemPool.WHERE_CARD ) > 0 
+					&& InventoryManager.getAccessibleCount( ItemPool.WHO_CARD ) > 0 );
 	}
 }
