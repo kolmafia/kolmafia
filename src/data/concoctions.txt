@@ -1546,7 +1546,7 @@ palm-frond net	MUSE	palm frond (3)
 palm-frond whip	MUSE	palm frond (4)
 palm-frond capris	MUSE	palm frond (5)
 extra-large palm-frond toupee	MUSE	palm frond (6)
-palm-frond cloak	MUSE, TORSO	palm frond (7)
+palm-frond cloak	MUSE	palm frond (7)
 
 really thick bandage	MUSE	mummy wrapping (2)
 mummy mask	MUSE	mummy wrapping (4)
