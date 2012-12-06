@@ -3078,6 +3078,7 @@ Gummibrain	Mysticality: +100
 Gummiheart	Muscle: +100
 Gummiskin	Moxie: +100
 Gutterminded	Sleaze Damage: +50
+Hagg-ard	Muscle: +10
 # Haiku State of Mind: large penalty to result parsing
 Hairy Palms	Never Fumble, MP Regen Min: 3, MP Regen Max: 4, HP Regen Min: 6, HP Regen Max: 8
 # Half-Astral: Like, Wow, Man
