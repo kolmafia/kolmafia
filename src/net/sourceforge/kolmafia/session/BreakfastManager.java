@@ -80,6 +80,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.CREEPY_VOODOO_DOLL, 1 ),
 		ItemPool.get( ItemPool.CURSED_KEG, 1 ),
 		ItemPool.get( ItemPool.CURSED_MICROWAVE, 1 ),
+		ItemPool.get( ItemPool.TACO_FLIER, 1 )
 	};
 
 	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
