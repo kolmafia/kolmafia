@@ -1155,7 +1155,7 @@
 1154
 1155
 1156	Puzzle Fury	37cube.gif	8113e8a09a4d2a928f43e08211b18d58	use 1 37x37x37 puzzle cube
-1157
+1157	Hagg-ard	beerbottle.gif	3d3105c68c7d5c8988bdf5a2c90dfa8a	drink 1 McLeod's Hard Haggis-Ade
 1158
 1159
 1160
