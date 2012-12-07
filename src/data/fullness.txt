@@ -106,7 +106,7 @@ club sandwich	3	5	awesome	9-10	18-24	0	0
 cob of corn	1	2	crappy	1	0	10-15	0
 cocktail onion	1	2	decent	2	0	0	0
 cocoa eggshell fragment	1	1	crappy	1	0	0	0
-cold hi mein	5	7	awesome	21-29	71-75	30-35	15-20	5 Cold Breath (combat skill)
+cold hi mein	5	7	awesome	21-28	71-75	30-35	15-20	5 Cold Breath (combat skill)
 congratulatory cake	3	1	crappy	3	0	0	0
 cool cat claw	1	4	awesome	3-5	0	0	45-75	30 Feline Ferocity (+100% weapon dmg)
 cool jelly donut	1	4	awesome	3-5	0	0	40-60	30 Filled With Magic (+100% spell dmg)
@@ -175,7 +175,7 @@ fancy beef jerky	4	9	EPIC	19-22	0	48-58	0
 fancy canap&eacute;s	2	5	awesome	7-10	25-40	25-40	25-40	French slippers (1 time)
 fdkol hotcakes	6	1	awesome	23-27	0	0	0	50 Hotcaked
 festive sausage	3	1	good	8-10	10-20	10-20	10-20	Sausage Festive (5-10 MP regen)
-fettucini inconnu	6	6	awesome	21-29	0	0	47-52
+fettucini inconnu	6	6	awesome	21-28	0	0	47-52
 fettucini &eacute;pines Inconnu	3	1	decent	0	0	0	0	+3 PvP Fights
 fiery wing	1	1	good	0	0	0	0	Hot Damage
 fishy fish	2	8	good	3-9	0	0	26-33
@@ -221,7 +221,7 @@ glowing fungus	3	1	good	6-7	0	3-5	0	8-10 MP
 gnat lasagna	3	10	awesome	12-16	45-54	0	0
 gnatloaf	2	8	good	3-9	25-50	0	0
 gnatloaf casserole	3	9	awesome	8-15	23-37	0	0
-gnocchetti di nietzsche	6	6	awesome	21-29	0	47-52	0
+gnocchetti di nietzsche	6	6	awesome	21-28	0	47-52	0
 goat cheese	2	1	crappy	2-3	0	0	0
 goat cheese pizza	3	2	good	3-10	0	0	15-18
 goat cheese taco	2	1	decent	2-5	0	11-33	0
@@ -240,7 +240,7 @@ halibut alfredo	4	1		10-15	0	0	0
 handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
 handful of walnuts	1	10	good	2-4	0	0	20-30
 happy birthday, claude! cake	3	1	crappy	3	0	0	0
-hell broth	4	3	good	7-15	-5-9	0	-5-9
+hell broth	4	3	good	7-14	-5-9	0	-5-9
 hell ramen	6	6	awesome	22-29	23-28	23-28	23-28	20-29 meat
 herb brownies	2	1	decent	2-5	0	0	8-9	5 Confused (-30% mys)
 herbal stuffing	4	7	awesome	15-21	0	0	70-75
@@ -249,7 +249,7 @@ holiday cheese log	3	1	good	8-10	10-20	10-20	10-20	Stands Alone (+10 Stench dmg)
 honey-dew	2	2	good	4-7	13-15	0	0	10 Mmmmmelon (+30% item drop)
 hot buttered roll	1	1	crappy	1	0	0	0
 hot date	2	7	good	4-5	0	0	20-30
-hot hi mein	5	7	awesome	21-29	71-75	15-20	30-35	5 Hot Breath (combat skill)
+hot hi mein	5	7	awesome	21-28	71-75	15-20	30-35	5 Hot Breath (combat skill)
 hot wing	1	1	crappy	1	0	2-5	0
 humpty dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12
@@ -279,7 +279,7 @@ knob mushroom	2	1	crappy	2-3	0	0	0
 knob nuts	1	4	good	3	1-4	1-4	1-4
 knob pasty	1	1	EPIC	5-6	5-6	5-6	5-6
 knob sausage	2	1	crappy	2-3	0	0	0
-knob sausage chow mein	5	7	awesome	21-29	72-76	0	0
+knob sausage chow mein	5	7	awesome	21-28	72-76	0	0
 knob sausage stir-fry	3	4	awesome	7-14	25-28	0	0
 knob shroomkabob	2	1	decent	2-5	0	6-11	0
 knob stir-fry	2	3	good	2-10	0	12-18	0
@@ -441,7 +441,7 @@ six tiny wedges of goat cheese	2	1	crappy	3	0	0	0
 skeleton quiche	2	3	EPIC	10-12	5-15	5-15	5-15
 skewered cat appendix	2	1	decent	2-5	7-17	0	0
 skull-shaped crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Carol of the Bones (+10% mus)
-sleazy hi mein	5	7	awesome	21-29	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
+sleazy hi mein	5	7	awesome	21-28	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
 slick fish meat	1	1	good	2-3	0	0	4-8	5/15 Fishy
 slick maki	3	1		7-12	0	0	8-16	45/55 Fishy
 slick nigiri	2	1		4-8	0	0	8-16	20/30 Fishy
@@ -454,7 +454,7 @@ soylent red and green	3	5		4-5	0	0	0
 space jam toast	1	1	decent	1-3	0	50	0
 spaghetti con calaveras	6	6	awesome	21-29	47-52	0	0	10 Eso S&iacute; Que Es
 spaghetti with moonballs	3	2	good	8-10	10-20	0	20-30
-spaghetti with skullheads	6	6	awesome	21-29	47-52	0	0
+spaghetti with skullheads	6	6	awesome	21-28	47-52	0	0
 spam witch sammich	2	1	decent	2-3	0	4-6	0
 spectral pickle	4	8	EPIC	20-26	25-34	25-34	25-34
 spicy bean burrito	3	3	good	5-12	20-24	0	0
@@ -463,7 +463,7 @@ spicy jumping bean burrito	3	3	good	5-12	0	0	22-28
 spicy mushroom quesadilla	3	1	decent	3-8	35-40	0	0
 spicy noodles	3	4	good	6-12	0	0	0
 sponge cake	2	3	decent	3-5	0	0	5-10
-spooky hi mein	5	7	awesome	21-29	15-20	71-75	30-35	5 Spooky Breath (combat skill)
+spooky hi mein	5	7	awesome	21-28	15-20	71-75	30-35	5 Spooky Breath (combat skill)
 spooky lo mein	4	6	awesome	14-22	0	0	33-34
 spooky mushroom	2	1	crappy	2-3	0	0	0
 spooky shroomkabob	2	1	decent	2-5	0	0	6-11
@@ -475,7 +475,7 @@ stale baguette	3	1	decent	3-6	0	0	0	lose 3 HP
 stalk of asparagus	1	1	crappy	1	0	1-3	0
 star key lime pie	4	6	awesome	14-16	20-24	20-24	20-24	2-4 lines, 2-4 stars
 steel lasagna	5	5		00	0	0	0	Stomach of Steel skill
-stinky hi mein	5	7	awesome	21-29	30-35	71-75	15-20	5 Stinky Breath (combat skill)
+stinky hi mein	5	7	awesome	21-28	30-35	71-75	15-20	5 Stinky Breath (combat skill)
 stinky mushroom	3	2	decent	3-9	0	0	3-5	lose 3 HP
 stomach turnover	2	2	awesome	7-9	5-10	15-20	15-20
 strawberry	1	1	crappy	1	0	0	0
