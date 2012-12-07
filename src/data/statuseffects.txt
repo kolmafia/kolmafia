@@ -1149,14 +1149,14 @@
 1148
 1149	Sheepskinned	haggissoap.gif	67409c43fa3b981dca486ef689941902	use 1 haggis-infused soap
 1150	Magic Tongue	bigtongue.gif	8e74c0f8246ed46fd0cd60423fa75f56	use 1 magicberry tablets
-1151
-1152
-1153
-1154
-1155
+1151	Ooh, Sweet!	tongueexclam.gif	b733312bace2a2ddf3c56beac81e4cd5
+1152	Ooh, Salty!	tongueexclam.gif	d6ac43ed63ac87e4c211d9c515f45558
+1153	Ooh, Bitter!	tongueexclam.gif	fd1a683ed742093427b7fc9f8284bea6
+1154	Ooh, Sour!	tongueexclam.gif	faaed405f0bc61c85c6dccbe85536a42
+1155	Ooh, Umami!	tongueexclam.gif	d0be9b54fb9750046a5d14de605713e3
 1156	Puzzle Fury	37cube.gif	8113e8a09a4d2a928f43e08211b18d58	use 1 37x37x37 puzzle cube
 1157	Hagg-ard	beerbottle.gif	3d3105c68c7d5c8988bdf5a2c90dfa8a	drink 1 McLeod's Hard Haggis-Ade
-1158
-1159
-1160
+1158	Highland Sheen	bighaggis.gif	14ba65211a5eb17979976862e60fc5ad	eat 1 haggis-wrapped haggis-stuffed haggis
+1159	Meaty and Cheesy	taco.gif	98a313b442aef4f5e0a0b93c7f5d79d4	eat 1 Taco Dan's Taco Stand Taco
+1160	Margaritish	daquiri.gif	a9d3c21e76c58eddbd7f33283e6ac3c5	drink 1 Taco Dan's Taco Stand Chimichangarita
 1161	Churro Chiaroscuro blintz.gif	5d5583050168f43d91bc251d36f7ace7	use 1 Taco Dan's Taco Stand's Chillacious Churro
