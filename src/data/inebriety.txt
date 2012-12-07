@@ -342,6 +342,7 @@ strawberry wine	3	1	decent	5-6	0	0	8-10
 suffering sinner	2	1	good	4-5	10-20	0	0	5 Heart Aflame
 supernova champagne	3	8	good	7-11	8-12	8-12	8-12	15-20 MP
 suppurating sinner	2	4	awesome	6-7	20-30	0	0	10 Heart Aflame
+taco dan's taco stand chimichangarita	1	4	good	2-3	0	0	15-30	5 Margaritish (+moxie)
 tangarita	4	6	awesome	14-18	0	16-20	25-27
 temps tempranillo	1	4	awesome	3-5	15-30	15-30	15-30
 teqiwila	3	3	good	5-10	16-20	0	0

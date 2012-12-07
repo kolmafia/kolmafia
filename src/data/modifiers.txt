@@ -2817,6 +2817,7 @@ Cholestoriffic	Sleaze Damage: [min(100,T)]
 Chorale of Companionship	Familiar Weight: +10
 Chow Downed	Familiar Weight: +5
 Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
+Churro Chiaroscuro	Mysticality Percent: [min(200,5*T)]
 Cinco Elementos	Cold Damage: [min(2500,5*T)], Hot Damage: [min(2500,5*T)], Sleaze Damage: [min(2500,5*T)], Spooky Damage: [min(2500,5*T)], Stench Damage: [min(2500,5*T)]
 Cinnamouth	Hot Damage: +11
 Clean-Shaven	Moxie: +5
@@ -3117,6 +3118,7 @@ Hennaliciousness	Mysticality: +3
 Hernia!	Muscle Percent: -70
 Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
 Hiding in Plain Sight	Initiative: +100
+Highland Sheen	Moxie: +10
 Hip to Be Square Dancin'	Item Drop: +10
 Hippy Flavor	Mysticality: +15
 Hippy Stench	Combat Rate: +5
@@ -3226,10 +3228,12 @@ Make Meat FA$T!	Meat Drop: +20
 Mallowed Out	Moxie Percent: [min(500,+5*T)], Muscle Percent: [min(500,+5*T)], Mysticality Percent: [min(500,+5*T)]
 Man's Worst Enemy	Familiar Weight: +5
 Marco Polarity	Experience (Mysticality): [L]
+Margaritish	Moxie Percent: [min(200,5*T)]
 Mariachi Mood	Maximum HP: +3, Moxie: +1
 # Matador Nemesis: Makes you look like a raging bull
 Material Witness	Meat Drop: +10
 Meatwise	Meat Drop: +35
+Meaty and Cheesy	Muscle Percent: [min(200,5*T)]
 Melancholy Burden	Item Drop: +60
 Memento Moir&eacute;	Experience: +3
 Memory of Aggressiveness	Monster Level: +30
@@ -3304,6 +3308,11 @@ On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
 Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
 One Very Clear Eye	Item Drop: +100
+Ooh, Bitter!	Spooky Damage: +5
+Ooh, Salty!	Cold Damage: +5
+Ooh, Sour!	Stench Damage: +5
+Ooh, Sweet!	Hot Damage: +5
+Ooh, Umami!	Sleaze Damage: +5
 Optimist Primal	Familiar Weight: +5
 Orange Tongue	Experience: +3
 Orc Chops	Muscle: +50
