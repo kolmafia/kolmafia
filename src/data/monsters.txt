@@ -1171,20 +1171,20 @@ Spelunking Astronaut	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [m
 Velvet Underground Dweller	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: demihuman
 Weather Underground Dweller	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: demihuman
 
-#The Clumsiness Grove
+# The Clumsiness Grove
 Sorrowful Hickory	HP: 0 P: plant	clumsiness bark (0)	cup of hickory chicory (0)
 Suffering Juniper	HP: 0 P: plant	berries of suffering (0)	clumsiness bark (0)
 Tormented Baobab	HP: 0 P: plant	baobab sap (0)	clumsiness bark (0)
 Whimpering Willow	HP: 0 P: plant	clumsiness bark (0)	clumsiness bark (0)	whimpering willow bark (0)
 Woeful Magnolia	HP: 0 P: plant	clumsiness bark (0)	clumsiness bark (0)	magnolia blossom (0)
 
-#The Maelstrom of Lovers
+# The Maelstrom of Lovers
 Bettie Barulio	HP: 0 P: undead	Barulio's bottle (0)	jar full of wind (0)	jar full of wind (0)
 Marvin J. Sunny	HP: 0 P: undead	jar full of wind (0)	Marvin's marvelous pill (0)
 Mortimer Strauss	HP: 0 P: undead	jar full of wind (0)	jar full of wind (0)	Mortimer's nostrum (0)
 Wonderful Winifred Wongle	HP: 0 P: undead	jar full of wind (0)	jar full of wind (0)	Winifred's whistle (0)
 
-#The Glacier of Jerks
+# The Glacier of Jerks
 Brock "Rocky" Flox	HP: 0 P: humanoid	dangerous jerkcicle (0)	pink-belly slapper (0)
 Dolores D. Smiley	HP: 0 P: humanoid	dangerous jerkcicle (0)	dangerous jerkcicle (0)	desktop zen garden (0)
 Hugo Von Douchington	HP: 0 P: humanoid	dangerous jerkcicle (0)	half-empty carton of milk (0)

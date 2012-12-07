@@ -449,7 +449,7 @@ paper-plate-mail pants	Familiar Effect: "prismatic atk, 2xBarrr, cap 20"
 paperclip pants	Adventures: +2, Initiative: +15, Familiar Effect: "atk, 3xBarrr, cap 12"
 # papier-m&acirc;churidars: Improves things
 papier-m&acirc;churidars	Initiative: +25, Never Fumble
-parasitic tentacles	Initiative: +30, Familiar Effect: "spooky atk, 5xBarrr, cap 7"
+parasitic tentacles	Initiative: [min(2*L,30)], Familiar Effect: "spooky atk, 5xBarrr, cap 7"
 penguin shorts	Initiative: +20, Familiar Effect: "cold atk, 1xGhuol, cap 30"
 penguinskin mini-kilt	Initiative: +20, Familiar Effect: "cold atk, cap 30"
 penguinskin mini-skirt	Initiative: +20, Familiar Effect: "cold atk, cap 30"
@@ -976,7 +976,7 @@ palm-frond whip	Weapon Damage: +30
 papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 # papier-m&acirc;chine gun: Makes actions more exciting
 papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
-parasitic claw	Weapon Damage: +15
+parasitic claw	Weapon Damage: [min(L,15)]
 # pasta spoon
 penguin whip	Meat Drop: +3
 perforated battle paddle	Weapon Damage: +10
@@ -1312,7 +1312,7 @@ easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 # eelskin shield: Damages Attacking Opponent (Underwater Only)
 eelskin shield	Maximum HP: +55, Maximum MP: +55, Damage Reduction: 13
 enchanted brass knuckles	Critical Hit Percent: 5
-#enchanted fire extinguisher: All Spells Cast Are Cold
+# enchanted fire extinguisher: All Spells Cast Are Cold
 enchanted fire extinguisher	Spell Damage Percent: +100, Cold Spell Damage: +30
 eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
 # fake hand: Gives Extra Offhand Equipment Slot
@@ -1384,7 +1384,7 @@ orcish stud-finder	Weapon Damage: +5, Sleaze Damage: +5
 oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 padded tortoise	Damage Absorption: +20, HP Regen Min: 4, HP Regen Max: 8, Damage Reduction: 6
 painted shield	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Damage Reduction: 7
-parasitic strangleworm	Damage Reduction: 15
+parasitic strangleworm	Damage Reduction: [min(L,15)]
 peanut brittle shield	Damage Reduction: 3, Candy Drop: +100
 penguin skin buckler	Moxie: +5, Damage Reduction: 5
 penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
@@ -1432,7 +1432,7 @@ spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 speed limit shield	Damage Absorption: +10, Damage Reduction: 6
 spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
 spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
-spooky little girl	Item Drop: +3
+spooky little girl	Item Drop: [G]
 stapler bear	Muscle: +5
 star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
@@ -2297,7 +2297,7 @@ licorice boa	Familiar Weight: +5
 limburger biker boots	Familiar Weight: +5
 little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater", Generic
 little box of fireworks	Familiar Weight: +5, Experience: +1.5, Item Drop (sporadic): +12.5, Softcore Only, Generic
-#little wooden mannequin	Makes Kid Better at Drawing Other Players
+# little wooden mannequin	Makes Kid Better at Drawing Other Players
 little wooden mannequin	Familiar Weight: +5
 lucky Tam O'Shanter	Meat Drop: +50, Softcore Only, Generic
 lucky Tam O'Shatner	Meat Drop: +50, Softcore Only, Generic
@@ -4244,9 +4244,9 @@ custom avatar form	Free Pull
 cyclops eyedrops	Effect: "One Very Clear Eye", Effect Duration: 10
 cymbal syrup	Free Pull, Effect: "Tinnitus", Effect Duration: 20
 d12	Effect: "Bastard!", Effect Duration: 10
-#d20	Effect: "Natural 1", Effect Duration: 1
-#d20	Effect: "Natural 20", Effect Duration: 1
-#d20	Effect: "20/20 Vision", Effect Duration: 20d20
+# d20	Effect: "Natural 1", Effect Duration: 1
+# d20	Effect: "Natural 20", Effect Duration: 1
+# d20	Effect: "20/20 Vision", Effect Duration: 20d20
 dandy lion cub	Free Pull
 daub-breaker	Effect: "Hot Breath", Effect Duration: 1
 deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
