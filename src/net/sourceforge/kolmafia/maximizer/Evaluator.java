@@ -663,19 +663,17 @@ public class Evaluator
 		// The "weight" specified is actually the desired -osity.
 		// Allow partials to contribute to the score (1:1 ratio) up to the desired value.
 		// Similar to setting a max.
-		if ( !this.failed && this.clownosity > 0 )
+		if ( this.clownosity > 0 )
 		{
 			int osity = mods.getBitmap( Modifiers.CLOWNOSITY );
-			if ( osity <= this.clownosity )
-				score = osity;
+			score += Math.min( osity, this.clownosity );
 			if ( osity < this.clownosity )
 				this.failed = true;
 		}
-		if ( !this.failed && this.raveosity > 0 )
+		if ( this.raveosity > 0 )
 		{
 			int osity = mods.getBitmap( Modifiers.RAVEOSITY );
-			if ( osity <= this.raveosity )
-				score = osity;
+			score += Math.min( osity, this.raveosity );
 			if ( osity < this.raveosity )
 				this.failed = true;
 		}
@@ -1120,6 +1118,9 @@ public class Evaluator
 				}
 				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 				spec.equipment[ useSlot ] = item;
+				spec.getScore();	// force evaluation
+				spec.failed = false;	// individual items are not expected
+										// to fulfill all requirements
 
 				speculationList.add( spec );
 			}
