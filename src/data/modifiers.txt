@@ -3686,7 +3686,7 @@ Violent Night	Critical Hit Percent: 5
 # Visibly Goth: Makes you look like a Goth Giant
 Vitamin-Maxed	Muscle Percent: +10
 Void Between the Stars	Cold Damage: +50
-# Voracious Gorging: Item Drop: +X, Food Drop: +Y
+Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/5)*25)]
 # Walking Carpet: Makes you look like a grouchy furry monster
 # Wanged: Unable to use obnoxious abbreviations
 # Warm Belly: Makes sushi taste better
