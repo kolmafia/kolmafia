@@ -58,6 +58,8 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.BasementRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -84,8 +86,6 @@ public class AdventureRequest
 	private static final Pattern MONSTER_NAME = Pattern.compile( "<span id='monname'(>| title=\")([^<]*?)(</span>|\">)", Pattern.DOTALL );
 	private static final Pattern HAIKU_MONSTER_NAME = Pattern.compile(
 		"<b>.*?<b>([^<]+)<", Pattern.DOTALL );
-	private static final Pattern SLIME_MONSTER_IMG = Pattern.compile(
-		"slime(\\d)_\\d\\.gif" );
 
 	private static final Pattern MONSTER_IMAGE = Pattern.compile( "adventureimages/(.*?)\\.gif" );
 
@@ -569,6 +569,13 @@ public class AdventureRequest
 			return BasementRequest.basementMonster;
 		}
 
+		if ( MonsterDatabase.findMonster( encounter, false ) != null )
+		{
+			return encounter;
+		}
+
+		// For monsters that have a randomly-generated name, identify them by the image they use instead
+
 		String override = null;
 		String image = null;
 
@@ -578,97 +585,41 @@ public class AdventureRequest
 			image = monster.group( 1 );
 		}
 
-		switch ( KoLAdventure.lastAdventureId() )
+		if ( image != null )
 		{
-		case 167:
-			// Hobopolis Town Square
-			override = "Normal Hobo";
-			break;
-		case 168:
-			// Burnbarrel Blvd.
-			override = "Hot Hobo";
-			break;
-		case 169:
-			// Exposure Esplanade
-			override = "Cold Hobo";
-			break;
-		case 170:
-			// The Heap
-			override = "Stench Hobo";
-			break;
-		case 171:
-			// The Ancient Hobo Burial Ground
-			override = "Spooky Hobo";
-			break;
-		case 172:
-			// The Purple Light District
-			override = "Sleaze Hobo";
-			break;
-		case 246:
-			// Elf Alley
-			override = "Hobelf";
-			break;
-		case 269:
-			// The Haunted Sorority House
-			if ( responseText.indexOf( "Skeleton" ) != -1 )
-			{
-				override = "sexy sorority skeleton";
-			}
-			else if ( responseText.indexOf( "Vampire" ) != -1 )
-			{
-				override = "sexy sorority vampire";
-			}
-			else if ( responseText.indexOf( "Werewolf" ) != -1 )
-			{
-				override = "sexy sorority werewolf";
-			}
-			else if ( responseText.indexOf( "Zombie" ) != -1 )
-			{
-				override = "sexy sorority zombie";
-			}
-			else if ( responseText.indexOf( "Ghost" ) != -1 )
-			{
-				override = "sexy sorority ghost";
-			}
-			break;
-
-		case 203:
-			// The Slime Tube
-			Matcher m = AdventureRequest.SLIME_MONSTER_IMG.matcher( responseText );
-			if ( m.find() )
-			{
-				override = "Slime" + m.group( 1 );
-			}
-			else
-			{
-				override = "Slime Monster";	// unable to identify exact type
-			}
-			break;
-
-		case 292:
-			// Lord Flameface's Castle Entrance
-			if ( image != null && image.equals( "fireservant" ) )
-			{
-				override = "Servant Of Lord Flameface";
-			}
-			break;
-		}
-
-		if ( override == null && KoLAdventure.lastAdventureIdString().equals( "bathroom" ) )
-		{
-			override = "Elf Hobo";
-		}
-
-		if ( override == null )
-		{
+			// Always-available monsters are listed above obsolete monsters
+			// to get a quicker match on average.  Obsolete monsters can
+			// still be fought due to the Fax Machine.  Due to monster copying,
+			// any of these monsters can show up in any zone, or in no zone.
 			override =
+				// Hobopolis
+				image.startsWith( "nhobo" ) ? "Normal Hobo" :
+				image.startsWith( "hothobo" ) ? "Hot Hobo" :
+				image.startsWith( "coldhobo" ) ? "Cold Hobo" :
+				image.startsWith( "stenchhobo" ) ? "Stench Hobo" :
+				image.startsWith( "spookyhobo" ) ? "Spooky Hobo" :
+				image.startsWith( "slhobo" ) ? "Sleaze Hobo" :
+				// Slime Tube
+				image.startsWith( "slime" ) ? "Slime" + image.charAt( 5 ) :
+				// Crimbo 2012 wandering elves
 				image.equals( "tacoelf_sign" ) ? "Sign-Twirling Crimbo Elf" :
 				image.equals( "tacoelf_taco" ) ? "Taco-Clad Crimbo Elf" :
 				image.equals( "tacoelf_cart" ) ? "Tacobuilding Crimbo Elf" :
+				// Elf Alley
+				image.startsWith( "elfhobo" ) ? "Hobelf" :
+				// Haunted Sorority House
+				image.startsWith( "sororeton" ) ? "sexy sorority skeleton" :
+				image.startsWith( "sororpire" ) ? "sexy sorority vampire" :
+				image.startsWith( "sororwolf" ) ? "sexy sorority werewolf" :
+				image.startsWith( "sororeton" ) ? "sexy sorority skeleton" :
+				image.startsWith( "sororbie" ) ? "sexy sorority zombie" :
+				image.startsWith( "sororghost" ) ? "sexy sorority ghost" :
+				// Lord Flameface's Castle Entryway
+				image.startsWith( "fireservant" ) ? "Servant Of Lord Flameface" :
 				null;
 		}
 
-		if ( override != null && MonsterDatabase.findMonster( encounter, false ) == null )
+		if ( override != null )
 		{
 			return override;
 		}
