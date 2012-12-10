@@ -149,6 +149,7 @@ public abstract class KoLmafia
 		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
 		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
+		System.setProperty( "java.net.preferIPv4Stack", "true" );
 
 		JEditorPane.registerEditorKitForContentType( "text/html", RequestEditorKit.class.getName() );
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
