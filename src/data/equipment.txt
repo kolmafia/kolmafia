@@ -1618,7 +1618,7 @@ green glowstick	20	none
 groovy prism necklace	150	Mys: 60
 grumpy old man charrrm bracelet	150	Mys: 60
 gummi bowtie	0	none
-haggis socks	0	none
+haggis socks	10	none
 hamethyst bracelet	50	Mys: 10
 hamethyst earring	50	Mys: 10
 hamethyst necklace	50	Mys: 10
