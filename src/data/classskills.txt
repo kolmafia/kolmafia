@@ -427,6 +427,8 @@
 7135	Bear Hug	5	0	0
 7136	I Can Bearly Hear You Over the Applause	5	0	0
 7137	Unleash Nanites	5	0	0
+7138
+7139	Haggis Kick	5	1	0
 
 # Skills granted by books on your Mystical Bookshelf
 
