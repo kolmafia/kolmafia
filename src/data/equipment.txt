@@ -1198,7 +1198,7 @@ killer rag doll	110	Mys: 40
 left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
 little round pebble	45	Mys: 7
-loadstone	0	Mys: 32
+loadstone	95	Mys: 32
 lucky lighter	0	Mys: 2
 mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none
@@ -1219,7 +1219,7 @@ naughty fortune teller	0	none
 off-hand balloon	10	none
 oil lamp	0	Mus: 45
 old-school flying disc	220	Mus: 200	shield
-orcish stud-finder	0	Mys: 27
+orcish stud-finder	85	Mys: 27
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
 padded tortoise	100	Mus: 35	shield
@@ -1670,7 +1670,7 @@ old-school calculator watch	0	none
 old soft shoes	200	Mys: 200
 orange glowstick	20	none
 orange leather lanyard	50	none
-orc wrist	0	Mys: 32
+orc wrist	95	Mys: 32
 oven mitts	45	Mys: 7
 pacifier necklace	150	Mox: 60
 pair of pearidot earrings	0	none
