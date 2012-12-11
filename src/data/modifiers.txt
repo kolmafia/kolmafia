@@ -2273,7 +2273,7 @@ gnomish coal miner's lung	Equips On: "Reagnimated Gnome", Familiar Effect: "bloc
 # gnomish housemaid's kgnee: Lets your gnome help out around the house
 gnomish housemaid's kgnee	Equips On: "Reagnimated Gnome", Familiar Effect: "gain advs"
 # gnomish swimmer's ears: Makes you a better diver
-gnomish swimmer's ears	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Equips On: "Reagnimated Gnome", Familiar Effect: "underwater"
+gnomish swimmer's ears	Underwater Familiar, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Equips On: "Reagnimated Gnome", Familiar Effect: "underwater"
 # gnomish tennis elbow: Lets your gnome attack enemies
 gnomish tennis elbow	Equips On: "Reagnimated Gnome", Familiar Effect: "damage"
 green pixie spog	Familiar Weight: +5
