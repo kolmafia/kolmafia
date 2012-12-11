@@ -109,6 +109,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.NaiveSecureSocketLayer;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -125,6 +126,11 @@ public class GenericRequest
 
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
+
+	private int redirectCount = 0;
+	private static final int REDIRECT_LIMIT = 5;
+
+	private Boolean allowRedirect = null;
 
 	public static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]*)\\/(login\\.php.*)", Pattern.DOTALL );
 	public static final Pattern JS_REDIRECT_PATTERN =
@@ -174,6 +180,7 @@ public class GenericRequest
 	public String responseText;
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
+	public String redirectMethod;
 
 	// Per-login data
 
@@ -1169,6 +1176,8 @@ public class GenericRequest
 		}
 
 		this.timeoutCount = 0;
+		this.redirectCount = 0;
+		this.allowRedirect = null;
 		this.containsUpdate = false;
 
 		String location = this.getURLString();
@@ -1441,7 +1450,7 @@ public class GenericRequest
 				break;
 			}
 		}
-		while ( !this.postClientData() && !this.retrieveServerReply() && this.timeoutCount < GenericRequest.TIMEOUT_LIMIT );
+		while ( !this.postClientData() && !this.retrieveServerReply() && this.timeoutCount < GenericRequest.TIMEOUT_LIMIT && this.redirectCount < GenericRequest.REDIRECT_LIMIT );
 
 		if ( !LoginRequest.isInstanceRunning() )
 		{
@@ -1480,6 +1489,7 @@ public class GenericRequest
 		this.responseCode = 0;
 		this.responseText = null;
 		this.redirectLocation = null;
+		this.redirectMethod = null;
 		this.formConnection = null;
 
 		try
@@ -1642,13 +1652,53 @@ public class GenericRequest
 		}
 
 		this.responseText = "";
-		this.redirectLocation = "";
 
 		try
 		{
 			istream = this.formConnection.getInputStream();
 			this.responseCode = this.formConnection.getResponseCode();
-			this.redirectLocation = this.responseCode != 302 ? null : this.formConnection.getHeaderField( "Location" );
+
+			//Handle HTTP 3xx Redirections
+			if ( this.responseCode > 300 && this.responseCode < 309 )
+			{
+				this.redirectMethod = this.formConnection.getRequestMethod();
+				switch ( this.responseCode )
+				{
+				case 302: //Treat 302 as a 303, like all modern browsers.
+				case 303:
+					this.redirectMethod = "GET";
+					//FALL THROUGH!
+				case 301:
+				case 307:
+				case 308:
+					if ( RelayRequest.class.isInstance( this ) || this.redirectMethod.equals( "GET" ) || this.redirectMethod.equals( "HEAD" ) )
+					{
+						//RelayRequests are handled later. Allow GET/HEAD, redirects by default.
+						this.redirectLocation = this.formConnection.getHeaderField( "Location" );
+					}
+					else
+					{
+						// RFC 2616: For requests other than GET or HEAD, the user agent MUST NOT
+						// automatically redirect the request unless it can be confirmed by the user.
+						if ( this.allowRedirect == null )
+						{
+							String message =
+								"You are being redirected to \"" + this.formConnection.getHeaderField( "Location" ) + "\".\n" + "Would you like KoLmafia to resend the form data?";
+							this.allowRedirect = InputFieldUtilities.confirm( message );
+						}
+
+						if ( this.allowRedirect.booleanValue() )
+						{
+							this.redirectLocation =
+								this.data.isEmpty() ? this.formConnection.getHeaderField( "Location" ) : this.formConnection.getHeaderField( "Location" ) + "?" + this.getDisplayDataString();
+						}
+					}
+					break;
+				default:
+					this.redirectLocation = null;
+					break;
+				}
+			}
 		}
 		catch ( SocketTimeoutException e )
 		{
@@ -1735,7 +1785,7 @@ public class GenericRequest
 				// the input stream.
 
 				istream.close();
-				shouldStop = this.responseCode == 302 ? this.handleServerRedirect() : true;
+				shouldStop = ( this.redirectLocation != null ) ? this.handleServerRedirect() : true;
 			}
 		}
 		catch ( IOException e )
@@ -1794,6 +1844,8 @@ public class GenericRequest
 		{
 			return true;
 		}
+
+		this.redirectCount++;
 
 		if ( this.redirectLocation.startsWith( "maint.php" ) )
 		{
@@ -1926,7 +1978,7 @@ public class GenericRequest
 			// Re-setup this request to follow the redirect
 			// desired and rerun the request.
 
-			this.constructURLString( this.redirectLocation, false );
+			this.constructURLString( this.redirectLocation, this.redirectMethod.equals( "POST" ) );
 			if ( this.redirectLocation.startsWith( "choice.php" ) )
 			{
 				GenericRequest.choiceHandled = false;
