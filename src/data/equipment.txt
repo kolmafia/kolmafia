@@ -1199,7 +1199,7 @@ left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
 little round pebble	45	Mys: 7
 loadstone	95	Mys: 32
-lucky lighter	0	Mys: 2
+lucky lighter	35	Mys: 2
 mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none
 magical ice cubes	30	none
@@ -1217,7 +1217,7 @@ mole skin notebook	40	none
 moxie magnet	30	none
 naughty fortune teller	0	none
 off-hand balloon	10	none
-oil lamp	0	Mus: 45
+oil lamp	120	Mus: 45
 old-school flying disc	220	Mus: 200	shield
 orcish stud-finder	85	Mys: 27
 oyster basket	10	none
@@ -1593,7 +1593,7 @@ floaty rock necklace	100	Mys: 35
 foam noodle	10	none
 fossilized necklace	50	none
 frayed rope belt	200	Mys: 200
-freshwater pearl necklace	0	Mys: 25
+freshwater pearl necklace	80	Mys: 25
 frosty halo	50	none
 fudge pocket square	0	none
 fudgecycle	200	Mys: 85
@@ -1732,7 +1732,7 @@ rubber WWSPD? bracelet	10	none
 rubber WWtNSD? bracelet	10	none
 rum barrel charrrm bracelet	110	Mys: 40
 rusty chain necklace	180	Mys: 75
-screwing pooch	0	Mys: 27
+screwing pooch	85	Mys: 27
 sealhide belt	160	Mys: 65
 sealhide gloves	160	Mys: 65
 sealhide moccasins	160	Mys: 65
@@ -1773,7 +1773,7 @@ stainless steel suspenders	90	Mys: 30
 stick-on eyebrow piercing	10	none
 sticky gloves	70	none
 stinky cheese eye	0	none
-stolen necklace	0	Mys: 30
+stolen necklace	90	Mys: 30
 strawberyl necklace	0	none
 streetfighting champion's belt	100	Mus: 35
 string of blue beads	10	none
