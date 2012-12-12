@@ -841,6 +841,7 @@ public class SkillDatabase
 		case SkillPool.GOTHY_HANDWAVE:
 		case SkillPool.BREAK_IT_ON_DOWN:
 		case SkillPool.POP_AND_LOCK:
+		case SkillPool.RUN_LIKE_THE_WIND:
 		case SkillPool.CARBOLOADING:
 			// Nemesis skills
 			return false;
@@ -883,7 +884,7 @@ public class SkillDatabase
 
 		switch ( skillId / 1000 )
 		{
-		case 7:				// Skills granted by items
+		case 7:			// Skills granted by items
 		case 11:			// Avatar of Boris skills
 		case 12:			// Zombie Slayer skills
 			return false;
@@ -985,12 +986,11 @@ public class SkillDatabase
 		{
 			boolean shouldAdd = false;
 
-			Object id = keys[ i ];
-			Object value = SkillDatabase.skillTypeById.get( id );
+			int skillId = ( (Integer) keys[ i ] ).intValue();
+			Integer value = SkillDatabase.skillTypeById.get( skillId );
 			if ( value == null )
 				continue;
-			int skillType = ( (Integer) value ).intValue();
-			int skillId = ( (Integer) id ).intValue();
+			int skillType = value.intValue();
 
 			if ( type == SkillDatabase.ALL )
 			{
@@ -1024,7 +1024,7 @@ public class SkillDatabase
 				continue;
 			}
 
-			list.add( UseSkillRequest.getInstance( ( (Integer) keys[ i ] ).intValue() ) );
+			list.add( UseSkillRequest.getInstance( skillId ) );
 		}
 
 		return list;
