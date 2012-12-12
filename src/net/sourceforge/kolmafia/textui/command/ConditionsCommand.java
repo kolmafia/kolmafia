@@ -191,6 +191,15 @@ public class ConditionsCommand
 			return GoalManager.GOAL_CHOICE.getInstance( count );
 		}
 
+		if ( conditionString.endsWith( "manuel" ) || conditionString.endsWith( "factoid" ) || conditionString.endsWith( "factoids" ) )
+		{
+			// parse the number of manuel entries the user wishes to find
+
+			String[] splitCondition = conditionString.split( "\\s+" );
+			int count = splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1;
+			return GoalManager.GOAL_MANUEL.getInstance( count );
+		}
+
 		if ( conditionString.endsWith( "autostop" ) )
 		{
 			String[] splitCondition = conditionString.split( "\\s+" );
