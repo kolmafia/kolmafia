@@ -1728,7 +1728,7 @@ public class FightRequest
 				FightRequest.canStomp = true;
 			}
 
-			if ( responseText.indexOf( "hear a wolf whistle" ) != -1)
+			if ( responseText.indexOf( "hear a wolf whistle" ) != -1 )
 			{
 				KoLmafia.ignoreSpecialMonsters();
 				Preferences.increment( "_romanticFightsLeft", -1 );
@@ -2328,6 +2328,11 @@ public class FightRequest
 			{
 				// Record that we beat the guy made of bees.
 				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
+			}
+
+			if ( responseText.contains( "monstermanuel.gif" ) )
+			{
+				GoalManager.updateProgress( GoalManager.GOAL_MANUEL );
 			}
 
 			KoLCharacter.getFamiliar().addCombatExperience( responseText );
