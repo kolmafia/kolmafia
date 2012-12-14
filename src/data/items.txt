@@ -5929,9 +5929,9 @@
 5912	Solstice Shield	120888971	shield.gif	offhand			0	0
 5913	powdered candy sushi set	292870983	sushitray.gif	usable	t	0
 5914	sweet mochi ball	685433996	mochiball.gif	usable	t	0
-5915	
-5916	
-5917	
+5915	beet-flavored Mr. Mediocrebar	915881788	mediocrebar.gif	usable	t	0
+5916	sweet-corn-flavored Mr. Mediocrebar	515529477	mediocrebar.gif	usable	t	0
+5917	cabbage-flavored Mr. Mediocrebar	836567876	mediocrebar.gif	usable	t	0
 5918	
 5919	
 5920	

@@ -2744,6 +2744,7 @@ Blessing of Bulbazinalli	Damage Reduction: 10
 Blessing of Charcoatl	Hot Damage: +10, Hot Spell Damage: +10
 Blessing of Pikachutlotal	Initiative: +30
 Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
+Block-Rockin' Beet	Damage Reduction: 15
 # Bloody-minded: +50 Damage vs. Vampires
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
@@ -3140,6 +3141,7 @@ Hustlin'	Initiative: +50, Item Drop: +10
 Hyperbolic Hypothermia	Cold Damage: +20
 Hyperoffended	Sleaze Resistance: +9
 Hyphemariffic	Spooky Resistance: +9
+I Am the Slaw!	Monster Level: +20
 Ichorous Eyesight	Item Drop: +10
 Ichorous Intensity	Spell Damage Percent: +20
 Impregnably Delicious	Damage Reduction: 30
@@ -3184,6 +3186,7 @@ Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
 # Juiced Up: Makes you a better diver
 Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
 # Just the Best Anapests: Da da dee, da da dee
+Kernel Panic!	Critical Hit Percent: +5
 Kindly Resolve	Familiar Weight: +5
 Kiss of the Black Fairy	Spooky Damage: [+2*D]
 # Kitty Littered: Makes you look like an Iiti Kitty 
@@ -4182,6 +4185,7 @@ banana smoothie	Effect: "Bananas!", Effect Duration: [R]
 banana supersucker	Effect: "Bananas!", Effect Duration: 30
 baobab sap	Effect: "Buff as a Baobab", Effect Duration: 10
 bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
+beet-flavored Mr. Mediocrebar	Effect: "Block-Rockin' Beet", Effect Duration: 30
 begpwnia	Effect: "Can't Be a Chooser", Effect Duration: 10
 bellhop bell	Effect: "Ringing Ears", Effect Duration: 10
 bite-me-red lipstick	Effect: "Vampin'", Effect Duration: 30
@@ -4210,6 +4214,7 @@ breath mint	Effect: "Sugar Rush", Effect Duration: 3
 brick	Free Pull
 brigand brittle	Effect: "Bandananit", Effect Duration: 50
 bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
+cabbage-flavored Mr. Mediocrebar	Effect: "I Am the Slaw!", Effect Duration: 30
 calm attention-deficit demon	Free Pull
 can of Binarrrca	Free Pull, Effect: "Talking Like a Pirate", Effect Duration: 50
 can of black paint	Effect: "Red Door Syndrome", Effect Duration: 10
@@ -4568,6 +4573,7 @@ sugar lime	Effect: "Sweet and Green", Effect Duration: 10
 sugar-coated pine cone	Effect: "Sugar Rush", Effect Duration: 5
 super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
 suspicious stocking	Free Pull
+sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
 sweet nutcracker	Free Pull
 tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 tamarind-flavored chewing gum	Effect: "Tamarind Torment", Effect Duration: 5

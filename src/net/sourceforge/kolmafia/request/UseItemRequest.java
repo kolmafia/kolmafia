@@ -4089,6 +4089,9 @@ public class UseItemRequest
 		case ItemPool.CHOCOLATE_SAUCEPAN:
 		case ItemPool.CHOCOLATE_DISCO_BALL:
 		case ItemPool.CHOCOLATE_STOLEN_ACCORDION:
+		case ItemPool.BEET_MEDIOCREBAR:
+		case ItemPool.CORN_MEDIOCREBAR:
+		case ItemPool.CABBAGE_MEDIOCREBAR:
 			Preferences.increment( "_chocolatesUsed" );
 			return;
 
