@@ -1133,9 +1133,9 @@
 1132
 1133
 1134
-1135
-1136
-1137
+1135	Block-Rockin' Beet	beet.gif	99a300fcdd2f4dec22859241870ae0dd	use 1 beet-flavored Mr. Mediocrebar
+1136	Kernel Panic!	corn.gif	87b76f1e7155fa2e6cf1937af2d7db6b	use 1 sweet-corn-flavored Mr. Mediocrebar
+1137	I Am the Slaw!	lettuce.gif	932f5be647b869507c84e76b7b05bfe1	use 1 cabbage-flavored Mr. Mediocrebar
 1138	Using Protection	sheet.gif	b5d312d927d71ad04dc95d616dba7d6e	use 1 orcish rubber
 1139	Well-Lubed	tube.gif	70e45e5eb1c088d49c873dafbde1b745	use 1 orcish nailing lube
 1140	Hairy Palms	hand.gif	534a712e2c6a15dacecb551a46366843	use 1 orcish hand lotion

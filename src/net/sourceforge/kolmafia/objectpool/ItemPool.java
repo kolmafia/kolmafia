@@ -1515,6 +1515,9 @@ public class ItemPool
 	public static final int DRAGON_TEETH = 5880;
 	public static final int SKELETON = 5881;
 	public static final int SKIFF = 5885;
+	public static final int BEET_MEDIOCREBAR = 5915;
+	public static final int CORN_MEDIOCREBAR = 5916;
+	public static final int CABBAGE_MEDIOCREBAR = 5917;
 	public static final int BOO_CLUE = 5964;
 	public static final int INFURIATING_SILENCE_RECORD = 5971;
 	public static final int INFURIATING_SILENCE_RECORD_USED = 5972;
