@@ -786,6 +786,9 @@ public class UseItemRequest
 		case ItemPool.CHOCOLATE_SEAL_CLUBBING_CLUB:
 		case ItemPool.CHOCOLATE_STOLEN_ACCORDION:
 		case ItemPool.CHOCOLATE_TURTLE_TOTEM:
+		case ItemPool.BEET_MEDIOCREBAR:
+		case ItemPool.CORN_MEDIOCREBAR:
+		case ItemPool.CABBAGE_MEDIOCREBAR:
 			UseItemRequest.limiter = "daily limit";
 			return ( 3 - Preferences.getInteger( "_chocolatesUsed" ) );
 

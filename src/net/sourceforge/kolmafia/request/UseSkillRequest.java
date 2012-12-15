@@ -807,6 +807,7 @@ public class UseSkillRequest
 		if ( SkillDatabase.isNonMpCostSkill( skillId ) )
 		{
 			// If the skill doesn't use MP then MP restoring and checking can be skipped
+			this.addFormField( this.countFieldId, String.valueOf( this.buffCount ) );
 			super.run();
 			return;
 		}
