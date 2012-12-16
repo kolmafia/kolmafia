@@ -605,6 +605,12 @@ public class AdventureRequest
 				image.equals( "tacoelf_sign" ) ? "Sign-Twirling Crimbo Elf" :
 				image.equals( "tacoelf_taco" ) ? "Taco-Clad Crimbo Elf" :
 				image.equals( "tacoelf_cart" ) ? "Tacobuilding Crimbo Elf" :
+				// Crimbobokutown Toy Factory
+				image.equals( "animelf1" ) ? "Tiny-Screwing Animelf" :
+				image.equals( "animelf2" ) ? "Plastic-Extruding Animelf" :
+				image.equals( "animelf3" ) ? "Circuit-Soldering Animelf" :
+				image.equals( "animelf4" ) ? "Quality Control Animelf" :
+				image.equals( "animelf5" ) ? "Toy Assembling Animelf" :
 				// Elf Alley
 				image.startsWith( "elfhobo" ) ? "Hobelf" :
 				// Haunted Sorority House

@@ -293,6 +293,9 @@ public class StationaryButtonDecorator
 
 		StationaryButtonDecorator.addFightButton( urlString, buffer, actionBuffer, "attack", true );
 
+		StationaryButtonDecorator.addFightButton(
+			urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
+
 		boolean inBirdForm = KoLConstants.activeEffects.contains( FightRequest.BIRDFORM );
 		if ( inBirdForm || KoLCharacter.isMoxieClass() )
 		{
@@ -332,9 +335,6 @@ public class StationaryButtonDecorator
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, "19", enabled );
 		}
-
-		StationaryButtonDecorator.addFightButton(
-			urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
 
 		int buttons = Preferences.getInteger( "relaySkillButtonCount" );
 		for ( int i = 1; i <= buttons; ++i )
