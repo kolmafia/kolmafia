@@ -2015,8 +2015,11 @@ time halo	Adventures: +5, Unarmed, Single Equip
 tin star	Monster Level: +5, Moxie: +3
 tiny plastic 11 Dealer	Meat Drop: +4
 tiny plastic 7-foot dwarf	Monster Level: +1
+tiny plastic Ancient Unspeakable Bugbear	Monster Level: +1
 tiny plastic Axe Wound	Monster Level: +1
 tiny plastic Baron von Ratsworth	Meat Drop: +3
+tiny plastic Battlesuit Bugbear Type	Muscle: +3
+tiny plastic Beebee King	Initiative: +5
 tiny plastic Beelzebozo	Sleaze Damage: +5
 tiny plastic Best Game Ever	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 tiny plastic Big Candy	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +3, Maximum MP: +3
@@ -2024,8 +2027,11 @@ tiny plastic Black Knight	Monster Level: +1
 tiny plastic Bonerdagon	Mysticality: +3
 tiny plastic Boris	Muscle: +5, Mysticality: +3, Moxie: +3
 tiny plastic Boss Bat	Maximum HP: +5
+tiny plastic Bugbear Captain	Maximum HP: +20, Maximum MP: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
 tiny plastic CRIMBCO HQ	Item Drop: +4
+tiny plastic Charity the Zombie Hunter	Monster Level: +1
 tiny plastic Cheshire bat	Familiar Weight: +1
+tiny plastic Clancy the Minstrel	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
 tiny plastic Crimbo Casino	Meat Drop: +4
 tiny plastic Crimbo elf	Familiar Weight: +1
 tiny plastic Crimbo reindeer	Adventures: +1, Single Equip
@@ -2035,11 +2041,13 @@ tiny plastic Crimboween pentagram	MP Regen Min: 1, MP Regen Max: 2, Single Equip
 tiny plastic Don Crimbo	Weapon Damage Percent: +5
 tiny plastic Dr. Awkward	Never Fumble
 tiny plastic Ed the Undying	Maximum HP: +30, Damage Absorption: +30
+tiny plastic Father McGruber	Monster Level: +1
 tiny plastic Felonia	Spooky Damage: +5
 tiny plastic Fudge Wizard	Spell Damage: +10
 tiny plastic G Imp	Monster Level: +1
 tiny plastic Gnollish crossdresser	Monster Level: +1
 tiny plastic Gnomester Blomester	Monster Level: +1
+tiny plastic Hank North, Photojournalist	Monster Level: +1
 tiny plastic Hellion	Monster Level: +1
 tiny plastic Iiti Kitty	Monster Level: +1
 tiny plastic Jarlsberg	Mysticality: +5, Muscle: +3, Moxie: +3
@@ -2048,12 +2056,17 @@ tiny plastic Knob Goblin bean counter	Monster Level: +1
 tiny plastic Knob Goblin harem girl	Monster Level: +1
 tiny plastic Knob Goblin mad scientist	Monster Level: +1
 tiny plastic Knott Yeti	Monster Level: +1
+tiny plastic Lord Flameface	Hot Damage: +20, Cold Resistance: +1
 tiny plastic Lord Spookyraven	Maximum MP: +30, Spell Damage: +10
 tiny plastic Mob Penguin	Weapon Damage: +3
 tiny plastic Mr. Mination	Monster Level: +4
 tiny plastic Naughty Sorceress	Spell Damage Percent: +100, Maximum MP: +100
+tiny plastic Norville Rogers	Monster Level: +1
 tiny plastic Orcish Frat Boy	Monster Level: +1
 tiny plastic Protagonist	Monster Level: +1
+tiny plastic Queen Bee	Maximum HP: +10
+tiny plastic Rene C. Corman	Mysticality Percent: +5, Spell Damage Percent: +25
+tiny plastic Scott the Miner	Monster Level: +1
 tiny plastic Scream Queen	Muscle: +1, Mysticality: +1, Moxie: +1
 tiny plastic Sneaky Pete	Moxie: +5, Muscle: +3, Mysticality: +3
 tiny plastic Spam Witch	Monster Level: +1
@@ -2063,23 +2076,34 @@ tiny plastic The Big Wisniewski	Food Drop: +3
 tiny plastic The Man	Meat Drop: +3
 tiny plastic Trouser Snake	Monster Level: +1
 tiny plastic Uncle Crimbo	Muscle: +1, Mysticality: +1, Moxie: +1
+tiny plastic Wu Tang the Betrayer	Weapon Damage: +5
 tiny plastic XXX pr0n	Monster Level: +1
 tiny plastic abominable fudgeman	Weapon Damage: +10
 tiny plastic accordion thief	Moxie: +2, Mysticality: +1
 tiny plastic ancient yuletide troll	Familiar Weight: +1
 tiny plastic angry bugbear	Monster Level: +1
 tiny plastic angry goat	Familiar Weight: +1
+tiny plastic angry space marine	Monster Level: +1
 tiny plastic anime smiley	Monster Level: +1
 tiny plastic apathetic lizardman	Monster Level: +1
 tiny plastic astronomer	Monster Level: +1
 tiny plastic baby gravy fairy	Familiar Weight: +1
 tiny plastic barrrnacle	Familiar Weight: +1
+tiny plastic batbugbear	Monster Level: +1
 tiny plastic beanbat	Monster Level: +1
+tiny plastic bee swarm	Monster Level: +1
+tiny plastic beebee gunners	Monster Level: +1
+tiny plastic beebee queue	Monster Level: +1
 tiny plastic bitchin' meatcar	Adventures: +1, Single Equip
+tiny plastic black ops bugbear	Monster Level: +1
+tiny plastic blazing bat	Monster Level: +1
 tiny plastic blood-faced volleyball	Familiar Weight: +1
 tiny plastic blooper	Monster Level: +1
 tiny plastic brainsweeper	Monster Level: +1
 tiny plastic briefcase bat	Monster Level: +1
+tiny plastic bugaboo	Monster Level: +1
+tiny plastic buzzerker	Monster Level: +1
+tiny plastic cavebugbear	Monster Level: +1
 tiny plastic chunk of depleted Grimacite	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
 tiny plastic cocoabo	Familiar Weight: +1
 tiny plastic coffee pixie	Familiar Weight: +1
@@ -2093,7 +2117,9 @@ tiny plastic fat stack of cash	Meat Drop: +3
 tiny plastic fax machine	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 tiny plastic fiendish can of asparagus	Monster Level: +1
 tiny plastic filthy hippy jewelry maker	Monster Level: +1
+tiny plastic fire servant	Hot Spell Damage: +5
 tiny plastic fluffy bunny	Monster Level: +1
+tiny plastic four-shadowed mime	Monster Level: +20, Spooky Damage: +50, Spooky Spell Damage: +50
 tiny plastic fruit golem	Monster Level: +1
 tiny plastic fuzzy dice	Familiar Weight: +1
 tiny plastic ghost pickle on a stick	Familiar Weight: +1
@@ -2106,15 +2132,19 @@ tiny plastic handsome mariachi	Monster Level: +1
 tiny plastic hermit	Meat Drop: +6
 tiny plastic hobo elf	Meat Drop: +4
 tiny plastic howling balloon monkey	Familiar Weight: +1
+tiny plastic hypodermic bugbear	Monster Level: +1
 tiny plastic killer bee	Familiar Weight: +1
 tiny plastic lemon-in-the-box	Monster Level: +1
 tiny plastic leprechaun	Familiar Weight: +1
 tiny plastic levitating potato	Familiar Weight: +1
 tiny plastic lobsterfrogman	Monster Level: +1
+tiny plastic moneybee	Monster Level: +1
 tiny plastic mosquito	Familiar Weight: +1
+tiny plastic mumblebee	Monster Level: +1
 tiny plastic mutant elf	Maximum HP: +3, Maximum MP: +3
 tiny plastic ninja snowman	Monster Level: +1
 tiny plastic pastamancer	Mysticality: +2, Muscle: +1
+tiny plastic peacannon	Ranged Damage: +5
 tiny plastic protector spectre	Spooky Damage: +10
 tiny plastic sabre-toothed lime	Familiar Weight: +1
 tiny plastic sauceror	Mysticality: +2, Moxie: +1
@@ -2123,6 +2153,7 @@ tiny plastic seal clubber	Muscle: +2, Moxie: +1
 tiny plastic senile lihc	Monster Level: +1
 tiny plastic skeletal reindeer	Adventures: +1, Single Equip
 tiny plastic smarmy pirate	Monster Level: +1
+tiny plastic spiderbugbear	Spooky Damage: +5
 tiny plastic spiny skelelton	Monster Level: +1
 tiny plastic spooky pirate skeleton	Familiar Weight: +1
 tiny plastic spooky vampire	Monster Level: +1
@@ -2132,6 +2163,7 @@ tiny plastic stocking mimic	Candy Drop: +10
 tiny plastic strand of DNA	Muscle: +3, Mysticality: +3, Moxie: +3
 tiny plastic sweet nutcracker	Familiar Weight: +1
 tiny plastic taco cat	Monster Level: +1
+tiny plastic the Free Man	Mysticality: +5
 tiny plastic topiary golem	Monster Level: +1
 tiny plastic trollipop	Monster Level: +5
 tiny plastic turtle tamer	Muscle: +2, Mysticality: +1
