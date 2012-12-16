@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -55,6 +57,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
@@ -2914,6 +2917,13 @@ public abstract class ChoiceManager
 			result [ 2 ] = "gain a glowing fungus, " + powerAction + " or fight a clan of cave bars";
 
 			return result;
+
+		case 611:
+			// The Horror... (A-Boo Peak)
+			result = new String[ 2 ];
+			result [ 0 ] = "Flee";
+			result [ 1 ] = ChoiceManager.booPeakDamage();
+			return result;
 		}
 		return null;
 	}
@@ -2969,7 +2979,7 @@ public abstract class ChoiceManager
 
 	public static final void processChoiceAdventure( final GenericRequest request, final String responseText )
 	{
-		// You can no longer simply ignore a choice adventure.	One of
+		// You can no longer simply ignore a choice adventure.  One of
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
@@ -4319,6 +4329,95 @@ public abstract class ChoiceManager
 			SpaaaceRequest.visitGeneratorChoice( responseText );
 			break;
 		}
+	}
+
+	private static String booPeakDamage()
+	{
+		int damageTaken = 0;
+		String decisionText = ChoiceManager.findChoiceDecisionText( 2, ChoiceManager.lastResponseText );
+		if (  decisionText.equals( "Ask the Question" ) ||
+			decisionText.equals( "Talk to the Ghosts" ) ||
+			decisionText.equals( "I Wanna Know What Love Is" ) ||
+			decisionText.equals( "Tap Him on the Back" ) ||
+			decisionText.equals( "Avert Your Eyes" ) ||
+			decisionText.equals( "Approach a Raider" ) ||
+			decisionText.equals( "Approach the Argument" ) ||
+			decisionText.equals( "Approach the Ghost" ) ||
+			decisionText.equals( "Approach the Accountant Ghost" ) ||
+			decisionText.equals( "Ask if He's Lost" ) )
+		{
+			damageTaken = 13;
+		}
+		else if (
+			decisionText.equals( "Enter the Crypt" ) ||
+			decisionText.equals( "Try to Talk Some Sense into Them" ) ||
+			decisionText.equals( "Put Your Two Cents In" ) ||
+			decisionText.equals( "Talk to the Ghost" ) ||
+			decisionText.equals( "Tell Them What Werewolves Are" ) ||
+			decisionText.equals( "Scream in Terror" ) ||
+			decisionText.equals( "Check out the Duel" ) ||
+			decisionText.equals( "Watch the Fight" ) ||
+			decisionText.equals( "Approach and Reproach" ) ||
+			decisionText.equals( "Talk Back to the Robot" ) )
+		{
+			damageTaken = 25;
+		}
+		else if (
+			decisionText.equals( "Go down the Steps" ) ||
+			decisionText.equals( "Make a Suggestion" ) ||
+			decisionText.equals( "Tell Them About True Love" ) ||
+			decisionText.equals( "Scold the Ghost" ) ||
+			decisionText.equals( "Examine the Pipe" ) ||
+			decisionText.equals( "Say What?" ) ||
+			decisionText.equals( "Listen to the Lesson" ) ||
+			decisionText.equals( "Listen in on the Discussion" ) ||
+			decisionText.equals( "Point out the Malefactors" ) ||
+			decisionText.equals( "Ask for Information" ) )
+		{
+			damageTaken = 50;
+		}
+		else if (
+			decisionText.equals( "Hurl Some Spells of Your Own" ) ||
+			decisionText.equals( "Take Command" ) ||
+			decisionText.equals( "Lose Your Patience" ) ||
+			decisionText.equals( "Fail to Stifle a Sneeze" ) ||
+			decisionText.equals( "Ask for Help" ) ||
+			decisionText.equals( "Ask How Duskwalker Basketball Is Played, Against Your Better Judgement" ) ||
+			decisionText.equals( "Knights in White Armor, Never Reaching an End" ) ||
+			decisionText.equals( "Own up to It" ) ||
+			decisionText.equals( "Approach the Poor Waifs" ) ||
+			decisionText.equals( "Look Behind You" ) )
+		{
+			damageTaken = 125;
+		}
+		else if (
+			decisionText.equals( "Read the Book" ) ||
+			decisionText.equals( "Join the Conversation" ) ||
+			decisionText.equals( "Speak of the Pompatus of Love" ) ||
+			decisionText.equals( "Ask What's Going On" ) ||
+			decisionText.equals( "Interrupt the Rally" ) ||
+			decisionText.equals( "Ask What She's Doing Up There" ) ||
+			decisionText.equals( "Point Out an Unfortunate Fact" ) ||
+			decisionText.equals( "Try to Talk Sense" ) ||
+			decisionText.equals( "Ask for Directional Guidance" ) ||
+			decisionText.equals( "What?" ) )
+		{
+			damageTaken = 250;
+		}
+		double spookyDamage = KoLConstants.activeEffects.contains( EffectPool.get( Effect.SPOOKYFORM ) ) ? 1.0 :
+			  damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) ) ) / 100.0;
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.COLDFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( Effect.SLEAZEFORM ) ) )
+		{
+			spookyDamage *= 2;
+		}
+
+		double coldDamage = KoLConstants.activeEffects.contains( EffectPool.get( Effect.COLDFORM ) ) ? 1.0 :
+			  damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.COLD ) ) ) / 100.0;
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.SLEAZEFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( Effect.STENCHFORM ) ) )
+		{
+			coldDamage *= 2;
+		}
+		return ( (int) Math.ceil( spookyDamage ) ) + " spooky damage, " + ( (int) Math.ceil( coldDamage ) ) + " cold damage";
 	}
 
 	private static void checkGuyMadeOfBees( final GenericRequest request )
