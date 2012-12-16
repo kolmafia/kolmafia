@@ -79,6 +79,12 @@ public class EffectPool
 			PURPLE_CUPCAKE( "Tiny Bubbles in the Cupcake", 186 ),
 			PINK_CUPCAKE( "Your Cupcake Senses Are Tingling", 187 ),
 
+			HOTFORM( "Hotform", 189 ),
+			COLDFORM( "Coldform", 190 ),
+			SPOOKYFORM( "Spookyform", 191 ),
+			STENCHFORM( "Stenchform", 192 ),
+			SLEAZEFORM( "Sleazeform", 193 ),
+
 			FISHY( "Fishy", 549 ),
 			BEE_SMELL( "Float Like a Butterfly, Smell Like a Bee", 845 ),
 
