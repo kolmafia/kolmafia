@@ -5945,38 +5945,38 @@
 5928	
 5929	
 5930	
-5931	
-5932	
-5933	
-5934	
-5935	
-5936	
-5937	
-5938	
-5939	
-5940	
-5941	
-5942	
-5943	
-5944	
-5945	
-5946	
-5947	
-5948	
-5949	
-5950	
-5951	
-5952	
-5953	
-5954	
-5955	
-5956	
-5957	
-5958	
-5959	
-5960	
-5961	
-5962	
+5931	tiny plastic four-shadowed mime	143366587	tp3_1.gif	accessory	t	0
+5932	tiny plastic Bugbear Captain	254592704	tp3_2.gif	accessory	t	0
+5933	tiny plastic Rene C. Corman	764358197	tp3_3.gif	accessory	t	0
+5934	tiny plastic Lord Flameface	697429943	tp3_4.gif	accessory	t	0
+5935	tiny plastic Beebee King	800053305	tp3_5.gif	accessory	t,d	30
+5936	tiny plastic Queen Bee	556916414	tp3_6.gif	accessory	t,d	30
+5937	tiny plastic Wu Tang the Betrayer	390213697	tp3_7.gif	accessory	t,d	30
+5938	tiny plastic Clancy the Minstrel	903373440	tp3_8.gif	accessory	t,d	30
+5939	tiny plastic Battlesuit Bugbear Type	893403193	tp3_9.gif	accessory	t,d	30
+5940	tiny plastic spiderbugbear	387376714	tp3_10.gif	accessory	t,d	30
+5941	tiny plastic peacannon	683226461	tp3_11.gif	accessory	t,d	30
+5942	tiny plastic the Free Man	371437922	tp3_12.gif	accessory	t,d	30
+5943	tiny plastic fire servant	841273852	tp3_13.gif	accessory	t,d	30
+5944	tiny plastic mumblebee	253932386	tp3_14.gif	accessory	t,d	10
+5945	tiny plastic moneybee	881504618	tp3_15.gif	accessory	t,d	10
+5946	tiny plastic beebee gunners	275451956	tp3_16.gif	accessory	t,d	10
+5947	tiny plastic beebee queue	569743069	tp3_17.gif	accessory	t,d	10
+5948	tiny plastic buzzerker	910118947	tp3_18.gif	accessory	t,d	10
+5949	tiny plastic bee swarm	122035759	tp3_19.gif	accessory	t,d	10
+5950	tiny plastic batbugbear	647142858	tp3_20.gif	accessory	t,d	10
+5951	tiny plastic bugaboo	307831943	tp3_21.gif	accessory	t,d	10
+5952	tiny plastic Ancient Unspeakable Bugbear	130830135	tp3_22.gif	accessory	t,d	10
+5953	tiny plastic black ops bugbear	196982012	tp3_23.gif	accessory	t,d	10
+5954	tiny plastic hypodermic bugbear	447829450	tp3_24.gif	accessory	t,d	10
+5955	tiny plastic cavebugbear	393209755	tp3_25.gif	accessory	t,d	10
+5956	tiny plastic Norville Rogers	641207768	tp3_26.gif	accessory	t,d	10
+5957	tiny plastic Scott the Miner	514391285	tp3_27.gif	accessory	t,d	10
+5958	tiny plastic angry space marine	527580784	tp3_28.gif	accessory	t,d	10
+5959	tiny plastic Charity the Zombie Hunter	274804483	tp3_29.gif	accessory	t,d	10
+5960	tiny plastic Father McGruber	791972234	tp3_30.gif	accessory	t,d	10
+5961	tiny plastic Hank North, Photojournalist	561734117	tp3_31.gif	accessory	t,d	10
+5962	tiny plastic blazing bat	347137066	tp3_32.gif	accessory	t,d	10
 5963	
 5964	A-Boo clue	646443068	map.gif	reusable	q	0
 5965	

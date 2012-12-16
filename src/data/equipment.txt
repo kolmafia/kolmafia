@@ -149,7 +149,6 @@ jewel-eyed wizard hat	10	none
 knobby helmet turtle	20	none
 leather aviator's cap	50	Mox: 10
 leather mask	60	Mox: 15
-left bear arm	0	none
 lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
 longhaired hippy wig	200	Mox: 85
@@ -196,7 +195,6 @@ rave visor	150	Mox: 60
 ravioli hat	10	none
 red traffic cone	60	Mox: 15
 reinforced beaded headband	170	Mox: 70
-right bear arm	100	Mus: 0	1-handed club
 rusty diving helmet	200	Mox: 85
 safarrri hat	90	Mox: 30
 samurai turtle helmet	25	none
@@ -287,9 +285,9 @@ The Necbromancer's Shorts	200	Mox: 200
 Travoltan trousers	100	none
 Tropical Crimbo Shorts	100	Mox: 35
 Uncle Hobo's gift baggy pants	200	Mox: 200
-Whoompa Fur Pants	110	Mox: 40
 Volartta's bellbottoms	125	Mox: 30
 Voluminous Radio Pants	150	Mox: 60
+Whoompa Fur Pants	110	Mox: 40
 Zombo's grievous greaves	200	Mus: 200
 alpha-mail pants	140	Mox: 55
 antique greaves	200	Mus: 85
@@ -581,13 +579,13 @@ Spooky Putty ball	100	Mox: 0	1-handed superball
 Spooky Putty snake	10	Mys: 0	1-handed chefstaff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
+Staff of Holiday Sensations	10	Mys: 75	1-handed chefstaff
 Staff of Queso Escusado	10	Mys: 0	1-handed chefstaff
 Staff of the Black Kettle	10	Mys: 75	1-handed chefstaff
 Staff of the Deepest Freeze	10	Mys: 200	1-handed chefstaff
 Staff of the Grand Flamb&eacute;	10	Mys: 125	1-handed chefstaff
 Staff of the Grease Trap	10	Mys: 125	1-handed chefstaff
 Staff of the Greasefire	10	Mys: 20	1-handed chefstaff
-Staff of Holiday Sensations	10	Mys: 75	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
 Staff of the November Jack-O-Lantern	10	Mys: 15	1-handed chefstaff
@@ -903,6 +901,7 @@ repeating crossbow	65	Mox: 17	2-handed crossbow
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
 ridiculously overelaborate ninja weapon	100	Mus: 35	3-handed ...weapon
+right bear arm	100	Mus: 0	1-handed club
 roboduck-on-a-string	100	Mus: 35	1-handed flail
 rubber axe	40	Mus: 5	2-handed axe
 rubber band gun	30	Mox: 0	1-handed pistol
@@ -1195,6 +1194,7 @@ joybuzzer	20	none
 keg shield	170	Mus: 70	shield
 kickback cookbook	40	Mys: 5
 killer rag doll	110	Mys: 40
+left bear arm	0	none
 left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
 little round pebble	45	Mys: 7
@@ -1476,12 +1476,12 @@ Talisman of Baio	200	none
 Talisman of Bakula	200	none
 The Lost Glasses	0	Mys: 25
 The Ring	150	Mys: 60
+UV monocular	75	Mys: 22
 Uncle Hobo's belt	200	Mys: 200
 Uncle Hobo's epic beard	200	Mys: 200
 Uncle Hobo's fingerless tinsel gloves	200	Mys: 200
 Unspeakable Earring	150	Mys: 60
 Uranium Omega of Temperance	200	Mys: 85
-UV monocular	75	Mys: 22
 V for Vivala mask	0	none
 Voluminous Radio Sneakers	0	Mys: 60
 Warehouse 23 bling	0	none
@@ -1666,8 +1666,8 @@ navel ring of navel gazing	0	none
 night-vision goggles	50	Mox: 10
 observational glasses	10	none
 offensive moustache	0	none
-old-school calculator watch	0	none
 old soft shoes	200	Mys: 200
+old-school calculator watch	0	none
 orange glowstick	20	none
 orange leather lanyard	50	none
 orc wrist	95	Mys: 32
@@ -1791,8 +1791,11 @@ time halo	50	none
 tin star	60	Mys: 15
 tiny plastic 11 Dealer	0	none
 tiny plastic 7-foot dwarf	10	none
+tiny plastic Ancient Unspeakable Bugbear	0	none
 tiny plastic Axe Wound	10	none
 tiny plastic Baron von Ratsworth	30	none
+tiny plastic Battlesuit Bugbear Type	0	none
+tiny plastic Beebee King	0	none
 tiny plastic Beelzebozo	30	none
 tiny plastic Best Game Ever	0	none
 tiny plastic Big Candy	0	none
@@ -1800,8 +1803,11 @@ tiny plastic Black Knight	10	none
 tiny plastic Bonerdagon	30	none
 tiny plastic Boris	30	none
 tiny plastic Boss Bat	30	none
+tiny plastic Bugbear Captain	0	Mys: 10
 tiny plastic CRIMBCO HQ	0	none
+tiny plastic Charity the Zombie Hunter	0	none
 tiny plastic Cheshire bat	10	none
+tiny plastic Clancy the Minstrel	0	none
 tiny plastic Crimbo Casino	0	none
 tiny plastic Crimbo elf	10	none
 tiny plastic Crimbo reindeer	10	none
@@ -1811,11 +1817,13 @@ tiny plastic Crimboween pentagram	20	none
 tiny plastic Don Crimbo	0	none
 tiny plastic Dr. Awkward	50	Mys: 10
 tiny plastic Ed the Undying	50	Mys: 10
+tiny plastic Father McGruber	0	none
 tiny plastic Felonia	30	none
 tiny plastic Fudge Wizard	0	none
 tiny plastic G Imp	10	none
 tiny plastic Gnollish crossdresser	10	none
 tiny plastic Gnomester Blomester	10	none
+tiny plastic Hank North, Photojournalist	0	none
 tiny plastic Hellion	10	none
 tiny plastic Iiti Kitty	10	none
 tiny plastic Jarlsberg	30	none
@@ -1824,12 +1832,17 @@ tiny plastic Knob Goblin bean counter	10	none
 tiny plastic Knob Goblin harem girl	10	none
 tiny plastic Knob Goblin mad scientist	10	none
 tiny plastic Knott Yeti	10	none
+tiny plastic Lord Flameface	0	Mys: 10
 tiny plastic Lord Spookyraven	50	Mys: 10
 tiny plastic Mob Penguin	0	none
 tiny plastic Mr. Mination	0	none
 tiny plastic Naughty Sorceress	100	Mys: 35
+tiny plastic Norville Rogers	0	none
 tiny plastic Orcish Frat Boy	10	none
 tiny plastic Protagonist	10	none
+tiny plastic Queen Bee	0	none
+tiny plastic Rene C. Corman	0	Mys: 10
+tiny plastic Scott the Miner	0	none
 tiny plastic Scream Queen	20	none
 tiny plastic Sneaky Pete	30	none
 tiny plastic Spam Witch	10	none
@@ -1839,23 +1852,34 @@ tiny plastic The Big Wisniewski	30	none
 tiny plastic The Man	30	none
 tiny plastic Trouser Snake	10	none
 tiny plastic Uncle Crimbo	20	none
+tiny plastic Wu Tang the Betrayer	0	none
 tiny plastic XXX pr0n	10	none
 tiny plastic abominable fudgeman	0	none
 tiny plastic accordion thief	20	none
 tiny plastic ancient yuletide troll	10	none
 tiny plastic angry bugbear	10	none
 tiny plastic angry goat	10	none
+tiny plastic angry space marine	0	none
 tiny plastic anime smiley	10	none
 tiny plastic apathetic lizardman	10	none
 tiny plastic astronomer	10	none
 tiny plastic baby gravy fairy	10	none
 tiny plastic barrrnacle	10	none
+tiny plastic batbugbear	0	none
 tiny plastic beanbat	10	none
+tiny plastic bee swarm	0	none
+tiny plastic beebee gunners	0	none
+tiny plastic beebee queue	0	none
 tiny plastic bitchin' meatcar	20	none
+tiny plastic black ops bugbear	0	none
+tiny plastic blazing bat	0	none
 tiny plastic blood-faced volleyball	10	none
 tiny plastic blooper	10	none
 tiny plastic brainsweeper	10	none
 tiny plastic briefcase bat	10	none
+tiny plastic bugaboo	0	none
+tiny plastic buzzerker	0	none
+tiny plastic cavebugbear	0	none
 tiny plastic chunk of depleted Grimacite	0	none
 tiny plastic cocoabo	10	none
 tiny plastic coffee pixie	10	none
@@ -1869,7 +1893,9 @@ tiny plastic fat stack of cash	0	none
 tiny plastic fax machine	0	none
 tiny plastic fiendish can of asparagus	10	none
 tiny plastic filthy hippy jewelry maker	10	none
+tiny plastic fire servant	0	none
 tiny plastic fluffy bunny	10	none
+tiny plastic four-shadowed mime	0	Mys: 35
 tiny plastic fruit golem	10	none
 tiny plastic fuzzy dice	10	none
 tiny plastic ghost pickle on a stick	10	none
@@ -1882,15 +1908,19 @@ tiny plastic handsome mariachi	10	none
 tiny plastic hermit	20	none
 tiny plastic hobo elf	0	none
 tiny plastic howling balloon monkey	10	none
+tiny plastic hypodermic bugbear	0	none
 tiny plastic killer bee	10	none
 tiny plastic lemon-in-the-box	10	none
 tiny plastic leprechaun	10	none
 tiny plastic levitating potato	10	none
 tiny plastic lobsterfrogman	10	none
+tiny plastic moneybee	0	none
 tiny plastic mosquito	10	none
+tiny plastic mumblebee	0	none
 tiny plastic mutant elf	0	none
 tiny plastic ninja snowman	10	none
 tiny plastic pastamancer	20	none
+tiny plastic peacannon	0	none
 tiny plastic protector spectre	50	Mys: 10
 tiny plastic sabre-toothed lime	10	none
 tiny plastic sauceror	20	none
@@ -1899,6 +1929,7 @@ tiny plastic seal clubber	20	none
 tiny plastic senile lihc	10	none
 tiny plastic skeletal reindeer	10	none
 tiny plastic smarmy pirate	10	none
+tiny plastic spiderbugbear	0	none
 tiny plastic spiny skelelton	10	none
 tiny plastic spooky pirate skeleton	10	none
 tiny plastic spooky vampire	10	none
@@ -1908,6 +1939,7 @@ tiny plastic stocking mimic	0	none
 tiny plastic strand of DNA	0	none
 tiny plastic sweet nutcracker	10	none
 tiny plastic taco cat	10	none
+tiny plastic the Free Man	0	none
 tiny plastic topiary golem	10	none
 tiny plastic trollipop	0	none
 tiny plastic turtle tamer	20	none
@@ -1946,6 +1978,9 @@ yellow glowstick	20	none
 Camp Scout backpack	0	none
 Great S-Cape	10	none
 Lord Flameface's cloak	0	Mys: 75
+Misty Cape	0	Mox: 75
+Misty Cloak	0	Mus: 75
+Misty Robe	130	Mys: 75
 Mr. Container	0	none
 Newbiesport&trade; backpack	0	Mys: 75
 Rain-Doh red wings	100	none
@@ -1954,9 +1989,6 @@ auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
 hemp backpack	0	Mys: 75
 makeshift cape	100	Mys: 75
-Misty Cape	0	Mox: 75
-Misty Cloak	0	Mus: 75
-Misty Robe	130	Mys: 75
 palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
 sealhide cloak	160	Mys: 75
