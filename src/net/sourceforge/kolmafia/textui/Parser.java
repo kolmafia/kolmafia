@@ -373,7 +373,18 @@ public class Parser
 		}
 
 		this.imports.put( scriptFile, new Long( scriptFile.lastModified() ) );
-		this.mainMethod = null;
+
+		if ( parser.mainMethod != null )
+		{	// Make imported script's main() available under a different name
+			UserDefinedFunction f = new UserDefinedFunction(
+				parser.mainMethod.getName() + "@" +
+					parser.getScriptName().replace( ".ash", "" )
+						.replaceAll( "[^a-zA-Z0-9]", "_" ),
+				parser.mainMethod.getType(),
+				parser.mainMethod.getVariableReferences() );
+			f.setScope( ((UserDefinedFunction)parser.mainMethod).getScope() );
+			result.addFunction( f );
+		}
 
 		return result;
 	}
@@ -739,14 +750,7 @@ public class Parser
 		result.setScope( scope );
 		if ( !result.assertBarrier() && !functionType.equals( DataTypes.TYPE_VOID ) )
 		{
-			if ( functionType.equals( DataTypes.TYPE_BOOLEAN ) )
-			{
-				this.warning( "Missing return values in boolean functions will soon become an error" );
-			}
-			else
-			{
-				throw this.parseException( "Missing return value" );
-			}
+			throw this.parseException( "Missing return value" );
 		}
 
 		return result;
@@ -1115,6 +1119,24 @@ public class Parser
 		for ( int i = 1; i < identifier.length(); ++i )
 		{
 			if ( !Character.isLetterOrDigit( identifier.charAt( i ) ) && identifier.charAt( i ) != '_' )
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private boolean parseScopedIdentifier( final String identifier )
+	{
+		if ( !Character.isLetter( identifier.charAt( 0 ) ) && identifier.charAt( 0 ) != '_' )
+		{
+			return false;
+		}
+
+		for ( int i = 1; i < identifier.length(); ++i )
+		{
+			if ( !Character.isLetterOrDigit( identifier.charAt( i ) ) && identifier.charAt( i ) != '_'  && identifier.charAt( i ) != '@' )
 			{
 				return false;
 			}
@@ -2061,7 +2083,7 @@ public class Parser
 			return null;
 		}
 
-		if ( !this.parseIdentifier( this.currentToken() ) )
+		if ( !this.parseScopedIdentifier( this.currentToken() ) )
 		{
 			return null;
 		}
