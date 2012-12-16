@@ -234,6 +234,8 @@ Holiday	adventure=173	true	Generic Summer Holiday Swimming!
 The Candy Diorama	adventure=274	true	Lollipop Forest
 The Candy Diorama	adventure=275	true	Fudge Mountain
 
+Crimbo12	adventure=300	true	Crimbokutown Toy Factory
+
 Crimbo10	adventure=246	true	Elf Alley
 Crimbo10	adventure=247	true	CRIMBCO cubicles
 Crimbo10	crimbo10=bathroom	true	CRIMBCO WC

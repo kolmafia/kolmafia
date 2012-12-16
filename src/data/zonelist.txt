@@ -74,6 +74,8 @@ Sorceress	Unsorted	Sorceress Lair
 
 Holiday	Unsorted	Holiday Zones
 
+Crimbo12	Holiday	Christmas 2012
+
 Override	Unsorted	Discoveries
 
 Events	Events	Events

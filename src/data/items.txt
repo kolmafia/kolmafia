@@ -5937,8 +5937,8 @@
 5920	
 5921	
 5922	
-5923	
-5924	
+5923	plastic ingot	474225680	plasticbit.gif	none	t,d	1
+5924	electrical thingamabob	658585635	elecbit.gif	none	t,d	1
 5925	
 5926	
 5927	
