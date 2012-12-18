@@ -132,6 +132,8 @@ blue traffic cone	Moxie: +3, Hot Resistance: +2, Familiar Effect: "2xLep, 2xFair
 bonedanna	Spooky Resistance: +3, Weapon Damage: +20, Familiar Effect: "atk, cap 30"
 bounty-hunting helmet	Item Drop: +20, Familiar Effect: "1.5xFairy, cap 25"
 bowler	Muscle: +5, Familiar Effect: "1.5xVolley, 1.5xLep, cap 25"
+# brainwave-controlled unicorn horn: Enables Friendship. And Goring.
+brainwave-controlled unicorn horn	Maximum HP: +20, Maximum MP: +20
 bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5, MP Regen Min: 2, MP Regen Max: 3, Familiar Effect: "1xPotato, 2xLep, cap 17"
 bugbear beanie	Familiar Effect: "atk, cap 7"
 bum cheek	Stench Resistance: +1, Familiar Effect: "stench atk, 1xVolley, cap 5"
@@ -402,6 +404,7 @@ dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistanc
 dwarvish war kilt	Familiar Effect: "1xBarrr, 1xFairy, cap 41"
 # eelskin pants: Damages Attacking Opponent (Underwater Only)
 eelskin pants	Mysticality Percent: +5, Familiar Effect: "1xPotato"
+electronic dulcimer pants	Adventures: +2, Initiative: +25
 extremely skinny jeans	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xFairy"
 fancy tuxedo pants	Moxie Percent: +15, Familiar Effect: "2xVolley, 1xGhuol, cap 25"
 filthy corduroys	Mysticality: +3, Moxie: -3, Familiar Effect: "stench atk, prismatic atk, 1xPotato, cap 15"
@@ -1552,6 +1555,7 @@ Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Pickpocket
 Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # French slippers
 Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
+Frown Exerciser	Monster Level: [5*G], Moxie: -5
 Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 # Garter of the Turtle Poacher: Increases the Effectiveness of Turtle Pheromones*
 # * This enchantment works even when this item is not equipped
@@ -3883,6 +3887,7 @@ Wrath	Weapon Damage: +10, Spell Damage: +10, Damage Reduction: -4
 
 1000th Birthday Suit	Spooky Damage: +15
 8-Bit Finery	Initiative: +25
+Animelf Apparel	HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 2, MP Regen Max: 3
 Antique Arms and Armor	Damage Reduction: 5, Muscle: +15, Initiative: -10
 Arboreal Raiment	Stench Resistance: +3
 Arrrbor Day Apparrrrrel	HP Regen Min: 10, HP Regen Max: 15
