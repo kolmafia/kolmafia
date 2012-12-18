@@ -357,6 +357,9 @@ public class CreateItemRequest
 		case KoLConstants.CRIMBO07:
 			return new Crimbo07Request( conc );
 
+		case KoLConstants.CRIMBO12:
+			return new Crimbo12Request( conc );
+
 		case KoLConstants.PHINEAS:
 			return new PhineasRequest( conc );
 
