@@ -782,6 +782,7 @@ public class EquipmentDatabase
 		case KoLConstants.EQUIP_SHIRT:
 		case KoLConstants.EQUIP_WEAPON:
 		case KoLConstants.EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_CONTAINER:
 			break;
 
 		default:
