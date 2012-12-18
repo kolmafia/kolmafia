@@ -5940,8 +5940,8 @@
 5923	plastic ingot	474225680	plasticbit.gif	none	t,d	1
 5924	electrical thingamabob	658585635	elecbit.gif	none	t,d	1
 5925	ChibiBuddy&trade; (off)	682477216	chibibuddy.gif	usable	t	0
-5926	BittyCar MeatCar	140747634	bittycar.gif	usable	t	0
-5927	BittyCar HotCar	537171372	bittycar.gif	usable	t	0
+5926	BittyCar MeatCar	140747634	bittycar.gif	reusable	t	0
+5927	BittyCar HotCar	537171372	bittycar.gif	reusable	t	0
 5928	brainwave-controlled unicorn horn	298286476	unihorn.gif	hat	t	0
 5929	bubble-wrap simulator	209664307	bubblewrap4.gif	usable	t,d	25
 5930	blind-packed capsule toy	923647793	toycapsure.gif	usable	t	0
@@ -6060,7 +6060,7 @@
 6043	oily boid	495755429	oilyboid.gif	none, combat	t,d	15
 6044	woim	284361671	woim.gif	grow	t	0
 6045	Thwaitgold praying mantis statuette	626328208	thwaitmantis.gif	none		0
-6046	BittyCar SoulCar	553247111	bittycar.gif	usable	t	0
+6046	BittyCar SoulCar	553247111	bittycar.gif	reusable	t	0
 6047	Misty Cloak	124569077	mistcloak.gif	container	t,d	1000
 6048	Misty Robe	307169061	mistcloak.gif	container	t,d	1000
 6049	Misty Cape	754803274	mistcloak.gif	container	t,d	1000
