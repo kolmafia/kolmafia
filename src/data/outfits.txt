@@ -87,6 +87,4 @@
 86	Hot Daub Ensemble	hot daub bun, foot-long hot daub, hot daub stand
 87	Pinata Provisions	papier-masque, papier-mitre, papier-m&acirc;churidars
 88	Oil Rig	oil cap, oil lamp, oil slacks
-
-# Outfits for which KoL does not provide an outfit id, and thus are
-# given id #0 to tell KoLmafia to treat it in a special way.
+89	Animelf Apparel	brainwave-controlled unicorn horn	electronic dulcimer pants	Frown Exerciser

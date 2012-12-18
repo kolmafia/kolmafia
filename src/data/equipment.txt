@@ -76,6 +76,7 @@ blue traffic cone	60	Mox: 15
 bonedanna	120	Mox: 45
 bounty-hunting helmet	100	Mox: 25
 bowler	100	Mox: 35
+brainwave-controlled unicorn horn	10	none
 bubblewrap bottlecap turtleban	70	Mys: 12
 bugbear beanie	30	none
 bum cheek	20	none
@@ -325,6 +326,7 @@ duct tape dockers	195	Mox: 82
 dungeoneer's dungarees	30	none
 dwarvish war kilt	165	Mox: 67
 eelskin pants	200	Mox: 85
+electronic dulcimer pants	10	none
 extremely skinny jeans	200	Mox: 200
 fancy tuxedo pants	100	Mox: 35
 filthy corduroys	60	Mox: 15
@@ -1377,6 +1379,7 @@ Elvish sunglasses	0	none
 Emblem of Ak'gyxoth	0	Mys: 30
 French slippers	10	none
 Frosty's carrot	200	Mus: 200
+Frown Exerciser	10	none
 Gaia beads	175	Mys: 72
 Garter of the Turtle Poacher	150	Mus: 45
 Golden Mr. Accessory	0	none

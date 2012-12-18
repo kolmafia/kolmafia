@@ -5942,7 +5942,7 @@
 5925	
 5926	
 5927	
-5928	
+5928	brainwave-controlled unicorn horn	298286476	unihorn.gif	hat	t	0
 5929	
 5930	
 5931	tiny plastic four-shadowed mime	143366587	tp3_1.gif	accessory	t	0
@@ -5977,9 +5977,9 @@
 5960	tiny plastic Father McGruber	791972234	tp3_30.gif	accessory	t,d	10
 5961	tiny plastic Hank North, Photojournalist	561734117	tp3_31.gif	accessory	t,d	10
 5962	tiny plastic blazing bat	347137066	tp3_32.gif	accessory	t,d	10
-5963	
+5963	electronic dulcimer pants	868625378	dulcimerpants.gif	pants	t	0
 5964	A-Boo clue	646443068	map.gif	reusable	q	0
-5965	
+5965	Frown Exerciser	553018788	frownexerciser.gif	accessory	t	0
 5966	soul monocle	744020398	soulmonocle.gif	accessory		0
 5967	soul doorbell	498403310	souldoorbell.gif	usable	t	0
 5968	soul coin	381312268	soulcoin.gif	none	t	0
