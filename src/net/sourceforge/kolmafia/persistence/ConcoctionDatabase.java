@@ -209,6 +209,9 @@ public class ConcoctionDatabase
 		// Items formerly creatable in Crimbo Town during Crimbo 2007
 		ConcoctionDatabase.mixingMethods.put( "CRIMBO07", IntegerPool.get( KoLConstants.CRIMBO07 ));
 		METHOD_DESCRIPTION[ KoLConstants.CRIMBO07 ] = "Uncle Crimbo's Mobile Home (Crimbo 2007)";
+		// Items creatable in Crimbo Town during Crimbo 2012
+		ConcoctionDatabase.mixingMethods.put( "CRIMBO12", IntegerPool.get( KoLConstants.CRIMBO12 ));
+		METHOD_DESCRIPTION[ KoLConstants.CRIMBO12 ] = "Uncle Crimbo's Futuristic Trailer (Crimboku 2012)";
 		// Items requiring access to Phineas
 		ConcoctionDatabase.mixingMethods.put( "PHINEAS", IntegerPool.get( KoLConstants.PHINEAS ));
 		METHOD_DESCRIPTION[ KoLConstants.PHINEAS ] = "Phineas";
@@ -1656,6 +1659,9 @@ public class ConcoctionDatabase
 		// It's not possible to ask Uncle Crimbo 2005 to make toys
 		// It's not possible to ask Ugh Crimbo 2006 to make toys
 		// It's not possible to ask Uncle Crimbo 2007 to make toys
+
+		// It's possible to ask Uncle Crimbo 2012 to make toys
+		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CRIMBO12 ] = true;
 
 		// Next, increment through all the box servant creation methods.
 		// This allows future appropriate calculation for cooking/drinking.

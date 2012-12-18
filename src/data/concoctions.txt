@@ -8,7 +8,7 @@
 # BSTILL, MSTILL (booze & mixer upgrades, respectively)
 # SMITH (basic smithing that can be done by Innabox)
 # SSMITH (smithing you have to do yourself - always requires a skill)
-# CRIMBO05, CRIMBO06, CRIMBO07 (historical)
+# CRIMBO05, CRIMBO06, CRIMBO07 (historical), CRIMBO12
 # ACOMBINE (meat pasting recipes that cannot be untinkered)
 #
 # Additional requirements (add to a basic creation type):
@@ -2018,3 +2018,16 @@ oil pan	MUSE	bubblin' crude (11)
 jar of oil	MUSE	bubblin' crude (12)
 
 blessed large box	COMBINE	large box	ten-leaf clover
+
+# Crimboku toys.  These are items which are created at Uncle Crimboku
+# after collecting enough components.
+
+bubble-wrap simulator	CRIMBO12	plastic ingot(4)	electrical thingamabob(1)
+blind-packed capsule toy	CRIMBO12	plastic ingot(7)	electrical thingamabob(3)
+brainwave-controlled unicorn horn	CRIMBO12	plastic ingot(70)	electrical thingamabob(50)
+electronic dulcimer pants	CRIMBO12	plastic ingot(20)	electrical thingamabob(80)
+Frown Exerciser	CRIMBO12	plastic ingot(50)	electrical thingamabob(10)
+BittyCar HotCar	CRIMBO12	plastic ingot(100)	electrical thingamabob(150)
+BittyCar SoulCar	CRIMBO12	plastic ingot(200)	electrical thingamabob(300)
+BittyCar MeatCar	CRIMBO12	plastic ingot(400)	electrical thingamabob(600)
+ChibiBuddy&trade; (off)	CRIMBO12	plastic ingot(1100)	electrical thingamabob(1400)
