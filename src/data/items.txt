@@ -6060,7 +6060,7 @@
 6043	oily boid	495755429	oilyboid.gif	none, combat	t,d	15
 6044	woim	284361671	woim.gif	grow	t	0
 6045	Thwaitgold praying mantis statuette	626328208	thwaitmantis.gif	none		0
-6046	BittyCar SoulCar 553247111 bittycar.g	6047	Misty Cloak	124569077	mistcloak.gif	container	t,d	1000
+6046	BittyCar SoulCar	553247111	bittycar.g	6047	Misty Cloak	124569077	mistcloak.gif	container	t,d	1000
 6048	Misty Robe	307169061	mistcloak.gif	container	t,d	1000
 6049	Misty Cape	754803274	mistcloak.gif	container	t,d	1000
 6050	woimbook	341149958	tinybook.gif	familiar	t,d	75
