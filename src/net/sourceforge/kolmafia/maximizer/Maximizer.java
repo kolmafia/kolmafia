@@ -89,9 +89,9 @@ public class Maximizer
 		"_stickers",
 	};
 
-	public static MaximizerSpeculation best;
-	public static int bestChecked;
-	public static long bestUpdate;
+	static MaximizerSpeculation best;
+	static int bestChecked;
+	static long bestUpdate;
 
 	public static boolean maximize( String maximizerString, int maxPrice, int priceLevel, boolean isSpeculationOnly )
 	{
@@ -195,10 +195,10 @@ public class Maximizer
 		current = Maximizer.eval.getScore(
 			KoLCharacter.getCurrentModifiers() );
 
-		Iterator i = Modifiers.getAllModifiers();
+		Iterator<String> i = Modifiers.getAllModifiers();
 		while ( i.hasNext() )
 		{
-			String name = (String) i.next();
+			String name = i.next();
 			if ( !EffectDatabase.contains( name ) )
 			{
 				continue;
@@ -210,7 +210,7 @@ public class Maximizer
 			AdventureResult effect = new AdventureResult( name, 1, true );
 			name = effect.getName();
 			boolean hasEffect = KoLConstants.activeEffects.contains( effect );
-			Iterator sources;
+			Iterator<String> sources;
 			String cmd, text;
 			int price = 0;
 			if ( !hasEffect )
@@ -278,7 +278,7 @@ public class Maximizer
 			boolean orFlag = false;
 			while ( sources.hasNext() )
 			{
-				cmd = text = (String) sources.next();
+				cmd = text = sources.next();
 				AdventureResult item = null;
 
 				if ( cmd.startsWith( "#" ) )	// usage note, no command
@@ -731,7 +731,7 @@ public class Maximizer
 		Maximizer.boosts.sort();
 	}
 
-	public static int emitSlot( int slot, int equipLevel, int maxPrice, int priceLevel, double current )
+	private static int emitSlot( int slot, int equipLevel, int maxPrice, int priceLevel, double current )
 	{
 		if ( slot == EquipmentManager.FAMILIAR )
 		{	// Insert any familiar switch at this point

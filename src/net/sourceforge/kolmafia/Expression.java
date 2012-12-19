@@ -55,14 +55,14 @@ public class Expression
 	protected String name;
 	protected String text;
 
-	protected char[] bytecode;	// Compiled expression
-	protected ArrayList literals;	// Strings & floats needed by expression
+	private char[] bytecode;	// Compiled expression
+	private ArrayList<Object> literals;	// Strings & floats needed by expression
 	protected AdventureResult effect;
 
 	// If non-null, contains concatenated error strings from compiling bytecode
-	protected StringBuilder error = null;
+	private StringBuilder error = null;
 
-	protected StringBuilder newError()
+	private StringBuilder newError()
 	{
 		if ( this.error == null )
 		{
@@ -92,7 +92,7 @@ public class Expression
 
 	private static double[] cachedStack;
 
-	protected synchronized static double[] stackFactory( double[] recycle )
+	private synchronized static double[] stackFactory( double[] recycle )
 	{
 		if ( recycle != null )
 		{	// Reuse this stack for the next evaluation.
@@ -421,7 +421,7 @@ public class Expression
 		return "";
 	}
 
-	protected void expect( String token )
+	private void expect( String token )
 	{
 		if ( this.text.startsWith( token ) )
 		{
@@ -462,7 +462,7 @@ public class Expression
 		return false;
 	}
 
-	protected char optional( String token1, String token2 )
+	private char optional( String token1, String token2 )
 	{
 		if ( this.text.startsWith( token1 ) )
 		{
@@ -481,13 +481,13 @@ public class Expression
 	{
 		if ( this.literals == null )
 		{
-			this.literals = new ArrayList();
+			this.literals = new ArrayList<Object>();
 		}
 		this.literals.add( value == null ? "" : value );
 		return String.valueOf( (char)( this.literals.size() - 1 + 0x8000 ) ) + op;
 	}
 
-	protected String expr()
+	private String expr()
 	{
 		String rv = this.term();
 		while ( true )
@@ -506,7 +506,7 @@ public class Expression
 		}
 	}
 
-	protected String term()
+	private String term()
 	{
 		String rv = this.factor();
 		while ( true )
@@ -525,7 +525,7 @@ public class Expression
 		}
 	}
 
-	protected String factor()
+	private String factor()
 	{
 		String rv = this.value();
 		while ( this.optional( "^", "**" ) != '\0' )
@@ -535,7 +535,7 @@ public class Expression
 		return rv;
 	}
 
-	protected String value()
+	private String value()
 	{
 		String rv;
 		if ( this.optional( "(" ) )

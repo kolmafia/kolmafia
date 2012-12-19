@@ -94,7 +94,7 @@ public class KoLmafiaGUI
 	 * default look and feel of all <code>JFrame</code> objects to decorated.
 	 */
 
-	public static final void initialize()
+	static final void initialize()
 	{
 		KoLmafiaGUI.initializeLoginInterface();
 
@@ -173,7 +173,7 @@ public class KoLmafiaGUI
 		String[] frameArray = frameSetting.split( "," );
 		String[] desktopArray = desktopSetting.split( "," );
 
-		ArrayList initialFrameList = new ArrayList();
+		ArrayList<String> initialFrameList = new ArrayList<String>();
 
 		if ( !frameSetting.equals( "" ) )
 		{
