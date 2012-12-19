@@ -85,7 +85,7 @@ public class EffectDatabase
 		EffectDatabase.reset();
 	}
 
-	public static void reset()
+	private static void reset()
 	{
 		EffectDatabase.newEffects = false;
 
@@ -189,7 +189,7 @@ public class EffectDatabase
 		String actions = StringUtilities.getDisplayName( EffectDatabase.defaultActions.get( StringUtilities.getCanonicalName( effectName ) ) );
 		if ( actions == null )
 		{
-			return Collections.EMPTY_LIST.iterator();
+			return Collections.<String>emptyList().iterator();
 		}
 		ArrayList<String> rv = new ArrayList<String>();
 		String[] pieces = actions.split( "\\|" );
@@ -263,7 +263,7 @@ public class EffectDatabase
 		return EffectDatabase.descriptionById.get( IntegerPool.get( effectId ) );
 	}
 
-	public static final Set<Integer> descriptionIdKeySet()
+	static final Set<Integer> descriptionIdKeySet()
 	{
 		return EffectDatabase.descriptionById.keySet();
 	}
@@ -283,10 +283,10 @@ public class EffectDatabase
 			return ( (Integer) effectId ).intValue();
 		}
 
-		List names = EffectDatabase.getMatchingNames( effectName );
+		List<String> names = EffectDatabase.getMatchingNames( effectName );
 		if ( names.size() == 1 )
 		{
-			return EffectDatabase.getEffectId( (String) names.get( 0 ) );
+			return EffectDatabase.getEffectId( names.get( 0 ) );
 		}
 
 		return -1;
@@ -299,7 +299,7 @@ public class EffectDatabase
 	 * @return The name of the corresponding effect
 	 */
 
-	public static final String getImageName( final int effectId )
+	static final String getImageName( final int effectId )
 	{
 		Object imageName = effectId == -1 ? null : EffectDatabase.imageById.get( IntegerPool.get( effectId ) );
 		return imageName == null ? "" : (String)imageName;
@@ -349,7 +349,7 @@ public class EffectDatabase
 	 * items.
 	 */
 
-	public static final List getMatchingNames( final String substring )
+	public static final List<String> getMatchingNames( final String substring )
 	{
 		return StringUtilities.getMatchingNames( EffectDatabase.canonicalNames, substring );
 	}
@@ -359,7 +359,7 @@ public class EffectDatabase
 		return EffectDatabase.registerEffect( name, descId, null );
 	}
 
-	public static final int registerEffect( String name, String descId, String defaultAction )
+	static final int registerEffect( String name, String descId, String defaultAction )
 	{
 		// Load the description text for this effect
 		String text = DebugDatabase.readEffectDescriptionText( descId );
@@ -421,12 +421,12 @@ public class EffectDatabase
 		PrintStream writer = LogStream.openStream( output, true );
 		writer.println( KoLConstants.STATUSEFFECTS_VERSION );
 
-		Iterator it = EffectDatabase.dataNameById.entrySet().iterator();
+		Iterator<Entry<Integer, String>> it = EffectDatabase.dataNameById.entrySet().iterator();
 		int lastInteger = 1;
 
 		while ( it.hasNext() )
 		{
-			Entry entry = (Entry) it.next();
+			Entry<Integer, String> entry = it.next();
 			Integer nextInteger = (Integer) entry.getKey();
 			int effectId = nextInteger.intValue();
 
@@ -454,13 +454,13 @@ public class EffectDatabase
 		writer.close();
 	}
 
-	public static void writeEffect( final PrintStream writer, final int effectId, final String name,
+	private static void writeEffect( final PrintStream writer, final int effectId, final String name,
 					final String image, final String descId, final String defaultAction )
 	{
 		writer.println( EffectDatabase.effectString( effectId, name, image, descId, defaultAction ) );
 	}
 
-	public static String effectString( final int effectId, final String name,
+	private static String effectString( final int effectId, final String name,
 					   String image, String descId, String defaultAction )
 	{
 		// The effect file can have 3, 4, or 5 fields. "image" must be
@@ -507,7 +507,7 @@ public class EffectDatabase
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
 
-		List matchingNames = getMatchingNames( parameters );
+		List<String> matchingNames = getMatchingNames( parameters );
 
 		if ( matchingNames.size() != 0 )
 		{

@@ -573,7 +573,7 @@ public abstract class KoLCharacter
 		KoLCharacter.reset();
 	}
 
-	public static final void reset()
+	private static final void reset()
 	{
 		KoLCharacter.reset( true );
 	}
@@ -723,7 +723,7 @@ public abstract class KoLCharacter
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
 	}
 
-	public static final void resetPerAscensionData()
+	static final void resetPerAscensionData()
 	{
 		// This is called after we have read the Charsheet and know how
 		// many ascensions the character has completed.
@@ -1122,7 +1122,7 @@ public abstract class KoLCharacter
 		FightRequest.initialize();
 	}
 
-	public static final int getReagentPotionDuration()
+	static final int getReagentPotionDuration()
 	{
 		return 5 +
 		       ( KoLCharacter.hasSkill( "Impetuous Sauciness" ) ? 5 : 0 ) +
@@ -1453,7 +1453,7 @@ public abstract class KoLCharacter
 	 * @return The calculated subpoints
 	 */
 
-	public static final long calculatePointSubpoints( final int basePoints )
+	private static final long calculatePointSubpoints( final int basePoints )
 	{
 		return basePoints * (long) basePoints;
 	}
@@ -1479,7 +1479,7 @@ public abstract class KoLCharacter
 	 * @return The calculated points
 	 */
 
-	public static final int calculateLevelPoints( final int level )
+	private static final int calculateLevelPoints( final int level )
 	{
 		return ( level == 1 ) ? 0 : ( level - 1 ) * ( level - 1 ) + 4;
 	}
@@ -1493,7 +1493,7 @@ public abstract class KoLCharacter
 	 * @return The calculated subpoints
 	 */
 
-	public static final long calculateLevelSubpoints( final int level )
+	private static final long calculateLevelSubpoints( final int level )
 	{
 		return KoLCharacter.calculatePointSubpoints( KoLCharacter.calculateLevelPoints( level ) );
 	}
@@ -1506,7 +1506,7 @@ public abstract class KoLCharacter
 	 * @return The calculated level
 	 */
 
-	public static final int calculatePointLevels( final int points )
+	private static final int calculatePointLevels( final int points )
 	{
 		return (int)Math.sqrt( Math.max( points - 4, 0 ) ) + 1;
 	}
@@ -1838,7 +1838,7 @@ public abstract class KoLCharacter
 	 * Accessor method to record the turn count when a semirare was found.
 	 */
 
-	public static final void registerSemirare()
+	static final void registerSemirare()
 	{
 		KoLCharacter.ensureUpdatedAscensionCounters();
 
@@ -2237,7 +2237,7 @@ public abstract class KoLCharacter
 	 * @return <code>true</code> if the beanstalk has been armed
 	 */
 
-	public static final boolean beanstalkArmed()
+	static final boolean beanstalkArmed()
 	{
 		return KoLCharacter.beanstalkArmed;
 	}
@@ -3225,6 +3225,8 @@ public abstract class KoLCharacter
 		case GNOMADS:
 			// Annoyotron available on beach
 			return KoLCharacter.desertBeachAccessible();
+		default:
+			break;
 		}
 		return false;
 	}
@@ -3414,7 +3416,7 @@ public abstract class KoLCharacter
 	 * Adds a single skill to the list of skills temporarily possessed by this character.
 	 */
 
-	public static final void addAvailableConditionalSkill( final UseSkillRequest skill )
+	private static final void addAvailableConditionalSkill( final UseSkillRequest skill )
 	{
 		if ( skill == null )
 		{
@@ -4761,7 +4763,7 @@ public abstract class KoLCharacter
 		}
 	}
 
-	public static final void ensureUpdatedSphereEffects()
+	private static final void ensureUpdatedSphereEffects()
 	{
 		int lastAscension = Preferences.getInteger( "lastStoneSphereReset" );
 		if ( lastAscension < KoLCharacter.getAscensions() )

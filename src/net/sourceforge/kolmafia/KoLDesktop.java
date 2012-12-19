@@ -84,7 +84,7 @@ public class KoLDesktop
 	private static KoLDesktop INSTANCE = null;
 	private static boolean isInitializing = false;
 
-	private final List tabListing = new ArrayList();
+	private final List<GenericFrame> tabListing = new ArrayList<GenericFrame>();
 
 	public JPanel compactPane;
 
@@ -94,7 +94,7 @@ public class KoLDesktop
 	public JLabel hpLabel, mpLabel, meatLabel, advLabel;
 	public JLabel familiarLabel;
 
-	public KoLDesktop( final String title )
+	private KoLDesktop( final String title )
 	{
 		super( StaticEntity.getVersion() + " Main Interface" );
 
@@ -153,13 +153,13 @@ public class KoLDesktop
 			return;
 		}
 
-		GenericFrame gframe = (GenericFrame) this.tabListing.remove( overTabIndex );
+		GenericFrame gframe = this.tabListing.remove( overTabIndex );
 		gframe.dispose();
 
 		this.tabs.removeTabAt( overTabIndex );
 	}
 
-	public void initializeTabs()
+	private void initializeTabs()
 	{
 		if ( KoLDesktop.isInitializing )
 		{
@@ -215,11 +215,11 @@ public class KoLDesktop
 			Preferences.setInteger( "desktopWidth", (int) tempDim.getWidth() );
 		}
 
-		Iterator tabIterator = this.tabListing.iterator();
+		Iterator<GenericFrame> tabIterator = this.tabListing.iterator();
 
 		while ( tabIterator.hasNext() )
 		{
-			GenericFrame gframe = (GenericFrame) tabIterator.next();
+			GenericFrame gframe = tabIterator.next();
 
 			gframe.dispose();
 
@@ -259,7 +259,7 @@ public class KoLDesktop
 		return KoLDesktop.INSTANCE;
 	}
 
-	public static final void addTab( final GenericFrame content )
+	static final void addTab( final GenericFrame content )
 	{
 		if ( KoLDesktop.INSTANCE == null )
 		{
@@ -283,7 +283,7 @@ public class KoLDesktop
 		}
 	}
 
-	public static final boolean isInversionExempt( final GenericFrame content )
+	private static final boolean isInversionExempt( final GenericFrame content )
 	{
 		return content instanceof AdventureFrame || content instanceof SendMessageFrame;
 	}
@@ -294,7 +294,7 @@ public class KoLDesktop
 		super.pack();
 	}
 
-	public static final boolean showComponent( final GenericFrame content )
+	static final boolean showComponent( final GenericFrame content )
 	{
 		if ( KoLDesktop.INSTANCE == null )
 		{
@@ -335,7 +335,7 @@ public class KoLDesktop
 		}
 	}
 
-	public static final void updateTitle()
+	static final void updateTitle()
 	{
 		if ( KoLDesktop.INSTANCE != null )
 		{
@@ -413,7 +413,7 @@ public class KoLDesktop
 		return toolbarPanel;
 	}
 
-	public static final void removeExtraTabs()
+	static final void removeExtraTabs()
 	{
 		if ( KoLDesktop.INSTANCE == null )
 		{
@@ -423,7 +423,7 @@ public class KoLDesktop
 		String setting = Preferences.getString( "initialDesktop" );
 		for ( int i = 0; i < KoLDesktop.INSTANCE.tabListing.size(); ++i )
 		{
-			GenericFrame frame = (GenericFrame) KoLDesktop.INSTANCE.tabListing.get( i );
+			GenericFrame frame = KoLDesktop.INSTANCE.tabListing.get( i );
 			if ( !( frame instanceof ChatFrame ) && setting.indexOf( frame.getFrameName() ) == -1 )
 			{
 				frame.dispose();

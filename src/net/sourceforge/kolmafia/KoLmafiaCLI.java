@@ -73,7 +73,7 @@ public class KoLmafiaCLI
 	private static final Pattern HEAD_PATTERN = Pattern.compile( "<head>.*?</head>", Pattern.DOTALL );
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 
-	private LinkedList queuedLines = new LinkedList();
+	private LinkedList<String> queuedLines = new LinkedList<String>();
 	private CommandRetrieverThread retriever = new CommandRetrieverThread();
 	private CommandProcessorThread processor = new CommandProcessorThread();
 
@@ -283,7 +283,7 @@ public class KoLmafiaCLI
 
 			synchronized ( KoLmafiaCLI.this.queuedLines )
 			{
-				line = (String) KoLmafiaCLI.this.queuedLines.removeFirst();
+				line = KoLmafiaCLI.this.queuedLines.removeFirst();
 			}
 		}
 
@@ -991,7 +991,7 @@ public class KoLmafiaCLI
 		return null;
 	}
 
-	public static String buildRelayScriptMenu()
+	static String buildRelayScriptMenu()
 	{
 		boolean any = false;
 		StringBuilder buf = new StringBuilder();

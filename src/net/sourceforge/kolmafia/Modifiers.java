@@ -1913,7 +1913,7 @@ public class Modifiers
 
 		for ( int i = Modifiers.passiveSkills.size() - 1; i >= 0; --i )
 		{
-			UseSkillRequest skill = (UseSkillRequest) Modifiers.passiveSkills.get( i );
+			UseSkillRequest skill = Modifiers.passiveSkills.get( i );
 			if ( KoLCharacter.hasSkill( skill ) )
 			{
 				String name = skill.getSkillName();

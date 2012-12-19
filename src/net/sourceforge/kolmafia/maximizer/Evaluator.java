@@ -65,7 +65,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Evaluator
 {
-	public boolean failed, exceeded;
+	public boolean failed;
+	boolean exceeded;
 	private Evaluator tiebreaker;
 	private double[] weight, min, max;
 	private double totalMin, totalMax;
@@ -77,13 +78,13 @@ public class Evaluator
 	private ArrayList<FamiliarData> familiars;
 
 	private int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
-	public String weaponType = null;
-	public int hands = 0;
-	public int melee = 0;	// +/-2 or higher: require, +/-1: disallow other type
-	public boolean requireShield = false;
-	public boolean noTiebreaker = false;
-	public HashSet<String> posOutfits, negOutfits;
-	public TreeSet<AdventureResult> posEquip, negEquip;
+	private String weaponType = null;
+	private int hands = 0;
+	int melee = 0;	// +/-2 or higher: require, +/-1: disallow other type
+	private boolean requireShield = false;
+	private boolean noTiebreaker = false;
+	private HashSet<String> posOutfits, negOutfits;
+	private TreeSet<AdventureResult> posEquip, negEquip;
 
 	private static final String TIEBREAKER = "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage";
 	private static final Pattern KEYWORD_PATTERN = Pattern.compile( "\\G\\s*(\\+|-|)([\\d.]*)\\s*(\"[^\"]+\"|(?:[^-+,0-9]|(?<! )[-+0-9])+),?\\s*" );
@@ -98,10 +99,10 @@ public class Evaluator
 	// possibility: all of your best weapons are 2-hand, but you've got
 	// a really good off-hand, better than any weapon.  There would
 	// otherwise be no suitable weapons to go with that off-hand.
-	public static final int OFFHAND_MELEE = EquipmentManager.ACCESSORY2;
-	public static final int OFFHAND_RANGED = EquipmentManager.ACCESSORY3;
-	public static final int WATCHES = EquipmentManager.STICKER2;
-	public static final int WEAPON_1H = EquipmentManager.STICKER3;
+	static final int OFFHAND_MELEE = EquipmentManager.ACCESSORY2;
+	static final int OFFHAND_RANGED = EquipmentManager.ACCESSORY3;
+	static final int WATCHES = EquipmentManager.STICKER2;
+	static final int WEAPON_1H = EquipmentManager.STICKER3;
 	// Slots starting with EquipmentManager.ALL_SLOTS are equipment
 	// for other familiars being considered.
 
@@ -118,7 +119,7 @@ public class Evaluator
 		}
 		for ( int i = 0; i < this.familiars.size(); ++i )
 		{
-			if ( ((FamiliarData) this.familiars.get( i )).getId() == id )
+			if ( this.familiars.get( i ).getId() == id )
 			{
 				return 1;
 			}
@@ -149,7 +150,7 @@ public class Evaluator
 		this.totalMax = Double.POSITIVE_INFINITY;
 	}
 
-	public Evaluator( String expr )
+	Evaluator( String expr )
 	{
 		this();
 		Evaluator tiebreaker = new Evaluator();
@@ -685,7 +686,7 @@ public class Evaluator
 		return score;
 	}
 
-	public void checkEquipment( Modifiers mods, AdventureResult[] equipment,
+	void checkEquipment( Modifiers mods, AdventureResult[] equipment,
 		int beeosity )
 	{
 		boolean outfitSatisfied = false;
@@ -693,10 +694,10 @@ public class Evaluator
 		if ( !this.failed && !this.posEquip.isEmpty() )
 		{
 			equipSatisfied = true;
-			Iterator i = this.posEquip.iterator();
+			Iterator<AdventureResult> i = this.posEquip.iterator();
 			while ( i.hasNext() )
 			{
-				AdventureResult item = (AdventureResult) i.next();
+				AdventureResult item = i.next();
 				if ( !KoLCharacter.hasEquipped( equipment, item ) )
 				{
 					equipSatisfied = false;
@@ -728,13 +729,13 @@ public class Evaluator
 		}
 	}
 
-	public double getTiebreaker( Modifiers mods )
+	double getTiebreaker( Modifiers mods )
 	{
 		if ( this.noTiebreaker ) return 0.0;
 		return this.tiebreaker.getScore( mods );
 	}
 
-	public int checkConstraints( Modifiers mods )
+	int checkConstraints( Modifiers mods )
 	{
 		// Return value:
 		//	-1: item violates a constraint, don't use it
@@ -747,7 +748,7 @@ public class Evaluator
 		return 0;
 	}
 
-	public void enumerateEquipment( int equipLevel, int maxPrice, int priceLevel )
+	void enumerateEquipment( int equipLevel, int maxPrice, int priceLevel )
 		throws MaximizerInterruptedException
 	{
 		// Items automatically considered regardless of their score -
@@ -871,7 +872,7 @@ public class Evaluator
 			}
 			for ( int f = this.familiars.size() - 1; f >= 0; --f )
 			{
-				FamiliarData fam = (FamiliarData) this.familiars.get( f );
+				FamiliarData fam = this.familiars.get( f );
 				if ( !fam.canEquip( preItem ) ) continue;
 				if ( item == null )
 				{
@@ -950,6 +951,9 @@ public class Evaluator
 								break;
 							case RANGED:
 								auxSlot = Evaluator.OFFHAND_RANGED;
+								break;
+							case NONE:
+							default:
 								break;
 							}
 						}
@@ -1112,7 +1116,7 @@ public class Evaluator
 				}
 				if ( slot >= EquipmentManager.ALL_SLOTS )
 				{
-					spec.setFamiliar( (FamiliarData) this.familiars.get(
+					spec.setFamiliar( this.familiars.get(
 						slot - EquipmentManager.ALL_SLOTS ) );
 					useSlot = EquipmentManager.FAMILIAR;
 				}
@@ -1219,10 +1223,10 @@ public class Evaluator
 			this.hands = 1;
 			automatic[ EquipmentManager.WEAPON ] = automatic[ Evaluator.WEAPON_1H ];
 
-			Iterator i = outfitPieces.keySet().iterator();
+			Iterator<AdventureResult> i = outfitPieces.keySet().iterator();
 			while ( i.hasNext() )
 			{
-				id = ((AdventureResult) i.next()).getItemId();
+				id = i.next().getItemId();
 				if ( EquipmentManager.itemIdToEquipmentType( id ) == EquipmentManager.WEAPON &&
 					EquipmentDatabase.getHands( id ) > 1 )
 				{
