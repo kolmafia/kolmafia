@@ -108,7 +108,7 @@ public class CustomCombatPanel
 
 	private static ImageIcon stealImg, entangleImg;
 	private static ImageIcon potionImg, sphereImg, olfactImg, puttyImg;
-	private static ImageIcon antidoteImg, restoreImg;
+	private static ImageIcon antidoteImg, restoreImg, safeImg;
 	static
 	{
 		CustomCombatPanel.stealImg = CustomCombatPanel.getImage( "knobsack.gif" );
@@ -119,6 +119,7 @@ public class CustomCombatPanel
 		CustomCombatPanel.puttyImg = CustomCombatPanel.getImage( "sputtycopy.gif" );
 		CustomCombatPanel.antidoteImg = CustomCombatPanel.getImage( "poisoncup.gif" );
 		CustomCombatPanel.restoreImg = CustomCombatPanel.getImage( "mp.gif" );
+		CustomCombatPanel.safeImg = CustomCombatPanel.getImage( "cast.gif" );
 	}
 
 	public CustomCombatPanel()
@@ -222,7 +223,7 @@ public class CustomCombatPanel
 
 		private final JLabel stealLabel, entangleLabel;
 		private final JLabel potionLabel, sphereLabel, olfactLabel, puttyLabel;
-		private final JLabel antidoteLabel, restoreLabel;
+		private final JLabel antidoteLabel, restoreLabel, safeLabel;
 
 		private final JCheckBoxMenuItem stealItem, entangleItem;
 		private final JCheckBoxMenuItem potionItem, sphereItem, olfactItem, puttyItem;
@@ -271,6 +272,10 @@ public class CustomCombatPanel
 			this.restoreLabel =
 				this.label(
 					special, listener, CustomCombatPanel.restoreImg, "MP restores will be used in combat if needed." );
+			this.safeLabel =
+				this.label(
+					special, listener, CustomCombatPanel.safeImg,
+					"Pickpocketing will be skipped when there are no useful results or it is too dangerous." );
 
 			this.specialPopup = new JPopupMenu( "Special Actions" );
 			this.stealItem = this.checkbox( this.specialPopup, listener, "Pickpocket before simple actions" );
@@ -371,6 +376,7 @@ public class CustomCombatPanel
 			this.restoreLabel.setVisible( pref );
 			this.restoreItem.setSelected( pref );
 			pref = Preferences.getBoolean( "safePickpocket" );
+			this.safeLabel.setVisible( pref );
 			this.safePickpocket.setSelected( pref );
 
 			this.updating = false;
