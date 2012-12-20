@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
@@ -148,6 +149,12 @@ public class MonsterStatusTracker
 
 	public static final boolean shouldSteal()
 	{
+		// If the user doesn't want smart pickpocket behavior, don't give it
+		if ( !Preferences.getBoolean( "safePickpocket" ) )
+		{
+			return true;
+		}
+
 		if ( MonsterStatusTracker.monsterData == null )
 		{
 			return true;
