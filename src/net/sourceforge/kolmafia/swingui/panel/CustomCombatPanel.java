@@ -226,7 +226,7 @@ public class CustomCombatPanel
 
 		private final JCheckBoxMenuItem stealItem, entangleItem;
 		private final JCheckBoxMenuItem potionItem, sphereItem, olfactItem, puttyItem;
-		private final JCheckBoxMenuItem restoreItem;
+		private final JCheckBoxMenuItem restoreItem, safePickpocket;
 		private final JMenu poisonItem;
 		private boolean updating = true;
 
@@ -295,6 +295,7 @@ public class CustomCombatPanel
 			this.poison( this.poisonItem, group, listener, "Hardly Poisoned at All (-10%, -3)" );
 			this.specialPopup.add( this.poisonItem );
 			this.restoreItem = this.checkbox( this.specialPopup, listener, "Restore MP in combat" );
+			this.safePickpocket = this.checkbox( this.specialPopup, listener, "Skip pickpocketing when no useful results or too dangerous" );
 
 			VerifiableElement[] elements = new VerifiableElement[ 2 ];
 			elements[ 0 ] = new VerifiableElement( "Action:  ", CustomCombatPanel.this.actionSelect );
@@ -312,6 +313,7 @@ public class CustomCombatPanel
 			PreferenceListenerRegistry.registerListener( "autoPotionID", this );
 			PreferenceListenerRegistry.registerListener( "autoAntidote", this );
 			PreferenceListenerRegistry.registerListener( "autoManaRestore", this );
+			PreferenceListenerRegistry.registerListener( "safePickpocket", this );
 			PreferenceListenerRegistry.registerListener( "(skill)", this );
 
 			this.update();
@@ -502,6 +504,10 @@ public class CustomCombatPanel
 				else if ( source == SpecialActionsPanel.this.restoreItem )
 				{
 					Preferences.setBoolean( "autoManaRestore", state );
+				}
+				else if ( source == SpecialActionsPanel.this.safePickpocket )
+				{
+					Preferences.setBoolean( "safePickpocket" , state );
 				}
 				else if ( source instanceof JRadioButtonMenuItem )
 				{

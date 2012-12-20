@@ -660,6 +660,7 @@ user	rememberDesktopSize	false
 user	requireBoxServants	false
 user	requireSewerTestItems	false
 user	romanticTarget
+user	safePickpocket	true
 user	scriptMRULength	0
 user	scriptMRUList
 user	seaodesFound	0
