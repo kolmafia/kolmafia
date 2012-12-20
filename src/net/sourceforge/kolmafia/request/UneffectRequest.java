@@ -234,16 +234,6 @@ public class UneffectRequest
 		case EffectPool.EVERYTHING_LOOKS_YELLOW_ID:
 		case EffectPool.EVERYTHING_LOOKS_BLUE_ID:
 		case EffectPool.EVERYTHING_LOOKS_RED_ID:
-		case EffectPool.TIMER1_ID:
-		case EffectPool.TIMER2_ID:
-		case EffectPool.TIMER3_ID:
-		case EffectPool.TIMER4_ID:
-		case EffectPool.TIMER5_ID:
-		case EffectPool.TIMER6_ID:
-		case EffectPool.TIMER7_ID:
-		case EffectPool.TIMER8_ID:
-		case EffectPool.TIMER9_ID:
-		case EffectPool.TIMER10_ID:
 			return false;
 		default:
 			return true;
