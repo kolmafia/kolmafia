@@ -331,6 +331,8 @@ public class LoginFrame
 				return;
 			}
 
+			this.setEnabled( false );
+
 			Preferences.setBoolean(
 				username, "getBreakfast", this.getBreakfastCheckBox.isSelected() );
 
