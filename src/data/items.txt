@@ -5944,7 +5944,7 @@
 5927	BittyCar HotCar	537171372	bittycar.gif	reusable	t	0
 5928	brainwave-controlled unicorn horn	298286476	unihorn.gif	hat	t	0
 5929	bubble-wrap simulator	209664307	bubblewrap4.gif	usable	t,d	25
-5930	blind-packed capsule toy	923647793	toycapsure.gif	usable	t	0
+5930	blind-packed capsule toy	923647793	toycapsure.gif	multiple	t	0
 5931	tiny plastic four-shadowed mime	143366587	tp3_1.gif	accessory	t	0
 5932	tiny plastic Bugbear Captain	254592704	tp3_2.gif	accessory	t	0
 5933	tiny plastic Rene C. Corman	764358197	tp3_3.gif	accessory	t	0
@@ -5956,7 +5956,7 @@
 5939	tiny plastic Battlesuit Bugbear Type	893403193	tp3_9.gif	accessory	t,d	30
 5940	tiny plastic spiderbugbear	387376714	tp3_10.gif	accessory	t,d	30
 5941	tiny plastic peacannon	683226461	tp3_11.gif	accessory	t,d	30
-5942	tiny plastic the Free Man	371437922	tp3_12.gif	accessory	t,d	30
+5942	tiny plastic the Free Man	371437922	tp3_12.gif	accessory	t,d	30	tiny plastic the Free Men
 5943	tiny plastic fire servant	841273852	tp3_13.gif	accessory	t,d	30
 5944	tiny plastic mumblebee	253932386	tp3_14.gif	accessory	t,d	10
 5945	tiny plastic moneybee	881504618	tp3_15.gif	accessory	t,d	10
@@ -5970,10 +5970,10 @@
 5953	tiny plastic black ops bugbear	196982012	tp3_23.gif	accessory	t,d	10
 5954	tiny plastic hypodermic bugbear	447829450	tp3_24.gif	accessory	t,d	10
 5955	tiny plastic cavebugbear	393209755	tp3_25.gif	accessory	t,d	10
-5956	tiny plastic Norville Rogers	641207768	tp3_26.gif	accessory	t,d	10
+5956	tiny plastic Norville Rogers	641207768	tp3_26.gif	accessory	t,d	10	tiny plastic statues of Norville Rogers
 5957	tiny plastic Scott the Miner	514391285	tp3_27.gif	accessory	t,d	10
 5958	tiny plastic angry space marine	527580784	tp3_28.gif	accessory	t,d	10
-5959	tiny plastic Charity the Zombie Hunter	274804483	tp3_29.gif	accessory	t,d	10
+5959	tiny plastic Charity the Zombie Hunter	274804483	tp3_29.gif	accessory	t,d	10	tiny plastic Charities the Zombie Hunters
 5960	tiny plastic Father McGruber	791972234	tp3_30.gif	accessory	t,d	10
 5961	tiny plastic Hank North, Photojournalist	561734117	tp3_31.gif	accessory	t,d	10
 5962	tiny plastic blazing bat	347137066	tp3_32.gif	accessory	t,d	10
