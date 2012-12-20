@@ -370,6 +370,8 @@ public class CustomCombatPanel
 			pref = Preferences.getBoolean( "autoManaRestore" );
 			this.restoreLabel.setVisible( pref );
 			this.restoreItem.setSelected( pref );
+			pref = Preferences.getBoolean( "safePickpocket" );
+			this.safePickpocket.setSelected( pref );
 
 			this.updating = false;
 		}
