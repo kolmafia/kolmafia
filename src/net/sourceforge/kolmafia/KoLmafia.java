@@ -747,6 +747,11 @@ public abstract class KoLmafia
 
 	public static final void resetCounters()
 	{
+		KoLmafia.resetCounters( true );
+	}
+
+	private static final void resetCounters( boolean resetStomach )
+	{
 		Preferences.setInteger( "lastCounterDay", HolidayDatabase.getPhaseStep() );
 
 		Preferences.setString( "barrelLayout", "?????????" );
@@ -756,9 +761,7 @@ public abstract class KoLmafia
 		Preferences.setInteger( "burrowgrubSummonsRemaining", 0 );
 		Preferences.setInteger( "cocktailSummons", 0 );
 		Preferences.setBoolean( "concertVisited", false );
-		Preferences.setInteger( "currentFullness", 0 );
 		Preferences.setInteger( "currentMojoFilters", 0 );
-		Preferences.setInteger( "currentSpleenUse", 0 );
 		Preferences.setString( "currentPvpVictories", "" );
 		Preferences.setBoolean( "dailyDungeonDone", false );
 		Preferences.setBoolean( "demonSummoned", false );
@@ -788,6 +791,13 @@ public abstract class KoLmafia
 		Preferences.setInteger( "tempuraSummons", 0 );
 		Preferences.setInteger( "timesRested", 0 );
 		Preferences.setInteger( "tomeSummons", 0 );
+		
+		// If this is called from a place that hits API.php first, these values will be up-to-date; don't touch
+		if ( resetStomach )
+		{
+			Preferences.setInteger( "currentFullness", 0 );
+			Preferences.setInteger( "currentSpleenUse", 0 );
+		}
 
 		Preferences.resetDailies();
 		ConsequenceManager.updateOneDesc();
@@ -836,9 +846,8 @@ public abstract class KoLmafia
 
 		if ( shouldResetCounters )
 		{
-			KoLmafia.resetCounters();
+			KoLmafia.resetCounters( false );
 		}
-
 	}
 
 	private static void refreshSessionData()
