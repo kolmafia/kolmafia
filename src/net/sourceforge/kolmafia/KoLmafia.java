@@ -807,8 +807,6 @@ public abstract class KoLmafia
 
 	public static void refreshSession()
 	{
-		KoLmafia.refreshSessionData();
-
 		// Check to see if you need to reset the counters.
 
 		boolean shouldResetCounters = false;
@@ -838,6 +836,9 @@ public abstract class KoLmafia
 		{
 			KoLmafia.resetCounters();
 		}
+
+		// Refresh session data after resetting counters, since things (eating, spleening) may have been done outside of Mafia that an API hit can detect.
+		KoLmafia.refreshSessionData();
 	}
 
 	private static void refreshSessionData()
