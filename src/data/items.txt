@@ -5932,10 +5932,10 @@
 5915	beet-flavored Mr. Mediocrebar	915881788	mediocrebar.gif	usable	t	0
 5916	sweet-corn-flavored Mr. Mediocrebar	515529477	mediocrebar.gif	usable	t	0
 5917	cabbage-flavored Mr. Mediocrebar	836567876	mediocrebar.gif	usable	t	0
-5918	
-5919	
-5920	
-5921	
+5918	tiny plastic animelf	148154716	tpanimelf.gif	accessory	t	
+5919	tiny plastic ChibiBuddy&trade;	688886171	tpchibi.gif	accessory	t	0
+5920	tiny plastic taco-clad Crimbo elf	410361248	tptacoelf.gif	accessory	t	0
+5921	tiny plastic Uncle Crimboku	858700685	tpcrimboku.gif	accessory	t	0
 5922	
 5923	plastic ingot	474225680	plasticbit.gif	none	t,d	1
 5924	electrical thingamabob	658585635	elecbit.gif	none	t,d	1
