@@ -1810,6 +1810,7 @@ tiny plastic Bugbear Captain	0	Mys: 10
 tiny plastic CRIMBCO HQ	0	none
 tiny plastic Charity the Zombie Hunter	0	none
 tiny plastic Cheshire bat	10	none
+tiny plastic ChibiBuddy&trade;	0	none
 tiny plastic Clancy the Minstrel	0	none
 tiny plastic Crimbo Casino	0	none
 tiny plastic Crimbo elf	10	none
@@ -1855,6 +1856,7 @@ tiny plastic The Big Wisniewski	30	none
 tiny plastic The Man	30	none
 tiny plastic Trouser Snake	10	none
 tiny plastic Uncle Crimbo	20	none
+tiny plastic Uncle Crimboku	0	none
 tiny plastic Wu Tang the Betrayer	0	none
 tiny plastic XXX pr0n	10	none
 tiny plastic abominable fudgeman	0	none
@@ -1864,6 +1866,7 @@ tiny plastic angry bugbear	10	none
 tiny plastic angry goat	10	none
 tiny plastic angry space marine	0	none
 tiny plastic anime smiley	10	none
+tiny plastic animelf	0	none
 tiny plastic apathetic lizardman	10	none
 tiny plastic astronomer	10	none
 tiny plastic baby gravy fairy	10	none
@@ -1942,6 +1945,7 @@ tiny plastic stocking mimic	0	none
 tiny plastic strand of DNA	0	none
 tiny plastic sweet nutcracker	10	none
 tiny plastic taco cat	10	none
+tiny plastic taco-clad Crimbo elf	0	none
 tiny plastic the Free Man	0	none
 tiny plastic topiary golem	10	none
 tiny plastic trollipop	0	none

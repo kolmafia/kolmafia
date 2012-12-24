@@ -2035,6 +2035,7 @@ tiny plastic Bugbear Captain	Maximum HP: +20, Maximum MP: +20, HP Regen Min: 2, 
 tiny plastic CRIMBCO HQ	Item Drop: +4
 tiny plastic Charity the Zombie Hunter	Monster Level: +1
 tiny plastic Cheshire bat	Familiar Weight: +1
+tiny plastic ChibiBuddy&trade;	Familiar Weight: +2
 tiny plastic Clancy the Minstrel	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
 tiny plastic Crimbo Casino	Meat Drop: +4
 tiny plastic Crimbo elf	Familiar Weight: +1
@@ -2080,6 +2081,7 @@ tiny plastic The Big Wisniewski	Food Drop: +3
 tiny plastic The Man	Meat Drop: +3
 tiny plastic Trouser Snake	Monster Level: +1
 tiny plastic Uncle Crimbo	Muscle: +1, Mysticality: +1, Moxie: +1
+tiny plastic Uncle Crimboku Meat Drop: +5
 tiny plastic Wu Tang the Betrayer	Weapon Damage: +5
 tiny plastic XXX pr0n	Monster Level: +1
 tiny plastic abominable fudgeman	Weapon Damage: +10
@@ -2089,6 +2091,7 @@ tiny plastic angry bugbear	Monster Level: +1
 tiny plastic angry goat	Familiar Weight: +1
 tiny plastic angry space marine	Monster Level: +1
 tiny plastic anime smiley	Monster Level: +1
+tiny plastic animelf	Initiative: +5
 tiny plastic apathetic lizardman	Monster Level: +1
 tiny plastic astronomer	Monster Level: +1
 tiny plastic baby gravy fairy	Familiar Weight: +1
@@ -2167,6 +2170,7 @@ tiny plastic stocking mimic	Candy Drop: +10
 tiny plastic strand of DNA	Muscle: +3, Mysticality: +3, Moxie: +3
 tiny plastic sweet nutcracker	Familiar Weight: +1
 tiny plastic taco cat	Monster Level: +1
+tiny plastic taco-clad Crimbo elf	Muscle: +1, Mysticality: +1, Moxie: +1
 tiny plastic the Free Man	Mysticality: +5
 tiny plastic topiary golem	Monster Level: +1
 tiny plastic trollipop	Monster Level: +5
