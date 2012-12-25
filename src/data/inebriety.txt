@@ -97,6 +97,8 @@ crimbco extreme braincracker sour	5	1		12-13	0	0	0	lose 30% boredom
 crimbco ribbon candy schnapps	3	1		4-5	0	0	0	lose 10% boredom
 crimbco wine	3	1	decent	4-8	10-20	10-20	10-20
 crimbojito	2	2	EPIC	10-13	10-20	25-50	10-20
+crimboku drop	4	1	decent	6-10	0	0	0
+crimbo saketini	3	1	decent	3-6	0	0	0
 cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg)
 crystal skeleton vodka	3	3	EPIC	15-17	15-35	15-35	15-35	20 Aykrophobia (+25% item drop, +spooky dmg, +15 ML)
 csa cheerfulness ration	1	6	awesome	4	40-50	40-50	40-50
@@ -153,6 +155,7 @@ fermented honey	3	1		3-6	5-6	5-6	5-6	10 Sugar Rush
 fine wine	1	1	decent	2	0	0	3-5
 firewater	2	1	good	4-5	0	10-20	0	5 Elemental Mastery
 flaming caipiranha	2	8	awesome	8-9	15-20	15-20	15-20	15 Fishy
+flaming crimbo log	5	1	good	10-15	0	0	0
 flaming knob	2	8	awesome	8-9	0	0	30-40	15 Gutterminded
 flaming mohobo	2	8	awesome	8-9	15-20	15-20	15-20	15 Mo' Hobo
 flaming mushroom wine	3	6	awesome	10-14	12-15	0	0
