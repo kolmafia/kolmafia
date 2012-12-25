@@ -5936,7 +5936,7 @@
 5919	tiny plastic ChibiBuddy&trade;	688886171	tpchibi.gif	accessory	t	0
 5920	tiny plastic taco-clad Crimbo elf	410361248	tptacoelf.gif	accessory	t	0
 5921	tiny plastic Uncle Crimboku	858700685	tpcrimboku.gif	accessory	t	0
-5922	
+5922	tiny plastic MechaElf	885310660	tpmechaelf.gif	accessory	t	0
 5923	plastic ingot	474225680	plasticbit.gif	none	t,d	1
 5924	electrical thingamabob	658585635	elecbit.gif	none	t,d	1
 5925	ChibiBuddy&trade; (off)	682477216	chibibuddy.gif	usable	t	0
@@ -6072,12 +6072,12 @@
 6055
 6056
 6057
-6058
-6059
-6060
-6061
-6062
-6063
+6058	Crimbo Elf creepy bobble-head	359431553	elfbobble.gif	offhand, usable		0
+6059	Crimbo stogie-scented room odorizer	221399329	offhandcigar.gif	offhand, usable		0
+6060	Crimbo bottomless hot cocoa mug	384081308	cocoamug.gif	offhand, usable		0
+6061	Crimbo tree flocker	981551400	flocker.gif	offhand, usable		0
+6062	Crimbo light-up Rudolph doll	239748761	rudolphdoll.gif	offhand, usable		0
+6063	Super Crimboman Ultra Mega Hypersword	370229730	voltronsword.gif	weapon, usable	t	0
 6064
 6065
 6066

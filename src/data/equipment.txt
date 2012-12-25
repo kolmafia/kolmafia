@@ -598,6 +598,7 @@ Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
 Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
 Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
 Staff of the Woodfire	10	Mys: 150	1-handed chefstaff
+Super Crimboman Ultra Mega Hypersword	100	Mus: 35	2-handed
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
 Tales of the Word Realms	0	Mus: 0	2-handed book
 The Landscaper's leafblower	100	Mox: 35	2-handed leafblower
@@ -1035,6 +1036,11 @@ Chalice of the Malkovich Prince	0	none
 Cloaca-Cola shield	70	none	shield
 Codex of Capsaicin Conjuration	30	none
 Cookbook of the Damned	30	none
+Crimbo Elf creepy bobble-head	0	none
+Crimbo bottomless hot cocoa mug	0	none
+Crimbo light-up Rudolph doll	0	none
+Crimbo stogie-scented room odorizer	0	none
+Crimbo tree flocker	0	none
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
 Dungeon Fist gauntlet	100	Mus: 35
 Dyspepsi-Cola shield	70	none	shield
@@ -1838,6 +1844,7 @@ tiny plastic Knob Goblin mad scientist	10	none
 tiny plastic Knott Yeti	10	none
 tiny plastic Lord Flameface	0	Mys: 10
 tiny plastic Lord Spookyraven	50	Mys: 10
+tiny plastic MechaElf	0	none
 tiny plastic Mob Penguin	0	none
 tiny plastic Mr. Mination	0	none
 tiny plastic Naughty Sorceress	100	Mys: 35

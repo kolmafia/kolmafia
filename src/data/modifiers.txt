@@ -690,6 +690,7 @@ Staff of the Teapot Tempest	Spell Damage Percent: +25, Mysticality: +5, MP Regen
 Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
 Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
+Super Crimboman Ultra Mega Hypersword	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical Hit Percent: 5
 # Tales of the Word Realms: Lends Power to Your Words
 The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
@@ -1156,6 +1157,11 @@ Cloaca-Cola shield	Mysticality: +1, Damage Reduction: 4
 Codex of Capsaicin Conjuration	Spell Damage: +10
 # Cookbook of the Damned: All Spells Cast Are Stinky
 Cookbook of the Damned	Spell Damage: +10
+Crimbo Elf creepy bobble-head	Spooky Damage: +10
+Crimbo bottomless hot cocoa mug	Hot Spell Damage: +10
+Crimbo light-up Rudolph doll	Sleaze Damage: +10
+Crimbo stogie-scented room odorizer	Stench Spell Damage: +10
+Crimbo tree flocker	Cold Damage: +10
 Dallas Dynasty Falcon Crest shield	Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Damage Reduction: 15
 Dungeon Fist gauntlet	Weapon Damage: +25, Combat Rate: +5, Food Drop: -100
 Dyspepsi-Cola shield	Mysticality: +1, Damage Reduction: 4
@@ -2063,6 +2069,7 @@ tiny plastic Knob Goblin mad scientist	Monster Level: +1
 tiny plastic Knott Yeti	Monster Level: +1
 tiny plastic Lord Flameface	Hot Damage: +20, Cold Resistance: +1
 tiny plastic Lord Spookyraven	Maximum MP: +30, Spell Damage: +10
+tiny plastic MechaElf	Monster Level: +4
 tiny plastic Mob Penguin	Weapon Damage: +3
 tiny plastic Mr. Mination	Monster Level: +4
 tiny plastic Naughty Sorceress	Spell Damage Percent: +100, Maximum MP: +100

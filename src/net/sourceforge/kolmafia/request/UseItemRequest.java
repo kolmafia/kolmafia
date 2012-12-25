@@ -4211,6 +4211,24 @@ public class UseItemRequest
 			Preferences.setBoolean( "_tacoFlierUsed", true );
 			return;
 
+		case ItemPool.CRIMBO_CREEPY_HEAD:
+		case ItemPool.CRIMBO_STOOGIE_ODORIZER:
+		case ItemPool.CRIMBO_HOT_MUG:
+		case ItemPool.CRIMBO_TREE_FLOCKER:
+		case ItemPool.CRIMBO_RUDOLPH_DOLL:
+			// Instead of checking which one was used and removing the others,
+			// add the one that was used and remove one of each.
+
+			// removeItem doesn't work since you can have more than one set.
+
+			ResultProcessor.processResult( item );
+			ResultProcessor.processItem( ItemPool.CRIMBO_CREEPY_HEAD, -1 );
+			ResultProcessor.processItem( ItemPool.CRIMBO_STOOGIE_ODORIZER, -1 );
+			ResultProcessor.processItem( ItemPool.CRIMBO_HOT_MUG, -1 );
+			ResultProcessor.processItem( ItemPool.CRIMBO_TREE_FLOCKER, -1 );
+			ResultProcessor.processItem( ItemPool.CRIMBO_RUDOLPH_DOLL, -1 );
+			return;
+
 		}
 	}
 
