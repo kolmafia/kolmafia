@@ -115,6 +115,7 @@ cool mushroom casserole	4	1	decent	4-12	0	35-40	0
 corned-beef Reuben	3	9	awesome	12-13	28-34	0	0
 cranberries	1	1	crappy	1	0	0	0
 crappy brain	1	1	crappy	1	1	1	1
+crazy dragon shogun buddha roll	5	1	good	10-15	0	0	0
 crazy little turkish delight	1	2	decent	1-3	0	30-40	0
 cream of pointy mushroom soup	2	1	decent	2-5	0	0	35-40	lose 3 HP
 creamsicle	1	3	good	1-4	8-10	8-10	8-10
@@ -386,6 +387,7 @@ quantum taco	0	1		0	0	0	0	random food
 queen cookie	1	13	EPIC	4-6	20-40	20-40	20-40	30 Towering Strength, Mitre Cut, Knightlife, The Royal We
 questionable taco	3	1	decent	4-5	0	0	0	lovecat tail
 radio button candy	1	8	EPIC	2-9	30-50	33-49	30-50
+rainbow spider fun roll	4	1	decent	6-10	0	0	0	3-5 plastic ingots
 raisin	1	1	crappy	1	0	0	0
 raspberry	1	2	decent	2	0	0	0
 rat appendix chow mein	5	7	awesome	21-28	0	0	70-75
@@ -539,6 +541,7 @@ urinal cake	2	1	crappy	2	0	0	0
 valentine's day cake	3	1	crappy	3	0	0	0
 vampire cake	5	1		9-16	9-10	9-10	9-10	10 Sugar Rush
 vanilla-frosted king cake	3	1	crappy	3	0	0	0	pink plastic baby
+vegas volcano lava roll	4	1	decent	6-10	0	0	0	3-5 electrical thingamabobs
 vinegar-soaked lemon slice	1	2	decent	2	15-20	15-20	15-20
 walrus ice cream	2	5	good	4-8	37-38	0	0
 warm mushroom	2	1	decent	2-3	12-14	0	0

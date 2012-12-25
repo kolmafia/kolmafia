@@ -47,39 +47,39 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CrimboCafeRequest
 	extends CafeRequest
 {
-	public static final boolean AVAILABLE = false;
-	public static final String CAFEID = "8";
+	public static final boolean AVAILABLE = true;
+	public static final String CAFEID = "9";
 	public static final Object[][] MENU_DATA =
 	{
 		// Item, itemID, price
 		{
-			"Brussels Sprout Stir-Fry",
-			IntegerPool.get( -79 ),
-			IntegerPool.get( 50 ),
-		},
-		{
-			"Carrot, Cabbage, and Kale Pizza",
-			IntegerPool.get( -80 ),
+			"Rainbow Spider Fun Roll",
+			IntegerPool.get( -85 ),
 			IntegerPool.get( 75 ),
 		},
 		{
-			"Turnip and Rutabaga Pie",
-			IntegerPool.get( -81 ),
+			"Vegas Volcano Lava Roll",
+			IntegerPool.get( -86 ),
+			IntegerPool.get( 75 ),
+		},
+		{
+			"Crazy Dragon Shogun Buddha Roll",
+			IntegerPool.get( -87 ),
 			IntegerPool.get( 100 ),
 		},
 		{
-			"Desert Island Iced Tea",
-			IntegerPool.get( -84 ),
-			IntegerPool.get( 100 ),
+			"Crimbo Saketini",
+			IntegerPool.get( -88 ),
+			IntegerPool.get( 50 ),
 		},
 		{
-			"Jerkitini",
-			IntegerPool.get( -83 ),
-			IntegerPool.get( 100 ),
+			"Crimboku Drop",
+			IntegerPool.get( -89 ),
+			IntegerPool.get( 75 ),
 		},
 		{
-			"Horseradish-infused Vodka",
-			IntegerPool.get( -82 ),
+			"Flaming Crimbo Log",
+			IntegerPool.get( -90 ),
 			IntegerPool.get( 100 ),
 		},
 	};
