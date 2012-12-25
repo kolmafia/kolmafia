@@ -1532,6 +1532,11 @@ public class ItemPool
 	public static final int MISTY_CAPE = 6049;
 	public static final int	TACO_FLIER = 6051;
 	public static final int GEEKY_BOOK = 6071;
+	public static final int CRIMBO_CREEPY_HEAD = 6058;
+	public static final int CRIMBO_STOOGIE_ODORIZER = 6059;
+	public static final int CRIMBO_HOT_MUG = 6060;
+	public static final int CRIMBO_TREE_FLOCKER = 6061;
+	public static final int CRIMBO_RUDOLPH_DOLL = 6062;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
