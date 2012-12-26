@@ -1858,6 +1858,8 @@ papier-m&acirc;ch&eacute; handle	MUSE	papier-m&acirc;ch&eacute; glob (37)
 papier-m&acirc;ch&eacute; base	MUSE	papier-m&acirc;ch&eacute; glob (69)
 papier-m&acirc;ch&eacute; bowl	MUSE	papier-m&acirc;ch&eacute; glob (111)
 
+papier-m&acirc;ch&eacute; trophy pi&ntilde;ata	SUSE	papier-m&acirc;ch&eacute; bowl	papier-m&acirc;ch&eacute; plaque	papier-m&acirc;ch&eacute; handle (2)	papier-m&acirc;ch&eacute; base
+
 # Skeleton recipes
 skeleton quiche	MUSE	skeleton (3)
 skeletal scabbard	MUSE	skeleton (4)
