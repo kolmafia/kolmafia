@@ -2856,6 +2856,7 @@ Chapped Legs	Muscle: -4, Moxie: +8
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
 # Chef Brains-are-dee: Makes you look like a zombie chef
+ChibiChanged&trade;	Muscle Percent: [min(5*T,200)], Mysticality Percent: [min(5*T,200)], Moxie Percent: [min(5*T,200)], Familiar Weight: +5
 Chihuahua Underfoot	Monster Level: +20
 Chilblains of the Corn	Spooky Damage: +5
 Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3

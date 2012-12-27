@@ -1160,3 +1160,9 @@
 1159	Meaty and Cheesy	taco.gif	98a313b442aef4f5e0a0b93c7f5d79d4	eat 1 Taco Dan's Taco Stand Taco
 1160	Margaritish	daquiri.gif	a9d3c21e76c58eddbd7f33283e6ac3c5	drink 1 Taco Dan's Taco Stand Chimichangarita
 1161	Churro Chiaroscuro blintz.gif	5d5583050168f43d91bc251d36f7ace7	use 1 Taco Dan's Taco Stand's Chillacious Churro
+1162
+1163
+1164
+1165
+1166
+1167	ChibiChanged&trade;	chibibuddy.gif	b1db2ea88d890164d84d76258cffd9dc
