@@ -1825,7 +1825,7 @@ glowing red eye	Spooky Resistance: +2
 gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
 # gold wedding ring: 75% Chance of Preventing Negative Status Attacks
-gold wedding ring	Adventures: +1
+gold wedding ring	Adventures: +1, Single Equip
 gray bow tie	Moxie: +1, Spooky Resistance: +1
 green glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 # groovy prism necklace: Deals a rainbow of damage to attackers
