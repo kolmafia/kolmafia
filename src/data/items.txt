@@ -5922,7 +5922,7 @@
 5905	
 5906	
 5907	
-5908	
+5908	ChibiBuddy&trade; (on)	413382594	chibibuddy.gif	reusable		0	ChibiBuddies&trade; (on)
 5909	gold wedding ring	139779467	weddingring.gif	accessory	d	11000
 5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0	boxes of deactivated nanobots
 5911	nanorhino credit card	776155074	littlecard.gif	familiar	t,d	75
@@ -6117,3 +6117,12 @@
 6100	pile of useless robot parts	170664076	elecparts.gif	usable	d	5
 6101	homemade robot	271396619	builtbot.gif	grow		0
 6102	homemade robot gear	325469658	sprocket.gif	familiar	t,d	75
+6103
+6104
+6105
+6106
+6107
+6108
+6109	bubble-wrap simulator (one broken button)	576332142	bubblewrap3.gif	usable	t,d	25	bubble-wrap simulators (one broken button)
+6110	bubble-wrap simulator (half broken)	339492599	bubblewrap2.gif	usable	t,d	25	bubble-wrap simulators (half broken)
+6111	bubble-wrap simulator (one button left)	465240155	bubblewrap1.gif	usable	t,d	25	bubble-wrap simulators (one button left)
