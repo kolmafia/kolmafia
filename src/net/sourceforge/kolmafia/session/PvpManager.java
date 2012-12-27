@@ -85,7 +85,7 @@ public class PvpManager
 		return PvpManager.MOXIE_STANCE;
 	}
 
-	public static void executePvpRequest( final int attacks, final String mission, int initialStance )
+	public static void executePvpRequest( final int attacks, final String mission, final int initialStance )
 	{
 		PvpManager.checkHippyStone();
 		if ( KoLmafia.refusesContinue() )
@@ -104,6 +104,12 @@ public class PvpManager
 			// Execute the beforePVPScript to change equipment, get
 			// buffs, whatever.
 			KoLmafia.executeBeforePVPScript();
+
+			// If the beforePVPScript aborts, stop before initiating a fight
+			if ( KoLmafia.refusesContinue() )
+			{
+				break;
+			}
 
 			// If he wants us to use the "best" stance, choose it
 			// now, since the beforePVPScript can change it
