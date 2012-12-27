@@ -1385,7 +1385,7 @@ Elvish sunglasses	0	none
 Emblem of Ak'gyxoth	0	Mys: 30
 French slippers	10	none
 Frosty's carrot	200	Mus: 200
-Frown Exerciser	10	none
+Frown Exerciser	10	Mys: 30
 Gaia beads	175	Mys: 72
 Garter of the Turtle Poacher	150	Mus: 45
 Golden Mr. Accessory	0	none
