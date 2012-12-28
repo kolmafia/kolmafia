@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -225,6 +226,10 @@ public class ArcadeRequest
 
 		if ( action != null )
 		{
+			if ( Preferences.getInteger( "lastArcadeAscension" ) != KoLCharacter.getAscensions() )
+			{
+				RequestThread.postRequest( new GenericRequest( "town_wrong.php") );
+			}
 			if ( TicketCounterRequest.registerRequest( urlString ) )
 			{
 				return true;
