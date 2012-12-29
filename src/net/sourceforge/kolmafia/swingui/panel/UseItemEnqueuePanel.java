@@ -353,6 +353,8 @@ public class UseItemEnqueuePanel
 				return;
 			}
 
+			UseItemEnqueuePanel.this.setEnabled( false );
+
 			Object [] items = UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
 
 			if ( items == null )
