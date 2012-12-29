@@ -2033,3 +2033,10 @@ BittyCar HotCar	CRIMBO12	plastic ingot(100)	electrical thingamabob(150)
 BittyCar SoulCar	CRIMBO12	plastic ingot(200)	electrical thingamabob(300)
 BittyCar MeatCar	CRIMBO12	plastic ingot(400)	electrical thingamabob(600)
 ChibiBuddy&trade; (off)	CRIMBO12	plastic ingot(1100)	electrical thingamabob(1400)
+
+Super Crimboman Ultra Mega Hypersword	SUSE	Crimbo Elf creepy bobble-head	Crimbo stogie-scented room odorizer	Crimbo bottomless hot cocoa mug	Crimbo tree flocker	Crimbo light-up Rudolph doll
+Crimbo Elf creepy bobble-head	SUSE	Super Crimboman Ultra Mega Hypersword
+Crimbo stogie-scented room odorizer	SUSE	Super Crimboman Ultra Mega Hypersword
+Crimbo bottomless hot cocoa mug	SUSE	Super Crimboman Ultra Mega Hypersword
+Crimbo tree flocker	SUSE	Super Crimboman Ultra Mega Hypersword
+Crimbo light-up Rudolph doll	SUSE	Super Crimboman Ultra Mega Hypersword

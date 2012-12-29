@@ -598,7 +598,7 @@ Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
 Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
 Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
 Staff of the Woodfire	10	Mys: 150	1-handed chefstaff
-Super Crimboman Ultra Mega Hypersword	100	Mus: 35	2-handed
+Super Crimboman Ultra Mega Hypersword	100	Mus: 35	2-handed sword
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
 Tales of the Word Realms	0	Mus: 0	2-handed book
 The Landscaper's leafblower	100	Mox: 35	2-handed leafblower
