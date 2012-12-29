@@ -204,7 +204,7 @@ public class CompositeReference
 	}
 
 	@Override
-	public Value setValue( Interpreter interpreter, final Value targetValue, final Operator oper )
+	public synchronized Value setValue( Interpreter interpreter, final Value targetValue, final Operator oper )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		// Iterate through indices to final slice
@@ -247,7 +247,7 @@ public class CompositeReference
 		return null;
 	}
 
-	public Value removeKey( final Interpreter interpreter )
+	public synchronized Value removeKey( final Interpreter interpreter )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		// Iterate through indices to final slice
