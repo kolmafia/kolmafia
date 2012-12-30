@@ -3590,6 +3590,7 @@ Stopping to Smell the Flowers	Experience: +3
 Springy Fusilli	Initiative: +40
 # Square Jaw And Everything Else: Makes you look like Scott the Miner
 Square to be Hip	Moxie Percent: +10
+Squid Squint	Meat Drop: +30
 Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
 Stabilizing Oiliness	Equalize: "Muscle"
 Standard Issue Bravery	Muscle: +30, Mysticality: +30, Moxie: +30
@@ -3653,6 +3654,7 @@ Tangled Up	Moxie Percent: -20
 # Tar-Struck: Continually take damage
 Tar-Struck	Stench Damage: +20
 # Taste the Inferno: It burns! It burns!
+Tea-hee	Experience: +5
 Techno Bliss	Item Drop: +10
 # Teleportitis: Your position seems uncertain...
 # Temporary Amnesia: Who am I?
@@ -3733,6 +3735,7 @@ Using Protection	Mana Cost: -2
 # Vanity Rage: Weapon Damage: +X, Spell Damage: +X
 Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
+Vinegavotte	Item Drop: +20
 Violent Night	Critical Hit Percent: 5
 # Visibly Goth: Makes you look like a Goth Giant
 Vitamin-Maxed	Muscle Percent: +10

@@ -1130,9 +1130,9 @@
 1129	Nanobrawny	nanobrawny.gif	2996d91c753eb6cf2d93b159229d90e6
 1130	Nanobrainy	nanobrainy.gif	47e756959f85d403d1422bae39e7e456
 1131	Nanoballsy	nanoballsy.gif	88a4a61ac68e862249f5be9d1f75a0fe
-1132
-1133
-1134
+1132	Tea-hee	tea.gif	a82e57953743db053bdcfe1cb90032cc
+1133	Squid Squint	emosquid.gif	e1a4466574349c9dfa2e8150d6c733eb
+1134	Vinegavotte	vinegar.gif	620aba64002fbad6ab74e4595c6568b2 
 1135	Block-Rockin' Beet	beet.gif	99a300fcdd2f4dec22859241870ae0dd	use 1 beet-flavored Mr. Mediocrebar
 1136	Kernel Panic!	corn.gif	87b76f1e7155fa2e6cf1937af2d7db6b	use 1 sweet-corn-flavored Mr. Mediocrebar
 1137	I Am the Slaw!	lettuce.gif	932f5be647b869507c84e76b7b05bfe1	use 1 cabbage-flavored Mr. Mediocrebar
