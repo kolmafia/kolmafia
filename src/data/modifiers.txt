@@ -2250,7 +2250,10 @@ Mayflower bouquet	Familiar Weight: +5, Experience: +0.625, Meat Drop (sporadic):
 Meat detector	Familiar Weight: +5
 Panda outfit	Familiar Weight: +5, Item Drop: +5, Generic
 Pretty Predator Clawicure Kit	Familiar Weight: +5
+Red Book	Familiar Weight: +5
 S.L.E.I.G.H.B.E.L.L.S.	Familiar Weight: +5
+# Snow Suit: Lets Your Familiar Do Various Tricks
+Snow Suit	Familiar Weight: [max(5,20-floor(pref(_snowSuitCount)/4))], Softcore Only, Generic
 Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Generic
 affordable teak perch	Familiar Weight: +5
 amphibious tophat	Underwater Familiar, Equips On: "Dancing Frog", Familiar Effect: "adventure underwater"
@@ -2271,6 +2274,7 @@ astral pet sweater	Familiar Weight: +10, Generic
 attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
 # bag of many confections: Full of Candy!
+blue canary nightlight	Familiar Weight: +5
 blue suede shoes	Familiar Weight: +5
 blundarrrbus	Familiar Weight: +5
 bone collar	Familiar Weight: +5

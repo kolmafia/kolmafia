@@ -1537,6 +1537,7 @@ public class ItemPool
 	public static final int CRIMBO_HOT_MUG = 6060;
 	public static final int CRIMBO_TREE_FLOCKER = 6061;
 	public static final int CRIMBO_RUDOLPH_DOLL = 6062;
+	public static final int SNOW_SUIT = 6150;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -2306,6 +2306,12 @@ public class FightRequest
 			Preferences.increment( "_leafblowerML", 1, 25, false );
 		}
 
+		// Check for familiar equipment-specific cases
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SNOW_SUIT, 1 ) ) )
+		{
+			Preferences.increment( "_snowSuitCount", 1, 60, false );
+		}
+
 		// Cancel any combat modifiers
 		Modifiers.overrideModifier( "fightMods", null );
 
