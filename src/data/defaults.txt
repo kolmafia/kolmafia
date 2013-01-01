@@ -879,6 +879,7 @@ user	_skateBuff3	false
 user	_skateBuff4	false
 user	_skateBuff5	false
 user	_smilesOfMrA	0
+user	_snowSuitCount	0
 user	_snowconeSummons	0
 user	_softwareGlitchTurnReceived	false
 user	_stabonicScrollUsed	false

@@ -5907,17 +5907,17 @@
 5890	skulldozer egg	454434202	eggplain.gif	grow	t	0
 5891	ribcage rollcage	726852767	rollcage.gif	familiar	t,d	75
 5892	that gum you like	554400519	fishgum.gif	usable	t,d	15	packs of that gum you like
-5893	
-5894	
-5895	
-5896	
-5897	
-5898	
-5899	
-5900	
-5901	
-5902	
-5903	
+5893	dreaming Jung man	617197455	jungmanlarva.gif	grow	t	0
+5894	Red Book	591593094	redbook.gif	familiar	t,d	75
+5895	avatar of the Unconscious Collective	811180643	uclarva.gif	grow	t	0
+5896	blue canary nightlight	510070934	canarylight.gif	familiar	t,d	75
+5897	Unconscious Collective Dream Jar	141587766	dreamjar.gif	usable	t	0
+5898	jar of psychoses (The Suspicious-Looking Guy)	661230888	analjar_full.gif	usable	t	0
+5899	jar of psychoses (The Captain of the Gourd)	710562556	analjar_full.gif	usable	t	0
+5900	jar of psychoses (The Crackpot Mystic)	209303055	analjar_full.gif	usable	t	0
+5901	jar of psychoses (The Old Man)	643517922	analjar_full.gif	usable	t	0
+5902	jar of psychoses (The Pretentious Artist)	782884590	analjar_full.gif	usable	t	0
+5903	jar of psychoses (The Meatsmith)	942166242	analjar_full.gif	usable	t	0
 5904	
 5905	
 5906	
@@ -6126,3 +6126,46 @@
 6109	bubble-wrap simulator (one broken button)	576332142	bubblewrap3.gif	usable	t,d	25	bubble-wrap simulators (one broken button)
 6110	bubble-wrap simulator (half broken)	339492599	bubblewrap2.gif	usable	t,d	25	bubble-wrap simulators (half broken)
 6111	bubble-wrap simulator (one button left)	465240155	bubblewrap1.gif	usable	t,d	25	bubble-wrap simulators (one button left)
+6112
+6113
+6114
+6115
+6116
+6117
+6118
+6119
+6120
+6121
+6122
+6123
+6124
+6125
+6126
+6127
+6128
+6129
+6130
+6131
+6132
+6133
+6134
+6135
+6136
+6137
+6138
+6139
+6140
+6141
+6142
+6143
+6144
+6145
+6146
+6147
+6148
+6149
+6150	Snow Suit	708955577	snowsuit.gif	familiar	t	0
+6151	carrot nose	129603339	snowcarrot.gif	usable	t,d	5
+6152
+6153
+6154	carrot juice	168944703	shot.gif	usable	t,d	5
