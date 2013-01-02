@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -141,6 +142,31 @@ public class CampgroundRequest
 	public static final AdventureResult GIANT_CANDY_CANE = ItemPool.get( ItemPool.GIANT_CANDY_CANE, 1 );
 	public static final AdventureResult SKELETON = ItemPool.get( ItemPool.SKELETON, 1 );
 
+	private enum CropType
+	{
+		PUMPKIN, 
+		PEPPERMINT, 
+		SKELETON;
+
+		@Override
+		public String toString()
+		{
+			return this.name().toLowerCase();
+		}
+	}
+
+	private static final HashMap<AdventureResult, CropType> CROPMAP = new HashMap<AdventureResult, CropType>();
+
+	static
+	{
+		CROPMAP.put( PUMPKIN, CropType.PUMPKIN );
+		CROPMAP.put( HUGE_PUMPKIN, CropType.PUMPKIN );
+		CROPMAP.put( GINORMOUS_PUMPKIN, CropType.PUMPKIN );
+		CROPMAP.put( PEPPERMINT_SPROUT, CropType.PEPPERMINT );
+		CROPMAP.put( GIANT_CANDY_CANE, CropType.PEPPERMINT );
+		CROPMAP.put( SKELETON, CropType.SKELETON );
+	}
+
 	public static final AdventureResult [] CROPS =
 	{
 		CampgroundRequest.PUMPKIN,
@@ -238,12 +264,6 @@ public class CampgroundRequest
 		return i != -1 ? (AdventureResult)KoLConstants.campground.get( i ) : null;
 	}
 
-	public static boolean hasCrop( final String crop )
-	{
-		int i = CampgroundRequest.getCropIndex();
-		return i != -1 && crop.equals( ((AdventureResult)KoLConstants.campground.get( i )).getName() );
-	}
-
 	public static boolean hasCropOrBetter( final String crop )
 	{
 		// Get current crop, if any
@@ -279,10 +299,10 @@ public class CampgroundRequest
 				return false;
 			}
 			// We found the desired crop before we found the
-			// current crop - which must be better. Cool.
+			// current crop - which is therefore better IFF its type is the same.
 			if ( cropName.equals( crop ) )
 			{
-				return true;
+				return CROPMAP.get( CROPS[ i ] ) == CROPMAP.get( current );
 			}
 		}
 
