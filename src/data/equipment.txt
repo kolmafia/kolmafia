@@ -1812,7 +1812,7 @@ tiny plastic Black Knight	10	none
 tiny plastic Bonerdagon	30	none
 tiny plastic Boris	30	none
 tiny plastic Boss Bat	30	none
-tiny plastic Bugbear Captain	0	Mys: 10
+tiny plastic Bugbear Captain	50	Mys: 10
 tiny plastic CRIMBCO HQ	0	none
 tiny plastic Charity the Zombie Hunter	0	none
 tiny plastic Cheshire bat	10	none
@@ -1890,7 +1890,7 @@ tiny plastic blood-faced volleyball	10	none
 tiny plastic blooper	10	none
 tiny plastic brainsweeper	10	none
 tiny plastic briefcase bat	10	none
-tiny plastic bugaboo	0	none
+tiny plastic bugaboo	10	none
 tiny plastic buzzerker	0	none
 tiny plastic cavebugbear	0	none
 tiny plastic chunk of depleted Grimacite	0	none
