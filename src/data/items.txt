@@ -1986,7 +1986,7 @@
 1969	spoon!	143708125	spoooon.gif	familiar	t,d	75	spoons!
 1970	nervous tick egg	634197201	tickegg.gif	grow	t	0	nervous tick eggs
 1971	plastic pumpkin bucket	322191256	punkin.gif	familiar	t	0	plastic pumpkin buckets
-1972	silver shrimp fork	488128981	shrimpfork.gif	weapon	t	0	silver shrimp forks
+1972	silver shrimp fork	488128981	shrimpfork.gif	weapon	t	235	silver shrimp forks
 1973	half of a memo	907150750	halfmemo.gif	message	q	0
 1974	stuffed cocoabo	199200449	stuffcocoa.gif	offhand	g,d	10	stuffed cocoabos
 1975	stuffed baby gravy fairy	705302247	stufffairyw.gif	offhand	g,d	10	stuffed baby gravy fairies
