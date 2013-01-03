@@ -6069,7 +6069,7 @@
 6052	Taco Dan's Taco Stand Taco	853160405	taco.gif	food	t,d	15
 6053	Taco Dan's Taco Stand Chimichangarita	224117850	daquiri.gif	drink	t,d	15
 6054	Taco Dan's Taco Stand Chillacious Churro	127551554	blintz.gif	usable	t,d	15
-6055
+6055	psychoanalytic jar	782318443	analjar_empty.gif	none		0
 6056
 6057
 6058	Crimbo Elf creepy bobble-head	359431553	elfbobble.gif	offhand, usable		0
@@ -6112,21 +6112,21 @@
 6095	Microplushie: Fauxnerditide	727690964	microp10.gif	offhand	g,d	5
 6096	Microplushie: Hipsterine	773905614	microp11.gif	offhand	g,d	5	Microplushie: Hipsterines
 6097	classy monkey	662446155	tuxmonkey.gif	none, combat	t,d	5	classy monkeys
-6098
+6098	fancy gourd potion	260330378	potion4.gif	usable	q,d	123
 6099	Thinknerd T-Shirt	463737369	btee2.gif	shirt	d	5
 6100	pile of useless robot parts	170664076	elecparts.gif	usable	d	5
 6101	homemade robot	271396619	builtbot.gif	grow		0
 6102	homemade robot gear	325469658	sprocket.gif	familiar	t,d	75
-6103
-6104
-6105
-6106
-6107
+6103	Artist's Whisk of Misery	725125654	whisk.gif	none, combat	t,d	11
+6104	Artist's Butterknife of Regret	327687444	butterknife.gif	none, combat	t,d	11
+6105	Artist's Spatula of Despair	675041975	spatula3.gif	none, combat	t,d	11
+6106	Artist's Cookie Cutter of Loneliness	991825060	cutter.gif	none, combat	t,d	11
+6107	Artist's  Cr&egrave;me Brul&eacute;e Torch of Fury	769923393	bruleetorch.gif	none, combat	t,d	11
 6108
 6109	bubble-wrap simulator (one broken button)	576332142	bubblewrap3.gif	usable	t,d	25	bubble-wrap simulators (one broken button)
 6110	bubble-wrap simulator (half broken)	339492599	bubblewrap2.gif	usable	t,d	25	bubble-wrap simulators (half broken)
 6111	bubble-wrap simulator (one button left)	465240155	bubblewrap1.gif	usable	t,d	25	bubble-wrap simulators (one button left)
-6112
+6112	zaibatsu lobby card	828324391	littlecard.gif	none	q	0
 6113
 6114
 6115
@@ -6143,8 +6143,8 @@
 6126
 6127
 6128
-6129
-6130
+6129	makeshift yakuza mask	299669324	yakmask.gif	hat	q 	0
+6130	gold piece	407591613	goldpiece.gif	none	q	0
 6131
 6132
 6133
@@ -6159,7 +6159,7 @@
 6142
 6143
 6144
-6145
+6145	suspicious-looking fedora	492175443	hobofedora.gif	hat	d	555
 6146
 6147
 6148
@@ -6169,3 +6169,10 @@
 6152
 6153
 6154	carrot juice	168944703	shot.gif	usable	t,d	5
+6155	pixel power cell	360514198	powercell.gif	usable	t	0
+6156
+6157
+6158	anger blaster	657571737	angergun.gif	weapon		0
+6159	doubt cannon	406015526	doubtgun.gif	weapon		0
+6160	fear condenser	987434489	feargun.gif	weapon		0
+6161	regret hose	941648765	regretgun.gif	weapon		0

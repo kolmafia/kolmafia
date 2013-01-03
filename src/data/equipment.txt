@@ -155,6 +155,7 @@ linoleum helmet turtle	100	Mox: 35
 longhaired hippy wig	200	Mox: 85
 maiden wig	35	Mox: 2
 makeshift turban	100	Mox: 35
+makeshift yakuza mask	10	none
 mariachi hat	10	none
 meat cowboy hat	40	Mox: 5
 meatloaf helmet	55	Mox: 12
@@ -224,6 +225,7 @@ straw hat	200	Mox: 85
 sucker kabuto	50	none
 sugar chapeau	100	none
 superhero mask	10	none
+suspicious-looking fedora	60	Mox: 15
 tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
 toy space helmet	175	Mox: 72
@@ -622,6 +624,7 @@ acoustic guitarrr	140	Mox: 55	2-handed guitar
 airblaster gun	10	Mox: 0	1-handed pistol
 ancient ice cream scoop	170	Mys: 70	1-handed utensil
 ancient stone fist	85	Mus: 27	1-handed club
+anger blaster	85	Mox: 30	1-handed forearm replacemen
 antique spear	200	Mus: 85	1-handed polearm
 archaeologing shovel	10	Mus: 0	2-handed polearm
 armgun	140	Mox: 55	2-handed machine gun
@@ -734,6 +737,7 @@ didgeridooka	180	Mox: 75	2-handed blowgun
 disco ball	10	Mox: 0	1-handed disco ball
 dishrag	20	Mus: 0	1-handed whip
 double-barreled sling	70	Mox: 20	1-handed sling
+doubt cannon	85	Mox: 30	1-handed forearm replacement
 dreadlock whip	40	Mus: 5	1-handed whip
 dripping meat crossbow	50	Mox: 10	2-handed crossbow
 dripping meat staff	50	Mus: 10	2-handed staff
@@ -753,6 +757,7 @@ elven whittling knife	100	Mus: 35	1-handed knife
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
 evil paper umbrella	30	Mus: 0	1-handed umbrella
 evil-ass club	160	Mus: 65	2-handed club
+fear condenser	85	Mox: 30	1-handed forearm replacement
 fetus-smashing club	200	Mus: 85	2-handed club
 filthy pestle	60	Mys: 15	1-handed utensil
 finger cymbals	65	Mox: 17	1-handed cymbals
@@ -900,6 +905,7 @@ ram-battering staff	135	Mus: 52	2-handed staff
 ratarang	60	Mox: 15	1-handed boomerang
 rattail whip	30	Mus: 0	1-handed whip
 rave whistle	135	Mox: 52	1-handed whistle
+regret hose	85	Mox: 30	1-handed forearm replacement
 repeating crossbow	65	Mox: 17	2-handed crossbow
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
