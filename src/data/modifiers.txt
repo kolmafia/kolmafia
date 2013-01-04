@@ -2259,6 +2259,7 @@ Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
 Loathing Legion helicopter	Familiar Weight: +5, Softcore Only, Generic
 Mayflower bouquet	Familiar Weight: +5, Experience: +0.625, Meat Drop (sporadic): +5, Item Drop (sporadic): +2.5, Experience (familiar): +0.375, Softcore Only, Generic
 Meat detector	Familiar Weight: +5
+# MiniMechaElf Laser Punch Missile Launcher: More likely to use more powerful attacks
 Panda outfit	Familiar Weight: +5, Item Drop: +5, Generic
 Pretty Predator Clawicure Kit	Familiar Weight: +5
 Red Book	Familiar Weight: +5
@@ -3193,6 +3194,7 @@ Holiday Bliss	Item Drop: +20, Meat Drop: +20
 Hombre Muerto Caminando	Initiative: +20, Spooky Resistance: +1, Maximum MP: +20
 Hooked Up	Moxie Percent: -100, MP Regen Min: 10, MP Regen Max: 15
 Hopped Up on Goofballs	Muscle Percent: +20, Moxie Percent: +20
+Hoppyness	Initiative: +100
 Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
 Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Damage: +10, Hot Resistance: +2
 # Hot Breath: Can breathe fire in combat
