@@ -5689,7 +5689,7 @@
 5672	gunpowder burrito	956742486	burrito.gif	food	t	0
 5673	beery blood	558783586	juice.gif	drink	t	0
 5674	stuffed &quot;L&quot;	619356758	stuffedl.gif	none		0
-5675	watered-down Red Minotaur	762938251	redmin.gif	usable	t,d	1
+5675	watered-down Red Minotaur	762938251	redmin.gif	usable	t,d	1	cans of watered-down Red Minotaur
 5676	pool torpedo	340353804	pooltorpedo.gif	none, combat	t,d	1
 5677	Ze&trade; goggles	179669496	zegoggles.gif	hat	t	0	pairs of Ze&trade; goggles
 5678	soggy used band-aid	737657801	soggybandaid.gif	none, combat	t	0
