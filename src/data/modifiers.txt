@@ -3414,6 +3414,7 @@ Pie in the Sky	Experience (Muscle): +2, Experience (Mysticality): +2, Experience
 Piratastic	Moxie: +100
 Piratey Flavor	Critical Hit Percent: 5
 Pisces in the Skyces	Spell Damage Percent: +150
+Pla-see-bo	Item Drop: +10
 Pneumatic	Adventure Underwater
 Pockets of Fire	Hot Damage: +10
 Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
