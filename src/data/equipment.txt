@@ -679,6 +679,7 @@ bubblewrap sword	60	Mus: 15	1-handed sword
 bucket of anniversary lard	10	Mus: 0	1-handed flail
 buffalo blade	120	Mus: 45	2-handed sword
 bugbear-smiting sword	150	Mus: 60	2-handed sword
+butterfly knife	50	Mus: 10	1-handed knife
 calavera concertina	40	Mox: 5	2-handed accordion
 can cannon	75	Mox: 22	2-handed crossbow
 can of fake snow	100	Mox: 35	1-handed can
@@ -996,6 +997,7 @@ tiny ninja sword	20	Mus: 0	1-handed sword
 tiny plastic sword	10	Mus: 0	1-handed sword
 titanium assault umbrella	130	Mus: 50	1-handed umbrella
 toy ray gun	175	Mox: 72	1-handed pistol
+toy taijijian	10	Mus: 0	1-handed sword
 trout fang	160	Mus: 65	1-handed knife
 trusty torch	30	Mus: 0	1-handed club
 turtle totem	10	Mus: 0	1-handed totem
@@ -1008,6 +1010,7 @@ vibrating cyborg knife	150	Mus: 55	1-handed sword
 villainous scythe	200	Mus: 150	2-handed polearm
 vorpal blade	90	Mus: 30	1-handed sword
 war tongs	180	Mys: 75	1-handed utensil
+weighted paperclip chain	40	Mus: 0	2-handed flail
 white sword	40	Mus: 5	1-handed sword
 white whip	10	Mus: 0	1-handed whip
 wholeberd	80	Mus: 25	2-handed polearm
@@ -1664,6 +1667,7 @@ left half of a heart necklace	10	none
 lollipop cufflinks	0	none
 lucky Crimbo tiki necklace	10	none
 lucky bottlecap	200	Mys: 200
+lucky cat collar	60	Mys: 15
 lucky rabbit's foot	60	Mys: 15
 makeshift SCUBA gear	10	none
 malevolent medallion	200	Mys: 150
@@ -1679,6 +1683,7 @@ mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
 navel ring of navel gazing	0	none
 night-vision goggles	50	Mox: 10
+novelty tattoo sleeves	10	none
 observational glasses	10	none
 offensive moustache	0	none
 old soft shoes	200	Mys: 200
