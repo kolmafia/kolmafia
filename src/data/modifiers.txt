@@ -776,6 +776,7 @@ bubblewrap sword	Muscle: +3, Moxie: +2
 bucket of anniversary lard	Muscle: +1, Mysticality: +1, Moxie: +1
 buffalo blade	Muscle: +5, Hot Damage: +3, Sleaze Damage: +2
 bugbear-smiting sword	Weapon Damage: +10, Muscle: +10
+butterfly knife	Moxie: +6
 calavera concertina	Moxie: +3
 can cannon	Moxie: +3, Monster Level: +3, Weapon Damage: +3
 can of fake snow	Cold Damage: +5
@@ -1126,6 +1127,7 @@ vibrating cyborg knife	Weapon Damage: +20, Fumble: 3
 villainous scythe	Slime Hates It: +2, Weapon Damage Percent: +30, Critical Hit Percent: 20
 vorpal blade	Critical Hit Percent: 8
 war tongs	Hot Damage: +10, Hot Spell Damage: +10
+weighted paperclip chain	Weapon Damage: +12
 white sword	Muscle: +2
 white whip	Experience: +1
 wholeberd	Weapon Damage: +6
@@ -1874,6 +1876,7 @@ ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 lollipop cufflinks	Mysticality: +5
 # lucky Crimbo tiki necklace: Brings Good Luck!
 lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
+lucky cat collar	Meat Drop: +7
 lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 makeshift SCUBA gear	Stench Resistance: +2, Item Drop: -100, Initiative: -100, Adventure Underwater
 malevolent medallion	Slime Hates It: +1, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, MP Regen Min: 10, MP Regen Max: 30, Single Equip
@@ -1890,6 +1893,7 @@ musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 mysterious silver lapel pin	HP Regen Min: 5, HP Regen Max: 9, Meat Drop: +5, Single Equip
 natty blue ascot	Meat Drop: +20
 navel ring of navel gazing	Damage Reduction: 12, Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only
+novelty tattoo sleeves	Muscle: +6, PvP Fights: +1
 night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 observational glasses	Item Drop: +5
 offensive moustache	PvP Fights: +7, Single Equip

@@ -5918,21 +5918,21 @@
 5901	jar of psychoses (The Old Man)	643517922	analjar_full.gif	usable	t	0
 5902	jar of psychoses (The Pretentious Artist)	782884590	analjar_full.gif	usable	t	0
 5903	jar of psychoses (The Meatsmith)	942166242	analjar_full.gif	usable	t	0
-5904	
-5905	
-5906	
-5907	
+5904
+5905	jar of psychoses (Jick)	457683470	analjar_full.gif	usable	t	0
+5906
+5907
 5908	ChibiBuddy&trade; (on)	413382594	chibibuddy.gif	reusable		0	ChibiBuddies&trade; (on)
 5909	gold wedding ring	139779467	weddingring.gif	accessory	d	11000
 5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0	boxes of deactivated nanobots
 5911	nanorhino credit card	776155074	littlecard.gif	familiar	t,d	75
-5912	Solstice Shield	120888971	shield.gif	offhand			0	0
+5912	Solstice Shield	120888971	shield.gif	offhand		0
 5913	powdered candy sushi set	292870983	sushitray.gif	usable	t	0
 5914	sweet mochi ball	685433996	mochiball.gif	usable	t	0
 5915	beet-flavored Mr. Mediocrebar	915881788	mediocrebar.gif	usable	t	0
 5916	sweet-corn-flavored Mr. Mediocrebar	515529477	mediocrebar.gif	usable	t	0
 5917	cabbage-flavored Mr. Mediocrebar	836567876	mediocrebar.gif	usable	t	0
-5918	tiny plastic animelf	148154716	tpanimelf.gif	accessory	t	
+5918	tiny plastic animelf	148154716	tpanimelf.gif	accessory	t	0
 5919	tiny plastic ChibiBuddy&trade;	688886171	tpchibi.gif	accessory	t	0
 5920	tiny plastic taco-clad Crimbo elf	410361248	tptacoelf.gif	accessory	t	0
 5921	tiny plastic Uncle Crimboku	858700685	tpcrimboku.gif	accessory	t	0
@@ -6128,37 +6128,37 @@
 6111	bubble-wrap simulator (one button left)	465240155	bubblewrap1.gif	usable	t,d	25	bubble-wrap simulators (one button left)
 6112	zaibatsu lobby card	828324391	littlecard.gif	none	q	0
 6113
-6114
-6115
-6116
-6117
-6118
-6119
-6120
-6121
-6122
-6123
-6124
-6125
-6126
-6127
-6128
+6114	zaibatsu level 2 card	524857668	littlecard.gif	usable	q	0
+6115	zaibatsu level 3 card	942771743	littlecard.gif	usable	q	0
+6116	CEO office card	733208229	littlecard.gif	usable	q	0
+6117	test site key	174484281	lostkey.gif	none	q	0
+6118	strange goggles	846276787	nvgoggles.gif	usable, combat	q	0
+6119	brass abacus	837009175	abacus.gif	usable, combat	t,d	5
+6120	bonsai tree	839605709	bonsai.gif	usable	t,d	15
+6121	cheap Chinese beer	601658923	beer.gif	drink	t,d	25
+6122	lucky cat statue	565080881	kittystatue.gif	usable	t,d	25
+6123	rhinoceros horn	421306084	rhinohorn.gif	none	t,d	30
+6124	furry pink pillow	966738179	pinkpillow.gif	none	q	0
+6125	bottle of limeade	209783441	beerbottle.gif	usable	t,d	10
+6126	novelty tattoo sleeves	735834049	tatsleeves.gif	accessory	t,d	5
+6127	pair of rhinoceros horns	425162785	rhinohorns.gif	none	q	0
+6128	furry brown pillow	540963537	brownpillow.gif	none	q	0
 6129	makeshift yakuza mask	299669324	yakmask.gif	hat	q 	0
 6130	gold piece	407591613	goldpiece.gif	none	q	0
-6131
+6131	toy taijijian	229154217	toytai.gif	weapon	t,d	20
 6132
 6133
-6134
-6135
-6136
-6137
-6138
+6134	butterfly knife	417351567	bflyknife.gif	weapon	t,d	15
+6135	tube of herbal ointment	894175290	tube.gif	usable, combat	t,d	12
+6136	pencil kunai	372782577	pencil.gif	none, combat	t,d	15
+6137	weighted paperclip chain	790807587	staplerchucks.gif	weapon	t,d	12
+6138	great big capacitor	970505595	device1.gif	none, combat	t,d	50
 6139
-6140
-6141
-6142
-6143
-6144
+6140	Chinese curse words	118948750	wosp_scroll.gif	none, combat	t,d	25
+6141	triad summoning scroll	235767837	scroll1.gif	usable	t,d	75
+6142	roasted duck	552811704	roastduck.gif	food	t,d	8
+6143	dead meat bun	220021051	deadbun.gif	food	t,d	18
+6144	lucky cat collar	627971147	catcollar.gif	accessory	t,d	35
 6145	suspicious-looking fedora	492175443	hobofedora.gif	hat	d	555
 6146
 6147
