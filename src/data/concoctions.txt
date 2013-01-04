@@ -1669,6 +1669,8 @@ glob of Blank-Out	SUSE, NOBEE	bottle of Blank-Out
 
 pumpkin juice (3)	SUSE	pumpkin
 
+carrot juice	SUSE	carrot nose
+
 # Familiars.
 
 maple leaf	COMBINE	leaf	maple syrup
