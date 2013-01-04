@@ -206,6 +206,7 @@ horseradish-infused vodka	5	1		12-13	0	0	0	15 Rad-ish
 hot choculate	5	4		10-15	9-10	9-10	9-10
 hot toady	4	4		6-10	7-8	7-8	7-8
 humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP
+hundred headed ipa	2	13	awesome	0	0	0	0	20 Hoppyness
 ice-cold fotie	3	1	crappy	3	0	0	0	9-12 MP
 ice-cold sir schlitz	1	1	crappy	1	0	0	0	2-4 MP
 ice-cold willer	1	1	crappy	1	0	0	0	3-4 MP

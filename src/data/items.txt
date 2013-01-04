@@ -6161,9 +6161,9 @@
 6144	lucky cat collar	627971147	catcollar.gif	accessory	t,d	35
 6145	suspicious-looking fedora	492175443	hobofedora.gif	hat	d	555
 6146
-6147
-6148
-6149
+6147	Bodacious MechaElf Hunter Saga:Relay Wolf	753585685	manga.gif	reusable		0
+6148	Deactivated MiniMechaElf	641681068	mechaelfd.gif	grow		0
+6149	MiniMechaElf Laser Punch Missile Launcher	696682439	mechaelfrl.gif	familiar	t,d	75
 6150	Snow Suit	708955577	snowsuit.gif	familiar	t	0
 6151	carrot nose	129603339	snowcarrot.gif	usable	t,d	5
 6152
@@ -6176,3 +6176,12 @@
 6159	doubt cannon	406015526	doubtgun.gif	weapon		0
 6160	fear condenser	987434489	feargun.gif	weapon		0
 6161	regret hose	941648765	regretgun.gif	weapon		0
+6162
+6163
+6164
+6165
+6166
+6167
+6168
+6169	Hundred Headed IPA	230929468	beerbottle.gif	drink	t,d	75
+6170	old chum	985900785	gooball.gif	food	t,d	25
