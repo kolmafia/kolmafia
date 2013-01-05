@@ -567,6 +567,16 @@ public class CharPaneDecorator
 			buffer.append( Preferences.getString( "_carnieCandyDrops" ) );
 			buffer.append( "/10" );
 			return buffer;
+
+		case FamiliarPool.UNCONSCIOUS_COLLECTIVE:
+			buffer.append( Preferences.getString( "_dreamJarDrops" ) );
+			buffer.append( "/5" );
+			return buffer;
+
+		case FamiliarPool.ANGRY_JUNG_MAN:
+			buffer.append( Preferences.getString( "_jungDrops" ) );
+			buffer.append( "/1" );
+			return buffer;
 		}
 
 		return null;

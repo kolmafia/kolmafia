@@ -6165,10 +6165,10 @@
 6148	Deactivated MiniMechaElf	641681068	mechaelfd.gif	grow		0
 6149	MiniMechaElf Laser Punch Missile Launcher	696682439	mechaelfrl.gif	familiar	t,d	75
 6150	Snow Suit	708955577	snowsuit.gif	familiar	t	0
-6151	carrot nose	129603339	snowcarrot.gif	usable	t,d	5
+6151	carrot nose	129603339	snowcarrot.gif	multiple	t,d	5
 6152
 6153
-6154	carrot juice	168944703	shot.gif	usable	t,d	5
+6154	carrot juice	168944703	shot.gif	multiple	t,d	5
 6155	pixel power cell	360514198	powercell.gif	usable	t	0
 6156
 6157

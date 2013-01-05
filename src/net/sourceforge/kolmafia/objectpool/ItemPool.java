@@ -1515,6 +1515,7 @@ public class ItemPool
 	public static final int DRAGON_TEETH = 5880;
 	public static final int SKELETON = 5881;
 	public static final int SKIFF = 5885;
+	public static final int UNCONSCIOUS_COLLECTIVE_DREAM_JAR = 5897;
 	public static final int BEET_MEDIOCREBAR = 5915;
 	public static final int CORN_MEDIOCREBAR = 5916;
 	public static final int CABBAGE_MEDIOCREBAR = 5917;
@@ -1531,12 +1532,13 @@ public class ItemPool
 	public static final int MISTY_ROBE = 6048;
 	public static final int MISTY_CAPE = 6049;
 	public static final int	TACO_FLIER = 6051;
-	public static final int GEEKY_BOOK = 6071;
+	public static final int PSYCHOANALYTIC_JAR = 6055;
 	public static final int CRIMBO_CREEPY_HEAD = 6058;
 	public static final int CRIMBO_STOOGIE_ODORIZER = 6059;
 	public static final int CRIMBO_HOT_MUG = 6060;
 	public static final int CRIMBO_TREE_FLOCKER = 6061;
 	public static final int CRIMBO_RUDOLPH_DOLL = 6062;
+	public static final int GEEKY_BOOK = 6071;
 	public static final int SNOW_SUIT = 6150;
 
 	public static final AdventureResult get( String itemName, int count )

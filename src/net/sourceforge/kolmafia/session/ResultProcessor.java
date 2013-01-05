@@ -1477,6 +1477,20 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.UNCONSCIOUS_COLLECTIVE_DREAM_JAR:
+			if ( combatResults )
+			{
+				Preferences.increment( "_dreamJarDrops", 1 );
+			}
+			break;
+
+		case ItemPool.PSYCHOANALYTIC_JAR:
+			if ( combatResults )
+			{
+				Preferences.increment( "_jungDrops", 1 );
+			}
+			break;
+
 		case ItemPool.LIVER_PIE:
 		case ItemPool.BADASS_PIE:
 		case ItemPool.FISH_PIE:

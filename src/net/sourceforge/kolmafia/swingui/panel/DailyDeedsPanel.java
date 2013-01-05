@@ -2463,6 +2463,8 @@ public class DailyDeedsPanel
 			this.addListener( "_transponderDrops" );
 			this.addListener( "_bootStomps" );
 			this.addListener( "bootsCharged" );
+			this.addListener( "_jungDrops" );
+			this.addListener( "_dreamJarDrops" );
 			this.addLabel( "" );
 		}
 
@@ -2715,6 +2717,46 @@ public class DailyDeedsPanel
 				buffer.append( alienDrops );
 				buffer.append( " transponder" );
 				if ( alienDrops != 1 ) buffer.append( "s" );
+				shown = true;
+				count++;
+			}
+
+			FamiliarData collective = KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE );
+			int collectiveDrops = Preferences.getInteger( "_dreamJarDrops" );
+			if ( ( collective != null && collective.canEquip() ) || collectiveDrops > 0 )
+			{
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
+				buffer.append( collectiveDrops );
+				buffer.append( " dream jar" );
+				if ( collectiveDrops != 1 ) buffer.append( "s" );
+				shown = true;
+				count++;
+			}
+
+			FamiliarData jung = KoLCharacter.findFamiliar( FamiliarPool.ANGRY_JUNG_MAN );
+			int jungDrops = Preferences.getInteger( "_jungDrops" );
+			if ( ( jung != null && jung.canEquip() ) || jungDrops > 0 )
+			{
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
+				buffer.append( jungDrops );
+				buffer.append( "/1 psychoanalytic jar" );
+				if ( jungDrops != 1 ) buffer.append( "s" );
 				shown = true;
 				count++;
 			}

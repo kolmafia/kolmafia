@@ -803,6 +803,7 @@ user	_deluxeKlawSummons	0
 user	_demandSandwich	0
 user	_distentionPillUsed	false
 user	_donhosCasts	0
+user	_dreamJarDrops	0
 user	_elronsCasts	0
 user	_essentialTofuUsed	false
 user	_feastedFamiliars
@@ -837,6 +838,7 @@ user	_interviewMasquerade	false
 user	_ironicMoustache	false
 user	_jitbCharge	0
 user	_jukebox	false
+user	_jungDrops	0
 user	_kloopDrops	0
 user	_jackassPlumberGame	false
 user	_jingleBellUsed	false
