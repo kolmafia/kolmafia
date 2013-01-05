@@ -174,7 +174,7 @@ public class BasementDecorator
 			boolean useful = false;
 			switch ( fam.getId() )
 			{
-			case FamiliarPool.HAND:			
+			case FamiliarPool.HAND:
 			case FamiliarPool.SANDWORM:
 			case FamiliarPool.PARROT:
 			case FamiliarPool.PRESSIE:
@@ -197,6 +197,21 @@ public class BasementDecorator
 				break;
 			case FamiliarPool.TRON:
 				useful = Preferences.getInteger( "_tokenDrops" ) < 5;
+				break;
+			case FamiliarPool.ALIEN:
+				useful = Preferences.getInteger( "_transponderDrops" ) < 5;
+				break;
+			case FamiliarPool.GROOSE:
+				useful = Preferences.getInteger( "_grooseDrops" ) < 5;
+				break;
+			case FamiliarPool.KLOOP:
+				useful = Preferences.getInteger( "_kloopDrops" ) < 5;
+				break;
+			case FamiliarPool.UNCONSCIOUS_COLLECTIVE:
+				useful = Preferences.getInteger( "_dreamJarDrops" ) < 5;
+				break;
+			case FamiliarPool.ANGRY_JUNG_MAN:
+				useful = Preferences.getInteger( "_jungDrops" ) < 1;
 				break;
 			}
 			if ( !useful ) continue;
