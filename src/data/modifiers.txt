@@ -2382,6 +2382,7 @@ miniature espresso maker	Familiar Weight: +5
 miniature gravy-covered maypole	Item Drop: +25, Softcore Only, Generic
 miniature pruning shears	Familiar Weight: +5
 miniature tophat	Familiar Weight: +5
+# MiniMechaElf Laser Punch Missile Launcher: More likely to use more powerful attacks
 miniscule beatbox	Familiar Weight: +5
 mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 # moonglasses: Makes Familiar Less Sensitive to Light
