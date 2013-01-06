@@ -574,8 +574,18 @@ public class CharPaneDecorator
 			return buffer;
 
 		case FamiliarPool.ANGRY_JUNG_MAN:
-			buffer.append( Preferences.getString( "_jungDrops" ) );
+			String jDrops = Preferences.getString( "_jungDrops" );
+			buffer.append( jDrops );
 			buffer.append( "/1" );
+			if ( jDrops.equals( "0" ) )
+			{
+				buffer.append( " next " );
+				int charges = Preferences.getInteger( "jungCharge" );
+				if ( charges - 30 >= 0 )
+					buffer.append( "now" );
+				else
+					buffer.append( "@ " + ( 30 - charges ) );
+			}
 			return buffer;
 		}
 

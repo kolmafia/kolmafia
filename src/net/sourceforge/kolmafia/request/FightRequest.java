@@ -2518,6 +2518,13 @@ public class FightRequest
 					}
 				}
 				break;
+
+			case FamiliarPool.ANGRY_JUNG_MAN:
+				Preferences.increment( "jungCharge", 1 );
+				int newCharges = Preferences.getInteger( "jungCharge" );
+				if ( familiar.getId() == FamiliarPool.ANGRY_JUNG_MAN )
+					familiar.setCharges( newCharges );
+				break;
 			}
 
 			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATSEAT, 1 ) ) &&

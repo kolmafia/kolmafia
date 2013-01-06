@@ -3258,6 +3258,7 @@ Kiss of the Black Fairy	Spooky Damage: [+2*D]
 # Kitty Littered: Makes you look like an Iiti Kitty 
 Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
+# Knob Goblin Perfume
 Koyaaniskumquatsi	Mysticality Percent: +100, Monster Level: +30
 Kung Fu Fighting	Weapon Damage: [3*L]
 # L'instinct F&eacute;lin: Makes you better at sleeping

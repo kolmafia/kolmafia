@@ -426,6 +426,7 @@ public class ValhallaManager
 		Preferences.setInteger( "plantingDay", -1);
 		Preferences.setInteger( "pyramidPosition", 0 );
 		Preferences.setBoolean( "pyramidBombUsed", false );
+		Preferences.setInteger( "jungCharge", 0 );
 		Preferences.setInteger( "lastCouncilVisit", 0 );
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();

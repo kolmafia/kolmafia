@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -1488,6 +1489,11 @@ public class ResultProcessor
 			if ( combatResults )
 			{
 				Preferences.increment( "_jungDrops", 1 );
+				int changeTo = Math.max( Preferences.getInteger( "jungCharge" ) - 30, 0 );
+				Preferences.setInteger( "jungCharge", changeTo );
+				FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
+				if ( familiar.getId() == FamiliarPool.ANGRY_JUNG_MAN )
+					familiar.setCharges( changeTo );
 			}
 			break;
 

@@ -398,6 +398,7 @@ user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
 user	hpAutoRecoveryTarget	1.0
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
+user	jungCharge	0
 user	kingLiberated	false
 user	kingLiberatedScript
 user	knownAscensions	-1
