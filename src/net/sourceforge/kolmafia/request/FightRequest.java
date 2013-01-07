@@ -2522,8 +2522,7 @@ public class FightRequest
 			case FamiliarPool.ANGRY_JUNG_MAN:
 				Preferences.increment( "jungCharge", 1 );
 				int newCharges = Preferences.getInteger( "jungCharge" );
-				if ( familiar.getId() == FamiliarPool.ANGRY_JUNG_MAN )
-					familiar.setCharges( newCharges );
+				familiar.setCharges( newCharges );
 				break;
 			}
 

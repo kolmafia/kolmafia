@@ -1490,9 +1490,7 @@ public class ResultProcessor
 			{
 				Preferences.increment( "_jungDrops", 1 );
 				Preferences.setInteger( "jungCharge", 0 );
-				FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
-				if ( familiar.getId() == FamiliarPool.ANGRY_JUNG_MAN )
-					familiar.setCharges( 0 );
+				KoLCharacter.findFamiliar( FamiliarPool.ANGRY_JUNG_MAN ).setCharges( 0 );
 			}
 			break;
 
