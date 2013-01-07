@@ -1489,11 +1489,10 @@ public class ResultProcessor
 			if ( combatResults )
 			{
 				Preferences.increment( "_jungDrops", 1 );
-				int changeTo = Math.max( Preferences.getInteger( "jungCharge" ) - 30, 0 );
-				Preferences.setInteger( "jungCharge", changeTo );
+				Preferences.setInteger( "jungCharge", 0 );
 				FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 				if ( familiar.getId() == FamiliarPool.ANGRY_JUNG_MAN )
-					familiar.setCharges( changeTo );
+					familiar.setCharges( 0 );
 			}
 			break;
 
