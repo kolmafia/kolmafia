@@ -2266,7 +2266,7 @@ Pretty Predator Clawicure Kit	Familiar Weight: +5
 Red Book	Familiar Weight: +5
 S.L.E.I.G.H.B.E.L.L.S.	Familiar Weight: +5
 # Snow Suit: Lets Your Familiar Do Various Tricks
-Snow Suit	Familiar Weight: [max(5,20-floor(pref(_snowSuitCount)/4))], Softcore Only, Generic
+Snow Suit	Familiar Weight: [max(5,20-floor(pref(_snowSuitCount)/5))], Softcore Only, Generic
 Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Generic
 affordable teak perch	Familiar Weight: +5
 amphibious tophat	Underwater Familiar, Equips On: "Dancing Frog", Familiar Effect: "adventure underwater"
