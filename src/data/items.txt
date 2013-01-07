@@ -5129,7 +5129,7 @@
 5112	My Own Pen Pal kit	544609748	ppkit.gif	usable	t	0
 5113	packet of orchid seeds	382164254	seeds.gif	usable		0	packets of orchid seeds
 5114	stomp box	159882766	stompbox.gif	familiar	t	0	stomp boxes
-5115	rusty hedge trimmers	540081787	hedgeclippers.gif	usable	t,d	85
+5115	rusty hedge trimmers	540081787	hedgeclippers.gif	usable	t,d	85	pairs of rusty hedge trimmers
 5116	A. W. O. L. commendation	542484240	aolcom.gif	reusable		0
 5117	reconstituted crow	529331441	blackbird2.gif	grow	q	0
 5118	bird brain	576544533	birdbrain.gif	none	q	0
