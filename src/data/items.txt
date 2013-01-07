@@ -6146,14 +6146,14 @@
 6129	makeshift yakuza mask	299669324	yakmask.gif	hat	q 	0
 6130	gold piece	407591613	goldpiece.gif	none	q	0
 6131	toy taijijian	229154217	toytai.gif	weapon	t,d	20
-6132
+6132	magical battery	194664409	battery.gif	none	t	0
 6133
 6134	butterfly knife	417351567	bflyknife.gif	weapon	t,d	15
 6135	tube of herbal ointment	894175290	tube.gif	usable, combat	t,d	12
 6136	pencil kunai	372782577	pencil.gif	none, combat	t,d	15
 6137	weighted paperclip chain	790807587	staplerchucks.gif	weapon	t,d	12
 6138	great big capacitor	970505595	device1.gif	none, combat	t,d	50
-6139
+6139	rubber gloves 943916076	stickygloves.gif	accessory	t,d	22	pairs of rubber gloves
 6140	Chinese curse words	118948750	wosp_scroll.gif	none, combat	t,d	25
 6141	triad summoning scroll	235767837	scroll1.gif	usable	t,d	75
 6142	roasted duck	552811704	roastduck.gif	food	t,d	8
@@ -6170,14 +6170,14 @@
 6153
 6154	carrot juice	168944703	shot.gif	multiple	t,d	5
 6155	pixel power cell	360514198	powercell.gif	usable	t	0
-6156
+6156	flickering pixel	648086574	flickerpixel.gif	usable		0
 6157
 6158	anger blaster	657571737	angergun.gif	weapon		0
 6159	doubt cannon	406015526	doubtgun.gif	weapon		0
 6160	fear condenser	987434489	feargun.gif	weapon		0
 6161	regret hose	941648765	regretgun.gif	weapon		0
 6162
-6163
+6163	Young Man's Cargo Load	356763365	cargopack.gif	usable	t,d	200
 6164
 6165
 6166

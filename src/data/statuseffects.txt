@@ -1143,10 +1143,10 @@
 1142	Neutered Nostrils	potion4.gif	79fda8863783295d4ea2b67319974c07	use 1 Polysniff Perfume
 1143	Your Interest is Peaked	magnify.gif	d53ec15713b6be9d6c1b090b2cfd1f47
 1144	Ginger Fightis	purse.gif	a636530613396656819a3a45be1983c3	use 1 fireclutch
-1145
-1146
-1147
-1148
+1145	Consumed by Anger	pixelanger.gif	b57a4100a61cb0691e54f03a4b0d196d
+1146	Consumed by Fear	pixelfear.gif	72d23c4ca0a452608e43e924e775efdb
+1147	Consumed by Doubt	pixeldoubt.gif	cdebbff67d0e25b50eb43188e86bb813
+1148	Consumed by Regret	pixelregret.gif	4bc854e94273346ca36951a7565c5f15
 1149	Sheepskinned	haggissoap.gif	67409c43fa3b981dca486ef689941902	use 1 haggis-infused soap
 1150	Magic Tongue	bigtongue.gif	8e74c0f8246ed46fd0cd60423fa75f56	use 1 magicberry tablets
 1151	Ooh, Sweet!	tongueexclam.gif	b733312bace2a2ddf3c56beac81e4cd5

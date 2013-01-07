@@ -1970,6 +1970,7 @@ round purple sunglasses	Sleaze Resistance: +1, Single Equip
 # rubber WWJD? bracelet
 # rubber WWSPD? bracelet
 # rubber WWtNSD? bracelet
+rubber gloves	Sleaze Resistance: +2
 rum barrel charrrm bracelet	Booze Drop: +5
 rusty chain necklace	Muscle: +9, Maximum HP: +25
 screwing pooch	Item Drop: +3
