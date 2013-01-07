@@ -1750,6 +1750,7 @@ rubber WWBD? bracelet	10	none
 rubber WWJD? bracelet	10	none
 rubber WWSPD? bracelet	10	none
 rubber WWtNSD? bracelet	10	none
+rubber gloves	55	Mys: 12
 rum barrel charrrm bracelet	110	Mys: 40
 rusty chain necklace	180	Mys: 75
 screwing pooch	85	Mys: 27
@@ -1767,8 +1768,8 @@ shiny tribal beads	80	Mys: 25
 shock belt	80	none
 silver tongue charrrm bracelet	190	Mys: 80
 sk8board	70	Mys: 20
-skeletal scabbard	0	none
-skeleton skis	0	none
+skeletal scabbard	100	none
+skeleton skis	100	none
 slime convention pin	10	none
 slime-covered necklace	200	Mys: 200
 snow belt	50	Mys: 10
