@@ -2309,7 +2309,7 @@ public class FightRequest
 		// Check for familiar equipment-specific cases
 		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SNOW_SUIT, 1 ) ) )
 		{
-			Preferences.increment( "_snowSuitCount", 1, 60, false );
+			Preferences.increment( "_snowSuitCount", 1, 75, false );
 		}
 
 		// Cancel any combat modifiers
