@@ -68,6 +68,7 @@ Kegger	Item-Driven	Kegger in the Woods
 Vanya's Castle	Item-Driven	Vanya's Castle
 Magic Commune	Item-Driven	Magic Commune
 Ellsbury's Claim	Item-Driven	Ellsbury's Claim
+Psychoses	Item-Driven	Psychoses
 
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
