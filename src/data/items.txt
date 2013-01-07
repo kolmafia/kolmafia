@@ -6153,7 +6153,7 @@
 6136	pencil kunai	372782577	pencil.gif	none, combat	t,d	15
 6137	weighted paperclip chain	790807587	staplerchucks.gif	weapon	t,d	12
 6138	great big capacitor	970505595	device1.gif	none, combat	t,d	50
-6139	rubber gloves 943916076	stickygloves.gif	accessory	t,d	22	pairs of rubber gloves
+6139	rubber gloves	943916076	stickygloves.gif	accessory	t,d	22	pairs of rubber gloves
 6140	Chinese curse words	118948750	wosp_scroll.gif	none, combat	t,d	25
 6141	triad summoning scroll	235767837	scroll1.gif	usable	t,d	75
 6142	roasted duck	552811704	roastduck.gif	food	t,d	8
@@ -6176,7 +6176,7 @@
 6159	doubt cannon	406015526	doubtgun.gif	weapon		0
 6160	fear condenser	987434489	feargun.gif	weapon		0
 6161	regret hose	941648765	regretgun.gif	weapon		0
-6162
+6162	Young Man's Crew Sequester	651647340	crewpack.gif	usable	t,d	100
 6163	Young Man's Cargo Load	356763365	cargopack.gif	usable	t,d	200
 6164
 6165
