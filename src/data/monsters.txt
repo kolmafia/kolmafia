@@ -1306,7 +1306,7 @@ Toy Assembling Animelf	HP: [0.75*(min(10000,MUS)+ML)] Atk: [min(10000,MOX)] Def:
 #Psychoses
 work hat	Atk: 30 Def: 40 HP: 30	black pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
 reproachful heart	Atk: 30 Def: 40 HP: 25	red pixel (0)	red pixel (0)	white pixel (0)	pixel power cell (0)
-judgemental eye	Atk: 45 Def: 35 HP: 40	red pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
+judgmental eye	Atk: 45 Def: 35 HP: 40	red pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
 Doubt Man	Atk: 40 Def: 40 HP: 150	doubt cannon (100)
 contemplative ghost	Atk: 30 Def: 35 HP: 35	green pixel (0)	green pixel (0)	green pixel (0)	pixel power cell (0)
 lovesick ghost	Atk: 30 Def: 40 HP: 50	white pixel (0)	black pixel (0)	red pixel (0)	pixel power cell (0)
@@ -1345,7 +1345,7 @@ tin spider conspirator	Atk: 28 Def: 28 HP: 35	razor-sharp can lid (0)	spider web
 Fnord the Unspeakable	Atk: 38 Def: 38 HP: 50	razor-sharp can lid (0)	razor-sharp can lid (0)	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)	spider web (0)	spider web (0)
 fearsome giant squid	Atk: 125 Def: 125 HP: 140	old chum (0)
 ferocious roc	Atk: 120 Def: 130 HP: 140
-giant man eating shark	Atk: 130 Def: 120 HP: 140	old chum (0)
+giant man-eating shark	Atk: 130 Def: 120 HP: 140	old chum (0)
 Bristled Man-O-War	Atk: 135 Def: 135 HP: 160	old chum (0)
 Deadly Hydra	Atk: 140 Def: 140 HP: 180	Hundred Headed IPA (0)
 The Cray-Kin	Atk: 135 Def: 122 HP: 160	old chum (0)
