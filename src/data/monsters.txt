@@ -1355,7 +1355,7 @@ lucky cat statue	Atk: 62 Def: 68 HP: 75
 yakuza courier	Atk: 70 Def: 70 HP: 85	butterfly knife (0)	tube of herbal ointment (0)	zaibatsu lobby card (100)
 triad code wizard	Atk: 73 Def: 67 HP: 85	triad summoning scroll (0)
 clean-room daemon	Atk: 70 Def: 70 HP: 85	rubber gloves (0)
-fabricator guài	Atk: 67 Def: 73 HP: 85	Chinese curse words (0)
+fabricator gu&agrave;i	Atk: 67 Def: 73 HP: 85	Chinese curse words (0)
 The Sierpinski brothers	Atk: 77 Def: 74 HP: 95	triad summoning scroll (0)	triad summoning scroll (0)	triad summoning scroll (0)	cheap Chinese beer (0)	cheap Chinese beer (0)	dead meat bun (0)
 security robot	Atk: 72 Def: 78 HP: 85	great big capacitor (0)
 salaryninja	Atk: 78 Def: 72 HP: 80	pencil kunai (0)	pencil kunai (0)
