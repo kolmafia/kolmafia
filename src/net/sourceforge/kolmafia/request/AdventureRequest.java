@@ -601,6 +601,8 @@ public class AdventureRequest
 				image.startsWith( "slhobo" ) ? "Sleaze Hobo" :
 				// Slime Tube
 				image.startsWith( "slime" ) ? "Slime" + image.charAt( 5 ) :
+				// Bugbear Invasion
+				image.equals( "bb_caveman.gif" ) ? "Angry Cavebugbear" :
 				// Crimbo 2012 wandering elves
 				image.equals( "tacoelf_sign" ) ? "Sign-Twirling Crimbo Elf" :
 				image.equals( "tacoelf_taco" ) ? "Taco-Clad Crimbo Elf" :
