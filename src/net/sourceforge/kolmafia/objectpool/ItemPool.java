@@ -1539,6 +1539,7 @@ public class ItemPool
 	public static final int CRIMBO_TREE_FLOCKER = 6061;
 	public static final int CRIMBO_RUDOLPH_DOLL = 6062;
 	public static final int GEEKY_BOOK = 6071;
+	public static final int CEO_OFFICE_CARD = 6116;
 	public static final int SNOW_SUIT = 6150;
 
 	public static final AdventureResult get( String itemName, int count )

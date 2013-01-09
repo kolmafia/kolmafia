@@ -698,6 +698,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.FUDGE_WAND:
 			case ItemPool.REFLECTION_OF_MAP:
 			case ItemPool.CSA_FIRE_STARTING_KIT:
+			case ItemPool.CEO_OFFICE_CARD:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
