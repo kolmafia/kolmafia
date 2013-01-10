@@ -148,4 +148,19 @@ implements Comparable<Boost>
 		if ( this.effect != null ) return this.effect;
 		return this.item;
 	}
+
+	public double getBoost()
+	{
+		return this.boost;
+	}
+
+	public String getCmd()
+	{
+		return this.cmd;
+	}
+	
+	public boolean isEquipment()
+	{
+		return this.isEquipment;
+	}
 }

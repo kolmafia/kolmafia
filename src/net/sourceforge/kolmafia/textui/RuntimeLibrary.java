@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
+import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
@@ -181,6 +182,11 @@ public abstract class RuntimeLibrary
 		"{item drop; int rate; string type;}",
 		new String[] { "drop", "rate", "type" },
 		new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE } );
+	
+	private static final RecordType maximizerResults = new RecordType(
+		"{string display; string command; float score; effect effect;}",
+		new String[] { "display", "command", "score", "effect" },
+		new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.FLOAT_TYPE, DataTypes.EFFECT_TYPE } );
 
 	public static final FunctionList functions = new FunctionList();
 
@@ -1090,12 +1096,17 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "modifier_eval", DataTypes.FLOAT_TYPE, params ) );
-
+		
+		Type maximizerResultsArray = new AggregateType( maximizerResults, 0 );
+		
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "maximize", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "maximize", DataTypes.BOOLEAN_TYPE, params ) );
+		
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "maximize", maximizerResultsArray, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "monster_eval", DataTypes.FLOAT_TYPE, params ) );
@@ -4597,6 +4608,68 @@ public abstract class RuntimeLibrary
 		boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
 
 		return new Value( Maximizer.maximize( maximizerString, maxPrice, priceLevel, isSpeculateOnly ) );
+	}
+	
+	public static Value maximize( Interpreter interpreter, final Value maximizerStringValue, final Value maxPriceValue,
+		final Value priceLevelValue, final Value isSpeculateOnlyValue, final Value showEquipment )
+	{
+		String maximizerString = maximizerStringValue.toString();
+		int maxPrice = (int) maxPriceValue.intValue();
+		int priceLevel = (int) priceLevelValue.intValue();
+		boolean isSpeculateOnly = isSpeculateOnlyValue.intValue() != 0;
+		boolean showEquip = showEquipment.intValue() == 1;
+
+		Maximizer.maximize( maximizerString, maxPrice, priceLevel, isSpeculateOnly );
+
+		LockableListModel m = Maximizer.boosts;
+
+		int lastEquipIndex = 0;
+
+		if ( !showEquip )
+		{
+			for ( int i = 0; i < m.size(); ++i )
+			{
+				if ( !( (Boost) m.get( i ) ).isEquipment() )
+					break;
+				lastEquipIndex++ ;
+			}
+		}
+
+		AggregateType type = new AggregateType( RuntimeLibrary.maximizerResults, m.size() - lastEquipIndex );
+		ArrayValue value = new ArrayValue( type );
+
+		int cutIndex;
+		Boost boo;
+		String text;
+		String cmd;
+		Double boost;
+		AdventureResult ar;
+
+		for ( int i = lastEquipIndex; i < m.size(); ++i )
+		{
+			boo = ( (Boost) m.get( i ) );
+
+			text = boo.toString();
+			cmd = boo.getCmd();
+			boost = boo.getBoost();
+			ar = boo.getItem();
+
+			cutIndex = boo.toString().indexOf( " (" );
+			if ( cutIndex != -1 )
+			{
+				text = text.substring( 0, cutIndex );
+			}
+
+			RecordValue rec = (RecordValue) value.aref( new Value( i - lastEquipIndex ) );
+
+			rec.aset( 0, DataTypes.parseStringValue( text ), null );
+			rec.aset( 1, DataTypes.parseStringValue( cmd ), null );
+			rec.aset( 2, new Value( boost ), null );
+			rec.aset(
+				3, boo.isEquipment() ? DataTypes.EFFECT_INIT : DataTypes.parseEffectValue( ar.getName(), true ), null );
+		}
+
+		return value;
 	}
 
 	public static Value monster_eval( Interpreter interpreter, final Value expr )
