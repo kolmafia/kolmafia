@@ -184,9 +184,9 @@ public abstract class RuntimeLibrary
 		new Type[] { DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE } );
 	
 	private static final RecordType maximizerResults = new RecordType(
-		"{string display; string command; float score; effect effect;}",
-		new String[] { "display", "command", "score", "effect" },
-		new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.FLOAT_TYPE, DataTypes.EFFECT_TYPE } );
+		"{string display; string command; float score; effect effect; item item;}",
+		new String[] { "display", "command", "score", "effect", "item" },
+		new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.FLOAT_TYPE, DataTypes.EFFECT_TYPE, DataTypes.ITEM_TYPE } );
 
 	public static final FunctionList functions = new FunctionList();
 
@@ -4643,7 +4643,8 @@ public abstract class RuntimeLibrary
 		String text;
 		String cmd;
 		Double boost;
-		AdventureResult ar;
+		AdventureResult arEffect;
+		AdventureResult arItem;
 
 		for ( int i = lastEquipIndex; i < m.size(); ++i )
 		{
@@ -4652,8 +4653,10 @@ public abstract class RuntimeLibrary
 			text = boo.toString();
 			cmd = boo.getCmd();
 			boost = boo.getBoost();
-			ar = boo.getItem();
+			arEffect = boo.isEquipment() ? null : boo.getItem();
+			arItem = boo.getItem( false );
 
+			// remove the (+ X) from the display text, that info is in the score
 			cutIndex = boo.toString().indexOf( " (" );
 			if ( cutIndex != -1 )
 			{
@@ -4666,7 +4669,9 @@ public abstract class RuntimeLibrary
 			rec.aset( 1, DataTypes.parseStringValue( cmd ), null );
 			rec.aset( 2, new Value( boost ), null );
 			rec.aset(
-				3, boo.isEquipment() ? DataTypes.EFFECT_INIT : DataTypes.parseEffectValue( ar.getName(), true ), null );
+				3, arEffect == null ? DataTypes.EFFECT_INIT : DataTypes.parseEffectValue( arEffect.getName(), true ), null );
+			rec.aset(
+				4, arItem == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( arItem.getName(), true ), null );
 		}
 
 		return value;

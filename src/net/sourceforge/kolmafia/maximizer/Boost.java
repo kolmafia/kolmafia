@@ -142,10 +142,15 @@ implements Comparable<Boost>
 			}
 		}
 	}
-
-	public AdventureResult getItem()
+	
+	public AdventureResult getItem( )
 	{
-		if ( this.effect != null ) return this.effect;
+		return getItem( true );
+	}
+
+	public AdventureResult getItem( boolean preferEffect )
+	{
+		if ( this.effect != null && preferEffect ) return this.effect;
 		return this.item;
 	}
 
