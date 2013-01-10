@@ -1366,3 +1366,4 @@ desperate gold farmer	Atk: 80 Def: 80 HP: 95	gold piece (0)	gold piece (0)	gold 
 rabid MMO addict	Atk: 84 Def: 76 HP: 90	gold piece (0)
 The Server	Atk: 90 Def: 90 HP: 999999999
 White Bone Demon	Atk: 100 Def: 100 HP: 180	suspicious-looking fedora (0)
+procedurally-generated skeleton	HP: 0 Atk: 0 Def: 0
