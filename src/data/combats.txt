@@ -34,14 +34,20 @@
 # can only appear in your first and subsequent odd-numbered ascensions,
 # or "e" if it can only appear in even-numbered ascensions.
 
+1st Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
+2nd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
+3rd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle: e1	Goomba: o1	Keese	Koopa Troopa	Octorok	Tektite	Zol
 A-Boo Peak	100	Battlie Knight Ghost	Claybender Sorcerer Ghost	Dusken Raider Ghost	Space Tourist Explorer Ghost	Whatsian Commando Ghost
 A Barroom Brawl	100	Drunken 7-foot Dwarf	Plastered Frat Orc	Skeleton with a Mop	Unemployed Knob Goblin	Werecougar
+A Grocery Bag	100	bag of Potatoes of Security	box of Batter Mix of Hope	bundle of Meat of Happiness	carton of Eggs of Confidence	loaf of Bread of Wonder
+A Kitchen Drawer	100	Butterknife of Regret	Cookie Cutter of Loneliness	Creme Brulee Torch of Fury	Spatula of Despair	Whisk of Misery
 A Maze of Sewer Tunnels	95	C. H. U. M.	Giant Zombie Goldfish	Sewer Gator	C. H. U. M. chieftain: 0
 A Pile of Old Servers	100	Antique Database Server
 A Skeleton Invasion!	100	Skeleton Invader	Two Skeleton Invaders	Three Skeleton Invaders	Four Skeleton Invaders	Five Skeleton Invaders
 A Well-Groomed Lawn	100	Menacing lawn gnome	Mowing lawn gnome	Mounted lawn gnome
 An Octopus's Garden	95	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae
+Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Anemone Mine	-1	Anemone Combatant	Killer Clownfish	Mer-kin Miner
 Astral Mushroom (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Casey Kasem)	Trippy Floating Head (Grand Moff Tarkin)	Trippy Floating Head (Mona Lisa)	Zombie Baby
 Astral Mushroom (Great Trip)	100	Bustle in the Hedgerow	Gathering of Angels?	Higher Plane Serpents	Angels of Avalon	Elders of the Gentle Race
@@ -68,6 +74,8 @@ Bugbear Pens	100	Angry Bugbear: 3	Bugged Bugbear: 3	Mad Bugbears: 3	Revolting Bu
 Burnbarrel Blvd.	-1	Hot Hobo	Ol' Scratch: 0
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
 Chapel	100
+Chinatown Shops	-1	grinning pork bun	lucky cat statue	roasted duck golem	yakuza courier: 0
+Chinatown Tenement	-1	desperate gold farmer	rabid MMO addict	yakuza thug	The Server: 0	White Bone Demon: 0
 Convention Hall Lobby	100	Booth Slime	Fan Slime	Vendor Slime
 Outside the Club	100	Breakdancing Raver	Pop-and-Lock Raver	Running Man
 CRIMBCO cubicles	-1	Best Game Ever	Disorganized Files	Endless Conference Call	Hideous Slide Show	Tedious Spreadsheet	Unoptimized Database	Your Overflowing Inbox	Chatty Coworker	The Book Of Faces	The Tome Of Tropes	The Water Cooler	Totally Malicious 'Zine	The Best Game Ever
@@ -88,6 +96,7 @@ Defiled Nook	100	Spiny Skelelton	Toothy Sklelton	Giant Skeelton: 0
 Degrassi Knoll	80	Gnollish Crossdresser: 2	Gnollish Flyslayer: 2	Gnollish Gearhead: 3	Gnollish Piebaker: 2	Gnollish Plungermaster: 2	Gnollish Tirejuggler: 2	Gnollish War Chef: 2	Guard Bugbear: 2	One-Eyed Gnoll: 2
 Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locusts	Rock Scorpion	Swarm of Fire Ants
 Dire Warren	100	Fluffy Bunny
+Doubt Man's Level	-1	judgmental eye	reproachful heart	work hat	Doubt Man: 0
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
 Elf Alley	-1	Hobelf	Uncle Hobo: 0
@@ -98,6 +107,7 @@ eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarde
 F'c'le	80	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
 Family Plot	100	Vampire Duck	Zombie Duck
 Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess
+Fear Man's Level	-1	animated possessions	morbid skull	natural spider	Fear Man: 0
 Feeding Chamber	100	Filthworm Drone
 Fernswarthy's Basement	47	Beast with X Ears	Beast with X Eyes	X Stone Golem		X-headed Hydra	Ghost of Fernswarthy's Grandfather	X Bottles of Beer on a Golem	X-dimensional Horror
 Fernswarthy's Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
@@ -184,6 +194,7 @@ Post-War Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gr
 Post-War Sonofa Beach	-1	Lobsterfrogman
 Pre-Cyrpt Cemetary	100	Ghuol	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
 Queen's Chamber	100	Queen Filthworm
+Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
 Rogue Windmill	70	Can-can Dancer	Courtesan	Sensitive Poet-type	Master of Ceremonies	Voyeuristic Artist
 Science Lab	-1
 Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	Cyborg Policeman	"Handyman" Jay Android	Liquid Metal Robot	Obese Tourist	Space Marine	Terrifying Robot
@@ -224,6 +235,8 @@ The Marinara Trench	95	Diving Belle	Fisherfish	Giant Squid	Mer-kin Diver
 The Mer-Kin Outpost	100	Mer-kin Burglar	Mer-kin Healer	Mer-kin Raider
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
 The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanctum): 0	warehouse worker	Stella, the Turtle Poacher (Inner Sanctum): 0	evil spaghetti cult zealot	Spaghetti Elemental (Inner Sanctum): 0	security slime	Lumpy, the Sinister Sauceblob (Inner Sanctum): 0	daft punk	Spirit of New Wave (Inner Sanctum): 0	mariachi bruiser	Somerset Lopez, Dread Mariachi (Inner Sanctum): 0
+The Nightmare Meatrealm	100	bacon snake	cold cutter	groast	pork butterfly	salaminder	The Beefhemoth: 0
+The Old Man's Bathtime Adventures	-1	fearsome giant squid	ferocious roc	giant man-eating shark	Bristled Man-O-War	The Cray-Kin	Deadly Hydra
 The Outer Compound	100	guard turtle
 The Primordial Soup	-1	Cluster of Angry Bacteria	Corrosive Algae	Hostile Amoeba	Mad Flagellate	Violent Fungus	Cyrus the Virus: 0
 The Purple Light District	-1	Sleaze Hobo	Chester: 0
@@ -231,10 +244,12 @@ The Red Queen's Garden	100	Snapdragon	Beelephant	Tiger-lily	wasp in a wig
 The Skate Park	-1	Grouper Groupie	Ice Skate	Roller Skate	Skate Board Member	Urchin Urchin
 The Slime Tube	95	Slime1	Slime2	Slime3	Slime4	Slime5	Mother Slime: 0
 The Temple Portico	100	evil spaghetti cult middle-manager	evil spaghetti cult neophyte	evil spaghetti cult technician
+The Tower of Procedurally-Generated Skeletons	100	procedurally-generated skeleton
 The Upper Chamber	100	Tomb Asp	Tomb Rat	Tomb Servant
 The Wreck of the Edgar Fitzsimmons	100	Cargo Crab	Drowned Sailor	Mer-kin Scavenger	Mine Crab	Unholy Diver
 Themthar Hills	100	Dirty Thieving Brigand
 Thugnderdome	100	Gnarly Gnome	Gnasty Gnome	Gnefarious Gnome	Gnomester Blomester	Gnu Jack Gnome	Vicious Gnauga
+Triad Factory	100	clean-room daemon	fabricator gu&agrave;i	triad code wizard	The Sierpinski brothers: 0
 Twin Peak	-1	bearpig topiary animal	Big Wheelin' Twins	Bubblemint Twins	Creepy Ginger Twin	elephant (meatcar?) topiary animal	Mismatched Twins	spider (duck?) topiary animal	Troll Twins
 Wartime Frat House	0	War Hippy Spy: 0
 Wartime Frat House (Hippy Disguise)	80	War Pledge	Frat Warrior Drill Sergeant
