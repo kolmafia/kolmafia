@@ -467,7 +467,14 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "forestvillage.php" ) )
 		{
-			UntinkerRequest.parseResponse( location, responseText );
+			if ( location.contains( "place=untinker" ) )
+			{
+				UntinkerRequest.parseResponse( location, responseText );
+			}
+			else if ( location.contains( "action=mystic" ) )
+			{
+				PixelRequest.parseResponse( location, responseText );
+			}
 		}
 
 		else if ( location.startsWith( "friars.php" ) )
@@ -609,11 +616,6 @@ public class ResponseTextParser
 		else if ( location.startsWith( "mrstore.php" ) )
 		{
 			MrStoreRequest.parseResponse( location, responseText );
-		}
-
-		else if ( location.startsWith( "mystic.php" ) )
-		{
-			PixelRequest.parseResponse( location, responseText );
 		}
 
 		else if ( ( location.startsWith( "multiuse.php" ) || location.startsWith( "skills.php" ) ) && location.indexOf( "useitem" ) != -1 )
