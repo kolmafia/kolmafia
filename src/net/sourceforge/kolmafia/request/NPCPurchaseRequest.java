@@ -467,6 +467,10 @@ public class NPCPurchaseRequest
 		{
 			TrapperRequest.parseResponse( urlString, responseText );
 		}
+		else if ( shopId.equals( "mystic" ) )
+		{
+			PixelRequest.parseResponse( urlString, responseText );
+		}
 	}
 
 	public static final boolean registerShopRequest( final String urlString, boolean meatOnly )

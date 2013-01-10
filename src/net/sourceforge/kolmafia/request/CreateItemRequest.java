@@ -1226,10 +1226,13 @@ public class CreateItemRequest
 		{
 			return SugarSheetRequest.registerRequest( urlString );
 		}
-
-		if ( urlString.startsWith( "mystic.php" ) )
+		
+		if ( urlString.startsWith( "shop.php" ) )
 		{
-			return PixelRequest.registerRequest( urlString );
+			if ( urlString.contains( "whichshop=mystic" ) )
+			{
+				return PixelRequest.registerRequest( urlString );
+			}
 		}
 
 		if ( urlString.startsWith( "volcanoisland.php" ) )

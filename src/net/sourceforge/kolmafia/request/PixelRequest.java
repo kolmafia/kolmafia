@@ -52,14 +52,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class PixelRequest
 	extends CreateItemRequest
 {
-	private static final Pattern WHICH_PATTERN = Pattern.compile( "makewhich=(\\d+)" );
-
 	public PixelRequest( final Concoction conc )
 	{
-		super( "mystic.php", conc );
+		super( "shop.php", conc );
 
-		this.addFormField( "action", "makepixel" );
-		this.addFormField( "makewhich", String.valueOf( this.getItemId() ) );
+		this.addFormField( "whichshop", "mystic" );
+		this.addFormField( "action", "buyitem" );
+		this.addFormField( "whichitem", String.valueOf( this.getItemId() ) );
 	}
 
 	@Override
@@ -86,11 +85,12 @@ public class PixelRequest
 		super.run();
 	}
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=makewhich value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*>([^&]*)&nbsp;", Pattern.DOTALL );
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*>([^&]*)&nbsp;", Pattern.DOTALL );
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "mystic.php" ) )
+		if ( ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=mystic" ) ) && // buying an item
+			 ( !urlString.startsWith( "forestvillage.php" ) || !urlString.contains( "action=mystic" ) ) ) // initial visit
 		{
 			return;
 		}
@@ -112,7 +112,7 @@ public class PixelRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher itemMatcher = PixelRequest.WHICH_PATTERN.matcher( urlString );
+		Matcher itemMatcher = CreateItemRequest.WHICHITEM_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 		{
 			return true;
@@ -121,25 +121,18 @@ public class PixelRequest
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		int quantity = 1;
 
-		if ( urlString.indexOf( "makemax=" ) != -1 )
+		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		if ( quantityMatcher.find() )
 		{
-			quantity = CreateItemRequest.getInstance( itemId ).getQuantityPossible();
+			String quantityString = quantityMatcher.group( 2 ).trim();
+			quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
 		}
-		else
+		if ( quantity >	CreateItemRequest.getInstance( itemId ).getQuantityPossible() )
 		{
-			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
-			if ( quantityMatcher.find() )
-			{
-				String quantityString = quantityMatcher.group( 2 ).trim();
-				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
-			}
-			if ( quantity >	CreateItemRequest.getInstance( itemId ).getQuantityPossible() )
-			{
-				return true;	// attempt will fail
-			}
+			return true;	// attempt will fail
 		}
 
-		StringBuffer pixelString = new StringBuffer();
+		StringBuilder pixelString = new StringBuilder();
 		pixelString.append( "Trade " );
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );

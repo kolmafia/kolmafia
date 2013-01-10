@@ -542,12 +542,13 @@ public class KoLAdventure
 			AdventureResult transfunctioner = ItemPool.get( ItemPool.TRANSFUNCTIONER, 1 );
 			if ( !InventoryManager.hasItem( transfunctioner ) )
 			{
-				//RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php" ) );
-				//RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes1" ) );
-				//RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes2" ) );
-				// Those URLs are visited when clicking KoL-provided buttons
-				// but they can be skipped for just getting the transfunctioner
-				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "mystic.php?action=crackyes3" ) );
+				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "forestvillage.php?action=mystic" ) );
+				GenericRequest pixelRequest = KoLAdventure.ZONE_UNLOCK.constructURLString( "choice.php?pwd=" + 
+					GenericRequest.passwordHash + "&whichchoice=664&option=1&choiceform1" );
+				// The early steps cannot be skipped
+				RequestThread.postRequest( pixelRequest );
+				RequestThread.postRequest( pixelRequest );
+				RequestThread.postRequest( pixelRequest );
 			}
 
 			if ( !KoLCharacter.hasEquipped( transfunctioner) )
