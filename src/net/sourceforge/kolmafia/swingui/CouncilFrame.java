@@ -305,6 +305,11 @@ public class CouncilFrame
 			EquipmentManager.discardEquipment( ItemPool.WOLFMAN_MASK );
 			return;
 		}
+		if ( responseText.indexOf( "Right on, brah. Here, have some gum." ) != -1 )
+		{
+			ResultProcessor.processItem( ItemPool.RUSSIAN_ICE, -1 );
+			return;
+		}
 	}
 
 	private static final void handleCell37( final String responseText )
