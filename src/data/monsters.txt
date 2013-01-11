@@ -181,7 +181,7 @@ Battlie Knight Ghost	Atk: 76 Def: 64 HP: 40 Phys: 100	A-Boo clue (0)	Battlie Lig
 Batwinged Gremlin	Atk: 169 Def: 153 HP: 170 Meat: 40-60 P: demihuman	gremlin juice (3)	molybdenum hammer (c0)
 Bazookafish	HP: 500 Def: 292 Atk: 375 Meat: 176-264 P: fish	bazookafish bubble gum (42)	bazookafish bubble gum (8)	dull fish scale (n15)	fish bazooka (n2)
 Beanbat	Atk: 21 Def: 18 HP: 18 Meat: 28-43 P: beast	enchanted bean (50)	sonar-in-a-biscuit (10)
-bearpig topiary animal	Atk: 85 Def: 80 HP: 90 P: beast	rusty hedge trimmers (0)
+bearpig topiary animal	Atk: 85 Def: 80 HP: 90 P: beast	rusty hedge trimmers (15)
 Beaver	Atk: 162 Def: 145 HP: 150 E: sleaze P: constellation	line (30)	star (30)	star (30)
 Beefy Bodyguard Bat	Atk: 25 Def: 22 HP: 25 Meat: 200-300 P: beast
 Beer Batter	Atk: 99999 Def: 89999 HP: [99999]
@@ -190,7 +190,7 @@ Best-Selling Novelist	Atk: 99999 Def: 89999 HP: [99999]
 Big Creepy Spider	Atk: 1 Def: 0 HP: 1 Meat: 4-6 "Hardly Poisoned at All" P: bug	spider web (25)	spider web (25)
 Big Meat Golem	Atk: 99999 Def: 89999 HP: [99999]
 Big Swarm of Ghuol Whelps	Atk: 50 Def: 45 HP: 150 E: spooky P: undead
-Big Wheelin' Twins	Atk: 92 Def: 85 HP: 105 P: humanoid	badge of authority (0)	vial of The Glistening (0)
+Big Wheelin' Twins	Atk: 92 Def: 85 HP: 105 P: humanoid	badge of authority (5)	vial of The Glistening (15)
 Bizarre Construct	HP: 300 Def: 270 Atk: 300 P: object	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
 BL Imp	Atk: 65 Def: 58 HP: 65 E: hot Init: 45 Meat: 36-44 P: demon	imp air (20)
 Black Adder	Atk: 129 Def: 114 HP: 124 Meat: 80-120 "Really Quite Poisoned" P: beast	adder bladder (30)	black snake skin (15)	sunken eyes (c50)
@@ -253,7 +253,7 @@ BRICKO Vacuum Cleaner	HP: 2500 Def: 360 Atk: 400 Phys: 10 P: object	broken BRICK
 Briefcase Bat	Atk: 17 Def: 15 HP: 11 Meat: 25-37 P: beast	bat guano (10)	briefcase (40)	sonar-in-a-biscuit (10)
 Bronze Chef	Atk: 99999 Def: 89999 HP: [99999]
 Brutus, the Toga-Clad Lout	Atk: 200 Def: 180 HP: 280 Meat: 247-387 E: sleaze	kick-ass kicks (0)	wreath of laurels (100)	white class ring (0)
-Bubblemint Twins	Atk: 93 Def: 83 HP: 90	dress pants (0)	that gum you like (0)
+Bubblemint Twins	Atk: 93 Def: 83 HP: 90	dress pants (5)	that gum you like (25)
 Bugbear-In-The-Box	Atk: 16 Def: 16 HP: 11 Meat: 12-18 P: beast	box (20)	bugbear beanie (10)	bugbear bungguard (10)
 Bugged Bugbear	HP: 14 Def: 16 Atk: 17 P: beast	gnoll teeth (30)	gnoll lips (30)	software glitch (p25)
 Bullet Bill	Atk: 25 Def: 22 HP: 15 P: object	black pixel (70)	black pixel (70)	black pixel (70)
@@ -312,7 +312,7 @@ Craven Carven Raven	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS)+ML] Atk: [min(
 Crazy Bastard	HP: 25 Def: 20 Atk: 20	crazy bastard sword (100)
 Creamy Pirate	Atk: 100 Def: 90 HP: 90 P: pirate	creamsicle (20)	cream stout (20)	Oil of Parrrlay (15)	ball polish (c30)
 Creepy Clown	Atk: 20 Def: 18 HP: 16 E: spooky Meat: 24-36 P: horror	acid-squirting flower (10)	clown shoes (10)	foolscap fool's cap (10)	clown skin (10)	big bass drum (4)	polka-dot bow tie (p5)	empty greasepaint tube (b0)
-Creepy Ginger Twin	Atk: 95 Def: 86 HP: 95	creepy ginger ale (0)	stolen necklace (0)
+Creepy Ginger Twin	Atk: 95 Def: 86 HP: 95	creepy ginger ale (15)	stolen necklace (5)
 Croqueteer	HP: [(MUS+ML)*.75] Def: [MUS+ML] Atk: [MOX+ML] Init: 75 Meat: 48 P: humanoid	croquet hedgehog (0)	flamingo mallet (0)
 Cruel Dust Mote	HP: 100 Def: 67 Atk: 75 P: strange	boulder (0)
 Crusty Hippy	Atk: 41 Def: 36 HP: 30 E: stench P: hippy	filthy corduroys (5)	filthy knitted dread sack (5)	windchimes (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)
@@ -371,7 +371,7 @@ Ed the Undying (7)	BOSS HP: 8 Def: 162 Atk: 180 P: undead	Holy MacGuffin (n100)
 Edwing Abbidriel	HP: 0	elf resistance button (100)
 El Diablo	Atk: 99999 Def: 89999 HP: [99999]
 Electron Submarine	Atk: 99999 Def: 89999 HP: [99999]
-elephant (meatcar?) topiary animal	Atk: 85 Def: 80 HP: 90 P: beast	rusty hedge trimmers (0)
+elephant (meatcar?) topiary animal	Atk: 85 Def: 80 HP: 90 P: beast	rusty hedge trimmers (15)
 Elf Hobo	HP: 40 Def: 27 Atk: 30 P: hobo	bindlestocking (0)	bottle of rum (0)	bottle of tequila (0)	bottle of whiskey (0)	candy cane (0)	Crimbo candied pecan (0)	Crimbo fudge (0)	Crimbo peppermint bark (0)	eggnog (0)	Mad Train wine (0)	sleeping stocking (0)	Tales of a Kansas Toymaker (0)	The Joy of Wassailing (0)	white lightning (0)	Wint-O-Fresh mint (s)
 Elite Beer Bongadier	Atk: 190 Def: 184 HP: 230 E: sleaze P: orc	beer bong (30)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (4)	PADL Phone (3)
 Empty Suit of Armor	Atk: 115 Def: 103 HP: 120 ED: spooky P: object	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
@@ -644,7 +644,7 @@ Mimic (Middle 2 Rows)	Atk: 25 Def: 22 HP: 35 P: strange
 Mimic (Top 2 Rows)	Atk: 35 Def: 31 HP: 45 P: strange
 Mind Flayer	Atk: 59 Def: 54 HP: 77 P: horror	mind flayer corpse (25)	cornuthaum (15)	large box (20)
 Mine Crab	Atk: 700 Def: 540 HP: 850 Meat: 200-300 P: fish	live nautical mine (n20)
-Mismatched Twins	Atk: 91 Def: 85 HP: 100 P: humanoid	artisanal limoncello (0)	giant motorcycle boots (0)
+Mismatched Twins	Atk: 91 Def: 85 HP: 100 P: humanoid	artisanal limoncello (15)	giant motorcycle boots (5)
 Mob Penguin Arsonist	P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Caporegime	P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Demolitionist	P: penguin	Crimbuck	herringcello	penguin focaccia bread
@@ -846,7 +846,7 @@ Spaghetti Elemental (The Nemesis' Lair)	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 
 Spaghetti Elemental (Volcanic Cave)	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 P: elemental Image: 3_3.gif
 Spam Witch	Atk: 85 Def: 76 HP: 75 EA: sleaze Meat: 24-38 P: humanoid	30669 scroll (30)	Spam Witch sammich (50)	sammich crust (b0)
 Spectral Jellyfish	Atk: 70 Def: 63 HP: 60 "Somewhat Poisoned" P: beast	spectral jelly (p1)
-spider (duck?) topiary animal	Atk: 85 Def: 80 HP: 90 P: beast	rusty hedge trimmers (0)
+spider (duck?) topiary animal	Atk: 85 Def: 80 HP: 90 P: beast	rusty hedge trimmers (15)
 Spider Gremlin	Atk: 172 Def: 151 HP: 170 Meat: 40-60 P: demihuman	gremlin juice (3)	molybdenum pliers (c0)
 Spiny Skelelton	Atk: 53 Def: 48 HP: 50 E: spooky P: undead	skeleton bone (40)	smart skull (50)	spiked femur (10)	evil eye (20)
 Spirit of New Wave (Inner Sanctum)	BOSS Atk: 27 Def: 24 HP: 30 P: undead Image: 5_1.gif	Disco 'Fro Pick (100)
@@ -934,7 +934,7 @@ Towering Construct	Atk: 350 Def: 360 HP: 450 P: object	El Vibrato punchcard (165
 Toy-making creature from the Gray Lagoon		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Tribal Goblin	Atk: 60 Def: 45 HP: 60 P: goblin	goblin autoblowgun (0)	goblin hunting spear (0)	shiny tribal beads (0)
 Triffid	Atk: 5 Def: 4 HP: 6 P: plant	moxie weed (30)	spooky stick (30)	triffid bark (b0)
-Troll Twins	Atk: 94 Def: 82 HP: 98 P: humanoid	incredible pizza (0)	troll britches (0)
+Troll Twins	Atk: 94 Def: 82 HP: 98 P: humanoid	incredible pizza (5)	troll britches (5)
 Trollipop	HP: 0	grape troll doll (0)	cinnamon troll doll (0)	blue raspberry troll doll (0)
 Trophyfish	Atk: 5000 Def: 4500 HP: 15000 Phys: 25 P: fish
 Trouser Snake	Atk: 153 Def: 137 HP: 150 E: sleaze P: constellation	line (30)	line (30)	line (30)
