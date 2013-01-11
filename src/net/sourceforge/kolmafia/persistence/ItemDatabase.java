@@ -1174,9 +1174,15 @@ public class ItemDatabase
 		ItemDatabase.priceById.set( itemId, price );
 		String plural = ItemDatabase.getPluralById( itemId );
 
+		String printMe;
 		// Print what goes in items.txt
-		RequestLogger.printLine( "--------------------" );
-		RequestLogger.printLine( ItemDatabase.itemString( itemId, itemName, descId, image, usage, attrs, access, price, plural ) );
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+
+		printMe = ItemDatabase.itemString( itemId, itemName, descId, image, usage, attrs, access, price, plural );
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
 
 		if ( EquipmentDatabase.isEquipment( usage ) )
 		{
@@ -1196,7 +1202,9 @@ public class ItemDatabase
 		Modifiers.registerItem( itemName, text );
 
 		// Done generating data
-		RequestLogger.printLine( "--------------------" );
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
 
 		// Potions grant an effect. Check for a new effect.
 		String effectName = Modifiers.getStringModifier( itemName, "Effect" );

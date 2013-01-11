@@ -401,14 +401,23 @@ public class EffectDatabase
 			EffectDatabase.defaultActions.put( canonicalName, defaultAction );
 		}
 
-		RequestLogger.printLine( "--------------------" );
-		RequestLogger.printLine( EffectDatabase.effectString( effectId, name, image, descId, defaultAction ) );
+		String printMe;
+
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+
+		printMe = EffectDatabase.effectString( effectId, name, image, descId, defaultAction );
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
 
 		// Let modifiers database do what it wishes with this effect
 		Modifiers.registerEffect( name, text );
 
 		// Done generating data
-		RequestLogger.printLine( "--------------------" );
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
 
 		EffectDatabase.newEffects = true;
 
@@ -430,11 +439,11 @@ public class EffectDatabase
 			Integer nextInteger = (Integer) entry.getKey();
 			int effectId = nextInteger.intValue();
 
-                        // Skip pseudo effects
-                        if ( effectId < 1 )
-                        {
-                                continue;
-                        }
+			// Skip pseudo effects
+			if ( effectId < 1 )
+			{
+				continue;
+			}
 
 			for ( int i = lastInteger; i < nextInteger.intValue(); ++i )
 			{

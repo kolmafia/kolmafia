@@ -3025,21 +3025,29 @@ public class Modifiers
 
 	private static final void registerObject( final String name, final ArrayList unknown, final String known )
 	{
+		String printMe;
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
-			RequestLogger.printLine( Modifiers.modifierCommentString( name, (String) unknown.get( i ) ) );
+			printMe = Modifiers.modifierCommentString( name, (String) unknown.get( i ) );
+			RequestLogger.printLine( printMe );
+			RequestLogger.updateSessionLog( printMe );
 		}
 
 		if ( known.equals( "" ) )
 		{
 			if ( unknown.size() == 0 )
 			{
-				RequestLogger.printLine( Modifiers.modifierCommentString( name ) );
+				printMe = Modifiers.modifierCommentString( name );
+				RequestLogger.printLine( printMe );
+				RequestLogger.updateSessionLog( printMe );
 			}
 		}
 		else
 		{
-			RequestLogger.printLine( Modifiers.modifierString( name, known ) );
+			printMe = Modifiers.modifierString( name, known );
+			RequestLogger.printLine( printMe );
+			RequestLogger.updateSessionLog( printMe );
+
 			String canon = StringUtilities.getCanonicalName( name );
 			if ( !Modifiers.modifiersByName.containsKey( canon ) )
 			{
