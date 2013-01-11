@@ -85,12 +85,11 @@ public class PixelRequest
 		super.run();
 	}
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*>([^&]*)&nbsp;", Pattern.DOTALL );
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*><b>([^&]*)</b>&nbsp;", Pattern.DOTALL );
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=mystic" ) ) && // buying an item
-			 ( !urlString.startsWith( "forestvillage.php" ) || !urlString.contains( "action=mystic" ) ) ) // initial visit
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=mystic" ) )
 		{
 			return;
 		}
