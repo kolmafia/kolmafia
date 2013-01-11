@@ -1144,25 +1144,25 @@ Gathering of Angels?	Atk: 145 Def: 130 HP: 150 EA: sleaze P: strange	orange-fros
 Higher Plane Serpents	Atk: 145 Def: 130 HP: 150 P: strange	pink-frosted astral cupcake (15)
 
 # Mouldering Mansion
-Bellhop	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	bellhop bell (20)
-Black Cat	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: beast	bottle of black cat tonic (20)
-Ourang-Outang	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: beast	library card (20)
-Raven	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: beast	shot of nepenthe schnapps (20)
-Usher	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	patent antipsychotics (20)
+Bellhop	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid	bellhop bell (20)
+Black Cat	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: beast	bottle of black cat tonic (20)
+Ourang-Outang	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: beast	library card (20)
+Raven	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: beast	shot of nepenthe schnapps (20)
+Usher	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid	patent antipsychotics (20)
 
 # Rogue Windmill
-Can-can Dancer	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	can-can-in-a-can (20)
-Courtesan	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	bottle of realpagne (20)
-Master of Ceremonies	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	escargotsicle (20)
-Sensitive Poet-type	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	sensitive poetry journal (20)
-Voyeuristic Artist	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	Bohemian rhapsody (20)
+Can-can Dancer	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid	can-can-in-a-can (20)
+Courtesan	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid	bottle of realpagne (20)
+Master of Ceremonies	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid	escargotsicle (20)
+Sensitive Poet-type	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid	sensitive poetry journal (20)
+Voyeuristic Artist	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid	Bohemian rhapsody (20)
 
 # Stately Pleasure Dome
-Ancient Mariner	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	Mariner's Friend cough drops (20)
-Angry Poet	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	honey-dew (10)	white Xanadian (0)
-Kubla Khan	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid
-Roller-skating Muse	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: humanoid	bottled inspiration (20)
-Toothless Mastiff Bitch	HP: [min(100,0.8*(min(125,MUS)+ML-MCD))+(ML-MCD)*0.75] Def: [min(125,MUS)+ML-MCD] Atk: [min(125,MOX*1.1)+ML-MCD] P: beast	disintegrating spiky collar (20)
+Ancient Mariner	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid	Mariner's Friend cough drops (20)
+Angry Poet	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid	honey-dew (10)	white Xanadian (0)
+Kubla Khan	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid
+Roller-skating Muse	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: humanoid	bottled inspiration (20)
+Toothless Mastiff Bitch	HP: [min(100,0.8*(min(125,MUS)+ML))+(ML)*0.75] Def: [min(125,MUS)+ML] Atk: [min(125,MOX*1.1)+ML] P: beast	disintegrating spiky collar (20)
 
 # Mt. Molehill
 Digital Underground Dweller	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: demihuman
