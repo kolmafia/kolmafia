@@ -473,11 +473,11 @@
 456	dry martini	617674347	martini.gif	drink	t,d	90	dry martinis
 457	ye olde golde frontes	455873524	goldfronts.gif	accessory	t,d	750	sets of ye olde golde frontes
 458	continuum transfunctioner	488592577	transfunc.gif	accessory	q	0
-459	white pixel	603807622	whitepix.gif	none	t,d	25	white pixels
-460	black pixel	942103274	blackpix.gif	none	t,d	25	black pixels
-461	red pixel	535888877	colorpix.gif	none	t,d	25	red pixels
-462	green pixel	344843384	colorpix.gif	none	t,d	25	green pixels
-463	blue pixel	131737753	colorpix.gif	none	t,d	25	blue pixels
+459	white pixel	603807622	pixel1.gif	none	t,d	25	white pixels
+460	black pixel	942103274	pixel2.gif	none	t,d	25	black pixels
+461	red pixel	535888877	pixel3.gif	none	t,d	25	red pixels
+462	green pixel	344843384	pixel4.gif	none	t,d	25	green pixels
+463	blue pixel	131737753	pixel5.gif	none	t,d	25	blue pixels
 464	red pixel potion	968682404	ppotion.gif	hp, combat	t,d	50	red pixel potions
 465	blue pixel potion	619523877	ppotion.gif	mp, combat	t,d	50	blue pixel potions
 466	green pixel potion	809354660	ppotion.gif	hpmp, combat	t,d	50	green pixel potions
@@ -4602,7 +4602,7 @@
 4585	collection of tiny spooky objects	262106157	disease.gif	usable	t	0	collections of tiny spooky objects
 4586	boulder	444310068	bigrock.gif	none, combat	t,d	44	boulders
 4587	tiny goth giant	262678358	tinygothgiant.gif	none, combat	t,d	1000	tiny goth giants
-4588	brown pixel	768196937	blackpix.gif	none	t,d	25	brown pixels
+4588	brown pixel	768196937	pixel6.gif	none	t,d	25	brown pixels
 4589	pixel whip	678588952	pixwhip.gif	weapon	t,d	15	pixel whip
 4590	pixel chain whip	637629378	pixwhip2.gif	weapon	d	65
 4591	pixel morning star	533398816	pixwhip3.gif	weapon	d	80
