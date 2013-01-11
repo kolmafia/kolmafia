@@ -477,7 +477,9 @@ public class EquipmentDatabase
 			EquipmentDatabase.itemTypes.set( itemId, weaponType );
 		}
 
-		RequestLogger.printLine( EquipmentDatabase.equipmentString( itemName, power, req, weaponType, isWeapon, isShield ) );
+		String printMe = EquipmentDatabase.equipmentString( itemName, power, req, weaponType, isWeapon, isShield );
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
 	}
 
 	public static final int nextEquipmentItemId( int prevId )
