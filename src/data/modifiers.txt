@@ -1569,7 +1569,7 @@ Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Pickpocket
 Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
 # French slippers
 Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
-Frown Exerciser	Monster Level: [5*G], Moxie: -5
+Frown Exerciser	Monster Level: [5*G], Moxie: -5, Single Equip
 Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 # Garter of the Turtle Poacher: Increases the Effectiveness of Turtle Pheromones*
 # * This enchantment works even when this item is not equipped
