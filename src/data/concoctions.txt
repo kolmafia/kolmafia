@@ -2042,3 +2042,10 @@ Crimbo stogie-scented room odorizer	SUSE	Super Crimboman Ultra Mega Hypersword
 Crimbo bottomless hot cocoa mug	SUSE	Super Crimboman Ultra Mega Hypersword
 Crimbo tree flocker	SUSE	Super Crimboman Ultra Mega Hypersword
 Crimbo light-up Rudolph doll	SUSE	Super Crimboman Ultra Mega Hypersword
+
+# Psychoanalytic items
+Byte	MUSE	flickering pixel (8)
+White Dragon Fang	ACOMBINE	magical battery	toy taijijian
+goblin bone hilt	COMBINE	goblin collarbone	wad of spider silk
+loose blade	COMBINE	goblin collarbone	sharp tin strip
+sticky sword blade	COMBINE	wad of spider silk	sharp tin strip
