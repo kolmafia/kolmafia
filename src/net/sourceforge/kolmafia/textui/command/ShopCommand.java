@@ -123,6 +123,13 @@ public class ShopCommand
 				price = StringUtilities.parseInt( description );
 			}
 
+			// workaround issue: user types in something like "mallsell pail @ 20,000,000
+			if ( StringUtilities.isNumeric( itemNames[ i ] ) )
+			{
+				RequestLogger.printLine( "'" + itemNames[ i ] + "' is not an item.  Did you use a comma in the middle of a number?  Quitting..." );
+				return;
+			}
+
 			item = ItemFinder.getFirstMatchingItem( itemNames[ i ], true );
 
 			if ( item == null )
