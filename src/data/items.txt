@@ -148,7 +148,7 @@
 131	frilly skirt	805801465	skirt.gif	pants	t,d	40	frilly skirts
 132	Meat maid body	185286006	maidbody.gif	none	t,d	155	Meat maid bodies
 133	Certificate of Participation	579075005	scroll2.gif	usable	q	0
-134	bitchin' meatcar	405409225	meatcar.gif	none	q	0	bitchin' meatcars
+134	bitchin' meatcar	405409225	meatcar.gif	none, matchable	q	0	bitchin' meatcars
 135	sweet rims	634800641	rims.gif	none	t,d	45	sets of sweet rims
 136	tires	805641198	tire.gif	none	t,d	14	sets of tires
 137	dope wheels	281577974	tires.gif	none	t,d	63	sets of dope wheels
@@ -6166,8 +6166,8 @@
 6149	MiniMechaElf Laser Punch Missile Launcher	696682439	mechaelfrl.gif	familiar	t,d	75
 6150	Snow Suit	708955577	snowsuit.gif	familiar	t	0
 6151	carrot nose	129603339	snowcarrot.gif	multiple	t,d	5
-6152
-6153
+6152	carrot cake	113646383	carrotcake.gif	food	t,d	10
+6153	carrot claret	750800126	beerbottle.gif	drink	t,d	10
 6154	carrot juice	168944703	shot.gif	multiple	t,d	5
 6155	pixel power cell	360514198	powercell.gif	usable	t	0
 6156	flickering pixel	648086574	flickerpixel.gif	usable		0

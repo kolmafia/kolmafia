@@ -1659,9 +1659,7 @@ public class ConcoctionDatabase
 		// It's not possible to ask Uncle Crimbo 2005 to make toys
 		// It's not possible to ask Ugh Crimbo 2006 to make toys
 		// It's not possible to ask Uncle Crimbo 2007 to make toys
-
-		// It's possible to ask Uncle Crimbo 2012 to make toys
-		ConcoctionDatabase.PERMIT_METHOD[ KoLConstants.CRIMBO12 ] = true;
+		// It's not possible to ask Uncle Crimbo 2012 to make toys
 
 		// Next, increment through all the box servant creation methods.
 		// This allows future appropriate calculation for cooking/drinking.
