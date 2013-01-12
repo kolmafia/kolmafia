@@ -175,6 +175,7 @@ fire	Initiative: +10, Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2
 # fireman's helmet: +1 FDKOL Commendation per Fire
 fireman's helmet	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Familiar Effect: "cold atk"
 floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
+foam commodore's hat	Weapon Damage Percent: +25, Spell Damage Percent: +25
 foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
 football helmet	Familiar Effect: "atk, cap 37"
 funny paper hat	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Effect: "unknown, cap 2"
@@ -412,6 +413,7 @@ fancy tuxedo pants	Moxie Percent: +15, Familiar Effect: "2xVolley, 1xGhuol, cap 
 filthy corduroys	Mysticality: +3, Moxie: -3, Familiar Effect: "stench atk, prismatic atk, 1xPotato, cap 15"
 floaty rock pants	Spell Critical Percent: +10, Familiar Effect: "1.5xBarrr, 1xGhuol, cap 25"
 flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15, Familiar Effect: "stench atk, 1xFairy, cap 45"
+foam naval trousers	Initiative: +50
 frilly skirt	Familiar Effect: "3.5xFairy, cap 8"
 furry kilt	Sleaze Damage: +5, Familiar Effect: "sleaze atk, 1xFairy, cap 37"
 furry pants	Sleaze Damage: +5, Familiar Effect: "1xGhuol, cap 37"
@@ -589,10 +591,12 @@ BRICKO sword	Weapon Damage: +6
 Barney's rake	Spooky Damage: +3, Muscle: +3
 Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11, Adventures: +3
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
+Bloodbath	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 25, MP Regen Max: 30
 # Bonestabber: +30 Damage vs. Skeletons
 Bonestabber	Spooky Resistance: +3, Spooky Damage: +10, Monster Level: +5
 Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30, Brimstone
 Bugfinder Blade	Muscle: +7, Mysticality: +7, Moxie: +7
+Byte	Spell Damage Percent: +100, Spell Critical Percent: +15
 C.B.F.G.	Hot Damage: +10, Stench Damage: +10
 C.H.U.M. knife	Stench Damage: +30
 Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
@@ -643,6 +647,7 @@ Loathing Legion hammer	Softcore Only
 Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 Mafia violin case	Muscle: +20, Weapon Damage: +30
 Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
+Meatcleaver	Meat Drop: +35, Weapon Damage Percent: +100
 Mer-kin digpick	Weapon Damage: +30
 # Mer-kin hookspear: Extracts Meat on Critical Hits
 Mer-kin hookspear	Initiative: +20, Weapon Damage: +40
@@ -694,6 +699,7 @@ Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15
 Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
 Super Crimboman Ultra Mega Hypersword	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical Hit Percent: 5
+# Sword of Procedural Generation: Randomized per player
 # Tales of the Word Realms: Lends Power to Your Words
 The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
 The Necbromancer's Wizard Staff	Spell Damage Percent: +200, Sleaze Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
@@ -702,11 +708,13 @@ The Trickster's Trikitixa	Moxie: +15, Ranged Damage: +23, Item Drop: +11, Class:
 # Totally Gay Claymore
 Tropical Crimbo Sword	Weapon Damage: +5
 Trusty	Muscle: +5
+Truthsayer	Monster Level: +12, Weapon Damage Percent: +40
 Uncle Hobo's highest bough	Muscle Percent: +15, HP Regen Min: 15, HP Regen Max: 30, MP Regen Min: 15, MP Regen Max: 30
 Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent: +10
 Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscle Percent: +10
 Unionize The Elves sign	Weakens Monster
 # Wand of Nagamar
+White Dragon Fang	Muscle Percent: 9, Mysticality Percent: 9, Moxie Percent: 9, Spooky Damage: 9, Stench Damage: 9, Hot Damage: 9, Cold Damage: 9, Sleaze Damage: 9, MP Regen Min: 9, MP Regen Max: 9
 # Windsor Pan of the Source: Special Attack: Saucemageddon
 Windsor Pan of the Source	Mysticality: +15, Spell Damage: +23, Spell Critical Percent: +11, Class: "Sauceror"
 # Wrath of the Capsaician Pastalords: Special Attack: Noodles of Fire
@@ -965,6 +973,7 @@ magilaser blastercannon	Ranged Damage: +15, Hot Damage: +5
 mannequin leg	Sleaze Damage: +20, Moxie: +5, Class: "Seal Clubber"
 massive sitar	Mysticality: +12, Spell Damage: +20
 meatspout staff	Mysticality: +7, Adventures: +3, Meat Drop: +15
+miniature deck cannon	Ranged Damage: +25, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 muculent machete	Muscle: +2, Meat Drop: +5
 nasty-ass club	Weapon Damage: +25, Monster Level: +15, Stench Damage: +15, Class: "Seal Clubber"
 ninja mop	Weapon Damage: +5
@@ -1903,6 +1912,7 @@ old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Eq
 orange glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 orange leather lanyard	Weapon Damage: +15, Single Equip
 # orc wrist: +15 Damage vs. Orcs
+ornamental sextant	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 oven mitts	Hot Resistance: +2, Single Equip
 pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
 # pair of pearidot earrings: (only in the Candy Diorama)

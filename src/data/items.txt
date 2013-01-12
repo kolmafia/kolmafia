@@ -6070,21 +6070,21 @@
 6053	Taco Dan's Taco Stand Chimichangarita	224117850	daquiri.gif	drink	t,d	15
 6054	Taco Dan's Taco Stand Chillacious Churro	127551554	blintz.gif	usable	t,d	15
 6055	psychoanalytic jar	782318443	analjar_empty.gif	none		0
-6056
-6057
+6056	The Sword in the Steak	700732940	swordinthesteak.gif	usable	t	0
+6057	Meatcleaver	992124594	meatcleaver.gif	weapon		0
 6058	Crimbo Elf creepy bobble-head	359431553	elfbobble.gif	offhand, usable		0
 6059	Crimbo stogie-scented room odorizer	221399329	offhandcigar.gif	offhand, usable		0
 6060	Crimbo bottomless hot cocoa mug	384081308	cocoamug.gif	offhand, usable		0
 6061	Crimbo tree flocker	981551400	flocker.gif	offhand, usable		0
 6062	Crimbo light-up Rudolph doll	239748761	rudolphdoll.gif	offhand, usable		0
 6063	Super Crimboman Ultra Mega Hypersword	370229730	voltronsword.gif	weapon, usable	t	0
-6064
-6065
-6066
-6067
-6068
-6069
-6070
+6064	sharp tin strip	720770819	tinstrip.gif	none	t,d	523
+6065	wad of spider silk	941102093	thicksilk.gif	none	t,d	523
+6066	goblin collarbone	863428566	collarbone.gif	none	t,d	523
+6067	Truthsayer	435957416	truthseeker.gif	weapon		0
+6068	loose blade	765841197	ts_1.gif	none	t,d	1023
+6069	goblin bone hilt	998708698	ts_2.gif	none	t,d	1023
+6070	sticky sword blade	543561396	ts_3.gif	none	t,d	1023
 6071	Thinknerd's Grimoire of Geeky Gifts	722194360	nerdgrimoire.gif	usable	t	0
 6072	confusing LED clock	829648981	ledclock.gif	usable	t	0
 6073	haggis-infused soap	551687728	haggissoap.gif	usable	t,d	5	bars of haggis-infused soap
@@ -6147,7 +6147,7 @@
 6130	gold piece	407591613	goldpiece.gif	none	q	0
 6131	toy taijijian	229154217	toytai.gif	weapon	t,d	20
 6132	magical battery	194664409	battery.gif	none	t	0
-6133
+6133	White Dragon Fang	841472693	whitefang.gif	weapon		0
 6134	butterfly knife	417351567	bflyknife.gif	weapon	t,d	15
 6135	tube of herbal ointment	894175290	tube.gif	usable, combat	t,d	12
 6136	pencil kunai	372782577	pencil.gif	none, combat	t,d	15
@@ -6160,7 +6160,7 @@
 6143	dead meat bun	220021051	deadbun.gif	food	t,d	18
 6144	lucky cat collar	627971147	catcollar.gif	accessory	t,d	35
 6145	suspicious-looking fedora	492175443	hobofedora.gif	hat	d	555
-6146
+6146	Sword of Procedural Generation	268014939	pcgsword.gif	weapon		0
 6147	Bodacious MechaElf Hunter Saga:Relay Wolf	753585685	manga.gif	reusable		0
 6148	Deactivated MiniMechaElf	641681068	mechaelfd.gif	grow		0
 6149	MiniMechaElf Laser Punch Missile Launcher	696682439	mechaelfrl.gif	familiar	t,d	75
@@ -6171,17 +6171,17 @@
 6154	carrot juice	168944703	shot.gif	multiple	t,d	5
 6155	pixel power cell	360514198	powercell.gif	usable	t	0
 6156	flickering pixel	648086574	flickerpixel.gif	usable		0
-6157
+6157	Byte	722668605	byte.gif	weapon		0
 6158	anger blaster	657571737	angergun.gif	weapon		0
 6159	doubt cannon	406015526	doubtgun.gif	weapon		0
 6160	fear condenser	987434489	feargun.gif	weapon		0
 6161	regret hose	941648765	regretgun.gif	weapon		0
 6162	Young Man's Crew Sequester	651647340	crewpack.gif	usable	t,d	100
 6163	Young Man's Cargo Load	356763365	cargopack.gif	usable	t,d	200
-6164
-6165
-6166
-6167
-6168
+6164	foam commodore's hat	147834384	foamhat.gif	hat	d	400
+6165	foam naval trousers	402923206	foampants.gif	pants	d	400
+6166	miniature deck cannon	229535128	minicannon.gif	weapon	d	400
+6167	ornamental sextant	804330681	sextant.gif	accessory	d	600
+6168	Bloodbath	788202773	bloodbath.gif	weapon		0
 6169	Hundred Headed IPA	230929468	beerbottle.gif	drink	t,d	75
 6170	old chum	985900785	gooball.gif	food	t,d	25
