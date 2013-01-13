@@ -141,7 +141,7 @@ public class MonsterData
 	{
 		if ( this.health == null )
 		{
-			return 0;
+			return -1;
 		}
 		if ( this.health instanceof Integer )
 		{
@@ -176,7 +176,7 @@ public class MonsterData
 	{
 		if ( this.attack == null )
 		{
-			return 0;
+			return -1;
 		}
 		if ( this.attack instanceof Integer )
 		{
@@ -211,7 +211,7 @@ public class MonsterData
 	{
 		if ( this.defense == null )
 		{
-			return 0;
+			return -1;
 		}
 		if ( this.defense instanceof Integer )
 		{

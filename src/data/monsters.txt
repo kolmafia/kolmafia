@@ -329,7 +329,7 @@ Dairy Ooze	Atk: 13 Def: 11 HP: 8 Meat: 11-15 P: slime
 Danglin' Chad	Atk: 210 Def: 189 HP: 320 Meat: 297-342 E: sleaze	Danglin' Chad's loincloth (100)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)	white class ring (0)
 Darkness	Atk: 99999 Def: 89999 HP: [99999] Image: rorshach.gif
 Deadly Venomtrout	Atk: 130 Def: 117 HP: 150 P: fish	Trout fang (0)	poisonous caviar (0)
-Deadwood Tree	HP: 0	petrified wood (5)	spooky bark (10)	spooky sap (5)
+Deadwood Tree		petrified wood (5)	spooky bark (10)	spooky sap (5)
 Decal-applying Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Decent Lumberjack	Atk: 35 Def: 31 HP: 35 Meat: 16-24 P: humanoid	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
 Decent White Shark	Atk: 425 Def: 337 HP: 600 Meat: 192-288 P: fish	dull fish scale (n15)	shark cartilage (c10)	shark jumper (c3)	shark tooth (n2)	shark tooth (n1)
@@ -368,7 +368,7 @@ Ed the Undying (4)	BOSS HP: 64 Def: 162 Atk: 180 P: undead
 Ed the Undying (5)	BOSS HP: 32 Def: 162 Atk: 180 P: undead
 Ed the Undying (6)	BOSS HP: 16 Def: 162 Atk: 180 P: undead
 Ed the Undying (7)	BOSS HP: 8 Def: 162 Atk: 180 P: undead	Holy MacGuffin (n100)
-Edwing Abbidriel	HP: 0	elf resistance button (100)
+Edwing Abbidriel		elf resistance button (100)
 El Diablo	Atk: 99999 Def: 89999 HP: [99999]
 Electron Submarine	Atk: 99999 Def: 89999 HP: [99999]
 elephant (meatcar?) topiary animal	Atk: 85 Def: 80 HP: 90 P: beast	rusty hedge trimmers (15)
@@ -441,7 +441,7 @@ Fudge vulture	HP: 100 Def: 72 Atk: 80 P: humanoid	fudgecule (c100)
 Fudge weasel	Atk: 80 Def: 72 HP: 100 P: humanoid	fudgecule (c100)
 Funk Particle	HP: 80 Def: 67 Atk: 85 P: strange	fat bottom quark (0)
 Funk Sole Brother	Atk: 300 Def: 315 HP: 400 Meat: 160-240 P: fish	dull fish scale (n15)	slick fish meat (n5)
-Fur Tree	HP: 0	petrified wood (5)	spooky bark (10)	spooky sap (5)	wolfman mask (20)
+Fur Tree		petrified wood (5)	spooky bark (10)	spooky sap (5)	wolfman mask (20)
 Furry Giant	Atk: 135 Def: 121 HP: 150 Meat: 120-180 EA: sleaze P: demihuman	furry fur (35)	disturbing fanfic (30)	wolf mask (10)
 G Imp	Atk: 46 Def: 41 HP: 46 E: hot Meat: 24-36 P: demon	hot wing (30)	Imp Ale (30)	leather mask (5)
 Gang of Hobo Muggers	HP: 3000 Def: 900 Atk: 800 P: hobo
@@ -512,7 +512,7 @@ Guard turtle	Atk: 140 Def: 126 HP: 140 P: beast	guard turtle shell (0)	guard tur
 Guy Made of Bees	BOSS Atk: 99999 Def: 89999 HP: [99999] Exp: 40 P: horror	guy made of bee pollen (100)	handful of bees (p10)
 Guy with a Pitchfork, and his Wife	Atk: 110 Def: 99 HP: 120 Meat: 80-120 P: humanoid	pitchfork (5)
 Handsome Mariachi	Atk: 17 Def: 15 HP: 15 Meat: 4-6 P: humanoid	bottle of tequila (30)	chorizo taco (20)	handsomeness potion (20)
-Hangman's Tree	HP: 0	petrified wood (5)	spooky bark (10)	spooky sap (5)
+Hangman's Tree		petrified wood (5)	spooky bark (10)	spooky sap (5)
 Haunted Soup Tureen	Atk: 24 Def: 21 HP: 21 P: undead	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	turtle soup (0)
 Heavy Kegtank	Atk: 180 Def: 162 HP: 300 E: sleaze Phys: 50 P: orc	meat engine (6)	PADL Phone (5)	sake bomb (12)	sake bomb (3)
 Heimandatz, Nacho Golem	Atk: 115 Def: 103 HP: 150 Init: 60 P: slime	secret tropical island volcano lair map (100)	Heimandatz's heart (100)	friendly cheez blob (100)
@@ -575,7 +575,7 @@ Knob Goblin Mutant	Atk: 53 Def: 47 HP: 43 Meat: 46-50 P: goblin
 Knob Goblin Poseur	Atk: 4 Def: 3 HP: 5 Meat: 16-24 P: goblin	dope gangsta bling-bling (10)	out-of-tune biwa (10)	terrible poem (20)
 Knob Goblin Sous Chef	Atk: 20 Def: 18 HP: 15 Meat: 16-24 P: goblin	Knob Goblin spatula (7)	Knob sausage (15)	tomato (15)	wad of dough (15)
 Knob Goblin Very Mad Scientist	Atk: 45 Def: 40 HP: 30 Meat: 36-57 P: goblin	Knob Goblin melon baller (5)	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	bunch of square grapes (c19)	smudged alchemical recipe (p5)	Cobb's Knob Menagerie key (c0)	Subject 37 file (c0)	broken petri dish (b0)
-Knott Slanding	HP: 0 E: cold Meat: 970-1335	Dallas Dynasty Falcon Crest shield (100)
+Knott Slanding	E: cold Meat: 970-1335	Dallas Dynasty Falcon Crest shield (100)
 Knott Yeti	Atk: 105 Def: 92 HP: 90 E: cold Meat: 168-234 P: beast	yeti fur (30)
 Koopa Troopa	Atk: 20 Def: 18 HP: 15 P: beast	black pixel (50)	green pixel (80)	white pixel (50)
 L Imp	Atk: 44 Def: 39 HP: 44 E: hot Meat: 24-36 P: demon	Imp Ale (30)	cast (30)	flaming crutch (30)
@@ -619,7 +619,7 @@ Malevolent Hair Clog	Atk: 95 Def: 81 HP: 85 ED: spooky P: horror	gob of wet hair
 Malevolent Magnetic Field	HP: 100 Def: 76 Atk: 75 P: strange	bottle of gin (0)
 Mammon the Elephant	BOSS Atk: 150 Def: 135 HP: 50000 P: beast	avarice stone (100)
 Man-Eating Plant	Atk: 7 Def: 8 HP: 10 P: plant
-Marcus Macurgeon	HP: 0 P: undead	jar full of wind (0)	jar full of wind (0)	purple prose pen (0)
+Marcus Macurgeon	P: undead	jar full of wind (0)	jar full of wind (0)	purple prose pen (0)
 Mariachi Bandolero	Atk: 95 Def: 85 HP: 120 P: humanoid
 Mariachi Bruiser	Atk: 160 Def: 144 HP: 210 P: humanoid	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 Mariachi Calavera	Atk: 22 Def: 19 HP: 30 P: undead	bottle of tequila (30)	marzipan skull (30)	calavera concertina (p5)	callused fingerbone (b0)
@@ -686,7 +686,7 @@ Newt	HP: [3] Def: [2] Atk: [3] Meat: 8-12 P: beast	eye of newt (100)
 Next-Generation Frat Boy	Atk: 190 Def: 171 HP: 200 Meat: 150-200 E: sleaze	beaten-up Chucks (100)	white class ring (100)	kick-ass kicks (0)	beer helmet (0)	distressed denim pants (0)
 Ninja Snowman (Chopsticks)	Atk: 85 Def: 76 HP: 70 ED: cold P: elemental Image: ninjarice.gif	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)	coal button (b0)
 Ninja Snowman (Hilt/Mask)	Atk: 85 Def: 76 HP: 70 E: cold P: elemental Image: snowman.gif	cold ninja mask (10)	frigid ninja stars (20)	frozen nunchaku (5)	icy katana hilt (15)	coal button (b0)
-Ninja Snowman Assassin	Atk: 150 Def: 135 HP: 0 E: cold P: elemental	Ninja rope (n100)	Ninja crampons (n100)	Ninja carabiner (n100)	coal button (b0)
+Ninja Snowman Assassin	Atk: 150 Def: 135 E: cold P: elemental	Ninja rope (n100)	Ninja crampons (n100)	Ninja carabiner (n100)	coal button (b0)
 Ninja Snowman Janitor	Atk: 80 Def: 81 HP: 70 ED: cold P: elemental	frigid ninja stars (20)	ninja mop (5)	pail (10)	coal button (b0)
 Ninja Snowman Weaponmaster	Atk: 90 Def: 81 HP: 80 ED: cold P: elemental	ridiculously overelaborate ninja weapon (5)	frigid ninja stars (20)	frozen nunchaku (5)	frigid hanky&#363; (0)	frigid mote (p5)	coal button (b0)
 Normal Hobo	HP: 400 Def: 270 Atk: 300 P: hobo	hobo nickel (c15)	Mr. Joe's bangles (0)	corncob pipe (0)	panhandle panhandling hat (0)	frayed rope belt (0)	cup of infinite pencils (0)	'WILL WORK FOR BOOZE' sign (0)	lucky bottlecap (0)	rusty piece of rebar (0)
@@ -742,7 +742,7 @@ Provocateur Elf		elf resistance button (100)	elven cellocello (0)	elven suicide 
 Psychedelic Fur	Atk: 21 Def: 18 HP: 18 P: strange	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 Pufferfish	Atk: 400 Def: 450 HP: 750 Meat: 160-240 P: fish	pufferfish spine (n5)	rough fish scale (n4)	seaweed (n5)
 Pumped-up Bass	Atk: 330 Def: 270 HP: 500 Meat: 160-240 P: fish	dull fish scale (n15)	beefy fish meat (n5)
-Pumpkin Tree	HP: 0	petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
+Pumpkin Tree		petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
 Pygmy Assault Squad	Atk: 152 Def: 136 HP: 148 Meat: 102-145 P: humanoid	bottle of alcohol (40)	pygmy pygment (25)	pygmy spear (5)	jungle drum (10)
 Pygmy Blowgunner	Atk: 156 Def: 130 HP: 147 Meat: 86-118 P: humanoid	big bad voodoo mask (5)	pygmy blowgun (30)	pygmy nose-bone (10)
 Pygmy Headhunter	Atk: 146 Def: 138 HP: 150 E: sleaze Meat: 143-207 P: humanoid	briefcase (60)	headhunter necktie (5)	pointed stick (10)	world's smallest violin (5)
@@ -895,12 +895,12 @@ Tapdancing Skeleton	Atk: 110 Def: 99 HP: 120 ED: spooky P: undead	tap shoes (5)	
 Tektite	Atk: 20 Def: 18 HP: 15 P: beast	black pixel (50)	blue pixel (80)	white pixel (50)
 Terrifying Robot	Atk: 170 Def: 153 HP: 170 P: object	neurostim pill (0)	physiostim pill (0)
 Tetchy Pirate	Atk: 83 Def: 75 HP: 72 Meat: 32-48 P: pirate	bottle of rum (20)	cocktail napkin (10)
-The Abominable Fudgeman	HP: 0	heart of dark chocolate (0)
+The Abominable Fudgeman		heart of dark chocolate (0)
 The Avatar of Sneaky Pete	BOSS Atk: 225 Def: 202 HP: 800 P: humanoid
 The Bat in the Spats	BOSS Atk: 150 Def: 135 HP: 9500 P: beast	vanity stone (100)
 The Big Wisniewski	BOSS Atk: 250 Def: 225 HP: 2000 ED: stench	solid gold bowling ball (100)
 The Clownlord Beelzebozo	BOSS Atk: 27 Def: 27 HP: 40 P: horror	empty greasepaint tube (b0)
-The Colollilossus	HP: 0	all-year sucker (100)
+The Colollilossus		all-year sucker (100)
 The Fudge Wizard	HP: 400 Def: 270 Atk: 300	wand of fudge control (100)
 The Landscaper	BOSS HP: 100000 Def: 90 Atk: 100 EA: hot Phys: 100 P: demon	The Landscaper's leafblower (100)
 The Large-Bellied Snitch	BOSS Atk: 150 Def: 135 HP: 10000 P: beast	gluttonous stone (100)
@@ -919,7 +919,7 @@ Timmy Tofurkey	Atk: 40 Def: 45 HP: 90 P: demihuman	sun-dried tofu (0)
 Timmy Tofurkey Cast Member	HP: 110 Def: 63 Atk: 60 P: humanoid	sun-dried tofu (0)
 Tipsy Pirate	Atk: 80 Def: 72 HP: 70 Meat: 36-54 P: pirate	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
 Toilet Papergeist	Atk: 88 Def: 90 HP: 105 ED: spooky P: undead	cardboard wakizashi (5)	roll of toilet paper (50)
-Toilet-papered Tree	HP: 0 P: plant	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
+Toilet-papered Tree	P: plant	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
 Tomb Asp	Atk: 170 Def: 145 HP: 155 Meat: 80-120 "Really Quite Poisoned" P: beast	unidentified jerky (13)	charming flute (7)
 Tomb Bat	Atk: 175 Def: 157 HP: 180 Meat: 40-60 P: beast	leathery bat skin (30)	unidentified jerky (10)	mummy wrapping (20)
 Tomb Rat	Atk: 161 Def: 148 HP: 175 Meat: 60-90 P: beast	tomb ratchet (c20)	leathery rat skin (30)	unidentified jerky (12)
@@ -935,7 +935,7 @@ Toy-making creature from the Gray Lagoon		evil googly eye (10)	spooky felt (10)	
 Tribal Goblin	Atk: 60 Def: 45 HP: 60 P: goblin	goblin autoblowgun (0)	goblin hunting spear (0)	shiny tribal beads (0)
 Triffid	Atk: 5 Def: 4 HP: 6 P: plant	moxie weed (30)	spooky stick (30)	triffid bark (b0)
 Troll Twins	Atk: 94 Def: 82 HP: 98 P: humanoid	incredible pizza (5)	troll britches (5)
-Trollipop	HP: 0	grape troll doll (0)	cinnamon troll doll (0)	blue raspberry troll doll (0)
+Trollipop		grape troll doll (0)	cinnamon troll doll (0)	blue raspberry troll doll (0)
 Trophyfish	Atk: 5000 Def: 4500 HP: 15000 Phys: 25 P: fish
 Trouser Snake	Atk: 153 Def: 137 HP: 150 E: sleaze P: constellation	line (30)	line (30)	line (30)
 Tumbleweed	Atk: 10 Def: 9 HP: 10
@@ -946,7 +946,7 @@ Tyrannosaurus Tex	Atk: 99999 Def: 89999 HP: [99999]
 Uncle Hobo	HP: 15000 Def: 450 Atk: 500 Phys: 100	Uncle Crimbo's Rations (100)	chocolate cigar (0)	Uncle Hobo's gift baggy pants (0)	Uncle Hobo's epic beard (0)	Uncle Hobo's stocking cap (0)	Uncle Hobo's fingerless tinsel gloves (f30)	Uncle Hobo's highest bough (f30)	Uncle Hobo's belt (f30)
 Undead Elbow Macaroni	Atk: 1 Def: 1 HP: 1 E: spooky Meat: 4-6 P: undead	magicalness-in-a-can (25)	quasi-ethereal macaroni fragments (c0)
 Undercover Penguin	P: penguin	cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
-Underworld Tree	HP: 0	Underworld acorn (100)	Underworld trunk (100)
+Underworld Tree		Underworld acorn (100)	Underworld trunk (100)
 Unearthed Monstrosity	BOSS HP: 500 Def: 180 Atk: 200 P: horror	Ellsbury's skull (100)	Ellsbury's journal (100)
 Unemployed Knob Goblin	Atk: 6 Def: 5 HP: 5 P: goblin	beer lens (c25)
 Unholy Diver	Atk: 700 Def: 540 HP: 1000 Meat: 200-300 P: horror	glowing syringe (c4)	rusty broken diving helmet (n3)	rusty porthole (n2)	rusty rivet (n10)	rusty rivet (n10)	rusty rivet (n2)	rusty rivet (n1)
@@ -1033,9 +1033,9 @@ Zombie Waltzers	Atk: 110 Def: 99 HP: 120 Meat: 80-120 E: spooky P: undead	ballro
 Zombo	BOSS HP: 10000 Def: 450 Atk: 500 E: spooky P: undead	Prelude of Precision (0)	voodoo snuff (0)	Zombo's grievous greaves (0)	Zombo's shield (0)	Zombo's skullcap (0)	Zombo's empty eye (f20)	Zombo's shoulder blade (f20)	Zombo's skull ring (f20)
 
 # Talk Like a Pirate Day
-Ambulatory Pirate	Atk: 0 Def: 0 HP: 0
-Migratory Pirate	Atk: 0 Def: 0 HP: 0
-Peripatetic Pirate	Atk: 0 Def: 0 HP: 0
+Ambulatory Pirate	
+Migratory Pirate	
+Peripatetic Pirate	
 
 # Bees Hate You
 Beebee Gunners	HP: [ceil((MUS+ML)*15/28)] Def: [ceil((MUS+ML)*5/7)] Atk: [ceil((MOX+ML)*5/7)]	handful of honey (0)
@@ -1172,24 +1172,24 @@ Velvet Underground Dweller	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] A
 Weather Underground Dweller	HP: [(min(200,MOX)+ML)*0.75] Def: [min(200,MUS)+ML] Atk: [min(200,MOX)+ML] P: demihuman
 
 # The Clumsiness Grove
-Sorrowful Hickory	HP: 0 P: plant	clumsiness bark (0)	cup of hickory chicory (0)
-Suffering Juniper	HP: 0 P: plant	berries of suffering (0)	clumsiness bark (0)
-Tormented Baobab	HP: 0 P: plant	baobab sap (0)	clumsiness bark (0)
-Whimpering Willow	HP: 0 P: plant	clumsiness bark (0)	clumsiness bark (0)	whimpering willow bark (0)
-Woeful Magnolia	HP: 0 P: plant	clumsiness bark (0)	clumsiness bark (0)	magnolia blossom (0)
+Sorrowful Hickory	P: plant	clumsiness bark (0)	cup of hickory chicory (0)
+Suffering Juniper	P: plant	berries of suffering (0)	clumsiness bark (0)
+Tormented Baobab	P: plant	baobab sap (0)	clumsiness bark (0)
+Whimpering Willow	P: plant	clumsiness bark (0)	clumsiness bark (0)	whimpering willow bark (0)
+Woeful Magnolia	P: plant	clumsiness bark (0)	clumsiness bark (0)	magnolia blossom (0)
 
 # The Maelstrom of Lovers
-Bettie Barulio	HP: 0 P: undead	Barulio's bottle (0)	jar full of wind (0)	jar full of wind (0)
-Marvin J. Sunny	HP: 0 P: undead	jar full of wind (0)	Marvin's marvelous pill (0)
-Mortimer Strauss	HP: 0 P: undead	jar full of wind (0)	jar full of wind (0)	Mortimer's nostrum (0)
-Wonderful Winifred Wongle	HP: 0 P: undead	jar full of wind (0)	jar full of wind (0)	Winifred's whistle (0)
+Bettie Barulio	P: undead	Barulio's bottle (0)	jar full of wind (0)	jar full of wind (0)
+Marvin J. Sunny	P: undead	jar full of wind (0)	Marvin's marvelous pill (0)
+Mortimer Strauss	P: undead	jar full of wind (0)	jar full of wind (0)	Mortimer's nostrum (0)
+Wonderful Winifred Wongle	P: undead	jar full of wind (0)	jar full of wind (0)	Winifred's whistle (0)
 
 # The Glacier of Jerks
-Brock "Rocky" Flox	HP: 0 P: humanoid	dangerous jerkcicle (0)	pink-belly slapper (0)
-Dolores D. Smiley	HP: 0 P: humanoid	dangerous jerkcicle (0)	dangerous jerkcicle (0)	desktop zen garden (0)
-Hugo Von Douchington	HP: 0 P: humanoid	dangerous jerkcicle (0)	half-empty carton of milk (0)
-Vivian Vibrian Vumian Varr	HP: 0 P: humanoid	dangerous jerkcicle (0)	dangerous jerkcicle (0)	Vivian's Vitamin (0)
-Wacky Zack Flacky	HP: 0 P: humanoid	dangerous jerkcicle (0)	dangerous jerkcicle (0)	glass of warm water (0)
+Brock "Rocky" Flox	P: humanoid	dangerous jerkcicle (0)	pink-belly slapper (0)
+Dolores D. Smiley	P: humanoid	dangerous jerkcicle (0)	dangerous jerkcicle (0)	desktop zen garden (0)
+Hugo Von Douchington	P: humanoid	dangerous jerkcicle (0)	half-empty carton of milk (0)
+Vivian Vibrian Vumian Varr	P: humanoid	dangerous jerkcicle (0)	dangerous jerkcicle (0)	Vivian's Vitamin (0)
+Wacky Zack Flacky	P: humanoid	dangerous jerkcicle (0)	dangerous jerkcicle (0)	glass of warm water (0)
 
 # Feast of Boris
 Candied Yam Golem	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3] P: object	yam candy (c100)	candied yams (c100)
@@ -1250,7 +1250,7 @@ rock snake	HP: 15 Def: 9 Atk: 10	floaty sand (25)
 rockfish	Atk: 300 Def: 270 HP: 400 P: fish	rockfish stomach (100)
 
 # Under the effect of Temporary Blindness
-The Darkness (blind)	HP: 0
+The Darkness (blind)	
 
 # Dolphin whistle
 rotten dolphin thief	Atk: 400 Def: 360 HP: 600 P: fish
@@ -1291,7 +1291,7 @@ X Bottles of Beer on a Golem	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL
 X-dimensional Horror	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: 0 Phys: 90 P: horror Image: dimhorror.gif
 
 # Fires
-Servant Of Lord Flameface	HP: 0
+Servant Of Lord Flameface	
 
 # Crimbo 2012
 Sign-Twirling Crimbo Elf	HP: [0.75*(min(150,MUS)+ML)] Atk: [min(150,MOX)+ML] Def: [min(150,MUS)+ML] P: crimbo	Taco Dan's Taco Stand Chillacious Churro (0)	Taco Dan's Taco Stand Flier (0)
@@ -1366,4 +1366,4 @@ desperate gold farmer	Atk: 80 Def: 80 HP: 95	gold piece (0)	gold piece (0)	gold 
 rabid MMO addict	Atk: 84 Def: 76 HP: 90	gold piece (0)
 The Server	Atk: 90 Def: 90 HP: 999999999
 White Bone Demon	Atk: 100 Def: 100 HP: 180	suspicious-looking fedora (0)
-procedurally-generated skeleton	HP: 0 Atk: 0 Def: 0
+procedurally-generated skeleton	
