@@ -228,6 +228,8 @@ public class CompactSidePane
 			compactContainer.add( Box.createVerticalStrut( 20 ) );
 		}
 
+		compactContainer.add( Box.createHorizontalStrut( 110 ) );
+
 		JPanel compactCard = new JPanel( new CardLayout( 8, 8 ) );
 		compactCard.setOpaque( false );
 		compactCard.add( compactContainer, "" );
