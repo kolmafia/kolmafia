@@ -823,8 +823,11 @@ public class CharPaneRequest
 		pattern = CharPaneRequest.familiarImagePattern;
 		matcher = pattern.matcher( responseText );
 		String image = matcher.find() ? new String( matcher.group( 1 ) ) : null;
-		KoLCharacter.setFamiliarImage( image );
-		checkMedium( responseText );
+		if ( !image.startsWith( "snowsuit" ) && !image.startsWith( "snowface" ) )
+		{
+			KoLCharacter.setFamiliarImage( image );
+			checkMedium( responseText );
+		}
 	}
 
 	private static Pattern compactClancyPattern =
