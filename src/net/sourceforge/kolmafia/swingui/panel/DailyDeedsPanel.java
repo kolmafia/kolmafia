@@ -2112,6 +2112,7 @@ public class DailyDeedsPanel
 			if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++fr;
 			if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) fr += 2;
 			if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++fr;
+			if ( KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE ) != null ) fr += 3;
 			this.setShown( fr > 0 );
 			this.setEnabled( nr < fr );
 			this.setText( nr + " (" + fr + " free)" );
