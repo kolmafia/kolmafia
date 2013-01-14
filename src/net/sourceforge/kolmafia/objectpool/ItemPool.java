@@ -1518,6 +1518,13 @@ public class ItemPool
 	public static final int SKELETON = 5881;
 	public static final int SKIFF = 5885;
 	public static final int UNCONSCIOUS_COLLECTIVE_DREAM_JAR = 5897;
+	public static final int SUSPICIOUS_JAR = 5898;
+	public static final int GOURD_JAR = 5899;
+	public static final int MYSTIC_JAR = 5900;
+	public static final int OLD_MAN_JAR = 5901;
+	public static final int ARTIST_JAR = 5902;
+	public static final int MEATSMITH_JAR = 5903;
+	public static final int JICK_JAR = 5905;
 	public static final int BEET_MEDIOCREBAR = 5915;
 	public static final int CORN_MEDIOCREBAR = 5916;
 	public static final int CABBAGE_MEDIOCREBAR = 5917;
@@ -1533,7 +1540,7 @@ public class ItemPool
 	public static final int MISTY_CLOAK = 6047;
 	public static final int MISTY_ROBE = 6048;
 	public static final int MISTY_CAPE = 6049;
-	public static final int	TACO_FLIER = 6051;
+	public static final int TACO_FLIER = 6051;
 	public static final int PSYCHOANALYTIC_JAR = 6055;
 	public static final int CRIMBO_CREEPY_HEAD = 6058;
 	public static final int CRIMBO_STOOGIE_ODORIZER = 6059;

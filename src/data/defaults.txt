@@ -866,6 +866,8 @@ user	_pneumaticityPotionUsed	false
 user	_poisonArrows	0
 user	_poolGames	0
 user	_precisionCasts	0
+user	_psychoJarFilled	false
+user	_psychoJarUsed	false
 user	_radlibSummons	0
 user	_raindohCopiesMade	0
 user	_requestSandwichSucceeded	false

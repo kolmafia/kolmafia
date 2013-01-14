@@ -895,6 +895,16 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_tacoFlierUsed" ) ? 0 : 1;
 
+		case ItemPool.SUSPICIOUS_JAR:
+		case ItemPool.GOURD_JAR:
+		case ItemPool.MYSTIC_JAR:
+		case ItemPool.OLD_MAN_JAR:
+		case ItemPool.ARTIST_JAR:
+		case ItemPool.MEATSMITH_JAR:
+		case ItemPool.JICK_JAR:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_psychoJarUsed" ) ? 0 : 1;
+
 		}
 
 		switch ( consumptionType )
@@ -4219,14 +4229,22 @@ public class UseItemRequest
 			// Instead of checking which one was used and removing the others,
 			// add the one that was used and remove one of each.
 
-			// removeItem doesn't work since you can have more than one set.
-
 			ResultProcessor.processResult( item );
 			ResultProcessor.processItem( ItemPool.CRIMBO_CREEPY_HEAD, -1 );
 			ResultProcessor.processItem( ItemPool.CRIMBO_STOOGIE_ODORIZER, -1 );
 			ResultProcessor.processItem( ItemPool.CRIMBO_HOT_MUG, -1 );
 			ResultProcessor.processItem( ItemPool.CRIMBO_TREE_FLOCKER, -1 );
 			ResultProcessor.processItem( ItemPool.CRIMBO_RUDOLPH_DOLL, -1 );
+			return;
+
+		case ItemPool.SUSPICIOUS_JAR:
+		case ItemPool.GOURD_JAR:
+		case ItemPool.MYSTIC_JAR:
+		case ItemPool.OLD_MAN_JAR:
+		case ItemPool.ARTIST_JAR:
+		case ItemPool.MEATSMITH_JAR:
+		case ItemPool.JICK_JAR:
+			Preferences.setBoolean( "_psychoJarUsed", true );
 			return;
 
 		}
