@@ -118,19 +118,31 @@ public class PixelRequest
 		}
 
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		int quantity = 1;
 
-		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
-		if ( quantityMatcher.find() )
-		{
-			String quantityString = quantityMatcher.group( 2 ).trim();
-			quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
-		}
 		CreateItemRequest pixelItem = CreateItemRequest.getInstance( itemId );
-		if ( pixelItem == null || quantity > pixelItem.getQuantityPossible() )
+		if ( pixelItem == null )
 		{
-			// Attempt will fail, or it's an unknown item and we don't know its ingredients
-			return true;
+			return true; // this is an unknown item
+		}
+
+		int quantity = 1;
+		if ( urlString.contains( "buymax=" ) )
+		{
+			quantity = pixelItem.getQuantityPossible();
+		}
+		else
+		{
+			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			if ( quantityMatcher.find() )
+			{
+				String quantityString = quantityMatcher.group( 2 ).trim();
+				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
+			}
+		}
+
+		if ( quantity > pixelItem.getQuantityPossible() )
+		{
+			return true; // attempt will fail
 		}
 
 		StringBuilder pixelString = new StringBuilder();
