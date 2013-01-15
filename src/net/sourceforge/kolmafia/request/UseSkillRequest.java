@@ -1618,10 +1618,6 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.BRICKOS:
-			if ( responseText.indexOf( "BRICKO eye brick" ) != -1 )
-			{
-				Preferences.increment( "_brickoEyeSummons", 1 );
-			}
 		case SkillPool.CANDY_HEART:
 		case SkillPool.PARTY_FAVOR:
 		case SkillPool.LOVE_SONG:

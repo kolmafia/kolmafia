@@ -1161,6 +1161,7 @@ public class ItemPool
 	public static final int CHOCOLATE_DISCO_BALL = 4466;
 	public static final int CHOCOLATE_STOLEN_ACCORDION = 4467;
 	public static final int BRICKO_BOOK = 4468;
+	public static final int BRICKO_EYE = 4470;
 	public static final int BRICKO_HAT = 4471;
 	public static final int BRICKO_PANTS = 4472;
 	public static final int BRICKO_SWORD = 4473;
