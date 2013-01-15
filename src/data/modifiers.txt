@@ -1416,6 +1416,7 @@ penguin skin buckler	Moxie: +5, Damage Reduction: 5
 penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
 pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only
 pirate hook	Weapon Damage: +3
+pixel grappling hook	Initiative: +40, Item Drop: +10
 pixel shield	Muscle: +5, Damage Reduction: 3
 plush alielf	Maximum HP: +30
 plush alien hamsterpus	Muscle Percent: +6, Mysticality Percent: +6, Moxie Percent: +6
@@ -2736,6 +2737,7 @@ A Little Bit Evil (Turtle Tamer)	Monster Level: +2
 A Little Bit Frightening	Spooky Damage: [3*L]
 A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 A Revolution in Your Mouth	Moxie Percent: -10
+# A Taste of Rainbow: Increases stat gains from food
 Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
 Ack! Barred!	Muscle Percent: +30
@@ -2946,6 +2948,7 @@ Crimbo Nostalgia	Experience: +5
 Cringle's Curative Carol	HP Regen Min: 5, HP Regen Max: 10
 Crocodile Tear	Familiar Weight (hidden): [10*zone(The Sea)]
 Crotchety, Pining	Muscle Percent: +100
+Crud&eacute;	Sleaze Damage: +5
 Cruisin' for a Bruisin'	Weapon Damage Percent: +100
 Crusty Head	Damage Reduction: 10
 # Cunctatitis: Eh.  You'll figure out what this effect does later...
@@ -4309,6 +4312,7 @@ can of spinach	Effect: "Pop-eyed", Effect Duration: 10
 candied kobold	Effect: "Sugar Rush", Effect Duration: 3
 candy brain	Effect: "Sugar Rush", Effect Duration: 15
 candy cornucopia	Free Pull
+candy crayons	Effect: "A Taste of Rainbow", Effect Duration: 5
 candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
 cheap cigar butt	Effect: "Smokin'", Effect Duration: 10
 cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
@@ -4338,6 +4342,7 @@ cotton candy cocoon	Free Pull
 cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 cream pie	Free Pull
 crimbo elfling	Free Pull
+crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
 cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10
 cursed microwave	Free Pull
 cursed pony keg	Free Pull
