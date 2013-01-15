@@ -1613,6 +1613,14 @@ public class ResultProcessor
 			ResultProcessor.removeItem( ItemPool.PSYCHOANALYTIC_JAR );
 			Preferences.setBoolean( "_psychoJarFilled", true );
 			break;
+		case ItemPool.BRICKO_EYE:
+			Preferences.increment( "_brickoEyeSummons" );
+			break;
+		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
+		case ItemPool.DIVINE_CRACKER:
+		case ItemPool.DIVINE_FLUTE:
+			Preferences.increment( "_favorRareSummons" );
+			break;
 		}
 
 		// Gaining items can achieve goals.
