@@ -2039,48 +2039,12 @@ public class FightRequest
 			Preferences.increment( "_vmaskAdv", 1 );
 		}
 
-		if ( responseText.indexOf( "stomps your opponent into paste" ) != -1
-			|| responseText.indexOf( "stomps your opponents into paste" ) != -1
-			|| responseText.indexOf( "shuffles its heels, gets a running start, then leaps on" ) != -1 )
-		{
-			Preferences.setBoolean( "bootsCharged", false );
-		}
 		// <name> rubs its soles together, then stomps in place
 		// restlessly. Clearly, the violence it's done so far is
 		// only making it ache for some quality stomping.
 		if ( responseText.indexOf( "making it ache for some quality stomping" ) != -1 )
 		{
 			Preferences.setBoolean( "bootsCharged", true );
-		}
-
-		if ( responseText.indexOf( "waves her fingers in front of her face and her aura glows blue." ) != -1
-			|| responseText.indexOf( "A flickering blue aura appears around " ) != -1
-			|| responseText.indexOf( "A blue aura appears around " ) != -1
-			|| responseText.indexOf( "and her aura glows blue." ) != -1
-			|| responseText.indexOf( "rolls her eyes back in her head and her aura glows blue." ) != -1 )
-		{
-			KoLCharacter.setFamiliarImage( "medium_1.gif" );
-			KoLCharacter.findFamiliar( FamiliarPool.HAPPY_MEDIUM ).setCharges( 1 );
-		}
-
-		if ( responseText.indexOf( "presses her fingers to her temples, and her aura changes from blue to orange." ) != -1
-			|| responseText.indexOf( "changes to orange. She presses her palms together tightly and murmurs" ) != -1
-			|| responseText.indexOf( "lights a stick of sage and her aura changes from blue to orange." ) != -1
-			|| responseText.indexOf( "changes from blue to orange and she begins to tremble." ) != -1
-			|| responseText.indexOf( "mutters under her breath, her aura changing from blue to orange." ) != -1 )
-		{
-			KoLCharacter.setFamiliarImage( "medium_2.gif" );
-			KoLCharacter.findFamiliar( FamiliarPool.HAPPY_MEDIUM ).setCharges( 2 );
-		}
-
-		if ( responseText.indexOf( "shakes like a leaf on the wind as her aura changes from orange to a deep, angry red." ) != -1
-			|| responseText.indexOf( "levitates a few feet off of the ground, her aura changing from orange to a violent red." ) != -1
-			|| responseText.indexOf( "drops to the ground and twitches, her aura changing from orange to red." ) != -1
-			|| responseText.indexOf( "squeezes her eyes shut and shudders as her aura changes from orange to red." ) != -1
-			|| responseText.indexOf( " changes to a deep red." ) != -1 )
-		{
-			KoLCharacter.setFamiliarImage( "medium_3.gif" );
-			KoLCharacter.findFamiliar( FamiliarPool.HAPPY_MEDIUM ).setCharges( 3 );
 		}
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
@@ -2276,7 +2240,7 @@ public class FightRequest
 			Preferences.increment( "_navelRunaways", 1 );
 		}
 
-		if ( responseText.indexOf( "his back, and flooms away" ) != -1 ||
+		else if ( responseText.indexOf( "his back, and flooms away" ) != -1 ||
 			 responseText.indexOf( "speed your escape.  Thanks" ) != -1 )
 		{
 			Preferences.increment( "_banderRunaways", 1 );
@@ -2289,7 +2253,7 @@ public class FightRequest
 		}
 
 		// stinky cheese eye Give Your Opponent the Stinkeye skill used
-		if ( responseText.contains( "You fix an extremely disdainful eye" ) )
+		else if ( responseText.contains( "You fix an extremely disdainful eye" ) )
 		{
 			Preferences.setBoolean( "_stinkyCheeseBanisherUsed", true );
 		}
@@ -2359,13 +2323,6 @@ public class FightRequest
 
 		if ( won )
 		{
-			// Check for GMoB defeat
-			if ( responseText.indexOf( "guy made of bee pollen" ) != -1 )
-			{
-				// Record that we beat the guy made of bees.
-				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
-			}
-
 			if ( responseText.contains( "monstermanuel.gif" ) )
 			{
 				GoalManager.updateProgress( GoalManager.GOAL_MANUEL );
@@ -2485,6 +2442,46 @@ public class FightRequest
 					ResultProcessor.processItem( ItemPool.IRONIC_MOUSTACHE, 1 );
 					// Equip familiar with it
 					familiar.setItem( item );
+				}
+				break;
+
+			case FamiliarPool.BOOTS:
+				if ( responseText.indexOf( "stomps your opponent into paste" ) != -1 
+					|| responseText.indexOf( "stomps your opponents into paste" ) != -1 
+					|| responseText.indexOf( "shuffles its heels, gets a running start, then leaps on" ) != -1 )
+				{
+					Preferences.setBoolean( "bootsCharged", false );
+				}
+				break;
+
+			case FamiliarPool.HAPPY_MEDIUM:
+				if ( responseText.indexOf( "waves her fingers in front of her face and her aura glows blue." ) != -1 
+					|| responseText.indexOf( "A flickering blue aura appears around " ) != -1 || responseText.indexOf( "A blue aura appears around " ) != -1 
+					|| responseText.indexOf( "and her aura glows blue." ) != -1 
+					|| responseText.indexOf( "rolls her eyes back in her head and her aura glows blue." ) != -1 )
+				{
+					KoLCharacter.setFamiliarImage( "medium_1.gif" );
+					familiar.setCharges( 1 );
+				}
+
+				if ( responseText.indexOf( "presses her fingers to her temples, and her aura changes from blue to orange." ) != -1 
+					|| responseText.indexOf( "changes to orange. She presses her palms together tightly and murmurs" ) != -1 
+					|| responseText.indexOf( "lights a stick of sage and her aura changes from blue to orange." ) != -1 
+					|| responseText.indexOf( "changes from blue to orange and she begins to tremble." ) != -1 
+					|| responseText.indexOf( "mutters under her breath, her aura changing from blue to orange." ) != -1 )
+				{
+					KoLCharacter.setFamiliarImage( "medium_2.gif" );
+					familiar.setCharges( 2 );
+				}
+
+				if ( responseText.indexOf( "shakes like a leaf on the wind as her aura changes from orange to a deep, angry red." ) != -1 
+					|| responseText.indexOf( "levitates a few feet off of the ground, her aura changing from orange to a violent red." ) != -1 
+					|| responseText.indexOf( "drops to the ground and twitches, her aura changing from orange to red." ) != -1 
+					|| responseText.indexOf( "squeezes her eyes shut and shudders as her aura changes from orange to red." ) != -1 
+					|| responseText.indexOf( " changes to a deep red." ) != -1 )
+				{
+					KoLCharacter.setFamiliarImage( "medium_3.gif" );
+					familiar.setCharges( 3 );
 				}
 				break;
 
