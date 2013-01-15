@@ -5920,8 +5920,8 @@
 5903	jar of psychoses (The Meatsmith)	942166242	analjar_full.gif	usable	t	0
 5904
 5905	jar of psychoses (Jick)	457683470	analjar_full.gif	usable	t	0
-5906
-5907
+5906	pixel pill	439085798	pixelpill.gif	usable	t	0
+5907	pixel energy tank	337369749	pixeltank.gif	usable, combat	t	0
 5908	ChibiBuddy&trade; (on)	413382594	chibibuddy.gif	reusable		0	ChibiBuddies&trade; (on)
 5909	gold wedding ring	139779467	weddingring.gif	accessory	d	11000
 5910	deactivated nanobots	842083746	nanobox.gif	grow	t	0	boxes of deactivated nanobots
@@ -6185,3 +6185,6 @@
 6168	Bloodbath	788202773	bloodbath.gif	weapon		0
 6169	Hundred Headed IPA	230929468	beerbottle.gif	drink	t,d	75
 6170	old chum	985900785	gooball.gif	food	t,d	25
+6171	crude crudit&eacute;s	929056652	crudites.gif	usable	t,d	0
+6172	candy crayons	790925279	candycrayons.gif	usable	t	0
+6173	pixel grappling hook	879455617	pixelhook.gif	offhand	t	0

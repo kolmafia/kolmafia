@@ -1419,6 +1419,9 @@ pixel shield	PIXEL	red pixel (20)	black pixel (10)	white pixel (10)
 digital key	PIXEL	white pixel (30)
 pixel boomerang	PIXEL	black pixel (10)	white pixel (10)	blue pixel (20)
 pixel whip	PIXEL	brown pixel (10)
+pixel pill	PIXEL	red pixel (20)	white pixel (20)
+pixel energy tank	PIXEL	blue pixel (40)	white pixel (10)
+pixel grappling hook	PIXEL	white pixel (50)	black pixel (50)
 
 
 # Sealhide items.  These are items which are created at Phineas

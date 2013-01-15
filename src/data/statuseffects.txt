@@ -1169,3 +1169,5 @@
 1168
 1169	Pla-see-bo	snowcarrot.gif	7788b095166a425339a98d9bb8c7cf2e	chew 1 carrot juice
 1170	Hoppyness	pinecone.gif	2fe0004ca79a4f94028ff59a80682709	drink 1 Hundred Headed IPA
+1171	Crud&eacute;	crudites.gif	fda0e6e0e26716c9ef57ae3a40b50149	use 1 crude crudit&eacute;s
+1172	A Taste of Rainbow	rrainbow.gif	99bb86b3192fb426354e2eb72ac35f1f	use 1 candy crayons

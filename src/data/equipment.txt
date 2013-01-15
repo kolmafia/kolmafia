@@ -1256,6 +1256,7 @@ penguin skin buckler	90	Mus: 30	shield
 penguin thesaurus	30	none
 pilgrim shield	240	none	shield
 pirate hook	0	none
+pixel grappling hook	0	Mox: 200
 pixel shield	50	Mus: 10	shield
 plush alielf	0	none
 plush alien hamsterpus	0	none
