@@ -1017,6 +1017,10 @@ public class ResultProcessor
 		
 		switch ( result.getItemId() )
 		{
+		case ItemPool.GMOB_POLLEN:
+			// Record that we beat the guy made of bees.
+			Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
+			break;
 		case ItemPool.ROASTED_MARSHMALLOW:
 			// Special Yuletide adventures
 			if ( KoLAdventure.lastAdventureId() == AdventurePool.YULETIDE )
