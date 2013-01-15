@@ -126,9 +126,11 @@ public class PixelRequest
 			String quantityString = quantityMatcher.group( 2 ).trim();
 			quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
 		}
-		if ( quantity >	CreateItemRequest.getInstance( itemId ).getQuantityPossible() )
+		CreateItemRequest pixelItem = CreateItemRequest.getInstance( itemId );
+		if ( pixelItem == null || quantity > pixelItem.getQuantityPossible() )
 		{
-			return true;	// attempt will fail
+			// Attempt will fail, or it's an unknown item and we don't know its ingredients
+			return true;
 		}
 
 		StringBuilder pixelString = new StringBuilder();
