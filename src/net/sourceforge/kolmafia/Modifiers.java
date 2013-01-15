@@ -199,6 +199,9 @@ public class Modifiers
 	public static final int MYS_EXPERIENCE_PCT = 97;
 	public static final int MOX_EXPERIENCE_PCT = 98;
 	public static final int MINSTREL_LEVEL = 99;
+	public static final int MUS_LIMIT = 100;
+	public static final int MYS_LIMIT = 101;
+	public static final int MOX_LIMIT = 102;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -646,6 +649,18 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) to Minstrel Level" ),
 		  Pattern.compile( "Minstrel Level: " + EXPR )
 		},
+		{ "Muscle Limit",
+		  null,
+		  Pattern.compile( "Muscle Limit: " + EXPR )
+		},
+		{ "Mysticality Limit",
+		  null,
+		  Pattern.compile( "Mysticality Limit: " + EXPR )
+		},
+		{ "Moxie Limit",
+		  null,
+		  Pattern.compile( "Moxie Limit: " + EXPR )
+		},
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -727,7 +742,7 @@ public class Modifiers
 		  Pattern.compile( "Softcore Only" )
 		},
 		{ "Single Equip",
-		  null,
+		  Pattern.compile( "You may not equip more than one of these at a time" ),
 		  Pattern.compile( "Single Equip" )
 		},
 		{ "Never Fumble",
@@ -931,6 +946,22 @@ public class Modifiers
 		else if ( equalize.startsWith( "Mox" ) )
 		{
 			mus = mys = mox;
+		}
+
+		int mus_limit = (int) this.get( Modifiers.MUS_LIMIT );
+		if ( mus_limit > 0 )
+		{
+			mus = mus_limit;
+		}
+		int mys_limit = (int) this.get( Modifiers.MYS_LIMIT );
+		if ( mys_limit > 0 )
+		{
+			mys = mys_limit;
+		}
+		int mox_limit = (int) this.get( Modifiers.MOX_LIMIT );
+		if ( mox_limit > 0 )
+		{
+			mox = mox_limit;
 		}
 
 		rv[ Modifiers.BUFFED_MUS ] = mus + (int) this.get( Modifiers.MUS ) +
@@ -1437,6 +1468,15 @@ public class Modifiers
 		case FAMILIAR_WEIGHT_PCT:
 			// The three current sources of -wt% do not stack
 			if ( this.doubles[ index ] > mod )
+			{
+				this.doubles[ index ] = mod;
+			}
+			break;
+		case MUS_LIMIT:
+		case MYS_LIMIT:
+		case MOX_LIMIT:
+			// Only the lowest limiter applies
+			if ( this.doubles[ index ] == 0.0 || this.doubles[ index ] > mod )
 			{
 				this.doubles[ index ] = mod;
 			}

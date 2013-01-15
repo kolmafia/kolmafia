@@ -2924,6 +2924,10 @@ Complete Delusion	Muscle: +4, Moxie: +5
 Concentrated Concentration	Spell Damage Percent: +20
 Concentration	Spell Damage Percent: +10
 Confused	Mysticality Percent: -30
+Consumed by Anger	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
+Consumed by Doubt	Muscle Limit: 10, Mysticality Limit: 30, Moxie Limit: 30
+Consumed by Fear	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 10
+Consumed by Regret	Muscle Limit: 30, Mysticality Limit: 10, Moxie Limit: 30
 Contagious Bad Luck	Mysticality Percent: -20
 Contemptible Emanations	Monster Level: +20
 Corroded Weapon	Weapon Damage: -5
