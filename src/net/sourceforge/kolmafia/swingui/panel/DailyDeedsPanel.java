@@ -2756,7 +2756,7 @@ public class DailyDeedsPanel
 					buffer.append( ", " );
 				}
 				buffer.append( jungDrops );
-				buffer.append( "/1 psychoanalytic jar" );
+				buffer.append( "/1 psycho jar" );
 				if ( jungDrops != 1 ) buffer.append( "s" );
 				shown = true;
 				count++;
