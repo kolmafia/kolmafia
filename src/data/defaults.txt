@@ -843,6 +843,7 @@ user	_jukebox	false
 user	_jungDrops	0
 user	_kloopDrops	0
 user	_jackassPlumberGame	false
+user	_jickJarAvailable	unknown
 user	_jingleBellUsed	false
 user	_klawSummons	0
 user	_kolConSixPackUsed	false

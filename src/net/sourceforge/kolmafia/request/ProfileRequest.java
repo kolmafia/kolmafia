@@ -48,12 +48,15 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -672,5 +675,19 @@ public class ProfileRequest
 		}
 
 		return this.getPlayerLevel().intValue() - pr.getPlayerLevel().intValue();
+	}
+
+	public static void parseResponse( String location, String responseText )
+	{
+		// see if we're looking at Jick's profile
+		if ( location.contains( "?who=1" ) )
+		{
+			// if we have a psychoanalytic jar, check for the jar button.  
+			if ( InventoryManager.hasItem( ItemPool.PSYCHOANALYTIC_JAR ) )
+			{
+				Preferences.setString(
+					"_jickJarAvailable", Boolean.toString( responseText.contains( "psychoanalytic jar" ) ) );
+			}
+		}
 	}
 }
