@@ -2601,7 +2601,7 @@ Throne:Magic Dragonfish	Spell Damage Percent: +15, HP Regen Min: 10, HP Regen Ma
 Throne:MagiMechTech MicroMechaMech	Muscle Percent: +15
 Throne:Mariachi Chihuahua	Experience (Moxie): +2
 Throne:Midget Clownfish	Spell Damage Percent: +10
-Throne:Mini-Hipster	Muscle: +10, Mysticality: +10, Moxie, +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
+Throne:Mini-Hipster	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne:Mini-Skulldozer	Initiative: +20
 Throne:Misshapen Animal Skeleton	Familiar Weight: +5
 Throne:Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
@@ -3954,7 +3954,7 @@ Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Clockwork Apparatus	I Meant To Do That!
 Cold Comforts	Cold Damage: +30, Cold Spell Damage: +30
 Crimbo Duds	Item Drop: +5
-Crimborg Assault Armor	Ranged Damage +20
+Crimborg Assault Armor	Ranged Damage: +20
 Cursed Zombie Pirate Costume	Spooky Damage: +30
 Dark Bro's Vestments	Spooky Spell Damage: +20, Sleaze Spell Damage: +20
 Dire Drifter Duds	Familiar Weight: +5
