@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CouncilRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
@@ -205,6 +206,10 @@ public class CouncilFrame
 		else if ( location.startsWith( "beach.php?action=woodencity" ) )
 		{
 			CouncilFrame.parsePyramidChange( responseText );
+		}
+		else if ( location.startsWith( "showplayer" ) )
+		{
+			ProfileRequest.parseResponse( location, responseText );
 		}
 		else if ( location.startsWith( "tavern" ) )
 		{
