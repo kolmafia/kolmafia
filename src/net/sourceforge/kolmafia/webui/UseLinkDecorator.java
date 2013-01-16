@@ -1215,7 +1215,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.ABRIDGED:
 
 			useType = "untinker";
-			useLocation = "forestvillage.php?action=untinker&whichitem=";
+			useLocation = "forestvillage.php?place=untinker";
 			break;
 
 		// Link to the chasm if you just untinkered a dictionary.
