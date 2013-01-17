@@ -511,6 +511,10 @@ public class Evaluator
 			{
 				index = Modifiers.EXPERIENCE;
 			}
+			else if ( keyword.startsWith( "crit" ) )
+			{
+				index = Modifiers.CRITICAL_PCT;
+			}
 
 			if ( index >= 0 )
 			{
