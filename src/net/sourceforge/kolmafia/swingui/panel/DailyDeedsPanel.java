@@ -219,6 +219,9 @@ public class DailyDeedsPanel
 		},
 		{
 			"Special", "Swimming Pool"
+		},
+		{
+			"Special", "Jick Jar"
 		}
 	};
 
@@ -946,6 +949,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Swimming Pool" ) )
 		{
 			this.add( new SwimmingPoolDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Jick Jar" ) )
+		{
+			this.add( new JickDaily() );
 		}
 		else
 		// you added a special deed to BUILTIN_DEEDS but didn't add a method call.
@@ -3246,5 +3253,46 @@ public class DailyDeedsPanel
 			this.setShown( ( !bm || kf ) && ( have || sp ) && trendy );
 			this.setEnabled( !sp );
 		}
+	}
+	
+	public static class JickDaily
+		extends Daily
+	{
+		private JButton button;
+
+		public JickDaily()
+		{
+			this.addItem( ItemPool.PSYCHOANALYTIC_JAR );
+			this.addListener( "_jickJarAvailable" );
+			this.button = this.addButton( "Jick Jar" );
+			this.button.setActionCommand( "ashq visit_url(\"showplayer.php?who=1\");" );
+			this.addLabel( "click to check" );
+		}
+
+		@Override
+		public void update()
+		{
+			String status = Preferences.getString( "_jickJarAvailable" );
+			boolean haveJar = InventoryManager.hasItem( ItemPool.PSYCHOANALYTIC_JAR );
+
+			if ( status.equals( "false" ) )
+			{
+				this.setText( "Jick Jar not available" );
+				this.button.setVisible( false );
+			}
+			else if ( status.equals( "true" ) )
+			{
+				this.setText( "<html>Jick Jar is <b>AVAILABLE</b></html>" );
+				this.button.setVisible( false );
+			}
+			else
+			{
+				this.setText( "click to check" );
+				this.button.setVisible( true );
+			}
+
+			this.setShown( !status.equals( "unknown" ) || haveJar );
+		}
+
 	}
 }
