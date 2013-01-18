@@ -1009,12 +1009,12 @@ public class ResultProcessor
 		{
 			return;
 		}
-		
+
 		if ( EquipmentDatabase.isHat( result ) )
 		{
 			PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 		}
-		
+
 		switch ( result.getItemId() )
 		{
 		case ItemPool.GMOB_POLLEN:
@@ -1024,6 +1024,7 @@ public class ResultProcessor
 				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
 			}
 			break;
+
 		case ItemPool.ROASTED_MARSHMALLOW:
 			// Special Yuletide adventures
 			if ( KoLAdventure.lastAdventureId() == AdventurePool.YULETIDE )
@@ -1188,11 +1189,9 @@ public class ResultProcessor
 		case ItemPool.REALLY_BIG_TINY_HOUSE:
 			ResultProcessor.processItem( ItemPool.RED_PAPER_CLIP, -1 );
 			break;
-
 		case ItemPool.NONESSENTIAL_AMULET:
 			ResultProcessor.processItem( ItemPool.REALLY_BIG_TINY_HOUSE, -1 );
 			break;
-
 		case ItemPool.WHITE_WINE_VINAIGRETTE:
 			ResultProcessor.processItem( ItemPool.NONESSENTIAL_AMULET, -1 );
 			break;
@@ -1223,7 +1222,6 @@ public class ResultProcessor
 		case ItemPool.CHOMSKYS_COMICS:
 			ResultProcessor.processItem( ItemPool.FINGERLESS_HOBO_GLOVES, -1 );
 			break;
-
 		case ItemPool.GNOME_DEMODULIZER:
 			ResultProcessor.removeItem( ItemPool.CHOMSKYS_COMICS );
 			break;
@@ -1614,18 +1612,27 @@ public class ResultProcessor
 		case ItemPool.ARTIST_JAR:
 		case ItemPool.MEATSMITH_JAR:
 		case ItemPool.JICK_JAR:
-			ResultProcessor.removeItem( ItemPool.PSYCHOANALYTIC_JAR );
-			Preferences.setBoolean( "_psychoJarFilled", true );
+			if ( RequestLogger.getLastURLString().contains( "action=jung" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.PSYCHOANALYTIC_JAR );
+				Preferences.setBoolean( "_psychoJarFilled", true );
+			}
 			break;
 
 		case ItemPool.BRICKO_EYE:
-			Preferences.increment( "_brickoEyeSummons" );
+			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) )
+			{
+				Preferences.increment( "_brickoEyeSummons" );
+			}
 			break;
 
 		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
 		case ItemPool.DIVINE_CRACKER:
 		case ItemPool.DIVINE_FLUTE:
-			Preferences.increment( "_favorRareSummons" );
+			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) )
+			{
+				Preferences.increment( "_favorRareSummons" );
+			}
 			break;
 		}
 
