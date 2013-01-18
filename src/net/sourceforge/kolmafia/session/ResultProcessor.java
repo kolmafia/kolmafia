@@ -1018,8 +1018,11 @@ public class ResultProcessor
 		switch ( result.getItemId() )
 		{
 		case ItemPool.GMOB_POLLEN:
-			// Record that we beat the guy made of bees.
-			Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
+			if ( combatResults )
+			{
+				// Record that we beat the guy made of bees.
+				Preferences.setBoolean( "guyMadeOfBeesDefeated", true );
+			}
 			break;
 		case ItemPool.ROASTED_MARSHMALLOW:
 			// Special Yuletide adventures
@@ -1413,6 +1416,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.SLIME_STACK:
+			if ( combatResults )
 			{
 				int dropped = Preferences.increment( "slimelingStacksDropped", 1 );
 				if ( dropped > Preferences.getInteger( "slimelingStacksDue" ) )
@@ -1613,9 +1617,11 @@ public class ResultProcessor
 			ResultProcessor.removeItem( ItemPool.PSYCHOANALYTIC_JAR );
 			Preferences.setBoolean( "_psychoJarFilled", true );
 			break;
+
 		case ItemPool.BRICKO_EYE:
 			Preferences.increment( "_brickoEyeSummons" );
 			break;
+
 		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
 		case ItemPool.DIVINE_CRACKER:
 		case ItemPool.DIVINE_FLUTE:
