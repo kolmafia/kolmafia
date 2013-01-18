@@ -826,10 +826,12 @@ public abstract class KoLCharacter
 			return baseFullness;
 		}
 
-		if ( KoLCharacter.isFullnessIncreased && ( KoLCharacter.getPath().equals( "None" ) || KoLCharacter.getPath().equals( "Teetotaler" ) ) )
+		if ( KoLCharacter.isFullnessIncreased && ( KoLCharacter.getPath().equals( "None" ) || 
+			 KoLCharacter.getPath().equals( "Teetotaler" ) || KoLCharacter.inFistcore() ) )
 		{
-			// Challenge paths do not give bonus fullness for Feast of Boris.  Check for
-			// paths that give bonus fullness instead of excluding all other paths.
+			// Challenge paths do not give bonus fullness for Feast of Boris, 
+			// except for Fist (an oversight that apparently will not be fixed).
+			// Check for paths that give bonus fullness instead of excluding all other paths.
 			baseFullness += 15;
 		}
 
