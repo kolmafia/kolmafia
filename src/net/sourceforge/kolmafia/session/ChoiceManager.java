@@ -142,6 +142,18 @@ public abstract class ChoiceManager
 		"tenth",
 		"eleventh",
 	};
+	
+	private static final String[][] OLD_MAN_PSYCHOSIS_SPOILERS =
+	{
+		{	"Draw a Monster with a Crayon",	"+1 Crayon, Add Cray-Kin" }, { "Build a Bubble Mountain", "+3 crew, -8-10 bubbles" },
+		{	"Ask Mom for More Bath Toys", "+2 crayons, +8-11 bubbles" }, { "Draw a Bunch of Coconuts with Crayons", "Block Ferocious roc, -2 crayons" }, 
+		{	"Splash in the Water", "Add Bristled Man-O-War" }, { "Draw a Big Storm Cloud on the Shower Wall", "Block Deadly Hydra, -3 crayons" },
+		{	"Knock an Action Figure Overboard", "+20-23 bubbles, -1 crew" }, { "Submerge Some Bubbles", "Block giant man-eating shark, -16 bubbles" },
+		{	"Turn on the Shower Wand", "Add Deadly Hydra" }, { "Dump Bubble Bottle and Turn on the Faucet", "+13-19 bubbles" },
+		{	"Put the Toy Boat on the Side of the Tub", "+4 crayon, -1 crew" }, { "Cover the Ship in Bubbles", "Block fearsome giant squid, -13-20 bubbles" },
+		{	"Pull the Drain Plug", "-8 crew, -3 crayons, -17 bubbles, increase NC rate" }, { "Open a New Bathtub Crayon Box", "+3 crayons" },
+		{	"Sing a Bathtime Tune", "+3 crayons, +16 bubbles, -2 crew" }, { "Surround Bubbles with Crayons", "+5 crew, -6-16 bubbles, -2 crayons" },
+	};
 
 	public static class ChoiceAdventure
 		implements Comparable<ChoiceAdventure>
@@ -2576,6 +2588,15 @@ public abstract class ChoiceManager
 		case 582:
 			// Fitting In
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Fitting In" );
+		case 611:
+			// The Horror...(A-Boo Peak)
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Horror..." );
+		case 636:
+		case 637:
+		case 638:
+		case 639:
+			// Old Man psychoses
+			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "First Mate's Log Entry" );
 		}
 		return null;
 	}
@@ -2924,6 +2945,12 @@ public abstract class ChoiceManager
 			result [ 0 ] = "Flee";
 			result [ 1 ] = ChoiceManager.booPeakDamage();
 			return result;
+		case 636:
+		case 637:
+		case 638:
+		case 639:
+			// Old Man psychosis choice adventures are randomized and may not include all elements.
+			return oldManPsychosisSpoilers();
 		}
 		return null;
 	}
@@ -5622,4 +5649,42 @@ public abstract class ChoiceManager
 		// Used for casting skills that lead to a choice adventure
 		ChoiceManager.skillUses = uses;
 	}
+	
+	private static String[] oldManPsychosisSpoilers()
+	{
+		Matcher matcher = ChoiceManager.DECISION_BUTTON_PATTERN.matcher( ChoiceManager.lastResponseText );
+
+		String[][] buttons = new String[ 4 ][ 2 ];
+		int i = 0;
+		while ( matcher.find() )
+		{
+			buttons[ i ][ 0 ] = matcher.group( 1 );
+			buttons[ i ][ 1 ] = matcher.group( 2 );
+			++i;
+		}
+
+		// we need to return a string array with len=4 - even if there are buttons missing
+		// the missing buttons are just "hidden" and thus the later buttons have the appropriate form field
+		// i.e. button 2 may be the first button.
+		
+		// As it turns out, I think all this cancels out and they could just be implemented as standard choice adventures,
+		// since the buttons are not actually randomized, they are consistent within the four choice adventures that make up the 10 log entry non-combats.
+		// Ah well.  Leavin' it here.
+		String[] spoilers = new String[ 4 ];
+
+		for ( int j = 0; j < spoilers.length; j++ )
+		{
+			for ( String[] s : OLD_MAN_PSYCHOSIS_SPOILERS )
+			{
+				if ( s[ 0 ].equals( buttons[ j ][ 1 ] ) )
+				{
+					spoilers[ Integer.parseInt( buttons[ j ][ 0 ] ) - 1 ] = s[ 1 ]; // button 1 text should be in index 0, 2 -> 1, etc.
+					break;
+				}
+			}
+		}
+
+		return spoilers;
+	}
+
 }
