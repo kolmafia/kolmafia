@@ -377,6 +377,7 @@ bat wing kabob	COOK	bat wing	skewer
 brains casserole	COOK	fricasseed brains	Gnollish casserole dish
 carob brownies	COOK	carob chunks	Uncle Jick's Brownie Mix
 carob chunk cookies	COOK	carob chunks	wad of dough
+carrot cake	COOK	carrot nose	wad of dough
 catgut taco	COOK	catgut	taco shell
 chorizo taco	COOK	uncooked chorizo	taco shell
 ghuol egg quiche	COOK	ghuol egg	pie crust
@@ -546,6 +547,8 @@ green beer	MIX, MANUAL	ten-leaf clover	ice-cold Sir Schlitz
 green beer	MIX, MANUAL	ten-leaf clover	ice-cold Willer
 
 flask of peppermint schnapps	MIX	fermenting powder	flask of peppermint oil
+
+carrot claret	MIX	fermenting powder	carrot nose
 
 # Tier 3 and tier 4 beverages which can be made by anyone.  These are
 # believed to be the best creatable drinks without buying a DB's skills or
@@ -2047,8 +2050,12 @@ Crimbo tree flocker	SUSE	Super Crimboman Ultra Mega Hypersword
 Crimbo light-up Rudolph doll	SUSE	Super Crimboman Ultra Mega Hypersword
 
 # Psychoanalytic items
+
 Byte	MUSE	flickering pixel (8)
 White Dragon Fang	ACOMBINE	magical battery	toy taijijian
 goblin bone hilt	COMBINE	goblin collarbone	wad of spider silk
 loose blade	COMBINE	goblin collarbone	sharp tin strip
 sticky sword blade	COMBINE	wad of spider silk	sharp tin strip
+pair of rhinoceros horns	COMBINE	rhinoceros horn	rhinoceros horn
+furry brown pillow	COMBINE	furry pink pillow	bottle of limeade
+makeshift yakuza mask	COMBINE	pair of rhinoceros horns	furry brown pillow
