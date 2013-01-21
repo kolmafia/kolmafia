@@ -6143,7 +6143,7 @@
 6126	novelty tattoo sleeves	735834049	tatsleeves.gif	accessory	t,d	5
 6127	pair of rhinoceros horns	425162785	rhinohorns.gif	none	q	0
 6128	furry brown pillow	540963537	brownpillow.gif	none	q	0
-6129	makeshift yakuza mask	299669324	yakmask.gif	hat	q 	0
+6129	makeshift yakuza mask	299669324	yakmask.gif	hat	q	0
 6130	gold piece	407591613	goldpiece.gif	none	q	0
 6131	toy taijijian	229154217	toytai.gif	weapon	t,d	20
 6132	magical battery	194664409	battery.gif	none	t	0
