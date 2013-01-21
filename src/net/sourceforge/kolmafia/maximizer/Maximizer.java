@@ -694,7 +694,7 @@ public class Maximizer
 								price = StoreManager.getMallPrice( item );
 							}
 						}
-						if ( price > maxPrice ) continue;
+						if ( price > maxPrice || price == -1 ) continue;
 					}
 					else if ( item.getCount( KoLConstants.inventory ) == 0 )
 					{
