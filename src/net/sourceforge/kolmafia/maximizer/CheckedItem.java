@@ -115,7 +115,7 @@ public class CheckedItem
 	{
 		if ( this.singleFlag )
 		{
-			return 1;
+			return Math.min( 1, this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable );
 		}
 
 		return this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable;
