@@ -2942,8 +2942,8 @@ public abstract class ChoiceManager
 		case 611:
 			// The Horror... (A-Boo Peak)
 			result = new String[ 2 ];
-			result [ 0 ] = "Flee";
-			result [ 1 ] = ChoiceManager.booPeakDamage();
+			result [ 0 ] = ChoiceManager.booPeakDamage();
+			result [ 1 ] = "Flee";
 			return result;
 		case 636:
 		case 637:
@@ -4361,8 +4361,9 @@ public abstract class ChoiceManager
 	private static String booPeakDamage()
 	{
 		int damageTaken = 0;
-		String decisionText = ChoiceManager.findChoiceDecisionText( 2, ChoiceManager.lastResponseText );
-		if (  decisionText.equals( "Ask the Question" ) ||
+		String decisionText = ChoiceManager.findChoiceDecisionText( 1, ChoiceManager.lastResponseText );
+		if (
+			decisionText.equals( "Ask the Question" ) ||
 			decisionText.equals( "Talk to the Ghosts" ) ||
 			decisionText.equals( "I Wanna Know What Love Is" ) ||
 			decisionText.equals( "Tap Him on the Back" ) ||
