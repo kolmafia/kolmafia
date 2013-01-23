@@ -106,8 +106,19 @@ public class LogoutManager
 			return;
 		}
 
-		LogoutManager.isRunning = true;
+		try
+		{
+			LogoutManager.isRunning = true;
+			doLogout();
+		}
+		finally
+		{
+			LogoutManager.isRunning = false;
+		}
+	}
 
+	private static void doLogout()
+	{
 		// If there's no user to worry about, we're done now.
 
 		String userName = KoLCharacter.getUserName();
@@ -158,7 +169,5 @@ public class LogoutManager
 		KoLmafia.updateDisplay( "Logout completed." );
 
 		RequestLogger.closeDebugLog();
-
-		LogoutManager.isRunning = false;
 	}
 }
