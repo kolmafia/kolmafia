@@ -66,6 +66,8 @@ public class CampgroundRequest
 	private static final Pattern FURNISHING_PATTERN =
 		Pattern.compile( "<b>(?:an? )?(.*?)</b>" );
 
+	private static final Pattern JUNG_PATTERN = Pattern.compile( "junggate_(\\d)" );
+
 	private static int currentDwellingLevel = 0;
 	private static AdventureResult currentDwelling = null;
 	private static AdventureResult currentBed = null;
@@ -95,6 +97,7 @@ public class CampgroundRequest
 		ItemPool.COLD_BEDDING,
 		ItemPool.GAUZE_HAMMOCK,
 		ItemPool.HOT_BEDDING,
+		ItemPool.LAZYBONES_RECLINER,
 		ItemPool.SLEAZE_BEDDING,
 		ItemPool.SPOOKY_BEDDING,
 		ItemPool.STENCH_BEDDING,
@@ -102,7 +105,9 @@ public class CampgroundRequest
 
 		// Inside dwelling
 		ItemPool.BLACK_BLUE_LIGHT,
+		ItemPool.BONSAI_TREE,
 		ItemPool.FENG_SHUI,
+		ItemPool.LED_CLOCK,
 		ItemPool.LOUDMOUTH_LARRY,
 		ItemPool.PLASMA_BALL,
 
@@ -216,7 +221,7 @@ public class CampgroundRequest
 		return this.action.equals( "rest" ) ? 1 : 0;
 	}
 
-	private static void setCampgroundItem( final int itemId, int count )
+	public static void setCampgroundItem( final int itemId, int count )
 	{
 		CampgroundRequest.setCampgroundItem( ItemPool.get( itemId, count ) );
 	}
@@ -516,6 +521,37 @@ public class CampgroundRequest
 		// This is day 6 for A Bone Garden.  It triggers a combat, so it should never be automatically picked.
 		// Setting a negative number of items will make it possible to tell that it isn't empty.
 		findImage( responseText, "bonegarden_spoilzlul.gif", ItemPool.SKELETON, -1 );
+		
+		Matcher jungMatcher = JUNG_PATTERN.matcher( responseText );
+		if ( jungMatcher.find() )
+		{
+			int jungLink = StringUtilities.parseInt( jungMatcher.group( 1 ) );
+			switch ( jungLink )
+			{
+			case 1:
+				CampgroundRequest.setCampgroundItem( ItemPool.SUSPICIOUS_JAR , 1 );
+				break;
+			case 2:
+				CampgroundRequest.setCampgroundItem( ItemPool.GOURD_JAR , 1 );
+				break;
+			case 3:
+				CampgroundRequest.setCampgroundItem( ItemPool.MYSTIC_JAR , 1 );
+				break;
+			case 4:
+				CampgroundRequest.setCampgroundItem( ItemPool.OLD_MAN_JAR , 1 );
+				break;
+			case 5:
+				CampgroundRequest.setCampgroundItem( ItemPool.ARTIST_JAR , 1 );
+				break;
+			case 6:
+				CampgroundRequest.setCampgroundItem( ItemPool.MEATSMITH_JAR , 1 );
+				break;
+			case 7:
+				CampgroundRequest.setCampgroundItem( ItemPool.JICK_JAR , 1 );
+				break;
+			}
+		}
+		
 	}
 
 	private static final void parseDwelling( final String responseText )
@@ -578,8 +614,7 @@ public class CampgroundRequest
 
 		if ( itemId != -1 )
 		{
-			CampgroundRequest.currentDwelling = ItemPool.get( itemId, 1 );
-			CampgroundRequest.currentDwellingLevel = CampgroundRequest.dwellingLevel( itemId );
+			CampgroundRequest.setCurrentDwelling( itemId );
 		}
 
 		if ( m.group( 2 ) != null )
@@ -608,7 +643,7 @@ public class CampgroundRequest
 				AdventureResult ar = ItemPool.get( name, 1 );
 				if ( CampgroundRequest.isBedding( ar.getItemId() ) )
 				{
-					CampgroundRequest.currentBed = ar;
+					CampgroundRequest.setCurrentBed( ar );
 				}
 
 				CampgroundRequest.setCampgroundItem( ar );
@@ -690,9 +725,40 @@ public class CampgroundRequest
 		return currentDwellingLevel;
 	}
 
+	public static void setCurrentDwelling( int itemId )
+	{
+		CampgroundRequest.currentDwelling = ItemPool.get( itemId, 1 );
+		CampgroundRequest.currentDwellingLevel = CampgroundRequest.dwellingLevel( itemId );
+	}
+
+	public static void destroyFurnishings()
+	{
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.BEANBAG_CHAIR, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.COLD_BEDDING, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.GAUZE_HAMMOCK, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.HOT_BEDDING, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.LAZYBONES_RECLINER, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SLEAZE_BEDDING, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SPOOKY_BEDDING, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.STENCH_BEDDING, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SLEEPING_STOCKING, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.BLACK_BLUE_LIGHT, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.LOUDMOUTH_LARRY, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.PLASMA_BALL, 1 ) );
+	}
+
 	public static AdventureResult getCurrentBed()
 	{
 		return currentBed;
+	}
+
+	public static void setCurrentBed( AdventureResult bed )
+	{
+		if ( CampgroundRequest.getCurrentBed() != null )
+		{
+			CampgroundRequest.removeCampgroundItem( CampgroundRequest.getCurrentBed() );
+		}
+		CampgroundRequest.currentBed = bed;
 	}
 
 	public static boolean isDwelling( final int itemId )
@@ -748,6 +814,8 @@ public class CampgroundRequest
 		{
 		case ItemPool.BEANBAG_CHAIR:
 		case ItemPool.GAUZE_HAMMOCK:
+		case ItemPool.LAZYBONES_RECLINER:
+		case ItemPool.SLEEPING_STOCKING:
 		case ItemPool.HOT_BEDDING:
 		case ItemPool.COLD_BEDDING:
 		case ItemPool.STENCH_BEDDING:

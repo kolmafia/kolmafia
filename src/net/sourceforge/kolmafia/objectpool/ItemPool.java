@@ -1519,6 +1519,7 @@ public class ItemPool
 	public static final int DRAGON_TEETH = 5880;
 	public static final int SKELETON = 5881;
 	public static final int SKIFF = 5885;
+	public static final int LAZYBONES_RECLINER = 5888;
 	public static final int UNCONSCIOUS_COLLECTIVE_DREAM_JAR = 5897;
 	public static final int SUSPICIOUS_JAR = 5898;
 	public static final int GOURD_JAR = 5899;
@@ -1550,7 +1551,9 @@ public class ItemPool
 	public static final int CRIMBO_TREE_FLOCKER = 6061;
 	public static final int CRIMBO_RUDOLPH_DOLL = 6062;
 	public static final int GEEKY_BOOK = 6071;
+	public static final int LED_CLOCK = 6072;
 	public static final int CEO_OFFICE_CARD = 6116;
+	public static final int BONSAI_TREE = 6120;
 	public static final int SNOW_SUIT = 6150;
 
 	public static final AdventureResult get( String itemName, int count )
