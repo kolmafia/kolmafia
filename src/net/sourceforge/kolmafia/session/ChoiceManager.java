@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -57,6 +58,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -2588,6 +2590,9 @@ public abstract class ChoiceManager
 		case 582:
 			// Fitting In
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Fitting In" );
+/*		case 602:
+			// Lost in the Great Overlook Lodge
+			return ChoiceManager.dynamicChoiceSpoilers( 6, choice, "Lost in the Great Overlook Lodge" );*/
 		case 611:
 			// The Horror...(A-Boo Peak)
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Horror..." );
@@ -2866,10 +2871,10 @@ public abstract class ChoiceManager
 			result [ 1 ] = "gain mosquito larva or spooky mushrooms, " + coinAction + ", get stats or fight a vampire";
 
 			// gain a starter item, gain Spooky-Gro fertilizer or gain spooky temple map
-			int fertalizer = InventoryManager.getCount( ItemPool.SPOOKY_FERTILIZER );
+			int fertilizer = InventoryManager.getCount( ItemPool.SPOOKY_FERTILIZER );
 			String mapAction = ( haveCoin ? ", gain spooky temple map" : "" );
 
-			result [ 2 ] = "gain a starter item, gain Spooky-Gro fertilizer (" + fertalizer + ")" + mapAction;
+			result [ 2 ] = "gain a starter item, gain Spooky-Gro fertilizer (" + fertilizer + ")" + mapAction;
 
 			return result;
 
@@ -2939,6 +2944,35 @@ public abstract class ChoiceManager
 
 			return result;
 
+/*		case 602:
+			// Lost in the Great Overlook Lodge
+
+			result = new String[ 6 ];
+
+			result[ 0 ] = "need +4 stench resist, have " + KoLCharacter.getElementalResistanceLevels( Element.STENCH );
+
+			// annoyingly, the item drop check does not take into account fairy bonus.
+			// This is just a one-off implementation, but should be standardized somewhere in Modifiers
+			// if kol adds more things like this.
+			double bonus = 0;
+			if ( FamiliarDatabase.isFairyType( KoLCharacter.getFamiliar().getId() ) )
+			{
+				double eff = KoLCharacter.getCurrentModifiers().get( Modifiers.FAIRY_EFFECTIVENESS );
+				int weight = KoLCharacter.getFamiliar().getWeight();
+
+				bonus = eff * ( Math.sqrt( 55 * weight ) + weight - 3 );
+			}
+			result[ 1 ] =
+				"need +50 item drop, have " + Math.round( KoLCharacter.getItemDropPercentAdjustment() - bonus ) + "%";
+
+			int oil = InventoryManager.getCount( ItemPool.JAR_OF_OIL );
+			result[ 2 ] = "need Jar of Oil (" + oil + ")";
+			result[ 3 ] = "need +40% init, have " + KoLCharacter.getInitiativeAdjustment() + "%";
+			result[ 4 ] = null; //why is there a missing button 5?
+			result[ 5 ] = "flee";
+
+			return result;
+*/
 		case 611:
 			// The Horror... (A-Boo Peak)
 			result = new String[ 2 ];
@@ -3262,7 +3296,8 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		String text = request.responseText;
+		ChoiceManager.lastResponseText = request.responseText;
+		String text = ChoiceManager.lastResponseText;
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -4254,7 +4289,7 @@ public abstract class ChoiceManager
 		KoLmafia.resetAfterAvatar();
 	}
 
-	public static void visitChoice( final GenericRequest request )
+	private static void visitChoice( final GenericRequest request )
 	{
 		String responseText = request.responseText;
 		Matcher matcher = ChoiceManager.CHOICE_PATTERN.matcher( responseText );
