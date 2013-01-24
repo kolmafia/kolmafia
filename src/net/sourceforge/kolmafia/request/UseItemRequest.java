@@ -2275,7 +2275,7 @@ public class UseItemRequest
 			{
 				ResultProcessor.processItem( ItemPool.HEY_DEZE_NUTS, -1 );
 				ResultProcessor.processItem( ItemPool.PAGODA_PLANS, -1 );
-				RequestThread.postRequest( new CampgroundRequest() );
+				CampgroundRequest.setCampgroundItem( ItemPool.PAGODA_PLANS, 1 );
 			}
 
 			// The ketchup hound does not go away...
@@ -2460,7 +2460,7 @@ public class UseItemRequest
 			{
 				ResultProcessor.processItem( ItemPool.FOUNTAIN, -1 );
 				ResultProcessor.processItem( ItemPool.WINDCHIMES, -1 );
-				RequestThread.postRequest( new CampgroundRequest() );
+				CampgroundRequest.setCampgroundItem( ItemPool.FENG_SHUI, 1 );
 			}
 			else
 			{
@@ -3350,24 +3350,48 @@ public class UseItemRequest
 		case ItemPool.NEWBIESPORT_TENT:
 		case ItemPool.BARSKIN_TENT:
 		case ItemPool.COTTAGE:
+		case ItemPool.BRICKO_PYRAMID:
 		case ItemPool.HOUSE:
 		case ItemPool.SANDCASTLE:
 		case ItemPool.TWIG_HOUSE:
+		case ItemPool.GINGERBREAD_HOUSE:
 		case ItemPool.HOBO_FORTRESS:
 
-			if ( responseText.indexOf( "You've already got" ) != -1 )
+			if ( responseText.contains( "You've already got" ) )
 			{
 				ResultProcessor.processResult( item );
 				return;
 			}
-			RequestThread.postRequest( new CampgroundRequest() );
+			CampgroundRequest.destroyFurnishings();
+			CampgroundRequest.setCurrentDwelling( itemId );
 			return;
 
-		case ItemPool.MAID:
-		case ItemPool.CLOCKWORK_MAID:
 		case ItemPool.SCARECROW:
 		case ItemPool.MEAT_GOLEM:
-			RequestThread.postRequest( new CampgroundRequest() );
+		case ItemPool.MAID:
+		case ItemPool.BLACK_BLUE_LIGHT:
+		case ItemPool.LOUDMOUTH_LARRY:
+		case ItemPool.PLASMA_BALL:
+		case ItemPool.LED_CLOCK:
+		case ItemPool.BONSAI_TREE:
+
+			if ( responseText.contains( "You've already got" ) )
+			{
+				ResultProcessor.processResult( item );
+				return;
+			}
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
+			return;
+
+		case ItemPool.CLOCKWORK_MAID:
+
+			if ( responseText.contains( "You've already got" ) )
+			{
+				ResultProcessor.processResult( item );
+				return;
+			}
+			CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.MAID, 1 ) );
+			CampgroundRequest.setCampgroundItem( ItemPool.CLOCKWORK_MAID, 1 );
 			return;
 
 		case ItemPool.BEANBAG_CHAIR:
@@ -3377,15 +3401,16 @@ public class UseItemRequest
 		case ItemPool.STENCH_BEDDING:
 		case ItemPool.SPOOKY_BEDDING:
 		case ItemPool.SLEAZE_BEDDING:
-		case ItemPool.BLACK_BLUE_LIGHT:
-		case ItemPool.LOUDMOUTH_LARRY:
-		case ItemPool.PLASMA_BALL:
-			if ( responseText.indexOf( "already" ) != -1 )
+		case ItemPool.SLEEPING_STOCKING:
+		case ItemPool.LAZYBONES_RECLINER:
+		
+			if ( responseText.contains( "You've already got" ) || responseText.contains( "You don't have" ) )
 			{
 				ResultProcessor.processResult( item );
 				return;
 			}
-			RequestThread.postRequest( new CampgroundRequest() );
+			CampgroundRequest.setCurrentBed( ItemPool.get( itemId, 1 ) );
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			return;
 
 		case ItemPool.MILKY_POTION:
@@ -4244,6 +4269,7 @@ public class UseItemRequest
 		case ItemPool.ARTIST_JAR:
 		case ItemPool.MEATSMITH_JAR:
 		case ItemPool.JICK_JAR:
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			Preferences.setBoolean( "_psychoJarUsed", true );
 			return;
 

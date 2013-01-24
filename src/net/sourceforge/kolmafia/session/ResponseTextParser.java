@@ -639,6 +639,10 @@ public class ResponseTextParser
 			{
 				OrcChasmRequest.parseResponse( location, responseText );
 			}
+			if ( location.contains( "whichplace=junggate" ) )
+			{
+				UseItemRequest.parseConsumption( responseText, false );
+			}
 		}
 
 		else if ( location.startsWith( "pyramid.php" ) )
