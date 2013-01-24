@@ -2590,7 +2590,7 @@ public abstract class ChoiceManager
 		case 582:
 			// Fitting In
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Fitting In" );
-/*		case 602:
+/*		case 606:
 			// Lost in the Great Overlook Lodge
 			return ChoiceManager.dynamicChoiceSpoilers( 6, choice, "Lost in the Great Overlook Lodge" );*/
 		case 611:
@@ -2944,7 +2944,7 @@ public abstract class ChoiceManager
 
 			return result;
 
-/*		case 602:
+/*		case 606:
 			// Lost in the Great Overlook Lodge
 
 			result = new String[ 6 ];
