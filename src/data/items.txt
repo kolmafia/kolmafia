@@ -6137,11 +6137,11 @@
 6120	bonsai tree	839605709	bonsai.gif	usable	t,d	15
 6121	cheap Chinese beer	601658923	beer.gif	drink	t,d	25
 6122	lucky cat statue	565080881	kittystatue.gif	usable	t,d	25
-6123	rhinoceros horn	421306084	rhinohorn.gif	none	t,d	30
+6123	rhinoceros horn	421306084	rhinohorn.gif	none	t,d	30	rhinoceros horns
 6124	furry pink pillow	966738179	pinkpillow.gif	none	q	0
 6125	bottle of limeade	209783441	beerbottle.gif	usable	t,d	10
 6126	novelty tattoo sleeves	735834049	tatsleeves.gif	accessory	t,d	5
-6127	pair of rhinoceros horns	425162785	rhinohorns.gif	none	q	0
+6127	pair of rhinoceros horns	425162785	rhinohorns.gif	none	q	0	pairs of rhinoceros horns
 6128	furry brown pillow	540963537	brownpillow.gif	none	q	0
 6129	makeshift yakuza mask	299669324	yakmask.gif	hat	q	0
 6130	gold piece	407591613	goldpiece.gif	none	q	0
