@@ -123,6 +123,8 @@ public class EquipmentManager
 
 	private static AdventureResult lockedFamiliarItem = EquipmentRequest.UNEQUIP;
 
+	private static boolean glassesWorn = false; // The Lost Glasses
+
 	static
 	{
 		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
@@ -450,6 +452,12 @@ public class EquipmentManager
 				( diaper ? 1 : 0 ) +
 				( wheel ? 1 : 0 ) +
 				( eye ? 1 : 0 );
+		}
+
+		if ( old.getItemId() == ItemPool.LOST_GLASSES || 
+			 item.getItemId() == ItemPool.LOST_GLASSES )
+		{
+			EquipmentManager.glassesWorn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LOST_GLASSES, 1 ) );
 		}
 	}
 	
@@ -1288,6 +1296,11 @@ public class EquipmentManager
 		case MOXIE:
 			return KoLCharacter.getAdjustedMoxie();
 		}
+	}
+
+	public static final boolean getGlassesWorn()
+	{
+		return EquipmentManager.glassesWorn;
 	}
 
 	public static final boolean hasOutfit( final int id )
