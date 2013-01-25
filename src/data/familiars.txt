@@ -171,7 +171,7 @@
 162	Reagnimated Gnome	frankengnome.gif	item0	5767		0	0	0	0
 163	Hovering Skull	talkskull.gif	stat0,combat	5774	shiny gold fronts	2	2	3	1
 164	Mini-Skulldozer	minidozer.gif	combat	5890	ribcage rollcage	2	1	3	0
-165	Angry Jung Man	jungman.gif	item0,meat0	5893	Red Book	2	2	2	1
+165	Angry Jung Man	jungman.gif	item0,meat0	5893	Red Book	2	2	1	1
 166	Unconscious Collective	uc.gif	stat0,meat0	5895	blue canary nightlight	0	0	0	0
 167	Nanorhino	nanorhino.gif	combat	5910	nanorhino credit card	3	1	1	3
 168	Oily Woim	woim.gif	none	6044	woimbook	2	1	3	1
