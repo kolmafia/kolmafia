@@ -1604,18 +1604,22 @@ public class ResultProcessor
 			Preferences.setInteger( "biodataWasteProcessing", 0 );
 			Preferences.setInteger( "lastKeyotronUse", KoLCharacter.getAscensions() );
 			break;
-			
+
+		case ItemPool.JICK_JAR:
+			if ( RequestLogger.getLastURLString().contains( "action=jung" ) )
+			{
+				Preferences.setBoolean( "_psychoJarFilled", true );
+			}
+		// fall through
 		case ItemPool.SUSPICIOUS_JAR:
 		case ItemPool.GOURD_JAR:
 		case ItemPool.MYSTIC_JAR:
 		case ItemPool.OLD_MAN_JAR:
 		case ItemPool.ARTIST_JAR:
 		case ItemPool.MEATSMITH_JAR:
-		case ItemPool.JICK_JAR:
 			if ( RequestLogger.getLastURLString().contains( "action=jung" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.PSYCHOANALYTIC_JAR );
-				Preferences.setBoolean( "_psychoJarFilled", true );
 			}
 			break;
 
