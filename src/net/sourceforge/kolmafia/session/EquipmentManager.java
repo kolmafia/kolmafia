@@ -123,7 +123,7 @@ public class EquipmentManager
 
 	private static AdventureResult lockedFamiliarItem = EquipmentRequest.UNEQUIP;
 
-	private static boolean glassesWorn = false; // The Lost Glasses
+	private static double defenseModifier = 1.0; // The Lost Glasses and Chester's Sunglasses
 
 	static
 	{
@@ -454,10 +454,12 @@ public class EquipmentManager
 				( eye ? 1 : 0 );
 		}
 
-		if ( old.getItemId() == ItemPool.LOST_GLASSES || 
-			 item.getItemId() == ItemPool.LOST_GLASSES )
+		if ( old.getItemId() == ItemPool.LOST_GLASSES || item.getItemId() == ItemPool.LOST_GLASSES ||
+			 old.getItemId() == ItemPool.CHESTER_GLASSES || item.getItemId() == ItemPool.CHESTER_GLASSES )
 		{
-			EquipmentManager.glassesWorn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LOST_GLASSES, 1 ) );
+			EquipmentManager.defenseModifier = 1
+				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LOST_GLASSES, 1 ) ) ? 0.15 : 0 )
+				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.CHESTER_GLASSES, 1 ) ) ? 0.15 : 0 );
 		}
 	}
 	
@@ -1298,9 +1300,9 @@ public class EquipmentManager
 		}
 	}
 
-	public static final boolean getGlassesWorn()
+	public static final double getDefenseModifier()
 	{
-		return EquipmentManager.glassesWorn;
+		return EquipmentManager.defenseModifier;
 	}
 
 	public static final boolean hasOutfit( final int id )
