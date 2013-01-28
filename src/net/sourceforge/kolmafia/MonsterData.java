@@ -119,12 +119,6 @@ public class MonsterData
 		return 1.0 + ( KoLCharacter.inBeecore() ? ( this.beeCount / 5.0 ) : 0.0 );
 	}
 
-	// The Lost Glasses
-	private static double glassesModifier()
-	{
-		return EquipmentManager.getGlassesWorn() ? 0.85 : 1.0;
-	}
-
 	public int getHP()
 	{
 		if ( this.health == null )
@@ -204,13 +198,15 @@ public class MonsterData
 		if ( this.defense instanceof Integer )
 		{
 			int defense = ((Integer) this.defense).intValue();
-			return defense == 0 ? 0 : (int) Math.floor( Math.max( 1, defense + ML() ) * getBeeosity() * glassesModifier() );
+			return defense == 0 ? 0 : (int) Math.floor( Math.max( 1, defense + ML() ) * 
+					getBeeosity() * EquipmentManager.getDefenseModifier() );
 		}
 		if ( this.defense instanceof String )
 		{
 			this.defense = compile( this.defense );
 		}
-		return Math.max( 1, (int) (((MonsterExpression) this.defense).eval() * getBeeosity() * glassesModifier() ) );
+		return Math.max( 1, (int) (((MonsterExpression) this.defense).eval() * 
+				getBeeosity() * EquipmentManager.getDefenseModifier() ) );
 	}
 
 	public int getRawDefense()

@@ -857,6 +857,7 @@ public class ItemPool
 	public static final int EXPLOSIVE_ETUDE = 3377;
 	public static final int CHORALE_OF_COMPANIONSHIP = 3378;
 	public static final int PRELUDE_OF_PRECISION = 3379;
+	public static final int CHESTER_GLASSES = 3383;
 	public static final int EMPTY_EYE = 3388;
 	public static final int ICEBALL = 3391;
 	public static final int NEVERENDING_SODA = 3393;
