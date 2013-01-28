@@ -1310,8 +1310,8 @@ public class KoLAdventure
 
 		// Lots of places.
 		{
-			"You must have at least",
-			"Your stats are too low for this location.",
+			"It is recommended that you have at least",
+			"Your stats are too low for this location.  Adventure manually to acknowledge or disable this warning.",
 		},
 
 		// Lots of places.
@@ -1819,7 +1819,6 @@ public class KoLAdventure
 	{
 		if ( index >= 0 && index < ADVENTURE_FAILURES.length && ADVENTURE_FAILURES[ index ].length > 2 )
 		{
-
 			return (MafiaState) ADVENTURE_FAILURES[ index ][ 2 ];
 		}
 
