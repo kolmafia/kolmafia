@@ -197,7 +197,7 @@ public class ConditionsCommand
 
 			String[] splitCondition = conditionString.split( "\\s+" );
 			int count = splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1;
-			return GoalManager.GOAL_MANUEL.getInstance( count );
+			return GoalManager.GOAL_FACTOID.getInstance( count );
 		}
 
 		if ( conditionString.endsWith( "autostop" ) )

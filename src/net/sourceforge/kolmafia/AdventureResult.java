@@ -79,7 +79,7 @@ public class AdventureResult
 
 	public static final String HP = "HP";
 	public static final String MP = "MP";
-	public static final String MANUEL = "Manuel";
+	public static final String FACTOID = "Factoid";
 	public static final String ADV = "Adv";
 	public static final String FREE_CRAFT = "Free Craft";
 	public static final String CHOICE = "Choice";
@@ -778,9 +778,9 @@ public class AdventureResult
 		{
 			return "mana";
 		}
-		if ( this.name.equals( AdventureResult.MANUEL ) )
+		if ( this.name.equals( AdventureResult.FACTOID ) )
 		{
-			return "manuel";
+			return "factoid";
 		}
 
 		return "item";
