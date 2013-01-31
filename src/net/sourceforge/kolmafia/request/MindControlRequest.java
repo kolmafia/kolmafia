@@ -101,6 +101,12 @@ public class MindControlRequest
 			KoLmafia.updateDisplay( MafiaState.ERROR, "The dial only goes from 0 to " + this.maxLevel + "." );
 			return;
 		}
+		
+		if ( this.level == KoLCharacter.getMindControlLevel() )
+		{
+			KoLmafia.updateDisplay( "Mind control device already at " + this.level );
+			return;
+		}
 
 		if ( KoLCharacter.knollAvailable() && !InventoryManager.retrieveItem( MindControlRequest.RADIO ) )
 		{
