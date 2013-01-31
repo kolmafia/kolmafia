@@ -2229,6 +2229,15 @@ public abstract class ChoiceManager
 		// Choice 612 is Behind the world there is a door...
 		// Choice 613 is Behind the door there is a fog
 		// Choice 614 is Near the fog there is an... anvil?
+
+		// Choice 654 is Courier? I don't even...
+		// Choice 655 is They Have a Fight, Triangle Loses
+		// Choice 656 is Wheels Within Wheels
+		// Choice 657 is You Grind 16 Rats, and Whaddya Get?
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure657", "Chinatown Tenement",
+			new String[] { "Fight Boss", "skip adventure" } ),
+		// Choice 658 is Debasement
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
