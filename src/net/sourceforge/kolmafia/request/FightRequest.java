@@ -2325,7 +2325,7 @@ public class FightRequest
 		{
 			if ( responseText.contains( "monstermanuel.gif" ) )
 			{
-				GoalManager.updateProgress( GoalManager.GOAL_MANUEL );
+				GoalManager.updateProgress( GoalManager.GOAL_FACTOID );
 			}
 
 			KoLCharacter.getFamiliar().addCombatExperience( responseText );

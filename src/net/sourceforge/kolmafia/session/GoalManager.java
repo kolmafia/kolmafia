@@ -56,7 +56,7 @@ public class GoalManager
 {
 	public static final AdventureResult GOAL_CHOICE = new AdventureResult( AdventureResult.CHOICE, 1 );
 	public static final AdventureResult GOAL_AUTOSTOP = new AdventureResult( AdventureResult.AUTOSTOP, 1 );
-	public static final AdventureResult GOAL_MANUEL = new AdventureResult( AdventureResult.MANUEL, 1 );
+	public static final AdventureResult GOAL_FACTOID = new AdventureResult( AdventureResult.FACTOID, 1 );
 
 	public static final int[] GOAL_SUBSTATS_COUNTS = new int[ 3 ];
 	public static final AdventureResult GOAL_SUBSTATS =
