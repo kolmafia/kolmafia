@@ -6188,3 +6188,78 @@
 6171	crude crudit&eacute;s	929056652	crudites.gif	usable	t,d	0
 6172	candy crayons	790925279	candycrayons.gif	usable	t	0
 6173	pixel grappling hook	879455617	pixelhook.gif	offhand	t	0
+6174
+6175
+6176
+6177
+6178
+6179
+6180
+6181
+6182
+6183
+6184
+6185
+6186
+6187
+6188
+6189
+6190
+6191
+6192
+6193
+6194
+6195
+6196
+6197
+6198
+6199
+6200
+6201
+6202
+6203
+6204
+6205
+6206
+6207
+6208
+6209
+6210
+6211
+6212
+6213
+6214
+6215
+6216
+6217
+6218
+6219
+6220
+6221
+6222
+6223
+6224
+6225
+6226
+6227
+6228
+6229
+6230
+6231
+6232
+6233
+6234
+6235
+6236
+6237
+6238
+6239	cube of ectoplasm	299288653	cube.gif	usable	t,d	5
+6240
+6241
+6242
+6243	the kindest cold cut	924503514	meat.gif	usable	t,d	5
+6244	lucky cat's paw	354820670	paw.gif	usable	t,d	5
+6245	ASCII fu manchu	163394631	braces.gif	usable	t,d	5
+6246	demonic surgical gloves	450278152	glove.gif	usable	t,d	5
+6247	cheap clip-on ninja tie	671347064	necktie.gif	usable	t,d	5
+6248	gamer slurry	580884090	soda.gif	usable	t,d	5

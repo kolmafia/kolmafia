@@ -2726,6 +2726,7 @@ stained mattress	Sleaze Resistance: +2
 20-20 Second Sight	Maximum MP: +25
 20/20 Vision	Item Drop: +10
 5 Pounds Lighter	Initiative: +10, Moxie: +5
+# 8-bit Apparition: Makes you look like an ancient ghost
 A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 A Few Extra Pounds	Maximum HP: [5*min(L,11)]
 A Little Bit Evil (Accordion Thief)	Monster Level: +2
@@ -2962,6 +2963,7 @@ Curiosity of Br'er Tarrypin	Experience (familiar): +1
 Cuts Like a Buttered Knife	Sleaze Damage: +50
 Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
 Cybernetic Muscles	Muscle Percent: +10
+# Daemon Duds: Makes you look like a clean room demo
 Dance Interpreter	Item Drop: +20
 Dances with Tweedles	Meat Drop: +40
 Dancing Prowess	Item Drop: +15
@@ -3159,6 +3161,7 @@ Grimace	Monster Level: +25, Slime Resistance: +1
 Grrrrrrreat!	Experience (Muscle): +10
 Grulched	Stench Damage: +25, Monster Level: +20
 Guanified	Stench Damage: +10, Damage Reduction: -2
+# Guild by Association: Makes you look like a rabid MMO addict
 Gummibrain	Mysticality: +100
 Gummiheart	Muscle: +100
 Gummiskin	Moxie: +100
@@ -3172,6 +3175,7 @@ Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
 # Ham(ster)-Handed: Makes you look like a skeletal hamster
 Hammered	Weapon Damage Percent: +50
 # Hammertime: Seriously, your pants are huge
+# Happy-go-meaty: Makes you look like a bundle of Meat of Happiness
 Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
 Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
@@ -3198,6 +3202,7 @@ Heavy Petting	Familiar Weight: +5, Muscle Percent: -10, Mysticality Percent: -10
 Hella Smart	Mysticality Percent: +25, Spell Damage: +15, MP Regen Min: 10, MP Regen Max: 15
 Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
 Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
+# HELLO WORLD!: Makes you look like a triad code wizard
 Hennaliciousness	Mysticality: +3
 Hernia!	Muscle Percent: -70
 Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
@@ -3374,7 +3379,9 @@ New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +
 Newt Gets In Your Eyes	Moxie: +25
 Night Vision	Meat Drop: +30
 Nightstalkin'	Critical Hit Percent: 10
+# Nihao You Doin'?: Makes you look like a lucky cat statue
 Ninja, Please	Critical Hit Percent: 15
+# Ninjas Just Tryin' to Get Paid: Makes you look like a salary ninja
 # No Squealer Healer: Makes you look like a Quiet Healer
 No Vertigo	Initiative: +20
 No Worries	Experience: +3
@@ -4123,6 +4130,7 @@ Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
 Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 Apathargic Bandersnatch	Free Pull
+ASCII fu manchu	Effect: "HELLO WORLD!", Effect Duration: 50
 Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20
 Atomic Pop	Effect: "Cinnamouth", Effect Duration: 10
 Bangyomaman battle juice	Effect: "Pug Ugly", Effect Duration: 50
@@ -4315,6 +4323,7 @@ candy cornucopia	Free Pull
 candy crayons	Effect: "A Taste of Rainbow", Effect Duration: 5
 candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
 cheap cigar butt	Effect: "Smokin'", Effect Duration: 10
+cheap clip-on ninja tie	Effect: "Ninjas Just Tryin' to Get Paid", Effect Duration: 50
 cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
 children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
 chocolate bath ball	Effect: "Chocolate Reign", Effect Duration: 10
@@ -4344,6 +4353,7 @@ cream pie	Free Pull
 crimbo elfling	Free Pull
 crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
 cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10
+cube of ectoplasm	Effect: "8-bit Apparition", Effect Duration: 50
 cursed microwave	Free Pull
 cursed pony keg	Free Pull
 custom avatar form	Free Pull
@@ -4359,6 +4369,7 @@ deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 deactivated nanobots	Free Pull
 deflated inflatable dodecapede	Free Pull
 delicious comfit?	Effect: "Discomfited", Effect Duration: 10
+demonic surgical gloves	Effect: "Daemon Duds", Effect Duration: 50
 deodorant	Effect: "Fresh Scent", Effect Duration: 10
 desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
 devilish folio	Effect: "Dis Abled", Effect Duration: 30
@@ -4418,6 +4429,7 @@ fry-oil-flavored Hob-O	Effect: "Cholestoriffic"
 fudge lily	Effect: "Stop and Smell the Fudge", Effect Duration: 20
 funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
 fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
+gamer slurry	Effect: "Guild by Association", Effect Duration: 50
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux"
 gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
