@@ -296,6 +296,10 @@ Vending Machine	buy	1	Boris's ring
 Vending Machine	buy	1	Jarlsberg's earring
 Vending Machine	buy	1	Sneaky Pete's breath spray
 Vending Machine	buy	1	potato sprout
+Vending Machine	buy	15	Spellbook: Walberg's Dim Bulb
+Vending Machine	buy	15	Spellbook: Singer's Faithful Ocelot
+Vending Machine	buy	15	Spellbook: Drescher's Annoying Noise
+Vending Machine	buy	27	dried gelatinous cube
 
 # Things you can buy with fudgecules
 
