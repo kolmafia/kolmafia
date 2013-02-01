@@ -4726,7 +4726,7 @@
 4709	hippo tutu	730957404	hippotutu.gif	grow	t	0	hippo tutti
 4710	immense ballet shoes	476237174	balletshoes.gif	familiar	t,d	75	pairs of immense ballet shoes
 4711	old sweatpants	548910318	sweatpants.gif	pants		0	pairs of old sweatpants
-4712
+4712	GameInformPowerDailyPro subscription card	475315358	subcard.gif	usable	t	0
 4713	popsicle stick	120751680	popstick.gif	none	t,d	1	popsicle sticks
 4714	lemon popsicle	520593873	poplight.gif	food	t,d	2	lemon popsicles
 4715	orange popsicle	127670925	poplight.gif	food	t,d	2	orange popsicles
@@ -6188,7 +6188,7 @@
 6171	crude crudit&eacute;s	929056652	crudites.gif	usable	t,d	0
 6172	candy crayons	790925279	candycrayons.gif	usable	t	0
 6173	pixel grappling hook	879455617	pixelhook.gif	offhand	t	0
-6174
+6174	GameInformPowerDailyPro magazine	132572233	gamemag.gif	usable	t,d	10
 6175
 6176
 6177
