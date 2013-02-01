@@ -25,6 +25,7 @@ Frosty's old silk hat	200	Mus: 200
 Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
 Hat O' Nine Tails	10	none
+Helm of the Scream Emperor	120	none
 Hodgman's porkpie hat	200	Mox: 200
 Hollandaise helmet	10	none
 Kentucky-style derby	20	none
@@ -127,6 +128,7 @@ ganger bandana	200	Mox: 85
 gasmask	50	Mox: 10
 giant discarded bottlecap	155	Mox: 62
 goat beard	60	Mox: 15
+gold crown	150	Mox: 60
 goofily-plumed helmet	70	Mox: 20
 googly-ball hat	200	Mys: 111
 googly-heart hat	200	Mox: 111
@@ -267,6 +269,7 @@ Dyspepsi-Cola fatigues	30	none
 El Vibrato leg guards	200	Mox: 200
 Galapagosian Cuisses	125	Mus: 30
 Greatest American Pants	100	none
+Greaves of the Murk Lord	120	none
 Grimacite gaiters	150	Mox: 40
 Grimacite greaves	125	Mox: 47
 Hodgman's lobsterskin pants	200	Mox: 200
@@ -607,6 +610,7 @@ Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
 Staff of the Woodfire	10	Mys: 150	1-handed chefstaff
 Super Crimboman Ultra Mega Hypersword	100	Mus: 35	2-handed sword
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
+Sword of Dark Omens	120	none	1-handed sword
 Sword of Procedural Generation	200	Mus: 200	2-handed sword
 Tales of the Word Realms	0	Mus: 0	2-handed book
 The Landscaper's leafblower	100	Mox: 35	2-handed leafblower
@@ -780,6 +784,7 @@ flamin' bindle	200	Mus: 200	2-handed polearm
 flaming cardboard sword	70	Mus: 20	1-handed sword
 flaming crutch	60	Mus: 15	1-handed club
 flaming juggler's balls	100	Mox: 0	1-handed euphemisms
+flaming sword	150	Mus: 60	1-handed sword
 flamingo mallet	70	Mus: 20	2-handed club
 fluorescent lightbulb	50	Mus: 0	1-handed club
 flypaper staff	80	Mus: 25	2-handed staff
@@ -1114,6 +1119,7 @@ Rain-Doh green lantern	100	none
 Rainbow Jello Mould	0	Mus: 10
 Sceptre of the Torremolinos Prince	0	none
 Seven Loco	0	none
+Shield of Icy Fate	120	none	shield
 Sinful Desires	30	none
 Solstice Shield	0	none
 Spanish fly trap	10	none
@@ -1375,9 +1381,11 @@ BGE tiny plastic toy	0	none
 Bandolier of the Spaghetti Elemental	150	Mys: 45
 Baron von Ratsworth's money clip	50	Mys: 10
 Baron von Ratsworth's monocle	50	Mys: 10
+Belt of Howling Anger	0	none
 Bling of the New Wave	150	Mox: 45
 Blue Diamond of Honesty	200	Mys: 85
 Bonerdagon necklace	80	Mys: 25
+Boots of Twilight Whispers	0	none
 Boris's ring	80	Mys: 25
 Boss Bat bling	65	Mys: 17
 Brimstone Bracelet	200	Mys: 30
@@ -1407,6 +1415,7 @@ Frosty's carrot	200	Mus: 200
 Frown Exerciser	10	Mys: 30
 Gaia beads	175	Mys: 72
 Garter of the Turtle Poacher	150	Mus: 45
+Gauntlets of the Blood Moon	0	none
 Golden Mr. Accessory	0	none
 Gravyskin Belt of the Sauceblob	150	Mys: 45
 Green Clover of Justice	200	Mys: 85
@@ -2013,6 +2022,7 @@ yellow glowstick	20	none
 # Containers section of equipment.txt
 
 Camp Scout backpack	0	none
+Cloak of Dire Shadows	0	none
 Great S-Cape	10	none
 Lord Flameface's cloak	0	Mys: 75
 Misty Cape	0	Mox: 75

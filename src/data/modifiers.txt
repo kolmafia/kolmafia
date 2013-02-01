@@ -81,6 +81,7 @@ Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubbe
 Grimacite gasmask	Muscle Percent: [10*G], Weapon Damage: +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Grimacite goggles	Mysticality Percent: [10*G], Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
 Hat O' Nine Tails	Moxie Percent: 9
+Helm of the Scream Emperor	MP Regen Min: 1, MP Regen Max: 3, Experience: +2, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "0.5xVolley, 0.5xFairy"
 Hollandaise helmet	Spell Damage: +1, Familiar Effect: "atk, cap 2"
 Kentucky-style derby	Familiar Effect: "atk, cap 5"
@@ -187,6 +188,7 @@ ganger bandana	Muscle Percent: +5, Weapon Damage Percent: +15, Familiar Effect: 
 gasmask	Stench Resistance: +3, Familiar Effect: "?xBarrr, cap 12"
 giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
 goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
+gold crown	Sleaze Resistance: +3, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +10
 goofily-plumed helmet	Familiar Effect: "atk, cap 17"
 googly-ball hat	Mysticality: +10, Experience (Mysticality): +3
 googly-heart hat	Moxie: +10, Experience (Moxie): +3
@@ -339,6 +341,7 @@ Dyspepsi-Cola fatigues	Mysticality: +3, Familiar Effect: "3.5xPotato, 3xVolley, 
 El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
 Galapagosian Cuisses	Muscle: +11, Familiar Weight: +5, Class: "Turtle Tamer", Familiar Effect: "2xBarrr, 1xGhuol, cap 31"
 # Greatest American Pants: Amazing Super Powers
+Greaves of the Murk Lord	HP Regen Min: 2, HP Regen Max: 5, Familiar Weight: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Greatest American Pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage Percent: +50, Softcore Only, Familiar Effect: "1.5xVolley, 2.5xBarrr, 2xLep, cap 25"
 Grimacite gaiters	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: "cap 37"
 Grimacite greaves	Initiative: +20, Moxie Percent: [10*G], Familiar Effect: "cap 37"
@@ -699,6 +702,7 @@ Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15
 Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
 Super Crimboman Ultra Mega Hypersword	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical Hit Percent: 5
+Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Spell Damage Percent: +50, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 # Sword of Procedural Generation: Randomized per player
 # Tales of the Word Realms: Lends Power to Your Words
 The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
@@ -883,6 +887,7 @@ flamin' bindle	Item Drop: +10, Hot Damage: +25
 flaming cardboard sword	Muscle: +3, Weapon Damage: +3, Hot Damage: +3
 flaming crutch	Hot Damage: +3
 flaming juggler's balls	Hot Damage: +10, Experience: +2, Softcore Only
+flaming sword	Hot Damage: +20, Spell Critical Percent: +10, Never Fumble
 flamingo mallet	Monster Level: +4, Meat Drop: +5
 fluorescent lightbulb	Maximum MP: +30
 flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
@@ -1261,6 +1266,7 @@ Rain-Doh green lantern	Maximum MP: +20, Softcore Only
 Rainbow Jello Mould	Moxie Percent: +50
 Sceptre of the Torremolinos Prince	Mysticality Percent: +12
 Seven Loco	Booze Drop: +5, Candy Drop: +5
+Shield of Icy Fate	Hot Resistance: 1, Cold Resistance: 1, Spooky Resistance: 1, Stench Resistance: 1, Sleaze Resistance: 1, Weapon Damage Percent: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 # Sinful Desires: All Spells Cast Are Sleazy
 Sinful Desires	Spell Damage: +10
 Solstice Shield	Muscle Percent: [25*G], Mysticality Percent: [25*G], Moxie Percent: [25*G], Damage Absorption: +20
@@ -1540,10 +1546,12 @@ BGE tiny plastic toy	Familiar Weight: +3, Single Equip
 Bandolier of the Spaghetti Elemental	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Pastamancer", Single Equip
 Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
 Baron von Ratsworth's monocle	Item Drop: +10, Single Equip
+Belt of Howling Anger	PvP Fights: +3, Critical Hit Percent: +3, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 # Bling of the New Wave: 1 Additional Pickpocket Attempt
 Bling of the New Wave	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Class: "Disco Bandit", Single Equip
 Blue Diamond of Honesty	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Bonerdagon necklace	Muscle: +5, Moxie: +5, Initiative: +30
+Boots of Twilight Whispers	Adventures: +3, Initiative: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Boris's ring	Muscle: +10
 Boss Bat bling	Muscle: +3, Moxie: +3
 Brimstone Bracelet	Mysticality Percent: +50, Muscle Percent: -20, Mana Cost: -3, Single Equip, Brimstone
@@ -1584,6 +1592,7 @@ Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 # Garter of the Turtle Poacher: Increases the Effectiveness of Turtle Pheromones*
 # * This enchantment works even when this item is not equipped
 Garter of the Turtle Poacher	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Turtle Tamer", Single Equip
+Gauntlets of the Blood Moon	Maximum HP: +75, Item Drop: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 # Gravyskin Belt of the Sauceblob: 3 Additional Scrumptious Reagent Summons Per Day*
 # * This enchantment works even when this item is not equipped
@@ -2239,6 +2248,7 @@ yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 # Containers section of modifiers.txt
 
 Camp Scout backpack	Item Drop: +15, Softcore Only
+Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 # Lord Flameface's cloak:  Has Cool Swirling Flames
 Lord Flameface's cloak	Cold Resistance: +2
 Mr. Container	Item Drop: +3
@@ -3158,6 +3168,7 @@ Green Tongue	Familiar Weight: +5, Experience (familiar): +2
 Grilled	Muscle: -10
 # Grillin' Like a Villain: Makes you look like a toothy pirate
 Grimace	Monster Level: +25, Slime Resistance: +1
+# Groast Out: Makes you look like a groast
 Grrrrrrreat!	Experience (Muscle): +10
 Grulched	Stench Damage: +25, Monster Level: +20
 Guanified	Stench Damage: +10, Damage Reduction: -2
@@ -3463,6 +3474,7 @@ Prince of Seaside Town	Muscle Percent: +100, Mysticality Percent: +100, Moxie Pe
 Proficient Pressure	Experience: +8
 Pronounced Potency	Weapon Damage: +5
 # Pros Only: Makes you look like a sensitive poet-type
+Protection from Bad Stuff	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
 # Pug Ugly: Makes you look like a Bangyomaman Warrior
@@ -4005,7 +4017,9 @@ Pork Elf Prizes	Item Drop: +10
 Primitive Radio Duds	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Pyretic Panhandler Paraphernalia	Hot Spell Damage: +40, MP Regen Min: 20, MP Regen Max: 30
 Radio Free Regalia	Never Fumble
+Raiments of the Final Boss	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Roy Orbison Disguise	Moxie: +15
+Seafaring Suit	Initiative: +100
 Slimesuit	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20
 Smoked Pottery	Hot Damage: +15
 Snowman Suit	Cold Damage: +15
@@ -4382,6 +4396,7 @@ double-ice gum	Effect: "Wintry Breath", Effect Duration: 10
 drop of water-37	Effect: "Extra-Wet", Effect Duration: 30
 drum of pomade	Effect: "Perfect Hair", Effect Duration: 10
 dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5
+ectoplasm <i>au jus</i>	Effect: "Groast Out", Effect Duration: 50
 eel battery	Effect: "It's Electric!", Effect Duration: 15
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
@@ -4633,6 +4648,7 @@ salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 sane hatrack	Free Pull
 scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
+scroll of Protection from Bad Stuff	Effect: "Protection from Bad Stuff", Effect Duration: 20
 scrunchie tourniquet	Effect: "First, Like, Do No Harm?", Effect Duration: 50
 sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 sea salt crystal	Effect: "Salty Dogs", Effect Duration: 5

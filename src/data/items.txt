@@ -5992,38 +5992,38 @@
 5975	record of menacing silence	477678639	record.gif	usable	t	0
 5976	record of menacing silence (used)	126984084	record.gif	usable		0
 5977	silent beret	553150840	mimeberet.gif	hat	t	0
-5978
-5979
-5980
-5981
-5982
-5983
+5978	slice of pizza	709823427	pizzaslice.gif	food	t,d	10	slices of pizza
+5979	huge gold coin	699945657	goldcoin.gif	none	t,d	250	huge gold coins
+5980	cartoon heart	588736683	cartoonheart.gif	usable, combat	t,d	10
+5981	gold star	306265817	goldstar.gif	usable, combat	t,d	10
+5982	tankard of ale	834422340	tankard.gif	drink	t,d	10
+5983	vial of holy water	636236146	vial2.gif	none, combat	t,d	50
 5984
 5985
-5986
-5987
-5988
-5989
-5990
-5991
+5986	hamburger	501525914	hamburger.gif	food	t,d	20
+5987	dollar-sign bag	270130490	moneybag.gif	none	t,d	500
+5988	red potion	967188383	potion15.gif	hp, combat	t,d	20
+5989	blue potion	418867484	potion16.gif	mp, combat	t,d	20
+5990	bottle of wine	931805669	beerbottle.gif	drink	t,d	20	bottles of wine
+5991	round blue bomb	345260261	bluebomb.gif	none, combat	t,d	100
 5992
 5993
 5994
-5995
+5995	massive gemstone	938849756	hugegem.gif	none	t,d	1000
 5996
 5997
 5998
-5999
-6000
-6001
-6002
-6003
-6004
-6005
-6006
-6007
-6008
-6009
+5999	fireball	977966832	fireball2.gif	none, combat	t,d	200
+6000	gold crown	128676669	goldcrown.gif	hat	t,d	100
+6001	flaming sword	554536624	flamingsword.gif	weapon	t,d	100
+6002	Helm of the Scream Emperor	599960171	wtbhelmet.gif	hat	d	2000
+6003	Cloak of Dire Shadows	990061447	wtbcloak.gif	container	d	2000
+6004	Sword of Dark Omens	412488881	wtbsword.gif	weapon	d	2000
+6005	Shield of Icy Fate	626376392	wtbshield.gif	offhand	d	2000
+6006	Greaves of the Murk Lord	262660969	wtbgreaves.gif	pants	d	2000
+6007	Gauntlets of the Blood Moon	147906553	wtbgauntlets.gif	accessory	d	2000
+6008	Boots of Twilight Whispers	514515678	wtbboots.gif	accessory	d	2000
+6009	Belt of Howling Anger	117771924	wtbbelt.gif	accessory	d	2000
 6010	logging axe	825250350	loggingaxe.gif	weapon	t	0
 6011	orc wrist	143621823	orcwrist.gif	accessory	t,d	45
 6012	freshwater pearl necklace	555121884	candynecklace.gif	accessory	t,d	95
@@ -6256,10 +6256,19 @@
 6239	cube of ectoplasm	299288653	cube.gif	usable	t,d	5
 6240
 6241
-6242
+6242	ectoplasm <i>au jus</i>	405677549	bottle.gif	usable	t,d	5
 6243	the kindest cold cut	924503514	meat.gif	usable	t,d	5
 6244	lucky cat's paw	354820670	paw.gif	usable	t,d	5
 6245	ASCII fu manchu	163394631	braces.gif	usable	t,d	5
-6246	demonic surgical gloves	450278152	glove.gif	usable	t,d	5
+6246	demonic surgical gloves	450278152	glove.gif	usable	t,d	5	pairs of demonic surgical gloves
 6247	cheap clip-on ninja tie	671347064	necktie.gif	usable	t,d	5
 6248	gamer slurry	580884090	soda.gif	usable	t,d	5
+6249	dungeoneering kit	268731940	briefcase.gif	usable	t,d	300
+6250
+6251	scroll of Protection from Bad Stuff	900109531	scroll1.gif	usable	t,d	100	scrolls of Protection from Bad Stuff
+6252	scroll of Puddingskin	885203992	scroll1.gif	usable	t,d	100	scrolls of Puddingskin
+6253	Spellbook: Walberg's Dim Bulb	965719051	book3.gif	usable		0
+6254	Spellbook: Singer's Faithful Ocelot	602503418	book3.gif	usable		0
+6255	Spellbook: Drescher's Annoying Noise	198964664	book3.gif	usable		0
+6256	dried gelatinous cube	602980357	drycube.gif	grow		0
+6257	pile of dungeon junk	995550499	dungeonjunk.gif	familiar	t,d	75 piles of dungeon junk

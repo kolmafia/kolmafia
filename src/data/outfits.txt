@@ -88,3 +88,5 @@
 87	Pinata Provisions	papier-masque, papier-mitre, papier-m&acirc;churidars
 88	Oil Rig	oil cap, oil lamp, oil slacks
 89	Animelf Apparel	brainwave-controlled unicorn horn, electronic dulcimer pants, Frown Exerciser
+90	Seafaring Suit	foam commodore's hat, miniature deck cannon, foam naval trousers
+91	Raiments of the Final Boss	Helm of the Scream Emperor, Cloak of Dire Shadows, Sword of Dark Omens, Shield of Icy Fate, Greaves of the Murk Lord, Boots of Twilight Whispers, Belt of Howling Anger, Gauntlets of the Blood Moon

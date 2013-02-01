@@ -1179,10 +1179,13 @@
 1178	8-bit Apparition	cube.gif	6760cc795714a2344ca4fa0f15fac588	use 1 cube of ectoplasm
 1179
 1180
-1181
+1181	Groast Out	bottle.gif	fe7297257535190be0cf158f727bf651	use 1 ectoplasm <i>au jus</i>
 1182	Happy-go-meaty	meat.gif	54a18a2363f7173758655067e736f596	use 1 the kindest cold cut
 1183	Nihao You Doin'?	paw.gif	58221f6edc6e224ebbea8f3c130e83ea	use 1 lucky cat's paw
 1184	HELLO WORLD!	braces.gif	ea360887ccac5df3f19233387056167b	use 1 ASCII fu manchu
 1185	Daemon Duds	glove.gif	020a6289bda81d4f116e556cfd06679e	use 1 demonic surgical gloves
 1186	Ninjas Just Tryin' to Get Paid	necktie.gif	d0e5922c8068b866fea006b5269f4346	use 1 cheap clip-on ninja tie
 1187	Guild by Association	soda.gif	fddb51e6b2de13f4130d5b3ee27ccc8b	use 1 gamer slurry
+
+1190	Protection from Bad Stuff	scroll1.gif	337eecf2ccbb8bb1d62207a4a540e559	use 1 scroll of Protection from Bad Stuff
+1191	Puddingskin	scroll1.gif	c7f04483c9e79cf5c58a3ae08a805b9a	use 1 scroll of Puddingskin
