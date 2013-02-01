@@ -1365,5 +1365,5 @@ yakuza thug	Atk: 76 Def: 84 HP: 100 P: demihuman	butterfly knife (0)	tube of her
 desperate gold farmer	Atk: 80 Def: 80 HP: 95 P: humanoid	gold piece (0)	gold piece (0)	gold piece (0)
 rabid MMO addict	Atk: 84 Def: 76 HP: 90 P: humanoid	gold piece (0)
 The Server	Atk: 90 Def: 90 HP: 999999999 P: object
-White Bone Demon	Atk: 100 Def: 100 HP: 180 P:demon	suspicious-looking fedora (100)
+White Bone Demon	Atk: 100 Def: 100 HP: 180 P: demon	suspicious-looking fedora (100)
 procedurally-generated skeleton	
