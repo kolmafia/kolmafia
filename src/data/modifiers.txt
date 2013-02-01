@@ -4174,6 +4174,7 @@ Frogade	Effect: "Frog In Your Throat", Effect Duration: [R]
 Fu Manchu Wax	Effect: "Super Calloused Agile Mystic", Effect Duration: 30
 Fudgie Roll	Effect: "Sugar Rush", Effect Duration: 20
 Fuzzby	Free Pull
+GameInformPowerDailyPro subscription card	Free Pull
 Gearhead Goo	Effect: "Gearhead Gear", Effect Duration: 30
 Gnollish Crossdress	Effect: "Dress to Kill", Effect Duration: 30
 Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
