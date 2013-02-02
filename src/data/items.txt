@@ -6122,7 +6122,7 @@
 6105	Artist's Spatula of Despair	675041975	spatula3.gif	none, combat	t,d	11
 6106	Artist's Cookie Cutter of Loneliness	991825060	cutter.gif	none, combat	t,d	11
 6107	Artist's  Cr&egrave;me Brul&eacute;e Torch of Fury	769923393	bruleetorch.gif	none, combat	t,d	11
-6108
+6108	Ginsu&trade;	626167043	ginsu.gif	weapon		0
 6109	bubble-wrap simulator (one broken button)	576332142	bubblewrap3.gif	usable	t,d	25	bubble-wrap simulators (one broken button)
 6110	bubble-wrap simulator (half broken)	339492599	bubblewrap2.gif	usable	t,d	25	bubble-wrap simulators (half broken)
 6111	bubble-wrap simulator (one button left)	465240155	bubblewrap1.gif	usable	t,d	25	bubble-wrap simulators (one button left)
@@ -6189,7 +6189,7 @@
 6172	candy crayons	790925279	candycrayons.gif	usable	t	0
 6173	pixel grappling hook	879455617	pixelhook.gif	offhand	t	0
 6174	GameInformPowerDailyPro magazine	132572233	gamemag.gif	usable	t,d	10
-6175
+6175	GameInformPowerDailyPro walkthru	405149087	printout.gif	reusable	q	0
 6176
 6177
 6178
@@ -6267,8 +6267,8 @@
 6250
 6251	scroll of Protection from Bad Stuff	900109531	scroll1.gif	usable	t,d	100	scrolls of Protection from Bad Stuff
 6252	scroll of Puddingskin	885203992	scroll1.gif	usable	t,d	100	scrolls of Puddingskin
-6253	Spellbook: Walberg's Dim Bulb	965719051	book3.gif	usable		0
-6254	Spellbook: Singer's Faithful Ocelot	602503418	book3.gif	usable		0
-6255	Spellbook: Drescher's Annoying Noise	198964664	book3.gif	usable		0
+6253	Spellbook: Walberg's Dim Bulb	965719051	book3.gif	usable	t	0
+6254	Spellbook: Singer's Faithful Ocelot	602503418	book3.gif	usable	t	0
+6255	Spellbook: Drescher's Annoying Noise	198964664	book3.gif	usable	t	0
 6256	dried gelatinous cube	602980357	drycube.gif	grow		0
 6257	pile of dungeon junk	995550499	dungeonjunk.gif	familiar	t,d	75 piles of dungeon junk
