@@ -621,6 +621,7 @@ Frost&trade; brand sword	Muscle: +3, Monster Level: +3, Cold Damage: +3
 Frosty's arm	Weapon Damage: +30, Cold Damage: +30
 Frosty's nailbat	Muscle Percent: +30, Critical Hit Percent: +15, Cold Damage: +30, Class: "Seal Clubber"
 Frosty's snowball sack	Cold Damage: +50
+Ginsu&trade;	Food Drop: +100, Weapon Damage Percent: +100
 Gnollish autoplunger	Mysticality: +3
 # Gnollish flyswatter
 Gnollish pie server	Spell Damage: +3
@@ -2850,6 +2851,7 @@ Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50 Damage vs. Zombies
 Braaains	Meat Drop: +50, Initiative: -50
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
+Breakfast Clubbed	Monster Level: [min(25,T)]
 Bright!	Maximum MP: +100
 Brilliant Resolve	Experience (Mysticality): +2
 # Brined Liver: Makes you a better diver
@@ -3372,6 +3374,7 @@ Muscle Unbound	Experience Percent (Muscle): +5
 Muscularrr	Muscle Percent: +10
 Musk of the Moose	Combat Rate: +5
 Mutated	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
+My Breakfast With Andrea	Meat Drop: [min(80,2*T)]
 Mysteriously Handsome	Moxie Percent: +5, Monster Level: [4.5+1.5*X]
 Mystic Circle	Mysticality Percent: +10
 Mystic Pickleness	Mysticality: +5, Muscle: -5
@@ -3727,6 +3730,7 @@ The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
 # The Bone Us Round
 # The Captain's Hammer: +50 Physical Damage (when Unarmed)
 The Chains Down In The Belly-O	MP Regen Min: 20, MP Regen Max: 40
+The Champion's Breakfast	Initiative: [min(60,2*T)]
 The Colors...	Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
 The Cupcake of Wrath	Monster Level: +10
 # The Eyes Have It: Makes you have an Urge to Stare at Your Hands
@@ -3759,6 +3763,7 @@ Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Three Days Slow	Experience (familiar): +3
 # Three King-sized Sheets to the Wind: Makes you look like a Booze Giant
 Ticking Clock	Initiative: +30
+Tiffany's Breakfast	Item Drop: [min(40,T)]
 Tin, Man	Damage Reduction: 5
 Tingly Biceps	Muscle: +5
 Tingly Elbows	Moxie: +5
