@@ -1637,6 +1637,19 @@ public class ResultProcessor
 			{
 				Preferences.increment( "_favorRareSummons" );
 			}
+
+		case ItemPool.BOSS_HELM:
+		case ItemPool.BOSS_CLOAK:
+		case ItemPool.BOSS_SWORD:
+		case ItemPool.BOSS_SHIELD:
+		case ItemPool.BOSS_PANTS:
+		case ItemPool.BOSS_GAUNTLETS:
+		case ItemPool.BOSS_BOOTS:
+		case ItemPool.BOSS_BELT:
+			if ( combatResults )
+			{
+				ResultProcessor.removeItem( ItemPool.GAMEPRO_WALKTHRU );
+			}
 			break;
 		}
 

@@ -1540,6 +1540,14 @@ public class ItemPool
 	public static final int TRANQUIL_SILENCE_RECORD_USED = 5974;
 	public static final int MENACING_SILENCE_RECORD = 5975;
 	public static final int MENACING_SILENCE_RECORD_USED = 5976;
+	public static final int BOSS_HELM = 6002;
+	public static final int BOSS_CLOAK = 6003;
+	public static final int BOSS_SWORD = 6004;
+	public static final int BOSS_SHIELD = 6005;
+	public static final int BOSS_PANTS = 6006;
+	public static final int BOSS_GAUNTLETS = 6007;
+	public static final int BOSS_BOOTS = 6008;
+	public static final int BOSS_BELT = 6009;
 	public static final int TRIPPLES = 6027;
 	public static final int OIL_PAN = 6042;
 	public static final int MISTY_CLOAK = 6047;
@@ -1557,6 +1565,7 @@ public class ItemPool
 	public static final int CEO_OFFICE_CARD = 6116;
 	public static final int BONSAI_TREE = 6120;
 	public static final int SNOW_SUIT = 6150;
+	public static final int GAMEPRO_WALKTHRU = 6175;
 	public static final int WALBERG_BOOK = 6253;
 	public static final int OCELOT_BOOK = 6254;
 	public static final int DRESCHER_BOOK = 6255;
