@@ -76,6 +76,7 @@ import javax.swing.UIManager;
 
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import javax.swing.text.DefaultCaret;
 
 import org.jdesktop.swingx.JXPanel;
 
@@ -1069,13 +1070,27 @@ public class OptionsFrame
 			public HelpRunnable()
 			{
 				String message =
-					"<html><table width=750><tr><td>All deeds are specified by one comma-delimited preference \"dailyDeedsOptions\".  Order matters.  Built-in deeds are simply called by referring to their built-in name; these are viewable by pulling up the Daily Deeds tab and looking in the \"Built-in Deeds\" list."
+					"<html><table width=750><tr><td>" +
+						"<b>NOTE:</b> If you want to use the Custom Deed Builder, click the \"Add Custom\" button; the following instructions are used for manually editing the dailyDeedsOptions user preference.<br>"
+						+ "------------------------<br>"
+						+"All deeds are specified by one comma-delimited preference \"dailyDeedsOptions\".  Order matters.  Built-in deeds are simply called by referring to their built-in name; these are viewable by pulling up the Daily Deeds tab and looking in the \"Built-in Deeds\" list."
 						+ "<h3><b>Custom Deeds</b></h3>"
 						+ "Custom deeds provide the user with a way of adding buttons or text to their daily deeds panel that is not natively provided for.  All deeds start with the keyword <b>$CUSTOM</b> followed by a pipe (|) symbol.  As you are constructing a custom deed, you separate the different arguments with pipes.<br>"
 						+ "<br>"
 						+ "All deed types except for Text require a preference to track.  If you want to add a button that is always enabled, you will have to create a dummy preference that is always false.<br>"
 						+ "<br>"
-						+ "There are currently 5 different types of custom deeds.  Remember that all of these \"acceptable forms\" are prefaced by $CUSTOM|.<br>"
+						+ "There are currently 6 different types of custom deeds.  Remember that all of these \"acceptable forms\" are prefaced by $CUSTOM|.<br>"
+						+ "<br>"
+						+"<b>Simple</b> - Designed for users who do not want to bother with preferences.  Will be disabled after the first click.<br>"
+						+"acceptable forms:<br>"
+						+"Simple|displayText<br>"
+						+"Simple|displayText|command<br>"
+						+"Simple|displayText|command|maxUses<br>"
+						+ "<br>"
+						+"displayText - the text that will be displayed on the button<br>"
+						+"command - the command to execute. If not specified, will default to displayText.<br>"
+						+"maxUses - an arbitrary integer. Specifies a threshold to disable the button at. A counter in the form of <clicks>/<maxUses> will be displayed to the right of the button. <br>"
+						+" After clicking a simple deed, the button will be immediately disabled unless maxUses>1 is specified.<br>"
 						+ "<br>"
 						+ "<b>Command</b> - execute a command with a button press<br>"
 						+ "acceptable forms:"
@@ -1109,15 +1124,27 @@ public class OptionsFrame
 						+ "acceptable forms:<br>"
 						+ "Text|pretty much anything.<br>"
 						+ "<br>"
-						+ "You can supply as many arguments as you want to a Text deed.  Any argument that uniquely matches a preference will be replaced by that preference's value.  If you want to use a comma in your text, immediately follow the comma with a pipe character so it will not be parsed as the end of the Text deed.</td></tr></table></html>";
+						+ "You can supply as many arguments as you want to a Text deed.  Any argument that uniquely matches a preference will be replaced by that preference's value.  If you want to use a comma in your text, immediately follow the comma with a pipe character so it will not be parsed as the end of the Text deed.<br>" 
+						+ "<br>"
+						+ "<b>Combo</b> - A cleaner way to collapse multiple related command deeds into one combobox element. Note that there is no GUI to help you construct this, you must manually add it to your dailyDeedsOptions preference.<br>"
+						+ "acceptable forms:<br>"
+						+ "$CUSTOM|Combo|displayText|preference1|itemBlock<br>"
+						+ "$CUSTOM|Combo|displayText|preference1|maxUses|itemBlock<br>"
+						+ "where the itemBlock consists of an arbitrary number of:<br>"
+						+ "$ITEM|displayText|preferenceN|command|<br>"
+						+ "<br>"
+    					+ "Preference1 - The preference to track for enabling/disabling the entire combobox. Default threshold is 1 if maxUses is not specified.<br>"
+    					+ "Preference2 - The individual preference to disable each individual item in the combobox. Note that there is no way to supply maxUses for each individual element; 1 (or true) is always the max. "
+						+ "</td></tr></table></html>";
 
 				JTextPane textPane = new JTextPane();
 				textPane.setContentType( "text/html" );
+				DefaultCaret c = new DefaultCaret();
+				c.setUpdatePolicy( DefaultCaret.NEVER_UPDATE );
+				textPane.setCaret( c );
 				textPane.setText( message );
 				textPane.setOpaque( false );
 				textPane.setEditable( false );
-				textPane.setSelectionStart( 0 );
-				textPane.setSelectionEnd( 0 ); // don't have scrollPane scrolled to the bottom when you open it
 
 				JScrollPane scrollPane = new JScrollPane( textPane );
 				scrollPane.setPreferredSize( new Dimension( 800, 550 ) );
