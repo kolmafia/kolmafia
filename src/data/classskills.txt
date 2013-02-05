@@ -101,6 +101,9 @@
 84	Silent Slam	5	5	0
 85	Silent Squirt	5	10	0
 86	Silent Slice	5	5	0
+87	Walberg's Dim Bulb	3	5	10
+88	Singer's Faithful Ocelot	3	15	10
+89	Drescher's Annoying Noise	3	40	20
 
 # Skills available to Clubbers
 

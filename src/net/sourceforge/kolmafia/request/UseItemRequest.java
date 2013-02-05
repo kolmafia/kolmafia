@@ -2767,6 +2767,9 @@ public class UseItemRequest
 		case ItemPool.TRANQUIL_SILENCE_RECORD_USED:
 		case ItemPool.MENACING_SILENCE_RECORD:
 		case ItemPool.MENACING_SILENCE_RECORD_USED:
+		case ItemPool.WALBERG_BOOK:
+		case ItemPool.OCELOT_BOOK:
+		case ItemPool.DRESCHER_BOOK:
 		{
 			if ( KoLCharacter.inAxecore() && responseText.contains( "didn't like to read" ) )
 			{
@@ -4457,6 +4460,12 @@ public class UseItemRequest
 		case ItemPool.MENACING_SILENCE_RECORD:
 		case ItemPool.MENACING_SILENCE_RECORD_USED:
 			return "Silent Slice";
+		case ItemPool.WALBERG_BOOK:
+			return "Walberg's Dim Bulb";
+		case ItemPool.OCELOT_BOOK:
+			return "Singer's Faithful Ocelot";
+		case ItemPool.DRESCHER_BOOK:
+			return "Drescher's Annoying Noise";
 		}
 
 		return null;

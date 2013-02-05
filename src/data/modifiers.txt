@@ -2891,6 +2891,7 @@ Carrrsmic	Mysticality Percent: +10
 Castaway Physique	Muscle Percent: +25
 Cat Class, Cat Style	Moxie Percent: +20
 Cat-Alyzed	Moxie: +10
+# Censored Can: Makes you look like a tin can conspirator
 Chain Chain Chains	Spooky Damage: +10
 # Chalked Weapon: Regular Attacks Can't Miss
 Chalky Hand	Never Fumble, Weapon Damage: +3
@@ -3012,6 +3013,7 @@ Draggin' Balls	Moxie: +6, Muscle: -3
 Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Drenched With Filth	Stench Damage: +75
+Drescher's Annoying Noise	Monster Level: +10
 # Dress to Kill: Makes you look like a Gnollish Crossdresser
 Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
 Drunk With Power	Spell Damage Percent: +100
@@ -3151,6 +3153,7 @@ Gnawed-Off Arm	Muscle: -5
 # Gnomedome: Makes you look like a menacing lawn gnome
 Go Get 'Em, Tiger!	Muscle Percent: +15
 # Goat Gotten: Makes you look like a dairy goat
+# Goblin in Black: Makes you look like a goblin conspirator
 Gobliny Flavor	Damage Reduction: 5
 Gonna Get You, Sucker	Muscle: +5, Mysticality: +5, Moxie: +5
 Good Karma	Mysticality: +5
@@ -3570,6 +3573,7 @@ Simply Invisible	Combat Rate: -5
 Simply Irresistible	Combat Rate: +5
 Simply Irritable	Monster Level: +15
 Simulation Stimulation	Experience (Moxie): +5
+Singer's Faithful Ocelot	Item Drop: +10
 Sinuses For Miles	Meat Drop: +200
 Sizzling with Fury	Hot Damage: +25, Initiative: +60
 Skeletal Buddy	Experience: +2
@@ -3775,6 +3779,7 @@ Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Transcendental Wind	Mysticality: +50
+# Transpondent: Gives access to A Transporter Booth
 Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
 # Trepandation: Continually lose MP
 Trepandation	Spell Damage Percent: +50, Spell Damage: +50
@@ -3807,6 +3812,7 @@ Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/
 # Wanged: Unable to use obnoxious abbreviations
 # Warm Belly: Makes sushi taste better
 Waking the Dead	Combat Rate: +20
+Walberg's Dim Bulb	Initiative: +10
 # Warlock Fairy Wizard Sorcerer: Makes you look like a spooky gravy fairy warlock
 Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
@@ -4202,7 +4208,8 @@ Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
 Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
 Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
 Huggler Radio	Free Pull
-Iiti Kitty Gumdrop	Effect: "Kitty Littered",      Effect Duration: 30
+Iiti Kitty Gumdrop	Effect: "Kitty Littered", Effect Duration: 30
+Illuminati earpiece	Effect: "Goblin in Black", Effect Duration: 50
 Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
 Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 10
 Knob Goblin love potion	Effect: "Knob Goblin Lust Frenzy", Effect Duration: 5
@@ -4342,6 +4349,7 @@ candy brain	Effect: "Sugar Rush", Effect Duration: 15
 candy cornucopia	Free Pull
 candy crayons	Effect: "A Taste of Rainbow", Effect Duration: 5
 candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
+censored can label	Effect: "Censored Can", Effect Duration: 50
 cheap cigar butt	Effect: "Smokin'", Effect Duration: 10
 cheap clip-on ninja tie	Effect: "Ninjas Just Tryin' to Get Paid", Effect Duration: 50
 cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
