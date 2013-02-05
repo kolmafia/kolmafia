@@ -471,6 +471,10 @@ public class NPCPurchaseRequest
 		{
 			PixelRequest.parseResponse( urlString, responseText );
 		}
+		else if ( shopId.equals( "damachine" ) )
+		{
+			VendingMachineRequest.parseResponse( urlString, responseText );
+		}
 	}
 
 	public static final boolean registerShopRequest( final String urlString, boolean meatOnly )
@@ -516,6 +520,11 @@ public class NPCPurchaseRequest
 			else if ( shopId.equals( "trapper" ) )
 			{
 				TrapperRequest.registerRequest( urlString );
+			}
+
+			else if ( shopId.equals( "damachine" ) )
+			{
+				VendingMachineRequest.registerRequest( urlString );
 			}
 
 			return false;

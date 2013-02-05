@@ -374,7 +374,6 @@ public class ResponseTextParser
 		else if ( location.startsWith( "da.php" ) )
 		{
 			ShrineRequest.parseResponse( location, responseText );
-			VendingMachineRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "familiar.php" ) && location.indexOf( "ajax=1" ) == -1 )

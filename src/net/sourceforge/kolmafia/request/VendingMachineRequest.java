@@ -53,25 +53,25 @@ public class VendingMachineRequest
 
 	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( VendingMachineRequest.master );
 	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( VendingMachineRequest.master );
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "You have (\\w+) fat loot tokens? to spend." );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(\\d+) fat loot token" );
 	public static final AdventureResult FAT_LOOT_TOKEN = ItemPool.get( ItemPool.FAT_LOOT_TOKEN, 1 );
 
 	public static final CoinmasterData VENDING_MACHINE =
 		new CoinmasterData(
 			VendingMachineRequest.master,
 			VendingMachineRequest.class,
-			"da.php?place=vendo",
+			"shot.php?whichshop=damachine",
 			"fat loot token",
-			"You don't have any fat loot tokens to spend",
+			"no fat loot tokens",
 			false,
 			VendingMachineRequest.TOKEN_PATTERN,
 			VendingMachineRequest.FAT_LOOT_TOKEN,
 			null,
 			"whichitem",
 			CoinMasterRequest.ITEMID_PATTERN,
-			null,
-			null,
-			"vendo",
+			"quantity",
+			CoinMasterRequest.QUANTITY_PATTERN,
+			"buyitem",
 			VendingMachineRequest.buyItems,
 			VendingMachineRequest.buyPrices,
 			null,
@@ -117,7 +117,7 @@ public class VendingMachineRequest
 		String action = GenericRequest.getAction( location );
 		if ( action == null )
 		{
-			if ( location.indexOf( "place=vendo" ) != -1 )
+			if ( location.contains( "whichshop=damachine" ) )
 			{
 				// Parse current coin balances
 				CoinMasterRequest.parseBalance( data, responseText );
@@ -131,7 +131,7 @@ public class VendingMachineRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "da.php" ) )
+		if ( !urlString.contains( "whichshop=damachine" ) )
 		{
 			return false;
 		}
