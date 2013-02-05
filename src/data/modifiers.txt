@@ -339,7 +339,7 @@ Crimbo pants	Initiative: +30, Familiar Effect: "cap 25"
 Danglin' Chad's loincloth	Sleaze Damage: +25, Moxie: -10, Familiar Effect: "stench atk, 0.5xVolley"
 Dyspepsi-Cola fatigues	Mysticality: +3, Familiar Effect: "3.5xPotato, 3xVolley, cap 7"
 El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
-Galapagosian Cuisses	Muscle: +11, Familiar Weight: +5, Class: "Turtle Tamer", Familiar Effect: "2xBarrr, 1xGhuol, cap 31"
+Galapagosian Cuisses	Muscle: +11, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "2xBarrr, 1xGhuol, cap 31"
 # Greatest American Pants: Amazing Super Powers
 Greaves of the Murk Lord	HP Regen Min: 2, HP Regen Max: 5, Familiar Weight: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Greatest American Pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage Percent: +50, Softcore Only, Familiar Effect: "1.5xVolley, 2.5xBarrr, 2xLep, cap 25"
