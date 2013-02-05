@@ -1557,6 +1557,9 @@ public class ItemPool
 	public static final int CEO_OFFICE_CARD = 6116;
 	public static final int BONSAI_TREE = 6120;
 	public static final int SNOW_SUIT = 6150;
+	public static final int WALBERG_BOOK = 6253;
+	public static final int OCELOT_BOOK = 6254;
+	public static final int DRESCHER_BOOK = 6255;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
