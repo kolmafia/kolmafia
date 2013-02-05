@@ -60,7 +60,7 @@ public class VendingMachineRequest
 		new CoinmasterData(
 			VendingMachineRequest.master,
 			VendingMachineRequest.class,
-			"shot.php?whichshop=damachine",
+			"shop.php?whichshop=damachine",
 			"fat loot token",
 			"no fat loot tokens",
 			false,
