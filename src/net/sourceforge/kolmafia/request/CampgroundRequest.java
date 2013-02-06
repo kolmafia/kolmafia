@@ -339,7 +339,7 @@ public class CampgroundRequest
 		if ( this.action.equals( "rest" ) &&
 		     KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP() &&
 		     KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() &&
-		     ( !KoLCharacter.inZombiecore() || !KoLConstants.activeEffects.contains( KoLAdventure.BEATEN_UP ) ) )
+		     !KoLConstants.activeEffects.contains( KoLAdventure.BEATEN_UP ) ) 
 		{
 			KoLmafia.updateDisplay( MafiaState.PENDING, "You don't need to rest." );
 			return;

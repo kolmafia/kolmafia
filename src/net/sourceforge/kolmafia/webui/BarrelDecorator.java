@@ -138,11 +138,6 @@ public abstract class BarrelDecorator
 
 	public static final void decorate( final StringBuffer buffer )
 	{
-		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
-		{
-			return;
-		}
-
 		int [] possibles = compute();
 
 		Matcher m = UNSMASHED.matcher( buffer.toString() );
@@ -218,11 +213,15 @@ public abstract class BarrelDecorator
 				filename.append( "-" );
 			}
 			
-			m.appendReplacement( buffer, "smash=$1&pwd=$2'>" +
-				"<img src='/images/otherimages/barrels/" + filename + ".gif' " +
-				"border=0 alt=\"" + tooltip + "\" title=\"" + tooltip + "\">" );		
+			if ( Preferences.getBoolean( "relayShowSpoilers" ) )
+			{
+				m.appendReplacement(
+					buffer,
+					"smash=$1&pwd=$2'>" + "<img src='/images/otherimages/barrels/" + filename + ".gif' " + "border=0 alt=\"" + tooltip + "\" title=\"" + tooltip + "\">" );
+			}
 		}
-		m.appendTail( buffer );
+		if ( Preferences.getBoolean( "relayShowSpoilers" ) )
+			m.appendTail( buffer );
 	}
 
 	private static final Pattern SMASH_PATTERN = Pattern.compile( "smash=(\\d+)" );
