@@ -1166,7 +1166,7 @@
 1165	The Champion's Breakfast	knifefork.gif	df9824cb55375f2223c71449497e8f3c
 1166	Breakfast Clubbed	knifefork.gif	c5615181944ec9777ce97b12f0922547
 1167	ChibiChanged&trade;	chibibuddy.gif	b1db2ea88d890164d84d76258cffd9dc
-1168
+1168	Lucky Cat is Lucky	kittystatue.gif	7c36cbf0cf8ca15dc6ab9bcde8e6e8d4
 1169	Pla-see-bo	snowcarrot.gif	7788b095166a425339a98d9bb8c7cf2e	chew 1 carrot juice
 1170	Hoppyness	pinecone.gif	2fe0004ca79a4f94028ff59a80682709	drink 1 Hundred Headed IPA
 1171	Crud&eacute;	crudites.gif	fda0e6e0e26716c9ef57ae3a40b50149	use 1 crude crudit&eacute;s
@@ -1190,6 +1190,6 @@
 1189
 1190	Protection from Bad Stuff	scroll1.gif	337eecf2ccbb8bb1d62207a4a540e559	use 1 scroll of Protection from Bad Stuff
 1191	Puddingskin	scroll1.gif	c7f04483c9e79cf5c58a3ae08a805b9a	use 1 scroll of Puddingskin
-1192	Walberg's Dim Bulb	04236e0ebf71a3b11b55b504aeee437c	cast 1 Walberg's Dim Bulb
-1193	Singer's Faithful Ocelot	5ac8444ac684a7f9113690c1f254c1e4	cast 1 Singer's Faithful Ocelot
-1194	Drescher's Annoying Noise	e0aa6218d9b1815a13ccbce09a95dd4e	cast 1 Drescher's Annoying Noise
+1192	Walberg's Dim Bulb	blacklight.gif	04236e0ebf71a3b11b55b504aeee437c	cast 1 Walberg's Dim Bulb
+1193	Singer's Faithful Ocelot	ocelot.gif	5ac8444ac684a7f9113690c1f254c1e4	cast 1 Singer's Faithful Ocelot
+1194	Drescher's Annoying Noise	brokenflute.gif	e0aa6218d9b1815a13ccbce09a95dd4e	cast 1 Drescher's Annoying Noise
