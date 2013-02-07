@@ -194,6 +194,7 @@ googly-ball hat	Mysticality: +10, Experience (Mysticality): +3
 googly-heart hat	Moxie: +10, Experience (Moxie): +3
 googly-star hat	Muscle: +10, Experience (Muscle): +3
 grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
+green cloth cap	Stench Resistance: +1, Maximum HP: +15, Maximum MP: +15, Moxie: +3
 green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
 grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
 guard turtle shell	Maximum HP: +50, Familiar Effect: "atk, 1xFairy, cap 40"
@@ -209,6 +210,7 @@ insane tophat	Familiar Effect: "1xVolley, 1xLep, cap 7"
 insulting hat	PvP Fights: +3
 invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
 irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
+iron helmet	Cold Resistance: +2, MP Regen Min: 1, MP Regen Max: 2, Initiative: +10
 ironic knit cap	Maximum MP: +20, Mysticality: +1, Familiar Effect: "1xVolley, 2xPotato, cap 10"
 # jewel-eyed wizard hat: +5 Duration to Buffs You Cast
 # jewel-eyed wizard hat: Allows casting of Magic Missile
@@ -952,6 +954,7 @@ immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3, Hot
 infernal fife	Hot Damage: +7
 infernal toilet brush	Stench Damage: +20, Maximum HP: +20, Maximum MP: +20, Class: "Seal Clubber"
 inflatable baseball bat	Weapon Damage: +30
+iron dagger	Muscle: +3, Spell Damage: +10, Item Drop: +5
 iron pasta spoon	Spell Damage: +10
 ironic battle spoon	Spell Damage: +10
 jack flapper	Spell Damage: +5
@@ -1102,6 +1105,7 @@ star sword	Muscle: +8
 starchy crossbow	Moxie: +3
 starchy staff	Mysticality: +3
 starchy sword	Muscle: +3
+steel sword	Weapon Damage: +15, HP Regen Min: 2, HP Regen Max: 4, Moxie: +5
 stinkin' bindle	Item Drop: +10, Stench Damage: +25
 stinky cheese sword	Softcore Only, Stench Damage: [max(1,min(33,floor(pref(_stinkyCheeseCount)/3)))]
 # stolen accordion
