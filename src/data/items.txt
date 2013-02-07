@@ -6271,4 +6271,4 @@
 6254	Spellbook: Singer's Faithful Ocelot	602503418	book3.gif	usable	t	0
 6255	Spellbook: Drescher's Annoying Noise	198964664	book3.gif	usable	t	0
 6256	dried gelatinous cube	602980357	drycube.gif	grow	t	0
-6257	pile of dungeon junk	995550499	dungeonjunk.gif	familiar	t,d	75 piles of dungeon junk
+6257	pile of dungeon junk	995550499	dungeonjunk.gif	familiar	t,d	75	piles of dungeon junk
