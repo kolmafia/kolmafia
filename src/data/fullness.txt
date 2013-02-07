@@ -238,7 +238,8 @@ grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
 gumdrop chow mein	5	1		9-17	0	0	0	10 Sugar Rush
 gunpowder burrito	2	1	good	0	0	0	0	+3 PvP Fights
 haggis-wrapped haggis-stuffed haggis	2	2	decent	3-4	0	0	4-10	20 Highland Sheen (+10 mox)
-halibut alfredo	4	1		10-15	0	0	0
+halibut alfredo	4	1	awesome	10-15	0	0	0
+hamburger	2	5	awesome	8	18-22	18-22	18-22
 handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
 handful of walnuts	1	10	good	2-4	0	0	20-30
 happy birthday, claude! cake	3	1	crappy	3	0	0	0
@@ -447,6 +448,7 @@ skeleton quiche	2	3	EPIC	10-12	5-15	5-15	5-15
 skewered cat appendix	2	1	decent	2-5	7-17	0	0
 skull-shaped crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Carol of the Bones (+10% mus)
 sleazy hi mein	5	7	awesome	21-28	25-28	25-29	71-75	5 Sleazy Breath (combat skill)
+slice of pizza	1	1	good	3	12-15	12-15	12-15
 slick fish meat	1	1	good	2-3	0	0	4-8	5/15 Fishy
 slick maki	3	1		7-12	0	0	8-16	45/55 Fishy
 slick nigiri	2	1		4-8	0	0	8-16	20/30 Fishy
@@ -557,6 +559,7 @@ white citadel burger	2	1	crappy	2-8	0	0	0
 white citadel fries	2	1	decent	2-5	0	0	0
 white rabbit roll	3	1		9-14	0	28-46	0	45/55 Fishy
 white rice	1	1	crappy	1	1	1-2	1-2
+whole roasted chicken	3	9	awesome	15	18-22	18-22	18-22
 wild honey pie	2	1	decent	4-6	5-7	5-7	5-7	10 Sugar Rush
 wise dragon roll	3	1		9-14	20-30	8-16	0	45/55 Fishy
 wizened master roll	3	1		9-14	20-30	28-46	20-30	45/55 Fishy

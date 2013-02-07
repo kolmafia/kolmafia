@@ -134,6 +134,7 @@ googly-ball hat	200	Mys: 111
 googly-heart hat	200	Mox: 111
 googly-star hat	200	Mus: 111
 grass hat	80	Mox: 25
+green cloth cap	50	none
 green traffic cone	60	Mox: 15
 grungy bandana	150	Mox: 60
 guard turtle shell	160	Mox: 65
@@ -148,6 +149,7 @@ insane tophat	30	none
 insulting hat	10	none
 invisible bag	10	none
 irate sombrero	45	Mox: 7
+iron helmet	100	Mox: 20
 ironic knit cap	40	Mox: 5
 jewel-eyed wizard hat	10	none
 knobby helmet turtle	20	none
@@ -844,6 +846,7 @@ immense cyborg hand	150	Mus: 60	1-handed club
 infernal fife	55	Mox: 12	2-handed flute
 infernal toilet brush	100	Mus: 35	1-handed club
 inflatable baseball bat	50	Mus: 0	2-handed club
+iron dagger	50	Mus: 0	1-handed knife
 iron pasta spoon	110	Mys: 40	1-handed utensil
 ironic battle spoon	40	Mys: 5	1-handed utensil
 jack flapper	35	Mys: 2	1-handed utensil
@@ -984,6 +987,7 @@ star sword	165	Mus: 67	2-handed sword
 starchy crossbow	40	Mox: 5	1-handed crossbow
 starchy staff	40	Mus: 5	2-handed staff
 starchy sword	40	Mus: 5	1-handed sword
+steel sword	100	Mus: 20	1-handed sword
 stinkin' bindle	200	Mus: 200	2-handed polearm
 stinky cheese sword	100	Mus: 0	1-handed sword
 stolen accordion	10	Mox: 0	2-handed accordion

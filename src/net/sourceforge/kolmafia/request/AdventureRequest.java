@@ -601,6 +601,9 @@ public class AdventureRequest
 				image.startsWith( "slhobo" ) ? "Sleaze Hobo" :
 				// Slime Tube
 				image.startsWith( "slime" ) ? "Slime" + image.charAt( 5 ) :
+				// GamePro Bosses
+				image.startsWith( "faq_boss" ) ? "Video Game Boss" :
+				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :
 				// Bugbear Invasion
 				image.equals( "bb_caveman.gif" ) ? "Angry Cavebugbear" :
 				// Crimbo 2012 wandering elves
@@ -625,6 +628,24 @@ public class AdventureRequest
 				// Lord Flameface's Castle Entryway
 				image.startsWith( "fireservant" ) ? "Servant Of Lord Flameface" :
 				null;
+		}
+
+		// These monsters cannot be identified by their image
+		if ( override == null )
+		{
+			switch ( KoLAdventure.lastAdventureId() )
+			{
+			// Video Game Minions need to be checked for after checking for Video Game bosses
+			case 319:
+				override = "Video Game Minion (weak)";
+				break;
+			case 320:
+				override = "Video Game Minion (moderate)";
+				break;
+			case 321:
+				override = "Video Game Minion (strong)";
+				break;
+			}
 		}
 
 		if ( override != null )
