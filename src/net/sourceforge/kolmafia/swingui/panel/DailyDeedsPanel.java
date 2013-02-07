@@ -41,6 +41,7 @@ import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -3084,7 +3085,7 @@ public class DailyDeedsPanel
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		JButton btn;
 
-		static ArrayList<String> effectHats = new ArrayList<String>();
+		static List<String> effectHats = new ArrayList<String>();
 		ArrayList<?> effects = new ArrayList<Object>();
 		ArrayList<Object> modifiers = new ArrayList<Object>();
 
@@ -3116,7 +3117,7 @@ public class DailyDeedsPanel
 			this.box.removeAllItems();
 			box.addActionListener( listener );
 
-			HatterDaily.effectHats = new ArrayList<String>();
+			HatterDaily.effectHats = Collections.synchronizedList( new ArrayList<String>() );
 			this.modifiers = new ArrayList<Object>();
 			box.addItem( "Available Hatter Buffs: " );
 			HatterDaily.effectHats.add( null );
@@ -3149,9 +3150,15 @@ public class DailyDeedsPanel
 							if ( ( (Integer) hat_data[ i ][ 0 ] ).intValue() == RabbitHoleManager
 								.hatLength( ad.getName() ) )
 							{
-								HatterDaily.effectHats.add( ad.getName() );
+								synchronized ( HatterDaily.effectHats )
+								{
+									HatterDaily.effectHats.add( ad.getName() );
+								}
 								box.addItem( hat_data[ i ][ 1 ], false );
-								modifiers.add( hat_data[ i ][ 2 ] );
+								synchronized ( modifiers )
+								{
+									modifiers.add( hat_data[ i ][ 2 ] );
+								}
 								break;
 							}
 						}
