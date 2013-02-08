@@ -43,10 +43,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
@@ -95,6 +98,8 @@ public class BigBrotherRequest
 	private static AdventureResult familiar = null;
 	private static boolean rescuedBigBrother = false;
 	private static boolean waterBreathingFamiliar = false;
+	private static boolean wetWillyActive = false;
+	private static boolean deepBreathActive = false;
 
 	public BigBrotherRequest()
 	{
@@ -166,6 +171,12 @@ public class BigBrotherRequest
 
 		// Check if the familiar is inherently water breathing
 		BigBrotherRequest.waterBreathingFamiliar = familiar.waterBreathing();
+		
+		// Wet Willied allows any familiar to breathe underwater
+		BigBrotherRequest.wetWillyActive  = KoLConstants.activeEffects.contains( EffectPool.get( Effect.WET_WILLIED ) );
+		
+		// Really Deep Breath obviates the need for underwater breathing equipment
+		BigBrotherRequest.deepBreathActive   = KoLConstants.activeEffects.contains( EffectPool.get( Effect.REALLY_DEEP_BREATH ) );
 
 		// For the dancing frog, the amphibious tophat is the best familiar equipment
 		if ( familiar.getId() == FamiliarPool.DANCING_FROG &&
@@ -192,12 +203,12 @@ public class BigBrotherRequest
 			return "You haven't rescued Big Brother yet.";
 		}
 
-		if ( BigBrotherRequest.self == null )
+		if ( BigBrotherRequest.self == null && !BigBrotherRequest.deepBreathActive )
 		{
 			return "You don't have the right equipment to adventure underwater.";
 		}
 
-		if ( !BigBrotherRequest.waterBreathingFamiliar && BigBrotherRequest.familiar == null )
+		if ( !BigBrotherRequest.waterBreathingFamiliar && !BigBrotherRequest.wetWillyActive && BigBrotherRequest.familiar == null )
 		{
 			return "Your familiar doesn't have the right equipment to adventure underwater.";
 		}
@@ -210,13 +221,13 @@ public class BigBrotherRequest
 	{
 		BigBrotherRequest.update();
 
-		if ( !KoLCharacter.hasEquipped( BigBrotherRequest.self ) )
+		if ( !BigBrotherRequest.deepBreathActive && !KoLCharacter.hasEquipped( BigBrotherRequest.self ) )
 		{
 			EquipmentRequest request = new EquipmentRequest( BigBrotherRequest.self );
 			RequestThread.postRequest( request );
 		}
 
-		if ( !BigBrotherRequest.waterBreathingFamiliar && !KoLCharacter.hasEquipped( BigBrotherRequest.familiar ) )
+		if ( !BigBrotherRequest.wetWillyActive && !BigBrotherRequest.waterBreathingFamiliar && !KoLCharacter.hasEquipped( BigBrotherRequest.familiar ) )
 		{
 			EquipmentRequest request = new EquipmentRequest( familiar );
 			RequestThread.postRequest( request );
