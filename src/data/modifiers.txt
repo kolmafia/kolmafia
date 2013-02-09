@@ -3204,8 +3204,10 @@ Having a Ball!	Muscle Percent: [pref(ballpitBonus)], Mysticality Percent: [pref(
 Head on Fire, Ass Catching	Initiative: +10
 Heal Thy Nanoself	HP Regen Min: 10, HP Regen Max: 20
 Healthy, Elfy, and Wise	HP Regen Min: 8, HP Regen Max: 10
+Healthy Blue Glow	MP Regen Min: 3, MP Regen Max: 4
 Healthy Bronze Glow	Moxie Percent: +50
 Healthy Green Glow	Familiar Weight: +10
+Healthy Red Glow	HP Regen Min: 6, HP Regen Max: 8
 Heart Aflame	Hot Damage: +50
 # Heart of Black: Damn, Gina
 Heart of Green	Muscle: +3, Mysticality: +3, Moxie: +3, Familiar Weight: +3
@@ -4328,6 +4330,7 @@ blackberry polite	Effect: "Blackberry Politeness", Effect Duration: [R]
 blob of acid	Effect: "Lord of Acid", Effect Duration: 50
 blood of the Wereseal	Effect: "Temporary Lycanthropy", Effect Duration: 10
 blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
+blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
 blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
 booby trap	Effect: "Ravonovichy", Effect Duration: 100
 bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
@@ -4353,6 +4356,7 @@ candy brain	Effect: "Sugar Rush", Effect Duration: 15
 candy cornucopia	Free Pull
 candy crayons	Effect: "A Taste of Rainbow", Effect Duration: 5
 candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
+cartoon heart	Effect: "Healthy Red Glow", Effect Duration: 10
 censored can label	Effect: "Censored Can", Effect Duration: 50
 cheap cigar butt	Effect: "Smokin'", Effect Duration: 10
 cheap clip-on ninja tie	Effect: "Ninjas Just Tryin' to Get Paid", Effect Duration: 50
@@ -4434,11 +4438,13 @@ evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R+
 evil vihuela	Effect: "El Tango de la Maldita Suegra", Effect Duration: 10
 explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
 extra-potent gremlin mutagen	Effect: "Seriously Mutated"
+extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
 eyedrops of newt	Effect: "Newt Gets In Your Eyes", Effect Duration: [R]
 eyedrops of the ermine	Effect: "Ermine Eyes", Effect Duration: [R]
 eyedrops of the ocelot	Effect: "Ocelot Eyes", Effect Duration: [R]
 fairy-worn boots	Free Pull
 fake blood	Effect: "Bloody Bloody Bloody!", Effect Duration: 10
+fancy blue potion	Effect: "Healthy Blue Glow", Effect Duration: 40
 filthworm drone scent gland	Effect: "Filthworm Drone Stench", Effect Duration: 10
 filthworm hatchling scent gland	Effect: "Filthworm Larva Stench", Effect Duration: 10
 filthworm royal guard scent gland	Effect: "Filthworm Guard Stench", Effect Duration: 10
@@ -4475,6 +4481,7 @@ glass of warm water	Free Pull
 glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 glowing frisbee	Free Pull
 glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
+gold star	Effect: "Healthy Blue Glow", Effect Duration: 10
 gold toothbrush	Effect: "Grillin' Like a Villain", Effect Duration: 30
 good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
 goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
@@ -4648,6 +4655,7 @@ recording of Elron's Explosive Etude	Effect: "Elron's Explosive Etude", Effect D
 recording of Inigo's Incantation of Inspiration	Effect: "Inigo's Incantation of Inspiration", Effect Duration: 20
 recording of Prelude of Precision	Effect: "Prelude of Precision", Effect Duration: 20
 recording of The Ballad of Richie Thingfinder	Effect: "The Ballad of Richie Thingfinder", Effect Duration: 20
+red potion	Effect: "Healthy Red Glow", Effect Duration: 20
 red snowcone	Effect: "Red Tongue", Effect Duration: 20
 rehearsing dramatic hedgehog	Free Pull
 reodorant	Effect: "Hippy Stench", Effect Duration: 10

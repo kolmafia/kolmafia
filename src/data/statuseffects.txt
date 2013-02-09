@@ -1171,7 +1171,7 @@
 1170	Hoppyness	pinecone.gif	2fe0004ca79a4f94028ff59a80682709	drink 1 Hundred Headed IPA
 1171	Crud&eacute;	crudites.gif	fda0e6e0e26716c9ef57ae3a40b50149	use 1 crude crudit&eacute;s
 1172	A Taste of Rainbow	rrainbow.gif	99bb86b3192fb426354e2eb72ac35f1f	use 1 candy crayons
-1173
+1173	Crud&eacute;	crudites.gif	fda0e6e0e26716c9ef57ae3a40b50149	use 1 crude crudit&eacute;s
 1174
 1175
 1176
@@ -1186,8 +1186,8 @@
 1185	Daemon Duds	glove.gif	020a6289bda81d4f116e556cfd06679e	use 1 demonic surgical gloves
 1186	Ninjas Just Tryin' to Get Paid	necktie.gif	d0e5922c8068b866fea006b5269f4346	use 1 cheap clip-on ninja tie
 1187	Guild by Association	soda.gif	fddb51e6b2de13f4130d5b3ee27ccc8b	use 1 gamer slurry
-1188
-1189
+1188	Healthy Red Glow	hp.gif	fb87e3f45c797d9e4e632dfb12cb0f78
+1189	Healthy Blue Glow	mp.gif	6918808085c915b30fcb5b511941ea5c
 1190	Protection from Bad Stuff	scroll1.gif	337eecf2ccbb8bb1d62207a4a540e559	use 1 scroll of Protection from Bad Stuff
 1191	Puddingskin	scroll1.gif	c7f04483c9e79cf5c58a3ae08a805b9a	use 1 scroll of Puddingskin
 1192	Walberg's Dim Bulb	blacklight.gif	04236e0ebf71a3b11b55b504aeee437c	cast 1 Walberg's Dim Bulb
