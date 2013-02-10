@@ -87,6 +87,7 @@ carob brownies	2	1	decent	2-5	0	17-19	0
 carob chunk cookies	2	1	decent	2-5	0	6-9	0
 carob chunk noodles	3	2	decent	3-9	0	0	0
 carob chunks	1	1	crappy	1	0	0	0
+carrot cake	3	3	decent	7	4-6	4-6	4-6	10 Pla-see-bo
 carrot, cabbage, and kale pizza	4	1	decent	7-9	0	0	0	20 Healthy, Elfy, and Wise
 catgut taco	2	1	decent	2-5	11-33	0	0
 catsup	1	1	crappy	1	0	0	0
@@ -129,6 +130,7 @@ cupcake-in-a-cup	2	7	awesome	4-9	5-10	15-20	5-10	10 Cake Caked (+50% mys)
 cursed black pearl onion	1	1	crappy	1	0	0	0
 cursed sea biscuit	3	3	good	6-11	0	0	0	10 Curse Magnet
 dead lights pie	2	2	awesome	7-9	5-10	20-40	5-10
+deat meat bun	3	4	decent	5	10	0	0
 decent brain	1	1	decent	2	3-5	3-5	3-5
 dehydrated caviar	1	2	decent	2	0	0	15
 delicious noodles	3	3	good	6-9	0	0	9-25
@@ -401,6 +403,7 @@ red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Inebriety 80 Gummiheart
 red herring velvet cake	5	1		14-19	0	0	0
 retenez l'herbe pat&eacute;	3	13	EPIC	13-20	40-50	40-50	40-50
 ridiculous sandwich	3	1	awesome	11	10-12	10-12	10-12
+roasted duck	2	4	decent	3-4	0	7-12	0
 roasted marshmallow	1	1	crappy	1	0	0	0	3 Mallowed Out (+all)
 rocky road ice cream	2	7	awesome	7-10	12-14	12-14	12-14	40 A Contender (+200% all)
 rook cookie	1	13	EPIC	4-6	45-50	0	0	30 Towering Strength (+100..200% mus)

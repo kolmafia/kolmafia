@@ -613,7 +613,7 @@ Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
 Staff of the Woodfire	10	Mys: 150	1-handed chefstaff
 Super Crimboman Ultra Mega Hypersword	100	Mus: 35	2-handed sword
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
-Sword of Dark Omens	120	none	1-handed sword
+Sword of Dark Omens	120	Mus: 0	1-handed sword
 Sword of Procedural Generation	200	Mus: 200	2-handed sword
 Tales of the Word Realms	0	Mus: 0	2-handed book
 The Landscaper's leafblower	100	Mox: 35	2-handed leafblower
@@ -1100,19 +1100,19 @@ Loathing Legion tape measure	0	none
 Medallion of the Ventrilo Prince	0	none
 Mer-kin roundshield	215	Mus: 85	shield
 Mer-kin takebag	200	Mys: 85
-Microplushie: Bropane	0	none
-Microplushie: Dorkonide	0	none
-Microplushie: Ermahgerdic Acid	0	none
-Microplushie: Fauxnerditide	0	none
+Microplushie: Bropane	5	none
+Microplushie: Dorkonide	5	none
+Microplushie: Ermahgerdic Acid	5	none
+Microplushie: Fauxnerditide	5	none
 Microplushie: Gothochondria	5	none
 Microplushie: Hippylase	5	none
-Microplushie: Hipsterine	0	none
-Microplushie: Hobomosome	0	none
-Microplushie: Otakulone	0	none
-Microplushie: Raverdrine	0	none
-Microplushie: Sororitrate	0	none
+Microplushie: Hipsterine	5	none
+Microplushie: Hobomosome	5	none
+Microplushie: Otakulone	5	none
+Microplushie: Raverdrine	5	none
+Microplushie: Sororitrate	5	none
 Mr. Balloon	10	none
-Mr. Haggis	0	none
+Mr. Haggis	10	none
 Mylar balloon	10	none
 Necrotelicomnicon	30	none
 Ol' Scratch's ash can	200	Mys: 200
@@ -1267,7 +1267,7 @@ penguin skin buckler	90	Mus: 30	shield
 penguin thesaurus	30	none
 pilgrim shield	240	none	shield
 pirate hook	0	none
-pixel grappling hook	0	Mox: 200
+pixel grappling hook	200	Mox: 200
 pixel shield	50	Mus: 10	shield
 plush alielf	0	none
 plush alien hamsterpus	0	none
@@ -1386,11 +1386,11 @@ BGE tiny plastic toy	0	none
 Bandolier of the Spaghetti Elemental	150	Mys: 45
 Baron von Ratsworth's money clip	50	Mys: 10
 Baron von Ratsworth's monocle	50	Mys: 10
-Belt of Howling Anger	0	none
+Belt of Howling Anger	120	none
 Bling of the New Wave	150	Mox: 45
 Blue Diamond of Honesty	200	Mys: 85
 Bonerdagon necklace	80	Mys: 25
-Boots of Twilight Whispers	0	none
+Boots of Twilight Whispers	120	none
 Boris's ring	80	Mys: 25
 Boss Bat bling	65	Mys: 17
 Brimstone Bracelet	200	Mys: 30
@@ -1420,7 +1420,7 @@ Frosty's carrot	200	Mus: 200
 Frown Exerciser	10	Mys: 30
 Gaia beads	175	Mys: 72
 Garter of the Turtle Poacher	150	Mus: 45
-Gauntlets of the Blood Moon	0	none
+Gauntlets of the Blood Moon	120	none
 Golden Mr. Accessory	0	none
 Gravyskin Belt of the Sauceblob	150	Mys: 45
 Green Clover of Justice	200	Mys: 85
@@ -1532,7 +1532,7 @@ Yellow Moon of Compassion	200	Mys: 85
 Zinc Delta of Tranquility	200	Mys: 85
 Zombo's skull ring	200	Mys: 200
 acid-squirting flower	50	Mys: 10
-actual reality goggles	0	none
+actual reality goggles	10	none
 albatross necklace	90	Mys: 15
 amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
@@ -1711,7 +1711,7 @@ novelty tattoo sleeves	10	none
 observational glasses	10	none
 offensive moustache	0	none
 old soft shoes	200	Mys: 200
-old-school calculator watch	0	none
+old-school calculator watch	10	none
 orange glowstick	20	none
 orange leather lanyard	50	none
 orc wrist	95	Mys: 32
@@ -1720,7 +1720,7 @@ oven mitts	45	Mys: 7
 pacifier necklace	150	Mox: 60
 pair of pearidot earrings	0	none
 paperclip-on tie	50	none
-papier-masque	0	Mys: 20
+papier-masque	100	Mys: 20
 pat-a-cake pendant	10	none
 patent leather shoes	30	none
 peace-sign necklace	70	Mys: 20
@@ -1851,7 +1851,7 @@ tiny plastic Boris	30	none
 tiny plastic Boss Bat	30	none
 tiny plastic Bugbear Captain	50	Mys: 10
 tiny plastic CRIMBCO HQ	0	none
-tiny plastic Charity the Zombie Hunter	0	none
+tiny plastic Charity the Zombie Hunter	10	none
 tiny plastic Cheshire bat	10	none
 tiny plastic ChibiBuddy&trade;	0	none
 tiny plastic Clancy the Minstrel	0	none
@@ -1864,7 +1864,7 @@ tiny plastic Crimboween pentagram	20	none
 tiny plastic Don Crimbo	0	none
 tiny plastic Dr. Awkward	50	Mys: 10
 tiny plastic Ed the Undying	50	Mys: 10
-tiny plastic Father McGruber	0	none
+tiny plastic Father McGruber	10	none
 tiny plastic Felonia	30	none
 tiny plastic Fudge Wizard	0	none
 tiny plastic G Imp	10	none

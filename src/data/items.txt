@@ -726,16 +726,16 @@
 709	jewelry-making pliers	199923803	pliers.gif	none	d	500	pairs of jewelry-making pliers
 710
 711	hamethyst earring	986856176	jhear.gif	accessory	t,d	250	hamethyst earrings
-712	hamethyst necklace	511684768	jhneck.gif	accessory	t,d	250	hamethyst necklaces
+712	hamethyst necklace	511684768	jhneck.gif	accessory	t	0	hamethyst necklaces
 713	hamethyst bracelet	514043373	jhbrac.gif	accessory	t,d	250	hamethyst bracelets
 714	hamethyst ring	803162824	jhring.gif	accessory	t,d	250	hamethyst rings
 715	baconstone earring	182599034	jbear.gif	accessory	t,d	250	baconstone earrings
 716	baconstone pendant	374449878	jbneck.gif	accessory	t,d	250	baconstone pendants
-717	baconstone bracelet	804831559	jbbrac.gif	accessory	t,d	250	baconstone bracelets
+717	baconstone bracelet	804831559	jbbrac.gif	accessory	t	0	baconstone bracelets
 718	baconstone ring	308696084	jbring.gif	accessory	t,d	250	baconstone rings
 719	porquoise eyebrow ring	705540477	jpear.gif	accessory	t,d	250	porquoise eyebrow rings
 720	porquoise necklace	476800282	jpneck.gif	accessory	t,d	250	porquoise necklaces
-721	porquoise bracelet	318537689	jpbrac.gif	accessory	t,d	250	porquoise bracelets
+721	porquoise bracelet	318537689	jpbrac.gif	accessory	t	0	porquoise bracelets
 722	porquoise ring	393592472	jpring.gif	accessory	t,d	250	porquoise rings
 723	Knoll mushroom	838683264	bmushroom.gif	food	t,d	15	Knoll mushrooms
 724	spooky mushroom	292615821	spooshroom.gif	food	t,d	16	spooky mushrooms
@@ -2131,7 +2131,7 @@
 2114	yo	423108566	yo.gif	none, combat	t,d	25	yo
 2115	prehistoric spear	766246873	cavespear.gif	weapon	t,d	25	prehistoric spears
 2116	stick-on-a-string	885726083	stringstick.gif	none, combat	t,d	25	sticks-on-strings
-2117	fire	650755425	fire.gif	hat	t,d	25	gouts of flame
+2117	fire	650755425	fire.gif	hat	t	0	gouts of flame
 2118	leaf tube	453640924	leaftube.gif	none	q	0
 2119	lit cigar	150036172	litcigar.gif	usable	q	0
 2120	Grateful Undead T-shirt	924268834	btee2.gif	shirt	t,d	75	Grateful Undead T-shirts
@@ -6121,7 +6121,7 @@
 6104	Artist's Butterknife of Regret	327687444	butterknife.gif	none, combat	t,d	11	Artist's Butterknives of Regret
 6105	Artist's Spatula of Despair	675041975	spatula3.gif	none, combat	t,d	11	Artist's Spatulas of Despair
 6106	Artist's Cookie Cutter of Loneliness	991825060	cutter.gif	none, combat	t,d	11	Artist's Cookie Cutters of Loneliness
-6107	Artist's  Cr&egrave;me Brul&eacute;e Torch of Fury	769923393	bruleetorch.gif	none, combat	t,d	11	Artist's  Cr&egrave;me Brul&eacute;e Torches of Fury
+6107	Artist's  Cr&egrave;me Brul&eacute;e Torch of Fury	769923393	bruleetorch.gif	none, combat	t,d	11	Artist's Crème Brulee Torches of Fury
 6108	Ginsu&trade;	626167043	ginsu.gif	weapon		0
 6109	bubble-wrap simulator (one broken button)	576332142	bubblewrap3.gif	usable	t,d	25	bubble-wrap simulators (one broken button)
 6110	bubble-wrap simulator (half broken)	339492599	bubblewrap2.gif	usable	t,d	25	bubble-wrap simulators (half broken)
