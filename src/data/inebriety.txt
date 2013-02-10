@@ -78,8 +78,10 @@ candicaine	2	8	awesome	8-9	0	0	30-40	15 Holiday Bliss
 candy alexander	2	4	awesome	6-7	0	0	20-30	10 Holiday Bliss
 candycaine	4	1		7-10	0	0	0	10 Sugar Rush
 canteen of wine	3	5	good	7-10	22-40	22-40	22-40	20 In Vino Vires (+50% all)
+carrot claret	3	3	decent	7-8	3-4	3-4	3-4	10 Pla-see-bo
 cement mixer	2	1	good	4-5	10-20	0	0	5 Mortarfied
 chakra libre	2	4	awesome	6-7	0	20-30	0	10 Transcendental Wind
+cheap Chinese beer	1	1	crappy	1	0	0	0	4 MP
 cherry bomb	6	6	awesome	22-26	0	16-20	0	tiny plastic sword
 cinco mayo lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
