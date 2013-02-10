@@ -98,7 +98,7 @@ public class MallSearchRequest
 	public MallSearchRequest( final String searchString, final int cheapestCount, final List<PurchaseRequest> results,
 		final boolean retainAll )
 	{
-		super( searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
+		super( "mall.php" );
 
 		this.searchString = searchString;
 		this.addFormField( "pudnuggler", this.searchString );
