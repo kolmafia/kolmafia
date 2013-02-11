@@ -5677,8 +5677,8 @@
 5660	offensive moustache	119178756	chaplinstache.gif	accessory	t	0
 5661	hairshirt	326755469	hairshirt.gif	shirt	t	0
 5662	Olympic-sized Clan crate	954388471	crate.gif	usable	t	0
-5663	cursed microwave	430497097	microwave.gif	usable		0
-5664	cursed pony keg	986465445	ponykeg.gif	usable		0
+5663	cursed microwave	430497097	microwave.gif	reusable		0
+5664	cursed pony keg	986465445	ponykeg.gif	reusable		0
 5665	How to Tolerate Jerks	121533471	book4.gif	usable		0
 5666	How to Hold a Grudge	241401359	book3.gif	usable		0
 5667	puppet strings	475297640	puppetstrings.gif	none, curse		0	sets of puppet strings
