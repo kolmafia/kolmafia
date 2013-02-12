@@ -84,6 +84,7 @@ public class AdventureResult
 	public static final String FREE_CRAFT = "Free Craft";
 	public static final String CHOICE = "Choice";
 	public static final String AUTOSTOP = "Autostop";
+	public static final String FULL = "Fullness";
 	public static final String DRUNK = "Drunk";
 	public static final String MEAT = "Meat";
 	public static final String MEAT_SPENT = "Meat Spent";
@@ -203,7 +204,8 @@ public class AdventureResult
 			return AdventureResult.MEAT_PRIORITY;
 		}
 		if ( name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) ||
-			 name.equals( AdventureResult.DRUNK ) || name.equals( AdventureResult.PVP ) )
+			 name.equals( AdventureResult.DRUNK ) || name.equals( AdventureResult.FULL ) ||
+			 name.equals( AdventureResult.PVP ) )
 		{
 			return AdventureResult.NO_PRIORITY;
 		}
@@ -563,6 +565,11 @@ public class AdventureResult
 				return new AdventureResult( AdventureResult.DRUNK, modifier );
 			}
 
+			if ( statname.startsWith( "Full" ) )
+			{
+				return new AdventureResult( AdventureResult.FULL, modifier );
+			}
+
 			if ( statname.startsWith( "Me" ) )
 			{
 				// "Meat" or "Meets", if Can Has Cyborger
@@ -698,7 +705,7 @@ public class AdventureResult
 			return " Tome Summons: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
-		if ( this.name.equals( AdventureResult.HP ) || this.name.equals( AdventureResult.MP ) || this.name.equals( AdventureResult.DRUNK ) )
+		if ( this.name.equals( AdventureResult.HP ) || this.name.equals( AdventureResult.MP ) || this.name.equals( AdventureResult.DRUNK ) || this.name.equals( AdventureResult.FULL ) )
 		{
 			return " " + this.name + ": " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}

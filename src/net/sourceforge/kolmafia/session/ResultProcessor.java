@@ -947,6 +947,10 @@ public class ResultProcessor
 		{
 			KoLCharacter.setInebriety( KoLCharacter.getInebriety() + result.getCount() );
 		}
+		else if ( resultName.equals( AdventureResult.FULL ) )
+		{
+			KoLCharacter.setFullness( KoLCharacter.getFullness() + result.getCount() );
+		}
 		else if ( resultName.equals( AdventureResult.SUBSTATS ) )
 		{
 			if ( result.isMuscleGain() )
