@@ -1576,7 +1576,7 @@ Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Dam
 # * This enchantment works even when this item is not equipped
 Claw of the Infernal Seal	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Seal Clubber", Single Equip
 # Claybender glasses: +15 Damage vs. Ghosts
-Claybender glasses	Item Drop: +4
+Claybender glasses	Item Drop: +4, Single Equip
 Codpiece of the Goblin King	Moxie: +7, Single Equip
 Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
 # CRIMBCO lanyard: Lets you work harder!
