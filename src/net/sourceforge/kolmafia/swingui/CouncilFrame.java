@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 
+import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class CouncilFrame
@@ -129,6 +130,10 @@ public class CouncilFrame
 			{
 				KoLCharacter.armBeanstalk();
 			}
+		}
+		else if ( location.startsWith( "barrel" ) )
+		{
+			BarrelDecorator.parseResponse( location, responseText );
 		}
 		else if ( location.startsWith( "bigisland" ) )
 		{
