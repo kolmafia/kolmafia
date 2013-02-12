@@ -2125,7 +2125,7 @@ public abstract class KoLmafia
 				String line;
 
 				BufferedReader reader =
-					FileUtilities.getReader( "http://kolmafia.svn.sourceforge.net/svnroot/kolmafia/src/net/sourceforge/kolmafia/KoLConstants.java" );
+					FileUtilities.getReader( "https://sourceforge.net/p/kolmafia/code/HEAD/tree/src/net/sourceforge/kolmafia/KoLConstants.java" );
 
 				String lastVersion = Preferences.getString( "lastRssVersion" );
 				String currentVersion = null;
