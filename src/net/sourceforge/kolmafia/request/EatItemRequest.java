@@ -442,6 +442,7 @@ public class EatItemRequest
 
 		int fullness = ItemDatabase.getFullness( item.getName() );
 		int count = item.getCount();
+		boolean shouldUpdateFullness = !responseText.contains( " Fullness" );
 
 		if ( responseText.indexOf( "too full" ) != -1 )
 		{
@@ -467,7 +468,7 @@ public class EatItemRequest
 			int couldEat = Math.max( 0, Math.min( count - 1, maxEat ) );
 			if ( couldEat > 0 )
 			{
-				Preferences.increment( "currentFullness", couldEat * fullness );
+				if ( shouldUpdateFullness ) Preferences.increment( "currentFullness", couldEat * fullness );
 				Preferences.decrement( "munchiesPillsUsed", couldEat );
 				ResultProcessor.processResult( item.getInstance( -couldEat ) );
 			}
@@ -554,14 +555,13 @@ public class EatItemRequest
 		// detect the extra message and decrement fullness by 1.
 		if ( responseText.indexOf( "feel your stomach shrink" ) != -1 )
 		{
-			// If we got this message, we definitely used a pill today.
+			// If we got this message, the distention effect was active.
 			String message = "Incrementing fullness by " + ( fullnessUsed - 1 )
 					+ " instead of " + fullnessUsed
 					+ " because your stomach was distended.";
 			fullnessUsed--;
 			RequestLogger.updateSessionLog( message );
 			RequestLogger.printLine( message );
-			Preferences.setBoolean( "_distentionPillUsed", true );
 			Preferences.setBoolean( "distentionPillActive", false );
 		}
 
@@ -574,7 +574,11 @@ public class EatItemRequest
 		}
 
 		// The food was consumed successfully
-		Preferences.increment( "currentFullness", fullnessUsed );
+		// If the user has fullness display turned on ( "You gain x Fullness" ) DON'T touch fullness here.  It is handled in ResultProcessor.
+		if ( shouldUpdateFullness )
+		{
+			Preferences.increment( "currentFullness", fullnessUsed );
+		}
 		Preferences.decrement( "munchiesPillsUsed", count );
 
 		ResultProcessor.processResult( item.getNegation() );
@@ -632,7 +636,7 @@ public class EatItemRequest
 			// our fullness, but it wasn't actually consumed.
 
 			ResultProcessor.processResult( item );
-			Preferences.increment( "currentFullness", -3 );
+			if ( shouldUpdateFullness ) Preferences.increment( "currentFullness", -3 );
 
 			// "You don't have time to properly enjoy a black
 			// pudding right now."

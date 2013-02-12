@@ -435,7 +435,7 @@ public class SushiRequest
 		}
 
 		int fullness = ItemDatabase.getFullness( name );
-		if ( fullness > 0 )
+		if ( fullness > 0 && !responseText.contains( "Fullness" ) ) // ResultProcessor will handle fullness gain if fullness display is enabled
 		{
 			Preferences.increment( "currentFullness", fullness );
 			KoLCharacter.updateStatus();
