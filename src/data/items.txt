@@ -726,8 +726,8 @@
 709	jewelry-making pliers	199923803	pliers.gif	none	d	500	pairs of jewelry-making pliers
 710
 711	hamethyst earring	986856176	jhear.gif	accessory	t,d	250	hamethyst earrings
-712	hamethyst necklace	511684768	jhneck.gif	accessory	t	0	hamethyst necklaces
-713	hamethyst bracelet	514043373	jhbrac.gif	accessory	t,d	250	hamethyst bracelets
+712	hamethyst necklace	511684768	jhneck.gif	accessory	t,d	250	hamethyst necklaces
+713	hamethyst bracelet	514043373	jhbrac.gif	accessory	t	0	hamethyst bracelets
 714	hamethyst ring	803162824	jhring.gif	accessory	t,d	250	hamethyst rings
 715	baconstone earring	182599034	jbear.gif	accessory	t,d	250	baconstone earrings
 716	baconstone pendant	374449878	jbneck.gif	accessory	t,d	250	baconstone pendants
