@@ -45,8 +45,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
-
+import net.sourceforge.kolmafia.request.BarrelRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BarrelDecorator
@@ -142,8 +141,6 @@ public abstract class BarrelDecorator
 
 		Matcher m = UNSMASHED.matcher( buffer.toString() );
 		buffer.setLength( 0 );
-		unsmashedSquares = 1L;	// make value non-zero, even if no barrels remain unsmashed
-		unsmashedUser = KoLCharacter.getUserId();
 		
 		while ( m.find() )
 		{
@@ -153,7 +150,6 @@ public abstract class BarrelDecorator
 			{
 				continue;	// shouldn't happen
 			}
-			unsmashedSquares |= 1L << square;
 			
 			int possible = possibles[quad];
 			if ( possible == 0 )
@@ -295,9 +291,7 @@ public abstract class BarrelDecorator
 	{
 		if ( unsmashedSquares == 0L || unsmashedUser != KoLCharacter.getUserId() )
 		{	// need to visit the page to determine which barrels are available
-			GenericRequest req = new GenericRequest( "barrel.php" );
-			RequestThread.postRequest( req );
-			decorate( new StringBuffer( req.responseText ) );
+			RequestThread.postRequest( new BarrelRequest() );
 		}
 		
 		int rows = Preferences.getInteger( "barrelGoal" );	
@@ -315,11 +309,7 @@ public abstract class BarrelDecorator
 		{
 			square = recommendRow( possibles, 6 ) ;
 		}
-	
-		if ( square != 0 )
-		{
-			unsmashedSquares &= ~(1L << square);
-		}
+
 		return square;
 	}
 	
@@ -355,5 +345,23 @@ public abstract class BarrelDecorator
 			return square + 7;
 		}
 		return 0;		
+	}
+
+	public static void parseResponse( String urlString, String responseText )
+	{
+		Matcher m = UNSMASHED.matcher( responseText );
+		unsmashedSquares = 1L;	// make value non-zero, even if no barrels remain unsmashed
+		unsmashedUser = KoLCharacter.getUserId();
+
+		while ( m.find() )
+		{
+			int square = StringUtilities.parseInt( m.group(1) );
+			int quad = barrelToQuad( square );
+			if ( quad < 0 || quad >= 9 )
+			{
+				continue;	// shouldn't happen
+			}
+			unsmashedSquares |= 1L << square;
+		}
 	}
 }
