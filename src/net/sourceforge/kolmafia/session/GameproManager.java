@@ -54,7 +54,7 @@ public class GameproManager
 		Preferences.setInteger( "choiceAdventure659",
 			responseText.contains( "moving away from you" ) ? 1 :
 			responseText.contains( "is approaching" ) ? 2 :
-			responseText.contains( "height as the second" ) ? 3 :
+			responseText.contains( "same height as the one you're on" ) ? 3 :
 			0 );
 
 		// It's a Place Where Books Are Free
