@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -58,7 +57,6 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -2416,6 +2414,11 @@ public abstract class ChoiceManager
 			// Add "Go To Goal" button for a Lost Room
 			LostKeyManager.addGoalButton( buffer );
 			break;
+
+		case 665:
+			// Add "Solve" button for A Gracious Maze
+			GameproManager.addGoalButton( buffer );
+			break;
 		}
 	}
 
@@ -3108,7 +3111,7 @@ public abstract class ChoiceManager
 			// If this choice has special handling, convert to real
 			// decision index
 
-			decision = ChoiceManager.specialChoiceDecision( choice, option, decision, stepCount, request.responseText );
+			decision = ChoiceManager.specialChoiceDecision( choice, decision, stepCount, request.responseText );
 
 			// Let user handle the choice manually, if requested
 
@@ -3152,7 +3155,7 @@ public abstract class ChoiceManager
 		// If this choice has special handling, convert to real
 		// decision index
 
-		decision = ChoiceManager.specialChoiceDecision( choice, option, decision, Integer.MAX_VALUE, responseText );
+		decision = ChoiceManager.specialChoiceDecision( choice, decision, Integer.MAX_VALUE, responseText );
 
 		if ( decision.equals( "0" ) || decision.equals( "" ) )
 		{	// Manual choice requested, or unsupported choice
@@ -4392,6 +4395,10 @@ public abstract class ChoiceManager
 			SpaaaceRequest.visitGeneratorChoice( responseText );
 			break;
 
+		case 570:
+			GameproManager.parseGameproMagazine( responseText );
+			break;
+
 		// The Horror...
 		case 611:
 			if ( responseText.contains( "You follow the map to" ) )
@@ -4405,6 +4412,7 @@ public abstract class ChoiceManager
 	private static String booPeakDamage()
 	{
 		int damageTaken = 0;
+		int diff = 0;
 		String decisionText = ChoiceManager.findChoiceDecisionText( 1, ChoiceManager.lastResponseText );
 		if (
 			decisionText.equals( "Ask the Question" ) ||
@@ -4418,7 +4426,9 @@ public abstract class ChoiceManager
 			decisionText.equals( "Approach the Accountant Ghost" ) ||
 			decisionText.equals( "Ask if He's Lost" ) )
 		{
-			damageTaken = 13;
+			// actual base damage is 13
+			damageTaken = 30;
+			diff = 17;
 		}
 		else if (
 			decisionText.equals( "Enter the Crypt" ) ||
@@ -4432,7 +4442,9 @@ public abstract class ChoiceManager
 			decisionText.equals( "Approach and Reproach" ) ||
 			decisionText.equals( "Talk Back to the Robot" ) )
 		{
-			damageTaken = 25;
+			// actual base damage is 25
+			damageTaken = 30;
+			diff = 5;
 		}
 		else if (
 			decisionText.equals( "Go down the Steps" ) ||
@@ -4477,14 +4489,14 @@ public abstract class ChoiceManager
 			damageTaken = 250;
 		}
 		double spookyDamage = KoLConstants.activeEffects.contains( EffectPool.get( Effect.SPOOKYFORM ) ) ? 1.0 :
-			  damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) ) ) / 100.0;
+			  damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) ) ) / 100.0 - diff;
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.COLDFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( Effect.SLEAZEFORM ) ) )
 		{
 			spookyDamage *= 2;
 		}
 
 		double coldDamage = KoLConstants.activeEffects.contains( EffectPool.get( Effect.COLDFORM ) ) ? 1.0 :
-			  damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.COLD ) ) ) / 100.0;
+			  damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.COLD ) ) ) / 100.0 - diff;
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.SLEAZEFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( Effect.STENCHFORM ) ) )
 		{
 			coldDamage *= 2;
@@ -4804,7 +4816,7 @@ public abstract class ChoiceManager
 		return true;
 	}
 
-	private static final String specialChoiceDecision( final int choice, final String option, final String decision, final int stepCount, final String responseText )
+	private static final String specialChoiceDecision( final int choice, final String decision, final int stepCount, final String responseText )
 	{
 		// A few choices have non-standard options: 0 is not Manual Control
 		switch ( choice )
@@ -4884,6 +4896,13 @@ public abstract class ChoiceManager
 				return "1";
 			}
 			return "2";
+
+		case 665:
+			if ( ChoiceManager.action == PostChoiceAction.NONE )
+			{
+				return GameproManager.autoSolve( stepCount );
+			}
+			return "0";
 		}
 
 		// If the user wants manual control, let 'em have it.
