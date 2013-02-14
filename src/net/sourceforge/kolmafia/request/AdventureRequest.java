@@ -260,12 +260,13 @@ public class AdventureRequest
 		{
 			this.addFormField( "action", "Yep." );
 
-			if ( this.responseText.indexOf( "Locked Door" ) != -1 && AdventureRequest.SKELETON_KEY.getCount( KoLConstants.inventory ) + AdventureRequest.SKELETON_KEY.getCount( KoLConstants.closet ) > 1 )
+			if ( this.responseText.contains( "Yendium Platnori" ) )
 			{
-				ResultProcessor.processResult( AdventureRequest.SKELETON_KEY.getInstance( -1 ) );
-				this.addFormField( "option", "2" );
+				this.addFormField( "option", "4" );
 			}
-			else if ( this.responseText.indexOf( "\"Move on\"" ) != -1 )
+			else if ( ( this.responseText.contains( "Locked Door" ) && InventoryManager.hasItem( AdventureRequest.SKELETON_KEY ) ) ||
+					this.responseText.contains( "\"Move on\"" ) // a useless treasure room
+				  )
 			{
 				this.addFormField( "option", "2" );
 			}
