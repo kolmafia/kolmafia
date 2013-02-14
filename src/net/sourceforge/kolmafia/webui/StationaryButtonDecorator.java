@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -533,13 +535,15 @@ public class StationaryButtonDecorator
 		buffer.append( ">&nbsp;" );
 	}
 
+	private static final Pattern LOCATION_PATTERN = Pattern.compile( "<body.*?<a href=\"?([^\">]*)", Pattern.DOTALL );
+
 	private static final String getAdventureAgainLocation( StringBuffer response )
 	{
 		// Get the "adventure again" link from the page
-		int startIndex = response.indexOf( "<a href=\"", response.indexOf( "<body" ) + 1 );
-		if ( startIndex != -1 )
+		Matcher m = LOCATION_PATTERN.matcher( response );
+		if ( m.find() )
 		{
-			return response.substring( startIndex + 9, response.indexOf( "\"", startIndex + 10 ) );
+			return m.group( 1 );
 		}
 
 		// If there is none, perhaps we fought a monster as a result of
