@@ -872,7 +872,7 @@ public class UseItemRequest
 			return Preferences.getBoolean( "_ballastTurtleUsed" ) ? 0 : 1;
 
 		case ItemPool.CSA_FIRE_STARTING_KIT:
-			if ( !KoLCharacter.getHippyStoneBroken() && Preferences.getInteger( "choiceAdventure595" ) == 2 )
+			if ( !KoLCharacter.getHippyStoneBroken() && Preferences.getInteger( "choiceAdventure595" ) == 1 )
 			{
 				UseItemRequest.limiter = "an unbroken hippy stone";
 				return 0;
