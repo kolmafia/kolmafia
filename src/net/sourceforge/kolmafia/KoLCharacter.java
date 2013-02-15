@@ -126,6 +126,7 @@ public abstract class KoLCharacter
 	public static final String AVATAR_OF_BORIS = "Avatar of Boris";
 	public static final String ZOMBIE_MASTER = "Zombie Master";
 	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
+	public static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -826,6 +827,11 @@ public abstract class KoLCharacter
 			return baseFullness;
 		}
 
+		if ( KoLCharacter.isJarlsberg() )
+		{
+			baseFullness -= 5;
+		}
+
 		if ( KoLCharacter.isFullnessIncreased && ( KoLCharacter.getPath().equals( "None" ) || 
 			 KoLCharacter.getPath().equals( "Teetotaler" ) ) )
 		{
@@ -849,8 +855,10 @@ public abstract class KoLCharacter
 
 	public static final int getInebrietyLimit()
 	{
-		return	KoLCharacter.inAxecore() ? 4 :
+		return
+			KoLCharacter.inAxecore() ? 4 :
 			KoLCharacter.inZombiecore() ? 4 :
+			KoLCharacter.isJarlsberg() ? 9 :
 			KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 :
 			KoLCharacter.canDrink() ? 14 :
 			0;
@@ -1012,7 +1020,8 @@ public abstract class KoLCharacter
 		}
 
 		if ( classType.equals( KoLCharacter.SAUCEROR ) ||
-			classType.equals( KoLCharacter.PASTAMANCER ) )
+			classType.equals( KoLCharacter.PASTAMANCER ) ||
+			classType.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) )
 		{
 			return 1;
 		}
@@ -1098,6 +1107,7 @@ public abstract class KoLCharacter
 			classtype == 6 ? KoLCharacter.ACCORDION_THIEF :
 			classtype == 11 ? KoLCharacter.AVATAR_OF_BORIS :
 			classtype == 12 ? KoLCharacter.ZOMBIE_MASTER :
+			classtype == 14 ? KoLCharacter.AVATAR_OF_JARLSBERG :
 			"Unknown";
 
 		KoLCharacter.classtype = classname;
@@ -1168,6 +1178,7 @@ public abstract class KoLCharacter
 	{
 		return	classname.equals( KoLCharacter.AVATAR_OF_BORIS ) ? KoLCharacter.AVATAR_OF_BORIS :
 			classname.equals( KoLCharacter.ZOMBIE_MASTER ) ? KoLCharacter.ZOMBIE_MASTER :
+			classname.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ? KoLCharacter.AVATAR_OF_JARLSBERG :
 			KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
 			KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER :
 			KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER :
@@ -1198,7 +1209,8 @@ public abstract class KoLCharacter
 	public static final boolean isMysticalityClass()
 	{
 		return	KoLCharacter.classtype == KoLCharacter.PASTAMANCER ||
-			KoLCharacter.classtype == KoLCharacter.SAUCEROR;
+			KoLCharacter.classtype == KoLCharacter.SAUCEROR ||
+			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_JARLSBERG;
 	}
 
 	public static final boolean isMoxieClass()
@@ -2933,6 +2945,11 @@ public abstract class KoLCharacter
 	public static final boolean inClasscore()
 	{
 		return KoLCharacter.ascensionPath.equals( "Class Act" );
+	}
+
+	public static final boolean isJarlsberg()
+	{
+		return KoLCharacter.ascensionPath.equals( "Avatar of Jarlsberg" );
 	}
 
 	public static final boolean isUnarmed()

@@ -84,6 +84,7 @@ Hat O' Nine Tails	Moxie Percent: 9
 Helm of the Scream Emperor	MP Regen Min: 1, MP Regen Max: 3, Experience: +2, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "0.5xVolley, 0.5xFairy"
 Hollandaise helmet	Spell Damage: +1, Familiar Effect: "atk, cap 2"
+Jarlsberg's hat	Mysticality: +5, MP Regen Min: 4, MP Regen Max: 5, Experience (Mysticality): +1
 Kentucky-style derby	Familiar Effect: "atk, cap 5"
 Knob Goblin elite helm	Muscle: +3, Familiar Effect: "2xFairy, cap 15"
 Knob Goblin harem veil	Stench Resistance: +1, Familiar Effect: "5xLep, cap 2"

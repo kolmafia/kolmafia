@@ -2792,6 +2792,14 @@ public class UseItemRequest
 				return;
 			}
 
+			if ( KoLCharacter.isJarlsberg() && responseText.contains( "Jarlsberg didn't read fiction." ) )
+			{
+				UseItemRequest.lastUpdate = "Jarlsberg didn't read fiction. ";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+				return;
+			}
+
 			String skill = UseItemRequest.itemToSkill( itemId );
 			String bookClass = UseItemRequest.itemToClass( itemId );
 			boolean isRightClass = bookClass == null || bookClass.equals( KoLCharacter.getClassType() );
