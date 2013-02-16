@@ -4489,14 +4489,14 @@ public abstract class ChoiceManager
 			damageTaken = 250;
 		}
 		double spookyDamage = KoLConstants.activeEffects.contains( EffectPool.get( Effect.SPOOKYFORM ) ) ? 1.0 :
-			  damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) ) ) / 100.0 - diff;
+			  Math.max( damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) ) ) / 100.0 - diff, 1 );
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.COLDFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( Effect.SLEAZEFORM ) ) )
 		{
 			spookyDamage *= 2;
 		}
 
 		double coldDamage = KoLConstants.activeEffects.contains( EffectPool.get( Effect.COLDFORM ) ) ? 1.0 :
-			  damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.COLD ) ) ) / 100.0 - diff;
+			  Math.max( damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.COLD ) ) ) / 100.0 - diff, 1 );
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.SLEAZEFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( Effect.STENCHFORM ) ) )
 		{
 			coldDamage *= 2;
