@@ -361,7 +361,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Plains", "Papaya War", this.palindomePapayaSelect );
 		this.addChoiceSelect( "Plains", "Ferny's Basement", this.basementMallSelect );
 		this.addChoiceSelect( "Woods", "Spooky Forest", this.spookyForestSelect );
-		this.addChoiceSelect( "Item-Driven", "Violet Fog", this.violetFogSelect );
+		this.addChoiceSelect( "Astral", "Violet Fog", this.violetFogSelect );
 		this.addChoiceSelect( "Manor1", "Billiard Room", this.billiardRoomSelect );
 		this.addChoiceSelect( "Manor1", "Rise of Spookyraven", this.riseSelect );
 		this.addChoiceSelect( "Manor1", "Fall of Spookyraven", this.fallSelect );
