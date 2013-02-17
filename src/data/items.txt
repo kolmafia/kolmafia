@@ -6199,16 +6199,16 @@
 6182	cosmic cream	599950440	cosmic_cream.gif	none	q	0
 6183	cosmic fruit	134418895	cosmic_fruit.gif	none	q	0
 6184	Jarlsberg's hat	272618509	jarlhat.gif	hat	q	0
-6185
+6185	consummate hard-boiled egg	461197132	jarl_egg.gif	food	q	0
 6186	consummate fried egg	608835734	jarl_friedegg.gif	food	q	0
 6187
 6188	consummate bagel	373577402	jarl_bagel.gif	food	q	0
-6189
+6189	consummate sliced bread	795311596	jarl_slicedbread.gif	food	q	0
 6190
-6191
-6192
+6191	consummate brownie	503476345	jarl_brownie.gif	food	q	0
+6192	consummate toast	290760620	jarl_toast.gif	food	q	0
 6193
-6194
+6194	consummate soup	811500557	jarl_soup.gif	food	q	0
 6195	consummate corn chips	889919754	jarl_chips.gif	food	q	0
 6196	consummate salad	539912922	jarl_salad.gif	food	q	0
 6197	consummate salsa	449134940	jarl_salsa.gif	food	q	0
@@ -6217,28 +6217,28 @@
 6200	consummate melted cheese	828307963	jarl_meltcheese.gif	food	q	0
 6201	consummate bacon	573689807	jarl_bacon.gif	food	q	0
 6202
-6203
-6204
+6203	consummate steak	823655507	jarl_steak.gif	food	q	0
+6204	consummate cold cuts	795814665	jarl_coldcuts.gif	food	q	0
 6205
 6206
-6207
+6207	consummate baked potato	727787941	jarl_bakedpotato.gif	food	q	0
 6208
-6209
+6209	consummate ice cream	135680484	jarl_icecream.gif	food	q	0
 6210
 6211	consummate sour cream	700472081	jarl_sourcream.gif	food	q	0
 6212
 6213
 6214	adequate rum	221120765	jarl_rum.gif	drink	q	0
 6215	mediocre lager	174208899	jarl_lager.gif	drink	q	0
-6216
-6217
+6216	immaculate grilled cheese	510703518	jarl_sand1.gif	food	q	0
+6217	immaculate ice cream sandwich	275012389	jarl_icsandwich.gif	food	q	0
 6218
 6219
-6220
-6221
-6222
+6220	perfect sandwich	917713600	jarl_sand3.gif	food	q	0
+6221	perfect chef salad	241477702	jarl_chefsalad.gif	food	q	0
+6222	perfect breakfast	764180002	jarl_tradbreak.gif	food	q	0
 6223
-6224
+6224	sublime stew	417300388	jarl_soup.gif	food	q	0
 6225	sublime nachos	612603971	jarl_nachos.gif	food	q	0
 6226	Ultimate Breakfast Sandwich	575574044	jarl_bagelsand.gif	food	q	0
 6227
