@@ -687,19 +687,39 @@ Spooky Putty ball	Spooky Damage: +10, Softcore Only
 Spooky Putty snake	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
 Squeezebox of the Ages	Moxie: +11, Ranged Damage: +15
 Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
+# Staff of Fruit Salad: Jiggle: Deal Some Prismatic Damage
+Staff of Fruit Salad	Spell Damage: +10, Moxie: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of Queso Escusado	Spell Damage Percent: +50, Stench Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
+# Staff of the All-Steak: Jiggle: Massive Bonus to Item Drops
+# Staff of the All-Steak: (5 charges left today)
+Staff of the All-Steak	Spell Damage Percent: +50, Damage Reduction: 15, MP Regen Min: 5, MP Regen Max: 6
 Staff of the Black Kettle	Spell Damage Percent: +75, Mysticality: +10, MP Regen Min: 5, MP Regen Max: 6
+# Staff of the Cream of the Cream: Jiggle: Attune to Monster's Essence
+# Staff of the Cream of the Cream: (5 charges left today)
+Staff of the Cream of the Cream	Spell Damage Percent: +50, Moxie: +30, MP Regen Min: 5, MP Regen Max: 6
 Staff of the Deepest Freeze	Spell Damage Percent: +200, Cold Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
 Staff of the Grand Flamb&eacute;	Spell Damage Percent: +150, Cold Resistance: +5, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 4
+# Staff of the Healthy Breakfast: Jiggle: Recover Some HP
+Staff of the Healthy Breakfast	Spell Damage: +10, Maximum HP: +15, Item Drop: +10, MP Regen Min: 2, MP Regen Max: 4
+# Staff of the Hearty Dinner: Jiggle: Weaken Bad Guy
+Staff of the Hearty Dinner	Spell Damage: +10, Damage Reduction: 5, MP Regen Min: 2, MP Regen Max: 3
 Staff of Holiday Sensations	Spell Damage Percent: +75, Cold Spell Damage: +15, MP Regen Min: 5, MP Regen Max: 6
 Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
+# Staff of the Light Lunch: Jiggle: Deal Some Cold Damage
+Staff of the Light Lunch	Spell Damage: +10, Initiative: +15, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of the November Jack-O-Lantern	Spell Damage Percent: +20, Stench Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Scummy Sink	Spell Damage Percent: +150, Sleaze Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10, Slime Hates It: +1
 Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Soupbone	Spell Damage Percent: +75, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6
+# Staff of the Staff of Life: Jiggle: Full HP Recovery
+# Staff of the Staff of Life: (5 charges left today)
+Staff of the Staff of Life	Spell Damage Percent: +50, Maximum HP: +30, MP Regen Min: 5, MP Regen Max: 6, HP Regen Min: 10, HP Regen Max: 12
+# Staff of the Standalone Cheese: Jiggle: Banish opponent for the rest of the day
+# Staff of the Standalone Cheese: (5 charges left today)
+Staff of the Standalone Cheese	Spell Damage Percent: +50, Initiative: +30, MP Regen Min: 5, MP Regen Max: 6
 Staff of the Teapot Tempest	Spell Damage Percent: +25, Mysticality: +5, MP Regen Min: 3, MP Regen Max: 4
 Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
@@ -2911,6 +2931,7 @@ Chilblains of the Corn	Spooky Damage: +5
 Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
 Chocolate Reign	Moxie: +10
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
+Chocolatesphere	Combat Rate: -20
 Cholestoriffic	Sleaze Damage: [min(100,T)]
 Chorale of Companionship	Familiar Weight: +10
 Chow Downed	Familiar Weight: +5
@@ -2928,6 +2949,7 @@ Coated Arms	Weapon Damage: +15
 # Coated in Slime: It Burns!  It Burns!
 Cock of the Walk	Moxie Percent: +200
 Cockroach Scurry	Initiative: +50
+Coffeesphere	Combat Rate: +20
 Cold, Dead Hands	Cold Damage: +40, Spooky Damage: +40
 Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
 # Cold Breath: Can breathe frigid air in combat
@@ -3178,6 +3200,7 @@ Green Tongue	Familiar Weight: +5, Experience (familiar): +2
 Grilled	Muscle: -10
 # Grillin' Like a Villain: Makes you look like a toothy pirate
 Grimace	Monster Level: +25, Slime Resistance: +1
+Gristlesphere	Monster Level: +20
 # Groast Out: Makes you look like a groast
 Grrrrrrreat!	Experience (Muscle): +10
 Grulched	Stench Damage: +25, Monster Level: +20
@@ -3414,6 +3437,7 @@ Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
 # Ode to Booze: Booze tastes even more delicious!
 Oh Snap	Experience (Moxie): +10
+Oilsphere	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
 Oily Flavor	Muscle: +15
 Okee-Dokee Computer	Mysticality: +30
 Okee-Dokee Go!	Initiative: +20
@@ -3877,6 +3901,7 @@ Abs of Tin	Maximum HP Percent: +10
 Amphibian Sympathy	Familiar Weight: +5
 # Armorcraftiness
 Barrel Chested	Muscle Percent: +50
+Best Served Cold	Spell Damage Percent: +100
 Big Boned	Maximum HP Percent: +30
 Big Lungs	HP Regen Min: 8, HP Regen Max: 10
 Chip on your Shoulder	PvP Fights: +5
@@ -3922,6 +3947,7 @@ Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: +10, Unarmed
 More to Love	Minstrel Level: +3
 Natural Born Scrabbler	Item Drop: +5
 # Neurogourmet: +1 Adventure per Brain Eaten
+Never Late for Dinner	Adventures: +10, Initiative: +50
 Nimble Fingers	Meat Drop: +20
 Northern Exposure	Cold Resistance: +2
 Overdeveloped Sense of Self Preservation	Initiative: +20
@@ -4384,6 +4410,7 @@ cordial of concentration	Effect: "Concentration", Effect Duration: [R]
 correction fluid	Effect: "The Solution", Effect Duration: 30
 corrupted data	Effect: "Corrupted", Effect Duration: 30
 cosmic lemonade	Effect: "Lemon Enlightenment", Effect Duration: 10
+cosmic bucket	Free Pull
 cotton candy cocoon	Free Pull
 cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 cream pie	Free Pull
@@ -4461,6 +4488,7 @@ floaty sand	Effect: "5 Pounds Lighter", Effect Duration: 10
 floaty stone sphere	Free Pull
 fluid of fudge-finding	Effect: "Fudgehound", Effect Duration: 5
 forest spirit rattle	Effect: "Rattlin' Head", Effect Duration: 50
+fragment of Jarlsberg's soul	Free Pull
 freezerburned ice cube	Effect: "Permafrosty", Effect Duration: 10
 frog lip-print	Effect: "Green, Uneasy", Effect Duration: 30
 frost-rimed seal hide	Effect: "Cold Hard Skin", Effect Duration: 10

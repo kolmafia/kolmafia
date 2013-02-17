@@ -1172,10 +1172,10 @@
 1171	Crud&eacute;	crudites.gif	fda0e6e0e26716c9ef57ae3a40b50149	use 1 crude crudit&eacute;s
 1172	A Taste of Rainbow	rrainbow.gif	99bb86b3192fb426354e2eb72ac35f1f	use 1 candy crayons
 1173	Crud&eacute;	crudites.gif	fda0e6e0e26716c9ef57ae3a40b50149	use 1 crude crudit&eacute;s
-1174
-1175
-1176
-1177
+1174	Coffeesphere	jarl_coffee.gif	a9e6b06f15dd1d8aded27a4bfcb59b3f	cast 1 Coffeesphere
+1175	Oilsphere	jarl_oil.gif	50c0f7f0a3289eea6dc598fd7e7ba862	cast 1 Oilsphere
+1176	Gristlesphere	jarl_gristle.gif	12f0dabb175502760bcbe02d20b4b9e0	cast 1 Gristlesphere
+1177	Chocolatesphere	jarl_choco.gif	6e595b4f81ed3cb1aa849f054b51cfc6	cast 1 Chocolatesphere
 1178	8-bit Apparition	cube.gif	6760cc795714a2344ca4fa0f15fac588	use 1 cube of ectoplasm
 1179	Goblin in Black	earpiece.gif	c333db0b1c3023bb79144dd58a0ba135	use 1 Illuminati earpiece
 1180	Censored Can	censlabel.gif	f17610cbaa7a39bb487a8611c670c408	use 1 censored can label

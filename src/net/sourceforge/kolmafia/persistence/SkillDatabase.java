@@ -887,6 +887,7 @@ public class SkillDatabase
 		case 7:			// Skills granted by items
 		case 11:			// Avatar of Boris skills
 		case 12:			// Zombie Slayer skills
+		case 14:			// Avatar of Jarlsberg skills
 			return false;
 		}
 

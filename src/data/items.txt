@@ -6190,32 +6190,32 @@
 6173	pixel grappling hook	879455617	pixelhook.gif	offhand	t	0
 6174	GameInformPowerDailyPro magazine	132572233	gamemag.gif	usable	t,d	10	issues of GameInformPowerProDaily magazine
 6175	GameInformPowerDailyPro walkthru	405149087	printout.gif	reusable	q	0
-6176
-6177
-6178
-6179
-6180
-6181
-6182
-6183
+6176	cosmic egg	498063846	cosmic_egg.gif	none	q	0
+6177	cosmic dough	181658707	cosmic_dough.gif	none	q	0
+6178	cosmic vegetable	584585546	cosmic_veg.gif	none	q	0
+6179	cosmic cheese	199988586	cosmic_cheese.gif	none	q	0
+6180	cosmic potted meat product	925760507	cosmic_meat.gif	none	q	0
+6181	cosmic potato	354674167	cosmic_potato.gif	none	q	0
+6182	cosmic cream	599950440	cosmic_cream.gif	none	q	0
+6183	cosmic fruit	134418895	cosmic_fruit.gif	none	q	0
 6184	Jarlsberg's hat	272618509	jarlhat.gif	hat	q	0
 6185
-6186
+6186	consummate fried egg	608835734	jarl_friedegg.gif	food	q	0
 6187
-6188
+6188	consummate bagel	373577402	jarl_bagel.gif	food	q	0
 6189
 6190
 6191
 6192
 6193
 6194
-6195
-6196
-6197
+6195	consummate corn chips	889919754	jarl_chips.gif	food	q	0
+6196	consummate salad	539912922	jarl_salad.gif	food	q	0
+6197	consummate salsa	449134940	jarl_salsa.gif	food	q	0
 6198
-6199
-6200
-6201
+6199	consummate cheese slice	718717086	jarl_cheeseslice.gif	food	q	0
+6200	consummate melted cheese	828307963	jarl_meltcheese.gif	food	q	0
+6201	consummate bacon	573689807	jarl_bacon.gif	food	q	0
 6202
 6203
 6204
@@ -6225,11 +6225,11 @@
 6208
 6209
 6210
-6211
+6211	consummate sour cream	700472081	jarl_sourcream.gif	food	q	0
 6212
 6213
-6214
-6215
+6214	adequate rum	221120765	jarl_rum.gif	drink	q	0
+6215	mediocre lager	174208899	jarl_lager.gif	drink	q	0
 6216
 6217
 6218
@@ -6239,11 +6239,11 @@
 6222
 6223
 6224
-6225
-6226
+6225	sublime nachos	612603971	jarl_nachos.gif	food	q	0
+6226	Ultimate Breakfast Sandwich	575574044	jarl_bagelsand.gif	food	q	0
 6227
 6228
-6229
+6229	Die Sauerlager	857387778	jarl_sauerlager.gif	drink	q	0
 6230
 6231
 6232
@@ -6251,7 +6251,7 @@
 6234
 6235
 6236
-6237
+6237	cosmic six-pack	491592616	jarl_sixpack.gif	usable	q	0
 6238
 6239	cube of ectoplasm	299288653	cube.gif	usable	t,d	5	cubes of ectoplasm
 6240	Illuminati earpiece	431498567	earpiece.gif	usable	t,d	5	Illuminati earpieces
@@ -6272,3 +6272,43 @@
 6255	Spellbook: Drescher's Annoying Noise	198964664	book3.gif	usable	t	0
 6256	dried gelatinous cube	602980357	drycube.gif	grow	t	0
 6257	pile of dungeon junk	995550499	dungeonjunk.gif	familiar	t,d	75	piles of dungeon junk
+6258	Staff of the Healthy Breakfast	159554196	jarl_cs1.gif	weapon	q	0
+6259	Staff of the Staff of Life	245938729	jarl_cs2.gif	weapon	q	0
+6260	Staff of the Light Lunch	317699623	jarl_cs3.gif	weapon	q	0
+6261	Staff of the Standalone Cheese	806203565	jarl_cs4.gif	weapon	q	0
+6262	Staff of the Hearty Dinner	878456782	jarl_cs6.gif	weapon	q	0
+6263	Staff of the All-Steak	382298524	jarl_cs5.gif	weapon	q	0
+6264	Staff of Fruit Salad	380538584	jarl_cs7.gif	weapon	q	0
+6265	Staff of the Cream of the Cream	792915061	jarl_cs8.gif	weapon	q	0
+6266
+6267
+6268
+6269
+6270
+6271
+6272
+6273
+6274
+6275
+6276
+6277
+6278
+6279
+6280
+6281
+6282
+6283
+6284
+6285
+6286
+6287
+6288
+6289
+6290
+6291
+6292
+6293
+6294
+6295
+6296	cosmic bucket	567908000	jarl_bucket.gif	usable	t	0
+6297	fragment of Jarlsberg's soul	262381307	jarl_soul.gif	usable	t	0	fragments of Jarlsberg's soul

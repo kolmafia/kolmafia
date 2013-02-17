@@ -595,19 +595,27 @@ Spooky Putty ball	100	Mox: 0	1-handed superball
 Spooky Putty snake	10	Mys: 0	1-handed chefstaff
 Squeezebox of the Ages	90	Mox: 15	2-handed accordion
 Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
+Staff of Fruit Salad	10	Mys: 0	1-handed chefstaff
 Staff of Holiday Sensations	10	Mys: 75	1-handed chefstaff
 Staff of Queso Escusado	10	Mys: 0	1-handed chefstaff
+Staff of the All-Steak	10	Mys: 50	1-handed chefstaff
 Staff of the Black Kettle	10	Mys: 75	1-handed chefstaff
+Staff of the Cream of the Cream	10	Mys: 50	1-handed chefstaff
 Staff of the Deepest Freeze	10	Mys: 200	1-handed chefstaff
 Staff of the Grand Flamb&eacute;	10	Mys: 125	1-handed chefstaff
 Staff of the Grease Trap	10	Mys: 125	1-handed chefstaff
 Staff of the Greasefire	10	Mys: 20	1-handed chefstaff
+Staff of the Healthy Breakfast	10	Mys: 0	1-handed chefstaff
+Staff of the Hearty Dinner	10	Mys: 0	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
+Staff of the Light Lunch	10	Mys: 0	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
 Staff of the November Jack-O-Lantern	10	Mys: 15	1-handed chefstaff
 Staff of the Scummy Sink	10	Mys: 125	1-handed chefstaff
 Staff of the Short Order Cook	10	Mys: 15	1-handed chefstaff
 Staff of the Soupbone	10	Mys: 75	1-handed chefstaff
+Staff of the Staff of Life	10	Mys: 50	1-handed chefstaff
+Staff of the Standalone Cheese	10	Mys: 50	1-handed chefstaff
 Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
 Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
 Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
