@@ -1605,39 +1605,39 @@ public abstract class ChoiceManager
 		// Choice 351 is Beginner's Luck
 		// Choice 352 is Savior Faire
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure352", "Seaside Megalopolis",
+			"Memories", "choiceAdventure352", "Seaside Megalopolis",
 			new String[] { "Moxie -> Bad Reception Down Here", "Muscle -> A Diseased Procurer", "Mysticality -> Give it a Shot" }),
 
 		// Bad Reception Down Here
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure353", "Seaside Megalopolis",
+			"Memories", "choiceAdventure353", "Seaside Megalopolis",
 			new String[] { "Indigo Party Invitation", "Violet Hunt Invitation" },
 			new String[] { "4060", "4061" } ),
 
 		// You Can Never Be Too Rich or Too in the Future
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure354", "Seaside Megalopolis",
+			"Memories", "choiceAdventure354", "Seaside Megalopolis",
 			new String[] { "Moxie", "Serenity" } ),
 
 		// I'm on the Hunt, I'm After You
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure355", "Seaside Megalopolis",
+			"Memories", "choiceAdventure355", "Seaside Megalopolis",
 			new String[] { "Stats", "Phairly Pheromonal" } ),
 
 		// Choice 356 is A Diseased Procurer
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure356", "Seaside Megalopolis",
+			"Memories", "choiceAdventure356", "Seaside Megalopolis",
 			new String[] { "Blue Milk Club Card", "Mecha Mayhem Club Card" },
 			new String[] { "4062", "4063" } ),
 
 		// Choice 357 is Painful, Circuitous Logic
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure357", "Seaside Megalopolis",
+			"Memories", "choiceAdventure357", "Seaside Megalopolis",
 			new String[] { "Muscle", "Nano-juiced" } ),
 
 		// Choice 358 is Brings All the Boys to the Blue Yard
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure358", "Seaside Megalopolis",
+			"Memories", "choiceAdventure358", "Seaside Megalopolis",
 			new String[] { "Stats", "Dance Interpreter" } ),
 
 		// Choice 359 is unknown
@@ -1646,29 +1646,29 @@ public abstract class ChoiceManager
 
 		// Give it a Shot
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure361", "Seaside Megalopolis",
+			"Memories", "choiceAdventure361", "Seaside Megalopolis",
 			new String[] { "'Smuggler Shot First' Button", "Spacefleet Communicator Badge" },
 			new String[] { "4064", "4065" } ),
 
 		// Choice 362 is A Bridge Too Far
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure362", "Seaside Megalopolis",
+			"Memories", "choiceAdventure362", "Seaside Megalopolis",
 			new String[] { "Stats", "Meatwise" } ),
 
 		// Choice 363 is Does This Bug You? Does This Bug You?
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure363", "Seaside Megalopolis",
+			"Memories", "choiceAdventure363", "Seaside Megalopolis",
 			new String[] { "Mysticality", "In the Saucestream" } ),
 
 		// Choice 364 is 451 Degrees! Burning Down the House!
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure364", "Seaside Megalopolis",
+			"Memories", "choiceAdventure364", "Seaside Megalopolis",
 			new String[] { "Moxie", "Supreme Being Glossary", "Muscle" },
 			new String[] { null, "4073", null } ),
 
 		// Choice 365 is None Shall Pass
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure365", "Seaside Megalopolis",
+			"Memories", "choiceAdventure365", "Seaside Megalopolis",
 			new String[] { "Muscle", "multi-pass" },
 			new String[] { null, "4074" } ),
 
@@ -2025,11 +2025,11 @@ public abstract class ChoiceManager
 			new String[] { "630", null, null } ),
 
 		// Deep Inside Ronald, Baby
-		new ChoiceAdventure( "Item-Driven", "choiceAdventure535", "Deep Inside Ronald",
+		new ChoiceAdventure( "Spaaace", "choiceAdventure535", "Deep Inside Ronald",
 			SafetyShelterManager.RonaldGoals ),
 
 		// Deep Inside Grimace, Bow Chick-a Bow Bow
-		new ChoiceAdventure( "Item-Driven", "choiceAdventure536", "Deep Inside Grimace",
+		new ChoiceAdventure( "Spaaace", "choiceAdventure536", "Deep Inside Grimace",
 			SafetyShelterManager.GrimaceGoals ),
 
 		// Choice 537 is Play Porko!
@@ -2233,7 +2233,7 @@ public abstract class ChoiceManager
 		// Choice 656 is Wheels Within Wheels
 		// Choice 657 is You Grind 16 Rats, and Whaddya Get?
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure657", "Chinatown Tenement",
+			"Psychoses", "choiceAdventure657", "Chinatown Tenement",
 			new String[] { "Fight Boss", "skip adventure" } ),
 		// Choice 658 is Debasement
 	};

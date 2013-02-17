@@ -57,25 +57,28 @@ MysSign	Signed Zones	Mysticality Sign
 MoxSign	Signed Zones	Moxie Sign
 BadMoon	Signed Zones	Bad Moon
 
+Astral	Astral	Astral Plane
+Wormwood	Wormwood	Worm Wood
+Memories	Memories	Memories
+Spaaace	Spaaace	Outer Space
+
+Portal	Portal	El Vibrato Island
+
+Antique Maps	Antique Maps	Antique Maps
+Jacking	Antique Maps	Prof. Jacking's Lab
+Kegger	Antique Maps	Kegger in the Woods
+Vanya's Castle	Antique Maps	Vanya's Castle
+Magic Commune	Antique Maps	Magic Commune
+Ellsbury's Claim	Antique Maps	Ellsbury's Claim
+
+Psychoses	Psychoses	Psychoses
+
 Item-Driven	Item-Driven	Item-Driven Zones
-Astral	Item-Driven	Astral Plane
-Portal	Item-Driven	El Vibrato Island
-Wormwood	Item-Driven	Worm Wood
-Memories	Item-Driven	Memories
-Spaaace	Item-Driven	Outer Space
-Jacking	Item-Driven	Prof. Jacking's Lab
-Kegger	Item-Driven	Kegger in the Woods
-Vanya's Castle	Item-Driven	Vanya's Castle
-Magic Commune	Item-Driven	Magic Commune
-Ellsbury's Claim	Item-Driven	Ellsbury's Claim
-Psychoses	Item-Driven	Psychoses
 
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
 
 Holiday	Unsorted	Holiday Zones
-
-Crimbo12	Holiday	Christmas 2012
 
 Override	Unsorted	Discoveries
 
@@ -89,4 +92,5 @@ Crimbo08	Removed	Christmas 2008
 Crimbo09	Removed	Christmas 2009
 Crimbo10	Removed	Christmas 2010
 The Candy Diorama	Removed	Christmas 2011
+Crimbo12	Removed	Christmas 2012
 WhiteWed	Removed	White Wednesday
