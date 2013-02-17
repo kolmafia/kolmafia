@@ -4238,6 +4238,11 @@ public abstract class ChoiceManager
 				}
 			}
 			break;
+
+		case 682:
+			// Now Leaving Jarlsberg, Population You
+			ChoiceManager.handleAfterAvatar();
+			break;
 		}
 
 		if ( ChoiceManager.action != PostChoiceAction.NONE && text.indexOf( "choice.php" ) == -1 )
