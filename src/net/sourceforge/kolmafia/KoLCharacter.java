@@ -827,7 +827,7 @@ public abstract class KoLCharacter
 			return baseFullness;
 		}
 
-		if ( KoLCharacter.isJarlsberg() )
+		if ( KoLCharacter.isJarlsberg() && !KoLCharacter.hasSkill( "Lunch Like a King" ) )
 		{
 			baseFullness -= 5;
 		}
@@ -855,10 +855,22 @@ public abstract class KoLCharacter
 
 	public static final int getInebrietyLimit()
 	{
+		if ( KoLCharacter.isJarlsberg() )
+		{
+			int limit = 9;
+			if ( KoLCharacter.hasSkill( "Nightcap" ) )
+			{
+				limit += 5;
+			}
+			if ( KoLCharacter.hasSkill( "Liver of Steel" ) )
+			{
+				limit += 5;
+			}
+			return limit;
+		}
 		return
 			KoLCharacter.inAxecore() ? 4 :
 			KoLCharacter.inZombiecore() ? 4 :
-			KoLCharacter.isJarlsberg() ? 9 :
 			KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 :
 			KoLCharacter.canDrink() ? 14 :
 			0;

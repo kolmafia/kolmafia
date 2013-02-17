@@ -539,3 +539,38 @@
 
 # Summoning
 12031	Recruit Zombie	1	0	0
+
+# Avatar of Jarlsberg
+14000	Curdle	5	0	0
+14001	Conjure Eggs	1	10	0
+14002	Conjure Dough	1	30	0
+14003	Boil	5	5	0
+14004	Fry	5	20	0
+14005	Egg Man	3	15	999
+14006	Early Riser	0	0	0
+14007	The Most Important Meal	0	0	0
+14008	Coffeesphere	3	10	20
+14011	Conjure Vegetables	1	10	0
+14012	Conjure Cheese	1	30	0
+14013	Slice	5	20	0
+14014	Chop	5	5	0
+14015	Radish Horse	3	15	999
+14016	Working Lunch	0	0	0
+14017	Lunch Like a King	0	0	0
+14018	Oilsphere	3	10	20
+14021	Conjure Meat Product	1	30	0
+14022	Conjure Potato	1	10	0
+14023	Bake	5	5	0
+14024	Grill	5	30	0
+14025	Hippotatomous	3	15	999
+14026	Food Coma	0	0	0
+14027	Never Late for Dinner	0	0	0
+14028	Gristlesphere	3	10	20
+14031	Conjure Cream	1	30	0
+14032	Conjure Fruit	1	10	0
+14033	Freeze	5	5	0
+14034	Blend	5	7	0
+14035	Cream Puff	3	15	999
+14036	Nightcap	0	0	0
+14037	Best Served Cold	0	0	0
+14038	Chocolatesphere	3	10	20
