@@ -192,6 +192,7 @@ public class AdventureResult
 		if ( name.equals( AdventureResult.ADV ) ||
 		     name.equals( AdventureResult.CHOICE ) ||
 		     name.equals( AdventureResult.AUTOSTOP ) ||
+		     name.equals( AdventureResult.FACTOID ) ||
 		     name.equals( AdventureResult.PULL ) ||
 		     name.equals( AdventureResult.STILL ) ||
 		     name.equals( AdventureResult.TOME )||
