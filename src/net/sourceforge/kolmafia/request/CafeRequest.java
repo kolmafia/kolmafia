@@ -200,6 +200,14 @@ public class CafeRequest
 			return;
 		}
 
+		// Successful purchase/consumption
+
+		int fullness = ItemDatabase.getFullness( this.itemName );
+		if ( fullness > 0 && !this.responseText.contains( "Fullness" ) ) // if fullness display is on, ResultProcessor will handle incrementing fullness
+		{
+			Preferences.increment( "currentFullness", fullness );
+		}
+
 		// If distention pill is active, no message will be printed, but it will take effect nonetheless.
 		Preferences.setBoolean( "distentionPillActive", false );
 
@@ -281,16 +289,6 @@ public class CafeRequest
 
 		if ( inebriety > 0 )
 		{
-			return;
-		}
-
-		int fullness = ItemDatabase.getFullness( itemName );
-		if ( fullness > 0 )
-		{
-			if ( KoLCharacter.getFullness() + fullness <= KoLCharacter.getFullnessLimit() )
-			{
-				Preferences.increment( "currentFullness", fullness );
-			}
 			return;
 		}
 	}
