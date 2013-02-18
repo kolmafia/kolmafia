@@ -754,7 +754,7 @@ public class Modifiers
 		  Pattern.compile( "Weakens Monster" )
 		},
 		{ "Free Pull",
-		  null,
+		  Pattern.compile( "Free pull from Hagnk's" ),
 		  Pattern.compile( "Free Pull" )
 		},
 		{ "Variable",
@@ -1858,7 +1858,7 @@ public class Modifiers
 				this.set( Modifiers.MP_REGEN_MAX, 6.0 );
 				this.set( Modifiers.COMBAT_MANA_COST, -3.0 );
 			}
-			else if ( classType == KoLCharacter.SAUCEROR )
+			else if ( classType == KoLCharacter.SAUCEROR || classType == KoLCharacter.AVATAR_OF_JARLSBERG )
 			{
 				this.set( Modifiers.MP_REGEN_MIN, 5.0 );
 				this.set( Modifiers.MP_REGEN_MAX, 6.0 );
