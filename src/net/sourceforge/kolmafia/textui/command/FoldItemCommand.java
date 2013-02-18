@@ -104,6 +104,7 @@ public class FoldItemCommand
 
 		boolean canStaff =
 			KoLCharacter.hasSkill( "Spirit of Rigatoni" ) ||
+			KoLCharacter.isJarlsberg() ||
 			( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) &&
 			  KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPECIAL_SAUCE_GLOVE, 1 ) ) );
 		if ( !canStaff && EquipmentDatabase.isChefStaff( target ) )

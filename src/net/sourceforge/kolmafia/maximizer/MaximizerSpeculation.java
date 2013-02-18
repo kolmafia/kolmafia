@@ -524,7 +524,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		throws MaximizerInterruptedException
 	{
 		Object mark = this.mark();
-		boolean chefstaffable = KoLCharacter.hasSkill( "Spirit of Rigatoni" );
+		boolean chefstaffable = KoLCharacter.hasSkill( "Spirit of Rigatoni" ) || KoLCharacter.isJarlsberg();
 		if ( !chefstaffable && KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) )
 		{
 			chefstaffable =
