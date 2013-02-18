@@ -1655,6 +1655,13 @@ public class ResultProcessor
 				ResultProcessor.removeItem( ItemPool.GAMEPRO_WALKTHRU );
 			}
 			break;
+
+		case ItemPool.CARROT_NOSE:
+			if ( combatResults )
+			{
+				Preferences.increment( "_carrotNoseDrops" );
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.
