@@ -940,6 +940,7 @@ public class Evaluator
 							// 1H weapons from the shortlist if you can't
 							// equip them anyway.
 							if ( !KoLCharacter.hasSkill( "Spirit of Rigatoni" ) &&
+								!KoLCharacter.isJarlsberg() &&
 								!(KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) && gloveAvailable) )
 							{
 								continue;
