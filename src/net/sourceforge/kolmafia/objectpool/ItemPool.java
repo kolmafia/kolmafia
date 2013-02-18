@@ -1271,6 +1271,7 @@ public class ItemPool
 	public static final int UNCLE_HOBO_BEARD = 4846;
 	public static final int CHOCOLATE_CIGAR = 4851;
 	public static final int CRIMBCO_SCRIP = 4854;
+	public static final int BLANK_OUT_BOTTLE = 4857;
 	public static final int CRIMBCO_MANUAL_1 = 4859;
 	public static final int CRIMBCO_MANUAL_2 = 4860;
 	public static final int CRIMBCO_MANUAL_3 = 4861;

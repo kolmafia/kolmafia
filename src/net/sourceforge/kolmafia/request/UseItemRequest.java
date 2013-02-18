@@ -4289,6 +4289,15 @@ public class UseItemRequest
 			Preferences.setBoolean( "_psychoJarUsed", true );
 			return;
 
+		case ItemPool.BLANK_OUT_BOTTLE:
+			if ( KoLCharacter.isJarlsberg() && responseText.contains( "mess with this crap" ) )
+			{
+				UseItemRequest.lastUpdate = "Jarlsberg hated getting his hands dirty. There is no way he would mess with this crap.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				ResultProcessor.processResult( item );
+			}
+			return;
+
 		}
 	}
 
