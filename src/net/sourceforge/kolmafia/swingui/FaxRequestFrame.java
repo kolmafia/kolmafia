@@ -322,6 +322,13 @@ public class FaxRequestFrame
 			return false;
 		}
 
+		// Are you an Avatar of Jarlsberg?
+		if ( KoLCharacter.isJarlsberg() )
+		{
+			FaxRequestFrame.statusMessage = "Jarlsberg was more into magic than technology.";
+			return false;
+		}
+
 		// Try to visit the fax machine
 		ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.FAX_MACHINE );
 		RequestThread.postRequest( request );
