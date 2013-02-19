@@ -35,6 +35,11 @@ Knob Goblin harem veil	10	none
 Knob Goblin visor	50	Mox: 10
 KoL Con 3-D Glasses	10	none
 MAHI fez	200	Mox: 85
+Mark I Steam-Hat	150	Mox: 60
+Mark II Steam-Hat	150	Mox: 60
+Mark III Steam-Hat	150	Mox: 60
+Mark IV Steam-Hat	150	Mox: 60
+Mark V Steam-Hat	150	Mox: 60
 Mer-kin sneakmask	200	Mox: 85
 Mohawk wig	140	Mox: 55
 Moonthril Circlet	100	Mox: 40
@@ -79,6 +84,7 @@ bonedanna	120	Mox: 45
 bounty-hunting helmet	100	Mox: 25
 bowler	100	Mox: 35
 brainwave-controlled unicorn horn	10	none
+brown felt tophat	150	Mox: 60
 bubblewrap bottlecap turtleban	70	Mys: 12
 bugbear beanie	30	none
 bum cheek	20	none
@@ -485,6 +491,7 @@ loathing eagle baby-doll shirt	45	Mus: 7
 origami pasties	100	none
 pirate shirt	50	Mus: 10
 psycho sweater	100	Mus: 35
+punk rock jacket	145	Mus: 57
 red-and-green sweater	50	Mox: 35
 rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
@@ -809,6 +816,7 @@ frozen nunchaku	80	Mus: 25	2-handed flail
 frozen seal spine	140	Mus: 55	1-handed club
 ga-ga radio	125	Mox: 47	2-handed radio
 gatorskin umbrella	140	Mus: 100	1-handed umbrella
+giant artisanal rice peeler	150	Mys: 60	1-handed utensil
 giant cactus quill	160	Mus: 65	1-handed spear
 giant candy cane	100	Mus: 0	2-handed staff
 giant cheesestick	120	Mus: 45	2-handed staff
@@ -905,6 +913,7 @@ penguin whip	20	Mus: 0	1-handed whip
 perforated battle paddle	175	Mus: 72	2-handed club
 pernicious cudgel	200	Mus: 150	1-handed club
 pestoblade	50	Mus: 10	1-handed sword
+pewter claymore	155	Mus: 62	2-handed sword
 pipe wrench	150	Mus: 60	1-handed club
 pitchfork	125	Mus: 47	1-handed spear
 pixel boomerang	50	Mox: 10	1-handed boomerang
@@ -1215,6 +1224,7 @@ foon of foulness	50	Mys: 10
 foon of frigidity	50	Mys: 10
 foon of fulmination	50	Mys: 10
 giant clay ashtray	60	none	shield
+giant penguin keychain	0	Mus: 62	shield
 giant stuffed bugbear	10	none
 glass gnoll eye	35	Mys: 2
 glow-in-the-dark stuffed burrowgrub	0	none
@@ -2048,6 +2058,7 @@ Rain-Doh red wings	100	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	Mus: 85
 auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
+giant gym membership card	0	Mys: 75
 hemp backpack	0	Mys: 75
 makeshift cape	100	Mys: 75
 palm-frond cloak	140	Mys: 75
