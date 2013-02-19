@@ -5810,7 +5810,7 @@
 5793	Hat O' Nine Tails	748238370	con9hat.gif	hat		0
 5794	Enchanted Plunger	286405091	plunger.gif	multiple	t,d	5
 5795	Enchanted Flyswatter	289657598	swatter.gif	multiple	t,d	5
-5796	Gearhead Goo	791730484	vial.gif	multiple	t,d	5
+5796	Gearhead Goo	791730484	vial.gif	multiple	t,d	5	Tubes of Gearhead Goo
 5797	Missing Eye Simulation Device	127128302	eyepatch.gif	multiple	t,d	5
 5798	Gnollish Crossdress	421957448	skirt.gif	multiple	t,d	5
 5799	eldritch dough	613464615	dough.gif	multiple	t,d	5
@@ -5847,7 +5847,7 @@
 5830	pygmy papers	185465428	briefcase.gif	multiple	t,d	5
 5831	pygmy dart	756561090	ancientdart.gif	multiple	t,d	5
 5832	secret mummy herbs and spices	785012152	disease.gif	multiple	t,d	5
-5833	brigand brittle	364101514	pepperbark.gif	multiple	t,d	5
+5833	brigand brittle	364101514	pepperbark.gif	multiple	t,d	5	bricks of brigand brittle
 5834	holistic headache remedy	541916407	bark2.gif	multiple	t,d	5
 5835	scrunchie tourniquet	218745388	gauzegarter.gif	usable	t,d	5
 5836	embezzler's oil	968949884	vial.gif	usable	t,d	5
@@ -6037,21 +6037,21 @@
 6020	Claybender glasses	718638398	potterglasses.gif	accessory	t,d	90
 6021	Duskwalker fangs	277539982	dipshitfangs.gif	accessory	t,d	80
 6022	Space Tourist Phaser	744444657	phaser.gif	weapon	t,d	100
-6023	Whoompa Fur Pants	246273677	woompapants.gif	pants	t,d	95
+6023	Whoompa Fur Pants	246273677	woompapants.gif	pants	t,d	95	pairs of Whoompa Fur Pants
 6024	Whatsian Ionic Pliers	623667945	ionicpliers.gif	offhand	t,d	120
 6025	Polysniff Perfume	858641829	potion4.gif	multiple	t,d	45	vials of Polysniff Perfume
 6026	Duskwalker syringe	311982559	syringe2.gif	none, combat	t,d	30
 6027	Space Tours Tripple	925766700	tripple.gif	usable, combat	t,d	25
 6028	Battlie Light Saver	317675629	lightsaver.gif	none, combat	t,d	55
 6029	T.U.R.D.S. Key	253258701	tardiskey.gif	none, combat	t,d	60
-6030	dress pants	175411161	dresspants.gif	pants	t,d	85
+6030	dress pants	175411161	dresspants.gif	pants	t,d	85	pairs of dress pants
 6031	badge of authority	169400920	badge.gif	accessory	t,d	90
 6032	giant motorcycle boots	633973540	velcroboots.gif	accessory	t,d	110
 6033	stolen necklace	674786356	stolenecklace.gif	accessory	t,d	80
 6034	troll britches	767534621	britches.gif	pants	t,d	85
 6035	vial of The Glistening	433931284	vial.gif	multiple	t,d	35
 6036	artisanal limoncello	600239338	beerbottle.gif	drink	t,d	40	bottles of artisanal limoncello
-6037	creepy ginger ale	346438834	soda2.gif	multiple	t,d	25
+6037	creepy ginger ale	346438834	soda2.gif	multiple	t,d	25	cans of creepy ginger ale
 6038	incredible pizza	308788165	pizza.gif	food	t,d	50
 6039	oil cap	956079813	oilcap.gif	hat	t,d	145
 6040	oil lamp	851791842	oillamp.gif	offhand	t,d	130
@@ -6090,7 +6090,7 @@
 6073	haggis-infused soap	551687728	haggissoap.gif	usable	t,d	5	bars of haggis-infused soap
 6074	magicberry tablets	211306489	magicberry.gif	usable	t,d	5	packs of magicberry tablets
 6075	37x37x37 puzzle cube	197804421	37cube.gif	usable	t,d	5	37x37x37 puzzle cubes
-6076	McLeod's Hard Haggis-Ade	331717178	beerbottle.gif	drink	t,d	5
+6076	McLeod's Hard Haggis-Ade	331717178	beerbottle.gif	drink	t,d	5	bottles of McLeod's Hard Haggis-Ade
 6077	haggis-wrapped haggis-stuffed haggis	798617298	bighaggis.gif	food	t,d	5	haggis-wrapped haggis-stuffed haggises
 6078	home robotics kit	269335110	robokit.gif	usable	t,d	5	home robotics kits
 6079	old-school calculator watch	859101038	calcwatch.gif	accessory	t,d	5
@@ -6098,7 +6098,7 @@
 6081	airblaster gun	348707874	airzooka.gif	weapon	t,d	5	airblaster guns
 6082	Thinknerd T-shirt grab bag	974426576	foodbag.gif	usable	t,d	5
 6083	actual reality goggles	675430268	steamgoggles.gif	accessory	t,d	5	pairs of actual reality goggles
-6084	Mr. Haggis	699314542	mrhaggis.gif	offhand	t,d	5
+6084	Mr. Haggis	699314542	mrhaggis.gif	offhand	t,d	5	Mssrs. Haggis
 6085	magnetic sculpture kit	766116902	magsculpt.gif	usable	t,d	5	magnetic sculpture kits
 6086	Microplushie: Otakulone	733763278	microp1.gif	offhand	g,d	5
 6087	Microplushie: Hippylase	923477881	microp2.gif	offhand	g,d	5	Microplushie: Hippylasers
@@ -6154,7 +6154,7 @@
 6137	weighted paperclip chain	790807587	staplerchucks.gif	weapon	t,d	12
 6138	great big capacitor	970505595	device1.gif	none, combat	t,d	50
 6139	rubber gloves	943916076	stickygloves.gif	accessory	t,d	22	pairs of rubber gloves
-6140	Chinese curse words	118948750	wosp_scroll.gif	none, combat	t,d	25
+6140	Chinese curse words	118948750	wosp_scroll.gif	none, combat	t,d	25	lists of Chinese curse words
 6141	triad summoning scroll	235767837	scroll1.gif	usable	t,d	75
 6142	roasted duck	552811704	roastduck.gif	food	t,d	8
 6143	dead meat bun	220021051	deadbun.gif	food	t,d	18
@@ -6184,7 +6184,7 @@
 6167	ornamental sextant	804330681	sextant.gif	accessory	d	600
 6168	Bloodbath	788202773	bloodbath.gif	weapon		0
 6169	Hundred Headed IPA	230929468	beerbottle.gif	drink	t,d	75
-6170	old chum	985900785	gooball.gif	food	t,d	25
+6170	old chum	985900785	gooball.gif	food	t,d	25	chunks of old chum
 6171	crude crudit&eacute;s	929056652	crudites.gif	usable	t,d	0
 6172	candy crayons	790925279	candycrayons.gif	usable	t	0
 6173	pixel grappling hook	879455617	pixelhook.gif	offhand	t	0
@@ -6282,7 +6282,7 @@
 6265	Staff of the Cream of the Cream	792915061	jarl_cs8.gif	weapon	q	0
 6266
 6267
-6268	pec oil	548813486	pecoil.gif	usable	t,d	83
+6268	pec oil	548813486	pecoil.gif	usable	t,d	83	containers of pec oil
 6269	giant gym membership card	192410185	gymcard.gif	container	t,d	77
 6270	Squat-Thrust Magazine	883915973	stmagazine.gif	usable	t,d	64
 6271	massive dumbbell	599065286	bigdumbbell.gif	none	q	0
