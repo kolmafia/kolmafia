@@ -91,6 +91,12 @@ Knob Goblin harem veil	Stench Resistance: +1, Familiar Effect: "5xLep, cap 2"
 Knob Goblin visor	Moxie: +3, Familiar Effect: "2xVolley, 1xPotato, cap 12"
 KoL Con 3-D Glasses	Familiar Effect: "8xLep, ?xFairy, cap 2"
 MAHI fez	Moxie: +30
+Mark I Steam-Hat	Mysticality: +5, Maximum HP: +20
+Mark II Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15
+Mark III Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumble
+Mark IV Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumble, Item Drop: +10
+# Mark V Steam-Hat: Has a Death Ray on it
+Mark V Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumble, Item Drop: +10
 Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate (Underwater): -5, Familiar Effect: "1xBarrr, ?xFairy"
 Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Moonthril Circlet	Mysticality Percent: [15*G], Familiar Effect: "2xVolley, cap 25"
@@ -136,6 +142,7 @@ bounty-hunting helmet	Item Drop: +20, Familiar Effect: "1.5xFairy, cap 25"
 bowler	Muscle: +5, Familiar Effect: "1.5xVolley, 1.5xLep, cap 25"
 # brainwave-controlled unicorn horn: Enables Friendship. And Goring.
 brainwave-controlled unicorn horn	Maximum HP: +20, Maximum MP: +20
+brown felt tophat	Mysticality: +5
 bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5, MP Regen Min: 2, MP Regen Max: 3, Familiar Effect: "1xPotato, 2xLep, cap 17"
 bugbear beanie	Familiar Effect: "atk, cap 7"
 bum cheek	Stench Resistance: +1, Familiar Effect: "stench atk, 1xVolley, cap 5"
@@ -564,6 +571,7 @@ loathing eagle baby-doll shirt	Moxie: +3
 origami pasties	Meat Drop: +30, Softcore Only
 pirate shirt	Moxie: +3
 psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
+punk rock jacket	Moxie: +8, Damage Reduction: 5
 # red-and-green sweater: Shocking!
 rhinestone cowboy shirt	Muscle: +5
 safety vest	Damage Reduction: 3, Moxie: +5
@@ -925,6 +933,7 @@ frozen nunchaku	Weapon Damage: +3, Cold Damage: +3
 frozen seal spine	Cold Damage: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Class: "Seal Clubber"
 ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
 gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
+giant artisanal rice peeler	Spell Damage: +15
 giant cactus quill	Critical Hit Percent: 7, Maximum HP: +30
 giant candy cane	Candy Drop: +40
 giant cheesestick	Mysticality: +5, Sleaze Spell Damage: +11
@@ -1031,6 +1040,7 @@ penguin whip	Meat Drop: +3
 perforated battle paddle	Weapon Damage: +10
 pernicious cudgel	Slime Hates It: +1, Sleaze Damage: +30, Critical Hit Percent: +10
 pestoblade	Muscle: +3, Stench Damage: +3
+pewter claymore	HP Regen Min: 6, HP Regen Max: 12, MP Regen Min: 6, MP Regen Max: 12
 pipe wrench	Weapon Damage: +8
 pitchfork	Weapon Damage: +9
 pixel boomerang	Item Drop: +5
@@ -1385,6 +1395,7 @@ foon of foulness	Mysticality: +3, Stench Spell Damage: +8
 foon of frigidity	Mysticality: +3, Cold Spell Damage: +8
 foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 giant clay ashtray	Muscle: +5, Damage Reduction: 3
+giant penguin keychain	HP Regen Min: 12, HP Regen Max: 16, Moxie: -5, Damage Reduction: 10
 # giant stuffed bugbear
 glass gnoll eye	Mysticality: +3
 glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
@@ -2284,6 +2295,7 @@ Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 auxiliary backbone	PvP Fights: +3
 barskin cloak	Muscle: +7
+giant gym membership card	Weapon Damage: +15
 hemp backpack	Item Drop: +2
 makeshift cape	Item Drop: +5
 Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
@@ -3146,6 +3158,7 @@ Fresh Scent	Combat Rate: -5
 Frigid Weapon	Cold Damage: +3
 # Frigidalmatian: Bites your foes
 Frog In Your Throat	Muscle: +25
+From Nantucket	Experience (Moxie): +5
 Frostbitten	Cold Damage: +10, Damage Reduction: -2
 # Frosty the Hitman: +0-2 <font color=red>Hot Damage</font>
 # Frosty the Hitman: +0-2 <font color=blue>Cold Damage</font>
@@ -3437,6 +3450,7 @@ Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
 # Ode to Booze: Booze tastes even more delicious!
 Oh Snap	Experience (Moxie): +10
+Oiled-Up	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Oilsphere	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
 Oily Flavor	Muscle: +15
 Okee-Dokee Computer	Mysticality: +30
@@ -3685,6 +3699,7 @@ Stopping to Smell the Flowers	Experience: +3
 Springy Fusilli	Initiative: +40
 # Square Jaw And Everything Else: Makes you look like Scott the Miner
 Square to be Hip	Moxie Percent: +10
+Squatting and Thrusting	Experience (Muscle): +7
 Squid Squint	Meat Drop: +30
 Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
 Stabilizing Oiliness	Equalize: "Muscle"
@@ -3812,6 +3827,7 @@ Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Transcendental Wind	Mysticality: +50
 # Transpondent: Gives access to A Transporter Booth
 Tranquilized Mind	Damage Absorption: +50, Damage Reduction: 10, Initiative: -1000
+Trash-Wrapped	Damage Reduction: 10
 # Trepandation: Continually lose MP
 Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Triangle, Man	Muscle Percent: +10
@@ -3885,6 +3901,7 @@ You Know What's Up	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent:
 You Know When to Walk Away	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+You Read The Manual	Experience (Mysticality): +9
 # You're a Brick . . . Ooze: Makes you look like a BRICKO ooze
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
@@ -4277,6 +4294,7 @@ Nightstalker perfume	Effect: "Nightstalkin'", Effect Duration: 30
 Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5
 Nuclear Blastball	Effect: "Taste the Inferno", Effect Duration: 50
+O'RLY manual	Effect: "You Read The Manual", Effect Duration: 20
 Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
 Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20
 Osk'r Chow	Effect: "Walking Carpet", Effect Duration: 100
@@ -4300,6 +4318,7 @@ Skullery Maid's Knee	Effect: "Clean to the Bone", Effect Duration: 30
 Small Medium	Free Pull
 Smart Bone Dust	Effect: "Boned Up", Effect Duration: 30
 Sorcerers of the Shore Grimoire	Free Pull
+Squat-Thrust Magazine	Effect: "Squatting and Thrusting", Effect Duration: 20
 Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 Stone Golem pebbles	Effect: "Sharin' Stone", Effect Duration: 100
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
@@ -4323,6 +4342,7 @@ Valentine	Free Pull
 Wax Flask	Effect: "Over the Ocean"
 White Chocolate Golem Seeds	Effect: "Chocolate Reign", Effect Duration: 30
 Wint-O-Fresh mint	Effect: "Sugar Rush", Effect Duration: 3
+Ye Olde Bawdy Limerick	Effect: "From Nantucket", Effect Duration: 20
 Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
 a cute angel	Free Pull
 abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
@@ -4622,6 +4642,7 @@ passed-out psychedelic bear	Free Pull
 peach lozenge	Effect: "The Halls of Moxiousness", Effect Duration: [R]
 pear lozenge	Effect: "The Halls of Mysticality", Effect Duration: [R]
 pear supersucker	Effect: "Dirty Pear", Effect Duration: 30
+pec oil	Effect: "Oiled-Up", Effect Duration: 20
 peppermint twist	Effect: "Peppermint Twisted", Effect Duration: 10
 perfectly ordinary frog	Free Pull
 perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]

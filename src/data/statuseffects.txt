@@ -1193,3 +1193,9 @@
 1192	Walberg's Dim Bulb	blacklight.gif	04236e0ebf71a3b11b55b504aeee437c	cast 1 Walberg's Dim Bulb
 1193	Singer's Faithful Ocelot	ocelot.gif	5ac8444ac684a7f9113690c1f254c1e4	cast 1 Singer's Faithful Ocelot
 1194	Drescher's Annoying Noise	brokenflute.gif	e0aa6218d9b1815a13ccbce09a95dd4e	cast 1 Drescher's Annoying Noise
+1195	Oiled-Up	pecoil.gif	181bf7f091c34f97fa316ac3e5e8ce09	use 1 pec oil
+1196	Squatting and Thrusting	bigdumbbell.gif	5e162a8e70c6246ff1e20f25dbb2a7d7	use 1 Squat-Thrust Magazine
+1197	You Read The Manual	book4.gif	9f5e35dfef259f9424173193ae4bd69c	use 1 O'RLY manual
+1198	From Nantucket	limerickscroll.gif	b92524a77b81fb8c03a0085a301cae33	use 1 Ye Olde Bawdy Limerick
+1199
+1200	Trash-Wrapped	mummymask.gif	b2f9baff036c7e5291cc17a57281f557

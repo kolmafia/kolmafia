@@ -5978,7 +5978,7 @@
 5961	tiny plastic Hank North, Photojournalist	561734117	tp3_31.gif	accessory	t,d	10
 5962	tiny plastic blazing bat	347137066	tp3_32.gif	accessory	t,d	10
 5963	electronic dulcimer pants	868625378	dulcimerpants.gif	pants	t	0
-5964	A-Boo clue	646443068	map.gif	reusable	q	0
+5964	A-Boo clue	646443068	map.gif	usable	q	0
 5965	Frown Exerciser	553018788	frownexerciser.gif	accessory	t	0
 5966	soul monocle	744020398	soulmonocle.gif	accessory		0
 5967	soul doorbell	498403310	souldoorbell.gif	usable	t	0
@@ -6207,7 +6207,7 @@
 6190
 6191	consummate brownie	503476345	jarl_brownie.gif	food	q	0
 6192	consummate toast	290760620	jarl_toast.gif	food	q	0
-6193
+6193	passable stout	961569288	jarl_stout.gif	drink	q	0
 6194	consummate soup	811500557	jarl_soup.gif	food	q	0
 6195	consummate corn chips	889919754	jarl_chips.gif	food	q	0
 6196	consummate salad	539912922	jarl_salad.gif	food	q	0
@@ -6282,33 +6282,35 @@
 6265	Staff of the Cream of the Cream	792915061	jarl_cs8.gif	weapon	q	0
 6266
 6267
-6268
-6269
-6270
-6271
-6272
-6273
-6274
+6268	pec oil	548813486	pecoil.gif	usable	t,d	83
+6269	giant gym membership card	192410185	gymcard.gif	container	t,d	77
+6270	Squat-Thrust Magazine	883915973	stmagazine.gif	usable	t,d	64
+6271	massive dumbbell	599065286	bigdumbbell.gif	none	q	0
+6272	giant penguin keychain	135399871	penguinshield.gif	offhand	t,d	105
+6273	O'RLY manual	270335231	book4.gif	usable	t,d	95
+6274	open sauce	242860916	opensauce.gif	drink	t,d	78
 6275
-6276
-6277
-6278
-6279
-6280
+6276	Ye Olde Meade	411324393	jarl_rum.gif	drink	t,d 92
+6277	Ye Olde Bawdy Limerick	615112107	limerickscroll.gif	usable	t,d	82
+6278	Ye Olde Medieval Insult	916721911	yeinsult.gif	none, combat	t,d	72
+6279	pewter claymore	900313348	pewtersword.gif	weapon	t,d	120
+6280	giant artisanal rice peeler	653397161	ricepeeler.gif	weapon	t,d	105
 6281
-6282
-6283
-6284
-6285
-6286
-6287
-6288
-6289
-6290
-6291
+6282	chipotle wasabi cilantro aioli	807009911	ramekin.gif	none, combat	t,d	80
+6283	brown felt tophat	728270440	brownhat.gif	hat	t,d	55
+6284	brass gear	368225880	topgear.gif	none, combat	t,d	55
+6285	Mark I Steam-Hat	678115033	sphat1.gif	hat	t,d	65
+6286	Mark II Steam-Hat	666530087	sphat2.gif	hat	t,d	75
+6287	Mark III Steam-Hat	353787535	sphat3.gif	hat	t,d	85
+6288	Mark IV Steam-Hat	390723933	sphat4.gif	hat	t,d	95
+6289	Mark V Steam-Hat	784646412	sphat5.gif	hat	t,d	105
+6290	steam-powered model rocketship	325575063	modelrocket.gif	none	q	0
+6291	punk rock jacket	247445639	punkjacket.gif	shirt	t,d	95
 6292
-6293
-6294
-6295
+6293	stolen sushi	967766711	sushipiece.gif	food	t,d	66
+6294	very overdue library book	921698526	book3.gif	usable	t,d	80
+6295	drum 'n' bass 'n' drum 'n' bass record	653078294	record.gif	none	q	0
 6296	cosmic bucket	567908000	jarl_bucket.gif	usable	t	0
 6297	fragment of Jarlsberg's soul	262381307	jarl_soul.gif	usable	t	0	fragments of Jarlsberg's soul
+6298	Thwaitgold firefly	806466701	thwaitfirefly.gif	none		0
+6299	model airship	142932299	modelairship.gif	none	q	0
