@@ -119,7 +119,9 @@ Pandamonium Slums	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	
 Fudge Mountain	95	Fudge monkey	Fudge oyster	Fudge weasel	Fudge vulture	Fudge poodle	The Fudge Wizard	The Abominable Fudgeman
 Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown	The Clownlord Beelzebozo: 0
 Galley	-1
-Giant's Castle	75	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
+Giant's Castle (Basement)	-1	Alphabet Giant	Fitness Giant	Furry Giant	Neckbeard Giant
+Giant's Castle (Ground Floor)	-1	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant
+Giant's Castle (Top Floor)	-1	Goth Giant	Punk Rock Giant	Raver Giant	Steampunk Giant
 Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 Granary	100	Rotund Duck
 Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q

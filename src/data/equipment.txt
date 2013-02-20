@@ -548,6 +548,8 @@ Frost&trade; brand sword	70	Mus: 20	1-handed sword
 Frosty's arm	200	Mus: 200	1-handed staff
 Frosty's nailbat	200	Mus: 200	2-handed club
 Frosty's snowball sack	200	Mox: 200	1-handed snowsack
+giant safety pin	155	Mus: 62	1-handed spear
+giant turkey leg	200	Mus: 200	3-handed club
 Ginsu&trade;	200	Mus: 200	2-handed sword
 Gnollish autoplunger	60	Mus: 15	3-handed spear
 Gnollish flyswatter	35	Mus: 2	1-handed club
