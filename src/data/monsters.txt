@@ -414,7 +414,7 @@ Filthy Hippy Jewelry Maker	Atk: 39 Def: 35 HP: 30 E: stench P: hippy	phat turquo
 Filthy Hippy Vegan Chef	Atk: 39 Def: 35 HP: 30 E: stench P: hippy	tambourine bells (10)	wad of tofu (30)	reodorant (5)	filthy corduroys (2)	filthy knitted dread sack (2)	filthy pestle (5)	patchouli incense stick (30)	double-barreled sling (0)	greasy dreadlock (b0)	Spanish fly (c25)
 Fire-Breathing Duck	Atk: 177 Def: 154 HP: 185 Meat: 142-200 E: hot P: beast	flaming feather (10)	duct tape (5)
 Fisherfish	Atk: 550 Def: 427 HP: 650 Meat: 240-360 P: fish	glowing esca (n3)	halibut (c3)	rough fish scale (n3)
-Fitness Giant	Atk: 150 Def: 140 HP: 200 Meat: 100	giant jar of protein powder (0)	pec oil (0)	Squat-Thrust Magazine
+Fitness Giant	Atk: 150 Def: 140 HP: 200 Meat: 100 P: demihuman	giant jar of protein powder (0)	pec oil (0)	Squat-Thrust Magazine
 Five Skeleton Invaders	HP: 150 Def: 135 Atk: 150 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)	bone chips (0)
 Flame-Broiled Meat Blob	Atk: 2 Def: 1 HP: 2 E: hot Meat: 4-7 P: slime	meat paste (40)	meat paste (40)	meat paste (40)
 Flaming Samurai	Atk: 99999 Def: 89999 HP: [99999] P: humanoid
@@ -426,7 +426,7 @@ Floating Platter of Hors D'Oeuvres	Atk: 110 Def: 99 HP: 120 ED: spooky P: object
 Flock of seagulls	Atk: 95 Def: 85 HP: 120 P: beast
 Flock of Stab-Bats	Atk: 155 Def: 133 HP: 155 Meat: 51-80 P: beast	bat wing (30)	batblade (25)	batgut (30)
 Fluffy Bunny	Atk: 1 Def: 0 HP: 1 Meat: 7-9 P: beast	bunny liver (0)
-Foodie Giant	Atk: 130 Def: 120 HP: 150 Meat: 100	chipotle wasabi cilantro aioli (0)	giant artisanal rice peeler (0)	giant heirloom grape tomato (0)
+Foodie Giant	Atk: 130 Def: 120 HP: 150 Meat: 100 P: demihuman	chipotle wasabi cilantro aioli (0)	giant artisanal rice peeler (0)	giant heirloom grape tomato (0)
 Forest Spirit	Atk: 2 Def: 1 HP: 3 P: undead	forest tears (30)
 Four Skeleton Invaders	HP: 110 Def: 99 Atk: 110 Init: 65	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
 Four-shadowed mime	HP: [(min(50,MUS-3)+ML)*0.75] Def: [min(50,MUS-3)+ML] Atk: [min(50,MOX-3)+ML] P: horror	mime soul fragment (100)
@@ -680,7 +680,7 @@ Naughty Sorceress	BOSS Atk: 190 Def: 171 HP: 400 Exp: 0 Skill: 50 Item: 25 P: hu
 Naughty Sorceress (2)	BOSS Atk: 205 Def: 184 HP: 600 Exp: 0 Skill: 50 Item: 25 P: humanoid Image: sorcblob.gif
 Naughty Sorceress (3)	BOSS Atk: 9999999 Def: 8999999 HP: 9999999 Exp: 500 Image: bigsauce.gif	Instant Karma (c100)
 Naughty Sorority Nurse	Atk: 180 Def: 166 HP: 160 ED: sleaze P: orc	energy drink IV (27)	gauze garter (25)	gauze garter (16)	kick-ass kicks (2)	PADL Phone (3)
-Neckbeard Giant	Atk: 125 Def: 120 HP: 150 Meat: 150	giant penguin keychain (0)	O'RLY manual (0)	open sauce (0)
+Neckbeard Giant	Atk: 125 Def: 120 HP: 150 Meat: 150 P: demihuman	giant penguin keychain (0)	O'RLY manual (0)	open sauce (0)
 Neil	Atk: 195 Def: 175 HP: 240 ED: stench Meat: 182-187	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	longhaired hippy wig (100)	reinforced beaded headband (0)
 Neptune Flytrap	Atk: 450 Def: 360 HP: 700 "Really Quite Poisoned" P: plant	flytrap pellet (n30)	water-polo cap (c0)	wriggling flytrap pellet (c0)
 Neptune, the Dog that Is a Respected Equal and Not a Pet	Atk: 45 Def: 40 HP: 80 P: beast	respected companion biscuit (0)
@@ -746,7 +746,7 @@ Psychedelic Fur	Atk: 21 Def: 18 HP: 18 P: strange	a creased paper strip (30)	a c
 Pufferfish	Atk: 400 Def: 450 HP: 750 Meat: 160-240 P: fish	pufferfish spine (n5)	rough fish scale (n4)	seaweed (n5)
 Pumped-up Bass	Atk: 330 Def: 270 HP: 500 Meat: 160-240 P: fish	dull fish scale (n15)	beefy fish meat (n5)
 Pumpkin Tree		petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
-Punk Rock Giant	Atk: 150 Def: 140 Atk: 150 Meat: 50	giant safety pin (0)	punk rock jacket (0)	stolen sushi (0)
+Punk Rock Giant	Atk: 150 Def: 140 Atk: 150 Meat: 50 P: demihuman	giant safety pin (0)	punk rock jacket (0)	stolen sushi (0)
 Pygmy Assault Squad	Atk: 152 Def: 136 HP: 148 Meat: 102-145 P: humanoid	bottle of alcohol (40)	pygmy pygment (25)	pygmy spear (5)	jungle drum (10)
 Pygmy Blowgunner	Atk: 156 Def: 130 HP: 147 Meat: 86-118 P: humanoid	big bad voodoo mask (5)	pygmy blowgun (30)	pygmy nose-bone (10)
 Pygmy Headhunter	Atk: 146 Def: 138 HP: 150 E: sleaze Meat: 143-207 P: humanoid	briefcase (60)	headhunter necktie (5)	pointed stick (10)	world's smallest violin (5)
@@ -762,7 +762,7 @@ Rattlin' Duck	Atk: 175 Def: 155 HP: 190 Meat: 131-162 E: stench P: beast	fetid f
 Raver Giant	Atk: 140 Def: 126 HP: 150 Meat: 120-180 P: demihuman	Angry Farmer candy (30)	giant needle (30)	Mick's IcyVapoHotness Rub (30)	rave whistle (5)	discarded pacifier (b0)
 Regular Old Bat	Atk: 13 Def: 11 HP: 8 Meat: 18-28 P: beast	bat guano (15)	batgut (15)	bat wing (15)
 Remains of a Jilted Mistress	Atk: 164 Def: 139 HP: 145 ED: spooky P: undead	antique hand mirror (40)
-Renaissance Giant	Atk: 125 Def: 110 HP: 150 Meat: 100	giant turkey leg (0)	Ye Olde Bawdy Limerick (0)	Ye Olde Meade (0)	Ye Olde Medieval Insult (0)
+Renaissance Giant	Atk: 125 Def: 110 HP: 150 Meat: 100 P: demihuman	giant turkey leg (0)	Ye Olde Bawdy Limerick (0)	Ye Olde Meade (0)	Ye Olde Medieval Insult (0)
 Rene C. Corman	Atk: 222 Def: 199 HP: 1000	Thwaitgold maggot statuette (n100)
 Revolting Bugbear	Atk: 13 Def: 12 HP: 10 E: stench P: beast
 Revolving Bugbear	Atk: 14 Def: 13 HP: 11 P: beast
@@ -866,7 +866,7 @@ Spooky Mummy	Atk: 4 Def: 3 HP: 3 Meat: 8-15 E: spooky P: undead	dried face (10)	
 Spooky Vampire	Atk: 3 Def: 3 HP: 2 E: spooky Meat: 4-7 P: undead	vampire heart (c100)	vampire cape (c4)
 Spookyraven Manor	HP: 120 Def: 72 Atk: 80 P: object	collection of tiny spooky objects (0)
 Spunky Princess	Atk: 90 Def: 81 HP: 75 Init: 90 Meat: 88-132 P: humanoid	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
-Steampunk Giant	Atk: 145 Def: 135 HP: 150 Meat: 100	brass gear (0)	brown felt tophat (0)
+Steampunk Giant	Atk: 145 Def: 135 HP: 150 Meat: 100 P: demihuman	brass gear (0)	brown felt tophat (0)
 Stella, the Demonic Turtle Poacher	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon	Garter of the Turtle Poacher (100)	Instant Karma (c100)	heart of the volcano (c100)
 Stella, the Turtle Poacher (Inner Sanctum)	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: humanoid Image: 2_1.gif	Elder Turtle Shell (100)
 Stella, the Turtle Poacher (The Nemesis' Lair)	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: humanoid Image: 2_2.gif	Galapagosian Cuisses (100)
