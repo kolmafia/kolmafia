@@ -6315,3 +6315,4 @@
 6298	Thwaitgold firefly	806466701	thwaitfirefly.gif	none		0
 6299	model airship	142932299	modelairship.gif	none	q	0
 6300	Super Weight-Gain 9000	665126071	pill.gif	usable	t	0
+6301	possibility potion	419795453	potion4.gif	usable	t	0

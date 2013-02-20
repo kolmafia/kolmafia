@@ -1197,5 +1197,8 @@
 1196	Squatting and Thrusting	bigdumbbell.gif	5e162a8e70c6246ff1e20f25dbb2a7d7	use 1 Squat-Thrust Magazine
 1197	You Read The Manual	book4.gif	9f5e35dfef259f9424173193ae4bd69c	use 1 O'RLY manual
 1198	From Nantucket	limerickscroll.gif	b92524a77b81fb8c03a0085a301cae33	use 1 Ye Olde Bawdy Limerick
-1199
+1199	Nothing Is Impossible	confused.gif	57a019e789b03a05acaf5dfbea68c6cb
 1200	Trash-Wrapped	mummymask.gif	b2f9baff036c7e5291cc17a57281f557
+1201	Pretending to Pretend	pewtersword.gif	9325284afe7a89c7ad04231ef3e92e30
+1202	Superveiny 9000	strboost.gif	6d89203ac28fe98c2de379b0c3e0bb63	use 1 Super Weight-Gain 9000
+1203	Always In Motion	jarl_neverlate.gif	8e8bc4e1f0f6df5807d2b7d7bc58341e	use 1 possibility potion

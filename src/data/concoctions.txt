@@ -2060,3 +2060,11 @@ sticky sword blade	COMBINE	wad of spider silk	sharp tin strip
 pair of rhinoceros horns	COMBINE	rhinoceros horn	rhinoceros horn
 furry brown pillow	COMBINE	furry pink pillow	bottle of limeade
 makeshift yakuza mask	COMBINE	pair of rhinoceros horns	furry brown pillow
+
+# Giant's Castle
+
+Mark I Steam-Hat	COMBINE	brown felt top hat	brass gear
+Mark II Steam-Hat	COMBINE	Mark I Steam-Hat	brass gear
+Mark III Steam-Hat	COMBINE	Mark II Steam-Hat	brass gear
+Mark IV Steam-Hat	COMBINE	Mark IV Steam-Hat	brass gear
+Mark V Steam-Hat	COMBINE	Mark V Steam-Hat	brass gear
