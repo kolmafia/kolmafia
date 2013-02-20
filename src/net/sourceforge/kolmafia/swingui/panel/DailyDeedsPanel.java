@@ -88,6 +88,7 @@ public class DailyDeedsPanel
 	public static final AdventureResult GREAT_PANTS = ItemPool.get( ItemPool.GREAT_PANTS, 1 );
 	public static final AdventureResult INFERNAL_SEAL_CLAW = ItemPool.get( ItemPool.INFERNAL_SEAL_CLAW, 1 );
 	public static final AdventureResult NAVEL_RING = ItemPool.get( ItemPool.NAVEL_RING, 1 );
+	public static final AdventureResult SNOW_SUIT = ItemPool.get( ItemPool.SNOW_SUIT, 1 );
 
 	/*
 	 * Built-in deeds. {Type, Name, ...otherArgs}
@@ -2462,18 +2463,20 @@ public class DailyDeedsPanel
 			this.addListener( "_absintheDrops" );
 			this.addListener( "_aguaDrops" );
 			this.addListener( "_astralDrops" );
+			this.addListener( "_carrotNoseDrops" );
 			this.addListener( "_gongDrops" );
 			this.addListener( "_grooseDrops" );
 			this.addListener( "_kloopDrops" );
 			this.addListener( "_mediumSiphons" );
 			this.addListener( "_pieDrops" );
 			this.addListener( "_piePartsCount" );
-			this.addListener( "_tokenDrops" );
-			this.addListener( "_transponderDrops" );
-			this.addListener( "_bootStomps" );
-			this.addListener( "bootsCharged" );
 			this.addListener( "_jungDrops" );
 			this.addListener( "_dreamJarDrops" );
+			this.addListener( "_bootStomps" );
+			this.addListener( "bootsCharged" );
+			this.addListener( "_tokenDrops" );
+			this.addListener( "_transponderDrops" );
+			this.addItem( ItemPool.SNOW_SUIT );
 			this.addLabel( "" );
 		}
 
@@ -2539,6 +2542,26 @@ public class DailyDeedsPanel
 				}
 				buffer.append( badgerDrops );
 				buffer.append( " astral" );
+				shown = true;
+				count++;
+			}
+
+			boolean snowsuit = InventoryManager.getCount( ItemPool.SNOW_SUIT ) > 0
+				|| KoLCharacter.hasEquipped( DailyDeedsPanel.SNOW_SUIT );
+			int noseDrops = Preferences.getInteger( "_carrotNoseDrops" );
+			if ( snowsuit || noseDrops > 0 )
+			{
+				if ( count >= 5 )
+				{
+					buffer.append( "<br>Drops: " );
+					count = 0;
+				}
+				else if ( shown )
+				{
+					buffer.append( ", " );
+				}
+				buffer.append( noseDrops );
+				buffer.append( " carrot nose" );
 				shown = true;
 				count++;
 			}
