@@ -2804,6 +2804,7 @@ All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max
 Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Also Schmeckt Zarathustra	Mysticality: +30
 Altered Wavelengths	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
+Always In Motion	Initiative: +100
 # Amorous Avarice: Meat Drop: +X
 Amorous	Moxie: +5, Sleaze Damage: +5
 Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -3447,6 +3448,7 @@ Ninja, Please	Critical Hit Percent: 15
 # No Squealer Healer: Makes you look like a Quiet Healer
 No Vertigo	Initiative: +20
 No Worries	Experience: +3
+Nothing Is Impossible	Spell Damage Percent: +100
 # O Hai!
 Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
@@ -3520,6 +3522,7 @@ Pork Power	Muscle: +10
 Powdered	Experience (Mysticality): +10
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
 Prelude of Precision	Critical Hit Percent: +10
+Pretending to Pretend	Weapon Damage Percent: +1000
 Prestidigysfunction	Mysticality Percent: -95
 Preternatural Greed	Meat Drop: +100
 Pride of the Vampire	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -3743,6 +3746,7 @@ Super Accuracy	Critical Hit Percent: 30
 Super Speed	Moxie Percent: +100
 Super Structure	Damage Absorption: +500, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5
 Super Vision	Item Drop: +25
+Superveiny 9000	Maximum HP: +300
 Super-Charged	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Super-Mega-Charged	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
@@ -4669,6 +4673,7 @@ pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
 pirate tract	Effect: "Carrrsmic", Effect Duration: 10
 pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
 plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
+possibility potion	Effect: "Always In Motion", Effect Duration: 10
 potent potion of potency	Effect: "Ponderous Potency", Effect Duration: [R]
 potion of X-ray vision	Effect: "X-Ray Vision", Effect Duration: 30
 potion of animal rage	Effect: "Raging Animal", Effect Duration: 30
@@ -4769,6 +4774,7 @@ sugar banana	Effect: "Sweet and Yellow", Effect Duration: 10
 sugar cherry	Effect: "Sweet and Red", Effect Duration: 10
 sugar lime	Effect: "Sweet and Green", Effect Duration: 10
 sugar-coated pine cone	Effect: "Sugar Rush", Effect Duration: 5
+Super Weight-Gain 9000	Effect: "Superveiny 9000", Effect Duration: 10
 super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
 suspicious stocking	Free Pull
 sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
