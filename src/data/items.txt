@@ -6280,8 +6280,8 @@
 6263	Staff of the All-Steak	382298524	jarl_cs5.gif	weapon	q	0
 6264	Staff of Fruit Salad	380538584	jarl_cs7.gif	weapon	q	0
 6265	Staff of the Cream of the Cream	792915061	jarl_cs8.gif	weapon	q	0
-6266
-6267
+6266	giant jar of protein powder	333160339	ppjar.gif	usable	t,d	124
+6267	giant grain of protein powder	335376132	ppgrain.gif	food	t,d	44
 6268	pec oil	548813486	pecoil.gif	usable	t,d	83	containers of pec oil
 6269	giant gym membership card	192410185	gymcard.gif	container	t,d	77
 6270	Squat-Thrust Magazine	883915973	stmagazine.gif	usable	t,d	64
@@ -6289,13 +6289,13 @@
 6272	giant penguin keychain	135399871	penguinshield.gif	offhand	t,d	105
 6273	O'RLY manual	270335231	book4.gif	usable	t,d	95
 6274	open sauce	242860916	opensauce.gif	drink	t,d	78
-6275
-6276	Ye Olde Meade	411324393	jarl_rum.gif	drink	t,d 92
+6275	giant turkey leg	829244851	bigturkeyleg.gif	weapon	t,d	104
+6276	Ye Olde Meade	411324393	jarl_rum.gif	drink	t,d	92
 6277	Ye Olde Bawdy Limerick	615112107	limerickscroll.gif	usable	t,d	82
 6278	Ye Olde Medieval Insult	916721911	yeinsult.gif	none, combat	t,d	72
 6279	pewter claymore	900313348	pewtersword.gif	weapon	t,d	120
 6280	giant artisanal rice peeler	653397161	ricepeeler.gif	weapon	t,d	105
-6281
+6281	giant heirloom grape tomato	882382369	grapetomato.gif	food	t,d	75
 6282	chipotle wasabi cilantro aioli	807009911	ramekin.gif	none, combat	t,d	80
 6283	brown felt tophat	728270440	brownhat.gif	hat	t,d	55
 6284	brass gear	368225880	topgear.gif	none, combat	t,d	55
@@ -6306,7 +6306,7 @@
 6289	Mark V Steam-Hat	784646412	sphat5.gif	hat	t,d	105
 6290	steam-powered model rocketship	325575063	modelrocket.gif	none	q	0
 6291	punk rock jacket	247445639	punkjacket.gif	shirt	t,d	95
-6292
+6292	giant safety pin	577853422	safetypin.gif	weapon	t,d	91
 6293	stolen sushi	967766711	sushipiece.gif	food	t,d	66
 6294	very overdue library book	921698526	book3.gif	usable	t,d	80
 6295	drum 'n' bass 'n' drum 'n' bass record	653078294	record.gif	none	q	0

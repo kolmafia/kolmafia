@@ -632,6 +632,8 @@ Frost&trade; brand sword	Muscle: +3, Monster Level: +3, Cold Damage: +3
 Frosty's arm	Weapon Damage: +30, Cold Damage: +30
 Frosty's nailbat	Muscle Percent: +30, Critical Hit Percent: +15, Cold Damage: +30, Class: "Seal Clubber"
 Frosty's snowball sack	Cold Damage: +50
+giant safety pin	Weapon Damage: +10, Weakens Monster
+giant turkey leg	Weapon Damage Percent: +50, Combat Rate: +5
 Ginsu&trade;	Food Drop: +100, Weapon Damage Percent: +100
 Gnollish autoplunger	Mysticality: +3
 # Gnollish flyswatter
