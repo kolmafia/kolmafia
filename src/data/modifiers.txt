@@ -2946,7 +2946,7 @@ Chilblains of the Corn	Spooky Damage: +5
 Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
 Chocolate Reign	Moxie: +10
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
-Chocolatesphere	Combat Rate: -20
+Chocolatesphere	Combat Rate: -15
 Cholestoriffic	Sleaze Damage: [min(100,T)]
 Chorale of Companionship	Familiar Weight: +10
 Chow Downed	Familiar Weight: +5
@@ -2964,7 +2964,7 @@ Coated Arms	Weapon Damage: +15
 # Coated in Slime: It Burns!  It Burns!
 Cock of the Walk	Moxie Percent: +200
 Cockroach Scurry	Initiative: +50
-Coffeesphere	Combat Rate: +20
+Coffeesphere	Combat Rate: +15
 Cold, Dead Hands	Cold Damage: +40, Spooky Damage: +40
 Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
 # Cold Breath: Can breathe frigid air in combat

@@ -1322,7 +1322,7 @@ ticking time bomb	Atk: 50 Def: 40 HP: 30	black pixel (0)	black pixel (0)	white p
 rage flame	Atk: 30 Def: 30 HP: 30	red pixel (0)	red pixel (0)	white pixel (0)	pixel power cell (0)
 frustrating knight	Atk: 25 Def: 60 HP: 70	blue pixel (0)	blue pixel (0)	white pixel (0)	pixel power cell (0)
 Anger Man	Atk: 50 Def: 40 HP: 200	anger blaster (100)
-morbid skull	Atk: 50 Def: 50 HP: 50	white pixel (0)	white pixel (0)	white pixel (0)	white pixel (0)	white pixel (0)	pixel power cell (0)
+morbid skull	Atk: 50 Def: 50 HP: 50	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)	pixel power cell (0)
 animated possessions	Atk: 30 Def: 30 HP: 50	white pixel (0)	black pixel (0)	black pixel (0)	pixel power cell (0)
 natural spider	Atk: 30 Def: 20 HP: 60	white pixel (0)	red pixel (0)	black pixel (0)	pixel power cell (0)
 Fear Man	Atk: 40 Def: 40 HP: 200	fear condenser (100)
