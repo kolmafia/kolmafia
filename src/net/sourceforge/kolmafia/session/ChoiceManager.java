@@ -1001,7 +1001,7 @@ public abstract class ChoiceManager
 
 		// Hammering the Armory
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure178", "Airship Shirt",
+			"Beanstalk", "choiceAdventure178", "Fantasy Airship Shirt",
 			new String[] { "bronze breastplate", "skip adventure" },
 			new String[] { "2126", null } ),
 
@@ -2239,51 +2239,51 @@ public abstract class ChoiceManager
 		
 		// Choice 669 is The Fast and the Furry-ous
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure669", "Furry Giant",
-			new String[] { "Out in the Open Source", "200 Moxie", "???", "skip adventure and guarantees this adventure will reoccur" } ),
+			"Beanstalk", "choiceAdventure669", "Basement Furry",
+			new String[] { "Neckbeard Choice", "200 Moxie substats", "???", "skip adventure and guarantees this adventure will reoccur" } ),
 		// Choice 670 is You Don't Mess Around with Gym
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure670", "Fitness Giant",
-			new String[] { "massive dumbbell, then skip adventure", "200 Muscle", "pec oil, giant jar of protein powder, Squat-Thrust Magazine", "With Amulet of Plot Significance, open Ground Floor, otherwise skip adventure", "skip adventure and guarantees this adventure will reoccur" },
-			new String[] { "6271", null, null, null, null } ),
+			"Beanstalk", "choiceAdventure670", "Basement Fitness",
+			new String[] { "massive dumbbell, then skip adventure", "200 Muscle substats", "pec oil, giant jar of protein powder, Squat-Thrust Magazine", "With amulet of extreme plot significance, open Ground Floor, otherwise skip adventure", "skip adventure and guarantees this adventure will reoccur" },
+			new String[] { "6271", null, null, "594", null } ),
 		// Choice 671 is Out in the Open Source
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure671", "Neckbeard Giant",
-			new String[] { "With massive dumbbell, open Ground Floor, otherwise skip adventure", "200 Mysticality", "O'RLY manual, open sauce", "You Don't Mess Around with Gym" },
+			"Beanstalk", "choiceAdventure671", "Basement Neckbeard",
+			new String[] { "With massive dumbbell, open Ground Floor, otherwise skip adventure", "200 Mysticality substats", "O'RLY manual, open sauce", "Fitness Choice" },
 			new String[] { "6271", null, null, null } ),
 		// Choice 672 is There's No Ability Like Possibility
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure672", "Possibility Giant",
+			"Beanstalk", "choiceAdventure672", "Ground Possibility",
 			new String[] { "3 random starter items", "Nothing Is Impossible", "skip adventure" } ),
 		// Choice 673 is Putting Off Is Off-Putting
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure673", "Procrastination Giant",
+			"Beanstalk", "choiceAdventure673", "Ground Procrastination",
 			new String[] { "very overdue library book, then skip adventure", "Trash-Wrapped", "skip adventure" },
 			new String[] { "6294", null, null } ),
 		// Choice 674 is Huzzah!
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure674", "Renaissance Giant",
+			"Beanstalk", "choiceAdventure674", "Ground Renaissance",
 			new String[] { "pewter claymore, then skip adventure", "Pretending to Pretend", "skip adventure" },
 			new String[] { "6279", null, null } ),
 		// Choice 675 is Melon Collie and the Infinite Lameness
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure675", "Goth Giant",
-			new String[] { "Fight a Goth Giant", "Keep On Turnin' the Wheel in the Sky", "3 thin black candles", "Copper Feel" },
+			"Beanstalk", "choiceAdventure675", "Top Goth",
+			new String[] { "Fight a Goth Giant", "complete quest", "3 thin black candles", "Steampunk Choice" },
 			new String[] { null, "6295", null, "620" } ),
 		// Choice 676 is Flavor of a Raver
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure676", "Raver Giant",
-			new String[] { "Fight a Raver Giant", "Restore 1000 hp & mp", "drum 'n' bass 'n' drum 'n' bass record, then skip adventure", "Yeah, You're for Me, Punk Rock Giant" },
+			"Beanstalk", "choiceAdventure676", "Top Raver",
+			new String[] { "Fight a Raver Giant", "Restore 1000 hp & mp", "drum 'n' bass 'n' drum 'n' bass record, then skip adventure", "Punk Rock Choice" },
 			new String[] { null, null, "6295", null } ),
 		// Choice 677 is Copper Feel
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure677", "Steampunk Giant",
-			new String[] { "With model airship, Keep On Turnin' the Wheel in the Sky, otherwise fight Steampunk Giant", "steam-powered model rocketship, then skip adventure", "brass gear", "Melon Collie and the Infinite Lameness" },
+			"Beanstalk", "choiceAdventure677", "Top Steampunk",
+			new String[] { "With model airship, complete quest, otherwise fight Steampunk Giant", "steam-powered model rocketship, then skip adventure", "brass gear", "Goth Choice" },
 			new String[] { "6299", "6290", "6284", null } ),
 		// Choice 678 is Yeah, You're for Me, Punk Rock Giant
 		new ChoiceAdventure(
-			"Beanstalk", "choiceAdventure678", "Punk Rock Giant",
-			new String[] { "Fight Punk Rock Giant", "500 meat", "Keep On Turnin' the Wheel in the Sky", "Flavor of a Raver" } ),
+			"Beanstalk", "choiceAdventure678", "Top Punk Rock",
+			new String[] { "Fight Punk Rock Giant", "500 meat", "complete quest", "Raver Choice" } ),
 		// Choice 681 is F-F-Fantastic!
 	};
 
