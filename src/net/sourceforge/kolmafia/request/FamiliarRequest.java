@@ -309,6 +309,11 @@ public class FamiliarRequest
 	{
 		if ( this.getFormField( "ajax" ) == null )
 		{
+			// Jarlsberg didn't trust any companion that he didn't summon himself.
+			if ( KoLCharacter.isJarlsberg() )
+			{
+				responseText = "";
+			}
 			FamiliarData.registerFamiliarData( this.responseText );
 		}
 
