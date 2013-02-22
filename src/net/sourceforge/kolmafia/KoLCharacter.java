@@ -3920,8 +3920,8 @@ public abstract class KoLCharacter
 			return FamiliarData.NO_FAMILIAR;
 		}
 
-		// Don't even look if you are an Avatar of Boris
-		if ( KoLCharacter.inAxecore() )
+		// Don't even look if you are an Avatar
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
 		{
 			return null;
 		}
