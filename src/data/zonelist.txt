@@ -14,11 +14,11 @@ Manor2	Manor2	Spookyraven (Second Floor)
 Plains	Plains	Nearby Plains
 Rift	Plains	Temporal Rift
 Tower	Plains	Fernswarthy's Tower
-Beanstalk	Plains	Above the Beanstalk
+Beanstalk	Beanstalk	Above the Beanstalk
 RabbitHole	Plains	Down the Rabbit Hole
-Suburbs	Plains	The Suburbs of Dis
-Landscaper	Plains	The Landscaper's Lair
-Mothership	Plains	The Bugbear Mothership
+Suburbs	Suburbs	The Suburbs of Dis
+Landscaper	Landscaper	The Landscaper's Lair
+Mothership	Mothership	The Bugbear Mothership
 
 BatHole	BatHole	Bat Hole
 

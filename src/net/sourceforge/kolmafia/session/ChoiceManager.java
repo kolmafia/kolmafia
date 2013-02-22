@@ -435,22 +435,22 @@ public abstract class ChoiceManager
 
 		// A Three-Tined Fork
 		new ChoiceSpoiler(
-			"choiceAdventure26", "Spooky Forest",
+			"Woods", "choiceAdventure26", "Spooky Forest",
 			new String[] { "muscle classes", "mysticality classes", "moxie classes" } ),
 
 		// Footprints
 		new ChoiceSpoiler(
-			"choiceAdventure27", "Spooky Forest",
+			"Woods", "choiceAdventure27", "Spooky Forest",
 			new String[] { KoLCharacter.SEAL_CLUBBER, KoLCharacter.TURTLE_TAMER } ),
 
 		// A Pair of Craters
 		new ChoiceSpoiler(
-			"choiceAdventure28", "Spooky Forest",
+			"Woods", "choiceAdventure28", "Spooky Forest",
 			new String[] { KoLCharacter.PASTAMANCER, KoLCharacter.SAUCEROR } ),
 
 		// The Road Less Visible
 		new ChoiceSpoiler(
-			"choiceAdventure29", "Spooky Forest",
+			"Woods", "choiceAdventure29", "Spooky Forest",
 			new String[] { KoLCharacter.DISCO_BANDIT, KoLCharacter.ACCORDION_THIEF } ),
 
 		// Choices 30 - 39 are unknown
@@ -477,7 +477,7 @@ public abstract class ChoiceManager
 
 		// Maps and Legends
 		new ChoiceSpoiler(
-			"choiceAdventure45", "Spooky Forest",
+			"Woods", "choiceAdventure45", "Spooky Forest",
 			new String[] { "Spooky Temple map", "skip adventure", "skip adventure" },
 			new String[] { "74", null, null } ),
 
@@ -716,7 +716,7 @@ public abstract class ChoiceManager
 
 		// No sir, away!  A papaya war is on!
 		new ChoiceSpoiler(
-			"choiceAdventure127", "Palindome",
+			"Plains", "choiceAdventure127", "Palindome",
 			new String[] { "3 papayas", "trade 3 papayas for stats", "stats" },
 			new String[] { "498", null, null } ),
 		// No sir, away!  A papaya war is on!
@@ -727,7 +727,7 @@ public abstract class ChoiceManager
 
 		// Do Geese See God?
 		new ChoiceSpoiler(
-			"choiceAdventure129", "Palindome",
+			"Plains", "choiceAdventure129", "Palindome",
 			new String[] { "photograph of God", "skip adventure" },
 			new String[] { "2259", null } ),
 		// Do Geese See God?
@@ -736,7 +736,7 @@ public abstract class ChoiceManager
 
 		// Rod Nevada, Vendor
 		new ChoiceSpoiler(
-			"choiceAdventure130", "Palindome",
+			"Plains", "choiceAdventure130", "Palindome",
 			new String[] { "hard rock candy", "skip adventure" },
 			new String[] { "2260", null } ),
 		// Rod Nevada, Vendor
@@ -853,7 +853,7 @@ public abstract class ChoiceManager
 
 		// Lurking at the Threshold
 		new ChoiceSpoiler(
-			"choiceAdventure152", "Fun House",
+			"Plains", "choiceAdventure152", "Fun House",
 			new String[] { "fight the clownlord", "skip adventure" } ),
 
 		// Turn Your Head and Coffin
@@ -2236,6 +2236,55 @@ public abstract class ChoiceManager
 			"Psychoses", "choiceAdventure657", "Chinatown Tenement",
 			new String[] { "Fight Boss", "skip adventure" } ),
 		// Choice 658 is Debasement
+		
+		// Choice 669 is The Fast and the Furry-ous
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure669", "Furry Giant",
+			new String[] { "Out in the Open Source", "200 Moxie", "???", "skip adventure and guarantees this adventure will reoccur" } ),
+		// Choice 670 is You Don't Mess Around with Gym
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure670", "Fitness Giant",
+			new String[] { "massive dumbbell, then skip adventure", "200 Muscle", "pec oil, giant jar of protein powder, Squat-Thrust Magazine", "With Amulet of Plot Significance, open Ground Floor, otherwise skip adventure", "skip adventure and guarantees this adventure will reoccur" },
+			new String[] { "6271", null, null, null, null } ),
+		// Choice 671 is Out in the Open Source
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure671", "Neckbeard Giant",
+			new String[] { "With massive dumbbell, open Ground Floor, otherwise skip adventure", "200 Mysticality", "O'RLY manual, open sauce", "You Don't Mess Around with Gym" },
+			new String[] { "6271", null, null, null } ),
+		// Choice 672 is There's No Ability Like Possibility
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure672", "Possibility Giant",
+			new String[] { "3 random starter items", "Nothing Is Impossible", "skip adventure" } ),
+		// Choice 673 is Putting Off Is Off-Putting
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure673", "Procrastination Giant",
+			new String[] { "very overdue library book, then skip adventure", "Trash-Wrapped", "skip adventure" },
+			new String[] { "6294", null, null } ),
+		// Choice 674 is Huzzah!
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure674", "Renaissance Giant",
+			new String[] { "pewter claymore, then skip adventure", "Pretending to Pretend", "skip adventure" },
+			new String[] { "6279", null, null } ),
+		// Choice 675 is Melon Collie and the Infinite Lameness
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure675", "Goth Giant",
+			new String[] { "Fight a Goth Giant", "Keep On Turnin' the Wheel in the Sky", "3 thin black candles", "Copper Feel" },
+			new String[] { null, "6295", null, "620" } ),
+		// Choice 676 is Flavor of a Raver
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure676", "Raver Giant",
+			new String[] { "Fight a Raver Giant", "Restore 1000 hp & mp", "drum 'n' bass 'n' drum 'n' bass record, then skip adventure", "Yeah, You're for Me, Punk Rock Giant" },
+			new String[] { null, null, "6295", null } ),
+		// Choice 677 is Copper Feel
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure677", "Steampunk Giant",
+			new String[] { "With model airship, Keep On Turnin' the Wheel in the Sky, otherwise fight Steampunk Giant", "steam-powered model rocketship, then skip adventure", "brass gear", "Melon Collie and the Infinite Lameness" },
+			new String[] { "6299", "6290", "6284", null } ),
+		// Choice 678 is Yeah, You're for Me, Punk Rock Giant
+		new ChoiceAdventure(
+			"Beanstalk", "choiceAdventure678", "Punk Rock Giant",
+			new String[] { "Fight Punk Rock Giant", "500 meat", "Keep On Turnin' the Wheel in the Sky", "Flavor of a Raver" } ),
+		// Choice 681 is F-F-Fantastic!
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
