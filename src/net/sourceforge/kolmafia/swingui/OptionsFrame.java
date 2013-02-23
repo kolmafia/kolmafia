@@ -1124,7 +1124,7 @@ public class OptionsFrame
 						+ "acceptable forms:<br>"
 						+ "Text|pretty much anything.<br>"
 						+ "<br>"
-						+ "You can supply as many arguments as you want to a Text deed.  Any argument that uniquely matches a preference will be replaced by that preference's value.  If you want to use a comma in your text, immediately follow the comma with a pipe character so it will not be parsed as the end of the Text deed.<br>" 
+						+ "You can supply as many arguments as you want to a Text deed.  Any argument that uniquely matches a preference will be replaced by that preference's value.  If you want to use a comma in your text, immediately follow the comma with a pipe character so it will not be parsed as the end of the Text deed.<br>"
 						+ "<br>"
 						+ "<b>Combo</b> - A cleaner way to collapse multiple related command deeds into one combobox element. Note that there is no GUI to help you construct this, you must manually add it to your dailyDeedsOptions preference.<br>"
 						+ "acceptable forms:<br>"

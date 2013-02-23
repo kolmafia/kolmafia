@@ -63,6 +63,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -1288,7 +1289,7 @@ public abstract class KoLmafia
 			items[ i ] = (AdventureResult) goals.get( i );
 			creatables[ i ] = CreateItemRequest.getInstance( items[ i ] );
 
-			if ( ConcoctionDatabase.getMixingMethod( items[ i ] ) != KoLConstants.NOCREATE )
+			if ( ConcoctionDatabase.getMixingMethod( items[ i ] ) != CraftingType.NOCREATE )
 			{
 				deferConcoctionRefresh = false;
 			}

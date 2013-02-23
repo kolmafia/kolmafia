@@ -43,6 +43,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -142,7 +143,7 @@ public class QuarkCommand
 		while ( i.hasNext() )
 		{
 			AdventureResult use = (AdventureResult) i.next();
-			if ( (ConcoctionDatabase.getMixingMethod( use.getItemId() ) & KoLConstants.CT_MASK) == KoLConstants.COMBINE )
+			if ( ConcoctionDatabase.getMixingMethod( use.getItemId() ) == CraftingType.COMBINE )
 			{
 				return true;
 			}

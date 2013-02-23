@@ -57,6 +57,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
@@ -1139,7 +1140,7 @@ public class ItemDatabase
 
 		// Add the new item to the ConcoctionPool
 		AdventureResult ar = ItemPool.get( itemId, 1 );
-		Concoction c = new Concoction( ar, KoLConstants.NOCREATE );
+		Concoction c = new Concoction( ar, CraftingType.NOCREATE );
 		ConcoctionPool.set( c );
 		ConcoctionDatabase.addUsableConcoction( c );
 	}
@@ -1782,7 +1783,7 @@ public class ItemDatabase
 
 		if ( ItemDatabase.getRawFullness( name ) != null )
 		{
-			boolean sushi = (ConcoctionDatabase.getMixingMethod( cname ) & KoLConstants.CT_MASK) == KoLConstants.SUSHI;
+			boolean sushi = ConcoctionDatabase.getMixingMethod( cname ) == CraftingType.SUSHI;
 			boolean milk = KoLConstants.activeEffects.contains( ItemDatabase.MILK );
 			boolean lunch = KoLConstants.activeEffects.contains( ItemDatabase.GLORIOUS_LUNCH );
 			boolean gourmand = KoLCharacter.hasSkill( "Gourmand" ) || KoLCharacter.hasSkill( "Neurogourmet" );

@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.GregorianCalendar;
 import java.util.IllegalFormatException;
 import java.util.Iterator;
@@ -70,6 +71,8 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -3197,8 +3200,9 @@ public abstract class RuntimeLibrary
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
 		int itemId = (int) arg.intValue();
-		int method = ConcoctionDatabase.getMixingMethod( itemId );
-		if ( !ConcoctionDatabase.isPermittedMethod( method ) )
+		CraftingType method = ConcoctionDatabase.getMixingMethod( itemId );
+		EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements( itemId );
+		if ( !ConcoctionDatabase.isPermittedMethod( method, requirements ) )
 		{
 			return value;	// can't make it
 		}

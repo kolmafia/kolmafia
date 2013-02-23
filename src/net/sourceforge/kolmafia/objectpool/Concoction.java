@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.objectpool;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,7 +44,9 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
+import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
+import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -76,7 +80,9 @@ public class Concoction
 	private PurchaseRequest purchaseRequest;
 
 	private final int yield;
-	private int mixingMethod;
+	private CraftingType mixingMethod;
+	private EnumSet<CraftingRequirements> mixingRequirements;
+	private EnumSet<CraftingMisc> mixingMisc;
 	private int sortOrder;
 
 	private final boolean isReagentPotion;
@@ -107,12 +113,15 @@ public class Concoction
 	private int fullness, inebriety, spleenhit;
 	private double mainstatGain;
 
-	public Concoction( final AdventureResult concoction, final int mixingMethod )
+	public Concoction( final AdventureResult concoction, final CraftingType mixingMethod,
+		  final EnumSet<CraftingRequirements> mixingRequirement, final EnumSet<CraftingMisc> mixingInfo )
 	{
 		this.concoction = concoction;
 
 		this.wasPossible = false;
 		this.mixingMethod = mixingMethod;
+		this.mixingRequirements = mixingRequirement;
+		this.mixingMisc = mixingInfo;
 
 		if ( concoction == null )
 		{
@@ -129,7 +138,7 @@ public class Concoction
 			this.yield = Math.max( concoction.getCount(), 1 );
 			this.name = concoction.getName();
 
-			this.isReagentPotion = (this.mixingMethod & KoLConstants.CF_SX3) != 0;
+			this.isReagentPotion = this.mixingMisc.contains( CraftingMisc.TRIPLE_SAUCE );
 
 			this.setConsumptionData();
 			if ( CombineMeatRequest.getCost( concoction.getItemId() ) > 0 )
@@ -147,9 +156,14 @@ public class Concoction
 		this.resetCalculations();
 	}
 
+	public Concoction( final AdventureResult concoction, final CraftingType mixingMethod )
+	{
+		this( concoction, mixingMethod, EnumSet.noneOf(CraftingRequirements.class), EnumSet.noneOf(CraftingMisc.class) );
+	}
+
 	public Concoction( final String name, final int price )
 	{
-		this( (AdventureResult) null, KoLConstants.NOCREATE );
+		this( (AdventureResult) null, CraftingType.NOCREATE );
 
 		this.name = name;
 		this.price = price;
@@ -160,7 +174,7 @@ public class Concoction
 
 	public Concoction( final String name, final String property )
 	{
-		this( (AdventureResult) null, KoLConstants.NOCREATE );
+		this( (AdventureResult) null, CraftingType.NOCREATE );
 
 		this.name = name;
 		this.property = property;
@@ -427,7 +441,7 @@ public class Concoction
 
 	public CreateItemRequest getRequest()
 	{
-		if ( this.request == null && this.mixingMethod != 0 )
+		if ( this.request == null && this.mixingMethod != CraftingType.NOCREATE )
 		{
 			this.request = CreateItemRequest.constructInstance( this );
 		}
@@ -436,7 +450,7 @@ public class Concoction
 
 	public boolean available()
 	{
-		if ( this.mixingMethod == KoLConstants.COINMASTER )
+		if ( this.mixingMethod == CraftingType.COINMASTER )
 		{
 			return this.purchaseRequest != null && this.purchaseRequest.isAccessible();
 		}
@@ -533,8 +547,7 @@ public class Concoction
 			AdventureResult.addResultToList( localChanges, ingredient );
 		}
 
-		int method = this.mixingMethod & KoLConstants.CT_MASK;
-		int advs = ConcoctionDatabase.ADVENTURE_USAGE[ method ] * overAmount;
+		int advs = ConcoctionDatabase.ADVENTURE_USAGE.get( this.mixingMethod ) * overAmount;
 		if ( advs != 0 )
 		{
 			for ( int i = 0; i < advs; ++i )
@@ -549,12 +562,12 @@ public class Concoction
 			}
 		}
 
-		if ( method == KoLConstants.STILL_BOOZE || method == KoLConstants.STILL_MIXER )
+		if ( this.mixingMethod == CraftingType.STILL_BOOZE || this.mixingMethod == CraftingType.STILL_MIXER )
 		{
 			ConcoctionDatabase.queuedStillsUsed += overAmount;
 		}
 
-		if ( method == KoLConstants.CLIPART )
+		if ( this.mixingMethod == CraftingType.CLIPART )
 		{
 			ConcoctionDatabase.queuedTomesUsed += overAmount;
 		}
@@ -572,7 +585,7 @@ public class Concoction
 
 		if ( this.price > 0 ||
 		     this.property != null ||
-		     !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
+		     !ConcoctionDatabase.isPermittedMethod( this.mixingMethod, this.mixingRequirements ) )
 		{
 			return;
 		}
@@ -681,14 +694,24 @@ public class Concoction
 		return this.param;
 	}
 
-	public int getMixingMethod()
+	public CraftingType getMixingMethod()
 	{
 		return this.mixingMethod;
 	}
 
-	public void setMixingMethod( final int mixingMethod )
+	public void setMixingMethod( final CraftingType mixingMethod )
 	{
 		this.mixingMethod = mixingMethod;
+	}
+
+	public EnumSet<CraftingRequirements> getRequirements()
+	{
+		return this.mixingRequirements;
+	}
+
+	public EnumSet<CraftingMisc> getMisc()
+	{
+		return this.mixingMisc;
 	}
 
 	public AdventureResult[] getIngredients()
@@ -855,13 +878,13 @@ public class Concoction
 			needToMake -= buyable;
 		}
 
-		if ( this.mixingMethod == KoLConstants.NOCREATE )
+		if ( this.mixingMethod == CraftingType.NOCREATE )
 		{	// No recipe for this item - don't bother with checking
 			// ingredients, because there aren't any.
 			return alreadyHave;
 		}
 
-		if ( this.mixingMethod == KoLConstants.COINMASTER )
+		if ( this.mixingMethod == CraftingType.COINMASTER )
 		{
 			// Check if Coin Master is available
 			PurchaseRequest purchaseRequest = this.purchaseRequest;
@@ -887,7 +910,7 @@ public class Concoction
 			return alreadyHave;
 		}
 
-		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) ||
+		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod, this.mixingRequirements ) ||
 		     Preferences.getBoolean( "unknownRecipe" + this.getItemId() ) )
 		{	// Impossible to create any more of this item.
 			return alreadyHave;
@@ -929,7 +952,7 @@ public class Concoction
 		// Meat paste is an implicit ingredient
 
 		if ( minMake > 0 &&
-		     ( this.mixingMethod == KoLConstants.COMBINE || this.mixingMethod == KoLConstants.ACOMBINE ) &&
+		     ( this.mixingMethod == CraftingType.COMBINE || this.mixingMethod == CraftingType.ACOMBINE ) &&
 		     ( !KoLCharacter.knollAvailable() || KoLCharacter.inZombiecore() ) )
 		{
 			Concoction c = ConcoctionPool.get( ItemPool.MEAT_PASTE );
@@ -946,8 +969,7 @@ public class Concoction
 
 		// Adventures are also considered an ingredient
 
-		int method = this.mixingMethod & KoLConstants.CT_MASK;
-		int advs = ConcoctionDatabase.ADVENTURE_USAGE[ method ];
+		int advs = ConcoctionDatabase.ADVENTURE_USAGE.get( this.mixingMethod );
 		if ( minMake > 0 && advs != 0 )
 		{
 			// Free crafting turns are counted as implicit adventures in this step.
@@ -965,8 +987,8 @@ public class Concoction
 
 		// Still uses are also considered an ingredient.
 
-		if ( minMake > 0 && (method == KoLConstants.STILL_MIXER ||
-			method == KoLConstants.STILL_BOOZE) )
+		if ( minMake > 0 && ( this.mixingMethod == CraftingType.STILL_MIXER ||
+			this.mixingMethod == CraftingType.STILL_BOOZE) )
 		{
 			Concoction c = ConcoctionDatabase.stillsLimit;
 			minMake = Math.min( minMake, c.canMake( needToMake, visited, turnFreeOnly ) );
@@ -982,7 +1004,7 @@ public class Concoction
 
 		// Tome summons are also considered an ingredient.
 
-		if ( minMake > 0 && (method == KoLConstants.CLIPART) )
+		if ( minMake > 0 && ( this.mixingMethod == CraftingType.CLIPART) )
 		{
 			Concoction c = ConcoctionDatabase.clipArtLimit;
 			minMake = Math.min( minMake, c.canMake( needToMake, visited, turnFreeOnly ) );
@@ -1006,9 +1028,8 @@ public class Concoction
 		// Avoid mutual recursion.
 
 		int create = quantityNeeded - this.initial;
-		int method = ( this.mixingMethod & KoLConstants.CT_MASK );
 		if ( create <= 0 ||
-		     (method != KoLConstants.COMBINE && method != KoLConstants.ACOMBINE ) ||
+		     ( this.mixingMethod != CraftingType.COMBINE && this.mixingMethod != CraftingType.ACOMBINE ) ||
 		     ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) )
 		{
 			return 0;
@@ -1037,7 +1058,7 @@ public class Concoction
 	{
 		// If we can't make this item, it costs no adventures to use
 		// the quantity on hand.
-		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod ) )
+		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod, this.mixingRequirements ) )
 		{
 			return 0;
 		}
@@ -1056,7 +1077,7 @@ public class Concoction
 			return 0;
 		}
 
-		int runningTotal = ConcoctionDatabase.ADVENTURE_USAGE[ this.mixingMethod & KoLConstants.CT_MASK ] * create;
+		int runningTotal = ConcoctionDatabase.ADVENTURE_USAGE.get( this.mixingMethod ) * create;
 
 		// If this creation method takes no adventures, no recursion
 
@@ -1074,7 +1095,7 @@ public class Concoction
 			runningTotal += ingredient.getAdventuresNeeded( create );
 		}
 
-		if ( this.mixingMethod == KoLConstants.WOK )
+		if ( this.mixingMethod == CraftingType.WOK )
 		{
 			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), 1 );
 		}

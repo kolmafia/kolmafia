@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,6 +46,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -91,7 +95,9 @@ public class CreateItemRequest
 	public AdventureResult createdItem;
 
 	private String name;
-	private int itemId, mixingMethod;
+	private int itemId;
+	private CraftingType mixingMethod;
+	private EnumSet<CraftingRequirements> requirements;
 
 	private int beforeQuantity;
 	private int yield;
@@ -121,7 +127,9 @@ public class CreateItemRequest
 		this.concoction = conc;
 		this.itemId = conc.getItemId();
 		this.name = conc.getName();
-		this.mixingMethod = KoLConstants.SUBCLASS;
+		this.mixingMethod = CraftingType.SUBCLASS;
+		this.requirements = conc.getRequirements();
+		// is this right?
 		this.calculateYield();
 	}
 
@@ -144,17 +152,16 @@ public class CreateItemRequest
 		String formSource = "craft.php";
 		String action = "craft";
 		String mode = null;
-		int method = this.mixingMethod & KoLConstants.CT_MASK;
 
 		if ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
 		{
-			if ( method == KoLConstants.COMBINE )
+			if ( this.mixingMethod == CraftingType.COMBINE )
 			{
 				formSource = "knoll.php";
 				action = "combine";
 			}
-			else if ( method == KoLConstants.SMITH &&
-				  ( this.mixingMethod & KoLConstants.CR_GRIMACITE ) == 0 )
+			else if ( this.mixingMethod == CraftingType.SMITH &&
+				  ( this.requirements.contains( CraftingRequirements.GRIMACITE ) ) )
 			{
 				formSource = "knoll.php";
 				action = "smith";
@@ -163,59 +170,54 @@ public class CreateItemRequest
 
 		if ( formSource.equals( "craft.php" ) )
 		{
-			switch ( method )
+			switch ( this.mixingMethod )
 			{
-			case KoLConstants.COMBINE:
-			case KoLConstants.ACOMBINE:
+			case COMBINE:
+			case ACOMBINE:
 				mode = "combine";
 				break;
 
-			case KoLConstants.MIX:
-			case KoLConstants.MIX_FANCY:
+			case MIX:
+			case MIX_FANCY:
 				mode = "cocktail";
 				break;
 
-			case KoLConstants.COOK:
-			case KoLConstants.COOK_FANCY:
+			case COOK:
+			case COOK_FANCY:
 				mode = "cook";
 				break;
 
-			case KoLConstants.SMITH:
-			case KoLConstants.SSMITH:
+			case SMITH:
+			case SSMITH:
 				mode = "smith";
 				break;
 
-			case KoLConstants.JEWELRY:
+			case JEWELRY:
 				mode = "jewelry";
 				break;
 
-			case KoLConstants.ROLLING_PIN:
+			case ROLLING_PIN:
 				formSource = "inv_use.php";
 				break;
 
-			case KoLConstants.WOK:
+			case WOK:
 				formSource = "guild.php";
 				action = "wokcook";
 				break;
 
-			case KoLConstants.MALUS:
+			case MALUS:
 				formSource = "guild.php";
 				action = "malussmash";
 				break;
 
-			case KoLConstants.STILL_MIXER:
+			case STILL_MIXER:
 				formSource = "guild.php";
 				action = "stillfruit";
 				break;
 
-			case KoLConstants.STILL_BOOZE:
+			case STILL_BOOZE:
 				formSource = "guild.php";
 				action = "stillbooze";
-				break;
-
-			case KoLConstants.CRIMBO07:
-				formSource = "crimbo07.php";
-				action = "toys";
 				break;
 			}
 		}
@@ -288,8 +290,7 @@ public class CreateItemRequest
 			}
 
 			Concoction concoction = instance.concoction;
-			int method = concoction.getMixingMethod();
-			if ( !ConcoctionDatabase.checkPermittedMethod( method ) )
+			if ( !ConcoctionDatabase.checkPermittedMethod( concoction ) )
 			{	// checkPermittedMethod set the excuse
 				return null;
 			}
@@ -314,56 +315,54 @@ public class CreateItemRequest
 			return new CombineMeatRequest( conc );
 		}
 
-		int mixingMethod = conc.getMixingMethod();
-
 		// Return the appropriate subclass of item which will be
 		// created.
 
-		switch ( mixingMethod & KoLConstants.CT_MASK )
+		switch ( conc.getMixingMethod() )
 		{
-		case KoLConstants.NOCREATE:
+		case NOCREATE:
 			return null;
 
-		case KoLConstants.STARCHART:
+		case STARCHART:
 			return new StarChartRequest( conc );
 
-		case KoLConstants.SUGAR_FOLDING:
+		case SUGAR_FOLDING:
 			return new SugarSheetRequest( conc );
 
-		case KoLConstants.PIXEL:
+		case PIXEL:
 			return new PixelRequest( conc );
 
-		case KoLConstants.GNOME_TINKER:
+		case GNOME_TINKER:
 			return new GnomeTinkerRequest( conc );
 
-		case KoLConstants.STAFF:
+		case STAFF:
 			return new ChefStaffRequest( conc );
 
-		case KoLConstants.SUSHI:
+		case SUSHI:
 			return new SushiRequest( conc );
 
-		case KoLConstants.SINGLE_USE:
+		case SINGLE_USE:
 			return new SingleUseRequest( conc );
 
-		case KoLConstants.MULTI_USE:
+		case MULTI_USE:
 			return new MultiUseRequest( conc );
 
-		case KoLConstants.CRIMBO05:
+		case CRIMBO05:
 			return new Crimbo05Request( conc );
 
-		case KoLConstants.CRIMBO06:
+		case CRIMBO06:
 			return new Crimbo06Request( conc );
 
-		case KoLConstants.CRIMBO07:
+		case CRIMBO07:
 			return new Crimbo07Request( conc );
 
-		case KoLConstants.CRIMBO12:
+		case CRIMBO12:
 			return new Crimbo12Request( conc );
 
-		case KoLConstants.PHINEAS:
+		case PHINEAS:
 			return new PhineasRequest( conc );
 
-		case KoLConstants.CLIPART:
+		case CLIPART:
 			return new ClipArtRequest( conc );
 
 		default:
@@ -407,9 +406,8 @@ public class CreateItemRequest
 
 		// Acquire all needed ingredients
 
-		int method = this.mixingMethod & KoLConstants.CT_MASK;
-		if ( method != KoLConstants.SUBCLASS &&
-		     method != KoLConstants.ROLLING_PIN &&
+		if ( this.mixingMethod != CraftingType.SUBCLASS &&
+		     this.mixingMethod != CraftingType.ROLLING_PIN &&
 		     !this.makeIngredients() )
 		{
 			return;
@@ -432,9 +430,9 @@ public class CreateItemRequest
 			this.reconstructFields();
 			this.beforeQuantity = this.createdItem.getCount( KoLConstants.inventory );
 
-			switch ( method )
+			switch ( this.mixingMethod )
 			{
-			case KoLConstants.SUBCLASS:
+			case SUBCLASS:
 				super.run();
 				if ( this.responseCode == 302 && this.redirectLocation.startsWith( "inventory" ) )
 				{
@@ -442,7 +440,7 @@ public class CreateItemRequest
 				}
 				break;
 
-			case KoLConstants.ROLLING_PIN:
+			case ROLLING_PIN:
 				int ingredientsOnHand = InventoryManager.getAccessibleCount( this.concoction
 					.getIngredients()[ 0 ] );
 				if ( ingredientsOnHand > 0 )
@@ -460,7 +458,7 @@ public class CreateItemRequest
 				}
 				break;
 
-			case KoLConstants.COINMASTER:
+			case COINMASTER:
 				this.makeCoinmasterPurchase();
 				break;
 
@@ -605,7 +603,7 @@ public class CreateItemRequest
 		AdventureResult[] ingredients =
 			ConcoctionDatabase.getIngredients( this.concoction.getIngredients() );
 
-		if ( ingredients.length == 1 || (this.mixingMethod & KoLConstants.CT_MASK) == KoLConstants.WOK )
+		if ( ingredients.length == 1 || this.mixingMethod == CraftingType.WOK )
 		{
 			if ( this.getAdventuresUsed() > KoLCharacter.getAdventuresLeft() )
 			{
@@ -825,23 +823,23 @@ public class CreateItemRequest
 
 	private boolean autoRepairBoxServant()
 	{
-		return CreateItemRequest.autoRepairBoxServant( this.mixingMethod );
+		return CreateItemRequest.autoRepairBoxServant( this.mixingMethod, this.requirements );
 	}
 
-	public static boolean autoRepairBoxServant( final int mixingMethod )
+	public static boolean autoRepairBoxServant( final CraftingType mixingMethod, final EnumSet<CraftingRequirements> requirements )
 	{
 		if ( KoLmafia.refusesContinue() )
 		{
 			return false;
 		}
 
-		if ( ( mixingMethod & KoLConstants.CR_HAMMER) != 0 &&
+		if ( requirements.contains( CraftingRequirements.HAMMER ) &&
 		     !InventoryManager.retrieveItem( CreateItemRequest.TENDER_HAMMER ) )
 		{
 			return false;
 		}
 
-		if ( ( mixingMethod & KoLConstants.CR_GRIMACITE) != 0 )
+		if ( requirements.contains( CraftingRequirements.GRIMACITE ) )
 		{
 			AdventureResult hammer = CreateItemRequest.GRIMACITE_HAMMER;
 			int slot = EquipmentManager.WEAPON;
@@ -859,9 +857,9 @@ public class CreateItemRequest
 		// If we are not cooking or mixing, or if we already have the
 		// appropriate servant installed, we don't need to repair
 
-		switch ( mixingMethod & KoLConstants.CT_MASK )
+		switch ( mixingMethod )
 		{
-		case KoLConstants.COOK_FANCY:
+		case COOK_FANCY:
 
 			// We need range installed to cook fancy foods.
 			if ( !KoLCharacter.hasRange() )
@@ -881,7 +879,7 @@ public class CreateItemRequest
 			}
 			break;
 
-		case KoLConstants.MIX_FANCY:
+		case MIX_FANCY:
 
 			// We need a cocktail kit installed to mix fancy
 			// drinks.
@@ -902,11 +900,11 @@ public class CreateItemRequest
 			}
 			break;
 
-		case KoLConstants.SMITH:
+		case SMITH:
 
 			return ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) || InventoryManager.retrieveItem( CreateItemRequest.TENDER_HAMMER );
 
-		case KoLConstants.SSMITH:
+		case SSMITH:
 
 			return InventoryManager.retrieveItem( CreateItemRequest.TENDER_HAMMER );
 
@@ -919,14 +917,14 @@ public class CreateItemRequest
 		// If they want to auto-repair, make sure that the appropriate
 		// item is available in their inventory
 
-		switch ( mixingMethod & KoLConstants.CT_MASK )
+		switch ( mixingMethod )
 		{
-		case KoLConstants.COOK_FANCY:
+		case COOK_FANCY:
 			autoRepairSuccessful =
 				CreateItemRequest.useBoxServant( ItemPool.CHEF, ItemPool.CLOCKWORK_CHEF );
 			break;
 
-		case KoLConstants.MIX_FANCY:
+		case MIX_FANCY:
 			autoRepairSuccessful =
 				CreateItemRequest.useBoxServant( ItemPool.BARTENDER, ItemPool.CLOCKWORK_BARTENDER );
 			break;
@@ -994,8 +992,8 @@ public class CreateItemRequest
 		int yield = this.yield;
 
 		// If this is a combining request, you need meat paste as well.
-		int method = this.mixingMethod & KoLConstants.CT_MASK;
-		if ( ( method == KoLConstants.COMBINE || method == KoLConstants.ACOMBINE ) &&
+		
+		if ( ( this.mixingMethod == CraftingType.COMBINE || this.mixingMethod == CraftingType.ACOMBINE ) &&
 		     ( !KoLCharacter.knollAvailable() || KoLCharacter.inZombiecore()  ) )
 		{
 			int pasteNeeded = this.concoction.getMeatPasteNeeded(
@@ -1189,24 +1187,24 @@ public class CreateItemRequest
 	@Override
 	public int getAdventuresUsed()
 	{
-		switch ( this.mixingMethod & KoLConstants.CT_MASK )
+		switch ( this.mixingMethod )
 		{
-		case KoLConstants.SMITH:
+		case SMITH:
 			return ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
-		case KoLConstants.SSMITH:
+		case SSMITH:
 			return Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
-		case KoLConstants.JEWELRY:
+		case JEWELRY:
 			return Math.max( 0, ( ( 3 * this.quantityNeeded ) - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
-		case KoLConstants.COOK_FANCY:
+		case COOK_FANCY:
 			return KoLCharacter.hasChef() ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
-		case KoLConstants.MIX_FANCY:
+		case MIX_FANCY:
 			return KoLCharacter.hasBartender() ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
 
-		case KoLConstants.WOK:
+		case WOK:
 			return this.quantityNeeded;
 		}
 

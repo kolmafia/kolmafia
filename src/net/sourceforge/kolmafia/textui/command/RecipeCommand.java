@@ -35,11 +35,13 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -78,8 +80,7 @@ public class RecipeCommand
 			int itemId = item.getItemId();
 			String name = item.getName();
 
-			int mixingMethod = ConcoctionDatabase.getMixingMethod( itemId );
-			if ( mixingMethod == KoLConstants.NOCREATE )
+			if ( ConcoctionDatabase.getMixingMethod( itemId ) == CraftingType.NOCREATE )
 			{
 				RequestLogger.printLine( "This item cannot be created: <b>" + name + "</b>" );
 				continue;
@@ -152,8 +153,7 @@ public class RecipeCommand
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			AdventureResult ingredient = ingredients[ i ];
-			int mixingMethod = ConcoctionDatabase.getMixingMethod( ingredient.getItemId() );
-			if ( mixingMethod != KoLConstants.NOCREATE)
+			if ( ConcoctionDatabase.getMixingMethod( ingredient.getItemId() ) != CraftingType.NOCREATE )
 			{
 				int have = InventoryManager.getAccessibleCount( ingredient );
 				if ( !RecipeCommand.isRecursing( ar, ingredient ) &&
@@ -177,8 +177,7 @@ public class RecipeCommand
 			return true;
 		}
 
-		int pm = ConcoctionDatabase.getMixingMethod( parent.getItemId() ) & KoLConstants.CT_MASK;
-		if ( pm == KoLConstants.ROLLING_PIN )
+		if ( ConcoctionDatabase.getMixingMethod( parent.getItemId() ) == CraftingType.ROLLING_PIN )
 		{
 			return true;
 		}
@@ -206,20 +205,21 @@ public class RecipeCommand
 			}
 		}
 		
-		String name = ar.getName();
+		int itemId = ar.getItemId();
 		
 		sb.append( "<b>" );
 		sb.append( ar.getInstance( ConcoctionDatabase.getYield( ar.getItemId() ) ).toString() );
 		sb.append( "</b>" );
 		
-		int mixingMethod = ConcoctionDatabase.getMixingMethod( name );
-		if ( mixingMethod != KoLConstants.NOCREATE )
+		CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod( itemId );
+		EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements( itemId );
+		if ( mixingMethod != CraftingType.NOCREATE )
 		{
 			sb.append( "<b>:</b> <i>[" );
-			sb.append( ConcoctionDatabase.mixingMethodDescription( mixingMethod ) );
+			sb.append( ConcoctionDatabase.mixingMethodDescription( mixingMethod, requirements ) );
 			sb.append( "]</i> " );
 
-			AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( name );
+			AdventureResult [] ingredients = ConcoctionDatabase.getIngredients( itemId );
 			for ( int i = 0; i < ingredients.length; ++i )
 			{
 				AdventureResult ingredient = ingredients[ i ];

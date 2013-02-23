@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -132,7 +133,7 @@ public class MultiUseRequest
 		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 
 		// Find concoction made by multi-using this many of this item
-		Concoction concoction = ConcoctionPool.findConcoction( KoLConstants.MULTI_USE, baseId, count );
+		Concoction concoction = ConcoctionPool.findConcoction( CraftingType.MULTI_USE, baseId, count );
 
 		// If this is not a concoction, let somebody else log this.
 		if ( concoction == null )
@@ -155,7 +156,7 @@ public class MultiUseRequest
 		}
 
 
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 		text.append( "Use " );
 
 		for ( int i = 0; i < ingredients.length; ++i )
