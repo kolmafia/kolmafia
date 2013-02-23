@@ -738,17 +738,13 @@ public class KoLAdventure
 			return;
 		}
 
-		// The Hole in the Sky is unlocked provided the player has an
-		// intragalactic rowboat in their inventory.
+		// The Hole in the Sky is unlocked provided the player has a
+		// steam-powered rocketship (legacy: rowboats give access but are no longer creatable)
 
 		if ( this.adventureId.equals( AdventurePool.HOLE_IN_THE_SKY_ID ) )
 		{
-			if ( !InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) ) && InventoryManager.hasItem( ItemPool.get( ItemPool.GIANT_CASTLE_MAP, 1 ) ) )
-			{
-				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.GIANT_CASTLE_MAP ) );
-			}
-
-			this.isValidAdventure = InventoryManager.retrieveItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
+			this.isValidAdventure =
+				InventoryManager.hasItem( ItemPool.get( ItemPool.ROCKETSHIP, 1 ) ) || InventoryManager.hasItem( ItemPool.get( ItemPool.ROWBOAT, 1 ) );
 			return;
 		}
 

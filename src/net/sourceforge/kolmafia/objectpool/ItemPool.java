@@ -1420,6 +1420,7 @@ public class ItemPool
 	public static final int CRIMBO_CAROL_V4_USED = 5350;
 	public static final int CRIMBO_CAROL_V5_USED = 5351;
 	public static final int CRIMBO_CAROL_V6_USED = 5352;
+	public static final int JAR_OF_OIL = 5353;
 	public static final int SLAPFIGHTING_BOOK_USED = 5354;
 	public static final int UNCLE_ROMULUS_USED = 5355;
 	public static final int SNAKE_CHARMING_BOOK_USED = 5356;
@@ -1571,6 +1572,7 @@ public class ItemPool
 	public static final int WALBERG_BOOK = 6253;
 	public static final int OCELOT_BOOK = 6254;
 	public static final int DRESCHER_BOOK = 6255;
+	public static final int ROCKETSHIP = 6290;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
@@ -1671,7 +1673,7 @@ public class ItemPool
 			{ "moxiousness", "Mucilaginous Moxiousness" },
 		},
 	};
-	
+
 	public static final boolean eliminationProcessor( final String[][] strings, final int index,
 		final int id, final int minId, final int maxId, final String baseName, final String joiner )
 	{
