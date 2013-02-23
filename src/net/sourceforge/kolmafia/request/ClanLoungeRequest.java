@@ -609,7 +609,7 @@ public class ClanLoungeRequest
 			if ( responseText.indexOf( "Your photocopy slowly slides into the machine" ) != -1 )
 			{
 				String monster = Preferences.getString( "photocopyMonster" );
-				if ( monster != "" )
+				if ( !monster.equals( "" ) )
 				{
 					KoLmafia.updateDisplay( "You load your photocopied " + monster + " in the fax machine." );
 				}

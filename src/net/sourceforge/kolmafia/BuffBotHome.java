@@ -198,6 +198,11 @@ public class BuffBotHome
 		@Override
 		public boolean equals( final Object o )
 		{
+			if ( o == null || !( o instanceof BuffRecord ) )
+			{
+				return false;
+			}
+
 			return this.name.equalsIgnoreCase( ( (BuffRecord) o ).name );
 		}
 

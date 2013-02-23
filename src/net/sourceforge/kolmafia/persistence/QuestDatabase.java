@@ -395,7 +395,7 @@ public class QuestDatabase
 
 		for ( String responseToken : responseTokens )
 		{
-			cleanedResponseToken = QuestDatabase.HTML_WHITESPACE.matcher( responseToken ).replaceAll( "" ).toLowerCase();
+			cleanedResponseToken = QuestDatabase.HTML_WHITESPACE.matcher( responseToken ).replaceAll( "" );
 			for ( int i = 0; i < councilData.length; ++i )
 			{
 				for ( int j = 2; j < councilData[ i ].length; ++j )
@@ -407,10 +407,9 @@ public class QuestDatabase
 
 					for ( String councilToken : councilTokens )
 					{
-						cleanedQuestToken =
-							QuestDatabase.HTML_WHITESPACE.matcher( councilToken ).replaceAll( "" ).toLowerCase();
+						cleanedQuestToken = QuestDatabase.HTML_WHITESPACE.matcher( councilToken ).replaceAll( "" );
 
-						if ( cleanedResponseToken == cleanedQuestToken )
+						if ( cleanedResponseToken.equalsIgnoreCase( cleanedQuestToken ) )
 						{
 							setQuestIfBetter( councilData[ i ][ 0 ], councilData[ i ][ 1 ] );
 							break;

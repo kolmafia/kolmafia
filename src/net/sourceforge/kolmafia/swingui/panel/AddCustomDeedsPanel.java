@@ -1614,11 +1614,11 @@ public class AddCustomDeedsPanel
 
 				for ( int j = 0; j < pieces.length; ++j )
 				{
-					if ( pieces[ j ].equals( null ) || pieces[ j ].equals( "" ) )
+					if ( pieces[ j ] == null || pieces[ j ].equals( "" ) )
 					{
 						continue;
 					}
-					if ( Preferences.getString( pieces[ j ] ).equals( "" ) )
+					else if ( Preferences.getString( pieces[ j ] ).equals( "" ) )
 					{
 						display += pieces[ j ];
 					}
