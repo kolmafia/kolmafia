@@ -1008,21 +1008,21 @@ public class ItemTableManagePanel
 
 				if ( element instanceof CreateItemRequest )
 				{
-					switch ( ConcoctionDatabase.getMixingMethod( name ) & KoLConstants.CT_MASK )
+					switch ( ConcoctionDatabase.getMixingMethod( name ) )
 					{
-					case KoLConstants.COOK:
-					case KoLConstants.COOK_FANCY:
+					case COOK:
+					case COOK_FANCY:
 						isVisibleWithFilter = FilterItemField.this.food || FilterItemField.this.other;
 						break;
 
-					case KoLConstants.WOK:
-					case KoLConstants.SUSHI:
+					case WOK:
+					case SUSHI:
 						isVisibleWithFilter = FilterItemField.this.food;
 						break;
 
-					case KoLConstants.MIX:
-					case KoLConstants.MIX_FANCY:
-					case KoLConstants.STILL_BOOZE:
+					case MIX:
+					case MIX_FANCY:
+					case STILL_BOOZE:
 						isVisibleWithFilter = FilterItemField.this.booze;
 						break;
 

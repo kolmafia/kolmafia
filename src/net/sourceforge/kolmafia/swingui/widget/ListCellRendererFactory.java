@@ -44,6 +44,7 @@ import javax.swing.UIManager;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.Modifiers;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -434,7 +435,7 @@ public class ListCellRendererFactory
 				int initial = item.getItem().getCount( KoLConstants.inventory );
 				
 				// hack for clip art summons: if "no-summon" is checked, only show on-hand items
-				if ( item != null && ( item.getMixingMethod() & KoLConstants.CT_MASK ) == KoLConstants.CLIPART && Preferences.getBoolean( "showNoSummonOnly" ) )
+				if ( item != null && item.getMixingMethod() == CraftingType.CLIPART && Preferences.getBoolean( "showNoSummonOnly" ) )
 				{
 					modified = initial;
 				}

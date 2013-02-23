@@ -39,7 +39,7 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -65,7 +65,7 @@ public class ConcoctionPool
 			if ( name != null )
 			{
 				AdventureResult ar = ItemPool.get( i, 1 );
-				Concoction c = new Concoction( ar, KoLConstants.NOCREATE );
+				Concoction c = new Concoction( ar, CraftingType.NOCREATE );
 				ConcoctionPool.set( c );
 			}
 		}
@@ -115,14 +115,14 @@ public class ConcoctionPool
 	 * specified ingredient
 	 */
 
-	public static final Concoction findConcoction( final int mixingMethod, final int itemId, final int used )
+	public static final Concoction findConcoction( final CraftingType mixingMethod, final int itemId, final int used )
 	{
 		int count = ConcoctionPool.cache.size();
 
 		for ( int i = 0; i < count; ++i )
 		{
 			Concoction concoction = ConcoctionPool.cache.get( i );
-			if ( concoction == null || (concoction.getMixingMethod() & KoLConstants.CT_MASK) != mixingMethod )
+			if ( concoction == null || concoction.getMixingMethod() != mixingMethod )
 			{
 				continue;
 			}

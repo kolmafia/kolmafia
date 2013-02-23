@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -117,7 +118,7 @@ public class CleanupJunkRequest
 					continue;
 				}
 
-				if ( canUntinker && (ConcoctionDatabase.getMixingMethod( currentItem ) & KoLConstants.CT_MASK) == KoLConstants.COMBINE )
+				if ( canUntinker && ConcoctionDatabase.getMixingMethod( currentItem ) == CraftingType.COMBINE )
 				{
 					RequestThread.postRequest( new UntinkerRequest( currentItem.getItemId() ) );
 					madeUntinkerRequest = true;

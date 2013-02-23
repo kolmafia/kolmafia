@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -92,7 +93,7 @@ public class HermitRequest
 
 	static
 	{
-		ConcoctionPool.set( new Concoction( WORTHLESS_ITEM, KoLConstants.NOCREATE ) );
+		ConcoctionPool.set( new Concoction( WORTHLESS_ITEM, CraftingType.NOCREATE ) );
 	};
 
 	private static final Pattern CLOVER_PATTERN = Pattern.compile( "(\\d+) left in stock for today" );

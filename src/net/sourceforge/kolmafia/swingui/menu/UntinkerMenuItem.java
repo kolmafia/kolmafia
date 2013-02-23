@@ -37,6 +37,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -79,7 +80,7 @@ public class UntinkerMenuItem
 				}
 
 				// Otherwise, accept any COMBINE recipe
-				if ( (ConcoctionDatabase.getMixingMethod( currentItem ) & KoLConstants.CT_MASK) == KoLConstants.COMBINE )
+				if ( ConcoctionDatabase.getMixingMethod( currentItem ) == CraftingType.COMBINE )
 				{
 					untinkerItems.add( currentItem );
 				}

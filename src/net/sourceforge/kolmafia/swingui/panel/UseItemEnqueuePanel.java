@@ -52,11 +52,13 @@ import javax.swing.ListSelectionModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -691,7 +693,7 @@ public class UseItemEnqueuePanel
 			if ( UseItemEnqueuePanel.this.filters[ 2 ].isSelected() )
 			{
 				AdventureResult item = creation.getItem();
-				if ( item != null && ( creation.getMixingMethod() & KoLConstants.CT_MASK ) == KoLConstants.CLIPART && item.getCount( KoLConstants.inventory ) == 0 )
+				if ( item != null && creation.getMixingMethod() == CraftingType.CLIPART && item.getCount( KoLConstants.inventory ) == 0 )
 				{
 					return false;
 				}

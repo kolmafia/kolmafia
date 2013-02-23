@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.EnumSet;
+
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
@@ -45,7 +48,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 public class CraftRequest
 	extends GenericRequest
 {
-	private int mixingMethod;
+	private CraftingType mixingMethod;
 	private int quantity;
 	private AdventureResult item1;
 	private AdventureResult item2;
@@ -71,27 +74,27 @@ public class CraftRequest
 	{
 		if ( mode.equals( "combine" ) )
 		{
-			this.mixingMethod = KoLConstants.COMBINE;
+			this.mixingMethod = CraftingType.COMBINE;
 		}
 		else if ( mode.equals( "cocktail" ) )
 		{
-			this.mixingMethod = KoLConstants.MIX;
+			this.mixingMethod = CraftingType.MIX;
 		}
 		else if ( mode.equals( "cook" ) )
 		{
-			this.mixingMethod = KoLConstants.COOK;
+			this.mixingMethod = CraftingType.COOK;
 		}
 		else if ( mode.equals( "smith" ) )
 		{
-			this.mixingMethod = KoLConstants.SMITH;
+			this.mixingMethod = CraftingType.SMITH;
 		}
 		else if ( mode.equals( "jewelry" ) )
 		{
-			this.mixingMethod = KoLConstants.JEWELRY;
+			this.mixingMethod = CraftingType.JEWELRY;
 		}
 		else
 		{
-			this.mixingMethod = KoLConstants.NOCREATE;
+			this.mixingMethod = CraftingType.NOCREATE;
 			return;
 		}
 
@@ -106,7 +109,7 @@ public class CraftRequest
 	@Override
 	public void run()
 	{
-		if ( this.mixingMethod == KoLConstants.NOCREATE ||
+		if ( this.mixingMethod == CraftingType.NOCREATE ||
 		     this.quantity <= 0 ||
 		     !KoLmafia.permitsContinue() )
 		{
@@ -125,7 +128,7 @@ public class CraftRequest
 
 		while ( this.remaining > 0 && KoLmafia.permitsContinue() )
 		{
-			if ( !CreateItemRequest.autoRepairBoxServant( this.mixingMethod ) )
+			if ( !CreateItemRequest.autoRepairBoxServant( this.mixingMethod, EnumSet.noneOf(CraftingRequirements.class) ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Auto-repair was unsuccessful." );
 				return;

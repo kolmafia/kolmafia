@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.session;
 import java.lang.ref.WeakReference;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -47,6 +48,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
@@ -825,7 +828,7 @@ public abstract class InventoryManager
 			}
 		}
 
-		int mixingMethod = ConcoctionDatabase.getMixingMethod( item ) & KoLConstants.CT_MASK;
+		CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod( item );
 
 		switch ( itemId )
 		{
@@ -835,11 +838,11 @@ public abstract class InventoryManager
 			scriptSaysBuy = true;
 			break;
 		default:
-			scriptSaysBuy = creator == null || mixingMethod == KoLConstants.NOCREATE;
+			scriptSaysBuy = creator == null || mixingMethod == CraftingType.NOCREATE;
 			break;
 		}
 
-		if ( creator != null && mixingMethod != KoLConstants.NOCREATE )
+		if ( creator != null && mixingMethod != CraftingType.NOCREATE )
 		{
 			if ( sim )
 			{
@@ -859,7 +862,7 @@ public abstract class InventoryManager
 		// If it's creatable, and you have at least one ingredient, see
 		// if you can make it via recursion.
 
-		if ( creator != null && mixingMethod != KoLConstants.NOCREATE && !scriptSaysBuy )
+		if ( creator != null && mixingMethod != CraftingType.NOCREATE && !scriptSaysBuy )
 		{
 			boolean makeFromComponents = true;
 			if ( isAutomated && creator.getQuantityPossible() > 0 )
@@ -1501,13 +1504,14 @@ public abstract class InventoryManager
 			return meatCost * quantity;
 		}
 
-		int method = ConcoctionDatabase.getMixingMethod( item );
-		if ( level > 10 || !ConcoctionDatabase.isPermittedMethod( method ) )
+		CraftingType method = ConcoctionDatabase.getMixingMethod( item );
+		EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements( id );
+		if ( level > 10 || !ConcoctionDatabase.isPermittedMethod( method, requirements ) )
 		{
 			return Integer.MAX_VALUE;
 		}
 
-		int price = ConcoctionDatabase.CREATION_COST[ method & KoLConstants.CT_MASK ];
+		int price = ConcoctionDatabase.CREATION_COST.get( method );
 		int yield = ConcoctionDatabase.getYield( id );
 		int madeQuantity = ( quantity + yield - 1 ) / yield;
 

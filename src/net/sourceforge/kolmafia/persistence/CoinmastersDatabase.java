@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -292,14 +293,14 @@ public class CoinmastersDatabase
 		}
 
 		// If we can create it any other way, prefer that method
-		if ( concoction.getMixingMethod() == KoLConstants.NOCREATE )
+		if ( concoction.getMixingMethod() == CraftingType.NOCREATE )
 		{
-			concoction.setMixingMethod( KoLConstants.COINMASTER );
+			concoction.setMixingMethod( CraftingType.COINMASTER );
 			concoction.addIngredient( request.getCost() );
 		}
 
 		// If we can create this only via a coin master trade, save request
-		if ( concoction.getMixingMethod() == KoLConstants.COINMASTER )
+		if ( concoction.getMixingMethod() == CraftingType.COINMASTER )
 		{
 			concoction.setPurchaseRequest( request );
 		}
