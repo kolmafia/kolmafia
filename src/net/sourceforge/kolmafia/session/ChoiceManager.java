@@ -2269,7 +2269,7 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure675", "Top Goth",
 			new String[] { "Fight a Goth Giant", "complete quest", "3 thin black candles", "Steampunk Choice" },
-			new String[] { null, "6295", null, "620" } ),
+			new String[] { null, "6295", "620", null } ),
 		// Choice 676 is Flavor of a Raver
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure676", "Top Raver",
