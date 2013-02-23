@@ -898,6 +898,12 @@ public class ConcoctionDatabase
 		return new Object [] { c, quantity };
 	}
 
+	public static final void addUsableConcoction( final Concoction c )
+	{
+		ConcoctionDatabase.usableList.add( c );
+		ConcoctionDatabase.usableList.sort();
+	}
+
 	public static final LockableListModel getUsables()
 	{
 		return ConcoctionDatabase.usableList;

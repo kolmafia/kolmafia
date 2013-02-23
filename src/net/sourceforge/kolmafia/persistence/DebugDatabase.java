@@ -694,7 +694,7 @@ public class DebugDatabase
 
 	private static final Pattern LEVEL_PATTERN = Pattern.compile( "Level required: <b>(.*?)</b>" );
 
-	private static final int parseLevel( final String text )
+	public static final int parseLevel( final String text )
 	{
 		Matcher matcher = DebugDatabase.LEVEL_PATTERN.matcher( text );
 		if ( !matcher.find() )
@@ -864,6 +864,33 @@ public class DebugDatabase
 		}
 
 		return "none";
+	}
+
+	public static final int parseSize( final String text )
+	{
+		int size = DebugDatabase.parseFullness( text );
+		if ( size > 0 )
+		{
+			return size;
+		}
+
+		return DebugDatabase.parseInebriety( text );
+	}
+
+	private static final Pattern FULLNESS_PATTERN = Pattern.compile( "Size: <b>(\\d+)</b>" );
+
+	public static final int parseFullness( final String text )
+	{
+		Matcher matcher = DebugDatabase.FULLNESS_PATTERN.matcher( text );
+		return matcher.find() ? ( StringUtilities.parseInt( matcher.group( 1 ) ) ) : 0;
+	}
+
+	private static final Pattern INEBRIETY_PATTERN = Pattern.compile( "Potency: <b>(\\d+)</b>" );
+
+	public static final int parseInebriety( final String text )
+	{
+		Matcher matcher = DebugDatabase.INEBRIETY_PATTERN.matcher( text );
+		return matcher.find() ? ( StringUtilities.parseInt( matcher.group( 1 ) ) ) : 0;
 	}
 
 	private static final void checkItemModifiers( final PrintStream report )
