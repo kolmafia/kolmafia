@@ -485,7 +485,6 @@ public class ConcoctionDatabase
 		while ( req.hasNext() )
 		{
 			CraftingRequirements next = (CraftingRequirements) req.next();
-			KoLmafia.updateDisplay( next.toString() );
 			if ( !ConcoctionDatabase.REQUIREMENT_MET.contains( next ) )
 			{
 				ConcoctionDatabase.excuse = "You lack a skill or other prerequisite for creating that item (" + req.toString() + ").";
@@ -1388,6 +1387,8 @@ public class ConcoctionDatabase
 
 		// It is never possible to create items which are flagged
 		// NOCREATE
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.NOCREATE, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.NOCREATE, 0 );
 
 		// It is always possible to create items through meat paste
 		// combination.
