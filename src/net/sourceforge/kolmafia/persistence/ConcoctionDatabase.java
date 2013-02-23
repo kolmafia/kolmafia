@@ -447,8 +447,6 @@ public class ConcoctionDatabase
 	public static final boolean isPermittedMethod( final CraftingType method, 
 		  final EnumSet<CraftingRequirements> requirements )
 	{
-		System.out.println( "method = " + method + " requirements = " + requirements );
-		System.out.println( "REQUIREMENT_MET = " + ConcoctionDatabase.REQUIREMENT_MET );
 		// If we can't make anything via this method, punt
 		if ( !ConcoctionDatabase.PERMIT_METHOD.contains( method ) )
 		{
@@ -2195,7 +2193,6 @@ public class ConcoctionDatabase
 
 	private static void addCraftingData( String mix, String name )
 	{
-		System.out.println( "name = " + name + " mix = " + mix );
 		CraftingType currentMixingMethod = ConcoctionDatabase.mixingMethod;
 		// Items anybody can create using meat paste or The Plunger
 		if ( mix.equals( "COMBINE") )
