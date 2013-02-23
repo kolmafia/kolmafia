@@ -118,18 +118,24 @@ public class EnthroneCommand
 				}
 			}
 
+			if ( change == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't enthrone an unknown familiar!" );
+				return;
+			}
+
 			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
 			{
 				RequestLogger.printLine( change.toString() );
 				return;
 			}
-			
+
 			if ( !change.enthroneable() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You can't enthrone a " + change.getRace() + "!" );
 				return;
 			}
-			
+
 			if ( KoLCharacter.getFamiliar().equals( change ) )
 			{
 				RequestThread.postRequest( new FamiliarRequest(

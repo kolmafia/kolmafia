@@ -1537,15 +1537,15 @@ public class Modifiers
 
 		String val;
 		val = mods.strings[ Modifiers.EQUALIZE ];
-		if ( val != "" && this.strings[ Modifiers.EQUALIZE ] == "" )
+		if ( !val.equals( "" ) && this.strings[ Modifiers.EQUALIZE ].equals( "" ) )
 		{
 			this.strings[ Modifiers.EQUALIZE ] = val;
 		}
 		val = mods.strings[ Modifiers.INTRINSIC_EFFECT ];
-		if ( val != "" )
+		if ( !val.equals( "" ) )
 		{
 			String prev = this.strings[ INTRINSIC_EFFECT ];
-			if ( prev == "" )
+			if ( prev.equals( "" ) )
 			{
 				this.strings[ Modifiers.INTRINSIC_EFFECT ] = val;
 			}
@@ -1555,12 +1555,12 @@ public class Modifiers
 			}
 		}
 		val = mods.strings[ Modifiers.STAT_TUNING ];
-		if ( val != "" )
+		if ( !val.equals( "" ) )
 		{
 			this.strings[ Modifiers.STAT_TUNING ] = val;
 		}
 		val = mods.strings[ Modifiers.FAMILIAR_TUNING ];
-		if ( val != "" )
+		if ( !val.equals( "" ) )
 		{
 			this.strings[ Modifiers.FAMILIAR_TUNING ] = val;
 		}

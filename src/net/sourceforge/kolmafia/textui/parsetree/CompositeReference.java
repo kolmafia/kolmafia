@@ -177,7 +177,7 @@ public class CompositeReference
 	}
 
 	@Override
-	public Value getValue( final Interpreter interpreter )
+	public synchronized Value getValue( final Interpreter interpreter )
 	{
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
 		// Iterate through indices to final slice

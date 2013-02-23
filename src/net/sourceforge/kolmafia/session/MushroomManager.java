@@ -741,7 +741,12 @@ public abstract class MushroomManager
 
 					for ( int i = 0; i < 4; ++i )
 					{
-						line = reader.readLine().trim();
+						if ( ( line = reader.readLine() ) == null )
+						{
+							break;
+						}
+
+						line = line.trim();
 						String[] pieces = line.split( "\\*?\\s+" );
 
 						if ( line != null )
