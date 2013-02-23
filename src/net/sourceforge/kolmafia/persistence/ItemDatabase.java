@@ -565,6 +565,14 @@ public class ItemDatabase
 	private static final void setConsumptionData( final String name, final int size, final String adventures,
 		final String muscle, final String mysticality, final String moxie, final String note )
 	{
+		ItemDatabase.setConsumptionData( name, size, 1, "", adventures, muscle, mysticality, moxie, note );
+	}
+
+	private static final void setConsumptionData( final String name, final int size, final int level, final String quality,
+		final String adventures, final String muscle, final String mysticality, final String moxie, final String note )
+	{
+		ItemDatabase.levelReqByName.put( name, level );
+		ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( quality ) );
 		ItemDatabase.saveAdventureRange( name, size, adventures );
 		ItemDatabase.calculateAdventureRange( name );
 		ItemDatabase.muscleByName.put( name, muscle );
@@ -1133,6 +1141,7 @@ public class ItemDatabase
 		AdventureResult ar = ItemPool.get( itemId, 1 );
 		Concoction c = new Concoction( ar, KoLConstants.NOCREATE );
 		ConcoctionPool.set( c );
+		ConcoctionDatabase.addUsableConcoction( c );
 	}
 
 	private static void parseItemDescription( final Integer id, final String itemName, int power )
@@ -1197,6 +1206,10 @@ public class ItemDatabase
 			// Let equipment database do what it wishes with this item
 			EquipmentDatabase.registerItem( itemId, itemName, text, power );
 		}
+		else if ( usage == KoLConstants.CONSUME_EAT || usage == KoLConstants.CONSUME_DRINK )
+		{
+			ItemDatabase.registerConsumable( itemName, usage, text );
+		}
 
 		// Let modifiers database do what it wishes with this item
 		Modifiers.registerItem( itemName, text );
@@ -1219,6 +1232,44 @@ public class ItemDatabase
 		{
 			FamiliarDatabase.registerFamiliar( id, text );
 		}
+	}
+
+	public static void registerConsumable( final String itemName, final int usage, final String text )
+	{
+		// Get information from description
+		int size;
+		if ( usage == KoLConstants.CONSUME_EAT )
+		{
+			size = DebugDatabase.parseFullness( text );
+		}
+		else if ( usage == KoLConstants.CONSUME_DRINK )
+		{
+			size = DebugDatabase.parseInebriety( text );
+		}
+		else
+		{
+			return;
+		}
+
+		int level = DebugDatabase.parseLevel( text );
+		String quality = DebugDatabase.parseQuality( text );
+
+		// Add consumption data for this session
+		String name = StringUtilities.getCanonicalName( itemName );
+		if ( usage == KoLConstants.CONSUME_EAT )
+		{
+			ItemDatabase.fullnessByName.put( name, size );
+		}
+		else if ( usage == KoLConstants.CONSUME_DRINK )
+		{
+			ItemDatabase.inebrietyByName.put( name, size );
+		}
+		ItemDatabase.setConsumptionData( name, size, level, quality, "0", "0", "0", "0", "unkown adventure yield" );
+
+		// Print what goes in fullness.txt
+		String printMe = ItemDatabase.consumableString( name, size, level, quality, "0", "0", "0", "0", "" );
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
 	}
 
 	public static void registerItemAlias( final int itemId, final String itemName, final String plural )
