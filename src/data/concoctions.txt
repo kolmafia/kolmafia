@@ -621,7 +621,7 @@ slap and slap again	MIX	slap and tickle	pretty flower
 
 bungle in the jungle	ACOCK	banana daiquiri	little paper umbrella
 
-soft green echo eyedrop antidote martini	ACOCK	rockin' wagon	soft green echo eyedrop antidote
+soft green echo eyedrop antidote martini	MIX, AC	rockin' wagon	soft green echo eyedrop antidote
 
 tropical swill	ACOCK	Typical Tavern swill	coconut shell
 fruity girl swill	ACOCK	Typical Tavern swill	little paper umbrella
