@@ -547,7 +547,7 @@ public class Concoction
 			AdventureResult.addResultToList( localChanges, ingredient );
 		}
 
-		int advs = ConcoctionDatabase.ADVENTURE_USAGE.get( this.mixingMethod ) * overAmount;
+		int advs = ConcoctionDatabase.getAdventureUsage( this.mixingMethod ) * overAmount;
 		if ( advs != 0 )
 		{
 			for ( int i = 0; i < advs; ++i )
@@ -969,7 +969,7 @@ public class Concoction
 
 		// Adventures are also considered an ingredient
 
-		int advs = ConcoctionDatabase.ADVENTURE_USAGE.get( this.mixingMethod );
+		int advs = ConcoctionDatabase.getAdventureUsage( this.mixingMethod );
 		if ( minMake > 0 && advs != 0 )
 		{
 			// Free crafting turns are counted as implicit adventures in this step.
@@ -1077,7 +1077,7 @@ public class Concoction
 			return 0;
 		}
 
-		int runningTotal = ConcoctionDatabase.ADVENTURE_USAGE.get( this.mixingMethod ) * create;
+		int runningTotal = ConcoctionDatabase.getAdventureUsage( this.mixingMethod ) * create;
 
 		// If this creation method takes no adventures, no recursion
 
