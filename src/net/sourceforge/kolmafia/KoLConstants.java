@@ -537,6 +537,7 @@ public interface KoLConstants
 		CURDLE, // Requires Avatar of Jarlsberg skill Curdle
 		FREEZE, // Requires Avatar of Jarlsberg skill Freeze
 		FRY, // Requires Avatar of Jarlsberg skill Fry
+		GRILL, // Requires Avatar of Jarlsberg skill Grill
 		SLICE, // Requires Avatar of Jarlsberg skill Slice
 	}
 

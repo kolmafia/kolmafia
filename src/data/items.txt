@@ -6201,7 +6201,7 @@
 6184	Jarlsberg's hat	272618509	jarlhat.gif	hat	q	0
 6185	consummate hard-boiled egg	461197132	jarl_egg.gif	food	q	0
 6186	consummate fried egg	608835734	jarl_friedegg.gif	food	q	0
-6187
+6187	consummate egg salad	949461270	jarl_eggsalad.gif	food	q	0
 6188	consummate bagel	373577402	jarl_bagel.gif	food	q	0
 6189	consummate sliced bread	795311596	jarl_slicedbread.gif	food	q	0
 6190	consummate hot dog bun	240440932	jarl_bun.gif	food	q	0
@@ -6220,7 +6220,7 @@
 6203	consummate steak	823655507	jarl_steak.gif	food	q	0
 6204	consummate cold cuts	795814665	jarl_coldcuts.gif	food	q	0
 6205	consummate frankfurter	436739002	jarl_hotdog.gif	food	q	0
-6206
+6206	consummate french fries	143607187	jarl_fries.gif	food	q	0
 6207	consummate baked potato	727787941	jarl_bakedpotato.gif	food	q	0
 6208	acceptable vodka	144307688	jarl_vodka.gif	drink	q	0
 6209	consummate ice cream	135680484	jarl_icecream.gif	food	q	0
