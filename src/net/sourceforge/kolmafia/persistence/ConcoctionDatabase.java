@@ -1841,6 +1841,10 @@ public class ConcoctionDatabase
 			{
 				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.FRY );
 			}
+			if ( KoLCharacter.hasSkill( "Grill" ) )
+			{
+				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.GRILL );
+			}
 			if ( KoLCharacter.hasSkill( "Slice" ) )
 			{
 				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.SLICE );
@@ -2606,6 +2610,12 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
 			ConcoctionDatabase.requirements.add( CraftingRequirements.FRY );
+		}
+
+		else if ( mix.equals( "JARLSGRILL" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.GRILL );
 		}
 
 		else if ( mix.equals( "JARLSSLICE" ) )

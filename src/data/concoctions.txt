@@ -2080,7 +2080,7 @@ consummate bagel	JARLSBOIL	cosmic dough
 consummate soup	JARLSBOIL	cosmic vegetable
 consummate fried egg	JARLSFRY	cosmic egg
 consummate bacon	JARLSFRY	cosmic potted meat product
-consummate french fries		JARLSFRY	cosmic potato
+consummate french fries	JARLSFRY	cosmic potato
 consummate hot dog bun	JARLSCHOP	cosmic dough
 consummate salad	JARLSCHOP	cosmic vegetable
 consummate sliced bread	JARLSSLICE	cosmic dough
