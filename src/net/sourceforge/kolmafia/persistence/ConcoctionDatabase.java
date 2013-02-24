@@ -1387,8 +1387,6 @@ public class ConcoctionDatabase
 
 		// It is never possible to create items which are flagged
 		// NOCREATE
-		ConcoctionDatabase.CREATION_COST.put( CraftingType.NOCREATE, 0 );
-		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.NOCREATE, 0 );
 
 		// It is always possible to create items through meat paste
 		// combination.
@@ -1859,7 +1857,7 @@ public class ConcoctionDatabase
 		{
 			if ( ConcoctionDatabase.PERMIT_METHOD.contains( method ) )
 			{
-				int adv = ConcoctionDatabase.ADVENTURE_USAGE.get( method );
+				int adv = ConcoctionDatabase.getAdventureUsage( method );
 				if ( adv == 0 )
 				{
 					continue;
@@ -1871,12 +1869,24 @@ public class ConcoctionDatabase
 				}
 				else
 				{
-					int cost = ConcoctionDatabase.CREATION_COST.get( method );
+					int cost = ConcoctionDatabase.getCreationCost( method );
 					ConcoctionDatabase.CREATION_COST.put( method, cost + ( adv * value ) );
 				}
 			}
 		}
 
+	}
+
+	public static int getAdventureUsage( CraftingType method )
+	{
+		Integer advs = ConcoctionDatabase.ADVENTURE_USAGE.get( method );
+		return advs == null ? 0 : advs.intValue();
+	}
+
+	public static int getCreationCost( CraftingType method )
+	{
+		Integer advs = ConcoctionDatabase.CREATION_COST.get( method );
+		return advs == null ? 0 : advs.intValue();
 	}
 
 	public static int getFreeCraftingTurns()

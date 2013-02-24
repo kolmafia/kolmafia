@@ -1511,7 +1511,7 @@ public abstract class InventoryManager
 			return Integer.MAX_VALUE;
 		}
 
-		int price = ConcoctionDatabase.CREATION_COST.get( method );
+		int price = ConcoctionDatabase.getCreationCost( method );
 		int yield = ConcoctionDatabase.getYield( id );
 		int madeQuantity = ( quantity + yield - 1 ) / yield;
 
