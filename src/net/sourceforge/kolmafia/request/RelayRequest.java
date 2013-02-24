@@ -1166,8 +1166,8 @@ public class RelayRequest
 			return false;
 		}
 
-		// The Avatar of Boris and Zombie Master don't need a wand
-		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() )
+		// The Avatar of Boris and Jarlsberg, and Zombie Master, don't need a wand
+		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg() )
 		{
 			return false;
 		}
@@ -1633,7 +1633,7 @@ public class RelayRequest
 
 			long lastSeen = StringUtilities.parseLong( this.getFormField( "lasttime" ) );
 
-			List chatMessages = ChatPoller.getEntries( lastSeen, true );
+			List chatMessages = ChatPoller.getEntries( lastSeen, true );//
 			Iterator messageIterator = chatMessages.iterator();
 
 			boolean needsLineBreak = false;
@@ -1665,6 +1665,13 @@ public class RelayRequest
 
 			chatText = chatResponse.toString();
 		}
+		/*
+		   <div id="1323769271" class="msg"><span class="time">[23:28:39] </span>
+		   <span style="color: green;" class="ctag">[hardcore] </span>
+		   <a style="color: black;" href="showplayer.php?who=1729384" class="player" target="mainpane">
+		   Erwaro</a>: <span class="guts">Some other tree? Because combat doesn't really do you that much good,
+		   you'll do fine with pounce.</span></div>
+		 */
 		else if ( this.getPath().startsWith( "newchatmessages.php" ) && tabbedChat )
 		{
 			ChatRequest request = new ChatRequest();
@@ -2006,7 +2013,10 @@ public class RelayRequest
 			this.waitForRecoveryToComplete();
 		}
 
-		if ( adventureName != null && !isNonCombatsOnly && ( this.sendFamiliarWarning() || this.sendKungFuWarning() ) )
+		if ( ( ( adventureName != null && !isNonCombatsOnly)
+				|| ( path.startsWith( "inv_use.php" ) && UseItemRequest.getAdventuresUsed( path ) > 0 ) )
+				&& ( this.sendFamiliarWarning() || this.sendKungFuWarning() )
+			)
 		{
 			return;
 		}
