@@ -365,6 +365,9 @@ public class CreateItemRequest
 		case CLIPART:
 			return new ClipArtRequest( conc );
 
+		case JARLS:
+			return new JarlsbergRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}
@@ -1230,6 +1233,10 @@ public class CreateItemRequest
 			if ( urlString.contains( "whichshop=mystic" ) )
 			{
 				return PixelRequest.registerRequest( urlString );
+			}
+			if ( urlString.contains( "whichshop=jarl" ) )
+			{
+				return JarlsbergRequest.registerRequest( urlString );
 			}
 		}
 

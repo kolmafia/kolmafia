@@ -35,6 +35,11 @@
 # ACOCK, SCOCK, SACOCK (skilled mixing)
 # EJEWEL (skilled jewelrymaking)
 
+# JARLS for Avatar of Jarlsberg crafting
+# Combination of Jarlsberg crafting and the required skill
+# JARLSBOIL, JARLSFRY, JARLSCHOP, JARLSSLICE
+# JARLSBAKE, JARLSGRILL, JARLSFREEZE, JARLSBLEND
+
 
 # Items which can be obtained by simply using another item.  There are
 # lots more of these, but this appears to be the only one that
@@ -2068,3 +2073,68 @@ Mark II Steam-Hat	COMBINE	Mark I Steam-Hat	brass gear
 Mark III Steam-Hat	COMBINE	Mark II Steam-Hat	brass gear
 Mark IV Steam-Hat	COMBINE	Mark III Steam-Hat	brass gear
 Mark V Steam-Hat	COMBINE	Mark IV Steam-Hat	brass gear
+
+# Avatar of Jarlsberg ingredients
+consummate hard-boiled egg	JARLSBOIL	cosmic egg
+consummate bagel	JARLSBOIL	cosmic dough
+consummate soup	JARLSBOIL	cosmic vegetable
+consummate fried egg	JARLSFRY	cosmic egg
+consummate bacon	JARLSFRY	cosmic potted meat product
+consummate french fries		JARLSFRY	cosmic potato
+consummate hot dog bun	JARLSCHOP	cosmic dough
+consummate salad	JARLSCHOP	cosmic vegetable
+consummate sliced bread	JARLSSLICE	cosmic dough
+consummate corn chips	JARLSSLICE	cosmic vegetable
+consummate cheese slice	JARLSSLICE	cosmic cheese
+consummate strawberries	JARLSSLICE	cosmic fruit
+consummate brownie	JARLSBAKE	cosmic dough
+consummate melted cheese	JARLSBAKE	cosmic cheese
+consummate meatloaf	JARLSBAKE	cosmic potted meat product
+consummate baked potato	JARLSBAKE	cosmic potato
+consummate toast	JARLSGRILL	cosmic dough
+consummate steak	JARLSGRILL	cosmic potted meat product
+consummate cold cuts	JARLSFREEZE	cosmic potted meat product
+consummate ice cream	JARLSFREEZE	cosmic cream
+consummate sorbet	JARLSFREEZE	cosmic fruit
+consummate egg salad	JARLSBLEND	cosmic egg
+consummate salsa	JARLSBLEND	cosmic vegetable
+consummate frankfurter	JARLSBLEND	cosmic potted meat product
+consummate whipped cream	JARLSBLEND	cosmic cream
+passable stout	JARLSCURDLE	cosmic dough
+consummate sauerkraut	JARLSCURDLE	cosmic vegetable
+acceptable vodka	JARLSCURDLE	cosmic potato
+consummate sour cream	JARLSCURDLE	cosmic cream
+adequate rum	JARLSCURDLE	cosmic fruit
+
+# Avatar of Jarlsberg dishes
+immaculate grilled cheese	JARLS	consummate toast	consummate cheese slice
+immaculate ice cream sandwich	JARLS	consummate ice cream	consummate brownie
+immaculate hot dog	JARLS	consummate hot dog bun	consummate frankfurter
+immaculate egg salad sandwich	JARLS	consummate egg salad	consummate sliced bread
+perfect sandwich	JARLS	consummate sliced bread	consummate cheese slice	consummate cold cuts
+perfect chef salad	JARLS	consummate salad	consummate hard-boiled egg	consummate cold cuts
+perfect breakfast	JARLS	consummate fried egg	consummate bacon	consummate toast
+sublime deluxe hot dog	JARLS	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
+sublime stew	JARLS	consummate soup	consummate steak	consummate baked potato
+sublime nachos	JARLS	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
+Ultimate Breakfast Sandwich	JARLS	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
+Loaded Baked Potato	JARLS	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
+Omega Sundae	JARLS	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
+Die Sauerlager	JARLS	mediocre lager	consummate sauerkraut
+Bologna Lambic	JARLS	passable stout	consummate cold cuts
+Vodka Dog	JARLS	acceptable vodka	consummate hot dog bun
+Disappointed Russian	JARLS	acceptable vodka	consummate sour cream
+Chunky Mary	JARLS	acceptable vodka	consummate salsa
+Nachojito	JARLS	adequate rum	consummate melted cheese
+Le Roi	JARLS	adequate rum	consummate french fries
+Over Easy Rider	JARLS	adequate rum	consummate fried egg
+
+# Avatar of Jarlsberg chefstaves
+Staff of Fruit Salad	JARLS	cosmic fruit
+Staff of the All-Steak	JARLS	cosmic potted meat product
+Staff of the Cream of the Cream	JARLS	cosmic cream
+Staff of the Healthy Breakfast	JARLS	cosmic egg
+Staff of the Hearty Dinner	JARLS	cosmic potato
+Staff of the Light Lunch	JARLS	cosmic vegetable
+Staff of the Staff of Life	JARLS	cosmic dough
+Staff of the Standalone Cheese	JARLS	cosmic cheese

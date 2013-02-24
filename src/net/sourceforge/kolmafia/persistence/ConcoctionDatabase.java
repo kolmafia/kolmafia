@@ -1809,6 +1809,47 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.NOBEE );
 		}
 
+		if ( KoLCharacter.isJarlsberg() )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.JARLS );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JARLS, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.JARLS, 0 );
+
+			if ( KoLCharacter.hasSkill( "Bake" ) )
+			{
+				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.BAKE );
+			}
+			if ( KoLCharacter.hasSkill( "Blend" ) )
+			{
+				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.BLEND );
+			}
+			if ( KoLCharacter.hasSkill( "Boil" ) )
+			{
+				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.BOIL );
+			}
+			if ( KoLCharacter.hasSkill( "Chop" ) )
+			{
+				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.CHOP );
+			}
+			if ( KoLCharacter.hasSkill( "Curdle" ) )
+			{
+				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.CURDLE );
+			}
+			if ( KoLCharacter.hasSkill( "Freeze" ) )
+			{
+				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.FREEZE );
+			}
+			if ( KoLCharacter.hasSkill( "Fry" ) )
+			{
+				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.FRY );
+			}
+			if ( KoLCharacter.hasSkill( "Slice" ) )
+			{
+				ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.SLICE );
+			}
+		}
+		ConcoctionDatabase.EXCUSE.put( CraftingType.JARLS, "You are not an Avatar of Jarlsberg" );
+
 		// Now, go through all the cached adventure usage values and if
 		// the number of adventures left is zero and the request requires
 		// adventures, it is not permitted.
@@ -2508,6 +2549,59 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.COOK_FANCY;
 			ConcoctionDatabase.requirements.add( CraftingRequirements.DEEP_SAUCERY );
+		}
+
+		else if ( mix.equals( "JARLS" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
+		}
+
+		else if ( mix.equals( "JARLSBAKE" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.BAKE );
+		}
+
+		else if ( mix.equals( "JARLSBLEND" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.BLEND );
+		}
+
+		else if ( mix.equals( "JARLSBOIL" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.BOIL );
+		}
+
+		else if ( mix.equals( "JARLSCHOP" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.CHOP );
+		}
+
+		else if ( mix.equals( "JARLSCURDLE" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.CURDLE );
+		}
+
+		else if ( mix.equals( "JARLSFREEZE" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.FREEZE );
+		}
+
+		else if ( mix.equals( "JARLSFRY" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.FRY );
+		}
+
+		else if ( mix.equals( "JARLSSLICE" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.SLICE );
 		}
 
 		else

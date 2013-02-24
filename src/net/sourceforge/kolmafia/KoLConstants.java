@@ -507,6 +507,7 @@ public interface KoLConstants
 		ACOMBINE, // Un-untinkerable Ideas
 		COINMASTER, // Coinmaster purchase
 		CLIPART, // Tome of Clip Art summons
+		JARLS, // Items that can only be made by an Avatar of Jarlsberg
 	}
 
 	public enum CraftingRequirements
@@ -529,6 +530,14 @@ public interface KoLConstants
 		SHC, // Requires Superhuman Cocktailcrafting
 		SALACIOUS, // Requires Salacious Cocktailcrafting
 		NOBEE, // Not on Bees Hate You path
+		BAKE, // Requires Avatar of Jarlsberg skill Bake
+		BLEND, // Requires Avatar of Jarlsberg skill Blend
+		BOIL, // Requires Avatar of Jarlsberg skill Boil
+		CHOP, // Requires Avatar of Jarlsberg skill Chop
+		CURDLE, // Requires Avatar of Jarlsberg skill Curdle
+		FREEZE, // Requires Avatar of Jarlsberg skill Freeze
+		FRY, // Requires Avatar of Jarlsberg skill Fry
+		SLICE, // Requires Avatar of Jarlsberg skill Slice
 	}
 
 	public enum CraftingMisc
