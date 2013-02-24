@@ -101,6 +101,12 @@ public class CallScriptCommand
 				if ( hasMultipleRuns )
 				{
 					runCount = StringUtilities.parseInt( runCountString );
+					//Fixes StringIndexOutOfBoundsException error when "x" is entered
+					//as a command.  This may be addressing the symptom and not the
+					//cause and but should not break x as a "repeat indicator".
+					if (runCount <= 0) {
+						return;
+					}
 					parameters = parameters.substring( parameters.indexOf( " " ) ).trim();
 					scriptFile = KoLmafiaCLI.findScriptFile( parameters );
 				}
