@@ -6,9 +6,11 @@
 
 5-hour acrimony	5	1	awesome	0	0	0	0	+10 PVP fights
 a little sump'm sump'm	4	4	good	10-14	0	25-27	8-10
+acceptable vodka	3	0	decent	4-5	0	20-30	10-20
 accidental cider	3	1	decent	3-6	0	0	0
 acqua del piatto merlot	1	10	EPIC	3-10	60	60	60
 acque luride grezze cabernet	1	10	EPIC	6-10	60	60	60
+adequate rum	3	0	decent	4-5	0	20-30	10-20
 alewife&trade; ale	1	5	decent	2	0	0	0	15-30 MP, 5 Brined Liver
 an evil little sump'm sump'm	4	4	awesome	12-16	0	20	50-75	10 A Little Bit Evil (+2 ML)
 antarctic ice tea	5	1		14-19	0	0	0
@@ -38,6 +40,7 @@ bloody beer	1	1	decent	2	0	0	0	3-5 MP
 bloody mary	3	1	decent	5-6	1-2	1-2	1-2
 bodyslam	6	6	awesome	22-26	16-20	0	0	tiny plastic sword
 boilermaker	4	12	awesome	11-15	25-29	10-15	10-15
+bologna lambic	3	0	good	8-10	0	30-40	20-30
 bone aperitif	2	6	awesome	7-9	12-20	12-20	12-20
 bone's farm &quot;wine&quot;	1	6	awesome	3-4	5-10	5-10	5-10	30 Sticks and Stones (+50 dmg vs. Skeletons)
 booze-soaked cherry	1	3	decent	1-3	0	5-10	0
@@ -83,6 +86,7 @@ cement mixer	2	1	good	4-5	10-20	0	0	5 Mortarfied
 chakra libre	2	4	awesome	6-7	0	20-30	0	10 Transcendental Wind
 cheap Chinese beer	1	1	crappy	1	0	0	0	4 MP
 cherry bomb	6	6	awesome	22-26	0	16-20	0	tiny plastic sword
+chunky mary	4	0	good	11-13	0	0	30-40
 cinco mayo lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 cobb's knob wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP
@@ -99,9 +103,9 @@ crimbco egg substitute nog substitute	4	1		7-8	0	0	0	lose 20% boredom
 crimbco extreme braincracker sour	5	1		12-13	0	0	0	lose 30% boredom
 crimbco ribbon candy schnapps	3	1		4-5	0	0	0	lose 10% boredom
 crimbco wine	3	1	decent	4-8	10-20	10-20	10-20
+crimbo saketini	3	1	decent	3-6	0	0	0
 crimbojito	2	2	EPIC	10-13	10-20	25-50	10-20
 crimboku drop	4	1	decent	6-10	0	0	0
-crimbo saketini	3	1	decent	3-6	0	0	0
 cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg)
 crystal skeleton vodka	3	3	EPIC	15-17	15-35	15-35	15-35	20 Aykrophobia (+25% item drop, +spooky dmg, +15 ML)
 csa cheerfulness ration	1	6	awesome	4	40-50	40-50	40-50
@@ -116,7 +120,9 @@ decanter of fine scotch	4	9	EPIC	18-22	5-10	5-10	50-80
 desert island iced tea	5	1		12-13	0	0	0	15 Castaway Physique
 dew yoana lei	3	4	decent	5-6	0	34-80	0	20 Brined Liver
 dew yoana salacious lei	4	8	good	10-14	0	60-115	0	30 Brined Liver
+die sauerlager	3	0	decent	4-5	0	20-30	10-20
 dirty martini	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
+disappointed russian	4	0	decent	7-9	0	0	30-40
 distilled fortified wine	1	1	EPIC	5-6	5-6	5-6	5-6
 divine	4	6	awesome	14-18	16-20	25-27	0
 doublepunchplanter	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
@@ -224,6 +230,7 @@ jerkitini	5	1		12-13	0	0	0	15 Jerky, Boy
 kamicorpse-ee	3	1	good	5-10	0	0	31-35
 knob mushroom wine	3	6	awesome	10-14	0	4-6	0
 knoll mushroom wine	3	6	awesome	10-14	4-6	0	0
+le roi	3	0	good	8-10	0	0	30-40
 locust	2	4	awesome	6-7	0	0	20-30	10 Cockroach Scurry
 lollipop drop	2	1	good	4-5	0	0	10-20	5 Holiday Bliss
 lumbering jack	3	1	decent	3-8	0	11-14	0
@@ -236,8 +243,9 @@ mandarina colada	4	6	awesome	14-18	0	16-20	25-27
 margarita	3	1	decent	5-6	8-10	0	0
 marshmallow flamb&eacute;	2	3	EPIC	11-13	46-79	0	0	10 Sugar Rush
 martini	3	1	decent	5-6	0	0	8-10
+mcleod's hard haggis-ade	2	2	decent	0	0	0	0
 mcmillicancuddy's special lager	1	10	good	2-4	10-15	10-15	10-15	10-20 MP
-McLeod's Hard Haggis-Ade	2	2	decent	0	0	0	0
+mediocre lager	2	0	crappy	2	0	10-20	5-10
 melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fishy)
 melted jell-o shot	1	10	good	2-4	0-40	0-40	0-40
 mimosette	3	3	good	5-10	16-20	0	0
@@ -256,6 +264,7 @@ mt. noob pale ale	2	1	good	3-6	0	0	0
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sleeper)
 mutagin 'n' tonic	5	5		10-15	0	0	0
+nachojito	3	0	good	8-10	0	0	30-40
 nanite-infested eggnog	3	3	good	5-10	0	16-30	16-30	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 natto-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (+15% critical, +15% critical spell)
 neuromancer	4	6	awesome	14-18	25-27	0	16-20
@@ -267,11 +276,13 @@ old-fashioned	3	3	good	5-10	0	8-10	0
 oozenog	3	1	good	5-10	10-20	10-20	10-20	10 Festive Radiation (+5% all)
 open sauce	4	7	good	11-13	15-25	15-25	15-25
 oreille divis&eacute;e brandy	3	4	awesome	12-15	15-25	15-25	15-25	20 Hoity Toity (+30% item drop)
+over easy rider	3	0	good	8-10	0	0	30-40
 overpriced &quot;imported&quot; beer	1	1	decent	2	0	0	0
 pan-dimensional gargle blaster	5	13	EPIC	23-27	50-100	50-100	50-100
 papaya sling	3	1	decent	3-8	16-30	0	0
 papaya slung	3	2	decent	4-8	11-15	11-15	11-15
 parisian cathouse	3	3	good	5-10	0	0	16-20
+passable stout	3	0	decent	4-5	0	20-30	10-20
 pebblebr&auml;u	1	1	crappy	1	50-80	50-80	50-80
 perpendicular hula	4	4	good	10-14	0	0	34-36
 petite porter	3	4		3-5	0	0	0
@@ -326,8 +337,8 @@ shot of the living dead	2	8	awesome	8-9	30-40	0	0	15 Creepypasted
 shot of tomato schnapps	1	1	decent	2	1-2	1-2	1-2
 silver bullet beer	1	6	awesome	3-4	5-10	5-10	5-10	30 Wolf's Bane (+50 dmg vs. Werewolves)
 sizzling sinner	2	8	awesome	8-9	30-40	0	0	15 Heart Aflame
-slap and tickle	4	4	good	10-14	0	8-10	25-27
 slap and slap again	3	1	decent	0	0	0	0	+3 PvP fights
+slap and tickle	4	4	good	10-14	0	8-10	25-27
 slimebite	2	8	awesome	8-9	0	0	30-40	15 In the Slimelight
 slimosa	2	1	good	4-5	0	0	10-20	5 In the Slimelight
 slimy fermented bile bladder	1	6	good	2-3	0	0	0	20 Bilious (+25 ML, slime res)
@@ -375,6 +386,7 @@ used beer	2	1	crappy	0	0	0	0	1 PvP Fight
 vesper	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 vodka and cranberry	3	1	decent	5-6	0	15-20	0
 vodka and tonic	3	3	good	5-10	0	16-20	0
+vodka dog	3	0	good	8-10	0	0	30-40
 vodka gibson	3	3	good	5-10	0	0	16-20
 vodka martini	3	1	decent	5-6	0	0	8-10
 vodka matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
