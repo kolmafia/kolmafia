@@ -205,7 +205,9 @@ ghuol egg quiche	3	2	decent	3-9	0	0	0
 ghuol guolash	3	1	decent	3-6	-11-19	-11-19	-11-19
 ghuol-ear kabob	2	1	decent	2-5	0	0	0
 giant dragon roll	3	1		9-14	28-46	0	0	45/55 Fishy
+giant grain of protein powder	1	7	good	2-3	30-40	0	0
 giant green gummi bear	4	4	good	9-10	0	80-150	0	40 Gummibrain
+giant heirloom grape tomato	5	6	good	13-15	20-30	20-30	20-30
 giant marshmallow	4	3	decent	7-9	10-20	0	0
 giant red gummi bear	4	4	good	9-10	80-150	0	0	40 Gummiheart
 giant yellow gummi bear	4	4	good	9-10	0	0	80-150	40 Gummiskin
@@ -487,6 +489,7 @@ star key lime pie	4	6	awesome	14-16	20-24	20-24	20-24	2-4 lines, 2-4 stars
 steel lasagna	5	5		00	0	0	0	Stomach of Steel skill
 stinky hi mein	5	7	awesome	21-28	30-35	71-75	15-20	5 Stinky Breath (combat skill)
 stinky mushroom	3	2	decent	3-9	0	0	3-5	lose 3 HP
+stolen sushi	6	6	good	12-14	15-20	15-20	15-20
 stomach turnover	2	2	awesome	7-9	5-10	15-20	15-20
 strawberry	1	1	crappy	1	0	0	0
 strawberry pie	3	2	decent	3-9	0	0	8-10
