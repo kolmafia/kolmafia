@@ -265,6 +265,7 @@ oil nog	4	5		7-9	0	0	0
 oily mushroom wine	3	7	awesome	12-17	14-15	12-15	12-15
 old-fashioned	3	3	good	5-10	0	8-10	0
 oozenog	3	1	good	5-10	10-20	10-20	10-20	10 Festive Radiation (+5% all)
+open sauce	4	7	good	11-13	15-25	15-25	15-25
 oreille divis&eacute;e brandy	3	4	awesome	12-15	15-25	15-25	15-25	20 Hoity Toity (+30% item drop)
 overpriced &quot;imported&quot; beer	1	1	decent	2	0	0	0
 pan-dimensional gargle blaster	5	13	EPIC	23-27	50-100	50-100	50-100
@@ -392,6 +393,7 @@ white-label gin	3	1	good	8-10	3-5	3-5	3-5
 wine spritzer	3	1	decent	5-6	0	8-10	0
 world's most unappetizing beverage	1	1	good	3	-1	-1	-1	10 Literally Insane (Legendary Beat quest)
 wrecked generator	5	5	EPIC	28-32	20-30	20-30	20-30
+ye olde meade	5	7	good	14-16	20-30	20-30	20-30
 yellow brick road	4	6	awesome	14-18	0	40-47	0
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Fullness 80 Gummskin
 zmobie	3	3	good	5-10	0	16-20	0
