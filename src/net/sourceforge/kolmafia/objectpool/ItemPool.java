@@ -232,6 +232,7 @@ public class ItemPool
 	public static final int LUCIFER = 571;
 	public static final int REMEDY = 588;
 	public static final int TINY_HOUSE = 592;
+	public static final int EXTREME_AMULET = 594;
 	public static final int DRASTIC_HEALING = 595;
 	public static final int TITANIUM_UMBRELLA = 3222;
 	public static final int SLUG_LORD_MAP = 598;

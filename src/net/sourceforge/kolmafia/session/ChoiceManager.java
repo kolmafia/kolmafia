@@ -2240,16 +2240,19 @@ public abstract class ChoiceManager
 		// Choice 669 is The Fast and the Furry-ous
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure669", "Basement Furry",
-			new String[] { "Neckbeard Choice", "200 Moxie substats", "???", "skip adventure and guarantees this adventure will reoccur" } ),
+			new String[] { "Neckbeard Choice", "200 Moxie substats",
+				"???", "skip adventure and guarantees this adventure will reoccur" } ),
 		// Choice 670 is You Don't Mess Around with Gym
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure670", "Basement Fitness",
-			new String[] { "massive dumbbell, then skip adventure", "200 Muscle substats", "pec oil, giant jar of protein powder, Squat-Thrust Magazine", "With amulet of extreme plot significance, open Ground Floor, otherwise skip adventure", "skip adventure and guarantees this adventure will reoccur" },
-			new String[] { "6271", null, null, "594", null } ),
+			new String[] { "massive dumbbell, then skip adventure", "Muscle stats",
+				"Items", "Open Ground Floor with amulet, otherwise skip" },
+			new String[] { "6271", null, null, null, null } ),
 		// Choice 671 is Out in the Open Source
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure671", "Basement Neckbeard",
-			new String[] { "With massive dumbbell, open Ground Floor, otherwise skip adventure", "200 Mysticality substats", "O'RLY manual, open sauce", "Fitness Choice" },
+			new String[] { "With massive dumbbell, open Ground Floor, otherwise skip adventure",
+				"200 Mysticality substats", "O'RLY manual, open sauce", "Fitness Choice" },
 			new String[] { "6271", null, null, null } ),
 		// Choice 672 is There's No Ability Like Possibility
 		new ChoiceAdventure(
@@ -2663,6 +2666,9 @@ public abstract class ChoiceManager
 		case 639:
 			// Old Man psychoses
 			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "First Mate's Log Entry" );
+
+		case 670:
+			return ChoiceManager.dynamicChoiceSpoilers( 5, choice, "You Don't Mess Around with Gym" );
 		}
 		return null;
 	}
@@ -2799,7 +2805,7 @@ public abstract class ChoiceManager
 			// Catburgle
 			boolean ok3a = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.FRILLY_SKIRT, 1 ) );
 			int wings = InventoryManager.getCount( ItemPool.HOT_WING );
-			result[ 2 ] = "frilly skirt (" + ( ok3a ? "" : "NOT " ) + " equipped) + 3 hot wings (" + wings + " in inventory)";
+			result[ 2 ] = "frilly skirt (" + ( ok3a ? "" : "NOT " ) + "equipped) + 3 hot wings (" + wings + " in inventory)";
 
 			return result;
 
@@ -3046,6 +3052,16 @@ public abstract class ChoiceManager
 		case 639:
 			// Old Man psychosis choice adventures are randomized and may not include all elements.
 			return oldManPsychosisSpoilers();
+
+		case 670:
+			result = new String[ 5 ];
+			result [ 0 ] = "massive dumbbell, then skip adventure";
+			result [ 1 ] = "200 Muscle substats";
+			result [ 2 ] = "pec oil, giant jar of protein powder, Squat-Thrust Magazine";
+				boolean amuletOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.EXTREME_AMULET, 1 ) );
+			result [ 3 ] = amuletOn ? "open Ground Floor (amulet equipped)" : "skip adventure (amulet not equipped)";
+			result [ 4 ] = "skip adventure and guarantees this adventure will reoccur";
+			return result;
 		}
 		return null;
 	}
