@@ -799,6 +799,7 @@ user	_chocolateCigarsUsed	0
 user	_chocolatesUsed	0
 user	_clipartSummons	0
 user	_coalPaperweightUsed	false
+user	_cosmicSixPackConjured	false
 user	_creepyVoodooDollUsed	false
 user	_crimboTree	false
 user	_cursedKegUsed	false

@@ -210,7 +210,7 @@ public class ConcoctionDatabase
 	private static final void addConcoction( final String[] data )
 	{
 		// Need at least concoction name and mixing method
-		if ( data.length <= 2 )
+		if ( data.length < 2 )
 		{
 			return;
 		}
@@ -245,23 +245,26 @@ public class ConcoctionDatabase
 
 		AdventureResult[] ingredients = new AdventureResult[ data.length - 2 ];
 		int param = 0;
-		for ( int i = 2; i < data.length; ++i )
+		if ( data.length >= 2 )
 		{
-			if ( StringUtilities.isNumeric( data[ i ] ) )
-			{	// Treat all-numeric element as parameter instead of item.
-				// Up to 4 such parameters can be given if each fits in a byte.
-				param = (param << 8) | StringUtilities.parseInt( data[ i ] );
-				continue;
-			}
-			AdventureResult ingredient = ConcoctionDatabase.parseIngredient( data[ i ] );
-			if ( ingredient == null || ingredient.getItemId() == -1 || ingredient.getName() == null )
+			for ( int i = 2; i < data.length; ++i )
 			{
-				RequestLogger.printLine( "Unknown ingredient (" + data[ i ] + ") for concoction: " + name );
-				bogus = true;
-				continue;
-			}
+				if ( StringUtilities.isNumeric( data[ i ] ) )
+				{	// Treat all-numeric element as parameter instead of item.
+					// Up to 4 such parameters can be given if each fits in a byte.
+					param = (param << 8) | StringUtilities.parseInt( data[ i ] );
+					continue;
+				}
+				AdventureResult ingredient = ConcoctionDatabase.parseIngredient( data[ i ] );
+				if ( ingredient == null || ingredient.getItemId() == -1 || ingredient.getName() == null )
+				{
+					RequestLogger.printLine( "Unknown ingredient (" + data[ i ] + ") for concoction: " + name );
+					bogus = true;
+					continue;
+				}
 
-			ingredients[ i - 2 ] = ingredient;
+				ingredients[ i - 2 ] = ingredient;
+			}
 		}
 
 		if ( !bogus )
@@ -276,17 +279,20 @@ public class ConcoctionDatabase
 				return;
 			}
 
-			for ( int i = 0; i < ingredients.length; ++i )
+			if ( ingredients.length > 0 )
 			{
-				AdventureResult ingredient = ingredients[ i ];
-				if ( ingredient == null )
-				{	// Was a parameter, not an ingredient.
-					continue;
-				}
-				concoction.addIngredient( ingredient );
-				if ( ingredient.getItemId() == ItemPool.MEAT_STACK )
+				for ( int i = 0; i < ingredients.length; ++i )
 				{
-					ConcoctionDatabase.meatStack.put( concoction.getName(), concoction );
+					AdventureResult ingredient = ingredients[ i ];
+					if ( ingredient == null )
+					{	// Was a parameter, not an ingredient.
+						continue;
+					}
+					concoction.addIngredient( ingredient );
+					if ( ingredient.getItemId() == ItemPool.MEAT_STACK )
+					{
+						ConcoctionDatabase.meatStack.put( concoction.getName(), concoction );
+					}
 				}
 			}
 

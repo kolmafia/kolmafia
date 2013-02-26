@@ -1662,6 +1662,9 @@ public class ResultProcessor
 				Preferences.increment( "_carrotNoseDrops" );
 			}
 			break;
+
+		case ItemPool.COSMIC_SIX_PACK:
+			Preferences.setBoolean( "_cosmicSixPackConjured", true );
 		}
 
 		// Gaining items can achieve goals.

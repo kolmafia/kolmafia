@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
@@ -1004,7 +1005,7 @@ public class Concoction
 
 		// Tome summons are also considered an ingredient.
 
-		if ( minMake > 0 && ( this.mixingMethod == CraftingType.CLIPART) )
+		if ( minMake > 0 && ( this.mixingMethod == CraftingType.CLIPART ) )
 		{
 			Concoction c = ConcoctionDatabase.clipArtLimit;
 			minMake = Math.min( minMake, c.canMake( needToMake, visited, turnFreeOnly ) );
@@ -1015,6 +1016,33 @@ public class Concoction
 						" not limited" : " limited to " + minMake) +
 					" by tome summons" );
 				lastMinMake = minMake;
+			}
+		}
+
+		if ( minMake > 0 && ( this.mixingMethod == CraftingType.JARLS ) )
+		{
+			if ( this.name.contains( "Staff" ) )
+			{
+				if ( KoLConstants.inventory.contains( this.concoction ) || KoLCharacter.hasEquipped( this.concoction ) )
+				{
+					return alreadyHave;
+				}
+				else
+				{
+					return Math.min( 1, minMake );
+				}
+			}
+
+			if ( this.concoction.equals( ItemPool.get( ItemPool.COSMIC_SIX_PACK, 1 ) ) )
+			{
+				if ( Preferences.getBoolean( "_cosmicSixPackConjured" ) )
+				{
+					return alreadyHave;
+				}
+				else
+				{
+					return alreadyHave + 1;
+				}
 			}
 		}
 
