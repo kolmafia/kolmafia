@@ -329,6 +329,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Class Act " );
 		}
+		else if ( KoLCharacter.isJarlsberg() )
+		{
+			sessionStream.print( "Avatar of Jarlsberg " );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );
@@ -346,7 +350,7 @@ public class ValhallaManager
 			sessionStream.print( "Oxygenarian " );
 		}
 
-		if ( !KoLCharacter.inAxecore() )
+		if ( !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() )
 		{
 			sessionStream.println( KoLCharacter.getClassType() );
 		}
