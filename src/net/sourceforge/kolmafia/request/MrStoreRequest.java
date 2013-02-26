@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2012, KoLmafia development team
+ * Copyright (c) 2005-2013, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
