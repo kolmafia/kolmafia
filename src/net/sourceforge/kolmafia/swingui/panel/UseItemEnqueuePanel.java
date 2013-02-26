@@ -682,8 +682,11 @@ public class UseItemEnqueuePanel
 
 			if ( KoLCharacter.isJarlsberg() && ( UseItemEnqueuePanel.this.food || UseItemEnqueuePanel.this.booze ) )
 			{
-				String name = creation.getName();
-				if ( creation.getMixingMethod() != CraftingType.JARLS && !name.equals( "steel margarita" ) )
+				AdventureResult item = creation.getItem();
+				String name = item != null ? item.getName() : null;
+				if ( creation.getMixingMethod() != CraftingType.JARLS && name != null &&
+				     !name.equals( "steel margarita" ) &&
+				     !name.equals( "mediocre lager" ) )
 				{
 					return false;
 				}
