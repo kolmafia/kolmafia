@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -678,6 +677,15 @@ public class UseItemEnqueuePanel
 					{
 						return false;
 					}
+				}
+			}
+
+			if ( KoLCharacter.isJarlsberg() && ( UseItemEnqueuePanel.this.food || UseItemEnqueuePanel.this.booze ) )
+			{
+				String name = creation.getName();
+				if ( creation.getMixingMethod() != CraftingType.JARLS && !name.equals( "steel margarita" ) )
+				{
+					return false;
 				}
 			}
 
