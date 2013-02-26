@@ -1715,7 +1715,14 @@ public abstract class SorceressLairManager
 			}
 		}
 
-		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
+		if ( KoLCharacter.isJarlsberg() )
+		{
+			KoLmafia.updateDisplay( "The final showdown awaits." );
+		}
+		else
+		{
+			KoLmafia.updateDisplay( "Her Naughtiness awaits." );
+		}
 		return -1;
 	}
 
@@ -2135,6 +2142,12 @@ public abstract class SorceressLairManager
 
 	private static final void familiarBattle( final int n )
 	{
+		// If you are an Avatar of Jarlsberg, the familiar battle is replaced with a normal combat
+		if ( KoLCharacter.isJarlsberg() )
+		{
+			return;
+		}
+
 		// If you are an Avatar of Boris or a Zombie Master, you don't need - and can't use - familiars
 		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() )
 		{
