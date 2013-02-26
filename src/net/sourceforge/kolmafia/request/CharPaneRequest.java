@@ -218,6 +218,10 @@ public class CharPaneRequest
 		{
 			CharPaneRequest.checkClancy( responseText );
 		}
+		else if ( KoLCharacter.isJarlsberg() )
+		{
+			CharPaneRequest.checkCompanion( responseText );
+		}
 		else
 		{
 			CharPaneRequest.checkFamiliar( responseText );
@@ -860,7 +864,48 @@ public class CharPaneRequest
 			KoLCharacter.setClancy( StringUtilities.parseInt( level ), instrument, att );
 		}
 	}
-	
+
+	public enum Companion
+	{
+		EGGMAN( "Eggman" ),
+		RADISH( "Radish Horse" ),
+		HIPPO( "Hippotatomous" ),
+		CREAM( "Cream Puff" );
+
+		private final String name;
+
+		private Companion( String name )
+		{
+			this.name = name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return this.name;
+		}
+	}
+
+	private static final void checkCompanion( final String responseText )
+	{
+		if ( responseText.contains( "the Eggman" ) )
+		{
+			KoLCharacter.setCompanion( Companion.EGGMAN );
+		}
+		else if ( responseText.contains( "the Radish Horse" ) )
+		{
+			KoLCharacter.setCompanion( Companion.RADISH );
+		}
+		else if ( responseText.contains( "the Hippotatomous" ) )
+		{
+			KoLCharacter.setCompanion( Companion.HIPPO );
+		}
+		else if ( responseText.contains( "the Cream Puff" ) )
+		{
+			KoLCharacter.setCompanion( Companion.CREAM );
+		}
+	}
+
 	private static final void checkMedium( final String responseText )
 	{
 		Pattern pattern = CharPaneRequest.mediumPattern;
@@ -942,6 +987,25 @@ public class CharPaneRequest
 				itype == 3 ? CharPaneRequest.LUTE :
 				null;
 			KoLCharacter.setClancy( level, instrument, att );
+		}
+		else if ( KoLCharacter.isJarlsberg() && JSON.has( "jarlcompanion" ) )
+		{
+			int companion = JSON.getInt( "jarlcompanion" );
+			switch ( companion )
+			{
+			case 1:
+				KoLCharacter.setCompanion( Companion.EGGMAN );
+				break;
+			case 2:
+				KoLCharacter.setCompanion( Companion.RADISH );
+				break;
+			case 3:
+				KoLCharacter.setCompanion( Companion.RADISH );
+				break;
+			case 4:
+				KoLCharacter.setCompanion( Companion.CREAM );
+				break;
+			}
 		}
 		else
 		{

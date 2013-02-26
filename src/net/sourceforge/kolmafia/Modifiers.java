@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
@@ -2144,6 +2145,31 @@ public class Modifiers
 		this.add( Modifiers.HP_REGEN_MAX, imods.get( Modifiers.HP_REGEN_MAX ), name );
 		this.add( Modifiers.MP_REGEN_MIN, imods.get( Modifiers.MP_REGEN_MIN ), name );
 		this.add( Modifiers.MP_REGEN_MAX, imods.get( Modifiers.MP_REGEN_MAX ), name );
+	}
+
+	public void applyCompanionModifiers( Companion companion )
+	{
+		double multiplier = 1.0;
+		if ( KoLCharacter.hasSkill( "Working Lunch" ) )
+		{
+			multiplier = 1.5;
+		}
+
+		switch ( companion )
+		{
+		case EGGMAN:
+			this.add( Modifiers.ITEMDROP, 50 * multiplier, "Eggman" );
+			break;
+		case RADISH:
+			this.add( Modifiers.INITIATIVE, 50 * multiplier, "Radish Horse" );
+			break;
+		case HIPPO:
+			this.add( Modifiers.EXPERIENCE, 3 * multiplier, "Hippotatomous" );
+			break;
+		case CREAM:
+			this.add( Modifiers.MONSTER_LEVEL, 20 * multiplier, "Cream Puff" );
+			break;
+		}
 	}
 
 
