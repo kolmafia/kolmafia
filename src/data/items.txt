@@ -6312,7 +6312,7 @@
 6295	drum 'n' bass 'n' drum 'n' bass record	653078294	record.gif	none	q	0
 6296	cosmic bucket	567908000	jarl_bucket.gif	usable	t	0
 6297	fragment of Jarlsberg's soul	262381307	jarl_soul.gif	usable	t	0	fragments of Jarlsberg's soul
-6298	Thwaitgold firefly	806466701	thwaitfirefly.gif	none		0
+6298	Thwaitgold firefly statuette	806466701	thwaitfirefly.gif	none		0
 6299	model airship	142932299	modelairship.gif	none	q	0
 6300	Super Weight-Gain 9000	665126071	pill.gif	usable	t	0
 6301	possibility potion	419795453	potion4.gif	usable	t	0

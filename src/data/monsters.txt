@@ -1380,3 +1380,7 @@ Video Game Miniboss	HP: [0.75*(min(MOX+3+max(ML,0),10000))] Atk: [min(MOX+3+max(
 Video Game Minion (moderate)	HP: [0.75*(min(MOX-2+max(ML,0),10000))] Atk: [min(MOX-2+max(ML,0),10000)] Def: [min(MUS-2+max(ML,0),10000)] P: object
 Video Game Minion (strong)	HP: [0.75*(min(MOX+1+max(ML,0),10000))] Atk: [min(MOX+1+max(ML,0),10000)] Def: [min(MUS+1+max(ML,0),10000)] P: object
 Video Game Minion (weak)	HP: [0.75*(min(MOX-7+max(ML,0),10000))] Atk: [min(MOX-7+max(ML,0),10000)] Def: [min(MUS-7+max(ML,0),10000)] P: object
+
+# Avatar of Jarlsberg
+Clancy	Atk: 150 Def: 165 HP: 500
+The Avatar of Boris	Atk: 230 Def: 190 HP: 1000
