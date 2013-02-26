@@ -876,7 +876,7 @@ public class RelayRequest
 			return false;
 		}
 
-		if ( KoLCharacter.inAxecore() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
 		{
 			return false;
 		}
