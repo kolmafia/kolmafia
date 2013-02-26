@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
@@ -355,10 +356,13 @@ public abstract class KoLCharacter
 	private static int arenaWins = 0;
 	private static boolean isUsingStabBat = false;
 
-	// Minstrel data
+	// Minstrel data (Avatar of Boris)
 	public static AdventureResult currentInstrument = null;
 	public static int minstrelLevel = 0;
 	public static boolean minstrelAttention = false;
+
+	// Companion data (Avatar of Jarlsberg)
+	public static Companion companion = null;
 
 	private static int stillsAvailable = 0;
 	private static boolean tripleReagent = false;
@@ -3758,6 +3762,13 @@ public abstract class KoLCharacter
 		KoLCharacter.updateStatus();
 	}
 
+	public static final void setCompanion( Companion companion )
+	{
+		KoLCharacter.companion = companion;
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
+	}
+
 	/**
 	 * Accessor method to get arena wins
 	 *
@@ -4631,6 +4642,11 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.inAxecore() && KoLCharacter.currentInstrument != null )
 		{
 			newModifiers.applyMinstrelModifiers( KoLCharacter.minstrelLevel, KoLCharacter.currentInstrument );
+		}
+
+		if ( KoLCharacter.isJarlsberg() && KoLCharacter.companion != null )
+		{
+			newModifiers.applyCompanionModifiers( KoLCharacter.companion );
 		}
 
 		// Lastly, experience adjustment also implicitly depends on
