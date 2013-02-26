@@ -3942,6 +3942,7 @@ Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 Fashionably Late	Adventures: +1
 Ferocity	Critical Hit Percent: 25
 # Flavour of Magic
+Food Coma	Base Resting MP: 9999
 Gnefarious Pickpocketing	Meat Drop: +10
 Gnomish Hardigness	Maximum HP Percent: +5
 # Good Singing Voice: Doubles duration of Boris songs
