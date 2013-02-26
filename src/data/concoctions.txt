@@ -2106,6 +2106,7 @@ acceptable vodka	JARLSCURDLE	cosmic potato
 consummate sour cream	JARLSCURDLE	cosmic cream
 adequate rum	JARLSCURDLE	cosmic fruit
 cosmic six-pack	JARLS
+mediocre lager (6)	SUSE	cosmic six-pack
 
 # Avatar of Jarlsberg dishes
 immaculate grilled cheese	JARLS	consummate toast	consummate cheese slice
