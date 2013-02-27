@@ -53,7 +53,7 @@ public class GameproManager
 		// How Does a Floating Platform Even Work?
 		Preferences.setInteger( "choiceAdventure659",
 			responseText.contains( "moving away from you" ) ? 1 :
-			responseText.contains( "is approaching" ) ? 2 :
+			responseText.contains( "is coming toward you" ) ? 2 :
 			responseText.contains( "same height as the one you're on" ) ? 3 :
 			0 );
 
@@ -75,7 +75,7 @@ public class GameproManager
 		Preferences.setInteger( "choiceAdventure662",
 			responseText.contains( "swim fins" ) ? 1 :
 			responseText.contains( "make a raft" ) ? 2 :
-			responseText.contains( "into the water" ) ? 3 : // not verified
+			responseText.contains( "into the water" ) ? 3 :
 			0 );
 
 		// When You're a Stranger
