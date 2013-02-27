@@ -1707,7 +1707,12 @@ public abstract class InventoryManager
 			while ( i.hasNext() )
 			{
 				WeakReference<PreferenceListener> reference = i.next();
-				PreferenceListener listener = (PreferenceListener) reference.get();
+				if ( reference == null )
+				{
+					i.remove();
+					continue;
+				}
+				PreferenceListener listener = reference.get();
 
 				if ( listener == null )
 				{
