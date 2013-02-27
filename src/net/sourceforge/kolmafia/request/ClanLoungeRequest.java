@@ -574,6 +574,12 @@ public class ClanLoungeRequest
 			RequestLogger.printLine( "You don't seem to be in a clan!" );
 			return;
 		}
+		
+		if ( this.responseText == null )
+		{
+			// KoL returned a blank page; complain to Jick, not us.
+			return;
+		}
 
 		switch ( this.action )
 		{
