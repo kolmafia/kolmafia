@@ -5896,7 +5896,7 @@
 5879	Pete & Jackie's Dragon Tooth Emporium Catalog	127406602	teethcatalog.gif	usable	t	0
 5880	packet of dragon's teeth	593373158	teethpacket.gif	usable		0
 5881	skeleton	991177466	skeleton.gif	multiple	t,d	5	skeletons
-5882	skeleton skis	379222505	skeletonskis.gif	accessory	t,d	10
+5882	skeleton skis	379222505	skeletonskis.gif	accessory	t,d	10	pairs of skeleton skis
 5883	skeleton quiche	215841445	klpie.gif	food	t,d	15
 5884	skeletal scabbard	166884321	scabbard.gif	accessory	t,d	20
 5885	skeletal skiff	979032491	boneskiff.gif	none	q	0
