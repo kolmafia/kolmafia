@@ -120,9 +120,11 @@ public class CallScriptCommand
 				int spaceIndex = parameters.indexOf( " " );
 				if ( spaceIndex != -1 )
 				{
-					arguments = new String[]
-					{ parameters.substring( spaceIndex + 1 ).trim()
-					};
+					arguments = parameters.substring( spaceIndex + 1 ).split( "," );
+					for (int i = 0; i < arguments.length; i++)
+					{
+						arguments[i] = arguments[i].trim();
+					}
 					parameters = parameters.substring( 0, spaceIndex );
 					scriptFile = KoLmafiaCLI.findScriptFile( parameters );
 				}
