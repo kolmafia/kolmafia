@@ -6316,3 +6316,12 @@
 6299	model airship	142932299	modelairship.gif	none	q	0
 6300	Super Weight-Gain 9000	665126071	pill.gif	usable	t	0
 6301	possibility potion	419795453	potion4.gif	usable	t	0
+6302
+6303
+6304	Jarlsberg's pan (Cosmic portal mode)	642644188	path12icon.gif	offhand	t	0
+6305	Jarlsberg's pan	908839142	jarl_fry.gif	offhand	t	0
+6306	Cosmic Calorie	986883912	cosmiccalorie.gif	multiple		0	Cosmic Calories
+6307	celestial olive oil	239737905	potion20.gif	usable	t,d	0
+6308	celestial carrot juice	322513561	potion19.gif	usable	t,d	0
+6309	celestial au jus	897507910	potion22.gif	usable	t,d	0
+6310	celestial squid ink	809451164	potion21.gif	usable	t,d	0
