@@ -1224,10 +1224,10 @@ Plastered Can of Cranberry Sauce	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	cranber
 Soused Stuffing Golem	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	breaded beer (c100)
 
 # El Dia De Los Muertos Borrachos
-Novia Cad&aacute;ver	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	red-headed corpse (c100)	corpse on the beach (c100)
-Novio Cad&aacute;ver	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	kamicorpse-ee (c100)	corpsedriver (c100)
-Padre Cad&aacute;ver	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	purple corpsel (c100)	corpsetini (c100)
-Persona Inocente Cad&aacute;ver	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	corpsebite (c100)	Corpse Island iced tea (c100)
+Novia Cadáver	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	red-headed corpse (c100)	corpse on the beach (c100)
+Novio Cadáver	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	kamicorpse-ee (c100)	corpsedriver (c100)
+Padre Cadáver	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	purple corpsel (c100)	corpsetini (c100)
+Persona Inocente Cadáver	HP: [0.75*HP] Def: [MUS-3] Atk: [MOX-3]	corpsebite (c100)	Corpse Island iced tea (c100)
 
 # Infernal Seals
 broodling seal	Atk: 80 Def: 90 HP: 100 P: demon	severed flipper (35)
