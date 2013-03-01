@@ -1310,51 +1310,51 @@ Tiny-Screwing Animelf	HP: [0.75*(min(10000,MUS)+ML)] Atk: [min(10000,MOX)] Def: 
 Toy Assembling Animelf	HP: [0.75*(min(10000,MUS)+ML)] Atk: [min(10000,MOX)] Def: [min(10000,MUS)+ML] P: crimbo	plastic ingot (50)	electrical thingamabob (10)
 
 #Psychoses
-work hat	Atk: 30 Def: 40 HP: 30	black pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
-reproachful heart	Atk: 30 Def: 40 HP: 25	red pixel (0)	red pixel (0)	white pixel (0)	pixel power cell (0)
-judgmental eye	Atk: 45 Def: 35 HP: 40	red pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
-Doubt Man	Atk: 40 Def: 40 HP: 150	doubt cannon (100)
-contemplative ghost	Atk: 30 Def: 35 HP: 35	green pixel (0)	green pixel (0)	green pixel (0)	pixel power cell (0)
-lovesick ghost	Atk: 30 Def: 40 HP: 50	white pixel (0)	black pixel (0)	red pixel (0)	pixel power cell (0)
-ancient ghost	Atk: 30 Def: 40 HP: 25	white pixel (0)	white pixel (0)	black pixel (0)	pixel power cell (0)
-Regret Man	Atk: 40 Def: 40 HP: 200	regret hose (100)
-ticking time bomb	Atk: 50 Def: 40 HP: 30	black pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
-rage flame	Atk: 30 Def: 30 HP: 30	red pixel (0)	red pixel (0)	white pixel (0)	pixel power cell (0)
-frustrating knight	Atk: 25 Def: 60 HP: 70	blue pixel (0)	blue pixel (0)	white pixel (0)	pixel power cell (0)
-Anger Man	Atk: 50 Def: 40 HP: 200	anger blaster (100)
-morbid skull	Atk: 50 Def: 50 HP: 50	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)	pixel power cell (0)
-animated possessions	Atk: 30 Def: 30 HP: 50	white pixel (0)	black pixel (0)	black pixel (0)	pixel power cell (0)
-natural spider	Atk: 30 Def: 20 HP: 60	white pixel (0)	red pixel (0)	black pixel (0)	pixel power cell (0)
-Fear Man	Atk: 40 Def: 40 HP: 200	fear condenser (100)
+work hat	Atk: 30 Def: 40 HP: 30 P: object	black pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
+reproachful heart	Atk: 30 Def: 40 HP: 25 P: object	red pixel (0)	red pixel (0)	white pixel (0)	pixel power cell (0)
+judgmental eye	Atk: 45 Def: 35 HP: 40 P: beast	red pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
+Doubt Man	Atk: 40 Def: 40 HP: 150 P: humanoid	doubt cannon (100)
+contemplative ghost	Atk: 30 Def: 35 HP: 35 P: undead	green pixel (0)	green pixel (0)	green pixel (0)	pixel power cell (0)
+lovesick ghost	Atk: 30 Def: 40 HP: 50 P: undead	white pixel (0)	black pixel (0)	red pixel (0)	pixel power cell (0)
+ancient ghost	Atk: 30 Def: 40 HP: 25 P: undead	white pixel (0)	white pixel (0)	black pixel (0)	pixel power cell (0)
+Regret Man	Atk: 40 Def: 40 HP: 200 P: humanoid	regret hose (100)
+ticking time bomb	Atk: 50 Def: 40 HP: 30 P: object	black pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
+rage flame	Atk: 30 Def: 30 HP: 30 P: elemental	red pixel (0)	red pixel (0)	white pixel (0)	pixel power cell (0)
+frustrating knight	Atk: 25 Def: 60 HP: 70 P: humanoid	blue pixel (0)	blue pixel (0)	white pixel (0)	pixel power cell (0)
+Anger Man	Atk: 50 Def: 40 HP: 200 P: humanoid	anger blaster (100)
+morbid skull	Atk: 50 Def: 50 HP: 50 P: undead	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)	pixel power cell (0)
+animated possessions	Atk: 30 Def: 30 HP: 50 P: object	white pixel (0)	black pixel (0)	black pixel (0)	pixel power cell (0)
+natural spider	Atk: 30 Def: 20 HP: 60 P: bug	white pixel (0)	red pixel (0)	black pixel (0)	pixel power cell (0)
+Fear Man	Atk: 40 Def: 40 HP: 200 P: humanoid	fear condenser (100)
 Whisk of Misery	Atk: 9 Def: 11 HP: 12	Artist's Whisk of Misery (0)
 Spatula of Despair	Atk: 8 Def: 12 HP: 12	Artist's Spatula of Despair (0)
 Butterknife of Regret	Atk: 11 Def: 9 HP: 12	Artist's Butterknife of Regret (0)
-Cookie Cutter of Loneliness	Atk: 10 Def: 10 HP: 12	Artist's Cookie Cutter of Loneliness (0)
-Creme Brulee Torch of Fury	Atk: 12 Def: 8 HP: 12	Artist's  Cr&egrave;me Brul&eacute;e Torch of Fury (0)
+Cookie Cutter of Loneliness	Atk: 10 Def: 10 HP: 12 P: strange	Artist's Cookie Cutter of Loneliness (0)
+Creme Brulee Torch of Fury	Atk: 12 Def: 8 HP: 12 E: hot	Artist's  Cr&egrave;me Brul&eacute;e Torch of Fury (0)
 bag of Potatoes of Security	Atk: 30 Def: 100 HP: 100
 box of Batter Mix of Hope	Atk: 30 Def: 100 HP: 100
 carton of Eggs of Confidence	Atk: 30 Def: 100 HP: 100
 loaf of Bread of Wonder	Atk: 30 Def: 100 HP: 100
 bundle of Meat of Happiness	Atk: 30 Def: 100 HP: 100
-groast	Atk: 200 Def: 200 HP: 300
-bacon snake	Atk: 220 Def: 200 HP: 300
-pork butterfly	Atk: 180 Def: 240 HP: 300
-salaminder	Atk: 200 Def: 200 HP: 300
-cold cutter	Atk: 200 Def: 200 HP: 300
-The Beefhemoth	Atk: 300 Def: 300 HP: 1000
-tin can conspirator	Atk: 18 Def: 22 HP: 25	razor-sharp can lid (0)	razor-sharp can lid (0)
-goblin conspirator	Atk: 20 Def: 20 HP: 25	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)
-spider conspirator	Atk: 22 Def: 18 HP: 25	spider web (0)	spider web (0)
-canned goblin conspirator	Atk: 26 Def: 32 HP: 35	razor-sharp can lid (0)	Knob Goblin firecracker (0)
-spider-goblin conspirator	Atk: 32 Def: 26 HP: 35	spider web (0)	Knob Goblin firecracker (0)
-tin spider conspirator	Atk: 28 Def: 28 HP: 35	razor-sharp can lid (0)	spider web (0)
-Fnord the Unspeakable	Atk: 38 Def: 38 HP: 50	razor-sharp can lid (0)	razor-sharp can lid (0)	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)	spider web (0)	spider web (0)
-fearsome giant squid	Atk: 125 Def: 125 HP: 140	old chum (0)
-ferocious roc	Atk: 120 Def: 130 HP: 140
-giant man-eating shark	Atk: 130 Def: 120 HP: 140	old chum (0)
-Bristled Man-O-War	Atk: 135 Def: 135 HP: 160	old chum (0)
-Deadly Hydra	Atk: 140 Def: 140 HP: 180	Hundred Headed IPA (0)
-The Cray-Kin	Atk: 135 Def: 122 HP: 160	old chum (0)
+groast	Atk: 200 Def: 200 HP: 300 E: spooky P: undead
+bacon snake	Atk: 220 Def: 200 HP: 300 E: sleaze P: beast
+pork butterfly	Atk: 180 Def: 240 HP: 300 E: sleaze P: bug
+salaminder	Atk: 200 Def: 200 HP: 300 E: hot P: beast
+cold cutter	Atk: 200 Def: 200 HP: 300 E: cold P: object
+The Beefhemoth	Atk: 300 Def: 300 HP: 1000 P: beast
+tin can conspirator	Atk: 18 Def: 22 HP: 25 P: object	razor-sharp can lid (0)	razor-sharp can lid (0)
+goblin conspirator	Atk: 20 Def: 20 HP: 25 P: goblin	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)
+spider conspirator	Atk: 22 Def: 18 HP: 25 P: bug	spider web (0)	spider web (0)
+canned goblin conspirator	Atk: 26 Def: 32 HP: 35 P: object	razor-sharp can lid (0)	Knob Goblin firecracker (0)
+spider-goblin conspirator	Atk: 32 Def: 26 HP: 35 P: strange	spider web (0)	Knob Goblin firecracker (0)
+tin spider conspirator	Atk: 28 Def: 28 HP: 35 P: object	razor-sharp can lid (0)	spider web (0)
+Fnord the Unspeakable	Atk: 38 Def: 38 HP: 50 P: strange	razor-sharp can lid (0)	razor-sharp can lid (0)	Knob Goblin firecracker (0)	Knob Goblin firecracker (0)	spider web (0)	spider web (0)
+fearsome giant squid	Atk: 125 Def: 125 HP: 140 P: fish	old chum (0)
+ferocious roc	Atk: 120 Def: 130 HP: 140 P: beast	old chum (0)
+giant man-eating shark	Atk: 130 Def: 120 HP: 140 P: fish	old chum (0)
+Bristled Man-O-War	Atk: 135 Def: 135 HP: 160 P: fish	old chum (0)
+Deadly Hydra	Atk: 140 Def: 140 HP: 180 P: beast	Hundred Headed IPA (0)
+The Cray-Kin	Atk: 135 Def: 122 HP: 160 P: fish	old chum (0)
 grinning pork bun	Atk: 65 Def: 65 HP: 75 P: object	dead meat bun (0)
 roasted duck golem	Atk: 68 Def: 62 HP: 75 P: object	roasted duck (0)
 lucky cat statue	Atk: 62 Def: 68 HP: 75 P: object	lucky cat collar (0)
@@ -1372,7 +1372,7 @@ desperate gold farmer	Atk: 80 Def: 80 HP: 95 P: humanoid	gold piece (0)	gold pie
 rabid MMO addict	Atk: 84 Def: 76 HP: 90 P: humanoid	gold piece (0)
 The Server	Atk: 90 Def: 90 HP: 999999999 P: object
 White Bone Demon	Atk: 100 Def: 100 HP: 180 P: demon	suspicious-looking fedora (100)
-procedurally-generated skeleton	
+procedurally-generated skeleton	P: undead
 
 # Video Game dungeon
 Video Game Boss	HP: [0.75*(min(MOX+5+max(ML,0),10000))] Atk: [min(MOX+5+max(ML,0),10000)] Def: [min(MUS+5+max(ML,0),10000)] P: object
