@@ -4793,33 +4793,6 @@ public class UseItemRequest
 
 		AdventureResult item = UseItemRequest.extractItem( urlString );
 
-		// Special handing for twisting Boris's Helm when it is equipped
-		if ( item == null && urlString.indexOf( "action=twisthorns" ) != -1 )
-		{
-			int slot = -1;
-
-			if ( urlString.indexOf( "slot=hat" ) != -1 )
-			{
-				slot = EquipmentManager.HAT;
-			}
-			else if ( urlString.indexOf( "slot=familiarequip" ) != -1 )
-			{
-				slot = EquipmentManager.FAMILIAR;
-			}
-
-			if ( slot != -1 )
-			{
-				AdventureResult before = EquipmentManager.getEquipment( slot );
-				AdventureResult after = ItemPool.get( before.getItemId() == ItemPool.BORIS_HELM ? ItemPool.BORIS_HELM_ASKEW : ItemPool.BORIS_HELM, 1 );
-
-				EquipmentManager.setEquipment( slot, after );
-				RequestLogger.printLine( "Twisted " + before + " into " + after );
-				return true;
-			}
-
-			return false;
-		}
-
 		if ( item == null )
 		{
 			return UseItemRequest.registerBingeRequest( urlString );
