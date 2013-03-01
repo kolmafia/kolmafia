@@ -1805,10 +1805,10 @@ public class FightRequest
 					encounter.equalsIgnoreCase( "Inebriated Tofurkey" ) ||
 					encounter.equalsIgnoreCase( "Plastered Can of Cranberry Sauce" ) ||
 					encounter.equalsIgnoreCase( "Soused Stuffing Golem" ) ||
-					encounter.equalsIgnoreCase( "El Novio Cad&aacute;ver" ) ||
-					encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
-					encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
-					encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
+					encounter.equalsIgnoreCase( "Novio Cadáver" ) ||
+					encounter.equalsIgnoreCase( "Padre Cadáver" ) ||
+					encounter.equalsIgnoreCase( "Novia Cadáver" ) ||
+					encounter.equalsIgnoreCase( "Persona Inocente Cadáver" ) ||
 					encounter.equalsIgnoreCase( "ambulatory pirate" ) ||
 					encounter.equalsIgnoreCase( "migratory pirate" ) ||
 					encounter.equalsIgnoreCase( "peripatetic pirate" )
