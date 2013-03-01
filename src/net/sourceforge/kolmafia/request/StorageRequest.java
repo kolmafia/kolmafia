@@ -329,7 +329,7 @@ public class StorageRequest
 		{
 			lastFindIndex = matcher.end();
 			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
-			String relString = matcher.group( 2 );
+			//String relString = matcher.group( 2 );
 			String countString = matcher.group( 4 );
 			int count = ( countString == null ) ? 1 : StringUtilities.parseInt( countString );
 			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemDataName( itemId ) );
@@ -347,12 +347,17 @@ public class StorageRequest
 			// Separate free pulls into a separate list
 			boolean isFreePull = Modifiers.getBooleanModifier( item.getName(), "Free Pull" );
 
-			// For now, special handling for the single item which
-			// is a free pull only for a specific path. If more
+			// For now, special handling for the few items which
+			// are a free pull only for a specific path. If more
 			// path-specific free pulls are introduced, we'll
 			// define a "Free Pull Path" modifier or something.
 			if ( ( itemId == ItemPool.BORIS_HELM || itemId == ItemPool.BORIS_HELM_ASKEW ) && 
 				 !KoLCharacter.inAxecore() )
+			{
+				isFreePull = false;
+			}
+			if ( ( itemId == ItemPool.JARLS_COSMIC_PAN || itemId == ItemPool.JARLS_PAN ) &&
+				 !KoLCharacter.isJarlsberg() )
 			{
 				isFreePull = false;
 			}

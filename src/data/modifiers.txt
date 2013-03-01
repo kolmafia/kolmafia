@@ -1244,6 +1244,13 @@ Hodgman's metal detector	Item Drop: [0.5*H]
 # Hodgman's varcolac paw: Converts Hobo Power to Weapon Damage
 Hodgman's varcolac paw	Weapon Damage: [0.8*H]
 Idol of Ak'gyxoth	Moxie: +43, Mana Cost: -1
+# Jarlsberg's pan: +1 Food Conjuration for Jarlsberg
+# Jarlsberg's pan: Softcore Only (except for Avatar of Jarlsberg)
+Jarlsberg's pan	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, Damage Reduction: 30, Free Pull
+# Jarlsberg's pan (Cosmic portal mode): +1 Food Conjuration for Jarlsberg
+# Jarlsberg's pan (Cosmic portal mode): Converts dropped food and booze into Cosmic Calories
+# Jarlsberg's pan (Cosmic portal mode): Softcore Only (except for Avatar of Jarlsberg)
+Jarlsberg's pan (Cosmic portal mode)	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, Damage Reduction: 30, Free Pull
 # Kevlar balloon
 KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Muscle: +4, Mysticality: +4, Moxie: +4, Hot Damage: +4
 KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
@@ -2931,6 +2938,10 @@ Carrrsmic	Mysticality Percent: +10
 Castaway Physique	Muscle Percent: +25
 Cat Class, Cat Style	Moxie Percent: +20
 Cat-Alyzed	Moxie: +10
+Celestial Camouflage	Combat Rate: -5
+Celestial Saltiness	Combat Rate: +5
+Celestial Sheen	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1
+Celestial Vision	Item Drop: +30
 # Censored Can: Makes you look like a tin can conspirator
 Chain Chain Chains	Spooky Damage: +10
 # Chalked Weapon: Regular Attacks Can't Miss
@@ -4411,6 +4422,10 @@ candy cornucopia	Free Pull
 candy crayons	Effect: "A Taste of Rainbow", Effect Duration: 5
 candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
 cartoon heart	Effect: "Healthy Red Glow", Effect Duration: 10
+celestial au jus	Effect: "Celestial Saltiness", Effect Duration: 10
+celestial carrot juice	Effect: "Celestial Vision", Effect Duration: 10
+celestial olive oil	Effect: "Celestial Sheen", Effect Duration: 10
+celestial squid ink	Effect: "Celestial Camouflage", Effect Duration: 10
 censored can label	Effect: "Censored Can", Effect Duration: 50
 cheap cigar butt	Effect: "Smokin'", Effect Duration: 10
 cheap clip-on ninja tie	Effect: "Ninjas Just Tryin' to Get Paid", Effect Duration: 50

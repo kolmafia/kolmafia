@@ -1649,6 +1649,11 @@ cane-mail shirt	MUSE	peppermint sprout (15)
 wax hat	MUSE	crayon shavings (7)
 wax pants	MUSE	crayon shavings (11)
 
+celestial olive oil	MUSE	Cosmic Calorie (20)
+celestial carrot juice	MUSE	Cosmic Calorie (30)
+celestial au jus	MUSE	Cosmic Calorie (50)
+celestial squid ink	MUSE	Cosmic Calorie (60)
+
 # Recipes that involve single-using one of the ingredients
 
 booty chest charrrm bracelet	SUSE, NOBEE	booty chest charrrm	charrrm bracelet

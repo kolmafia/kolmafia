@@ -1202,3 +1202,7 @@
 1201	Pretending to Pretend	pewtersword.gif	9325284afe7a89c7ad04231ef3e92e30
 1202	Superveiny 9000	strboost.gif	6d89203ac28fe98c2de379b0c3e0bb63	use 1 Super Weight-Gain 9000
 1203	Always In Motion	jarl_neverlate.gif	8e8bc4e1f0f6df5807d2b7d7bc58341e	use 1 possibility potion
+1204	Celestial Sheen	celestoil.gif	ebb01f56b26ffd4319e770a492d2c1f3	use 1 celestial olive oil
+1205	Celestial Vision	celesteyes.gif	d650ad971bf6c21a87dd67ab829b2c1c	use 1 celestial carrot juice
+1206	Celestial Saltiness	celestsalt.gif	736dbff093fb7c6e4fa8da154320b8ec	use 1 celestial au jus
+1207	Celestial Camouflage	celestcamo.gif	fbe81949d5784e4cc9942f47c97103d3	use 1 celestial squid ink

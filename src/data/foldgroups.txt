@@ -23,3 +23,4 @@
 0	Loathing Legion knife	Loathing Legion abacus	Loathing Legion can opener	Loathing Legion chainsaw	Loathing Legion corkscrew	Loathing Legion defibrillator	Loathing Legion double prism	Loathing Legion electric knife	Loathing Legion flamethrower	Loathing Legion hammer	Loathing Legion helicopter	Loathing Legion jackhammer	Loathing Legion kitchen sink	Loathing Legion many-purpose hook	Loathing Legion moondial	Loathing Legion necktie	Loathing Legion pizza stone	Loathing Legion rollerblades	Loathing Legion tape measure	Loathing Legion tattoo needle	Loathing Legion universal screwdriver
 0	Boris's Helm	Boris's Helm (askew)
 0	bugged beanie	bugged balaclava
+0	Jarlsberg's pan (Cosmic portal mode)	Jarlsberg's pan

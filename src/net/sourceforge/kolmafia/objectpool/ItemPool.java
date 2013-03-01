@@ -1575,6 +1575,8 @@ public class ItemPool
 	public static final int OCELOT_BOOK = 6254;
 	public static final int DRESCHER_BOOK = 6255;
 	public static final int ROCKETSHIP = 6290;
+	public static final int JARLS_COSMIC_PAN = 6304;
+	public static final int JARLS_PAN = 6305;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

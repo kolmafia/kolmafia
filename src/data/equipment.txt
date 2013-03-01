@@ -1103,6 +1103,8 @@ Hodgman's imaginary hamster	200	Mys: 200
 Hodgman's metal detector	200	Mus: 200
 Hodgman's varcolac paw	200	Mus: 200
 Idol of Ak'gyxoth	0	none
+Jarlsberg's pan	0	none
+Jarlsberg's pan (Cosmic portal mode)	0	none
 Kevlar balloon	10	none
 KoL Con IV Pole	0	Mys: 10
 KoL Con Six Pack	0	none
