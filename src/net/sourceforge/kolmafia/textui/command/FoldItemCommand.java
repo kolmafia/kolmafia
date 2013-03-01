@@ -179,7 +179,8 @@ public class FoldItemCommand
 		if ( targetName.startsWith( "Boris's Helm" ) && slot != EquipmentManager.NONE )
 		{
 			StringBuilder buf = new StringBuilder();
-			buf.append( "inventory.php?action=twisthorns&slot=" );
+			buf.append( "inventory.php?which=2&action=twisthorns&slot=" );
+			// which=2 included so the new form will be parsed from the response
 			buf.append( slot == EquipmentManager.HAT ? "hat" : "familiarequip" );
 			buf.append( "&pwd=" );
 			buf.append( GenericRequest.passwordHash );
@@ -193,7 +194,8 @@ public class FoldItemCommand
 		// they have one in inventory, since this is probably what the user wants.
 		if ( targetName.startsWith( "Jarlsberg's pan" ) && slot != EquipmentManager.NONE )
 		{
-			GenericRequest request = new GenericRequest( "inventory.php?action=shakepan" );
+			GenericRequest request = new GenericRequest( "inventory.php?which=2&action=shakepan" );
+			// which=2 included so the new form will be parsed from the response
 			RequestThread.postRequest( request );
 			return;
 		}
