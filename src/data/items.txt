@@ -6020,9 +6020,9 @@
 6003	Cloak of Dire Shadows	990061447	wtbcloak.gif	container	d	2000
 6004	Sword of Dark Omens	412488881	wtbsword.gif	weapon	d	2000
 6005	Shield of Icy Fate	626376392	wtbshield.gif	offhand	d	2000
-6006	Greaves of the Murk Lord	262660969	wtbgreaves.gif	pants	d	2000
-6007	Gauntlets of the Blood Moon	147906553	wtbgauntlets.gif	accessory	d	2000
-6008	Boots of Twilight Whispers	514515678	wtbboots.gif	accessory	d	2000
+6006	Greaves of the Murk Lord	262660969	wtbgreaves.gif	pants	d	2000	pairs of Greaves of the Murk Lord
+6007	Gauntlets of the Blood Moon	147906553	wtbgauntlets.gif	accessory	d	2000	pairs of Gauntlets of the Blood Moon
+6008	Boots of Twilight Whispers	514515678	wtbboots.gif	accessory	d	2000	pairs of Boots of Twilight Whispers
 6009	Belt of Howling Anger	117771924	wtbbelt.gif	accessory	d	2000
 6010	logging axe	825250350	loggingaxe.gif	weapon	t	0
 6011	orc wrist	143621823	orcwrist.gif	accessory	t,d	45
@@ -6307,7 +6307,7 @@
 6290	steam-powered model rocketship	325575063	modelrocket.gif	none	q	0
 6291	punk rock jacket	247445639	punkjacket.gif	shirt	t,d	95
 6292	giant safety pin	577853422	safetypin.gif	weapon	t,d	91
-6293	stolen sushi	967766711	sushipiece.gif	food	t,d	66
+6293	stolen sushi	967766711	sushipiece.gif	food	t,d	66	stolen pieces of sushi
 6294	very overdue library book	921698526	book3.gif	usable	t,d	80
 6295	drum 'n' bass 'n' drum 'n' bass record	653078294	record.gif	none	q	0
 6296	cosmic bucket	567908000	jarl_bucket.gif	usable	t	0
