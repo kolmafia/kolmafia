@@ -166,6 +166,7 @@ public class DataUtilities
 			if ( filename.startsWith( "http://" ) )
 			{
 				HttpURLConnection connection = (HttpURLConnection) new URL( null, filename ).openConnection();
+				connection.setRequestProperty( "Connection", "close" ); // no need to keep-alive
 				InputStream istream = connection.getInputStream();
 
 				if ( connection.getResponseCode() != 200 )
