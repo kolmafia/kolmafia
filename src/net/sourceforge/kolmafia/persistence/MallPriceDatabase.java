@@ -249,6 +249,7 @@ public class MallPriceDatabase
 			con.setRequestProperty( "Content-Type",
 			"multipart/form-data; boundary=--blahblahfishcakes" );
 			con.setRequestMethod( "POST" );
+			con.setRequestProperty( "Connection", "close" );
 			OutputStream o = con.getOutputStream();
 			BufferedWriter w = new BufferedWriter( new OutputStreamWriter( o ) );
 			w.write( "----blahblahfishcakes\r\n" );
