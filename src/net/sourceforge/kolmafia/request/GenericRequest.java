@@ -216,7 +216,6 @@ public class GenericRequest
 		Properties systemProperties = System.getProperties();
 
 		systemProperties.put( "java.net.preferIPv4Stack", "true" );
-		systemProperties.put( "networkaddress.cache.ttl", "true" );
 
 		GenericRequest.applyProxySettings();
 
@@ -243,8 +242,6 @@ public class GenericRequest
 		{
 			NaiveSecureSocketLayer.uninstall();
 		}
-
-		systemProperties.put( "http.keepAlive", "false" );
 
 		if ( Preferences.getBoolean( "useSecureLogin" ) )
 		{
@@ -1528,7 +1525,6 @@ public class GenericRequest
 		}
 
 		this.formConnection.setRequestProperty( "User-Agent", GenericRequest.userAgent );
-		this.formConnection.setRequestProperty( "Connection", "close" );
 
 		if ( !this.data.isEmpty() )
 		{
