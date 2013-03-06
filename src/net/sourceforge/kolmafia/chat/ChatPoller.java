@@ -50,7 +50,7 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 public class ChatPoller
 	extends Thread
 {
-	private static final LinkedList chatHistoryEntries = new RollingLinkedList( 5 );
+	private static final LinkedList<Object> chatHistoryEntries = new RollingLinkedList( 5 );
 
 	private static long localLastSeen = 0;
 	private static long serverLastSeen = 0;
@@ -71,8 +71,8 @@ public class ChatPoller
 		{
 			try
 			{
-				List entries = ChatPoller.getEntries( lastSeen, false );
-				Iterator entryIterator = entries.iterator();
+				List<HistoryEntry> entries = ChatPoller.getEntries( lastSeen, false );
+				Iterator<HistoryEntry> entryIterator = entries.iterator();
 
 				while ( entryIterator.hasNext() )
 				{
@@ -118,7 +118,7 @@ public class ChatPoller
 		ChatPoller.chatHistoryEntries.add( entry );
 	}
 
-	private static final void addValidEntry( final List newEntries, final HistoryEntry entry, final boolean isRelayRequest )
+	private static final void addValidEntry( final List<HistoryEntry> newEntries, final HistoryEntry entry, final boolean isRelayRequest )
 	{
 		if ( !( entry instanceof SentMessageEntry ) )
 		{
@@ -142,16 +142,16 @@ public class ChatPoller
 		return;
 	}
 
-	public synchronized static List getEntries( final long lastSeen, final boolean isRelayRequest )
+	public synchronized static List<HistoryEntry> getEntries( final long lastSeen, final boolean isRelayRequest )
 	{
 		if ( ChatManager.getCurrentChannel() == null )
 		{
 			ChatSender.sendMessage( null, "/listen", true );
 		}
 
-		List newEntries = new ArrayList();
+		List<HistoryEntry> newEntries = new ArrayList<HistoryEntry>();
 
-		Iterator entryIterator = ChatPoller.chatHistoryEntries.iterator();
+		Iterator<Object> entryIterator = ChatPoller.chatHistoryEntries.iterator();
 
 		if ( lastSeen != 0 )
 		{
@@ -176,7 +176,7 @@ public class ChatPoller
 		request = new ChatRequest( ChatPoller.serverLastSeen );
 		request.run();
 
-		HistoryEntry entry = new HistoryEntry( request.responseText, ++ChatPoller.localLastSeen );
+		HistoryEntry entry = new HistoryEntry( new String( request.responseText ), ++ChatPoller.localLastSeen );
 		ChatPoller.serverLastSeen = entry.getServerLastSeen();
 
 		newEntries.add( entry );
