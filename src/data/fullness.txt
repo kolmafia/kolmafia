@@ -338,7 +338,7 @@ lihc eye pie	4	2	decent	5-12	0	11-12	0	5 Eye of the Lihc (+1 spooky res)
 lime	1	2	decent	2	0	0	0
 liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
-Loaded Baked Potato	7	0	epic	32-38	0	50-60	30-40
+Loaded Baked Potato	7	0	EPIC	32-38	0	50-60	30-40
 lobster <i>qua</i> grill	2	5	good	4-8	0	0	46-49
 long pork casserole	3	9	awesome	8-15	0	37-51	0
 long pork chop sandwiches	2	8	good	3-9	0	25-35	0
@@ -382,7 +382,7 @@ old chum	2	13	good	4-6	5-10	5-10	5-10	10 Fishy
 olive	1	1	crappy	1	0	0	0
 olive lo mein	3	6	awesome	9-16	10-14	0	10-14
 olive stir-fry	1	3	good	1-5	3-5	0	2-4
-Omega Sundae	7	0	epic	32-38	20-30	50-60	20-30
+Omega Sundae	7	0	EPIC	32-38	20-30	50-60	20-30
 orange	1	1	crappy	1	0	0	0
 orange popsicle	1	1	decent	2	0	0	0
 overcookie	1	3	decent	2	3-5	3-5	3-5
@@ -580,7 +580,7 @@ tube of cranberry go-goo	3	1	awesome	8-14	0	0	31-34
 turnip and rutabaga pie	5	1	good	12-13	0	0	0	30 Healthy, Elfy, and Wise
 turtle soup	1	2	good	2-3	9-15	0	0	10 A Little Bit Evil (+2 ML), 10 Souper Vengeful (+3 lbs)
 twigs and gravel	3	1		3-6	5-6	5-6	5-6
-Ultimate Breakfast Sandwich	7	0	epic	32-38	30-40	50-60	0
+Ultimate Breakfast Sandwich	7	0	EPIC	32-38	30-40	50-60	0
 ultrafondue	3	5	awesome	13-16	15-20	15-20	15-20	30 Fondid (+15 ML)
 uncooked chorizo	1	1	crappy	1	-5	0	0
 unfortunate dumplings	3	1	crappy	0	0	0	0	20 Really Quite Poisoned
