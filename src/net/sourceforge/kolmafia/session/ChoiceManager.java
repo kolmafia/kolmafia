@@ -2240,7 +2240,7 @@ public abstract class ChoiceManager
 		// Choice 669 is The Fast and the Furry-ous
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure669", "Basement Furry",
-			new String[] { "Neckbeard Choice", "200 Moxie substats",
+			new String[] { "Open Ground Floor with titanium umbrella, otherwise Neckbeard Choice", "200 Moxie substats",
 				"???", "skip adventure and guarantees this adventure will reoccur" } ),
 		// Choice 670 is You Don't Mess Around with Gym
 		new ChoiceAdventure(
@@ -2667,6 +2667,9 @@ public abstract class ChoiceManager
 			// Old Man psychoses
 			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "First Mate's Log Entry" );
 
+		case 669:
+			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "The Fast and the Furry-ous" );
+
 		case 670:
 			return ChoiceManager.dynamicChoiceSpoilers( 5, choice, "You Don't Mess Around with Gym" );
 		}
@@ -3053,12 +3056,22 @@ public abstract class ChoiceManager
 			// Old Man psychosis choice adventures are randomized and may not include all elements.
 			return oldManPsychosisSpoilers();
 
+		case 669:
+			result = new String[ 4 ];
+			boolean umbrellaOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TITANIUM_UMBRELLA, 1 ) );
+			result [ 0 ] = umbrellaOn ? "open Ground Floor (titanium umbrella equipped)" : 
+				  "Neckbeard Choice (titanium umbrella not equipped)";
+			result [ 1 ] = "200 Moxie substats";
+			result [ 2 ] = "";
+			result [ 3 ] = "skip adventure and guarantees this adventure will reoccur";
+			return result;
+
 		case 670:
 			result = new String[ 5 ];
 			result [ 0 ] = "massive dumbbell, then skip adventure";
 			result [ 1 ] = "200 Muscle substats";
 			result [ 2 ] = "pec oil, giant jar of protein powder, Squat-Thrust Magazine";
-				boolean amuletOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.EXTREME_AMULET, 1 ) );
+			boolean amuletOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.EXTREME_AMULET, 1 ) );
 			result [ 3 ] = amuletOn ? "open Ground Floor (amulet equipped)" : "skip adventure (amulet not equipped)";
 			result [ 4 ] = "skip adventure and guarantees this adventure will reoccur";
 			return result;
