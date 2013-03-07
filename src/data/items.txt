@@ -6267,9 +6267,9 @@
 6250
 6251	scroll of Protection from Bad Stuff	900109531	scroll1.gif	usable	t,d	100	scrolls of Protection from Bad Stuff
 6252	scroll of Puddingskin	885203992	scroll1.gif	usable	t,d	100	scrolls of Puddingskin
-6253	Spellbook: Walberg's Dim Bulb	965719051	book3.gif	usable	t	0
-6254	Spellbook: Singer's Faithful Ocelot	602503418	book3.gif	usable	t	0
-6255	Spellbook: Drescher's Annoying Noise	198964664	book3.gif	usable	t	0
+6253	Spellbook: Walberg's Dim Bulb	965719051	book3.gif	usable	t	0	Spellbooks of Walberg's Dim Bulb
+6254	Spellbook: Singer's Faithful Ocelot	602503418	book3.gif	usable	t	0	Spellbooks of Singer's Faithful Ocelot
+6255	Spellbook: Drescher's Annoying Noise	198964664	book3.gif	usable	t	0	Spellbooks of Drescher's Annoying Noise
 6256	dried gelatinous cube	602980357	drycube.gif	grow	t	0
 6257	pile of dungeon junk	995550499	dungeonjunk.gif	familiar	t,d	75	piles of dungeon junk
 6258	Staff of the Healthy Breakfast	159554196	jarl_cs1.gif	weapon	q	0
@@ -6288,14 +6288,14 @@
 6271	massive dumbbell	599065286	bigdumbbell.gif	none	q	0
 6272	giant penguin keychain	135399871	penguinshield.gif	offhand	t,d	105
 6273	O'RLY manual	270335231	book4.gif	usable	t,d	95
-6274	open sauce	242860916	opensauce.gif	drink	t,d	78
+6274	open sauce	242860916	opensauce.gif	drink	t,d	78	packets of open sauce
 6275	giant turkey leg	829244851	bigturkeyleg.gif	weapon	t,d	104
 6276	Ye Olde Meade	411324393	jarl_rum.gif	drink	t,d	92
 6277	Ye Olde Bawdy Limerick	615112107	limerickscroll.gif	usable	t,d	82
 6278	Ye Olde Medieval Insult	916721911	yeinsult.gif	none, combat	t,d	72
 6279	pewter claymore	900313348	pewtersword.gif	weapon	t,d	120
 6280	giant artisanal rice peeler	653397161	ricepeeler.gif	weapon	t,d	105
-6281	giant heirloom grape tomato	882382369	grapetomato.gif	food	t,d	75
+6281	giant heirloom grape tomato	882382369	grapetomato.gif	food	t,d	75	giant heirloom grape tomatoes
 6282	chipotle wasabi cilantro aioli	807009911	ramekin.gif	none, combat	t,d	80
 6283	brown felt tophat	728270440	brownhat.gif	hat	t,d	55
 6284	brass gear	368225880	topgear.gif	none, combat	t,d	55
