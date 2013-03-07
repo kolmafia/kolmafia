@@ -245,11 +245,6 @@ public class ValhallaDecorator
 			buffer.append( "&ajax=1')\">use your dead mimic</a></nobr><br>" );
 		}
 
-		if ( InventoryManager.hasItem( ItemPool.FAT_LOOT_TOKEN ) )
-		{
-			buffer.append( "<nobr><a href=\"shop.php?whichshop=damachine\">spend your fat loot tokens</a></nobr><br>" );
-		}
-
 		ValhallaDecorator.checkForKeyLime( buffer, ItemPool.BORIS_KEY, "Boris&#39;s" );
 		ValhallaDecorator.checkForKeyLime( buffer, ItemPool.JARLSBERG_KEY, "Jarlsberg&#39;s" );
 		ValhallaDecorator.checkForKeyLime( buffer, ItemPool.SNEAKY_PETE_KEY, "Sneaky Pete&#39;" );
