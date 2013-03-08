@@ -3057,6 +3057,7 @@ public abstract class ChoiceManager
 			return oldManPsychosisSpoilers();
 
 		case 669:
+			// The Fast and the Furry-ous
 			result = new String[ 4 ];
 			boolean umbrellaOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TITANIUM_UMBRELLA, 1 ) );
 			result [ 0 ] = umbrellaOn ? "open Ground Floor (titanium umbrella equipped)" : 
@@ -3067,6 +3068,7 @@ public abstract class ChoiceManager
 			return result;
 
 		case 670:
+			// You Don't Mess Around with Gym
 			result = new String[ 5 ];
 			result [ 0 ] = "massive dumbbell, then skip adventure";
 			result [ 1 ] = "200 Muscle substats";
