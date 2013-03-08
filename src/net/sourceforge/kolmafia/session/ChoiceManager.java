@@ -1599,11 +1599,20 @@ public abstract class ChoiceManager
 		// Choice 346 is Soup For You
 		// Choice 347 is Yes, Soup For You
 		// Choice 348 is Souped Up
-		// Choice 349 is The Primordial Directive
-		// Choice 350 is Soupercharged
+
+		// The Primordial Directive
+		new ChoiceAdventure(
+			"Memories", "choiceAdventure349", "The Primordial Soup",
+			new String[] { "swim upwards", "swim in circles", "swim downwards" }),
+
+		// Soupercharged
+		new ChoiceAdventure(
+			"Memories", "choiceAdventure350", "The Primordial Soup",
+			new String[] { "Fight Cyrus", "skip adventure" }),
 
 		// Choice 351 is Beginner's Luck
-		// Choice 352 is Savior Faire
+
+		// Savior Faire
 		new ChoiceAdventure(
 			"Memories", "choiceAdventure352", "Seaside Megalopolis",
 			new String[] { "Moxie -> Bad Reception Down Here", "Muscle -> A Diseased Procurer", "Mysticality -> Give it a Shot" }),
@@ -1624,18 +1633,18 @@ public abstract class ChoiceManager
 			"Memories", "choiceAdventure355", "Seaside Megalopolis",
 			new String[] { "Stats", "Phairly Pheromonal" } ),
 
-		// Choice 356 is A Diseased Procurer
+		// A Diseased Procurer
 		new ChoiceAdventure(
 			"Memories", "choiceAdventure356", "Seaside Megalopolis",
 			new String[] { "Blue Milk Club Card", "Mecha Mayhem Club Card" },
 			new String[] { "4062", "4063" } ),
 
-		// Choice 357 is Painful, Circuitous Logic
+		// Painful, Circuitous Logic
 		new ChoiceAdventure(
 			"Memories", "choiceAdventure357", "Seaside Megalopolis",
 			new String[] { "Muscle", "Nano-juiced" } ),
 
-		// Choice 358 is Brings All the Boys to the Blue Yard
+		// Brings All the Boys to the Blue Yard
 		new ChoiceAdventure(
 			"Memories", "choiceAdventure358", "Seaside Megalopolis",
 			new String[] { "Stats", "Dance Interpreter" } ),
@@ -1650,23 +1659,23 @@ public abstract class ChoiceManager
 			new String[] { "'Smuggler Shot First' Button", "Spacefleet Communicator Badge" },
 			new String[] { "4064", "4065" } ),
 
-		// Choice 362 is A Bridge Too Far
+		// A Bridge Too Far
 		new ChoiceAdventure(
 			"Memories", "choiceAdventure362", "Seaside Megalopolis",
 			new String[] { "Stats", "Meatwise" } ),
 
-		// Choice 363 is Does This Bug You? Does This Bug You?
+		// Does This Bug You? Does This Bug You?
 		new ChoiceAdventure(
 			"Memories", "choiceAdventure363", "Seaside Megalopolis",
 			new String[] { "Mysticality", "In the Saucestream" } ),
 
-		// Choice 364 is 451 Degrees! Burning Down the House!
+		// 451 Degrees! Burning Down the House!
 		new ChoiceAdventure(
 			"Memories", "choiceAdventure364", "Seaside Megalopolis",
 			new String[] { "Moxie", "Supreme Being Glossary", "Muscle" },
 			new String[] { null, "4073", null } ),
 
-		// Choice 365 is None Shall Pass
+		// None Shall Pass
 		new ChoiceAdventure(
 			"Memories", "choiceAdventure365", "Seaside Megalopolis",
 			new String[] { "Muscle", "multi-pass" },
@@ -1682,7 +1691,12 @@ public abstract class ChoiceManager
 		// Choice 373 is Northern Gate
 		// Choice 374 is An Ancient Tower
 		// Choice 375 is Northern Abandoned Building
-		// Choice 376 is Ancient Temple
+
+		// Ancient Temple
+		new ChoiceAdventure(
+			"Memories", "choiceAdventure376", "The Jungles of Ancient Loathing",
+			new String[] { "Enter the Temple", "leave" } ),
+
 		// Choice 377 is Southern Abandoned Building
 		// Choice 378 is Storehouse
 		// Choice 379 is Northern Building (Basement)
@@ -1764,6 +1778,10 @@ public abstract class ChoiceManager
 		// Choice 440 is Puttin' on the Wax
 		// Choice 441 is The Mad Tea Party
 		// Choice 442 is A Moment of Reflection
+		new ChoiceAdventure(
+			"RabbitHole", "choiceAdventure442", "A Moment of Reflection",
+			new String[] { "Seal Clubber/Pastamancer/custard", "Accordion Thief/Sauceror/comfit", "Turtle Tamer/Disco Bandit/croqueteer", "Ittah bittah hookah", "Chessboard", "nothing" } ),
+
 		// Choice 443 is Chess Puzzle
 
 		// Choice 444 is The Field of Strawberries (Seal Clubber)
@@ -4097,6 +4115,7 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.REFLECTION_OF_MAP, -1 );
 			}
 			break;
+
 		case 517:
 			// Mr. Alarm, I presarm
 			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step3" );
@@ -4482,14 +4501,6 @@ public abstract class ChoiceManager
 
 		case 570:
 			GameproManager.parseGameproMagazine( responseText );
-			break;
-
-		// The Horror...
-		case 611:
-			if ( responseText.contains( "You follow the map to" ) )
-			{
-				ResultProcessor.processItem( ItemPool.BOO_CLUE, -1 );
-			}
 			break;
 		}
 	}
