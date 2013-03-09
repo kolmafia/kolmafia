@@ -254,6 +254,24 @@ public class GearChangeFrame
 			buff.append( Modifiers.getBooleanModifierName( i ) );
 		}
 
+		for ( int i = 1; i < Modifiers.STRING_MODIFIERS; ++i )
+		{
+			String strval = mods.getString( i );
+			if ( strval.equals( "" ) ) continue;
+			name = Modifiers.getStringModifierName( i );
+			if ( name.equals( "Wiki Name" ) ) continue;
+			if ( name.equals( "Modifiers" ) ) continue;
+			if ( name.equals( "Outfit" ) ) continue;
+			name = StringUtilities.singleStringReplace( name, "Familiar", "Fam" );
+			if ( anyBool )
+			{
+				buff.append( ", " );
+			}
+			buff.append( name );
+			buff.append( ": " );
+			buff.append( strval );
+		}
+
 		buff.append( "</td></tr></table></html>" );
 		GearChangeFrame.INSTANCE.modifiersLabel.setText( buff.toString() );
 	}
