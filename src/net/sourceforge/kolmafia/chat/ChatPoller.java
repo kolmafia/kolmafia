@@ -176,7 +176,7 @@ public class ChatPoller
 		request = new ChatRequest( ChatPoller.serverLastSeen );
 		request.run();
 
-		HistoryEntry entry = new HistoryEntry( new String( request.responseText ), ++ChatPoller.localLastSeen );
+		HistoryEntry entry = new HistoryEntry( request.responseText, ++ChatPoller.localLastSeen );
 		ChatPoller.serverLastSeen = entry.getServerLastSeen();
 
 		newEntries.add( entry );
