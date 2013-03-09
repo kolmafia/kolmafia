@@ -859,6 +859,8 @@ public class Modifiers
 	public static final int FAMILIAR_TUNING = 7;
 	public static final int EFFECT = 8;
 	public static final int EQUIPS_ON = 9;
+	public static final int FAMILIAR_EFFCT = 10;
+	public static final int JIGGLE = 11;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -905,6 +907,10 @@ public class Modifiers
 		{ "Familiar Effect",
 		  null,
 		  Pattern.compile( "Familiar Effect: \"(.*?)\"" )
+		},
+		{ "Jiggle",
+		  Pattern.compile( "Jiggle: (.*?)$" ),
+		  Pattern.compile( "Jiggle: \"(.*?)\"" )
 		},
 	};
 
