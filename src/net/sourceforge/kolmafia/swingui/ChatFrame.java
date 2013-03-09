@@ -90,7 +90,7 @@ public class ChatFrame
 	private static final SimpleDateFormat MARK_TIMESTAMP = new SimpleDateFormat( "HH:mm:ss", Locale.US );
 
 	private ChatPanel mainPanel;
-	private JComboBox<String> nameClickSelect;
+	private JComboBox nameClickSelect;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code> which is intended to be used for instant messaging to the specified
@@ -118,7 +118,7 @@ public class ChatFrame
 			// Add the name click options as a giant combo
 			// box, rather than a hidden menu.
 
-			this.nameClickSelect = new JComboBox<String>();
+			this.nameClickSelect = new JComboBox();
 			this.nameClickSelect.addItem( "Name click shows player profile" );
 			this.nameClickSelect.addItem( "Name click opens blue message" );
 			this.nameClickSelect.addItem( "Name click sends kmail message" );
