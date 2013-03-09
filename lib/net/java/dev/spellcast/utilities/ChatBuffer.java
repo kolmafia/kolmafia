@@ -100,11 +100,11 @@ public class ChatBuffer
 	private final String title;
 
 	private final StringBuffer content = new StringBuffer();
-	private final LinkedList displayPanes = new LinkedList();
+	private final LinkedList<JEditorPane> displayPanes = new LinkedList<JEditorPane>();
 
-	private final Set stickyPanes = new LinkedHashSet();
-	private final LinkedList addStickyPanes = new LinkedList();
-	private final LinkedList removeStickyPanes = new LinkedList();
+	private final Set<JEditorPane> stickyPanes = new LinkedHashSet<JEditorPane>();
+	private final LinkedList<JEditorPane> addStickyPanes = new LinkedList<JEditorPane>();
+	private final LinkedList<JEditorPane> removeStickyPanes = new LinkedList<JEditorPane>();
 
 	private volatile int resetSequence = 0;
 
@@ -114,7 +114,7 @@ public class ChatBuffer
 
 	private PrintWriter logWriter;
 
-	protected static final HashMap ACTIVE_LOG_FILES = new HashMap();
+	protected static final HashMap<String, PrintWriter> ACTIVE_LOG_FILES = new HashMap<String, PrintWriter>();
 
 	private static final int MAXIMUM_LENGTH = 50000;
 	private static final int TRIM_TO_LENGTH = 45000;
@@ -177,7 +177,7 @@ public class ChatBuffer
 
 		if ( ChatBuffer.ACTIVE_LOG_FILES.containsKey( filename ) )
 		{
-			this.logWriter = (PrintWriter) ChatBuffer.ACTIVE_LOG_FILES.get( filename );
+			this.logWriter = ChatBuffer.ACTIVE_LOG_FILES.get( filename );
 		}
 		else
 		{
@@ -364,11 +364,11 @@ public class ChatBuffer
 				return;	// outdated by a subsequent display reset
 			}
 
-			Iterator paneIterator = ChatBuffer.this.displayPanes.iterator();
+			Iterator<JEditorPane> paneIterator = ChatBuffer.this.displayPanes.iterator();
 
 			while ( paneIterator.hasNext() )
 			{
-				JEditorPane displayPane = (JEditorPane) paneIterator.next();
+				JEditorPane displayPane = paneIterator.next();
 
 				if ( displayPane == null )
 				{
@@ -391,8 +391,8 @@ public class ChatBuffer
 		{
 			// Check for imbalanced HTML here
 
-			Stack openTags = new Stack();
-			Set skippedTags = new HashSet();
+			Stack<String> openTags = new Stack<String>();
+			Set<String> skippedTags = new HashSet<String>();
 			StringBuffer buffer = new StringBuffer();
 
 			String noCommentsContent = COMMENT_PATTERN.matcher( newContent ).replaceAll( "" );
@@ -416,7 +416,7 @@ public class ChatBuffer
 					{
 						while ( !openTags.isEmpty() )
 						{
-							String openTag = (String) openTags.pop();
+							String openTag = openTags.pop();
 							replacement.append( "</" );
 							replacement.append( openTag );
 							replacement.append( ">" );
@@ -454,7 +454,7 @@ public class ChatBuffer
 
 			while ( !openTags.isEmpty() )
 			{
-				String openTag = (String) openTags.pop();
+				String openTag = openTags.pop();
 				buffer.append( "</" );
 				buffer.append( openTag );
 				buffer.append( ">" );
@@ -472,11 +472,11 @@ public class ChatBuffer
 				return;	// outdated by a subsequent display reset
 			}
 
-			Iterator paneIterator = ChatBuffer.this.displayPanes.iterator();
+			Iterator<JEditorPane> paneIterator = ChatBuffer.this.displayPanes.iterator();
 
 			while ( paneIterator.hasNext() )
 			{
-				JEditorPane displayPane = (JEditorPane) paneIterator.next();
+				JEditorPane displayPane = paneIterator.next();
 
 				if ( displayPane == null )
 				{
@@ -532,11 +532,11 @@ public class ChatBuffer
 				return;	// outdated by a subsequent display reset
 			}
 
-			Iterator paneIterator = ChatBuffer.this.stickyPanes.iterator();
+			Iterator<JEditorPane> paneIterator = ChatBuffer.this.stickyPanes.iterator();
 
 			while ( paneIterator.hasNext() )
 			{
-				JEditorPane stickyPane = (JEditorPane) paneIterator.next();
+				JEditorPane stickyPane = paneIterator.next();
 
 				if ( stickyPane == null )
 				{

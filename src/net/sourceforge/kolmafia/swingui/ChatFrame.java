@@ -90,7 +90,7 @@ public class ChatFrame
 	private static final SimpleDateFormat MARK_TIMESTAMP = new SimpleDateFormat( "HH:mm:ss", Locale.US );
 
 	private ChatPanel mainPanel;
-	private JComboBox nameClickSelect;
+	private JComboBox<String> nameClickSelect;
 
 	/**
 	 * Constructs a new <code>ChatFrame</code> which is intended to be used for instant messaging to the specified
@@ -118,7 +118,7 @@ public class ChatFrame
 			// Add the name click options as a giant combo
 			// box, rather than a hidden menu.
 
-			this.nameClickSelect = new JComboBox();
+			this.nameClickSelect = new JComboBox<String>();
 			this.nameClickSelect.addItem( "Name click shows player profile" );
 			this.nameClickSelect.addItem( "Name click opens blue message" );
 			this.nameClickSelect.addItem( "Name click sends kmail message" );
@@ -252,7 +252,7 @@ public class ChatFrame
 		implements FocusListener
 	{
 		private int lastCommandIndex = 0;
-		private final ArrayList commandHistory;
+		private final ArrayList<String> commandHistory;
 		private final JTextField entryField;
 		private final RequestPane chatDisplay;
 		private final String associatedContact;
@@ -264,7 +264,7 @@ public class ChatFrame
 			this.chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
 
 			this.associatedContact = associatedContact;
-			this.commandHistory = new ArrayList();
+			this.commandHistory = new ArrayList<String>();
 
 			ChatEntryListener listener = new ChatEntryListener();
 
@@ -340,7 +340,7 @@ public class ChatFrame
 						return;
 					}
 
-					ChatPanel.this.entryField.setText( (String) ChatPanel.this.commandHistory.get( --ChatPanel.this.lastCommandIndex ) );
+					ChatPanel.this.entryField.setText( ChatPanel.this.commandHistory.get( --ChatPanel.this.lastCommandIndex ) );
 				}
 				else if ( keyCode == KeyEvent.VK_DOWN )
 				{
@@ -349,7 +349,7 @@ public class ChatFrame
 						return;
 					}
 
-					ChatPanel.this.entryField.setText( (String) ChatPanel.this.commandHistory.get( ++ChatPanel.this.lastCommandIndex ) );
+					ChatPanel.this.entryField.setText( ChatPanel.this.commandHistory.get( ++ChatPanel.this.lastCommandIndex ) );
 				}
 				else if ( keyCode == KeyEvent.VK_ENTER )
 				{
