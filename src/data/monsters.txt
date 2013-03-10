@@ -1375,11 +1375,11 @@ White Bone Demon	Atk: 100 Def: 100 HP: 180 P: demon	suspicious-looking fedora (1
 procedurally-generated skeleton	P: undead
 
 # Video Game dungeon
-Video Game Boss	HP: [0.75*(min(MOX+5+max(ML,0),10000))] Atk: [min(MOX+5+max(ML,0),10000)] Def: [min(MUS+5+max(ML,0),10000)] P: object
-Video Game Miniboss	HP: [0.75*(min(MOX+3+max(ML,0),10000))] Atk: [min(MOX+3+max(ML,0),10000)] Def: [min(MUS+3+max(ML,0),10000)] P: object
-Video Game Minion (moderate)	HP: [0.75*(min(MOX-2+max(ML,0),10000))] Atk: [min(MOX-2+max(ML,0),10000)] Def: [min(MUS-2+max(ML,0),10000)] P: object
-Video Game Minion (strong)	HP: [0.75*(min(MOX+1+max(ML,0),10000))] Atk: [min(MOX+1+max(ML,0),10000)] Def: [min(MUS+1+max(ML,0),10000)] P: object
-Video Game Minion (weak)	HP: [0.75*(min(MOX-7+max(ML,0),10000))] Atk: [min(MOX-7+max(ML,0),10000)] Def: [min(MUS-7+max(ML,0),10000)] P: object
+Video Game Boss	HP: [0.75*(min(MUS+5+max(ML,0),10000))] Atk: [min(MOX+5+max(ML,0),10000)] Def: [min(MUS+5+max(ML,0),10000)] P: object
+Video Game Miniboss	HP: [0.75*(min(MUS+3+max(ML,0),10000))] Atk: [min(MOX+3+max(ML,0),10000)] Def: [min(MUS+3+max(ML,0),10000)] P: object
+Video Game Minion (moderate)	HP: [0.75*(min(MUS-2+max(ML,0),10000))] Atk: [min(MOX-2+max(ML,0),10000)] Def: [min(MUS-2+max(ML,0),10000)] P: object
+Video Game Minion (strong)	HP: [0.75*(min(MUS+1+max(ML,0),10000))] Atk: [min(MOX+1+max(ML,0),10000)] Def: [min(MUS+1+max(ML,0),10000)] P: object
+Video Game Minion (weak)	HP: [0.75*(min(MUS-7+max(ML,0),10000))] Atk: [min(MOX-7+max(ML,0),10000)] Def: [min(MUS-7+max(ML,0),10000)] P: object
 
 # Avatar of Jarlsberg
 Clancy	Atk: 150 Def: 165 HP: 500
