@@ -738,30 +738,6 @@ public abstract class StaticEntity
 		}
 	}
 
-	public static final void printRequestData( final GenericRequest request )
-	{
-		if ( request == null )
-		{
-			return;
-		}
-
-		boolean shouldOpenStream = !RequestLogger.isDebugging();
-		if ( shouldOpenStream )
-		{
-			RequestLogger.openDebugLog();
-		}
-
-		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "" + request.getClass() + ": " + request.getURLString() );
-		RequestLogger.updateDebugLog( KoLConstants.LINE_BREAK_PATTERN.matcher( request.responseText ).replaceAll( "" ) );
-		RequestLogger.updateDebugLog();
-
-		if ( shouldOpenStream )
-		{
-			RequestLogger.closeDebugLog();
-		}
-	}
-
 	public static final String[] getPastUserList()
 	{
 		ArrayList<String> pastUserList = new ArrayList<String>();
