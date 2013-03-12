@@ -136,8 +136,19 @@ public class ChoiceCommand
 		while ( i.hasNext() )
 		{
 			Map.Entry e = (Map.Entry) i.next();
-			RequestLogger.printLine( "<b>choice " + e.getKey() +
-				"</b>: " + e.getValue() );
+			RequestLogger.printLine( "<b>choice " + e.getKey() + "</b>: " + e.getValue() );
+		}
+	}
+	
+	public static void logChoices()
+	{
+		TreeMap choices = ChoiceCommand.parseChoices();
+		Iterator i = choices.entrySet().iterator();
+		while ( i.hasNext() )
+		{
+			Map.Entry e = (Map.Entry) i.next();
+			RequestLogger.updateSessionLog( "choice " + ChoiceManager.lastChoice + "/" + e.getKey() + ": " + e.getValue() );
+			RequestLogger.printLine( "<b>choice " + e.getKey() + "</b>: " + e.getValue() );
 		}
 	}
 }

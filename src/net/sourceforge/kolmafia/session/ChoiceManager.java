@@ -3216,8 +3216,8 @@ public abstract class ChoiceManager
 			if ( decision.equals( "0" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "Manual control requested for choice #" + choice );
-				request.showInBrowser( true );
 				ChoiceCommand.printChoices();
+				request.showInBrowser( true );
 				return;
 			}
 
@@ -3226,9 +3226,8 @@ public abstract class ChoiceManager
 			if ( decision.equals( "" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "Unsupported choice adventure #" + whichchoice );
-				StaticEntity.printRequestData( request );
+				ChoiceCommand.logChoices();
 				request.showInBrowser( true );
-				ChoiceCommand.printChoices();
 				return;
 			}
 
