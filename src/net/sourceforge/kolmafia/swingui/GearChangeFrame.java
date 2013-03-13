@@ -256,12 +256,17 @@ public class GearChangeFrame
 
 		for ( int i = 1; i < Modifiers.STRING_MODIFIERS; ++i )
 		{
+			if ( i == Modifiers.WIKI_NAME ||
+			     i == Modifiers.MODIFIERS ||
+			     i == Modifiers.OUTFIT ||
+			     i == Modifiers.FAMILIAR_EFFCT )
+			{
+				continue;
+			}
+
 			String strval = mods.getString( i );
 			if ( strval.equals( "" ) ) continue;
 			name = Modifiers.getStringModifierName( i );
-			if ( name.equals( "Wiki Name" ) ) continue;
-			if ( name.equals( "Modifiers" ) ) continue;
-			if ( name.equals( "Outfit" ) ) continue;
 			name = StringUtilities.singleStringReplace( name, "Familiar", "Fam" );
 			if ( anyBool )
 			{
