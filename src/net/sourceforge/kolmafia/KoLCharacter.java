@@ -362,7 +362,7 @@ public abstract class KoLCharacter
 	public static boolean minstrelAttention = false;
 
 	// Companion data (Avatar of Jarlsberg)
-	public static Companion companion = null;
+	private static Companion companion = null;
 
 	private static int stillsAvailable = 0;
 	private static boolean tripleReagent = false;
@@ -637,6 +637,7 @@ public abstract class KoLCharacter
 		KoLCharacter.currentEnthroned = FamiliarData.NO_FAMILIAR;
 		KoLCharacter.arenaWins = 0;
 		KoLCharacter.isUsingStabBat = false;
+		KoLCharacter.companion = null;
 
 		KoLCharacter.stillsAvailable = -1;
 		KoLCharacter.tripleReagent = false;
@@ -3760,6 +3761,11 @@ public abstract class KoLCharacter
 		KoLCharacter.minstrelAttention = attention;
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
+	}
+
+	public static final Companion getCompanion()
+	{
+		return KoLCharacter.companion;
 	}
 
 	public static final void setCompanion( Companion companion )

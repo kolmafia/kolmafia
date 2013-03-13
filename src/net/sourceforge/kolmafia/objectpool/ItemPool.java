@@ -1570,6 +1570,10 @@ public class ItemPool
 	public static final int SNOW_SUIT = 6150;
 	public static final int CARROT_NOSE = 6151;
 	public static final int GAMEPRO_WALKTHRU = 6175;
+	public static final int COSMIC_EGG = 6176;
+	public static final int COSMIC_VEGETABLE = 6178;
+	public static final int COSMIC_POTATO = 6181;
+	public static final int COSMIC_CREAM = 6182;
 	public static final int COSMIC_SIX_PACK = 6237;
 	public static final int WALBERG_BOOK = 6253;
 	public static final int OCELOT_BOOK = 6254;

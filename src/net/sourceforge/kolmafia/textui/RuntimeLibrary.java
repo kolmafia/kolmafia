@@ -954,6 +954,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "minstrel_quest", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_companion", DataTypes.STRING_TYPE, params ) );
+
 		// Random other functions related to current in-game
 		// state, not directly tied to the character.
 
@@ -3951,6 +3954,15 @@ public abstract class RuntimeLibrary
 	public static Value minstrel_quest( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.minstrelAttention );
+	}
+
+	public static Value my_companion( Interpreter interpreter )
+	{
+		if ( KoLCharacter.getCompanion() == null )
+		{
+			return DataTypes.STRING_INIT;
+		}
+		return new Value( KoLCharacter.getCompanion().toString() );
 	}
 
 	// Random other functions related to current in-game

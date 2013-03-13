@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -576,10 +577,12 @@ public class UseSkillRequest
 			maximumCast = Math.max( 5 - Preferences.getInteger( "_inigosCasts" ), 0 );
 			break;
 
+		// Avatar of Boris skill
 		case SkillPool.DEMAND_SANDWICH:
 			maximumCast = Math.max( 3 - Preferences.getInteger( "_demandSandwich" ), 0 );
 			break;
 
+		// Zombie Master skills
 		case SkillPool.SUMMON_MINION:
 			maximumCast = KoLCharacter.getAvailableMeat() / 100;
 			break;
@@ -587,7 +590,65 @@ public class UseSkillRequest
 		case SkillPool.SUMMON_HORDE:
 			maximumCast = KoLCharacter.getAvailableMeat() / 1000;
 			break;
+
+		// Avatar of Jarlsberg skills
+		case SkillPool.CONJURE_EGGS:
+			maximumCast = Preferences.getBoolean( "_jarlsEggsSummoned" ) ? 0 : 1;
+			break;
+
+		case SkillPool.CONJURE_DOUGH:
+			maximumCast = Preferences.getBoolean( "_jarlsDoughSummoned" ) ? 0 : 1;
+			break;
+
+		case SkillPool.CONJURE_VEGGIES:
+			maximumCast = Preferences.getBoolean( "_jarlsVeggiesSummoned" ) ? 0 : 1;
+			break;
+
+		case SkillPool.CONJURE_CHEESE:
+			maximumCast = Preferences.getBoolean( "_jarlsCheeseSummoned" ) ? 0 : 1;
+			break;
+
+		case SkillPool.CONJURE_MEAT:
+			maximumCast = Preferences.getBoolean( "_jarlsMeatSummoned" ) ? 0 : 1;
+			break;
+
+		case SkillPool.CONJURE_POTATO:
+			maximumCast = Preferences.getBoolean( "_jarlsPotatoSummoned" ) ? 0 : 1;
+			break;
+
+		case SkillPool.CONJURE_CREAM:
+			maximumCast = Preferences.getBoolean( "_jarlsCreamSummoned" ) ? 0 : 1;
+			break;
+
+		case SkillPool.CONJURE_FRUIT:
+			maximumCast = Preferences.getBoolean( "_jarlsFruitSummoned" ) ? 0 : 1;
+			break;
+
+		case SkillPool.EGGMAN:
+			boolean haveEgg = KoLConstants.inventory.contains( ItemPool.get( ItemPool.COSMIC_EGG, 1 ) );
+			boolean eggActive = KoLCharacter.getCompanion() == Companion.EGGMAN;
+			maximumCast = ( haveEgg && !eggActive ) ? 1 : 0;
+			break;
+
+		case SkillPool.RADISH_HORSE:
+			boolean haveVeggie = KoLConstants.inventory.contains( ItemPool.get( ItemPool.COSMIC_VEGETABLE, 1 ) );
+			boolean radishActive = KoLCharacter.getCompanion() == Companion.RADISH;
+			maximumCast = ( haveVeggie && !radishActive ) ? 1 : 0;
+			break;
+
+		case SkillPool.HIPPOTATO:
+			boolean havePotato = KoLConstants.inventory.contains( ItemPool.get( ItemPool.COSMIC_POTATO, 1 ) );
+			boolean hippoActive = KoLCharacter.getCompanion() == Companion.HIPPO;
+			maximumCast = ( havePotato && !hippoActive ) ? 1 : 0;
+			break;
+
+		case SkillPool.CREAMPUFF:
+			boolean haveCream = KoLConstants.inventory.contains( ItemPool.get( ItemPool.COSMIC_CREAM, 1 ) );
+			boolean creampuffActive = KoLCharacter.getCompanion() == Companion.CREAM;
+			maximumCast = ( haveCream && !creampuffActive ) ? 1 : 0;
+			break;
 		}
+
 
 		return maximumCast;
 	}
@@ -1628,6 +1689,44 @@ public class UseSkillRequest
 			Preferences.increment( "libramSummons", count );
 			KoLConstants.summoningSkills.sort();
 			KoLConstants.usableSkills.sort();
+			break;
+
+		case SkillPool.CONJURE_EGGS:
+			Preferences.setBoolean( "_jarlsEggsSummoned", true );
+			break;
+		case SkillPool.CONJURE_DOUGH:
+			Preferences.setBoolean( "_jarlsDoughSummoned", true );
+			break;
+		case SkillPool.CONJURE_VEGGIES:
+			Preferences.setBoolean( "_jarlsVeggiesSummoned", true );
+			break;
+		case SkillPool.CONJURE_CHEESE:
+			Preferences.setBoolean( "_jarlsCheeseSummoned", true );
+			break;
+		case SkillPool.CONJURE_MEAT:
+			Preferences.setBoolean( "_jarlsMeatSummoned", true );
+			break;
+		case SkillPool.CONJURE_POTATO:
+			Preferences.setBoolean( "_jarlsPotatoSummoned", true );
+			break;
+		case SkillPool.CONJURE_CREAM:
+			Preferences.setBoolean( "_jarlsCreamSummoned", true );
+			break;
+		case SkillPool.CONJURE_FRUIT:
+			Preferences.setBoolean( "_jarlsFruitSummoned", true );
+			break;
+
+		case SkillPool.EGGMAN:
+			ResultProcessor.removeItem( ItemPool.COSMIC_EGG );
+			break;
+		case SkillPool.RADISH_HORSE:
+			ResultProcessor.removeItem( ItemPool.COSMIC_VEGETABLE );
+			break;
+		case SkillPool.HIPPOTATO:
+			ResultProcessor.removeItem( ItemPool.COSMIC_POTATO );
+			break;
+		case SkillPool.CREAMPUFF:
+			ResultProcessor.removeItem( ItemPool.COSMIC_CREAM );
 			break;
 		}
 

@@ -78,6 +78,8 @@ import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 
 import net.sourceforge.kolmafia.swingui.widget.UnanimatedLabel;
 
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class CompactSidePane
@@ -791,7 +793,9 @@ public class CompactSidePane
 		this.levelMeter.setValue( (int) (totalPrime - currentLevel) );
 		this.levelMeter.setString( " " );
 
-		this.levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" + KoLConstants.COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
+		this.levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + 
+			"&nbsp;&nbsp;<br>&nbsp;&nbsp;(" + KoLConstants.COMMA_FORMAT.format( nextLevel - totalPrime ) +
+			" subpoints needed)&nbsp;&nbsp;</html>" );
 
 		if ( KoLCharacter.inAxecore() )
 		{
@@ -809,6 +813,21 @@ public class CompactSidePane
 			}
 			int level = KoLCharacter.getMinstrelLevel();
 			this.familiarLabel.setText( "Level " + level );
+		}
+		else if ( KoLCharacter.isJarlsberg() )
+		{
+			if ( KoLCharacter.getCompanion() == null )
+			{
+				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
+				this.familiarLabel.setIcon( icon );
+			}
+			else
+			{
+				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + KoLCharacter.getCompanion().imageName() );
+				ImageIcon icon = JComponentUtilities.getImage( "itemimages/" + KoLCharacter.getCompanion().imageName() );
+				this.familiarLabel.setIcon( icon );
+				icon.setImageObserver( this );
+			}
 		}
 		else
 		{

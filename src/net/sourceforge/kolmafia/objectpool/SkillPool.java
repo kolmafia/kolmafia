@@ -157,4 +157,16 @@ public class SkillPool
 	public static final int HOWL_ALPHA = 12020;
 	public static final int SUMMON_MINION = 12021;
 	public static final int SUMMON_HORDE = 12026;
+	public static final int CONJURE_EGGS = 14001;
+	public static final int CONJURE_DOUGH = 14002;
+	public static final int EGGMAN = 14005;
+	public static final int CONJURE_VEGGIES = 14011;
+	public static final int CONJURE_CHEESE = 14012;
+	public static final int RADISH_HORSE = 14015;
+	public static final int CONJURE_MEAT = 14021;
+	public static final int CONJURE_POTATO = 14022;
+	public static final int HIPPOTATO = 14025;
+	public static final int CONJURE_CREAM = 14031;
+	public static final int CONJURE_FRUIT = 14032;
+	public static final int CREAMPUFF = 14035;
 }
