@@ -843,6 +843,14 @@ user	_interviewVlad	false
 user	_interviewIsabella	false
 user	_interviewMasquerade	false
 user	_ironicMoustache	false
+user	_jarlsCheeseSummoned	false
+user	_jarlsCreamSummoned	false
+user	_jarlsDoughSummoned	false
+user	_jarlsEggsSummoned	false
+user	_jarlsFruitSummoned	false
+user	_jarlsMeatSummoned	false
+user	_jarlsPotatoSummoned	false
+user	_jarlsVeggiesSummoned	false
 user	_jitbCharge	0
 user	_jukebox	false
 user	_jungDrops	0

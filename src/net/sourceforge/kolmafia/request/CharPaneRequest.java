@@ -867,22 +867,29 @@ public class CharPaneRequest
 
 	public enum Companion
 	{
-		EGGMAN( "Eggman" ),
-		RADISH( "Radish Horse" ),
-		HIPPO( "Hippotatomous" ),
-		CREAM( "Cream Puff" );
+		EGGMAN( "Eggman", "jarl_eggman.gif" ),
+		RADISH( "Radish Horse", "jarl_horse.gif" ),
+		HIPPO( "Hippotatomous", "jarl_hippo.gif" ),
+		CREAM( "Cream Puff", "jarl_creampuff.gif" );
 
 		private final String name;
+		private final String image;
 
-		private Companion( String name )
+		private Companion( String name, String image )
 		{
 			this.name = name;
+			this.image = image;
 		}
 
 		@Override
 		public String toString()
 		{
 			return this.name;
+		}
+
+		public String imageName()
+		{
+			return this.image;
 		}
 	}
 
@@ -903,6 +910,10 @@ public class CharPaneRequest
 		else if ( responseText.contains( "the Cream Puff" ) )
 		{
 			KoLCharacter.setCompanion( Companion.CREAM );
+		}
+		else
+		{
+			KoLCharacter.setCompanion( null );
 		}
 	}
 
@@ -988,23 +999,30 @@ public class CharPaneRequest
 				null;
 			KoLCharacter.setClancy( level, instrument, att );
 		}
-		else if ( KoLCharacter.isJarlsberg() && JSON.has( "jarlcompanion" ) )
+		else if ( KoLCharacter.isJarlsberg() )
 		{
-			int companion = JSON.getInt( "jarlcompanion" );
-			switch ( companion )
+			if ( JSON.has( "jarlcompanion" ) )
 			{
-			case 1:
-				KoLCharacter.setCompanion( Companion.EGGMAN );
-				break;
-			case 2:
-				KoLCharacter.setCompanion( Companion.RADISH );
-				break;
-			case 3:
-				KoLCharacter.setCompanion( Companion.RADISH );
-				break;
-			case 4:
-				KoLCharacter.setCompanion( Companion.CREAM );
-				break;
+				int companion = JSON.getInt( "jarlcompanion" );
+				switch ( companion )
+				{
+				case 1:
+					KoLCharacter.setCompanion( Companion.EGGMAN );
+					break;
+				case 2:
+					KoLCharacter.setCompanion( Companion.RADISH );
+					break;
+				case 3:
+					KoLCharacter.setCompanion( Companion.RADISH );
+					break;
+				case 4:
+					KoLCharacter.setCompanion( Companion.CREAM );
+					break;
+				}
+			}
+			else
+			{
+				KoLCharacter.setCompanion( null );
 			}
 		}
 		else
