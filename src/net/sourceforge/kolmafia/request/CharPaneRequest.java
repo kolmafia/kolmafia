@@ -1013,7 +1013,7 @@ public class CharPaneRequest
 					KoLCharacter.setCompanion( Companion.RADISH );
 					break;
 				case 3:
-					KoLCharacter.setCompanion( Companion.RADISH );
+					KoLCharacter.setCompanion( Companion.HIPPO );
 					break;
 				case 4:
 					KoLCharacter.setCompanion( Companion.CREAM );
