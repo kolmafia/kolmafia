@@ -33,24 +33,21 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
-
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HatterCommand
 	extends AbstractCommand
 {
 	public HatterCommand()
 	{
-		this.usage = " [hat] - List effects you can get by wearing available hats at the hatter's tea party, or get a buff with a hat.";
+		this.usage =
+			" [hat] - List effects you can get by wearing available hats at the hatter's tea party, or get a buff with a hat.";
 	}
 
 	@Override
@@ -61,7 +58,7 @@ public class HatterCommand
 			RabbitHoleManager.hatCommand();
 			return;
 		}
-		
+
 		if ( !RabbitHoleManager.teaPartyAvailable() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already attended a Tea Party today." );
@@ -69,40 +66,34 @@ public class HatterCommand
 		}
 
 		String hat = parameters;
-		
+
 		try
 		{
 			int len = Integer.parseInt( parameters );
-			
+
 			RabbitHoleManager.getHatBuff( len );
 		}
 		catch ( NumberFormatException e )
 		{
-			List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
-			List matches = new ArrayList();
+			ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
+			Object[] matches =
+				ItemFinder.getMatchingItemList(
+					EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ], hat, false );
 
-			for ( int i = 0; i < hats.size(); ++i )
-			{
-				if ( StringUtilities.fuzzyMatches( hats.get( i ).toString(), hat ) )
-				{
-					matches.add( hats.get( i ) );
-				}
-			}
-
-			if ( matches.size() > 1 )
+			// TODO: ItemFinder will just return a 0-length array if too many matches.  It would be nice if the "too many matches" error message worked.
+			if ( matches.length > 1 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + hat + "] has too many matches." );
 				return;
 			}
 
-			if ( matches.size() == 0 )
+			if ( matches.length == 0 )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a " + hat
-					+ " for a hat." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a " + hat + " for a hat." );
 				return;
 			}
 
-			RabbitHoleManager.getHatBuff( (AdventureResult) matches.get( 0 ) );
+			RabbitHoleManager.getHatBuff( AdventureResult.pseudoItem( matches[ 0 ].toString() ) );
 		}
 	}
 }
