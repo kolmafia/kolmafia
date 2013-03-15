@@ -1939,6 +1939,7 @@ kumquartz ring	Weapon Damage Percent: [200*zone(The Candy Diorama)], Single Equi
 ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 # left half of a heart necklace
 lollipop cufflinks	Mysticality: +5
+long-forgotten necklace	Meat Drop: +15
 # lucky Crimbo tiki necklace: Brings Good Luck!
 lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 lucky cat collar	Meat Drop: +7
@@ -2310,6 +2311,7 @@ makeshift cape	Item Drop: +5
 Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
 Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
 Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
+old SCUBA tank	Item Drop: -50, Initiative: -100, Adventure Underwater
 palm-frond cloak	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
 sealhide cloak	Cold Resistance: +2
@@ -3117,6 +3119,7 @@ Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Extremely Poor Taste	Monster Level: +10
 Eye of the Lihc	Spooky Resistance: +1
 Eye of the Seal	Item Drop: +10
+Eyes of the Dragon	Item Drop: [100*zone(The Sea)]
 Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
 Familial Ties	Familiar Weight: [10*zone(The Sea)]
 Fan-Cooled	Cold Damage: +10
@@ -3239,6 +3242,8 @@ Gummiskin	Moxie: +100
 Gutterminded	Sleaze Damage: +50
 Hagg-ard	Muscle: +10
 # Haiku State of Mind: large penalty to result parsing
+# Hairless and Airless: Makes you a better diver
+Hairless and Airless	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
 Hairy Palms	Never Fumble, MP Regen Min: 3, MP Regen Max: 4, HP Regen Min: 6, HP Regen Max: 8
 # Half-Astral: Like, Wow, Man
 Half-Eaten Brain	Mysticality Percent: -20
@@ -4758,6 +4763,7 @@ secret mummy herbs and spices	Effect: "Like an Egyptian", Effect Duration: 30
 sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
 shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
+shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 siesta-ing Casagnova gnome	Free Pull
 silk garter snake	Free Pull
 sizzling seal fat	Effect: "Sizzling with Fury", Effect Duration: 10

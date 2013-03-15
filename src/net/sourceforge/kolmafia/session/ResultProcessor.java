@@ -1329,6 +1329,9 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.DAS_BOOT:
+		case ItemPool.FISHY_PIPE:
+		case ItemPool.FISH_MEAT_CRATE:
+		case ItemPool.DAMP_WALLET:
 			ResultProcessor.removeItem( ItemPool.DAMP_OLD_BOOT );
 			break;
 

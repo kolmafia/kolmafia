@@ -910,6 +910,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_psychoJarUsed" ) ? 0 : 1;
 
+		case ItemPool.FISHY_PIPE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_fishyPipeUsed" ) ? 0 : 1;
+
 		}
 
 		switch ( consumptionType )
@@ -4287,6 +4291,10 @@ public class UseItemRequest
 		case ItemPool.JICK_JAR:
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			Preferences.setBoolean( "_psychoJarUsed", true );
+			return;
+
+		case ItemPool.FISHY_PIPE:
+			Preferences.setBoolean( "_fishyPipeUsed", true );
 			return;
 
 		case ItemPool.BLANK_OUT_BOTTLE:

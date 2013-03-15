@@ -6325,3 +6325,14 @@
 6308	celestial carrot juice	322513561	potion19.gif	usable	t,d	0
 6309	celestial au jus	897507910	potion22.gif	usable	t,d	0
 6310	celestial squid ink	809451164	potion21.gif	usable	t,d	0
+6311
+6312	crate of fish meat	421662304	crate.gif	usable		0	crates of fish meat
+6313	damp old wallet	841851551	wallet.gif	usable		0	damp old wallets
+6314	fishy pipe	330990978	corncobpipe.gif	usable		0	fishy pipes
+6315	old SCUBA tank	613342976	scuba.gif	container	q	0
+6316
+6317
+6318
+6319	shavin' razor	800695737	straightrazor.gif	usable	t,d	60	shavin' razors
+6320	long-forgotten necklace	880037954	lostnecklace.gif	accessory	t,d	1000	long-forgotten necklaces
+6321	giant pearl	267452547	bigpearl.gif	none	t,d	12000	giant pearls

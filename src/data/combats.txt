@@ -46,7 +46,7 @@ A Maze of Sewer Tunnels	95	C. H. U. M.	Giant Zombie Goldfish	Sewer Gator	C. H. U
 A Pile of Old Servers	100	Antique Database Server
 A Skeleton Invasion!	100	Skeleton Invader	Two Skeleton Invaders	Three Skeleton Invaders	Four Skeleton Invaders	Five Skeleton Invaders
 A Well-Groomed Lawn	100	Menacing lawn gnome	Mowing lawn gnome	Mounted lawn gnome
-An Octopus's Garden	95	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae
+An Octopus's Garden	95	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae	moister oyster: 0
 Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Anemone Mine	-1	Anemone Combatant	Killer Clownfish	Mer-kin Miner
 Astral Mushroom (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Casey Kasem)	Trippy Floating Head (Grand Moff Tarkin)	Trippy Floating Head (Mona Lisa)	Zombie Baby

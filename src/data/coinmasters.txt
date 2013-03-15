@@ -111,8 +111,8 @@ Big Brother	buy	50	map to Madness Reef
 Big Brother	buy	50	map to the Marinara Trench
 Big Brother	buy	50	map to Anemone Mine
 Big Brother	buy	50	map to the Dive Bar
-Big Brother	buy	100	damp old boot
-Big Brother	buy	100	sushi-rolling mat
+Big Brother	buy	50	damp old boot
+Big Brother	buy	50	sushi-rolling mat
 
 # Things you can buy with Crimbux
 

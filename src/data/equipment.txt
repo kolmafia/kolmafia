@@ -1712,6 +1712,7 @@ kumquartz ring	0	none
 ladle of mystery	40	Mys: 5
 left half of a heart necklace	10	none
 lollipop cufflinks	0	none
+long-forgotten necklace	0	Mys: 85
 lucky Crimbo tiki necklace	10	none
 lucky bottlecap	200	Mys: 200
 lucky cat collar	60	Mys: 15
@@ -2065,6 +2066,7 @@ barskin cloak	25	Mys: 75
 giant gym membership card	0	Mys: 75
 hemp backpack	0	Mys: 75
 makeshift cape	100	Mys: 75
+old SCUBA tank	0	Mys: 75
 palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
 sealhide cloak	160	Mys: 75
