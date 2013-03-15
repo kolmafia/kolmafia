@@ -6243,7 +6243,7 @@
 6226	Ultimate Breakfast Sandwich	575574044	jarl_bagelsand.gif	food	q	0
 6227	Loaded Baked Potato	155471278	jarl_loaded.gif	food	q	0
 6228	Omega Sundae	559563087	jarl_sundae.gif	food	q	0
-6229	Die Sauerlager	857387778	jarl_sauerlager.gif	drink	q	0
+6229	Das Sauerlager	857387778	jarl_sauerlager.gif	drink	q	0
 6230	Bologna Lambic	283884986	jarl_lambic.gif	drink	q	0
 6231	Vodka Dog	767873206	jarl_vodkadog.gif	drink	q	0
 6232	Disappointed Russian	946767939	jarl_russian.gif	drink	q	0

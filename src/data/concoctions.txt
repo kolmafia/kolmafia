@@ -2128,7 +2128,7 @@ sublime nachos	JARLS	consummate corn chips	consummate salsa	consummate melted ch
 Ultimate Breakfast Sandwich	JARLS	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
 Loaded Baked Potato	JARLS	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
 Omega Sundae	JARLS	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
-Die Sauerlager	JARLS	mediocre lager	consummate sauerkraut
+Das Sauerlager	JARLS	mediocre lager	consummate sauerkraut
 Bologna Lambic	JARLS	passable stout	consummate cold cuts
 Vodka Dog	JARLS	acceptable vodka	consummate hot dog bun
 Disappointed Russian	JARLS	acceptable vodka	consummate sour cream
