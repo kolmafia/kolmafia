@@ -120,7 +120,7 @@ decanter of fine scotch	4	9	EPIC	18-22	5-10	5-10	50-80
 desert island iced tea	5	1		12-13	0	0	0	15 Castaway Physique
 dew yoana lei	3	4	decent	5-6	0	34-80	0	20 Brined Liver
 dew yoana salacious lei	4	8	good	10-14	0	60-115	0	30 Brined Liver
-die sauerlager	3	0	decent	4-5	0	20-30	10-20
+das sauerlager	3	0	decent	4-5	0	20-30	10-20
 dirty martini	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 disappointed russian	4	0	decent	7-9	0	0	30-40
 distilled fortified wine	1	1	EPIC	5-6	5-6	5-6	5-6
