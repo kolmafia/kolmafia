@@ -1581,6 +1581,9 @@ public class ItemPool
 	public static final int ROCKETSHIP = 6290;
 	public static final int JARLS_COSMIC_PAN = 6304;
 	public static final int JARLS_PAN = 6305;
+	public static final int FISH_MEAT_CRATE = 6312;
+	public static final int DAMP_WALLET = 6313;
+	public static final int FISHY_PIPE = 6314;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

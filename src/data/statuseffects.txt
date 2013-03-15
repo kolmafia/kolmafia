@@ -1206,3 +1206,6 @@
 1205	Celestial Vision	celesteyes.gif	d650ad971bf6c21a87dd67ab829b2c1c	use 1 celestial carrot juice
 1206	Celestial Saltiness	celestsalt.gif	736dbff093fb7c6e4fa8da154320b8ec	use 1 celestial au jus
 1207	Celestial Camouflage	celestcamo.gif	fbe81949d5784e4cc9942f47c97103d3	use 1 celestial squid ink
+1208
+1209	Hairless and Airless	straightrazor.gif	edaf797fe4b12d4c164629ca854e9c8e	use 1 shavin' razor
+1210	Eyes of the Dragon	bigeyes.gif	65576acd816de24deaa2c8d48c31ea88

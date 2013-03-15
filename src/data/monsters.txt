@@ -663,6 +663,7 @@ Mob Penguin Smith	P: penguin	chunk of depleted Grimacite (0)	iron pasta spoon (0
 Mob Penguin Supervisor	P: penguin	chunk of depleted Grimacite (0)	mafia aria (0)	Mob Penguin cellular phone (0)	support cummerbund (0)
 Mobile Armored Sweat Lodge	Atk: 180 Def: 162 HP: 300 E: stench Phys: 50 P: hippy	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
 Modern Zmobie	Atk: 60 Def: 54 HP: 50 E: spooky P: undead
+moister oyster	Atk: 1100 Def: 1300 HP: 1500 Meat: 80-120 P: fish	giant pearl (100n)
 Monkey Wrenchin' Elf	P: crimbo	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
 Monty Basingstoke-Pratt, IV	Atk: 195 Def: 175 HP: 240 Meat: 174-215 E: sleaze	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 Mother Hellseal	Atk: 150 Def: 135 HP: 150 P: demon	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
