@@ -148,6 +148,9 @@ public class DailyDeedsPanel
 			"Special", "Skate Park",
 		},
 		{
+			"Item", "Fishy Pipe", "_fishyPipeUsed", "Fishy Pipe", "1", "Fishy, 10 turns"
+		},
+		{
 			"Special", "Concert",
 		},
 		{

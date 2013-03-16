@@ -6328,7 +6328,7 @@
 6311
 6312	crate of fish meat	421662304	crate.gif	usable		0	crates of fish meat
 6313	damp old wallet	841851551	wallet.gif	usable		0	damp old wallets
-6314	fishy pipe	330990978	corncobpipe.gif	usable		0	fishy pipes
+6314	fishy pipe	330990978	corncobpipe.gif	reusable	0	fishy pipes
 6315	old SCUBA tank	613342976	scuba.gif	container	q	0
 6316
 6317

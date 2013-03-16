@@ -4527,6 +4527,7 @@ fireclutch	Effect: "Ginger Fightis", Effect Duration: 50
 fire flower	Effect: "Flamingly Floral", Effect Duration: 10
 fish juice box	Effect: "Fishy", Effect Duration: 20
 fish-liver oil	Effect: "Fishy Fortification", Effect Duration: 5
+fishy pipe	Effect: "Fishy", Effect Duration: 10
 flask of baconstone juice	Effect: "Baconstoned", Effect Duration: 10
 flask of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 10
 flask of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 10
