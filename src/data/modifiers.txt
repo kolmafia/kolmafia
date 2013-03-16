@@ -115,7 +115,7 @@ Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Familiar
 Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6
 Ze&trade; goggles	Item Drop: [25*zone(The Sea)]
 Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "spooky atk"
-aerated diving helmet	Stench Resistance: +3, Item Drop: -50, Initiative: -50, Adventure Underwater, Familiar Effect: "?xPotato"
+aerated diving helmet	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "0.5xPotato"
 ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "atk, cap 8"
 anniversary concrete fedora	Moxie: +1, Muscle: +1, Mysticality: +1, Familiar Effect: "?xVolley, ?xLep, cap 2"
 antique helmet	Initiative: -10, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 0.5xFairy"
@@ -1944,7 +1944,7 @@ long-forgotten necklace	Meat Drop: +15
 lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 lucky cat collar	Meat Drop: +7
 lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
-makeshift SCUBA gear	Stench Resistance: +2, Item Drop: -100, Initiative: -100, Adventure Underwater
+makeshift SCUBA gear	Stench Resistance: +2, Item Drop: -50, Initiative: -100, Adventure Underwater
 malevolent medallion	Slime Hates It: +1, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, MP Regen Min: 10, MP Regen Max: 30, Single Equip
 # mayfly bait necklace: Allows Summoning of Mayflies in Combat
 mayfly bait necklace	Meat Drop: +10, Item Drop: +10, Single Equip, Softcore Only

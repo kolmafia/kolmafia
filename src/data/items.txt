@@ -6038,7 +6038,7 @@
 6021	Duskwalker fangs	277539982	dipshitfangs.gif	accessory	t,d	80
 6022	Space Tourist Phaser	744444657	phaser.gif	weapon	t,d	100
 6023	Whoompa Fur Pants	246273677	woompapants.gif	pants	t,d	95	pairs of Whoompa Fur Pants
-6024	Whatsian Ionic Pliers	623667945	ionicpliers.gif	offhand	t,d	120
+6024	Whatsian Ionic Pliers	623667945	ionicpliers.gif	offhand	t,d	120	pairs of Whatsian Ionic Pliers
 6025	Polysniff Perfume	858641829	potion4.gif	multiple	t,d	45	vials of Polysniff Perfume
 6026	Duskwalker syringe	311982559	syringe2.gif	none, combat	t,d	30
 6027	Space Tours Tripple	925766700	tripple.gif	usable, combat	t,d	25
