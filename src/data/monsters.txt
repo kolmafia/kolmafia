@@ -637,6 +637,7 @@ Mer-kin Diver	Atk: 475 Def: 427 HP: 700 Meat: 160-240 P: mer-kin	Mer-kin foodbuc
 Mer-kin Healer	Atk: 650 Def: 585 HP: 600 Meat: 120-180 P: mer-kin	Mer-kin foodbucket (n5)	Mer-kin healscroll (n25)	Mer-kin prayerbeads (n5)	Mer-kin thingpouch (n15)
 Mer-kin Miner	Atk: 450 Def: 405 HP: 750 Meat: 160-240 P: mer-kin	Mer-kin foodbucket (n5)	Mer-kin digpick (n10)	Mer-kin thingpouch (n25)
 Mer-kin Raider	Atk: 750 Def: 585 HP: 800 Meat: 200-300 P: mer-kin	Mer-kin breastplate (c2)	Mer-kin foodbucket (n10)	Mer-kin hookspear (n2)	Mer-kin roundshield (n2)
+Mer-Kin rustler	Atk: 700 Def: 675 HP: 750
 Mer-kin Scavenger	Atk: 450 Def: 405 HP: 600 Meat: 160-240 P: mer-kin	Mer-kin hookspear (n2)	Mer-kin takebag (n4)	Mer-kin thingpouch (n25)
 Mer-kin Tippler	Atk: 600 Def: 360 HP: 750 Meat: 160-240 P: mer-kin	Alewife&trade; Ale (40)	Mer-kin foodbucket (n5)	Mer-kin pinkslip (n5)	slug of vodka (21)
 Mesmerizing Penguin	P: penguin	Crimbuck (0)	pocketwatch on a chain (0)	spiraling shape (c100)
@@ -789,6 +790,8 @@ School of Wizardfish	Atk: 300 Def: 270 HP: 400 Meat: 160-240 P: fish	dull fish s
 Scimitarfish	Atk: 400 Def: 292 HP: 550 Meat: 176-264 P: fish	dull fish scale (n15)	fish scimitar (n2)
 Scorched Duck	Atk: 170 Def: 156 HP: 185 Meat: 148-200 E: hot P: beast	flaming feather (10)	duct tape (5)
 Screambat	Atk: 18 Def: 16 HP: 15 P: beast
+sea cow	Atk: 600 Def: 675 HP: 900	sea cowbell (0)	sea leather (0)
+sea cowboy	Atk: 750 Def: 585 HP: 700	sea lasso (0)	deep six-shooter (0)
 Security Slime	Atk: 160 Def: 144 HP: 210 P: slime
 Senile Lihc	Atk: 56 Def: 51 HP: 50 E: spooky P: undead	lihc eye (20)	lihc face (9)	shimmering tendrils (c5)
 Serialbus	Atk: 60 Def: 54 HP: 60 Init: 35 E: hot Meat: 25-35 P: demon	bus pass (25)
@@ -1021,6 +1024,7 @@ Whiny Pirate	Atk: 120 Def: 108 HP: 110 Meat: 64-96 P: pirate	bilge wine (30)
 White Chocolate Golem	Atk: 37 Def: 32 HP: 21 P: object	white chocolate chips (50)	mother's secret recipe (p3)
 White Lion	Atk: 36 Def: 31 HP: 21 Meat: 24-36 P: beast	catgut (15)	lion oil (n20)
 Whitesnake	Atk: 35 Def: 30 HP: 21 Meat: 8-13 "A Little Bit Poisoned" P: beast	white snake skin (30)	bird rib (n20)
+wild seahorse	Phys: 100
 Wire-Crossin' Elf		elf resistance button (100)	handful of wires (c100)	live wire (0)
 Witty Pirate	Atk: 120 Def: 108 HP: 110 Meat: 64-96 P: pirate	witty rapier (10)	silver tongue charrrm (10)
 Wolfman	Atk: 3 Def: 2 HP: 2 Meat: 10-13 P: humanoid

@@ -224,6 +224,7 @@ The Briniest Deepests	100	Acoustic Electric Eel	Decent White Shark	Ganger
 The Broodling Grounds	100	hellseal pup	mother hellseal: 0
 The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons	Rene C. Corman
 The Clumsiness Grove	100	Sorrowful Hickory	Suffering Juniper	Tormented Baobab	Whimpering Willow	Woeful Magnolia	The Bat in the Spats: 0	The Thorax: 0
+The Coral Corral	100	Mer-Kin rustler	sea cowboy	sea cow	wild seahorse
 The Dive Bar	100	Lounge Lizardfish	Mer-kin tippler	Nurse Shark
 The Domed City of Ronaldus	100	Dogcat	Ferrelf	Hamsterpus	Overarmed Survivor	Primitive Survivor	Unlikely Survivor
 The Domed City of Grimacia	100	Alielf	Cat-Alien	Dog-Alien	Grizzled Survivor	Unhinged Survivor	Whiny Survivor

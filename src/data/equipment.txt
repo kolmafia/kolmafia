@@ -212,6 +212,7 @@ reinforced beaded headband	170	Mox: 70
 rusty diving helmet	200	Mox: 85
 safarrri hat	90	Mox: 30
 samurai turtle helmet	25	none
+sea cowboy hat	200	Mox: 85
 seal-skull helmet	10	none
 sealhide hood	160	Mox: 65
 sequined fez	80	Mox: 25
@@ -609,6 +610,7 @@ Staff of Holiday Sensations	10	Mys: 75	1-handed chefstaff
 Staff of Queso Escusado	10	Mys: 0	1-handed chefstaff
 Staff of the All-Steak	10	Mys: 50	1-handed chefstaff
 Staff of the Black Kettle	10	Mys: 75	1-handed chefstaff
+Staff of the Cozy Fish	200	Mys: 85	2-handed chefstaff
 Staff of the Cream of the Cream	10	Mys: 50	1-handed chefstaff
 Staff of the Deepest Freeze	10	Mys: 200	1-handed chefstaff
 Staff of the Grand Flamb&eacute;	10	Mys: 125	1-handed chefstaff
@@ -748,6 +750,8 @@ corn holder	20	Mys: 0	1-handed utensil
 corrupt club of corrupt corruption	80	Mus: 25	1-handed club
 corrupt club of corruption	40	Mus: 5	1-handed club
 costume sword	10	Mus: 0	1-handed sword
+cozy bazooka	200	Mox: 85	2-handed bazooka
+cozy scimitar	200	Mus: 85	2-handed sword
 crazy bastard sword	125	Mus: 25	1-handed sword
 creepy-ass club	160	Mus: 65	2-handed club
 crowbar	140	Mus: 55	1-handed club
@@ -757,6 +761,7 @@ curmudgel	125	Mus: 47	1-handed club
 cursed cutlass	200	Mus: 85	1-handed sword
 cyber-mattock	160	Mus: 65	2-handed axe
 decaying wooden oar	200	Mus: 85	2-handed club
+deep six-shooter	200	Mox: 85	1-handed pistol
 demon whip	10	Mus: 0	1-handed whip
 denim axe	170	Mus: 70	2-handed axe
 dense meat crossbow	60	Mox: 15	2-handed crossbow
@@ -1748,6 +1753,8 @@ papier-masque	100	Mys: 20
 pat-a-cake pendant	10	none
 patent leather shoes	30	none
 peace-sign necklace	70	Mys: 20
+pearl diver's necklace	0	Mys: 85
+pearl diver's ring	0	Mys: 85
 phase-tuned shield generator belt	75	Mys: 22
 phat turquoise bracelet	70	Mys: 20
 pig-iron bracers	90	Mys: 30
@@ -2069,6 +2076,9 @@ makeshift cape	100	Mys: 75
 old SCUBA tank	0	Mys: 75
 palm-frond cloak	140	Mys: 75
 paperclip cape	50	Mys: 75
+sea cape	200	Mox: 85
+sea mantle	200	Mus: 85
+sea shawl	200	Mys: 85
 sealhide cloak	160	Mys: 75
 teddybear backpack	150	Mox: 75
 toy jet pack	175	Mys: 75

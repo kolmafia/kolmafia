@@ -283,6 +283,7 @@ rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50, Fami
 # safarrri hat: +10 Damage vs. Lions
 safarrri hat	Maximum HP: +15, Familiar Effect: "2xVolley, cap 22"
 samurai turtle helmet	Muscle: +1, Weapon Damage: +2, Familiar Effect: "?xBarrr, cap 6"
+sea cowboy hat	Adventures: +3, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Maximum HP: +50
 seal-skull helmet	Weapon Damage: +1, Familiar Effect: "atk, cap 2"
 sealhide hood	Initiative: +20, Familiar Effect: "atk, 1xBarrr, cap 40"
 sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
@@ -704,6 +705,7 @@ Staff of Queso Escusado	Spell Damage Percent: +50, Stench Spell Damage: +20, MP 
 # Staff of the All-Steak: (5 charges left today)
 Staff of the All-Steak	Spell Damage Percent: +50, Damage Reduction: 15, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "+Item"
 Staff of the Black Kettle	Spell Damage Percent: +75, Mysticality: +10, MP Regen Min: 5, MP Regen Max: 6
+Staff of the Cozy Fish	Mysticality Percent: +15, Spell Damage Percent: +15, Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(The Sea)], Meat Drop Penalty: [30*zone(The Sea)]
 # Staff of the Cream of the Cream: Jiggle: Attune to Monster's Essence
 # Staff of the Cream of the Cream: (5 charges left today)
 Staff of the Cream of the Cream	Spell Damage Percent: +50, Moxie: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Olfact"
@@ -862,6 +864,8 @@ corn holder	Spell Damage: +1
 corrupt club of corrupt corruption	Weapon Damage: +9, Class: "Seal Clubber"
 corrupt club of corruption	Weapon Damage: +5, Class: "Seal Clubber"
 costume sword	Weapon Damage: -10, Initiative: +30
+cozy bazooka	Moxie Percent: +15, Meat Drop: +20, Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(The Sea)], Meat Drop Penalty: [30*zone(The Sea)]
+cozy scimitar	Muscle Percent: +15, Weapon Damage Percent: +50, Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(The Sea)], Meat Drop Penalty: [30*zone(The Sea)]
 crazy bastard sword	Weapon Damage: +30, Critical Hit Percent: +10, PvP Fights: +6
 creepy-ass club	Weapon Damage: +25, Monster Level: +15, Sleaze Damage: +15, Class: "Seal Clubber"
 crowbar	Initiative: +25
@@ -871,6 +875,7 @@ curmudgel	Monster Level: +8, Weapon Damage: +10
 cursed cutlass	Muscle: +15
 cyber-mattock	Item Drop: +5, Meat Drop: +10
 # decaying wooden oar
+deep six-shooter	Ranged Damage: +40, Critical Hit Percent: +6
 demon whip	Hot Damage: +3, Sleaze Damage: +3, Stench Damage: +3
 denim axe	Muscle: +10, Weapon Damage: +10
 dense meat crossbow	Moxie: +3
@@ -1981,6 +1986,8 @@ papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min:
 pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
 peace-sign necklace	Damage Reduction: 3
+pearl diver's necklace	Critical Hit Percent: +4, Monster Level: +20, Item Drop: [30*zone(The Sea)], Single Equip
+pearl diver's ring	Critical Hit Percent: +3, Monster Level: +15, Item Drop: [20*zone(The Sea)], Single Equip
 # phase-tuned shield generator belt: +10 Damage Reduction vs. Bugbears
 phase-tuned shield generator belt	Single Equip
 phat turquoise bracelet	Mysticality: +5
@@ -2314,6 +2321,10 @@ Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
 old SCUBA tank	Item Drop: -50, Initiative: -100, Adventure Underwater
 palm-frond cloak	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
+sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*zone(The Sea)]
+# sea mantle: +150% Physical Damage (Underwater Only)
+sea mantle	Muscle Percent: +10, Maximum MP: +50, Weapon Damage Percent: [150*zone(The Sea)]
+sea shawl	Mysticality Percent: +15, Maximum HP: +100, Spell Damage Percent: [150*zone(The Sea)]
 sealhide cloak	Cold Resistance: +2
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
 teddybear backpack	Meat Drop: +10, Raveosity: +1
