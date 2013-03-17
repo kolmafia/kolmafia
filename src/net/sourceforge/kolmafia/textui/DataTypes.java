@@ -113,6 +113,7 @@ public class DataTypes
 		"",
 		KoLCharacter.AVATAR_OF_BORIS,
 		KoLCharacter.ZOMBIE_MASTER,
+		"",
 		KoLCharacter.AVATAR_OF_JARLSBERG
 	};
 
