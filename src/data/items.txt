@@ -3822,10 +3822,10 @@
 3805	Mer-kin sneakmask	239306055	sneakmask.gif	hat	t,d	178	Mer-kin sneakmasks
 3806	Mer-kin prayerbeads	279534988	prayerbeads.gif	accessory	t,d	5	strings of Mer-kin prayerbeads
 3807	Mer-kin hidepaint	652935567	balm.gif	multiple	t,d	63	tubs of Mer-kin hidepaint
-3808
+3808	Mer-kin trailmap	843804333	map.gif	usable	q	0
 3809	Mer-kin healscroll	528222942	scroll1.gif	none, combat	t,d	77	Mer-kin healscrolls
-3810
-3811
+3810	Mer-kin lockkey	530410791	simplekey.gif	none	q	0
+3811	Mer-kin stashbox	199018879	chocbox.gif	usable	q	0
 3812	chocolate-frosted king cake	561895660	kingcake.gif	food		0	chocolate-frosted king cakes
 3813	red plastic baby	998177653	tpbaby.gif	accessory	t	0	red plastic babies
 3814
@@ -4210,10 +4210,10 @@
 4193	rave visor	638571639	visor.gif	hat	q,d	25	rave visors
 4194	baggy rave pants	445527206	baggypants.gif	pants	q,d	45	pairs of baggy rave pants
 4195	pacifier necklace	577301630	pacnecklace.gif	accessory	q,d	20	pacifier necklaces
-4196
-4197
-4198
-4199
+4196	sea cowbell	408933601	cowbell.gif	none, combat	t,d	20	sea cowbells
+4197	sea leather	147947170	sealeather.gif	none	t,d	50	pieces of sea leather
+4198	sea lasso	514833911	lasso.gif	none, combat	t,d	66	sea lassos
+4199	sea cowboy hat	778599457	cowboyhat.gif	hat	t,d	150
 4200	grouper fangirl	366226355	grouper1.gif	grow	t,d	250	grouper fangirls
 4201	gill rings	464741399	gillrings.gif	familiar	t,d	75	sets of gill rings
 4202	urchin roe	986186555	roe.gif	grow	t,d	250	urchin roes
@@ -6330,9 +6330,26 @@
 6313	damp old wallet	841851551	wallet.gif	usable		0	damp old wallets
 6314	fishy pipe	330990978	corncobpipe.gif	reusable	0	fishy pipes
 6315	old SCUBA tank	613342976	scuba.gif	container	q	0
-6316
+6316	deep six-shooter	507699686	sixshooter.gif	weapon	t,d	220	deep six-shooters
 6317
 6318
 6319	shavin' razor	800695737	straightrazor.gif	usable	t,d	60	shavin' razors
 6320	long-forgotten necklace	880037954	lostnecklace.gif	accessory	t,d	1000	long-forgotten necklaces
 6321	giant pearl	267452547	bigpearl.gif	none	t,d	12000	giant pearls
+6322	sea lace	460430889	sealace.gif	none	t,d	40	pieces of sea lace
+6323
+6324
+6325
+6326	pearl diver's ring	293189947	jampearl.gif	accessory	t,d	12021	pearl diver's rings
+6327	pearl diver's necklace	212846171	neckpearl.gif	accessory	t,d	12024
+6328	sushi doily	823516292	doily.gif	none	t,d	42	sushi doilies
+6329	scimitar cozy	598070907	cozy1.gif	usable	t,d	120	scimitar cozies
+6330	fish stick cozy	515495032	cozy3.gif	usable	t,d	120	fish stick cozies
+6331	bazooka cozy	739603289	cozy2.gif	usable	t,d	120	bazooka cozies
+6332	cozy scimitar	226545056	cozy1.gif	weapon		0	cozy scimitars
+6333	Staff of the Cozy Fish	346806912	cozy3.gif	weapon		0	Staves of the Cozy Fish
+6334	cozy bazooka	294195784	cozy2.gif	weapon		0	cozy bazookas
+6335	sea mantle	254098025	seaback1.gif	container	d	150	sea mantles
+6336	sea shawl	509681026	seaback2.gif	container	d	150	sea shawls
+6337	sea cape	584242832	seaback3.gif	container	d	150	sea capes
+6338	saltwaterbed	530970383	waterbed.gif	usable	d	1000	saltwaterbeds

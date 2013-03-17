@@ -48,6 +48,7 @@ The Sea	adventure=188	true	The Skate Park
 The Sea	adventure=195	true	The Marinara Trench	+3 bubbling tempura batter|+1 globe of Deep Sauce
 The Sea	adventure=196	true	Anemone Mine	1 Mer-kin digpick|1 midget clownfish
 The Sea	adventure=197	true	The Dive Bar	+3 seaode|1 choiceadv
+The Sea	adventure=199	true	The Coral Corral
 The Sea	mining=3	false	Anemone Mine (Mining)
 Town	adventure=112	true	Sleazy Back Alley	1 spider web|pail of pretentious paint|+3 distilled fortified wine	8 hobo gristle
 Town	adventure=244	true	A Skeleton Invasion!
