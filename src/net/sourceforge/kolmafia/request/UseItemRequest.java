@@ -325,6 +325,7 @@ public class UseItemRequest
 		case ItemPool.SLEAZE_BEDDING:
 		case ItemPool.BEANBAG_CHAIR:
 		case ItemPool.GAUZE_HAMMOCK:
+		case ItemPool.SALTWATERBED:
 			return CampgroundRequest.getCurrentBed() != null;
 
 		case ItemPool.MACARONI_FRAGMENTS:
@@ -583,6 +584,7 @@ public class UseItemRequest
 		case ItemPool.STENCH_BEDDING:
 		case ItemPool.SPOOKY_BEDDING:
 		case ItemPool.SLEAZE_BEDDING:
+		case ItemPool.SALTWATERBED:
 		case ItemPool.BLACK_BLUE_LIGHT:
 		case ItemPool.LOUDMOUTH_LARRY:
 		case ItemPool.PLASMA_BALL:
@@ -1080,6 +1082,7 @@ public class UseItemRequest
 		case ItemPool.STENCH_BEDDING:
 		case ItemPool.SPOOKY_BEDDING:
 		case ItemPool.SLEAZE_BEDDING:
+		case ItemPool.SALTWATERBED:
 		case ItemPool.BEANBAG_CHAIR:
 		case ItemPool.GAUZE_HAMMOCK:
 			AdventureResult bed = CampgroundRequest.getCurrentBed();
@@ -3423,6 +3426,7 @@ public class UseItemRequest
 		case ItemPool.SLEAZE_BEDDING:
 		case ItemPool.SLEEPING_STOCKING:
 		case ItemPool.LAZYBONES_RECLINER:
+		case ItemPool.SALTWATERBED:
 		
 			if ( responseText.contains( "You've already got" ) || responseText.contains( "You don't have" ) )
 			{

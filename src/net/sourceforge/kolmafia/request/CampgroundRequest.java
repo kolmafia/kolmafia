@@ -102,6 +102,7 @@ public class CampgroundRequest
 		ItemPool.SPOOKY_BEDDING,
 		ItemPool.STENCH_BEDDING,
 		ItemPool.SLEEPING_STOCKING,
+		ItemPool.SALTWATERBED,
 
 		// Inside dwelling
 		ItemPool.BLACK_BLUE_LIGHT,
@@ -149,8 +150,8 @@ public class CampgroundRequest
 
 	private enum CropType
 	{
-		PUMPKIN, 
-		PEPPERMINT, 
+		PUMPKIN,
+		PEPPERMINT,
 		SKELETON;
 
 		@Override
@@ -339,7 +340,7 @@ public class CampgroundRequest
 		if ( this.action.equals( "rest" ) &&
 		     KoLCharacter.getCurrentHP() == KoLCharacter.getMaximumHP() &&
 		     KoLCharacter.getCurrentMP() == KoLCharacter.getMaximumMP() &&
-		     !KoLConstants.activeEffects.contains( KoLAdventure.BEATEN_UP ) ) 
+		     !KoLConstants.activeEffects.contains( KoLAdventure.BEATEN_UP ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.PENDING, "You don't need to rest." );
 			return;
@@ -521,7 +522,7 @@ public class CampgroundRequest
 		// This is day 6 for A Bone Garden.  It triggers a combat, so it should never be automatically picked.
 		// Setting a negative number of items will make it possible to tell that it isn't empty.
 		findImage( responseText, "bonegarden_spoilzlul.gif", ItemPool.SKELETON, -1 );
-		
+
 		Matcher jungMatcher = JUNG_PATTERN.matcher( responseText );
 		if ( jungMatcher.find() )
 		{
@@ -551,7 +552,7 @@ public class CampgroundRequest
 				break;
 			}
 		}
-		
+
 	}
 
 	private static final void parseDwelling( final String responseText )
@@ -745,6 +746,7 @@ public class CampgroundRequest
 		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.BLACK_BLUE_LIGHT, 1 ) );
 		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.LOUDMOUTH_LARRY, 1 ) );
 		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.PLASMA_BALL, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SALTWATERBED, 1 ) );
 	}
 
 	public static AdventureResult getCurrentBed()
@@ -821,6 +823,7 @@ public class CampgroundRequest
 		case ItemPool.STENCH_BEDDING:
 		case ItemPool.SPOOKY_BEDDING:
 		case ItemPool.SLEAZE_BEDDING:
+		case ItemPool.SALTWATERBED:
 			return true;
 		}
 		return false;

@@ -2321,7 +2321,7 @@ Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
 old SCUBA tank	Item Drop: -50, Initiative: -100, Adventure Underwater
 palm-frond cloak	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
-sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*zone(The Sea)]
+sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*zone(The Sea)], Critical Hit Percent: [15*zone(The Sea)]
 # sea mantle: +150% Physical Damage (Underwater Only)
 sea mantle	Muscle Percent: +10, Maximum MP: +50, Weapon Damage Percent: [150*zone(The Sea)]
 sea shawl	Mysticality Percent: +15, Maximum HP: +100, Spell Damage Percent: [150*zone(The Sea)]
@@ -2782,6 +2782,7 @@ house of twigs and spit	Base Resting HP: +59, Base Resting MP: +60
 # meat golem
 pagoda plans	Resting HP Percent: +100, Resting MP Percent: +100, Adventures: +3
 # pumpkin
+saltwaterbed	Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Initiative Penalty: [10*zone(The Sea)]
 sandcastle	Base Resting HP: +49, Base Resting MP: +50
 # sleeping stocking
 # spooky scarecrow
