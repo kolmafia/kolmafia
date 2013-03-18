@@ -401,6 +401,7 @@ plexiglass pants	180	Mox: 75
 poodle skirt	200	Mox: 200
 pottery training pants	50	none
 rusty metal greaves	150	Mus: 60
+sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
 slime-covered greaves	200	Mox: 200
 snailmail breeches	165	Mox: 67
@@ -1566,6 +1567,8 @@ amber aviator shades	200	Mys: 85
 amulet of extreme plot significance	100	Mys: 35
 anniversary balsa wood socks	10	none
 anniversary burlap belt	10	none
+aquamariner's necklace	0	Mys: 85
+aquamariner's ring	0	Mys: 85
 arrrgyle socks	70	Mys: 20
 astral belt	50	none
 astral bracer	50	none

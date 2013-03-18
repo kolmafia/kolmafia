@@ -6188,7 +6188,7 @@
 6171	crude crudit&eacute;s	929056652	crudites.gif	usable	t,d	0
 6172	candy crayons	790925279	candycrayons.gif	usable	t	0
 6173	pixel grappling hook	879455617	pixelhook.gif	offhand	t	0
-6174	GameInformPowerDailyPro magazine	132572233	gamemag.gif	usable	t,d	10	issues of GameInformPowerProDaily magazine
+6174	GameInformPowerDailyPro magazine	132572233	gamemag.gif	usable	t,d	10	issues of GameInformPowerDailyPro magazine
 6175	GameInformPowerDailyPro walkthru	405149087	printout.gif	reusable	q	0
 6176	cosmic egg	498063846	cosmic_egg.gif	none	q	0
 6177	cosmic dough	181658707	cosmic_dough.gif	none	q	0
@@ -6331,15 +6331,15 @@
 6314	fishy pipe	330990978	corncobpipe.gif	reusable	0	fishy pipes
 6315	old SCUBA tank	613342976	scuba.gif	container	q	0
 6316	deep six-shooter	507699686	sixshooter.gif	weapon	t,d	220	deep six-shooters
-6317
+6317	sea chaps	424923166	seachaps.gif	pants	t,d	180
 6318
 6319	shavin' razor	800695737	straightrazor.gif	usable	t,d	60	shavin' razors
 6320	long-forgotten necklace	880037954	lostnecklace.gif	accessory	t,d	1000	long-forgotten necklaces
 6321	giant pearl	267452547	bigpearl.gif	none	t,d	12000	giant pearls
 6322	sea lace	460430889	sealace.gif	none	t,d	40	pieces of sea lace
 6323
-6324
-6325
+6324	aquamariner's ring	559597848	jammarine.gif	accessory	t,d	180
+6325	aquamariner's necklace	852720834	neckmarine.gif	accessory	t,d	220
 6326	pearl diver's ring	293189947	jampearl.gif	accessory	t,d	12021	pearl diver's rings
 6327	pearl diver's necklace	212846171	neckpearl.gif	accessory	t,d	12024
 6328	sushi doily	823516292	doily.gif	none	t,d	42	sushi doilies
