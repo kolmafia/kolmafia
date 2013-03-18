@@ -482,6 +482,7 @@ plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30, Familiar E
 poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25, Familiar Effect: "atk, 1xFairy"
 pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Familiar Effect: "hot atk, 1xGhuol, cap 12"
 rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
+sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10
 sealhide leggings	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "cap 40"
 slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, Initiative: -10, Familiar Effect: "1xBarrr"
 snailmail breeches	Maximum HP: +20, Maximum MP: +20, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "1xBarrr, 0.5xFairy, cap 41"
@@ -1778,6 +1779,8 @@ amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: 
 amulet of extreme plot significance	Maximum MP: +30
 anniversary balsa wood socks	Muscle: +1, Mysticality: +1, Moxie: +1
 anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
+aquamariner's necklace	HP Regen Min: 10, HP Regen Max: 15, Meat Drop: +15, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
+aquamariner's ring	HP Regen Min: 10, HP Regen Max: 15, Meat Drop: +10, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 arrrgyle socks	Mysticality: +6
 astral belt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Monster Level: +20
 astral bracer	Mysticality Percent: +25, Mana Cost (combat): -3, Adventures: +3
