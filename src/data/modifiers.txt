@@ -3565,6 +3565,7 @@ Protection from Bad Stuff	Hot Resistance: +2, Cold Resistance: +2, Stench Resist
 Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
 # Pug Ugly: Makes you look like a Bangyomaman Warrior
+Puddingskin	Maximum HP: 20, Damage Reduction: 5
 Puissant Pressure	Muscle Percent: +300
 Pulchritudinous Pressure	Moxie Percent: +300
 Pumped Stomach	Adventure Underwater
@@ -4768,6 +4769,7 @@ salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 sane hatrack	Free Pull
 scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
 scroll of Protection from Bad Stuff	Effect: "Protection from Bad Stuff", Effect Duration: 20
+scroll of Puddingskin	Effect: "Puddingskin", Effect Duration: 80
 scrunchie tourniquet	Effect: "First, Like, Do No Harm?", Effect Duration: 50
 sea grease	Effect: "Greased-Up Familiar", Effect Duration: 40
 sea salt crystal	Effect: "Salty Dogs", Effect Duration: 5

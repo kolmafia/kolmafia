@@ -900,7 +900,7 @@ Swarm of Scarab Beatles	Atk: 136 Def: 117 HP: 131 Meat: 140-210 E: spooky P: bug
 Swarthy Pirate	Atk: 63 Def: 56 HP: 53 Meat: 20-32 P: pirate	leotarrrd (10)	pirate pelvis (20)	stuffed shoulder parrot (10)
 Taco Cat	Atk: 139 Def: 131 HP: 145 Meat: 32-49 P: beast	cat appendix (30)	catgut (30)	taco shell (30)
 Talking Head	Atk: 24 Def: 21 HP: 21 P: strange	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	evil paper umbrella (0)
-Tan Gnat	Atk: 136 Def: 127 HP: 128 P: beast	[2528] (40)	gnatwing (40)	suntan lotion of moxiousness (50)
+Tan Gnat	Atk: 136 Def: 127 HP: 128 P: bug	[2528] (40)	gnatwing (40)	suntan lotion of moxiousness (50)
 Tapdancing Skeleton	Atk: 110 Def: 99 HP: 120 ED: spooky P: undead	tap shoes (5)	worn tophat (5)
 Tektite	Atk: 20 Def: 18 HP: 15 P: beast	black pixel (50)	blue pixel (80)	white pixel (50)
 Terrifying Robot	Atk: 170 Def: 153 HP: 170 P: object	neurostim pill (0)	physiostim pill (0)
