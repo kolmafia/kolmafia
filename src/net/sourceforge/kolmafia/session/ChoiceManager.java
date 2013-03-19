@@ -2304,7 +2304,7 @@ public abstract class ChoiceManager
 		// Choice 678 is Yeah, You're for Me, Punk Rock Giant
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure678", "Top Punk Rock",
-			new String[] { "Fight Punk Rock Giant", "500 meat", "complete quest", "Raver Choice" } ),
+			new String[] { "Wearing mohawk wig, turn wheel, otherwise fight Punk Rock Giant", "500 meat", "complete quest", "Raver Choice" } ),
 		// Choice 681 is F-F-Fantastic!
 	};
 
@@ -3094,6 +3094,16 @@ public abstract class ChoiceManager
 			boolean amuletOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.EXTREME_AMULET, 1 ) );
 			result [ 3 ] = amuletOn ? "open Ground Floor (amulet equipped)" : "skip adventure (amulet not equipped)";
 			result [ 4 ] = "skip adventure and guarantees this adventure will reoccur";
+			return result;
+
+		case 678:
+			// Yeah, You're for Me, Punk Rock Giant
+			result = new String[ 4 ];
+			boolean mohawkOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MOHAWK_WIG, 1 ) );
+			result[ 0 ] = mohawkOn ? "Finish quest (mohawk wig equipped)" : "Fight Punk Rock Giant (mohawk wig not equipped)";
+			result[ 1 ] = "500 meat";
+			result[ 2 ] = "";
+			result[ 3 ] = "Raver Choice";
 			return result;
 		}
 		return null;
