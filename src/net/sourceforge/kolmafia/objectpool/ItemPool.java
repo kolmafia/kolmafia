@@ -235,6 +235,7 @@ public class ItemPool
 	public static final int EXTREME_AMULET = 594;
 	public static final int DRASTIC_HEALING = 595;
 	public static final int TITANIUM_UMBRELLA = 596;
+	public static final int MOHAWK_WIG = 597;
 	public static final int SLUG_LORD_MAP = 598;
 	public static final int DR_HOBO_MAP = 601;
 	public static final int SHOPPING_LIST = 602;

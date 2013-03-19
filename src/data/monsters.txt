@@ -637,7 +637,7 @@ Mer-kin Diver	Atk: 475 Def: 427 HP: 700 Meat: 160-240 P: mer-kin	Mer-kin foodbuc
 Mer-kin Healer	Atk: 650 Def: 585 HP: 600 Meat: 120-180 P: mer-kin	Mer-kin foodbucket (n5)	Mer-kin healscroll (n25)	Mer-kin prayerbeads (n5)	Mer-kin thingpouch (n15)
 Mer-kin Miner	Atk: 450 Def: 405 HP: 750 Meat: 160-240 P: mer-kin	Mer-kin foodbucket (n5)	Mer-kin digpick (n10)	Mer-kin thingpouch (n25)
 Mer-kin Raider	Atk: 750 Def: 585 HP: 800 Meat: 200-300 P: mer-kin	Mer-kin breastplate (c2)	Mer-kin foodbucket (n10)	Mer-kin hookspear (n2)	Mer-kin roundshield (n2)
-Mer-Kin rustler	Atk: 700 Def: 675 HP: 750
+Mer-Kin rustler	Atk: 700 Def: 675 HP: 750	Mer-kin thingpouch (0)	Mer-kin foodbucket (0)	Mer-kin hookspear (0)
 Mer-kin Scavenger	Atk: 450 Def: 405 HP: 600 Meat: 160-240 P: mer-kin	Mer-kin hookspear (n2)	Mer-kin takebag (n4)	Mer-kin thingpouch (n25)
 Mer-kin Tippler	Atk: 600 Def: 360 HP: 750 Meat: 160-240 P: mer-kin	Alewife&trade; Ale (40)	Mer-kin foodbucket (n5)	Mer-kin pinkslip (n5)	slug of vodka (21)
 Mesmerizing Penguin	P: penguin	Crimbuck (0)	pocketwatch on a chain (0)	spiraling shape (c100)
