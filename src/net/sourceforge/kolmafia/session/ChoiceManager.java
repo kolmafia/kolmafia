@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 
@@ -2690,6 +2689,9 @@ public abstract class ChoiceManager
 
 		case 670:
 			return ChoiceManager.dynamicChoiceSpoilers( 5, choice, "You Don't Mess Around with Gym" );
+
+		case 678:
+			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "Yeah, You're for Me, Punk Rock Giant" );
 		}
 		return null;
 	}
