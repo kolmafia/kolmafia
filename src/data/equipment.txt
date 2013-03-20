@@ -1713,6 +1713,7 @@ infernal insoles	60	Mys: 15
 inflatable duck	10	none
 intergalactic pom poms	0	none
 ironic oversized sunglasses	40	Mys: 5
+jam band	0	Mys: 85
 jar of anniversary jam	10	none
 kick-ass kicks	160	Mys: 65
 knobby kneepads	20	none

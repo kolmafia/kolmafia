@@ -908,7 +908,7 @@ Tetchy Pirate	Atk: 83 Def: 75 HP: 72 Meat: 32-48 P: pirate	bottle of rum (20)	co
 The Abominable Fudgeman		heart of dark chocolate (0)
 The Avatar of Sneaky Pete	BOSS Atk: 225 Def: 202 HP: 800 P: humanoid
 The Bat in the Spats	BOSS Atk: 150 Def: 135 HP: 9500 P: beast	vanity stone (100)
-The Big Wisniewski	BOSS Atk: 250 Def: 225 HP: 2000 ED: stench	solid gold bowling ball (100)
+The Big Wisniewski	BOSS Atk: 250 Def: 225 HP: 2000 ED: stench P: hippy	solid gold bowling ball (100)
 The Clownlord Beelzebozo	BOSS Atk: 27 Def: 27 HP: 40 P: horror	empty greasepaint tube (b0)
 The Colollilossus		all-year sucker (100)
 The Fudge Wizard	HP: 400 Def: 270 Atk: 300	wand of fudge control (100)

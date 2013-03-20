@@ -1939,6 +1939,7 @@ infernal insoles	Hot Resistance: +1, Initiative: +10
 intergalactic pom poms	Moxie: +20, Initiative: +30
 ironic oversized sunglasses	Single Equip
 jar of anniversary jam	Muscle: +1, Mysticality: +1, Moxie: +1
+jam band	Item Drop: +5, Booze Drop: +20, Food Drop: +35
 kick-ass kicks	Sleaze Damage: +10, Moxie: +3, Single Equip
 knobby kneepads	Weapon Damage: +3
 # kumquartz ring: (only in the Candy Diorama)

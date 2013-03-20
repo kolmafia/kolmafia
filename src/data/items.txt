@@ -6218,7 +6218,7 @@
 6201	consummate bacon	573689807	jarl_bacon.gif	food	q	0
 6202	consummate meatloaf	488018755	jarl_meatloaf.gif	food	q	0
 6203	consummate steak	823655507	jarl_steak.gif	food	q	0
-6204	consummate cold cuts	795814665	jarl_coldcuts.gif	food	q	0
+6204	consummate cold cuts	795814665	jarl_coldcuts.gif	food	q	0	stacks of consummate cold cuts
 6205	consummate frankfurter	436739002	jarl_hotdog.gif	food	q	0
 6206	consummate french fries	143607187	jarl_fries.gif	food	q	0
 6207	consummate baked potato	727787941	jarl_bakedpotato.gif	food	q	0
@@ -6337,7 +6337,7 @@
 6320	long-forgotten necklace	880037954	lostnecklace.gif	accessory	t,d	1000	long-forgotten necklaces
 6321	giant pearl	267452547	bigpearl.gif	none	t,d	12000	giant pearls
 6322	sea lace	460430889	sealace.gif	none	t,d	40	pieces of sea lace
-6323
+6323	jam band	445457419	jamband.gif	accessory	t,d	69
 6324	aquamariner's ring	559597848	jammarine.gif	accessory	t,d	180
 6325	aquamariner's necklace	852720834	neckmarine.gif	accessory	t,d	220
 6326	pearl diver's ring	293189947	jampearl.gif	accessory	t,d	12021	pearl diver's rings
