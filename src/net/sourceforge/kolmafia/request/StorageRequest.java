@@ -213,15 +213,26 @@ public class StorageRequest
 	@Override
 	public void run()
 	{
-		if ( KoLCharacter.inBadMoon() && !KoLCharacter.canInteract() )
+		if ( KoLCharacter.isHardcore() )
 		{
 			switch ( this.moveType )
 			{
 			case EMPTY_STORAGE:
-			case STORAGE_TO_INVENTORY:
-			case PULL_MEAT_FROM_STORAGE:
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Hagnk's Storage is not available in Bad Moon until you free King Ralph." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot empty storage while in Hardcore." );
 				return;
+			case PULL_MEAT_FROM_STORAGE:
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot remove meat from storage while in Hardcore." );
+				return;
+			case STORAGE_TO_INVENTORY:
+				for ( int i = 0; i < this.attachments.length; i++ )
+				{
+					if ( !KoLConstants.freepulls.contains( (AdventureResult) this.attachments[i] ) )
+					{
+						KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot pull a " + 
+							  ((AdventureResult) this.attachments[i]).getName() + " in Hardcore." );
+						return;
+					}
+				}
 			}
 		}
 
