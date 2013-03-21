@@ -381,8 +381,9 @@ public class ClanLoungeRequest
 
 	private static void pullVIPKey()
 	{
-		if ( VIP_KEY.getCount( KoLConstants.inventory ) > 0 )
+		if ( VIP_KEY.getCount( KoLConstants.inventory ) > 0 || KoLCharacter.inBadMoon() )
 		{
+			// Do not pull a VIP key if you cannot use it
 			return;
 		}
 

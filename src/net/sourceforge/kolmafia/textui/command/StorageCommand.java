@@ -63,13 +63,6 @@ public class StorageCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( KoLCharacter.inBadMoon() && !KoLCharacter.canInteract() )
-		{
-			KoLmafia.updateDisplay(
-				MafiaState.ERROR, "Hagnk's Storage is not available in Bad Moon until you free King Ralph." );
-			return;
-		}
-
 		Object[] items;
 		if ( parameters.trim().equals( "all" ) )
  		{
@@ -143,7 +136,7 @@ public class StorageCommand
 		{
 			AdventureResult item = (AdventureResult) items[ i ];
 			String itemName = item.getName();
-			int storageCount = item.getCount( KoLConstants.storage );
+			int storageCount = item.getCount( KoLConstants.storage ) + item.getCount( KoLConstants.freepulls );
 
 			if ( items[ i ] != null && storageCount < item.getCount() )
 			{
@@ -160,13 +153,11 @@ public class StorageCommand
 			}
 		}
 
-		// *** Should we abort in !KoLmafia.permitsContinue()?
-
 		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
 		if ( !KoLCharacter.canInteract() )
 		{
 			int pulls = ConcoctionDatabase.getPullsRemaining();
-			if ( pulls >= 0 )
+			if ( pulls >= 0 && KoLmafia.permitsContinue() )
 			{
 				KoLmafia.updateDisplay( pulls + ( pulls == 1 ? " pull" : " pulls" ) + " remaining," + ConcoctionDatabase.getPullsBudgeted() + " budgeted for automatic use." );
 			}
