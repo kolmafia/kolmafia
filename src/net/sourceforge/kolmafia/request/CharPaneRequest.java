@@ -830,7 +830,7 @@ public class CharPaneRequest
 		if ( image != null && !image.startsWith( "snowsuit" ) && !image.startsWith( "snowface" ) )
 		{
 			KoLCharacter.setFamiliarImage( image );
-			checkMedium( responseText );
+			CharPaneRequest.checkMedium( responseText );
 		}
 	}
 
@@ -925,6 +925,11 @@ public class CharPaneRequest
 		{
 			int aura = StringUtilities.parseInt( mediumMatcher.group( 1 ) );
 			FamiliarData fam = KoLCharacter.findFamiliar( FamiliarPool.HAPPY_MEDIUM );
+			if ( fam == null )
+			{
+				// Another familiar has turned into a Happy Medium
+				return;
+			}
 			fam.setCharges( aura );
 		}
 	}
