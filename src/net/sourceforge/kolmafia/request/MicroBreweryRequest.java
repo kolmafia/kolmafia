@@ -141,7 +141,7 @@ public class MicroBreweryRequest
 
 	public static final void getMenu()
 	{
-		if ( !KoLCharacter.gnomadsAvailable() || KoLCharacter.inZombiecore() )
+		if ( !KoLCharacter.gnomadsAvailable() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg() )
 		{
 			return;
 		}
