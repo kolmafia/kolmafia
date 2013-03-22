@@ -141,7 +141,7 @@ public class ChezSnooteeRequest
 
 	public static final void getMenu()
 	{
-		if ( !KoLCharacter.canadiaAvailable() || KoLCharacter.inZombiecore() )
+		if ( !KoLCharacter.canadiaAvailable() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg() )
 		{
 			return;
 		}
