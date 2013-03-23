@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -56,6 +57,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -2057,6 +2059,7 @@ public abstract class ChoiceManager
 		// Choice 542 is Now's Your Pants!  I Mean... Your Chance!
 		// Choice 543 is Up In Their Grill
 		// Choice 544 is A Sandwich Appears!
+		// Choice 545 is unknown
 
 		// Interview With You
 		new ChoiceAdventure( "Item-Driven", "choiceAdventure546", "Interview With You",
@@ -2240,71 +2243,148 @@ public abstract class ChoiceManager
 		// Choice 598 is Recruitment Jive
 		// Choice 599 is A Zombie Master's Bait
 		// Choice 600 is Summon Minion
-
+		// Choice 601 is Summon Horde
+		// Choice 602 is Behind the Gash
+		// Choice 603 is Skeletons and The Closet
+		// Choice 604 is unknown
+		// Choice 605 is Welcome to the Great Overlook Lodge
+		// Choice 606 is Lost in the Great Overlook Lodge
+		// Choice 607 is Room 237
+		// Choice 608 is Go Check It Out!
+		// Choice 609 is There's Always Music In the Air
+		// Choice 610 is To Catch a Killer
+		// Choice 611 is The Horror... (A-Boo Peak)
 		// Choice 612 is Behind the world there is a door...
 		// Choice 613 is Behind the door there is a fog
 		// Choice 614 is Near the fog there is an... anvil?
-
+		// Choice 615 is unknown
+		// Choice 616 is He Is the Arm, and He Sounds Like This
+		// Choice 617 is Now It's Dark
+		// Choice 618 is Cabin Fever
+		// Choice 619 is To Meet a Gourd
+		// Choice 620 is A Blow Is Struck!
+		// Choice 621 is Hold the Line!
+		// Choice 622 is The Moment of Truth
+		// Choice 623 is Return To the Fray!
+		// Choice 624 is Returning to Action
+		// Choice 625 is The Table
+		// Choice 626 is Super Crimboman Crimbo Type is Go!
+		// Choice 627 is unknown
+		// Choice 628 is unknown
+		// Choice 629 is unknown
+		// Choice 630 is unknown
+		// Choice 631 is unknown
+		// Choice 632 is unknown
+		// Choice 633 is ChibiBuddy™
+		// Choice 634 is Goodbye Fnord
+		// Choice 635 is unknown
+		// Choice 636 is unknown
+		// Choice 637 is unknown
+		// Choice 638 is unknown
+		// Choice 639 is unknown
+		// Choice 640 is unknown
+		// Choice 641 is Stupid Pipes.
+		// Choice 642 is You're Freaking Kidding Me
+		// Choice 643 is Great. A Stupid Door. What Next?
+		// Choice 644 is Snakes.
+		// Choice 645 is So... Many... Skulls...
+		// Choice 646 is Oh No... A Door...
+		// Choice 647 is A Stupid Dummy. Also, a Straw Man.
+		// Choice 648 is Slings and Arrows
+		// Choice 649 is A Door. Figures.
+		// Choice 650 is This Is Your Life. Your Horrible, Horrible Life.
+		// Choice 651 is The Wall of Wailing
+		// Choice 652 is A Door. Too Soon...
+		// Choice 653 is unknown
 		// Choice 654 is Courier? I don't even...
 		// Choice 655 is They Have a Fight, Triangle Loses
-		// Choice 656 is Wheels Within Wheels
-		// Choice 657 is You Grind 16 Rats, and Whaddya Get?
+		// Choice 656 is Wheels Within Wheel
+
+		// You Grind 16 Rats, and Whaddya Get?
 		new ChoiceAdventure(
 			"Psychoses", "choiceAdventure657", "Chinatown Tenement",
 			new String[] { "Fight Boss", "skip adventure" } ),
+
 		// Choice 658 is Debasement
-		
-		// Choice 669 is The Fast and the Furry-ous
+		// Choice 659 is How Does a Floating Platform Even Work?
+		// Choice 660 is It's a Place Where Books Are Free
+		// Choice 661 is Sphinx For the Memories
+		// Choice 662 is Think or Thwim
+		// Choice 663 is When You're a Stranger
+		// Choice 664 is unknown
+		// Choice 665 is A Gracious Maze
+		// Choice 666 is unknown
+		// Choice 667 is unknown
+		// Choice 668 is unknown
+
+		// The Fast and the Furry-ous
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure669", "Basement Furry",
 			new String[] { "Open Ground Floor with titanium umbrella, otherwise Neckbeard Choice", "200 Moxie substats",
 				"???", "skip adventure and guarantees this adventure will reoccur" } ),
-		// Choice 670 is You Don't Mess Around with Gym
+
+		// You Don't Mess Around with Gym
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure670", "Basement Fitness",
 			new String[] { "massive dumbbell, then skip adventure", "Muscle stats",
 				"Items", "Open Ground Floor with amulet, otherwise skip" },
 			new String[] { "6271", null, null, null, null } ),
-		// Choice 671 is Out in the Open Source
+
+		// Out in the Open Source
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure671", "Basement Neckbeard",
 			new String[] { "With massive dumbbell, open Ground Floor, otherwise skip adventure",
 				"200 Mysticality substats", "O'RLY manual, open sauce", "Fitness Choice" },
 			new String[] { "6271", null, null, null } ),
-		// Choice 672 is There's No Ability Like Possibility
+
+		// There's No Ability Like Possibility
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure672", "Ground Possibility",
 			new String[] { "3 random starter items", "Nothing Is Impossible", "skip adventure" } ),
-		// Choice 673 is Putting Off Is Off-Putting
+
+		// Putting Off Is Off-Putting
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure673", "Ground Procrastination",
 			new String[] { "very overdue library book, then skip adventure", "Trash-Wrapped", "skip adventure" },
 			new String[] { "6294", null, null } ),
-		// Choice 674 is Huzzah!
+
+		// Huzzah!
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure674", "Ground Renaissance",
 			new String[] { "pewter claymore, then skip adventure", "Pretending to Pretend", "skip adventure" },
 			new String[] { "6279", null, null } ),
-		// Choice 675 is Melon Collie and the Infinite Lameness
+
+		// Melon Collie and the Infinite Lameness
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure675", "Top Goth",
 			new String[] { "Fight a Goth Giant", "complete quest", "3 thin black candles", "Steampunk Choice" },
 			new String[] { null, "6295", "620", null } ),
-		// Choice 676 is Flavor of a Raver
+
+		// Flavor of a Raver
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure676", "Top Raver",
 			new String[] { "Fight a Raver Giant", "Restore 1000 hp & mp", "drum 'n' bass 'n' drum 'n' bass record, then skip adventure", "Punk Rock Choice" },
 			new String[] { null, null, "6295", null } ),
-		// Choice 677 is Copper Feel
+
+		// Copper Feel
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure677", "Top Steampunk",
 			new String[] { "With model airship, complete quest, otherwise fight Steampunk Giant", "steam-powered model rocketship, then skip adventure", "brass gear", "Goth Choice" },
 			new String[] { "6299", "6290", "6284", null } ),
-		// Choice 678 is Yeah, You're for Me, Punk Rock Giant
+
+		// Yeah, You're for Me, Punk Rock Giant
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure678", "Top Punk Rock",
 			new String[] { "Wearing mohawk wig, turn wheel, otherwise fight Punk Rock Giant", "500 meat", "complete quest", "Raver Choice" } ),
+
+		// Choice 679 is unknown
+		// Choice 680 is Are you a Man or a Mouse?
 		// Choice 681 is F-F-Fantastic!
+		// Choice 682 is Now Leaving Jarlsberg, Population You
+
+		// Choice 686 is Of Might and Magic
+
+		// Choice 695 is A Drawer of Chests
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -2671,12 +2751,18 @@ public abstract class ChoiceManager
 		case 582:
 			// Fitting In
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Fitting In" );
-/*		case 606:
+
+		case 606:
 			// Lost in the Great Overlook Lodge
-			return ChoiceManager.dynamicChoiceSpoilers( 6, choice, "Lost in the Great Overlook Lodge" );*/
+			result = ChoiceManager.dynamicChoiceSpoilers( 6, choice, "Lost in the Great Overlook Lodge" );
+			// Fill in Jar of Oil corresponding to choice "Follow the faint sound of music"
+			result[ 3 ][ 2 ] = "5353";
+			return result;
+
 		case 611:
 			// The Horror...(A-Boo Peak)
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Horror..." );
+
 		case 636:
 		case 637:
 		case 638:
@@ -2685,12 +2771,15 @@ public abstract class ChoiceManager
 			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "First Mate's Log Entry" );
 
 		case 669:
+			// The Fast and the Furry-ous
 			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "The Fast and the Furry-ous" );
 
 		case 670:
+			// You Don't Mess Around with Gym
 			return ChoiceManager.dynamicChoiceSpoilers( 5, choice, "You Don't Mess Around with Gym" );
 
 		case 678:
+			// Yeah, You're for Me, Punk Rock Giant
 			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "Yeah, You're for Me, Punk Rock Giant" );
 		}
 		return null;
@@ -3034,9 +3123,8 @@ public abstract class ChoiceManager
 
 			return result;
 
-/*		case 606:
+		case 606:
 			// Lost in the Great Overlook Lodge
-
 			result = new String[ 6 ];
 
 			result[ 0 ] = "need +4 stench resist, have " + KoLCharacter.getElementalResistanceLevels( Element.STENCH );
@@ -3056,13 +3144,13 @@ public abstract class ChoiceManager
 				"need +50 item drop, have " + Math.round( KoLCharacter.getItemDropPercentAdjustment() - bonus ) + "%";
 
 			int oil = InventoryManager.getCount( ItemPool.JAR_OF_OIL );
-			result[ 2 ] = "need Jar of Oil (" + oil + ")";
+			result[ 2 ] = "need Jar of Oil";
 			result[ 3 ] = "need +40% init, have " + KoLCharacter.getInitiativeAdjustment() + "%";
 			result[ 4 ] = null; //why is there a missing button 5?
 			result[ 5 ] = "flee";
 
 			return result;
-*/
+
 		case 611:
 			// The Horror... (A-Boo Peak)
 			result = new String[ 2 ];
