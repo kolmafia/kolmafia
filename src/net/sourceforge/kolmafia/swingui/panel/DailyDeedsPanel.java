@@ -89,6 +89,10 @@ public class DailyDeedsPanel
 	public static final AdventureResult INFERNAL_SEAL_CLAW = ItemPool.get( ItemPool.INFERNAL_SEAL_CLAW, 1 );
 	public static final AdventureResult NAVEL_RING = ItemPool.get( ItemPool.NAVEL_RING, 1 );
 	public static final AdventureResult SNOW_SUIT = ItemPool.get( ItemPool.SNOW_SUIT, 1 );
+	public static final AdventureResult STAFF_OF_LIFE = ItemPool.get( ItemPool.STAFF_OF_LIFE, 1 );
+	public static final AdventureResult STAFF_OF_CHEESE = ItemPool.get( ItemPool.STAFF_OF_CHEESE, 1 );
+	public static final AdventureResult STAFF_OF_STEAK = ItemPool.get( ItemPool.STAFF_OF_STEAK, 1 );
+	public static final AdventureResult STAFF_OF_CREAM = ItemPool.get( ItemPool.STAFF_OF_CREAM, 1 );
 
 	/*
 	 * Built-in deeds. {Type, Name, ...otherArgs}
@@ -227,6 +231,9 @@ public class DailyDeedsPanel
 		},
 		{
 			"Special", "Jick Jar"
+		},
+		{
+			"Special", "Avatar of Jarlberg Staves"
 		}
 	};
 
@@ -235,7 +242,9 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Swimming Pool" ) )
+		if ( deed.equals( "Avatar of Jarlberg Staves" ) )
+			return 6;
+		else if ( deed.equals( "Swimming Pool" ) )
 			return 5;
 		else if ( deed.equals( "Banished Monsters" ) )
 			return 4;
@@ -958,6 +967,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Jick Jar" ) )
 		{
 			this.add( new JickDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Avatar of Jarlberg Staves" ) )
+		{
+			this.add( new JarlsbergStavesDaily() );
 		}
 		else
 		// you added a special deed to BUILTIN_DEEDS but didn't add a method call.
@@ -3327,6 +3340,86 @@ public class DailyDeedsPanel
 
 			this.setShown( !status.equals( "unknown" ) || haveJar );
 		}
+	}
 
+	public static class JarlsbergStavesDaily
+		extends Daily
+	{
+		public JarlsbergStavesDaily()
+		{
+			this.addListener( "_jiggleCheese" );
+			this.addListener( "_jiggleCream" );
+			this.addListener( "_jiggleLife" );
+			this.addListener( "_jiggleSteak" );
+			this.addListener( "_jiggleCreamedMonster" );
+			this.addLabel( "" );
+		}
+
+		@Override
+		public void update()
+		{
+			boolean haveCheese = InventoryManager.getCount( ItemPool.STAFF_OF_CHEESE ) > 0
+				|| KoLCharacter.hasEquipped( DailyDeedsPanel.STAFF_OF_CHEESE );
+			boolean haveLife = InventoryManager.getCount( ItemPool.STAFF_OF_LIFE ) > 0
+				|| KoLCharacter.hasEquipped( DailyDeedsPanel.STAFF_OF_LIFE );
+			boolean haveSteak = InventoryManager.getCount( ItemPool.STAFF_OF_STEAK ) > 0
+				|| KoLCharacter.hasEquipped( DailyDeedsPanel.STAFF_OF_STEAK );
+			boolean haveCream = InventoryManager.getCount( ItemPool.STAFF_OF_CREAM ) > 0
+				|| KoLCharacter.hasEquipped( DailyDeedsPanel.STAFF_OF_CREAM );
+			int jiggledCheese = Preferences.getInteger( "_jiggleCheese" );
+			int jiggledLife = Preferences.getInteger( "_jiggleLife" );
+			int jiggledSteak = Preferences.getInteger( "_jiggleSteak" );
+			int jiggledCream = Preferences.getInteger( "_jiggleCream" );
+			String creamedMonster = Preferences.getString( "_jiggleCreamedMonster" );
+			String cheesedMonsters = Preferences.getString( "_jiggleCheesedMonsters" );
+
+			boolean shown = false;
+			String text = "Staff jiggles: ";
+			
+			if ( haveSteak )
+			{
+				text = text + jiggledSteak + "/5 Steak (item)";
+				shown = true;
+			}
+			if ( haveLife )
+			{
+				if ( shown )
+				{
+					text = text + ", ";
+				}
+				text = text + jiggledLife + "/5 Life (hp)";
+				shown = true;
+			}
+			if ( haveCream )
+			{
+				if ( shown )
+				{
+					text = text + ", ";
+				}
+				text = text + jiggledCream + "/5 Cream (olfact)";
+				if ( jiggledCream > 0 )
+				{
+					text = text + " currently " + creamedMonster;
+				}
+				shown = true;
+			}
+			if ( haveCheese )
+			{
+				if ( shown )
+				{
+					text = text + ", ";
+				}
+				text = text + jiggledCheese + "/5 Cheese (banish)";
+				if ( jiggledCream > 0 )
+				{
+					text = text + " currently " + cheesedMonsters;
+				}
+				shown = true;
+			}
+			
+
+			this.setShown( KoLCharacter.isJarlsberg() );
+			this.setText( text );
+		}
 	}
 }
