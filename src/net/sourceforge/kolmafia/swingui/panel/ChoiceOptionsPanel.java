@@ -392,6 +392,8 @@ public class ChoiceOptionsPanel
 			new CommandButton( "use 1 tiny bottle of absinthe" ) );
 		this.addChoiceSelect( "Item-Driven", "Item",
 			new CommandButton( "use 1 haunted sorority house staff guide" ) );
+		this.addChoiceSelect( "Item-Driven", "Item",
+			new CommandButton( "use 1 skeleton" ) );
 
 		PreferenceListenerRegistry.registerListener( "choiceAdventure*", this );
 		PreferenceListenerRegistry.registerListener( "violetFogGoal", this );

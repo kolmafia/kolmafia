@@ -1304,6 +1304,7 @@ user	choiceAdventure597	0
 user	choiceAdventure598	0
 user	choiceAdventure599	0
 user	choiceAdventure600	0
+user	choiceAdventure603	0
 user	choiceAdventure654	1
 user	choiceAdventure655	1
 user	choiceAdventure656	1
