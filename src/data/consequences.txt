@@ -34,6 +34,11 @@ DESC_ITEM	fossilized necklace	(\d+) baboon	fossilN=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) wyrm	fossilW=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) demon	fossilD=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) spider	fossilP=[min(5,$1)]
+DESC_ITEM	Staff of the Staff of Life	(\d+) charges	_jiggleLife=[5-$1]
+DESC_ITEM	Staff of the Standalone Cheese	(\d+) charges	_jiggleCheese=[5-$1]
+DESC_ITEM	Staff of the All-Steak	(\d+) charges	_jiggleSteak=[5-$1]
+DESC_ITEM	Staff of the Cream of the Cream	(\d+) charges	_jiggleCream=[5-$1]
+DESC_ITEM	Staff of the Cream of the Cream	last used this staff on a (^\.)*\.	_jiggleCreamedMonster=$1
 
 DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=$1
 DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1

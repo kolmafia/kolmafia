@@ -1579,6 +1579,10 @@ public class ItemPool
 	public static final int WALBERG_BOOK = 6253;
 	public static final int OCELOT_BOOK = 6254;
 	public static final int DRESCHER_BOOK = 6255;
+	public static final int STAFF_OF_LIFE = 6259;
+	public static final int STAFF_OF_CHEESE = 6261;
+	public static final int STAFF_OF_STEAK = 6263;
+	public static final int STAFF_OF_CREAM = 6265;
 	public static final int ROCKETSHIP = 6290;
 	public static final int JARLS_COSMIC_PAN = 6304;
 	public static final int JARLS_PAN = 6305;
