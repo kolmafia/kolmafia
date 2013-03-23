@@ -1120,11 +1120,11 @@
 1119	Altered Wavelengths	nopic.gif	cd23f6685ed4f7e2648998a4020f1265	use 1 papier-mochi
 1120	Stopping to Smell the Flowers	nopic.gif	00c2131ddee16ce4278a0047946ed99e	use 1 papier-m&acirc;chaeranthera
 1121	Eyes Wide Propped	nopic.gif	471d1af8ce58cd6214fa35ea7e73c2c3	use 1 papier-m&acirc;ch&eacute; toothpicks
-1122	Skeletal Warrior	skeleton_f.gif	24b65cd8925245a53f83e66607123af1
-1123	Skeletal Cleric	skeleton_c.gif	14356ec8ad0803973f8046a715c7cc49
-1124	Skeletal Wizard	skeleton_w.gif	65e3bbc5ded46039c146db0699a31a5e
-1125	Skeletal Rogue	skeleton_r.gif	8403081d183428a78c68adcde6fed4d3
-1126	Skeletal Buddy	skeleton_p.gif	406b7798950700127bf6cb13b19bcefa
+1122	Skeletal Warrior	skeleton_f.gif	24b65cd8925245a53f83e66607123af1	skeleton warrior
+1123	Skeletal Cleric	skeleton_c.gif	14356ec8ad0803973f8046a715c7cc49	skeleton cleric
+1124	Skeletal Wizard	skeleton_w.gif	65e3bbc5ded46039c146db0699a31a5e	skeleton wizard
+1125	Skeletal Rogue	skeleton_r.gif	8403081d183428a78c68adcde6fed4d3	skeleton rogue
+1126	Skeletal Buddy	skeleton_p.gif	406b7798950700127bf6cb13b19bcefa	skeleton buddy
 1127	Aykrophobia	crystalskull.gif	93aa0fce5154508eca3a0bf4ab2c4e16	drink 1 crystal skeleton vodka
 1128	Bonelording	spikebone.gif	165c98cd2a9d3aaf405f419aa552a2c7
 1129	Nanobrawny	nanobrawny.gif	2996d91c753eb6cf2d93b159229d90e6

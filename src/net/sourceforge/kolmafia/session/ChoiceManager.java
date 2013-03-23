@@ -2245,7 +2245,12 @@ public abstract class ChoiceManager
 		// Choice 600 is Summon Minion
 		// Choice 601 is Summon Horde
 		// Choice 602 is Behind the Gash
-		// Choice 603 is Skeletons and The Closet
+
+		// Skeletons and The Closet
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure603", "Skeleton",
+			new String[] { "warrior (dmg, delevel)", "cleric (hot dmg, hp)", "wizard (cold dmg, mp)", "rogue (dmg, meat)", "buddy (delevel, exp)",  "ignore this adventure" } ),
+
 		// Choice 604 is unknown
 		// Choice 605 is Welcome to the Great Overlook Lodge
 		// Choice 606 is Lost in the Great Overlook Lodge

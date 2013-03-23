@@ -1714,7 +1714,7 @@ public class UseItemRequest
 		}
 
 		if ( ConcoctionDatabase.singleUseCreation( item.getName() ) != null ||
-		     ConcoctionDatabase.multiUseCreation( item.getName() ) != null )
+		     ( ConcoctionDatabase.multiUseCreation( item.getName() ) != null && item.getCount() > 1 ) )
 		{
 			// These all create things via "use" or "multiuse" of
 			// an ingredient and perhaps consume other ingredients.
