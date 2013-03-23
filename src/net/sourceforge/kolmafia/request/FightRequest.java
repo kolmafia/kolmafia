@@ -5313,6 +5313,70 @@ public class FightRequest
 		if ( FightRequest.nextAction.equals( "jiggle" ) )
 		{
 			FightRequest.jiggledChefstaff = true;
+
+			int staffId = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
+			switch ( staffId )
+			{
+			case ItemPool.STAFF_OF_LIFE:
+				// You jiggle the staff. There is a weak coughing sound,
+				// and a little puff of flour shoots out of the end of it.
+				// Oh well. You rub the flour on some of your wounds, and it helps a little.
+				if ( responseText.contains( "weak coughing sound" ) )
+				{
+					Preferences.setInteger( "_jiggleLife", 5 );
+				}
+				else
+				{
+					Preferences.increment( "_jiggleLife", 1 );
+				}
+				break;
+
+			case ItemPool.STAFF_OF_CHEESE:
+				// You jiggle the staff, but no horrible stench comes out.
+				// A stench comes out, but you'd only describe it as bad, not horrible.
+				// Bad enough to deal about XXX damage to your foe.
+				if ( responseText.contains( "no horrible stench" ) )
+				{
+					Preferences.setInteger( "_jiggleCheese", 5 );
+				}
+				else
+				{
+					Preferences.increment( "_jiggleCheese", 1 );
+				}
+				break;
+
+			case ItemPool.STAFF_OF_STEAK:
+				// You jiggle the staff, but there are no theatrics.
+				// Just a squirt of nasty congealed grease, which surprises
+				// and displays your opponent to the tune of XXX damage. 
+				if ( responseText.contains( "no theatrics" ) )
+				{
+					Preferences.setInteger( "_jiggleSteak", 5 );
+				}
+				else
+				{
+					Preferences.increment( "_jiggleSteak", 1 );
+				}
+				break;
+
+			case ItemPool.STAFF_OF_CREAM:
+				/*
+				if ( responseText.contains( "" ) )
+				{
+					Preferences.setInteger( "_jiggleCream", 5 );
+				}
+				*/
+				// You jiggle the staff. A wisp of creamy ghostly energy
+				// drifts out of the end, into your opponent, then into your head.
+				// Your mind fills with it essence. You... know it. With a capital K. 
+				if ( responseText.contains( "Your mind fills" ) )
+				{
+					Preferences.increment( "_jiggleCream", 1 );
+					Preferences.setString( "_jiggleCreamedMonster", MonsterStatusTracker.getLastMonsterName() );
+				}
+				break;
+			}
+
 			return;
 		}
 
@@ -5471,7 +5535,7 @@ public class FightRequest
 			FightRequest.canStomp = false;
 			Preferences.increment( "_bootStomps", 1 );
 			break;
-			
+
 		case SkillPool.SIPHON_SPIRITS:
 			Preferences.increment( "_mediumSiphons", 1 );
 			break;

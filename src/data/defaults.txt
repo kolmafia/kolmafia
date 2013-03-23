@@ -852,6 +852,11 @@ user	_jarlsFruitSummoned	false
 user	_jarlsMeatSummoned	false
 user	_jarlsPotatoSummoned	false
 user	_jarlsVeggiesSummoned	false
+user	_jiggleCheese	0
+user	_jiggleCream	0
+user	_jiggleCreamedMonster
+user	_jiggleLife	0
+user	_jiggleSteak	0
 user	_jitbCharge	0
 user	_jukebox	false
 user	_jungDrops	0
