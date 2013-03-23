@@ -5339,9 +5339,19 @@ public class FightRequest
 				{
 					Preferences.setInteger( "_jiggleCheese", 5 );
 				}
-				else
+				// You jigle your staff, and a whirling wheel of cheese appears before you.
+				// It bursts open, revealing the stench of untold aeons. It first turns gray,
+				// then turns green, then turns tail and runs. You won't see it again for a while, that's for sure. 
+				else if ( responseText.contains( "turns tail and runs" ) )
 				{
 					Preferences.increment( "_jiggleCheese", 1 );
+					String pref = Preferences.getString( "_jiggleCheesedMonsters" );
+					if ( pref.length() > 0 )
+					{
+						pref = pref + ", "; 
+					}
+					pref = pref + MonsterStatusTracker.getLastMonsterName();
+					Preferences.setString( "_jiggleCheesedMonsters", pref );
 				}
 				break;
 

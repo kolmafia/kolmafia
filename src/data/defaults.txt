@@ -853,6 +853,7 @@ user	_jarlsMeatSummoned	false
 user	_jarlsPotatoSummoned	false
 user	_jarlsVeggiesSummoned	false
 user	_jiggleCheese	0
+user	_jiggleCheesedMonsters
 user	_jiggleCream	0
 user	_jiggleCreamedMonster
 user	_jiggleLife	0
