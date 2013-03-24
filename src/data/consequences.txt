@@ -38,6 +38,7 @@ DESC_ITEM	Staff of the Staff of Life	(\d+) charge	_jiggleLife=[5-$1]
 DESC_ITEM	Staff of the Staff of Life	No charges	_jiggleLife=5
 DESC_ITEM	Staff of the Standalone Cheese	(\d+) charge	_jiggleCheese=[5-$1]
 DESC_ITEM	Staff of the Standalone Cheese	No charges	_jiggleCheese=5
+DESC_ITEM	Staff of the Standalone Cheese	curently banished:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;))))	_jiggleCheesedMonsters=$1|$2|$3|$4|$5
 DESC_ITEM	Staff of the All-Steak	(\d+) charge	_jiggleSteak=[5-$1]
 DESC_ITEM	Staff of the All-Steak	No charges	_jiggleSteak=5
 DESC_ITEM	Staff of the Cream of the Cream	(\d+) charge	_jiggleCream=[5-$1]
