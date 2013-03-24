@@ -3348,10 +3348,11 @@ public class DailyDeedsPanel
 		public JarlsbergStavesDaily()
 		{
 			this.addListener( "_jiggleCheese" );
-			this.addListener( "_jiggleCream" );
 			this.addListener( "_jiggleLife" );
 			this.addListener( "_jiggleSteak" );
+			this.addListener( "_jiggleCream" );
 			this.addListener( "_jiggleCreamedMonster" );
+			this.addListener( "_jiggleCheesedMonsters" );
 			this.addLabel( "" );
 		}
 
@@ -3378,7 +3379,7 @@ public class DailyDeedsPanel
 			
 			if ( haveSteak )
 			{
-				text = text + jiggledSteak + "/5 Steak (item)";
+				text = text + jiggledSteak + "/5 Steak Staff (item)";
 				shown = true;
 			}
 			if ( haveLife )
@@ -3387,7 +3388,7 @@ public class DailyDeedsPanel
 				{
 					text = text + ", ";
 				}
-				text = text + jiggledLife + "/5 Life (hp)";
+				text = text + jiggledLife + "/5 Life Staff (hp)";
 				shown = true;
 			}
 			if ( haveCream )
@@ -3396,7 +3397,7 @@ public class DailyDeedsPanel
 				{
 					text = text + ", ";
 				}
-				text = text + jiggledCream + "/5 Cream (olfact)";
+				text = text + jiggledCream + "/5 Cream Staff (olfact)";
 				if ( jiggledCream > 0 )
 				{
 					text = text + " currently " + creamedMonster;
@@ -3409,8 +3410,8 @@ public class DailyDeedsPanel
 				{
 					text = text + ", ";
 				}
-				text = text + jiggledCheese + "/5 Cheese (banish)";
-				if ( jiggledCream > 0 )
+				text = text + jiggledCheese + "/5 Cheese Staff (banish)";
+				if ( jiggledCheese > 0 )
 				{
 					text = text + " currently " + cheesedMonsters;
 				}
