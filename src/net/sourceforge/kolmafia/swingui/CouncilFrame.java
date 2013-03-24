@@ -70,6 +70,8 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
@@ -79,6 +81,7 @@ public class CouncilFrame
 	public static final CouncilRequest COUNCIL_VISIT = new CouncilRequest();
 
 	private static final Pattern ORE_PATTERN = Pattern.compile( "(asbestos|linoleum|chrome) ore[\\. ]" );
+	private static final Pattern BATHOLE_PATTERN = Pattern.compile( "bathole_(\\d)\\.gif" );
 
 	public CouncilFrame()
 	{
@@ -228,6 +231,10 @@ public class CouncilFrame
 		{
 			CouncilFrame.handleWoodsChange( responseText );
 		}
+		else if ( location.startsWith( "bathole" ) )
+		{
+			CouncilFrame.handleBatholeChange( responseText );
+		}
 		// Obsolete. Sigh.
 		else if ( location.startsWith( "generate15" ) )
 		{
@@ -267,6 +274,38 @@ public class CouncilFrame
 		{
 			Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
 		}
+	}
+
+	private static void handleBatholeChange( final String responseText )
+	{
+		Matcher m = CouncilFrame.BATHOLE_PATTERN.matcher( responseText );
+
+		if ( !m.find() )
+		{
+			return;
+		}
+
+		int image = StringUtilities.parseInt( m.group( 1 ) );
+		String status = "";
+		
+		if ( image == 1 )
+		{
+			status = QuestDatabase.STARTED;
+		}
+		else if ( image == 2 )
+		{
+			status = "step1";
+		}
+		else if ( image == 3 )
+		{
+			status = "step2";
+		}
+		else if ( image == 4 )
+		{
+			status = "step3";
+		}
+
+		QuestDatabase.setQuestIfBetter( Quest.BAT, status );
 	}
 
 	private static void parsePyramidChange( String responseText )

@@ -1257,8 +1257,10 @@ public class ResultProcessor
 
 		case ItemPool.BAT_BANDANA:
 			QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
+			break;
 
 		case ItemPool.BATSKIN_BELT:
+			QuestDatabase.setQuestProgress( Quest.BAT, QuestDatabase.FINISHED );
 		case ItemPool.DRAGONBONE_BELT_BUCKLE:
 			ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
 			break;
@@ -1668,6 +1670,12 @@ public class ResultProcessor
 
 		case ItemPool.COSMIC_SIX_PACK:
 			Preferences.setBoolean( "_cosmicSixPackConjured", true );
+			break;
+
+		case ItemPool.COBBS_KNOB_MAP:
+			QuestDatabase.setQuestProgress( Quest.GOBLIN, QuestDatabase.STARTED );
+			break;
+
 		}
 
 		// Gaining items can achieve goals.

@@ -96,6 +96,7 @@ public class QuestDatabase
 			return pref;
 		}
 	}
+
 	public static final String UNSTARTED = "unstarted";
 	public static final String STARTED = "started";
 	public static final String FINISHED = "finished";
@@ -104,16 +105,16 @@ public class QuestDatabase
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
-	
+
 	static
 	{
 		reset();
 	}
-	
+
 	public static void reset()
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "questslog.txt", KoLConstants.QUESTSLOG_VERSION );
-		
+
 		ArrayList<String[]> quests = new ArrayList<String[]>();
 		String[] data;
 
@@ -123,9 +124,9 @@ public class QuestDatabase
 					KoLCharacter.getUserName() );
 			quests.add( data );
 		}
-		
+
 		questLogData = quests.toArray( new String[ quests.size() ][] );
-		
+
 		try
 		{
 			reader.close();
@@ -134,18 +135,18 @@ public class QuestDatabase
 		{
 			StaticEntity.printStackTrace( e );
 		}
-		
+
 		reader = FileUtilities.getVersionedReader( "questscouncil.txt", KoLConstants.QUESTSCOUNCIL_VERSION );
-		
+
 		quests = new ArrayList<String[]>();
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			quests.add( data );
 		}
-		
+
 		councilData = quests.toArray( new String[ quests.size() ][] );
-		
+
 		try
 		{
 			reader.close();
@@ -361,6 +362,15 @@ public class QuestDatabase
 		return "";
 	}
 
+	public static void setQuestProgress( Quest quest, String progress )
+	{
+		if ( quest == null )
+		{
+			return;
+		}
+		QuestDatabase.setQuestProgress( quest.getPref(), progress );
+	}
+
 	public static void setQuestProgress( String pref, String status )
 	{
 		if ( prefToIndex( pref ) == -1 )
@@ -395,7 +405,7 @@ public class QuestDatabase
 
 		for ( String responseToken : responseTokens )
 		{
-			cleanedResponseToken = QuestDatabase.HTML_WHITESPACE.matcher( responseToken ).replaceAll( "" );
+			cleanedResponseToken = QuestDatabase.HTML_WHITESPACE.matcher( responseToken ).replaceAll( "" ).toLowerCase();
 			for ( int i = 0; i < councilData.length; ++i )
 			{
 				for ( int j = 2; j < councilData[ i ].length; ++j )
@@ -407,9 +417,9 @@ public class QuestDatabase
 
 					for ( String councilToken : councilTokens )
 					{
-						cleanedQuestToken = QuestDatabase.HTML_WHITESPACE.matcher( councilToken ).replaceAll( "" );
+						cleanedQuestToken = QuestDatabase.HTML_WHITESPACE.matcher( councilToken ).replaceAll( "" ).toLowerCase();
 
-						if ( cleanedResponseToken.equalsIgnoreCase( cleanedQuestToken ) )
+						if ( cleanedResponseToken.indexOf( cleanedQuestToken ) != -1 )
 						{
 							setQuestIfBetter( councilData[ i ][ 0 ], councilData[ i ][ 1 ] );
 							break;
@@ -418,6 +428,15 @@ public class QuestDatabase
 				}
 			}
 		}
+	}
+
+	public static void setQuestIfBetter( Quest quest, String progress )
+	{
+		if ( quest == null )
+		{
+			return;
+		}
+		QuestDatabase.setQuestIfBetter( quest.getPref(), progress );
 	}
 
 	private static void setQuestIfBetter( String pref, String status )
@@ -476,20 +495,6 @@ public class QuestDatabase
 		}
 	}
 
-	public static void setQuestIfBetter( Quest quest, String progress )
-	{
-		QuestDatabase.setQuestIfBetter( quest.getPref(), progress );
-	}
-
-	public static void setQuestProgress( Quest quest, String progress )
-	{
-		if ( quest == null )
-		{
-			return;
-		}
-		QuestDatabase.setQuestProgress( quest.getPref(), progress );
-	}
-
 	public static boolean isQuestLaterThan( String first, String second )
 	{
 		if ( first.equals( QuestDatabase.UNSTARTED ) )
@@ -539,5 +544,93 @@ public class QuestDatabase
 		}
 
 		return false;
+	}
+
+	public static String questStepAfter( Quest quest, String step )
+	{
+		if ( quest == null )
+		{
+			return "";
+		}
+		return QuestDatabase.questStepAfter( quest.getPref(), step );
+	}
+
+	public static String questStepAfter( String pref, String step )
+	{
+		// First thing to do is find which quest we're talking about.
+		int index = prefToIndex( pref );
+		if ( index == -1 )
+		{
+			return "";
+		}
+
+		// Next, find the number of quest steps
+		final int totalSteps = questLogData[ index ].length - 2;
+		if ( totalSteps < 1 )
+		{
+			return "";
+		}
+
+		if ( step.equals( QuestDatabase.UNSTARTED ) )
+		{
+			return QuestDatabase.STARTED;
+		}
+
+		if ( step.equals( QuestDatabase.STARTED ) )
+		{
+			if ( totalSteps > 2 )
+			{
+				return "step1";
+			}
+			else
+			{
+				return QuestDatabase.FINISHED;
+			}
+		}
+
+		if ( step.startsWith( "step" ) )
+		{
+			try
+			{
+				int currentStep = StringUtilities.parseInt( step.substring( 4 ) );
+				int nextStep = currentStep + 1;
+
+				if ( nextStep >= totalSteps )
+				{
+					return QuestDatabase.FINISHED;
+				}
+				else
+				{
+					return "step" + nextStep;
+				}
+			}
+			catch ( NumberFormatException e )
+			{
+				return "";
+			}
+		}
+
+		if ( step.equals( QuestDatabase.FINISHED ) )
+		{
+			return "";
+		}
+
+		return "";
+	}
+
+	public static void advanceQuest( Quest quest  )
+	{
+		if ( quest == null )
+		{
+			return;
+		}
+		QuestDatabase.advanceQuest( quest.getPref() );
+	}
+
+	public static void advanceQuest( String pref )
+	{
+		String currentStep = Preferences.getString( pref );
+		String nextStep = QuestDatabase.questStepAfter( pref, currentStep );
+		QuestDatabase.setQuestProgress( pref, nextStep );
 	}
 }
