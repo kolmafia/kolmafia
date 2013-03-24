@@ -2152,7 +2152,7 @@ public class FightRequest
 			String[] monsters = Preferences.getString( "banishingShoutMonsters" ).split( "\\|" );
 			for ( int i = 0; i < monsters.length && i < 2; ++i )
 			{
-			if ( monsters[ i ].length() > 0 )
+				if ( monsters[ i ].length() > 0 )
 				{
 					pref += "|" + monsters[ i ];
 				}
@@ -5332,25 +5332,21 @@ public class FightRequest
 				break;
 
 			case ItemPool.STAFF_OF_CHEESE:
-				// You jiggle the staff, but no horrible stench comes out.
-				// A stench comes out, but you'd only describe it as bad, not horrible.
-				// Bad enough to deal about XXX damage to your foe.
-				if ( responseText.contains( "no horrible stench" ) )
-				{
-					Preferences.setInteger( "_jiggleCheese", 5 );
-				}
 				// You jigle your staff, and a whirling wheel of cheese appears before you.
 				// It bursts open, revealing the stench of untold aeons. It first turns gray,
 				// then turns green, then turns tail and runs. You won't see it again for a while, that's for sure. 
-				else if ( responseText.contains( "turns tail and runs" ) )
+				if ( responseText.contains( "turns tail and runs" ) )
 				{
 					Preferences.increment( "_jiggleCheese", 1 );
-					String pref = Preferences.getString( "_jiggleCheesedMonsters" );
-					if ( pref.length() > 0 )
+					String pref = MonsterStatusTracker.getLastMonsterName();
+					String[] monsters = Preferences.getString( "_jiggleCheesedMonsters" ).split( "\\|" );
+					for ( int i = 0; i < monsters.length; ++i )
 					{
-						pref = pref + ", "; 
+						if ( monsters[ i ].length() > 0 )
+						{
+							pref += "|" + monsters[ i ];
+						}
 					}
-					pref = pref + MonsterStatusTracker.getLastMonsterName();
 					Preferences.setString( "_jiggleCheesedMonsters", pref );
 				}
 				break;

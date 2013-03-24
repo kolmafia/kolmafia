@@ -3263,16 +3263,53 @@ public class DailyDeedsPanel
 		public BanishedDaily()
 		{
 			this.addListener( "banishingShoutMonsters" );
+			this.addListener( "_jiggleCheesedMonsters" );
+			this.addListener( "_nanorhinoBanishedMonster" );
 			this.addLabel( "" );
 		}
 
 		@Override
 		public void update()
 		{
-			boolean ban = KoLCharacter.hasSkill( "Banishing Shout" ) || KoLCharacter.hasSkill( "Howl of the Alpha" );
-			String text = "Banished monsters: " + Preferences.getString( "banishingShoutMonsters" ).replaceAll( "\\|", ", " );
+			boolean borisBan = KoLCharacter.hasSkill( "Banishing Shout" );
+			boolean zombieBan = KoLCharacter.hasSkill( "Howl of the Alpha" );
+			boolean jarlBan = InventoryManager.getCount( ItemPool.STAFF_OF_CHEESE ) > 0
+				|| KoLCharacter.hasEquipped( DailyDeedsPanel.STAFF_OF_CHEESE );
+			boolean nanoBan = KoLCharacter.findFamiliar( FamiliarPool.NANORHINO ) != null;
+
+			// None of the currently tracked banishers can be active simultaneously
+			String pref = "";
+			if ( borisBan )
+			{
+				pref = "banishingShoutMonsters";
+			}
+			if ( zombieBan )
+			{
+				pref = "banishingShoutMonsters";
+			}
+			if ( jarlBan )
+			{
+				pref = "_jiggleCheesedMonsters";
+			}
+			if ( nanoBan )
+			{
+				pref = "_nanorhinoBanishedMonster";
+			} 
+
+			String text = "Banished monsters: ";
+			if ( !pref.equals( "" ) )
+			{
+				text = text + Preferences.getString( pref ).replaceAll( "\\|", ", " );
+				text = text.trim();
+				while ( text.endsWith( "," ) )
+				{
+					text = text.substring( 0, text.length() - 1 );
+					text = text.trim();
+				}
+			}
+
 			this.setText( text );
-			this.setShown( ban );
+			this.setShown( borisBan || zombieBan || jarlBan || nanoBan );
 		}
 	}
 
@@ -3372,7 +3409,7 @@ public class DailyDeedsPanel
 			int jiggledSteak = Preferences.getInteger( "_jiggleSteak" );
 			int jiggledCream = Preferences.getInteger( "_jiggleCream" );
 			String creamedMonster = Preferences.getString( "_jiggleCreamedMonster" );
-			String cheesedMonsters = Preferences.getString( "_jiggleCheesedMonsters" );
+			String cheesedMonsters = Preferences.getString( "_jiggleCheesedMonsters" ).replaceAll( "\\|", ", " );
 
 			boolean shown = false;
 			String text = "Staff jiggles: ";
@@ -3391,6 +3428,15 @@ public class DailyDeedsPanel
 				text = text + jiggledLife + "/5 Life Staff (hp)";
 				shown = true;
 			}
+			if ( haveCheese )
+			{
+				if ( shown )
+				{
+					text = text + ", ";
+				}
+				text = text + jiggledCheese + "/5 Cheese Staff (banish)";
+				shown = true;
+			}
 			if ( haveCream )
 			{
 				if ( shown )
@@ -3404,20 +3450,6 @@ public class DailyDeedsPanel
 				}
 				shown = true;
 			}
-			if ( haveCheese )
-			{
-				if ( shown )
-				{
-					text = text + ", ";
-				}
-				text = text + jiggledCheese + "/5 Cheese Staff (banish)";
-				if ( jiggledCheese > 0 )
-				{
-					text = text + " currently " + cheesedMonsters;
-				}
-				shown = true;
-			}
-			
 
 			this.setShown( KoLCharacter.isJarlsberg() );
 			this.setText( text );
