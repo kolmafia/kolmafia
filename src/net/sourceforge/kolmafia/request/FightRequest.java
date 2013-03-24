@@ -5370,12 +5370,6 @@ public class FightRequest
 				break;
 
 			case ItemPool.STAFF_OF_CREAM:
-				/*
-				if ( responseText.contains( "" ) )
-				{
-					Preferences.setInteger( "_jiggleCream", 5 );
-				}
-				*/
 				// You jiggle the staff. A wisp of creamy ghostly energy
 				// drifts out of the end, into your opponent, then into your head.
 				// Your mind fills with it essence. You... know it. With a capital K. 
