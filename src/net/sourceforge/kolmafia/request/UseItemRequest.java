@@ -4310,6 +4310,15 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.SONAR:
+			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), "step2" ) )
+			{
+				return;
+			}
+			// Sonars are single-use, so advance the quest by one step only
+			QuestDatabase.advanceQuest( Quest.BAT );
+			return;
+
 		}
 	}
 

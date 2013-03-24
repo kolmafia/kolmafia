@@ -85,6 +85,8 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -2592,6 +2594,13 @@ public class FightRequest
 				else if ( responseText.indexOf( "could serve as a massage parlor" ) != -1 )
 				{
 					Preferences.setString( "sidequestNunsCompleted", "fratboy" );
+				}
+			}
+			else if ( monster.equalsIgnoreCase( "Screambat" ) )
+			{
+				if ( !QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), "step2" ) )
+				{
+					QuestDatabase.advanceQuest( Quest.BAT );
 				}
 			}
 			else if ( !FightRequest.castCleesh &&
