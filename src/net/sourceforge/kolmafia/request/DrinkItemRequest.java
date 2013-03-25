@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -90,6 +91,13 @@ public class DrinkItemRequest
 
 	public static final int maximumUses( final int itemId, final String itemName, final int inebriety, final boolean allowOverDrink )
 	{
+		if ( KoLCharacter.isJarlsberg() && ConcoctionDatabase.getMixingMethod( itemId ) != CraftingType.JARLS
+			  && !itemName.equals( "steel margarita" ) && !itemName.equals( "mediocre lager" ) )
+		{
+			UseItemRequest.limiter = "its non-Jarlsbergian nature";
+			return 0;
+		}
+
 		UseItemRequest.limiter = "inebriety";
 		int limit = KoLCharacter.getInebrietyLimit();
 

@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -103,6 +104,12 @@ public class EatItemRequest
 
 	public static final int maximumUses( final int itemId, final String itemName, final int fullness )
 	{
+		if ( KoLCharacter.isJarlsberg() && ConcoctionDatabase.getMixingMethod( itemId ) != CraftingType.JARLS )
+		{
+			UseItemRequest.limiter = "its non-Jarlsbergian nature";
+			return 0;
+		}
+		
 		int limit = KoLCharacter.getFullnessLimit();
 		int fullnessLeft = limit - KoLCharacter.getFullness();
 		UseItemRequest.limiter = "fullness";
