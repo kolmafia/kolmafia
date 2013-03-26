@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -77,6 +78,9 @@ public class StorageRequest
 	public static final int EMPTY_STORAGE = 5;
 	public static final int STORAGE_TO_INVENTORY = 6;
 	public static final int PULL_MEAT_FROM_STORAGE = 7;
+	public static final int FAVORITE = 8;
+
+	private static final List<String> favoriteTabs = new ArrayList<String>();
 
 	public StorageRequest()
 	{
@@ -98,6 +102,12 @@ public class StorageRequest
 	public StorageRequest( final int moveType, final Object attachment )
 	{
 		this( moveType, new Object[] { attachment } );
+	}
+
+	public StorageRequest( final String tab )
+	{
+		this( FAVORITE, new Object[ 0 ] );
+		this.addFormField( "which", tab );
 	}
 
 	public StorageRequest( final int moveType, final Object[] attachments )
@@ -244,10 +254,20 @@ public class StorageRequest
 			// Get the four pages of storage in succession
 			KoLConstants.storage.clear();
 			KoLConstants.freepulls.clear();
+			String tab;
 			RequestThread.postRequest( new StorageRequest( MEAT ) );
 			RequestThread.postRequest( new StorageRequest( CONSUMABLES ) );
 			RequestThread.postRequest( new StorageRequest( EQUIPMENT ) );
 			RequestThread.postRequest( new StorageRequest( MISCELLANEOUS ) );
+
+			Iterator tabIterator = StorageRequest.favoriteTabs.iterator();
+			while ( tabIterator.hasNext() )
+			{
+				tab = (String) tabIterator.next();
+				RequestThread.postRequest( new StorageRequest( tab ) );
+			}
+			StorageRequest.favoriteTabs.clear();
+
 		}
 		else
 		{
@@ -267,6 +287,7 @@ public class StorageRequest
 		case StorageRequest.CONSUMABLES:
 		case StorageRequest.EQUIPMENT:
 		case StorageRequest.MISCELLANEOUS:
+		case StorageRequest.FAVORITE:
 			StorageRequest.parseStorage( this.getURLString(), this.responseText );
 			return;
 		default:
@@ -290,6 +311,9 @@ public class StorageRequest
 
 	private static final Pattern ITEM_PATTERN =
 		Pattern.compile( "<table class='item' id=\"ic([\\d]+)\".*?rel=\"([^\"]*)\">.*?<b class=\"ircm\">(?:<a[^>]*>)?(.*?)(?:</a>)?</b>(?:&nbsp;<span>\\(([\\d]+)\\)</span)?.*?</table>" );
+
+	private static final Pattern TAB_PATTERN =
+		Pattern.compile( "storage.php\\?which=(f[\\d+])\"" );
 
 	private static void parseStorage( final String urlString, final String responseText )
 	{
@@ -330,6 +354,21 @@ public class StorageRequest
 			{
 				ConcoctionDatabase.setPullsRemaining( -1 );
 			}
+
+			// The list of tabs appears on every page, but we only need to retrieve it once when refreshing
+			StorageRequest.favoriteTabs.clear();
+			Matcher tabMatcher = StorageRequest.TAB_PATTERN.matcher( responseText );
+			while ( tabMatcher.find() )
+			{
+				StorageRequest.favoriteTabs.add( tabMatcher.group( 1 ) );
+			}
+
+			return;
+		}
+
+		if ( urlString.contains( "which=f" ) && responseText.contains( "show&nbsp;items&nbsp;only&nbsp;here" ) )
+		{
+			// The items on this tab were already found in another tab
 			return;
 		}
 
@@ -623,6 +662,9 @@ public class StorageRequest
 
 		case PULL_MEAT_FROM_STORAGE:
 			return "Pulling meat from storage";
+
+		case FAVORITE:
+			return "Examining a custom tab in storage";
 
 		default:
 			return "Unknown request type";
