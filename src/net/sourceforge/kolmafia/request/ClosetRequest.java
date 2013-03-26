@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -65,6 +66,9 @@ public class ClosetRequest
 	public static final int MEAT_TO_CLOSET = 6;
 	public static final int MEAT_TO_INVENTORY = 7;
 	public static final int EMPTY_CLOSET = 8;
+	public static final int FAVORITE = 9;
+
+	private static final List<String> favoriteTabs = new ArrayList<String>();
 
 	// Your closet contains <b>170,000,000</b> meat.
 	private static final Pattern CLOSETMEAT_PATTERN = Pattern.compile( "Your closet contains <b>([\\d,]+)</b> meat\\." );
@@ -89,6 +93,12 @@ public class ClosetRequest
 	public ClosetRequest( final int moveType, final Object attachment )
 	{
 		this( moveType, new Object[] { attachment } );
+	}
+
+	public ClosetRequest( final String tab )
+	{
+		this( FAVORITE, new Object[ 0 ] );
+		this.addFormField( "which", tab );
 	}
 
 	public ClosetRequest( final int moveType, final Object[] attachments )
@@ -241,9 +251,18 @@ public class ClosetRequest
 
 			// Get the three pages of the closet in succession
 			KoLConstants.closet.clear();
+			String tab;
 			RequestThread.postRequest( new ClosetRequest( CONSUMABLES ) );
 			RequestThread.postRequest( new ClosetRequest( EQUIPMENT ) );
 			RequestThread.postRequest( new ClosetRequest( MISCELLANEOUS ) );
+
+			Iterator tabIterator = ClosetRequest.favoriteTabs.iterator();
+			while ( tabIterator.hasNext() )
+			{
+				tab = (String) tabIterator.next();
+				RequestThread.postRequest( new ClosetRequest( tab ) );
+			}
+			ClosetRequest.favoriteTabs.clear();
 		}
 		else
 		{
@@ -262,6 +281,7 @@ public class ClosetRequest
 		case ClosetRequest.CONSUMABLES:
 		case ClosetRequest.EQUIPMENT:
 		case ClosetRequest.MISCELLANEOUS:
+		case ClosetRequest.FAVORITE:
 			ClosetRequest.parseCloset( this.getURLString(), this.responseText );
 			return;
 		default:
@@ -272,6 +292,9 @@ public class ClosetRequest
 	// <table class='item' id="ic4448" rel="id=4448&s=0&q=0&d=1&g=0&t=0&n=38&m=1&p=0&u=u"><td class="img"><img src="http://images.kingdomofloathing.com/itemimages/karma.gif" class="hand ircm" onClick='descitem(820448502,0, event);'></td><td id='i4448' valign=top><b class="ircm">Instant Karma</b>&nbsp;<span>(38)</span><font size=1><br><a href="inventory.php?which=1&action=discard&pwd=71aa09983736d050dc8fd4aedf08c5d2&whichitem=4448" onclick='return discardconf("Instant Karma");'>[discard]</a>&nbsp;take <a href="closet.php?action=closetpull&whichitem=4448&qty=1&pwd=71aa09983736d050dc8fd4aedf08c5d2" class="takelink">[one]</a> <a href="closet.php?action=closetpull&whichitem=4448&pwd=71aa09983736d050dc8fd4aedf08c5d2&qty=" onclick="return closetsome(this)" class="takelink some">[some]</a> <a href="closet.php?action=closetpull&whichitem=4448&qty=all&pwd=71aa09983736d050dc8fd4aedf08c5d2" class="takelink">[all]</a> </font></td></table>
 	private static final Pattern ITEM_PATTERN =
 		Pattern.compile( "<table class='item' id=\"ic([\\d]+)\".*?rel=\"([^\"]*)\">.*?<b class=\"ircm\">(?:<a[^>]*>)?(.*?)(?:</a>)?</b>(?:&nbsp;<span>\\(([\\d]+)\\)</span)?.*?</table>" );
+
+	private static final Pattern TAB_PATTERN =
+		Pattern.compile( "closet.php\\?which=(f[\\d+])\"" );
 
 	public static void parseCloset( final String urlString, final String responseText )
 	{
@@ -294,11 +317,28 @@ public class ClosetRequest
 		Matcher matcher = ClosetRequest.ITEM_PATTERN.matcher( responseText );
 		int lastFindIndex = 0;
 
+		if ( urlString.contains( "which=1" ) )
+		{
+			// The list of tabs appears on every page, but we only need to retrieve it once when refreshing
+			ClosetRequest.favoriteTabs.clear();
+			Matcher tabMatcher = ClosetRequest.TAB_PATTERN.matcher( responseText );
+			while ( tabMatcher.find() )
+			{
+				ClosetRequest.favoriteTabs.add( tabMatcher.group( 1 ) );
+			}
+		}
+
+		if ( urlString.contains( "which=f" ) && responseText.contains( "show&nbsp;items&nbsp;only&nbsp;here" ) )
+		{
+			// The items on this tab were already found in another tab
+			return;
+		}
+
 		while ( matcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = matcher.end();
 			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
-			String relString = matcher.group( 2 );
+			//String relString = matcher.group( 2 );
 			String countString = matcher.group( 4 );
 			int count = ( countString == null ) ? 1 : StringUtilities.parseInt( countString );
 			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemDataName( itemId ) );
@@ -496,6 +536,9 @@ public class ClosetRequest
 
 		case MISCELLANEOUS:
 			return "Examining miscellaneous items in closet";
+
+		case FAVORITE:
+			return "Examining a custom tab in closet";
 
 		default:
 			return "Unknown request type";
