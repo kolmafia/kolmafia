@@ -67,6 +67,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
@@ -2280,7 +2282,7 @@ public abstract class ChoiceManager
 		// Choice 630 is unknown
 		// Choice 631 is unknown
 		// Choice 632 is unknown
-		// Choice 633 is ChibiBuddy™
+		// Choice 633 is ChibiBuddyï¿½
 		// Choice 634 is Goodbye Fnord
 		// Choice 635 is unknown
 		// Choice 636 is unknown
@@ -3134,21 +3136,39 @@ public abstract class ChoiceManager
 
 			result[ 0 ] = "need +4 stench resist, have " + KoLCharacter.getElementalResistanceLevels( Element.STENCH );
 
-			// annoyingly, the item drop check does not take into account fairy bonus.
+			// annoyingly, the item drop check does not take into account fairy (or other sidekick) bonus.
 			// This is just a one-off implementation, but should be standardized somewhere in Modifiers
 			// if kol adds more things like this.
 			double bonus = 0;
-			if ( FamiliarDatabase.isFairyType( KoLCharacter.getFamiliar().getId() ) )
+			// Check for familiars
+			if ( KoLCharacter.getFamiliar() != null )
 			{
 				double eff = KoLCharacter.getCurrentModifiers().get( Modifiers.FAIRY_EFFECTIVENESS );
+				if ( eff == 0.0 && FamiliarDatabase.isFairyType( KoLCharacter.getFamiliar().getId() ) )
+				{
+					eff = 1.0;
+				}
 				int weight = KoLCharacter.getFamiliar().getWeight();
 
 				bonus = eff * ( Math.sqrt( 55 * weight ) + weight - 3 );
 			}
+			// Check for Clancy
+			else if ( KoLCharacter.getCurrentInstrument() != null &&
+				KoLCharacter.getCurrentInstrument().equals( CharPaneRequest.LUTE ) )
+			{
+				int weight = 5 * KoLCharacter.getMinstrelLevel();
+				bonus = Math.sqrt( 55 * weight ) + weight - 3;
+			}
+			// Check for Eggman
+			else if ( KoLCharacter.getCompanion() == Companion.EGGMAN )
+			{
+				bonus = KoLCharacter.hasSkill( "Working Lunch" ) ? 75 : 50;
+			}
 			result[ 1 ] =
-				"need +50 item drop, have " + Math.round( KoLCharacter.getItemDropPercentAdjustment() - bonus ) + "%";
+				"need +50 item drop, have " + Math.round( KoLCharacter.getItemDropPercentAdjustment() +
+				KoLCharacter.currentNumericModifier( Modifiers.FOODDROP ) - bonus ) + "%";
 
-			int oil = InventoryManager.getCount( ItemPool.JAR_OF_OIL );
+			//int oil = InventoryManager.getCount( ItemPool.JAR_OF_OIL );
 			result[ 2 ] = "need Jar of Oil";
 			result[ 3 ] = "need +40% init, have " + KoLCharacter.getInitiativeAdjustment() + "%";
 			result[ 4 ] = null; //why is there a missing button 5?
