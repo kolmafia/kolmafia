@@ -40,6 +40,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -3141,14 +3142,14 @@ public abstract class ChoiceManager
 			// if kol adds more things like this.
 			double bonus = 0;
 			// Check for familiars
-			if ( KoLCharacter.getFamiliar() != null )
+			if ( !KoLCharacter.getFamiliar().equals( FamiliarData.NO_FAMILIAR ) )
 			{
 				double eff = KoLCharacter.getCurrentModifiers().get( Modifiers.FAIRY_EFFECTIVENESS );
 				if ( eff == 0.0 && FamiliarDatabase.isFairyType( KoLCharacter.getFamiliar().getId() ) )
 				{
 					eff = 1.0;
 				}
-				int weight = KoLCharacter.getFamiliar().getWeight();
+				int weight = KoLCharacter.getFamiliar().getModifiedWeight();
 
 				bonus = eff * ( Math.sqrt( 55 * weight ) + weight - 3 );
 			}
@@ -3164,8 +3165,9 @@ public abstract class ChoiceManager
 			{
 				bonus = KoLCharacter.hasSkill( "Working Lunch" ) ? 75 : 50;
 			}
+
 			result[ 1 ] =
-				"need +50 item drop, have " + Math.round( KoLCharacter.getItemDropPercentAdjustment() +
+				"need +50% item drop, have " + Math.round( KoLCharacter.getItemDropPercentAdjustment() +
 				KoLCharacter.currentNumericModifier( Modifiers.FOODDROP ) - bonus ) + "%";
 
 			//int oil = InventoryManager.getCount( ItemPool.JAR_OF_OIL );
