@@ -727,6 +727,7 @@ Pine Bat	Atk: 14 Def: 10 HP: 8 Init: 60 EA: stench Meat: 18-27 P: beast	bat wing
 Plaque of Locusts	Atk: 134 Def: 124 HP: 140 Init: 30 P: bug	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
 Plastered Frat Orc	Atk: 10 Def: 7 HP: 7 Init: 40 P: orc	ice-cold fotie (20)	ice-cold Sir Schlitz (20)	ice-cold Willer (20)
 Pooltergeist	Atk: 20 Def: 18 HP: 25 Init: 70 P: undead	1-ball (3)	2-ball (3)	3-ball (3)	4-ball (3)	5-ball (3)	6-ball (3)	7-ball (3)	8-ball (15)
+Pooltergeist (Ultra-Rare)	Atk: 20 Def: 18 HP: 25 Init: 70 P: undead	17-ball (100)
 Pop-and-Lock Raver	Atk: 140 Def: 126 HP: 150 P: humanoid	baggy rave pants (c0)	glowstick on a string (c0)	teddybear backpack (c0)
 Pork Sword	Atk: 162 Def: 145 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
 Portly Abomination	Atk: 73 Def: 65 HP: 63 Init: 70 Meat: 61-91 P: horror	abominable blubber (0)
