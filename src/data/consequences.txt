@@ -61,6 +61,8 @@ DESC_EFFECT	On the Trail	I mean "(.*?)\."<	olfactedMonster=$1
 MONSTER	Animated Nightstand	darkstand\.gif	"Animated Nightstand (Mahogany)"
 MONSTER	Animated Nightstand	.	"Animated Nightstand (White)"
 
+MONSTER	Pooltergeist	poolter2\.gif	"Pooltergeist (Ultra-Rare)"
+
 MONSTER	Orcish Frat Boy	fratskirt\.gif	"Orcish Frat Boy (Pledge)"
 MONSTER	Orcish Frat Boy	rectify	"Orcish Frat Boy (Music Lover)"
 MONSTER	Orcish Frat Boy	.	"Orcish Frat Boy (Paddler)"

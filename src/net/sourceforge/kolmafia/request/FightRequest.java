@@ -297,7 +297,8 @@ public class FightRequest
 		"infinite meat bug",
 		"knott slanding",
 		"master of thieves",
-		"temporal bandit"
+		"temporal bandit",
+		"pooltergeist (ultra-rare)"
 	};
 
 	// Skills which cannot be used with a ranged weapon
