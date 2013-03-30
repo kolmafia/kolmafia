@@ -135,7 +135,7 @@ Hatching Chamber	100	Larval Filthworm
 Haunted Ballroom	80	Floating Platter of Hors D'Oeuvres	Ghastly Organist: 0	Zombie Waltzers	Tapdancing Skeleton
 Haunted Bathroom	75	Claw-foot Bathtub	Malevolent Hair Clog	Toilet Papergeist	Guy Made Of Bees: 0
 Haunted Bedroom	20	Animated Nightstand (Mahogany)	Animated Nightstand (White)	Remains of a Jilted Mistress: 0
-Haunted Billiards Room	100	Chalkdust Wraith	Pooltergeist	Hustled Spectre: 0
+Haunted Billiards Room	100	Chalkdust Wraith	Pooltergeist	Hustled Spectre: 0	Pooltergeist (Ultra-Rare): -1
 Haunted Conservatory	100	Anglerbush	Confused Goth Music Student	Man-Eating Plant	Skeletal Cat	Skeletal Hamster	Skeletal Monkey
 Haunted Gallery	80	Guy with a Pitchfork, and his Wife	Cubist Bull	Empty Suit of Armor	Knight (Snake): 0	Knight (Wolf): 0
 Haunted Kitchen	100	Demonic Icebox	Paper Towelgeist	Possessed Silverware Drawer	Skullery Maid	Zombie Chef
