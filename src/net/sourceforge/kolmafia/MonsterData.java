@@ -230,7 +230,7 @@ public class MonsterData
 	{
 		if ( this.initiative == null )
 		{
-			return 0;
+			return -1;
 		}
 		if ( this.initiative instanceof Integer )
 		{
