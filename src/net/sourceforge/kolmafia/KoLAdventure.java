@@ -614,7 +614,8 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.SHROUDED_PEAK_ID ) )
 		{
-			this.isValidAdventure = Preferences.getString( Quest.TRAPPER.getPref() ).equals( "step3" );
+			String trapper = Preferences.getString( Quest.TRAPPER.getPref() );
+			this.isValidAdventure = trapper.equals( "step3" ) || trapper.equals( "step4" );
 			if ( !this.isValidAdventure )
 			{
 				return;
@@ -931,7 +932,7 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.zone.equals( "McLarge" ) && !this.adventureId.equals( AdventurePool.MINE_OFFICE_ID ))
+		if ( this.zone.equals( "McLarge" ) && !this.adventureId.equals( AdventurePool.MINE_OFFICE_ID ) )
 		{
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=mclargehuge" ) );
 			if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( this.adventureId ) != -1 )
@@ -950,6 +951,17 @@ public class KoLAdventure
 			RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=mclargehuge&action=trappercabin" ) );
 
 			this.validate( true );
+			return;
+		}
+
+		if ( this.zone.equals( "Highlands" ) )
+		{
+			if ( QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.TOPPING.getPref() ), QuestDatabase.STARTED ) )
+			{
+				this.isValidAdventure = true;
+				return;
+			}
+
 			return;
 		}
 
