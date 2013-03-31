@@ -1575,6 +1575,7 @@ public class ItemPool
 	public static final int COSMIC_VEGETABLE = 6178;
 	public static final int COSMIC_POTATO = 6181;
 	public static final int COSMIC_CREAM = 6182;
+	public static final int MEDIOCRE_LAGER = 6215;
 	public static final int COSMIC_SIX_PACK = 6237;
 	public static final int WALBERG_BOOK = 6253;
 	public static final int OCELOT_BOOK = 6254;

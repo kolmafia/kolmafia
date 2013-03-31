@@ -34,12 +34,18 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class JarlsbergRequest
@@ -47,12 +53,36 @@ public class JarlsbergRequest
 {
 	public JarlsbergRequest( final Concoction conc )
 	{
-		// shop.php?pwd&whichshop=jarl&action=buyitem&whichitem=6212&quantity=2
+		// shop.php?pwd&whichshop=jarl&action=buyitem&whichrow=60&quantity=1
 		super( "shop.php", conc );
 
 		this.addFormField( "whichshop", "jarl" );
 		this.addFormField( "action", "buyitem" );
-		this.addFormField( "whichitem", String.valueOf( this.getItemId() ) );
+		int row = this.idToRow( this.getItemId() );
+		this.addFormField( "whichrow", String.valueOf( row ) );
+	}
+
+	private static final int ID_TO_ROW_DIFFERENCE = 6143;
+
+	private int idToRow( int itemId )
+	{
+		// The cosmic six-pack is the only one not in itemId order.
+		if ( itemId == ItemPool.COSMIC_SIX_PACK )
+		{
+			return 112;
+		}
+
+		int row = itemId - ID_TO_ROW_DIFFERENCE;
+
+		// Mediocre lager appears in the middle of Jarlsberg consumables,
+		// but isn't available in the Cosmic Kitchen.
+		// Since it doesn't use a row, the row number of higher itemIds is shifted.
+		if ( itemId > ItemPool.MEDIOCRE_LAGER )
+		{
+			row -= 1;
+		}
+
+		return row;
 	}
 
 	@Override
