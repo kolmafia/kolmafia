@@ -804,7 +804,7 @@ public class AdventureRequest
 					ResultProcessor.processItem( ItemPool.PUNGENT_UNGUENT, -1 );
 				}
 				break;
-			case 121:
+			case 123:
 				// Arid desert, ultrahydrated
 
 				// A sietch in time

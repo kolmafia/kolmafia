@@ -2049,14 +2049,6 @@ public class UseItemRequest
 
 			return;
 
-		case ItemPool.MISTY_CLOAK:
-		case ItemPool.MISTY_ROBE:
-		case ItemPool.MISTY_CAPE:
-
-			QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
-			QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.STARTED );
-			return;
-
 		case ItemPool.ELITE_SCROLL:
 
 			// "The UB3r 31337 HaX0R stands before you."

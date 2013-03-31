@@ -1261,9 +1261,29 @@ public class ResultProcessor
 
 		case ItemPool.BATSKIN_BELT:
 			QuestDatabase.setQuestProgress( Quest.BAT, QuestDatabase.FINISHED );
-		case ItemPool.DRAGONBONE_BELT_BUCKLE:
 			ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
 			break;
+			
+		case ItemPool.BONERDAGON_CHEST:
+			QuestDatabase.setQuestProgress( Quest.CYRPT, "step1" );
+			break;
+
+		case ItemPool.DRAGONBONE_BELT_BUCKLE:
+			QuestDatabase.setQuestProgress( Quest.CYRPT, QuestDatabase.FINISHED );
+			ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
+			break;
+
+		case ItemPool.GROARS_FUR:
+			QuestDatabase.setQuestProgress( Quest.TRAPPER, "step5" );
+			break;
+
+		case ItemPool.MISTY_CLOAK:
+		case ItemPool.MISTY_ROBE:
+		case ItemPool.MISTY_CAPE:
+
+			QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.STARTED );
+			return;
 
 		case ItemPool.QUANTUM_EGG:
 			ResultProcessor.autoCreate( ItemPool.ROWBOAT );
@@ -1272,10 +1292,6 @@ public class ResultProcessor
 		case ItemPool.HEMP_STRING:
 		case ItemPool.BONERDAGON_VERTEBRA:
 			ResultProcessor.autoCreate( ItemPool.BONERDAGON_NECKLACE );
-			break;
-			
-		case ItemPool.BONERDAGON_CHEST:
-			QuestDatabase.setQuestProgress( Quest.CYRPT, "step1" );
 			break;
 
 		case ItemPool.SNAKEHEAD_CHARM:
