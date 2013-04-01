@@ -77,6 +77,7 @@ public class CreateItemRequest
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
 	public static final Pattern WHICHITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
+	public static final Pattern WHICHROW_PATTERN = Pattern.compile( "whichrow=(\\d+)" );
 
 	public static final Pattern TARGET_PATTERN = Pattern.compile( "target=(\\d+)" );
 	public static final Pattern MODE_PATTERN = Pattern.compile( "mode=([^&]+)" );

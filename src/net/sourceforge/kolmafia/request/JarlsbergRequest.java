@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -64,7 +65,7 @@ public class JarlsbergRequest
 
 	private static final int ID_TO_ROW_DIFFERENCE = 6143;
 
-	private int idToRow( int itemId )
+	private static final int idToRow( int itemId )
 	{
 		// The cosmic six-pack is the only one not in itemId order.
 		if ( itemId == ItemPool.COSMIC_SIX_PACK )
@@ -83,6 +84,27 @@ public class JarlsbergRequest
 		}
 
 		return row;
+	}
+
+	private static final int rowToId( int row )
+	{
+		// The cosmic six-pack is the only one not in itemId order.
+		if ( row == 112 )
+		{
+			return ItemPool.COSMIC_SIX_PACK;
+		}
+
+		int itemId = row + ID_TO_ROW_DIFFERENCE;
+
+		// Mediocre lager appears in the middle of Jarlsberg consumables,
+		// but isn't available in the Cosmic Kitchen.
+		// Since it doesn't use a row, the row number of higher itemIds is shifted.
+		if ( itemId >= ItemPool.MEDIOCRE_LAGER )
+		{
+			row += 1;
+		}
+
+		return itemId;
 	}
 
 	@Override
@@ -104,15 +126,79 @@ public class JarlsbergRequest
 		super.run();
 	}
 
+	@Override
+	public void processResults()
+	{
+		JarlsbergRequest.parseResponse( this.getURLString(), this.responseText );
+	}
+
+	public static final void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=jarl" ) )
+		{
+			return;
+		}
+
+		if ( urlString.indexOf( "action=buyitem" ) == -1 )
+		{
+			return;
+		}
+
+		if ( responseText.indexOf( "You acquire" ) == -1 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Cosmic shopping was unsuccessful." );
+			return;
+		}
+
+		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		if ( !rowMatcher.find() )
+		{
+			return;
+		}
+
+		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
+		int itemId = JarlsbergRequest.rowToId( row );
+
+		CreateItemRequest jarlsItem = CreateItemRequest.getInstance( itemId );
+		if ( jarlsItem == null )
+		{
+			return; // this is an unknown item
+		}
+
+		int quantity = 1;
+		if ( urlString.contains( "buymax=" ) )
+		{
+			quantity = jarlsItem.getQuantityPossible();
+		}
+		else
+		{
+			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			if ( quantityMatcher.find() )
+			{
+				String quantityString = quantityMatcher.group( 2 ).trim();
+				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
+			}
+		}
+
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			ResultProcessor.processResult(
+				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
+		}
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher itemMatcher = CreateItemRequest.WHICHITEM_PATTERN.matcher( urlString );
-		if ( !itemMatcher.find() )
+		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		if ( !rowMatcher.find() )
 		{
 			return true;
 		}
 
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
+		int itemId = JarlsbergRequest.rowToId( row );
 
 		CreateItemRequest jarlsItem = CreateItemRequest.getInstance( itemId );
 		if ( jarlsItem == null )
@@ -149,8 +235,6 @@ public class JarlsbergRequest
 			text.append( ingredients[ i ].getCount() * quantity );
 			text.append( " " );
 			text.append( ingredients[ i ].getName() );
-			ResultProcessor.processResult(
-				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
 		}
 		text.append( " to make " ).append( quantity ).append( " " ).append( jarlsItem.getName() );
 
