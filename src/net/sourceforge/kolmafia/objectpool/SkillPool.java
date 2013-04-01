@@ -76,6 +76,7 @@ public class SkillPool
 	public static final int THICK_SKINNED = 80;
 	public static final int CHIP_ON_YOUR_SHOULDER = 81;
 	public static final int REQUEST_SANDWICH = 82;
+	public static final int DEEP_VISIONS = 90;
 	public static final int OTTER_TONGUE = 1007;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int CLOBBER = 1022;
@@ -147,6 +148,7 @@ public class SkillPool
 	public static final int BRICKOS = 8103;
 	public static final int DICE = 8104;
 	public static final int RESOLUTIONS = 8105;
+	public static final int TAFFY = 8106;
 	public static final int HILARIOUS = 8200;
 	public static final int TASTEFUL = 8201;
 	public static final int CARDS = 8202;

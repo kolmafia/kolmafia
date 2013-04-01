@@ -97,6 +97,11 @@ Mark III Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumb
 Mark IV Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumble, Item Drop: +10
 # Mark V Steam-Hat: Has a Death Ray on it
 Mark V Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumble, Item Drop: +10
+Mer-kin bunwig	Spell Damage: +20, Spell Critical Percent: +10
+Mer-kin facecowl	Mysticality Percent: +10, Spell Damage Percent: +30, MP Regen Min: 8, MP Regen Max: 12
+Mer-kin gladiator mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50
+Mer-kin headguard	PvP Fights: +2, Monster Level: +10, Weapon Damage Percent: +20
+Mer-kin scholar mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater
 Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate (Underwater): -5, Familiar Effect: "1xBarrr, ?xFairy"
 Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Moonthril Circlet	Mysticality Percent: [15*G], Familiar Effect: "2xVolley, cap 25"
@@ -156,6 +161,7 @@ coconut shell	Damage Absorption: +1, Familiar Effect: "1xFairy, cap 7"
 cold ninja mask	Initiative: +15, Familiar Effect: "cold atk, 1xBarrr, cap 20"
 cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xFairy, cap 21"
 corrosive cowl	Slime Hates It: +1, Spooky Damage: +30, Spooky Resistance: +4, Familiar Effect: "0.5xPotato, 0.5xFairy"
+crappy Mer-kin mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater
 crown-shaped beanie	Slime Resistance: +1, Food Drop: +20, Initiative: +20, Familiar Effect: "?xBarrr, ?xGhuol"
 crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
 cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
@@ -364,6 +370,8 @@ Knob Goblin pants	Muscle: +1, Familiar Effect: "atk, cap 6"
 Krakrox's Loincloth	Muscle: +11, Initiative: +15, Class: "Seal Clubber", Familiar Effect: "1xVolley, 1xPotato, cap 31"
 Leapin' Trousers	Muscle: +4, Mysticality: +4, Moxie: +4, Adventures: +1
 Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief", Familiar Effect: "atk, 1xGhuol, cap 31"
+Mer-kin gladiator tailpiece	Initiative: -25, Damage Reduction: 10, Mana Cost: +2
+Mer-kin scholar tailpiece	Initiative: -25, Mysticality Percent: +10, Mana Cost: +2
 Moonthril Greaves	Muscle Percent: [10*G], Mysticality Percent: [10*G], Moxie Percent: [10*G], Familiar Effect: "cap 25"
 Newman's Own Trousers	Mysticality: +11, MP Regen Min: 3, MP Regen Max: 7, Class: "Sauceror", Familiar Effect: "prismatic atk, hot atk, 1xPotato, cap 31"
 Ol' Scratch's ol' britches	Cold Resistance: +3, Spooky Resistance: +3, Class: "Sauceror", Familiar Effect: "hot atk, 1xPotato"
@@ -408,6 +416,7 @@ chain-mail monokini	Familiar Effect: "sleaze atk, 4xBarrr, cap 7"
 clingfilm trousers	Mysticality: +9, Familiar Effect: "sleaze atk, 1xPotato, cap 37"
 clockwork pants	Initiative: +10, Familiar Effect: "3xPotato, 1xGhuol, cap 20"
 corroded breeches	Slime Hates It: +1, Damage Absorption: +50, Critical Hit Percent: 3, Familiar Effect: "sleaze atk, 1xPotato"
+crappy Mer-kin tailpiece	Initiative: -25, Mana Cost: +2
 crotchety pants	Maximum HP: +40, Familiar Effect: "3xPotato, 1xGhuol, cap 18"
 cursed breeches	Moxie: +15, Familiar Effect: "stench atk, 1xPotato"
 demonskin trousers	Hot Resistance: +2, Familiar Effect: "hot atk, 1xPotato, cap 17"
@@ -668,8 +677,12 @@ Mafia violin case	Muscle: +20, Weapon Damage: +30
 Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 Meatcleaver	Meat Drop: +35, Weapon Damage Percent: +100
 Mer-kin digpick	Weapon Damage: +30
+Mer-kin dodgeball	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
+Mer-kin dragnet	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
+# Mer-kin finpaddle: +100 Damage vs. Mer-kin
 # Mer-kin hookspear: Extracts Meat on Critical Hits
 Mer-kin hookspear	Initiative: +20, Weapon Damage: +40
+Mer-kin switchblade	PvP Fights: +7, Muscle Percent: +30, Moxie Percent: +10
 # Meteoid ice beam: On Critical Hit Percent: Freeze Opponent
 Meteoid ice beam	Cold Damage: +20, Critical Hit Percent: +10
 # Mjolnir Jr.
@@ -1272,7 +1285,9 @@ Loathing Legion moondial	Adventures: +4, Softcore Only
 Loathing Legion pizza stone	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Damage Reduction: 6, Softcore Only
 Loathing Legion tape measure	Critical Hit Percent: 10, Softcore Only
 Medallion of the Ventrilo Prince	Moxie Percent: +12
+Mer-kin begsign	Weakens Monster, Meat Drop: [40*zone(The Sea)]
 Mer-kin roundshield	Damage Reduction: 5, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
+Mer-kin stopwatch	Adventures: +3, Initiative: [50*zone(The Sea)]
 Mer-kin takebag	Item Drop: [5+10*zone(The Sea)]
 Microplushie: Bropane	Weapon Damage: +3
 Microplushie: Dorkonide	Muscle: +1, Mysticality: +1, Moxie: +1
@@ -1687,8 +1702,12 @@ Mafia stogie	Muscle: +20, Mysticality: +20
 MagiMechTech NanoMechaMech	Single Equip
 Marvelous Unitard	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
 # Mega Gem
+Mer-kin dragbelt	Initiative: -25, Experience (Muscle): [20*zone(The Sea)], Single Equip
+Mer-kin eyeglasses	Maximum MP: -300, Experience (Mysticality): [20*zone(The Sea)], Single Equip
+Mer-kin gutgirdle	Maximum HP: -300, Experience (Moxie): [20*zone(The Sea)], Single Equip
 # Mer-kin prayerbeads: Makes you feel uneasy...
 Mer-kin prayerbeads	Single Equip
+Mer-kin waistrope	Mysticality Percent: +10
 Mesmereyes&trade; contact lenses	Mysticality Percent: +15
 Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
@@ -2903,6 +2922,7 @@ Block-Rockin' Beet	Damage Reduction: 15
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 # Bloody-minded	+50 Damage vs. Vampires
+Blue Swayed	Familiar Weight: [ceil(min(T,50)/10)], Familiar Experience: [ceil(min(T,50)/5)]
 Blue Tongue	Item Drop: +30
 # Bone Homie: Bites Your Enemies
 # Boned Up: Makes you look like a Smart Skelton
@@ -3012,6 +3032,8 @@ Concentrated Concentration	Spell Damage Percent: +20
 Concentration	Spell Damage Percent: +10
 Confused	Mysticality Percent: -30
 Consumed by Anger	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
+Cinnamon Challenger	Moxie: [ceil(min(T,50)/2)], Moxie Experience: [ceil(min(T,50)/10)]
+Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
 Consumed by Doubt	Muscle Limit: 10, Mysticality Limit: 30, Moxie Limit: 30
 Consumed by Fear	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 10
 Consumed by Regret	Muscle Limit: 30, Mysticality Limit: 10, Moxie Limit: 30
@@ -3060,6 +3082,7 @@ Deadly Flashing Blade	Weapon Damage: +10
 # Deadly Lampblade: 100% chance of poisoning opponent
 Deadly Lampblade	Spooky Damage: +75
 Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
+# Deep-Seated Rage: +100 Damage vs. Mer-kin
 Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Demonic Taint	Stench Damage: +30
 Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
@@ -3255,6 +3278,7 @@ Guanified	Stench Damage: +10, Damage Reduction: -2
 Gummibrain	Mysticality: +100
 Gummiheart	Muscle: +100
 Gummiskin	Moxie: +100
+Gutballed	Muscle Percent: -300
 Gutterminded	Sleaze Damage: +50
 Hagg-ard	Muscle: +10
 # Haiku State of Mind: large penalty to result parsing
@@ -3365,7 +3389,10 @@ Jerky, Boy	Mysticality Percent: +25
 # Jingle Jangle Jingle
 # Jinkies!: Makes you look like Norville Rogers
 Joyful Resolve	Item Drop: +15
+Juiced	Muscle Percent: -100, Mysticality Percent: -100, Moxie Percent: +200
 Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
+Juiced Newton	Muscle Percent: -100, Mysticality Percent: +200, Moxie Percent: -100
+Juiced Out	Muscle Percent: +200, Mysticality Percent: -100, Moxie Percent: -100
 # Juiced Up: Makes you a better diver
 Juiced Up	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5
 # Just the Best Anapests: Da da dee, da da dee
@@ -3468,6 +3495,7 @@ Nanobrawny	Muscle Percent: +25, Weapon Damage: +10, HP Regen Min: 4, HP Regen Ma
 Natural 1	Initiative: -100
 Natural 20	Initiative: +100
 # Nerf'd: Less powerful than you were before
+Nettled	Moxie Percent: -300
 Neuromancy	Mysticality Percent: +10
 Neutered Nostrils	Stench Resistance: +2
 New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -3507,6 +3535,7 @@ Ooh, Sour!	Stench Damage: +5
 Ooh, Sweet!	Hot Damage: +5
 Ooh, Umami!	Sleaze Damage: +5
 Optimist Primal	Familiar Weight: +5
+Orange Crusher	Muscle: [ceil(min(T,50)/2)], Muscle Experience: [ceil(min(T,50)/10)]
 Orange Tongue	Experience: +3
 Orc Chops	Muscle: +50
 Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
@@ -3572,6 +3601,7 @@ Pulchritudinous Pressure	Moxie Percent: +300
 Pumped Stomach	Adventure Underwater
 Pumped Up	Muscle: +5
 Purity of Spirit	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Purple Reign	Mysticality: [ceil(min(T,50)/2)], Mysticality Experience: [ceil(min(T,50)/10)]
 Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 # Putting the Orc in Porcine: Makes you look like a smutorc pervert
 Puzzle Fury	Spell Damage Percent: +25
@@ -3599,6 +3629,7 @@ Raving Lunatic	Weapon Damage: +20
 Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
 Really Deep Breath	Adventure Underwater
 Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
+Red Around the Gills	HP Regen Min: [140*zone(The Sea)], HP Regen Max: [150*zone(The Sea)], MP Regen Min: [140*zone(The Sea)], MP Regen Max: [150*zone(The Sea)]
 Red Door Syndrome	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 # Red Misty-Eyed: +10 Damage against Seals
 Red Misty-Eyed	Damage Reduction: 3, Muscle Percent: +50
@@ -3690,6 +3721,7 @@ Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 So Fresh and So Clean	Experience Percent (Moxie): +5
 So You Can Work More...	Meat Drop: +10
 Socialismydia	Item Drop: -50
+Soda Jerked	MP Regen Min: [ceil(min(T,50)/2)], MP Regen Max: [(min(T,50)]
 Solar Flair	Hot Damage: +20
 Sole Soul	Item Drop: [min(300,T)]
 Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
@@ -3706,6 +3738,7 @@ Song of Solitude	Combat Rate: -20
 # Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
+Sour Softshoe	Meat Drop: [2*min(T,50)2], Item Drop: [min(T,50)]
 Spangled Star	Monster Level: +10
 Sparkling Consciousness	Mysticality Percent: +100
 # Spectral: You take and deal almost no damage
@@ -3891,6 +3924,7 @@ Very Clean Teeth	Moxie: +1
 Vinegavotte	Item Drop: +20
 Violent Night	Critical Hit Percent: 5
 # Visibly Goth: Makes you look like a Goth Giant
+Visions of the Deep Dark Deeps	Spell Damage Percent: 50
 Vitamin-Maxed	Muscle Percent: +10
 Void Between the Stars	Cold Damage: +50
 Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/5)*25)]
@@ -4312,6 +4346,7 @@ Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5
 Libram of BRICKOs	Free Pull
 Libram of Candy Heart Summoning	Free Pull
 Libram of Divine Favors	Free Pull
+Libram of Pulled Taffy	Free Pull
 Libram of Resolutions	Free Pull
 # Loathing Legion jackhammer: Allows Meatsmithing without the Adventure cost (3 times a day)
 Loathing Legion jackhammer	Softcore Only
@@ -4320,8 +4355,13 @@ M-242	Effect: "Adrenaline Rush", Effect Duration: 50
 March hat	Free Pull
 Marvin's marvelous pill	Effect: "Pharmaceutically Cool", Effect Duration: 10
 Meleegra&trade; pills	Effect: "Engorged Weapon", Effect Duration: 5
+Mer-kin cooljuice	Effect: "Juiced", Effect Duration: 30
 Mer-kin fastjuice	Effect: "Juiced Up", Effect Duration: 10
 Mer-kin hidepaint	Effect: "Colorfully Concealed", Effect Duration: 10
+Mer-kin lipstick	Effect: "Red Around the Gills", Effect Duration: 25
+Mer-kin ragejuice	Effect: "Deep-Seated Rage", Effect Duration: 20
+Mer-kin smartjuice	Effect: "Juiced Newton", Effect Duration: 30
+Mer-kin strongjuice	Effect: "Juiced Out", Effect Duration: 30
 Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration: 10
 Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
 Missing Eye Simulation Device	Effect: "Gnollivision", Effect Duration: 30
@@ -4733,6 +4773,13 @@ pressurized potion of proficiency	Effect: "Proficient Pressure", Effect Duration
 pressurized potion of puissance	Effect: "Puissant Pressure", Effect Duration: [R]
 pressurized potion of pulchritude	Effect: "Pulchritudinous Pressure", Effect Duration: [R]
 probability potion	Effect: "Uncertain", Effect Duration: 10
+pulled blue taffy	Effect: "Blue Swayed", Effect Duration: 10
+pulled green taffy	Effect: "Soda Jerked", Effect Duration: 10
+pulled indigo taffy	Effect: "Closer to Fine", Effect Duration: 10
+pulled orange taffy	Effect: "Orange Crusher", Effect Duration: 10
+pulled red taffy	Effect: "Cinnamon Challenger", Effect Duration: 10
+pulled violet taffy	Effect: "Purple Reign", Effect Duration: 10
+pulled yellow taffy	Effect: "Sour Softshoe", Effect Duration: 10
 # pumpkin carriage: Allows Travel to Desert Beach
 pumpkin juice	Effect: "Juiced and Jacked", Effect Duration: 10
 puppet strings	Free Pull

@@ -1591,6 +1591,7 @@ public class ItemPool
 	public static final int DAMP_WALLET = 6313;
 	public static final int FISHY_PIPE = 6314;
 	public static final int SALTWATERBED = 6338;
+	public static final int TAFFY_BOOK = 6360;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

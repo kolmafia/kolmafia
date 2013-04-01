@@ -206,6 +206,7 @@ public class SkillDatabase
 		case SkillPool.BRICKOS:
 		case SkillPool.DICE:
 		case SkillPool.RESOLUTIONS:
+		case SkillPool.TAFFY:
 		case SkillPool.HILARIOUS:
 		case SkillPool.TASTEFUL:
 		case SkillPool.CARDS:
@@ -522,7 +523,8 @@ public class SkillDatabase
 			skillId == SkillPool.LOVE_SONG ||
 			skillId == SkillPool.BRICKOS ||
 			skillId == SkillPool.DICE ||
-			skillId == SkillPool.RESOLUTIONS;
+			skillId == SkillPool.RESOLUTIONS ||
+			skillId == SkillPool.TAFFY;
 	}
 
 	/**
@@ -925,6 +927,7 @@ public class SkillDatabase
 		case SkillPool.BRICKOS:
 		case SkillPool.DICE:
 		case SkillPool.RESOLUTIONS:
+		case SkillPool.TAFFY:
 		case SkillPool.HILARIOUS:
 		case SkillPool.TASTEFUL:
 		case SkillPool.CARDS:
@@ -966,6 +969,8 @@ public class SkillDatabase
 			return ItemPool.DICE_BOOK;
 		case SkillPool.RESOLUTIONS:
 			return ItemPool.RESOLUTION_BOOK;
+		case SkillPool.TAFFY:
+			return ItemPool.TAFFY_BOOK;
 		case SkillPool.HILARIOUS:
 			return ItemPool.HILARIOUS_BOOK;
 		case SkillPool.TASTEFUL:

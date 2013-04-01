@@ -104,6 +104,7 @@
 87	Walberg's Dim Bulb	3	5	10
 88	Singer's Faithful Ocelot	3	15	10
 89	Drescher's Annoying Noise	3	40	20
+90	Deep Dark Visions	3	100	10
 
 # Skills available to Clubbers
 
@@ -446,6 +447,7 @@
 8103	Summon BRICKOs	1	0	0
 8104	Summon Dice	1	0	0
 8105	Summon Resolutions	1	0	0
+8106	Summon Taffy	1	0	0
 8200	Summon Hilarious Objects	1	5	0
 8201	Summon Tasteful Items	1	5	0
 8202	Summon Alice's Army Cards	1	5	0

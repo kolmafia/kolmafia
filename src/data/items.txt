@@ -4218,8 +4218,8 @@
 4201	gill rings	464741399	gillrings.gif	familiar	t,d	75	sets of gill rings
 4202	urchin roe	986186555	roe.gif	grow	t,d	250	urchin roes
 4203	pet anemone	160469192	petanemone.gif	familiar	t,d	75	pet anemones
-4204
-4205
+4204	Mer-kin cheatsheet	713947131	document.gif	none	t,d	24
+4205	Mer-kin wordquiz	279947761	documents.gif	usable	t,d	31	Mer-kin wordquizzes
 4206	brand new key	838598305	brandnewkey.gif	weapon	t,d	125	brand new keys
 4207	brass dorsal fin	731630219	brassfin.gif	offhand	t,d	95	brass dorsal fins
 4208	skate skates	255858390	skateskates.gif	none, combat	t,d	160	pairs of skate skates
@@ -4293,22 +4293,22 @@
 4276	Underworld truncheon	544431849	ut_club.gif	weapon	t	0	Underworld truncheons
 4277	Staff of the Woodfire	852145313	ut_staff.gif	weapon	t	0	Staves of the Woodfire
 4278	Underworld flail	229893442	ut_flail.gif	weapon	t	0	Underworld flails
-4279
-4280
-4281
-4282
-4283
-4284
-4285
-4286
-4287
-4288
-4289
-4290
-4291
-4292
-4293
-4294
+4279	Mer-kin cancerstick	131314216	cancerstick.gif	usable	t	0
+4280	Mer-kin sawdust	388964889	sawdustbag.gif	none, combat	t,d	18
+4281	Mer-kin bunwig	513158697	bunwig.gif	hat	t,d	86
+4282	crappy Mer-kin mask	898158960	merkinmask.gif	hat		0
+4283	crappy Mer-kin tailpiece	219864306	tailpiece.gif	pants		0
+4284	Mer-kin gladiator mask	250428951	gladmask.gif	hat		0
+4285	Mer-kin scholar mask	811744187	scholarmask.gif	hat		0
+4286	Mer-kin gladiator tailpiece	824557438	tailpiece_g.gif	pants		0
+4287	Mer-kin scholar tailpiece	873915410	tailpiece_s.gif	pants		0
+4288	Mer-kin headguard	899134630	headguard.gif	hat	d	105
+4289	Mer-kin waistrope	645327600	waistrope.gif	accessory	d	110
+4290	Mer-kin facecowl	441778457	facecowl.gif	hat	d	115
+4291	Mer-kin thighguard	510636820	thighguard.gif	accessory	d	100
+4292	Mer-kin dodgeball	144454609	dodgeball.gif	weapon	d	120
+4293	Mer-kin dragnet	165189932	dragnet.gif	weapon	d	120
+4294	Mer-kin switchblade	467607496	switchblade.gif	weapon	d	120
 4295	crystal orb of spirit wrangling	169672274	spiritorb.gif	reusable	q	0
 4296	depleted uranium seal figurine	663964652	sealfiguran.gif	reusable	d	170	depleted uranium seal figurines
 4297
@@ -6331,7 +6331,7 @@
 6314	fishy pipe	330990978	corncobpipe.gif	reusable	0	fishy pipes
 6315	old SCUBA tank	613342976	scuba.gif	container	q	0
 6316	deep six-shooter	507699686	sixshooter.gif	weapon	t,d	220	deep six-shooters
-6317	sea chaps	424923166	seachaps.gif	pants	t,d	180
+6317	sea chaps	424923166	seachaps.gif	pants	t,d	180	pairs of sea chaps
 6318
 6319	shavin' razor	800695737	straightrazor.gif	usable	t,d	60	shavin' razors
 6320	long-forgotten necklace	880037954	lostnecklace.gif	accessory	t,d	1000	long-forgotten necklaces
@@ -6353,3 +6353,33 @@
 6336	sea shawl	509681026	seaback2.gif	container	d	150	sea shawls
 6337	sea cape	584242832	seaback3.gif	container	d	150	sea capes
 6338	saltwaterbed	530970383	waterbed.gif	usable	d	1000	saltwaterbeds
+6339
+6340
+6341
+6342
+6343	Mer-kin lipstick	812557492	lipstick.gif	usable	t,d	45
+6344	Mer-kin mouthsoap	922856345	merkinsoap.gif	none, combat	t,d	33
+6345	Mer-kin strongjuice	425613279	potion13.gif	usable	t,d	44
+6346	Mer-kin fitbrine	588060401	monstar.gif	usable	t,d	38
+6347	Mer-kin ragejuice	987788255	potion15.gif	usable	t,d	42
+6348	Mer-kin dragbelt	644915247	merkinbelt.gif	accessory	t,d	74
+6349	Mer-kin eyeglasses	921916806	spectacles.gif	accessory	t,d	82
+6350	Mer-kin gutgirdle	692436762	merkingirdle.gif	accessory	t,d	69
+6351	Mer-kin finpaddle	446528354	paddle.gif	weapon	t,d	95
+6352	Mer-kin stopwatch	599355664	watch.gif	offhand	t,d	96
+6353	Mer-kin dreadscroll	943310239	merkinscroll.gif	usable	q	0
+6354	Mer-kin smartjuice	900191991	potion16.gif	usable	t,d	39
+6355	Mer-kin cooljuice	535406499	potion17.gif	usable	t,d	51
+6356	Mer-kin worktea	120705144	coffeecup.gif	usable	t,d	39
+6357	Mer-kin knucklebone	112624608	knucklebone.gif	usable	d	300
+6358	Mer-kin darkbook	452271245	book2.gif	usable	d	85
+6359	Mer-kin begsign	552529237	boozesign.gif	offhand	t,d	12
+6360	Libram of Pulled Taffy	572350270	book4.gif	usable	t	0	Librams of Pulled Taffy
+6361	pulled yellow taffy	798602407	taffy1.gif	usable, combat	t,d	5	pulled yellow taffies
+6362	pulled indigo taffy	767315948	taffy2.gif	usable, combat	t,d	5	pulled indigo taffies
+6363	pulled green taffy	836415759	taffy3.gif	usable, combat	t,d	5	pulled green taffies
+6364	pulled blue taffy	454623779	taffy4.gif	usable, combat	t,d	5	pulled blue taffies
+6365	pulled orange taffy	667566585	taffy5.gif	usable, combat	t,d	5	pulled orange taffies
+6366	pulled violet taffy	469187244	taffy6.gif	usable, combat	t,d	5	pulled violet taffies
+6367	pulled red taffy	340638314	taffy7.gif	usable, combat	t,d	5	pulled red taffies
+6368	Mer-kin hallpass	492118546	lamcard.gif	none	t,d	35
