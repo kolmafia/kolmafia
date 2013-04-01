@@ -112,6 +112,7 @@ public class UseSkillRequest
 		"Summon BRICKOs",
 		"Summon Dice",
 		"Summon Resolutions",
+		"Summon Taffy",
 	};
 
 	public static final String[] GRIMOIRE_SKILLS =
@@ -236,23 +237,8 @@ public class UseSkillRequest
 
 	private static String chooseURL( final String skillName )
 	{
-		switch ( SkillDatabase.getSkillId( skillName ) )
+		if ( SkillDatabase.isBookshelfSkill( skillName ) )
 		{
-		case SkillPool.SNOWCONE:
-		case SkillPool.STICKER:
-		case SkillPool.SUGAR:
-		case SkillPool.CLIP_ART:
-		case SkillPool.RAD_LIB:
-		case SkillPool.HILARIOUS:
-		case SkillPool.TASTEFUL:
-		case SkillPool.GEEKY:
-		case SkillPool.CARDS:
-		case SkillPool.CANDY_HEART:
-		case SkillPool.PARTY_FAVOR:
-		case SkillPool.LOVE_SONG:
-		case SkillPool.BRICKOS:
-		case SkillPool.DICE:
-		case SkillPool.RESOLUTIONS:
 			return "campground.php";
 		}
 
@@ -321,6 +307,10 @@ public class UseSkillRequest
 
 		case SkillPool.RESOLUTIONS:
 			this.addFormField( "preaction", "summonresolutions" );
+			break;
+
+		case SkillPool.TAFFY:
+			this.addFormField( "preaction", "summontaffy" );
 			break;
 
 		default:
@@ -646,6 +636,10 @@ public class UseSkillRequest
 			boolean haveCream = KoLConstants.inventory.contains( ItemPool.get( ItemPool.COSMIC_CREAM, 1 ) );
 			boolean creampuffActive = KoLCharacter.getCompanion() == Companion.CREAM;
 			maximumCast = ( haveCream && !creampuffActive ) ? 1 : 0;
+			break;
+
+		case SkillPool.DEEP_VISIONS:
+			maximumCast = KoLCharacter.getMaximumHP() >= 500 ? 1 : 0;
 			break;
 		}
 
@@ -1678,19 +1672,6 @@ public class UseSkillRequest
 			Preferences.increment( "_candySummons", 1 );
 			break;
 
-		case SkillPool.BRICKOS:
-		case SkillPool.CANDY_HEART:
-		case SkillPool.PARTY_FAVOR:
-		case SkillPool.LOVE_SONG:
-		case SkillPool.DICE:
-		case SkillPool.RESOLUTIONS:
-			int cast = Preferences.getInteger( "libramSummons" );
-			mpCost = SkillDatabase.libramSkillMPConsumption( cast + 1, count );
-			Preferences.increment( "libramSummons", count );
-			KoLConstants.summoningSkills.sort();
-			KoLConstants.usableSkills.sort();
-			break;
-
 		case SkillPool.CONJURE_EGGS:
 			Preferences.setBoolean( "_jarlsEggsSummoned", true );
 			break;
@@ -1728,6 +1709,15 @@ public class UseSkillRequest
 		case SkillPool.CREAMPUFF:
 			ResultProcessor.removeItem( ItemPool.COSMIC_CREAM );
 			break;
+		}
+
+		if ( SkillDatabase.isLibramSkill( skillId ) )
+		{
+			int cast = Preferences.getInteger( "libramSummons" );
+			mpCost = SkillDatabase.libramSkillMPConsumption( cast + 1, count );
+			Preferences.increment( "libramSummons", count );
+			KoLConstants.summoningSkills.sort();
+			KoLConstants.usableSkills.sort();
 		}
 
 		ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
@@ -1829,6 +1819,11 @@ public class UseSkillRequest
 		if ( action.equals( "resolutions" ) )
 		{
 			return SkillPool.RESOLUTIONS;
+		}
+
+		if ( action.equals( "taffy" ) )
+		{
+			return SkillPool.TAFFY;
 		}
 
 		return -1;

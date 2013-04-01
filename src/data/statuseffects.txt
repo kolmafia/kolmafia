@@ -1209,3 +1209,28 @@
 1208
 1209	Hairless and Airless	straightrazor.gif	edaf797fe4b12d4c164629ca854e9c8e	use 1 shavin' razor
 1210	Eyes of the Dragon	bigeyes.gif	65576acd816de24deaa2c8d48c31ea88
+1211
+1212
+1213
+1214
+1215
+1216
+1217
+1218	Red Around the Gills	lipstick.gif	fd562a81c2d80434b06074afa0136c81	use 1 Mer-kin lipstick
+1219	Deep-Seated Rage	angry.gif	8156c5a5f858c481e6124a9fc7a15701	use 1 Mer-kin ragejuice
+1220	Juiced Out	strboost.gif	73d698c5f570c9761b6ef42f71a8f74a	use 1 Mer-kin strongjuice
+1221	Juiced Newton	applesticker.gif	b2238718dc0e17944de49267d1b6bf10	use 1 Mer-kin smartjuice
+1222	Juiced	wink.gif	251475c81051c45bdfbb438e89954d8f	use 1 Mer-kin cooljuice
+1223	Gutballed	dodgeball.gif	975e6ae633c34542ba8a809b5cfd6ead
+1224	Nettled	beatenup.gif	b141f7a3e4c9411996f111a18c867cf8
+1225
+1226
+1227
+1228	Visions of the Deep Dark Deeps	darkvision.gif	c3ff1a8473de3cfec2c8c4184475de37	cast 1 Deep Dark Visions
+1229	Sour Softshoe	taffy1.gif	837a60557fd5ce14e49b32aac622e5ed	use 1 pulled yellow taffy
+1230	Closer to Fine	taffy2.gif	c53220215f04424a5e2431172b7f8958	use 1 pulled indigo taffy
+1231	Soda Jerked	taffy3.gif	0887dda18b1adaefb5020bc96e51cb86	use 1 pulled green taffy
+1232	Blue Swayed	taffy4.gif	9ce6c87ef4ffb762a9774369c6ae9ea2	use 1 pulled blue taffy
+1233	Orange Crusher	taffy5.gif	92175ee27bcc826548408f45a395a01e	use 1 pulled orange taffy
+1234	Purple Reign	taffy6.gif	a860fef0fe00c90cca8c5d5e0024e31f	use 1 pulled violet taffy
+1235	Cinnamon Challenger	taffy7.gif	49df339b1c0346553b3e69368dfd3a7d	use 1 pulled red taffy

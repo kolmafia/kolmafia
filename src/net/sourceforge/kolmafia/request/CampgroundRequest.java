@@ -60,7 +60,7 @@ public class CampgroundRequest
 	extends GenericRequest
 {
 	private static final Pattern LIBRAM_PATTERN =
-		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song|BRICKOs|Dice|Resolutions) *.[(]([\\d,]+) MP[)]" );
+		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song|BRICKOs|Dice|Resolutions|Taffy) *.[(]([\\d,]+) MP[)]" );
 	private static final Pattern HOUSING_PATTERN =
 		Pattern.compile( "/rest(\\d+|a)(tp)?(_free)?.gif" );
 	private static final Pattern FURNISHING_PATTERN =
@@ -898,6 +898,10 @@ public class CampgroundRequest
 			"Libram of Resolutions",
 			"Summon Resolutions"
 		},
+		{
+			"Libram of Pulled Taffy",
+			"Summon Taffy"
+		}
 	};
 
 	private static void parseBookTitles( final String responseText )

@@ -4348,6 +4348,8 @@ public class UseItemRequest
 			return "Summon Dice";
 		case ItemPool.RESOLUTION_BOOK:
 			return "Summon Resolutions";
+		case ItemPool.TAFFY_BOOK:
+			return "Summon Taffy";
 		case ItemPool.JEWELRY_BOOK:
 			return "Really Expensive Jewelrycrafting";
 		case ItemPool.OLFACTION_BOOK:
