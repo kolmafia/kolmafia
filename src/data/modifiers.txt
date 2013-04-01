@@ -3721,7 +3721,7 @@ Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 So Fresh and So Clean	Experience Percent (Moxie): +5
 So You Can Work More...	Meat Drop: +10
 Socialismydia	Item Drop: -50
-Soda Jerked	MP Regen Min: [ceil(min(T,50)/2)], MP Regen Max: [(min(T,50)]
+Soda Jerked	MP Regen Min: [ceil(min(T,50)/2)], MP Regen Max: [min(T,50]
 Solar Flair	Hot Damage: +20
 Sole Soul	Item Drop: [min(300,T)]
 Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
@@ -3738,7 +3738,7 @@ Song of Solitude	Combat Rate: -20
 # Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
-Sour Softshoe	Meat Drop: [2*min(T,50)2], Item Drop: [min(T,50)]
+Sour Softshoe	Meat Drop: [2*min(T,50)], Item Drop: [min(T,50)]
 Spangled Star	Monster Level: +10
 Sparkling Consciousness	Mysticality Percent: +100
 # Spectral: You take and deal almost no damage
