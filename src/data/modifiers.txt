@@ -3721,7 +3721,7 @@ Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 So Fresh and So Clean	Experience Percent (Moxie): +5
 So You Can Work More...	Meat Drop: +10
 Socialismydia	Item Drop: -50
-Soda Jerked	MP Regen Min: [ceil(min(T,50)/2)], MP Regen Max: [min(T,50]
+Soda Jerked	MP Regen Min: [ceil(min(T,50)/2)], MP Regen Max: [min(T,50)]
 Solar Flair	Hot Damage: +20
 Sole Soul	Item Drop: [min(300,T)]
 Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
