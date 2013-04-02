@@ -101,7 +101,7 @@ public class JarlsbergRequest
 		// Since it doesn't use a row, the row number of higher itemIds is shifted.
 		if ( itemId >= ItemPool.MEDIOCRE_LAGER )
 		{
-			row += 1;
+			itemId += 1;
 		}
 
 		return itemId;
