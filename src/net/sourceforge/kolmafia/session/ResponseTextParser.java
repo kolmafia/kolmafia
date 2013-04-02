@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.HiddenCityRequest;
+import net.sourceforge.kolmafia.request.JarlsbergRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -687,6 +688,7 @@ public class ResponseTextParser
 		else if ( location.startsWith( "shop.php" ) )
 		{
 			NPCPurchaseRequest.parseShopResponse( location, responseText );
+			JarlsbergRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "skills.php" ) )
