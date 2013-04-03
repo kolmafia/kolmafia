@@ -456,7 +456,7 @@ Generic Duck	Atk: 167 Def: 154 HP: 180 Meat: 70-80 P: beast
 Ghastly Organist	Atk: 110 Def: 99 HP: 120 Init: 50 P: undead	opera mask (20)
 Ghost	Atk: 75 Def: 67 HP: 80 P: undead	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)
 Ghost Miner	Atk: 30 Def: 27 HP: 31 Init: 50 E: spooky Phys: 100 P: undead	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
-Ghostly Pickle Factory Worker	BOSS HP: 180 Def: 176 Atk: 196 Init: 70 P: undead	ghost cucumber (50)	ghost cucumber (20)
+Ghostly Pickle Factory Worker	BOSS HP: 180 Def: 180 Atk: 200 Init: 70 P: undead	ghost cucumber (50)	ghost cucumber (20)
 Ghuol	Atk: 19 Def: 17 HP: 10 E: spooky Meat: 30-36 P: undead	ghuol egg (25)	ghuol ears (25)
 Giant Bee	Atk: 99999 Def: 89999 HP: [99999] Init: 0
 Giant Bird-Creature	Atk: 100 Def: 81 HP: 90 Init: 80 P: beast
@@ -974,7 +974,7 @@ Vengeful Turtle Spectre	Atk: 21 Def: 18 HP: 18 Init: 20 P: undead	a creased pape
 Vicious Easel	Atk: 99999 Def: 89999 HP: [99999] Init: 0
 Vicious Gnauga	Atk: 45 Def: 36 HP: 40 Init: 60 P: beast	gnauga hide (10)
 Victor the Insult Comic Hellhound	BOSS Atk: 70 Def: 63 HP: 70 Init: 50 P: demon	Victor, the Insult Comic Hellhound Puppet (100)
-Vine Gar	BOSS HP: 180 Def: 176 Atk: 196 Init: 70 P: beast	vinegar (50)	vinegar (20)
+Vine Gar	BOSS HP: 180 Def: 180 Atk: 200 Init: 70 P: beast	vinegar (50)	vinegar (20)
 Violent Fungus	Atk: 20 Def: 18 HP: 25 Init: 50 P: plant	memory of some delicious amino acids (30)	memory of some delicious amino acids (30)
 W Imp	Atk: 40 Def: 36 HP: 40 Init: 60 E: hot Meat: 24-36 P: demon	Imp Ale (30)	ruby W (30)	wussiness potion (30)	infernal fife (10)
 Wacky Pirate	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 64-96 P: pirate	cannonball charrrm (10)	yohohoyo (5)
