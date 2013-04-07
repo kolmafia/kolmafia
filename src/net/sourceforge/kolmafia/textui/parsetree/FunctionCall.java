@@ -85,52 +85,52 @@ public class FunctionCall
 			return null;
 		}
 
-		interpreter.traceIndent();
-
-		// Save current variable bindings
-		this.target.saveBindings( interpreter );
-
-		Iterator valIterator = this.params.iterator();
-		Value [] values = new Value[ params.size() ];
-		int paramCount = 0;
-
-		while ( valIterator.hasNext() )
-		{
-			Value paramValue = (Value) valIterator.next();
-			++paramCount;
-
-			if ( interpreter.isTracing() )
-			{
-				interpreter.trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
-			}
-
-			Value value = paramValue.execute( interpreter );
-			interpreter.captureValue( value );
-			if ( value == null )
-			{
-				value = DataTypes.VOID_VALUE;
-			}
-
-			if ( interpreter.isTracing() )
-			{
-				interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
-			}
-
-			if ( interpreter.getState() == Interpreter.STATE_EXIT )
-			{
-				this.target.restoreBindings( interpreter );
-				interpreter.traceUnindent();
-				return null;
-			}
-
-			values[ paramCount -1 ] = value;
-		}
-
 		// If multiple threads call the same function, they must execute sequentially.  
 		// Otherwise variables from early threads will be bound to values from the later threads.
 		// Therefore, block other threads from obtaining the monitor to this.target function until we're done executing it here.
 		synchronized ( this.target )
 		{
+			interpreter.traceIndent();
+
+			// Save current variable bindings
+			this.target.saveBindings( interpreter );
+
+			Iterator valIterator = this.params.iterator();
+			Value[] values = new Value[ params.size() ];
+			int paramCount = 0;
+
+			while ( valIterator.hasNext() )
+			{
+				Value paramValue = (Value) valIterator.next();
+				++paramCount;
+
+				if ( interpreter.isTracing() )
+				{
+					interpreter.trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
+				}
+
+				Value value = paramValue.execute( interpreter );
+				interpreter.captureValue( value );
+				if ( value == null )
+				{
+					value = DataTypes.VOID_VALUE;
+				}
+
+				if ( interpreter.isTracing() )
+				{
+					interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
+				}
+
+				if ( interpreter.getState() == Interpreter.STATE_EXIT )
+				{
+					this.target.restoreBindings( interpreter );
+					interpreter.traceUnindent();
+					return null;
+				}
+
+				values[ paramCount - 1 ] = value;
+			}
+
 			Iterator refIterator = this.target.getReferences();
 			paramCount = 0;
 			while ( refIterator.hasNext() )

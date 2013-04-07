@@ -47,7 +47,7 @@ public class UserDefinedFunction
 	extends Function
 {
 	private Scope scope;
-	private final Stack callStack;
+	private final Stack<ArrayList<Value>> callStack;
 
 	public UserDefinedFunction( final String name, final Type type,
 		final VariableReferenceList variableReferences )
@@ -55,7 +55,7 @@ public class UserDefinedFunction
 		super( name, type, variableReferences );
 
 		this.scope = null;
-		this.callStack = new Stack();
+		this.callStack = new Stack<ArrayList<Value>>();
 	}
 
 	public void setScope( final Scope s )
@@ -76,7 +76,7 @@ public class UserDefinedFunction
 			return;
 		}
 		
-		ArrayList values = new ArrayList();
+		ArrayList<Value> values = new ArrayList<Value>();
 
 		Iterator scopes = this.scope.getScopes();
 		while ( scopes.hasNext() )
@@ -103,7 +103,7 @@ public class UserDefinedFunction
 			return;
 		}
 
-		ArrayList values = (ArrayList) this.callStack.pop();
+		ArrayList<Value> values = this.callStack.pop();
 		int i = 0;
 
 		Iterator scopes = this.scope.getScopes();
@@ -116,7 +116,7 @@ public class UserDefinedFunction
 				Variable current = (Variable) variables.next();
 				if ( !current.isStatic() )
 				{
-					current.forceValue( (Value) values.get( i++ ) );
+					current.forceValue( values.get( i++ ) );
 				}
 			}
 		}
