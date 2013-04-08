@@ -2374,6 +2374,7 @@ Snow Suit	Familiar Weight: [max(5,20-floor(pref(_snowSuitCount)/5))], Softcore O
 Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Generic
 affordable teak perch	Familiar Weight: +5
 amphibious tophat	Underwater Familiar, Equips On: "Dancing Frog", Familiar Effect: "adventure underwater"
+anniversary tiny latex mask	Familiar Weight: +1, Generic
 annoying pitchfork	Monster Level: +5, Generic
 ant antidepressant	Familiar Weight: +5
 # ant hoe: Your familiar will sow pain and reap Meat.
