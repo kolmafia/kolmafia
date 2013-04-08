@@ -49,14 +49,14 @@ public class LibraryFunction
 	extends Function
 {
 	private Method method;
-	private final Object[] values;
+	private int paramCount;
 
 	public LibraryFunction( final String name, final Type type, final Type[] params )
 	{
 		super( name.toLowerCase(), type );
 
-		this.values = new Object[ params.length + 1];
-		Class[] args = new Class[ params.length + 1 ];
+		this.paramCount = params.length;
+		Class[] args = new Class[ this.paramCount + 1 ];
 
 		args[ 0 ] = Interpreter.class;
 		for ( int i = 1; i <= params.length; ++i )
@@ -100,19 +100,20 @@ public class LibraryFunction
 		}
 
 		// Dereference variables and pass ScriptValues to function
+		Object[] values = new Object[ this.paramCount + 1];
+		values[ 0 ] = interpreter;
 
 		Iterator it = this.variableReferences.iterator();
-		this.values[ 0 ] = interpreter;
 		for ( int i = 1; it.hasNext(); ++i )
 		{
 			VariableReference current = (VariableReference) it.next();
-			this.values[ i ] = current.getValue( interpreter );
+			values[ i ] = current.getValue( interpreter );
 		}
 
 		try
 		{
 			// Invoke the method
-			return (Value) this.method.invoke( this, (Object []) this.values );
+			return (Value) this.method.invoke( this, (Object []) values );
 		}
 		catch ( InvocationTargetException e )
 		{
