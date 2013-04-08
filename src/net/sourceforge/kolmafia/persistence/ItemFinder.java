@@ -327,7 +327,7 @@ public class ItemFinder
 			return;
 		}
 
-		// Never match against untradeable items not available
+		// Never match against (non-quest) untradeable items not available
 		// in NPC stores when other items are possible.
 		// This can be overridden by adding "matchable" as a secondary
 		// use; this is needed for untradeables that do need to be
@@ -343,7 +343,7 @@ public class ItemFinder
 
 			conditionalRemove( nameIterator, itemId != -1 &&
 				!ItemDatabase.getAttribute( itemId,
-					ItemDatabase.ATTR_TRADEABLE | ItemDatabase.ATTR_MATCHABLE ) &&
+					ItemDatabase.ATTR_TRADEABLE | ItemDatabase.ATTR_MATCHABLE | ItemDatabase.ATTR_QUEST ) &&
 				!NPCStoreDatabase.contains( itemName ) );
 		}
 	}
