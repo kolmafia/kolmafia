@@ -1492,6 +1492,12 @@ public class FamiliarTrainingFrame
 		// Run the match
 		GenericRequest request = new CakeArenaRequest( opponent.getId(), match );
 		RequestThread.postRequest( request );
+		
+		// If the request failed to produce responseText, bail
+		if ( request.responseText == null )
+		{
+			return 0;
+		}
 
 		// Pass the response text to the FamiliarStatus to
 		// add familiar items and deduct a turn.
