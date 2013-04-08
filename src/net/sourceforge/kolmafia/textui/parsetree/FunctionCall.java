@@ -91,7 +91,7 @@ public class FunctionCall
 		this.target.saveBindings( interpreter );
 
 		Iterator valIterator = this.params.iterator();
-		Value [] values = new Value[ params.size() ];
+		Value[] values = new Value[ params.size() ];
 		int paramCount = 0;
 
 		while ( valIterator.hasNext() )
@@ -123,73 +123,67 @@ public class FunctionCall
 				return null;
 			}
 
-			values[ paramCount -1 ] = value;
+			values[ paramCount - 1 ] = value;
 		}
 
-		// If multiple threads call the same function, they must execute sequentially.  
-		// Otherwise variables from early threads will be bound to values from the later threads.
-		// Therefore, block other threads from obtaining the monitor to this.target function until we're done executing it here.
-		synchronized ( this.target )
+		Iterator refIterator = this.target.getReferences();
+		paramCount = 0;
+		while ( refIterator.hasNext() )
 		{
-			Iterator refIterator = this.target.getReferences();
-			paramCount = 0;
-			while ( refIterator.hasNext() )
-			{
-				VariableReference paramVarRef = (VariableReference) refIterator.next();
-				Value value = values[ paramCount ];
-				++paramCount;
+			VariableReference paramVarRef = (VariableReference) refIterator.next();
+			Value value = values[ paramCount ];
+			++paramCount;
 
-				// Bind parameter to new value
-				paramVarRef.setValue( interpreter, value );
-			}
-
-			if ( interpreter.isTracing() )
-			{
-				interpreter.trace( "Entering function " + this.target.getName() );
-			}
-
-			interpreter.setLineAndFile( this.fileName, this.lineNumber );
-
-			Value result;
-			Profiler prev = interpreter.profiler;
-			if ( prev != null )
-			{
-				long t0 = System.nanoTime();
-				prev.net += t0 - prev.net0;
-				Profiler curr = Profiler.create( this.target.getSignature() );
-				curr.net0 = t0;
-				interpreter.profiler = curr;
-
-				result = this.target.execute( interpreter );
-
-				long t1 = System.nanoTime();
-				prev.net0 = t1;
-				interpreter.profiler = prev;
-				curr.total = t1 - t0;
-				curr.net += t1 - curr.net0;
-				curr.finish();
-			}
-			else
-			{
-				result = this.target.execute( interpreter );
-			}
-
-			if ( interpreter.isTracing() )
-			{
-				interpreter.trace( "Function " + this.target.getName() + " returned: " + result );
-			}
-
-			if ( interpreter.getState() != Interpreter.STATE_EXIT )
-			{
-				interpreter.setState( Interpreter.STATE_NORMAL );
-			}
-
-			// Restore initial variable bindings
-			this.target.restoreBindings( interpreter );
-			interpreter.traceUnindent();
-
-			return result;
+			// Bind parameter to new value
+			paramVarRef.setValue( interpreter, value );
 		}
+
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Entering function " + this.target.getName() );
+		}
+
+		interpreter.setLineAndFile( this.fileName, this.lineNumber );
+
+		Value result;
+		Profiler prev = interpreter.profiler;
+		if ( prev != null )
+		{
+			long t0 = System.nanoTime();
+			prev.net += t0 - prev.net0;
+			Profiler curr = Profiler.create( this.target.getSignature() );
+			curr.net0 = t0;
+			interpreter.profiler = curr;
+
+			result = this.target.execute( interpreter );
+
+			long t1 = System.nanoTime();
+			prev.net0 = t1;
+			interpreter.profiler = prev;
+			curr.total = t1 - t0;
+			curr.net += t1 - curr.net0;
+			curr.finish();
+		}
+		else
+		{
+			result = this.target.execute( interpreter );
+		}
+
+		if ( interpreter.isTracing() )
+		{
+			interpreter.trace( "Function " + this.target.getName() + " returned: " + result );
+		}
+
+		if ( interpreter.getState() != Interpreter.STATE_EXIT )
+		{
+			interpreter.setState( Interpreter.STATE_NORMAL );
+		}
+
+		// Restore initial variable bindings
+		this.target.restoreBindings( interpreter );
+		interpreter.traceUnindent();
+
+		return result;
 	}
 
 	@Override
