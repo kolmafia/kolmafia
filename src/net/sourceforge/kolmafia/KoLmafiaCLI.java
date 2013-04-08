@@ -729,6 +729,7 @@ public class KoLmafiaCLI
 		new EnableCommand().register( "enable" ).register( "disable" );
 		new EnthroneCommand().register( "enthrone" );
 		new EquipCommand().register( "equip" ).register( "wear" ).register( "wield" );
+		new EudoraCommand().register( "eudora" ).register( "correspondent" );
 		new EventsCommand().register( "events" );
 		new ExitCommand().register( "exit" ).register( "quit" );
 		new ExtendEffectCommand().register( "up" );
