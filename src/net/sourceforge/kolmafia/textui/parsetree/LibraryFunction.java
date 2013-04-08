@@ -49,14 +49,12 @@ public class LibraryFunction
 	extends Function
 {
 	private Method method;
-	private int paramCount;
 
 	public LibraryFunction( final String name, final Type type, final Type[] params )
 	{
 		super( name.toLowerCase(), type );
 
-		this.paramCount = params.length;
-		Class[] args = new Class[ this.paramCount + 1 ];
+		Class[] args = new Class[ params.length + 1 ];
 
 		args[ 0 ] = Interpreter.class;
 
