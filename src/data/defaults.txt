@@ -892,6 +892,7 @@ user	_psychoJarFilled	false
 user	_psychoJarUsed	false
 user	_radlibSummons	0
 user	_raindohCopiesMade	0
+user	_raveStealCount	0
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
 user	_riftletAdv	0

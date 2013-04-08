@@ -929,6 +929,17 @@ public class FightRequest
 				return;
 			}
 
+			// There is a limit on the number of Rave Steals
+			String raveSteal = DiscoCombatHelper.COMBOS[ DiscoCombatHelper.RAVE_STEAL ] [ 0 ];
+			if ( DiscoCombatHelper.disambiguateCombo( name ).equals( raveSteal ) &&
+			     !DiscoCombatHelper.canRaveSteal() )
+			{
+				RequestLogger.printLine( "rave steal identified" );
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+
 			StringBuffer macro = new StringBuffer();
 
 			Macrofier.macroCommon( macro );

@@ -415,7 +415,18 @@ public class Macrofier
 			int[] combo = DiscoCombatHelper.getCombo( action.substring( 6 ) );
 			if ( combo != null )
 			{
-				Macrofier.macroCombo( macro, combo );
+				String name = action.substring( 6 );
+				String raveSteal = DiscoCombatHelper.COMBOS[ DiscoCombatHelper.RAVE_STEAL ] [ 0 ];
+				if ( DiscoCombatHelper.disambiguateCombo( name ).equals( raveSteal ) &&
+					 !DiscoCombatHelper.canRaveSteal() )
+				{
+					// There the limit on the number of Rave Steals has been reached,
+					// no point in executing the combo.
+				}
+				else
+				{
+					Macrofier.macroCombo( macro, combo );
+				}
 			}
 		}
 		else if ( action.startsWith( "skill" ) )

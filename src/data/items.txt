@@ -3854,7 +3854,7 @@
 3837	anniversary safety glass vest	744630945	glassvest.gif	shirt		0	anniversary safety glass vests
 3838	anniversary burlap belt	612792894	burlapbelt.gif	accessory		0	anniversary burlap belts
 3839	anniversary balsa wood socks	843314870	woodsocks.gif	accessory		0	pairs of anniversary balsa wood socks
-3840
+3840	anniversary tiny latex mask	458954233	tinymask.gif	familiar	0
 3841
 3842	out-of-tune biwa	629789423	biwa.gif	weapon	t,d	24	out-of-tune biwas
 3843	dented harmonica	295683337	smallharmonica.gif	weapon	t,d	12	dented harmonicas

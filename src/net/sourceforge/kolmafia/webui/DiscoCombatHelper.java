@@ -40,6 +40,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -301,6 +303,25 @@ public class DiscoCombatHelper
 			}
 		}
 		return -1;
+	}
+
+	public static boolean canRaveSteal()
+	{
+		if ( Preferences.getInteger( "_raveStealCount" ) < 30 )
+		{
+			return true;
+		}
+
+		// Rave Steal in the volcano island always works
+		String encounter = MonsterStatusTracker.getLastMonsterName();
+		if ( encounter.equalsIgnoreCase( "Breakdancing Raver" ) ||
+			 encounter.equalsIgnoreCase( "Pop-and-Lock Raver" ) ||
+			 encounter.equalsIgnoreCase( "Running Man" ) )
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	public static String disambiguateCombo( String name )
@@ -617,6 +638,27 @@ public class DiscoCombatHelper
 			String message = buffer.toString();
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
+		}
+
+		// Track successfull Rave Steal usage
+		if ( combo == RAVE_STEAL )
+		{
+			// Rave Steal in the volcano island shouldn't count
+			String encounter = MonsterStatusTracker.getLastMonsterName();
+			if ( encounter.equalsIgnoreCase( "Breakdancing Raver" ) ||
+			     encounter.equalsIgnoreCase( "Pop-and-Lock Raver" ) ||
+			     encounter.equalsIgnoreCase( "Running Man" ) )
+			{
+			}
+			// You're getting tired of this same old song and dance. 
+			else if ( responseText.indexOf( "same old song and dance" ) != -1 )
+			{
+				Preferences.setInteger( "_raveStealCount", 30 );
+			}
+			else if ( responseText.indexOf( "You acquire an item" ) != -1 )
+			{
+				Preferences.increment( "_raveStealCount" );
+			}
 		}
 
 		// If three different rave skills are used in sequence,
