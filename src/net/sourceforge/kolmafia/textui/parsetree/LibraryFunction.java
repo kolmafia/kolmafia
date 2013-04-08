@@ -59,6 +59,9 @@ public class LibraryFunction
 		Class[] args = new Class[ this.paramCount + 1 ];
 
 		args[ 0 ] = Interpreter.class;
+
+		// Make a list of VariableReferences, even though the library
+		// function will not use them, so that tracing works
 		for ( int i = 1; i <= params.length; ++i )
 		{
 			Variable variable = new Variable( params[ i - 1 ] );
@@ -80,7 +83,7 @@ public class LibraryFunction
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final Interpreter interpreter, Object[] values )
 	{
 		if ( !KoLmafia.permitsContinue() )
 		{
@@ -97,17 +100,6 @@ public class LibraryFunction
 		if ( this.method == null )
 		{
 			throw interpreter.runtimeException( "Internal error: no method for " + this.getName() );
-		}
-
-		// Dereference variables and pass ScriptValues to function
-		Object[] values = new Object[ this.paramCount + 1];
-		values[ 0 ] = interpreter;
-
-		Iterator it = this.variableReferences.iterator();
-		for ( int i = 1; it.hasNext(); ++i )
-		{
-			VariableReference current = (VariableReference) it.next();
-			values[ i ] = current.getValue( interpreter );
 		}
 
 		try

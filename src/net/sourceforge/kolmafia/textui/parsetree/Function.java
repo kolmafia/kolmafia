@@ -118,14 +118,6 @@ public abstract class Function
 		return this.variableReferences.iterator();
 	}
 
-	public void saveBindings( Interpreter interpreter )
-	{
-	}
-
-	public void restoreBindings( Interpreter interpreter )
-	{
-	}
-
 	public boolean paramsMatch( final ValueList params, boolean exact )
 	{
 		if ( params == null )
@@ -196,7 +188,23 @@ public abstract class Function
 	}
 
 	@Override
-	public abstract Value execute( final Interpreter interpreter );
+	public Value execute( final Interpreter interpreter )
+	{
+		// Dereference variables and pass Values to function
+		Object[] values = new Object[ this.variableReferences.size() + 1];
+		values[ 0 ] = interpreter;
+
+		Iterator it = this.variableReferences.iterator();
+		for ( int i = 1; it.hasNext(); ++i )
+		{
+			VariableReference current = (VariableReference) it.next();
+			values[ i ] = current.getValue( interpreter );
+		}
+
+		return this.execute( interpreter, values );
+	}
+
+	public abstract Value execute( final Interpreter interpreter, Object[] values );
 
 	@Override
 	public void print( final PrintStream stream, final int indent )

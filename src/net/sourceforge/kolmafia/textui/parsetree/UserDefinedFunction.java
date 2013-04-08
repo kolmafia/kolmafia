@@ -68,8 +68,7 @@ public class UserDefinedFunction
 		return this.scope;
 	}
 
-	@Override
-	public void saveBindings( Interpreter interpreter )
+	private void saveBindings( Interpreter interpreter )
 	{
 		if ( this.scope == null )
 		{
@@ -95,8 +94,7 @@ public class UserDefinedFunction
 		this.callStack.push( values );
 	}
 
-	@Override
-	public void restoreBindings( Interpreter interpreter )
+	private void restoreBindings( Interpreter interpreter )
 	{
 		if ( this.scope == null )
 		{
@@ -123,7 +121,7 @@ public class UserDefinedFunction
 	}
 
 	@Override
-	public Value execute( final Interpreter interpreter )
+	public Value execute( final Interpreter interpreter, Object[] values )
 	{
 		if ( StaticEntity.isDisabled( this.getName() ) )
 		{
@@ -136,7 +134,25 @@ public class UserDefinedFunction
 			throw interpreter.runtimeException( "Calling undefined user function: " + this.getName() );
 		}
 
+		// Save current variable bindings
+		this.saveBindings( interpreter );
+
+		Iterator refIterator = this.getReferences();
+		int paramCount = 1;
+
+		while ( refIterator.hasNext() )
+		{
+			VariableReference paramVarRef = (VariableReference) refIterator.next();
+			Value value = (Value)values[ paramCount++ ];
+
+			// Bind parameter to new value
+			paramVarRef.setValue( interpreter, value );
+		}
+
 		Value result = this.scope.execute( interpreter );
+
+		// Restore initial variable bindings
+		this.restoreBindings( interpreter );
 
 		if ( result.getType().equals( this.type.getBaseType() ) )
 		{
