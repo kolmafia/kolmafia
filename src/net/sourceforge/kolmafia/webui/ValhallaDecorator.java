@@ -36,6 +36,9 @@ package net.sourceforge.kolmafia.webui;
 import java.util.ArrayList;
 import java.util.Date;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -303,6 +306,8 @@ public class ValhallaDecorator
 		ValhallaDecorator.developerGift( buffer, ItemPool.STUFFED_COCOABO, "holatuwol" );
 
 		ValhallaDecorator.switchSeeds( buffer );
+
+		ValhallaDecorator.switchCorrespondent( buffer );
 	}
 
 	private static void checkForKeyLime( StringBuffer buffer, int itemId, String keyType )
@@ -410,8 +415,83 @@ public class ValhallaDecorator
 				: ( cropName.contains( "pumpkin" ) ) ? "Pumpkin"
 				: ( cropName.contains( "skeleton" ) ) ? "Skeleton"
 				: "Unknown";
-			buffer.append( " (currently " + cropString + ")" );
+			buffer.append( " (currently " ).append( cropString ).append( ")" );
 		}
+		buffer.append( "<br>" );
+	}
+
+	private static final Pattern EUDORA_PATTERN = Pattern.compile( "<option (selected='selected' )?value=\"(\\d)\">([\\w\\s]*)" );
+	private static final void switchCorrespondent( final StringBuffer buffer )
+	{
+		GenericRequest eudoraCheck = new GenericRequest( "account.php?tab=correspondence" );
+		eudoraCheck.run();
+		String response = eudoraCheck.responseText;
+		if ( !response.contains( "Eudora" ) )
+		{
+			// We do not have at least two options, so the tab does not exist
+			// and the default tab loaded instead
+			return;
+		}
+
+		// have[Eudora] means that it can be switched to, which means
+		// it is not currently active
+		boolean havePenpal = false;
+		boolean haveGamemag = false;
+		String activeEudora = "";
+		Matcher matcher = ValhallaDecorator.EUDORA_PATTERN.matcher( response );
+
+		while ( matcher.find() )
+		{
+			if ( matcher.group(3).equals( "Pen Pal" ) )
+			{
+				if ( matcher.group(1) == null )
+				{
+					havePenpal = true;
+				}
+				else
+				{
+					activeEudora = "Pen Pal";
+				}
+			}
+			else if ( matcher.group(3).equals( "GameInformPowerDailyPro Magazine" ) )
+			{
+				if ( matcher.group(1) == null )
+				{
+					haveGamemag = true;
+				}
+				else
+				{
+					activeEudora = "Game Magazine";
+				}
+			}
+		}
+
+		buffer.append( "Eudora: use " );
+		boolean multiple = false;
+		if ( havePenpal )
+		{
+			if ( multiple )
+			{
+				buffer.append( " or " );
+			}
+			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=eudora+penpal&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">Pen Pal</a>" );
+			multiple = true;
+		}
+		if ( haveGamemag )
+		{
+			if ( multiple )
+			{
+				buffer.append( " or " );
+			}
+			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=eudora+game&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">Game Magazine</a>" );
+			multiple = true;
+		}
+
+		buffer.append( " (Currently " ).append( activeEudora ).append( ")" );
 		buffer.append( "<br>" );
 	}
 }
