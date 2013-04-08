@@ -361,12 +361,15 @@ public class Interpreter
 				this.trace( "Executing main function" );
 			}
 
-			if ( !this.requestUserParams( main, parameters ) )
+			Object[] values = new Object[ main.variableReferences.size() + 1];
+			values[ 0 ] = this;
+			
+			if ( !this.requestUserParams( main, parameters, values ) )
 			{
 				return null;
 			}
 
-			result = main.execute( this );
+			result = main.execute( this, values );
 		}
 
 		Interpreter.interpreterStack.pop();
@@ -374,23 +377,19 @@ public class Interpreter
 		return result;
 	}
 
-	private boolean requestUserParams( final Function targetFunction, final String[] parameters )
+	private boolean requestUserParams( final Function targetFunction, final String[] parameters, Object[] values )
 	{
 		int args = parameters == null ? 0 : parameters.length;
-
-		Type lastType = null;
-		VariableReference lastParam = null;
-
-		int index = 0;
-
 		Iterator it = targetFunction.getReferences();
-		VariableReference param;
+		Type type = null;
+		VariableReference param = null;
+		int index = 0;
 
 		while ( it.hasNext() )
 		{
 			param = (VariableReference) it.next();
+			type = param.getType();
 
-			Type type = param.getType();
 			String name = param.getName();
 			Value value = null;
 
@@ -402,16 +401,9 @@ public class Interpreter
 					break;
 				}
 
-				String input = null;
-
-				if ( index >= args )
-				{
-					input = DataTypes.promptForValue( type, name );
-				}
-				else
-				{
-					input = parameters[ index ];
-				}
+				String input = ( index >= args ) ?
+					DataTypes.promptForValue( type, name ) :
+					parameters[ index ];
 
 				// User declined to supply a parameter
 				if ( input == null )
@@ -440,15 +432,10 @@ public class Interpreter
 				}
 			}
 
-			param.setValue( this, value );
-
-			lastType = type;
-			lastParam = param;
-
-			index++ ;
+			values[ ++index ] = value;
 		}
 
-		if ( index < args && lastParam != null )
+		if ( index < args && param != null )
 		{
 			StringBuilder inputs = new StringBuilder();
 			for ( int i = index - 1; i < args; ++i )
@@ -456,8 +443,8 @@ public class Interpreter
 				inputs.append( parameters[ i ] + " " );
 			}
 
-			Value value = DataTypes.parseValue( lastType, inputs.toString().trim(), true );
-			lastParam.setValue( this, value );
+			Value value = DataTypes.parseValue( type, inputs.toString().trim(), true );
+			values[ index ] = value;
 		}
 
 		return true;
