@@ -87,17 +87,15 @@ public class FunctionCall
 
 		interpreter.traceIndent();
 
-		// Save current variable bindings
-		this.target.saveBindings( interpreter );
-
 		Iterator valIterator = this.params.iterator();
-		Value[] values = new Value[ params.size() ];
-		int paramCount = 0;
+		Object[] values = new Object[ params.size() + 1 ];
+		values[ 0 ] = interpreter;
+
+		int paramCount = 1;
 
 		while ( valIterator.hasNext() )
 		{
 			Value paramValue = (Value) valIterator.next();
-			++paramCount;
 
 			if ( interpreter.isTracing() )
 			{
@@ -118,24 +116,11 @@ public class FunctionCall
 
 			if ( interpreter.getState() == Interpreter.STATE_EXIT )
 			{
-				this.target.restoreBindings( interpreter );
 				interpreter.traceUnindent();
 				return null;
 			}
 
-			values[ paramCount - 1 ] = value;
-		}
-
-		Iterator refIterator = this.target.getReferences();
-		paramCount = 0;
-		while ( refIterator.hasNext() )
-		{
-			VariableReference paramVarRef = (VariableReference) refIterator.next();
-			Value value = values[ paramCount ];
-			++paramCount;
-
-			// Bind parameter to new value
-			paramVarRef.setValue( interpreter, value );
+			values[ paramCount++ ] = value;
 		}
 
 		if ( interpreter.isTracing() )
@@ -155,7 +140,7 @@ public class FunctionCall
 			curr.net0 = t0;
 			interpreter.profiler = curr;
 
-			result = this.target.execute( interpreter );
+			result = this.target.execute( interpreter, values );
 
 			long t1 = System.nanoTime();
 			prev.net0 = t1;
@@ -166,7 +151,7 @@ public class FunctionCall
 		}
 		else
 		{
-			result = this.target.execute( interpreter );
+			result = this.target.execute( interpreter, values );
 		}
 
 		if ( interpreter.isTracing() )
@@ -179,8 +164,6 @@ public class FunctionCall
 			interpreter.setState( Interpreter.STATE_NORMAL );
 		}
 
-		// Restore initial variable bindings
-		this.target.restoreBindings( interpreter );
 		interpreter.traceUnindent();
 
 		return result;
