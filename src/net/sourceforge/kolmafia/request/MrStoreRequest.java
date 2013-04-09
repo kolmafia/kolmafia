@@ -129,7 +129,8 @@ public class MrStoreRequest
 		MrStoreRequest.parseResponse( this.getURLString(), responseText );
 	}
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?desc_?item.*?([\\d]+).*?<b>([^<]*)</b>.*?([\\d]+)&nbsp;Mr\\.", Pattern.DOTALL );
+	private static final Pattern ITEM_PATTERN =
+		Pattern.compile( "onClick='javascript:descitem\\((\\d+)\\)' class=nounder>(.*?)</a></b>.*?<font size=\\+1>(\\d)</font></b></td><form name=buy(\\d+)" );
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "mrstore.php" ) )
@@ -149,10 +150,10 @@ public class MrStoreRequest
 		Matcher matcher = ITEM_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
-			int itemId = StringUtilities.parseInt( matcher.group(1) );
-			String descId = matcher.group(2);
-			String itemName = matcher.group(3);
-			int price = StringUtilities.parseInt( matcher.group(4) );
+			String descId = matcher.group(1);
+			String itemName = matcher.group(2);
+			int price = StringUtilities.parseInt( matcher.group(3) );
+			int itemId = StringUtilities.parseInt( matcher.group(4) );
 
 			String match = ItemDatabase.getItemDataName( itemId );
 			if ( match == null || !match.equals( itemName ) )
