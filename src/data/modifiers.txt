@@ -99,7 +99,7 @@ Mark IV Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumbl
 Mark V Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumble, Item Drop: +10
 Mer-kin bunwig	Spell Damage: +20, Spell Critical Percent: +10
 Mer-kin facecowl	Mysticality Percent: +10, Spell Damage Percent: +30, MP Regen Min: 8, MP Regen Max: 12
-Mer-kin gladiator mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50
+Mer-kin gladiator mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater 
 Mer-kin headguard	PvP Fights: +2, Monster Level: +10, Weapon Damage Percent: +20
 Mer-kin scholar mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater
 Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate (Underwater): -5, Familiar Effect: "1xBarrr, ?xFairy"
