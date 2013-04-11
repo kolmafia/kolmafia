@@ -269,16 +269,6 @@ public class RelayAgent
 			}
 		}
 
-		if ( !isValidReferer( host, referer ) )
-		{
-			RequestLogger.printLine( "Request from bogus referer ignored" );
-			RequestLogger.printLine( "Path: \"" + path + "\"" );
-			RequestLogger.printLine( "Host: \"" + host + "\"" );
-			RequestLogger.printLine( "Referer: \"" + referer + "\"" );
-
-			return false;
-		}
-
 		if ( requestMethod.equals( "POST" ) )
 		{
 			int remaining = contentLength;
@@ -329,6 +319,18 @@ public class RelayAgent
 			return false;
 		}
 
+		// If there is a password hash, it must be valid (because it was checked above)
+		// In this case, don't worry about the referer
+		if ( pwd == null && !isValidReferer( host, referer ) )
+		{
+			RequestLogger.printLine( "Request from bogus referer ignored" );
+			RequestLogger.printLine( "Path: \"" + path + "\"" );
+			RequestLogger.printLine( "Host: \"" + host + "\"" );
+			RequestLogger.printLine( "Referer: \"" + referer + "\"" );
+
+			return false;
+		}
+
 		return true;
 	}
 
@@ -339,9 +341,18 @@ public class RelayAgent
 			validRefererHosts.add( host );
 		}
 
+		if ( this.path.startsWith( "/desc_" ) )
+		{
+			// Specifically allow these pages because they are convenient
+			// to access and harmless to allow
+			return true;
+		}
+
 		if ( referer == null || referer.equals( "" ) )
 		{
-			return true;
+			// Several pages need to have a null referer without a valid
+			// password hash, but none of them have additional parameters
+			return !this.path.contains( "?" );
 		}
 
 		if ( !referer.startsWith( "http://" ) )
