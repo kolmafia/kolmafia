@@ -2060,6 +2060,7 @@ toy crazy train	60	Mys: 15
 toy maglev monorail	60	Mys: 15
 toy train	60	Mys: 15
 tube sock	200	Mys: 45
+vampire collar	20	none
 vampire pearl earring	125	Mys: 47
 vampire pearl necklace	100	Mys: 35
 vampire pearl ring	100	Mys: 35
@@ -2106,5 +2107,4 @@ sea shawl	200	Mys: 85
 sealhide cloak	160	Mys: 75
 teddybear backpack	150	Mox: 75
 toy jet pack	175	Mys: 75
-vampire cape	20	Mus: 75
 wings of fire	100	Mys: 100

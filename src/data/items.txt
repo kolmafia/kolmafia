@@ -2142,7 +2142,7 @@
 2125	Ye Olde Navy Fleece	133155605	fleece.gif	shirt	t,d	105	Ye Olde Navy Fleeces
 2126	bronze breastplate	522582182	breastplate.gif	shirt	t,d	125	bronze breastplates
 2127	white hat hacker T-shirt	692306538	wtee1.gif	shirt	t,d	45	white hat hacker T-shirts
-2128	vampire cape	820441434	vampcape.gif	container	t,d	25	vampire capes
+2128	vampire collar	820441434	vampcollar.gif	accessory	t,d	25	vampire collars
 2129	possessed top	799639491	top.gif	none, combat	t,d	35	possessed tops
 2130	killer rag doll	805133027	ragdoll.gif	offhand	t,d	106	killer rag dolls
 2131	tree-eating kite	824979738	evilkite.gif	none, combat	t,d	29	tree-eating kites

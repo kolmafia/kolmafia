@@ -2303,6 +2303,8 @@ toy crazy train	Meat Drop: +10, Single Equip
 toy maglev monorail	Meat Drop: +10, Single Equip
 toy train	Meat Drop: +10, Single Equip
 tube sock	Moxie: +20, Single Equip
+# vampire collar: Makes You Act Like a Vampire. Blah.
+vampire collar	Single Equip
 vampire pearl earring	MP Regen Min: 4, MP Regen Max: 14, Single Equip
 vampire pearl necklace	HP Regen Min: 6, HP Regen Max: 18, Single Equip
 vampire pearl ring	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10, Single Equip
@@ -2351,7 +2353,6 @@ sea shawl	Mysticality Percent: +15, Maximum HP: +100, Spell Damage Percent: [150
 sealhide cloak	Cold Resistance: +2
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
 teddybear backpack	Meat Drop: +10, Raveosity: +1
-# vampire cape
 wings of fire	Hot Damage: +25, Hot Spell Damage: +25
 
 # Familiar Items section of modifiers.txt
