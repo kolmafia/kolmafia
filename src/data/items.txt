@@ -3726,7 +3726,7 @@
 3709	non-stick pugil stick	739258319	teflonstick.gif	weapon	t,d	125	non-stick pugil sticks
 3710	teflon spatula	389769152	teflonspatula.gif	weapon	t,d	125	teflon spatulas
 3711	teflon shield	157322254	teflonshield.gif	offhand	t,d	125	teflon shields
-3712	teflon swim fins	667590304	teflonfins.gif	accessory	t,d	125	teflon swim finss
+3712	teflon swim fins	667590304	teflonfins.gif	accessory	t,d	125	pairs of teflon swim fins
 3713	7-inch discus	620169454	record.gif	weapon	t,d	125	7-inch discuss
 3714	PVC staff	954525164	vinylstaff.gif	weapon	t,d	125	PVC staffs
 3715	vinyl shield	840080191	record.gif	offhand	t,d	125	vinyl shields

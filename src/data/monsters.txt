@@ -868,7 +868,7 @@ Spooky Gravy Fairy Ninja	Atk: 65 Def: 58 HP: 55 Init: 100 E: spooky P: plant	spo
 Spooky Gravy Fairy Warlock	Atk: 60 Def: 54 HP: 50 Init: 60 E: spooky P: plant	spooky mushroom (40)	enchanted toothpick (5)
 Spooky Hobo	Atk: 350 Def: 315 HP: 500 E: spooky P: hobo	hobo nickel (c15)	spooky bindle (0)	Asleep in the Cemetery (0)	Let Me Be! (0)	comfy coffin (0)
 Spooky Mummy	Atk: 4 Def: 3 HP: 3 Init: 50 Meat: 8-15 E: spooky P: undead	dried face (10)	spooky shrunken head (20)
-Spooky Vampire	Atk: 3 Def: 3 HP: 2 Init: 50 E: spooky Meat: 4-7 P: undead	vampire heart (c100)	vampire cape (c4)
+Spooky Vampire	Atk: 3 Def: 3 HP: 2 Init: 50 E: spooky Meat: 4-7 P: undead	vampire heart (c100)	vampire collar (c4)
 Spookyraven Manor	HP: 120 Def: 72 Atk: 80 Init: 20 P: object	collection of tiny spooky objects (0)
 Spunky Princess	Atk: 90 Def: 81 HP: 75 Init: 90 Meat: 88-132 P: humanoid	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
 Steampunk Giant	Atk: 145 Def: 135 HP: 150 Meat: 100 P: demihuman	brass gear (0)	brown felt tophat (0)
