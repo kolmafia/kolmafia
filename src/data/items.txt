@@ -3601,7 +3601,7 @@
 3584	irradiated candy cane	991734610	radcane.gif	food, candy	t	0	irradiated candy canes
 3585	gingerbread mutant bugbear	612504863	mgingerbear.gif	food	t	0	gingerbread mutant bugbears
 3586	oozenog	636841452	oozenog.gif	drink	t	0	oozenogs
-3587	sugar plum	961155973	sugarplum.gif	usable	q	0	sugar plums
+3587	sugar plum	961155973	sugarplum.gif	multiple	q	0	sugar plums
 3588	sugar banana	235633176	sugarbanana.gif	multiple	t,d	10	sugar bananas
 3589	sugar lime	395279915	sugarlime.gif	multiple	t,d	10	sugar limes
 3590	sugar cherry	534779871	sugarcherry.gif	multiple	t,d	10	sugar cherrys
@@ -4293,7 +4293,7 @@
 4276	Underworld truncheon	544431849	ut_club.gif	weapon	t	0	Underworld truncheons
 4277	Staff of the Woodfire	852145313	ut_staff.gif	weapon	t	0	Staves of the Woodfire
 4278	Underworld flail	229893442	ut_flail.gif	weapon	t	0	Underworld flails
-4279	Mer-kin cancerstick	131314216	cancerstick.gif	usable	t	0
+4279	Mer-kin cancerstick	131314216	cancerstick.gif	multiple	t	0
 4280	Mer-kin sawdust	388964889	sawdustbag.gif	none, combat	t,d	18
 4281	Mer-kin bunwig	513158697	bunwig.gif	hat	t,d	86
 4282	crappy Mer-kin mask	898158960	merkinmask.gif	hat		0
@@ -5129,7 +5129,7 @@
 5112	My Own Pen Pal kit	544609748	ppkit.gif	usable	t	0
 5113	packet of orchid seeds	382164254	seeds.gif	usable		0	packets of orchid seeds
 5114	stomp box	159882766	stompbox.gif	familiar	t	0	stomp boxes
-5115	rusty hedge trimmers	540081787	hedgeclippers.gif	usable	t,d	85	pairs of rusty hedge trimmers
+5115	rusty hedge trimmers	540081787	hedgeclippers.gif	multiple	t,d	85	pairs of rusty hedge trimmers
 5116	A. W. O. L. commendation	542484240	aolcom.gif	reusable		0
 5117	reconstituted crow	529331441	blackbird2.gif	grow	q	0
 5118	bird brain	576544533	birdbrain.gif	none	q	0
@@ -5860,7 +5860,7 @@
 5843	pirate cream pie	438610679	pie.gif	usable	t,d	5
 5844	una poca de gracia	764928766	music.gif	multiple	t,d	5
 5845	compressed air canister	564731061	canteen.gif	usable	t,d	5
-5846	salt water taffy	484100629	taffy.gif	usable	t,d	5
+5846	salt water taffy	484100629	taffy.gif	multiple	t,d	5
 5847	unholy water	163120400	vial.gif	multiple	t,d	5
 5848	Bangyomaman battle juice	291581343	flask.gif	usable	t,d	5
 5849	handyman &quot;hand soap&quot;	285117650	handsoap.gif	usable	t,d	5	bottles of handyman &quot;hand soap&quot;
@@ -6121,7 +6121,7 @@
 6104	Artist's Butterknife of Regret	327687444	butterknife.gif	none, combat	t,d	11	Artist's Butterknives of Regret
 6105	Artist's Spatula of Despair	675041975	spatula3.gif	none, combat	t,d	11	Artist's Spatulas of Despair
 6106	Artist's Cookie Cutter of Loneliness	991825060	cutter.gif	none, combat	t,d	11	Artist's Cookie Cutters of Loneliness
-6107	Artist's  Cr&egrave;me Brul&eacute;e Torch of Fury	769923393	bruleetorch.gif	none, combat	t,d	11	Artist's Cr&egrave;me Brulee Torches of Fury
+6107	Artist's Cr&egrave;me Brul&eacute;e Torch of Fury	769923393	bruleetorch.gif	none, combat	t,d	11	Artist's Cr&egrave;me Brulee Torches of Fury
 6108	Ginsu&trade;	626167043	ginsu.gif	weapon		0
 6109	bubble-wrap simulator (one broken button)	576332142	bubblewrap3.gif	usable	t,d	25	bubble-wrap simulators (one broken button)
 6110	bubble-wrap simulator (half broken)	339492599	bubblewrap2.gif	usable	t,d	25	bubble-wrap simulators (half broken)
@@ -6149,7 +6149,7 @@
 6132	magical battery	194664409	battery.gif	none	t	0
 6133	White Dragon Fang	841472693	whitefang.gif	weapon		0
 6134	butterfly knife	417351567	bflyknife.gif	weapon	t,d	15
-6135	tube of herbal ointment	894175290	tube.gif	usable, combat	t,d	12
+6135	tube of herbal ointment	894175290	tube.gif	multiple, combat	t,d	12
 6136	pencil kunai	372782577	pencil.gif	none, combat	t,d	15
 6137	weighted paperclip chain	790807587	staplerchucks.gif	weapon	t,d	12
 6138	great big capacitor	970505595	device1.gif	none, combat	t,d	50
@@ -6253,16 +6253,16 @@
 6236	Over Easy Rider	842512102	jarl_overeasy.gif	drink	q	0
 6237	cosmic six-pack	491592616	jarl_sixpack.gif	usable	q	0
 6238
-6239	cube of ectoplasm	299288653	cube.gif	usable	t,d	5	cubes of ectoplasm
-6240	Illuminati earpiece	431498567	earpiece.gif	usable	t,d	5	Illuminati earpieces
-6241	censored can label	309750078	censlabel.gif	usable	t,d	5	censored can labels
-6242	ectoplasm <i>au jus</i>	405677549	bottle.gif	usable	t,d	5	bottles of ectoplasm <i>au jus</i>
-6243	the kindest cold cut	924503514	meat.gif	usable	t,d	5	kindest cold cuts
-6244	lucky cat's paw	354820670	paw.gif	usable	t,d	5	lucky cat's paws
-6245	ASCII fu manchu	163394631	braces.gif	usable	t,d	5	ASCII fu manchus
-6246	demonic surgical gloves	450278152	glove.gif	usable	t,d	5	pairs of demonic surgical gloves
-6247	cheap clip-on ninja tie	671347064	necktie.gif	usable	t,d	5	cheap clip-on ninja ties
-6248	gamer slurry	580884090	soda.gif	usable	t,d	5	cans of gamer slurry
+6239	cube of ectoplasm	299288653	cube.gif	multiple	t,d	5	cubes of ectoplasm
+6240	Illuminati earpiece	431498567	earpiece.gif	multiple	t,d	5	Illuminati earpieces
+6241	censored can label	309750078	censlabel.gif	multiple	t,d	5	censored can labels
+6242	ectoplasm <i>au jus</i>	405677549	bottle.gif	multiple	t,d	5	bottles of ectoplasm <i>au jus</i>
+6243	the kindest cold cut	924503514	meat.gif	multiple	t,d	5	kindest cold cuts
+6244	lucky cat's paw	354820670	paw.gif	multiple	t,d	5	lucky cat's paws
+6245	ASCII fu manchu	163394631	braces.gif	multiple	t,d	5	ASCII fu manchus
+6246	demonic surgical gloves	450278152	glove.gif	multiple	t,d	5	pairs of demonic surgical gloves
+6247	cheap clip-on ninja tie	671347064	necktie.gif	multiple	t,d	5	cheap clip-on ninja ties
+6248	gamer slurry	580884090	soda.gif	multiple	t,d	5	cans of gamer slurry
 6249	dungeoneering kit	268731940	briefcase.gif	usable	t,d	300
 6250
 6251	scroll of Protection from Bad Stuff	900109531	scroll1.gif	usable	t,d	100	scrolls of Protection from Bad Stuff
@@ -6359,8 +6359,8 @@
 6342
 6343	Mer-kin lipstick	812557492	lipstick.gif	usable	t,d	45
 6344	Mer-kin mouthsoap	922856345	merkinsoap.gif	none, combat	t,d	33
-6345	Mer-kin strongjuice	425613279	potion13.gif	usable	t,d	44
-6346	Mer-kin fitbrine	588060401	monstar.gif	usable	t,d	38
+6345	Mer-kin strongjuice	425613279	potion13.gif	usable	t,d	44	bottles of Mer-kin strongjuice
+6346	Mer-kin fitbrine	588060401	monstar.gif	multiple	t,d	38
 6347	Mer-kin ragejuice	987788255	potion15.gif	usable	t,d	42
 6348	Mer-kin dragbelt	644915247	merkinbelt.gif	accessory	t,d	74
 6349	Mer-kin eyeglasses	921916806	spectacles.gif	accessory	t,d	82
@@ -6375,11 +6375,11 @@
 6358	Mer-kin darkbook	452271245	book2.gif	usable	d	85
 6359	Mer-kin begsign	552529237	boozesign.gif	offhand	t,d	12
 6360	Libram of Pulled Taffy	572350270	book4.gif	usable	t	0	Librams of Pulled Taffy
-6361	pulled yellow taffy	798602407	taffy1.gif	usable, combat	t,d	5	pulled yellow taffies
-6362	pulled indigo taffy	767315948	taffy2.gif	usable, combat	t,d	5	pulled indigo taffies
-6363	pulled green taffy	836415759	taffy3.gif	usable, combat	t,d	5	pulled green taffies
-6364	pulled blue taffy	454623779	taffy4.gif	usable, combat	t,d	5	pulled blue taffies
-6365	pulled orange taffy	667566585	taffy5.gif	usable, combat	t,d	5	pulled orange taffies
-6366	pulled violet taffy	469187244	taffy6.gif	usable, combat	t,d	5	pulled violet taffies
-6367	pulled red taffy	340638314	taffy7.gif	usable, combat	t,d	5	pulled red taffies
+6361	pulled yellow taffy	798602407	taffy1.gif	multiple, combat	t,d	5	pulled yellow taffies
+6362	pulled indigo taffy	767315948	taffy2.gif	multiple, combat	t,d	5	pulled indigo taffies
+6363	pulled green taffy	836415759	taffy3.gif	multiple, combat	t,d	5	pulled green taffies
+6364	pulled blue taffy	454623779	taffy4.gif	multiple, combat	t,d	5	pulled blue taffies
+6365	pulled orange taffy	667566585	taffy5.gif	multiple, combat	t,d	5	pulled orange taffies
+6366	pulled violet taffy	469187244	taffy6.gif	multiple, combat	t,d	5	pulled violet taffies
+6367	pulled red taffy	340638314	taffy7.gif	multiple, combat	t,d	5	pulled red taffies
 6368	Mer-kin hallpass	492118546	lamcard.gif	none	t,d	35
