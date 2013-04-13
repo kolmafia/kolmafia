@@ -64,6 +64,7 @@ public class JarlsbergRequest
 	}
 
 	private static final int ID_TO_ROW_DIFFERENCE = 6143;
+	private static final int STAFF_ID_TO_ROW_DIFFERENCE = 6154;
 
 	private static final int idToRow( int itemId )
 	{
@@ -71,6 +72,11 @@ public class JarlsbergRequest
 		if ( itemId == ItemPool.COSMIC_SIX_PACK )
 		{
 			return 112;
+		}
+
+		if ( itemId >= ItemPool.STAFF_OF_BREAKFAST )
+		{
+			return itemId - STAFF_ID_TO_ROW_DIFFERENCE;
 		}
 
 		int row = itemId - ID_TO_ROW_DIFFERENCE;
@@ -92,6 +98,11 @@ public class JarlsbergRequest
 		if ( row == 112 )
 		{
 			return ItemPool.COSMIC_SIX_PACK;
+		}
+
+		if ( row >= 104 )
+		{
+			return row + STAFF_ID_TO_ROW_DIFFERENCE;
 		}
 
 		int itemId = row + ID_TO_ROW_DIFFERENCE;
