@@ -2216,6 +2216,13 @@ public class FightRequest
 				"Your sugar shorts shattered." );
 		}
 
+		if ( responseText.indexOf( "You wore out your weapon cozy..." ) != -1 )
+		{
+			// Cozy weapons are two-handed, so they are necessarily in the weapon slot
+			int cozyId = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
+			EquipmentManager.breakEquipment( cozyId, "Your cozy wore out." );
+		}
+
 		// The turtle blinks at you with gratitude for freeing it from
 		// its brainwashing, and trudges off over the horizon.
 		// ...Eventually.

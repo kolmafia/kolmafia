@@ -516,9 +516,9 @@ public class EquipmentManager
 	
 	public static final void breakEquipment( int itemId, String msg )
 	{
-		// Breaking sugar equipment resets sugar counter
 		switch ( itemId )
 		{
+		// Breaking sugar equipment resets sugar counter
 		case ItemPool.SUGAR_CHAPEAU:
 		case ItemPool.SUGAR_SHANK:
 		case ItemPool.SUGAR_SHIELD:
@@ -527,6 +527,12 @@ public class EquipmentManager
 		case ItemPool.SUGAR_SHOTGUN:
 		case ItemPool.SUGAR_SHORTS:
 			Preferences.setInteger( "sugarCounter" + String.valueOf( itemId ), 0 );
+			break;
+		// Breaking cozy equipment resets cozy counter
+		case ItemPool.COZY_SCIMITAR:
+		case ItemPool.COZY_STAFF:
+		case ItemPool.COZY_BAZOOKA:
+			Preferences.setInteger( "cozyCounter" + String.valueOf( itemId ), 0 );
 			break;
 		}
 
@@ -537,7 +543,7 @@ public class EquipmentManager
 			return;
 		}
 		AdventureResult item = ItemPool.get( itemId, 1 );
-		
+
 		int action = Preferences.getInteger( "breakableHandling" + itemId );
 		if ( action == 0 )
 		{
@@ -811,7 +817,7 @@ public class EquipmentManager
 			InventoryManager.hasItem( ItemPool.STICKER_CROSSBOW );
 	}
 
-	public static final void incrementSugarCounters()
+	public static final void incrementEquipmentCounters()
 	{
 		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
 		{
@@ -827,6 +833,11 @@ public class EquipmentManager
 			case ItemPool.SUGAR_SHORTS:
 				Preferences.increment( "sugarCounter" + String.valueOf( itemId ), 1 );
 				break;
+			case ItemPool.COZY_SCIMITAR:
+			case ItemPool.COZY_STAFF:
+			case ItemPool.COZY_BAZOOKA:
+				Preferences.increment( "cozyCounter" + String.valueOf( itemId ), 1 );
+				break;
 			}
 		}
 	}
@@ -841,7 +852,7 @@ public class EquipmentManager
 				--EquipmentManager.turnsRemaining[ 2 ] );
 		}
 
-		EquipmentManager.incrementSugarCounters();
+		EquipmentManager.incrementEquipmentCounters();
 	}
 	
 	public static final void stickersExpired( int count )
