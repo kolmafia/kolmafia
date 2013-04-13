@@ -6383,3 +6383,38 @@
 6366	pulled violet taffy	469187244	taffy6.gif	multiple, combat	t,d	5	pulled violet taffies
 6367	pulled red taffy	340638314	taffy7.gif	multiple, combat	t,d	5	pulled red taffies
 6368	Mer-kin hallpass	492118546	lamcard.gif	none	t,d	35
+6369
+6370
+6371
+6372
+6373
+6374
+6375
+6376
+6377
+6378
+6379
+6380
+6381
+6382
+6383
+6384
+6385
+6386
+6387
+6388
+6389
+6390
+6391
+6392	scale-mail underwear	539861153	scaleunderwear.gif	pants	t,d	145
+6393	comb jelly	524685668	combjelly.gif	usable	t,d	50	 comb jellies
+6394	anemone sauce	441262699	soupbowl.gif	none	t,d	60	bowls of anemone sauce
+6395	inky squid sauce	533868128	soupbowl.gif	none	t,d	60	bowls of inky squid sauce
+6396	Mer-kin weaksauce 	717309653	soupbowl.gif	none	t,d	60
+6397	peanut sauce	464977927	soupbowl.gif	none	t,d	120	bowls of peanut sauce
+6398	black glass	01304219	blackglass.gif	accessory	q	0
+6399
+6400	Mer-kin lunchbox	257377198	bentobox.gif	none	t,d	45	Mer-kin lunchboxes
+6401	black tear	800989357	blacktear.gif	usable	t,d	42
+6402	jagged tooth	415373394	jaggedtooth.gif	usable	t,d	17	jagged teeth
+6403	grisly shell fragment	617113636	chitinplate.gif	usable	t,d	23
