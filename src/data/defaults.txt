@@ -317,6 +317,9 @@ user	clanAttacksEnabled	false
 user	cocktailSummons	0
 user	counterScript
 user	concertVisited	false
+user	cozyCounter6332	0
+user	cozyCounter6333	0
+user	cozyCounter6334	0
 user	crimboTreeDays	7
 user	currentBountyItem	0
 user	currentFullness	0

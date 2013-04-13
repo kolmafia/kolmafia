@@ -391,6 +391,9 @@ public class ValhallaManager
 		Preferences.setInteger( "sugarCounter4182", 0 );
 		Preferences.setInteger( "sugarCounter4183", 0 );
 		Preferences.setInteger( "sugarCounter4191", 0 );
+		Preferences.setInteger( "cozyCounter6332", 0 );
+		Preferences.setInteger( "cozyCounter6333", 0 );
+		Preferences.setInteger( "cozyCounter6334", 0 );
 		Preferences.setInteger( "meansuckerPrice", 400 );
 		Preferences.setInteger( "mayflyExperience", 0 );
 		Preferences.setString( "trapperOre", "chrome" );

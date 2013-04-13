@@ -889,6 +889,9 @@ public class ItemPool
 	public static final int BATHYSPHERE = 3470;
 	public static final int DAMP_OLD_BOOT = 3471;
 	public static final int BOXTOP = 3473;
+	public static final int FISH_SCIMITAR = 3492;
+	public static final int FISH_STICK = 3493;
+	public static final int FISH_BAZOOKA = 3494;
 	public static final int SEA_SALT_CRYSTAL = 3495;
 	public static final int LARP_MEMBERSHIP_CARD = 3506;
 	public static final int STICKER_BOOK = 3507;
@@ -1590,6 +1593,9 @@ public class ItemPool
 	public static final int FISH_MEAT_CRATE = 6312;
 	public static final int DAMP_WALLET = 6313;
 	public static final int FISHY_PIPE = 6314;
+	public static final int COZY_SCIMITAR = 6332;
+	public static final int COZY_STAFF = 6333;
+	public static final int COZY_BAZOOKA = 6334;
 	public static final int SALTWATERBED = 6338;
 	public static final int TAFFY_BOOK = 6360;
 

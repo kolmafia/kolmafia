@@ -1694,6 +1694,10 @@ pumpkin juice (3)	SUSE	pumpkin
 
 carrot juice	SUSE	carrot nose
 
+cozy scimitar	SUSE	scimitar cozy	fish scimitar
+Staff of the Cozy Fish	SUSE	fish stick cozy	fish stick
+cozy bazooka	SUSE	bazooka cozy	fish bazooka
+
 # Familiars.
 
 maple leaf	COMBINE	leaf	maple syrup
