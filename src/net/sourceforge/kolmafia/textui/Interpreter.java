@@ -382,12 +382,11 @@ public class Interpreter
 		int args = parameters == null ? 0 : parameters.length;
 		Iterator it = targetFunction.getReferences();
 		Type type = null;
-		VariableReference param = null;
 		int index = 0;
 
 		while ( it.hasNext() )
 		{
-			param = (VariableReference) it.next();
+			VariableReference param = (VariableReference) it.next();
 			type = param.getType();
 
 			String name = param.getName();
@@ -435,12 +434,13 @@ public class Interpreter
 			values[ ++index ] = value;
 		}
 
-		if ( index < args && param != null )
+		if ( index < args && type != null )
 		{
 			StringBuilder inputs = new StringBuilder();
 			for ( int i = index - 1; i < args; ++i )
 			{
-				inputs.append( parameters[ i ] + " " );
+				inputs.append( parameters[ i ] );
+				inputs.append( " " );
 			}
 
 			Value value = DataTypes.parseValue( type, inputs.toString().trim(), true );
