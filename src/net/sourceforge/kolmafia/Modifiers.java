@@ -570,7 +570,7 @@ public class Modifiers
 		  Pattern.compile( "Slime Hates It: " + EXPR )
 		},
 		{ "Spell Critical Percent",
-		  Pattern.compile( "([+-]\\d+)% chance of Spell Critical Hit" ),
+		  Pattern.compile( "([+-]\\d+)% [cC]hance of Spell Critical Hit" ),
 		  Pattern.compile( "Spell Critical Percent: " + EXPR )
 		},
 		{ "Muscle Experience",
@@ -2454,11 +2454,19 @@ public class Modifiers
 		return Modifiers.MP_REGEN_MIN_TAG + min + ", " + Modifiers.MP_REGEN_MAX_TAG + max;
 	}
 
+	private static final Pattern RESISTANCE_PATTERN =
+		Pattern.compile( "Resistance \\(([+-]\\d+)\\)" );
+
 	private static final String parseResistance( final String enchantment )
 	{
 		String level = "";
 
-		if ( enchantment.indexOf( "Slight" ) != -1 )
+		Matcher matcher = RESISTANCE_PATTERN.matcher( enchantment );
+		if ( matcher.find() )
+		{
+			level = matcher.group( 1 );
+		}
+		else if ( enchantment.indexOf( "Slight" ) != -1 )
 		{
 			level = "+1";
 		}

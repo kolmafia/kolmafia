@@ -146,7 +146,7 @@ Ancient Guardian Statue	Atk: 50 Def: 54 HP: 80 Init: 20 P: object	ancient stone 
 Ancient Insane Monk	Atk: 4 Def: 3 HP: 6 Init: 50 P: humanoid	Bash-&#332;s cereal (15)	bottle of sake (25)	haiku challenge map (c0)	little round pebble (p55)
 Ancient Protector Spirit	HP: 85 Def: 142 Atk: 158 Phys: 100 P: undead	obsidian dagger (c100)	mossy stone sphere (c100)	rough stone sphere (c100)	smooth stone sphere (c100)	cracked stone sphere (c100)
 Ancient Temple Guardian	HP: 100 Def: 72 Atk: 70 P: object	ancient stone fist (0)	ancient stone head (0)
-Anemone Combatant	HP: 600 Def: 585 Atk: 400 Init: 75 Meat: 80-120 "Majorly Poisoned" P: fish	anemone nematocyst (n25)
+Anemone Combatant	HP: 600 Def: 585 Atk: 400 Init: 75 Meat: 80-120 "Majorly Poisoned" P: fish	anemone nematocyst (n25)	anemone sauce (0)
 Anglerbush	Atk: 7 Def: 8 HP: 10 P: plant	meat stack (35)
 Angry Bugbear	Atk: 15 Def: 14 HP: 12 Init: 10 P: beast
 Angry Pi&ntilde;ata	Atk: 22 Def: 19 HP: 20 Init: 50 P: object	pile of candy (100)
@@ -342,7 +342,7 @@ Dirty Hippy Vegan Chef	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	carob 
 Dirty Old Lihc	Atk: 60 Def: 54 HP: 50 E: spooky P: undead
 Dirty Thieving Brigand	Atk: 169 Def: 153 HP: 185 Init: 50 Meat: 800-1200 P: humanoid
 Disease-In-The-Box	Atk: 18 Def: 16 HP: 14 Init: 75 P: object	box (30)	disease (40)
-Diving Belle	Atk: 400 Def: 450 HP: 750 Init: 50 E: spooky P: undead	diving muff (n3)	salinated mint julep (32)	water-polo mitt (c0)
+Diving Belle	Atk: 400 Def: 450 HP: 750 Init: 50 E: spooky P: undead	diving muff (n3)	salinated mint julep (32)	water-polo mitt (c0)	comb jelly (0)
 Dodecapede	Atk: 12 Def: 10 HP: 8 Init: 60 "A Little Bit Poisoned" P: bug
 Don Crimbo	HP: 1000000 Def: 89999 Atk: 99999 Init: 100 Phys: 100
 Dopey 7-Foot Dwarf	Atk: 53 Def: 47 HP: 40 Meat: 32-48 P: demihuman	miner's helmet (9)
@@ -470,7 +470,7 @@ Giant Pair of Tweezers	HP: 8 Def: 16 Atk: 16
 Giant Sandworm	Atk: 175 Def: 166 HP: 200 Init: 60 Meat: 200-300 P: bug	spices (10)	spices (10)	spices (10)	spice melange (n0)
 Giant Skeelton	Atk: 71 Def: 65 HP: 120 E: spooky	skeleton bone (0)	skeleton bone (0)	skeleton bone (0)
 Giant Spider	Atk: 90 Def: 81 HP: 90 Init: 40 P: bug
-Giant Squid	Atk: 500 Def: 405 HP: 800 Init: 25 Meat: 240-360 P: fish	ink bladder (n30)
+Giant Squid	Atk: 500 Def: 405 HP: 800 Init: 25 Meat: 240-360 P: fish	ink bladder (n30)	inky squid sauce (0)
 Giant Swarm of Ghuol Whelps	Atk: 50 Def: 45 HP: 250 E: spooky P: undead
 Giant Zombie Goldfish	Atk: 250 Def: 229 HP: 250 Init: 60 P: undead	decaying goldfish liver (0)	sewer nuggets (0)	sewer nuggets (0)
 Gift-wrapping Vampire		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
@@ -639,7 +639,7 @@ Mer-kin Miner	Atk: 450 Def: 405 HP: 750 Init: 50 Meat: 160-240 P: mer-kin	Mer-ki
 Mer-kin Raider	Atk: 750 Def: 585 HP: 800 Init: 50 Meat: 200-300 P: mer-kin	Mer-kin breastplate (c2)	Mer-kin foodbucket (n10)	Mer-kin hookspear (n2)	Mer-kin roundshield (n2)
 Mer-Kin rustler	Atk: 700 Def: 675 HP: 750	Mer-kin thingpouch (0)	Mer-kin foodbucket (0)	Mer-kin hookspear (0)
 Mer-kin Scavenger	Atk: 450 Def: 405 HP: 600 Init: 0 Meat: 160-240 P: mer-kin	Mer-kin hookspear (n2)	Mer-kin takebag (n4)	Mer-kin thingpouch (n25)
-Mer-kin Tippler	Atk: 600 Def: 360 HP: 750 Init: 80 Meat: 160-240 P: mer-kin	Alewife&trade; Ale (40)	Mer-kin foodbucket (n5)	Mer-kin pinkslip (n5)	slug of vodka (21)
+Mer-kin Tippler	Atk: 600 Def: 360 HP: 750 Init: 80 Meat: 160-240 P: mer-kin	Alewife&trade; Ale (40)	Mer-kin foodbucket (n5)	Mer-kin pinkslip (n5)	slug of vodka (21)	Mer-kin weaksauce (0)
 Mesmerizing Penguin	P: penguin	Crimbuck (0)	pocketwatch on a chain (0)	spiraling shape (c100)
 Mimic	BOSS Atk: 45 Def: 40 HP: 50 Init: 75 P: strange	dead mimic (n100)
 Mimic (Bottom 2 Rows)	Atk: 15 Def: 13 HP: 25 P: strange

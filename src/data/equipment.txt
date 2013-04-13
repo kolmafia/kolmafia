@@ -410,6 +410,7 @@ plexiglass pants	180	Mox: 75
 poodle skirt	200	Mox: 200
 pottery training pants	50	none
 rusty metal greaves	150	Mus: 60
+scale-mail underwear	200 Mox: 85
 sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
 slime-covered greaves	200	Mox: 200
@@ -1614,6 +1615,7 @@ bezoar ring	100	Mys: 35
 big red clown nose	50	Mys: 10
 bitter bowtie	160	Mox: 65
 black belt	150	Mys: 60
+black glass	0	none
 blackberry combat boots	180	Mus: 75
 blackberry galoshes	180	Mox: 75
 blackberry moccasins	180	Mys: 75

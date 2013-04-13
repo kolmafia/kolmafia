@@ -1210,12 +1210,12 @@
 1209	Hairless and Airless	straightrazor.gif	edaf797fe4b12d4c164629ca854e9c8e	use 1 shavin' razor
 1210	Eyes of the Dragon	bigeyes.gif	65576acd816de24deaa2c8d48c31ea88
 1211
-1212
+1212	Blade Rolling	switchblade.gif	9b41cb448428318c86e50025c9a40d66
 1213
 1214
 1215
 1216
-1217
+1217	Deep-Tainted	Mind tentaclemass.gif	6e3316d6f3cdcc9576c03873cc1d4ce5
 1218	Red Around the Gills	lipstick.gif	fd562a81c2d80434b06074afa0136c81	use 1 Mer-kin lipstick
 1219	Deep-Seated Rage	angry.gif	8156c5a5f858c481e6124a9fc7a15701	use 1 Mer-kin ragejuice
 1220	Juiced Out	strboost.gif	73d698c5f570c9761b6ef42f71a8f74a	use 1 Mer-kin strongjuice
@@ -1234,3 +1234,25 @@
 1233	Orange Crusher	taffy5.gif	92175ee27bcc826548408f45a395a01e	use 1 pulled orange taffy
 1234	Purple Reign	taffy6.gif	a860fef0fe00c90cca8c5d5e0024e31f	use 1 pulled violet taffy
 1235	Cinnamon Challenger	taffy7.gif	49df339b1c0346553b3e69368dfd3a7d	use 1 pulled red taffy
+1236
+1237	Jelly Combed combjelly.gif	3a4cd090a1a0fec11fa6672c8b47e9d3	use 1 comb jelly
+1238
+1239
+1240
+1241
+1242	Thick, Sick	chitinplate.gif	8defb23c25f24cd8474b7d50d6170a5b
+1243	Thicker, Sicker	chitinplate.gif	573777fdfa497ff7befc743174d3af2a
+1244	Thickest, Sickest	chitinplate.gif	6b668a8a029ce3ab7f23a17cf6208505
+1245	Horrid, Torrid	jaggedtooth.gif	32cd4a507b305b61a35232a31365084a
+1246	Shredding, Sweating	jaggedtooth.gif	573bbebc831fdf8db492c68299470a3a
+1247	Ripping, Dripping	jaggedtooth.gif	960915f69bc078f803423df5542d7224
+1248	Weepy, Creepy	blacktear.gif	427c10dbff5760b679f7711801a8ef2d
+1249	Tearful, Fearful	blacktear.gif	9e60b4709db66e4009923c3b6e04f206
+1250	Crying, Dying	blacktear.gif	352d8f08558abda2ed55290cde90b0aa
+1251	Hot Sweat	coffeecup.gif	39804e47edc35161c6e5d5879b4cdf40
+1252	Cold Sweat	poplight.gif	fff05f38cb94232e8aa0fd1bed90c075
+1253	Rank Sweat	jarl_cheeseslice.gif	11f4696b1418537788cc53fb955a8bf3
+1254	Black Sweat	cookies.gif	0f6cbd409e5fdbc1856c63f4b1ad2249
+1255	Flop Sweat	sammich.gif	ef840c1c6cc74d4b7d0491ac9ae14a9e
+1256	Mark of Candy Cain	candycane.gif	f1aea72e7aa044e2cd59f831f30618d2
+1257	Cereal Killer	mix.gif	49aec489233e24dd7f18eacd1a836ad0
