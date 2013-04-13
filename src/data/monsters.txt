@@ -398,7 +398,7 @@ eXtreme Orcish Snowboarder	Atk: 74 Def: 66 HP: 65 Init: 60 Meat: 32-48 E: sleaze
 eXtreme Sports Orcs	Atk: 39 Def: 34 HP: 30 Init: 5 E: sleaze Meat: 24-36 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 Fallen Archfiend	Atk: 50 Def: 45 HP: 50 Init: 80 E: hot Meat: 36-54 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)
 Family Jewels	Atk: 156 Def: 140 HP: 150 Init: 70 E: sleaze P: constellation	star (30)	star (30)	star (30)
-Family of Kobolds	Atk: 99999 Def: 89999 HP: 99999 Init: 0 P: demihuman	kobold treasure hoard (100n)
+Family of Kobolds	Atk: 99999 Def: 89999 HP: 99999 Init: 0 P: demihuman	kobold treasure hoard (n100)
 Fan Slime	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime	vial of yellow slime (f66)
 Fancy Bath Slug	Atk: 99999 Def: 89999 HP: [99999] Init: 0
 Fearsome Wacken	HP: 200 Def: 81 Atk: 90 P: beast	Crazyleg's razor (100)
@@ -664,7 +664,7 @@ Mob Penguin Smith	P: penguin	chunk of depleted Grimacite (0)	iron pasta spoon (0
 Mob Penguin Supervisor	P: penguin	chunk of depleted Grimacite (0)	mafia aria (0)	Mob Penguin cellular phone (0)	support cummerbund (0)
 Mobile Armored Sweat Lodge	Atk: 180 Def: 162 HP: 300 E: stench Phys: 50 P: hippy	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
 Modern Zmobie	Atk: 60 Def: 54 HP: 50 E: spooky P: undead
-moister oyster	Atk: 1100 Def: 1300 HP: 1500 Meat: 80-120 P: fish	giant pearl (100n)
+moister oyster	Atk: 1100 Def: 1300 HP: 1500 Meat: 80-120 P: fish	giant pearl (n100)
 Monkey Wrenchin' Elf	P: crimbo	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
 Monty Basingstoke-Pratt, IV	Atk: 195 Def: 175 HP: 240 Meat: 174-215 E: sleaze	white class ring (0)	natty blue ascot (100)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 Mother Hellseal	Atk: 150 Def: 135 HP: 150 Init: 150 P: demon	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
@@ -1336,7 +1336,7 @@ Whisk of Misery	Atk: 9 Def: 11 HP: 12	Artist's Whisk of Misery (0)
 Spatula of Despair	Atk: 8 Def: 12 HP: 12	Artist's Spatula of Despair (0)
 Butterknife of Regret	Atk: 11 Def: 9 HP: 12	Artist's Butterknife of Regret (0)
 Cookie Cutter of Loneliness	Atk: 10 Def: 10 HP: 12 P: strange	Artist's Cookie Cutter of Loneliness (0)
-Creme Brulee Torch of Fury	Atk: 12 Def: 8 HP: 12 E: hot	Artist's  Cr&egrave;me Brul&eacute;e Torch of Fury (0)
+Creme Brulee Torch of Fury	Atk: 12 Def: 8 HP: 12 E: hot	Artist's Cr&egrave;me Brul&eacute;e Torch of Fury (0)
 bag of Potatoes of Security	Atk: 30 Def: 100 HP: 100
 box of Batter Mix of Hope	Atk: 30 Def: 100 HP: 100
 carton of Eggs of Confidence	Atk: 30 Def: 100 HP: 100
