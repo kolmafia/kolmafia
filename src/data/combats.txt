@@ -172,6 +172,10 @@ Medbay	-1
 Menagerie 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
 Menagerie 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
+Mer-kin Colosseum	100	Mer-kin balldodger	Mer-kin bladeswitcher	Mer-kin netdragger	Georgepaul, the Balldodger: 0	Johnringo, the Netdragger: 0	Ringogeorge, the Bladeswitcher: 0
+Mer-kin Elementary School	-1	Mer-kin Monitor	Mer-kin Punisher	Mer-kin Teacher
+Mer-kin Gymnasium	-1	Mer-kin Juicer	Mer-kin Poseur	Mer-kin Trainer
+Mer-kin Library	-1	Mer-kin Alphabetizer	Mer-kin Drifter	Mer-kin Researcher
 Morgue	-1
 Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
 Mt. Molehill	-1	digital underground dweller	dwarvish gnome	spelunking astronaut	velvet underground dweller	weather underground dweller
