@@ -410,7 +410,7 @@ plexiglass pants	180	Mox: 75
 poodle skirt	200	Mox: 200
 pottery training pants	50	none
 rusty metal greaves	150	Mus: 60
-scale-mail underwear	200 Mox: 85
+scale-mail underwear	200	Mox: 85
 sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
 slime-covered greaves	200	Mox: 200

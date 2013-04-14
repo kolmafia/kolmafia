@@ -80,7 +80,7 @@ Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Fami
 Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
 Grimacite gasmask	Muscle Percent: [10*G], Weapon Damage: +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Grimacite goggles	Mysticality Percent: [10*G], Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
-Hat O' Nine Tails	Moxie Percent: 9
+Hat O' Nine Tails	Moxie Percent: +9
 Helm of the Scream Emperor	MP Regen Min: 1, MP Regen Max: 3, Experience: +2, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "0.5xVolley, 0.5xFairy"
 Hollandaise helmet	Spell Damage: +1, Familiar Effect: "atk, cap 2"
@@ -415,7 +415,7 @@ cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +1
 chain-mail monokini	Familiar Effect: "sleaze atk, 4xBarrr, cap 7"
 clingfilm trousers	Mysticality: +9, Familiar Effect: "sleaze atk, 1xPotato, cap 37"
 clockwork pants	Initiative: +10, Familiar Effect: "3xPotato, 1xGhuol, cap 20"
-corroded breeches	Slime Hates It: +1, Damage Absorption: +50, Critical Hit Percent: 3, Familiar Effect: "sleaze atk, 1xPotato"
+corroded breeches	Slime Hates It: +1, Damage Absorption: +50, Critical Hit Percent: +3, Familiar Effect: "sleaze atk, 1xPotato"
 crappy Mer-kin tailpiece	Initiative: -25, Mana Cost: +2
 crotchety pants	Maximum HP: +40, Familiar Effect: "3xPotato, 1xGhuol, cap 18"
 cursed breeches	Moxie: +15, Familiar Effect: "stench atk, 1xPotato"
@@ -453,7 +453,7 @@ hippopotamus kilt	Maximum HP: +25, Familiar Effect: "atk, 1xFairy, cap 32"
 hippopotamus pants	Maximum HP: +25, Familiar Effect: "1xPotato, 1xGhuol, cap 32"
 hippopotamus skirt	Maximum HP: +25, Familiar Effect: "1xBarrr, 1xFairy, cap 32"
 hobo dungarees	Maximum MP: +500, Mysticality Percent: +5, Familiar Effect: "0.5xVolley, 1xPotato"
-honeybritches	Muscle Percent: +5, Critical Hit Percent: 5, Weapon Damage: +15, Familiar Effect: "sleaze atk, 1xGhuol, cap 43"
+honeybritches	Muscle Percent: +5, Critical Hit Percent: +5, Weapon Damage: +15, Familiar Effect: "sleaze atk, 1xGhuol, cap 43"
 hot daub stand	Hot Damage: +9, Hot Spell Damage: +9
 ironic jogging shorts	Initiative: +10, Damage Absorption: +20, Moxie: -5, Familiar Effect: "1xGhuol, cap 10"
 junk-mail pants	Familiar Effect: "2xBarrr, cap 12"
@@ -466,7 +466,7 @@ makeshift skirt	Initiative: +15, Familiar Effect: "2xBarrr, 1xFairy, cap 25"
 manly bloomers	Muscle: +6, Moxie: -3, Familiar Effect: "3xBarrr, 1xGhuol, cap 13"
 mariachi pants	Familiar Effect: "1xPotato, cap 2"
 miner's pants	Damage Absorption: +20, Familiar Effect: "prismatic atk, 1.5xPotato, cap 20"
-monster pants	Critical Hit Percent: 5, Familiar Effect: "3xVolley, 1xPotato, cap 17"
+monster pants	Critical Hit Percent: +5, Familiar Effect: "3xVolley, 1xPotato, cap 17"
 mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5, Familiar Effect: "stench atk, 1xPotato"
 ninja hot pants	Hot Damage: +4, Familiar Effect: "hot atk, prismatic atk, 1xPotato, cap 17"
 oil slacks	Initiative: +20
@@ -598,7 +598,7 @@ sugar shirt	Experience: +3
 supportive bra	Moxie: +3
 turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 tuxedo shirt	Moxie: +7
-white hat hacker T-shirt	Critical Hit Percent: 3, Muscle: +2, Mysticality: +2, Moxie: +2
+white hat hacker T-shirt	Critical Hit Percent: +3, Muscle: +2, Mysticality: +2, Moxie: +2
 white snakeskin duster	Muscle: +2, Maximum HP: +10
 wumpus-hair sweater	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +30, Maximum MP: +30
 yak anorak	MP Regen Min: 3, MP Regen Max: 4
@@ -607,7 +607,7 @@ yak anorak	MP Regen Min: 3, MP Regen Max: 4
 
 17-alarm Saucepan	Mysticality: +11, Hot Spell Damage: +15
 # 25-meat staff
-4-dimensional guitar	Ranged Damage: +7, Critical Hit Percent: 15
+4-dimensional guitar	Ranged Damage: +7, Critical Hit Percent: +15
 5-Alarm Saucepan	Mysticality: +7, Class: "Sauceror"
 7-Foot Dwarven mattock	Weakens Monster
 # 7-inch discus: On Critical Hit Percent: Music Snobbery!
@@ -655,7 +655,7 @@ Gnollish slotted spoon	Spell Damage: +3
 Greek Pasta of Peril	Mysticality: +11, Food Drop: +10, Initiative: +25
 Grimacite gat	Initiative: +20, Moxie Percent: [10*G]
 Grimacite glaive	Weapon Damage: +15, Muscle Percent: [10*G]
-Hammer of Smiting	Muscle: +16, Critical Hit Percent: 7
+Hammer of Smiting	Muscle: +16, Critical Hit Percent: +7
 # Hodgman's whackin' stick: On Critical Hit Percent: Insanity!
 Hodgman's whackin' stick	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Kentucky-fried meat crossbow	Moxie: +5
@@ -698,7 +698,7 @@ Radio Free Foil	Muscle: +20
 Rain-Doh yellow laser gun	Weakens Monster, Softcore Only
 Rain-Doh violet bo	Sleaze Damage: +11, Moxie: +11, Softcore Only
 # Red Rover BB gun: You'll Put Your Eye Out!
-Red Rover BB gun	Critical Hit Percent: 3
+Red Rover BB gun	Critical Hit Percent: +3
 Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
 # Ruby Rod
 # Seeger's Unstoppable Banjo: Special Attack: Funk Bluegrass Fusion
@@ -706,9 +706,9 @@ Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23, Class: "Disco Bandit", DB
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7
 # Sledgehammer of the V&aelig;lkyr: +20% Physical Damage (currently approximated with Weapon Damage)
 # Sledgehammer of the V&aelig;lkyr: Special Attack: Bashing Slam Smash
-Sledgehammer of the V&aelig;lkyr	Weapon Damage Percent: +20, Muscle: +23, Critical Hit Percent: 10, Class: "Seal Clubber"
+Sledgehammer of the V&aelig;lkyr	Weapon Damage Percent: +20, Muscle: +23, Critical Hit Percent: +10, Class: "Seal Clubber"
 # Space Tourist Phaser: This Phaser is set to Fun
-Spirit Precipice	Muscle: +7, Mysticality: +5, Critical Hit Percent: 20
+Spirit Precipice	Muscle: +7, Mysticality: +5, Critical Hit Percent: +20
 Spooky Putty ball	Spooky Damage: +10, Softcore Only
 Spooky Putty snake	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
 Squeezebox of the Ages	Moxie: +11, Ranged Damage: +15
@@ -752,7 +752,7 @@ Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20,
 Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
 Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
 Super Crimboman Ultra Mega Hypersword	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
-Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical Hit Percent: 5
+Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical Hit Percent: +5
 Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Spell Damage Percent: +50, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 # Sword of Procedural Generation: Randomized per player
 # Tales of the Word Realms: Lends Power to Your Words
@@ -769,7 +769,7 @@ Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent: +10
 Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscle Percent: +10
 Unionize The Elves sign	Weakens Monster
 # Wand of Nagamar
-White Dragon Fang	Muscle Percent: 9, Mysticality Percent: 9, Moxie Percent: 9, Spooky Damage: 9, Stench Damage: 9, Hot Damage: 9, Cold Damage: 9, Sleaze Damage: 9, MP Regen Min: 9, MP Regen Max: 9
+White Dragon Fang	Muscle Percent: +9, Mysticality Percent: +9, Moxie Percent: +9, Spooky Damage: 9, Stench Damage: 9, Hot Damage: 9, Cold Damage: 9, Sleaze Damage: 9, MP Regen Min: 9, MP Regen Max: 9
 # Windsor Pan of the Source: Special Attack: Saucemageddon
 Windsor Pan of the Source	Mysticality: +15, Spell Damage: +23, Spell Critical Percent: +11, Class: "Sauceror"
 # Wrath of the Capsaician Pastalords: Special Attack: Noodles of Fire
@@ -785,13 +785,13 @@ ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 anger blaster	Hot Damage: +10
 antique spear	Initiative: -30, Weakens Monster
 # archaeologing shovel
-armgun	Weapon Damage: +10, Critical Hit Percent: 5
+armgun	Weapon Damage: +10, Critical Hit Percent: +5
 arse-shooting crossbow	Muscle: +15, Mysticality: +15, Moxie: +15
 asbestos crossbow	Moxie: +7, Muscle: +5
 asbestos staff	Mysticality: +7, Moxie: +5
 asbestos sword	Muscle: +7, Mysticality: +5
 asparagus knife	Stench Damage: +1
-astral bludgeon	Muscle Percent: +25, Weapon Damage: +20, Critical Hit Percent: 3
+astral bludgeon	Muscle Percent: +25, Weapon Damage: +20, Critical Hit Percent: +3
 astral longbow	Moxie Percent: +25, Ranged Damage: +20, Meat Drop: +30
 astral mace	Muscle Percent: +25, Weapon Damage: +20, PvP Fights: +4
 astral pistol	Moxie Percent: +25, Ranged Damage: +20, PvP Fights: +4
@@ -816,8 +816,8 @@ big stirring stick	Mysticality: +5, Spell Damage: +5
 # bindlestocking: On Critical Hit Percent: Merry Crimbo!
 bindlestocking	Item Drop: +10, Weapon Damage: +25
 black kettle drum	Moxie: +5, Maximum HP: +30, Maximum MP: +30
-black sword	Critical Hit Percent: 7, Weapon Damage: +7
-blammer	Critical Hit Percent: 7, Weakens Monster
+black sword	Critical Hit Percent: +7, Weapon Damage: +7
+blammer	Critical Hit Percent: +7, Weakens Monster
 blunt icepick	Cold Damage: +15
 # bone and arrow: +30 Damage vs. Skeletons
 # bone crusher: +30 Damage vs. Skeletons
@@ -865,11 +865,11 @@ chrome staff	Mysticality: +7, Adventures: +3
 chrome sword	Muscle: +7, Adventures: +3
 clock-cleaning hammer	Weapon Damage: +20
 # clockwork crossbow: Weakens Monster on Critical Hit
-clockwork crossbow	Ranged Damage: +10, Critical Hit Percent: 7
+clockwork crossbow	Ranged Damage: +10, Critical Hit Percent: +7
 # clockwork staff: Restores 3-24 MP on Critical Hit
-clockwork staff	Spell Damage: +10, Critical Hit Percent: 15
+clockwork staff	Spell Damage: +10, Critical Hit Percent: +15
 # clockwork sword: Heals 3-24 HP on Critical Hit
-clockwork sword	Weapon Damage: +10, Critical Hit Percent: 15
+clockwork sword	Weapon Damage: +10, Critical Hit Percent: +15
 # clown hammer: Squeaky!
 clown whip	Sleaze Resistance: +2, Clownosity: +2
 club of corruption	Weapon Damage: +3, Class: "Seal Clubber"
@@ -956,10 +956,10 @@ frozen seal spine	Cold Damage: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen 
 ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
 gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
 giant artisanal rice peeler	Spell Damage: +15
-giant cactus quill	Critical Hit Percent: 7, Maximum HP: +30
+giant cactus quill	Critical Hit Percent: +7, Maximum HP: +30
 giant candy cane	Candy Drop: +40
 giant cheesestick	Mysticality: +5, Sleaze Spell Damage: +11
-giant discarded plastic fork	Critical Hit Percent: 10, Initiative: -10
+giant discarded plastic fork	Critical Hit Percent: +10, Initiative: -10
 giant driftwood sculpture	Moxie: +8, Weapon Damage: +15
 # giant fishhook
 giant foam finger	Damage Reduction: 3
@@ -1012,7 +1012,7 @@ ironic battle spoon	Spell Damage: +10
 jack flapper	Spell Damage: +5
 jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
 keel-haulin' knife	Spell Damage: +17
-kneecapping stick	Critical Hit Percent: 8
+kneecapping stick	Critical Hit Percent: +8
 knob bugle	Weakens Monster
 lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
 lawnmower blade	Weapon Damage: +15
@@ -1073,7 +1073,7 @@ pixel whip	Muscle: +3, Mysticality: +3, Moxie: +3
 plastic guitar	Moxie: +5, Initiative: +15
 plexiglass pikestaff	Weapon Damage: +25, PvP Fights: +9, Muscle Percent: +30
 pocket theremin	Spooky Damage: +4
-pointed stick	Critical Hit Percent: 2, Weapon Damage: +10
+pointed stick	Critical Hit Percent: +2, Weapon Damage: +10
 # poison pen: 75% chance of poisoning opponent.
 pool cue	Moxie: +3
 portable corkscrew	Weapon Damage: +3, Spell Damage: +3
@@ -1081,7 +1081,7 @@ potato pistol	Moxie: +5, Sleaze Damage: +5
 pottery club	Hot Damage: +5
 pottery yo-yo	Hot Damage: +5
 poutine pole	Mysticality: +3, Sleaze Damage: +3
-prehistoric spear	Critical Hit Percent: 5
+prehistoric spear	Critical Hit Percent: +5
 projectile icemaker	Moxie: +7, Spell Damage: +7, Cold Damage: +5
 pygmy spear	Muscle: +7
 # quantum disintegrator pistol: +15 Damage vs. Bugbears
@@ -1092,19 +1092,19 @@ ratarang	Ranged Damage: +7, Moxie: +3
 rattail whip	Moxie: +5, Monster Level: +5
 rave whistle	Maximum HP: +10, Monster Level: +10, Raveosity: +1
 regret hose	Cold Damage: +10
-repeating crossbow	Moxie: +2, Critical Hit Percent: 15
+repeating crossbow	Moxie: +2, Critical Hit Percent: +15
 rib of the Bonerdagon	Muscle: +5, Mysticality: +5, Spell Damage: +15
 ridiculously huge sword	Weapon Damage: +12, Muscle: +4
-ridiculously overelaborate ninja weapon	Critical Hit Percent: 15, Fumble: 3
+ridiculously overelaborate ninja weapon	Critical Hit Percent: +15, Fumble: 3
 # right bear arm: Lets you act like a bear
 right bear arm	Muscle Percent: +10, Weapon Damage Percent: +30
 roboduck-on-a-string	Weapon Damage: +5, Item Drop: +5
 rubber axe	Sleaze Damage: +2
 rubber band gun	Moxie: +5
 rusty grave robbing shovel	Spooky Damage: +5, Initiative: -10
-rusty piece of rebar	Weapon Damage: +25, Critical Hit Percent: 3
+rusty piece of rebar	Weapon Damage: +25, Critical Hit Percent: +3
 # rusty speargun: On Critical Hit Percent:  Deals 50-60 additional damage
-rusty speargun	Weapon Damage: +25, Critical Hit Percent: 7
+rusty speargun	Weapon Damage: +25, Critical Hit Percent: +7
 rusty staff	Spell Damage: +25, Spell Critical Percent: +5
 sabre teeth	Weapon Damage: +4
 # sack of doorknobs
@@ -1130,9 +1130,9 @@ skate board	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, D
 skeleton bone	Spooky Damage: +1
 sleazy bindle	Item Drop: +10, Sleaze Damage: +25
 # slightly peevedbow
-slime-covered club	Weapon Damage: [50*zone(The Slime Tube)+25], Critical Hit Percent: 7
+slime-covered club	Weapon Damage: [50*zone(The Slime Tube)+25], Critical Hit Percent: +7
 slime-covered shovel	Weapon Damage: [100*zone(The Slime Tube)+60], Initiative: -10
-slime-covered speargun	Weapon Damage: [50*zone(The Slime Tube)+25], Critical Hit Percent: 7
+slime-covered speargun	Weapon Damage: [50*zone(The Slime Tube)+25], Critical Hit Percent: +7
 # slime-covered staff: All Spells Cast Are Sleazy
 slime-covered staff	Spell Damage: +60, Initiative: -10
 # slingshot
@@ -1141,13 +1141,13 @@ smoldering staff	Mysticality: +7, Moxie: +5, Stench Spell Damage: +11
 soup-chucks	Hot Damage: +2
 soylent staff	Mysticality: +4, Spell Damage: +10
 spiked femur	Spooky Damage: +6
-spooky bicycle chain	Spooky Damage: +5, Critical Hit Percent: 5
+spooky bicycle chain	Spooky Damage: +5, Critical Hit Percent: +5
 spooky bindle	Item Drop: +10, Spooky Damage: +25
 spooky staff	Mysticality: +2, Spooky Damage: +2
 spooky stick	Spooky Damage: +2
 spork	Muscle: +2
 squeaky staff	Mysticality: +3, Monster Level: +6
-stainless steel shillelagh	Weapon Damage: +20, Critical Hit Percent: 10, Muscle Percent: +15
+stainless steel shillelagh	Weapon Damage: +20, Critical Hit Percent: +10, Muscle Percent: +15
 staph of homophones	Mysticality: +7, Adventures: +5
 star boomerang	Moxie: +5
 star crossbow	Moxie: +8
@@ -1185,7 +1185,7 @@ time sword	Adventures: +3
 tiny ninja sword	Moxie: +1
 tiny plastic sword	Moxie: +1
 titanium assault umbrella	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
-toy ray gun	Hot Damage: +5, Critical Hit Percent: 5
+toy ray gun	Hot Damage: +5, Critical Hit Percent: +5
 # trout fang: 25% chance of poisoning opponent
 trout fang	Weapon Damage: +15
 trusty torch	Hot Damage: +3
@@ -1196,8 +1196,8 @@ vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5
 velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat Drop: +20, Pants Drop: +20
 velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Accessory Drop: +20
 vibrating cyborg knife	Weapon Damage: +20, Fumble: 3
-villainous scythe	Slime Hates It: +2, Weapon Damage Percent: +30, Critical Hit Percent: 20
-vorpal blade	Critical Hit Percent: 8
+villainous scythe	Slime Hates It: +2, Weapon Damage Percent: +30, Critical Hit Percent: +20
+vorpal blade	Critical Hit Percent: +8
 war tongs	Hot Damage: +10, Hot Spell Damage: +10
 weighted paperclip chain	Weapon Damage: +12
 white sword	Muscle: +2
@@ -1211,7 +1211,7 @@ world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 # worm-riding hooks
 wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 yak whip	Weakens Monster
-yohohoyo	Critical Hit Percent: 5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
+yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 
 # Off-hand section of modifiers.txt
 
@@ -1284,7 +1284,7 @@ Loathing Legion kitchen sink	Spell Damage Percent: +25, Softcore Only
 Loathing Legion many-purpose hook	Item Drop: +10, Softcore Only
 Loathing Legion moondial	Adventures: +4, Softcore Only
 Loathing Legion pizza stone	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Damage Reduction: 6, Softcore Only
-Loathing Legion tape measure	Critical Hit Percent: 10, Softcore Only
+Loathing Legion tape measure	Critical Hit Percent: +10, Softcore Only
 Medallion of the Ventrilo Prince	Moxie Percent: +12
 Mer-kin begsign	Weakens Monster, Meat Drop: [40*zone(The Sea)]
 Mer-kin roundshield	Damage Reduction: 5, Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
@@ -1410,7 +1410,7 @@ duct tape buckler	Maximum HP: +65, Maximum MP: +65, Damage Reduction: 12
 easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 # eelskin shield: Damages Attacking Opponent (Underwater Only)
 eelskin shield	Maximum HP: +55, Maximum MP: +55, Damage Reduction: 13
-enchanted brass knuckles	Critical Hit Percent: 5
+enchanted brass knuckles	Critical Hit Percent: +5
 # enchanted fire extinguisher: All Spells Cast Are Cold
 enchanted fire extinguisher	Spell Damage Percent: +100, Cold Spell Damage: +30
 eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
@@ -1458,7 +1458,7 @@ left-handed melodica	Ranged Damage: +25, Class: "Accordion Thief"
 lemonade marble	Cold Spell Damage: +45
 little round pebble	Initiative: +50
 loadstone	Meat Drop: +10
-lucky lighter	Hot Damage: +6, Critical Hit Percent: 5
+lucky lighter	Hot Damage: +6, Critical Hit Percent: +5
 mad scientist's sock monkey	Moxie: +3
 magic lamp	Mysticality: +5
 magical ice cubes	Cold Damage: +1
@@ -1497,7 +1497,7 @@ plush alien hamsterpus	Muscle Percent: +6, Mysticality Percent: +6, Moxie Percen
 plush dogcat	Maximum MP: +30
 plush ferrelf	Muscle: +5, Mysticality: +5, Moxie: +5
 plush hamsterpus	Maximum HP: +50, Maximum MP: +50
-plush mutated alielephant	Muscle Percent: +9, Mysticality Percent: +9, Moxie Percent: +9, Critical Hit Percent: 5
+plush mutated alielephant	Muscle Percent: +9, Mysticality Percent: +9, Moxie Percent: +9, Critical Hit Percent: +5
 plush mutated alielf	Muscle Percent: +3, Mysticality Percent: +3, Moxie Percent: +3
 pocketwatch on a chain	Monster Level: -10, Experience (Mysticality): +1
 polyalloy shield	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Muscle: +10, Damage Reduction: 9
@@ -1649,7 +1649,7 @@ Duskwalker fangs	Weapon Damage Percent: +5, Weakens Monster
 Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
 # El Vibrato translator
-Elmley shades	Muscle: +12, Critical Hit Percent: 3, Single Equip
+Elmley shades	Muscle: +12, Critical Hit Percent: +3, Single Equip
 # Elvish sunglasses: Lets you Rock Out
 Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Pickpocket Chance: +25, Single Equip, Softcore Only
 Emblem of Ak'gyxoth	Moxie: +43, Mana Cost: -1
@@ -1783,7 +1783,7 @@ UV monocular	Item Drop: +5, Single Equip
 # V for Vivala mask: Combat items do more damage
 # V for Vivala mask: +1-3 Stat(s) per Fight
 # V for Vivala mask: Allows use of Creepy Grin (once per day)
-V for Vivala mask	Muscle Percent: +30, Critical Hit Percent: 10, Single Equip, Softcore Only
+V for Vivala mask	Muscle Percent: +30, Critical Hit Percent: +10, Single Equip, Softcore Only
 Voluminous Radio Sneakers	Muscle: +10, Mysticality: +10, Moxie: +10, Single Equip
 Warehouse 23 bling	Maximum MP: +23
 Xlyinia's notebook	Muscle: +15, Mysticality: +15, Moxie: +15
@@ -1896,7 +1896,7 @@ enormous hoop earring	Moxie: +5
 evil flaming eyeball pendant	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
 exclusive ultra-rare item	Muscle: +15, Mysticality: +15, Moxie: +15
 fancy black tie	Muscle Percent: +15, Single Equip
-filigreed hamethyst earring	Muscle: +8, Critical Hit Percent: 5
+filigreed hamethyst earring	Muscle: +8, Critical Hit Percent: +5
 filigreed hamethyst necklace	Muscle: +10, Weapon Damage: +8, PvP Fights: +2, Single Equip
 filigreed hamethyst ring	Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 flashing novelty button	Maximum HP: +5, Moxie: -2
@@ -1935,8 +1935,8 @@ grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
 gummi bowtie	Moxie: +5
 # haggis socks: Allows you to deliver disgusting kicks
 haggis socks	Initiative: +5
-hamethyst bracelet	Muscle: +3, Critical Hit Percent: 5, Single Equip
-hamethyst earring	Muscle: +3, Critical Hit Percent: 5
+hamethyst bracelet	Muscle: +3, Critical Hit Percent: +5, Single Equip
+hamethyst earring	Muscle: +3, Critical Hit Percent: +5
 hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +2, Single Equip
 hamethyst ring	Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 hardened slime belt	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, HP Regen Min: 10, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 30, Mysticality Percent: +20, Single Equip
@@ -2118,7 +2118,7 @@ stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyChee
 stolen necklace	PvP Fights: +1, Spooky Damage: +5
 # strawberyl necklace: (only in the Candy Diorama)
 strawberyl necklace	Spell Damage Percent: [200*zone(The Candy Diorama)], Single Equip
-streetfighting champion's belt	Maximum HP: +40, Maximum MP: +40, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8, Critical Hit Percent: 5, Single Equip
+streetfighting champion's belt	Maximum HP: +40, Maximum MP: +40, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8, Critical Hit Percent: +5, Single Equip
 string of blue beads	Mysticality: +1
 string of green beads	Moxie: +1
 string of red beads	Muscle: +1
@@ -2704,13 +2704,13 @@ Throne:Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Mutant Cactus Bud	Meat Drop: +20
 Throne:Mutant Fire Ant	Hot Damage: +20
 Throne:Mutant Gila Monster	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
-Throne:Nanorhino	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10
+Throne:Nanorhino	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Throne:Nervous Tick	Experience (Moxie): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne:Ninja Pirate Zombie Robot	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne:Ninja Snowflake	Moxie Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne:O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
 Throne:Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
-Throne:Oily Woim	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10
+Throne:Oily Woim	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Throne:Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Pair of Ragged Claws	Familiar Weight: +5
 Throne:Pair of Stomping Boots	Weapon Damage Percent: +10
@@ -2731,7 +2731,7 @@ Throne:Reconstituted Crow	Item Drop: +10
 Throne:RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Rock Lobster	Spell Damage Percent: +15, MP Regen Min: 11, MP Regen Max: 15
-Throne:Rogue Program	Spell Damage Percent: 10
+Throne:Rogue Program	Spell Damage Percent: +10
 Throne:Sabre-Toothed Lime	Moxie Percent: +15
 Throne:Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne:Sleazy Gravy Fairy	Sleaze Damage: +20
@@ -3515,9 +3515,9 @@ Neutered Nostrils	Stench Resistance: +2
 New and Improved	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Newt Gets In Your Eyes	Moxie: +25
 Night Vision	Meat Drop: +30
-Nightstalkin'	Critical Hit Percent: 10
+Nightstalkin'	Critical Hit Percent: +10
 # Nihao You Doin'?: Makes you look like a lucky cat statue
-Ninja, Please	Critical Hit Percent: 15
+Ninja, Please	Critical Hit Percent: +15
 # Ninjas Just Tryin' to Get Paid: Makes you look like a salary ninja
 # No Squealer Healer: Makes you look like a Quiet Healer
 No Vertigo	Initiative: +20
@@ -3582,7 +3582,7 @@ Phorcefullness	Muscle Percent: +100
 # Pie in the Face: Hilarious!
 Pie in the Sky	Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2
 Piratastic	Moxie: +100
-Piratey Flavor	Critical Hit Percent: 5
+Piratey Flavor	Critical Hit Percent: +5
 Pisces in the Skyces	Spell Damage Percent: +150
 Pla-see-bo	Item Drop: +10
 Pneumatic	Adventure Underwater
@@ -3626,7 +3626,7 @@ Quivering with Rage	Muscle Percent: -10
 QWOPped Up	Initiative: -100
 Rad-ish	Moxie Percent: +25
 Radiant Personality	Moxie Percent: +30
-Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3, Critical Hit Percent: 10
+Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3, Critical Hit Percent: +10
 Radio Head	Moxie: +20
 Radium Radicality	Moxie: +30
 Rage of the Reindeer	Weapon Damage: +10, Muscle Percent: +10
@@ -3823,7 +3823,7 @@ Sugar Smacks	Muscle Percent: +30
 Sugary Tongue	Moxie Percent: +30
 Sunburned	Muscle: -2, Moxie: -2
 Supafly	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +30, Sleaze Damage: +10, Sleaze Resistance: +2
-Super Accuracy	Critical Hit Percent: 30
+Super Accuracy	Critical Hit Percent: +30
 # Super Calloused Agile Mystic: Makes you look like an ancient insane monk
 # Super Skill: Combat Skills/Spells cost 0 MP
 Super Speed	Moxie Percent: +100
@@ -3943,9 +3943,9 @@ Using Protection	Mana Cost: -2
 Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
 Vinegavotte	Item Drop: +20
-Violent Night	Critical Hit Percent: 5
+Violent Night	Critical Hit Percent: +5
 # Visibly Goth: Makes you look like a Goth Giant
-Visions of the Deep Dark Deeps	Spell Damage Percent: 50
+Visions of the Deep Dark Deeps	Spell Damage Percent: +50
 Vitamin-Maxed	Muscle Percent: +10
 Void Between the Stars	Cold Damage: +50
 Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/5)*25)]
@@ -3962,7 +3962,7 @@ Wasabi With You	Weapon Damage Percent: +150
 Weapon of Mass Destruction	Weapon Damage Percent: +30
 Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
-Weepy, Creepy	tem Drop: +5
+Weepy, Creepy	Item Drop: +5
 # Weird Flavor: ???
 # Weirdly Scientific: Makes you look like a Sub-Assistant Knob Mad Scientist
 Well-Lubed	Weapon Damage Percent: +10
@@ -4029,7 +4029,7 @@ Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistan
 Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 # Eye of the Stoat	+10% critical hits for Thrust Smacks, improve smacks
 Fashionably Late	Adventures: +1
-Ferocity	Critical Hit Percent: 25
+Ferocity	Critical Hit Percent: +25
 # Flavour of Magic
 Food Coma	Base Resting MP: 9999
 Gnefarious Pickpocketing	Meat Drop: +10
@@ -4129,6 +4129,7 @@ Bugbear Costume	Mysticality: +3, Spell Damage: +3
 Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Clockwork Apparatus	I Meant To Do That!
 Cold Comforts	Cold Damage: +30, Cold Spell Damage: +30
+Crappy Mer-kin Disguise	Mus: +30, Mys: +30, Mox: +30
 Crimbo Duds	Item Drop: +5
 Crimborg Assault Armor	Ranged Damage: +20
 Cursed Zombie Pirate Costume	Spooky Damage: +30
@@ -4163,10 +4164,12 @@ Legendary Regalia of the Master Squeezeboxer	Pickpocket Chance: +50
 # Legendary Regalia of the Saucemaestro	improved HP/MP return from saucespheres
 # Legendary Regalia of the Seal Crusher	+100% Item Drops from Infernal Seals
 Luniform	Weapon Damage Percent: +25, Spell Damage Percent: +25
+Mer-kin Gladiatorial Gear	Critical Hit Percent: +3
+Mer-kin Scholar's Vestments	Spell Critical Percent: +10
 Mining Gear	Meat Drop: +5
 # Mutant Couture	Release Your Inner Mutant
 Oil Rig	Initiative: +30
-OK Lumberjack Outfit	Critical Hit Percent: 10
+OK Lumberjack Outfit	Critical Hit Percent: +10
 Palmist Paraphernalia	Moxie: +7
 # Paperclippery	Helpful!
 Pinata Provisions	Damage Reduction: +15
