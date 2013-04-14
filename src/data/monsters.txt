@@ -371,7 +371,7 @@ Ed the Undying (7)	BOSS HP: 8 Def: 162 Atk: 180 P: undead	Holy MacGuffin (n100)
 Edwing Abbidriel		elf resistance button (100)
 El Diablo	Atk: 99999 Def: 89999 HP: [99999] Init: 0
 Electron Submarine	Atk: 99999 Def: 89999 HP: [99999] Init: 0
-elephant (meatcar?) topiary animal	Atk: 85 Def: 80 HP: 90 P: beast	rusty hedge trimmers (15)
+Elephant (meatcar?) Topiary Animal	Atk: 85 Def: 80 HP: 90 P: beast	rusty hedge trimmers (15)
 Elf Hobo	HP: 40 Def: 27 Atk: 30 Init: 50 P: hobo	bindlestocking (0)	bottle of rum (15)	bottle of tequila (15)	bottle of whiskey (15)	candy cane (15)	Crimbo candied pecan (15)	Crimbo fudge (15)	Crimbo peppermint bark (15)	eggnog (15)	Mad Train wine (15)	sleeping stocking (0)	Tales of a Kansas Toymaker (0)	The Joy of Wassailing (0)	white lightning (15)	Wint-O-Fresh mint (15)
 Elite Beer Bongadier	Atk: 190 Def: 184 HP: 230 E: sleaze P: orc	beer bong (30)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (4)	PADL Phone (3)
 Empty Suit of Armor	Atk: 115 Def: 103 HP: 120 Init: 0 ED: spooky P: object	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
@@ -396,6 +396,7 @@ Evil Vihuela-playing Mariachi	Atk: 24 Def: 21 HP: 21 Init: 40 P: humanoid	a crea
 eXtreme Cross-Country Hippy	Atk: 73 Def: 65 HP: 65 Init: 60 E: stench P: hippy	eXtreme scarf (10)	Mountain Stream soda (30)	enchanted handwarmer (p5)
 eXtreme Orcish Snowboarder	Atk: 74 Def: 66 HP: 65 Init: 60 Meat: 32-48 E: sleaze P: orc	Mountain Stream soda (30)	snowboarder pants (10)	enchanted handwarmer (p5)	eXtreme Bi-Polar Fleece Vest (c5)
 eXtreme Sports Orcs	Atk: 39 Def: 34 HP: 30 Init: 5 E: sleaze Meat: 24-36 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
+Eye in the Darkness	Atk: 600 Def: 650 HP: 700	black tear (0)
 Fallen Archfiend	Atk: 50 Def: 45 HP: 50 Init: 80 E: hot Meat: 36-54 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)
 Family Jewels	Atk: 156 Def: 140 HP: 150 Init: 70 E: sleaze P: constellation	star (30)	star (30)	star (30)
 Family of Kobolds	Atk: 99999 Def: 89999 HP: 99999 Init: 0 P: demihuman	kobold treasure hoard (n100)
@@ -453,6 +454,7 @@ Gaudy Pirate	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	costume sword (5)	enor
 Gaunt Ghuol	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 18-24 P: undead	ghuol ears (20)	ghuol egg (20)
 Gelatinous Cube	Atk: 3 Def: 2 HP: 6 Init: 50 Meat: 20-30 P: slime	Orcish meat locker (25)	rusty metal ring (25)	rusty metal shaft (25)
 Generic Duck	Atk: 167 Def: 154 HP: 180 Meat: 70-80 P: beast
+Georgepaul, the Balldodger	Atk: 1200 Def: 1150 HP: 1400 P: mer-kin
 Ghastly Organist	Atk: 110 Def: 99 HP: 120 Init: 50 P: undead	opera mask (20)
 Ghost	Atk: 75 Def: 67 HP: 80 P: undead	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)
 Ghost Miner	Atk: 30 Def: 27 HP: 31 Init: 50 E: spooky Phys: 100 P: undead	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
@@ -549,6 +551,7 @@ Irritating Series of Random Encounters	Atk: 105 Def: 94 HP: 110 Init: 80 Meat: 1
 Jailbait Orquette	HP: 80 Def: 45 Atk: 40 Init: 30 E: sleaze P: orc	orquette's phone number (c100)
 Jamfish	Atk: 400 Def: 360 HP: 750 Init: 0 "Majorly Poisoned" P: fish	jamfish jam (n5)	jellyfish gel (c10)	seaweed (n5)
 Jocko Homo	Atk: 115 Def: 103 HP: 150 P: beast	secret tropical island volcano lair map (100)	Jocko Homo's head (100)	unusual disco ball (100)
+Johnringo, the Netdragger	Atk: 1250 Def: 1200 HP: 1500 P: mer-kin
 Jungle Baboon	Atk: 50 Def: 54 HP: 50 Init: 80 P: beast	banana peel (0)	glass of baboon milk (0)
 Jungle Scabie	Atk: 90 Def: 81 HP: 100 Init: 60 P: bug	big glob of skin (0)
 Junk	Atk: 159 Def: 143 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
@@ -632,14 +635,27 @@ Medusa	Atk: 75 Def: 76 HP: 80 P: horror	blue pixel (0)	white pixel (0)	white pix
 Menacing Construct	Atk: 400 Def: 315 HP: 400 P: object	El Vibrato punchcard (115 holes) (1)	El Vibrato punchcard (142 holes) (1)
 Menacing Lawn Gnome	HP: 75 Def: 45 Atk: 50 Init: 50 P: demihuman	machetito (0)	pointy red hat (0)
 Menacing Thug	Atk: 55 Def: 49 HP: 75 Atk: 55 P: humanoid
+Mer-kin Alphabetizer	Atk: 750 Def: 800 HP: 900 P: mer-kin	Mer-kin smartjuice (0)	Mer-kin worktea (0)
 Mer-kin Burglar	Atk: 650 Def: 720 HP: 650 Init: 0 Meat: 200-300 P: mer-kin	Mer-kin foodbucket (n6)	Mer-kin hidepaint (n10)	Mer-kin sneakmask (n2)	Mer-kin takebag (n2)
 Mer-kin Diver	Atk: 475 Def: 427 HP: 700 Init: 25 Meat: 160-240 P: mer-kin	Mer-kin foodbucket (n15)	Mer-kin hookspear (n2)	Mer-kin pressureglobe (n9)	Mer-kin thingpouch (n25)
+Mer-kin Drifter	Atk: 850 Def: 800 HP: 1000 P: mer-kin	Mer-kin knucklebone (0)	Mer-kin begsign (0)	Mer-kin cooljuice (0)
 Mer-kin Healer	Atk: 650 Def: 585 HP: 600 Init: 25 Meat: 120-180 P: mer-kin	Mer-kin foodbucket (n5)	Mer-kin healscroll (n25)	Mer-kin prayerbeads (n5)	Mer-kin thingpouch (n15)
+Mer-kin Juicer	Atk: 780 Def: 650 HP: 900 P: mer-kin	Mer-kin dragbelt (0)	Mer-kin ragejuice (0)
 Mer-kin Miner	Atk: 450 Def: 405 HP: 750 Init: 50 Meat: 160-240 P: mer-kin	Mer-kin foodbucket (n5)	Mer-kin digpick (n10)	Mer-kin thingpouch (n25)
+Mer-kin Monitor	Atk: 650 Def: 650 HP: 750 P: mer-kin	Mer-kin cheatsheet (0)	Mer-kin eyeglasses (0)	Mer-kin hallpass (0)
+Mer-kin Poseur	Atk: 720 Def: 750 HP: 750 P: mer-kin	Mer-kin fitbrine (0)	Mer-kin gutgirdle (0)
+Mer-kin Punisher	Atk: 700 Def: 600 HP: 800 P: mer-kin	Mer-kin mouthsoap (0)	Mer-kin finpaddle (0)	Mer-kin hallpass (0)
 Mer-kin Raider	Atk: 750 Def: 585 HP: 800 Init: 50 Meat: 200-300 P: mer-kin	Mer-kin breastplate (c2)	Mer-kin foodbucket (n10)	Mer-kin hookspear (n2)	Mer-kin roundshield (n2)
-Mer-Kin rustler	Atk: 700 Def: 675 HP: 750	Mer-kin thingpouch (0)	Mer-kin foodbucket (0)	Mer-kin hookspear (0)
+Mer-kin Researcher	Atk: 800 Def: 750 HP: 900 P: mer-kin	Mer-kin healscroll (0)	Mer-kin killscroll (0)	Mer-kin darkbook (0)
+Mer-Kin Rustler	Atk: 700 Def: 675 HP: 750	Mer-kin thingpouch (0)	Mer-kin foodbucket (0)	Mer-kin hookspear (0)
 Mer-kin Scavenger	Atk: 450 Def: 405 HP: 600 Init: 0 Meat: 160-240 P: mer-kin	Mer-kin hookspear (n2)	Mer-kin takebag (n4)	Mer-kin thingpouch (n25)
+Mer-kin Specter	Atk: 750 Def: 600 HP: 600 P: undead
+Mer-kin Teacher	Atk: 600 Def: 700 HP: 700 P: mer-kin	Mer-kin lipstick (0)	Mer-kin bunwig (0)	Mer-kin hallpass (0)
 Mer-kin Tippler	Atk: 600 Def: 360 HP: 750 Init: 80 Meat: 160-240 P: mer-kin	Alewife&trade; Ale (40)	Mer-kin foodbucket (n5)	Mer-kin pinkslip (n5)	slug of vodka (21)	Mer-kin weaksauce (0)
+Mer-kin Trainer	Atk: 750 Def: 700 HP: 800 P: mer-kin	Mer-kin strongjuice (0)	Mer-kin stopwatch (0)
+# Mer-kin balldodger	Att: [790+30*Round No] Def: [740+30*Round No] HP: [700+50*Round No] P: mer-kin
+# Mer-kin netdragger	Att: [790+30*Round No] Def: [740+30*Round No] HP: [700+50*Round No] P: mer-kin
+# Mer-kin bladeswitcher	Att: [790+30*Round No] Def: [740+30*Round No] HP: [700+50*Round No] P: mer-kin
 Mesmerizing Penguin	P: penguin	Crimbuck (0)	pocketwatch on a chain (0)	spiraling shape (c100)
 Mimic	BOSS Atk: 45 Def: 40 HP: 50 Init: 75 P: strange	dead mimic (n100)
 Mimic (Bottom 2 Rows)	Atk: 15 Def: 13 HP: 25 P: strange
@@ -720,6 +736,7 @@ P Imp	Atk: 42 Def: 37 HP: 42 Init: 60 E: hot Meat: 24-36 P: demon	Imp Ale (30)	h
 Panicking Knott Yeti	Atk: 105 Def: 92 HP: 90 E: cold Meat: 168-234 P: beast	yeti fur (30)
 Panty Raider Frat Boy	Atk: 200 Def: 180 HP: 250 E: sleaze P: orc	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 Paper Towelgeist	Atk: 4 Def: 3 HP: 6 Init: 30 P: undead	cardboard katana (5)
+Peanut	Atk: 650 Def: 700 HP: 1200	peanut sauce (0)
 Pencil Golem	Atk: 15 Def: 13 HP: 11 Init: 60 P: object
 Pernicious Puddle of Pesto	Atk: 21 Def: 18 HP: 18 Init: 20 P: slime	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 Perpendicular Bat	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 26-40 P: beast	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)
@@ -770,6 +787,7 @@ Rene C. Corman	Atk: 222 Def: 199 HP: 1000	Thwaitgold maggot statuette (n100)
 Revolting Bugbear	Atk: 13 Def: 12 HP: 10 Init: 50 E: stench P: beast
 Revolving Bugbear	Atk: 14 Def: 13 HP: 11 Init: 50 P: beast
 Ribbon-cutting Elfborg		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
+Ringogeorge, the Bladeswitcher	Atk: 1300 Def: 1250 HP: 1600 P: mer-kin
 Rock Scorpion	Atk: 139 Def: 127 HP: 145 Init: 30 Meat: 165-237 P: bug	handful of sand (25)	handful of sand (15)	scorpion whip (5)
 Rock-Banging Cave Elf		rock (8)	stick (7)	stick (15)
 Roller Skate	Atk: 450 Def: 360 HP: 700 Meat: 80-120 P: fish	brand new key (0)	brass dorsal fin (0)	skate skin (0)	skate skates (0)
@@ -787,6 +805,7 @@ Salamander	HP: [3] Def: [2] Atk: [3] Init: 0 Meat: 8-12 P: beast	salamander sple
 Sassy Pirate	Atk: 61 Def: 54 HP: 51 Init: 60 Meat: 17-24 P: pirate	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
 Scary Clown	Atk: 19 Def: 17 HP: 15 Init: 80 E: spooky Meat: 20-32 P: horror	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	big bass drum (4)	clown skin (10)	polka-dot bow tie (p5)	empty greasepaint tube (b0)
 Scary Pirate	Atk: 150 Def: 135 HP: 200 E: spooky Meat: 35-55 P: pirate	cursed breeches (n0)	cursed cutlass (n0)	cursed eyepatch (n0)
+School of Many	Atk: 625 Def: 600 HP: 20000	rough fish scale (0)	rough fish scale (0)	dull fish scale (0)	dull fish scale (0)	jagged tooth (0)	jagged tooth (0)
 School of Wizardfish	Atk: 300 Def: 270 HP: 400 Init: 0 Meat: 160-240 P: fish	dull fish scale (n15)	fishy wand (c0)	glistening fish meat (n5)
 Scimitarfish	Atk: 400 Def: 292 HP: 550 Init: 0 Meat: 176-264 P: fish	dull fish scale (n15)	fish scimitar (n2)
 Scorched Duck	Atk: 170 Def: 156 HP: 185 Init: 50 Meat: 148-200 E: hot P: beast	flaming feather (10)	duct tape (5)
@@ -832,6 +851,7 @@ Slime3	Atk: 100 Def: 90 HP: 200 Init: 55 EA: slime P: slime	slimy sweetbreads (5
 Slime4	Atk: 100 Def: 90 HP: 200 Init: 55 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	medium slimy cyst (n2)
 Slime5	Atk: 100 Def: 90 HP: 200 Init: 55 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	big slimy cyst (n2)
 Slithering Hollandaise Glob	Atk: 24 Def: 21 HP: 21 Init: 40 P: slime	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	nauseating reagent (0)
+Slithering Thing	Atk: 600 Def: 675 HP: 700	grisly shell fragment (0)	grisly shell fragment (0)
 Slow Talkin' Elliot	Atk: 190 Def: 171 HP: 200 Meat: 130-154 E: stench	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	Slow Talkin' Elliot's dogtags (100)
 Smarmy Pirate	Atk: 65 Def: 58 HP: 55 Init: 70 E: sleaze Meat: 22-34 P: pirate	bottle of rum (50)	eyepatch (10)	flaregun (30)	Jolly Roger charrrm bracelet (20)	vial of pirate sweat (b0)
 Smart Skelton	Atk: 20 Def: 18 HP: 11 E: spooky P: undead	smart skull (50)
