@@ -57,7 +57,7 @@
 56	Floaty Fatigues	floaty rock helmet, floaty rock pants, floaty rock necklace
 57
 58	Vestments of the Treeslayer	bark beret, bark boxers, bark bracelet
-59	Crappy Mer-kin Disguise crappy Mer-kin mask, crappy Mer-kin tailpiece
+59	Crappy Mer-kin Disguise	crappy Mer-kin mask, crappy Mer-kin tailpiece
 60	Mer-kin Gladiatorial Gear	Mer-kin gladiator mask, Mer-kin gladiator tailpiece
 61	Mer-kin Scholar's Vestments	Mer-kin scholar mask, Mer-kin scholar tailpiece
 62	Snowman Suit	snow hat, snow pants, snow belt
