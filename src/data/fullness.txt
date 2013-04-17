@@ -129,8 +129,8 @@ consummate sliced bread	3	0	decent	4-5	5-10	20-30	5-10
 consummate sorbet	3	0	decent	4-5	5-10	20-30	5-10
 consummate strawberries	3	0	decent	4-5	5-10	20-30	5-10
 consummate melted cheese	4	0	decent	5-7	5-10	20-30	5-10
-consummate sauerkraut	1	0	decent	1	0	20-30	10-20
-consummate sour cream	1	0	decent	1	0	20-30	10-20
+consummate sauerkraut	1	0	crappy	1	0	20-30	10-20
+consummate sour cream	1	0	crappy	1	0	20-30	10-20
 consummate french fries	3	0	decent	4-5	0	20-30	10-20
 consummate baked potato	4	0	decent	5-7	0	20-30	10-20
 consummate soup	4	0	decent	5-7	0	20-30	10-20
