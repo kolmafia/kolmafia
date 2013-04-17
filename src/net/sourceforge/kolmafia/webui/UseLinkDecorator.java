@@ -631,7 +631,17 @@ public abstract class UseLinkDecorator
 			{
 				return null;
 			}
-			
+
+			switch ( itemId )
+			{
+			case ItemPool.RUSTY_HEDGE_TRIMMERS:
+
+				// Not inline, since the redirection to a fight
+				// doesn't work ajaxified.
+
+				return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
+			}
+
 			if ( useCount == 1 )
 			{
 				String page = ( consumeMethod == KoLConstants.CONSUME_MULTIPLE ) ? "3" : "1";
