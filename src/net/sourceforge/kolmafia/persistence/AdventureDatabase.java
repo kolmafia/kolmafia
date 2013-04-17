@@ -420,6 +420,7 @@ public class AdventureDatabase
 
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
+		adventureURL = StringUtilities.singleStringReplace( adventureURL, "action=ignorewarning&whichzone", "snarfblat" );
 
 		KoLAdventure location = AdventureDatabase.adventureLookup.get( adventureURL );
 		return location == null ||
