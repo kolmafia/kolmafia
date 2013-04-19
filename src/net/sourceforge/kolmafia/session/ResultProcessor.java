@@ -1662,6 +1662,16 @@ public class ResultProcessor
 			{
 				Preferences.increment( "_favorRareSummons" );
 			}
+			break;
+
+		case ItemPool.YELLOW_TAFFY:
+		case ItemPool.GREEN_TAFFY:
+		case ItemPool.INDIGO_TAFFY:
+			if ( RequestLogger.getLastURLString().startsWith( "campground.php" ) )
+			{
+				Preferences.increment( "_taffyRareSummons" );
+			}
+			break;
 
 		case ItemPool.BOSS_HELM:
 		case ItemPool.BOSS_CLOAK:
