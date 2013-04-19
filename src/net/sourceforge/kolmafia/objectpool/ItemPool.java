@@ -1599,6 +1599,9 @@ public class ItemPool
 	public static final int COZY_BAZOOKA = 6334;
 	public static final int SALTWATERBED = 6338;
 	public static final int TAFFY_BOOK = 6360;
+	public static final int YELLOW_TAFFY = 6361;
+	public static final int INDIGO_TAFFY = 6362;
+	public static final int GREEN_TAFFY = 6363;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
