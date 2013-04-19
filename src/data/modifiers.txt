@@ -2995,6 +2995,7 @@ Chapped Legs	Muscle: -4, Moxie: +8
 Charrrming	Moxie Percent: +10
 Chauve-Souris Merde Fou	Stench Damage: +50
 # Chef Brains-are-dee: Makes you look like a zombie chef
+Chief Executive Optimism	Item Drop: +15
 ChibiChanged&trade;	Muscle Percent: [min(5*T,200)], Mysticality Percent: [min(5*T,200)], Moxie Percent: [min(5*T,200)], Familiar Weight: +5
 Chihuahua Underfoot	Monster Level: +20
 Chilblains of the Corn	Spooky Damage: +5
@@ -3140,6 +3141,7 @@ Egg-stra Arm	Muscle Percent: +10
 Eggs-tra Sensory Perception	Item Drop: +10
 El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 El Vibrations	Spell Damage Percent: +100
+Electrolit Up	Muscle: +30
 Electrolyte Fantastic	Experience Percent (Mysticality): +10
 Elemental Flavor	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Elemental Mastery	Hot Damage: +5, Cold Damage: +5, Spooky Damage: +5, Stench Damage: +5, Sleaze Damage: +5
@@ -3663,6 +3665,7 @@ Rootin' Around	Candy Drop: +25
 Rushin' Hands	Weapon Damage: +3
 Salamander In Your Stomach	Mysticality: +25
 Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
+Salt Rockin'	Moxie: +30
 # Salty Dogs: Makes you a better diver
 Salty Dogs	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
 # Salty Mouth: You really need a beer...
@@ -3929,6 +3932,7 @@ Truly Gritty	Weapon Damage: +20, Muscle: +20
 Tundra Mouth	Cold Damage: [min(100,T)]
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Turtle Titters	Experience: +3
+Twenty-three Squid, Ew	Mysticality: +30
 Twinklebritches	Damage Reduction: 3
 Twinkly Weapon	Weapon Damage: +3
 # Two Left Feet
@@ -4317,6 +4321,7 @@ BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
 Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 10
 Black No. 2	Effect: "Locks Like the Raven", Effect Duration: 10
 Blood 'n' Plenty	Effect: "Sugar Rush", Effect Duration: 10
+Boss Drops	Effect: "Chief Executive Optimism", Effect Duration: 5
 BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 Bright Water	Effect: "Bright!", Effect Duration: 10
 Charity's choker	Effect: "Beginning at Home", Effect Duration: 100
@@ -4389,6 +4394,9 @@ Mer-kin fastjuice	Effect: "Juiced Up", Effect Duration: 10
 Mer-kin hidepaint	Effect: "Colorfully Concealed", Effect Duration: 10
 Mer-kin lipstick	Effect: "Red Around the Gills", Effect Duration: 25
 Mer-kin ragejuice	Effect: "Deep-Seated Rage", Effect Duration: 20
+Mer-kin rocksalt	Effect: "Salt Rockin'", Effect Duration: 5
+Mer-kin saltmint	Effect: "Electrolit Up", Effect Duration: 5
+Mer-kin saltsquid	Effect: "Twenty-three Squid, Ew", Effect Duration: 5
 Mer-kin smartjuice	Effect: "Juiced Newton", Effect Duration: 30
 Mer-kin strongjuice	Effect: "Juiced Out", Effect Duration: 30
 Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration: 10

@@ -6357,19 +6357,19 @@
 6340
 6341
 6342
-6343	Mer-kin lipstick	812557492	lipstick.gif	usable	t,d	45
-6344	Mer-kin mouthsoap	922856345	merkinsoap.gif	none, combat	t,d	33
+6343	Mer-kin lipstick	812557492	lipstick.gif	usable	t,d	45	tubes of Mer-kin lipstick
+6344	Mer-kin mouthsoap	922856345	merkinsoap.gif	none, combat	t,d	33	bars of Mer-kin mouthsoap
 6345	Mer-kin strongjuice	425613279	potion13.gif	usable	t,d	44	bottles of Mer-kin strongjuice
-6346	Mer-kin fitbrine	588060401	monstar.gif	multiple	t,d	38
-6347	Mer-kin ragejuice	987788255	potion15.gif	usable	t,d	42
+6346	Mer-kin fitbrine	588060401	monstar.gif	multiple	t,d	38	bottles of Mer-kin fitbrine
+6347	Mer-kin ragejuice	987788255	potion15.gif	usable	t,d	42	bottles of Mer-kin ragejuice
 6348	Mer-kin dragbelt	644915247	merkinbelt.gif	accessory	t,d	74
-6349	Mer-kin eyeglasses	921916806	spectacles.gif	accessory	t,d	82
+6349	Mer-kin eyeglasses	921916806	spectacles.gif	accessory	t,d	82	pairs of Mer-kin eyeglasses
 6350	Mer-kin gutgirdle	692436762	merkingirdle.gif	accessory	t,d	69
 6351	Mer-kin finpaddle	446528354	paddle.gif	weapon	t,d	95
 6352	Mer-kin stopwatch	599355664	watch.gif	offhand	t,d	96
 6353	Mer-kin dreadscroll	943310239	merkinscroll.gif	usable	q	0
-6354	Mer-kin smartjuice	900191991	potion16.gif	usable	t,d	39
-6355	Mer-kin cooljuice	535406499	potion17.gif	usable	t,d	51
+6354	Mer-kin smartjuice	900191991	potion16.gif	usable	t,d	39	bottles of Mer-kin smartjuice
+6355	Mer-kin cooljuice	535406499	potion17.gif	usable	t,d	51	bottles of Mer-kin cooljuice
 6356	Mer-kin worktea	120705144	coffeecup.gif	usable	t,d	39
 6357	Mer-kin knucklebone	112624608	knucklebone.gif	usable	d	300
 6358	Mer-kin darkbook	452271245	book2.gif	usable	d	85
@@ -6403,17 +6403,17 @@
 6386
 6387
 6388
-6389
-6390
-6391
+6389	Mer-kin rocksalt	820963347	saltcandy1.gif	usable	t	0	Mer-kin rocksalt candies
+6390	Mer-kin saltmint	964380486	saltcandy2.gif	usable	t	0	Mer-kin saltmints
+6391	Mer-kin saltsquid	876664593	saltcandy3.gif	usable	t	0	Mer-kin saltsquids
 6392	scale-mail underwear	539861153	scaleunderwear.gif	pants	t,d	145
-6393	comb jelly	524685668	combjelly.gif	usable	t,d	50	 comb jellies
+6393	comb jelly	524685668	combjelly.gif	usable	t,d	50	comb jellies
 6394	anemone sauce	441262699	soupbowl.gif	none	t,d	60	bowls of anemone sauce
 6395	inky squid sauce	533868128	soupbowl.gif	none	t,d	60	bowls of inky squid sauce
-6396	Mer-kin weaksauce 	717309653	soupbowl.gif	none	t,d	60
+6396	Mer-kin weaksauce	717309653	soupbowl.gif	none	t,d	60	bowls of Mer-kin weaksauce
 6397	peanut sauce	464977927	soupbowl.gif	none	t,d	120	bowls of peanut sauce
 6398	black glass	01304219	blackglass.gif	accessory	q	0
-6399
+6399	Boss Drops	118222611	bossdrops.gif	usable	t	0
 6400	Mer-kin lunchbox	257377198	bentobox.gif	none	t,d	45	Mer-kin lunchboxes
 6401	black tear	800989357	blacktear.gif	usable	t,d	42
 6402	jagged tooth	415373394	jaggedtooth.gif	usable	t,d	17	jagged teeth
