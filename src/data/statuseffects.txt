@@ -1236,10 +1236,10 @@
 1235	Cinnamon Challenger	taffy7.gif	49df339b1c0346553b3e69368dfd3a7d	use 1 pulled red taffy
 1236
 1237	Jelly Combed combjelly.gif	3a4cd090a1a0fec11fa6672c8b47e9d3	use 1 comb jelly
-1238
-1239
-1240
-1241
+1238	Salt Rockin'	saltcandy1.gif	b89588b60e0ffb11398866ec60a1619f	use 1 Mer-kin rocksalt
+1239	Electrolit Up	saltcandy2.gif	2d849719afa8f60a3ac5164fde088d1a	use 1 Mer-kin saltmint
+1240	Twenty-three Squid, Ew	saltcandy3.gif	1b3d4b9543e28a968ef7a6db3ad5f905	use 1 Mer-kin saltsquid
+1241	Chief Executive Optimism	bossdrops.gif	6c1fe5ce5f5fba3c6e806d034112bd33	use 1 Boss Drops
 1242	Thick, Sick	chitinplate.gif	8defb23c25f24cd8474b7d50d6170a5b
 1243	Thicker, Sicker	chitinplate.gif	573777fdfa497ff7befc743174d3af2a
 1244	Thickest, Sickest	chitinplate.gif	6b668a8a029ce3ab7f23a17cf6208505
