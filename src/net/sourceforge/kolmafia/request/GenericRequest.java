@@ -94,13 +94,13 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.OceanManager;
+import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -1358,7 +1358,7 @@ public class GenericRequest
 		// Call central dispatch method for locations that require
 		// special handling
 
-		CouncilFrame.handleQuestChange( location, this.responseText );
+		QuestManager.handleQuestChange( location, this.responseText );
 
 		this.formatResponse();
 		KoLCharacter.updateStatus();

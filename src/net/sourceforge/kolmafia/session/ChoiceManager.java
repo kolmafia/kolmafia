@@ -78,7 +78,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 
-import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 
@@ -4131,7 +4130,7 @@ public abstract class ChoiceManager
 			// Between a Rock and Some Other Rocks
 			if ( KoLmafia.isAdventuring() && !EquipmentManager.isWearingOutfit( OutfitPool.MINING_OUTFIT ) && !KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) )
 			{
-				CouncilFrame.unlockGoatlet();
+				QuestManager.unlockGoatlet();
 			}
 			break;
 
