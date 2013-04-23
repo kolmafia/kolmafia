@@ -37,6 +37,7 @@ import java.io.BufferedReader;
 
 import java.util.ArrayList;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -102,6 +103,8 @@ public class QuestDatabase
 	public static final String FINISHED = "finished";
 
 	public static final Pattern HTML_WHITESPACE = Pattern.compile( "<[^<]+?>|[\\s\\n]" );
+	public static final Pattern BOO_PEAK_PATTERN = Pattern.compile( "It is currently (\\d+)%" );
+	public static final Pattern OIL_PEAK_PATTERN = Pattern.compile( "The pressure is currently ([\\d\\.]+) microbowies" );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -235,6 +238,11 @@ public class QuestDatabase
 			// the <demon name> in the response.
 			return QuestDatabase.FINISHED;
 		}
+		if ( pref.equals( Quest.TOPPING.getPref() ) && details.contains( "The Highland Lord wants you to light" ) )
+		{
+			// this is step2.  We need to do some other handling for the three sub-parts.
+			return handlePeakStatus( details );
+		}
 
 		// First thing to do is find which quest we're talking about.
 		int index = prefToIndex( pref );
@@ -339,6 +347,49 @@ public class QuestDatabase
 
 		// Well, none of the above worked. Punt.
 		return "";
+	}
+
+	private static String handlePeakStatus( String details )
+	{
+		Matcher boo = QuestDatabase.BOO_PEAK_PATTERN.matcher( details );
+		// boo peak handling.  100 is complete.
+		if ( details.contains( "lit the fire on A-Boo Peak" ) )
+		{
+			Preferences.setInteger( "booPeakProgress", 100 );
+		}
+		else if ( details.contains( "check out A-Boo Peak" ) )
+		{
+			Preferences.setInteger( "booPeakProgress", 0 );
+		}
+		else if ( boo.find() )
+		{
+			Preferences.setInteger( "booPeakProgress", StringUtilities.parseInt( boo.group( 1 ) ) );
+		}
+
+		// twin peak handling
+		// No information is present in the quest log between first starting the quest and completing 3/4 of it.  Boo.
+		if ( details.contains( "lit the fire on Twin Peak" ) )
+		{
+			// twinPeakProgress is a bit field.  15 is complete.
+			Preferences.setInteger( "twinPeakProgress", 15 );
+		}
+
+		Matcher oil = QuestDatabase.OIL_PEAK_PATTERN.matcher( details );
+		// oil peak handling.  310.66 is complete.
+		if ( details.contains( "lit the fire on Oil Peak" ) )
+		{
+			Preferences.setString( "oilPeakProgress", String.valueOf( 310.66 ) );
+		}
+		else if ( details.contains( "go to Oil Peak and investigate" ) )
+		{
+			Preferences.setString( "oilPeakProgress", String.valueOf( 0 ) );
+		}
+		else if ( oil.find() )
+		{
+			Preferences.setString( "oilPeakProgress", oil.group( 1 ) );
+		}
+
+		return "step2";
 	}
 
 	private static String handleWarStatus( String details )

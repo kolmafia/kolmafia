@@ -289,6 +289,7 @@ user	birdformSpooky	0
 user	birdformStench	0
 user	blackPuddingsDefeated	0
 user	blankOutUsed	0
+user	booPeakProgress	0
 user	bootsCharged	false
 user	borisPoints	0
 user	breakableHandling	1
@@ -575,6 +576,7 @@ user	noodleSummons	0
 user	nunsVisits	0
 user	oceanAction	savecontinue
 user	oceanDestination	manual
+user	oilPeakProgress	0 
 user	olfactedMonster	unknown
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
@@ -741,6 +743,7 @@ user	timesRested	99
 user	tomeSummons	0
 user	totalCharitableDonations	0
 user	trapperOre	chrome ore
+user	twinPeakProgress	0
 user	usable1HWeapons	3
 user	usable1xAccs	1
 user	usable2HWeapons	1
