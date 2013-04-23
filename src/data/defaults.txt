@@ -289,7 +289,7 @@ user	birdformSpooky	0
 user	birdformStench	0
 user	blackPuddingsDefeated	0
 user	blankOutUsed	0
-user	booPeakProgress	0
+user	booPeakProgress	100
 user	bootsCharged	false
 user	borisPoints	0
 user	breakableHandling	1
@@ -576,7 +576,7 @@ user	noodleSummons	0
 user	nunsVisits	0
 user	oceanAction	savecontinue
 user	oceanDestination	manual
-user	oilPeakProgress	0 
+user	oilPeakProgress	310.66 
 user	olfactedMonster	unknown
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false

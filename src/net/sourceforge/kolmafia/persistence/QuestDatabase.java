@@ -352,14 +352,14 @@ public class QuestDatabase
 	private static String handlePeakStatus( String details )
 	{
 		Matcher boo = QuestDatabase.BOO_PEAK_PATTERN.matcher( details );
-		// boo peak handling.  100 is complete.
+		// boo peak handling.  100 is started, 0 is complete.
 		if ( details.contains( "lit the fire on A-Boo Peak" ) )
 		{
-			Preferences.setInteger( "booPeakProgress", 100 );
+			Preferences.setInteger( "booPeakProgress", 0 );
 		}
 		else if ( details.contains( "check out A-Boo Peak" ) )
 		{
-			Preferences.setInteger( "booPeakProgress", 0 );
+			Preferences.setInteger( "booPeakProgress", 100 );
 		}
 		else if ( boo.find() )
 		{
@@ -375,14 +375,14 @@ public class QuestDatabase
 		}
 
 		Matcher oil = QuestDatabase.OIL_PEAK_PATTERN.matcher( details );
-		// oil peak handling.  310.66 is complete.
+		// oil peak handling.  310.66 is started, 0 is complete.
 		if ( details.contains( "lit the fire on Oil Peak" ) )
 		{
-			Preferences.setString( "oilPeakProgress", String.valueOf( 310.66 ) );
+			Preferences.setString( "oilPeakProgress", String.valueOf( 0 ) );
 		}
 		else if ( details.contains( "go to Oil Peak and investigate" ) )
 		{
-			Preferences.setString( "oilPeakProgress", String.valueOf( 0 ) );
+			Preferences.setString( "oilPeakProgress", String.valueOf( 310.66 ) );
 		}
 		else if ( oil.find() )
 		{
