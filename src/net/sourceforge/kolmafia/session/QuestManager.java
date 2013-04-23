@@ -205,8 +205,7 @@ public class QuestManager
 		{
 			// You slide the last tile into place ...
 
-			if ( AdventureRequest.registerDemonName( "Strange Cube", responseText ) ||
-			     responseText.indexOf( "slide the last tile" ) != -1 )
+			if ( AdventureRequest.registerDemonName( "Strange Cube", responseText ) || responseText.indexOf( "slide the last tile" ) != -1 )
 			{
 				ResultProcessor.processItem( ItemPool.STRANGE_CUBE, -1 );
 			}
@@ -252,7 +251,7 @@ public class QuestManager
 
 		int image = StringUtilities.parseInt( m.group( 1 ) );
 		String status = "";
-		
+
 		if ( image == 1 )
 		{
 			status = QuestDatabase.STARTED;
@@ -280,7 +279,7 @@ public class QuestManager
 		// descend into an ancient buried pyramid.
 
 		// Well, /that/ wasn't quite what you expected.
-		
+
 		if ( responseText.indexOf( "the model bursts into flames and is quickly consumed" ) != -1 )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.PYRAMID, "step12" );
@@ -373,9 +372,12 @@ public class QuestManager
 	{
 		if ( responseText.contains( "Huzzah!  The bridge is finished!" ) )
 		{
-			ResultProcessor.processItem( ItemPool.MORNINGWOOD_PLANK, -1 * InventoryManager.getCount( ItemPool.MORNINGWOOD_PLANK ) );
-			ResultProcessor.processItem( ItemPool.HARDWOOD_PLANK, -1 * InventoryManager.getCount( ItemPool.HARDWOOD_PLANK ) );
-			ResultProcessor.processItem( ItemPool.WEIRDWOOD_PLANK, -1 * InventoryManager.getCount( ItemPool.WEIRDWOOD_PLANK ) );
+			ResultProcessor.processItem(
+				ItemPool.MORNINGWOOD_PLANK, -1 * InventoryManager.getCount( ItemPool.MORNINGWOOD_PLANK ) );
+			ResultProcessor.processItem(
+				ItemPool.HARDWOOD_PLANK, -1 * InventoryManager.getCount( ItemPool.HARDWOOD_PLANK ) );
+			ResultProcessor.processItem(
+				ItemPool.WEIRDWOOD_PLANK, -1 * InventoryManager.getCount( ItemPool.WEIRDWOOD_PLANK ) );
 			ResultProcessor.processItem( ItemPool.THICK_CAULK, -1 * InventoryManager.getCount( ItemPool.THICK_CAULK ) );
 			ResultProcessor.processItem( ItemPool.LONG_SCREW, -1 * InventoryManager.getCount( ItemPool.LONG_SCREW ) );
 			ResultProcessor.processItem( ItemPool.BUTT_JOINT, -1 * InventoryManager.getCount( ItemPool.BUTT_JOINT ) );
@@ -458,7 +460,7 @@ public class QuestManager
 	public static final void unlockGoatlet()
 	{
 		AdventureRequest goatlet = new AdventureRequest( "Goatlet", "adventure.php", AdventurePool.GOATLET_ID );
-	
+
 		if ( KoLCharacter.inFistcore() )
 		{
 			// You can actually get here without knowing Worldpunch
@@ -468,7 +470,7 @@ public class QuestManager
 				KoLmafia.updateDisplay( MafiaState.ABORT, "Try again after you learn Worldpunch." );
 				return;
 			}
-	
+
 			// If you don't have Earthen Fist active, get it.
 			if ( !KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST ) )
 			{
@@ -476,36 +478,36 @@ public class QuestManager
 				request.setBuffCount( 1 );
 				RequestThread.postRequest( request );
 			}
-	
+
 			// Perhaps you ran out of MP.
 			if ( !KoLmafia.permitsContinue() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "Cast Worldpunch and try again." );
 			}
-	
+
 			RequestThread.postRequest( goatlet );
 			return;
 		}
-	
+
 		if ( KoLCharacter.inAxecore() )
 		{
 			// No outfit needed; just take option #3
 			RequestThread.postRequest( goatlet );
 			return;
 		}
-	
+
 		if ( !EquipmentManager.hasOutfit( OutfitPool.MINING_OUTFIT ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ABORT, "You need a mining outfit to continue." );
 			return;
 		}
-	
+
 		if ( EquipmentManager.isWearingOutfit( OutfitPool.MINING_OUTFIT ) )
 		{
 			RequestThread.postRequest( goatlet );
 			return;
 		}
-	
+
 		SpecialOutfit.createImplicitCheckpoint();
 		( new EquipmentRequest( EquipmentDatabase.getOutfit( OutfitPool.MINING_OUTFIT ) ) ).run();
 		RequestThread.postRequest( goatlet );
