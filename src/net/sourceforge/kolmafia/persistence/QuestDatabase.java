@@ -447,10 +447,10 @@ public class QuestDatabase
 
 	public static void handleCouncilText( String responseText )
 	{
-		// First, tokenize by <p> tags in the responseText, since there can be multiple quests we need to set.
+		// First, tokenize by <p> (or <P>, if the HTML happened to be coded by a doofus) tags in the responseText, since there can be multiple quests we need to set.
 		// This ultimately means that each quest gets set n times when it has n paragraphs - technically weird, but not really an issue other than the minor disk I/O.
 
-		String[] responseTokens = responseText.split( "<p>" );
+		String[] responseTokens = responseText.split( "<[pP]>" );
 		String cleanedResponseToken = "";
 		String cleanedQuestToken = "";
 
@@ -464,7 +464,7 @@ public class QuestDatabase
 					// Now, we have to split the councilData entry by <p> tags too.
 					// Assume that no two paragraphs are identical, otherwise more loop termination logic is needed.
 
-					String[] councilTokens = councilData[ i ][ j ].split( "<p>" );
+					String[] councilTokens = councilData[ i ][ j ].split( "<[pP]>" );
 
 					for ( String councilToken : councilTokens )
 					{
