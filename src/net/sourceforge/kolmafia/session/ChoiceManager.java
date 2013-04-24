@@ -3966,6 +3966,37 @@ public abstract class ChoiceManager
 
 			return;
 
+		case 606:
+			// Lost in the Great Overlook Lodge
+			// quest handling
+
+			String pref = "twinPeakProgress";
+
+			if ( text.contains( "You take a moment to steel your nerves." ) )
+			{
+				int prefval = Preferences.getInteger( pref );
+				prefval |= 1;
+				Preferences.setInteger( pref, prefval );
+			}
+			else if ( text.contains( "All work and no play" ) )
+			{
+				int prefval = Preferences.getInteger( pref );
+				prefval |= 2;
+				Preferences.setInteger( pref, prefval );
+			}
+			else if ( text.contains( "You attempt to mingle" ) )
+			{
+				int prefval = Preferences.getInteger( pref );
+				prefval |= 4;
+				Preferences.setInteger( pref, prefval );
+			}
+			else if ( text.contains( "When the lights come back" ) )
+			{
+				// the other three must be completed at this point.
+				Preferences.setInteger( pref, 15 );
+			}
+			return;
+
 		case 614:
 			// Near the fog there is an... anvil?
 			if ( text.indexOf( "You acquire" ) == -1 )
