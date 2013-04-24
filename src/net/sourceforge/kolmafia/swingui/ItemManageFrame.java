@@ -194,7 +194,7 @@ public class ItemManageFrame
 		selectorPanel.addSeparator();
 
 		selectorPanel.addPanel( "Equipment", new InventoryPanel( KoLConstants.inventory, true ) );
-		selectorPanel.addPanel( " - Storage", new HagnkStoragePanel( true ) );
+		selectorPanel.addPanel( " - Storage ", new HagnkStoragePanel( true ) ); // the extra end space is used to distinguish it for serializing purposes
 		selectorPanel.addPanel( " - Create", new CreateItemPanel( false, false, true, false ) );
 		selectorPanel.addPanel( " - Pulverize", new PulverizePanel() );
 
