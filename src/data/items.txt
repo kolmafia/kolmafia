@@ -5820,37 +5820,37 @@
 5803	White Chocolate Golem Seeds	741418840	chips.gif	multiple	t,d	5
 5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	multiple	t,d	5	slices of Shivering Ch&egrave;vre
 5805	giant breath mint	664766664	lifesaver.gif	multiple	t,d	5
-5806	enchanted muesli	993446035	mueslix.gif	multiple	t,d	5
-5807	glass of warm milk	734455157	milk.gif	multiple	t,d	5
-5808	glass of gnat milk	352544230	milk.gif	multiple	t,d	5
-5809	Knob Goblin Mutagen	436545864	lovepotion.gif	multiple	t,d	5
+5806	enchanted muesli	993446035	mueslix.gif	multiple	t,d	5	handfuls of enchanted muesli
+5807	glass of warm milk	734455157	milk.gif	multiple	t,d	5	glasses of warm milk
+5808	glass of gnat milk	352544230	milk.gif	multiple	t,d	5	glasses of gnat milk
+5809	Knob Goblin Mutagen	436545864	lovepotion.gif	multiple	t,d	5	flasks of Knob Goblin Mutagen
 5810	Tears of the Quiet Healer	567473707	vial.gif	multiple	t,d	5
-5811	giant tube of black lipstick	679762287	lipstick.gif	multiple	t,d	5
+5811	giant tube of black lipstick	679762287	lipstick.gif	multiple	t,d	5	giant tubes of black lipstick
 5812	skelelton spine	920394324	spine.gif	multiple	t,d	5
-5813	smut orc sunglasses	151874300	bigglasses.gif	multiple	t,d	5
-5814	blob of acid	870769832	wad.gif	multiple	t,d	5
+5813	smut orc sunglasses	151874300	bigglasses.gif	multiple	t,d	5	pairs of smut orc sunglasses
+5814	blob of acid	870769832	wad.gif	multiple	t,d	5	blobs of acid
 5815	flayed mind	522146420	realbrain.gif	multiple	t,d	5
 5816	kobold kibble	873527872	float_pebbles.gif	multiple	t,d	5	handfuls of kobold kibble
 5817	forest spirit rattle	147970558	foresthead.gif	usable	t,d	5
-5818	Stone Golem pebbles	382105723	float_pebbles.gif	multiple	t,d	5
+5818	Stone Golem pebbles	382105723	float_pebbles.gif	multiple	t,d	5	handfuls of Stone Golem pebbles
 5819	spooky gravy fairy warlock hat	260012099	tinyhat.gif	multiple	t,d	5
 5820	bull blubber	936998869	wad.gif	usable	t,d	5
 5821	frog lip-print	682825120	frogkiss.gif	usable	t,d	5
 5822	gazely stare	139782932	gaze.gif	usable	t,d	5
 5823	tiny canopic jar	641183026	canopicjar.gif	multiple	t,d	5
-5824	clove-flavored lip balm	968477859	balm.gif	usable	t,d	5
+5824	clove-flavored lip balm	968477859	balm.gif	usable	t,d	5	clove-flavored lip balms
 5825	Skullery Maid's Knee	861447669	fingerbone.gif	usable	t,d	5
 5826	zombie hollandaise	717455927	gravy.gif	usable	t,d	5
 5827	skeletal banana	331313479	bananabone.gif	multiple	t,d	5	bunch of skeletal bananas
 5828	gilt perfume bottle	320032645	jperfume.gif	multiple	t,d	5
 5829	janglin' bones	380726338	bonechips.gif	usable	t,d	5
-5830	pygmy papers	185465428	briefcase.gif	multiple	t,d	5
+5830	pygmy papers	185465428	briefcase.gif	multiple	t,d	5	pygmy papers
 5831	pygmy dart	756561090	ancientdart.gif	multiple	t,d	5
-5832	secret mummy herbs and spices	785012152	disease.gif	multiple	t,d	5
+5832	secret mummy herbs and spices	785012152	disease.gif	multiple	t,d	5	secret mummy herbs and spices
 5833	brigand brittle	364101514	pepperbark.gif	multiple	t,d	5	bricks of brigand brittle
-5834	holistic headache remedy	541916407	bark2.gif	multiple	t,d	5
+5834	holistic headache remedy	541916407	bark2.gif	multiple	t,d	5	holistic headache remedies
 5835	scrunchie tourniquet	218745388	gauzegarter.gif	usable	t,d	5
-5836	embezzler's oil	968949884	vial.gif	usable	t,d	5
+5836	embezzler's oil	968949884	vial.gif	usable	t,d	5	vials of embezzler's oil
 5837	Fu Manchu Wax	992259508	balm.gif	usable	t,d	5
 5838	Iiti Kitty Gumdrop	847088897	gumdrop.gif	usable	t,d	5
 5839	ravenous eye	553037969	hungryeye.gif	multiple	t,d	5
@@ -5858,10 +5858,10 @@
 5841	A muse-bouche	704527194	amusebouche.gif	multiple	t,d	5
 5842	gold toothbrush	397328678	toothbrush.gif	usable	t,d	5
 5843	pirate cream pie	438610679	pie.gif	usable	t,d	5
-5844	una poca de gracia	764928766	music.gif	multiple	t,d	5
+5844	una poca de gracia	764928766	music.gif	multiple	t,d	5	unas pocas de gracia
 5845	compressed air canister	564731061	canteen.gif	usable	t,d	5
-5846	salt water taffy	484100629	taffy.gif	multiple	t,d	5
-5847	unholy water	163120400	vial.gif	multiple	t,d	5
+5846	salt water taffy	484100629	taffy.gif	multiple	t,d	5	pieces of salt water taffy
+5847	unholy water	163120400	vial.gif	multiple	t,d	5	vials of unholy water
 5848	Bangyomaman battle juice	291581343	flask.gif	usable	t,d	5
 5849	handyman &quot;hand soap&quot;	285117650	handsoap.gif	usable	t,d	5	bottles of handyman &quot;hand soap&quot;
 5850	space marine flash grenade	466376984	grenade.gif	usable	t,d	5
