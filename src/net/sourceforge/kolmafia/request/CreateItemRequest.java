@@ -1221,11 +1221,6 @@ public class CreateItemRequest
 	{
 		// First, delegate subclasses, if it's a subclass request.
 
-		if ( urlString.startsWith( "starchart.php" ) )
-		{
-			return StarChartRequest.registerRequest( urlString );
-		}
-
 		if ( urlString.startsWith( "sugarsheets.php" ) )
 		{
 			return SugarSheetRequest.registerRequest( urlString );
@@ -1237,13 +1232,17 @@ public class CreateItemRequest
 			{
 				return PixelRequest.registerRequest( urlString );
 			}
-			if ( urlString.contains( "whichshop=jarl" ) )
+			else if ( urlString.contains( "whichshop=jarl" ) )
 			{
 				return JarlsbergRequest.registerRequest( urlString );
 			}
-			if ( urlString.contains( "whichshop=grandma" ) )
+			else if ( urlString.contains( "whichshop=grandma" ) )
 			{
 				return GrandmaRequest.registerRequest( urlString );
+			}
+			else if ( urlString.contains( "whichshop=starchart" ) )
+			{
+				return StarChartRequest.registerRequest( urlString );
 			}
 		}
 

@@ -685,6 +685,7 @@ public class ResponseTextParser
 			NPCPurchaseRequest.parseShopResponse( location, responseText );
 			JarlsbergRequest.parseResponse( location, responseText );
 			GrandmaRequest.parseResponse( location, responseText );
+			StarChartRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "skills.php" ) )
@@ -702,11 +703,6 @@ public class ResponseTextParser
 		else if ( location.startsWith( "spaaace.php" ) )
 		{
 			SpaaaceRequest.parseResponse( location, responseText );
-		}
-
-		else if ( location.startsWith( "starchart.php" ) )
-		{
-			StarChartRequest.parseCreation( location, responseText );
 		}
 
 		else if ( location.startsWith( "storage.php" ) )
