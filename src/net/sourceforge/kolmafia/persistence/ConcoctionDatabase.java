@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -55,7 +54,6 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -147,6 +145,7 @@ public class ConcoctionDatabase
 	private static CraftingType mixingMethod = null;
 	private static final EnumSet<CraftingRequirements> requirements = EnumSet.noneOf(CraftingRequirements.class);
 	private static final EnumSet<CraftingMisc> info = EnumSet.noneOf(CraftingMisc.class);
+	private static int row = 0;
 
 	public static final void resetQueue()
 	{
@@ -220,6 +219,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.mixingMethod = null;
 		ConcoctionDatabase.requirements.clear();
 		ConcoctionDatabase.info.clear();
+		ConcoctionDatabase.row = 0;
 		String name = new String( data[ 0 ] );
 		String[] mixes = data[ 1 ].split( "\\s*,\\s*" );
 		for ( int i = 0; i < mixes.length; ++i )
@@ -269,7 +269,8 @@ public class ConcoctionDatabase
 
 		if ( !bogus )
 		{
-			Concoction concoction = new Concoction( item, ConcoctionDatabase.mixingMethod, ConcoctionDatabase.requirements.clone(), ConcoctionDatabase.info.clone() );
+			Concoction concoction = new Concoction( item, ConcoctionDatabase.mixingMethod, 
+				  ConcoctionDatabase.requirements.clone(), ConcoctionDatabase.info.clone(), ConcoctionDatabase.row );
 			concoction.setParam( param );
 
 			Concoction existing = ConcoctionPool.get( item );
@@ -2628,6 +2629,11 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.JARLS;
 			ConcoctionDatabase.requirements.add( CraftingRequirements.SLICE );
+		}
+
+		else if ( mix.startsWith( "ROW" ) )
+		{
+			ConcoctionDatabase.row = StringUtilities.parseInt( mix.substring( 3 ) );
 		}
 
 		else

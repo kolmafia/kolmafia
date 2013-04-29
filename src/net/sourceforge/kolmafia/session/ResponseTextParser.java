@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GnomeTinkerRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
+import net.sourceforge.kolmafia.request.GrandmaRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -110,7 +111,6 @@ import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PhineasRequest;
-import net.sourceforge.kolmafia.request.PixelRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -133,7 +133,6 @@ import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
@@ -471,10 +470,6 @@ public class ResponseTextParser
 			{
 				UntinkerRequest.parseResponse( location, responseText );
 			}
-			else if ( location.contains( "action=mystic" ) )
-			{
-				PixelRequest.parseResponse( location, responseText );
-			}
 		}
 
 		else if ( location.startsWith( "friars.php" ) )
@@ -689,6 +684,7 @@ public class ResponseTextParser
 		{
 			NPCPurchaseRequest.parseShopResponse( location, responseText );
 			JarlsbergRequest.parseResponse( location, responseText );
+			GrandmaRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "skills.php" ) )
