@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.EnumSet;
-import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1238,6 +1237,10 @@ public class CreateItemRequest
 			if ( urlString.contains( "whichshop=jarl" ) )
 			{
 				return JarlsbergRequest.registerRequest( urlString );
+			}
+			if ( urlString.contains( "whichshop=grandma" ) )
+			{
+				return GrandmaRequest.registerRequest( urlString );
 			}
 		}
 

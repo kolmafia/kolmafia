@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.objectpool;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -84,6 +83,7 @@ public class Concoction
 	private CraftingType mixingMethod;
 	private EnumSet<CraftingRequirements> mixingRequirements;
 	private EnumSet<CraftingMisc> mixingMisc;
+	private int row;
 	private int sortOrder;
 
 	private final boolean isReagentPotion;
@@ -115,7 +115,7 @@ public class Concoction
 	private double mainstatGain;
 
 	public Concoction( final AdventureResult concoction, final CraftingType mixingMethod,
-		  final EnumSet<CraftingRequirements> mixingRequirement, final EnumSet<CraftingMisc> mixingInfo )
+		  final EnumSet<CraftingRequirements> mixingRequirement, final EnumSet<CraftingMisc> mixingInfo, final int row )
 	{
 		this.concoction = concoction;
 
@@ -123,6 +123,7 @@ public class Concoction
 		this.mixingMethod = mixingMethod;
 		this.mixingRequirements = mixingRequirement;
 		this.mixingMisc = mixingInfo;
+		this.row = row;
 
 		if ( concoction == null )
 		{
@@ -159,7 +160,7 @@ public class Concoction
 
 	public Concoction( final AdventureResult concoction, final CraftingType mixingMethod )
 	{
-		this( concoction, mixingMethod, EnumSet.noneOf(CraftingRequirements.class), EnumSet.noneOf(CraftingMisc.class) );
+		this( concoction, mixingMethod, EnumSet.noneOf(CraftingRequirements.class), EnumSet.noneOf(CraftingMisc.class), 0 );
 	}
 
 	public Concoction( final String name, final int price )
@@ -440,6 +441,11 @@ public class Concoction
 		return this.spleenhit;
 	}
 
+	public int getRow()
+	{
+		return this.row;
+	}
+
 	public CreateItemRequest getRequest()
 	{
 		if ( this.request == null && this.mixingMethod != CraftingType.NOCREATE )
@@ -616,7 +622,7 @@ public class Concoction
 		}
 	}
 
-	public void resetCalculations()
+	public final void resetCalculations()
 	{
 		this.initial = -1;
 		this.creatable = 0;

@@ -1416,22 +1416,22 @@ star shirt	STAR, TORSO	star chart	star (15)	line (15)
 # Pixel items.  These are items which are created at the Crackpot
 # mystic after collecting enough pixels.
 
-white pixel	PIXEL	red pixel	green pixel	blue pixel
-red pixel potion	PIXEL	black pixel (3)	red pixel (2)
-blue pixel potion	PIXEL	black pixel (3)	blue pixel (2)
-green pixel potion	PIXEL	black pixel (4)	green pixel (3)
-monster bait	PIXEL	red pixel (20)	white pixel (15)
-purple pixel pie	PIXEL	white pixel (5)	red pixel (2)	blue pixel (2)
-pixel hat	PIXEL	white pixel (10)	green pixel (15)
-pixel pants	PIXEL	black pixel (10)	red pixel (20)
-pixel sword	PIXEL	white pixel (20)	black pixel (10)	blue pixel (10)
-pixel shield	PIXEL	red pixel (20)	black pixel (10)	white pixel (10)
-digital key	PIXEL	white pixel (30)
-pixel boomerang	PIXEL	black pixel (10)	white pixel (10)	blue pixel (20)
-pixel whip	PIXEL	brown pixel (10)
-pixel pill	PIXEL	red pixel (20)	white pixel (20)
-pixel energy tank	PIXEL	blue pixel (40)	white pixel (10)
-pixel grappling hook	PIXEL	white pixel (50)	black pixel (50)
+white pixel	PIXEL, ROW26	red pixel	green pixel	blue pixel
+red pixel potion	PIXEL, ROW27	black pixel (3)	red pixel (2)
+blue pixel potion	PIXEL, ROW28	black pixel (3)	blue pixel (2)
+green pixel potion	PIXEL, ROW29	black pixel (4)	green pixel (3)
+monster bait	PIXEL, ROW31	red pixel (20)	white pixel (15)
+purple pixel pie	PIXEL, ROW30	white pixel (5)	red pixel (2)	blue pixel (2)
+pixel hat	PIXEL, ROW33	white pixel (10)	green pixel (15)
+pixel pants	PIXEL, ROW34	black pixel (10)	red pixel (20)
+pixel sword	PIXEL, ROW35	white pixel (20)	black pixel (10)	blue pixel (10)
+pixel shield	PIXEL, ROW32	red pixel (20)	black pixel (10)	white pixel (10)
+digital key	PIXEL, ROW36	white pixel (30)
+pixel boomerang	PIXEL, ROW37	black pixel (10)	white pixel (10)	blue pixel (20)
+pixel whip	PIXEL, ROW38	brown pixel (10)
+pixel pill	PIXEL, ROW39	red pixel (20)	white pixel (20)
+pixel energy tank	PIXEL, ROW40	blue pixel (40)	white pixel (10)
+pixel grappling hook	PIXEL, ROW41	white pixel (50)	black pixel (50)
 
 
 # Sealhide items.  These are items which are created at Phineas
@@ -2092,68 +2092,86 @@ Mark IV Steam-Hat	COMBINE	Mark III Steam-Hat	brass gear
 Mark V Steam-Hat	COMBINE	Mark IV Steam-Hat	brass gear
 
 # Avatar of Jarlsberg ingredients
-consummate hard-boiled egg	JARLSBOIL	cosmic egg
-consummate bagel	JARLSBOIL	cosmic dough
-consummate soup	JARLSBOIL	cosmic vegetable
-consummate fried egg	JARLSFRY	cosmic egg
-consummate bacon	JARLSFRY	cosmic potted meat product
-consummate french fries	JARLSFRY	cosmic potato
-consummate hot dog bun	JARLSCHOP	cosmic dough
-consummate salad	JARLSCHOP	cosmic vegetable
-consummate sliced bread	JARLSSLICE	cosmic dough
-consummate corn chips	JARLSSLICE	cosmic vegetable
-consummate cheese slice	JARLSSLICE	cosmic cheese
-consummate strawberries	JARLSSLICE	cosmic fruit
-consummate brownie	JARLSBAKE	cosmic dough
-consummate melted cheese	JARLSBAKE	cosmic cheese
-consummate meatloaf	JARLSBAKE	cosmic potted meat product
-consummate baked potato	JARLSBAKE	cosmic potato
-consummate toast	JARLSGRILL	cosmic dough
-consummate steak	JARLSGRILL	cosmic potted meat product
-consummate cold cuts	JARLSFREEZE	cosmic potted meat product
-consummate ice cream	JARLSFREEZE	cosmic cream
-consummate sorbet	JARLSFREEZE	cosmic fruit
-consummate egg salad	JARLSBLEND	cosmic egg
-consummate salsa	JARLSBLEND	cosmic vegetable
-consummate frankfurter	JARLSBLEND	cosmic potted meat product
-consummate whipped cream	JARLSBLEND	cosmic cream
-passable stout	JARLSCURDLE	cosmic dough
-consummate sauerkraut	JARLSCURDLE	cosmic vegetable
-acceptable vodka	JARLSCURDLE	cosmic potato
-consummate sour cream	JARLSCURDLE	cosmic cream
-adequate rum	JARLSCURDLE	cosmic fruit
-cosmic six-pack	JARLS
+consummate hard-boiled egg	JARLSBOIL, ROW42	cosmic egg
+consummate bagel	JARLSBOIL, ROW45	cosmic dough
+consummate soup	JARLSBOIL, ROW51	cosmic vegetable
+consummate fried egg	JARLSFRY, ROW43	cosmic egg
+consummate bacon	JARLSFRY, ROW58	cosmic potted meat product
+consummate french fries	JARLSFRY, ROW63	cosmic potato
+consummate hot dog bun	JARLSCHOP, ROW47	cosmic dough
+consummate salad	JARLSCHOP, ROW53	cosmic vegetable
+consummate sliced bread	JARLSSLICE, ROW46	cosmic dough
+consummate corn chips	JARLSSLICE, ROW52	cosmic vegetable
+consummate cheese slice	JARLSSLICE, ROW56	cosmic cheese
+consummate strawberries	JARLSSLICE, ROW69	cosmic fruit
+consummate brownie	JARLSBAKE, ROW48	cosmic dough
+consummate melted cheese	JARLSBAKE, ROW57	cosmic cheese
+consummate meatloaf	JARLSBAKE, ROW59	cosmic potted meat product
+consummate baked potato	JARLSBAKE, ROW64	cosmic potato
+consummate toast	JARLSGRILL, ROW49	cosmic dough
+consummate steak	JARLSGRILL, ROW60	cosmic potted meat product
+consummate cold cuts	JARLSFREEZE, ROW61	cosmic potted meat product
+consummate ice cream	JARLSFREEZE, ROW66	cosmic cream
+consummate sorbet	JARLSFREEZE, ROW70	cosmic fruit
+consummate egg salad	JARLSBLEND, ROW44	cosmic egg
+consummate salsa	JARLSBLEND, ROW54	cosmic vegetable
+consummate frankfurter	JARLSBLEND, ROW62	cosmic potted meat product
+consummate whipped cream	JARLSBLEND, ROW67	cosmic cream
+passable stout	JARLSCURDLE, ROW50	cosmic dough
+consummate sauerkraut	JARLSCURDLE, ROW55	cosmic vegetable
+acceptable vodka	JARLSCURDLE, ROW65	cosmic potato
+consummate sour cream	JARLSCURDLE, ROW68	cosmic cream
+adequate rum	JARLSCURDLE, ROW71	cosmic fruit
+cosmic six-pack	JARLS, ROW112
 mediocre lager (6)	SUSE	cosmic six-pack
 
 # Avatar of Jarlsberg dishes
-immaculate grilled cheese	JARLS	consummate toast	consummate cheese slice
-immaculate ice cream sandwich	JARLS	consummate ice cream	consummate brownie
-immaculate hot dog	JARLS	consummate hot dog bun	consummate frankfurter
-immaculate egg salad sandwich	JARLS	consummate egg salad	consummate sliced bread
-perfect sandwich	JARLS	consummate sliced bread	consummate cheese slice	consummate cold cuts
-perfect chef salad	JARLS	consummate salad	consummate hard-boiled egg	consummate cold cuts
-perfect breakfast	JARLS	consummate fried egg	consummate bacon	consummate toast
-sublime deluxe hot dog	JARLS	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
-sublime stew	JARLS	consummate soup	consummate steak	consummate baked potato
-sublime nachos	JARLS	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
-Ultimate Breakfast Sandwich	JARLS	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
-Loaded Baked Potato	JARLS	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
-Omega Sundae	JARLS	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
-Das Sauerlager	JARLS	mediocre lager	consummate sauerkraut
-Bologna Lambic	JARLS	passable stout	consummate cold cuts
-Vodka Dog	JARLS	acceptable vodka	consummate hot dog bun
-Disappointed Russian	JARLS	acceptable vodka	consummate sour cream
-Chunky Mary	JARLS	acceptable vodka	consummate salsa
-Nachojito	JARLS	adequate rum	consummate melted cheese
-Le Roi	JARLS	adequate rum	consummate french fries
-Over Easy Rider	JARLS	adequate rum	consummate fried egg
+immaculate grilled cheese	JARLS, ROW72	consummate toast	consummate cheese slice
+immaculate ice cream sandwich	JARLS, ROW73	consummate ice cream	consummate brownie
+immaculate hot dog	JARLS, ROW74	consummate hot dog bun	consummate frankfurter
+immaculate egg salad sandwich	JARLS, ROW75	consummate egg salad	consummate sliced bread
+perfect sandwich	JARLS, ROW76	consummate sliced bread	consummate cheese slice	consummate cold cuts
+perfect chef salad	JARLS, ROW77	consummate salad	consummate hard-boiled egg	consummate cold cuts
+perfect breakfast	JARLS, ROW78	consummate fried egg	consummate bacon	consummate toast
+sublime deluxe hot dog	JARLS, ROW79	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
+sublime stew	JARLS, ROW80	consummate soup	consummate steak	consummate baked potato
+sublime nachos	JARLS, ROW81	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
+Ultimate Breakfast Sandwich	JARLS, ROW82	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
+Loaded Baked Potato	JARLS, ROW83	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
+Omega Sundae	JARLS, ROW84	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
+Das Sauerlager	JARLS, ROW85	mediocre lager	consummate sauerkraut
+Bologna Lambic	JARLS, ROW86	passable stout	consummate cold cuts
+Vodka Dog	JARLS, ROW87	acceptable vodka	consummate hot dog bun
+Disappointed Russian	JARLS, ROW88	acceptable vodka	consummate sour cream
+Chunky Mary	JARLS, ROW89	acceptable vodka	consummate salsa
+Nachojito	JARLS, ROW90	adequate rum	consummate melted cheese
+Le Roi	JARLS, ROW91	adequate rum	consummate french fries
+Over Easy Rider	JARLS, ROW92	adequate rum	consummate fried egg
 
 # Avatar of Jarlsberg chefstaves
-Staff of Fruit Salad	JARLS	cosmic fruit
-Staff of the All-Steak	JARLS	cosmic potted meat product
-Staff of the Cream of the Cream	JARLS	cosmic cream
-Staff of the Healthy Breakfast	JARLS	cosmic egg
-Staff of the Hearty Dinner	JARLS	cosmic potato
-Staff of the Light Lunch	JARLS	cosmic vegetable
-Staff of the Staff of Life	JARLS	cosmic dough
-Staff of the Standalone Cheese	JARLS	cosmic cheese
+Staff of Fruit Salad	JARLS, ROW110	cosmic fruit
+Staff of the All-Steak	JARLS, ROW109	cosmic potted meat product
+Staff of the Cream of the Cream	JARLS, ROW111	cosmic cream
+Staff of the Healthy Breakfast	JARLS, ROW104	cosmic egg
+Staff of the Hearty Dinner	JARLS, ROW108	cosmic potato
+Staff of the Light Lunch	JARLS, ROW106	cosmic vegetable
+Staff of the Staff of Life	JARLS, ROW105	cosmic dough
+Staff of the Standalone Cheese	JARLS, ROW107	cosmic cheese
+
+# Grandma's Sea Shop
+crappy Mer-kin mask	MANUAL, GRANDMA, ROW128	Mer-kin gladiator mask
+crappy Mer-kin mask	MANUAL, GRANDMA, ROW131	Mer-kin scholar mask
+crappy Mer-kin mask	GRANDMA, ROW124	aerated diving helmet	pristine fish scale (3)
+crappy Mer-kin tailpiece	GRANDMA, ROW125	sea chaps	teflon swim fins	pristine fish scale (3)
+Mer-kin gladiator mask	GRANDMA, ROW126	crappy Mer-kin mask	Mer-kin headguard
+Mer-kin gladiator tailpiece	GRANDMA, ROW127	crappy Mer-kin tailpiece	Mer-kin thighguard
+Mer-kin scholar mask	GRANDMA, ROW129	crappy Mer-kin mask	Mer-kin facecowl
+Mer-kin scholar tailpiece	GRANDMA, ROW130	crappy Mer-kin tailpiece	Mer-kin waistrope
+sushi doily	GRANDMA, ROW116	sea lace
+scimitar cozy	GRANDMA, ROW117	sea lace (3)	pristine fish scale
+fish stick cozy	GRANDMA, ROW118	sea lace (3)	pristine fish scale
+bazooka cozy	GRANDMA, ROW119	sea lace (3)	pristine fish scale
+sea mantle	GRANDMA, ROW120	pristine fish scale (5)
+sea shawl	GRANDMA, ROW121	pristine fish scale (5)
+sea cape	GRANDMA, ROW122	pristine fish scale (5)
+saltwaterbed	GRANDMA, ROW123	sea leather (15)

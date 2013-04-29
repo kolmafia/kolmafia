@@ -36,10 +36,13 @@ package net.sourceforge.kolmafia.objectpool;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -51,6 +54,7 @@ public class ConcoctionPool
 	private static final TreeMap<String, Concoction> map = new TreeMap<String, Concoction>();
 	private static Collection<Concoction> values = null;
 	private static final ConcoctionArray cache = new ConcoctionArray();
+	private static final Map<Integer, Integer> rowCache = new TreeMap<Integer, Integer>();
 
 	static
 	{
@@ -99,6 +103,35 @@ public class ConcoctionPool
 		{
 			ConcoctionPool.cache.set( itemId, c );
 		}
+		if ( c.getRow() > 0 )
+		{
+			if ( ConcoctionPool.rowCache.containsKey( c.getRow() ) )
+			{
+				RequestLogger.printLine( "Duplicate row for item " + itemId );
+			}
+			ConcoctionPool.rowCache.put( c.getRow(), itemId );
+		}
+	}
+
+	public static int idToRow( int itemId )
+	{
+		for ( Entry<Integer, Integer> entry : ConcoctionPool.rowCache.entrySet() )
+		{
+			if ( itemId == entry.getValue() )
+			{
+				return entry.getKey();
+			}
+		}
+		return -1;
+	}
+
+	public static int rowToId( int row )
+	{
+		if ( ConcoctionPool.rowCache.containsKey( row ) )
+		{
+			return ConcoctionPool.rowCache.get( row );
+		}
+		return -1;
 	}
 
 	public static Iterator<Concoction> iterator()
@@ -165,7 +198,7 @@ public class ConcoctionPool
 			for ( int i = 0; i <= max; ++i )
 			{
 				this.internalList.add( null );
-			}
+}
 			this.max = max;
 		}
 
