@@ -22,18 +22,21 @@ El Sombrero De Lopez	100	Mox: 15
 El Vibrato helmet	200	Mox: 200
 Elder Turtle Shell	100	Mus: 15
 Frosty's old silk hat	200	Mus: 200
+Goggles of Loathing	200	Mys: 150
 Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
-Jarlsberg's hat	30	none
 Hat O' Nine Tails	10	none
 Helm of the Scream Emperor	120	none
 Hodgman's porkpie hat	200	Mox: 200
 Hollandaise helmet	10	none
+Jarlsberg's hat	30	none
 Kentucky-style derby	20	none
 Knob Goblin elite helm	60	Mox: 15
 Knob Goblin harem veil	10	none
 Knob Goblin visor	50	Mox: 10
 KoL Con 3-D Glasses	10	none
+Lens of Hatred	200	Mox: 125
+Lens of Violence	200	Mys: 125
 MAHI fez	200	Mox: 85
 Mark I Steam-Hat	150	Mox: 60
 Mark II Steam-Hat	150	Mox: 60
@@ -289,6 +292,8 @@ Greaves of the Murk Lord	120	none
 Grimacite gaiters	150	Mox: 40
 Grimacite greaves	125	Mox: 47
 Hodgman's lobsterskin pants	200	Mox: 200
+Jeans of Loathing	200	Mox: 150
+Jodhpurs of Violence	200	Mox: 125
 Knob Goblin Uberpants	45	Mox: 7
 Knob Goblin elite pants	60	Mox: 15
 Knob Goblin harem pants	10	none
@@ -304,6 +309,7 @@ Ol' Scratch's ol' britches	200	Mys: 200
 Orcish cargo shorts	60	Mox: 15
 Oscus's dumpster waders	200	Mys: 200
 Oscus's flypaper pants	200	Mox: 200
+Pantaloons of Hatred	200	Mys: 125
 Radio Free Pants	150	Mox: 60
 Spooky Putty leotard	100	none
 The Necbromancer's Shorts	200	Mox: 200
@@ -605,6 +611,7 @@ Ol' Scratch's infernal pitchfork	200	Mus: 200	2-handed polearm
 PVC staff	200	Mus: 85	2-handed staff
 Pasta of Peril	50	Mys: 10	1-handed utensil
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
+Pigsticker of Violence	200	Mox: 125 1-handed knife
 Radio Free Foil	150	Mus: 60	2-handed sword
 Rain-Doh violet bo	100	Mus: 0	2-handed staff
 Rain-Doh yellow laser gun	100	Mox: 0	1-handed pistol
@@ -623,6 +630,7 @@ Staff of Blood and Pudding	10	Mys: 15	1-handed chefstaff
 Staff of Fruit Salad	10	Mys: 0	1-handed chefstaff
 Staff of Holiday Sensations	10	Mys: 75	1-handed chefstaff
 Staff of Queso Escusado	10	Mys: 0	1-handed chefstaff
+Staff of Simmering Hatred	10	Mys: 125	1-handed chefstaff
 Staff of the All-Steak	10	Mys: 50	1-handed chefstaff
 Staff of the Black Kettle	10	Mys: 75	1-handed chefstaff
 Staff of the Cozy Fish	200	Mys: 85	2-handed chefstaff
@@ -646,6 +654,7 @@ Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
 Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
 Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
 Staff of the Woodfire	10	Mys: 150	1-handed chefstaff
+Stick-Knife of Loathing	200	Mus: 150	1-handed 
 Super Crimboman Ultra Mega Hypersword	100	Mus: 35	2-handed sword
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
 Sword of Dark Omens	120	Mus: 0	1-handed sword
@@ -1098,11 +1107,13 @@ yohohoyo	160	Mox: 65	1-handed yoyo
 Abyssal ember	100	Mus: 35
 BRICKO bulwark	60	none	shield
 Bag o' Tricks	0	none
+Brand of Violence	200	Mus: 125
 Brimstone Bunker	240	Mus: 30	shield
 C.H.U.M. lantern	100	Mus: 150
 Chalice of the Malkovich Prince	0	none
 Cloaca-Cola shield	70	none	shield
 Codex of Capsaicin Conjuration	30	none
+Cold Stone of Hatred	0	Mus: 125
 Cookbook of the Damned	30	none
 Crimbo Elf creepy bobble-head	0	none
 Crimbo bottomless hot cocoa mug	0	none
@@ -1166,6 +1177,7 @@ Oscus's garbage can lid	240	Mus: 200	shield
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
 Rainbow Jello Mould	0	Mus: 10
+Scepter of Loathing	0	Mys: 150
 Sceptre of the Torremolinos Prince	0	none
 Seven Loco	0	none
 Shield of Icy Fate	120	none	shield
@@ -1426,12 +1438,14 @@ Aluminum Epsilon of Humility	200	Mys: 85
 Amulet of Yendor	10	none
 Ankh of Badahnkadh	165	Mys: 67
 Annual Ascot	0	none
+Ass-Stompers of Violence	0	Mus: 125
 BGE pocket calendar	0	none
 BGE tiny plastic toy	0	none
 Bandolier of the Spaghetti Elemental	150	Mys: 45
 Baron von Ratsworth's money clip	50	Mys: 10
 Baron von Ratsworth's monocle	50	Mys: 10
 Belt of Howling Anger	120	none
+Belt of Loathing	0	Mox: 150
 Bling of the New Wave	150	Mox: 45
 Blue Diamond of Honesty	200	Mys: 85
 Bonerdagon necklace	80	Mys: 25
@@ -1463,9 +1477,11 @@ Emblem of Ak'gyxoth	0	Mys: 30
 French slippers	10	none
 Frosty's carrot	200	Mus: 200
 Frown Exerciser	10	Mys: 30
+Fuzzy Slippers of Hatred	0	Mox: 125
 Gaia beads	175	Mys: 72
 Garter of the Turtle Poacher	150	Mus: 45
 Gauntlets of the Blood Moon	120	none
+Girdle of Hatred	0	Mus: 125
 Golden Mr. Accessory	0	none
 Gravyskin Belt of the Sauceblob	150	Mys: 45
 Green Clover of Justice	200	Mys: 85
@@ -1521,6 +1537,7 @@ Mudflap-Girl Necklace	150	Mys: 60
 Mudflap-Girl Ring	150	Mys: 60
 Nickel Gamma of Frugality	200	Mys: 85
 Nose Ring of Putrescence	150	Mys: 60
+Novelty Belt Buckle of Violence	0	Mys: 125
 Ol' Scratch's manacles	200	Mys: 200
 Orange Star of Sacrifice	200	Mys: 85
 Order of the Silver Wossname	200	Mys: 85
@@ -1528,6 +1545,7 @@ Oscus's pelt	200	Mys: 200
 Pendant of Fire	150	Mys: 60
 Pine-Fresh air freshener	50	Mys: 10
 Pink Heart of Spirit	200	Mys: 85
+Pocket Square of Loathing	0	Mys: 150
 Pok&euml;mann figurine: Bloodkip	10	none
 Pok&euml;mann figurine: Duck	20	none
 Pok&euml;mann figurine: Frank	50	none
@@ -1568,6 +1586,7 @@ Talisman of Baio	200	none
 Talisman of Bakula	200	none
 The Lost Glasses	0	Mys: 25
 The Ring	150	Mys: 60
+Treads of Loathing	0	Mus: 150
 UV monocular	75	Mys: 22
 Uncle Hobo's belt	200	Mys: 200
 Uncle Hobo's epic beard	200	Mys: 200

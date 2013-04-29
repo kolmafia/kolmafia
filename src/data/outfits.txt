@@ -90,3 +90,6 @@
 89	Animelf Apparel	brainwave-controlled unicorn horn, electronic dulcimer pants, Frown Exerciser
 90	Seafaring Suit	foam commodore's hat, miniature deck cannon, foam naval trousers
 91	Raiments of the Final Boss	Helm of the Scream Emperor, Cloak of Dire Shadows, Sword of Dark Omens, Shield of Icy Fate, Greaves of the Murk Lord, Boots of Twilight Whispers, Belt of Howling Anger, Gauntlets of the Blood Moon
+92	Violent Vestments	Lens of Violence, Pigsticker of Violence, Brand of Violence, Jodhpurs of Violence, Ass-Stompers of Violence, Novelty Belt Buckle of Violence
+93	Hateful Habiliment	Lens of Hatred, Staff of Simmering Hatred, Cold Stone of Hatred, Pantaloons of Hatred, Fuzzy Slippers of Hatred, Girdle of Hatred
+94	Clothing of Loathing	Goggles of Loathing, Stick-Knife of Loathing, Scepter of Loathing, Jeans of Loathing, Treads of Loathing, Belt of Loathing, Pocket Square of Loathing

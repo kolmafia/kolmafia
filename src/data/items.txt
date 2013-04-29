@@ -4311,24 +4311,24 @@
 4294	Mer-kin switchblade	467607496	switchblade.gif	weapon	d	120
 4295	crystal orb of spirit wrangling	169672274	spiritorb.gif	reusable	q	0
 4296	depleted uranium seal figurine	663964652	sealfiguran.gif	reusable	d	170	depleted uranium seal figurines
-4297
-4298
-4299
-4300
-4301
-4302
-4303
-4304
-4305
-4306
-4307
-4308
-4309
-4310
-4311
-4312
-4313
-4314
+4297	Ass-Stompers of Violence	204071493	vio_boots.gif	accessory		0
+4298	Brand of Violence	300500134	vio_brand.gif	offhand		0
+4299	Novelty Belt Buckle of Violence	478020985	vio_buckle.gif	accessory		0
+4300	Lens of Violence	430260627	vio_lens.gif	hat		0
+4301	Pigsticker of Violence	381177201	vio_knife.gif	weapon		0
+4302	Jodhpurs of Violence	807812120	vio_pants.gif	pants		0
+4303	Cold Stone of Hatred	686054988	hate_stone.gif	offhand		0
+4304	Girdle of Hatred	482626574	hate_girdle.gif	accessory		0
+4305	Staff of Simmering Hatred	350628111	hate_staff.gif	weapon		0
+4306	Pantaloons of Hatred	887069787	hate_pants.gif	pants		0
+4307	Fuzzy Slippers of Hatred	569206102	hate_slippers.gif	accessory		0
+4308	Lens of Hatred	966755946	hate_lens.gif	hat		0
+4309	Treads of Loathing	444022947	loathe_boots.gif	accessory		0
+4310	Scepter of Loathing	562497417	loathe_scepter.gif	offhand		0
+4311	Belt of Loathing	727854953	loathe_belt.gif	accessory		0
+4312	Goggles of Loathing	983649955	loathe_goggles.gif	hat		0
+4313	Stick-Knife of Loathing	677365171	loathe_snife.gif	weapon		0
+4314	Jeans of Loathing	895060558	loathe_jeans.gif	pants		0
 4315	Annual Ascot	804577053	ascot.gif	accessory	t,d	0
 4316	Sledgehammer of the V&aelig;lkyr	139769370	sledge.gif	weapon	q	0
 4317	Flail of the Seven Aspects	601506510	7aspects.gif	weapon	q	0
@@ -6418,3 +6418,7 @@
 6401	black tear	800989357	blacktear.gif	usable	t,d	42
 6402	jagged tooth	415373394	jaggedtooth.gif	usable	t,d	17	jagged teeth
 6403	grisly shell fragment	617113636	chitinplate.gif	usable	t,d	23
+6404
+6405
+6406
+6407	Pocket Square of Loathing	448329379	loathe_square.gif	accessory		0
