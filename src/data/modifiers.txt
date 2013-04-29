@@ -4478,7 +4478,7 @@ Stone Golem pebbles	Effect: "Sharin' Stone", Effect Duration: 100
 Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
 Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
 Sweet Sword	Effect: "Sugar Rush", Effect Duration: 10
-Taco Dan's Taco Stand's Chillacious Churro	Effect: "Churro Chiaroscuro", Effect Duration: 5
+Taco Dan's Taco Stand Chillacious Churro	Effect: "Churro Chiaroscuro", Effect Duration: 5
 Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
 Tears of the Quiet Healer	Effect: "No Squealer Healer", Effect Duration: 30
 The Groose in the Hoose	Free Pull
@@ -4632,7 +4632,7 @@ eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
 elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 embezzler's oil	Effect: "Robbin' Like a Goblin", Effect Duration: 50
 emo roe	Free Pull
-enchanted meusli	Effect: "Ski Ballin'", Effect Duration: 30
+enchanted muesli	Effect: "Ski Ballin'", Effect Duration: 30
 ennui-flavored potato chips	Effect: "Also Schmeckt Zarathustra", Effect Duration: 10
 essential cameraderie	Effect: "2 Hearts, 1 Mind", Effect Duration: 50
 essential soy	Effect: "Electrolyte Fantastic", Effect Duration: 50
