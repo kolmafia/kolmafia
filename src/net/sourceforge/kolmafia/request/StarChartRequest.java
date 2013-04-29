@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -42,7 +41,9 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -51,35 +52,17 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class StarChartRequest
 	extends CreateItemRequest
 {
-	private static final Pattern STAR_PATTERN = Pattern.compile( "numstars=(\\d+)" );
-	private static final Pattern LINE_PATTERN = Pattern.compile( "numlines=(\\d+)" );
-
-	private int stars, lines;
 
 	public StarChartRequest( final Concoction conc )
 	{
-		super( "starchart.php", conc );
+		// http://www.kingdomofloathing.com/shop.php?whichshop=starchart&action=buyitem&quantity=1&whichrow=139
+		// quantity field is not needed and is not used
+		super( "shop.php", conc );
 
-		AdventureResult[] ingredients = conc.getIngredients();
-		if ( ingredients != null )
-		{
-			for ( int i = 0; i < ingredients.length; ++i )
-			{
-				switch ( ingredients[ i ].getItemId() )
-				{
-				case ItemPool.STAR:
-					this.stars = ingredients[ i ].getCount();
-					break;
-				case ItemPool.LINE:
-					this.lines = ingredients[ i ].getCount();
-					break;
-				}
-			}
-		}
-
-		this.addFormField( "action", "makesomething" );
-		this.addFormField( "numstars", String.valueOf( this.stars ) );
-		this.addFormField( "numlines", String.valueOf( this.lines ) );
+		this.addFormField( "whichshop", "starchart" );
+		this.addFormField( "action", "buyitem" );
+		int row = ConcoctionPool.idToRow( this.getItemId() );
+		this.addFormField( "whichrow", String.valueOf( row ) );
 	}
 
 	@Override
@@ -108,54 +91,86 @@ public class StarChartRequest
 		// Since we create one at a time, override processResults so
 		// superclass method doesn't undo ingredient usage.
 
-		if ( StarChartRequest.parseCreation( this.getURLString(), this.responseText ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You can't draw that." );
-		}
+		StarChartRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static final boolean parseCreation( final String urlString, final String responseText )
+	public static void parseResponse( final String urlString, final String responseText )
 	{
-                // Your stars and lines combine to form a new item!
-
-		if ( responseText.indexOf( "Your stars and lines combine to form a new item!" ) == -1 )
+		// You place the stars and lines on the chart -- the chart bursts into flames
+		// and leaves behind a sweet star item!
+		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You place the stars" ) )
 		{
-			return true;
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Star chart crafting was unsuccessful." );
+			return;
 		}
 
-		Matcher starMatcher = StarChartRequest.STAR_PATTERN.matcher( urlString );
-		Matcher lineMatcher = StarChartRequest.LINE_PATTERN.matcher( urlString );
-
-		if ( !starMatcher.find() || !lineMatcher.find() )
+		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		if ( !rowMatcher.find() )
 		{
-			return true;
+			return;
 		}
 
-		int stars = StringUtilities.parseInt( starMatcher.group( 1 ) );
-		int lines = StringUtilities.parseInt( lineMatcher.group( 1 ) );
+		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
+		int itemId = ConcoctionPool.rowToId( row );
 
-		ResultProcessor.processItem( ItemPool.STAR, 0 - stars );
-		ResultProcessor.processItem( ItemPool.LINE, 0 - lines );
-		ResultProcessor.processItem( ItemPool.STAR_CHART, -1 );
+		CreateItemRequest pixelItem = CreateItemRequest.getInstance( itemId );
+		if ( pixelItem == null )
+		{
+			return; // this is an unknown item
+		}
 
-		return false;
+		// quantity can only be 1, so it does not need to be parsed from the URL
+
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			ResultProcessor.processResult(
+				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() ) );
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher starMatcher = StarChartRequest.STAR_PATTERN.matcher( urlString );
-		Matcher lineMatcher = StarChartRequest.LINE_PATTERN.matcher( urlString );
-
-		if ( !starMatcher.find() || !lineMatcher.find() )
+		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		if ( !rowMatcher.find() )
 		{
 			return true;
 		}
 
-		int stars = StringUtilities.parseInt( starMatcher.group( 1 ) );
-		int lines = StringUtilities.parseInt( lineMatcher.group( 1 ) );
+		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
+		int itemId = ConcoctionPool.rowToId( row );
+
+		CreateItemRequest starItem = CreateItemRequest.getInstance( itemId );
+		if ( starItem == null )
+		{
+			return true; // this is an unknown item
+		}
+
+		// The quantity is always 1
+		if ( starItem.getQuantityPossible() < 1 )
+		{
+			return true; // attempt will fail
+		}
+
+		StringBuilder pixelString = new StringBuilder();
+		pixelString.append( "Trade " );
+
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			if ( i > 0 )
+			{
+				pixelString.append( ", " );
+			}
+
+			pixelString.append( ingredients[ i ].getCount() );
+			pixelString.append( " " );
+			pixelString.append( ingredients[ i ].getName() );
+		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( "Draw " + stars + " stars with " + lines + " lines" );
+		RequestLogger.updateSessionLog( pixelString.toString() );
 
 		return true;
 	}
