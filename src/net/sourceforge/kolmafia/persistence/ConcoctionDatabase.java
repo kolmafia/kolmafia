@@ -2631,6 +2631,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.requirements.add( CraftingRequirements.SLICE );
 		}
 
+		else if ( mix.equals( "GRANDMA" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
+		}
+
 		else if ( mix.startsWith( "ROW" ) )
 		{
 			ConcoctionDatabase.row = StringUtilities.parseInt( mix.substring( 3 ) );

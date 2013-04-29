@@ -34,16 +34,16 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -54,12 +54,12 @@ public class GrandmaRequest
 {
 	public GrandmaRequest( final Concoction conc )
 	{
-		// shop.php?whichshop=grandma&action=buyitem&quantity=1&whichitem=6338
 		super( "shop.php", conc );
 
 		this.addFormField( "whichshop", "grandma" );
 		this.addFormField( "action", "buyitem" );
-		this.addFormField( "whichitem", String.valueOf( this.getItemId() ) );
+		int row = ConcoctionPool.idToRow( this.getItemId() );
+		this.addFormField( "whichrow", String.valueOf( row ) );
 	}
 
 	@Override
@@ -84,7 +84,11 @@ public class GrandmaRequest
 		super.run();
 	}
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*><b>([^&]*)</b>&nbsp;", Pattern.DOTALL );
+	@Override
+	public void processResults()
+	{
+		GrandmaRequest.parseResponse( this.getURLString(), this.responseText );
+	}
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
@@ -93,30 +97,61 @@ public class GrandmaRequest
 			return;
 		}
 
-		// Learn new trade items by simply visiting Phineas
-		Matcher matcher = ITEM_PATTERN.matcher( responseText );
-		while ( matcher.find() )
+		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
 		{
-			int id = StringUtilities.parseInt( matcher.group(1) );
-			String desc = matcher.group(2);
-			String name = matcher.group(3);
-			String data = ItemDatabase.getItemDataName( id );
-			if ( data == null || !data.equalsIgnoreCase( name ) )
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Buying from Grandma was unsuccessful." );
+			return;
+		}
+
+		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		if ( !rowMatcher.find() )
+		{
+			return;
+		}
+
+		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
+		int itemId = ConcoctionPool.rowToId( row );
+
+		CreateItemRequest grandmaItem = CreateItemRequest.getInstance( itemId );
+		if ( grandmaItem == null )
+		{
+			return; // this is an unknown item
+		}
+
+		int quantity = 1;
+		if ( urlString.contains( "buymax=" ) )
+		{
+			quantity = grandmaItem.getQuantityPossible();
+		}
+		else
+		{
+			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			if ( quantityMatcher.find() )
 			{
-				ItemDatabase.registerItem( id, name.toLowerCase(), desc );
+				String quantityString = quantityMatcher.group( 2 ).trim();
+				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
 			}
+		}
+
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			ResultProcessor.processResult(
+				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
 		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher itemMatcher = CreateItemRequest.WHICHITEM_PATTERN.matcher( urlString );
-		if ( !itemMatcher.find() )
+		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		if ( !rowMatcher.find() )
 		{
 			return true;
 		}
 
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
+		int itemId = ConcoctionPool.rowToId( row );
 
 		CreateItemRequest grandmaItem = CreateItemRequest.getInstance( itemId );
 		if ( grandmaItem == null )
@@ -158,9 +193,6 @@ public class GrandmaRequest
 			grandmaString.append( ingredients[ i ].getCount() * quantity );
 			grandmaString.append( " " );
 			grandmaString.append( ingredients[ i ].getName() );
-
-			ResultProcessor.processResult(
-				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
 		}
 
 		RequestLogger.updateSessionLog();

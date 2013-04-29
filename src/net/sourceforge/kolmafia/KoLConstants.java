@@ -508,6 +508,7 @@ public interface KoLConstants
 		COINMASTER, // Coinmaster purchase
 		CLIPART, // Tome of Clip Art summons
 		JARLS, // Items that can only be made by an Avatar of Jarlsberg
+		GRANDMA, // Items made by Grandma Sea Monkee
 	}
 
 	public enum CraftingRequirements

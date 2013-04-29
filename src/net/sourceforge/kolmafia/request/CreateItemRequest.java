@@ -368,6 +368,9 @@ public class CreateItemRequest
 		case JARLS:
 			return new JarlsbergRequest( conc );
 
+		case GRANDMA:
+			return new GrandmaRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}

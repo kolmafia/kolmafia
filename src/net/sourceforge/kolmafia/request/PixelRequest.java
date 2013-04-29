@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -45,7 +44,6 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -88,8 +86,6 @@ public class PixelRequest
 		super.run();
 	}
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)[^>]*?>.*?descitem.([\\d]+)[^>]*><b>([^&]*)</b>&nbsp;", Pattern.DOTALL );
-
 	@Override
 	public void processResults()
 	{
@@ -101,20 +97,6 @@ public class PixelRequest
 		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=mystic" ) )
 		{
 			return;
-		}
-
-		// Learn new trade items by simply visiting Phineas
-		Matcher matcher = ITEM_PATTERN.matcher( responseText );
-		while ( matcher.find() )
-		{
-			int id = StringUtilities.parseInt( matcher.group(1) );
-			String desc = matcher.group(2);
-			String name = matcher.group(3);
-			String data = ItemDatabase.getItemDataName( id );
-			if ( data == null || !data.equalsIgnoreCase( name ) )
-			{
-				ItemDatabase.registerItem( id, name.toLowerCase(), desc );
-			}
 		}
 
 		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
