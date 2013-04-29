@@ -2195,7 +2195,7 @@ public class Modifiers
 	}
 
 	private static final Pattern SINGLE_PATTERN =
-		Pattern.compile( "You may not equip more than one of this item at a time" );
+		Pattern.compile( "You may not equip more than one of these at a time" );
 
 	public static final String parseSingleEquip( final String text )
 	{
