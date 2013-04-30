@@ -62,6 +62,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
@@ -98,6 +99,8 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.moods.Mood;
+import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -483,8 +486,10 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "is_goal", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_goals", new AggregateType(
-			DataTypes.STRING_TYPE, 0 ), params ) );
+		functions.add( new LibraryFunction( "get_goals", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_moods", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
@@ -2464,6 +2469,23 @@ public abstract class RuntimeLibrary
 			AdventureResult goal = (AdventureResult) goals.get(i);
 
 			value.aset( new Value( i ), new Value( goal.toConditionString() ) );
+		}
+
+		return value;
+	}
+
+	public static Value get_moods( Interpreter interpreter )
+	{
+		SortedListModel moods = MoodManager.getAvailableMoods();
+
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, moods.size() );
+		ArrayValue value = new ArrayValue( type );
+
+		for ( int i = 0; i < moods.size(); ++i )
+		{
+			Mood mood = (Mood) moods.get( i );
+
+			value.aset( new Value( i ), new Value( mood.getName() ) );
 		}
 
 		return value;
