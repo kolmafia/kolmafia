@@ -2075,6 +2075,14 @@ public class ConcoctionDatabase
 		{
 			result.append( "Summon Clip Art" );
 		}
+		else if ( mixingMethod == CraftingType.JARLS )
+		{
+			result.append( "Jarlsberg's Kitchen" );
+		}
+		else if ( mixingMethod == CraftingType.GRANDMA )
+		{
+			result.append( "Grandma Sea Monkee" );
+		}
 
 
 		if ( result.length() == 0 )
@@ -2135,6 +2143,33 @@ public class ConcoctionDatabase
 
 		if ( mixingRequirements.contains( CraftingRequirements.NOBEE ) )
 			result.append( " (Unavailable in Beecore)" );
+
+		if ( mixingRequirements.contains( CraftingRequirements.BAKE ) )
+			result.append( " (Bake)" );
+
+		if ( mixingRequirements.contains( CraftingRequirements.BLEND ) )
+			result.append( " (Blend)" );
+
+		if ( mixingRequirements.contains( CraftingRequirements.BOIL ) )
+			result.append( " (Boil)" );
+
+		if ( mixingRequirements.contains( CraftingRequirements.CHOP ) )
+			result.append( " (Chop)" );
+
+		if ( mixingRequirements.contains( CraftingRequirements.CURDLE ) )
+			result.append( " (Curdle)" );
+
+		if ( mixingRequirements.contains( CraftingRequirements.FREEZE ) )
+			result.append( " (Freeze)" );
+
+		if ( mixingRequirements.contains( CraftingRequirements.FRY ) )
+			result.append( " (Fry)" );
+
+		if ( mixingRequirements.contains( CraftingRequirements.GRILL ) )
+			result.append( " (Grill)" );
+
+		if ( mixingRequirements.contains( CraftingRequirements.SLICE ) )
+			result.append( " (Slice)" );
 
 		return result.toString();
 	}
