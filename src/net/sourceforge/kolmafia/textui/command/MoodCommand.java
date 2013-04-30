@@ -47,7 +47,7 @@ public class MoodCommand
 	extends AbstractCommand
 {
 	{
-		this.usage = " list | clear | autofill | execute | repeat [<numTimes>] | <moodName> [<numTimes>] - mood management.";
+		this.usage = " list | listall | clear | autofill | execute | repeat [<numTimes>] | <moodName> [<numTimes>] - mood management.";
 	}
 
 	@Override
@@ -59,6 +59,10 @@ public class MoodCommand
 		{
 			RequestLogger.printList( MoodManager.getTriggers() );
 			return;
+		}
+		else if ( parameters.equals( "listall" ) )
+		{
+			RequestLogger.printList( MoodManager.getAvailableMoods() );
 		}
 		else if ( parameters.equals( "clear" ) )
 		{
