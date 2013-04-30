@@ -96,6 +96,11 @@ public class StarChartRequest
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=starchart" ) )
+		{
+			return;
+		}
+
 		// You place the stars and lines on the chart -- the chart bursts into flames
 		// and leaves behind a sweet star item!
 		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You place the stars" ) )
