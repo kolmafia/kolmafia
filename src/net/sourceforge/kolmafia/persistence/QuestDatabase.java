@@ -443,6 +443,9 @@ public class QuestDatabase
 		{
 			QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
 		}
+		Preferences.resetToDefault( "oilPeakProgress" );
+		Preferences.resetToDefault( "twinPeakProgress" );
+		Preferences.resetToDefault( "booPeakProgress" );
 	}
 
 	public static void handleCouncilText( String responseText )
