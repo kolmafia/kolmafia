@@ -519,7 +519,7 @@ public class AdventureRequest
 			if ( type.equals( "Combat" ) )
 			{
 				encounter = AdventureRequest.translateGenericType( encounter, responseText );
-				AdventureQueueDatabase.enqueue( KoLAdventure.lastLocationName, encounter );
+				AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation() , encounter );
 			}
 			KoLmafia.registerEncounter( encounter, type, responseText );
 		}
