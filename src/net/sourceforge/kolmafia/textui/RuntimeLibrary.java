@@ -893,6 +893,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "have_equipped", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_outfits", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_custom_outfits", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "outfit", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -3870,6 +3876,33 @@ public abstract class RuntimeLibrary
 			AdventureResult piece = pieces[ i ];
 			value.aset( DataTypes.makeIntValue( i ),
 				    DataTypes.makeItemValue( piece ) );
+		}
+
+		return value;
+	}
+	
+	public static Value get_outfits( Interpreter interpreter )
+	{
+		return outfitListToValue( interpreter, EquipmentManager.getOutfits() );
+	}
+
+	public static Value get_custom_outfits( Interpreter interpreter )
+	{
+		return outfitListToValue( interpreter, EquipmentManager.getCustomOutfits() );
+	}
+
+	private static Value outfitListToValue( Interpreter interpreter, List< ? > outfits )
+	{
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, outfits.size() );
+		ArrayValue value = new ArrayValue( type );
+
+		for ( int i = 0; i < outfits.size(); ++i )
+		{
+			Object it = outfits.get( i );
+
+			if ( it == null ) continue;
+
+			value.aset( new Value( i ), new Value( it.toString() ) );
 		}
 
 		return value;
