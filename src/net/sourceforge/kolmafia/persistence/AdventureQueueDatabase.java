@@ -136,7 +136,7 @@ public class AdventureQueueDatabase
 
 	public static void serialize()
 	{
-		File file = new File( KoLConstants.DATA_DIRECTORY, KoLCharacter.baseUserName() + "_" + "queue.ser" );
+		File file = new File( KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "queue.ser" );
 
 		try
 		{
@@ -157,7 +157,7 @@ public class AdventureQueueDatabase
 	@SuppressWarnings( "unchecked" )
 	public static void deserialize()
 	{
-		File file = new File( KoLConstants.DATA_DIRECTORY, KoLCharacter.baseUserName() + "_" + "queue.ser" );
+		File file = new File( KoLConstants.DATA_LOCATION, KoLCharacter.baseUserName() + "_" + "queue.ser" );
 
 		if ( !file.exists() )
 		{
