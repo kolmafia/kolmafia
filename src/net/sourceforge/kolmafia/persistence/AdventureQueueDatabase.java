@@ -106,6 +106,28 @@ public class AdventureQueueDatabase
 		}
 	}
 
+	private static boolean checkZones()
+	{
+		// See if any zones aren't in the TreeMap.  Add them if so.
+
+		List< ? > list = AdventureDatabase.getAsLockableListModel();
+		Set<String> keys = ADVENTURE_QUEUE.keySet();
+
+		boolean keyAdded = false;
+
+		for ( Object ob : list )
+		{
+			KoLAdventure adv = (KoLAdventure) ob;
+			if ( !keys.contains( adv.getAdventureName() ) )
+			{
+				AdventureQueueDatabase.ADVENTURE_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
+				keyAdded = true;
+			}
+		}
+
+		return keyAdded;
+	}
+
 	public static void enqueue( KoLAdventure adv, String monster )
 	{
 		if ( adv == null || monster == null )
@@ -174,6 +196,9 @@ public class AdventureQueueDatabase
 			ADVENTURE_QUEUE = (TreeMap<String, RollingLinkedList>) in.readObject();
 
 			in.close();
+
+			// after successfully loading, check if there were new zones added that aren't yet in the TreeMap.
+			AdventureQueueDatabase.checkZones();
 		}
 		catch ( FileNotFoundException e )
 		{
