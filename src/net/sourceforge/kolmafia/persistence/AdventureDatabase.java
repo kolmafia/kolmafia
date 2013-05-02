@@ -86,7 +86,7 @@ public class AdventureDatabase
 {
 	private static final Pattern MINE_PATTERN = Pattern.compile( "mine=(\\d+)" );
 	private static final LockableListModel adventures = new LockableListModel();
-	private static final AdventureDatabase.AdventureArray allAdventures = new AdventureDatabase.AdventureArray();
+	private static final AdventureArray allAdventures = new AdventureArray();
 
 	public static final ArrayList<String> PARENT_LIST = new ArrayList<String>();
 	public static final HashMap<String, String> PARENT_ZONES = new HashMap<String, String>();
