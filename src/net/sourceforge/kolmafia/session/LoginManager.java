@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -163,6 +164,9 @@ public class LoginManager
 
 		// Get rid of cached password hashes in KoLAdventures
 		AdventureDatabase.refreshAdventureList();
+
+		// Load (or reset) adventure queue
+		AdventureQueueDatabase.deserialize();
 
 		// Reset all per-player information
 

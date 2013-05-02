@@ -37,6 +37,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -48,6 +49,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -598,6 +600,7 @@ public class ProxyRecordValue
 			.add( "parent", DataTypes.STRING_TYPE )
 			.add( "parentdesc", DataTypes.STRING_TYPE )
 			.add( "bounty", DataTypes.ITEM_TYPE )
+			.add( "queue", DataTypes.STRING_TYPE )
 			.finish( "location proxy" );
 
 		public LocationProxy( Value obj )
@@ -631,6 +634,25 @@ public class ProxyRecordValue
 			return bounty == null ?
 			       DataTypes.ITEM_INIT :
 			       DataTypes.parseItemValue( bounty.getName(), true );
+		}
+
+		public String get_queue()
+		{
+			List<?> zoneQueue = AdventureQueueDatabase.getZoneQueue( (KoLAdventure) this.content );
+
+			StringBuilder builder = new StringBuilder();
+			for ( Object ob : zoneQueue )
+			{
+				if ( ob == null )
+					continue;
+
+				if ( builder.length() > 0 )
+					builder.append( "; " );
+
+				builder.append( ob.toString() );
+			}
+
+			return builder.toString();
 		}
 	}
 

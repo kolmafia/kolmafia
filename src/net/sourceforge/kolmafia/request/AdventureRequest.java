@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -518,6 +519,7 @@ public class AdventureRequest
 			if ( type.equals( "Combat" ) )
 			{
 				encounter = AdventureRequest.translateGenericType( encounter, responseText );
+				AdventureQueueDatabase.enqueue( KoLAdventure.lastLocationName, encounter );
 			}
 			KoLmafia.registerEncounter( encounter, type, responseText );
 		}

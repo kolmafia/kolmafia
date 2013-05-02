@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.moods.MoodManager;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -437,5 +438,6 @@ public class ValhallaManager
 		Preferences.setInteger( "lastCouncilVisit", 0 );
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
+		AdventureQueueDatabase.resetQueue();
 	}
 }

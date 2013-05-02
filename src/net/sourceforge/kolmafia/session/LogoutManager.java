@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -154,6 +155,9 @@ public class LogoutManager
 			KoLmafia.updateDisplay( "Sharing mall price data with other users..." );
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "spade prices http://kolmafia.us/scripts/updateprices.php" );
 		}
+
+		// Serialize adventure queue data
+		AdventureQueueDatabase.serialize();
 
 		// Clear out user data
 
