@@ -131,6 +131,12 @@ disco ball	useless powder
 stolen accordion	useless powder
 mariachi pants	useless powder
 old sweatpants	useless powder
+seal-skull helmet	useless powder
+helmet turtle	useless powder
+ravioli hat	useless powder
+hollandaise helmet	useless powder
+disco mask	useless powder
+mariachi hat	useless powder
 
 # Unenchanted equipment is useless.
 Wand of Nagamar	useless powder
