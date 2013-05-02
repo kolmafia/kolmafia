@@ -108,6 +108,8 @@ public class AdventureQueueDatabase
 
 	public static void enqueue( KoLAdventure adv, String monster )
 	{
+		if ( adv == null || monster == null )
+			return;
 		AdventureQueueDatabase.enqueue( adv.getAdventureName(), monster );
 	}
 
