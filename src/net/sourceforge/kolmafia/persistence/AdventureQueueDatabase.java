@@ -113,6 +113,9 @@ public class AdventureQueueDatabase
 
 	public static void enqueue( String adventureName, String monster )
 	{
+		if ( adventureName == null || monster == null )
+			return;
+
 		RollingLinkedList zoneQueue = ADVENTURE_QUEUE.get( adventureName );
 
 		if ( zoneQueue == null )
