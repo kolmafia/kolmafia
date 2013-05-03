@@ -213,6 +213,9 @@ public abstract class KoLmafia
 		{ "I Just Wanna Fly", EncounterTypes.STOP },
 		{ "Me Just Want Fly", EncounterTypes.STOP },
 
+		// Giant's castle end
+		{"Keep On Turnin' the Wheel in the Sky", EncounterTypes.STOP},
+
 		// Adventure in the Arid, Extra-Dry desert until you find the
 		// Oasis
 

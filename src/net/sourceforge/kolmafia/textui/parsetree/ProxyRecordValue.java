@@ -600,7 +600,7 @@ public class ProxyRecordValue
 			.add( "parent", DataTypes.STRING_TYPE )
 			.add( "parentdesc", DataTypes.STRING_TYPE )
 			.add( "bounty", DataTypes.ITEM_TYPE )
-			.add( "queue", DataTypes.STRING_TYPE )
+			.add( "combat_queue", DataTypes.STRING_TYPE )
 			.finish( "location proxy" );
 
 		public LocationProxy( Value obj )
@@ -636,7 +636,7 @@ public class ProxyRecordValue
 			       DataTypes.parseItemValue( bounty.getName(), true );
 		}
 
-		public String get_queue()
+		public String get_combat_queue()
 		{
 			List<?> zoneQueue = AdventureQueueDatabase.getZoneQueue( (KoLAdventure) this.content );
 
