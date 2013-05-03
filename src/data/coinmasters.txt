@@ -99,6 +99,7 @@ Bounty Hunter Hunter	buy	200	Manual of Transcendent Olfaction
 
 # Things you can buy with sand dollars
 
+Big Brother	buy	13	black glass
 Big Brother	buy	1	dolphin whistle
 Big Brother	buy	5	sea grease
 Big Brother	buy	10	rusty valve wheel
