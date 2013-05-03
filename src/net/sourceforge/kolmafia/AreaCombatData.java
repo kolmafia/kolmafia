@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 
@@ -70,13 +71,16 @@ public class AreaCombatData
 	private final List<MonsterData> monsters;
 	private final List<Integer> weightings;
 
+	private final String zone;
+
 	// Flags in low-order bits of weightings
 	private static final int ASCENSION_ODD = 0x01;
 	private static final int ASCENSION_EVEN = 0x02;
 	private static final int WEIGHT_SHIFT = 2;
 
-	public AreaCombatData( final int combats )
+	public AreaCombatData( String zone, final int combats )
 	{
+		this.zone = zone;
 		this.monsters = new ArrayList<MonsterData>();
 		this.weightings = new ArrayList<Integer>();
 		this.combats = combats;
@@ -557,7 +561,8 @@ public class AreaCombatData
 		}
 		else
 		{
-			buffer.append( this.format( 100.0 * combatFactor * weighting / this.weights ) + "%" );
+			buffer.append( this.format( AdventureQueueDatabase.applyQueueEffects(
+				100.0 * combatFactor * weighting, this.weights, monster, this.getZone() ) ) + "%" );
 		}
 
 		buffer.append( ")<br>Hit: <font color=" + AreaCombatData.elementColor( ed ) + ">" );
@@ -745,5 +750,10 @@ public class AreaCombatData
 	public static final int perfectHit( final int attack, final int defense )
 	{
 		return attack - defense - 9;
+	}
+
+	public String getZone()
+	{
+		return zone;
 	}
 }
