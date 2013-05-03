@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -48,7 +49,9 @@ import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 /* 
@@ -145,7 +148,22 @@ public class AdventureQueueDatabase
 		if ( zoneQueue == null )
 			return;
 
-		zoneQueue.add( monster );
+		MonsterData mon = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monster ), true );
+
+		if ( mon == null )
+		{
+			// We /should/ have canonicalized the string by now (and matching correctly failed), but just in case see if stripping off "the" helps.  
+			// Other articles definitely should have been handled by now.
+			if ( monster.startsWith( "the " ) || monster.startsWith( "The " ) )
+			{
+				mon = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monster.substring( 4 ) ), true );
+			}
+
+			if ( mon == null )
+				return;
+		}
+
+		zoneQueue.add( mon.getName() );
 	}
 
 	public static RollingLinkedList getZoneQueue( KoLAdventure adv )
@@ -217,5 +235,28 @@ public class AdventureQueueDatabase
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public static double applyQueueEffects( double numerator, int denominator, MonsterData monster, String zone )
+	{
+		RollingLinkedList zoneQueue = ADVENTURE_QUEUE.get( zone );
+
+		// without queue effects the result is just numerator/denominator.
+		if ( zoneQueue == null )
+		{
+			return numerator / denominator;
+		}
+
+		// rate for monster IN the queue is 1 / (4a - 3b) and rate for monster NOT IN the queue is 4 / (4a - 3b) where
+		// a = number of monsters in zone (aka the old denominator)
+		// b = number of unique monsters in the adventure queue
+
+		HashSet<Object> zoneSet = new HashSet<Object>( zoneQueue ); // just care about unique elements
+
+		double newNumerator =
+			numerator * ( zoneQueue.contains( monster.getName() ) ? 1 : 4 );
+		double newDenominator = ( 4 * denominator - 3 * zoneSet.size() );
+
+		return newNumerator / newDenominator;
 	}
 }

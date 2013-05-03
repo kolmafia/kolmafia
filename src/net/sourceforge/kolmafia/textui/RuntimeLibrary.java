@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -1263,6 +1264,10 @@ public abstract class RuntimeLibrary
 			DataTypes.MONSTER_TYPE, 0 ), params ) );
 
 		params = new Type[] { DataTypes.LOCATION_TYPE };
+		functions.add( new LibraryFunction( "appearance_rates", new AggregateType(
+			DataTypes.FLOAT_TYPE, DataTypes.MONSTER_TYPE ), params ) );
+		
+		params = new Type[] { DataTypes.LOCATION_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "appearance_rates", new AggregateType(
 			DataTypes.FLOAT_TYPE, DataTypes.MONSTER_TYPE ), params ) );
 
@@ -5213,27 +5218,44 @@ public abstract class RuntimeLibrary
 
 	public static Value appearance_rates( Interpreter interpreter, final Value location )
 	{
+		return appearance_rates( interpreter, location, DataTypes.makeBooleanValue( false ) );
+	}
+
+	public static Value appearance_rates( Interpreter interpreter, final Value location, final Value includeQueue )
+	{
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
 		AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
 
 		AggregateType type = new AggregateType( DataTypes.FLOAT_TYPE, DataTypes.MONSTER_TYPE );
 		MapValue value = new MapValue( type );
-		if ( data == null ) return value;
+		if ( data == null )
+			return value;
 
 		double combatFactor = data.areaCombatPercent();
-		value.aset( DataTypes.MONSTER_INIT,
-			new Value( data.combats() < 0 ? -1.0F : 100.0f - combatFactor ) );
+		value.aset( DataTypes.MONSTER_INIT, new Value( data.combats() < 0 ? -1.0F : 100.0f - combatFactor ) );
 
 		int total = data.totalWeighting();
 		for ( int i = data.getMonsterCount() - 1; i >= 0; --i )
 		{
 			int weight = data.getWeighting( i );
-			if ( weight == -2 ) continue;	// impossible this ascension
-			value.aset( DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ), new Value( combatFactor * weight / total ) );
+			if ( weight == -2 )
+				continue; // impossible this ascension
+
+			Value toSet;
+			if ( includeQueue.intValue() == 1 )
+			{
+				toSet =
+					new Value( AdventureQueueDatabase.applyQueueEffects(
+						combatFactor * weight, total, data.getMonster( i ), data.getZone() ) );
+			}
+			else
+			{
+				toSet = new Value( combatFactor * weight / total );
+			}
+			value.aset( DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ), toSet );
 		}
 
 		return value;
-
 	}
 
 	public static Value expected_damage( Interpreter interpreter )

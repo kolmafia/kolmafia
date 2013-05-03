@@ -279,7 +279,7 @@ public class AdventureDatabase
 				int combats = StringUtilities.parseInt( data[ 1 ] );
 				// There can be an ultra-rare monster even if
 				// there are no other combats
-				AreaCombatData combat = new AreaCombatData( combats );
+				AreaCombatData combat = new AreaCombatData( data[0], combats );
 				for ( int i = 2; i < data.length; ++i )
 				{
 					combat.addMonster( data[ i ] );
