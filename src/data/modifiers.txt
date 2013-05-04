@@ -4539,6 +4539,7 @@ bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
 bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
 bottle of black cat tonic	Effect: "Contagious Bad Luck", Effect Duration: 10
 bottle of bubbles	Effect: "Bubble Vision", Effect Duration: 100
+bottle of goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 bottle of pirate juice	Effect: "Piratastic", Effect Duration: 10
 bottle of rhinoceros hormones	Effect: "'Roids of the Rhinoceros", Effect Duration: 10
 bottled green pixie	Free Pull
@@ -4694,7 +4695,6 @@ glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
 gold star	Effect: "Healthy Blue Glow", Effect Duration: 10
 gold toothbrush	Effect: "Grillin' Like a Villain", Effect Duration: 30
 good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
-goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 graveyard snowglobe	Effect: "Cold, Dead Hands", Effect Duration: 20
 green-frosted astral cupcake	Effect: "The Cupcake of Wrath", Effect Duration: 20
 green candy heart	Effect: "Heart of Green", Effect Duration: 10

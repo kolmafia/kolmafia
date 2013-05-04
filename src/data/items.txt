@@ -893,7 +893,7 @@
 876	incredibly dense meat gem	245686542	meatgem.gif	accessory	t	0	incredibly dense meat gems
 877	Talisman of Baio	731512144	baiotal.gif	accessory	t	0	Talismen of Baio
 878	hypnodisk	842662481	hypnodisk.gif	offhand	t	0	hypnodisks
-879	goofballs	185274556	goofballs.gif	usable		0	bottles of goofballs
+879	bottle of goofballs	185274556	goofballs.gif	usable		0	bottles of goofballs
 880	disbelief suspenders	199952990	suspenders.gif	accessory	t,d	95	pairs of disbelief suspenders
 881	supportive bra	368279831	bra.gif	shirt	t,d	55	supportive bras
 882	Blatantly Canadian	381677222	clearly.gif	mp, multiple	t,d	75	bottles of Blatantly Canadian
