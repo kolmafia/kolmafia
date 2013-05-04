@@ -108,7 +108,7 @@
 107	Enraged	angry.gif	8a81256346b6ec6aa9b91b0e2641681c	#clan buff, Yummy Tummy bean
 108	Ancestral Disapproval	skull.gif	66df2793b0008e892884c0de9f33c808	#clan buff
 109	Whitened Teeth	goldfronts.gif	0f3c00c6477cf3c3ca13602bfee2d863	#clan buff
-110	Hopped Up on Goofballs	hoppedup.gif	061ca4225eeb3189b93a4a6c5e47351e	use 1 goofballs
+110	Hopped Up on Goofballs	hoppedup.gif	061ca4225eeb3189b93a4a6c5e47351e	use 1 bottle of goofballs
 111	Goofball Withdrawal	withdraw.gif	29b44ff4d574d3698bb85eb97c4d37bc
 112	Antsy in your Pantsy	syrup.gif	ea9571b76d8c4d7df9ba47e27058bcf2	use 1 sugar-coated pine cone|eat 1 maple syrup
 113	Popping Stomach	rockpops.gif	ab4ca3339e28ef091322625f1b62c71b	use 1 Rock Pops
