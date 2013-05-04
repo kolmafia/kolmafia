@@ -488,13 +488,26 @@ public class EquipmentManager
 
 	public static final int discardEquipment( final int itemId )
 	{
+		return EquipmentManager.discardEquipment( itemId, true );
+	}
+	
+	public static final int discardEquipment( final int itemId, boolean deleteFromCheckpoints )
+	{
 		AdventureResult item = ItemPool.get( itemId, 1 );
-		return EquipmentManager.discardEquipment( item );
+		return EquipmentManager.discardEquipment( item, deleteFromCheckpoints );
 	}
 
 	public static final int discardEquipment( final AdventureResult item )
 	{
-		SpecialOutfit.forgetEquipment( item );
+		return EquipmentManager.discardEquipment( item, true );
+	}
+
+	public static final int discardEquipment( final AdventureResult item, boolean deleteFromCheckpoints )
+	{
+		if ( deleteFromCheckpoints )
+		{
+			SpecialOutfit.forgetEquipment( item );
+		}
 		for ( int slot = 0 ; slot <= EquipmentManager.FAMILIAR ; ++slot )
 		{
 			if ( KoLCharacter.hasEquipped( item, slot ) )
@@ -536,7 +549,8 @@ public class EquipmentManager
 			break;
 		}
 
-		int slot = EquipmentManager.discardEquipment( itemId );
+		// Discard the item, but do not clear it from outfit checkpoints yet.
+		int slot = EquipmentManager.discardEquipment( itemId, false );
 		if ( slot == -1 )
 		{
 			RequestLogger.printLine( "(unable to determine slot of broken equipment)" );
@@ -571,6 +585,7 @@ public class EquipmentManager
 		}
 		if ( action <= 1 )
 		{
+			SpecialOutfit.forgetEquipment( item );
 			KoLmafia.updateDisplay( MafiaState.PENDING, msg );
 			return;
 		}
@@ -586,10 +601,13 @@ public class EquipmentManager
 			{
 				continue;
 			}
+
+			SpecialOutfit.replaceEquipment( item, prev );
 			RequestLogger.printLine( msg );
 			RequestThread.postRequest( new EquipmentRequest( prev, slot ) );
 			return;
 		}
+		SpecialOutfit.forgetEquipment( item );
 		KoLmafia.updateDisplay( msg + "  No previous item to equip." );
 	}
 
