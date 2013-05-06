@@ -144,6 +144,25 @@ public class Evaluator
 		return 1;
 	}
 
+	private static int toUseSlot( int slot )
+	{
+		int useSlot = slot;
+		switch ( slot )
+		{
+		case Evaluator.OFFHAND_MELEE:
+		case Evaluator.OFFHAND_RANGED:
+			useSlot = EquipmentManager.OFFHAND;
+			break;
+		case Evaluator.WATCHES:
+			useSlot = EquipmentManager.ACCESSORY1;
+			break;
+		case Evaluator.WEAPON_1H:
+			useSlot = EquipmentManager.WEAPON;
+			break;
+		}
+		return useSlot;
+	}
+
 	private Evaluator()
 	{
 		this.totalMin = Double.NEGATIVE_INFINITY;
@@ -1094,6 +1113,12 @@ public class Evaluator
 
 		for ( int slot = 0; slot < ranked.length; ++slot )
 		{
+			// If we currently have nothing equipped, also consider leaving nothing equipped
+			if ( EquipmentManager.getEquipment( Evaluator.toUseSlot( slot ) ) == EquipmentRequest.UNEQUIP )
+			{
+				ranked[ slot ].add( new CheckedItem( 0, equipLevel, maxPrice, priceLevel ) );
+			}
+
 			if ( this.dump > 0 )
 			{
 				RequestLogger.printLine( "SLOT " + slot );
@@ -1105,20 +1130,7 @@ public class Evaluator
 			{
 				MaximizerSpeculation spec = new MaximizerSpeculation();
 				spec.attachment = item;
-				int useSlot = slot;
-				switch ( slot )
-				{
-				case Evaluator.OFFHAND_MELEE:
-				case Evaluator.OFFHAND_RANGED:
-					useSlot = EquipmentManager.OFFHAND;
-					break;
-				case Evaluator.WATCHES:
-					useSlot = EquipmentManager.ACCESSORY1;
-					break;
-				case Evaluator.WEAPON_1H:
-					useSlot = EquipmentManager.WEAPON;
-					break;
-				}
+				int useSlot = Evaluator.toUseSlot( slot );
 				if ( slot >= EquipmentManager.ALL_SLOTS )
 				{
 					spec.setFamiliar( this.familiars.get(

@@ -53,6 +53,12 @@ public class CheckedItem
 	{
 		super( itemId, 1 );
 
+		// special case used to get a CheckItem that .equals( EquipmentRequest.UNEQUIP ).
+		if ( itemId == 0 )
+		{
+			this.name = "(none)";
+		}
+
 		this.initial = InventoryManager.getAccessibleCount( itemId );
 
 		if ( this.initial >= 3 || equipLevel < 2 )
