@@ -194,6 +194,8 @@ public class MaximizerFrame
 		"<br>\u2022 If more than one of a given item is being recommended, and some of the required quantity isn't already in your inventory (in your closet, perhaps), trying to equip them fails.  After all the items from inventory are equipped, further attempts will steal one of those items from its slot rather than considering other retrieval options." +
 		"<br>\u2022 Weapon Damage, Ranged Damage, and Spell Damage are calculated assuming 100 points of base damage - in other words, additive and percentage boosts are considered to have exactly equal worth.  It's possible that Weapon and Ranged damage might use a better estimate of the base damage in the future, but for Spell Damage, the proper base depends on which spell you end up using." +
 		"<br>\u2022 Effects which vary in power based on how many turns are left (love songs, Mallowed Out, etc.) are handled poorly.  If you don't have the effect, they'll be suggested based on the results you'd get from having a single turn of it.  If you have the effect already, extending it to raise the power won't even be considered.  Similar problems occur with effects that are based on how full or drunk you currently are." +
+		"<h3>Debugging</h3>" + 
+		"You can use the <b>dump</b> keyword to get the shortlist for each slot or <b>2 dump</b> to get all the items considered for each slot." +
 		"</td></tr></table></html>";
 
 	public MaximizerFrame()
