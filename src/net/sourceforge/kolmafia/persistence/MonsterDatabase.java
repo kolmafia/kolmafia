@@ -105,10 +105,11 @@ public class MonsterDatabase
 		BEAST( "beast" ),
 		BUG( "bug" ),
 		CONSTELLATION( "constellation" ),
-		CRIMBO( "crimbo" ),
-		DEMIHUMAN( "demihuman" ),
+		CONSTRUCT( "construct" ),
 		DEMON( "demon" ),
+		DUDE( "dude" ),
 		ELEMENTAL( "elemental" ),
+		ELF( "elf" ),
 		FISH( "fish" ),
 		GOBLIN( "goblin" ),
 		HIPPY( "hippy" ),
@@ -116,14 +117,14 @@ public class MonsterDatabase
 		HUMANOID( "humanoid" ),
 		HORROR( "horror" ),
 		MER_KIN( "mer-kin" ),
-		OBJECT( "object" ),
 		ORC( "orc" ),
 		PENGUIN( "penguin" ),
 		PIRATE( "pirate" ),
 		PLANT( "plant" ),
 		SLIME( "slime" ),
-		STRANGE( "strange" ),
-		UNDEAD( "undead" );
+		UNDEAD( "undead" ),
+		WEIRD( "weird" ),
+		;
 
 		private final String name;
 
