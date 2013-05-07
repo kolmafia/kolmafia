@@ -602,6 +602,10 @@ public class Maximizer
 						cmd = "";
 					}
 				}
+				else if ( cmd.startsWith( "skeleton " ) )
+				{
+					item = ItemPool.get( ItemPool.SKELETON, 1 );
+				}
 
 				if ( item != null )
 				{
