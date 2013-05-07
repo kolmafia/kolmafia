@@ -67,6 +67,8 @@ public class CheckedItem
 		}
 
 		Concoction c = ConcoctionPool.get( itemId );
+		if ( c == null )
+			return;
 		this.creatable = c.creatable;
 
 		if ( c.price > 0 )
