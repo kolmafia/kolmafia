@@ -2216,6 +2216,14 @@ public class FightRequest
 				"Your sugar shorts shattered." );
 		}
 
+		if ( responseText.contains( "applies it to his switchblade" ) )
+		{
+			// The Mer-kin bladeswitcher unequips your weapon
+			AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
+			EquipmentManager.discardEquipment( weapon, false );
+			ResultProcessor.processResult( weapon );
+		}
+
 		if ( responseText.indexOf( "You wore out your weapon cozy..." ) != -1 )
 		{
 			// Cozy weapons are two-handed, so they are necessarily in the weapon slot
