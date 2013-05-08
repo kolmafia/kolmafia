@@ -310,6 +310,22 @@ function attachSafetyText()
 	return true;
 }
 
+function discardKarma() 
+{
+	var have = getObject('haveKarma').innerHTML;
+	var banked = getObject('bankedKarma').innerHTML;
+
+	if (Number(have) < 1)
+		return true;
+
+	if (have != null && banked != null) {
+		getObject('haveKarma').innerHTML = Number(have) - 1;
+		getObject('bankedKarma').innerHTML = Number(banked) + 11;
+	}
+
+	return true;
+}
+
 
 // ====================================================================
 //			 URLEncode and URLDecode functions
