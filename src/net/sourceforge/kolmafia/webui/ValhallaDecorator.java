@@ -211,15 +211,15 @@ public class ValhallaDecorator
 		if ( count > 0 )
 		{
 			int banked = Preferences.getInteger( "bankedKarma" );
-			buffer.append( "<nobr><a href=\"javascript:if(confirm('Are you sure you want to discard your Instant Karma?')) singleUse('inventory.php?which=1&action=discard&pwd=" );
+			buffer.append( "<nobr><a href=\"javascript:if(confirm('Are you sure you want to discard your Instant Karma?')) {singleUse('inventory.php?which=1&action=discard&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
 			buffer.append( "&whichitem=");
 			buffer.append( ItemPool.INSTANT_KARMA );
-			buffer.append( "&ajax=1');void(0);\">discard karma</a> (have " );
+			buffer.append( "&ajax=1');discardKarma();}void(0);\">discard karma</a> (have <span id='haveKarma'>" );
 			buffer.append( count );
-			buffer.append( ", banked " );
+			buffer.append( "</span>, banked <span id='bankedKarma'>" );
 			buffer.append( banked );
-			buffer.append( ")</nobr><br>" );
+			buffer.append( "</span>)</nobr><br>" );
 		}
 
 		if ( KoLCharacter.hasChef() )
