@@ -608,7 +608,7 @@ public class AdventureRequest
 				image.startsWith( "faq_boss" ) ? "Video Game Boss" :
 				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :
 				// Bugbear Invasion
-				image.equals( "bb_caveman.gif" ) ? "Angry Cavebugbear" :
+				image.equals( "bb_caveman" ) ? "Angry Cavebugbear" :
 				// Crimbo 2012 wandering elves
 				image.equals( "tacoelf_sign" ) ? "Sign-Twirling Crimbo Elf" :
 				image.equals( "tacoelf_taco" ) ? "Taco-Clad Crimbo Elf" :
