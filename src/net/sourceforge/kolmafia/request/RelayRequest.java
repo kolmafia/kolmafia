@@ -147,6 +147,7 @@ public class RelayRequest
 	private static String CONFIRM_SEAL = "confirm8";
 	private static String CONFIRM_ARCADE = "confirm9";
 	private static String CONFIRM_KUNGFU = "confirm10";
+	private static String CONFIRM_LIBRARY = "confirm11";
 
 	public RelayRequest( final boolean allowOverride )
 	{
@@ -1270,6 +1271,41 @@ public class RelayRequest
 		return false;
 	}
 	
+	private boolean sendLibraryWarning( String adventureName )
+	{
+		if ( adventureName == null )
+			return false;
+
+		if ( !adventureName.startsWith( "Haunted Billiards" ) )
+		{
+			return false;
+		}
+
+		if ( this.getFormField( CONFIRM_LIBRARY ) != null )
+		{
+			return false;
+		}
+
+		if ( InventoryManager.hasItem( ItemPool.LIBRARY_KEY ) ) // library already unlocked, nothing to warn about
+		{
+			return false;
+		}
+
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.CHALKY_HAND ) ) || !InventoryManager.hasItem( ItemPool.POOL_CUE ) || !InventoryManager.hasItem( ItemPool.HAND_CHALK ) )
+		{
+			return false;
+		}
+
+		this.sendOptionalWarning(
+			"glove.gif",
+			"disease.gif",
+			"Since you have not yet unlocked the library, you may want to use Hand Chalk before adventuring here. <br>Click the image on the right to use the chalk, click the image on the left to proceed.",
+			"singleUse('inv_use.php','which=3&whichitem=" + ItemPool.HAND_CHALK + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);",
+			CONFIRM_LIBRARY );
+
+		return true;
+	}
+
 	private boolean sendMMGWarning()
 	{
 		if ( !Preferences.getBoolean( "mmgDisabled" ) )
@@ -1327,6 +1363,55 @@ public class RelayRequest
 		warning.append( "</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+	}
+
+	public void sendOptionalWarning( final String image1, final String image2, final String message,
+		final String optionalAction, final String confirm )
+	{
+		StringBuilder warning = new StringBuilder();
+
+		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+
+		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"></head>" );
+		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
+
+		warning.append( "<table><tr>" );
+
+		String url = this.getURLString();
+
+		if ( image1 != null && !image1.equals( "" ) )
+		{
+			// first image is proceed with adventure
+			warning.append( "<td align=center valign=center><div id=\"proceed\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
+			warning.append( url );
+			warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+			warning.append( CONFIRM_LIBRARY );
+			warning.append( "=on\"><img src=\"/images/itemimages/" );
+			warning.append( image1 );
+			warning.append( "\" width=30 height=30 border=0>" );
+			warning.append( "</a></div></td>" );
+		}
+
+		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
+
+		if ( image2 != null && !image2.equals( "" ) )
+		{
+			// perform optional action, do not (yet) adventure.
+			warning.append( "<td align=center valign=center><div id=\"optionalAction\" style=\"padding: 4px 4px 4px 4px\">" );
+			warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"" );
+			warning.append( optionalAction );
+			warning.append( "\"><img src=\"/images/itemimages/" );
+			warning.append( image2 );
+			warning.append( "\" width=30 height=30 border=0>" );
+			warning.append( "</a></div></td>" );
+		}
+
+		warning.append( "</tr></table></center><blockquote>" );
+		warning.append( message );
+		warning.append( "</blockquote></td></tr></table></center></td></tr></table></center></body></html>" );
+
+		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
+
 	}
 
 	public boolean sendCloverWarning( final String adventureName)
@@ -2042,6 +2127,11 @@ public class RelayRequest
 		}
 
 		if ( path.startsWith( "bet.php" ) && this.sendMMGWarning() )
+		{
+			return;
+		}
+
+		if ( adventureName != null && this.sendLibraryWarning( adventureName ) )
 		{
 			return;
 		}
