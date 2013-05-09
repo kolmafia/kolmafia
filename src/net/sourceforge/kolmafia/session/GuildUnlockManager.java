@@ -61,6 +61,20 @@ public class GuildUnlockManager
 			return;
 		}
 
+		// Don't even try in Zombiecore
+		if ( KoLCharacter.inZombiecore() )
+		{
+			KoLmafia.updateDisplay( "Everyone is dead. No guild for you." );
+			return;
+		}
+
+		// Don't even try for Avatars of Jarlsberg
+		if ( KoLCharacter.isJarlsberg() )
+		{
+			KoLmafia.updateDisplay( "Jarlsberg never really fit in well in social organizations. No guild for you." );
+			return;
+		}
+
 		// See if we've already unlocked the Guild
 		if ( KoLCharacter.getGuildStoreOpen() )
 		{

@@ -15,7 +15,7 @@
 14	Hennaliciousness	henna.gif	b7bda390dc07f7526b12bcfcede19d36	use 1 henna tattoo
 15	Bloody Hand	sad.gif	21bbf1fc30240ba896c783e810fc737b	use 1 seal tooth
 16	Leash of Linguini	string.gif	2d6d3ab04b40e1523aa9c716a04b3aab	cast 1 Leash of Linguini
-17	Sugar Rush	hoppedup.gif	83695b70e0470a36125feca3198a16b4	use either 1 Angry Farmer candy, 1 Tasty Fun Good rice candy, 1 Crimbo candied pecan, Crimbo fudge, Crimbo peppermint bark, 1 Breath mint
+17	Sugar Rush	hoppedup.gif	83695b70e0470a36125feca3198a16b4	use either 1 Angry Farmer candy, 1 Tasty Fun Good rice candy, 1 Crimbo candied pecan, Crimbo fudge, Crimbo peppermint bark, 1 Breath mint, 1 that gum you like
 18	Ghostly Shell	ghosturtle.gif	9d5cb67507556bb105664b1dc9e8bf9a	cast 1 Ghostly Shell
 19	Reptilian Fortitude	scharm.gif	6c7b4a5a3c6807d21493f1253bf8dfd9	cast 1 Reptilian Fortitude
 20	Uncertain	bigqmark.gif	8ae7c039ea59f198c8a56228ea63dc1f	use 1 probability potion
