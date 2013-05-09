@@ -123,6 +123,7 @@ public class RelayRequest
 
 	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern BASE_LINK_PATTERN = Pattern.compile( "([\\.\\s])(src|href|action)(=[\"\']?)([^\\/\"'][^\\s\"\'>]+)" );
+	private static final Pattern CONFIRMATION_PATTERN = Pattern.compile( "&confirm[\\d]+=on" );
 
 	private static KoLAdventure lastSafety = null;
 
@@ -166,17 +167,7 @@ public class RelayRequest
 
 	public static String removeConfirmationFields( String adventureURL )
 	{
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm0=on" );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm1=on" );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm2=on" );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm3=on" );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm4=on" );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm5=on" );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm6=on" );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm7=on" );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm8=on" );
-		adventureURL = AdventureDatabase.removeField( adventureURL, "confirm9=on" );
-		return adventureURL;
+		return CONFIRMATION_PATTERN.matcher( adventureURL ).replaceAll( "" );
 	}
 
 	@Override
