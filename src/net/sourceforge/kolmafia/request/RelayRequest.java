@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -1271,7 +1272,7 @@ public class RelayRequest
 		return false;
 	}
 	
-	private boolean sendLibraryWarning( String adventureName )
+	private boolean sendBilliardsWarning( String adventureName )
 	{
 		if ( adventureName == null )
 			return false;
@@ -1292,6 +1293,15 @@ public class RelayRequest
 		}
 
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.CHALKY_HAND ) ) || !InventoryManager.hasItem( ItemPool.POOL_CUE ) || !InventoryManager.hasItem( ItemPool.HAND_CHALK ) )
+		{
+			return false;
+		}
+		
+		List<?> a = AdventureQueueDatabase.getZoneQueue( "Haunted Billiards Room" );
+		List<?> b = AdventureQueueDatabase.getZoneNoncombatQueue( "Haunted Billiards Room" );
+
+		// We still don't want to nag if delay() is still doing its thing for this zone.
+		if ( a != null && b != null && a.size() + b.size() < 5 )
 		{
 			return false;
 		}
@@ -2131,7 +2141,7 @@ public class RelayRequest
 			return;
 		}
 
-		if ( adventureName != null && this.sendLibraryWarning( adventureName ) )
+		if ( adventureName != null && this.sendBilliardsWarning( adventureName ) )
 		{
 			return;
 		}
