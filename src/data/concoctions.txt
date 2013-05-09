@@ -910,6 +910,7 @@ gatorskin umbrella	ASMITH	goatskin umbrella	gator skin
 black belt	ASMITH	black snake skin	enormous belt buckle
 clownskin belt	SMITH	clown skin	big red clown nose
 ratskin belt	ASMITH	leathery rat skin	enormous belt buckle
+sea holster	ASMITH	black belt	sea leather
 white belt	SMITH	white snake skin	enormous belt buckle
 
 
