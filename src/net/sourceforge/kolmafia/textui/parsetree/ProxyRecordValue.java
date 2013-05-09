@@ -601,6 +601,7 @@ public class ProxyRecordValue
 			.add( "parentdesc", DataTypes.STRING_TYPE )
 			.add( "bounty", DataTypes.ITEM_TYPE )
 			.add( "combat_queue", DataTypes.STRING_TYPE )
+			.add( "noncombat_queue", DataTypes.STRING_TYPE )
 			.finish( "location proxy" );
 
 		public LocationProxy( Value obj )
@@ -639,6 +640,25 @@ public class ProxyRecordValue
 		public String get_combat_queue()
 		{
 			List<?> zoneQueue = AdventureQueueDatabase.getZoneQueue( (KoLAdventure) this.content );
+
+			StringBuilder builder = new StringBuilder();
+			for ( Object ob : zoneQueue )
+			{
+				if ( ob == null )
+					continue;
+
+				if ( builder.length() > 0 )
+					builder.append( "; " );
+
+				builder.append( ob.toString() );
+			}
+
+			return builder.toString();
+		}
+		
+		public String get_noncombat_queue()
+		{
+			List<?> zoneQueue = AdventureQueueDatabase.getZoneNoncombatQueue( (KoLAdventure) this.content );
 
 			StringBuilder builder = new StringBuilder();
 			for ( Object ob : zoneQueue )

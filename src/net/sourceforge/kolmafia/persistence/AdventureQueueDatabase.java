@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -64,16 +65,36 @@ public class AdventureQueueDatabase
 {
 	private static final long serialVersionUID = -180241952508113931L;
 
-	private static TreeMap<String, RollingLinkedList> ADVENTURE_QUEUE = new TreeMap<String, RollingLinkedList>();
+	private static TreeMap<String, RollingLinkedList> COMBAT_QUEUE = new TreeMap<String, RollingLinkedList>();
+	private static TreeMap<String, RollingLinkedList> NONCOMBAT_QUEUE = new TreeMap<String, RollingLinkedList>();
 
 	// debugging tool
 	public static void showQueue()
 	{
-		Set<String> keys = ADVENTURE_QUEUE.keySet();
+		Set<String> keys = COMBAT_QUEUE.keySet();
 
 		for ( String key : keys )
 		{
-			RollingLinkedList zoneQueue = ADVENTURE_QUEUE.get( key );
+			RollingLinkedList zoneQueue = COMBAT_QUEUE.get( key );
+
+			StringBuilder builder = new StringBuilder( key + ": " );
+
+			for ( Object it : zoneQueue )
+			{
+				if ( it != null )
+					builder.append( it.toString() + " | " );
+			}
+			RequestLogger.printLine( builder.toString() );
+		}
+		
+		RequestLogger.printLine( );
+		RequestLogger.printLine( "Noncombats:" );
+		
+		keys = NONCOMBAT_QUEUE.keySet();
+		
+		for ( String key : keys )
+		{
+			RollingLinkedList zoneQueue = NONCOMBAT_QUEUE.get( key );
 
 			StringBuilder builder = new StringBuilder( key + ": " );
 
@@ -93,14 +114,16 @@ public class AdventureQueueDatabase
 
 	private static void resetQueue( boolean serializeAfterwards )
 	{
-		AdventureQueueDatabase.ADVENTURE_QUEUE = new TreeMap<String, RollingLinkedList>();
+		AdventureQueueDatabase.COMBAT_QUEUE = new TreeMap<String, RollingLinkedList>();
+		AdventureQueueDatabase.NONCOMBAT_QUEUE = new TreeMap<String, RollingLinkedList>();
 
 		List< ? > list = AdventureDatabase.getAsLockableListModel();
 
 		for ( Object ob : list )
 		{
 			KoLAdventure adv = (KoLAdventure) ob;
-			AdventureQueueDatabase.ADVENTURE_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
+			AdventureQueueDatabase.COMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
+			AdventureQueueDatabase.NONCOMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
 		}
 
 		if ( serializeAfterwards )
@@ -114,7 +137,7 @@ public class AdventureQueueDatabase
 		// See if any zones aren't in the TreeMap.  Add them if so.
 
 		List< ? > list = AdventureDatabase.getAsLockableListModel();
-		Set<String> keys = ADVENTURE_QUEUE.keySet();
+		Set<String> keys = COMBAT_QUEUE.keySet();
 
 		boolean keyAdded = false;
 
@@ -123,7 +146,19 @@ public class AdventureQueueDatabase
 			KoLAdventure adv = (KoLAdventure) ob;
 			if ( !keys.contains( adv.getAdventureName() ) )
 			{
-				AdventureQueueDatabase.ADVENTURE_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
+				AdventureQueueDatabase.COMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
+				keyAdded = true;
+			}
+		}
+
+		keys = NONCOMBAT_QUEUE.keySet();
+
+		for ( Object ob : list )
+		{
+			KoLAdventure adv = (KoLAdventure) ob;
+			if ( !keys.contains( adv.getAdventureName() ) )
+			{
+				AdventureQueueDatabase.NONCOMBAT_QUEUE.put( adv.getAdventureName(), new RollingLinkedList( 5 ) );
 				keyAdded = true;
 			}
 		}
@@ -138,12 +173,19 @@ public class AdventureQueueDatabase
 		AdventureQueueDatabase.enqueue( adv.getAdventureName(), monster );
 	}
 
+	public static void enqueueNoncombat( KoLAdventure adv, String name )
+	{
+		if ( adv == null || name == null )
+			return;
+		AdventureQueueDatabase.enqueueNoncombat( adv.getAdventureName(), name );
+	}
+
 	public static void enqueue( String adventureName, String monster )
 	{
 		if ( adventureName == null || monster == null )
 			return;
 
-		RollingLinkedList zoneQueue = ADVENTURE_QUEUE.get( adventureName );
+		RollingLinkedList zoneQueue = COMBAT_QUEUE.get( adventureName );
 
 		if ( zoneQueue == null )
 			return;
@@ -166,6 +208,19 @@ public class AdventureQueueDatabase
 		zoneQueue.add( mon.getName() );
 	}
 
+	public static void enqueueNoncombat( String noncombatAdventureName, String name )
+	{
+		if ( noncombatAdventureName == null )
+			return;
+
+		RollingLinkedList zoneQueue = NONCOMBAT_QUEUE.get( noncombatAdventureName );
+
+		if ( zoneQueue == null )
+			return;
+
+		zoneQueue.add( name );
+	}
+
 	public static RollingLinkedList getZoneQueue( KoLAdventure adv )
 	{
 		return AdventureQueueDatabase.getZoneQueue( adv.getAdventureName() );
@@ -173,7 +228,17 @@ public class AdventureQueueDatabase
 
 	public static RollingLinkedList getZoneQueue( String adv )
 	{
-		return ADVENTURE_QUEUE.get( adv );
+		return COMBAT_QUEUE.get( adv );
+	}
+
+	public static RollingLinkedList getZoneNoncombatQueue( KoLAdventure adv )
+	{
+		return AdventureQueueDatabase.getZoneNoncombatQueue( adv.getAdventureName() );
+	}
+
+	public static RollingLinkedList getZoneNoncombatQueue( String adv )
+	{
+		return NONCOMBAT_QUEUE.get( adv );
 	}
 
 	public static void serialize()
@@ -184,7 +249,12 @@ public class AdventureQueueDatabase
 		{
 			FileOutputStream fileOut = new FileOutputStream( file );
 			ObjectOutputStream out = new ObjectOutputStream( fileOut );
-			out.writeObject( ADVENTURE_QUEUE );
+
+			// make a collection with combat queue first
+			List<TreeMap<String, RollingLinkedList>> queues = new ArrayList<TreeMap<String, RollingLinkedList>>();
+			queues.add( COMBAT_QUEUE );
+			queues.add( NONCOMBAT_QUEUE );
+			out.writeObject( queues );
 			out.close();
 		}
 		catch ( IOException e )
@@ -211,7 +281,12 @@ public class AdventureQueueDatabase
 			FileInputStream fileIn = new FileInputStream( file );
 			ObjectInputStream in = new ObjectInputStream( fileIn );
 
-			ADVENTURE_QUEUE = (TreeMap<String, RollingLinkedList>) in.readObject();
+			List<TreeMap<String, RollingLinkedList>> queues =
+				(List<TreeMap<String, RollingLinkedList>>) in.readObject();
+
+			// Combat queue is first
+			COMBAT_QUEUE = queues.get( 0 );
+			NONCOMBAT_QUEUE = queues.get( 1 );
 
 			in.close();
 
@@ -231,6 +306,13 @@ public class AdventureQueueDatabase
 			AdventureQueueDatabase.resetQueue();
 			return;
 		}
+		catch ( ClassCastException e )
+		{
+			// Old version of the combat queue handling.  Sorry, have to delete your queue.
+			file.delete();
+			AdventureQueueDatabase.resetQueue();
+			return;
+		}
 		catch ( IOException e )
 		{
 			e.printStackTrace();
@@ -239,7 +321,7 @@ public class AdventureQueueDatabase
 
 	public static double applyQueueEffects( double numerator, int denominator, MonsterData monster, String zone )
 	{
-		RollingLinkedList zoneQueue = ADVENTURE_QUEUE.get( zone );
+		RollingLinkedList zoneQueue = COMBAT_QUEUE.get( zone );
 
 		// without queue effects the result is just numerator/denominator.
 		if ( zoneQueue == null )
@@ -253,8 +335,7 @@ public class AdventureQueueDatabase
 
 		HashSet<Object> zoneSet = new HashSet<Object>( zoneQueue ); // just care about unique elements
 
-		double newNumerator =
-			numerator * ( zoneQueue.contains( monster.getName() ) ? 1 : 4 );
+		double newNumerator = numerator * ( zoneQueue.contains( monster.getName() ) ? 1 : 4 );
 		double newDenominator = ( 4 * denominator - 3 * zoneSet.size() );
 
 		return newNumerator / newDenominator;
