@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -520,6 +521,14 @@ public class AdventureRequest
 			{
 				encounter = AdventureRequest.translateGenericType( encounter, responseText );
 				AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation() , encounter );
+			}
+			else if ( type.equals( "Noncombat" ) )
+			{
+				// only log the FIRST choice that we see in a choiceadventure chain.
+				if ( !urlString.startsWith( "choice.php" ) || ChoiceManager.getLastChoice() == 0 )
+				{
+					AdventureQueueDatabase.enqueueNoncombat( KoLAdventure.lastVisitedLocation(), encounter );
+				}
 			}
 			KoLmafia.registerEncounter( encounter, type, responseText );
 		}
