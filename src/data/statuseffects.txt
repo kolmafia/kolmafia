@@ -1256,3 +1256,6 @@
 1255	Flop Sweat	sammich.gif	ef840c1c6cc74d4b7d0491ac9ae14a9e
 1256	Mark of Candy Cain	candycane.gif	f1aea72e7aa044e2cd59f831f30618d2
 1257	Cereal Killer	mix.gif	49aec489233e24dd7f18eacd1a836ad0
+1258	Jiggu... What?	lightning.gif	499218be7c7f2e9fc54ce359c1ea529a
+1259	More Like a Suckrament	fish.gif	0c62a64c5e0586d7bbffa70e2c4cddee
+1260	A Hole in the World	stareffect.gif	70d27aadf5e48a2369de13385b6892e2

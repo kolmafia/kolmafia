@@ -2451,6 +2451,7 @@ cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
 crystal decanter	Familiar Weight: +5
 crimsilion jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Muscle", Familiar Effect: "mus stats", Equips On: "Frumious Bandersnatch"
+cute bow from beyond the stars	Familiar Weight: +5, Equips On: "Adorable Space Buddy"
 das boot	Familiar Weight: -10, Underwater Familiar, Familiar Effect: "adventure underwater", Generic
 dental pliers	Familiar Weight: +5
 diamond-studded fronts	Familiar Weight: +5
@@ -2626,6 +2627,7 @@ Clancy's lute	Fairy: [5*C]
 # value of 1.
 
 Fam:(none)	Underwater Familiar
+Fam:Adorable Space Buddy	Underwater Familiar
 Fam:Baby Mutant Rattlesnake	Volleyball Effectiveness: [1.3-0.15*G]
 Fam:Barrrnacle	Underwater Familiar
 Fam:Crimbo P. R. E. S. S. I. E.	Volleyball: 1
@@ -2861,6 +2863,7 @@ stained mattress	Sleaze Resistance: +2
 # 8-bit Apparition: Makes you look like an ancient ghost
 A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 A Few Extra Pounds	Maximum HP: [5*min(L,11)]
+# A Hole in the World: Time destroys everything
 A Little Bit Evil (Accordion Thief)	Monster Level: +2
 A Little Bit Evil (Disco Bandit)	Monster Level: +2
 A Little Bit Evil (Pastamancer)	Monster Level: +2
@@ -3044,11 +3047,13 @@ Chow Downed	Familiar Weight: +5
 Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
 Churro Chiaroscuro	Mysticality Percent: [min(200,5*T)]
 Cinco Elementos	Cold Damage: [min(2500,5*T)], Hot Damage: [min(2500,5*T)], Sleaze Damage: [min(2500,5*T)], Spooky Damage: [min(2500,5*T)], Stench Damage: [min(2500,5*T)]
+Cinnamon Challenger	Moxie: [ceil(min(T,50)/2)], Moxie Experience: [ceil(min(T,50)/10)]
 Cinnamouth	Hot Damage: +11
 Clean-Shaven	Moxie: +5
 # Clean to the Bone: Makes you look like a skullery maid
 # Clerical Aura: Makes you look like Father McGruber
 Cletus's Canticle of Celerity	Initiative: +20
+Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
 # Clumsy: Always Fumble
 Clyde's Blessing	Item Drop: +50
 Coated Arms	Weapon Damage: +15
@@ -3075,8 +3080,6 @@ Concentrated Concentration	Spell Damage Percent: +20
 Concentration	Spell Damage Percent: +10
 Confused	Mysticality Percent: -30
 Consumed by Anger	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
-Cinnamon Challenger	Moxie: [ceil(min(T,50)/2)], Moxie Experience: [ceil(min(T,50)/10)]
-Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
 Consumed by Doubt	Muscle Limit: 10, Mysticality Limit: 30, Moxie Limit: 30
 Consumed by Fear	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 10
 Consumed by Regret	Muscle Limit: 30, Mysticality Limit: 10, Moxie Limit: 30
@@ -3436,6 +3439,7 @@ Jalape&ntilde;o Saucesphere	Damage Reduction: 3
 Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 # Jelly Combed	Makes you harder to hit (when underwater)
 Jerky, Boy	Mysticality Percent: +25
+Jiggu... What?	Mana Cost: +100
 # Jingle Jangle Jingle
 # Jinkies!: Makes you look like Norville Rogers
 Joyful Resolve	Item Drop: +15
@@ -3525,6 +3529,7 @@ Mmmmmelon	Item Drop: +30
 Mo' Hobo	Hobo Power: +10
 Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Moon'd	Experience: +5
+More Like a Suckrament	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
 Mortarfied	Damage Absorption: +100
 Mucilaginous Mentalism	Mysticality Percent: +200
 Mucilaginous Moxiousness	Moxie Percent: +200

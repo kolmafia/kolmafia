@@ -6412,7 +6412,7 @@
 6395	inky squid sauce	533868128	soupbowl.gif	none	t,d	60	bowls of inky squid sauce
 6396	Mer-kin weaksauce	717309653	soupbowl.gif	none	t,d	60	bowls of Mer-kin weaksauce
 6397	peanut sauce	464977927	soupbowl.gif	none	t,d	120	bowls of peanut sauce
-6398	black glass	01304219	blackglass.gif	accessory	q	0
+6398	black glass	201304219	blackglass.gif	accessory	q	0
 6399	Boss Drops	118222611	bossdrops.gif	usable	t	0
 6400	Mer-kin lunchbox	257377198	bentobox.gif	none	t,d	45	Mer-kin lunchboxes
 6401	black tear	800989357	blacktear.gif	usable	t,d	42
@@ -6422,3 +6422,9 @@
 6405
 6406
 6407	Pocket Square of Loathing	448329379	loathe_square.gif	accessory		0
+6408	corrupted stardust	115797236	stardust.gif	usable	t	0
+6409	Star Spawn	561439887	starspawn.gif	grow	t	0
+6410	cute bow from beyond the stars	345486861	spacebow.gif	familiar	t,d	75
+6411
+6412
+6413	Order of the Green Thumb Order Form	975397883	floristform.gif	usable	t	0

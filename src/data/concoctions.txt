@@ -1048,6 +1048,14 @@ time helmet	SMITH	petrified time	helmet recipe
 time trousers	SMITH	petrified time	pants kit
 time sword	SMITH	petrified time	sword hilt
 
+# Clothing of Loathing
+Belt of Loathing	SMITH	Girdle of Hatred	Novelty Belt Buckle of Violence
+Goggles of Loathing	SMITH	Lens of Hatred	Lens of Violence
+Jeans of Loathing	SMITH	Pantaloons of Hatred	Jodhpurs of Violence
+Scepter of Loathing	SMITH	Brand of Violence	Cold Stone of Hatred
+Stick-Knife of Loathing	SMITH	Staff of Simmering Hatred	Pigsticker of Violence
+Treads of Loathing	SMITH	Fuzzy Slippers of Hatred	Ass-Stompers of Violence
+
 
 # Depleted Grimacite items, all of which require reading plans
 
