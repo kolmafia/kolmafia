@@ -2347,7 +2347,7 @@ public abstract class ChoiceManager
 		// There's No Ability Like Possibility
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure672", "Ground Possibility",
-			new String[] { "3 random starter items", "Nothing Is Impossible", "skip adventure" } ),
+			new String[] { "3 random items", "Nothing Is Impossible", "skip adventure" } ),
 
 		// Putting Off Is Off-Putting
 		new ChoiceAdventure(
