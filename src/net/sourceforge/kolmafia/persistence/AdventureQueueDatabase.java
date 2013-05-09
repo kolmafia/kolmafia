@@ -55,7 +55,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
-/* 
+/*
  * Instead of packing and unpacking a giant treemap into user preference files, this is a way of persisting a variable across sessions.
  * Uses the Java Serializable interface.
  */
@@ -82,16 +82,16 @@ public class AdventureQueueDatabase
 			for ( Object it : zoneQueue )
 			{
 				if ( it != null )
-					builder.append( it.toString() + " | " );
+					builder.append( it.toString() ).append( " | " );
 			}
 			RequestLogger.printLine( builder.toString() );
 		}
-		
+
 		RequestLogger.printLine( );
 		RequestLogger.printLine( "Noncombats:" );
-		
+
 		keys = NONCOMBAT_QUEUE.keySet();
-		
+
 		for ( String key : keys )
 		{
 			RollingLinkedList zoneQueue = NONCOMBAT_QUEUE.get( key );
@@ -101,7 +101,7 @@ public class AdventureQueueDatabase
 			for ( Object it : zoneQueue )
 			{
 				if ( it != null )
-					builder.append( it.toString() + " | " );
+					builder.append( it.toString() ).append( " | " );
 			}
 			RequestLogger.printLine( builder.toString() );
 		}
@@ -194,7 +194,7 @@ public class AdventureQueueDatabase
 
 		if ( mon == null )
 		{
-			// We /should/ have canonicalized the string by now (and matching correctly failed), but just in case see if stripping off "the" helps.  
+			// We /should/ have canonicalized the string by now (and matching correctly failed), but just in case see if stripping off "the" helps.
 			// Other articles definitely should have been handled by now.
 			if ( monster.startsWith( "the " ) || monster.startsWith( "The " ) )
 			{
