@@ -1855,6 +1855,7 @@ rubber gloves	55	Mys: 12
 rum barrel charrrm bracelet	110	Mys: 40
 rusty chain necklace	180	Mys: 75
 screwing pooch	85	Mys: 27
+sea holster	0	Mys: 85
 sealhide belt	160	Mys: 65
 sealhide gloves	160	Mys: 65
 sealhide moccasins	160	Mys: 65

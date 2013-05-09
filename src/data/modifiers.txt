@@ -2107,6 +2107,7 @@ rubber gloves	Sleaze Resistance: +2
 rum barrel charrrm bracelet	Booze Drop: +5
 rusty chain necklace	Muscle: +9, Maximum HP: +25
 screwing pooch	Item Drop: +3
+sea holster	Ranged Damage: +20, Critical Hit Percent: +4, Never Fumble, Single Equip
 sealhide belt	Maximum HP: +25, Maximum MP: +25
 sealhide gloves	Weapon Damage: +10
 sealhide moccasins	Muscle: +5, Mysticality: +5, Moxie: +5, Single Equip

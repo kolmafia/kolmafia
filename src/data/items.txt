@@ -6332,7 +6332,7 @@
 6315	old SCUBA tank	613342976	scuba.gif	container	q	0
 6316	deep six-shooter	507699686	sixshooter.gif	weapon	t,d	220	deep six-shooters
 6317	sea chaps	424923166	seachaps.gif	pants	t,d	180	pairs of sea chaps
-6318
+6318	sea holster	867481236	seaholster.gif	accessory	t,d	160
 6319	shavin' razor	800695737	straightrazor.gif	usable	t,d	60	shavin' razors
 6320	long-forgotten necklace	880037954	lostnecklace.gif	accessory	t,d	1000	long-forgotten necklaces
 6321	giant pearl	267452547	bigpearl.gif	none	t,d	12000	giant pearls
