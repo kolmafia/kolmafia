@@ -1834,7 +1834,7 @@ amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: 
 amulet of extreme plot significance	Maximum MP: +30
 anniversary balsa wood socks	Muscle: +1, Mysticality: +1, Moxie: +1
 anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
-aquamariner's necklace	HP Regen Min: 10, HP Regen Max: 15, Meat Drop: +15, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
+aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 aquamariner's ring	HP Regen Min: 10, HP Regen Max: 15, Meat Drop: +10, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Single Equip
 arrrgyle socks	Mysticality: +6
 astral belt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Monster Level: +20
@@ -3640,7 +3640,7 @@ Pork Power	Muscle: +10
 Powdered	Experience (Mysticality): +10
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
 Prelude of Precision	Critical Hit Percent: +10
-Pretending to Pretend	Weapon Damage Percent: +1000
+Pretending to Pretend	Weapon Damage Percent: +100
 Prestidigysfunction	Mysticality Percent: -95
 Preternatural Greed	Meat Drop: +100
 Pride of the Vampire	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
