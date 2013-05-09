@@ -4290,11 +4290,12 @@ Zone:The Sea	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalt
 Loc:The Briniest Deepests	Initiative Penalty: +25, Item Drop Penalty: +25, Meat Drop Penalty: +25
 Loc:The Brinier Deepers	Initiative Penalty: +50, Item Drop Penalty: +50, Meat Drop Penalty: +50
 Loc:The Briny Deeps	Initiative Penalty: +75, Item Drop Penalty: +75, Meat Drop Penalty: +75
-Loc:Mer-kin Elementary School	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
-Loc:Mer-kin Library	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
-Loc:Mer-kin Gymnasium	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
-Loc:Mer-kin Colosseum	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
+Loc:Mer-kin Elementary School	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc:Mer-kin Library	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc:Mer-kin Gymnasium	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc:Mer-kin Colosseum	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc:Anemone Mine	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Loc:Caliginous Abyss	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc:The Dive Bar	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Loc:The Marinara Trench	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 
