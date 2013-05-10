@@ -1558,6 +1558,7 @@ public class ItemPool
 	public static final int BOSS_BOOTS = 6008;
 	public static final int BOSS_BELT = 6009;
 	public static final int TRIPPLES = 6027;
+	public static final int DRESS_PANTS = 6030;
 	public static final int OIL_PAN = 6042;
 	public static final int MISTY_CLOAK = 6047;
 	public static final int MISTY_ROBE = 6048;

@@ -85,8 +85,6 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.QuestDatabase;
-import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -95,6 +93,7 @@ import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.LoginManager;
+import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -2609,27 +2608,6 @@ public class FightRequest
 			{
 				WumpusManager.reset();
 			}
-			else if ( monster.equalsIgnoreCase( "Dirty Thieving Brigand" ) )
-			{
-				// "Well," you say, "it would really help the war effort if
-				// your convent could serve as a hospital for our wounded
-				// troops."
-				if ( responseText.indexOf( "could serve as a hospital" ) != -1 )
-				{
-					Preferences.setString( "sidequestNunsCompleted", "hippy" );
-				}
-				else if ( responseText.indexOf( "could serve as a massage parlor" ) != -1 )
-				{
-					Preferences.setString( "sidequestNunsCompleted", "fratboy" );
-				}
-			}
-			else if ( monster.equalsIgnoreCase( "Screambat" ) )
-			{
-				if ( !QuestDatabase.isQuestLaterThan( Preferences.getString( Quest.BAT.getPref() ), "step2" ) )
-				{
-					QuestDatabase.advanceQuest( Quest.BAT );
-				}
-			}
 			else if ( !FightRequest.castCleesh &&
 				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
 					"A Maze of Sewer Tunnels" ) )
@@ -2655,6 +2633,8 @@ public class FightRequest
 					Preferences.increment( "pastamancerGhostExperience", exp );
 				}
 			}
+			
+			QuestManager.updateQuestData( responseText, monster );
 		}
 
 		FightRequest.clearInstanceData();
