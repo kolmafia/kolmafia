@@ -3966,34 +3966,25 @@ public abstract class ChoiceManager
 
 			return;
 
-		case 606:
-			// Lost in the Great Overlook Lodge
-			// quest handling
-
-			String pref = "twinPeakProgress";
-
+		case 607:
+			// Room 237
+			// Twin Peak first choice
 			if ( text.contains( "You take a moment to steel your nerves." ) )
 			{
-				int prefval = Preferences.getInteger( pref );
+				int prefval = Preferences.getInteger( "twinPeakProgress" );
 				prefval |= 1;
-				Preferences.setInteger( pref, prefval );
+				Preferences.setInteger( "twinPeakProgress", prefval );
 			}
-			else if ( text.contains( "All work and no play" ) )
+			return;
+
+		case 608:
+			// Go Check It Out!
+			// Twin Peak second choice
+			if ( text.contains( "All work and no play" ) )
 			{
-				int prefval = Preferences.getInteger( pref );
+				int prefval = Preferences.getInteger( "twinPeakProgress" );
 				prefval |= 2;
-				Preferences.setInteger( pref, prefval );
-			}
-			else if ( text.contains( "You attempt to mingle" ) )
-			{
-				int prefval = Preferences.getInteger( pref );
-				prefval |= 4;
-				Preferences.setInteger( pref, prefval );
-			}
-			else if ( text.contains( "When the lights come back" ) )
-			{
-				// the other three must be completed at this point.
-				Preferences.setInteger( pref, 15 );
+				Preferences.setInteger( "twinPeakProgress", prefval );
 			}
 			return;
 
@@ -4014,6 +4005,28 @@ public abstract class ChoiceManager
 				ResultProcessor.processResult( ItemPool.get( ItemPool.MIME_SOUL_FRAGMENT, 0 - souls ) );
 			}
 			return;
+
+		case 616:
+			// He Is the Arm, and He Sounds Like This
+			// Twin Peak third choice
+			if ( text.contains( "You attempt to mingle" ) )
+			{
+				int prefval = Preferences.getInteger( "twinPeakProgress" );
+				prefval |= 4;
+				Preferences.setInteger( "twinPeakProgress", prefval );
+			}
+			return;
+
+		case 617:
+			// Now It's Dark
+			// Twin Peak fourth choice
+			if ( text.contains( "When the lights come back" ) )
+			{
+				// the other three must be completed at this point.
+				Preferences.setInteger( "twinPeakProgress", 15 );
+			}
+			return;
+
 		}
 
 		// Certain choices cost meat or items when selected
