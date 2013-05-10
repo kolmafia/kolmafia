@@ -583,6 +583,15 @@ public class QuestManager
 
 				Preferences.setString( "oilPeakProgress", setTo );
 			}
+
+			else if ( monster.equalsIgnoreCase( "Battlie Knight Ghost" )
+				|| monster.equalsIgnoreCase( "Claybender Sorcerer Ghost" )
+				|| monster.equalsIgnoreCase( "Dusken Raider Ghost" )
+				|| monster.equalsIgnoreCase( "Space Tourist Explorer Ghost" )
+				|| monster.equalsIgnoreCase( "Whatsian Commando Ghost" ) )
+			{
+				Preferences.decrement( "booPeakProgress", 2 );
+			}
 		}
 	}
 
