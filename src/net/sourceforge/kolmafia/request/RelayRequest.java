@@ -1967,6 +1967,170 @@ public class RelayRequest
 			}
 		}
 
+		String urlString = this.getURLString();
+		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
+		String adventureName =
+			adventure != null ? adventure.getAdventureName() : AdventureDatabase.getUnknownName( urlString );
+		String nextAdventure =
+			adventureName != null ? adventureName : UseItemRequest.getAdventuresUsed( urlString ) > 0 ? "None" : null;
+		boolean wasAdventure =
+			nextAdventure != null || urlString.startsWith( "fight.php" ) || urlString.startsWith( "choice.php" );
+
+		if ( this.sendWarnings( adventure, adventureName, nextAdventure ) )
+		{
+			return;
+		}
+
+		// If the person is unlocking the easter egg balloon, retrieve a balloon
+		// monkey first
+
+		if ( path.startsWith( "lair2.php" ) )
+		{
+			String key = this.getFormField( "whichkey" );
+
+			if ( key != null && key.equals( "436" ) )
+			{
+				InventoryManager.retrieveItem( ItemPool.BALLOON_MONKEY );
+			}
+		}
+
+		// If it gets this far, it's a normal file.  Go ahead and
+		// process it accordingly.
+
+		super.run();
+
+		if ( this.responseCode == 302 )
+		{
+			this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
+		}
+		else if ( this.responseCode != 200 )
+		{
+			this.sendNotFound();
+		}
+		else if ( wasAdventure )
+		{
+			RelayRequest.executeAfterAdventureScript();
+		}
+	}
+
+	/**
+	 * Centralized method for sending warnings before executing a relay request.  Call individual warnings from here.
+	 * 
+	 * @param adventure
+	 * @param adventureName
+	 * @param nextAdventure
+	 * @return <b>true</b> if a pseudoresponse was displayed and the RelayRequest should stop before run()-ing.
+	 */
+	private boolean sendWarnings( KoLAdventure adventure, String adventureName,
+		String nextAdventure )
+	{
+		String path = this.getBasePath();
+		String urlString = this.getURLString();
+		AreaCombatData areaSummary;
+		boolean isNonCombatsOnly = false;
+
+		if ( this.sendCounterWarning() )
+		{
+			return true;
+		}
+
+		// Do some checks fighting infernal seals
+		// - make sure player is wielding a club
+
+		if ( this.sendInfernalSealWarning( urlString ) )
+		{
+			return true;
+		}
+
+		// Do some checks for the battlefield:
+		// - make sure player doesn't lose a Wossname by accident
+		// - give player chance to cash in dimes and quarters
+
+		if ( this.sendBattlefieldWarning( urlString, adventure ) )
+		{
+			return true;
+		}
+
+		if ( adventureName != null )
+		{
+			areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
+			if ( areaSummary != null )
+			{
+				isNonCombatsOnly = areaSummary.combats() == 0 && areaSummary.getMonsterCount() == 0
+							&& !KoLAdventure.hasWanderingMonsters( urlString );
+			}
+		}
+
+		if ( nextAdventure != null && this.data.isEmpty() && RecoveryManager.isRecoveryPossible() && this.getFormField( CONFIRM_RECOVERY ) == null )
+		{
+			boolean isScript = !isNonCombatsOnly && Preferences.getBoolean( "relayRunsBeforeBattleScript" );
+			boolean isMood = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsEffects" );
+			boolean isHealth = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsHealth" );
+			boolean isMana = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsMana" );
+
+			KoLmafia.forceContinue();
+
+			Preferences.setString( "lastAdventure", nextAdventure );
+			RecoveryManager.runBetweenBattleChecks( isScript, isMood, isHealth, isMana );
+
+			if ( !KoLmafia.permitsContinue() && Preferences.getBoolean( "relayWarnOnRecoverFailure" ) )
+			{
+				this.sendGeneralWarning( "beatenup.gif", "Between battle actions failed. Click the image if you'd like to continue anyway.", CONFIRM_RECOVERY );
+				return true;
+			}
+		}
+
+		if ( nextAdventure != null || EquipmentRequest.isEquipmentChange( path ) )
+		{
+			// Wait until any restoration scripts finish running
+			// before allowing an adventuring request to continue.
+
+			this.waitForRecoveryToComplete();
+		}
+
+		if ( ( ( adventureName != null && !isNonCombatsOnly && this.data.isEmpty() )
+				|| ( path.startsWith( "inv_use.php" ) && UseItemRequest.getAdventuresUsed( path ) > 0 ) )
+				&& ( this.sendFamiliarWarning() || this.sendKungFuWarning() )
+			)
+		{
+			return true;
+		}
+
+		if ( this.sendCloverWarning( adventureName ) )
+		{
+			return true;
+		}
+
+		if ( this.sendBossWarning( path, adventure ) )
+		{
+			return true;
+		}
+
+		if ( path.startsWith( "lair6.php" ) && this.sendSorceressWarning() )
+		{
+			return true;
+		}
+
+		if ( path.startsWith( "arcade.php" ) && this.sendArcadeWarning() )
+		{
+			return true;
+		}
+
+		if ( path.startsWith( "bet.php" ) && this.sendMMGWarning() )
+		{
+			return true;
+		}
+
+		if ( adventureName != null && this.sendBilliardsWarning( adventureName ) )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
+	private boolean sendCounterWarning()
+	{
 		TurnCounter expired = TurnCounter.getExpiredCounter( this, true );
 		while ( expired != null )
 		{
@@ -2027,152 +2191,10 @@ public class RelayRequest
 				msg.append( EatItemRequest.lastSemirareMessage() );
 			}
 			this.sendGeneralWarning( image, msg.toString(), CONFIRM_COUNTER );
-			return;
+			return true;
 		}
-
-		String urlString = this.getURLString();
-
-		// Do some checks fighting infernal seals
-		// - make sure player is wielding a club
-
-		if ( this.sendInfernalSealWarning( urlString ) )
-		{
-			return;
-		}
-
-		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
-
-		// Do some checks for the battlefield:
-		// - make sure player doesn't lose a Wossname by accident
-		// - give player chance to cash in dimes and quarters
-
-		if ( this.sendBattlefieldWarning( urlString, adventure ) )
-		{
-			return;
-		}
-
-		String adventureName = adventure != null ?
-			adventure.getAdventureName() :
-			AdventureDatabase.getUnknownName( urlString );
-
-		AreaCombatData areaSummary;
-		boolean isNonCombatsOnly = false;
-		if ( adventureName != null )
-		{
-			areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
-			if ( areaSummary != null )
-			{
-				isNonCombatsOnly = areaSummary.combats() == 0 && areaSummary.getMonsterCount() == 0
-							&& !KoLAdventure.hasWanderingMonsters( urlString );
-			}
-		}
-
-		String nextAdventure = 
-			adventureName != null ?
-			adventureName :
-			UseItemRequest.getAdventuresUsed( urlString ) > 0 ?
-			"None" :
-			null;
-
-		boolean wasAdventure = nextAdventure != null ||
-			urlString.startsWith( "fight.php" ) ||
-			urlString.startsWith( "choice.php" );
-
-		if ( nextAdventure != null && this.data.isEmpty() && RecoveryManager.isRecoveryPossible() && this.getFormField( CONFIRM_RECOVERY ) == null )
-		{
-			boolean isScript = !isNonCombatsOnly && Preferences.getBoolean( "relayRunsBeforeBattleScript" );
-			boolean isMood = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsEffects" );
-			boolean isHealth = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsHealth" );
-			boolean isMana = !isNonCombatsOnly && Preferences.getBoolean( "relayMaintainsMana" );
-
-			KoLmafia.forceContinue();
-
-			Preferences.setString( "lastAdventure", nextAdventure );
-			RecoveryManager.runBetweenBattleChecks( isScript, isMood, isHealth, isMana );
-
-			if ( !KoLmafia.permitsContinue() && Preferences.getBoolean( "relayWarnOnRecoverFailure" ) )
-			{
-				this.sendGeneralWarning( "beatenup.gif", "Between battle actions failed. Click the image if you'd like to continue anyway.", CONFIRM_RECOVERY );
-				return;
-			}
-		}
-
-		if ( nextAdventure != null || EquipmentRequest.isEquipmentChange( path ) )
-		{
-			// Wait until any restoration scripts finish running
-			// before allowing an adventuring request to continue.
-
-			this.waitForRecoveryToComplete();
-		}
-
-		if ( ( ( adventureName != null && !isNonCombatsOnly && this.data.isEmpty() )
-				|| ( path.startsWith( "inv_use.php" ) && UseItemRequest.getAdventuresUsed( path ) > 0 ) )
-				&& ( this.sendFamiliarWarning() || this.sendKungFuWarning() )
-			)
-		{
-			return;
-		}
-
-		if ( this.sendCloverWarning( adventureName ) )
-		{
-			return;
-		}
-
-		if ( this.sendBossWarning( path, adventure ) )
-		{
-			return;
-		}
-
-		if ( path.startsWith( "lair6.php" ) && this.sendSorceressWarning() )
-		{
-			return;
-		}
-
-		if ( path.startsWith( "arcade.php" ) && this.sendArcadeWarning() )
-		{
-			return;
-		}
-
-		if ( path.startsWith( "bet.php" ) && this.sendMMGWarning() )
-		{
-			return;
-		}
-
-		if ( adventureName != null && this.sendBilliardsWarning( adventureName ) )
-		{
-			return;
-		}
-
-		// If the person is unlocking the easter egg balloon, retrieve a balloon
-		// monkey first
-
-		if ( path.startsWith( "lair2.php" ) )
-		{
-			String key = this.getFormField( "whichkey" );
-
-			if ( key != null && key.equals( "436" ) )
-			{
-				InventoryManager.retrieveItem( ItemPool.BALLOON_MONKEY );
-			}
-		}
-
-		// If it gets this far, it's a normal file.  Go ahead and
-		// process it accordingly.
-
-		super.run();
-
-		if ( this.responseCode == 302 )
-		{
-			this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
-		}
-		else if ( this.responseCode != 200 )
-		{
-			this.sendNotFound();
-		}
-		else if ( wasAdventure )
-		{
-			RelayRequest.executeAfterAdventureScript();
-		}
+		
+		return false;
 	}
 
 	public static void executeBeforePVPScript()
