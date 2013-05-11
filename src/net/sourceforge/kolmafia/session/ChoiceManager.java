@@ -3505,6 +3505,19 @@ public abstract class ChoiceManager
 			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
 			break;
 
+		// The Horror...
+		case 611:
+			if ( ChoiceManager.lastDecision == 2 ) // Flee
+			{
+				// To find which step we're on, look at the responseText from the _previous_ request.  This should still be in lastResponseText.
+				int level = ChoiceManager.findBooPeakLevel( ChoiceManager.findChoiceDecisionText( 1, ChoiceManager.lastResponseText ) );
+				if ( level < 1 )
+					break;
+				// Take 1 off the level since we didn't actually complete the level represented by that button.
+				Preferences.decrement( "booPeakProgress", 2 * ( level - 1 ), 0 );
+			}
+			break;
+
 		// Behind the world there is a door...
 		case 612:
 			TurnCounter.stopCounting( "Silent Invasion window begin" );
@@ -3987,6 +4000,24 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "twinPeakProgress", prefval );
 			}
 			return;
+
+		case 611:
+			// The Horror...
+			// The only thing we need to do here is detect if the choiceadv chain was completed.
+			// Fleeing is handled in preChoice
+			if ( text.contains( "You drop the book, trying to scrub" ) ||
+				text.contains( "Well, it wasn't easy, and it wasn't pleasant" ) ||
+				text.contains( "You survey the deserted battle site" ) ||
+				text.contains( "You toss the map aside with a smile" ) ||
+				text.contains( "Unlike your mom, it wasn't easy" ) ||
+				text.contains( "You finally cleared all the ghosts from the square" ) ||
+				text.contains( "You made it through the battle site" ) ||
+				text.contains( "Man, those Space Tourists are hardcore" ) ||
+				text.contains( "You stagger to your feet outside Pigherpes" ) ||
+				text.contains( "You clear out of the battle site, still a little" ) )
+			{
+				Preferences.decrement( "booPeakProgress", 10, 0 );
+			}
 
 		case 614:
 			// Near the fog there is an... anvil?
@@ -4679,80 +4710,29 @@ public abstract class ChoiceManager
 		int damageTaken = 0;
 		int diff = 0;
 		String decisionText = ChoiceManager.findChoiceDecisionText( 1, ChoiceManager.lastResponseText );
-		if (
-			decisionText.equals( "Ask the Question" ) ||
-			decisionText.equals( "Talk to the Ghosts" ) ||
-			decisionText.equals( "I Wanna Know What Love Is" ) ||
-			decisionText.equals( "Tap Him on the Back" ) ||
-			decisionText.equals( "Avert Your Eyes" ) ||
-			decisionText.equals( "Approach a Raider" ) ||
-			decisionText.equals( "Approach the Argument" ) ||
-			decisionText.equals( "Approach the Ghost" ) ||
-			decisionText.equals( "Approach the Accountant Ghost" ) ||
-			decisionText.equals( "Ask if He's Lost" ) )
+
+		int booPeakLevel = ChoiceManager.findBooPeakLevel( decisionText );
+
+		if ( booPeakLevel < 1 )
+			return "";
+
+		switch ( booPeakLevel )
 		{
+		case 1:
 			// actual base damage is 13
 			damageTaken = 30;
 			diff = 17;
-		}
-		else if (
-			decisionText.equals( "Enter the Crypt" ) ||
-			decisionText.equals( "Try to Talk Some Sense into Them" ) ||
-			decisionText.equals( "Put Your Two Cents In" ) ||
-			decisionText.equals( "Talk to the Ghost" ) ||
-			decisionText.equals( "Tell Them What Werewolves Are" ) ||
-			decisionText.equals( "Scream in Terror" ) ||
-			decisionText.equals( "Check out the Duel" ) ||
-			decisionText.equals( "Watch the Fight" ) ||
-			decisionText.equals( "Approach and Reproach" ) ||
-			decisionText.equals( "Talk Back to the Robot" ) )
-		{
-			// actual base damage is 25
+		case 2:
 			damageTaken = 30;
 			diff = 5;
-		}
-		else if (
-			decisionText.equals( "Go down the Steps" ) ||
-			decisionText.equals( "Make a Suggestion" ) ||
-			decisionText.equals( "Tell Them About True Love" ) ||
-			decisionText.equals( "Scold the Ghost" ) ||
-			decisionText.equals( "Examine the Pipe" ) ||
-			decisionText.equals( "Say What?" ) ||
-			decisionText.equals( "Listen to the Lesson" ) ||
-			decisionText.equals( "Listen in on the Discussion" ) ||
-			decisionText.equals( "Point out the Malefactors" ) ||
-			decisionText.equals( "Ask for Information" ) )
-		{
+		case 3:
 			damageTaken = 50;
-		}
-		else if (
-			decisionText.equals( "Hurl Some Spells of Your Own" ) ||
-			decisionText.equals( "Take Command" ) ||
-			decisionText.equals( "Lose Your Patience" ) ||
-			decisionText.equals( "Fail to Stifle a Sneeze" ) ||
-			decisionText.equals( "Ask for Help" ) ||
-			decisionText.equals( "Ask How Duskwalker Basketball Is Played, Against Your Better Judgement" ) ||
-			decisionText.equals( "Knights in White Armor, Never Reaching an End" ) ||
-			decisionText.equals( "Own up to It" ) ||
-			decisionText.equals( "Approach the Poor Waifs" ) ||
-			decisionText.equals( "Look Behind You" ) )
-		{
+		case 4:
 			damageTaken = 125;
-		}
-		else if (
-			decisionText.equals( "Read the Book" ) ||
-			decisionText.equals( "Join the Conversation" ) ||
-			decisionText.equals( "Speak of the Pompatus of Love" ) ||
-			decisionText.equals( "Ask What's Going On" ) ||
-			decisionText.equals( "Interrupt the Rally" ) ||
-			decisionText.equals( "Ask What She's Doing Up There" ) ||
-			decisionText.equals( "Point Out an Unfortunate Fact" ) ||
-			decisionText.equals( "Try to Talk Sense" ) ||
-			decisionText.equals( "Ask for Directional Guidance" ) ||
-			decisionText.equals( "What?" ) )
-		{
+		case 5:
 			damageTaken = 250;
 		}
+
 		double spookyDamage = KoLConstants.activeEffects.contains( EffectPool.get( Effect.SPOOKYFORM ) ) ? 1.0 :
 			  Math.max( damageTaken * ( 100.0 - KoLCharacter.elementalResistanceByLevel( KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) ) ) / 100.0 - diff, 1 );
 		if ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.COLDFORM ) ) || KoLConstants.activeEffects.contains( EffectPool.get( Effect.SLEAZEFORM ) ) )
@@ -4767,6 +4747,55 @@ public abstract class ChoiceManager
 			coldDamage *= 2;
 		}
 		return ( (int) Math.ceil( spookyDamage ) ) + " spooky damage, " + ( (int) Math.ceil( coldDamage ) ) + " cold damage";
+	}
+
+	private static int findBooPeakLevel( String decisionText )
+	{
+		if ( decisionText.equals( "Ask the Question" ) || decisionText.equals( "Talk to the Ghosts" ) ||
+			decisionText.equals( "I Wanna Know What Love Is" ) || decisionText.equals( "Tap Him on the Back" ) ||
+			decisionText.equals( "Avert Your Eyes" ) || decisionText.equals( "Approach a Raider" ) ||
+			decisionText.equals( "Approach the Argument" ) || decisionText.equals( "Approach the Ghost" ) ||
+			decisionText.equals( "Approach the Accountant Ghost" ) || decisionText.equals( "Ask if He's Lost" ) )
+		{
+			return 1;
+		}
+		else if ( decisionText.equals( "Enter the Crypt" ) ||
+			decisionText.equals( "Try to Talk Some Sense into Them" ) ||
+			decisionText.equals( "Put Your Two Cents In" ) || decisionText.equals( "Talk to the Ghost" ) ||
+			decisionText.equals( "Tell Them What Werewolves Are" ) || decisionText.equals( "Scream in Terror" ) ||
+			decisionText.equals( "Check out the Duel" ) || decisionText.equals( "Watch the Fight" ) ||
+			decisionText.equals( "Approach and Reproach" ) || decisionText.equals( "Talk Back to the Robot" ) )
+		{
+			return 2;
+		}
+		else if ( decisionText.equals( "Go down the Steps" ) || decisionText.equals( "Make a Suggestion" ) ||
+			decisionText.equals( "Tell Them About True Love" ) || decisionText.equals( "Scold the Ghost" ) ||
+			decisionText.equals( "Examine the Pipe" ) || decisionText.equals( "Say What?" ) ||
+			decisionText.equals( "Listen to the Lesson" ) || decisionText.equals( "Listen in on the Discussion" ) ||
+			decisionText.equals( "Point out the Malefactors" ) || decisionText.equals( "Ask for Information" ) )
+		{
+			return 3;
+		}
+		else if ( decisionText.equals( "Hurl Some Spells of Your Own" ) || decisionText.equals( "Take Command" ) ||
+			decisionText.equals( "Lose Your Patience" ) || decisionText.equals( "Fail to Stifle a Sneeze" ) ||
+			decisionText.equals( "Ask for Help" ) ||
+			decisionText.equals( "Ask How Duskwalker Basketball Is Played, Against Your Better Judgement" ) ||
+			decisionText.equals( "Knights in White Armor, Never Reaching an End" ) ||
+			decisionText.equals( "Own up to It" ) || decisionText.equals( "Approach the Poor Waifs" ) ||
+			decisionText.equals( "Look Behind You" ) )
+		{
+			return 4;
+		}
+		else if ( decisionText.equals( "Read the Book" ) || decisionText.equals( "Join the Conversation" ) ||
+			decisionText.equals( "Speak of the Pompatus of Love" ) || decisionText.equals( "Ask What's Going On" ) ||
+			decisionText.equals( "Interrupt the Rally" ) || decisionText.equals( "Ask What She's Doing Up There" ) ||
+			decisionText.equals( "Point Out an Unfortunate Fact" ) || decisionText.equals( "Try to Talk Sense" ) ||
+			decisionText.equals( "Ask for Directional Guidance" ) || decisionText.equals( "What?" ) )
+		{
+			return 5;
+		}
+
+		return 0;
 	}
 
 	private static void checkGuyMadeOfBees( final GenericRequest request )
