@@ -654,7 +654,7 @@ Staff of the Teapot Tempest	10	Mys: 25	1-handed chefstaff
 Staff of the Walk-In Freezer	10	Mys: 125	1-handed chefstaff
 Staff of the Well-Tempered Cauldron	10	Mys: 125	1-handed chefstaff
 Staff of the Woodfire	10	Mys: 150	1-handed chefstaff
-Stick-Knife of Loathing	200	Mus: 150	1-handed
+Stick-Knife of Loathing	200	Mus: 150	1-handed knife
 Super Crimboman Ultra Mega Hypersword	100	Mus: 35	2-handed sword
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
 Sword of Dark Omens	120	Mus: 0	1-handed sword
