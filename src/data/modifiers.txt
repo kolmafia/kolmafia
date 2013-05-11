@@ -1847,8 +1847,7 @@ baconstone pendant	Mysticality: +4, Spell Damage: +10
 baconstone ring	Mysticality: +5, Maximum MP: +10, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 badass belt	Muscle: +5, Mysticality: +5, Moxie: +5
 badge of authority	Monster Level: +10, Single Equip
-# bananarama bangle: (only in the Candy Diorama)
-bananarama bangle Damage Reduction: [30*zone(The Candy Diorama)], Single Equip
+bananarama bangle	Damage Reduction: [30*zone(The Candy Diorama)], Single Equip
 baneful bandolier	Slime Hates It: +1, Ranged Damage: +30, Hat Drop: +30, Pants Drop: +30
 bark bracelet	Damage Reduction: 2
 beach glass necklace	Muscle: +5
