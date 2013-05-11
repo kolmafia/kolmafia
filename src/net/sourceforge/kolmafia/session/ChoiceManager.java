@@ -4003,7 +4003,7 @@ public abstract class ChoiceManager
 
 		case 611:
 			// The Horror...
-			// The only thing we need to do here is detect if the choiceadv chain was completed.
+			// We need to detect if the choiceadv chain was completed OR we got beaten up.
 			// Fleeing is handled in preChoice
 			if ( text.contains( "You drop the book, trying to scrub" ) ||
 				text.contains( "Well, it wasn't easy, and it wasn't pleasant" ) ||
@@ -4017,6 +4017,10 @@ public abstract class ChoiceManager
 				text.contains( "You clear out of the battle site, still a little" ) )
 			{
 				Preferences.decrement( "booPeakProgress", 10, 0 );
+			}
+			else if ( text.contains( "That's all the horror you can take" ) ) // AKA beaten up
+			{
+				Preferences.decrement( "booPeakProgress", 2, 0 );
 			}
 
 		case 614:
