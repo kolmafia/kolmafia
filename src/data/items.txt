@@ -380,15 +380,15 @@
 363	linoleum ore	122957072	lore.gif	none	t,d	50	chunks of linoleum ore
 364	asbestos ore	873673118	aore.gif	none	t,d	50	chunks of asbestos ore
 365	chrome ore	742497802	core.gif	none	t,d	50	chunks of chrome ore
-366	linoleum sword hilt	216588286	hilt.gif	none	t	0	linoleum sword hilts
-367	linoleum stick	352682215	stick.gif	none	t	0	linoleum sticks
-368	linoleum crossbow string	129537220	string.gif	none	t	0	linoleum crossbow strings
-369	asbestos sword hilt	499995791	hilt.gif	none	t	0	asbestos sword hilts
-370	asbestos stick	153682830	stick.gif	none	t	0	asbestos sticks
-371	asbestos crossbow string	983432397	string.gif	none	t	0	asbestos crossbow strings
-372	chrome sword hilt	869589567	hilt.gif	none	t	0	chrome sword hilts
-373	chrome stick	424084004	stick.gif	none	t	0	chrome sticks
-374	chrome crossbow string	328326637	string.gif	none	t	0	chrome crossbow strings
+366	linoleum sword hilt	216588286	hilt.gif	none	t	95	linoleum sword hilts
+367	linoleum stick	352682215	stick.gif	none	t	95	linoleum sticks
+368	linoleum crossbow string	129537220	string.gif	none	t	95	linoleum crossbow strings
+369	asbestos sword hilt	499995791	hilt.gif	none	t	95	asbestos sword hilts
+370	asbestos stick	153682830	stick.gif	none	t	95	asbestos sticks
+371	asbestos crossbow string	983432397	string.gif	none	t	95	asbestos crossbow strings
+372	chrome sword hilt	869589567	hilt.gif	none	t	95	chrome sword hilts
+373	chrome stick	424084004	stick.gif	none	t	95	chrome sticks
+374	chrome crossbow string	328326637	string.gif	none	t	95	chrome crossbow strings
 375	linoleum meat stack	314903773	meatstack.gif	none	t,d	100	linoleum meat stacks
 376	asbestos meat stack	982075866	meatstack.gif	none	t,d	100	asbestos meat stacks
 377	chrome meat stack	137403755	meatstack.gif	none	t,d	100	chrome meat stacks
