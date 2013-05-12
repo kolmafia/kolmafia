@@ -4726,15 +4726,21 @@ public abstract class ChoiceManager
 			// actual base damage is 13
 			damageTaken = 30;
 			diff = 17;
+			break;
 		case 2:
+			// actual base damage is 25
 			damageTaken = 30;
 			diff = 5;
+			break;
 		case 3:
 			damageTaken = 50;
+			break;
 		case 4:
 			damageTaken = 125;
+			break;
 		case 5:
 			damageTaken = 250;
+			break;
 		}
 
 		double spookyDamage = KoLConstants.activeEffects.contains( EffectPool.get( Effect.SPOOKYFORM ) ) ? 1.0 :
