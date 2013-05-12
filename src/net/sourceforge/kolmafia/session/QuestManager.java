@@ -526,72 +526,72 @@ public class QuestManager
 			{
 				QuestDatabase.advanceQuest( Quest.BAT );
 			}
+		}
 
-			else if ( monster.equalsIgnoreCase( "Dirty Thieving Brigand" ) )
+		else if ( monster.equalsIgnoreCase( "Dirty Thieving Brigand" ) )
+		{
+			// "Well," you say, "it would really help the war effort if
+			// your convent could serve as a hospital for our wounded
+			// troops."
+			if ( responseText.indexOf( "could serve as a hospital" ) != -1 )
 			{
-				// "Well," you say, "it would really help the war effort if
-				// your convent could serve as a hospital for our wounded
-				// troops."
-				if ( responseText.indexOf( "could serve as a hospital" ) != -1 )
-				{
-					Preferences.setString( "sidequestNunsCompleted", "hippy" );
-				}
-				else if ( responseText.indexOf( "could serve as a massage parlor" ) != -1 )
-				{
-					Preferences.setString( "sidequestNunsCompleted", "fratboy" );
-				}
+				Preferences.setString( "sidequestNunsCompleted", "hippy" );
 			}
-			// oil slick: 6.34
-			// oil tycoon: 19.02
-			// oil baron: 31.7
-			// oil cartel: 63.4
-			// dress pants: 6.34
-			else if ( monster.equalsIgnoreCase( "Oil Slick" ) )
+			else if ( responseText.indexOf( "could serve as a massage parlor" ) != -1 )
 			{
-				double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
-				float current = Preferences.getFloat( "oilPeakProgress" );
-
-				// normalize
-				String setTo = String.format( "%.2f", Math.max( 0, current - 6.34 - pantsBonus ) );
-
-				Preferences.setString( "oilPeakProgress", setTo );
+				Preferences.setString( "sidequestNunsCompleted", "fratboy" );
 			}
-			else if ( monster.equalsIgnoreCase( "Oil Tycoon" ) )
-			{
-				double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
-				float current = Preferences.getFloat( "oilPeakProgress" );
+		}
+		// oil slick: 6.34
+		// oil tycoon: 19.02
+		// oil baron: 31.7
+		// oil cartel: 63.4
+		// dress pants: 6.34
+		else if ( monster.equalsIgnoreCase( "Oil Slick" ) )
+		{
+			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
+			float current = Preferences.getFloat( "oilPeakProgress" );
 
-				String setTo = String.format( "%.2f", Math.max( 0, current - 19.02 - pantsBonus ) );
+			// normalize
+			String setTo = String.format( "%.2f", Math.max( 0, current - 6.34 - pantsBonus ) );
 
-				Preferences.setString( "oilPeakProgress", setTo );
-			}
-			else if ( monster.equalsIgnoreCase( "Oil Baron" ) )
-			{
-				double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
-				float current = Preferences.getFloat( "oilPeakProgress" );
+			Preferences.setString( "oilPeakProgress", setTo );
+		}
+		else if ( monster.equalsIgnoreCase( "Oil Tycoon" ) )
+		{
+			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
+			float current = Preferences.getFloat( "oilPeakProgress" );
 
-				String setTo = String.format( "%.2f", Math.max( 0, current - 31.7 - pantsBonus ) );
+			String setTo = String.format( "%.2f", Math.max( 0, current - 19.02 - pantsBonus ) );
 
-				Preferences.setString( "oilPeakProgress", setTo );
-			}
-			else if ( monster.equalsIgnoreCase( "Oil Cartel" ) )
-			{
-				double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
-				float current = Preferences.getFloat( "oilPeakProgress" );
+			Preferences.setString( "oilPeakProgress", setTo );
+		}
+		else if ( monster.equalsIgnoreCase( "Oil Baron" ) )
+		{
+			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
+			float current = Preferences.getFloat( "oilPeakProgress" );
 
-				String setTo = String.format( "%.2f", Math.max( 0, current - 63.4 - pantsBonus ) );
+			String setTo = String.format( "%.2f", Math.max( 0, current - 31.7 - pantsBonus ) );
 
-				Preferences.setString( "oilPeakProgress", setTo );
-			}
+			Preferences.setString( "oilPeakProgress", setTo );
+		}
+		else if ( monster.equalsIgnoreCase( "Oil Cartel" ) )
+		{
+			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
+			float current = Preferences.getFloat( "oilPeakProgress" );
 
-			else if ( monster.equalsIgnoreCase( "Battlie Knight Ghost" )
-				|| monster.equalsIgnoreCase( "Claybender Sorcerer Ghost" )
-				|| monster.equalsIgnoreCase( "Dusken Raider Ghost" )
-				|| monster.equalsIgnoreCase( "Space Tourist Explorer Ghost" )
-				|| monster.equalsIgnoreCase( "Whatsian Commando Ghost" ) )
-			{
-				Preferences.decrement( "booPeakProgress", 2 );
-			}
+			String setTo = String.format( "%.2f", Math.max( 0, current - 63.4 - pantsBonus ) );
+
+			Preferences.setString( "oilPeakProgress", setTo );
+		}
+
+		else if ( monster.equalsIgnoreCase( "Battlie Knight Ghost" ) ||
+			monster.equalsIgnoreCase( "Claybender Sorcerer Ghost" ) ||
+			monster.equalsIgnoreCase( "Dusken Raider Ghost" ) ||
+			monster.equalsIgnoreCase( "Space Tourist Explorer Ghost" ) ||
+			monster.equalsIgnoreCase( "Whatsian Commando Ghost" ) )
+		{
+			Preferences.decrement( "booPeakProgress", 2 );
 		}
 	}
 
