@@ -3510,11 +3510,18 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 2 ) // Flee
 			{
 				// To find which step we're on, look at the responseText from the _previous_ request.  This should still be in lastResponseText.
-				int level = ChoiceManager.findBooPeakLevel( ChoiceManager.findChoiceDecisionText( 1, ChoiceManager.lastResponseText ) );
+				int level = ChoiceManager.findBooPeakLevel( ChoiceManager.findChoiceDecisionText( 1, ChoiceManager.lastResponseText ) ) - 1;
 				if ( level < 1 )
 					break;
-				// Take 1 off the level since we didn't actually complete the level represented by that button.
-				Preferences.decrement( "booPeakProgress", 2 * ( level - 1 ), 0 );
+				// We took 1 off the level since we didn't actually complete the level represented by that button.
+				// The formula is now progress = n*(n+1), where n is the number of levels completed.
+				// 0 (flee immediately): 0, breaks above
+				// 1: 2
+				// 2: 6
+				// 3: 12
+				// 4: 20
+				// 5 NOT handled here.  see postChoice1.
+				Preferences.decrement( "booPeakProgress", level * ( level + 1 ), 0 );
 			}
 			break;
 
@@ -4016,7 +4023,7 @@ public abstract class ChoiceManager
 				text.contains( "You stagger to your feet outside Pigherpes" ) ||
 				text.contains( "You clear out of the battle site, still a little" ) )
 			{
-				Preferences.decrement( "booPeakProgress", 10, 0 );
+				Preferences.decrement( "booPeakProgress", 30, 0 );
 			}
 			else if ( text.contains( "That's all the horror you can take" ) ) // AKA beaten up
 			{
