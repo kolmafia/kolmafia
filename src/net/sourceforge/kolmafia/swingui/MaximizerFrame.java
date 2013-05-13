@@ -37,10 +37,8 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-
 import java.util.Enumeration;
 import java.util.Iterator;
-
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -51,79 +49,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
-
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.maximizer.MaximizerSpeculation;
-
-
-
 import net.sourceforge.kolmafia.preferences.Preferences;
-
-
-
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
-
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MaximizerFrame
 	extends GenericFrame
 	implements ListSelectionListener
 {
-	private static String [] expressions =
-	{
-		"mainstat",
-		"mus",
-		"mys",
-		"mox",
-		"familiar weight",
-		"HP",
-		"MP",
-		"ML",
-		"DA",
-		"DR",
-		"+combat -tie",
-		"-combat -tie",
-		"initiative",
-		"exp",
-		"meat drop",
-		"item drop",
-		"2.0 meat, 1.0 item",
-		"item, sea",
-		"weapon dmg",
-		"ranged dmg",
-		"elemental dmg",
-		"spell dmg",
-		"adv",
-		"pvp fights",
-		"hot res",
-		"cold res",
-		"spooky res",
-		"stench res",
-		"sleaze res",
-		"all res",
-		"mp regen",
-		"ML, 0.001 slime res",
-		"4 clownosity",
-		"7 raveosity",
-		"+four songs",
-	};
-
-	public static final JComboBox expressionSelect = new JComboBox( expressions );
+	public static final JComboBox expressionSelect = new JComboBox( KoLConstants.maximizerExpressions );
 	static
 	{	// This has to be done before the constructor runs, since the
 		// CLI "maximize" command can set the selected item prior to the

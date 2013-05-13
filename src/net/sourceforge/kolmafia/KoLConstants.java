@@ -59,6 +59,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 
+import net.sourceforge.kolmafia.swingui.menu.PartialMRUList;
 import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 
 public interface KoLConstants
@@ -272,11 +273,50 @@ public interface KoLConstants
 	public static final LockableListModel scripts = new LockableListModel();
 	public static final LockableListModel bookmarks = new LockableListModel();
 
+	public static String [] maximizerExpressions =
+	{
+		"mainstat",
+		"mus",
+		"mys",
+		"mox",
+		"familiar weight",
+		"HP",
+		"MP",
+		"ML",
+		"DA",
+		"DR",
+		"+combat -tie",
+		"-combat -tie",
+		"initiative",
+		"exp",
+		"meat drop",
+		"item drop",
+		"2.0 meat, 1.0 item",
+		"item, sea",
+		"weapon dmg",
+		"ranged dmg",
+		"elemental dmg",
+		"spell dmg",
+		"adv",
+		"pvp fights",
+		"hot res",
+		"cold res",
+		"spooky res",
+		"stench res",
+		"sleaze res",
+		"all res",
+		"mp regen",
+		"ML, 0.001 slime res",
+		"4 clownosity",
+		"7 raveosity",
+		"+four songs",
+	};
+
 	public static final ArrayList<String> disabledScripts = new ArrayList<String>();
 	public static final ScriptMRUList scriptMList = 
 			  new ScriptMRUList( "scriptMRUList", "scriptMRULength" );
-	public static final ScriptMRUList maximizerMList =
-			  new ScriptMRUList( "maximizerMRUList", "maximizerMRULength" );
+	public static final PartialMRUList maximizerMList =
+			  new PartialMRUList( "maximizerMRUList", "maximizerMRUSize", KoLConstants.maximizerExpressions );
 
 	public static final SortedListModel junkList = new SortedListModel();
 	public static final SortedListModel singletonList = new SortedListModel();
