@@ -48,9 +48,9 @@ import net.sourceforge.kolmafia.preferences.Preferences;
  */
 public class ScriptMRUList
 {
-	private int maxMRU = 16;
-	private final LinkedList mruList = new LinkedList();
-	private boolean isInit = false;
+	protected int maxMRU = 16;
+	protected final LinkedList<String> mruList = new LinkedList<String>();
+	protected boolean isInit = false;
 	private String prefList = null;
 	private String prefLen = null;
 
@@ -61,7 +61,7 @@ public class ScriptMRUList
 		prefLen = pLen;
 	}
 
-	private void init()
+	protected void init()
 	{
 		maxMRU = Preferences.getInteger( prefLen );
 		if ( maxMRU > 0 )
