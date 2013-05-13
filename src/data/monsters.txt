@@ -1285,7 +1285,7 @@ rock snake	HP: 15 Def: 9 Atk: 10	floaty sand (25)
 rockfish	Atk: 300 Def: 270 HP: 400 Init: 50 P: fish	rockfish stomach (100)
 
 # Under the effect of Temporary Blindness
-The Darkness (blind)
+The Darkness (blind)	
 
 # Dolphin whistle
 rotten dolphin thief	Atk: 400 Def: 360 HP: 600 Init: 100 P: fish
@@ -1326,7 +1326,7 @@ X Bottles of Beer on a Golem	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL
 X-dimensional Horror	HP: [1.7*ceil(BL^1.4)+ML] Def: [ceil(0.9*(2*ceil(BL^1.4)+ML))] Atk: [2*ceil(BL^1.4)+ML] Init: -10000 Phys: 90 P: horror Image: dimhorror.gif
 
 # Fires
-Servant Of Lord Flameface
+Servant Of Lord Flameface		molten brick (c5)
 
 # Crimbo 2012
 Sign-Twirling Crimbo Elf	HP: [0.75*(min(150,MUS)+ML)] Atk: [min(150,MOX)+ML] Def: [min(150,MUS)+ML] Init: -10000 P: elf	Taco Dan's Taco Stand Chillacious Churro (0)	Taco Dan's Taco Stand Flier (0)
