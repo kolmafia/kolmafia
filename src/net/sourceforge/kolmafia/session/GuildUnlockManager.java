@@ -54,24 +54,17 @@ public class GuildUnlockManager
 {
 	public static void unlockGuild()
 	{
-		// Don't even try in Axecore
-		if ( KoLCharacter.inAxecore() )
+		// Don't try to open the guild unless you are one of the six standard classes
+		String classType = KoLCharacter.getClassType();
+		if ( !classType.equals( KoLCharacter.SEAL_CLUBBER ) &&
+		     !classType.equals( KoLCharacter.TURTLE_TAMER ) &&
+		     !classType.equals( KoLCharacter.SAUCEROR ) &&
+		     !classType.equals( KoLCharacter.PASTAMANCER ) &&
+		     !classType.equals( KoLCharacter.DISCO_BANDIT ) &&
+		     !classType.equals( KoLCharacter.ACCORDION_THIEF )
+		   )
 		{
-			KoLmafia.updateDisplay( "Boris needed no guild. Why would you?" );
-			return;
-		}
-
-		// Don't even try in Zombiecore
-		if ( KoLCharacter.inZombiecore() )
-		{
-			KoLmafia.updateDisplay( "Everyone is dead. No guild for you." );
-			return;
-		}
-
-		// Don't even try for Avatars of Jarlsberg
-		if ( KoLCharacter.isJarlsberg() )
-		{
-			KoLmafia.updateDisplay( "Jarlsberg never really fit in well in social organizations. No guild for you." );
+			KoLmafia.updateDisplay( "You don't have a guild available to open. No guild for you." );
 			return;
 		}
 
