@@ -139,7 +139,9 @@ public class SetPreferencesCommand
 			return;
 		}
 
-		RequestLogger.printLine( name + " => " + value );
+		// suppress CLI output iff it is a pref that starts with _ AND is defined in defaults.txt
+		if ( !name.startsWith( "_" ) || Preferences.containsDefault( name ) )
+			RequestLogger.printLine( name + " => " + value );
 		Preferences.setString( name, value );
 
 		if ( name.startsWith( "combatHotkey" ) )

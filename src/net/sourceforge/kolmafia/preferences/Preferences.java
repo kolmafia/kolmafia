@@ -43,9 +43,11 @@ import java.io.PrintStream;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -76,13 +78,15 @@ public class Preferences
 	private static final String [] characterMap = new String[ 65536 ];
 	private static final HashMap<String, String> propertyNames = new HashMap<String, String>();
 
-	private static final HashMap userNames = new HashMap();
-	private static final TreeMap userValues = new TreeMap();
+	private static final HashMap<String,String> userNames = new HashMap<String,String>();
+	private static final TreeMap<String, Object> userValues = new TreeMap<String, Object>();
 	private static File userPropertiesFile = null;
 
-	private static final HashMap globalNames = new HashMap();
-	private static final TreeMap globalValues = new TreeMap();
+	private static final HashMap<String, String> globalNames = new HashMap<String, String>();
+	private static final TreeMap<String, Object> globalValues = new TreeMap<String, Object>();
 	private static File globalPropertiesFile = null;
+	
+	private static final Set<String> defaultsSet = new HashSet<String>();
 
 	static
 	{
@@ -139,7 +143,7 @@ public class Preferences
 		return name == null || name.equals( "" ) ? "GLOBAL" : StringUtilities.globalStringReplace( name.trim(), " ", "_" ).toLowerCase();
 	}
 
-	private static void loadPreferences( TreeMap values, File file )
+	private static void loadPreferences( TreeMap<String, Object> values, File file )
 	{
 		Properties p = new Properties();
 		InputStream istream = DataUtilities.getInputStream( file );
@@ -160,14 +164,14 @@ public class Preferences
 		{
 		}
 
-		Entry currentEntry;
-		Iterator it = p.entrySet().iterator();
+		Entry<Object, Object> currentEntry;
+		Iterator<Entry<Object, Object>> it = p.entrySet().iterator();
 
 		String currentName, currentValue;
 
 		while ( it.hasNext() )
 		{
-			currentEntry = (Entry) it.next();
+			currentEntry = it.next();
 			currentName = (String) currentEntry.getKey();
 			currentValue = (String) currentEntry.getValue();
 
@@ -263,7 +267,7 @@ public class Preferences
 	public static final String getCaseSensitiveName( final String name )
 	{
 		String lowercase = name.toLowerCase();
-		String actualName = (String) Preferences.propertyNames.get( lowercase );
+		String actualName = Preferences.propertyNames.get( lowercase );
 
 		if ( actualName != null )
 		{
@@ -400,7 +404,7 @@ public class Preferences
 
 	public static final boolean getBoolean( final String user, final String name )
 	{
-		TreeMap map = Preferences.getMap( name );
+		TreeMap<String, Object> map = Preferences.getMap( name );
 		Object value = Preferences.getObject( map, user, name );
 
 		if ( value == null )
@@ -419,7 +423,7 @@ public class Preferences
 
 	public static final int getInteger( final String user, final String name )
 	{
-		TreeMap map = Preferences.getMap( name );
+		TreeMap<String, Object> map = Preferences.getMap( name );
 		Object value = Preferences.getObject( map, user, name );
 
 		if ( value == null )
@@ -438,7 +442,7 @@ public class Preferences
 
 	public static final float getFloat( final String user, final String name )
 	{
-		TreeMap map = Preferences.getMap( name );
+		TreeMap<String, Object> map = Preferences.getMap( name );
 		Object value = Preferences.getObject( map, user, name );
 
 		if ( value == null )
@@ -455,7 +459,7 @@ public class Preferences
 		return ((Float) value).floatValue();
 	}
 
-	private static final TreeMap getMap( final String name )
+	private static final TreeMap<String, Object> getMap( final String name )
 	{
 		return Preferences.isGlobalProperty( name ) ? Preferences.globalValues : Preferences.userValues;
 	}
@@ -465,7 +469,7 @@ public class Preferences
 		return Preferences.getObject( Preferences.getMap( name ), user, name );
 	}
 
-	private static final Object getObject( final TreeMap map, final String user, final String name )
+	private static final Object getObject( final TreeMap<String, Object> map, final String user, final String name )
 	{
 		String key = Preferences.propertyName( user, name );
 		return map.get( key );
@@ -541,7 +545,7 @@ public class Preferences
 		return user == null ? name : name + "." + Preferences.baseUserName( user );
 	}
 
-	private static final void saveToFile( File file, TreeMap data )
+	private static final void saveToFile( File file, TreeMap<String, Object> data )
 	{
 		// Determine the contents of the file by
 		// actually printing them.
@@ -550,12 +554,12 @@ public class Preferences
 
 		try
 		{
-			Entry current;
-			Iterator it = data.entrySet().iterator();
+			Entry<String, Object> current;
+			Iterator<Entry<String, Object>> it = data.entrySet().iterator();
 
 			while ( it.hasNext() )
 			{
-				current = (Entry) it.next();
+				current = it.next();
 				ostream.write( Preferences.encodeProperty(
 					(String) current.getKey(), current.getValue().toString() ).getBytes() );
 
@@ -588,7 +592,7 @@ public class Preferences
 	private static final void initializeMaps()
 	{
 		String[] current;
-		HashMap desiredMap;
+		HashMap<String, String> desiredMap;
 
 		BufferedReader istream = FileUtilities.getVersionedReader( "defaults.txt", KoLConstants.DEFAULTS_VERSION );
 
@@ -601,6 +605,9 @@ public class Preferences
 				String value = current.length == 2 ? "" : current[ 2 ];
 				desiredMap = map.equals( "global" ) ? Preferences.globalNames : Preferences.userNames;
 				desiredMap.put( name, value );
+
+				// Maintain a set of prefs that exist in defaults.txt
+				defaultsSet.add( name );
 			}
 		}
 
@@ -655,7 +662,7 @@ public class Preferences
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			String setting = choices[ i ].getSetting();
-			int defaultOption = StringUtilities.parseInt( (String) Preferences.userNames.get( setting ) ) - 1;
+			int defaultOption = StringUtilities.parseInt( Preferences.userNames.get( setting ) ) - 1;
 
 			ostream.print( "[" + setting.substring( 15 ) + "] " );
 			ostream.print( choices[ i ].getName() + ": " );
@@ -692,7 +699,7 @@ public class Preferences
 
 	private static void ensureGlobalDefaults()
 	{
-		Entry[] entries = new Entry[ Preferences.globalNames.size() ];
+		Entry< ? , ? >[] entries = new Entry[ Preferences.globalNames.size() ];
 		Preferences.globalNames.entrySet().toArray( entries );
 
 		for ( int i = 0; i < entries.length; ++i )
@@ -709,7 +716,7 @@ public class Preferences
 
 	private static void ensureUserDefaults()
 	{
-		Entry[] entries = new Entry[ Preferences.userNames.size() ];
+		Entry< ? , ? >[] entries = new Entry[ Preferences.userNames.size() ];
 		Preferences.userNames.entrySet().toArray( entries );
 
 		for ( int i = 0; i < entries.length; ++i )
@@ -728,26 +735,41 @@ public class Preferences
 	{
 		if ( Preferences.userNames.containsKey( name ) )
 		{
-			Preferences.setString( name, (String) Preferences.userNames.get( name ) );
+			Preferences.setString( name, Preferences.userNames.get( name ) );
 		}
 		else if ( Preferences.globalNames.containsKey( name ) )
 		{
-			Preferences.setString( name, (String) Preferences.globalNames.get( name ) );
+			Preferences.setString( name, Preferences.globalNames.get( name ) );
 		}
 	}
 
 	public static void resetDailies()
 	{
-		Iterator i = Preferences.userValues.keySet().iterator();
+		Iterator<String> i = Preferences.userValues.keySet().iterator();
 		while ( i.hasNext() )
 		{
-			String name = (String) i.next();
+			String name = i.next();
 			if ( name.startsWith( "_" ) )
 			{
-				String val = (String) Preferences.userNames.get( name );
+				if ( !Preferences.containsDefault( name ) )
+				{
+					// fully delete preferences that start with _ and aren't in defaults.txt
+					i.remove();
+					if ( Preferences.getBoolean( "saveSettingsOnSet" ) )
+					{
+						Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userValues );
+					}
+					continue;
+				}
+				String val = Preferences.userNames.get( name );
 				if ( val == null ) val = "";
 				Preferences.setString( name, val );
 			}
 		}
+	}
+
+	public static boolean containsDefault( String key )
+	{
+		return defaultsSet.contains( key );
 	}
 }
