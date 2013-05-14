@@ -5762,7 +5762,7 @@
 5745	CSA discount card	928675328	librarycard.gif	multiple	t	0
 5746	bag of QWOP	463337393	baggie.gif	food	t,d	23
 5747	CSA bravery badge	578604698	fratwarpin.gif	usable	t,d	23
-5748	CSA all-purpose soap	604997956	apsoap.gif	mp	t,d	23
+5748	CSA all-purpose soap	604997956	apsoap.gif	mp, usable	t,d	23
 5749	CSA cheerfulness ration	619872227	beer.gif	drink	t,d	23
 5750	CSA obedience grenade	657706242	grenade.gif	none, combat	t,d	23
 5751	Tales of the Word Realms	810195365	book4.gif	weapon		0
