@@ -413,6 +413,7 @@ barskin loincloth	Muscle: +1, Familiar Effect: "sleaze atk, 4xVolley, cap 6"
 basic meat kilt	Moxie: +1, Familiar Effect: "3xPotato, 3xFairy, cap 10"
 basic meat pants	Moxie: +1, Familiar Effect: "atk, 3xPotato, cap 10"
 basic meat skirt	Moxie: +1, Familiar Effect: "3xBarrr, 3xFairy, cap 10"
+big pants	Weapon Damage: +25, Spell Damage: +25
 biomechanical crimborg leg armor	Hot Damage: +5, Stench Damage: +5, Familiar Effect: "1xBarrr, 1xGhuol, cap 37"
 black greaves	Muscle: +10, Damage Absorption: +30, Familiar Effect: "atk, 1xBarrr, cap 40"
 bloody clown pants	Spooky Damage: +3, Clownosity: +1, Familiar Effect: "3xPotato, 2xFairy, cap 12"
