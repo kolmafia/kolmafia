@@ -654,6 +654,10 @@ public class AccountRequest
 		{
 			path = "Avatar of Jarlsberg";
 		}
+		else if ( path.equals( "14" ) )
+		{
+			path = "BIG!";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
