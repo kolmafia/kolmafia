@@ -2969,6 +2969,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( "Avatar of Jarlsberg" );
 	}
 
+	public static final boolean inBigcore()
+	{
+		return KoLCharacter.ascensionPath.equals( "BIG!" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );

@@ -495,6 +495,9 @@ public class AfterLifeRequest
 			case 12:
 				builder.append( "an Avatar of Jarlsberg" );
 				break;
+			case 14:
+				builder.append( "a BIG!" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );

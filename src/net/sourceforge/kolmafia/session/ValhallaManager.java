@@ -334,6 +334,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Avatar of Jarlsberg " );
 		}
+		else if ( KoLCharacter.inBigcore() )
+		{
+			sessionStream.print( "BIG! " );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );
