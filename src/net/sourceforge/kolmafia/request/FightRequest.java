@@ -2262,14 +2262,16 @@ public class FightRequest
 		}
 
 		// Check for runaways. Only a free runaway decreases chance
-		if ( responseText.indexOf( "shimmers as you quickly float away" ) != -1 ||
-		     responseText.indexOf( "your pants suddenly activate" ) != -1 )
+		if ( ( responseText.indexOf( "shimmers as you quickly float away" ) != -1 ||
+		       responseText.indexOf( "your pants suddenly activate" ) != -1 )
+		       && !KoLCharacter.inBigcore() )
 		{
 			Preferences.increment( "_navelRunaways", 1 );
 		}
 
-		else if ( responseText.indexOf( "his back, and flooms away" ) != -1 ||
-			 responseText.indexOf( "speed your escape.  Thanks" ) != -1 )
+		else if ( ( responseText.indexOf( "his back, and flooms away" ) != -1 ||
+		            responseText.indexOf( "speed your escape.  Thanks" ) != -1 )
+		            && !KoLCharacter.inBigcore() )
 		{
 			Preferences.increment( "_banderRunaways", 1 );
 		}
@@ -5690,6 +5692,12 @@ public class FightRequest
 
 	public static final int freeRunawayChance()
 	{
+		if ( KoLCharacter.inBigcore() )
+		{
+			// Free runaways don't work in BIG!
+			return 0;
+		}
+
 		// Bandersnatch + Ode = weight/5 free runaways
 		if ( KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.BANDER &&
 			KoLConstants.activeEffects.contains( ItemDatabase.ODE ) )

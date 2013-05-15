@@ -2454,7 +2454,8 @@ public class DailyDeedsPanel
 			boolean nr = InventoryManager.getCount( ItemPool.NAVEL_RING ) > 0
 				|| KoLCharacter.hasEquipped( DailyDeedsPanel.NAVEL_RING );
 			boolean pp = InventoryManager.getCount( ItemPool.PEPPERMINT_PARASOL ) > 0;
-			this.setShown( hba || hbo || gp || nr || pp );
+			boolean big = KoLCharacter.inBigcore();
+			this.setShown( !big && ( hba || hbo || gp || nr || pp ) );
 			String text = "Runaways: ";
 			if( hba && !hbo ) text = text + Preferences.getInteger( "_banderRunaways" ) + " bandersnatch" ;
 			if( hba && hbo ) text = text + Preferences.getInteger( "_banderRunaways" ) + " bandersnatch+boots" ;
