@@ -119,6 +119,11 @@ public class MonsterData
 		return 1.0 + ( KoLCharacter.inBeecore() ? ( this.beeCount / 5.0 ) : 0.0 );
 	}
 
+	private static int getBigness()
+	{
+		return KoLCharacter.inBigcore() ? 150 : 0;
+	}
+
 	public int getHP()
 	{
 		if ( this.health == null )
@@ -128,7 +133,8 @@ public class MonsterData
 		if ( this.health instanceof Integer )
 		{
 			int hp = ((Integer) this.health).intValue();
-			return hp == 0 ? 0 : (int) Math.floor( Math.max( 1, hp + ML() ) * getBeeosity() );
+			return hp == 0 ? 0 : (int) Math.floor( Math.max( 1, hp + ML() ) *
+				 getBeeosity() + MonsterData.getBigness() );
 		}
 		if ( this.health instanceof String )
 		{
@@ -163,7 +169,8 @@ public class MonsterData
 		if ( this.attack instanceof Integer )
 		{
 			int attack = ((Integer) this.attack).intValue();
-			return attack == 0 ? 0 : (int) Math.floor( Math.max( 1, attack + ML() ) * getBeeosity() );
+			return attack == 0 ? 0 : (int) Math.floor( Math.max( 1, attack + ML() ) *
+				 getBeeosity() + MonsterData.getBigness() );
 		}
 		if ( this.attack instanceof String )
 		{
@@ -199,7 +206,7 @@ public class MonsterData
 		{
 			int defense = ((Integer) this.defense).intValue();
 			return defense == 0 ? 0 : (int) Math.floor( Math.max( 1, defense + ML() ) * 
-					getBeeosity() * EquipmentManager.getDefenseModifier() );
+				 getBeeosity() * EquipmentManager.getDefenseModifier() + MonsterData.getBigness() );
 		}
 		if ( this.defense instanceof String )
 		{
