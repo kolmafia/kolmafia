@@ -6561,3 +6561,4 @@
 6544
 6545
 6546	big pants	923211152	yakpants.gif	pants	q	0
+6547	Thwaitgold Goliath beetle statuette	736316665	thwaitgoliath.gif	none		0
