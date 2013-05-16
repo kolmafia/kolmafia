@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,6 +65,7 @@ public class CoinMasterRequest
 	extends GenericRequest
 {
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	public static final Pattern ROW_PATTERN = Pattern.compile( "whichrow=(\\d+)" );
 	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	public static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
@@ -91,14 +93,21 @@ public class CoinMasterRequest
 	}
 
 	public CoinMasterRequest( final CoinmasterData data, final String action, final int itemId, final int quantity )
-	{
+	{		
 		this( data, action );
 
 		this.itemId = itemId;
 		String itemField = this.data.getItemField();
 		if ( itemField != null )
 		{
-			this.addFormField( itemField, String.valueOf( itemId ) );
+			if ( this.data.getRow( this.itemId ) != null )
+			{
+				this.addFormField( itemField, String.valueOf( this.data.getRow( this.itemId ) ) );
+			}
+			else
+			{
+				this.addFormField( itemField, String.valueOf( itemId ) );
+			}
 		}
 		this.setQuantity( quantity );
 	}
@@ -113,7 +122,7 @@ public class CoinMasterRequest
 		this( data, action, ar.getItemId(), ar.getCount() );
 	}
 
-	public void setQuantity( final int quantity )
+	public final void setQuantity( final int quantity )
 	{
 		this.quantity = quantity;
 		String countField = this.data.getCountField();
@@ -417,6 +426,18 @@ public class CoinMasterRequest
 		}
 
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		if ( data.getRows() != null )
+		{
+			// itemId above is actually the row
+			for ( Entry<String, Integer> entry : data.getRows().entrySet() )
+			{
+				if ( itemId == entry.getValue() )
+				{
+					// This is the actual itemId
+					itemId = ItemDatabase.getItemId( entry.getKey(), 1 );
+				}
+			}
+		}
 		String storageAction = data.getStorageAction();
 		boolean storage = storageAction != null && urlString.indexOf( storageAction ) != -1;
 
@@ -458,6 +479,18 @@ public class CoinMasterRequest
 		String storageAction = data.getStorageAction();
 		boolean storage = storageAction != null && urlString.indexOf( storageAction ) != -1;
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		if ( data.getRows() != null )
+		{
+			// itemId above is actually the row
+			for ( Entry<String, Integer> entry : data.getRows().entrySet() )
+			{
+				if ( itemId == entry.getValue() )
+				{
+					// This is the actual itemId
+					itemId = ItemDatabase.getItemId( entry.getKey(), 1 );
+				}
+			}
+		}
 		LockableListModel items = data.getBuyItems();
 		AdventureResult item = AdventureResult.findItem( itemId, items );
 		String name = item.getName();

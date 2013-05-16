@@ -66,7 +66,7 @@ public class CoinmastersDatabase
 	extends KoLDatabase
 {
 	// Map from Integer( itemId ) -> CoinMasterPurchaseRequest
-	public static final HashMap COINMASTER_ITEMS = new HashMap();
+	public static final HashMap<Integer, CoinMasterPurchaseRequest> COINMASTER_ITEMS = new HashMap<Integer, CoinMasterPurchaseRequest>();
 
 	// Map from String -> LockableListModel
 	public static final TreeMap items = new TreeMap();
@@ -75,10 +75,13 @@ public class CoinmastersDatabase
 	public static final TreeMap buyItems = new TreeMap();
 
 	// Map from String -> Map from String -> Integer
-	public static final TreeMap buyPrices = new TreeMap();
+	public static final TreeMap<String, Map<String, Integer>> buyPrices = new TreeMap<String, Map<String, Integer>>();
 
 	// Map from String -> Map from String -> Integer
-	public static final TreeMap sellPrices = new TreeMap();
+	public static final TreeMap<String, Map<String, Integer>> sellPrices = new TreeMap<String, Map<String, Integer>>();
+
+	// Map from String -> Map from String -> Integer
+	public static final TreeMap<String, Map<String, Integer>> itemRows = new TreeMap<String, Map<String, Integer>>();
 
 	public static final LockableListModel getItems( final String key )
 	{
@@ -100,14 +103,19 @@ public class CoinmastersDatabase
 		return (Map)CoinmastersDatabase.sellPrices.get( key );
 	}
 
+	public static final Map<String, Integer> getRows( final String key )
+	{
+		return CoinmastersDatabase.itemRows.get( key );
+	}
+
 	public static final LockableListModel getNewList()
 	{
 		return new LockableListModel();
 	}
 
-	public static final Map getNewMap()
+	public static final Map<String, Integer> getNewMap()
 	{
-		return new TreeMap();
+		return new TreeMap<String, Integer>();
 	}
 
 	private static final LockableListModel getOrMakeList( final String key, final Map map )
@@ -121,9 +129,9 @@ public class CoinmastersDatabase
 		return retval;
 	}
 
-	private static final Map getOrMakeMap( final String key, final Map map )
+	private static final Map<String, Integer> getOrMakeMap( final String key, final Map<String, Map<String, Integer>> map )
 	{
-		Map retval = (Map) map.get( key );
+		Map<String, Integer> retval = (Map<String, Integer>) map.get( key );
 		if ( retval == null )
 		{
 			retval = CoinmastersDatabase.getNewMap();
@@ -152,35 +160,39 @@ public class CoinmastersDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length == 2 )
+			if ( data.length < 4 )
 			{
-				String master = data[ 0 ];
-				String rname = data[ 1 ];
-				String name = StringUtilities.getCanonicalName( rname );
-				LockableListModel list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.items );
-				list.add( name );
+				continue;
 			}
-			else if ( data.length == 4 )
-			{
-				String master = data[ 0 ];
-				String type = data[ 1 ];
-				int price = StringUtilities.parseInt( data[ 2 ] );
-				Integer iprice = IntegerPool.get( price );
-				String rname = data[ 3 ];
-				String name = StringUtilities.getCanonicalName( rname );
-				AdventureResult item = new AdventureResult( name, PurchaseRequest.MAX_QUANTITY, false );
+			String master = data[ 0 ];
+			String type = data[ 1 ];
+			int price = StringUtilities.parseInt( data[ 2 ] );
+			Integer iprice = IntegerPool.get( price );
+			String rname = data[ 3 ];
+			String name = StringUtilities.getCanonicalName( rname );
+			AdventureResult item = new AdventureResult( name, PurchaseRequest.MAX_QUANTITY, false );
 
-				if ( type.equals( "buy" ) )
+			if ( type.equals( "buy" ) )
+			{
+				LockableListModel list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.buyItems );
+				Map map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.buyPrices );
+				list.add( item );
+				map.put( name, iprice );
+			}
+			else if ( type.equals( "sell" ) )
+			{
+				Map<String, Integer> map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.sellPrices );
+				map.put( name, iprice );
+			}
+			
+			Integer row = null;
+			if ( data.length > 4 )
+			{
+				if ( data[ 4 ].startsWith( "ROW" ) )
 				{
-					LockableListModel list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.buyItems );
-					Map map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.buyPrices );
-					list.add( item );
-					map.put( name, iprice );
-				}
-				else if ( type.equals( "sell" ) )
-				{
-					Map map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.sellPrices );
-					map.put( name, iprice );
+					row = IntegerPool.get( StringUtilities.parseInt( data[ 4 ].substring( 3 ) ) );
+					Map<String, Integer> rowMap = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.itemRows );
+					rowMap.put( name, row );
 				}
 			}
 		}
