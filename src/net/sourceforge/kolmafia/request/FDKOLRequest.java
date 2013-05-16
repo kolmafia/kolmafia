@@ -56,6 +56,7 @@ public class FDKOLRequest
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) FDKOL commendation" );
 	public static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( FDKOLRequest.master );
 	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( FDKOLRequest.master );
+	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( FDKOLRequest.master );
 
 	public static final CoinmasterData FDKOL =
 		new CoinmasterData(
@@ -76,7 +77,10 @@ public class FDKOLRequest
 			FDKOLRequest.buyItems,
 			FDKOLRequest.buyPrices,
 			null,
-			null
+			null,
+			null,
+			null,
+			FDKOLRequest.itemRows
 			);
 
 	public FDKOLRequest()

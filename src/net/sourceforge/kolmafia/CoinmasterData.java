@@ -81,6 +81,7 @@ public class CoinmasterData
 	private final String storageAction;
 	private final String tradeAllAction;
 	private final boolean canPurchase;
+	private final Map<String, Integer> itemRows;
 
 	public CoinmasterData( 
 		final String master,
@@ -103,7 +104,8 @@ public class CoinmasterData
 		final Map sellPrices,
 		final String storageAction,
 		final String tradeAllAction,
-		final boolean canPurchase )
+		final boolean canPurchase,
+		final Map<String, Integer> itemRows )
 	{
 		this.master = master;
 		this.requestClass = requestClass;
@@ -126,6 +128,7 @@ public class CoinmasterData
 		this.storageAction = storageAction;
 		this.tradeAllAction = tradeAllAction;
 		this.canPurchase = canPurchase;
+		this.itemRows = itemRows;
 
 		// Derived fields
 		this.plural = item != null ? ItemDatabase.getPluralName( token ) : token + "s";
@@ -151,7 +154,8 @@ public class CoinmasterData
 		final String sellAction,
 		final Map sellPrices,
 		final String storageAction,
-		final String tradeAllAction )
+		final String tradeAllAction,
+		final Map<String, Integer> itemRows )
 	{
 		this( master, requestClass, URL,
 		      token, tokenTest, positiveTest, tokenPattern,
@@ -160,7 +164,7 @@ public class CoinmasterData
 		      buyAction, buyItems, buyPrices,
 		      sellAction, sellPrices,
 		      storageAction, tradeAllAction,
-		      ( buyItems != null ) );
+		      ( buyItems != null ), itemRows );
 	}
 
 	public CoinmasterData( 
@@ -189,7 +193,7 @@ public class CoinmasterData
 		      itemField, itemPattern, countField, countPattern,
 		      buyAction, buyItems, buyPrices,
 		      sellAction, sellPrices,
-		      null, null );
+		      null, null, null );
 	}
 
 	public final String getMaster()
@@ -392,6 +396,22 @@ public class CoinmasterData
 	public final String getTradeAllAction()
 	{
 		return this.tradeAllAction;
+	}
+
+	public Map<String, Integer> getRows()
+	{
+		return this.itemRows;
+	}
+
+	public final Integer getRow( int itemId )
+	{
+		if ( this.itemRows == null )
+		{
+			return null;
+		}
+		String name = ItemDatabase.getCanonicalName( itemId );
+		Integer row = this.itemRows.get( name );
+		return row;
 	}
 
 	public void registerPurchaseRequests()

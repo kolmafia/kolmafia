@@ -83,7 +83,8 @@ public class Crimbo11Request
 			Crimbo11Request.sellPrices,
 			null,
 			null,
-			false
+			false,
+			null
 			);
 
 	public Crimbo11Request()
@@ -146,8 +147,6 @@ public class Crimbo11Request
 	{
 		Crimbo11Request.parseResponse( this.getURLString(), this.responseText );
 	}
-
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=whichitem value=([\\d]+)>.*?descitem.([\\d]+).*?<b>([^<&]*)(?:&nbsp;)*</td>.*?<b>([\\d,]+) credit</b>", Pattern.DOTALL );
 
 	// <b>Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td>Invalid gift selected.  Bah Humbug!</td></tr></table>
 	private static final Pattern FAILURE_PATTERN = Pattern.compile( "<b>Results:</b>.*?<table><tr><td>(.*?)</td></tr></table>", Pattern.DOTALL );

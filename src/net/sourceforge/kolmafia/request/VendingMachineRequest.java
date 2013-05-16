@@ -53,6 +53,7 @@ public class VendingMachineRequest
 
 	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( VendingMachineRequest.master );
 	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( VendingMachineRequest.master );
+	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( VendingMachineRequest.master );
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "(\\d+) fat loot token" );
 	public static final AdventureResult FAT_LOOT_TOKEN = ItemPool.get( ItemPool.FAT_LOOT_TOKEN, 1 );
 
@@ -67,15 +68,18 @@ public class VendingMachineRequest
 			VendingMachineRequest.TOKEN_PATTERN,
 			VendingMachineRequest.FAT_LOOT_TOKEN,
 			null,
-			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
+			"whichrow",
+			CoinMasterRequest.ROW_PATTERN,
 			"quantity",
 			CoinMasterRequest.QUANTITY_PATTERN,
 			"buyitem",
 			VendingMachineRequest.buyItems,
 			VendingMachineRequest.buyPrices,
 			null,
-			null
+			null,
+			null,
+			null,
+			VendingMachineRequest.itemRows
 			);
 
 	public VendingMachineRequest()

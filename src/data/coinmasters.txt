@@ -250,11 +250,13 @@ A. W. O. L. Quartermaster	buy	1	Ultrasoldier Serum
 A. W. O. L. Quartermaster	buy	5	Field Guide to Skeletal Anatomy
 A. W. O. L. Quartermaster	buy	20	mirrored aviator shades
 A. W. O. L. Quartermaster	buy	50	leather aviator's cap
-A. W. O. L. Quartermaster	buy	1	A. W. O. L. Tattoo #1	1
-A. W. O. L. Quartermaster	buy	10	A. W. O. L. Tattoo #2	2
-A. W. O. L. Quartermaster	buy	25	A. W. O. L. Tattoo #3	3
-A. W. O. L. Quartermaster	buy	50	A. W. O. L. Tattoo #4	4
-A. W. O. L. Quartermaster	buy	100	A. W. O. L. Tattoo #5	5
+# Special handling for these non-items was removed, so remove
+# the tabs to prevent them from being included
+# A. W. O. L. Quartermaster|buy|1  |A. W. O. L. Tattoo #1
+# A. W. O. L. Quartermaster|buy|10 |A. W. O. L. Tattoo #2
+# A. W. O. L. Quartermaster|buy|25 |A. W. O. L. Tattoo #3
+# A. W. O. L. Quartermaster|buy|50 |A. W. O. L. Tattoo #4
+# A. W. O. L. Quartermaster|buy|100|A. W. O. L. Tattoo #5
 
 # Things you can buy with lunar isotopes
 
@@ -284,23 +286,23 @@ Lunar Lunch-o-Mat	buy	10	1/6th Pound Cake
 
 # Things you can buy with yeti furs
 
-The Trapper	buy	1	yak skin
-The Trapper	buy	3	hippopotamus skin
-The Trapper	buy	5	penguin skin
+The Trapper	buy	1	yak skin	ROW14
+The Trapper	buy	3	hippopotamus skin	ROW15
+The Trapper	buy	5	penguin skin	ROW13
 
 # Things you can buy with fat loot tokens
 
-Vending Machine	buy	1	Boris's key
-Vending Machine	buy	1	Jarlsberg's key
-Vending Machine	buy	1	Sneaky Pete's key
-Vending Machine	buy	1	Boris's ring
-Vending Machine	buy	1	Jarlsberg's earring
-Vending Machine	buy	1	Sneaky Pete's breath spray
-Vending Machine	buy	1	potato sprout
-Vending Machine	buy	15	Spellbook: Walberg's Dim Bulb
-Vending Machine	buy	15	Spellbook: Singer's Faithful Ocelot
-Vending Machine	buy	15	Spellbook: Drescher's Annoying Noise
-Vending Machine	buy	27	dried gelatinous cube
+Vending Machine	buy	1	Boris's key	ROW93
+Vending Machine	buy	1	Jarlsberg's key	ROW94
+Vending Machine	buy	1	Sneaky Pete's key	ROW95
+Vending Machine	buy	1	Boris's ring	ROW96
+Vending Machine	buy	1	Jarlsberg's earring	ROW97
+Vending Machine	buy	1	Sneaky Pete's breath spray	ROW98
+Vending Machine	buy	1	potato sprout	ROW99
+Vending Machine	buy	15	Spellbook: Walberg's Dim Bulb	ROW101
+Vending Machine	buy	15	Spellbook: Singer's Faithful Ocelot	ROW102
+Vending Machine	buy	15	Spellbook: Drescher's Annoying Noise	ROW103
+Vending Machine	buy	27	dried gelatinous cube	ROW100
 
 # Things you can buy with fudgecules
 
@@ -522,10 +524,10 @@ Bugbear Token	buy	70	phase-tuned shield generator belt
 
 # Things you can buy with FDKOL commendations
 
-FDKOL Tent	buy	3	bottle of fire
-FDKOL Tent	buy	100	FDKOL tattoo
-FDKOL Tent	buy	500	fireman's helmet
-FDKOL Tent	buy	1500	fire axe
-FDKOL Tent	buy	1500	fire hose
-FDKOL Tent	buy	1500	enchanted fire extinguisher
-FDKOL Tent	buy	3500	Hjodor's Guide to Arctic Dalmatians
+FDKOL Tent	buy	3	bottle of fire	ROW12
+FDKOL Tent	buy	100	FDKOL tattoo	ROW3
+FDKOL Tent	buy	500	fireman's helmet	ROW4
+FDKOL Tent	buy	1500	fire axe	ROW7
+FDKOL Tent	buy	1500	fire hose	ROW11
+FDKOL Tent	buy	1500	enchanted fire extinguisher	ROW8
+FDKOL Tent	buy	3500	Hjodor's Guide to Arctic Dalmatians	ROW9
