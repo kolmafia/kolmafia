@@ -50,9 +50,9 @@ public class ReleaseNotes
 {
 	private static final File INPUT_LOCATION = new File( KoLConstants.ROOT_LOCATION, "history.txt" );
 	private static final File OUTPUT_LOCATION = new File( KoLConstants.ROOT_LOCATION, "release.txt" );
-	private static final String VIEW_REVISION_ROOT = "http://kolmafia.svn.sourceforge.net/viewvc/kolmafia?view=rev&revision=";
+	private static final String VIEW_REVISION_ROOT = "https://sourceforge.net/p/kolmafia/code/";
 
-	private	 static final Pattern REVISION_PATTERN = Pattern.compile( "r(\\d+)" ); 
+	private static final Pattern REVISION_PATTERN = Pattern.compile( "r(\\d+)" ); 
 
 	public static void main( String [] args )
 		throws Exception

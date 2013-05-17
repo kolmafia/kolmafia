@@ -634,7 +634,7 @@ Staff of Queso Escusado	10	Mys: 0	1-handed chefstaff
 Staff of Simmering Hatred	10	Mys: 125	1-handed chefstaff
 Staff of the All-Steak	10	Mys: 50	1-handed chefstaff
 Staff of the Black Kettle	10	Mys: 75	1-handed chefstaff
-Staff of the Cozy Fish	200	Mys: 85	2-handed chefstaff
+Staff of the Cozy Fish	10	Mys: 85	2-handed chefstaff
 Staff of the Cream of the Cream	10	Mys: 50	1-handed chefstaff
 Staff of the Deepest Freeze	10	Mys: 200	1-handed chefstaff
 Staff of the Grand Flamb&eacute;	10	Mys: 125	1-handed chefstaff
@@ -1152,9 +1152,9 @@ Loathing Legion moondial	0	none
 Loathing Legion pizza stone	100	none	shield
 Loathing Legion tape measure	0	none
 Medallion of the Ventrilo Prince	0	none
-Mer-kin begsign	0	Mus: 85
+Mer-kin begsign	200	Mus: 85
 Mer-kin roundshield	215	Mus: 85	shield
-Mer-kin stopwatch	0	Mys: 85
+Mer-kin stopwatch	200	Mys: 85
 Mer-kin takebag	200	Mys: 85
 Microplushie: Bropane	5	none
 Microplushie: Dorkonide	5	none
@@ -1263,7 +1263,7 @@ foon of foulness	50	Mys: 10
 foon of frigidity	50	Mys: 10
 foon of fulmination	50	Mys: 10
 giant clay ashtray	60	none	shield
-giant penguin keychain	0	Mus: 62	shield
+giant penguin keychain	155	Mus: 62	shield
 giant stuffed bugbear	10	none
 glass gnoll eye	35	Mys: 2
 glow-in-the-dark stuffed burrowgrub	0	none
@@ -1520,9 +1520,9 @@ Mafia stogie	0	Mys: 35
 MagiMechTech NanoMechaMech	60	Mys: 15
 Marvelous Unitard	10	none
 Mega Gem	10	none
-Mer-kin dragbelt	0	Mus: 85
-Mer-kin eyeglasses	0	Mys: 85
-Mer-kin gutgirdle	0	Mox: 85
+Mer-kin dragbelt	200	Mus: 85
+Mer-kin eyeglasses	200	Mys: 85
+Mer-kin gutgirdle	200	Mox: 85
 Mer-kin prayerbeads	200	Mys: 85
 Mer-kin thighguard	0	Mys: 85
 Mer-kin waistrope	0	Mys: 85
@@ -1538,7 +1538,7 @@ Mudflap-Girl Necklace	150	Mys: 60
 Mudflap-Girl Ring	150	Mys: 60
 Nickel Gamma of Frugality	200	Mys: 85
 Nose Ring of Putrescence	150	Mys: 60
-Novelty Belt Buckle of Violence	0	Mys: 125
+Novelty Belt Buckle of Violence	200	Mys: 125
 Ol' Scratch's manacles	200	Mys: 200
 Orange Star of Sacrifice	200	Mys: 85
 Order of the Silver Wossname	200	Mys: 85
@@ -1799,8 +1799,8 @@ papier-masque	100	Mys: 20
 pat-a-cake pendant	10	none
 patent leather shoes	30	none
 peace-sign necklace	70	Mys: 20
-pearl diver's necklace	0	Mys: 85
-pearl diver's ring	0	Mys: 85
+pearl diver's necklace	200	Mys: 85
+pearl diver's ring	200	Mys: 85
 phase-tuned shield generator belt	75	Mys: 22
 phat turquoise bracelet	70	Mys: 20
 pig-iron bracers	90	Mys: 30
@@ -1915,7 +1915,7 @@ time halo	50	none
 tin star	60	Mys: 15
 tiny plastic 11 Dealer	0	none
 tiny plastic 7-foot dwarf	10	none
-tiny plastic Ancient Unspeakable Bugbear	0	none
+tiny plastic Ancient Unspeakable Bugbear	10	none
 tiny plastic Axe Wound	10	none
 tiny plastic Baron von Ratsworth	30	none
 tiny plastic Battlesuit Bugbear Type	0	none
@@ -1986,14 +1986,14 @@ tiny plastic accordion thief	20	none
 tiny plastic ancient yuletide troll	10	none
 tiny plastic angry bugbear	10	none
 tiny plastic angry goat	10	none
-tiny plastic angry space marine	0	none
+tiny plastic angry space marine	10	none
 tiny plastic anime smiley	10	none
 tiny plastic animelf	0	none
 tiny plastic apathetic lizardman	10	none
 tiny plastic astronomer	10	none
 tiny plastic baby gravy fairy	10	none
 tiny plastic barrrnacle	10	none
-tiny plastic batbugbear	0	none
+tiny plastic batbugbear	10	none
 tiny plastic beanbat	10	none
 tiny plastic bee swarm	0	none
 tiny plastic beebee gunners	0	none
@@ -2006,7 +2006,7 @@ tiny plastic blooper	10	none
 tiny plastic brainsweeper	10	none
 tiny plastic briefcase bat	10	none
 tiny plastic bugaboo	10	none
-tiny plastic buzzerker	0	none
+tiny plastic buzzerker	10	none
 tiny plastic cavebugbear	0	none
 tiny plastic chunk of depleted Grimacite	0	none
 tiny plastic cocoabo	10	none
