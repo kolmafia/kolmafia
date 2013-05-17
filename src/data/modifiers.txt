@@ -3552,6 +3552,7 @@ Nanobrawny	Muscle Percent: +25, Weapon Damage: +10, HP Regen Min: 4, HP Regen Ma
 Natural 1	Initiative: -100
 Natural 20	Initiative: +100
 # Nerf'd: Less powerful than you were before
+Net Gain	Muscle Percent: +100
 Nettled	Moxie Percent: -300
 Neuromancy	Mysticality Percent: +10
 Neutered Nostrils	Stench Resistance: +2
