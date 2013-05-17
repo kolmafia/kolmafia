@@ -1209,7 +1209,7 @@
 1208
 1209	Hairless and Airless	straightrazor.gif	edaf797fe4b12d4c164629ca854e9c8e	use 1 shavin' razor
 1210	Eyes of the Dragon	bigeyes.gif	65576acd816de24deaa2c8d48c31ea88
-1211
+1211	Net Gain	dragnet.gif	6c9296073a4f5090b6add60d7a84bb20
 1212	Blade Rolling	switchblade.gif	9b41cb448428318c86e50025c9a40d66
 1213
 1214
@@ -1235,7 +1235,7 @@
 1234	Purple Reign	taffy6.gif	a860fef0fe00c90cca8c5d5e0024e31f	use 1 pulled violet taffy
 1235	Cinnamon Challenger	taffy7.gif	49df339b1c0346553b3e69368dfd3a7d	use 1 pulled red taffy
 1236
-1237	Jelly Combed combjelly.gif	3a4cd090a1a0fec11fa6672c8b47e9d3	use 1 comb jelly
+1237	Jelly Combed	combjelly.gif	3a4cd090a1a0fec11fa6672c8b47e9d3	use 1 comb jelly
 1238	Salt Rockin'	saltcandy1.gif	b89588b60e0ffb11398866ec60a1619f	use 1 Mer-kin rocksalt
 1239	Electrolit Up	saltcandy2.gif	2d849719afa8f60a3ac5164fde088d1a	use 1 Mer-kin saltmint
 1240	Twenty-three Squid, Ew	saltcandy3.gif	1b3d4b9543e28a968ef7a6db3ad5f905	use 1 Mer-kin saltsquid
