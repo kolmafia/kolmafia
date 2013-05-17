@@ -6185,7 +6185,7 @@
 6168	Bloodbath	788202773	bloodbath.gif	weapon		0
 6169	Hundred Headed IPA	230929468	beerbottle.gif	drink	t,d	75
 6170	old chum	985900785	gooball.gif	food	t,d	25	chunks of old chum
-6171	crude crudit&eacute;s	929056652	crudites.gif	usable	t,d	0
+6171	crude crudit&eacute;s	929056652	crudites.gif	usable	t,d	5
 6172	candy crayons	790925279	candycrayons.gif	usable	t	0
 6173	pixel grappling hook	879455617	pixelhook.gif	offhand	t	0
 6174	GameInformPowerDailyPro magazine	132572233	gamemag.gif	usable	t,d	10	issues of GameInformPowerDailyPro magazine
@@ -6321,10 +6321,10 @@
 6304	Jarlsberg's pan (Cosmic portal mode)	642644188	path12icon.gif	offhand	t	0
 6305	Jarlsberg's pan	908839142	jarl_fry.gif	offhand	t	0
 6306	Cosmic Calorie	986883912	cosmiccalorie.gif	multiple		0	Cosmic Calories
-6307	celestial olive oil	239737905	potion20.gif	usable	t,d	0
-6308	celestial carrot juice	322513561	potion19.gif	usable	t,d	0
-6309	celestial au jus	897507910	potion22.gif	usable	t,d	0
-6310	celestial squid ink	809451164	potion21.gif	usable	t,d	0
+6307	celestial olive oil	239737905	potion20.gif	usable	t	0
+6308	celestial carrot juice	322513561	potion19.gif	usable	t	0
+6309	celestial au jus	897507910	potion22.gif	usable	t	0
+6310	celestial squid ink	809451164	potion21.gif	usable	t	0
 6311
 6312	crate of fish meat	421662304	crate.gif	usable		0	crates of fish meat
 6313	damp old wallet	841851551	wallet.gif	usable		0	damp old wallets
@@ -6347,8 +6347,8 @@
 6330	fish stick cozy	515495032	cozy3.gif	usable	t,d	120	fish stick cozies
 6331	bazooka cozy	739603289	cozy2.gif	usable	t,d	120	bazooka cozies
 6332	cozy scimitar	226545056	cozy1.gif	weapon		0	cozy scimitars
-6333	Staff of the Cozy Fish	346806912	cozy3.gif	weapon		0	Staves of the Cozy Fish
-6334	cozy bazooka	294195784	cozy2.gif	weapon		0	cozy bazookas
+6333	Staff of the Cozy Fish	346806912	cozy3.gif	weapon	d	190	Staves of the Cozy Fish
+6334	cozy bazooka	294195784	cozy2.gif	weapon	d	250	cozy bazookas
 6335	sea mantle	254098025	seaback1.gif	container	d	150	sea mantles
 6336	sea shawl	509681026	seaback2.gif	container	d	150	sea shawls
 6337	sea cape	584242832	seaback3.gif	container	d	150	sea capes

@@ -109,33 +109,33 @@ cocktail onion	1	2	decent	2	0	0	0
 cocoa eggshell fragment	1	1	crappy	1	0	0	0
 cold hi mein	5	7	awesome	21-28	71-75	30-35	15-20	5 Cold Breath (combat skill)
 congratulatory cake	3	1	crappy	3	0	0	0
-consummate toast	2	0	decent	3	10-20	20-30	0
-consummate bacon	3	0	decent	4-5	10-20	20-30	0
-consummate fried egg	3	0	decent	4-5	10-20	20-30	0
-consummate bagel	4	0	decent	5-7	10-20	20-30	0
-consummate cheese slice	2	0	decent	3	5-10	20-30	5-10
-consummate corn chips	2	0	decent	3	5-10	20-30	5-10
-consummate salsa	2	0	decent	3	5-10	20-30	5-10
-consummate whipped cream	2	0	decent	3	5-10	20-30	5-10
-consummate brownie	3	0	decent	4-5	5-10	20-30	5-10
-consummate cold cuts	3	0	decent	4-5	5-10	20-30	5-10
-consummate egg salad	3	0	decent	4-5	5-10	20-30	5-10
-consummate frankfurter	3	0	decent	4-5	5-10	20-30	5-10
-consummate hard-boiled egg	3	0	decent	4-5	5-10	20-30	5-10
-consummate hot dog bun	3	0	decent	4-5	5-10	20-30	5-10
-consummate ice cream	3	0	decent	4-5	5-10	20-30	5-10
-consummate salad	3	0	decent	4-5	5-10	20-30	5-10
-consummate sliced bread	3	0	decent	4-5	5-10	20-30	5-10
-consummate sorbet	3	0	decent	4-5	5-10	20-30	5-10
-consummate strawberries	3	0	decent	4-5	5-10	20-30	5-10
-consummate melted cheese	4	0	decent	5-7	5-10	20-30	5-10
-consummate sauerkraut	1	0	crappy	1	0	20-30	10-20
-consummate sour cream	1	0	crappy	1	0	20-30	10-20
-consummate french fries	3	0	decent	4-5	0	20-30	10-20
-consummate baked potato	4	0	decent	5-7	0	20-30	10-20
-consummate soup	4	0	decent	5-7	0	20-30	10-20
-consummate steak	4	0	decent	5-7	0	20-30	10-20
-consummate meatloaf	5	0	decent	7-8	0	20-30	10-20
+consummate toast	2	1	decent	3	10-20	20-30	0
+consummate bacon	3	1	decent	4-5	10-20	20-30	0
+consummate fried egg	3	1	decent	4-5	10-20	20-30	0
+consummate bagel	4	1	decent	5-7	10-20	20-30	0
+consummate cheese slice	2	1	decent	3	5-10	20-30	5-10
+consummate corn chips	2	1	decent	3	5-10	20-30	5-10
+consummate salsa	2	1	decent	3	5-10	20-30	5-10
+consummate whipped cream	2	1	decent	3	5-10	20-30	5-10
+consummate brownie	3	1	decent	4-5	5-10	20-30	5-10
+consummate cold cuts	3	1	decent	4-5	5-10	20-30	5-10
+consummate egg salad	3	1	decent	4-5	5-10	20-30	5-10
+consummate frankfurter	3	1	decent	4-5	5-10	20-30	5-10
+consummate hard-boiled egg	3	1	decent	4-5	5-10	20-30	5-10
+consummate hot dog bun	3	1	decent	4-5	5-10	20-30	5-10
+consummate ice cream	3	1	decent	4-5	5-10	20-30	5-10
+consummate salad	3	1	decent	4-5	5-10	20-30	5-10
+consummate sliced bread	3	1	decent	4-5	5-10	20-30	5-10
+consummate sorbet	3	1	decent	4-5	5-10	20-30	5-10
+consummate strawberries	3	1	decent	4-5	5-10	20-30	5-10
+consummate melted cheese	4	1	decent	5-7	5-10	20-30	5-10
+consummate sauerkraut	1	1	crappy	1	0	20-30	10-20
+consummate sour cream	1	1	crappy	1	0	20-30	10-20
+consummate french fries	3	1	decent	4-5	0	20-30	10-20
+consummate baked potato	4	1	decent	5-7	0	20-30	10-20
+consummate soup	4	1	decent	5-7	0	20-30	10-20
+consummate steak	4	1	decent	5-7	0	20-30	10-20
+consummate meatloaf	5	1	decent	7-8	0	20-30	10-20
 cool cat claw	1	4	awesome	3-5	0	0	45-75	30 Feline Ferocity (+100% weapon dmg)
 cool jelly donut	1	4	awesome	3-5	0	0	40-60	30 Filled With Magic (+100% spell dmg)
 cool mushroom	2	1	decent	2-3	0	12-15	0
@@ -157,7 +157,7 @@ cupcake-in-a-cup	2	7	awesome	4-9	5-10	15-20	5-10	10 Cake Caked (+50% mys)
 cursed black pearl onion	1	1	crappy	1	0	0	0
 cursed sea biscuit	3	3	good	6-11	0	0	0	10 Curse Magnet
 dead lights pie	2	2	awesome	7-9	5-10	20-40	5-10
-deat meat bun	3	4	decent	5	10	0	0
+dead meat bun	3	4	decent	5	10	0	0
 decent brain	1	1	decent	2	3-5	3-5	3-5
 dehydrated caviar	1	2	decent	2	0	0	15
 delicious noodles	3	3	good	6-9	0	0	9-25
@@ -288,10 +288,10 @@ hot wing	1	1	crappy	1	0	2-5	0
 humpty dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12
 igloo pie	2	2	awesome	7-9	15-20	15-20	5-10
-immaculate egg salad sandwich	4	0	decent	7-9	5-10	30-40	5-10
-immaculate grilled cheese	4	0	decent	7-9	0	30-40	10-20
-immaculate hot dog	4	0	decent	7-9	5-10	30-40	5-10
-immaculate ice cream sandwich	4	0	decent	7-9	5-10	30-40	5-10
+immaculate egg salad sandwich	4	1	decent	7-9	5-10	30-40	5-10
+immaculate grilled cheese	4	1	decent	7-9	0	30-40	10-20
+immaculate hot dog	4	1	decent	7-9	5-10	30-40	5-10
+immaculate ice cream sandwich	4	1	decent	7-9	5-10	30-40	5-10
 incredible pizza	4	9	awesome	12-16	20-30	20-30	20-30
 insanely spicy bean burrito	3	4	awesome	7-14	27-32	0	0
 insanely spicy enchanted bean burrito	3	5	awesome	8-15	0	28-32	0	Chronic Indigestion skill
@@ -338,7 +338,7 @@ lihc eye pie	4	2	decent	5-12	0	11-12	0	5 Eye of the Lihc (+1 spooky res)
 lime	1	2	decent	2	0	0	0
 liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
-Loaded Baked Potato	7	0	EPIC	32-38	0	50-60	30-40
+Loaded Baked Potato	7	1	EPIC	32-38	0	50-60	30-40
 lobster <i>qua</i> grill	2	5	good	4-8	0	0	46-49
 long pork casserole	3	9	awesome	8-15	0	37-51	0
 long pork chop sandwiches	2	8	good	3-9	0	25-35	0
@@ -382,7 +382,7 @@ old chum	2	13	good	4-6	5-10	5-10	5-10	10 Fishy
 olive	1	1	crappy	1	0	0	0
 olive lo mein	3	6	awesome	9-16	10-14	0	10-14
 olive stir-fry	1	3	good	1-5	3-5	0	2-4
-Omega Sundae	7	0	EPIC	32-38	20-30	50-60	20-30
+Omega Sundae	7	1	EPIC	32-38	20-30	50-60	20-30
 orange	1	1	crappy	1	0	0	0
 orange popsicle	1	1	decent	2	0	0	0
 overcookie	1	3	decent	2	3-5	3-5	3-5
@@ -401,9 +401,9 @@ pear tart	3	7	awesome	8-14	0	25-45	0
 peche a la frog	3	1		3-4	0	0	0
 penguin focaccia bread	7	1	good	18-24	21-38	21-38	21-38
 peppermint patty	2	2	EPIC	9-12	10-20	10-20	10-20
-perfect breakfast	5	0	good	14-16	20-30	40-50	0
-perfect chef salad	5	0	good	14-16	10-20	40-50	10-20
-perfect sandwich	5	0	good	14-16	10-20	40-50	10-20
+perfect breakfast	5	1	good	14-16	20-30	40-50	0
+perfect chef salad	5	1	good	14-16	10-20	40-50	10-20
+perfect sandwich	5	1	good	14-16	10-20	40-50	10-20
 personalized birthday cake	3	1	crappy	3	0	0	0
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
 phish stick	1	1	awesome	4-5	20-55	20-55	20-55
@@ -532,9 +532,9 @@ strawberry pie	3	2	decent	3-9	0	0	8-10
 strawberry popsicle	1	1	decent	2	0	0	0
 stuffed spooky mushroom	3	1	decent	3-9	0	0	0
 stunt nuts	2	1	decent	2-3	8-10	0	0
-sublime deluxe hot dog	6	0	awesome	22-26	10-20	40-50	10-20
-sublime nachos	6	0	awesome	22-26	10-20	40-50	10-20
-sublime stew	6	0	awesome	22-26	0	40-50	20-30
+sublime deluxe hot dog	6	1	awesome	22-26	10-20	40-50	10-20
+sublime nachos	6	1	awesome	22-26	10-20	40-50	10-20
+sublime stew	6	1	awesome	22-26	0	40-50	20-30
 suddenly salad!	5	1	EPIC	60-80	0	220-400	0
 sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
 super ka-bob	3	11	awesome	12-15	30-38	0	0
@@ -580,7 +580,7 @@ tube of cranberry go-goo	3	1	awesome	8-14	0	0	31-34
 turnip and rutabaga pie	5	1	good	12-13	0	0	0	30 Healthy, Elfy, and Wise
 turtle soup	1	2	good	2-3	9-15	0	0	10 A Little Bit Evil (+2 ML), 10 Souper Vengeful (+3 lbs)
 twigs and gravel	3	1		3-6	5-6	5-6	5-6
-Ultimate Breakfast Sandwich	7	0	EPIC	32-38	30-40	50-60	0
+Ultimate Breakfast Sandwich	7	1	EPIC	32-38	30-40	50-60	0
 ultrafondue	3	5	awesome	13-16	15-20	15-20	15-20	30 Fondid (+15 ML)
 uncooked chorizo	1	1	crappy	1	-5	0	0
 unfortunate dumplings	3	1	crappy	0	0	0	0	20 Really Quite Poisoned
