@@ -411,17 +411,23 @@ public class CharPaneDecorator
 			return buffer;
 
 		case FamiliarPool.BANDER:
-			buffer.append( Preferences.getString( "_banderRunaways" ) );
-			buffer.append( "/" );
-			buffer.append( String.valueOf( familiar.getModifiedWeight() / 5 ) );
+			if ( !KoLCharacter.inBigcore() )
+			{
+				buffer.append( Preferences.getString( "_banderRunaways" ) );
+				buffer.append( "/" );
+				buffer.append( String.valueOf( familiar.getModifiedWeight() / 5 ) );
+			}
 			return buffer;
 
 		case FamiliarPool.BOOTS:
-			buffer.append( Preferences.getString( "_banderRunaways" ) );
-			buffer.append( "/" );
-			buffer.append( String.valueOf( familiar.getModifiedWeight() / 5 ) );
-			buffer.append( " runs" );
-			buffer.append( "<br>" );
+			if ( !KoLCharacter.inBigcore() )
+			{
+				buffer.append( Preferences.getString( "_banderRunaways" ) );
+				buffer.append( "/" );
+				buffer.append( String.valueOf( familiar.getModifiedWeight() / 5 ) );
+				buffer.append( " runs" );
+				buffer.append( "<br>" );
+			}
 			buffer.append( Preferences.getString( "_bootStomps" ) );
 			buffer.append( "/7 " );
 			buffer.append( " stomp" );
