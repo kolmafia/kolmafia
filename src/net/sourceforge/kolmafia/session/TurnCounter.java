@@ -122,7 +122,7 @@ public class TurnCounter
 
 		if ( this.exemptions != null && this.exemptions.size() == 1 )
 		{	// Exactly one exempt location
-			String loc = (String) this.exemptions.iterator().next();
+			String loc = this.exemptions.iterator().next();
 			return "adventure.php?snarfblat=" + loc;
 		}
 
@@ -146,11 +146,11 @@ public class TurnCounter
 
 	public static int turnsRemaining( final String label )
 	{
-		Iterator it = TurnCounter.relayCounters.iterator();
+		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			TurnCounter current = (TurnCounter) it.next();
+			TurnCounter current = it.next();
 			if ( current.parsedLabel.equals( label ) )
 			{
 				return current.value - KoLCharacter.getCurrentRun();
@@ -221,11 +221,11 @@ public class TurnCounter
 	public static final void saveCounters()
 	{
 		StringBuilder counters = new StringBuilder();
-		Iterator it = TurnCounter.relayCounters.iterator();
+		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			TurnCounter current = (TurnCounter) it.next();
+			TurnCounter current = it.next();
 
 			if ( counters.length() > 0 )
 			{
@@ -274,11 +274,11 @@ public class TurnCounter
 		int thisTurn = KoLCharacter.getCurrentRun();
 		int currentTurns = thisTurn + turnsUsed - 1;
 
-		Iterator it = TurnCounter.relayCounters.iterator();
+		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			TurnCounter current = (TurnCounter) it.next();
+			TurnCounter current = it.next();
 
 			if ( current.value > currentTurns ||
 				current.lastWarned == thisTurn ||
@@ -293,7 +293,7 @@ public class TurnCounter
 				continue;
 			}
 
-			if ( current.value <= thisTurn )
+			if ( current.value < thisTurn )
 			{
 				it.remove();
 			}
@@ -310,11 +310,11 @@ public class TurnCounter
 		int currentTurns = KoLCharacter.getCurrentRun();
 
 		StringBuilder counters = new StringBuilder();
-		Iterator it = TurnCounter.relayCounters.iterator();
+		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			TurnCounter current = (TurnCounter) it.next();
+			TurnCounter current = it.next();
 
 			if ( current.value < currentTurns )
 			{	// Can't remove the counter - a counterScript may still
@@ -358,11 +358,11 @@ public class TurnCounter
 
 	public static final void stopCounting( final String label )
 	{
-		Iterator it = TurnCounter.relayCounters.iterator();
+		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			TurnCounter current = (TurnCounter) it.next();
+			TurnCounter current = it.next();
 			if ( current.parsedLabel.equals( label ) )
 			{
 				it.remove();
@@ -376,11 +376,11 @@ public class TurnCounter
 	{
 		int searchValue = KoLCharacter.getCurrentRun() + value;
 
-		Iterator it = TurnCounter.relayCounters.iterator();
+		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			TurnCounter current = (TurnCounter) it.next();
+			TurnCounter current = it.next();
 			if ( current.parsedLabel.equals( label ) && current.value == searchValue )
 			{
 				return true;
@@ -392,11 +392,11 @@ public class TurnCounter
 
 	public static final boolean isCounting( final String label )
 	{
-		Iterator it = TurnCounter.relayCounters.iterator();
+		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			TurnCounter current = (TurnCounter) it.next();
+			TurnCounter current = it.next();
 			if ( current.parsedLabel.equals( label ) )
 			{
 				return true;
@@ -413,11 +413,11 @@ public class TurnCounter
 		minTurns += KoLCharacter.getCurrentRun();
 		maxTurns += KoLCharacter.getCurrentRun();
 		StringBuilder buf = new StringBuilder();
-		Iterator it = TurnCounter.relayCounters.iterator();
+		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
-			TurnCounter current = (TurnCounter) it.next();
+			TurnCounter current = it.next();
 			if ( current.value < minTurns || current.value > maxTurns )
 			{
 				continue;
@@ -532,7 +532,7 @@ public class TurnCounter
 
 	public static final void deleteByHash( final int hash )
 	{
-		Iterator it = TurnCounter.relayCounters.iterator();
+		Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
 
 		while ( it.hasNext() )
 		{
@@ -550,7 +550,7 @@ public class TurnCounter
 		return TurnCounter.relayCounters.size();
 	}
 
-	public static final Iterator iterator()
+	public static final Iterator<TurnCounter> iterator()
 	{
 		Collections.sort( TurnCounter.relayCounters );
 		return TurnCounter.relayCounters.iterator();
