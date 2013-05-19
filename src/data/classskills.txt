@@ -378,15 +378,15 @@
 7082	Point at your opponent	5	0	0
 7083	Apprivoisez la tortue	5	3	0
 7084
-7085
-7086
-7087
-7088
-7089
-7090
-7091
-7092
-7093
+7085	Ball Bust	5	0	0
+7086	Ball Sweat	5	0	0
+7087	Ball Sack	5	0	0
+7088	Net Gain	5	0	0
+7089	Net Loss	5	0	0
+7090	Net Neutrality	5	0	0
+7091	Blade Sling	5	0	0
+7092	Blade Roller	5	0	0
+7093	Blade Runner	5	0	0
 7094	Static Shock	5	0	0
 7095	Give Your Opponent the Stinkeye	5	0	0
 7096	Bashing Slam Smash	5	15	0
@@ -432,7 +432,26 @@
 7136	I Can Bearly Hear You Over the Applause	5	0	0
 7137	Unleash Nanites	5	0	0
 7138
-7139	Haggis Kick	5	1	0
+7139	Haggis Kick	5	3	0
+7140	Play Hog Fiddle	5	0	0
+7141
+7142
+7143
+7144
+7145
+7146
+7147
+7148
+7149
+7150
+7151	Stomp Ass	5	0	0
+7152	Brand	5	0	0
+7153	Violent Gaze	5	0	0
+7154	Mosh	5	0	0
+7155	Chilling Grip	5	0	0
+7156	Static Shock	5	0	0
+7157	Hateful Gaze	5	0	0
+7158	Tighten Girdle	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

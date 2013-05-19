@@ -423,6 +423,30 @@ public class EquipmentManager
 		case ItemPool.PLASTIC_VAMPIRE_FANGS:
 			KoLCharacter.addAvailableSkill( "Feed" );
 			break;
+		case ItemPool.VIOLENCE_LENS:
+			KoLCharacter.addAvailableSkill( "Violent Gaze" );
+			break;
+		case ItemPool.VIOLENCE_BRAND:
+			KoLCharacter.addAvailableSkill( "Brand" );
+			break;
+		case ItemPool.VIOLENCE_PANTS:
+			KoLCharacter.addAvailableSkill( "Mosh" );
+			break;
+		case ItemPool.VIOLENCE_STOMPERS:
+			KoLCharacter.addAvailableSkill( "Stomp Ass" );
+			break;
+		case ItemPool.HATRED_LENS:
+			KoLCharacter.addAvailableSkill( "Hateful Gaze" );
+			break;
+		case ItemPool.HATRED_STONE:
+			KoLCharacter.addAvailableSkill( "Chilling Grip" );
+			break;
+		case ItemPool.HATRED_PANTS:
+			KoLCharacter.addAvailableSkill( "Static Shock" );
+			break;
+		case ItemPool.HATRED_GIRDLE:
+			KoLCharacter.addAvailableSkill( "Tighten Girdle" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,
