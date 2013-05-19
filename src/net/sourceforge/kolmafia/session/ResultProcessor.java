@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1700,6 +1701,10 @@ public class ResultProcessor
 
 		case ItemPool.COBBS_KNOB_MAP:
 			QuestDatabase.setQuestProgress( Quest.GOBLIN, QuestDatabase.STARTED );
+			break;
+
+		case ItemPool.MERKIN_LOCKKEY:
+			Preferences.setString( "merkinLockkeyMonster", MonsterStatusTracker.getLastMonsterName() );
 			break;
 
 		}

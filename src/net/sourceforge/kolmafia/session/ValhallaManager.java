@@ -440,6 +440,7 @@ public class ValhallaManager
 		Preferences.setBoolean( "pyramidBombUsed", false );
 		Preferences.setInteger( "jungCharge", 0 );
 		Preferences.setInteger( "lastCouncilVisit", 0 );
+		Preferences.setString( "merkinLockkeyMonster", "" );
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
 		AdventureQueueDatabase.resetQueue();
