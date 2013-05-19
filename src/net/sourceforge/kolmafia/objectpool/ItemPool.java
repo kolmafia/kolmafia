@@ -1107,6 +1107,14 @@ public class ItemPool
 	public static final int UNDERWORLD_ACORN = 4274;
 	public static final int CRYSTAL_ORB = 4295;
 	public static final int DEPLETED_URANIUM_SEAL = 4296;
+	public static final int VIOLENCE_LENS = 4300;
+	public static final int VIOLENCE_BRAND = 4298;
+	public static final int VIOLENCE_PANTS = 4302;
+	public static final int VIOLENCE_STOMPERS = 4297;
+	public static final int HATRED_LENS = 4308;
+	public static final int HATRED_STONE = 4303;
+	public static final int HATRED_PANTS = 4306;
+	public static final int HATRED_GIRDLE = 4304;
 	public static final int SLEDGEHAMMER_OF_THE_VAELKYR = 4316;
 	public static final int FLAIL_OF_THE_SEVEN_ASPECTS = 4317;
 	public static final int WRATH_OF_THE_PASTALORDS = 4318;
