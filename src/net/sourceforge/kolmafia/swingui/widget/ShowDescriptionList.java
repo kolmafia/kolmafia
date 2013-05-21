@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -135,6 +136,12 @@ public class ShowDescriptionList
 			}
 
 			this.contextMenu.add( new ContextMenuItem( "Wiki description", new WikiLookupRunnable() ) );
+		}
+
+		if ( displayModel == MallSearchFrame.results )
+		{
+			this.contextMenu.add( new JSeparator() );
+			this.contextMenu.add( new ContextMenuItem( "Go To Store...", new StoreLookupRunnable() ) );
 		}
 
 		if ( displayModel == KoLConstants.activeEffects )
@@ -387,6 +394,15 @@ public class ShowDescriptionList
 		}
 	}
 
+	public static void showMallStore( Object item )
+	{
+		if ( item instanceof PurchaseRequest )
+		{
+			RelayLoader.openSystemBrowser( "mallstore.php?whichstore=" +
+				( (PurchaseRequest) item ).getFormField( "whichstore" ) );
+		}
+	}
+
 	private class ContextMenuItem
 		extends ThreadedMenuItem
 	{
@@ -447,6 +463,16 @@ public class ShowDescriptionList
 		public void executeAction()
 		{
 			ShowDescriptionList.showWikiDescription( this.item );
+		}
+	}
+
+	public class StoreLookupRunnable
+		extends ContextMenuListener
+	{
+		@Override
+		protected void executeAction()
+		{
+			ShowDescriptionList.showMallStore( this.item );
 		}
 	}
 
