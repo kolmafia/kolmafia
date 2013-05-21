@@ -81,12 +81,13 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 public class MallSearchFrame
 	extends GenericPanelFrame
 {
+	public static SortedListModel results;
+
 	private static MallSearchFrame INSTANCE = null;
 	private static final SortedListModel pastSearches = new SortedListModel();
 
 	private boolean currentlySearching;
 	private boolean currentlyBuying;
-	private SortedListModel results;
 	private ShowDescriptionList resultsList;
 	private final MallSearchPanel mallSearch;
 
@@ -133,7 +134,7 @@ public class MallSearchFrame
 
 			this.forceSortingCheckBox = new JCheckBox();
 			this.limitPurchasesCheckBox = new JCheckBox();
-			MallSearchFrame.this.results = new SortedListModel();
+			MallSearchFrame.results = new SortedListModel();
 
 			JPanel checkBoxPanels = new JPanel();
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
@@ -200,7 +201,7 @@ public class MallSearchFrame
 			MallSearchFrame.this.currentlySearching = true;
 
 			MallSearchFrame.searchMall( new MallSearchRequest(
-				searchText, searchCount, MallSearchFrame.this.results, false ) );
+				searchText, searchCount, MallSearchFrame.results, false ) );
 
 			MallSearchFrame.this.currentlySearching = false;
 
@@ -251,7 +252,7 @@ public class MallSearchFrame
 			MallSearchFrame.this.currentlyBuying = true;
 
 			SpecialOutfit.createImplicitCheckpoint();
-			KoLmafia.makePurchases( MallSearchFrame.this.results, purchases, count, false );
+			KoLmafia.makePurchases( MallSearchFrame.results, purchases, count, false );
 			SpecialOutfit.restoreImplicitCheckpoint();
 
 			MallSearchFrame.this.currentlyBuying = false;
@@ -265,8 +266,8 @@ public class MallSearchFrame
 			KoLmafiaGUI.constructFrame( "MallSearchFrame" );
 		}
 
-		MallSearchFrame.INSTANCE.results.clear();
-		request.setResults( MallSearchFrame.INSTANCE.results );
+		MallSearchFrame.results.clear();
+		request.setResults( MallSearchFrame.results );
 
 		RequestThread.postRequest( request );
 	}
@@ -309,7 +310,7 @@ public class MallSearchFrame
 			resultsPanel.add( JComponentUtilities.createLabel(
 				"Search Results", SwingConstants.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 
-			MallSearchFrame.this.resultsList = new ShowDescriptionList( MallSearchFrame.this.results );
+			MallSearchFrame.this.resultsList = new ShowDescriptionList( MallSearchFrame.results );
 			MallSearchFrame.this.resultsList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			MallSearchFrame.this.resultsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 			MallSearchFrame.this.resultsList.setVisibleRowCount( 11 );
