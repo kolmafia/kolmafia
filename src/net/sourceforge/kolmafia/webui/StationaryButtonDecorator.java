@@ -71,7 +71,7 @@ public class StationaryButtonDecorator
 		{
 			return true;
 		}
-   
+
 		return false;
 	}
 
@@ -182,7 +182,7 @@ public class StationaryButtonDecorator
 				int insertIndex = buffer.indexOf( "</head>" );
 				buffer.insert( insertIndex, "<link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.6.css'><!--[if IE]><link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.ie.4.css'><![endif]-->" );
 
-				// Build the CAB in a new StringBuffer
+				// Build the CAB in a new StringBuilder
 
 				StringBuilder CAB = new StringBuilder();
 				boolean choice = buffer.indexOf( "<input" ) != -1;
@@ -600,10 +600,6 @@ public class StationaryButtonDecorator
 
 		case 7001:	// Give In To Your Vampiric Urges
 			name = "bakula";
-			break;
-
-		case 7008:	// Moxious Maneuver
-			name = "moxman";
 			break;
 
 		case 7010:	// red bottle-rocket

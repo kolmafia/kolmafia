@@ -3287,11 +3287,6 @@ public abstract class KoLCharacter
 
 	public static final void setAvailableSkills( final List newSkillSet )
 	{
-		if ( KoLCharacter.isMoxieClass() )
-		{
-			KoLCharacter.addAvailableSkill( "Moxious Maneuver" );
-		}
-
 		// Check all available skills to see if they
 		// qualify to be added as combat or usables.
 

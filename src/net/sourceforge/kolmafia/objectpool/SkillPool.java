@@ -114,7 +114,6 @@ public class SkillPool
 	public static final int SING = 6025;
 	public static final int DONHOS = 6026;
 	public static final int INIGOS = 6028;
-	public static final int MOXIOUS_MANEUVER = 7008;
 	public static final int MAGIC_MISSILE = 7009;
 	public static final int MAYFLY_SWARM = 7024;
 	public static final int VICIOUS_TALON_SLASH = 7038;

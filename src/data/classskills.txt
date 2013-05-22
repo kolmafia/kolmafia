@@ -301,7 +301,9 @@
 7005	Spooky Breath	5	5	0
 7006	Stinky Breath	5	5	0
 7007	Sleazy Breath	5	5	0
-7008	Moxious Maneuver	5	0	0
+# Moxious Maneuver was removed from KoL
+# so it is commented out here
+# 7008 Moxious Maneuver 5 0 0
 7009	Magic Missile	5	0	0
 7010	Fire red bottle-rocket	5	5	0
 7011	Fire blue bottle-rocket	5	5	0

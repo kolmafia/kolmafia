@@ -413,8 +413,6 @@ public class CharSheetRequest
 		}
 
 		// Finally, set the class name that we figured out.
-		// This must be done before setAvailableSkills, since
-		// moxious maneuver is conditionally added based on your class.
 		KoLCharacter.setClassName( className );
 
 		KoLCharacter.setAvailableSkills( newSkillSet );

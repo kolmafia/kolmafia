@@ -474,8 +474,6 @@ public class SkillDatabase
 			classType = KoLCharacter.ACCORDION_THIEF;
 			break;
 
-		case SkillPool.MOXIOUS_MANEUVER:
-			return Math.max( KoLCharacter.getLevel() + KoLCharacter.getManaCostAdjustment(), 1 );
 		case SkillPool.MAGIC_MISSILE:
 			return Math.max(
 				Math.min( ( KoLCharacter.getLevel() + 3 ) / 2, 6 ) + KoLCharacter.getManaCostAdjustment(), 1 );
@@ -518,7 +516,8 @@ public class SkillDatabase
 
 	public static final boolean isLibramSkill( final int skillId )
 	{
-		return	skillId == SkillPool.CANDY_HEART ||
+		return
+			skillId == SkillPool.CANDY_HEART ||
 			skillId == SkillPool.PARTY_FAVOR ||
 			skillId == SkillPool.LOVE_SONG ||
 			skillId == SkillPool.BRICKOS ||
@@ -889,9 +888,6 @@ public class SkillDatabase
 		case SkillPool.SPIRIT_BACON:
 		case SkillPool.SPIRIT_NOTHING:
 			// Derived skills
-			return false;
-
-		case SkillPool.MOXIOUS_MANEUVER:
 			return false;
 		}
 
