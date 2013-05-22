@@ -1870,8 +1870,9 @@ public class FightRequest
 		FightRequest.parseStoneSphere( responseText );
 		FightRequest.parsePirateInsult( responseText );
 		FightRequest.parseGrubUsage( responseText );
-		FightRequest.parseGhostSummoning( location, responseText );
-		FightRequest.parseFlyerUsage( location, responseText );
+		FightRequest.parseGhostSummoning( responseText );
+		FightRequest.parseFlyerUsage( responseText );
+		FightRequest.parseLassoUsage( responseText );
 
 		Matcher macroMatcher = FightRequest.MACRO_PATTERN.matcher( responseText );
 		if ( macroMatcher.find() )
@@ -2972,14 +2973,8 @@ public class FightRequest
 		}
 	}
 
-	private static final void parseFlyerUsage( final String location, final String responseText )
+	private static final void parseFlyerUsage( final String responseText )
 	{
-		// URL check not working for macro'ed flyering
-		if ( false )	//location.indexOf( "240" ) == -1 )
-		{	// jam band flyers=2404, rock band flyers=2405
-			return;
-		}
-
 		// You slap a flyer up on your opponent. It enrages it.
 
 		if ( responseText.indexOf( "You slap a flyer" ) != -1 )
@@ -2992,13 +2987,8 @@ public class FightRequest
 		}
 	}
 
-	private static final void parseGhostSummoning( final String location, final String responseText )
+	private static final void parseGhostSummoning( final String responseText )
 	{
-		// URL check not working for macro'ed summoning
-		if ( false )	//location.indexOf( "summon" ) == -1 )
-		{
-			return;
-		}
 
 		String name = null;
 		String type = null;
@@ -3057,6 +3047,23 @@ public class FightRequest
 		}
 
 		Preferences.setInteger( "pastamancerGhostSummons", uses );
+	}
+
+	private static final Pattern LASSO_PATTERN =
+		Pattern.compile( "You twirl the lasso, and (\\w+) toss" );
+	private static final void parseLassoUsage( String responseText )
+	{
+		if ( !responseText.contains( "lasso" ) )
+		{
+			return;
+		}
+		// You twirl the lasso, and clumsily/carefully/deftly/expertly toss
+		// it over the dogie's head. You yank the rope and knock him down.
+		Matcher matcher = LASSO_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			Preferences.setString( "lassoTraining", matcher.group( 1 ) );
+		}
 	}
 
 	public static final void parseCombatItems( String responseText )

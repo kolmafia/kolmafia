@@ -406,6 +406,7 @@ user	jungCharge	0
 user	kingLiberated	false
 user	kingLiberatedScript
 user	knownAscensions	-1
+user	lassoTraining
 user	lastAdventure
 user	lastArcadeAscension	-1
 user	lastBadMoonReset	-1
