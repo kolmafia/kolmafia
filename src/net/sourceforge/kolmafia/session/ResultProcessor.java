@@ -1720,6 +1720,13 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.VOLCANO_MAP:
+			// A counter was made in case we lost the fight against the
+			// final assassin, but since this dropped we won the fight
+			TurnCounter.stopCounting( "Nemesis Assassin window begin" );
+			TurnCounter.stopCounting( "Nemesis Assassin window end" );
+			break;
+
 		}
 
 		// Gaining items can achieve goals.
