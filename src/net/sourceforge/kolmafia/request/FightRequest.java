@@ -1843,6 +1843,28 @@ public class FightRequest
 				TurnCounter.startCounting( 35, "Taco Elf window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 40, "Taco Elf window end loc=*", "rparen.gif" );
 			}
+			else if ( !KoLmafia.ignoreSpecialMonsters &&
+				  ( encounter.equalsIgnoreCase( "menacing thug" ) ||
+				    encounter.equalsIgnoreCase( "Mob Penguin hitman" ) ||
+				    encounter.equalsIgnoreCase( "hunting seal" ) ||
+				    encounter.equalsIgnoreCase( "turtle trapper" ) ||
+				    encounter.equalsIgnoreCase( "evil spaghetti cult assassin" ) ||
+				    encounter.equalsIgnoreCase( "B&eacute;arnaise zombie" ) ||
+				    encounter.equalsIgnoreCase( "flock of seagulls" ) ||
+				    encounter.equalsIgnoreCase( "mariachi bandolero" ) ||
+				    encounter.equalsIgnoreCase( "Argarggagarg the Dire Hellseal" ) ||
+				    encounter.equalsIgnoreCase( "Safari Jack, Small-Game Hunter" ) ||
+				    encounter.equalsIgnoreCase( "Yakisoba the Executioner" ) ||
+				    encounter.equalsIgnoreCase( "Heimandatz, Nacho Golem" ) ||
+				    encounter.equalsIgnoreCase( "Jocko Homo" ) ||
+				    encounter.equalsIgnoreCase( "The Mariachi With No Name" )
+				  ) )
+			{
+				TurnCounter.stopCounting( "Nemesis Assassin window begin" );
+				TurnCounter.stopCounting( "Nemesis Assassin window end" );
+				TurnCounter.startCounting( 35, "Nemesis Assassin window begin loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 50, "Nemesis Assassin window end loc=*", "rparen.gif" );
+			}
 
 			MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
 
