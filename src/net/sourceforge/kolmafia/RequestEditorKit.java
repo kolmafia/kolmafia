@@ -586,11 +586,6 @@ public class RequestEditorKit
 		{
 			IslandDecorator.decoratePostwarIsland( location, buffer );
 		}
-		else if ( location.startsWith( "pvp.php" ) )
-		{
-			StringUtilities.singleStringReplace( buffer, "value=rank checked", "value=rank" );
-			StringUtilities.insertAfter( buffer, "value=flowers", " checked" );
-		}
 		else if ( location.startsWith( "rabbithole.php" ) )
 		{
 			RabbitHoleManager.decorateRabbitHole( buffer );
@@ -1071,12 +1066,8 @@ public class RequestEditorKit
 		int dolphinIndex = buffer.indexOf( "a stupid dolphin swims up and snags" );
 		if ( dolphinIndex != -1 )
 		{
-			// If we have a dolphin whistle in inventory and the
-			// cooldown period is over, offer a link to use it.
-			// (counter decremented after charpane refresh, hence,
-			// check <2 rather than < 1
-			if ( InventoryManager.hasItem( ItemPool.DOLPHIN_WHISTLE ) &&
-			     TurnCounter.turnsRemaining( "Dolphin Whistle cooldown" ) < 2 )
+			// If we have a dolphin whistle in inventory, offer a link to use it.
+			if ( InventoryManager.hasItem( ItemPool.DOLPHIN_WHISTLE ) )
 			{
 				String message = "<br><font size=1>[<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=3997\">use dolphin whistle</a>]</font><br>";
 				dolphinIndex = buffer.indexOf( "<p>", dolphinIndex );
