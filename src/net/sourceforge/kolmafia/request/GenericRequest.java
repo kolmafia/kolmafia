@@ -2389,7 +2389,6 @@ public class GenericRequest
 		}
 
 		if ( urlString.startsWith( "mall.php" ) ||
-			urlString.startsWith( "searchmall.php" ) ||
 			urlString.startsWith( "account.php" ) ||
 			urlString.startsWith( "records.php" ) ||
 			( urlString.startsWith( "peevpee.php" ) && this.getFormField( "lid" ) != null ) )
@@ -2537,7 +2536,6 @@ public class GenericRequest
 				}
 				m.doneWithItems();
 			}
-			TurnCounter.startCounting( 10, "Dolphin Whistle cooldown loc=*", "whistle.gif" );
 			Preferences.setString( "dolphinItem", "" );
 			break;
 
