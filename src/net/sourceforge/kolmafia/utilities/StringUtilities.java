@@ -47,6 +47,8 @@ import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.RequestLogger;
+
 public class StringUtilities
 {
 	private static final HashMap<String, String> entityEncodeCache = new HashMap<String, String>();
@@ -732,7 +734,15 @@ public class StringUtilities
 
 		if ( StringUtilities.isNumeric( string ) )
 		{
-			return Integer.parseInt( string );
+			try
+			{
+				return Integer.parseInt( string );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger.printLine( string + " is out of range, returning 0" );
+				return 0;
+			}
 		}
 		
 		String fstring = string.substring( 0, string.length() - 1 );
@@ -775,7 +785,15 @@ public class StringUtilities
 			return 0;
 		}
 
-		return Integer.parseInt( string );
+		try
+		{
+			return Integer.parseInt( string );
+		}
+		catch ( NumberFormatException e )
+		{
+			RequestLogger.printLine( string + " is out of range, returning 0" );
+			return 0;
+		}
 	}
 
 	public static final long parseLong( String string )
