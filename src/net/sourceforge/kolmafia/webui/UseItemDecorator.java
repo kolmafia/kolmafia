@@ -60,6 +60,14 @@ public class UseItemDecorator
 		case ItemPool.TOMB_RATCHET:
 			UseItemDecorator.decorateTombRatchet( buffer );
 			break;
+
+		case ItemPool.BOO_CLUE:
+			UseItemDecorator.decorateBooClue( buffer );
+			break;
+
+		case ItemPool.BLACK_MARKET_MAP:
+			UseItemDecorator.decorateMarketMap( buffer );
+			break;
 		}
 	}
 
@@ -99,7 +107,7 @@ public class UseItemDecorator
 		// Give player a link to use another tomb ratchet
 		if ( UseItemDecorator.TOMB_RATCHET.getCount( KoLConstants.inventory ) > 0 )
 		{
-			StringBuffer link = new StringBuffer();
+			StringBuilder link = new StringBuilder();
 			link.append( "<tr align=center><td>" );
 			link.append( "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=" );
 			link.append( String.valueOf( ItemPool.TOMB_RATCHET ) );
@@ -110,5 +118,61 @@ public class UseItemDecorator
 
 			buffer.insert( index, link.toString() );
 		}
+	}
+
+	private static void decorateBooClue( final StringBuffer buffer )
+	{
+		if ( buffer.indexOf( "A-Boo Peak" ) == -1 )
+		{
+			return;
+		}
+
+		String search = "</blockquote></td></tr>";
+		int index = buffer.indexOf( search );
+
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		// We will insert things before the end of the table
+		index += search.length();
+
+		// Add the link to adventure in A-Boo Peak
+		StringBuilder link = new StringBuilder();
+		link.append( "<tr align=center><td>" );
+		link.append( "<a href=\"adventure.php?snarfblat=296\">" );
+		link.append( "[Adventure at A-Boo Peak]" );
+		link.append( "</a></td></tr>" );
+
+		buffer.insert( index, link.toString() );
+	}
+
+	private static void decorateMarketMap( final StringBuffer buffer )
+	{
+		if ( buffer.indexOf( "The Black Market" ) == -1 )
+		{
+			return;
+		}
+
+		String search = "</blockquote></td></tr>";
+		int index = buffer.indexOf( search );
+
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		// We will insert things before the end of the table
+		index += search.length();
+
+		// Add the link to visit The Black Market
+		StringBuilder link = new StringBuilder();
+		link.append( "<tr align=center><td>" );
+		link.append( "<a href=\"store.php?whichstore=l\">" );
+		link.append( "[Shop at The Black Market]" );
+		link.append( "</a></td></tr>" );
+
+		buffer.insert( index, link.toString() );
 	}
 }
