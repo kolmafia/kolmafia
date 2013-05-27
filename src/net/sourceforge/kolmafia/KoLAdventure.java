@@ -784,7 +784,7 @@ public class KoLAdventure
 				KoLAdventure.ZONE_UNLOCK.constructURLString( "place.php?whichplace=plains" );
 				RequestThread.postRequest( KoLAdventure.ZONE_UNLOCK );
 
-				if ( KoLAdventure.ZONE_UNLOCK.responseText.indexOf( "beanstalk.php" ) == -1 )
+				if ( !KoLAdventure.ZONE_UNLOCK.responseText.contains( "place.php?whichplace=beanstalk" ) )
 				{
 					// We see no beanstalk in the Nearby Plains.
 					// Acquire an enchanted bean and plant it.
@@ -1173,7 +1173,7 @@ public class KoLAdventure
 		// adventuring and save it for verification later. We also do
 		// some location specific setup.
 
-		// See if this is a standard "adventure" in adventure.txt
+		// See if this is a standard "adventure" in adventures.txt
 		KoLAdventure adventure = KoLAdventure.findAdventure( urlString );
 		if ( adventure != null )
 		{
