@@ -4808,6 +4808,39 @@ public class UseItemRequest
 
 		AdventureResult item = UseItemRequest.extractItem( urlString );
 
+		// Special handing for twisting Boris's Helm when it is equipped
+		if ( item == null && urlString.contains( "action=twisthorns" ) )
+		{
+			int slot = -1;
+			if ( urlString.contains( "slot=hat" ) )
+			{
+				slot = EquipmentManager.HAT;
+			}
+			else if ( urlString.contains( "slot=familiarequip" ) )
+			{
+				slot = EquipmentManager.FAMILIAR;
+			}
+			if ( slot != -1 )
+			{
+				AdventureResult before = EquipmentManager.getEquipment( slot );
+				AdventureResult after = ItemPool.get( before.getItemId() == ItemPool.BORIS_HELM ? ItemPool.BORIS_HELM_ASKEW : ItemPool.BORIS_HELM, 1 );
+				EquipmentManager.setEquipment( slot, after );
+				RequestLogger.printLine( "Twisted " + before + " into " + after );
+				return true;
+			}
+			return false;
+		}
+
+		// Special handing for twisting Jarlsberg's pan when it is equipped
+		if ( item == null && urlString.contains( "action=shakepan" ) )
+		{
+			AdventureResult before = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
+			AdventureResult after = ItemPool.get( before.getItemId() == ItemPool.JARLS_PAN ? ItemPool.JARLS_COSMIC_PAN : ItemPool.JARLS_PAN, 1 );
+			EquipmentManager.setEquipment( EquipmentManager.OFFHAND, after );
+			RequestLogger.printLine( "Twisted " + before + " into " + after );
+			return true;
+		}
+
 		if ( item == null )
 		{
 			return UseItemRequest.registerBingeRequest( urlString );
