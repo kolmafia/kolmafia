@@ -2175,7 +2175,11 @@ public class UseItemRequest
 			// Otherwise, "it immediately grows into an enormous
 			// beanstalk".
 
-			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
+			if ( responseText.contains( "grows into an enormous beanstalk" ) )
+			{
+				QuestLogRequest.setBeanstalkPlanted();
+			}
+			else
 			{
 				ResultProcessor.processResult( item );
 			}
