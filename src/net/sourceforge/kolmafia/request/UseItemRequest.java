@@ -2387,8 +2387,9 @@ public class UseItemRequest
 
 			QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
 
-			// Boris didn't need no stinkin' familiars
-			if ( KoLCharacter.inAxecore() )
+			// Boris didn't need no stinkin' familiars.
+			// Neither did Jarlsberg. They are surely crawling with germs.
+			if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
 			{
 				return;
 			}
@@ -4966,7 +4967,7 @@ public class UseItemRequest
 
 			// As an Avatar of Boris or Jarlsberg, you can't use a blackbird,
 			// but you must have the hatchling in your inventory.
-			if ( KoLCharacter.inAxecore() && KoLCharacter.isJarlsberg() )
+			if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
 			{
 				if ( !InventoryManager.retrieveItem( ItemPool.REASSEMBLED_BLACKBIRD ) )
 				{
