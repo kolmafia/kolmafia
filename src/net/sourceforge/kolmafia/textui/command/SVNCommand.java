@@ -114,12 +114,17 @@ public class SVNCommand
 			{
 				return;
 			}
-			
+
 			// or user may specify a directory name
 			String[] projects = KoLConstants.SVN_LOCATION.list();
-			
+			if ( projects.length == 0 )
+			{
+				RequestLogger.printLine( "No projects currently installed with SVN." );
+				return;
+			}
+
 			List<String> matches = StringUtilities.getMatchingNames( projects, params );
-			
+
 			if ( matches.size() > 1 )
 			{
 				RequestLogger.printList( matches );
@@ -139,7 +144,10 @@ public class SVNCommand
 		else if ( parameters.startsWith( "list" ) )
 		{
 			String[] projects = KoLConstants.SVN_LOCATION.list();
-			RequestLogger.printList( Arrays.asList( projects ) );
+			if ( projects.length == 0 )
+				RequestLogger.printLine("No projects currently installed with SVN.");
+			else
+				RequestLogger.printList( Arrays.asList( projects ) );
 		}
 	}
 }
