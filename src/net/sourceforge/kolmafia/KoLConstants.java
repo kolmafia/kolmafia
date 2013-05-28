@@ -330,6 +330,7 @@ public interface KoLConstants
 	public static final String SCRIPT_DIRECTORY = "scripts/";
 	public static final String SESSIONS_DIRECTORY = "sessions/";
 	public static final String RELAY_DIRECTORY = "relay/";
+	public static final String SVN_DIRECTORY = "svn/";
 
 	public static final File BUFFBOT_LOCATION =
 		new File( KoLConstants.ROOT_LOCATION, KoLConstants.BUFFBOT_DIRECTORY );
@@ -341,6 +342,7 @@ public interface KoLConstants
 	public static final File SESSIONS_LOCATION =
 		new File( KoLConstants.ROOT_LOCATION, KoLConstants.SESSIONS_DIRECTORY );
 	public static final File RELAY_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.RELAY_DIRECTORY );
+	public static final File SVN_LOCATION = new File( KoLConstants.ROOT_LOCATION, KoLConstants.SVN_DIRECTORY );
 
 	// All data files that can be overridden
 

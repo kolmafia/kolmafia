@@ -1,0 +1,70 @@
+/*
+ * ====================================================================
+ * Copyright (c) 2004-2010 TMate Software Ltd.  All rights reserved.
+ *
+ * This software is licensed as described in the file COPYING, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at http://svnkit.com/license.html.
+ * If newer versions of this license are posted there, you may use a
+ * newer version instead, at your option.
+ * ====================================================================
+ */
+package org.tmatesoft.svn.core.internal.wc17.db.statement;
+
+import java.util.Map;
+
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetInsertStatement;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetSelectStatement;
+
+/**
+ * INSERT INTO nodes ( wc_id, local_relpath, op_depth, parent_relpath, repos_id,
+ * repos_path, revision, presence, kind, changed_revision, changed_date,
+ * changed_author ) SELECT wc_id, local_relpath, ?3 as op_depth, parent_relpath,
+ * repos_id, repos_path, revision, 'not-present', kind, changed_revision,
+ * changed_date, changed_author FROM nodes WHERE wc_id = ?1 AND local_relpath =
+ * ?2 AND op_depth = 0;
+ *
+ * @version 1.4
+ * @author TMate Software Ltd.
+ */
+public class SVNWCDbInsertWorkingNodeNotPresentFromBase extends SVNSqlJetInsertStatement {
+
+    private SVNSqlJetSelectStatement select;
+
+    public SVNWCDbInsertWorkingNodeNotPresentFromBase(SVNSqlJetDb sDb) throws SVNException {
+        super(sDb, SVNWCDbSchema.NODES);
+        select = new SVNSqlJetSelectStatement(sDb, SVNWCDbSchema.NODES) {
+
+            protected Object[] getWhere() throws SVNException {
+                return new Object[] {
+                        getBind(1), getBind(2), 0
+                };
+            }
+
+        };
+    }
+
+    public long exec() throws SVNException {
+        try {
+            select.bindf("is", getBind(1), getBind(2));
+            int n = 0;
+            while (select.next()) {
+                super.exec();
+                n++;
+            }
+            return n;
+        } finally {
+            select.reset();
+        }
+    }
+
+    protected Map<String, Object> getInsertValues() throws SVNException {
+        Map<String, Object> rowValues = select.getRowValues();
+        rowValues.put(SVNWCDbSchema.NODES__Fields.op_depth.toString(), getBind(3));
+        rowValues.put(SVNWCDbSchema.NODES__Fields.presence.toString(), "not-present");
+        return rowValues;
+    }
+
+}

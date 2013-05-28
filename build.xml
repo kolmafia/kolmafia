@@ -148,14 +148,20 @@
 			target="1.5"
 			srcdir="${lib}"
 			destdir="${build}"
-			classpath="${build}"
 			failonerror="false"
 			debug="on"
 			debuglevel="lines,vars,source"
 			deprecation="off"
 			nowarn="on"
 			includeantruntime="false"
-			errorProperty="compile.failed" />
+			errorProperty="compile.failed">
+			<classpath>
+				<pathelement path="${classpath}"/>
+				<fileset dir="${lib}/jar">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
 
 		<fail if="compile.failed" message="Failed to compile third-party libraries" />
 
@@ -225,6 +231,9 @@
 			<manifest>
 				<attribute name="Main-Class" value="${main}" />
 			</manifest>
+			<zipgroupfileset dir="lib/jar">
+				<include name="*.jar"/>
+			</zipgroupfileset>
 		</jar>
 
 	</target>

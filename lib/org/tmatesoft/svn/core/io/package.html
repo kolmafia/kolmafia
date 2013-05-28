@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<TITLE>
+package org.tmatesoft.svn.core.io
+</TITLE>
+</HEAD>
+
+<BODY>
+<p>
+This package provides a low-level API for direct interacting with a Subversion repository on
+the SVN protocol level.
+The main class which manages all the repository access related work is <b>SVNRepository</b>. 
+This class provides a developer a flexible interface which allows the developer not only to 
+perform all basic SVN commands (such as checkout, commit, update, etc.) but to control 
+those commands as well relying upon developer's implementations of <b>ISVNReporter</b>,<b>ISVNEditor</b> and
+other interfaces which are accepted by most of major methods of <b>SVNRepository</b>. 
+</p>
+<p>
+In the first place <b>SVNRepository</b> as well as the entire low-level API 
+is intended for customizing developer's work with an SVN repository. So it has 
+not the concept of Working Copy in its functionality.
+</p>
+</BODY>
+</HTML>
