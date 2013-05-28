@@ -231,7 +231,7 @@
 			<manifest>
 				<attribute name="Main-Class" value="${main}" />
 			</manifest>
-			<zipgroupfileset dir="lib/jar">
+			<zipgroupfileset dir="${lib}/jar">
 				<include name="*.jar"/>
 			</zipgroupfileset>
 		</jar>
