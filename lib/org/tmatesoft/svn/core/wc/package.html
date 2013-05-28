@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<HTML>
+<HEAD>
+<TITLE>
+</TITLE>
+</HEAD>
+
+<BODY>
+
+<p>
+This package provides a high-level API for managing Working Copies in a way 
+compatible with the native SVN command line client. That means if you
+use <b>org.tmatesoft.svn.core.wc</b> to operate on Working Copy files, directories
+and their properties you won't loose a compatibility with the SVN client - 
+as if the copy items were managed by the SVN itself. In addition the package
+classes and interfaces provide a developer a high flexibility in usage: all SVN 
+client's commands are mapped to methods of <b>SVN</b>*<b>Client</b> classes which are 
+responsible for all version control functionality (dealing either with Working Copies 
+or URLs). This functionality is logicaly allotted to separate classes, so that, for 
+example, all update related operations (update, switch, etc.) are handled by the same 
+class. And * for each of these classes is the name of that functional behaviour the 
+class is intended for - such as <b>SVNUpdateClient</b> or <b>SVNCommitClient</b>. To 
+have even more flexibility there's a kind of a manager class - <b>SVNClientManager</b> 
+- which aggregates all of these 'client' classes making developer's work easier and 
+more comfortable. At last the high-level API is even a bit more than just an implementation 
+of the SVN client's operations:
+<ul>
+<li> the package gives a developer an ability to implement several types of operation 
+handlers that can be passed to some of <b>SVN</b>*<b>Client</b>'s methods , thus the developer
+can 'take part' in operation processing;
+<li> some of <b>SVN</b>*<b>Client</b> classes have methods for which the SVN command line client
+has no analogues 
+(such as the entire <A HREF="../../../../../org/tmatesoft/svn/core/wc/SVNMoveClient.html">
+SVNMoveClient</A> class).
+</ul>
+</p>
+<p>
+While the package <b>org.tmatesoft.svn.core.io</b> represents a low-level API and therefore
+'knows' nothing of the SVN native 'Working Copy' format and structure, 
+<b>org.tmatesoft.svn.core.wc</b> is contrarily a kind of a Java implementation of the SVN
+client's commands which can be used in a standalone Java application that needs to work with 
+Working Copies. However if a developer has no need or even don't want to have Working 
+Copies but something else (for instance, in case of an own client side version control system
+specific to developer's needs) the developer should refer to <B><A HREF="../io/package-summary.html">org.tmatesoft.svn.core.io</A></B> 
+rather than to <b>org.tmatesoft.svn.core.wc</b>.
+</p>
+
+</BODY>
+</HTML>
