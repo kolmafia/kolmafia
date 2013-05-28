@@ -48,11 +48,9 @@
 package net.sourceforge.kolmafia.svn;
 
 import java.io.File;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
@@ -73,7 +71,6 @@ import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.SVNProperties;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
@@ -599,7 +596,9 @@ public class SVNManager
 			return skipFiles;
 
 		List<SVNURL> skipURLs = new ArrayList<SVNURL>();
-		Deque<SVNFileEvent> eventStackCopy = new ArrayDeque<SVNFileEvent>( SVNManager.eventStack ); // clone()
+		@SuppressWarnings( "unchecked" )
+		// no type-safe way to do this in Java 5 (6 has Deque)
+		Stack<SVNFileEvent> eventStackCopy = (Stack<SVNFileEvent>) SVNManager.eventStack.clone();
 
 		while ( !eventStackCopy.isEmpty() )
 		{
