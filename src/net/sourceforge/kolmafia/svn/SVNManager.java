@@ -817,11 +817,12 @@ public class SVNManager
 		}
 
 		File[] projects = KoLConstants.SVN_LOCATION.listFiles();
+		
+		if ( projects.length == 0 )
+			RequestLogger.printLine( "No projects currently installed with SVN." );
 
 		for ( File f : projects )
 		{
-			// should probably validate the project here
-
 			SVNInfo info;
 			try
 			{
