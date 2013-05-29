@@ -117,7 +117,7 @@ public class SVNCommand
 
 			// or user may specify a directory name
 			String[] projects = KoLConstants.SVN_LOCATION.list();
-			if ( projects.length == 0 )
+			if ( projects == null || projects.length == 0 )
 			{
 				RequestLogger.printLine( "No projects currently installed with SVN." );
 				return;
@@ -144,7 +144,7 @@ public class SVNCommand
 		else if ( parameters.startsWith( "list" ) )
 		{
 			String[] projects = KoLConstants.SVN_LOCATION.list();
-			if ( projects.length == 0 )
+			if ( projects == null || projects.length == 0 )
 				RequestLogger.printLine("No projects currently installed with SVN.");
 			else
 				RequestLogger.printList( Arrays.asList( projects ) );
