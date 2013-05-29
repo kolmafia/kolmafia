@@ -67,7 +67,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import org.tmatesoft.svn.core.SVNCommitInfo;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
@@ -145,16 +144,16 @@ public class SVNManager
 	 * commitMessage - a commit log message since a URL-based directory creation is immediately committed to a
 	 * repository.
 	 */
-	private static SVNCommitInfo makeDirectory( SVNURL url, String commitMessage )
+/*	private static SVNCommitInfo makeDirectory( SVNURL url, String commitMessage )
 		throws SVNException
 	{
-		/*
+		
 		 * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
-		 */
+		 
 		return ourClientManager.getCommitClient().doMkDir( new SVNURL[]
 		{ url
 		}, commitMessage );
-	}
+	}*/
 
 	/*
 	 * Imports an unversioned directory into a repository location denoted by a destination URL (all necessary parent
@@ -168,16 +167,16 @@ public class SVNManager
 	 * directory then the directory will be added with all its child subdirictories, otherwise the operation will cover
 	 * only the directory itself (only those files which are located in the directory).
 	 */
-	private static SVNCommitInfo importDirectory( File localPath, SVNURL dstURL, String commitMessage,
+/*	private static SVNCommitInfo importDirectory( File localPath, SVNURL dstURL, String commitMessage,
 		boolean isRecursive )
 		throws SVNException
 	{
-		/*
+		
 		 * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
-		 */
+		 
 		return ourClientManager.getCommitClient().doImport( localPath, dstURL, commitMessage, isRecursive );
 
-	}
+	}*/
 
 	/*
 	 * Committs changes in a working copy to a repository. Like 'svn commit PATH -m "some comment"' command. It's done
@@ -188,16 +187,16 @@ public class SVNManager
 	 * forced anyway; recursive - if true and a path corresponds to a directory then doCommit(..) recursively commits
 	 * changes for the entire directory, otherwise - only for child entries of the directory;
 	 */
-	private static SVNCommitInfo commit( File wcPath, boolean keepLocks, String commitMessage )
+/*	private static SVNCommitInfo commit( File wcPath, boolean keepLocks, String commitMessage )
 		throws SVNException
 	{
-		/*
+		
 		 * Returns SVNCommitInfo containing information on the new revision committed (revision number, etc.)
-		 */
+		 
 		return ourClientManager.getCommitClient().doCommit( new File[]
 		{ wcPath
 		}, keepLocks, commitMessage, false, true );
-	}
+	}*/
 
 	/*
 	 * Checks out a working copy from a repository. Like 'svn checkout URL[@REV] PATH (-r..)' command; It's done by
@@ -263,19 +262,19 @@ public class SVNManager
 	 * - if true and an entry (file) is a directory then doSwitch(..) recursively switches the entire directory,
 	 * otherwise - only child entries of the directory;
 	 */
-	private static long switchToURL( File wcPath, SVNURL url, SVNRevision updateToRevision, boolean isRecursive )
+/*	private static long switchToURL( File wcPath, SVNURL url, SVNRevision updateToRevision, boolean isRecursive )
 		throws SVNException
 	{
 		SVNUpdateClient updateClient = ourClientManager.getUpdateClient();
-		/*
+		
 		 * sets externals not to be ignored during the switch
-		 */
+		 
 		updateClient.setIgnoreExternals( false );
-		/*
+		
 		 * returns the number of the revision wcPath was updated to
-		 */
+		 
 		return updateClient.doSwitch( wcPath, url, updateToRevision, isRecursive );
-	}
+	}*/
 
 	/*
 	 * Collects status information on local path(s). Like 'svn status (-u) (-N)' command. It's done by invoking
@@ -290,17 +289,17 @@ public class SVNManager
 	 * doStatus(..) traverses; such info is collected in an SVNStatus object and is passed to a handler's
 	 * handleStatus(SVNStatus status) method where an implementor decides what to do with it.
 	 */
-	private static void showStatus( File wcPath, boolean isRecursive, boolean isRemote, boolean isReportAll,
+/*	private static void showStatus( File wcPath, boolean isRecursive, boolean isRemote, boolean isReportAll,
 		boolean isIncludeIgnored, boolean isCollectParentExternals )
 		throws SVNException
 	{
-		/*
+		
 		 * StatusHandler displays status information for each entry in the console (in the manner of the native
 		 * Subversion command line client)
-		 */
+		 
 		ourClientManager.getStatusClient().doStatus( wcPath, isRecursive, isRemote, isReportAll, isIncludeIgnored, isCollectParentExternals, new StatusHandler(
 			isRemote ) );
-	}
+	}*/
 
 	/*
 	 * Collects information on local path(s). Like 'svn info (-R)' command. It's done by invoking
@@ -332,11 +331,11 @@ public class SVNManager
 	 * control, then doAdd(..) automatically schedules the parent for addition, too; recursive - if true and an entry is
 	 * a directory then doAdd(..) recursively schedules all its inner dir entries for addition as well.
 	 */
-	private static void addEntry( File wcPath )
+/*	private static void addEntry( File wcPath )
 		throws SVNException
 	{
 		ourClientManager.getWCClient().doAdd( wcPath, false, false, false, true );
-	}
+	}*/
 
 	/*
 	 * Locks working copy paths, so that no other user can commit changes to them. Like 'svn lock PATH' command. It's
@@ -344,13 +343,13 @@ public class SVNManager
 	 * following parameters: paths - an array of local entries to be locked; stealLock - set to true to steal the lock
 	 * from another user or working copy; lockMessage - an optional lock comment string.
 	 */
-	private static void lock( File wcPath, boolean isStealLock, String lockComment )
+/*	private static void lock( File wcPath, boolean isStealLock, String lockComment )
 		throws SVNException
 	{
 		ourClientManager.getWCClient().doLock( new File[]
 		{ wcPath
 		}, isStealLock, lockComment );
-	}
+	}*/
 
 	/*
 	 * Schedules directories and files for deletion from version control upon the next commit (locally). Like 'svn
@@ -359,7 +358,7 @@ public class SVNManager
 	 * to true to force a deletion even if an entry has local modifications; dryRun - set to true not to delete an entry
 	 * but to check if it can be deleted; if false - then it's a deletion itself.
 	 */
-	private static void delete( File wcPath, boolean force )
+/*	private static void delete( File wcPath, boolean force )
 		throws SVNException
 	{
 		if ( ourClientManager == null )
@@ -368,10 +367,10 @@ public class SVNManager
 		}
 
 		ourClientManager.getWCClient().doDelete( wcPath, force, false );
-	}
+	}*/
 
 	/*
-	 * Displays error information and exits.
+	 * Displays error information.
 	 */
 	private static void error( String message, Exception e )
 	{
