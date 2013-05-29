@@ -580,11 +580,12 @@ public class SVNManager
 	 */
 	private static List<String> doFinalChecks( boolean wasCheckout )
 	{
+		if ( wasCheckout )
+		{
+			return checkExisting();
+		}
+
 		List<String> skipFiles = new ArrayList<String>();
-
-		if ( wasCheckout ) // never warn on checkout operations
-			return skipFiles;
-
 		List<SVNURL> skipURLs = new ArrayList<SVNURL>();
 		@SuppressWarnings( "unchecked" )
 		// no type-safe way to do this in Java 5 (6 has Deque)
@@ -657,6 +658,100 @@ public class SVNManager
 			message.append( "<br><b>Only click yes if you trust the author.</b>" +
 					"<p>Clicking no will stop the files from being added locally. (until you checkout the project again)" );
 			if ( JOptionPane.showConfirmDialog( null, message, "SVN wants to add new files", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) == JOptionPane.YES_OPTION )
+			{
+				skipFiles.clear();
+			}
+		}
+
+		return skipFiles;
+	}
+
+	/**
+	 * When a user does svn checkout, he may not want project files to overwrite existing local files.
+	 * Therefore, warn if local files exist.
+	 * 
+	 * @return a <b>List</b> of relpaths to ignore
+	 */
+	private static List<String> checkExisting()
+	{
+		List<String> skipFiles = new ArrayList<String>();
+		List<SVNURL> skipURLs = new ArrayList<SVNURL>();
+		@SuppressWarnings( "unchecked" )
+		// no type-safe way to do this in Java 5 (6 has Deque)
+		Stack<SVNFileEvent> eventStackCopy = (Stack<SVNFileEvent>) SVNManager.eventStack.clone();
+
+		while ( !eventStackCopy.isEmpty() )
+		{
+			SVNFileEvent event = eventStackCopy.pop();
+			if ( event.getFile().isDirectory() )
+			{
+				continue; // directories are harmless
+			}
+			if ( event.getEvent().getAction() != SVNEventAction.UPDATE_ADD )
+			{
+				continue; // we only care about ADD events
+			}
+			File fDepth = findDepth( event.getFile().getParentFile() );
+			if ( fDepth == null )
+			{
+				//shouldn't happen, punt
+				return skipFiles;
+			}
+			
+			String relpath = FileUtilities.getRelativePath( fDepth.getParentFile(), event.getFile() );
+			File rebase = new File(KoLConstants.ROOT_LOCATION, relpath );
+			
+			// We only want to prompt if the file already exists locally
+			if ( rebase.exists() )
+			{
+				skipFiles.add( relpath);
+				skipURLs.add( event.getEvent().getURL() );
+			}
+		}
+		
+		if ( skipFiles.size() > 0 )
+		{
+			SVNRepository repo = null;
+			try
+			{
+				repo = SVNRepositoryFactory.create( skipURLs.get( 0 ) );
+			}
+			catch ( SVNException e1 )
+			{
+				RequestLogger.printLine( "Something went wrong fetching SVN info" );
+				//punt, NPE ensues if we continue with this method without initializing repo
+				return skipFiles;
+			}
+
+			StringBuilder message = new StringBuilder("<html>New file(s) will overwrite local files:<p>" );
+			for ( int i = 0; i < skipFiles.size(); ++i )
+			{
+				message.append( "<b>file</b>: " + skipFiles.get( i ) + "<p>" );
+				try
+				{
+					repo.setLocation( skipURLs.get( i ), false );
+					SVNDirEntry props = repo.info( "", -1 );
+					message.append( "<b>author</b>: " + props.getAuthor() + "<p>" );
+				}
+				catch ( SVNException e )
+				{
+					RequestLogger.printLine( "Something went wrong fetching SVN info" );
+				}
+			}
+
+			try
+			{
+				SVNURL root = repo.getRepositoryRoot( false );
+
+				message.append( "<br><b>repository url</b>:" + root.getPath() + "<p>" );
+			}
+			catch ( SVNException e )
+			{
+				RequestLogger.printLine( "Something went wrong fetching SVN info" );
+			}
+			message.append( "<br>Checking out this project will result in some local files (described above) being overwritten." +
+					"<p>Click yes to overwrite them, no to skip installing them." );
+			if ( JOptionPane.showConfirmDialog( null, message, "SVN checkout wants to overwrite local files", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) == JOptionPane.YES_OPTION )
 			{
 				skipFiles.clear();
 			}
