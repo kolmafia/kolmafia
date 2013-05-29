@@ -60,13 +60,12 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
@@ -225,7 +224,7 @@ public class SVNManager
 		/*
 		 * returns the number of the revision at which the working copy is
 		 */
-		return updateClient.doCheckout( url, destPath, revision, revision, isRecursive );
+		return updateClient.doCheckout( url, destPath, revision, revision, SVNDepth.fromRecurse( isRecursive ), false );
 	}
 
 	/*
@@ -251,7 +250,7 @@ public class SVNManager
 		/*
 		 * returns the number of the revision wcPath was updated to
 		 */
-		return updateClient.doUpdate( wcPath, updateToRevision, isRecursive );
+		return updateClient.doUpdate( wcPath, updateToRevision, SVNDepth.fromRecurse( isRecursive), false, false );
 	}
 
 	/*
@@ -311,14 +310,14 @@ public class SVNManager
 	 * traverses; such info is collected in an SVNInfo object and is passed to a handler's handleInfo(SVNInfo info)
 	 * method where an implementor decides what to do with it.
 	 */
-	public static void showInfo( File wcPath, SVNRevision revision, boolean isRecursive )
+	public static void showInfo( File wcPath, SVNRevision revision )
 		throws SVNException
 	{
 		/*
 		 * InfoHandler displays information for each entry in the console (in the manner of the native Subversion
 		 * command line client)
 		 */
-		ourClientManager.getWCClient().doInfo( wcPath, revision, isRecursive, new InfoHandler() );
+		ourClientManager.getWCClient().doInfo( wcPath, SVNRevision.UNDEFINED, revision, SVNDepth.INFINITY, null, new InfoHandler() );
 	}
 
 	/*
@@ -368,14 +367,6 @@ public class SVNManager
 
 		ourClientManager.getWCClient().doDelete( wcPath, force, false );
 	}*/
-
-	/*
-	 * Displays error information.
-	 */
-	private static void error( String message, Exception e )
-	{
-		KoLmafia.updateDisplay( MafiaState.ERROR, message + ( e != null ? ": " + e.getMessage() : "" ) );
-	}
 
 	public static void doCheckout( SVNURL repo )
 	{
