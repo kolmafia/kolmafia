@@ -819,7 +819,10 @@ public class SVNManager
 		File[] projects = KoLConstants.SVN_LOCATION.listFiles();
 
 		if ( projects == null || projects.length == 0 )
+		{
 			RequestLogger.printLine( "No projects currently installed with SVN." );
+			return;
+		}
 
 		for ( File f : projects )
 		{
