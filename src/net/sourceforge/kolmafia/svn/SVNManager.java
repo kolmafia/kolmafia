@@ -607,7 +607,9 @@ public class SVNManager
 
 			// We only want to prompt if the file is new to the working copy (SVNEventAction.UPDATE_ADD) 
 			// as this most likely means that it was recently added to the repo
-			if ( event.getEvent().getAction() == SVNEventAction.UPDATE_ADD )
+			// SVNEventAction.ADD is UPDATE_ADD for binary files
+			if ( event.getEvent().getAction() == SVNEventAction.UPDATE_ADD ||
+				event.getEvent().getAction() == SVNEventAction.ADD )
 			{
 				skipFiles.add( FileUtilities.getRelativePath( fDepth.getParentFile(), event.getFile() ) );
 				skipURLs.add( event.getEvent().getURL() );
@@ -667,7 +669,7 @@ public class SVNManager
 	}
 
 	/**
-	 * When a user does svn checkout, he may not want project files to overwrite existing local files.
+	 * When a user does svn checkout, he/she may not want project files to overwrite existing local files.
 	 * Therefore, warn if local files exist.
 	 * 
 	 * @return a <b>List</b> of relpaths to ignore
@@ -784,7 +786,10 @@ public class SVNManager
 		if ( wasCheckout )
 			return true;
 
-		if ( event.getEvent().getAction() == SVNEventAction.UPDATE_ADD ) // new file added to repo, user said it was okay
+		if ( event.getEvent().getAction() == SVNEventAction.UPDATE_ADD ) // new text file added to repo, user said it was okay
+			return true;
+
+		if ( event.getEvent().getAction() == SVNEventAction.ADD ) // new binary file added to repo, user said it was okay
 			return true;
 
 		if ( event.getEvent().getAction() == SVNEventAction.UPDATE_UPDATE )
