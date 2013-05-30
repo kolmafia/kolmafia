@@ -51,7 +51,7 @@ public class SVNCommand
 {
 	public SVNCommand()
 	{
-		this.usage = " - add new scripts to mafia from an svn repository.";
+		this.usage = " checkout <svnurl> | update [<svnurl>] | list | delete <project> - install/update/manage svn projects.";
 	}
 
 	@Override
