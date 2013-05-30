@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNDirEntry;
+import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
@@ -664,7 +665,10 @@ public class SVNManager
 				{
 					repo.setLocation( skipURLs.get( i ), false );
 					SVNDirEntry props = repo.info( "", -1 );
-					message.append( "<b>author</b>: " + props.getAuthor() + "<p>" );
+					if ( props == null || props.getAuthor() == null )
+						message.append( "<b>author</b>: unknown<p>" );
+					else
+						message.append( "<b>author</b>: " + props.getAuthor() + "<p>" );
 				}
 				catch ( SVNException e )
 				{
@@ -977,6 +981,46 @@ public class SVNManager
 	}
 
 	/**
+	 * Performs an <code>svn update</code> on a local working copy.
+	 * 
+	 * @param p the local working copy to update.
+	 */
+	public static void doUpdate( String p )
+	{
+		File project = new File( KoLConstants.SVN_LOCATION, p );
+
+		if ( !project.exists() )
+			return;
+
+		try
+		{
+			if ( !SVNWCUtil.isWorkingCopyRoot( project ) )
+			{
+				RequestLogger.printLine( project.getName() +
+					" does not appear to be a valid working copy.  Aborting..." );
+			}
+
+			SVNURL repo = ourClientManager.getStatusClient().doStatus( project, false ).getURL();
+			if ( SVNManager.validateRepo( repo ) )
+			{
+				RequestLogger.printLine( "repo at " + repo.getPath() + " did not pass validation.  Aborting update." );
+				return;
+			}
+
+			SVNManager.update( project, SVNRevision.HEAD, true );
+
+		}
+		catch ( SVNException e )
+		{
+			RequestLogger.printLine( "SVN ERROR during update operation.  Aborting..." );
+			StaticEntity.printStackTrace( e );
+			return;
+		}
+
+		pushUpdates();
+	}
+
+	/**
 	 * Performs an <code>svn update</code> on one individual repo.
 	 * 
 	 * @param repo the <b>SVNURL</b> to update.
@@ -992,7 +1036,7 @@ public class SVNManager
 
 		if ( SVNManager.validateRepo( repo ) )
 		{
-			RequestLogger.printLine( "repo at " + repo.getPath() + " did not pass validation.  Aborting Checkout." );
+			RequestLogger.printLine( "repo at " + repo.getPath() + " did not pass validation.  Aborting update." );
 			return;
 		}
 
@@ -1058,6 +1102,52 @@ public class SVNManager
 			}
 		}
 		f.delete();
+	}
+
+	/**
+	 * Move the working copy up or down <b>amount</b> revisions. <b>amount</b> can be negative.
+	 * 
+	 * @param p the name of the project to decrement
+	 * @param amount the amount to increment/decrement
+	 */
+
+	public static void incrementProject( String p, int amount )
+	{
+		if ( amount == 0 )
+			return;
+
+		File project = new File( KoLConstants.SVN_LOCATION, p );
+
+		if ( !project.exists() )
+			return;
+
+		try
+		{
+			long currentRev = ourClientManager.getStatusClient().doStatus( project, false ).getRevision().getNumber();
+
+			if ( currentRev + amount <= 0 )
+			{
+				RequestLogger.printLine( "At r" + currentRev + "; cannot decrement revision by " + amount + "." );
+				return;
+			}
+			RequestLogger.printLine( ( ( amount > 0 ) ? "Incrementing" : "Decrementing" ) + " project " +
+				project.getName() + " from r" + currentRev + " to r" + ( currentRev + amount ) );
+
+			SVNManager.update( project, SVNRevision.create( currentRev + amount ), true );
+		}
+		catch ( SVNException e )
+		{
+			if ( e.getErrorMessage().getErrorCode().equals( SVNErrorCode.FS_NO_SUCH_REVISION ) )
+			{
+				RequestLogger.printLine( "SVN Error: no such revision.  Aborting..." );
+				return;
+			}
+			RequestLogger.printLine( "SVN ERROR during update operation.  Aborting..." );
+			StaticEntity.printStackTrace( e );
+			return;
+		}
+
+		pushUpdates();
 	}
 
 	// some functions taken/adapted from http://wiki.svnkit.com/Managing_A_Working_Copy
