@@ -62,6 +62,7 @@ import javax.swing.JOptionPane;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -70,6 +71,7 @@ import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.auth.BasicAuthenticationManager;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
 import org.tmatesoft.svn.core.io.SVNRepository;
@@ -94,7 +96,7 @@ public class SVNManager
 	private static ISVNEventHandler myWCEventHandler;
 
 	private static Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/(\\w+)/code(.*)", Pattern.DOTALL );
-	private static List<String> permissibles = Arrays.asList( "scripts", "data", "images", "relay" );
+	private static List<String> permissibles = Arrays.asList( "scripts", "data", "images", "relay", "ccs" );
 
 	/**
 	 * Initializes the library to work with a repository via different protocols.
@@ -120,6 +122,30 @@ public class SVNManager
 		 * driver
 		 */
 		ourClientManager = SVNClientManager.newInstance( options );
+
+		String proxySet = Preferences.getString( "proxySet" );
+		if ( Boolean.valueOf( proxySet ) )
+		{
+			String host = System.getProperty( "http.proxyHost" );
+			String port = System.getProperty( "http.proxyPort" );
+			String user = System.getProperty( "http.proxyUser" );
+			String pass = System.getProperty( "http.proxyPassword" );
+
+			if ( host == null || port == null || user == null || pass == null )
+			{
+				host = System.getProperty( "https.proxyHost" );
+				port = System.getProperty( "https.proxyPort" );
+				user = System.getProperty( "https.proxyUser" );
+				pass = System.getProperty( "https.proxyPassword" );
+			}
+
+			if ( host != null && port != null && user != null && pass != null )
+			{
+				BasicAuthenticationManager auth = new BasicAuthenticationManager( "user", "password" );
+				auth.setProxy( host, StringUtilities.parseInt( port ), user, pass );
+				ourClientManager.setAuthenticationManager( auth );
+			}
+		}
 
 		myUpdateEventHandler = new UpdateEventHandler();
 
@@ -408,7 +434,7 @@ public class SVNManager
 	}
 
 	/**
-	 * There are only 4 permissible files in the top level of the repo, all of them directories: scripts/, data/,
+	 * There are only 5 permissible files in the top level of the repo, all of them directories: scripts/, data/, ccs/,
 	 * images/, and relay/. Any other files (directories or otherwise) in the top-level fails validation. 
 	 * TODO: check
 	 * file extensions, reject naughty ones
