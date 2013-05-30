@@ -166,6 +166,7 @@ global	showAllRequests	false
 global	showExceptionalRequests	false
 global	statusDropdown	0
 global	stealthLogin	true
+global	svnUpdateOnLogin	false
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	false
 global	tomeSkillsHardcore	Summon Snowcone
