@@ -343,6 +343,7 @@ public class OptionsFrame
 				{},
 
 				{ "sharePriceData", "Share recent Mall price data with other users" },
+				{ "svnUpdateOnLogin", "Update installed SVN projects on login"},
 			};
 
 			this.setOptions( options );

@@ -901,17 +901,17 @@ public class SVNManager
 
 	public static void doUpdate()
 	{
-		if ( ourClientManager == null )
-		{
-			setupLibrary();
-		}
-
 		File[] projects = KoLConstants.SVN_LOCATION.listFiles();
 
 		if ( projects == null || projects.length == 0 )
 		{
 			RequestLogger.printLine( "No projects currently installed with SVN." );
 			return;
+		}
+
+		if ( ourClientManager == null )
+		{
+			setupLibrary();
 		}
 
 		for ( File f : projects )

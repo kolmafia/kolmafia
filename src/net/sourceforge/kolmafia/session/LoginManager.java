@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 
+import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class LoginManager
@@ -104,6 +105,11 @@ public class LoginManager
 		if ( KoLmafia.isRefreshing() )
 		{
 			return;
+		}
+
+		if ( Preferences.getBoolean( "svnUpdateOnLogin"  ) )
+		{
+			SVNManager.doUpdate();
 		}
 
 		if ( Preferences.getBoolean( name, "getBreakfast" ) )
