@@ -88,23 +88,48 @@ public class SVNCommand
 		else if ( parameters.startsWith( "update" ) )
 		{
 			String params = parameters.substring( 6 ).trim();
-			if ( !params.startsWith( "svn" ) && !params.startsWith( "http" ) )
+			
+			// user might have supplied a URL
+			if ( params.startsWith( "svn" ) || params.startsWith( "http" ) )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You must specify a valid SVN url to update from. " + params );
+				SVNURL repo;
+				try
+				{
+					repo = SVNURL.parseURIEncoded( params );
+				}
+				catch ( SVNException e1 )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Invalid SVN URL" );
+					return;
+				}
+				SVNManager.doUpdate( repo );
+			}
+			
+			// user might have supplied a local project name, see if there's a matching one.
+			String[] projects = KoLConstants.SVN_LOCATION.list();
+			if ( projects == null || projects.length == 0 )
+			{
+				RequestLogger.printLine( "No projects currently installed with SVN." );
 				return;
 			}
 
-			SVNURL repo;
-			try
+			List<String> matches = StringUtilities.getMatchingNames( projects, params );
+
+			if ( matches.size() > 1 )
 			{
-				repo = SVNURL.parseURIEncoded( params );
+				RequestLogger.printList( matches );
+				RequestLogger.printLine();
+
+				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + params + "] has too many matches." );
 			}
-			catch ( SVNException e1 )
+			else if ( matches.size() == 1 )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Invalid SVN URL" );
-				return;
+				SVNManager.doUpdate( matches.get( 0 ) );
 			}
-			SVNManager.doUpdate( repo );
+			else
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No script matching " + params + " is currently installed." );
+			}
 		}
 		else if ( parameters.startsWith( "delete" ) )
 		{
@@ -148,6 +173,37 @@ public class SVNCommand
 				RequestLogger.printLine("No projects currently installed with SVN.");
 			else
 				RequestLogger.printList( Arrays.asList( projects ) );
+		}
+		
+		else if ( parameters.startsWith( "decrement" ) || parameters.startsWith( "increment" ) )
+		{
+			String params = parameters.substring( 9 ).trim();
+
+			String[] projects = KoLConstants.SVN_LOCATION.list();
+			if ( projects == null || projects.length == 0 )
+			{
+				RequestLogger.printLine( "No projects currently installed with SVN." );
+				return;
+			}
+
+			List<String> matches = StringUtilities.getMatchingNames( projects, params );
+			
+			if ( matches.size() > 1 )
+			{
+				RequestLogger.printList( matches );
+				RequestLogger.printLine();
+
+				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + params + "] has too many matches." );
+			}
+			else if ( matches.size() == 1 )
+			{
+				int amount = parameters.startsWith( "decrement" ) ? -1 : 1;
+				SVNManager.incrementProject( matches.get( 0 ), amount );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No script matching " + params + " is currently installed." );
+			}
 		}
 	}
 }

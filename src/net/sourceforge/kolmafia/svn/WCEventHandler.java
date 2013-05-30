@@ -45,6 +45,7 @@ public class WCEventHandler implements ISVNEventHandler {
             /*
              * The item is scheduled for addition.
              */
+			SVNManager.queueFileEvent( new SVNFileEvent( event.getFile(), event ) );
             RequestLogger.printLine("A     " + event.getURL());
             return;
         }else if (action == SVNEventAction.COPY){
