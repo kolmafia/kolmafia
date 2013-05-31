@@ -423,8 +423,7 @@ public class SVNManager
 		}
 		catch ( SVNException e )
 		{
-			RequestLogger.printLine( "SVN ERROR during checkout operation.  Aborting..." );
-			StaticEntity.printStackTrace( e );
+			error( e, "SVN ERROR during checkout operation.  Aborting..." );
 			return;
 		}
 
@@ -453,7 +452,7 @@ public class SVNManager
 		}
 		catch ( SVNException e )
 		{
-			RequestLogger.printLine( "Unable to connect with repository at " + repo.getPath() );
+			error( e, "Unable to connect with repository at " + repo.getPath() );
 			return false;
 		}
 
@@ -465,7 +464,7 @@ public class SVNManager
 		}
 		catch ( SVNException e )
 		{
-			RequestLogger.printLine( "Something went wrong while fetching svn directory info" );
+			error( e, "Something went wrong while fetching svn directory info" );
 			return false;
 		}
 
@@ -650,9 +649,9 @@ public class SVNManager
 			{
 				repo = SVNRepositoryFactory.create( skipURLs.get( 0 ) );
 			}
-			catch ( SVNException e1 )
+			catch ( SVNException e )
 			{
-				RequestLogger.printLine( "Something went wrong fetching SVN info" );
+				error( e, "Something went wrong fetching SVN info" );
 				//punt, NPE ensues if we continue with this method without initializing repo
 				return skipFiles;
 			}
@@ -672,7 +671,7 @@ public class SVNManager
 				}
 				catch ( SVNException e )
 				{
-					RequestLogger.printLine( "Something went wrong fetching SVN info" );
+					error( e, "Something went wrong fetching SVN info" );
 				}
 			}
 			//message.append( "<br>SVN info:<p>" );
@@ -685,7 +684,7 @@ public class SVNManager
 			}
 			catch ( SVNException e )
 			{
-				RequestLogger.printLine( "Something went wrong fetching SVN info" );
+				error( e, "Something went wrong fetching SVN info" );
 			}
 			message.append( "<br><b>Only click yes if you trust the author.</b>" +
 					"<p>Clicking no will stop the files from being added locally. (until you checkout the project again)" );
@@ -748,9 +747,9 @@ public class SVNManager
 			{
 				repo = SVNRepositoryFactory.create( skipURLs.get( 0 ) );
 			}
-			catch ( SVNException e1 )
+			catch ( SVNException e )
 			{
-				RequestLogger.printLine( "Something went wrong fetching SVN info" );
+				error( e, "Something went wrong fetching SVN info" );
 				//punt, NPE ensues if we continue with this method without initializing repo
 				return skipFiles;
 			}
@@ -767,7 +766,7 @@ public class SVNManager
 				}
 				catch ( SVNException e )
 				{
-					RequestLogger.printLine( "Something went wrong fetching SVN info" );
+					error( e, "Something went wrong fetching SVN info" );
 				}
 			}
 
@@ -779,7 +778,7 @@ public class SVNManager
 			}
 			catch ( SVNException e )
 			{
-				RequestLogger.printLine( "Something went wrong fetching SVN info" );
+				error( e, "Something went wrong fetching SVN info" );
 			}
 			message.append( "<br>Checking out this project will result in some local files (described above) being overwritten." +
 					"<p>Click yes to overwrite them, no to skip installing them." );
@@ -890,7 +889,7 @@ public class SVNManager
 		}
 		catch ( SVNException e )
 		{
-			RequestLogger.printLine( "Unable to connect with repository at " + repo.getPath() );
+			error( e, "Unable to connect with repository at " + repo.getPath() );
 			return null;
 		}
 
@@ -953,8 +952,7 @@ public class SVNManager
 			}
 			catch ( SVNException e )
 			{
-				RequestLogger.printLine( "SVN ERROR during update operation.  Aborting..." );
-				e.printStackTrace();
+				error( e, "SVN ERROR during update operation.  Aborting..." );
 				return;
 			}
 
@@ -971,8 +969,7 @@ public class SVNManager
 			}
 			catch ( SVNException e )
 			{
-				RequestLogger.printLine( "SVN ERROR during update operation.  Aborting..." );
-				e.printStackTrace();
+				error( e );
 				return;
 			}
 
@@ -1003,6 +1000,7 @@ public class SVNManager
 			{
 				RequestLogger.printLine( project.getName() +
 					" does not appear to be a valid working copy.  Aborting..." );
+				return;
 			}
 
 			SVNURL repo = ourClientManager.getStatusClient().doStatus( project, false ).getURL();
@@ -1017,8 +1015,7 @@ public class SVNManager
 		}
 		catch ( SVNException e )
 		{
-			RequestLogger.printLine( "SVN ERROR during update operation.  Aborting..." );
-			StaticEntity.printStackTrace( e );
+			error( e );
 			return;
 		}
 
@@ -1058,8 +1055,7 @@ public class SVNManager
 		}
 		catch ( SVNException e )
 		{
-			RequestLogger.printLine( "SVN ERROR during update operation.  Aborting..." );
-			StaticEntity.printStackTrace( e );
+			error( e );
 			return;
 		}
 
@@ -1153,6 +1149,18 @@ public class SVNManager
 		}
 
 		pushUpdates();
+	}
+
+	private static void error( SVNException e )
+	{
+		error( e, null );
+	}
+
+	private static void error( SVNException e, String addMessage )
+	{
+		RequestLogger.printLine( e.getErrorMessage().getMessage() );
+		if ( addMessage != null )
+			RequestLogger.printLine( addMessage );
 	}
 
 	// some functions taken/adapted from http://wiki.svnkit.com/Managing_A_Working_Copy
