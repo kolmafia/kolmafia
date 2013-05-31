@@ -74,7 +74,6 @@ import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.ISVNOptions;
 import org.tmatesoft.svn.core.wc.SVNClientManager;
 import org.tmatesoft.svn.core.wc.SVNEventAction;
@@ -422,7 +421,7 @@ public class SVNManager
 
 		try
 		{
-			repository = SVNRepositoryFactory.create( repo );
+			repository = ourClientManager.createRepository( repo, false );
 		}
 		catch ( SVNException e )
 		{
@@ -621,7 +620,7 @@ public class SVNManager
 			SVNRepository repo = null;
 			try
 			{
-				repo = SVNRepositoryFactory.create( skipURLs.get( 0 ) );
+				repo = ourClientManager.createRepository( skipURLs.get( 0 ), false );
 			}
 			catch ( SVNException e )
 			{
@@ -719,7 +718,7 @@ public class SVNManager
 			SVNRepository repo = null;
 			try
 			{
-				repo = SVNRepositoryFactory.create( skipURLs.get( 0 ) );
+				repo = ourClientManager.createRepository( skipURLs.get( 0 ), false );
 			}
 			catch ( SVNException e )
 			{
@@ -859,7 +858,7 @@ public class SVNManager
 		// first, make sure the repo is there.
 		try
 		{
-			UUID = SVNRepositoryFactory.create( repo ).getRepositoryUUID( false );
+			UUID = ourClientManager.createRepository( repo, false ).getRepositoryUUID( false );
 		}
 		catch ( SVNException e )
 		{
