@@ -992,6 +992,11 @@ public class SVNManager
 		if ( !project.exists() )
 			return;
 
+		if ( ourClientManager == null )
+		{
+			setupLibrary();
+		}
+
 		try
 		{
 			if ( !SVNWCUtil.isWorkingCopyRoot( project ) )
