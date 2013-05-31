@@ -62,7 +62,6 @@ import javax.swing.JOptionPane;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -72,7 +71,6 @@ import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
-import org.tmatesoft.svn.core.auth.BasicAuthenticationManager;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
 import org.tmatesoft.svn.core.io.SVNRepository;
@@ -123,30 +121,6 @@ public class SVNManager
 		 * driver
 		 */
 		ourClientManager = SVNClientManager.newInstance( options );
-
-		String proxySet = Preferences.getString( "proxySet" );
-		if ( Boolean.valueOf( proxySet ) )
-		{
-			String host = System.getProperty( "http.proxyHost" );
-			String port = System.getProperty( "http.proxyPort" );
-			String user = System.getProperty( "http.proxyUser" );
-			String pass = System.getProperty( "http.proxyPassword" );
-
-			if ( host == null || port == null )
-			{
-				host = System.getProperty( "https.proxyHost" );
-				port = System.getProperty( "https.proxyPort" );
-				user = System.getProperty( "https.proxyUser" );
-				pass = System.getProperty( "https.proxyPassword" );
-			}
-
-			if ( host != null && port != null )
-			{
-				BasicAuthenticationManager auth = new BasicAuthenticationManager( "user", "password" );
-				auth.setProxy( host, StringUtilities.parseInt( port ), user, pass );
-				ourClientManager.setAuthenticationManager( auth );
-			}
-		}
 
 		myUpdateEventHandler = new UpdateEventHandler();
 
