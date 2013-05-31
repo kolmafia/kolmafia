@@ -97,7 +97,7 @@ public abstract class ChoiceManager
 		INITIALIZE,
 		ASCEND;
 	};
-	
+
 	private static PostChoiceAction action = PostChoiceAction.NONE;
 
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
@@ -145,11 +145,11 @@ public abstract class ChoiceManager
 		"tenth",
 		"eleventh",
 	};
-	
+
 	private static final String[][] OLD_MAN_PSYCHOSIS_SPOILERS =
 	{
 		{	"Draw a Monster with a Crayon",	"+1 Crayon, Add Cray-Kin" }, { "Build a Bubble Mountain", "+3 crew, -8-10 bubbles" },
-		{	"Ask Mom for More Bath Toys", "+2 crayons, +8-11 bubbles" }, { "Draw a Bunch of Coconuts with Crayons", "Block Ferocious roc, -2 crayons" }, 
+		{	"Ask Mom for More Bath Toys", "+2 crayons, +8-11 bubbles" }, { "Draw a Bunch of Coconuts with Crayons", "Block Ferocious roc, -2 crayons" },
 		{	"Splash in the Water", "Add Bristled Man-O-War" }, { "Draw a Big Storm Cloud on the Shower Wall", "Block Deadly Hydra, -3 crayons" },
 		{	"Knock an Action Figure Overboard", "+20-23 bubbles, -1 crew" }, { "Submerge Some Bubbles", "Block giant man-eating shark, -16 bubbles" },
 		{	"Turn on the Shower Wand", "Add Deadly Hydra" }, { "Dump Bubble Bottle and Turn on the Faucet", "+13-19 bubbles" },
@@ -2210,17 +2210,17 @@ public abstract class ChoiceManager
 		// Confusing Buttons
 		new ChoiceSpoiler(
 			"Woods", "choiceAdventure583", "Hidden Temple",
-			new String[] { "Press a random button" } ), 
+			new String[] { "Press a random button" } ),
 
 		// Unconfusing Buttons
 		new ChoiceAdventure(
 			"Woods", "choiceAdventure584", "Hidden Temple",
-			new String[] { "Hidden Temple (Stone) - muscle substats", "Hidden Temple (Sun) - gain ancient calendar fragment", "Hidden Temple (Gargoyle) - MP", "Hidden Temple (Pikachutlotal) - Hidden City unlock" } ), 
-			
+			new String[] { "Hidden Temple (Stone) - muscle substats", "Hidden Temple (Sun) - gain ancient calendar fragment", "Hidden Temple (Gargoyle) - MP", "Hidden Temple (Pikachutlotal) - Hidden City unlock" } ),
+
 		// A Lost Room
 		new ChoiceAdventure(
 			"Item-Driven", "choiceAdventure594", "Lost Key",
-			new String[] { "lost glasses", "lost comb", "lost pill bottle" } ), 
+			new String[] { "lost glasses", "lost comb", "lost pill bottle" } ),
 
 		// Choice 585 is Screwing Around!
 		// Choice 586 is All We Are Is Radio Huggler
@@ -2565,7 +2565,7 @@ public abstract class ChoiceManager
 			// Add "Go To Goal" button for Interview With You
 			VampOutManager.addGoalButton( buffer );
 			break;
-			
+
 		case 594:
 			// Add "Go To Goal" button for a Lost Room
 			LostKeyManager.addGoalButton( buffer );
@@ -2746,7 +2746,7 @@ public abstract class ChoiceManager
 		case 502:
 			// Arboreal Respite
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Arboreal Respite" );
-		
+
 		case 579:
 			// Such Great Heights
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Such Great Heights" );
@@ -2887,12 +2887,12 @@ public abstract class ChoiceManager
 		case 185:
 			// Yes, You're a Rock Starrr
 			result = new String[ 3 ];
-			
+
 			int drunk = KoLCharacter.getInebriety();
-			
+
 			// 0 drunk: base booze, mixed booze, fight
 			// More than 0 drunk: base booze, mixed booze, stats
-			
+
 			result[ 0 ] = "base booze";
 			result[ 1 ] = "mixed booze";
 			result[ 2 ] = drunk == 0 ? "combat" : "stats";
@@ -3194,7 +3194,7 @@ public abstract class ChoiceManager
 			// The Fast and the Furry-ous
 			result = new String[ 4 ];
 			boolean umbrellaOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TITANIUM_UMBRELLA, 1 ) );
-			result [ 0 ] = umbrellaOn ? "open Ground Floor (titanium umbrella equipped)" : 
+			result [ 0 ] = umbrellaOn ? "open Ground Floor (titanium umbrella equipped)" :
 				  "Neckbeard Choice (titanium umbrella not equipped)";
 			result [ 1 ] = "200 Moxie substats";
 			result [ 2 ] = "";
@@ -4160,7 +4160,7 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "lastBallroomUnlock", KoLCharacter.getAscensions() );
 			}
 			break;
-			
+
 		case 89:
 			if ( ChoiceManager.lastDecision == 4 )
 			{
@@ -4203,7 +4203,7 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( Quest.WORSHIP, "step3" );
 			}
 			break;
-			
+
 		case 132:
 			// Let's Make a Deal!
 			if ( ChoiceManager.lastDecision == 2 )
@@ -4546,6 +4546,14 @@ public abstract class ChoiceManager
 					RequestLogger.printLine( message );
 					RequestLogger.updateSessionLog( message );
 				}
+			}
+			break;
+
+		case 677:
+			// Copper Feel
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ResultProcessor.removeItem( ItemPool.MODEL_AIRSHIP );
 			}
 			break;
 
@@ -5774,7 +5782,7 @@ public abstract class ChoiceManager
 
 			int amount = 3 + StringUtilities.parseInt( decision );
 			return InventoryManager.getCount( ItemPool.LOLLIPOP_STICK ) >= amount ? decision : "6";
-			
+
 		case 594:
 			if ( ChoiceManager.action == PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
@@ -5993,7 +6001,7 @@ public abstract class ChoiceManager
 		while ( matcher.find() )
 		{
 			String decisionText = matcher.group( 2 );
-			
+
 			if ( decisionText.indexOf( text ) != -1 )
 			{
 				return StringUtilities.getEntityDecode( matcher.group( 1 ) );
@@ -6009,7 +6017,7 @@ public abstract class ChoiceManager
 		while ( matcher.find() )
 		{
 			int decisionIndex = Integer.parseInt( matcher.group( 1 ) );
-			
+
 			if ( decisionIndex == index )
 			{
 				return matcher.group( 2 );
@@ -6024,7 +6032,7 @@ public abstract class ChoiceManager
 		// Used for casting skills that lead to a choice adventure
 		ChoiceManager.skillUses = uses;
 	}
-	
+
 	private static String[] oldManPsychosisSpoilers()
 	{
 		Matcher matcher = ChoiceManager.DECISION_BUTTON_PATTERN.matcher( ChoiceManager.lastResponseText );
@@ -6041,7 +6049,7 @@ public abstract class ChoiceManager
 		// we need to return a string array with len=4 - even if there are buttons missing
 		// the missing buttons are just "hidden" and thus the later buttons have the appropriate form field
 		// i.e. button 2 may be the first button.
-		
+
 		// As it turns out, I think all this cancels out and they could just be implemented as standard choice adventures,
 		// since the buttons are not actually randomized, they are consistent within the four choice adventures that make up the 10 log entry non-combats.
 		// Ah well.  Leavin' it here.
