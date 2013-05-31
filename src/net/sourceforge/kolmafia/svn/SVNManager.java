@@ -132,7 +132,7 @@ public class SVNManager
 			String user = System.getProperty( "http.proxyUser" );
 			String pass = System.getProperty( "http.proxyPassword" );
 
-			if ( host == null || port == null || user == null || pass == null )
+			if ( host == null || port == null )
 			{
 				host = System.getProperty( "https.proxyHost" );
 				port = System.getProperty( "https.proxyPort" );
@@ -140,7 +140,7 @@ public class SVNManager
 				pass = System.getProperty( "https.proxyPassword" );
 			}
 
-			if ( host != null && port != null && user != null && pass != null )
+			if ( host != null && port != null )
 			{
 				BasicAuthenticationManager auth = new BasicAuthenticationManager( "user", "password" );
 				auth.setProxy( host, StringUtilities.parseInt( port ), user, pass );
