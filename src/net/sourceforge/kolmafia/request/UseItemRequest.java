@@ -4316,6 +4316,10 @@ public class UseItemRequest
 			QuestDatabase.advanceQuest( Quest.BAT );
 			return;
 
+		case ItemPool.MERKIN_STASHBOX:
+			ResultProcessor.removeItem( ItemPool.MERKIN_LOCKKEY );
+			return;
+
 		}
 	}
 
