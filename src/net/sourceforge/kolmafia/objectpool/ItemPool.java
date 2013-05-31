@@ -1601,6 +1601,7 @@ public class ItemPool
 	public static final int STAFF_OF_STEAK = 6263;
 	public static final int STAFF_OF_CREAM = 6265;
 	public static final int ROCKETSHIP = 6290;
+	public static final int MODEL_AIRSHIP = 6299;
 	public static final int JARLS_COSMIC_PAN = 6304;
 	public static final int JARLS_PAN = 6305;
 	public static final int FISH_MEAT_CRATE = 6312;
