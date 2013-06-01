@@ -61,7 +61,6 @@ import javax.swing.JOptionPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -134,6 +133,21 @@ public class SVNManager
 		 * Sets a custom event handler for operations of an SVNWCClient instance
 		 */
 		ourClientManager.getWCClient().setEventHandler( myWCEventHandler );
+	}
+
+	
+	/**
+	 * Meant to be called before any operation that interacts with a remote repository. Prepares client manager and
+	 * cleans up static variables in case they were not cleaned up in the previous operation.
+	 */
+	private static void initialize()
+	{
+		if ( ourClientManager == null )
+		{
+			setupLibrary();
+		}
+
+		eventStack.clear();
 	}
 
 	/*
@@ -370,6 +384,8 @@ public class SVNManager
 
 	public static void doCheckout( SVNURL repo )
 	{
+		initialize();
+
 		String UUID = SVNManager.getFolderUUID( repo );
 
 		if ( UUID == null )
@@ -485,7 +501,6 @@ public class SVNManager
 	 */
 	private static void pushUpdates( boolean wasCheckout )
 	{
-		
 		List<String> pathsToSkip = doFinalChecks( wasCheckout );
 		if ( pathsToSkip.size() > 0 )
 		{
@@ -849,11 +864,6 @@ public class SVNManager
 
 	private static String getFolderUUID( SVNURL repo )
 	{
-		if ( ourClientManager == null )
-		{
-			setupLibrary();
-		}
-
 		String UUID = null;
 		// first, make sure the repo is there.
 		try
@@ -911,10 +921,7 @@ public class SVNManager
 			return;
 		}
 
-		if ( ourClientManager == null )
-		{
-			setupLibrary();
-		}
+		initialize();
 
 		for ( File f : projects )
 		{
@@ -962,10 +969,7 @@ public class SVNManager
 		if ( !project.exists() )
 			return;
 
-		if ( ourClientManager == null )
-		{
-			setupLibrary();
-		}
+		initialize();
 
 		try
 		{
@@ -1002,6 +1006,8 @@ public class SVNManager
 	 */
 	public static void doUpdate( SVNURL repo )
 	{
+		initialize();
+
 		String UUID = SVNManager.getFolderUUID( repo );
 
 		if ( UUID == null )
@@ -1047,7 +1053,7 @@ public class SVNManager
 		RequestLogger.printLine("Uninstalling project...");
 		recursiveDelete( project );
 	}
-	
+
 	private static void recursiveDelete( File f )
 	{
 		if ( f.isDirectory() )
@@ -1095,6 +1101,8 @@ public class SVNManager
 		if ( !project.exists() )
 			return;
 
+		initialize();
+
 		try
 		{
 			long currentRev = ourClientManager.getStatusClient().doStatus( project, false ).getRevision().getNumber();
@@ -1116,8 +1124,7 @@ public class SVNManager
 				RequestLogger.printLine( "SVN Error: no such revision.  Aborting..." );
 				return;
 			}
-			RequestLogger.printLine( "SVN ERROR during update operation.  Aborting..." );
-			StaticEntity.printStackTrace( e );
+			error( e, "SVN ERROR during update operation.  Aborting..." );
 			return;
 		}
 
