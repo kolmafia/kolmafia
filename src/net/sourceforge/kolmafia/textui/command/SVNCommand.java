@@ -63,6 +63,12 @@ public class SVNCommand
 			SVNManager.doUpdate();
 			return;
 		}
+		
+		if ( parameters.trim().equals( "sync" ) )
+		{
+			SVNManager.syncAll();
+			return;
+		}
 
 		if ( parameters.startsWith( "checkout" ) )
 		{

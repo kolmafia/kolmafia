@@ -169,6 +169,7 @@ global	stealthLogin	true
 global	svnUpdateOnLogin	false
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	false
+global	syncAfterSvnUpdate	false
 global	tomeSkillsHardcore	Summon Snowcone
 global	tomeSkillsSoftcore	all
 global	toolbarPosition	1
