@@ -61,6 +61,7 @@ import javax.swing.JOptionPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -72,6 +73,7 @@ import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
+import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.ISVNOptions;
 import org.tmatesoft.svn.core.wc.SVNClientManager;
@@ -955,6 +957,11 @@ public class SVNManager
 
 			pushUpdates();
 		}
+
+		if ( Preferences.getBoolean( "syncAfterSvnUpdate" ) )
+		{
+			syncAll();
+		}
 	}
 
 	/**
@@ -1129,6 +1136,87 @@ public class SVNManager
 		}
 
 		pushUpdates();
+	}
+
+	/**
+	 * "sync" operations are for users who make edits to the working copy version of files (in svn/) and want those
+	 * changes reflected in their local copy.
+	 * <p>
+	 * Sync first iterates through projects and builds a list of working copy files that are modified.
+	 * <p>
+	 * For files that are modified, it then compares the WC file against the local rebase. If the rebase is different,
+	 * the WC file is copied over the rebase.
+	 */
+	public static void syncAll()
+	{
+		File[] projects = KoLConstants.SVN_LOCATION.listFiles();
+
+		if ( projects == null || projects.length == 0 )
+		{
+			// Nothing to do here.
+			return;
+		}
+
+		initialize();
+
+		RequestLogger.printLine( "Checking for working copy modifications..." );
+
+		for ( File f : projects )
+		{
+			try
+			{
+				ourClientManager.getStatusClient().doStatus( f, SVNRevision.UNDEFINED, SVNDepth.INFINITY, false, false, false, false, new StatusHandler(), null );
+			}
+			catch ( SVNException e )
+			{
+				error( e );
+				return;
+			}
+		}
+
+		if ( eventStack.isEmpty() )
+		{
+			// nothing to do
+			return;
+		}
+
+		RequestLogger.printLine( "Synchronizing with local copies..." );
+
+		while ( !eventStack.isEmpty() )
+		{
+			File eventFile = eventStack.pop().getFile();
+
+			if ( eventFile.isDirectory() )
+			{
+				continue; // directories are harmless
+			}
+			File fDepth = findDepth( eventFile.getParentFile() );
+			if ( fDepth == null )
+			{
+				//shouldn't happen, punt
+				eventStack.clear();
+				return;
+			}
+
+			String relpath = FileUtilities.getRelativePath( fDepth.getParentFile(), eventFile );
+			File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
+
+			try
+			{
+				if ( rebaseExists( relpath ) && !SVNFileUtil.compareFiles( eventFile, rebase, null ) )
+				{
+					doPush( eventFile, relpath );
+				}
+			}
+			catch ( SVNException e )
+			{
+				error( e );
+				eventStack.clear();
+				return;
+			}
+		}
+
+		RequestLogger.printLine( "Sync complete." );
 	}
 
 	private static void error( SVNException e )
