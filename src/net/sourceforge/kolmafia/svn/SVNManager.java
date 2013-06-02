@@ -95,6 +95,7 @@ public class SVNManager
 	private static ISVNEventHandler myWCEventHandler;
 
 	private static Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/([^/]+)/code(.*)", Pattern.DOTALL );
+	private static Pattern GOOGLECODE_HOST_PATTERN = Pattern.compile( "([^\\.]+)\\.googlecode\\.com", Pattern.DOTALL );
 	private static List<String> permissibles = Arrays.asList( "scripts", "data", "images", "relay", "ccs" );
 
 	/**
@@ -886,6 +887,16 @@ public class SVNManager
 		{
 			// replace awful SVN UUID with nicely-formatted string derived from URL
 			UUID = m.group( 1 ) + StringUtilities.globalStringReplace( m.group( 2 ), "/", "-" );
+		}
+		else
+		{
+			// try googlecode regex.
+			m = GOOGLECODE_HOST_PATTERN.matcher( repo.getHost() );
+
+			if ( m.find() )
+			{
+				UUID = m.group( 1 ) + StringUtilities.globalStringReplace( repo.getPath().substring( 4 ), "/", "-" );
+			}
 		}
 
 		return UUID;
