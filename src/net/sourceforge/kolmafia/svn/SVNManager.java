@@ -87,6 +87,8 @@ import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 
 public class SVNManager
 {
+	private static final int RETRY_LIMIT = 3;
+
 	private static Stack<SVNFileEvent> eventStack = new Stack<SVNFileEvent>();
 
 	private static SVNClientManager ourClientManager;
@@ -254,6 +256,12 @@ public class SVNManager
 	public static long update( File wcPath, SVNRevision updateToRevision, boolean isRecursive )
 		throws SVNException
 	{
+		return update( wcPath, updateToRevision, isRecursive, 0 );
+	}
+
+	private static long update( File wcPath, SVNRevision updateToRevision, boolean isRecursive, int retryCount )
+		throws SVNException
+	{
 		if ( ourClientManager == null )
 		{
 			setupLibrary();
@@ -267,7 +275,26 @@ public class SVNManager
 		/*
 		 * returns the number of the revision wcPath was updated to
 		 */
-		return updateClient.doUpdate( wcPath, updateToRevision, SVNDepth.fromRecurse( isRecursive), false, false );
+
+		long rev = -1;
+		try
+		{
+			rev = updateClient.doUpdate( wcPath, updateToRevision, SVNDepth.fromRecurse( isRecursive ), false, false );
+		}
+		catch ( SVNException e )
+		{
+			if ( e.getErrorMessage().getErrorCode() == SVNErrorCode.ATOMIC_INIT_FAILURE && retryCount <= RETRY_LIMIT )
+			{
+				retryCount++ ;
+				// workaround for stupid sourceforge Apache bug
+				RequestLogger.printLine( "Server-side error during svn update, retrying " + retryCount + " of " +
+					RETRY_LIMIT );
+				return update( wcPath, updateToRevision, isRecursive, retryCount );
+			}
+			else
+				throw e;
+		}
+		return rev;
 	}
 
 	/*
