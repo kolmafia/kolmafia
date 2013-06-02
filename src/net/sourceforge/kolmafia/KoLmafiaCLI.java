@@ -38,7 +38,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import java.util.regex.Pattern;
 
@@ -899,27 +901,33 @@ public class KoLmafiaCLI
 		RequestLogger.printLine( displayText.trim() );
 	}
 
-	public static final File findScriptFile( final String filename )
+	// we return ALL matches, let callers decide whether to error if there is no unique match. (they probably should)
+	public static final List<File> findScriptFile( final String filename )
+	{
+		List<File> matches = new ArrayList<File>();
+
+		return findScriptFile( filename, matches );
+	}
+
+	private static final List<File> findScriptFile( final String filename, List<File> matches )
 	{
 		File scriptFile = new File( filename );
 		if ( scriptFile.exists() )
 		{
-			return scriptFile.isDirectory() ? null : scriptFile;
+			if ( !scriptFile.isDirectory() )
+				matches.add( scriptFile );
 		}
 
 		scriptFile = new File( KoLConstants.ROOT_LOCATION, filename );
 		if ( scriptFile.exists() )
 		{
-			return scriptFile.isDirectory() ? null : scriptFile;
+			if ( !scriptFile.isDirectory() )
+				matches.add( scriptFile );
 		}
 
 		if ( KoLConstants.SCRIPT_LOCATION.exists() )
 		{
-			scriptFile = KoLmafiaCLI.findScriptFile( KoLConstants.SCRIPT_LOCATION, filename, false );
-			if ( scriptFile != null )
-			{
-				return scriptFile.isDirectory() ? null : scriptFile;
-			}
+			KoLmafiaCLI.findScriptFile( KoLConstants.SCRIPT_LOCATION, filename, matches );
 		}
 
 		if ( KoLConstants.PLOTS_LOCATION.exists() )
@@ -927,55 +935,36 @@ public class KoLmafiaCLI
 			scriptFile = new File( KoLConstants.PLOTS_LOCATION, filename );
 			if ( scriptFile.exists() )
 			{
-				return scriptFile.isDirectory() ? null : scriptFile;
+				if ( !scriptFile.isDirectory() )
+					matches.add( scriptFile );
 			}
 		}
 
 		if ( KoLConstants.RELAY_LOCATION.exists() )
 		{
-			scriptFile = KoLmafiaCLI.findScriptFile( KoLConstants.RELAY_LOCATION, filename, false );
-			if ( scriptFile != null )
-			{
-				return scriptFile.isDirectory() ? null : scriptFile;
-			}
+			KoLmafiaCLI.findScriptFile( KoLConstants.RELAY_LOCATION, filename, matches );
 		}
 
-		return null;
+		// Only if we get here and there are no matches do we recursively try again, adding some extensions.
+		// Stop recursion once an extension has been added (alternatively, don't even try if an extension was specified in the first place)
+		if ( matches.size() == 0 && !filename.contains( "." ) )
+		{
+			findScriptFile( filename + ".ash", matches );
+			findScriptFile( filename + ".cli", matches );
+			findScriptFile( filename + ".txt", matches );
+		}
+
+		return matches;
 	}
 
-	public static final File findScriptFile( final File directory, final String filename )
-	{
-		return KoLmafiaCLI.findScriptFile( directory, filename, false );
-	}
-
-	private static final File findScriptFile( final File directory, final String filename, final boolean isFallback )
+	private static final void findScriptFile( final File directory, final String filename, List<File> matches )
 	{
 		File scriptFile = new File( directory, filename );
 
 		if ( scriptFile.exists() )
 		{
-			return scriptFile;
-		}
-
-		if ( !isFallback )
-		{
-			scriptFile = KoLmafiaCLI.findScriptFile( directory, filename + ".cli", true );
-			if ( scriptFile != null )
-			{
-				return scriptFile;
-			}
-
-			scriptFile = KoLmafiaCLI.findScriptFile( directory, filename + ".txt", true );
-			if ( scriptFile != null )
-			{
-				return scriptFile;
-			}
-
-			scriptFile = KoLmafiaCLI.findScriptFile( directory, filename + ".ash", true );
-			if ( scriptFile != null )
-			{
-				return scriptFile;
-			}
+			if ( !scriptFile.isDirectory() )
+				matches.add( scriptFile );
 		}
 
 		File[] contents = DataUtilities.listFiles( directory );
@@ -983,15 +972,9 @@ public class KoLmafiaCLI
 		{
 			if ( contents[ i ].isDirectory() )
 			{
-				scriptFile = KoLmafiaCLI.findScriptFile( contents[ i ], filename, false );
-				if ( scriptFile != null )
-				{
-					return scriptFile;
-				}
+				KoLmafiaCLI.findScriptFile( contents[ i ], filename, matches );
 			}
 		}
-
-		return null;
 	}
 
 	static String buildRelayScriptMenu()

@@ -37,6 +37,7 @@ import java.io.File;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -161,6 +162,15 @@ public abstract class KoLmafiaASH
 
 			return response;
 		}
+	}
+
+	// Convenience method so that callers can just do getInterpreter( KoLMafiaCLI.findScriptFile() )
+	public static Interpreter getInterpreter( List<File> findScriptFile )
+	{
+		if ( findScriptFile.size() == 1 )
+			return getInterpreter( findScriptFile.get( 0 ) );
+
+		return null;
 	}
 
 	public static final Interpreter getInterpreter( final File toExecute )
