@@ -94,7 +94,7 @@ public class SVNManager
 	private static ISVNEventHandler myUpdateEventHandler;
 	private static ISVNEventHandler myWCEventHandler;
 
-	private static Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/(\\w+)/code(.*)", Pattern.DOTALL );
+	private static Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/([^/]+)/code(.*)", Pattern.DOTALL );
 	private static List<String> permissibles = Arrays.asList( "scripts", "data", "images", "relay", "ccs" );
 
 	/**
@@ -952,7 +952,7 @@ public class SVNManager
 			catch ( SVNException e )
 			{
 				error( e );
-				return;
+				continue;
 			}
 
 			pushUpdates();
