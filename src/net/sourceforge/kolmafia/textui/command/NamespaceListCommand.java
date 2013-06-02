@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
+import java.util.List;
 
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -58,7 +59,9 @@ public class NamespaceListCommand
 		for ( int i = 0; i < scripts.length; ++i )
 		{
 			RequestLogger.printLine( scripts[ i ] );
-			File f = KoLmafiaCLI.findScriptFile( scripts[ i ] );
+			List<File> matches = KoLmafiaCLI.findScriptFile( scripts[ i ] );
+			
+			File f = matches.size() == 1 ? matches.get( 0 ) : null;
 			if ( f == null )
 			{
 				continue;

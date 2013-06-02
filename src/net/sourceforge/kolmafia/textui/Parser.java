@@ -43,6 +43,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -341,11 +342,24 @@ public class Parser
 
 	public Scope importFile( final String fileName, final Scope scope )
 	{
-		File scriptFile = KoLmafiaCLI.findScriptFile( fileName );
-		if ( scriptFile == null )
+		List<File> matches = KoLmafiaCLI.findScriptFile( fileName );
+		if ( matches.size() > 1 )
+		{
+			String s = "";
+			for ( File f : matches )
+			{
+				if ( !s.equals( "" ) )
+					s += "; ";
+				s += f.getPath();
+			}
+			throw this.parseException( "too many matches for " + fileName + ": " + s );
+		}
+		if ( matches.size() == 0 )
 		{
 			throw this.parseException( fileName + " could not be found" );
 		}
+
+		File scriptFile = matches.get( 0 );
 
 		if ( this.imports.containsKey( scriptFile ) )
 		{

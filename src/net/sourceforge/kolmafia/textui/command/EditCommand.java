@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
+import java.util.List;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -60,7 +61,18 @@ public class EditCommand
 			return;
 		}
 		
-		File scriptFile = KoLmafiaCLI.findScriptFile( parameters );
+		List<File> scriptMatches = KoLmafiaCLI.findScriptFile( parameters );
+		
+		if ( scriptMatches.size() > 1 )
+		{
+			// too many matches, error
+			RequestLogger.printList( scriptMatches );
+			RequestLogger.printLine();
+			KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "] has too many matches." );
+			return;
+		}
+
+		File scriptFile = scriptMatches.size() == 1 ? scriptMatches.get( 0 ) : null;
 
 		if ( scriptFile == null )
 		{

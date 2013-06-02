@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -82,13 +83,13 @@ public class CallScriptCommand
 			String[] arguments = null;
 
 			parameters = parameters.trim();
-			File scriptFile = KoLmafiaCLI.findScriptFile( parameters );
+			List<File> scriptMatches = KoLmafiaCLI.findScriptFile( parameters );
 
 			// If still no script was found, perhaps it's the
 			// secret invocation of the "#x script" that allows a
 			// script to be run multiple times.
 
-			if ( scriptFile == null )
+			if ( scriptMatches.size() == 0 )
 			{
 				String runCountString = parameters.split( " " )[ 0 ];
 				boolean hasMultipleRuns = runCountString.endsWith( "x" );
@@ -108,14 +109,14 @@ public class CallScriptCommand
 						return;
 					}
 					parameters = parameters.substring( parameters.indexOf( " " ) ).trim();
-					scriptFile = KoLmafiaCLI.findScriptFile( parameters );
+					scriptMatches = KoLmafiaCLI.findScriptFile( parameters );
 				}
 			}
 
 			// Maybe the more ambiguous invocation of an ASH script
 			// which does not use parentheses?
 
-			if ( scriptFile == null )
+			if ( scriptMatches.size() == 0 )
 			{
 				int spaceIndex = parameters.indexOf( " " );
 				if ( spaceIndex != -1 )
@@ -136,14 +137,14 @@ public class CallScriptCommand
 					}
 					
 					parameters = parameters.substring( 0, spaceIndex );
-					scriptFile = KoLmafiaCLI.findScriptFile( parameters );
+					scriptMatches = KoLmafiaCLI.findScriptFile( parameters );
 				}
 			}
 
 			// If not even that, perhaps it's the invocation of a
 			// function which is defined in the ASH namespace?
 
-			if ( scriptFile == null )
+			if ( scriptMatches.size() == 0 )
 			{
 				Value rv = KoLmafiaASH.NAMESPACE_INTERPRETER.execute( parameters, arguments );
 				// A script only has a meaningful return value
@@ -154,6 +155,21 @@ public class CallScriptCommand
 				}
 				return;
 			}
+			
+			// If we have multiple matches, punt here.
+
+			if ( scriptMatches.size() > 1 )
+			{
+				// too many matches, punt
+				RequestLogger.printList( scriptMatches );
+				RequestLogger.printLine();
+				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "] has too many matches." );
+				return;
+			}
+
+			// Else we have a single, unique match and can proceed normally.
+
+			File scriptFile = scriptMatches.get( 0 );
 
 			// In theory, you could execute EVERY script in a
 			// directory, but instead, let's make it an error.
