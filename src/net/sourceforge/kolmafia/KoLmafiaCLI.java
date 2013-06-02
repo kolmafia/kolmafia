@@ -906,6 +906,16 @@ public class KoLmafiaCLI
 	{
 		List<File> matches = new ArrayList<File>();
 
+		File absoluteFile = new File( filename );
+
+		if ( absoluteFile.isAbsolute() )
+		{
+			if ( absoluteFile.exists() && !absoluteFile.isDirectory() )
+				matches.add( absoluteFile );
+
+			return matches;
+		}
+
 		return findScriptFile( filename, matches );
 	}
 
