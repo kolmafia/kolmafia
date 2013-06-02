@@ -911,14 +911,8 @@ public class KoLmafiaCLI
 
 	private static final List<File> findScriptFile( final String filename, List<File> matches )
 	{
-		File scriptFile = new File( filename );
-		if ( scriptFile.exists() )
-		{
-			if ( !scriptFile.isDirectory() )
-				matches.add( scriptFile );
-		}
+		File scriptFile = new File( KoLConstants.ROOT_LOCATION, filename );
 
-		scriptFile = new File( KoLConstants.ROOT_LOCATION, filename );
 		if ( scriptFile.exists() )
 		{
 			if ( !scriptFile.isDirectory() )
