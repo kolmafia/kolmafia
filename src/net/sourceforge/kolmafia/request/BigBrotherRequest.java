@@ -93,13 +93,16 @@ public class BigBrotherRequest
 	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
 	public static final AdventureResult AMPHIBIOUS_TOPHAT = ItemPool.get( ItemPool.AMPHIBIOUS_TOPHAT, 1 );
 	public static final AdventureResult BUBBLIN_STONE = ItemPool.get( ItemPool.BUBBLIN_STONE, 1 );
+	public static final AdventureResult OLD_SCUBA_TANK = ItemPool.get( ItemPool.OLD_SCUBA_TANK, 1 );
+	public static final AdventureResult SCHOLAR_MASK = ItemPool.get( ItemPool.SCHOLAR_MASK, 1 );
+	public static final AdventureResult GLADIATOR_MASK = ItemPool.get( ItemPool.GLADIATOR_MASK, 1 );
+	public static final AdventureResult CRAPPY_MASK = ItemPool.get( ItemPool.CRAPPY_MASK, 1 );
 
 	private static AdventureResult self = null;
 	private static AdventureResult familiar = null;
 	private static boolean rescuedBigBrother = false;
 	private static boolean waterBreathingFamiliar = false;
 	private static boolean wetWillyActive = false;
-	private static boolean deepBreathActive = false;
 
 	public BigBrotherRequest()
 	{
@@ -152,19 +155,37 @@ public class BigBrotherRequest
 
 	private static void update()
 	{
+		// There might be a more accurate way to check this
+		BigBrotherRequest.rescuedBigBrother = InventoryManager.getAccessibleCount( BigBrotherRequest.AERATED_DIVING_HELMET ) > 0 ||
+			InventoryManager.getAccessibleCount( BigBrotherRequest.BUBBLIN_STONE ) > 0;
+		if ( !BigBrotherRequest.rescuedBigBrother )
+		{
+			return;
+		}
+
 		if ( InventoryManager.getAccessibleCount( BigBrotherRequest.AERATED_DIVING_HELMET ) > 0 )
 		{
 			BigBrotherRequest.self = BigBrotherRequest.AERATED_DIVING_HELMET;
-			BigBrotherRequest.rescuedBigBrother = true;
 		}
 		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.SCUBA_GEAR ) > 0 )
 		{
 			BigBrotherRequest.self = BigBrotherRequest.SCUBA_GEAR;
-			BigBrotherRequest.rescuedBigBrother = InventoryManager.getAccessibleCount( BigBrotherRequest.BUBBLIN_STONE ) > 0;
 		}
-		else
+		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.OLD_SCUBA_TANK ) > 0 )
 		{
-			BigBrotherRequest.rescuedBigBrother = false;
+			BigBrotherRequest.self = BigBrotherRequest.OLD_SCUBA_TANK;
+		}
+		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.SCHOLAR_MASK ) > 0 )
+		{
+			BigBrotherRequest.self = BigBrotherRequest.SCHOLAR_MASK;
+		}
+		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.GLADIATOR_MASK ) > 0 )
+		{
+			BigBrotherRequest.self = BigBrotherRequest.GLADIATOR_MASK;
+		}
+		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.CRAPPY_MASK ) > 0 )
+		{
+			BigBrotherRequest.self = BigBrotherRequest.CRAPPY_MASK;
 		}
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();
@@ -174,9 +195,6 @@ public class BigBrotherRequest
 		
 		// Wet Willied allows any familiar to breathe underwater
 		BigBrotherRequest.wetWillyActive  = KoLConstants.activeEffects.contains( EffectPool.get( Effect.WET_WILLIED ) );
-		
-		// Really Deep Breath obviates the need for underwater breathing equipment
-		BigBrotherRequest.deepBreathActive   = KoLConstants.activeEffects.contains( EffectPool.get( Effect.REALLY_DEEP_BREATH ) );
 
 		// For the dancing frog, the amphibious tophat is the best familiar equipment
 		if ( familiar.getId() == FamiliarPool.DANCING_FROG &&
@@ -203,7 +221,7 @@ public class BigBrotherRequest
 			return "You haven't rescued Big Brother yet.";
 		}
 
-		if ( BigBrotherRequest.self == null && !BigBrotherRequest.deepBreathActive )
+		if ( BigBrotherRequest.self == null && !KoLCharacter.currentBooleanModifier( "Adventure Underwater" ) )
 		{
 			return "You don't have the right equipment to adventure underwater.";
 		}
@@ -220,14 +238,14 @@ public class BigBrotherRequest
 	public void equip()
 	{
 		BigBrotherRequest.update();
-
-		if ( !BigBrotherRequest.deepBreathActive && !KoLCharacter.hasEquipped( BigBrotherRequest.self ) )
+		if ( !KoLCharacter.currentBooleanModifier( "Adventure Underwater" ) )
 		{
 			EquipmentRequest request = new EquipmentRequest( BigBrotherRequest.self );
 			RequestThread.postRequest( request );
 		}
 
-		if ( !BigBrotherRequest.wetWillyActive && !BigBrotherRequest.waterBreathingFamiliar && !KoLCharacter.hasEquipped( BigBrotherRequest.familiar ) )
+		if ( !BigBrotherRequest.wetWillyActive && !BigBrotherRequest.waterBreathingFamiliar &&
+		     !KoLCharacter.hasEquipped( BigBrotherRequest.familiar ) )
 		{
 			EquipmentRequest request = new EquipmentRequest( familiar );
 			RequestThread.postRequest( request );

@@ -1107,6 +1107,9 @@ public class ItemPool
 	public static final int PUMPKINHEAD_MASK = 4261;
 	public static final int MUMMY_COSTUME = 4262;
 	public static final int UNDERWORLD_ACORN = 4274;
+	public static final int CRAPPY_MASK = 4282;
+	public static final int GLADIATOR_MASK = 4284;
+	public static final int SCHOLAR_MASK = 4285;
 	public static final int CRYSTAL_ORB = 4295;
 	public static final int DEPLETED_URANIUM_SEAL = 4296;
 	public static final int VIOLENCE_LENS = 4300;
@@ -1608,6 +1611,7 @@ public class ItemPool
 	public static final int FISH_MEAT_CRATE = 6312;
 	public static final int DAMP_WALLET = 6313;
 	public static final int FISHY_PIPE = 6314;
+	public static final int OLD_SCUBA_TANK = 6315;
 	public static final int COZY_SCIMITAR = 6332;
 	public static final int COZY_STAFF = 6333;
 	public static final int COZY_BAZOOKA = 6334;
