@@ -1739,7 +1739,6 @@ Mer-kin dragbelt	Initiative: -25, Experience (Muscle): [20*zone(The Sea)], Singl
 Mer-kin eyeglasses	Maximum MP: -300, Experience (Mysticality): [20*zone(The Sea)], Single Equip
 Mer-kin gutgirdle	Maximum HP: -300, Experience (Moxie): [20*zone(The Sea)], Single Equip
 # Mer-kin prayerbeads: Makes you feel uneasy...
-Mer-kin prayerbeads	Single Equip
 Mer-kin waistrope	Mysticality Percent: +10
 Mesmereyes&trade; contact lenses	Mysticality Percent: +15
 Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
