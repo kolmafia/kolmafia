@@ -182,7 +182,7 @@ public class SVNCommand
 		}
 
 		else if ( parameters.startsWith( "decrement" ) || parameters.startsWith( "increment" ) ||
-			parameters.split( " " )[ 0 ].equals( "up" ) || parameters.split( " " )[ 0 ].equals( "down" ) )
+			parameters.split( " " )[ 0 ].equals( "inc" ) || parameters.split( " " )[ 0 ].equals( "dec" ) )
 		{
 			String[] paramSplit = parameters.split( " " );
 			if ( paramSplit.length < 2 )
@@ -207,7 +207,7 @@ public class SVNCommand
 			}
 			else if ( matches.size() == 1 )
 			{
-				int amount = parameters.startsWith( "decrement" ) || parameters.startsWith( "down" ) ? -1 : 1;
+				int amount = parameters.startsWith( "dec" ) ? -1 : 1;
 				SVNManager.incrementProject( matches.get( 0 ), amount );
 			}
 			else
