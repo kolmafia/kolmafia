@@ -572,7 +572,7 @@ public class SVNManager
 			{
 				doPush( event.getFile(), relpath );
 			}
-			else if ( shouldDelete(event) )
+			else if ( shouldDelete( event ) )
 			{
 				doDelete( event.getFile(), relpath );
 			}
@@ -586,7 +586,7 @@ public class SVNManager
 	{
 		return findDepth( f, false );
 	}
-	
+
 	private static File findDepth( File f, boolean force )
 	{
 		String original = f.getAbsolutePath();
@@ -674,7 +674,7 @@ public class SVNManager
 				return skipFiles;
 			}
 
-			StringBuilder message = new StringBuilder("<html>New file(s) requesting confirmation:<p>" );
+			StringBuilder message = new StringBuilder( "<html>New file(s) requesting confirmation:<p>" );
 			for ( int i = 0; i < skipFiles.size(); ++i )
 			{
 				message.append( "<b>file</b>: " + skipFiles.get( i ) + "<p>" );
@@ -704,8 +704,8 @@ public class SVNManager
 			{
 				error( e, "Something went wrong fetching SVN info" );
 			}
-			message.append( "<br><b>Only click yes if you trust the author.</b>" +
-					"<p>Clicking no will stop the files from being added locally. (until you checkout the project again)" );
+			message.append( "<br><b>Only click yes if you trust the author.</b>"
+				+ "<p>Clicking no will stop the files from being added locally. (until you checkout the project again)" );
 			if ( JOptionPane.showConfirmDialog( null, message, "SVN wants to add new files", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) == JOptionPane.YES_OPTION )
 			{
 				skipFiles.clear();
@@ -716,8 +716,8 @@ public class SVNManager
 	}
 
 	/**
-	 * When a user does svn checkout, he/she may not want project files to overwrite existing local files.
-	 * Therefore, warn if local files exist.
+	 * When a user does svn checkout, he/she may not want project files to overwrite existing local files. Therefore,
+	 * warn if local files exist.
 	 * 
 	 * @return a <b>List</b> of relpaths to ignore
 	 */
@@ -746,18 +746,18 @@ public class SVNManager
 				//shouldn't happen, punt
 				return skipFiles;
 			}
-			
+
 			String relpath = FileUtilities.getRelativePath( fDepth.getParentFile(), event.getFile() );
-			File rebase = new File(KoLConstants.ROOT_LOCATION, relpath );
-			
+			File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
+
 			// We only want to prompt if the file already exists locally
 			if ( rebase.exists() )
 			{
-				skipFiles.add( relpath);
+				skipFiles.add( relpath );
 				skipURLs.add( event.getEvent().getURL() );
 			}
 		}
-		
+
 		if ( skipFiles.size() > 0 )
 		{
 			SVNRepository repo = null;
@@ -772,7 +772,7 @@ public class SVNManager
 				return skipFiles;
 			}
 
-			StringBuilder message = new StringBuilder("<html>New file(s) will overwrite local files:<p>" );
+			StringBuilder message = new StringBuilder( "<html>New file(s) will overwrite local files:<p>" );
 			for ( int i = 0; i < skipFiles.size(); ++i )
 			{
 				message.append( "<b>file</b>: " + skipFiles.get( i ) + "<p>" );
@@ -798,8 +798,8 @@ public class SVNManager
 			{
 				error( e, "Something went wrong fetching SVN info" );
 			}
-			message.append( "<br>Checking out this project will result in some local files (described above) being overwritten." +
-					"<p>Click yes to overwrite them, no to skip installing them." );
+			message.append( "<br>Checking out this project will result in some local files (described above) being overwritten."
+				+ "<p>Click yes to overwrite them, no to skip installing them." );
 			if ( JOptionPane.showConfirmDialog( null, message, "SVN checkout wants to overwrite local files", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) == JOptionPane.YES_OPTION )
 			{
 				skipFiles.clear();
@@ -817,7 +817,7 @@ public class SVNManager
 		RequestLogger.printLine( file.getName() + " => " + rebase.getPath() );
 		FileUtilities.copyFile( file, rebase );
 	}
-	
+
 	private static void doDelete( File file, String relpath )
 	{
 		File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
@@ -861,7 +861,7 @@ public class SVNManager
 
 		return false;
 	}
-	
+
 	private static boolean shouldDelete( SVNFileEvent event )
 	{
 		if ( event.getEvent().getAction() == SVNEventAction.UPDATE_DELETE )
@@ -1095,7 +1095,7 @@ public class SVNManager
 			return;
 		}
 
-		RequestLogger.printLine("Uninstalling project...");
+		RequestLogger.printLine( "Uninstalling project..." );
 		recursiveDelete( project );
 	}
 

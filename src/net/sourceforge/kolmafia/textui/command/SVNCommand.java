@@ -51,7 +51,7 @@ public class SVNCommand
 {
 	public SVNCommand()
 	{
-		this.usage = " checkout <svnurl> | update [<svnurl>] | list | delete <project> - install/update/manage svn projects.";
+		this.usage = " checkout <svnurl> | update [<svnurl>] | list | delete <project> | sync - install/update/manage svn projects.";
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class SVNCommand
 			SVNManager.doUpdate();
 			return;
 		}
-		
+
 		if ( parameters.trim().equals( "sync" ) )
 		{
 			SVNManager.syncAll();
@@ -94,7 +94,7 @@ public class SVNCommand
 		else if ( parameters.startsWith( "update" ) )
 		{
 			String params = parameters.substring( 6 ).trim();
-			
+
 			// user might have supplied a URL
 			if ( params.startsWith( "svn" ) || params.startsWith( "http" ) )
 			{
@@ -110,7 +110,7 @@ public class SVNCommand
 				}
 				SVNManager.doUpdate( repo );
 			}
-			
+
 			// user might have supplied a local project name, see if there's a matching one.
 			String[] projects = KoLConstants.SVN_LOCATION.list();
 			if ( projects == null || projects.length == 0 )
@@ -176,14 +176,18 @@ public class SVNCommand
 		{
 			String[] projects = KoLConstants.SVN_LOCATION.list();
 			if ( projects == null || projects.length == 0 )
-				RequestLogger.printLine("No projects currently installed with SVN.");
+				RequestLogger.printLine( "No projects currently installed with SVN." );
 			else
 				RequestLogger.printList( Arrays.asList( projects ) );
 		}
-		
-		else if ( parameters.startsWith( "decrement" ) || parameters.startsWith( "increment" ) )
+
+		else if ( parameters.startsWith( "decrement" ) || parameters.startsWith( "increment" ) ||
+			parameters.split( " " )[ 0 ].equals( "up" ) || parameters.split( " " )[ 0 ].equals( "down" ) )
 		{
-			String params = parameters.substring( 9 ).trim();
+			String[] paramSplit = parameters.split( " " );
+			if ( paramSplit.length < 2 )
+				return;
+			String params = paramSplit[ 1 ].trim();
 
 			String[] projects = KoLConstants.SVN_LOCATION.list();
 			if ( projects == null || projects.length == 0 )
@@ -193,7 +197,7 @@ public class SVNCommand
 			}
 
 			List<String> matches = StringUtilities.getMatchingNames( projects, params );
-			
+
 			if ( matches.size() > 1 )
 			{
 				RequestLogger.printList( matches );
@@ -203,7 +207,7 @@ public class SVNCommand
 			}
 			else if ( matches.size() == 1 )
 			{
-				int amount = parameters.startsWith( "decrement" ) ? -1 : 1;
+				int amount = parameters.startsWith( "decrement" ) || parameters.startsWith( "down" ) ? -1 : 1;
 				SVNManager.incrementProject( matches.get( 0 ), amount );
 			}
 			else
