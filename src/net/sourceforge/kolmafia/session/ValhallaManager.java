@@ -442,6 +442,7 @@ public class ValhallaManager
 		Preferences.setInteger( "lastCouncilVisit", 0 );
 		Preferences.setString( "merkinLockkeyMonster", "" );
 		Preferences.setString( "lassoTraining", "" );
+		Preferences.setString( "workteaClue", "" );
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
 		AdventureQueueDatabase.resetQueue();

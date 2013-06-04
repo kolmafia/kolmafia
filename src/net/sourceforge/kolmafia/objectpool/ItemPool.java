@@ -1618,10 +1618,13 @@ public class ItemPool
 	public static final int DAMP_WALLET = 6313;
 	public static final int FISHY_PIPE = 6314;
 	public static final int OLD_SCUBA_TANK = 6315;
+	public static final int SUSHI_DOILY = 6328;
 	public static final int COZY_SCIMITAR = 6332;
 	public static final int COZY_STAFF = 6333;
 	public static final int COZY_BAZOOKA = 6334;
 	public static final int SALTWATERBED = 6338;
+	public static final int DREADSCROLL = 6353;
+	public static final int MERKIN_WORKTEA = 6356;
 	public static final int TAFFY_BOOK = 6360;
 	public static final int YELLOW_TAFFY = 6361;
 	public static final int INDIGO_TAFFY = 6362;
