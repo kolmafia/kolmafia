@@ -796,34 +796,29 @@ public class ConcoctionDatabase
 	{
 		AdventureResult item = c.getItem();
 
-		// First, consume any items which appear in the inventory.
-
-		if ( item != null )
-		{
-			int initialConsume = Math.min( quantity, InventoryManager.getCount( item.getItemId() ) );
-
-			UseItemRequest request = UseItemRequest.getInstance( item.getInstance( initialConsume ) );
-			RequestThread.postRequest( request );
-
-			quantity -= initialConsume;
-
-			if ( quantity == 0 )
-			{
-				return;
-			}
-		}
-
 		// If there's an actual item, it's not from a store
-
 		if ( item != null )
 		{
-			// If concoction is a normal item, use normal item
-			// acquisition methods.
-
+			// If concoction is a normal item, use normal item acquisition methods.
 			if ( item.getItemId() > 0 )
 			{
-				UseItemRequest request = UseItemRequest.getInstance( item.getInstance( quantity ) );
-				RequestThread.postRequest( request );
+				UseItemRequest request;
+
+				// First, consume any items which appear in the inventory.
+				int initial = Math.min( quantity, InventoryManager.getCount( item.getItemId() ) );
+				if ( initial > 0 )
+				{
+					request = UseItemRequest.getInstance( item.getInstance( initial ) );
+					RequestThread.postRequest( request );
+					quantity -= initial;
+				}
+
+				// Second, let UseItemRequest acquire remaining items.
+				if ( quantity > 0 )
+				{
+					request = UseItemRequest.getInstance( item.getInstance( quantity ) );
+					RequestThread.postRequest( request );
+				}
 				return;
 			}
 
@@ -834,7 +829,7 @@ public class ConcoctionDatabase
 			return;
 		}
 
-		// Otherwise, acquire them from the restaurant.
+		// Otherwise, acquire them from the appropriate cafe.
 
 		String name = c.getName();
 		CafeRequest request;
@@ -860,6 +855,7 @@ public class ConcoctionDatabase
 			return;
 		}
 
+		// You can only buy one item at a time from a cafe
 		for ( int j = 0; j < quantity; ++j )
 		{
 			RequestThread.postRequest( request );
