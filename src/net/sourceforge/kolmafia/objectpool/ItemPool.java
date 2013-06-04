@@ -938,6 +938,11 @@ public class ItemPool
 	public static final int MERKIN_PRESSUREGLOBE = 3675;
 	public static final int POTION_OF_PERCEPTION = 3593;
 	public static final int POTION_OF_PROFICIENCY = 3594;
+	public static final int TEMPURA_CARROT = 3684;
+	public static final int TEMPURA_CUCUMBER = 3685;
+	public static final int TEMPURA_AVOCADO = 3686;
+	public static final int TEMPURA_BROCCOLI = 3689;
+	public static final int TEMPURA_CAULIFLOWER = 3690;
 	public static final int VINYL_BOOTS = 3716;
 	public static final int GNOLL_EYE = 3731;
 	public static final int BOOZEHOUND_TOKEN = 3739;
@@ -968,6 +973,7 @@ public class ItemPool
 	public static final int FUCHSIA_YARN = 3825;
 	public static final int CHARTREUSE_YARN = 3826;
 	public static final int GRANDMAS_MAP = 3828;
+	public static final int TEMPURA_RADISH = 3829;
 	public static final int TINY_COSTUME_WARDROBE = 3835;
 	public static final int OOT_BIWA = 3842;
 	public static final int JUNGLE_DRUM = 3846;
@@ -1620,6 +1626,10 @@ public class ItemPool
 	public static final int YELLOW_TAFFY = 6361;
 	public static final int INDIGO_TAFFY = 6362;
 	public static final int GREEN_TAFFY = 6363;
+	public static final int ANEMONE_SAUCE = 6394;
+	public static final int INKY_SQUID_SAUCE = 6395;
+	public static final int MERKIN_WEAKSAUCE = 6396;
+	public static final int PEANUT_SAUCE = 6397;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
