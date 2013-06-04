@@ -65,6 +65,7 @@ public class SushiRequest
 	private static final Pattern DIPPIN_PATTERN = Pattern.compile( "dippin=(\\d+)" );
 
 	private static final Pattern CONSUME_PATTERN = Pattern.compile( "You eat the ([^.]*)\\." );
+	private static final Pattern WORKTEA_PATTERN = Pattern.compile( "the leaves in the bottom look just like <b>([^<]*)</b>" );
 
 	public static final String [] SUSHI =
 	{
@@ -481,8 +482,7 @@ public class SushiRequest
 		super( "sushi.php", conc );
 		this.addFormField( "action", "Yep." );
 
-		// Lower-case it
-		String name = StringUtilities.getCanonicalName( conc.getName() );
+		String name = conc.getName();
 
 		int sushi = SushiRequest.nameToId( name );
 		if ( sushi > 0 )
@@ -587,6 +587,23 @@ public class SushiRequest
 		{
 			Preferences.increment( "currentFullness", fullness );
 			KoLCharacter.updateStatus();
+		}
+
+		// Eating it off of a fancy doily makes it even <i>more</i> delicious!
+		if ( responseText.contains( "fancy doily" ) )
+		{
+			ResultProcessor.processItem( ItemPool.SUSHI_DOILY, -1 );
+		}
+
+		// You manage to inadvertently drink a cup of that gross
+		// Mer-kin tea while you're eating the sushi.  And hey, look --
+		// the leaves in the bottom look just like <b>an eel</b>!
+
+		Matcher matcher = SushiRequest.WORKTEA_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			Preferences.setString( "workteaClue", matcher.group(1) );
+			ResultProcessor.processItem( ItemPool.MERKIN_WORKTEA, -1 );
 		}
 	}
 

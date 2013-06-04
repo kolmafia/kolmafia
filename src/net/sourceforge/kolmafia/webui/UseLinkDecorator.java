@@ -713,6 +713,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.REFLECTION_OF_MAP:
 			case ItemPool.CSA_FIRE_STARTING_KIT:
 			case ItemPool.CEO_OFFICE_CARD:
+			case ItemPool.DREADSCROLL:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
