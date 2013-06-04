@@ -965,6 +965,12 @@ public class SVNManager
 
 		for ( File f : projects )
 		{
+			if ( Preferences.getBoolean( "simpleSvnUpdate" ) )
+			{
+				if ( WCAtHead( f ) )
+					continue;
+			}
+
 			SVNInfo info;
 			try
 			{
@@ -1000,6 +1006,42 @@ public class SVNManager
 		{
 			syncAll();
 		}
+	}
+
+	/**
+	 * For users who just want "simple" update behavior, check if the revision of the project root and the repo root are
+	 * the same.
+	 * <p>
+	 * Users who have used <code>svn switch</code> on some of their project should not use this.
+	 * 
+	 * @param f the working copy
+	 * @return <b>true</b> if the working copy is at HEAD
+	 */
+	private static boolean WCAtHead( File f )
+	{
+		try
+		{
+			if ( !SVNWCUtil.isWorkingCopyRoot( f ) )
+			{
+				return false;
+			}
+
+			SVNInfo wcinfo = ourClientManager.getWCClient().doInfo( f, SVNRevision.WORKING );
+			long repoRev = ourClientManager.createRepository( wcinfo.getURL(), true ).getLatestRevision();
+
+			if ( wcinfo.getRevision().getNumber() == repoRev )
+			{
+				RequestLogger.printLine( wcinfo.getFile().getName() + " is at HEAD (r" + repoRev + ")" );
+				return true;
+			}
+		}
+		catch ( SVNException e )
+		{
+			error( e );
+			return false;
+		}
+
+		return false;
 	}
 
 	/**
@@ -1215,6 +1257,7 @@ public class SVNManager
 		if ( eventStack.isEmpty() )
 		{
 			// nothing to do
+			RequestLogger.printLine( "No modifications." );
 			return;
 		}
 
