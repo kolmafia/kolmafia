@@ -467,7 +467,7 @@ public class SVNManager
 
 		try
 		{
-			repository = ourClientManager.createRepository( repo, false );
+			repository = ourClientManager.createRepository( repo, true );
 		}
 		catch ( SVNException e )
 		{
@@ -665,7 +665,7 @@ public class SVNManager
 			SVNRepository repo = null;
 			try
 			{
-				repo = ourClientManager.createRepository( skipURLs.get( 0 ), false );
+				repo = ourClientManager.createRepository( skipURLs.get( 0 ), true );
 			}
 			catch ( SVNException e )
 			{
@@ -763,7 +763,7 @@ public class SVNManager
 			SVNRepository repo = null;
 			try
 			{
-				repo = ourClientManager.createRepository( skipURLs.get( 0 ), false );
+				repo = ourClientManager.createRepository( skipURLs.get( 0 ), true );
 			}
 			catch ( SVNException e )
 			{
@@ -898,7 +898,7 @@ public class SVNManager
 		// first, make sure the repo is there.
 		try
 		{
-			UUID = ourClientManager.createRepository( repo, false ).getRepositoryUUID( false );
+			UUID = ourClientManager.createRepository( repo, true ).getRepositoryUUID( false );
 		}
 		catch ( SVNException e )
 		{
