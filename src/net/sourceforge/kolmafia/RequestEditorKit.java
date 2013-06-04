@@ -880,30 +880,36 @@ public class RequestEditorKit
 			StringUtilities.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );
 		}
 
+		// <table width=100%><tr><td colspan=2 width="210"></td><td width=20 rowspan=2></td><td class=small align=center valign=top rowspan=2><font size=2>[<a href="craft.php">craft&nbsp;stuff</a>]&nbsp;  [<a href="sellstuff.php">sell&nbsp;stuff</a>]<br /></font></td><td width=20 rowspan=2></td><td colspan=2 width="210"></td></tr></table>
+
 		StringBuilder links = new StringBuilder();
-		if ( KoLCharacter.hasSushiMat() )
+		boolean sushi = KoLCharacter.hasSushiMat();
+		if ( sushi )
 		{
-			links.append( "&nbsp;&nbsp;[<a href=\"sushi.php\">roll sushi</a>]" );
+			links.append( "[<a href=\"sushi.php\">roll sushi</a>]" );
 		}
 
 		AdventureResult wand = KoLCharacter.getZapper();
 		if ( wand != null )
 		{
-			links.append( "&nbsp;&nbsp;[<a href=\"wand.php?whichwand=" ).append( wand.getItemId() ).append( "\">zap items</a>]" );
+			if ( sushi )
+			{
+				links.append( "&nbsp;&nbsp;" );
+			}
+			
+			links.append( "[<a href=\"wand.php?whichwand=" ).append( wand.getItemId() ).append( "\">zap items</a>]" );
 		}
 
 
 		if ( links.length() > 0 )
 		{
-			// <table width=100%><tr><td width=30></td><td class=small align=center><font size=2>[<a href="craft.php">craft stuff</a>]&nbsp;&nbsp;[<a href="sellstuff.php">sell stuff</a>]&nbsp;&nbsp;</font></td><td width=30></td></tr></table>
-
 			StringUtilities.globalStringDelete(
 				buffer,
-				"<td width=30></td>" );
+				"<td width=20 rowspan=2></td>" );
 			StringUtilities.singleStringReplace(
 				buffer,
-				"&nbsp;&nbsp;</font></td></tr>",
-				links.toString() + "</font></td></tr>" );
+				"<br /></font></td>",
+				"<br />" + links.toString() + "<br /></font>" );
 		}
 
 		RequestEditorKit.changeSphereImages( buffer );
