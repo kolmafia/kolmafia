@@ -139,8 +139,8 @@ public class EatItemRequest
 				EatItemRequest.queuedFoodHelperCount = count;
 			}
 
-			KoLmafia.updateDisplay( "Helper queued for next " + count + " beverage" +
-				(count == 1 ? "" : "s") + " drunk." );
+			KoLmafia.updateDisplay( "Helper queued for next " + count + " food" +
+				(count == 1 ? "" : "s") + " eaten." );
 
 			return;
 		}

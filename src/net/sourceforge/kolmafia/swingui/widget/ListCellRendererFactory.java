@@ -325,6 +325,10 @@ public class ListCellRendererFactory
 				stringForm.append( "+1-3 adv from next food eaten" );
 				break;
 
+			case ItemPool.SUSHI_DOILY:
+				stringForm.append( "+3 adv from next sushi eaten" );
+				break;
+
 			case ItemPool.SCRATCHS_FORK:
 				stringForm.append( "+30% adv/mus/mys/mox from next food, +50% from salad" );
 				break;

@@ -544,41 +544,41 @@ taco dan's taco stand taco	1	4	good	2-3	15-30	0	0	5 Meaty and Cheesy (+muscle)
 tangerine	1	2	decent	2	0	0	0
 tasty tart	1	1	EPIC	5-6	5-6	5-6	5-6
 tempura avocado	1	5	EPIC	5-7	0	0	50
-tempura avocado bento box with anemone sauce	5	1		24-32	75-95	5-15	45-65	80 Fishy
-tempura avocado bento box with eel sauce	5	1		24-32	5-15	5-15	45-65	80 Fishy
-tempura avocado bento box with inky squid sauce	5	1		24-32	5-15	75-95	45-65	80 Fishy
-tempura avocado bento box with mer-kin weaksauce	5	1		24-32	5-15	5-15	115-145	80 Fishy
-tempura avocado bento box with peanut sauce	5	1		24-32	5-15	5-15	45-65	80 Fishy
+tempura avocado bento box with anemone sauce	5	1	EPIC	24-32	75-95	5-15	45-65	80 Fishy
+tempura avocado bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	45-65	80 Fishy
+tempura avocado bento box with inky squid sauce	5	1	EPIC	24-32	5-15	75-95	45-65	80 Fishy
+tempura avocado bento box with mer-kin weaksauce	5	1	EPIC	24-32	5-15	5-15	115-145	80 Fishy
+tempura avocado bento box with peanut sauce	5	1	EPIC	24-32	5-15	5-15	45-65	80 Fishy
 tempura broccoli	1	6	awesome	3-6	5	5	5	20 Down with Chow (+10 lbs)
-tempura broccoli bento box with anemone sauce	5	1		24-32	75-95	5-15	5-15	80 Fishy
-tempura broccoli bento box with eel sauce	5	1		24-32	5-15	5-15	5-15	80 Fishy
-tempura broccoli bento box with inky squid sauce	5	1		24-32	5-15	75-95	5-15	80 Fishy
-tempura broccoli bento box with mer-kin weaksauce	5	1		24-32	5-15	5-15	75-95	80 Fishy
-tempura broccoli bento box with peanut sauce	5	1		24-32	5-15	5-15	5-15	80 Fishy
+tempura broccoli bento box with anemone sauce	5	1	EPIC	24-32	75-95	5-15	5-15	80 Fishy
+tempura broccoli bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy
+tempura broccoli bento box with inky squid sauce	5	1	EPIC	24-32	5-15	75-95	5-15	80 Fishy
+tempura broccoli bento box with mer-kin weaksauce	5	1	EPIC	24-32	5-15	5-15	75-95	80 Fishy
+tempura broccoli bento box with peanut sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy
 tempura carrot	1	5	EPIC	5-7	0	50	0
-tempura carrot bento box with anemone sauce	5	1		24-32	75-95	45-65	5-15	80 Fishy
-tempura carrot bento box with eel sauce	5	1		24-32	5-15	45-65	5-15	80 Fishy
-tempura carrot bento box with inky squid sauce	5	1		24-32	5-15	115-145	5-15	80 Fishy
-tempura carrot bento box with mer-kin weaksauce	5	1		24-32	5-15	45-65	75-95	80 Fishy
-tempura carrot bento box with peanut sauce	5	1		24-32	5-15	45-65	5-15	80 Fishy
+tempura carrot bento box with anemone sauce	5	1	EPIC	24-32	75-95	45-65	5-15	80 Fishy
+tempura carrot bento box with eel sauce	5	1	EPIC	24-32	5-15	45-65	5-15	80 Fishy
+tempura carrot bento box with inky squid sauce	5	1	EPIC	24-32	5-15	115-145	5-15	80 Fishy
+tempura carrot bento box with mer-kin weaksauce	5	1	EPIC	24-32	5-15	45-65	75-95	80 Fishy
+tempura carrot bento box with peanut sauce	5	1	EPIC	24-32	5-15	45-65	5-15	80 Fishy
 tempura cauliflower	1	6	awesome	2-5	5	5	5	20 Low on the Hog (+100% meat)
-tempura cauliflower bento box with anemone sauce	5	1		24-32	75-95	5-15	5-15	80 Fishy
-tempura cauliflower bento box with eel sauce	5	1		24-32	5-15	5-15	5-15	80 Fishy
-tempura cauliflower bento box with inky squid sauce	5	1		24-32	5-15	75-95	5-15	80 Fishy
-tempura cauliflower bento box with mer-kin weaksauce	5	1		24-32	5-15	5-15	75-95	80 Fishy
-tempura cauliflower bento box with peanut sauce	5	1		24-32	5-15	5-15	5-15	80 Fishy
+tempura cauliflower bento box with anemone sauce	5	1	EPIC	24-32	75-95	5-15	5-15	80 Fishy
+tempura cauliflower bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy
+tempura cauliflower bento box with inky squid sauce	5	1	EPIC	24-32	5-15	75-95	5-15	80 Fishy
+tempura cauliflower bento box with mer-kin weaksauce	5	1	EPIC	24-32	5-15	5-15	75-95	80 Fishy
+tempura cauliflower bento box with peanut sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy
 tempura cucumber	1	5	EPIC	5-7	50	0	0
-tempura cucumber bento box with anemone sauce	5	1		24-32	115-145	5-15	5-15	80 Fishy
-tempura cucumber bento box with eel sauce	5	1		24-32	45-65	5-15	5-15	80 Fishy
-tempura cucumber bento box with inky squid sauce	5	1		24-32	45-65	75-95	5-15	80 Fishy
-tempura cucumber bento box with mer-kin weaksauce	5	1		24-32	45-65	5-15	75-95	80 Fishy
-tempura cucumber bento box with peanut sauce	5	1		24-32	45-65	5-15	5-15	80 Fishy
+tempura cucumber bento box with anemone sauce	5	1	EPIC	24-32	115-145	5-15	5-15	80 Fishy
+tempura cucumber bento box with eel sauce	5	1	EPIC	24-32	45-65	5-15	5-15	80 Fishy
+tempura cucumber bento box with inky squid sauce	5	1	EPIC	24-32	45-65	75-95	5-15	80 Fishy
+tempura cucumber bento box with mer-kin weaksauce	5	1	EPIC	24-32	45-65	5-15	75-95	80 Fishy
+tempura cucumber bento box with peanut sauce	5	1	EPIC	24-32	45-65	5-15	5-15	80 Fishy
 tempura radish	1	7	EPIC	5-7	63	66	63
-tempura radish bento box with anemone sauce	5	1		24-32	75-95	5-15	5-15	80 Fishy
-tempura radish bento box with eel sauce	5	1		24-32	5-15	5-15	5-15	80 Fishy
-tempura radish bento box with inky squid sauce	5	1		24-32	5-15	75-95	5-15	80 Fishy
-tempura radish bento box with mer-kin weaksauce	5	1		24-32	5-15	5-15	75-95	80 Fishy
-tempura radish bento box with peanut sauce	5	1		24-32	5-15	5-15	5-15	80 Fishy
+tempura radish bento box with anemone sauce	5	1	EPIC	24-32	75-95	5-15	5-15	80 Fishy
+tempura radish bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy
+tempura radish bento box with inky squid sauce	5	1	EPIC	24-32	5-15	75-95	5-15	80 Fishy
+tempura radish bento box with mer-kin weaksauce	5	1	EPIC	24-32	5-15	5-15	75-95	80 Fishy
+tempura radish bento box with peanut sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy
 three-tiered wedding cake	35	1	crappy	34-39	0	0	0
 throbbing organ pie	2	2	awesome	7-9	5-10	5-10	20-40
 thyme jelly donut	1	4	awesome	3-5	15-30	15-30	15-30	+5 turns of a current effect
