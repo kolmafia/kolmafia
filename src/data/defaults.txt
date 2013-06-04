@@ -164,6 +164,7 @@ global	scriptList	restore hp | restore mp
 global	sharePriceData	false
 global	showAllRequests	false
 global	showExceptionalRequests	false
+global	simpleSvnUpdate	true
 global	statusDropdown	0
 global	stealthLogin	true
 global	svnUpdateOnLogin	false
