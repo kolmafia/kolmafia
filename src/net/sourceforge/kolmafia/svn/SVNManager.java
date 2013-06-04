@@ -978,8 +978,8 @@ public class SVNManager
 			}
 			catch ( SVNException e )
 			{
-				error( e, "SVN ERROR during update operation.  Aborting..." );
-				return;
+				error( e );
+				continue;
 			}
 
 			RequestLogger.printLine( "Updating " + info.getURL().getPath() );
