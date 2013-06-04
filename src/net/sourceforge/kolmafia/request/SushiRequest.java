@@ -602,7 +602,11 @@ public class SushiRequest
 		Matcher matcher = SushiRequest.WORKTEA_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
-			Preferences.setString( "workteaClue", matcher.group(1) );
+			String clue = matcher.group(1);
+			String message = "Mer-kin worktea clue: " + clue;
+			Preferences.setString( "workteaClue", clue );
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 			ResultProcessor.processItem( ItemPool.MERKIN_WORKTEA, -1 );
 		}
 	}
