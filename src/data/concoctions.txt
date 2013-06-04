@@ -509,6 +509,37 @@ electric tricky dragon roll	SUSHI	slick fish meat	white rice	seaweed	sea cucumbe
 electric sneaky rabbit roll	SUSHI	slick fish meat	white rice	seaweed	sea carrot	eel sauce
 electric slippery snake roll	SUSHI	slick fish meat	white rice	seaweed	sea avocado	eel sauce
 
+tempura cucumber bento box with anemone sauce 	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura cucumber
+tempura carrot bento box with anemone sauce 	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura carrot
+tempura avocado bento box with anemone sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura avocado
+tempura broccoli bento box with anemone sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura broccoli
+tempura cauliflower bento box with anemone sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura cauliflower
+tempura radish bento box with anemone sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura radish
+tempura cucumber bento box with inky squid sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	inky squid sauce	tempura cucumber
+tempura carrot bento box with inky squid sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	inky squid sauce	tempura carrot
+tempura avocado bento box with inky squid sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	inky squid sauce	tempura avocado
+tempura broccoli bento box with inky squid sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	inky squid sauce	tempura broccoli
+tempura cauliflower bento box with inky squid sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	inky squid sauce	tempura cauliflower
+tempura radish bento box with inky squid sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	inky squid sauce	tempura radish
+tempura cucumber bento box with Mer-kin weaksauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	Mer-kin weaksauce	tempura cucumber
+tempura carrot bento box with Mer-kin weaksauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	Mer-kin weaksauce	tempura carrot
+tempura avocado bento box with Mer-kin weaksauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	Mer-kin weaksauce	tempura avocado
+tempura broccoli bento box with Mer-kin weaksauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	Mer-kin weaksauce	tempura broccoli
+tempura cauliflower bento box with Mer-kin weaksauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	Mer-kin weaksauce	tempura cauliflower
+tempura radish bento box with Mer-kin weaksauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	Mer-kin weaksauce	tempura radish
+tempura cucumber bento box with eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	eel sauce	tempura cucumber
+tempura carrot bento box with eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	eel sauce	tempura carrot
+tempura avocado bento box with eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	eel sauce	tempura avocado
+tempura broccoli bento box with eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	eel sauce	tempura broccoli
+tempura cauliflower bento box with eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	eel sauce	tempura cauliflower
+tempura radish bento box with eel sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	eel sauce	tempura radish
+tempura cucumber bento box with peanut sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peanut sauce	tempura cucumber
+tempura carrot bento box with peanut sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peanut sauce	tempura carrot
+tempura avocado bento box with peanut sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peanut sauce	tempura avocado
+tempura broccoli bento box with peanut sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peanut sauce	tempura broccoli
+tempura cauliflower bento box with peanut sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peanut sauce	tempura cauliflower
+tempura radish bento box with peanut sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	peanut sauce	tempura radish
+
 # Booze requiring access to L11 or L12 quest areas
 
 shot of blackberry schnapps	MIX	fermenting powder	blackberry

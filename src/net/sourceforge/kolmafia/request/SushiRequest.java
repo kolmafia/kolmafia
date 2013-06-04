@@ -61,6 +61,8 @@ public class SushiRequest
 	private static final Pattern SUSHI_PATTERN = Pattern.compile( "whichsushi=(\\d+)" );
 	private static final Pattern TOPPING_PATTERN = Pattern.compile( "whichtopping=(\\d+)" );
 	private static final Pattern FILLING1_PATTERN = Pattern.compile( "whichfilling1=(\\d+)" );
+	private static final Pattern VEGGIE_PATTERN = Pattern.compile( "veggie=(\\d+)" );
+	private static final Pattern DIPPIN_PATTERN = Pattern.compile( "dippin=(\\d+)" );
 
 	private static final Pattern CONSUME_PATTERN = Pattern.compile( "You eat the ([^.]*)\\." );
 
@@ -129,6 +131,36 @@ public class SushiRequest
 		"electric Jack LaLanne roll",
 		"electric wizened master roll",
 		"electric eleven oceans roll",
+		"tempura cucumber bento box with anemone sauce", 
+		"tempura carrot bento box with anemone sauce", 
+		"tempura avocado bento box with anemone sauce", 
+		"tempura broccoli bento box with anemone sauce", 
+		"tempura cauliflower bento box with anemone sauce", 
+		"tempura radish bento box with anemone sauce", 
+		"tempura cucumber bento box with inky squid saice",
+		"tempura carrot bento box with inky squid saice",
+		"tempura avocado bento box with inky squid saice",
+		"tempura broccoli bento box with inky squid saice",
+		"tempura cauliflower bento box with inky squid saice",
+		"tempura radish bento box with inky squid saice",
+		"tempura cucumber bento box with Mer-kin weaksauce",
+		"tempura carrot bento box with Mer-kin weaksauce",
+		"tempura avocado bento box with Mer-kin weaksauce",
+		"tempura broccoli bento box with Mer-kin weaksauce",
+		"tempura cauliflower bento box with Mer-kin weaksauce",
+		"tempura radish bento box with Mer-kin weaksauce",
+		"tempura cucumber bento box with eel sauce",
+		"tempura carrot bento box with eel sauce",
+		"tempura avocado bento box with eel sauce",
+		"tempura broccoli bento box with eel sauce",
+		"tempura cauliflower bento box with eel sauce",
+		"tempura radish bento box with eel sauce",
+		"tempura cucumber bento box with peanut sauce",
+		"tempura carrot bento box with peanut sauce",
+		"tempura avocado bento box with peanut sauce",
+		"tempura broccoli bento box with peanut sauce",
+		"tempura cauliflower bento box with peanut sauce",
+		"tempura radish bento box with peanut sauce",
 	};
 
 	private static final Object[][] BASE_SUSHI =
@@ -139,6 +171,7 @@ public class SushiRequest
 		{ IntegerPool.get(4), "beefy maki" },
 		{ IntegerPool.get(5), "glistening maki" },
 		{ IntegerPool.get(6), "slick maki" },
+		{ IntegerPool.get(7), "bento box" },
 	};
 
 	private static String idToName( final int id )
@@ -157,6 +190,12 @@ public class SushiRequest
 
 	private static int nameToId( final String name )
 	{
+		// Bento Boxes do not have special names based on veggie or dippin' sauce
+		if ( name.indexOf( "bento box" ) != -1 )
+		{
+			return 7;
+		}
+
 		// Check for base sushi
 		for ( int i = 0; i < BASE_SUSHI.length; ++i )
 		{
@@ -250,7 +289,7 @@ public class SushiRequest
 		{ "wizened master roll",
 		  "glistening maki", IntegerPool.get( ItemPool.SEA_RADISH ) },
 
-		{ "tricky dragon roll",
+ 		{ "tricky dragon roll",
 		  "slick maki", IntegerPool.get( ItemPool.SEA_CUCUMBER ) },
 		{ "sneaky rabbit roll",
 		  "slick maki", IntegerPool.get( ItemPool.SEA_CARROT ) },
@@ -289,7 +328,82 @@ public class SushiRequest
 		return -1;
 	}
 
-	private static String sushiName( final int id, final int topping, final int filling1 )
+	private static final Object[][] VEGGIE =
+	{
+		{ "tempura cucumber", IntegerPool.get( ItemPool.TEMPURA_CUCUMBER ) },
+		{ "tempura carrot", IntegerPool.get( ItemPool.TEMPURA_CARROT ) },
+		{ "tempura avocado", IntegerPool.get( ItemPool.TEMPURA_AVOCADO ) },
+		{ "tempura broccoli", IntegerPool.get( ItemPool.TEMPURA_BROCCOLI ) },
+		{ "tempura cauliflower", IntegerPool.get( ItemPool.TEMPURA_CAULIFLOWER ) },
+		{ "tempura radish", IntegerPool.get( ItemPool.TEMPURA_RADISH ) },
+	};
+
+	private static String veggieToName( final String baseName, final int veggie )
+	{
+		for ( int i = 0; i < VEGGIE.length; ++i )
+		{
+			Object [] sushi = VEGGIE[i];
+			if ( veggie == ((Integer)sushi[1]).intValue() )
+			{
+				return (String)sushi[0] + " " + baseName;
+			}
+		}
+
+		return baseName;
+	}
+
+	private static int nameToVeggie( final String name )
+	{
+		for ( int i = 0; i < VEGGIE.length; ++i )
+		{
+			Object [] sushi = VEGGIE[i];
+			if ( name.startsWith( (String)sushi[0] ) )
+			{
+				return ((Integer)sushi[1]).intValue();
+			}
+		}
+
+		return -1;
+	}
+
+	private static final Object[][] DIPPIN =
+	{
+		{ "anemone sauce", IntegerPool.get( ItemPool.ANEMONE_SAUCE ) },
+		{ "inky squid sauce", IntegerPool.get( ItemPool.INKY_SQUID_SAUCE ) },
+		{ "Mer-kin weaksauce", IntegerPool.get( ItemPool.MERKIN_WEAKSAUCE ) },
+		{ "eel sauce", IntegerPool.get( ItemPool.EEL_SAUCE ) },
+		{ "peanut sauce", IntegerPool.get( ItemPool.PEANUT_SAUCE ) },
+	};
+
+	private static String dippinToName( final String baseName, final int dippin )
+	{
+		for ( int i = 0; i < DIPPIN.length; ++i )
+		{
+			Object [] sushi = DIPPIN[i];
+			if ( dippin == ((Integer)sushi[1]).intValue() )
+			{
+				return baseName + " with " + (String)sushi[0];
+			}
+		}
+
+		return baseName;
+	}
+
+	private static int nameToDippin( final String name )
+	{
+		for ( int i = 0; i < DIPPIN.length; ++i )
+		{
+			Object [] sushi = DIPPIN[i];
+			if ( name.endsWith( (String)sushi[0] ) )
+			{
+				return ((Integer)sushi[1]).intValue();
+			}
+		}
+
+		return -1;
+	}
+
+	private static String sushiName( final int id, final int topping, final int filling1, final int veggie, final int dippin )
 	{
 		String name = SushiRequest.idToName( id );
 
@@ -308,10 +422,20 @@ public class SushiRequest
 			name = SushiRequest.toppingToName( name, topping );
 		}
 
+		if ( veggie > 0 )
+		{
+			name = SushiRequest.veggieToName( name, veggie );
+		}
+
+		if ( dippin > 0 )
+		{
+			name = SushiRequest.dippinToName( name, dippin );
+		}
+
 		return name;
 	}
 
-	private static final String sushiName( final String urlString )
+	public static final String sushiName( final String urlString )
 	{
 		Matcher matcher = SushiRequest.SUSHI_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
@@ -322,22 +446,34 @@ public class SushiRequest
 		int id = StringUtilities.parseInt( matcher.group( 1 ) );
 		int topping = 0;
 		int filling1 = 0;
+		int veggie = 0;
+		int dippin = 0;
 
 		matcher = SushiRequest.TOPPING_PATTERN.matcher( urlString );
-
 		if ( matcher.find() )
 		{
 			topping = StringUtilities.parseInt( matcher.group( 1 ) );
 		}
 
 		matcher = SushiRequest.FILLING1_PATTERN.matcher( urlString );
-
 		if ( matcher.find() )
 		{
 			filling1 = StringUtilities.parseInt( matcher.group( 1 ) );
 		}
 
-		return SushiRequest.sushiName( id, topping, filling1 );
+		matcher = SushiRequest.VEGGIE_PATTERN.matcher( urlString );
+		if ( matcher.find() )
+		{
+			veggie = StringUtilities.parseInt( matcher.group( 1 ) );
+		}
+
+		matcher = SushiRequest.DIPPIN_PATTERN.matcher( urlString );
+		if ( matcher.find() )
+		{
+			dippin = StringUtilities.parseInt( matcher.group( 1 ) );
+		}
+
+		return SushiRequest.sushiName( id, topping, filling1, veggie, dippin );
 	}
 
 	public SushiRequest( Concoction conc )
@@ -364,6 +500,18 @@ public class SushiRequest
 		if ( filling1 > 0 )
 		{
 			this.addFormField( "whichfilling1", String.valueOf( filling1 ) );
+		}
+
+		int veggie = SushiRequest.nameToVeggie( name );
+		if ( veggie > 0 )
+		{
+			this.addFormField( "veggie", String.valueOf( veggie ) );
+		}
+
+		int dippin = SushiRequest.nameToDippin( name );
+		if ( dippin > 0 )
+		{
+			this.addFormField( "dippin", String.valueOf( dippin ) );
 		}
 	}
 
@@ -456,7 +604,8 @@ public class SushiRequest
 		}
 
 		StringBuffer buf = new StringBuffer();
-		buf.append( "Roll and eat " );
+		buf.append( name.indexOf( "bento" ) != -1 ? "Pack" : "Roll" );
+		buf.append( " and eat " );
 		buf.append( name );
 		buf.append( " from " );
 
