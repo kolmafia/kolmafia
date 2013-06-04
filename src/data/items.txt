@@ -6342,7 +6342,7 @@
 6325	aquamariner's necklace	852720834	neckmarine.gif	accessory	t,d	220
 6326	pearl diver's ring	293189947	jampearl.gif	accessory	t,d	12021	pearl diver's rings
 6327	pearl diver's necklace	212846171	neckpearl.gif	accessory	t,d	12024
-6328	sushi doily	823516292	doily.gif	none	t,d	42	sushi doilies
+6328	sushi doily	823516292	doily.gif	food helper	t,d	42	sushi doilies
 6329	scimitar cozy	598070907	cozy1.gif	usable	t,d	120	scimitar cozies
 6330	fish stick cozy	515495032	cozy3.gif	usable	t,d	120	fish stick cozies
 6331	bazooka cozy	739603289	cozy2.gif	usable	t,d	120	bazooka cozies
