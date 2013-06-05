@@ -109,6 +109,7 @@ public class SVNCommand
 					return;
 				}
 				SVNManager.doUpdate( repo );
+				return;
 			}
 
 			// user might have supplied a local project name, see if there's a matching one.
