@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
+import net.sourceforge.kolmafia.request.CharPaneRequest.Snowsuit;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
@@ -363,6 +364,9 @@ public abstract class KoLCharacter
 
 	// Companion data (Avatar of Jarlsberg)
 	private static Companion companion = null;
+
+	// Snow Suit decoration
+	private static Snowsuit snowsuit = null;
 
 	private static int stillsAvailable = 0;
 	private static boolean tripleReagent = false;
@@ -3775,6 +3779,22 @@ public abstract class KoLCharacter
 		KoLCharacter.updateStatus();
 	}
 
+	public static final Snowsuit getSnowsuit()
+	{
+		return KoLCharacter.snowsuit;
+	}
+
+	public static final void setSnowsuit( Snowsuit snowsuit )
+	{
+		if ( KoLCharacter.snowsuit == snowsuit )
+		{
+			return;
+		}
+		KoLCharacter.snowsuit = snowsuit;
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
+	}
+
 	/**
 	 * Accessor method to get arena wins
 	 *
@@ -4525,6 +4545,13 @@ public abstract class KoLCharacter
 			case EquipmentManager.SHIRT:
 				newModifiers.add( Modifiers.DAMAGE_ABSORPTION,
 					EquipmentDatabase.getPower( id ), "shirt power" );
+				break;
+
+			case EquipmentManager.FAMILIAR:
+				if ( id == ItemPool.SNOW_SUIT )
+				{
+					newModifiers.add( Modifiers.getModifiers( "Snowsuit:" + KoLCharacter.getSnowsuit() ) );
+				}
 				break;
 			}
 		}

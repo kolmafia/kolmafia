@@ -827,10 +827,17 @@ public class CharPaneRequest
 		pattern = CharPaneRequest.familiarImagePattern;
 		matcher = pattern.matcher( responseText );
 		String image = matcher.find() ? new String( matcher.group( 1 ) ) : null;
-		if ( image != null && !image.startsWith( "snowsuit" ) && !image.startsWith( "snowface" ) )
+		if ( image != null )
 		{
-			KoLCharacter.setFamiliarImage( image );
-			CharPaneRequest.checkMedium( responseText );
+			if ( image.startsWith( "snow" ) )
+			{
+				CharPaneRequest.checkSnowsuit( image );
+			}
+			else
+			{
+				KoLCharacter.setFamiliarImage( image );
+				CharPaneRequest.checkMedium( responseText );
+			}
 		}
 	}
 
@@ -840,6 +847,8 @@ public class CharPaneRequest
 		Pattern.compile( "<b>Clancy</b>.*?Level <b>(\\d+)</b>.*?otherimages/clancy_([123])(_att)?.gif", Pattern.DOTALL );
 	private static Pattern mediumPattern =
 		Pattern.compile( "images/medium_([0123]).gif", Pattern.DOTALL );
+	private static Pattern snowsuitPattern =
+		Pattern.compile( "snowface([1-5]).gif" );
 
 	public static AdventureResult SACKBUT = ItemPool.get( ItemPool.CLANCY_SACKBUT, 1 );
 	public static AdventureResult CRUMHORN = ItemPool.get( ItemPool.CLANCY_CRUMHORN, 1 );
@@ -931,6 +940,45 @@ public class CharPaneRequest
 				return;
 			}
 			fam.setCharges( aura );
+		}
+	}
+
+	public enum Snowsuit
+	{
+		EYEBROWS( 1 ),
+		SMIRK( 2 ),
+		NOSE( 3 ),
+		GOATEE( 4 ),
+		HAT( 5 ),
+		;
+
+		private int suitValue;
+
+		private Snowsuit( int suitValue )
+		{
+			this.suitValue = suitValue;
+		}
+
+		public static Snowsuit getSnowsuit( int snowValue )
+		{
+			for ( Snowsuit snowsuit : Snowsuit.values() )
+			{
+				if ( snowValue == snowsuit.suitValue )
+				{
+					return snowsuit;
+				}
+			}
+			return null;
+		}
+	}
+
+	private static final void checkSnowsuit( final String responseText )
+	{
+		Matcher matcher = CharPaneRequest.snowsuitPattern.matcher( responseText );
+		if ( matcher.find() )
+		{
+			int snow = StringUtilities.parseInt( matcher.group( 1 ) );
+			KoLCharacter.setSnowsuit( Snowsuit.getSnowsuit( snow ) );
 		}
 	}
 
