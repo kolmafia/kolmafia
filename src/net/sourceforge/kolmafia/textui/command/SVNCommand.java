@@ -142,8 +142,9 @@ public class SVNCommand
 		{
 			String params = parameters.substring( 6 ).trim();
 			// user may specify a url
-			if ( params.startsWith( "svn" ) || params.startsWith( "http" ) )
+			if ( params.startsWith( "svn:" ) || params.startsWith( "http:" ) )
 			{
+				RequestLogger.printLine( "Specify a project (see \"svn list\"), not a URL.");
 				return;
 			}
 

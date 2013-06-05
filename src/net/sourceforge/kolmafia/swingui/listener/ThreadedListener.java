@@ -54,7 +54,7 @@ public abstract class ThreadedListener
 	implements ActionListener, ItemListener, KeyListener, MouseListener, PopupMenuListener, Runnable
 {
 	private ActionEvent actionEvent;
-	private KeyEvent keyEvent;
+	protected KeyEvent keyEvent;
 	private MouseEvent mouseEvent;
 
 	public void actionPerformed( final ActionEvent e )

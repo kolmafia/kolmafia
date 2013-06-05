@@ -46,6 +46,7 @@ import javax.swing.JScrollPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
@@ -149,6 +150,41 @@ public class CommandDisplayPanel
 			{
 				this.submitCommand();
 			}
+		}
+
+		/**
+		 * Handler for keyReleased events which will end up running this object's execute() method.
+		 * <p>
+		 * This implementation is identical to ThreadedListener.keyReleased (which this overrides), except it runs on
+		 * the Event Dispatch Thread. This is vital for command entry since dispatching a parallel thread will create a
+		 * race condition.
+		 * 
+		 * @see net.sourceforge.kolmafia.swingui.listener.ThreadedListener#keyReleased(java.awt.event.KeyEvent)
+		 */
+		@Override
+		public void keyReleased( final KeyEvent e )
+		{
+			if ( e.isConsumed() )
+			{
+				return;
+			}
+
+			if ( !this.isValidKeyCode( e.getKeyCode() ) )
+			{
+				return;
+			}
+
+			this.keyEvent = e;
+			try
+			{
+				this.run();
+			}
+			catch ( Exception e1 )
+			{
+				StaticEntity.printStackTrace( e1 );
+			}
+
+			e.consume();
 		}
 
 		private void submitCommand()
