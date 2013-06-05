@@ -96,7 +96,7 @@ public class SVNManager
 	private static ISVNEventHandler myUpdateEventHandler;
 	private static ISVNEventHandler myWCEventHandler;
 
-	private static Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/([^/]+)/code(.*)", Pattern.DOTALL );
+	private static Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/(.*?)/code(.*)", Pattern.DOTALL );
 	private static Pattern GOOGLECODE_HOST_PATTERN = Pattern.compile( "([^\\.]+)\\.googlecode\\.com", Pattern.DOTALL );
 	private static List<String> permissibles = Arrays.asList( "scripts", "data", "images", "relay", "ccs" );
 
@@ -913,7 +913,7 @@ public class SVNManager
 		if ( m.find() )
 		{
 			// replace awful SVN UUID with nicely-formatted string derived from URL
-			UUID = m.group( 1 ) + StringUtilities.globalStringReplace( m.group( 2 ), "/", "-" );
+			UUID = StringUtilities.globalStringReplace( m.group( 1 ) + m.group( 2 ), "/", "-" );
 		}
 		else
 		{
