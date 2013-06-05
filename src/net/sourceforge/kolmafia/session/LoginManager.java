@@ -107,7 +107,7 @@ public class LoginManager
 			return;
 		}
 
-		if ( Preferences.getBoolean( "svnUpdateOnLogin"  ) )
+		if ( Preferences.getBoolean( "svnUpdateOnLogin"  ) && !Preferences.getBoolean( "_svnUpdated" ) )
 		{
 			SVNManager.doUpdate();
 		}

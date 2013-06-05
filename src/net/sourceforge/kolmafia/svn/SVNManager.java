@@ -1002,6 +1002,8 @@ public class SVNManager
 			pushUpdates();
 		}
 
+		Preferences.setBoolean( "_svnUpdated", true );
+
 		if ( Preferences.getBoolean( "syncAfterSvnUpdate" ) )
 		{
 			syncAll();
