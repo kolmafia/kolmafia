@@ -58,13 +58,13 @@ Barn	100	Generic Duck
 Barrel full of Barrels	-1	Mimic (Bottom 2 Rows)	Mimic (Middle 2 Rows)	Mimic (Top 2 Rows)
 Barrrney's Barrr	80	Tetchy Pirate	Tipsy Pirate	Toothy Pirate
 Bat Hole Entryway	100	Albino Bat	Pine Bat	Regular Old Bat
-Batrat and Ratbat Burrow	100	Batrat	Ratbat	Screambat
+Batrat and Ratbat Burrow	100	Batrat	Ratbat	Screambat: 0
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
 Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier	The Temporal Bandit: -1
 Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0
 Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker	Brutus, the Toga-Clad Lout: 0	Danglin' Chad: 0	Monty Basingstoke-Pratt, IV: 0	Next-Generation Frat Boy: 0	The Man: 0
 Battlefield (No Uniform)	0	The Temporal Bandit: -1
-Beanbat Chamber	100	Beanbat	Screambat
+Beanbat Chamber	100	Beanbat	Screambat: 0
 Belilafs Comedy Club	-1	BL Imp	CH Imp	Pr Imp	Carbuncle Top: 0	Larry of the Field of Signs: 0	Victor the Insult Comic Hellhound: 0
 Belowdecks	100	Gaudy Pirate	Grassy Pirate	Gritty Pirate	Groovy Pirate	Grungy Pirate
 Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow	Blackberry Bush
@@ -126,7 +126,7 @@ Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 Granary	100	Rotund Duck
 Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
 Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Supervisor
-Guano Junction	100	Baseball Bat	Briefcase Bat	Perpendicular Bat	Screambat	Skullbat	Doughbat	Vampire Bat
+Guano Junction	100	Baseball Bat	Briefcase Bat	Perpendicular Bat	Screambat: 0	Skullbat	Doughbat	Vampire Bat
 Guards' Chamber	100	Filthworm Royal Guard
 Haert of the Cyrpt	100	Bonerdagon
 Haiku Dungeon	90	Amateur Ninja	Ancient Insane Monk	Ferocious Bugbear	Gelatinous Cube	Knob Goblin Poseur
