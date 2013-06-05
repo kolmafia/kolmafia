@@ -2802,6 +2802,13 @@ Throne:Wild Hare	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 5, HP 
 Throne:Wind-up Chattering Teeth	Muscle Percent: +15
 Throne:Wizard Action Figure	Spell Damage Percent: +10, MP Regen Min: 5, MP Regen Max: 5
 
+# Snow Suit decoration section
+# Decoration names must match enum names in CharPaneRequest
+
+Snowsuit:GOATEE	HP Regen Min: 1, HP Regen Max: 20
+Snowsuit:HAT	MP Regen Min: 1, MP Regen Max: 10
+Snowsuit:NOSE	Item Drop: 10
+
 # Bedazzlements section of modifiers.txt
 
 scratch 'n' sniff UPC sticker	Meat Drop: +25
