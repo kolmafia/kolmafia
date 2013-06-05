@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,7 +45,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.svn.SVNManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SVNCommand
 	extends AbstractCommand
@@ -119,7 +119,7 @@ public class SVNCommand
 				return;
 			}
 
-			List<String> matches = StringUtilities.getMatchingNames( projects, params );
+			List<String> matches = getMatchingNames( projects, params );
 
 			if ( matches.size() > 1 )
 			{
@@ -154,7 +154,7 @@ public class SVNCommand
 				return;
 			}
 
-			List<String> matches = StringUtilities.getMatchingNames( projects, params );
+			List<String> matches = getMatchingNames( projects, params );
 
 			if ( matches.size() > 1 )
 			{
@@ -196,7 +196,7 @@ public class SVNCommand
 				return;
 			}
 
-			List<String> matches = StringUtilities.getMatchingNames( projects, params );
+			List<String> matches = getMatchingNames( projects, params );
 
 			if ( matches.size() > 1 )
 			{
@@ -215,5 +215,45 @@ public class SVNCommand
 				KoLmafia.updateDisplay( MafiaState.ERROR, "No script matching " + params + " is currently installed." );
 			}
 		}
+	}
+
+	/**
+	 * One-off implementation of StringUtilities.getMatchingNames.
+	 * <p>
+	 * The issue with the StringUtilities version is that it assumes that the list of names to search against is
+	 * canonicalized - i.e. all lower case. This cannot be done to directories since case matters in some environments.
+	 * 
+	 * @param projects the array of currently-installed projects
+	 * @param params the String input by the user to be matched
+	 * @return a <code>List</code> of matches
+	 */
+	private static List<String> getMatchingNames( String[] projects, String params )
+	{
+		List<String> matches = new ArrayList<String>();
+
+		for ( String project : projects )
+		{
+			if ( substringMatches( project, params ) )
+			{
+				matches.add( project );
+			}
+		}
+
+		return matches;
+	}
+
+	private static boolean substringMatches( final String source, final String substring )
+	{
+		if ( source == null )
+		{
+			return false;
+		}
+
+		if ( substring == null || substring.length() == 0 )
+		{
+			return true;
+		}
+
+		return source.contains( substring );
 	}
 }

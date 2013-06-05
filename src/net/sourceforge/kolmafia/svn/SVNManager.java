@@ -1141,6 +1141,7 @@ public class SVNManager
 
 		RequestLogger.printLine( "Uninstalling project..." );
 		recursiveDelete( project );
+		RequestLogger.printLine( "Project uninstalled." );
 	}
 
 	private static void recursiveDelete( File f )
