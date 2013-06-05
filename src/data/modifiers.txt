@@ -2517,6 +2517,7 @@ metallic foil bow	Familiar Weight: +5
 metallic foil radar dish	Familiar Weight: +5, Volleyball: -1, Sombrero: +1, Equips On: "Crimbo P. R. E. S. S. I. E."
 metrognome	Familiar Weight: +5
 # microwave stogie: Helps your Organ Grinder Bake Pies Faster
+mini-Mr. Accessory	Familiar Weight: +5
 miniature Jacob's ladder	Familiar Weight: +5
 miniature antlers	Familiar Weight: [1+ceil(M/2)], Generic
 miniature carton of clove cigarettes	Familiar Weight: +5
@@ -4515,6 +4516,7 @@ Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
 a cute angel	Free Pull
 abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
 adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
+adventurer clone egg	Free Pull
 alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
 ant agonist	Effect: "All Fired Up", Effect Duration: 10
 arrowgram	Free Pull
