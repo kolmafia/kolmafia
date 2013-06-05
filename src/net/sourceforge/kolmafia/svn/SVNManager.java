@@ -61,6 +61,7 @@ import javax.swing.JOptionPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1101,6 +1102,22 @@ public class SVNManager
 
 		if ( UUID == null )
 		{
+			return;
+		}
+
+		// If we're updating it, make sure the project is already checked out first
+		try
+		{
+			if ( !SVNWCUtil.isWorkingCopyRoot( new File( KoLConstants.SVN_DIRECTORY, UUID ) ) )
+			{
+				RequestLogger.printLine( "No existing project named " + UUID + ". Did you mean to do \"checkout\" instead of \"update\"?" );
+				return;
+			}
+		}
+		catch ( SVNException e )
+		{
+			// Shouldn't happen, print a stack trace
+			StaticEntity.printStackTrace( e );
 			return;
 		}
 
