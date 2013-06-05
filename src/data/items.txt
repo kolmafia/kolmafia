@@ -6562,3 +6562,18 @@
 6545
 6546	big pants	923211152	yakpants.gif	pants	q	0
 6547	Thwaitgold Goliath beetle statuette	736316665	thwaitgoliath.gif	none		0
+6548
+6549
+6550
+6551
+6552
+6553
+6554
+6555
+6556
+6557
+6558
+6559
+6560
+6561	adventurer clone egg	985842882	cloneegg.gif	grow	t	0
+6562	mini-Mr. Accessory	151274336	minimra.gif	familiar	t,d	75

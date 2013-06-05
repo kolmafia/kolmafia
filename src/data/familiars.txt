@@ -179,3 +179,5 @@
 170	MiniMechaElf	mechaelf.gif	combat	6148	MiniMechaElf Laser Punch Missile Launcher	0	0	0	0
 171	Gelatinous Cubeling	gcube.gif	item0	6256	pile of dungeon junk	2	3	0	1
 172	Adorable Space Buddy	starbuddy.gif	combat	6409	cute bow from beyond the stars	0	0	0	0
+173
+174	Mini-Adventurer	miniadv0.gif		6561	mini-Mr. Accessory	2	2	2	2

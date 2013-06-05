@@ -2392,6 +2392,8 @@ public abstract class ChoiceManager
 		// Choice 686 is Of Might and Magic
 
 		// Choice 695 is A Drawer of Chests
+
+		// Choice 768 is The Littlest Identity Crisis
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
