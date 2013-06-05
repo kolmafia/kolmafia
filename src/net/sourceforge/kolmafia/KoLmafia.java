@@ -804,7 +804,10 @@ public abstract class KoLmafia
 		Preferences.setInteger( "tempuraSummons", 0 );
 		Preferences.setInteger( "timesRested", 0 );
 		Preferences.setInteger( "tomeSummons", 0 );
-		
+
+		// there is only one GLOBAL _preference, the rest are USER and are reset by Preferences.resetDailies();
+		Preferences.resetToDefault( "_svnUpdated" );
+
 		// If this is called from a place that hits API.php first, these values will be up-to-date; don't touch
 		if ( resetStomach )
 		{
