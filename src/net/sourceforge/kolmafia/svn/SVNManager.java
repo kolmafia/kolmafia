@@ -1018,10 +1018,30 @@ public class SVNManager
 	 * Users who have used <code>svn switch</code> on some of their project should not use this.
 	 * 
 	 * @param f the working copy
-	 * @return <b>true</b> if the working copy is at HEAD
+	 * @return <code>true</code> if the working copy is at HEAD
 	 */
 	private static boolean WCAtHead( File f )
 	{
+		return WCAtHead( f, false );
+	}
+
+	/**
+	 * For users who just want "simple" update behavior, check if the revision of the project root and the repo root are
+	 * the same.
+	 * <p>
+	 * Users who have used <code>svn switch</code> on some of their project should not use this.
+	 * 
+	 * @param f the working copy
+	 * @param quiet if <code>true</code>, suppresses RequestLogger output.
+	 * @return <code>true</code> if the working copy is at HEAD
+	 */
+	public static boolean WCAtHead( File f, boolean quiet )
+	{
+		if ( ourClientManager == null )
+		{
+			setupLibrary();
+		}
+
 		try
 		{
 			if ( !SVNWCUtil.isWorkingCopyRoot( f ) )
@@ -1034,7 +1054,8 @@ public class SVNManager
 
 			if ( wcinfo.getRevision().getNumber() == repoRev )
 			{
-				RequestLogger.printLine( wcinfo.getFile().getName() + " is at HEAD (r" + repoRev + ")" );
+				if ( !quiet )
+					RequestLogger.printLine( wcinfo.getFile().getName() + " is at HEAD (r" + repoRev + ")" );
 				return true;
 			}
 		}

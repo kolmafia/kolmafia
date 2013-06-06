@@ -73,7 +73,7 @@ public class SVNCommand
 		if ( parameters.startsWith( "checkout" ) )
 		{
 			String params = parameters.substring( 8 ).trim();
-			if ( !params.startsWith( "svn" ) && !params.startsWith( "http" ) )
+			if ( !params.startsWith( "svn:" ) && !params.startsWith( "http:" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You must specify a valid SVN url to update from. " + params );
 				return;
@@ -96,7 +96,7 @@ public class SVNCommand
 			String params = parameters.substring( 6 ).trim();
 
 			// user might have supplied a URL
-			if ( params.startsWith( "svn" ) || params.startsWith( "http" ) )
+			if ( params.startsWith( "svn:" ) || params.startsWith( "http:" ) )
 			{
 				SVNURL repo;
 				try
