@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -333,6 +334,7 @@ public abstract class HPRestoreItemList
 				if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++freerests;
 				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) freerests += 2;
 				if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++freerests;
+				if ( KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE ) != null ) freerests += 3;
 				if ( Preferences.getInteger( "timesRested" ) >= freerests ) return;
 
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
