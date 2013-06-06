@@ -116,6 +116,7 @@ public abstract class ChoiceManager
 
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 	private static final AdventureResult BALLROOM_KEY = ItemPool.get( ItemPool.BALLROOM_KEY, 1 );
+	private static final AdventureResult MODEL_AIRSHIP = ItemPool.get( ItemPool.MODEL_AIRSHIP, 1 );
 
 	private static final AdventureResult[] MISTRESS_ITEMS = new AdventureResult[]
 	{
@@ -1030,8 +1031,8 @@ public abstract class ChoiceManager
 		// Random Lack of an Encounter
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure182", "Fantasy Airship",
-			new String[] { "enter combat", "Penultimate Fantasy chest", "stats" },
-			new String[] { null, "604", null } ),
+			new String[] { "enter combat", "Penultimate Fantasy chest", "stats" , "model airship and combat", "model airship and chest" , "model airship and stats"},
+			new String[] { null, "604", null , "6299"} ),
 
 		// That Explains All The Eyepatches
 		// Dynamically calculate options based on mainstat
@@ -3254,6 +3255,11 @@ public abstract class ChoiceManager
 				return "guy made of bees: called " + Preferences.getString( "guyMadeOfBeesCount" ) + " times";
 			}
 			break;
+		case 182:
+			if ( decision == 3 )
+			{
+				return "model airship";
+			}
 		}
 		return spoilers[ decision ];
 	}
@@ -5397,7 +5403,23 @@ public abstract class ChoiceManager
 				KoLCharacter.inFistcore() && KoLConstants.activeEffects.contains( SorceressLairManager.EARTHEN_FIST )  ? "1" :
 				KoLCharacter.inAxecore() ? "3" :
 				"2";
+			//Random Lack of an Encounter
+		case 182:
 
+			// If the player is looking for the model airship,
+			// then update their preferences so that KoLmafia
+			// automatically switches things for them.
+			int option4Mask = ( responseText.indexOf( "Gallivant down to the head" ) != -1 ? 1 : 0 ) << 2;
+
+			if ( option4Mask > 0 && GoalManager.hasGoal( ChoiceManager.MODEL_AIRSHIP ) )
+			{
+				return "4";
+			}
+			if ( Integer.parseInt( decision ) < 4 )
+				return decision;
+
+			return ( option4Mask & Integer.parseInt( decision ) ) > 0 ? "4"
+				: String.valueOf( Integer.parseInt( decision ) - 3 );
 		// That Explains All The Eyepatches
 		case 184:
 			switch ( KoLCharacter.getPrimeIndex() * 10 + StringUtilities.parseInt( decision ) )
