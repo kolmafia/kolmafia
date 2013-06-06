@@ -133,8 +133,13 @@ public class MonsterData
 		if ( this.health instanceof Integer )
 		{
 			int hp = ((Integer) this.health).intValue();
-			return hp == 0 ? 0 : (int) Math.floor( Math.max( 1, hp + ML() ) *
-				 getBeeosity() + MonsterData.getBigness() );
+			if ( hp == 0 && ((Integer) this.attack).intValue() == 0 )
+			{
+				// The monster is unknown, so do not apply modifiers
+				return 0;
+			}
+			return (int) Math.floor( Math.max( 1, hp + ML() ) *
+			       getBeeosity() + MonsterData.getBigness() );
 		}
 		if ( this.health instanceof String )
 		{
@@ -169,8 +174,13 @@ public class MonsterData
 		if ( this.attack instanceof Integer )
 		{
 			int attack = ((Integer) this.attack).intValue();
-			return attack == 0 ? 0 : (int) Math.floor( Math.max( 1, attack + ML() ) *
-				 getBeeosity() + MonsterData.getBigness() );
+			if ( attack == 0 && ((Integer) this.health).intValue() == 0 )
+			{
+				// The monster is unknown, so do not apply modifiers
+				return 0;
+			}
+			return (int) Math.floor( Math.max( 1, attack + ML() ) *
+			       getBeeosity() + MonsterData.getBigness() );
 		}
 		if ( this.attack instanceof String )
 		{
@@ -205,8 +215,13 @@ public class MonsterData
 		if ( this.defense instanceof Integer )
 		{
 			int defense = ((Integer) this.defense).intValue();
-			return defense == 0 ? 0 : (int) Math.floor( Math.max( 1, defense + ML() ) * 
-				 getBeeosity() * EquipmentManager.getDefenseModifier() + MonsterData.getBigness() );
+			if ( defense == 0 && ((Integer) this.health).intValue() == 0 )
+			{
+				// The monster is unknown, so do not apply modifiers
+				return 0;
+			}
+			return (int) Math.floor( Math.max( 1, defense + ML() ) *
+			       getBeeosity() * EquipmentManager.getDefenseModifier() + MonsterData.getBigness() );
 		}
 		if ( this.defense instanceof String )
 		{
