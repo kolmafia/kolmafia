@@ -61,6 +61,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.wc.SVNWCUtil;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
@@ -161,6 +164,7 @@ import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
+import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
@@ -1526,6 +1530,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "mmg_bet_winnings", DataTypes.INT_TYPE, params ) );
+		
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "svn_exists", DataTypes.BOOLEAN_TYPE, params ) );
+		
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "svn_at_head", DataTypes.BOOLEAN_TYPE, params ) );
 	}
 
 	public static Method findMethod( final String name, final Class[] args )
@@ -5865,5 +5875,32 @@ public abstract class RuntimeLibrary
 	public static Value mmg_bet_winnings( Interpreter interpreter )
 	{
 		return new Value( MoneyMakingGameManager.getLastEventWinnings() );
+	}
+
+	public static Value svn_exists( Interpreter interpreter, final Value project )
+	{
+		File f = new File( KoLConstants.SVN_LOCATION, project.toString() );
+
+		boolean isWCRoot = false;
+		try
+		{
+			isWCRoot = SVNWCUtil.isWorkingCopyRoot( f );
+		}
+		catch ( SVNException e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		return DataTypes.makeBooleanValue( isWCRoot );
+	}
+
+	public static Value svn_at_head( Interpreter interpreter, final Value project )
+	{
+		File f = new File( KoLConstants.SVN_LOCATION, project.toString() );
+
+		if ( !f.exists() || !f.isDirectory() )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+		return DataTypes.makeBooleanValue( SVNManager.WCAtHead( f, true ) );
 	}
 }
