@@ -330,12 +330,7 @@ public abstract class HPRestoreItemList
 
 			if ( this == HPRestoreItemList.DISCOREST )
 			{
-				int freerests = 0;
-				if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++freerests;
-				if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) freerests += 2;
-				if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++freerests;
-				if ( KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE ) != null ) freerests += 3;
-				if ( Preferences.getInteger( "timesRested" ) >= freerests ) return;
+				if ( Preferences.getInteger( "timesRested" ) >= CampgroundRequest.freeRestsAvailable() ) return;
 
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 				return;

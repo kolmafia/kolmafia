@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListener;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -2133,12 +2134,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			int nr = Preferences.getInteger( "timesRested" );
-			int fr = 0;
-			if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++fr;
-			if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) fr += 2;
-			if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++fr;
-			if ( KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE ) != null ) fr += 3;
-			if ( KoLCharacter.hasSkill( "Food Coma" ) ) fr += 10;
+			int fr = CampgroundRequest.freeRestsAvailable();
 			this.setShown( fr > 0 );
 			this.setEnabled( nr < fr );
 			this.setText( nr + " (" + fr + " free)" );
