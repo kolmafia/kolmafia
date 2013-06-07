@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -219,7 +220,8 @@ public class CampgroundRequest
 	@Override
 	public int getAdventuresUsed()
 	{
-		return this.action.equals( "rest" ) ? 1 : 0;
+		return this.action.equals( "rest" ) &&
+			Preferences.getInteger( "timesRested" ) >= CampgroundRequest.freeRestsAvailable() ? 1 : 0;
 	}
 
 	public static void setCampgroundItem( final int itemId, int count )
@@ -332,6 +334,17 @@ public class CampgroundRequest
 		{
 			RequestThread.postRequest( new CampgroundRequest( "garden" ) );
 		}
+	}
+
+	public static int freeRestsAvailable()
+	{
+		int freerests = 0;
+		if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++freerests;
+		if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) freerests += 2;
+		if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++freerests;
+		if ( KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE ) != null ) freerests += 3;
+		if ( KoLCharacter.hasSkill( "Food Coma" ) ) freerests += 10;
+		return freerests;
 	}
 
 	@Override
