@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -54,23 +55,31 @@ public class MindControlRequest
 
 	private static final AdventureResult RADIO = ItemPool.get( ItemPool.DETUNED_RADIO, 1 );
 
-	private static final Pattern MCD1_PATTERN = Pattern.compile( "whichlevel=(\\d+)" );
-	private static final Pattern MCD2_PATTERN = Pattern.compile( "tuneradio=(\\d+)" );
+	private static final Pattern GNOME_PATTERN = Pattern.compile( "whichlevel=(\\d+)" );
+	private static final Pattern KNOLL_PATTERN = Pattern.compile( "tuneradio=(\\d+)" );
+	private static final Pattern CANADIA_PATTERN = Pattern.compile( "setting=(\\d)" );
 
 	public MindControlRequest( final int level )
 	{
-		super(
-			KoLCharacter.canadiaAvailable() ? "canadia.php" : KoLCharacter.gnomadsAvailable() ? "gnomes.php" : "inv_use.php" );
+		super( KoLCharacter.canadiaAvailable() ? "choice.php" :
+		       KoLCharacter.gnomadsAvailable() ? "gnomes.php" :
+		       "inv_use.php" );
 
-		if ( KoLCharacter.knollAvailable() )
+		if ( KoLCharacter.canadiaAvailable() )
 		{
-			this.addFormField( "whichitem", String.valueOf( MindControlRequest.RADIO.getItemId() ) );
-			this.addFormField( "tuneradio", String.valueOf( level ) );
+			this.addFormField( "whichchoice", "769" );
+			this.addFormField( "option", "1" );
+			this.addFormField( "setting", String.valueOf( level ) );
 		}
-		else
+		else if ( KoLCharacter.gnomadsAvailable() )
 		{
 			this.addFormField( "action", "changedial" );
 			this.addFormField( "whichlevel", String.valueOf( level ) );
+		}
+		else
+		{
+			this.addFormField( "whichitem", String.valueOf( MindControlRequest.RADIO.getItemId() ) );
+			this.addFormField( "tuneradio", String.valueOf( level ) );
 		}
 
 		this.level = level;
@@ -114,6 +123,12 @@ public class MindControlRequest
 		}
 
 		KoLmafia.updateDisplay( "Resetting mind control device..." );
+
+		// Visit the first URL to set it up, then let the second URL be handled normally
+		if ( KoLCharacter.canadiaAvailable() )
+		{
+			RequestThread.postRequest( new GenericRequest( "place.php?whichplace=canadia&action=lc_mcd" ) );
+		}
 		super.run();
 	}
 
@@ -133,13 +148,16 @@ public class MindControlRequest
 
 	public static boolean registerRequest( final String urlString )
 	{
-		if ( urlString.indexOf( "action=changedial" ) != -1 && urlString.indexOf( "tuneradio" ) == -1 )
+		if ( !urlString.contains( "action=changedial" ) && !urlString.contains( "tuneradio" ) &&
+		     !urlString.contains( "whichchoice=769" ) )
 		{
 			return false;
 		}
 
 		Matcher levelMatcher =
-			KoLCharacter.knollAvailable() ? MindControlRequest.MCD2_PATTERN.matcher( urlString ) : MindControlRequest.MCD1_PATTERN.matcher( urlString );
+			KoLCharacter.knollAvailable() ? MindControlRequest.KNOLL_PATTERN.matcher( urlString ) :
+			KoLCharacter.canadiaAvailable() ? MindControlRequest.CANADIA_PATTERN.matcher( urlString ) :
+			MindControlRequest.GNOME_PATTERN.matcher( urlString );
 
 		if ( !levelMatcher.find() )
 		{
