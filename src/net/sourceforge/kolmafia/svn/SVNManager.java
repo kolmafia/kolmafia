@@ -60,8 +60,10 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -417,38 +419,7 @@ public class SVNManager
 	{
 		initialize();
 
-		String UUID = SVNManager.getFolderUUID( repo );
-
-		if ( UUID == null )
-		{
-			return;
-		}
-
-		if ( SVNManager.validateRepo( repo ) )
-		{
-			RequestLogger.printLine( "repo at " + repo.getPath() + " did not pass validation.  Aborting Checkout." );
-			return;
-		}
-
-		File WCDir = SVNManager.doDirSetup( UUID );
-		if ( WCDir == null )
-		{
-			RequestLogger.printLine( "Something went wrong creating directories..." );
-			return;
-		}
-
-		try
-		{
-			SVNManager.checkout( repo, SVNRevision.HEAD, WCDir, true );
-		}
-		catch ( SVNException e )
-		{
-			error( e, "SVN ERROR during checkout operation.  Aborting..." );
-			return;
-		}
-
-		RequestLogger.printLine();
-		RequestLogger.printLine( "Successfully checked out working copy." );
+		RequestThread.postRequest( new CheckoutRunnable( repo ) );
 
 		pushUpdates( true );
 	}
@@ -460,7 +431,7 @@ public class SVNManager
 	 * file extensions, reject naughty ones
 	 */
 
-	private static boolean validateRepo( SVNURL repo )
+	static boolean validateRepo( SVNURL repo )
 	{
 		SVNRepository repository;
 		Collection< ? > entries;
@@ -503,7 +474,7 @@ public class SVNManager
 
 		if ( failed )
 		{
-			RequestLogger.printLine( "The requested repo failed validation.  Complain to the script's author." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "The requested repo failed validation.  Complain to the script's author." );
 		}
 		else
 		{
@@ -532,14 +503,19 @@ public class SVNManager
 	 */
 	private static void pushUpdates( boolean wasCheckout )
 	{
+		if ( eventStack.isEmpty() )
+		{
+			RequestLogger.printLine( "Done." );
+			return;
+		}
+
 		List<String> pathsToSkip = doFinalChecks( wasCheckout );
 		if ( pathsToSkip.size() > 0 )
 		{
 			RequestLogger.printLine( "NOTE: Skipping some updates due to user request." );
 		}
 
-		if ( !eventStack.isEmpty() )
-			RequestLogger.printLine( "Pushing local updates..." );
+		RequestLogger.printLine( "Pushing local updates..." );
 
 		while ( !eventStack.isEmpty() )
 		{
@@ -893,7 +869,7 @@ public class SVNManager
 	 * @return a unique folder ID for a given repo URL
 	 */
 
-	private static String getFolderUUID( SVNURL repo )
+	static String getFolderUUID( SVNURL repo )
 	{
 		String UUID = null;
 		// first, make sure the repo is there.
@@ -930,7 +906,7 @@ public class SVNManager
 		return UUID;
 	}
 
-	private static File doDirSetup( String uuid )
+	static File doDirSetup( String uuid )
 	{
 		File makeDir = new File( KoLConstants.SVN_LOCATION, uuid );
 
@@ -954,7 +930,7 @@ public class SVNManager
 
 	public static void doUpdate()
 	{
-		File[] projects = KoLConstants.SVN_LOCATION.listFiles();
+		final File[] projects = KoLConstants.SVN_LOCATION.listFiles();
 
 		if ( projects == null || projects.length == 0 )
 		{
@@ -964,44 +940,30 @@ public class SVNManager
 
 		initialize();
 
-		for ( File f : projects )
+		Runnable runMe = new Runnable()
 		{
-			if ( Preferences.getBoolean( "simpleSvnUpdate" ) )
+			public void run()
 			{
-				if ( WCAtHead( f ) )
-					continue;
-			}
+				KoLmafia.updateDisplay( "Updating all SVN projects..." );
+				for ( File f : projects )
+				{
+					if ( !KoLmafia.permitsContinue() )
+						return;
 
-			SVNInfo info;
-			try
-			{
-				info = ourClientManager.getWCClient().doInfo( f, SVNRevision.HEAD );
-			}
-			catch ( SVNException e )
-			{
-				error( e );
-				continue;
-			}
+					if ( Preferences.getBoolean( "simpleSvnUpdate" ) )
+					{
+						if ( WCAtHead( f ) )
+							continue;
+					}
 
-			RequestLogger.printLine( "Updating " + info.getURL().getPath() );
+					RequestThread.postRequest( new UpdateRunnable( f ) );
 
-			if ( SVNManager.validateRepo( info.getURL() ) )
-			{
-				RequestLogger.printLine( "Installed project repo failed validation.  Complain to the script's author.  Skipping." );
-				continue;
+					pushUpdates();
+				}
 			}
-			try
-			{
-				SVNManager.update( f, SVNRevision.HEAD, true );
-			}
-			catch ( SVNException e )
-			{
-				error( e );
-				continue;
-			}
+		};
 
-			pushUpdates();
-		}
+		RequestThread.postRequest( runMe );
 
 		Preferences.setBoolean( "_svnUpdated", true );
 
@@ -1082,30 +1044,7 @@ public class SVNManager
 
 		initialize();
 
-		try
-		{
-			if ( !SVNWCUtil.isWorkingCopyRoot( project ) )
-			{
-				RequestLogger.printLine( project.getName() +
-					" does not appear to be a valid working copy.  Aborting..." );
-				return;
-			}
-
-			SVNURL repo = ourClientManager.getStatusClient().doStatus( project, false ).getURL();
-			if ( SVNManager.validateRepo( repo ) )
-			{
-				RequestLogger.printLine( "repo at " + repo.getPath() + " did not pass validation.  Aborting update." );
-				return;
-			}
-
-			SVNManager.update( project, SVNRevision.HEAD, true );
-
-		}
-		catch ( SVNException e )
-		{
-			error( e );
-			return;
-		}
+		RequestThread.postRequest( new UpdateRunnable( project ) );
 
 		pushUpdates();
 	}
@@ -1119,51 +1058,7 @@ public class SVNManager
 	{
 		initialize();
 
-		String UUID = SVNManager.getFolderUUID( repo );
-
-		if ( UUID == null )
-		{
-			return;
-		}
-
-		// If we're updating it, make sure the project is already checked out first
-		try
-		{
-			if ( !SVNWCUtil.isWorkingCopyRoot( new File( KoLConstants.SVN_DIRECTORY, UUID ) ) )
-			{
-				RequestLogger.printLine( "No existing project named " + UUID + ". Did you mean to do \"checkout\" instead of \"update\"?" );
-				return;
-			}
-		}
-		catch ( SVNException e )
-		{
-			// Shouldn't happen, print a stack trace
-			StaticEntity.printStackTrace( e );
-			return;
-		}
-
-		if ( SVNManager.validateRepo( repo ) )
-		{
-			RequestLogger.printLine( "repo at " + repo.getPath() + " did not pass validation.  Aborting update." );
-			return;
-		}
-
-		File WCDir = SVNManager.doDirSetup( UUID );
-		if ( WCDir == null )
-		{
-			RequestLogger.printLine( "Something went wrong creating directories..." );
-			return;
-		}
-
-		try
-		{
-			SVNManager.update( WCDir, SVNRevision.HEAD, true );
-		}
-		catch ( SVNException e )
-		{
-			error( e );
-			return;
-		}
+		RequestThread.postRequest( new UpdateRunnable( repo ) );
 
 		pushUpdates();
 	}
@@ -1270,6 +1165,9 @@ public class SVNManager
 	 */
 	public static void syncAll()
 	{
+		if ( !KoLmafia.permitsContinue() )
+			return;
+
 		File[] projects = KoLConstants.SVN_LOCATION.listFiles();
 
 		if ( projects == null || projects.length == 0 )
@@ -1346,11 +1244,21 @@ public class SVNManager
 		error( e, null );
 	}
 
-	private static void error( SVNException e, String addMessage )
+	public static void error( SVNException e, String addMessage )
 	{
 		RequestLogger.printLine( e.getErrorMessage().getMessage() );
 		if ( addMessage != null )
-			RequestLogger.printLine( addMessage );
+			KoLmafia.updateDisplay( MafiaState.ERROR, addMessage );
+	}
+
+	public static SVNClientManager getClientManager()
+	{
+		if ( ourClientManager == null )
+		{
+			setupLibrary();
+		}
+
+		return ourClientManager;
 	}
 
 	// some functions taken/adapted from http://wiki.svnkit.com/Managing_A_Working_Copy
