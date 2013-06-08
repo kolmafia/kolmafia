@@ -866,7 +866,6 @@ public class StoreManageFrame
 
 	private static class PriceEditor
 		extends DefaultCellEditor
-		implements TableCellEditor
 	{
 		private static final AutoHighlightTextField rightField = new AutoHighlightTextField()
 		{

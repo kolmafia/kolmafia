@@ -1024,7 +1024,7 @@ public class SVNManager
 		catch ( SVNException e )
 		{
 			error( e );
-			return false;
+			return true; // don't continue updating this project if there's an error here.
 		}
 
 		return false;
