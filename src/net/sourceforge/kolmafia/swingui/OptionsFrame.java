@@ -345,6 +345,7 @@ public class OptionsFrame
 				{ "sharePriceData", "Share recent Mall price data with other users" },
 				{ "svnUpdateOnLogin", "Update installed SVN projects on login"},
 				{ "simpleSvnUpdate", "Use simple SVN update behavior for faster updates" },
+				{ "svnInstallDependencies", "Automatically install dependencies for SVN projects"}
 			};
 
 			this.setOptions( options );
