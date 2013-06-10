@@ -167,6 +167,12 @@ public abstract class KoLmafiaASH
 	// Convenience method so that callers can just do getInterpreter( KoLMafiaCLI.findScriptFile() )
 	public static Interpreter getInterpreter( List<File> findScriptFile )
 	{
+		if ( findScriptFile.size() > 1 )
+		{
+			RequestLogger.printList( findScriptFile );
+			RequestLogger.printLine( "Multiple matching scripts in your current namespace." );
+			return null;
+		}
 		if ( findScriptFile.size() == 1 )
 			return getInterpreter( findScriptFile.get( 0 ) );
 
