@@ -37,7 +37,10 @@ import com.informit.guides.JDnDList;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +51,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -56,6 +61,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -72,6 +78,7 @@ import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 
 import javax.swing.event.ListDataEvent;
@@ -154,6 +161,7 @@ public class OptionsFrame
 
 		selectorPanel.addPanel( "Script Buttons", new ScriptButtonPanel(), true );
 		selectorPanel.addPanel( "Bookmarks", new BookmarkManagePanel(), true );
+		selectorPanel.addPanel( "SVN", new SVNPanel() );
 
 		this.setCenterComponent( selectorPanel );
 
@@ -343,9 +351,6 @@ public class OptionsFrame
 				{},
 
 				{ "sharePriceData", "Share recent Mall price data with other users" },
-				{ "svnUpdateOnLogin", "Update installed SVN projects on login"},
-				{ "simpleSvnUpdate", "Use simple SVN update behavior for faster updates" },
-				{ "svnInstallDependencies", "Automatically install dependencies for SVN projects"}
 			};
 
 			this.setOptions( options );
@@ -1167,6 +1172,163 @@ public class OptionsFrame
 		public void saveSettings()
 		{
 
+		}
+	}
+
+	private class SVNPanel
+		extends JPanel
+	{
+		private List<Component> componentQueue = new ArrayList<Component>();
+
+		public SVNPanel()
+		{
+			// 5 px inset
+			this.setBorder( BorderFactory.createEmptyBorder( 10, 5, 5, 5 ) );
+			// box layoutmanager
+			this.setLayout( new BoxLayout( this, BoxLayout.PAGE_AXIS ) );
+			JTextArea message = new JTextArea( "Configure the behavior of Mafia's built-in SVN client here.\n\n"
+				+ "With SVN you can seamlessly install community-created scripts and have them automatically update." )
+			{
+				// don't let boxlayout expand the JTextArea ridiculously
+				@Override
+				public Dimension getMaximumSize()
+				{
+					return this.getPreferredSize();
+				}
+			};
+
+			message.setColumns( 40 );
+			message.setLineWrap( true );
+			message.setWrapStyleWord( true );
+			message.setEditable( false );
+			message.setOpaque( false );
+			message.setFont( KoLConstants.DEFAULT_FONT );
+			this.queue( message );
+
+			JSeparator sep = new JSeparator();
+			// again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
+			Dimension size = new Dimension( sep.getMaximumSize().width, sep.getPreferredSize().height );
+			sep.setMaximumSize( size );
+			this.queue( sep );
+			this.queue( Box.createVerticalStrut( 5 ) );
+
+			this.queue( new PreferenceCheckBox( "svnUpdateOnLogin", "Update installed SVN projects on login" ) );
+
+			String tip = "<html>\"Simple\" behavior means that svn will just check the revision of your project's<br>"
+				+ "root directory and compare it to that of the root directory in the repo.<br>" + "<br>"
+				+ "This saves time and server hits over a full <i>svn update</i>, but users with<br>"
+				+ "mixed-revision working copies or the like may want to turn it off so that<br>"
+				+ "a full <i>svn update</i> happens every time.</html>";
+			this.queue( new PreferenceCheckBox(
+				"simpleSvnUpdate", "Use simple SVN update behavior for faster updates", tip ) );
+
+			tip = "<html>A script may declare dependencies - i.e. other scripts that should be installed<br>"
+				+ "along with it.  Those dependencies can declare their own dependencies, and<br>so forth.<br>"
+				+ "<br>" + "Users who want complete control over what they are installing can turn this off,<br>"
+				+ "but should make sure to manually install dependencies or scripts may<br>malfunction.";
+			this.queue( new PreferenceCheckBox(
+				"svnInstallDependencies", "Automatically install dependencies for SVN projects", tip ) );
+
+			this.makeLayout();
+		}
+
+		private void queue( Component comp )
+		{
+			this.componentQueue.add( comp );
+		}
+
+		private void makeLayout()
+		{
+			for ( Component comp : this.componentQueue )
+			{
+				if ( comp instanceof JComponent )
+				{
+					( (JComponent) comp ).setAlignmentX( LEFT_ALIGNMENT );
+				}
+				this.add( comp );
+			}
+			this.componentQueue = null;
+		}
+	}
+
+	private class PreferenceCheckBox
+		extends JPanel
+		implements PreferenceListener
+	{
+		private final String pref;
+		private final String tooltip;
+
+		private final JCheckBox box = new JCheckBox();
+
+		public PreferenceCheckBox( String pref, String message )
+		{
+			this( pref, message, null );
+		}
+
+		public PreferenceCheckBox( String pref, String message, String tip )
+		{
+			this.pref = pref;
+			this.tooltip = tip;
+
+			configure();
+			makeLayout( message );
+		}
+
+		private void configure()
+		{
+			this.setLayout( new FlowLayout( FlowLayout.LEFT, 1, 1 ) );
+			PreferenceListenerRegistry.registerListener( pref, this );
+			this.box.addActionListener( new ActionListener()
+			{
+				public void actionPerformed( ActionEvent e )
+				{
+					Preferences.setBoolean( pref, box.isSelected() );
+				}
+			} );
+		}
+
+		private void makeLayout( String message )
+		{
+			this.add( this.box );
+			JLabel label = new JLabel( message );
+			this.add( label );
+
+			if ( tooltip != null )
+			{
+				this.add( Box.createHorizontalStrut( 3 ) );
+				label = new JLabel( "[" );
+				label.setFont( KoLConstants.DEFAULT_FONT );
+				this.add( label );
+
+				label = new JLabel( "<html><u>?</u></html>" );
+				this.add( label );
+				label.setForeground( Color.blue.darker() );
+				label.setFont( KoLConstants.DEFAULT_FONT );
+				label.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+				label.setToolTipText( tooltip );
+
+				// show the tooltip with no delay, don't dismiss while hovered
+				ToolTipManager.sharedInstance().registerComponent( label );
+				ToolTipManager.sharedInstance().setInitialDelay( 0 );
+				ToolTipManager.sharedInstance().setDismissDelay( Integer.MAX_VALUE );
+
+				label = new JLabel( "]" );
+				label.setFont( KoLConstants.DEFAULT_FONT );
+				this.add( label );
+			}
+
+			update();
+		}
+
+		public void update()
+		{
+			this.box.setSelected( Preferences.getBoolean( this.pref ) );
+		}
+
+		@Override
+		public Dimension getMaximumSize()
+		{
+			return this.getPreferredSize();
 		}
 	}
 
