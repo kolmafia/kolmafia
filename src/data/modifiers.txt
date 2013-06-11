@@ -1762,7 +1762,7 @@ Oscus's pelt	Mysticality Percent: +20, Stench Spell Damage: +30, Class: "Pastama
 Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Pine-Fresh air freshener	Stench Resistance: +1
 Pink Heart of Spirit	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
-Pocket Square of Loathing	Never Fumble, Mana Cost: -3, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5
+Pocket Square of Loathing	Never Fumble, Mana Cost: -3, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Single Equip
 Pok&euml;mann figurine: Bloodkip	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Duck	Cold Resistance: +2, Single Equip
 Pok&euml;mann figurine: Frank	Muscle Percent: +10, Single Equip
