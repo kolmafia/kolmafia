@@ -2116,6 +2116,7 @@ Mr. Container	0	none
 Newbiesport&trade; backpack	0	Mys: 75
 Rain-Doh red wings	100	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	Mus: 85
+anniversary pewter cape	10	none
 auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
 giant gym membership card	0	Mys: 75

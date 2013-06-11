@@ -2371,6 +2371,7 @@ Newbiesport&trade; backpack	Item Drop: +1
 Radio KoL Coffee Mug	Muscle: +10, Mysticality: +10, Moxie: +10, Hot Damage: +10
 Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
+anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 auxiliary backbone	PvP Fights: +3
 barskin cloak	Muscle: +7
 giant gym membership card	Weapon Damage: +15
