@@ -3854,8 +3854,8 @@
 3837	anniversary safety glass vest	744630945	glassvest.gif	shirt		0	anniversary safety glass vests
 3838	anniversary burlap belt	612792894	burlapbelt.gif	accessory		0	anniversary burlap belts
 3839	anniversary balsa wood socks	843314870	woodsocks.gif	accessory		0	pairs of anniversary balsa wood socks
-3840	anniversary tiny latex mask	458954233	tinymask.gif	familiar	0
-3841
+3840	anniversary tiny latex mask	458954233	tinymask.gif	familiar		0
+3841	anniversary pewter cape	556446495	nopic2.gif	container		0
 3842	out-of-tune biwa	629789423	biwa.gif	weapon	t,d	24	out-of-tune biwas
 3843	dented harmonica	295683337	smallharmonica.gif	weapon	t,d	12	dented harmonicas
 3844	magic whistle	444105885	lparen.gif	weapon	t,d	92	magic whistles
@@ -5753,7 +5753,7 @@
 5736	Drizzlers&trade; Black Licorice	676152829	drizzlers.gif	usable	t,d	5
 5737	daub-breaker	221662956	daubbreaker.gif	usable	t,d	5
 5738	Camp Scout backpack	506150298	csbackpack.gif	container	t	0
-5739	CSA fire-starting kit	572377360	briefcase.gif	usable		0
+5739	CSA fire-starting kit	572377360	briefcase.gif	usable	d	23
 5740	bag of GORP	237245113	baggie.gif	food	t,d	23	bags of GORP
 5741	water purification pills	652054747	goofballs.gif	drink	t,d	23
 5742	Camp Scout pup tent	713528231	tent1.gif	hp, usable	t,d	23
