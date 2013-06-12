@@ -403,6 +403,20 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					else
+					{
+						try
+						{
+							int num = Integer.parseInt( cmd.split( " " )[ 1 ] );
+							if ( Preferences.getString( "demonName" + num ).equals( "" ) )
+							{
+								cmd = "";
+							}
+						}
+						catch ( Exception e )
+						{
+						}
+					}
 				}
 				else if ( cmd.startsWith( "concert " ) )
 				{
