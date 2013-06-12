@@ -65,9 +65,9 @@ public class UpdateRunnable
 		this.revision = SVNRevision.HEAD;
 	}
 
-	public UpdateRunnable( SVNURL url, SVNRevision rev )
+	public UpdateRunnable( File f, SVNRevision rev )
 	{
-		this.repo = url;
+		this.WCDir = f;
 		this.revision = rev;
 	}
 

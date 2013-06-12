@@ -57,6 +57,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,10 +73,12 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import org.tmatesoft.svn.core.ISVNLogEntryHandler;
 import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
@@ -98,6 +101,7 @@ public class SVNManager
 	private static final int DEPENDENCY_RECURSION_LIMIT = 5;
 
 	private static Stack<SVNFileEvent> eventStack = new Stack<SVNFileEvent>();
+	private static TreeMap<File, Long[]> updateMessages = new TreeMap<File, Long[]>();
 
 	private static SVNClientManager ourClientManager;
 	//private static ISVNEventHandler myCommitEventHandler;
@@ -148,7 +152,7 @@ public class SVNManager
 		ourClientManager.getWCClient().setEventHandler( myWCEventHandler );
 	}
 
-	
+
 	/**
 	 * Meant to be called before any operation that interacts with a remote repository. Prepares client manager and
 	 * cleans up static variables in case they were not cleaned up in the previous operation.
@@ -161,6 +165,7 @@ public class SVNManager
 		}
 
 		eventStack.clear();
+		updateMessages.clear();
 	}
 
 	/*
@@ -372,6 +377,37 @@ public class SVNManager
 		ourClientManager.getWCClient().doInfo( wcPath, SVNRevision.UNDEFINED, revision, SVNDepth.INFINITY, null, new InfoHandler() );
 	}
 
+	public static void showCommitMessage( File wcPath, long from, long to )
+		throws SVNException
+	{
+		if ( !KoLmafia.permitsContinue() )
+			return;
+
+		// we don't want to show the commit info from the revision that we're on if we're moving to another revision.
+		// example: going from r13 -> r15 : we don't want to show r13's info.
+		if ( from < to )
+			++from;
+
+		// alternately, if we're decreasing in revision, we don't want to show the revision that we came from.
+		// example: going from r15 -> r14 : we don't want to show r15's info.
+		if ( from > to )
+			--from;
+
+		ourClientManager.getLogClient().doLog( new File[]{wcPath}, SVNRevision.create( from ),
+			SVNRevision.create( to ), true, false, 10, new ISVNLogEntryHandler()
+		{
+			public void handleLogEntry( SVNLogEntry logEntry )
+				throws SVNException
+			{
+				RequestLogger.printLine( "Commit <b>r" + logEntry.getRevision() + "<b>:" );
+				RequestLogger.printLine( "Author: " + logEntry.getAuthor() );
+				RequestLogger.printLine();
+				RequestLogger.printLine( logEntry.getMessage() );
+				RequestLogger.printLine( "------" );
+			}
+		} );
+	}
+
 	/*
 	 * Puts directories and files under version control scheduling them for addition to a repository. They will be added
 	 * in a next commit. Like 'svn add PATH' command. It's done by invoking SVNWCClient.doAdd(File path, boolean force,
@@ -430,6 +466,29 @@ public class SVNManager
 
 		if ( Preferences.getBoolean( "svnInstallDependencies" ) )
 			checkDependencies();
+	}
+
+	private static void showCommitMessages()
+	{
+		for ( File f : updateMessages.keySet() )
+		{
+			if ( updateMessages.get( f ) == null || updateMessages.get( f )[0] <= 0 )
+			{
+				continue;
+			}
+
+			RequestLogger.printLine( "Update info for <b>" + f.getName() + "</b>:" );
+			RequestLogger.printLine( "------" );
+			try
+			{
+				showCommitMessage( f, updateMessages.get( f )[ 0 ], updateMessages.get( f )[ 1 ] );
+			}
+			catch ( SVNException e )
+			{
+				error( e );
+			}
+		}
+		updateMessages.clear();
 	}
 
 	/**
@@ -526,6 +585,10 @@ public class SVNManager
 			return;
 		}
 
+		// make a copy of the event stack - we'll need this later for the optional info step
+		@SuppressWarnings( "unchecked" )
+		Stack<SVNFileEvent> eventStackCopy = (Stack<SVNFileEvent>) SVNManager.eventStack.clone();
+
 		List<String> pathsToSkip = doFinalChecks( wasCheckout );
 		if ( pathsToSkip.size() > 0 )
 		{
@@ -579,6 +642,52 @@ public class SVNManager
 
 		RequestLogger.printLine( "Done." );
 		eventStack.clear();
+
+		// use the copy of the event stack that we made earlier to show commit info
+		// no need to try to show commit messages for checkouts
+		if ( !wasCheckout )
+			queueCommitMessages( eventStackCopy );
+	}
+
+	private static void queueCommitMessages( Stack<SVNFileEvent> eventStackCopy )
+	{
+		if ( eventStackCopy.isEmpty() )
+			return;
+
+		if ( !Preferences.getBoolean( "svnShowCommitMessages" ) )
+		{
+			SVNManager.updateMessages.clear();
+			return;
+		}
+		/*
+		 * We need to turn this stack of files and events into {workingCopy, revision[]} pairs, where workingCopy = a
+		 * File that represents the root of the working copy that was updated, and revision[] = two Long that represent
+		 * the revision that we started at and the revision that we're going to. In other words, we need to collapse all
+		 * of the individual file events into one object per working copy.
+		 */
+
+		TreeMap<File, Long[]> feMap = new TreeMap<File, Long[]>();
+
+		while ( !eventStackCopy.isEmpty() )
+		{
+			SVNFileEvent fe = eventStackCopy.pop();
+			File f = fe.getFile();
+
+			while ( !f.getParentFile().equals( KoLConstants.SVN_LOCATION ) )
+			{
+				f = f.getParentFile();
+				if ( f == null )
+					// shouldn't happen, punt
+					return;
+			}
+
+			// assume that getPreviousRevision is the same for every file
+			feMap.put( f, new Long[]
+			{ fe.getEvent().getPreviousRevision(), fe.getEvent().getRevision()
+			} );
+		}
+
+		SVNManager.updateMessages.putAll( feMap );
 	}
 
 	private static File findDepth( File f )
@@ -1001,6 +1110,8 @@ public class SVNManager
 
 		RequestThread.postRequest( runMe );
 
+		showCommitMessages();
+
 		Preferences.setBoolean( "_svnUpdated", true );
 
 		if ( Preferences.getBoolean( "syncAfterSvnUpdate" ) )
@@ -1086,6 +1197,7 @@ public class SVNManager
 		RequestThread.postRequest( new UpdateRunnable( project ) );
 
 		pushUpdates();
+		showCommitMessages();
 
 		if ( Preferences.getBoolean( "svnInstallDependencies" ) )
 			checkDependencies();
@@ -1103,6 +1215,7 @@ public class SVNManager
 		RequestThread.postRequest( new UpdateRunnable( repo ) );
 
 		pushUpdates();
+		showCommitMessages();
 
 		if ( Preferences.getBoolean( "svnInstallDependencies" ) )
 			checkDependencies();
@@ -1197,6 +1310,7 @@ public class SVNManager
 		}
 
 		pushUpdates();
+		showCommitMessages();
 	}
 
 	/**
@@ -1402,7 +1516,7 @@ public class SVNManager
 			RequestThread.postRequest( new CheckoutRunnable( url ) );
 			pushUpdates( true );
 		}
-		
+
 		if ( recursionDepth <= DEPENDENCY_RECURSION_LIMIT )
 		{
 			checkDependencies( ++recursionDepth );
