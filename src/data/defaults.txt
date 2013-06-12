@@ -168,6 +168,7 @@ global	simpleSvnUpdate	true
 global	statusDropdown	0
 global	stealthLogin	true
 global	svnInstallDependencies	true
+global	svnShowCommitMessages	false
 global	svnUpdateOnLogin	false
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	false

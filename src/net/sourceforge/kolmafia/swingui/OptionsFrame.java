@@ -53,7 +53,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -1212,11 +1211,35 @@ public class OptionsFrame
 			this.queue( sep );
 			this.queue( Box.createVerticalStrut( 5 ) );
 
-			this.queue( new PreferenceCheckBox( "svnUpdateOnLogin", "Update installed SVN projects on login" ) );
+			/*
+			 * Basic Options
+			 */
 
-			String tip = "<html>\"Simple\" behavior means that svn will just check the revision of your project's<br>"
+			this.queue( new PreferenceCheckBox( "svnUpdateOnLogin", "Update installed SVN projects on login" ) );
+			String tip = "<html>Turning this option on will show the associated message that the author<br>" +
+					"provided to describe changes in the new version.  This includes things<br>" +
+					"like bug fixes, new features, etc.</html>";
+			this.queue( new PreferenceCheckBox( "svnShowCommitMessages", "Show commit messages after update", tip) );
+
+			/*
+			 * End Basic Options
+			 */
+
+			this.queue( Box.createVerticalStrut( 10 ) );
+			JLabel label = new JLabel( "Advanced options:");
+			this.queue( label );
+			JSeparator sep2 = new JSeparator();
+			size = new Dimension( label.getFontMetrics( label.getFont() ).stringWidth( label.getText() ), sep.getPreferredSize().height );
+			sep2.setMaximumSize( size );
+			this.queue( sep2 );
+
+			/*
+			 * Advanced Options
+			 */
+
+			tip = "<html>\"Simple\" behavior means that svn will just check the revision of your project's<br>"
 				+ "root directory and compare it to that of the root directory in the repo.<br>" + "<br>"
-				+ "This saves time and server hits over a full <i>svn update</i>, but users with<br>"
+				+ "This saves time and server hits over a full <i>svn update</i>, but advanced users with<br>"
 				+ "mixed-revision working copies or the like may want to turn it off so that<br>"
 				+ "a full <i>svn update</i> happens every time.</html>";
 			this.queue( new PreferenceCheckBox(
@@ -1228,6 +1251,17 @@ public class OptionsFrame
 				+ "but should make sure to manually install dependencies or scripts may<br>malfunction.";
 			this.queue( new PreferenceCheckBox(
 				"svnInstallDependencies", "Automatically install dependencies for SVN projects", tip ) );
+
+			tip = "<html>If you manually modify your working copies, syncing will ensure that any<br>" +
+					"changes you made in the WC (along with merged updates from the repo) are<br>" +
+					"transferred to your local copy whenever you perform an svn update.  This is<br>" +
+					"equivalent to executing the CLI command <i>svn sync</i>.<br><br>" +
+					"If you have not modified your working copies, you do not need this feature.</html>";
+			this.queue( new PreferenceCheckBox( "syncAfterSvnUpdate", "Sync after svn update", tip ) );
+
+			/*
+			 * End Advanced Options
+			 */
 
 			this.makeLayout();
 		}
