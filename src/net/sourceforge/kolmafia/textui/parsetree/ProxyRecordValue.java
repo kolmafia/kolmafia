@@ -640,6 +640,10 @@ public class ProxyRecordValue
 		public String get_combat_queue()
 		{
 			List<?> zoneQueue = AdventureQueueDatabase.getZoneQueue( (KoLAdventure) this.content );
+			if ( zoneQueue == null )
+			{
+				return "";
+			}
 
 			StringBuilder builder = new StringBuilder();
 			for ( Object ob : zoneQueue )
@@ -659,6 +663,10 @@ public class ProxyRecordValue
 		public String get_noncombat_queue()
 		{
 			List<?> zoneQueue = AdventureQueueDatabase.getZoneNoncombatQueue( (KoLAdventure) this.content );
+			if ( zoneQueue == null )
+			{
+				return "";
+			}
 
 			StringBuilder builder = new StringBuilder();
 			for ( Object ob : zoneQueue )

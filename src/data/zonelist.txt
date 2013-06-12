@@ -53,9 +53,11 @@ Volcano	Volcano	Secret Tropical Island Volcano Lair
 Signed Zones	Signed Zones	Signed Zones
 Gyms	Signed Zones	Clan/Signed Gyms
 MusSign	Signed Zones	Muscle Sign
-MysSign	Signed Zones	Mysticality Sign
 MoxSign	Signed Zones	Moxie Sign
 BadMoon	Signed Zones	Bad Moon
+
+Little Canadia	Signed Zones	Little Canadia
+Le Marais Dègueulasse	Little Canadia	Le Marais Dègueulasse
 
 Astral	Astral	Astral Plane
 Wormwood	Wormwood	Worm Wood
