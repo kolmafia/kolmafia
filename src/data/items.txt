@@ -2733,9 +2733,9 @@
 2716	battered hubcap	691160228	bhubcap.gif	offhand	t,d	150	battered hubcaps
 2717	shiny hood ornament	631967761	hoodornament.gif	accessory	t,d	300	shiny hood ornaments
 2718	spare kidney	748480874	kidney.gif	usable	q	0
-2719
-2720
-2721
+2719	hand-carved bokken	898244430	carvedsword.gif	weapon	d	200	hand-carved bokken
+2720	hand-carved bow	144180269	carvedbow.gif	weapon	d	200	hand-carved bows
+2721	hand-carved staff	598169907	carvedstaff.gif	weapon	d	200	hand-carved staves
 2722	Staff of the Greasefire	594637270	chefstaff1.gif	weapon	d	25	Staves of the Greasefire
 2723	Staff of the Grand Flamb&eacute;	376191389	chefstaff8.gif	weapon	d	25	Staves of the Grand Flamb&eacute;
 2724	bowl of rye sprouts	211979721	soupbowl.gif	food	t,d	150	bowls of rye sprouts
@@ -2864,24 +2864,24 @@
 2847	Dallas Dynasty Falcon Crest shield	406198903	falconcrest.gif	offhand	t	0	Dallas Dynasty Falcon Crest shields
 2848	Gnomitronic Hyperspatial Demodulizer	601549776	gizmo.gif	none, combat reusable	t,d	999	Gnomitronic Hyperspatial Demodulizers
 2849
-2850
-2851
+2850	moonberry wine cooler	866573652	beerbottle.gif	drink	t,d	22	moonberry wine coolers
+2851	fine aged cheddarwurst	291302826	sausage.gif	food	t,d	28	fine aged cheddarwursts
 2852
 2853
 2854
-2855
-2856
-2857
-2858
-2859
-2860
-2861
-2862
-2863
-2864
-2865
-2866
-2867
+2855	huge mosquito proboscis	249414558	spine.gif	weapon	t,d	50	huge mosquito probosciseses
+2856	swamp lolly	366762044	supersucker.gif	usable	t,d	44	swamp lollies
+2857	seegar butt	545459465	stogie.gif	usable	t,d	36	seegar butts
+2858	bottled swamp gas	163055284	swampgas.gif	none, combat	t,d	32	bottles of swamp gas
+2859	witch wart	615130611	witchwart.gif	accessory	t,d	65	witch warts
+2860	delicious swamp muck	474310124	gooball.gif	food	t,d	18	globs of delicious swamp muck
+2861	leechknife	364862819	leechknife.gif	weapon	t,d	62	leechknives
+2862	decomposed boot	379137903	oldboot.gif	none	t,d	37	decomposed beet
+2863	big dribbly candle	507816529	fatcandle.gif	usable	t,d	21	big dribbly candles
+2864	stolen meatpouch	168997454	meatpouch.gif	usable	t,d	25	stolen meatpouches
+2865	beaver spear	212528569	beavspear.gif	weapon	t,d	70	beaver spears
+2866	shamanic beads	564800741	shamnecklace.gif	accessory	t,d	80	strings of shamanic beads
+2867	dilapidated wizard hat	864129917	wizhat2.gif	hat	t,d	72	dilapidated wizard hats
 2868	pirate pamphlet	282485397	pamphlet.gif	multiple	t,d	250	pirate pamphlets
 2869	pirate brochure	751847928	pamphlet.gif	multiple	t,d	250	pirate brochures
 2870	pirate tract	240521902	pamphlet.gif	multiple	t,d	250	pirate tracts
@@ -6353,10 +6353,10 @@
 6336	sea shawl	509681026	seaback2.gif	container	d	150	sea shawls
 6337	sea cape	584242832	seaback3.gif	container	d	150	sea capes
 6338	saltwaterbed	530970383	waterbed.gif	usable	d	1000	saltwaterbeds
-6339
-6340
-6341
-6342
+6339	muddy pirate hat	860841836	pirhat.gif	hat	t,d	58	muddy pirate hats
+6340	floral-print skirt	909492674	floralskirt.gif	pants	t,d	115	floral-print skirts
+6341	spectral axe	958298149	ghostaxe.gif	weapon	t,d	120	spectral axis
+6342	super-strong air freshener	645986575	pinefresh2.gif	accessory	t,d	110	super-strong air fresheners
 6343	Mer-kin lipstick	812557492	lipstick.gif	usable	t,d	45	tubes of Mer-kin lipstick
 6344	Mer-kin mouthsoap	922856345	merkinsoap.gif	none, combat	t,d	33	bars of Mer-kin mouthsoap
 6345	Mer-kin strongjuice	425613279	potion13.gif	usable	t,d	44	bottles of Mer-kin strongjuice

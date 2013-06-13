@@ -1213,8 +1213,8 @@
 1212	Blade Rolling	switchblade.gif	9b41cb448428318c86e50025c9a40d66
 1213
 1214
-1215
-1216
+1215	Stinking Cloud	puff.gif	8596a5c27ee8c3f2bf4a7907a24372b4	use 1 seegar butt
+1216	Waxing Mystical	fatcandle.gif	cf4328cda78c1a285b06977f364fbcf0	use 1 big dribbly candle
 1217	Deep-Tainted	Mind tentaclemass.gif	6e3316d6f3cdcc9576c03873cc1d4ce5
 1218	Red Around the Gills	lipstick.gif	fd562a81c2d80434b06074afa0136c81	use 1 Mer-kin lipstick
 1219	Deep-Seated Rage	angry.gif	8156c5a5f858c481e6124a9fc7a15701	use 1 Mer-kin ragejuice
