@@ -53,6 +53,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
@@ -62,6 +63,8 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.wc.SVNInfo;
+import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -198,6 +201,11 @@ public abstract class RuntimeLibrary
 		"{string display; string command; float score; effect effect; item item; skill skill;}",
 		new String[] { "display", "command", "score", "effect", "item", "skill" },
 		new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.FLOAT_TYPE, DataTypes.EFFECT_TYPE, DataTypes.ITEM_TYPE, DataTypes.SKILL_TYPE } );
+	
+	private static final RecordType svnInfoRec = new RecordType(
+		"{string url; int revision; string lastChangedAuthor; int lastChangedRev; string lastChangedDate}",
+		new String[] { "url", "revision", "lastChangedAuthor", "lastChangedRev", "lastChangedDate"}, 
+		new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE} );
 
 	public static final FunctionList functions = new FunctionList();
 
@@ -1536,6 +1544,9 @@ public abstract class RuntimeLibrary
 		
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "svn_at_head", DataTypes.BOOLEAN_TYPE, params ) );
+		
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "svn_info", svnInfoRec, params ) );
 	}
 
 	public static Method findMethod( final String name, final Class[] args )
@@ -5564,6 +5575,85 @@ public abstract class RuntimeLibrary
 		}
 
 		return value;
+	}
+
+	public static Value svn_info( Interpreter interpreter, final Value script )
+	{
+		String[] projects = KoLConstants.SVN_LOCATION.list();
+
+		ArrayList<String> matches = new ArrayList<String>();
+		for ( String s: projects )
+		{
+			if ( s.contains( script.toString() ) )
+			{
+				matches.add( s );
+			}
+		}
+
+		if ( matches.size() != 1 )
+		{
+			return getRecInit();
+		}
+		File projectFile = new File( KoLConstants.SVN_LOCATION, matches.get( 0 ) );
+		try
+		{
+			if ( !SVNWCUtil.isWorkingCopyRoot( projectFile ) )
+			{
+				return getRecInit();
+			}
+		}
+		catch ( SVNException e1 )
+		{
+			return getRecInit();
+		}
+		RecordType type = RuntimeLibrary.svnInfoRec;
+		RecordValue rec = new RecordValue( type );
+
+		// get info
+
+		SVNInfo info;
+		try
+		{
+			info = SVNManager.getClientManager().getWCClient().doInfo( projectFile, SVNRevision.WORKING );
+		}
+		catch ( SVNException e )
+		{
+			SVNManager.error( e, null );
+			return getRecInit();
+		}
+
+		// URL
+		rec.aset( 0, new Value( info.getURL().toString() ), null );
+		// revision
+		rec.aset( 1, DataTypes.makeIntValue( info.getRevision().getNumber() ), null );
+		// lastChangedAuthor
+		rec.aset( 2, new Value( info.getAuthor() ), null );
+		// lastChangedRev
+		rec.aset( 3, DataTypes.makeIntValue( info.getCommittedRevision().getNumber() ), null );
+		// lastChangedDate
+		// use format that is similar to what 'svn info' gives, ex:
+		// Last Changed Date: 2003-01-16 23:21:19 -0600 (Thu, 16 Jan 2003)
+		SimpleDateFormat SVN_FORMAT = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss z (EEE, dd MMM yyyy)", Locale.US );
+		rec.aset( 4, new Value( SVN_FORMAT.format( info.getCommittedDate() ) ), null );
+		
+		return rec;
+	}
+	
+	private static RecordValue getRecInit()
+	{
+		RecordType type = RuntimeLibrary.svnInfoRec;
+		RecordValue rec = new RecordValue( type );
+		rec.aset( 0, DataTypes.STRING_INIT, null );
+		// revision
+		rec.aset( 1, DataTypes.INT_INIT, null );
+		// lastChangedAuthor
+		rec.aset( 2, DataTypes.STRING_INIT, null );
+		// lastChangedRev
+		rec.aset( 3, DataTypes.INT_INIT, null );
+		// lastChangedDate
+		rec.aset( 4, DataTypes.STRING_INIT, null );
+
+		return rec;
 	}
 
 	public static Value meat_drop( Interpreter interpreter )
