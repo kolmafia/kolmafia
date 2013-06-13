@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -4075,6 +4076,11 @@ public abstract class ChoiceManager
 				// the other three must be completed at this point.
 				Preferences.setInteger( "twinPeakProgress", 15 );
 			}
+			return;
+
+		case 720:
+			// The Florist Friar's Cottage
+			FloristRequest.parseResponse( request.getURLString() , text );
 			return;
 
 		}

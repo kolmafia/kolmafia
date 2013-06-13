@@ -3929,8 +3929,8 @@ public abstract class KoLCharacter
 			return FamiliarData.NO_FAMILIAR;
 		}
 
-		// Don't even look if you are an Avatar of Boris
-		if ( KoLCharacter.inAxecore() )
+		// Don't even look if you are an Avatar
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() )
 		{
 			return null;
 		}
@@ -4588,8 +4588,11 @@ public abstract class KoLCharacter
 
 		newModifiers.applyPassiveModifiers();
 
+		// Add modifiers from Florist Friar plants
+		newModifiers.applyFloristModifiers();
+
 		// For the sake of easier maintenance, execute a lot of extra
-		// extra string comparisons when looking at status effects.
+		// string comparisons when looking at status effects.
 
 		for ( int i = 0; i < effects.size(); ++i )
 		{
