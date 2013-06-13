@@ -172,6 +172,7 @@ crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: 
 cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
 depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Familiar Effect: "1xBarrr, 1xFairy, cap 25"
+dilapidated wizard hat	Hot Damage: +10, Hot Spell Damage: +15
 disco mask	Moxie: +1, Familiar Effect: "atk, cap 2"
 double-ice cap	MP Regen Min: 5, MP Regen Max: 9, Cold Damage: +10, Familiar Effect: "1xPotato, 1xFairy, cap 17"
 draggin' ball hat	Moxie: +6, Muscle: -3, Familiar Effect: "atk, 1xVolley, cap 25"
@@ -254,6 +255,7 @@ mesh cap	Muscle: +15, Moxie: -5, Familiar Effect: "atk, 1xVolley, cap 41"
 metallic foil cat ears	Familiar Effect: "atk, cap 7"
 miner's helmet	Item Drop: +5, Familiar Effect: "1xBarrr, 1xFairy, cap 20"
 moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4, Familiar Effect: "stench atk"
+muddy pirate hat	Item Drop: +5, Initiative: +20
 mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
 mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
 mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
@@ -447,6 +449,7 @@ extremely skinny jeans	Muscle Percent: -10, Mysticality Percent: -10, Moxie Perc
 fancy tuxedo pants	Moxie Percent: +15, Familiar Effect: "2xVolley, 1xGhuol, cap 25"
 filthy corduroys	Mysticality: +3, Moxie: -3, Familiar Effect: "stench atk, prismatic atk, 1xPotato, cap 15"
 floaty rock pants	Spell Critical Percent: +10, Familiar Effect: "1.5xBarrr, 1xGhuol, cap 25"
+floral-print skirt	Stench Damage: +20, Monster Level: +5
 flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15, Familiar Effect: "stench atk, 1xFairy, cap 45"
 foam naval trousers	Initiative: +50
 frilly skirt	Familiar Effect: "3.5xFairy, cap 8"
@@ -823,6 +826,7 @@ basic meat staff	Mysticality: +1
 basic meat sword	Muscle: +1
 bat whip	Spell Damage: +10, Monster Level: +5
 batblade	Weapon Damage: +15
+beaver spear	Muscle: +5, Weapon Damage: +10
 beer bong	Stench Damage: +15, Monster Level: +5
 beer-a-pult	Stench Damage: +10, Sleaze Damage: +10
 beer-soaked mop	Sleaze Damage: +3
@@ -1004,6 +1008,9 @@ half-sized guitar	Moxie: +2, Ranged Damage: +4
 halfberd	Weapon Damage: +2
 halibut	Stench Damage: +100, Sleaze Damage: +100, Moxie Percent: -10
 hammerus	Spooky Damage: +15
+hand-carved bokken	Muscle Percent: +5, Weapon Damage: +15, Critical Hit Percent: +5
+hand-carved bow	Moxie Percent: +10, Ranged Damage: +10, Initiative: +20
+hand-carved staff	Mysticality Percent: +10, Spell Damage: +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 happiness	Hot Damage: +12
 heavy leather-bound tome	Weakens Monster
 heavy metal thunderrr guitarrr	Weapon Damage: +16
@@ -1016,6 +1023,7 @@ honey dipper	Mysticality Percent: +5, MP Regen Min: 3, MP Regen Max: 7, Spell Da
 hot cross bow	Moxie: +7, Muscle: +5, Hot Damage: +5
 hot-ass club	Weapon Damage: +25, Monster Level: +15, Hot Damage: 15, Class: "Seal Clubber"
 huge mirror shard	Weapon Damage: +5
+huge mosquito proboscis	HP Regen Min: 8, HP Regen Max: 12, Maximum HP: +20
 huge spoon	Spell Damage: +10
 ice sickle	Monster Level: +15, Cold Damage: +5, Softcore Only
 icy-hot katana	Hot Damage: +3, Cold Damage: +3
@@ -1034,6 +1042,7 @@ knob bugle	Weakens Monster
 lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
 lawnmower blade	Weapon Damage: +15
 lead pipe	Muscle: +6, Mysticality: +6
+leechknife	Maximum HP: +10, Maximum MP: +5, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6
 # left bear arm: Lets you act like a bear
 left bear arm	Muscle Percent: +10, Maximum HP: +30, Damage Reduction: 10
 # lead yo-yo
@@ -1157,6 +1166,8 @@ smoldering staff	Mysticality: +7, Moxie: +5, Stench Spell Damage: +11
 # soul knife: Can harm True Mimes
 soup-chucks	Hot Damage: +2
 soylent staff	Mysticality: +4, Spell Damage: +10
+# spectral axe: +30 Damage vs. Ghosts
+spectral axe	Cold Damage: +15
 spiked femur	Spooky Damage: +6
 spooky bicycle chain	Spooky Damage: +5, Critical Hit Percent: +5
 spooky bindle	Item Drop: +10, Spooky Damage: +25
@@ -2112,6 +2123,7 @@ sealhide gloves	Weapon Damage: +10
 sealhide moccasins	Muscle: +5, Mysticality: +5, Moxie: +5, Single Equip
 second-hand knockoff engagement ring	Muscle: +1, Mysticality: +1, Moxie: +1, Single Equip
 severed rocking horse head	Muscle: +3, Mysticality: +3, Moxie: +3
+shamanic beads	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1, Spell Damage: +10
 shark tooth necklace	Moxie Percent: +5, Initiative: +35, Single Equip
 shin gourds	Damage Reduction: 5, Weapon Damage: +10, Single Equip
 shining halo	Experience: +3, Unarmed, Single Equip
@@ -2161,6 +2173,7 @@ stuffed carpenter	Synergetic
 # stuffed mink
 stuffed shoulder parrot	Maximum MP: +5
 stuffed walrus	Synergetic
+super-strong air freshener	Stench Resistance: +2, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 support cummerbund	Maximum HP: +20
 tap shoes	Moxie: +11, Initiative: -20, Single Equip
 tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
@@ -2353,6 +2366,7 @@ whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
 wheel	Initiative: +10
 white belt	Muscle: +3, Weapon Damage: +3, Single Equip
 white collar	Meat Drop: +3, Moxie: +1
+witch wart	Mysticality: +5, MP Regen Min: 6, MP Regen Max: 8
 woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 wrench bracelet	Muscle: +5, Weapon Damage: +9
 wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip, Nonstackable Watch
@@ -3859,6 +3873,7 @@ Sticky Fingers	Meat Drop: +20
 # Sticky Hands: Reduced chance of fumbling
 Stimulated Body	HP Regen Min: 10, HP Regen Max: 20
 Stimulated Brain	MP Regen Min: 10, MP Regen Max: 20
+Stinking Cloud	Stench Resistance: +1
 # Stinky Breath: Can breathe stench in combat
 Stinky Weapon	Stench Damage: +3
 Stone-Faced	Damage Reduction: 3
@@ -4013,6 +4028,7 @@ Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
 Wasabi With You	Weapon Damage Percent: +150
 # Water Wings: You believe you can float!
+Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
 Weapon of Mass Destruction	Weapon Damage Percent: +30
 Weasels Underfoot	Item Drop: +10
 Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
@@ -4537,6 +4553,7 @@ bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
 beet-flavored Mr. Mediocrebar	Effect: "Block-Rockin' Beet", Effect Duration: 30
 begpwnia	Effect: "Can't Be a Chooser", Effect Duration: 10
 bellhop bell	Effect: "Ringing Ears", Effect Duration: 10
+big dribbly candle	Effect: "Waxing Mystical", Effect Duration: 10
 bite-me-red lipstick	Effect: "Vampin'", Effect Duration: 30
 bitter pill	Effect: "Bitterskin", Effect Duration: 100
 black candy heart	Effect: "Heart of Black", Effect Duration: 10
@@ -4921,6 +4938,7 @@ seal lube	Effect: "Lubed", Effect Duration: 10
 seal-brain elixir	Effect: "Sealed Brain", Effect Duration: 20
 sealhide seal doll	Effect: "Red Misty-Eyed", Effect Duration: 10
 secret mummy herbs and spices	Effect: "Like an Egyptian", Effect Duration: 30
+seegar butt	Effect: "Stinking Cloud", Effect Duration: 10
 sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
 shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
@@ -4960,6 +4978,7 @@ sugar-coated pine cone	Effect: "Sugar Rush", Effect Duration: 5
 Super Weight-Gain 9000	Effect: "Superveiny 9000", Effect Duration: 10
 super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
 suspicious stocking	Free Pull
+swamp lolly	Effect: "Sugar Rush", Effect Duration: 10
 sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
 sweet nutcracker	Free Pull
 tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
