@@ -5045,3 +5045,53 @@ El Vibrato punchcard (SELF)	Wiki Name: "El Vibrato punchcard (216 holes)"
 El Vibrato punchcard (SPHERE)	Wiki Name: "El Vibrato punchcard (104 holes)"
 El Vibrato punchcard (TARGET)	Wiki Name: "El Vibrato punchcard (142 holes)"
 El Vibrato punchcard (WALL)	Wiki Name: "El Vibrato punchcard (176 holes)"
+
+# Florist section
+
+# Outdoor Plants
+Florist:Rabid Dogwood	Monster Level: 30
+Florist:Rutabeggar	Item Drop: 25
+Florist:Rad-ish Radish	Experience (Moxie): 5
+# Florist:Artichoker: Delevels enemies before combat
+# Florist:Smoke-ra: Prevents enemies from attacking
+# Florist:Skunk Cabbage: Deals Stench damage
+# Florist:Deadly Cinnamon: Deals Hot damage
+# Florist:Celery Stalker: Deals Spooky damage
+# Florist:Lettuce Spray	HP Regen Min: 10, HP Regen Max: 30
+# Florist:Seltzer Watercress	MP Regen Min: 5, MP Regen Max: 15
+
+# Indoor Plants
+Florist:War Lily	Monster Level: 30
+Florist:Stealing Magnolia	Item Drop: 25
+Florist:Canned Spinach	Experience (Muscle): 5
+Florist:Impatients	Initiative: 25
+# Florist:Spider Plant: Damages and poisons enemies before combat
+# Florist:Red Fern: Delevels enemies during combat
+# Florist:BamBOO!: Deals Spooky damage
+# Florist:Arctic Moss: Deals Cold damage
+Florist:Aloe Guv'nor	HP Regen Min: 10, HP Regen Max: 30
+Florist:Pitcher Plant	MP Regen Min: 5, MP Regen Max: 15
+
+# Underground Plants
+Florist:Blustery Puffball	Monster Level: 30
+Florist:Horn of Plenty	Item Drop: 25
+Florist:Wizard's Wig	Experience (Mysticality): 5
+Florist:Shuffle Truffle	Initiative: 25
+# Florist:Dis Lichen: Delevels enemies before combat
+# Florist:Loose Morels: Deals Sleaze damage
+# Florist:Foul Toadstool: Deals Stench damage
+# Florist:Chillterelle: Deals Cold damage
+Florist:Portlybella	HP Regen Min: 10, HP Regen Max: 30
+Florist:Max Headshroom	MP Regen Min: 5, MP Regen Max: 15
+
+# Underwater Plants
+# Florist:Spankton: Delevels enemies before combat
+Florist:Kelptomaniac	Item Drop: 40
+Florist:Crookweed	Meat Drop: 60
+# Florist:Electric Eelgrass: Prevents enemies from attacking
+# Florist:Duckweed: You can hide behind it once per fight
+# Florist:Orca Orchid: Deals Physical damage
+# Florist:Sargassum: Deals Stench damage
+# Florist:Sub-Sea Rose: Deals Cold damage
+Florist:Snori	HP Regen Min: 20, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 20
+Florist:Up Sea Daisy	Experience: 30

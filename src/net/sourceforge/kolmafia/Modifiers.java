@@ -67,6 +67,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
+import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 
@@ -1209,7 +1211,7 @@ public class Modifiers
 		this.reset();
 	};
 
-	public void reset()
+	public final void reset()
 	{
 		Arrays.fill( this.doubles, 0.0 );
 		Arrays.fill( this.bitmaps, 0 );
@@ -1975,6 +1977,30 @@ public class Modifiers
 		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.DODECAPEDE && KoLCharacter.hasAmphibianSympathy() )
 		{
 			this.add( Modifiers.FAMILIAR_WEIGHT, -10, "dodecapede sympathy" );
+		}
+	}
+
+	public final void applyFloristModifiers()
+	{
+		if ( !FloristRequest.haveFlorist() )
+		{
+			return;
+		}
+
+		if ( Modifiers.currentLocation == null )
+		{
+			return;
+		}
+
+		ArrayList<Florist> plants = FloristRequest.getPlants( Modifiers.currentLocation );
+		if ( plants == null )
+		{
+			return;
+		}
+
+		for ( Florist plant : plants )
+		{
+			this.add( Modifiers.getModifiers( "Florist:" + plant.toString() ) );
 		}
 	}
 
