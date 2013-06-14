@@ -65,6 +65,7 @@ import javax.swing.JOptionPane;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -477,7 +478,7 @@ public class SVNManager
 				continue;
 			}
 
-			RequestLogger.printLine( "Update info for <b>" + f.getName() + "</b>:" );
+			RequestLogger.printLine( "Update log for <b>" + f.getName() + "</b>:" );
 			RequestLogger.printLine( "------" );
 			try
 			{
@@ -681,9 +682,25 @@ public class SVNManager
 					return;
 			}
 
+			// some file events can be "add" events where from is -1
+			// "delete" events will also have to == -1
+			long from = fe.getEvent().getPreviousRevision();
+			long to = fe.getEvent().getRevision();
+			if ( fe.getEvent().getAction().equals( SVNEventAction.UPDATE_ADD ) ||
+				fe.getEvent().getAction().equals( SVNEventAction.UPDATE_DELETE ) )
+			{
+				// just get the notes from the revision instead of everything between -1 and the revision
+				if ( from == -1 && to != -1)
+					from = to;
+				else if ( to == -1 && from != -1 )
+					to = from;
+				else
+					continue;
+			}
+
 			// assume that getPreviousRevision is the same for every file
 			feMap.put( f, new Long[]
-			{ fe.getEvent().getPreviousRevision(), fe.getEvent().getRevision()
+			{ from, to
 			} );
 		}
 
@@ -866,7 +883,10 @@ public class SVNManager
 			}
 
 			String relpath = FileUtilities.getRelativePath( fDepth.getParentFile(), event.getFile() );
-			File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
+			File rebase = getRebase( relpath );
+
+			if ( rebase == null )
+				continue;
 
 			// We only want to prompt if the file already exists locally
 			if ( rebase.exists() )
@@ -929,7 +949,12 @@ public class SVNManager
 
 	private static void doPush( File file, String relpath )
 	{
-		File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
+		File rebase = getRebase( relpath );
+
+		if ( rebase == null )
+			// this is okay; just make the file in its default location
+			rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
+
 		rebase.getParentFile().mkdirs();
 
 		RequestLogger.printLine( file.getName() + " => " + rebase.getPath() );
@@ -938,11 +963,15 @@ public class SVNManager
 
 	private static void doDelete( File file, String relpath )
 	{
-		File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
+		File rebase = getRebase( relpath );
+
+		if ( rebase == null )
+			return;
+
 		if ( rebase.exists() )
 		{
 			if ( rebase.delete() )
-				RequestLogger.printLine( relpath + " => DELETED" );
+				RequestLogger.printLine( rebase.getName() + " => DELETED" );
 		}
 	}
 
@@ -991,7 +1020,19 @@ public class SVNManager
 	private static boolean rebaseExists( String relpath )
 	{
 		File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
-		return rebase.exists();
+
+		List<File> matches = KoLmafiaCLI.findScriptFile( rebase.getName() );
+		if ( matches.size() > 1 )
+		{
+			RequestLogger.printLine( "WARNING: too many matches for " + rebase.getName() +
+				" in your namespace; no local files were updated." );
+		}
+		if ( matches.size() == 0 )
+		{
+			RequestLogger.printLine( "NOTE: no local file named " + rebase.getName() +
+				" in your namespace; no updates performed for this file." );
+		}
+		return matches.size() == 1;
 	}
 
 	/**
@@ -1254,8 +1295,9 @@ public class SVNManager
 			String relpath = FileUtilities.getRelativePath( fDepth.getParentFile(), f );
 			if ( !relpath.startsWith( "." ) ) // do not try to delete the rebase of hidden folders such as .svn!
 			{
-				File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
-				if ( rebase.exists() )
+				File rebase = getRebase( relpath );
+
+				if ( rebase != null )
 				{
 					if ( rebase.delete() )
 						RequestLogger.printLine( relpath + " => DELETED" );
@@ -1383,7 +1425,10 @@ public class SVNManager
 			}
 
 			String relpath = FileUtilities.getRelativePath( fDepth.getParentFile(), eventFile );
-			File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
+			File rebase = getRebase( relpath );
+
+			if ( rebase == null )
+				continue;
 
 			try
 			{
@@ -1401,6 +1446,22 @@ public class SVNManager
 		}
 
 		RequestLogger.printLine( "Sync complete." );
+	}
+
+	private static File getRebase( String relpath )
+	{
+		File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
+		if ( rebase.exists() )
+			return rebase; 
+
+		List<File> matches = KoLmafiaCLI.findScriptFile( rebase.getName() );
+
+		if ( matches.size() == 1 )
+		{
+			return matches.get( 0 );
+		}
+
+		return null;
 	}
 
 	private static void checkDependencies()
