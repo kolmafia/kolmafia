@@ -180,8 +180,10 @@ public class FloristRequest
 		if ( urlString.contains( "option=1" ) )
 		{
 			Matcher locMatcher = FloristRequest.LOCATION_PATTERN.matcher( responseText );
+			locMatcher.find();
 			String location = locMatcher.group( 1 ).toLowerCase();
-			Matcher plantMatcher = FloristRequest.PLANT_PATTERN.matcher( responseText );
+			Matcher plantMatcher = FloristRequest.PLANT_PATTERN.matcher( urlString );
+			plantMatcher.find();
 			int plant = StringUtilities.parseInt( plantMatcher.group( 1 ) );
 			FloristRequest.addPlant( location, plant );
 		}
@@ -189,8 +191,10 @@ public class FloristRequest
 		else if ( urlString.contains( "option=2" ) && responseText.contains( "You dig up a plant." ) )
 		{
 			Matcher locMatcher = FloristRequest.LOCATION_PATTERN.matcher( responseText );
+			locMatcher.find();
 			String location = locMatcher.group( 1 ).toLowerCase();
 			Matcher digMatcher = FloristRequest.DIG_PATTERN.matcher( urlString );
+			digMatcher.find();
 			int digIndex = StringUtilities.parseInt( digMatcher.group( 1 ) );
 			FloristRequest.digPlant( location, digIndex );
 		}
@@ -233,8 +237,13 @@ public class FloristRequest
 		}
 
 		ArrayList<Florist> plants = FloristRequest.getPlants( location );
+
+		if ( plants == null )
+		{
+			plants = new ArrayList<Florist>();
+		}
 		plants.add( plant );
-		// Unnecessary put() ?
+
 		FloristRequest.floristPlants.put( location, plants );
 
 		// Needs to be something different
@@ -248,7 +257,6 @@ public class FloristRequest
 		{
 			return;
 		}
-
 
 		for ( Florist plant : plants )
 		{
@@ -268,6 +276,13 @@ public class FloristRequest
 		ArrayList<Florist> plants = FloristRequest.getPlants( location );
 		if ( plants == null )
 		{
+			return;
+		}
+
+		if ( digIndex >= plants.size() )
+		{
+			// This should only happen when KoL and KoLmafia use different names for a location
+			// KoLmafia's tracking will be wrong, but that can't be helped
 			return;
 		}
 
