@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
@@ -1264,7 +1265,7 @@ public class SVNManager
 
 	public static void deleteInstalledProject( String p )
 	{
-		File project = new File( KoLConstants.SVN_LOCATION, p );
+		final File project = new File( KoLConstants.SVN_LOCATION, p );
 
 		if ( !project.exists() )
 		{
@@ -1273,6 +1274,21 @@ public class SVNManager
 
 		RequestLogger.printLine( "Uninstalling project..." );
 		recursiveDelete( project );
+		if ( project.exists() )
+		{
+			// sometimes SVN daemon threads (like tsvncache) will have the lock for wc.db, causing delete to fail for that file (and therefore also the project directory).
+			// dispatch a parallel thread that will wait for a little bit then re-try the delete.
+			RequestThread.runInParallel( new Runnable()
+			{
+				public void run()
+				{
+					PauseObject p = new PauseObject();
+					p.pause( 2000 );
+
+					recursiveDelete( project );
+				}
+			});
+		}
 		RequestLogger.printLine( "Project uninstalled." );
 	}
 
