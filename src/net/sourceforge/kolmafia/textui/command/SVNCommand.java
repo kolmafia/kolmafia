@@ -235,6 +235,11 @@ public class SVNCommand
 
 		for ( String project : projects )
 		{
+			// exact matches return immediately, disregarding other substring matches
+			if ( project.equals( params ) )
+			{
+				return Arrays.asList( params );
+			}
 			if ( substringMatches( project, params ) )
 			{
 				matches.add( project );
