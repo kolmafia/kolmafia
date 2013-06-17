@@ -155,8 +155,13 @@ public class BigBrotherRequest
 
 	private static void update()
 	{
-		// There might be a more accurate way to check this
-		BigBrotherRequest.rescuedBigBrother = InventoryManager.getAccessibleCount( BigBrotherRequest.AERATED_DIVING_HELMET ) > 0 ||
+		// Since the aerated diving gear and items you can craft from it persist across ascensions,
+		// possession of one does not actually mean Big Brother has been rescued.
+		BigBrotherRequest.rescuedBigBrother = 
+			InventoryManager.getAccessibleCount( BigBrotherRequest.AERATED_DIVING_HELMET ) > 0 ||
+			InventoryManager.getAccessibleCount( BigBrotherRequest.CRAPPY_MASK ) > 0 ||
+			InventoryManager.getAccessibleCount( BigBrotherRequest.SCHOLAR_MASK ) > 0 ||
+			InventoryManager.getAccessibleCount( BigBrotherRequest.GLADIATOR_MASK ) > 0 ||
 			InventoryManager.getAccessibleCount( BigBrotherRequest.BUBBLIN_STONE ) > 0;
 		if ( !BigBrotherRequest.rescuedBigBrother )
 		{
@@ -166,14 +171,6 @@ public class BigBrotherRequest
 		if ( InventoryManager.getAccessibleCount( BigBrotherRequest.AERATED_DIVING_HELMET ) > 0 )
 		{
 			BigBrotherRequest.self = BigBrotherRequest.AERATED_DIVING_HELMET;
-		}
-		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.SCUBA_GEAR ) > 0 )
-		{
-			BigBrotherRequest.self = BigBrotherRequest.SCUBA_GEAR;
-		}
-		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.OLD_SCUBA_TANK ) > 0 )
-		{
-			BigBrotherRequest.self = BigBrotherRequest.OLD_SCUBA_TANK;
 		}
 		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.SCHOLAR_MASK ) > 0 )
 		{
@@ -186,6 +183,14 @@ public class BigBrotherRequest
 		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.CRAPPY_MASK ) > 0 )
 		{
 			BigBrotherRequest.self = BigBrotherRequest.CRAPPY_MASK;
+		}
+		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.SCUBA_GEAR ) > 0 )
+		{
+			BigBrotherRequest.self = BigBrotherRequest.SCUBA_GEAR;
+		}
+		else if ( InventoryManager.getAccessibleCount( BigBrotherRequest.OLD_SCUBA_TANK ) > 0 )
+		{
+			BigBrotherRequest.self = BigBrotherRequest.OLD_SCUBA_TANK;
 		}
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();
