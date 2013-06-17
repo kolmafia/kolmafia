@@ -1023,6 +1023,13 @@ public class SVNManager
 		File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
 
 		List<File> matches = KoLmafiaCLI.findScriptFile( rebase.getName() );
+		// data/ is not in the searchable namespace for findScriptFile, but we need it to be.
+		// getRebase will still find it if it exists in the default location, so look for that.
+		if ( relpath.startsWith( "data" ) )
+		{
+			if ( rebase.exists() )
+				matches.add( rebase );
+		}
 		if ( matches.size() > 1 )
 		{
 			RequestLogger.printLine( "WARNING: too many matches for " + rebase.getName() +
