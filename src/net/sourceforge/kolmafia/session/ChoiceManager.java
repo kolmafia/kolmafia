@@ -79,7 +79,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 
-
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -4574,6 +4573,11 @@ public abstract class ChoiceManager
 		case 682:
 			// Now Leaving Jarlsberg, Population You
 			ChoiceManager.handleAfterAvatar();
+			break;
+
+		case 704:
+			// Playing the Catalog Card
+			DreadScrollManager.handleLibrary( text );
 			break;
 		}
 

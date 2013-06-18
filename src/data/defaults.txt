@@ -367,6 +367,14 @@ user	desktopWidth	800
 user	distentionPillActive	false
 user	dolphinItem
 user	doorCode
+user	dreadScroll1	0
+user	dreadScroll2	0
+user	dreadScroll3	0
+user	dreadScroll4	0
+user	dreadScroll5	0
+user	dreadScroll6	0
+user	dreadScroll7	0
+user	dreadScroll8	0
 user	expressCardUsed	false
 user	extraRolloverAdventures	0
 user	fistSkillsKnown	0
@@ -567,6 +575,7 @@ user	mayflyExperience	0
 user	meansuckerPrice	400
 user	meatDropSpading	false
 user	merkinLockkeyMonster
+user	merkinVocabularyMastery	0
 user	mineLayout1
 user	mineLayout2
 user	mineLayout3

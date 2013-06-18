@@ -721,6 +721,7 @@ public class KoLmafiaCLI
 		new DebugRequestCommand().register( "debug" );
 		new DemonNamesCommand().register( "demons" );
 		new DisplayCaseCommand().register( "display" );
+		new DreadscrollCommand().register( "dreadscroll" );
 		new DustyBottlesCommand().register( "dusty" );
 		new DwarfFactoryCommand().register( "factory" );
 		new EchoCommand().register( "echo" ).register( "print" );

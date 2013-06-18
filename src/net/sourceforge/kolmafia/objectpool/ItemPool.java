@@ -1101,6 +1101,8 @@ public class ItemPool
 	public static final int RAVE_VISOR = 4193;
 	public static final int BAGGY_RAVE_PANTS = 4194;
 	public static final int PACIFIER_NECKLACE = 4195;
+	public static final int MERKIN_CHEATSHEET = 4204;
+	public static final int MERKIN_WORDQUIZ = 4205;
 	public static final int AMPHIBIOUS_TOPHAT = 4229;
 	public static final int HACIENDA_KEY = 4233;
 	public static final int SILVER_PATE_KNIFE = 4234;
@@ -1625,6 +1627,7 @@ public class ItemPool
 	public static final int SALTWATERBED = 6338;
 	public static final int DREADSCROLL = 6353;
 	public static final int MERKIN_WORKTEA = 6356;
+	public static final int MERKIN_KNUCKLEBONE = 6357;
 	public static final int TAFFY_BOOK = 6360;
 	public static final int YELLOW_TAFFY = 6361;
 	public static final int INDIGO_TAFFY = 6362;
