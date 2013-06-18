@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -65,7 +66,6 @@ public class SushiRequest
 	private static final Pattern DIPPIN_PATTERN = Pattern.compile( "dippin=(\\d+)" );
 
 	private static final Pattern CONSUME_PATTERN = Pattern.compile( "You eat the ([^.]*)\\." );
-	private static final Pattern WORKTEA_PATTERN = Pattern.compile( "the leaves in the bottom look just like <b>([^<]*)</b>" );
 
 	public static final String [] SUSHI =
 	{
@@ -595,20 +595,8 @@ public class SushiRequest
 			ResultProcessor.processItem( ItemPool.SUSHI_DOILY, -1 );
 		}
 
-		// You manage to inadvertently drink a cup of that gross
-		// Mer-kin tea while you're eating the sushi.  And hey, look --
-		// the leaves in the bottom look just like <b>an eel</b>!
-
-		Matcher matcher = SushiRequest.WORKTEA_PATTERN.matcher( responseText );
-		if ( matcher.find() )
-		{
-			String clue = matcher.group(1);
-			String message = "Mer-kin worktea clue: " + clue;
-			Preferences.setString( "workteaClue", clue );
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-			ResultProcessor.processItem( ItemPool.MERKIN_WORKTEA, -1 );
-		}
+		// See if you had worktea in inventory when you ate this sushi
+		DreadScrollManager.handleWorktea( responseText );
 	}
 
 	public static final boolean registerRequest( final String urlString )

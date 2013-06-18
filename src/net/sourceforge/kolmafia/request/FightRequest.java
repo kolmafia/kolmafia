@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -1980,6 +1981,10 @@ public class FightRequest
 
 		// Spend MP and consume items
 		FightRequest.payActionCost( responseText );
+
+		// Look for Mer-kin clues
+		DreadScrollManager.handleKillscroll( responseText );
+		DreadScrollManager.handleHealscroll( responseText );
 
 		// Check for equipment breakage that can happen at any time.
 		if ( responseText.indexOf( "Your antique helmet, weakened" ) != -1 )

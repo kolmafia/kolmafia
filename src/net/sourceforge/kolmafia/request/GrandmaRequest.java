@@ -144,6 +144,11 @@ public class GrandmaRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=grandma" ) )
+		{
+			return false;
+		}
+
 		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
 		if ( !rowMatcher.find() )
 		{

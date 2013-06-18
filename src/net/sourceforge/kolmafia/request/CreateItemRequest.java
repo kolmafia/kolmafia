@@ -262,6 +262,7 @@ public class CreateItemRequest
 
 		if ( !conc.available() )
 		{
+			ConcoctionDatabase.excuse = null;
 			return null;
 		}
 

@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -1708,6 +1709,10 @@ public class UseSkillRequest
 			break;
 		case SkillPool.CREAMPUFF:
 			ResultProcessor.removeItem( ItemPool.COSMIC_CREAM );
+			break;
+
+		case SkillPool.DEEP_VISIONS:
+			DreadScrollManager.handleDeepDarkVisions( responseText );
 			break;
 		}
 

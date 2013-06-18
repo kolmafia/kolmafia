@@ -443,6 +443,15 @@ public class ValhallaManager
 		Preferences.setString( "merkinLockkeyMonster", "" );
 		Preferences.setString( "lassoTraining", "" );
 		Preferences.setString( "workteaClue", "" );
+		Preferences.setInteger( "dreadScroll1", 0 );
+		Preferences.setInteger( "dreadScroll2", 0 );
+		Preferences.setInteger( "dreadScroll3", 0 );
+		Preferences.setInteger( "dreadScroll4", 0 );
+		Preferences.setInteger( "dreadScroll5", 0 );
+		Preferences.setInteger( "dreadScroll6", 0 );
+		Preferences.setInteger( "dreadScroll7", 0 );
+		Preferences.setInteger( "dreadScroll8", 0 );
+		Preferences.setInteger( "merkinVocabularyMastery", 0 );
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
 		AdventureQueueDatabase.resetQueue();

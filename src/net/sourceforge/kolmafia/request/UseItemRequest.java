@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
@@ -111,6 +112,8 @@ public class UseItemRequest
 		Pattern.compile( "(?=.*?action=addfruit).*whichfruit=(\\d+)" );
 	private static final Pattern ADVENTUROUS_RESOLUTION_PATTERN =
 		Pattern.compile( "resolve to do it again" );
+	private static final Pattern MERKIN_WORDQUIZ_PATTERN =
+		Pattern.compile( "Your Mer-kin vocabulary mastery is now at <b>(\\d*?)%</b>" );
 
 	// It goes [Xd12] feet, and doesn't hit anything interesting.
 	private static final Pattern ARROW_PATTERN =
@@ -4316,10 +4319,27 @@ public class UseItemRequest
 			QuestDatabase.advanceQuest( Quest.BAT );
 			return;
 
+		case ItemPool.MERKIN_WORDQUIZ:
+			matcher = MERKIN_WORDQUIZ_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "merkinVocabularyMastery", StringUtilities.parseInt( matcher.group(1) ) );
+				ResultProcessor.removeItem( ItemPool.MERKIN_CHEATSHEET );
+			}
+			else
+			{
+				// Otherwise, it is not consumed
+				ResultProcessor.processResult( item );
+			}
+			return;
+
 		case ItemPool.MERKIN_STASHBOX:
 			ResultProcessor.removeItem( ItemPool.MERKIN_LOCKKEY );
 			return;
 
+		case ItemPool.MERKIN_KNUCKLEBONE:
+			DreadScrollManager.handleKnucklebone( responseText );
+			return;
 		}
 	}
 

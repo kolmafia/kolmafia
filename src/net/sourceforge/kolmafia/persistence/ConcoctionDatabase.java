@@ -1782,6 +1782,12 @@ public class ConcoctionDatabase
 		}
 		ConcoctionDatabase.EXCUSE.put(  CraftingType.SUSHI, "You cannot make sushi without a sushi-rolling mat." );
 
+		// You can ask Grandma to make stuff if you have rescued her.
+		// We don't track that yet. Assume you have done so.
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.GRANDMA );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.GRANDMA, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.GRANDMA, 0 );
+
 		// You trade tokens to Coin Masters if you have opted in to do so,
 
 		if ( Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) )
