@@ -159,6 +159,7 @@ public class EffectPool
 	public static final int TIMER8_ID = 880;
 	public static final int TIMER9_ID = 881;
 	public static final int TIMER10_ID = 882;
+	public static final int DEEP_TAINTED_MIND_ID = 1217;
 
 	public static final AdventureResult get( final String effectName )
 	{

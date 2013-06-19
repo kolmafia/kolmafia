@@ -198,6 +198,7 @@ public class UneffectRequest
 		{
 			this.addFormField( "using", "Yep." );
 			this.addFormField( "whicheffect", String.valueOf( this.effectId ) );
+			this.addFormField( "pwd" );
 		}
 	}
 
@@ -205,6 +206,11 @@ public class UneffectRequest
 	protected boolean retryOnTimeout()
 	{
 		return true;
+	}
+
+	public static final boolean isRemovable( final String effectName )
+	{
+		return UneffectRequest.isRemovable( EffectDatabase.getEffectId( effectName ) );
 	}
 
 	public static final boolean isRemovable( final int effectId )
@@ -218,6 +224,7 @@ public class UneffectRequest
 		// Everything Looks Yellow
 		// Everything Looks Blue
 		// Everything Looks Red
+		// Deep-Tainted Mind
 		// Timer effects
 
 		switch ( effectId )
@@ -234,6 +241,7 @@ public class UneffectRequest
 		case EffectPool.EVERYTHING_LOOKS_YELLOW_ID:
 		case EffectPool.EVERYTHING_LOOKS_BLUE_ID:
 		case EffectPool.EVERYTHING_LOOKS_RED_ID:
+		case EffectPool.DEEP_TAINTED_MIND_ID:
 			return false;
 		default:
 			return true;
