@@ -72,7 +72,7 @@ public class StatusHandler
 			 * overlap with local changes the user has in his working copy.
 			 */
 			RequestLogger.printLine( "C " + status.getFile().getPath() );
-			RequestLogger.printLine( "Note: conflict must be resolved manually." );
+			RequestLogger.printLine( "<font color=\"red\">Note: conflict must be resolved manually.</font>" );
 		}
 	}
 
