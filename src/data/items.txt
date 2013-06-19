@@ -2863,12 +2863,12 @@
 2846	plastic bib	654355112	plasticbib.gif	familiar	t,d	75	plastic bibs
 2847	Dallas Dynasty Falcon Crest shield	406198903	falconcrest.gif	offhand	t	0	Dallas Dynasty Falcon Crest shields
 2848	Gnomitronic Hyperspatial Demodulizer	601549776	gizmo.gif	none, combat reusable	t,d	999	Gnomitronic Hyperspatial Demodulizers
-2849
+2849	shrunken navigator head	157708520	navhead.gif	none	q	0
 2850	moonberry wine cooler	866573652	beerbottle.gif	drink	t,d	22	moonberry wine coolers
 2851	fine aged cheddarwurst	291302826	sausage.gif	food	t,d	28	fine aged cheddarwursts
-2852
-2853
-2854
+2852	branch from the Great Tree	912429285	greatbranch.gif	none	q	0
+2853	Phil Bunion's axe	147654849	paulaxe.gif	none	q	0
+2854	bouquet of swamp roses	336795989	swamproses.gif	none	q	0
 2855	huge mosquito proboscis	249414558	spine.gif	weapon	t,d	50	huge mosquito probosciseses
 2856	swamp lolly	366762044	supersucker.gif	usable	t,d	44	swamp lollies
 2857	seegar butt	545459465	stogie.gif	usable	t,d	36	seegar butts

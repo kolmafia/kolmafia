@@ -77,7 +77,7 @@ Chapel	100
 Chinatown Shops	-1	grinning pork bun	lucky cat statue	roasted duck golem	yakuza courier: 0
 Chinatown Tenement	-1	desperate gold farmer	rabid MMO addict	yakuza thug	The Server: 0	White Bone Demon: 0
 Convention Hall Lobby	100	Booth Slime	Fan Slime	Vendor Slime
-Outside the Club	100	Breakdancing Raver	Pop-and-Lock Raver	Running Man
+Corpse Bog	-1	bog leech	bog skeleton	swamp hag	the ghost of Phil Bunion: 0
 CRIMBCO cubicles	-1	Best Game Ever	Disorganized Files	Endless Conference Call	Hideous Slide Show	Tedious Spreadsheet	Unoptimized Database	Your Overflowing Inbox	Chatty Coworker	The Book Of Faces	The Tome Of Tropes	The Water Cooler	Totally Malicious 'Zine	The Best Game Ever
 CRIMBCO WC	100	Elf Hobo
 # Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
@@ -86,6 +86,7 @@ Crimbo Town Toy Factory	100	Amateur Elf	Auteur Elf	Bolt-Cuttin' Elf	Monkey Wrenc
 Crimbokutown Toy Factory	100	Circuit-Soldering Animelf	Plastic-Extruding Animelf	Quality Control Animelf	Tiny-Screwing Animelf	Toy Assembling Animelf
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
 Daily Dungeon	-1	Apathetic Lizardman	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
+Dark and Spooky Swamp	-1	smell-o-the-wisp	swamp entity	swamp hag
 Dark Elbow of the Woods	95	Demoninja	G Imp	L Imp
 Dark Heart of the Woods	95	Fallen Archfiend	G Imp	P Imp
 Dark Neck of the Woods	95	Hellion	P Imp	W Imp
@@ -98,6 +99,7 @@ Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locust
 Dire Warren	100	Fluffy Bunny
 Doubt Man's Level	-1	judgmental eye	reproachful heart	work hat	Doubt Man: 0
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
+Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
 Elf Alley	-1	Hobelf	Uncle Hobo: 0
 El Vibrato Island	100	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
@@ -189,6 +191,7 @@ Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
 Old Crimbo Town Toy Factory	100	Mob Penguin Goon	Mob Penguin Hitpenguin	Mob Penguin Enforcer	Mob Penguin Psychopath	Mob Penguin Racketeer
 Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Rampaging Adding Machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 Other Back 40	100	Greasy Duck
+Outside the Club	100	Breakdancing Raver	Pop-and-Lock Raver	Running Man
 Outskirts of Camp Logging Camp	70	Axe Handle	Cloud of Disembodied Whiskers	Poutine Ooze	Forest Spirit
 Outskirts of The Knob	80	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
 Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
@@ -202,6 +205,7 @@ Pre-Cyrpt Cemetary	100	Ghuol	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zob
 Queen's Chamber	100	Queen Filthworm
 Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
 Rogue Windmill	70	Can-can Dancer	Courtesan	Sensitive Poet-type	Master of Ceremonies	Voyeuristic Artist
+Ruined Wizard Tower	-1	bogart	haunted skullabra	smell-o-the-wisp
 Science Lab	-1
 Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	Cyborg Policeman	"Handyman" Jay Android	Liquid Metal Robot	Obese Tourist	Space Marine	Terrifying Robot
 Shady Thicket	100	Drunk Duck	Mean Drunk Duck
@@ -219,6 +223,7 @@ Spooky Forest	60	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowul
 Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	Skeletal Reindeer	Stocking-stuffing Zombie	Toy-making creature from the Gray Lagoon
 Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 Stately Pleasure Dome	70	Ancient Mariner	Angry Poet	Kubla Khan	Roller-skating Muse	Toothless Mastiff Bitch
+Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
 Tavern Cellar	-1	Drunken Rat	Baron Von Ratsworth: 0
 The Ancient Hobo Burial Ground	-1	Spooky Hobo	Zombo: 0
 The Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
@@ -271,8 +276,10 @@ Over Where the Old Tires Are	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremli
 Out By that Rusted-Out Car	100	A.M.C. Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Wartime Sonofa Beach	10	Lobsterfrogman
 Waste Processing	-1
+Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 White Citadel	70	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orcs
 Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
+Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator
 
 # Areas with no combat data
 

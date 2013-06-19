@@ -213,13 +213,16 @@ public class MonsterDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			MonsterData monster = null;
-
-			if ( data.length >= 2 )
+			if ( data.length < 1 )
 			{
-				monster = MonsterDatabase.registerMonster( data[ 0 ], data[ 1 ] );
+				continue;
 			}
 
+			String name = data[ 0 ];
+			String image = data.length > 1 ? data[ 1 ] : "";
+			String attributes = data.length > 2 ? data[ 2 ] : "";
+
+			MonsterData monster = MonsterDatabase.registerMonster( name, image, attributes );
 			if ( monster == null )
 			{
 				continue;
@@ -227,7 +230,7 @@ public class MonsterDatabase
 
 			boolean bogus = false;
 
-			for ( int i = 2; i < data.length; ++i )
+			for ( int i = 3; i < data.length; ++i )
 			{
 				AdventureResult item = MonsterDatabase.parseItem( data[ i ] );
 				if ( item == null || item.getItemId() == -1 || item.getName() == null )
@@ -246,7 +249,6 @@ public class MonsterDatabase
 				String keyName = CombatActionManager.encounterKey( data[ 0 ], true );
 				StringUtilities.registerPrepositions( keyName );
 				MonsterDatabase.MONSTER_DATA.put( keyName, monster );
-				String image = monster.getImage();
 				if ( !image.equals( "" ) )
 				{
 					MonsterDatabase.MONSTER_IMAGES.put( image, monster );
@@ -348,7 +350,7 @@ public class MonsterDatabase
 	// Register an unknown monster
 	public static final MonsterData registerMonster( final String name )
 	{
-		MonsterData monster = MonsterDatabase.registerMonster( name, "" );
+		MonsterData monster = MonsterDatabase.registerMonster( name, "", "" );
 		MonsterDatabase.MONSTER_DATA.put( name, monster );
 		return monster;
 	}
@@ -358,7 +360,7 @@ public class MonsterDatabase
 		return MonsterDatabase.MONSTER_DATA.entrySet();
 	}
 
-	public static final MonsterData registerMonster( final String name, final String s )
+	public static final MonsterData registerMonster( final String name, final String image, final String s )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( name, false );
 		if ( monster != null )
@@ -379,7 +381,6 @@ public class MonsterDatabase
 		Phylum phylum = Phylum.NONE;
 		int poison = Integer.MAX_VALUE;
 		boolean boss = false;
-		String image = null;
 
 		StringTokenizer tokens = new StringTokenizer( s, " " );
 		while ( tokens.hasMoreTokens() )
@@ -540,16 +541,6 @@ public class MonsterDatabase
 				{
 					boss = true;
 					continue;
-				}
-
-				else if ( option.equals( "Image:" ) )
-				{
-					if ( tokens.hasMoreTokens() )
-					{
-						value = tokens.nextToken();
-						image = value;
-						continue;
-					}
 				}
 
 				RequestLogger.printLine( "Monster: \"" + name + "\": unknown option: " + option );
