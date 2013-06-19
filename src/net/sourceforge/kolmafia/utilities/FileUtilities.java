@@ -64,6 +64,11 @@ public class FileUtilities
 {
 	private static final Pattern FILEID_PATTERN = Pattern.compile( "(\\d+)\\." );
 
+	public static final BufferedReader getReader( final String filename, final boolean allowOverride )
+	{
+		return FileUtilities.getReader( DataUtilities.getReader( KoLConstants.DATA_DIRECTORY, filename, allowOverride ) );
+	}
+
 	public static final BufferedReader getReader( final String filename )
 	{
 		return FileUtilities.getReader( DataUtilities.getReader( KoLConstants.DATA_DIRECTORY, filename ) );

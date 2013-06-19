@@ -91,7 +91,9 @@ public class DataUtilities
 	private static String lastMessage = null;
 	public static String getLastMessage()
 	{
-		return DataUtilities.lastMessage;
+		String message = DataUtilities.lastMessage;
+		DataUtilities.lastMessage = null;
+		return message;
 	}
 
 	private static final String[] EMPTY_STRING_ARRAY = new String[ 0 ];
