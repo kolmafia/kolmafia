@@ -76,8 +76,7 @@ public class MallPriceDatabase
 
 	private static int updatePrices( String filename, boolean allowOverride )
 	{
-		BufferedReader reader = DataUtilities.getReader(
-			KoLConstants.DATA_DIRECTORY, filename, allowOverride );
+		BufferedReader reader = FileUtilities.getReader( filename, allowOverride );
 
 		String line = FileUtilities.readLine( reader );
 		if ( line == null )
@@ -255,8 +254,8 @@ public class MallPriceDatabase
 			w.write( "----blahblahfishcakes\r\n" );
 			w.write( "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n" );
 
-			BufferedReader reader = DataUtilities.getReader(
-				KoLConstants.DATA_DIRECTORY, "mallprices.txt", true );
+
+			BufferedReader reader = FileUtilities.getReader( "mallprices.txt" );
 			String line;
 			while ( (line = FileUtilities.readLine( reader )) != null )
 			{
