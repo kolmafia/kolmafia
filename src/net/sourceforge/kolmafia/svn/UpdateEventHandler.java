@@ -79,7 +79,7 @@ public class UpdateEventHandler implements ISVNEventHandler {
 				 * received from the repository during an update, overlap with
 				 * local changes the user has in his working copy.
 				 */
-				RequestLogger.printLine( "There are unresolved conflicts for " + event.getFile().getName() );
+				RequestLogger.printLine( "<font color=\"red\">There are unresolved conflicts for " + event.getFile().getName() + "</font>" );
 				RequestLogger.printLine( "Resolve them manually and perform another SVN update." );
 				SVNManager.queueFileEvent( new SVNFileEvent( event.getFile(), event ) );
 				pathChangeType = "C";
