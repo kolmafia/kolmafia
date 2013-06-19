@@ -1024,6 +1024,7 @@ public class CharPaneDecorator
 			}
 
 			boolean isShruggable = UneffectRequest.isShruggable( effectName );
+			boolean isRemovable = UneffectRequest.isRemovable( effectName );
 			boolean isTimer = effectName.startsWith( "Timer " );
 			boolean isIntrinsic = duration == Integer.MAX_VALUE;
 
@@ -1031,7 +1032,7 @@ public class CharPaneDecorator
 			// can be removed.  This is either when the buff can be
 			// shrugged or the buff has a default removal method.
 
-			String removeAction = isIntrinsic? "" : MoodManager.getDefaultAction( "gain_effect", effectName );
+			String removeAction = isIntrinsic || !isRemovable ? "" : MoodManager.getDefaultAction( "gain_effect", effectName );
 
 			if ( effectName.equalsIgnoreCase( "On the Trail" ) )
 			{

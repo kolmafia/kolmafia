@@ -344,4 +344,31 @@ public class DreadScrollManager
 		buffer.append( "the Elder shall awaken. " );
 		return buffer.toString();
 	}
+
+	public static final void decorate( final StringBuffer buffer )
+	{
+		StringUtilities.globalStringDelete( buffer, " selected" );
+
+		for ( int pro = 1; pro <= 8; ++pro )
+		{
+			String[][] data = CLUE_DATA[ pro - 1];
+			String setting = data[0][1];
+			int value = Preferences.getInteger( setting );
+			if ( value == 0 )
+			{
+				continue;
+			}
+			int index = buffer.indexOf( "name=pro" + String.valueOf( pro ) );
+			if ( index < 0 )
+			{
+				continue;
+			}
+			int option = buffer.indexOf( "value=" + String.valueOf( value ), index );
+			if ( option < 0 )
+			{
+				continue;
+			}
+			buffer.insert( option + 7, " selected" );
+		}
+	}
 }

@@ -2578,6 +2578,11 @@ public abstract class ChoiceManager
 			// Add "Solve" button for A Gracious Maze
 			GameproManager.addGoalButton( buffer );
 			break;
+
+		case 703:
+			// Load the options of the dreadscroll with the correct responses
+			DreadScrollManager.decorate( buffer );
+			break;
 		}
 	}
 
