@@ -110,7 +110,6 @@ public class IslandDecorator
 	// Data about sidequests
 	private static String currentJunkyardTool = "";
 	private static String currentJunkyardLocation = "";
-	private static int lastNunneryMeat = 0;
 	private static int currentNunneryMeat = 0;
 
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
@@ -214,7 +213,6 @@ public class IslandDecorator
 	public static final void addNunneryMeat( final AdventureResult result )
 	{
 		int delta = result.getCount();
-		IslandDecorator.lastNunneryMeat = IslandDecorator.currentNunneryMeat;
 		IslandDecorator.currentNunneryMeat =
 			Preferences.increment( "currentNunneryMeat", delta, 100000, false );
 
@@ -363,7 +361,7 @@ public class IslandDecorator
 	{
 		if ( IslandDecorator.missingGremlinTool != null )
 		{
-			buffer.append( "<br />This gremlin does <b>NOT</b> have a " + IslandDecorator.missingGremlinTool );
+			buffer.append( "<br />This gremlin does <b>NOT</b> have a " ).append( IslandDecorator.missingGremlinTool );
 		}
 	}
 
@@ -426,11 +424,11 @@ public class IslandDecorator
 
 	private static final int[] HERO_UNLOCK =
 	{
-		500,
-		600,
-		700,
-		800,
-		900,
+		501,
+		601,
+		701,
+		801,
+		901,
 	};
 
 	private static final String[] HIPPY_HERO =
@@ -685,21 +683,21 @@ public class IslandDecorator
 		String choice = array[0][0] + ": " + array[0][1];
 		index2 = text.indexOf( "</form>", index1 );
 		buffer.append( text.substring( index1, index2 ) );
-		buffer.append( "<br><font size=-1>(" + choice + ")</font><br/></form>" );
+		buffer.append( "<br><font size=-1>(" ).append( choice ).append( ")</font><br/></form>" );
 		index1 = index2 + 7;
 
 		// Add second choice spoiler
 		choice = array[1][0] + ": " + array[1][1];
 		index2 = text.indexOf( "</form>", index1 );
 		buffer.append( text.substring( index1, index2 ) );
-		buffer.append( "<br><font size=-1>(" + choice + ")</font><br/></form>" );
+		buffer.append( "<br><font size=-1>(" ).append( choice ).append( ")</font><br/></form>" );
 		index1 = index2 + 7;
 
 		// Add third choice spoiler
 		choice = array[2][0] + ": " + array[2][1];
 		index2 = text.indexOf( "</form>", index1 );
 		buffer.append( text.substring( index1, index2 ) );
-		buffer.append( "<br><font size=-1>(" + choice + ")</font><br/></form>" );
+		buffer.append( "<br><font size=-1>(" ).append( choice ).append( ")</font><br/></form>" );
 		index1 = index2 + 7;
 
 		// Append remainder of buffer
@@ -1860,7 +1858,6 @@ public class IslandDecorator
 		IslandDecorator.currentJunkyardTool = Preferences.getString( "currentJunkyardTool" );
 		IslandDecorator.currentJunkyardLocation = Preferences.getString( "currentJunkyardLocation" );
 		IslandDecorator.currentNunneryMeat = Preferences.getInteger( "currentNunneryMeat" );
-		IslandDecorator.lastNunneryMeat = IslandDecorator.currentNunneryMeat;
 	}
 
 	public static final int fratboysDefeated()
