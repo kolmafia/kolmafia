@@ -5221,8 +5221,13 @@ public class UseItemRequest
 		case ItemPool.PHOTOCOPIED_MONSTER:
 		case ItemPool.DOLPHIN_WHISTLE:
 		case ItemPool.WAX_BUGBEAR:
+		case ItemPool.SHAKING_SKULL:
 			// Items that can redirect to a fight
 			turns = 1;
+			break;
+
+		case ItemPool.D4:
+			turns = item.getCount() == 100 ? 1 : 0;
 			break;
 
 		case ItemPool.D10:
