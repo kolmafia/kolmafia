@@ -117,8 +117,11 @@ public class SVNManager
 	/**
 	 * Initializes the library to work with a repository via different protocols.
 	 */
-	public static void setupLibrary()
+	public synchronized static void setupLibrary()
 	{
+		if ( ourClientManager != null )
+			return;
+
 		/*
 		 * For using over http:// and https://
 		 */
@@ -127,9 +130,6 @@ public class SVNManager
 		 * For using over svn:// and svn+xxx://
 		 */
 		SVNRepositoryFactoryImpl.setup();
-
-		if ( ourClientManager != null )
-			return;
 
 		ISVNOptions options = SVNWCUtil.createDefaultOptions( true );
 
@@ -376,7 +376,7 @@ public class SVNManager
 		 * InfoHandler displays information for each entry in the console (in the manner of the native Subversion
 		 * command line client)
 		 */
-		ourClientManager.getWCClient().doInfo( wcPath, SVNRevision.UNDEFINED, revision, SVNDepth.INFINITY, null, new InfoHandler() );
+		getClientManager().getWCClient().doInfo( wcPath, SVNRevision.UNDEFINED, revision, SVNDepth.INFINITY, null, new InfoHandler() );
 	}
 
 	public static void showCommitMessage( File wcPath, long from, long to )
@@ -395,7 +395,7 @@ public class SVNManager
 		if ( from > to )
 			--from;
 
-		ourClientManager.getLogClient().doLog( new File[]{wcPath}, SVNRevision.create( from ),
+		getClientManager().getLogClient().doLog( new File[]{wcPath}, SVNRevision.create( from ),
 			SVNRevision.create( to ), true, false, 10, new ISVNLogEntryHandler()
 		{
 			public void handleLogEntry( SVNLogEntry logEntry )
@@ -513,7 +513,7 @@ public class SVNManager
 
 		try
 		{
-			repository = ourClientManager.createRepository( repo, true );
+			repository = getClientManager().createRepository( repo, true );
 		}
 		catch ( SVNException e )
 		{
@@ -796,7 +796,7 @@ public class SVNManager
 			SVNRepository repo = null;
 			try
 			{
-				repo = ourClientManager.createRepository( skipURLs.get( 0 ), true );
+				repo = getClientManager().createRepository( skipURLs.get( 0 ), true );
 			}
 			catch ( SVNException e )
 			{
@@ -902,7 +902,7 @@ public class SVNManager
 			SVNRepository repo = null;
 			try
 			{
-				repo = ourClientManager.createRepository( skipURLs.get( 0 ), true );
+				repo = getClientManager().createRepository( skipURLs.get( 0 ), true );
 			}
 			catch ( SVNException e )
 			{
@@ -1065,7 +1065,7 @@ public class SVNManager
 		// first, make sure the repo is there.
 		try
 		{
-			remote = ourClientManager.createRepository( repo, true ).getRepositoryUUID( false );
+			remote = getClientManager().createRepository( repo, true ).getRepositoryUUID( false );
 		}
 		catch ( SVNException e )
 		{
@@ -1198,11 +1198,6 @@ public class SVNManager
 	 */
 	public static boolean WCAtHead( File f, boolean quiet )
 	{
-		if ( ourClientManager == null )
-		{
-			setupLibrary();
-		}
-
 		try
 		{
 			if ( !SVNWCUtil.isWorkingCopyRoot( f ) )
@@ -1210,8 +1205,8 @@ public class SVNManager
 				return false;
 			}
 
-			SVNInfo wcinfo = ourClientManager.getWCClient().doInfo( f, SVNRevision.WORKING );
-			long repoRev = ourClientManager.createRepository( wcinfo.getURL(), true ).getLatestRevision();
+			SVNInfo wcinfo = getClientManager().getWCClient().doInfo( f, SVNRevision.WORKING );
+			long repoRev = getClientManager().createRepository( wcinfo.getURL(), true ).getLatestRevision();
 
 			if ( wcinfo.getRevision().getNumber() == repoRev )
 			{
@@ -1351,7 +1346,7 @@ public class SVNManager
 
 		try
 		{
-			long currentRev = ourClientManager.getStatusClient().doStatus( project, false ).getRevision().getNumber();
+			long currentRev = getClientManager().getStatusClient().doStatus( project, false ).getRevision().getNumber();
 
 			if ( currentRev + amount <= 0 )
 			{
@@ -1408,7 +1403,7 @@ public class SVNManager
 		{
 			try
 			{
-				ourClientManager.getStatusClient().doStatus( f, SVNRevision.UNDEFINED, SVNDepth.INFINITY, false, false, false, false, new StatusHandler(), null );
+				getClientManager().getStatusClient().doStatus( f, SVNRevision.UNDEFINED, SVNDepth.INFINITY, false, false, false, false, new StatusHandler(), null );
 			}
 			catch ( SVNException e )
 			{
@@ -1675,7 +1670,10 @@ public class SVNManager
 			setupLibrary();
 		}
 
-		return ourClientManager;
+		synchronized ( ourClientManager )
+		{
+			return ourClientManager;
+		}
 	}
 
 	// some functions taken/adapted from http://wiki.svnkit.com/Managing_A_Working_Copy
