@@ -1636,6 +1636,7 @@ public class ItemPool
 	public static final int INKY_SQUID_SAUCE = 6395;
 	public static final int MERKIN_WEAKSAUCE = 6396;
 	public static final int PEANUT_SAUCE = 6397;
+	public static final int SHAKING_SKULL = 6412;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

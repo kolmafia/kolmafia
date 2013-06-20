@@ -6426,7 +6426,7 @@
 6409	Star Spawn	561439887	starspawn.gif	grow	t	0
 6410	cute bow from beyond the stars	345486861	spacebow.gif	familiar	t,d	75
 6411
-6412
+6412	shaking skull	638617403	shakeskull.gif	usable		0
 6413	Order of the Green Thumb Order Form	975397883	floristform.gif	usable	t	0
 6414
 6415
