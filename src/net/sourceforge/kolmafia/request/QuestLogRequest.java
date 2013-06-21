@@ -61,13 +61,12 @@ public class QuestLogRequest
 		"You have discovered the secret of the Dungeons of Doom.";
 	private static final String BEANSTALK = "You have planted a Beanstalk in the Nearby Plains.";
 
-	private static String other = "";
-
 	private static boolean dungeonOfDoomAvailable = false;
 	private static boolean beanstalkPlanted = false;
 
 	private static final Pattern HEADER_PATTERN = Pattern.compile(  "<b>([^<]*?[^>]*?)</b><p><blockquote>", Pattern.DOTALL );
 	private static final Pattern BODY_PATTERN = Pattern.compile( "(?<=<b>)(.*?[^<>]*?)</b><br>(.*?)(?=<p>$|<p><b>)", Pattern.DOTALL );
+	private static final Pattern SEAHORSE_PATTERN = Pattern.compile( "You have tamed the mighty seahorse <b>(.*?)</b>", Pattern.DOTALL );
 
 	public QuestLogRequest()
 	{
@@ -174,14 +173,18 @@ public class QuestLogRequest
 
 		else if ( urlString.indexOf( "which=3" ) != -1 )
 		{
-			QuestLogRequest.other = responseText;
-
-			ChatManager.setChatLiteracy( QuestLogRequest.other.indexOf( QuestLogRequest.ALTAR_OF_LITERACY ) != -1 );
-			QuestLogRequest.dungeonOfDoomAvailable = QuestLogRequest.other.indexOf( QuestLogRequest.DUNGEONS_OF_DOOM ) != -1;
+			ChatManager.setChatLiteracy( responseText.indexOf( QuestLogRequest.ALTAR_OF_LITERACY ) != -1 );
+			QuestLogRequest.dungeonOfDoomAvailable = responseText.indexOf( QuestLogRequest.DUNGEONS_OF_DOOM ) != -1;
 			
-			if ( QuestLogRequest.other.contains( QuestLogRequest.BEANSTALK ) )
+			if ( responseText.contains( QuestLogRequest.BEANSTALK ) )
 			{
 				QuestLogRequest.setBeanstalkPlanted();
+			}
+
+			Matcher matcher = QuestLogRequest.SEAHORSE_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "seahorseName", new String( matcher.group(1) ) );
 			}
 		}
 	}

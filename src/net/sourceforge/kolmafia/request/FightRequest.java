@@ -204,6 +204,9 @@ public class FightRequest
 	
 	private static final Pattern KEYOTRON_PATTERN =
 		Pattern.compile( "key-o-tron emits (\\d) short" );
+	
+	private static final Pattern SEAHORSE_PATTERN =
+		Pattern.compile( "I shall name you &quot;(.*?),&quot; you say." );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
@@ -237,7 +240,7 @@ public class FightRequest
 	private static boolean summonedGhost = false;
 	public static boolean haiku = false;
 	public static boolean anapest = false;
-	private static int currentRound = 0;
+	public static int currentRound = 0;
 	private static boolean inMultiFight = false;
 
 	private static String nextAction = null;
@@ -3880,6 +3883,8 @@ public class FightRequest
 		public boolean won = false;
 		public Matcher macroMatcher;
 		public int lastCombatItem = -1;
+		public String monsterName;
+		public boolean seahorse;
 
 		public TagStatus()
 		{
@@ -3900,8 +3905,13 @@ public class FightRequest
 
 			this.shouldRefresh = false;
 
+			this.monsterName = MonsterStatusTracker.getLastMonsterName();
+
+			// Note if we are taming a wild seahorse
+			this.seahorse = this.monsterName.equals( "wild seahorse" );
+
 			// Note if we are fighting in The Themthar Hills
-			this.nunnery = MonsterStatusTracker.getLastMonsterName().equals( "dirty thieving brigand" );
+			this.nunnery = this.monsterName.equals( "dirty thieving brigand" );
 
 			// Note if we are fighting Outside the Club
 			this.ravers = ( KoLAdventure.lastAdventureId() == AdventurePool.OUTSIDE_THE_CLUB );
@@ -4511,6 +4521,11 @@ public class FightRequest
 			{
 				return;
 			}
+			
+			if ( FightRequest.handleSeahorse( str, status ) )
+			{
+				return;
+			}
 
 			boolean ghostAction = status.ghost != null && str.indexOf( status.ghost) != -1;
 			if ( ghostAction && status.logFamiliar )
@@ -4811,7 +4826,7 @@ public class FightRequest
 
 		String setting = null;
 
-		MonsterData monster = MonsterDatabase.findMonster( MonsterStatusTracker.getLastMonsterName(), false );
+		MonsterData monster = MonsterDatabase.findMonster( status.monsterName, false );
 		for ( int i = 0; i < FightRequest.EVIL_ZONES.length; ++i )
 		{
 			String[] data = FightRequest.EVIL_ZONES[ i ];
@@ -4870,7 +4885,7 @@ public class FightRequest
 		FightRequest.logText( text, status );
 
 		String setting = null;
-		String monster = MonsterStatusTracker.getLastMonsterName();
+		String monster = status.monsterName;
 		for ( int i = 0; i < FightRequest.BUGBEAR_BIODATA.length; ++i )
 		{
 			if ( monster.equals( BUGBEAR_BIODATA[i][0] ) )
@@ -4893,13 +4908,34 @@ public class FightRequest
 		
 		return true;
 	}
+
+	private static boolean handleSeahorse( String text, TagStatus status )
+	{
+		if ( !status.seahorse || !text.startsWith( "I shall name you" ) )
+		{
+			return false;
+		}
+
+		Matcher m = FightRequest.SEAHORSE_PATTERN.matcher( text );
+		if ( m.find() )
+		{
+			String name = new String( m.group(1) );
+			Preferences.setString( "seahorseName", name );
+			StringBuilder buffer = new StringBuilder();
+			buffer.append( "Seahorse name: " );
+			buffer.append( name );
+			FightRequest.logText( buffer, status );
+		}
+
+		return true;
+	}
 	
 	private static void handleRaver( String text, TagStatus status )
 	{
 		if ( status.ravers && NemesisDecorator.specialRaverMove( text ) )
 		{
 			StringBuilder buffer = new StringBuilder();
-			buffer.append( MonsterStatusTracker.getLastMonsterName() );
+			buffer.append( status.monsterName );
 			buffer.append( " uses a special move!" );
 			FightRequest.logText( buffer, status );
 		}

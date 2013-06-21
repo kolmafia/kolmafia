@@ -41,8 +41,11 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -50,6 +53,7 @@ import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
@@ -170,7 +174,18 @@ public class TestCommand
 
 		if ( command.equals( "fight" ) )
 		{
-			FightRequest.parseFightHTML( TestCommand.contents );
+			int round = split.length > 1 ? StringUtilities.parseInt( split[ 1 ].trim() ) : -1;
+			if ( round >= 0 )
+			{
+				String encounter = AdventureRequest.parseMonsterEncounter( TestCommand.contents );
+				MonsterStatusTracker.setNextMonsterName( encounter );
+				FightRequest.currentRound = round;
+				FightRequest.updateCombatData( "fight.php", encounter, TestCommand.contents );
+			}
+			else
+			{
+				FightRequest.parseFightHTML( TestCommand.contents );
+			}
 			TestCommand.contents = null;
 			return;
 		}
