@@ -1068,7 +1068,7 @@ Whiny Pirate	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 64-96  P: pira
 White Chocolate Golem	chocgolem.gif	Atk: 37 Def: 32 HP: 21 Init: 70  P: construct	white chocolate chips (50)	mother's secret recipe (p3)
 White Lion	lion.gif	Atk: 36 Def: 31 HP: 21 Init: 60 Meat: 24-36  P: beast	catgut (15)	lion oil (n20)
 Whitesnake	whitesnake.gif	Atk: 35 Def: 30 HP: 21 Init: 60 Meat: 8-13 "A Little Bit Poisoned"  P: beast	white snake skin (30)	bird rib (n20)
-wild seahorse		Phys: 100
+wild seahorse	seahorse.gif	P: fish Phys: 100
 Wire-Crossin' Elf			elf resistance button (100)	handful of wires (c100)	live wire (0)
 Witty Pirate	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 64-96  P: pirate	witty rapier (10)	silver tongue charrrm (10)
 Wolfman	werewolf.gif	Atk: 3 Def: 2 HP: 2 Init: 50 Meat: 10-13  P: dude

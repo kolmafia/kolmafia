@@ -686,6 +686,7 @@ user	romanticTarget
 user	safePickpocket	true
 user	scriptMRULength	0
 user	scriptMRUList
+user	seahorseName
 user	seaodesFound	0
 user	semirareCounter	0
 user	semirareLocation

@@ -545,6 +545,12 @@ public class AdventureRequest
 		toName = to;
 	}
 
+	public static final String parseMonsterEncounter( final String responseText )
+	{
+		String encounter = AdventureRequest.parseCombatEncounter( responseText );
+		return AdventureRequest.translateGenericType( encounter, responseText );
+	}
+
 	private static final String parseCombatEncounter( final String responseText )
 	{
 		String name;
