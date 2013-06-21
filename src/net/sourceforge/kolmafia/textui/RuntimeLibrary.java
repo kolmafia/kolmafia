@@ -5614,12 +5614,17 @@ public abstract class RuntimeLibrary
 		SVNInfo info;
 		try
 		{
+			SVNManager.SVN_LOCK.lock();
 			info = SVNManager.getClientManager().getWCClient().doInfo( projectFile, SVNRevision.WORKING );
 		}
 		catch ( SVNException e )
 		{
 			SVNManager.error( e, null );
 			return getRecInit();
+		}
+		finally
+		{
+			SVNManager.SVN_LOCK.unlock();
 		}
 
 		// URL

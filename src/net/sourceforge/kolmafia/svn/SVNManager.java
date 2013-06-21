@@ -58,6 +58,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -99,6 +101,8 @@ import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 
 public class SVNManager
 {
+	public static final Lock SVN_LOCK = new ReentrantLock();
+
 	private static final int RETRY_LIMIT = 3;
 	private static final int DEPENDENCY_RECURSION_LIMIT = 5;
 
@@ -483,11 +487,16 @@ public class SVNManager
 			RequestLogger.printLine( "------" );
 			try
 			{
+				SVN_LOCK.lock();
 				showCommitMessage( f, updateMessages.get( f )[ 0 ], updateMessages.get( f )[ 1 ] );
 			}
 			catch ( SVNException e )
 			{
 				error( e );
+			}
+			finally
+			{
+				SVN_LOCK.unlock();
 			}
 		}
 		updateMessages.clear();
@@ -513,6 +522,7 @@ public class SVNManager
 
 		try
 		{
+			SVN_LOCK.lock();
 			repository = getClientManager().createRepository( repo, true );
 		}
 		catch ( SVNException e )
@@ -521,11 +531,16 @@ public class SVNManager
 				error( e, "Unable to connect with repository at " + repo.getPath() );
 			return true;
 		}
+		finally
+		{
+			SVN_LOCK.unlock();
+		}
 		if ( !quiet )
 			RequestLogger.printLine( "Validating repo..." );
 
 		try
 		{
+			SVN_LOCK.lock();
 			entries = repository.getDir( "", -1, null, (Collection< ? >) null ); // this syntax is stupid, by the way
 		}
 		catch ( SVNException e )
@@ -533,6 +548,10 @@ public class SVNManager
 			if ( !quiet )
 				error( e, "Something went wrong while fetching svn directory info" );
 			return true;
+		}
+		finally
+		{
+			SVN_LOCK.unlock();
 		}
 
 		Iterator< ? > iterator = entries.iterator();
@@ -796,6 +815,7 @@ public class SVNManager
 			SVNRepository repo = null;
 			try
 			{
+				SVN_LOCK.lock();
 				repo = getClientManager().createRepository( skipURLs.get( 0 ), true );
 			}
 			catch ( SVNException e )
@@ -804,6 +824,10 @@ public class SVNManager
 				//punt, NPE ensues if we continue with this method without initializing repo
 				return skipFiles;
 			}
+			finally
+			{
+				SVN_LOCK.unlock();
+			}
 
 			StringBuilder message = new StringBuilder( "<html>New file(s) requesting confirmation:<p>" );
 			for ( int i = 0; i < skipFiles.size(); ++i )
@@ -811,6 +835,7 @@ public class SVNManager
 				message.append( "<b>file</b>: " + skipFiles.get( i ) + "<p>" );
 				try
 				{
+					SVN_LOCK.lock();
 					repo.setLocation( skipURLs.get( i ), false );
 					SVNDirEntry props = repo.info( "", -1 );
 					if ( props == null || props.getAuthor() == null )
@@ -822,11 +847,16 @@ public class SVNManager
 				{
 					error( e, "Something went wrong fetching SVN info" );
 				}
+				finally
+				{
+					SVN_LOCK.unlock();
+				}
 			}
 			//message.append( "<br>SVN info:<p>" );
 
 			try
 			{
+				SVN_LOCK.lock();
 				SVNURL root = repo.getRepositoryRoot( false );
 
 				message.append( "<br><b>repository url</b>:" + root.getPath() + "<p>" );
@@ -834,6 +864,10 @@ public class SVNManager
 			catch ( SVNException e )
 			{
 				error( e, "Something went wrong fetching SVN info" );
+			}
+			finally
+			{
+				SVN_LOCK.unlock();
 			}
 			message.append( "<br><b>Only click yes if you trust the author.</b>"
 				+ "<p>Clicking no will stop the files from being added locally. (until you checkout the project again)" );
@@ -902,6 +936,7 @@ public class SVNManager
 			SVNRepository repo = null;
 			try
 			{
+				SVN_LOCK.lock();
 				repo = getClientManager().createRepository( skipURLs.get( 0 ), true );
 			}
 			catch ( SVNException e )
@@ -910,6 +945,10 @@ public class SVNManager
 				//punt, NPE ensues if we continue with this method without initializing repo
 				return skipFiles;
 			}
+			finally
+			{
+				SVN_LOCK.unlock();
+			}
 
 			StringBuilder message = new StringBuilder( "<html>New file(s) will overwrite local files:<p>" );
 			for ( int i = 0; i < skipFiles.size(); ++i )
@@ -917,6 +956,7 @@ public class SVNManager
 				message.append( "<b>file</b>: " + skipFiles.get( i ) + "<p>" );
 				try
 				{
+					SVN_LOCK.lock();
 					repo.setLocation( skipURLs.get( i ), false );
 					SVNDirEntry props = repo.info( "", -1 );
 					message.append( "<b>author</b>: " + props.getAuthor() + "<p>" );
@@ -925,10 +965,15 @@ public class SVNManager
 				{
 					error( e, "Something went wrong fetching SVN info" );
 				}
+				finally
+				{
+					SVN_LOCK.unlock();
+				}
 			}
 
 			try
 			{
+				SVN_LOCK.lock();
 				SVNURL root = repo.getRepositoryRoot( false );
 
 				message.append( "<br><b>repository url</b>:" + root.getPath() + "<p>" );
@@ -936,6 +981,10 @@ public class SVNManager
 			catch ( SVNException e )
 			{
 				error( e, "Something went wrong fetching SVN info" );
+			}
+			finally
+			{
+				SVN_LOCK.unlock();
 			}
 			message.append( "<br>Checking out this project will result in some local files (described above) being overwritten."
 				+ "<p>Click yes to overwrite them, no to skip installing them." );
@@ -1065,12 +1114,17 @@ public class SVNManager
 		// first, make sure the repo is there.
 		try
 		{
+			SVN_LOCK.lock();
 			remote = getClientManager().createRepository( repo, true ).getRepositoryUUID( false );
 		}
 		catch ( SVNException e )
 		{
 			error( e, "Unable to connect with repository at " + repo.getPath() );
 			return null;
+		}
+		finally
+		{
+			SVN_LOCK.unlock();
 		}
 
 		String local = getFolderUUIDNoRemote( repo );
@@ -1200,6 +1254,7 @@ public class SVNManager
 	{
 		try
 		{
+			SVN_LOCK.lock();
 			if ( !SVNWCUtil.isWorkingCopyRoot( f ) )
 			{
 				return false;
@@ -1219,6 +1274,10 @@ public class SVNManager
 		{
 			error( e );
 			return true; // don't continue updating this project if there's an error here.
+		}
+		finally
+		{
+			SVN_LOCK.unlock();
 		}
 
 		return false;
@@ -1346,6 +1405,7 @@ public class SVNManager
 
 		try
 		{
+			SVN_LOCK.lock();
 			long currentRev = getClientManager().getStatusClient().doStatus( project, false ).getRevision().getNumber();
 
 			if ( currentRev + amount <= 0 )
@@ -1367,6 +1427,10 @@ public class SVNManager
 			}
 			error( e, "SVN ERROR during update operation.  Aborting..." );
 			return;
+		}
+		finally
+		{
+			SVN_LOCK.unlock();
 		}
 
 		pushUpdates();
@@ -1403,12 +1467,17 @@ public class SVNManager
 		{
 			try
 			{
+				SVN_LOCK.lock();
 				getClientManager().getStatusClient().doStatus( f, SVNRevision.UNDEFINED, SVNDepth.INFINITY, false, false, false, false, new StatusHandler(), null );
 			}
 			catch ( SVNException e )
 			{
 				error( e );
 				return;
+			}
+			finally
+			{
+				SVN_LOCK.unlock();
 			}
 		}
 
@@ -1450,6 +1519,7 @@ public class SVNManager
 
 			try
 			{
+				SVN_LOCK.lock();
 				if ( rebaseExists( relpath ) && !SVNFileUtil.compareFiles( eventFile, rebase, null ) )
 				{
 					doPush( eventFile, relpath );
@@ -1460,6 +1530,10 @@ public class SVNManager
 				error( e );
 				eventStack.clear();
 				return;
+			}
+			finally
+			{
+				SVN_LOCK.unlock();
 			}
 		}
 
@@ -1670,10 +1744,7 @@ public class SVNManager
 			setupLibrary();
 		}
 
-		synchronized ( ourClientManager )
-		{
-			return ourClientManager;
-		}
+		return ourClientManager;
 	}
 
 	// some functions taken/adapted from http://wiki.svnkit.com/Managing_A_Working_Copy

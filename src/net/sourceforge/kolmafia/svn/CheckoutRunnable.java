@@ -91,12 +91,17 @@ public class CheckoutRunnable
 
 		try
 		{
+			SVNManager.SVN_LOCK.lock();
 			updateClient.doCheckout( repo, WCDir, SVNRevision.HEAD, SVNRevision.HEAD, SVNDepth.INFINITY, false );
 		}
 		catch ( SVNException e )
 		{
 			error( e, "SVN ERROR during checkout operation.  Aborting..." );
 			return;
+		}
+		finally
+		{
+			SVNManager.SVN_LOCK.unlock();
 		}
 
 		RequestLogger.printLine();
