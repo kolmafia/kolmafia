@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
@@ -987,6 +988,10 @@ public abstract class KoLmafia
 
 		// Visit lounge and report on whether you have a present waiting
 		ClanLoungeRequest.visitLounge();
+
+		// Check the Florist to see what is planted
+		FloristRequest.reset();
+		RequestThread.postRequest( new FloristRequest() );
 	}
 
 	public static final boolean isRefreshing()
