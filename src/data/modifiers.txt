@@ -2050,7 +2050,7 @@ pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
 pair of pearidot earrings	Item Drop: [100*zone(The Candy Diorama)], Single Equip
 paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip
 # papier-masque: Makes your possessions seem more interesting
-papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
+papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 # pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
 pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 patent leather shoes	Muscle: +1, Hot Resistance: +1
@@ -3776,6 +3776,7 @@ Sinuses For Miles	Meat Drop: +200
 Sizzling with Fury	Hot Damage: +25, Initiative: +60
 Skeletal Buddy	Experience: +2
 # Ski Ballin': Makes you look like an eXtreme cross-country hippy
+# Skunkulated: Take stench damage every round of combat
 Sleaze-Resistant Trousers	Sleaze Resistance: +1
 # Sleazeform: Wink Wink, Nudge Nudge
 Sleazeform	Sleaze Immunity, Cold Vulnerability, Spooky Vulnerability

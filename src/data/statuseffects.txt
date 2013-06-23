@@ -1223,7 +1223,7 @@
 1222	Juiced	wink.gif	251475c81051c45bdfbb438e89954d8f	use 1 Mer-kin cooljuice
 1223	Gutballed	dodgeball.gif	975e6ae633c34542ba8a809b5cfd6ead
 1224	Nettled	beatenup.gif	b141f7a3e4c9411996f111a18c867cf8
-1225
+1225	Skunkulated	stench.gif	9706294a1cc6e2a78bb5c5908de32359
 1226
 1227
 1228	Visions of the Deep Dark Deeps	darkvision.gif	c3ff1a8473de3cfec2c8c4184475de37	cast 1 Deep Dark Visions
