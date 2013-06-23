@@ -278,7 +278,7 @@ public class SushiRequest
 		  "beefy maki", IntegerPool.get( ItemPool.SEA_CARROT ) },
 		{ "python roll",
 		  "beefy maki", IntegerPool.get( ItemPool.SEA_AVOCADO ) },
-		{ "jack lalanne roll",
+		{ "Jack LaLanne roll",
 		  "beefy maki", IntegerPool.get( ItemPool.SEA_RADISH ) },
 
 		{ "wise dragon roll",
