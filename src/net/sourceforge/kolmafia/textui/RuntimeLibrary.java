@@ -140,6 +140,7 @@ import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
@@ -950,7 +951,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.FAMILIAR_TYPE };
 		functions.add( new LibraryFunction( "familiar_weight", DataTypes.INT_TYPE, params ) );
-		
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "is_familiar_equipment_locked", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -974,7 +975,7 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "minstrel_instrument", DataTypes.ITEM_TYPE, params ) );
-		
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "minstrel_quest", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -1480,6 +1481,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "gnomads_available", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "florist_available", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Path Support
 
@@ -5818,6 +5822,11 @@ public abstract class RuntimeLibrary
 	public static Value gnomads_available( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( KoLCharacter.gnomadsAvailable() );
+	}
+
+	public static Value florist_available( Interpreter interpreter )
+	{
+		return DataTypes.makeBooleanValue( FloristRequest.haveFlorist() );
 	}
 
 	public static Value is_trendy( Interpreter interpreter, final Value thing )

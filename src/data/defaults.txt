@@ -843,6 +843,7 @@ user	_feastUsed	0
 user	_fingertrapArrows	0
 user	_fireStartingKitUsed	false
 user	_fishyPipeUsed	false
+user	_floristPlantsUsed
 user	_fudgeWaspFights	0
 user	_gapBuffs	0
 user	_gibbererAdv	0

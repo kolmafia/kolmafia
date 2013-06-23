@@ -40,6 +40,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.RequestThread;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FloristRequest
@@ -54,8 +58,6 @@ public class FloristRequest
 	private static final Pattern DIG_PATTERN = Pattern.compile( "plnti=(\\d)" );
 
 	private static Map<String, ArrayList<Florist>> floristPlants = new HashMap<String, ArrayList<Florist>>();
-	// This won't actually work, since already-used plants need to be tracked across sessions
-	// private static EnumSet<Florist> floristUsed = EnumSet.noneOf( Florist.class );
 
 	public enum Florist
 	{
@@ -123,6 +125,11 @@ public class FloristRequest
 			return this.name;
 		}
 
+		public int id()
+		{
+			return this.id;
+		}
+
 		public static Florist getFlower( int id )
 		{
 			if ( id == 0 )
@@ -139,17 +146,68 @@ public class FloristRequest
 			return null;
 		}
 
+		public static Florist getFlower( String name )
+		{
+			if ( name == null )
+			{
+				return null;
+			}
+			for ( Florist flower : Florist.values() )
+			{
+				if ( name.equalsIgnoreCase( flower.name ) )
+				{
+					return flower;
+				}
+			}
+			return null;
+		}
+
 		public boolean isTerritorial()
 		{
 			return this.id % 10 == 1 || this.id % 10 == 2 || this.id % 10 == 3;
 		}
 	}
 
+	public static void reset()
+	{
+		FloristRequest.haveFlorist = true;
+		FloristRequest.floristPlants.clear();
+	}
+
+	// forestvillage.php?action=floristfriar
+	// choice.php?option=4&whichchoice=720&pwd
 	public FloristRequest()
 	{
-		super( "forestvillage.php" );
+		super( "choice.php" );
+		this.addFormField( "whichchoice", "720" );
+		this.addFormField( "option", "4" );
+	}
 
-		this.addFormField( "action", "floristfriar" );
+	public FloristRequest( int plant )
+	{
+		super( "choice.php" );
+		this.addFormField( "whichchoice", "720" );
+		this.addFormField( "option", "1" );
+		this.addFormField( "plant", String.valueOf( plant ) );
+	}
+
+	@Override
+	public void run()
+	{
+		if ( !FloristRequest.haveFlorist() )
+		{
+			return;
+		}
+
+		GenericRequest forestVisit = new GenericRequest( "forestvillage.php?action=floristfriar" );
+		RequestThread.postRequest( forestVisit );
+		if ( !forestVisit.responseText.contains( "The Florist Friar's Cottage" ) )
+		{
+			FloristRequest.setHaveFlorist( forestVisit.responseText.contains( "The Florist Friar's Cottage" ) );
+			return;
+		}
+
+		super.run();
 	}
 
 	public static boolean haveFlorist()
@@ -177,13 +235,29 @@ public class FloristRequest
 		{
 			return;
 		}
+
 		if ( urlString.contains( "option=1" ) )
 		{
+			// The location is already full of plants
+			if ( responseText.contains( "You need to dig up a space." ) )
+			{
+				return;
+			}
+
+			// It's the wrong location type for that plant
+			if ( responseText.contains( "Invalid plant" ) )
+			{
+				return;
+			}
+
 			Matcher locMatcher = FloristRequest.LOCATION_PATTERN.matcher( responseText );
-			locMatcher.find();
-			String location = locMatcher.group( 1 ).toLowerCase();
 			Matcher plantMatcher = FloristRequest.PLANT_PATTERN.matcher( urlString );
-			plantMatcher.find();
+			if ( !locMatcher.find() || !plantMatcher.find() )
+			{
+				// Something went wrong and somehow wasn't caught by the previous cases
+				return;
+			}
+			String location = locMatcher.group( 1 ).toLowerCase();
 			int plant = StringUtilities.parseInt( plantMatcher.group( 1 ) );
 			FloristRequest.addPlant( location, plant );
 		}
@@ -201,6 +275,10 @@ public class FloristRequest
 
 		else if ( urlString.contains( "option=4" ) )
 		{
+			if ( responseText.contains( "The Florist Friar's Cottage" ) )
+			{
+				FloristRequest.setHaveFlorist( true );
+			}
 			FloristRequest.floristPlants.clear();
 			ArrayList<Florist> plantList = new ArrayList<Florist>();
 			Matcher matcher = FloristRequest.FLOWER_PATTERN.matcher( responseText );
@@ -246,8 +324,14 @@ public class FloristRequest
 
 		FloristRequest.floristPlants.put( location, plants );
 
-		// Needs to be something different
-		// FloristRequest.floristUsed.add( plant );
+		StringBuilder floristUsed = new StringBuilder();
+		floristUsed.append( Preferences.getString( "_floristPlantsUsed" ) );
+		if ( floristUsed.length() > 0 )
+		{
+			floristUsed.append( "," );
+		}
+		floristUsed.append( plant );
+		Preferences.setString( "_floristPlantsUsed", floristUsed.toString() );
 	}
 
 	private static final void clearTerritorial( final String location )
@@ -263,7 +347,6 @@ public class FloristRequest
 			if ( plant.isTerritorial() )
 			{
 				plants.remove( plant );
-				// Unnecessary put() ?
 				FloristRequest.floristPlants.put( location, plants );
 				// There can only be 1 territorial plant, so once we find it we are done
 				return;
@@ -287,7 +370,6 @@ public class FloristRequest
 		}
 
 		plants.remove( digIndex );
-		// Unnecessary put() ?
 		FloristRequest.floristPlants.put( location, plants );
 	}
 }
