@@ -300,10 +300,10 @@ public class UneffectRequest
 	}
 
 	private static Set REMOVABLE_BY_SKILL;
-	private static Map<String, Set> removeWithSkillMap = new LinkedHashMap<String, Set>();
+	private static final Map<String, Set<String>> removeWithSkillMap = new LinkedHashMap<String, Set<String>>();
 
 	private static Set REMOVABLE_BY_ITEM;
-	private static Map<Integer, Set> removeWithItemMap = new LinkedHashMap<Integer, Set>();
+	private static final Map<Integer, Set<String>> removeWithItemMap = new LinkedHashMap<Integer, Set<String>>();
 
 	static
 	{
@@ -344,7 +344,7 @@ public class UneffectRequest
 		removableEffects.add( "Axe Wound" );
 		removableEffects.add( "Beaten Up" );
 		removableEffects.add( "Grilled" );
-		removableEffects.add( "Half Eaten Brain" );
+		removableEffects.add( "Half-Eaten Brain" );
 		removableEffects.add( "Missing Fingers" );
 		removableEffects.add( "Sunburned" );
 
