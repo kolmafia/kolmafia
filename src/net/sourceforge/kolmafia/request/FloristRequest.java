@@ -57,7 +57,7 @@ public class FloristRequest
 	private static final Pattern PLANT_PATTERN = Pattern.compile( "plant=(\\d+)" );
 	private static final Pattern DIG_PATTERN = Pattern.compile( "plnti=(\\d)" );
 
-	private static Map<String, ArrayList<Florist>> floristPlants = new HashMap<String, ArrayList<Florist>>();
+	public static final Map<String, ArrayList<Florist>> floristPlants = new HashMap<String, ArrayList<Florist>>();
 
 	public enum Florist
 	{
@@ -280,11 +280,10 @@ public class FloristRequest
 				FloristRequest.setHaveFlorist( true );
 			}
 			FloristRequest.floristPlants.clear();
-			ArrayList<Florist> plantList = new ArrayList<Florist>();
 			Matcher matcher = FloristRequest.FLOWER_PATTERN.matcher( responseText );
 			while ( matcher.find() )
 			{
-				plantList.clear();
+				ArrayList<Florist> plantList = new ArrayList<Florist>();
 				String location = matcher.group( 1 ).toLowerCase();
 				int flower1 = StringUtilities.parseInt( matcher.group( 2 ) );
 				int flower2 = StringUtilities.parseInt( matcher.group( 3 ) );
