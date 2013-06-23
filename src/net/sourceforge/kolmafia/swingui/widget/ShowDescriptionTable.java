@@ -317,9 +317,6 @@ public class ShowDescriptionTable
 			}
 		}
 
-		// Override the default filtering pipeline with one that won't try to update while the data model is
-		// itself filtering
-		this.setFilters( new HesitantFilter() );
 		this.setDefaultRenderer( String.class, new DescriptionTableRenderer( this.originalModel, flags ) );
 		this.setDefaultRenderer( Integer.class, new DescriptionTableRenderer( this.originalModel, flags ) );
 		this.setDefaultRenderer( JButton.class, new DescriptionTableRenderer( this.originalModel, flags ) );
@@ -500,20 +497,6 @@ public class ShowDescriptionTable
 			}
 
 			return this;
-		}
-	}
-
-	private class HesitantFilter
-		extends FilterPipeline
-	{
-		@Override
-		public void flush()
-		{
-			if ( ShowDescriptionTable.this.getDisplayModel().isFiltering() )
-			{
-				return;
-			}
-			super.flush();
 		}
 	}
 

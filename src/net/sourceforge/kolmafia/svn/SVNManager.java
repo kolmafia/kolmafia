@@ -101,7 +101,7 @@ import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 
 public class SVNManager
 {
-	public static final Lock SVN_LOCK = new ReentrantLock();
+	static final Lock SVN_LOCK = new ReentrantLock();
 
 	private static final int RETRY_LIMIT = 3;
 	private static final int DEPENDENCY_RECURSION_LIMIT = 5;
@@ -381,6 +381,23 @@ public class SVNManager
 		 * command line client)
 		 */
 		getClientManager().getWCClient().doInfo( wcPath, SVNRevision.UNDEFINED, revision, SVNDepth.INFINITY, null, new InfoHandler() );
+	}
+
+	/**
+	 * A wrapper for doInfo so that callers do not have to handle the client manager (or interface with the SVN_LOCK).
+	 */
+	public static SVNInfo doInfo( File projectFile )
+		throws SVNException
+	{
+		try
+		{
+			SVN_LOCK.lock();
+			return getClientManager().getWCClient().doInfo( projectFile, SVNRevision.WORKING );
+		}
+		finally
+		{
+			SVN_LOCK.unlock();
+		}
 	}
 
 	public static void showCommitMessage( File wcPath, long from, long to )
@@ -1737,7 +1754,7 @@ public class SVNManager
 			KoLmafia.updateDisplay( MafiaState.ERROR, addMessage );
 	}
 
-	public static SVNClientManager getClientManager()
+	static SVNClientManager getClientManager()
 	{
 		if ( ourClientManager == null )
 		{
