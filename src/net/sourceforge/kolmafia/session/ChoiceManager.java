@@ -4768,6 +4768,11 @@ public abstract class ChoiceManager
 		case 570:
 			GameproManager.parseGameproMagazine( responseText );
 			break;
+
+		case 705:
+			// Halls Passing in the Night
+			ResultProcessor.processItem( ItemPool.MERKIN_HALLPASS, -1 );
+			break;
 		}
 	}
 
