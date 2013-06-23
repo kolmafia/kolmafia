@@ -306,8 +306,11 @@ public class ClanRumpusRequest
 			// If we can go to Little Canadia, use the gym.
 			if ( KoLCharacter.canadiaAvailable() )
 			{
-				this.constructURLString( "canadia.php" );
-				this.addFormField( "action", "institute" );
+				// First load the choice adventure page
+				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=canadia&action=lc_institute" ) );
+				this.constructURLString( "choice.php" );
+				this.addFormField( "whichchoice", "770" );
+				this.addFormField( "option", "1" );
 			}
 			// Otherwise, use the one in our clan - if we're in one.
 			else
