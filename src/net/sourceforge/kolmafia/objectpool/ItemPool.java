@@ -1635,6 +1635,7 @@ public class ItemPool
 	public static final int YELLOW_TAFFY = 6361;
 	public static final int INDIGO_TAFFY = 6362;
 	public static final int GREEN_TAFFY = 6363;
+	public static final int MERKIN_HALLPASS = 6368;
 	public static final int ANEMONE_SAUCE = 6394;
 	public static final int INKY_SQUID_SAUCE = 6395;
 	public static final int MERKIN_WEAKSAUCE = 6396;
