@@ -2988,7 +2988,7 @@ Block-Rockin' Beet	Damage Reduction: 15
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 # Bloody-minded	+50 Damage vs. Vampires
-Blue Swayed	Familiar Weight: [ceil(min(T,50)/10)], Familiar Experience: [ceil(min(T,50)/5)]
+Blue Swayed	Familiar Weight: [ceil(min(T,50)/10)], Experience (familiar): [ceil(min(T,50)/5)]
 Blue Tongue	Item Drop: +30
 # Bone Homie: Bites Your Enemies
 # Boned Up: Makes you look like a Smart Skelton
