@@ -4082,6 +4082,30 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 699:
+			// Lumber-related Pun
+			if ( text.contains( "hand him the branch" ) )
+			{
+				// Marty's eyes widen when you hand him the
+				// branch from the Great Tree.
+				ResultProcessor.processItem( ItemPool.GREAT_TREE_BRANCH, -1 );
+			}
+			else if ( text.contains( "hand him the rust" ) )
+			{
+				// At first Marty looks disappointed when you
+				// hand him the rust-spotted, rotten-handled
+				// axe, but after a closer inspection he gives
+				// an impressed whistle.
+				ResultProcessor.processItem( ItemPool.PHIL_BUNION_AXE, -1 );
+			}
+			else if ( text.contains( "hand him the bouquet" ) )
+			{
+				// Marty looks delighted when you hand him the
+				// bouquet of swamp roses.
+				ResultProcessor.processItem( ItemPool.SWAMP_ROSE_BOUQUET, -1 );
+			}
+			return;
+
 		case 720:
 			// The Florist Friar's Cottage
 			FloristRequest.parseResponse( request.getURLString() , text );

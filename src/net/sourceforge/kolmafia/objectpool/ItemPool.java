@@ -691,6 +691,9 @@ public class ItemPool
 	public static final int NAVEL_RING = 2844;
 	public static final int PLASTIC_BIB = 2846;
 	public static final int GNOME_DEMODULIZER = 2848;
+	public static final int GREAT_TREE_BRANCH = 2852;
+	public static final int PHIL_BUNION_AXE = 2853;
+	public static final int SWAMP_ROSE_BOUQUET = 2854;
 	public static final int V_MASK = 2946;
 	public static final int PIRATE_INSULT_BOOK = 2947;
 	public static final int CARONCH_MAP = 2950;
