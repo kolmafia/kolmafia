@@ -64,7 +64,6 @@ import java.util.regex.PatternSyntaxException;
 
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
-import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -5618,17 +5617,12 @@ public abstract class RuntimeLibrary
 		SVNInfo info;
 		try
 		{
-			SVNManager.SVN_LOCK.lock();
-			info = SVNManager.getClientManager().getWCClient().doInfo( projectFile, SVNRevision.WORKING );
+			info = SVNManager.doInfo( projectFile );
 		}
 		catch ( SVNException e )
 		{
 			SVNManager.error( e, null );
 			return getRecInit();
-		}
-		finally
-		{
-			SVNManager.SVN_LOCK.unlock();
 		}
 
 		// URL

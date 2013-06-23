@@ -292,8 +292,6 @@ public class AutoFilterTextField
 	{
 		try
 		{
-			AutoFilterTextField.this.model.setFiltering( true );
-
 			AutoFilterTextField.this.qtyChecked = false;
 			AutoFilterTextField.this.asChecked = false;
 			AutoFilterTextField.this.notChecked = false;
@@ -357,8 +355,6 @@ public class AutoFilterTextField
 		}
 		finally
 		{
-			AutoFilterTextField.this.model.setFiltering( false );
-
 			if ( AutoFilterTextField.this.model.size() > 0 )
 			{
 				AutoFilterTextField.this.model.fireContentsChanged(
