@@ -1560,15 +1560,23 @@ public class SVNManager
 	private static File getRebase( String relpath )
 	{
 		File rebase = new File( KoLConstants.ROOT_LOCATION, relpath );
-		if ( rebase.exists() )
-			return rebase; 
 
-		List<File> matches = KoLmafiaCLI.findScriptFile( rebase.getName() );
-
-		if ( matches.size() == 1 )
+		// scripts/ and relay/ exist in the searchable namespace, so only search if we're looking there
+		// the root location is also in the namespace, but svn isn't allowed to put stuff there, so ignore it
+		if ( relpath.startsWith( "scripts" ) || relpath.startsWith( "relay" ) )
 		{
-			return matches.get( 0 );
+			List<File> matches = KoLmafiaCLI.findScriptFile( rebase.getName() );
+
+			if ( matches.size() == 1 )
+				return matches.get( 0 );
+
+			if ( matches.size() > 1 )
+				return null;
 		}
+
+		// some directories are not searched by findScriptFile, but we can just check if the rebase exists in those cases
+		if ( rebase.exists() )
+			return rebase;
 
 		return null;
 	}
