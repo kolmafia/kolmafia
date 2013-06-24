@@ -375,6 +375,7 @@ user	dreadScroll5	0
 user	dreadScroll6	0
 user	dreadScroll7	0
 user	dreadScroll8	0
+user	envyfishMonster
 user	expressCardUsed	false
 user	extraRolloverAdventures	0
 user	fistSkillsKnown	0
@@ -836,6 +837,7 @@ user	_distentionPillUsed	false
 user	_donhosCasts	0
 user	_dreamJarDrops	0
 user	_elronsCasts	0
+user	_envyfishEggUsed	false
 user	_essentialTofuUsed	false
 user	_favorRareSummons	0
 user	_feastedFamiliars

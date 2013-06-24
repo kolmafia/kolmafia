@@ -2590,6 +2590,14 @@ public class GenericRequest
 			KoLmafia.ignoreSpecialMonsters();
 			break;
 
+		case ItemPool.ENVYFISH_EGG:
+			itemName = "envyfish egg";
+			Preferences.setString( "envyfishMonster", "" );
+			Preferences.setBoolean( "_envyfishEggUsed", true );
+			consumed = true;
+			KoLmafia.ignoreSpecialMonsters();
+			break;
+
 		case ItemPool.DEPLETED_URANIUM_SEAL:
 			itemName = "Infernal Seal Ritual";
 			Preferences.increment( "_sealsSummoned", 1 );

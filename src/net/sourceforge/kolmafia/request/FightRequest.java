@@ -2513,7 +2513,8 @@ public class FightRequest
 
 			case FamiliarPool.HAPPY_MEDIUM:
 				if ( responseText.indexOf( "waves her fingers in front of her face and her aura glows blue." ) != -1 
-					|| responseText.indexOf( "A flickering blue aura appears around " ) != -1 || responseText.indexOf( "A blue aura appears around " ) != -1 
+					|| responseText.indexOf( "A flickering blue aura appears around " ) != -1 
+					|| responseText.indexOf( "A blue aura appears around " ) != -1 
 					|| responseText.indexOf( "and her aura glows blue." ) != -1 
 					|| responseText.indexOf( "rolls her eyes back in her head and her aura glows blue." ) != -1 )
 				{
@@ -2540,8 +2541,18 @@ public class FightRequest
 					KoLCharacter.setFamiliarImage( "medium_3.gif" );
 					familiar.setCharges( 3 );
 				}
+/*				
+				if ( responseText.indexOf( "waves her hands and extracts some of your opponent aura into a cocktail shaker") != -1  
+					|| responseText.indexOf( "holds out a cocktail glass and siphons some of his aura into the glass" ) != -1 
+					|| responseText.indexOf( "draws out some of its spirit and makes a cocktail with it." ) != -1 
+					|| responseText.indexOf( "Let's see. . . a little of this, a little of that, and some of that creature's aura, and presto!" ) != -1 
+					|| responseText.indexOf( "conjurs the spirit of your opponent into a cocktail glass and mixes you a drink." ) != -1 )
+				{
+					KoLCharacter.setFamiliarImage( "medium_0.gif" );
+					familiar.setCharges( 0 );
+				}
+*/
 				break;
-
 			case FamiliarPool.GRINDER:
 				// Increment Organ Grinder combat counter
 				String piediv = "".equals(Preferences.getString( "pieStuffing" ))?"":",";
@@ -5223,6 +5234,25 @@ public class FightRequest
 			}
 			return false;
 
+		case ItemPool.GREEN_TAFFY:
+
+			// You toss the taffy, and the salt water soaks into it. 
+			// A green envyfish swims up, listlessly eats it, looks at your opponent, 
+			// and begins to emit a long sigh.
+			// At the conclusion of the sigh, the fish squirts out an egg, then swims off
+			// into the distance, eyes downcast.
+
+			// You acquire an item: envyfish egg
+			// The school is distracted by a lost clownfish for a moment.
+
+			if ( responseText.indexOf( "the fish squirts out an egg" ) != -1 )
+			{
+				Preferences.setString( "envyfishMonster", MonsterStatusTracker.getLastMonsterName() );
+				Preferences.setString( "autoPutty", "" );
+				return true;
+			}
+			return false;
+
 		case ItemPool.CRAYON_SHAVINGS:
 
 			// You toss the shavings at the bugbear, and when they hit it,
@@ -5629,6 +5659,9 @@ public class FightRequest
 
 		case SkillPool.SIPHON_SPIRITS:
 			Preferences.increment( "_mediumSiphons", 1 );
+			KoLCharacter.setFamiliarImage( "medium_0.gif" );
+			FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
+			familiar.setCharges( 0 );
 			break;
 		}
 	}
