@@ -56,6 +56,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TimeZone;
 
 import java.util.regex.Matcher;
@@ -140,6 +141,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
+import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
@@ -833,6 +835,11 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_clan_name", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_florist_plants",
+			new AggregateType( new AggregateType( DataTypes.STRING_TYPE, 3 ),
+			DataTypes.LOCATION_TYPE ), params ) );
 
 		// Basic skill and effect functions, including those used
 		// in custom combat consult scripts.
@@ -3616,6 +3623,42 @@ public abstract class RuntimeLibrary
 	public static Value get_clan_name( Interpreter interpreter )
 	{
 		return new Value( ClanManager.getClanName() );
+	}
+
+	public static Value get_florist_plants( Interpreter interpreter )
+	{
+		AggregateType plantType = new AggregateType( DataTypes.STRING_TYPE, 3 );
+
+		AggregateType type = new AggregateType( plantType, DataTypes.LOCATION_TYPE );
+		MapValue value = new MapValue( type );
+
+		Set locations = FloristRequest.floristPlants.keySet();
+		Iterator iterator = locations.iterator();
+		while ( iterator.hasNext() )
+		{
+			String loc = (String) iterator.next();
+			Value location = DataTypes.parseLocationValue( loc, false );
+			if ( location == null )
+			{
+				// The location string from KoL couldn't be
+				// matched to a location in KoLmafia
+				continue;
+			}
+			ArrayList<Florist> plants = FloristRequest.getPlants( loc );
+			if ( plants.size() == 0 )
+			{
+				continue;
+			}
+
+			ArrayValue plantValue = new ArrayValue( plantType );
+			for ( int i = 0; i < plants.size(); i++ )
+			{
+				plantValue.aset( new Value( i ), new Value( plants.get( i ).toString() ) );
+			}
+			value.aset( location, plantValue );
+		}
+
+		return value;
 	}
 
 	// Basic skill and effect functions, including those used
