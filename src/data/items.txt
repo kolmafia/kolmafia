@@ -6097,7 +6097,7 @@
 6080	haggis socks	763374333	haggissocks.gif	accessory	t,d	5	pairs of haggis socks
 6081	airblaster gun	348707874	airzooka.gif	weapon	t,d	5	airblaster guns
 6082	Thinknerd T-shirt grab bag	974426576	foodbag.gif	usable	t,d	5
-6083	actual reality goggles	675430268	steamgoggles.gif	accessory	t,d	5	pairs of actual reality goggles
+6083	actual reality goggles	675430268	steamgoggles.gif	accessory	t,d	0	pairs of actual reality goggles
 6084	Mr. Haggis	699314542	mrhaggis.gif	offhand	t,d	5	Mssrs. Haggis
 6085	magnetic sculpture kit	766116902	magsculpt.gif	usable	t,d	5	magnetic sculpture kits
 6086	Microplushie: Otakulone	733763278	microp1.gif	offhand	g,d	5
