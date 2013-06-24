@@ -714,6 +714,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.CSA_FIRE_STARTING_KIT:
 			case ItemPool.CEO_OFFICE_CARD:
 			case ItemPool.DREADSCROLL:
+			case ItemPool.RUSTY_HEDGE_TRIMMERS:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
@@ -727,7 +728,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 			case ItemPool.WAX_BUGBEAR:
 			case ItemPool.DOLPHIN_WHISTLE:
-			case ItemPool.RUSTY_HEDGE_TRIMMERS:
+			case ItemPool.ENVYFISH_EGG:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.

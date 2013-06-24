@@ -453,6 +453,7 @@ public class ValhallaManager
 		Preferences.setInteger( "dreadScroll8", 0 );
 		Preferences.setInteger( "merkinVocabularyMastery", 0 );
 		Preferences.setString( "seahorseName", "" );
+		Preferences.setString( "envyfishMonster", "" );
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
 		AdventureQueueDatabase.resetQueue();

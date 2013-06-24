@@ -6402,7 +6402,7 @@
 6385
 6386
 6387
-6388
+6388	envyfish egg	651790358	roe.gif	usable	q	0	envyfish eggs
 6389	Mer-kin rocksalt	820963347	saltcandy1.gif	usable	t	0	Mer-kin rocksalt candies
 6390	Mer-kin saltmint	964380486	saltcandy2.gif	usable	t	0	Mer-kin saltmints
 6391	Mer-kin saltsquid	876664593	saltcandy3.gif	usable	t	0	Mer-kin saltsquids

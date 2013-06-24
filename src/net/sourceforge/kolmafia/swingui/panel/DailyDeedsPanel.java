@@ -204,6 +204,9 @@ public class DailyDeedsPanel
 			"Special", "Putty",
 		},
 		{
+			"Special", "Envyfish Egg",
+		},
+		{
 			"Special", "Camera",
 		},
 		{
@@ -932,6 +935,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Camera" ) )
 		{
 			this.add( new CameraDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Envyfish Egg" ) )
+		{
+			this.add( new EnvyfishDaily() );
 		}
 		else if ( deedsString[ 1 ].equals( "Romantic Arrow" ) )
 		{
@@ -3018,6 +3025,38 @@ public class DailyDeedsPanel
 			}
 			this.setText( text );
 			this.setShown( photo || (!bm || kf) && have && trendy );
+		}
+	}
+
+	public static class EnvyfishDaily
+		extends Daily
+	{
+		public EnvyfishDaily()
+		{
+			this.addItem( ItemPool.GREEN_TAFFY );
+			this.addItem( ItemPool.ENVYFISH_EGG );
+			this.addListener( "_envyfishEggUsed" );
+			this.addListener( "envyfishMonster" );
+			this.addListener( "kingLiberated" );
+			this.addLabel( "" );
+		}
+
+		@Override
+		public void update()
+		{
+			boolean envy = InventoryManager.getCount( ItemPool.GREEN_TAFFY ) > 0
+				|| InventoryManager.getCount( ItemPool.ENVYFISH_EGG ) > 0
+				|| Preferences.getBoolean( "_envyfishEggUsed" );
+			String text = Preferences.getBoolean( "_envyfishEggUsed" ) ?
+				"envyfish monster used"
+				: "envyfish monster not used yet";
+			String monster = Preferences.getString( "envyfishMonster" );
+			if ( !monster.equals( "" ) )
+			{
+				text = text + ", now " + monster;
+			}
+			this.setText( text );
+			this.setShown( envy );
 		}
 	}
 

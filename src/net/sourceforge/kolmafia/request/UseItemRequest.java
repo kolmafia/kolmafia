@@ -5221,6 +5221,7 @@ public class UseItemRequest
 		case ItemPool.PHOTOCOPIED_MONSTER:
 		case ItemPool.DOLPHIN_WHISTLE:
 		case ItemPool.WAX_BUGBEAR:
+		case ItemPool.ENVYFISH_EGG:
 		case ItemPool.SHAKING_SKULL:
 			// Items that can redirect to a fight
 			turns = 1;
