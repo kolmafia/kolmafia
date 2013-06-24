@@ -1839,7 +1839,7 @@ Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 # acid-squirting flower: Damages Attacking Opponent
 acid-squirting flower	Single Equip
 # actual reality goggles: Reveals peoples' true nature
-actual reality goggles	Single Equip
+actual reality goggles	Single Equip, Free Pull
 albatross necklace	Mysticality Percent: +10, Single Equip
 amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
 amulet of extreme plot significance	Maximum MP: +30
