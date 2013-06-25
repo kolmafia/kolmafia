@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class UseItemDecorator
 {
@@ -104,10 +105,39 @@ public class UseItemDecorator
 		String pyramid = PyramidRequest.getPyramidHTML();
 		buffer.insert( index, pyramid );
 
-		// Give player a link to use another tomb ratchet
-		if ( UseItemDecorator.TOMB_RATCHET.getCount( KoLConstants.inventory ) > 0 )
+		StringBuilder link = new StringBuilder();
+
+		if ( !InventoryManager.hasItem( ItemPool.ANCIENT_BRONZE_TOKEN ) &&
+		     !InventoryManager.hasItem( ItemPool.ANCIENT_BOMB ) &&
+		     PyramidRequest.getPyramidPosition() == 4 )
 		{
-			StringBuilder link = new StringBuilder();
+			link.append( "<tr align=center><td>" );
+			link.append( "<a href=\"pyramid.php?action=lower\">" );
+			link.append( "Pick up an ancient bronze token" );
+			link.append( "</a>" );
+		}
+
+		else if ( InventoryManager.hasItem( ItemPool.ANCIENT_BRONZE_TOKEN ) &&
+		          PyramidRequest.getPyramidPosition() == 3 )
+		{
+			link.append( "<tr align=center><td>" );
+			link.append( "<a href=\"pyramid.php?action=lower\">" );
+			link.append( "Pick up an ancient bomb" );
+			link.append( "</a>" );
+		}
+
+		else if ( InventoryManager.hasItem( ItemPool.ANCIENT_BOMB ) &&
+		          PyramidRequest.getPyramidPosition() == 1 )
+		{
+			link.append( "<tr align=center><td>" );
+			link.append( "<a href=\"pyramid.php?action=lower\">" );
+			link.append( "Use the ancient bomb" );
+			link.append( "</a>" );
+		}
+
+		// Give player a link to use another tomb ratchet
+		else if ( UseItemDecorator.TOMB_RATCHET.getCount( KoLConstants.inventory ) > 0 )
+		{
 			link.append( "<tr align=center><td>" );
 			link.append( "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=" );
 			link.append( String.valueOf( ItemPool.TOMB_RATCHET ) );
@@ -115,9 +145,9 @@ public class UseItemDecorator
 			link.append( GenericRequest.passwordHash );
 			link.append( "&ajax=1');void(0);\">Use another tomb ratchet</a>" );
 			link.append( "</td></tr>" );
-
-			buffer.insert( index, link.toString() );
 		}
+
+		buffer.insert( index, link.toString() );
 	}
 
 	private static void decorateBooClue( final StringBuffer buffer )
