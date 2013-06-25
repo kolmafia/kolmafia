@@ -2069,6 +2069,7 @@ plastic vampire fangs	Maximum HP: +30, Maximum MP: +30, Muscle: +15, Mysticality
 plexiglass pendant	Never Fumble, Moxie Percent: +30, Four Songs, Single Equip
 plexiglass pinky ring	Spell Damage: +30, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Mysticality Percent: +30, Single Equip
 plexiglass pocketwatch	Mana Cost: -3, Adventures: +3, Mysticality Percent: +30, Single Equip
+pogo stick	Initiative: +30, Moxie Percent: +10, Single Equip
 polka-dot bow tie	Moxie: +3, Clownosity: +2
 porquoise bracelet	Moxie: +4, Never Fumble
 porquoise eyebrow ring	Moxie: +4, Never Fumble

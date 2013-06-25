@@ -1822,6 +1822,7 @@ plastic vampire fangs	0	none
 plexiglass pendant	180	Mys: 75
 plexiglass pinky ring	180	Mys: 75
 plexiglass pocketwatch	180	Mys: 75
+pogo stick	0	Mys: 50
 polka-dot bow tie	50	Mys: 10
 porquoise bracelet	50	Mys: 10
 porquoise eyebrow ring	50	Mys: 10
