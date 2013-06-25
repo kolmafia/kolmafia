@@ -6557,7 +6557,7 @@
 6540
 6541
 6542
-6543
+6543	pogo stick	422814677	pogostick.gif	accessory	t,d	1949
 6544
 6545
 6546	big pants	923211152	yakpants.gif	pants	q	0
