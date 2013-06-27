@@ -4212,6 +4212,25 @@ public class FightRequest
 		}
 		else if ( name.equals( "table" ) )
 		{
+			String id = node.getAttributeByName( "id" );
+			if ( id != null && id.equals( "monpic" ) )
+			{
+				// Don't process the monster picture
+				return;
+			}
+
+			// Tables often appear in fight results to hold images.
+			TagNode inode = node.findElementByName( "img", true );
+			if ( inode != null )
+			{
+				String alt = inode.getAttributeByName( "alt" );
+				if ( alt != null && alt.equals( "Enemy's Hit Points" ) )
+				{
+					// Don't process Monster Manuel
+					return;
+				}
+			}
+
 			// Items have "rel" strings.
 			String cl = node.getAttributeByName( "class" );
 			String rel = node.getAttributeByName( "rel" );
@@ -4221,9 +4240,6 @@ public class FightRequest
 				ResultProcessor.processItem( true, "You acquire an item:", result, (List<AdventureResult>) null );
 				return;
 			}
-
-			// Tables often appear in fight results to hold images.
-			TagNode inode = node.findElementByName( "img", true );
 
 			if ( status.famaction )
 			{
