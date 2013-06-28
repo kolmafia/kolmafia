@@ -4610,9 +4610,11 @@ public abstract class ChoiceManager
 			break;
 		}
 
-		if ( ChoiceManager.action != PostChoiceAction.NONE && text.indexOf( "choice.php" ) == -1 )
+		PostChoiceAction action = ChoiceManager.action;
+		if ( action != PostChoiceAction.NONE && text.indexOf( "choice.php" ) == -1 )
 		{
-			switch ( ChoiceManager.action )
+			ChoiceManager.action = PostChoiceAction.NONE;
+			switch ( action )
 			{
 			case INITIALIZE:
 				LoginManager.login( KoLCharacter.getUserName() );
@@ -4621,7 +4623,6 @@ public abstract class ChoiceManager
 				ValhallaManager.postAscension();
 				break;
 			}
-			ChoiceManager.action = PostChoiceAction.NONE;
 		}
 	}
 
