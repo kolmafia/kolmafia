@@ -4748,7 +4748,7 @@ public class FightRequest
 			{
 				FightRequest.logText( text, status );
 				String skill = bnode.getText().toString();
-				ResponseTextParser.learnSkill( skill );
+				ResponseTextParser.learnCombatMove( skill );
 			}
 			return;
 		}
