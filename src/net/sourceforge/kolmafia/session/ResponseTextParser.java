@@ -891,7 +891,6 @@ public class ResponseTextParser
 	{
 		// The following skills are found in battle and result in
 		// losing an item from inventory.
-		boolean gladiatorSkill = false;
 
 		if ( skillName.equals( "Snarl of the Timberwolf" ) )
 		{
@@ -921,61 +920,6 @@ public class ResponseTextParser
 				ResultProcessor.processItem( ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1 );
 			}
 		}
-		else if ( skillName.equals( "Ball Bust" ) )
-		{
-			Preferences.setInteger( "gladiatorBallMovesKnown", 1 );
-			gladiatorSkill = true;
-		}
-		else if ( skillName.equals( "Ball Sweat" ) )
-		{
-			Preferences.setInteger( "gladiatorBallMovesKnown", 2 );
-			gladiatorSkill = true;
-		}
-		else if ( skillName.equals( "Ball Sack" ) )
-		{
-			Preferences.setInteger( "gladiatorBallMovesKnown", 3 );
-			gladiatorSkill = true;
-		}
-		else if ( skillName.equals( "Net Gain" ) )
-		{
-			Preferences.setInteger( "gladiatorNetMovesKnown", 1 );
-			gladiatorSkill = true;
-		}
-		else if ( skillName.equals( "Net Loss" ) )
-		{
-			Preferences.setInteger( "gladiatorNetMovesKnown", 2 );
-			gladiatorSkill = true;
-		}
-		else if ( skillName.equals( "Net Neutrality" ) )
-		{
-			Preferences.setInteger( "gladiatorNetMovesKnown", 3 );
-			gladiatorSkill = true;
-		}
-		else if ( skillName.equals( "Blade Sling" ) )
-		{
-			Preferences.setInteger( "gladiatorBladeMovesKnown", 1 );
-			gladiatorSkill = true;
-		}
-		else if ( skillName.equals( "Blade Roller" ) )
-		{
-			Preferences.setInteger( "gladiatorBladeMovesKnown", 2 );
-			gladiatorSkill = true;
-		}
-		else if ( skillName.equals( "Blade Runner" ) )
-		{
-			Preferences.setInteger( "gladiatorBladeMovesKnown", 3 );
-			gladiatorSkill = true;
-		}
-
-		if ( gladiatorSkill )
-		{
-			String message = "You learned a new special combat move: " + skillName;
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-			PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
-			// KoLCharacter.addCombatSkill( skillName );
-			return;
-		}
 
 		String message = "You learned a new skill: " + skillName;
 		RequestLogger.printLine( message );
@@ -991,5 +935,49 @@ public class ResponseTextParser
 			KoLCharacter.setBookshelf( true );
 		}
 		PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
+	}
+
+	public static final String[][] COMBAT_MOVE_DATA =
+	{
+		{
+			"gladiatorBallMovesKnown",
+			"Ball Bust",
+			"Ball Sweat",
+			"Ball Sack",
+		},
+		{
+			"gladiatorBladeMovesKnown",
+			"Blade Sling",
+			"Blade Roller",
+			"Blade Runner",
+		},
+		{
+			"gladiatorNetMovesKnown",
+			"Net Gain",
+			"Net Loss",
+			"Net Neutrality",
+		},
+	};
+
+	public static final void learnCombatMove( final String skillName )
+	{
+		for ( int type= 0; type < COMBAT_MOVE_DATA.length; ++type )
+		{
+			String [] moves = COMBAT_MOVE_DATA[ type ];
+			for ( int index= 1; index < moves.length; ++index )
+			{
+				if ( skillName.equals( moves[ index ] ) )
+				{
+					String setting = moves[ 0 ];
+					Preferences.setInteger( setting, index );
+					String message = "You learned a new special combat move: " + skillName;
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+					// PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
+					// KoLCharacter.addCombatSkill( skillName );
+					return;
+				}
+			}
+		}
 	}
 }
