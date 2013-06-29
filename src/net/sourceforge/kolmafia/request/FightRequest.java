@@ -4740,6 +4740,19 @@ public class FightRequest
 		FightRequest.extractVerse( node, text, null );
 		String str = text.toString();
 
+		// For some unknown reason, gladiator moves are tagged as <!--familiarmessage-->
+		if ( str.startsWith( "New Special Move Unlocked" ) )
+		{
+			TagNode bnode = node.findElementByName( "b", true );
+			if ( bnode != null )
+			{
+				FightRequest.logText( text, status );
+				String skill = bnode.getText().toString();
+				ResponseTextParser.learnSkill( skill );
+			}
+			return;
+		}
+
 		if ( !str.equals( "" ) && !ResultProcessor.processFamiliarWeightGain( str ) )
 		{
 			// Familiar combat action?

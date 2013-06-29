@@ -891,6 +891,7 @@ public class ResponseTextParser
 	{
 		// The following skills are found in battle and result in
 		// losing an item from inventory.
+		boolean gladiatorSkill = false;
 
 		if ( skillName.equals( "Snarl of the Timberwolf" ) )
 		{
@@ -919,6 +920,61 @@ public class ResponseTextParser
 			{
 				ResultProcessor.processItem( ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1 );
 			}
+		}
+		else if ( skillName.equals( "Ball Bust" ) )
+		{
+			Preferences.setInteger( "gladiatorBallMovesKnown", 1 );
+			gladiatorSkill = true;
+		}
+		else if ( skillName.equals( "Ball Sweat" ) )
+		{
+			Preferences.setInteger( "gladiatorBallMovesKnown", 2 );
+			gladiatorSkill = true;
+		}
+		else if ( skillName.equals( "Ball Sack" ) )
+		{
+			Preferences.setInteger( "gladiatorBallMovesKnown", 3 );
+			gladiatorSkill = true;
+		}
+		else if ( skillName.equals( "Net Gain" ) )
+		{
+			Preferences.setInteger( "gladiatorNetMovesKnown", 1 );
+			gladiatorSkill = true;
+		}
+		else if ( skillName.equals( "Net Loss" ) )
+		{
+			Preferences.setInteger( "gladiatorNetMovesKnown", 2 );
+			gladiatorSkill = true;
+		}
+		else if ( skillName.equals( "Net Neutrality" ) )
+		{
+			Preferences.setInteger( "gladiatorNetMovesKnown", 3 );
+			gladiatorSkill = true;
+		}
+		else if ( skillName.equals( "Blade Sling" ) )
+		{
+			Preferences.setInteger( "gladiatorBladeMovesKnown", 1 );
+			gladiatorSkill = true;
+		}
+		else if ( skillName.equals( "Blade Roller" ) )
+		{
+			Preferences.setInteger( "gladiatorBladeMovesKnown", 2 );
+			gladiatorSkill = true;
+		}
+		else if ( skillName.equals( "Blade Runner" ) )
+		{
+			Preferences.setInteger( "gladiatorBladeMovesKnown", 3 );
+			gladiatorSkill = true;
+		}
+
+		if ( gladiatorSkill )
+		{
+			String message = "You learned a new special combat move: " + skillName;
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
+			// KoLCharacter.addCombatSkill( skillName );
+			return;
 		}
 
 		String message = "You learned a new skill: " + skillName;

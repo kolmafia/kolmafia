@@ -454,6 +454,9 @@ public class ValhallaManager
 		Preferences.setInteger( "merkinVocabularyMastery", 0 );
 		Preferences.setString( "seahorseName", "" );
 		Preferences.setString( "envyfishMonster", "" );
+		Preferences.setInteger( "gladiatorBallMovesKnown", 0 );
+		Preferences.setInteger( "gladiatorBladeMovesKnown", 0 );
+		Preferences.setInteger( "gladiatorNetMovesKnown", 0 );
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
 		AdventureQueueDatabase.resetQueue();
