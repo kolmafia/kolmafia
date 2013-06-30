@@ -961,7 +961,7 @@ public class ResponseTextParser
 
 	public static final void learnCombatMove( final String skillName )
 	{
-		for ( int type= 0; type < COMBAT_MOVE_DATA.length; ++type )
+		for ( int type = 0; type < COMBAT_MOVE_DATA.length; ++type )
 		{
 			String [] moves = COMBAT_MOVE_DATA[ type ];
 			for ( int index= 1; index < moves.length; ++index )
@@ -973,8 +973,8 @@ public class ResponseTextParser
 					String message = "You learned a new special combat move: " + skillName;
 					RequestLogger.printLine( message );
 					RequestLogger.updateSessionLog( message );
-					// PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
 					// KoLCharacter.addCombatSkill( skillName );
+					// PreferenceListenerRegistry.firePreferenceChanged( "(skill)" );
 					return;
 				}
 			}

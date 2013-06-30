@@ -52,6 +52,8 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
+import net.sourceforge.kolmafia.session.DadManager;
+
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -187,6 +189,16 @@ public class TestCommand
 				FightRequest.parseFightHTML( TestCommand.contents );
 			}
 			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "dad" ) )
+		{
+			if ( !DadManager.solve( TestCommand.contents ) )
+			{
+				RequestLogger.printLine( "Unable to solve for elemental weaknesses" );
+			}
+			CLI.executeLine( "dad" );
 			return;
 		}
 
