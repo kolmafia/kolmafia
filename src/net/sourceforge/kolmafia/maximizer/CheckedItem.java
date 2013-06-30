@@ -38,9 +38,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -111,8 +111,8 @@ public class CheckedItem
 			this.pullable = this.getCount( KoLConstants.storage );
 		}
 
-		// We never want to suggest turning Mr. Accessories into Ms. Accessories.
-		if ( itemId == ItemPool.MS_ACCESSORY )
+		// We never want to suggest turning Mr. Accessories into other items
+		if ( ( MrStoreRequest.MR_A ).equals( c.getIngredients()[0] ) )
 		{
 			this.creatable = 0;
 		}
