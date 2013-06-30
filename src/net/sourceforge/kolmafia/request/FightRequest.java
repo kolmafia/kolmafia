@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -1784,6 +1785,10 @@ public class FightRequest
 				{
 					ResultProcessor.processItem( ItemPool.GRAPPLING_HOOK, -1 );
 				}
+			}
+			else if ( encounter.equalsIgnoreCase( "Dad Sea Monkee" ) )
+			{
+				DadManager.solve( responseText );
 			}
 			else if ( !KoLmafia.ignoreSpecialMonsters &&
 				  ( encounter.equalsIgnoreCase( "angry bassist" ) ||

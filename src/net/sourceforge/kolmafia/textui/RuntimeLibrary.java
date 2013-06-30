@@ -156,6 +156,7 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -1402,6 +1403,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "will_usually_dodge", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "dad_sea_monkee_weakness", DataTypes.ELEMENT_TYPE, params ) );
 
 		// Modifier introspection
 
@@ -5732,6 +5736,25 @@ public abstract class RuntimeLibrary
 	public static Value will_usually_miss( Interpreter interpreter )
 	{
 		return DataTypes.makeBooleanValue( MonsterStatusTracker.willUsuallyMiss() );
+	}
+
+	public static Value dad_sea_monkee_weakness( Interpreter interpreter, final Value arg )
+	{
+		DadManager.Element element = DadManager.weakness( (int)arg.intValue() );
+		switch ( element )
+		{
+		case HOT:
+			return new Value( DataTypes.ELEMENT_TYPE, "hot" );
+		case COLD:
+			return new Value( DataTypes.ELEMENT_TYPE, "cold" );
+		case STENCH:
+			return new Value( DataTypes.ELEMENT_TYPE, "stench" );
+		case SPOOKY:
+			return new Value( DataTypes.ELEMENT_TYPE, "spooky" );
+		case SLEAZE:
+			return new Value( DataTypes.ELEMENT_TYPE, "sleaze" );
+		}
+		return DataTypes.ELEMENT_INIT;
 	}
 
 	public static Value numeric_modifier( Interpreter interpreter, final Value modifier )

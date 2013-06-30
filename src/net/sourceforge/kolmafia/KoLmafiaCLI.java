@@ -717,6 +717,7 @@ public class KoLmafiaCLI
 		new CreateItemCommand().register( "create" ).register( "make" ).register( "bake" ).register( "mix" ).register(
 			"smith" ).register( "tinker" ).register( "ply" );
 		new CrimboTreeCommand().register( "crimbotree" );
+		new DadCommand().register( "dad" );
 		new DebugCreateCommand().register( "debugcreate" );
 		new DebugRequestCommand().register( "debug" );
 		new DemonNamesCommand().register( "demons" );
