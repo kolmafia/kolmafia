@@ -182,6 +182,7 @@ public class ItemManageFrame
 		selectorPanel.addPanel( " - Closet", new InventoryPanel( KoLConstants.closet, false ) );
 		selectorPanel.addPanel( " - Storage", new HagnkStoragePanel( false ) );
 		selectorPanel.addPanel( " - Free Pulls", new FreePullsPanel() );
+		selectorPanel.addPanel( " - No Pull", new NoPullPanel() );
 
 		selectorPanel.addSeparator();
 
@@ -657,6 +658,15 @@ public class ItemManageFrame
 			}
 
 			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
+		}
+	}
+	
+	private class NoPullPanel
+		extends InventoryPanel
+	{
+		public NoPullPanel()
+		{
+			super( KoLConstants.nopulls );
 		}
 	}
 

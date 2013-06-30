@@ -69,6 +69,14 @@ public class InventoryPanel
 	{
 		this( elementModel, new boolean[] { isEquipmentOnly, false } );
 	}
+	
+	public InventoryPanel( final LockableListModel elementModel )
+	{
+		super( elementModel );
+		
+		this.elementList.setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
+		this.addFilters();
+	}
 
 	public InventoryPanel( final LockableListModel elementModel, final boolean[] flags )
 	{

@@ -4690,6 +4690,7 @@ eyedrops of the ocelot	Effect: "Ocelot Eyes", Effect Duration: [R]
 fairy-worn boots	Free Pull
 fake blood	Effect: "Bloody Bloody Bloody!", Effect Duration: 10
 fancy blue potion	Effect: "Healthy Blue Glow", Effect Duration: 40
+fat loot token	No Pull
 filthworm drone scent gland	Effect: "Filthworm Drone Stench", Effect Duration: 10
 filthworm hatchling scent gland	Effect: "Filthworm Larva Stench", Effect Duration: 10
 filthworm royal guard scent gland	Effect: "Filthworm Guard Stench", Effect Duration: 10
@@ -4944,6 +4945,7 @@ seegar butt	Effect: "Stinking Cloud", Effect Duration: 10
 sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
 shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
+shaking skull	No Pull
 shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 siesta-ing Casagnova gnome	Free Pull
 silk garter snake	Free Pull
