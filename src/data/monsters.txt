@@ -978,7 +978,7 @@ Tomb Asp	tombasp.gif	Atk: 170 Def: 145 HP: 155 Init: 70 Meat: 80-120 "Really Qui
 Tomb Bat	mummybat.gif	Atk: 175 Def: 157 HP: 180 Init: 50 Meat: 40-60  P: beast	leathery bat skin (30)	unidentified jerky (10)	mummy wrapping (20)
 Tomb Rat	tombrat.gif	Atk: 161 Def: 148 HP: 175 Init: 50 Meat: 60-90  P: beast	tomb ratchet (c20)	leathery rat skin (30)	unidentified jerky (12)
 Tomb Rat King	tombratking.gif	BOSS Atk: [350] Def: [315] HP: [300] Init: -10000 Meat: 120-180  P: beast	tomb ratchet (c20)	tomb ratchet (c20)	tomb ratchet (c20)	leathery rat skin (0)	leathery rat skin (0)	leathery rat skin (0)	unidentified jerky (0)	unidentified jerky (0)	unidentified jerky (0)
-Tomb Servant	tombguy.gif	Atk: 160 Def: 153 HP: 185 Init: 20 Meat: 40-60 E: spooky  P: undead	canopic jar (30)	ancient protein powder (15)	mummy wrapping (20)	unidentified jerky (12)
+Tomb Servant	tombguy.gif	Atk: 160 Def: 153 HP: 185 Init: 20 Meat: 40-60 E: spooky P: undead	canopic jar (30)	ancient protein powder (15)	mummy wrapping (20)	unidentified jerky (12)	ancient ice cream scoop (0)
 Tonic Water Elemental	whirlwind.gif	Atk: 18 Def: 16 HP: 14 Init: 60 Meat: 17-20  P: elemental
 Toothy Pirate	toothpirate.gif	Atk: 83 Def: 76 HP: 75 Init: 50 Meat: 36-54  P: pirate	bottle of rum (20)	cocktail napkin (10)
 Toothy Sklelton	toothskel.gif	Atk: 57 Def: 52 HP: 50 Init: 50 E: spooky  P: undead	loose teeth (20)	loose teeth (20)	skeleton bone (20)	bone flute (10)	evil eye (20)
