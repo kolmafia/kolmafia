@@ -737,6 +737,7 @@ public class Modifiers
 	public static final int UNDERWATER_FAMILIAR = 22;
 	public static final int GENERIC = 23;
 	public static final int UNARMED = 24;
+	public static final int NOPULL = 25;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -745,7 +746,7 @@ public class Modifiers
 		  Pattern.compile( "Softcore Only" )
 		},
 		{ "Single Equip",
-		  Pattern.compile( "You may not equip more than one of these at a time" ),
+		  null,
 		  Pattern.compile( "Single Equip" )
 		},
 		{ "Never Fumble",
@@ -757,7 +758,7 @@ public class Modifiers
 		  Pattern.compile( "Weakens Monster" )
 		},
 		{ "Free Pull",
-		  Pattern.compile( "Free pull from Hagnk's" ),
+		  null,
 		  Pattern.compile( "Free Pull" )
 		},
 		{ "Variable",
@@ -839,6 +840,10 @@ public class Modifiers
 		{ "Unarmed",
 		  Pattern.compile( "Bonus&nbsp;for&nbsp;Unarmed&nbsp;Characters&nbsp;only" ),
 		  Pattern.compile( "Unarmed" )
+		},
+		{ "No Pull",
+		  null,
+		  Pattern.compile( "No Pull" )
 		},
 	};
 

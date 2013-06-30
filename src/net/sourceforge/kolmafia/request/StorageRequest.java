@@ -328,7 +328,7 @@ public class StorageRequest
 		// These data do not appear on the three item pages, and items
 		// do not appear on page 5.
 
-		if ( urlString.indexOf( "which=5" ) != -1 )
+		if ( urlString.contains( "which=5" ) )
 		{
 			Matcher meatInStorageMatcher = StorageRequest.STORAGEMEAT_PATTERN.matcher( responseText );
 			if ( meatInStorageMatcher.find() )
@@ -396,6 +396,8 @@ public class StorageRequest
 
 			// Separate free pulls into a separate list
 			boolean isFreePull = Modifiers.getBooleanModifier( item.getName(), "Free Pull" );
+			
+			boolean isNoPull = Modifiers.getBooleanModifier( item.getName(), "No Pull" );
 
 			// For now, special handling for the few items which
 			// are a free pull only for a specific path. If more
@@ -412,7 +414,10 @@ public class StorageRequest
 				isFreePull = false;
 			}
 
-			List list = isFreePull ? KoLConstants.freepulls : KoLConstants.storage;
+			List list = KoLCharacter.canInteract() ? KoLConstants.storage :
+			            isFreePull ? KoLConstants.freepulls :
+			            isNoPull ? KoLConstants.nopulls :
+			            KoLConstants.storage;
 
 			int storageCount = item.getCount( list );
 

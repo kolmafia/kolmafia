@@ -672,6 +672,7 @@ public interface KoLConstants
 	public static final SortedListModel closet = new SortedListModel();
 	public static final SortedListModel storage = new SortedListModel();
 	public static final SortedListModel freepulls = new SortedListModel();
+	public static final SortedListModel nopulls = new SortedListModel();
 	public static final SortedListModel collection = new SortedListModel();
 	public static final SortedListModel campground = new SortedListModel();
 	public static final SortedListModel pulverizeQueue = new SortedListModel();

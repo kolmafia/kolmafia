@@ -5235,7 +5235,7 @@
 5218	hobo paste	514968149	paste1.gif	multiple	t	0	globs of hobo paste
 5219	Crimbo paste	716853405	paste2.gif	multiple	t	0	globs of crimbo paste
 5220	Teachings of the Fist	525128097	wosp_scroll.gif	usable	q	0	Teachings of the Fists
-5221	fat loot token	526463785	loottoken.gif	none	q	0
+5221	fat loot token	526463785	loottoken.gif	none		0
 5222	Thwaitgold grasshopper statuette	136464467	thwaitgrass.gif	none		0
 5223	Tome of Clip Art	574526290	book3.gif	usable	t	0	Tomes of Clip Art
 5224	Ur-Donut	517311708	powderdonut.gif	food	t,d	30

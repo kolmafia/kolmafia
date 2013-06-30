@@ -2691,7 +2691,9 @@ public abstract class KoLCharacter
 
 			// Storage is freely available
 			KoLConstants.storage.addAll( KoLConstants.freepulls );
+			KoLConstants.storage.addAll( KoLConstants.nopulls );
 			KoLConstants.freepulls.clear();
+			KoLConstants.nopulls.clear();
 			ConcoctionDatabase.setPullsRemaining( -1 );
 
 			// We can use all familiars again
