@@ -1,4 +1,4 @@
-/**
+ /**
  * Copyright (c) 2005-2013, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
@@ -112,7 +112,7 @@ public class CheckedItem
 		}
 
 		// We never want to suggest turning Mr. Accessories into other items
-		if ( ( MrStoreRequest.MR_A ).equals( c.getIngredients()[0] ) )
+		if ( c.getIngredients().length > 0 && ( MrStoreRequest.MR_A ).equals( c.getIngredients()[0] ) )
 		{
 			this.creatable = 0;
 		}
