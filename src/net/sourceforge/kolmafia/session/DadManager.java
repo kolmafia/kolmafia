@@ -302,16 +302,6 @@ public class DadManager
 		{
 			return false;
 		}
-		System.out.println( "clue 1 = " + matcher.group(1) );
-		System.out.println( "clue 2 = " + matcher.group(2) );
-		System.out.println( "clue 3 = " + matcher.group(3) );
-		System.out.println( "clue 4 = " + matcher.group(4) );
-		System.out.println( "clue 5 = " + matcher.group(5) );
-		System.out.println( "clue 6 = " + matcher.group(6) );
-		System.out.println( "clue 7 = " + matcher.group(7) );
-		System.out.println( "clue 8 = " + matcher.group(8) );
-		System.out.println( "clue 9 = " + matcher.group(9) );
-		System.out.println( "clue 10 = " + matcher.group(10) );
 
 		// Initialize the array of elemental weaknesses
 		for ( int i = 0; i < ElementalWeakness.length; ++i )
