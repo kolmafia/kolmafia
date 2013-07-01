@@ -39,7 +39,11 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -356,8 +360,8 @@ public class DadManager
 			ElementalWeakness[2].ordinal() +
 			ElementalWeakness[3].ordinal() +
 			ElementalWeakness[4].ordinal() +
-			4 +
-			ElementalWeakness[5].ordinal() -
+			ElementalWeakness[5].ordinal() +
+			4 -
 			word9;
 		ElementalWeakness[ 9 ] = (Element)ELEMENTS[ val ][0];
 
@@ -365,5 +369,32 @@ public class DadManager
 		ElementalWeakness[ 10 ] = word10 < 1 ? Element.NONE : word10 < 10 ? ElementalWeakness[ word10 ] : DadManager.unusedElement();
 
 		return true;
+	}
+
+	public static final void decorate( final StringBuffer buffer )
+	{
+		String name = MonsterStatusTracker.getLastMonsterName();
+		if ( !name.equalsIgnoreCase( "Dad Sea Monkee" ) )
+		{
+			return;
+		}
+
+		int round = FightRequest.currentRound;
+		if ( round < 1 || round > 10 )
+		{
+			return;
+		}
+
+		Element element = DadManager.weakness( round );
+		if ( element == Element.NONE )
+		{
+			return;
+		}
+
+		String spell = DadManager.elementToSpell( element );
+		if ( spell != null )
+		{
+			StringUtilities.singleStringReplace( buffer, ">" + spell, " selected>" + spell );
+		}
 	}
 }
