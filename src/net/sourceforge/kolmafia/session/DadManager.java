@@ -150,7 +150,7 @@ public class DadManager
 		{ "shimmers", Element.STENCH },
 		{ "shakes", Element.SPOOKY },
 		{ "wobbles", Element.SLEAZE },
-		{ "cracks", Element.PHYSICAL },
+		{ "cracks open", Element.PHYSICAL },
 	};
 
 	private static Object [][] WORD8 =
