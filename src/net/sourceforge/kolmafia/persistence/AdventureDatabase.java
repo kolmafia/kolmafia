@@ -177,6 +177,105 @@ public class AdventureDatabase
 		}
 	}
 
+	// This should be removed eventually
+	private static final String[][] OLD_LOCATIONS =
+	{
+		{
+			"Ninja Snowmen",
+			"Lair of the Ninja Snowmen"
+		},
+		{
+			"Fantasy Airship",
+			"The Penultimate Fantasy Airship"
+		},
+		{
+			"Giant's Castle (Basement)",
+			"Castle in the Clouds in the Sky (Basement)"
+		},
+		{
+			"Giant's Castle (Ground Floor)",
+			"Castle in the Clouds in the Sky (Ground Floor)"
+		},
+		{
+			"Giant's Castle (Top Floor)",
+			"Castle in the Clouds in the Sky (Top Floor)"
+		},
+		{
+			"Greater-Than Sign",
+			"Enormous Greater-Than Sign"
+		},
+		{
+			"Pirate Cove",
+			"The Obligatory Pirate's Cove"
+		},
+		{
+			"The Domed City of Ronaldus",
+			"Domed City of Ronaldus"
+		},
+		{
+			"The Domed City of Grimacia",
+			"Domed City of Grimacia"
+		},
+		{
+			"Outskirts of The Knob",
+			"The Outskirts of Cobb's Knob"
+		},
+		{
+			"Bat Hole Entryway",
+			"The Bat Hole Entrance"
+		},
+		{
+			"Barn",
+			"McMillicancuddy's Barn"
+		},
+		{
+			"Pond",
+			"McMillicancuddy's Pond"
+		},
+		{
+			"Back 40",
+			"McMillicancuddy's Back 40"
+		},
+		{
+			"Other Back 40",
+			"McMillicancuddy's Other Back 40"
+		},
+		{
+			"Granary",
+			"McMillicancuddy's Granary"
+		},
+		{
+			"Bog",
+			"McMillicancuddy's Bog"
+		},
+		{
+			"Family Plot",
+			"McMillicancuddy's Family Plot"
+		},
+		{
+			"Shady Thicket",
+			"McMillicancuddy's Shady Thicket"
+		},
+		// Everything above here added to 16.0, remove after 16.1
+	};
+
+	// These should be removed eventually
+	private static final ArrayList<String> convertOldNameList = new ArrayList<String>();
+	private static final ArrayList<String> convertNewNameList = new ArrayList<String>();
+	private static String[] convertOldNameArray = new String[ OLD_LOCATIONS.length ];
+	private static String[] convertNewNameArray = new String[ OLD_LOCATIONS.length ];
+
+	static
+	{
+		for ( int i = 0; i < OLD_LOCATIONS.length; i++ )
+		{
+			AdventureDatabase.convertOldNameList.add( i, OLD_LOCATIONS[i][0].toLowerCase() );
+			AdventureDatabase.convertNewNameList.add( i, OLD_LOCATIONS[i][1] );
+		}
+		convertOldNameArray = convertOldNameList.toArray( new String[ convertOldNameList.size() ] );
+		convertNewNameArray = convertNewNameList.toArray( new String[ convertNewNameList.size() ] );
+	}
+
 	public static final void refreshAdventureTable()
 	{
 		BufferedReader reader = FileUtilities.getVersionedReader( "adventures.txt", KoLConstants.ADVENTURES_VERSION );
@@ -781,7 +880,7 @@ public class AdventureDatabase
 		// Adventure ID
 		// Setting
 		{
-			"Haiku Dungeon",
+			"The Haiku Dungeon",
 			IntegerPool.get( AdventurePool.HAIKU_DUNGEON ),
 			"fistTeachingsHaikuDungeon",
 		},
@@ -801,7 +900,7 @@ public class AdventureDatabase
 			"fistTeachingsConservatory",
 		},
 		{
-			"Bat Hole Entryway",
+			"The Bat Hole Entrance",
 			IntegerPool.get( AdventurePool.BAT_HOLE_ENTRYWAY ),
 			"fistTeachingsBatHole",
 		},
@@ -831,16 +930,11 @@ public class AdventureDatabase
 			"fistTeachingsRoad",
 		},
 		{
-			"Ninja Snowmen",
+			"Lair of the Ninja Snowmen",
 			IntegerPool.get( AdventurePool.NINJA_SNOWMEN ),
 			"fistTeachingsNinjaSnowmen",
 		},
 	};
-
-	private static String fistcoreDataZone( final Object[] data )
-	{
-		return ( data == null ) ? null : ((String) data[0] );
-	}
 
 	private static int fistcoreDataLocation( final Object[] data )
 	{
@@ -920,6 +1014,22 @@ public class AdventureDatabase
 			}
 
 			List matchingNames = StringUtilities.getMatchingNames( nameArray, adventureName );
+
+			// Beginning of block to remove when location name transition is done
+			if ( matchingNames.isEmpty() )
+			{
+				matchingNames = StringUtilities.getMatchingNames( AdventureDatabase.convertOldNameArray, adventureName );
+				if ( matchingNames.size() == 1 )
+				{
+					int index = AdventureDatabase.convertOldNameList.indexOf( (String) matchingNames.get( 0 ) );
+					matchingNames.remove( 0 );
+					String newName = AdventureDatabase.convertNewNameArray[ index ];
+					matchingNames.add( newName.toLowerCase() );
+					RequestLogger.printLine( "The string \"" + adventureName + "\" no longer "
+						+ "matches a location name; use \"" + newName + "\" instead" );
+				}
+			}
+			// End of block to remove when location name transition is done
 
 			if ( matchingNames.size() > 1 )
 			{
