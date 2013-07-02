@@ -80,9 +80,9 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class IslandDecorator
 {
 	private static AreaCombatData fratboyBattlefield =
-		AdventureDatabase.getAreaCombatData( "Battlefield (Frat Uniform)" );
+		AdventureDatabase.getAreaCombatData( "The Battlefield (Frat Uniform)" );
 	private static AreaCombatData hippyBattlefield =
-		AdventureDatabase.getAreaCombatData( "Battlefield (Hippy Uniform)" );
+		AdventureDatabase.getAreaCombatData( "The Battlefield (Hippy Uniform)" );
 
 	private static final String progressLineStyle = "<td style=\"color: red;font-size: 80%\" align=center>";
 
