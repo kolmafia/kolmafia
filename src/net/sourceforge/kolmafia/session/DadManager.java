@@ -107,6 +107,13 @@ public class DadManager
 		return row == null ? "Unknown" : (String) row[ 2 ];
 	}
 
+	public static Element intToElement( int index )
+	{
+		return ( index < 0 || index > ELEMENTS.length ) ?
+			Element.NONE :
+			(Element)ELEMENTS[ index ][0];
+	}
+
 	private static Object [][] WORD1 =
 	{
 		{ "chaotic", Element.HOT },
@@ -157,33 +164,33 @@ public class DadManager
 		{ "cracks open", Element.PHYSICAL },
 	};
 
-	private static Object [][] WORD8 =
+	private static String [] WORD8 =
 	{
-		{ "brain", new Integer(2) },
-		{ "mind", new Integer(3) },
-		{ "reason", new Integer(4) },
-		{ "sanity", new Integer(5) },
-		{ "grasp on reality", new Integer(6) },
-		{ "sixth sense", new Integer(7) },
-		{ "eyes", new Integer(8) },
-		{ "thoughts", new Integer(9) },
-		{ "senses", new Integer(10) },
-		{ "memories", new Integer(11) },
-		{ "fears", new Integer(12) },
+		"brain",
+		"mind",
+		"reason",
+		"sanity",
+		"grasp on reality",
+		"sixth sense",
+		"eyes",
+		"thoughts",
+		"senses",
+		"memories",
+		"fears",
 	};
 
-	private static Object [][] WORD10 =
+	private static String [] WORD10 =
 	{
-		{ "spleen", new Integer(1) },
-		{ "stomach", new Integer(2) },
-		{ "skull", new Integer(3) },
-		{ "forehead", new Integer(4) },
-		{ "brain", new Integer(5) },
-		{ "mind", new Integer(6) },
-		{ "heart", new Integer(7) },
-		{ "throat", new Integer(8) },
-		{ "chest", new Integer(9) },
-		{ "head", new Integer(10) },
+		"spleen",
+		"stomach",
+		"skull",
+		"forehead",
+		"brain",
+		"mind",
+		"heart",
+		"throat",
+		"chest",
+		"head",
 	};
 
 	private static Object search( String key, Object [][] table )
@@ -205,10 +212,16 @@ public class DadManager
 		return element == null ? Element.NONE : (Element)element;
 	}
 
-	private static int wordToInteger( String key, Object [][] table )
+	private static int wordToInteger( String key, String [] table )
 	{
-		Object integer = DadManager.search( key.toLowerCase(), table );
-		return integer == null ? -1 : ((Integer)integer).intValue();
+		for ( int i = 0; i < table.length; ++i )
+		{
+			if ( key.equals( table[ i ] ) )
+			{
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	// cannonfire40 wrote this forum post:
@@ -352,20 +365,23 @@ public class DadManager
 		ElementalWeakness[ 6 ] = reverse ? elements[ 1 ] : elements[ 0 ];
 		ElementalWeakness[ 7 ] = reverse ? elements[ 0 ] : elements[ 1 ];
 
-		int word8 = DadManager.wordToInteger( matcher.group(8), DadManager.WORD8 );
-		ElementalWeakness[ 8 ] = (Element)ELEMENTS[ word8 - ElementalWeakness[1].ordinal() ][0];
+		int word8 = DadManager.wordToInteger( matcher.group(8), DadManager.WORD8 ) + 2;
+		int val8 =
+			 word8 -
+			 ElementalWeakness[1].ordinal();
+		ElementalWeakness[ 8 ] = DadManager.intToElement( val8 );
 
 		int word9 = StringUtilities.parseInt( matcher.group(9) );
-		int val =
-			ElementalWeakness[2].ordinal() +
-			ElementalWeakness[3].ordinal() +
-			ElementalWeakness[4].ordinal() +
-			ElementalWeakness[5].ordinal() +
-			4 -
-			word9;
-		ElementalWeakness[ 9 ] = (Element)ELEMENTS[ val ][0];
+		int val9 =
+			 ElementalWeakness[2].ordinal() +
+			 ElementalWeakness[3].ordinal() +
+			 ElementalWeakness[4].ordinal() +
+			 ElementalWeakness[5].ordinal() +
+			 4 -
+			 word9;
+		ElementalWeakness[ 9 ] = DadManager.intToElement( val9 );
 
-		int word10 = DadManager.wordToInteger( matcher.group(10), DadManager.WORD10 );
+		int word10 = DadManager.wordToInteger( matcher.group(10), DadManager.WORD10 ) + 1;
 		ElementalWeakness[ 10 ] = word10 < 1 ? Element.NONE : word10 < 10 ? ElementalWeakness[ word10 ] : DadManager.unusedElement();
 
 		return true;
