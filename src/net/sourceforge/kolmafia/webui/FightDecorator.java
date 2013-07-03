@@ -59,8 +59,8 @@ public class FightDecorator
 
 		// Find the desired skill
 		String oldForm = matcher.group( 0 );
-		int index = oldForm.indexOf( ">" + skill );
-		if ( index == -1 )
+		String search = ">" + skill;
+		if ( oldForm.indexOf( search ) == -1 )
 		{
 			return;
 		}
@@ -71,8 +71,9 @@ public class FightDecorator
 		// If a skill is already selected, deselect it
 		StringUtilities.globalStringDelete( newForm, "selected" );
 
+		// ... which may have moved the desired skill
 		// Select the skill
-		newForm.insert( index, " selected" );
+		newForm.insert( newForm.indexOf( search ), " selected" );
 
 		// Replace the skill form with the munged version
 		StringUtilities.singleStringReplace( buffer, oldForm, newForm.toString() );
