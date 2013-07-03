@@ -73,13 +73,13 @@ public class DadManager
 
 	private static Object [][] ELEMENTS =
 	{
-		{ Element.NONE, "none", "", null },
-		{ Element.HOT, "hot", "Awesome Balls of Fire", "<option value=\"28\"" },
-		{ Element.COLD, "cold", "Snowclone", "<option value=\"30\"" },
-		{ Element.STENCH, "stench", "Eggsplosion", "<option value=\"32\"" },
-		{ Element.SPOOKY, "spooky", "Raise Backup Dancer", "<option value=\"42\"" },
-		{ Element.SLEAZE, "sleaze", "Grease Lightning", "<option value=\"36\"" },
-		{ Element.PHYSICAL, "physical", "Toynado", "<option value=\"57\"" },
+		{ Element.NONE, "none", "" },
+		{ Element.HOT, "hot", "Awesome Balls of Fire" },
+		{ Element.COLD, "cold", "Snowclone" },
+		{ Element.STENCH, "stench", "Eggsplosion" },
+		{ Element.SPOOKY, "spooky", "Raise Backup Dancer" },
+		{ Element.SLEAZE, "sleaze", "Grease Lightning" },
+		{ Element.PHYSICAL, "physical", "Toynado" },
 	};
 
 	private static Object[] search( Element element )
@@ -105,12 +105,6 @@ public class DadManager
 	{
 		Object [] row = DadManager.search( element );
 		return row == null ? "Unknown" : (String) row[ 2 ];
-	}
-
-	private static String elementToOption( Element element )
-	{
-		Object [] row = DadManager.search( element );
-		return row == null ? null : (String) row[ 3 ];
 	}
 
 	public static Element intToElement( int index )
@@ -393,6 +387,8 @@ public class DadManager
 		return true;
 	}
 
+	private static final Pattern SKILL_FORM_PATTERN = Pattern.compile( "<form name=skill.*?</form>", Pattern.DOTALL );
+
 	public static final void decorate( final StringBuffer buffer )
 	{
 		String name = MonsterStatusTracker.getLastMonsterName();
@@ -413,14 +409,34 @@ public class DadManager
 			return;
 		}
 
-		// Rather than searching for the name of spell, look for the
-		// option in the skill dropdown
-		//
-		// <option value="57" picurl="vortex" >Toynado (120 Mana Points)</option>
-		String option = DadManager.elementToOption( element );
-		if ( option != null )
+		String spell = DadManager.elementToSpell( element );
+		if ( spell == null )
 		{
-			StringUtilities.singleStringReplace( buffer, option, option + " selected" );
+			return;
+		}
+
+		// Extract the "skill" form from the buffer
+		Matcher matcher = SKILL_FORM_PATTERN.matcher( buffer );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		String oldForm = matcher.group( 0 );
+		StringBuffer newForm = new StringBuffer( oldForm );
+
+		// If a skill is already selected, deselect it
+		StringUtilities.globalStringDelete( newForm, "selected" );
+
+		// Find the correct spell
+		int index = newForm.indexOf( ">" + spell );
+		if ( index != -1 )
+		{
+			// Select the spell
+			newForm.insert( index, " selected" );
+
+			// Replace the skill form with the munged version
+			StringUtilities.singleStringReplace( buffer, oldForm, newForm.toString() );
 		}
 	}
 }
