@@ -184,14 +184,14 @@ public class FightDecorator
 		}
 
 		// He rolls his net up and draws it back like a baseball bat.
-		if ( buffer.indexOf( "<b>sling</b>" ) != -1 )
+		if ( buffer.indexOf( "<b>rolls</b>" ) != -1 )
 		{
 			FightDecorator.selectSkill( buffer, "Blade Roller" );
 			return;
 		}
 
 		// If you were a runner, you'd be tempted to run right now...
-		if ( buffer.indexOf( "<b>sling</b>" ) != -1 )
+		if ( buffer.indexOf( "<b>runner</b>" ) != -1 )
 		{
 			FightDecorator.selectSkill( buffer, "Blade Runner" );
 			return;
