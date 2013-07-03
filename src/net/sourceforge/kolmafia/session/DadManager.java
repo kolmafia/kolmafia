@@ -73,13 +73,13 @@ public class DadManager
 
 	private static Object [][] ELEMENTS =
 	{
-		{ Element.NONE, "none", "" },
-		{ Element.HOT, "hot", "Awesome Balls of Fire" },
-		{ Element.COLD, "cold", "Snowclone" },
-		{ Element.STENCH, "stench", "Eggsplosion" },
-		{ Element.SPOOKY, "spooky", "Raise Backup Dancer" },
-		{ Element.SLEAZE, "sleaze", "Grease Lightning" },
-		{ Element.PHYSICAL, "physical", "Toynado" },
+		{ Element.NONE, "none", "", null },
+		{ Element.HOT, "hot", "Awesome Balls of Fire", "<option value=\"28\"" },
+		{ Element.COLD, "cold", "Snowclone", "<option value=\"30\"" },
+		{ Element.STENCH, "stench", "Eggsplosion", "<option value=\"32\"" },
+		{ Element.SPOOKY, "spooky", "Raise Backup Dancer", "<option value=\"42\"" },
+		{ Element.SLEAZE, "sleaze", "Grease Lightning", "<option value=\"36\"" },
+		{ Element.PHYSICAL, "physical", "Toynado", "<option value=\"57\"" },
 	};
 
 	private static Object[] search( Element element )
@@ -105,6 +105,12 @@ public class DadManager
 	{
 		Object [] row = DadManager.search( element );
 		return row == null ? "Unknown" : (String) row[ 2 ];
+	}
+
+	private static String elementToOption( Element element )
+	{
+		Object [] row = DadManager.search( element );
+		return row == null ? null : (String) row[ 3 ];
 	}
 
 	public static Element intToElement( int index )
@@ -407,10 +413,14 @@ public class DadManager
 			return;
 		}
 
-		String spell = DadManager.elementToSpell( element );
-		if ( spell != null )
+		// Rather than searching for the name of spell, look for the
+		// option in the skill dropdown
+		//
+		// <option value="57" picurl="vortex" >Toynado (120 Mana Points)</option>
+		String option = DadManager.elementToOption( element );
+		if ( option != null )
 		{
-			StringUtilities.singleStringReplace( buffer, ">" + spell, " selected>" + spell );
+			StringUtilities.singleStringReplace( buffer, option, option + " selected" );
 		}
 	}
 }
