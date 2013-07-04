@@ -62,7 +62,6 @@ import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
@@ -243,6 +242,9 @@ public abstract class KoLmafia
 
 		// The following is unnecessary, since you can use "worm-riding hooks" as a goal
 		{ "The Sleeper Has Awakened", EncounterTypes.STOP },
+
+		// Adventure that finishes filling the Extreme Meter
+		{ "3 eXXXtreme 4ever 6pack", EncounterTypes.STOP },
 
 		// Axecore Clancy Adventures
 		{ "Jackin' the Jukebox", EncounterTypes.STOP },
