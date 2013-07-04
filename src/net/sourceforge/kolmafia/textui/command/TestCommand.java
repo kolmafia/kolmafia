@@ -33,11 +33,17 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+
+import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -58,6 +64,7 @@ import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
+import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class TestCommand
 	extends AbstractCommand
@@ -67,6 +74,22 @@ public class TestCommand
 	public TestCommand()
 	{
 		this.usage = " 1, 2, 3...";
+	}
+
+	private static void dump( final String data )
+	{
+		File file = new File( KoLConstants.DATA_LOCATION, "testCommand.html" );
+		try
+		{
+			OutputStream o = DataUtilities.getOutputStream( file );
+			BufferedWriter w = new BufferedWriter( new OutputStreamWriter( o ) );
+			w.write( data );
+			w.flush();
+			o.close();
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	@Override
@@ -206,6 +229,15 @@ public class TestCommand
 		{
 			SpaaaceRequest.visitGeneratorChoice( TestCommand.contents );
 			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "location" ) )
+		{
+			StringBuffer buffer = new StringBuffer( TestCommand.contents );
+			TestCommand.contents = null;
+			RequestEditorKit.addNewLocationLinks( buffer );
+			TestCommand.dump( buffer.toString() );
 			return;
 		}
 	}

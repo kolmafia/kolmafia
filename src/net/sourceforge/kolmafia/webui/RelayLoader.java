@@ -86,7 +86,6 @@ public class RelayLoader
 	public void run()
 	{
 		String preferredBrowser = Preferences.getString( "preferredWebBrowser" );
-
 		String location = this.location;
 
 		if ( location.startsWith( "/" ) )
@@ -130,8 +129,7 @@ public class RelayLoader
 		try
 		{
 			String location = file.getCanonicalPath();
-
-			RelayLoader.openSystemBrowser( location, false );
+			RelayLoader.openSystemBrowser( "file://" + location, false );
 		}
 		catch ( IOException e )
 		{
