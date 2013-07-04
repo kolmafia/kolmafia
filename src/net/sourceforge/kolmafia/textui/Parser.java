@@ -3053,7 +3053,7 @@ public class Parser
 				}
 				// If validating script, give warning if fuzzy matching kicked in
 				String fullName = value.toString();
-				if ( !input.equals( fullName ) )
+				if ( !input.equalsIgnoreCase( fullName ) )
 				{
 					ScriptException ex = this.parseException( "Changing \"" + input + "\" to \"" + CharacterEntities.escape( fullName ) + "\" would get rid of this message" );
 					String message = ex.getMessage();
