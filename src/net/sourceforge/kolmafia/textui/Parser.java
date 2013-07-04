@@ -101,6 +101,7 @@ import net.sourceforge.kolmafia.textui.parsetree.VariableReferenceList;
 import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Parser
@@ -3049,6 +3050,14 @@ public class Parser
 				if ( value == null )
 				{
 					throw this.parseException( "Bad " + type.toString() + " value: \"" + input + "\"" );
+				}
+				// If validating script, give warning if fuzzy matching kicked in
+				String fullName = value.toString();
+				if ( !input.equals( fullName ) )
+				{
+					ScriptException ex = this.parseException( "Changing \"" + input + "\" to \"" + CharacterEntities.escape( fullName ) + "\" would get rid of this message" );
+					String message = ex.getMessage();
+					RequestLogger.printLine( message );
 				}
 				return value;
 			}
