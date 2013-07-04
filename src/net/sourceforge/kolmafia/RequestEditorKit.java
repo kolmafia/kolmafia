@@ -911,7 +911,7 @@ public class RequestEditorKit
 		StringUtilities.singleStringReplace( buffer, image, replace.toString() );
 
 		replace.setLength( 0 );
-		replace.append( "<a class = nounder href=\"" );
+		replace.append( "<a class=nounder href=\"" );
 		replace.append( url );
 		replace.append( "\">" );
 		replace.append( boldloc );
