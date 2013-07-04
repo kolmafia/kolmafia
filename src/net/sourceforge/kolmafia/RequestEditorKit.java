@@ -634,6 +634,7 @@ public class RequestEditorKit
 		RequestEditorKit.addAbsintheLink( buffer );
 		RequestEditorKit.addTransponderLink( buffer );
 		RequestEditorKit.addFolioLink( buffer );
+		RequestEditorKit.addNewLocationLinks( buffer );
 
 		// Now do anything which doesn't work in Java's internal HTML renderer
 
@@ -875,6 +876,47 @@ public class RequestEditorKit
 
 		UseLinkDecorator.UseLink link = new UseLinkDecorator.UseLink( ItemPool.ABSINTHE, 1, "use absinthe", "inv_use.php?which=3&whichitem=" );
 		buffer.insert( index + test.length(), link.getItemHTML() );
+	}
+
+	// <table  width=400  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue>f<b>New Area Unlocked</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><table><tr><td valign=center><img src="http://images.kingdomofloathing.com/adventureimages/../otherimages/ocean/corrala.gif"></td><td valign=center class=small><b>The Coral Corral</b>, on <a class=nounder href=seafloor.php><b>The Sea Floor</b></a>.</td></tr></table></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table>
+
+	private static final Pattern NEW_LOCATION_PATTERN = Pattern.compile( "<table.*?<b>New Area Unlocked</b>.*?(<img[^>]*>).*?(<b>(.*?)</b>)", Pattern.DOTALL );
+
+	public static final void addNewLocationLinks( final StringBuffer buffer )
+	{
+		Matcher matcher = NEW_LOCATION_PATTERN.matcher( buffer );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		String image = matcher.group(1);
+		String boldloc = matcher.group(2);
+		String locname = matcher.group(3);
+
+		KoLAdventure adventure = AdventureDatabase.getAdventure( locname );
+		if ( adventure == null )
+		{
+			return;
+		}
+
+		String url = adventure.getRequest().getURLString();
+
+		StringBuffer replace = new StringBuffer();
+		replace.append( "<a href=\"" );
+		replace.append( url );
+		replace.append( "\">" );
+		replace.append( image );
+		replace.append( "</a>" );
+		StringUtilities.singleStringReplace( buffer, image, replace.toString() );
+
+		replace.setLength( 0 );
+		replace.append( "<a class = nounder href=\"" );
+		replace.append( url );
+		replace.append( "\">" );
+		replace.append( boldloc );
+		replace.append( "</a>" );
+		StringUtilities.singleStringReplace( buffer, boldloc, replace.toString() );
 	}
 
 	private static final void decorateInventory( final StringBuffer buffer, final boolean addComplexFeatures )
