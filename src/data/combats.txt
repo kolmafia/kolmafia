@@ -93,7 +93,6 @@ Dire Warren	100	Fluffy Bunny
 Domed City of Ronaldus	100	Dogcat	Ferrelf	Hamsterpus	Overarmed Survivor	Primitive Survivor	Unlikely Survivor
 Domed City of Grimacia	100	Alielf	Cat-Alien	Dog-Alien	Grizzled Survivor	Unhinged Survivor	Whiny Survivor
 Doubt Man's Level	-1	judgmental eye	reproachful heart	work hat	Doubt Man: 0
-Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
 Elf Alley	-1	Hobelf	Uncle Hobo: 0
 El Vibrato Island	100	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
@@ -108,7 +107,6 @@ Fernswarthy's Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Be
 Fightin' Fire	100	brushfire
 Foyer	100	Fleaman	Ghost	Medusa
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
-Frat House (Stone Age)	100	Caveman Frat Boy	Caveman Frat Pledge	Caveman Sorority Girl
 Fudge Mountain	95	Fudge monkey	Fudge oyster	Fudge weasel	Fudge vulture	Fudge poodle	The Fudge Wizard	The Abominable Fudgeman
 Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown	The Clownlord Beelzebozo: 0
 Galley	-1
@@ -122,7 +120,6 @@ Hey Deze Arena	-1	Inkubus	Serialbus	Suckubus
 Hidden City (automatic)	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hidden City (Encounter)	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
-Hippy Camp (Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
 Hobopolis Town Square	95	Normal Hobo	Hodgman, The Hoboverlord: 0
 Hole in the Sky	100	Astronomer: 3	One-Eyed Willie: o2	Burrowing Bishop: o2	Family Jewels: o2	Hooded Warrior: o2	Junk: o2	Pork Sword: o2	Skinflute: o2	Trouser Snake: o2	Twig and Berries: o2	Axe Wound: e2	Beaver: e2	Box: e2	Bush: e2	Camel's Toe: e2	Flange: e2	Honey Pot: e2	Little Man in the Canoe: e2	Muff: e2
 Huge-A-Ma-tron	-1	Castle In The Clouds In The Sky	Fearsome Wacken: 0	Loose Coalition of Yetis, Snowmen, and Goats	Spookyraven Manor	The Whole Kingdom: 0
@@ -214,8 +211,10 @@ The Defiled Niche	100	Dirty Old Lihc	Senile Lihc	Slick Lihc	Gargantulihc: 0
 The Defiled Nook	100	Spiny Skelelton	Toothy Sklelton	Giant Skeelton: 0
 The Dive Bar	100	Lounge Lizardfish	Mer-kin tippler	Nurse Shark
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
+The Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The F'c'le	80	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
+The Frat House (Bombed Back to the Stone Age)	100	Caveman Frat Boy	Caveman Frat Pledge	Caveman Sorority Girl
 The Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant: 0	The Large-Bellied Snitch: 0
 The Haiku Dungeon	90	Amateur Ninja	Ancient Insane Monk	Ferocious Bugbear	Gelatinous Cube	Knob Goblin Poseur
@@ -236,6 +235,7 @@ The Haunted Wine Cellar (Southwest)	100	Possessed Wine Rack	Skeletal Sommelier
 The Haunted Wine Cellar (Southeast)	100	Possessed Wine Rack	Skeletal Sommelier
 The Heap	-1	Stench Hobo	Oscus: 0
 The Hidden Temple	-1	Baa-relief Sheep	Clan of Cave Bars	Craven Carven Raven	Stone Temple Pirate	Baa'baa'bu'ran: 0
+The Hippy Camp (Bombed Back to the Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
 The Jungles of Ancient Loathing	-1	Ancient Guardian Statue	Evil Cultist	Jungle Baboon	Tribal Goblin	Giant Bird-Creature: 0	Giant Jungle Python: 0	Giant Octopus: 0	Giant Spider: 0	High Priest of Ki'rhuss: 0	Wumpus: 0
 The Knob Shaft	85	Ghost Miner
 The Maelstrom of Lovers	100	Bettie Barulio	Marcus Macurgeon	Marvin J. Sunny	Mortimer Strauss	Wonderful Winifred Wongle	The Terrible Pinch: 0	Thug 1 and Thug 2: 0
@@ -295,20 +295,20 @@ Goat Party	0
 Hippy Camp In Disguise	0
 Itznotyerzitz Mine (in Disguise)	0
 Lemon Party	0
-Limerick Dungeon	0
 Mine Foremens' Office	0
 Moxie Vacation	0
 Muscle Vacation	0
 Mysticality Vacation	0
 Pirate Party	0
-Poker Room	0
 Post-Quest Bugbear Pens	0
 Pump Up Moxie	0
 Pump Up Muscle	0
 Pump Up Mysticality	0
-Roulette Tables	0
 # St. Sneaky Pete's Day is unusual in that although it has no combats,
 # you might want a between-battle script to execute.
 St. Sneaky Pete's Day Stupor	-1
 The Knob Shaft (Mining)	0
+The Limerick Dungeon	0
+The Poker Room	0
+The Roulette Tables	0
 Trick-or-Treating	0

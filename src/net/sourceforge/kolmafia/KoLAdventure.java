@@ -111,7 +111,7 @@ public class KoLAdventure
 	public static String lastLocationURL = null;
 
 	private boolean isValidAdventure = false;
-	private final String zone, parentZone, adventureId, formSource, adventureName;
+	private final String zone, parentZone, adventureId, formSource, adventureName, environment;
 
 	private final String normalString, lowercaseString, parentZoneDescription;
 
@@ -143,6 +143,8 @@ public class KoLAdventure
 
 		this.parentZone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
 		this.parentZoneDescription = (String) AdventureDatabase.ZONE_DESCRIPTIONS.get( this.parentZone );
+
+		this.environment = AdventureDatabase.getEnvironment( adventureName );
 
 		if ( formSource.equals( "dwarffactory.php" ) )
 		{
@@ -222,6 +224,11 @@ public class KoLAdventure
 	public String getParentZoneDescription()
 	{
 		return this.parentZoneDescription;
+	}
+
+	public String getEnvironment()
+	{
+		return this.environment;
 	}
 
 	/**

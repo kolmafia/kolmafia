@@ -599,6 +599,7 @@ public class ProxyRecordValue
 			.add( "zone", DataTypes.STRING_TYPE )
 			.add( "parent", DataTypes.STRING_TYPE )
 			.add( "parentdesc", DataTypes.STRING_TYPE )
+			.add( "environment", DataTypes.STRING_TYPE )
 			.add( "bounty", DataTypes.ITEM_TYPE )
 			.add( "combat_queue", DataTypes.STRING_TYPE )
 			.add( "noncombat_queue", DataTypes.STRING_TYPE )
@@ -627,6 +628,11 @@ public class ProxyRecordValue
 		public String get_parentdesc()
 		{
 			return ((KoLAdventure) this.content).getParentZoneDescription();
+		}
+
+		public String get_environment()
+		{
+			return ((KoLAdventure) this.content).getEnvironment();
 		}
 
 		public Value get_bounty()
