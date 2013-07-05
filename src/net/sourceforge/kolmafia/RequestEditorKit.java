@@ -885,38 +885,38 @@ public class RequestEditorKit
 	public static final void addNewLocationLinks( final StringBuffer buffer )
 	{
 		Matcher matcher = NEW_LOCATION_PATTERN.matcher( buffer );
-		if ( !matcher.find() )
+
+		// The Trapper can unlock multiple new locations for you at once
+		while ( matcher.find() )
 		{
-			return;
+			String image = matcher.group(1);
+			String boldloc = matcher.group(2);
+			String locname = matcher.group(3);
+
+			KoLAdventure adventure = AdventureDatabase.getAdventure( locname );
+			if ( adventure == null )
+			{
+				continue;
+			}
+
+			String url = adventure.getRequest().getURLString();
+
+			StringBuffer replace = new StringBuffer();
+			replace.append( "<a href=\"" );
+			replace.append( url );
+			replace.append( "\">" );
+			replace.append( image );
+			replace.append( "</a>" );
+			StringUtilities.singleStringReplace( buffer, image, replace.toString() );
+
+			replace.setLength( 0 );
+			replace.append( "<a class=nounder href=\"" );
+			replace.append( url );
+			replace.append( "\">" );
+			replace.append( boldloc );
+			replace.append( "</a>" );
+			StringUtilities.singleStringReplace( buffer, boldloc, replace.toString() );
 		}
-
-		String image = matcher.group(1);
-		String boldloc = matcher.group(2);
-		String locname = matcher.group(3);
-
-		KoLAdventure adventure = AdventureDatabase.getAdventure( locname );
-		if ( adventure == null )
-		{
-			return;
-		}
-
-		String url = adventure.getRequest().getURLString();
-
-		StringBuffer replace = new StringBuffer();
-		replace.append( "<a href=\"" );
-		replace.append( url );
-		replace.append( "\">" );
-		replace.append( image );
-		replace.append( "</a>" );
-		StringUtilities.singleStringReplace( buffer, image, replace.toString() );
-
-		replace.setLength( 0 );
-		replace.append( "<a class=nounder href=\"" );
-		replace.append( url );
-		replace.append( "\">" );
-		replace.append( boldloc );
-		replace.append( "</a>" );
-		StringUtilities.singleStringReplace( buffer, boldloc, replace.toString() );
 	}
 
 	private static final void decorateInventory( final StringBuffer buffer, final boolean addComplexFeatures )
