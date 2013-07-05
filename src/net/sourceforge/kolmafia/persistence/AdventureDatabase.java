@@ -96,6 +96,7 @@ public class AdventureDatabase
 	private static final HashMap<String, AreaCombatData> areaCombatData = new HashMap<String, AreaCombatData>();
 	private static final HashMap<String, KoLAdventure> adventureLookup = new HashMap<String, KoLAdventure>();
 	private static final HashMap<String, Boolean> cloverLookup = new HashMap<String, Boolean>();
+	private static final HashMap<String, String> environmentLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> zoneLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> conditionLookup = new HashMap<String, String>();
 	private static final HashMap<String, String> bountyLookup = new HashMap<String, String>();
@@ -301,7 +302,8 @@ public class AdventureDatabase
 			String zone = new String( data[ 0 ] );
 			String[] location = data[ 1 ].split( "=" );
 			boolean hasCloverAdventure = data[ 2 ].equals( "true" );
-			String name = new String( data[ 3 ] );
+			String environment = new String( data[ 3 ] );
+			String name = new String( data[ 4 ] );
 
 			if ( AdventureDatabase.PARENT_ZONES.get( zone ) == null )
 			{
@@ -317,15 +319,7 @@ public class AdventureDatabase
 
 			AdventureDatabase.cloverLookup.put( name, hasCloverAdventure ? Boolean.TRUE : Boolean.FALSE );
 
-			if ( data.length <= 4 )
-			{
-				continue;
-			}
-
-			if ( !data[ 4 ].equals( "" ) )
-			{
-				AdventureDatabase.conditionLookup.put( name, new String( data[ 4 ] ) );
-			}
+			AdventureDatabase.environmentLookup.put( name, environment );
 
 			if ( data.length <= 5 )
 			{
@@ -334,7 +328,17 @@ public class AdventureDatabase
 
 			if ( !data[ 5 ].equals( "" ) )
 			{
-				AdventureDatabase.bountyLookup.put( name, new String( data[ 5 ] ) );
+				AdventureDatabase.conditionLookup.put( name, new String( data[ 5 ] ) );
+			}
+
+			if ( data.length <= 6 )
+			{
+				continue;
+			}
+
+			if ( !data[ 6 ].equals( "" ) )
+			{
+				AdventureDatabase.bountyLookup.put( name, new String( data[ 6 ] ) );
 			}
 		}
 
@@ -980,6 +984,11 @@ public class AdventureDatabase
 	{
 		return AdventureDatabase.hasClover() &&
 		       cloverLookup.get( adventureName ) == Boolean.TRUE;
+	}
+
+	public static final String getEnvironment( String adventureName )
+	{
+		return AdventureDatabase.environmentLookup.get( adventureName );
 	}
 
 	public static class AdventureArray
