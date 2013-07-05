@@ -2933,6 +2933,15 @@ public class Parser
 					{
 						throw this.parseException( "Bad " + type.toString() + " value: \"" + element + "\"" );
 					}
+
+					String fullName = value.toString();
+					if ( !element.equalsIgnoreCase( fullName ) )
+					{
+						ScriptException ex = this.parseException( "Changing \"" + element + "\" to \"" + CharacterEntities.escape( fullName ) + "\" would get rid of this message" );
+						String message = ex.getMessage();
+						RequestLogger.printLine( message );
+					}
+
 					list.add( value );
 				}
 				if ( ch == ']' )
