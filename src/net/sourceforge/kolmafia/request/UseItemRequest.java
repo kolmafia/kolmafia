@@ -919,6 +919,9 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_fishyPipeUsed" ) ? 0 : 1;
 
+		case ItemPool.SUSHI_ROLLING_MAT:
+			UseItemRequest.limiter = "usability";
+			return KoLCharacter.hasSushiMat() ? 0 : 1;
 		}
 
 		switch ( consumptionType )
