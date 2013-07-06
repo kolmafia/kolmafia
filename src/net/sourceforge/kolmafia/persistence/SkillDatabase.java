@@ -850,6 +850,10 @@ public class SkillDatabase
 			// Bad Moon skills
 			return false;
 
+		case SkillPool.DOG_TIRED:
+			// sleeping dog
+			return false;
+
 		case SkillPool.GOTHY_HANDWAVE:
 		case SkillPool.BREAK_IT_ON_DOWN:
 		case SkillPool.POP_AND_LOCK:

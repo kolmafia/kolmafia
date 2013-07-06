@@ -865,6 +865,7 @@ gift-a-pult	50	Mox: 0	2-handed giftapult
 glistening staff	60	Mus: 15	2-handed staff
 glow-in-the-dark dart gun	50	Mox: 0	1-handed pistol
 gnauga hide whip	20	Mus: 0	1-handed whip
+gnawed-up dog bone	50	Mus: 10	1-handed club
 goatskin umbrella	180	Mus: 75	1-handed umbrella
 goblin autoblowgun	80	Mox: 25	2-handed blowgun
 goblin hunting spear	80	Mus: 25	2-handed spear
@@ -1137,6 +1138,7 @@ Dyspepsi-Cola shield	70	none	shield
 Ellsbury's skull	100	Mys: 35
 Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
+Grey Guanon	0	Mys: 15
 Hodgman's almanac	200	Mys: 200
 Hodgman's cane	200	Mys: 200
 Hodgman's garbage sticker	200	Mox: 200
@@ -1207,6 +1209,7 @@ Whatsian Ionic Pliers	110	Mys: 40
 Zombo's shield	240	Mus: 200	shield
 adhesive tape dolly	0	none
 ancient calendar	70	Mus: 20	shield
+ancient hot dog wrapper	0	Mys: 35
 ancient stone head	85	Mus: 27	shield
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none
@@ -1294,6 +1297,7 @@ hypnodisk	200	none
 ice baby	0	none
 incredibly creepy marionette	110	Mys: 40
 ivory cue ball	30	none
+jar of frostigkraut	0	Mys: 35
 jet bennie marble	206	Mys: 85
 joybuzzer	20	none
 keg shield	170	Mus: 70	shield
