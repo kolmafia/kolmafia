@@ -990,6 +990,7 @@ glistening staff	Mysticality: +2, Sleaze Damage: +3
 # glow-in-the-dark dart gun: Super Accurate!
 glow-in-the-dark dart gun	Moxie: [9-M], Ranged Damage: [2*(9-M)]
 gnauga hide whip	Item Drop: +3
+gnawed-up dog bone	Familiar Weight: +5, Experience (familiar): +1
 goatskin umbrella	Stench Damage: +15
 # goblin autoblowgun: 50% chance of poisoning opponent.
 goblin autoblowgun	Ranged Damage: +5
@@ -1281,6 +1282,8 @@ Ellsbury's skull	Item Drop: +10, Meat Drop: +10
 # Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
 Gazpacho's Glacial Grimoire	Spell Damage: +10
 Glass Balls of the Goblin King	Mysticality: +14
+# Grey Guanon: Deals Stench Damage every round
+Grey Guanon	Stench Damage: +5
 # Hodgman's almanac: Converts Hobo Power to Spell Damage
 Hodgman's almanac	Spell Damage: [1.2*H]
 # Hodgman's cane: Converts Hobo Power to HP and MP Regeneration
@@ -1384,6 +1387,7 @@ Whatsian Ionic Pliers	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Rege
 Zombo's shield	Damage Absorption: +50, Spooky Damage: +30, Muscle Percent: +20, Class: "Turtle Tamer", Damage Reduction: 15
 adhesive tape dolly	Moxie: +5
 ancient calendar	Adventures: +3, Damage Reduction: 4
+ancient hot dog wrapper	HP Regen Min: 30, HP Regen Max: 40, MP Regen Min: 30, MP Regen Max: 40
 # ancient stone head: 75% Chance of Preventing Negative Status Attacks
 ancient stone head	Damage Reduction: 5
 # anniversary balloon
@@ -1481,6 +1485,8 @@ hypnodisk	Item Drop: +25
 ice baby	Experience: +3, Softcore Only
 incredibly creepy marionette	Mysticality: +3
 ivory cue ball	Item Drop: +5
+# jar of frostigkraut: Deals Cold Damage every round
+jar of frostigkraut	Cold Damage: 10
 jet bennie marble	Spooky Spell Damage: +55
 # joybuzzer: Grants &quot;Shake Hands&quot; Combat Skill
 # joybuzzer: (31-50 damage per successful handshake)
@@ -3061,6 +3067,7 @@ Chief Executive Optimism	Item Drop: +15
 ChibiChanged&trade;	Muscle Percent: [min(5*T,200)], Mysticality Percent: [min(5*T,200)], Moxie Percent: [min(5*T,200)], Familiar Weight: +5
 Chihuahua Underfoot	Monster Level: +20
 Chilblains of the Corn	Spooky Damage: +5
+Chill Out, Dog	Cold Damage: 30, Stench Resistance: 3, Sleaze Resistance: 3, Monster Level: 10
 Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
 Chocolate Reign	Moxie: +10
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
@@ -3158,6 +3165,7 @@ Deep-Tainted Mind	Mysticality Percent: -50
 Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Demonic Taint	Stench Damage: +30
 Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
+Devil Inside	Hot Damage: 30, Cold Resistance: 3, Spooky Resistance: 3
 Digitally Converted	Monster Level: +30
 Dilated Pupils	Item Drop: +20
 Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
@@ -3170,6 +3178,7 @@ Disco State of Mind	Moxie: +2
 Discomfited	Initiative: +30
 Disquiet Riot	Combat Rate: -20
 Dizzy with Rage	Moxie Percent: -10
+Dog Breath	Stench Damage: 30, Hot Resistance: 3, Spooky Resistance: 3, Combat Rate: 5
 Don't Rest Ye, Bold Adventurer	Experience: +1
 # Donho's Bubbly Ballad: Makes you a better diver
 Donho's Bubbly Ballad	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
@@ -3365,6 +3374,7 @@ Ham-Fisted	Muscle Percent: +50, Weapon Damage: +11
 # Ham(ster)-Handed: Makes you look like a skeletal hamster
 Hammered	Weapon Damage Percent: +50
 # Hammertime: Seriously, your pants are huge
+Hangdog	Sleaze Damage: 30, Hot Resistance: 3, Stench Resistance: 3, Initiative: 20
 # Happy-go-meaty: Makes you look like a bundle of Meat of Happiness
 Happy Salamander	Familiar Weight: +3
 Happy Trails	Mysticality: +100
@@ -3396,6 +3406,7 @@ Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
 Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
 # HELLO WORLD!: Makes you look like a triad code wizard
 Hennaliciousness	Mysticality: +3
+Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
 Hernia!	Muscle Percent: -70
 Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
 Hiding in Plain Sight	Initiative: +100
@@ -3511,6 +3522,8 @@ Low on the Hog	Meat Drop: +100
 Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Lustful Heart	Moxie: [min(T,20)]
 Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [+2*M]
+# Macho, Macho Dog: +50 Damage vs. Bugbears, +50 Damage vs. Werewolves
+Macho, Macho Dog	Muscle Percent: 50, Critical Hit Percent: 10
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 Mad at Science	Muscle: +3
 # Magic Tongue: Everything tastes weird
@@ -3740,6 +3753,7 @@ Saucemastery	Maximum HP: +3, Mysticality: +1
 Sausage Festive	MP Regen Min: 5, MP Regen Max: 10
 Savage Beast Inside	Muscle: +20
 Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
+Scaredy Dog	Spooky Damage: 30, Cold Resistance: 3, Sleaze Resistance: 3, Combat Rate: -5
 Scariberi	Spooky Damage: [min(100,T)]
 # Scarysauce: Damages Attacking Opponents
 Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
@@ -3986,6 +4000,8 @@ Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20
 # Toad In The Hole: Continually take damage
 # To Protect and Servo: Makes you look like a cyborg policeman
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+# Top Dog: +50 Damage vs. Vampires, +50 Damage vs. Skeletons
+Top Dog	Moxie Percent: 50, Critical Hit Percent: 10
 Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Transcendental Wind	Mysticality: +50
 # Transpondent: Gives access to A Transporter Booth
@@ -4013,6 +4029,8 @@ Using Protection	Mana Cost: -2
 # Vanity Rage: Weapon Damage: +X, Spell Damage: +X
 Very Clean Guns	Ranged Damage: +20
 Very Clean Teeth	Moxie: +1
+# Video... Games: Familiar Damage +5
+Video... Games	Muscle 5, Mysticality: 5, Moxie: 5, Muscle Percent: 5, Mysticality Percent: 5, Moxie Percent: 5, Maximum HP: 5, Maximum MP: 5, Damage Absorption: 5, Hot Resistance: 5, Cold Resistance: 5, Stench Resistance: 5, Spooky Resistance: 5, Sleaze Resistance: 5, Hot Damage: 5, Cold Damage: 5, Stench Damage: 5, Spooky Damage: 5, Sleaze Damage: 5, Hot Spell Damage: 5, Cold Spell Damage: 5, Stench Spell Damage: 5, Spooky Spell Damage: 5, Sleaze Spell Damage: 5, Weapon Damage: 5, Spell Damage: 5, Ranged Damage: 5, Weapon Damage Percent: 5, Spell Damage Percent: 5, Critical Hit Percent: 5, Spell Critical Percent: 5, Initiative: 5, Experience: 5, Experience (Muscle): 5, Experience (Mysticality): 5, Experience (Moxie): 5, Experience Percent (Muscle): 5, Experience Percent (Mysticality): 5, Experience Percent (Moxie): 5, Meat Drop: 5, Item Drop: 5, Hat Drop: 5, Weapon Drop: 5, Offhand Drop: 5, Shirt Drop: 5, Pants Drop: 5, Accessory Drop: 5, Food Drop: 5, Booze Drop: 5, Candy Drop: 5, Pickpocket Chance: 5, Familiar Weight: 5, Experience (Familiar): 5, Monster Level: 5, Hobo Power: 5
 Vinegavotte	Item Drop: +20
 Violent Night	Critical Hit Percent: +5
 # Visibly Goth: Makes you look like a Goth Giant
@@ -4604,6 +4622,7 @@ censored can label	Effect: "Censored Can", Effect Duration: 50
 cheap cigar butt	Effect: "Smokin'", Effect Duration: 10
 cheap clip-on ninja tie	Effect: "Ninjas Just Tryin' to Get Paid", Effect Duration: 50
 cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
+chicle de salchicha	Effect: "Here to Kick Ass", Effect Duration: 20
 children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
 chocolate bath ball	Effect: "Chocolate Reign", Effect Duration: 10
 chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
@@ -4648,6 +4667,7 @@ dandy lion cub	Free Pull
 daub-breaker	Effect: "Hot Breath", Effect Duration: 1
 deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 deactivated nanobots	Free Pull
+defective Game Grid token	Effect: Video... Games, Effect Duration: 5
 deflated inflatable dodecapede	Free Pull
 delicious comfit?	Effect: "Discomfited", Effect Duration: 10
 demonic surgical gloves	Effect: "Daemon Duds", Effect Duration: 50

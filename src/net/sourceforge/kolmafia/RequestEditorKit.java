@@ -104,7 +104,6 @@ import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;

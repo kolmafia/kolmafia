@@ -105,6 +105,7 @@
 88	Singer's Faithful Ocelot	3	15	10
 89	Drescher's Annoying Noise	3	40	20
 90	Deep Dark Visions	3	100	10
+91	Dog Tired	0	0	0
 
 # Skills available to Clubbers
 

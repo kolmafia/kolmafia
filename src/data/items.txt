@@ -6575,5 +6575,36 @@
 6558
 6559
 6560
-6561	adventurer clone egg	985842882	cloneegg.gif	grow	t	0
-6562	mini-Mr. Accessory	151274336	minimra.gif	familiar	t,d	75
+6561	adventurer clone egg	985842882	cloneegg.gif	grow	t	0	adventurer clone eggs
+6562	mini-Mr. Accessory	151274336	minimra.gif	familiar	t,d	75	mini-Mssrs. Accessory
+6563
+6564
+6565
+6566
+6567
+6568
+6569
+6570
+6571
+6572
+6573
+6574
+6575
+6576
+6577
+6578
+6579
+6580
+6581
+6582
+6583
+6584	ancient hot dog wrapper	111886283	wrapper.gif	offhand	t,d	5	ancient hot dog wrappers
+6585
+6586	chicle de salchicha	978763944	chicle.gif	usable	t,d	40	pieces of chicle de salchicha
+6587	jar of frostigkraut	406876387	frostigkraut.gif	offhand	t,d	70
+6588	gnawed-up dog bone	222503659	dogbone.gif	weapon	t,d	66
+6589	Grey Guanon	800593734	guanon.gif	offhand	t,d	35	jars of Grey Guanon
+6590
+6591	dream of a dog	514413900	martini.gif	drink	t,d	100	dreams of dogs
+6592
+6593	defective Game Grid token	606727747	gg_def.gif	usable	t	0	defective Game Grid tokens

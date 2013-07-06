@@ -99,7 +99,6 @@ El Vibrato Island	100	Bizarre Construct	Hulking Construct	Industrious Construct	
 Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
 Engineering	-1
 Exposure Esplanade	-1	Cold Hobo	Frosty: 0
-eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 Fear Man's Level	-1	animated possessions	morbid skull	natural spider	Fear Man: 0
 Feeding Chamber	100	Filthworm Drone
 Fernswarthy's Basement	47	Beast with X Ears	Beast with X Eyes	X Stone Golem		X-headed Hydra	Ghost of Fernswarthy's Grandfather	X Bottles of Beer on a Golem	X-dimensional Horror
@@ -213,6 +212,7 @@ The Dive Bar	100	Lounge Lizardfish	Mer-kin tippler	Nurse Shark
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
 The Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
+The eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 The F'c'le	80	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
 The Frat House (Bombed Back to the Stone Age)	100	Caveman Frat Boy	Caveman Frat Pledge	Caveman Sorority Girl
 The Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
