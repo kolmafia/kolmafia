@@ -1829,10 +1829,10 @@ public class FightRequest
 					encounter.equalsIgnoreCase( "Soused Stuffing Golem" ) ||
 					// El/La aren't actually part of the monster's name,
 					// but they have not been removed yet by KoLmafia
-					encounter.equalsIgnoreCase( "El Novio Cadáver" ) ||
-					encounter.equalsIgnoreCase( "El Padre Cadáver" ) ||
-					encounter.equalsIgnoreCase( "La Novia Cadáver" ) ||
-					encounter.equalsIgnoreCase( "La Persona Inocente Cadáver" ) ||
+					encounter.equalsIgnoreCase( "El Novio Cad&aacute;ver" ) ||
+					encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
+					encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
+					encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
 					encounter.equalsIgnoreCase( "ambulatory pirate" ) ||
 					encounter.equalsIgnoreCase( "migratory pirate" ) ||
 					encounter.equalsIgnoreCase( "peripatetic pirate" )

@@ -361,6 +361,17 @@ public class DadManager
 			elements[index++] = Element.HOT;
 		}
 
+		// If there was only one bit set, the same element was added in twice
+		// If that element is PHYSICAL, none are set since we didn't check for bit 64
+		if ( index == 0 )
+		{
+			elements[0] = elements[1] = Element.PHYSICAL;
+		}
+		if ( index == 1 )
+		{
+			elements[0] = elements[1] = DadManager.intToElement( elements[0].ordinal() - 1 );
+		}
+
 		boolean reverse = matcher.group(6).toLowerCase().equals( "suddenly" );
 		ElementalWeakness[ 6 ] = reverse ? elements[ 1 ] : elements[ 0 ];
 		ElementalWeakness[ 7 ] = reverse ? elements[ 0 ] : elements[ 1 ];
