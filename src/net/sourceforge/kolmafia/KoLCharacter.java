@@ -4504,6 +4504,7 @@ public abstract class KoLCharacter
 				hand.set( imod );
 				hand.set( Modifiers.SLIME_HATES_IT, 0.0f );
 				hand.set( Modifiers.BRIMSTONE, 0 );
+				hand.set( Modifiers.CLOATHING, 0 );
 				hand.set( Modifiers.SYNERGETIC, 0 );
 				imod = hand;
 				// Possibly cache the modified modifiers?
@@ -4582,6 +4583,17 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.MONSTER_LEVEL, brimstoneMonsterLevel, "brimstone" );
 			newModifiers.add( Modifiers.MEATDROP, brimstoneMonsterLevel, "brimstone" );
 			newModifiers.add( Modifiers.ITEMDROP, brimstoneMonsterLevel, "brimstone" );
+		}
+
+		int cloathingLevel = 1 << newModifiers.getBitmap( Modifiers.CLOATHING );
+		// Cloathing gives item/meat drop and all stats.
+		if ( cloathingLevel > 1 )
+		{
+			newModifiers.add( Modifiers.MOX_PCT, cloathingLevel, "cloathing" );
+			newModifiers.add( Modifiers.MUS_PCT, cloathingLevel, "cloathing" );
+			newModifiers.add( Modifiers.MYS_PCT, cloathingLevel, "cloathing" );
+			newModifiers.add( Modifiers.MEATDROP, cloathingLevel, "cloathing" );
+			newModifiers.add( Modifiers.ITEMDROP, cloathingLevel / 2, "cloathing" );
 		}
 
 		// Because there are a limited number of passive skills,

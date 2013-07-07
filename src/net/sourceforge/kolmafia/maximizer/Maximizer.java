@@ -85,6 +85,7 @@ public class Maximizer
 	{
 		"_hoboPower",
 		"_brimstone",
+		"_cloathing",
 		"_slimeHate",
 		"_stickers",
 	};

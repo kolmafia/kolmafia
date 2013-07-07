@@ -671,10 +671,11 @@ public class Modifiers
 	public static final int BOOLEANS = 0;
 	public static final int CLOWNOSITY = 1;
 	public static final int BRIMSTONE = 2;
-	public static final int SYNERGETIC = 3;
-	public static final int RAVEOSITY = 4;
-	public static final int MUTEX = 5;
-	public static final int MUTEX_VIOLATIONS = 6;
+	public static final int CLOATHING = 3;
+	public static final int SYNERGETIC = 4;
+	public static final int RAVEOSITY = 5;
+	public static final int MUTEX = 6;
+	public static final int MUTEX_VIOLATIONS = 7;
 
 	private static final Object[][] bitmapModifiers =
 	{
@@ -689,6 +690,10 @@ public class Modifiers
 		{ "Brimstone",
 		  null,
 		  Pattern.compile( "Brimstone" )
+		},
+		{ "Cloathing",
+		  null,
+		  Pattern.compile( "Cloathing" )
 		},
 		{ "Synergetic",
 		  null,
