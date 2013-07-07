@@ -2937,9 +2937,10 @@ public class Parser
 					String fullName = value.toString();
 					if ( !element.equalsIgnoreCase( fullName ) )
 					{
-						ScriptException ex = this.parseException( "Changing \"" + element + "\" to \"" + fullName + "\" would get rid of this message" );
-						String message = CharacterEntities.escape( StringUtilities.globalStringReplace( ex.getMessage(), ",", "\\," ) );
-						RequestLogger.printLine( message );
+						String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ) );
+						String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ) );
+						ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message" );
+						RequestLogger.printLine( ex.getMessage() );
 					}
 
 					list.add( value );
@@ -3064,9 +3065,10 @@ public class Parser
 				String fullName = value.toString();
 				if ( !input.equalsIgnoreCase( fullName ) )
 				{
-					ScriptException ex = this.parseException( "Changing \"" + input + "\" to \"" + fullName + "\" would get rid of this message" );
-					String message = CharacterEntities.escape( StringUtilities.globalStringReplace( ex.getMessage(), ",", "\\," ) );
-					RequestLogger.printLine( message );
+					String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( input, ",", "\\," ) );
+					String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ) );
+					ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message" );
+					RequestLogger.printLine( ex.getMessage() );
 				}
 				return value;
 			}
