@@ -2938,7 +2938,7 @@ public class Parser
 					if ( !element.equalsIgnoreCase( fullName ) )
 					{
 						ScriptException ex = this.parseException( "Changing \"" + element + "\" to \"" + fullName + "\" would get rid of this message" );
-						String message = CharacterEntities.escape( ex.getMessage() );
+						String message = CharacterEntities.escape( StringUtilities.globalStringReplace( ex.getMessage(), ",", "\\," ) );
 						RequestLogger.printLine( message );
 					}
 
@@ -3065,7 +3065,7 @@ public class Parser
 				if ( !input.equalsIgnoreCase( fullName ) )
 				{
 					ScriptException ex = this.parseException( "Changing \"" + input + "\" to \"" + fullName + "\" would get rid of this message" );
-					String message = CharacterEntities.escape( ex.getMessage() );
+					String message = CharacterEntities.escape( StringUtilities.globalStringReplace( ex.getMessage(), ",", "\\," ) );
 					RequestLogger.printLine( message );
 				}
 				return value;
