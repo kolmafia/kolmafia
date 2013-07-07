@@ -846,6 +846,16 @@ public class Evaluator
 			}
 		}
 
+		boolean cloathingUseful = false;
+		{
+			Modifiers mods = Modifiers.getModifiers( "_cloathing" );
+			if ( mods != null &&
+				this.getScore( mods ) - nullScore > 0.0 )
+			{
+				cloathingUseful = true;
+			}
+		}
+		
 		boolean slimeHateUseful = false;
 		{
 			Modifiers mods = Modifiers.getModifiers( "_slimeHate" );
@@ -1063,6 +1073,8 @@ public class Evaluator
 						mods.get( Modifiers.HOBO_POWER ) > 0.0 ) ||
 					( brimstoneUseful &&
 						mods.getRawBitmap( Modifiers.BRIMSTONE ) != 0 ) ||
+					( cloathingUseful &&
+						mods.getRawBitmap( Modifiers.CLOATHING ) != 0 ) ||
 					( slimeHateUseful &&
 						mods.get( Modifiers.SLIME_HATES_IT ) > 0.0 ) ||
 					( stickersUseful &&

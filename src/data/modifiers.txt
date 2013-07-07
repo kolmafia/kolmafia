@@ -78,7 +78,7 @@ El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief", Fa
 El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
 Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 25"
 Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
-Goggles of Loathing	Initiative: +50, Hot Resistance: +5, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
+Goggles of Loathing	Initiative: +50, Hot Resistance: +5, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Cloathing
 Grimacite gasmask	Muscle Percent: [10*G], Weapon Damage: +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Grimacite goggles	Mysticality Percent: [10*G], Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
 Hat O' Nine Tails	Moxie Percent: +9
@@ -370,7 +370,7 @@ Greatest American Pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Per
 Grimacite gaiters	Adventures: +3, Mysticality Percent: [10*G], Familiar Effect: "cap 37"
 Grimacite greaves	Initiative: +20, Moxie Percent: [10*G], Familiar Effect: "cap 37"
 Hodgman's lobsterskin pants	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Familiar Effect: "atk, 1xPotato"
-Jeans of Loathing	HP Regen Min: 20, HP Regen Max: 30, MP Regen Min: 20, MP Regen Max: 30, Maximum HP: +500, Maximum MP: +500, Stench Resistance: +5
+Jeans of Loathing	HP Regen Min: 20, HP Regen Max: 30, MP Regen Min: 20, MP Regen Max: 30, Maximum HP: +500, Maximum MP: +500, Stench Resistance: +5, Cloathing
 # Jodhpurs of Violence: Allows moshing
 Jodhpurs of Violence	PvP Fights: +4, Weapon Damage Percent: +30, Critical Hit Percent: +5
 Knob Goblin Uberpants	Muscle: +2, Mysticality: +2, Moxie: +2, Familiar Effect: "1xPotato, 3xFairy, cap 11"
@@ -770,7 +770,7 @@ Staff of the Teapot Tempest	Spell Damage Percent: +25, Mysticality: +5, MP Regen
 Staff of the Walk-In Freezer	Spell Damage Percent: +150, Cold Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality: +15, MP Regen Min: 7, MP Regen Max: 8
 Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
-Stick-Knife of Loathing	Weapon Damage Percent: +100, Spell Damage Percent: +200, Cold Resistance: +5
+Stick-Knife of Loathing	Weapon Damage Percent: +100, Spell Damage Percent: +200, Cold Resistance: +5, Cloathing
 Super Crimboman Ultra Mega Hypersword	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical Hit Percent: +5
 Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Spell Damage Percent: +50, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
@@ -1366,7 +1366,7 @@ Oscus's garbage can lid	Stench Damage: +20, Damage Reduction: 15
 # Rain-Doh green lantern: Makes Spells Smell Worse
 Rain-Doh green lantern	Maximum MP: +20, Softcore Only
 Rainbow Jello Mould	Moxie Percent: +50
-Scepter of Loathing	Spell Critical Percent: +15, Spooky Resistance: +5, Critical Hit Percent: +15
+Scepter of Loathing	Spell Critical Percent: +15, Spooky Resistance: +5, Critical Hit Percent: +15, Cloathing
 Sceptre of the Torremolinos Prince	Mysticality Percent: +12
 Seven Loco	Booze Drop: +5, Candy Drop: +5
 Shield of Icy Fate	Hot Resistance: 1, Cold Resistance: 1, Spooky Resistance: 1, Stench Resistance: 1, Sleaze Resistance: 1, Weapon Damage Percent: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
@@ -1657,7 +1657,7 @@ Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
 Baron von Ratsworth's monocle	Item Drop: +10, Single Equip
 Belt of Howling Anger	PvP Fights: +3, Critical Hit Percent: +3, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 # Belt of Loathing: 75% Chance of Preventing Negative Status Attacks
-Belt of Loathing	Damage Reduction: 20, Familiar Weight: +10, Single Equip
+Belt of Loathing	Damage Reduction: 20, Familiar Weight: +10, Single Equip, Cloathing
 # Bling of the New Wave: 1 Additional Pickpocket Attempt
 Bling of the New Wave	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Class: "Disco Bandit", Single Equip
 Blue Diamond of Honesty	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
@@ -1779,7 +1779,7 @@ Oscus's pelt	Mysticality Percent: +20, Stench Spell Damage: +30, Class: "Pastama
 Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Pine-Fresh air freshener	Stench Resistance: +1
 Pink Heart of Spirit	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
-Pocket Square of Loathing	Never Fumble, Mana Cost: -3, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Single Equip
+Pocket Square of Loathing	Never Fumble, Mana Cost: -3, Cold Resistance: +5, Hot Resistance: +5, Sleaze Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Single Equip, Cloathing
 Pok&euml;mann figurine: Bloodkip	Familiar Weight: +3, Single Equip
 Pok&euml;mann figurine: Duck	Cold Resistance: +2, Single Equip
 Pok&euml;mann figurine: Frank	Muscle Percent: +10, Single Equip
@@ -1823,7 +1823,7 @@ Talisman of Bakula	Single Equip
 # The Lost Glasses: Reduce enemy defense by 15%
 The Lost Glasses	Hot Resistance: +2, Single Equip
 The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
-Treads of Loathing	Adventures: +6, PvP Fights: +6, Sleaze Resistance: +5, Single Equip
+Treads of Loathing	Adventures: +6, PvP Fights: +6, Sleaze Resistance: +5, Single Equip, Cloathing
 Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
 # Uncle Hobo's epic beard: +6 Adventures per day when equipped (+9 in December)
 Uncle Hobo's epic beard	Muscle Percent: +20, Single Equip
@@ -4387,6 +4387,7 @@ mutex/shining halo/furry halo/frosty halo/time halo	none
 # The exact values don't really matter, just their sign.
 
 _brimstone	Item Drop: 1, Meat Drop: 1, Monster Level: 1
+_cloathing	Item Drop: 1, Meat Drop: 1, Moxie: 1, Mysticality: 1, Muscle: 1
 _hoboPower	Weapon Damage: 0.8, Ranged Damage: 1.0, Spell Damage: 1.2, HP Regen Min: 0.25, HP Regen Max: 0.33, MP Regen Min: 0.25, MP Regen Max: 0.33, Meat Drop: 1.0, Item Drop: 0.5
 _slimeHate	Monster Level: [zone(The Slime Tube)]
 _stickers	Item Drop: +25, Experience: +2, Meat Drop: +25, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Weapon Damage: +20, Spell Damage: +20
@@ -4667,7 +4668,7 @@ dandy lion cub	Free Pull
 daub-breaker	Effect: "Hot Breath", Effect Duration: 1
 deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 deactivated nanobots	Free Pull
-defective Game Grid token	Effect: Video... Games, Effect Duration: 5
+defective Game Grid token	Effect: "Video... Games", Effect Duration: 5
 deflated inflatable dodecapede	Free Pull
 delicious comfit?	Effect: "Discomfited", Effect Duration: 10
 demonic surgical gloves	Effect: "Daemon Duds", Effect Duration: 50

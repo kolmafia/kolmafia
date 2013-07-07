@@ -257,6 +257,14 @@ public class AdventureDatabase
 			"Shady Thicket",
 			"McMillicancuddy's Shady Thicket"
 		},
+		{
+			"Belilafs Comedy Club",
+			"The Laugh Floor"
+		},
+		{
+			"Hey Deze Arena",
+			"Infernal Rackets Backstage"
+		},
 		// Everything above here added to 16.0, remove after 16.1
 	};
 
