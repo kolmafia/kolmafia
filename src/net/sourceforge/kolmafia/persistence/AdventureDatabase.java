@@ -191,15 +191,15 @@ public class AdventureDatabase
 		},
 		{
 			"Giant's Castle (Basement)",
-			"Castle in the Clouds in the Sky (Basement)"
+			"The Castle in the Clouds in the Sky (Basement)"
 		},
 		{
 			"Giant's Castle (Ground Floor)",
-			"Castle in the Clouds in the Sky (Ground Floor)"
+			"The Castle in the Clouds in the Sky (Ground Floor)"
 		},
 		{
 			"Giant's Castle (Top Floor)",
-			"Castle in the Clouds in the Sky (Top Floor)"
+			"The Castle in the Clouds in the Sky (Top Floor)"
 		},
 		{
 			"Greater-Than Sign",
