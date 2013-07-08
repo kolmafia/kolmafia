@@ -1236,7 +1236,7 @@ public class RelayRequest
 		this.sendGeneralWarning( "wand.gif", warning.toString(), CONFIRM_SORCERESS );
 		return true;
 	}
-	
+
 	private boolean sendArcadeWarning()
 	{
 
@@ -1268,7 +1268,7 @@ public class RelayRequest
 
 		return false;
 	}
-	
+
 	private boolean sendBilliardsWarning( String adventureName )
 	{
 		if ( adventureName == null )
@@ -1293,9 +1293,9 @@ public class RelayRequest
 		{
 			return false;
 		}
-		
-		List<?> a = AdventureQueueDatabase.getZoneQueue( "Haunted Billiards Room" );
-		List<?> b = AdventureQueueDatabase.getZoneNoncombatQueue( "Haunted Billiards Room" );
+
+		List<?> a = AdventureQueueDatabase.getZoneQueue( "The Haunted Billiards Room" );
+		List<?> b = AdventureQueueDatabase.getZoneNoncombatQueue( "The Haunted Billiards Room" );
 
 		// We still don't want to nag if delay() is still doing its thing for this zone.
 		if ( a != null && b != null && a.size() + b.size() < 5 )
