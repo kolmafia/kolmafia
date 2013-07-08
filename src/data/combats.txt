@@ -59,7 +59,6 @@ Batrat and Ratbat Burrow	100	Batrat	Ratbat	Screambat: 0
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
 Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier	The Temporal Bandit: -1
 Battlefield (No Uniform)	0	The Temporal Bandit: -1
-Beanbat Chamber	100	Beanbat	Screambat: 0
 Belowdecks	100	Gaudy Pirate	Grassy Pirate	Gritty Pirate	Groovy Pirate	Grungy Pirate
 Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow	Blackberry Bush
 Boss Bat's Lair	100	Beefy Bodyguard Bat	Boss Bat
@@ -191,6 +190,7 @@ The Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Bat Hole Entrance	100	Albino Bat	Pine Bat	Regular Old Bat
 The Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0
 The Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker	Brutus, the Toga-Clad Lout: 0	Danglin' Chad: 0	Monty Basingstoke-Pratt, IV: 0	Next-Generation Frat Boy: 0	The Man: 0
+The Beanbat Chamber	100	Beanbat	Screambat: 0
 The Briny Deeps	100	Funk Sole Brother	Pumped-Up Bass	School of Wizardfish
 The Brinier Deepers	100	Bazookafish	Clubfish	Scimitarfish
 The Briniest Deepests	100	Acoustic Electric Eel	Decent White Shark	Ganger
