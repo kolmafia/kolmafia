@@ -1939,6 +1939,7 @@ skeletal skiff	MUSE	skeleton (7)
 auxiliary backbone	MUSE	skeleton (9)
 Bonestabber	MUSE	skeleton (11)
 Lazybones&trade; recliner	MUSE	skeleton (13)
+shaking skull	MUSE	skeleton (100)
 
 # Crimbo toys.  These are items which are created at Uncle Crimbo
 # after collecting enough toy components.
