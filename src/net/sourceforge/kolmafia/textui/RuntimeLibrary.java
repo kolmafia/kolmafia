@@ -5630,6 +5630,9 @@ public abstract class RuntimeLibrary
 	public static Value svn_info( Interpreter interpreter, final Value script )
 	{
 		String[] projects = KoLConstants.SVN_LOCATION.list();
+		
+		if ( projects == null )
+			return getRecInit();
 
 		ArrayList<String> matches = new ArrayList<String>();
 		for ( String s: projects )
