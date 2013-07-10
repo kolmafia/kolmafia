@@ -55,13 +55,11 @@ Astral Mushroom (Mediocre Trip)	100	Feeling That You're Being Watched	Really Int
 Atomic Crimbo Toy Factory	100	Mutant Circuit-Soldering Elf	Mutant Cookie-Baking Elf	Mutant Doll-Dressing Elf	Mutant Gift-Wrapping Elf	Mutant Whistle-Carving Elf
 Barrel full of Barrels	-1	Mimic (Bottom 2 Rows)	Mimic (Middle 2 Rows)	Mimic (Top 2 Rows)
 Barrrney's Barrr	80	Tetchy Pirate	Tipsy Pirate	Toothy Pirate
-Batrat and Ratbat Burrow	100	Batrat	Ratbat	Screambat: 0
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
 Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier	The Temporal Bandit: -1
 Battlefield (No Uniform)	0	The Temporal Bandit: -1
 Belowdecks	100	Gaudy Pirate	Grassy Pirate	Gritty Pirate	Groovy Pirate	Grungy Pirate
-Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow	Blackberry Bush
-Boss Bat's Lair	100	Beefy Bodyguard Bat	Boss Bat
+
 Bugbear Pens	100	Angry Bugbear: 3	Bugged Bugbear: 3	Mad Bugbears: 3	Revolting Bugbear: 3	Revolving Bugbear: 3	Annoying Spooky Gravy Fairy: 2
 Burnbarrel Blvd.	-1	Hot Hobo	Ol' Scratch: 0
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
@@ -91,13 +89,10 @@ Doubt Man's Level	-1	judgmental eye	reproachful heart	work hat	Doubt Man: 0
 Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
 Elf Alley	-1	Hobelf	Uncle Hobo: 0
 El Vibrato Island	100	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
-Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
 Engineering	-1
 Exposure Esplanade	-1	Cold Hobo	Frosty: 0
 Fear Man's Level	-1	animated possessions	morbid skull	natural spider	Fear Man: 0
-Feeding Chamber	100	Filthworm Drone
 Fernswarthy's Basement	47	Beast with X Ears	Beast with X Eyes	X Stone Golem		X-headed Hydra	Ghost of Fernswarthy's Grandfather	X Bottles of Beer on a Golem	X-dimensional Horror
-Fernswarthy's Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
 Fightin' Fire	100	brushfire
 Foyer	100	Fleaman	Ghost	Medusa
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
@@ -106,10 +101,8 @@ Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown
 Galley	-1
 Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Supervisor
 Guano Junction	100	Baseball Bat	Briefcase Bat	Perpendicular Bat	Screambat: 0	Skullbat	Doughbat	Vampire Bat
-Guards' Chamber	100	Filthworm Royal Guard
 Haert of the Cyrpt	100	Bonerdagon
 Hamburglaris Shield Generator	-1	Alien Hamsterpus	Mutated Alielephant	Mutated Alielf
-Hatching Chamber	100	Larval Filthworm
 Infernal Rackets Backstage	-1	Inkubus	Serialbus	Suckubus
 Hidden City (automatic)	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hidden City (Encounter)	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
@@ -146,20 +139,17 @@ Navigation	-1
 Neckback Crick	100	Deadly Venomtrout	Water Spider	Unearthed Monstrosity: 0
 Nemesis Cave	100	Infernal Seal Larva	Infernal Seal Spawn	Vengeful Turtle Spectre	Haunted Soup Tureen	Slithering Hollandaise Glob	Pernicious Puddle of Pesto	Evil Spaghetti Cultist	Evil Spaghetti Cult Priest	Talking Head	Psychedelic Fur	Evil Vihuela-playing Mariachi	Evil Trumpet-playing Mariachi
 Noob Cave	100	Crate
-Oasis in the Desert	100	Blur	Oasis Monster	Rolling Stone	Swarm of Scarab Beatles
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
 Old Crimbo Town Toy Factory	100	Mob Penguin Goon	Mob Penguin Hitpenguin	Mob Penguin Enforcer	Mob Penguin Psychopath	Mob Penguin Racketeer
 Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Rampaging Adding Machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 Outside the Club	100	Breakdancing Raver	Pop-and-Lock Raver	Running Man
 Outskirts of Camp Logging Camp	70	Axe Handle	Cloud of Disembodied Whiskers	Poutine Ooze	Forest Spirit
-Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
 The Obligatory Pirate's Cove	60	Sassy Pirate	Smarmy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate
 McMillicancuddy's Pond	100	Figure-Skating Duck	Frozen Duck
 Poop Deck	100	Wacky Pirate	Warty Pirate	Wealthy Pirate	Whiny Pirate	Witty Pirate
 Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1
 Post-War Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
-Post-War Sonofa Beach	-1	Lobsterfrogman
 Pre-Cyrpt Cemetary	100	Ghuol	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
 Queen's Chamber	100	Queen Filthworm
 Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
@@ -173,6 +163,7 @@ Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	D
 Small-O-Fier	-1	Cruel Dust Mote	Funk Particle	Jungle Scabie: 0	Malevolent Magnetic Field	Smooth Jazz Scabie: 0
 Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
 Sonar	-1
+Sonofa Beach	10	Lobsterfrogman
 Sorceress' Hedge Maze	100	Topiary Golem
 South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
 Special Ops	-1
@@ -185,9 +176,12 @@ Tavern Cellar	-1	Drunken Rat	Baron Von Ratsworth: 0
 The Ancient Hobo Burial Ground	-1	Spooky Hobo	Zombo: 0
 The Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Bat Hole Entrance	100	Albino Bat	Pine Bat	Regular Old Bat
+The Batrat and Ratbat Burrow	100	Batrat	Ratbat	Screambat: 0
 The Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0
 The Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker	Brutus, the Toga-Clad Lout: 0	Danglin' Chad: 0	Monty Basingstoke-Pratt, IV: 0	Next-Generation Frat Boy: 0	The Man: 0
 The Beanbat Chamber	100	Beanbat	Screambat: 0
+The Black Forest	100	Black Adder	Black Knight	Black Panther	Black Widow	Blackberry Bush
+The Boss Bat's Lair	100	Beefy Bodyguard Bat	Boss Bat
 The Briny Deeps	100	Funk Sole Brother	Pumped-Up Bass	School of Wizardfish
 The Brinier Deepers	100	Bazookafish	Clubfish	Scimitarfish
 The Briniest Deepests	100	Acoustic Electric Eel	Decent White Shark	Ganger
@@ -211,12 +205,15 @@ The Dive Bar	100	Lounge Lizardfish	Mer-kin tippler	Nurse Shark
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
 The Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
+The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
 The eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 The F'c'le	80	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
+The Feeding Chamber	100	Filthworm Drone
 The Frat House (Bombed Back to the Stone Age)	100	Caveman Frat Boy	Caveman Frat Pledge	Caveman Sorority Girl
 The Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant: 0	The Large-Bellied Snitch: 0
 The Haiku Dungeon	90	Amateur Ninja	Ancient Insane Monk	Ferocious Bugbear	Gelatinous Cube	Knob Goblin Poseur
+The Hatching Chamber	100	Larval Filthworm
 The Haunted Ballroom	80	Floating Platter of Hors D'Oeuvres	Ghastly Organist: 0	Zombie Waltzers	Tapdancing Skeleton
 The Haunted Bathroom	75	Claw-foot Bathtub	Malevolent Hair Clog	Toilet Papergeist	Guy Made Of Bees: 0
 The Haunted Bedroom	20	Animated Nightstand (Mahogany)	Animated Nightstand (White)	Remains of a Jilted Mistress: 0
@@ -244,13 +241,16 @@ The Mer-Kin Outpost	100	Mer-kin Burglar	Mer-kin Healer	Mer-kin Raider
 The Middle Chamber	100	Iiti Kitty	Tomb Bat	Tomb Servant
 The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanctum): 0	warehouse worker	Stella, the Turtle Poacher (Inner Sanctum): 0	evil spaghetti cult zealot	Spaghetti Elemental (Inner Sanctum): 0	security slime	Lumpy, the Sinister Sauceblob (Inner Sanctum): 0	daft punk	Spirit of New Wave (Inner Sanctum): 0	mariachi bruiser	Somerset Lopez, Dread Mariachi (Inner Sanctum): 0
 The Nightmare Meatrealm	100	bacon snake	cold cutter	groast	pork butterfly	salaminder	The Beefhemoth: 0
+The Oasis	100	Blur	Oasis Monster	Rolling Stone	Swarm of Scarab Beatles
 The Old Man's Bathtime Adventures	-1	fearsome giant squid	ferocious roc	giant man-eating shark	Bristled Man-O-War	The Cray-Kin	Deadly Hydra
 The Outer Compound	100	guard turtle
 The Outskirts of Cobb's Knob	80	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
+The Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
 The Penultimate Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess
 The Primordial Soup	-1	Cluster of Angry Bacteria	Corrosive Algae	Hostile Amoeba	Mad Flagellate	Violent Fungus	Cyrus the Virus: 0
 The Purple Light District	-1	Sleaze Hobo	Chester: 0
 The Red Queen's Garden	100	Snapdragon	Beelephant	Tiger-lily	wasp in a wig
+The Royal Guard Chamber	100	Filthworm Royal Guard
 The Skate Park	-1	Grouper Groupie	Ice Skate	Roller Skate	Skate Board Member	Urchin Urchin
 The Slime Tube	95	Slime1	Slime2	Slime3	Slime4	Slime5	Mother Slime: 0
 The Spooky Forest	60	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowulf: -1
@@ -263,6 +263,7 @@ The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator
 The Wreck of the Edgar Fitzsimmons	100	Cargo Crab	Drowned Sailor	Mer-kin Scavenger	Mine Crab	Unholy Diver
 Throne Room	100	Knob Goblin King
 Thugnderdome	100	Gnarly Gnome	Gnasty Gnome	Gnefarious Gnome	Gnomester Blomester	Gnu Jack Gnome	Vicious Gnauga
+Tower Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
 Triad Factory	100	clean-room daemon	fabricator gu&agrave;i	triad code wizard	The Sierpinski brothers: 0
 Twin Peak	-1	bearpig topiary animal	Big Wheelin' Twins	Bubblemint Twins	Creepy Ginger Twin	elephant (meatcar?) topiary animal	Mismatched Twins	spider (duck?) topiary animal	Troll Twins
 Video Game Level 1	-1	Video Game Minion (weak)
@@ -276,7 +277,6 @@ Next to that Barrel with Something Burning in it	100	A.M.C. Gremlin	Batwinged Gr
 Near an Abandoned Refrigerator	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Over Where the Old Tires Are	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Out By that Rusted-Out Car	100	A.M.C. Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
-Wartime Sonofa Beach	10	Lobsterfrogman
 Waste Processing	-1
 White Citadel	70	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orcs
 Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake

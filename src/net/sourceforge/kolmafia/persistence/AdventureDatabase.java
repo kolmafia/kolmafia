@@ -203,7 +203,7 @@ public class AdventureDatabase
 		},
 		{
 			"Greater-Than Sign",
-			"Enormous Greater-Than Sign"
+			"The Enormous Greater-Than Sign"
 		},
 		{
 			"Pirate Cove",
@@ -264,6 +264,22 @@ public class AdventureDatabase
 		{
 			"Hey Deze Arena",
 			"Infernal Rackets Backstage"
+		},
+		{
+			"Oasis in the Desert",
+			"The Oasis"
+		},
+		{
+			"Guards' Chamber",
+			"The Royal Guard Chamber"
+		},
+		{
+			"Wartime Sonofa Beach",
+			"Sonofa Beach"
+		},
+		{
+			"Post-War Sonofa Beach",
+			"Sonofa Beach"
 		},
 		// Everything above here added to 16.0, remove after 16.1
 	};
