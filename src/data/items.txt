@@ -5994,24 +5994,24 @@
 5977	silent beret	553150840	mimeberet.gif	hat	t	0
 5978	slice of pizza	709823427	pizzaslice.gif	food	t,d	10	slices of pizza
 5979	huge gold coin	699945657	goldcoin.gif	none	t,d	250	huge gold coins
-5980	cartoon heart	588736683	cartoonheart.gif	usable, combat	t,d	10
-5981	gold star	306265817	goldstar.gif	usable, combat	t,d	10
+5980	cartoon heart	588736683	cartoonheart.gif	hp, combat	t,d	10
+5981	gold star	306265817	goldstar.gif	mp, combat	t,d	10
 5982	tankard of ale	834422340	tankard.gif	drink	t,d	10
 5983	vial of holy water	636236146	vial2.gif	none, combat	t,d	50
 5984	green cloth cap	661269930	clothhat.gif	hat	t,d	25
 5985	iron dagger	311675547	irondagger.gif	weapon	t,d	25
 5986	hamburger	501525914	hamburger.gif	food	t,d	20
 5987	dollar-sign bag	270130490	moneybag.gif	none	t,d	500
-5988	red potion	967188383	potion15.gif	usable, combat	t,d	20
-5989	blue potion	418867484	potion16.gif	usable, combat	t,d	20
+5988	red potion	967188383	potion15.gif	hp, combat	t,d	20
+5989	blue potion	418867484	potion16.gif	mp, combat	t,d	20
 5990	bottle of wine	931805669	beerbottle.gif	drink	t,d	20	bottles of wine
 5991	round blue bomb	345260261	bluebomb.gif	none, combat	t,d	100
 5992	iron helmet	268254817	ironhelmet.gif	hat	t,d	50
 5993	steel sword	117682320	steelsword.gif	weapon	t,d	50
 5994	whole roasted chicken	476070653	roastchicken.gif	food	t,d	40
 5995	massive gemstone	938849756	hugegem.gif	none	t,d	1000
-5996	extra-strength red potion	256364967	potion18.gif	usable, combat	t,d	40
-5997	fancy blue potion	270679102	potion17.gif	usable, combat	t,d	40
+5996	extra-strength red potion	256364967	potion18.gif	hp, combat	t,d	40
+5997	fancy blue potion	270679102	potion17.gif	mp, combat	t,d	40
 5998	shining goblet	268521234	finegoblet.gif	drink	t,d	40
 5999	fireball	977966832	fireball2.gif	none, combat	t,d	200
 6000	gold crown	128676669	goldcrown.gif	hat	t,d	100
@@ -6034,8 +6034,8 @@
 6017	orcish nailing lube	451592558	tube.gif	multiple	t,d	55	cans of orcish nailing lube
 6018	backwoods screwdriver	654728754	rocks.gif	drink	t,d	35
 6019	loadstone	542996759	loadstone.gif	offhand	t	0
-6020	Claybender glasses	718638398	potterglasses.gif	accessory	t,d	90
-6021	Duskwalker fangs	277539982	dipshitfangs.gif	accessory	t,d	80
+6020	Claybender glasses	718638398	potterglasses.gif	accessory	t,d	90	pairs of Claybender glasses
+6021	Duskwalker fangs	277539982	dipshitfangs.gif	accessory	t,d	80	sets of Duskwalker fangs
 6022	Space Tourist Phaser	744444657	phaser.gif	weapon	t,d	100
 6023	Whoompa Fur Pants	246273677	woompapants.gif	pants	t,d	95	pairs of Whoompa Fur Pants
 6024	Whatsian Ionic Pliers	623667945	ionicpliers.gif	offhand	t,d	120	pairs of Whatsian Ionic Pliers
