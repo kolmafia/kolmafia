@@ -6596,7 +6596,7 @@
 6579
 6580
 6581
-6582
+6582	Clan hot dog stand	346032932	crate.gif	usable	t	0
 6583
 6584	ancient hot dog wrapper	111886283	wrapper.gif	offhand	t,d	5	ancient hot dog wrappers
 6585
