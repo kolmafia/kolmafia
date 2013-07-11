@@ -1021,7 +1021,7 @@ public class RelayRequest
 
 			if ( location != null && location.equals( "34" ) && KoLCharacter.mcdAvailable() )
 			{
-				List<?> batQueue = AdventureQueueDatabase.getZoneQueue( "Boss Bat's Lair" );
+				List<?> batQueue = AdventureQueueDatabase.getZoneQueue( "The Boss Bat's Lair" );
 				if ( batQueue == null || batQueue.size() < 4 )
 				{
 					// Do not prompt about adjusting the MCD if the Boss Bat cannot show up
