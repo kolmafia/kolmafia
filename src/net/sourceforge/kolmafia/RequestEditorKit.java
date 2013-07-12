@@ -895,6 +895,18 @@ public class RequestEditorKit
 			KoLAdventure adventure = AdventureDatabase.getAdventure( locname );
 			if ( adventure == null )
 			{
+				if ( locname.startsWith( "The " ) )
+				{
+					adventure = AdventureDatabase.getAdventure( locname.substring( 4) );
+				}
+				else
+				{
+					adventure = AdventureDatabase.getAdventure( "The " + locname );
+				}
+			}
+
+			if ( adventure == null )
+			{
 				continue;
 			}
 
