@@ -296,14 +296,6 @@ public class ValhallaDecorator
 			buffer.append( "<nobr><a href=\"trophy.php\">buy trophies you're eligible for</a></nobr><br>" );
 		}
 
-		GenericRequest goofCheck = new GenericRequest( "tavern.php?place=susguy" );
-		goofCheck.run();
-		if ( goofCheck.responseText.indexOf( "Take some goofballs (for free!)" ) != -1 )
-		{
-			buffer.append( "<nobr><a href=\"tavern.php?place=susguy\">get free goofballs.</a></nobr><br>" );
-		}
-
-
 		if ( KoLCharacter.getAttacksLeft() > 0 )
 		{
 			buffer.append( "<nobr><a href=\"peevpee.php?place=fight\">Use remaining PVP fights</a></nobr><br>" );
