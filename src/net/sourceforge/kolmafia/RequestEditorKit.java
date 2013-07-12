@@ -459,6 +459,7 @@ public class RequestEditorKit
 			RequestEditorKit.fixTavernCellar( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.addChoiceSpoilers( location, buffer );
+			RequestEditorKit.addNewLocationLinks( buffer );
 		}
 		else if ( location.startsWith( "clan_hobopolis.php" ) )
 		{
@@ -467,6 +468,7 @@ public class RequestEditorKit
 		else if ( location.startsWith( "council.php" ) )
 		{
 			RequestEditorKit.decorateCouncil( buffer );
+			RequestEditorKit.addNewLocationLinks( buffer );
 		}
 		else if ( location.startsWith( "crypt.php" ) )
 		{
@@ -494,7 +496,14 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "forestvillage.php" ) )
 		{
+			// place=untinker
+			RequestEditorKit.addNewLocationLinks( buffer );
 			UntinkerRequest.decorate( location, buffer );
+		}
+		else if ( location.startsWith( "guild.php" ) )
+		{
+			// place=paco
+			RequestEditorKit.addNewLocationLinks( buffer );
 		}
 		else if ( location.startsWith( "hedgepuzzle.php" ) )
 		{
@@ -571,6 +580,10 @@ public class RequestEditorKit
 		{
 			MineDecorator.decorate( location, buffer );
 		}
+		else if ( location.startsWith( "monkeycastle.php" ) )
+		{
+			RequestEditorKit.addNewLocationLinks( buffer );
+		}
 		else if ( location.startsWith( "multiuse.php" ) )
 		{
 			RequestEditorKit.addMultiuseModifiers( buffer );
@@ -584,6 +597,11 @@ public class RequestEditorKit
 		else if ( location.startsWith( "pandamonium.php" ) )
 		{
 			PandamoniumRequest.decoratePandamonium( location, buffer );
+		}
+		else if ( location.startsWith( "place.php" ) )
+		{
+			// whichplace=mclargehuge?action=trappercabin
+			RequestEditorKit.addNewLocationLinks( buffer );
 		}
 		else if ( location.startsWith( "postwarisland.php" ) )
 		{
@@ -633,7 +651,6 @@ public class RequestEditorKit
 		RequestEditorKit.addAbsintheLink( buffer );
 		RequestEditorKit.addTransponderLink( buffer );
 		RequestEditorKit.addFolioLink( buffer );
-		RequestEditorKit.addNewLocationLinks( buffer );
 
 		// Now do anything which doesn't work in Java's internal HTML renderer
 
