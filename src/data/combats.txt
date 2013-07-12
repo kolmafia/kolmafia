@@ -125,9 +125,9 @@ McMillicancuddy's Granary	100	Rotund Duck
 McMillicancuddy's Other Back 40	100	Greasy Duck
 McMillicancuddy's Shady Thicket	100	Drunk Duck	Mean Drunk Duck
 Medbay	-1
-Menagerie 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
-Menagerie 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
-Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
+Cobb's Knob Menagerie, Level 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
+Cobb's Knob Menagerie, Level 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
+Cobb's Knob Menagerie, Level 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
 Mer-kin Colosseum	100	Mer-kin balldodger	Mer-kin bladeswitcher	Mer-kin netdragger	Georgepaul, the Balldodger: 0	Johnringo, the Netdragger: 0	Ringogeorge, the Bladeswitcher: 0
 Mer-kin Elementary School	-1	Mer-kin Monitor	Mer-kin Punisher	Mer-kin Teacher
 Mer-kin Gymnasium	-1	Mer-kin Juicer	Mer-kin Poseur	Mer-kin Trainer
@@ -141,7 +141,6 @@ Nemesis Cave	100	Infernal Seal Larva	Infernal Seal Spawn	Vengeful Turtle Spectre
 Noob Cave	100	Crate
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
 Old Crimbo Town Toy Factory	100	Mob Penguin Goon	Mob Penguin Hitpenguin	Mob Penguin Enforcer	Mob Penguin Psychopath	Mob Penguin Racketeer
-Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Rampaging Adding Machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 Outside the Club	100	Breakdancing Raver	Pop-and-Lock Raver	Running Man
 Outskirts of Camp Logging Camp	70	Axe Handle	Cloud of Disembodied Whiskers	Poutine Ooze	Forest Spirit
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
@@ -151,7 +150,6 @@ Poop Deck	100	Wacky Pirate	Warty Pirate	Wealthy Pirate	Whiny Pirate	Witty Pirate
 Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1
 Post-War Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Pre-Cyrpt Cemetary	100	Ghuol	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
-Queen's Chamber	100	Queen Filthworm
 Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
 Rogue Windmill	70	Can-can Dancer	Courtesan	Sensitive Poet-type	Master of Ceremonies	Voyeuristic Artist
 The Ruined Wizard Tower	-1	bogart	haunted skullabra	smell-o-the-wisp
@@ -169,7 +167,6 @@ South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mari
 Special Ops	-1
 Spectral Pickle Factory	75	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
 Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	Skeletal Reindeer	Stocking-stuffing Zombie	Toy-making creature from the Gray Lagoon
-Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 Stately Pleasure Dome	70	Ancient Mariner	Angry Poet	Kubla Khan	Roller-skating Muse	Toothless Mastiff Bitch
 Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
 Tavern Cellar	-1	Drunken Rat	Baron Von Ratsworth: 0
@@ -209,6 +206,7 @@ The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	
 The eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 The F'c'le	80	Chatty Pirate	Cleanly Pirate	Clingy Pirate	Creamy Pirate	Crusty Pirate	Curmudgeonly Pirate
 The Feeding Chamber	100	Filthworm Drone
+The Filthworm Queen's Chamber	100	Queen Filthworm
 The Frat House (Bombed Back to the Stone Age)	100	Caveman Frat Boy	Caveman Frat Pledge	Caveman Sorority Girl
 The Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant: 0	The Large-Bellied Snitch: 0
@@ -254,10 +252,12 @@ The Royal Guard Chamber	100	Filthworm Royal Guard
 The Skate Park	-1	Grouper Groupie	Ice Skate	Roller Skate	Skate Board Member	Urchin Urchin
 The Slime Tube	95	Slime1	Slime2	Slime3	Slime4	Slime5	Mother Slime: 0
 The Spooky Forest	60	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowulf: -1
+The Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 The Temple Portico	100	evil spaghetti cult middle-manager	evil spaghetti cult neophyte	evil spaghetti cult technician
 The Themthar Hills	100	Dirty Thieving Brigand
 The Tower of Procedurally-Generated Skeletons	100	procedurally-generated skeleton
 The Upper Chamber	100	Tomb Asp	Tomb Rat	Tomb Servant
+The Valley of Rof L'm Fao	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Rampaging Adding Machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator
 The Wreck of the Edgar Fitzsimmons	100	Cargo Crab	Drowned Sailor	Mer-kin Scavenger	Mine Crab	Unholy Diver
@@ -276,7 +276,7 @@ Wartime Hippy Camp (Frat Disguise)	80	War Hippy Drill Sergeant	War Hippy (Space)
 Next to that Barrel with Something Burning in it	100	A.M.C. Gremlin	Batwinged Gremlin	Spider Gremlin	Vegetable Gremlin
 Near an Abandoned Refrigerator	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Over Where the Old Tires Are	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
-Out By that Rusted-Out Car	100	A.M.C. Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
+Out by that Rusted-Out Car	100	A.M.C. Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Waste Processing	-1
 White Citadel	70	Angry Raccoon Puppet	Business Hippy	eXtreme Sports Orcs
 Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
