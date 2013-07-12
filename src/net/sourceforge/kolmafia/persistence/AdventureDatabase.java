@@ -281,6 +281,10 @@ public class AdventureDatabase
 			"Post-War Sonofa Beach",
 			"Sonofa Beach"
 		},
+		{
+			"Orc Chasm",
+			"The Valley of Rof L'm Fao"
+		},
 		// Everything above here added to 16.0, remove after 16.1
 	};
 
