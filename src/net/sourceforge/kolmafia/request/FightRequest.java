@@ -242,7 +242,7 @@ public class FightRequest
 	public static boolean haiku = false;
 	public static boolean anapest = false;
 	public static int currentRound = 0;
-	private static boolean inMultiFight = false;
+	public static boolean inMultiFight = false;
 
 	private static String nextAction = null;
 
@@ -5778,11 +5778,6 @@ public class FightRequest
 		String location = FightRequest.isTrackingFights ? "fight.php?action=script" : "fight.php?action=done";
 		String responseText = FightRequest.lastResponseText;
 		return RequestEditorKit.getFeatureRichHTML( location, responseText );
-	}
-
-	public static final boolean inMultiFight()
-	{
-		return FightRequest.inMultiFight;
 	}
 
 	public static final int getCurrentRound()
