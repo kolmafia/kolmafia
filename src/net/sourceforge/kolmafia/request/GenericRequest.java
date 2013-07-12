@@ -1157,6 +1157,29 @@ public class GenericRequest
 	{
 	}
 
+	public static final boolean abortIfInFightOrChoice()
+	{
+		if ( FightRequest.currentRound != 0 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a fight." );
+			return true;
+		}
+
+		if ( FightRequest.inMultiFight )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a multi-stage fight." );
+			return true;
+		}
+
+		if ( !GenericRequest.choiceHandled )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a choice." );
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Runs the thread, which prepares the connection for output, posts the data to the Kingdom of Loathing, and
 	 * prepares the input for reading. Because the Kingdom of Loathing has identical page layouts, all page reading and

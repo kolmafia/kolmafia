@@ -582,6 +582,11 @@ public class EquipmentRequest
 	@Override
 	public void run()
 	{
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
 		if ( this.requestType == EquipmentRequest.REFRESH )
 		{
 			InventoryManager.refresh();

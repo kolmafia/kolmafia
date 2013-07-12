@@ -84,8 +84,8 @@ public class RecoveryManager
 	public static boolean isRecoveryPossible()
 	{
 		return	!RecoveryManager.isRecoveryActive() &&
-			FightRequest.getCurrentRound() == 0 &&
-			!FightRequest.inMultiFight() &&	
+			FightRequest.currentRound == 0 &&
+			!FightRequest.inMultiFight &&	
 			GenericRequest.choiceHandled &&
 			!CharPaneRequest.inValhalla();
 	}

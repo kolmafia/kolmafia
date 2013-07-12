@@ -409,7 +409,7 @@ public class UseItemRequest
 
 	private static final int maximumUses( final int itemId, final String itemName, final int consumptionType, final boolean allowOverDrink )
 	{
-		if ( FightRequest.inMultiFight() )
+		if ( FightRequest.inMultiFight )
 		{
 			UseItemRequest.limiter = "multi-stage fight in progress";
 			return 0;
@@ -994,6 +994,11 @@ public class UseItemRequest
 	@Override
 	public void run()
 	{
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
 		// Hide memento items from your familiars
 		if ( this.isBingeRequest() &&
 		     Preferences.getBoolean( "mementoListActive" ) &&

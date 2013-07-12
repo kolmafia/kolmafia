@@ -406,6 +406,11 @@ public class CreateItemRequest
 	@Override
 	public void run()
 	{
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
 		if ( !KoLmafia.permitsContinue() || this.quantityNeeded <= 0 )
 		{
 			return;
