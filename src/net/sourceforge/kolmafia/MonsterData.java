@@ -119,11 +119,6 @@ public class MonsterData
 		return 1.0 + ( KoLCharacter.inBeecore() ? ( this.beeCount / 5.0 ) : 0.0 );
 	}
 
-	private static int getBigness()
-	{
-		return KoLCharacter.inBigcore() ? 150 : 0;
-	}
-
 	public int getHP()
 	{
 		if ( this.health == null )
@@ -138,8 +133,12 @@ public class MonsterData
 				// The monster is unknown, so do not apply modifiers
 				return 0;
 			}
+			if ( KoLCharacter.inBigcore() )
+			{
+				hp += 150;
+			}
 			return (int) Math.floor( Math.max( 1, hp + ML() ) *
-			       getBeeosity() + MonsterData.getBigness() );
+			       getBeeosity() );
 		}
 		if ( this.health instanceof String )
 		{
@@ -179,8 +178,12 @@ public class MonsterData
 				// The monster is unknown, so do not apply modifiers
 				return 0;
 			}
+			if ( KoLCharacter.inBigcore() )
+			{
+				attack = Math.min( attack + 150, 300 );
+			}
 			return (int) Math.floor( Math.max( 1, attack + ML() ) *
-			       getBeeosity() + MonsterData.getBigness() );
+			       getBeeosity() );
 		}
 		if ( this.attack instanceof String )
 		{
@@ -220,8 +223,12 @@ public class MonsterData
 				// The monster is unknown, so do not apply modifiers
 				return 0;
 			}
+			if ( KoLCharacter.inBigcore() )
+			{
+				defense = Math.min( defense + 150, 300 );
+			}
 			return (int) Math.floor( Math.max( 1, defense + ML() ) *
-			       getBeeosity() * EquipmentManager.getDefenseModifier() + MonsterData.getBigness() );
+			       getBeeosity() * EquipmentManager.getDefenseModifier() );
 		}
 		if ( this.defense instanceof String )
 		{
