@@ -175,7 +175,7 @@ Bar	bar.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 12-20  P: beast	bar skin (25)
 # Baron von Ratsworth		Atk: 20 Def: 20 HP: 25
 Baron Von Ratsworth	ratsworth.gif	BOSS HP: [HP*1.2] Def: [MUS+min(12,3+A)] Atk: [MOX+min(12,3+A)] Init: 80  P: beast	Baron von Ratsworth's monocle (c100)	Baron von Ratsworth's money clip (c100)	Baron von Ratsworth's tophat (c100)
 Baseball Bat	ballbat.gif	Atk: 15 Def: 13 HP: 9 Init: 60 Meat: 17-27  P: beast	baseball (30)	sonar-in-a-biscuit (10)
-BASIC Elemental	basicgolem.gif	Atk: 50 Def: 45 HP: 40 Init: 60  P: elemental	GOTO (0)
+BASIC Elemental	basicgolem.gif	Atk: 50 Def: 45 HP: 40 Init: 60  P: elemental	GOTO (30)
 Batrat	batrat.gif	Atk: 23 Def: 20 HP: 20 Init: 60 Meat: 18-28  P: beast	bat wing (15)	bat guano (15)	batgut (15)	sonar-in-a-biscuit (15)
 Battlie Knight Ghost	aboo_wars.gif	Atk: 76 Def: 64 HP: 40 Init: -10000 Phys: 100 E: spooky  P: undead	A-Boo clue (15)	Battlie Light Saver (0)	Whoompa Fur Pants (0)
 Batwinged Gremlin	gremlinbat.gif	Atk: 169 Def: 153 HP: 170 Init: 60 Meat: 40-60  P: humanoid	gremlin juice (3)	molybdenum hammer (c0)

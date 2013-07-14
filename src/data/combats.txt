@@ -108,7 +108,6 @@ Hidden City (automatic)	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	P
 Hidden City (Encounter)	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
 Hobopolis Town Square	95	Normal Hobo	Hodgman, The Hoboverlord: 0
-Hole in the Sky	100	Astronomer: 3	One-Eyed Willie: o2	Burrowing Bishop: o2	Family Jewels: o2	Hooded Warrior: o2	Junk: o2	Pork Sword: o2	Skinflute: o2	Trouser Snake: o2	Twig and Berries: o2	Axe Wound: e2	Beaver: e2	Box: e2	Bush: e2	Camel's Toe: e2	Flange: e2	Honey Pot: e2	Little Man in the Canoe: e2	Muff: e2
 Huge-A-Ma-tron	-1	Castle In The Clouds In The Sky	Fearsome Wacken: 0	Loose Coalition of Yetis, Snowmen, and Goats	Spookyraven Manor	The Whole Kingdom: 0
 Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2	Knott Slanding: -1
 Itznotyerzitz Mine	90	Dopey 7-Foot Dwarf	Grumpy 7-Foot Dwarf	Sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
@@ -230,6 +229,7 @@ The Haunted Wine Cellar (Southeast)	100	Possessed Wine Rack	Skeletal Sommelier
 The Heap	-1	Stench Hobo	Oscus: 0
 The Hidden Temple	-1	Baa-relief Sheep	Clan of Cave Bars	Craven Carven Raven	Stone Temple Pirate	Baa'baa'bu'ran: 0
 The Hippy Camp (Bombed Back to the Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
+The Hole in the Sky	100	Astronomer: 3	One-Eyed Willie: o2	Burrowing Bishop: o2	Family Jewels: o2	Hooded Warrior: o2	Junk: o2	Pork Sword: o2	Skinflute: o2	Trouser Snake: o2	Twig and Berries: o2	Axe Wound: e2	Beaver: e2	Box: e2	Bush: e2	Camel's Toe: e2	Flange: e2	Honey Pot: e2	Little Man in the Canoe: e2	Muff: e2
 The Jungles of Ancient Loathing	-1	Ancient Guardian Statue	Evil Cultist	Jungle Baboon	Tribal Goblin	Giant Bird-Creature: 0	Giant Jungle Python: 0	Giant Octopus: 0	Giant Spider: 0	High Priest of Ki'rhuss: 0	Wumpus: 0
 The Knob Shaft	85	Ghost Miner
 The Laugh Floor	-1	BL Imp	CH Imp	Pr Imp	Carbuncle Top: 0	Larry of the Field of Signs: 0	Victor the Insult Comic Hellhound: 0

@@ -789,6 +789,7 @@ curdflinger	45	Mox: 7	1-handed crossbow
 curmudgel	125	Mus: 47	1-handed club
 cursed cutlass	200	Mus: 85	1-handed sword
 cyber-mattock	160	Mus: 65	2-handed axe
+debonair deboner	90	Mus: 30	1-handed club
 decaying wooden oar	200	Mus: 85	2-handed club
 deep six-shooter	200	Mox: 85	1-handed pistol
 demon whip	10	Mus: 0	1-handed whip
@@ -1136,6 +1137,7 @@ Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
 Dungeon Fist gauntlet	100	Mus: 35
 Dyspepsi-Cola shield	70	none	shield
 Ellsbury's skull	100	Mys: 35
+Engorged Sausages and You	0	Mys: 35
 Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
 Grey Guanon	0	Mys: 15
@@ -1328,6 +1330,7 @@ naughty fortune teller	0	none
 off-hand balloon	10	none
 oil lamp	120	Mus: 45
 old-school flying disc	220	Mus: 200	shield
+optimal spreadsheet	0	none
 orcish stud-finder	85	Mys: 27
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
