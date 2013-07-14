@@ -1117,9 +1117,9 @@
 1116	Ravonovichy	boobytrap.gif	302340d940b3fc80d684ca0b58f763e5	use 1 booby trap
 1117	Ermahgerd, Burke	cigarette.gif	b3ab2310ef241e43e9516aed94de83c5	use 1 Agent Corrigan's cigarette
 1118	Feeling a Little Wesley	disease.gif	2faea6a628e127997296956613465227	use 1 good ash
-1119	Altered Wavelengths	nopic.gif	cd23f6685ed4f7e2648998a4020f1265	use 1 papier-mochi
-1120	Stopping to Smell the Flowers	nopic.gif	00c2131ddee16ce4278a0047946ed99e	use 1 papier-m&acirc;chaeranthera
-1121	Eyes Wide Propped	nopic.gif	471d1af8ce58cd6214fa35ea7e73c2c3	use 1 papier-m&acirc;ch&eacute; toothpicks
+1119	Altered Wavelengths	machemochi.gif	cd23f6685ed4f7e2648998a4020f1265	use 1 papier-mochi
+1120	Stopping to Smell the Flowers	macheflower.gif	00c2131ddee16ce4278a0047946ed99e	use 1 papier-m&acirc;chaeranthera
+1121	Eyes Wide Propped	machetoothpicks.gif	471d1af8ce58cd6214fa35ea7e73c2c3	use 1 papier-m&acirc;ch&eacute; toothpicks
 1122	Skeletal Warrior	skeleton_f.gif	24b65cd8925245a53f83e66607123af1	skeleton warrior
 1123	Skeletal Cleric	skeleton_c.gif	14356ec8ad0803973f8046a715c7cc49	skeleton cleric
 1124	Skeletal Wizard	skeleton_w.gif	65e3bbc5ded46039c146db0699a31a5e	skeleton wizard
@@ -1159,7 +1159,7 @@
 1158	Highland Sheen	bighaggis.gif	14ba65211a5eb17979976862e60fc5ad	eat 1 haggis-wrapped haggis-stuffed haggis
 1159	Meaty and Cheesy	taco.gif	98a313b442aef4f5e0a0b93c7f5d79d4	eat 1 Taco Dan's Taco Stand Taco
 1160	Margaritish	daquiri.gif	a9d3c21e76c58eddbd7f33283e6ac3c5	drink 1 Taco Dan's Taco Stand Chimichangarita
-1161	Churro Chiaroscuro blintz.gif	5d5583050168f43d91bc251d36f7ace7	use 1 Taco Dan's Taco Stand's Chillacious Churro
+1161	Churro Chiaroscuro	blintz.gif	5d5583050168f43d91bc251d36f7ace7	use 1 Taco Dan's Taco Stand's Chillacious Churro
 1162
 1163	Tiffany's Breakfast	knifefork.gif	c4f777069b71adcf74b4d0cb686158bd
 1164	My Breakfast With Andrea	knifefork.gif	de78735d5e9a3f844fc03addd9d2a50f
@@ -1169,7 +1169,7 @@
 1168	Lucky Cat is Lucky	kittystatue.gif	7c36cbf0cf8ca15dc6ab9bcde8e6e8d4
 1169	Pla-see-bo	snowcarrot.gif	7788b095166a425339a98d9bb8c7cf2e	chew 1 carrot juice
 1170	Hoppyness	pinecone.gif	2fe0004ca79a4f94028ff59a80682709	drink 1 Hundred Headed IPA
-1171	Crud&eacute;	crudites.gif	fda0e6e0e26716c9ef57ae3a40b50149	use 1 crude crudit&eacute;s
+1171
 1172	A Taste of Rainbow	rrainbow.gif	99bb86b3192fb426354e2eb72ac35f1f	use 1 candy crayons
 1173	Crud&eacute;	crudites.gif	fda0e6e0e26716c9ef57ae3a40b50149	use 1 crude crudit&eacute;s
 1174	Coffeesphere	jarl_coffee.gif	a9e6b06f15dd1d8aded27a4bfcb59b3f	cast 1 Coffeesphere
@@ -1299,4 +1299,4 @@
 1298	Hangdog	hotdog_sleaze.gif	3b5ecfa5953774999e709c9ea98328b5
 1299
 1300	Here to Kick Ass	jarl_regdog.gif	dbfd261e20f3065f69f15cb5ce08b574	use 1 chicle de salchicha
-1301	Video... Games	gg_def.gif	3d5280f646ac2a6b70e64eae72daa263	use 1 defective Game Grid token
+1301	Video... Games?	gg_def.gif	3d5280f646ac2a6b70e64eae72daa263	use 1 defective Game Grid token
