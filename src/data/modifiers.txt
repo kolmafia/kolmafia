@@ -2635,6 +2635,8 @@ toy six-seater hovercraft	Familiar Weight: -5
 # undissolvable contact lenses: Helps your Slimeling See Better
 unspeakable lozenges	Familiar Weight: +5
 velvet choker	Familiar Weight: +5
+# vicious spiked collar: +20 to Familiar Damage
+vicious spiked collar	Generic
 wax lips	Experience: +3, Softcore Only, Generic
 # weegee sqouija: Hobo's Booze Is More Effective
 woimbook	Familiar Weight: +5
