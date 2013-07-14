@@ -124,7 +124,7 @@ McMillicancuddy's Granary	100	Rotund Duck
 McMillicancuddy's Other Back 40	100	Greasy Duck
 McMillicancuddy's Shady Thicket	100	Drunk Duck	Mean Drunk Duck
 Medbay	-1
-Cobb's Knob Menagerie, Level 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
+Cobb's Knob Menagerie, Level 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant	QuickBASIC Elemental: -1
 Cobb's Knob Menagerie, Level 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Cobb's Knob Menagerie, Level 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
 Mer-kin Colosseum	100	Mer-kin balldodger	Mer-kin bladeswitcher	Mer-kin netdragger	Georgepaul, the Balldodger: 0	Johnringo, the Netdragger: 0	Ringogeorge, the Bladeswitcher: 0
