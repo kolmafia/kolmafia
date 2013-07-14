@@ -302,7 +302,8 @@ public class FightRequest
 		"knott slanding",
 		"master of thieves",
 		"temporal bandit",
-		"pooltergeist (ultra-rare)"
+		"pooltergeist (ultra-rare)",
+		"quickbasic elemental"
 	};
 
 	// Skills which cannot be used with a ranged weapon

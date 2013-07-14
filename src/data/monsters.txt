@@ -784,6 +784,7 @@ Pygmy Blowgunner	pygblowgun.gif	Atk: 156 Def: 130 HP: 147 Init: 90 Meat: 86-118 
 Pygmy Headhunter	pyghunter.gif	Atk: 146 Def: 138 HP: 150 Init: 30 E: sleaze Meat: 143-207  P: dude	briefcase (60)	headhunter necktie (5)	pointed stick (10)	world's smallest violin (5)
 Quantum Mechanic	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80  P: dude	large box (40)	vorpal blade (15)	pile of gold coins (p20)
 Queen Filthworm	filthworm4.gif	BOSS Atk: 173 Def: 155 HP: 195 Init: 50 Meat: 1000 E: stench  P: bug	heart of the filthworm queen (100)
+QuickBASIC Elemental	basicgolem.gif	P: elemental	optimal spreadsheet (100)
 Quiet Healer	healer.gif	Atk: 95 Def: 85 HP: 90 Init: 80 Meat: 92-138  P: dude	amulet of extreme plot significance (10)	scroll of drastic healing (30)	soft green echo eyedrop antidote (30)
 Racecar Bob	racebob.gif	Atk: 144 Def: 124 HP: 139 Init: 80 Meat: 100-144  P: dude	enormous belt buckle (25)	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)
 Raconteur Elf			elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
