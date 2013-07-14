@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -415,7 +416,7 @@ public class UseItemRequest
 			return 0;
 		}
 
-		if ( !GenericRequest.choiceHandled )
+		if ( !GenericRequest.choiceHandled && !ChoiceManager.canWalkAway() )
 		{
 			UseItemRequest.limiter = "choice adventure in progress";
 			return 0;

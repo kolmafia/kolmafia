@@ -63,6 +63,8 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
+
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -86,7 +88,7 @@ public class RecoveryManager
 		return	!RecoveryManager.isRecoveryActive() &&
 			FightRequest.currentRound == 0 &&
 			!FightRequest.inMultiFight &&	
-			GenericRequest.choiceHandled &&
+			( GenericRequest.choiceHandled || ChoiceManager.canWalkAway() ) &&
 			!CharPaneRequest.inValhalla();
 	}
 

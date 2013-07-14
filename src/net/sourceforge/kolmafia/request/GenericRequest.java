@@ -1171,7 +1171,7 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( !GenericRequest.choiceHandled )
+		if ( !GenericRequest.choiceHandled && !ChoiceManager.canWalkAway() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You are currently in a choice." );
 			return true;

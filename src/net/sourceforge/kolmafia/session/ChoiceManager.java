@@ -91,6 +91,7 @@ public abstract class ChoiceManager
 	public static int lastDecision = 0;
 	public static String lastResponseText = "";
 	private static int skillUses = 0;
+	private static boolean canWalkAway;
 
 	private enum PostChoiceAction {
 		NONE,
@@ -3420,6 +3421,11 @@ public abstract class ChoiceManager
 		String choice = request.getFormField( "whichchoice" );
 		String option = request.getFormField( "option" );
 
+		if ( option == null && choice != null )
+		{
+			ChoiceManager.setCanWalkAway( Integer.parseInt( choice ) );
+		}
+
 		if ( choice == null || option == null )
 		{
 			// Visiting a choice page but not yet making a decision
@@ -6137,6 +6143,24 @@ public abstract class ChoiceManager
 		}
 
 		return spoilers;
+	}
+	public static boolean canWalkAway()
+	{
+		return ChoiceManager.canWalkAway;
+	}
+
+	private static void setCanWalkAway( final int choice )
+	{
+		switch ( choice )
+		{
+			case 664: // The Crackpot Mystic's Shed
+			case 720: // The Florist Friar's Cottage
+				ChoiceManager.canWalkAway = true;
+				break;
+
+			default:
+				ChoiceManager.canWalkAway = false;
+		}
 	}
 
 }
