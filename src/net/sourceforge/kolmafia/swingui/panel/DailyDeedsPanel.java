@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -238,7 +239,10 @@ public class DailyDeedsPanel
 		},
 		{
 			"Special", "Avatar of Jarlberg Staves"
-		}
+		},
+		{
+			"Special", "Defective Token"
+		},
 	};
 
 	private static final int getVersion( String deed )
@@ -246,7 +250,9 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Avatar of Jarlberg Staves" ) )
+		if ( deed.equals( "Defective Token" ) )
+			return 7;
+		else if ( deed.equals( "Avatar of Jarlberg Staves" ) )
 			return 6;
 		else if ( deed.equals( "Swimming Pool" ) )
 			return 5;
@@ -979,6 +985,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Avatar of Jarlberg Staves" ) )
 		{
 			this.add( new JarlsbergStavesDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Defective Token" ) )
+		{
+			this.add( new DefectiveTokenDaily() );
 		}
 		else
 		// you added a special deed to BUILTIN_DEEDS but didn't add a method call.
@@ -3432,6 +3442,12 @@ public class DailyDeedsPanel
 		@Override
 		public void update()
 		{
+			this.setShown( KoLCharacter.isJarlsberg() );
+			if ( !KoLCharacter.isJarlsberg() )
+			{
+				return;
+			}
+
 			boolean haveCheese = InventoryManager.getCount( ItemPool.STAFF_OF_CHEESE ) > 0
 				|| KoLCharacter.hasEquipped( DailyDeedsPanel.STAFF_OF_CHEESE );
 			boolean haveLife = InventoryManager.getCount( ItemPool.STAFF_OF_LIFE ) > 0
@@ -3445,7 +3461,6 @@ public class DailyDeedsPanel
 			int jiggledSteak = Preferences.getInteger( "_jiggleSteak" );
 			int jiggledCream = Preferences.getInteger( "_jiggleCream" );
 			String creamedMonster = Preferences.getString( "_jiggleCreamedMonster" );
-			String cheesedMonsters = Preferences.getString( "_jiggleCheesedMonsters" ).replaceAll( "\\|", ", " );
 
 			boolean shown = false;
 			String text = "Staff jiggles: ";
@@ -3487,8 +3502,57 @@ public class DailyDeedsPanel
 				shown = true;
 			}
 
-			this.setShown( KoLCharacter.isJarlsberg() );
 			this.setText( text );
+		}
+	}
+
+	public static class DefectiveTokenDaily
+		extends Daily
+	{
+		private JButton button;
+
+		public DefectiveTokenDaily()
+		{
+			this.addItem( ItemPool.GG_TICKET );
+			this.addItem( ItemPool.GG_TOKEN );
+			this.addListener( "_defectiveTokenChecked" );
+			this.button = this.addButton( "defective token" );
+			this.button.setActionCommand( "ashq visit_url(\"arcade.php?action=plumber\");" );
+			this.addLabel( "click to check" );
+		}
+
+		@Override
+		public void update()
+		{
+			boolean checked = Preferences.getBoolean( "_defectiveTokenChecked" );
+			boolean unlocked = Preferences.getInteger( "lastArcadeAscension" ) == KoLCharacter.getAscensions();
+			boolean unlockable = unlocked || // Having those items doesn't matter if it's already unlocked
+			        InventoryManager.hasItem( ItemPool.GG_TOKEN ) || InventoryManager.hasItem( ItemPool.GG_TICKET );
+
+			if ( !unlocked && unlockable )
+			{
+				RequestThread.postRequest( new GenericRequest( "town_wrong.php" ) );
+				Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
+				unlocked = true;
+			}
+
+			if ( checked )
+			{
+				this.setText( "already checked for a defective token" );
+				this.button.setVisible( false );
+			}
+
+			else if ( !unlocked && !unlockable )
+			{
+				this.setText( "Game Grid Arcade is not accessible" );
+				this.button.setVisible( false );
+			}
+
+			else if ( unlocked )
+			{
+				this.setText( "click to check" );
+				this.button.setVisible( true );
+			}
 		}
 	}
 }

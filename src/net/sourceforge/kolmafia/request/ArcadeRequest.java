@@ -181,6 +181,12 @@ public class ArcadeRequest
 			return;
 		}
 
+		if ( action.equals( "plumber" ) )
+		{
+			// We visited Jackass Plumber for the day
+			Preferences.setBoolean( "_defectiveTokenChecked", true );
+		}
+
 		if ( TicketCounterRequest.parseResponse( urlString, responseText ) )
 		{
 			return;
@@ -199,7 +205,6 @@ public class ArcadeRequest
 		case 3:	// Dungeon Fist!
 		case 4:	// Fighters of Fighting
 		case 5:	// Meteoid
-		case 6:	// Jackass Plumber
 			// These games only take tokens, and you don't have any
 
 			// If we succeed in playing a game, we were redirected
@@ -268,9 +273,6 @@ public class ArcadeRequest
 					break;
 				case 5:	// Meteoid
 					name = "Meteoid";
-					break;
-				case 6:	// Jackass Plumber
-					name = "Jackass Plumber";
 					break;
 				default:
 					return false;
@@ -1420,7 +1422,7 @@ public class ArcadeRequest
 			return;
 		}
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		String challenge = matcher.group( 1 );
 		String score = matcher.group( 2 );
 		String pHP = matcher.group( 3 );
@@ -1461,7 +1463,7 @@ public class ArcadeRequest
 			return;
 		}
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		String result = matcher.group( 1 );
 		String score = matcher.group( 2 );
 		buffer.append( "Round " );
@@ -1801,25 +1803,4 @@ public class ArcadeRequest
 	}
 
 	/* End Meteoid */
-	/* Jackass Plumber */
-
-	public static final void visitJackassPlumberChoice( final String responseText )
-	{
-		// Called when we visit Jackass Plumber
-		// Parse out the choice names
-		ArcadeRequest.parseChoiceNames( responseText );
-	}
-
-	public static final void postChoiceJackassPlumber( final GenericRequest request )
-	{
-		// Called when we have taken a choice in Jackass Plumber
-
-		// Log what we see
-		String responseText = request.responseText;
-
-		// Parse out the new choice names
-		ArcadeRequest.parseChoiceNames( responseText );
-	}
-
-	/* End Jackass Plumber */
 }
