@@ -244,6 +244,11 @@ public class GoalManager
 		{
 			return;
 		}
+		
+		if ( message.equals( "Under the Knife" ) && Preferences.getString( "choiceAdventure21" ).equals( "2" ) )
+		{
+			return;
+		}
 		else if ( GoalManager.goals.isEmpty() )
 		{
 			KoLmafia.updateDisplay( MafiaState.PENDING, message );
