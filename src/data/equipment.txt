@@ -563,7 +563,7 @@ Crimbo ukelele	80	Mox: 20	2-handed guitar
 Crimbomination Contraption	100	Mus: 0	2-handed club
 Disco Banjo	50	Mox: 10	2-handed banjo
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
-Drowsy Sword	171	Mus: 66	2-handed sword
+Drowsy Sword	175	Mus: 66	2-handed sword
 El Vibrato energy spear	200	Mus: 200	2-handed spear
 Flail of the Seven Aspects	200	Mus: 60	1-handed flail
 Frost&trade; brand sword	70	Mus: 20	1-handed sword
@@ -667,7 +667,7 @@ Tales of the Word Realms	0	Mus: 0	2-handed book
 The Landscaper's leafblower	100	Mox: 35	2-handed leafblower
 The Necbromancer's Wizard Staff	10	Mys: 200	1-handed chefstaff
 The Trickster's Trikitixa	200	Mox: 60	2-handed accordion
-Totally Gay Claymore	69	Mus: 19	2-handed sword
+Totally Gay Claymore	70	Mus: 19	2-handed sword
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
 Trusty	100	Mus: 0	2-handed axe
 Truthsayer	200	Mus: 200	1-handed sword
@@ -941,7 +941,7 @@ ocarina of space	120	Mox: 45	2-handed flute
 octopus's spade	200	Mus: 85	1-handed knife
 office-supply crossbow	50	Mox: 10	2-handed crossbow
 oil pan	125	Mys: 47	1-handed saucepan
-old school Mafi<i>a kni</i>cke&frac12;&aelig;	117	Mys: 41	1-handed sword
+old school Mafi<i>a kni</i>cke&frac12;&aelig;	120	Mys: 41	1-handed sword
 origami riding crop	100	Mus: 0	1-handed crop
 out-of-tune biwa	30	Mox: 0	2-handed guitar
 oversized pizza cutter	100	Mys: 35	1-handed utensil
@@ -1053,7 +1053,7 @@ stinkin' bindle	200	Mus: 200	2-handed polearm
 stinky cheese sword	100	Mus: 0	1-handed sword
 stolen accordion	10	Mox: 0	2-handed accordion
 stone banjo	25	Mox: 0	2-handed banjo
-stuffed club	1	Mus: 0	1-handed club
+stuffed club	5	Mus: 0	1-handed club
 stuffed crazy bastard sword	10	Mus: 0	1-handed sword
 styrofoam crossbow	60	Mox: 15	2-handed crossbow
 styrofoam staff	60	Mus: 15	2-handed staff
@@ -1209,7 +1209,7 @@ Whatsian Ionic Pliers	110	Mys: 40
 Zombo's shield	240	Mus: 200	shield
 adhesive tape dolly	0	none
 ancient calendar	70	Mus: 20	shield
-ancient hot dog wrapper	0	Mys: 35
+ancient hot dog wrapper	0	Mys: 85
 ancient stone head	85	Mus: 27	shield
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none
