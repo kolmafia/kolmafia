@@ -796,11 +796,35 @@ public class ClanLoungeRequest
 
 	private static void registerHotDog( String name, int id, boolean available, String supply, int needed, int stocked )
 	{
-		// System.out.println( ( !available ? "(unavailable) " : "" ) + name + " (" + id + ") requires " + needed + " " + supply + " with " + stocked + " in stock." );
+		StringBuffer buffer = new StringBuffer();
+		if ( !available)
+		{
+			buffer.append( "(unavailable) " );
+		}
+		buffer.append( name );
+		buffer.append( " (" );
+		buffer.append( String.valueOf( id ) );
+		buffer.append( ")" );
+		if ( !available && needed == 0 )
+		{
+			buffer.append( " can be unlocked with " );
+			buffer.append( supply == null ? "(unknown)" : supply );
+		}
+		if ( needed > 0 )
+		{
+			buffer.append( " requires " );
+			buffer.append( String.valueOf( needed ) );
+			buffer.append( " " );
+			buffer.append( supply );
+			buffer.append( " (" );
+			buffer.append( String.valueOf( stocked ) );
+			buffer.append( " in stock)" );
+		}
+		// System.out.println( buffer.toString() );
 	}
 
 	private static final Pattern HOTDOG_PATTERN = Pattern.compile( 
-		".*?<input class=button type=submit value=Eat( disabled.*?)?>.*?<span onclick='descitem.\"(.*?)_food\".*?<b>(.*?)</b>(?:.*?<img.*?title=\"(.*?)\".*?<b>x (.*?)</b>.*?([0123456789,]*) in stock)?", Pattern.DOTALL );
+		".*?<input class=button type=submit value=Eat( disabled.*?)?>.*?<span onclick='descitem.\"(.*?)_food\".*?<b>(.*?)</b>(?:.*?<img.*?title=\"(.*?)\"(?:.*?<b>x (.*?)</b>.*?([0123456789,]*) in stock)?)?", Pattern.DOTALL );
 
 	private static void parseHotDog( final String hotdog )
 	{
