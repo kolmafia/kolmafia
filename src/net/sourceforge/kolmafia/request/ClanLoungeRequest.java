@@ -732,7 +732,7 @@ public class ClanLoungeRequest
 
 	private static final Pattern HOTTUB_PATTERN = Pattern.compile( "hottub(\\d).gif" );
 
-	public static void parseLounge( final String action, final String clan, final String responseText )
+	private static void parseLounge( final String action, final String clan, final String responseText )
 	{
 		RequestLogger.printLine( "You are currently a member of " + clan );
 
@@ -768,6 +768,81 @@ public class ClanLoungeRequest
 		}
 	}
 
+	// The HTML for the Hot Dog Stand is - surprise! - malformed.
+	// The table rows contain a <span></td> rather than <span></span>
+	//
+	// To eat a hot dog:
+	//   clan_viplounge.php?preaction=eathotdog&whichdog=xxx
+	//
+	// To contribute supplies for a hotdog:
+	//   clan_viplounge.php?preaction=hotdogsupply&whichdog=xxx&quantity=yyy
+	//
+	// whichdog = xxx
+	//   -92  basic hot dog
+	//   -93  savage macho dog
+	//   -94  one with everything
+	//   -95  sly dog
+	//   -96  devil dog
+	//   -97  chilly dog
+	//   -98  ghost dog
+	//   -99  junkyard dog
+	//  -100  wet dog
+	//  -102  optimal dog
+	//  -101  sleeping dog
+	//  -103  video games hot dog
+
+	// <input class=button type=submit value=Eat>
+	// <input class=button type=submit value=Eat disabled=disabled style='color: #cccccc'>
+
+	private static void registerHotDog( String name, int id, boolean available, String supply, int needed, int stocked )
+	{
+		// System.out.println( ( !available ? "(unavailable) " : "" ) + name + " (" + id + ") requires " + needed + " " + supply + " with " + stocked + " in stock." );
+	}
+
+	private static final Pattern HOTDOG_PATTERN = Pattern.compile( 
+		".*?<input class=button type=submit value=Eat( disabled.*?)?>.*?<span onclick='descitem.\"(.*?)_food\".*?<b>(.*?)</b>(?:.*?<img.*?title=\"(.*?)\".*?<b>x (.*?)</b>.*?([0123456789,]*) in stock)?", Pattern.DOTALL );
+
+	private static void parseHotDog( final String hotdog )
+	{
+		Matcher matcher = HOTDOG_PATTERN.matcher( hotdog );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		boolean disabled = matcher.group(1) != null;
+		String itemIdString = matcher.group(2);
+		int itemId = StringUtilities.parseInt( itemIdString );
+		String name = matcher.group(3);
+		String supply = matcher.group(4);
+		String neededString = matcher.group(5);
+		int needed = neededString == null ? 0 : StringUtilities.parseInt( neededString );
+		String stockedString = matcher.group(6);
+		int stocked = stockedString == null ? 0 : StringUtilities.parseInt( stockedString );
+
+		ClanLoungeRequest.registerHotDog( name, itemId, !disabled, supply, needed, stocked );
+	}
+
+	private static final Pattern HOTDOG_STAND_PATTERN = Pattern.compile( "<table>(<tr><form action=clan_viplounge.php method=post>.*?)</table>", Pattern.DOTALL );
+	private static final Pattern HOTDOG_ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>", Pattern.DOTALL );
+
+	private static void parseHotDogStand( final String responseText )
+	{
+		// Extract the table for the hot dog stand
+		Matcher standMatcher = HOTDOG_STAND_PATTERN.matcher( responseText );
+		if ( !standMatcher.find() )
+		{
+			return;
+		}
+
+		String stand = standMatcher.group(1);
+		Matcher hotdogMatcher = HOTDOG_ROW_PATTERN.matcher( stand );
+		while ( hotdogMatcher.find() )
+		{
+			ClanLoungeRequest.parseHotDog( hotdogMatcher.group(0) );
+		}
+	}
+
 	private static final Pattern LOUNGE_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );
 
 	public static void parseResponse( final String urlString, final String responseText )
@@ -792,6 +867,13 @@ public class ClanLoungeRequest
 		if ( action.equals( "hottub" ) )
 		{
 			// No action needed here because this is handled already
+			return;
+		}
+
+		if ( action.equals( "hotdogstand" ) )
+		{
+			// Visiting the hot dog stand. See what's on offer
+			ClanLoungeRequest.parseHotDogStand( responseText );
 			return;
 		}
 
