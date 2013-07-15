@@ -104,7 +104,6 @@ public class ClanLoungeRequest
 	private static final Pattern SWIMMING_POOL_PATTERN = Pattern.compile( "subaction=([^&]+)" );
 	private static final Pattern LAPS_PATTERN = Pattern.compile( "manage to swim (\\d+) before" );
 	private static final Pattern SPRINTS_PATTERN = Pattern.compile( "you do (\\d+) of them" );
-	private static final Pattern HOTTUB_PATTERN = Pattern.compile( "hottub(\\d).gif" );
 
 	public static final Object [][] POOL_GAMES = new Object[][]
 	{
@@ -451,6 +450,10 @@ public class ClanLoungeRequest
 		{
 			return "Swimming Pool";
 		}
+		if ( urlString.indexOf( "hotdogstand" ) != -1 )
+		{
+			return "Hot Dog Stand";
+		}
 		return null;
 	}
 
@@ -727,12 +730,11 @@ public class ClanLoungeRequest
 		ClanLoungeRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	public static void parseResponse( final String urlString, final String responseText )
+	private static final Pattern HOTTUB_PATTERN = Pattern.compile( "hottub(\\d).gif" );
+
+	public static void parseLounge( final String action, final String clan, final String responseText )
 	{
-		if ( !urlString.startsWith( "clan_viplounge.php" ) || responseText == null )
-		{
-			return;
-		}
+		RequestLogger.printLine( "You are currently a member of " + clan );
 
 		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );
 		if ( hottubMatcher.find() )
@@ -740,33 +742,50 @@ public class ClanLoungeRequest
 			Preferences.setInteger( "_hotTubSoaks", 5 - Integer.parseInt( hottubMatcher.group( 1 ) ) );
 		}
 
-		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		String action = matcher.find() ? matcher.group(1) : null;
-
-		// For a simple visit, look at the Crimbo tree and report on
-		// whether there is a present waiting.
-		if ( action == null )
+		// Look at the Crimbo tree and report on whether there is a present waiting.
+		if ( responseText.indexOf( "tree5.gif" ) != -1 )
 		{
-			if ( responseText.indexOf( "tree5.gif" ) != -1 )
+			Preferences.setInteger( "crimboTreeDays", 0 );
+			Preferences.setBoolean( "_crimboTree", true );
+			// Only log it for a simple visit.
+			if ( action == null )
 			{
-				Preferences.setInteger( "crimboTreeDays", 0 );
-				Preferences.setBoolean( "_crimboTree", true );
 				RequestLogger.printLine( "You have a present under the Crimbo tree in your clan's VIP lounge!" );
 			}
-			else if ( responseText.indexOf( "crimbotree" ) != -1 )
+		}
+		else if ( responseText.indexOf( "crimbotree" ) != -1 )
+		{
+			if ( !Preferences.getBoolean( "_crimboTree" ) )
 			{
-				if( !Preferences.getBoolean( "_crimboTree" ) )
-				{
-					ClanLoungeRequest request;
-					request = new ClanLoungeRequest( ClanLoungeRequest.CRIMBO_TREE );
-					Preferences.setBoolean( "_crimboTree", true );
-					request.run();
-				}
+				ClanLoungeRequest request = new ClanLoungeRequest( ClanLoungeRequest.CRIMBO_TREE );
+				Preferences.setBoolean( "_crimboTree", true );
+				request.run();
 			}
-			else
-			{
-				Preferences.setBoolean( "_crimboTree", false );
-			}
+		}
+		else
+		{
+			Preferences.setBoolean( "_crimboTree", false );
+		}
+	}
+
+	private static final Pattern LOUNGE_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "clan_viplounge.php" ) || responseText == null )
+		{
+			return;
+		}
+
+		String action = GenericRequest.getAction( urlString );
+		Matcher loungeMatcher = LOUNGE_PATTERN.matcher( responseText );
+		if ( loungeMatcher.find() )
+		{
+			ClanLoungeRequest.parseLounge( action, loungeMatcher.group(1), loungeMatcher.group(2) );
+		}
+
+		if ( action == null )
+		{
 			return;
 		}
 
