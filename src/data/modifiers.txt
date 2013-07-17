@@ -757,7 +757,7 @@ Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20,
 Staff of the Light Lunch	Spell Damage: +10, Initiative: +15, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Cold dmg"
 Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of the November Jack-O-Lantern	Spell Damage Percent: +20, Stench Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
-Staff of the Scummy Sink	Spell Damage Percent: +150, Sleaze Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10, Slime Hates It: +1
+Staff of the Scummy Sink	Spell Damage Percent: +150, Sleaze Spell Damage: +20, HP Regen Min: 8, HP Regen Max: 10, Slime Hates It: +1
 Staff of the Short Order Cook	Spell Damage Percent: +20, Mysticality: +5, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Soupbone	Spell Damage Percent: +75, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6
 # Staff of the Staff of Life: Jiggle: Full HP Recovery
