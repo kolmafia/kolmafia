@@ -2079,7 +2079,7 @@
 2062	black shield	293565661	blackshield.gif	offhand	t,d	145	black shields
 2063	blackberry	620098357	blackberry.gif	food	t,d	70	blackberries
 2064	forged identification documents	987115231	documents.gif	none	q	0
-2065	PADL Phone	739819882	padl.gif	none, combat reusable	t,d	100	PADL Phones
+2065	PADL Phone	739819882	padl.gif	none, combat	t,d	100	PADL Phones
 2066	kick-ass kicks	147761182	kicks.gif	accessory	t,d	175	kix-ass kix
 2067	sake bomb	810136258	sakebomb.gif	none, combat	t,d	150	sake bombers
 2068	tequila grenade	468076558	teqgrenade.gif	none, combat	t,d	150	tequila grenades
@@ -2368,7 +2368,7 @@
 2351	superamplified boom box	728656237	radiogaga.gif	none, combat	t,d	150	superamplified boom boxen
 2352	fire poi	784968970	firepoi.gif	weapon	t,d	185	fire poi
 2353	bejeweled pledge pin	739124687	fratwarpin.gif	accessory	t,d	95	bejeweled pledge pins
-2354	communications windchimes	441541362	chimes.gif	none, combat reusable	t,d	45	sets of communications windchimes
+2354	communications windchimes	441541362	chimes.gif	none, combat	t,d	45	sets of communications windchimes
 2355	henna face paint	443508071	balm.gif	multiple	t,d	85	tins of henna face paint
 2356	tube of dread wax	844938124	tube.gif	multiple	t,d	85	tubes of dread wax
 2357	Gaia beads	386374860	chain.gif	accessory	t,d	210	strings of Gaia beads
@@ -4000,7 +4000,7 @@
 3983	dueling turtle	817089556	duelingturtle.gif	hpmp	t,d	50	dueling turtles
 3984	dueling banjo	212059963	duelingbanjo.gif	weapon	t,d	50	dueling banjos
 3985	soup turtle	571788123	soupturtle.gif	none, combat	t,d	14	soup turtles
-3986	samurai turtle	239325614	samuraiturtle.gif	none, combat reusable	t,d	5	samurai turtles
+3986	samurai turtle	239325614	samuraiturtle.gif	none, combat	t,d	5	samurai turtles
 3987	samurai turtle helmet	364580079	samuraiturtle.gif	hat	t,d	7	samurai turtle helmets
 3988	ancient turtle shell	254573219	ancientshell.gif	usable	t,d	35	ancient turtle shells
 3989	ancient turtle shell powder	334366675	scpowder.gif	hp	t,d	24	piles of ancient turtle shell powder

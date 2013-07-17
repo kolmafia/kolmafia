@@ -5196,6 +5196,17 @@ public class FightRequest
 			}
 			return false;
 
+		case ItemPool.SAMURAI_TURTLE:
+
+			// The turtle looks at you, shakes his head, bows, and
+			// disappears into the shadows. Looks like you asked
+			// too much of him.
+			if ( responseText.indexOf( "disappears into the shadows" ) != -1 )
+			{
+				return true;
+			}
+			return false;
+
 		case ItemPool.HAROLDS_BELL:
 
 			TurnCounter.startCounting( 20, "Harold's Bell loc=*", "bell.gif" );
