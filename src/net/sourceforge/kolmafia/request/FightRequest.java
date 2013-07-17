@@ -5103,6 +5103,7 @@ public class FightRequest
 				TurnCounter.stopCounting( "Zombo's Empty Eye" );
 				TurnCounter.startCounting( 50, "Zombo's Empty Eye loc=*", "zomboeye.gif" );
 			}
+			return false;
 		}
 
 		if ( itemId == ItemPool.ICEBALL )
@@ -5133,6 +5134,7 @@ public class FightRequest
 				Preferences.setInteger( "_iceballUses", 3 );
 				return true;
 			}
+			return false;
 		}
 
 		if ( ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_COMBAT_REUSABLE ) )
