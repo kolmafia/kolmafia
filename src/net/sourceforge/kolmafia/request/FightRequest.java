@@ -4521,8 +4521,9 @@ public class FightRequest
 				}
 
 				AdventureResult result = ItemPool.get( itemId, 1 );
-				RequestLogger.printLine( "A dolphin stole: " + result );
-				RequestLogger.updateSessionLog( "A dolphin stole: " + result );
+				String message = "A dolphin stole: " + result.getName();
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 				Preferences.setString( "dolphinItem", result.getName() );
 				return;
 			}

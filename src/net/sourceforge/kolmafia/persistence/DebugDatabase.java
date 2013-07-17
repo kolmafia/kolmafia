@@ -270,6 +270,7 @@ public class DebugDatabase
 		if ( text == null )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has malformed description text." );
+			DebugDatabase.rawItems.set( itemId, null );
 			return;
 		}
 
@@ -277,6 +278,7 @@ public class DebugDatabase
 		if ( !name.equals( descriptionName ) )
 		{
 			report.println( "# *** " + name + " (" + itemId + ") has description of " + descriptionName + "." );
+			DebugDatabase.rawItems.set( itemId, null );
 			return;
 
 		}
