@@ -1361,7 +1361,7 @@
 1344	Gummi-Gnauga	596083107	gumgnauga.gif	multiple, candy	t,d	30	Gummi-Gnaugas
 1345	Now and Earlier	864629267	candy.gif	multiple, candy	t,d	35	Nows and Earlier
 1346	Sugar Cog	838465886	cog.gif	multiple, candy	t,d	30	Sugar Cogs
-1347	loaded serum blowgun	785695011	blowgun.gif	none	t	0	loaded serum blowguns
+1347	loaded serum blowgun	785695011	blowgun.gif	none, curse	t	0	loaded serum blowguns
 1348	empty blowgun	185589064	blowgun.gif	none	t	0	empty blowguns
 1349	miniscule temporal rip	669007423	rip.gif	grow	t	0	miniscule temporal rips
 1350	1.21 jigawatts	161268408	jigawatts.gif	familiar	t,d	75	handfuls of groups of 1.21 jigawatts
@@ -2079,7 +2079,7 @@
 2062	black shield	293565661	blackshield.gif	offhand	t,d	145	black shields
 2063	blackberry	620098357	blackberry.gif	food	t,d	70	blackberries
 2064	forged identification documents	987115231	documents.gif	none	q	0
-2065	PADL Phone	739819882	padl.gif	none, combat	t,d	100	PADL Phones
+2065	PADL Phone	739819882	padl.gif	none, combat reusable	t,d	100	PADL Phones
 2066	kick-ass kicks	147761182	kicks.gif	accessory	t,d	175	kix-ass kix
 2067	sake bomb	810136258	sakebomb.gif	none, combat	t,d	150	sake bombers
 2068	tequila grenade	468076558	teqgrenade.gif	none, combat	t,d	150	tequila grenades
@@ -2368,7 +2368,7 @@
 2351	superamplified boom box	728656237	radiogaga.gif	none, combat	t,d	150	superamplified boom boxen
 2352	fire poi	784968970	firepoi.gif	weapon	t,d	185	fire poi
 2353	bejeweled pledge pin	739124687	fratwarpin.gif	accessory	t,d	95	bejeweled pledge pins
-2354	communications windchimes	441541362	chimes.gif	none, combat	t,d	45	sets of communications windchimes
+2354	communications windchimes	441541362	chimes.gif	none, combat reusable	t,d	45	sets of communications windchimes
 2355	henna face paint	443508071	balm.gif	multiple	t,d	85	tins of henna face paint
 2356	tube of dread wax	844938124	tube.gif	multiple	t,d	85	tubes of dread wax
 2357	Gaia beads	386374860	chain.gif	accessory	t,d	210	strings of Gaia beads
@@ -3082,7 +3082,7 @@
 3065	buckyball	849517459	buckyball.gif	none, combat	t,d	31	buckyballs
 3066	toy maglev monorail	401867098	monorail.gif	accessory	t,d	185	toy maglev monorails
 3067	dollhive	339696597	dollhive.gif	usable	t,d	116	dollhives
-3068	toy deathbot	373536943	deathbot.gif	none, combat	t,d	79	toy deathbots
+3068	toy deathbot	373536943	deathbot.gif	none, combat reusable	t,d	79	toy deathbots
 3069	laser cannon	444489922	lcannon.gif	none		0	laser cannons
 3070	plexifoam chin strap	728473421	chinstrap.gif	none		0	plexifoam chin straps
 3071	silicon-infused gluteal shield	921754386	gluteal.gif	none		0	silicon-infused gluteal shields
@@ -4000,7 +4000,7 @@
 3983	dueling turtle	817089556	duelingturtle.gif	hpmp	t,d	50	dueling turtles
 3984	dueling banjo	212059963	duelingbanjo.gif	weapon	t,d	50	dueling banjos
 3985	soup turtle	571788123	soupturtle.gif	none, combat	t,d	14	soup turtles
-3986	samurai turtle	239325614	samuraiturtle.gif	none, combat	t,d	5	samurai turtles
+3986	samurai turtle	239325614	samuraiturtle.gif	none, combat reusable	t,d	5	samurai turtles
 3987	samurai turtle helmet	364580079	samuraiturtle.gif	hat	t,d	7	samurai turtle helmets
 3988	ancient turtle shell	254573219	ancientshell.gif	usable	t,d	35	ancient turtle shells
 3989	ancient turtle shell powder	334366675	scpowder.gif	hp	t,d	24	piles of ancient turtle shell powder
@@ -4601,7 +4601,7 @@
 4584	six tiny wedges of goat cheese	850170108	goatcheeses.gif	food	t,d	22	sets of six tiny wedges of goat cheese
 4585	collection of tiny spooky objects	262106157	disease.gif	multiple	t	0	collections of tiny spooky objects
 4586	boulder	444310068	bigrock.gif	none, combat	t,d	44	boulders
-4587	tiny goth giant	262678358	tinygothgiant.gif	none, combat	t,d	1000	tiny goth giants
+4587	tiny goth giant	262678358	tinygothgiant.gif	none, combat reusable	t,d	1000	tiny goth giants
 4588	brown pixel	768196937	pixel6.gif	none	t,d	25	brown pixels
 4589	pixel whip	678588952	pixwhip.gif	weapon	t,d	15	pixel whip
 4590	pixel chain whip	637629378	pixwhip2.gif	weapon	d	65
@@ -6132,7 +6132,7 @@
 6115	zaibatsu level 3 card	942771743	littlecard.gif	usable	q	0
 6116	CEO office card	733208229	littlecard.gif	usable	q	0
 6117	test site key	174484281	lostkey.gif	none	q	0
-6118	strange goggles	846276787	nvgoggles.gif	usable, combat	q	0
+6118	strange goggles	846276787	nvgoggles.gif	usable, combat reusable	q	0
 6119	brass abacus	837009175	abacus.gif	usable, combat	t,d	5
 6120	bonsai tree	839605709	bonsai.gif	usable	t,d	15
 6121	cheap Chinese beer	601658923	beer.gif	drink	t,d	25
