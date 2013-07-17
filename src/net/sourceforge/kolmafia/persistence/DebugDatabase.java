@@ -576,7 +576,11 @@ public class DebugDatabase
 	public static final int typeToSecondary( final String type )
 	{
 		int attributes = 0;
-		if ( type.contains( "combat" ) )
+		if ( type.contains( "(reusable)" ) )
+		{
+			attributes |= ItemDatabase.ATTR_COMBAT_REUSABLE;
+		}
+		else if ( type.contains( "combat" ) )
 		{
 			attributes |= ItemDatabase.ATTR_COMBAT;
 		}
@@ -638,15 +642,23 @@ public class DebugDatabase
 
 	private static final boolean attributesMatch( final int attrs, final int descAttrs )
 	{
-		// If the description says "combat", allow "combat" or "combat reusable"
-		if ( ( descAttrs & ItemDatabase.ATTR_COMBAT ) != 0 &&
-		     ( attrs & ( ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE ) ) == 0 )
+		// If the description says an item is "combat", "(reusable)" or "(on self or others)",
+		// our database must mark the item as ATTR_COMBAT, ATTR_COMBAT_REUSABLE, or ATTR_CURSE
+		//
+		// However, there are quite a few items that we mark with those secondary attributes that are
+		// not tagged that way by KoL itself. Assume those are correct.
+
+		if ( ( descAttrs & ItemDatabase.ATTR_COMBAT ) != 0 && ( attrs & ItemDatabase.ATTR_COMBAT ) == 0 )
 		{
 			return false;
 		}
 
-		// If the description says "curse", require "curse"
-		if ( ( descAttrs & ItemDatabase.ATTR_CURSE ) != ( attrs & ItemDatabase.ATTR_CURSE ) )
+		if ( ( descAttrs & ItemDatabase.ATTR_COMBAT_REUSABLE ) != 0 && ( attrs & ItemDatabase.ATTR_COMBAT_REUSABLE ) == 0 )
+		{
+			return false;
+		}
+
+		if ( ( descAttrs & ItemDatabase.ATTR_CURSE ) != 0 && ( attrs & ItemDatabase.ATTR_CURSE ) == 0 )
 		{
 			return false;
 		}
