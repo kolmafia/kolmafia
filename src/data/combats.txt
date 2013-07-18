@@ -145,7 +145,6 @@ Outskirts of Camp Logging Camp	70	Axe Handle	Cloud of Disembodied Whiskers	Pouti
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
 The Obligatory Pirate's Cove	60	Sassy Pirate	Smarmy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate
 McMillicancuddy's Pond	100	Figure-Skating Duck	Frozen Duck
-Poop Deck	100	Wacky Pirate	Warty Pirate	Wealthy Pirate	Whiny Pirate	Witty Pirate
 Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Skelter Butleton, the Butler Skeleton: 0	Count Bakula: -1
 Post-War Junkyard	100	A.M.C. Gremlin	Batwinged Gremlin	Erudite Gremlin	Spider Gremlin	Vegetable Gremlin
 Pre-Cyrpt Cemetary	100	Ghuol	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
@@ -156,7 +155,6 @@ Science Lab	-1
 Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	Cyborg Policeman	"Handyman" Jay Android	Liquid Metal Robot	Obese Tourist	Space Marine	Terrifying Robot
 Shivering Timbers	100	Deadwood Tree	Fur Tree	Hangman's Tree	Pumpkin Tree	Toilet-papered Tree	Underworld Tree: 0
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
-Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo: o1	Hung-Over Half-Orc Hobo: e1	Crazy Bastard: -1
 Small-O-Fier	-1	Cruel Dust Mote	Funk Particle	Jungle Scabie: 0	Malevolent Magnetic Field	Smooth Jazz Scabie: 0
 Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
 Sonar	-1
@@ -245,11 +243,13 @@ The Outer Compound	100	guard turtle
 The Outskirts of Cobb's Knob	80	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
 The Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
 The Penultimate Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess
+The Poop Deck	100	Wacky Pirate	Warty Pirate	Wealthy Pirate	Whiny Pirate	Witty Pirate
 The Primordial Soup	-1	Cluster of Angry Bacteria	Corrosive Algae	Hostile Amoeba	Mad Flagellate	Violent Fungus	Cyrus the Virus: 0
 The Purple Light District	-1	Sleaze Hobo	Chester: 0
 The Red Queen's Garden	100	Snapdragon	Beelephant	Tiger-lily	wasp in a wig
 The Royal Guard Chamber	100	Filthworm Royal Guard
 The Skate Park	-1	Grouper Groupie	Ice Skate	Roller Skate	Skate Board Member	Urchin Urchin
+The Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo: o1	Hung-Over Half-Orc Hobo: e1	Crazy Bastard: -1
 The Slime Tube	95	Slime1	Slime2	Slime3	Slime4	Slime5	Mother Slime: 0
 The Spooky Forest	60	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowulf: -1
 The Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
