@@ -1235,7 +1235,9 @@ public class CharPaneDecorator
 		{
 			Matcher m = CharPaneDecorator.FONT_TAG_PATTERN.matcher( current.getLabel() );
 			m.find();	// this cannot fail, group 2 matches anything
-			buffer.append( "<tr><td>" );
+			// Extra <td></td> fixes layout when KoL buff arrows are enabled and doesn't
+			// break anything when they are disabled
+			buffer.append( "<tr><td></td><td>" );
 			if ( url != null )
 			{
 				buffer.append( "<a href=\"" );
@@ -1265,7 +1267,9 @@ public class CharPaneDecorator
 		}
 		else	// !compact
 		{
-			buffer.append( "<tr><td>" );
+			// Extra <td></td> fixes layout when KoL buff arrows are enabled and doesn't
+			// break anything when they are disabled
+			buffer.append( "<tr><td></td><td>" );
 			if ( url != null )
 			{
 				buffer.append( "<a href=\"" );
