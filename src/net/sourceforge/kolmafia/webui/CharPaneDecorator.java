@@ -918,7 +918,9 @@ public class CharPaneDecorator
 
 				if ( !CharPaneRequest.compactCharacterPane || !Preferences.getBoolean( "relayTextualizesEffects" ) )
 				{
-					buffer.append( "<td><img src=\"" );
+					// The extra <td></td> fixes alignment with KoL up-arrows enabled
+					// and doesn't break anything with them disabled
+					buffer.append( "<td></td><td><img src=\"" );
 					buffer.append( EffectDatabase.getImage( effectId ) );
 					buffer.append( "\" class=hand alt=\"" );
 					buffer.append( escapedEffectName );

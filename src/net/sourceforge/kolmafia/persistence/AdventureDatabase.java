@@ -285,6 +285,10 @@ public class AdventureDatabase
 			"Orc Chasm",
 			"The Valley of Rof L'm Fao"
 		},
+		{
+			"Fernswarthy's Ruins",
+			"Tower Ruins"
+		},
 		// Everything above here added to 16.0, remove after 16.1
 	};
 
