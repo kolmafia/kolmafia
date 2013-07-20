@@ -735,16 +735,9 @@ public class ClanLoungeRequest
 
 	private static void parseLounge( final String action, final String clan, final String responseText )
 	{
-		String oldClanName = ClanManager.getClanName( false );
-		if ( !clan.equals( oldClanName ) )
+		if ( !clan.equals( ClanManager.getClanName( false ) ) )
 		{
-			StringBuilder message = new StringBuilder();
-			if ( oldClanName != null )
-			{
-				message.append( "Formerly a member of " ).append( oldClanName ).append( ".  " );
-			}
-			message.append( "You are currently a member of " ).append( clan );
-			RequestLogger.printLine( message.toString() );
+			RequestLogger.printLine( "You are currently a member of " + clan );
 			ClanManager.setClanName( clan );
 		}
 
