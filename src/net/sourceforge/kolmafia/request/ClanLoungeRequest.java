@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
 
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -734,7 +735,18 @@ public class ClanLoungeRequest
 
 	private static void parseLounge( final String action, final String clan, final String responseText )
 	{
-		RequestLogger.printLine( "You are currently a member of " + clan );
+		String oldClanName = ClanManager.getClanName( false );
+		if ( !clan.equals( oldClanName ) )
+		{
+			StringBuilder message = new StringBuilder();
+			if ( oldClanName != null )
+			{
+				message.append( "Formerly a member of " ).append( oldClanName ).append( ".  " );
+			}
+			message.append( "You are currently a member of " ).append( clan );
+			RequestLogger.printLine( message.toString() );
+			ClanManager.setClanName( clan );
+		}
 
 		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );
 		if ( hottubMatcher.find() )
@@ -796,7 +808,7 @@ public class ClanLoungeRequest
 
 	private static void registerHotDog( String name, int id, boolean available, String supply, int needed, int stocked )
 	{
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		if ( !available)
 		{
 			buffer.append( "(unavailable) " );
@@ -977,7 +989,7 @@ public class ClanLoungeRequest
 			}
 			else if ( responseText.indexOf( "There's nothing under the Crimbo Tree" ) != -1 )
 			{
-				int ctd = Preferences.getInteger( "crimboTreeDays" );
+				int ctd;
 				String groupStr = "";
 				Matcher m = TREE_PATTERN.matcher( responseText );
 				boolean matchFound = m.find();

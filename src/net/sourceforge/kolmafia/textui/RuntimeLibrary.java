@@ -3626,7 +3626,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_clan_name( Interpreter interpreter )
 	{
-		return new Value( ClanManager.getClanName() );
+		return new Value( ClanManager.getClanName( true ) );
 	}
 
 	public static Value get_florist_plants( Interpreter interpreter )

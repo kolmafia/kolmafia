@@ -258,7 +258,7 @@ public class ProfileSnapshot
 		strbuf.append( "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" );
 
 		strbuf.append( "<title>Clan Snapshot for " );
-		strbuf.append( ClanManager.getClanName() );
+		strbuf.append( ClanManager.getClanName( true ) );
 
 		strbuf.append( ", Clan #" );
 		strbuf.append( ClanManager.getClanId() );
@@ -277,7 +277,7 @@ public class ProfileSnapshot
 		strbuf.append( KoLConstants.LINE_BREAK );
 
 		strbuf.append( "<h2>" );
-		strbuf.append( ClanManager.getClanName() );
+		strbuf.append( ClanManager.getClanName( false ) );
 		strbuf.append( "</h2>" );
 		strbuf.append( KoLConstants.LINE_BREAK );
 
