@@ -132,13 +132,17 @@ public abstract class ClanManager
 
 	public static final int getClanId()
 	{
-		ClanManager.retrieveClanId();
+		ClanManager.retrieveClanIdAndName();
 		return ClanManager.clanId;
 	}
 
-	public static final String getClanName()
+	public static final String getClanName( boolean update )
 	{
-		ClanManager.retrieveClanId();
+		if ( update )
+		{
+			ClanManager.retrieveClanIdAndName();
+		}
+
 		return ClanManager.clanName;
 	}
 
@@ -168,7 +172,7 @@ public abstract class ClanManager
 		return ClanManager.rankList;
 	}
 
-	private static final void retrieveClanId()
+	private static final void retrieveClanIdAndName()
 	{
 		if ( ClanManager.clanId != 0 )
 		{
@@ -236,7 +240,7 @@ public abstract class ClanManager
 			return;
 		}
 
-		ClanManager.retrieveClanId();
+		ClanManager.retrieveClanIdAndName();
 		ClanManager.updateCurrentMembers();
 		ClanManager.updateWhiteList();
 	}

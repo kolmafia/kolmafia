@@ -126,7 +126,7 @@ public class AscensionSnapshot
 		}
 
 		strbuf.append( " Ascension Data for " );
-		strbuf.append( ClanManager.getClanName() );
+		strbuf.append( ClanManager.getClanName( true ) );
 		strbuf.append( " (" );
 		strbuf.append( new Date() );
 		strbuf.append( ")</title>" );
@@ -135,7 +135,7 @@ public class AscensionSnapshot
 		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head><body>" );
 		strbuf.append( KoLConstants.LINE_BREAK );
 		strbuf.append( "<center><table cellspacing=0 cellpadding=0><tr><td align=center><h2><u>" );
-		strbuf.append( ClanManager.getClanName() );
+		strbuf.append( ClanManager.getClanName( false ) );
 		strbuf.append( " (#" );
 		strbuf.append( ClanManager.getClanId() );
 		strbuf.append( ")</u></h2></td></tr>" );
