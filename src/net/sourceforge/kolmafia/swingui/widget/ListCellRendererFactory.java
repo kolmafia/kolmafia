@@ -490,10 +490,15 @@ public class ListCellRendererFactory
 					stringForm.append( " adv" );
 				}
 			}
-			else
+			else if ( item.getPrice() > 0 )
 			{
 				stringForm.append( CafeRequest.discountedPrice( item.getPrice() ) );
 				stringForm.append( " meat" );
+				return false;
+			}
+			else if ( item.special )
+			{
+				stringForm.append( item.initial );
 				return false;
 			}
 			return item.initial + item.creatable <= 0;

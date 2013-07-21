@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -43,9 +45,11 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -73,6 +77,7 @@ public class ClanLoungeRequest
 	public static final int FAX_MACHINE = 6;
 	public static final int APRIL_SHOWER = 7;
 	public static final int SWIMMING_POOL = 8;
+	public static final int HOT_DOG_STAND = 9;
 
 	// Pool options
 	public static final int AGGRESSIVE_STANCE = 1;
@@ -99,6 +104,7 @@ public class ClanLoungeRequest
 	private int option;
 
 	private static final Pattern STANCE_PATTERN = Pattern.compile( "stance=(\\d*)" );
+	private static final Pattern WHICHDOG_PATTERN = Pattern.compile( "whichdog=(\\d*)" );
 	private static final Pattern TREE_PATTERN = Pattern.compile( "Check back in (\\d+) day" );
 	private static final Pattern FAX_PATTERN = Pattern.compile( "preaction=(.+?)fax" );
 	private static final Pattern TEMPERATURE_PATTERN = Pattern.compile( "temperature=(\\d*)" );
@@ -189,6 +195,158 @@ public class ClanLoungeRequest
 			IntegerPool.get( SPRINTS )
 		},
 	};
+
+	public static final Object [][] HOTDOGS = new Object[][]
+	{
+		{
+			"basic hot dog",
+			IntegerPool.get( -92 ),
+			IntegerPool.get( 1 )
+		},
+		{
+			"savage macho dog",
+			IntegerPool.get( -93 ),
+			IntegerPool.get( 2 )
+		},
+		{
+			"one with everything",
+			IntegerPool.get( -94 ),
+			IntegerPool.get( 2 )
+		},
+		{
+			"sly dog",
+			IntegerPool.get( -95 ),
+			IntegerPool.get( 2 )
+		},
+		{
+			"devil dog",
+			IntegerPool.get( -96 ),
+			IntegerPool.get( 3 )
+		},
+		{
+			"chilly dog",
+			IntegerPool.get( -97 ),
+			IntegerPool.get( 3 )
+		},
+		{
+			"ghost dog",
+			IntegerPool.get( -98 ),
+			IntegerPool.get( 3 )
+		},
+		{
+			"junkyard dog",
+			IntegerPool.get( -99 ),
+			IntegerPool.get( 3 )
+		},
+		{
+			"wet dog",
+			IntegerPool.get( -100 ),
+			IntegerPool.get( 3 )
+		},
+		{
+			"optimal dog",
+			IntegerPool.get( -102 ),
+			IntegerPool.get( 1 )
+		},
+		{
+			"sleeping dog",
+			IntegerPool.get( -101 ),
+			IntegerPool.get( 2 )
+		},
+		{
+			"video games hot dog",
+			IntegerPool.get( -103 ),
+			IntegerPool.get( 3 )
+		},
+	};
+
+	public static final LockableListModel ALL_HOT_DOGS = new LockableListModel();
+
+	static
+	{
+		for ( int i = 0; i < HOTDOGS.length; ++i )
+		{
+			ClanLoungeRequest.ALL_HOT_DOGS.add( HOTDOGS[i][0] );
+		}
+	};
+
+	public static final int hotdogNameToIndex( final String name )
+	{
+		return ClanLoungeRequest.ALL_HOT_DOGS.indexOf( name );
+	}
+
+	public static final int hotdogIdToIndex( int id )
+	{
+		for ( int i = 0; i < HOTDOGS.length; ++i )
+		{
+			if ( id == ((Integer)ClanLoungeRequest.HOTDOGS[i][1]).intValue() )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static final String hotdogIdToName( int id )
+	{
+		int index = ClanLoungeRequest.hotdogIdToIndex( id );
+		return index < 0 ? null : (String)ClanLoungeRequest.HOTDOGS[index][0];
+	}
+
+	public static final String hotdogIndexToName( int index )
+	{
+		return ( index < 0 || index > ClanLoungeRequest.HOTDOGS.length ) ? null : (String)ClanLoungeRequest.HOTDOGS[ index ][0];
+	}
+
+	public static final Integer hotdogIndexToId( int index )
+	{
+		return ( index < 0 || index > ClanLoungeRequest.HOTDOGS.length ) ? -1 : (Integer)ClanLoungeRequest.HOTDOGS[ index ][1];
+	}
+
+	public static final Integer hotdogIndexToFullness( int index )
+	{
+		return ( index < 0 || index > ClanLoungeRequest.HOTDOGS.length ) ? -1 : (Integer)ClanLoungeRequest.HOTDOGS[ index ][2];
+	}
+
+	public static final boolean isHotDog( String name )
+	{
+		return ClanLoungeRequest.ALL_HOT_DOGS.contains( name );
+	}
+
+	private static void addHotDog( final String itemName )
+	{
+		// Don't bother adding fancy hot dogs if you've already eaten one today.
+		int index = ClanLoungeRequest.hotdogNameToIndex( itemName );
+		if ( index > 0 && Preferences.getBoolean( "_fancyHotDogEaten" ) )
+		{
+			return;
+		}
+
+		LockableListModel usables = ConcoctionDatabase.getUsables();
+		Concoction item = new Concoction( itemName );
+		if ( !usables.contains( item ) )
+		{
+			usables.add( item );
+		}
+	}
+
+	private static final void resetHotdogs( final int start )
+	{
+		// Remove all hot dogs from the usable list
+		LockableListModel usables = ConcoctionDatabase.getUsables();
+		for ( int i = start; i < ClanLoungeRequest.ALL_HOT_DOGS.size(); ++i )
+		{
+			String itemName = (String) ClanLoungeRequest.ALL_HOT_DOGS.get( i );
+			Concoction junk = new Concoction( itemName );
+			usables.remove( junk );
+		}
+	}
+
+	public static final void resetHotdogs()
+	{
+		// Remove all hot dogs from the list
+		ClanLoungeRequest.resetHotdogs( 0 );
+	}
 
 	public static final int findPoolGame( String tag )
 	{
@@ -374,10 +532,21 @@ public class ClanLoungeRequest
 		this.option = option;
 	}
 
+	public static final ClanLoungeRequest buyHotDogRequest( final String name )
+	{
+		int index = ClanLoungeRequest.hotdogNameToIndex( name );
+		if ( index < 0 )
+		{
+			return null;
+		}
+		ClanLoungeRequest request = new ClanLoungeRequest( HOT_DOG_STAND, ClanLoungeRequest.hotdogIndexToId( index ) );
+		return request;
+	}
+
 	public static final AdventureResult VIP_KEY = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
 	private static final GenericRequest VIP_KEY_REQUEST =
 		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { ClanLoungeRequest.VIP_KEY } );
-	private static final GenericRequest VISIT_REQUEST = new ClanLoungeRequest();
+	private static GenericRequest VISIT_REQUEST = new ClanLoungeRequest();
 
 	private static void pullVIPKey()
 	{
@@ -394,7 +563,7 @@ public class ClanLoungeRequest
 		}
 	}
 
-	public static boolean visitLounge()
+	public static boolean visitLounge( final int location )
 	{
 		// Pull a key from storage, if necessary
 		ClanLoungeRequest.pullVIPKey();
@@ -405,11 +574,17 @@ public class ClanLoungeRequest
 			return false;
 		}
 
+		VISIT_REQUEST = new ClanLoungeRequest( location );
 		RequestThread.postRequest( VISIT_REQUEST );
 
 		// If you are not in a clan, KoL redirects you to
 		// clan_signup.php - which we do not follow.
 		return VISIT_REQUEST.redirectLocation == null;
+	}
+
+	public static boolean visitLounge()
+	{
+		return ClanLoungeRequest.visitLounge( SEARCH );
 	}
 
 	/**
@@ -487,13 +662,13 @@ public class ClanLoungeRequest
 			break;
 
 		case ClanLoungeRequest.POOL_TABLE:
-			RequestLogger.printLine( "Approaching pool table with " + ClanLoungeRequest.prettyStanceName( option ) + "." );
+			RequestLogger.printLine( "Approaching pool table with " + ClanLoungeRequest.prettyStanceName( this.option ) + "." );
 
 			this.constructURLString( "clan_viplounge.php" );
-			if ( option != 0 )
+			if ( this.option != 0 )
 			{
 				this.addFormField( "preaction", "poolgame" );
-				this.addFormField( "stance", String.valueOf( option ) );
+				this.addFormField( "stance", String.valueOf( this.option ) );
 			}
 			else
 			{
@@ -513,7 +688,7 @@ public class ClanLoungeRequest
 
 		case ClanLoungeRequest.FAX_MACHINE:
 			this.constructURLString( "clan_viplounge.php" );
-			switch ( option )
+			switch ( this.option )
 			{
 			case SEND_FAX:
 				KoLmafia.updateDisplay( "Sending a fax." );
@@ -530,10 +705,10 @@ public class ClanLoungeRequest
 			break;
 
 		case ClanLoungeRequest.APRIL_SHOWER:
-			RequestLogger.printLine( "Let's take " + ClanLoungeRequest.prettyTemperatureName( option ) + " shower." );
+			RequestLogger.printLine( "Let's take " + ClanLoungeRequest.prettyTemperatureName( this.option ) + " shower." );
 
 			this.constructURLString( "clan_viplounge.php" );
-			if ( option != 0 )
+			if ( this.option != 0 )
 			{
 				this.addFormField( "preaction", "takeshower" );
 				this.addFormField( "temperature", String.valueOf( option ) );
@@ -545,10 +720,10 @@ public class ClanLoungeRequest
 			break;
 
 		case ClanLoungeRequest.SWIMMING_POOL:
-			RequestLogger.printLine( "Let's " + ClanLoungeRequest.prettySwimmingName( option ) + " in the swimming pool." );
+			RequestLogger.printLine( "Let's " + ClanLoungeRequest.prettySwimmingName( this.option ) + " in the swimming pool." );
 
 			this.constructURLString( "clan_viplounge.php" );
-			switch ( option )
+			switch ( this.option )
 			{
 			case CANNONBALL:
 				this.addFormField( "preaction", "goswimming" );
@@ -565,6 +740,19 @@ public class ClanLoungeRequest
 			default:
 				this.addFormField( "action", "swimmingpool" );
 				break;
+			}
+			break;
+
+		case ClanLoungeRequest.HOT_DOG_STAND:
+			this.constructURLString( "clan_viplounge.php" );
+			if ( this.option != 0 )
+			{
+				this.addFormField( "preaction", "eathotdog" );
+				this.addFormField( "whichdog", String.valueOf( option ) );
+			}
+			else
+			{
+				this.addFormField( "action", "hotdogstand" );
 			}
 			break;
 
@@ -826,6 +1014,11 @@ public class ClanLoungeRequest
 			buffer.append( " in stock)" );
 		}
 		// System.out.println( buffer.toString() );
+
+		if ( available )
+		{
+			ClanLoungeRequest.addHotDog( name );
+		}
 	}
 
 	private static final Pattern HOTDOG_PATTERN = Pattern.compile( 
@@ -857,6 +1050,9 @@ public class ClanLoungeRequest
 
 	private static void parseHotDogStand( final String responseText )
 	{
+		// Rebuild list of available hot dogs every time we visit
+		ClanLoungeRequest.resetHotdogs();
+
 		// Extract the table for the hot dog stand
 		Matcher standMatcher = HOTDOG_STAND_PATTERN.matcher( responseText );
 		if ( !standMatcher.find() )
@@ -1101,6 +1297,46 @@ public class ClanLoungeRequest
 			}
 			return;
 		}
+
+		if ( action.equals( "eathotdog" ) )
+		{
+			// Do nothing if consumption of a basic hot dog failed
+			if ( responseText.indexOf( "You don't feel up to eating that" ) != -1 ||
+			     responseText.indexOf( "You lose" ) != -1 )
+			{
+				return;
+			}
+			// If consumption of a fancy hot dog failed, remember
+			if ( responseText.indexOf( "You aren't in the mood for any more fancy dogs today" ) != -1 )
+			{
+				// Remove fancy hot dogs from the list
+				ClanLoungeRequest.resetHotdogs( 1 );
+				Preferences.setBoolean( "_fancyHotDogEaten", true );
+				return;
+			}
+			Matcher m = WHICHDOG_PATTERN.matcher( urlString );
+			if ( !m.find() )
+			{
+				return;
+			}
+			int index = ClanLoungeRequest.hotdogIdToIndex( StringUtilities.parseInt( m.group( 1 ) ) );
+			if ( index < 0 )
+			{
+				return;
+			}
+			int fullness = ClanLoungeRequest.hotdogIndexToFullness( index );
+			if ( fullness > 0 && !responseText.contains( "Fullness" ) ) // if fullness display is on, ResultProcessor will handle incrementing fullness
+			{
+				Preferences.increment( "currentFullness", fullness );
+			}
+			if ( index > 0 )
+			{
+				// Remove fancy hot dogs from the list
+				ClanLoungeRequest.resetHotdogs( 1 );
+				Preferences.setBoolean( "_fancyHotDogEaten", true );
+			}
+			return;
+		}
 	}
 
 	public static void getBreakfast()
@@ -1240,6 +1476,21 @@ public class ClanLoungeRequest
 					return false;
 				}
 				message = "swimming pool " + poolCommand;
+			}
+			else if ( action.equals( "eathotdog" ) )
+			{
+				//   clan_viplounge.php?preaction=eathotdog&whichdog=xxx
+				Matcher m = WHICHDOG_PATTERN.matcher( urlString );
+				if ( !m.find() )
+				{
+					return false;
+				}
+				String hotdog = ClanLoungeRequest.hotdogIdToName( StringUtilities.parseInt( m.group( 1 ) ) );
+				if ( hotdog == null )
+				{
+					return false;
+				}
+				message = "eat " + hotdog;
 			}
 			else
 			{

@@ -511,25 +511,25 @@ public interface KoLConstants
 
 	public enum CraftingType
 	{
-		SUBCLASS, // ???
+		SUBCLASS,	// ???
 		NOCREATE,
-		COMBINE, // Items anybody can create using meat paste or The Plunger
-		COOK, // Items created with an E-Z Cook Oven or Dramatic Range
-		MIX, // Items created with a Shaker or Cocktailcrafting Kit
-		SMITH, // Items anybody can create with a tenderizing hammer or via Innabox
-		SSMITH, // Items that can only be created with a tenderizing hammer, not via Innabox
+		COMBINE,	// Items anybody can create using meat paste or The Plunger
+		COOK,		// Items created with an E-Z Cook Oven or Dramatic Range
+		MIX,		// Items created with a Shaker or Cocktailcrafting Kit
+		SMITH,		// Items anybody can create with a tenderizing hammer or via Innabox
+		SSMITH,		// Items that can only be created with a tenderizing hammer, not via Innabox
 		// Items requiring access to Nash Crosby's Still
 		STILL_BOOZE,
 		STILL_MIXER,
-		WOK, // Items requiring access to the Wok of Ages
-		MALUS, // Items requiring access to the Malus of Forethought
-		JEWELRY, // Items created with jewelry-making pliers
-		STARCHART, // Items anybody can create with starcharts, stars, and lines
-		PIXEL, // Items anybody can create with pixels
-		ROLLING_PIN, // Items created with a rolling pin or and an unrolling pin
-		GNOME_TINKER, // Items requiring access to the Gnome supertinker
-		STAFF, // Items requiring access to Roderic the Staffcrafter
-		SUSHI, // Items anybody can create with a sushi-rolling mat
+		WOK,		// Items requiring access to the Wok of Ages
+		MALUS,		// Items requiring access to the Malus of Forethought
+		JEWELRY,	// Items created with jewelry-making pliers
+		STARCHART,	// Items anybody can create with starcharts, stars, and lines
+		PIXEL,		// Items anybody can create with pixels
+		ROLLING_PIN,	// Items created with a rolling pin or and an unrolling pin
+		GNOME_TINKER,	// Items requiring access to the Gnome supertinker
+		STAFF,		// Items requiring access to Roderic the Staffcrafter
+		SUSHI,		// Items anybody can create with a sushi-rolling mat
 		// Items created by single (or multi) using a single item.
 		// Extra ingredients might also be consumed.
 		// Multi-using more than one of the item creates multiple results.
@@ -538,19 +538,19 @@ public interface KoLConstants
 		// Extra ingredients might also be consumed.
 		// You must create multiple result items one at a time.
 		MULTI_USE,
-		CRIMBO05, // Items formerly creatable in Crimbo Town during Crimbo 2005
-		CRIMBO06, // Items formerly creatable in Crimbo Town during Crimbo 2006
-		CRIMBO07, // Items formerly creatable in Crimbo Town during Crimbo 2007
-		CRIMBO12, // Items creatable in Crimbo Town during Crimbo 2012
-		SUGAR_FOLDING, // Items anybody can create by folding a sugar sheet
-		PHINEAS, // Items requiring access to Phineas
-		COOK_FANCY, // Items created with an Dramatic Range
-		MIX_FANCY, // Items created with a Cocktailcrafting Kit
-		ACOMBINE, // Un-untinkerable Ideas
-		COINMASTER, // Coinmaster purchase
-		CLIPART, // Tome of Clip Art summons
-		JARLS, // Items that can only be made by an Avatar of Jarlsberg
-		GRANDMA, // Items made by Grandma Sea Monkee
+		CRIMBO05,	// Items formerly creatable in Crimbo Town during Crimbo 2005
+		CRIMBO06,	// Items formerly creatable in Crimbo Town during Crimbo 2006
+		CRIMBO07,	// Items formerly creatable in Crimbo Town during Crimbo 2007
+		CRIMBO12,	// Items creatable in Crimbo Town during Crimbo 2012
+		SUGAR_FOLDING,	// Items anybody can create by folding a sugar sheet
+		PHINEAS,	// Items requiring access to Phineas
+		COOK_FANCY,	// Items created with an Dramatic Range
+		MIX_FANCY,	// Items created with a Cocktailcrafting Kit
+		ACOMBINE,	// Un-untinkerable Ideas
+		COINMASTER,	// Coinmaster purchase
+		CLIPART,	// Tome of Clip Art summons
+		JARLS,		// Items that can only be made by an Avatar of Jarlsberg
+		GRANDMA,	// Items made by Grandma Sea Monkee
 	}
 
 	public enum CraftingRequirements

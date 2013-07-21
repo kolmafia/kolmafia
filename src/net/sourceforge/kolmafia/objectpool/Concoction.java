@@ -101,6 +101,7 @@ public class Concoction
 
 	public int price;
 	public String property;
+	public boolean special;
 	public int creatable;
 	public int queued;
 	public int queuedPulls;
@@ -154,6 +155,7 @@ public class Concoction
 
 		this.price = -1;
 		this.property = null;
+		this.special = false;
 
 		this.resetCalculations();
 	}
@@ -169,6 +171,17 @@ public class Concoction
 
 		this.name = name;
 		this.price = price;
+
+		this.resetCalculations();
+		this.setConsumptionData();
+	}
+
+	public Concoction( final String name )
+	{
+		this( (AdventureResult) null, CraftingType.NOCREATE );
+
+		this.name = name;
+		this.special = true;
 
 		this.resetCalculations();
 		this.setConsumptionData();
@@ -531,7 +544,7 @@ public class Concoction
 		int creatableAmount = Math.max( this.creatable, 0 );
 		int overAmount = Math.min( creatableAmount, amount - decrementAmount );
 		int pullAmount = amount - decrementAmount - overAmount;
-		if ( this.price > 0 || this.property != null )
+		if ( this.price > 0 || this.property != null || this.special )
 		{
 			pullAmount = 0;
 		}
@@ -592,6 +605,7 @@ public class Concoction
 
 		if ( this.price > 0 ||
 		     this.property != null ||
+		     this.special ||
 		     !ConcoctionDatabase.isPermittedMethod( this.mixingMethod, this.mixingRequirements ) )
 		{
 			return;
@@ -638,6 +652,7 @@ public class Concoction
 			this.initial =
 				this.price > 0 ? KoLCharacter.getAvailableMeat() / this.price :
 				this.property != null ? Preferences.getInteger( property ) :
+				this.special ? 1 :
 				0;
 			this.creatable = 0;
 			this.total = this.initial;
