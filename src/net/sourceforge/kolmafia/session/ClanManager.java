@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.ClanLogRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
@@ -103,6 +104,7 @@ public abstract class ClanManager
 		ProfileSnapshot.clearCache();
 		AscensionSnapshot.clearCache();
 		ChatManager.resetClanMessages();
+		ClanLoungeRequest.resetHotdogs();
 
 		ClanManager.clanId = 0;
 		ClanManager.clanName = null;

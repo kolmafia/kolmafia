@@ -982,14 +982,15 @@ public abstract class KoLmafia
 		// Make sure that we know about the easy to see Golden Mr. A's, at least
 		InventoryManager.countGoldenMrAccesories();
 
+		// Visit lounge and check hotdog stand.
+		// As a side effect, report on whether you have a present waiting
+		ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
+
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
 		KoLmafia.isRefreshing = false;
 
 		ConcoctionDatabase.refreshConcoctions( true );
-
-		// Visit lounge and report on whether you have a present waiting
-		ClanLoungeRequest.visitLounge();
 
 		// Check the Florist to see what is planted
 		FloristRequest.reset();

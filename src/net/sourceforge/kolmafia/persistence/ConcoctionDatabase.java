@@ -66,11 +66,12 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
@@ -832,9 +833,13 @@ public class ConcoctionDatabase
 		// Otherwise, acquire them from the appropriate cafe.
 
 		String name = c.getName();
-		CafeRequest request;
+		GenericRequest request;
 
-		if ( HellKitchenRequest.onMenu( name ) )
+		if ( ClanLoungeRequest.isHotDog( name ) )
+		{
+			request = ClanLoungeRequest.buyHotDogRequest( name );
+		}
+		else if ( HellKitchenRequest.onMenu( name ) )
 		{
 			request = new HellKitchenRequest( name );
 		}
@@ -2085,7 +2090,6 @@ public class ConcoctionDatabase
 		{
 			result.append( "Grandma Sea Monkee" );
 		}
-
 
 		if ( result.length() == 0 )
 		{
