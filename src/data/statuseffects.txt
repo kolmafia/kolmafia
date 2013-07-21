@@ -1260,9 +1260,9 @@
 1259	More Like a Suckrament	fish.gif	0c62a64c5e0586d7bbffa70e2c4cddee
 1260	A Hole in the World	stareffect.gif	70d27aadf5e48a2369de13385b6892e2
 1261
-1262
-1263
-1264
+1262	Everything Must Go!	skull.gif	fc67a39dfb2d17e5a3bd5d55acdca81b	use 1 violent pastilles
+1263	Predjudicetidigitation	angry.gif	33e3993e62a2a62fe24a14cffe778719	use 1 worst candy
+1264	Things Man Was Not Meant to Eat	fudgehole.gif	d90b373695c4e0bcb71d3487de57edd4	use 1 fudge-shaped hole in space-time
 1265
 1266
 1267

@@ -3242,6 +3242,8 @@ Enraged	Muscle Percent: +10
 # Ermahgerd, Burke: Makes you look like Special Agent Wallace Burke Corrigan
 Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10
+# Everything Must Go!: You are much more attracted to monsters
+# Everything Must Go!: (so you can destroy them)
 Everything's Zen	Experience Percent (Mysticality): +20
 # Existential Torment: Who are you? Who are you <i>really</i>?
 Expert Oiliness	Equalize: "Mysticality"
@@ -3690,6 +3692,8 @@ Pop-eyed	Weapon Damage: +30
 Pork Power	Muscle: +10
 Powdered	Experience (Mysticality): +10
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
+# Predjudicetidigitation: You are much less attracted to monsters
+# Predjudicetidigitation: (because you hate them)
 Prelude of Precision	Critical Hit Percent: +10
 Pretending to Pretend	Weapon Damage Percent: +100
 Prestidigysfunction	Mysticality Percent: -95
@@ -4004,6 +4008,7 @@ Thick-Skinned	Maximum HP: +50
 Thick, Sick	Damage Reduction: 5
 Thicker, Sicker	Damage Reduction: 15
 Thickest, Sickest	Damage Reduction: 30
+# Things Man Was Not Meant to Eat: Full of Loathing
 Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Three Days Slow	Experience (familiar): +3
 # Three King-sized Sheets to the Wind: Makes you look like a Booze Giant
@@ -4754,6 +4759,7 @@ frog lip-print	Effect: "Green, Uneasy", Effect Duration: 30
 frost-rimed seal hide	Effect: "Cold Hard Skin", Effect Duration: 10
 frostbite-flavored Hob-O	Effect: "Tundra Mouth"
 fry-oil-flavored Hob-O	Effect: "Cholestoriffic"
+fudge-shaped hole in space-time	Effect: "Things Man Was Not Meant to Eat", Effect Duration: 10
 fudge lily	Effect: "Stop and Smell the Fudge", Effect Duration: 20
 funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
 fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
@@ -5060,6 +5066,7 @@ vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
 vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
 vial of The Glistening	Effect: "The Glistening", Effect Duration: 15
+violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 votive candle	Effect: "Clerical Aura", Effect Duration: 100
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
@@ -5071,6 +5078,7 @@ willyweed	Effect: "Wet Willied", Effect Duration: 30
 wind-up meatcar	Effect: "All Wound Up", Effect Duration: 100
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
 wizard action figure	Free Pull
+worst candy	Effect: "Predjudicetidigitation", Effect Duration: 10
 yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
 yellow snowcone	Effect: "Yellow Tongue", Effect Duration: 20
 yuletide troll chrysalis	Free Pull

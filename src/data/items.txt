@@ -6418,9 +6418,9 @@
 6401	black tear	800989357	blacktear.gif	usable	t,d	42
 6402	jagged tooth	415373394	jaggedtooth.gif	usable	t,d	17	jagged teeth
 6403	grisly shell fragment	617113636	chitinplate.gif	usable	t,d	23
-6404
-6405
-6406
+6404	violent pastilles	610227992	sororbox.gif	usable, candy	t,d	50
+6405	worst candy	208490422	confused.gif	usable, candy	t,d	50
+6406	fudge-shaped hole in space-time	967386285	fudgehole.gif	usable, candy	t,d	100
 6407	Pocket Square of Loathing	448329379	loathe_square.gif	accessory		0
 6408	corrupted stardust	115797236	stardust.gif	usable	t	0
 6409	Star Spawn	561439887	starspawn.gif	grow	t	0
