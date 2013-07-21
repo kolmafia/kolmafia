@@ -95,11 +95,17 @@ public class TavernRequest
 			return;
 		}
 
+		if ( location.indexOf( "place=susguy" ) != -1 ) {
+			if ( responseText.indexOf( "Take some goofballs (for free!)") == -1) {
+				Preferences.setInteger("lastGoofballBuy", KoLCharacter.getAscensions());
+			}
+		}
+
 		if ( location.indexOf( "action=buygoofballs" ) != -1 )
 		{
 			// Here you go, man. If you get caught, you didn't get
 			// these from me, man.
-
+			Preferences.setInteger("lastGoofballBuy", KoLCharacter.getAscensions());
 			if ( responseText.indexOf( "If you get caught" ) == -1 )
 			{
 				return;

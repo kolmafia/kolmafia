@@ -295,6 +295,10 @@ public class ValhallaDecorator
 		{			
 			buffer.append( "<nobr><a href=\"trophy.php\">buy trophies you're eligible for</a></nobr><br>" );
 		}
+		int ip = Preferences.getInteger("lastGoofballBuy");
+		if (KoLCharacter.getAscensions() > ip) {
+			buffer.append( "<nobr><a href=\"tavern.php?place=susguy\">get free goofballs?</a></nobr><br>" );
+		}
 
 		if ( KoLCharacter.getAttacksLeft() > 0 )
 		{
