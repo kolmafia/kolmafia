@@ -1274,7 +1274,7 @@ public class RelayRequest
 		if ( adventureName == null )
 			return false;
 
-		if ( !adventureName.startsWith( "Haunted Billiards" ) )
+		if ( !adventureName.equals( "The Haunted Billiards Room" ) )
 		{
 			return false;
 		}
