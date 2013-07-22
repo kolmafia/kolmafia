@@ -5115,7 +5115,7 @@ Florist:Rad-ish Radish	Experience (Moxie): 5
 Florist:War Lily	Monster Level: 30
 Florist:Stealing Magnolia	Item Drop: 25
 Florist:Canned Spinach	Experience (Muscle): 5
-Florist:Impatients	Initiative: 25
+Florist:Impatiens	Initiative: 25
 # Florist:Spider Plant: Damages and poisons enemies before combat
 # Florist:Red Fern: Delevels enemies during combat
 # Florist:BamBOO!: Deals Spooky damage

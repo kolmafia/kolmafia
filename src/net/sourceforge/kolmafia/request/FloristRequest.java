@@ -77,7 +77,7 @@ public class FloristRequest
 		WAR_LILY( 11, "War Lily" ),
 		STEALING_MAGNOLIA( 12, "Stealing Magnolia" ),
 		CANNED_SPINACH( 13, "Canned Spinach" ),
-		IMPATIENTS( 14, "Impatients" ),
+		IMPATIENS( 14, "Impatiens" ),
 		SPIDER_PLANT( 15, "Spider Plant" ),
 		RED_FERN( 16, "Red Fern" ),
 		BAMBOO( 17, "BamBOO!" ),
