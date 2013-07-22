@@ -3310,6 +3310,7 @@ Free Bird	Mysticality: +20
 Fresh Scent	Combat Rate: -5
 Frigid Weapon	Cold Damage: +3
 # Frigidalmatian: Bites your foes
+Frio Como Helado	Cold Damage: +10
 Frog In Your Throat	Muscle: +25
 From Nantucket	Experience (Moxie): +5
 Frostbitten	Cold Damage: +10, Damage Reduction: -2
@@ -3766,6 +3767,7 @@ Salty Dogs	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(T
 # Salty Mouth: You really need a beer...
 Sappy Blood	Spooky Resistance: 3
 # Sated and Furious: Weapon Damage: +X, Spell Damage: +X
+Saucefingers	Spell Damage Percent: +50
 Saucegoggles	MP Regen Min: 8, MP Regen Max: 10
 Saucemastery	Maximum HP: +3, Mysticality: +1
 Sausage Festive	MP Regen Min: 5, MP Regen Max: 10
