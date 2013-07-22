@@ -6406,28 +6406,28 @@
 6389	Mer-kin rocksalt	820963347	saltcandy1.gif	usable	t	0	Mer-kin rocksalt candies
 6390	Mer-kin saltmint	964380486	saltcandy2.gif	usable	t	0	Mer-kin saltmints
 6391	Mer-kin saltsquid	876664593	saltcandy3.gif	usable	t	0	Mer-kin saltsquids
-6392	scale-mail underwear	539861153	scaleunderwear.gif	pants	t,d	145
+6392	scale-mail underwear	539861153	scaleunderwear.gif	pants	t,d	145	pairs of scale-mail underwear
 6393	comb jelly	524685668	combjelly.gif	usable	t,d	50	comb jellies
 6394	anemone sauce	441262699	soupbowl.gif	none	t,d	60	bowls of anemone sauce
 6395	inky squid sauce	533868128	soupbowl.gif	none	t,d	60	bowls of inky squid sauce
 6396	Mer-kin weaksauce	717309653	soupbowl.gif	none	t,d	60	bowls of Mer-kin weaksauce
 6397	peanut sauce	464977927	soupbowl.gif	none	t,d	120	bowls of peanut sauce
 6398	black glass	201304219	blackglass.gif	accessory	q	0
-6399	Boss Drops	118222611	bossdrops.gif	usable	t	0
+6399	Boss Drops	118222611	bossdrops.gif	usable	t	0	Boss Drops
 6400	Mer-kin lunchbox	257377198	bentobox.gif	none	t,d	45	Mer-kin lunchboxes
-6401	black tear	800989357	blacktear.gif	usable	t,d	42
+6401	black tear	800989357	blacktear.gif	usable	t,d	42	black tears
 6402	jagged tooth	415373394	jaggedtooth.gif	usable	t,d	17	jagged teeth
-6403	grisly shell fragment	617113636	chitinplate.gif	usable	t,d	23
-6404	violent pastilles	610227992	sororbox.gif	usable, candy	t,d	50
-6405	worst candy	208490422	confused.gif	usable, candy	t,d	50
-6406	fudge-shaped hole in space-time	967386285	fudgehole.gif	usable, candy	t,d	100
+6403	grisly shell fragment	617113636	chitinplate.gif	usable	t,d	23	grisly shell fragments
+6404	violent pastilles	610227992	sororbox.gif	usable, candy	t,d	50	fun-size tins of violent pastilles
+6405	worst candy	208490422	confused.gif	usable, candy	t,d	50	wads of the worst candy
+6406	fudge-shaped hole in space-time	967386285	fudgehole.gif	usable, candy	t,d	100	fudge-shaped holes in space-time
 6407	Pocket Square of Loathing	448329379	loathe_square.gif	accessory		0
-6408	corrupted stardust	115797236	stardust.gif	usable	t	0
-6409	Star Spawn	561439887	starspawn.gif	grow	t	0
-6410	cute bow from beyond the stars	345486861	spacebow.gif	familiar	t,d	75
+6408	corrupted stardust	115797236	stardust.gif	usable	t	0	corrupted stardusts
+6409	Star Spawn	561439887	starspawn.gif	grow	t	0	Star Spawns
+6410	cute bow from beyond the stars	345486861	spacebow.gif	familiar	t,d	75	cute bows from beyond the stars
 6411
-6412	shaking skull	638617403	shakeskull.gif	usable		0
-6413	Order of the Green Thumb Order Form	975397883	floristform.gif	usable	t	0
+6412	shaking skull	638617403	shakeskull.gif	usable		0	shaking skulls
+6413	Order of the Green Thumb Order Form	975397883	floristform.gif	usable	t	0	Order of the Green Thumb Order Forms
 6414
 6415
 6416
@@ -6557,11 +6557,11 @@
 6540
 6541
 6542
-6543	pogo stick	422814677	pogostick.gif	accessory	t,d	1949
+6543	pogo stick	422814677	pogostick.gif	accessory	t,d	1949	pogo sticks
 6544
 6545
-6546	big pants	923211152	yakpants.gif	pants	q	0
-6547	Thwaitgold Goliath beetle statuette	736316665	thwaitgoliath.gif	none		0
+6546	big pants	923211152	yakpants.gif	pants	q	0	pairs of big pants
+6547	Thwaitgold Goliath beetle statuette	736316665	thwaitgoliath.gif	none		0	Thwaitgold Goliath beetle statuettes
 6548
 6549
 6550
@@ -6596,13 +6596,13 @@
 6579
 6580
 6581
-6582	Clan hot dog stand	346032932	crate.gif	usable	t	0
+6582	Clan hot dog stand	346032932	crate.gif	usable	t	0	Clan hot dog stand
 6583	vicious spiked collar	981852802	spikycollar.gif	familiar	t,d	75	vicious spiked collars
 6584	ancient hot dog wrapper	111886283	wrapper.gif	offhand	t,d	5	ancient hot dog wrappers
 6585	debonair deboner	582791637	deboner.gif	weapon	t,d	180	180	debonair deboners
 6586	chicle de salchicha	978763944	chicle.gif	usable	t,d	40	pieces of chicle de salchicha
 6587	jar of frostigkraut	406876387	frostigkraut.gif	offhand	t,d	70
-6588	gnawed-up dog bone	222503659	dogbone.gif	weapon	t,d	66
+6588	gnawed-up dog bone	222503659	dogbone.gif	weapon	t,d	66	gnawed-up dog bones
 6589	Grey Guanon	800593734	guanon.gif	offhand	t,d	35	jars of Grey Guanon
 6590	Engorged Sausages and You	866205948	book4.gif	offhand	t,d	75
 6591	dream of a dog	514413900	martini.gif	drink	t,d	100	dreams of dogs

@@ -3242,8 +3242,7 @@ Enraged	Muscle Percent: +10
 # Ermahgerd, Burke: Makes you look like Special Agent Wallace Burke Corrigan
 Ermine Eyes	Item Drop: +5
 Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10
-# Everything Must Go!: You are much more attracted to monsters
-# Everything Must Go!: (so you can destroy them)
+Everything Must Go!	Combat Rate: +10
 Everything's Zen	Experience Percent (Mysticality): +20
 # Existential Torment: Who are you? Who are you <i>really</i>?
 Expert Oiliness	Equalize: "Mysticality"
@@ -3692,8 +3691,7 @@ Pop-eyed	Weapon Damage: +30
 Pork Power	Muscle: +10
 Powdered	Experience (Mysticality): +10
 Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
-# Predjudicetidigitation: You are much less attracted to monsters
-# Predjudicetidigitation: (because you hate them)
+Predjudicetidigitation	Combat Rate: -10
 Prelude of Precision	Critical Hit Percent: +10
 Pretending to Pretend	Weapon Damage Percent: +100
 Prestidigysfunction	Mysticality Percent: -95
