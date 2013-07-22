@@ -295,6 +295,7 @@
 
 # Skills granted conditionally
 
+7000
 7001	Give In To Your Vampiric Urges	5	0	0
 7002	Shake Hands	5	0	0
 7003	Hot Breath	5	5	0
@@ -303,7 +304,6 @@
 7006	Stinky Breath	5	5	0
 7007	Sleazy Breath	5	5	0
 # Moxious Maneuver was removed from KoL
-# so it is commented out here
 # 7008 Moxious Maneuver 5 0 0
 7009	Magic Missile	5	0	0
 7010	Fire red bottle-rocket	5	5	0
@@ -434,7 +434,7 @@
 7135	Bear Hug	5	0	0
 7136	I Can Bearly Hear You Over the Applause	5	0	0
 7137	Unleash Nanites	5	0	0
-7138
+7138	Air Blast	5	0	0
 7139	Haggis Kick	5	3	0
 7140	Play Hog Fiddle	5	0	0
 7141

@@ -897,15 +897,11 @@ public class SkillDatabase
 
 		switch ( skillId / 1000 )
 		{
-		case 7:			// Skills granted by items
+		case 7:				// Skills granted by items
+		case 8:				// Mystical Bookshelf Skills
 		case 11:			// Avatar of Boris skills
 		case 12:			// Zombie Slayer skills
 		case 14:			// Avatar of Jarlsberg skills
-			return false;
-		}
-
-		if ( isBookshelfSkill( skillId ) )
-		{
 			return false;
 		}
 
@@ -914,28 +910,7 @@ public class SkillDatabase
 
 	public static final boolean isBookshelfSkill( final int skillId )
 	{
-		switch ( skillId )
-		{
-		case SkillPool.SNOWCONE:
-		case SkillPool.STICKER:
-		case SkillPool.SUGAR:
-		case SkillPool.CLIP_ART:
-		case SkillPool.RAD_LIB:
-		case SkillPool.CANDY_HEART:
-		case SkillPool.PARTY_FAVOR:
-		case SkillPool.LOVE_SONG:
-		case SkillPool.BRICKOS:
-		case SkillPool.DICE:
-		case SkillPool.RESOLUTIONS:
-		case SkillPool.TAFFY:
-		case SkillPool.HILARIOUS:
-		case SkillPool.TASTEFUL:
-		case SkillPool.CARDS:
-		case SkillPool.GEEKY:
-			return true;
-		}
-
-		return false;
+		return ( skillId / 1000 ) == 8;
 	}
 
 	public static final boolean isBookshelfSkill( final String skillName )

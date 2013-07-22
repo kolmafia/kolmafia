@@ -1279,11 +1279,11 @@
 1278
 1279	Elbow Sauce	ma6buff1.gif	d836697f5744cf045a9e9a8a842cd5d2
 1280	Wet Rub	ma6buff2.gif	fe6a5d1badbb3432c441c6a22e46a15f
-1281
+1281	Saucefingers	ma6buff3.gif	e986a2b1ec8eb190cbe6b97e467a4d4b
 1282	Saucegoggles	ma6buff4.gif	8d75b802b6aac66fc4ed8d92db72b852
 1283	Shoesauce	ma6buff5.gif	0db1bd6c9c71155d4135315c5918a5e8
 1284	Corona de la Salsa	ma6buff6.gif	b312ea34332e90129f68db802e524796
-1285
+1285	Frio Como Helado	ma4buff1.gif
 1286	Concha de Tortuga	ma4buff2.gif	da927c80982e09e26a63bb31b38c997b
 1287	Riqueza de Pasta	ma4buff3.gif	4a4443b3e84e765e7ecdaf1944bd6304
 1288	Cafeter&iacute;a Brujer&iacute;a	ma4buff4.gif	8983c8a24e162c4912277aa87c5f4826
