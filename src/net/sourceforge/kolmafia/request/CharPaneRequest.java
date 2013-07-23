@@ -996,7 +996,7 @@ public class CharPaneRequest
 		// *** Temporary, I hope: api.php reports the size of your
 		// *** Horde as mp/maxmp - but sometimes is inaccurate.
 		// *** Bug report filed.
-		if (!KoLCharacter.inZombiecore() )
+		if ( !KoLCharacter.inZombiecore() )
 		{
 			int mp = JSON.getInt( "mp" );
 			int maxmp = JSON.getInt( "maxmp" );
@@ -1020,6 +1020,9 @@ public class CharPaneRequest
 
 		int classType = JSON.getInt( "class" );
 		KoLCharacter.setClassType( classType );
+
+		int pvpFights = JSON.getInt( "pvpfights" );
+		KoLCharacter.setAttacksLeft( pvpFights );
 
 		CharPaneRequest.refreshEffects( JSON );
 
