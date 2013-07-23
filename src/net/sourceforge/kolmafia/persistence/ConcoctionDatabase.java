@@ -1411,13 +1411,17 @@ public class ConcoctionDatabase
 		// The gnomish tinkerer is available if the person is in a
 		// gnome sign and they can access the Desert Beach.
 
-		if ( KoLCharacter.gnomadsAvailable() )
+		if ( KoLCharacter.gnomadsAvailable() || !KoLCharacter.inZombiecore() )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.GNOME_TINKER );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.GNOME_TINKER, 0 );
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.GNOME_TINKER, 0 );
 		}
-		ConcoctionDatabase.EXCUSE.put( CraftingType.GNOME_TINKER, "Only moxie signs can use the Supertinkerer." );
+		ConcoctionDatabase.EXCUSE.put( CraftingType.GNOME_TINKER, "Only gnome signs can use the Supertinkerer." );
+		if ( KoLCharacter.inZombiecore() )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.GNOME_TINKER, "Zombies cannot use the Supertinkerer." );
+		}
 
 		// Smithing of items is possible whenever the person
 		// has a hammer.
