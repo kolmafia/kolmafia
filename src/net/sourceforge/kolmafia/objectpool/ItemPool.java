@@ -271,6 +271,7 @@ public class ItemPool
 	public static final int STAR_KEY = 665;
 	public static final int STEAMING_EVIL = 666;
 	public static final int GIANT_CASTLE_MAP = 667;
+	public static final int CRANBERRIES = 672;
 	public static final int BONERDAGON_SKULL = 675;
 	public static final int DRAGONBONE_BELT_BUCKLE = 676;
 	public static final int BADASS_BELT = 677;
@@ -1600,6 +1601,7 @@ public class ItemPool
 	public static final int BONSAI_TREE = 6120;
 	public static final int SNOW_SUIT = 6150;
 	public static final int CARROT_NOSE = 6151;
+	public static final int GAMEPRO_MAGAZINE = 6174;
 	public static final int GAMEPRO_WALKTHRU = 6175;
 	public static final int COSMIC_EGG = 6176;
 	public static final int COSMIC_VEGETABLE = 6178;
