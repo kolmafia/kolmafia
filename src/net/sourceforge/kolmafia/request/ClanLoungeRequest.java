@@ -1301,8 +1301,12 @@ public class ClanLoungeRequest
 		if ( action.equals( "eathotdog" ) )
 		{
 			// Do nothing if consumption of a basic hot dog failed
+			// Do nothing if overeating on basic hot dogs causes you to lose stats
+			// Don't be fooled!
+			//   You lose some of an effect: Got Milk
 			if ( responseText.indexOf( "You don't feel up to eating that" ) != -1 ||
-			     responseText.indexOf( "You lose" ) != -1 )
+			     ( responseText.indexOf( "You lose some of an effect" ) == -1 &&
+			       responseText.indexOf( "You lose" ) != -1 ) )
 			{
 				return;
 			}
