@@ -376,6 +376,12 @@ public class CampgroundRequest
 			return;
 		}
 
+		if ( urlString.contains( "smashstone=Yep" ) )
+		{
+			KoLCharacter.setAttacksLeft( 10 );
+			return;
+		}
+
 		Matcher matcher= GenericRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
@@ -505,7 +511,6 @@ public class CampgroundRequest
 		if ( responseText.contains( "smashstone.gif" ) && !KoLCharacter.getHippyStoneBroken() )
 		{
 			KoLCharacter.setHippyStoneBroken( true );
-			RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
 		}
 
 		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
