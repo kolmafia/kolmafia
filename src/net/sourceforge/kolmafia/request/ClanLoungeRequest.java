@@ -104,7 +104,7 @@ public class ClanLoungeRequest
 	private int option;
 
 	private static final Pattern STANCE_PATTERN = Pattern.compile( "stance=(\\d*)" );
-	private static final Pattern WHICHDOG_PATTERN = Pattern.compile( "whichdog=(\\d*)" );
+	private static final Pattern WHICHDOG_PATTERN = Pattern.compile( "whichdog=(-\\d*)" );
 	private static final Pattern TREE_PATTERN = Pattern.compile( "Check back in (\\d+) day" );
 	private static final Pattern FAX_PATTERN = Pattern.compile( "preaction=(.+?)fax" );
 	private static final Pattern TEMPERATURE_PATTERN = Pattern.compile( "temperature=(\\d*)" );
