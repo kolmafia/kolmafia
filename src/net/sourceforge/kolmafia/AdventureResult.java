@@ -477,6 +477,11 @@ public class AdventureResult
 		}
 	}
 
+	public String getPluralName( final int count )
+	{
+		return count == 1 ? this.getName() : ItemDatabase.getPluralById( this.itemId );
+	}
+
 	/**
 	 * Accessor method to retrieve the item Id associated with the result, if this is an item and the item Id is known.
 	 *
