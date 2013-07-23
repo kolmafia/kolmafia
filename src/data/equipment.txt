@@ -1977,7 +1977,7 @@ tiny plastic Knob Goblin bean counter	10	none
 tiny plastic Knob Goblin harem girl	10	none
 tiny plastic Knob Goblin mad scientist	10	none
 tiny plastic Knott Yeti	10	none
-tiny plastic Lord Flameface	0	Mys: 10
+tiny plastic Lord Flameface	50	Mys: 10
 tiny plastic Lord Spookyraven	50	Mys: 10
 tiny plastic MechaElf	0	none
 tiny plastic Mob Penguin	0	none
@@ -1987,7 +1987,7 @@ tiny plastic Norville Rogers	0	none
 tiny plastic Orcish Frat Boy	10	none
 tiny plastic Protagonist	10	none
 tiny plastic Queen Bee	0	none
-tiny plastic Rene C. Corman	0	Mys: 10
+tiny plastic Rene C. Corman	50	Mys: 10
 tiny plastic Scott the Miner	0	none
 tiny plastic Scream Queen	20	none
 tiny plastic Sneaky Pete	30	none
