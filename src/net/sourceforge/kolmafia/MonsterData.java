@@ -180,7 +180,7 @@ public class MonsterData
 			}
 			if ( KoLCharacter.inBigcore() )
 			{
-				attack = Math.min( attack + 150, 300 );
+				attack = Math.min( attack + 150, Math.max( 300, attack ) );
 			}
 			return (int) Math.floor( Math.max( 1, attack + ML() ) *
 			       getBeeosity() );
@@ -225,7 +225,7 @@ public class MonsterData
 			}
 			if ( KoLCharacter.inBigcore() )
 			{
-				defense = Math.min( defense + 150, 300 );
+				defense = Math.min( defense + 150, Math.max( 300, defense ) );
 			}
 			return (int) Math.floor( Math.max( 1, defense + ML() ) *
 			       getBeeosity() * EquipmentManager.getDefenseModifier() );
