@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1350,12 +1351,22 @@ public class ClanLoungeRequest
 			{
 				Preferences.increment( "currentFullness", fullness );
 			}
+			String name = ClanLoungeRequest.hotdogIndexToName( index );
+			if ( name.equals( "optimal dog" ) )
+			{
+				// Remove existing Fortune Cookie counters and set one to 0.
+				TurnCounter.stopCounting( "Fortune Cookie" );
+				TurnCounter.stopCounting( "Semirare window begin" );
+				TurnCounter.stopCounting( "Semirare window end" );
+				TurnCounter.startCounting( 0, "Fortune Cookie", "fortune.gif" );
+			}
 			if ( index > 0 )
 			{
 				// Remove fancy hot dogs from the list
 				ClanLoungeRequest.resetHotdogs( 1 );
 				Preferences.setBoolean( "_fancyHotDogEaten", true );
 			}
+
 			return;
 		}
 		else if ( action.equals( "hotdogsupply" ) )
