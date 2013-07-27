@@ -6607,4 +6607,4 @@
 6590	Engorged Sausages and You	866205948	book4.gif	offhand	t,d	75
 6591	dream of a dog	514413900	martini.gif	drink	t,d	100	dreams of dogs
 6592	optimal spreadsheet	389475336	spreadsheet.gif	offhand	t	0	optimal spreadsheets
-6593	defective Game Grid token	606727747	gg_def.gif	usable	t	0	defective Game Grid tokens
+6593	defective Game Grid token	606727747	gg_def.gif	reusable	t	0	defective Game Grid tokens
