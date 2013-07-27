@@ -2114,6 +2114,7 @@ public class OptionsFrame
 		private final JCheckBox grabClovers;
 		private final JCheckBox readManual;
 		private final JCheckBox useCrimboToys;
+		private final JCheckBox checkJackass;
 
 		private final SkillMenu tomeSkills;
 		private final SkillMenu libramSkills;
@@ -2172,6 +2173,10 @@ public class OptionsFrame
 			this.useCrimboToys = new JCheckBox( "use once-a-day items" );
 			this.useCrimboToys.addActionListener( this );
 			centerPanel.add( this.useCrimboToys );
+
+			this.checkJackass = new JCheckBox( "check Jackass Plumber" );
+			this.checkJackass.addActionListener( this );
+			centerPanel.add( this.checkJackass );
 
 			centerContainer.add( centerPanel );
 			centerContainer.add( Box.createVerticalStrut( 10 ) );
@@ -2255,6 +2260,8 @@ public class OptionsFrame
 				"readManual" + this.breakfastType, this.readManual.isSelected() );
 			Preferences.setBoolean(
 				"useCrimboToys" + this.breakfastType, this.useCrimboToys.isSelected() );
+			Preferences.setBoolean(
+				"checkJackass" + this.breakfastType, this.checkJackass.isSelected() );
 
 			this.tomeSkills.setPreference();
 			this.libramSkills.setPreference();
@@ -2278,6 +2285,7 @@ public class OptionsFrame
 			this.grabClovers.setSelected( Preferences.getBoolean( "grabClovers" + this.breakfastType ) );
 			this.readManual.setSelected( Preferences.getBoolean( "readManual" + this.breakfastType ) );
 			this.useCrimboToys.setSelected( Preferences.getBoolean( "useCrimboToys" + this.breakfastType ) );
+			this.checkJackass.setSelected( Preferences.getBoolean( "checkJackass" + this.breakfastType ) );
 		}
 
 		@Override

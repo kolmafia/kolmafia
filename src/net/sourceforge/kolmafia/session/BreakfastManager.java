@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -103,6 +104,7 @@ public class BreakfastManager
 			harvestGarden();
 			visitBigIsland();
 			visitVolcanoIsland();
+			checkJackass();
 		}
 
 		boolean recoverMana = Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
@@ -457,6 +459,20 @@ public class BreakfastManager
 		}
 
 		return done;
+	}
+
+	private static void checkJackass()
+	{
+		if ( Preferences.getBoolean( "_defectiveTokenChecked" ) )
+		{
+			return;
+		}
+
+		if ( Preferences.getBoolean( "checkJackass" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		{
+			ArcadeRequest.checkJackassPlumber();
+			KoLmafia.forceContinue();
+		}
 	}
 
 	public static void visitVolcanoIsland()
