@@ -26,6 +26,8 @@ global	chatBeep	false
 global	chatFontSize
 global	chatLinksUseRelay	false
 global	chatStyle	0
+global	checkJackassHardcore	true
+global	checkJackassSoftcore	true
 global	cloverProtectActive	true
 global	coinMasterIndex	1
 global	combatHotkey0

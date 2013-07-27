@@ -62,6 +62,7 @@ public class ArcadeRequest
 	extends GenericRequest
 {
 	public static final AdventureResult TOKEN = ItemPool.get( ItemPool.GG_TOKEN, 1 );
+	public static final AdventureResult TICKET = ItemPool.get( ItemPool.GG_TICKET, 1 );
 
 	private String action = null;
 
@@ -382,7 +383,6 @@ public class ArcadeRequest
 
 	private static int week;
 	private static int crew;
-	private static int crewLost;
 	private static int money;
 	private static int gas;
 	private static int time;
@@ -393,7 +393,6 @@ public class ArcadeRequest
 
 		ArcadeRequest.week = 0;
 		ArcadeRequest.crew = 30;
-		ArcadeRequest.crewLost = 0;
 		ArcadeRequest.money = 0;
 		ArcadeRequest.gas = 100;
 		ArcadeRequest.time = 52;
@@ -609,7 +608,6 @@ public class ArcadeRequest
 		if ( crewMatcher.find() )
 		{
 			int crew = StringUtilities.parseInt( crewMatcher.group(1) );
-			ArcadeRequest.crewLost += crew;
 			ArcadeRequest.logText( "You lost " + KoLConstants.COMMA_FORMAT.format( crew ) + " crew members" );
 		}
 
@@ -1803,4 +1801,39 @@ public class ArcadeRequest
 	}
 
 	/* End Meteoid */
+
+	public static final void checkJackassPlumber()
+	{
+		boolean checked = Preferences.getBoolean( "_defectiveTokenChecked" );
+
+		if ( checked )
+		{
+			// already checked for a defective token
+			return;
+		}
+
+		boolean unlocked = Preferences.getInteger( "lastArcadeAscension" ) == KoLCharacter.getAscensions();
+		boolean unlockable = unlocked || // Having those items doesn't matter if it's already unlocked
+			TOKEN.getCount( KoLConstants.inventory ) > 0 || TICKET.getCount( KoLConstants.inventory ) > 0;
+
+		if ( !unlocked && unlockable )
+		{
+			RequestThread.postRequest( new GenericRequest( "town_wrong.php" ) );
+			Preferences.setInteger( "lastArcadeAscension", KoLCharacter.getAscensions() );
+			unlocked = true;
+		}
+
+		if ( !unlocked && !unlockable )
+		{
+			// Game Grid Arcade is not accessible
+		}
+
+		else if ( unlocked )
+		{
+			ArcadeRequest request = new ArcadeRequest( "plumber" );
+			RequestThread.postRequest( request );
+			request.processResults();
+		}
+	}
+
 }

@@ -250,9 +250,7 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Defective Token" ) )
-			return 7;
-		else if ( deed.equals( "Avatar of Jarlberg Staves" ) )
+		if ( deed.equals( "Avatar of Jarlberg Staves" ) )
 			return 6;
 		else if ( deed.equals( "Swimming Pool" ) )
 			return 5;
@@ -3525,6 +3523,14 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean checked = Preferences.getBoolean( "_defectiveTokenChecked" );
+
+			if ( checked )
+			{
+				this.setText( "already checked for a defective token" );
+				this.button.setVisible( false );
+				return;
+			}
+
 			boolean unlocked = Preferences.getInteger( "lastArcadeAscension" ) == KoLCharacter.getAscensions();
 			boolean unlockable = unlocked || // Having those items doesn't matter if it's already unlocked
 			        InventoryManager.hasItem( ItemPool.GG_TOKEN ) || InventoryManager.hasItem( ItemPool.GG_TICKET );
@@ -3536,19 +3542,13 @@ public class DailyDeedsPanel
 				unlocked = true;
 			}
 
-			if ( checked )
-			{
-				this.setText( "already checked for a defective token" );
-				this.button.setVisible( false );
-			}
-
 			else if ( !unlocked && !unlockable )
 			{
 				this.setText( "Game Grid Arcade is not accessible" );
 				this.button.setVisible( false );
 			}
 
-			else if ( unlocked )
+			if ( unlocked )
 			{
 				this.setText( "click to check" );
 				this.button.setVisible( true );
