@@ -923,6 +923,10 @@ public class UseItemRequest
 		case ItemPool.SUSHI_ROLLING_MAT:
 			UseItemRequest.limiter = "usability";
 			return KoLCharacter.hasSushiMat() ? 0 : 1;
+
+		case ItemPool.DEFECTIVE_TOKEN:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_defectiveTokenUsed" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -4348,6 +4352,10 @@ public class UseItemRequest
 
 		case ItemPool.MERKIN_KNUCKLEBONE:
 			DreadScrollManager.handleKnucklebone( responseText );
+			return;
+
+		case ItemPool.DEFECTIVE_TOKEN:
+			Preferences.setBoolean( "_defectiveTokenUsed", true );
 			return;
 		}
 	}

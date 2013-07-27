@@ -837,6 +837,7 @@ user	_crimboTree	false
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
 user	_darkChocolateHeart	false
+user	_defectiveTokenUsed	false
 user	_deluxeKlawSummons	0
 user	_defectiveTokenChecked	false
 user	_demandSandwich	0
