@@ -96,7 +96,14 @@ public class ChatSender
 
 			String recipient = message.getRecipient();
 
-			ChatSender.scriptedMessagesEnabled = recipient == null || recipient.equals( "" ) || recipient.equals( "/clan" ) || recipient.equals( "/hobopolis" ) || recipient.equals( "/slimetube" ) || recipient.equals( "/hauntedhouse" );
+			ChatSender.scriptedMessagesEnabled =
+				recipient == null ||
+				recipient.equals( "" ) ||
+				recipient.equals( "/clan" ) ||
+				recipient.equals( "/hobopolis" ) ||
+				recipient.equals( "/slimetube" ) ||
+				recipient.equals( "/dread" ) ||
+				recipient.equals( "/hauntedhouse" );
 		}
 	}
 
@@ -178,7 +185,13 @@ public class ChatSender
 
 				String recipient = message.getRecipient();
 
-				ChatSender.scriptedMessagesEnabled = recipient == null || recipient.equals( "/clan" ) || recipient.equals( "/hobopolis" ) || recipient.equals( "/slimetube" ) || recipient.equals( "/hauntedhouse" );
+				ChatSender.scriptedMessagesEnabled =
+					recipient == null ||
+					recipient.equals( "/clan" ) ||
+					recipient.equals( "/hobopolis" ) ||
+					recipient.equals( "/slimetube" ) ||
+					recipient.equals( "/dread" ) ||
+					recipient.equals( "/hauntedhouse" );
 			}
 		}
 
