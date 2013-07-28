@@ -368,7 +368,11 @@ public abstract class ChatManager
 			ChatManager.faxbotMessage = message;
 		}
 
-		if ( recipient.equals( "/clan" ) || recipient.equals( "/hobopolis" ) || recipient.equals( "/slimetube" ) || recipient.equals( "/hauntedhouse" ) )
+		if ( recipient.equals( "/clan" ) ||
+		     recipient.equals( "/hobopolis" ) ||
+		     recipient.equals( "/slimetube" ) ||
+		     recipient.equals( "/dread" ) ||
+		     recipient.equals( "/hauntedhouse" ) )
 		{
 			ChatManager.clanMessages.add( message );
 			ChatManager.processCommand( sender, message.getContent(), recipient );
@@ -406,7 +410,10 @@ public abstract class ChatManager
 
 		if ( Preferences.getBoolean( "mergeHobopolisChat" ) )
 		{
-			if ( destination.equals( "/hobopolis" ) || destination.equals( "/slimetube" ) || destination.equals( "/hauntedhouse" ) )
+			if ( destination.equals( "/hobopolis" ) ||
+			     destination.equals( "/slimetube" ) ||
+			     destination.equals( "/dread" ) ||
+			     destination.equals( "/hauntedhouse" ) )
 			{
 				bufferKey = "/clan";
 			}

@@ -218,8 +218,9 @@ public class ResponseTextParser
 			return location.startsWith( "clan_stash" ) ||
 				location.startsWith( "clan_rumpus" ) ||
 				location.startsWith( "clan_viplounge" ) ||
+				location.startsWith( "clan_hobopolis" ) ||
 				location.startsWith( "clan_slimetube" ) ||
-				location.startsWith( "clan_hobopolis" );
+				location.startsWith( "clan_dreadsylvania" );
 		}
 
 		if ( location.startsWith( "login.php" ) ||
