@@ -3154,6 +3154,25 @@ Cupcake of Choice	Item Drop: +30
 Cupshotten	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Curiosity of Br'er Tarrypin	Experience (familiar): +1
 # Curse Magnet: Curses!
+Curse of Clumsiness	Pickpocket Chance: -50
+Curse of Dullness	Weapon Damage: -50, Spell Damage: -50, Ranged Damage: -50
+# Curse of Exposure: Total Hot Vulnerability (-9)
+# Curse of Exposure: Total Cold Vulnerability (-9)
+# Curse of Exposure: Total Stench Vulnerability (-9)
+# Curse of Exposure: Total Spooky Vulnerability (-9)
+# Curse of Exposure: Total Sleaze Vulnerability (-9)
+Curse of Forgetfulness	Experience: -25
+Curse of Hollowness	Maximum HP: -200, Maximum MP: -200
+# Curse of Impotence: +-50 Damage vs. Bugbears
+# Curse of Impotence: -50 Damage vs. Werewolves
+# Curse of Impotence: -50 Damage vs. Zombies
+# Curse of Impotence: -50 Damage vs. Ghosts
+# Curse of Impotence: -50 Damage vs. Vampires
+# Curse of Impotence: -50 Damage vs. Skeletons
+Curse of Misfortune	Meat Drop: -100, Item Drop: -50
+Curse of Sluggishness	Initiative: -50
+Curse of Vulnerability	Damage Absorption: -500, Damage Reduction: -50
+Curse of Weakness	Weapon Damage Percent: -50, Spell Damage Percent: -50
 # Curse of the Black Pearl Onion: Nasty belches during combat
 # Cursed by The RNG: ???
 Cuts Like a Buttered Knife	Sleaze Damage: +50

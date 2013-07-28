@@ -645,6 +645,9 @@ public class AdventureRequest
 				image.startsWith( "sororghost" ) ? "sexy sorority ghost" :
 				// Lord Flameface's Castle Entryway
 				image.startsWith( "fireservant" ) ? "Servant Of Lord Flameface" :
+				// Dreadsylvania
+				image.startsWith( "dvspookywolf" ) ? "spooky werewolf" :
+				image.startsWith( "dvspookybear" ) ? "spooky bugbear" :
 				null;
 		}
 

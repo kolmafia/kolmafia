@@ -6447,7 +6447,7 @@
 6430
 6431
 6432
-6433
+6433	Freddy Krueggerand	901547610	dv_krueggerand.gif	none		0
 6434
 6435
 6436
@@ -6516,7 +6516,7 @@
 6499
 6500
 6501
-6502
+6502	Dreadsylvanian seed pod	709187969	dv_seedpod.gif	none, combat	0
 6503
 6504
 6505
