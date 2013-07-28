@@ -80,6 +80,7 @@ public class FDKOLRequest
 			null,
 			null,
 			null,
+			true,
 			FDKOLRequest.itemRows
 			);
 

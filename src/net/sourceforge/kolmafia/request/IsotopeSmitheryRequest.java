@@ -68,6 +68,10 @@ public class IsotopeSmitheryRequest
 			IsotopeSmitheryRequest.buyItems,
 			IsotopeSmitheryRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

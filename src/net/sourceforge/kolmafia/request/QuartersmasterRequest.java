@@ -85,7 +85,11 @@ public class QuartersmasterRequest
 			QuartersmasterRequest.buyItems,
 			QuartersmasterRequest.buyPrices,
 			"turnin",
-			QuartersmasterRequest.sellPrices
+			QuartersmasterRequest.sellPrices,
+			null,
+			null,
+			true,
+			null
 			);
 
 

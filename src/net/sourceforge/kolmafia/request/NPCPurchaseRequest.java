@@ -475,6 +475,10 @@ public class NPCPurchaseRequest
 		{
 			VendingMachineRequest.parseResponse( urlString, responseText );
 		}
+		else if ( shopId.equals( "dv" ) )
+		{
+			TerrifiedEagleInnRequest.parseResponse( urlString, responseText );
+		}
 	}
 
 	public static final boolean registerShopRequest( final String urlString, boolean meatOnly )

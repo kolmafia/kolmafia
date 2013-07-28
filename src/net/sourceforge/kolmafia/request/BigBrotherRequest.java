@@ -84,6 +84,10 @@ public class BigBrotherRequest
 			BigBrotherRequest.buyItems,
 			BigBrotherRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

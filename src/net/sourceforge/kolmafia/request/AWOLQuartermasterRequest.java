@@ -80,6 +80,10 @@ public class AWOLQuartermasterRequest
 			AWOLQuartermasterRequest.buyItems,
 			AWOLQuartermasterRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

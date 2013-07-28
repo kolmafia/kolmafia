@@ -82,6 +82,10 @@ public class BURTRequest
 			BURTRequest.buyItems,
 			BURTRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

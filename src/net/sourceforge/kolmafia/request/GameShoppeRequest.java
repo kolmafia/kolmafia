@@ -83,7 +83,11 @@ public class GameShoppeRequest
 			GameShoppeRequest.buyItems,
 			GameShoppeRequest.buyPrices,
 			"tradein",
-			GameShoppeRequest.sellPrices
+			GameShoppeRequest.sellPrices,
+			null,
+			null,
+			true,
+			null
 			);
 
 	static

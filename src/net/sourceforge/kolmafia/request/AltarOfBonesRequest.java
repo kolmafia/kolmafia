@@ -74,6 +74,10 @@ public class AltarOfBonesRequest
 			AltarOfBonesRequest.buyItems,
 			AltarOfBonesRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

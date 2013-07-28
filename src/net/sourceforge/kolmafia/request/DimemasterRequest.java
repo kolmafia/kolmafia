@@ -85,7 +85,11 @@ public class DimemasterRequest
 			DimemasterRequest.buyItems,
 			DimemasterRequest.buyPrices,
 			"turnin",
-			DimemasterRequest.sellPrices
+			DimemasterRequest.sellPrices,
+			null,
+			null,
+			true,
+			null
 			);
 
 	

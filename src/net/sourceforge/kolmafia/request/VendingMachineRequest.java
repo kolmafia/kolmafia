@@ -79,6 +79,7 @@ public class VendingMachineRequest
 			null,
 			null,
 			null,
+			true,
 			VendingMachineRequest.itemRows
 			);
 

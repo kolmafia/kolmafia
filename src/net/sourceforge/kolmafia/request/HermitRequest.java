@@ -88,6 +88,10 @@ public class HermitRequest
 			KoLConstants.hermitItems,
 			HermitRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

@@ -86,6 +86,7 @@ public class TravelingTraderRequest
 			null,
 			"usehagnk=1",
 			"tradeall=1",
+			true,
 			null
 			);
 

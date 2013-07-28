@@ -89,6 +89,7 @@ import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
+import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
@@ -141,6 +142,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel trapperPanel = null;
 	private CoinmasterPanel vendingMachinePanel = null;
 	private CoinmasterPanel swaggerShopPanel = null;
+	private CoinmasterPanel terrifiedEagleInnPanel = null;
 	private CoinmasterPanel BURTPanel = null;
 	private CoinmasterPanel fdkolPanel = null;
 
@@ -216,6 +218,11 @@ public class CoinmastersFrame
 		bigBrotherPanel = new BigBrotherPanel();
 		panel.add( bigBrotherPanel );
 		this.selectorPanel.addPanel( bigBrotherPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		terrifiedEagleInnPanel = new TerrifiedEagleInnPanel();
+		panel.add( terrifiedEagleInnPanel );
+		this.selectorPanel.addPanel( terrifiedEagleInnPanel.getPanelSelector(), panel );
 
 		// IOTM coinmasters
 		this.selectorPanel.addSeparator();
@@ -761,6 +768,15 @@ public class CoinmastersFrame
 		public boolean enabled()
 		{
 			return SpaaaceRequest.immediatelyAccessible();
+		}
+	}
+
+	private class TerrifiedEagleInnPanel
+		extends CoinmasterPanel
+	{
+		public TerrifiedEagleInnPanel()
+		{
+			super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN );
 		}
 	}
 
