@@ -189,7 +189,7 @@ public class FightRequest
 	private static final Pattern MACRO_COMPACT_PATTERN =
 		Pattern.compile( "(?:#.*?)?([;\\n])[\\s;\\n]*" );
 	private static final Pattern MANUEL_PATTERN =
-		Pattern.compile( "var monsterstats = \\{\"hp\":\"(\\d+)\",\"def\":\"(-)?(\\d+)\",\"off\":\"(-)?(\\d+)");
+		Pattern.compile( "var monsterstats = \\{\"hp\":\"([\\d,]+)\",\"def\":\"(-)?([\\d,]+)\",\"off\":\"(-)?([\\d,]+)");
 
 	private static final Pattern NS_ML_PATTERN =
 		Pattern.compile( "The Sorceress pauses for a moment\\, mutters some words under her breath\\, and straightens out her dress\\. Her skin seems to shimmer for a moment\\." );
