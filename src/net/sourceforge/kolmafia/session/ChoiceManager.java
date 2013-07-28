@@ -586,7 +586,8 @@ public abstract class ChoiceManager
 		// One NightStand (simple wooden)
 		new ChoiceAdventure(
 			"Manor2", "choiceAdventure85", "Haunted Bedroom",
-			new String[] { "moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat", "ballroom key and moxie", "ballroom key and combat" } ),
+			new String[] { "moxie (ballroom key step 1)", "empty drawer (ballroom key step 2)", "enter combat", "Engorged Sausages and You or ballroom key and moxie", "Engorged Sausages and You or ballroom key and combat" },
+			new String[] { null, null, null, "6590" } ),
 
 		// History is Fun!
 		new ChoiceSpoiler(
@@ -872,8 +873,8 @@ public abstract class ChoiceManager
 		// Skull, Skull, Skull
 		new ChoiceAdventure(
 			"Cyrpt", "choiceAdventure155", "Defiled Nook",
-			new String[] { "moxie substats", "small meat boost", "rusty bonesaw", "skip adventure" },
-			new String[] { null, null, "2563", null } ),
+			new String[] { "moxie substats", "small meat boost", "rusty bonesaw", "debonair deboner", "skip adventure" },
+			new String[] { null, null, "2563", "6585", null } ),
 
 		// Choice 156 used to be Pileup
 
@@ -2186,7 +2187,8 @@ public abstract class ChoiceManager
 		// Duffel on the Double
 		new ChoiceAdventure(
 			"Mountain", "choiceAdventure575", "eXtreme Slope",
-			new String[] { "get an outfit piece", "skip adventure" } ),
+			new String[] { "get an outfit piece", "jar of frostigkraut", "skip adventure" },
+			new String[] { null, "6587", null } ),
 
 		// Choice 576 is Your Minstrel Camps
 		// Choice 577 is Your Minstrel Scamp
@@ -2669,7 +2671,13 @@ public abstract class ChoiceManager
 
 		case 85:
 			// One NightStand (simple wooden)
-			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Haunted Bedroom" );
+
+			result = ChoiceManager.dynamicChoiceSpoilers( 4, choice, "Haunted Bedroom" );
+
+			// Fill in items corresponding to choices
+			result[ 3 ][ 3 ] = "6590";
+
+			return result;
 
 		case 184:
 			// That Explains All The Eyepatches
@@ -2864,15 +2872,14 @@ public abstract class ChoiceManager
 
 		case 85:
 			// One NightStand (simple wooden)
-			result = new String[ 5 ];
+			result = new String[ 4 ];
 
 			boolean ballroom = Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions();
 
-			result[ 0 ] = "moxie" + ( ballroom ? "" : " and ballroom key step 1");
+			result[ 0 ] = ballroom ? "moxie " : "moxie and ballroom key step 1";
 			result[ 1 ] = (ballroom && !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "ballroom key step 2" : "nothing");
 			result[ 2 ] = "enter combat";
-			result[ 3 ] = ballroom ? (!KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "ballroom key step 2" : "moxie") : "moxie and ballroom key step 1";
-			result[ 4 ] = ballroom ? (!KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "ballroom key step 2" : "enter combat") : "moxie and ballroom key step 1";
+			result[ 3 ] = "Engorged Sausages and You";
 
 			return result;
 
@@ -5194,7 +5201,7 @@ public abstract class ChoiceManager
 		return true;
 	}
 
-	private static final String specialChoiceDecision( final int choice, final String decision, final int stepCount, final String responseText )
+	private static final String specialChoiceDecision( final int choice, String decision, final int stepCount, final String responseText )
 	{
 		// A few choices have non-standard options: 0 is not Manual Control
 		switch ( choice )
@@ -5365,33 +5372,38 @@ public abstract class ChoiceManager
 		// One NightStand (simple wooden)
 		case 85:
 
-			// If the player is looking for the ballroom key,
-			// then update their preferences so that KoLmafia
-			// automatically switches things for them.
+			boolean sausagesAvailable = responseText != null && responseText.contains( "Check under the nightstand" );
 
-			if ( GoalManager.hasGoal( ChoiceManager.BALLROOM_KEY ) )
+			// If the player is looking for the ballroom key and
+			// doesn't have it, then update their decision so that
+			// KoLmafia automatically goes for it
+			if ( GoalManager.hasGoal( ChoiceManager.BALLROOM_KEY ) && !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
 			{
-				if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
-				{
-					return (Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" : "1");
-				}
+				// Always get the sausage book if it is available.
+				decision = "4";
 			}
-			else if ( decision.equals( "4" ) )
+
+			// If the player wants the sausage book and it is
+			// available, take it.
+			if ( decision.equals( "4" ) )
 			{
-				if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
-				{
-					return (Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" : "1");
-				}
-				return "1";
+				return
+					sausagesAvailable ? "4" :
+					KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "1" :
+					Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" :
+					"1";
 			}
 			else if ( decision.equals( "5" ) )
 			{
-				if ( !KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) )
-				{
-					return (Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" : "1");
-				}
-				return "3";
+				return
+					sausagesAvailable ? "4" :
+					KoLConstants.inventory.contains( ChoiceManager.BALLROOM_KEY ) ? "3" :
+					Preferences.getInteger( "lastBallroomUnlock" ) == KoLCharacter.getAscensions() ? "2" :
+					"1";
 			}
+
+			// Otherwise, if the player is specifically looking for
+			// things obtained from the combat, fight!
 			else
 			{
 				for ( int i = 0; i < ChoiceManager.MISTRESS_ITEMS.length; ++i )
@@ -5425,6 +5437,15 @@ public abstract class ChoiceManager
 				return ChoiceManager.PAPAYA.getCount( KoLConstants.inventory ) >= 3 ? "2" : "1";
 			case 5:
 				return ChoiceManager.PAPAYA.getCount( KoLConstants.inventory ) >= 3 ? "2" : "3";
+			}
+			return decision;
+
+		// Skull, Skull, Skull
+		case 155:
+			// Option 4 - "Check the shiny object" - is not always available.
+			if ( decision.equals( "4" ) && !responseText.contains( "Check the shiny object" ) )
+			{
+				return "5";
 			}
 			return decision;
 
@@ -5858,6 +5879,15 @@ public abstract class ChoiceManager
 			int amount = 3 + StringUtilities.parseInt( decision );
 			return InventoryManager.getCount( ItemPool.LOLLIPOP_STICK ) >= amount ? decision : "6";
 
+		// Duffel on the Double
+		case 575:
+			// Option 2 - "Dig deeper" - is not always available.
+			if ( decision.equals( "2" ) && !responseText.contains( "Dig deeper" ) )
+			{
+				return "3";
+			}
+			return decision;
+
 		case 594:
 			if ( ChoiceManager.action == PostChoiceAction.NONE )
 			{	// Don't automate this if we logged in in the middle of the game -
@@ -6052,12 +6082,11 @@ public abstract class ChoiceManager
 				String desc = "unknown";
 				String[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
 				if ( possibleDecisions != null && decision > 0 &&
-					decision <= possibleDecisions[ 2 ].length )
+				     decision <= possibleDecisions[ 2 ].length )
 				{
 					desc = possibleDecisions[ 2 ][ decision - 1 ];
 				}
-				RequestLogger.updateSessionLog( "Took choice " + choice + "/" +
-					decision + ": " + desc );
+				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
 				// For now, leave the raw URL in the log in case some analysis
 				// tool is relying on it.
 				//return true;
