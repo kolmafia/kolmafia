@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
@@ -86,6 +87,7 @@ public abstract class CoinmasterRegistry
 		MrStoreRequest.MR_STORE,
 		QuartersmasterRequest.FRATBOY,
 		SwaggerShopRequest.SWAGGER_SHOP,
+		TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN,
 		TicketCounterRequest.TICKET_COUNTER,
 		TrapperRequest.TRAPPER,
 		TravelingTraderRequest.TRAVELER,

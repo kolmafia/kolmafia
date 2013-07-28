@@ -84,6 +84,7 @@ public class TrapperRequest
 			null,
 			null,
 			null,
+			true,
 			TrapperRequest.itemRows
 			);
 

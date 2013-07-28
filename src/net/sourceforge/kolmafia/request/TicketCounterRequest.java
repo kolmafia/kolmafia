@@ -75,6 +75,10 @@ public class TicketCounterRequest
 			TicketCounterRequest.buyItems,
 			TicketCounterRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

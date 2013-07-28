@@ -84,6 +84,10 @@ public class FudgeWandRequest
 			FudgeWandRequest.buyItems,
 			FudgeWandRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

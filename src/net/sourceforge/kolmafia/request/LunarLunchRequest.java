@@ -73,6 +73,10 @@ public class LunarLunchRequest
 			LunarLunchRequest.buyItems,
 			LunarLunchRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

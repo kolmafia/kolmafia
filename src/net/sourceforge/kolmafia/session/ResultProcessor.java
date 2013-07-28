@@ -999,6 +999,7 @@ public class ResultProcessor
 		case ItemPool.FAT_LOOT_TOKEN:
 		case ItemPool.FUDGECULE:
 		case ItemPool.FDKOL_COMMENDATION:
+		case ItemPool.KRUEGGERAND:
 		case ItemPool.TWINKLY_WAD:
 			// The Traveling Trader usually wants twinkly wads
 		case ItemPool.GG_TOKEN:

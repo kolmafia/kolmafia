@@ -89,6 +89,10 @@ public class BountyHunterHunterRequest
 			BountyHunterHunterRequest.buyItems,
 			BountyHunterHunterRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

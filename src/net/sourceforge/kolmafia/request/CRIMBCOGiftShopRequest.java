@@ -74,6 +74,10 @@ public class CRIMBCOGiftShopRequest
 			CRIMBCOGiftShopRequest.buyItems,
 			CRIMBCOGiftShopRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

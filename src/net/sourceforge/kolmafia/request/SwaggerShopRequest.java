@@ -76,6 +76,10 @@ public class SwaggerShopRequest
 			SwaggerShopRequest.buyItems,
 			SwaggerShopRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

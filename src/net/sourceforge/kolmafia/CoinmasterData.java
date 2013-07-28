@@ -134,68 +134,6 @@ public class CoinmasterData
 		this.plural = item != null ? ItemDatabase.getPluralName( token ) : token + "s";
 	}
 
-	public CoinmasterData( 
-		final String master,
-		final Class requestClass,
-		final String URL,
-		final String token,
-		final String tokenTest,
-		final boolean positiveTest,
-		final Pattern tokenPattern,
-		final AdventureResult item,
-		final String property,
-		final String itemField,
-		final Pattern itemPattern,
-		final String countField,
-		final Pattern countPattern,
-		final String buyAction,
-		final LockableListModel buyItems,
-		final Map buyPrices,
-		final String sellAction,
-		final Map sellPrices,
-		final String storageAction,
-		final String tradeAllAction,
-		final Map<String, Integer> itemRows )
-	{
-		this( master, requestClass, URL,
-		      token, tokenTest, positiveTest, tokenPattern,
-		      item, property,
-		      itemField, itemPattern, countField, countPattern,
-		      buyAction, buyItems, buyPrices,
-		      sellAction, sellPrices,
-		      storageAction, tradeAllAction,
-		      ( buyItems != null ), itemRows );
-	}
-
-	public CoinmasterData( 
-		final String master,
-		final Class requestClass,
-		final String URL,
-		final String token,
-		final String tokenTest,
-		final boolean positiveTest,
-		final Pattern tokenPattern,
-		final AdventureResult item,
-		final String property,
-		final String itemField,
-		final Pattern itemPattern,
-		final String countField,
-		final Pattern countPattern,
-		final String buyAction,
-		final LockableListModel buyItems,
-		final Map buyPrices,
-		final String sellAction,
-		final Map sellPrices )
-	{
-		this( master, requestClass, URL,
-		      token, tokenTest, positiveTest, tokenPattern,
-		      item, property,
-		      itemField, itemPattern, countField, countPattern,
-		      buyAction, buyItems, buyPrices,
-		      sellAction, sellPrices,
-		      null, null, null );
-	}
-
 	public final String getMaster()
 	{
 		return this.master;

@@ -79,6 +79,10 @@ public class FreeSnackRequest
 			FreeSnackRequest.buyItems,
 			FreeSnackRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

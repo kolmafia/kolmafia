@@ -68,6 +68,10 @@ public class DollHawkerRequest
 			DollHawkerRequest.buyItems,
 			DollHawkerRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 

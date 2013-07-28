@@ -74,6 +74,10 @@ public class CrimboCartelRequest
 			CrimboCartelRequest.buyItems,
 			CrimboCartelRequest.buyPrices,
 			null,
+			null,
+			null,
+			null,
+			true,
 			null
 			);
 
