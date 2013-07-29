@@ -2140,7 +2140,7 @@ T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	Mus: 85
 anniversary pewter cape	10	none
 auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
-giant gym membership card	0	Mys: 75
+giant gym membership card	0	Mus: 75
 hemp backpack	0	Mys: 75
 makeshift cape	100	Mys: 75
 old SCUBA tank	0	Mys: 75
