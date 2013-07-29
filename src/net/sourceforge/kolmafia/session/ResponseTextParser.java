@@ -152,8 +152,6 @@ public class ResponseTextParser
 	// You acquire a skill:&nbsp;&nbsp;</td><td><img src="http://images.kingdomofloathing.com/itemimages/wosp_stink.gif" onClick='javascript:poop("desc_skill.php?whichskill=67&self=true","skill", 350, 300)' width=30 height=30></td><td><b><a onClick='javascript:poop("desc_skill.php?whichskill=67&self=true","skill", 350, 300)'>Stinkpalm</a></b>
 	private static final Pattern NEWSKILL3_PATTERN =
 		Pattern.compile( "You (?:gain|acquire) a skill:.*?<[bB]>(?:<a[^>]*>)?(.*?)(?:</a>)?</[bB]>" );
-	private static final Pattern RECIPE_PATTERN = Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" );
-	private static final Pattern RECIPE2_PATTERN = Pattern.compile( "You have discovered a new recipe: <b>(.*?)</b>" );
 	private static final Pattern DESCITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern DESCEFFECT_PATTERN = Pattern.compile( "whicheffect=([0-9a-zA-Z]+)" );
 
@@ -800,6 +798,13 @@ public class ResponseTextParser
 		ResponseTextParser.learnRecipe( location, responseText );
 	}
 
+	private static final Pattern [] RECIPE_PATTERNS =
+	{
+		Pattern.compile( "You learn to craft a new item: <b>(.*?)</b>" ),
+		Pattern.compile( "You have discovered a new recipe: <b>(.*?)</b>" ),
+		Pattern.compile( "You just .*?discovered.*? a new recipe.*?<b>(.*?)</b>" ),
+	};
+
 	public static void learnRecipe( String location, String responseText )
 	{
 		if ( !hasResult( location ) )
@@ -807,19 +812,25 @@ public class ResponseTextParser
 			return;
 		}
 
-		Matcher matcher = ResponseTextParser.RECIPE_PATTERN.matcher( responseText );
-		if ( !matcher.find() )
+		String itemName = null;
+
+		for ( int i = 0; i < RECIPE_PATTERNS.length; ++i )
 		{
-			matcher = ResponseTextParser.RECIPE2_PATTERN.matcher( responseText );
-			if ( !matcher.find() )
+			Matcher matcher = RECIPE_PATTERNS[i].matcher( responseText );
+			if ( matcher.find() )
 			{
-				return;
+				itemName = matcher.group( 1 );
+				break;
 			}
 		}
 
-		int id = ItemDatabase.getItemId( matcher.group( 1 ), 1, false );
+		if ( itemName == null )
+		{
+			return;
+		}
 
-		String message = "Learned recipe: " + matcher.group( 1 ) + " (" + id + ")";
+		int id = ItemDatabase.getItemId( itemName, 1, false );
+		String message = "Learned recipe: " + itemName + " (" + id + ")";
 		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
 
