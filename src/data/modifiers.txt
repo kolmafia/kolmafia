@@ -339,6 +339,7 @@ willowy bonnet	Maximum MP: +40, Familiar Effect: "?xFairy, cap 18"
 witch hat	Familiar Effect: "8xVolley, 8xLep, cap 2"
 wolf mask	Muscle: +4, Moxie: -5, Familiar Effect: "1xBarrr, HP regen, cap 37"
 wolfman mask	Familiar Effect: "8xVolley, 8xLep, cap 2"
+wolfskull mask	Monster Level: +15, Spooky Damage: +50
 wooden salad bowl	Familiar Effect: "atk, cap 30"
 wool hat	Damage Absorption: +20, Cold Resistance: +2, Familiar Effect: "1xLep, cap 43"
 worn tophat	Moxie: +7, Initiative: +20, Familiar Effect: "1xBarrr, 1xLep, cap 31"
@@ -438,7 +439,9 @@ demonskin trousers	Hot Resistance: +2, Familiar Effect: "hot atk, 1xPotato, cap 
 depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Familiar Effect: "atk, 3xBarrr, cap 25"
 distressed denim pants	Stench Resistance: +1, Damage Reduction: 2, Familiar Effect: "sleaze atk, 1xPotato, cap 42"
 double-ice britches	Hot Resistance: +4, Damage Reduction: 4, Maximum HP: +40, Maximum MP: +40, Familiar Effect: "cold atk, 3xVolley, 3xLep, cap 17"
+drafty drawers	Maximum MP: +200, MP Regen Min: 15, MP Regen Max: 20
 dress pants	Moxie: +5
+# dubious loincloth: Deals <font color=purple>Sleaze Damage</font> every round
 duct tape dockers	Muscle: +6, Mysticality: +6, Moxie: +6, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "1xPotato, 1xGhuol, cap 48"
 dungeoneer's dungarees	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "stench atk, 1xPotato, cap 7"
 # dwarvish war kilt: Blinky Lights
@@ -484,6 +487,7 @@ mariachi pants	Familiar Effect: "1xPotato, cap 2"
 miner's pants	Damage Absorption: +20, Familiar Effect: "prismatic atk, 1.5xPotato, cap 20"
 monster pants	Critical Hit Percent: +5, Familiar Effect: "3xVolley, 1xPotato, cap 17"
 mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5, Familiar Effect: "stench atk, 1xPotato"
+# muddy skirt: Deals <font color=green>Stench Damage</font> every round
 ninja hot pants	Hot Damage: +4, Familiar Effect: "hot atk, prismatic atk, 1xPotato, cap 17"
 oil slacks	Initiative: +20
 old patched suit-pants	Monster Level: +40, Moxie Percent: +5, Familiar Effect: "1xPotato, 0.5xFairy"
@@ -530,6 +534,7 @@ sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, 
 swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
 tighty whiteys	Spooky Resistance: +2, Familiar Effect: "sleaze atk, 3xVolley, cap 10"
 time trousers	Adventures: +3, Familiar Effect: "1xPotato, cap 25"
+transparent pants	Sleaze Damage: +60, Sleaze Spell Damage: +60
 tree skirt	Moxie: +5, Familiar Effect: "hot atk, 2xFairy, cap 25"
 troll britches	Monster Level: +5, Experience: +1
 trousers of the white knight	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +15, Maximum MP: +15, Familiar Effect: "atk, 2.5xPotato, 2xLep, cap 15"
@@ -818,6 +823,7 @@ astral mace	Muscle Percent: +25, Weapon Damage: +20, PvP Fights: +4
 astral pistol	Moxie Percent: +25, Ranged Damage: +20, PvP Fights: +4
 # automatic catapult
 bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
+bag of unfinished business	Stench Damage: +40, Familiar Weight: +5
 balloon sword	Never Fumble, Weapon Damage: -2, Clownosity: +2
 # bamboo bokuto
 bar whip	Familiar Weight: +2
@@ -1006,6 +1012,7 @@ grass whistle	Moxie: +6, MP Regen Min: 4, MP Regen Max: 6
 grassy cutlass	Weapon Damage: +11
 grave robbing shovel	Spooky Damage: +3, Initiative: -10
 grease gun	Moxie: +3, Weapon Damage: +3, Sleaze Damage: +3
+groping claw	Weakens Monster, Spooky Damage: +30
 # haiku katana: Allows use of seasonal attacks
 haiku katana	Muscle Percent: +15, Weapon Damage Percent: +50, Critical Hit Percent: +5, Softcore Only
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
@@ -1027,6 +1034,7 @@ homoerotic frat-paddle	Sleaze Damage: +4
 honey dipper	Mysticality Percent: +5, MP Regen Min: 3, MP Regen Max: 7, Spell Damage: +15
 hot cross bow	Moxie: +7, Muscle: +5, Hot Damage: +5
 hot-ass club	Weapon Damage: +25, Monster Level: +15, Hot Damage: 15, Class: "Seal Clubber"
+hothammer	Hot Damage: +50
 huge mirror shard	Weapon Damage: +5
 huge mosquito proboscis	HP Regen Min: 8, HP Regen Max: 12, Maximum HP: +20
 huge spoon	Spell Damage: +10
@@ -1124,6 +1132,7 @@ ratarang	Ranged Damage: +7, Moxie: +3
 rattail whip	Moxie: +5, Monster Level: +5
 rave whistle	Maximum HP: +10, Monster Level: +10, Raveosity: +1
 regret hose	Cold Damage: +10
+# remorseless knife: Successful hit causes bleeding.
 repeating crossbow	Moxie: +2, Critical Hit Percent: +15
 rib of the Bonerdagon	Muscle: +5, Mysticality: +5, Spell Damage: +15
 ridiculously huge sword	Weapon Damage: +12, Muscle: +4
@@ -1577,6 +1586,7 @@ snake shield	Muscle: +6, Damage Reduction: 7, Synergetic
 # snapdragon pistil: All Spells Cast Are Hot
 snapdragon pistil	Spell Critical Percent: +5
 snarling wolf shield	Maximum HP: +40, Damage Reduction: 7, Synergetic
+snowstick	Cold Spell Damage: +80
 sock monkey	Moxie: +3
 spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 speed limit shield	Damage Absorption: +10, Damage Reduction: 6
@@ -1665,6 +1675,7 @@ Annual Ascot	Muscle Percent: +12, Mysticality Percent: +12, Moxie Percent: +12
 Ass-Stompers of Violence	Combat Rate: +5, Weapon Damage Percent: +30, Critical Hit Percent: +5, Single Equip
 BGE pocket calendar	Adventures: +3, Single Equip
 BGE tiny plastic toy	Familiar Weight: +3, Single Equip
+BOOtonniere	Cold Resistance: +4, Single Equip
 # Bandolier of the Spaghetti Elemental: Summon 5 Additional Pasta Guardians Per Day
 Bandolier of the Spaghetti Elemental	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Pastamancer", Single Equip
 Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
@@ -1952,6 +1963,7 @@ diving muff	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(
 dope gangsta bling-bling	Moxie: +1
 eXtreme mittens	Weapon Damage: +6
 eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
+eerie fetish	Spooky Resistance: +4, Single Equip
 elven socks	Muscle: +1, Cold Resistance: +1
 enchanted handwarmer	Cold Resistance: +2, Hot Damage: +4, Single Equip
 enchanted toothpick	Spell Damage: +12, Single Equip
@@ -1992,12 +2004,14 @@ gnatwing earring	Initiative: +15, Mysticality: +6
 gnoll-tooth necklace	Muscle: +5
 # gold wedding ring: 75% Chance of Preventing Negative Status Attacks
 gold wedding ring	Adventures: +1, Single Equip
+grandfather watch	Adventures: +6, Single Equip, Nonstackable Watch
 gray bow tie	Moxie: +1, Spooky Resistance: +1
 green glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 # groovy prism necklace: Deals a rainbow of damage to attackers
 groovy prism necklace	Single Equip
 grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
 gummi bowtie	Moxie: +5
+guts necklace	Stench Resistance: +4, Single Equip
 # haggis socks: Allows you to deliver disgusting kicks
 haggis socks	Initiative: +5
 hamethyst bracelet	Muscle: +3, Critical Hit Percent: +5, Single Equip
@@ -2057,6 +2071,7 @@ novelty tattoo sleeves	Muscle: +6, PvP Fights: +1
 night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 observational glasses	Item Drop: +5
 offensive moustache	PvP Fights: +7, Single Equip
+old ball and chain	Initiative: -50, Cold Damage: +100, Single Equip
 # old soft shoes: +30% Item Drops from Hobos
 # old-school calculator watch: Math!
 old soft shoes	Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
@@ -2411,6 +2426,7 @@ T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 auxiliary backbone	PvP Fights: +3
 barskin cloak	Muscle: +7
+cod cape	Stench Damage: +25, Combat Rate: +5
 giant gym membership card	Weapon Damage: +15
 hemp backpack	Item Drop: +2
 makeshift cape	Item Drop: +5
@@ -2572,6 +2588,7 @@ mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 # moveable feast: Familiar will start food fights!
 moveable feast	Familiar Weight: +5, Experience (familiar): +1, Softcore Only, Generic
 # nanorhino credit card: Helps your Nano-Rhino charge
+nosy nose ringy ring	Familiar Weight: +15
 # origami &quot;gentlemen's&quot; magazine: + 10 lbs. of Ghuol Whelp
 origami &quot;gentlemen's&quot; magazine	Softcore Only, Generic
 overclocked avian microprocessor	Familiar Weight: +5
@@ -3368,6 +3385,7 @@ Gaze of the Volcano God	Weapon Damage Percent: +50, Hot Damage: +25, Experience 
 # Gearhead Gear: Makes you look like a Gnollish Gearhead
 Gelded	Monster Level: +5
 # Get Me Off This Crazy Thing!: Jane!
+# Ghost Finger: +100 Damage vs. Ghosts
 Ghostly Shell	Damage Absorption: +80
 # Ginger Fightis: Makes you look like a creepy ginger twin
 Ginger Snapped	Spooky Damage: +10
@@ -4036,6 +4054,7 @@ The Solution	Weapon Damage: +25
 The Sonata of Sneakiness	Combat Rate: -5
 # The Spirit of Crimbo
 The Sweats	Stench Resistance: +5
+# The Tunger&trade;: +3 Adventures from the next thing you eat
 The Vitus Virus	Item Drop: +50, Experience: -5
 # There is No Spoon
 There Wolf	Weapon Damage Percent: +100
@@ -4122,7 +4141,7 @@ Well-preserved	HP Regen Min: 150, HP Regen Max: 200
 Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
 What's That Smell?	Stench Damage: +3
-# Whitesloshed: +500% Item Drops from Monsters (Dreadsylvania only)
+Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
 White Knuckles	Never Fumble
 White-boy Angst	Initiative: +50
 Whitened Teeth	Moxie Percent: +10
@@ -4149,7 +4168,7 @@ You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percen
 You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 You Read The Manual	Experience (Mysticality): +9
 # You're a Brick . . . Ooze: Makes you look like a BRICKO ooze
-# You've Got a Stew Going!: +500% Item Drops from Monsters (Dreadsylvania only)
+You've Got a Stew Going!	Item Drop: [500*zone(Dreadsylvania)]
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
 Your Interest is Peaked	Item Drop: +10, Initiative: +10, Stench Resistance: +1
@@ -4519,6 +4538,7 @@ Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
 Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
 Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
 Huggler Radio	Free Pull
+Hunger&trade; Sauce	Effect: "The Tunger&trade;"
 Iiti Kitty Gumdrop	Effect: "Kitty Littered", Effect Duration: 30
 Illuminati earpiece	Effect: "Goblin in Black", Effect Duration: 50
 Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
@@ -4751,6 +4771,7 @@ ectoplasm <i>au jus</i>	Effect: "Groast Out", Effect Duration: 50
 eel battery	Effect: "It's Electric!", Effect Duration: 15
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
+electric Kool-Aid	Effect: "Electric, Kool", Effect Duration: 50
 elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 embezzler's oil	Effect: "Robbin' Like a Goblin", Effect Duration: 50
 emo roe	Free Pull
@@ -4805,6 +4826,7 @@ fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
 gamer slurry	Effect: "Guild by Association", Effect Duration: 50
 garbage-juice-flavored Hob-O	Effect: "Refuse Reflux"
 gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
+ghost thread	Effect: "Ghost Finger", Effect Duration: 40
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
 giant breath mint	Effect: "Three King-sized Sheets to the Wind", Effect Duration: 30
 giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
@@ -4940,11 +4962,11 @@ perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
 perpendicular guano	Effect: "Batted Around", Effect Duration: 30
 personal raindrop	Free Pull
 personalized coffee mug	Free Pull
-phial of coldness	Effect: "Coldform", Effect Duration: [R]
-phial of hotness	Effect: "Hotform", Effect Duration: [R]
-phial of sleaziness	Effect: "Sleazeform", Effect Duration: [R]
-phial of spookiness	Effect: "Spookyform", Effect Duration: [R]
-phial of stench	Effect: "Stenchform", Effect Duration: [R]
+phial of coldness	Effect: "Coldform", Effect Duration: 5
+phial of hotness	Effect: "Hotform", Effect Duration: 5
+phial of sleaziness	Effect: "Sleazeform", Effect Duration: 5
+phial of spookiness	Effect: "Spookyform", Effect Duration: 5
+phial of stench	Effect: "Stenchform", Effect Duration: 5
 philter of phorce	Effect: "Phorcefullness", Effect Duration: [R]
 physiostim pill	Effect: "Stimulated Body", Effect Duration: 10
 pickle-flavored chewing gum	Effect: "Mystic Pickleness", Effect Duration: 5

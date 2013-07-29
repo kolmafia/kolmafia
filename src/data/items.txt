@@ -6460,14 +6460,14 @@ s1
 6443
 6444
 6445
-6446
+6446	Gets-You-Drunk	610004137	coffeecup.gif	drink	t	0
 6447
 6448
 6449
 6450
 6451
 6452
-6453
+6453	Hunger&trade; Sauce	923389971	ww_sauce.gif	usable	t	0
 6454
 6455
 6456
@@ -6475,14 +6475,14 @@ s1
 6458
 6459
 6460	wriggling severed nose	692600590	nosynose.gif	grow	t	0
-6461
+6461	nosy nose ringy ring	902284706	ringyring.gif	familiar	t,d	75
 6462
 6463
 6464
 6465
 6466
 6467
-6468
+6468	ghost pepper	473945800	mg_pepper.gif	food	t	0
 6469
 6470
 6471
@@ -6497,24 +6497,24 @@ s1
 6480
 6481
 6482
-6483
+6483	electric Kool-Aid	363523121	sk_koolaid.gif	food	t	0
 6484	dread tarragon	575782784	dv_tarragon.gif	none	t	0
 6485
 6486	dreadful roast	528470996	dv_meat.gif	none	t	0
-6487
+6487	stinking agaricus	759942326	dv_fungus.gif	none	t	0
 6488
 6489
 6490
 6491
-6492
-6493
-6494
+6492	wax banana	155116546	dv_banana.gif	none	t	0
+6493	complicated lock impression	639646650	dv_impression.gif	none	t	0
+6494	replica key	477751682	dv_fancykey.gif	none	t	0
 6495
 6496	blood kiwi	858370354	dv_kiwi.gif	none	t	0
-6497
+6497	eau de mort	673478975	dv_eau.gif	none	t	0
 6498
-6499
-6500
+6499	moon-amber	392714725	dv_amber.gif	none	t	0
+6500	polished moon-amber	347094590	dv_amber2.gif	none	t	0
 6501
 6502	Dreadsylvanian seed pod	709187969	dv_seedpod.gif	none, combat		0
 6503
@@ -6528,32 +6528,32 @@ s1
 6511
 6512
 6513	warm fur	641261663	dv_warmfur.gif	accessory	t	0
-6514
-6515
-6516
-6517
-6518
-6519
-6520
-6521
-6522
+6514	snowstick	646078952	dv_snowstick.gif	offhand	t	0
+6515	eerie fetish	959461043	dv_fetish.gif	accessory	t	0
+6516	stinkwater	763823654	moonshine.gif	drink	t	0
+6517	dubious loincloth	966320894	dv_loincloth.gif	pants	t	0
+6518	accidental mutton	878742989	dv_mutton.gif	food	t	0
+6519	drafty drawers	312929410	dv_holypants.gif	pants	t	0
+6520	wolfskull mask	412209059	dv_wolfskull.gif	hat	t	0
+6521	guts necklace	616251462	dv_gutsneck.gif	accessory	t	0
+6522	groping claw	518160861	dv_gropeclaw.gif	weapon	t	0
 6523	vengeful spirit	288986310	dv_spirit.gif	offhand	t	0
-6524
-6525
-6526
-6527
-6528
-6529
-6530
-6531
+6524	BOOtonniere	177965011	dv_bootenier.gif	accessory	t	0
+6525	ghost thread	623255405	dv_ghostthread.gif	usable	t	0
+6526	bag of unfinished business	819011673	dv_business.gif	weapon	t	0
+6527	transparent pants	244751935	dv_ghostpants.gif	pants	t	0
+6528	hothammer	221760955	dv_hothammer.gif	weapon	t	0
+6529	Thriller Ice	349654280	beerbottle.gif	drink	t	0
+6530	grandfather watch	618537924	dv_grandwatch.gif	accessory	t	0
+6531	muddy skirt	190416795	dv_muddyskirt.gif	pants	t	0
 6532	antique spyglass	160549596	dv_spyglass.gif	offhand	t	0
 6533	vial of hot blood	432849235	dv_hotblood.gif	accessory	t	0
-6534
+6534	remorseless knife	675617542	dv_remknife.gif	weapon	t	0
 6535	intimidating coiffure	551411541	dv_coiffure.gif	hat	t	0
-6536
+6536	cod cape	224524036	dv_codcape.gif	container	t	0
 6537	blood sausage	755507859	dv_bloodsausage.gif	food	t	0
 6538	frying brainpan	456291286	dv_skullpan.gif	weapon	t	0
-6539
+6539	old ball and chain	684956101	dv_ballchain.gif	accessory	t	0
 6540	old dry bone	598987536	dv_bone.gif	weapon	t	0
 6541	tailbone shield	263748975	dv_tailbone.gif	offhand	t	0
 6542	tonguebone	513309401	dv_tonguebone.gif	accessory	t	0
@@ -6610,5 +6610,3 @@ s1
 6593	defective Game Grid token	606727747	gg_def.gif	reusable	t	0	defective Game Grid tokens
 6594	hot Dreadsylvanian cocoa	267480689	coffeecup.gif	usable	t	0
 6595	epic cluster	148546578	epiccluster.gif	usable	t	0
-6496
-6497	eau de mort	673478975	dv_eau.gif	none	t	0
