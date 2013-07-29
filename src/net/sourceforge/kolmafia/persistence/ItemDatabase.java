@@ -1225,7 +1225,11 @@ public class ItemDatabase
 		if ( !effectName.equals( "" ) && EffectDatabase.getEffectId( effectName ) == -1 )
 		{
 			String effectDescid = DebugDatabase.parseEffectDescid( rawText );
-			EffectDatabase.registerEffect( effectName, effectDescid, "use 1 " + itemName );
+			String command =
+				usage == KoLConstants.CONSUME_EAT ? "eat 1 " :
+				usage == KoLConstants.CONSUME_DRINK ? "drink 1 " :
+				"use 1 ";
+			EffectDatabase.registerEffect( effectName, effectDescid, command + itemName );
 		}
 
 		// Familiar larva mature into familiars.
