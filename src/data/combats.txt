@@ -176,6 +176,7 @@ The Briny Deeps	100	Funk Sole Brother	Pumped-Up Bass	School of Wizardfish
 The Brinier Deepers	100	Bazookafish	Clubfish	Scimitarfish
 The Briniest Deepests	100	Acoustic Electric Eel	Decent White Shark	Ganger
 The Broodling Grounds	100	hellseal pup	mother hellseal: 0
+The Caliginous Abyss	100	Eye in the Darkness: 13	Peanut: 1	School of Many: 13	Slithering Thing: 13
 The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons	Rene C. Corman
 The Castle in the Clouds in the Sky (Basement)	-1	Alphabet Giant	Fitness Giant	Furry Giant	Neckbeard Giant
 The Castle in the Clouds in the Sky (Ground Floor)	-1	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant
