@@ -5518,7 +5518,7 @@ s1
 5501	Jackass Plumber home game	242884184	jplumber.gif	reusable		0
 5502	Trivial Avocations board game	155160111	triviagame.gif	reusable		0
 5503	Tickle-Me Emilio	644358901	emilio.gif	grow		0
-5504	blessed large box	948466295	lparen.gif	usable	q	0
+5504	blessed large box	948466295	lparen.gif	multiple	q	0
 5505	pack of pogs	449463152	pogpack.gif	multiple	t	0	packs of pogs
 5506	jerky coins	806048402	jerkycoins.gif	food	t	0	stacks of jerky coins
 5507	Go-Wassail	499208335	gowassail.gif	drink	t	0
