@@ -182,6 +182,7 @@ bezoar ring	sea salt crystal
 brand new key	sea salt crystal
 brass dorsal fin	sea salt crystal
 collapsible baton	sea salt crystal
+deep six-shooter	sea salt crystal
 diving muff	sea salt crystal
 eelskin shield	sea salt crystal
 eelskin hat	sea salt crystal
@@ -204,10 +205,14 @@ non-stick pugil stick	sea salt crystal
 nurse's hat	sea salt crystal
 octopus's spade	sea salt crystal
 pink pinkslip slip	sea salt crystal
+Pocket Square of Loathing	corrupted stardust
 PVC staff	sea salt crystal
 rusty compass	sea salt crystal
 rusty speargun	sea salt crystal
 rusty diving helmet	sea salt crystal
+sea chaps	sea salt crystal
+sea cowboy hat	sea salt crystal
+sea holster	sea salt crystal
 sea salt scrubs	sea salt crystal
 shark jumper	sea salt crystal
 shark tooth necklace	sea salt crystal
