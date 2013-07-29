@@ -1317,6 +1317,12 @@ lotion of spookiness	SAUCE, SX3	scrumptious reagent	spooky powder
 lotion of stench	SAUCE, SX3	scrumptious reagent	stench powder
 lotion of sleaziness	SAUCE, SX3	scrumptious reagent	sleaze powder
 
+phial of hotness	SAUCE, SX3	scrumdiddlyumptious solution	hot cluster
+phial of coldness	SAUCE, SX3	scrumdiddlyumptious solution	cold cluster
+phial of spookiness	SAUCE, SX3	scrumdiddlyumptious solution	spooky cluster
+phial of stench	SAUCE, SX3	  scrumdiddlyumptious solution	stench cluster
+phial of sleaziness	SAUCE, SX3	scrumdiddlyumptious solution	sleaze cluster
+
 # Deep Sauces
 
 pressurized potion of perception	DSAUCE	globe of Deep Sauce	sea blueberry
