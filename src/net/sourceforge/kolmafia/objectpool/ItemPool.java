@@ -439,11 +439,6 @@ public class ItemPool
 	public static final int PURPLE_CUPCAKE = 1627;
 	public static final int PINK_CUPCAKE = 1628;
 	public static final int SPANISH_FLY = 1633;
-	public static final int PHIAL_OF_HOTNESS = 1637;
-	public static final int PHIAL_OF_COLDNESS = 1638;
-	public static final int PHIAL_OF_SPOOKINESS = 1639;
-	public static final int PHIAL_OF_STENCH = 1640;
-	public static final int PHIAL_OF_SLEAZINESS = 1641;
 	public static final int MILK_OF_MAGNESIUM = 1650;
 	public static final int JEWEL_EYED_WIZARD_HAT = 1653;
 	public static final int CITADEL_SATCHEL = 1656;
@@ -1645,6 +1640,11 @@ public class ItemPool
 	public static final int PEANUT_SAUCE = 6397;
 	public static final int SHAKING_SKULL = 6412;
 	public static final int KRUEGGERAND = 6433;
+	public static final int PHIAL_OF_HOTNESS = 6556;
+	public static final int PHIAL_OF_COLDNESS = 6557;
+	public static final int PHIAL_OF_SPOOKINESS = 6558;
+	public static final int PHIAL_OF_STENCH = 6559;
+	public static final int PHIAL_OF_SLEAZINESS = 6560;
 	public static final int DEFECTIVE_TOKEN = 6593;
 
 	public static final AdventureResult get( String itemName, int count )
