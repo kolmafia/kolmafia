@@ -1937,7 +1937,7 @@ public class OptionsFrame
 		private ScriptSelectPanel beforePVPScript;
 		private ScriptSelectPanel buyScript;
 		private ScriptSelectPanel plantingScript;
-		private ScriptSelectPanel chatBotScript;
+		private ScriptSelectPanel chatbotScript;
 
 		public ScriptPanel()
 		{
@@ -2016,7 +2016,7 @@ public class OptionsFrame
 			list.add( this.beforePVPScript );
 			list.add( this.buyScript );
 			list.add( this.plantingScript );
-			list.add( this.chatBotScript );
+			list.add( this.chatbotScript );
 		}
 
 		private void initialize()
@@ -2033,7 +2033,7 @@ public class OptionsFrame
 			this.beforePVPScript = new ScriptSelectPanel( new CollapsibleTextArea( "Before PvP:" ) );
 			this.buyScript = new ScriptSelectPanel( new CollapsibleTextArea( "Buy Script:" ) );
 			this.plantingScript = new ScriptSelectPanel( new CollapsibleTextArea( "Planting:" ) );
-			this.chatBotScript = new ScriptSelectPanel( new CollapsibleTextArea( "Chatbot Script:" ) );
+			this.chatbotScript = new ScriptSelectPanel( new CollapsibleTextArea( "Chatbot Script:" ) );
 		}
 
 		@Override
@@ -2050,7 +2050,7 @@ public class OptionsFrame
 			Preferences.setString( "beforePVPScript", this.beforePVPScript.getText() );
 			Preferences.setString( "buyScript", this.buyScript.getText() );
 			Preferences.setString( "plantingScript", this.plantingScript.getText() );
-			Preferences.setString( "chatBotScript", this.chatBotScript.getText() );
+			Preferences.setString( "chatbotScript", this.chatbotScript.getText() );
 		}
 
 		@Override
@@ -2092,8 +2092,8 @@ public class OptionsFrame
 			String plantingScript = Preferences.getString( "plantingScript" );
 			this.plantingScript.setText( plantingScript );
 
-			String chatBotScript = Preferences.getString( "chatBotScript" );
-			this.chatBotScript.setText( chatBotScript );
+			String chatbotScript = Preferences.getString( "chatbotScript" );
+			this.chatbotScript.setText( chatbotScript );
 		}
 
 	}
