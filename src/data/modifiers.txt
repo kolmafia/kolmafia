@@ -228,6 +228,7 @@ indie comic hipster glasses	Moxie: +5, Muscle: +5, Mysticality: +5, Familiar Eff
 # insane tophat: We're All Mad Here!
 insane tophat	Familiar Effect: "1xVolley, 1xLep, cap 7"
 insulting hat	PvP Fights: +3
+intimidating coiffure	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
 irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
 iron helmet	Cold Resistance: +2, MP Regen Min: 1, MP Regen Max: 2, Initiative: +10
@@ -967,6 +968,7 @@ flaming juggler's balls	Hot Damage: +10, Experience: +2, Softcore Only
 flaming sword	Hot Damage: +20, Spell Critical Percent: +10, Never Fumble
 flamingo mallet	Monster Level: +4, Meat Drop: +5
 fluorescent lightbulb	Maximum MP: +30
+frying brainpan	Hot Spell Damage: +40, Maximum MP: +200
 flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
 # fouet de tortue-dressage: +10 to Familiar Damage
 foot-long hot daub	Hot Damage: +9, Hot Spell Damage: +9
@@ -1074,6 +1076,7 @@ ocarina of space	Muscle: +4, Mysticality: +4, Moxie: +4, Ranged Damage: +5, Expe
 octopus's spade	Item Drop: +5, Initiative: +10, Weapon Damage: +15
 office-supply crossbow	Moxie: +3, Ranged Damage: +3
 oil pan	Mysticality Percent: +10
+old dry bone	Spooky Damage: +50
 old school Mafi<i>a kni</i>cke&frac12;&aelig;	Ranged Damage: +27
 # origami riding crop: Makes you prone to innuendo (heh heh)
 origami riding crop	Sleaze Damage: +10, Initiative: +15, Softcore Only
@@ -1397,6 +1400,8 @@ ancient stone head	Damage Reduction: 5
 # anniversary balloon
 anniversary chutney sculpture	Muscle: +1, Mysticality: +1, Moxie: +1
 antique shield	Initiative: -10, Damage Reduction: 15
+# antique spyglass: Reduce enemy defense by 15%
+antique spyglass	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 # arrow'd heart balloon
 astral shield	Muscle Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Damage Reduction: 15
 astral statuette	Mysticality Percent: +25, Spell Damage Percent: +50, Adventures: +4
@@ -1623,6 +1628,8 @@ stress ball	Maximum HP: +100, Maximum MP: +100
 # stuffed yo-yo
 # stuffed zmobie
 sucker bucket	Candy Drop: +50
+# tailbone shield: Deals 80-100 Stench Damage to attackers
+tailbone shield	Stench Damage: +40, Damage Reduction: 16
 teflon shield	Muscle Percent: +10, Damage Reduction: 10, Damage Absorption: +50
 # thought balloon
 # tiny black hole: Allows Pickpocketing
@@ -1634,9 +1641,11 @@ turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 # turtling rod: Helps You Tame Turtles
 turtling rod	Class: "Turtle Tamer"
 velcro shield	Mysticality Percent: +10, Damage Reduction: 10, Weapon Drop: +25
+vengeful spirit	Hot Spell Damage: +80
 vinyl shield	Moxie Percent: +10, Damage Reduction: 10, Monster Level: +25
 voodoo doll	Mysticality: +1
 wad of Crovacite	Muscle: +5, Mysticality: +5, Moxie: +5, Spooky Damage: +5
+warm fur	Hot Damage: +60
 washboard shield	Damage Absorption: +50, Class: "Turtle Tamer", Damage Reduction: 10
 # white balloon
 white satin shield	Moxie: +2, Damage Reduction: 5
@@ -2356,6 +2365,7 @@ tiny plastic undead elbow macaroni	Monster Level: +1
 tiny plastic warwelf	Monster Level: +1
 tiny plastic whitesnake	Monster Level: +1
 tiny plastic zmobie	Monster Level: +1
+tonguebone	Sleaze Resistance: +4, Single Equip
 torquoise ring	Moxie: +3, MP Regen Min: 2, MP Regen Max: 3, Single Equip
 tortoboggan	Moxie: +4, Initiative: +20, Single Equip
 # tourmalime tourniquet: Makes Candy Diorama Fights Harder
@@ -2370,6 +2380,7 @@ vampire pearl earring	MP Regen Min: 4, MP Regen Max: 14, Single Equip
 vampire pearl necklace	HP Regen Min: 6, HP Regen Max: 18, Single Equip
 vampire pearl ring	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10, Single Equip
 velcro boots	Mysticality Percent: +10, MP Regen Min: 12, MP Regen Max: 24, Initiative: -50, Single Equip
+vial of hot blood	Hot Resistance: +4, Single Equip
 vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 walrus-tusk earring	Maximum HP: +10
 # water wings
@@ -4111,6 +4122,7 @@ Well-preserved	HP Regen Min: 150, HP Regen Max: 200
 Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
 What's That Smell?	Stench Damage: +3
+# Whitesloshed: +500% Item Drops from Monsters (Dreadsylvania only)
 White Knuckles	Never Fumble
 White-boy Angst	Initiative: +50
 Whitened Teeth	Moxie Percent: +10
@@ -4137,6 +4149,7 @@ You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percen
 You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 You Read The Manual	Experience (Mysticality): +9
 # You're a Brick . . . Ooze: Makes you look like a BRICKO ooze
+# You've Got a Stew Going!: +500% Item Drops from Monsters (Dreadsylvania only)
 Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Your Cupcake Senses Are Tingling	Meat Drop: +30
 Your Interest is Peaked	Item Drop: +10, Initiative: +10, Stench Resistance: +1
@@ -4483,6 +4496,7 @@ Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
 # Desert Bus pass: Allows Travel to Desert Beach
 Dark Jill-O-Lantern	Free Pull
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
+Dreadsylvanian stew	Effect: "You've Got a Stew Going!", Effect Duration: 30
 Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
 Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
@@ -4642,6 +4656,7 @@ booby trap	Effect: "Ravonovichy", Effect Duration: 100
 bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
 bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
 bottle of black cat tonic	Effect: "Contagious Bad Luck", Effect Duration: 10
+bottle of Bloodweiser	Effect: "Blood Porter", Effect Duration: 50
 bottle of bubbles	Effect: "Bubble Vision", Effect Duration: 100
 bottle of goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 bottle of pirate juice	Effect: "Piratastic", Effect Duration: 10
@@ -5103,6 +5118,7 @@ weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 whisker pencil	Effect: "Yiffable You", Effect Duration: 30
 white candy heart	Effect: "Heart of White", Effect Duration: 10
+white Dreadsylvanian	Effect: "Whitesloshed", Effect Duration: 30
 willyweed	Effect: "Wet Willied", Effect Duration: 30
 wind-up meatcar	Effect: "All Wound Up", Effect Duration: 100
 wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10

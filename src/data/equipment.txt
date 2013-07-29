@@ -164,6 +164,7 @@ ice pick	100	none
 indie comic hipster glasses	10	none
 insane tophat	30	none
 insulting hat	10	none
+intimidating coiffure	225	Mox: 200
 invisible bag	10	none
 irate sombrero	45	Mox: 7
 iron helmet	100	Mox: 20
@@ -843,6 +844,7 @@ flaming juggler's balls	100	Mox: 0	1-handed euphemisms
 flaming sword	150	Mus: 60	1-handed sword
 flamingo mallet	70	Mus: 20	2-handed club
 fluorescent lightbulb	50	Mus: 0	1-handed club
+frying brainpan	225	Mys: 200	1-handed saucepan
 flypaper staff	80	Mus: 25	2-handed staff
 foot-long hot daub	85	Mus: 27	2-handed club
 fouet de tortue-dressage	20	Mus: 0	1-handed whip
@@ -942,6 +944,7 @@ ocarina of space	120	Mox: 45	2-handed flute
 octopus's spade	200	Mus: 85	1-handed knife
 office-supply crossbow	50	Mox: 10	2-handed crossbow
 oil pan	125	Mys: 47	1-handed saucepan
+old dry bone	225	Mus: 200	1-handed
 old school Mafi<i>a kni</i>cke&frac12;&aelig;	120	Mys: 41	1-handed sword
 origami riding crop	100	Mus: 0	1-handed crop
 out-of-tune biwa	30	Mox: 0	2-handed guitar
@@ -1216,6 +1219,7 @@ ancient stone head	85	Mus: 27	shield
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none
 antique shield	230	Mus: 85	shield
+antique spyglass	0	Mys: 200
 arrow'd heart balloon	10	none
 astral shield	50	none	shield
 astral statuette	50	none
@@ -1430,6 +1434,7 @@ stuffed yeti	10	none
 stuffed yo-yo	10	none
 stuffed zmobie	10	none
 sucker bucket	50	none
+tailbone shield	0	Mus: 200	shield
 teflon shield	220	Mus: 85	shield
 thought balloon	10	none
 tiny black hole	10	none
@@ -1439,6 +1444,7 @@ tropical paperweight	20	none
 turtle wax shield	40	Mus: 5	shield
 turtling rod	10	none
 velcro shield	220	Mus: 85	shield
+vengeful spirit	0	Mys: 200
 vinyl shield	220	Mus: 85	shield
 voodoo doll	0	none
 wad of Crovacite	0	none
@@ -2096,6 +2102,7 @@ tiny plastic undead elbow macaroni	10	none
 tiny plastic warwelf	10	none
 tiny plastic whitesnake	10	none
 tiny plastic zmobie	10	none
+tonguebone	0	Mys: 200
 torquoise ring	40	none
 tortoboggan	90	Mox: 30
 tourmalime tourniquet	0	none
@@ -2108,8 +2115,10 @@ vampire pearl earring	125	Mys: 47
 vampire pearl necklace	100	Mys: 35
 vampire pearl ring	100	Mys: 35
 velcro boots	200	Mys: 85
+vial of hot blood	0	Mys: 200
 vinyl boots	200	Mox: 85
 walrus-tusk earring	50	Mys: 10
+warm fur	0	Mys: 200
 water wings	10	none
 water-polo mitt	200	Mys: 85
 whalebone corset	55	Mys: 12

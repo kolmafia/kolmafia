@@ -6438,22 +6438,22 @@ s1
 6421
 6422
 6423
-6424
+6424	Dreadsylvanian skeleton key	539373127	dv_key.gif	none	t	0
 6425
-6426
-6427
+6426	Dreadsylvanian stew	768933176	soupbowl.gif	food		0
+6427	white Dreadsylvanian	990659022	whitedrink.gif	drink		0
 6428
 6429
 6430
 6431
 6432
 6433	Freddy Krueggerand	901547610	dv_krueggerand.gif	none		0
-6434
-6435
-6436
-6437
-6438
-6439
+6434	Mark of the Bugbear	950853827	dv_mark1.gif	usable	t	0
+6435	Mark of the Werewolf	566747498	dv_mark2.gif	usable	t	0
+6436	Mark of the Zombie	849584594	dv_mark3.gif	usable	t	0
+6437	Mark of the Ghost	486978053	dv_mark4.gif	usable	t	0
+6438	Mark of the Vampire	321383311	dv_mark5.gif	usable	t	0
+6439	Mark of the Skeleton	977729070	dv_mark6.gif	usable	t	0
 6440
 6441
 6442
@@ -6474,7 +6474,7 @@ s1
 6457
 6458
 6459
-6460
+6460	wriggling severed nose	692600590	nosynose.gif	grow	t	0
 6461
 6462
 6463
@@ -6489,7 +6489,7 @@ s1
 6472
 6473
 6474
-6475
+6475	bottle of Bloodweiser	117917809	dr_beer.gif	drink	t	0
 6476
 6477
 6478
@@ -6498,9 +6498,9 @@ s1
 6481
 6482
 6483
-6484
+6484	dread tarragon	575782784	dv_tarragon.gif	none	t	0
 6485
-6486
+6486	dreadful roast	528470996	dv_meat.gif	none	t	0
 6487
 6488
 6489
@@ -6510,7 +6510,7 @@ s1
 6493
 6494
 6495
-6496
+6496	blood kiwi	858370354	dv_kiwi.gif	none	t	0
 6497
 6498
 6499
@@ -6527,7 +6527,7 @@ s1
 6510
 6511
 6512
-6513
+6513	warm fur	641261663	dv_warmfur.gif	accessory	t	0
 6514
 6515
 6516
@@ -6537,7 +6537,7 @@ s1
 6520
 6521
 6522
-6523
+6523	vengeful spirit	288986310	dv_spirit.gif	offhand	t	0
 6524
 6525
 6526
@@ -6546,17 +6546,17 @@ s1
 6529
 6530
 6531
-6532
-6533
+6532	antique spyglass	160549596	dv_spyglass.gif	offhand	t	0
+6533	vial of hot blood	432849235	dv_hotblood.gif	accessory	t	0
 6534
-6535
+6535	intimidating coiffure	551411541	dv_coiffure.gif	hat	t	0
 6536
-6537
-6538
+6537	blood sausage	755507859	dv_bloodsausage.gif	food	t	0
+6538	frying brainpan	456291286	dv_skullpan.gif	weapon	t	0
 6539
-6540
-6541
-6542
+6540	old dry bone	598987536	dv_bone.gif	weapon	t	0
+6541	tailbone shield	263748975	dv_tailbone.gif	offhand	t	0
+6542	tonguebone	513309401	dv_tonguebone.gif	accessory	t	0
 6543	pogo stick	422814677	pogostick.gif	accessory	t,d	1949	pogo sticks
 6544
 6545
@@ -6565,16 +6565,16 @@ s1
 6548
 6549
 6550
-6551
-6552
-6553
-6554
-6555
-6556
-6557
-6558
-6559
-6560
+6551	hot cluster	537386546	cluster.gif	none	t,d	500
+6552	cold cluster	768750520	cluster.gif	none	t,d	500
+6553	spooky cluster	407716567	cluster.gif	none	t,d	500
+6554	stench cluster	472355222	cluster.gif	none	t,d	500
+6555	sleaze cluster	859360841	cluster.gif	none	t,d	500
+6556	phial of hotness	958585577	hotvial.gif	usable	t	0	phials of hotness
+6557	phial of coldness	552997486	coldvial.gif	usable	t	0	phials of coldness
+6558	phial of spookiness	581859871	spookyvial.gif	usable	t	0	phials of spookiness
+6559	phial of stench	747545081	stenchvial.gif	usable	t	0	phials of stench
+6560	phial of sleaziness	286554168	sleazevial.gif	usable	t	0	phials of sleaziness
 6561	adventurer clone egg	985842882	cloneegg.gif	grow	t	0	adventurer clone eggs
 6562	mini-Mr. Accessory	151274336	minimra.gif	familiar	t,d	75	mini-Mssrs. Accessory
 6563
@@ -6589,12 +6589,12 @@ s1
 6572
 6573
 6574
-6575
-6576
+6575	cold clusterbomb	769199792	clusterbomb.gif	none, combat	t	0
+6576	spooky clusterbomb	223005386	clusterbomb.gif	none, combat	t	0
 6577
 6578
-6579
-6580
+6579	Dreadsylvanian Almanac page	481489808	dv_recipe.gif	usable	t	0
+6580	length of old fuse	786902545	dv_oldfuse.gif	none	t	0
 6581
 6582	Clan hot dog stand	346032932	crate.gif	usable	t	0	Clan hot dog stand
 6583	vicious spiked collar	981852802	spikycollar.gif	familiar	t,d	75	vicious spiked collars
@@ -6608,3 +6608,7 @@ s1
 6591	dream of a dog	514413900	martini.gif	drink	t,d	100	dreams of dogs
 6592	optimal spreadsheet	389475336	spreadsheet.gif	offhand	t	0	optimal spreadsheets
 6593	defective Game Grid token	606727747	gg_def.gif	reusable	t	0	defective Game Grid tokens
+6594	hot Dreadsylvanian cocoa	267480689	coffeecup.gif	usable	t	0
+6595	epic cluster	148546578	epiccluster.gif	usable	t	0
+6496
+6497	eau de mort	673478975	dv_eau.gif	none	t	0

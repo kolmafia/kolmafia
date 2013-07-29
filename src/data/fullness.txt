@@ -52,6 +52,7 @@ black forest ham	3	7	good	8-9	25-45	0	0
 black pudding	3	7	decent	5-7	10-12	10-12	9-12
 blackberry	1	2	good	2-3	2-4	2-4	2-4
 blob-shaped crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Amorphous Cheer (+50% all)
+blood sausage	2	22	EPIC	0	0	0	0
 blue velvet cake	3	1	crappy	3	0	0	0
 blueberry-frosted king cake	3	1	crappy	3	0	0	0	blue plastic baby
 blunt cat claw	1	4	awesome	3-5	45-75	0	0	30 Feline Ferocity (+100% weapon dmg)
@@ -174,6 +175,7 @@ dire fudgesicle	2	1	decent	2-4	0	8-10	0	lose 2 HP
 disc-shaped nutrition unit	4	5		6-9	0	0	0
 double bacon beelzeburger	3	1	decent	4-6	15-20	-15-20	0
 dragon snaps	1	1	crappy	1	0	0	5-10	5 Oh Snap (+10 mox exp)
+Dreadsylvanian stew	1	20	EPIC	0	0	0	0
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
 electric ancient serpent roll	3	1		12-17	0	8-16	20-30	45/55 Fishy
 electric beefy maki	3	1		10-15	8-16	0	0	45/55 Fishy
