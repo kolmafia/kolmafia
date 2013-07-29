@@ -561,7 +561,7 @@ public abstract class ChatManager
 			return;
 		}
 
-		String scriptName = Preferences.getString( "chatBotScript" );
+		String scriptName = Preferences.getString( "chatbotScript" );
 		if ( scriptName.equals( "" ) )
 		{
 			return;
