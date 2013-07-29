@@ -6501,11 +6501,11 @@ s1
 6484	dread tarragon	575782784	dv_tarragon.gif	none	t	0
 6485
 6486	dreadful roast	528470996	dv_meat.gif	none	t	0
-6487	stinking agaricus	759942326	dv_fungus.gif	none	t	0
+6487	stinking agaricus	759942326	dv_fungus.gif	none	t	0	slices of stinking agaricus
 6488
 6489
-6490
-6491
+6490	unwound mechanical songbird	mechbirdlarva.gif	742192719	grow	t	0
+6491	shiny brass tailfeathers	brassfeathers.gif	550721423	familiar	t,d	75
 6492	wax banana	155116546	dv_banana.gif	none	t	0
 6493	complicated lock impression	639646650	dv_impression.gif	none	t	0
 6494	replica key	477751682	dv_fancykey.gif	none	t	0
