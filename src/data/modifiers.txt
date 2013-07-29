@@ -3198,6 +3198,8 @@ Curse of Hollowness	Maximum HP: -200, Maximum MP: -200
 # Curse of Impotence: -50 Damage vs. Ghosts
 # Curse of Impotence: -50 Damage vs. Vampires
 # Curse of Impotence: -50 Damage vs. Skeletons
+# Curse of Loneliness: Familiar Damage -20
+Curse of Loneliness	Familiar Weight: -20
 Curse of Misfortune	Meat Drop: -100, Item Drop: -50
 Curse of Sluggishness	Initiative: -50
 Curse of Vulnerability	Damage Absorption: -500, Damage Reduction: -50
@@ -3951,6 +3953,7 @@ Standard Issue Bravery	Muscle: +30, Mysticality: +30, Moxie: +30
 Stands Alone	Stench Damage: +10
 # Stark Raven Mad: Makes you look like a raven
 Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
+Staying Frosty	Cold Damage: +100
 # Stenchform: P. U.
 Stenchform	Stench Immunity, Cold Vulnerability, Sleaze Vulnerability
 Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent: +10, Stench Damage: +10, Stench Resistance: +2
