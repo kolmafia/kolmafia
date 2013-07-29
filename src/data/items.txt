@@ -6517,7 +6517,7 @@ s1
 6500	polished moon-amber	347094590	dv_amber2.gif	none	t	0
 6501
 6502	Dreadsylvanian seed pod	709187969	dv_seedpod.gif	none, combat		0
-6503
+6503	ghost pencil	568967539	dv_ghostpencil.gif	none	0
 6504
 6505
 6506

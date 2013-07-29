@@ -1268,7 +1268,7 @@
 1267
 1268
 1269
-1270
+1270	Staying Frosty	snowflake.gif	ff84e190cf7652cc5df1b02ca08e5408
 1271
 1272
 1273
@@ -1312,7 +1312,7 @@
 1311	Curse of Forgetfulness	spooklines.gif	05a5c3b2e5519eb64e58a5ff7afcbd07
 1312	Curse of Misfortune	spooklines.gif	e21da466c08c71c8f69326137430ca92
 1313	Curse of Clumsiness	spooklines.gif	851ccb909bc1c46abb9cb9fc51b33ea0
-1314
+1314	Curse of Loneliness	spooklines.gif	67512fd0a260a7a9d2a8eecc801405d9
 1315	Electric, Kool	jigawatts.gif	9a6a2de5acec4f9e4e2141884673d098	eat 1 electric Kool-Aid
 1316	You've Got a Stew Going!	soupbowl.gif	5a33a9feb96c0dedcbfabb51fe354228	eat 1 Dreadsylvanian stew
 1317	Whitesloshed	whitedrink.gif	c8753aa60f3520b6e8cb2e295d3e0a00	drink 1 white Dreadsylvanian
