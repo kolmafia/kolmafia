@@ -2957,7 +2957,7 @@ Aykrophobia	Item Drop: +25, Spooky Damage: +20, Monster Level: +15
 Baconstoned	Mysticality Percent: +50, Spell Damage: +11
 # Bad Luck: Uh Oh...
 Badger Underfoot	Meat Drop: +20
-Bailando Fernando	Item Drop: 10
+Bailando, Fernando	Item Drop: 10
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 # Bandananit: Makes you look like a dirty thieving brigand
 Barking Dogs	Muscle Percent: -50, Initiative: -50
@@ -3105,6 +3105,7 @@ Coffeesphere	Combat Rate: +15
 Cold, Dead Hands	Cold Damage: +40, Spooky Damage: +40
 Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent: +10, Cold Damage: +10, Cold Resistance: +2
 # Cold Breath: Can breathe frigid air in combat
+Cold Hands	Cold Damage: +10, Cold Spell Damage: +20, Stench Resistance: +2, Sleaze Resistance: +2
 Cold Hard Skin	Cold Damage: +25, Maximum HP: +200
 Cold Hearted	Moxie: [min(T,20)], Familiar Weight: [ceil(min(T,20)/2)]
 Cold Sweat	Cold Resistance: +7
@@ -3460,6 +3461,7 @@ Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
 Horrid, Torrid Weapon	Damage Percent: +10
 Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Damage: +10, Hot Resistance: +2
 # Hot Breath: Can breathe fire in combat
+Hot Hands	Hot Damage: +10, Hot Spell Damage: +20, Cold Resistance: +2, Spooky Resistance: +2
 Hot Sweat	Hot Resistance: +7
 # Hotform: Hot, Hot, Hot!
 Hotform	Hot Immunity, Sleaze Vulnerability, Stench Vulnerability
@@ -3836,6 +3838,7 @@ Sleaze-Resistant Trousers	Sleaze Resistance: +1
 # Sleazeform: Wink Wink, Nudge Nudge
 Sleazeform	Sleaze Immunity, Cold Vulnerability, Spooky Vulnerability
 # Sleazy Breath: Can breathe cologne in combat
+Sleazy Hands	Sleaze Damage: +10, Sleaze Spell Damage: +20, Hot Resistance: +2, Stench Resistance: +2
 Sleazy Weapon	Sleaze Damage: +3
 # Sleeping with the Fishes: Makes you sleep like the dead
 Sleepy	Muscle Percent: -30
@@ -3902,6 +3905,7 @@ Spirit of Wormwood	Spell Damage: +10
 # Spooky Breath: Can breathe terrifying air in combat
 Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
 Spooky Flavor	Spooky Damage: +10, Spooky Resistance: +2
+Spooky Hands	Spooky Damage: +10, Spooky Spell Damage: +20, Cold Resistance: +2, Sleaze Resistance: +2
 Spooky Weapon	Spooky Damage: +3
 # Spookyform: Ooooooooooooooooh
 Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
@@ -3931,6 +3935,7 @@ Stimulated Body	HP Regen Min: 10, HP Regen Max: 20
 Stimulated Brain	MP Regen Min: 10, MP Regen Max: 20
 Stinking Cloud	Stench Resistance: +1
 # Stinky Breath: Can breathe stench in combat
+Stinky Hands	Stench Damage: +10, Stench Spell Damage: +20, Hot Resistance: +2, Spooky Resistance: +2
 Stinky Weapon	Stench Damage: +3
 Stone-Faced	Damage Reduction: 3
 # Stop and Smell the Fudge: Find 25% More Fudge
@@ -4863,6 +4868,11 @@ licorice root	Effect: "Rootin' Around", Effect Duration: 20
 lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
 llama lama cria	Free Pull
+lotion of coldness	Effect: "Cold Hands", Effect Duration: [R]
+lotion of hotness	Effect: "Hot Hands", Effect Duration: [R]
+lotion of sleaziness	Effect: "Sleazy Hands", Effect Duration: [R]
+lotion of spookiness	Effect: "Spooky Hands", Effect Duration: [R]
+lotion of stench	Effect: "Stinky Hands", Effect Duration: [R]
 love song of disturbing obsession	Effect: "Withered Heart", Effect Duration: 5
 love song of icy revenge	Effect: "Cold Hearted", Effect Duration: 5
 love song of naughty innuendo	Effect: "Lustful Heart", Effect Duration: 5

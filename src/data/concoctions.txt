@@ -1311,11 +1311,11 @@ potion of temporary gr8tness	SSAUCE, SX3	scrumdiddlyumptious solution	gr8ps
 
 fluid of fudge-finding	SSAUCE	scrumdiddlyumptious solution	superheated fudge
 
-phial of hotness	SAUCE, SX3	scrumptious reagent	hot powder
-phial of coldness	SAUCE, SX3	scrumptious reagent	cold powder
-phial of spookiness	SAUCE, SX3	scrumptious reagent	spooky powder
-phial of stench	SAUCE, SX3	scrumptious reagent	stench powder
-phial of sleaziness	SAUCE, SX3	scrumptious reagent	sleaze powder
+lotion of hotness	SAUCE, SX3	scrumptious reagent	hot powder
+lotion of coldness	SAUCE, SX3	scrumptious reagent	cold powder
+lotion of spookiness	SAUCE, SX3	scrumptious reagent	spooky powder
+lotion of stench	SAUCE, SX3	scrumptious reagent	stench powder
+lotion of sleaziness	SAUCE, SX3	scrumptious reagent	sleaze powder
 
 # Deep Sauces
 
