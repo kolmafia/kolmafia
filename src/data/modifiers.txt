@@ -3045,6 +3045,8 @@ Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50 Damage vs. Zombies
 Braaains	Meat Drop: +50, Initiative: -50
+# Brass Loins: Physical Damage +100% (in Dreadsylvania only)
+# Brass Loins: Triple bonus damage against Bugbears, Werewolves, Zombies, Ghosts, Skeletons and Vampires
 Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
 Breakfast Clubbed	Monster Level: [min(25,T)]
 Bright!	Maximum MP: +100
@@ -3861,6 +3863,7 @@ Shredding, Sweating	Weapon Damage Percent: +25
 Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
 # Silent Running: Decreased chance of random PvP Attacks
 Silent Running	Combat Rate: -5
+Silver Age Secrets	Spell Damage Percent: [200*zone(Dreadsylvania)]
 Simply Invisible	Combat Rate: -5
 Simply Irresistible	Combat Rate: +5
 Simply Irritable	Monster Level: +15

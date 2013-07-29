@@ -1271,8 +1271,8 @@
 1270	Staying Frosty	snowflake.gif	ff84e190cf7652cc5df1b02ca08e5408
 1271	Magically Fingered	hand.gif	4a1c031eb4a18e72c32a062c1375b7de
 1272
-1273
-1274
+1273	Brass Loins	flask.gif	a614dc2ae977f948665b230f5723b567
+1274	Silver Age Secrets	flask.gif	1839cbfe882d9243964d9097c1a3b0a6
 1275	The Tunger&trade;	tongue.gif	c943b9c96abc7cad0c1590b489173576	use 1 Hunger&trade; Sauce
 1276
 1277
