@@ -61,8 +61,8 @@ public class TerrifiedEagleInnRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "The Terrified Eagle Inn"; 
-	private static final LockableListModel buyItems = CoinmastersDatabase.getNewList();
-	private static final Map buyPrices = CoinmastersDatabase.getNewMap();
+	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( TerrifiedEagleInnRequest.master );
+	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( TerrifiedEagleInnRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( TerrifiedEagleInnRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>(\\w+) Freddy Krueggerand(?:s?)</td>" );
