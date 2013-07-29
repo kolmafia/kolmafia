@@ -1314,9 +1314,9 @@
 1313	Curse of Clumsiness	spooklines.gif	851ccb909bc1c46abb9cb9fc51b33ea0
 1314
 1315
-1316	You've Got a Stew Going!	soupbowl.gif	5a33a9feb96c0dedcbfabb51fe354228	use 1 Dreadsylvanian stew
-1317	Whitesloshed	whitedrink.gif	c8753aa60f3520b6e8cb2e295d3e0a00	use 1 white Dreadsylvanian
-1318	Blood Porter	blooddrops.gif	da43e44a3f8b4dff65ccf0801c31d9d7	use 1 bottle of Bloodweiser
+1316	You've Got a Stew Going!	soupbowl.gif	5a33a9feb96c0dedcbfabb51fe354228	eat 1 Dreadsylvanian stew
+1317	Whitesloshed	whitedrink.gif	c8753aa60f3520b6e8cb2e295d3e0a00	drink 1 white Dreadsylvanian
+1318	Blood Porter	blooddrops.gif	da43e44a3f8b4dff65ccf0801c31d9d7	drink 1 bottle of Bloodweiser
 1319
 1320
 1321
