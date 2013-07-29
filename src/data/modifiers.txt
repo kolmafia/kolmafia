@@ -2492,6 +2492,7 @@ bottle of Cochon Noir	Familiar Weight: +5
 bottle of perfume	Familiar Weight: +5
 brass crank handle	Familiar Weight: +5
 brass stinger	Familiar Weight: +5
+shiny brass tailfeathers	Familiar Weight: +5
 bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	Food Drop: +5, Pants Drop: +5, Candy Drop: +5, Fairy: 1.0, Equips On: "Baby Bugged Bugbear"
 bugged balaclava	Monster Level: +20, Volleyball: 1.0, Equips On: "Baby Bugged Bugbear"
 bugged beanie	Familiar Weight: +10
@@ -3246,6 +3247,7 @@ Don't Rest Ye, Bold Adventurer	Experience: +1
 Donho's Bubbly Ballad	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty: [20*zone(The Sea)], Meat Drop Penalty: [20*zone(The Sea)]
 # Down the Rabbit Hole: Lets you adventure in The Rabbit Hole in The Nearby Plains
 Down With Chow	Familiar Weight: +10
+Dragged Through the Coals	Hot Damage: +100
 Draggin' Balls	Moxie: +6, Muscle: -3
 Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
@@ -3323,6 +3325,7 @@ Feline Ferocity	Weapon Damage Percent: +100
 Festive Radiation	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
 Fever From the Flavor	Cold Resistance: +9
 Fiery Heart	Mysticality: [min(T,20)], MP Regen Min: [ceil(min(T,20)/2)], MP Regen Max: [ceil(min(T,20)/2)]
+Fifty Ways to Bereave Your Lover	Sleaze Damage: +100
 Filled with Magic	Spell Damage Percent: +100
 # Filthworm Drone Stench
 # Filthworm Guard Stench
@@ -3595,6 +3598,7 @@ Macho, Macho Dog	Muscle Percent: 50, Critical Hit Percent: 10
 Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 Mad at Science	Muscle: +3
 # Magic Tongue: Everything tastes weird
+Magically Fingered	Maximum MP: +150, MP Regen Min: 40, MP Regen Max: 50
 Maid Disservice	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -90, Muscle: -11, Mysticality: -11, Moxie: -11
 Make Meat FA$T!	Meat Drop: +20
@@ -3655,6 +3659,7 @@ Nanobrainy	Mysticality Percent: +50, Spell Damage: +20, MP Regen Min: 2, MP Rege
 Nanobrawny	Muscle Percent: +25, Weapon Damage: +10, HP Regen Min: 4, HP Regen Max: 8
 Natural 1	Initiative: -100
 Natural 20	Initiative: +100
+Nature's Bounty	Maximum HP: +300
 # Nerf'd: Less powerful than you were before
 Net Gain	Muscle Percent: +100
 Nettled	Moxie Percent: -300
@@ -3837,6 +3842,7 @@ Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Seeing Colors	Mysticality Percent: +50
 Serenity	Moxie Percent: +15
 Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Sewer-Drenched	Stench Damage: +100
 Shamboozled	Moxie Percent: +50
 Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Shape of...Mole!: You're a Mole
