@@ -1288,7 +1288,7 @@
 1287	Riqueza de Pasta	ma4buff3.gif	4a4443b3e84e765e7ecdaf1944bd6304
 1288	Cafeter&iacute;a Brujer&iacute;a	ma4buff4.gif	8983c8a24e162c4912277aa87c5f4826
 1289	Carne Obsesionada	ma4buff5.gif	d7ea19ce09aed28865d5b8552aa68725
-1290	Bailando Fernando	ma4buff6.gif	4d1e69c40571a26b51cca3bb04dcb662
+1290	Bailando, Fernando	ma4buff6.gif	4d1e69c40571a26b51cca3bb04dcb662
 1291	Macho, Macho Dog	hotdog_macho.gif	2f5f13814f9198966e689bfe93098a5b
 1292	Inner Dog	jarl_deluxedog.gif	73abfb2ae600af8c38acb21f444ccb4d
 1293	Top Dog	hotdog_sly.gif	0f072510150a80baaa64627b794a7139
@@ -1312,3 +1312,24 @@
 1311	Curse of Forgetfulness	spooklines.gif	05a5c3b2e5519eb64e58a5ff7afcbd07
 1312	Curse of Misfortune	spooklines.gif	e21da466c08c71c8f69326137430ca92
 1313	Curse of Clumsiness	spooklines.gif	851ccb909bc1c46abb9cb9fc51b33ea0
+1314
+1315
+1316
+1317
+1318
+1319
+1320
+1321
+1322
+1323
+1324
+1325
+1326
+1327
+1328
+1329
+1330	Hot Hands	flask_hot.gif	a5a385629ec007dab7163ab2a4268009	use 1 lotion of hotness
+1331	Cold Hands	flask_cold.gif	60cf4facf7dd20ce176932083b629c27	use 1 lotion of coldness
+1332	Spooky Hands	flask_spooky.gif	45f0f990b69897625af21b3236cd0dcc	use 1 lotion of spookiness
+1333	Stinky Hands	flask_stench.gif	aa5c772bd5d7990e26db44a0859969e8	use 1 lotion of stench
+1334	Sleazy Hands	flask_sleaze.gif	efe6d7516b7e272f7b9f6b630e888a6a	use 1 lotion of sleaziness

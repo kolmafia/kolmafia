@@ -1,4 +1,4 @@
-1
+s1
 # item number	name	descid	image	use	access	autosell	plural
 #
 #	PRIMARY_USE: none, food, drink, usable, multiple, grow, zap,
@@ -1651,11 +1651,11 @@
 1634	around the world	268463703	rocks.gif	drink		0	around the worlds
 1635	scrumdiddlyumptious solution	945960359	vinegar.gif	none, fancy	t	0	bottles of scrumdiddlyumptious solution
 1636	Toddler-sized Dragon Costume	924040526	dragcost.gif	familiar		0	No way, jose
-1637	phial of hotness	737312329	hotvial.gif	multiple	t	0	phials of hotness
-1638	phial of coldness	617090691	coldvial.gif	multiple	t	0	phials of coldness
-1639	phial of spookiness	304127983	spookyvial.gif	multiple	t	0	phials of spookiness
-1640	phial of stench	644303640	stenchvial.gif	multiple	t	0	phials of stench
-1641	phial of sleaziness	361592233	sleazevial.gif	multiple	t	0	phials of sleaziness
+1637	lotion of hotness	737312329	flask_hot.gif	multiple	t	0	lotions of hotness
+1638	lotion of coldness	617090691	flask_cold.gif	multiple	t	0	lotions of coldness
+1639	lotion of spookiness	304127983	flask_spooky.gif	multiple	t	0	lotions of spookiness
+1640	lotion of stench	644303640	flask_stench.gif	multiple	t	0	lotions of stench
+1641	lotion of sleaziness	361592233	flask_sleaze.gif	multiple	t	0	lotions of sleaziness
 1642	Grimacite Bock	259609992	beerbottle.gif	drink	t	0	Bottles of Grimacite Bock
 1643	wedge of gray cheese	647526971	greycheese.gif	food	t	0	wedges of gray cheese
 1644	hot and sour sauce	290239268	goodgravy.gif	none	t,d	100	tureens of hot and sour sauce
@@ -6516,7 +6516,7 @@
 6499
 6500
 6501
-6502	Dreadsylvanian seed pod	709187969	dv_seedpod.gif	none, combat	0
+6502	Dreadsylvanian seed pod	709187969	dv_seedpod.gif	none, combat		0
 6503
 6504
 6505
