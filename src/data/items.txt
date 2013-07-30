@@ -6517,7 +6517,7 @@ s1
 6500	polished moon-amber	347094590	dv_amber2.gif	none	t	0
 6501
 6502	Dreadsylvanian seed pod	709187969	dv_seedpod.gif	none, combat		0
-6503	ghost pencil	568967539	dv_ghostpencil.gif	none	0
+6503	ghost pencil	568967539	dv_ghostpencil.gif	none		0
 6504
 6505
 6506
@@ -6584,10 +6584,10 @@ s1
 6567
 6568
 6569
-6570
+6570	Dreadsylvanian cold-fashioned	232123863	oldfashioned.gif	drink	t	0
 6571
 6572
-6573
+6573	Dreadsylvanian slithery nipple	127920921	shot.gif	drink	t	0
 6574
 6575	cold clusterbomb	769199792	clusterbomb.gif	none, combat	t	0
 6576	spooky clusterbomb	223005386	clusterbomb.gif	none, combat	t	0
