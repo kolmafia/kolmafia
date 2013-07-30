@@ -176,7 +176,12 @@ dire fudgesicle	2	1	decent	2-4	0	8-10	0	lose 2 HP
 disc-shaped nutrition unit	4	5		6-9	0	0	0
 double bacon beelzeburger	3	1	decent	4-6	15-20	-15-20	0
 dragon snaps	1	1	crappy	1	0	0	5-10	5 Oh Snap (+10 mox exp)
-Dreadsylvanian stew	1	20	EPIC	0	0	0	0
+dreadsylvanian cold pocket	4	26	EPIC	0	0	0	0	200 Dreadful Chill
+dreadsylvanian hot pocket	4	26	EPIC	0	0	0	0	200 Dreadful Heat
+dreadsylvanian sleaze pocket	4	26	EPIC	0	0	0	0	200 Dreadful Sheen
+dreadsylvanian spooky pocket	4	26	EPIC	0	0	0	0	200 Dreadful Fear
+dreadsylvanian stew	1	20	EPIC	0	0	0	0
+dreadsylvanian stink pocket	4	26	EPIC	0	0	0	0	200 Dreadful Smell
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
 electric ancient serpent roll	3	1		12-17	0	8-16	20-30	45/55 Fishy
 electric beefy maki	3	1		10-15	8-16	0	0	45/55 Fishy

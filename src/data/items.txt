@@ -6448,12 +6448,12 @@ s1
 6431
 6432
 6433	Freddy Krueggerand	901547610	dv_krueggerand.gif	none		0
-6434	Mark of the Bugbear	950853827	dv_mark1.gif	usable	t	0
-6435	Mark of the Werewolf	566747498	dv_mark2.gif	usable	t	0
-6436	Mark of the Zombie	849584594	dv_mark3.gif	usable	t	0
-6437	Mark of the Ghost	486978053	dv_mark4.gif	usable	t	0
-6438	Mark of the Vampire	321383311	dv_mark5.gif	usable	t	0
-6439	Mark of the Skeleton	977729070	dv_mark6.gif	usable	t	0
+6434	Mark of the Bugbear	950853827	dv_mark1.gif	usable	t	0	Marks of the Bugbear
+6435	Mark of the Werewolf	566747498	dv_mark2.gif	usable	t	0	Marks of the Werewolf
+6436	Mark of the Zombie	849584594	dv_mark3.gif	usable	t	0	Marks of the Zombie
+6437	Mark of the Ghost	486978053	dv_mark4.gif	usable	t	0	Marks of the Ghost
+6438	Mark of the Vampire	321383311	dv_mark5.gif	usable	t	0	Marks of the Vampire
+6439	Mark of the Skeleton	977729070	dv_mark6.gif	usable	t	0	Marks of the Skeleton
 6440
 6441
 6442
@@ -6578,21 +6578,21 @@ s1
 6561	adventurer clone egg	985842882	cloneegg.gif	grow	t	0	adventurer clone eggs
 6562	mini-Mr. Accessory	151274336	minimra.gif	familiar	t,d	75	mini-Mssrs. Accessory
 6563
-6564
-6565
-6566
-6567
-6568
-6569
+6564	Dreadsylvanian hot pocket	365191722	hotpocket.gif	food	t	0
+6565	Dreadsylvanian cold pocket	970955510	hotpocket.gif	food	t	0
+6566	Dreadsylvanian spooky pocket	285862908	hotpocket.gif	food	t	0
+6567	Dreadsylvanian stink pocket		hotpocket.gif	food	t	0
+6568	Dreadsylvanian sleaze pocket	340456502	hotpocket.gif	food	t	0
+6569	Dreadsylvanian hot toddy	781491010	coffeecup.gif	drink	t	0
 6570	Dreadsylvanian cold-fashioned	232123863	oldfashioned.gif	drink	t	0
 6571	Dreadsylvanian grimlet	627937622	martini.gif	drink	t	0
-6572
+6572	Dreadsylvanian dank and stormy	821445959	rocks.gif	drink	t	0
 6573	Dreadsylvanian slithery nipple	127920921	shot.gif	drink	t	0
-6574
+6574	hot clusterbomb	329691108	clusterbomb.gif	none, combat	t	0
 6575	cold clusterbomb	769199792	clusterbomb.gif	none, combat	t	0
 6576	spooky clusterbomb	223005386	clusterbomb.gif	none, combat	t	0
-6577
-6578
+6577	stench clusterbomb	219152438	clusterbomb.gif	none, combat	t	0
+6578	sleaze clusterbomb	747352227	clusterbomb.gif	none, combat	t	0
 6579	Dreadsylvanian Almanac page	481489808	dv_recipe.gif	usable	t	0
 6580	length of old fuse	786902545	dv_oldfuse.gif	none	t	0
 6581
