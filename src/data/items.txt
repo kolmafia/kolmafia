@@ -6499,11 +6499,11 @@ s1
 6482
 6483	electric Kool-Aid	363523121	sk_koolaid.gif	food	t	0
 6484	dread tarragon	575782784	dv_tarragon.gif	none	t	0
-6485
+6485	bone flour	348000600	disease.gif	none	t	0
 6486	dreadful roast	528470996	dv_meat.gif	none	t	0
 6487	stinking agaricus	759942326	dv_fungus.gif	none	t	0	slices of stinking agaricus
 6488
-6489
+6489	intricate music box parts	854401690	dv_boxparts.gif	none	t	0
 6490	unwound mechanical songbird	mechbirdlarva.gif	742192719	grow	t	0
 6491	shiny brass tailfeathers	brassfeathers.gif	550721423	familiar	t,d	75
 6492	wax banana	155116546	dv_banana.gif	none	t	0
@@ -6585,7 +6585,7 @@ s1
 6568
 6569
 6570	Dreadsylvanian cold-fashioned	232123863	oldfashioned.gif	drink	t	0
-6571
+6571	Dreadsylvanian grimlet	627937622	martini.gif	drink	t	0
 6572
 6573	Dreadsylvanian slithery nipple	127920921	shot.gif	drink	t	0
 6574
