@@ -1319,10 +1319,10 @@
 1318	Blood Porter	blooddrops.gif	da43e44a3f8b4dff65ccf0801c31d9d7	drink 1 bottle of Bloodweiser
 1319	Ghost Finger	dv_ghostthread.gif	cc69909ca692c91cdc7ad5b8e2f9abe5	use 1 ghost thread
 1320
-1321
+1321	Dreadful Chill	blackcold.gif	a6eeab0b73de54b651048cd339a44b04	drink 1 Dreadsylvanian cold-fashioned
 1322
 1323
-1324
+1324	Dreadful Sheen	blackwink.gif	9448f6d0a58269405854e8511fb8af1a	drink 1 Dreadsylvanian slithery nipple
 1325
 1326
 1327

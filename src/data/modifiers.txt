@@ -3251,6 +3251,8 @@ Donho's Bubbly Ballad	Initiative Penalty: [20*zone(The Sea)], Item Drop Penalty:
 Down With Chow	Familiar Weight: +10
 Dragged Through the Coals	Hot Damage: +100
 Draggin' Balls	Moxie: +6, Muscle: -3
+Dreadful Chill	Stench Resistance: +5, Sleaze Resistance: +5
+Dreadful Sheen	Hot Resistance: +5, Stench Resistance: +5
 Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Drenched With Filth	Stench Damage: +75
@@ -4527,6 +4529,8 @@ Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
 # Desert Bus pass: Allows Travel to Desert Beach
 Dark Jill-O-Lantern	Free Pull
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
+Dreadsylvanian cold-fashioned	Effect: "Dreadful Chill", Effect Duration: 200
+Dreadsylvanian slithery nipple	Effect: "Dreadful Sheen", Effect Duration: 200
 Dreadsylvanian stew	Effect: "You've Got a Stew Going!", Effect Duration: 30
 Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
 Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
