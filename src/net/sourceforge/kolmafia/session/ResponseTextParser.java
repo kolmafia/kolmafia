@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.request.CurseRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.DigRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.DreadsylvaniaRequest;
 import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -332,6 +333,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "clan_stash.php" ) )
 		{
 			ClanStashRequest.parseTransfer( location, responseText );
+		}
+
+		else if ( location.startsWith( "clan_dreadsylvania.php" ) )
+		{
+			DreadsylvaniaRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "clan_viplounge.php" ) )

@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.request.DigRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
+import net.sourceforge.kolmafia.request.DreadsylvaniaRequest;
 import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -858,6 +859,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof DollHawkerRequest || isExternal ) && DollHawkerRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof DreadsylvaniaRequest || isExternal ) && DreadsylvaniaRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
