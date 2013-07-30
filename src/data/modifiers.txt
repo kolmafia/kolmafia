@@ -3041,6 +3041,7 @@ Bonelording	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, S
 # Bony Dancer: Makes you look like a tapdancing skeleton
 # Booing Radly: +50 Damage vs. Ghosts
 Bootyliciousness	Item Drop: +10
+Bored Stiff	Spooky Damage: +100
 Bottle in front of Me	Spell Damage: +15
 Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50 Damage vs. Zombies
@@ -3109,6 +3110,8 @@ ChibiChanged&trade;	Muscle Percent: [min(5*T,200)], Mysticality Percent: [min(5*
 Chihuahua Underfoot	Monster Level: +20
 Chilblains of the Corn	Spooky Damage: +5
 Chill Out, Dog	Cold Damage: 30, Stench Resistance: 3, Sleaze Resistance: 3, Monster Level: 10
+# Chilled to the Bone: Enemies get 1 extra attack(s) against you per round
+Chilled to the Bone	Mana Cost: +3
 Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
 Chocolate Reign	Moxie: +10
 Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
@@ -3252,7 +3255,10 @@ Down With Chow	Familiar Weight: +10
 Dragged Through the Coals	Hot Damage: +100
 Draggin' Balls	Moxie: +6, Muscle: -3
 Dreadful Chill	Stench Resistance: +5, Sleaze Resistance: +5
+Dreadful Fear	Cold Resistance: +5, Sleaze Resistance: +5
+Dreadful Heat	Cold Resistance: +5, Spooky Resistance: +5
 Dreadful Sheen	Hot Resistance: +5, Stench Resistance: +5
+Dreadful Smell	Hot Resistance: +5, Spooky Resistance: +5
 Dreadlocked	Mysticality Percent: +50, Moxie Percent: -50
 Dreams and Lights	Mysticality: +10, Mana Cost: -3
 Drenched With Filth	Stench Damage: +75
@@ -4530,6 +4536,7 @@ Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
 Dark Jill-O-Lantern	Free Pull
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
 Dreadsylvanian cold-fashioned	Effect: "Dreadful Chill", Effect Duration: 200
+Dreadsylvanian grimlet	Effect: "Dreadful Fear", Effect Duration: 200
 Dreadsylvanian slithery nipple	Effect: "Dreadful Sheen", Effect Duration: 200
 Dreadsylvanian stew	Effect: "You've Got a Stew Going!", Effect Duration: 30
 Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1

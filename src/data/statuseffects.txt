@@ -1263,11 +1263,11 @@
 1262	Everything Must Go!	skull.gif	fc67a39dfb2d17e5a3bd5d55acdca81b	use 1 violent pastilles
 1263	Predjudicetidigitation	angry.gif	33e3993e62a2a62fe24a14cffe778719	use 1 worst candy
 1264	Things Man Was Not Meant to Eat	fudgehole.gif	d90b373695c4e0bcb71d3487de57edd4	use 1 fudge-shaped hole in space-time
-1265
+1265	Bored Stiff	book3.gif	36e198130ab2783b29e957dd266c2948
 1266	Dragged Through the Coals	evil.gif	0ecc28e279c00b0ade1a58aed60bbd47
 1267	Nature's Bounty	bansai.gif	d007ddb55bc40336e0242e41be658ac5
 1268	Sewer-Drenched	sebashield.gif	bd8f5c1202f67bebcf666bd02360f11b
-1269	Fifty Ways to Bereave Your Lover	tombstone2.gif	b0622a931fe519245fa5426a3f58f3fe
+1269	Fifty Ways to Bereave Your Lover	tombstone.gif	b0622a931fe519245fa5426a3f58f3fe
 1270	Staying Frosty	snowflake.gif	ff84e190cf7652cc5df1b02ca08e5408
 1271	Magically Fingered	hand.gif	4a1c031eb4a18e72c32a062c1375b7de
 1272
@@ -1275,7 +1275,7 @@
 1274	Silver Age Secrets	flask.gif	1839cbfe882d9243964d9097c1a3b0a6
 1275	The Tunger&trade;	tongue.gif	c943b9c96abc7cad0c1590b489173576	use 1 Hunger&trade; Sauce
 1276
-1277
+1277	Chilled to the Bone	snowflake.gif	8b1a1c598f840f75834b9e525f55fdae
 1278
 1279	Elbow Sauce	ma6buff1.gif	d836697f5744cf045a9e9a8a842cd5d2
 1280	Wet Rub	ma6buff2.gif	fe6a5d1badbb3432c441c6a22e46a15f
@@ -1318,10 +1318,10 @@
 1317	Whitesloshed	whitedrink.gif	c8753aa60f3520b6e8cb2e295d3e0a00	drink 1 white Dreadsylvanian
 1318	Blood Porter	blooddrops.gif	da43e44a3f8b4dff65ccf0801c31d9d7	drink 1 bottle of Bloodweiser
 1319	Ghost Finger	dv_ghostthread.gif	cc69909ca692c91cdc7ad5b8e2f9abe5	use 1 ghost thread
-1320
+1320	Dreadful Heat	blackfire.gif	83b2b22b041f8335aee2e1ca1ac07fe7	drink 1 Dreadsylvanian hot toddy
 1321	Dreadful Chill	blackcold.gif	a6eeab0b73de54b651048cd339a44b04	drink 1 Dreadsylvanian cold-fashioned
-1322
-1323
+1322	Dreadful Fear	blackskull.gif	79a064a5ed1237ea458e02ee8bd2d639	drink 1 Dreadsylvanian grimlet
+1323	Dreadful Smell	blackstench.gif	4add471402d1ac2bda88fd8226c0aa94	drink 1 Dreadsylvanian dank and stormy
 1324	Dreadful Sheen	blackwink.gif	9448f6d0a58269405854e8511fb8af1a	drink 1 Dreadsylvanian slithery nipple
 1325
 1326

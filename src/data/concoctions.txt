@@ -1317,11 +1317,11 @@ lotion of spookiness	SAUCE, SX3	scrumptious reagent	spooky powder
 lotion of stench	SAUCE, SX3	scrumptious reagent	stench powder
 lotion of sleaziness	SAUCE, SX3	scrumptious reagent	sleaze powder
 
-phial of hotness	SAUCE, SX3	scrumdiddlyumptious solution	hot cluster
-phial of coldness	SAUCE, SX3	scrumdiddlyumptious solution	cold cluster
-phial of spookiness	SAUCE, SX3	scrumdiddlyumptious solution	spooky cluster
-phial of stench	SAUCE, SX3	  scrumdiddlyumptious solution	stench cluster
-phial of sleaziness	SAUCE, SX3	scrumdiddlyumptious solution	sleaze cluster
+phial of hotness	SAUCE	scrumdiddlyumptious solution	hot cluster
+phial of coldness	SAUCE	scrumdiddlyumptious solution	cold cluster
+phial of spookiness	SAUCE	scrumdiddlyumptious solution	spooky cluster
+phial of stench	SAUCE	  scrumdiddlyumptious solution	stench cluster
+phial of sleaziness	SAUCE	scrumdiddlyumptious solution	sleaze cluster
 
 # Deep Sauces
 
@@ -1331,6 +1331,28 @@ pressurized potion of proficiency	DSAUCE	globe of Deep Sauce	sea persimmon
 pressurized potion of puissance	DSAUCE	globe of Deep Sauce	sea tangelo
 pressurized potion of pulchritude	DSAUCE	globe of Deep Sauce	sea lychee
 pressurized potion of pneumaticity	DSAUCE	globe of Deep Sauce	[0]
+
+# Dreadsylvania
+
+cold clusterbomb	COMBINE	length of old fuse	cold cluster
+hot clusterbomb	COMBINE	length of old fuse	hot cluster
+sleaze clusterbomb	COMBINE	length of old fuse	sleaze cluster
+spooky clusterbomb	COMBINE	length of old fuse	spooky cluster
+stench clusterbomb	COMBINE	length of old fuse	stench cluster
+
+Dreadsylvanian cold-fashioned	MIX	eau de mort	cold cluster
+Dreadsylvanian hot toddy	MIX	eau de mort	hot cluster
+Dreadsylvanian slithery nipple	MIX	eau de mort	sleaze cluster
+Dreadsylvanian grimlet	MIX	eau de mort	spooky cluster
+Dreadsylvanian dank and stormy	MIX	eau de mort	stench cluster
+
+Dreadsylvanian cold pocket	COOK	bone flour	cold cluster
+Dreadsylvanian hot pocket	COOK	bone flour	hot cluster
+Dreadsylvanian sleaze pocket	COOK	bone flour	sleaze cluster
+Dreadsylvanian spooky pocket	COOK	bone flour	spooky cluster
+Dreadsylvanian stink pocket	COOK	bone flour	stench cluster
+
+moon-amber necklace	EJEWEL	polished moon-amber	heavy necklace chain
 
 # Simple pastamancer recipes.  Available to pastamancers only, and
 # creates pasta if you don't have finer ingredients.
