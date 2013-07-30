@@ -1276,7 +1276,7 @@
 1275	The Tunger&trade;	tongue.gif	c943b9c96abc7cad0c1590b489173576	use 1 Hunger&trade; Sauce
 1276
 1277	Chilled to the Bone	snowflake.gif	8b1a1c598f840f75834b9e525f55fdae
-1278
+1278	Nauseated	nauseated.gif	3f6f8585fabe4d5aad41ba4f38e9dceb
 1279	Elbow Sauce	ma6buff1.gif	d836697f5744cf045a9e9a8a842cd5d2
 1280	Wet Rub	ma6buff2.gif	fe6a5d1badbb3432c441c6a22e46a15f
 1281	Saucefingers	ma6buff3.gif	e986a2b1ec8eb190cbe6b97e467a4d4b

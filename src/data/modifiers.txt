@@ -3670,6 +3670,7 @@ Nanobrawny	Muscle Percent: +25, Weapon Damage: +10, HP Regen Min: 4, HP Regen Ma
 Natural 1	Initiative: -100
 Natural 20	Initiative: +100
 Nature's Bounty	Maximum HP: +300
+Nauseated	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
 # Nerf'd: Less powerful than you were before
 Net Gain	Muscle Percent: +100
 Nettled	Moxie Percent: -300
