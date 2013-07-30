@@ -135,12 +135,13 @@ public class DreadsylvaniaRequest
 		// Dreadsylvanian Woods -> Cabin in the Woods
 		if ( action.equals( "forceloc" ) )
 		{
-			String zone = DreadsylvaniaRequest.getAdventureZone( urlString );
-			if ( zone == null )
+			String name = DreadsylvaniaRequest.getAdventureZone( urlString );
+			if ( name == null )
 			{
 				return false;
 			}
-			message = "[" + KoLAdventure.getAdventureCount() + "] " + zone;
+			KoLAdventure.setNextLocation( name );
+			message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
 		}
 
 		// Giving booze to the coachman. 

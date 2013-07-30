@@ -1143,11 +1143,23 @@ public class KoLAdventure
 	public static final void setNextLocation( final KoLAdventure location, final String name )
 	{
 		KoLAdventure.lastVisitedLocation = location;
+		KoLAdventure.lastLocationName = name;
 		Preferences.setString( "lastAdventure", name );
 		if ( location != null )
 		{
 			AdventureFrame.updateSelectedAdventure( location );
 		}
+	}
+
+	public static final void setNextLocation( final String name )
+	{
+		// Update selected adventure information in order to
+		// keep the GUI synchronized.
+
+		KoLAdventure location = AdventureDatabase.getAdventure( name );
+		KoLAdventure.setNextLocation( location, name );
+		KoLAdventure.lastLocationURL = location.request.getURLString();
+		KoLmafia.registerAdventure( name );
 	}
 
 	public static final KoLAdventure lastVisitedLocation()
