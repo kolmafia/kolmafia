@@ -6481,7 +6481,7 @@ s1
 6464
 6465
 6466
-6467
+6467	Mayor Ghost's scissors	178893828	mg_scissors.gif	none, combat reusable	d	21337
 6468	ghost pepper	473945800	mg_pepper.gif	food	t	0
 6469
 6470
@@ -6498,12 +6498,12 @@ s1
 6481
 6482
 6483	electric Kool-Aid	363523121	sk_koolaid.gif	food	t	0
-6484	dread tarragon	575782784	dv_tarragon.gif	none	t	0
+6484	dread tarragon	575782784	dv_tarragon.gif	none	t	0	bottles of dread tarragon
 6485	bone flour	348000600	disease.gif	none	t	0
 6486	dreadful roast	528470996	dv_meat.gif	none	t	0
 6487	stinking agaricus	759942326	dv_fungus.gif	none	t	0	slices of stinking agaricus
 6488
-6489	intricate music box parts	854401690	dv_boxparts.gif	none	t	0
+6489	intricate music box parts	854401690	dv_boxparts.gif	none	t	0	handfuls of intricate music box parts
 6490	unwound mechanical songbird	mechbirdlarva.gif	742192719	grow	t	0
 6491	shiny brass tailfeathers	brassfeathers.gif	550721423	familiar	t,d	75
 6492	wax banana	155116546	dv_banana.gif	none	t	0
@@ -6511,11 +6511,11 @@ s1
 6494	replica key	477751682	dv_fancykey.gif	none	t	0
 6495	Dreadsylvania Auditor's badge	229903771	dv_badge.gif	accessory		0
 6496	blood kiwi	858370354	dv_kiwi.gif	none	t	0
-6497	eau de mort	673478975	dv_eau.gif	none	t	0
-6498
+6497	eau de mort	673478975	dv_eau.gif	none	t	0	bottles of eau de mort
+6498	bloody kiwitini	922308546	martini.gif	drink		0
 6499	moon-amber	392714725	dv_amber.gif	none	t	0
 6500	polished moon-amber	347094590	dv_amber2.gif	none	t	0
-6501
+6501	moon-amber necklace	185282026	dv_amberneck.gif	accessory		0
 6502	Dreadsylvanian seed pod	709187969	dv_seedpod.gif	none, combat		0
 6503	ghost pencil	568967539	dv_ghostpencil.gif	none		0
 6504	hangman's hood	705994024	dv_hanghood.gif	hat		0
@@ -6594,7 +6594,7 @@ s1
 6577	stench clusterbomb	219152438	clusterbomb.gif	none, combat	t	0
 6578	sleaze clusterbomb	747352227	clusterbomb.gif	none, combat	t	0
 6579	Dreadsylvanian Almanac page	481489808	dv_recipe.gif	usable	t	0
-6580	length of old fuse	786902545	dv_oldfuse.gif	none	t	0
+6580	length of old fuse	786902545	dv_oldfuse.gif	none	t	0	lengths of old fuse
 6581
 6582	Clan hot dog stand	346032932	crate.gif	usable	t	0	Clan hot dog stand
 6583	vicious spiked collar	981852802	spikycollar.gif	familiar	t,d	75	vicious spiked collars
@@ -6614,3 +6614,7 @@ s1
 6597	intricate clockwork birdhouse	984765474	cuckoobox.gif	usable		0
 6598	intricate clockwork disc	877017559	cuckoodisc.gif	none		0
 6599	intricate clockwork big hand	933853289	cuckoohand1.gif	none		0
+6600	intricate clockwork little hand	677897818	cuckoohand2.gif	none		0
+6601	intricate clockwork numeral I	923280937	cuckoo1.gif	none		0
+6602	intricate clockwork numeral II	134226483	cuckoo2.gif	none		0
+6603	intricate clockwork numeral III	230464380	cuckoo3.gif	none		0

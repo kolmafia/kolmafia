@@ -3354,6 +3354,7 @@ Finstrong	Initiative Penalty: [30*zone(The Sea)], Item Drop Penalty: [30*zone(Th
 Fire Down Below	Hot Damage: [min(100,T)]
 Fireproof Lips	Hot Resistance: +9
 # First, Like, Do No Harm?: Makes you look like a Sorority Nurse
+First Blood Kiwi	Spooky Damage: +30
 First Eye Blind	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Fishbreath	Stench Damage: +15
 Fishily Speeding	Initiative: +50

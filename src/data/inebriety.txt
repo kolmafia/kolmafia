@@ -37,6 +37,7 @@ blackfly chardonnay	3	7	decent	5-6	0	0	25-45
 blended frozen swill	4	4	good	10-14	2-3	2-3	26-30
 blood light	1	6	awesome	3-4	5-10	5-10	5-10	30 Bloody-minded (+50 dmg vs. Vampires)
 bloody beer	1	1	decent	2	0	0	0	3-5 MP
+bloody kiwitini	3	15	awesome	0	0	0	0	10 First Blood Kiwi
 bloody mary	3	1	decent	5-6	1-2	1-2	1-2
 bodyslam	6	6	awesome	22-26	16-20	0	0	tiny plastic sword
 boilermaker	4	12	awesome	11-15	25-29	10-15	10-15

@@ -1300,7 +1300,7 @@
 1299	Video Game Hot Dog	hotdog_vg.gif	e7d3f4c89ec772a9f9428d6f8e335d1b
 1300	Here to Kick Ass	jarl_regdog.gif	dbfd261e20f3065f69f15cb5ce08b574	use 1 chicle de salchicha
 1301	Video... Games?	gg_def.gif	3d5280f646ac2a6b70e64eae72daa263	use 1 defective Game Grid token
-1302
+1302	First Blood Kiwi	dv_kiwi.gif	19c7cbbb9382a69baceb4ddee4630bbe	drink 1 blood kiwitini
 1303
 1304	Curse of Hollowness	spooklines.gif	12f06ad7dc165b49b39e337400021685
 1305	Curse of Vulnerability	spooklines.gif	09120c3043ae04f87f485d06def30012

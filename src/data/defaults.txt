@@ -1394,6 +1394,7 @@ user	unknownRecipe5072	true
 user	unknownRecipe5073	true
 user	unknownRecipe5670	true
 user	unknownRecipe5671	true
+user	unknownRecipe6501	true
 user	unknownRecipe6564	true
 user	unknownRecipe6565	true
 user	unknownRecipe6566	true
