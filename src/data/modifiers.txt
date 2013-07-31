@@ -102,6 +102,7 @@ Mark III Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumb
 Mark IV Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumble, Item Drop: +10
 # Mark V Steam-Hat: Has a Death Ray on it
 Mark V Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Never Fumble, Item Drop: +10
+Mayor Ghost's toupee	Mysticality: +250, Maximum MP: +125, MP Regen Min: 25, MP Regen Max: 50, Class: "Pastamancer"
 Mer-kin bunwig	Spell Damage: +20, Spell Critical Percent: +10
 Mer-kin facecowl	Mysticality Percent: +10, Spell Damage Percent: +30, MP Regen Min: 8, MP Regen Max: 12
 Mer-kin gladiator mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater 
@@ -218,6 +219,7 @@ green cloth cap	Stench Resistance: +1, Maximum HP: +15, Maximum MP: +15, Moxie: 
 green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
 grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolley, 0.5xPotato, cap 37"
 guard turtle shell	Maximum HP: +50, Familiar Effect: "atk, 1xFairy, cap 40"
+hangman's hood	Muscle: +50, Weapon Damage: +50, Damage Reduction: 10
 hardened slime hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20, Familiar Effect: "1xFairy"
 helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 15"
 helmet turtle	Muscle: +1, Familiar Effect: "atk, cap 2"
@@ -402,6 +404,7 @@ The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop
 Travoltan trousers	Moxie: +15, Initiative: +30, Ranged Damage: +10, Softcore Only, Moxie May Control MP, Familiar Effect: "1xVolley, 2xLep, 1xFairy, cap 25"
 Tropical Crimbo Shorts	Initiative: +30, Familiar Effect: "1xPotato"
 Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
+Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Class: "Turtle Tamer"
 Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit", Familiar Effect: "1xPotato, 1.5xFairy, cap 31"
 Voluminous Radio Pants	HP Regen Min: 0, HP Regen Max: 5
 Whoompa Fur Pants	Stench Damage: +10, Stench Resistance: +2
@@ -673,6 +676,7 @@ Gnollish autoplunger	Mysticality: +3
 Gnollish pie server	Spell Damage: +3
 # Gnollish plunger
 Gnollish slotted spoon	Spell Damage: +3
+Great Wolf's right paw	Weapon Damage: +50, Weapon Damage Percent: +50, Critical Hit Percent: +10, Single Equip
 Greek Pasta of Peril	Mysticality: +11, Food Drop: +10, Initiative: +25
 Grimacite gat	Initiative: +20, Moxie Percent: [10*G]
 Grimacite glaive	Weapon Damage: +15, Muscle Percent: [10*G]
@@ -1255,6 +1259,7 @@ world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 yak whip	Weakens Monster
 yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
+zombie accordion	Ranged Damage: +50, Item Drop: +10, Additional Song, Class: "Accordion Thief", Single Equip
 
 # Off-hand section of modifiers.txt
 
@@ -1713,6 +1718,8 @@ Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: 
 # CRIMBCO lanyard: Lets you work harder!
 CRIMBCO lanyard	Single Equip
 Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
+# Dreadsylvania Auditor's badge: Lets you find 5% more Krueggerands
+Dreadsylvania Auditor's badge	Item Drop: +10, Single Equip
 Duskwalker fangs	Weapon Damage Percent: +5, Weakens Monster
 Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
@@ -2416,8 +2423,10 @@ yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 
 Camp Scout backpack	Item Drop: +15, Softcore Only
 Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
+Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "Disco Bandit"
 # Lord Flameface's cloak:  Has Cool Swirling Flames
 Lord Flameface's cloak	Cold Resistance: +2
+Mayor Ghost's cloak	PvP Fights: +5, Weapon Drop: +20, Food Drop: +20, Class: "Pastamancer"
 Mr. Container	Item Drop: +3
 Newbiesport&trade; backpack	Item Drop: +1
 Radio KoL Coffee Mug	Muscle: +10, Mysticality: +10, Moxie: +10, Hot Damage: +10

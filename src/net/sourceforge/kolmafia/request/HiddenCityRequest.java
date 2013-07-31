@@ -511,7 +511,7 @@ public class HiddenCityRequest
 	public static final boolean recordToSession( final String urlString, final String redirect )
 	{
 		// If this wasn't a Hidden City request, nothing to do.
-		if ( !urlString.startsWith( "hiddencity.php" ) )
+		if ( urlString == null || !urlString.startsWith( "hiddencity.php" ) )
 		{
 			return false;
 		}

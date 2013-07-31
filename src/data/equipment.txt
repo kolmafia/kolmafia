@@ -43,6 +43,7 @@ Mark II Steam-Hat	150	Mox: 60
 Mark III Steam-Hat	150	Mox: 60
 Mark IV Steam-Hat	150	Mox: 60
 Mark V Steam-Hat	150	Mox: 60
+Mayor Ghost's toupee	300	Mys: 250
 Mer-kin bunwig	200	Mox: 85
 Mer-kin facecowl	200	Mox: 85
 Mer-kin gladiator mask	200	Mus: 85
@@ -155,6 +156,7 @@ green cloth cap	50	none
 green traffic cone	60	Mox: 15
 grungy bandana	150	Mox: 60
 guard turtle shell	160	Mox: 65
+hangman's hood	250	Mus: 200
 hardened slime hat	200	Mox: 200
 helm of the white knight	60	Mox: 15
 helmet turtle	10	none
@@ -320,6 +322,7 @@ The Necbromancer's Shorts	200	Mox: 200
 Travoltan trousers	100	none
 Tropical Crimbo Shorts	100	Mox: 35
 Uncle Hobo's gift baggy pants	200	Mox: 200
+Unkillable Skeleton's shinguards	300	Mus: 250
 Volartta's bellbottoms	125	Mox: 30
 Voluminous Radio Pants	150	Mox: 60
 Whoompa Fur Pants	110	Mox: 40
@@ -584,6 +587,7 @@ Gnollish flyswatter	35	Mus: 2	1-handed club
 Gnollish pie server	20	Mys: 0	1-handed utensil
 Gnollish plunger	35	Mus: 2	1-handed spear
 Gnollish slotted spoon	25	Mys: 0	1-handed utensil
+Great Wolf's right paw	300	Mus: 250	1-handed claw
 Greek Pasta of Peril	90	Mys: 15	1-handed utensil
 Grimacite gat	150	Mox: 40	1-handed pistol
 Grimacite glaive	125	Mus: 47	2-handed polearm
@@ -1116,6 +1120,7 @@ worm-riding hooks	50	Mus: 0	2-handed club
 wumpus-hair whip	15	Mus: 0	1-handed whip
 yak whip	20	Mus: 0	1-handed whip
 yohohoyo	160	Mox: 65	1-handed yoyo
+zombie accordion	300	Mox: 250	1-handed accordion
 
 # Off-hand section of equipment.txt
 
@@ -2152,8 +2157,10 @@ yellow glowstick	20	none
 
 Camp Scout backpack	0	none
 Cloak of Dire Shadows	0	none
+Drapes-You-Regally	300	Mox: 250
 Great S-Cape	10	none
 Lord Flameface's cloak	0	Mys: 75
+Mayor Ghost's cloak	300	Mys: 250
 Misty Cape	0	Mox: 75
 Misty Cloak	0	Mus: 75
 Misty Robe	130	Mys: 75
