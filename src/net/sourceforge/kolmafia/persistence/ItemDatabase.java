@@ -1100,6 +1100,25 @@ public class ItemDatabase
 		ItemDatabase.registerItem( itemId, itemName, descId, plural, 0 );
 	}
 
+	public static void registerItem( int itemId, String descId )
+	{
+		// Link this itemId and descId
+		Integer id = IntegerPool.get( itemId );
+		ItemDatabase.descriptionById.put( id, descId );
+		ItemDatabase.itemIdByDescription.put( descId, id );
+
+		// Pull the itemName from the item description, which will be cached
+		String text = DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( itemId, true ) );
+		if ( text == null )
+		{
+			return;
+		}
+
+		String itemName = DebugDatabase.parseName( text );
+
+		ItemDatabase.registerItem( itemId, itemName, descId, null, 0 );
+	}
+
 	public static final void registerItem( final int itemId, String itemName, String descId, final String plural, final int power )
 	{
 		if ( itemName == null )
@@ -1136,7 +1155,7 @@ public class ItemDatabase
 			ItemDatabase.pluralById.set( itemId, plural );
 			ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
 		}
-		ItemDatabase.parseItemDescription( id, itemName, power );
+		ItemDatabase.parseItemDescription( id, descId, power );
 
 		// Add the new item to the ConcoctionPool
 		AdventureResult ar = ItemPool.get( itemId, 1 );
@@ -1145,9 +1164,8 @@ public class ItemDatabase
 		ConcoctionDatabase.addUsableConcoction( c );
 	}
 
-	private static void parseItemDescription( final Integer id, final String itemName, int power )
+	private static void parseItemDescription( final Integer id, final String descId, int power )
 	{
-		String descId = ItemDatabase.getDescriptionId( id );
 		int itemId = id.intValue();
 
 		String rawText = DebugDatabase.rawItemDescriptionText( itemId );
@@ -1161,6 +1179,8 @@ public class ItemDatabase
 			ItemDatabase.priceById.set( itemId, 0 );
 			return;
 		}
+
+		String itemName = DebugDatabase.parseName( text );
 
 		String image = DebugDatabase.parseImage( rawText );
 		ItemDatabase.imageById.set( itemId, image );

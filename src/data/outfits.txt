@@ -93,3 +93,11 @@
 92	Violent Vestments	Lens of Violence, Pigsticker of Violence, Brand of Violence, Jodhpurs of Violence, Ass-Stompers of Violence, Novelty Belt Buckle of Violence
 93	Hateful Habiliment	Lens of Hatred, Staff of Simmering Hatred, Cold Stone of Hatred, Pantaloons of Hatred, Fuzzy Slippers of Hatred, Girdle of Hatred
 94	Clothing of Loathing	Goggles of Loathing, Stick-Knife of Loathing, Scepter of Loathing, Jeans of Loathing, Treads of Loathing, Belt of Loathing, Pocket Square of Loathing
+95	Dreadful Pajamas	dreadful fedora, dreadful sweater, dreadful glove
+96	Dreadful Bugbear Suit	Covers-Your-Head, Drapes-You-Regally, Warms-Your-Tush
+97	Dreadful Werewolf Suit	Great Wolf's headband, Great Wolf's left paw, Great Wolf's right paw
+98	Dreadful Ghost Suit	Mayor Ghost's toupee, Mayor Ghost's cloak, Mayor Ghost's khakis
+99	Dreadful Zombie Suit	zombie mariachi hat, zombie accordion, zombie mariachi pants
+100	Dreadful Vampire Suit	Thunkula's drinking cap, Drunkula's cape, Drunkula's silky pants
+101	Dreadful Skeleton Suit	Unkillable Skeleton's skullcap, Unkillable Skeleton's breastplate, Unkillable Skeleton's shinguards
+102	Cool Irons	cool iron helmet, cool iron breastplate, cool iron greaves
