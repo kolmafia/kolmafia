@@ -1346,11 +1346,11 @@ Dreadsylvanian slithery nipple	MIX	eau de mort	sleaze cluster
 Dreadsylvanian grimlet	MIX	eau de mort	spooky cluster
 Dreadsylvanian dank and stormy	MIX	eau de mort	stench cluster
 
-Dreadsylvanian cold pocket	COOK	bone flour	cold cluster
-Dreadsylvanian hot pocket	COOK	bone flour	hot cluster
-Dreadsylvanian sleaze pocket	COOK	bone flour	sleaze cluster
-Dreadsylvanian spooky pocket	COOK	bone flour	spooky cluster
-Dreadsylvanian stink pocket	COOK	bone flour	stench cluster
+Dreadsylvanian cold pocket	COOK_FANCY	bone flour	cold cluster
+Dreadsylvanian hot pocket	COOK_FANCY	bone flour	hot cluster
+Dreadsylvanian sleaze pocket	COOK_FANCY	bone flour	sleaze cluster
+Dreadsylvanian spooky pocket	COOK_FANCY	bone flour	spooky cluster
+Dreadsylvanian stink pocket	COOK_FANCY	bone flour	stench cluster
 
 moon-amber necklace	EJEWEL	polished moon-amber	heavy necklace chain
 
