@@ -6502,7 +6502,7 @@ s1
 6485	bone flour	348000600	disease.gif	none	t	0
 6486	dreadful roast	528470996	dv_meat.gif	none	t	0
 6487	stinking agaricus	759942326	dv_fungus.gif	none	t	0	slices of stinking agaricus
-6488
+6488	Dreadsylvanian shepherd's pie	751241762	pie.gif	food		0
 6489	intricate music box parts	854401690	dv_boxparts.gif	none	t	0	handfuls of intricate music box parts
 6490	unwound mechanical songbird	mechbirdlarva.gif	742192719	grow	t	0
 6491	shiny brass tailfeathers	brassfeathers.gif	550721423	familiar	t,d	75

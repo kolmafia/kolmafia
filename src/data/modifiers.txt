@@ -3870,6 +3870,7 @@ Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Sharin' Stone: Makes you look like a Stone Golem
 # Sharp Weapon: +3-5 Weapon Damage
 # Sheepskinned: Your regular attacks deal Sleaze damage
+Shepherd's Breath	Stench Damage: +30
 Shiny Happy Cupcake	Experience: +3
 Shiny Happy Weapon	Muscle: +20
 Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
@@ -4556,6 +4557,7 @@ Dark Jill-O-Lantern	Free Pull
 Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
 Dreadsylvanian cold-fashioned	Effect: "Dreadful Chill", Effect Duration: 200
 Dreadsylvanian grimlet	Effect: "Dreadful Fear", Effect Duration: 200
+Dreadsylvanian shepherd's pie	Effect: "Shepherd's Breath", Effect Duration: 10
 Dreadsylvanian slithery nipple	Effect: "Dreadful Sheen", Effect Duration: 200
 Dreadsylvanian stew	Effect: "You've Got a Stew Going!", Effect Duration: 30
 Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
@@ -4711,6 +4713,7 @@ black tear	Effect: "Weepy, Creepy", Effect Duration: 1
 blackberry polite	Effect: "Blackberry Politeness", Effect Duration: [R]
 blob of acid	Effect: "Lord of Acid", Effect Duration: 50
 blood of the Wereseal	Effect: "Temporary Lycanthropy", Effect Duration: 10
+bloody kiwitini	Effect: "First Blood Kiwi", Effect Duration: 10
 blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
 blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
 blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
