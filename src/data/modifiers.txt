@@ -4331,12 +4331,20 @@ Bugbear Costume	Mysticality: +3, Spell Damage: +3
 Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Clockwork Apparatus	I Meant To Do That!
 Cold Comforts	Cold Damage: +30, Cold Spell Damage: +30
+Cool Irons	Damage Reduction: 20
 Crappy Mer-kin Disguise	Mus: +30, Mys: +30, Mox: +30
 Crimbo Duds	Item Drop: +5
 Crimborg Assault Armor	Ranged Damage: +20
 Cursed Zombie Pirate Costume	Spooky Damage: +30
 Dark Bro's Vestments	Spooky Spell Damage: +20, Sleaze Spell Damage: +20
 Dire Drifter Duds	Familiar Weight: +5
+Dreadful Bugbear Suit	Hot Damage: +50, Hot Spell Damage: +50
+Dreadful Ghost Suit	Spooky Damage: +50, Spooky Spell Damage: +50
+# Dreadful Pajamas: Makes you dream more frequently
+Dreadful Skeleton Suit	Sleaze Damage: +50, Sleaze Spell Damage: +50
+Dreadful Vampire Suit	Cold Damage: +50, Cold Spell Damage: +50
+Dreadful Werewolf Suit	Weapon Damage: +50, Spell Damage +50
+Dreadful Zombie Suit	Stench Damage: +50, Stench Spell Damage: +50
 Dwarvish War Uniform	Damage Reduction: 10
 Dyspepsi-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # El Vibrato Relics

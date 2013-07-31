@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -155,6 +157,20 @@ public class TestCommand
 				HedgePuzzleRequest.computeSolution( TestCommand.contents );
 				TestCommand.contents = null;
 			}
+			return;
+		}
+
+		if ( command.equals( "newitem" ) )
+		{
+			if ( split.length < 3 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test item itemId descId" );
+				return;
+			}
+
+			int itemId = StringUtilities.parseInt( split[ 1 ] );
+			String descId = split[ 2 ].trim();
+			ItemDatabase.registerItem( itemId, descId );
 			return;
 		}
 

@@ -6562,9 +6562,9 @@ s1
 6545
 6546	big pants	923211152	yakpants.gif	pants	q	0	pairs of big pants
 6547	Thwaitgold Goliath beetle statuette	736316665	thwaitgoliath.gif	none		0	Thwaitgold Goliath beetle statuettes
-6548
-6549
-6550
+6548	cooling iron helmet	832188756	dv_hihelm.gif	usable	t	0
+6549	cooling iron breastplate	284257225	dv_hichest.gif	usable	t	0
+6550	cooling iron greaves	970137723	dv_higreaves.gif	usable	t	0
 6551	hot cluster	537386546	cluster.gif	none	t,d	500
 6552	cold cluster	768750520	cluster.gif	none	t,d	500
 6553	spooky cluster	407716567	cluster.gif	none	t,d	500
@@ -6618,3 +6618,8 @@ s1
 6601	intricate clockwork numeral I	923280937	cuckoo1.gif	none		0
 6602	intricate clockwork numeral II	134226483	cuckoo2.gif	none		0
 6603	intricate clockwork numeral III	230464380	cuckoo3.gif	none		0
+6604	intricate clockwork numeral IV	837039363	cuckoo4.gif	none		0
+6605	intricate clockwork numeral V	258549775	cuckoo5.gif	none		0
+6606	intricate clockwork numeral VI	690031386	cuckoo6.gif	none		0
+6607	intricate clockwork numeral VII	335418414	cuckoo7.gif	none		0
+6608	intricate clockwork numeral VIII	554760297	cuckoo8.gif	none		0
