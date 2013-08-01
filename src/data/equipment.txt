@@ -23,6 +23,7 @@ El Vibrato helmet	200	Mox: 200
 Elder Turtle Shell	100	Mus: 15
 Frosty's old silk hat	200	Mus: 200
 Goggles of Loathing	200	Mys: 150
+Great Wolf's headband	300	Mus: 250
 Grimacite gasmask	150	Mox: 40
 Grimacite goggles	125	Mox: 47
 Hat O' Nine Tails	10	none
@@ -503,6 +504,7 @@ clockwork trench coat	80	Mus: 25
 clownskin harness	60	Mus: 15
 coconut bikini top	100	Mus: 35
 demonskin jacket	80	Mus: 25
+dreadful sweater	200	Mys: 200
 duct tape shirt	195	Mus: 82
 eXtreme Bi-Polar Fleece Vest	90	Mus: 30
 extra-see-thru nightie	200	Mus: 200
