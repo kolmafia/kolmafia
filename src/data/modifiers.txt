@@ -386,6 +386,7 @@ Knob Goblin pants	Muscle: +1, Familiar Effect: "atk, cap 6"
 Krakrox's Loincloth	Muscle: +11, Initiative: +15, Class: "Seal Clubber", Familiar Effect: "1xVolley, 1xPotato, cap 31"
 Leapin' Trousers	Muscle: +4, Mysticality: +4, Moxie: +4, Adventures: +1
 Lederhosen of the Night	Moxie: +11, Initiative: +15, Class: "Accordion Thief", Familiar Effect: "atk, 1xGhuol, cap 31"
+Mayor Ghost's khakis	Spooky Spell Damage: +100, Sleaze Resistance: +5, Cold Resistance: +1, Class: "Pastamancer"
 Mer-kin gladiator tailpiece	Initiative: -25, Damage Reduction: 10, Mana Cost: +2
 Mer-kin scholar tailpiece	Initiative: -25, Mysticality Percent: +10, Mana Cost: +2
 Moonthril Greaves	Muscle Percent: [10*G], Mysticality Percent: [10*G], Moxie Percent: [10*G], Familiar Effect: "cap 25"

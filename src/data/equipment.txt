@@ -309,6 +309,7 @@ Knob Goblin pants	25	none
 Krakrox's Loincloth	125	Mus: 30
 Leapin' Trousers	12	none
 Lederhosen of the Night	125	Mox: 30
+Mayor Ghost's khakis	300	Mys: 250
 Mer-kin gladiator tailpiece	200	Mus: 85
 Mer-kin scholar tailpiece	200	Mys: 85
 Moonthril Greaves	100	Mox: 40
