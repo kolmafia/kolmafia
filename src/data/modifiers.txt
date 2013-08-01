@@ -79,6 +79,7 @@ El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
 Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 25"
 Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
 Goggles of Loathing	Initiative: +50, Hot Resistance: +5, Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Cloathing
+Great Wolf's headband	Muscle: +250, Maximum HP: +250, HP Regen Min: 50, HP Regen Max: 100, Class: "Seal Clubber"
 Grimacite gasmask	Muscle Percent: [10*G], Weapon Damage: +15, Familiar Effect: "1xLep, 1.5xFairy, cap 37"
 Grimacite goggles	Mysticality Percent: [10*G], Adventures: +3, Familiar Effect: "1xVolley, 1xLep, cap 31"
 Hat O' Nine Tails	Moxie Percent: +9
@@ -588,6 +589,8 @@ clockwork trench coat	Damage Absorption: +15
 clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clownosity: +2
 coconut bikini top	Mysticality: +5
 demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
+# dreadful sweater: Lets you find 5% more Krueggerands
+dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 duct tape shirt	Moxie: +9, Meat Drop: +20
 eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
 extra-see-thru nightie	Moxie Percent: +15

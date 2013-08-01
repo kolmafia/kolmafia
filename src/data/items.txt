@@ -6445,7 +6445,7 @@ s1
 6428
 6429
 6430
-6431
+6431	dreadful sweater	794701101	dv_freddysweater.gif	shirt		0
 6432
 6433	Freddy Krueggerand	901547610	dv_krueggerand.gif	none		0
 6434	Mark of the Bugbear	950853827	dv_mark1.gif	usable	t	0	Marks of the Bugbear
@@ -6461,7 +6461,7 @@ s1
 6444
 6445
 6446	Gets-You-Drunk	610004137	coffeecup.gif	drink	t	0
-6447
+6447	Great Wolf's headband	601471657	ww_headband.gif	hat		0
 6448
 6449	Great Wolf's right paw	523051317	ww_rightclaw.gif	weapon		0
 6450
