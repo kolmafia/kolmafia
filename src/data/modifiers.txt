@@ -66,6 +66,7 @@ Brimstone Beret	Moxie Percent: +50, Muscle Percent: -20, Four Songs, Brimstone, 
 Cerebral Cloche	Maximum MP: +15, Familiar Effect: "1.5xLep, cap 22"
 Cloaca-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
 Colander of Em-er'il	Mysticality: +11, MP Regen Min: 2, MP Regen Max: 6, Class: "Pastamancer", Familiar Effect: "3xGhuol, cap 25"
+Covers-Your-Head Moxie: +250, Maximum HP: +100, Maximum MP: +100, Initiative: +50, Class: "Disco Bandit"
 Crimbo hat	Spooky Resistance: +1, Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
 # Crown of Thrones: Put a Familiar In It!
 # Crown of Thrones: That Familiar gains 1 Experience per Fight
@@ -1957,6 +1958,7 @@ copper ha'penny charrrm bracelet	Maximum HP: +20, Maximum MP: +20
 corncob pipe	Muscle Percent: +10, Single Equip
 # crusty hula hoop: 75% Chance of Preventing Negative Status Attacks
 crusty hula hoop	Mysticality Percent: +15, Spell Damage: +50, Single Equip
+cursed ring finger ring	Spell Damage Percent: +50, Spooky Spell Damage: +30, Spell Critical Percent: +10, Single Equip
 cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Single Equip
 cyborg stompin' boot	Damage Reduction: 8, Weapon Damage: +20, Initiative: +30, Single Equip
 dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip, Nonstackable Watch

@@ -12,6 +12,7 @@ Brimstone Beret	200	Mox: 30
 Cerebral Cloche	90	Mox: 30
 Cloaca-Cola helmet	30	none
 Colander of Em-er'il	100	Mys: 15
+Covers-Your-Head	300	Mox: 250
 Crimbo hat	100	Mox: 35
 Crown of Thrones	100	none
 Crown of the Goblin King	70	Mox: 20
@@ -1717,6 +1718,7 @@ continuum transfunctioner	10	none
 copper ha'penny charrrm bracelet	190	Mys: 80
 corncob pipe	200	Mys: 200
 crusty hula hoop	200	Mys: 200
+cursed ring finger ring	0	Mys: 200
 cursed scrunchie	200	Mys: 200
 cyborg stompin' boot	150	Mus: 60
 dead guy's memento	200	Mys: 200
