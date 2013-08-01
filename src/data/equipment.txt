@@ -702,7 +702,7 @@ acoustic guitarrr	140	Mox: 55	2-handed guitar
 airblaster gun	10	Mox: 0	1-handed pistol
 ancient ice cream scoop	170	Mys: 70	1-handed utensil
 ancient stone fist	85	Mus: 27	1-handed club
-anger blaster	85	Mox: 30	1-handed forearm replacemen
+anger blaster	85	Mox: 30	1-handed forearm replacement
 antique spear	200	Mus: 85	1-handed polearm
 archaeologing shovel	10	Mus: 0	2-handed polearm
 armgun	140	Mox: 55	2-handed machine gun
