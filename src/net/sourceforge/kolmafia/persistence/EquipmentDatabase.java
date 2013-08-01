@@ -169,11 +169,11 @@ public class EquipmentDatabase
 			if ( data.length >= 4 )
 			{
 				String str = data[ 3 ];
-				int index = str.indexOf( " " );
-				if ( index > 0 )
+				int index1 = str.indexOf( "-handed" );
+				if ( index1 > 0 )
 				{
-					hval = StringUtilities.parseInt( str.substring( 0, 1 ) );
-					tval = new String( str.substring( index + 1 ) );
+					hval = StringUtilities.parseInt( str.substring( 0, index1 ) );
+					tval = new String( str.substring( index1 + 7 ).trim() );
 				}
 				else
 				{
