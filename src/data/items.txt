@@ -6624,3 +6624,8 @@ s1
 6607	intricate clockwork numeral VII	335418414	cuckoo7.gif	none		0
 6608	intricate clockwork numeral VIII	554760297	cuckoo8.gif	none		0
 6609	intricate clockwork numeral IX	266097555	cuckoo9.gif	none		0
+6610	intricate clockwork numeral X	133645999	cuckoo10.gif	none		0
+6611	intricate clockwork numeral XI	862291728	cuckoo11.gif	none		0
+6612	intricate clockwork numeral XII	207262227	cuckoo12.gif	none		0
+6613	intricate clockwork cuckoo	235099482	cuckoobird.gif	none		0
+6614	cuckoo clock	886205813	cuckooclock.gif	usable	t	0
