@@ -6478,7 +6478,7 @@ s1
 6461	nosy nose ringy ring	902284706	ringyring.gif	familiar	t,d	75
 6462	Mayor Ghost's toupee	401379524	mg_hat.gif	hat		0
 6463	Mayor Ghost's cloak	831864258	mg_cape.gif	container		0
-6464
+6464	Mayor Ghost's khakis	870625180	mg_pants.gif	pants		0
 6465
 6466
 6467	Mayor Ghost's scissors	178893828	mg_scissors.gif	none, combat reusable	d	21337
