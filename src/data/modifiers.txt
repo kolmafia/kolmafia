@@ -407,6 +407,7 @@ Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Fami
 Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Class: "Turtle Tamer"
 Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit", Familiar Effect: "1xPotato, 1.5xFairy, cap 31"
 Voluminous Radio Pants	HP Regen Min: 0, HP Regen Max: 5
+Warms-Your-Tush	Hot Damage: +50, Cold Resistance: +5, Spooky Resistance: +1, Class: "Disco Bandit"
 Whoompa Fur Pants	Stench Damage: +10, Stench Resistance: +2
 Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class: "Turtle Tamer", Familiar Effect: "spooky atk, prismatic atk, 1xBarrr"
 alpha-mail pants	Familiar Effect: "atk, 1xBarrr, cap 35"

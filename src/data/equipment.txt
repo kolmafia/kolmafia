@@ -325,6 +325,7 @@ Uncle Hobo's gift baggy pants	200	Mox: 200
 Unkillable Skeleton's shinguards	300	Mus: 250
 Volartta's bellbottoms	125	Mox: 30
 Voluminous Radio Pants	150	Mox: 60
+Warms-Your-Tush	300	Mox: 250
 Whoompa Fur Pants	110	Mox: 40
 Zombo's grievous greaves	200	Mus: 200
 alpha-mail pants	140	Mox: 55
