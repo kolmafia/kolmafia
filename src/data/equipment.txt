@@ -1510,6 +1510,7 @@ Claybender glasses	100	Mys: 35
 Codpiece of the Goblin King	70	Mys: 20
 Copper Alpha of Sincerity	200	Mys: 85
 Counterclockwise Watch	200	none
+Dreadsylvania Auditor's badge	0	Mys: 200
 Duskwalker fangs	105	Mys: 37
 Dyspepsi-Cola-issue canteen	30	none
 E.M.U. Unit	0	none
@@ -1824,6 +1825,7 @@ molten medallion	160	Mys: 65
 monster bait	10	none
 monstrous monocle	160	Mus: 65
 mood ring	10	none
+moon-amber necklace	0	Mys: 200
 musty moccasins	160	Mox: 65
 mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
