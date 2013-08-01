@@ -6437,7 +6437,7 @@ s1
 6420
 6421
 6422
-6423
+6423	Tales of Dread	885005203	book3.gif	reusable		0
 6424	Dreadsylvanian skeleton key	539373127	dv_key.gif	none	t	0
 6425
 6426	Dreadsylvanian stew	768933176	soupbowl.gif	food		0
@@ -6456,7 +6456,7 @@ s1
 6439	Mark of the Skeleton	977729070	dv_mark6.gif	usable	t	0	Marks of the Skeleton
 6440
 6441	Drapes-You-Regally	405751737	bb_cloak.gif	container		0
-6442
+6442	Warms-Your-Tush	489060732	bb_pants.gif	pants		0
 6443
 6444
 6445
@@ -6521,7 +6521,7 @@ s1
 6504	hangman's hood	705994024	dv_hanghood.gif	hat		0
 6505
 6506	Dreadsylvanian clockwork key	264652584	dv_clockkey.gif	none		0
-6507
+6507	cool iron ingot	349636810	dv_coldiron.gif	none	t	0
 6508
 6509
 6510
@@ -6623,3 +6623,4 @@ s1
 6606	intricate clockwork numeral VI	690031386	cuckoo6.gif	none		0
 6607	intricate clockwork numeral VII	335418414	cuckoo7.gif	none		0
 6608	intricate clockwork numeral VIII	554760297	cuckoo8.gif	none		0
+6609	intricate clockwork numeral IX	266097555	cuckoo9.gif	none		0
