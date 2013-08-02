@@ -1270,11 +1270,11 @@
 1269	Fifty Ways to Bereave Your Lover	tombstone.gif	b0622a931fe519245fa5426a3f58f3fe
 1270	Staying Frosty	snowflake.gif	ff84e190cf7652cc5df1b02ca08e5408
 1271	Magically Fingered	hand.gif	4a1c031eb4a18e72c32a062c1375b7de
-1272
+1272	Spore-Wreathed	disease.gif	c55e48535fee03e82fc2cb91f79d36c9
 1273	Brass Loins	flask.gif	a614dc2ae977f948665b230f5723b567
 1274	Silver Age Secrets	flask.gif	1839cbfe882d9243964d9097c1a3b0a6
 1275	The Tunger&trade;	tongue.gif	c943b9c96abc7cad0c1590b489173576	use 1 Hunger&trade; Sauce
-1276
+1276	Touched by a Ghost	dv_spirit.gif	7f2193ace92f52dfccfd7065a9cb52a3
 1277	Chilled to the Bone	snowflake.gif	8b1a1c598f840f75834b9e525f55fdae
 1278	Nauseated	nauseated.gif	3f6f8585fabe4d5aad41ba4f38e9dceb
 1279	Elbow Sauce	ma6buff1.gif	d836697f5744cf045a9e9a8a842cd5d2

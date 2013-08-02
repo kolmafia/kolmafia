@@ -108,9 +108,11 @@ public class CampgroundRequest
 		// Inside dwelling
 		ItemPool.BLACK_BLUE_LIGHT,
 		ItemPool.BONSAI_TREE,
+		ItemPool.CUCKOO_CLOCK,
 		ItemPool.FENG_SHUI,
 		ItemPool.LED_CLOCK,
 		ItemPool.LOUDMOUTH_LARRY,
+		ItemPool.LUCKY_CAT_STATUE,
 		ItemPool.PLASMA_BALL,
 
 		// Kitchen
