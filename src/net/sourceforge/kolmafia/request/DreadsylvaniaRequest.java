@@ -40,6 +40,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -50,6 +52,96 @@ public class DreadsylvaniaRequest
 	private static final Pattern LOC_PATTERN = Pattern.compile( "loc=([\\d]+)" );
 	private static final Pattern WHICHBOOZE_PATTERN = Pattern.compile( "whichbooze=([\\d]+)" );
 	private static final Pattern BOOZEQUANTITY_PATTERN = Pattern.compile( "boozequantity=([\\d]+)" );
+
+	public static final String [][] SHORTCUTS = new String[][]
+	{
+		{
+			"The Cabin",
+			"Dreadsylvanian Woods",
+			"shortcut1.gif",
+			"ghostPencil1",
+		},
+		{
+			"The Tallest Tree",
+			"Dreadsylvanian Woods",
+			"shortcut2.gif",
+			"ghostPencil2",
+		},
+		{
+			"The Burrows",
+			"Dreadsylvanian Woods",
+			"shortcut3.gif",
+			"ghostPencil3",
+		},
+		{
+			"The Village Square",
+			"Dreadsylvanian Village",
+			"shortcut4.gif",
+			"ghostPencil4",
+		},
+		{
+			"Skid Row",
+			"Dreadsylvanian Village",
+			"shortcut5.gif",
+			"ghostPencil5",
+		},
+		{
+			"The Old Duke's Estate",
+			"Dreadsylvanian Village",
+			"shortcut6.gif",
+			"ghostPencil6",
+		},
+		{
+			"The Great Hall",
+			"Dreadsylvanian Castle",
+			"shortcut7.gif",
+			"ghostPencil7",
+		},
+		{
+			"The Tower",
+			"Dreadsylvanian Castle",
+			"shortcut8.gif",
+			"ghostPencil8",
+		},
+		{
+			"The Dungeons",
+			"Dreadsylvanian Castle",
+			"shortcut9.gif",
+			"ghostPencil9",
+		},
+	};
+
+	public static final int shortcutImageToIndex( final String image )
+	{
+		for ( int i = 0; i < DreadsylvaniaRequest.SHORTCUTS.length; ++i )
+		{
+			if ( image.equals( DreadsylvaniaRequest.SHORTCUTS[i][2]) )
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public static final String shortcutIndexToName( int index )
+	{
+		return ( index < 0 || index > DreadsylvaniaRequest.SHORTCUTS.length ) ? null : DreadsylvaniaRequest.SHORTCUTS[ index ][0];
+	}
+
+	public static final String shortcutIndexToZone( int index )
+	{
+		return ( index < 0 || index > DreadsylvaniaRequest.SHORTCUTS.length ) ? null : DreadsylvaniaRequest.SHORTCUTS[ index ][1];
+	}
+
+	public static final String shortcutIndexToImage( int index )
+	{
+		return ( index < 0 || index > DreadsylvaniaRequest.SHORTCUTS.length ) ? null : DreadsylvaniaRequest.SHORTCUTS[ index ][2];
+	}
+
+	public static final String shortcutIndexToSetting( int index )
+	{
+		return ( index < 0 || index > DreadsylvaniaRequest.SHORTCUTS.length ) ? null : DreadsylvaniaRequest.SHORTCUTS[ index ][3];
+	}
 
 	public DreadsylvaniaRequest()
 	{
@@ -63,12 +155,7 @@ public class DreadsylvaniaRequest
 		{
 			return null;
 		}
-		int loc = StringUtilities.parseInt( matcher.group( 1 ) );
-		return
-			loc < 1 || loc > 9 ? null :
-			loc <= 3 ? "Dreadsylvanian Woods" :
-			loc <= 6 ? "Dreadsylvanian Village" :
-			"Dreadsylvanian Castle";
+		return DreadsylvaniaRequest.shortcutIndexToZone( StringUtilities.parseInt( matcher.group( 1 ) ) );
 	}
 
 	private static AdventureResult getBooze( final String urlString )
@@ -96,11 +183,30 @@ public class DreadsylvaniaRequest
 		DreadsylvaniaRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	private static final Pattern SHORTCUT_PATTERN = Pattern.compile( "otherimages/dv/(shortcut.\\.gif)" );
+
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{
+			// Parse the map and see what shortcuts have been discovered
+			Matcher matcher = DreadsylvaniaRequest.SHORTCUT_PATTERN.matcher( responseText );
+			while ( matcher.find() )
+			{
+				int index = DreadsylvaniaRequest.shortcutImageToIndex( matcher.group( 1 ) );
+				if ( index == -1 )
+				{
+					continue;
+				}
+				String setting = DreadsylvaniaRequest.shortcutIndexToSetting( index );
+				// Don't bother setting a shortcut (forcing disk I/O) if we know about it already
+				if ( setting == null || Preferences.getBoolean( setting ) )
+				{
+					continue;
+				}
+				Preferences.setBoolean( setting, true );
+			}
 			return;
 		}
 

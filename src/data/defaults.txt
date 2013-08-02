@@ -401,6 +401,15 @@ user	fossilS	0
 user	fossilW	0
 user	fratboysDefeated	0
 user	friarsBlessingReceived	false
+user	ghostPencil1	false
+user	ghostPencil2	false
+user	ghostPencil3	false
+user	ghostPencil4	false
+user	ghostPencil5	false
+user	ghostPencil6	false
+user	ghostPencil7	false
+user	ghostPencil8	false
+user	ghostPencil9	false
 user	gladiatorBallMovesKnown	0
 user	gladiatorBladeMovesKnown	0
 user	gladiatorNetMovesKnown	0

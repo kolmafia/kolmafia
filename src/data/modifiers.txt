@@ -122,6 +122,7 @@ Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold at
 Sombrero De Vida	Four Songs, Familiar Effect: "?xVolley, ?xPotato, ?xLep, cap 12"
 Spooky Putty mitre	Experience: +3, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 The Necbromancer's Hat	Mysticality Percent: +20, Spooky Spell Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
+Thunkula's drinking cap	Mysticality Percent: +50, Maximum MP: +250, MP Regen Min: 20, MP Regen Max: 40, Class: "Sauceror"
 Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Familiar Effect: "atk"
 Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Familiar Effect: "3xPotato, cap 7"
@@ -804,6 +805,12 @@ Uncle Hobo's highest bough	Muscle Percent: +15, HP Regen Min: 15, HP Regen Max: 
 Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent: +10
 Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscle Percent: +10
 Unionize The Elves sign	Weakens Monster
+# Unkillable Skeleton's sawsword: +100 Damage vs. Skeletons
+# Unkillable Skeleton's sawsword: +50 Damage vs. Zombies
+# Unkillable Skeleton's sawsword: +50 Damage vs. Vampires
+# Unkillable Skeleton's sawsword: +50 Damage vs. Werewolves
+# Unkillable Skeleton's sawsword: +50 Damage vs. Ghosts
+# Unkillable Skeleton's sawsword: +50 Damage vs. Bugbears
 # Wand of Nagamar
 White Dragon Fang	Muscle Percent: +9, Mysticality Percent: +9, Moxie Percent: +9, Spooky Damage: 9, Stench Damage: 9, Hot Damage: 9, Cold Damage: 9, Sleaze Damage: 9, MP Regen Min: 9, MP Regen Max: 9
 # Windsor Pan of the Source: Special Attack: Saucemageddon
@@ -2897,11 +2904,11 @@ scratch 'n' sniff wrestler sticker	Muscle Percent: +10, Mysticality Percent: +10
 # Folder section of modifiers.txt
 
 folder (blue)	Mysticality: +20
-# folder (dancing dolphins): +50% Item Drops (Underwater only)
+folder (dancing dolphins)	Item Drop Percent: [50*zone(The Sea)]
 folder (green)	Moxie: +20
 folder (Jackass Plumber)	Monster Level: +25
 folder (magenta)	Muscle: +15, Mysticality: +15
-# folder (owl): +250% Item Drops from Monsters (Dreadsylvania only)
+folder (owl)	Item Drop Percent: [250*zone(Dreadsylvania)]
 folder (red)	Muscle: +20
 # folder (Stinky Trash Kid): Deals <font color=green>Stench Damage</font> every round
 folder (tranquil landscape)	Damage Reduction: 15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
