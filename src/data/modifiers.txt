@@ -2094,6 +2094,7 @@ orange leather lanyard	Weapon Damage: +15, Single Equip
 # orc wrist: +15 Damage vs. Orcs
 ornamental sextant	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 oven mitts	Hot Resistance: +2, Single Equip
+over-the-shoulder Folder Holder	Single Equip, Softcore Only
 pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
 # pair of pearidot earrings: (only in the Candy Diorama)
 pair of pearidot earrings	Item Drop: [100*zone(The Candy Diorama)], Single Equip
@@ -2892,6 +2893,19 @@ scratch 'n' sniff dragon sticker	Spooky Damage: +3, Stench Damage: +3, Hot Damag
 scratch 'n' sniff rock band sticker	Weapon Damage: +20, Spell Damage: +20
 scratch 'n' sniff unicorn sticker	Item Drop: +25
 scratch 'n' sniff wrestler sticker	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+
+# Folder section of modifiers.txt
+
+folder (blue)	Mysticality: +20
+# folder (dancing dolphins): +50% Item Drops (Underwater only)
+folder (green)	Moxie: +20
+folder (Jackass Plumber)	Monster Level: +25
+folder (magenta)	Muscle: +15, Mysticality: +15
+# folder (owl): +250% Item Drops from Monsters (Dreadsylvania only)
+folder (red)	Muscle: +20
+# folder (Stinky Trash Kid): Deals <font color=green>Stench Damage</font> every round
+folder (tranquil landscape)	Damage Reduction: 15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
+folder (yellow)	Muscle: +15, Moxie: +15
 
 # Campground equipment section of modifiers.txt
 

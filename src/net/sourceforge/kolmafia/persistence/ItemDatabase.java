@@ -1663,21 +1663,34 @@ public class ItemDatabase
 		imageById.set( itemId, image );
 	}
 
-	public static final String getItemImageLocation( final int itemId )
+	private static final String getItemImageLocation( final int itemId )
 	{
 		String location = ItemDatabase.getImage( itemId );
 		return ( location != null ) ? location : "debug.gif";
 	}
 
+	private static final String getItemImagePath( final int itemId )
+	{
+		String image = ItemDatabase.getItemImageLocation( itemId );
+		return image.contains( "/" ) ? image : ( "itemimages/" + image );
+	}
+
 	private static final void downloadItemImage( final int itemId )
 	{
-		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + ItemDatabase.getItemImageLocation( itemId ) );
+		String path = ItemDatabase.getItemImagePath( itemId );
+		ItemDatabase.downloadItemImage( path );
+	}
+
+	private static final void downloadItemImage( final String path )
+	{
+		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + path );
 	}
 
 	public static final ImageIcon getItemImage( final int itemId )
 	{
-		ItemDatabase.downloadItemImage( itemId );
-		return JComponentUtilities.getImage( "itemimages/" + ItemDatabase.getItemImageLocation( itemId ) );
+		String path = ItemDatabase.getItemImagePath( itemId );
+		ItemDatabase.downloadItemImage( path );
+		return JComponentUtilities.getImage( path );
 	}
 
 	public static final Integer getLevelReqByName( final String name )

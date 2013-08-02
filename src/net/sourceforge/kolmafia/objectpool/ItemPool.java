@@ -1646,6 +1646,16 @@ public class ItemPool
 	public static final int PHIAL_OF_STENCH = 6559;
 	public static final int PHIAL_OF_SLEAZINESS = 6560;
 	public static final int DEFECTIVE_TOKEN = 6593;
+	public static final int FOLDER_RED = 6618;
+	public static final int FOLDER_BLUE = 6619;
+	public static final int FOLDER_GREEN = 6620;
+	public static final int FOLDER_MAGENTA = 6621;
+	public static final int FOLDER_YELLOW = 6623;
+	public static final int FOLDER_JACKASS_PLUMBER = 6631;
+	public static final int FOLDER_DANCING_DOLPHINS = 6636;
+	public static final int FOLDER_TRANQUIL_LANDSCAPE = 6638;
+	public static final int FOLDER_OWL = 6639;
+	public static final int FOLDER_STINKY_TRASH_KID = 6640;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

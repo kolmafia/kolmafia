@@ -715,6 +715,16 @@ public abstract class UseLinkDecorator
 			case ItemPool.CEO_OFFICE_CARD:
 			case ItemPool.DREADSCROLL:
 			case ItemPool.RUSTY_HEDGE_TRIMMERS:
+			case ItemPool.FOLDER_RED:
+			case ItemPool.FOLDER_BLUE:
+			case ItemPool.FOLDER_GREEN:
+			case ItemPool.FOLDER_MAGENTA:
+			case ItemPool.FOLDER_YELLOW:
+			case ItemPool.FOLDER_JACKASS_PLUMBER:
+			case ItemPool.FOLDER_DANCING_DOLPHINS:
+			case ItemPool.FOLDER_TRANQUIL_LANDSCAPE:
+			case ItemPool.FOLDER_OWL:
+			case ItemPool.FOLDER_STINKY_TRASH_KID:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.

@@ -4944,7 +4944,7 @@ s1
 4927	Loathing Legion jackhammer	769193415	lljackhammer.gif	none, reusable		0
 4928	Loathing Legion hammer	361576572	llhammer.gif	weapon, reusable		0
 4929	Uncle Crimbo's Sack	421141114	sack1.gif	usable		0
-4930
+4930	Folder Holder	281209058	folderholder.gif	usable	t	0
 4931
 4932
 4933
@@ -6526,7 +6526,7 @@ s1
 6509
 6510
 6511
-6512
+6512	skull capacitor	985454129	dv_skullcap.gif	none		0
 6513	warm fur	641261663	dv_warmfur.gif	accessory	t	0
 6514	snowstick	646078952	dv_snowstick.gif	offhand	t	0
 6515	eerie fetish	959461043	dv_fetish.gif	accessory	t	0
@@ -6629,3 +6629,30 @@ s1
 6612	intricate clockwork numeral XII	207262227	cuckoo12.gif	none		0
 6613	intricate clockwork cuckoo	235099482	cuckoobird.gif	none		0
 6614	cuckoo clock	886205813	cuckooclock.gif	usable	t	0
+6615
+6616
+6617	over-the-shoulder Folder Holder	868830919	folderholder2.gif	accessory		0
+6618	folder (red)	803733525	otherimages/folders/folder01.gif	usable	t,d	5
+6619	folder (blue)	968651348	otherimages/folders/folder02.gif	usable	t,d	5
+6620	folder (green)	984869155	otherimages/folders/folder03.gif	usable	t,d	5
+6621	folder (magenta)	302387587	otherimages/folders/folder04.gif	usable	t,d	5
+6622
+6623	folder (yellow)	475171939	otherimages/folders/folder06.gif	usable	t,d	5
+6623
+6624
+6625
+6626
+6627
+6628
+6629
+6630
+6631	folder (Jackass Plumber)	155094068	otherimages/folders/folder14.gif	usable	t,d	5
+6632
+6633
+6634
+6635
+6636	folder (dancing dolphins)	189052288	otherimages/folders/folder19.gif	usable	t,d	5
+6637
+6638	folder (tranquil landscape)	595837547	otherimages/folders/folder21.gif	usable	t,d	5
+6639	folder (owl)	898277246	otherimages/folders/folder22.gif	usable	t,d	5
+6640	folder (Stinky Trash Kid)	680871241	otherimages/folders/folder23.gif	usable	t,d	5
