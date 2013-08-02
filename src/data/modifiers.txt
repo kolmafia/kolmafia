@@ -2909,7 +2909,7 @@ folder (dancing dolphins)	Item Drop Percent: [50*zone(The Sea)]
 folder (green)	Moxie: +20
 folder (Jackass Plumber)	Monster Level: +25
 folder (magenta)	Muscle: +15, Mysticality: +15
-folder (owl)	Item Drop Percent: [250*zone(Dreadsylvania)]
+folder (owl)	Item Drop Percent: [500*zone(Dreadsylvania)]
 folder (red)	Muscle: +20
 # folder (Stinky Trash Kid): Deals <font color=green>Stench Damage</font> every round
 folder (tranquil landscape)	Damage Reduction: 15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
