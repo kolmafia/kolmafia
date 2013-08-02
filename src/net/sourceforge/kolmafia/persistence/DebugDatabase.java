@@ -1159,11 +1159,16 @@ public class DebugDatabase
 		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
-	private static final Pattern IMAGE_PATTERN = Pattern.compile( "itemimages/(.*?\\.gif)" );
+	// http://images.kingdomofloathing.com/itemimages/hp.gif
+	// http://images.kingdomofloathing.com/otherimages/folders/folder22.gif
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( "images.kingdomofloathing.com/(.*?\\.gif)" );
+
 	public static final String parseImage( final String text )
 	{
 		Matcher matcher = DebugDatabase.IMAGE_PATTERN.matcher( text );
-		return matcher.find() ? matcher.group( 1 ) : "";
+		String path = matcher.find() ? matcher.group( 1 ) : "";
+		String prefix = "itemimages/";
+		return path.startsWith( prefix ) ? path.substring( prefix.length() ) : path;
 	}
 
 	// href="desc_effect.php?whicheffect=138ba5cbeccb6334a1d473710372e8d6"

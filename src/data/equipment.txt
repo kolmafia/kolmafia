@@ -1843,6 +1843,7 @@ orange leather lanyard	50	none
 orc wrist	95	Mys: 32
 ornamental sextant	200	Mys: 85
 oven mitts	45	Mys: 7
+over-the-shoulder Folder Holder	0	none
 pacifier necklace	150	Mox: 60
 pair of pearidot earrings	0	none
 paperclip-on tie	50	none

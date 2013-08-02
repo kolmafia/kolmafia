@@ -31,6 +31,9 @@ Degrassi Knoll Bakery	4	skewer	80
 Degrassi Knoll Bakery	4	taco shell	80
 Degrassi Knoll Bakery	4	Gnollish casserole dish	150
 
+Degrassi Knoll General Store	5	folder (blue)	10
+Degrassi Knoll General Store	5	folder (green)	10
+Degrassi Knoll General Store	5	folder (red)	10
 Degrassi Knoll General Store	5	spring	20
 Degrassi Knoll General Store	5	sprocket	20
 Degrassi Knoll General Store	5	cog	20

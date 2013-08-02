@@ -108,6 +108,7 @@ Big Brother	buy	20	decaying wooden oar
 Big Brother	buy	20	giant fishhook
 Big Brother	buy	20	rusty old lantern
 Big Brother	buy	25	map to the Skate Park
+Big Brother	buy	25	folder (dancing dolphins)
 Big Brother	buy	50	map to Madness Reef
 Big Brother	buy	50	map to the Marinara Trench
 Big Brother	buy	50	map to Anemone Mine
@@ -144,6 +145,7 @@ Arcade Ticket Counter	buy	2	little parachute guy
 Arcade Ticket Counter	buy	5	superduperball
 Arcade Ticket Counter	buy	10	coffee pixie stick
 Arcade Ticket Counter	buy	25	plastic spider ring
+Arcade Ticket Counter	buy	50	folder (Jackass Plumber)
 Arcade Ticket Counter	buy	100	cheap plastic kazoo
 Arcade Ticket Counter	buy	100	inflatable baseball bat
 Arcade Ticket Counter	buy	250	googly-star hat
@@ -538,6 +540,7 @@ The Terrified Eagle Inn	buy	1	hot Dreadsylvanian cocoa	ROW156
 The Terrified Eagle Inn	buy	10	Dreadsylvanian stew	ROW149
 The Terrified Eagle Inn	buy	10	white Dreadsylvanian	ROW150
 The Terrified Eagle Inn	buy	25	Dreadsylvanian skeleton key	ROW147
+The Terrified Eagle Inn	buy	25	folder (tranquil landscape)	ROW157
 The Terrified Eagle Inn	buy	100	brass Dreadsylvanian flask	ROW151
 The Terrified Eagle Inn	buy	100	silver Dreadsylvanian flask	ROW152
 The Terrified Eagle Inn	buy	250	Tales of Dread	ROW146
@@ -545,5 +548,3 @@ The Terrified Eagle Inn	buy	500	dreadful fedora	ROW153
 The Terrified Eagle Inn	buy	500	dreadful sweater	ROW154
 The Terrified Eagle Inn	buy	500	dreadful glove	ROW155
 The Terrified Eagle Inn	buy	1000	Official Seal of Dreadsylvania	ROW148
-
-

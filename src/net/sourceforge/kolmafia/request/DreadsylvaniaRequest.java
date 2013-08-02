@@ -141,12 +141,14 @@ public class DreadsylvaniaRequest
 				return false;
 			}
 			KoLAdventure.setNextLocation( name );
-			message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
+			// Don't need to log this: it will redirect to adventure.php
+			// message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
+			return true;
 		}
 
 		// Giving booze to the coachman. 
 		// clan_dreadsylvania.php?action=feedbooze&whichbooze=xxx&boozequantity=yyy
-		else if ( action.equals( "feedbooze" ) )
+		if ( action.equals( "feedbooze" ) )
 		{
 			AdventureResult booze = DreadsylvaniaRequest.getBooze( urlString );
 			if ( booze == null )
