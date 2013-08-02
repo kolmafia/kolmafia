@@ -6636,9 +6636,8 @@ s1
 6619	folder (blue)	968651348	otherimages/folders/folder02.gif	usable	t,d	5
 6620	folder (green)	984869155	otherimages/folders/folder03.gif	usable	t,d	5
 6621	folder (magenta)	302387587	otherimages/folders/folder04.gif	usable	t,d	5
-6622
+6622	folder (cyan)	216029862	otherimages/folders/folder05.gif	usable	t,d	5
 6623	folder (yellow)	475171939	otherimages/folders/folder06.gif	usable	t,d	5
-6623
 6624
 6625
 6626

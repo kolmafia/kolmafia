@@ -2904,6 +2904,7 @@ scratch 'n' sniff wrestler sticker	Muscle Percent: +10, Mysticality Percent: +10
 # Folder section of modifiers.txt
 
 folder (blue)	Mysticality: +20
+folder (cyan)	Mysticality: +15, Moxie: +15
 folder (dancing dolphins)	Item Drop Percent: [50*zone(The Sea)]
 folder (green)	Moxie: +20
 folder (Jackass Plumber)	Monster Level: +25
@@ -2937,6 +2938,7 @@ clockwork maid	Adventures: +8
 comfy blanket	Base Resting HP: +50
 comfy coffin	Spooky Resistance: +2
 cottage	Base Resting HP: +29, Base Resting MP: +30
+cuckoo clock	Adventures: +3
 filth-encrusted futon	Stench Resistance: +2
 frigid air mattress	Cold Resistance: +2
 gauze hammock	Bonus Resting HP: +60
@@ -3999,6 +4001,7 @@ Spooky Weapon	Spooky Damage: +3
 Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
 Spookypants	Spooky Resistance: +1
 Stopping to Smell the Flowers	Experience: +3
+# Spore-Wreathed: Reduce enemy defense by 20%
 Springy Fusilli	Initiative: +40
 # Square Jaw And Everything Else: Makes you look like Scott the Miner
 Square to be Hip	Moxie Percent: +10
@@ -4139,6 +4142,7 @@ Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20
 Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # Top Dog: +50 Damage vs. Vampires, +50 Damage vs. Skeletons
 Top Dog	Moxie Percent: 50, Critical Hit Percent: 10
+Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
 Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Transcendental Wind	Mysticality: +50
 # Transpondent: Gives access to A Transporter Booth

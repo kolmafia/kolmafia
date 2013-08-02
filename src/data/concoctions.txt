@@ -1354,6 +1354,8 @@ Dreadsylvanian stink pocket	COOK_FANCY	bone flour	stench cluster
 
 moon-amber necklace	EJEWEL	polished moon-amber	heavy necklace chain
 
+cuckoo clock	SUSE	intricate clockwork birdhouse	intricate clockwork disc	intricate clockwork big hand	intricate clockwork little hand	intricate clockwork numeral I	intricate clockwork numeral II	intricate clockwork numeral III	intricate clockwork numeral IV	intricate clockwork numeral V	intricate clockwork numeral VI	intricate clockwork numeral VII	intricate clockwork numeral VIII	intricate clockwork numeral IX	intricate clockwork numeral X	intricate clockwork numeral XI	intricate clockwork numeral XII	intricate clockwork cuckoo
+
 # Simple pastamancer recipes.  Available to pastamancers only, and
 # creates pasta if you don't have finer ingredients.
 

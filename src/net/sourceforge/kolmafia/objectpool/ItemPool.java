@@ -1594,6 +1594,7 @@ public class ItemPool
 	public static final int LED_CLOCK = 6072;
 	public static final int CEO_OFFICE_CARD = 6116;
 	public static final int BONSAI_TREE = 6120;
+	public static final int LUCKY_CAT_STATUE = 6122;
 	public static final int SNOW_SUIT = 6150;
 	public static final int CARROT_NOSE = 6151;
 	public static final int GAMEPRO_MAGAZINE = 6174;
@@ -1646,6 +1647,7 @@ public class ItemPool
 	public static final int PHIAL_OF_STENCH = 6559;
 	public static final int PHIAL_OF_SLEAZINESS = 6560;
 	public static final int DEFECTIVE_TOKEN = 6593;
+	public static final int CUCKOO_CLOCK = 6614;
 	public static final int FOLDER_RED = 6618;
 	public static final int FOLDER_BLUE = 6619;
 	public static final int FOLDER_GREEN = 6620;
