@@ -6483,7 +6483,7 @@ s1
 6466
 6467	Mayor Ghost's scissors	178893828	mg_scissors.gif	none, combat reusable	d	21337
 6468	ghost pepper	473945800	mg_pepper.gif	food	t	0
-6469
+6469	Thunkula's drinking cap	890136862	dr_hat.gif	hat		0
 6470
 6471
 6472
@@ -6493,7 +6493,7 @@ s1
 6476
 6477
 6478	Unkillable Skeleton's shinguards	629921726	sk_pants.gif	pants		0
-6479
+6479	Unkillable Skeleton's sawsword	364869957	sk_sword.gif	weapon		0
 6480
 6481
 6482

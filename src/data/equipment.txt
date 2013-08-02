@@ -63,6 +63,7 @@ Snow Queen Crown	115	Mox: 42
 Sombrero De Vida	50	Mox: 10
 Spooky Putty mitre	100	none
 The Necbromancer's Hat	200	Mox: 200
+Thunkula's drinking cap	300	Mys: 250
 Tropical Crimbo Hat	100	Mox: 35
 Uncle Hobo's stocking cap	200	Mox: 200
 Van der Graaf helmet	30	none
@@ -690,6 +691,7 @@ Uncle Hobo's highest bough	200	Mus: 200	1-handed club
 Underworld flail	200	Mox: 150	2-handed flail
 Underworld truncheon	200	Mus: 150	2-handed club
 Unionize The Elves sign	50	Mus: 10	1-handed club
+Unkillable Skeleton's sawsword	300	Mus: 100	2-handed sword
 Wand of Nagamar	30	Mus: 0	1-handed wand
 White Dragon Fang	200	Mus: 200	1-handed sword
 Windsor Pan of the Source	200	Mys: 60	1-handed saucepan
