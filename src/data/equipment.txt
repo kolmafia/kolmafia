@@ -296,6 +296,7 @@ Chester's cutoffs	200	Mox: 200
 Cloaca-Cola fatigues	30	none
 Crimbo pants	100	Mox: 35
 Danglin' Chad's loincloth	200	Mox: 75
+Drunkula's silky pants	300	Mys: 250
 Dyspepsi-Cola fatigues	30	none
 El Vibrato leg guards	200	Mox: 200
 Galapagosian Cuisses	125	Mus: 30
@@ -2176,6 +2177,7 @@ yellow glowstick	20	none
 Camp Scout backpack	0	none
 Cloak of Dire Shadows	0	none
 Drapes-You-Regally	300	Mox: 250
+Drunkula's cape	0	Mys: 250
 Great S-Cape	10	none
 Lord Flameface's cloak	0	Mys: 75
 Mayor Ghost's cloak	300	Mys: 250

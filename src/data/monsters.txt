@@ -1435,3 +1435,43 @@ Video Game Minion (weak)	qmark.gif	HP: [0.75*(min(MUS-7+max(ML,0),10000))] Atk: 
 # Avatar of Jarlsberg
 Clancy	clancy.gif	Atk: 150 Def: 165 HP: 500 Init: 90  P: dude
 The Avatar of Boris	boris.gif	Atk: 230 Def: 190 HP: 1000 Init: 50  P: dude
+
+# Dreadsylvania
+cold bugbear	dvscoldbear1.gif	E: cold P: beast	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	snowstick (0)
+cold ghost	dvscoldghost1.gif	E: cold P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	BOOtonniere (0)
+cold skeleton	dvscoldskel1.gif	E: cold P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	old ball and chain (0)
+cold vampire	dvscoldvamp1.gif	E: cold P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	remorseless knife (0)
+cold werewolf	dvscoldwolf1.gif	E: cold P: beast	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	drafty drawers (0)
+cold zombie	dvscoldzom1.gif	E: cold P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	Thriller Ice (0)
+hot bugbear	dvshotbear1.gif	E: hot P: beast	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	warm fur (0)
+hot ghost	dvshotghost1.gif	E: hot P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	vengeful spirit (0)
+hot skeleton	dvshotskel1.gif	E: hot P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	frying brainpan (0)
+hot vampire	dvshotvamp1.gif	E: hot P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	vial of hot blood (0)
+hot werewolf	dvshotwolf1.gif	E: hot P: beast	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	accidental mutton (0)
+hot zombie	dvshotzom1.gif	E: hot P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	hothammer (0)
+sleaze bugbear	dvssleazebear1.gif	E: sleaze P: beast	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	dubious loincloth (0)
+sleaze ghost	dvssleazeghost1.gif	E: sleaze P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	transparent pants (0)
+sleaze skeleton	dvssleazeskel1.gif	E: sleaze P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	tonguebone (0)
+sleaze vampire	dvssleazevamp1.gif	E: sleaze P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	blood sausage (0)
+sleaze werewolf	dvssleazewolf1.gif	E: sleaze P: beast	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	groping claw (0)
+sleaze zombie	dvssleazezom1.gif	E: sleaze P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	antique spyglass (0)
+spooky bugbear	dvsspookybear1.gif	E: spooky P: beast	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	eerie fetish (0)
+spooky ghost	dvsspookyghost1.gif	E: spooky P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	ghost thread (0)
+spooky skeleton	dvsspookyskel1.gif	E: spooky P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	old dry bone (0)
+spooky vampire	dvsspookyvamp1.gif	E: spooky P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	intimidating coiffure (0)
+spooky werewolf	dvsspookywolf1.gif	E: spooky P: beast	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	wolfskull mask (0)
+spooky zombie	dvsspookyzom1.gif	E: spooky P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	grandfather watch (0)
+stench bugbear	dvsstenchbear1.gif	E: stench P: beast	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	stinkwater (0)
+stench ghost	dvsstenchghost1.gif	E: stench P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	bag of unfinished business (0)
+stench skeleton	dvsstenchskel1.gif	E: stench P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	tailbone shield (0)
+stench vampire	dvsstenchvamp1.gif	E: stench P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	cod cape (0)
+stench werewolf	dvsstenchwolf1.gif	E: stench P: beast	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	guts necklace (0)
+stench zombie	dvsstenchzom1.gif	E: stench P: undead	Dreadsylvanian Almanac page (0)	Freddy Krueggerand (0)	muddy skirt (0)
+
+#Dreadsylvania Bosses
+Count Drunkula	drunkula.gif	P: undead	Thunkula's drinking cap (0)	Drunkula's silky pants (0)	Drunkula's cape (0)	bottle of Bloodweiser (0)
+Falls-From-Sky	fallsfromsky.gif	P: beast	Drapes-You-Regally (10)	Warms-Your-Tush (0)	Covers-Your-Head (0)	Gets-You-Drunk (0)
+Great Wolf of the Air	wolfoftheair.gif	P: beast	Great Wolf's headband (0)	Great Wolf's headband (0)	Great Wolf's left paw (0)	Hunger&trade; Sauce (0)
+Mayor Ghost	mayorghost.gif	P: undead	Mayor Ghost's cloak (0)	Mayor Ghost's khakis (0)	Mayor Ghost's toupee (0)	ghost pepper (0)
+The Unkillable Skeleton	ukskeleton.gif	P: undead	Unkillable Skeleton's shinguards (0)	Unkillable Skeleton's skullcap (0)	Unkillable Skeleton's breastplate (0)	electric Kool-Aid (0)
+Zombie Homeowners' Association	zombiehoa.gif	P: undead	zombie mariachi hat (0)	zombie accordion (0)	zombie mariachi pants (0)	wriggling severed nose (0)
