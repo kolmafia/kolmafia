@@ -462,7 +462,7 @@ public class DebugDatabase
 		}
 
 		// Quest items cannot be gifted or traded
-		else if ( text.contains( "Gift Item" ) )
+		else if ( text.contains( "Gift Item" ) && !text.contains( "gift package" ) )
 		{
 			accessTypes = appendAccessTypes( accessTypes, ItemDatabase.GIFT_FLAG );
 		}

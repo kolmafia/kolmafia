@@ -1181,17 +1181,17 @@ s1
 1164	poultrygeist	295145140	cockghost.gif	none	t,d	50	poultrygeists
 1165	hovering sombrero	203163475	hat2.gif	grow	t,d	100	hovering sombreros
 1166	tiny maracas	642237204	maracas.gif	familiar	t,d	75	pairs of tiny maracas
-1167	plain brown wrapper	546961999	plainbrown.gif	usable	g	0	plain brown wrappers
-1168	less-than-three-shaped box	938194457	lessthan3.gif	usable	g	0	less-than-three-shaped boxes
-1169	exactly-three-shaped box	558617858	3box.gif	usable	g	0	exactly-three-shaped boxes
-1170	chocolate box	288094597	chocbox.gif	usable	g	0	chocolate boxs
-1171	miniature coffin	620396812	coffinbox.gif	usable	g	0	miniature coffins
-1172	solid asbestos box	572164409	asbbox.gif	usable	g	0	solid asbestos boxes
-1173	solid linoleum box	512858222	linbox.gif	usable	g	0	solid linoleum boxes
-1174	solid chrome box	589369829	chromebox.gif	usable	g	0	solid chrome boxes
-1175	cryptic puzzle box	755107532	puzzlebox.gif	usable	g	0	cryptic puzzle boxes
-1176	refrigerated biohazard container	980209654	biobox.gif	usable	g	0	refrigerated biohazard containers
-1177	magnetic field	206018702	magfields.gif	usable	g	0	magnetic fields
+1167	plain brown wrapper	546961999	plainbrown.gif	usable		0	plain brown wrappers
+1168	less-than-three-shaped box	938194457	lessthan3.gif	usable		0	less-than-three-shaped boxes
+1169	exactly-three-shaped box	558617858	3box.gif	usable		0	exactly-three-shaped boxes
+1170	chocolate box	288094597	chocbox.gif	usable		0	chocolate boxs
+1171	miniature coffin	620396812	coffinbox.gif	usable		0	miniature coffins
+1172	solid asbestos box	572164409	asbbox.gif	usable		0	solid asbestos boxes
+1173	solid linoleum box	512858222	linbox.gif	usable		0	solid linoleum boxes
+1174	solid chrome box	589369829	chromebox.gif	usable		0	solid chrome boxes
+1175	cryptic puzzle box	755107532	puzzlebox.gif	usable		0	cryptic puzzle boxes
+1176	refrigerated biohazard container	980209654	biobox.gif	usable		0	refrigerated biohazard containers
+1177	magnetic field	206018702	magfields.gif	usable		0	magnetic fields
 1178	potted cactus	964067424	cactus.gif	none	g,d	1	potted cacti
 1179	daisy	146801132	daisy.gif	none	g,d	5	daisies
 1180	potted fern	523298616	fern.gif	none	g,d	10	potted ferns
@@ -1474,7 +1474,7 @@ s1
 1457	miniature stuffed Goth Giant	703683283	stuffgoth.gif	offhand	g,d	10000	miniature stuffed Goth Giants
 1458	Valentine's Day cake	980784871	heartcake.gif	food	g,d	10000	Valentine's Day cakeses, preciousss
 1459	arrow'd heart balloon	653803530	arrowbal.gif	offhand	g,d	10000	arrow'd heart balloons
-1460	black velvet box	955425771	bvbox.gif	usable	g	0	black velvet boxen
+1460	black velvet box	955425771	bvbox.gif	usable		0	black velvet boxen
 1461	squashed frog	579216550	squashfrog.gif	none	t,d	5	squashed frogs
 1462	eye of newt	191554922	newteye.gif	none	t,d	5	eyes of newts
 1463	salamander spleen	406159950	salspleen.gif	none	t,d	5	spleen salamanders
@@ -1548,7 +1548,7 @@ s1
 1531	grass skirt	761419701	grassskirt.gif	pants	t	0	grass skirts
 1532	grass hat	173784115	grasshat.gif	hat	t	0	grass hats
 1533	grass blade	562599473	grassblade.gif	weapon	t	0	grass blades
-1534	raffle prize box	588738049	rafflebox.gif	usable	g	0	raffle prize boxen
+1534	raffle prize box	588738049	rafflebox.gif	usable		0	raffle prize boxen
 1535
 1536	homeless hobo spirit	228156172	ghoboh.gif	grow	t	0	homeless oboe hspirits
 1537	weegee sqouija	659845184	squeegee.gif	familiar	t,d	75	squeeja ouigees
@@ -2697,7 +2697,7 @@ s1
 2680	snake	397831150	bor3snake.gif	usable	t,d	150	sssnakess
 2681	M-242	160414339	dynamite.gif	usable	t,d	150	M-242s
 2682	detuned radio	692188284	radio.gif	message	q	0	detuned radios
-2683	Warehouse 23 crate	425159430	crate.gif	usable	g	0	Warehouse 23 crates
+2683	Warehouse 23 crate	425159430	crate.gif	usable		0	Warehouse 23 crates
 2684	armgun	582302917	machinegun.gif	weapon	t,d	75	armguns
 2685	fancy seashell necklace	831641508	shellnecklace.gif	none	t,d	1000	fancy seashell necklaces
 2686	commemorative war stein	780091889	beerstein.gif	none	t,d	1000	commemorative war steins
@@ -2841,7 +2841,7 @@ s1
 2824	Grimacite girdle	170497569	g2girdle.gif	accessory	t	0	Grimacite girdles
 2825	Grimacite gown	528443762	g2gown.gif	shirt	t	0	Grimacite gowns
 2826	Staff of the Kitchen Floor	716016442	chefstaff5.gif	weapon	d	25	Staves of the Kitchen Floor
-2827	anniversary gift box	277422118	pressie.gif	usable	g	0	anniversary gift boxes
+2827	anniversary gift box	277422118	pressie.gif	usable		0	anniversary gift boxes
 2828	loaded dice	448561043	dice.gif	none	q	0
 2829	really dense meat stack	714527088	meatstack.gif	none	t,d	5000	really dense meat stacks
 2830	digital key lime	608726347	lime.gif	none, fancy	t,d	98	digital key limes
@@ -3444,7 +3444,7 @@ s1
 3427	roll of Hob-Os	965215365	hob-oroll.gif	multiple	t,d	25	rolls of Hob-Os
 3428	Everlasting Deckswabber	133927592	ccannonball.gif	multiple, candy	t,d	50	Everlasting Deckswabbers
 3429
-3430	bindle of joy	656438917	bindle.gif	usable	g	0	bindles of joy
+3430	bindle of joy	656438917	bindle.gif	usable		0	bindles of joy
 3431	cotton candy cocoon	960452345	cccoccoon.gif	grow	t	0	cotton candy cocoons
 3432	cotton candy cordial	723689501	cccordial.gif	familiar	t,d	75	bottles of cotton candy cordial
 3433	spice melange	569771218	melange.gif	usable	t	0	quantities of spice melange
@@ -4129,7 +4129,7 @@ s1
 4112	bitter bowtie	604555910	futurebowtie.gif	accessory	d	250	bitter bowties
 4113	bewitching boots	288369149	futureboots.gif	accessory	d	250	pairs of bewitching boots
 4114	secret from the future	502821529	futurebox.gif	usable		0	secrets from the future
-4115	moist sack	552855217	sack1.gif	usable	g	0	moist sacks
+4115	moist sack	552855217	sack1.gif	usable		0	moist sacks
 4116	rickety old unicycle	453371698	unicycle2.gif	accessory, combat	d	2000	rickety old unicycles
 4117	crusty hula hoop	832063847	hulahoop.gif	accessory, combat	d	1600	crusty hula hoops
 4118	Coily&trade;	998607445	coily.gif	weapon, combat	d	1200	Coilies&trade;
@@ -4419,7 +4419,7 @@ s1
 4402	stinky cheese eye	548672093	sc_eye.gif	accessory, usable	t	0	stinky cheese eyes
 4403	Staff of Queso Escusado	399631690	sc_staff.gif	weapon, usable	t	0	Staves of Queso Escusado
 4404
-4405	foreign box	800942495	puzzlebox.gif	usable	g	0
+4405	foreign box	800942495	puzzlebox.gif	usable		0
 4406	The Art of Slapfighting	949615276	book4.gif	usable	t	0	copies of The Art of Slapfighting
 4407	Uncle Romulus	478200390	book4.gif	usable	t	0	copies of Uncle Romulus
 4408	A Beginner's Guide to Charming Snakes	245745289	book4.gif	usable	t	0	copies of A Beginner's Guide to Charming Snakes
@@ -6595,7 +6595,7 @@ s1
 6578	sleaze clusterbomb	747352227	clusterbomb.gif	none, combat	t	0
 6579	Dreadsylvanian Almanac page	481489808	dv_recipe.gif	usable	t	0
 6580	length of old fuse	786902545	dv_oldfuse.gif	none	t	0	lengths of old fuse
-6581
+6581	dreadful box	269247615	dreadbox.gif	usable		0
 6582	Clan hot dog stand	346032932	crate.gif	usable	t	0	Clan hot dog stand
 6583	vicious spiked collar	981852802	spikycollar.gif	familiar	t,d	75	vicious spiked collars
 6584	ancient hot dog wrapper	111886283	wrapper.gif	offhand	t,d	5	ancient hot dog wrappers
