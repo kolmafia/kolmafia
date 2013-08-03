@@ -372,6 +372,7 @@ Chester's cutoffs	Hot Resistance: +3, Stench Resistance: +3, Class: "Disco Bandi
 Cloaca-Cola fatigues	Mysticality: +3, Familiar Effect: "4xPotato, cap 7"
 Crimbo pants	Initiative: +30, Familiar Effect: "cap 25"
 Danglin' Chad's loincloth	Sleaze Damage: +25, Moxie: -10, Familiar Effect: "stench atk, 0.5xVolley"
+Drunkula's silky pants	Cold Spell Damage: +100, Stench Resistance: +5, Sleaze Resistance: +1, Class: "Sauceror"
 Dyspepsi-Cola fatigues	Mysticality: +3, Familiar Effect: "3.5xPotato, 3xVolley, cap 7"
 El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
 Galapagosian Cuisses	Muscle: +11, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "2xBarrr, 1xGhuol, cap 31"
@@ -2449,6 +2450,7 @@ yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Camp Scout backpack	Item Drop: +15, Softcore Only
 Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "Disco Bandit"
+Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class: "Sauceror"
 # Lord Flameface's cloak:  Has Cool Swirling Flames
 Lord Flameface's cloak	Cold Resistance: +2
 Mayor Ghost's cloak	PvP Fights: +5, Weapon Drop: +20, Food Drop: +20, Class: "Pastamancer"

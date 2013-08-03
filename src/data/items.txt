@@ -6484,8 +6484,8 @@ s1
 6467	Mayor Ghost's scissors	178893828	mg_scissors.gif	none, combat reusable	d	21337
 6468	ghost pepper	473945800	mg_pepper.gif	food	t	0
 6469	Thunkula's drinking cap	890136862	dr_hat.gif	hat		0
-6470
-6471
+6470	Drunkula's cape	391304427	dr_cape.gif	container		0
+6471	Drunkula's silky pants	312358141	dr_pants.gif	pants		0
 6472
 6473
 6474
