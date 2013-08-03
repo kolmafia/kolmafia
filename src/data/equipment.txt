@@ -279,6 +279,7 @@ wumpus-hair wig	100	Mox: 35
 yak toupee	100	Mox: 35
 yellow plastic hard hat	90	Mox: 30
 yellow traffic cone	60	Mox: 15
+zombie mariachi hat	300	Mox: 250
 
 # Pants section of equipment.txt
 
@@ -470,6 +471,7 @@ wumpus-hair loincloth	100	Mox: 35
 yakskin kilt	140	Mox: 55
 yakskin pants	140	Mox: 55
 yakskin skirt	140	Mox: 55
+zombie mariachi pants	300	Mox: 250
 
 # Shirts section of equipment.txt
 
@@ -826,6 +828,7 @@ disco ball	10	Mox: 0	1-handed disco ball
 dishrag	20	Mus: 0	1-handed whip
 double-barreled sling	70	Mox: 20	1-handed sling
 doubt cannon	85	Mox: 30	1-handed forearm replacement
+dreadful glove	200	Mus: 200	1-handed knife-glove
 dreadlock whip	40	Mus: 5	1-handed whip
 dripping meat crossbow	50	Mox: 10	2-handed crossbow
 dripping meat staff	50	Mus: 10	2-handed staff
@@ -1165,6 +1168,7 @@ Ellsbury's skull	100	Mys: 35
 Engorged Sausages and You	0	Mys: 35
 Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
+Great Wolf's left paw	300	Mus: 250
 Grey Guanon	0	Mys: 15
 Hodgman's almanac	200	Mys: 200
 Hodgman's cane	200	Mys: 200
@@ -1230,6 +1234,7 @@ The Necbromancer's Stein	200	Mys: 200
 The Spirit of Crimbo	0	none
 Tiki lighter	20	none
 Tuesday's ruby	120	Mys: 45
+Unkillable Skeleton's shield	350	Mus: 100	shield
 Victor, the Insult Comic Hellhound Puppet	10	none
 Wand of Oscus	200	Mys: 200
 Whatsian Ionic Pliers	110	Mys: 40
