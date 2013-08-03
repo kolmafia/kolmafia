@@ -121,6 +121,7 @@ dilapidated wizard hat	125	Mox: 47
 disco mask	10	none
 double-ice cap	70	Mox: 20
 draggin' ball hat	100	Mox: 35
+dreadful fedora	200	Mox: 200
 duct tape fedora	195	Mox: 82
 dwarvish war helmet	165	Mox: 67
 eXtreme scarf	100	Mox: 35

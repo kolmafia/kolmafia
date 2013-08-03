@@ -927,6 +927,14 @@ public class UseItemRequest
 		case ItemPool.DEFECTIVE_TOKEN:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_defectiveTokenUsed" ) ? 0 : 1;
+
+		case ItemPool.SILVER_DREAD_FLASK:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_silverDreadFlaskUsed" ) ? 0 : 1;
+
+		case ItemPool.BRASS_DREAD_FLASK:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_brassDreadFlaskUsed" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -4356,6 +4364,14 @@ public class UseItemRequest
 
 		case ItemPool.DEFECTIVE_TOKEN:
 			Preferences.setBoolean( "_defectiveTokenUsed", true );
+			return;
+
+		case ItemPool.SILVER_DREAD_FLASK:
+			Preferences.setBoolean( "_silverDreadFlaskUsed", true );
+			return;
+
+		case ItemPool.BRASS_DREAD_FLASK:
+			Preferences.setBoolean( "_brassDreadFlaskUsed", true );
 			return;
 		}
 	}

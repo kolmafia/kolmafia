@@ -6439,12 +6439,12 @@ s1
 6422
 6423	Tales of Dread	885005203	book3.gif	reusable		0
 6424	Dreadsylvanian skeleton key	539373127	dv_key.gif	none	t	0
-6425
+6425	Official Seal of Dreadsylvania	158915306	dvtat.gif	usable		0	Official Seals of Dreadsylvania
 6426	Dreadsylvanian stew	768933176	soupbowl.gif	food		0
 6427	white Dreadsylvanian	990659022	whitedrink.gif	drink		0
-6428
-6429
-6430
+6428	brass Dreadsylvanian flask	660945598	flask.gif	usable		0
+6429	silver Dreadsylvanian flask	277786143	flask.gif	reusable		0
+6430	dreadful fedora	982873908	dv_freddyhat.gif	hat		0
 6431	dreadful sweater	794701101	dv_freddysweater.gif	shirt		0
 6432	dreadful glove	763468382	dv_freddyglove.gif	weapon		0
 6433	Freddy Krueggerand	901547610	dv_krueggerand.gif	none		0

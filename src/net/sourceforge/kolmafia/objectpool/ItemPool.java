@@ -1640,6 +1640,8 @@ public class ItemPool
 	public static final int MERKIN_WEAKSAUCE = 6396;
 	public static final int PEANUT_SAUCE = 6397;
 	public static final int SHAKING_SKULL = 6412;
+	public static final int BRASS_DREAD_FLASK = 6428;
+	public static final int SILVER_DREAD_FLASK = 6429;
 	public static final int KRUEGGERAND = 6433;
 	public static final int PHIAL_OF_HOTNESS = 6556;
 	public static final int PHIAL_OF_COLDNESS = 6557;
