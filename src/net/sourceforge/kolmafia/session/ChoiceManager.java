@@ -4124,6 +4124,218 @@ public abstract class ChoiceManager
 			FloristRequest.parseResponse( request.getURLString() , text );
 			return;
 
+		case 721:
+			// The Cabin in the Dreadsylvanian Woods
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				// Try the Attic
+				// *** What is the "you unlocked it" message?
+
+				if ( text.contains( "you unlocked it" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
+				}
+			}
+			return;
+
+		case 722:
+			// The Kitchen in the Woods
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				// Screw around with the flour mill
+				if ( text.contains( "You acquire" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.OLD_DRY_BONE, -1 ) );
+				}
+			}
+			return;
+
+
+		case 723:
+			// What Lies Beneath (the Cabin)
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				// Check out the lockbox
+				if ( text.contains( "You acquire" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.REPLICA_KEY, -1 ) );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				// Stick a wax banana in the lock
+				if ( text.contains( "You acquire" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.WAX_BANANA, -1 ) );
+				}
+			}
+			return;
+
+		case 725:
+			// Tallest Tree in the Forest
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				// Check out the fire tower
+
+				// You climb the rope ladder and use your skeleton key to
+				// unlock the padlock on the door leading into the little room
+				// at the top of the watchtower. Then you accidentally drop
+				// your skeleton key and lose it in a pile of leaves. Rats.
+
+				if ( text.contains( "you accidentally drop your skeleton key" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
+				}
+			}
+			return;
+
+		case 730:
+			// Hot Coals
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				// Melt down an old ball and chain
+				if ( text.contains( "You acquire" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.OLD_BALL_AND_CHAIN, -1 ) );
+				}
+			}
+			return;
+
+		case 733:
+			// Dreadsylvanian Village Square
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// The schoolhouse
+
+				// You try the door of the schoolhouse, but it's locked. You
+				// try your skeleton key in the lock, but it works. I mean and
+				// it works. But it breaks. That was the but.
+
+				if ( text.contains( "But it breaks" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
+				}
+			}
+			return;
+
+		case 739:
+			// The Tinker's. Damn.
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				// Make a key using the wax lock impression
+				if ( text.contains( "You acquire" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.WAX_LOCK_IMPRESSION, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.INTRICATE_MUSIC_BOX_PARTS, -1 ) );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				// Polish the moon-amber
+				if ( text.contains( "You acquire" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.MOON_AMBER, -1 ) );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				// Assemble a clockwork bird
+				if ( text.contains( "You acquire" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_CLOCKWORK_KEY, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.INTRICATE_MUSIC_BOX_PARTS, -3 ) );
+				}
+			}
+			return;
+
+		case 743:
+			// No Quarter
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				// Make a shepherd's pie
+				if ( text.contains( "You acquire" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREAD_TARRAGON, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.BONE_FLOUR, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADFUL_ROAST, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.STINKING_AGARICUS, -1 ) );
+				}
+			}
+			return;
+
+		case 741:
+			// The Old Duke's Estate
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				// Make your way to the master suite
+
+				// You find the door to the old Duke's master bedroom and
+				// unlock it with your skeleton key.
+
+				if ( text.contains( "unlock it with your skeleton key" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
+				}
+			}
+			return;
+
+		case 745:
+			// This Hall is Really Great
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// Head to the ballroom
+
+				// You unlock the door to the ballroom with your skeleton
+				// key. You open the door, and are so impressed by the site of
+				// the elegant ballroom that you drop the key down a nearby
+				// laundry chute.
+
+				if ( text.contains( "you drop the key" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
+				}
+			}
+			return;
+
+		case 749:
+			// Tower Most Tall
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// Go to the laboratory
+
+				// You use your skeleton key to unlock door to the
+				// laboratory. Unfortunately, the lock is electrified, and it
+				// incinerates the key shortly afterwards.
+
+				if ( text.contains( "it incinerates the key" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
+				}
+			}
+			return;
+
+		case 750:
+			// Working in the Lab, Late One Night
+			if ( ChoiceManager.lastDecision == 4 )
+			{
+				// Use the still
+				if ( text.contains( "You acquire" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.BLOOD_KIWI, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.EAU_DE_MORT, -1 ) );
+				}
+			}
+			return;
+
+		case 762:
+			// Try New Extra-Strength Anvil
+			// All of the options that craft something use the same ingredients
+			if ( text.contains( "You acquire" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.COOL_IRON_INGOT, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.WARM_FUR, -1 ) );
+			}
+			return;
 		}
 
 		// Certain choices cost meat or items when selected

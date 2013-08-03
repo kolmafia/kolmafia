@@ -6442,7 +6442,7 @@ s1
 6425	Official Seal of Dreadsylvania	158915306	dvtat.gif	usable		0	Official Seals of Dreadsylvania
 6426	Dreadsylvanian stew	768933176	soupbowl.gif	food		0
 6427	white Dreadsylvanian	990659022	whitedrink.gif	drink		0
-6428	brass Dreadsylvanian flask	660945598	flask.gif	usable		0
+6428	brass Dreadsylvanian flask	660945598	flask.gif	reusable		0
 6429	silver Dreadsylvanian flask	277786143	flask.gif	reusable		0
 6430	dreadful fedora	982873908	dv_freddyhat.gif	hat		0
 6431	dreadful sweater	794701101	dv_freddysweater.gif	shirt		0
