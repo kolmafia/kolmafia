@@ -1279,7 +1279,7 @@ yak whip	Weakens Monster
 yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 zombie accordion	Ranged Damage: +50, Item Drop: +10, Additional Song, Class: "Accordion Thief", Single Equip
 
-# Off-hand section of modifiers.txt
+# Offhand section of modifiers.txt
 
 'WILL WORK FOR BOOZE' sign	Booze Drop: +30
 1-ball	Initiative: +5
@@ -2921,7 +2921,7 @@ folder (magenta)	Muscle: +15, Mysticality: +15
 folder (owl)	Item Drop Percent: [500*zone(Dreadsylvania)]
 # folder (rainbow unicorn): Deals Prismatic Damage to Attackers
 folder (red)	Muscle: +20
-# folder (Seawolf): Makes you a better diver
+folder (Seawolf)	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
 folder (smiley face)	Experience (Muscle): +2
 folder (space skeleton)	Experience (Moxie): +2
 # folder (Stinky Trash Kid): Deals <font color=green>Stench Damage</font> every round
