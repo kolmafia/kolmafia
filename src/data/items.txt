@@ -6522,7 +6522,7 @@ s1
 6505	cursed ring finger ring	687502992	fingerring.gif	accessory		0
 6506	Dreadsylvanian clockwork key	264652584	dv_clockkey.gif	none		0
 6507	cool iron ingot	349636810	dv_coldiron.gif	none	t	0
-6508
+6508	cool iron helmet	791588621	dv_cihelm.gif	hat		0
 6509
 6510
 6511
@@ -6638,9 +6638,9 @@ s1
 6621	folder (magenta)	302387587	otherimages/folders/folder04.gif	usable	t,d	5
 6622	folder (cyan)	216029862	otherimages/folders/folder05.gif	usable	t,d	5
 6623	folder (yellow)	475171939	otherimages/folders/folder06.gif	usable	t,d	5
-6624
+6624	folder (smiley face)	792818237	otherimages/folders/folder07.gif	usable	t,d	5
 6625
-6626
+6626	folder (space skeleton)	777758783	otherimages/folders/folder09.gif	usable	t,d	5
 6627
 6628
 6629
@@ -6648,7 +6648,7 @@ s1
 6631	folder (Jackass Plumber)	155094068	otherimages/folders/folder14.gif	usable	t,d	5
 6632
 6633
-6634
+6634	folder (rainbow unicorn)	810587327	otherimages/folders/folder17.gif	usable	t,d	5
 6635
 6636	folder (dancing dolphins)	189052288	otherimages/folders/folder19.gif	usable	t,d	5
 6637

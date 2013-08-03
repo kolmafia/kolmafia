@@ -108,6 +108,7 @@ clockwork hat	80	Mox: 25
 clown wig	50	Mox: 10
 coconut shell	30	none
 cold ninja mask	80	Mox: 25
+cool iron helmet	250	Mox: 200
 cornuthaum	85	Mox: 27
 corrosive cowl	200	Mox: 150
 crappy Mer-kin mask	200	Mox: 85
@@ -1404,7 +1405,7 @@ slippery when wet shield	100	Mus: 35	shield
 snake shield	115	Mus: 42	shield
 snapdragon pistil	70	Mys: 20
 snarling wolf shield	115	Mus: 42	shield
-snowstick	0	Mys: 200
+snowstick	225	Mys: 200
 sock monkey	110	Mys: 40
 spaghetti-box banjo	160	Mys: 150
 speed limit shield	100	Mus: 35	shield
@@ -1456,7 +1457,7 @@ stuffed yeti	10	none
 stuffed yo-yo	10	none
 stuffed zmobie	10	none
 sucker bucket	50	none
-tailbone shield	0	Mus: 200	shield
+tailbone shield	250	Mus: 200	shield
 teflon shield	220	Mus: 85	shield
 thought balloon	10	none
 tiny black hole	10	none
@@ -1466,7 +1467,7 @@ tropical paperweight	20	none
 turtle wax shield	40	Mus: 5	shield
 turtling rod	10	none
 velcro shield	220	Mus: 85	shield
-vengeful spirit	0	Mys: 200
+vengeful spirit	225	Mys: 200
 vinyl shield	220	Mus: 85	shield
 voodoo doll	0	none
 wad of Crovacite	0	none
@@ -1722,7 +1723,7 @@ continuum transfunctioner	10	none
 copper ha'penny charrrm bracelet	190	Mys: 80
 corncob pipe	200	Mys: 200
 crusty hula hoop	200	Mys: 200
-cursed ring finger ring	0	Mys: 200
+cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
 cyborg stompin' boot	150	Mus: 60
 dead guy's memento	200	Mys: 200
@@ -1777,13 +1778,13 @@ glowing red eye	150	Mys: 60
 gnatwing earring	90	Mys: 30
 gnoll-tooth necklace	80	Mys: 10
 gold wedding ring	0	none
-grandfather watch	0	Mys: 200
+grandfather watch	225	Mys: 200
 gray bow tie	30	none
 green glowstick	20	none
 groovy prism necklace	150	Mys: 60
 grumpy old man charrrm bracelet	150	Mys: 60
 gummi bowtie	0	none
-guts necklace	0	Mys: 200
+guts necklace	225	Mys: 200
 haggis socks	10	none
 hamethyst bracelet	50	Mys: 10
 hamethyst earring	50	Mys: 10
@@ -1814,7 +1815,7 @@ kumquartz ring	0	none
 ladle of mystery	40	Mys: 5
 left half of a heart necklace	10	none
 lollipop cufflinks	0	none
-long-forgotten necklace	0	Mys: 85
+long-forgotten necklace	200	Mys: 85
 lucky Crimbo tiki necklace	10	none
 lucky bottlecap	200	Mys: 200
 lucky cat collar	60	Mys: 15
@@ -2149,7 +2150,7 @@ velcro boots	200	Mys: 85
 vial of hot blood	0	Mys: 200
 vinyl boots	200	Mox: 85
 walrus-tusk earring	50	Mys: 10
-warm fur	0	Mys: 200
+warm fur	225	Mys: 200
 water wings	10	none
 water-polo mitt	200	Mys: 85
 whalebone corset	55	Mys: 12

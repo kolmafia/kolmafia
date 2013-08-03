@@ -155,7 +155,7 @@ public class DreadsylvaniaRequest
 		{
 			return null;
 		}
-		return DreadsylvaniaRequest.shortcutIndexToZone( StringUtilities.parseInt( matcher.group( 1 ) ) );
+		return DreadsylvaniaRequest.shortcutIndexToZone( StringUtilities.parseInt( matcher.group( 1 ) ) - 1 );
 	}
 
 	private static AdventureResult getBooze( final String urlString )
