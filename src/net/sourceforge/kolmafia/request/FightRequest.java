@@ -2254,6 +2254,17 @@ public class FightRequest
 				"Your sugar shorts shattered." );
 		}
 
+		// The Great Wolf of the Air emits an ear-splitting final
+		// howl. Your necklace shatters like a champagne flute in a
+		// Memorex comercial[sic].
+		if ( responseText.indexOf( "Your necklace shatters" ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.MOON_AMBER_NECKLACE );
+		}
+
+		// *** beating hard mode Mayor Ghost discards Dreadsylvania Auditor's badge
+		// *** beating hard mode Count Drunkula discards ghost shawl
+
 		if ( responseText.contains( "applies it to his switchblade" ) )
 		{
 			// The Mer-kin bladeswitcher unequips your weapon
