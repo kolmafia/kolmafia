@@ -28,7 +28,7 @@
 # A weight of 0 means this is choice adventure generated, semi-rare or
 # one-time (boss) encounter in the area. A weight of -1 means this is an
 # ultra-rare encounter. Neither type of monster will be included in
-#average XP calculations.
+# average XP calculations.
 #
 # The weight can be preceded by an "o" to indicate that that the monster
 # can only appear in your first and subsequent odd-numbered ascensions,
@@ -86,8 +86,8 @@ Domed City of Ronaldus	100	Dogcat	Ferrelf	Hamsterpus	Overarmed Survivor	Primitiv
 Domed City of Grimacia	100	Alielf	Cat-Alien	Dog-Alien	Grizzled Survivor	Unhinged Survivor	Whiny Survivor
 Doubt Man's Level	-1	judgmental eye	reproachful heart	work hat	Doubt Man: 0
 Dreadsylvanian Castle	-1	cold skeleton	cold vampire	hot skeleton	hot vampire	sleaze skeleton	sleaze vampire	spooky skeleton	spooky vampire	stench skeleton	stench vampire	The Unkillable Skeleton: 0	Count Drunkula: 0
-Dreadsylvanian Village	-1	cold ghost	cold zombie	hot ghost	hot zombie	sleaze ghost	sleaze zombie	spooky ghost	spooky zombie	stench ghost	stench zombie	Mayor Ghost: 0	Zombie Homeowners' Association (0)
-Dreadsylvanian Woods	-1	cold bugbear	cold werewolf	hot bugbear	hot werewolf	sleaze bugbear	sleaze werewolf	spooky bugbear	spooky werewolf	stench bugbear	stench werewolf	Great Wolf of the Air (0)	Falls-From-Sky (0)
+Dreadsylvanian Village	-1	cold ghost	cold zombie	hot ghost	hot zombie	sleaze ghost	sleaze zombie	spooky ghost	spooky zombie	stench ghost	stench zombie	Mayor Ghost: 0	Zombie Homeowners' Association: 0
+Dreadsylvanian Woods	-1	cold bugbear	cold werewolf	hot bugbear	hot werewolf	sleaze bugbear	sleaze werewolf	spooky bugbear	spooky werewolf	stench bugbear	stench werewolf	Great Wolf of the Air: 0	Falls-From-Sky: 0
 Elf Alley	-1	Hobelf	Uncle Hobo: 0
 El Vibrato Island	100	Bizarre Construct	Hulking Construct	Industrious Construct	Lonely Construct	Menacing Construct	Towering Construct
 Engineering	-1
