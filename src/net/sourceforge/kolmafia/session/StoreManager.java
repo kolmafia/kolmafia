@@ -384,6 +384,28 @@ public abstract class StoreManager
 		}
 	}
 
+	public static final void flushCache( final int itemId )
+	{
+		Iterator<ArrayList<PurchaseRequest>> i = StoreManager.mallSearches.values().iterator();
+		while ( i.hasNext() )
+		{
+			ArrayList<PurchaseRequest> search = i.next();
+			// Always remove empty searches
+			if ( search == null || search.size() == 0 )
+			{
+				i.remove();
+				continue;
+			}
+			int id = search.get( 0 ).getItemId();
+			if ( itemId == id )
+			{
+				i.remove();
+				return;
+			}
+			break;
+		}
+	}
+
 	public static final void flushCache()
 	{
 		long t0, t1;

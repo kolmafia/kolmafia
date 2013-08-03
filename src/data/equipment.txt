@@ -1133,7 +1133,7 @@ yak whip	20	Mus: 0	1-handed whip
 yohohoyo	160	Mox: 65	1-handed yoyo
 zombie accordion	300	Mox: 250	1-handed accordion
 
-# Off-hand section of equipment.txt
+# Offhand section of equipment.txt
 
 'WILL WORK FOR BOOZE' sign	150	Mus: 175
 1-ball	30	none
