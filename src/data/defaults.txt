@@ -827,6 +827,7 @@ user	_bootStomps	0
 user	_borrowedTimeUsed	false
 user	_boxingGloveArrows	0
 user	_boxOfHammersUsed	false
+user	_brassDreadFlaskUsed	false
 user	_brickoFights	0
 user	_brickoEyeSummons	0
 user	_cameraUsed	false
@@ -947,6 +948,7 @@ user	_sealFigurineUses	0
 user	_sealsSummoned	0
 user	_setOfJacksUsed	false
 user	_sexChanged	false
+user	_silverDreadFlaskUsed	false
 user	_skateBuff1	false
 user	_skateBuff2	false
 user	_skateBuff3	false

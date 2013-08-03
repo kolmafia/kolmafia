@@ -181,6 +181,8 @@ dilapidated wizard hat	Hot Damage: +10, Hot Spell Damage: +15
 disco mask	Moxie: +1, Familiar Effect: "atk, cap 2"
 double-ice cap	MP Regen Min: 5, MP Regen Max: 9, Cold Damage: +10, Familiar Effect: "1xPotato, 1xFairy, cap 17"
 draggin' ball hat	Moxie: +6, Muscle: -3, Familiar Effect: "atk, 1xVolley, cap 25"
+# dreadful fedora: Lets you find 5% more Krueggerands
+dreadful fedora	Spooky Damage: +25, Spooky Spell Damage: +25
 duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
 # dwarvish war helmet: Heads Up!
 dwarvish war helmet	Familiar Effect: "atk, 1xFairy, cap 41"
@@ -5153,6 +5155,7 @@ shaking skull	No Pull
 shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 siesta-ing Casagnova gnome	Free Pull
 silk garter snake	Free Pull
+silver Dreadsylvanian flask	Effect: "Silver Age Secrets", Effect Duration: 100
 sizzling seal fat	Effect: "Sizzling with Fury", Effect Duration: 10
 skelelton spine	Effect: "Spike-and-span", Effect Duration: 30
 skeletal banana	Effect: "Osseous George", Effect Duration: 30
