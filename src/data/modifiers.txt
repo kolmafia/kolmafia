@@ -354,6 +354,7 @@ wumpus-hair wig	Moxie: -5, Stench Damage: +20, Stench Spell Damage: +20, Familia
 yak toupee	MP Regen Min: 3, MP Regen Max: 4, Familiar Effect: "atk, 1xPotato, cap 25"
 yellow plastic hard hat	Familiar Effect: "atk, cap 22"
 yellow traffic cone	Moxie: +3, Sleaze Resistance: +2, Familiar Effect: "?xVolley, ?xLep, cap 15"
+zombie mariachi hat	Moxie Percent: +50, Maximum HP: +150, Maximum MP: +150, Initiative: +40, Class: "Accordion Thief"
 
 # Pants section of modifiers.txt
 
@@ -556,6 +557,7 @@ wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Rege
 yakskin kilt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"
 yakskin pants	Maximum MP: +25, Familiar Effect: "prismatic atk, 1xPotato, cap 35"
 yakskin skirt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"
+zombie mariachi pants	Stench Damage: +50, Spooky Resistance: +5, Hot Resistance: +1, Class: "Accordion Thief"
 
 # Shirts section of modifiers.txt
 
@@ -955,6 +957,8 @@ didgeridooka	Moxie: +9
 dishrag	Stench Damage: +3
 double-barreled sling	Sleaze Damage: +5, Cold Resistance: +1
 doubt cannon	Weakens Monster
+# dreadful glove: Lets you find 5% more Krueggerands
+dreadful glove	Critical Hit Percent: +5
 dreadlock whip	Sleaze Damage: +5, Stench Damage: +5, Monster Level: +10
 dripping meat crossbow	Moxie: +2
 dripping meat staff	Mysticality: +2
@@ -1317,6 +1321,7 @@ Engorged Sausages and You Spell Damage: +15, Food Drop: +20
 # Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
 Gazpacho's Glacial Grimoire	Spell Damage: +10
 Glass Balls of the Goblin King	Mysticality: +14
+Great Wolf's left paw	Critical Hit Percent: +10, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Never Fumble, Class: "Seal Clubber"
 # Grey Guanon: Deals Stench Damage every round
 Grey Guanon	Stench Damage: +5
 # Hodgman's almanac: Converts Hobo Power to Spell Damage
@@ -1415,6 +1420,8 @@ The Spirit of Crimbo	Free Pull
 Tiki lighter	Experience: +1, Stat Tuning: "Moxie"
 # Tuesday's ruby has day-dependent effects which are hard-coded
 Tuesday's ruby	none
+# Unkillable Skeleton's shield: Deals damage to attackers
+Unkillable Skeleton's shield	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Maximum MP: -300, Damage Reduction: 23
 Victor, the Insult Comic Hellhound Puppet	Monster Level: +5
 # Wand of Oscus: All Spells Cast Are Stinky
 Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
@@ -2908,15 +2915,18 @@ folder (blue)	Mysticality: +20
 folder (cyan)	Mysticality: +15, Moxie: +15
 folder (dancing dolphins)	Item Drop Percent: [50*zone(The Sea)]
 folder (green)	Moxie: +20
+folder (holographic fractal)	Cold Resistance: +4, Hot Resistance: +4, Sleaze Resistance: +4, Spooky Resistance: +4, Stench Resistance: +4
 folder (Jackass Plumber)	Monster Level: +25
 folder (magenta)	Muscle: +15, Mysticality: +15
 folder (owl)	Item Drop Percent: [500*zone(Dreadsylvania)]
 # folder (rainbow unicorn): Deals Prismatic Damage to Attackers
 folder (red)	Muscle: +20
+# folder (Seawolf): Makes you a better diver
 folder (smiley face)	Experience (Muscle): +2
 folder (space skeleton)	Experience (Moxie): +2
 # folder (Stinky Trash Kid): Deals <font color=green>Stench Damage</font> every round
 folder (tranquil landscape)	Damage Reduction: 15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
+folder (wizard)	Experience (Mysticality): +2
 folder (yellow)	Muscle: +15, Moxie: +15
 
 # Campground equipment section of modifiers.txt

@@ -6446,7 +6446,7 @@ s1
 6429
 6430
 6431	dreadful sweater	794701101	dv_freddysweater.gif	shirt		0
-6432
+6432	dreadful glove	763468382	dv_freddyglove.gif	weapon		0
 6433	Freddy Krueggerand	901547610	dv_krueggerand.gif	none		0
 6434	Mark of the Bugbear	950853827	dv_mark1.gif	usable	t	0	Marks of the Bugbear
 6435	Mark of the Werewolf	566747498	dv_mark2.gif	usable	t	0	Marks of the Werewolf
@@ -6462,15 +6462,15 @@ s1
 6445
 6446	Gets-You-Drunk	610004137	coffeecup.gif	drink	t	0
 6447	Great Wolf's headband	601471657	ww_headband.gif	hat		0
-6448
+6448	Great Wolf's left paw	767546909	ww_leftclaw.gif	offhand		0
 6449	Great Wolf's right paw	523051317	ww_rightclaw.gif	weapon		0
 6450
 6451
 6452
 6453	Hunger&trade; Sauce	923389971	ww_sauce.gif	usable	t	0
-6454
+6454	zombie mariachi hat	694432828	zh_hat.gif	hat		0
 6455	zombie accordion	455940650	zh_accordion.gif	weapon		0
-6456
+6456	zombie mariachi pants	593943883	zh_pants.gif	pants		0
 6457
 6458
 6459
@@ -6494,7 +6494,7 @@ s1
 6477
 6478	Unkillable Skeleton's shinguards	629921726	sk_pants.gif	pants		0
 6479	Unkillable Skeleton's sawsword	364869957	sk_sword.gif	weapon		0
-6480
+6480	Unkillable Skeleton's shield	574670113	sk_shield.gif	offhand		0
 6481
 6482
 6483	electric Kool-Aid	363523121	sk_koolaid.gif	food	t	0
@@ -6639,17 +6639,17 @@ s1
 6622	folder (cyan)	216029862	otherimages/folders/folder05.gif	usable	t,d	5
 6623	folder (yellow)	475171939	otherimages/folders/folder06.gif	usable	t,d	5
 6624	folder (smiley face)	792818237	otherimages/folders/folder07.gif	usable	t,d	5
-6625
+6625	folder (wizard)	643671224	otherimages/folders/folder08.gif	usable	t,d	5
 6626	folder (space skeleton)	777758783	otherimages/folders/folder09.gif	usable	t,d	5
 6627
 6628
 6629
 6630
 6631	folder (Jackass Plumber)	155094068	otherimages/folders/folder14.gif	usable	t,d	5
-6632
+6632	folder (holographic fractal)	314549869	otherimages/folders/folder15.gif	usable	t,d	5
 6633
 6634	folder (rainbow unicorn)	810587327	otherimages/folders/folder17.gif	usable	t,d	5
-6635
+6635	folder (Seawolf)	925690280	otherimages/folders/folder18.gif	usable	t,d	5
 6636	folder (dancing dolphins)	189052288	otherimages/folders/folder19.gif	usable	t,d	5
 6637
 6638	folder (tranquil landscape)	595837547	otherimages/folders/folder21.gif	usable	t,d	5
