@@ -358,17 +358,13 @@ public class DreadScrollManager
 			{
 				continue;
 			}
-			int index = buffer.indexOf( "name=pro" + String.valueOf( pro ) );
-			if ( index < 0 )
-			{
-				continue;
-			}
-			int option = buffer.indexOf( "value=" + String.valueOf( value ), index );
-			if ( option < 0 )
-			{
-				continue;
-			}
-			buffer.insert( option + 7, " selected" );
+
+			String [] option = data[value];
+			String key = option.length > 1 ? option[1] : option[0];
+
+			String find = ">" + key;
+			String replace = " selected>--&gt;" + key + "&lt;--";
+			StringUtilities.globalStringReplace( buffer, find, replace );
 		}
 	}
 }
