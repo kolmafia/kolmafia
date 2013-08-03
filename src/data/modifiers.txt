@@ -168,6 +168,7 @@ clockwork hat	Spooky Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 20"
 clown wig	Mysticality: +3, Spell Damage: +3, Clownosity: +2, Familiar Effect: "chromatic atk, 1xPotato, cap 12"
 coconut shell	Damage Absorption: +1, Familiar Effect: "1xFairy, cap 7"
 cold ninja mask	Initiative: +15, Familiar Effect: "cold atk, 1xBarrr, cap 20"
+cool iron helmet	Damage Reduction: 20, Hot Resistance: +3
 cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xFairy, cap 21"
 corrosive cowl	Slime Hates It: +1, Spooky Damage: +30, Spooky Resistance: +4, Familiar Effect: "0.5xPotato, 0.5xFairy"
 crappy Mer-kin mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater
@@ -2910,7 +2911,10 @@ folder (green)	Moxie: +20
 folder (Jackass Plumber)	Monster Level: +25
 folder (magenta)	Muscle: +15, Mysticality: +15
 folder (owl)	Item Drop Percent: [500*zone(Dreadsylvania)]
+# folder (rainbow unicorn): Deals Prismatic Damage to Attackers
 folder (red)	Muscle: +20
+folder (smiley face)	Experience (Muscle): +2
+folder (space skeleton)	Experience (Moxie): +2
 # folder (Stinky Trash Kid): Deals <font color=green>Stench Damage</font> every round
 folder (tranquil landscape)	Damage Reduction: 15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 folder (yellow)	Muscle: +15, Moxie: +15
