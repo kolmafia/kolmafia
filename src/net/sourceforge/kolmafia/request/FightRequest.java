@@ -2269,7 +2269,11 @@ public class FightRequest
 			EquipmentManager.discardEquipment( ItemPool.GHOST_SHAWL );
 		}
 
-		// *** beating hard mode Mayor Ghost discards Dreadsylvania Auditor's badge
+		// As he fades away, Mayor Ghost clutches at your badge, which fades away with him. Rats.
+		if ( responseText.indexOf( "clutches at your badge" ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.AUDITORS_BADGE );
+		}
 
 		if ( responseText.contains( "applies it to his switchblade" ) )
 		{

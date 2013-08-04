@@ -6629,8 +6629,8 @@ s1
 6612	intricate clockwork numeral XII	207262227	cuckoo12.gif	none		0
 6613	intricate clockwork cuckoo	235099482	cuckoobird.gif	none		0
 6614	cuckoo clock	886205813	cuckooclock.gif	usable	t	0
-6615
-6616
+6615	Cold One	700464462	coldone.gif	drink	d	5
+6616	spaghetti breakfast	364296536	spaghetti.gif	food	d	5
 6617	over-the-shoulder Folder Holder	868830919	folderholder2.gif	accessory		0
 6618	folder (red)	803733525	otherimages/folders/folder01.gif	usable	t,d	5
 6619	folder (blue)	968651348	otherimages/folders/folder02.gif	usable	t,d	5
@@ -6647,11 +6647,11 @@ s1
 6630
 6631	folder (Jackass Plumber)	155094068	otherimages/folders/folder14.gif	usable	t,d	5
 6632	folder (holographic fractal)	314549869	otherimages/folders/folder15.gif	usable	t,d	5
-6633
+6633	folder (barbarian)	617183321	otherimages/folders/folder16.gif	usable	t,d	5
 6634	folder (rainbow unicorn)	810587327	otherimages/folders/folder17.gif	usable	t,d	5
 6635	folder (Seawolf)	925690280	otherimages/folders/folder18.gif	usable	t,d	5
 6636	folder (dancing dolphins)	189052288	otherimages/folders/folder19.gif	usable	t,d	5
-6637
+6637	folder (catfish)	722128507	otherimages/folders/folder20.gif	usable	t,d	5
 6638	folder (tranquil landscape)	595837547	otherimages/folders/folder21.gif	usable	t,d	5
 6639	folder (owl)	898277246	otherimages/folders/folder22.gif	usable	t,d	5
 6640	folder (Stinky Trash Kid)	680871241	otherimages/folders/folder23.gif	usable	t,d	5
