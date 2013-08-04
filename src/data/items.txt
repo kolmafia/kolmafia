@@ -6457,16 +6457,16 @@ s1
 6440	Covers-Your-Head	294652787	bb_hat.gif	hat		0
 6441	Drapes-You-Regally	405751737	bb_cloak.gif	container		0
 6442	Warms-Your-Tush	489060732	bb_pants.gif	pants		0
-6443
-6444
-6445
+6443	Helps-You-Sleep	525663175	bb_mask.gif	accessory		0
+6444	Quiets-Your-Steps	393898229	bb_shoes.gif	accessory		0
+6445	Protects-Your-Junk	184362016	bb_speedo.gif	accessory		0
 6446	Gets-You-Drunk	610004137	coffeecup.gif	drink	t	0
 6447	Great Wolf's headband	601471657	ww_headband.gif	hat		0
 6448	Great Wolf's left paw	767546909	ww_leftclaw.gif	offhand		0
 6449	Great Wolf's right paw	523051317	ww_rightclaw.gif	weapon		0
-6450
-6451
-6452
+6450	Great Wolf's rocket launcher	229573706	ww_bazooka.gif	weapon		0
+6451	Great Wolf's beastly trousers	370491221	ww_pants.gif	pants		0
+6452	Great Wolf's lice	639734327	ww_lice.gif	usable, combat reusable	d	21337
 6453	Hunger&trade; Sauce	923389971	ww_sauce.gif	usable	t	0
 6454	zombie mariachi hat	694432828	zh_hat.gif	hat		0
 6455	zombie accordion	455940650	zh_accordion.gif	weapon		0
@@ -6479,24 +6479,24 @@ s1
 6462	Mayor Ghost's toupee	401379524	mg_hat.gif	hat		0
 6463	Mayor Ghost's cloak	831864258	mg_cape.gif	container		0
 6464	Mayor Ghost's khakis	870625180	mg_pants.gif	pants		0
-6465
-6466
+6465	Mayor Ghost's gavel	572924821	mg_gavel.gif	weapon		0
+6466	Mayor Ghost's sash	128879219	mg_sash.gif	accessory		0
 6467	Mayor Ghost's scissors	178893828	mg_scissors.gif	none, combat reusable	d	21337
 6468	ghost pepper	473945800	mg_pepper.gif	food	t	0
 6469	Thunkula's drinking cap	890136862	dr_hat.gif	hat		0
 6470	Drunkula's cape	391304427	dr_cape.gif	container		0
 6471	Drunkula's silky pants	312358141	dr_pants.gif	pants		0
-6472
-6473
-6474
+6472	Drunkula's bell	917077226	dr_bell.gif	usable, combat reusable	d	21337
+6473	Drunkula's ring of haze	252414329	dr_ring.gif	accessory		0
+6474	Drunkula's wineglass	607962582	dr_wineglass.gif	offhand		0
 6475	bottle of Bloodweiser	117917809	dr_beer.gif	drink	t	0
-6476
-6477
+6476	Unkillable Skeleton's skullcap	226371100	sk_hat.gif	hat		0
+6477	Unkillable Skeleton's breastplate	491370634	sk_chest.gif	shirt		0
 6478	Unkillable Skeleton's shinguards	629921726	sk_pants.gif	pants		0
 6479	Unkillable Skeleton's sawsword	364869957	sk_sword.gif	weapon		0
 6480	Unkillable Skeleton's shield	574670113	sk_shield.gif	offhand		0
-6481
-6482
+6481	Unkillable Skeleton's restless leg	138108100	sk_leg.gif	weapon		0
+6482	Staff of the Roaring Hearth	467328835	sk_staff.gif	weapon		0
 6483	electric Kool-Aid	363523121	sk_koolaid.gif	food	t	0
 6484	dread tarragon	575782784	dv_tarragon.gif	none	t	0	bottles of dread tarragon
 6485	bone flour	348000600	disease.gif	none	t	0
@@ -6523,9 +6523,9 @@ s1
 6506	Dreadsylvanian clockwork key	264652584	dv_clockkey.gif	none		0
 6507	cool iron ingot	349636810	dv_coldiron.gif	none	t	0
 6508	cool iron helmet	791588621	dv_cihelm.gif	hat		0
-6509
-6510
-6511
+6509	cool iron breastplate	851159967	dv_cichest.gif	shirt		0
+6510	cool iron greaves	622329943	dv_cigreaves.gif	pants		0
+6511	ghost shawl	939661068	ghostshawl.gif	container		0
 6512	skull capacitor	985454129	dv_skullcap.gif	none		0
 6513	warm fur	641261663	dv_warmfur.gif	accessory	t	0
 6514	snowstick	646078952	dv_snowstick.gif	offhand	t	0
