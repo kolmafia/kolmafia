@@ -6466,7 +6466,7 @@ s1
 6449	Great Wolf's right paw	523051317	ww_rightclaw.gif	weapon		0
 6450	Great Wolf's rocket launcher	229573706	ww_bazooka.gif	weapon		0
 6451	Great Wolf's beastly trousers	370491221	ww_pants.gif	pants		0
-6452	Great Wolf's lice	639734327	ww_lice.gif	usable, combat reusable	d	21337
+6452	Great Wolf's lice	639734327	ww_lice.gif	none, combat reusable	d	21337
 6453	Hunger&trade; Sauce	923389971	ww_sauce.gif	usable	t	0
 6454	zombie mariachi hat	694432828	zh_hat.gif	hat		0
 6455	zombie accordion	455940650	zh_accordion.gif	weapon		0
@@ -6486,7 +6486,7 @@ s1
 6469	Thunkula's drinking cap	890136862	dr_hat.gif	hat		0
 6470	Drunkula's cape	391304427	dr_cape.gif	container		0
 6471	Drunkula's silky pants	312358141	dr_pants.gif	pants		0
-6472	Drunkula's bell	917077226	dr_bell.gif	usable, combat reusable	d	21337
+6472	Drunkula's bell	917077226	dr_bell.gif	none, combat reusable	d	21337
 6473	Drunkula's ring of haze	252414329	dr_ring.gif	accessory		0
 6474	Drunkula's wineglass	607962582	dr_wineglass.gif	offhand		0
 6475	bottle of Bloodweiser	117917809	dr_beer.gif	drink	t	0
