@@ -1658,6 +1658,7 @@ public class ItemPool
 	public static final int EAU_DE_MORT = 6497;
 	public static final int MOON_AMBER = 6499;
 	public static final int MOON_AMBER_NECKLACE = 6501;
+	public static final int GHOST_PENCIL = 6503;
 	public static final int DREADSYLVANIAN_CLOCKWORK_KEY = 6506;
 	public static final int COOL_IRON_INGOT = 6507;
 	public static final int GHOST_SHAWL = 6511;
