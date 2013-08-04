@@ -1653,6 +1653,7 @@ public class ItemPool
 	public static final int WAX_BANANA = 6492;
 	public static final int WAX_LOCK_IMPRESSION = 6493;
 	public static final int REPLICA_KEY = 6494;
+	public static final int AUDITORS_BADGE = 6495;
 	public static final int BLOOD_KIWI = 6496;
 	public static final int EAU_DE_MORT = 6497;
 	public static final int MOON_AMBER = 6499;

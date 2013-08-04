@@ -92,6 +92,7 @@ chunky mary	4	1	good	11-13	0	0	30-40
 cinco mayo lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg)
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 cobb's knob wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP
+cold one	1	1		6	0	0	0	
 cool mushroom wine	3	6	awesome	10-14	0	8-10	0
 corpse island iced tea	6	5	awesome	19-23	25-30	25-30	25-30
 corpse on the beach	6	5	awesome	19-23	0	71-75	0
