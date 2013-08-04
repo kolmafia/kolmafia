@@ -4129,9 +4129,11 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 3 )
 			{
 				// Try the Attic
-				// *** What is the "you unlocked it" message?
+				// You use your skeleton key to unlock the padlock on the attic trap door.
+				// Then you use your legs to climb the ladder into the attic.
+				// Then you use your stupidity to lose the skeleton key.  Crap.
 
-				if ( text.contains( "you unlocked it" ) )
+				if ( text.contains( "lose the skeleton key" ) )
 				{
 					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
 				}
