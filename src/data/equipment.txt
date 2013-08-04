@@ -66,6 +66,7 @@ The Necbromancer's Hat	200	Mox: 200
 Thunkula's drinking cap	300	Mys: 250
 Tropical Crimbo Hat	100	Mox: 35
 Uncle Hobo's stocking cap	200	Mox: 200
+Unkillable Skeleton's skullcap	300	Mus: 250
 Van der Graaf helmet	30	none
 Voluminous Radio Hat	150	Mox: 60
 Ze&trade; goggles	30	none
@@ -300,6 +301,7 @@ Drunkula's silky pants	300	Mys: 250
 Dyspepsi-Cola fatigues	30	none
 El Vibrato leg guards	200	Mox: 200
 Galapagosian Cuisses	125	Mus: 30
+Great Wolf's beastly trousers	300	Mus: 100
 Greatest American Pants	100	none
 Greaves of the Murk Lord	120	none
 Grimacite gaiters	150	Mox: 40
@@ -361,6 +363,7 @@ cane-mail pants	100	none
 chain-mail monokini	30	none
 clingfilm trousers	150	Mox: 60
 clockwork pants	80	Mox: 25
+cool iron greaves	250	Mox: 200
 corroded breeches	200	Mox: 150
 crappy Mer-kin tailpiece	200	Mox: 85
 crotchety pants	75	Mox: 22
@@ -500,6 +503,7 @@ Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none
 Thinknerd T-Shirt	10	none
 Ultracolor&trade; shirt	100	Mus: 35
+Unkillable Skeleton's breastplate	300	Mus: 250
 Ye Olde Navy Fleece	100	Mus: 35
 anniversary safety glass vest	10	none
 asbestos apron	170	Mus: 70
@@ -511,6 +515,7 @@ chamoisole	200	Mus: 200
 clockwork trench coat	80	Mus: 25
 clownskin harness	60	Mus: 15
 coconut bikini top	100	Mus: 35
+cool iron breastplate	250	Mus: 200
 demonskin jacket	80	Mus: 25
 dreadful sweater	200	Mys: 200
 duct tape shirt	195	Mus: 82
@@ -599,6 +604,7 @@ Gnollish pie server	20	Mys: 0	1-handed utensil
 Gnollish plunger	35	Mus: 2	1-handed spear
 Gnollish slotted spoon	25	Mys: 0	1-handed utensil
 Great Wolf's right paw	300	Mus: 250	1-handed claw
+Great Wolf's rocket launcher	300	Mox: 100	2-handed bazooka
 Greek Pasta of Peril	90	Mys: 15	1-handed utensil
 Grimacite gat	150	Mox: 40	1-handed pistol
 Grimacite glaive	125	Mus: 47	2-handed polearm
@@ -621,6 +627,7 @@ Loathing Legion hammer	100	Mus: 0	1-handed hammer
 Mace of the Tortoise	50	Mus: 10	1-handed mace
 Mafia violin case	100	Mus: 35	1-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
+Mayor Ghost's gavel	10	Mus: 0	1-handed club
 Meatcleaver	200	Mus: 200	2-handed sword
 Mer-kin digpick	200	Mus: 85	2-handed axe
 Mer-kin dodgeball	200	Mox: 85	2-handed dodgeball
@@ -670,6 +677,7 @@ Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
 Staff of the Light Lunch	10	Mys: 0	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
 Staff of the November Jack-O-Lantern	10	Mys: 15	1-handed chefstaff
+Staff of the Roaring Hearth	10	Mys: 250	1-handed chefstaff
 Staff of the Scummy Sink	10	Mys: 125	1-handed chefstaff
 Staff of the Short Order Cook	10	Mys: 15	1-handed chefstaff
 Staff of the Soupbone	10	Mys: 75	1-handed chefstaff
@@ -696,6 +704,7 @@ Uncle Hobo's highest bough	200	Mus: 200	1-handed club
 Underworld flail	200	Mox: 150	2-handed flail
 Underworld truncheon	200	Mus: 150	2-handed club
 Unionize The Elves sign	50	Mus: 10	1-handed club
+Unkillable Skeleton's restless leg	300	Mus: 100	2-handed staff
 Unkillable Skeleton's sawsword	300	Mus: 100	2-handed sword
 Wand of Nagamar	30	Mus: 0	1-handed wand
 White Dragon Fang	200	Mus: 200	1-handed sword
@@ -1164,6 +1173,7 @@ Crimbo light-up Rudolph doll	0	none
 Crimbo stogie-scented room odorizer	0	none
 Crimbo tree flocker	0	none
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
+Drunkula's wineglass	0	Mys: 100
 Dungeon Fist gauntlet	100	Mus: 35
 Dyspepsi-Cola shield	70	none	shield
 Ellsbury's skull	100	Mys: 35
@@ -1522,6 +1532,7 @@ Codpiece of the Goblin King	70	Mys: 20
 Copper Alpha of Sincerity	200	Mys: 85
 Counterclockwise Watch	200	none
 Dreadsylvania Auditor's badge	0	Mys: 200
+Drunkula's ring of haze	0	Mys: 100
 Duskwalker fangs	105	Mys: 37
 Dyspepsi-Cola-issue canteen	30	none
 E.M.U. Unit	0	none
@@ -1547,6 +1558,7 @@ Grimacite gauntlets	0	Mys: 15
 Grimacite girdle	0	Mys: 15
 Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
+Helps-You-Sleep	0	Mox: 100
 Hodgman's bow tie	200	Mys: 200
 Hodgman's lucky sock	200	Mys: 200
 Ice-Cold Aluminum Necklace	150	Mys: 60
@@ -1574,6 +1586,7 @@ Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
 MagiMechTech NanoMechaMech	60	Mys: 15
 Marvelous Unitard	10	none
+Mayor Ghost's sash	0	Mys: 100
 Mega Gem	10	none
 Mer-kin dragbelt	200	Mus: 85
 Mer-kin eyeglasses	200	Mys: 85
@@ -1617,8 +1630,10 @@ Pok&euml;mann figurine: Smugleaf	10	none
 Pok&euml;mann figurine: Twitter	10	none
 Pok&euml;mann figurine: Vegemite	10	none
 Pok&euml;mann figurine: Vermouth	10	none
+Protects-Your-Junk	0	Mox: 100
 Purple Horseshoe of Honor	200	Mys: 85
 Putrid Pendant	150	Mys: 60
+Quiets-Your-Steps	0	Mox: 100
 Radio KoL Antenna Ball	0	none
 Radio KoL Bottle Opener	0	none
 Radio KoL Coffee Mug	0	none
@@ -2192,6 +2207,7 @@ anniversary pewter cape	10	none
 auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
 cod cape	0	Mox: 200
+ghost shawl	0	Mys: 200
 giant gym membership card	0	Mus: 75
 hemp backpack	0	Mys: 75
 makeshift cape	100	Mys: 75

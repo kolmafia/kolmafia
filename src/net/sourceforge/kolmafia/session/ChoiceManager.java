@@ -4248,6 +4248,22 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 741:
+			// The Old Duke's Estate
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				// Make your way to the master suite
+
+				// You find the door to the old Duke's master bedroom and
+				// unlock it with your skeleton key.
+
+				if ( text.contains( "unlock it with your skeleton key" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
+				}
+			}
+			return;
+
 		case 743:
 			// No Quarter
 			if ( ChoiceManager.lastDecision == 2 )
@@ -4263,18 +4279,14 @@ public abstract class ChoiceManager
 			}
 			return;
 
-		case 741:
-			// The Old Duke's Estate
+		case 744:
+			// The Master Suite -- Sweet!
 			if ( ChoiceManager.lastDecision == 3 )
 			{
-				// Make your way to the master suite
-
-				// You find the door to the old Duke's master bedroom and
-				// unlock it with your skeleton key.
-
-				if ( text.contains( "unlock it with your skeleton key" ) )
+				// Mess with the loom
+				if ( text.contains( "You acquire" ) )
 				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.GHOST_THREAD, -10 ) );
 				}
 			}
 			return;

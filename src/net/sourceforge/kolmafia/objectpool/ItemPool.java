@@ -1658,8 +1658,10 @@ public class ItemPool
 	public static final int MOON_AMBER_NECKLACE = 6501;
 	public static final int DREADSYLVANIAN_CLOCKWORK_KEY = 6506;
 	public static final int COOL_IRON_INGOT = 6507;
+	public static final int GHOST_SHAWL = 6511;
 	public static final int SKULL_CAPACITOR = 6512;
 	public static final int WARM_FUR = 6513;
+	public static final int GHOST_THREAD = 6525;
 	public static final int OLD_BALL_AND_CHAIN = 6539;
 	public static final int OLD_DRY_BONE = 6540;
 	public static final int PHIAL_OF_HOTNESS = 6556;

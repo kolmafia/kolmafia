@@ -2262,8 +2262,14 @@ public class FightRequest
 			EquipmentManager.discardEquipment( ItemPool.MOON_AMBER_NECKLACE );
 		}
 
+		// You look down and notice that your shawl got ripped to
+		// shreds during the fight. Dangit.
+		if ( responseText.indexOf( "Your shawl got ripped to shreds" ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.GHOST_SHAWL );
+		}
+
 		// *** beating hard mode Mayor Ghost discards Dreadsylvania Auditor's badge
-		// *** beating hard mode Count Drunkula discards ghost shawl
 
 		if ( responseText.contains( "applies it to his switchblade" ) )
 		{
