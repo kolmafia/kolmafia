@@ -1648,7 +1648,7 @@ public class ItemPool
 	public static final int DREAD_TARRAGON = 6484;
 	public static final int BONE_FLOUR = 6485;
 	public static final int DREADFUL_ROAST = 6486;
-	public static final int STINKING_AGARICUS = 6486;
+	public static final int STINKING_AGARICUS = 6487;
 	public static final int INTRICATE_MUSIC_BOX_PARTS = 6489;
 	public static final int WAX_BANANA = 6492;
 	public static final int WAX_LOCK_IMPRESSION = 6493;
