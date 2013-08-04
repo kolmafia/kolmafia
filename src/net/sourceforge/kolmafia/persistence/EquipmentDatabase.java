@@ -100,7 +100,8 @@ public class EquipmentDatabase
 	public static final int YIELD_4N_1W = 0x080;
 	public static final int YIELD_1W3N_2W = 0x100;
 	public static final int YIELD_3W = 0x200;
-	public static final int MASK_YIELD = 0x3FF;
+	public static final int YIELD_1C = 0x400;
+	public static final int MASK_YIELD = 0x7FF;
 	public static final int ELEM_TWINKLY = 0x01000;
 	public static final int ELEM_HOT = 0x02000;
 	public static final int ELEM_COLD = 0x04000;
@@ -265,6 +266,7 @@ public class EquipmentDatabase
 				spec.equals( "nosmash" )  ? -1 :
 				spec.equals( "upgrade" ) ? EquipmentDatabase.deriveUpgrade( data[ 0 ] ) :
 				StringUtilities.isNumeric( spec ) ? ( PULVERIZE_BITS | StringUtilities.parseInt( spec ) ) :
+				spec.endsWith( "cluster" ) ? EquipmentDatabase.deriveCluster( spec ) :
 				ItemDatabase.getItemId( spec );
 
 			EquipmentDatabase.pulverize.set( itemId, result );
@@ -926,6 +928,34 @@ public class EquipmentDatabase
 		{
 			pulver |= ELEM_OTHER;
 		}
+		return pulver;
+	}
+
+	private static final int deriveCluster( final String name )
+	{
+		int pulver = PULVERIZE_BITS | YIELD_1C;
+
+		if ( name.startsWith( "hot" ) )
+		{
+			pulver |= ELEM_HOT;
+		}
+		else if ( name.startsWith( "cold" ) )
+		{
+			pulver |= ELEM_COLD;
+		}
+		else if ( name.startsWith( "stench" ) )
+		{
+			pulver |= ELEM_STENCH;
+		}
+		else if ( name.startsWith( "spook" ) )
+		{
+			pulver |= ELEM_SPOOKY;
+		}
+		else if ( name.startsWith( "sleaz" ) )
+		{
+			pulver |= ELEM_SLEAZE;
+		}
+
 		return pulver;
 	}
 

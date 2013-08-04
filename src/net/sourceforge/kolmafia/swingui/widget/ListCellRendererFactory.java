@@ -1054,6 +1054,11 @@ public class ListCellRendererFactory
 					stringForm.append( "<font color=purple>Sl</font>" );
 					HTML = true;
 				}
+
+				if ( (pulver & EquipmentDatabase.YIELD_1C) != 0 )
+				{
+					stringForm.append( "C" );
+				}
 				
 				if ( (pulver & EquipmentDatabase.MALUS_UPGRADE ) != 0 )
 				{

@@ -234,6 +234,38 @@ vinyl shield	sea salt crystal
 water-polo cap	sea salt crystal
 water-polo mitt	sea salt crystal
 
+# Dreadsylvania elemental items turn into elemental nuggets
+accidental mutton	hot cluster
+antique spyglass	sleaze cluster
+bag of unfinished business	stench cluster
+blood sausage	sleaze cluster
+BOOtonniere	cold cluster
+cod cape	stench cluster
+drafty drawers	cold cluster
+dubious loincloth	sleaze cluster
+eerie fetish	spooky cluster
+frying brainpan	hot cluster
+ghost thread	spooky cluster
+grandfather watch	spooky cluster
+groping claw	sleaze cluster
+guts necklace	stench cluster
+hothammer	hot cluster
+intimidating coiffure	spooky cluster
+muddy skirt	stench cluster
+old ball and chain	cold cluster
+old dry bone	spooky cluster
+remorseless knife	cold cluster
+snowstick	cold cluster
+stinkwater	stench cluster
+tailbone shield	stench cluster
+Thriller Ice	cold cluster
+tonguebone	sleaze cluster
+transparent pants	sleaze cluster
+vengeful spirit	hot cluster
+vial of hot blood	hot cluster
+warm fur	hot cluster
+wolfskull mask	spooky cluster
+
 # Mr. Store equipment is not pulverizable.
 Mr. Accessory	nosmash
 Golden Mr. Accessory	nosmash
