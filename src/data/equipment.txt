@@ -1586,7 +1586,7 @@ Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
 MagiMechTech NanoMechaMech	60	Mys: 15
 Marvelous Unitard	10	none
-Mayor Ghost's sash	0	Mys: 100
+Mayor Ghost's sash	300	Mys: 100
 Mega Gem	10	none
 Mer-kin dragbelt	200	Mus: 85
 Mer-kin eyeglasses	200	Mys: 85
@@ -1630,10 +1630,10 @@ Pok&euml;mann figurine: Smugleaf	10	none
 Pok&euml;mann figurine: Twitter	10	none
 Pok&euml;mann figurine: Vegemite	10	none
 Pok&euml;mann figurine: Vermouth	10	none
-Protects-Your-Junk	0	Mox: 100
+Protects-Your-Junk	350	Mox: 100
 Purple Horseshoe of Honor	200	Mys: 85
 Putrid Pendant	150	Mys: 60
-Quiets-Your-Steps	0	Mox: 100
+Quiets-Your-Steps	300	Mox: 100
 Radio KoL Antenna Ball	0	none
 Radio KoL Bottle Opener	0	none
 Radio KoL Coffee Mug	0	none
@@ -2207,7 +2207,7 @@ anniversary pewter cape	10	none
 auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
 cod cape	0	Mox: 200
-ghost shawl	0	Mys: 200
+ghost shawl	250	Mys: 200
 giant gym membership card	0	Mus: 75
 hemp backpack	0	Mys: 75
 makeshift cape	100	Mys: 75

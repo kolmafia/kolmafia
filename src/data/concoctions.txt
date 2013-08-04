@@ -1606,6 +1606,7 @@ Staff of the Greasefire	STAFF	Kentucky-fried meat staff	spicy noodles	bottle of 
 Staff of Holiday Sensations	STAFF	giant candy cane	peppermint patty	Crimbojito	phial of coldness (3)	frozen nunchaku	freezerburned ice cube
 Staff of the Kitchen Floor	STAFF	linoleum staff	stinky hi mein (3)	stinky mushroom wine	stench wad (10)	fetid feather
 Staff of the Midnight Snack	STAFF	spooky staff	fricasseed brains	bottle of popskull	spooky powder (3)	spray paint (3)
+Staff of the Roaring Hearth	STAFF	Unkillable Skeleton's restless leg	Dreadsylvanian hot pocket	Dreadsylvanian hot toddy	hot cluster (3)	vengeful spirit
 Staff of the Scummy Sink	STAFF	slime-covered staff	slimy sweetbreads	slimy fermented bile bladder	sleaze wad (10)	big bumboozer marble
 Staff of the Short Order Cook	STAFF	basic meat staff	bowl of cottage cheese	ice-cold Sir Schlitz (3)	twinkly powder (3)	magicalness-in-a-can (5)
 Staff of the Soupbone	STAFF	rib of the Bonerdagon	spooky lo mein	old-fashioned	Glass Balls of the Goblin King	lump of diamond	lihc face
