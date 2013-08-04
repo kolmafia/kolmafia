@@ -4139,6 +4139,10 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
 				}
 			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GHOST_PENCIL, -1 ) );
+			}
 			return;
 
 		case 722:
@@ -4190,6 +4194,19 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
 				}
 			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GHOST_PENCIL, -1 ) );
+			}
+
+			return;
+
+		case 729:
+			// Below the Roots
+			if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GHOST_PENCIL, -1 ) );
+			}
 			return;
 
 		case 730:
@@ -4218,6 +4235,18 @@ public abstract class ChoiceManager
 				{
 					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
 				}
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GHOST_PENCIL, -1 ) );
+			}
+			return;
+
+		case 737:
+			// The Even More Dreadful Part of Town
+			if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GHOST_PENCIL, -1 ) );
 			}
 			return;
 
@@ -4265,6 +4294,10 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
 				}
 			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GHOST_PENCIL, -1 ) );
+			}
 			return;
 
 		case 743:
@@ -4310,6 +4343,10 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
 				}
 			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GHOST_PENCIL, -1 ) );
+			}
 			return;
 
 		case 749:
@@ -4327,6 +4364,10 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( ItemPool.get( ItemPool.DREADSYLVANIAN_SKELETON_KEY, -1 ) );
 				}
 			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GHOST_PENCIL, -1 ) );
+			}
 			return;
 
 		case 750:
@@ -4339,6 +4380,14 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( ItemPool.get( ItemPool.BLOOD_KIWI, -1 ) );
 					ResultProcessor.processResult( ItemPool.get( ItemPool.EAU_DE_MORT, -1 ) );
 				}
+			}
+			return;
+
+		case 753:
+			// The Dreadsylvanian Dungeon
+			if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GHOST_PENCIL, -1 ) );
 			}
 			return;
 
