@@ -113,7 +113,8 @@ public class PulverizePanel
 			"3N",
 			"<html><center>4N<br>or W</html>",
 			"<html><center>W+3N<br>or 2W</html>",
-			"3W"
+			"3W",
+			"1C"
 		} };
 
 		public YieldsModel()
@@ -165,7 +166,7 @@ public class PulverizePanel
 		dims.width *= 9;
 		this.yields.setPreferredScrollableViewportSize( dims );
 		this.yields.setToolTipText( "Drag to select a range of yields. " +
-			"P = powder, N = nugget, W = wad." );
+			"P = powder, N = nugget, W = wad, C = cluster." );
 		this.yields.getColumnModel().getSelectionModel().addListSelectionListener(
 			(ListSelectionListener) this.filterfield );
 
