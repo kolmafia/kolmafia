@@ -2944,7 +2944,7 @@ scratch 'n' sniff wrestler sticker	Muscle Percent: +10, Mysticality Percent: +10
 
 # folder (barbarian): Increased physical damage as you take damage
 folder (blue)	Mysticality: +20
-folder (catfish)	Familiar Weight: +15
+folder (catfish)	Familiar Weight: [15*zone(The Sea)]
 folder (cyan)	Mysticality: +15, Moxie: +15
 folder (dancing dolphins)	Item Drop Percent: [50*zone(The Sea)]
 folder (green)	Moxie: +20

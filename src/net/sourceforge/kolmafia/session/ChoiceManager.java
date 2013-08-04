@@ -4129,6 +4129,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 3 )
 			{
 				// Try the Attic
+
 				// You use your skeleton key to unlock the padlock on the attic trap door.
 				// Then you use your legs to climb the ladder into the attic.
 				// Then you use your stupidity to lose the skeleton key.  Crap.
