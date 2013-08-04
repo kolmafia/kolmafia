@@ -1246,7 +1246,8 @@ public class KoLAdventure
 	{
 		// If we are in a drunken stupor, return now.
 		if ( KoLCharacter.isFallingDown() &&
-		     !urlString.startsWith( "trickortreat" ) )
+		     !urlString.startsWith( "trickortreat" ) &&
+		     !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.DRUNKULA_WINEGLASS, 1 ) ) )
 		{
 			return;
 		}

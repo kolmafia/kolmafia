@@ -1407,7 +1407,11 @@ public abstract class KoLmafia
 		{
 			String holiday = HolidayDatabase.getHoliday();
 
-			if ( adventure.getRequest().getPath().startsWith( "trickortreat" ) )
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.DRUNKULA_WINEGLASS, 1 ) ) )
+			{
+				// The wine glass allows you to adventure while falling down drunk
+			}
+			else if ( adventure.getRequest().getPath().startsWith( "trickortreat" ) )
 			{
 				// You're allowed to trick or treat even when falling down drunk,
 				// so ignore any problems in this case.
