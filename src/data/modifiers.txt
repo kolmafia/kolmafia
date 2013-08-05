@@ -2947,6 +2947,8 @@ folder (blue)	Mysticality: +20
 folder (catfish)	Familiar Weight: [15*zone(The Sea)]
 folder (cyan)	Mysticality: +15, Moxie: +15
 folder (dancing dolphins)	Item Drop Percent: [50*zone(The Sea)]
+# folder (D-Team): +1 of Each Stat After Battle
+folder (D-Team)	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 folder (Ex-Files)	Combat Rate: +5
 folder (green)	Moxie: +20
 folder (holographic fractal)	Cold Resistance: +4, Hot Resistance: +4, Sleaze Resistance: +4, Spooky Resistance: +4, Stench Resistance: +4

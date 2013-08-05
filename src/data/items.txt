@@ -6641,7 +6641,7 @@ s1
 6624	folder (smiley face)	792818237	otherimages/folders/folder07.gif	usable	t,d	5
 6625	folder (wizard)	643671224	otherimages/folders/folder08.gif	usable	t,d	5
 6626	folder (space skeleton)	777758783	otherimages/folders/folder09.gif	usable	t,d	5
-6627
+6627	folder (D-Team)	730238914	otherimages/folders/folder10.gif	usable	t,d	5
 6628	folder (Ex-Files)	456123625	otherimages/folders/folder11.gif	usable	t,d	5
 6629	folder (skull and crossbones)	838609166	otherimages/folders/folder12.gif	usable	t,d	5
 6630	folder (Knight Writer)	466701064	otherimages/folders/folder13.gif	usable	t,d	5
