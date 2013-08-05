@@ -2947,14 +2947,17 @@ folder (blue)	Mysticality: +20
 folder (catfish)	Familiar Weight: [15*zone(The Sea)]
 folder (cyan)	Mysticality: +15, Moxie: +15
 folder (dancing dolphins)	Item Drop Percent: [50*zone(The Sea)]
+folder (Ex-Files)	Combat Rate: +5
 folder (green)	Moxie: +20
 folder (holographic fractal)	Cold Resistance: +4, Hot Resistance: +4, Sleaze Resistance: +4, Spooky Resistance: +4, Stench Resistance: +4
 folder (Jackass Plumber)	Monster Level: +25
+folder (Knight Writer)	Initiative: +40
 folder (magenta)	Muscle: +15, Mysticality: +15
 folder (owl)	Item Drop Percent: [500*zone(Dreadsylvania)]
 # folder (rainbow unicorn): Deals Prismatic Damage to Attackers
 folder (red)	Muscle: +20
 folder (Seawolf)	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
+folder (skull and crossbones)	Combat Rate: -5
 folder (smiley face)	Experience (Muscle): +2
 folder (space skeleton)	Experience (Moxie): +2
 # folder (Stinky Trash Kid): Deals <font color=green>Stench Damage</font> every round

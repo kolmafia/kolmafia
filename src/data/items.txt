@@ -6642,9 +6642,9 @@ s1
 6625	folder (wizard)	643671224	otherimages/folders/folder08.gif	usable	t,d	5
 6626	folder (space skeleton)	777758783	otherimages/folders/folder09.gif	usable	t,d	5
 6627
-6628
-6629
-6630
+6628	folder (Ex-Files)	456123625	otherimages/folders/folder11.gif	usable	t,d	5
+6629	folder (skull and crossbones)	838609166	otherimages/folders/folder12.gif	usable	t,d	5
+6630	folder (Knight Writer)	466701064	otherimages/folders/folder13.gif	usable	t,d	5
 6631	folder (Jackass Plumber)	155094068	otherimages/folders/folder14.gif	usable	t,d	5
 6632	folder (holographic fractal)	314549869	otherimages/folders/folder15.gif	usable	t,d	5
 6633	folder (barbarian)	617183321	otherimages/folders/folder16.gif	usable	t,d	5
