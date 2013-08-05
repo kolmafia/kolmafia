@@ -610,6 +610,37 @@ public class AdventureRequest
 			// still be fought due to the Fax Machine.  Due to monster copying,
 			// any of these monsters can show up in any zone, or in no zone.
 			override =
+				// Dreadsylvania
+				image.startsWith( "dvcoldbear" ) ? "cold bugbear" :
+				image.startsWith( "dvcoldghost" ) ? "cold ghost" :
+				image.startsWith( "dvcoldskel" ) ? "cold skeleton" :
+				image.startsWith( "dvcoldvamp" ) ? "cold vampire" :
+				image.startsWith( "dvcoldwolf" ) ? "cold werewolf" :
+				image.startsWith( "dvcoldzom" ) ? "cold zombie" :
+				image.startsWith( "dvhotbear" ) ? "hot bugbear" :
+				image.startsWith( "dvhotghost" ) ? "hot ghost" :
+				image.startsWith( "dvhotskel" ) ? "hot skeleton" :
+				image.startsWith( "dvhotvamp" ) ? "hot vampire" :
+				image.startsWith( "dvhotwolf" ) ? "hot werewolf" :
+				image.startsWith( "dvhotzom" ) ? "hot zombie" :
+				image.startsWith( "dvsleazebear" ) ? "sleaze bugbear" :
+				image.startsWith( "dvsleazeghost" ) ? "sleaze ghost" :
+				image.startsWith( "dvsleazeskel" ) ? "sleaze skeleton" :
+				image.startsWith( "dvsleazevamp" ) ? "sleaze vampire" :
+				image.startsWith( "dvsleazewolf" ) ? "sleaze werewolf" :
+				image.startsWith( "dvsleazezom" ) ? "sleaze zombie" :
+				image.startsWith( "dvspookybear" ) ? "spooky bugbear" :
+				image.startsWith( "dvspookyghost" ) ? "spooky ghost" :
+				image.startsWith( "dvspookyskel" ) ? "spooky skeleton" :
+				image.startsWith( "dvspookyvamp" ) ? "spooky vampire (Dreadsylvanian)" :
+				image.startsWith( "dvspookywolf" ) ? "spooky werewolf" :
+				image.startsWith( "dvspookyzom" ) ? "spooky zombie" :
+				image.startsWith( "dvstenchbear" ) ? "stench bugbear" :
+				image.startsWith( "dvstenchghost" ) ? "stench ghost" :
+				image.startsWith( "dvstenchskel" ) ? "stench skeleton" :
+				image.startsWith( "dvstenchvamp" ) ? "stench vampire" :
+				image.startsWith( "dvstenchwolf" ) ? "stench werewolf" :
+				image.startsWith( "dvstenchzom" ) ? "stench zombie" :
 				// Hobopolis
 				image.startsWith( "nhobo" ) ? "Normal Hobo" :
 				image.startsWith( "hothobo" ) ? "Hot Hobo" :
@@ -645,37 +676,6 @@ public class AdventureRequest
 				image.startsWith( "sororghost" ) ? "sexy sorority ghost" :
 				// Lord Flameface's Castle Entryway
 				image.startsWith( "fireservant" ) ? "Servant Of Lord Flameface" :
-				// Dreadsylvania
-				image.startsWith( "dvcoldbear" ) ? "cold bugbear" :
-				image.startsWith( "dvcoldghost" ) ? "cold ghost" :
-				image.startsWith( "dvcoldskel" ) ? "cold skeleton" :
-				image.startsWith( "dvcoldvamp" ) ? "cold vampire" :
-				image.startsWith( "dvcoldwolf" ) ? "cold werewolf" :
-				image.startsWith( "dvcoldzom" ) ? "cold zombie" :
-				image.startsWith( "dvhotbear" ) ? "hot bugbear" :
-				image.startsWith( "dvhotghost" ) ? "hot ghost" :
-				image.startsWith( "dvhotskel" ) ? "hot skeleton" :
-				image.startsWith( "dvhotvamp" ) ? "hot vampire" :
-				image.startsWith( "dvhotwolf" ) ? "hot werewolf" :
-				image.startsWith( "dvhotzom" ) ? "hot zombie" :
-				image.startsWith( "dvsleazebear" ) ? "sleaze bugbear" :
-				image.startsWith( "dvsleazeghost" ) ? "sleaze ghost" :
-				image.startsWith( "dvsleazeskel" ) ? "sleaze skeleton" :
-				image.startsWith( "dvsleazevamp" ) ? "sleaze vampire" :
-				image.startsWith( "dvsleazewolf" ) ? "sleaze werewolf" :
-				image.startsWith( "dvsleazezom" ) ? "sleaze zombie" :
-				image.startsWith( "dvspookybear" ) ? "spooky bugbear" :
-				image.startsWith( "dvspookyghost" ) ? "spooky ghost" :
-				image.startsWith( "dvspookyskel" ) ? "spooky skeleton" :
-				image.startsWith( "dvspookyvamp" ) ? "spooky vampire" :
-				image.startsWith( "dvspookywolf" ) ? "spooky werewolf" :
-				image.startsWith( "dvspookyzom" ) ? "spooky zombie" :
-				image.startsWith( "dvstenchbear" ) ? "stench bugbear" :
-				image.startsWith( "dvstenchghost" ) ? "stench ghost" :
-				image.startsWith( "dvstenchskel" ) ? "stench skeleton" :
-				image.startsWith( "dvstenchvamp" ) ? "stench vampire" :
-				image.startsWith( "dvstenchwolf" ) ? "stench werewolf" :
-				image.startsWith( "dvstenchzom" ) ? "stench zombie" :
 				null;
 		}
 
