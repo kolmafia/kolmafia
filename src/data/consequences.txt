@@ -100,6 +100,13 @@ MONSTER	Somerset Lopez, Dread Mariachi	mariachi\.gif	"Somerset Lopez, Dread Mari
 MONSTER	Somerset Lopez, Dread Mariachi	6_2\.gif	"Somerset Lopez, Dread Mariachi (The Nemesis' Lair)"
 MONSTER	Somerset Lopez, Dread Mariachi	6_3\.gif	"Somerset Lopez, Dread Mariachi (Volcanic Cave)"
 
+MONSTER	Count Drunkula	drunkula_hm\.gif	"Count Drunkula (Hard Mode)"
+MONSTER	Falls-From-Sky	fallsfromsky_hm\.gif	"Falls-From-Sky (Hard Mode)"
+MONSTER	Great Wolf of the Air	wolfoftheair_hm\.gif	"Great Wolf of the Air (Hard Mode)"
+MONSTER	Mayor Ghost	mayorghost_hm\.gif	"Mayor Ghost (Hard Mode)"
+MONSTER	The Unkillable Skeleton	ukskeleton_hm\.gif	"The Unkillable Skeleton (Hard Mode)"
+MONSTER	Zombie Homeowners' Association	zombiehoa_hm\.gif	"Zombie Homeowners' Association (Hard Mode)"
+
 MONSTER	Shadow Lemming Trampler	.	"Your Shadow"
 MONSTER	Shadow Tern Slapper	.	"Your Shadow"
 MONSTER	Shadow Puffin Intimidator	.	"Your Shadow"
