@@ -715,16 +715,29 @@ public abstract class UseLinkDecorator
 			case ItemPool.CEO_OFFICE_CARD:
 			case ItemPool.DREADSCROLL:
 			case ItemPool.RUSTY_HEDGE_TRIMMERS:
-			case ItemPool.FOLDER_RED:
-			case ItemPool.FOLDER_BLUE:
-			case ItemPool.FOLDER_GREEN:
-			case ItemPool.FOLDER_MAGENTA:
-			case ItemPool.FOLDER_YELLOW:
-			case ItemPool.FOLDER_JACKASS_PLUMBER:
-			case ItemPool.FOLDER_DANCING_DOLPHINS:
-			case ItemPool.FOLDER_TRANQUIL_LANDSCAPE:
-			case ItemPool.FOLDER_OWL:
-			case ItemPool.FOLDER_STINKY_TRASH_KID:
+			case ItemPool.FOLDER_01:
+			case ItemPool.FOLDER_02:
+			case ItemPool.FOLDER_03:
+			case ItemPool.FOLDER_04:
+			case ItemPool.FOLDER_05:
+			case ItemPool.FOLDER_06:
+			case ItemPool.FOLDER_07:
+			case ItemPool.FOLDER_08:
+			case ItemPool.FOLDER_09:
+			case ItemPool.FOLDER_10:
+			case ItemPool.FOLDER_11:
+			case ItemPool.FOLDER_12:
+			case ItemPool.FOLDER_13:
+			case ItemPool.FOLDER_14:
+			case ItemPool.FOLDER_15:
+			case ItemPool.FOLDER_16:
+			case ItemPool.FOLDER_17:
+			case ItemPool.FOLDER_18:
+			case ItemPool.FOLDER_19:
+			case ItemPool.FOLDER_20:
+			case ItemPool.FOLDER_21:
+			case ItemPool.FOLDER_22:
+			case ItemPool.FOLDER_23:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.

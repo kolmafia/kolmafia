@@ -223,6 +223,7 @@ public class ProxyRecordValue
 			.add( "plural", DataTypes.STRING_TYPE )
 			.add( "descid", DataTypes.STRING_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
+			.add( "smallimage", DataTypes.STRING_TYPE )
 			.add( "levelreq", DataTypes.INT_TYPE )
 			.add( "quality", DataTypes.STRING_TYPE )
 			.add( "adventures", DataTypes.STRING_TYPE )
@@ -269,6 +270,12 @@ public class ProxyRecordValue
 		{
 			int id = ItemDatabase.getItemId( this.contentString );
 			return ItemDatabase.getImage( id );
+		}
+
+		public String get_smallimage()
+		{
+			int id = ItemDatabase.getItemId( this.contentString );
+			return ItemDatabase.getSmallImage( id );
 		}
 
 		public Integer get_levelreq()
