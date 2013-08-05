@@ -1177,7 +1177,7 @@ Drunkula's wineglass	0	Mys: 100
 Dungeon Fist gauntlet	100	Mus: 35
 Dyspepsi-Cola shield	70	none	shield
 Ellsbury's skull	100	Mys: 35
-Engorged Sausages and You	0	Mys: 35
+Engorged Sausages and You	100	Mys: 35
 Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
 Great Wolf's left paw	300	Mus: 250
@@ -1531,7 +1531,7 @@ Claybender glasses	100	Mys: 35
 Codpiece of the Goblin King	70	Mys: 20
 Copper Alpha of Sincerity	200	Mys: 85
 Counterclockwise Watch	200	none
-Dreadsylvania Auditor's badge	0	Mys: 200
+Dreadsylvania Auditor's badge	250	Mys: 200
 Drunkula's ring of haze	0	Mys: 100
 Duskwalker fangs	105	Mys: 37
 Dyspepsi-Cola-issue canteen	30	none
@@ -1851,7 +1851,7 @@ molten medallion	160	Mys: 65
 monster bait	10	none
 monstrous monocle	160	Mus: 65
 mood ring	10	none
-moon-amber necklace	0	Mys: 200
+moon-amber necklace	250	Mys: 200
 musty moccasins	160	Mox: 65
 mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
@@ -1868,7 +1868,7 @@ orange leather lanyard	50	none
 orc wrist	95	Mys: 32
 ornamental sextant	200	Mys: 85
 oven mitts	45	Mys: 7
-over-the-shoulder Folder Holder	0	none
+over-the-shoulder Folder Holder	100	none
 pacifier necklace	150	Mox: 60
 pair of pearidot earrings	0	none
 paperclip-on tie	50	none

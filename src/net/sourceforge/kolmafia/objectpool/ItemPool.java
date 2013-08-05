@@ -1674,16 +1674,29 @@ public class ItemPool
 	public static final int PHIAL_OF_SLEAZINESS = 6560;
 	public static final int DEFECTIVE_TOKEN = 6593;
 	public static final int CUCKOO_CLOCK = 6614;
-	public static final int FOLDER_RED = 6618;
-	public static final int FOLDER_BLUE = 6619;
-	public static final int FOLDER_GREEN = 6620;
-	public static final int FOLDER_MAGENTA = 6621;
-	public static final int FOLDER_YELLOW = 6623;
-	public static final int FOLDER_JACKASS_PLUMBER = 6631;
-	public static final int FOLDER_DANCING_DOLPHINS = 6636;
-	public static final int FOLDER_TRANQUIL_LANDSCAPE = 6638;
-	public static final int FOLDER_OWL = 6639;
-	public static final int FOLDER_STINKY_TRASH_KID = 6640;
+	public static final int FOLDER_01 = 6618;
+	public static final int FOLDER_02 = 6619;
+	public static final int FOLDER_03 = 6620;
+	public static final int FOLDER_04 = 6621;
+	public static final int FOLDER_05 = 6622;
+	public static final int FOLDER_06 = 6623;
+	public static final int FOLDER_07 = 6624;
+	public static final int FOLDER_08 = 6625;
+	public static final int FOLDER_09 = 6626;
+	public static final int FOLDER_10 = 6627;
+	public static final int FOLDER_11 = 6628;
+	public static final int FOLDER_12 = 6629;
+	public static final int FOLDER_13 = 6630;
+	public static final int FOLDER_14 = 6631;
+	public static final int FOLDER_15 = 6632;
+	public static final int FOLDER_16 = 6633;
+	public static final int FOLDER_17 = 6634;
+	public static final int FOLDER_18 = 6635;
+	public static final int FOLDER_19 = 6636;
+	public static final int FOLDER_20 = 6637;
+	public static final int FOLDER_21 = 6638;
+	public static final int FOLDER_22 = 6639;
+	public static final int FOLDER_23 = 6640;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
