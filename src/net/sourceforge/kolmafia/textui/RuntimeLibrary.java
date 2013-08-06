@@ -3017,25 +3017,26 @@ public abstract class RuntimeLibrary
 			}
 
 			ArrayList<Integer> elems = new ArrayList<Integer>();
+			boolean clusters = ( pulver & EquipmentDatabase.YIELD_1C ) != 0;
 			if ( (pulver & EquipmentDatabase.ELEM_HOT) != 0 )
 			{
-				elems.add( IntegerPool.get( ItemPool.HOT_WAD ) );
+				elems.add( IntegerPool.get( clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD ) );
 			}
 			if ( (pulver & EquipmentDatabase.ELEM_COLD) != 0 )
 			{
-				elems.add( IntegerPool.get( ItemPool.COLD_WAD ) );
+				elems.add( IntegerPool.get( clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD ) );
 			}
 			if ( (pulver & EquipmentDatabase.ELEM_STENCH) != 0 )
 			{
-				elems.add( IntegerPool.get( ItemPool.STENCH_WAD ) );
+				elems.add( IntegerPool.get( clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD ) );
 			}
 			if ( (pulver & EquipmentDatabase.ELEM_SPOOKY) != 0 )
 			{
-				elems.add( IntegerPool.get( ItemPool.SPOOKY_WAD ) );
+				elems.add( IntegerPool.get( clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD ) );
 			}
 			if ( (pulver & EquipmentDatabase.ELEM_SLEAZE) != 0 )
 			{
-				elems.add( IntegerPool.get( ItemPool.SLEAZE_WAD ) );
+				elems.add( IntegerPool.get( clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD ) );
 			}
 			if ( (pulver & EquipmentDatabase.ELEM_TWINKLY) != 0 )
 			{	// Important: twinkly must be last
@@ -3118,6 +3119,10 @@ public abstract class RuntimeLibrary
 					value.aset( DataTypes.makeItemValue( wad + WAD2GEM ),
 						DataTypes.makeIntValue( gems / nelems ) );
 		 		}
+				if ( clusters )
+				{
+					value.aset( DataTypes.makeItemValue( wad ), DataTypes.ONE_VALUE );
+				}
 		 	}
 		}
 		return value;

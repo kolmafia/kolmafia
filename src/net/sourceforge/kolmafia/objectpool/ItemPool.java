@@ -1667,6 +1667,11 @@ public class ItemPool
 	public static final int GHOST_THREAD = 6525;
 	public static final int OLD_BALL_AND_CHAIN = 6539;
 	public static final int OLD_DRY_BONE = 6540;
+	public static final int HOT_CLUSTER = 6551;
+	public static final int COLD_CLUSTER = 6552;
+	public static final int SPOOKY_CLUSTER = 6553;
+	public static final int STENCH_CLUSTER = 6554;
+	public static final int SLEAZE_CLUSTER = 6555;
 	public static final int PHIAL_OF_HOTNESS = 6556;
 	public static final int PHIAL_OF_COLDNESS = 6557;
 	public static final int PHIAL_OF_SPOOKINESS = 6558;
