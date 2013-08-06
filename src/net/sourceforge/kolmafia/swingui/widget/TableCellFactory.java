@@ -120,7 +120,7 @@ public class TableCellFactory
 		switch ( columnIndex )
 		{
 		case 0:
-			return ItemDatabase.getCanonicalName( (Integer) result.getKey() );
+			return ItemDatabase.getDisplayName( (Integer) result.getKey() );
 		case 1:
 			return IntegerPool.get( (Integer) result.getKey() );
 		case 2:

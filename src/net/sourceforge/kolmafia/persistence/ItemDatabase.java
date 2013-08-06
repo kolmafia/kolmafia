@@ -1366,6 +1366,16 @@ public class ItemDatabase
 		return ( (Integer) itemId ).intValue();
 	}
 
+	public static String getDataName( final Integer itemId )
+	{
+		return ItemDatabase.dataNameById.get( itemId );
+	}
+
+	public static String getDisplayName( final Integer itemId )
+	{
+		return ItemDatabase.nameById.get( itemId );
+	}
+
 	public static String getCanonicalName( final int itemId )
 	{
 		return ItemDatabase.getCanonicalName( IntegerPool.get( itemId ) );
