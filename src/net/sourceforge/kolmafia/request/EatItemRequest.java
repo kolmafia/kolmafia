@@ -109,7 +109,14 @@ public class EatItemRequest
 			UseItemRequest.limiter = "its non-Jarlsbergian nature";
 			return 0;
 		}
-		
+
+		switch ( itemId )
+		{
+		case ItemPool.SPAGHETTI_BREAKFAST:
+			// This is your breakfast, you need to eat it first thing
+			return ( KoLCharacter.getFullness() == 0 && KoLCharacter.getFullnessLimit() > 0 ) ? 1 : 0;
+		}
+
 		int limit = KoLCharacter.getFullnessLimit();
 		int fullnessLeft = limit - KoLCharacter.getFullness();
 		UseItemRequest.limiter = "fullness";
