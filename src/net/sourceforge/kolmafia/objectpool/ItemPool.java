@@ -1689,6 +1689,7 @@ public class ItemPool
 	public static final int OPTIMAL_SPREADSHEET = 6592;
 	public static final int DEFECTIVE_TOKEN = 6593;
 	public static final int CUCKOO_CLOCK = 6614;
+	public static final int SPAGHETTI_BREAKFAST = 6616;
 	public static final int FOLDER_01 = 6618;
 	public static final int FOLDER_02 = 6619;
 	public static final int FOLDER_03 = 6620;
