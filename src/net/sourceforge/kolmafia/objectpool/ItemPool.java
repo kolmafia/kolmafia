@@ -1677,6 +1677,16 @@ public class ItemPool
 	public static final int PHIAL_OF_SPOOKINESS = 6558;
 	public static final int PHIAL_OF_STENCH = 6559;
 	public static final int PHIAL_OF_SLEAZINESS = 6560;
+	public static final int VICIOUS_SPIKED_COLLAR = 6583;
+	public static final int ANCIENT_HOT_DOG_WRAPPER = 6584;
+	public static final int DEBONAIR_DEBONER = 6585;
+	public static final int CHICLE_DE_SALCHICA = 6586;
+	public static final int JAR_OF_FROSTIGKRAUT = 6587;
+	public static final int GNAWED_UP_DOG_BONE = 6588;
+	public static final int GREY_GUANON = 6589;
+	public static final int ENGORGED_SAUSAGES_AND_YOU = 6590;
+	public static final int DREAM_OF_A_DOG = 6591;
+	public static final int OPTIMAL_SPREADSHEET = 6592;
 	public static final int DEFECTIVE_TOKEN = 6593;
 	public static final int CUCKOO_CLOCK = 6614;
 	public static final int FOLDER_01 = 6618;

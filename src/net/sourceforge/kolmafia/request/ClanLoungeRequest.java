@@ -209,67 +209,78 @@ public class ClanLoungeRequest
 			"savage macho dog",
 			IntegerPool.get( -93 ),
 			IntegerPool.get( 2 ),
-			ItemPool.get( ItemPool.FURRY_FUR, 10 )
+			ItemPool.get( ItemPool.FURRY_FUR, 10 ),
+			ItemPool.get( ItemPool.VICIOUS_SPIKED_COLLAR, 1 ),
 		},
 		{
 			"one with everything",
 			IntegerPool.get( -94 ),
 			IntegerPool.get( 2 ),
-			ItemPool.get( ItemPool.CRANBERRIES, 10 )
+			ItemPool.get( ItemPool.CRANBERRIES, 10 ),
+			ItemPool.get( ItemPool.ANCIENT_HOT_DOG_WRAPPER, 1 ),
 		},
 		{
 			"sly dog",
 			IntegerPool.get( -95 ),
 			IntegerPool.get( 2 ),
-			ItemPool.get( ItemPool.SKELETON_BONE, 10 )
+			ItemPool.get( ItemPool.SKELETON_BONE, 10 ),
+			ItemPool.get( ItemPool.DEBONAIR_DEBONER, 1 ),
 		},
 		{
 			"devil dog",
 			IntegerPool.get( -96 ),
 			IntegerPool.get( 3 ),
-			ItemPool.get( ItemPool.HOT_WAD, 25 )
+			ItemPool.get( ItemPool.HOT_WAD, 25 ),
+			ItemPool.get( ItemPool.CHICLE_DE_SALCHICA, 1 ),
 		},
 		{
 			"chilly dog",
 			IntegerPool.get( -97 ),
 			IntegerPool.get( 3 ),
-			ItemPool.get( ItemPool.COLD_WAD, 25 )
+			ItemPool.get( ItemPool.COLD_WAD, 25 ),
+			ItemPool.get( ItemPool.JAR_OF_FROSTIGKRAUT, 1 ),
 		},
 		{
 			"ghost dog",
 			IntegerPool.get( -98 ),
 			IntegerPool.get( 3 ),
-			ItemPool.get( ItemPool.SPOOKY_WAD, 25 )
+			ItemPool.get( ItemPool.SPOOKY_WAD, 25 ),
+			ItemPool.get( ItemPool.GNAWED_UP_DOG_BONE, 1 ),
 		},
 		{
 			"junkyard dog",
 			IntegerPool.get( -99 ),
 			IntegerPool.get( 3 ),
-			ItemPool.get( ItemPool.STENCH_WAD, 25 )
+			ItemPool.get( ItemPool.STENCH_WAD, 25 ),
+			ItemPool.get( ItemPool.GREY_GUANON, 1 ),
 		},
 		{
 			"wet dog",
 			IntegerPool.get( -100 ),
 			IntegerPool.get( 3 ),
-			ItemPool.get( ItemPool.SLEAZE_WAD, 25 )
+			ItemPool.get( ItemPool.SLEAZE_WAD, 25 ),
+			ItemPool.get( ItemPool.ENGORGED_SAUSAGES_AND_YOU, 1 ),
 		},
 		{
 			"optimal dog",
 			IntegerPool.get( -102 ),
 			IntegerPool.get( 1 ),
-			ItemPool.get( ItemPool.SCRAP_OF_PAPER, 25 )
+			ItemPool.get( ItemPool.SCRAP_OF_PAPER, 25 ),
+			ItemPool.get( ItemPool.OPTIMAL_SPREADSHEET, 1 ),
 		},
 		{
 			"sleeping dog",
 			IntegerPool.get( -101 ),
 			IntegerPool.get( 2 ),
-			ItemPool.get( ItemPool.GAUZE_HAMMOCK, 10 )
+			ItemPool.get( ItemPool.GAUZE_HAMMOCK, 10 ),
+			ItemPool.get( ItemPool.DREAM_OF_A_DOG, 1 ),
 		},
 		{
 			"video games hot dog",
 			IntegerPool.get( -103 ),
 			IntegerPool.get( 3 ),
-			ItemPool.get( ItemPool.GAMEPRO_MAGAZINE, 3 )
+			ItemPool.get( ItemPool.GAMEPRO_MAGAZINE, 3 ),
+			ItemPool.get( ItemPool.DEFECTIVE_TOKEN, 1 ),
 		},
 	};
 
@@ -324,6 +335,11 @@ public class ClanLoungeRequest
 	public static final AdventureResult hotdogIndexToItem( int index )
 	{
 		return ( index < 0 || index > ClanLoungeRequest.HOTDOGS.length ) ? null : (AdventureResult)ClanLoungeRequest.HOTDOGS[ index ][3];
+	}
+
+	public static final AdventureResult hotdogIndexToUnlocker( int index )
+	{
+		return ( index < 0 || index > ClanLoungeRequest.HOTDOGS.length ) ? null : (AdventureResult)ClanLoungeRequest.HOTDOGS[ index ][4];
 	}
 
 	public static final boolean isHotDog( String name )
@@ -1378,7 +1394,7 @@ public class ClanLoungeRequest
 				return;
 			}
 
-			//   clan_viplounge.php?preaction=hotdogsupply&whichdog =-101&quantity=10
+			//   clan_viplounge.php?preaction=hotdogsupply&whichdog=-101&quantity=10
 			Matcher m = WHICHDOG_PATTERN.matcher( urlString );
 			if ( !m.find() )
 			{
@@ -1397,6 +1413,36 @@ public class ClanLoungeRequest
 			m = QUANTITY_PATTERN.matcher( urlString );
 			int quantity = m.find() ? StringUtilities.parseInt( m.group(1) ) : 1;
 			ResultProcessor.processItem( item.getItemId(), -1 * quantity );
+			return;
+		}
+		else if ( action.equals( "unlockhotdog" ) )
+		{
+			// <unlock message>
+			// <b>You have unlocked a new hot dog!</b>
+			// Your clan members should be really grateful!
+
+			if ( responseText.indexOf( "Your clan members should be really grateful" ) == -1 )
+			{
+				return;
+			}
+
+			//   clan_viplounge.php?preaction=unlockhotdog&whichdog=-101
+			Matcher m = WHICHDOG_PATTERN.matcher( urlString );
+			if ( !m.find() )
+			{
+				return;
+			}
+			int index = ClanLoungeRequest.hotdogIdToIndex( StringUtilities.parseInt( m.group( 1 ) ) );
+			if ( index < 0 )
+			{
+				return;
+			}
+			AdventureResult item = ClanLoungeRequest.hotdogIndexToUnlocker( index );
+			if ( item == null )
+			{
+				return;
+			}
+			ResultProcessor.processItem( item.getItemId(), -1 );
 			return;
 		}
 	}
@@ -1571,6 +1617,21 @@ public class ClanLoungeRequest
 				m = QUANTITY_PATTERN.matcher( urlString );
 				int quantity = m.find() ? StringUtilities.parseInt( m.group(1) ) : 1;
 				message = "stock Hot Dog Stand with " + quantity + " " + item.getPluralName( quantity );
+			}
+			else if ( action.equals( "unlockhotdog" ) )
+			{
+				//   clan_viplounge.php?preaction=unlockhotdog&whichdog=xxx
+				Matcher m = WHICHDOG_PATTERN.matcher( urlString );
+				if ( !m.find() )
+				{
+					return false;
+				}
+				String hotdog = ClanLoungeRequest.hotdogIdToName( StringUtilities.parseInt( m.group( 1 ) ) );
+				if ( hotdog == null )
+				{
+					return false;
+				}
+				message = "unlock " + hotdog;
 			}
 			else
 			{
