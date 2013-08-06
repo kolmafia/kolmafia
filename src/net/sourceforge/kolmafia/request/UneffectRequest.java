@@ -361,6 +361,7 @@ public class UneffectRequest
 		removableEffects.add( "Affronted Decency" );
 		removableEffects.add( "Apathy" );
 		removableEffects.add( "Confused" );
+		removableEffects.add( "Consumed by Fear" );
 		removableEffects.add( "Cunctatitis" );
 		removableEffects.add( "Embarrassed" );
 		removableEffects.add( "Easily Embarrassed" );
