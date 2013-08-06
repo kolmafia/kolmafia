@@ -45,6 +45,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -65,6 +66,7 @@ public class DatabaseFrame
 	public static final LockableListModel allEffects = LowerCaseEntry.createListModel( EffectDatabase.entrySet() );
 	public static final LockableListModel allSkills = LowerCaseEntry.createListModel( SkillDatabase.entrySet() );
 	public static final LockableListModel allFamiliars = LowerCaseEntry.createListModel( FamiliarDatabase.entrySet() );
+	public static final LockableListModel allOutfits = LowerCaseEntry.createListModel( EquipmentDatabase.outfitEntrySet() );
 
 	public DatabaseFrame()
 	{
@@ -74,6 +76,7 @@ public class DatabaseFrame
 		this.tabs.addTab( "Familiars", new ItemLookupPanel( DatabaseFrame.allFamiliars, "familiar", "which" ) );
 		this.tabs.addTab( "Skills", new ItemLookupPanel( DatabaseFrame.allSkills, "skill", "whichskill" ) );
 		this.tabs.addTab( "Effects", new ExamineEffectsPanel() );
+		this.tabs.addTab( "Outfits", new ItemLookupPanel( DatabaseFrame.allOutfits, "outfit", "whichoutfit" ) );
 
 		this.setCenterComponent( this.tabs );
 	}

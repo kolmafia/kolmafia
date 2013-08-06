@@ -422,6 +422,13 @@ public class TableCellFactory
 				"skill name", "skill ID",
 			};
 		}
+		else if ( originalModel == DatabaseFrame.allOutfits )
+		{
+			return new String[]
+			{
+				"outfit name", "outfit ID",
+			};
+		}
 		return new String[]
 		{
 			"not implemented"

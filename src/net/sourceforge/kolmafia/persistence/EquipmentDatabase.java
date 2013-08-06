@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
@@ -81,6 +82,7 @@ public class EquipmentDatabase
 
 	private static final HashMap<String, Integer> outfitPieces = new HashMap<String, Integer>();
 	public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
+	private static final Map<Integer, String> outfitById = new TreeMap<Integer, String>();
 	public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
 
 	private static final IntegerArray pulverize = new IntegerArray();
@@ -220,16 +222,20 @@ public class EquipmentDatabase
 					outfitList = EquipmentDatabase.normalOutfits;
 				}
 
-				SpecialOutfit outfit = new SpecialOutfit( outfitId, data[ 1 ] );
+				String name = new String( data[ 1 ] );
+				SpecialOutfit outfit = new SpecialOutfit( outfitId, name );
 				outfitList.set( arrayIndex, outfit );
 
 				String[] pieces = data[ 2 ].split( "\\s*,\\s*" );
 				Integer id = IntegerPool.get( outfitId );
+
+				EquipmentDatabase.outfitById.put( id, name );
+
 				for ( int i = 0; i < pieces.length; ++i )
 				{
-					String name = pieces[ i ];
-					EquipmentDatabase.outfitPieces.put( StringUtilities.getCanonicalName( name ), id );
-					outfit.addPiece( new AdventureResult( name, 1, false ) );
+					String piece = pieces[ i ];
+					EquipmentDatabase.outfitPieces.put( StringUtilities.getCanonicalName( piece ), id );
+					outfit.addPiece( new AdventureResult( piece, 1, false ) );
 				}
 			}
 		}
@@ -957,6 +963,11 @@ public class EquipmentDatabase
 		}
 
 		return pulver;
+	}
+
+	public static final Set outfitEntrySet()
+	{
+		return EquipmentDatabase.outfitById.entrySet();
 	}
 
 	public static final SpecialOutfit getOutfit( final int id )
