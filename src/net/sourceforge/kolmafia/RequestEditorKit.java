@@ -1228,10 +1228,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		boolean haiku = false;
-
 		int nameIndex = buffer.indexOf( "<span id='monname" );
-
 		int insertionPointForData;
 
 		if ( nameIndex != -1 )
@@ -1257,22 +1254,18 @@ public class RequestEditorKit
 			{
 				return;
 			}
-			// find end of haiku
+			// find end of monster
 			insertionPointForData = buffer.indexOf( "</td>", insertionPointForData + 4 );
 			if ( insertionPointForData == -1 )
 			{
 				return;
 			}
-			haiku = true;
 		}
 
-		StringBuffer monsterData = new StringBuffer();
-		String monsterName = FightRequest.getLastMonsterName();
-
-		monsterData.append( "<font size=2 color=gray>" );
-		if ( haiku )
+		StringBuffer monsterData = new StringBuffer( "<font size=2 color=gray>" );
+		if ( nameIndex != -1 )
 		{
-			monsterData.append( "<br><br>Pretend that the line<br>below has five syllables:" );
+			monsterData.append( "<br><br>" );
 		}
 
 		monsterData.append( "<br />HP: " );
@@ -1284,6 +1277,7 @@ public class RequestEditorKit
 		monsterData.append( ", Type: " );
 		monsterData.append( MonsterStatusTracker.getMonsterPhylum().toString() );
 
+		String monsterName = FightRequest.getLastMonsterName();
 		if ( monsterName.indexOf( "pirate" ) != -1 && !( monsterName.equalsIgnoreCase( "Stone Temple Pirate" ) ) )
 		{
 			int count = BeerPongRequest.countPirateInsults();
@@ -1377,7 +1371,7 @@ public class RequestEditorKit
 
 		// Insert color for monster element
 		MonsterDatabase.Element monsterElement = monster.getDefenseElement();
-		if ( !haiku && monsterElement != MonsterDatabase.Element.NONE )
+		if ( ( nameIndex != -1 ) && monsterElement != MonsterDatabase.Element.NONE )
 		{
 			int insertionPointForElement = nameIndex + 6;
 			buffer.insert( insertionPointForElement, "class=\"element" + monsterElement + "\" " );

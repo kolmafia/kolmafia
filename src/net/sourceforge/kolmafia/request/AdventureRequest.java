@@ -85,10 +85,6 @@ public class AdventureRequest
 	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 
-	private static final Pattern MONSTER_NAME = Pattern.compile( "<span id='monname'(>| title=\")([^<]*?)(</span>|\">)", Pattern.DOTALL );
-	private static final Pattern HAIKU_MONSTER_NAME = Pattern.compile(
-		"<b>.*?<b>([^<]+)<", Pattern.DOTALL );
-
 	private static final Pattern MONSTER_IMAGE = Pattern.compile( "adventureimages/(.*?)\\.gif" );
 
 	private static final GenericRequest ZONE_UNLOCK = new GenericRequest( "" );
@@ -551,13 +547,17 @@ public class AdventureRequest
 		return AdventureRequest.translateGenericType( encounter, responseText );
 	}
 
+	private static final Pattern MONSTER_NAME1 = Pattern.compile( "<span id='monname'(>| title=\")([^<]*?)(</span>|\">)", Pattern.DOTALL );
+	private static final Pattern MONSTER_NAME2 = Pattern.compile( "<b>.*?<b>(.*?):?<", Pattern.DOTALL );
+
 	private static final String parseCombatEncounter( final String responseText )
 	{
 		String name;
-		Matcher matcher = MONSTER_NAME.matcher( responseText );
+
+		Matcher matcher = MONSTER_NAME1.matcher( responseText );
 		if ( !matcher.find() )
 		{
-			matcher = HAIKU_MONSTER_NAME.matcher( responseText );
+			matcher = MONSTER_NAME2.matcher( responseText );
 			if ( !matcher.find() )
 			{
 				return "";
@@ -568,6 +568,7 @@ public class AdventureRequest
 		{
 			name = matcher.group(2);
 		}
+
 		name = CombatActionManager.encounterKey( name, false );
 		if ( name.equalsIgnoreCase( fromName ) )
 		{
