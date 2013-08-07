@@ -306,7 +306,7 @@ public class Interpreter
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e, "", true );
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Script execution aborted" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Script execution aborted (" + e.getMessage() + "): " + Parser.getLineAndFile( this.fileName, this.lineNumber ) );
 		}
 		return DataTypes.VOID_VALUE;
 	}

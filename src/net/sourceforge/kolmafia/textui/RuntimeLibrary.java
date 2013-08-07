@@ -464,12 +464,10 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "stat_bonus_tomorrow", DataTypes.STAT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "session_logs", new AggregateType(
-			DataTypes.STRING_TYPE, 0 ), params ) );
+		functions.add( new LibraryFunction( "session_logs", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "session_logs", new AggregateType(
-			DataTypes.STRING_TYPE, 0 ), params ) );
+		functions.add( new LibraryFunction( "session_logs", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
 
 		// Major functions related to adventuring and
 		// item management.
@@ -2342,16 +2340,24 @@ public abstract class RuntimeLibrary
 
 	private static Value getSessionLogs( Interpreter interpreter, final String name, final int dayCount )
 	{
-		String[] files = new String[ dayCount ];
+		if ( dayCount < 0 )
+		{
+			throw interpreter.runtimeException( "Can't get session logs for a negative number of days" );
+		}
 
-		Calendar timestamp = Calendar.getInstance( TimeZone.getTimeZone("GMT-0330") );
-
-		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, files.length );
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, dayCount );
 		ArrayValue value = new ArrayValue( type );
 
+		if ( dayCount < 1 )
+		{
+			return value;
+		}
+
+		String[] files = new String[ dayCount ];
+		Calendar timestamp = Calendar.getInstance( TimeZone.getTimeZone("GMT-0330") );
 		StringBuilder contents = new StringBuilder();
 
-		for ( int i = 0; i < files.length; ++i )
+		for ( int i = 0; i < dayCount; ++i )
 		{
 			String filename =
 				StringUtilities.globalStringReplace( name, " ", "_" ) + "_" + KoLConstants.DAILY_FORMAT.format( timestamp.getTime() ) + ".txt";
