@@ -1040,9 +1040,6 @@ public class CharPaneRequest
 
 		CharPaneRequest.setInteraction();
 
-		KoLCharacter.recalculateAdjustments();
-		KoLCharacter.updateStatus();
-
 		if ( KoLCharacter.inAxecore() )
 		{
 			int level = JSON.getInt( "clancy_level" );
@@ -1085,13 +1082,13 @@ public class CharPaneRequest
 		{
 			int famId = JSON.getInt( "familiar" );
 			int famExp = JSON.getInt( "familiarexp" );
-			int weight = JSON.getInt( "famlevel" );
 			FamiliarData familiar = FamiliarData.registerFamiliar( famId, famExp );
 			KoLCharacter.setFamiliar( familiar );
 
 			String image = JSON.getString( "familiarpic" );
 			KoLCharacter.setFamiliarImage( image.equals( "" ) ? null : image + ".gif" );
 
+			int weight = JSON.getInt( "famlevel" );
 			boolean feasted = JSON.getInt( "familiar_wellfed" ) == 1;
 			familiar.checkWeight( weight, feasted );
 

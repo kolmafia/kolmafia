@@ -281,7 +281,8 @@ public class FamiliarData
 		int delta = weight - this.getModifiedWeight();
 		if ( delta != 0 )
 		{
-			RequestLogger.printLine( "Adjusting familiar weight by " + delta + " pound" + ( delta == 1 ? "" : "s" ) );
+			// The following is informational, not an error, but it confuses people, so don't print it.
+			// RequestLogger.printLine( "Adjusting familiar weight by " + delta + " pound" + ( delta == 1 ? "" : "s" ) );
 			this.weight += delta;
 		}
 	}
