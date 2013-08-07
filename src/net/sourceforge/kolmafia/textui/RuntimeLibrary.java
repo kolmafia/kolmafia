@@ -3092,38 +3092,39 @@ public abstract class RuntimeLibrary
 			int gems = wads / 100;
 			wads -= gems;
 
-		 	for ( int wad : elems )
-		 	{
-		 		if ( powders > 0 )
-		 		{
+			for ( int wad : elems )
+			{
+				if ( powders > 0 )
+				{
 					value.aset( DataTypes.makeItemValue( wad + WAD2POWDER ),
-						DataTypes.makeIntValue( powders / nelems ) );
-		 		}
-		 		if ( nuggets > 0 )
-		 		{
+						    DataTypes.makeIntValue( powders / nelems ) );
+				}
+				if ( nuggets > 0 )
+				{
 					value.aset( DataTypes.makeItemValue( wad + WAD2NUGGET ),
-						DataTypes.makeIntValue( nuggets / nelems ) );
-		 		}
-		 		if ( wads > 0 )
-		 		{
-		 			if ( wad == ItemPool.TWINKLY_WAD )
-		 			{	// no twinkly gem!
-		 				wads += gems;
-		 				gems = 0;
-		 			}
+						    DataTypes.makeIntValue( nuggets / nelems ) );
+				}
+				if ( wads > 0 )
+				{
+					if ( wad == ItemPool.TWINKLY_WAD )
+					{	// no twinkly gem!
+						wads += gems;
+						gems = 0;
+					}
 					value.aset( DataTypes.makeItemValue( wad ),
-						DataTypes.makeIntValue( wads / nelems ) );
-		 		}
-		 		if ( gems > 0 )
-		 		{
+						    DataTypes.makeIntValue( wads / nelems ) );
+				}
+				if ( gems > 0 )
+				{
 					value.aset( DataTypes.makeItemValue( wad + WAD2GEM ),
-						DataTypes.makeIntValue( gems / nelems ) );
-		 		}
+						    DataTypes.makeIntValue( gems / nelems ) );
+				}
 				if ( clusters )
 				{
-					value.aset( DataTypes.makeItemValue( wad ), DataTypes.ONE_VALUE );
+					value.aset( DataTypes.makeItemValue( wad ), 
+						    DataTypes.makeIntValue( 1000000 ) );
 				}
-		 	}
+			}
 		}
 		return value;
 	}
