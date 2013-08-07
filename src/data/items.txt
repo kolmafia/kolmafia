@@ -6513,8 +6513,8 @@ s1
 6496	blood kiwi	858370354	dv_kiwi.gif	none	t	0
 6497	eau de mort	673478975	dv_eau.gif	none	t	0	bottles of eau de mort
 6498	bloody kiwitini	922308546	martini.gif	drink		0
-6499	moon-amber	392714725	dv_amber.gif	none	t	0
-6500	polished moon-amber	347094590	dv_amber2.gif	none	t	0
+6499	moon-amber	392714725	dv_amber.gif	none	t	0	hunks of moon-amber
+6500	polished moon-amber	347094590	dv_amber2.gif	none	t	0	polished moon-amber gemstones
 6501	moon-amber necklace	185282026	dv_amberneck.gif	accessory		0
 6502	Dreadsylvanian seed pod	709187969	dv_seedpod.gif	none, combat		0
 6503	ghost pencil	568967539	dv_ghostpencil.gif	none		0
