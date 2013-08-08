@@ -1323,11 +1323,11 @@
 1322	Dreadful Fear	blackskull.gif	79a064a5ed1237ea458e02ee8bd2d639	drink 1 Dreadsylvanian grimlet
 1323	Dreadful Smell	blackstench.gif	4add471402d1ac2bda88fd8226c0aa94	drink 1 Dreadsylvanian dank and stormy
 1324	Dreadful Sheen	blackwink.gif	9448f6d0a58269405854e8511fb8af1a	drink 1 Dreadsylvanian slithery nipple
-1325
-1326
-1327
-1328
-1329
+1325	Song of the North	songnorth.gif	57da9a66fddee135f717c68d54745d41	cast 1 Song of the North
+1326	Song of Slowness	songslow.gif	4fcc3730029413c2ec25066efd679646	cast 1 Song of Slowness
+1327	Song of Starch	songstarch.gif	4b7b17139643c7ce53bce59cd86c6ad5	cast 1 Song of Sauce
+1328	Song of Sauce	songsauce.gif	dc3d9a4c5370151b061399b7325b68ba	cast 1 Song of Sauce
+1329	Song of Bravado	songbravado.gif	99fc8baf6306358895e613edd9734885	cast 1 Song of Bravado
 1330	Hot Hands	flask_hot.gif	a5a385629ec007dab7163ab2a4268009	use 1 lotion of hotness
 1331	Cold Hands	flask_cold.gif	60cf4facf7dd20ce176932083b629c27	use 1 lotion of coldness
 1332	Spooky Hands	flask_spooky.gif	45f0f990b69897625af21b3236cd0dcc	use 1 lotion of spookiness

@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
@@ -164,13 +165,26 @@ public class TestCommand
 		{
 			if ( split.length < 3 )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test item itemId descId" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test newitem itemId descId" );
 				return;
 			}
 
 			int itemId = StringUtilities.parseInt( split[ 1 ] );
 			String descId = split[ 2 ].trim();
 			ItemDatabase.registerItem( itemId, descId );
+			return;
+		}
+
+		if ( command.equals( "neweffect" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test neweffect descId" );
+				return;
+			}
+
+			String descId = split[ 1 ].trim();
+			EffectDatabase.learnEffectId( null, descId );
 			return;
 		}
 

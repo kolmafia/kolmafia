@@ -320,7 +320,7 @@ public class Modifiers
 		  Pattern.compile( "Maximum HP: " + EXPR )
 		},
 		{ "Maximum HP Percent",
-		  null,
+		  Pattern.compile( "Maximum HP ([+-]\\d+)%" ),
 		  Pattern.compile( "Maximum HP Percent: " + EXPR )
 		},
 		{ "Maximum MP",
@@ -328,7 +328,7 @@ public class Modifiers
 		  Pattern.compile( "Maximum MP: " + EXPR )
 		},
 		{ "Maximum MP Percent",
-		  null,
+		  Pattern.compile( "Maximum MP ([+-]\\d+)%" ),
 		  Pattern.compile( "Maximum MP Percent: " + EXPR )
 		},
 		{ "Weapon Damage",
@@ -649,7 +649,10 @@ public class Modifiers
 		  "Experience Percent (Moxie)"
 		},
 		{ "Minstrel Level",
-		  Pattern.compile( "([+-]\\d+) to Minstrel Level" ),
+		  new Object[] {
+		        Pattern.compile( "([+-]\\d+) to Minstrel Level" ),
+		        Pattern.compile( "Minstrel Level ([+-]\\d+)" ),
+		  },
 		  Pattern.compile( "Minstrel Level: " + EXPR )
 		},
 		{ "Muscle Limit",
@@ -2301,7 +2304,7 @@ public class Modifiers
 	private static final Pattern ALL_ATTR_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)$" );
 	private static final Pattern ALL_ATTR_PCT_PATTERN = Pattern.compile( "^All Attributes ([+-]\\d+)%$" );
 	private static final Pattern CLASS_PATTERN = Pattern.compile( "Bonus&nbsp;for&nbsp;(.*)&nbsp;only" );
-	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters will be (.*) attracted to you" );
+	private static final Pattern COMBAT_PATTERN = Pattern.compile( "Monsters (?:are|will be) (.*) attracted to you" );
 	private static final Pattern HP_MP_PATTERN = Pattern.compile( "^Maximum HP/MP ([+-]\\d+)$" );
 
 	public static final String parseModifier( final String enchantment )
@@ -2390,7 +2393,17 @@ public class Modifiers
 		if ( matcher.find() )
 		{
 			String tag = Modifiers.modifierTag( Modifiers.doubleModifiers, enchantment.indexOf( "Underwater only" ) == -1 ? Modifiers.COMBAT_RATE : Modifiers.UNDERWATER_COMBAT_RATE );
-			return  tag + ": " + ( matcher.group( 1 ).equals( "more" ) ? "+5" : "-5" );
+			String level = matcher.group( 1 );
+			String rate =
+				level.equals( "more" ) ? "+5" :
+				level.equals( "significantly more" ) ? "+15" :
+				level.equals( "<i>way</i> more" ) ? "+20" :
+				level.equals( "less" ) ? "-5" :
+				level.equals( "significantly less" ) ? "-15" :
+				level.equals( "<i>way</i> less" ) ? "-20" :
+				"+0";
+
+			return  tag + ": " + rate;
 		}
 
 		matcher = Modifiers.HP_MP_PATTERN.matcher( enchantment );
