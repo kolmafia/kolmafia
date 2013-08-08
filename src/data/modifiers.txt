@@ -2663,6 +2663,7 @@ palm-frond toupee	Familiar Weight: +5
 pet anemone	Familiar Weight: +5
 pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box | Holiday Log"
 pet rock &quot;Snooty&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box | Holiday Log"
+pile of dungeon junk	Familiar Weight: +5
 # plastic bib: Makes your ghost better at eating stuff.
 plastic pumpkin bucket	Familiar Weight: +5, Item Drop: +13, Softcore Only, Generic
 portable motorcycle	Familiar Weight: +5

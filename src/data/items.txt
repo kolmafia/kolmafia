@@ -6437,34 +6437,34 @@ s1
 6420
 6421
 6422
-6423	Tales of Dread	885005203	book3.gif	reusable		0
-6424	Dreadsylvanian skeleton key	539373127	dv_key.gif	none	t	0
+6423	Tales of Dread	885005203	book3.gif	reusable		0	copies of Tales of Dread
+6424	Dreadsylvanian skeleton key	539373127	dv_key.gif	none	t	0	Dreadsylvanian skeleton keys
 6425	Official Seal of Dreadsylvania	158915306	dvtat.gif	usable		0	Official Seals of Dreadsylvania
-6426	Dreadsylvanian stew	768933176	soupbowl.gif	food		0
-6427	white Dreadsylvanian	990659022	whitedrink.gif	drink		0
-6428	brass Dreadsylvanian flask	660945598	flask.gif	reusable		0
-6429	silver Dreadsylvanian flask	277786143	flask.gif	reusable		0
-6430	dreadful fedora	982873908	dv_freddyhat.gif	hat		0
-6431	dreadful sweater	794701101	dv_freddysweater.gif	shirt		0
-6432	dreadful glove	763468382	dv_freddyglove.gif	weapon		0
-6433	Freddy Krueggerand	901547610	dv_krueggerand.gif	none		0
+6426	Dreadsylvanian stew	768933176	soupbowl.gif	food		0	bowls of Dreadsylvanian stew
+6427	white Dreadsylvanian	990659022	whitedrink.gif	drink		0	white Dreadsylvanians
+6428	brass Dreadsylvanian flask	660945598	flask.gif	reusable		0	brass Dreadsylvanian flasks
+6429	silver Dreadsylvanian flask	277786143	flask.gif	reusable		0	silver Dreadsylvanian flasks
+6430	dreadful fedora	982873908	dv_freddyhat.gif	hat		0	dreadful fedoras
+6431	dreadful sweater	794701101	dv_freddysweater.gif	shirt		0	dreadful sweater
+6432	dreadful glove	763468382	dv_freddyglove.gif	weapon		0	dreadful gloves
+6433	Freddy Krueggerand	901547610	dv_krueggerand.gif	none		0	Freddy Krueggerands
 6434	Mark of the Bugbear	950853827	dv_mark1.gif	usable	t	0	Marks of the Bugbear
 6435	Mark of the Werewolf	566747498	dv_mark2.gif	usable	t	0	Marks of the Werewolf
 6436	Mark of the Zombie	849584594	dv_mark3.gif	usable	t	0	Marks of the Zombie
 6437	Mark of the Ghost	486978053	dv_mark4.gif	usable	t	0	Marks of the Ghost
 6438	Mark of the Vampire	321383311	dv_mark5.gif	usable	t	0	Marks of the Vampire
 6439	Mark of the Skeleton	977729070	dv_mark6.gif	usable	t	0	Marks of the Skeleton
-6440	Covers-Your-Head	294652787	bb_hat.gif	hat		0
-6441	Drapes-You-Regally	405751737	bb_cloak.gif	container		0
+6440	Covers-Your-Head	294652787	bb_hat.gif	hat		0	Cover-Your-Heads
+6441	Drapes-You-Regally	405751737	bb_cloak.gif	container		0	Drape-You-Regally capes
 6442	Warms-Your-Tush	489060732	bb_pants.gif	pants		0
-6443	Helps-You-Sleep	525663175	bb_mask.gif	accessory		0
-6444	Quiets-Your-Steps	393898229	bb_shoes.gif	accessory		0
+6443	Helps-You-Sleep	525663175	bb_mask.gif	accessory		0	Help-You-Sleep masks
+6444	Quiets-Your-Steps	393898229	bb_shoes.gif	accessory		0	pairs of Quiets-Your-Steps
 6445	Protects-Your-Junk	184362016	bb_speedo.gif	accessory		0
-6446	Gets-You-Drunk	610004137	coffeecup.gif	drink	t	0
+6446	Gets-You-Drunk	610004137	coffeecup.gif	drink	t	0	Getssh-Yous-Drunkssh
 6447	Great Wolf's headband	601471657	ww_headband.gif	hat		0
-6448	Great Wolf's left paw	767546909	ww_leftclaw.gif	offhand		0
+6448	Great Wolf's left paw	767546909	ww_leftclaw.gif	offhand		0	Great Wolf's left paws
 6449	Great Wolf's right paw	523051317	ww_rightclaw.gif	weapon		0
-6450	Great Wolf's rocket launcher	229573706	ww_bazooka.gif	weapon		0
+6450	Great Wolf's rocket launcher	229573706	ww_bazooka.gif	weapon		0	Great Wolf's rocket launchers
 6451	Great Wolf's beastly trousers	370491221	ww_pants.gif	pants		0
 6452	Great Wolf's lice	639734327	ww_lice.gif	none, combat reusable	d	21337
 6453	Hunger&trade; Sauce	923389971	ww_sauce.gif	usable	t	0
