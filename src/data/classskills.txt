@@ -1,9 +1,16 @@
 3
 # Syntax is:
 # id	Name	Type	MP Cost	Duration[	Level]
-# Type can be: 0 (Passive), 1 (Noncombat item summon), 2 (Noncombat healing)
-# 3 (Noncombat non-shruggable effect), 4 (Noncombat shruggable effect), 5 (Combat)
-# 6 (Boris Songs) 7 (Combat/Noncombat healing) 8 (Combat/Passive)
+# Type can be:
+#     0 (Passive)
+#     1 (Noncombat item summon)
+#     2 (Noncombat healing)
+#     3 (Noncombat non-shruggable effect)
+#     4 (Noncombat shruggable effect)
+#     5 (Combat)
+#     6 (One-at-a-time Noncombat Song)
+#     7 (Combat/Noncombat healing)
+#     8 (Combat/Passive)
 
 1	Liver of Steel	0	0	0
 2	Chronic Indigestion	5	5	0
@@ -106,6 +113,22 @@
 89	Drescher's Annoying Noise	3	40	20
 90	Deep Dark Visions	3	100	10
 91	Dog Tired	0	0	0
+
+92	Club Earth	5	50	0
+93	Carbohydrate Cudgel	5	30	0
+94	Splattersmash	5	5	25	0
+95	Grab a Cold One	1	30	0
+96	Song of the North	6	100	10
+97	Turtleini	5	35	0
+98	Sauceshell	5	30	0
+99	Conspiratorial Whispers	5	25	0
+100	Song of Slowness	6	100	10
+101	Spaghetti Breakfast	1	30	0
+102	Shadow Noodles	5	30	0
+103	Song of Starch	6	100	10
+104	Splashdance	5	30	0
+105	Song of Sauce	6	100	10
+106	Song of Bravado	6	100	10
 
 # Skills available to Clubbers
 

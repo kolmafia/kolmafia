@@ -4014,13 +4014,18 @@ Some Cheese with Your Wine	Stench Damage: +30, Stench Spell Damage: +30
 # Something's Amistress: Makes you look like the remains of a jilted mistress
 Somewhat Poisoned	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Muscle: -7, Mysticality: -7, Moxie: -7
 Song of Accompaniment	Minstrel Level: +3
-# Song of Battle: Combat Rate: +???, Never Miss
+# Song of Battle: Regular Attacks Can't Miss
 Song of Battle	Weapon Damage Percent: +100, Combat Rate: +20
+Song of Bravado	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Song of Cockiness	Monster Level: +30
-# Song of Fortune: first blow is always critical
+# Song of Fortune: First  blow is always Critical
 Song of Fortune	Item Drop: +25, Meat Drop: +50
-# Song of the Glorious Lunch: Food Sounds Great!
+Song of Sauce	Spell Damage Percent: +100, Hot Damage: +50, Hot Spell Damage: +50
+Song of Slowness	Initiative: +50
 Song of Solitude	Combat Rate: -20
+Song of Starch	Maximum HP Percent: +50
+# Song of the Glorious Lunch: Food Sounds Great!
+Song of the North	Weapon Damage Percent: +100, Cold Damage: +50
 # Soul Freeze: Brrrrrrr...
 Soul-Crushing Headache	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
