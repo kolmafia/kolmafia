@@ -1228,6 +1228,7 @@ public class RequestEditorKit
 			return;
 		}
 
+		StringBuffer monsterData = new StringBuffer( "<font size=2 color=gray>" );
 		int nameIndex = buffer.indexOf( "<span id='monname" );
 		int insertionPointForData;
 
@@ -1249,23 +1250,20 @@ public class RequestEditorKit
 				return;
 			}
 			// find bold monster name
-			insertionPointForData = buffer.indexOf( "<b>", insertionPointForData + 4 );
-			if ( insertionPointForData == -1 )
+			nameIndex = buffer.indexOf( "<b>", insertionPointForData + 4 );
+			if ( nameIndex == -1 )
 			{
 				return;
 			}
+			buffer.insert( nameIndex, "<span id='monname'>" );
 			// find end of monster
-			insertionPointForData = buffer.indexOf( "</td>", insertionPointForData + 4 );
-			if ( insertionPointForData == -1 )
+			int combatIndex = buffer.indexOf( "</td>", nameIndex );
+			if ( combatIndex == -1 )
 			{
 				return;
 			}
-		}
-
-		StringBuffer monsterData = new StringBuffer( "<font size=2 color=gray>" );
-		if ( nameIndex != -1 )
-		{
-			monsterData.append( "<br><br>" );
+			buffer.insert( nameIndex, "</span>" );
+			insertionPointForData = combatIndex + 7;
 		}
 
 		monsterData.append( "<br />HP: " );
@@ -1371,7 +1369,7 @@ public class RequestEditorKit
 
 		// Insert color for monster element
 		MonsterDatabase.Element monsterElement = monster.getDefenseElement();
-		if ( ( nameIndex != -1 ) && monsterElement != MonsterDatabase.Element.NONE )
+		if ( monsterElement != MonsterDatabase.Element.NONE )
 		{
 			int insertionPointForElement = nameIndex + 6;
 			buffer.insert( insertionPointForElement, "class=\"element" + monsterElement + "\" " );

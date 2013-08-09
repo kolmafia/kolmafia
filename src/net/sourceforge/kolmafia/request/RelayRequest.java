@@ -150,6 +150,7 @@ public class RelayRequest
 	private static String CONFIRM_ARCADE = "confirm9";
 	private static String CONFIRM_KUNGFU = "confirm10";
 	private static String CONFIRM_LIBRARY = "confirm11";
+	private static String CONFIRM_WINEGLASS = "confirm12";
 
 	public RelayRequest( final boolean allowOverride )
 	{
@@ -990,8 +991,6 @@ public class RelayRequest
 
 		RelayRequest.redirectedCommandURL = "/inventory.php?which=2";
 
-		//warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"singleUse('familiar.php', 'action=newfam&ajax=1&newfam=" );
-		//warning.append( FamiliarData.getSingleFamiliarRun() );
 		warning.append( "<a style=\"text-decoration: none\" href=\"/KoLmafia/redirectedCommand?cmd=unequip+weapon;unequip+offhand&pwd=" );
 		warning.append( GenericRequest.passwordHash );
 		warning.append( "\">" );
@@ -1325,6 +1324,54 @@ public class RelayRequest
 		return true;
 	}
 
+	private boolean sendWineglassWarning()
+	{
+		if ( this.getFormField( CONFIRM_WINEGLASS ) != null )
+		{
+			Preferences.setBoolean( "_drunkenStuporOK", true );
+			return false;
+		}
+
+		// If you are not overdrunk, nothing to warn about
+		if ( !KoLCharacter.isFallingDown() )
+		{
+			return false;
+		}
+
+		// If you've already said that a Drunken Stupor is fine, nothing to warn about
+		if ( Preferences.getBoolean( "_drunkenStuporOK" ) )
+		{
+			return false;
+		}
+
+		// If you are equipped with Drunkula's wineglass, nothing to warn about
+		if ( KoLCharacter.hasEquipped( ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND ) )
+		{
+			return false;
+		}
+
+		// If you don't own Drunkula's wineglass, nothing to warn about
+		if ( !InventoryManager.hasItem( ItemPool.DRUNKULA_WINEGLASS ) )
+		{
+			return false;
+		}
+
+		StringBuilder warning = new StringBuilder();
+
+		warning.append( "KoLmafia has detected that you are about to adventure while overdrunk.	 " );
+		warning.append( "If you are sure you wish to adventure in a Drunken Stupor, click the icon on the left to adventure.  " );
+		warning.append( "If this was an accident, click the icon on the right to equip Drunkula's wineglass." );
+
+		this.sendOptionalWarning(
+			"hand.gif",
+			"dr_wineglass.gif",
+			warning.toString(),
+			"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.DRUNKULA_WINEGLASS + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);",
+			CONFIRM_WINEGLASS );
+
+		return true;
+	}
+
 	public void sendGeneralWarning( final String image, final String message, final String confirm )
 	{
 		this.sendGeneralWarning( image, message, confirm, null );
@@ -1392,7 +1439,7 @@ public class RelayRequest
 			warning.append( "<td align=center valign=center><div id=\"proceed\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
 			warning.append( url );
 			warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
-			warning.append( CONFIRM_LIBRARY );
+			warning.append( confirm );
 			warning.append( "=on\"><img src=\"/images/itemimages/" );
 			warning.append( image1 );
 			warning.append( "\" width=30 height=30 border=0>" );
@@ -2092,6 +2139,11 @@ public class RelayRequest
 				|| ( path.startsWith( "inv_use.php" ) && UseItemRequest.getAdventuresUsed( path ) > 0 ) )
 				&& ( this.sendFamiliarWarning() || this.sendKungFuWarning() )
 			)
+		{
+			return true;
+		}
+
+		if ( adventureName != null && KoLCharacter.isFallingDown() && this.sendWineglassWarning() )
 		{
 			return true;
 		}
