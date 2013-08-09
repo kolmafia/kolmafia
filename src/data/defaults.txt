@@ -854,7 +854,6 @@ user	_demandSandwich	0
 user	_distentionPillUsed	false
 user	_donhosCasts	0
 user	_dreamJarDrops	0
-user	_drunkenStuporOK	false
 user	_elronsCasts	0
 user	_envyfishEggUsed	false
 user	_essentialTofuUsed	false
