@@ -1328,18 +1328,11 @@ public class RelayRequest
 	{
 		if ( this.getFormField( CONFIRM_WINEGLASS ) != null )
 		{
-			Preferences.setBoolean( "_drunkenStuporOK", true );
 			return false;
 		}
 
 		// If you are not overdrunk, nothing to warn about
 		if ( !KoLCharacter.isFallingDown() )
-		{
-			return false;
-		}
-
-		// If you've already said that a Drunken Stupor is fine, nothing to warn about
-		if ( Preferences.getBoolean( "_drunkenStuporOK" ) )
 		{
 			return false;
 		}
