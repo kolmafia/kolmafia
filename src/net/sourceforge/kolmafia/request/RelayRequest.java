@@ -1303,11 +1303,14 @@ public class RelayRequest
 		}
 
 		this.sendOptionalWarning(
+			CONFIRM_LIBRARY,
+			"Since you have not yet unlocked the library, you may want to use Hand Chalk before adventuring here. <br>Click the image on the right to use the chalk, click the image on the left to proceed.",
 			"glove.gif",
 			"disease.gif",
-			"Since you have not yet unlocked the library, you may want to use Hand Chalk before adventuring here. <br>Click the image on the right to use the chalk, click the image on the left to proceed.",
 			"singleUse('inv_use.php','which=3&whichitem=" + ItemPool.HAND_CHALK + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);",
-			CONFIRM_LIBRARY );
+			null,
+			null
+			);
 
 		return true;
 	}
@@ -1344,7 +1347,7 @@ public class RelayRequest
 		}
 
 		// If you don't own Drunkula's wineglass, nothing to warn about
-		if ( !InventoryManager.hasItem( ItemPool.DRUNKULA_WINEGLASS ) )
+		if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.DRUNKULA_WINEGLASS, 1 ) ) )
 		{
 			return false;
 		}
@@ -1353,14 +1356,18 @@ public class RelayRequest
 
 		warning.append( "KoLmafia has detected that you are about to adventure while overdrunk.	 " );
 		warning.append( "If you are sure you wish to adventure in a Drunken Stupor, click the icon on the left to adventure.  " );
-		warning.append( "If this was an accident, click the icon on the right to equip Drunkula's wineglass." );
+		warning.append( "If this was an accident, click the icon in the center to equip Drunkula's wineglass.  " );
+		warning.append( "If you want to adventure in a Drunken Stupor and not be nagged, click the icon on the right to closet Drunkula's wineglass." );
 
 		this.sendOptionalWarning(
+			CONFIRM_WINEGLASS,
+			warning.toString(),
 			"hand.gif",
 			"dr_wineglass.gif",
-			warning.toString(),
 			"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.DRUNKULA_WINEGLASS + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);",
-			CONFIRM_WINEGLASS );
+			"/images/closet.gif",
+			"singleUse('fillcloset.php','action=closetpush&whichitem=" + ItemPool.DRUNKULA_WINEGLASS + "&qty=all&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);"
+			);
 
 		return true;
 	}
@@ -1412,8 +1419,10 @@ public class RelayRequest
 		this.pseudoResponse( "HTTP/1.1 200 OK", warning.toString() );
 	}
 
-	public void sendOptionalWarning( final String image1, final String image2, final String message,
-		final String optionalAction, final String confirm )
+	public void sendOptionalWarning( final String confirm, final String message,
+					 final String image1,
+					 final String image2, final String action2,
+					 final String image3, final String action3 )
 	{
 		StringBuilder warning = new StringBuilder();
 
@@ -1433,22 +1442,46 @@ public class RelayRequest
 			warning.append( url );
 			warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
 			warning.append( confirm );
-			warning.append( "=on\"><img src=\"/images/itemimages/" );
+			warning.append( "=on\"><img src=\"" );
+			if ( !image1.startsWith( "/" ) )
+			{
+				warning.append( "/images/itemimages/" );
+			}
 			warning.append( image1 );
 			warning.append( "\" width=30 height=30 border=0>" );
 			warning.append( "</a></div></td>" );
 		}
 
-		warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
-
 		if ( image2 != null && !image2.equals( "" ) )
 		{
+			warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
 			// perform optional action, do not (yet) adventure.
-			warning.append( "<td align=center valign=center><div id=\"optionalAction\" style=\"padding: 4px 4px 4px 4px\">" );
+			warning.append( "<td align=center valign=center><div id=\"optionalAction1\" style=\"padding: 4px 4px 4px 4px\">" );
 			warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"" );
-			warning.append( optionalAction );
-			warning.append( "\"><img src=\"/images/itemimages/" );
+			warning.append( action2 );
+			warning.append( "\"><img src=\"" );
+			if ( !image2.startsWith( "/" ) )
+			{
+				warning.append( "/images/itemimages/" );
+			}
 			warning.append( image2 );
+			warning.append( "\" width=30 height=30 border=0>" );
+			warning.append( "</a></div></td>" );
+		}
+
+		if ( image3 != null && !image3.equals( "" ) )
+		{
+			warning.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>" );
+			// perform optional action, do not (yet) adventure.
+			warning.append( "<td align=center valign=center><div id=\"optionalAction2\" style=\"padding: 4px 4px 4px 4px\">" );
+			warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"" );
+			warning.append( action3 );
+			warning.append( "\"><img src=\"" );
+			if ( !image3.startsWith( "/" ) )
+			{
+				warning.append( "/images/itemimages/" );
+			}
+			warning.append( image3 );
 			warning.append( "\" width=30 height=30 border=0>" );
 			warning.append( "</a></div></td>" );
 		}
