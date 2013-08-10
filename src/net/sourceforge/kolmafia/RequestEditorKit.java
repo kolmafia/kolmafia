@@ -1262,7 +1262,7 @@ public class RequestEditorKit
 			{
 				return;
 			}
-			buffer.insert( nameIndex, "</span>" );
+			buffer.insert( combatIndex, "</span>" );
 			insertionPointForData = combatIndex + 7;
 		}
 
