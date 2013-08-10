@@ -4372,7 +4372,22 @@ public abstract class ChoiceManager
 
 		case 750:
 			// Working in the Lab, Late One Night
-			if ( ChoiceManager.lastDecision == 4 )
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				// Approach The Machine
+
+				// You approach The Machine, and notice that
+				// the capacitor you're carrying fits perfectly
+				// into an obviously empty socket on the base
+				// of it. You plug it in, and The Machine whirs
+				// ominously to life.......
+
+				if ( text.contains( "You plug it in" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SKULL_CAPACITOR, -1 ) );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
 			{
 				// Use the still
 				if ( text.contains( "You acquire" ) )
