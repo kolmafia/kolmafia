@@ -1501,8 +1501,8 @@ public abstract class ChoiceManager
 
 		// Choice 300 is Merry Crimbo!
 		// Choice 301 is And to All a Good Night
-		// Choice 302 is unknown
-		// Choice 303 is You've Hit Bottom
+		// Choice 302 is You've Hit Bottom (Sauceror)
+		// Choice 303 is You've Hit Bottom (Pastamancer)
 
 		// A Vent Horizon
 		new ChoiceAdventure(
@@ -1728,6 +1728,39 @@ public abstract class ChoiceManager
 
 		// Choice 394 is Hellevator Music
 		// Choice 395 is Rumble On
+
+		// Woolly Scaly Bully
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure396", "Mer-kin Elementary School",
+			new String[] { "lose HP", "lose HP", "unlock janitor's closet" } ),
+
+		// Bored of Education
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure397", "Mer-kin Elementary School",
+			new String[] { "lose HP", "unlock the bathrooms", "lose HP" } ),
+
+		// A Mer-kin Graffiti
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure398", "Mer-kin Elementary School",
+			new String[] { "unlock teacher's lounge", "lose HP", "lose HP"  } ),
+
+		// The Case of the Closet
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure399", "Mer-kin Elementary School",
+			new String[] { "fight a Mer-kin monitor", "Mer-kin sawdust"  },
+			new String[] { null, "4280" } ),
+
+		// No Rest for the Room
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure400", "Mer-kin Elementary School",
+			new String[] { "fight a Mer-kin teacher", "Mer-kin cancerstick"  },
+			new String[] { null, "4279" } ),
+
+		// Raising Cane
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure401", "Mer-kin Elementary School",
+			new String[] { "fight a Mer-kin punisher ", "Mer-kin wordquizz"  },
+			new String[] { null, "4205" } ),
 
 		// Don't Hold a Grudge
 		new ChoiceAdventure(
