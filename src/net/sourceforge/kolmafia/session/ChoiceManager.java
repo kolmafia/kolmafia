@@ -119,6 +119,17 @@ public abstract class ChoiceManager
 	private static final AdventureResult BALLROOM_KEY = ItemPool.get( ItemPool.BALLROOM_KEY, 1 );
 	private static final AdventureResult MODEL_AIRSHIP = ItemPool.get( ItemPool.MODEL_AIRSHIP, 1 );
 
+	// Dreadsylvania items and effects
+	private static final AdventureResult MOON_AMBER_NECKLACE = ItemPool.get( ItemPool.MOON_AMBER_NECKLACE, 1 );
+	private static final AdventureResult BLOODY_KIWITINI = ItemPool.get( ItemPool.BLOODY_KIWITINI, 1 );
+	private static final AdventureResult KIWITINI_EFFECT = new AdventureResult( "First Blood Kiwi", 1, true );
+	private static final AdventureResult AUDITORS_BADGE = ItemPool.get( ItemPool.AUDITORS_BADGE, 1 );
+	private static final AdventureResult GHOST_SHAWL = ItemPool.get( ItemPool.GHOST_SHAWL, 1 );
+	private static final AdventureResult SHEPHERDS_PIE = ItemPool.get( ItemPool.SHEPHERDS_PIE, 1 );
+	private static final AdventureResult PIE_EFFECT = new AdventureResult( "Shepherd's Breath", 1, true );
+	private static final AdventureResult MAKESHIFT_TURBAN = ItemPool.get( ItemPool.MAKESHIFT_TURBAN, 1 );
+	private static final AdventureResult TEMPORARY_BLINDNESS = new AdventureResult( "Temporary Blindness", 1, true );
+
 	private static final AdventureResult[] MISTRESS_ITEMS = new AdventureResult[]
 	{
 		ItemPool.get( ItemPool.CHINTZY_SEAL_PENDANT, 1 ),
@@ -2838,6 +2849,18 @@ public abstract class ChoiceManager
 		case 678:
 			// Yeah, You're for Me, Punk Rock Giant
 			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "Yeah, You're for Me, Punk Rock Giant" );
+
+		case 758:
+			// End of the Path
+			return ChoiceManager.dynamicChoiceSpoilers( 2, choice, "End of the Path" );
+
+		case 759:
+			// You're About to Fight City Hall
+			return ChoiceManager.dynamicChoiceSpoilers( 2, choice, "You're About to Fight City Hall" );
+
+		case 760:
+			// Holding Court
+			return ChoiceManager.dynamicChoiceSpoilers( 2, choice, "Holding Court" );
 		}
 		return null;
 	}
@@ -3232,6 +3255,7 @@ public abstract class ChoiceManager
 			result [ 0 ] = ChoiceManager.booPeakDamage();
 			result [ 1 ] = "Flee";
 			return result;
+
 		case 636:
 		case 637:
 		case 638:
@@ -3270,6 +3294,75 @@ public abstract class ChoiceManager
 			result[ 2 ] = "";
 			result[ 3 ] = "Raver Choice";
 			return result;
+
+		case 758:
+		{
+			// End of the Path
+
+			StringBuilder buffer = new StringBuilder();
+			boolean necklaceEquipped = KoLCharacter.hasEquipped( ChoiceManager.MOON_AMBER_NECKLACE );
+			boolean necklaceAvailable = InventoryManager.getCount( ChoiceManager.MOON_AMBER_NECKLACE ) > 0;
+			boolean hasKiwiEffect = KoLConstants.activeEffects.contains( ChoiceManager.KIWITINI_EFFECT );
+			boolean isBlind =
+				KoLConstants.activeEffects.contains( ChoiceManager.TEMPORARY_BLINDNESS ) ||
+				KoLCharacter.hasEquipped( ChoiceManager.MAKESHIFT_TURBAN );
+			boolean kiwitiniAvailable = InventoryManager.getCount( ChoiceManager.BLOODY_KIWITINI ) > 0;
+
+			buffer.append( necklaceEquipped ? "moon-amber necklace equipped" :
+				       necklaceAvailable ? "moon-amber necklace NOT equipped but in inventory" :
+				       "moon-amber necklace neither equipped nor available" );
+			buffer.append( " / " );
+			buffer.append( hasKiwiEffect ? ( isBlind ? "First Blood Kiwi and blind" : "First Blood Kiwi but NOT blind" ) :
+				       kiwitiniAvailable ? "bloody kiwitini in inventory" :
+				       "First Blood Kiwi neither active nor available" );
+
+			result = new String[ 2 ];
+			result[ 0 ] = buffer.toString();
+			result[ 1 ] = "Run away";
+			return result;
+		}
+
+		case 759:
+		{
+			// You're About to Fight City Hall
+
+			StringBuilder buffer = new StringBuilder();
+			boolean badgeEquipped = KoLCharacter.hasEquipped( ChoiceManager.AUDITORS_BADGE );
+			boolean badgeAvailable = InventoryManager.getCount( ChoiceManager.AUDITORS_BADGE ) > 0;
+
+			buffer.append( badgeEquipped ? "Dreadsylvanian auditor's badge equipped" :
+				       badgeAvailable ? "Dreadsylvanian auditor's badge NOT equipped but in inventory" :
+				       "Dreadsylvanian auditor's badge neither equipped nor available" );
+
+			result = new String[ 2 ];
+			result[ 0 ] = buffer.toString();
+			result[ 1 ] = "Run away";
+			return result;
+		}
+
+		case 760:
+		{
+			// Holding Court
+
+			StringBuilder buffer = new StringBuilder();
+			boolean shawlEquipped = KoLCharacter.hasEquipped( ChoiceManager.GHOST_SHAWL );
+			boolean shawlAvailable = InventoryManager.getCount( ChoiceManager.GHOST_SHAWL ) > 0;
+			boolean hasPieEffect = KoLConstants.activeEffects.contains( ChoiceManager.PIE_EFFECT );
+			boolean pieAvailable = InventoryManager.getCount( ChoiceManager.SHEPHERDS_PIE ) > 0;
+
+			buffer.append( shawlEquipped ? "ghost shawl equipped" :
+				       shawlAvailable ? "ghost shawl NOT equipped but in inventory" :
+				       "ghost shawl neither equipped nor available" );
+			buffer.append( " / " );
+			buffer.append( hasPieEffect ? "Shepherd's Breath active" :
+				       pieAvailable ? "Dreadsylvanian shepherd's pie in inventory" :
+				       "Shepherd's Breath neither active nor available" );
+
+			result = new String[ 2 ];
+			result[ 0 ] = buffer.toString();
+			result[ 1 ] = "Run away";
+			return result;
+		}
 		}
 		return null;
 	}

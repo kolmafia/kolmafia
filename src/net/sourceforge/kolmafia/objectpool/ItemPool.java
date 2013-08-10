@@ -1649,6 +1649,7 @@ public class ItemPool
 	public static final int BONE_FLOUR = 6485;
 	public static final int DREADFUL_ROAST = 6486;
 	public static final int STINKING_AGARICUS = 6487;
+	public static final int SHEPHERDS_PIE = 6487;
 	public static final int INTRICATE_MUSIC_BOX_PARTS = 6489;
 	public static final int WAX_BANANA = 6492;
 	public static final int WAX_LOCK_IMPRESSION = 6493;
@@ -1656,6 +1657,7 @@ public class ItemPool
 	public static final int AUDITORS_BADGE = 6495;
 	public static final int BLOOD_KIWI = 6496;
 	public static final int EAU_DE_MORT = 6497;
+	public static final int BLOODY_KIWITINI = 6497;
 	public static final int MOON_AMBER = 6499;
 	public static final int MOON_AMBER_NECKLACE = 6501;
 	public static final int GHOST_PENCIL = 6503;
