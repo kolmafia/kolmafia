@@ -45,7 +45,6 @@ A Kitchen Drawer	100	Butterknife of Regret	Cookie Cutter of Loneliness	Creme Bru
 A Maze of Sewer Tunnels	95	C. H. U. M.	Giant Zombie Goldfish	Sewer Gator	C. H. U. M. chieftain: 0
 A Pile of Old Servers	100	Antique Database Server
 A Skeleton Invasion!	100	Skeleton Invader	Two Skeleton Invaders	Three Skeleton Invaders	Four Skeleton Invaders	Five Skeleton Invaders
-A Well-Groomed Lawn	100	Menacing lawn gnome	Mowing lawn gnome	Mounted lawn gnome
 An Octopus's Garden	95	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae	moister oyster: 0
 Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Anemone Mine	-1	Anemone Combatant	Killer Clownfish	Mer-kin Miner
@@ -98,7 +97,7 @@ Fightin' Fire	100	brushfire
 Foyer	100	Fleaman	Ghost	Medusa
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
 Fudge Mountain	95	Fudge monkey	Fudge oyster	Fudge weasel	Fudge vulture	Fudge poodle	The Fudge Wizard	The Abominable Fudgeman
-Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown	The Clownlord Beelzebozo: 0
+The "Fun" House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown	The Clownlord Beelzebozo: 0
 Galley	-1
 Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Supervisor
 Guano Junction	100	Baseball Bat	Briefcase Bat	Perpendicular Bat	Screambat: 0	Skullbat	Doughbat	Vampire Bat
@@ -233,6 +232,7 @@ The Hole in the Sky	100	Astronomer: 3	One-Eyed Willie: o2	Burrowing Bishop: o2	F
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Jungles of Ancient Loathing	-1	Ancient Guardian Statue	Evil Cultist	Jungle Baboon	Tribal Goblin	Giant Bird-Creature: 0	Giant Jungle Python: 0	Giant Octopus: 0	Giant Spider: 0	High Priest of Ki'rhuss: 0	Wumpus: 0
 The Knob Shaft	85	Ghost Miner
+The Landscaper's Lair	100	Menacing lawn gnome	Mowing lawn gnome	Mounted lawn gnome
 The Laugh Floor	-1	BL Imp	CH Imp	Pr Imp	Carbuncle Top: 0	Larry of the Field of Signs: 0	Victor the Insult Comic Hellhound: 0
 The Maelstrom of Lovers	100	Bettie Barulio	Marcus Macurgeon	Marvin J. Sunny	Mortimer Strauss	Wonderful Winifred Wongle	The Terrible Pinch: 0	Thug 1 and Thug 2: 0
 The Marinara Trench	95	Diving Belle	Fisherfish	Giant Squid	Mer-kin Diver

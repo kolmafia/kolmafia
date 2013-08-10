@@ -289,6 +289,10 @@ public class AdventureDatabase
 			"Fernswarthy's Ruins",
 			"Tower Ruins"
 		},
+		{
+			"A Well-Groomed Lawn",
+			"The Landscaper's Lair"
+		},
 		// Everything above here added to 16.0, remove after 16.1
 	};
 
