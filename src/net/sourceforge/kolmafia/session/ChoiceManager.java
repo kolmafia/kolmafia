@@ -2852,15 +2852,15 @@ public abstract class ChoiceManager
 
 		case 758:
 			// End of the Path
-			return ChoiceManager.dynamicChoiceSpoilers( 2, choice, "End of the Path" );
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "End of the Path" );
 
 		case 759:
 			// You're About to Fight City Hall
-			return ChoiceManager.dynamicChoiceSpoilers( 2, choice, "You're About to Fight City Hall" );
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "You're About to Fight City Hall" );
 
 		case 760:
 			// Holding Court
-			return ChoiceManager.dynamicChoiceSpoilers( 2, choice, "Holding Court" );
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Holding Court" );
 		}
 		return null;
 	}
