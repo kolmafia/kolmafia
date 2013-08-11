@@ -1645,6 +1645,7 @@ public class ItemPool
 	public static final int BRASS_DREAD_FLASK = 6428;
 	public static final int SILVER_DREAD_FLASK = 6429;
 	public static final int KRUEGGERAND = 6433;
+	public static final int ZOMBIE_ACCORDION = 6455;
 	public static final int DRUNKULA_WINEGLASS = 6474;
 	public static final int DREAD_TARRAGON = 6484;
 	public static final int BONE_FLOUR = 6485;
@@ -1668,6 +1669,7 @@ public class ItemPool
 	public static final int SKULL_CAPACITOR = 6512;
 	public static final int WARM_FUR = 6513;
 	public static final int GHOST_THREAD = 6525;
+	public static final int FRYING_BRAINPAN = 6538;
 	public static final int OLD_BALL_AND_CHAIN = 6539;
 	public static final int OLD_DRY_BONE = 6540;
 	public static final int HOT_CLUSTER = 6551;

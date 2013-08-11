@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest.BuffTool;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -694,47 +695,33 @@ public class SkillDatabase
 			actualDuration += 5;
 		}
 
-		AdventureResult[] weapons = null;
-		int[] bonus = null;
+		BuffTool [] tools =
+			( skillId > 2000 && skillId < 3000 ) ? UseSkillRequest.TAMER_TOOLS :
+			( skillId > 4000 && skillId < 5000 ) ? UseSkillRequest.SAUCE_TOOLS :
+			( skillId > 6000 && skillId < 7000 ) ? UseSkillRequest.THIEF_TOOLS :
+			null;
 
-		if ( skillId > 2000 && skillId < 3000 )
-		{
-			weapons = UseSkillRequest.TAMER_WEAPONS;
-			bonus = UseSkillRequest.TAMER_WEAPONS_BONUS;
-		}
-
-		if ( skillId > 4000 && skillId < 5000 )
-		{
-			weapons = UseSkillRequest.SAUCE_WEAPONS;
-			bonus = UseSkillRequest.SAUCE_WEAPONS_BONUS;
-		}
-
-		if ( skillId > 6000 && skillId < 7000 )
-		{
-			weapons = UseSkillRequest.THIEF_WEAPONS;
-			bonus = UseSkillRequest.THIEF_WEAPONS_BONUS;
-		}
-
-		if ( weapons == null )
+		if ( tools == null )
 		{
 			return actualDuration;
 		}
 
 		int inventoryDuration = 0;
 
-		for ( int i = 0; i < weapons.length; ++ i )
+		for ( int i = 0; i < tools.length; ++ i )
 		{
-			int current = actualDuration + bonus[ i ];
+			BuffTool tool = tools[ i ];
+			int current = actualDuration + tool.getBonusTurns();
 
 			// If you have a buff weapon equipped, it determines
 			// the duration, even if a better one is in inventory
-			if ( KoLCharacter.hasEquipped( weapons[ i ] ) )
+			if ( tool.hasEquipped() )
 			{
 				return current;
 			}
 
 			if ( current > inventoryDuration && 
-			     KoLConstants.inventory.contains( weapons[ i ] ) )
+			     KoLConstants.inventory.contains( tool.getItem() ) )
 			{
 				inventoryDuration = current;
 			}

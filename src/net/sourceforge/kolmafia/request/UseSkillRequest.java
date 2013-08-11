@@ -138,34 +138,36 @@ public class UseSkillRequest
 	private int lastReduction = Integer.MAX_VALUE;
 	private String lastStringForm = "";
 
-	public static final AdventureResult[] TAMER_WEAPONS = new AdventureResult[]
-	{
-		ItemPool.get( ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 1 ),
-		ItemPool.get( ItemPool.CHELONIAN_MORNINGSTAR, 1 ),
-		ItemPool.get( ItemPool.MACE_OF_THE_TORTOISE, 1 ),
-		ItemPool.get( ItemPool.TURTLE_TOTEM, 1 )
-	};
-	public static final int[] TAMER_WEAPONS_BONUS = new int[] { 15, 10, 5, 0 };
+	// Tools for casting buffs. The lists are ordered from most bonus buff
+	// turns provided by this tool to least.
 
-	public static final AdventureResult[] SAUCE_WEAPONS = new AdventureResult[]
+	public static final BuffTool[] TAMER_TOOLS = new BuffTool[]
 	{
-		ItemPool.get( ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 1 ),
-		ItemPool.get( ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 1 ),
-		ItemPool.get( ItemPool.OIL_PAN, 1 ),
-		ItemPool.get( ItemPool.FIVE_ALARM_SAUCEPAN, 1 ),
-		ItemPool.get( ItemPool.SAUCEPAN, 1 )
+		new BuffTool( ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 15, false ),
+		new BuffTool( ItemPool.CHELONIAN_MORNINGSTAR, 10, false ),
+		new BuffTool( ItemPool.MACE_OF_THE_TORTOISE, 5, true ),
+		new BuffTool( ItemPool.TURTLE_TOTEM, 0, false ),
 	};
-	public static final int[] SAUCE_WEAPONS_BONUS = new int[] { 15, 10, 7, 5, 0 };
 
-	public static final AdventureResult[] THIEF_WEAPONS = new AdventureResult[]
+	public static final BuffTool[] SAUCE_TOOLS = new BuffTool[]
 	{
-		ItemPool.get( ItemPool.TRICKSTER_TRIKITIXA, 1 ),
-		ItemPool.get( ItemPool.SQUEEZEBOX_OF_THE_AGES, 1 ),
-		ItemPool.get( ItemPool.ROCK_N_ROLL_LEGEND, 1 ),
-		ItemPool.get( ItemPool.CALAVERA_CONCERTINA, 1 ),
-		ItemPool.get( ItemPool.STOLEN_ACCORDION, 1 )
+		new BuffTool( ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 15, false ),
+		new BuffTool( ItemPool.FRYING_BRAINPAN, 15, false ),
+		new BuffTool( ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 10, false ),
+		new BuffTool( ItemPool.OIL_PAN, 7, true ),
+		new BuffTool( ItemPool.FIVE_ALARM_SAUCEPAN, 5, false ),
+		new BuffTool( ItemPool.SAUCEPAN, 0, false ),
 	};
-	public static final int[] THIEF_WEAPONS_BONUS = new int[] { 15, 10, 5, 2, 0 };
+
+	public static final BuffTool[] THIEF_TOOLS = new BuffTool[]
+	{
+		new BuffTool( ItemPool.TRICKSTER_TRIKITIXA, 15, false ),
+		new BuffTool( ItemPool.ZOMBIE_ACCORDION, 15, false ),
+		new BuffTool( ItemPool.SQUEEZEBOX_OF_THE_AGES, 10, false ),
+		new BuffTool( ItemPool.ROCK_N_ROLL_LEGEND, 5, true ),
+		new BuffTool( ItemPool.CALAVERA_CONCERTINA, 2, false ),
+		new BuffTool( ItemPool.STOLEN_ACCORDION, 0, false ),
+	};
 
 	public static final AdventureResult PLEXI_PENDANT = ItemPool.get( ItemPool.PLEXIGLASS_PENDANT, 1 );
 	public static final AdventureResult BRIM_BERET = ItemPool.get( ItemPool.BRIMSTONE_BERET, 1 );
@@ -676,17 +678,15 @@ public class UseSkillRequest
 		{
 			if ( skillId > 2000 && skillId < 3000 )
 			{
-				UseSkillRequest.prepareWeapon( UseSkillRequest.TAMER_WEAPONS, skillId );
+				UseSkillRequest.prepareTool( UseSkillRequest.TAMER_TOOLS, skillId );
 			}
-
-			if ( skillId > 4000 && skillId < 5000 )
+			else if ( skillId > 4000 && skillId < 5000 )
 			{
-				UseSkillRequest.prepareWeapon( UseSkillRequest.SAUCE_WEAPONS, skillId );
+				UseSkillRequest.prepareTool( UseSkillRequest.SAUCE_TOOLS, skillId );
 			}
-
-			if ( skillId > 6000 && skillId < 7000 )
+			else if ( skillId > 6000 && skillId < 7000 )
 			{
-				UseSkillRequest.prepareWeapon( UseSkillRequest.THIEF_WEAPONS, skillId );
+				UseSkillRequest.prepareTool( UseSkillRequest.THIEF_TOOLS, skillId );
 			}
 		}
 
@@ -1025,149 +1025,132 @@ public class UseSkillRequest
 		return currentCast;
 	}
 
-	public static final boolean hasAccordion()
+	private static final BuffTool findTool( BuffTool [] tools )
 	{
-		if ( KoLCharacter.canInteract() )
+		for ( int i = 0; i < tools.length; ++i )
 		{
-			return true;
-		}
-
-		for ( int i = 0; i < UseSkillRequest.THIEF_WEAPONS.length; ++i )
-		{
-			if ( InventoryManager.hasItem( UseSkillRequest.THIEF_WEAPONS[ i ], true ) )
+			BuffTool tool = tools[ i ];
+			if ( tool.hasItem( true ) )
 			{
-				return true;
+				return tool;
 			}
 		}
+		return null;
+	}
 
-		return false;
+	public static final boolean hasAccordion()
+	{
+		return KoLCharacter.canInteract() || UseSkillRequest.findTool( UseSkillRequest.THIEF_TOOLS ) != null;
 	}
 
 	public static final boolean hasTotem()
 	{
-		if ( KoLCharacter.canInteract() )
-		{
-			return true;
-		}
-
-		for ( int i = 0; i < UseSkillRequest.TAMER_WEAPONS.length; ++i )
-		{
-			if ( InventoryManager.hasItem( UseSkillRequest.TAMER_WEAPONS[ i ], true ) )
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return KoLCharacter.canInteract() || UseSkillRequest.findTool( UseSkillRequest.TAMER_TOOLS ) != null;
 	}
 
 	public static final boolean hasSaucepan()
 	{
-		if ( KoLCharacter.canInteract() )
-		{
-			return true;
-		}
-
-		for ( int i = 0; i < UseSkillRequest.SAUCE_WEAPONS.length; ++i )
-		{
-			if ( InventoryManager.hasItem( UseSkillRequest.SAUCE_WEAPONS[ i ], true ) )
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return KoLCharacter.canInteract() || UseSkillRequest.findTool( UseSkillRequest.SAUCE_TOOLS ) != null;
 	}
 
-	public static final void prepareWeapon( final AdventureResult[] options, int skillId )
+	public static final void prepareTool( final BuffTool[] options, int skillId )
 	{
 		if ( KoLCharacter.canInteract() )
 		{
-			// The first weapon is a quest item: the reward for
-			// finally defeating your Nemesis
-			if ( InventoryManager.hasItem( options[ 0 ], false ) )
+			// If we are here, you are out of Hardcore/Ronin and
+			// have access to storage and the mall.
+
+			// Iterate over tools. Retrieve the best one you have
+			// available. If you have none available that are better
+			// than the default tool, retrieve the default, which
+			// is determined using these rules:
+			//
+			// 1) It is not a quest item and is therefore available
+			//    to any class.
+			// 2) It is not expensive to buy
+			// 3) It provides the most bonus turns of any tool that
+			//    satisfies the first two conditions
+
+			for ( int i = 0; i < options.length; ++i )
 			{
-				if ( !KoLCharacter.hasEquipped( options[ 0 ] ) )
+				BuffTool tool = options[ i ];
+				// If we have the tool, we are good to go
+				if ( tool.hasItem( false ) )
 				{
-					InventoryManager.retrieveItem( options[ 0 ] );
+					// If it is not equipped, get it into inventory
+					if ( !tool.hasEquipped() )
+					{
+						tool.retrieveItem();
+					}
+					return;
 				}
 
-				return;
-			}
-
-			// The second weapon is a quest item: the Legendary
-			// Epic Weapon of the class
-			if ( InventoryManager.hasItem( options[ 1 ], false ) )
-			{
-				if ( !KoLCharacter.hasEquipped( options[ 1 ] ) )
+				// If we don't have it and this is the default
+				// tool on this list, acquire it.
+				if ( tool.isDefault() )
 				{
-					InventoryManager.retrieveItem( options[ 1 ] );
+					if ( !tool.retrieveItem() )
+					{
+						KoLmafia.updateDisplay(
+							MafiaState.ERROR,
+							"You are out of Ronin and need a " + tool.getItem() + " to cast that. Check item retrieval settings." );
+					}
+					return;
 				}
-
-				return;
-			}
-
-			// The third weapon is tradeable: the Epic Weapon of
-			// the class
-			if ( InventoryManager.hasItem( options[ 2 ], false ) )
-			{
-				if ( !KoLCharacter.hasEquipped( options[ 2 ] ) )
-				{
-					InventoryManager.retrieveItem( options[ 2 ] );
-				}
-
-				return;
-			}
-
-			// Otherwise, obtain the Epic Weapon
-			if ( !InventoryManager.retrieveItem( options[ 2 ] ) )
-			{
-				KoLmafia.updateDisplay(
-					MafiaState.ERROR,
-					"You are out of Ronin and need a " + options[ 2 ] + " to cast that. Check item retrieval settings." );
-			}
-			return;
-		}
-
-		// Check for the weakest equipped item
-
-		AdventureResult equippedItem = null;
-
-		for ( int i = options.length - 1; i >= 0; --i )
-		{
-			if ( KoLCharacter.hasEquipped( options[ i ] ) )
-			{
-				equippedItem = options[ i ];
-				break;
 			}
 		}
 
-		// Check for the strongest available item
+		// If we are here, you are in Hardcore/Ronin and have access
+		// only to what is in inventory (or closet, if your retrieval
+		// settings allow you to use it).
+
+		// Iterate over items and remember which one you have equipped
+		// (if any) and the strongest one available.
+
+		BuffTool equippedTool = null;
+		BuffTool bestTool = null;
 
 		for ( int i = 0; i < options.length; ++i )
 		{
-			if ( !InventoryManager.hasItem( options[ i ], false ) )
+			BuffTool tool = options[ i ];
+			if ( !tool.hasItem( false ) )
 			{
 				continue;
 			}
-
-			if ( equippedItem != null && options[ i ] != equippedItem )
+			if ( tool.hasEquipped() )
 			{
-				( new EquipmentRequest( EquipmentRequest.UNEQUIP,
-					EquipmentManager.WEAPON ) ).run();
+				equippedTool = tool;
 			}
-
-			if ( !KoLCharacter.hasEquipped( options[ i ] ) )
+			if ( bestTool == null )
 			{
-				InventoryManager.retrieveItem( options[ i ] );
+				bestTool = tool;
 			}
+		}
 
+		// If we don't have any of the tools, try to retrieve the
+		// weakest one via sewer fishing.
+		if ( bestTool == null )
+		{
+			BuffTool weakestTool = options[ options.length - 1 ];
+			weakestTool.retrieveItem();
 			return;
 		}
 
-		// Nothing available, try to retrieve the weakest item
+		// if best tool is equipped, cool.
+		if ( bestTool == equippedTool)
+		{
+			return;
+		}
 
-		InventoryManager.retrieveItem( options[ options.length - 1 ] );
+		// If a weaker tool is equipped, it trumps the best tool.
+		// Unequip it.
+		if ( equippedTool != null)
+		{
+			( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.WEAPON ) ).run();
+		}
+
+		// Get best tool into inventory
+		bestTool.retrieveItem();
 	}
 
 	@Override
@@ -1893,5 +1876,49 @@ public class UseSkillRequest
 		SkillDatabase.registerCasts( skillId, count );
 
 		return true;
+	}
+
+	public static class BuffTool
+	{
+		final AdventureResult item;
+		final int bonusTurns;
+		final boolean def;
+
+		public BuffTool( final int itemId, final int bonusTurns, final boolean def )
+		{
+			this.item = ItemPool.get( itemId, 1 );
+			this.bonusTurns = bonusTurns;
+			this.def = def;
+		}
+
+		public final AdventureResult getItem()
+		{
+			return this.item;
+		}
+
+		public final int getBonusTurns()
+		{
+			return this.bonusTurns;
+		}
+
+		public final boolean isDefault()
+		{
+			return this.def;
+		}
+
+		public final boolean hasEquipped()
+		{
+			return KoLCharacter.hasEquipped( this.item );
+		}
+
+		public final boolean hasItem( final boolean create )
+		{
+			return InventoryManager.hasItem( this.item, create );
+		}
+
+		public final boolean retrieveItem()
+		{
+			return InventoryManager.retrieveItem( this.item );
+		}
 	}
 }
