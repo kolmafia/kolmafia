@@ -304,8 +304,7 @@ public class EatItemRequest
 			return false;
 		}
 
-		int PvPGain = ItemDatabase.getPvPFights( itemName );
-		if ( !UseItemRequest.askAboutPvP( PvPGain ) )
+		if ( !UseItemRequest.askAboutPvP( itemName ) )
 		{
 			return false;
 		}

@@ -163,9 +163,7 @@ public class CafeRequest
 			return;
 		}
 
-		String advGain = ItemDatabase.getAdvRangeByName( this.itemName );
-		int PvPGain = ItemDatabase.getPvPFights( this.itemName );
-		if ( this.inebriety > 0 && !DrinkItemRequest.allowBoozeConsumption( this.inebriety, 1, advGain, PvPGain ) )
+		if ( this.inebriety > 0 && !DrinkItemRequest.allowBoozeConsumption( this.itemName, 1 ) )
 		{
 			return;
 		}

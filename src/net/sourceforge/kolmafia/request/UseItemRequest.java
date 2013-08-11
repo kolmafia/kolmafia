@@ -349,7 +349,7 @@ public class UseItemRequest
 		return false;
 	}
 
-	protected static boolean askAboutPvP( final int PvPGain )
+	protected static boolean askAboutPvP( final String itemName )
 	{
 		// If we've already asked about PvP, don't nag.
 		if ( UseItemRequest.askedAboutPvP == KoLCharacter.getUserId() )
@@ -357,8 +357,10 @@ public class UseItemRequest
 			return true;
 		}
 
+		int PvPGain = ItemDatabase.getPvPFights( itemName );
+
 		// Does this item even give us PvP fights?
-		if (  PvPGain <= 0 )
+		if ( PvPGain <= 0 )
 		{
 			return true;
 		}

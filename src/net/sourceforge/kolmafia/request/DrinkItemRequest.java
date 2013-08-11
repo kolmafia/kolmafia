@@ -307,17 +307,15 @@ public class DrinkItemRequest
 			return true;
 		}
 
-		int inebriety = ItemDatabase.getInebriety( this.itemUsed.getName() );
 		int count = this.itemUsed.getCount();
 		String itemName = this.itemUsed.getName();
-		String advGain = ItemDatabase.getAdvRangeByName( itemName );
-		int PvPGain = ItemDatabase.getPvPFights( itemName );
 
-		return DrinkItemRequest.allowBoozeConsumption( inebriety, count, advGain, PvPGain );
+		return DrinkItemRequest.allowBoozeConsumption( itemName, count );
 	}
 
-	public static final boolean allowBoozeConsumption( final int inebriety, final int count, String advGain, final int PvPGain )
+	public static final boolean allowBoozeConsumption( String itemName, final int count )
 	{
+		int inebriety = ItemDatabase.getInebriety( itemName );
 		int inebrietyBonus = inebriety * count;
 		if ( inebrietyBonus < 1 )
 		{
@@ -334,12 +332,12 @@ public class DrinkItemRequest
 			return true;
 		}
 
-		if ( !DrinkItemRequest.askAboutOde( inebriety, count, advGain ) )
+		if ( !DrinkItemRequest.askAboutOde( itemName, inebriety, count ) )
 		{
 			return false;
 		}
 
-		if ( !UseItemRequest.askAboutPvP( PvPGain ) )
+		if ( !UseItemRequest.askAboutPvP( itemName ) )
 		{
 			return false;
 		}
@@ -359,7 +357,7 @@ public class DrinkItemRequest
 		return true;
 	}
 
-	private static final boolean askAboutOde( final int inebriety, final int count, String advGain )
+	private static final boolean askAboutOde( String itemName, final int inebriety, final int count )
 	{
 		// If we've already asked about ode, don't nag
 		if ( DrinkItemRequest.askedAboutOde == KoLCharacter.getUserId() )
@@ -373,9 +371,15 @@ public class DrinkItemRequest
 		{
 			return true;
 		}
-		
+
+		String advGain = ItemDatabase.getAdvRangeByName( itemName );
 		// If the item doesn't give any adventures, it won't benefit from ode
 		if ( advGain.equals( "0" ) )
+		{
+			return true;
+		}
+
+		if ( itemName.equals( "Temps Tempranillo" ) )
 		{
 			return true;
 		}
