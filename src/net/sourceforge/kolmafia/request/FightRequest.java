@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
+import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -1749,7 +1750,7 @@ public class FightRequest
 
 			if ( responseText.indexOf( "hear a wolf whistle" ) != -1 )
 			{
-				KoLmafia.ignoreSpecialMonsters();
+				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_romanticFightsLeft", -1 );
 				TurnCounter.stopCounting( "Romantic Monster window begin" );
 				TurnCounter.stopCounting( "Romantic Monster window end" );
@@ -1791,7 +1792,7 @@ public class FightRequest
 			{
 				DadManager.solve( responseText );
 			}
-			else if ( !KoLmafia.ignoreSpecialMonsters &&
+			else if ( !EncounterManager.ignoreSpecialMonsters &&
 				  ( encounter.equalsIgnoreCase( "angry bassist" ) ||
 				    encounter.equalsIgnoreCase( "blue-haired girl" ) ||
 				    encounter.equalsIgnoreCase( "evil ex-girlfriend" ) ||
@@ -1801,7 +1802,7 @@ public class FightRequest
 			{
 				Preferences.increment( "_hipsterAdv", 1 );
 			}
-			else if ( !KoLmafia.ignoreSpecialMonsters &&
+			else if ( !EncounterManager.ignoreSpecialMonsters &&
 				  KoLCharacter.inBeecore() &&
 				  ( encounter.equalsIgnoreCase( "beebee gunners" ) ||
 				    encounter.equalsIgnoreCase( "moneybee" ) ||
@@ -1819,7 +1820,7 @@ public class FightRequest
 				TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 20, "Bee window end loc=*", "rparen.gif" );
 			}
-			else if ( !KoLmafia.ignoreSpecialMonsters &&
+			else if ( !EncounterManager.ignoreSpecialMonsters &&
 				  ( encounter.equalsIgnoreCase( "Candied Yam Golem" ) ||
 					encounter.equalsIgnoreCase( "Malevolent Tofurkey" ) ||
 					encounter.equalsIgnoreCase( "Possessed Can of Cranberry Sauce" ) ||
@@ -1844,7 +1845,7 @@ public class FightRequest
 				TurnCounter.startCounting( 25, "Holiday Monster window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 35, "Holiday Monster window end loc=*", "rparen.gif" );
 			}
-			else if ( !KoLmafia.ignoreSpecialMonsters &&
+			else if ( !EncounterManager.ignoreSpecialMonsters &&
 				  ( encounter.equalsIgnoreCase( "Sign-Twirling Crimbo Elf" ) ||
 				    encounter.equalsIgnoreCase( "Tacobuilding Crimbo Elf" ) ||
 				    encounter.equalsIgnoreCase( "Taco-Clad Crimbo Elf" )
@@ -1855,7 +1856,7 @@ public class FightRequest
 				TurnCounter.startCounting( 35, "Taco Elf window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 40, "Taco Elf window end loc=*", "rparen.gif" );
 			}
-			else if ( !KoLmafia.ignoreSpecialMonsters &&
+			else if ( !EncounterManager.ignoreSpecialMonsters &&
 				  ( encounter.equalsIgnoreCase( "menacing thug" ) ||
 				    encounter.equalsIgnoreCase( "Mob Penguin hitman" ) ||
 				    encounter.equalsIgnoreCase( "hunting seal" ) ||
@@ -1894,7 +1895,7 @@ public class FightRequest
 			}
 
 			autoAttacked = FightRequest.checkForInitiative( responseText );
-			KoLmafia.ignoreSpecialMonsters = false;
+			EncounterManager.ignoreSpecialMonsters = false;
 		}
 
 		// Figure out various things by examining the responseText. Ideally,

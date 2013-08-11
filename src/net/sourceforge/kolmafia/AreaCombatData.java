@@ -46,9 +46,12 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.EncounterManager;
+import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -214,14 +217,14 @@ public class AreaCombatData
 	{
 		int total = 0;
 
-		Iterator monsters = this.monsters.iterator();
+		Iterator<MonsterData> monsters = this.monsters.iterator();
 		while ( monsters.hasNext() )
 		{
-			MonsterData monster = (MonsterData) monsters.next();
-			Iterator items = monster.getItems().iterator();
+			MonsterData monster = monsters.next();
+			Iterator<AdventureResult> items = monster.getItems().iterator();
 			while ( items.hasNext() )
 			{
-				AdventureResult item = (AdventureResult) items.next();
+				AdventureResult item = items.next();
 
 				if ( item.getItemId() == itemId )
 				{
@@ -363,7 +366,7 @@ public class AreaCombatData
 		buffer.append( "</head><body>" );
 
 		this.getSummary( buffer, fullString );
-		buffer.append( "<br><br>" );
+		this.getEncounterData( buffer );
 		this.getMonsterData( buffer, fullString );
 
 		buffer.append( "</body></html>" );
@@ -451,13 +454,55 @@ public class AreaCombatData
 				continue;
 			}
 
-			if ( i > 0 )
-			{
-				buffer.append( "<br><br>" );
-			}
+			buffer.append( "<br><br>" );
 
 			buffer.append( this.getMonsterString(
 				this.getMonster( i ), moxie, hitstat, weighting, combatFactor, fullString ) );
+		}
+	}
+
+	public void getEncounterData( final StringBuffer buffer )
+	{
+		String encounter = EncounterManager.findEncounterForLocation( this.zone, EncounterType.SEMIRARE );
+
+		if ( null != encounter )
+		{
+			buffer.append( "<br>" );
+			buffer.append( "<b>Semi-Rare:</b> " );
+			buffer.append( encounter );
+		}
+
+		encounter = EncounterManager.findEncounterForLocation( this.zone, EncounterType.GLYPH );
+
+		if ( null != encounter )
+		{
+			buffer.append( "<br>" );
+			buffer.append( "<b>Hobo Glyph:</b> " );
+			buffer.append( encounter );
+		}
+
+		if ( KoLCharacter.inAxecore() )
+		{
+			encounter = EncounterManager.findEncounterForLocation( this.zone, EncounterType.BORIS );
+
+			if ( null != encounter )
+			{
+				buffer.append( "<br>" );
+				buffer.append( "<b>Clancy:</b> " );
+				buffer.append( encounter );
+			}
+		}
+
+		if ( KoLCharacter.inBadMoon() )
+		{
+			encounter = EncounterManager.findEncounterForLocation( this.zone, EncounterType.BADMOON );
+
+			if ( null != encounter )
+			{
+				buffer.append( "<br>" );
+				buffer.append( "<b>Badmoon:</b> " );
+				buffer.append( encounter );
+			}
 		}
 	}
 
@@ -542,6 +587,9 @@ public class AreaCombatData
 		Element ea = monster.getAttackElement();
 		Element element = ed == Element.NONE ? ea : ed;
 
+		Phylum phylum = monster.getPhylum();
+		int init = monster.getInitiative();
+
 		// Color the monster name according to its element
 		buffer.append( " <font color=" + AreaCombatData.elementColor( element ) + "><b>" );
 		if ( monster.getPoison() < Integer.MAX_VALUE )
@@ -569,7 +617,8 @@ public class AreaCombatData
 		buffer.append( this.format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + AreaCombatData.elementColor( ea ) + ">" );
 		buffer.append( this.format( evadePercent ) );
-		buffer.append( "%</font><br>HP: " + health + ", XP: " + KoLConstants.FLOAT_FORMAT.format( statGain ) );
+		buffer.append( "%</font><br>Phylum: " + phylum + ", Init: " + init + ", Atk: " + attack + ", Def: " + defense);
+		buffer.append( "<br>HP: " + health + ", XP: " + KoLConstants.FLOAT_FORMAT.format( statGain ) );
 
 		if ( fullString )
 		{

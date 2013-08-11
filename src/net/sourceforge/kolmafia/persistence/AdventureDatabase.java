@@ -403,13 +403,11 @@ public class AdventureDatabase
 
 		String[] data;
 
-		String[] adventures = AdventureDatabase.adventureTable[ 3 ].toArray();
-
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length > 1 )
 			{
-				if ( !AdventureDatabase.validateAdventureArea( data[ 0 ], adventures ) )
+				if ( !AdventureDatabase.validateAdventureArea( data[ 0 ] ) )
 				{
 					RequestLogger.printLine( "Invalid adventure area: \"" + data[ 0 ] + "\"" );
 					continue;
@@ -733,11 +731,13 @@ public class AdventureDatabase
 		return false;
 	}
 
-	private static final boolean validateAdventureArea( final String area, final String[] areas )
+	public static final boolean validateAdventureArea( final String area )
 	{
-		for ( int i = 0; i < areas.length; ++i )
+		StringArray areas = AdventureDatabase.adventureTable[ 3 ];
+		
+		for ( int i = 0; i < areas.size(); ++i )
 		{
-			if ( area.equals( areas[ i ] ) )
+			if ( area.equals( areas.get( i ) ) )
 			{
 				return true;
 			}
