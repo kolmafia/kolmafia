@@ -181,6 +181,12 @@ public class DailyDeedsPanel
 			"Item", "Express Card", "expressCardUsed", "Express Card", "1", "extends duration of all current effects by 5 turns, restores all MP, cools zapped wands"
 		},
 		{
+			"Item", "Brass Dreadsylvanian Flask", "_brassDreadFlaskUsed", "Brass Dreadsylvanian flask", "1", "100 turns of +100% Physical Damage in Dreadsylvania"
+		},
+		{
+			"Item", "Silver Dreadsylvanian Flask", "_silverDreadFlaskUsed", "Silver Dreadsylvanian flask", "1", "100 turns of +200 Spell Damage in Dreadsylvania"
+		},
+		{
 			"Special", "Flush Mojo",
 		},
 		{

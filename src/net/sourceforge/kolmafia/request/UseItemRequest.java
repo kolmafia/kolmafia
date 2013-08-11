@@ -4373,6 +4373,15 @@ public class UseItemRequest
 		case ItemPool.BRASS_DREAD_FLASK:
 			Preferences.setBoolean( "_brassDreadFlaskUsed", true );
 			return;
+
+		case ItemPool.DREADSYLVANIAN_ALMANAC:
+			// You've already learned everything you can learn from these things.
+			if ( responseText.contains( "You've already learned everything" ) )
+			{
+				ResultProcessor.processResult( item );
+				return;
+			}
+			return;
 		}
 	}
 

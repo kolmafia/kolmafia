@@ -841,6 +841,7 @@ user	_chocolateCigarsUsed	0
 user	_chocolatesUsed	0
 user	_clipartSummons	0
 user	_coalPaperweightUsed	false
+user	_coldOne	false
 user	_cosmicSixPackConjured	false
 user	_creepyVoodooDollUsed	false
 user	_crimboTree	false
@@ -958,6 +959,7 @@ user	_smilesOfMrA	0
 user	_snowSuitCount	0
 user	_snowconeSummons	0
 user	_softwareGlitchTurnReceived	false
+user	_spaghettiBreakfast	false
 user	_stabonicScrollUsed	false
 user	_stickerSummons	0
 user	_stinkyCheeseCount	0

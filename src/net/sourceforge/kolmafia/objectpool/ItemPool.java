@@ -1682,6 +1682,7 @@ public class ItemPool
 	public static final int PHIAL_OF_SPOOKINESS = 6558;
 	public static final int PHIAL_OF_STENCH = 6559;
 	public static final int PHIAL_OF_SLEAZINESS = 6560;
+	public static final int DREADSYLVANIAN_ALMANAC = 6579;
 	public static final int VICIOUS_SPIKED_COLLAR = 6583;
 	public static final int ANCIENT_HOT_DOG_WRAPPER = 6584;
 	public static final int DEBONAIR_DEBONER = 6585;

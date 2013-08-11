@@ -78,6 +78,8 @@ public class SkillPool
 	public static final int REQUEST_SANDWICH = 82;
 	public static final int DEEP_VISIONS = 90;
 	public static final int DOG_TIRED = 91;
+	public static final int GRAB_A_COLD_ONE = 95;
+	public static final int SPAGHETTI_BREAKFAST = 101;
 	public static final int OTTER_TONGUE = 1007;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int CLOBBER = 1022;
