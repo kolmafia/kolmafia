@@ -93,6 +93,8 @@ public class UseSkillRequest
 		"Pastamastery",
 		"Summon Crimbo Candy",
 		"Lunch Break",
+		"Spaghetti Breakfast",
+		"Grab a Cold One",
 	};
 
 	public static final String[] TOME_SKILLS =
@@ -434,6 +436,16 @@ public class UseSkillRequest
 		// You can take a Lunch Break once a day
 		case SkillPool.LUNCH_BREAK:
 			maximumCast = Preferences.getBoolean( "_lunchBreak" ) ? 0 : 1;
+			break;
+
+		// Spaghetti Breakfast
+		case SkillPool.SPAGHETTI_BREAKFAST:
+			maximumCast = Preferences.getBoolean( "_spaghettiBreakfast" ) ? 0 : 1;
+			break;
+
+		// Grab a Cold One
+		case SkillPool.GRAB_A_COLD_ONE:
+			maximumCast = Preferences.getBoolean( "_coldOne" ) ? 0 : 1;
 			break;
 
 		// Summon "Boner Battalion" can be used once per day
@@ -1401,6 +1413,12 @@ public class UseSkillRequest
 			return true;
 		}
 
+		if ( responseText.indexOf( "You can't use that skill" ) != -1 )
+		{
+			UseSkillRequest.lastUpdate = "That skill is currently unavailable.";
+			return true;
+		}
+
 		if ( responseText.indexOf( "You can't cast this spell because you are not an Accordion Thief" ) != -1 )
 		{
 			UseSkillRequest.lastUpdate = "Only Accordion Thieves can use that skill.";
@@ -1568,6 +1586,14 @@ public class UseSkillRequest
 
 		case SkillPool.LUNCH_BREAK:
 			Preferences.setBoolean( "_lunchBreak", true );
+			break;
+
+		case SkillPool.SPAGHETTI_BREAKFAST:
+			Preferences.setBoolean( "_spaghettiBreakfast", true );
+			break;
+
+		case SkillPool.GRAB_A_COLD_ONE:
+			Preferences.setBoolean( "_coldOne", true );
 			break;
 
 		case SkillPool.SUMMON_BONERS:
