@@ -184,8 +184,7 @@ public class SpleenItemRequest
 
 		String itemName = this.itemUsed.getName();
 
-		int PvPGain = ItemDatabase.getPvPFights( itemName );
-		if ( !UseItemRequest.askAboutPvP( PvPGain ) )
+		if ( !UseItemRequest.askAboutPvP( itemName ) )
 		{
 			return false;
 		}
