@@ -454,6 +454,14 @@ public class EatItemRequest
 			return;
 		}
 
+		// Breakfast has to be the first thing you eat in a day. That's what breakfast means.
+		if ( responseText.contains( "That's what breakfast means" ) )
+		{
+			UseItemRequest.lastUpdate = "A spaghetti breakfast must be your the first food of the day.";
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			return;
+		}
+
 		int fullness = ItemDatabase.getFullness( item.getName() );
 		int count = item.getCount();
 		boolean shouldUpdateFullness = !responseText.contains( " Fullness" );
