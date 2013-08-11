@@ -2441,6 +2441,7 @@ public abstract class ChoiceManager
 
 		// Choice 695 is A Drawer of Chests
 
+		// Choice 767 is Tales of Dread
 		// Choice 768 is The Littlest Identity Crisis
 	};
 
@@ -6601,6 +6602,7 @@ public abstract class ChoiceManager
 		{
 			case 664: // The Crackpot Mystic's Shed
 			case 720: // The Florist Friar's Cottage
+			case 767: // Tales of Dread
 				ChoiceManager.canWalkAway = true;
 				break;
 
