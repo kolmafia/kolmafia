@@ -127,6 +127,9 @@ public class Interpreter
 		{
 			this.serverReplyBuffer.setLength( 0 );
 		}
+
+		// Allow a relay script to execute regardless of error state
+		KoLmafia.forceContinue();
 	}
 
 	public RelayRequest getRelayRequest()
