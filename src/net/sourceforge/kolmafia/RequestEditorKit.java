@@ -488,6 +488,7 @@ public class RequestEditorKit
 			StationaryButtonDecorator.decorate( location, buffer );
 			DiscoCombatHelper.decorate( buffer );
 			RequestEditorKit.addFightModifiers( location, buffer );
+			RequestEditorKit.addTaleOfDread( buffer );
 
 			// Do any monster-specific decoration
 			FightDecorator.decorate( buffer );
@@ -1845,6 +1846,22 @@ public class RequestEditorKit
 		link.append( String.valueOf( unexplored ) );
 		link.append( "\">Explore Next Unexplored Square</a><p>" );
 		buffer.insert( index, link.toString() );
+	}
+
+	private static final void addTaleOfDread( final StringBuffer buffer )
+	{
+		// You hear the scratching sounds of a quill pen from inside
+		// your sack. A new Tale of Dread has written itself in your
+		// scary storybook!
+
+		int index = buffer.indexOf( "A new Tale of Dread" );
+		if ( index == -1 )
+		{
+			return;
+		}
+		StringUtilities.singleStringReplace(
+			buffer, "your scary storybook!",
+			"your scary storybook! <font size=1>[<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=" + ItemPool.TALES_OF_DREAD + "\">read it</a>]</font>" );
 	}
 
 	private static final void addHiddenCityModifiers( final StringBuffer buffer )

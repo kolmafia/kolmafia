@@ -715,24 +715,32 @@ public class SkillDatabase
 			bonus = UseSkillRequest.THIEF_WEAPONS_BONUS;
 		}
 
-		if ( weapons != null )
+		if ( weapons == null )
 		{
-			for ( int i = 0; i < weapons.length; ++ i )
-			{	// This is not 100% correct; an equipped buff weapon
-				// trumps a better one in inventory.  That's not a
-				// problem in ronin/HC, since equipment optimization
-				// will unequip the lesser weapon in that case.
-				if ( KoLConstants.inventory.contains( weapons[ i ] ) ||
-					KoLCharacter.hasEquipped( weapons[ i ] ) )
-				{
-					return actualDuration + bonus[ i ];
-				}
-			}
-
-			return 0;	// no buff implement either equipped or in inventory
+			return actualDuration;
 		}
 
-		return actualDuration;
+		int inventoryDuration = 0;
+
+		for ( int i = 0; i < weapons.length; ++ i )
+		{
+			int current = actualDuration + bonus[ i ];
+
+			// If you have a buff weapon equipped, it determines
+			// the duration, even if a better one is in inventory
+			if ( KoLCharacter.hasEquipped( weapons[ i ] ) )
+			{
+				return current;
+			}
+
+			if ( current > inventoryDuration && 
+			     KoLConstants.inventory.contains( weapons[ i ] ) )
+			{
+				inventoryDuration = current;
+			}
+		}
+
+		return inventoryDuration;
 	}
 
 	/**
