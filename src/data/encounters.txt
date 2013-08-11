@@ -1,0 +1,140 @@
+1
+# Adventure Area Name	Type	Encounter Title
+#
+# Adventure Area Name must match that in adventures.txt
+#
+# Type can be one of the following: STOP, SEMIRARE, CLOVER, GLYPH, TURTLE, SEAL, FIST, BORIS, BADMOON
+#
+
+### Autostop Adventures
+The Haunted Library	STOP	History is Fun!
+Whitey's Grove	STOP	It's A Sign!
+The Haunted Pantry	STOP	The Manor in Which You're Accustomed
+The Sleazy Back Alley	STOP	Under the Knife
+The Enormous Greater-Than Sign	STOP	The Oracle Will See You Now
+Pre-Cyrpt Cemetary	STOP	A Grave Situation
+Post-Cyrpt Cemetary	STOP	A Grave Situation
+Tower Ruins	STOP	Take a Dusty Look!
+The Palindome	STOP	Drawn Onward
+# The following is unnecessary, since you can use "1 choice" as a goal
+Cobb's Knob Laboratory	STOP	Mr. Alarm, I Presarm
+The Haunted Ballroom	STOP	We'll All Be Flat
+Barrrney's Barrr	STOP	You and the Cap'm Make it Hap'm
+# The following is unnecessary, since you can use "blueprints" as a goal
+Barrrney's Barrr	STOP	This Adventure Bites
+The Poop Deck	STOP	It's Always Swordfish
+# The Sea
+The Mer-Kin Outpost	STOP	Granny, Does Your Dogfish Bite?
+Anemone Mine	STOP	Not a Micro Fish
+The Marinara Trench	STOP	You've Hit Bottom
+The Dive Bar	STOP	Ode to the Sea
+The Dive Bar	STOP	Boxing the Juke
+# Adventures that start the Around the World Quest
+Frat House	STOP	I Just Wanna Fly
+The Frat House (Bombed Back to the Stone Age)	STOP	Me Just Want Fly
+# Giant's castle end
+The Castle in the Clouds in the Sky (Top Floor)	STOP	Keep On Turnin' the Wheel in the Sky
+# Adventure in the Arid, Extra-Dry desert until you find the Oasis
+Desert (Ultrahydrated)	STOP	Let's Make a Deal!
+# Get Ultra-hydrated and adventure in the Arid, Extra-Dry desert until you are given the task to find a stone rose.
+Desert (Ultrahydrated)	STOP	A Sietch in Time
+# Adventure in Oasis until you have a stone rose and a drum machine. Buy black paint.
+# Come back to the Arid, Extra-Dry Desert and adventure until you are tasked to find the missing pages from the worm-riding manual.
+Desert (Ultrahydrated)	STOP	Walk Without Rhythm
+# Adventure in Oasis until you have worm-riding manual pages 3-15.
+# Adventure in Arid, Extra-Dry Desert until you have worm-riding hooks.
+# The following is unnecessary, since you can use "worm-riding hooks" as a goal
+Desert (Ultrahydrated)	STOP	The Sleeper Has Awakened
+# Adventure that finishes filling the Extreme Meter
+The eXtreme Slope	STOP	3 eXXXtreme 4ever 6pack
+
+### Semi-rare Adventures
+The Haunted Billiards Room	SEMIRARE	A Shark's Chum
+The Haunted Kitchen	SEMIRARE	Play Misty For Me
+The Haunted Library	SEMIRARE	Like the Sunglasses, But Less Comfortable
+The Haunted Pantry	SEMIRARE	The Pilsbury Doughjerk
+The Sleazy Back Alley	SEMIRARE	In the Still of the Alley
+The Goatlet	SEMIRARE	Natural Selection
+Itznotyerzitz Mine	SEMIRARE	7-Foot Dwarf Foreman 
+Lair of the Ninja Snowmen	SEMIRARE	Not Quite as Cold as Ice
+The Limerick Dungeon	SEMIRARE	The Bleary-Eyed Cyclops
+The Valley of Rof L'm Fao	SEMIRARE	Bad ASCII Art 
+A-Boo Peak	SEMIRARE	Oh, There Have it Gone
+Twin Peak	SEMIRARE	Synecdoche, Twin Peak
+Oil Peak	SEMIRARE	It's a Gas Gas Gas
+Battlefield (No Uniform)	SEMIRARE	Prior to Always
+Battlefield (Cloaca Uniform)	SEMIRARE	Prior to Always
+Battlefield (Dyspepsi Uniform)	SEMIRARE	Prior to Always
+The Batrat and Ratbat Burrow	SEMIRARE	How Does He Smell?
+The Castle in the Clouds in the Sky (Basement)	SEMIRARE	Fit and Finish
+The Castle in the Clouds in the Sky (Ground Floor)	SEMIRARE	Ahead of the Game
+The Castle in the Clouds in the Sky (Top Floor)	SEMIRARE	All The Rave
+Guano Junction	SEMIRARE	Le Chauve-Souris du Parfum
+Cobb's Knob Harem	SEMIRARE	Hands On
+Cobb's Knob Barracks	SEMIRARE	Knob Goblin Elite Guard Captain
+Cobb's Knob Kitchens	SEMIRARE	Knob Goblin Elite Guard Captain
+Cobb's Knob Laboratory	SEMIRARE	You Can Top Our Desserts, But You Can't Beat Our Meats
+Cobb's Knob Menagerie, Level 2	SEMIRARE	Rokay, Raggy!
+Pre-Cyrpt Cemetary	SEMIRARE	A Menacing Phantom
+Post-Cyrpt Cemetary	SEMIRARE	A Menacing Phantom
+The Outskirts of Cobb's Knob	SEMIRARE	Lunchboxing
+Cobb's Knob Treasury	SEMIRARE	Knob Goblin Embezzler
+South of the Border	SEMIRARE	Filth, Filth, and More Filth
+The Dark Elbow of the Woods	SEMIRARE	It's The Only Way To Be Sure
+The Dark Heart of the Woods	SEMIRARE	It's The Only Way To Be Sure
+The Dark Neck of the Woods	SEMIRARE	It's The Only Way To Be Sure
+Pandamonium Slums	SEMIRARE	It's The Only Way To Be Sure
+Hidden City (automatic)	SEMIRARE	Two Sizes Too Small
+Hidden City (Encounter)	SEMIRARE	Two Sizes Too Small
+The Hidden Temple	SEMIRARE	Baa'baa'bu'ran 
+8-Bit Realm	SEMIRARE	Some Bricks Do, In Fact, Hang in the Air
+The Spooky Forest	SEMIRARE	Blaaargh! Blaaargh!
+Whitey's Grove	SEMIRARE	Monty of County Crisco
+Hippy Camp	SEMIRARE	The Latest Sorcerous Developments
+Hippy Camp In Disguise	SEMIRARE	The Latest Sorcerous Developments
+Frat House	SEMIRARE	Sand in the Vaseline
+Frat House In Disguise	SEMIRARE	Sand in the Vaseline
+The Obligatory Pirate's Cove	SEMIRARE	Yo Ho Ho and a Bottle of Whatever This Is
+A Maze of Sewer Tunnels	SEMIRARE	C. H. U. M. chieftain 
+Burnbarrel Blvd.	SEMIRARE	A Tight Squeeze
+Exposure Esplanade	SEMIRARE	Cold Comfort
+The Heap	SEMIRARE	Juicy!
+The Ancient Hobo Burial Ground	SEMIRARE	Flowers for You
+The Purple Light District	SEMIRARE	Maybe It's a Sexy Snake!
+The Briny Deeps	SEMIRARE	Deeps Impact
+The Brinier Deepers	SEMIRARE	The Haggling
+An Octopus's Garden	SEMIRARE	moister oyster 
+The Wreck of the Edgar Fitzsimmons	SEMIRARE	Camera On, James
+The Dive Bar	SEMIRARE	Razor, Scooter
+Madness Reef	SEMIRARE	Dragon the Line
+The Mer-Kin Outpost	SEMIRARE	A Drawer of Chests
+Chapel	SEMIRARE	The Time This Fire
+Elf Alley	SEMIRARE	What a Tosser
+
+### Axecore Clancy Adventures
+A Barroom Brawl	BORIS	Jackin' the Jukebox
+The Knob Shaft	BORIS	A Miner Variation
+Icy Peak	BORIS	Mercury Rising
+The Middle Chamber	BORIS	Don't You Know Who I Am?
+
+### Hobo code binder glyph Adventures
+The Penultimate Fantasy Airship	GLYPH	Number 163
+The Fun House	GLYPH	They Hate Mimes, Too
+The Enormous Greater-Than Sign	GLYPH	Elbereth? Who's Elbereth?
+The Battlefield (Frat Uniform)	GLYPH	God Bless, Bra
+Desert (Unhydrated)	GLYPH	How Dry I Am
+The Sleazy Back Alley	GLYPH	For Sale By Squatter
+Thugnderdome	GLYPH	Now You're a Hero
+Belowdecks	GLYPH	My Little Stowaway
+Camp Logging Camp	GLYPH	Stumped
+Bugbear Pens	GLYPH	Bacon Bacon Bacon
+The Defiled Nook	GLYPH	They Gave at the Morgue
+The Poker Room	GLYPH	It's In the Cards
+The Road to White Citadel	GLYPH	Breakfast of Champions
+The Noob Cave	GLYPH	How Do I Shot Web?
+Cobb's Knob Menagerie, Level 3	GLYPH	He's a Melancholy Drunk
+The Limerick Dungeon	GLYPH	Thud
+Lair of the Ninja Snowmen	GLYPH	Not So Much With the Corncob Pipes, Either.
+Pre-Cyrpt Cemetary	GLYPH	They Hate That
+Battlefield (No Uniform)	GLYPH	A Funny Thing Happened On the Way
+The eXtreme Slope	GLYPH	Not a Standard-Issue Windowsill, Obviously	

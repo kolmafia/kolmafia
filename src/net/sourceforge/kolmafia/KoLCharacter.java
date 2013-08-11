@@ -1872,7 +1872,7 @@ public abstract class KoLCharacter
 	 * Accessor method to record the turn count when a semirare was found.
 	 */
 
-	static final void registerSemirare()
+	public static final void registerSemirare()
 	{
 		KoLCharacter.ensureUpdatedAscensionCounters();
 

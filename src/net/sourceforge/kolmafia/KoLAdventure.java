@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
@@ -1159,7 +1160,7 @@ public class KoLAdventure
 		KoLAdventure location = AdventureDatabase.getAdventure( name );
 		KoLAdventure.setNextLocation( location, name );
 		KoLAdventure.lastLocationURL = location.request.getURLString();
-		KoLmafia.registerAdventure( name );
+		EncounterManager.registerAdventure( name );
 	}
 
 	public static final KoLAdventure lastVisitedLocation()
@@ -1939,7 +1940,7 @@ public class KoLAdventure
 		// keep the GUI synchronized.
 
 		KoLAdventure.setNextLocation( KoLAdventure.lastVisitedLocation, location );
-		KoLmafia.registerAdventure( location );
+		EncounterManager.registerAdventure( location );
 
 		String message = "[" + KoLAdventure.getAdventureCount() + "] " + location;
 		RequestLogger.printLine();

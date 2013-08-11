@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -362,7 +363,7 @@ public class AdventureRequest
 		     this.responseText.indexOf( "adventure.php" ) == -1 &&
 		     this.responseText.indexOf( "You acquire" ) == -1 )
 		{
-			if ( !KoLmafia.isAutoStop( this.encounter ) )
+			if ( !EncounterManager.isAutoStop( this.encounter ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.PENDING, "Nothing more to do here." );
 			}
@@ -526,7 +527,7 @@ public class AdventureRequest
 					AdventureQueueDatabase.enqueueNoncombat( KoLAdventure.lastVisitedLocation(), encounter );
 				}
 			}
-			KoLmafia.registerEncounter( encounter, type, responseText );
+			EncounterManager.registerEncounter( encounter, type, responseText );
 		}
 
 		return encounter;
@@ -1249,7 +1250,7 @@ public class AdventureRequest
 
 	public static final void handleDvoraksRevenge( final GenericRequest request )
 	{
-		KoLmafia.registerEncounter( "Dvorak's Revenge", "Noncombat", null );
+		EncounterManager.registerEncounter( "Dvorak's Revenge", "Noncombat", null );
 		RequestLogger.printLine( "Encounter: Dvorak's Revenge" );
 		RequestLogger.updateSessionLog( "Encounter: Dvorak's Revenge" );
 
