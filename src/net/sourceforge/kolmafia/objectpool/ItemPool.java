@@ -1693,6 +1693,7 @@ public class ItemPool
 	public static final int DREAM_OF_A_DOG = 6591;
 	public static final int OPTIMAL_SPREADSHEET = 6592;
 	public static final int DEFECTIVE_TOKEN = 6593;
+	public static final int HOT_DREADSYLVANIAN_COCOA = 6594;
 	public static final int CUCKOO_CLOCK = 6614;
 	public static final int SPAGHETTI_BREAKFAST = 6616;
 	public static final int FOLDER_01 = 6618;

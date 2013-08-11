@@ -181,7 +181,7 @@ dreadsylvanian hot pocket	4	26	EPIC	0	0	0	0	200 Dreadful Heat
 dreadsylvanian shepherd's pie	3	15	awesome	0	0	0	0	10 Shepherd's Breath
 dreadsylvanian sleaze pocket	4	26	EPIC	0	0	0	0	200 Dreadful Sheen
 dreadsylvanian spooky pocket	4	26	EPIC	0	0	0	0	200 Dreadful Fear
-dreadsylvanian stew	1	20	EPIC	0	0	0	0
+dreadsylvanian stew	1	20	EPIC	7-9	10-20	10-20	10-20	50 You've Got a Stew Going
 dreadsylvanian stink pocket	4	26	EPIC	0	0	0	0	200 Dreadful Smell
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
 electric ancient serpent roll	3	1		12-17	0	8-16	20-30	45/55 Fishy
@@ -190,7 +190,7 @@ electric eleven oceans roll	3	1		12-17	20-30	20-30	28-46	45/55 Fishy
 electric giant dragon roll	3	1		12-17	28-46	0	0	45/55 Fishy
 electric glistening maki	3	1		10-15	0	8-16	0	45/55 Fishy
 electric jack lalanne roll	3	1		12-17	28-46	20-30	20-30	45/55 Fishy
-electric kool-aid	2	1	EPIC	0	0	0	0	
+electric kool-aid	2	1	EPIC	0	0	0	0	50 Electric, Kool
 electric musclebound rabbit roll	3	1		12-17	8-16	20-30	0	45/55 Fishy
 electric python roll	3	1		12-17	8-16	0	20-30	45/55 Fishy
 electric slick maki	3	1		10-15	0	0	8-16	45/55 Fishy
@@ -243,7 +243,7 @@ fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
 genalen&trade; bottle	1	10	good	2-4	15-30	15-30	0	useless powder
 ghost cucumber	2	2	decent	2-6	5-15	5-15	5-15
 ghost dog	3	1	awesome	12-14	0	0	0	30 Scaredy Dog
-ghost pepper	2	1	awesome	0	0	0	0	
+ghost pepper	2	1	awesome	8-10	60-100	60-100	60-100	Hot damage for 3 combats then 8-10 adventures	
 ghuol egg	1	1	crappy	1	-3	0	0
 ghuol egg quiche	3	2	decent	3-9	0	0	0
 ghuol guolash	3	1	decent	3-6	-11-19	-11-19	-11-19

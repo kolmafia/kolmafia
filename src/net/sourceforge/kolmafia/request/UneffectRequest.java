@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -78,6 +79,7 @@ public class UneffectRequest
 {
 	private final int effectId;
 	private boolean isShruggable;
+	private boolean needsCocoa;
 	private boolean isTimer;
 	private final AdventureResult effect;
 
@@ -186,6 +188,7 @@ public class UneffectRequest
 		String name = effect.getName();
 		this.effectId = EffectDatabase.getEffectId( name );
 		this.isShruggable = UneffectRequest.isShruggable( name );
+		this.needsCocoa = UneffectRequest.needsCocoa( name );
 		this.isTimer = name.startsWith( "Timer " );
 
 		if ( this.isShruggable )
@@ -264,6 +267,34 @@ public class UneffectRequest
 		return id != -1 && SkillDatabase.isBuff( id );
 	}
 
+	public static final boolean needsCocoa( final String effectName )
+	{
+		return UneffectRequest.needsCocoa( EffectDatabase.getEffectId( effectName ) );
+	}
+
+	public static final boolean needsCocoa( final int effectId )
+	{
+		switch ( effectId )
+		{
+		case EffectPool.CURSE_OF_CLUMSINESS:
+		case EffectPool.CURSE_OF_DULLNESS:
+		case EffectPool.CURSE_OF_EXPOSURE:
+		case EffectPool.CURSE_OF_FORGETFULNESS:
+		case EffectPool.CURSE_OF_HOLLOWNESS:
+		case EffectPool.CURSE_OF_IMPOTENCE:
+		case EffectPool.CURSE_OF_LONELINESS:
+		case EffectPool.CURSE_OF_MISFORTUNE:
+		case EffectPool.CURSE_OF_SLUGGISHNESS:
+		case EffectPool.CURSE_OF_VULNERABILITY:
+		case EffectPool.CURSE_OF_WEAKNESS:
+		case EffectPool.TOUCHED_BY_A_GHOST:
+		case EffectPool.CHILLED_TO_THE_BONE:
+		case EffectPool.NAUSEATED:
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Given the name of an effect, return the name of the skill that created that effect
 	 *
@@ -332,6 +363,23 @@ public class UneffectRequest
 		removableEffects = new HashSet<String>();
 		removeWithItemMap.put( IntegerPool.get( ItemPool.TRIPPLES ), removableEffects );
 		removableEffects.add( "Beaten Up" );
+
+		removableEffects = new HashSet<String>();
+		removeWithItemMap.put( IntegerPool.get( ItemPool.HOT_DREADSYLVANIAN_COCOA ), removableEffects );
+		removableEffects.add( "Touched by a Ghost" );
+		removableEffects.add( "Chilled to the Bone" );
+		removableEffects.add( "Nauseated" );
+		removableEffects.add( "Curse of Hollowness" );
+		removableEffects.add( "Curse of Vulnerability" );
+		removableEffects.add( "Curse of Exposure" );
+		removableEffects.add( "Curse of Impotence" );
+		removableEffects.add( "Curse of Dullness" );
+		removableEffects.add( "Curse of Weakness" );
+		removableEffects.add( "Curse of Sluggishness" );
+		removableEffects.add( "Curse of Forgetfulness" );
+		removableEffects.add( "Curse of Misfortune" );
+		removableEffects.add( "Curse of Clumsiness" );
+		removableEffects.add( "Curse of Loneliness" );
 
 		UneffectRequest.REMOVABLE_BY_ITEM = removeWithItemMap.entrySet();
 
@@ -506,7 +554,8 @@ public class UneffectRequest
 
 			if ( InventoryManager.hasItem( itemId ) ||
 			     Preferences.getBoolean( "autoSatisfyWithNPCs" ) && NPCStoreDatabase.contains( itemName ) ||
-			     !hasRemedy && KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
+			     Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) && CoinmastersDatabase.contains( itemName ) ||
+			     (this.needsCocoa || !hasRemedy) && KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
 			{
 				KoLmafia.updateDisplay( name + " will be removed by item " + itemName + "..." );
 
@@ -557,6 +606,14 @@ public class UneffectRequest
 				UneffectRequest.currentEffectRemovals.remove( effect );
 				return;
 			}
+		}
+
+		// If you either have cocoa in inventory or allow purchasing it
+		// via coinmaster or mall, we will have done so above.
+		if ( this.needsCocoa )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, effect.getName() + " can be removed only with hot Dreadsylvanian cocoa." );
+			return;
 		}
 
 		if ( this.isTimer )

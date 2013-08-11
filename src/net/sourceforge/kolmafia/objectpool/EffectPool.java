@@ -160,6 +160,20 @@ public class EffectPool
 	public static final int TIMER9_ID = 881;
 	public static final int TIMER10_ID = 882;
 	public static final int DEEP_TAINTED_MIND_ID = 1217;
+	public static final int TOUCHED_BY_A_GHOST = 1276;
+	public static final int CHILLED_TO_THE_BONE = 1277;
+	public static final int NAUSEATED = 1278;
+	public static final int CURSE_OF_CLUMSINESS = 1313;
+	public static final int CURSE_OF_DULLNESS = 1308;
+	public static final int CURSE_OF_EXPOSURE = 1306;
+	public static final int CURSE_OF_FORGETFULNESS = 1311;
+	public static final int CURSE_OF_HOLLOWNESS = 1304;
+	public static final int CURSE_OF_IMPOTENCE = 1307;
+	public static final int CURSE_OF_LONELINESS = 1314;
+	public static final int CURSE_OF_MISFORTUNE = 1312;
+	public static final int CURSE_OF_SLUGGISHNESS = 1310;
+	public static final int CURSE_OF_VULNERABILITY = 1305;
+	public static final int CURSE_OF_WEAKNESS = 1309;
 
 	public static final AdventureResult get( final String effectName )
 	{

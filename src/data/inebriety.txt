@@ -46,7 +46,7 @@ bone aperitif	2	6	awesome	7-9	12-20	12-20	12-20
 bone's farm &quot;wine&quot;	1	6	awesome	3-4	5-10	5-10	5-10	30 Sticks and Stones (+50 dmg vs. Skeletons)
 booze-soaked cherry	1	3	decent	1-3	0	5-10	0
 bordeaux marteaux	1	3	awesome	3-5	60-75	0	0	20 Hammered (+50% weapon dmg)
-bottle of bloodweiser	2	1	EPIC	0	0	0	0
+bottle of bloodweiser	2	1	EPIC	0	0	0	0	50 Blood Porter
 bottle of calcutta emerald	3	2	decent	4-8	0	0	0
 bottle of cooking sherry	2	1	decent	2-4	0	0	0
 bottle of definit	3	2	decent	4-8	0	0	0
@@ -186,7 +186,7 @@ fromage pinotage	1	3	awesome	3-5	0	60-75	0	20 Some Cheese With Your Wine (stench
 fruity girl swill	4	4	good	10-14	2-3	26-30	2-3
 fuzzbump	4	4	good	10-14	34-36	0	0
 fuzzy tentacle	2	4	awesome	6-7	0	20-30	0	10 Void Between the Stars
-gets-you-drunk	2	1	awesome	0	0	0	0	
+gets-you-drunk	2	1	awesome	8-10	60-100	60-100	60-100	Spooky damage for 3 combats then 8-10 adventures	
 giant glass of brandy	3	5	awesome	8-11	25-40	25-40	25-40	LARP membership card (1 time)
 gibson	3	3	good	5-10	0	0	16-20
 gimlet	4	6	awesome	14-18	0	40-47	0
@@ -411,7 +411,7 @@ whiskey and soda	3	1	decent	5-6	0	8-10	0	3-5 MP
 whiskey bittersweet	3	3	good	5-10	16-20	0	0
 whiskey sour	3	1	decent	5-6	8-10	0	0
 white canadian	3	1	decent	5-6	10-12	0	0	3 Canadianity
-white dreadsylvanian	1	20	EPIC	0	0	0	0
+white dreadsylvanian	1	20	EPIC	7-9	10-20	10-20	10-20	50 Whitesloshed
 white hyborian	3	2	decent	5-6	21-24	0	0
 white lightning	3	3	good	5-10	0	0	0	3 Temporary Blindness
 white xanadian	2	2	awesome	5-8	12-18	0	0	10 Flashing Eyes (+30% meat drop)
