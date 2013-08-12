@@ -2441,8 +2441,103 @@ public abstract class ChoiceManager
 
 		// Choice 695 is A Drawer of Chests
 
+		// Choice 721 is The Cabin in the Dreadsylvanian Woods
+		new ChoiceSpoiler(
+			"Dreadsylvania", "choiceAdventure721", "Cabin",
+			new String[] { "", "", "", "", "learn shortcut", "skip adventure" } ),
+
+		// Choice 722 is The Kitchen in the Woods
+		// Choice 723 is What Lies Beneath (the Cabin)
+		// Choice 724 is Where it's Attic
+
+		// Choice 725 is Tallest Tree in the Forest
+		new ChoiceSpoiler(
+			"Dreadsylvania", "choiceAdventure725", "Tallest Tree",
+			new String[] { "", "", "", "", "learn shortcut", "skip adventure" } ),
+
+		// Choice 726 is Top of the Tree, Ma!
+		// Choice 727 is All Along the Watchtower
+		// Choice 728 is Treebasing
+
+		// Choice 729 is Below the Roots
+		new ChoiceSpoiler(
+			"Dreadsylvania", "choiceAdventure729", "Burrows",
+			new String[] { "", "", "", "", "learn shortcut", "skip adventure" } ),
+
+		// Choice 730 is Hot Coals
+		// Choice 731 is The Heart of the Matter
+		// Choice 732 is Once Midden, Twice Shy
+
+		// Choice 733 is Dreadsylvanian Village Square
+		new ChoiceSpoiler(
+			"Dreadsylvania", "choiceAdventure733", "Village Square",
+			new String[] { "", "", "", "", "learn shortcut", "skip adventure" } ),
+
+		// Choice 734 is Fright School
+		// Choice 735 is Smith, Black as Night
+		// Choice 736 is Gallows
+
+		// Choice 737 is The Even More Dreadful Part of Town
+		new ChoiceSpoiler(
+			"Dreadsylvania", "choiceAdventure737", "Skid Row",
+			new String[] { "", "", "", "", "learn shortcut", "skip adventure" } ),
+
+		// Choice 738 is A Dreadful Smell
+		// Choice 739 is The Tinker's. Damn.
+		// Choice 740 is Eight, Nine, Tenement
+
+		// Choice 741 is The Old Duke's Estate
+		new ChoiceSpoiler(
+			"Dreadsylvania", "choiceAdventure741", "Old Duke's Estate",
+			new String[] { "", "", "", "", "learn shortcut", "skip adventure" } ),
+
+		// Choice 742 is The Plot Thickens
+		// Choice 743 is No Quarter
+		// Choice 744 is The Master Suite -- Sweet!
+
+		// Choice 745 is This Hall is Really Great
+		new ChoiceSpoiler(
+			"Dreadsylvania", "choiceAdventure745", "Great Hall",
+			new String[] { "", "", "", "", "learn shortcut", "skip adventure" } ),
+
+		// Choice 746 is The Belle of the Ballroom
+		// Choice 747 is Cold Storage
+		// Choice 748 is Dining In (the Castle)
+
+		// Choice 749 is Tower Most Tall
+		new ChoiceSpoiler(
+			"Dreadsylvania", "choiceAdventure749", "Tower",
+			new String[] { "", "", "", "", "learn shortcut", "skip adventure" } ),
+
+		// Choice 750 is Working in the Lab, Late One Night
+		// Choice 751 is Among the Quaint and Curious Tomes.
+		// Choice 752 is In The Boudoir
+
+		// Choice 753 is The Dreadsylvanian Dungeon
+		new ChoiceSpoiler(
+			"Dreadsylvania", "choiceAdventure753", "Dungeons",
+			new String[] { "", "", "", "", "learn shortcut", "skip adventure" } ),
+
+		// Choice 754 is Live from Dungeon Prison
+		// Choice 755 is The Hot Bowels
+		// Choice 756 is Among the Fungus
+
+		// Choice 757 is ???
+
+		// Choice 758 is End of the Path
+		// Choice 759 is You're About to Fight City Hall
+		// Choice 760 is Holding Court
+		// Choice 761 is Staring Upwards...
+		// Choice 762 is Try New Extra-Strength Anvil
+		// Choice 763 is ???
+		// Choice 764 is The Machine
+		// Choice 765 is Hello Gallows
+		// Choice 766 is ???
 		// Choice 767 is Tales of Dread
+
 		// Choice 768 is The Littlest Identity Crisis
+		// Choice 771 is It Was All a Horrible, Horrible Dream
+		// Choice 774 is Opening up the Folder Holder
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -6313,6 +6408,114 @@ public abstract class ChoiceManager
 				return LostKeyManager.autoKey( decision, stepCount, responseText );
 			}
 			return "0";
+
+		// The Cabin in the Dreadsylvanian Woods
+		case 721:
+			// Option 5 - "Use a ghost pencil" - is not always available.
+			// Even if it is, if you already have this shortcut, skip it
+			if ( decision.equals( "5" ) &&
+			     ( !responseText.contains( "Use a ghost pencil" ) ||
+			       Preferences.getBoolean( "ghostPencil1" ) ) )
+			{
+				return "6";
+			}
+			return decision;
+
+		// Tallest Tree in the Forest
+		case 725:
+			// Option 5 - "Use a ghost pencil" - is not always available.
+			// Even if it is, if you already have this shortcut, skip it
+			if ( decision.equals( "5" ) &&
+			     ( !responseText.contains( "Use a ghost pencil" ) ||
+			       Preferences.getBoolean( "ghostPencil2" ) ) )
+			{
+				return "6";
+			}
+			return decision;
+
+		// Below the Roots
+		case 729:
+			// Option 5 - "Use a ghost pencil" - is not always available.
+			// Even if it is, if you already have this shortcut, skip it
+			if ( decision.equals( "5" ) &&
+			     ( !responseText.contains( "Use a ghost pencil" ) ||
+			       Preferences.getBoolean( "ghostPencil3" ) ) )
+			{
+				return "6";
+			}
+			return decision;
+
+		// Dreadsylvanian Village Square
+		case 733:
+			// Option 5 - "Use a ghost pencil" - is not always available.
+			// Even if it is, if you already have this shortcut, skip it
+			if ( decision.equals( "5" ) &&
+			     ( !responseText.contains( "Use a ghost pencil" ) ||
+			       Preferences.getBoolean( "ghostPencil4" ) ) )
+			{
+				return "6";
+			}
+			return decision;
+
+		// The Even More Dreadful Part of Town
+		case 737:
+			// Option 5 - "Use a ghost pencil" - is not always available.
+			// Even if it is, if you already have this shortcut, skip it
+			if ( decision.equals( "5" ) &&
+			     ( !responseText.contains( "Use a ghost pencil" ) ||
+			       Preferences.getBoolean( "ghostPencil5" ) ) )
+			{
+				return "6";
+			}
+			return decision;
+
+		// The Old Duke's Estate
+		case 741:
+			// Option 5 - "Use a ghost pencil" - is not always available.
+			// Even if it is, if you already have this shortcut, skip it
+			if ( decision.equals( "5" ) &&
+			     ( !responseText.contains( "Use a ghost pencil" ) ||
+			       Preferences.getBoolean( "ghostPencil6" ) ) )
+			{
+				return "6";
+			}
+			return decision;
+
+		// This Hall is Really Great
+		case 745:
+			// Option 5 - "Use a ghost pencil" - is not always available.
+			// Even if it is, if you already have this shortcut, skip it
+			if ( decision.equals( "5" ) &&
+			     ( !responseText.contains( "Use a ghost pencil" ) ||
+			       Preferences.getBoolean( "ghostPencil7" ) ) )
+			{
+				return "6";
+			}
+			return decision;
+
+		// Tower Most Tall
+		case 749:
+			// Option 5 - "Use a ghost pencil" - is not always available.
+			// Even if it is, if you already have this shortcut, skip it
+			if ( decision.equals( "5" ) &&
+			     ( !responseText.contains( "Use a ghost pencil" ) ||
+			       Preferences.getBoolean( "ghostPencil8" ) ) )
+			{
+				return "6";
+			}
+			return decision;
+
+		// The Dreadsylvanian Dungeon
+		case 753:
+			// Option 5 - "Use a ghost pencil" - is not always available.
+			// Even if it is, if you already have this shortcut, skip it
+			if ( decision.equals( "5" ) &&
+			     ( !responseText.contains( "Use a ghost pencil" ) ||
+			       Preferences.getBoolean( "ghostPencil9" ) ) )
+			{
+				return "6";
+			}
+			return decision;
 		}
 
 		return decision;
@@ -6603,6 +6806,7 @@ public abstract class ChoiceManager
 			case 664: // The Crackpot Mystic's Shed
 			case 720: // The Florist Friar's Cottage
 			case 767: // Tales of Dread
+			case 774: // Opening up the Folder Holder
 				ChoiceManager.canWalkAway = true;
 				break;
 
