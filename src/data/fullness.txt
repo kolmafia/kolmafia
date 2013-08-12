@@ -178,7 +178,7 @@ double bacon beelzeburger	3	1	decent	4-6	15-20	-15-20	0
 dragon snaps	1	1	crappy	1	0	0	5-10	5 Oh Snap (+10 mox exp)
 dreadsylvanian cold pocket	4	26	EPIC	0	0	0	0	200 Dreadful Chill
 dreadsylvanian hot pocket	4	26	EPIC	0	0	0	0	200 Dreadful Heat
-dreadsylvanian shepherd's pie	3	15	awesome	0	0	0	0	10 Shepherd's Breath
+dreadsylvanian shepherd's pie	3	15	awesome	14-16	20-40	20-40	20-40	10 Shepherd's Breath
 dreadsylvanian sleaze pocket	4	26	EPIC	0	0	0	0	200 Dreadful Sheen
 dreadsylvanian spooky pocket	4	26	EPIC	0	0	0	0	200 Dreadful Fear
 dreadsylvanian stew	1	20	EPIC	7-9	10-20	10-20	10-20	50 You've Got a Stew Going
