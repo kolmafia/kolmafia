@@ -2179,36 +2179,40 @@ public class RequestEditorKit
 			// Start spoiler text
 			if ( i > 0 && i <= possibleDecisions[ 2 ].length )
 			{
-				buffer.append( "<br><font size=-1>(" );
-	
 				// Say what the choice will give you
 				String item = ChoiceManager.choiceSpoiler( choice, i - 1, possibleDecisions[ 2 ] );
-				buffer.append( item );
-	
-				// If this choice helps complete an outfit...
-				if ( possibleDecisions.length > 3 )
+
+				// If we have nothing to say about this option, don't say anything
+				if ( !item.equals( "" ) )
 				{
-					String itemId = possibleDecisions[ 3 ][ i - 1 ];
+					buffer.append( "<br><font size=-1>(" );
+					buffer.append( item );
 	
-					// If this decision leads to an item...
-					if ( itemId != null )
+					// If this choice helps complete an outfit...
+					if ( possibleDecisions.length > 3 )
 					{
-						// List # in inventory
-						AdventureResult result = new AdventureResult( StringUtilities.parseInt( itemId ), 1 );
-						buffer.append( "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('" );
-						buffer.append( ItemDatabase.getDescriptionId( result.getItemId() ) );
-						buffer.append( "');\">" );
+						String itemId = possibleDecisions[ 3 ][ i - 1 ];
 	
-						int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
-						available += result.getCount( KoLConstants.inventory );
+						// If this decision leads to an item...
+						if ( itemId != null )
+						{
+							// List # in inventory
+							AdventureResult result = new AdventureResult( StringUtilities.parseInt( itemId ), 1 );
+							buffer.append( "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('" );
+							buffer.append( ItemDatabase.getDescriptionId( result.getItemId() ) );
+							buffer.append( "');\">" );
 	
-						buffer.append( available );
-						buffer.append( " in inventory" );
+							int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
+							available += result.getCount( KoLConstants.inventory );
+	
+							buffer.append( available );
+							buffer.append( " in inventory" );
+						}
 					}
-				}
 	
-				// Finish spoiler text
-				buffer.append( ")</font>" );
+					// Finish spoiler text
+					buffer.append( ")</font>" );
+				}
 			}
 			buffer.append( "</form>" );
 			index1 = index2 + 7;

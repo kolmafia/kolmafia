@@ -4,7 +4,7 @@ Casino	Town	Seaside Casino
 
 Clan Basement	Clan Basement	Clan Basement
 Hobopolis	Clan Basement	Hobopolis
-Dreadsylvania	Clan Basement	Dreadsylvania
+Dreadsylvania	Dreadsylvania	Dreadsylvania
 
 The Sea	The Sea	The Sea
 
