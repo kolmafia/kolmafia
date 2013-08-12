@@ -7,7 +7,7 @@
 3vi1 pr0n m4nic0tti	4	3	awesome	11-16	0	0	60-63	10 A Little Bit Evil (+2 ML)
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
 abominable snowcone	2	1	decent	2-5	5-15	5-15	5-15
-accidental mutton	3	24	EPIC	0	0	0	0	
+accidental mutton	3	24	EPIC	25-29	20-30	20-30	20-30	
 ancient frozen dinner	4	1	decent	4-8	0	8-10	0
 ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy
 ancient unspeakable fruitcake	3	1	decent	3-6	15-20	15-20	15-20
@@ -53,7 +53,7 @@ black forest ham	3	7	good	8-9	25-45	0	0
 black pudding	3	7	decent	5-7	10-12	10-12	9-12
 blackberry	1	2	good	2-3	2-4	2-4	2-4
 blob-shaped crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Amorphous Cheer (+50% all)
-blood sausage	2	22	EPIC	0	0	0	0
+blood sausage	2	22	EPIC	16-18	10-20	10-20	10-20
 blue velvet cake	3	1	crappy	3	0	0	0
 blueberry-frosted king cake	3	1	crappy	3	0	0	0	blue plastic baby
 blunt cat claw	1	4	awesome	3-5	45-75	0	0	30 Feline Ferocity (+100% weapon dmg)

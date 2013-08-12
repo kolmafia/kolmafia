@@ -6530,7 +6530,7 @@ s1
 6513	warm fur	641261663	dv_warmfur.gif	accessory	t	0
 6514	snowstick	646078952	dv_snowstick.gif	offhand	t	0
 6515	eerie fetish	959461043	dv_fetish.gif	accessory	t	0
-6516	stinkwater	763823654	moonshine.gif	drink	t	0
+6516	stinkwater	763823654	moonshine.gif	drink	t	0	jars of stinkwater
 6517	dubious loincloth	966320894	dv_loincloth.gif	pants	t	0
 6518	accidental mutton	878742989	dv_mutton.gif	food	t	0
 6519	drafty drawers	312929410	dv_holypants.gif	pants	t	0
