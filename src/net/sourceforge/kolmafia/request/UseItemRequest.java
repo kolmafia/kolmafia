@@ -4377,7 +4377,7 @@ public class UseItemRequest
 			return;
 			
 		case ItemPool.MARK_OF_THE_BUGBEAR:
-			if( responseText.indexOf( "You already bear that mark." ) != -1 )
+			if( responseText.indexOf( "You have unlocked a new tattoo" ) == -1 )
 			{
 				ResultProcessor.processResult( item );
 				break;
