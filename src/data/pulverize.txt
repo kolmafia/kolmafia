@@ -254,7 +254,6 @@ old ball and chain	cold cluster
 old dry bone	spooky cluster
 remorseless knife	cold cluster
 snowstick	cold cluster
-stinkwater	stench cluster
 tailbone shield	stench cluster
 tonguebone	sleaze cluster
 transparent pants	sleaze cluster
