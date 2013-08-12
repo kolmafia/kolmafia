@@ -2454,7 +2454,7 @@ s1
 2437	New Cloaca-Cola	791269713	cloaca.gif	mp, combat	t	0	cans of New Cloaca-Cola
 2438	scented massage oil	530550627	vial.gif	usable, combat	t	0	vials of scented massage oil
 2439	poltergeist-in-the-jar-o	844616801	moonshine.gif	none, combat	t	0	poltergeists-in-the-jars-o
-2440	unnatural gas	180343585	moonshine.gif	none, combat	t	0
+2440	unnatural gas	180343585	moonshine.gif	none, combat	t	0	jars of unnatural gas
 2441	Knob Goblin encryption key	591787452	page.gif	none	q	0
 2442	Cobb's Knob map	325883819	map.gif	usable	q	0
 2443	pink glowstick	199035416	glowstick.gif	accessory		0	pink glowstyx
@@ -6608,7 +6608,7 @@ s1
 6591	dream of a dog	514413900	martini.gif	drink	t,d	100	dreams of dogs
 6592	optimal spreadsheet	389475336	spreadsheet.gif	offhand	t	0	optimal spreadsheets
 6593	defective Game Grid token	606727747	gg_def.gif	reusable	t	0	defective Game Grid tokens
-6594	hot Dreadsylvanian cocoa	267480689	coffeecup.gif	usable	t	0
+6594	hot Dreadsylvanian cocoa	267480689	coffeecup.gif	usable	t	0	cups of hot Dreadsylvanian cocoa
 6595	epic cluster	148546578	epiccluster.gif	usable	t	0
 6596	intricate clockwork egg	687425467	egg.gif	usable	t	0
 6597	intricate clockwork birdhouse	984765474	cuckoobox.gif	usable		0
