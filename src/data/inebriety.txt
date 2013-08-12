@@ -369,7 +369,7 @@ spiced rum	3	2	decent	4-8	0	0	17-30
 spooky eggnog	3	3	good	5-10	0	16-30	16-30
 spooky mushroom wine	3	6	awesome	10-14	0	0	4-6
 steel margarita	5	5		0	0	0	0	Liver of Steel skill
-stinkwater	3	24	EPIC	0	0	0	0	
+stinkwater	3	24	EPIC	25-29	20-30	20-30	20-30	
 stinky mushroom wine	3	6	awesome	10-14	0	0	12-15
 strawberry daiquiri	3	1	decent	5-6	0	0	8-10
 strawberry wine	3	1	decent	5-6	0	0	8-10
@@ -388,7 +388,7 @@ tequila with training wheels	3	3	good	5-10	8-9	0	0
 the cooler out of space	2	12	awesome	8-9	20-50	20-50	20-50	30 You Can Taste the Darkness (spooky dmg/res)
 thermos full of knob coffee	1	1	EPIC	5-6	5-6	5-6	5-6	lose 1-2 HP
 thistle wine	1	10	good	2-4	0	0	30-60	lose 50-75 HP
-thriller ice	2	22	EPIC	0	0	0	0	
+thriller ice	2	22	EPIC	14-16	10-20	10-20	10-20	30-40 MP
 tobiko-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces (+150% spell dmg)
 tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
 transylvania sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted
