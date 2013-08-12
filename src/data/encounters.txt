@@ -59,7 +59,7 @@ Itznotyerzitz Mine	SEMIRARE	7-Foot Dwarf Foreman 
 Lair of the Ninja Snowmen	SEMIRARE	Not Quite as Cold as Ice
 The Limerick Dungeon	SEMIRARE	The Bleary-Eyed Cyclops
 The Valley of Rof L'm Fao	SEMIRARE	Bad ASCII Art 
-A-Boo Peak	SEMIRARE	Oh, There Have it Gone
+A-Boo Peak	SEMIRARE	Oh, <i>There</i> Have it Gone
 Twin Peak	SEMIRARE	Synecdoche, Twin Peak
 Oil Peak	SEMIRARE	It's a Gas Gas Gas
 Battlefield (No Uniform)	SEMIRARE	Prior to Always
