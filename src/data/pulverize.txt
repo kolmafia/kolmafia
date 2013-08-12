@@ -237,7 +237,6 @@ water-polo mitt	sea salt crystal
 # Dreadsylvania elemental items turn into elemental nuggets
 antique spyglass	sleaze cluster
 bag of unfinished business	stench cluster
-blood sausage	sleaze cluster
 BOOtonniere	cold cluster
 cod cape	stench cluster
 drafty drawers	cold cluster
