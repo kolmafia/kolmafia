@@ -4375,6 +4375,48 @@ public class UseItemRequest
 		case ItemPool.BRASS_DREAD_FLASK:
 			Preferences.setBoolean( "_brassDreadFlaskUsed", true );
 			return;
+			
+		case ItemPool.MARK_OF_THE_BUGBEAR:
+			if( responseText.indexOf( "You already bear that mark." ) != -1 )
+			{
+				ResultProcessor.processResult( item );
+				break;
+			}
+
+		case ItemPool.MARK_OF_THE_WEREWOLF:
+			if( responseText.indexOf( "You have unlocked a new tattoo" ) == -1 )
+			{
+				ResultProcessor.processResult( item );
+				break;
+			}
+
+		case ItemPool.MARK_OF_THE_ZOMBIE:
+			if( responseText.indexOf( "You have unlocked a new tattoo" ) == -1 )
+			{
+				ResultProcessor.processResult( item );
+				break;
+			}
+
+		case ItemPool.MARK_OF_THE_GHOST:
+			if( responseText.indexOf( "You have unlocked a new tattoo" ) == -1 )
+			{
+				ResultProcessor.processResult( item );
+				break;
+			}
+
+		case ItemPool.MARK_OF_THE_VAMPIRE:
+			if( responseText.indexOf( "You have unlocked a new tattoo" ) == -1 )
+			{
+				ResultProcessor.processResult( item );
+				break;
+			}
+
+		case ItemPool.MARK_OF_THE_SKELETON:
+			if( responseText.indexOf( "You have unlocked a new tattoo" ) == -1 )
+			{
+				ResultProcessor.processResult( item );
+				break;
+			}
 
 		case ItemPool.DREADSYLVANIAN_ALMANAC:
 			// You've already learned everything you can learn from these things.
