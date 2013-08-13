@@ -176,13 +176,13 @@ dire fudgesicle	2	1	decent	2-4	0	8-10	0	lose 2 HP
 disc-shaped nutrition unit	4	5		6-9	0	0	0
 double bacon beelzeburger	3	1	decent	4-6	15-20	-15-20	0
 dragon snaps	1	1	crappy	1	0	0	5-10	5 Oh Snap (+10 mox exp)
-dreadsylvanian cold pocket	4	26	EPIC	0	0	0	0	200 Dreadful Chill
-dreadsylvanian hot pocket	4	26	EPIC	0	0	0	0	200 Dreadful Heat
+dreadsylvanian cold pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Chill
+dreadsylvanian hot pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Heat
 dreadsylvanian shepherd's pie	3	15	awesome	14-16	20-40	20-40	20-40	10 Shepherd's Breath
-dreadsylvanian sleaze pocket	4	26	EPIC	0	0	0	0	200 Dreadful Sheen
-dreadsylvanian spooky pocket	4	26	EPIC	0	0	0	0	200 Dreadful Fear
+dreadsylvanian sleaze pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Sheen
+dreadsylvanian spooky pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Fear
 dreadsylvanian stew	1	20	EPIC	7-9	10-20	10-20	10-20	50 You've Got a Stew Going
-dreadsylvanian stink pocket	4	26	EPIC	0	0	0	0	200 Dreadful Smell
+dreadsylvanian stink pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Smell
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
 electric ancient serpent roll	3	1		12-17	0	8-16	20-30	45/55 Fishy
 electric beefy maki	3	1		10-15	8-16	0	0	45/55 Fishy
@@ -190,7 +190,7 @@ electric eleven oceans roll	3	1		12-17	20-30	20-30	28-46	45/55 Fishy
 electric giant dragon roll	3	1		12-17	28-46	0	0	45/55 Fishy
 electric glistening maki	3	1		10-15	0	8-16	0	45/55 Fishy
 electric jack lalanne roll	3	1		12-17	28-46	20-30	20-30	45/55 Fishy
-electric kool-aid	2	1	EPIC	0	0	0	0	50 Electric, Kool
+electric kool-aid	2	1	EPIC	12-13	30-50	30-50	30-50	50 Electric, Kool
 electric musclebound rabbit roll	3	1		12-17	8-16	20-30	0	45/55 Fishy
 electric python roll	3	1		12-17	8-16	0	20-30	45/55 Fishy
 electric slick maki	3	1		10-15	0	0	8-16	45/55 Fishy
