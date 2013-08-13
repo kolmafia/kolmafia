@@ -1505,7 +1505,7 @@ Annual Ascot	0	none
 Ass-Stompers of Violence	0	Mus: 125
 BGE pocket calendar	0	none
 BGE tiny plastic toy	0	none
-BOOtonniere	0	Mys: 200
+BOOtonniere	225	Mys: 200
 Bandolier of the Spaghetti Elemental	150	Mys: 45
 Baron von Ratsworth's money clip	50	Mys: 10
 Baron von Ratsworth's monocle	50	Mys: 10
@@ -1860,7 +1860,7 @@ night-vision goggles	50	Mox: 10
 novelty tattoo sleeves	10	none
 observational glasses	10	none
 offensive moustache	0	none
-old ball and chain	0	Mys: 200
+old ball and chain	224	Mys: 200
 old soft shoes	200	Mys: 200
 old-school calculator watch	10	none
 orange glowstick	20	none
@@ -2156,7 +2156,7 @@ tiny plastic undead elbow macaroni	10	none
 tiny plastic warwelf	10	none
 tiny plastic whitesnake	10	none
 tiny plastic zmobie	10	none
-tonguebone	0	Mys: 200
+tonguebone	225	Mys: 200
 torquoise ring	40	none
 tortoboggan	90	Mox: 30
 tourmalime tourniquet	0	none
@@ -2169,7 +2169,7 @@ vampire pearl earring	125	Mys: 47
 vampire pearl necklace	100	Mys: 35
 vampire pearl ring	100	Mys: 35
 velcro boots	200	Mys: 85
-vial of hot blood	0	Mys: 200
+vial of hot blood	225	Mys: 200
 vinyl boots	200	Mox: 85
 walrus-tusk earring	50	Mys: 10
 warm fur	225	Mys: 200

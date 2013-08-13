@@ -1882,11 +1882,11 @@ public class RequestEditorKit
 		{
 			story = 16;
 		}
-		else if ( monster.endsWith( "skeleton" ) )
+		else if ( monster.endsWith( "vampire" ) )
 		{
 			story = 21;
 		}
-		else if ( monster.endsWith( "vampire" ) )
+		else if ( monster.endsWith( "skeleton" ) )
 		{
 			story = 26;
 		}
