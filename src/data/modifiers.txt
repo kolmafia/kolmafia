@@ -1346,6 +1346,8 @@ Glass Balls of the Goblin King	Mysticality: +14
 Great Wolf's left paw	Critical Hit Percent: +10, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Never Fumble, Class: "Seal Clubber"
 # Grey Guanon: Deals Stench Damage every round
 Grey Guanon	Stench Damage: +5
+# HOA regulation book: Reduce enemy defense by 20%
+HOA regulation book	Monster Level: -100, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Damage Reduction: 23
 # Hodgman's almanac: Converts Hobo Power to Spell Damage
 Hodgman's almanac	Spell Damage: [1.2*H]
 # Hodgman's cane: Converts Hobo Power to HP and MP Regeneration
@@ -1799,6 +1801,7 @@ Grimacite gauntlets	Meat Drop: +30, Muscle Percent: [10*G], Single Equip
 Grimacite girdle	Spell Damage: +20, Mysticality Percent: [10*G], Single Equip
 Grimacite go-go boots	Item Drop: +30, Moxie Percent: [10*G], Single Equip
 Grimacite gorget	Item Drop: +25, Muscle Percent: [10*G]
+HOA zombie eyes	Combat Rate: +5, Muscle Percent: -100, Mysticality Percent: -100, Moxie Percent: -100, Experience: +10
 Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip
 Hodgman's bow tie	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Single Equip
 Hodgman's lucky sock	Hobo Power: +50, Single Equip
