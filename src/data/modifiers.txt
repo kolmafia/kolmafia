@@ -3294,7 +3294,7 @@ Curse of Dullness	Weapon Damage: -50, Spell Damage: -50, Ranged Damage: -50
 # Curse of Exposure: Total Sleaze Vulnerability (-9)
 Curse of Forgetfulness	Experience: -25
 Curse of Hollowness	Maximum HP: -200, Maximum MP: -200
-# Curse of Impotence: +-50 Damage vs. Bugbears
+# Curse of Impotence: -50 Damage vs. Bugbears
 # Curse of Impotence: -50 Damage vs. Werewolves
 # Curse of Impotence: -50 Damage vs. Zombies
 # Curse of Impotence: -50 Damage vs. Ghosts

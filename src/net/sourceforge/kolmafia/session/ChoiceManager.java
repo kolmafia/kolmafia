@@ -4576,10 +4576,17 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 2 )
 			{
 				// Trip the light fantastic
-				if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MUDDY_SKIRT, 1 ) ) &&
-				     KoLConstants.inventory.contains( ItemPool.get( ItemPool.DREAD_POD, 1 ) ) )
+
+				// You twirl around on the dance floor to music only you can
+				// hear, your muddy skirt whirling around you filthily. You get
+				// so caught up in the twirling that you drop your seed pod. It
+				// breaks open, spreading weed seeds all over your skirt, which
+				// immediately take root and grow.
+
+				if ( text.contains( "spreading weed seeds all over your skirt" ) )
 				{
 					ResultProcessor.processResult( ItemPool.get( ItemPool.DREAD_POD, -1 ) );
+					EquipmentManager.discardEquipment( ItemPool.MUDDY_SKIRT );
 					EquipmentManager.setEquipment( EquipmentManager.PANTS, ItemPool.get( ItemPool.WEEDY_SKIRT, 1 ) );
 				}
 			}
@@ -4591,10 +4598,9 @@ public abstract class ChoiceManager
 			{
 				// Go to the laboratory
 
-				// You use your skeleton key to unlock the door
-				// to the laboratory. Unfortunately, the lock
-				// is electrified, and it incinerates the key
-				// shortly afterwards.
+				// You use your skeleton key to unlock the door to the
+				// laboratory. Unfortunately, the lock is electrified, and it
+				// incinerates the key shortly afterwards.
 
 				if ( text.contains( "it incinerates the key" ) )
 				{

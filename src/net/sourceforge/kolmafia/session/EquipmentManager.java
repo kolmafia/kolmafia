@@ -479,7 +479,7 @@ public class EquipmentManager
 		}
 
 		if ( old.getItemId() == ItemPool.LOST_GLASSES || item.getItemId() == ItemPool.LOST_GLASSES ||
-			 old.getItemId() == ItemPool.CHESTER_GLASSES || item.getItemId() == ItemPool.CHESTER_GLASSES )
+		     old.getItemId() == ItemPool.CHESTER_GLASSES || item.getItemId() == ItemPool.CHESTER_GLASSES )
 		{
 			EquipmentManager.defenseModifier = 1
 				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LOST_GLASSES, 1 ) ) ? 0.15 : 0 )
@@ -510,6 +510,30 @@ public class EquipmentManager
 		RequestLogger.printLine( "(unable to determine slot of transformed equipment)" );
 	}
 
+	public static final int removeEquipment( final int itemId )
+	{
+		return EquipmentManager.removeEquipment( ItemPool.get( itemId, 1 ) );
+	}
+
+	public static final int removeEquipment( final AdventureResult item )
+	{
+		for ( int slot = 0; slot <= EquipmentManager.FAMILIAR; ++slot )
+		{
+			if ( KoLCharacter.hasEquipped( item, slot ) )
+			{
+				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
+				// FamiliarData.setItem moved the current familiar item to
+				// inventory when we unequipped it above
+				if ( slot != EquipmentManager.FAMILIAR )
+				{
+					AdventureResult.addResultToList( KoLConstants.inventory, item );
+				}
+				return slot;
+			}
+		}
+		return -1;
+	}
+
 	public static final int discardEquipment( final int itemId )
 	{
 		return EquipmentManager.discardEquipment( itemId, true );
@@ -517,8 +541,7 @@ public class EquipmentManager
 	
 	public static final int discardEquipment( final int itemId, boolean deleteFromCheckpoints )
 	{
-		AdventureResult item = ItemPool.get( itemId, 1 );
-		return EquipmentManager.discardEquipment( item, deleteFromCheckpoints );
+		return EquipmentManager.discardEquipment( ItemPool.get( itemId, 1 ), deleteFromCheckpoints );
 	}
 
 	public static final int discardEquipment( final AdventureResult item )
@@ -532,23 +555,12 @@ public class EquipmentManager
 		{
 			SpecialOutfit.forgetEquipment( item );
 		}
-		for ( int slot = 0 ; slot <= EquipmentManager.FAMILIAR ; ++slot )
+		int slot = EquipmentManager.removeEquipment( item );
+		if ( slot != -1 )
 		{
-			if ( KoLCharacter.hasEquipped( item, slot ) )
-			{
-				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
-				// FamiliarData.setItem moved the current
-				// familiar item to inventory when we
-				// unequipped it above
-				if ( slot != EquipmentManager.FAMILIAR )
-				{
-					AdventureResult.addResultToList( KoLConstants.inventory, item );
-				}
-				ResultProcessor.processItem( item.getItemId(), -1 );
-				return slot;
-			}
+			ResultProcessor.processItem( item.getItemId(), -1 );
 		}
-		return -1;
+		return slot;
 	}
 	
 	public static final void breakEquipment( int itemId, String msg )
