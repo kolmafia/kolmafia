@@ -367,11 +367,6 @@ public class DebugDatabase
 
 	private static final GenericRequest DESC_ITEM_REQUEST = new GenericRequest( "desc_item.php" );
 
-	public static final String itemDescriptionText( final int itemId )
-	{
-		return DebugDatabase.itemDescriptionText( itemId, false );
-	}
-
 	public static final String itemDescriptionText( final int itemId, boolean forceReload )
 	{
 		return DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( itemId, forceReload ) );
@@ -515,7 +510,7 @@ public class DebugDatabase
 			// Curse items are special
 			return KoLConstants.NO_CONSUME;
 		}
-		if ( type.contains( "usable" ) || type.equals( "gift package" ) )
+		if ( type.startsWith( "usable" ) || type.contains( "usable" ) || type.equals( "gift package" ) )
 		{
 			return KoLConstants.CONSUME_USE;
 		}

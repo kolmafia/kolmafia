@@ -1183,6 +1183,7 @@ Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
 Great Wolf's left paw	300	Mus: 250
 Grey Guanon	0	Mys: 15
+HOA regulation book	0	Mus: 100 shield
 Hodgman's almanac	200	Mys: 200
 Hodgman's cane	200	Mys: 200
 Hodgman's garbage sticker	200	Mox: 200
@@ -1559,6 +1560,7 @@ Grimacite gauntlets	0	Mys: 15
 Grimacite girdle	0	Mys: 15
 Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
+HOA zombie eyes	0	Mys: 100
 Helps-You-Sleep	0	Mox: 100
 Hodgman's bow tie	200	Mys: 200
 Hodgman's lucky sock	200	Mys: 200
