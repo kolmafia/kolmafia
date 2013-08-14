@@ -6559,7 +6559,7 @@ s1
 6542	tonguebone	513309401	dv_tonguebone.gif	accessory	t	0
 6543	pogo stick	422814677	pogostick.gif	accessory	t,d	1949	pogo sticks
 6544
-6545
+6545	weedy skirt	603655510	dv_weedskirt.gif	pants		0
 6546	big pants	923211152	yakpants.gif	pants	q	0	pairs of big pants
 6547	Thwaitgold Goliath beetle statuette	736316665	thwaitgoliath.gif	none		0	Thwaitgold Goliath beetle statuettes
 6548	cooling iron helmet	832188756	dv_hihelm.gif	usable	t	0

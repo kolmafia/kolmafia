@@ -471,6 +471,7 @@ troutpiece	110	Mox: 40
 turtle wax greaves	40	Mox: 5
 turtlemail breeches	80	Mox: 25
 wax pants	50	Mox: 10
+weedy skirt	250	Mox: 200
 white satin pants	40	Mox: 5
 wumpus-hair loincloth	100	Mox: 35
 yakskin kilt	140	Mox: 55
