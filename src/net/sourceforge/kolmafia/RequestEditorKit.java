@@ -1860,77 +1860,15 @@ public class RequestEditorKit
 			return;
 		}
 
+		String monster = StringUtilities.singleStringReplace( MonsterStatusTracker.getLastMonsterName(), " (dreadsylvanian)", "" );
 		String find = "your scary storybook!";
 		StringBuilder replace = new StringBuilder( find );
 		replace.append( " <font size=1>[<a href=\"" );
-		int story = 0;
-
-		String monster = MonsterStatusTracker.getLastMonsterName();
-		if ( monster.endsWith( "bugbear" ) )
-		{
-			story = 1;
-		}
-		else if ( monster.endsWith( "werewolf" ) )
-		{
-			story = 6;
-		}
-		else if ( monster.endsWith( "zombie" ) )
-		{
-			story = 11;
-		}
-		else if ( monster.endsWith( "ghost" ) )
-		{
-			story = 16;
-		}
-		else if ( monster.endsWith( "vampire" ) )
-		{
-			story = 21;
-		}
-		else if ( monster.endsWith( "skeleton" ) )
-		{
-			story = 26;
-		}
-
-		if ( monster.startsWith( "hot" ) )
-		{
-			story += 0;
-		}
-		else if ( monster.endsWith( "cold" ) )
-		{
-			story += 1;
-		}
-		else if ( monster.endsWith( "spooky" ) )
-		{
-			story += 2;
-		}
-		else if ( monster.endsWith( "stench" ) )
-		{
-			story += 3;
-		}
-		else if ( monster.endsWith( "sleaze" ) )
-		{
-			story += 4;
-		}
-
-		// *** Cursory experimentation indicates that you have to
-		// *** access stories by first reading Tales of Dread
-		story = 0;
-
-		if ( story != 0 )
-		{
-			// choice.php?whichchoice=767&whichstory=12
-			replace.append( "choice.php?whichchoice=767&whichstory=" );
-			replace.append( String.valueOf( story ) );
-		}
-		else
-		{
-			// inv_use.php?pwd&which=3&whichitem=6423
-			replace.append( "inv_use.php?pwd=" );
-			replace.append( GenericRequest.passwordHash );
-			replace.append( "&which=3&whichitem=" );
-			replace.append( String.valueOf( ItemPool.TALES_OF_DREAD ) );
-		}
-
+		replace.append( "/KoLmafia/redirectedCommand?cmd=taleofdread " );
+		replace.append( monster );
+		replace.append( " redirect" );
+		replace.append( "&pwd=" );
+		replace.append( GenericRequest.passwordHash );
 		replace.append( "\">read it</a>]</font>" );
 
 		StringUtilities.singleStringReplace( buffer, find, replace.toString() );

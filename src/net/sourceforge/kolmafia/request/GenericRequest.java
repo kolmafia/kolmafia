@@ -1794,6 +1794,7 @@ public class GenericRequest
 					if ( m.find() )
 					{
 						this.redirectLocation = m.group( 1 );
+						this.redirectMethod = "GET";
 						shouldStop = this.handleServerRedirect();
 					}
 				}
