@@ -2276,12 +2276,17 @@ public class FightRequest
 			EquipmentManager.discardEquipment( ItemPool.AUDITORS_BADGE );
 		}
 
+		// With a final lurch, one of the zombies hurls a bag of weed
+		// killer at your skirt, dissolving it instantly.
+		if ( responseText.indexOf( "hurls a bag of weed killer" ) != -1 )
+		{
+			EquipmentManager.discardEquipment( ItemPool.WEEDY_SKIRT );
+		}
+
 		if ( responseText.contains( "applies it to his switchblade" ) )
 		{
 			// The Mer-kin bladeswitcher unequips your weapon
-			AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
-			EquipmentManager.discardEquipment( weapon, false );
-			ResultProcessor.processResult( weapon );
+			EquipmentManager.removeEquipment( EquipmentManager.getEquipment( EquipmentManager.WEAPON ) );
 		}
 
 		if ( responseText.indexOf( "You wore out your weapon cozy..." ) != -1 )
