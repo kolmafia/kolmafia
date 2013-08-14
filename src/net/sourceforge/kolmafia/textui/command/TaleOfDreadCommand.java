@@ -57,7 +57,7 @@ public class TaleOfDreadCommand
 		this.usage = " element monster - read the Tale of Dread unlocked by the monster";
 	}
 
-	private static final Pattern STORY_PATTERN = Pattern.compile( "<div class=tiny style='position: absolute; top: 55; left: 365; width: 285; height: 485; overflow-y:scroll; '>(.*>)</div>" );
+	private static final Pattern STORY_PATTERN = Pattern.compile( "<div class=tiny style='position: absolute; top: 55; left: 365; width: 285; height: 485; overflow-y:scroll; '>(.*?)</div>" );
 
 	@Override
 	public void run( final String cmd, String parameters )
