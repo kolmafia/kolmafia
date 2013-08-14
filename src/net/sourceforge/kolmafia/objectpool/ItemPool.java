@@ -1668,6 +1668,7 @@ public class ItemPool
 	public static final int BLOODY_KIWITINI = 6498;
 	public static final int MOON_AMBER = 6499;
 	public static final int MOON_AMBER_NECKLACE = 6501;
+	public static final int DREAD_POD = 6502;
 	public static final int GHOST_PENCIL = 6503;
 	public static final int DREADSYLVANIAN_CLOCKWORK_KEY = 6506;
 	public static final int COOL_IRON_INGOT = 6507;
@@ -1676,8 +1677,10 @@ public class ItemPool
 	public static final int WARM_FUR = 6513;
 	public static final int GHOST_THREAD = 6525;
 	public static final int FRYING_BRAINPAN = 6538;
+	public static final int MUDDY_SKIRT = 6531;
 	public static final int OLD_BALL_AND_CHAIN = 6539;
 	public static final int OLD_DRY_BONE = 6540;
+	public static final int WEEDY_SKIRT = 6545;
 	public static final int HOT_CLUSTER = 6551;
 	public static final int COLD_CLUSTER = 6552;
 	public static final int SPOOKY_CLUSTER = 6553;

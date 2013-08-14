@@ -559,6 +559,7 @@ troutpiece	Familiar Effect: "1xVolley, 1xBarrr, cap 27"
 turtle wax greaves	Muscle: +2, Familiar Effect: "atk, 3xBarrr, cap 10"
 turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect: "3xBarrr, 1.5xFairy, cap 20"
 wax pants	Moxie: +7, Initiative: +10
+weedy skirt	Maximum HP: +400, HP Regen Min: 25, HP Regen Max: 50, Initiative: +25
 white satin pants	Sleaze Resistance: +2, Familiar Effect: "prismatic atk, 2xPotato, cap 10"
 wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2, Familiar Effect: "1xVolley, 1xPotato, cap 5"
 yakskin kilt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"

@@ -4571,6 +4571,20 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 746:
+			// The Belle of the Ballroom
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				// Trip the light fantastic
+				if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MUDDY_SKIRT, 1 ) ) &&
+				     KoLConstants.inventory.contains( ItemPool.get( ItemPool.DREAD_POD, 1 ) ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.DREAD_POD, -1 ) );
+					EquipmentManager.setEquipment( EquipmentManager.PANTS, ItemPool.get( ItemPool.WEEDY_SKIRT, 1 ) );
+				}
+			}
+			return;
+
 		case 749:
 			// Tower Most Tall
 			if ( ChoiceManager.lastDecision == 1 )
