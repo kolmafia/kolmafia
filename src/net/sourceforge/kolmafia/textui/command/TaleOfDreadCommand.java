@@ -57,7 +57,20 @@ public class TaleOfDreadCommand
 		this.usage = " element monster - read the Tale of Dread unlocked by the monster";
 	}
 
-	private static final Pattern STORY_PATTERN = Pattern.compile( "<div class=tiny style='position: absolute; top: 55; left: 365; width: 285; height: 485; overflow-y:scroll; '>(.*?)</div>" );
+	private static final Pattern STORY_PATTERN = Pattern.compile( "<div class=tiny style='position: absolute; top: 55; left: 365; width: 285; height: 485; overflow-y:scroll; '>(.*?)</div>", Pattern.DOTALL );
+
+	public static String extractTale( final String html )
+	{
+		Matcher storyMatcher = STORY_PATTERN.matcher( html );
+		if ( !storyMatcher.find() )
+		{
+			return "";
+		}
+
+		StringBuffer buffer = new StringBuffer( storyMatcher.group( 1 ) );
+		StringUtilities.globalStringReplace( buffer, "<br>", "" );
+		return buffer.toString();
+	}
 
 	@Override
 	public void run( final String cmd, String parameters )
@@ -157,16 +170,6 @@ public class TaleOfDreadCommand
 		request.constructURLString( storyURL );
 		RequestThread.postRequest( request );
 
-		// Extract the story from the response.
-		Matcher storyMatcher = STORY_PATTERN.matcher( request.responseText );
-		if ( !storyMatcher.find() )
-		{
-			return;
-		}
-
-		String tale = storyMatcher.group( 1 );
-		StringBuffer buffer = new StringBuffer( tale );
-		StringUtilities.globalStringReplace( buffer, "<br>", "" );
-		RequestLogger.printLine( buffer.toString() );
+		RequestLogger.printLine( TaleOfDreadCommand.extractTale( request.responseText ) );
 	}
 }
