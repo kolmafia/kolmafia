@@ -270,5 +270,13 @@ public class TestCommand
 			TestCommand.dump( buffer.toString() );
 			return;
 		}
+
+		if ( command.equals( "taleofdread" ) )
+		{
+			String tale = TaleOfDreadCommand.extractTale( TestCommand.contents );
+			TestCommand.contents = null;
+			RequestLogger.printLine( tale );
+			return;
+		}
 	}
 }
