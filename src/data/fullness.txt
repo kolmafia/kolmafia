@@ -465,6 +465,7 @@ roasted duck	2	4	decent	3-4	0	7-12	0
 roasted marshmallow	1	1	crappy	1	0	0	0	3 Mallowed Out (+all)
 rocky road ice cream	2	7	awesome	7-10	12-14	12-14	12-14	40 A Contender (+200% all)
 rook cookie	1	13	EPIC	4-6	45-50	0	0	30 Towering Strength (+100..200% mus)
+root beer	1	1	awesome	4	5-10	5-10	5-10	20-30 MP
 royal jelly	1	1	crappy	1	10-15	0	0
 royal jelly taco	1	1	decent	2	4-20	0	0
 s.t.l.t.	4	4	awesome	10-15	10-30	10-30	13-27
