@@ -1671,6 +1671,7 @@ V for Vivala mask	0	none
 Voluminous Radio Sneakers	0	Mys: 60
 Warehouse 23 bling	0	none
 Xlyinia's notebook	0	none
+Yearbook Club Camera	0	none
 Yellow Moon of Compassion	200	Mys: 85
 Zinc Delta of Tranquility	200	Mys: 85
 Zombo's skull ring	200	Mys: 200

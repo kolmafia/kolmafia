@@ -1925,6 +1925,8 @@ V for Vivala mask	Muscle Percent: +30, Critical Hit Percent: +10, Single Equip, 
 Voluminous Radio Sneakers	Muscle: +10, Mysticality: +10, Moxie: +10, Single Equip
 Warehouse 23 bling	Maximum MP: +23
 Xlyinia's notebook	Muscle: +15, Mysticality: +15, Moxie: +15
+# Yearbook Club Camera: Has No Fancy Accessories
+# Yearbook Club Camera: Is Boring
 Yellow Moon of Compassion	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip
 Zinc Delta of Tranquility	Muscle: +8, Mysticality: +8, Moxie: +8, Item Drop: +8, Single Equip
 Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip

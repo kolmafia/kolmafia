@@ -6383,24 +6383,24 @@ s1
 6366	pulled violet taffy	469187244	taffy6.gif	multiple, combat	t,d	5	pulled violet taffies
 6367	pulled red taffy	340638314	taffy7.gif	multiple, combat	t,d	5	pulled red taffies
 6368	Mer-kin hallpass	492118546	lamcard.gif	none	t,d	35
-6369
+6369	lump of clay	224876067	clayglob.gif	usable	t,d	8
 6370
 6371
 6372
 6373
-6374
+6374	angry inch	834940676	angryinch.gif	none, combat	t,d	5
 6375
 6376
 6377
-6378
+6378	eraser nubbin	191091237	nubbin.gif	usable	t,d	1
 6379
 6380
-6381
-6382
-6383
-6384
-6385
-6386
+6381	mysterious chemical residue	411486357	residue.gif	usable	t,d	3
+6382	nugget of sodium	225372142	sodium.gif	none, combat	t,d	4
+6383	root beer	526349353	tankard.gif	food	t,d	23
+6384	jigsaw blade	315032879	jigsaw.gif	none, combat	t,d	8
+6385	wood screw	774261858	longscrew.gif	none, combat	t,d	4
+6386	balsa plank	971684051	balsa.gif	usable	t,d	6
 6387
 6388	envyfish egg	651790358	roe.gif	usable	q	0	envyfish eggs
 6389	Mer-kin rocksalt	820963347	saltcandy1.gif	usable	t	0	Mer-kin rocksalt candies
@@ -6655,3 +6655,41 @@ s1
 6638	folder (tranquil landscape)	595837547	otherimages/folders/folder21.gif	usable	t,d	5
 6639	folder (owl)	898277246	otherimages/folders/folder22.gif	usable	t,d	5
 6640	folder (Stinky Trash Kid)	680871241	otherimages/folders/folder23.gif	usable	t,d	5
+6641
+6642
+6643
+6644
+6645
+6646
+6647
+6648
+6649
+6650
+6651
+6652
+6653	surgical tape	112683501	surgicaltape.gif	none, combat	t,d	25
+6654
+6655
+6656
+6657
+6658
+6659
+6660
+6661
+6662
+6663
+6664
+6665
+6666
+6667
+6668
+6669
+6670
+6671
+6672
+6673
+6674
+6675
+6676
+6677
+6678	Yearbook Club Camera	379789481	camera.gif	accessory	q	0

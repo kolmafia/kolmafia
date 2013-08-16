@@ -55,10 +55,10 @@ The Haunted Library	SEMIRARE	Like the Sunglasses, But Less Comfortable
 The Haunted Pantry	SEMIRARE	The Pilsbury Doughjerk
 The Sleazy Back Alley	SEMIRARE	In the Still of the Alley
 The Goatlet	SEMIRARE	Natural Selection
-Itznotyerzitz Mine	SEMIRARE	7-Foot Dwarf Foreman 
+Itznotyerzitz Mine	SEMIRARE	7-Foot Dwarf Foreman
 Lair of the Ninja Snowmen	SEMIRARE	Not Quite as Cold as Ice
 The Limerick Dungeon	SEMIRARE	The Bleary-Eyed Cyclops
-The Valley of Rof L'm Fao	SEMIRARE	Bad ASCII Art 
+The Valley of Rof L'm Fao	SEMIRARE	Bad ASCII Art
 A-Boo Peak	SEMIRARE	Oh, <i>There</i> Have it Gone
 Twin Peak	SEMIRARE	Synecdoche, Twin Peak
 Oil Peak	SEMIRARE	It's a Gas Gas Gas
@@ -86,7 +86,7 @@ The Dark Neck of the Woods	SEMIRARE	It's The Only Way To Be Sure
 Pandamonium Slums	SEMIRARE	It's The Only Way To Be Sure
 Hidden City (automatic)	SEMIRARE	Two Sizes Too Small
 Hidden City (Encounter)	SEMIRARE	Two Sizes Too Small
-The Hidden Temple	SEMIRARE	Baa'baa'bu'ran 
+The Hidden Temple	SEMIRARE	Baa'baa'bu'ran
 8-Bit Realm	SEMIRARE	Some Bricks Do, In Fact, Hang in the Air
 The Spooky Forest	SEMIRARE	Blaaargh! Blaaargh!
 Whitey's Grove	SEMIRARE	Monty of County Crisco
@@ -95,7 +95,7 @@ Hippy Camp In Disguise	SEMIRARE	The Latest Sorcerous Developments
 Frat House	SEMIRARE	Sand in the Vaseline
 Frat House In Disguise	SEMIRARE	Sand in the Vaseline
 The Obligatory Pirate's Cove	SEMIRARE	Yo Ho Ho and a Bottle of Whatever This Is
-A Maze of Sewer Tunnels	SEMIRARE	C. H. U. M. chieftain 
+A Maze of Sewer Tunnels	SEMIRARE	C. H. U. M. chieftain
 Burnbarrel Blvd.	SEMIRARE	A Tight Squeeze
 Exposure Esplanade	SEMIRARE	Cold Comfort
 The Heap	SEMIRARE	Juicy!
@@ -103,7 +103,7 @@ The Ancient Hobo Burial Ground	SEMIRARE	Flowers for You
 The Purple Light District	SEMIRARE	Maybe It's a Sexy Snake!
 The Briny Deeps	SEMIRARE	Deeps Impact
 The Brinier Deepers	SEMIRARE	The Haggling
-An Octopus's Garden	SEMIRARE	moister oyster 
+An Octopus's Garden	SEMIRARE	moister oyster
 The Wreck of the Edgar Fitzsimmons	SEMIRARE	Camera On, James
 The Dive Bar	SEMIRARE	Razor, Scooter
 Madness Reef	SEMIRARE	Dragon the Line
@@ -137,4 +137,4 @@ The Limerick Dungeon	GLYPH	Thud
 Lair of the Ninja Snowmen	GLYPH	Not So Much With the Corncob Pipes, Either.
 Pre-Cyrpt Cemetary	GLYPH	They Hate That
 Battlefield (No Uniform)	GLYPH	A Funny Thing Happened On the Way
-The eXtreme Slope	GLYPH	Not a Standard-Issue Windowsill, Obviously	
+The eXtreme Slope	GLYPH	Not a Standard-Issue Windowsill, Obviously
