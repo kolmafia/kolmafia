@@ -6467,7 +6467,7 @@ s1
 6450	Great Wolf's rocket launcher	229573706	ww_bazooka.gif	weapon		0	Great Wolf's rocket launchers
 6451	Great Wolf's beastly trousers	370491221	ww_pants.gif	pants		0
 6452	Great Wolf's lice	639734327	ww_lice.gif	none, combat reusable	d	21337
-6453	Hunger&trade; Sauce	923389971	ww_sauce.gif	usable	t	0
+6453	Hunger&trade; Sauce	923389971	ww_sauce.gif	usable	t	0	bottles of Hunger&trade; Sauce
 6454	zombie mariachi hat	694432828	zh_hat.gif	hat		0
 6455	zombie accordion	455940650	zh_accordion.gif	weapon		0
 6456	zombie mariachi pants	593943883	zh_pants.gif	pants		0
@@ -6497,7 +6497,7 @@ s1
 6480	Unkillable Skeleton's shield	574670113	sk_shield.gif	offhand		0
 6481	Unkillable Skeleton's restless leg	138108100	sk_leg.gif	weapon		0
 6482	Staff of the Roaring Hearth	467328835	sk_staff.gif	weapon		0
-6483	electric Kool-Aid	363523121	sk_koolaid.gif	food	t	0
+6483	electric Kool-Aid	363523121	sk_koolaid.gif	food	t	0	glasses of electric Kool-Aid
 6484	dread tarragon	575782784	dv_tarragon.gif	none	t	0	bottles of dread tarragon
 6485	bone flour	348000600	disease.gif	none	t	0
 6486	dreadful roast	528470996	dv_meat.gif	none	t	0
