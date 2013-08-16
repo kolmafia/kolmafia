@@ -510,7 +510,7 @@ public class DebugDatabase
 			// Curse items are special
 			return KoLConstants.NO_CONSUME;
 		}
-		if ( type.startsWith( "usable" ) || type.contains( "usable" ) || type.equals( "gift package" ) )
+		if ( type.startsWith( "usable" ) || type.contains( " usable" ) || type.equals( "gift package" ) )
 		{
 			return KoLConstants.CONSUME_USE;
 		}
