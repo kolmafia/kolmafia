@@ -124,6 +124,7 @@ public abstract class ChoiceManager
 	private static final AdventureResult BLOODY_KIWITINI = ItemPool.get( ItemPool.BLOODY_KIWITINI, 1 );
 	private static final AdventureResult KIWITINI_EFFECT = new AdventureResult( "First Blood Kiwi", 1, true );
 	private static final AdventureResult AUDITORS_BADGE = ItemPool.get( ItemPool.AUDITORS_BADGE, 1 );
+	private static final AdventureResult WEEDY_SKIRT = ItemPool.get( ItemPool.WEEDY_SKIRT, 1 );
 	private static final AdventureResult GHOST_SHAWL = ItemPool.get( ItemPool.GHOST_SHAWL, 1 );
 	private static final AdventureResult SHEPHERDS_PIE = ItemPool.get( ItemPool.SHEPHERDS_PIE, 1 );
 	private static final AdventureResult PIE_EFFECT = new AdventureResult( "Shepherd's Breath", 1, true );
@@ -3425,10 +3426,16 @@ public abstract class ChoiceManager
 			StringBuilder buffer = new StringBuilder();
 			boolean badgeEquipped = KoLCharacter.hasEquipped( ChoiceManager.AUDITORS_BADGE );
 			boolean badgeAvailable = InventoryManager.getCount( ChoiceManager.AUDITORS_BADGE ) > 0;
+			boolean skirtEquipped = KoLCharacter.hasEquipped( ChoiceManager.WEEDY_SKIRT );
+			boolean skirtAvailable = InventoryManager.getCount( ChoiceManager.WEEDY_SKIRT ) > 0;
 
 			buffer.append( badgeEquipped ? "Dreadsylvanian auditor's badge equipped" :
 				       badgeAvailable ? "Dreadsylvanian auditor's badge NOT equipped but in inventory" :
 				       "Dreadsylvanian auditor's badge neither equipped nor available" );
+			buffer.append( " / " );
+			buffer.append( skirtEquipped ? "weedy skirt equipped" :
+				       skirtAvailable ? "weedy skirt NOT equipped but in inventory" :
+				       "weedy skirt neither equipped nor available" );
 
 			result = new String[ 2 ];
 			result[ 0 ] = buffer.toString();
