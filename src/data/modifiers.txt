@@ -2958,9 +2958,11 @@ folder (dancing dolphins)	Item Drop Percent: [50*zone(The Sea)]
 folder (D-Team)	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 folder (Ex-Files)	Combat Rate: +5
 folder (green)	Moxie: +20
+folder (heavy metal)	Familiar Weight: +5
 folder (holographic fractal)	Cold Resistance: +4, Hot Resistance: +4, Sleaze Resistance: +4, Spooky Resistance: +4, Stench Resistance: +4
 folder (Jackass Plumber)	Monster Level: +25
 folder (Knight Writer)	Initiative: +40
+# folder (KOLHS): +50% Item Drops (KoL High School zones only)
 folder (magenta)	Muscle: +15, Mysticality: +15
 folder (owl)	Item Drop Percent: [500*zone(Dreadsylvania)]
 # folder (rainbow unicorn): Deals Prismatic Damage to Attackers
@@ -2969,9 +2971,12 @@ folder (Seawolf)	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*
 folder (skull and crossbones)	Combat Rate: -5
 folder (smiley face)	Experience (Muscle): +2
 folder (space skeleton)	Experience (Moxie): +2
+folder (sports car)	Adventures: +5
+folder (sportsballs)	PvP Fights: +5
 # folder (Stinky Trash Kid): Deals <font color=green>Stench Damage</font> every round
 folder (tranquil landscape)	Damage Reduction: 15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 folder (wizard)	Experience (Mysticality): +2
+folder (Yedi)	Spell Damage Percent: +50
 folder (yellow)	Muscle: +15, Moxie: +15
 
 # Campground equipment section of modifiers.txt

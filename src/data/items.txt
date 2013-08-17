@@ -6655,11 +6655,11 @@ s1
 6638	folder (tranquil landscape)	595837547	otherimages/folders/folder21.gif	usable	t,d	5
 6639	folder (owl)	898277246	otherimages/folders/folder22.gif	usable	t,d	5
 6640	folder (Stinky Trash Kid)	680871241	otherimages/folders/folder23.gif	usable	t,d	5
-6641
-6642
-6643
-6644
-6645
+6641	folder (sports car)	507166502	otherimages/folders/folder24.gif	usable	t,d	5
+6642	folder (sportsballs)	695645927	otherimages/folders/folder25.gif	usable	t,d	5
+6643	folder (heavy metal)	479340389	otherimages/folders/folder26.gif	usable	t,d	5
+6644	folder (Yedi)	329538987	otherimages/folders/folder27.gif	usable	t,d	5
+6645	folder (KOLHS)	183683198	otherimages/folders/folder28.gif	usable	t,d	5
 6646
 6647
 6648
