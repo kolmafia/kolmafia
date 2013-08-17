@@ -2258,27 +2258,27 @@ public class FightRequest
 		// The Great Wolf of the Air emits an ear-splitting final
 		// howl. Your necklace shatters like a champagne flute in a
 		// Memorex comercial[sic].
-		if ( responseText.indexOf( "Your necklace shatters" ) != -1 )
+		if ( responseText.contains( "Your necklace shatters" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.MOON_AMBER_NECKLACE );
 		}
 
 		// You look down and notice that your shawl got ripped to
 		// shreds during the fight. Dangit.
-		if ( responseText.indexOf( "Your shawl got ripped to shreds" ) != -1 )
+		if ( responseText.contains( "your shawl got ripped to shreds" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.GHOST_SHAWL );
 		}
 
 		// As he fades away, Mayor Ghost clutches at your badge, which fades away with him. Rats.
-		if ( responseText.indexOf( "clutches at your badge" ) != -1 )
+		if ( responseText.contains( "clutches at your badge" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.AUDITORS_BADGE );
 		}
 
 		// With a final lurch, one of the zombies hurls a bag of weed
 		// killer at your skirt, dissolving it instantly.
-		if ( responseText.indexOf( "hurls a bag of weed killer" ) != -1 )
+		if ( responseText.contains( "hurls a bag of weed killer" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.WEEDY_SKIRT );
 		}
