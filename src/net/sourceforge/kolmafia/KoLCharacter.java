@@ -2980,6 +2980,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( "BIG!" );
 	}
 
+	public static final boolean inHighschool()
+	{
+		return KoLCharacter.ascensionPath.equals( "KOLHS" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );

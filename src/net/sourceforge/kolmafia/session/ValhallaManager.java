@@ -338,6 +338,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "BIG! " );
 		}
+		else if ( KoLCharacter.inHighschool() )
+		{
+			sessionStream.print( "KOLHS " );
+		}
 		else if ( KoLCharacter.canEat() && KoLCharacter.canDrink() )
 		{
 			sessionStream.print( "No-Path " );
