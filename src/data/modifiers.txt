@@ -3077,6 +3077,7 @@ Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Apoplectic with Rage	Mysticality Percent: -10
 Arabian Knighthood	Muscle Percent: +5
 Arcane in the Brain	Mana Cost (stackable): -3
+Armor-Plated	Damage Reduction: 10
 Army of One	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Arresistible	Moxie: +50
 Arse-a'fire	Muscle Percent: +10, Initiative: +25
@@ -5201,6 +5202,7 @@ roll of toilet paper	Free Pull
 salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 sane hatrack	Free Pull
+scrap metal	Effect: "Armor-Plated", Effect Duration: 20
 scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10
 scroll of Protection from Bad Stuff	Effect: "Protection from Bad Stuff", Effect Duration: 20
 scroll of Puddingskin	Effect: "Puddingskin", Effect Duration: 80

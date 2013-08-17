@@ -6673,7 +6673,7 @@ s1
 6656	illegal firecracker	236206665	bigfirecracker.gif	none, combat	t,d	20
 6657
 6658	hair oil	188501537	motoroil.gif	usable	t,d	15
-6659
+6659	scrap metal	682691090	scrapmetal.gif	usable	t,d	20
 6660
 6661
 6662
