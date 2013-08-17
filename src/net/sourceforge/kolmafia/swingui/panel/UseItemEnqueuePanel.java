@@ -692,6 +692,16 @@ public class UseItemEnqueuePanel
 				}
 			}
 
+			if ( KoLCharacter.inHighschool() && UseItemEnqueuePanel.this.booze )
+			{
+				AdventureResult item = creation.getItem();
+				String name = item != null ? item.getName() : null;
+				if ( name != null && ( ItemDatabase.getNotes( name ) == null || !ItemDatabase.getNotes( name ).startsWith( "KOLHS" ) ) )
+				{
+					return false;
+				}
+			}
+
 			// turn-free
 			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )
 			{
