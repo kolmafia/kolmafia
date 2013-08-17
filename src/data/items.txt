@@ -6384,24 +6384,24 @@ s1
 6367	pulled red taffy	340638314	taffy7.gif	multiple, combat	t,d	5	pulled red taffies
 6368	Mer-kin hallpass	492118546	lamcard.gif	none	t,d	35
 6369	lump of clay	224876067	clayglob.gif	usable	t,d	8
-6370
+6370	twisted piece of wire	562580616	wiretwist.gif	none, combat	t,d	7
 6371
 6372
-6373
+6373	single swig of vodka	907908271	bottle.gif	drink		t,d	20
 6374	angry inch	834940676	angryinch.gif	none, combat	t,d	5
 6375
 6376
 6377
 6378	eraser nubbin	191091237	nubbin.gif	usable	t,d	1
-6379
-6380
+6379	chlorine crystal	481172470	chloride.gif	none, combat	t,d	5
+6380	ph balancer	690213297	blooddrops.gif	usable	t,d	9
 6381	mysterious chemical residue	411486357	residue.gif	usable	t,d	3
 6382	nugget of sodium	225372142	sodium.gif	none, combat	t,d	4
 6383	root beer	526349353	tankard.gif	food	t,d	23
 6384	jigsaw blade	315032879	jigsaw.gif	none, combat	t,d	8
 6385	wood screw	774261858	longscrew.gif	none, combat	t,d	4
 6386	balsa plank	971684051	balsa.gif	usable	t,d	6
-6387
+6387	blob of wood glue	550275315	glueglob.gif	none, combat	t,d	2
 6388	envyfish egg	651790358	roe.gif	usable	q	0	envyfish eggs
 6389	Mer-kin rocksalt	820963347	saltcandy1.gif	usable	t	0	Mer-kin rocksalt candies
 6390	Mer-kin saltmint	964380486	saltcandy2.gif	usable	t	0	Mer-kin saltmints
@@ -6662,17 +6662,17 @@ s1
 6645	folder (KOLHS)	183683198	otherimages/folders/folder28.gif	usable	t,d	5
 6646
 6647
-6648
-6649
-6650
-6651
-6652
+6648	slide rule	729302490	sliderule.gif	weapon	t,d	40
+6649	Ogres and Oubliettes&trade; module	233884667	oandomodule.gif	usable	t,d	30
+6650	Mountain Stream Code Black Alert	357261157	soda.gif	mp	t,d	15
+6651	twisted-up wet towel	870690670	wettowel.gif	weapon	t,d	10
+6652	stepmom's booze	387234257	wine2.gif	drink	t,d	10
 6653	surgical tape	112683501	surgicaltape.gif	none, combat	t,d	25
-6654
-6655
-6656
+6654	metal band T-shirt	387855470	btee2.gif	shirt		t,d	30
+6655	fountain 'soda'	930162345	fountaindrink.gif	drink		t,d	10
+6656	illegal firecracker	236206665	bigfirecracker.gif	none, combat	t,d	20
 6657
-6658
+6658	hair oil	188501537	motoroil.gif	usable	t,d	15
 6659
 6660
 6661

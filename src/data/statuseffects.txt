@@ -329,7 +329,7 @@
 328	Soul Freeze	iceberglet.gif	ac1584de4a0d6359c4738bf0bae571a1	#Wave of Sauce splashback
 329	Broken Fast	ccheese.gif	1e776d50f7d0c07ae3bf04aa1ea13e49	eat 1 bowl of Bounty-Os
 330	Hoity Toity	snifter.gif	89a2e36f2f2fa3c6c4053a6a35c2a12a	drink 1 Oreille Divis&eacute;e brandy
-331	On the Trail	footprints.gif	91635be2834f8a07c8ff9e3b47d2e43a	#Transcendent Olfaction
+331	On the Trail	snout.gif	91635be2834f8a07c8ff9e3b47d2e43a	#Transcendent Olfaction
 332	Moon'd	moon4.gif	3f23af7d42cd450e5a198ba091a842c1	concert Moon'd
 333	Dilated Pupils	pupils.gif	dd0d5b24b28fff02cb53607f45d0d220	concert Dilated Pupils
 334	Optimist Primal	happy.gif	63965c29290f23349477c4199c9b10c3	concert Optimist Primal
@@ -1234,7 +1234,7 @@
 1233	Orange Crusher	taffy5.gif	92175ee27bcc826548408f45a395a01e	use 1 pulled orange taffy
 1234	Purple Reign	taffy6.gif	a860fef0fe00c90cca8c5d5e0024e31f	use 1 pulled violet taffy
 1235	Cinnamon Challenger	taffy7.gif	49df339b1c0346553b3e69368dfd3a7d	use 1 pulled red taffy
-1236
+1236	Phairly Balanced	scales.gif	ad0794b41305d903ccc244b1262b4019	use 1 ph balancer
 1237	Jelly Combed	combjelly.gif	3a4cd090a1a0fec11fa6672c8b47e9d3	use 1 comb jelly
 1238	Salt Rockin'	saltcandy1.gif	b89588b60e0ffb11398866ec60a1619f	use 1 Mer-kin rocksalt
 1239	Electrolit Up	saltcandy2.gif	2d849719afa8f60a3ac5164fde088d1a	use 1 Mer-kin saltmint
@@ -1333,3 +1333,11 @@
 1332	Spooky Hands	flask_spooky.gif	45f0f990b69897625af21b3236cd0dcc	use 1 lotion of spookiness
 1333	Stinky Hands	flask_stench.gif	aa5c772bd5d7990e26db44a0859969e8	use 1 lotion of stench
 1334	Sleazy Hands	flask_sleaze.gif	efe6d7516b7e272f7b9f6b630e888a6a	use 1 lotion of sleaziness
+1335
+1336
+1337
+1338	Jamming with the Jocks	sportoint.gif	9bc41c0d4e7c443e50ce3fe824fbe9d6
+1339	Nerd is the Word	nerdint.gif	e45f7eeddd4f3afe1c4883d8d98c6d33
+1340	Greaser Lightnin;	greaserint.gif	43060d043c807a8717c216f19e4a5b73
+1341	Ogred and Oublietted	oandomodule.gif	4859a8d90141d3bbfdc62d8acdc1f923	use 1 Ogres and Oubliettes&trade; module
+1342	Slicked-Back Do	greaserint.gif		f9c4145cc96ab8b3479d3eb88696da8b	use 1 hair oil
