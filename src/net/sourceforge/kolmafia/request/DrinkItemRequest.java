@@ -98,6 +98,13 @@ public class DrinkItemRequest
 			return 0;
 		}
 
+		if ( KoLCharacter.inHighschool() &&
+		     ( ItemDatabase.getNotes( itemName ) == null || !ItemDatabase.getNotes( itemName ).startsWith( "KOLHS" ) ) )
+		{
+			UseItemRequest.limiter = "your unrefined palate";
+			return 0;
+		}
+
 		UseItemRequest.limiter = "inebriety";
 		int limit = KoLCharacter.getInebrietyLimit();
 

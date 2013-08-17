@@ -51,6 +51,7 @@ bottle of calcutta emerald	3	2	decent	4-8	0	0	0
 bottle of cooking sherry	2	1	decent	2-4	0	0	0
 bottle of definit	3	2	decent	4-8	0	0	0
 bottle of domesticated turkey	3	2	decent	4-8	0	0	0
+bottle of fruity &quot;wine&quot;	2	5	good	4-5	2-5	2-5	2-5	KOLHS
 bottle of gin	3	1	crappy	3	0	0	0
 bottle of jorge sinsonte	3	2	decent	4-8	0	0	0
 bottle of lieutenant freeman	3	2	decent	4-8	0	0	0
@@ -79,6 +80,7 @@ caipifruta	3	3	good	5-10	16-20	0	0
 caipiranha	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 calle de miel	4	4	good	10-14	8-10	0	25-27
 can of swiller	1	10	good	2-4	10-15	0	0	15-20 MP
+can of the cheapest beer	1	1	decent	2	3	2	2	KOLHS
 candicaine	2	8	awesome	8-9	0	0	30-40	15 Holiday Bliss
 candy alexander	2	4	awesome	6-7	0	0	20-30	10 Holiday Bliss
 candycaine	4	1		7-10	0	0	0	10 Sugar Rush
@@ -182,7 +184,7 @@ flask of amontillado	4	4	awesome	10-15	10-30	15-30	10-30
 flat mushroom wine	3	6	awesome	10-14	8-10	0	0
 flute of flat champagne	2	2	decent	2-6	0	15	0
 flying caipiranha	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
-fountain 'soda'	3	5	decent	4-6	5-10	0	5-10
+fountain 'soda'	3	5	decent	4-6	5-10	0	5-10	KOLHS
 fromage pinotage	1	3	awesome	3-5	0	60-75	0	20 Some Cheese With Your Wine (stench dmg)
 fruity girl swill	4	4	good	10-14	2-3	26-30	2-3
 fuzzbump	4	4	good	10-14	34-36	0	0
@@ -348,7 +350,7 @@ shot of rotgut	1	1	good	2-3	10-12	10-12	10-12	lose 20-28 HP
 shot of the living dead	2	8	awesome	8-9	30-40	0	0	15 Creepypasted
 shot of tomato schnapps	1	1	decent	2	1-2	1-2	1-2
 silver bullet beer	1	6	awesome	3-4	5-10	5-10	5-10	30 Wolf's Bane (+50 dmg vs. Werewolves)
-single swig of vodka	2	9	good	5-6	6-8	6-8	6-8
+single swig of vodka	2	9	good	5-6	6-8	6-8	6-8	KOLHS
 sizzling sinner	2	8	awesome	8-9	30-40	0	0	15 Heart Aflame
 slap and slap again	3	1	decent	0	0	0	0	+3 PvP fights
 slap and tickle	4	4	good	10-14	0	8-10	25-27
@@ -371,7 +373,7 @@ spiced rum	3	2	decent	4-8	0	0	17-30
 spooky eggnog	3	3	good	5-10	0	16-30	16-30
 spooky mushroom wine	3	6	awesome	10-14	0	0	4-6
 steel margarita	5	5		0	0	0	0	Liver of Steel skill
-stepmom's booze	3	5	decent	4-6	0	5-10	5-10
+stepmom's booze	3	5	decent	4-6	0	5-10	5-10	KOLHS
 stinkwater	3	24	EPIC	25-29	20-30	20-30	20-30	
 stinky mushroom wine	3	6	awesome	10-14	0	0	12-15
 strawberry daiquiri	3	1	decent	5-6	0	0	8-10

@@ -6386,8 +6386,8 @@ s1
 6369	lump of clay	224876067	clayglob.gif	usable	t,d	8
 6370	twisted piece of wire	562580616	wiretwist.gif	none, combat	t,d	7
 6371
-6372
-6373	single swig of vodka	907908271	bottle.gif	drink		t,d	20
+6372	bottle of fruity &quot;wine&quot;	317445968	wine.gif	drink	t,d	10
+6373	single swig of vodka	907908271	bottle.gif	drink	t,d	20
 6374	angry inch	834940676	angryinch.gif	none, combat	t,d	5
 6375
 6376
