@@ -625,6 +625,7 @@ harem girl t-shirt	Moxie: +3
 hipposkin poncho	Monster Level: +10
 letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 loathing eagle baby-doll shirt	Moxie: +3
+metal band T-shirt	Monster Level: +15
 origami pasties	Meat Drop: +30, Softcore Only
 pirate shirt	Moxie: +3
 psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
@@ -1211,6 +1212,7 @@ skate blade	Moxie Percent: +5, Weakens Monster
 skate board	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Damage Reduction: 10
 skeleton bone	Spooky Damage: +1
 sleazy bindle	Item Drop: +10, Sleaze Damage: +25
+slide rule	Mysticality Percent: +5, Initiative: +10
 # slightly peevedbow
 slime-covered club	Weapon Damage: [50*zone(The Slime Tube)+25], Critical Hit Percent: +7
 slime-covered shovel	Weapon Damage: [100*zone(The Slime Tube)+60], Initiative: -10
@@ -1274,6 +1276,7 @@ toy ray gun	Hot Damage: +5, Critical Hit Percent: +5
 trout fang	Weapon Damage: +15
 trusty torch	Hot Damage: +3
 # turtle totem
+twisted-up wet towel	Item Drop: [+25*zone(KOL High School)]
 # two-handed depthsword
 ultimate ultimate frisbee	Moxie: +2, Ranged Damage: +4
 vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5
@@ -3528,6 +3531,7 @@ Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Greased: Continually take damage
 Greased	Sleaze Damage: +20
 Greased-Up Familiar	Familiar Weight (hidden): [5*zone(The Sea)]
+Greaser Lightnin'	Moxie: +5, Item Drop: [25*loc(Art Class)]
 Greedy Resolve	Meat Drop: +30
 # Green, Uneasy: Makes you look like a frog
 Greasy Flavor	Weapon Damage: +30
@@ -3654,6 +3658,7 @@ Jackasses' Symphony of Destruction	Weapon Damage: +12, Spell Damage: +12
 Jalape&ntilde;o Saucesphere	Damage Reduction: 3
 # Jammin': Deal extra damage as the fight goes on
 # Jammin': and on...
+Jamming with the Jocks	Muscle: +5, Item Drop: [25*loc(Shop Class)]
 # Jay Walking: Makes you look like "Handyman" Jay Android
 # Jazz Hands
 Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
@@ -3776,6 +3781,7 @@ Natural 20	Initiative: +100
 Nature's Bounty	Maximum HP: +300
 Nauseated	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
 # Nerf'd: Less powerful than you were before
+Nerd is the Word	Mysticality: +5, Item Drop: [25*loc(Chemistry Class)]
 Net Gain	Muscle Percent: +100
 Nettled	Moxie Percent: -300
 Neuromancy	Mysticality Percent: +10
@@ -3795,6 +3801,7 @@ Nothing Is Impossible	Spell Damage Percent: +100
 Object Detection	Item Drop: +5
 Ocelot Eyes	Item Drop: +10
 # Ode to Booze: Booze tastes even more delicious!
+Ogred and Oublietted	Experience (Muscle): +1, Experience (Mysticality): +1
 Oh Snap	Experience (Moxie): +10
 Oiled-Up	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Oilsphere	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
@@ -3843,6 +3850,7 @@ Perceptive Pressure	Item Drop: +50
 Perfect Hair	Experience Percent (Moxie): +15
 Permafrosty	Cold Damage: +50
 Perspicacious Pressure	Mysticality Percent: +300
+# Phairly Balanced: Equalize all your stats to your highest stat
 Phairly Pheromonal	Familiar Weight: +4
 Pharmaceutically Cool	Experience Percent (Moxie): +20
 Phoenix, Right?	Experience: +6
@@ -3996,6 +4004,7 @@ Sleazy Hands	Sleaze Damage: +10, Sleaze Spell Damage: +20, Hot Resistance: +2, S
 Sleazy Weapon	Sleaze Damage: +3
 # Sleeping with the Fishes: Makes you sleep like the dead
 Sleepy	Muscle Percent: -30
+Slicked-Back Do	Moxie: +20
 Slimebreath	Monster Level: +50, Slime Resistance: +1
 # Slimed: Continually take damage
 Slimed	Spooky Damage: +20
@@ -4730,6 +4739,7 @@ Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5
 Nuclear Blastball	Effect: "Taste the Inferno", Effect Duration: 50
 O'RLY manual	Effect: "You Read The Manual", Effect Duration: 20
+Ogres and Oubliettes&trade; module	Effect: "Ogred and Oublietted", Effect Duration: 10
 Oil of Parrrlay	Effect: "Well-Oiled", Effect Duration: 5
 Okee-Dokee soda	Effect: "Sugar Rush", Effect Duration: 20
 Osk'r Chow	Effect: "Walking Carpet", Effect Duration: 100
@@ -5004,6 +5014,7 @@ gummi trilobite	Effect: "Sugar Rush", Effect Duration: 100
 gun cleaning kit	Effect: "Very Clean Guns", Effect Duration: 20
 haggis-infused soap	Effect: "Sheepskinned", Effect Duration: 20
 hair of the fish	Effect: "Antihangover", Effect Duration: 10
+hair oil	Effect: "Slicked-Back Do", Effect Duration: 10
 half-baked potion	Effect Duration: 5
 half-orchid	Effect: "Bestial Sympathy", Effect Duration: 10
 hand turkey outline	Free Pull
@@ -5108,6 +5119,7 @@ perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
 perpendicular guano	Effect: "Batted Around", Effect Duration: 30
 personal raindrop	Free Pull
 personalized coffee mug	Free Pull
+ph balancer	Effect: "Phairly Balanced", Effect Duration: 5
 phial of coldness	Effect: "Coldform", Effect Duration: 5
 phial of hotness	Effect: "Hotform", Effect Duration: 5
 phial of sleaziness	Effect: "Sleazeform", Effect Duration: 5

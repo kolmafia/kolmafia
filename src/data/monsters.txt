@@ -1481,3 +1481,23 @@ The Unkillable Skeleton	ukskeleton.gif	P: undead	Unkillable Skeleton's breastpla
 The Unkillable Skeleton (Hard Mode)	ukskeleton_hm.gif	P: undead	Unkillable Skeleton's breastplate (c0)	Unkillable Skeleton's shinguards (c0)	Unkillable Skeleton's skullcap (c0)	Unkillable Skeleton's sawsword (c0)	Unkillable Skeleton's shield (c0)	Unkillable Skeleton's restless leg (c0)	skull capacitor (100)	electric Kool-Aid (c0)
 Zombie Homeowners' Association	zombiehoa.gif	P: undead	zombie mariachi hat (c0)	zombie accordion (c0)	zombie mariachi pants (c0)	wriggling severed nose (c0)
 Zombie Homeowners' Association (Hard Mode)	zombiehoa_hm.gif	P: undead	zombie mariachi hat (c0)	zombie accordion (c0)	zombie mariachi pants (c0)	wriggling severed nose (c0)
+
+# KOLHS
+
+Bunsen burner and beaker	bunsen.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: -10000 P: construct
+clay golem	claygolem.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: -10000 P: construct
+deadly vise	vice.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: -10000 P: construct
+demonic jigsaw	jigsaw.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 20 P: demon
+dropped base	dropbase.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: slime
+dweebie	dweebie.gif	HP: [0.75*(MUS+max(ML,0))] Def: [MUS+max(ML,0)] Atk: [MOX+max(ML,0)] Init: 20 P: dude
+misproportioned portrait	badportrait.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: -10000 P: construct
+motorhead	motorhead.gif	HP: [0.75*(MUS+1+max(ML,0))] Def: [MUS+1+max(ML,0)] Atk: [MOX+1+max(ML,0)] Init: 40 P: dude
+Mrs. K, the Chemistry Teacher	chemteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6+max(ML,0)] Atk: [MOX+6+max(ML,0)] Init: 100 P: dude
+out-of-control bandsaw	bandsaw.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: construct
+possessed eyewashing station	eyewash.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: demon
+rulergheist	rulergolem.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 20 P: undead
+screw golem	screwgolem.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 40 P: construct
+sodium golem	sodium.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 40 P: construct
+sporto	sporto.gif	HP: [0.75*(MUS+2+max(ML,0))] Def: [MUS+2+max(ML,0)] Atk: [MOX+2+max(ML,0)] Init: 60 P: dude
+wastoid	wastoid.gif	HP: [0.75*(MUS-1+max(ML,0))] Def: [MUS-1+max(ML,0)] Atk: [MOX-1+max(ML,0)] Init: -10000 P: dude
+wire sculpture	wiresculpture.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 40 P: construct

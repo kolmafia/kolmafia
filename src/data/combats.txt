@@ -48,6 +48,7 @@ A Skeleton Invasion!	100	Skeleton Invader	Two Skeleton Invaders	Three Skeleton I
 An Octopus's Garden	95	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae	moister oyster: 0
 Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Anemone Mine	-1	Anemone Combatant	Killer Clownfish	Mer-kin Miner
+Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture
 Astral Mushroom (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Casey Kasem)	Trippy Floating Head (Grand Moff Tarkin)	Trippy Floating Head (Mona Lisa)	Zombie Baby
 Astral Mushroom (Great Trip)	100	Bustle in the Hedgerow	Gathering of Angels?	Higher Plane Serpents	Angels of Avalon	Elders of the Gentle Race
 Astral Mushroom (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
@@ -63,6 +64,7 @@ Bugbear Pens	100	Angry Bugbear: 3	Bugged Bugbear: 3	Mad Bugbears: 3	Revolting Bu
 Burnbarrel Blvd.	-1	Hot Hobo	Ol' Scratch: 0
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
 Chapel	100
+Chemistry Class	100	dropped base	sodium golem	Bunsen burner and beaker	possessed eyewashing station	Mrs. K, the Chemistry Teacher: 0
 Chinatown Shops	-1	grinning pork bun	lucky cat statue	roasted duck golem	yakuza courier: 0
 Chinatown Tenement	-1	desperate gold farmer	rabid MMO addict	yakuza thug	The Server: 0	White Bone Demon: 0
 Cobb's Knob Barracks	-1	Knob Goblin Elite Guard	Off-Duty Knob Goblin Elite Guard	Swarm of Knob Lice
@@ -156,6 +158,7 @@ Science Lab	-1
 Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	Cyborg Policeman	"Handyman" Jay Android	Liquid Metal Robot	Obese Tourist	Space Marine	Terrifying Robot
 Shivering Timbers	100	Deadwood Tree	Fur Tree	Hangman's Tree	Pumpkin Tree	Toilet-papered Tree	Underworld Tree: 0
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
+Shop Class	100	out-of-control bandsaw	deadly vise	demonic jigsaw	screw golem
 Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
 Sonar	-1
 Sonofa Beach	10	Lobsterfrogman
@@ -210,6 +213,7 @@ The Frat House (Bombed Back to the Stone Age)	100	Caveman Frat Boy	Caveman Frat 
 The Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant: 0	The Large-Bellied Snitch: 0
 The Haiku Dungeon	90	Amateur Ninja	Ancient Insane Monk	Ferocious Bugbear	Gelatinous Cube	Knob Goblin Poseur
+The Hallowed Halls	100	sporto	wastoid	dweebie	motorhead
 The Hatching Chamber	100	Larval Filthworm
 The Haunted Ballroom	80	Floating Platter of Hors D'Oeuvres	Ghastly Organist: 0	Zombie Waltzers	Tapdancing Skeleton
 The Haunted Bathroom	75	Claw-foot Bathtub	Malevolent Hair Clog	Toilet Papergeist	Guy Made Of Bees: 0
