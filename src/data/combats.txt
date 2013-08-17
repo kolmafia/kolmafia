@@ -159,7 +159,7 @@ Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	Cyborg Policem
 Shivering Timbers	100	Deadwood Tree	Fur Tree	Hangman's Tree	Pumpkin Tree	Toilet-papered Tree	Underworld Tree: 0
 Simple Tool-Making Cave	100	Flint-Scraping Cave Elf	Hunter-Gatherer Cave Elf	Rock-Banging Cave Elf	Sinew-Stretching Cave Elf
 Shop Class	100	out-of-control bandsaw	deadly vise	demonic jigsaw	screw golem
-Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
+The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
 Sonar	-1
 Sonofa Beach	10	Lobsterfrogman
 Sorceress' Hedge Maze	100	Topiary Golem
