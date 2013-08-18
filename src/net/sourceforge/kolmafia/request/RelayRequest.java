@@ -1164,8 +1164,9 @@ public class RelayRequest
 			return false;
 		}
 
-		// The Avatar of Boris and Jarlsberg, and Zombie Master, don't need a wand
-		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg() )
+		// Some paths don't need a wand
+		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg()
+		     || KoLCharacter.inHighschool() )
 		{
 			return false;
 		}
