@@ -2788,6 +2788,8 @@ Fam:Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 # Enthroned familiars section of modifiers.txt
 
 Throne:Adorable Seal Larva	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne:Adorable Space Buddy	Maximum HP: 30, Maximum MP: 30, MP Regen Min: 10, MP Regen Max: 12
+Throne:Angry Jung Man	Maximum HP: 10, Maximum MP: 10
 Throne:Ancient Yuletide Troll	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne:Angry Goat	Muscle Percent: +15
 Throne:Animated Macaroni Duck	Familiar Weight: +5
@@ -2833,6 +2835,7 @@ Throne:Flaming Gravy Fairy	Hot Damage: +20
 Throne:Frozen Gravy Fairy	Cold Damage: +20
 Throne:Frumious Bandersnatch	Experience: +2
 Throne:Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne:Gelatinous Cubeling	Familiar Weight: +5
 Throne:Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne:Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne:Gluttonous Green Ghost	Food Drop: +15
@@ -2847,6 +2850,7 @@ Throne:He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Hippo Ballerina	Meat Drop: +20
 Throne:Hobo Monkey	Meat Drop: +25
 Throne:Holiday Log	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+# Throne:Homemade Robot
 Throne:Hovering Skull	Experience (Moxie): +2
 Throne:Hovering Sombrero	Experience (Mysticality): +2
 Throne:Howling Balloon Monkey	Spell Damage Percent: +10
@@ -2866,9 +2870,12 @@ Throne:Llama Lama	Maximum HP: +10, Maximum MP: +10, MP Regen Min: 5, MP Regen Ma
 Throne:Magic Dragonfish	Spell Damage Percent: +15, HP Regen Min: 10, HP Regen Max: 10
 Throne:MagiMechTech MicroMechaMech	Muscle Percent: +15
 Throne:Mariachi Chihuahua	Experience (Moxie): +2
+Throne:Mechanical Songbird	Spell Damage Percent: 20, HP Regen Min: 5, HP Regen Max: 10
 Throne:Midget Clownfish	Spell Damage Percent: +10
+Throne:Mini-Adventurer	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10
 Throne:Mini-Hipster	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne:Mini-Skulldozer	Initiative: +20
+# Throne:MiniMechaElf
 Throne:Misshapen Animal Skeleton	Familiar Weight: +5
 Throne:Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Mutant Cactus Bud	Meat Drop: +20
@@ -2878,6 +2885,7 @@ Throne:Nanorhino	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +
 Throne:Nervous Tick	Experience (Moxie): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne:Ninja Pirate Zombie Robot	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne:Ninja Snowflake	Moxie Percent: +15, MP Regen Min: 5, MP Regen Max: 6
+Throne:Nosy Nose	Moxie Percent: 15
 Throne:O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
 Throne:Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne:Oily Woim	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -2925,6 +2933,7 @@ Throne:Teddy Borg	Initiative: +20
 Throne:Temporal Riftlet	Initiative: +20
 Throne:Tickle-Me Emilio	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne:Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne:Unconscious Collective	Maximum HP: 10, Maximum MP: 10
 Throne:Underworld Bonsai	Spell Damage Percent: +10
 Throne:Uniclops	Experience (Mysticality): +2
 Throne:Untamed Turtle	Initiative: +20
@@ -3650,6 +3659,7 @@ Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Insulated Trousers	Cold Resistance: +1
 # Iron Palms: Swords count as clubs
 Irresistible Resolve	Experience (Moxie): +2
+Isskay like an Ashtray	Moxie Percent: 20, Mysticality Percent: -20, Experience (Moxie): 2, Pickpocket Chance: 10
 It Didn't Kill You	Muscle Percent: +50
 # It's Electric!: Damages Attacking Opponents
 Izchak's Blessing	Moxie Percent: +25
@@ -3865,6 +3875,7 @@ Pisces in the Skyces	Spell Damage Percent: +150
 Pla-see-bo	Item Drop: +10
 Pneumatic	Adventure Underwater
 Pockets of Fire	Hot Damage: +10
+Poetically Licensed	Mysticality Percent: 20, Muscle Percent: -20, Experience (Mysticality): 2, Spell Damage Percent: 10
 Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Polka of Plenty	Meat Drop: +50
 # Polyphonic Yawn: Makes you look like a Drab Bard
@@ -3961,6 +3972,7 @@ Scariberi	Spooky Damage: [min(100,T)]
 Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
 Scavengers Scavenging	Item Drop: +20
 Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
+School Spirited	Meat Drop: +100, Item Drop: +50
 Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Seal Clubbing Frenzy	Muscle: +2
 Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
@@ -4206,6 +4218,7 @@ Thick, Sick	Damage Reduction: 5
 Thicker, Sicker	Damage Reduction: 15
 Thickest, Sickest	Damage Reduction: 30
 # Things Man Was Not Meant to Eat: Full of Loathing
+Things Man Was Not Meant to Eat	Spell Damage Percent: +100, Weapon Damage Percent: +50, Meat Drop: 20, Item Drop: 20, Initiative: 25, Damage Reduction: 10, Pickpocket Chance: 10
 Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Three Days Slow	Experience (familiar): +3
 # Three King-sized Sheets to the Wind: Makes you look like a Booze Giant

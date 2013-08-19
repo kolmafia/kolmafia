@@ -80,7 +80,7 @@ CRIMBCO WC	100	Elf Hobo
 Crimbo Town Toy Factory	100	Amateur Elf	Auteur Elf	Bolt-Cuttin' Elf	Monkey Wrenchin' Elf	Propaganda-Spewin' Elf	Provocateur Elf	Raconteur Elf	Saboteur Elf	Wire-Crossin' Elf
 Crimbokutown Toy Factory	100	Circuit-Soldering Animelf	Plastic-Extruding Animelf	Quality Control Animelf	Tiny-Screwing Animelf	Toy Assembling Animelf
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
-Daily Dungeon	-1	Apathetic Lizardman	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
+The Daily Dungeon	-1	Apathetic Lizardman	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
 Degrassi Knoll	80	Gnollish Crossdresser: 2	Gnollish Flyslayer: 2	Gnollish Gearhead: 3	Gnollish Piebaker: 2	Gnollish Plungermaster: 2	Gnollish Tirejuggler: 2	Gnollish War Chef: 2	Guard Bugbear: 2	One-Eyed Gnoll: 2
 Desert (Ultrahydrated)	100	Cactuary	Giant Giant Giant Centipede	Plaque of Locusts	Rock Scorpion	Swarm of Fire Ants
 Domed City of Ronaldus	100	Dogcat	Ferrelf	Hamsterpus	Overarmed Survivor	Primitive Survivor	Unlikely Survivor
