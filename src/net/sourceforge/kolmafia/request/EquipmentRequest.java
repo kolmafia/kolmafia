@@ -1478,6 +1478,15 @@ public class EquipmentRequest
 						continue;
 					}
 					slot = weapons[ weaponIndex++ ];
+					// A chefstaff must go in the weapon slot,
+					// but KoL does not always list it first.
+					if ( slot == EquipmentManager.OFFHAND &&
+					     EquipmentDatabase.isChefStaff( item ) )
+					{
+						// Move other weapon to offhand
+						newEquipment[ EquipmentManager.OFFHAND ] = newEquipment[ EquipmentManager.WEAPON ];
+						slot = EquipmentManager.WEAPON;
+					}
 					break;
 				default:
 					// Everything else goes into an
