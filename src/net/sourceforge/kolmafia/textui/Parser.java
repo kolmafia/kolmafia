@@ -3355,6 +3355,10 @@ public class Parser
 		{
 			return ( ltype == DataTypes.TYPE_INT && rtype == DataTypes.TYPE_INT );
 		}
+		if ( oper.isBoolean() )
+		{
+			return ltype == rtype && ( ltype == DataTypes.TYPE_BOOLEAN );
+		}
 		if ( oper.isLogical() )
 		{
 			return ltype == rtype && ( ltype == DataTypes.TYPE_INT || ltype == DataTypes.TYPE_BOOLEAN );
