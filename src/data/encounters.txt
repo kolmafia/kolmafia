@@ -49,67 +49,68 @@ Desert (Ultrahydrated)	STOP	The Sleeper Has Awakened
 The eXtreme Slope	STOP	3 eXXXtreme 4ever 6pack
 
 ### Semi-rare Adventures
+8-Bit Realm	SEMIRARE	Some Bricks Do, In Fact, Hang in the Air
+A Maze of Sewer Tunnels	SEMIRARE	C. H. U. M. chieftain
+A-Boo Peak	SEMIRARE	Oh, <i>There</i> Have it Gone
+An Octopus's Garden	SEMIRARE	moister oyster
+Battlefield (Cloaca Uniform)	SEMIRARE	Prior to Always
+Battlefield (Dyspepsi Uniform)	SEMIRARE	Prior to Always
+Battlefield (No Uniform)	SEMIRARE	Prior to Always
+Burnbarrel Blvd.	SEMIRARE	A Tight Squeeze
+Chapel	SEMIRARE	The Time This Fire
+Cobb's Knob Barracks	SEMIRARE	Knob Goblin Elite Guard Captain
+Cobb's Knob Harem	SEMIRARE	Hands On
+Cobb's Knob Kitchens	SEMIRARE	Knob Goblin Elite Guard Captain
+Cobb's Knob Laboratory	SEMIRARE	You Can Top Our Desserts, But You Can't Beat Our Meats
+Cobb's Knob Menagerie, Level 2	SEMIRARE	Rokay, Raggy!
+Cobb's Knob Treasury	SEMIRARE	Knob Goblin Embezzler
+Elf Alley	SEMIRARE	What a Tosser
+Exposure Esplanade	SEMIRARE	Cold Comfort
+Frat House	SEMIRARE	Sand in the Vaseline
+Frat House In Disguise	SEMIRARE	Sand in the Vaseline
+Guano Junction	SEMIRARE	Le Chauve-Souris du Parfum
+Hidden City (Encounter)	SEMIRARE	Two Sizes Too Small
+Hidden City (automatic)	SEMIRARE	Two Sizes Too Small
+Hippy Camp	SEMIRARE	The Latest Sorcerous Developments
+Hippy Camp In Disguise	SEMIRARE	The Latest Sorcerous Developments
+Itznotyerzitz Mine	SEMIRARE	7-Foot Dwarf Foreman
+Lair of the Ninja Snowmen	SEMIRARE	Not Quite as Cold as Ice
+Madness Reef	SEMIRARE	Dragon the Line
+Oil Peak	SEMIRARE	It's a Gas Gas Gas
+Pandamonium Slums	SEMIRARE	It's The Only Way To Be Sure
+Post-Cyrpt Cemetary	SEMIRARE	A Menacing Phantom
+Pre-Cyrpt Cemetary	SEMIRARE	A Menacing Phantom
+South of the Border	SEMIRARE	Filth, Filth, and More Filth
+The Ancient Hobo Burial Ground	SEMIRARE	Flowers for You
+The Batrat and Ratbat Burrow	SEMIRARE	How Does He Smell?
+The Brinier Deepers	SEMIRARE	The Haggling
+The Briny Deeps	SEMIRARE	Deeps Impact
+The Castle in the Clouds in the Sky (Basement)	SEMIRARE	Fit and Finish
+The Castle in the Clouds in the Sky (Ground Floor)	SEMIRARE	Ahead of the Game
+The Castle in the Clouds in the Sky (Top Floor)	SEMIRARE	All The Rave
+The Dark Elbow of the Woods	SEMIRARE	It's The Only Way To Be Sure
+The Dark Heart of the Woods	SEMIRARE	It's The Only Way To Be Sure
+The Dark Neck of the Woods	SEMIRARE	It's The Only Way To Be Sure
+The Dive Bar	SEMIRARE	Razor, Scooter
+The Goatlet	SEMIRARE	Natural Selection
+The Hallowed Halls	SEMIRARE	Through the Locking Glass
 The Haunted Billiards Room	SEMIRARE	A Shark's Chum
 The Haunted Kitchen	SEMIRARE	Play Misty For Me
 The Haunted Library	SEMIRARE	Like the Sunglasses, But Less Comfortable
 The Haunted Pantry	SEMIRARE	The Pilsbury Doughjerk
-The Sleazy Back Alley	SEMIRARE	In the Still of the Alley
-The Goatlet	SEMIRARE	Natural Selection
-Itznotyerzitz Mine	SEMIRARE	7-Foot Dwarf Foreman
-Lair of the Ninja Snowmen	SEMIRARE	Not Quite as Cold as Ice
-The Limerick Dungeon	SEMIRARE	The Bleary-Eyed Cyclops
-The Valley of Rof L'm Fao	SEMIRARE	Bad ASCII Art
-A-Boo Peak	SEMIRARE	Oh, <i>There</i> Have it Gone
-Twin Peak	SEMIRARE	Synecdoche, Twin Peak
-Oil Peak	SEMIRARE	It's a Gas Gas Gas
-Battlefield (No Uniform)	SEMIRARE	Prior to Always
-Battlefield (Cloaca Uniform)	SEMIRARE	Prior to Always
-Battlefield (Dyspepsi Uniform)	SEMIRARE	Prior to Always
-The Batrat and Ratbat Burrow	SEMIRARE	How Does He Smell?
-The Castle in the Clouds in the Sky (Basement)	SEMIRARE	Fit and Finish
-The Castle in the Clouds in the Sky (Ground Floor)	SEMIRARE	Ahead of the Game
-The Castle in the Clouds in the Sky (Top Floor)	SEMIRARE	All The Rave
-Guano Junction	SEMIRARE	Le Chauve-Souris du Parfum
-Cobb's Knob Harem	SEMIRARE	Hands On
-Cobb's Knob Barracks	SEMIRARE	Knob Goblin Elite Guard Captain
-Cobb's Knob Kitchens	SEMIRARE	Knob Goblin Elite Guard Captain
-Cobb's Knob Laboratory	SEMIRARE	You Can Top Our Desserts, But You Can't Beat Our Meats
-Cobb's Knob Menagerie, Level 2	SEMIRARE	Rokay, Raggy!
-Pre-Cyrpt Cemetary	SEMIRARE	A Menacing Phantom
-Post-Cyrpt Cemetary	SEMIRARE	A Menacing Phantom
-The Outskirts of Cobb's Knob	SEMIRARE	Lunchboxing
-Cobb's Knob Treasury	SEMIRARE	Knob Goblin Embezzler
-South of the Border	SEMIRARE	Filth, Filth, and More Filth
-The Dark Elbow of the Woods	SEMIRARE	It's The Only Way To Be Sure
-The Dark Heart of the Woods	SEMIRARE	It's The Only Way To Be Sure
-The Dark Neck of the Woods	SEMIRARE	It's The Only Way To Be Sure
-Pandamonium Slums	SEMIRARE	It's The Only Way To Be Sure
-Hidden City (automatic)	SEMIRARE	Two Sizes Too Small
-Hidden City (Encounter)	SEMIRARE	Two Sizes Too Small
-The Hidden Temple	SEMIRARE	Baa'baa'bu'ran
-8-Bit Realm	SEMIRARE	Some Bricks Do, In Fact, Hang in the Air
-The Spooky Forest	SEMIRARE	Blaaargh! Blaaargh!
-Whitey's Grove	SEMIRARE	Monty of County Crisco
-Hippy Camp	SEMIRARE	The Latest Sorcerous Developments
-Hippy Camp In Disguise	SEMIRARE	The Latest Sorcerous Developments
-Frat House	SEMIRARE	Sand in the Vaseline
-Frat House In Disguise	SEMIRARE	Sand in the Vaseline
-The Obligatory Pirate's Cove	SEMIRARE	Yo Ho Ho and a Bottle of Whatever This Is
-A Maze of Sewer Tunnels	SEMIRARE	C. H. U. M. chieftain
-Burnbarrel Blvd.	SEMIRARE	A Tight Squeeze
-Exposure Esplanade	SEMIRARE	Cold Comfort
 The Heap	SEMIRARE	Juicy!
-The Ancient Hobo Burial Ground	SEMIRARE	Flowers for You
-The Purple Light District	SEMIRARE	Maybe It's a Sexy Snake!
-The Briny Deeps	SEMIRARE	Deeps Impact
-The Brinier Deepers	SEMIRARE	The Haggling
-An Octopus's Garden	SEMIRARE	moister oyster
-The Wreck of the Edgar Fitzsimmons	SEMIRARE	Camera On, James
-The Dive Bar	SEMIRARE	Razor, Scooter
-Madness Reef	SEMIRARE	Dragon the Line
+The Hidden Temple	SEMIRARE	Baa'baa'bu'ran
+The Limerick Dungeon	SEMIRARE	The Bleary-Eyed Cyclops
 The Mer-Kin Outpost	SEMIRARE	A Drawer of Chests
-Chapel	SEMIRARE	The Time This Fire
-Elf Alley	SEMIRARE	What a Tosser
+The Obligatory Pirate's Cove	SEMIRARE	Yo Ho Ho and a Bottle of Whatever This Is
+The Outskirts of Cobb's Knob	SEMIRARE	Lunchboxing
+The Purple Light District	SEMIRARE	Maybe It's a Sexy Snake!
+The Sleazy Back Alley	SEMIRARE	In the Still of the Alley
+The Spooky Forest	SEMIRARE	Blaaargh! Blaaargh!
+The Valley of Rof L'm Fao	SEMIRARE	Bad ASCII Art
+The Wreck of the Edgar Fitzsimmons	SEMIRARE	Camera On, James
+Twin Peak	SEMIRARE	Synecdoche, Twin Peak
+Whitey's Grove	SEMIRARE	Monty of County Crisco
 
 ### Axecore Clancy Adventures
 A Barroom Brawl	BORIS	Jackin' the Jukebox
@@ -118,23 +119,23 @@ Icy Peak	BORIS	Mercury Rising
 The Middle Chamber	BORIS	Don't You Know Who I Am?
 
 ### Hobo code binder glyph Adventures
-The Penultimate Fantasy Airship	GLYPH	Number 163
-The Fun House	GLYPH	They Hate Mimes, Too
-The Enormous Greater-Than Sign	GLYPH	Elbereth? Who's Elbereth?
-The Battlefield (Frat Uniform)	GLYPH	God Bless, Bra
-Desert (Unhydrated)	GLYPH	How Dry I Am
-The Sleazy Back Alley	GLYPH	For Sale By Squatter
-Thugnderdome	GLYPH	Now You're a Hero
+Battlefield (No Uniform)	GLYPH	A Funny Thing Happened On the Way
 Belowdecks	GLYPH	My Little Stowaway
-Camp Logging Camp	GLYPH	Stumped
 Bugbear Pens	GLYPH	Bacon Bacon Bacon
-The Defiled Nook	GLYPH	They Gave at the Morgue
-The Poker Room	GLYPH	It's In the Cards
-The Road to White Citadel	GLYPH	Breakfast of Champions
-The Noob Cave	GLYPH	How Do I Shot Web?
+Camp Logging Camp	GLYPH	Stumped
 Cobb's Knob Menagerie, Level 3	GLYPH	He's a Melancholy Drunk
-The Limerick Dungeon	GLYPH	Thud
+Desert (Unhydrated)	GLYPH	How Dry I Am
 Lair of the Ninja Snowmen	GLYPH	Not So Much With the Corncob Pipes, Either.
 Pre-Cyrpt Cemetary	GLYPH	They Hate That
-Battlefield (No Uniform)	GLYPH	A Funny Thing Happened On the Way
+The Battlefield (Frat Uniform)	GLYPH	God Bless, Bra
+The Defiled Nook	GLYPH	They Gave at the Morgue
+The Enormous Greater-Than Sign	GLYPH	Elbereth? Who's Elbereth?
+The Fun House	GLYPH	They Hate Mimes, Too
+The Limerick Dungeon	GLYPH	Thud
+The Noob Cave	GLYPH	How Do I Shot Web?
+The Penultimate Fantasy Airship	GLYPH	Number 163
+The Poker Room	GLYPH	It's In the Cards
+The Road to White Citadel	GLYPH	Breakfast of Champions
+The Sleazy Back Alley	GLYPH	For Sale By Squatter
 The eXtreme Slope	GLYPH	Not a Standard-Issue Windowsill, Obviously
+Thugnderdome	GLYPH	Now You're a Hero
