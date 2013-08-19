@@ -174,6 +174,12 @@ public class Operator
 			this.operator.equals( "**" );
 	}
 
+	public boolean isBoolean()
+	{
+		return this.operator.equals( "&&" ) ||
+			this.operator.equals( "||" );
+	}
+
 	public boolean isLogical()
 	{
 		return this.operator.equals( "&" ) ||
