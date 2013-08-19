@@ -1333,12 +1333,12 @@
 1332	Spooky Hands	flask_spooky.gif	45f0f990b69897625af21b3236cd0dcc	use 1 lotion of spookiness
 1333	Stinky Hands	flask_stench.gif	aa5c772bd5d7990e26db44a0859969e8	use 1 lotion of stench
 1334	Sleazy Hands	flask_sleaze.gif	efe6d7516b7e272f7b9f6b630e888a6a	use 1 lotion of sleaziness
-1335
-1336
-1337
+1335	Poetically Licensed	quillpen.gif	a4e46e6c60b4956e4fba3df4436ed775
+1336	Isskay like an Ashtray	stogie.gif	daa99a979f0652399222e165588e3a17
+1337	School Spirited	mortarboard.gif	1d5e5a1ca817b2bf0a28db19762965ba
 1338	Jamming with the Jocks	sportoint.gif	9bc41c0d4e7c443e50ce3fe824fbe9d6
 1339	Nerd is the Word	nerdint.gif	e45f7eeddd4f3afe1c4883d8d98c6d33
-1340	Greaser Lightnin;	greaserint.gif	43060d043c807a8717c216f19e4a5b73
+1340	Greaser Lightnin'	greaserint.gif	43060d043c807a8717c216f19e4a5b73
 1341	Ogred and Oublietted	oandomodule.gif	4859a8d90141d3bbfdc62d8acdc1f923	use 1 Ogres and Oubliettes&trade; module
 1342	Slicked-Back Do	greaserint.gif		f9c4145cc96ab8b3479d3eb88696da8b	use 1 hair oil
 1343	Armor-Plated	scrapmetal.gif	af863a714dd04140f2d4efdaa64d57d5	use 1 scrap metal
