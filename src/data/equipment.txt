@@ -1923,6 +1923,7 @@ ring of adornment	80	Mys: 25
 ring of aggravate monster	80	Mys: 25
 ring of cold resistance	80	Mys: 25
 ring of conflict	80	Mys: 25
+ring of Detect Boring Doors	0	none
 ring of fire resistance	80	Mys: 25
 ring of gain strength	80	Mys: 25
 ring of half-assed regeneration	50	none
