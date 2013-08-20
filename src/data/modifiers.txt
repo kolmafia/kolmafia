@@ -288,6 +288,7 @@ parasitic headgnawer	Familiar Effect: "atk, cap 7"
 party hat	MP Regen Min: [3*J], MP Regen Max: [5*J], Mysticality: +3, Familiar Effect: "4xLep, cap 7"
 passable elf mask	Familiar Effect: "atk, cap 2"
 pentacorn hat	Familiar Effect: "atk, cap 10"
+pickelhaube	Weapon Damage: +5, Weapon Damage Percent: +10
 pig-iron helm	Muscle: +7, Weapon Damage: +10, Familiar Effect: "1xFairy, cap 22"
 pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
 pixel hat	Moxie: +2, Muscle: +2, Mysticality: +2, Familiar Effect: "atk, 2xVolley, cap 12"
@@ -1106,7 +1107,7 @@ linoleum staff	Mysticality: +7, Spell Damage: +7
 linoleum sword	Muscle: +7, Spell Damage: +7
 little paper umbrella	Spell Damage: +1
 live wire	Weapon Damage: +3, MP Regen Min: 2, MP Regen Max: 3
-logging axe	Weapon Damage: +5
+logging hatchet	Weapon Damage: +5
 # lucky ball-and-chain
 lupine sword	Spooky Damage: +9, Synergetic
 machetito	Weapon Damage: +9

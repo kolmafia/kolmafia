@@ -1340,7 +1340,7 @@
 1339	Nerd is the Word	nerdint.gif	e45f7eeddd4f3afe1c4883d8d98c6d33
 1340	Greaser Lightnin'	greaserint.gif	43060d043c807a8717c216f19e4a5b73
 1341	Ogred and Oublietted	oandomodule.gif	4859a8d90141d3bbfdc62d8acdc1f923	use 1 Ogres and Oubliettes&trade; module
-1342	Slicked-Back Do	greaserint.gif		f9c4145cc96ab8b3479d3eb88696da8b	use 1 hair oil
+1342	Slicked-Back Do	greaserint.gif	f9c4145cc96ab8b3479d3eb88696da8b	use 1 hair oil
 1343	Armor-Plated	scrapmetal.gif	af863a714dd04140f2d4efdaa64d57d5	use 1 scrap metal
 1344
 1345

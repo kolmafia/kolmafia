@@ -1674,13 +1674,12 @@ public class ItemDatabase
 		{
 		case ItemPool.FOLDER_01: case ItemPool.FOLDER_02: case ItemPool.FOLDER_03: case ItemPool.FOLDER_04:
 		case ItemPool.FOLDER_05: case ItemPool.FOLDER_07: case ItemPool.FOLDER_09: case ItemPool.FOLDER_10:
-		case ItemPool.FOLDER_12: case ItemPool.FOLDER_13: case ItemPool.FOLDER_15: case ItemPool.FOLDER_24: 
-		case ItemPool.FOLDER_26:
+		case ItemPool.FOLDER_12: case ItemPool.FOLDER_13: case ItemPool.FOLDER_24: case ItemPool.FOLDER_26:
 			return "folder2.gif";
 		case ItemPool.FOLDER_06: case ItemPool.FOLDER_08: case ItemPool.FOLDER_11: case ItemPool.FOLDER_14:
-		case ItemPool.FOLDER_16: case ItemPool.FOLDER_17: case ItemPool.FOLDER_18: case ItemPool.FOLDER_19:
-		case ItemPool.FOLDER_20: case ItemPool.FOLDER_21: case ItemPool.FOLDER_22: case ItemPool.FOLDER_23: 
-		case ItemPool.FOLDER_25: case ItemPool.FOLDER_27:
+		case ItemPool.FOLDER_15: case ItemPool.FOLDER_16: case ItemPool.FOLDER_17: case ItemPool.FOLDER_18:
+		case ItemPool.FOLDER_19: case ItemPool.FOLDER_20: case ItemPool.FOLDER_21: case ItemPool.FOLDER_22:
+		case ItemPool.FOLDER_23: case ItemPool.FOLDER_25: case ItemPool.FOLDER_27: case ItemPool.FOLDER_28:
 			return "folder1.gif";
 		default:
 			return imageById.get( itemId );

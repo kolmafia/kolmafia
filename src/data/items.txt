@@ -294,7 +294,7 @@ s1
 277	extra-strength strongness elixir	567949941	potion3.gif	multiple	t,d	150	extra-strength strongness elixirs
 278	jug-o-magicalness	845914991	jug.gif	multiple	t,d	150	jugs-o-magicalness
 279	suntan lotion of moxiousness	220707790	lotion.gif	multiple	t,d	150	suntan lotions of moxiousness
-280	Pick-O-Matic lockpicks	920494634	lockpicks.gif	none	t,d	15	sets of Pick-O-Matic lockpicks
+280	Pick-O-Matic lockpicks	920494634	lockpicks.gif	none	t,d	50	sets of Pick-O-Matic lockpicks
 281	gasmask	992191060	gasmask.gif	hat	t	0	gasmasks
 282	Boris's key	893993624	keya.gif	none, matchable	q	0	Boris's keys
 283	Jarlsberg's key	127501978	keyb.gif	none, matchable	q	0	Jarlsberg's keys
@@ -6024,7 +6024,7 @@ s1
 6007	Gauntlets of the Blood Moon	147906553	wtbgauntlets.gif	accessory	d	2000	pairs of Gauntlets of the Blood Moon
 6008	Boots of Twilight Whispers	514515678	wtbboots.gif	accessory	d	2000	pairs of Boots of Twilight Whispers
 6009	Belt of Howling Anger	117771924	wtbbelt.gif	accessory	d	2000
-6010	logging axe	825250350	loggingaxe.gif	weapon	t	0
+6010	logging hatchet	825250350	hatchet.gif	weapon	t	0
 6011	orc wrist	143621823	orcwrist.gif	accessory	t,d	45
 6012	freshwater pearl necklace	555121884	candynecklace.gif	accessory	t,d	95
 6013	orcish stud-finder	655691201	studfinder.gif	offhand	t,d	60
@@ -6385,7 +6385,7 @@ s1
 6368	Mer-kin hallpass	492118546	lamcard.gif	none	t,d	35
 6369	lump of clay	224876067	clayglob.gif	usable	t,d	8
 6370	twisted piece of wire	562580616	wiretwist.gif	none, combat	t,d	7
-6371
+6371	can of the cheapest beer	189574585	beer.gif	drink	t,d	5
 6372	bottle of fruity &quot;wine&quot;	317445968	wine.gif	drink	t,d	10
 6373	single swig of vodka	907908271	bottle.gif	drink	t,d	20
 6374	angry inch	834940676	angryinch.gif	none, combat	t,d	5
@@ -6429,14 +6429,14 @@ s1
 6412	shaking skull	638617403	shakeskull.gif	usable		0	shaking skulls
 6413	Order of the Green Thumb Order Form	975397883	floristform.gif	usable	t	0	Order of the Green Thumb Order Forms
 6414	clutch of dodecapede eggs	999095226	centeggs.gif	none, combat	t,d	50
-6415
+6415	flavorless gruel	352861418	soupbowl.gif	food	t,d	40
 6416	mana curds	869235275	mueslix.gif	food	t,d	45
 6417	twist of lime	126733688	wiretwist.gif	none	t,d	25
-6418
+6418	pencil stub	209681472	pencilstub.gif	none, combat	t,d	60
 6419
 6420	glob of spoiled mayo	732163485	blankoutglob.gif	usable	t,d	37
 6421	tonic djinn	944827285	djinnbottle.gif	usable	t,d	77
-6422
+6422	vampire chowder	749554356	soupbowl.gif	food	t,d	35
 6423	Tales of Dread	885005203	book3.gif	reusable		0	copies of Tales of Dread
 6424	Dreadsylvanian skeleton key	539373127	dv_key.gif	none	t	0	Dreadsylvanian skeleton keys
 6425	Official Seal of Dreadsylvania	158915306	dvtat.gif	usable		0	Official Seals of Dreadsylvania
@@ -6668,10 +6668,10 @@ s1
 6651	twisted-up wet towel	870690670	wettowel.gif	weapon	t,d	10
 6652	stepmom's booze	387234257	wine2.gif	drink	t,d	10
 6653	surgical tape	112683501	surgicaltape.gif	none, combat	t,d	25
-6654	metal band T-shirt	387855470	btee2.gif	shirt		t,d	30
-6655	fountain 'soda'	930162345	fountaindrink.gif	drink		t,d	10
+6654	metal band T-shirt	387855470	btee2.gif	shirt	t,d	30
+6655	fountain 'soda'	930162345	fountaindrink.gif	drink	t,d	10
 6656	illegal firecracker	236206665	bigfirecracker.gif	none, combat	t,d	20
-6657
+6657	pickelhaube	400228822	pickelhaube.gif	hat	t,d	35
 6658	hair oil	188501537	motoroil.gif	usable	t,d	15
 6659	scrap metal	682691090	scrapmetal.gif	usable	t,d	20
 6660
