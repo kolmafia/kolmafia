@@ -6316,8 +6316,8 @@ s1
 6299	model airship	142932299	modelairship.gif	none	q	0
 6300	Super Weight-Gain 9000	665126071	pill.gif	usable	t	0
 6301	possibility potion	419795453	potion4.gif	usable	t	0
-6302
-6303
+6302	eleven-foot pole	137857715	10footpole.gif	none	t	0
+6303	ring of Detect Boring Doors	611897363	weddingring.gif	accessory	t	0
 6304	Jarlsberg's pan (Cosmic portal mode)	642644188	path12icon.gif	offhand	t	0
 6305	Jarlsberg's pan	908839142	jarl_fry.gif	offhand	t	0
 6306	Cosmic Calorie	986883912	cosmiccalorie.gif	multiple		0	Cosmic Calories
@@ -6428,14 +6428,14 @@ s1
 6411
 6412	shaking skull	638617403	shakeskull.gif	usable		0	shaking skulls
 6413	Order of the Green Thumb Order Form	975397883	floristform.gif	usable	t	0	Order of the Green Thumb Order Forms
-6414
+6414	clutch of dodecapede eggs	999095226	centeggs.gif	none, combat	t,d	50
 6415
-6416
-6417
+6416	mana curds	869235275	mueslix.gif	food	t,d	45
+6417	twist of lime	126733688	wiretwist.gif	none	t,d	25
 6418
 6419
-6420
-6421
+6420	glob of spoiled mayo	732163485	blankoutglob.gif	usable	t,d	37
+6421	tonic djinn	944827285	djinnbottle.gif	usable	t,d	77
 6422
 6423	Tales of Dread	885005203	book3.gif	reusable		0	copies of Tales of Dread
 6424	Dreadsylvanian skeleton key	539373127	dv_key.gif	none	t	0	Dreadsylvanian skeleton keys

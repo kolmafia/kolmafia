@@ -1342,3 +1342,7 @@
 1341	Ogred and Oublietted	oandomodule.gif	4859a8d90141d3bbfdc62d8acdc1f923	use 1 Ogres and Oubliettes&trade; module
 1342	Slicked-Back Do	greaserint.gif		f9c4145cc96ab8b3479d3eb88696da8b	use 1 hair oil
 1343	Armor-Plated	scrapmetal.gif	af863a714dd04140f2d4efdaa64d57d5	use 1 scrap metal
+1344
+1345
+1346
+1347	Mayeaugh	blankoutglob.gif	60664e31f3af2a0da746fb5102080eaa	use 1 glob of spoiled mayo

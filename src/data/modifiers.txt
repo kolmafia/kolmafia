@@ -2200,6 +2200,7 @@ ring of adornment	Moxie: +10
 ring of aggravate monster	Monster Level: +5
 ring of cold resistance	Cold Resistance: +2
 ring of conflict	Combat Rate: -5, Single Equip
+# ring of Detect Boring Doors: Detects Boring Doors (Duh)
 ring of fire resistance	Hot Resistance: +2
 ring of gain strength	Muscle: +10
 # ring of half-assed regeneration: Sporadic HP Regeneration
@@ -3741,6 +3742,7 @@ Mariachi Mood	Maximum HP: +3, Moxie: +1
 Mark of Candy Cain	Critical Hit Percent: +20, Spell Critical Percent: +20
 # Matador Nemesis: Makes you look like a raging bull
 Material Witness	Meat Drop: +10
+# Mayeaugh: Deals Sleaze Damage every round.
 Meatwise	Meat Drop: +35
 Meaty and Cheesy	Muscle Percent: [min(200,5*T)]
 Melancholy Burden	Item Drop: +60
@@ -4943,6 +4945,7 @@ eel battery	Effect: "It's Electric!", Effect Duration: 15
 elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
 electric Kool-Aid	Effect: "Electric, Kool", Effect Duration: 50
+# eleven-foot pole: You know... For traps.
 elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 embezzler's oil	Effect: "Robbin' Like a Goblin", Effect Duration: 50
 emo roe	Free Pull
@@ -5006,6 +5009,7 @@ glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
 glass of warm milk	Effect: "Polyphonic Yawn", Effect Duration: 30
 glass of warm water	Free Pull
 glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
+glob of spoiled mayo	Effect: "Mayeaugh", Effect Duration: 10
 glowing frisbee	Free Pull
 glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
 gold star	Effect: "Healthy Blue Glow", Effect Duration: 10
