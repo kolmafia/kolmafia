@@ -55,6 +55,8 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
+import net.sourceforge.kolmafia.request.FightRequest;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
@@ -610,6 +612,7 @@ public class ProxyRecordValue
 			.add( "bounty", DataTypes.ITEM_TYPE )
 			.add( "combat_queue", DataTypes.STRING_TYPE )
 			.add( "noncombat_queue", DataTypes.STRING_TYPE )
+			.add( "kisses", DataTypes.INT_TYPE )
 			.finish( "location proxy" );
 
 		public LocationProxy( Value obj )
@@ -694,6 +697,11 @@ public class ProxyRecordValue
 			}
 
 			return builder.toString();
+		}
+
+		public int get_kisses()
+		{
+			return FightRequest.dreadKisses( (KoLAdventure)this.content );
 		}
 	}
 

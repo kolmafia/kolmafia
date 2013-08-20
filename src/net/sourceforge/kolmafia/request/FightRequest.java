@@ -167,6 +167,10 @@ public class FightRequest
 	private static boolean isAutomatingFight = false;
 	private static boolean isUsingConsultScript = false;
 
+	private static int dreadWoodsKisses = 0;
+	private static int dreadTownKisses = 0;
+	private static int dreadCastleKisses = 0;
+
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
 	private static final Pattern CONDITIONAL_COMBATSKILL_PATTERN = Pattern.compile( "<option[^>]*?value=\"(7\\d{3,3})[^>]*?>[^>]*?\\((\\d+)[^<]*</option>" );
 
@@ -437,6 +441,23 @@ public class FightRequest
 	{
 		FightRequest.canSteal = KoLCharacter.isMoxieClass();
 		FightRequest.canSummon = KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER;
+	}
+
+	public static final void resetKisses()
+	{
+		FightRequest.dreadWoodsKisses = 0;
+		FightRequest.dreadTownKisses = 0;
+		FightRequest.dreadCastleKisses = 0;
+	}
+
+	public static final int dreadKisses( final KoLAdventure location )
+	{
+		String name = location.getAdventureName();
+		return
+			name.endsWith( "Woods" ) ? FightRequest.dreadWoodsKisses :
+			name.endsWith( "Town" ) ? FightRequest.dreadTownKisses :
+			name.endsWith( "Castle" ) ? FightRequest.dreadCastleKisses :
+			0;
 	}
 
 	@Override
@@ -4557,6 +4578,11 @@ public class FightRequest
 		}
 		else if ( name.equals( "p" ) )
 		{
+			if ( FightRequest.handleKisses( node, status ) )
+			{
+				return;
+			}
+
 			StringBuffer text = node.getText();
 			String str = text.toString();
 
@@ -4703,6 +4729,67 @@ public class FightRequest
 				continue;
 			}
 		}
+	}
+
+	private static boolean handleKisses( TagNode node, TagStatus status )
+	{
+		TagNode span = node.getName().equals( "span" ) ? node : node.findElementByName( "span", true );
+		if ( span == null )
+		{
+			return false;
+		}
+
+		String title = span.getAttributeByName( "title" );
+		if ( title == null || !title.contains( "kiss" ) )
+		{
+			return false;
+		}
+
+		// 1 kiss for winning
+		int index = title.indexOf( " " );
+		if ( index < 0 )
+		{
+			return true;
+		}
+
+		StringBuffer text = span.getText();
+		String str = text.toString();
+
+		// Log the actual kiss message
+		FightRequest.logText( str, status );
+
+		// *** For debugging, log the "title" attribute
+		FightRequest.logText( title, status );
+
+		KoLAdventure location = KoLAdventure.lastVisitedLocation();
+		if ( location == null )
+		{
+			return true;
+		}
+
+		String zone = location.getZone();
+		if ( !zone.equals( "Dreadsylvania" ) )
+		{
+			return true;
+		}
+
+		int kisses = StringUtilities.parseInt( title.substring( 0, index ) );
+		String name = location.getAdventureName();
+
+		if ( name.endsWith( "Woods" ) )
+		{
+			FightRequest.dreadWoodsKisses = kisses;
+		}
+		else if ( name.endsWith( "Town" ) )
+		{
+			FightRequest.dreadTownKisses = kisses;
+		}
+		else if ( name.endsWith( "Castle" ) )
+		{
+			FightRequest.dreadCastleKisses = kisses;
+		}
+
+		return true;
 	}
 
 	private static void processComments( TagNode node, TagStatus status )
