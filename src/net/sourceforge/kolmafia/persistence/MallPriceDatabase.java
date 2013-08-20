@@ -43,6 +43,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 
 import java.util.ArrayList;
@@ -67,6 +68,9 @@ public class MallPriceDatabase
 	private static final HashSet<String> updated = new HashSet<String>();
 	private static final HashSet<String> submitted = new HashSet<String>();
 	private static int modCount = 0;
+
+	private static final int CONNECT_TIMEOUT = 15 * 1000;
+
 	static
 	{
 		updatePrices( "mallprices.txt", false );
@@ -241,12 +245,12 @@ public class MallPriceDatabase
 
 		try
 		{
-			HttpURLConnection con = (HttpURLConnection)
-				new URL( url ).openConnection();
+
+			HttpURLConnection con = (HttpURLConnection) new URL( url ).openConnection();
+			con.setConnectTimeout( CONNECT_TIMEOUT );
 			con.setDoInput( true );
 			con.setDoOutput( true );
-			con.setRequestProperty( "Content-Type",
-			"multipart/form-data; boundary=--blahblahfishcakes" );
+			con.setRequestProperty( "Content-Type", "multipart/form-data; boundary=--blahblahfishcakes" );
 			con.setRequestMethod( "POST" );
 			con.setRequestProperty( "Connection", "close" );
 			OutputStream o = con.getOutputStream();
@@ -283,6 +287,11 @@ public class MallPriceDatabase
 			{
 				RequestLogger.printLine( "Error " + responseCode + ": " + response );
 			}
+		}
+		catch ( SocketTimeoutException e )
+		{
+			RequestLogger.printLine( "Connection timed out: " + e );
+			return;
 		}
 		catch ( Exception e )
 		{
