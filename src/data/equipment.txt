@@ -215,6 +215,7 @@ parasitic headgnawer	30	none
 party hat	30	none
 passable elf mask	10	none
 pentacorn hat	40	Mox: 5
+pickelhaube	75	Mox: 22
 pig-iron helm	90	Mox: 30
 pimpin' meat hat	55	Mox: 12
 pixel hat	50	Mox: 10
@@ -961,7 +962,7 @@ linoleum staff	120	Mus: 45	2-handed staff
 linoleum sword	110	Mus: 40	2-handed sword
 little paper umbrella	30	Mus: 0	1-handed umbrella
 live wire	10	Mus: 0	1-handed whip
-logging axe	75	Mus: 22	1-handed axe
+logging hatchet	75	Mus: 22	1-handed axe
 lucky ball-and-chain	130	Mox: 50	2-handed flail
 lupine sword	115	Mus: 42	1-handed sword
 machetito	110	Mus: 40	1-handed sword
@@ -1177,7 +1178,7 @@ Crimbo light-up Rudolph doll	0	none
 Crimbo stogie-scented room odorizer	0	none
 Crimbo tree flocker	0	none
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
-Drunkula's wineglass	0	Mys: 100
+Drunkula's wineglass	300	Mys: 100
 Dungeon Fist gauntlet	100	Mus: 35
 Dyspepsi-Cola shield	70	none	shield
 Ellsbury's skull	100	Mys: 35
@@ -1186,7 +1187,7 @@ Gazpacho's Glacial Grimoire	30	none
 Glass Balls of the Goblin King	70	Mys: 20
 Great Wolf's left paw	300	Mus: 250
 Grey Guanon	0	Mys: 15
-HOA regulation book	0	Mus: 100 shield
+HOA regulation book	350	Mus: 100	shield
 Hodgman's almanac	200	Mys: 200
 Hodgman's cane	200	Mys: 200
 Hodgman's garbage sticker	200	Mox: 200
@@ -1263,7 +1264,7 @@ ancient stone head	85	Mus: 27	shield
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none
 antique shield	230	Mus: 85	shield
-antique spyglass	0	Mys: 200
+antique spyglass	225	Mys: 200
 arrow'd heart balloon	10	none
 astral shield	50	none	shield
 astral statuette	50	none
@@ -1537,7 +1538,7 @@ Codpiece of the Goblin King	70	Mys: 20
 Copper Alpha of Sincerity	200	Mys: 85
 Counterclockwise Watch	200	none
 Dreadsylvania Auditor's badge	250	Mys: 200
-Drunkula's ring of haze	0	Mys: 100
+Drunkula's ring of haze	300	Mys: 100
 Duskwalker fangs	105	Mys: 37
 Dyspepsi-Cola-issue canteen	30	none
 E.M.U. Unit	0	none
@@ -1563,8 +1564,8 @@ Grimacite gauntlets	0	Mys: 15
 Grimacite girdle	0	Mys: 15
 Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
-HOA zombie eyes	0	Mys: 100
-Helps-You-Sleep	0	Mox: 100
+HOA zombie eyes	300	Mys: 100
+Helps-You-Sleep	300	Mox: 100
 Hodgman's bow tie	200	Mys: 200
 Hodgman's lucky sock	200	Mys: 200
 Ice-Cold Aluminum Necklace	150	Mys: 60
