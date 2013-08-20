@@ -98,7 +98,7 @@ public class DrinkItemRequest
 			return 0;
 		}
 
-		if ( KoLCharacter.inHighschool() &&
+		if ( KoLCharacter.inHighschool() && !itemName.equals( "steel margarita" ) &&
 		     ( ItemDatabase.getNotes( itemName ) == null || !ItemDatabase.getNotes( itemName ).startsWith( "KOLHS" ) ) )
 		{
 			UseItemRequest.limiter = "your unrefined palate";
