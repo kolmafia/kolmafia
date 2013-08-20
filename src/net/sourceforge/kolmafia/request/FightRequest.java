@@ -4733,7 +4733,7 @@ public class FightRequest
 
 	private static boolean handleKisses( TagNode node, TagStatus status )
 	{
-		TagNode span = node.getName().equals( "span" ) ? node : node.findElementByName( "span", true );
+		TagNode span = node.findElementByName( "span", true );
 		if ( span == null )
 		{
 			return false;
