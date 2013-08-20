@@ -696,7 +696,8 @@ public class UseItemEnqueuePanel
 			{
 				AdventureResult item = creation.getItem();
 				String name = item != null ? item.getName() : null;
-				if ( name != null && ( ItemDatabase.getNotes( name ) == null || !ItemDatabase.getNotes( name ).startsWith( "KOLHS" ) ) )
+				if ( name != null && !name.equals( "steel margarita" ) &&
+				     ( ItemDatabase.getNotes( name ) == null || !ItemDatabase.getNotes( name ).startsWith( "KOLHS" ) ) )
 				{
 					return false;
 				}
