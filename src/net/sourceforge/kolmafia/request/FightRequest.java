@@ -4731,6 +4731,8 @@ public class FightRequest
 		}
 	}
 
+	public static final Pattern KISS_PATTERN = Pattern.compile( "(\\d+) kiss(?:es)? for winning(?: \\+(\\d+) for difficulty)?" );
+
 	private static boolean handleKisses( TagNode node, TagStatus status )
 	{
 		TagNode span = node.findElementByName( "span", true );
@@ -4745,9 +4747,8 @@ public class FightRequest
 			return false;
 		}
 
-		// 1 kiss for winning
-		int index = title.indexOf( " " );
-		if ( index < 0 )
+		KoLAdventure location = KoLAdventure.lastVisitedLocation();
+		if ( location == null || !location.getZone().equals( "Dreadsylvania" ) )
 		{
 			return true;
 		}
@@ -4761,19 +4762,29 @@ public class FightRequest
 		// *** For debugging, log the "title" attribute
 		FightRequest.logText( title, status );
 
-		KoLAdventure location = KoLAdventure.lastVisitedLocation();
-		if ( location == null )
+		// 1 kiss for winning
+		// 1 kiss for winning +1 for difficulty
+		// 100 kisses for winning +100 for difficulty x2 for Hard Mode
+
+		Matcher matcher = FightRequest.KISS_PATTERN.matcher( title );
+		if ( !matcher.find() )
 		{
 			return true;
 		}
 
-		String zone = location.getZone();
-		if ( !zone.equals( "Dreadsylvania" ) )
+		int kisses = StringUtilities.parseInt( matcher.group(1) );
+
+		if ( kisses > 1 )
 		{
-			return true;
+			// It's a boss and the zone is finished
+			kisses = 0;
+		}
+		else if ( matcher.group(2) != null )
+		{
+			// The zone had elevated difficulty
+			kisses += StringUtilities.parseInt( matcher.group(2) );
 		}
 
-		int kisses = StringUtilities.parseInt( title.substring( 0, index ) );
 		String name = location.getAdventureName();
 
 		if ( name.endsWith( "Woods" ) )
