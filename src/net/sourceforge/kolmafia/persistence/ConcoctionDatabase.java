@@ -1411,7 +1411,7 @@ public class ConcoctionDatabase
 		// The gnomish tinkerer is available if the person is in a
 		// gnome sign and they can access the Desert Beach.
 
-		if ( KoLCharacter.gnomadsAvailable() || !KoLCharacter.inZombiecore() )
+		if ( KoLCharacter.gnomadsAvailable() && !KoLCharacter.inZombiecore() )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.GNOME_TINKER );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.GNOME_TINKER, 0 );
