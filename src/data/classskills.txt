@@ -469,7 +469,7 @@
 7147
 7148
 7149
-7150
+7150	Fire Death Ray	5	0	0
 7151	Stomp Ass	5	0	0
 7152	Brand	5	0	0
 7153	Violent Gaze	5	0	0
@@ -478,6 +478,14 @@
 7156	Static Shock	5	0	0
 7157	Hateful Gaze	5	0	0
 7158	Tighten Girdle	5	0	0
+7159	Hide Behind a Tree	5	0	0
+7160	Dive Into a Puddle	5	0	0
+7161	Hide Under a Rock	5	0	0
+7162
+7163
+7164
+7165
+7166	Get a Good Whiff of This Guy	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 
@@ -588,6 +596,7 @@
 12031	Recruit Zombie	1	0	0
 
 # Avatar of Jarlsberg
+
 14000	Curdle	5	0	0
 14001	Conjure Eggs	1	10	0
 14002	Conjure Dough	1	30	0
@@ -597,6 +606,8 @@
 14006	Early Riser	0	0	0
 14007	The Most Important Meal	0	0	0
 14008	Coffeesphere	3	10	20
+14009
+14010
 14011	Conjure Vegetables	1	10	0
 14012	Conjure Cheese	1	30	0
 14013	Slice	5	20	0
@@ -605,6 +616,8 @@
 14016	Working Lunch	0	0	0
 14017	Lunch Like a King	0	0	0
 14018	Oilsphere	3	10	20
+14019
+14020
 14021	Conjure Meat Product	1	30	0
 14022	Conjure Potato	1	10	0
 14023	Bake	5	5	0
@@ -613,6 +626,8 @@
 14026	Food Coma	0	0	0
 14027	Never Late for Dinner	0	0	0
 14028	Gristlesphere	3	10	20
+14029
+14030
 14031	Conjure Cream	1	30	0
 14032	Conjure Fruit	1	10	0
 14033	Freeze	5	5	0
