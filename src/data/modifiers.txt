@@ -3022,6 +3022,7 @@ filth-encrusted futon	Stench Resistance: +2
 frigid air mattress	Cold Resistance: +2
 gauze hammock	Bonus Resting HP: +60
 gingerbread house	Base Resting HP: +69, Base Resting MP: +70
+giant Faraday cage	Base Resting HP: +50, Base Resting MP: +50
 ginormous pumpkin	Base Resting HP: +49, Base Resting MP: +50
 hobo fortress blueprints	Base Resting HP: +84, Base Resting MP: +85
 house of twigs and spit	Base Resting HP: +59, Base Resting MP: +60

@@ -1734,6 +1734,7 @@ public class ItemPool
 	public static final int FOLDER_26 = 6643;
 	public static final int FOLDER_27 = 6644;
 	public static final int FOLDER_28 = 6645;
+	public static final int GIANT_FARADAY_CAGE = 6668;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
