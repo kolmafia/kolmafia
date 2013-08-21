@@ -191,7 +191,7 @@ public abstract class ChoiceManager
 		public ChoiceAdventure( final String zone, final String setting, final String name, final String[] options,
 			final String[] items )
 		{
-			this.zone = (String) AdventureDatabase.PARENT_ZONES.get( zone );
+			this.zone = zone;
 			this.setting = setting;
 			this.name = name;
 			this.options = options;

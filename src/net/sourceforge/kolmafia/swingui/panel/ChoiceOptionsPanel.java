@@ -824,7 +824,7 @@ public class ChoiceOptionsPanel
 			{
 				return;
 			}
-			String zone = location.getParentZone();
+			String zone = location.getZone();
 			if ( zone.equals( "Item-Driven" ) )
 			{
 				ChoiceOptionsPanel.this.setSelectedIndex( 1 );
