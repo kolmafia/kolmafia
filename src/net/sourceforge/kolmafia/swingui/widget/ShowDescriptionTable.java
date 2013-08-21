@@ -37,10 +37,14 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.SystemColor;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -51,14 +55,15 @@ import java.util.regex.Pattern;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.decorator.FilterPipeline;
 import org.jdesktop.swingx.table.ColumnControlButton;
 import org.jdesktop.swingx.table.TableColumnExt;
 
@@ -322,6 +327,9 @@ public class ShowDescriptionTable
 		this.setDefaultRenderer( JButton.class, new DescriptionTableRenderer( this.originalModel, flags ) );
 		
 		this.setIntercellSpacing( new Dimension( 0, 0 ) );
+		
+		// install a handler to provide saner clipboard behavior
+		this.setTransferHandler( new ClipboardHandler() );
 	}
 
 	protected void fireSearch( String searchField )
@@ -533,6 +541,53 @@ public class ShowDescriptionTable
 				}
 
 				ShowDescriptionTable.this.contextMenu.show( e.getComponent(), e.getX(), e.getY() );
+			}
+		}
+	}
+
+	public class ClipboardHandler
+		extends TransferHandler
+	{
+		@Override
+		protected Transferable createTransferable( JComponent c )
+		{
+			JTable t = (JTable) c;
+			return new Selection( t );
+		}
+
+		@Override
+		public int getSourceActions( JComponent c )
+		{
+			return COPY;
+		}
+
+		class Selection
+			implements Transferable
+		{
+			private final JTable delegate;
+			private final List<DataFlavor> flavors = new ArrayList<DataFlavor>();
+
+			public Selection( JTable t )
+			{
+				this.flavors.add( DataFlavor.stringFlavor );
+				this.delegate = t;
+			}
+
+			public DataFlavor[] getTransferDataFlavors()
+			{
+				return flavors.toArray( new DataFlavor[ 0 ] );
+			}
+
+			public boolean isDataFlavorSupported( DataFlavor flavor )
+			{
+				return flavors.contains( flavor );
+			}
+
+			public Object getTransferData( DataFlavor flavor )
+				throws UnsupportedFlavorException, IOException
+			{
+				int row = delegate.getSelectedRow();
+				return delegate.getValueAt( row, 0 ).toString();
 			}
 		}
 	}
