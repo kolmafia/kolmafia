@@ -1259,7 +1259,7 @@
 1258	Jiggu... What?	lightning.gif	499218be7c7f2e9fc54ce359c1ea529a
 1259	More Like a Suckrament	fish.gif	0c62a64c5e0586d7bbffa70e2c4cddee
 1260	A Hole in the World	stareffect.gif	70d27aadf5e48a2369de13385b6892e2
-1261
+1261	Cut But Not Dried	bigdumbbell.gif	91ce073b539d004b561ceed07a2b7b63
 1262	Everything Must Go!	skull.gif	fc67a39dfb2d17e5a3bd5d55acdca81b	use 1 violent pastilles
 1263	Predjudicetidigitation	angry.gif	33e3993e62a2a62fe24a14cffe778719	use 1 worst candy
 1264	Things Man Was Not Meant to Eat	fudgehole.gif	d90b373695c4e0bcb71d3487de57edd4	use 1 fudge-shaped hole in space-time
@@ -1271,8 +1271,8 @@
 1270	Staying Frosty	snowflake.gif	ff84e190cf7652cc5df1b02ca08e5408
 1271	Magically Fingered	hand.gif	4a1c031eb4a18e72c32a062c1375b7de
 1272	Spore-Wreathed	disease.gif	c55e48535fee03e82fc2cb91f79d36c9
-1273	Brass Loins	flask.gif	a614dc2ae977f948665b230f5723b567
-1274	Silver Age Secrets	flask.gif	1839cbfe882d9243964d9097c1a3b0a6
+1273	Brass Loins	flask.gif	a614dc2ae977f948665b230f5723b567	use 1 brass Dreadsylvanian flask
+1274	Silver Age Secrets	flask.gif	1839cbfe882d9243964d9097c1a3b0a6	use 1 silver Dreadsylvanian flask
 1275	The Tunger&trade;	tongue.gif	c943b9c96abc7cad0c1590b489173576	use 1 Hunger&trade; Sauce
 1276	Touched by a Ghost	dv_spirit.gif	7f2193ace92f52dfccfd7065a9cb52a3
 1277	Chilled to the Bone	snowflake.gif	8b1a1c598f840f75834b9e525f55fdae
@@ -1342,7 +1342,7 @@
 1341	Ogred and Oublietted	oandomodule.gif	4859a8d90141d3bbfdc62d8acdc1f923	use 1 Ogres and Oubliettes&trade; module
 1342	Slicked-Back Do	greaserint.gif	f9c4145cc96ab8b3479d3eb88696da8b	use 1 hair oil
 1343	Armor-Plated	scrapmetal.gif	af863a714dd04140f2d4efdaa64d57d5	use 1 scrap metal
-1344
+1344	Uncaged Power	faraday.gif	42a059ec52faec3eae460b5290f38b0f
 1345
-1346
+1346	Slightly Larger Than Usual	moth.gif	544f2cfabb3b6764c04b75dd22630438
 1347	Mayeaugh	blankoutglob.gif	60664e31f3af2a0da746fb5102080eaa	use 1 glob of spoiled mayo
