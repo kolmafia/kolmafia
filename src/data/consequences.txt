@@ -200,3 +200,16 @@ MONSTER	Shadow Accordion Thief	.	"Your Shadow"
 MONSTER	Shadow Avatar of Boris	.	"Your Shadow"
 MONSTER	Shadow Zombie Master	.	"Your Shadow"
 MONSTER	Shadow Avatar of Jarlsberg	.	"Your Shadow"
+
+MONSTER	11-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	10-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	9-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	8-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	7-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	6-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	5-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	4-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	3-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	2-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	1-fingered Shop Teacher	.	X-fingered Shop Teacher
+MONSTER	No-fingered Shop Teacher	.	X-fingered Shop Teacher
