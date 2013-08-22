@@ -3332,6 +3332,7 @@ Curse of Vulnerability	Damage Absorption: -500, Damage Reduction: -50
 Curse of Weakness	Weapon Damage Percent: -50, Spell Damage Percent: -50
 # Curse of the Black Pearl Onion: Nasty belches during combat
 # Cursed by The RNG: ???
+Cut But Not Dried	Muscle Percent: +20, Moxie Percent: -20, Experience (Muscle): +2, Weapon Damage Percent: +10
 Cuts Like a Buttered Knife	Sleaze Damage: +50
 Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
 Cybernetic Muscles	Muscle Percent: +10
@@ -4023,6 +4024,7 @@ Sleazy Weapon	Sleaze Damage: +3
 # Sleeping with the Fishes: Makes you sleep like the dead
 Sleepy	Muscle Percent: -30
 Slicked-Back Do	Moxie: +20
+Slightly Larger Than Usual	Muscle: +10, Mysticality: +10, Moxie: +10
 Slimebreath	Monster Level: +50, Slime Resistance: +1
 # Slimed: Continually take damage
 Slimed	Spooky Damage: +20
@@ -4258,6 +4260,7 @@ Twinklebritches	Damage Reduction: 3
 Twinkly Weapon	Weapon Damage: +3
 # Two Left Feet
 # Ultrahydrated: Glug, Glug
+Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
 # Uncertain: Muscle and Moxie +/- ???
 Unpopular	Monster Level: +30
 Unusual Fashion Sense	Damage Absorption: +50
@@ -4859,6 +4862,7 @@ bottle of rhinoceros hormones	Effect: "'Roids of the Rhinoceros", Effect Duratio
 bottled green pixie	Free Pull
 bottled inspiration	Effect: "Inspired!", Effect Duration: 10
 box of sunshine	Free Pull
+brass Dreadsylvanian flask	Effect: "Brass Loins", Effect Duration: 100
 breath mint	Effect: "Sugar Rush", Effect Duration: 3
 brick	Free Pull
 brigand brittle	Effect: "Bandananit", Effect Duration: 50
