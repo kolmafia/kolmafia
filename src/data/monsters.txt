@@ -1492,7 +1492,7 @@ dropped base	dropbase.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] At
 dweebie	dweebie.gif	HP: [0.75*(MUS+max(ML,0))] Def: [MUS+max(ML,0)] Atk: [MOX+max(ML,0)] Init: 20 P: dude
 misproportioned portrait	badportrait.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: -10000 P: construct
 motorhead	motorhead.gif	HP: [0.75*(MUS+1+max(ML,0))] Def: [MUS+1+max(ML,0)] Atk: [MOX+1+max(ML,0)] Init: 40 P: dude
-Mrs. K, the Chemistry Teacher	chemteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6+max(ML,0)] Atk: [MOX+6+max(ML,0)] Init: 100 P: dude
+Mrs. K, the Chemistry Teacher	chemteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6+max(ML,0)] Atk: [MOX+6+max(ML,0)] Init: 100 P: dude	chlorine crystal (100)	ph balancer (100)	mysterious chemical residue (100)	nugget of sodium (100)
 out-of-control bandsaw	bandsaw.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: construct
 possessed eyewashing station	eyewash.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: demon
 rulergheist	rulergolem.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 20 P: undead
@@ -1501,3 +1501,4 @@ sodium golem	sodium.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk:
 sporto	sporto.gif	HP: [0.75*(MUS+2+max(ML,0))] Def: [MUS+2+max(ML,0)] Atk: [MOX+2+max(ML,0)] Init: 60 P: dude
 wastoid	wastoid.gif	HP: [0.75*(MUS-1+max(ML,0))] Def: [MUS-1+max(ML,0)] Atk: [MOX-1+max(ML,0)] Init: -10000 P: dude
 wire sculpture	wiresculpture.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 40 P: construct
+X-fingered Shop Teacher	shopteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6+max(ML,0)] Atk: [MOX+6+max(ML,0)] Init: 100 P: dude	jigsaw blade (100)	wood screw (100)	balsa plank (100)	blob of wood glue (100)

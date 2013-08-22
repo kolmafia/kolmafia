@@ -58,6 +58,7 @@ Battlefield (Dyspepsi Uniform)	SEMIRARE	Prior to Always
 Battlefield (No Uniform)	SEMIRARE	Prior to Always
 Burnbarrel Blvd.	SEMIRARE	A Tight Squeeze
 Chapel	SEMIRARE	The Time This Fire
+Chemistry Class	SEMIRARE	Mrs. K, the Chemistry Teacher
 Cobb's Knob Barracks	SEMIRARE	Knob Goblin Elite Guard Captain
 Cobb's Knob Harem	SEMIRARE	Hands On
 Cobb's Knob Kitchens	SEMIRARE	Knob Goblin Elite Guard Captain
@@ -80,6 +81,7 @@ Oil Peak	SEMIRARE	It's a Gas Gas Gas
 Pandamonium Slums	SEMIRARE	It's The Only Way To Be Sure
 Post-Cyrpt Cemetary	SEMIRARE	A Menacing Phantom
 Pre-Cyrpt Cemetary	SEMIRARE	A Menacing Phantom
+Shop Class	SEMIRARE	X-fingered Shop Teacher
 South of the Border	SEMIRARE	Filth, Filth, and More Filth
 The Ancient Hobo Burial Ground	SEMIRARE	Flowers for You
 The Batrat and Ratbat Burrow	SEMIRARE	How Does He Smell?
