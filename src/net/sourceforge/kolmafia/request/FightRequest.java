@@ -4759,9 +4759,6 @@ public class FightRequest
 		// Log the actual kiss message
 		FightRequest.logText( str, status );
 
-		// *** For debugging, log the "title" attribute
-		FightRequest.logText( title, status );
-
 		// 1 kiss for winning
 		// 1 kiss for winning +1 for difficulty
 		// 100 kisses for winning +100 for difficulty x2 for Hard Mode

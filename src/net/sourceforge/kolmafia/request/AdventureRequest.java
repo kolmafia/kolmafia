@@ -548,29 +548,39 @@ public class AdventureRequest
 		return AdventureRequest.translateGenericType( encounter, responseText );
 	}
 
-	private static final Pattern MONSTER_NAME1 = Pattern.compile( "<span id='monname'(>| title=\")([^<]*?)(</span>|\">)", Pattern.DOTALL );
-	private static final Pattern MONSTER_NAME2 = Pattern.compile( "<b>.*?<b>(.*?):?<", Pattern.DOTALL );
+	private static final Pattern [] MONSTER_NAME_PATTERNS =
+	{
+		Pattern.compile( "You're fighting <span id='monname'>(.*?)</span>", Pattern.DOTALL ),
+		Pattern.compile( "<b>.*?(<b>.*?:?</b>.*?)<br>", Pattern.DOTALL ),
+	};
 
 	private static final String parseCombatEncounter( final String responseText )
 	{
-		String name;
+		String name = null;
 
-		Matcher matcher = MONSTER_NAME1.matcher( responseText );
-		if ( !matcher.find() )
+		for ( int i = 0; i < MONSTER_NAME_PATTERNS.length; ++i )
 		{
-			matcher = MONSTER_NAME2.matcher( responseText );
-			if ( !matcher.find() )
+			Matcher matcher = MONSTER_NAME_PATTERNS[i].matcher( responseText );
+			if ( matcher.find() )
 			{
-				return "";
+				name = matcher.group(1);
+				break;
 			}
-			name = matcher.group(1);
-		}
-		else
-		{
-			name = matcher.group(2);
 		}
 
+		if ( name == null )
+		{
+			return "";
+		}
+
+		// If the name has bold markup, strip formatting
+		name = StringUtilities.globalStringReplace( name, "<b>", "" );
+		name = StringUtilities.globalStringReplace( name, "</b>", "" );
+
+		// Canonicalize
 		name = CombatActionManager.encounterKey( name, false );
+
+		// Coerce name if needed
 		if ( name.equalsIgnoreCase( fromName ) )
 		{
 			name = CombatActionManager.encounterKey( toName, false );
