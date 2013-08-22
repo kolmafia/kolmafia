@@ -6680,11 +6680,11 @@ s1
 6663
 6664
 6665
-6666
+6666	giant eraser	530310946	bigeraser.gif	none, combat	q	0
 6667
 6668	giant Faraday cage	646917799	faraday.gif	usable	q	0
-6669
-6670
+6669	modeling claymore	283407190	claymoremine.gif	usable	q	0
+6670	sticky clay homunculus	476523278	clayhomunc.gif	none, combat	q	0
 6671
 6672
 6673
