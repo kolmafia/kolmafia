@@ -168,7 +168,7 @@ public class FightRequest
 	private static boolean isUsingConsultScript = false;
 
 	private static int dreadWoodsKisses = 0;
-	private static int dreadTownKisses = 0;
+	private static int dreadVillageKisses = 0;
 	private static int dreadCastleKisses = 0;
 
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
@@ -446,7 +446,7 @@ public class FightRequest
 	public static final void resetKisses()
 	{
 		FightRequest.dreadWoodsKisses = 0;
-		FightRequest.dreadTownKisses = 0;
+		FightRequest.dreadVillageKisses = 0;
 		FightRequest.dreadCastleKisses = 0;
 	}
 
@@ -455,7 +455,7 @@ public class FightRequest
 		String name = location.getAdventureName();
 		return
 			name.endsWith( "Woods" ) ? FightRequest.dreadWoodsKisses :
-			name.endsWith( "Town" ) ? FightRequest.dreadTownKisses :
+			name.endsWith( "Village" ) ? FightRequest.dreadVillageKisses :
 			name.endsWith( "Castle" ) ? FightRequest.dreadCastleKisses :
 			0;
 	}
@@ -4319,8 +4319,8 @@ public class FightRequest
 					MonsterStatusTracker.damageMonster( damage );
 				}
 
-				// If it's not combat damage, perhaps it's a stat gain
-				else if ( str.startsWith( "You gain" ) )
+				// If it's not combat damage, perhaps it's a stat gain or loss
+				else if ( str.startsWith( "You gain" ) || str.startsWith( "You lose" ) )
 				{
 					status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
 				}
@@ -4788,9 +4788,9 @@ public class FightRequest
 		{
 			FightRequest.dreadWoodsKisses = kisses;
 		}
-		else if ( name.endsWith( "Town" ) )
+		else if ( name.endsWith( "Village" ) )
 		{
-			FightRequest.dreadTownKisses = kisses;
+			FightRequest.dreadVillageKisses = kisses;
 		}
 		else if ( name.endsWith( "Castle" ) )
 		{
