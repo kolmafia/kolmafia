@@ -2919,8 +2919,9 @@ public abstract class ChoiceManager
 
 		case 606:
 			// Lost in the Great Overlook Lodge
-			result = ChoiceManager.dynamicChoiceSpoilers( 6, choice, "Lost in the Great Overlook Lodge" );
-			// Fill in Jar of Oil corresponding to choice "Follow the faint sound of music"
+			result = ChoiceManager.dynamicChoiceSpoilers( 4, choice, "Lost in the Great Overlook Lodge" );
+
+			// Fill in items corresponding to choices
 			result[ 3 ][ 2 ] = "5353";
 			return result;
 
@@ -2933,19 +2934,163 @@ public abstract class ChoiceManager
 		case 638:
 		case 639:
 			// Old Man psychoses
-			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "First Mate's Log Entry" );
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "First Mate's Log Entry" );
 
 		case 669:
 			// The Fast and the Furry-ous
-			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "The Fast and the Furry-ous" );
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Fast and the Furry-ous" );
 
 		case 670:
 			// You Don't Mess Around with Gym
-			return ChoiceManager.dynamicChoiceSpoilers( 5, choice, "You Don't Mess Around with Gym" );
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "You Don't Mess Around with Gym" );
 
 		case 678:
 			// Yeah, You're for Me, Punk Rock Giant
-			return ChoiceManager.dynamicChoiceSpoilers( 4, choice, "Yeah, You're for Me, Punk Rock Giant" );
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Yeah, You're for Me, Punk Rock Giant" );
+
+		case 721:
+			// The Cabin in the Dreadsylvanian Woods
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Cabin in the Dreadsylvanian Woods" );
+
+		case 722:
+			// The Kitchen in the Woods
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Kitchen in the Woods" );
+
+		case 723:
+			// What Lies Beneath (the Cabin)
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "What Lies Beneath (the Cabin)" );
+
+		case 724:
+			// Where it's Attic
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Where it's Attic" );
+
+		case 725:
+			// Tallest Tree in the Forest
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Tallest Tree in the Forest" );
+
+		case 726:
+			// Top of the Tree, Ma!
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Top of the Tree, Ma!" );
+
+		case 727:
+			// All Along the Watchtower
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "All Along the Watchtower" );
+
+		case 728:
+			// Treebasing
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Treebasing" );
+
+		case 729:
+			// Below the Roots
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Below the Roots" );
+
+		case 730:
+			// Hot Coals
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Hot Coals" );
+
+		case 731:
+			// The Heart of the Matter
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Heart of the Matter" );
+
+		case 732:
+			// Once Midden, Twice Shy
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Once Midden, Twice Shy" );
+
+		case 733:
+			// Dreadsylvanian Village Square
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Dreadsylvanian Village Square" );
+
+		case 734:
+			// Fright School
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Fright School" );
+
+		case 735:
+			// Smith, Black as Night
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Smith, Black as Night" );
+
+		case 736:
+			// Gallows
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Gallows" );
+
+		case 737:
+			// The Even More Dreadful Part of Town
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Even More Dreadful Part of Town" );
+
+		case 738:
+			// A Dreadful Smell
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "A Dreadful Smell" );
+
+		case 739:
+			// The Tinker's. Damn.
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Tinker's. Damn." );
+
+		case 740:
+			// Eight, Nine, Tenement
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Eight, Nine, Tenement" );
+
+		case 741:
+			// The Old Duke's Estate
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Old Duke's Estate" );
+
+		case 742:
+			// The Plot Thickens
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Plot Thickens" );
+
+		case 743:
+			// No Quarter
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "No Quarter" );
+
+		case 744:
+			// The Master Suite -- Sweet!
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Master Suite -- Sweet!" );
+
+		case 745:
+			// This Hall is Really Great
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "This Hall is Really Great" );
+
+		case 746:
+			// The Belle of the Ballroom
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Belle of the Ballroom" );
+
+		case 747:
+			// Cold Storage
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Cold Storage" );
+
+		case 748:
+			// Dining In (the Castle)
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Dining In (the Castle)" );
+
+		case 749:
+			// Tower Most Tall
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Tower Most Tall" );
+
+		case 750:
+			// Working in the Lab, Late One Night
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Working in the Lab, Late One Night" );
+
+		case 751:
+			// Among the Quaint and Curious Tomes.
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Among the Quaint and Curious Tomes." );
+
+		case 752:
+			// In The Boudoir
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "In The Boudoir" );
+
+		case 753:
+			// The Dreadsylvanian Dungeon
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Dreadsylvanian Dungeon" );
+
+		case 754:
+			// Live from Dungeon Prison
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Live from Dungeon Prison" );
+
+		case 755:
+			// The Hot Bowels
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "The Hot Bowels" );
+
+		case 756:
+			// Among the Fungus
+			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Among the Fungus" );
 
 		case 758:
 			// End of the Path
@@ -2958,6 +3103,12 @@ public abstract class ChoiceManager
 		case 760:
 			// Holding Court
 			return ChoiceManager.dynamicChoiceSpoilers( 3, choice, "Holding Court" );
+
+		// Choice 761 is Staring Upwards...
+		// Choice 762 is Try New Extra-Strength Anvil
+		// Choice 764 is The Machine
+		// Choice 765 is Hello Gallows
+			// xyzzy
 		}
 		return null;
 	}
@@ -3363,9 +3514,10 @@ public abstract class ChoiceManager
 		case 669:
 			// The Fast and the Furry-ous
 			result = new String[ 4 ];
-			boolean umbrellaOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TITANIUM_UMBRELLA, 1 ) );
-			result [ 0 ] = umbrellaOn ? "open Ground Floor (titanium umbrella equipped)" :
-				  "Neckbeard Choice (titanium umbrella not equipped)";
+			result [ 0 ] =
+				KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TITANIUM_UMBRELLA, 1 ) ) ? 
+				"open Ground Floor (titanium umbrella equipped)" :
+				"Neckbeard Choice (titanium umbrella not equipped)";
 			result [ 1 ] = "200 Moxie substats";
 			result [ 2 ] = "";
 			result [ 3 ] = "skip adventure and guarantees this adventure will reoccur";
@@ -3377,19 +3529,682 @@ public abstract class ChoiceManager
 			result [ 0 ] = "massive dumbbell, then skip adventure";
 			result [ 1 ] = "200 Muscle substats";
 			result [ 2 ] = "pec oil, giant jar of protein powder, Squat-Thrust Magazine";
-			boolean amuletOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.EXTREME_AMULET, 1 ) );
-			result [ 3 ] = amuletOn ? "open Ground Floor (amulet equipped)" : "skip adventure (amulet not equipped)";
+			result [ 3 ] =
+				KoLCharacter.hasEquipped( ItemPool.get( ItemPool.EXTREME_AMULET, 1 ) ) ?
+				"open Ground Floor (amulet equipped)" :
+				"skip adventure (amulet not equipped)";
 			result [ 4 ] = "skip adventure and guarantees this adventure will reoccur";
 			return result;
 
 		case 678:
 			// Yeah, You're for Me, Punk Rock Giant
 			result = new String[ 4 ];
-			boolean mohawkOn = KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MOHAWK_WIG, 1 ) );
-			result[ 0 ] = mohawkOn ? "Finish quest (mohawk wig equipped)" : "Fight Punk Rock Giant (mohawk wig not equipped)";
+			result[ 0 ] =
+				KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MOHAWK_WIG, 1 ) ) ?
+				"Finish quest (mohawk wig equipped)" :
+				"Fight Punk Rock Giant (mohawk wig not equipped)";
 			result[ 1 ] = "500 meat";
 			result[ 2 ] = "";
 			result[ 3 ] = "Raver Choice";
+			return result;
+
+		case 721:
+		{
+			// The Cabin in the Dreadsylvanian Woods
+
+			result = new String[ 6 ];
+
+			StringBuilder buffer = new StringBuilder();
+			buffer.append( "dread tarragon" );
+			if ( KoLCharacter.isMuscleClass() )
+			{
+				buffer.append( ", old dry bone (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.OLD_DRY_BONE ) ) );
+				buffer.append( ") -> bone flour" );
+			}
+			buffer.append( ", -stench" );
+			result[ 0 ] = buffer.toString();	// The Kitchen
+
+			buffer.setLength( 0 );
+			buffer.append( "Freddies" );
+			buffer.append( ", Bored Stiff (+100 spooky damage)" );
+			if ( InventoryManager.getCount( ItemPool.REPLICA_KEY ) > 0 )
+			{
+				buffer.append( ", replica key (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.REPLICA_KEY ) ) );
+				buffer.append( ") -> Dreadsylvanian auditor's badge" );
+			}
+			if ( InventoryManager.getCount( ItemPool.WAX_BANANA ) > 0 )
+			{
+				buffer.append( ", wax banana (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.WAX_BANANA ) ) );
+				buffer.append( ") -> complicated lock impression" );
+			}
+			result[ 1 ] = buffer.toString();	// The Cellar
+
+			buffer.setLength( 0 );
+			ChoiceManager.lockSpoiler( buffer );
+			buffer.append( "-spooky" );
+			if ( KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF )
+			{
+				buffer.append( " + intricate music box parts" );
+			}
+			buffer.append( ", fewer werewolves" );
+			buffer.append( ", fewer vampires" );
+			buffer.append( ", +Moxie" );
+			result[ 2 ] = buffer.toString();	// The Attic (locked)
+
+			result[ 4 ] = ChoiceManager.shortcutSpoiler( "ghostPencil1" );
+			result[ 5 ] = "Leave this noncombat";
+			return result;
+		}
+
+		case 722:
+			// The Kitchen in the Woods
+			result = new String[ 6 ];
+			result[ 0 ] = "dread tarragon";
+			result[ 1 ] = "old dry bone (" + String.valueOf( InventoryManager.getCount( ItemPool.OLD_DRY_BONE ) ) + ") -> bone flour";
+			result[ 2 ] = "-stench";
+			result[ 5 ] = "Return to The Cabin";
+			return result;
+
+		case 723:
+			// What Lies Beneath (the Cabin)
+			result = new String[ 6 ];
+			result[ 0 ] = "Freddies";
+			result[ 1 ] = "Bored Stiff (+100 spooky damage)";
+			result[ 2 ] = "replica key (" + String.valueOf( InventoryManager.getCount( ItemPool.REPLICA_KEY ) ) + ") -> Dreadsylvanian auditor's badge";
+			result[ 3 ] = "wax banana (" + String.valueOf( InventoryManager.getCount( ItemPool.WAX_BANANA ) ) + ") -> complicated lock impression";
+			result[ 5 ] = "Return to The Cabin";
+			return result;
+
+		case 724:
+			// Where it's Attic
+			result = new String[ 6 ];
+			result[ 0 ] = "-spooky" + ( KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF  ? " + intricate music box parts" : "" );
+			result[ 1 ] = "fewer werewolves";
+			result[ 2 ] = "fewer vampires";
+			result[ 3 ] = "+Moxie";
+			result[ 5 ] = "Return to The Cabin";
+			return result;
+
+		case 725:
+		{
+			// Tallest Tree in the Forest
+
+			result = new String[ 6 ];
+
+			StringBuilder buffer = new StringBuilder();
+			if ( KoLCharacter.isMuscleClass() )
+			{
+				buffer.append( "drop blood kiwi" );
+				buffer.append( ", -sleaze" );
+				buffer.append( ", moon-amber" );
+			}
+			else
+			{
+				buffer.append( "unavailable (Muscle class only)" );
+			}
+			result[ 0 ] = buffer.toString();	// Climb tree (muscle only)
+
+			buffer.setLength( 0 );
+			ChoiceManager.lockSpoiler( buffer );
+			buffer.append( "fewer ghosts" );
+			buffer.append( ", Freddies" );
+			buffer.append( ", +Muscle" );
+			result[ 1 ] = buffer.toString();	// Fire Tower (locked)
+
+			buffer.setLength( 0 );
+			buffer.append( "blood kiwi (from above)" );
+			buffer.append( ", Dreadsylvanian seed pod" );
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.FOLDER_HOLDER, 1 ) ) )
+			{
+				buffer.append( ", folder (owl)" );
+			}
+
+			result[ 2 ] = buffer.toString();	// Base of tree
+
+			result[ 4 ] = ChoiceManager.shortcutSpoiler( "ghostPencil2" );
+			result[ 5 ] = "Leave this noncombat";
+			return result;
+		}
+
+		case 726:
+			// Top of the Tree, Ma!
+			result = new String[ 6 ];
+			result[ 0 ] = "drop blood kiwi";
+			result[ 1 ] = "-sleaze";
+			result[ 2 ] = "moon-amber";
+			result[ 5 ] = "Return to The Tallest Tree";
+			return result;
+
+		case 727:
+			// All Along the Watchtower
+			result = new String[ 6 ];
+			result[ 0 ] = "fewer ghosts";
+			result[ 1 ] = "Freddies";
+			result[ 2 ] = "+Muscle";
+			result[ 5 ] = "Return to The Tallest Tree";
+			return result;
+
+		case 728:
+			// Treebasing
+			result = new String[ 6 ];
+			result[ 0 ] = "blood kiwi (from above)";
+			result[ 1 ] = "Dreadsylvanian seed pod";
+			result[ 2 ] = "folder (owl)";
+			result[ 5 ] = "Return to The Tallest Tree";
+			return result;
+
+		case 729:
+		{
+			// Below the Roots
+
+			result = new String[ 6 ];
+
+			StringBuilder buffer = new StringBuilder();
+			buffer.append( "-hot" );
+			buffer.append( ", Dragged Through the Coals (+100 hot damage)" );
+			buffer.append( ", old ball and chain (" );
+			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.OLD_BALL_AND_CHAIN ) ) );
+			buffer.append( ") -> cool iron ingot" );
+			result[ 0 ] = buffer.toString();	// Hot
+
+			buffer.setLength( 0 );
+			buffer.append( "-cold" );
+			buffer.append( ", +Mysticality" );
+			buffer.append( ", Nature's Bounty (+300 max HP)" );
+			result[ 1 ] = buffer.toString();	// Cold
+
+			buffer.setLength( 0 );
+			buffer.append( "fewer bugbears" );
+			buffer.append( ", Freddies" );
+			result[ 2 ] = buffer.toString();	// Smelly
+
+			result[ 4 ] = ChoiceManager.shortcutSpoiler( "ghostPencil3" );
+			result[ 5 ] = "Leave this noncombat";
+			return result;
+		}
+
+		case 730:
+			// Hot Coals
+			result = new String[ 6 ];
+			result[ 0 ] = "-hot";
+			result[ 1 ] = "Dragged Through the Coals (+100 hot damage)";
+			result[ 2 ] = "old ball and chain (" + String.valueOf( InventoryManager.getCount( ItemPool.OLD_BALL_AND_CHAIN ) ) + ") -> cool iron ingot";
+			result[ 5 ] = "Return to The Burrows";
+			return result;
+
+		case 731:
+			// The Heart of the Matter
+			result = new String[ 6 ];
+			result[ 0 ] = "-cold";
+			result[ 1 ] = "+Mysticality";
+			result[ 2 ] = "Nature's Bounty (+300 max HP)";
+			result[ 5 ] = "Return to The Burrows";
+			return result;
+
+		case 732:
+			// Once Midden, Twice Shy
+			result = new String[ 6 ];
+			result[ 0 ] = "fewer bugbears";
+			result[ 1 ] = "Freddies";
+			result[ 5 ] = "Return to The Burrows";
+			return result;
+
+		case 733:
+		{
+			// Dreadsylvanian Village Square
+
+			result = new String[ 6 ];
+
+			StringBuilder buffer = new StringBuilder();
+			ChoiceManager.lockSpoiler( buffer );
+			buffer.append( "fewer ghosts" );
+			buffer.append( ", ghost pencil" );
+			buffer.append( ", +Mysticality" );
+			result[ 0 ] = buffer.toString();	// Schoolhouse (locked)
+
+			buffer.setLength( 0 );
+			buffer.append( "-cold" );
+			buffer.append( ", Freddies" );
+			if ( InventoryManager.getCount( ItemPool.HOTHAMMER ) > 0 )
+			{
+				buffer.append( ", cool iron ingot (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.COOL_IRON_INGOT ) ) );
+				buffer.append( ") + warm fur (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.WARM_FUR ) ) );
+				buffer.append( ") -> cooling iron equipment" );
+			}
+			result[ 1 ] = buffer.toString();	// Blacksmith
+
+			buffer.setLength( 0 );
+			buffer.append( "-spooky " );
+			buffer.append( ", gain " );
+			String item =
+				KoLCharacter.isMuscleClass() ? "hangman's hood" :
+				KoLCharacter.isMysticalityClass() ? "cursed ring finger ring" :
+				KoLCharacter.isMoxieClass() ? "Dreadsylvanian clockwork key" :
+				"nothing";
+			buffer.append( item );
+			buffer.append( " with help of clannie" );
+			buffer.append( " or help clannie gain an item" );
+			result[ 2 ] = buffer.toString();	// Gallows
+
+			result[ 4 ] = ChoiceManager.shortcutSpoiler( "ghostPencil4" );
+			result[ 5 ] = "Leave this noncombat";
+			return result;
+		}
+
+		case 734:
+			// Fright School
+			result = new String[ 6 ];
+			result[ 0 ] = "fewer ghosts";
+			result[ 1 ] = "ghost pencil";
+			result[ 2 ] = "+Mysticality";
+			result[ 5 ] = "Return to The Village Square";
+			return result;
+
+		case 735:
+			// Smith, Black as Night
+			result = new String[ 6 ];
+			result[ 0 ] = "-cold";
+			result[ 1 ] = "Freddies";
+			result[ 2 ] = 
+				"cool iron ingot (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.COOL_IRON_INGOT ) ) +
+				") + warm fur (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.WARM_FUR ) ) +
+				") -> cooling iron equipment";
+			result[ 5 ] = "Return to The Village Square";
+			return result;
+
+		case 736:
+			// Gallows
+			result = new String[ 6 ];
+			result[ 0 ] = "-spooky ";
+			result[ 1 ] =
+				"gain " +
+				( KoLCharacter.isMuscleClass() ? "hangman's hood" :
+				  KoLCharacter.isMysticalityClass() ? "cursed ring finger ring" :
+				  KoLCharacter.isMoxieClass() ? "Dreadsylvanian clockwork key" :
+				  "nothing" ) + 
+				" with help of clannie";
+			result[ 3 ] = "help clannie gain an item";
+			result[ 5 ] = "Return to The Village Square";
+			return result;
+
+		case 737:
+		{
+			// The Even More Dreadful Part of Town
+
+			result = new String[ 6 ];
+
+			StringBuilder buffer = new StringBuilder();
+			buffer.append( "-stench" );
+			buffer.append( ", Sewer-Drenched (+100 stench damage)" );
+			result[ 0 ] = buffer.toString();	// Sewers
+
+			buffer.setLength( 0 );
+			buffer.append( "fewer skeletons" );
+			buffer.append( ", -sleaze" );
+			buffer.append( ", +Muscle" );
+			result[ 1 ] = buffer.toString();	// Tenement
+
+			buffer.setLength( 0 );
+			if ( KoLCharacter.isMoxieClass() )
+			{
+				buffer.append( "Freddies" );
+				buffer.append( ", lock impression (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.WAX_LOCK_IMPRESSION ) ) );
+				buffer.append( ") + music box parts (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) ) );
+				buffer.append( ") -> replica key" );
+				buffer.append( ", moon-amber (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.MOON_AMBER ) ) );
+				buffer.append( ") -> polished moon-amber" );
+				buffer.append( ", 3 music box parts (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) ) );
+				buffer.append( ") + clockwork key (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.DREADSYLVANIAN_CLOCKWORK_KEY ) ) );
+				buffer.append( ") -> mechanical songbird" );
+				buffer.append( ", 3 lengths of old fuse" );
+			}
+			else
+			{
+				buffer.append( "unavailable (Moxie class only)" );
+			}
+			result[ 2 ] = buffer.toString();	// Ticking Shack (moxie only)
+
+			result[ 4 ] = ChoiceManager.shortcutSpoiler( "ghostPencil5" );
+			result[ 5 ] = "Leave this noncombat";
+			return result;
+		}
+
+		case 738:
+			// A Dreadful Smell
+			result = new String[ 6 ];
+			result[ 0 ] = "-stench";
+			result[ 1 ] = "Sewer-Drenched (+100 stench damage)";
+			result[ 5 ] = "Return to Skid Row";
+			return result;
+
+		case 739:
+			// The Tinker's. Damn.
+			result = new String[ 6 ];
+			result[ 0 ] = "Freddies";
+			result[ 1 ] =
+				"lock impression (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.WAX_LOCK_IMPRESSION ) ) + 
+				") + music box parts (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) ) +
+				") -> replica key";
+			result[ 2 ] =
+				"moon-amber (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.MOON_AMBER ) ) +
+				") -> polished moon-amber";
+			result[ 3 ] =
+				"3 music box parts (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) ) +
+				") + clockwork key (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.DREADSYLVANIAN_CLOCKWORK_KEY ) ) +
+				") -> mechanical songbird";
+			result[ 4 ] = "3 lengths of old fuse";
+			result[ 5 ] = "Return to Skid Row";
+			return result;
+
+		case 740:
+			// Eight, Nine, Tenement
+			result = new String[ 6 ];
+			result[ 0 ] = "fewer skeletons";
+			result[ 1 ] = "-sleaze";
+			result[ 2 ] = "+Muscle";
+			result[ 5 ] = "Return to Skid Row";
+			return result;
+
+		case 741:
+		{
+			// The Old Duke's Estate
+
+			result = new String[ 6 ];
+
+			StringBuilder buffer = new StringBuilder();
+			buffer.append( "fewer zombies" );
+			buffer.append( ", Freddies" );
+			buffer.append( ", Fifty Ways to Bereave Your Lover (+100 sleaze damage)" );
+			result[ 0 ] = buffer.toString();	// Cemetery
+
+			buffer.setLength( 0 );
+			buffer.append( "-hot" );
+			if ( KoLCharacter.isMysticalityClass() )
+			{
+				buffer.append( ", dread tarragon (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.DREAD_TARRAGON ) ) );
+				buffer.append( ") + dreadful roast (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.DREADFUL_ROAST ) ) );
+				buffer.append( ") + bone flour (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.BONE_FLOUR ) ) );
+				buffer.append( ") + stinking agaricus (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.STINKING_AGARICUS ) ) );
+				buffer.append( ") -> Dreadsylvanian shepherd's pie" );
+			}
+			buffer.append( ", +Moxie" );
+			result[ 1 ] = buffer.toString();	// Servants' Quarters
+
+			buffer.setLength( 0 );
+			ChoiceManager.lockSpoiler( buffer );
+			buffer.append( "fewer werewolves" );
+			buffer.append( ", eau de mort" );
+			buffer.append( ", 10 ghost thread (" );
+			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.GHOST_THREAD ) ) );
+			buffer.append( ") -> ghost shawl" );
+			result[ 2 ] = buffer.toString();	// Master Suite (locked)
+
+			result[ 4 ] = ChoiceManager.shortcutSpoiler( "ghostPencil6" );
+			result[ 5 ] = "Leave this noncombat";
+			return result;
+		}
+
+		case 742:
+			// The Plot Thickens
+			result = new String[ 6 ];
+			result[ 0 ] = "fewer zombies";
+			result[ 1 ] = "Freddies";
+			result[ 2 ] = "Fifty Ways to Bereave Your Lover (+100 sleaze damage)";
+			result[ 5 ] = "Return to The Old Duke's Estate";
+			return result;
+
+		case 743:
+			// No Quarter
+			result = new String[ 6 ];
+			result[ 0 ] = "-hot";
+			result[ 1 ] =
+				"dread tarragon (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.DREAD_TARRAGON ) ) +
+				") + dreadful roast (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.DREADFUL_ROAST ) ) +
+				") + bone flour (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.BONE_FLOUR ) ) +
+				") + stinking agaricus (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.STINKING_AGARICUS ) ) +
+				") -> Dreadsylvanian shepherd's pie";
+			result[ 2 ] = "+Moxie";
+			result[ 5 ] = "Return to The Old Duke's Estate";
+			return result;
+
+		case 744:
+			// The Master Suite -- Sweet!
+			result = new String[ 6 ];
+			result[ 0 ] = "fewer werewolves";
+			result[ 1 ] = "eau de mort";
+			result[ 2 ] = 
+				"10 ghost thread (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.GHOST_THREAD ) ) +
+				") -> ghost shawl";
+			result[ 5 ] = "Return to The Old Duke's Estate";
+			return result;
+
+		case 745:
+		{
+			// This Hall is Really Great
+
+			result = new String[ 6 ];
+
+			StringBuilder buffer = new StringBuilder();
+			ChoiceManager.lockSpoiler( buffer );
+			buffer.append( "fewer vampires" );
+			buffer.append( ", " );
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MUDDY_SKIRT, 1 ) ) )
+			{
+				buffer.append( "equipped muddy skirt -> weedy skirt and " );
+			}
+			else if ( InventoryManager.getCount( ItemPool.MUDDY_SKIRT ) > 0 )
+			{
+				buffer.append( "(muddy skirt in inventory but not equipped) " );
+			}
+			buffer.append( "+Moxie" );
+			result[ 0 ] = buffer.toString();	// Ballroom (locked)
+
+			buffer.setLength( 0 );
+			buffer.append( "-cold" );
+			buffer.append( ", Staying Frosty (+100 cold damage)" );
+			result[ 1 ] = buffer.toString();	// Kitchen
+
+			buffer.setLength( 0 );
+			buffer.append( "dreadful roast" );
+			buffer.append( ", -stench" );
+			if ( KoLCharacter.isMysticalityClass() )
+			{
+				buffer.append( ", wax banana" );
+			}
+			result[ 2 ] = buffer.toString();	// Dining Room
+
+			result[ 4 ] = ChoiceManager.shortcutSpoiler( "ghostPencil7" );
+			result[ 5 ] = "Leave this noncombat";
+			return result;
+		}
+
+		case 746:
+			// The Belle of the Ballroom
+			result = new String[ 6 ];
+			result[ 0 ] = "fewer vampires";
+			result[ 1 ] =
+				( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MUDDY_SKIRT, 1 ) ) ?
+				  "equipped muddy skirt -> weedy skirt and " :
+				  InventoryManager.getCount( ItemPool.MUDDY_SKIRT ) > 0 ?
+				  "(muddy skirt in inventory but not equipped) " :
+				  "" ) +
+				"+Moxie";
+			result[ 5 ] = "Return to The Great Hall";
+			return result;
+
+		case 747:
+			// Cold Storage
+			result = new String[ 6 ];
+			result[ 0 ] = "-cold";
+			result[ 1 ] = "Staying Frosty (+100 cold damage)";
+			result[ 5 ] = "Return to The Great Hall";
+			return result;
+
+		case 748:
+			// Dining In (the Castle)
+			result = new String[ 6 ];
+			result[ 0 ] = "dreadful roast";
+			result[ 1 ] = "-stench";
+			result[ 2 ] = "wax banana";
+			result[ 5 ] = "Return to The Great Hall";
+			return result;
+
+		case 749:
+		{
+			// Tower Most Tall
+
+			result = new String[ 6 ];
+
+			StringBuilder buffer = new StringBuilder();
+			ChoiceManager.lockSpoiler( buffer );
+			buffer.append( "fewer bugbears" );
+			buffer.append( ", fewer zombies" );
+			buffer.append( ", visit The Machine" );
+			if ( KoLCharacter.isMoxieClass() )
+			{
+				buffer.append( ", blood kiwi (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.BLOOD_KIWI ) ) );
+				buffer.append( ") + eau de mort (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.EAU_DE_MORT ) ) );
+				buffer.append( ") -> bloody kiwitini" );
+			}
+			result[ 0 ] = buffer.toString();	// Laboratory (locked)
+
+			buffer.setLength( 0 );
+			if ( KoLCharacter.isMysticalityClass() )
+			{
+				buffer.append( "fewer skeletons" );
+				buffer.append( ", +Mysticality" );
+				buffer.append( ", learn recipe for moon-amber necklace" );
+			}
+			else
+			{
+				buffer.append( "unavailable (Mysticality class only)" );
+			}
+			result[ 1 ] = buffer.toString();	// Books (mysticality only)
+
+			buffer.setLength( 0 );
+			buffer.append( "-sleaze" );
+			buffer.append( ", Freddies" );
+			buffer.append( ", Magically Fingered (+150 max MP, 40-50 MP regen)" );
+			result[ 2 ] = buffer.toString();	// Bedroom
+
+			result[ 4 ] = ChoiceManager.shortcutSpoiler( "ghostPencil8" );
+			result[ 5 ] = "Leave this noncombat";
+			return result;
+		}
+
+		case 750:
+			// Working in the Lab, Late One Night
+			result = new String[ 6 ];
+			result[ 0 ] = "fewer bugbears";
+			result[ 1 ] = "fewer zombies";
+			result[ 2 ] = "visit The Machine";
+			result[ 3 ] =
+				"blood kiwi (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.BLOOD_KIWI ) ) +
+				") + eau de mort (" +
+				String.valueOf( InventoryManager.getCount( ItemPool.EAU_DE_MORT ) ) +
+				") -> bloody kiwitini";
+			result[ 5 ] = "Return to The Tower";
+			return result;
+
+		case 751:
+			// Among the Quaint and Curious Tomes.
+			result = new String[ 6 ];
+			result[ 0 ] = "fewer skeletons";
+			result[ 1 ] = "+Mysticality";
+			result[ 2 ] = "learn recipe for moon-amber necklace";
+			result[ 5 ] = "Return to The Tower";
+			return result;
+
+		case 752:
+			// In The Boudoir
+			result = new String[ 6 ];
+			result[ 0 ] = "-sleaze";
+			result[ 1 ] = "Freddies";
+			result[ 2 ] = "Magically Fingered (+150 max MP, 40-50 MP regen)";
+			result[ 5 ] = "Return to The Tower";
+			return result;
+
+		case 753:
+		{
+			// The Dreadsylvanian Dungeon
+
+			result = new String[ 6 ];
+
+			StringBuilder buffer = new StringBuilder();
+			buffer.append( "-spooky" );
+			buffer.append( ", +Muscle" );
+			buffer.append( ", +MP" );
+			result[ 0 ] = buffer.toString();	// Prison
+
+			buffer.setLength( 0 );
+			buffer.append( "-hot" );
+			buffer.append( ", Freddies" );
+			buffer.append( ", +Muscle/Mysticality/Moxie" );
+			result[ 1 ] = buffer.toString();	// Boiler Room
+
+			buffer.setLength( 0 );
+			buffer.append( "stinking agaricus" );
+			buffer.append( ", Spore-wreathed (reduce enemy defense by 20%)" );
+			result[ 2 ] = buffer.toString();	// Guard room
+
+			result[ 4 ] = ChoiceManager.shortcutSpoiler( "ghostPencil9" );
+			result[ 5 ] = "Leave this noncombat";
+			return result;
+		}
+
+		case 754:
+			// Live from Dungeon Prison
+			result = new String[ 6 ];
+			result[ 0 ] = "-spooky";
+			result[ 1 ] = "+Muscle";
+			result[ 2 ] = "+MP";
+			result[ 5 ] = "Return to The Dungeons";
+			return result;
+
+		case 755:
+			// The Hot Bowels
+			result = new String[ 6 ];
+			result[ 0 ] = "-hot";
+			result[ 1 ] = "Freddies";
+			result[ 2 ] = "+Muscle/Mysticality/Moxie";
+			result[ 5 ] = "Return to The Dungeons";
+			return result;
+
+		case 756:
+			// Among the Fungus
+			result = new String[ 6 ];
+			result[ 0 ] = "stinking agaricus";
+			result[ 1 ] = "Spore-wreathed (reduce enemy defense by 20%)";
+			result[ 5 ] = "Return to The Dungeons";
 			return result;
 
 		case 758:
@@ -3470,7 +4285,24 @@ public abstract class ChoiceManager
 		return null;
 	}
 
-	public static final String[] dynamicChoiceOptions( final String option )
+	private static final String shortcutSpoiler( final String setting )
+	{
+		return Preferences.getBoolean( setting ) ?
+			"shortcut KNOWN" :
+			"learn shortcut";
+	}
+
+	private static final void lockSpoiler( StringBuilder buffer )
+	{
+		buffer.append( "possibly locked," );
+		if ( InventoryManager.getCount( ItemPool.DREADSYLVANIAN_SKELETON_KEY ) == 0 )
+		{
+			buffer.append( " no" );
+		}
+		buffer.append( " key in inventory: " );
+	}
+
+	private static final String[] dynamicChoiceOptions( final String option )
 	{
 		if ( !option.startsWith( "choiceAdventure" ) )
 		{
