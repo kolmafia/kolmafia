@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.BasementRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -401,6 +402,15 @@ public class Expression
 				break;
 			case '\u0086':
 				v = BasementRequest.getBasementLevel();
+				break;
+			case '\u0087':
+				v = FightRequest.dreadKisses( "Woods" );
+				break;
+			case '\u0088':
+				v = FightRequest.dreadKisses( "Village" );
+				break;
+			case '\u0089':
+				v = FightRequest.dreadKisses( "Castle" );
 				break;
 					
 			default:

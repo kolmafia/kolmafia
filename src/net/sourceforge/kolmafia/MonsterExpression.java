@@ -89,6 +89,18 @@ public class MonsterExpression
 		{
 			return "\u0086";
 		}
+		if ( this.optional( "KW" ) )
+		{
+			return "\u0087";
+		}
+		if ( this.optional( "KV" ) )
+		{
+			return "\u0088";
+		}
+		if ( this.optional( "KC" ) )
+		{
+			return "\u0089";
+		}
 
 		return null;
 	}
