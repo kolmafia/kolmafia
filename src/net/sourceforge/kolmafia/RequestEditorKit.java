@@ -2121,7 +2121,7 @@ public class RequestEditorKit
 				String item = ChoiceManager.choiceSpoiler( choice, i - 1, possibleDecisions[ 2 ] );
 
 				// If we have nothing to say about this option, don't say anything
-				if ( !item.equals( "" ) )
+				if ( item != null && !item.equals( "" ) )
 				{
 					buffer.append( "<br><font size=-1>(" );
 					buffer.append( item );

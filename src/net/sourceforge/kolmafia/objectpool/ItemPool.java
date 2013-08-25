@@ -1676,6 +1676,7 @@ public class ItemPool
 	public static final int SKULL_CAPACITOR = 6512;
 	public static final int WARM_FUR = 6513;
 	public static final int GHOST_THREAD = 6525;
+	public static final int HOTHAMMER = 6528;
 	public static final int FRYING_BRAINPAN = 6538;
 	public static final int MUDDY_SKIRT = 6531;
 	public static final int OLD_BALL_AND_CHAIN = 6539;
@@ -1706,6 +1707,7 @@ public class ItemPool
 	public static final int HOT_DREADSYLVANIAN_COCOA = 6594;
 	public static final int CUCKOO_CLOCK = 6614;
 	public static final int SPAGHETTI_BREAKFAST = 6616;
+	public static final int FOLDER_HOLDER = 6617;
 	public static final int FOLDER_01 = 6618;
 	public static final int FOLDER_02 = 6619;
 	public static final int FOLDER_03 = 6620;
