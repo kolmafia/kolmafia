@@ -42,6 +42,7 @@ A-Boo Peak	100	Battlie Knight Ghost	Claybender Sorcerer Ghost	Dusken Raider Ghos
 A Barroom Brawl	100	Drunken 7-foot Dwarf	Plastered Frat Orc	Skeleton with a Mop	Unemployed Knob Goblin	Werecougar
 A Grocery Bag	100	bag of Potatoes of Security	box of Batter Mix of Hope	bundle of Meat of Happiness	carton of Eggs of Confidence	loaf of Bread of Wonder
 A Kitchen Drawer	100	Butterknife of Regret	Cookie Cutter of Loneliness	Creme Brulee Torch of Fury	Spatula of Despair	Whisk of Misery
+A Massive Ziggurat	-1	dense liana	Protector Spectre: 0
 A Maze of Sewer Tunnels	95	C. H. U. M.	Giant Zombie Goldfish	Sewer Gator	C. H. U. M. chieftain: 0
 A Pile of Old Servers	100	Antique Database Server
 A Skeleton Invasion!	100	Skeleton Invader	Two Skeleton Invaders	Three Skeleton Invaders	Four Skeleton Invaders	Five Skeleton Invaders
@@ -49,6 +50,10 @@ An Incredibly Strange Place (Bad Trip)	100	Swarm of Country Bats	Trippy Floating
 An Incredibly Strange Place (Great Trip)	100	Bustle in the Hedgerow	Gathering of Angels?	Higher Plane Serpents	Angels of Avalon	Elders of the Gentle Race
 An Incredibly Strange Place (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
 An Octopus's Garden	95	Neptune Flytrap	Octopus Gardener	Sponge	Stranglin' Algae	moister oyster: 0
+An Overgrown Shrine (Northwest)	-1	dense liana
+An Overgrown Shrine (Southwest)	-1	dense liana
+An Overgrown Shrine (Northeast)	-1	dense liana
+An Overgrown Shrine (Southeast)	-1	dense liana
 Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Anemone Mine	-1	Anemone Combatant	Killer Clownfish	Mer-kin Miner
 Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture
@@ -106,8 +111,6 @@ Guano Junction	100	Baseball Bat	Briefcase Bat	Perpendicular Bat	Screambat: 0	Sku
 Haert of the Cyrpt	100	Bonerdagon
 Hamburglaris Shield Generator	-1	Alien Hamsterpus	Mutated Alielephant	Mutated Alielf
 Infernal Rackets Backstage	-1	Inkubus	Serialbus	Suckubus
-Hidden City (automatic)	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
-Hidden City (Encounter)	70	Ancient Protector Spirit	Boaraffe	Protector Spectre	Pygmy Blowgunner	Pygmy Assault Squad	Pygmy Headhunter
 Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
 Hobopolis Town Square	95	Normal Hobo	Hodgman, The Hoboverlord: 0
 Icy Peak	85	Knott Yeti: 2	Snow Queen: 1	Upgraded Ram: 2	Knott Slanding: -1
@@ -231,6 +234,11 @@ The Haunted Wine Cellar (Southwest)	100	Possessed Wine Rack	Skeletal Sommelier
 The Haunted Wine Cellar (Southeast)	100	Possessed Wine Rack	Skeletal Sommelier
 The Heap	-1	Stench Hobo	Oscus: 0
 The Hidden Temple	-1	Baa-relief Sheep	Clan of Cave Bars	Craven Carven Raven	Stone Temple Pirate	Baa'baa'bu'ran: 0
+The Hidden Apartment Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy shaman	ancient protector spirit: 0
+The Hidden Bowling Alley	-1	pygmy janitor	pygmy orderlies	drunk pygmy	pygmy bowler	pygmy witch nurse	ancient protector spirit: 0
+The Hidden Hospital	-1	pygmy janitor	pygmy orderlies	pygmy witch surgeon	pygmy witch nurse	ancient protector spirit: 0
+The Hidden Office Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	Pygmy Headhunter	ancient protector spirit: 0
+The Hidden Park	-1	Boaraffe	Pygmy Blowgunner	Pygmy Assault Squad	pygmy witch lawyer
 The Hippy Camp (Bombed Back to the Stone Age)	100	Caveman Hippy	Cavewomyn Hippy	Sabre-Toothed Ferret
 The Hole in the Sky	100	Astronomer: 3	One-Eyed Willie: o2	Burrowing Bishop: o2	Family Jewels: o2	Hooded Warrior: o2	Junk: o2	Pork Sword: o2	Skinflute: o2	Trouser Snake: o2	Twig and Berries: o2	Axe Wound: e2	Beaver: e2	Box: e2	Bush: e2	Camel's Toe: e2	Flange: e2	Honey Pot: e2	Little Man in the Canoe: e2	Muff: e2
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi

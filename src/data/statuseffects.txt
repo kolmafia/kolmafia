@@ -1346,3 +1346,12 @@
 1345
 1346	Slightly Larger Than Usual	moth.gif	544f2cfabb3b6764c04b75dd22630438
 1347	Mayeaugh	blankoutglob.gif	60664e31f3af2a0da746fb5102080eaa	use 1 glob of spoiled mayo
+1348	Once-Cursed	curse1.gif	a431a6af64d18d15a649c9932a225b9f
+1349	Twice-Cursed	curse2.gif	47094efaee457577e66cacd958342526
+1350	Thrice-Cursed	curse3.gif	4e6d0031228b8869c06f1ea219dca3ba
+1351	Wax On Your Shoes	balm.gif	87fbea80812361fe057eb56e2e37012a	eat 1 jungle floor wax
+1352	All Glory To the Toad	squashfrog.gif	70812434fb40993cd7445392377baf45	use 1 colorful toad
+1353	Blood-Rich	energyiv.gif	620a01905a30075d38eb4e1631241ef0	use 1 bag of pygmy blood
+1354	Pill Party!	pill.gif	5ad8b007cc2df23fb55f3378cecdba3a	use 1 pill cup
+1355	Pygmy Drinking Buddy	drunkpygmy.gif	0589999b8327b1aec5a4cbefbf99733a	use 1 pygmy phone number
+1356	Full of Fruit, Yourself	junglefruit.gif	d7917dbebfd592278fa40e373a7f23eb	eat 1 exotic jungle fruit

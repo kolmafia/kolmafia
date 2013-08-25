@@ -35,6 +35,7 @@ Menagerie	Knob	Cobb's Knob Menagerie
 Cyrpt	Cyrpt	Defiled Cyrpt
 
 Woods	Woods	Distant Woods
+HiddenCity	Woods	Hidden City
 
 Friars	Friars	Deep Fat Friar's
 Pandamonium	Pandamonium	Pandamonium
