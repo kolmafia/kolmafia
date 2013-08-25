@@ -6697,7 +6697,7 @@ s1
 6680	Cursed Punch	385025324	cocostraw.gif	drink	t,d	125
 6681	Bowl of Scorpions	398920787	cocostraw2.gif	drink	t,d	150
 6682	Fog Murderer	182745013	tikiglass.gif	drink	t,d	75
-6683	book of matches	204360525	matchbook.gif	usable, combat	t,d	80
+6683	book of matches	204360525	matchbook.gif	reusable, combat	t,d	80
 6684	surgical mask	236354962	surgmask.gif	accessory	t,d	145
 6685	head mirror	649073188	headmirror.gif	accessory	t,d	175
 6686	half-size scalpel	551305986	miniscalpel.gif	weapon	t,d	160

@@ -136,7 +136,7 @@ Mer-kin Elementary School	-1	Mer-kin Monitor	Mer-kin Punisher	Mer-kin Teacher
 Mer-kin Gymnasium	-1	Mer-kin Juicer	Mer-kin Poseur	Mer-kin Trainer
 Mer-kin Library	-1	Mer-kin Alphabetizer	Mer-kin Drifter	Mer-kin Researcher
 Morgue	-1
-Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
+The Mouldering Mansion	70	Bellhop	Black Cat	Ourang-Outang	Raven	An Usher
 Mt. Molehill	-1	digital underground dweller	dwarvish gnome	spelunking astronaut	velvet underground dweller	weather underground dweller
 Navigation	-1
 Neckback Crick	100	Deadly Venomtrout	Water Spider	Unearthed Monstrosity: 0
@@ -154,7 +154,7 @@ Pre-Cyrpt Cemetary	100	Ghuol	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zob
 Professor Jacking's Huge-A-Ma-tron	-1	Castle In The Clouds In The Sky	Fearsome Wacken: 0	Loose Coalition of Yetis, Snowmen, and Goats	Spookyraven Manor	The Whole Kingdom: 0
 Professor Jacking's Small-O-Fier	-1	Cruel Dust Mote	Funk Particle	Jungle Scabie: 0	Malevolent Magnetic Field	Smooth Jazz Scabie: 0
 Regret Man's Level	-1	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
-Rogue Windmill	70	Can-can Dancer	Courtesan	Sensitive Poet-type	Master of Ceremonies	Voyeuristic Artist
+The Rogue Windmill	70	Can-can Dancer	Courtesan	Sensitive Poet-type	Master of Ceremonies	Voyeuristic Artist
 The Ruined Wizard Tower	-1	bogart	haunted skullabra	smell-o-the-wisp
 Science Lab	-1
 Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	Cyborg Policeman	"Handyman" Jay Android	Liquid Metal Robot	Obese Tourist	Space Marine	Terrifying Robot
@@ -169,7 +169,7 @@ South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mari
 Special Ops	-1
 Spectral Pickle Factory	75	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
 Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	Skeletal Reindeer	Stocking-stuffing Zombie	Toy-making creature from the Gray Lagoon
-Stately Pleasure Dome	70	Ancient Mariner	Angry Poet	Kubla Khan	Roller-skating Muse	Toothless Mastiff Bitch
+The Stately Pleasure Dome	70	Ancient Mariner	Angry Poet	Kubla Khan	Roller-skating Muse	Toothless Mastiff Bitch
 Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
 Tavern Cellar	-1	Drunken Rat	Baron Von Ratsworth: 0
 The Ancient Hobo Burial Ground	-1	Spooky Hobo	Zombo: 0

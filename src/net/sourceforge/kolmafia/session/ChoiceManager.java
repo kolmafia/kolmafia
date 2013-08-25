@@ -5476,6 +5476,14 @@ public abstract class ChoiceManager
 				ResultProcessor.processResult( ItemPool.get( ItemPool.WARM_FUR, -1 ) );
 			}
 			return;
+
+		case 788:
+			// Life is Like a Cherry of Bowls
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ResultProcessor.removeItem( ItemPool.BOWLING_BALL );
+			}
+			return;
 		}
 
 		// Certain choices cost meat or items when selected
