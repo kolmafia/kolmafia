@@ -293,6 +293,18 @@ public class AdventureDatabase
 			"A Well-Groomed Lawn",
 			"The Landscaper's Lair"
 		},
+		{
+			"Astral Mushroom (Bad Trip)",
+			"An Incredibly Strange Place (Bad Trip)"
+		},
+		{
+			"Astral Mushroom (Mediocre Trip)",
+			"An Incredibly Strange Place (Mediocre Trip)"
+		},
+		{
+			"Astral Mushroom (Great Trip)",
+			"An Incredibly Strange Place (Great Trip)"
+		},
 		// Everything above here added to 16.0, remove after 16.1
 	};
 
