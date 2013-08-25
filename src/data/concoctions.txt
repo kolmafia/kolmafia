@@ -1769,6 +1769,8 @@ cozy scimitar	SUSE	scimitar cozy	fish scimitar
 Staff of the Cozy Fish	SUSE	fish stick cozy	fish stick
 cozy bazooka	SUSE	bazooka cozy	fish bazooka
 
+McClusky file (complete)	SUSE	boring binder clip	McClusky file (page 1)	McClusky file (page 2)	McClusky file (page 3)	McClusky file (page 4)	McClusky file (page 5)
+
 # Familiars.
 
 maple leaf	COMBINE	leaf	maple syrup
