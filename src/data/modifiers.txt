@@ -169,6 +169,7 @@ clockwork hat	Spooky Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 20"
 clown wig	Mysticality: +3, Spell Damage: +3, Clownosity: +2, Familiar Effect: "chromatic atk, 1xPotato, cap 12"
 coconut shell	Damage Absorption: +1, Familiar Effect: "1xFairy, cap 7"
 cold ninja mask	Initiative: +15, Familiar Effect: "cold atk, 1xBarrr, cap 20"
+cold water bottle	Cold Damage: +10, Cold Spell Damage: +20, Hot Resistance: +2
 cool iron helmet	Damage Reduction: 20, Hot Resistance: +3
 cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xFairy, cap 21"
 corrosive cowl	Slime Hates It: +1, Spooky Damage: +30, Spooky Resistance: +4, Familiar Effect: "0.5xPotato, 0.5xFairy"
@@ -228,6 +229,8 @@ grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolle
 guard turtle shell	Maximum HP: +50, Familiar Effect: "atk, 1xFairy, cap 40"
 hangman's hood	Muscle: +50, Weapon Damage: +50, Damage Reduction: 10
 hardened slime hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20, Familiar Effect: "1xFairy"
+# head mirror: Makes you look like a doctor
+head mirror	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 15"
 helmet turtle	Muscle: +1, Familiar Effect: "atk, cap 2"
 honeycap	Moxie Percent: +5, Item Drop: +10, Ranged Damage: +15, Familiar Effect: "1xPotato, cap 43"
@@ -334,6 +337,8 @@ straw hat	Item Drop: +10, Food Drop: +15, Booze Drop: +15, Familiar Effect: "??"
 sucker kabuto	Damage Reduction: 5
 sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "atk, 2xVolley, 2xLep, cap 25"
 superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "?xLep, ?xFairy, cap 2"
+# surgical mask: Makes you look like a doctor
+surgical mask	Maximum MP: +40
 suspicious-looking fedora	Moxie: +6, Weapon Damage: +6
 tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
@@ -437,6 +442,8 @@ basic meat skirt	Moxie: +1, Familiar Effect: "3xBarrr, 3xFairy, cap 10"
 big pants	Weapon Damage: +25, Spell Damage: +25
 biomechanical crimborg leg armor	Hot Damage: +5, Stench Damage: +5, Familiar Effect: "1xBarrr, 1xGhuol, cap 37"
 black greaves	Muscle: +10, Damage Absorption: +30, Familiar Effect: "atk, 1xBarrr, cap 40"
+# bloodied surgical dungarees: Makes you look like a gross doctor
+bloodied surgical dungarees	MP Regen Min: 3, MP Regen Max: 5
 bloody clown pants	Spooky Damage: +3, Clownosity: +1, Familiar Effect: "3xPotato, 2xFairy, cap 12"
 boneana hammock	Sleaze Spell Damage: +20, Sleaze Damage: +20, Familiar Effect: "1xVolley, cap 30"
 bounty-hunting pants	Item Drop: +15, Familiar Effect: "1xPotato, 2xFairy, cap 25"
@@ -528,6 +535,7 @@ pixel pants	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "atk, 1xPotato, c
 plexiglass pants	Initiative: +25, Item Drop: +20, Moxie Percent: +30, Familiar Effect: "1xVolley, 1xLep, cap 45"
 poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25, Familiar Effect: "atk, 1xFairy"
 pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Familiar Effect: "hot atk, 1xGhuol, cap 12"
+pygmy briefs	Stench Damage: +5, Sleaze Damage: +5
 rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
 scale-mail underwear	MP Regen Min: 8, MP Regen Max: 12, Spooky Resistance: +3
 sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10
@@ -627,6 +635,7 @@ hipposkin poncho	Monster Level: +10
 letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 loathing eagle baby-doll shirt	Moxie: +3
 metal band T-shirt	Monster Level: +15
+midriff scrubs	Sleaze Damage: +10, Sleaze Spell Damage: +20
 origami pasties	Meat Drop: +30, Softcore Only
 pirate shirt	Moxie: +3
 psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
@@ -643,6 +652,8 @@ spangly mariachi vest	Moxie Percent: +10, Initiative: -25
 star shirt	Muscle: +5, Mysticality: +5, Moxie: +5
 sugar shirt	Experience: +3
 supportive bra	Moxie: +3
+# surgical apron: Makes you look like a gross doctor
+surgical apron	Damage Reduction: 6
 turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 tuxedo shirt	Moxie: +7
 white hat hacker T-shirt	Critical Hit Percent: +3, Muscle: +2, Mysticality: +2, Moxie: +2
@@ -850,6 +861,7 @@ acoustic guitarrr	Meat Drop: +8
 ancient ice cream scoop	Spell Damage: +20
 ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 anger blaster	Hot Damage: +10
+antique machete	Muscle Percent: +5
 antique spear	Initiative: -30, Weakens Monster
 # archaeologing shovel
 armgun	Weapon Damage: +10, Critical Hit Percent: +5
@@ -1059,6 +1071,8 @@ groping claw	Weakens Monster, Spooky Damage: +30
 # haiku katana: Allows use of seasonal attacks
 haiku katana	Muscle Percent: +15, Weapon Damage Percent: +50, Critical Hit Percent: +5, Softcore Only
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
+# half-size scalpel: Makes you look like a doctor
+half-size scalpel	Weapon Damage Percent: +10
 half-sized guitar	Moxie: +2, Ranged Damage: +4
 halfberd	Weapon Damage: +2
 halibut	Stench Damage: +100, Sleaze Damage: +100, Moxie Percent: -10
@@ -1205,6 +1219,7 @@ sealhide whip	Cold Damage: +25
 serpentine sword	Monster Level: +10, Synergetic
 severed flipper	Muscle: +5, Weapon Damage: +5, Class: "Seal Clubber"
 shiny butcherknife	Spell Damage: +5
+short-handled mop	Stench Damage: +10, Sleaze Damage: +10
 shuddersword	Muscle: +7, Spell Damage: +7, Spooky Damage: +5
 silver cheese-slicer	Spell Damage Percent: +10
 silver pat&eacute; knife	Spell Critical Percent: +5
@@ -1636,6 +1651,7 @@ six-rainbow shield	Maximum HP: +50, Cold Resistance: +3, Hot Resistance: +3, Sle
 slime-covered compass	Slime Resistance: +2, Initiative: +40
 slime-covered lantern	Slime Resistance: +2, Maximum HP: +50, Maximum MP: +50, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15
 slippery when wet shield	Damage Absorption: +10, Damage Reduction: 6
+# smirking shrunken head: Deals <font color=gray>Spooky Damage</font> every round
 snake shield	Muscle: +6, Damage Reduction: 7, Synergetic
 # snapdragon pistil: All Spells Cast Are Hot
 snapdragon pistil	Spell Critical Percent: +5
@@ -1950,6 +1966,8 @@ astral belt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, M
 astral bracer	Mysticality Percent: +25, Mana Cost (combat): -3, Adventures: +3
 astral mask	Moxie Percent: +25, Item Drop: +20
 astral ring	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 4, MP Regen Max: 6
+# attorney's badge: OBJECTION!
+attorney's badge	Single Equip
 baconstone bracelet	Mysticality: +2, Mana Cost: -1, Single Equip
 baconstone earring	Mysticality: +2, Mana Cost: -1, Single Equip
 baconstone pendant	Mysticality: +4, Spell Damage: +10
@@ -1975,9 +1993,11 @@ blackberry combat boots	Muscle: +10, Maximum HP: +45, Weapon Damage: +5, Single 
 blackberry galoshes	Muscle: +7, Mysticality: +7, Moxie: +7, Single Equip
 blackberry moccasins	Moxie: +8, Initiative: +25, Damage Reduction: 3, Single Equip
 blackberry slippers	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +5, Single Equip
+blood-pressure cuff	Maximum HP: +60, HP Regen Min: 5, HP Regen Max: 10
 blue glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 blue plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 blue ribbon	Maximum HP: +5
+# bone abacus: Helps you track your progress
 bone spurs	Monster Level: +20, Single Equip
 booty chest charrrm bracelet	Meat Drop: +10, Single Equip
 # bottle opener belt buckle: Damages Attacking Opponent
@@ -2007,6 +2027,7 @@ clown shoes	Maximum MP: +7, Clownosity: +1
 clownskin belt	Maximum MP: +15, Clownosity: +2
 # club necklace
 colored-light &quot;necklace&quot;	Maximum MP: +15
+compression stocking	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
 consolation ribbon	Muscle: +1, Mysticality: +1, Moxie: +1
 # continuum transfunctioner
 copper ha'penny charrrm bracelet	Maximum HP: +20, Maximum MP: +20
@@ -2718,6 +2739,7 @@ tiny Mountie hat	Familiar Weight: +5
 tiny ballet slippers	Familiar Weight: +5
 tiny balloon knife	Familiar Weight: +5
 tiny bindle	Familiar Weight: +5
+# tiny bowler: Lets your familiar bowl
 tiny bust of Pallas	Familiar Weight: +5
 tiny cell phone	Familiar Weight: +10
 # tiny costume wardrobe: Contains Many Adorable Costumes
@@ -3070,6 +3092,7 @@ Alchemical, Brother	Mysticality Percent: +30
 # All Covered In Whatsit: More likely to fumble
 # All Covered In Whatsit: Continually take damage
 All Fired Up	Initiative: +30
+All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2, Stench Damage: +2, Sleaze Damage: +2
 All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
 Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Also Schmeckt Zarathustra	Mysticality: +30
@@ -3148,6 +3171,7 @@ Blessing of Charcoatl	Hot Damage: +10, Hot Spell Damage: +10
 Blessing of Pikachutlotal	Initiative: +30
 Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
 Block-Rockin' Beet	Damage Reduction: 15
+Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 # Bloody-minded: +50 Damage vs. Vampires
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
@@ -3509,6 +3533,7 @@ Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
 # Fudge Headache: Find 75% more Fudge
 # Fudgehound: Find 50% more Fudge
 Full Bottle in front of Me	Spell Damage Percent: +30
+Full of Fruit, Yourself	Monster Level: -25
 Full of Vinegar	Weapon Damage: [+1*D]
 Full of Wist	Experience: [min(L,11)]
 Full-Body Tan	Experience (Moxie): [L]
@@ -3834,6 +3859,7 @@ On Pins and Needles	Initiative: +23
 On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
 Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
+Once-Cursed	Muscle: -10, Mysticality: -10, Moxie: -10
 One Very Clear Eye	Item Drop: +100
 Ooh, Bitter!	Spooky Damage: +5
 Ooh, Salty!	Cold Damage: +5
@@ -3874,6 +3900,7 @@ Phoenix, Right?	Experience: +6
 Phorcefullness	Muscle Percent: +100
 # Pie in the Face: Hilarious!
 Pie in the Sky	Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2
+Pill Party!	Muscle: -20, Mysticality: -20, Moxie: -20
 Piratastic	Moxie: +100
 Piratey Flavor	Critical Hit Percent: +5
 Pisces in the Skyces	Spell Damage Percent: +150
@@ -3915,6 +3942,7 @@ Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max
 # Putting the Orc in Porcine: Makes you look like a smutorc pervert
 Puzzle Fury	Spell Damage Percent: +25
 Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
+# Pygmy Drinking Buddy: He is violent and unpredictable!
 Quadrilled	Item Drop: +20
 Quivering with Rage	Muscle Percent: -10
 # QWOPped Up: Always Fumble
@@ -4228,6 +4256,7 @@ Things Man Was Not Meant to Eat	Spell Damage Percent: +100, Weapon Damage Percen
 Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Three Days Slow	Experience (familiar): +3
 # Three King-sized Sheets to the Wind: Makes you look like a Booze Giant
+Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
 Ticking Clock	Initiative: +30
 Tiffany's Breakfast	Item Drop: [min(40,T)]
 Tin, Man	Damage Reduction: 5
@@ -4256,6 +4285,7 @@ Tundra Mouth	Cold Damage: [min(100,T)]
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Turtle Titters	Experience: +3
 Twenty-three Squid, Ew	Mysticality: +30
+Twice-Cursed	Muscle: -20, Mysticality: -20, Moxie: -20
 Twinklebritches	Damage Reduction: 3
 Twinkly Weapon	Weapon Damage: +3
 # Two Left Feet
@@ -4290,6 +4320,7 @@ Warm Belly	Hot Damage: [+3*D]
 Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
 Wasabi With You	Weapon Damage Percent: +150
 # Water Wings: You believe you can float!
+Wax On Your Shoes	Moxie: +15, Initiative: +25
 Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
 Weapon of Mass Destruction	Weapon Damage Percent: +30
 Weasels Underfoot	Item Drop: +10
@@ -4825,6 +4856,7 @@ bacon bath ball	Effect: "Pork Power", Effect Duration: 10
 bad penguin egg	Free Pull
 bag of Cheat-Os	Effect: "Sticky Fingers", Effect Duration: 10
 bag of lard	Effect: "Cuts Like a Buttered Knife", Effect Duration: 10
+bag of pygmy blood	Effect: "Blood-Rich", Effect Duration: 20
 baggie of powdered sugar	Effect: "So You Can Work More...", Effect Duration: 10
 ballast turtle	Effect: "Oxygenated Blood", Effect Duration: 20
 banana smoothie	Effect: "Bananas!", Effect Duration: [R]
@@ -4899,6 +4931,7 @@ cold nuggets	Effect: "Frigid Weapon", Effect Duration: 5
 cold powder	Effect: "Insulated Trousers", Effect Duration: 5
 cold-filtered water	Effect: "Purity of Spirit", Effect Duration: 10
 cologne of contempt	Effect: "Contemptible Emanations", Effect Duration: [R]
+colorful toad	Effect: "All Glory To the Toad", Effect Duration: 10
 comb jelly	Effect: "Jelly Combed", Effect Duration: 20
 compressed air canister	Effect: "Dug Out", Effect Duration: 30
 concentrated cordial of concentration	Effect: "Concentrated Concentration", Effect Duration: [R]
@@ -4967,6 +5000,7 @@ evil potion of potency	Effect: "Pronounced Potency", Effect Duration: [R+5]
 evil serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R+5]
 evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R+5]
 evil vihuela	Effect: "El Tango de la Maldita Suegra", Effect Duration: 10
+exotic jungle fruit	Effect: "Full of Fruit, Yourself", Effect Duration: 25
 explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
 extra-potent gremlin mutagen	Effect: "Seriously Mutated"
 extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
@@ -5078,6 +5112,7 @@ jitterbug larva	Free Pull
 jug of baconstone juice	Effect: "Baconstoned", Effect Duration: 50
 jug of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 50
 jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
+jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
 kobold kibble	Effect: "The Kobold and the Kobeautiful", Effect Duration: 50
 kumquat supersucker	Effect: "Koyaaniskumquatsi ", Effect Duration: 30
 lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
@@ -5154,6 +5189,7 @@ philter of phorce	Effect: "Phorcefullness", Effect Duration: [R]
 physiostim pill	Effect: "Stimulated Body", Effect Duration: 10
 pickle-flavored chewing gum	Effect: "Mystic Pickleness", Effect Duration: 5
 piece of after eight	Effect: "Sugar Rush", Effect Duration: 5
+pill cup	Effect: "Pill Party!", Effect Duration: 30
 pine tar	Effect: "Sticky Hands", Effect Duration: 30
 pink-frosted astral cupcake	Effect: "Your Cupcake Senses Are Tingling", Effect Duration: 20
 pink candy heart	Effect: "Heart of Pink", Effect Duration: 10
@@ -5199,6 +5235,7 @@ purple snowcone	Effect: "Purple Tongue", Effect Duration: 20
 pygmy bugbear shaman	Free Pull
 pygmy dart	Effect: "Short of Breath", Effect Duration: 30
 pygmy papers	Effect: "Short on Options", Effect Duration: 30
+pygmy phone number	Effect: "Pygmy Drinking Buddy", Effect Duration: 15
 pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
 ravenous eye	Effect: "Stark Raven Mad", Effect Duration: 50
