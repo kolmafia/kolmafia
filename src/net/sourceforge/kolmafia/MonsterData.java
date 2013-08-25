@@ -53,7 +53,7 @@ public class MonsterData
 	private Object experience;
 	private final Element attackElement;
 	private final Element defenseElement;
-	private final int physicalImmunity;
+	private final int physicalResistance;
 	private final int minMeat;
 	private final int maxMeat;
 	private final Phylum phylum;
@@ -69,7 +69,7 @@ public class MonsterData
 			    final Object attack, final Object defense,
 			    final Object initiative, final Object experience,
 			    final Element attackElement, final Element defenseElement,
-			    final int physicalImmunity,
+			    final int physicalResistance,
 			    final int minMeat, final int maxMeat,
 			    final Phylum phylum, final int poison, final boolean boss,
 			    final String image )
@@ -83,7 +83,7 @@ public class MonsterData
 		this.experience = experience;
 		this.attackElement = attackElement;
 		this.defenseElement = defenseElement;
-		this.physicalImmunity = physicalImmunity;
+		this.physicalResistance = physicalResistance;
 		this.minMeat = minMeat;
 		this.maxMeat = maxMeat;
 		this.phylum = phylum;
@@ -286,9 +286,9 @@ public class MonsterData
 		return this.defenseElement;
 	}
 
-	public int getPhysicalImmunity()
+	public int getPhysicalResistance()
 	{
-		return this.physicalImmunity;
+		return this.physicalResistance;
 	}
 
 	public int getMinMeat()

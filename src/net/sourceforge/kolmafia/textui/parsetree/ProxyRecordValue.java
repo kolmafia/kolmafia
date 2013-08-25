@@ -718,7 +718,7 @@ public class ProxyRecordValue
 			.add( "base_initiative", DataTypes.INT_TYPE )
 			.add( "attack_element", DataTypes.ELEMENT_TYPE )
 			.add( "defense_element", DataTypes.ELEMENT_TYPE )
-			.add( "physical_immunity", DataTypes.INT_TYPE )
+			.add( "physical_resistance", DataTypes.INT_TYPE )
 			.add( "min_meat", DataTypes.INT_TYPE )
 			.add( "max_meat", DataTypes.INT_TYPE )
 			.add( "base_mainstat_exp", DataTypes.FLOAT_TYPE )
@@ -782,9 +782,9 @@ public class ProxyRecordValue
 				true );
 		}
 
-		public int get_physical_immunity()
+		public int get_physical_resistance()
 		{
-			return ((MonsterData) this.content).getPhysicalImmunity();
+			return ((MonsterData) this.content).getPhysicalResistance();
 		}
 
 		public int get_min_meat()
