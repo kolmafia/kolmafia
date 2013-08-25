@@ -3568,18 +3568,12 @@ public abstract class ChoiceManager
 			buffer.setLength( 0 );
 			buffer.append( "Freddies" );
 			buffer.append( ", Bored Stiff (+100 spooky damage)" );
-			if ( InventoryManager.getCount( ItemPool.REPLICA_KEY ) > 0 )
-			{
-				buffer.append( ", replica key (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.REPLICA_KEY ) ) );
-				buffer.append( ") -> Dreadsylvanian auditor's badge" );
-			}
-			if ( InventoryManager.getCount( ItemPool.WAX_BANANA ) > 0 )
-			{
-				buffer.append( ", wax banana (" );
-				buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.WAX_BANANA ) ) );
-				buffer.append( ") -> complicated lock impression" );
-			}
+			buffer.append( ", replica key (" );
+			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.REPLICA_KEY ) ) );
+			buffer.append( ") -> Dreadsylvanian auditor's badge" );
+			buffer.append( ", wax banana (" );
+			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.WAX_BANANA ) ) );
+			buffer.append( ") -> complicated lock impression" );
 			result[ 1 ] = buffer.toString();	// The Cellar
 
 			buffer.setLength( 0 );
@@ -3779,7 +3773,7 @@ public abstract class ChoiceManager
 			result[ 1 ] = buffer.toString();	// Blacksmith
 
 			buffer.setLength( 0 );
-			buffer.append( "-spooky " );
+			buffer.append( "-spooky" );
 			buffer.append( ", gain " );
 			String item =
 				KoLCharacter.isMuscleClass() ? "hangman's hood" :

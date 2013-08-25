@@ -70,8 +70,7 @@ Exposure Esplanade	SEMIRARE	Cold Comfort
 Frat House	SEMIRARE	Sand in the Vaseline
 Frat House In Disguise	SEMIRARE	Sand in the Vaseline
 Guano Junction	SEMIRARE	Le Chauve-Souris du Parfum
-Hidden City (Encounter)	SEMIRARE	Two Sizes Too Small
-Hidden City (automatic)	SEMIRARE	Two Sizes Too Small
+# Hidden City (Encounter)	SEMIRARE	Two Sizes Too Small
 Hippy Camp	SEMIRARE	The Latest Sorcerous Developments
 Hippy Camp In Disguise	SEMIRARE	The Latest Sorcerous Developments
 Itznotyerzitz Mine	SEMIRARE	7-Foot Dwarf Foreman
