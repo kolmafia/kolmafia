@@ -53,6 +53,7 @@ public class MonsterData
 	private Object experience;
 	private final Element attackElement;
 	private final Element defenseElement;
+	private final int physicalImmunity;
 	private final int minMeat;
 	private final int maxMeat;
 	private final Phylum phylum;
@@ -65,11 +66,13 @@ public class MonsterData
 	private final ArrayList<Double> pocketRates;
 
 	public MonsterData( final String name, final Object health,
-		final Object attack, final Object defense, final Object initiative,
-		final Object experience, final Element attackElement,
-		final Element defenseElement, final int minMeat, final int maxMeat,
-		final Phylum phylum, final int poison, final boolean boss,
-		final String image )
+			    final Object attack, final Object defense,
+			    final Object initiative, final Object experience,
+			    final Element attackElement, final Element defenseElement,
+			    final int physicalImmunity,
+			    final int minMeat, final int maxMeat,
+			    final Phylum phylum, final int poison, final boolean boss,
+			    final String image )
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
 
@@ -80,6 +83,7 @@ public class MonsterData
 		this.experience = experience;
 		this.attackElement = attackElement;
 		this.defenseElement = defenseElement;
+		this.physicalImmunity = physicalImmunity;
 		this.minMeat = minMeat;
 		this.maxMeat = maxMeat;
 		this.phylum = phylum;
@@ -280,6 +284,11 @@ public class MonsterData
 	public Element getDefenseElement()
 	{
 		return this.defenseElement;
+	}
+
+	public int getPhysicalImmunity()
+	{
+		return this.physicalImmunity;
 	}
 
 	public int getMinMeat()

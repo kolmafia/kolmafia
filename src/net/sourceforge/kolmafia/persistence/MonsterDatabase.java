@@ -381,6 +381,7 @@ public class MonsterDatabase
 		Phylum phylum = Phylum.NONE;
 		int poison = Integer.MAX_VALUE;
 		boolean boss = false;
+		int physical = 0;
 
 		StringTokenizer tokens = new StringTokenizer( s, " " );
 		while ( tokens.hasMoreTokens() )
@@ -421,7 +422,11 @@ public class MonsterDatabase
 
 				else if ( option.equals( "Phys:" ) )
 				{
-					/* physical = */ parseNumeric( tokens );
+					if ( tokens.hasMoreTokens() )
+					{
+						physical = StringUtilities.parseInt( tokens.nextToken() );
+						continue;
+					}
 					continue;
 				}
 
@@ -557,8 +562,9 @@ public class MonsterDatabase
 		}
 
 		monster = new MonsterData( name, health, attack, defense, initiative, experience,
-					   attackElement, defenseElement, minMeat, maxMeat, phylum, poison, boss,
-					   image );
+					   attackElement, defenseElement, physical,
+					   minMeat, maxMeat,
+					   phylum, poison, boss, image );
 		return monster;
 	}
 
