@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.request;
 
 import java.io.IOException;
 
+import java.lang.Math;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -452,11 +454,15 @@ public class FightRequest
 
 	public static final int dreadKisses( final KoLAdventure location )
 	{
-		String name = location.getAdventureName();
+		return FightRequest.dreadKisses( location.getAdventureName() );
+	}
+
+	public static final int dreadKisses( final String name )
+	{
 		return
-			name.endsWith( "Woods" ) ? FightRequest.dreadWoodsKisses :
-			name.endsWith( "Village" ) ? FightRequest.dreadVillageKisses :
-			name.endsWith( "Castle" ) ? FightRequest.dreadCastleKisses :
+			name.endsWith( "Woods" ) ? Math.max( FightRequest.dreadWoodsKisses, 1 ) :
+			name.endsWith( "Village" ) ? Math.max( FightRequest.dreadVillageKisses, 1 ) :
+			name.endsWith( "Castle" ) ? Math.max( FightRequest.dreadCastleKisses, 1 ) :
 			0;
 	}
 
