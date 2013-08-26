@@ -6694,15 +6694,15 @@ s1
 6677
 6678	Yearbook Club Camera	379789481	camera.gif	accessory	q	0
 6679	antique machete	336540829	machetwo.gif	weapon	t,d	120
-6680	Cursed Punch	385025324	cocostraw.gif	drink	t,d	125
-6681	Bowl of Scorpions	398920787	cocostraw2.gif	drink	t,d	150
+6680	Cursed Punch	385025324	cocostraw.gif	drink	t,d	125	cups of Cursed Punch
+6681	Bowl of Scorpions	398920787	cocostraw2.gif	drink	t,d	150	Bowls of Scorpions
 6682	Fog Murderer	182745013	tikiglass.gif	drink	t,d	75
-6683	book of matches	204360525	matchbook.gif	reusable, combat	t,d	80
+6683	book of matches	204360525	matchbook.gif	reusable, combat	t,d	80	books of matches
 6684	surgical mask	236354962	surgmask.gif	accessory	t,d	145
 6685	head mirror	649073188	headmirror.gif	accessory	t,d	175
 6686	half-size scalpel	551305986	miniscalpel.gif	weapon	t,d	160
 6687	surgical apron	235302729	bloodyapron.gif	shirt	t,d	140
-6688	bloodied surgical dungarees	910126759	bloodyshorts.gif	pants	t,d	145
+6688	bloodied surgical dungarees	910126759	bloodyshorts.gif	pants	t,d	145	pairs of bloodied surgical dungarees
 6689	McClusky file (page 1)	173767656	document.gif	none	q	0
 6690	McClusky file (page 2)	424792331	document.gif	none	q	0
 6691	McClusky file (page 3)	469377181	document.gif	none	q	0
@@ -6719,23 +6719,23 @@ s1
 6702	tiny bowler	631717654	tinybowler.gif	familiar	t,d	95
 6703	imitation White Russian	116179552	whiterussian.gif	food	t,d	85
 6704	short-handled mop	851692528	littlemop.gif	weapon	t,d	170
-6705	jungle floor wax	998043435	balm.gif	food	t,d	135
+6705	jungle floor wax	998043435	balm.gif	food	t,d	135	bottles of jungle floor wax
 6706	smirking shrunken head	215791428	smirkhead.gif	offhand	t,d	180
 6707	colorful toad	232716911	squashfrog.gif	usable	t,d	111
 6708	crude voodoo doll	173697387	crudevoodoo.gif	none, combat	t,d	99
 6709	attorney's badge	917730352	lawyerbadge.gif	accessory	t,d	152
-6710	pygmy briefs	513282788	briefs.gif	pants	t,d	160
-6711	short writ of habeas corpus	631068475	shortwrit.gif	none, combat	t,d	75
-6712	bone abacus	675213302	boneabacus.gif	offhand	t,d	50
+6710	pygmy briefs	513282788	briefs.gif	pants	t,d	160	pairs of pygmy briefs
+6711	short writ of habeas corpus	631068475	shortwrit.gif	none, combat	t,d	75	short writs of habeas corpus
+6712	bone abacus	675213302	boneabacus.gif	offhand	t,d	50	bone abaci
 6713	adder	784906937	adder.gif	none, combat	t,d	80
 6714	short calculator	512565355	littlecalculator.gif	none, combat	t,d	115
 6715	blood-pressure cuff	604339447	bpcuff.gif	accessory	t,d	137
-6716	bag of pygmy blood	651126112	energyiv.gif	usable	t,d	95
+6716	bag of pygmy blood	651126112	energyiv.gif	usable	t,d	95	bags of pygmy blood
 6717	tongue depressor	133442000	popstick.gif	none, combat	t,d	105
 6718	compression stocking	266431523	compsock.gif	accessory	t,d	140
-6719	midriff scrubs	324141695	midriff.gif	shirt	t,d	130
+6719	midriff scrubs	324141695	midriff.gif	shirt	t,d	130	sets of midriff scrubs
 6720	pill cup	618883795	pillcup.gif	usable	t,d	79
 6721	cold water bottle	959705030	coolbag.gif	hat	t,d	175
 6722	pygmy phone number	771989532	phonenum.gif	usable	t,d	86
 6723	gold Boozehounds Anonymous token	582753886	boozetoken.gif	usable	t,d	160
-6724	exotic jungle fruit	953800707	junglefruit.gif	food	t,d	88
+6724	exotic jungle fruit	953800707	junglefruit.gif	food	t,d	88	pieces of exotic jungle fruit

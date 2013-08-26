@@ -165,7 +165,7 @@ grungy bandana	150	Mox: 60
 guard turtle shell	160	Mox: 65
 hangman's hood	250	Mus: 200
 hardened slime hat	200	Mox: 200
-head mirror	0	Mys: 62
+head mirror	155	Mys: 62
 helm of the white knight	60	Mox: 15
 helmet turtle	10	none
 honeycap	175	Mox: 72
@@ -261,7 +261,7 @@ straw hat	200	Mox: 85
 sucker kabuto	50	none
 sugar chapeau	100	none
 superhero mask	10	none
-surgical mask	0	Mys: 62
+surgical mask	155	Mys: 62
 suspicious-looking fedora	60	Mox: 15
 tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
@@ -1435,7 +1435,7 @@ six-rainbow shield	190	Mus: 70	shield
 slime-covered compass	200	Mys: 200
 slime-covered lantern	200	Mys: 200
 slippery when wet shield	100	Mus: 35	shield
-smirking shrunken head	0	Mys: 70
+smirking shrunken head	170	Mys: 70
 snake shield	115	Mus: 42	shield
 snapdragon pistil	70	Mys: 20
 snarling wolf shield	115	Mus: 42	shield
@@ -1704,7 +1704,7 @@ astral belt	50	none
 astral bracer	50	none
 astral mask	50	none
 astral ring	50	none
-attorney's badge	0	Mys: 70
+attorney's badge	170	Mys: 70
 baconstone bracelet	50	Mys: 10
 baconstone earring	50	Mys: 10
 baconstone pendant	50	Mys: 10
@@ -1730,11 +1730,11 @@ blackberry combat boots	180	Mus: 75
 blackberry galoshes	180	Mox: 75
 blackberry moccasins	180	Mys: 75
 blackberry slippers	180	Mys: 75
-blood-pressure cuff	0	Mys: 65
+blood-pressure cuff	160	Mys: 65
 blue glowstick	20	none
 blue plastic baby	20	none
 blue ribbon	0	none
-bone abacus	0	Mys: 5
+bone abacus	100	Mys: 5
 bone spurs	120	Mys: 45
 booty chest charrrm bracelet	190	Mys: 80
 bottle opener belt buckle	160	Mys: 65
@@ -1762,7 +1762,7 @@ clown shoes	50	Mys: 10
 clownskin belt	50	Mys: 10
 club necklace	10	none
 colored-light &quot;necklace&quot;	100	Mys: 35
-compression stocking	0	Mys: 65
+compression stocking	160	Mys: 65
 consolation ribbon	0	none
 continuum transfunctioner	10	none
 copper ha'penny charrrm bracelet	190	Mys: 80
