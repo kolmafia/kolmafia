@@ -78,7 +78,7 @@ public class MrStoreRequest
 			MrStoreRequest.MR_A,
 			null,
 			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
+			GenericRequest.WHICHITEM_PATTERN,
 			null,
 			null,
 			"buy",

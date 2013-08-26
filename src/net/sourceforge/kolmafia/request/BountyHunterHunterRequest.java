@@ -82,9 +82,9 @@ public class BountyHunterHunterRequest
 			BountyHunterHunterRequest.LUCRE,
 			null,
 			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
+			GenericRequest.WHICHITEM_PATTERN,
 			"howmany",
-			CoinMasterRequest.HOWMANY_PATTERN,
+			GenericRequest.HOWMANY_PATTERN,
 			"buy",
 			BountyHunterHunterRequest.buyItems,
 			BountyHunterHunterRequest.buyPrices,
@@ -195,7 +195,7 @@ public class BountyHunterHunterRequest
 			{
 				return;
 			}
-			Matcher idMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( location );
+			Matcher idMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( location );
 			if ( !idMatcher.find() )
 			{
 				return;
@@ -241,7 +241,7 @@ public class BountyHunterHunterRequest
 
 		if ( action.equals( "takebounty" ) )
 		{
-			Matcher idMatcher = CoinMasterRequest.ITEMID_PATTERN.matcher( urlString );
+			Matcher idMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
 			if ( !idMatcher.find() )
 			{
 				return true;

@@ -144,7 +144,7 @@ public class SingleUseRequest
 			return false;
 		}
 
-		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
+		Matcher itemMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 		{
 			return false;
@@ -163,7 +163,7 @@ public class SingleUseRequest
 			return false;
 		}
 
-		Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 		int count = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 1 ) ) : 1;
 
 		AdventureResult[] ingredients = concoction.getIngredients();

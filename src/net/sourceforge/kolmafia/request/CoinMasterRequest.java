@@ -64,12 +64,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CoinMasterRequest
 	extends GenericRequest
 {
-	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
-	public static final Pattern ROW_PATTERN = Pattern.compile( "whichrow=(\\d+)" );
-	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
-	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
-	public static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
-
 	private final CoinmasterData data;
 
 	protected String action = null;

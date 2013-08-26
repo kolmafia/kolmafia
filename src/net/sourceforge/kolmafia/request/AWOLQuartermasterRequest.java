@@ -75,7 +75,7 @@ public class AWOLQuartermasterRequest
 			"tobuy",
 			AWOLQuartermasterRequest.TOBUY_PATTERN,
 			"howmany",
-			CoinMasterRequest.HOWMANY_PATTERN,
+			GenericRequest.HOWMANY_PATTERN,
 			null,
 			AWOLQuartermasterRequest.buyItems,
 			AWOLQuartermasterRequest.buyPrices,

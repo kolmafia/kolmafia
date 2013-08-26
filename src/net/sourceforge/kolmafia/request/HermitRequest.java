@@ -81,9 +81,9 @@ public class HermitRequest
 			HermitRequest.WORTHLESS_ITEM,
 			null,
 			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
+			GenericRequest.WHICHITEM_PATTERN,
 			"quantity",
-			CoinMasterRequest.QUANTITY_PATTERN,
+			GenericRequest.QUANTITY_PATTERN,
 			"trade",
 			KoLConstants.hermitItems,
 			HermitRequest.buyPrices,
@@ -329,7 +329,7 @@ public class HermitRequest
 			return true;
 		}
 
-		Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 		if ( !quantityMatcher.find() )
 		{
 			// We simply visited the hermit

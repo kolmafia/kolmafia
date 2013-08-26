@@ -106,7 +106,6 @@ public class ClanLoungeRequest
 
 	private static final Pattern STANCE_PATTERN = Pattern.compile( "stance=(\\d*)" );
 	private static final Pattern WHICHDOG_PATTERN = Pattern.compile( "whichdog=(-\\d*)" );
-	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 	private static final Pattern TREE_PATTERN = Pattern.compile( "Check back in (\\d+) day" );
 	private static final Pattern FAX_PATTERN = Pattern.compile( "preaction=(.+?)fax" );
 	private static final Pattern TEMPERATURE_PATTERN = Pattern.compile( "temperature=(\\d*)" );
@@ -1410,7 +1409,7 @@ public class ClanLoungeRequest
 			{
 				return;
 			}
-			m = QUANTITY_PATTERN.matcher( urlString );
+			m = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 			int quantity = m.find() ? StringUtilities.parseInt( m.group(1) ) : 1;
 			ResultProcessor.processItem( item.getItemId(), -1 * quantity );
 			return;
@@ -1614,7 +1613,7 @@ public class ClanLoungeRequest
 				{
 					return false;
 				}
-				m = QUANTITY_PATTERN.matcher( urlString );
+				m = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 				int quantity = m.find() ? StringUtilities.parseInt( m.group(1) ) : 1;
 				message = "stock Hot Dog Stand with " + quantity + " " + item.getPluralName( quantity );
 			}

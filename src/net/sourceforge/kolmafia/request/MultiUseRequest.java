@@ -111,7 +111,7 @@ public class MultiUseRequest
 			return false;
 		}
 
-		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
+		Matcher itemMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 		{
 			return false;
@@ -121,7 +121,7 @@ public class MultiUseRequest
 
 		if ( urlString.startsWith( "multiuse.php") )
 		{
-			Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( !quantityMatcher.find() )
 			{
 				return false;

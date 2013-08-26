@@ -124,6 +124,11 @@ public class GenericRequest
 	// Used in many requests. Here for convenience and non-duplication
 	public static final Pattern ACTION_PATTERN = Pattern.compile( "action=([^&]*)" );
 	public static final Pattern PLACE_PATTERN = Pattern.compile( "place=([^&]*)" );
+	public static final Pattern WHICHITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
+	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+	public static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
+	public static final Pattern WHICHROW_PATTERN = Pattern.compile( "whichrow=(\\d+)" );
 
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
@@ -1290,7 +1295,7 @@ public class GenericRequest
 		}
 		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
 		{
-			Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( location );
+			Matcher itemMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( location );
 			if ( !itemMatcher.find() )
 			{
 				return;

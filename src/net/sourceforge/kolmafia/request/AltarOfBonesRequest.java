@@ -67,7 +67,7 @@ public class AltarOfBonesRequest
 			AltarOfBonesRequest.BONE_CHIPS,
 			null,
 			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
+			GenericRequest.WHICHITEM_PATTERN,
 			null,
 			null,
 			"buy",
