@@ -4571,7 +4571,7 @@ Tropical Crimbo Duds	Moxie: +10, Muscle: +10, Mysticality: +10
 Unblemished Uniform	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Uncle Hobo's Rags	Candy Drop: +15
 Vestments of the Treeslayer	Damage Reduction: 5
-Vile Vagrant Vestments	Mana Cost (stackable): -5, Class: "Pastamancer"
+Vile Vagrant Vestments	Mana Cost (stackable): -5
 Violent Vestments	Muscle Percent: 15, Mysticality Percent: 15, Moxie Percent: 15
 War Hippy Fatigues	Stench Damage: +15
 Wax Wardrobe	Moxie: +7
