@@ -186,6 +186,7 @@ public class ArcadeRequest
 		{
 			// We visited Jackass Plumber for the day
 			Preferences.setBoolean( "_defectiveTokenChecked", true );
+			return;
 		}
 
 		if ( TicketCounterRequest.parseResponse( urlString, responseText ) )
@@ -234,23 +235,29 @@ public class ArcadeRequest
 		{
 			if ( Preferences.getInteger( "lastArcadeAscension" ) != KoLCharacter.getAscensions() )
 			{
-				RequestThread.postRequest( new GenericRequest( "town_wrong.php") );
+				RequestThread.postRequest( new GenericRequest( "town_wrong.php" ) );
 			}
 			if ( TicketCounterRequest.registerRequest( urlString ) )
 			{
 				return true;
 			}
 
+			int count = TOKEN.getCount( KoLConstants.inventory );
+
+			if ( action.equals( "plumber" ) )
+			{
+				message = "Visiting Jackass Plumber";
+			}
+
 			// Other actions of interest require tokens. Do we have
 			// any?
 
-			int count = TOKEN.getCount( KoLConstants.inventory );
-			if ( count < 1 )
+			else if ( count < 1 )
 			{
 				return true;
 			}
 
-			if ( action.equals( "skeeball" ) )
+			else if ( action.equals( "skeeball" ) )
 			{
 				message = "Visiting Broken Skee-Ball Machine";
 			}
