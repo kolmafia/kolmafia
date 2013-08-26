@@ -213,7 +213,7 @@ evil delicious spicy noodles	3	5	awesome	7-15	0	1-66	0	10 A Little Bit Evil (+2 
 evil painful penne pasta	3	3	awesome	7-13	30-40	0	0	10 A Little Bit Evil (+2 ML)
 evil ravioli della hippy	3	3	good	7-11	0	1-45	0	10 A Little Bit Evil (+2 ML)
 evil spicy noodles	3	4	awesome	7-12	1-8	1-8	1-8	10 A Little Bit Evil (+2 ML)
-exotic jungle fruit	1	6	good	0	0	0	0
+exotic jungle fruit	1	6	good	2-3	20-30	20-30	20-30	25 Full of Fruit, Yourself (-25 ML)
 expired can of franks 'n' beans	3	1	awesome	7-10	20-40	20-40	20-40	30 Crimbo Nostalgia (+5 exp)
 extra-greasy slider	5	13	EPIC	31-34	80-100	80-100	80-100	-5 spleen
 fancy beef jerky	4	9	EPIC	19-22	0	48-58	0
@@ -307,7 +307,7 @@ hot wing	1	1	crappy	1	0	2-5	0
 humpty dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12
 igloo pie	2	2	awesome	7-9	15-20	15-20	5-10
-imitation white russian	2	6	good	0	0	0	0
+imitation white russian	2	6	good	4-6	5-10	5-10	5-10
 immaculate egg salad sandwich	4	1	decent	7-9	5-10	30-40	5-10
 immaculate grilled cheese	4	1	decent	7-9	0	30-40	10-20
 immaculate hot dog	4	1	decent	7-9	5-10	30-40	5-10
@@ -326,7 +326,7 @@ jumbo dr. lucifer	1	1	good	2-3	0	0	0	converts all HP to 9-10x MP
 jumbo olive	1	2	decent	2	0	0	2-5
 jumping bean burrito	3	1	decent	3-8	0	0	11-14
 jumping bean taco	1	1	decent	2	0	0	4-20
-jungle floor wax	2	6	good	0	0	0	0
+jungle floor wax	2	6	good	5-7	5-10	5-10	10-20	20 Wax On Your Shoes
 juniper berries	1	2	crappy	1	0	0	10-15
 junkyard dog	3	1	awesome	12-14	0	0	0	30 Dog Breath
 ketchup	1	1	crappy	1	0	0	0
