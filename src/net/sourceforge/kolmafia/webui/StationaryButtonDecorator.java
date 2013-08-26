@@ -535,15 +535,32 @@ public class StationaryButtonDecorator
 		buffer.append( ">&nbsp;" );
 	}
 
-	private static final Pattern LOCATION_PATTERN = Pattern.compile( "<body.*?<a href=\"?([^\">]*)", Pattern.DOTALL );
+	private static final Pattern BODY_PATTERN = Pattern.compile( "<body>.*</body>", Pattern.DOTALL );
+	private static final Pattern LOCATION_PATTERN = Pattern.compile( "<a href=[\"']?([^\"'>]*)", Pattern.DOTALL );
 
 	private static final String getAdventureAgainLocation( StringBuffer response )
 	{
-		// Get the "adventure again" link from the page
-		Matcher m = LOCATION_PATTERN.matcher( response );
-		if ( m.find() )
+		// Get the "adventure again" link from the page.
+		// Search only in the body of the page
+
+		Matcher m = BODY_PATTERN.matcher( response );
+		if ( !m.find() )
 		{
-			return m.group( 1 );
+			// This will not happen
+			return "main.php";
+		}
+
+		m = LOCATION_PATTERN.matcher( m.group(0) );
+		while ( m.find() )
+		{
+			// Skip Monster Manuel's link to a new factoid
+			// questlog.php?which=6&vl=p#mon1429
+
+			String link = m.group( 1 );
+			if ( !link.startsWith( "questlog.php" ) )
+			{
+				return link;
+			}
 		}
 
 		// If there is none, perhaps we fought a monster as a result of
