@@ -103,7 +103,7 @@ public class GrandmaRequest
 			return;
 		}
 
-		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
 		if ( !rowMatcher.find() )
 		{
 			return;
@@ -125,10 +125,10 @@ public class GrandmaRequest
 		}
 		else
 		{
-			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				String quantityString = quantityMatcher.group( 2 ).trim();
+				String quantityString = quantityMatcher.group( 1 ).trim();
 				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
 			}
 		}
@@ -149,7 +149,7 @@ public class GrandmaRequest
 			return false;
 		}
 
-		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
 		if ( !rowMatcher.find() )
 		{
 			return true;
@@ -171,10 +171,10 @@ public class GrandmaRequest
 		}
 		else
 		{
-			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				String quantityString = quantityMatcher.group( 2 ).trim();
+				String quantityString = quantityMatcher.group( 1 ).trim();
 				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
 			}
 		}

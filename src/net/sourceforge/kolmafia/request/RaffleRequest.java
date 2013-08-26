@@ -52,7 +52,6 @@ public class RaffleRequest
 	extends GenericRequest
 {
 	private static final Pattern WHERE_PATTERN = Pattern.compile( "where=(\\d+)" );
-	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
 
 	public enum RaffleSource
 	{
@@ -145,7 +144,7 @@ public class RaffleRequest
 			return;
 		}
 
-		matcher = RaffleRequest.QUANTITY_PATTERN.matcher( urlString );
+		matcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
 			return;
@@ -185,7 +184,7 @@ public class RaffleRequest
 		String loc = where.equals( RaffleSource.INVENTORY.toString() ) ? "inventory" :
 					 where.equals( RaffleSource.STORAGE.toString() ) ? "storage" : "nowhere";
 
-		matcher = RaffleRequest.QUANTITY_PATTERN.matcher( location );
+		matcher = GenericRequest.QUANTITY_PATTERN.matcher( location );
 		if ( !matcher.find() )
 		{
 			return true;

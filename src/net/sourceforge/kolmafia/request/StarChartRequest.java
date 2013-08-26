@@ -109,7 +109,7 @@ public class StarChartRequest
 			return;
 		}
 
-		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
 		if ( !rowMatcher.find() )
 		{
 			return;
@@ -137,7 +137,7 @@ public class StarChartRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
 		if ( !rowMatcher.find() )
 		{
 			return true;

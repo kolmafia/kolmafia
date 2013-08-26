@@ -115,8 +115,8 @@ public class CombineMeatRequest
 			return false;
 		}
 
-		Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
-		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 2 ) ) : 1;
+		Matcher quantityMatcher = GenericRequest.QTY_PATTERN.matcher( urlString );
+		int quantity = quantityMatcher.find() ? StringUtilities.parseInt( quantityMatcher.group( 1 ) ) : 1;
 		int total = cost * quantity;
 
 		if ( total > KoLCharacter.getAvailableMeat() )

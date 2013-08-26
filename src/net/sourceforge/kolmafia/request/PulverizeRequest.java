@@ -61,7 +61,6 @@ public class PulverizeRequest
 	extends GenericRequest
 {
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "smashitem=(\\d+)" );
-	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "qty=(\\d+)" );
 	private static final HashMap UPGRADES = new HashMap();
 	static {
 		UPGRADES.put( "powder", "nuggets" );
@@ -227,7 +226,7 @@ public class PulverizeRequest
 			return 0;
 		}
 
-		Matcher quantityMatcher = PulverizeRequest.QUANTITY_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = GenericRequest.QTY_PATTERN.matcher( urlString );
 
 		if ( !quantityMatcher.find() )
 		{
@@ -256,7 +255,7 @@ public class PulverizeRequest
 			return false;
 		}
 
-		Matcher quantityMatcher = PulverizeRequest.QUANTITY_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = GenericRequest.QTY_PATTERN.matcher( urlString );
 
 		if ( !quantityMatcher.find() )
 		{

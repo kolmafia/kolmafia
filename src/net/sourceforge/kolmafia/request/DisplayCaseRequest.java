@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.session.DisplayCaseManager;
 public class DisplayCaseRequest
 	extends TransferItemRequest
 {
-	public static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d+)?" );
 	private boolean isDeposit;
 	private boolean isWithdrawal;
 

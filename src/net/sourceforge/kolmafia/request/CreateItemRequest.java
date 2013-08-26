@@ -74,10 +74,7 @@ public class CreateItemRequest
 	public static final GenericRequest REDIRECT_REQUEST = new GenericRequest( "inventory.php?action=message" );
 
 	public static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
-	public static final Pattern WHICHITEM_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
-	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
-	public static final Pattern WHICHROW_PATTERN = Pattern.compile( "whichrow=(\\d+)" );
-
+	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "(quantity|qty)=(\\d+)" );
 	public static final Pattern TARGET_PATTERN = Pattern.compile( "target=(\\d+)" );
 	public static final Pattern MODE_PATTERN = Pattern.compile( "mode=([^&]+)" );
 	public static final Pattern CRAFT_PATTERN_1 = Pattern.compile( "[\\&\\?](?:a|b)=(\\d+)" );
@@ -1534,7 +1531,7 @@ public class CreateItemRequest
 	private static final int getQuantity( final String urlString, final AdventureResult [] ingredients, int multiplier )
 	{
 		if ( urlString.indexOf( "max=on" ) == -1 &&
-			urlString.indexOf( "smashall=1" ) == -1 )
+		     urlString.indexOf( "smashall=1" ) == -1 )
 		{
 			Matcher matcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
 			return matcher.find() ?

@@ -98,9 +98,6 @@ public class UseItemRequest
 {
 	public static final AdventureResult INFERNAL_SEAL_CLAW = ItemPool.get( ItemPool.INFERNAL_SEAL_CLAW, 1 );
 
-	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
-	public static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
-	public static final Pattern QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
 	public static final Pattern DOWHICHITEM_PATTERN = Pattern.compile( "dowhichitem=(\\d+)" );
 
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
@@ -4739,7 +4736,7 @@ public class UseItemRequest
 
 	public static final AdventureResult extractItem( final String urlString, final boolean force )
 	{
-		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
+		Matcher itemMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 		{
 			return null;
@@ -4758,7 +4755,7 @@ public class UseItemRequest
 		     urlString.indexOf( "inv_booze.php" ) != -1 ||
 		     urlString.indexOf( "inv_use.php" ) != -1)
 		{
-			Matcher quantityMatcher = UseItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
 				itemCount = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
@@ -4776,7 +4773,7 @@ public class UseItemRequest
 			return null;
 		}
 
-		Matcher itemMatcher = UseItemRequest.ITEMID_PATTERN.matcher( urlString );
+		Matcher itemMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 		{
 			return null;
@@ -4785,7 +4782,7 @@ public class UseItemRequest
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		int itemCount = 1;
 
-		Matcher quantityMatcher = UseItemRequest.QTY_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = GenericRequest.QTY_PATTERN.matcher( urlString );
 		if ( quantityMatcher.find() )
 		{
 			itemCount = StringUtilities.parseInt( quantityMatcher.group( 1 ) );

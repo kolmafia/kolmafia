@@ -100,7 +100,6 @@ public class EquipmentRequest
 
 	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(-?\\d+|last)" );
 	private static final Pattern SLOT_PATTERN = Pattern.compile( "type=([a-z123]+)" );
-	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern STICKERITEM_PATTERN = Pattern.compile( "sticker=(\\d+)" );
 	private static final Pattern SLOT1_PATTERN = Pattern.compile( "slot=(\\d+)" );
 	private static final Pattern OUTFITNAME_PATTERN = Pattern.compile( "outfitname=([^&]*)" );
@@ -1550,7 +1549,7 @@ public class EquipmentRequest
 
 	private static int parseItemId( final String location )
 	{
-		Matcher matcher = ITEMID_PATTERN.matcher( location );
+		Matcher matcher = GenericRequest.WHICHITEM_PATTERN.matcher( location );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
 	}
 

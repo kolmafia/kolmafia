@@ -51,7 +51,6 @@ public class Crimbo09Request
 	extends GenericRequest
 {
 	public static final AdventureResult BUTTON = ItemPool.get( ItemPool.ELF_RESISTANCE_BUTTON, 1 );
-	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=(\\d+)" );
 	private static final Pattern CRIMBUX_PATTERN = Pattern.compile( "You currently have ([0123456789,]) Crimbu(x|ck)" );
 
 	private static int bet = 0;
@@ -91,7 +90,7 @@ public class Crimbo09Request
 
 	private static final int getHowmany( final String urlString )
 	{
-		Matcher matcher = Crimbo09Request.HOWMANY_PATTERN.matcher( urlString );
+		Matcher matcher = GenericRequest.HOWMANY_PATTERN.matcher( urlString );
 		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : 0;
 	}
 

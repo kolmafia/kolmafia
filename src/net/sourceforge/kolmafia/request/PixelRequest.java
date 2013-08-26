@@ -105,7 +105,7 @@ public class PixelRequest
 			return;
 		}
 
-		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
 		if ( !rowMatcher.find() )
 		{
 			return;
@@ -127,10 +127,10 @@ public class PixelRequest
 		}
 		else
 		{
-			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				String quantityString = quantityMatcher.group( 2 ).trim();
+				String quantityString = quantityMatcher.group( 1 ).trim();
 				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
 			}
 		}
@@ -146,7 +146,7 @@ public class PixelRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher rowMatcher = CreateItemRequest.WHICHROW_PATTERN.matcher( urlString );
+		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
 		if ( !rowMatcher.find() )
 		{
 			return true;
@@ -168,10 +168,10 @@ public class PixelRequest
 		}
 		else
 		{
-			Matcher quantityMatcher = CreateItemRequest.QUANTITY_PATTERN.matcher( urlString );
+			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 			{
-				String quantityString = quantityMatcher.group( 2 ).trim();
+				String quantityString = quantityMatcher.group( 1 ).trim();
 				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
 			}
 		}

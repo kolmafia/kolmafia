@@ -69,7 +69,7 @@ public class SwaggerShopRequest
 			null,
 			"availableSwagger",
 			"whichitem",
-			CoinMasterRequest.ITEMID_PATTERN,
+			GenericRequest.WHICHITEM_PATTERN,
 			null,
 			null,
 			"buy",

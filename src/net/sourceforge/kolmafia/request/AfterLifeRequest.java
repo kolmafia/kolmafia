@@ -184,7 +184,6 @@ public class AfterLifeRequest
 	public static final Pattern CLASSID_PATTERN = Pattern.compile( "classid=([^&]*)" );
 	public static final Pattern SKILLID_PATTERN = Pattern.compile( "skillid=([^&]*)" );
 	public static final Pattern HC_PATTERN = Pattern.compile( "hc=([^&]*)" );
-	public static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=([^&]*)" );
 	public static final Pattern SIGN_PATTERN = Pattern.compile( "whichsign=([^&]*)" );
 	public static final Pattern GENDER_PATTERN = Pattern.compile( "gender=([^&]*)" );
 	public static final Pattern CLASS_PATTERN = Pattern.compile( "whichclass=([^&]*)" );
@@ -286,7 +285,7 @@ public class AfterLifeRequest
 		// afterlife.php?action=buyarmory&whichitem=5041
 		else if ( action.equals( "buydeli" ) || action.equals( "buyarmory" ) )
 		{
-			Matcher m = ITEMID_PATTERN.matcher( urlString );
+			Matcher m = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
 			if ( !m.find() )
 			{
 				return true;
@@ -303,7 +302,7 @@ public class AfterLifeRequest
 		// afterlife.php?action=armoryreturn&whichitem=5041
 		else if ( action.equals( "delireturn" ) || action.equals( "armoryreturn" ) )
 		{
-			Matcher m = ITEMID_PATTERN.matcher( urlString );
+			Matcher m = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
 			if ( !m.find() )
 			{
 				return true;
