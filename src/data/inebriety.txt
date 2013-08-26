@@ -119,7 +119,7 @@ csa scoutmaster's &quot;water&quot;	3	3	good	9	20-30	20-30	20-30
 cup of primitive beer	1	12	good	2-4	50-65	0	0	12-15 MP, lose 10-18 HP
 cursed bottle of black-label rum	3	3	good	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	crappy	1	0	0	0
-cursed punch	1	6	good	0	0	0	0
+cursed punch	1	6	good	2-3	1-5	1-5	1-5	10 Once-Cursed (-10 all stats)
 cyder	3	5		5	0	0	0
 dark & starry	2	1	good	4-5	5-10	5-10	5-10	Restores MP
 day-old beer	1	1	crappy	1	0	0	0
@@ -186,7 +186,7 @@ flask of amontillado	4	4	awesome	10-15	10-30	15-30	10-30
 flat mushroom wine	3	6	awesome	10-14	8-10	0	0
 flute of flat champagne	2	2	decent	2-6	0	15	0
 flying caipiranha	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
-fog murderer	6	6	good	0	0	0	0
+fog murderer	6	6	good	14-16	40-50	20-30	20-30
 fountain 'soda'	3	5	decent	4-6	5-10	0	5-10	KOLHS
 fromage pinotage	1	3	awesome	3-5	0	60-75	0	20 Some Cheese With Your Wine (stench dmg)
 fruity girl swill	4	4	good	10-14	2-3	26-30	2-3
