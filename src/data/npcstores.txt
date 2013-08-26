@@ -307,3 +307,7 @@ Gift Shop	town_giftshop.php	red balloon	100000
 
 FDKOL Requisitions Tent	fdkol	drop of water-37	1000
 FDKOL Requisitions Tent	fdkol	FDKOL hotcakes	5000
+
+The Hidden Tavern	hiddentavern	Fog Murderer	500	ROW175
+The Hidden Tavern	hiddentavern	Cursed Punch	500	ROW173
+The Hidden Tavern	hiddentavern	Bowl of Scorpions	500	ROW174

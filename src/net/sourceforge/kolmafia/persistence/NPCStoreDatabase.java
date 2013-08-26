@@ -44,8 +44,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
@@ -66,6 +68,7 @@ public class NPCStoreDatabase
 	extends KoLDatabase
 {
 	private static final HashMultimap NPC_ITEMS = new HashMultimap();
+	private static final HashMultimap ROW_ITEMS = new HashMultimap();
 	private static final AdventureResult RABBIT_HOLE = new AdventureResult( "Down the Rabbit Hole", 1, true );
 	private static final Map<String, String> storeNameById = new TreeMap<String, String>();
 
@@ -77,18 +80,40 @@ public class NPCStoreDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length != 4 )
+			if ( data.length < 4 )
 			{
 				continue;
 			}
 
 			String storeName = new String( data[0] );
 			String storeId = new String( data[1] );
+			NPCStoreDatabase.storeNameById.put( storeId, storeName );
+
 			String itemName = data[ 2 ];
 			int itemId = ItemDatabase.getItemId( itemName );
+			if ( itemId == -1 )
+			{
+				RequestLogger.printLine( "Unknown item in store \"" + data[ 0 ] + "\": " + itemName );
+				continue;
+			}
+
 			int price = StringUtilities.parseInt( data[ 3 ] );
-			NPCStoreDatabase.storeNameById.put( storeId, storeName );
-			NPCStoreDatabase.NPC_ITEMS.put( itemId, new NPCPurchaseRequest( storeName, storeId, itemId, price ) );
+			int row =
+				( data.length > 4 && data[ 4 ].startsWith( "ROW" ) ) ?
+				IntegerPool.get( StringUtilities.parseInt( data[ 4 ].substring( 3 ) ) ) :
+				0;
+
+			// Make the purchase request for this item
+			NPCPurchaseRequest purchaseRequest = new NPCPurchaseRequest( storeName, storeId, itemId, row, price );
+
+			// Map from item id -> purchase request
+			NPCStoreDatabase.NPC_ITEMS.put( itemId, purchaseRequest );
+
+			// Map from row -> purchase request
+			if ( row != 0 )
+			{
+				NPCStoreDatabase.ROW_ITEMS.put( row, purchaseRequest );
+			}
 		}
 
 		try
@@ -359,6 +384,27 @@ public class NPCStoreDatabase
 		// for purchase from the NPC store.
 
 		return true;
+	}
+
+	public static final int itemIdByRow( final String shopId, final int row )
+	{
+		ArrayList items = NPCStoreDatabase.ROW_ITEMS.get( row );
+		if ( items == null )
+		{
+			return -1;
+		}
+
+		for ( Iterator i = items.iterator(); i.hasNext(); )
+		{
+			NPCPurchaseRequest foundItem = (NPCPurchaseRequest) i.next();
+
+			if ( shopId.equals( foundItem.getStoreId() ) )
+			{
+				return foundItem.getItemId();
+			}
+		}
+
+		return -1;
 	}
 
 	public static final boolean contains( final String itemName )

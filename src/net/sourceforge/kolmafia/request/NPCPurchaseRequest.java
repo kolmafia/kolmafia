@@ -79,12 +79,13 @@ public class NPCPurchaseRequest
 
 	private String npcStoreId;
 	private String quantityField;
+	private int row;
 
 	/**
 	 * Constructs a new <code>NPCPurchaseRequest</code> which retrieves things from NPC stores.
 	 */
 
-	public NPCPurchaseRequest( final String storeName, final String storeId, final int itemId, final int price )
+	public NPCPurchaseRequest( final String storeName, final String storeId, final int itemId, final int row, final int price )
 	{
 		super( NPCPurchaseRequest.pickForm( storeId ) );
 
@@ -93,11 +94,25 @@ public class NPCPurchaseRequest
 
 		this.shopName = storeName;
 		this.npcStoreId = storeId;
+		this.row = row;
 
 		this.quantity = PurchaseRequest.MAX_QUANTITY;
 		this.price = price;
 		this.limit = this.quantity;
 		this.canPurchase = true;
+
+		this.timestamp = 0L;
+
+		if ( this.row != 0 )
+		{
+			this.addFormField( "whichshop", storeId );
+			this.addFormField( "action", "buyitem" );
+			this.addFormField( "whichrow", String.valueOf( row ) );
+			this.addFormField( "ajax", "1" );
+			this.hashField = "pwd";
+			this.quantityField = "quantity";
+			return;
+		}
 
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
 
@@ -130,15 +145,13 @@ public class NPCPurchaseRequest
 			this.hashField = "phash";
 			this.quantityField = "howmany";
 		}
-
-		this.timestamp = 0L;
 	}
 
 	public static String pickForm( final String storeId )
 	{
 		return  storeId.indexOf( "." ) != -1 ?
 			storeId :
-			storeId.equals( "fdkol" ) ?
+			storeId.equals( "fdkol" ) || storeId.equals( "hiddentavern" ) ?
 			"shop.php" :
 			"store.php";
 	}
@@ -462,22 +475,31 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "fdkol" ) )
 		{
 			FDKOLRequest.parseResponse( urlString, responseText );
+			return;
 		}
-		else if ( shopId.equals( "trapper" ) )
+
+		if ( shopId.equals( "trapper" ) )
 		{
 			TrapperRequest.parseResponse( urlString, responseText );
+			return;
 		}
-		else if ( shopId.equals( "mystic" ) )
+
+		if ( shopId.equals( "mystic" ) )
 		{
 			PixelRequest.parseResponse( urlString, responseText );
+			return;
 		}
-		else if ( shopId.equals( "damachine" ) )
+
+		if ( shopId.equals( "damachine" ) )
 		{
 			VendingMachineRequest.parseResponse( urlString, responseText );
+			return;
 		}
-		else if ( shopId.equals( "dv" ) )
+
+		if ( shopId.equals( "dv" ) )
 		{
 			TerrifiedEagleInnRequest.parseResponse( urlString, responseText );
+			return;
 		}
 	}
 
@@ -488,16 +510,6 @@ public class NPCPurchaseRequest
 			return false;
 		}
 
-		Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
-		if ( !itemMatcher.find() )
-		{
-			return true;
-		}
-
-		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
-		String itemName = ItemDatabase.getItemName( itemId );
-		int priceVal = NPCStoreDatabase.price( itemName );
-
 		Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
 		if ( !m.find() )
 		{
@@ -505,6 +517,32 @@ public class NPCPurchaseRequest
 		}
 
 		String shopId = m.group(1);
+		String shopName = NPCStoreDatabase.getStoreName( m.group(1) );
+
+		int itemId = -1;
+
+		m = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( m.find() )
+		{
+			itemId = StringUtilities.parseInt( m.group( 1 ) );
+		}
+		else
+		{
+			m = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
+			if ( m.find() )
+			{
+				int row = StringUtilities.parseInt( m.group( 1 ) );
+				itemId = NPCStoreDatabase.itemIdByRow( shopId, row );
+			}
+		}
+
+		if ( itemId == -1 )
+		{
+			return false;
+		}
+
+		String itemName = ItemDatabase.getItemName( itemId );
+		int priceVal = NPCStoreDatabase.price( itemName );
 
 		// A "shop" can have items for Meat and also for tokens. If
 		// there is no Meat price, let correct Coinmaster claim it.
@@ -540,7 +578,6 @@ public class NPCPurchaseRequest
 			return true;
 		}
 
-		String shopName = NPCStoreDatabase.getStoreName( m.group(1) );
 		int quantity = StringUtilities.parseInt( quantityMatcher.group( 1 ) );
 
 		RequestLogger.updateSessionLog();
