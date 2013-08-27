@@ -102,6 +102,11 @@ public class FightDecorator
 			FightDecorator.decorateNetDragger( buffer );
 			return;
 		}
+		if ( name.equalsIgnoreCase( "Falls-From-Sky" ) )
+		{
+			FightDecorator.decorateFallsFromSky( buffer );
+			return;
+		}
 	}
 
 	private static final void decorateDadSeaMonkee( final StringBuffer buffer )
@@ -195,6 +200,27 @@ public class FightDecorator
 		if ( buffer.indexOf( "<b>runner</b>" ) != -1 )
 		{
 			FightDecorator.selectSkill( buffer, "Blade Runner" );
+			return;
+		}
+	}
+
+	private static final void decorateFallsFromSky( final StringBuffer buffer )
+	{
+		if ( buffer.indexOf( "begins to spin in a circle" ) != -1 )
+		{
+			FightDecorator.selectSkill( buffer, "Hide Under a Rock" );
+			return;
+		}
+
+		if ( buffer.indexOf( "begins to paw at the ground" ) != -1 )
+		{
+			FightDecorator.selectSkill( buffer, "Dive Into a Puddle" );
+			return;
+		}
+
+		if ( buffer.indexOf( "shuffles toward you" ) != -1 )
+		{
+			FightDecorator.selectSkill( buffer, "Hide Behind a Tree" );
 			return;
 		}
 	}

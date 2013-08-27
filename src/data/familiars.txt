@@ -176,9 +176,9 @@
 167	Nanorhino	nanorhino.gif	combat	5910	nanorhino credit card	3	1	1	3
 168	Oily Woim	woim.gif	none	6044	woimbook	2	1	3	1
 169	Homemade Robot	homemadebot.gif	none	6101	homemade robot gear	0	0	0	0
-170	MiniMechaElf	mechaelf.gif	combat	6148	MiniMechaElf Laser Punch Missile Launcher	0	0	0	0
+170	MiniMechaElf	mechaelf.gif	combat	6148	MiniMechaElf Laser Punch Missile Launcher	3	2	0	1
 171	Gelatinous Cubeling	gcube.gif	item0	6256	pile of dungeon junk	2	3	0	1
 172	Adorable Space Buddy	starbuddy.gif	combat	6409	cute bow from beyond the stars	0	0	0	0
-173	Nosy Nose	nosynose.gif	none	6460	nosy nose ringy ring	0	0	0	0
+173	Nosy Nose	nosynose.gif	none	6460	nosy nose ringy ring	1	3	1	2
 174	Mini-Adventurer	miniadv0.gif		6561	mini-Mr. Accessory	2	2	2	2
 175	Mechanical Songbird	mechbird.gif	none	6490	shiny brass tailfeathers	0	0	0	0
