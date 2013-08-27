@@ -4353,6 +4353,34 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.DREADSCROLL:
+
+			// Only two things remove the Mer-kin dreadscroll from inventory:
+			// successfully becoming the Mer-kin High Priest, and attempting
+			// to read it when you are already the Champion of the Arena.
+			//
+			// I guess you're the Mer-kin High Priest now. Cool!
+			//
+			// The sigil burned into your forehead (you know, the one you got
+			// for winning the tournament in the Colosseum?) flares up in
+			// intense pain as you look at the dreadscroll. A tendril of fire
+			// curls out and burns the scroll to ashes.
+
+			if ( responseText.contains( "I guess you're the Mer-kin High Priest now" ) )
+			{
+				// *** Track that, somehow?
+				return;
+			}
+
+			if ( responseText.contains( "The sigil burned into your forehead" ) )
+			{
+				return;
+			}
+
+			// Otherwise, it is not consumed
+			ResultProcessor.processResult( item );
+			return;
+
 		case ItemPool.MERKIN_STASHBOX:
 			ResultProcessor.removeItem( ItemPool.MERKIN_LOCKKEY );
 			return;
