@@ -2583,91 +2583,46 @@ public abstract class ChoiceManager
 		// Choice 695 is A Drawer of Chests
 
 		// Choice 721 is The Cabin in the Dreadsylvanian Woods
-		new ChoiceSpoiler(
-			"Dreadsylvania", "choiceAdventure721", "Cabin",
-			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
-
 		// Choice 722 is The Kitchen in the Woods
 		// Choice 723 is What Lies Beneath (the Cabin)
 		// Choice 724 is Where it's Attic
 
 		// Choice 725 is Tallest Tree in the Forest
-		new ChoiceSpoiler(
-			"Dreadsylvania", "choiceAdventure725", "Tallest Tree",
-			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
-
 		// Choice 726 is Top of the Tree, Ma!
 		// Choice 727 is All Along the Watchtower
 		// Choice 728 is Treebasing
 
 		// Choice 729 is Below the Roots
-		new ChoiceSpoiler(
-			"Dreadsylvania", "choiceAdventure729", "Burrows",
-			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
-
 		// Choice 730 is Hot Coals
 		// Choice 731 is The Heart of the Matter
 		// Choice 732 is Once Midden, Twice Shy
 
 		// Choice 733 is Dreadsylvanian Village Square
-		new ChoiceSpoiler(
-			"Dreadsylvania", "choiceAdventure733", "Village Square",
-			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
-
 		// Choice 734 is Fright School
 		// Choice 735 is Smith, Black as Night
 		// Choice 736 is Gallows
 
 		// Choice 737 is The Even More Dreadful Part of Town
-		new ChoiceSpoiler(
-			"Dreadsylvania", "choiceAdventure737", "Skid Row",
-			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
-
 		// Choice 738 is A Dreadful Smell
 		// Choice 739 is The Tinker's. Damn.
 		// Choice 740 is Eight, Nine, Tenement
 
 		// Choice 741 is The Old Duke's Estate
-		new ChoiceSpoiler(
-			"Dreadsylvania", "choiceAdventure741", "Old Duke's Estate",
-			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
-
 		// Choice 742 is The Plot Thickens
 		// Choice 743 is No Quarter
 		// Choice 744 is The Master Suite -- Sweet!
 
 		// Choice 745 is This Hall is Really Great
-		new ChoiceSpoiler(
-			"Dreadsylvania", "choiceAdventure745", "Great Hall",
-			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
-
 		// Choice 746 is The Belle of the Ballroom
 		// Choice 747 is Cold Storage
 		// Choice 748 is Dining In (the Castle)
 
 		// Choice 749 is Tower Most Tall
-		new ChoiceSpoiler(
-			"Dreadsylvania", "choiceAdventure749", "Tower",
-			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
-
 		// Choice 750 is Working in the Lab, Late One Night
 		// Choice 751 is Among the Quaint and Curious Tomes.
 		// Choice 752 is In The Boudoir
 
 		// Choice 753 is The Dreadsylvanian Dungeon
-		new ChoiceSpoiler(
-			"Dreadsylvania", "choiceAdventure753", "Dungeons",
-			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
-
 		// Choice 754 is Live from Dungeon Prison
 		// Choice 755 is The Hot Bowels
 		// Choice 756 is Among the Fungus
@@ -3221,7 +3176,7 @@ public abstract class ChoiceManager
 
 	private static final Object[][] dynamicChoiceSpoilers( final int choice, final String name )
 	{
-		Object[][] result = new String[ 3 ][];
+		Object[][] result = new Object[ 3 ][];
 
 		// The choice option is the first element
 		result[ 0 ] = new String[ 1 ];

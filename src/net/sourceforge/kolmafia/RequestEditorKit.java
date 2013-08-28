@@ -2113,7 +2113,7 @@ public class RequestEditorKit
 			}
 
 			// Start spoiler text
-			if ( i > 0 && i <= spoilers[ 2 ].length )
+			if ( i > 0 )
 			{
 				// Say what the choice will give you
 				Object spoiler = ChoiceManager.choiceSpoiler( choice, i, spoilers[ 2 ] ); 
