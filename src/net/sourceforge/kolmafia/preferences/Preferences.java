@@ -662,19 +662,21 @@ public class Preferences
 		for ( int i = 0; i < choices.length; ++i )
 		{
 			String setting = choices[ i ].getSetting();
-			int defaultOption = StringUtilities.parseInt( Preferences.userNames.get( setting ) ) - 1;
 
 			ostream.print( "[" + setting.substring( 15 ) + "] " );
 			ostream.print( choices[ i ].getName() + ": " );
 
+			Object[] options = choices[ i ].getOptions();
+			int defaultOption = StringUtilities.parseInt( Preferences.userNames.get( setting ) );
+			Object def = ChoiceManager.findOption( options, defaultOption );
+
+			ostream.print( def.toString() + " [color=gray](" );
+
 			int printedCount = 0;
-			String[] options = choices[ i ].getOptions();
-
-			ostream.print( options[ defaultOption ] + " [color=gray](" );
-
 			for ( int j = 0; j < options.length; ++j )
 			{
-				if ( j == defaultOption )
+				Object option = options[ j ];
+				if ( option == def )
 				{
 					continue;
 				}
@@ -685,7 +687,7 @@ public class Preferences
 				}
 
 				++printedCount;
-				ostream.print( options[ j ] );
+				ostream.print( option.toString() );
 			}
 
 			ostream.println( ")[/color]" );

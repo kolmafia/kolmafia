@@ -109,20 +109,22 @@ public class ChoiceCommand
 		{
 			return rv;
 		}
-		String[][] possibleDecisions = ChoiceManager.choiceSpoilers( ChoiceManager.lastChoice );
+		Object[][] possibleDecisions = ChoiceManager.choiceSpoilers( ChoiceManager.lastChoice );
 		if ( possibleDecisions == null )
 		{
-			possibleDecisions = new String[][] { null, null, {} };
+			possibleDecisions = new Object[][] { null, null, {} };
 		}
+		Object[] options = possibleDecisions[ 2 ];
 		
 		Matcher m = OPTION_PATTERN.matcher( ChoiceManager.lastResponseText );
 		while ( m.find() )
 		{
 			int decision = Integer.parseInt( m.group( 1 ) );
+			Object option = ChoiceManager.findOption( options, decision );
 			String text = m.group( 2 );
-			if ( decision > 0 && decision <= possibleDecisions[ 2 ].length )
+			if ( option != null )
 			{
-				text = text + " (" + possibleDecisions[ 2 ][ decision - 1 ] + ")";
+				text = text + " (" + option.toString() + ")";
 			}
 			rv.put( IntegerPool.get( decision ), text );
 		}
