@@ -2059,23 +2059,21 @@ public class RequestEditorKit
 		// Do any choice-specific decorations
 		ChoiceManager.decorateChoice( choice, buffer );
 
-		String[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
-
-		if ( possibleDecisions == null )
-		{	// Don't give up - there may be a specified choice even if there
-			// are no spoilers.
-			possibleDecisions = new String[][] { null, null, {} };
-		}
-
-		text = buffer.toString();
 		matcher = FORM_PATTERN.matcher( text );
 		if ( !matcher.find() )
 		{
 			return;
 		}
 
-		int index1 = matcher.start();
+		Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
 
+		if ( spoilers == null )
+		{	// Don't give up - there may be a specified choice even if there
+			// are no spoilers.
+			spoilers = new Object[][] { null, null, {} };
+		}
+
+		int index1 = matcher.start();
 		int decision = ChoiceManager.getDecision( choice, text );
 
 		buffer.setLength( 0 );
@@ -2115,42 +2113,49 @@ public class RequestEditorKit
 			}
 
 			// Start spoiler text
-			if ( i > 0 && i <= possibleDecisions[ 2 ].length )
+			if ( i > 0 && i <= spoilers[ 2 ].length )
 			{
 				// Say what the choice will give you
-				String item = ChoiceManager.choiceSpoiler( choice, i - 1, possibleDecisions[ 2 ] );
+				Object spoiler = ChoiceManager.choiceSpoiler( choice, i, spoilers[ 2 ] ); 
 
 				// If we have nothing to say about this option, don't say anything
-				if ( item != null && !item.equals( "" ) )
+				if ( spoiler == null )
 				{
-					buffer.append( "<br><font size=-1>(" );
-					buffer.append( item );
-	
-					// If this choice helps complete an outfit...
-					if ( possibleDecisions.length > 3 )
-					{
-						String itemId = possibleDecisions[ 3 ][ i - 1 ];
-	
-						// If this decision leads to an item...
-						if ( itemId != null )
-						{
-							// List # in inventory
-							AdventureResult result = new AdventureResult( StringUtilities.parseInt( itemId ), 1 );
-							buffer.append( "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('" );
-							buffer.append( ItemDatabase.getDescriptionId( result.getItemId() ) );
-							buffer.append( "');\">" );
-	
-							int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
-							available += result.getCount( KoLConstants.inventory );
-	
-							buffer.append( available );
-							buffer.append( " in inventory" );
-						}
-					}
-	
-					// Finish spoiler text
-					buffer.append( ")</font>" );
+					continue;
 				}
+
+				String name = spoiler.toString();
+				if ( name.equals( "" ) )
+				{
+					continue;
+				}
+
+				buffer.append( "<br><font size=-1>(" );
+				buffer.append( name );
+	
+				// If this decision has an item associated with it, annotate it
+				if ( spoiler instanceof ChoiceManager.Option )
+				{
+					AdventureResult item = ((ChoiceManager.Option)spoiler).getItem();
+	
+					// If this decision leads to an item...
+					if ( item != null )
+					{
+						// List # in inventory
+						buffer.append( "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('" );
+						buffer.append( ItemDatabase.getDescriptionId( item.getItemId() ) );
+						buffer.append( "');\">" );
+	
+						int available = KoLCharacter.hasEquipped( item ) ? 1 : 0;
+						available += item.getCount( KoLConstants.inventory );
+	
+						buffer.append( available );
+						buffer.append( " in inventory" );
+					}
+				}
+	
+				// Finish spoiler text
+				buffer.append( ")</font>" );
 			}
 			buffer.append( "</form>" );
 			index1 = index2 + 7;

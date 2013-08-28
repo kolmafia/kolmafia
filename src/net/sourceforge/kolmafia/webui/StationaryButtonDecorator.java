@@ -557,7 +557,7 @@ public class StationaryButtonDecorator
 			// questlog.php?which=6&vl=p#mon1429
 
 			String link = m.group( 1 );
-			if ( !link.startsWith( "questlog.php" ) )
+			if ( !link.contains( "questlog.php" ) && !link.contains( "desc_item.php" ) )
 			{
 				return link;
 			}

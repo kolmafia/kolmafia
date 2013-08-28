@@ -144,14 +144,12 @@ public class ChoiceOptionsPanel
 		this.addTab( "Zone", new GenericScrollPane( this.choicePanel ) );
 		this.setToolTipTextAt( 0, "Choices specific to the current adventure zone" );
 
-		String[] options;
-
 		this.optionSelects = new JComboBox[ ChoiceManager.CHOICE_ADVS.length ];
 		for ( int i = 0; i < ChoiceManager.CHOICE_ADVS.length; ++i )
 		{
 			this.optionSelects[ i ] = new JComboBox();
 			this.optionSelects[ i ].addItem( "show in browser" );
-			options = ChoiceManager.CHOICE_ADVS[ i ].getOptions();
+			Object[] options = ChoiceManager.CHOICE_ADVS[ i ].getOptions();
 			for ( int j = 0; j < options.length; ++j )
 			{
 				this.optionSelects[ i ].addItem( options[ j ] );
@@ -941,9 +939,15 @@ public class ChoiceOptionsPanel
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
+			ChoiceManager.ChoiceAdventure choiceAdventure = ChoiceManager.CHOICE_ADVS[ i ];
+			String setting = choiceAdventure.getSetting();
 			int index = this.optionSelects[ i ].getSelectedIndex();
-			String choice = ChoiceManager.CHOICE_ADVS[ i ].getSetting();
-			Preferences.setString( choice, String.valueOf( index ) );
+			Object option = this.optionSelects[ i ].getSelectedItem();
+			if ( option instanceof ChoiceManager.Option )
+			{
+				index = ((ChoiceManager.Option)option).getDecision( index );
+			}
+			Preferences.setString( setting, String.valueOf( index ) );
 		}
 
 		//              The Wheel:
@@ -1294,17 +1298,28 @@ public class ChoiceOptionsPanel
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
-			index = Preferences.getInteger( ChoiceManager.CHOICE_ADVS[ i ].getSetting() );
-			if ( index >= 0 )
+			ChoiceManager.ChoiceAdventure choiceAdventure = ChoiceManager.CHOICE_ADVS[ i ];
+			setting = choiceAdventure.getSetting();
+			index = Preferences.getInteger( setting );
+			if ( index < 0 )
 			{
-				if ( index >= this.optionSelects[ i ].getItemCount() )
-				{
-					System.out.println( "Invalid setting " + index + " for "
-						+ ChoiceManager.CHOICE_ADVS[ i ].getSetting() );
-					index = 0;
-				}
-				this.optionSelects[ i ].setSelectedIndex( index );
+				continue;
 			}
+
+			if ( index > 0 )
+			{
+				Object[] options = choiceAdventure.getOptions();
+				Object option = ChoiceManager.findOption( options, index );
+				if ( option != null )
+				{
+					this.optionSelects[ i ].setSelectedItem( option );
+					continue;
+				}
+
+				System.out.println( "Invalid setting " + index + " for " + setting );
+			}
+
+			this.optionSelects[ i ].setSelectedIndex( 0 );
 		}
 
 		// Determine the desired wheel position by examining
