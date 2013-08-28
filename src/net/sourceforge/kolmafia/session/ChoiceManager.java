@@ -328,7 +328,8 @@ public abstract class ChoiceManager
 		// Denim Axes Examined
 		new ChoiceSpoiler(
 			"choiceAdventure2", "Palindome",
-			new Object[] { new Option( "denim axe", "denim axe" ), new Option( "skip adventure", "rubber axe" ) } ),
+			new Object[] { new Option( "denim axe", "denim axe" ),
+				       new Option( "skip adventure", "rubber axe" ) } ),
 		// Denim Axes Examined
 		new Object[]{ IntegerPool.get(2), IntegerPool.get(1),
 		  new AdventureResult( "rubber axe", -1 ) },
@@ -341,7 +342,9 @@ public abstract class ChoiceManager
 		// Finger-Lickin'... Death.
 		new ChoiceAdventure(
 			"Beach", "choiceAdventure4", "South of the Border",
-			new Object[] { "small meat boost", new Option( "try for poultrygeist", "poultrygeist" ), "skip adventure" } ),
+			new Object[] { "small meat boost",
+				       new Option( "try for poultrygeist", "poultrygeist" ),
+				       "skip adventure" } ),
 		// Finger-Lickin'... Death.
 		new Object[]{ IntegerPool.get(4), IntegerPool.get(1),
 		  new AdventureResult( AdventureResult.MEAT, -500 ) },
@@ -846,7 +849,7 @@ public abstract class ChoiceManager
 		// Purple Hazers
 		new ChoiceAdventure(
 			"Island", "choiceAdventure138", "Frat House",
-			new Object[] { new Option( "orcish cargo shorts", "orcish cargo shorts" ),
+			new Object[] { new Option( "Orcish cargo shorts", "Orcish cargo shorts" ),
 				       new Option( "Orcish baseball cap", "Orcish baseball cap" ),
 				       new Option( "homoerotic frat-paddle", "homoerotic frat-paddle" ),
 				       "complete the outfit" } ),
@@ -5293,6 +5296,16 @@ public abstract class ChoiceManager
 				// Marty looks delighted when you hand him the
 				// bouquet of swamp roses.
 				ResultProcessor.processItem( ItemPool.SWAMP_ROSE_BOUQUET, -1 );
+			}
+			return;
+
+		case 703:
+			// Mer-kin dreadscroll
+			if ( text.contains( "I guess you're the Mer-kin High Priest now" ) )
+			{
+				// *** Track that, somehow?
+				ResultProcessor.processItem( ItemPool.DREADSCROLL, -1 );
+				return;
 			}
 			return;
 
