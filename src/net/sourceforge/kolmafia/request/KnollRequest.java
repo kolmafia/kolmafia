@@ -33,9 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -47,37 +44,36 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 public class KnollRequest
 	extends GenericRequest
 {
-	private static final Pattern PLACE_PATTERN = Pattern.compile( "place=([^&]*)" );
-
 	public KnollRequest()
 	{
-		super( "knoll.php" );
+		super( "place.php" );
+		this.addFormField( "whichplace", "knoll_friendly" );
 	}
 
-	public KnollRequest( final String place)
+	public KnollRequest( final String action)
 	{
 		this();
-		this.addFormField( "place", place );
+		this.addFormField( "action", action );
 	}
 
-	public static String getNPCName( final String place )
+	public static String getNPCName( final String action )
 	{
-		if ( place == null )
+		if ( action == null )
 		{
 			return null;
 		}
 
-		if ( place.equals( "mayor" ) )
+		if ( action.equals( "dk_mayor" ) )
 		{
 			return "Mayor Zapruder";
 		}
 
-		if ( place.equals( "smith" ) )
+		if ( action.equals( "dk_innabox" ) )
 		{
 			return "Innabox";
 		}
 
-		if ( place.equals( "paster" ) )
+		if ( action.equals( "dk_plunger" ) )
 		{
 			return "The Plunger";
 		}
@@ -93,20 +89,19 @@ public class KnollRequest
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "knoll.php" ) )
+		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "knoll_friendly" ) )
 		{
 			return;
 		}
 
-		Matcher matcher = PLACE_PATTERN.matcher( urlString );
-		String place = matcher.find() ? matcher.group(1) : null;
+		String action = GenericRequest.getAction( urlString );
 
-		if ( place == null )
+		if ( action == null )
 		{
 			return;
 		}
 
-		if ( place.equals( "mayor" ) )
+		if ( action.equals( "dk_mayor" ) )
 		{
 			// Mayor Zapruder assigns quests and gives you an
 			// elemental fairy or equipment.
@@ -162,15 +157,20 @@ public class KnollRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "knoll.php" ) )
+		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "knoll_friendly" ) )
 		{
 			return false;
 		}
 
-		Matcher matcher = PLACE_PATTERN.matcher( urlString );
-		String place = matcher.find() ? matcher.group(1) : null;
-		String npc = getNPCName( place );
+		String action = GenericRequest.getAction( urlString );
 
+		// We have nothing special to do for other simple visits.
+		if ( action == null )
+		{
+			return true;
+		}
+
+		String npc = getNPCName( action );
 		if ( npc != null )
 		{
 			RequestLogger.updateSessionLog();
@@ -178,20 +178,7 @@ public class KnollRequest
 			return true;
 		}
 
-		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		String action = matcher.find() ? matcher.group(1) : null;
-
-		// We have nothing special to do for other simple visits.
-
-		if ( action == null )
-		{
-			return true;
-		}
-
 		// Other requests handle other actions in the Knoll
-
-		// action = combine
-		// action = smith
 		// action = gym
 
 		return false;

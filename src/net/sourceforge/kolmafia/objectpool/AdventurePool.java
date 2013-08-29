@@ -115,4 +115,5 @@ public class AdventurePool
 	public static final int GLACIER_OF_JERKS = 279;
 	public static final String HIDDEN_TEMPLE_ID = "280";
 	public static final String SHROUDED_PEAK_ID = "cloudypeak2";
+	public static final int DEGRASSI_KNOLL_GARAGE = 354;
 }

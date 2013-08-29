@@ -150,73 +150,55 @@ public class CreateItemRequest
 		String action = "craft";
 		String mode = null;
 
-		if ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
+		switch ( this.mixingMethod )
 		{
-			if ( this.mixingMethod == CraftingType.COMBINE )
-			{
-				formSource = "knoll.php";
-				action = "combine";
-			}
-			else if ( this.mixingMethod == CraftingType.SMITH &&
-				  ( this.requirements.contains( CraftingRequirements.GRIMACITE ) ) )
-			{
-				formSource = "knoll.php";
-				action = "smith";
-			}
-		}
+		case COMBINE:
+		case ACOMBINE:
+			mode = "combine";
+			break;
 
-		if ( formSource.equals( "craft.php" ) )
-		{
-			switch ( this.mixingMethod )
-			{
-			case COMBINE:
-			case ACOMBINE:
-				mode = "combine";
-				break;
+		case MIX:
+		case MIX_FANCY:
+			mode = "cocktail";
+			break;
 
-			case MIX:
-			case MIX_FANCY:
-				mode = "cocktail";
-				break;
+		case COOK:
+		case COOK_FANCY:
+			mode = "cook";
+			break;
 
-			case COOK:
-			case COOK_FANCY:
-				mode = "cook";
-				break;
+		case SMITH:
+		case SSMITH:
+			mode = "smith";
+			break;
 
-			case SMITH:
-			case SSMITH:
-				mode = "smith";
-				break;
+		case JEWELRY:
+			mode = "jewelry";
+			break;
 
-			case JEWELRY:
-				mode = "jewelry";
-				break;
+		case ROLLING_PIN:
+			formSource = "inv_use.php";
+			break;
 
-			case ROLLING_PIN:
-				formSource = "inv_use.php";
-				break;
+		case WOK:
+			formSource = "guild.php";
+			action = "wokcook";
+			break;
 
-			case WOK:
-				formSource = "guild.php";
-				action = "wokcook";
-				break;
+		case MALUS:
+			formSource = "guild.php";
+			action = "malussmash";
+			break;
 
-			case MALUS:
-				formSource = "guild.php";
-				action = "malussmash";
-				break;
+		case STILL_MIXER:
+			formSource = "guild.php";
+			action = "stillfruit";
+			break;
 
-			case STILL_MIXER:
-				formSource = "guild.php";
-				action = "stillfruit";
-				break;
-
-			case STILL_BOOZE:
-				formSource = "guild.php";
-				action = "stillbooze";
-				break;
-			}
+		case STILL_BOOZE:
+			formSource = "guild.php";
+			action = "stillbooze";
+			break;
 		}
 
 		this.constructURLString( formSource );
@@ -1389,20 +1371,6 @@ public class CreateItemRequest
 			{
 				// Take credit for all visits to crafting
 				return true;
-			}
-		}
-		else if ( urlString.startsWith( "knoll.php" ) )
-		{
-			if ( urlString.indexOf( "action=combine" ) != -1 )
-			{
-				isCreationURL = true;
-				command.append( "Combine " );
-			}
-			else if ( urlString.indexOf( "action=smith" ) != -1 )
-			{
-				isCreationURL = true;
-				command.append( "Smith " );
-				usesTurns = true;
 			}
 		}
 		else if ( urlString.startsWith( "guild.php" ) )

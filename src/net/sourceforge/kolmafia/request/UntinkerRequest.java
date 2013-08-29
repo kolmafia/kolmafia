@@ -257,12 +257,11 @@ public class UntinkerRequest
 		{
 			GenericRequest tinkVisit = new GenericRequest( "forestvillage.php" );
 			tinkVisit.run();
-			tinkVisit.addFormField( "action=screwquest" );
+			tinkVisit.addFormField( "action", "screwquest" );
 			tinkVisit.run();
-			GenericRequest knollVisit = new GenericRequest( "knoll.php" );
-			knollVisit.run();
-
-			knollVisit.addFormField( "place=smith" );
+			GenericRequest knollVisit = new GenericRequest( "place.php" );
+			knollVisit.addFormField( "whichplace", "knoll_friendly" );
+			knollVisit.addFormField( "action", "dk_innabox" );
 			knollVisit.run();
 
 			return true;
@@ -284,7 +283,7 @@ public class UntinkerRequest
 		tinkVisit.addFormField( "action=screwquest" );
 		tinkVisit.run();
 
-		KoLAdventure sideTripLocation = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=18" );
+		KoLAdventure sideTripLocation = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=354" );
 		AdventureResult sideTripItem = UntinkerRequest.SCREWDRIVER.getNegation();
 
 		String action = Preferences.getString( "battleAction" );
@@ -346,7 +345,7 @@ public class UntinkerRequest
 		String link;
 		if ( KoLCharacter.knollAvailable() )
 		{
-			link = "<font size=1>[<a href=\"knoll.php?place=smith\">visit Innabox</a>]</font>";
+			link = "<font size=1>[<a href=\"place.php?whichplace=knoll_friendly&action=dk_innabox\">visit Innabox</a>]</font>";
 		}
 		else
 			link = "<font size=1>[<a href=\"adventure.php?snarfblat=18\">Degrassi Knoll</a>]</font>";

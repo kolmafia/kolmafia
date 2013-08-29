@@ -1307,7 +1307,7 @@ public class KoLAdventure
 
 		// Visit the untinker before adventuring at Degrassi Knoll.
 
-		if ( id == AdventurePool.DEGRASSI_KNOLL )
+		if ( id == AdventurePool.DEGRASSI_KNOLL_GARAGE )
 		{
 			UntinkerRequest.canUntinker();
 		}

@@ -318,7 +318,7 @@ public abstract class UseLinkDecorator
 
 	private static final CraftingType shouldAddCreateLink( int itemId, String location )
 	{
-		if ( location == null || location.indexOf( "craft.php" ) != -1 || location.indexOf( "paster" ) != -1 || location.indexOf( "smith" ) != -1 )
+		if ( location == null || location.indexOf( "craft.php" ) != -1 )
 		{
 			return CraftingType.NOCREATE;
 		}
@@ -524,7 +524,7 @@ public abstract class UseLinkDecorator
 		{
 		case COMBINE:
 		case ACOMBINE:
-			return new UseLink( itemId, itemCount, "combine", ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) ? "knoll.php?place=paster" : "craft.php?mode=combine&a=" );
+			return new UseLink( itemId, itemCount, "combine", "craft.php?mode=combine&a=" );
 
 		case MIX:
 			return new UseLink( itemId, itemCount, "mix", "craft.php?mode=cocktail&a=" );

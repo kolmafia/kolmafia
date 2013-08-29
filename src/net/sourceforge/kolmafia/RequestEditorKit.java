@@ -940,11 +940,6 @@ public class RequestEditorKit
 
 	private static final void decorateInventory( final StringBuffer buffer, final boolean addComplexFeatures )
 	{
-		if ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
-		{
-			StringUtilities.globalStringReplace( buffer, "combine.php", "knoll.php?place=paster" );
-		}
-
 		// <table width=100%><tr><td colspan=2 width="210"></td><td width=20 rowspan=2></td><td class=small align=center valign=top rowspan=2><font size=2>[<a href="craft.php">craft&nbsp;stuff</a>]&nbsp;  [<a href="sellstuff.php">sell&nbsp;stuff</a>]<br /></font></td><td width=20 rowspan=2></td><td colspan=2 width="210"></td></tr></table>
 
 		StringBuilder links = new StringBuilder();
