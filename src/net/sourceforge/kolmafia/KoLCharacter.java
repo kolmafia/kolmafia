@@ -3162,9 +3162,8 @@ public abstract class KoLCharacter
 
 	/**
 	 * Accessor method which indicates whether the character is in a Muscle sign KoLmafia could/should use this to: -
-	 * Allow adventuring in The Bugbear Pens - Provide access to npcstore #4: The Degrassi Knoll Bakery - Provide access
-	 * to npcstore #5: The Degrassi Knoll General Store - Train Muscle in The Gym - Smith non-advanced things using
-	 * Innabox (no hammer/adventure) - Combine anything using The Plunger (no meat paste)
+	 * Allow adventuring in The Bugbear Pens - Provide access to npcstore #4: The Degrassi Knoll Bakery and Hardware Store - Train 
+	 * Muscle in The Gym - Smith non-advanced things using Innabox (no hammer/adventure) - Combine anything using The Plunger (no meat paste)
 	 *
 	 * @return <code>true</code> if the character is in a Muscle sign
 	 */

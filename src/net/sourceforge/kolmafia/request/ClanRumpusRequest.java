@@ -564,7 +564,7 @@ public class ClanRumpusRequest
 	{
 		String action = null;
 
-		if ( urlString.startsWith( "knoll.php" ) && urlString.indexOf( "action=gym" ) != -1 )
+		if ( urlString.startsWith( "place.php" ) && urlString.indexOf( "action=dk_gym" ) != -1 )
 		{
 			action = "Pump Up Muscle";
 		}

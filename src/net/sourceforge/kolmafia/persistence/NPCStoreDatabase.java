@@ -204,12 +204,7 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "4" ) )
 		{
-			// Degrassi Knoll Bakery
-			return KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore();
-		}
-		else if ( storeId.equals( "5" ) )
-		{
-			// Degrassi Knoll General Store
+			// Degrassi Knoll Bakery and Hardware Store
 			return KoLCharacter.knollAvailable();
 		}
 		else if ( storeId.equals( "a" ) )

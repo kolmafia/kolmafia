@@ -553,11 +553,6 @@ public class ResponseTextParser
 			UseItemRequest.parseConsumption( responseText, false );
 		}
 
-		else if ( location.startsWith( "knoll.php" ) )
-		{
-			KnollRequest.parseResponse( location, responseText );
-		}
-
 		else if ( location.startsWith( "knoll_mushrooms.php" ) )
 		{
 			MushroomRequest.parseResponse( location, responseText );
@@ -638,9 +633,13 @@ public class ResponseTextParser
 			{
 				OrcChasmRequest.parseResponse( location, responseText );
 			}
-			if ( location.contains( "whichplace=junggate" ) )
+			else if ( location.contains( "whichplace=junggate" ) )
 			{
 				UseItemRequest.parseConsumption( responseText, false );
+			}
+			else if ( location.contains( "whichplace=knoll_friendly" ) )
+			{
+				KnollRequest.parseResponse( location, responseText );
 			}
 		}
 

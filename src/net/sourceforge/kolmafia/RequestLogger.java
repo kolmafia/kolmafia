@@ -636,7 +636,6 @@ public class RequestLogger
 		     urlString.startsWith( "inventory.php?ajax" ) ||
 		     urlString.startsWith( "inventory.php?which=" ) ||
 		     urlString.startsWith( "inventory.php?action=message" ) ||
-		     urlString.equals( "knoll.php?place=paster" ) ||
 		     urlString.startsWith( "lair" ) ||
 		     urlString.startsWith( "mining" ) ||
 		     urlString.equals( "forestvillage.php?place=untinker" ) )
