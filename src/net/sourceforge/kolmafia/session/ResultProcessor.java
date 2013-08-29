@@ -285,25 +285,28 @@ public class ResultProcessor
 
 		String acquisition = lastToken.trim();
 
-		if ( acquisition.startsWith( "You acquire" ) )
+		if ( acquisition.startsWith( "You acquire an effect" ) ||
+		     acquisition.startsWith( "You lose an effect" ) ||
+		     acquisition.startsWith( "You lose some of an effect" ) )
 		{
-			if ( acquisition.indexOf( "clan trophy" ) != -1 )
-			{
-				return false;
-			}
-
-			if ( acquisition.indexOf( "effect" ) == -1 )
-			{
-				ResultProcessor.processItem( combatResults, parsedResults, acquisition, data );
-				return false;
-			}
-
 			return ResultProcessor.processEffect( parsedResults, acquisition, data );
 		}
 
-		if ( acquisition.startsWith( "You lose an effect" ) || acquisition.startsWith( "You lose some of an effect" ) )
+		if ( acquisition.startsWith( "You acquire an intrinsic" ) ||
+		     acquisition.startsWith( "You lose an intrinsic" ) )
 		{
-			return ResultProcessor.processEffect( parsedResults, acquisition, data );
+			return ResultProcessor.processIntrinsic( parsedResults, acquisition, data );
+		}
+
+		if ( acquisition.startsWith( "You acquire" ) )
+		{
+			if ( acquisition.contains( "clan trophy" ) )
+			{
+				return false;
+			}
+
+			ResultProcessor.processItem( combatResults, parsedResults, acquisition, data );
+			return false;
 		}
 
 		if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " ) || lastToken.startsWith( "You spent " ) )
@@ -461,6 +464,37 @@ public class ResultProcessor
 
 		ResultProcessor.parseEffect( effectName );
 		return false;
+	}
+
+	private static boolean processIntrinsic( StringTokenizer parsedResults, String acquisition, List<AdventureResult> data )
+	{
+		if ( data != null )
+		{
+			return false;
+		}
+
+		String effectName = parsedResults.nextToken();
+
+		String message = acquisition + " " + effectName;
+		RequestLogger.printLine( message );
+		if ( Preferences.getBoolean( "logStatusEffects" ) )
+		{
+			RequestLogger.updateSessionLog( message );
+		}
+
+		AdventureResult result = new AdventureResult( effectName, Integer.MAX_VALUE, true );
+
+		if ( message.startsWith( "You lose" ) )
+		{
+			AdventureResult.removeResultFromList( KoLConstants.activeEffects, result );
+		}
+		else
+		{
+			KoLConstants.activeEffects.add( result );
+			KoLConstants.activeEffects.sort();
+		}
+
+		return true;
 	}
 
 	public static boolean processGainLoss( String lastToken, final List<AdventureResult> data )
