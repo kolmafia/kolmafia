@@ -4541,10 +4541,13 @@ public abstract class ChoiceManager
 			return 0;
 		}
 
-		// If user wants to complete an outfit, convert to real
-		// decision index
+		// If user wants to complete an outfit, convert to real decision index
 
 		decision = ChoiceManager.pickOutfitChoice( option, decision );
+		if ( decision.equals( "0" ) || decision.equals( "" ) )
+		{	// Manual choice requested, or unsupported choice
+			return 0;
+		}
 		return StringUtilities.parseInt( decision );
 	}
 
@@ -7499,6 +7502,9 @@ public abstract class ChoiceManager
 
 	private static final String pickOutfitChoice( final String option, final String decision )
 	{
+		// Default return value if can't pick a better one
+		String retval = decision.equals( "0" ) ? "1" : decision;
+
 		// Find the options for the choice we've encountered
 
 		Object[] options = null;
@@ -7527,7 +7533,7 @@ public abstract class ChoiceManager
 
 		if ( options == null )
 		{
-			return decision;
+			return retval;
 		}
 
 		// Choose an item in the conditions first, if it's available.
@@ -7560,7 +7566,7 @@ public abstract class ChoiceManager
 		// If none of the options have an associated item, nothing to do.
 		if ( !items )
 		{
-			return decision;
+			return retval;
 		}
 
 		// Find the spoiler corresponding to the chosen decision
@@ -7569,7 +7575,7 @@ public abstract class ChoiceManager
 		// If the player doesn't want to "complete the outfit", nothing to do
 		if ( chosen != null && !chosen.toString().equals( "complete the outfit" ) )
 		{
-			return decision;
+			return retval;
 		}
 
 		// Pick an item that the player doesn't have yet
