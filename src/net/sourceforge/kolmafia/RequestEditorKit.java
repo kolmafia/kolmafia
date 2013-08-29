@@ -64,6 +64,8 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
+import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.chat.ChatPoller;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -2098,22 +2100,22 @@ public class RequestEditorKit
 				index1 = index2 + 7;
 				continue;
 			}
+
 			int i = StringUtilities.parseInt( optionMatcher.group( 1 ) );
-			
-			int pos = i == decision ? currentSection.lastIndexOf( "value=\"" ) : -1;
-			if ( pos == -1 )
+			if ( i != decision )
 			{
 				buffer.append( currentSection );
 			}
 			else
 			{
+				int pos = currentSection.lastIndexOf( "value=\"" );
 				buffer.append( currentSection.substring( 0, pos + 7 ) );
 				buffer.append( "&rarr; " );
 				buffer.append( currentSection.substring( pos + 7 ) );
 			}
 
 			// Start spoiler text
-			if ( i > 0 )
+			while ( i > 0 )
 			{
 				// Say what the choice will give you
 				Object spoiler = ChoiceManager.choiceSpoiler( choice, i, spoilers[ 2 ] ); 
@@ -2121,13 +2123,13 @@ public class RequestEditorKit
 				// If we have nothing to say about this option, don't say anything
 				if ( spoiler == null )
 				{
-					continue;
+					break;
 				}
 
 				String name = spoiler.toString();
 				if ( name.equals( "" ) )
 				{
-					continue;
+					break;
 				}
 
 				buffer.append( "<br><font size=-1>(" );
@@ -2156,6 +2158,7 @@ public class RequestEditorKit
 	
 				// Finish spoiler text
 				buffer.append( ")</font>" );
+				break;
 			}
 			buffer.append( "</form>" );
 			index1 = index2 + 7;
