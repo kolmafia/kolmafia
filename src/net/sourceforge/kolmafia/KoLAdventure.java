@@ -62,7 +62,6 @@ import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
@@ -163,16 +162,6 @@ public class KoLAdventure
 		{
 			this.request = new BasementRequest( adventureName );
 		}
-		else if ( formSource.equals( "hiddencity.php" ) )
-		{
-			// Adventure in unexplored, protector spirit, and encounter squares
-			this.request = new HiddenCityRequest( 0 );
-		}
-		else if ( adventureId.equals( AdventurePool.HIDDEN_CITY_ID ) )
-		{
-			// Adventure in encounter squares only
-			this.request = new HiddenCityRequest( -1 );
-		}
 		else
 		{
 			this.request = new AdventureRequest( adventureName, formSource, adventureId );
@@ -246,10 +235,6 @@ public class KoLAdventure
 		if ( urlString.startsWith( "pyramid.php" ) )
 		{
 			return PyramidRequest.getPyramidLocationString( urlString );
-		}
-		if ( urlString.startsWith( "hiddencity.php" ) )
-		{
-			return HiddenCityRequest.getHiddenCityLocationString( urlString );
 		}
 		if ( urlString.startsWith( "dungeon.php" ) )
 		{
@@ -1261,16 +1246,6 @@ public class KoLAdventure
 
 			switch ( id )
 			{
-			case AdventurePool.HIDDEN_CITY:
-				// The Hidden City is weird. It redirects you
-				// to the container zone (the grid of 25
-				// squares) if you try to adventure at this
-				// adventure ID.
-
-				// We detect adventuring in individual squares
-				// elsewhere.
-				return;
-
 			case AdventurePool.ARID_DESERT:
 				AdventureResult hydrated = EffectPool.get( Effect.HYDRATED );
 				if ( !KoLConstants.activeEffects.contains( hydrated ) )
@@ -1451,7 +1426,6 @@ public class KoLAdventure
 		},
 
 		// Pyramid Lower Chamber while drunk
-		// Hidden City while drunk
 		{
 			"You're too drunk to screw around",
 			"You are too drunk to go there.",
@@ -1878,12 +1852,6 @@ public class KoLAdventure
 		KoLAdventure.locationLogged = true;
 
 		String lastURL = KoLAdventure.lastLocationURL;
-
-		// The Hidden City handles some things on its own
-		if ( HiddenCityRequest.recordToSession( lastURL, urlString ) )
-		{
-			return false;
-		}
 
 		// See if we've been redirected away from the URL that started
 		// us adventuring

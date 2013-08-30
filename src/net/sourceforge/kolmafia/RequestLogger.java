@@ -95,7 +95,6 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
-import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
@@ -537,13 +536,6 @@ public class RequestLogger
 
 		// We want to register simple visits to HeyDeze
 		if ( ( request instanceof HeyDezeRequest || isExternal ) && HeyDezeRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		// We want to register simple visits to the Hidden City
-		if ( ( request instanceof HiddenCityRequest || isExternal ) && HiddenCityRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

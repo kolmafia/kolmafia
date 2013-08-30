@@ -86,7 +86,6 @@ import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
-import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
@@ -369,8 +368,6 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "adventure.php" ) )
 		{
-			// Hidden City must come before Stationary Buttons
-			RequestEditorKit.fixHiddenCity( buffer );
 			RequestEditorKit.fixTavernCellar( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.fixDucks( buffer );
@@ -484,8 +481,6 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "fight.php" ) )
 		{
-			// Hidden City must come before Stationary Buttons
-			RequestEditorKit.fixHiddenCity( buffer );
 			RequestEditorKit.fixTavernCellar( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			DiscoCombatHelper.decorate( buffer );
@@ -507,10 +502,6 @@ public class RequestEditorKit
 		{
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_WORTHLESS_ITEM_TEXT, RequestEditorKit.BUY_WORTHLESS_ITEM_TEXT );
-		}
-		else if ( location.startsWith( "hiddencity.php" ) )
-		{
-			RequestEditorKit.addHiddenCityModifiers( buffer );
 		}
 		else if ( location.startsWith( "inventory.php" ) )
 		{
@@ -972,8 +963,6 @@ public class RequestEditorKit
 				"<br />" + links.toString() + "<br /></font>" );
 		}
 
-		RequestEditorKit.changeSphereImages( buffer );
-
 		// Automatically name the outfit "backup" for simple save
 		// purposes while adventuring in browser.
 
@@ -1060,9 +1049,6 @@ public class RequestEditorKit
 	{
 		// Change bang potion names in item dropdown
 		RequestEditorKit.changePotionNames( buffer );
-
-		// Change stone sphere names in item dropdown
-		RequestEditorKit.changeSphereNames( buffer );
 
 		// Hilight He-Boulder eye color messages
 		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.HE_BOULDER )
@@ -1749,74 +1735,6 @@ public class RequestEditorKit
 		}
 	}
 
-	private static final void changeSphereImages( final StringBuffer buffer )
-	{
-		RequestEditorKit.changeSphereImage( buffer, "spheremoss.gif", 2174 );
-		RequestEditorKit.changeSphereImage( buffer, "spheresmooth.gif", 2175 );
-		RequestEditorKit.changeSphereImage( buffer, "spherecrack.gif", 2176 );
-		RequestEditorKit.changeSphereImage( buffer, "sphererough.gif", 2177 );
-	}
-
-	private static final void changeSphereImage( final StringBuffer buffer, final String image, final int itemId )
-	{
-		if ( buffer.indexOf( image ) == -1 )
-		{
-			return;
-		}
-
-		String name = ItemDatabase.getItemName( itemId );
-		if ( buffer.indexOf( name ) == -1 )
-		{
-			return;
-		}
-
-		String effect = Preferences.getString( "lastStoneSphere" + itemId );
-		if ( effect.equals( "" ) )
-		{
-			return;
-		}
-
-		StringUtilities.globalStringReplace( buffer, name, name + " of " + effect );
-	}
-
-	private static final void fixHiddenCity( final StringBuffer buffer )
-	{
-		// When you adventure in the Hidden City, the Adventure Again
-		// link takes you to the map. Fix that link as follows:
-		//
-		// (new) Adventure Again in These Ruins
-		// (new) Explore Some Unexplored Ruins
-		// Return to Hidden City Map
-
-		int index = buffer.indexOf( "<p><a href=\"hiddencity.php\">" );
-		if ( index == -1 )
-		{
-			return;
-		}
-
-		StringBuilder link = new StringBuilder();
-
-		int current = HiddenCityRequest.lastHiddenCitySquare();
-		if ( current > 0 )
-		{
-			link.setLength( 0 );
-			link.append( "<p><a href=\"hiddencity.php?which=" );
-			link.append( String.valueOf( current - 1 ) );
-			link.append( "\">Adventure Yet Again in These Ruins</a>" );
-			buffer.insert( index, link.toString() );
-		}
-
-		int unexplored = HiddenCityRequest.firstUnexploredRuins();
-		if ( unexplored > 0 )
-		{
-			link.setLength( 0 );
-			link.append( "<p><a href=\"hiddencity.php?which=" );
-			link.append( String.valueOf( unexplored - 1 ) );
-			link.append( "\">Explore Some Unexplored Ruins</a>" );
-			buffer.insert( index, link.toString() );
-		}
-	}
-
 	private static final void fixTavernCellar( final StringBuffer buffer )
 	{
 		// When you adventure in the Tavern Cellar, the Adventure Again
@@ -1869,126 +1787,6 @@ public class RequestEditorKit
 		replace.append( "\">read it</a>]</font>" );
 
 		StringUtilities.singleStringReplace( buffer, find, replace.toString() );
-	}
-
-	private static final void addHiddenCityModifiers( final StringBuffer buffer )
-	{
-		// Change stone sphere names in item dropdown
-		RequestEditorKit.changeSphereNames( buffer );
-
-		// If we are at an altar, select the correct stone sphere
-		Matcher matcher = RequestEditorKit.ALTAR_PATTERN.matcher( buffer.toString() );
-		if ( matcher.find() )
-		{
-			String domain = matcher.group(1);
-			String itemId = FightRequest.stoneSphereEffectToId( domain );
-			if ( itemId != null )
-			{
-				String find = "<option value='" + itemId + "'";
-				StringUtilities.insertAfter( buffer, find, " selected" );
-			}
-
-			String ball = RequestEditorKit.altarToBilliardBall( domain );
-			String effect = RequestEditorKit.altarToEffect( domain );
-			String modifiers = RequestEditorKit.altarToModifiers( domain );
-
-			if ( ball == null || effect == null || modifiers == null )
-			{
-				return;
-			}
-
-
-			StringUtilities.globalStringReplace( buffer, ball, ball + " (" + effect + ")" );
-
-			String test = "</form></center></td></tr>";
-			int index = buffer.indexOf( test );
-			if ( index != -1 )
-			{
-				index += test.length();
-				String hint = "<tr><td><center>A " + ball + " grants the " + effect + " (" + modifiers + ")</center></td></tr>";
-				buffer.insert( index, hint );
-			}
-		}
-	}
-
-	private static final String altarToBilliardBall( final String domain )
-	{
-		if ( domain.equals( "lightning" ) )
-		{
-			return "1-ball";
-		}
-		if ( domain.equals( "water" ) )
-		{
-			return "2-ball";
-		}
-		if ( domain.equals( "fire" ) )
-		{
-			return "5-ball";
-		}
-		if ( domain.equals( "nature" ) )
-		{
-			return "6-ball";
-		}
-
-		return null;
-	}
-
-	private static final String altarToEffect( final String domain )
-	{
-		if ( domain.equals( "lightning" ) )
-		{
-			return "Blessing of Pikachutlotal";
-		}
-		if ( domain.equals( "water" ) )
-		{
-			return "Blessing of Squirtlcthulli";
-		}
-		if ( domain.equals( "fire" ) )
-		{
-			return "Blessing of Charcoatl";
-		}
-		if ( domain.equals( "nature" ) )
-		{
-			return "Blessing of Bulbazinalli";
-		}
-
-		return null;
-	}
-
-	private static final String altarToModifiers( final String domain )
-	{
-		if ( domain.equals( "lightning" ) )
-		{
-			return "+30% Combat Initiative";
-		}
-		if ( domain.equals( "water" ) )
-		{
-			return "HP and MP regeneration";
-		}
-		if ( domain.equals( "fire" ) )
-		{
-			return "+10 Hot [Spell] Damage";
-		}
-		if ( domain.equals( "nature" ) )
-		{
-			return "+10 Damage Reduction";
-		}
-
-		return null;
-	}
-
-	private static final void changeSphereNames( final StringBuffer buffer )
-	{
-		for ( int i = 2174; i <= 2177; ++i )
-		{
-			String name = ItemDatabase.getItemName( i );
-			String effect = Preferences.getString( "lastStoneSphere" + i );
-
-			if ( buffer.indexOf( name ) != -1 && !effect.equals( "" ) )
-			{
-				StringUtilities.globalStringReplace( buffer, name, name + " of " + effect );
-			}
-		}
 	}
 
 	private static final void insertRoundNumbers( final StringBuffer buffer )

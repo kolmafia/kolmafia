@@ -1804,11 +1804,7 @@ public class FightRequest
 
 			encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 
-			if ( encounter.equalsIgnoreCase( "Ancient Protector Spirit" ) )
-			{
-				HiddenCityRequest.addHiddenCityLocation( 'P' );
-			}
-			else if ( encounter.equalsIgnoreCase( "giant octopus" ) )
+			if ( encounter.equalsIgnoreCase( "giant octopus" ) )
 			{
 				if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
 				{
@@ -1929,7 +1925,6 @@ public class FightRequest
 		// these could be done while walking the HTML parse tree.
 
 		FightRequest.parseBangPotion( responseText );
-		FightRequest.parseStoneSphere( responseText );
 		FightRequest.parsePirateInsult( responseText );
 		FightRequest.parseGrubUsage( responseText );
 		FightRequest.parseGhostSummoning( responseText );
@@ -2702,10 +2697,6 @@ public class FightRequest
 			{
 				Preferences.setInteger( "lastWuTangDefeated", KoLCharacter.getAscensions() );
 			}
-			else if ( monster.equalsIgnoreCase( "Ancient Protector Spirit" ) )
-			{
-				HiddenCityRequest.addHiddenCityLocation( 'D' );
-			}
 			else if ( monster.equalsIgnoreCase( "Baron Von Ratsworth" ) )
 			{
 				TavernRequest.addTavernLocation( '6' );
@@ -2803,10 +2794,6 @@ public class FightRequest
 			}
 		}
 
-		if ( Preferences.getBoolean( "autoSphereID" ) )
-		{
-			ItemPool.suggestIdentify( items, 2174, 2177, "lastStoneSphere" );
-		}
 		if ( Preferences.getBoolean( "autoPotionID" ) )
 		{
 			ItemPool.suggestIdentify( items, 819, 827, "lastBangPotion" );
@@ -2926,75 +2913,6 @@ public class FightRequest
 				}
 			}
 		}
-	}
-
-	// You hold the rough stone sphere up in the air.
-	private static final Pattern STONE_SPHERE_PATTERN =
-		Pattern.compile( "You hold the (.*?) stone sphere up in the air.*?It radiates a (.*?)," );
-
-	private static final void parseStoneSphere( final String responseText )
-	{
-		if ( FightRequest.anapest )
-		{
-			return;
-		}
-
-		Matcher sphereMatcher = FightRequest.STONE_SPHERE_PATTERN.matcher( responseText );
-		while ( sphereMatcher.find() )
-		{
-			int sphereId = ItemDatabase.getItemId( sphereMatcher.group( 1 ) + " stone sphere" );
-
-			if ( sphereId == -1 )
-			{
-				continue;
-			}
-
-			String effectText = sphereMatcher.group( 2 );
-			String[][] strings = ItemPool.stoneSphereStrings;
-
-			for ( int i = 0; i < strings.length; ++i )
-			{
-				if ( effectText.indexOf( strings[i][1] ) != -1 )
-				{
-					FightRequest.identifyStoneSphere( i, sphereId );
-					break;
-				}
-			}
-		}
-	}
-
-	private static final void identifyStoneSphere( final int sphere, final int sphereId )
-	{
-		if ( ItemPool.eliminationProcessor( ItemPool.stoneSphereStrings, sphere, sphereId, 2174, 2177, "lastStoneSphere", " of " ) )
-		{
-			KoLmafia.updateDisplay( "All stone spheres have been identified!" );
-		}
-	}
-
-	private static final boolean isStoneSphere( final int sphereId )
-	{
-		return sphereId >= 2174 && sphereId <= 2177;
-	}
-
-	public static final String stoneSphereEffectToId( final String effect )
-	{
-		for ( int i = 2174; i <= 2177; ++i )
-		{
-			String itemId = String.valueOf( i );
-			String value = Preferences.getString( "lastStoneSphere" + itemId );
-
-			if ( value.equals( "plants" ) )
-			{
-				value = "nature";
-			}
-
-			if ( effect.equals( value ) )
-			{
-				return itemId;
-			}
-		}
-
-		return null;
 	}
 
 	// The pirate sneers at you and replies &quot;<insult>&quot;
@@ -3837,11 +3755,6 @@ public class FightRequest
 
 					MonsterStatusTracker.damageMonster( damage );
 				}
-				else if ( FightRequest.isStoneSphere( status.lastCombatItem ) )
-				{
-					FightRequest.identifyStoneSphere( ItemPool.SPHERE_OF_WATER, status.lastCombatItem );
-					status.lastCombatItem = -1;
-				}
 			}
 
 			return;
@@ -3920,13 +3833,6 @@ public class FightRequest
 				FightRequest.logMonsterAttribute( action, damage, HEALTH );
 			}
 			MonsterStatusTracker.damageMonster( damage );
-
-			if ( FightRequest.isStoneSphere( status.lastCombatItem ) )
-			{
-				int sphere = hasFont ? ItemPool.SPHERE_OF_FIRE : ItemPool.SPHERE_OF_LIGHTNING;
-				FightRequest.identifyStoneSphere( sphere, status.lastCombatItem );
-				status.lastCombatItem = -1;
-			}
 
 			return;
 		}

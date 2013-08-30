@@ -451,13 +451,6 @@ public class AdventureResult
 
 			return AdventureResult.slimeVialName( this.itemId );
 
-		case ItemPool.MOSSY_STONE_SPHERE:
-		case ItemPool.SMOOTH_STONE_SPHERE:
-		case ItemPool.CRACKED_STONE_SPHERE:
-		case ItemPool.ROUGH_STONE_SPHERE:
-
-			return AdventureResult.stoneSphereName( this.itemId );
-
 		case ItemPool.PUNCHCARD_ATTACK:
 		case ItemPool.PUNCHCARD_REPAIR:
 		case ItemPool.PUNCHCARD_BUFF:
@@ -1176,19 +1169,6 @@ public class AdventureResult
 		}
 
 		return this.name;
-	}
-
-	public static final String stoneSphereName( final int itemId )
-	{
-		String itemName = ItemDatabase.getItemDataName( itemId );
-
-		String effect = Preferences.getString( "lastStoneSphere" + itemId );
-		if ( effect.equals( "" ) )
-		{
-			return itemName;
-		}
-
-		return itemName + " of " + effect;
 	}
 
 	public static final String punchCardName( final int itemId )

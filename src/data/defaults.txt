@@ -340,7 +340,6 @@ user	currentMood	default
 user	currentNunneryMeat	0
 user	currentPvpVictories
 user	currentSpleenUse	0
-user	currentWheelPosition	muscle
 user	customCombatScript	default
 user	cyrptAlcoveEvilness	0
 user	cyrptCrannyEvilness	0
@@ -425,7 +424,6 @@ user	guyMadeOfBeesDefeated	false
 user	heroDonationBoris	0
 user	heroDonationJarlsberg	0
 user	heroDonationSneakyPete	0
-user	hiddenCityLayout	0000000000000000000000000
 user	hippiesDefeated	0
 user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
@@ -559,11 +557,6 @@ user	lastSlimeVial3893
 user	lastSlimeVial3894
 user	lastSlimeVial3895
 user	lastSlimeVial3896
-user	lastStoneSphere2174
-user	lastStoneSphere2175
-user	lastStoneSphere2176
-user	lastStoneSphere2177
-user	lastStoneSphereReset	-1
 user	lastTavernAscension	0
 user	lastTavernSquare	0
 user	lastTelescopeReset	-1

@@ -459,16 +459,6 @@ public class TurnCounter
 			return 1;
 		}
 
-		if ( path.equals( "hiddencity.php" ) )
-		{
-			// Visiting the hidden city takes a map, but visiting a
-			// square usually does. Not always: simply visiting an
-			// altar does not take a turn. But give a warning, in
-			// case they are exploring
-
-			return urlString.indexOf( "?" ) == -1 ? 0 : 1;
-		}
-
 		if ( path.equals( "crimbo09.php" ) )
 		{
 			return Crimbo09Request.getTurnsUsed( request );

@@ -1149,10 +1149,6 @@ public class AdventureRequest
 		{
 			return responseText.indexOf( "choice.php" ) != -1;
 		}
-		else if ( formSource.startsWith( "hiddencity.php" ) )
-		{
-			return formSource.indexOf( "which=" ) != -1;
-		}
 		else if ( formSource.startsWith( "cave.php" ) )
 		{
 			return formSource.indexOf( "sanctum" ) != -1;

@@ -107,14 +107,13 @@ public class CustomCombatPanel
 	public JComboBox availableScripts;
 
 	private static ImageIcon stealImg, entangleImg;
-	private static ImageIcon potionImg, sphereImg, olfactImg, puttyImg;
+	private static ImageIcon potionImg, olfactImg, puttyImg;
 	private static ImageIcon antidoteImg, restoreImg, safeImg;
 	static
 	{
 		CustomCombatPanel.stealImg = CustomCombatPanel.getImage( "knobsack.gif" );
 		CustomCombatPanel.entangleImg = CustomCombatPanel.getImage( "entnoodles.gif" );
 		CustomCombatPanel.potionImg = CustomCombatPanel.getImage( "exclam.gif" );
-		CustomCombatPanel.sphereImg = CustomCombatPanel.getImage( "spherecrack.gif" );
 		CustomCombatPanel.olfactImg = CustomCombatPanel.getImage( "footprints.gif" );
 		CustomCombatPanel.puttyImg = CustomCombatPanel.getImage( "sputtycopy.gif" );
 		CustomCombatPanel.antidoteImg = CustomCombatPanel.getImage( "poisoncup.gif" );
@@ -222,11 +221,11 @@ public class CustomCombatPanel
 		private final JPopupMenu specialPopup;
 
 		private final JLabel stealLabel, entangleLabel;
-		private final JLabel potionLabel, sphereLabel, olfactLabel, puttyLabel;
+		private final JLabel potionLabel, olfactLabel, puttyLabel;
 		private final JLabel antidoteLabel, restoreLabel, safeLabel;
 
 		private final JCheckBoxMenuItem stealItem, entangleItem;
-		private final JCheckBoxMenuItem potionItem, sphereItem, olfactItem, puttyItem;
+		private final JCheckBoxMenuItem potionItem, olfactItem, puttyItem;
 		private final JCheckBoxMenuItem restoreItem, safePickpocket;
 		private final JMenu poisonItem;
 		private boolean updating = true;
@@ -256,12 +255,6 @@ public class CustomCombatPanel
 					"Entangling Noodles will be cast before non-CCS actions." );
 			this.olfactLabel = this.label( special, listener, CustomCombatPanel.olfactImg, null );
 			this.puttyLabel = this.label( special, listener, CustomCombatPanel.puttyImg, null );
-			this.sphereLabel =
-				this.label(
-					special,
-					listener,
-					CustomCombatPanel.sphereImg,
-					"<html>Hidden City spheres will be identified by using them in combat.<br>Requires 'special' action if a CCS is used.</html>" );
 			this.potionLabel =
 				this.label(
 					special,
@@ -285,7 +278,6 @@ public class CustomCombatPanel
 			this.olfactItem = this.checkbox( this.specialPopup, listener, "One-time automatic Olfaction..." );
 			this.puttyItem =
 				this.checkbox( this.specialPopup, listener, "One-time automatic Spooky Putty/Rain-Doh box/4-d camera..." );
-			this.sphereItem = this.checkbox( this.specialPopup, listener, "Identify stone spheres" );
 			this.potionItem = this.checkbox( this.specialPopup, listener, "Identify bang potions" );
 			this.specialPopup.addSeparator();
 
@@ -314,7 +306,6 @@ public class CustomCombatPanel
 			PreferenceListenerRegistry.registerListener( "autoEntangle", this );
 			PreferenceListenerRegistry.registerListener( "autoOlfact", this );
 			PreferenceListenerRegistry.registerListener( "autoPutty", this );
-			PreferenceListenerRegistry.registerListener( "autoSphereID", this );
 			PreferenceListenerRegistry.registerListener( "autoPotionID", this );
 			PreferenceListenerRegistry.registerListener( "autoAntidote", this );
 			PreferenceListenerRegistry.registerListener( "autoManaRestore", this );
@@ -358,9 +349,6 @@ public class CustomCombatPanel
 			this.puttyLabel.setVisible( pref );
 			this.puttyItem.setSelected( pref );
 			this.puttyLabel.setToolTipText( "<html>Automatic Spooky Putty sheet, Rain-Doh black box, 4-d camera or portable photocopier use: " + text + "<br>Requires 'special' action if a CCS is used.</html>" );
-			pref = Preferences.getBoolean( "autoSphereID" );
-			this.sphereLabel.setVisible( pref );
-			this.sphereItem.setSelected( pref );
 			pref = Preferences.getBoolean( "autoPotionID" );
 			this.potionLabel.setVisible( pref );
 			this.potionItem.setSelected( pref );
@@ -500,10 +488,6 @@ public class CustomCombatPanel
 							"goals abort" );
 
 					KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "putty", option == null ? "none" : option );
-				}
-				else if ( source == SpecialActionsPanel.this.sphereItem )
-				{
-					Preferences.setBoolean( "autoSphereID", state );
 				}
 				else if ( source == SpecialActionsPanel.this.potionItem )
 				{

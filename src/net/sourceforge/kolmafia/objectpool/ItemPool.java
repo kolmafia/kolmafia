@@ -508,10 +508,6 @@ public class ItemPool
 	public static final int TOY_MERCENARY = 2139;
 	public static final int EVIL_TEDDY_SEWING_KIT = 2147;
 	public static final int TRIANGULAR_STONE = 2173;
-	public static final int MOSSY_STONE_SPHERE = 2174;
-	public static final int SMOOTH_STONE_SPHERE = 2175;
-	public static final int CRACKED_STONE_SPHERE = 2176;
-	public static final int ROUGH_STONE_SPHERE = 2177;
 	public static final int ANCIENT_AMULET = 2180;
 	public static final int HAROLDS_HAMMER = 2184;
 	public static final int ANCIENT_CAROLS = 2191;
@@ -1786,7 +1782,7 @@ public class ItemPool
 		"CHOSOM", "MAXIMAL"
 	} );
 
-	// BANG POTIONS and STONE SPHERES
+	// BANG POTIONS and SLIME VIALS
 
 	public static final String[][] bangPotionStrings =
 	{
@@ -1801,20 +1797,6 @@ public class ItemPool
 		{ "ettin strength", "stronger", "Strength of Ten Ettins" },
 		{ "teleportitis", "disappearing", "Teleportitis" },
 	};
-	
-	public static final String[][] stoneSphereStrings =
-	{
-		// name, combat use message
-		{ "fire", "bright red light" },
-		{ "lightning", "bright yellow light" },
-		{ "water", "bright blue light" },
-		{ "nature", "bright green light" },
-	};
-
-	public static final int SPHERE_OF_FIRE = 0;
-	public static final int SPHERE_OF_LIGHTNING = 1;
-	public static final int SPHERE_OF_WATER = 2;
-	public static final int SPHERE_OF_NATURE = 3;
 	
 	public static final String[][][] slimeVialStrings =
 	{
