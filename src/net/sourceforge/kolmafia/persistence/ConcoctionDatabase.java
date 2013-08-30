@@ -1884,8 +1884,10 @@ public class ConcoctionDatabase
 				{
 					continue;
 				}
-				if ( adv > KoLCharacter.getAdventuresLeft() + ConcoctionDatabase.getFreeCraftingTurns() )
-				{
+				if ( adv > KoLCharacter.getAdventuresLeft() + 
+				     ( method == CraftingType.WOK ? 0 : ConcoctionDatabase.getFreeCraftingTurns() )
+				   )
+				{//
 					ConcoctionDatabase.PERMIT_METHOD.remove( method );
 					ConcoctionDatabase.EXCUSE.put( method, "You don't have enough adventures left to create that." );
 				}
