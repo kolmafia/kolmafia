@@ -584,7 +584,7 @@ public abstract class ChoiceManager
 			"Woods", "choiceAdventure73", "Whitey's Grove",
 			new Object[] { "muscle substats",
 				       new Option( "white picket fence", "white picket fence" ),
-				       new Option( "wedding cake, white rice 3x (+2x w/ rice bowl)", "wedding cake" ) } ),
+				       new Option( "wedding cake, white rice 3x (+2x w/ rice bowl)", "piece of wedding cake" ) } ),
 
 		// The Only Thing About Him is the Way That He Walks
 		new ChoiceAdventure(
