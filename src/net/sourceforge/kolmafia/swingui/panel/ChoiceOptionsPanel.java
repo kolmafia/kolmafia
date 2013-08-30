@@ -113,15 +113,6 @@ public class ChoiceOptionsPanel
 	private final JComboBox propDeportmentSelect;
 	private final JComboBox reloadedSelect;
 	private final JComboBox sororityGuideSelect;
-	private final JComboBox cabinSelect;
-	private final JComboBox tallestTreeSelect;
-	private final JComboBox burrowsSelect;
-	private final JComboBox villageSquareSelect;
-	private final JComboBox skidRowSelect;
-	private final JComboBox oldDukesEstateSelect;
-	private final JComboBox greatHallSelect;
-	private final JComboBox towerSelect;
-	private final JComboBox dungeonsSelect;
 	private final JComboBox gongSelect;
 	private final JComboBox basementMallSelect;
 	private final JComboBox breakableSelect;
@@ -338,53 +329,6 @@ public class ChoiceOptionsPanel
 		this.sororityGuideSelect.addItem( "main floor" );
 		this.sororityGuideSelect.addItem( "basement" );
 
-		// Dreadsylvania Non-Combats
-
-		this.cabinSelect = new JComboBox();
-		this.cabinSelect.addItem( "show in browser" );
-		this.cabinSelect.addItem( "learn shortcut" );
-		this.cabinSelect.addItem( "skip adventure" );
-
-		this.tallestTreeSelect = new JComboBox();
-		this.tallestTreeSelect.addItem( "show in browser" );
-		this.tallestTreeSelect.addItem( "learn shortcut" );
-		this.tallestTreeSelect.addItem( "skip adventure" );
-
-		this.burrowsSelect = new JComboBox();
-		this.burrowsSelect.addItem( "show in browser" );
-		this.burrowsSelect.addItem( "learn shortcut" );
-		this.burrowsSelect.addItem( "skip adventure" );
-
-		this.villageSquareSelect = new JComboBox();
-		this.villageSquareSelect.addItem( "show in browser" );
-		this.villageSquareSelect.addItem( "learn shortcut" );
-		this.villageSquareSelect.addItem( "skip adventure" );
-
-		this.skidRowSelect = new JComboBox();
-		this.skidRowSelect.addItem( "show in browser" );
-		this.skidRowSelect.addItem( "learn shortcut" );
-		this.skidRowSelect.addItem( "skip adventure" );
-
-		this.oldDukesEstateSelect = new JComboBox();
-		this.oldDukesEstateSelect.addItem( "show in browser" );
-		this.oldDukesEstateSelect.addItem( "learn shortcut" );
-		this.oldDukesEstateSelect.addItem( "skip adventure" );
-
-		this.greatHallSelect = new JComboBox();
-		this.greatHallSelect.addItem( "show in browser" );
-		this.greatHallSelect.addItem( "learn shortcut" );
-		this.greatHallSelect.addItem( "skip adventure" );
-
-		this.towerSelect = new JComboBox();
-		this.towerSelect.addItem( "show in browser" );
-		this.towerSelect.addItem( "learn shortcut" );
-		this.towerSelect.addItem( "skip adventure" );
-
-		this.dungeonsSelect = new JComboBox();
-		this.dungeonsSelect.addItem( "show in browser" );
-		this.dungeonsSelect.addItem( "learn shortcut" );
-		this.dungeonsSelect.addItem( "skip adventure" );
-
 		this.gongSelect = new JComboBox();
 		for ( int i = 0; i < GongCommand.GONG_PATHS.length; ++i )
 		{
@@ -432,15 +376,6 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Events", "Sorority House Prop Deportment", this.propDeportmentSelect );
 		this.addChoiceSelect( "Events", "Sorority House Relocked and Reloaded", this.reloadedSelect );
 		this.addChoiceSelect( "Item-Driven", "Sorority Staff Guide", this.sororityGuideSelect );
-		this.addChoiceSelect( "Dreadsylvania", "Cabin", this.cabinSelect );
-		this.addChoiceSelect( "Dreadsylvania", "Tallest Tree", this.tallestTreeSelect );
-		this.addChoiceSelect( "Dreadsylvania", "Burrows", this.burrowsSelect );
-		this.addChoiceSelect( "Dreadsylvania", "Village Square", this.villageSquareSelect );
-		this.addChoiceSelect( "Dreadsylvania", "Skid Row", this.skidRowSelect );
-		this.addChoiceSelect( "Dreadsylvania", "Old Duke's Estate", this.oldDukesEstateSelect );
-		this.addChoiceSelect( "Dreadsylvania", "Great Hall", this.greatHallSelect );
-		this.addChoiceSelect( "Dreadsylvania", "Tower", this.towerSelect );
-		this.addChoiceSelect( "Dreadsylvania", "Dungeons", this.dungeonsSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
@@ -880,52 +815,6 @@ public class ChoiceOptionsPanel
 		Preferences.setString( "choiceAdventure554",
 			String.valueOf( this.sororityGuideSelect.getSelectedIndex() ) );
 
-		int cabinIndex = this.cabinSelect.getSelectedIndex();
-		Preferences.setString( "choiceAdventure721",
-				       cabinIndex == 1 ? "5" :
-				       cabinIndex == 2 ? "6" :
-				       "0" );
-		int tallestTreeIndex = this.tallestTreeSelect.getSelectedIndex();
-		Preferences.setString( "choiceAdventure725",
-				       tallestTreeIndex == 1 ? "5" :
-				       tallestTreeIndex == 2 ? "6" :
-				       "0" );
-		int burrowsIndex = this.burrowsSelect.getSelectedIndex();
-		Preferences.setString( "choiceAdventure729",
-				       burrowsIndex == 1 ? "5" :
-				       burrowsIndex == 2 ? "6" :
-				       "0" );
-		int villageSquareIndex = this.villageSquareSelect.getSelectedIndex();
-		Preferences.setString( "choiceAdventure733",
-				       villageSquareIndex == 1 ? "5" :
-				       villageSquareIndex == 2 ? "6" :
-				       "0" );
-		int skidRowIndex = this.skidRowSelect.getSelectedIndex();
-		Preferences.setString( "choiceAdventure737",
-				       skidRowIndex == 1 ? "5" :
-				       skidRowIndex == 2 ? "6" :
-				       "0" );
-		int oldDukesEstateIndex = this.oldDukesEstateSelect.getSelectedIndex();
-		Preferences.setString( "choiceAdventure741",
-				       oldDukesEstateIndex == 1 ? "5" :
-				       oldDukesEstateIndex == 2 ? "6" :
-				       "0" );
-		int greatHallIndex = this.greatHallSelect.getSelectedIndex();
-		Preferences.setString( "choiceAdventure745",
-				       greatHallIndex == 1 ? "5" :
-				       greatHallIndex == 2 ? "6" :
-				       "0" );
-		int towerIndex = this.towerSelect.getSelectedIndex();
-		Preferences.setString( "choiceAdventure749",
-				       towerIndex == 1 ? "5" :
-				       towerIndex == 2 ? "6" :
-				       "0" );
-		int dungeonsIndex = this.dungeonsSelect.getSelectedIndex();
-		Preferences.setString( "choiceAdventure753",
-				       dungeonsIndex == 1 ? "5" :
-				       dungeonsIndex == 2 ? "6" :
-				       "0" );
-
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
 		Preferences.setInteger( "addingScrolls", this.addingSelect.getSelectedIndex() );
@@ -1263,25 +1152,6 @@ public class ChoiceOptionsPanel
 		this.propDeportmentSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure552" ) );
 		this.reloadedSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure553" ) );
 		this.sororityGuideSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure554" ) );
-
-		int cabinIndex = Preferences.getInteger( "choiceAdventure721" );
-		this.cabinSelect.setSelectedIndex( cabinIndex == 6 ? 2 : cabinIndex == 5 ? 1 : 0 );
-		int tallestTreeIndex = Preferences.getInteger( "choiceAdventure725" );
-		this.tallestTreeSelect.setSelectedIndex( tallestTreeIndex == 6 ? 2 : tallestTreeIndex == 5 ? 1 : 0 );
-		int burrowsIndex = Preferences.getInteger( "choiceAdventure729" );
-		this.burrowsSelect.setSelectedIndex( burrowsIndex == 6 ? 2 : burrowsIndex == 5 ? 1 : 0 );
-		int villageSquareIndex = Preferences.getInteger( "choiceAdventure733" );
-		this.villageSquareSelect.setSelectedIndex( villageSquareIndex == 6 ? 2 : villageSquareIndex == 5 ? 1 : 0 );
-		int skidRowIndex = Preferences.getInteger( "choiceAdventure737" );
-		this.skidRowSelect.setSelectedIndex( skidRowIndex == 6 ? 2 : skidRowIndex == 5 ? 1 : 0 );
-		int oldDukesEstateIndex = Preferences.getInteger( "choiceAdventure741" );
-		this.oldDukesEstateSelect.setSelectedIndex( oldDukesEstateIndex == 6 ? 2 : oldDukesEstateIndex == 5 ? 1 : 0 );
-		int greatHallIndex = Preferences.getInteger( "choiceAdventure745" );
-		this.greatHallSelect.setSelectedIndex( greatHallIndex == 6 ? 2 : greatHallIndex == 5 ? 1 : 0 );
-		int towerIndex = Preferences.getInteger( "choiceAdventure749" );
-		this.towerSelect.setSelectedIndex( towerIndex == 6 ? 2 : towerIndex == 5 ? 1 : 0 );
-		int dungeonsIndex = Preferences.getInteger( "choiceAdventure753" );
-		this.dungeonsSelect.setSelectedIndex( dungeonsIndex == 6 ? 2 : dungeonsIndex == 5 ? 1 : 0 );
 
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );
