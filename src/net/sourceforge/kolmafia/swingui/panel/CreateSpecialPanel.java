@@ -250,26 +250,56 @@ public class CreateSpecialPanel
 	{
 		private String pref;
 
+		// This spinner is tied to a Preference.
+		//
+		// Since it is a ChangeListener, whenever the user manipulates
+		// the spinner, the "stateChanged" method is called to change
+		// the setting, which will write it to the settings file.
+		//
+		// Since it is a PreferenceListener, whenever the setting
+		// changes, the "update" method is called to adjust the widget.
+		//
+		// We do not want to write the settings file when we are
+		// adjusting the widget to agree with what the setting has
+		// already been changed to.
+
+		boolean updating = false;
+
 		public PrefSpinner( String pref )
 		{
 			super();
 			this.pref = pref;
 			this.setAlignmentX( 0.0f );
-			this.addChangeListener( this );
 			JComponentUtilities.setComponentSize( this, 80, -1 );
-			PreferenceListenerRegistry.registerListener( pref, this );
+
+			// Set the widget from the current value of the setting
 			this.update();
+
+			// Register to be informed when the setting changes
+			PreferenceListenerRegistry.registerListener( pref, this );
+
+			// Register to be informed when the widget changes
+			this.addChangeListener( this );
 		}
 
 		public void stateChanged( ChangeEvent e )
 		{
-			int val = InputFieldUtilities.getValue( this, 0 );
-			Preferences.setInteger( this.pref, val );
+			// Change the setting to agree with the widget. If we
+			// are currently loading the widget from the setting,
+			// do not write the setting.
+			if ( !updating )
+			{
+				int val = InputFieldUtilities.getValue( this, 0 );
+				Preferences.setInteger( this.pref, val );
+			}
 		}
 
 		public void update()
 		{
+			// Change the widget to agree with the setting
+			this.updating = true;
 			this.setValue( Math.max( 0, Preferences.getInteger( this.pref ) ) );
+			this.updating = false;
 		}
 	}
 }
