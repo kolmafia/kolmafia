@@ -233,11 +233,17 @@ public abstract class ChoiceManager
 		private final String zone;
 		private final String setting;
 		private final String name;
+		private final int ordering;
 
 		private final Object[] options;
 		private Object[][] spoilers;
 
 		public ChoiceAdventure( final String zone, final String setting, final String name, final Object[] options )
+		{
+			this( zone, setting, name, options, 0 );
+		}
+
+		public ChoiceAdventure( final String zone, final String setting, final String name, final Object[] options, final int ordering )
 		{
 			this.zone = zone;
 			this.setting = setting;
@@ -245,6 +251,7 @@ public abstract class ChoiceManager
 			this.name = name;
 			this.options = options;
 			this.spoilers = new Object[][] { new String[] { setting }, new String[] { name }, options };
+			this.ordering = ordering;
 		}
 
 		public int getChoice()
@@ -281,6 +288,13 @@ public abstract class ChoiceManager
 
 		public int compareTo( final ChoiceAdventure o )
 		{
+			// Choices can have a specified relative ordering
+			// within zone regardless of name or choice number
+			if ( this.ordering != o.ordering )
+			{
+				return this.ordering - o.ordering;
+			}
+
 			if ( ChoiceManager.choicesOrderedByName )
 			{
 				int result = this.name.compareToIgnoreCase( o.name );
@@ -2586,7 +2600,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Dreadsylvania", "choiceAdventure721", "Cabin",
 			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
+				       new Option( "skip adventure", 6 ) },
+			1 ),
 
 		// Choice 722 is The Kitchen in the Woods
 		// Choice 723 is What Lies Beneath (the Cabin)
@@ -2596,7 +2611,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Dreadsylvania", "choiceAdventure725", "Tallest Tree",
 			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
+				       new Option( "skip adventure", 6 ) },
+			2 ),
 
 		// Choice 726 is Top of the Tree, Ma!
 		// Choice 727 is All Along the Watchtower
@@ -2606,7 +2622,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Dreadsylvania", "choiceAdventure729", "Burrows",
 			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
+				       new Option( "skip adventure", 6 ) },
+			3 ),
 
 		// Choice 730 is Hot Coals
 		// Choice 731 is The Heart of the Matter
@@ -2616,7 +2633,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Dreadsylvania", "choiceAdventure733", "Village Square",
 			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
+				       new Option( "skip adventure", 6 ) },
+			4 ),
 
 		// Choice 734 is Fright School
 		// Choice 735 is Smith, Black as Night
@@ -2626,7 +2644,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Dreadsylvania", "choiceAdventure737", "Skid Row",
 			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
+				       new Option( "skip adventure", 6 ) },
+			5 ),
 
 		// Choice 738 is A Dreadful Smell
 		// Choice 739 is The Tinker's. Damn.
@@ -2636,7 +2655,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Dreadsylvania", "choiceAdventure741", "Old Duke's Estate",
 			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
+				       new Option( "skip adventure", 6 ) },
+			6 ),
 
 		// Choice 742 is The Plot Thickens
 		// Choice 743 is No Quarter
@@ -2646,7 +2666,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Dreadsylvania", "choiceAdventure745", "Great Hall",
 			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
+				       new Option( "skip adventure", 6 ) },
+			8 ),
 
 		// Choice 746 is The Belle of the Ballroom
 		// Choice 747 is Cold Storage
@@ -2656,7 +2677,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Dreadsylvania", "choiceAdventure749", "Tower",
 			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
+				       new Option( "skip adventure", 6 ) },
+			7 ),
 
 		// Choice 750 is Working in the Lab, Late One Night
 		// Choice 751 is Among the Quaint and Curious Tomes.
@@ -2666,7 +2688,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Dreadsylvania", "choiceAdventure753", "Dungeons",
 			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) } ),
+				       new Option( "skip adventure", 6 ) },
+			9 ),
 
 		// Choice 754 is Live from Dungeon Prison
 		// Choice 755 is The Hot Bowels
