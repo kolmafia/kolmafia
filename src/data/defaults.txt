@@ -960,6 +960,7 @@ user	_snowSuitCount	0
 user	_snowconeSummons	0
 user	_softwareGlitchTurnReceived	false
 user	_spaghettiBreakfast	false
+user	_spaghettiBreakfastEaten	false
 user	_stabonicScrollUsed	false
 user	_stickerSummons	0
 user	_stinkyCheeseCount	0

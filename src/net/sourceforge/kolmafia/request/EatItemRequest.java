@@ -114,7 +114,8 @@ public class EatItemRequest
 		{
 		case ItemPool.SPAGHETTI_BREAKFAST:
 			// This is your breakfast, you need to eat it first thing
-			return ( KoLCharacter.getFullness() == 0 && KoLCharacter.getFullnessLimit() > 0 ) ? 1 : 0;
+			return ( KoLCharacter.getFullness() == 0 && KoLCharacter.getFullnessLimit() > 0 &&
+			         !Preferences.getBoolean( "_spaghettiBreakfastEaten" ) ) ? 1 : 0;
 		}
 
 		int limit = KoLCharacter.getFullnessLimit();
@@ -693,6 +694,11 @@ public class EatItemRequest
 					5 * item.getCount() ) );
 			KoLCharacter.updateStatus();
 			return;
+
+		case ItemPool.SPAGHETTI_BREAKFAST:
+			Preferences.setBoolean( "_spaghettiBreakfastEaten", true );
+			return;
+
 		}
 	}
 
