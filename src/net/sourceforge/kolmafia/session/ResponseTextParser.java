@@ -98,7 +98,6 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
-import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.JarlsbergRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
@@ -418,11 +417,6 @@ public class ResponseTextParser
 		else if ( location.startsWith( "heydeze.php" ) )
 		{
 			HeyDezeRequest.parseResponse( location, responseText );
-		}
-
-		else if ( location.startsWith( "hiddencity.php" ) )
-		{
-			HiddenCityRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "desc_skill.php" ) && location.indexOf( "self=true" ) != -1 )

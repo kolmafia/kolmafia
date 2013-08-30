@@ -67,7 +67,6 @@ import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HiddenCityRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
@@ -553,20 +552,6 @@ public class AdventureDatabase
 			return null;
 		}
 
-		if ( adventureURL.startsWith( "hiddencity.php" ) )
-		{
-			// Simple visits to the Hidden City map and special
-			// actions in Hidden City squares are not adventures.
-			if ( adventureURL.indexOf( "?" ) == -1 ||
-			     HiddenCityRequest.getAction( adventureURL ) != null )
-			{
-				return null;
-			}
-
-			// Otherwise log the square as a visit
-			return AdventureDatabase.adventureLookup.get( "hiddencity.php" );
-		}
-
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
 		adventureURL = StringUtilities.singleStringReplace( adventureURL, "action=ignorewarning&whichzone", "snarfblat" );
@@ -820,10 +805,6 @@ public class AdventureDatabase
 		else if ( urlString.startsWith( "guild.php?action=chal" ) )
 		{
 			return "Guild Challenge";
-		}
-		else if ( urlString.startsWith( "hiddencity.php" ) )
-		{
-			return null;
 		}
 		else if ( urlString.startsWith( "pyramid.php" ) )
 		{

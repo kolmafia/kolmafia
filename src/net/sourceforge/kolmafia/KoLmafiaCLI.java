@@ -756,7 +756,6 @@ public class KoLmafiaCLI
 		new HallOfLegendsCommand().register( "donate" );
 		new HatterCommand().register( "hatter" );
 		new HermitCommand().register( "hermit" );
-		new HiddenCityCommand().register( "hiddencity" );
 		new HotTubCommand().register( "hottub" ).register( "soak" );
 		new IfStatement().register( "if" );
 		new ItemTraceCommand().register( "itrace" );

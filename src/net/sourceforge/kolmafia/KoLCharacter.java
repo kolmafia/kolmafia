@@ -749,7 +749,6 @@ public abstract class KoLCharacter
 		KoLCharacter.ensureUpdatedPirateInsults();
 		KoLCharacter.ensureUpdatedPotionEffects();
 		KoLCharacter.ensureUpdatedSkatePark();
-		KoLCharacter.ensureUpdatedSphereEffects();
 		KoLCharacter.ensureUpdatedCellar();
 	}
 
@@ -4860,29 +4859,6 @@ public abstract class KoLCharacter
 		{
 			Preferences.setString( "skateParkStatus", "war" );
 			Preferences.setInteger( "lastSkateParkReset", KoLCharacter.getAscensions() );
-		}
-	}
-
-	private static final void ensureUpdatedSphereEffects()
-	{
-		int lastAscension = Preferences.getInteger( "lastStoneSphereReset" );
-		if ( lastAscension < KoLCharacter.getAscensions() )
-		{
-			Preferences.setInteger( "lastStoneSphereReset", KoLCharacter.getAscensions() );
-			for ( int i = 2174; i <= 2177; ++i )
-			{
-				Preferences.setString( "lastStoneSphere" + i, "" );
-			}
-		}
-
-		for ( int i = 2174; i <= 2177; ++i )
-		{
-			String testProperty = Preferences.getString( "lastStoneSphere" + i );
-			if ( !testProperty.equals( "" ) )
-			{
-				String testName = ItemDatabase.getItemName( i ) + " of " + testProperty;
-				ItemDatabase.registerItemAlias( i, testName, null );
-			}
 		}
 	}
 
