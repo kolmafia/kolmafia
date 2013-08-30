@@ -805,6 +805,7 @@ Staff of Holiday Sensations	Spell Damage Percent: +75, Cold Spell Damage: +15, M
 Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 # Staff of the Light Lunch: Jiggle: Deal Some Cold Damage
 Staff of the Light Lunch	Spell Damage: +10, Initiative: +15, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Cold dmg"
+Staff of the Lunch Lady	Spell Damage Percent: +75, Maximum HP: +15, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6, Food Drop: +25
 Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of the November Jack-O-Lantern	Spell Damage Percent: +20, Stench Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
 Staff of the Roaring Hearth	Spell Damage Percent: +250, Hot Spell Damage: +40, MP Regen Min: 30, MP Regen Max: 35
@@ -970,6 +971,7 @@ curdflinger	Moxie: +3, Weakens Monster
 curmudgel	Monster Level: +8, Weapon Damage: +10
 cursed cutlass	Muscle: +15
 cyber-mattock	Item Drop: +5, Meat Drop: +10
+deathchucks	Weapon Damage Percent: +75, Monster Level: +15
 # debonair deboner: +25 Damage to Skeletons
 debonair deboner	Moxie: 10
 # decaying wooden oar
@@ -4281,6 +4283,7 @@ Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Triangle, Man	Muscle Percent: +10
 Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Truly Gritty	Weapon Damage: +20, Muscle: +20
+Truthful	Monster Level: +40
 Tundra Mouth	Cold Damage: [min(100,T)]
 Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Turtle Titters	Experience: +3
@@ -5292,6 +5295,7 @@ sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 sleeping piano cat	Free Pull
 smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
 snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
+sodium pentasomething	Effect: "Truthful", Effect Duration: 20
 sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
 sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
@@ -5316,6 +5320,7 @@ sugar lime	Effect: "Sweet and Green", Effect Duration: 10
 sugar-coated pine cone	Effect: "Sugar Rush", Effect Duration: 5
 Super Weight-Gain 9000	Effect: "Superveiny 9000", Effect Duration: 10
 super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
+superwater	Effect: "Ultrahydrated", Effect Duration: 50
 suspicious stocking	Free Pull
 swamp lolly	Effect: "Sugar Rush", Effect Duration: 10
 sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30

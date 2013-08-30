@@ -685,6 +685,7 @@ Staff of the Healthy Breakfast	10	Mys: 0	1-handed chefstaff
 Staff of the Hearty Dinner	10	Mys: 0	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
 Staff of the Light Lunch	10	Mys: 0	1-handed chefstaff
+Staff of the Lunch Lady	10	Mys: 75	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff
 Staff of the November Jack-O-Lantern	10	Mys: 15	1-handed chefstaff
 Staff of the Roaring Hearth	10	Mys: 250	1-handed chefstaff
@@ -832,6 +833,7 @@ curdflinger	45	Mox: 7	1-handed crossbow
 curmudgel	125	Mus: 47	1-handed club
 cursed cutlass	200	Mus: 85	1-handed sword
 cyber-mattock	160	Mus: 65	2-handed axe
+deathchucks	50	Mus: 10	2-handed nunchaku
 debonair deboner	90	Mus: 30	1-handed club
 decaying wooden oar	200	Mus: 85	2-handed club
 deep six-shooter	200	Mox: 85	1-handed pistol

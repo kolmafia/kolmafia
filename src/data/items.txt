@@ -6675,21 +6675,21 @@ s1
 6658	hair oil	188501537	motoroil.gif	usable	t,d	15
 6659	scrap metal	682691090	scrapmetal.gif	usable	t,d	20
 6660
-6661
-6662
-6663
-6664
-6665
+6661	miniature suspension bridge	781798485	minibridge.gif	none	q	0
+6662	Staff of the Lunch Lady	446905790	lunchstaff.gif	weapon	q	0
+6663	universal key	875673912	unikey.gif	none	q	0
+6664	world's most dangerous birdhouse	440545739	birdhouse.gif	none, combat	q	0
+6665	deathchucks	510828429	deathchucks.gif	weapon	q	0
 6666	giant eraser	530310946	bigeraser.gif	none, combat	q	0
 6667
 6668	giant Faraday cage	646917799	faraday.gif	usable	q	0
 6669	modeling claymore	283407190	claymoremine.gif	usable	q	0
 6670	sticky clay homunculus	476523278	clayhomunc.gif	none, combat	q	0
-6671
-6672
+6671	sodium pentasomething	907445812	potion15.gif	usable	q	0
+6672	grains of salt	944004572	disease.gif	none	q	0
 6673
-6674
-6675
+6674	dirty stinkbomb	888407830	bomb.gif	none, combat	q	0
+6675	superwater	250057853	potion16.gif	usable	q	0
 6676	Thwaitgold bookworm statuette	283482924	thwaitbookworm.gif	none		0
 6677
 6678	Yearbook Club Camera	379789481	camera.gif	accessory	q	0
