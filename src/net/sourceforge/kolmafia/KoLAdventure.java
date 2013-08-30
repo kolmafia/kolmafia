@@ -81,8 +81,6 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import net.sourceforge.kolmafia.webui.DungeonDecorator;
-
 public class KoLAdventure
 	implements Comparable<KoLAdventure>, Runnable
 {
@@ -235,10 +233,6 @@ public class KoLAdventure
 		if ( urlString.startsWith( "pyramid.php" ) )
 		{
 			return PyramidRequest.getPyramidLocationString( urlString );
-		}
-		if ( urlString.startsWith( "dungeon.php" ) )
-		{
-			return DungeonDecorator.getDungeonRoomString();
 		}
 		return this.adventureName;
 	}
@@ -1922,10 +1916,6 @@ public class KoLAdventure
 		if ( urlString.startsWith( "basement.php" ) )
 		{
 			encounter = BasementRequest.getBasementLevelSummary();
-		}
-		else if ( urlString.startsWith( "dungeon.php" ) )
-		{
-			encounter = DungeonDecorator.getDungeonEncounter();
 		}
 
 		if ( !encounter.equals( "" ) )

@@ -78,8 +78,6 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import net.sourceforge.kolmafia.webui.DungeonDecorator;
-
 public class AdventureDatabase
 	extends KoLDatabase
 {
@@ -547,11 +545,6 @@ public class AdventureDatabase
 			return null;
 		}
 
-		if ( adventureURL.startsWith( "dungeon.php" ) )
-		{
-			return null;
-		}
-
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = AdventureDatabase.removeField( adventureURL, "pwd" );
 		adventureURL = StringUtilities.singleStringReplace( adventureURL, "action=ignorewarning&whichzone", "snarfblat" );
@@ -789,10 +782,6 @@ public class AdventureDatabase
 				return "Nemesis Cave: Inner Sanctum";
 			}
 			return null;
-		}
-		else if ( urlString.startsWith( "dungeon.php" ) )
-		{
-			return DungeonDecorator.getDungeonRoomString();
 		}
 		else if ( urlString.startsWith( "dwarffactory.php" ) )
 		{

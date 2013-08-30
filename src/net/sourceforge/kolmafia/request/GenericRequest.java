@@ -2397,13 +2397,6 @@ public class GenericRequest
 			ResultProcessor.processItem( ItemPool.TEN_LEAF_CLOVER, -1 );
 		}
 
-		if ( urlString.startsWith( "dungeon.php" ) &&
-			this.responseText.indexOf( "key breaks off in the lock" ) != -1 )
-		{
-			// Unfortunately, the key breaks off in the lock.
-			ResultProcessor.processItem( ItemPool.SKELETON_KEY, -1 );
-		}
-
 		if ( this.responseText.indexOf( "You break the bottle on the ground" ) != -1 )
 		{
 			// You break the bottle on the ground, and stomp it to powder
@@ -2411,16 +2404,16 @@ public class GenericRequest
 		}
 
 		if ( this.responseText.indexOf( "FARQUAR" ) != -1 ||
-			this.responseText.indexOf( "Sleeping Near the Enemy" ) != -1 )
+		     this.responseText.indexOf( "Sleeping Near the Enemy" ) != -1 )
 		{
 			// The password to the Dispensary is known!
 			Preferences.setInteger( "lastDispensaryOpen", KoLCharacter.getAscensions() );
 		}
 
 		if ( urlString.startsWith( "mall.php" ) ||
-			urlString.startsWith( "account.php" ) ||
-			urlString.startsWith( "records.php" ) ||
-			( urlString.startsWith( "peevpee.php" ) && this.getFormField( "lid" ) != null ) )
+		     urlString.startsWith( "account.php" ) ||
+		     urlString.startsWith( "records.php" ) ||
+		     ( urlString.startsWith( "peevpee.php" ) && this.getFormField( "lid" ) != null ) )
 		{
 			// These pages cannot possibly contain an actual item
 			// drop, but may have a bogus "You acquire an item:" as

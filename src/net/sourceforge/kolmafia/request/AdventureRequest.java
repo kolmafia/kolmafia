@@ -77,7 +77,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.CellarDecorator;
-import net.sourceforge.kolmafia.webui.DungeonDecorator;
 import net.sourceforge.kolmafia.webui.DvorakDecorator;
 
 public class AdventureRequest
@@ -160,8 +159,7 @@ public class AdventureRequest
 			this.addFormField( "whichplace", "mclargehuge" );
 			this.addFormField( "action", adventureId );
 		}
-		else if ( !formSource.equals( "dungeon.php" ) &&
-			  !formSource.equals( "basement.php" ) &&
+		else if ( !formSource.equals( "basement.php" ) &&
 			  !formSource.equals( "cellar.php" ) &&
 			  !formSource.equals( "barrel.php" ) )
 		{
@@ -206,11 +204,6 @@ public class AdventureRequest
 			}
 		}
 
-		if ( this.formSource.equals( "dungeon.php" ) )
-		{
-			this.data.clear();
-		}
-
 		else if ( this.formSource.equals( "adventure.php" ) && this.adventureId.equals( "120" ) )
 		{
 			// Replace with a (not-so-)randomly chosen corner
@@ -249,33 +242,6 @@ public class AdventureRequest
 		}
 
 		super.run();
-
-		if ( this.responseCode != 200 )
-		{
-			return;
-		}
-
-		if ( this.formSource.equals( "dungeon.php" ) )
-		{
-			this.addFormField( "action", "Yep." );
-
-			if ( this.responseText.contains( "Yendium Platnori" ) )
-			{
-				this.addFormField( "option", "4" );
-			}
-			else if ( ( this.responseText.contains( "Locked Door" ) && InventoryManager.hasItem( AdventureRequest.SKELETON_KEY ) ) ||
-					this.responseText.contains( "\"Move on\"" ) // a useless treasure room
-				  )
-			{
-				this.addFormField( "option", "2" );
-			}
-			else
-			{
-				this.addFormField( "option", "1" );
-			}
-
-			super.run();
-		}
 	}
 
 	@Override
@@ -302,12 +268,6 @@ public class AdventureRequest
 				KoLmafia.updateDisplay( MafiaState.PENDING, "Unexpected hedge maze puzzle state." );
 			}
 
-			return;
-		}
-
-		if ( this.formSource.equals( "dungeon.php" ) && this.responseText.indexOf( "You have reached the bottom of today's Dungeon" ) != -1 )
-		{
-			KoLmafia.updateDisplay( MafiaState.PENDING, "Daily dungeon completed." );
 			return;
 		}
 
@@ -794,13 +754,6 @@ public class AdventureRequest
 		// Fernswarthy's Basement
 		if ( urlString.startsWith( "basement.php" ) )
 		{
-			return null;
-		}
-
-		// Daily Dungeon
-		if ( urlString.startsWith( "dungeon.php" ) )
-		{
-			DungeonDecorator.checkDungeon( responseText );
 			return null;
 		}
 
