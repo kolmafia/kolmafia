@@ -121,7 +121,6 @@ import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CellarDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
-import net.sourceforge.kolmafia.webui.DungeonDecorator;
 import net.sourceforge.kolmafia.webui.DvorakDecorator;
 import net.sourceforge.kolmafia.webui.FightDecorator;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
@@ -470,10 +469,6 @@ public class RequestEditorKit
 		else if ( location.startsWith( "crypt.php" ) )
 		{
 			RequestEditorKit.decorateCrypt( buffer );
-		}
-		else if ( location.startsWith( "dungeon.php" ) )
-		{
-			DungeonDecorator.decorate( buffer );
 		}
 		else if ( location.startsWith( "dwarffactory.php" ) )
 		{

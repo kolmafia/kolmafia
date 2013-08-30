@@ -2594,6 +2594,12 @@ public abstract class ChoiceManager
 
 		// Choice 686 is Of Might and Magic
 
+		// Choice 689 is The Final Chest
+		// Choice 690 is The First Chest Isn't the Deepest.
+		// Choice 691 is Second Chest
+		// Choice 692 is I Wanna Be a Door
+		// Choice 693 is It's Almost Certainly a Trap
+
 		// Choice 695 is A Drawer of Chests
 
 		// The Cabin in the Dreadsylvanian Woods
@@ -5301,6 +5307,17 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 692:
+			// I Wanna Be a Door
+
+			// *** does this still happen?
+			if ( text.contains( "key breaks off in the lock" ) )
+			{
+				// Unfortunately, the key breaks off in the lock.
+				ResultProcessor.processItem( ItemPool.SKELETON_KEY, -1 );
+			}
+			return;
+
 		case 699:
 			// Lumber-related Pun
 			if ( text.contains( "hand him the branch" ) )
@@ -7430,6 +7447,38 @@ public abstract class ChoiceManager
 				return LostKeyManager.autoKey( decision, stepCount, responseText );
 			}
 			return "0";
+
+		case 690:
+			// The First Chest Isn't the Deepest.
+		case 691:
+			// Second Chest
+
+			// *** These are chests in the daily dungeon.
+
+			// If you have a Ring of Detect Boring Doors equipped,
+			// "go through the boring door"
+
+			return decision;
+
+		case 692:
+			// I Wanna Be a Door
+
+			// *** This is the locked door in the daily dungeon.
+
+			// If you have a Platinum Yendorian Express Card, use it.
+			// Otherwise, if you have pick-o-matic lockpicks, use them
+			// Otherwise, if you have a skeleton key, use it.
+
+			return decision;
+
+		case 693:
+			// It's Almost Certainly a Trap
+
+			// *** This is a trap in the daily dungeon.
+
+			// If you have an eleven-foot pole, use it.
+
+			return decision;
 
 		// The Cabin in the Dreadsylvanian Woods
 		case 721:
