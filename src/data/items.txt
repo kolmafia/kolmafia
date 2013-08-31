@@ -6739,3 +6739,7 @@ s1
 6722	pygmy phone number	771989532	phonenum.gif	usable	t,d	86
 6723	gold Boozehounds Anonymous token	582753886	boozetoken.gif	usable	t,d	160
 6724	exotic jungle fruit	953800707	junglefruit.gif	food	t,d	88	pieces of exotic jungle fruit
+6725	Shore Inc. Ship Trip Scrip	591185724	shorescrip.gif	none		0
+6726	dude ranch souvenir crate	241890928	crate.gif	usable	t	0
+6727	tropical island souvenir crate	631078936	crate.gif	usable	t	0
+6728	ski resort souvenir crate	978195555	crate.gif	usable	t	0

@@ -109,11 +109,14 @@ public class CampgroundRequest
 		// Inside dwelling
 		ItemPool.BLACK_BLUE_LIGHT,
 		ItemPool.BONSAI_TREE,
+		ItemPool.CLOCKWORK_MAID,
 		ItemPool.CUCKOO_CLOCK,
 		ItemPool.FENG_SHUI,
 		ItemPool.LED_CLOCK,
 		ItemPool.LOUDMOUTH_LARRY,
 		ItemPool.LUCKY_CAT_STATUE,
+		ItemPool.MAID,
+		ItemPool.MEAT_GLOBE,
 		ItemPool.PLASMA_BALL,
 
 		// Kitchen
@@ -134,8 +137,6 @@ public class CampgroundRequest
 		ItemPool.GIANT_CANDY_CANE,
 
 		// Outside dwelling
-		ItemPool.CLOCKWORK_MAID,
-		ItemPool.MAID,
 		ItemPool.MEAT_GOLEM,
 		ItemPool.PAGODA_PLANS,
 		ItemPool.SCARECROW,
@@ -517,10 +518,11 @@ public class CampgroundRequest
 		}
 
 		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
-		findImage( responseText, "maid.gif", ItemPool.MAID );
-		findImage( responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID );
 		findImage( responseText, "scarecrow.gif", ItemPool.SCARECROW );
 		findImage( responseText, "golem.gif", ItemPool.MEAT_GOLEM );
+
+		findImage( responseText, "maid.gif", ItemPool.MAID );
+		findImage( responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID );
 
 		findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 );
 		findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 );

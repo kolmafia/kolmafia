@@ -255,6 +255,7 @@ public class ItemPool
 	public static final int WAND_OF_NAGAMAR = 626;
 	public static final int ND = 627;
 	public static final int METALLIC_A = 628;
+	public static final int MEAT_GLOBE = 636;
 	public static final int TOASTER = 637;
 	public static final int SKELETON_KEY = 642;
 	public static final int SKELETON_KEY_RING = 643;
@@ -1734,6 +1735,7 @@ public class ItemPool
 	public static final int FOLDER_28 = 6645;
 	public static final int GIANT_FARADAY_CAGE = 6668;
 	public static final int BOWLING_BALL = 6696;
+	public static final int SHIP_TRIP_SCRIP = 6725;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -1034,6 +1034,7 @@ public class ResultProcessor
 		case ItemPool.FUDGECULE:
 		case ItemPool.FDKOL_COMMENDATION:
 		case ItemPool.KRUEGGERAND:
+		case ItemPool.SHIP_TRIP_SCRIP:
 		case ItemPool.TWINKLY_WAD:
 			// The Traveling Trader usually wants twinkly wads
 		case ItemPool.GG_TOKEN:
