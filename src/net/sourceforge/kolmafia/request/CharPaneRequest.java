@@ -645,9 +645,14 @@ public class CharPaneRequest
 		}
 		else
 		{
-			int startIndex = responseText.indexOf( "<font size=2>", searchIndex ) + 13;
+			int startIndex = responseText.indexOf( "<font size=2", searchIndex );
+			startIndex = responseText.indexOf( ">", startIndex ) + 1;
 			durationIndex = responseText.indexOf( "</font", startIndex );
 			durationIndex = responseText.lastIndexOf( "(", durationIndex ) + 1;
+			if ( durationIndex < 0 )
+			{
+				return null;
+			}
 			effectName = responseText.substring( startIndex, durationIndex - 1 ).trim();
 		}
 
@@ -725,11 +730,20 @@ public class CharPaneRequest
 				continue;
 			}
 
+			int currentCount = effect.getCount();
+			if ( currentCount == 0 )
+			{
+				// This is an expired effect. We don't need to
+				// explicitly remove it from activeEffects,
+				// since we'll simply not retain it.
+				continue;
+			}
+
 			int activeCount = effect.getCount( KoLConstants.activeEffects );
 
-			if ( effect.getCount() != activeCount )
+			if ( currentCount != activeCount )
 			{
-				ResultProcessor.processResult( effect.getInstance( effect.getCount() - activeCount ) );
+				ResultProcessor.processResult( effect.getInstance( currentCount - activeCount ) );
 			}
 
 			visibleEffects.add( effect );
