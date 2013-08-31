@@ -119,6 +119,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
+import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -1054,6 +1055,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof SendMailRequest || isExternal ) && SendMailRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof ShoreGiftShopRequest || isExternal ) && ShoreGiftShopRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

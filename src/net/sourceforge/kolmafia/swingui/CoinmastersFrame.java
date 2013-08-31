@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
@@ -139,6 +140,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel awolPanel = null;
 	private CoinmasterPanel fudgeWandPanel = null;
 	private CoinmasterPanel travelerPanel = null;
+	private CoinmasterPanel shoreGiftShopPanel = null;
 	private CoinmasterPanel trapperPanel = null;
 	private CoinmasterPanel vendingMachinePanel = null;
 	private CoinmasterPanel swaggerShopPanel = null;
@@ -175,6 +177,11 @@ public class CoinmastersFrame
 		hermitPanel = new HermitPanel();
 		panel.add( hermitPanel );
 		this.selectorPanel.addPanel( hermitPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		shoreGiftShopPanel = new ShoreGiftShopPanel();
+		panel.add( shoreGiftShopPanel );
+		this.selectorPanel.addPanel( shoreGiftShopPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		trapperPanel = new TrapperPanel();
@@ -358,6 +365,7 @@ public class CoinmastersFrame
 		hermitPanel.update();
 		swaggerShopPanel.update();
 		BURTPanel.update();
+		shoreGiftShopPanel.update();
 		trapperPanel.update();
 		vendingMachinePanel.update();
 		bigBrotherPanel.update();
@@ -489,6 +497,15 @@ public class CoinmastersFrame
 		public BURTPanel()
 		{
 			super( BURTRequest.BURT );
+		}
+	}
+
+	public class ShoreGiftShopPanel
+		extends CoinmasterPanel
+	{
+		public ShoreGiftShopPanel()
+		{
+			super( ShoreGiftShopRequest.SHORE_GIFT_SHOP );
 		}
 	}
 

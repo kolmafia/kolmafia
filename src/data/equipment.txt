@@ -1182,7 +1182,7 @@ C.H.U.M. lantern	100	Mus: 150
 Chalice of the Malkovich Prince	0	none
 Cloaca-Cola shield	70	none	shield
 Codex of Capsaicin Conjuration	30	none
-Cold Stone of Hatred	0	Mus: 125
+Cold Stone of Hatred	200	Mus: 125
 Cookbook of the Damned	30	none
 Crimbo Elf creepy bobble-head	0	none
 Crimbo bottomless hot cocoa mug	0	none
@@ -1787,7 +1787,7 @@ diving muff	200	Mys: 85
 dope gangsta bling-bling	45	Mys: 7
 eXtreme mittens	110	Mys: 35
 eXtreme nose ring	100	Mys: 10
-eerie fetish	0	Mys: 200
+eerie fetish	225	Mys: 200
 elven socks	30	none
 enchanted handwarmer	60	Mys: 15
 enchanted toothpick	80	Mys: 25

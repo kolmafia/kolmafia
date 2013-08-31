@@ -579,6 +579,7 @@ public class UseItemRequest
 		case ItemPool.CLOCKWORK_MAID:
 		case ItemPool.SCARECROW:
 		case ItemPool.MEAT_GOLEM:
+		case ItemPool.MEAT_GLOBE:
 			// Campground equipment
 		case ItemPool.BEANBAG_CHAIR:
 		case ItemPool.GAUZE_HAMMOCK:
@@ -3417,6 +3418,7 @@ public class UseItemRequest
 		case ItemPool.PLASMA_BALL:
 		case ItemPool.LED_CLOCK:
 		case ItemPool.BONSAI_TREE:
+		case ItemPool.MEAT_GLOBE:
 
 			if ( responseText.contains( "You've already got" ) )
 			{

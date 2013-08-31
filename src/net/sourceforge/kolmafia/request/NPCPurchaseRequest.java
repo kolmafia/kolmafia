@@ -496,6 +496,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "shore" ) )
+		{
+			ShoreGiftShopRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "dv" ) )
 		{
 			TerrifiedEagleInnRequest.parseResponse( urlString, responseText );
@@ -564,9 +570,24 @@ public class NPCPurchaseRequest
 				TrapperRequest.registerRequest( urlString );
 			}
 
+			else if ( shopId.equals( "mystic" ) )
+			{
+				PixelRequest.registerRequest( urlString );
+			}
+
 			else if ( shopId.equals( "damachine" ) )
 			{
 				VendingMachineRequest.registerRequest( urlString );
+			}
+
+			else if ( shopId.equals( "shore" ) )
+			{
+				ShoreGiftShopRequest.registerRequest( urlString );
+			}
+
+			else if ( shopId.equals( "dv" ) )
+			{
+				TerrifiedEagleInnRequest.registerRequest( urlString );
 			}
 
 			return false;
