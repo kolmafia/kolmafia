@@ -127,18 +127,7 @@ public class ConditionsCommand
 
 		for ( int i = 0; i < conditionList.length; ++i )
 		{
-			String conditionString = conditionList[ i ];
-
-			if ( conditionString.equalsIgnoreCase( "castle map items" ) )
-			{
-				GoalManager.setGoal( ItemPool.get( ItemPool.FURRY_FUR, 1 ) );
-				GoalManager.setGoal( ItemPool.get( ItemPool.GIANT_NEEDLE, 1 ) );
-				GoalManager.setGoal( ItemPool.get( ItemPool.AWFUL_POETRY_JOURNAL, 1 ) );
-				hasUpdate = true;
-				continue;
-			}
-
-			AdventureResult condition = ConditionsCommand.extractCondition( conditionString );
+			AdventureResult condition = ConditionsCommand.extractCondition( conditionList[ i ] );
 
 			if ( condition != null )
 			{
@@ -208,7 +197,7 @@ public class ConditionsCommand
 		}
 
 		if ( conditionString.endsWith( "pirate insult" ) ||
-			conditionString.endsWith( "pirate insults" ) )
+		     conditionString.endsWith( "pirate insults" ) )
 		{
 			String[] splitCondition = conditionString.split( "\\s+" );
 			int count = splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1;
@@ -246,6 +235,24 @@ public class ConditionsCommand
 			};
 		}
 
+		if ( conditionString.startsWith( "chasm bridge" ) )
+		{
+			int count = 31;
+			return new AdventureResult( AdventureResult.PSEUDO_ITEM_PRIORITY,
+				"Chasm Bridge Progress", count ) {
+			
+				@Override
+				public int getCount( List list )
+				{
+					if ( list != KoLConstants.inventory )
+					{
+						return 0;
+					}
+					return Preferences.getInteger( "chasmBridgeProgress" );
+				}
+			};
+		}
+
 		if ( conditionString.startsWith( "level" ) )
 		{
 			// If the condition is a level, then determine how many
@@ -263,7 +270,13 @@ public class ConditionsCommand
 			return GoalManager.GOAL_SUBSTATS;
 		}
 
-		if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) || conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mox" ) || conditionString.endsWith( "mysticality" ) )
+		if ( conditionString.endsWith( "muscle" ) ||
+		     conditionString.endsWith( "mysticality" ) ||
+		     conditionString.endsWith( "moxie" ) ||
+		     conditionString.endsWith( "mus" ) ||
+		     conditionString.endsWith( "mys" ) ||
+		     conditionString.endsWith( "myst" ) ||
+		     conditionString.endsWith( "mox" ) )
 		{
 			String[] splitCondition = conditionString.split( "\\s+" );
 
