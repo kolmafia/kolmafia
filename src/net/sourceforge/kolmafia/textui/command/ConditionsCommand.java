@@ -236,9 +236,10 @@ public class ConditionsCommand
 			};
 		}
 
-		if ( conditionString.startsWith( "chasm bridge" ) )
+		if ( conditionString.equals( "chasm bridge" ) || conditionString.endsWith( "chasm bridge progress" ) )
 		{
-			int count = 31;
+			String[] splitCondition = conditionString.split( "\\s+" );
+			int count = Math.min( StringUtilities.isNumeric( splitCondition[ 0 ] ) ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 31, 31 );
 			return new AdventureResult( AdventureResult.PSEUDO_ITEM_PRIORITY,
 				"Chasm Bridge Progress", count ) {
 			
