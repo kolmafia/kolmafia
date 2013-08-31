@@ -549,6 +549,8 @@ The Terrified Eagle Inn	buy	500	dreadful sweater	ROW154
 The Terrified Eagle Inn	buy	500	dreadful glove	ROW155
 The Terrified Eagle Inn	buy	1000	Official Seal of Dreadsylvania	ROW148
 
+# Things you can buy with Shore Inc. Ship Trip Scrip
+
 The Shore, Inc. Gift Shop	buy	1	dude ranch souvenir crate	ROW180
 The Shore, Inc. Gift Shop	buy	1	tropical island souvenir crate	ROW181
 The Shore, Inc. Gift Shop	buy	1	ski resort souvenir crate	ROW182
@@ -556,4 +558,3 @@ The Shore, Inc. Gift Shop	buy	1	meat globe	ROW178
 The Shore, Inc. Gift Shop	buy	3	cheap toaster	ROW179
 The Shore, Inc. Gift Shop	buy	3	dinghy plans	ROW176
 The Shore, Inc. Gift Shop	buy	5	fuzzy dice	ROW177
-
