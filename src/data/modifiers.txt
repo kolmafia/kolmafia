@@ -2170,6 +2170,7 @@ orange glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 orange leather lanyard	Weapon Damage: +15, Single Equip
 # orc wrist: +15 Damage vs. Orcs
 ornamental sextant	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+oven mitts	Hot Resistance: +2, Single Equip
 # over-the-shoulder Folder Holder: Softcore Only (Except for High School Students)
 over-the-shoulder Folder Holder	Single Equip
 pacifier necklace	Sleaze Damage: +20, Single Equip, Raveosity: +2
