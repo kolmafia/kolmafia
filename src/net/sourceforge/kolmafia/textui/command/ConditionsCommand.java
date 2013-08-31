@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.BeerPongRequest;
+import net.sourceforge.kolmafia.request.OrcChasmRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -248,7 +249,7 @@ public class ConditionsCommand
 					{
 						return 0;
 					}
-					return Preferences.getInteger( "chasmBridgeProgress" );
+					return OrcChasmRequest.getChasmProgress();
 				}
 			};
 		}
