@@ -799,22 +799,6 @@ public class AdventureDatabase
 		{
 			return PyramidRequest.getPyramidLocationString( urlString );
 		}
-		else if ( urlString.startsWith( "shore.php" ) )
-		{
-
-			if ( urlString.indexOf( "whichtrip=1" ) != -1 )
-			{
-				return "Muscle Vacation";
-			}
-			else if ( urlString.indexOf( "whichtrip=2" ) != -1 )
-			{
-				return "Mysticality Vacation";
-			}
-			else if ( urlString.indexOf( "whichtrip=3" ) != -1 )
-			{
-				return "Moxie Vacation";
-			}
-		}
 		else if ( urlString.startsWith( "cellar.php" ) )
 		{
 			return TavernRequest.cellarLocationString( urlString );

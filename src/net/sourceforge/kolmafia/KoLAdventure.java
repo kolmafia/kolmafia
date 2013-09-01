@@ -1019,7 +1019,9 @@ public class KoLAdventure
 			return;
 		}
 
-		if ( this.getFormSource().equals( "shore.php" ) && !KoLCharacter.inFistcore() && KoLCharacter.getAvailableMeat() < 500 )
+		if ( this.getAdventureId().equals( AdventurePool.THE_SHORE_ID ) &&
+		     !KoLCharacter.inFistcore() &&
+		     KoLCharacter.getAvailableMeat() < 500 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient funds for shore vacation." );
 			return;

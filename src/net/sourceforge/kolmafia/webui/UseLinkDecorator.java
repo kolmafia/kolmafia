@@ -1414,7 +1414,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.FORGED_ID_DOCUMENTS:
 
 			useType = "vacation";
-			useLocation = "shore.php";
+			useLocation = "adventure.php?snarfblat=355";
 			break;
 
 		case ItemPool.BUS_PASS:
