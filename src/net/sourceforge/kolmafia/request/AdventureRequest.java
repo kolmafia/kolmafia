@@ -59,8 +59,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.BasementRequest;
-
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -69,7 +67,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TavernManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 
@@ -367,54 +364,6 @@ public class AdventureRequest
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You must wear a costume." );
 			return;
 		}
-	}
-
-	public static final void handleShoreVisit( final String location, final String responseText )
-	{
-		if ( location.indexOf( "whichtrip" ) == -1 )
-		{
-			return;
-		}
-
-		// You're too drunk to go on vacation. Which makes sense,
-		// somehow. Trust me.
-		//
-		// What? Where? Huh?
-		//
-		// You can't afford to go on a vacation.
-		//
-		// You don't have enough Adventures left
-
-		if ( responseText.indexOf( "You're too drunk" ) != -1 ||
-		     responseText.indexOf( "What? Where? Huh?" ) != -1 ||
-		     responseText.indexOf( "You can't afford" ) != -1 ||
-		     responseText.indexOf( "You don't have enough Adventures left" ) != -1 )
-		{
-			return;
-		}
-
-		// Shore Trips cost 500 meat each
-		if ( !KoLCharacter.inFistcore() )
-		{
-			ResultProcessor.processMeat( -500 );
-		}
-
-		// If we did not get a tower item and were already counting
-		// down, keep the existing counter.
-		if ( TurnCounter.isCounting( "The Shore" ) &&
-		     responseText.indexOf( "<b>barbed-wire fence</b>" ) == -1 &&
-		     responseText.indexOf( "<b>tropical orchid</b>" ) == -1 &&
-		     responseText.indexOf( "<b>stick of dynamite</b>" ) == -1 )
-		{
-			return;
-		}
-
-		// Start a counter to allow people to time getting tower items.
-		// We want an interval of 35. This is called before we account
-		// for the 3 vacations spend adventuring.
-		TurnCounter.stopCounting( "The Shore" );
-		int adv = KoLCharacter.inFistcore() ? 5 : 3;
-		TurnCounter.startCounting( 35 + adv, "The Shore loc=* shore.php", "dinghy.gif" );
 	}
 
 	public static final String registerEncounter( final GenericRequest request )
