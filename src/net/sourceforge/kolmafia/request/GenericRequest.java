@@ -2192,10 +2192,6 @@ public class GenericRequest
 		{
 			FightRequest.updateCombatData( urlString, this.encounter, this.responseText );
 		}
-		else if ( urlString.startsWith( "shore.php" ) )
-		{
-			AdventureRequest.handleShoreVisit( urlString, this.responseText );
-		}
 		else if ( urlString.startsWith( "lair6.php" ) && urlString.indexOf( "place=6" ) != -1 )
 		{
 			KoLCharacter.liberateKing();

@@ -129,7 +129,6 @@ public class ResultProcessor
 			formURLString.startsWith( "mallstore.php" ) ||
 			formURLString.startsWith( "town_fleamarket.php" ) ||
 			formURLString.startsWith( "barrel.php" ) ||
-			formURLString.startsWith( "shore.php" ) ||
 			// Marmot sign can give you a clover after a fight
 			formURLString.startsWith( "fight.php" ) ||
 			// Using a 31337 scroll
