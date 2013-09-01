@@ -330,4 +330,5 @@ The Knob Shaft (Mining)	0
 The Limerick Dungeon	0
 The Poker Room	0
 The Roulette Tables	0
+The Shore, Inc. Travel Agency	0
 Trick-or-Treating	0

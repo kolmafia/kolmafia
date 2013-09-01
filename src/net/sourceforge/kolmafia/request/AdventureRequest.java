@@ -118,10 +118,6 @@ public class AdventureRequest
 		{
 			this.addFormField( "snarfblat", adventureId );
 		}
-		else if ( formSource.equals( "shore.php" ) )
-		{
-			this.addFormField( "whichtrip", adventureId );
-		}
 		else if ( formSource.equals( "casino.php" ) )
 		{
 			this.addFormField( "action", "slot" );
@@ -191,21 +187,24 @@ public class AdventureRequest
 			}
 		}
 
-		else if ( this.formSource.equals( "shore.php" ) )
+		else if ( this.formSource.equals( "adventure.php" ) )
 		{
-			int adv = KoLCharacter.inFistcore() ? 5 : 3;
-			if ( KoLCharacter.getAdventuresLeft() < adv )
+			if ( this.adventureId.equals( AdventurePool.THE_SHORE_ID ) )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of adventures." );
-				return;
+				// The Shore
+				int adv = KoLCharacter.inFistcore() ? 5 : 3;
+				if ( KoLCharacter.getAdventuresLeft() < adv )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of adventures." );
+					return;
+				}
 			}
-		}
-
-		else if ( this.formSource.equals( "adventure.php" ) && this.adventureId.equals( "120" ) )
-		{
-			// Replace with a (not-so-)randomly chosen corner
-			this.removeFormField( "snarfblat" );
-			this.addFormField( "snarfblat", String.valueOf( CellarDecorator.recommendCorner() ) );
+			else if ( this.adventureId.equals( AdventurePool.HAUNTED_WINE_CELLAR_ID ) )
+			{
+				// Replace with a (not-so-)randomly chosen corner
+				this.removeFormField( "snarfblat" );
+				this.addFormField( "snarfblat", String.valueOf( CellarDecorator.recommendCorner() ) );
+			}
 		}
 
 		else if ( this.formSource.equals( "barrel.php" ) )
@@ -1054,10 +1053,6 @@ public class AdventureRequest
 		else if ( formSource.startsWith( "cave.php" ) )
 		{
 			return formSource.indexOf( "sanctum" ) != -1;
-		}
-		else if ( formSource.startsWith( "shore.php" ) )
-		{
-			return formSource.indexOf( "whichtrip" ) != -1;
 		}
 		else if ( formSource.startsWith( "cobbsknob.php" ) )
 		{
