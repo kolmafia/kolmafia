@@ -5685,7 +5685,7 @@ public abstract class ChoiceManager
 			// overdrunk, but what are the failure messages for
 			// other things that prevent taking the vacation?
 
-			// Simpler to detect that you acquire the SHip Trip Scrip
+			// Simpler to detect that you acquire the Ship Trip Scrip
 			if ( !text.contains( "You acquire" ) )
 			{
 				return;

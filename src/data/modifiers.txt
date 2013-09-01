@@ -2715,6 +2715,7 @@ rat tooth polish	Familiar Weight: +5
 rattlesnake enrager	Familiar Weight: +5
 rhesus monkey	Familiar Weight: +5
 ribcage rollcage	Familiar Weight: +5
+# school spirit socket set: Keeps more steam in
 security blankie	Familiar Weight: +5
 serrated proboscis extension	Familiar Weight: +20
 shiny gold fronts	Familiar Weight: +5
