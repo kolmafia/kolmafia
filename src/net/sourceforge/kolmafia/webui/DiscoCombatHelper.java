@@ -668,7 +668,8 @@ public class DiscoCombatHelper
 		{
 			// Your savage beatdown seems to have knocked loose
 			// some treasure. Sweet!
-			if ( responseText.indexOf( "seems to have knocked loose some treasure" ) != -1 )
+			// Your savage beatdown fails to knock loose any treasure. Lame!
+			if ( responseText.indexOf( "Your savage beatdown" ) != -1 )
 			{
 				DiscoCombatHelper.learnRaveCombo( RAVE_STEAL );
 			}
