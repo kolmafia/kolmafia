@@ -4818,7 +4818,7 @@ s1
 4801
 4802
 4803
-4804
+4804	Essence of Annoyance	929376084	testtube.gif	usable		0
 4805
 4806
 4807
@@ -6425,7 +6425,7 @@ s1
 6408	corrupted stardust	115797236	stardust.gif	usable	t	0	corrupted stardusts
 6409	Star Spawn	561439887	starspawn.gif	grow	t	0	Star Spawns
 6410	cute bow from beyond the stars	345486861	spacebow.gif	familiar	t,d	75	cute bows from beyond the stars
-6411
+6411	KoLHS Pep Squad Box	956862893	crate.gif	grow	t	0
 6412	shaking skull	638617403	shakeskull.gif	usable		0	shaking skulls
 6413	Order of the Green Thumb Order Form	975397883	floristform.gif	usable	t	0	Order of the Green Thumb Order Forms
 6414	clutch of dodecapede eggs	999095226	centeggs.gif	none, combat	t,d	50
@@ -6674,7 +6674,7 @@ s1
 6657	pickelhaube	400228822	pickelhaube.gif	hat	t,d	35
 6658	hair oil	188501537	motoroil.gif	usable	t,d	15
 6659	scrap metal	682691090	scrapmetal.gif	usable	t,d	20
-6660
+6660	school spirit socket set	600702041	gnomebox.gif	familiar	t,d	75
 6661	miniature suspension bridge	781798485	minibridge.gif	none	q	0
 6662	Staff of the Lunch Lady	446905790	lunchstaff.gif	weapon	q	0
 6663	universal key	875673912	unikey.gif	none	q	0

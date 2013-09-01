@@ -129,6 +129,8 @@
 104	Splashdance	5	30	0
 105	Song of Sauce	6	100	10
 106	Song of Bravado	6	100	10
+# Summon Annoyance: Cost: 11 swagger
+107	Summon Annoyance	1	0	0
 
 # Skills available to Clubbers
 
