@@ -302,6 +302,18 @@ public class AdventureDatabase
 			"Astral Mushroom (Great Trip)",
 			"An Incredibly Strange Place (Great Trip)"
 		},
+		{
+			"Muscle Vacation",
+			"The Shore, Inc. Travel Agency"
+		},
+		{
+			"Mysticality Vacation",
+			"The Shore, Inc. Travel Agency"
+		},
+		{
+			"Moxie Vacation",
+			"The Shore, Inc. Travel Agency"
+		}
 		// Everything above here added to 16.0, remove after 16.1
 	};
 

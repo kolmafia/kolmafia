@@ -1104,13 +1104,17 @@ public class AdventureRequest
 			return KoLConstants.activeEffects.contains(
 				EffectPool.get( Effect.HYDRATED ) ) ? 1 : 2;
 		}
+		if ( this.adventureId.equals( AdventurePool.THE_SHORE_ID ) )
+		{
+			return KoLCharacter.inFistcore() ? 5 : 3;
+		}
 		String zone = AdventureDatabase.getZone( this.adventureName );
 		if ( zone != null && zone.equals( "The Sea" ) )
 		{
 			return KoLConstants.activeEffects.contains(
 				EffectPool.get( Effect.FISHY ) ) ? 1 : 2;
 		}
-		return this.formSource.startsWith( "shore" ) ? 3 : 1;
+		return 1;
 	}
 
 	public void overrideAdventuresUsed( int used )
