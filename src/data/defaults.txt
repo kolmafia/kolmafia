@@ -828,7 +828,7 @@ user	_candySummons	0
 user	_carboLoaded	false
 user	_carnieCandyDrops	0
 user	_carrotNoseDrops	0
-user	_cheerleaderSteam	100
+user	_cheerleaderSteam	200
 user	_companionshipCasts	0
 user	_chipBags	0
 user	_chocolateCigarsUsed	0
