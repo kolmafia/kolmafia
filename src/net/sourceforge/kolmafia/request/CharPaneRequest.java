@@ -851,6 +851,7 @@ public class CharPaneRequest
 			{
 				KoLCharacter.setFamiliarImage( image );
 				CharPaneRequest.checkMedium( responseText );
+				CharPaneRequest.checkMiniAdventurer( image );
 			}
 		}
 	}
@@ -954,6 +955,19 @@ public class CharPaneRequest
 				return;
 			}
 			fam.setCharges( aura );
+		}
+	}
+
+	public static void checkMiniAdventurer( final String image )
+	{
+		if ( image.startsWith( "miniadv" ) )
+		{
+			String miniAdvClass = image.substring( 7, 8 );
+			if ( !miniAdvClass.equals( Preferences.getString( "miniAdvClass" ) ) )
+			{
+				Preferences.setString( "miniAdvClass", miniAdvClass );
+				KoLCharacter.recalculateAdjustments();
+			}
 		}
 	}
 
