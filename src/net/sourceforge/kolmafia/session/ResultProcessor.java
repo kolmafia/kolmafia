@@ -1345,7 +1345,7 @@ public class ResultProcessor
 		case ItemPool.MCCLUSKY_FILE_PAGE5:
 			if( Preferences.getBoolean( "autoCraft" ) &&
 			    InventoryManager.getCount( ItemPool.BINDER_CLIP ) == 1 &&
-			    InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 5 )
+			    InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 1 )
 			{
 				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.BINDER_CLIP ) );
 			}
