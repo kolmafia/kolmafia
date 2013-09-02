@@ -424,6 +424,11 @@ user	guyMadeOfBeesDefeated	false
 user	heroDonationBoris	0
 user	heroDonationJarlsberg	0
 user	heroDonationSneakyPete	0
+user	hiddenApartmentProgress	0
+user	hiddenBowlingAlleyProgress	0
+user	hiddenHospitalProgress	0
+user	hiddenOfficeProgress	0
+user	hiddenTavernUnlock	-1
 user	hippiesDefeated	0
 user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
@@ -689,6 +694,8 @@ user	recentLocations	5
 user	recoveryScript
 user	relayCounters
 user	relayShowSpoilers	false
+user	relocatePygmyJanitor	-1
+user	relocatePygmyLawyer	-1
 user	rememberDesktopSize	false
 user	requireBoxServants	false
 user	requireSewerTestItems	false
@@ -1395,6 +1402,16 @@ user	choiceAdventure745	0
 user	choiceAdventure749	0
 user	choiceAdventure753	0
 user	choiceAdventure771	1
+user	choiceAdventure780	0
+user	choiceAdventure781	0
+user	choiceAdventure783	0
+user	choiceAdventure784	0
+user	choiceAdventure785	0
+user	choiceAdventure786	0
+user	choiceAdventure787	0
+user	choiceAdventure788	0
+user	choiceAdventure789	0
+user	choiceAdventure791	0
 user	choiceAdventure793	0
 
 user	unknownRecipe3542	true

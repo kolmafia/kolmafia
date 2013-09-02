@@ -1340,8 +1340,40 @@ public class ResultProcessor
 		case ItemPool.EYE_OF_ED:
 			QuestDatabase.setQuestProgress( Quest.MANOR, QuestDatabase.FINISHED );
 			break;
+
+		case ItemPool.BINDER_CLIP:
+		case ItemPool.MCCLUSKY_FILE_PAGE5:
+			if( Preferences.getBoolean( "autoCraft" ) &&
+			    InventoryManager.getCount( ItemPool.BINDER_CLIP ) == 1 &&
+			    InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 5 )
+			{
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.BINDER_CLIP ) );
+			}
+			break;
+
+		case ItemPool.MOSS_COVERED_STONE_SPHERE:
+			Preferences.setInteger( "hiddenApartmentProgress", 7 );
+			break;
+			
+		case ItemPool.DRIPPING_STONE_SPHERE:
+			Preferences.setInteger( "hiddenHospitalProgress", 7 );
+			break;
+			
+		case ItemPool.CRACKLING_STONE_SPHERE:
+			Preferences.setInteger( "hiddenOfficeProgress", 7 );
+			break;
+			
+		case ItemPool.SCORCHED_STONE_SPHERE:
+			Preferences.setInteger( "hiddenBowlingAlleyProgress", 7 );
+			break;
 			
 		case ItemPool.ANCIENT_AMULET:
+			// If you get the ancient amulet, you lose the 4 stone triangles, and have definitely completed quest actions
+			ResultProcessor.processItem( ItemPool.STONE_TRIANGLE, -4 );
+			Preferences.setInteger( "hiddenApartmentProgress", 8 );
+			Preferences.setInteger( "hiddenHospitalProgress", 8 );
+			Preferences.setInteger( "hiddenOfficerogress", 8 );
+			Preferences.setInteger( "hiddenBowlingAlleyProgress", 8 );
 			QuestDatabase.setQuestProgress( Quest.WORSHIP, QuestDatabase.FINISHED );
 			break;
 			

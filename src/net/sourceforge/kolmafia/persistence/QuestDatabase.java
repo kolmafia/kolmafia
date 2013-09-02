@@ -446,6 +446,10 @@ public class QuestDatabase
 		Preferences.resetToDefault( "oilPeakProgress" );
 		Preferences.resetToDefault( "twinPeakProgress" );
 		Preferences.resetToDefault( "booPeakProgress" );
+		Preferences.resetToDefault( "hiddenApartmentProgress" );
+		Preferences.resetToDefault( "hiddenHospitalProgress" );
+		Preferences.resetToDefault( "hiddenOfficeProgress" );
+		Preferences.resetToDefault( "hiddenBowlingAlleyProgress" );
 	}
 
 	public static void handleCouncilText( String responseText )

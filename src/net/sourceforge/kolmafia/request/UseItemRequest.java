@@ -4422,6 +4422,16 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 			return;
+
+		case ItemPool.BOOK_OF_MATCHES:
+			// If Hidden Tavern not already unlocked, new items available
+			if ( Preferences.getInteger( "hiddenTavernUnlock" ) != KoLCharacter.getAscensions() )
+			{
+				// Unlock Hidden Tavern
+				Preferences.setInteger( "hiddenTavernUnlock", KoLCharacter.getAscensions() );
+				ConcoctionDatabase.setRefreshNeeded( true );
+			}
+			return;
 		}
 	}
 

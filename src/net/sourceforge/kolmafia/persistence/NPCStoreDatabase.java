@@ -374,6 +374,10 @@ public class NPCStoreDatabase
 		{
 			return !KoLCharacter.inBadMoon();
 		}
+		else if ( storeId.equals( "hiddentavern" ) )
+		{
+			return Preferences.getInteger( "hiddenTavernUnlock" ) == KoLCharacter.getAscensions();
+		}
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.

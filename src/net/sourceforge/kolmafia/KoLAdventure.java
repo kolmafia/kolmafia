@@ -1131,6 +1131,24 @@ public class KoLAdventure
 		{
 			AdventureFrame.updateSelectedAdventure( location );
 		}
+
+		// If you were able to access some hidden city areas you must have unlocked them so update quest status
+		if ( location.adventureId.equals( AdventurePool.HIDDEN_APARTMENT_ID ) && Preferences.getInteger( "hiddenApartmentProgress" ) == 0 )
+		{
+			Preferences.setInteger( "hiddenApartmentProgress", 1 );
+		}
+		else if ( location.adventureId.equals( AdventurePool.HIDDEN_HOSPITAL_ID ) && Preferences.getInteger( "hiddenHospitalProgress" ) == 0 )
+		{
+			Preferences.setInteger( "hiddenHospitalProgress", 1 );
+		}		
+		else if ( location.adventureId.equals( AdventurePool.HIDDEN_OFFICE_ID ) && Preferences.getInteger( "hiddenOfficeProgress" ) == 0 )
+		{
+			Preferences.setInteger( "hiddenOfficeProgress", 1 );
+		}		
+		else if ( location.adventureId.equals( AdventurePool.HIDDEN_BOWLING_ALLEY_ID ) && Preferences.getInteger( "hiddenBowlingAlleyProgress" ) == 0 )
+		{
+			Preferences.setInteger( "hiddenBowlingAlleyProgress", 1 );
+		}		
 	}
 
 	public static final void setNextLocation( final String name )

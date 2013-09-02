@@ -112,6 +112,16 @@ public class ChoiceOptionsPanel
 	private final JComboBox propDeportmentSelect;
 	private final JComboBox reloadedSelect;
 	private final JComboBox sororityGuideSelect;
+	private final JComboBox hiddenShrineNWSelect;
+	private final JComboBox hiddenShrineSWSelect;
+	private final JComboBox hiddenShrineNESelect;
+	private final JComboBox hiddenShrineSESelect;
+	private final JComboBox hiddenApartmentSelect;
+	private final JComboBox hiddenHospitalSelect;
+	private final JComboBox hiddenParkSelect;
+	private final JComboBox hiddenBowlingAlleySelect;
+	private final JComboBox hiddenOfficeSelect;
+	private final JComboBox hiddenZigguratSelect;
 	private final JComboBox gongSelect;
 	private final JComboBox basementMallSelect;
 	private final JComboBox breakableSelect;
@@ -317,6 +327,54 @@ public class ChoiceOptionsPanel
 		this.sororityGuideSelect.addItem( "attic" );
 		this.sororityGuideSelect.addItem( "main floor" );
 		this.sororityGuideSelect.addItem( "basement" );
+		
+		// Hidden City Non-combats
+		
+		this.hiddenShrineNWSelect = new JComboBox();
+		this.hiddenShrineNWSelect.addItem( "show in browser" );
+		this.hiddenShrineNWSelect.addItem( "unlock hidden apartment building or get stone triangle" );
+		
+		this.hiddenShrineSWSelect = new JComboBox();
+		this.hiddenShrineSWSelect.addItem( "show in browser" );
+		this.hiddenShrineSWSelect.addItem( "unlock hidden hospital or get stone triangle" );
+		
+		this.hiddenShrineNESelect = new JComboBox();
+		this.hiddenShrineNESelect.addItem( "show in browser" );
+		this.hiddenShrineNESelect.addItem( "unlock hidden office building or get stone triangle" );
+		
+		this.hiddenShrineSESelect = new JComboBox();
+		this.hiddenShrineSESelect.addItem( "show in browser" );
+		this.hiddenShrineSESelect.addItem( "unlock hidden bowling alley or get stone triangle" );
+		
+		this.hiddenApartmentSelect = new JComboBox();
+		this.hiddenApartmentSelect.addItem( "show in browser" );
+		this.hiddenApartmentSelect.addItem( "fight spirit or get cursed" );
+		this.hiddenApartmentSelect.addItem( "banish lawyers or skip adventure" );
+		this.hiddenApartmentSelect.addItem( "skip adventure" );
+		
+		this.hiddenHospitalSelect = new JComboBox();
+		this.hiddenHospitalSelect.addItem( "show in browser" );
+		this.hiddenHospitalSelect.addItem( "fight spirit" );
+		
+		this.hiddenParkSelect = new JComboBox();
+		this.hiddenParkSelect.addItem( "show in browser" );
+		this.hiddenParkSelect.addItem( "relocate pygmy janitors then get random items" );
+		this.hiddenParkSelect.addItem( "get random items" );
+		this.hiddenParkSelect.addItem( "skip adventure" );
+		
+		this.hiddenBowlingAlleySelect = new JComboBox();
+		this.hiddenBowlingAlleySelect.addItem( "show in browser" );
+		this.hiddenBowlingAlleySelect.addItem( "bowl and may fight spirit" );
+		
+		this.hiddenOfficeSelect = new JComboBox();
+		this.hiddenOfficeSelect.addItem( "show in browser" );
+		this.hiddenOfficeSelect.addItem( "fight spirit or get binder clip or fight accountant" );
+		this.hiddenOfficeSelect.addItem( "fight accountant" );
+		this.hiddenOfficeSelect.addItem( "skip adventure" );		
+		
+		this.hiddenZigguratSelect = new JComboBox();
+		this.hiddenZigguratSelect.addItem( "show in browser" );
+		this.hiddenZigguratSelect.addItem( "fight Protector Spectre" );
 
 		this.gongSelect = new JComboBox();
 		for ( int i = 0; i < GongCommand.GONG_PATHS.length; ++i )
@@ -800,6 +858,32 @@ public class ChoiceOptionsPanel
 		Preferences.setString( "choiceAdventure554",
 			String.valueOf( this.sororityGuideSelect.getSelectedIndex() ) );
 
+		Preferences.setString( "choiceAdventure781", String.valueOf( this.hiddenShrineNWSelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure783", String.valueOf( this.hiddenShrineSWSelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure785", String.valueOf( this.hiddenShrineNESelect.getSelectedIndex() ) );
+		Preferences.setString( "choiceAdventure787", String.valueOf( this.hiddenShrineSESelect.getSelectedIndex() ) );
+		int hiddenApartmentIndex = this.hiddenApartmentSelect.getSelectedIndex();
+		Preferences.setString( "choiceAdventure780",
+						hiddenApartmentIndex == 1 ? "1" :
+						hiddenApartmentIndex == 2 ? "3" :
+						hiddenApartmentIndex == 3 ? "6" :
+						"0" );
+		Preferences.setString( "choiceAdventure784", String.valueOf( this.hiddenHospitalSelect.getSelectedIndex() ) );
+		int hiddenParkIndex = this.hiddenParkSelect.getSelectedIndex();
+		Preferences.setString( "choiceAdventure789",
+						hiddenParkIndex == 1 ? "1" :
+						hiddenParkIndex == 2 ? "2" :
+						hiddenParkIndex == 3 ? "6" :
+						"0" );
+		Preferences.setString( "choiceAdventure788", String.valueOf( this.hiddenBowlingAlleySelect.getSelectedIndex() ) );
+		int hiddenOfficeIndex = this.hiddenOfficeSelect.getSelectedIndex();
+		Preferences.setString( "choiceAdventure786",
+						hiddenOfficeIndex == 1 ? "1" :
+						hiddenOfficeIndex == 2 ? "3" :
+						hiddenOfficeIndex == 3 ? "6" :
+						"0" );
+		Preferences.setString( "choiceAdventure791", String.valueOf( this.hiddenZigguratSelect.getSelectedIndex() ) );
+
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
 		Preferences.setInteger( "addingScrolls", this.addingSelect.getSelectedIndex() );
@@ -1066,6 +1150,20 @@ public class ChoiceOptionsPanel
 		this.propDeportmentSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure552" ) );
 		this.reloadedSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure553" ) );
 		this.sororityGuideSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure554" ) );
+ 
+		this.hiddenShrineNWSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure781" ) );
+		this.hiddenShrineSWSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure783" ) );
+		this.hiddenShrineNESelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure785" ) );
+		this.hiddenShrineSESelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure787" ) );
+		int hiddenApartmentIndex = Preferences.getInteger( "choiceAdventure780");
+		this.hiddenApartmentSelect.setSelectedIndex( hiddenApartmentIndex == 1 ? 1 : hiddenApartmentIndex == 3 ? 2 : hiddenApartmentIndex == 6 ? 3 : 0 );
+		this.hiddenHospitalSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure784" ) );
+		int hiddenParkIndex = Preferences.getInteger( "choiceAdventure789");
+		this.hiddenParkSelect.setSelectedIndex( hiddenParkIndex == 1 ? 1 : hiddenParkIndex == 2 ? 2 : hiddenParkIndex == 6 ? 3 : 0 );
+		this.hiddenBowlingAlleySelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure788" ) );
+		int hiddenOfficeIndex = Preferences.getInteger( "choiceAdventure786");
+		this.hiddenOfficeSelect.setSelectedIndex( hiddenOfficeIndex == 1 ? 1 : hiddenOfficeIndex == 3 ? 2 : hiddenOfficeIndex == 6 ? 3 : 0 );
+		this.hiddenZigguratSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure791" ) );
 
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );

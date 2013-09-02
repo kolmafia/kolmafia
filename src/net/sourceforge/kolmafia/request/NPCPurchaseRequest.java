@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -506,6 +507,17 @@ public class NPCPurchaseRequest
 		{
 			TerrifiedEagleInnRequest.parseResponse( urlString, responseText );
 			return;
+		}
+
+		if ( shopId.equals( "hiddentavern" ) )
+		{
+			// If Hidden Tavern not already unlocked, new items available
+			if ( Preferences.getInteger( "hiddenTavernUnlock" ) != KoLCharacter.getAscensions() )
+			{
+				// Unlock Hidden Tavern
+				Preferences.setInteger( "hiddenTavernUnlock", KoLCharacter.getAscensions() );
+				ConcoctionDatabase.setRefreshNeeded( true );
+			}
 		}
 	}
 
