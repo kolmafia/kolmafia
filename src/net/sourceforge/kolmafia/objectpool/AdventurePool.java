@@ -114,6 +114,16 @@ public class AdventurePool
 	public static final int GLACIER_OF_JERKS = 279;
 	public static final String HIDDEN_TEMPLE_ID = "280";
 	public static final String SHROUDED_PEAK_ID = "cloudypeak2";
+	public static final int HIDDEN_APARTMENT = 341;
+	public static final String HIDDEN_APARTMENT_ID = "341";
+	public static final int HIDDEN_HOSPITAL = 342;
+	public static final String HIDDEN_HOSPITAL_ID = "342";
+	public static final int HIDDEN_OFFICE = 343;
+	public static final String HIDDEN_OFFICE_ID = "343";
+	public static final int HIDDEN_BOWLING_ALLEY = 344;
+	public static final String HIDDEN_BOWLING_ALLEY_ID = "344";
+	public static final int HIDDEN_PARK = 345;
+	public static final String HIDDEN_PARK_ID = "345";
 	public static final int DEGRASSI_KNOLL_GARAGE = 354;
 	public static final String THE_SHORE_ID = "355";
 	public static final int THE_SHORE = 355;

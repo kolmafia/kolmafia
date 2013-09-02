@@ -134,6 +134,13 @@ public abstract class ChoiceManager
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 	private static final AdventureResult BALLROOM_KEY = ItemPool.get( ItemPool.BALLROOM_KEY, 1 );
 	private static final AdventureResult MODEL_AIRSHIP = ItemPool.get( ItemPool.MODEL_AIRSHIP, 1 );
+ 
+	private static final AdventureResult CURSE1_EFFECT = new AdventureResult( "Once-Cursed", 1, true );
+	private static final AdventureResult CURSE2_EFFECT = new AdventureResult( "Twice-Cursed", 1, true );
+	private static final AdventureResult CURSE3_EFFECT = new AdventureResult( "Thrice-Cursed", 1, true );
+	private static final AdventureResult MCCLUSKY_FILE = ItemPool.get( ItemPool.MCCLUSKY_FILE, 1 );
+	private static final AdventureResult BINDER_CLIP = ItemPool.get( ItemPool.BINDER_CLIP, 1 );
+	private static final AdventureResult STONE_TRIANGLE = ItemPool.get( ItemPool.STONE_TRIANGLE, 1 );
 
 	// Dreadsylvania items and effects
 	private static final AdventureResult MOON_AMBER_NECKLACE = ItemPool.get( ItemPool.MOON_AMBER_NECKLACE, 1 );
@@ -2731,6 +2738,16 @@ public abstract class ChoiceManager
 		// Choice 768 is The Littlest Identity Crisis
 		// Choice 771 is It Was All a Horrible, Horrible Dream
 		// Choice 774 is Opening up the Folder Holder
+		// Choice 780 is Action Elevator
+		// Choice 781 is Earthbound and Down
+		// Choice 783 is Water You Dune
+		// Choice 784 is You, M. D.
+		// Choice 785 is Air Apparent
+		// Choice 786 is Working Holiday
+		// Choice 787 is Fire when Ready
+		// Choice 788 is Life is Like a Cherry of Bowls
+		// Choice 789 is Where Does The Lone Ranger Take His Garbagester?
+		// Choice 791 is Legend of the Temple in the Hidden City
 
 		// Choice 793 is Welcome to The Shore, Inc.
 		new ChoiceAdventure(
@@ -3268,7 +3285,46 @@ public abstract class ChoiceManager
 		// Choice 762 is Try New Extra-Strength Anvil
 		// Choice 764 is The Machine
 		// Choice 765 is Hello Gallows
-			// xyzzy
+
+		case 780:
+			// Action Elevator
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Action Elevator");
+		
+		case 781:
+			// Earthbound and Down
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Earthbound and Down");
+		
+		case 783:
+			// Water You Dune
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Water You Dune");
+		
+		case 784:
+			// You, M. D.
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "You, M. D.");
+		
+		case 785:
+			// Air Apparent
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Air Apparent");
+		
+		case 786:
+			// Working Holiday
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Working Holiday");
+		
+		case 787:
+			// Fire when Ready
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Fire when Ready");
+			
+		case 788:
+			// Life is Like a Cherry of Bowls
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Life is Like a Cherry of Bowls");
+			
+		case 789:
+			// Where Does The Lone Ranger Take His Garbagester?
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Where Does The Lone Ranger Take His Garbagester?");
+			
+		case 791:
+			// Legend of the Temple in the Hidden City
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Legend of the Temple in the Hidden City");
 		}
 		return null;
 	}
@@ -4424,6 +4480,144 @@ public abstract class ChoiceManager
 			result[ 1 ] = "Run away";
 			return result;
 		}
+
+		case 780:
+		{
+			// Action Elevator
+			
+			int hiddenApartmentProgress = Preferences.getInteger( "hiddenApartmentProgress" );
+			boolean hasOnceCursed = KoLConstants.activeEffects.contains( ChoiceManager.CURSE1_EFFECT );
+			boolean hasTwiceCursed = KoLConstants.activeEffects.contains( ChoiceManager.CURSE2_EFFECT );
+			boolean hasThriceCursed = KoLConstants.activeEffects.contains( ChoiceManager.CURSE3_EFFECT );
+			boolean pygmyLawyersRelocated = Preferences.getInteger( "relocatePygmyLawyer" ) == KoLCharacter.getAscensions();
+			
+			result = new String[ 6 ];
+			result[ 0 ] = ( hiddenApartmentProgress >= 7 ? "penthouse empty" :
+					hasThriceCursed ? "Fight ancient protector spirit" :
+					"Need Thrice-Cursed to fight ancient protector spirit" );
+			result[ 1 ] = ( hasThriceCursed ? "Increase Thrice-Cursed" :
+					hasTwiceCursed ? "Get Thrice-Cursed" :
+					hasOnceCursed ? "Get Twice-Cursed" :
+					"Get Once-Cursed" );
+			result[ 2 ] = ( pygmyLawyersRelocated ? "Waste adventure" : "Relocate pygmy witch lawyers to Hidden Park" );
+			result[ 5 ] = "skip adventure";
+			return result;
+ 		}
+		
+		case 781:
+			// Earthbound and Down
+			result = new String[ 6 ];
+			result[ 0 ] = "Unlock Hidden Apartment Building";
+			result[ 1 ] = "Get stone triangle";
+			result[ 2 ] = "Get Blessing of Bulbazinalli";
+			result[ 5 ] = "skip adventure";
+			return result;
+
+		case 783:
+			// Water You Dune
+			result = new String[ 6 ];
+			result[ 0 ] = "Unlock Hidden Hospital";
+			result[ 1 ] = "Get stone triangle";
+			result[ 2 ] = "Get Blessing of Squirtlcthulli";
+			result[ 5 ] = "skip adventure";
+			return result;
+		
+		case 784:
+			// You, M. D.
+			result = new String[ 6 ];
+			result[ 0 ] = "Fight ancient protector spirit";
+			result[ 5 ] = "skip adventure";
+			return result;
+
+		case 785:
+			// Air Apparent
+			result = new String[ 6 ];
+			result[ 0 ] = "Unlock Hidden Office Building";
+			result[ 1 ] = "Get stone triangle";
+			result[ 2 ] = "Get Blessing of Pikachutlotal";
+			result[ 5 ] = "skip adventure";
+			return result;
+
+		case 786:
+		{
+			// Working Holiday
+			
+			int hiddenApartmentProgress = Preferences.getInteger( "hiddenApartmentProgress" );
+			boolean hasBossUnlock = hiddenApartmentProgress >= 6;
+			boolean hasMcCluskyFile = InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE ) > 0;
+			boolean hasBinderClip = InventoryManager.getCount( ChoiceManager.BINDER_CLIP ) > 0;
+			
+			result = new String[ 6 ];
+			result[ 0 ] = ( hiddenApartmentProgress >= 7 ? "office empty" :
+					hasMcCluskyFile || hasBossUnlock ? "Fight ancient protector spirit" :
+					"Need McClusky File (complete) to fight ancient protector spirit" );
+			result[ 1 ] = ( hasBinderClip || hasMcCluskyFile || hasBossUnlock ) ? "Get random item" : "Get boring binder clip";
+			result[ 2 ] = "Fight pygmy witch accountant";
+			result[ 5 ] = "skip adventure";
+			return result;		
+		}
+			
+		case 787:
+			// Fire when Ready
+			result = new String[ 6 ];
+			result[ 0 ] = "Unlock Hidden Bowling Alley";
+			result[ 1 ] = "Get stone triangle";
+			result[ 2 ] = "Get Blessing of Charcoatl";
+			result[ 5 ] = "skip adventure";
+			return result;
+
+		case 788:
+		{
+			// Life is Like a Cherry of Bowls
+			int hiddenBowlingAlleyProgress = Preferences.getInteger( "hiddenBowlingAlleyProgress" );
+
+			StringBuilder buffer = new StringBuilder();
+			buffer.append( "Get stats, on 5th visit, fight ancient protector spirit (");
+			buffer.append( String.valueOf( 6 - hiddenBowlingAlleyProgress ) );
+			buffer.append( " visit" );
+			if ( hiddenBowlingAlleyProgress < 5 )
+			{
+				buffer.append( "s" );
+			}
+			buffer.append( " left" );
+
+			result = new String[ 6 ];
+			result[ 0 ] = ( hiddenBowlingAlleyProgress > 6 ? "Get stats" :
+					hiddenBowlingAlleyProgress == 6 ? "fight ancient protector spirit" :
+					buffer.toString() );
+			result[ 5 ] = "skip adventure";
+			return result;
+		}
+
+		case 789:
+		{
+			boolean pygmyJanitorsRelocated = Preferences.getInteger( "relocatePygmyJanitor" ) == KoLCharacter.getAscensions();
+
+			// Where Does The Lone Ranger Take His Garbagester?
+			result = new String[ 6 ];
+			result[ 0 ] = "Get random items";
+			result[ 1 ] = ( pygmyJanitorsRelocated ? "Waste adventure" : "Relocate pygmy janitors to Hidden Park" );
+			result[ 5 ] = "skip adventure";
+			return result;
+		}
+
+		case 791:
+		{
+			// Legend of the Temple in the Hidden City
+			
+			int stoneTriangles = InventoryManager.getCount( ChoiceManager.STONE_TRIANGLE );
+			StringBuilder buffer = new StringBuilder();
+
+			buffer.append( "Need 4 stone triangles to fight Protector Spectre (");
+			buffer.append( String.valueOf( stoneTriangles ) );
+			buffer.append( ")" );
+			
+			result = new String[ 6 ];
+			result[ 0 ] = ( stoneTriangles == 4 ? "fight Protector Spectre": buffer.toString() );
+			result[ 5 ] = "skip adventure";
+			return result;
+		}
+
 		}
 		return null;
 	}
@@ -5677,13 +5871,134 @@ public abstract class ChoiceManager
 			}
 			return;
 
-		case 788:
-			// Life is Like a Cherry of Bowls
+		case 780:
+			// Action Elevator
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "penthouse is empty now" ) )
+			{
+				if ( Preferences.getInteger( "hiddenApartmentProgress" ) < 7 )
+				{
+					Preferences.setInteger( "hiddenApartmentProgress", 7 );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Preferences.setInteger( "relocatePygmyLawyer", KoLCharacter.getAscensions() );
+			}
+			return;			
+		
+		case 781:
+			// Earthbound and Down
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				ResultProcessor.removeItem( ItemPool.BOWLING_BALL );
+				Preferences.setInteger( "hiddenApartmentProgress", 1 );
 			}
-			return;
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.MOSS_COVERED_STONE_SPHERE, -1 ) );
+				Preferences.setInteger( "hiddenApartmentProgress", 8 );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SIX_BALL, -1 ) );
+			}
+			return;			
+
+		case 783:
+			// Water You Dune
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setInteger( "hiddenHospitalProgress", 1 );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.DRIPPING_STONE_SPHERE, -1 ) );
+				Preferences.setInteger( "hiddenHospitalProgress", 8 );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.TWO_BALL, -1 ) );
+			}
+			return;			
+
+		case 785:
+			// Air Apparent
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setInteger( "hiddenOfficeProgress", 1 );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.CRACKLING_STONE_SPHERE, -1 ) );
+				Preferences.setInteger( "hiddenOfficeProgress", 8 );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ONE_BALL, -1 ) );
+			}
+			return;			
+
+		case 786:
+			// Working Holiday
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "boss's office is empty" ) )
+			{
+				if ( Preferences.getInteger( "hiddenOfficeProgress" ) < 7 )
+				{
+					Preferences.setInteger( "hiddenOfficeProgress", 7 );
+				}
+			}
+			// if you don't get the expected binder clip, don't have one, and don't have a mcclusky file, you must have unlocked the boss at least
+			else if ( ChoiceManager.lastDecision == 2 && !text.contains( "boring binder clip" ) && 
+				InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE ) == 0 && InventoryManager.getCount( ChoiceManager.BINDER_CLIP ) == 0 &&
+				Preferences.getInteger( "hiddenOfficeProgress" ) < 6 )
+			{
+				Preferences.setInteger( "hiddenOfficeProgress", 6 );
+			}
+			return;			
+		
+		case 787:
+			// Fire when Ready
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setInteger( "hiddenBowlingAlleyProgress", 1 );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SCORCHED_STONE_SPHERE, -1 ) );
+				Preferences.setInteger( "hiddenBowlingAlleyProgress", 8 );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.FIVE_BALL, -1 ) );
+			}
+			return;			
+
+ 		case 788:
+ 			// Life is Like a Cherry of Bowls
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "without a frustrated ghost to torment" ) )
+			{
+				if ( Preferences.getInteger( "hiddenBowlingAlleyProgress" ) < 7 )
+				{
+					Preferences.setInteger( "hiddenBowlingAlleyProgress", 7 );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 1 )
+			{
+ 				ResultProcessor.removeItem( ItemPool.BOWLING_BALL );
+				int bowlCount = Preferences.getInteger( "hiddenBowlingAlleyProgress" );
+				if ( bowlCount < 6 )
+				{
+					Preferences.setInteger( "hiddenBowlingAlleyProgress" , ( bowlCount < 2 ? 2 : bowlCount + 1 ) );
+				}
+ 			}
+ 			return;
+
+		case 789:
+			// Where Does The Lone Ranger Take His Garbagester?
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setInteger( "relocatePygmyJanitor", KoLCharacter.getAscensions() );
+			}
+			return;			
 
 		case 793:
 			// Welcome to The Shore, Inc.
@@ -7620,6 +7935,103 @@ public abstract class ChoiceManager
 			       Preferences.getBoolean( "ghostPencil9" ) ) )
 			{
 				return "6";
+			}
+			return decision;
+
+		// Action Elevator
+		case 780:
+			// If Boss dead, skip, else if thrice-cursed, fight spirit, if not, get cursed.
+			if ( decision.equals( "1" ) && Preferences.getInteger( "hiddenApartmentProgress" ) >= 7 )
+			{
+				return ( Preferences.getInteger( "hiddenApartmentProgress" ) >= 7 ? "3" :
+							KoLConstants.activeEffects.contains( ChoiceManager.CURSE3_EFFECT ) ? "1" : "2" );
+			}
+			// Only relocate pygmy lawyers once, then leave
+			if ( decision.equals( "3" ) )
+			{
+				return ( Preferences.getInteger( "relocatePygmyLawyer" ) == KoLCharacter.getAscensions() ? "6" : "3" );
+			}
+			return decision;
+			
+		// Earthbound and Down
+		case 781:
+		{
+			// Option 1 and 2 are not always available. Take appropriate one if option to 
+			// take action is selected. If not, never skip automatically, as this is the only
+			// adventure present and it'll loop.
+			int hiddenApartmentProgress = Preferences.getInteger( "hiddenApartmentProgress" );
+			if ( decision.equals( "1" ) )
+			{
+				return ( hiddenApartmentProgress >= 7 ? "2" : hiddenApartmentProgress <= 1 ? "1" : "0" );
+			}
+			return decision;
+		}
+		
+		// Water You Dune
+		case 783:
+		{
+			// Option 1 and 2 are not always available. Take appropriate one if option to 
+			// take action is selected. If not, never skip automatically, as this is the only
+			// adventure present and it'll loop.
+			int hiddenHospitalProgress = Preferences.getInteger( "hiddenHospitalProgress" );
+			if ( decision.equals( "1" ) )
+			{
+				return ( hiddenHospitalProgress >= 7 ? "2" : hiddenHospitalProgress <= 1 ? "1" : "0" );
+			}
+			return decision;
+		}
+		
+		// Air Apparent
+		case 785:
+		{
+			// Option 1 and 2 are not always available. Take appropriate one if option to 
+			// take action is selected. If not, never skip automatically, as this is the only
+			// adventure present and it'll loop.
+			int hiddenOfficeProgress = Preferences.getInteger( "hiddenOfficeProgress" );
+			if ( decision.equals( "1" ) )
+			{
+				return ( hiddenOfficeProgress >= 7 ? "2" : hiddenOfficeProgress <= 1 ? "1" : "0" );
+			}
+			return decision;
+		}
+		
+		// Working Holiday
+		case 786:
+		{
+			// If boss dead, show in browser, fight boss if available, if not, get binder clip if you lack it, if not, fight accountant if you stillneed file
+			int hiddenOfficeProgress = Preferences.getInteger( "hiddenOfficeProgress" );
+			boolean hasMcCluskyFile = InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE ) > 0;
+			boolean hasBinderClip = InventoryManager.getCount( ChoiceManager.BINDER_CLIP ) > 0;
+			if ( decision.equals( "1" ) )
+			{
+				return ( hiddenOfficeProgress >= 7 ? "4" :
+						hasMcCluskyFile ? "1" :
+						!hasBinderClip ? "2" : "3" );
+			}
+			return decision;
+		}
+		
+		// Fire when Ready
+		case 787:
+		{
+			// Option 1 and 2 are not always available. Take appropriate one if option to 
+			// take action is selected. If not, never skip automatically, as this is the only
+			// adventure present and it'll loop.
+			int hiddenBowlingAlleyProgress = Preferences.getInteger( "hiddenBowlingAlleyProgress" );
+			if ( decision.equals( "1" ) )
+			{
+				return ( hiddenBowlingAlleyProgress >= 7 ? "2" : hiddenBowlingAlleyProgress <= 1 ? "1" : "0" );
+			}
+			return decision;
+		}
+		
+		// Where Does The Lone Ranger Take His Garbagester?
+		case 789:
+			// Only relocate pygmy janitors once, then get random items
+			if ( decision.equals( "1" ) && 
+				Preferences.getInteger( "relocatedPygmyJanitors" ) != KoLCharacter.getAscensions() )
+			{
+				return "2";
 			}
 			return decision;
 		}

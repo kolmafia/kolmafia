@@ -1804,7 +1804,56 @@ public class FightRequest
 
 			encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 
-			if ( encounter.equalsIgnoreCase( "giant octopus" ) )
+			if ( encounter.equalsIgnoreCase( "Ancient Protector Spirit" ) )
+ 			{
+				// Update appropriate quest to status 6 if lower. If in Hidden Office Building, starting fight removes McClusky File (complete).
+				if ( adventure == AdventurePool.HIDDEN_APARTMENT )
+				{
+					if ( Preferences.getInteger( "hiddenApartmentProgress" ) < 6 )
+					{
+						Preferences.setInteger( "hiddenApartmentProgress", 6 );
+					}
+				}
+				else if ( adventure == AdventurePool.HIDDEN_HOSPITAL )
+				{
+					if ( Preferences.getInteger( "hiddenHospitalProgress" ) < 6 )
+					{
+						Preferences.setInteger( "hiddenHospitalProgress", 6 );
+					}
+				}
+				else if ( adventure == AdventurePool.HIDDEN_OFFICE )
+				{
+					if ( Preferences.getInteger( "hiddenOfficeProgress" ) < 6 )
+					{
+						ResultProcessor.processItem( ItemPool.MCCLUSKY_FILE, -1 );
+						Preferences.setInteger( "hiddenOfficeProgress", 6 );
+					}
+				}
+				else if ( adventure == AdventurePool.HIDDEN_BOWLING_ALLEY )
+				{
+					if ( Preferences.getInteger( "hiddenBowlingAlleyProgress" ) < 6 )
+					{
+						Preferences.setInteger( "hiddenBowlingAlleyProgress", 6 );
+					}
+				}
+ 			}
+			else if ( encounter.equalsIgnoreCase( "pygmy janitor" ) )
+ 			{
+				// If you're meeting these in Park, then they've been relocated
+				if ( adventure == AdventurePool.HIDDEN_PARK && Preferences.getInteger( "relocatePygmyJanitor") != KoLCharacter.getAscensions() )
+				{
+					Preferences.setInteger( "relocatePygmyJanitor", KoLCharacter.getAscensions() );
+				}
+			}
+			else if ( encounter.equalsIgnoreCase( "pygmy witch lawyer" ) )
+			{
+				// If you're meeting these in Park, then they've been relocated
+				if ( adventure == AdventurePool.HIDDEN_PARK && Preferences.getInteger( "relocatePygmyLawyer") != KoLCharacter.getAscensions() )
+				{
+					Preferences.setInteger( "relocatePygmyLawyer", KoLCharacter.getAscensions() );
+				}
+			}
+			else if ( encounter.equalsIgnoreCase( "giant octopus" ) )
 			{
 				if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
 				{

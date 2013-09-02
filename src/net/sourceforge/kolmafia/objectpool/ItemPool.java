@@ -457,6 +457,10 @@ public class ItemPool
 	public static final int POOL_CUE = 1793;
 	public static final int HAND_CHALK = 1794;
 	public static final int DUSTY_ANIMAL_SKULL = 1799;
+	public static final int ONE_BALL = 1900;
+	public static final int TWO_BALL = 1901;
+	public static final int FIVE_BALL = 1904;
+	public static final int SIX_BALL = 1905;
 	public static final int SPOOKYRAVEN_SPECTACLES = 1916;
 	public static final int ENGLISH_TO_A_F_U_E_DICTIONARY = 1919;
 	public static final int BIZARRE_ILLEGIBLE_SHEET_MUSIC = 1920;
@@ -1735,7 +1739,16 @@ public class ItemPool
 	public static final int FOLDER_28 = 6645;
 	public static final int SPIRIT_SOCKET_SET = 6660;
 	public static final int GIANT_FARADAY_CAGE = 6668;
-	public static final int BOWLING_BALL = 6696;
+	public static final int BOOK_OF_MATCHES = 6683;
+	public static final int MCCLUSKY_FILE_PAGE5 = 6693;
+	public static final int BINDER_CLIP = 6694;
+	public static final int MCCLUSKY_FILE = 6695;
+ 	public static final int BOWLING_BALL = 6696;
+	public static final int MOSS_COVERED_STONE_SPHERE = 6697;
+	public static final int DRIPPING_STONE_SPHERE = 6698;
+	public static final int CRACKLING_STONE_SPHERE = 6699;
+	public static final int SCORCHED_STONE_SPHERE = 6700;
+	public static final int STONE_TRIANGLE = 6701;
 	public static final int SHIP_TRIP_SCRIP = 6725;
 
 	public static final AdventureResult get( String itemName, int count )
