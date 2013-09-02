@@ -461,6 +461,7 @@ public class ValhallaManager
 		Preferences.setInteger( "gladiatorBallMovesKnown", 0 );
 		Preferences.setInteger( "gladiatorBladeMovesKnown", 0 );
 		Preferences.setInteger( "gladiatorNetMovesKnown", 0 );
+		Preferences.setInteger( "miniAdvClass", 0 );
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
 		AdventureQueueDatabase.resetQueue();

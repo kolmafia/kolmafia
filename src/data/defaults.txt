@@ -589,6 +589,7 @@ user	mineLayout1
 user	mineLayout2
 user	mineLayout3
 user	mineLayout4
+user	miniAdvClass	0
 user	mmgAutoConfirmBets	false
 user	mmgDisabled	false
 user	mmgSearchMinimum
