@@ -92,8 +92,6 @@ public class AdventureRequest
 
 	private int override = -1;
 
-	private static final AdventureResult SKELETON_KEY = ItemPool.get( ItemPool.SKELETON_KEY, 1 );
-
 	/**
 	 * Constructs a new <code>AdventureRequest</code> which executes the adventure designated by the given Id by
 	 * posting to the provided form, notifying the givenof results (or errors).
@@ -573,6 +571,8 @@ public class AdventureRequest
 				// GamePro Bosses
 				image.startsWith( "faq_boss" ) ? "Video Game Boss" :
 				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :
+				// KOLHS
+				image.equals( "shopteacher" ) ? "X-fingered Shop Teacher" :
 				// Bugbear Invasion
 				image.equals( "bb_caveman" ) ? "Angry Cavebugbear" :
 				// Crimbo 2012 wandering elves
