@@ -5655,7 +5655,7 @@ s1
 5638	Haymaker	719116684	hurricane_f.gif	drink	t,d	50
 5639	Small Medium	281886462	medium_small.gif	grow	t	0
 5640	crystal decanter	476481640	crystaldecanter.gif	familiar	t,d	75
-5641	glowing fungus	491033696	glowfungus.gif	food	t,d	30
+5641	glowing fungus	491033696	glowfungus.gif	food	t,d	30	glowing fun guys
 5642	ancient poisoned dart	552757738	ancientdart.gif	none, combat	t,d	35
 5643	stone wool	437989265	stonewool.gif	usable	t,d	30	handfuls of stone wool
 5644	shiny stones	820211463	pebbles.gif	multiple	t	0	piles of shiny stones
