@@ -1992,8 +1992,6 @@ public abstract class ChoiceManager
 			"Dungeon", "choiceAdventure451", "Greater-Than Sign",
 			new Object[] { new Option( "left parenthesis", "left parenthesis" ),
 				       "moxie, alternately lose then gain meat",
-				       new Option( "plus sign, then muscle", "left parenthesis" ),
-				       "moxie, alternately lose then gain meat",
 				       new Option( "plus sign, then muscle", "plus sign" ),
 				       "mysticality substats",
 				       "get teleportitis" } ),
