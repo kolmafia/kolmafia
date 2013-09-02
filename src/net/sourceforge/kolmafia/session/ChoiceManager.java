@@ -101,11 +101,26 @@ public abstract class ChoiceManager
 
 	private static PostChoiceAction action = PostChoiceAction.NONE;
 
-	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
-	public static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice\"? value=\"?(\\d+)\"?" );
-	public static final Pattern CHOICE2_PATTERN = Pattern.compile( "value='(\\d+)' name='whichchoice'" );
-	// <a href="choice.php?whichchoice=537&pwd=&option=1">
-	public static final Pattern CHOICE3_PATTERN = Pattern.compile( "choice.php\\?whichchoice=(\\d+)" );
+	private static final Pattern [] CHOICE_PATTERNS =
+	{
+		Pattern.compile( "name=['\"]?whichchoice['\"]? value=['\"]?(\\d+)['\"]?" ),
+		Pattern.compile( "value=['\"]?(\\d+)['\"]? name=['\"]?whichchoice['\"]?" ),
+		Pattern.compile( "choice.php\\?whichchoice=(\\d+)" ),
+	};
+
+	public static int extractChoice( final String responseText )
+	{
+		for ( int i = 0; i < ChoiceManager.CHOICE_PATTERNS.length; ++i )
+		{
+			Matcher matcher = CHOICE_PATTERNS[i].matcher( responseText );
+			if ( matcher.find() )
+			{
+				return StringUtilities.parseInt( matcher.group( 1 ) );
+			}
+		}
+
+		return 0;
+	}
 
 	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern URL_OPTION_PATTERN = Pattern.compile( "option=(\\d+)" );
@@ -115,6 +130,7 @@ public abstract class ChoiceManager
 
 	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
 
+	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
 	private static final AdventureResult BALLROOM_KEY = ItemPool.get( ItemPool.BALLROOM_KEY, 1 );
 	private static final AdventureResult MODEL_AIRSHIP = ItemPool.get( ItemPool.MODEL_AIRSHIP, 1 );
@@ -2881,9 +2897,13 @@ public abstract class ChoiceManager
 			break;
 
 		case 535:
+			// Add "Go To Goal" button for a Safety Shelter Map
+			SafetyShelterManager.addRonaldGoalButton( buffer );
+			break;
+
 		case 536:
 			// Add "Go To Goal" button for a Safety Shelter Map
-			SafetyShelterManager.addGoalButton( choice, buffer );
+			SafetyShelterManager.addGrimaceGoalButton( buffer );
 			break;
 
 		case 537:
@@ -4541,9 +4561,9 @@ public abstract class ChoiceManager
 		for ( int stepCount = 0; request.responseText.indexOf( "action=choice.php" ) != -1; ++stepCount )
 		{
 			request.clearDataFields();
-			Matcher choiceMatcher = ChoiceManager.CHOICE_PATTERN.matcher( request.responseText );
 
-			if ( !choiceMatcher.find() )
+			int choice = ChoiceManager.extractChoice( request.responseText );
+			if ( choice == 0 )
 			{
 				// choice.php did not offer us any choices.
 				// This would be a bug in KoL itself.
@@ -4553,9 +4573,6 @@ public abstract class ChoiceManager
 				request.showInBrowser( true );
 				return;
 			}
-
-			String whichchoice = choiceMatcher.group( 1 );
-			int choice = StringUtilities.parseInt( whichchoice );
 
 			// If this choice has special handling that can't be
 			// handled by a single preference (extra fields, for
@@ -4588,7 +4605,7 @@ public abstract class ChoiceManager
 
 			if ( decision.equals( "" ) )
 			{
-				KoLmafia.updateDisplay( MafiaState.ABORT, "Unsupported choice adventure #" + whichchoice );
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Unsupported choice adventure #" + choice );
 				ChoiceCommand.logChoices();
 				request.showInBrowser( true );
 				return;
@@ -4599,7 +4616,7 @@ public abstract class ChoiceManager
 
 			decision = ChoiceManager.pickOutfitChoice( option, decision );
 
-			request.addFormField( "whichchoice", whichchoice );
+			request.addFormField( "whichchoice", String.valueOf( choice ) );
 			request.addFormField( "option", decision );
 			request.addFormField( "pwd", GenericRequest.passwordHash );
 
@@ -6253,31 +6270,15 @@ public abstract class ChoiceManager
 
 	private static void visitChoice( final GenericRequest request )
 	{
-		String responseText = request.responseText;
-		Matcher matcher = ChoiceManager.CHOICE_PATTERN.matcher( responseText );
-		boolean found = matcher.find();
+		ChoiceManager.lastChoice = ChoiceManager.extractChoice( request.responseText );
+		ChoiceManager.lastResponseText = request.responseText;
 
-		if ( !found )
-		{
-			matcher = ChoiceManager.CHOICE2_PATTERN.matcher( responseText );
-			found = matcher.find();
-		}
-
-		if ( !found )
-		{
-			matcher = ChoiceManager.CHOICE3_PATTERN.matcher( responseText );
-			found = matcher.find();
-		}
-
-		if ( !found )
+		if ( ChoiceManager.lastChoice == 0 )
 		{
 			// choice.php did not offer us any choices.
 			// This would be a bug in KoL itself.
 			return;
 		}
-
-		ChoiceManager.lastChoice = StringUtilities.parseInt( matcher.group( 1 ) );
-		ChoiceManager.lastResponseText = responseText;
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -6296,32 +6297,32 @@ public abstract class ChoiceManager
 
 		case 360:
 			// Wumpus Hunt
-			WumpusManager.visitChoice( responseText );
+			WumpusManager.visitChoice( ChoiceManager.lastResponseText );
 			break;
 
 		case 460:
 			// Space Trip
-			ArcadeRequest.visitSpaceTripChoice( responseText );
+			ArcadeRequest.visitSpaceTripChoice( ChoiceManager.lastResponseText );
 			break;
 
 		case 471:
 			// DemonStar
-			ArcadeRequest.visitDemonStarChoice( responseText );
+			ArcadeRequest.visitDemonStarChoice( ChoiceManager.lastResponseText );
 			break;
 
 		case 485:
 			// Fighters Of Fighting
-			ArcadeRequest.visitFightersOfFightingChoice( responseText );
+			ArcadeRequest.visitFightersOfFightingChoice( ChoiceManager.lastResponseText );
 			break;
 
 		case 486:
 			// DungeonFist!
-			ArcadeRequest.visitDungeonFistChoice( responseText );
+			ArcadeRequest.visitDungeonFistChoice( ChoiceManager.lastResponseText );
 			break;
 
 		case 488:
 			// Meteoid
-			ArcadeRequest.visitMeteoidChoice( responseText );
+			ArcadeRequest.visitMeteoidChoice( ChoiceManager.lastResponseText );
 			break;
 
 		case 496:
@@ -6345,16 +6346,16 @@ public abstract class ChoiceManager
 
 		case 537:
 			// Play Porko!
-			SpaaaceRequest.visitPorkoChoice( responseText );
+			SpaaaceRequest.visitPorkoChoice( ChoiceManager.lastResponseText );
 			break;
 
 		case 540:
 			// Big-Time Generator
-			SpaaaceRequest.visitGeneratorChoice( responseText );
+			SpaaaceRequest.visitGeneratorChoice( ChoiceManager.lastResponseText );
 			break;
 
 		case 570:
-			GameproManager.parseGameproMagazine( responseText );
+			GameproManager.parseGameproMagazine( ChoiceManager.lastResponseText );
 			break;
 
 		case 705:
@@ -6370,7 +6371,7 @@ public abstract class ChoiceManager
 			// obviously empty socket on the base of it. You plug
 			// it in, and The Machine whirs ominously to life.......
 
-			if ( responseText.contains( "You plug it in" ) )
+			if ( ChoiceManager.lastResponseText.contains( "You plug it in" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SKULL_CAPACITOR, -1 ) );
 			}

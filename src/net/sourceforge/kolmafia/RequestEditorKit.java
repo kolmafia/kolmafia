@@ -1818,43 +1818,28 @@ public class RequestEditorKit
 		{
 			return;
 		}
+
 		// Make sure that it's an actual choice adventure
-		String text = buffer.toString();
+		int choice = ChoiceManager.extractChoice( buffer.toString() );
 
-		Matcher matcher = ChoiceManager.CHOICE_PATTERN.matcher( text );
-		boolean found = matcher.find();
-
-		if ( !found )
-		{
-			matcher = ChoiceManager.CHOICE2_PATTERN.matcher( text );
-			found = matcher.find();
-		}
-
-		if ( !found )
-		{
-			matcher = ChoiceManager.CHOICE3_PATTERN.matcher( text );
-			found = matcher.find();
-		}
-
-		if ( !found )
+		if ( choice == 0 )
 		{
 			// It's a response to taking a choice.
 			RequestEditorKit.decorateChoiceResponse( location, buffer );
 			return;
 		}
 
-		// Find the options for the choice we've encountered
-		int choice = StringUtilities.parseInt( matcher.group( 1 ) );
-
 		// Do any choice-specific decorations
 		ChoiceManager.decorateChoice( choice, buffer );
 
-		matcher = FORM_PATTERN.matcher( text );
+		String text = buffer.toString();
+		Matcher matcher = FORM_PATTERN.matcher( text );
 		if ( !matcher.find() )
 		{
 			return;
 		}
 
+		// Find the options for the choice we've encountered
 		Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
 
 		if ( spoilers == null )

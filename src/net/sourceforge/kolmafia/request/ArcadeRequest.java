@@ -1842,5 +1842,4 @@ public class ArcadeRequest
 			request.processResults();
 		}
 	}
-
 }
