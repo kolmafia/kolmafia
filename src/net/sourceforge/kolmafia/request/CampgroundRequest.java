@@ -576,6 +576,10 @@ public class CampgroundRequest
 				break;
 			}
 		}
+		else
+		{
+			Preferences.setBoolean( "_psychoJarUsed", false );
+		}
 
 	}
 
