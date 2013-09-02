@@ -1165,7 +1165,7 @@ public class FightRequest
 				return;
 			}
 		}
-		else if ( skillName.equals( "Entangling Noodles" ) )
+		else if ( skillName.equals( "Entangling Noodles" ) || skillName.equals( "Shadow Noodles" ) )
 		{
 			// You can only use this skill once per combat
 			if ( FightRequest.castNoodles )
@@ -1249,6 +1249,18 @@ public class FightRequest
 			// You can only use this skill if you have the Taste the Inferno effect
 
 			if ( !KoLConstants.activeEffects.contains( FightRequest.INFERNO ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+
+		else if ( skillName.equals( "Carbohydrate Cudgel" ) )
+		{
+			// You can only use this skill if you have dry noodles
+
+			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.DRY_NOODLES, 1 ) ) )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -2213,6 +2225,12 @@ public class FightRequest
 		else if ( skillNumber == SkillPool.UNLEASH_NANITES && responseText.contains( "You roar with sudden power" ) )
 		{
 			Preferences.setString( "_nanorhinoBanishedMonster", MonsterStatusTracker.getLastMonsterName() );
+		}
+
+		// Casting Carbohydrate Cudgel uses Dry Noodles
+		else if ( skillNumber == SkillPool.CARBOHYDRATE_CUDGEL && responseText.contains( "You toss a bundle" ) )
+		{
+			ResultProcessor.processItem( ItemPool.DRY_NOODLES, -1 );
 		}
 
 		// The first part is for a hobo underling being summoned
@@ -5704,6 +5722,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.ENTANGLING_NOODLES:
+		case SkillPool.SHADOW_NOODLES:
 			FightRequest.castNoodles = true;
 			return;
 
