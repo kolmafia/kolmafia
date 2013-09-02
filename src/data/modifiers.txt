@@ -2810,6 +2810,7 @@ Fam:Oily Woim	Initiative: [2*W]
 Fam:Purse Rat	Monster Level: [floor(W/2)]
 Fam:Rock Lobster	Underwater Familiar
 Fam:Squamous Gibberer	Underwater Familiar
+Fam:Steam-Powered Cheerleader	Fairy Effectiveness: [1+0.1*ceil(pref(_cheerleaderSteam)/25)]
 Fam:Urchin Urchin	Underwater Familiar
 Fam:Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 
@@ -3297,6 +3298,7 @@ Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
 Colorfully Concealed	Combat Rate (Underwater): -5
 # Comic Violence: Regular Attacks Can't Miss
 Cool, Catlike	Cold Damage: +40, Moxie: +30
+Cool Spirit	Cold Damage: +20, Cold Spell Damage: +20
 Coming Up Roses	MP Regen Min: 10, MP Regen Max: 20
 Compensatory Cruelness	Weapon Damage: +5
 Complete Delusion	Muscle: +4, Moxie: +5
@@ -3484,6 +3486,7 @@ Feline Ferocity	Weapon Damage Percent: +100
 Festive Radiation	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
 Fever From the Flavor	Cold Resistance: +9
 Fiery Heart	Mysticality: [min(T,20)], MP Regen Min: [ceil(min(T,20)/2)], MP Regen Max: [ceil(min(T,20)/2)]
+Fiery Spirit	Hot Damage: +20, Hot Spell Damage: +20
 Fifty Ways to Bereave Your Lover	Sleaze Damage: +100
 Filled with Magic	Spell Damage Percent: +100
 # Filthworm Drone Stench
@@ -3524,6 +3527,7 @@ Fresh Scent	Combat Rate: -5
 Frigid Weapon	Cold Damage: +3
 # Frigidalmatian: Bites your foes
 Frio Como Helado	Cold Damage: +10
+Frisky Spirit	Moxie: +15
 Frog In Your Throat	Muscle: +25
 From Nantucket	Experience (Moxie): +5
 Frostbitten	Cold Damage: +10, Damage Reduction: -2
@@ -3677,6 +3681,7 @@ In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 In the Limelight	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 In the Saucestream	Mysticality Percent: +15
 In the Slimelight	Stench Damage: +50
+Inappropriate Spirit	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Incensed	Mysticality: +10
 Incredibly Hulking	Muscle Percent: +200
 Indescribable Flavor	Spell Damage: +30
@@ -3981,6 +3986,7 @@ Reedy Pipes	Moxie Percent: +5
 # Refined Palate: Fine wines will taste even finer
 Refuse Reflux	Stench Damage: [min(100,T)]
 Reptilian Fortitude	Maximum HP: +30
+Resilient Spirit	Damage Reduction: 15, Damage Absorption: +50
 Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 # RIP AND TEAR: Makes you look like a Space Marine
@@ -4166,6 +4172,7 @@ Strange Mental Acuity	Mysticality Percent: +25
 Strawberry Alarm	Initiative: +50
 Strength of Ten Ettins	Muscle Percent: +25
 Strong Resolve	Experience (Muscle): +2
+Strong Spirit	Muscle: +15
 # Stuck-Up Hair: Damages Attacking Opponents
 Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5
 Stumpy	Initiative: -50
@@ -4349,6 +4356,7 @@ Whitened Teeth	Moxie Percent: +10
 Winklered	Meat Drop: +40
 Wintergreen Warmongery	Muscle: +30
 Wintry Breath	Cold Damage: +20
+Wise Spirit	Mysticality: +15
 Wistfully Nostalgic	Experience: +3
 Withered Heart	Mysticality: [min(T,20)], Item Drop: [min(T,20)]
 Woad Warrior	Muscle: +25

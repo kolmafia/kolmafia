@@ -2674,6 +2674,11 @@ public class FightRequest
 				int newCharges = Preferences.getInteger( "jungCharge" );
 				familiar.setCharges( newCharges );
 				break;
+
+			case FamiliarPool.STEAM_CHEERLEADER:
+				int dec = KoLCharacter.hasEquipped( ItemPool.SPIRIT_SOCKET_SET, EquipmentManager.FAMILIAR ) ? 1 : 2;
+				Preferences.decrement( "_cheerleaderSteam", dec, 0 );
+				break;
 			}
 
 			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATSEAT, 1 ) ) &&
