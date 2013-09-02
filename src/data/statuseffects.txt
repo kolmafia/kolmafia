@@ -1355,3 +1355,10 @@
 1354	Pill Party!	pill.gif	5ad8b007cc2df23fb55f3378cecdba3a	use 1 pill cup
 1355	Pygmy Drinking Buddy	drunkpygmy.gif	0589999b8327b1aec5a4cbefbf99733a	use 1 pygmy phone number
 1356	Full of Fruit, Yourself	junglefruit.gif	d7917dbebfd592278fa40e373a7f23eb	eat 1 exotic jungle fruit
+1357	Strong Spirit	strboost.gif	2d013e8a356dbd1f6580b9ebcaa70e5c
+1358	Wise Spirit	realbrain.gif	cd88a4e702df1c7216320210656b9e10
+1359	Frisky Spirit	fast.gif	831efd5122695b7f3eb4c7e232d6677c
+1360	Inappropriate Spirit	wink.gif	7f752bb0e9fe64db18cbeea684620064
+1361	Fiery Spirit	fire.gif	f788b27c7141363b355ea9da0e0cd4ba
+1362	Cool Spirit	snowflake.gif	5ebd2e3cb33eb70f5393e618592da3e4
+1363	Resilient Spirit	wallshield.gif	400b6f9f2059b58527c510b69686cf62
