@@ -183,13 +183,15 @@ public class UntinkerRequest
 	{
 		// Either place=untinker or action=untinker
 
-		if ( !location.startsWith( "forestvillage.php" ) || location.indexOf( "untinker" ) == -1 )
+		if ( !location.startsWith( "forestvillage.php" ) || ( !location.contains( "untinker" ) && !location.contains( "screwquest" ) ) )
 		{
 			return;
 		}
 
 		// "Thanks! I'll tell ya, I'm just lost without my screwdriver. Here, lemme mark the Knoll on your map."
-		if ( responseText.indexOf( "I'm just lost without my screwdriver" ) != -1 )
+		if ( responseText.contains( "I'm just lost without my screwdriver" )
+		     || responseText.contains( "I'll go find your screwdriver for you" ) // Zombie Slayer
+		   )
 		{
 			QuestDatabase.setQuestProgress( Quest.UNTINKER, QuestDatabase.STARTED );
 		}
@@ -203,7 +205,7 @@ public class UntinkerRequest
 		}
 
 		UntinkerRequest.lastUserId = KoLCharacter.getUserId();
-		UntinkerRequest.canUntinker = responseText.indexOf( "you don't have anything like that" ) != -1 || responseText.indexOf( "<select name=whichitem>" ) != -1;
+		UntinkerRequest.canUntinker = responseText.contains( "you don't have anything like that" ) || responseText.contains( "<select name=whichitem>" );
 
 		if ( responseText.indexOf( "You acquire" ) != -1 )
 		{
@@ -216,7 +218,7 @@ public class UntinkerRequest
 			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
 			AdventureResult result = new AdventureResult( itemId, -1 );
 
-			if ( location.indexOf( "untinkerall=on" ) != -1 )
+			if ( location.contains( "untinkerall=on" ) )
 			{
 				result = result.getInstance( 0 - result.getCount( KoLConstants.inventory ) );
 			}
