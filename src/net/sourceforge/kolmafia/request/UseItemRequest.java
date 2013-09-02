@@ -4315,8 +4315,17 @@ public class UseItemRequest
 		case ItemPool.ARTIST_JAR:
 		case ItemPool.MEATSMITH_JAR:
 		case ItemPool.JICK_JAR:
-			CampgroundRequest.setCampgroundItem( itemId, 1 );
-			Preferences.setBoolean( "_psychoJarUsed", true );
+			// You may have been successful
+			if ( responseText.contains( "You open the jar and peer inside." ) )
+			{
+				CampgroundRequest.setCampgroundItem( itemId, 1 );
+				Preferences.setBoolean( "_psychoJarUsed", true );
+			}
+			else
+			{
+				// If not, don't remove it
+				ResultProcessor.processResult( item );
+			}
 			return;
 
 		case ItemPool.FISHY_PIPE:
