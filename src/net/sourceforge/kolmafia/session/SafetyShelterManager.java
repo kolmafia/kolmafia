@@ -117,65 +117,37 @@ public class SafetyShelterManager
 		RequestLogger.updateSessionLog( text );
 	}
 
-	public static final void addGoalButton( final int choice, final StringBuffer buffer )
-	{
-		if ( choice == 535 )
-		{
-			SafetyShelterManager.addRonaldGoalButton( buffer );
-		}
-		else if ( choice == 536 )
-		{
-			SafetyShelterManager.addGrimaceGoalButton( buffer );
-		}
-	}
-
-	private static final String currentRonaldGoalString()
-	{
-		int goal = Preferences.getInteger( "choiceAdventure535" );
-
-		if ( goal < 1 || goal > RonaldGoals.length )
-		{
-			return null;
-		}
-
-		return RonaldGoals[ goal - 1 ];
-	}
-
 	public static final void addRonaldGoalButton( final StringBuffer buffer )
 	{
 		// Only add the goal button to the first choice
-		if ( buffer.indexOf( "Take a Look Around" ) != -1 )
+		if ( buffer.indexOf( "Take a Look Around" ) == -1 )
 		{
-			String goal = SafetyShelterManager.currentRonaldGoalString();
-			if ( goal != null )
-			{
-				ChoiceManager.addGoalButton( buffer, goal );
-			}
-		}
-	}
-
-	private static final String currentGrimaceGoalString()
-	{
-		int goal = Preferences.getInteger( "choiceAdventure536" );
-
-		if ( goal < 1 || goal > GrimaceGoals.length )
-		{
-			return null;
+			return;
 		}
 
-		return GrimaceGoals[ goal - 1 ];
+		int goal = Preferences.getInteger( "choiceAdventure535" );
+		if ( goal < 1 || goal > RonaldGoals.length )
+		{
+			return;
+		}
+
+		ChoiceManager.addGoalButton( buffer, RonaldGoals[ goal - 1 ] );
 	}
 
 	public static final void addGrimaceGoalButton( final StringBuffer buffer )
 	{
 		// Only add the goal button to the first choice
-		if ( buffer.indexOf( "Down the Hatch!" ) != -1 )
+		if ( buffer.indexOf( "Down the Hatch!" ) == -1 )
 		{
-			String goal = SafetyShelterManager.currentGrimaceGoalString();
-			if ( goal != null )
-			{
-				ChoiceManager.addGoalButton( buffer, goal );
-			}
+			return;
 		}
+
+		int goal = Preferences.getInteger( "choiceAdventure536" );
+		if ( goal < 1 || goal > GrimaceGoals.length )
+		{
+			return;
+		}
+
+		ChoiceManager.addGoalButton( buffer, GrimaceGoals[ goal - 1 ] );
 	}
 }
