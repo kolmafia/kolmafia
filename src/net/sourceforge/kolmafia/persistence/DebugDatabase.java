@@ -169,17 +169,84 @@ public class DebugDatabase
 	private static final String ITEM_DATA = "itemdata.txt";
 	private static final StringArray rawItems = new StringArray();
 
-	private static final Map<String, String> foods = new TreeMap<String, String>();
-	private static final Map<String, String> boozes = new TreeMap<String, String>();
-	private static final Map<String, String> hats = new TreeMap<String, String>();
-	private static final Map<String, String> weapons = new TreeMap<String, String>();
-	private static final Map<String, String> offhands = new TreeMap<String, String>();
-	private static final Map<String, String> shirts = new TreeMap<String, String>();
-	private static final Map<String, String> pants = new TreeMap<String, String>();
-	private static final Map<String, String> accessories = new TreeMap<String, String>();
-	private static final Map<String, String> containers = new TreeMap<String, String>();
-	private static final Map<String, String> famitems = new TreeMap<String, String>();
-	private static final Map<String, String> others = new TreeMap<String, String>();
+	private static class ItemMap
+	{
+		private final String tag;
+		private final int type;
+		private final Map<String, String> map;
+
+		public ItemMap( final String tag, final int type )
+		{
+			this.tag = tag;
+			this.type = type;
+			this.map = new TreeMap<String, String>();
+		}
+
+		public String getTag()
+		{
+			return this.tag;
+		}
+
+		public int getType()
+		{
+			return this.type;
+		}
+
+		public Map<String, String> getMap()
+		{
+			return this.map;
+		}
+
+		public void clear()
+		{
+			this.map.clear();
+		}
+
+		public void put( String name, String text )
+		{
+			this.map.put( name, text );
+		}
+
+		public String toString()
+		{
+			return this.tag;
+		}
+	}
+
+	private static final ItemMap [] ITEM_MAPS =
+	{
+		new ItemMap( "Foods", KoLConstants.CONSUME_EAT ),
+		new ItemMap( "Boozes", KoLConstants.CONSUME_DRINK ),
+		new ItemMap( "Hats", KoLConstants.EQUIP_HAT ),
+		new ItemMap( "Weapons", KoLConstants.EQUIP_WEAPON ),
+		new ItemMap( "Offhands", KoLConstants.EQUIP_OFFHAND ),
+		new ItemMap( "Shirts", KoLConstants.EQUIP_SHIRT ),
+		new ItemMap( "Pants", KoLConstants.EQUIP_PANTS ),
+		new ItemMap( "Accessories", KoLConstants.EQUIP_ACCESSORY ),
+		new ItemMap( "Containers", KoLConstants.EQUIP_CONTAINER ),
+		new ItemMap( "Familiar Items", KoLConstants.EQUIP_FAMILIAR ),
+		new ItemMap( "Everything Else", -1 ),
+	};
+
+	private static final ItemMap findItemMap( final int type )
+	{
+		ItemMap other = null;
+		for ( int i = 0; i < DebugDatabase.ITEM_MAPS.length; ++i )
+		{
+			ItemMap map = DebugDatabase.ITEM_MAPS[ i ];
+			int mapType = map.getType();
+			if ( mapType == type )
+			{
+				return map;
+			}
+			if ( mapType == -1 )
+			{
+				other = map;
+			}
+		}
+
+		return other;
+	}
 
 	public static final void checkItems( final int itemId )
 	{
@@ -190,17 +257,11 @@ public class DebugDatabase
 
 		PrintStream report = DebugDatabase.openReport( ITEM_DATA );
 
-		DebugDatabase.foods.clear();
-		DebugDatabase.boozes.clear();
-		DebugDatabase.hats.clear();
-		DebugDatabase.weapons.clear();
-		DebugDatabase.offhands.clear();
-		DebugDatabase.shirts.clear();
-		DebugDatabase.pants.clear();
-		DebugDatabase.accessories.clear();
-		DebugDatabase.containers.clear();
-		DebugDatabase.famitems.clear();
-		DebugDatabase.others.clear();
+		for ( int i = 0; i < DebugDatabase.ITEM_MAPS.length; ++i )
+		{
+			ItemMap map = DebugDatabase.ITEM_MAPS[ i ];
+			map.clear();
+		}
 
 		// Check item names, desc ID, consumption type
 
@@ -322,42 +383,8 @@ public class DebugDatabase
 			report.println( "# *** " + name + " (" + itemId + ") has image of " + image + " but should be " + descImage + "." );
 		}
 
-		switch ( type )
-		{
-		case KoLConstants.CONSUME_EAT:
-			DebugDatabase.foods.put( name, text );
-			break;
-		case KoLConstants.CONSUME_DRINK:
-			DebugDatabase.boozes.put( name, text );
-			break;
-		case KoLConstants.EQUIP_HAT:
-			DebugDatabase.hats.put( name, text );
-			break;
-		case KoLConstants.EQUIP_PANTS:
-			DebugDatabase.pants.put( name, text );
-			break;
-		case KoLConstants.EQUIP_SHIRT:
-			DebugDatabase.shirts.put( name, text );
-			break;
-		case KoLConstants.EQUIP_WEAPON:
-			DebugDatabase.weapons.put( name, text );
-			break;
-		case KoLConstants.EQUIP_OFFHAND:
-			DebugDatabase.offhands.put( name, text );
-			break;
-		case KoLConstants.EQUIP_ACCESSORY:
-			DebugDatabase.accessories.put( name, text );
-			break;
-		case KoLConstants.EQUIP_CONTAINER:
-			DebugDatabase.containers.put( name, text );
-			break;
-		case KoLConstants.EQUIP_FAMILIAR:
-			DebugDatabase.famitems.put( name, text );
-			break;
-		default:
-			DebugDatabase.others.put( name, text );
-			break;
-		}
+		ItemMap map = DebugDatabase.findItemMap( type );
+		map.put( name, text );
 
 		String descId = ItemDatabase.getDescriptionId( id );
 		String plural = ItemDatabase.getPluralById( id );
@@ -665,21 +692,25 @@ public class DebugDatabase
 	{
 		RequestLogger.printLine( "Checking level requirements..." );
 
-		DebugDatabase.checkLevelMap( report, DebugDatabase.foods, "Food" );
-		DebugDatabase.checkLevelMap( report, DebugDatabase.boozes, "Booze" );
+		DebugDatabase.checkLevelMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_EAT ) );
+		DebugDatabase.checkLevelMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_DRINK ) );
 	}
 
-	private static final void checkLevelMap( final PrintStream report, final Map<String, String> map, final String tag )
+	private static final void checkLevelMap( final PrintStream report, final ItemMap imap )
 	{
+		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
 		{
 			return;
 		}
 
+		String tag = imap.getTag();
+		int type = imap.getType();
+
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
 		report.println( "" );
-		report.println( "# Level requirements in " + ( map == DebugDatabase.foods ? "fullness" : "inebriety" ) + ".txt" );
+		report.println( "# Level requirements in " + ( type == KoLConstants.CONSUME_EAT ? "fullness" : "inebriety" ) + ".txt" );
 
 		Object[] keys = map.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -719,22 +750,24 @@ public class DebugDatabase
 
 		RequestLogger.printLine( "Checking equipment..." );
 
-		DebugDatabase.checkEquipmentMap( report, DebugDatabase.hats, "Hats" );
-		DebugDatabase.checkEquipmentMap( report, DebugDatabase.pants, "Pants" );
-		DebugDatabase.checkEquipmentMap( report, DebugDatabase.shirts, "Shirts" );
-		DebugDatabase.checkEquipmentMap( report, DebugDatabase.weapons, "Weapons" );
-		DebugDatabase.checkEquipmentMap( report, DebugDatabase.offhands, "Off-hand" );
-		DebugDatabase.checkEquipmentMap( report, DebugDatabase.accessories, "Accessories" );
-		DebugDatabase.checkEquipmentMap( report, DebugDatabase.containers, "Containers" );
+		DebugDatabase.checkEquipmentMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_HAT ) );
+		DebugDatabase.checkEquipmentMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_PANTS ) );
+		DebugDatabase.checkEquipmentMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_SHIRT ) );
+		DebugDatabase.checkEquipmentMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_WEAPON ) );
+		DebugDatabase.checkEquipmentMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_OFFHAND ) );
+		DebugDatabase.checkEquipmentMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_ACCESSORY ) );
+		DebugDatabase.checkEquipmentMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_CONTAINER ) );
 	}
 
-	private static final void checkEquipmentMap( final PrintStream report, final Map<String, String> map, final String tag )
+	private static final void checkEquipmentMap( final PrintStream report, ItemMap imap )
 	{
+		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
 		{
 			return;
 		}
 
+		String tag = imap.getTag();
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
 		report.println( "" );
@@ -902,28 +935,38 @@ public class DebugDatabase
 		return matcher.find() ? ( StringUtilities.parseInt( matcher.group( 1 ) ) ) : 0;
 	}
 
+	private static final Pattern FAMILIAR_PATTERN = Pattern.compile( "Familiar: <b>(.*?)</b>" );
+
+	public static final String parseFamiliar( final String text )
+	{
+		Matcher matcher = DebugDatabase.FAMILIAR_PATTERN.matcher( text );
+		return matcher.find() ? ( matcher.group( 1 ) ) : "any";
+	}
+
 	private static final void checkItemModifiers( final PrintStream report )
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
 
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.hats, "Hats" );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.pants, "Pants" );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.shirts, "Shirts" );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.weapons, "Weapons" );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.offhands, "Off-hand" );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.accessories, "Accessories" );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.containers, "Containers" );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.famitems, "Familiar Items" );
-		DebugDatabase.checkItemModifierMap( report, DebugDatabase.others, "Everything Else" );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_HAT ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_PANTS ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_SHIRT ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_WEAPON ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_OFFHAND ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_ACCESSORY ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_CONTAINER ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( KoLConstants.EQUIP_FAMILIAR ) );
+		DebugDatabase.checkItemModifierMap( report, DebugDatabase.findItemMap( -1 ) );
 	}
 
-	private static final void checkItemModifierMap( final PrintStream report, final Map<String, String> map, final String tag )
+	private static final void checkItemModifierMap( final PrintStream report, final ItemMap imap )
 	{
+		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
 		{
 			return;
 		}
 
+		String tag = imap.getTag();
 		RequestLogger.printLine( "Checking " + tag + "..." );
 
 		report.println();
@@ -931,18 +974,19 @@ public class DebugDatabase
 		report.println();
 
 		Object[] keys = map.keySet().toArray();
+		int type = imap.getType();
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			String name = (String) keys[ i ];
 			String text = map.get( name );
-			DebugDatabase.checkItemModifierDatum( name, text, report );
+			DebugDatabase.checkItemModifierDatum( name, text, type, report );
 		}
 	}
 
-	private static final void checkItemModifierDatum( final String name, final String text, final PrintStream report )
+	private static final void checkItemModifierDatum( final String name, final String text, final int type, final PrintStream report )
 	{
 		ArrayList<String> unknown = new ArrayList<String>();
-		String known = DebugDatabase.parseItemEnchantments( text, unknown );
+		String known = DebugDatabase.parseItemEnchantments( text, unknown, type );
 		DebugDatabase.logModifierDatum( name, known, unknown, report );
 	}
 
@@ -969,7 +1013,7 @@ public class DebugDatabase
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
 		Pattern.compile( "Enchantment:.*?<font color=blue>(.*)</font>", Pattern.DOTALL );
 
-	public static final String parseItemEnchantments( final String text, final ArrayList<String> unknown )
+	public static final String parseItemEnchantments( final String text, final ArrayList<String> unknown, final int type )
 	{
 		String known = parseStandardEnchantments( text, unknown, DebugDatabase.ITEM_ENCHANTMENT_PATTERN );
 
@@ -997,6 +1041,15 @@ public class DebugDatabase
 
 		String duration = Modifiers.parseDuration( text );
 		known = DebugDatabase.appendModifier( known, duration );
+
+		if ( type == KoLConstants.EQUIP_FAMILIAR )
+		{
+			String familiar = DebugDatabase.parseFamiliar( text );
+			if ( familiar.equals( "any" ) )
+			{
+				known = DebugDatabase.appendModifier( known, "Generic" );
+			}
+		}
 
 		return known;
 	}
@@ -1058,7 +1111,7 @@ public class DebugDatabase
 	private static final String EFFECT_HTML = "effecthtml.txt";
 	private static final String EFFECT_DATA = "effectdata.txt";
 	private static final StringArray rawEffects = new StringArray();
-	private static final Map<String, String> effects = new TreeMap<String, String>();
+	private static final ItemMap effects = new ItemMap( "Status Effects", 0 );
 
 	public static final void checkEffects()
 	{
@@ -1231,15 +1284,18 @@ public class DebugDatabase
 	{
 		RequestLogger.printLine( "Checking modifiers..." );
 
-		DebugDatabase.checkEffectModifierMap( report, DebugDatabase.effects, "Status Effects" );
+		DebugDatabase.checkEffectModifierMap( report, DebugDatabase.effects );
 	}
 
-	private static final void checkEffectModifierMap( final PrintStream report, final Map<String, String> map, final String tag )
+	private static final void checkEffectModifierMap( final PrintStream report, final ItemMap imap )
 	{
+		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
 		{
 			return;
 		}
+
+		String tag = imap.getTag();
 
 		report.println();
 		report.println( "# " + tag + " section of modifiers.txt" );
