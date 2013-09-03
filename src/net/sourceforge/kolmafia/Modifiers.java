@@ -3136,11 +3136,11 @@ public class Modifiers
 		return "# " + name;
 	}
 
-	public static final void registerItem( final String name, final String text )
+	public static final void registerItem( final String name, final String text, final int type )
 	{
 		// Examine the item description and decide what it is.
 		ArrayList<String> unknown = new ArrayList<String>();
-		String known = DebugDatabase.parseItemEnchantments( text, unknown );
+		String known = DebugDatabase.parseItemEnchantments( text, unknown, type );
 		Modifiers.registerObject( name, unknown, known );
 	}
 

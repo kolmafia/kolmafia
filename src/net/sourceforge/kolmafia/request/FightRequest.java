@@ -1852,7 +1852,7 @@ public class FightRequest
 			else if ( encounter.equalsIgnoreCase( "pygmy janitor" ) )
  			{
 				// If you're meeting these in Park, then they've been relocated
-				if ( adventure == AdventurePool.HIDDEN_PARK && Preferences.getInteger( "relocatePygmyJanitor") != KoLCharacter.getAscensions() )
+				if ( adventure == AdventurePool.HIDDEN_PARK )
 				{
 					Preferences.setInteger( "relocatePygmyJanitor", KoLCharacter.getAscensions() );
 				}
@@ -1860,7 +1860,7 @@ public class FightRequest
 			else if ( encounter.equalsIgnoreCase( "pygmy witch lawyer" ) )
 			{
 				// If you're meeting these in Park, then they've been relocated
-				if ( adventure == AdventurePool.HIDDEN_PARK && Preferences.getInteger( "relocatePygmyLawyer") != KoLCharacter.getAscensions() )
+				if ( adventure == AdventurePool.HIDDEN_PARK )
 				{
 					Preferences.setInteger( "relocatePygmyLawyer", KoLCharacter.getAscensions() );
 				}

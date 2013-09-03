@@ -2548,6 +2548,7 @@ wings of fire	Hot Damage: +25, Hot Spell Damage: +25
 1.21 jigawatts	Familiar Weight: +5
 100-Watt bulb	Familiar Weight: +5
 Jawmaster 2000&trade;	Familiar Weight: +5
+# Li'l Businessman Kit: Lets your familiar make deals
 Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
 # Loathing Legion helicopter: Familiar will act more often
 Loathing Legion helicopter	Familiar Weight: +5, Softcore Only, Generic
@@ -2560,7 +2561,7 @@ Red Book	Familiar Weight: +5
 S.L.E.I.G.H.B.E.L.L.S.	Familiar Weight: +5
 # Snow Suit: Lets Your Familiar Do Various Tricks
 Snow Suit	Familiar Weight: [max(5,20-floor(pref(_snowSuitCount)/5))], Softcore Only, Generic
-Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Generic
+Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Softcore Only, Generic
 affordable teak perch	Familiar Weight: +5
 amphibious tophat	Underwater Familiar, Equips On: "Dancing Frog", Familiar Effect: "adventure underwater"
 anniversary tiny latex mask	Familiar Weight: +1, Generic
@@ -2590,7 +2591,6 @@ bottle of Cochon Noir	Familiar Weight: +5
 bottle of perfume	Familiar Weight: +5
 brass crank handle	Familiar Weight: +5
 brass stinger	Familiar Weight: +5
-shiny brass tailfeathers	Familiar Weight: +5
 bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	Food Drop: +5, Pants Drop: +5, Candy Drop: +5, Fairy: 1.0, Equips On: "Baby Bugged Bugbear"
 bugged balaclava	Monster Level: +20, Volleyball: 1.0, Equips On: "Baby Bugged Bugbear"
 bugged beanie	Familiar Weight: +10
@@ -2602,13 +2602,13 @@ chiptune guitar	Item Drop: +25, Effect: "item drop", Equips On: "Mini-Hipster"
 chocolate spurs	Familiar Weight: +5
 cotton candy cordial	Familiar Weight: +5
 cracker	Familiar Weight: +15
-crystal decanter	Familiar Weight: +5
 crimsilion jub-jub bird	Familiar Weight: +5, Familiar Tuning: "Muscle", Familiar Effect: "mus stats", Equips On: "Frumious Bandersnatch"
-cute bow from beyond the stars	Familiar Weight: +5, Equips On: "Adorable Space Buddy"
+crystal decanter	Familiar Weight: +5
+cute bow from beyond the stars	Familiar Weight: +5
 das boot	Familiar Weight: -10, Underwater Familiar, Familiar Effect: "adventure underwater", Generic
 dental pliers	Familiar Weight: +5
 diamond-studded fronts	Familiar Weight: +5
-# evil teddy bear sewing kit: Teddy Bear loses less stuffing when hit.
+# evil teddy bear sewing kit: Teddy Bear loses less stuffing when hit
 extra-heavy BRICKO brick	Familiar Weight: +5
 extra-strength rubber bands	Familiar Weight: +5
 eye 'n' horn shampoo	Familiar Weight: +5
@@ -2624,7 +2624,7 @@ flaming glowsticks	Familiar Weight: +5
 # flaming nose: Makes Flaming Face More Complete
 funky brass fez	Familiar Weight: +5
 gazing shoes	Familiar Weight: +5
-# giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently.
+# giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently
 gill rings	Familiar Weight: +5
 # gnomish athlete's foot: Lets your gnome kick enemies prior to combat
 gnomish athlete's foot	Equips On: "Reagnimated Gnome", Familiar Effect: "delevel"
@@ -2641,6 +2641,7 @@ green pixie spog	Familiar Weight: +5
 guard turtle collar	Generic
 half-height unicycle	Familiar Weight: +5
 hardware upgrade	Familiar Weight: +5
+# homemade robot gear: +1 Gear
 hot pink lipstick	Familiar Weight: +5
 hypodermic needle	Familiar Weight: +5
 iced-out bling	Familiar Weight: +5
@@ -2648,6 +2649,7 @@ icicle katana	Familiar Weight: +5
 # imitation whetstone: Makes Imitation Crab claws sharper
 immense ballet shoes	Familiar Weight: +5
 ironic moustache	Familiar Weight: +10, Effect: "+10 lbs."
+# ittah bittah hookah: Magical Smoke!
 ittah bittah hookah	Familiar Weight: +5, Generic
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
 jalape&ntilde;o slices	Meat Drop: +60.9
@@ -2657,7 +2659,7 @@ licorice boa	Familiar Weight: +5
 limburger biker boots	Familiar Weight: +5
 little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Familiar Effect: "adventure underwater", Generic
 little box of fireworks	Familiar Weight: +5, Experience: +1.5, Item Drop (sporadic): +12.5, Softcore Only, Generic
-# little wooden mannequin	Makes Kid Better at Drawing Other Players
+# little wooden mannequin: Makes Kid Better at Drawing Other Players
 little wooden mannequin	Familiar Weight: +5
 lucky Tam O'Shanter	Meat Drop: +50, Softcore Only, Generic
 lucky Tam O'Shatner	Meat Drop: +50, Softcore Only, Generic
@@ -2688,18 +2690,19 @@ mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
 moveable feast	Familiar Weight: +5, Experience (familiar): +1, Softcore Only, Generic
 # nanorhino credit card: Helps your Nano-Rhino charge
 nosy nose ringy ring	Familiar Weight: +15
-# origami &quot;gentlemen's&quot; magazine: + 10 lbs. of Ghuol Whelp
+# origami &quot;gentlemen's&quot; magazine: +10 lbs. of Ghuol Whelp
 origami &quot;gentlemen's&quot; magazine	Softcore Only, Generic
 overclocked avian microprocessor	Familiar Weight: +5
 # oversized fish scaler: Allows familiar to scale fish
 oversized fish scaler	Familiar Effect: "attack", Generic
 palm-frond toupee	Familiar Weight: +5
-# penguin-smacking club: +5 to Familiar Damage
+# penguin-smacking club: +15 to Familiar Damage
 pet anemone	Familiar Weight: +5
 pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box | Holiday Log"
 pet rock &quot;Snooty&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box | Holiday Log"
 pile of dungeon junk	Familiar Weight: +5
-# plastic bib: Makes your ghost better at eating stuff.
+# plastic bib: Makes your ghost better at eating stuff
+# plastic pumpkin bucket: Familiar Will Occasionally Play Tricks on Enemies
 plastic pumpkin bucket	Familiar Weight: +5, Item Drop: +13, Softcore Only, Generic
 portable motorcycle	Familiar Weight: +5
 # pretty pink bow: +10 lbs. of Ghoul Whelp
@@ -2718,6 +2721,7 @@ ribcage rollcage	Familiar Weight: +5
 # school spirit socket set: Keeps more steam in
 security blankie	Familiar Weight: +5
 serrated proboscis extension	Familiar Weight: +20
+shiny brass tailfeathers	Familiar Weight: +5
 shiny gold fronts	Familiar Weight: +5
 # shock collar: Familiar Will Attack You Less Often
 six-armed sweater	Familiar Weight: +5
@@ -2737,13 +2741,14 @@ sucky decal	Familiar Weight: +5
 sugar shield	Familiar Weight: +10, Generic
 # targeting chip: More likely to use more powerful attacks
 tasteful black bow tie	Familiar Weight: +5
-# teddy bear sewing kit: Teddy Bear loses less stuffing when hit.
-# teddy borg sewing kit: Teddy Borg loses less stuffing when hit.
+# teddy bear sewing kit: Teddy Bear loses less stuffing when hit
+# teddy borg sewing kit: Teddy Borg loses less stuffing when hit
 tiny Mountie hat	Familiar Weight: +5
 tiny ballet slippers	Familiar Weight: +5
 tiny balloon knife	Familiar Weight: +5
 tiny bindle	Familiar Weight: +5
 # tiny bowler: Lets your familiar bowl
+tiny bowler	Generic
 tiny bust of Pallas	Familiar Weight: +5
 tiny cell phone	Familiar Weight: +10
 # tiny costume wardrobe: Contains Many Adorable Costumes
@@ -2753,7 +2758,7 @@ tiny fly glasses	Experience (familiar): +1, Generic
 tiny knife and fork	Familiar Weight: +5
 tiny makeup kit	Familiar Weight: +15
 tiny maracas	Familiar Weight: +5
-# tiny nose-bone fetish: Reduces familiar's MP expenditure by 2-4.
+# tiny nose-bone fetish: Reduces familiar's MP expenditure by 2-4
 tiny prop sword	Familiar Weight: +5
 tiny shaker of salt	Familiar Weight: +5
 tiny sombrero	Sombrero Bonus: +10
@@ -2775,11 +2780,11 @@ woolen cravat	Familiar Weight: +5
 
 # Minstrel section of modifiers.txt
 
-# Familiars section of modifiers.txt
-
 Clancy's sackbut	HP Regen Min: [C], HP Regen Max: [C*2], MP Regen Min: [C], MP Regen Max: [C*2]
 Clancy's crumhorn	Volleyball: [5*C]
 Clancy's lute	Fairy: [5*C]
+
+# Familiars section of modifiers.txt
 
 # Familiars with standard abilities don't need to appear here -
 # familiar.txt types of stat0, stat1, item0, meat0 correspond to

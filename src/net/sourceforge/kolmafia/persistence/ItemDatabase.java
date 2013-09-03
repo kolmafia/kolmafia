@@ -1233,7 +1233,7 @@ public class ItemDatabase
 		}
 
 		// Let modifiers database do what it wishes with this item
-		Modifiers.registerItem( itemName, text );
+		Modifiers.registerItem( itemName, text, usage );
 
 		// Done generating data
 		printMe = "--------------------";
