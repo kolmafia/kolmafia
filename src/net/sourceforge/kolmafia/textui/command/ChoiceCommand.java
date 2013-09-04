@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -57,11 +59,11 @@ public class ChoiceCommand
 {
 	public ChoiceCommand()
 	{
-		this.usage = " [<number>|<text>] - list or choose choice adventure options.";
+		this.usage = " [<number> [always]|<text>] - list or choose choice adventure options.";
 	}
 
 	@Override
-	public void run( final String cmd, final String parameters )
+	public void run( final String cmd, String parameters )
 	{
 		if ( GenericRequest.choiceHandled || ChoiceManager.lastResponseText == null )
 		{
@@ -71,6 +73,12 @@ public class ChoiceCommand
 		{
 			ChoiceCommand.printChoices();
 			return;
+		}
+		boolean always = false;
+		if ( parameters.endsWith(" always") )
+		{
+		    always = true;
+		    parameters = parameters.substring( 0, parameters.length() - 7 ).trim();
 		}
 		int decision = 0;
 		TreeMap choices = ChoiceCommand.parseChoices();
@@ -95,8 +103,13 @@ public class ChoiceCommand
 		if ( !choices.containsKey( IntegerPool.get( decision ) ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "That isn't one of your choices." );
+			return;
 		}
-		
+		if (always) {
+		    String pref = "choiceAdventure" + ChoiceManager.lastChoice;
+		    RequestLogger.printLine( pref + " => " + decision );
+		    Preferences.setInteger( pref, decision );
+		}		
 		ChoiceManager.processChoiceAdventure( decision );
 	}
 	
