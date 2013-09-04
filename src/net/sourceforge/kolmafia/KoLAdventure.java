@@ -1127,10 +1127,13 @@ public class KoLAdventure
 		KoLAdventure.lastVisitedLocation = location;
 		KoLAdventure.lastLocationName = name;
 		Preferences.setString( "lastAdventure", name );
-		if ( location != null )
+
+		if ( location == null )
 		{
-			AdventureFrame.updateSelectedAdventure( location );
+			return;
 		}
+
+		AdventureFrame.updateSelectedAdventure( location );
 
 		if ( location.adventureId == null )
 		{
