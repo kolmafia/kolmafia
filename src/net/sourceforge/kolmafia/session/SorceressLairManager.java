@@ -1998,6 +1998,7 @@ public abstract class SorceressLairManager
 			return;
 		}
 
+		String continueString = Preferences.getBoolean( "serverAddsCustomCombat" ) ? "(show old combat form)" : "action=fight.php";
 		int itemIndex = 0;
 
 		do
@@ -2032,11 +2033,9 @@ public abstract class SorceressLairManager
 
 			RequestThread.postRequest( SorceressLairManager.QUEST_HANDLER );
 		}
-		while ( Preferences.getBoolean( "serverAddsCustomCombat" )
-				? SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "(show old combat form)" ) != -1
-				: SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "fight.php" ) != -1 );
+		while ( SorceressLairManager.QUEST_HANDLER.responseText.contains( continueString ) );
 
-		if ( SorceressLairManager.QUEST_HANDLER.responseText.indexOf( "a veritable volcano of fey force" ) != -1 )
+		if ( SorceressLairManager.QUEST_HANDLER.responseText.contains( "<!--WINWINWIN-->" ) )
 		{
 			KoLmafia.updateDisplay( "Your shadow has been defeated." );
 		}
