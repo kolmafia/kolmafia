@@ -60,13 +60,23 @@ public class DisplayCaseRequest
 	public DisplayCaseRequest( final Object[] attachments, boolean isDeposit )
 	{
 		super( "managecollection.php", attachments );
-		this.addFormField( "action", isDeposit ? "put" : "take" );
-
-		this.isDeposit = isDeposit;
-		this.isWithdrawal = !isDeposit;
-
-		this.source = isDeposit ? KoLConstants.inventory : KoLConstants.collection;
-		this.destination = isDeposit ? KoLConstants.collection : KoLConstants.inventory;
+		if ( isDeposit )
+		{
+			this.addFormField( "action", "put" );
+			this.isDeposit = true;
+			this.isWithdrawal = false;
+			this.source = KoLConstants.inventory;
+			this.destination = KoLConstants.collection;
+		}
+		else
+		{
+			this.addFormField( "action", "take" );
+			this.isDeposit = false;
+			this.isWithdrawal = true;
+			this.source = KoLConstants.collection;
+			this.destination = KoLConstants.inventory;
+		}
+		this.addFormField( "ajax", "1" );
 	}
 
 	public DisplayCaseRequest( final AdventureResult[] items, final int[] shelves )
