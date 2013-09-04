@@ -119,7 +119,7 @@ public class ClanStashRequest
 			this.source = ClanManager.getStash();
 			this.destination = KoLConstants.inventory;
 		}
-
+		this.addFormField( "ajax", "1" );
 	}
 
 	@Override
@@ -263,13 +263,15 @@ public class ClanStashRequest
 		{
 			int meat = TransferItemRequest.transferredMeat( urlString, "howmuch" );
 			ResultProcessor.processMeat( 0 - meat );
+			KoLCharacter.updateStatus();
 		}
 
-		KoLCharacter.updateStatus();
+		if ( urlString.contains( "ajax=1" ) )
+		{
+			return true;
+		}
 
-		ClanManager.setStashRetrieved();
 		ClanStashRequest.parseStash( responseText );
-
 		return true;
 	}
 
@@ -283,14 +285,14 @@ public class ClanStashRequest
 			return;
 		}
 
-		// Start with an empty list
 
+		ClanManager.setStashRetrieved();
+
+		// Start with current stash contents
 		SortedListModel stashContents = ClanManager.getStash();
+
+		// If there's nothing inside the goodies hoard, clear stash and return
 		Matcher stashMatcher = ClanStashRequest.LIST_PATTERN.matcher( responseText );
-
-		// If there's nothing inside the goodies hoard,
-		// return because there's nothing to parse
-
 		if ( !stashMatcher.find() )
 		{
 			stashContents.clear();
