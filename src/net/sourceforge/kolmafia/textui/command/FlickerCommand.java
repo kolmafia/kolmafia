@@ -102,8 +102,9 @@ public class FlickerCommand
 	{
 		StringBuilder output = new StringBuilder();
 
-		output.append( "<table border=2 cols=4>" );
+		output.append( "<table border=2 cols=5>" );
 		output.append( "<tr>" );
+		output.append( "<th>#</th>" );
 		output.append( "<th>Location</th>" );
 		output.append( "<th>Choice</th>" );
 		output.append( "<th>Requirement</th>" );
@@ -115,6 +116,10 @@ public class FlickerCommand
 			String [] data = FlickerCommand.PIXELS[ i ];
 
 			output.append( "<tr>" );
+
+			output.append( "<td>" );
+			output.append( String.valueOf( i + 1 ) );
+			output.append( "</td>" );
 
 			output.append( "<td>" );
 			output.append( data[1] );
