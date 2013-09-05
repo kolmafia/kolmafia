@@ -6681,13 +6681,13 @@ s1
 6664	world's most dangerous birdhouse	440545739	birdhouse.gif	none, combat	q	0
 6665	deathchucks	510828429	deathchucks.gif	weapon	q	0
 6666	giant eraser	530310946	bigeraser.gif	none, combat	q	0
-6667
+6667	quasireligious sculpture	521435379 	religious.gif	usable	q	0
 6668	giant Faraday cage	646917799	faraday.gif	usable	q	0
 6669	modeling claymore	283407190	claymoremine.gif	usable	q	0
 6670	sticky clay homunculus	476523278	clayhomunc.gif	none, combat	q	0
 6671	sodium pentasomething	907445812	potion15.gif	usable	q	0
 6672	grains of salt	944004572	disease.gif	none	q	0
-6673
+6673	yellowcake bomb	361363071	clusterbomb.gif	none, combat	q	0
 6674	dirty stinkbomb	888407830	bomb.gif	none, combat	q	0
 6675	superwater	250057853	potion16.gif	usable	q	0
 6676	Thwaitgold bookworm statuette	283482924	thwaitbookworm.gif	none		0
