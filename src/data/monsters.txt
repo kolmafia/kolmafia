@@ -1510,21 +1510,23 @@ Zombie Homeowners' Association (Hard Mode)	zombiehoa_hm.gif	P: undead	zombie mar
 
 # KOLHS
 
-Bunsen burner and beaker	bunsen.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: -10000 P: construct
-clay golem	claygolem.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: -10000 P: construct
-deadly vise	vice.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: -10000 P: construct
-demonic jigsaw	jigsaw.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 20 P: demon
-dropped base	dropbase.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: slime
-dweebie	dweebie.gif	HP: [0.75*(MUS+max(ML,0))] Def: [MUS+max(ML,0)] Atk: [MOX+max(ML,0)] Init: 20 P: dude
-misproportioned portrait	badportrait.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: -10000 P: construct
-motorhead	motorhead.gif	HP: [0.75*(MUS+1+max(ML,0))] Def: [MUS+1+max(ML,0)] Atk: [MOX+1+max(ML,0)] Init: 40 P: dude
+Bunsen burner and beaker	bunsen.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: -10000 P: construct	mysterious chemical residue (25)	mysterious chemical residue (10)
+clay golem	claygolem.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: -10000 P: construct	lump of clay (25)	lump of clay (10)
+deadly vise	vice.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: -10000 P: construct	blob of wood glue (25)	blob of wood glue (10)
+demonic jigsaw	jigsaw.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 20 P: demon	jigsaw blade (25)	jigsaw blade (10)
+dropped base	dropbase.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: slime	ph balancer (25)	ph balancer (10)
+dweebie	dweebie.gif	HP: [0.75*(MUS+max(ML,0))] Def: [MUS+max(ML,0)] Atk: [MOX+max(ML,0)] Init: 20 P: dude	Ogres and Oubliettes&trade; module (0)	Mountain Stream Code Black Alert (0)	slide rule (0)	folder (Yedi) (0)
+Fran&ccedil;ois Verte, Art Teacher	Artteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6+max(ML,0)] Atk: [MOX+6+max(ML,0)] Init: 100 P: dude	lump of clay (100)	angry inch (100)	eraser nubbin (100)	twisted piece of wire (100)
+misproportioned portrait	badportrait.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: -10000 P: construct	eraser nubbin (25)	eraser nubbin (10)
+motorhead	motorhead.gif	HP: [0.75*(MUS+1+max(ML,0))] Def: [MUS+1+max(ML,0)] Atk: [MOX+1+max(ML,0)] Init: 40 P: dude	pickelhaube (0)	hair oil (0)	scrap metal (25)	folder (sports car) (10)
 Mrs. K, the Chemistry Teacher	chemteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6+max(ML,0)] Atk: [MOX+6+max(ML,0)] Init: 100 P: dude	chlorine crystal (100)	ph balancer (100)	mysterious chemical residue (100)	nugget of sodium (100)
-out-of-control bandsaw	bandsaw.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: construct
-possessed eyewashing station	eyewash.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: demon
-rulergheist	rulergolem.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 20 P: undead
-screw golem	screwgolem.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 40 P: construct
-sodium golem	sodium.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 40 P: construct
-sporto	sporto.gif	HP: [0.75*(MUS+2+max(ML,0))] Def: [MUS+2+max(ML,0)] Atk: [MOX+2+max(ML,0)] Init: 60 P: dude
-wastoid	wastoid.gif	HP: [0.75*(MUS-1+max(ML,0))] Def: [MUS-1+max(ML,0)] Atk: [MOX-1+max(ML,0)] Init: -10000 P: dude
-wire sculpture	wiresculpture.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 40 P: construct
+out-of-control bandsaw	bandsaw.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: construct	balsa plank (25)	balsa plank (10)
+possessed eyewashing station	eyewash.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Init: 20 P: demon	chlorine crystal (25)	chlorine crystal (10)
+Principal Mooney	chalmers.gif	HP: 1000 Def: 210 Atk: 220 Init: 10000 P: dude
+rulergheist	rulergolem.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 20 P: undead	angry inch (25)	angry inch (10)
+screw golem	screwgolem.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 40 P: construct	wood screw (25)	wood screw (10)
+sodium golem	sodium.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 40 P: construct	nugget of sodium (25)	nugget of sodium (10)
+sporto	sporto.gif	HP: [0.75*(MUS+2+max(ML,0))] Def: [MUS+2+max(ML,0)] Atk: [MOX+2+max(ML,0)] Init: 60 P: dude	surgical tape (0)	folder (sportsballs) (0)	stepmom's booze (0)	twisted-up wet towel (0)
+wastoid	wastoid.gif	HP: [0.75*(MUS-1+max(ML,0))] Def: [MUS-1+max(ML,0)] Atk: [MOX-1+max(ML,0)] Init: -10000 P: dude	fountain 'soda' (0)	illegal firecracker (0)	metal band T-shirt (0)	folder (heavy metal) (0)
+wire sculpture	wiresculpture.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Init: 40 P: construct	twisted piece of wire (25)	twisted piece of wire (10)
 X-fingered Shop Teacher	shopteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6+max(ML,0)] Atk: [MOX+6+max(ML,0)] Init: 100 P: dude	jigsaw blade (100)	wood screw (100)	balsa plank (100)	blob of wood glue (100)

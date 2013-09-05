@@ -53,6 +53,7 @@ The eXtreme Slope	STOP	3 eXXXtreme 4ever 6pack
 A Maze of Sewer Tunnels	SEMIRARE	C. H. U. M. chieftain
 A-Boo Peak	SEMIRARE	Oh, <i>There</i> Have it Gone
 An Octopus's Garden	SEMIRARE	moister oyster
+Art Class	SEMIRARE	Fran&ccedil;ois Verte, Art Teacher
 Battlefield (Cloaca Uniform)	SEMIRARE	Prior to Always
 Battlefield (Dyspepsi Uniform)	SEMIRARE	Prior to Always
 Battlefield (No Uniform)	SEMIRARE	Prior to Always
