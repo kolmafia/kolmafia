@@ -391,6 +391,14 @@ user	fistTeachingsSlums	false
 user	fistTeachingsFratHouse	false
 user	fistTeachingsRoad	false
 user	fistTeachingsNinjaSnowmen	false
+user	flickeringPixel1	false
+user	flickeringPixel2	false
+user	flickeringPixel3	false
+user	flickeringPixel4	false
+user	flickeringPixel5	false
+user	flickeringPixel6	false
+user	flickeringPixel7	false
+user	flickeringPixel8	false
 user	flyeredML	0
 user	fossilB	0
 user	fossilD	0

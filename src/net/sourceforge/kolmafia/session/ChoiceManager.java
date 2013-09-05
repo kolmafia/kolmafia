@@ -3113,6 +3113,38 @@ public abstract class ChoiceManager
 			// Old Man psychoses
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "First Mate's Log Entry" );
 
+		case 641:
+			// Stupid Pipes. (Mystic's psychoses)
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Stupid Pipes." );
+
+		case 642:
+			// You're Freaking Kidding Me (Mystic's psychoses)
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "You're Freaking Kidding Me" );
+
+		case 644:
+			// Snakes. (Mystic's psychoses)
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Snakes." );
+
+		case 645:
+			// So... Many... Skulls... (Mystic's psychoses)
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "So... Many... Skulls..." );
+
+		case 647:
+			// A Stupid Dummy. Also, a Straw Man. (Mystic's psychoses)
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "A Stupid Dummy. Also, a Straw Man." );
+
+		case 648:
+			// Slings and Arrows (Mystic's psychoses)
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Slings and Arrows" );
+
+		case 650:
+			// This Is Your Life. Your Horrible, Horrible Life. (Mystic's psychoses)
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "This Is Your Life. Your Horrible, Horrible Life." );
+
+		case 651:
+			// The Wall of Wailing (Mystic's psychoses)
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "The Wall of Wailing" );
+
 		case 669:
 			// The Fast and the Furry-ous
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "The Fast and the Furry-ous" );
@@ -3550,12 +3582,12 @@ public abstract class ChoiceManager
 			{
 				++count;
 			}
-			result [ 0 ] = "Seal Clubber/Pastamancer item, or yellow matter custard";
-			result [ 1 ] = "Sauceror/Accordion Thief item, or delicious comfit?";
-			result [ 2 ] = "Disco Bandit/Turtle Tamer item, or fight croqueteer";
-			result [ 3 ] = "you have " + count + "/5 of the items needed for an ittah bittah hookah";
-			result [ 4 ] = "get a chess cookie";
-			result [ 5 ] = "skip adventure";
+			result[ 0 ] = "Seal Clubber/Pastamancer item, or yellow matter custard";
+			result[ 1 ] = "Sauceror/Accordion Thief item, or delicious comfit?";
+			result[ 2 ] = "Disco Bandit/Turtle Tamer item, or fight croqueteer";
+			result[ 3 ] = "you have " + count + "/5 of the items needed for an ittah bittah hookah";
+			result[ 4 ] = "get a chess cookie";
+			result[ 5 ] = "skip adventure";
 			return result;
 
 		case 502:
@@ -3570,7 +3602,7 @@ public abstract class ChoiceManager
 			int barskins = InventoryManager.getCount( ItemPool.BAR_SKIN );
 			int saplings = InventoryManager.getCount( ItemPool.SPOOKY_SAPLING );
 
-			result [ 0 ] = "gain some meat, meet the vampire hunter " + hunterAction + ", sell bar skins (" + barskins  + ") or buy a spooky sapling (" + saplings + ")";
+			result[ 0 ] = "gain some meat, meet the vampire hunter " + hunterAction + ", sell bar skins (" + barskins  + ") or buy a spooky sapling (" + saplings + ")";
 
 			// gain mosquito larva, gain quest coin or gain a vampire heart
 			boolean haveMap = InventoryManager.getCount( ItemPool.SPOOKY_MAP ) > 0;
@@ -3578,13 +3610,13 @@ public abstract class ChoiceManager
 			boolean getCoin = ( !haveCoin && !haveMap && !KoLCharacter.getTempleUnlocked() );
 			String coinAction = ( getCoin ? "gain quest coin" : "skip adventure" );
 
-			result [ 1 ] = "gain mosquito larva or spooky mushrooms, " + coinAction + ", get stats or fight a vampire";
+			result[ 1 ] = "gain mosquito larva or spooky mushrooms, " + coinAction + ", get stats or fight a vampire";
 
 			// gain a starter item, gain Spooky-Gro fertilizer or gain spooky temple map
 			int fertilizer = InventoryManager.getCount( ItemPool.SPOOKY_FERTILIZER );
 			String mapAction = ( haveCoin ? ", gain spooky temple map" : "" );
 
-			result [ 2 ] = "gain a starter item, gain Spooky-Gro fertilizer (" + fertilizer + ")" + mapAction;
+			result[ 2 ] = "gain a starter item, gain Spooky-Gro fertilizer (" + fertilizer + ")" + mapAction;
 
 			return result;
 
@@ -3599,12 +3631,12 @@ public abstract class ChoiceManager
 			boolean haveHelm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 ||
 			                     InventoryManager.getEquippedCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 );
 
-			result [ 0 ] = 
+			result[ 0 ] = 
 				!havePolearm ? new Option( "knob goblin elite polearm", "knob goblin elite polearm" ) :
 				!havePants ? new Option( "knob goblin elite pants", "knob goblin elite pants" ) :
 				!haveHelm ? new Option( "knob goblin elite helm", "knob goblin elite helm" ) :
 				new Option( "knob jelly donut", "knob jelly donut" );
-			result [ 1 ] = "skip adventure";
+			result[ 1 ] = "skip adventure";
 			return result;
 
 		case 579:
@@ -3615,9 +3647,9 @@ public abstract class ChoiceManager
 			boolean gainNostril = ( !haveNostril && Preferences.getInteger( "lastTempleButtonsUnlock" ) != KoLCharacter.getAscensions() );
 			boolean templeAdvs = ( Preferences.getInteger( "lastTempleAdventures" ) == KoLCharacter.getAscensions() );
 
-			result [ 0 ] = "mysticality substats";
-			result [ 1 ] = ( gainNostril ? "gain the Nostril of the Serpent" : "skip adventure" );
-			result [ 2 ] = ( templeAdvs ? "skip adventure" : "gain 3 adventures" );
+			result[ 0 ] = "mysticality substats";
+			result[ 1 ] = ( gainNostril ? "gain the Nostril of the Serpent" : "skip adventure" );
+			result[ 2 ] = ( templeAdvs ? "skip adventure" : "gain 3 adventures" );
 			return result;
 
 		case 581:
@@ -3626,9 +3658,9 @@ public abstract class ChoiceManager
 
 			int fungus = InventoryManager.getCount( ItemPool.GLOWING_FUNGUS );
 
-			result [ 0 ] = "gain a glowing fungus (" + fungus + ")";
-			result [ 1 ] = ( Preferences.getBoolean( "_templeHiddenPower" ) ? "skip adventure" : "5 advs of +15 mus/mys/mox" );
-			result [ 2 ] = "fight clan of cave bars";
+			result[ 0 ] = "gain a glowing fungus (" + fungus + ")";
+			result[ 1 ] = ( Preferences.getBoolean( "_templeHiddenPower" ) ? "skip adventure" : "5 advs of +15 mus/mys/mox" );
+			result[ 2 ] = "fight clan of cave bars";
 			return result;
 
 		case 582:
@@ -3643,15 +3675,15 @@ public abstract class ChoiceManager
 			templeAdvs = ( Preferences.getInteger( "lastTempleAdventures" ) == KoLCharacter.getAscensions() );
 			String advAction = ( templeAdvs ? "skip adventure" : "gain 3 adventures" );
 
-			result [ 0 ] = "mysticality substats, " + nostrilAction + " or " + advAction;
+			result[ 0 ] = "mysticality substats, " + nostrilAction + " or " + advAction;
 
 			// Hidden Heart of the Hidden Temple
-			result [ 1 ] = "Hidden Heart of the Hidden Temple";
+			result[ 1 ] = "Hidden Heart of the Hidden Temple";
 
 			// gain glowing fungus, gain Hidden Power or fight a clan of cave bars
 			String powerAction = ( Preferences.getBoolean( "_templeHiddenPower" ) ? "skip adventure" : "Hidden Power" );
 
-			result [ 2 ] = "gain a glowing fungus, " + powerAction + " or fight a clan of cave bars";
+			result[ 2 ] = "gain a glowing fungus, " + powerAction + " or fight a clan of cave bars";
 
 			return result;
 
@@ -3705,8 +3737,8 @@ public abstract class ChoiceManager
 		case 611:
 			// The Horror... (A-Boo Peak)
 			result = new Object[ 2 ];
-			result [ 0 ] = ChoiceManager.booPeakDamage();
-			result [ 1 ] = "Flee";
+			result[ 0 ] = ChoiceManager.booPeakDamage();
+			result[ 1 ] = "Flee";
 			return result;
 
 		case 636:
@@ -3716,29 +3748,192 @@ public abstract class ChoiceManager
 			// Old Man psychosis choice adventures are randomized and may not include all elements.
 			return oldManPsychosisSpoilers();
 
+		case 641:
+			// Stupid Pipes. (Mystic's psychoses)
+			result = new Object[ 3 ];
+			{
+				StringBuilder buffer = new StringBuilder();
+				int resistance = KoLCharacter.getElementalResistanceLevels( Element.HOT );
+				String current = String.valueOf( resistance );
+				int damage = (int)( 250.0 * KoLCharacter.elementalResistanceByLevel( resistance ) );
+				int hp = KoLCharacter.getCurrentHP();
+				buffer.append( "take " );
+				buffer.append( String.valueOf( damage ) );
+				buffer.append( "hot damage, current HP = " );
+				buffer.append( String.valueOf( hp ) );
+				buffer.append( ", current hot resistance = " );
+				buffer.append( current );
+				result[ 0 ] = buffer.toString();
+				buffer.setLength( 0 );
+				buffer.append( "flickering pixel" );
+				buffer.append( ": 25 hot resistance required, have " );
+				buffer.append( current );
+				result[ 1 ] = buffer.toString();
+			}
+			result[ 2 ] = "skip adventure";
+			return result;
+
+		case 642:
+			// You're Freaking Kidding Me (Mystic's psychoses)
+			result = new Object[ 3 ];
+			{
+				StringBuilder buffer = new StringBuilder();
+				buffer.append( String.valueOf( KoLCharacter.getAdjustedMuscle() ) );
+				buffer.append( "/" );
+				buffer.append( String.valueOf( KoLCharacter.getAdjustedMysticality() ) );
+				buffer.append( "/" );
+				buffer.append( String.valueOf( KoLCharacter.getAdjustedMoxie() ) );
+				String current = buffer.toString();
+				buffer.setLength( 0 );
+				buffer.append( "50 buffed Muscle/Mysticality/Moxie required, have " );
+				buffer.append( current );
+				result[ 0 ] = buffer.toString();
+				buffer.setLength( 0 );
+				buffer.append( "flickering pixel" );
+				buffer.append( ": 500 buffed Muscle/Mysticality/Moxie required, have " );
+				buffer.append( current );
+				result[ 1 ] = buffer.toString();
+			}
+			result[ 2 ] = "skip adventure";
+			return result;
+
+		case 644:
+			// Snakes. (Mystic's psychoses)
+			result = new Object[ 3 ];
+			{
+				StringBuilder buffer = new StringBuilder();
+				String current = String.valueOf( KoLCharacter.getAdjustedMoxie() );
+				buffer.append( "50 buffed Moxie required, have " );
+				buffer.append( current );
+				result[ 0 ] = buffer.toString();
+				buffer.setLength( 0 );
+				buffer.append( "flickering pixel" );
+				buffer.append( ": 300 buffed Moxie required, have " );
+				buffer.append( current );
+				result[ 1 ] = buffer.toString();
+			}
+			result[ 2 ] = "skip adventure";
+			return result;
+
+		case 645:
+			// So... Many... Skulls... (Mystic's psychoses)
+			result = new Object[ 3 ];
+			{
+				StringBuilder buffer = new StringBuilder();
+				int resistance = KoLCharacter.getElementalResistanceLevels( Element.SPOOKY );
+				String current = String.valueOf( resistance );
+				int damage = (int)( 250.0 * KoLCharacter.elementalResistanceByLevel( resistance ) );
+				int hp = KoLCharacter.getCurrentHP();
+				buffer.append( "take " );
+				buffer.append( String.valueOf( damage ) );
+				buffer.append( "spooky damage, current HP = " );
+				buffer.append( String.valueOf( hp ) );
+				buffer.append( ", current spooky resistance = " );
+				buffer.append( current );
+				result[ 0 ] = buffer.toString();
+				buffer.setLength( 0 );
+				buffer.append( "flickering pixel" );
+				buffer.append( ": 25 spooky resistance required, have " );
+				buffer.append( current );
+				result[ 1 ] = buffer.toString();
+			}
+			result[ 2 ] = "skip adventure";
+			return result;
+
+		case 647:
+			// A Stupid Dummy. Also, a Straw Man. (Mystic's psychoses)
+			result = new Object[ 3 ];
+			{
+				StringBuilder buffer = new StringBuilder();
+				String current = String.valueOf( KoLCharacter.currentBonusDamage() );
+				buffer.append( "100 weapon damage required" );
+				result[ 0 ] = buffer.toString();
+				buffer.setLength( 0 );
+				buffer.append( "flickering pixel" );
+				buffer.append( ": ??? bonus damage required, have " );
+				buffer.append( current );
+				result[ 1 ] = buffer.toString();
+			}
+			result[ 2 ] = "skip adventure";
+			return result;
+
+		case 648:
+			// Slings and Arrows (Mystic's psychoses)
+			result = new Object[ 3 ];
+			{
+				StringBuilder buffer = new StringBuilder();
+				String current = String.valueOf( KoLCharacter.getCurrentHP() );
+				buffer.append( "101 HP required, have " );
+				buffer.append( current );
+				result[ 0 ] = buffer.toString();
+				buffer.setLength( 0 );
+				buffer.append( "flickering pixel" );
+				buffer.append( ": 1000 HP required, have " );
+				buffer.append( current );
+				result[ 1 ] = buffer.toString();
+			}
+			result[ 2 ] = "skip adventure";
+			return result;
+
+		case 650:
+			// This Is Your Life. Your Horrible, Horrible Life. (Mystic's psychoses)
+			result = new Object[ 3 ];
+			{
+				StringBuilder buffer = new StringBuilder();
+				String current = String.valueOf( KoLCharacter.getCurrentMP() );
+				buffer.append( "101 MP required, have " );
+				buffer.append( current );
+				result[ 0 ] = buffer.toString();
+				buffer.setLength( 0 );
+				buffer.append( "flickering pixel" );
+				buffer.append( ": 1000 MP required, have " );
+				buffer.append( current );
+				result[ 1 ] = buffer.toString();
+			}
+			result[ 2 ] = "skip adventure";
+			return result;
+
+		case 651:
+			// The Wall of Wailing (Mystic's psychoses)
+			result = new Object[ 3 ];
+			{
+				StringBuilder buffer = new StringBuilder();
+				String current = String.valueOf( KoLCharacter.currentPrismaticDamage() );
+				buffer.append( "6 prismatic damage required, have " );
+				buffer.append( current );
+				result[ 0 ] = buffer.toString();
+				buffer.setLength( 0 );
+				buffer.append( "flickering pixel" );
+				buffer.append( ": 60 prismatic damage required, have " );
+				buffer.append( current );
+				result[ 1 ] = buffer.toString();
+			}
+			result[ 2 ] = "skip adventure";
+			return result;
+
 		case 669:
 			// The Fast and the Furry-ous
 			result = new Object[ 4 ];
-			result [ 0 ] =
+			result[ 0 ] =
 				KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TITANIUM_UMBRELLA, 1 ) ) ? 
 				"open Ground Floor (titanium umbrella equipped)" :
 				"Neckbeard Choice (titanium umbrella not equipped)";
-			result [ 1 ] = "200 Moxie substats";
-			result [ 2 ] = "";
-			result [ 3 ] = "skip adventure and guarantees this adventure will reoccur";
+			result[ 1 ] = "200 Moxie substats";
+			result[ 2 ] = "";
+			result[ 3 ] = "skip adventure and guarantees this adventure will reoccur";
 			return result;
 
 		case 670:
 			// You Don't Mess Around with Gym
 			result = new Object[ 5 ];
-			result [ 0 ] = "massive dumbbell, then skip adventure";
-			result [ 1 ] = "200 Muscle substats";
-			result [ 2 ] = "pec oil, giant jar of protein powder, Squat-Thrust Magazine";
-			result [ 3 ] =
+			result[ 0 ] = "massive dumbbell, then skip adventure";
+			result[ 1 ] = "200 Muscle substats";
+			result[ 2 ] = "pec oil, giant jar of protein powder, Squat-Thrust Magazine";
+			result[ 3 ] =
 				KoLCharacter.hasEquipped( ItemPool.get( ItemPool.EXTREME_AMULET, 1 ) ) ?
 				"open Ground Floor (amulet equipped)" :
 				"skip adventure (amulet not equipped)";
-			result [ 4 ] = "skip adventure and guarantees this adventure will reoccur";
+			result[ 4 ] = "skip adventure and guarantees this adventure will reoccur";
 			return result;
 
 		case 678:
@@ -6508,6 +6703,70 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 641:
+			// Stupid Pipes.
+			if ( ChoiceManager.lastDecision == 2 && text.contains( "flickering pixel" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel1", true );
+			}
+			break;
+
+		case 642:
+			// You're Freaking Kidding Me
+			if ( ChoiceManager.lastDecision == 2 && text.contains( "flickering pixel" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel2", true );
+			}
+			break;
+
+		case 644:
+			// Snakes.
+			if ( ChoiceManager.lastDecision == 2 && text.contains( "flickering pixel" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel3", true );
+			}
+			break;
+
+		case 645:
+			// So... Many... Skulls...
+			if ( ChoiceManager.lastDecision == 2 && text.contains( "flickering pixel" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel4", true );
+			}
+			break;
+
+		case 647:
+			// A Stupid Dummy. Also, a Straw Man.
+			if ( ChoiceManager.lastDecision == 2 && text.contains( "flickering pixel" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel5", true );
+			}
+			break;
+
+		case 648:
+			// Slings and Arrows
+			if ( ChoiceManager.lastDecision == 2 && text.contains( "flickering pixel" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel6", true );
+			}
+			break;
+
+		case 650:
+			// This Is Your Life. Your Horrible, Horrible Life.
+			if ( ChoiceManager.lastDecision == 2 && text.contains( "flickering pixel" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel7", true );
+			}
+			break;
+
+		case 651:
+			// The Wall of Wailing
+			if ( ChoiceManager.lastDecision == 2 && text.contains( "flickering pixel" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel8", true );
+			}
+			break;
+
 		case 677:
 			// Copper Feel
 			if ( ChoiceManager.lastDecision == 1 )
@@ -6669,6 +6928,70 @@ public abstract class ChoiceManager
 
 		case 570:
 			GameproManager.parseGameproMagazine( ChoiceManager.lastResponseText );
+			break;
+
+		case 641:
+			// Stupid Pipes.
+			if ( !ChoiceManager.lastResponseText.contains( "Dive Down" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel1", true );
+			}
+			break;
+
+		case 642:
+			// You're Freaking Kidding Me
+			if ( !ChoiceManager.lastResponseText.contains( "Wait a minute..." ) )
+			{
+				Preferences.setBoolean( "flickeringPixel2", true );
+			}
+			break;
+
+		case 644:
+			// Snakes.
+			if ( !ChoiceManager.lastResponseText.contains( "Tie the snakes in a knot." ) )
+			{
+				Preferences.setBoolean( "flickeringPixel3", true );
+			}
+			break;
+
+		case 645:
+			// So... Many... Skulls...
+			if ( !ChoiceManager.lastResponseText.contains( "You fear no evil" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel4", true );
+			}
+			break;
+
+		case 647:
+			// A Stupid Dummy. Also, a Straw Man.
+			if ( !ChoiceManager.lastResponseText.contains( "Graaaaaaaaargh!" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel5", true );
+			}
+			break;
+
+		case 648:
+			// Slings and Arrows
+			if ( !ChoiceManager.lastResponseText.contains( "Arrows? Ha." ) )
+			{
+				Preferences.setBoolean( "flickeringPixel6", true );
+			}
+			break;
+
+		case 650:
+			// This Is Your Life. Your Horrible, Horrible Life.
+			if ( !ChoiceManager.lastResponseText.contains( "Then watch it again with the commentary on!" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel7", true );
+			}
+			break;
+
+		case 651:
+			// The Wall of Wailing
+			if ( !ChoiceManager.lastResponseText.contains( "Make the tide resist you" ) )
+			{
+				Preferences.setBoolean( "flickeringPixel8", true );
+			}
 			break;
 
 		case 705:

@@ -45,6 +45,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 
@@ -2217,7 +2218,6 @@ public abstract class KoLCharacter
 		}
 	}
 
-
 	public static final double elementalResistanceByLevel( final int levels )
 	{
 		return KoLCharacter.elementalResistanceByLevel( levels, true );
@@ -2262,6 +2262,35 @@ public abstract class KoLCharacter
 		}
 		int levels = KoLCharacter.getElementalResistanceLevels( element );
 		return KoLCharacter.elementalResistanceByLevel( levels, element != Element.SLIME );
+	}
+
+	/**
+	 * Accessor method to retrieve the current bonus damage
+	 *
+	 * @return Total Current Resistance to specified element
+	 */
+
+	public static final int currentBonusDamage()
+	{
+		int weaponDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.WEAPON_DAMAGE );
+		int rangedDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.RANGED_DAMAGE );
+		return weaponDamage + ( EquipmentManager.getWeaponType() == WeaponType.RANGED ? rangedDamage: 0 );
+	}
+
+	/**
+	 * Accessor method to retrieve the current prismatic damage
+	 *
+	 * @return Total Current Resistance to specified element
+	 */
+
+	public static final int currentPrismaticDamage()
+	{
+		int coldDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.COLD_DAMAGE );
+		int hotDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.HOT_DAMAGE );
+		int sleazeDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.SLEAZE_DAMAGE );
+		int spookyDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.SPOOKY_DAMAGE );
+		int stenchDamage = (int)KoLCharacter.currentModifiers.get( Modifiers.STENCH_DAMAGE );
+		return Math.min( coldDamage, Math.min( hotDamage, Math.min( sleazeDamage, Math.min( spookyDamage, stenchDamage ) ) ) );
 	}
 
 	/**
