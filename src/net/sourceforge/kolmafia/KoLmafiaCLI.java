@@ -743,6 +743,7 @@ public class KoLmafiaCLI
 		new FaxCommand().register( "fax" );
 		new FaxbotCommand().register( "faxbot" );
 		new FullEchoCommand().register( "fecho" ).register( "fprint" );
+		new FlickerCommand().register( "flicker" );
 		new FloristCommand().register( "florist" );
 		new FlowerHuntCommand().register( "flowers" ).register( "swagger" );
 		new FoldItemCommand().register( "fold" ).register( "squeeze" );
