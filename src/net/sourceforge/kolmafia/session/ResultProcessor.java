@@ -546,9 +546,21 @@ public class ResultProcessor
 
 	public static boolean processMeat( String text, boolean won, boolean nunnery )
 	{
+		AdventureResult result = ResultProcessor.parseResult( text );
+		if ( result == null )
+		{
+			return true;
+		}
+
+		if ( won && nunnery )
+		{
+			IslandDecorator.addNunneryMeat( result );
+			return false;
+		}
+
 		if ( won && Preferences.getBoolean( "meatDropSpading" ) )
 		{
-			int drop = ResultProcessor.parseResult( text ).getCount();
+			int drop = result.getCount();
 			if ( !ResultProcessor.possibleMeatDrop( drop, 0 ) )
 			{
 				StringBuffer buf = new StringBuffer( "Alert - possible unknown meat bonus:" );
@@ -580,20 +592,21 @@ public class ResultProcessor
 			}
 		}
 
-		if ( won && nunnery )
-		{
-			AdventureResult result = ResultProcessor.parseResult( text );
-			IslandDecorator.addNunneryMeat( result );
-			return false;
-		}
-
-		return ResultProcessor.processMeat( text, null );
+		return ResultProcessor.processMeat( text, result, null );
 	}
 
 	public static boolean processMeat( String lastToken, List<AdventureResult> data )
 	{
 		AdventureResult result = ResultProcessor.parseResult( lastToken );
+		if ( result == null )
+		{
+			return true;
+		}
+		return ResultProcessor.processMeat( lastToken, result, data );
+	}
 
+	private static boolean processMeat( String lastToken, AdventureResult result, List<AdventureResult> data )
+	{
 		if ( data != null )
 		{
 			AdventureResult.addResultToList( data, result );
@@ -636,6 +649,10 @@ public class ResultProcessor
 		}
 
 		AdventureResult result = ResultProcessor.parseResult( lastToken );
+		if ( result == null )
+		{
+			return true;
+		}
 
 		RequestLogger.printLine( lastToken );
 		if ( Preferences.getBoolean( "logStatGains" ) )
@@ -674,7 +691,15 @@ public class ResultProcessor
 
 		try
 		{
-			return AdventureResult.parseResult( result );
+			AdventureResult retval = AdventureResult.parseResult( result );
+			// If AdventureResult could not parse it, log it
+			if ( retval == null )
+			{
+				String message = "Could not parse: " + StringUtilities.globalStringDelete( result, "&nbsp;" );
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+			return retval;
 		}
 		catch ( Exception e )
 		{
