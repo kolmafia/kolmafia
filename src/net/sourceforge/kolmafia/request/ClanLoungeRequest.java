@@ -831,6 +831,10 @@ public class ClanLoungeRequest
 			{
 				KoLmafia.updateDisplay( "Boring! Nobody plays <i>that</i> any more." );
 			}
+			else if ( responseText.indexOf( "pooltable.gif" ) == -1 )
+			{
+				KoLmafia.updateDisplay( "There is no pool table in this clan." );
+			}
 			else
 			{
 				RequestLogger.printLine( "Huh? Unknown response." );
@@ -874,6 +878,10 @@ public class ClanLoungeRequest
 			{
 				// Simple visit.
 			}
+			else if ( responseText.indexOf( "faxmachine.gif" ) == -1 )
+			{
+				KoLmafia.updateDisplay( "There is no fax machine in this clan." );
+			}
 			else
 			{
 				KoLmafia.updateDisplay( "Huh? Unknown response." );
@@ -902,13 +910,17 @@ public class ClanLoungeRequest
 				RequestLogger.printLine( "You took a cold shower." );
 			}
 			else if ( responseText.indexOf( "already had a shower today" ) != -1 ||
-				  responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 )
+				  responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 && responseText.indexOf( "aprilshower.gif" ) != -1 )
 			{
 				RequestLogger.printLine( "You already took a shower today." );
 			}
 			else if ( responseText.indexOf( "Shower!" ) != -1 )
 			{
 				// Simple visit.
+			}
+			else if ( responseText.indexOf( "aprilshower.gif" ) == -1 )
+			{
+				KoLmafia.updateDisplay( "There is no April shower in this clan." );
 			}
 			else
 			{
@@ -930,13 +942,17 @@ public class ClanLoungeRequest
 				// the message is printed by parseResponse()
 			}
 			else if ( responseText.indexOf( "already worked out in the pool today" ) != -1 ||
-				  responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 )
+				  responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 && responseText.indexOf( "vippool.gif" ) != -1 )
 			{
 				RequestLogger.printLine( "You already worked out in the pool today." );
 			}
 			else if ( responseText.indexOf( "change into your swimsuit" ) != -1 )
 			{
 				// Simple visit.
+			}
+			else if ( responseText.indexOf( "vippool.gif" ) == -1 )
+			{
+				KoLmafia.updateDisplay( "There is no swimming pool in this clan." );
 			}
 			else
 			{
@@ -1288,7 +1304,7 @@ public class ClanLoungeRequest
 			     responseText.indexOf( "your goosebumps absorb" ) != -1 ||
 			     responseText.indexOf( "shards of frosty double-ice" ) != -1 ||
 			     responseText.indexOf( "already had a shower today" ) != -1 ||
-			     responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 )
+			     responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 && responseText.indexOf( "aprilshower.gif" ) != -1 )
 			{
 				Preferences.setBoolean( "_aprilShower", true );
 				ResponseTextParser.learnRecipe( urlString, responseText );
@@ -1307,7 +1323,7 @@ public class ClanLoungeRequest
 
 		if ( action.equals( "goswimming" ) )
 		{
-			if ( responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 )
+			if ( responseText.indexOf( "<table><tr><td></td></tr></table>" ) != -1 && responseText.indexOf( "vippool.gif" ) != -1 )
 			{
 				Preferences.setBoolean( "_olympicSwimmingPool", true );
 				return;
