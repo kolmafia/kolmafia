@@ -3754,7 +3754,6 @@ public abstract class ChoiceManager
 			{
 				StringBuilder buffer = new StringBuilder();
 				int resistance = KoLCharacter.getElementalResistanceLevels( Element.HOT );
-				String current = String.valueOf( resistance );
 				int damage = (int)( 250.0 * KoLCharacter.elementalResistanceByLevel( resistance ) );
 				int hp = KoLCharacter.getCurrentHP();
 				buffer.append( "take " );
@@ -3762,14 +3761,10 @@ public abstract class ChoiceManager
 				buffer.append( "hot damage, current HP = " );
 				buffer.append( String.valueOf( hp ) );
 				buffer.append( ", current hot resistance = " );
-				buffer.append( current );
+				buffer.append( String.valueOf( resistance ) );
 				result[ 0 ] = buffer.toString();
-				buffer.setLength( 0 );
-				buffer.append( "flickering pixel" );
-				buffer.append( ": 25 hot resistance required, have " );
-				buffer.append( current );
-				result[ 1 ] = buffer.toString();
 			}
+			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
 			return result;
 
@@ -3778,22 +3773,15 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				StringBuilder buffer = new StringBuilder();
+				buffer.append( "50 buffed Muscle/Mysticality/Moxie required, have " );
 				buffer.append( String.valueOf( KoLCharacter.getAdjustedMuscle() ) );
 				buffer.append( "/" );
 				buffer.append( String.valueOf( KoLCharacter.getAdjustedMysticality() ) );
 				buffer.append( "/" );
 				buffer.append( String.valueOf( KoLCharacter.getAdjustedMoxie() ) );
-				String current = buffer.toString();
-				buffer.setLength( 0 );
-				buffer.append( "50 buffed Muscle/Mysticality/Moxie required, have " );
-				buffer.append( current );
 				result[ 0 ] = buffer.toString();
-				buffer.setLength( 0 );
-				buffer.append( "flickering pixel" );
-				buffer.append( ": 500 buffed Muscle/Mysticality/Moxie required, have " );
-				buffer.append( current );
-				result[ 1 ] = buffer.toString();
 			}
+			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
 			return result;
 
@@ -3802,16 +3790,11 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				StringBuilder buffer = new StringBuilder();
-				String current = String.valueOf( KoLCharacter.getAdjustedMoxie() );
 				buffer.append( "50 buffed Moxie required, have " );
-				buffer.append( current );
+				buffer.append( String.valueOf( KoLCharacter.getAdjustedMoxie() ) );
 				result[ 0 ] = buffer.toString();
-				buffer.setLength( 0 );
-				buffer.append( "flickering pixel" );
-				buffer.append( ": 300 buffed Moxie required, have " );
-				buffer.append( current );
-				result[ 1 ] = buffer.toString();
 			}
+			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
 			return result;
 
@@ -3821,7 +3804,6 @@ public abstract class ChoiceManager
 			{
 				StringBuilder buffer = new StringBuilder();
 				int resistance = KoLCharacter.getElementalResistanceLevels( Element.SPOOKY );
-				String current = String.valueOf( resistance );
 				int damage = (int)( 250.0 * KoLCharacter.elementalResistanceByLevel( resistance ) );
 				int hp = KoLCharacter.getCurrentHP();
 				buffer.append( "take " );
@@ -3829,14 +3811,10 @@ public abstract class ChoiceManager
 				buffer.append( "spooky damage, current HP = " );
 				buffer.append( String.valueOf( hp ) );
 				buffer.append( ", current spooky resistance = " );
-				buffer.append( current );
+				buffer.append( String.valueOf( resistance ) );
 				result[ 0 ] = buffer.toString();
-				buffer.setLength( 0 );
-				buffer.append( "flickering pixel" );
-				buffer.append( ": 25 spooky resistance required, have " );
-				buffer.append( current );
-				result[ 1 ] = buffer.toString();
 			}
+			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
 			return result;
 
@@ -3848,12 +3826,8 @@ public abstract class ChoiceManager
 				String current = String.valueOf( KoLCharacter.currentBonusDamage() );
 				buffer.append( "100 weapon damage required" );
 				result[ 0 ] = buffer.toString();
-				buffer.setLength( 0 );
-				buffer.append( "flickering pixel" );
-				buffer.append( ": ??? bonus damage required, have " );
-				buffer.append( current );
-				result[ 1 ] = buffer.toString();
 			}
+			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
 			return result;
 
@@ -3862,16 +3836,11 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				StringBuilder buffer = new StringBuilder();
-				String current = String.valueOf( KoLCharacter.getCurrentHP() );
 				buffer.append( "101 HP required, have " );
-				buffer.append( current );
+				buffer.append( String.valueOf( KoLCharacter.getCurrentHP() ) );
 				result[ 0 ] = buffer.toString();
-				buffer.setLength( 0 );
-				buffer.append( "flickering pixel" );
-				buffer.append( ": 1000 HP required, have " );
-				buffer.append( current );
-				result[ 1 ] = buffer.toString();
 			}
+			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
 			return result;
 
@@ -3880,16 +3849,11 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				StringBuilder buffer = new StringBuilder();
-				String current = String.valueOf( KoLCharacter.getCurrentMP() );
 				buffer.append( "101 MP required, have " );
-				buffer.append( current );
+				buffer.append( String.valueOf( KoLCharacter.getCurrentMP() ) );
 				result[ 0 ] = buffer.toString();
-				buffer.setLength( 0 );
-				buffer.append( "flickering pixel" );
-				buffer.append( ": 1000 MP required, have " );
-				buffer.append( current );
-				result[ 1 ] = buffer.toString();
 			}
+			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
 			return result;
 
@@ -3898,16 +3862,11 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				StringBuilder buffer = new StringBuilder();
-				String current = String.valueOf( KoLCharacter.currentPrismaticDamage() );
 				buffer.append( "6 prismatic damage required, have " );
-				buffer.append( current );
+				buffer.append( String.valueOf( KoLCharacter.currentPrismaticDamage() ) );
 				result[ 0 ] = buffer.toString();
-				buffer.setLength( 0 );
-				buffer.append( "flickering pixel" );
-				buffer.append( ": 60 prismatic damage required, have " );
-				buffer.append( current );
-				result[ 1 ] = buffer.toString();
 			}
+			result[ 1 ] = "flickering pixel";
 			result[ 2 ] = "skip adventure";
 			return result;
 
@@ -6932,7 +6891,8 @@ public abstract class ChoiceManager
 
 		case 641:
 			// Stupid Pipes.
-			if ( !ChoiceManager.lastResponseText.contains( "Dive Down" ) )
+			if ( !ChoiceManager.lastResponseText.contains( "Dive Down" ) && 
+			     KoLCharacter.getElementalResistanceLevels( Element.HOT ) >= 25 )
 			{
 				Preferences.setBoolean( "flickeringPixel1", true );
 			}
@@ -6940,7 +6900,10 @@ public abstract class ChoiceManager
 
 		case 642:
 			// You're Freaking Kidding Me
-			if ( !ChoiceManager.lastResponseText.contains( "Wait a minute..." ) )
+			if ( !ChoiceManager.lastResponseText.contains( "Wait a minute..." ) &&
+			     KoLCharacter.getAdjustedMuscle() >= 500 && 
+			     KoLCharacter.getAdjustedMysticality() >= 500 &&
+			     KoLCharacter.getAdjustedMoxie() >= 500 )
 			{
 				Preferences.setBoolean( "flickeringPixel2", true );
 			}
@@ -6948,7 +6911,8 @@ public abstract class ChoiceManager
 
 		case 644:
 			// Snakes.
-			if ( !ChoiceManager.lastResponseText.contains( "Tie the snakes in a knot." ) )
+			if ( !ChoiceManager.lastResponseText.contains( "Tie the snakes in a knot." ) &&
+			     KoLCharacter.getAdjustedMoxie() >= 300 )
 			{
 				Preferences.setBoolean( "flickeringPixel3", true );
 			}
@@ -6956,7 +6920,8 @@ public abstract class ChoiceManager
 
 		case 645:
 			// So... Many... Skulls...
-			if ( !ChoiceManager.lastResponseText.contains( "You fear no evil" ) )
+			if ( !ChoiceManager.lastResponseText.contains( "You fear no evil" ) &&
+			     KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) >= 25 )
 			{
 				Preferences.setBoolean( "flickeringPixel4", true );
 			}
@@ -6964,7 +6929,10 @@ public abstract class ChoiceManager
 
 		case 647:
 			// A Stupid Dummy. Also, a Straw Man.
-			if ( !ChoiceManager.lastResponseText.contains( "Graaaaaaaaargh!" ) )
+
+			// *** unspaded
+			if ( !ChoiceManager.lastResponseText.contains( "Graaaaaaaaargh!" ) &&
+			     KoLCharacter.currentBonusDamage() >= 1000 )
 			{
 				Preferences.setBoolean( "flickeringPixel5", true );
 			}
@@ -6972,7 +6940,8 @@ public abstract class ChoiceManager
 
 		case 648:
 			// Slings and Arrows
-			if ( !ChoiceManager.lastResponseText.contains( "Arrows? Ha." ) )
+			if ( !ChoiceManager.lastResponseText.contains( "Arrows? Ha." ) &&
+			     KoLCharacter.getCurrentHP() >= 1000 )
 			{
 				Preferences.setBoolean( "flickeringPixel6", true );
 			}
@@ -6980,7 +6949,8 @@ public abstract class ChoiceManager
 
 		case 650:
 			// This Is Your Life. Your Horrible, Horrible Life.
-			if ( !ChoiceManager.lastResponseText.contains( "Then watch it again with the commentary on!" ) )
+			if ( !ChoiceManager.lastResponseText.contains( "Then watch it again with the commentary on!" ) &&
+			     KoLCharacter.getCurrentMP() >= 1000 )
 			{
 				Preferences.setBoolean( "flickeringPixel7", true );
 			}
@@ -6988,7 +6958,8 @@ public abstract class ChoiceManager
 
 		case 651:
 			// The Wall of Wailing
-			if ( !ChoiceManager.lastResponseText.contains( "Make the tide resist you" ) )
+			if ( !ChoiceManager.lastResponseText.contains( "Make the tide resist you" ) &&
+			     KoLCharacter.currentPrismaticDamage() >= 60 )
 			{
 				Preferences.setBoolean( "flickeringPixel8", true );
 			}
