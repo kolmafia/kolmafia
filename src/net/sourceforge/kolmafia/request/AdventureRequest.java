@@ -457,6 +457,8 @@ public class AdventureRequest
 	private static final Pattern [] MONSTER_NAME_PATTERNS =
 	{
 		Pattern.compile( "You're fighting <span id='monname'>(.*?)</span>", Pattern.DOTALL ),
+		// papier weapons can change "fighting" to some other verb
+		Pattern.compile( "You're (?:<u>.*?</u>) <span id='monname'>(.*?)</span>", Pattern.DOTALL ),
 		Pattern.compile( "<b>.*?(<b>.*?:?</b>.*?)<br>", Pattern.DOTALL ),
 	};
 
