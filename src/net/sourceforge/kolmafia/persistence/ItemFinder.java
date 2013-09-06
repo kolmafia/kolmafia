@@ -92,17 +92,17 @@ public class ItemFinder
 			return null;
 		}
 
-		if ( nameList.size() == 1 )
+		// Filter the list
+		ItemFinder.filterNameList( nameList, filterType );
+		if ( nameList.isEmpty() )
 		{
-
-			String name = nameList.get( 0 );
-			return ItemDatabase.getCanonicalName( name );
+			return null;
 		}
 
 		// If there are multiple matches, such that one is a substring of the
 		// others, choose the shorter one, on the grounds that the user would
 		// have included part of the unique section of the longer name if that
-		// was the item they actually intended.  This makes it easier to refer
+		// was the item they actually intended.	 This makes it easier to refer
 		// to non-clockwork in-a-boxes, and DoD potions by flavor.
 		while ( nameList.size() >= 2 )
 		{
@@ -119,60 +119,24 @@ public class ItemFinder
 			else break;
 		}
 
+		// If a single item remains, that's it!
 		if ( nameList.size() == 1 )
 		{
-
-			String name = nameList.get( 0 );
-			return ItemDatabase.getCanonicalName( name );
+			return ItemDatabase.getCanonicalName( nameList.get( 0 ) );
 		}
 
-		ItemFinder.filterNameList( nameList, filterType );
-		if ( nameList.isEmpty() )
-		{
-			return null;
-		}
-
-		// Do the shortest-substring check again, in case the filter removed
-		// an item that was before or between two qualifying items.
-		while ( nameList.size() >= 2 )
-		{
-			String name0 = nameList.get( 0 );
-			String name1 = nameList.get( 1 );
-			if ( name0.indexOf( name1 ) != -1 )
-			{
-				nameList.remove( 0 );
-			}
-			else if ( name1.indexOf( name0 ) != -1 )
-			{
-				nameList.remove( 1 );
-			}
-			else break;
-		}
-
-		// If there were no matches, or there was an exact match,
-		// then return from this method.
-
-		if ( nameList.size() == 1 )
-		{
-			String name = nameList.get( 0 );
-			return ItemDatabase.getCanonicalName( name );
-		}
-
-		// If there's only one unique item in there, return it.
-
+		// Remove duplicate names that all refer to the same item?
 		Set<Integer> itemIdSet = new HashSet<Integer>();
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
 			int itemId = ItemDatabase.getItemId( nameList.get( i ) );
-
 			itemIdSet.add( IntegerPool.get( itemId ) );
 		}
 
 		if ( itemIdSet.size() == 1 )
 		{
-			String name = nameList.get( 0 );
-			return ItemDatabase.getCanonicalName( name );
+			return ItemDatabase.getCanonicalName( nameList.get( 0 ) );
 		}
 
 		String itemName;
@@ -213,6 +177,8 @@ public class ItemFinder
 		}
 
 		if ( rv != null ) return rv;
+
+		// If we get here, there is not a single matching item
 		return "";
 	}
 
