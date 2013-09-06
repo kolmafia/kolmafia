@@ -1,4 +1,4 @@
-s1
+1
 # item number	name	descid	image	use	access	autosell	plural
 #
 #	PRIMARY_USE: none, food, drink, usable, multiple, grow, zap,
