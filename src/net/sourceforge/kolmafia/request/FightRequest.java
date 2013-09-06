@@ -248,6 +248,7 @@ public class FightRequest
 	private static boolean summonedGhost = false;
 	public static boolean haiku = false;
 	public static boolean anapest = false;
+	public static boolean papier = false;
 	public static int currentRound = 0;
 	public static boolean inMultiFight = false;
 
@@ -464,6 +465,27 @@ public class FightRequest
 			name.endsWith( "Village" ) ? Math.max( FightRequest.dreadVillageKisses, 1 ) :
 			name.endsWith( "Castle" ) ? Math.max( FightRequest.dreadCastleKisses, 1 ) :
 			0;
+	}
+
+	public static final AdventureResult[] PAPIER_EQUIPMENT =
+	{
+		ItemPool.get( ItemPool.PAPIER_MACHETE, 1),
+		ItemPool.get( ItemPool.PAPIER_MACHINE_GUN, 1),
+		ItemPool.get( ItemPool.PAPIER_MASK, 1),
+		ItemPool.get( ItemPool.PAPIER_MITRE, 1),
+		ItemPool.get( ItemPool.PAPIER_MACHURIDARS, 1),
+	};
+
+	private static final boolean usingPapierEquipment()
+	{
+		for ( int i = 0; i < PAPIER_EQUIPMENT.length; ++i )
+		{
+			if ( KoLCharacter.hasEquipped( PAPIER_EQUIPMENT[ i] ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -1772,6 +1794,9 @@ public class FightRequest
 				adventure == AdventurePool.MAELSTROM_OF_LOVERS ||
 				adventure == AdventurePool.GLACIER_OF_JERKS ||
 				KoLConstants.activeEffects.contains( FightRequest.anapestEffect );
+
+			// Wearing any piece of papier equipment really messes up the results
+			FightRequest.papier = FightRequest.usingPapierEquipment();
 
 			KoLCharacter.getFamiliar().recognizeCombatUse();
 
@@ -4465,8 +4490,7 @@ public class FightRequest
 				// seen the "you won" comment, the nuns take
 				// the meat.
 
-				ResultProcessor.processMeat( str, status.won, status.nunnery );
-				status.shouldRefresh = true;
+				status.shouldRefresh |= ResultProcessor.processMeat( str, status.won, status.nunnery );
 				return;
 			}
 
@@ -4487,7 +4511,6 @@ public class FightRequest
 				}
 
 				status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
-
 				return;
 			}
 
@@ -5110,6 +5133,8 @@ public class FightRequest
 
 		text = StringUtilities.globalStringReplace( text, "<br>", " / " );
 		text = KoLConstants.ANYTAG_PATTERN.matcher( text ).replaceAll( " " );
+		text = StringUtilities.globalStringDelete( text, "&nbsp;" );
+		text = StringUtilities.globalStringReplace( text, "  ", " " );
 
 		StringBuffer action = status.action;
 		FightRequest.getRound( action );

@@ -528,6 +528,12 @@ public class AdventureResult
 
 	public static final AdventureResult parseResult( final String s )
 	{
+		// If this result has been screwed up with Rad Libs, can't do anything with it.
+		if ( s.startsWith( "You &nbsp;" ) )
+		{
+			return null;
+		}
+
 		if ( s.startsWith( "You gain" ) || s.startsWith( "You lose" ) || s.startsWith( "You spent" ) )
 		{
 			// A stat has been modified - now you figure out which
@@ -593,7 +599,7 @@ public class AdventureResult
 			}
 
 			// In the current implementations, all stats gains are
-			// located inside of a generic adventure which
+			// located inside of a generic AdventureResult which
 			// indicates how much of each substat is gained.
 
 			int[] gained =

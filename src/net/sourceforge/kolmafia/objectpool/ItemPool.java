@@ -1548,6 +1548,11 @@ public class ItemPool
 	public static final int RIGHT_BEAR_ARM = 5791;
 	public static final int LEFT_BEAR_ARM = 5792;
 	public static final int RAD_LIB_BOOK = 5862;
+	public static final int PAPIER_MACHETE = 5868;
+	public static final int PAPIER_MACHINE_GUN = 5869;
+	public static final int PAPIER_MASK = 5870;
+	public static final int PAPIER_MITRE = 5871;
+	public static final int PAPIER_MACHURIDARS = 5872;
 	public static final int DRAGON_TEETH = 5880;
 	public static final int SKELETON = 5881;
 	public static final int SKIFF = 5885;
