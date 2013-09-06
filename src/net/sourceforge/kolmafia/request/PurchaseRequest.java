@@ -332,9 +332,21 @@ public abstract class PurchaseRequest
 			return KoLCharacter.isHardcore() ? 1 : -1;
 		}
 
+		// limit is how many items you can actually buy
+		// sort high to low on limit
+
+		if ( this.limit != pr.limit )
+		{
+			return pr.limit - this.limit;
+		}
+
+		// If limits are equal but quantity is not, one or the other
+		// stores has an artificial limit. Reward those that don't do
+		// that by sorting low to high on quantity.
+
 		if ( this.quantity != pr.quantity )
 		{
-			return pr.quantity - this.quantity;
+			return this.quantity - pr.quantity;
 		}
 
 		return this.shopName.compareToIgnoreCase( pr.shopName );
