@@ -1748,6 +1748,7 @@ public class ItemPool
 	public static final int FOLDER_27 = 6644;
 	public static final int FOLDER_28 = 6645;
 	public static final int SPIRIT_SOCKET_SET = 6660;
+	public static final int QUASIRELGIOUS_SCULPTURE = 6667;
 	public static final int GIANT_FARADAY_CAGE = 6668;
 	public static final int BOOK_OF_MATCHES = 6683;
 	public static final int MCCLUSKY_FILE_PAGE5 = 6693;
