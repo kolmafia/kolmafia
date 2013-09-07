@@ -475,10 +475,10 @@ public class CharPaneRequest
 
 		// Expanded
 		{
-			Pattern.compile( "/hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
-			Pattern.compile( "/mp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
-			Pattern.compile( "/meat\\.gif.*?<span.*?>(.*?)</span>" ),
-			Pattern.compile( "/hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)mp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)meat\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
 		},
 
 		// Compact Zombiecore
@@ -491,10 +491,10 @@ public class CharPaneRequest
 
 		// Expanded Zombiecore
 		{
-			Pattern.compile( "/hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
-			Pattern.compile( "/zombies/horde.*?\\.gif.*?Horde: (\\d+)" ),
-			Pattern.compile( "/meat\\.gif.*?<span.*?>(.*?)</span>" ),
-			Pattern.compile( "/hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)zombies/horde.*?\\.gif.*?Horde: (\\d+)" ),
+			Pattern.compile( "/(?:slim)meat\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "/(?:slim)hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
 		},
 	};
 
