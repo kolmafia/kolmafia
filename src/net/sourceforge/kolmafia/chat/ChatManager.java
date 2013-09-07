@@ -62,8 +62,8 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ChannelColorsRequest;
-import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 
@@ -443,7 +443,7 @@ public abstract class ChatManager
 			case ABORT:
 			case ERROR:
 			case ENABLE:
-				RequestThread.postRequest( new CharPaneRequest() );
+				ApiRequest.updateStatus( true );
 			}
 		}
 

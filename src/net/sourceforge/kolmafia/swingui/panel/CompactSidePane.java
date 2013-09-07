@@ -70,7 +70,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
-import net.sourceforge.kolmafia.swingui.button.RequestButton;
+import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
@@ -238,7 +238,7 @@ public class CompactSidePane
 
 		JPanel refreshPanel = new JPanel();
 		refreshPanel.setOpaque( false );
-		refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", new ApiRequest() ) );
+		refreshPanel.add( new InvocationButton( "Refresh Status", "refresh.gif", ApiRequest.class, "updateStatus" ) );
 
 		this.add( refreshPanel, BorderLayout.SOUTH );
 		this.add( compactCard, BorderLayout.NORTH );

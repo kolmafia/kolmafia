@@ -72,7 +72,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -742,9 +741,8 @@ public abstract class KoLmafia
 		// provides data from a lot of different standard pages
 
 		// We are in Valhalla if this redirects to afterlife.php
-		GenericRequest request = new ApiRequest( "status" );
-		RequestThread.postRequest( request );
-		if ( request.redirectLocation != null && request.redirectLocation.startsWith( "afterlife.php" ) )
+		String redirection = ApiRequest.updateStatus();
+		if ( redirection != null && redirection.startsWith( "afterlife.php" ) )
 		{
 			// In Valhalla, parse the CharPane and abort further processing
 			KoLmafia.updateDisplay( "Welcome to Valhalla!" );
@@ -756,7 +754,7 @@ public abstract class KoLmafia
 		// Retrieve the character sheet. It's necessary to do this
 		// before concoctions have a chance to get refreshed.
 
-		request = new CharSheetRequest();
+		GenericRequest request = new CharSheetRequest();
 		RequestThread.postRequest( request );
 
 		// If you get redirected on the request for the character sheet,
@@ -862,8 +860,7 @@ public abstract class KoLmafia
 		// Start out fetching the status using the KoL API. This
 		// provides data from a lot of different standard pages
 
-		GenericRequest request = new ApiRequest( "status" );
-		RequestThread.postRequest( request );
+		ApiRequest.updateStatus();
 
 		// Retrieve the character sheet. It's necessary to do this
 		// before concoctions have a chance to get refreshed.
@@ -871,7 +868,7 @@ public abstract class KoLmafia
 		// Clear skills first, since we no longer know Avatar skills
 		KoLCharacter.resetSkills();
 
-		request = new CharSheetRequest();
+		GenericRequest request = new CharSheetRequest();
 		RequestThread.postRequest( request );
 
 		// Clear preferences
@@ -1843,7 +1840,6 @@ public abstract class KoLmafia
 
 			Preferences.reset( null );
 			FlaggedItems.saveFlaggedItemList();
-			CustomItemDatabase.saveItemData();
 
 			RequestLogger.closeSessionLog();
 			RequestLogger.closeDebugLog();

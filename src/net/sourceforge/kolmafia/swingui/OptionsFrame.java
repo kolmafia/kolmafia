@@ -232,7 +232,6 @@ public class OptionsFrame
 				{ "relayOverridesImages", "Override certain KoL images" },
 				{},
 				{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
-				{ "relayViewsCustomItems", "View items registered with OneTonTomato's Kilt script" },
 				{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
 				{},
 				{ "relayAddsRestoreLinks", "Add HP/MP restore links to left side pane" },
