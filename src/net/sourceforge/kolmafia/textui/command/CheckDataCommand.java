@@ -70,7 +70,7 @@ public class CheckDataCommand
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.REFRESH ) );
 
 			// The api registers new status effects
-			RequestThread.postRequest( new ApiRequest() );
+			ApiRequest.updateStatus();
 
 			// Write override files, if necessary
 			KoLmafia.saveDataOverride();

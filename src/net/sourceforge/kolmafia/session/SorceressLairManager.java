@@ -1594,7 +1594,7 @@ public abstract class SorceressLairManager
 
 			if ( !SorceressLairManager.QUEST_HANDLER.containsUpdate )
 			{
-				RequestThread.postRequest( new ApiRequest() );
+				ApiRequest.updateStatus();
 			}
 
 			RecoveryManager.runBetweenBattleChecks( false );
@@ -1639,7 +1639,7 @@ public abstract class SorceressLairManager
 
 		if ( n == 0 )
 		{
-			RequestThread.postRequest( new ApiRequest() );
+			ApiRequest.updateStatus();
 
 			SorceressLairManager.findDoorCode();
 

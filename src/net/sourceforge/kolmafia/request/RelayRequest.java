@@ -81,7 +81,6 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
-import net.sourceforge.kolmafia.persistence.CustomItemDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -367,8 +366,6 @@ public class RelayRequest
 		StringUtilities.globalStringReplace( responseBuffer, " name=adv ", " name=snarfblat " );
 
 		this.responseText = responseBuffer.toString();
-
-		CustomItemDatabase.linkCustomItem( this );
 	}
 
 	public void printHeaders( final PrintStream ostream )
@@ -1994,14 +1991,6 @@ public class RelayRequest
 
 			if ( descId != null )
 			{
-				// Load custom items from OneTonTomato's script
-				// if they are currently being requested.
-				if ( descId.startsWith( "custom" ) )
-				{
-					this.pseudoResponse( "HTTP/1.1 200 OK", CustomItemDatabase.retrieveCustomItem( descId.substring( 6 ) ) );
-					return;
-				}
-
 				// Show the Wiki, if that is desired
 				if ( showWikiLink( descId ) )
 				{

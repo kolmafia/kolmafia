@@ -3393,7 +3393,7 @@ public abstract class RuntimeLibrary
 
 	public static Value refresh_status( Interpreter interpreter )
 	{
-		RequestThread.postRequest( new ApiRequest() );
+		ApiRequest.updateStatus();
 		return RuntimeLibrary.continueValue();
 	}
 

@@ -812,6 +812,11 @@ public class CharPaneRequest
 		String adventureId = compact ? lastAdventureMatcher.group( 2 ) : lastAdventureMatcher.group( 1 );
 		String adventureURL = "adventure.php?snarfblat=" + adventureId;
 
+		CharPaneRequest.checkNewLocation( adventureName, adventureId, adventureURL );
+	}
+
+	private static final void checkNewLocation( final String adventureName, final String adventureId, final String adventureURL )
+	{
 		// check if we already know this location
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
 		if ( adventure != null )
@@ -819,7 +824,7 @@ public class CharPaneRequest
 			return;
 		}
 
-		RequestLogger.printLine( "Adding new location:  " + adventureName + " - adventure.php?snarfblat=" + adventureId );
+		RequestLogger.printLine( "Adding new location:	" + adventureName + " - adventure.php?snarfblat=" + adventureId );
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "location", adventureId + " " + adventureName );
 	}
 
@@ -1022,6 +1027,13 @@ public class CharPaneRequest
 		CharPaneRequest.turnsThisRun = turnsThisRun;
 		KoLCharacter.setCurrentRun( turnsThisRun );
 
+		JSONObject lastadv = JSON.getJSONObject( "lastadv" );
+		String adventureId = lastadv.getString( "id" );
+		String adventureName = lastadv.getString( "name" );
+		String adventureURL = lastadv.getString( "link" );
+
+		CharPaneRequest.checkNewLocation( adventureName, adventureId, adventureURL );
+
 		int hp = JSON.getInt( "hp" );
 		int maxhp = JSON.getInt( "maxhp" );
 		KoLCharacter.setHP( hp, maxhp, maxhp );
@@ -1038,6 +1050,9 @@ public class CharPaneRequest
 
 		int meat = JSON.getInt( "meat" );
 		KoLCharacter.setAvailableMeat( meat );
+
+		int drunk = JSON.getInt( "drunk" );
+		KoLCharacter.setInebriety( drunk );
 
 		int full = JSON.getInt( "full" );
 		KoLCharacter.setFullness( full );

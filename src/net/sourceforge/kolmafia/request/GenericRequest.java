@@ -1696,7 +1696,7 @@ public class GenericRequest
 				case 301:
 				case 307:
 				case 308:
-					if ( RelayRequest.class.isInstance( this ) || this.redirectMethod.equals( "GET" ) || this.redirectMethod.equals( "HEAD" ) )
+					if ( this instanceof RelayRequest || this.redirectMethod.equals( "GET" ) || this.redirectMethod.equals( "HEAD" ) )
 					{
 						//RelayRequests are handled later. Allow GET/HEAD, redirects by default.
 						this.redirectLocation = this.formConnection.getHeaderField( "Location" );
@@ -2277,7 +2277,7 @@ public class GenericRequest
 
 		if ( this.containsUpdate )
 		{
-			new CharPaneRequest().run();
+			ApiRequest.updateStatus( true );
 			RelayServer.updateStatus();
 		}
 	}
