@@ -3938,6 +3938,14 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.QUASIRELGIOUS_SCULPTURE:
+			if ( responseText.contains( "entire Cyrpt feels safer" ) )
+			{
+				// Can't abuse this, so queue a use item to get new Evilometer value
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.EVILOMETER ) );
+			}
+			return;
+			
 		case ItemPool.KEYOTRON:
 			UseItemRequest.getBugbearBiodataLevels( responseText );
 			return;
@@ -4688,6 +4696,11 @@ public class UseItemRequest
 		Preferences.setInteger( "cyrptCrannyEvilness", cranny );
 		Preferences.setInteger( "cyrptNicheEvilness", niche );
 		Preferences.setInteger( "cyrptNookEvilness", nook );
+		
+		if ( responseText.contains( "give it a proper burial" ) )
+		{
+			ResultProcessor.removeItem( ItemPool.EVILOMETER );
+		}
 	}
 
 	private static final void getBugbearBiodataLevels( String responseText )

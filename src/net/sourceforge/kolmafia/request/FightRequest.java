@@ -1890,6 +1890,27 @@ public class FightRequest
 					Preferences.setInteger( "relocatePygmyLawyer", KoLCharacter.getAscensions() );
 				}
 			}
+			// Correct Crypt Evilness if encountering boss when we think we're at more than 25 evil
+			else if ( encounter.equalsIgnoreCase( "conjoined zmombie" ) && Preferences.getInteger( "cyrptAlcoveEvilness" ) > 25 )
+			{			
+				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptAlcoveEvilness" ) + 25 );
+				Preferences.setInteger( "cyrptAlcoveEvilness", 25 );
+			}
+			else if ( encounter.equalsIgnoreCase( "huge ghoul" ) && Preferences.getInteger( "cyrptCrannyEvilness" ) > 25 )
+			{			
+				Preferences.increment( "cyrptTotalEvilness", -Preferences.getInteger( "cyrptCrannyEvilness" ) + 25 );
+				Preferences.setInteger( "cyrptCrannyEvilness", 25 );
+			}
+			else if ( encounter.equalsIgnoreCase( "gargantulihc" ) && Preferences.getInteger( "cyrptNicheEvilness" ) > 25 )
+			{			
+				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNicheEvilness" ) + 25 );
+				Preferences.setInteger( "cyrptNicheEvilness", 25 );
+			}
+			else if ( encounter.equalsIgnoreCase( "giant skeelton" ) && Preferences.getInteger( "cyrptNookEvilness" ) > 25 )
+			{			
+				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNookEvilness" ) + 25 );
+				Preferences.setInteger( "cyrptNookEvilness", 25 );
+			}
 			else if ( encounter.equalsIgnoreCase( "giant octopus" ) )
 			{
 				if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
