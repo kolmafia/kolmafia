@@ -1886,7 +1886,7 @@ public abstract class ChoiceManager
 		// No Rest for the Room
 		new ChoiceAdventure(
 			"The Sea", "choiceAdventure400", "Mer-kin Elementary School",
-			new Object[] { "fight a Mer-kin teacher", 
+			new Object[] { "fight a Mer-kin teacher",
 				       new Option( "Mer-kin cancerstick", "Mer-kin cancerstick" ) } ),
 
 		// Raising Cane
@@ -3631,7 +3631,7 @@ public abstract class ChoiceManager
 			boolean haveHelm = ( InventoryManager.getCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 ||
 			                     InventoryManager.getEquippedCount( ItemPool.KNOB_GOBLIN_HELM ) > 0 );
 
-			result[ 0 ] = 
+			result[ 0 ] =
 				!havePolearm ? new Option( "knob goblin elite polearm", "knob goblin elite polearm" ) :
 				!havePants ? new Option( "knob goblin elite pants", "knob goblin elite pants" ) :
 				!haveHelm ? new Option( "knob goblin elite helm", "knob goblin elite helm" ) :
@@ -3874,7 +3874,7 @@ public abstract class ChoiceManager
 			// The Fast and the Furry-ous
 			result = new Object[ 4 ];
 			result[ 0 ] =
-				KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TITANIUM_UMBRELLA, 1 ) ) ? 
+				KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TITANIUM_UMBRELLA, 1 ) ) ?
 				"open Ground Floor (titanium umbrella equipped)" :
 				"Neckbeard Choice (titanium umbrella not equipped)";
 			result[ 1 ] = "200 Moxie substats";
@@ -4163,7 +4163,7 @@ public abstract class ChoiceManager
 			result = new Object[ 6 ];
 			result[ 0 ] = "-cold";
 			result[ 1 ] = "Freddies";
-			result[ 2 ] = 
+			result[ 2 ] =
 				"cool iron ingot (" +
 				String.valueOf( InventoryManager.getCount( ItemPool.COOL_IRON_INGOT ) ) +
 				") + warm fur (" +
@@ -4181,7 +4181,7 @@ public abstract class ChoiceManager
 				( KoLCharacter.isMuscleClass() ? "hangman's hood" :
 				  KoLCharacter.isMysticalityClass() ? "cursed ring finger ring" :
 				  KoLCharacter.isMoxieClass() ? "Dreadsylvanian clockwork key" :
-				  "nothing" ) + 
+				  "nothing" ) +
 				" with help of clannie";
 			result[ 3 ] = "help clannie gain an item";
 			result[ 5 ] = "Return to The Village Square";
@@ -4248,7 +4248,7 @@ public abstract class ChoiceManager
 			result[ 0 ] = "Freddies";
 			result[ 1 ] =
 				"lock impression (" +
-				String.valueOf( InventoryManager.getCount( ItemPool.WAX_LOCK_IMPRESSION ) ) + 
+				String.valueOf( InventoryManager.getCount( ItemPool.WAX_LOCK_IMPRESSION ) ) +
 				") + music box parts (" +
 				String.valueOf( InventoryManager.getCount( ItemPool.INTRICATE_MUSIC_BOX_PARTS ) ) +
 				") -> replica key";
@@ -4350,7 +4350,7 @@ public abstract class ChoiceManager
 			result = new Object[ 6 ];
 			result[ 0 ] = "fewer werewolves";
 			result[ 1 ] = "eau de mort";
-			result[ 2 ] = 
+			result[ 2 ] =
 				"10 ghost thread (" +
 				String.valueOf( InventoryManager.getCount( ItemPool.GHOST_THREAD ) ) +
 				") -> ghost shawl";
@@ -6175,11 +6175,8 @@ public abstract class ChoiceManager
 				return;
 			}
 
-			// Visits to The Shore cost 500 unless you are in Fistcore
-			if ( !KoLCharacter.inFistcore() )
-			{
-				ResultProcessor.processMeat( -500 );
-			}
+			// Visits to The Shore cost 500 meat
+			ResultProcessor.processMeat( -500 );
 
 			return;
 		}
