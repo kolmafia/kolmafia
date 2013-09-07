@@ -208,11 +208,24 @@ public class UseItemEnqueuePanel
 	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
-		super.setEnabled( isEnabled );
-
 		// The "binge" listener is the second or third button
 		int bingeIndex = Preferences.getBoolean( "addCreationQueue" ) ? 2 : 1;
 
+		// Disable all buttons if false, otherwise allow buttons to only be lit when they are valid to stop flashing buttons
+		if ( !isEnabled )
+		{
+			super.setEnabled( false );
+		}
+		else
+		{
+			this.elementList.setEnabled( true );
+			this.buttons[ 0 ].setEnabled( true );
+			if ( bingeIndex == 2 )
+			{
+				this.buttons[ 1 ].setEnabled( true );
+			}
+		}
+		
 		if ( isEnabled && this.food )
 		{
 			boolean haveGhost = KoLCharacter.findFamiliar( FamiliarPool.GHOST ) != null;
