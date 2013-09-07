@@ -447,6 +447,18 @@ public class EquipmentManager
 		case ItemPool.HATRED_GIRDLE:
 			KoLCharacter.addAvailableSkill( "Tighten Girdle" );
 			break;
+		case ItemPool.ANGER_BLASTER:
+			KoLCharacter.addAvailableSkill( "Rage Flame" );
+			break;
+		case ItemPool.DOUBT_CANNON:
+			KoLCharacter.addAvailableSkill( "Doubt Shackles" );
+			break;
+		case ItemPool.FEAR_CONDENSER:
+			KoLCharacter.addAvailableSkill( "Fear Vapor" );
+			break;
+		case ItemPool.REGRET_HOSE:
+			KoLCharacter.addAvailableSkill( "Tear Wave" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,
