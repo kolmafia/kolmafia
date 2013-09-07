@@ -1393,7 +1393,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE:
 
 			useType = "gaze";
-			useLocation = "memories.php";
+			useLocation = "place.php?whichplace=memories";
 			break;
 
 		case ItemPool.SUGAR_SHEET:
