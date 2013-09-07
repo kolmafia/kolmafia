@@ -147,7 +147,7 @@ public interface KoLConstants
 		},
 		{
 			"Defiled Cyrpt",
-			"cyrpt.php"
+			"crypt.php"
 		},
 		{
 			"The Beanstalk",

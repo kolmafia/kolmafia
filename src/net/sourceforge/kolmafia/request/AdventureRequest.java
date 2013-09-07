@@ -1060,7 +1060,7 @@ public class AdventureRequest
 		{
 			return formSource.indexOf( "throneroom" ) != -1;
 		}
-		else if ( formSource.startsWith( "cyrpt.php" ) )
+		else if ( formSource.startsWith( "crypt.php" ) )
 		{
 			return formSource.indexOf( "action" ) != -1;
 		}
