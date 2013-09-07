@@ -1603,6 +1603,11 @@ public class ItemPool
 	public static final int LUCKY_CAT_STATUE = 6122;
 	public static final int SNOW_SUIT = 6150;
 	public static final int CARROT_NOSE = 6151;
+	public static final int PIXEL_POWER_CELL = 6155;
+	public static final int ANGER_BLASTER = 6158;
+	public static final int DOUBT_CANNON = 6159;
+	public static final int FEAR_CONDENSER = 6160;
+	public static final int REGRET_HOSE = 6161;
 	public static final int GAMEPRO_MAGAZINE = 6174;
 	public static final int GAMEPRO_WALKTHRU = 6175;
 	public static final int COSMIC_EGG = 6176;

@@ -463,10 +463,10 @@
 7139	Haggis Kick	5	3	0
 7140	Play Hog Fiddle	5	0	0
 7141
-7142
-7143
-7144
-7145
+7142	Rage Flame	5	0	0
+7143	Doubt Shackles	5	0	0
+7144	Fear Vapor	5	0	0
+7145	Tear Wave	5	0	0
 7146
 7147
 7148

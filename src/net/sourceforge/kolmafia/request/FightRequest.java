@@ -2258,6 +2258,15 @@ public class FightRequest
 			ResultProcessor.processItem( ItemPool.DRY_NOODLES, -1 );
 		}
 
+		// Casting Crackpot Mystic item spells uses a Pixel Power Cell
+		else if ( skillNumber == SkillPool.RAGE_FLAME && responseText.contains( "resulting torrent of flame" ) 
+			|| skillNumber == SkillPool.DOUBT_SHACKLES && responseText.contains( "looking less confident" ) 
+			|| skillNumber == SkillPool.FEAR_VAPOR && responseText.contains( "converts the energy into pure horror" ) 
+			|| skillNumber == SkillPool.TEAR_WAVE && responseText.contains( "deluge of tears bursts forth" ) )
+		{
+			ResultProcessor.processItem( ItemPool.PIXEL_POWER_CELL, -1 );
+		}
+		
 		// The first part is for a hobo underling being summoned
 		// The second part is from using a dinged-up triangle to summon it
 		if ( skillNumber == SkillPool.SUMMON_HOBO
