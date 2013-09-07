@@ -2816,7 +2816,7 @@ Fam:Oily Woim	Initiative: [2*W]
 Fam:Purse Rat	Monster Level: [floor(W/2)]
 Fam:Rock Lobster	Underwater Familiar
 Fam:Squamous Gibberer	Underwater Familiar
-Fam:Steam-Powered Cheerleader	Fairy Effectiveness: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]
+Fam:Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]
 Fam:Urchin Urchin	Underwater Familiar
 Fam:Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 
