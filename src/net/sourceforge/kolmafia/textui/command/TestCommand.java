@@ -195,27 +195,7 @@ public class TestCommand
 
 		if ( command.equals( "charpane" ) )
 		{
-			StringBuffer buffer = new StringBuffer( TestCommand.contents );
-			boolean oldCompact  = CharPaneRequest.compactCharacterPane;
-			boolean oldFamiliar  = CharPaneRequest.familiarBelowEffects;
-
-			CharPaneRequest.compactCharacterPane = true;
-			CharPaneRequest.familiarBelowEffects = false;
-			CharPaneDecorator.decorate( buffer );
-			CharPaneRequest.compactCharacterPane = oldCompact;
-			CharPaneRequest.familiarBelowEffects = oldFamiliar;
-
-			boolean shouldOpenStream = !RequestLogger.isDebugging();
-			if ( shouldOpenStream )
-			{
-				RequestLogger.openDebugLog();
-			}
-			RequestLogger.updateDebugLog( buffer.toString() );
-			if ( shouldOpenStream )
-			{
-				RequestLogger.closeDebugLog();
-			}
-
+			CharPaneRequest.processResults( TestCommand.contents );
 			TestCommand.contents = null;
 			return;
 		}

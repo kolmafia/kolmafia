@@ -142,6 +142,11 @@ public class CharPaneRequest
 		CharPaneRequest.checkNewLocation = check;
 	}
 
+	public static boolean processResults( String responseText )
+	{
+		return CharPaneRequest.processResults( CharPaneRequest.lastResponseTimestamp, responseText );
+	}
+
 	public static boolean processResults( long responseTimestamp, String responseText )
 	{
 		if ( CharPaneRequest.lastResponseTimestamp > responseTimestamp )
@@ -470,10 +475,10 @@ public class CharPaneRequest
 
 		// Expanded
 		{
-			Pattern.compile( "hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
-			Pattern.compile( "mp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
-			Pattern.compile( "meat\\.gif.*?<span.*?>(.*?)</span>" ),
-			Pattern.compile( "hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "/hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "/mp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "/meat\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "/hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
 		},
 
 		// Compact Zombiecore
@@ -486,10 +491,10 @@ public class CharPaneRequest
 
 		// Expanded Zombiecore
 		{
-			Pattern.compile( "hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
-			Pattern.compile( "zombies/horde.*?\\.gif.*?Horde: (\\d+)" ),
-			Pattern.compile( "meat\\.gif.*?<span.*?>(.*?)</span>" ),
-			Pattern.compile( "hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "/hp\\.gif.*?<span.*?>(.*?)&nbsp;/&nbsp;(.*?)</span>" ),
+			Pattern.compile( "/zombies/horde.*?\\.gif.*?Horde: (\\d+)" ),
+			Pattern.compile( "/meat\\.gif.*?<span.*?>(.*?)</span>" ),
+			Pattern.compile( "/hourglass\\.gif.*?<span.*?>(.*?)</span>" ),
 		},
 	};
 
