@@ -180,8 +180,6 @@ public class GenericRequest
 	private boolean dataChanged = true;
 	private byte[] dataString = null;
 
-	public boolean containsUpdate;
-
 	public int responseCode;
 	public String responseText;
 	public HttpURLConnection formConnection;
@@ -1204,7 +1202,6 @@ public class GenericRequest
 		this.timeoutCount = 0;
 		this.redirectCount = 0;
 		this.allowRedirect = null;
-		this.containsUpdate = false;
 
 		String location = this.getURLString();
 		if ( StaticEntity.backtraceTrigger != null &&
@@ -2270,18 +2267,10 @@ public class GenericRequest
 
 		if ( this instanceof RelayRequest )
 		{
-			this.containsUpdate = false;
-		}
-		else if ( effectCount != KoLConstants.activeEffects.size() || this.getAdventuresUsed() > 0 )
-		{
-			this.containsUpdate = true;
-		}
-		else
-		{
-			this.containsUpdate |= this.responseText.indexOf( "charpane.php" ) != -1;
+			return;
 		}
 
-		if ( this.containsUpdate )
+		if ( this.responseText.contains( "charpane.php" ) )
 		{
 			ApiRequest.updateStatus( true );
 			RelayServer.updateStatus();
@@ -2420,48 +2409,51 @@ public class GenericRequest
 			// These pages cannot possibly contain an actual item
 			// drop, but may have a bogus "You acquire an item:" as
 			// part of a store name, profile quote, familiar name, etc.
-			this.containsUpdate = false;
+			return;
 		}
-		else if ( urlString.startsWith( "bet.php" ) )
+
+		if ( urlString.startsWith( "bet.php" ) )
 		{
 			// This can either add or remove meat from inventory
 			// using unique messages, in some cases. Let
 			// MoneyMakingGameRequest sort it all out.
-			this.containsUpdate = true;
+			return;
 		}
-		else if ( urlString.startsWith( "raffle.php" ) )
+
+		if ( urlString.startsWith( "raffle.php" ) )
 		{
-			this.containsUpdate = true;
+			return;
 		}
-		else if ( urlString.startsWith( "mallstore.php" ) )
+
+		if ( urlString.startsWith( "mallstore.php" ) )
 		{
 			// Mall stores themselves can only contain processable
 			// results when actually buying an item, and then only
 			// at the very top of the page.
-			this.containsUpdate =
-				this.getFormField( "whichitem" ) != null &&
-					ResultProcessor.processResults(
-						false, this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
+			if ( this.getFormField( "whichitem" ) != null )
+			{
+				ResultProcessor.processResults( false, this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
+			}
 		}
 		else if ( urlString.startsWith( "fight.php" ) )
 		{
-			this.containsUpdate = FightRequest.processResults( this.responseText );
+			FightRequest.processResults( this.responseText );
 		}
 		else if ( urlString.startsWith( "adventure.php" ) )
 		{
-			this.containsUpdate = ResultProcessor.processResults( true, this.responseText );
+			 ResultProcessor.processResults( true, this.responseText );
 		}
 		else if ( urlString.startsWith( "arena.php" ) )
 		{
-			this.containsUpdate = CakeArenaRequest.parseResults( this.responseText );
+			CakeArenaRequest.parseResults( this.responseText );
 		}
 		else if ( urlString.startsWith( "afterlife.php" ) )
 		{
-			this.containsUpdate = AfterLifeRequest.parseResponse( urlString, this.responseText );
+			AfterLifeRequest.parseResponse( urlString, this.responseText );
 		}
 		else
 		{
-			this.containsUpdate = ResultProcessor.processResults( false, this.responseText );
+			ResultProcessor.processResults( false, this.responseText );
 		}
 	}
 
