@@ -579,6 +579,7 @@ user	lastTowerClimb	-1
 user	lastTr4pz0rQuest	-1
 user	lastVioletFogMap	0
 user	lastWuTangDefeated	-1
+user	lastYearbookCameraAscension	-1
 user	lastZapperWand	0
 user	libramSummons	0
 user	libraryCardUsed	false
@@ -812,6 +813,8 @@ user	waxMonster
 user	welcomeBackAdv	0
 user	wineCellarProgress	0
 user	workteaClue
+user	yearbookCameraAscensions	0
+user	yearbookCameraUpgrades	0
 user	zombiePoints	0
 user	_absintheDrops	0
 user	_aguaDrops	0

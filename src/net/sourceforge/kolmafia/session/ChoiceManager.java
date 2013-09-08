@@ -6739,6 +6739,18 @@ public abstract class ChoiceManager
 			// Playing the Catalog Card
 			DreadScrollManager.handleLibrary( text );
 			break;
+
+		case 772:
+			if ( ChoiceManager.lastDecision == 3 && text.contains( "Yup! You got it!" ) )
+			{
+				Preferences.increment( "yearbookCameraUpgrades", 1, 20, false );
+				if ( KoLCharacter.getAscensions() != Preferences.getInteger( "lastYearbookCameraAscension" ) )
+				{
+					Preferences.setInteger( "lastYearbookCameraAscension", KoLCharacter.getAscensions() );
+					Preferences.increment( "yearbookbCameraAscensions", 1, 20, false );
+				}
+			}
+			break;
 		}
 
 		PostChoiceAction action = ChoiceManager.action;
