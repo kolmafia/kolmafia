@@ -1128,7 +1128,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.LINE:
 
 			useType = InventoryManager.getCount( ItemPool.STAR_CHART ) + "," + InventoryManager.getCount( ItemPool.STAR ) + "," + InventoryManager.getCount( ItemPool.LINE );
-			useLocation = "starchart.php";
+			useLocation = "shop.php?whichshop=starchart";
 			break;
 
 		// Worthless items and the hermit permit get a link to the hermit.
