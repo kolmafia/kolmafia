@@ -250,7 +250,7 @@ Armory and Leggery	z	wooden salad bowl	900
 Armory and Leggery	z	football helmet	1125
 Armory and Leggery	z	studded leather boxer shorts	50
 Armory and Leggery	z	chain-mail monokini	225
-Armory and Leggery	z	junk-mail pants	375
+Armory and Leggery	z	union scalemail pants	375
 Armory and Leggery	z	paper-plate-mail pants	600
 Armory and Leggery	z	troutpiece	825
 Armory and Leggery	z	alpha-mail pants	1050
