@@ -810,21 +810,21 @@ public class CharPaneRequest
 
 		String adventureName = compact ? lastAdventureMatcher.group( 1 ) : lastAdventureMatcher.group( 2 );
 		String adventureId = compact ? lastAdventureMatcher.group( 2 ) : lastAdventureMatcher.group( 1 );
-		String adventureURL = "adventure.php?snarfblat=" + adventureId;
 
-		CharPaneRequest.checkNewLocation( adventureName, adventureId, adventureURL );
+		CharPaneRequest.checkNewLocation( adventureName, adventureId );
 	}
 
-	private static final void checkNewLocation( final String adventureName, final String adventureId, final String adventureURL )
+	private static final void checkNewLocation( final String adventureName, final String adventureId )
 	{
 		// check if we already know this location
+		String adventureURL = "adventure.php?snarfblat=" + adventureId;
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( adventureURL );
 		if ( adventure != null )
 		{
 			return;
 		}
 
-		RequestLogger.printLine( "Adding new location:	" + adventureName + " - adventure.php?snarfblat=" + adventureId );
+		RequestLogger.printLine( "Adding new location: " + adventureName + " - " + adventureURL );
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "location", adventureId + " " + adventureName );
 	}
 
@@ -1032,7 +1032,10 @@ public class CharPaneRequest
 		String adventureId = lastadv.getString( "id" );
 		String adventureName = lastadv.getString( "name" );
 		String adventureURL = lastadv.getString( "link" );
-		CharPaneRequest.checkNewLocation( adventureName, adventureId, adventureURL );
+		if ( adventureURL.startsWith( "adventure.php" ) )
+		{
+			CharPaneRequest.checkNewLocation( adventureName, adventureId );
+		}
 
 		int hp = JSON.getInt( "hp" );
 		int maxhp = JSON.getInt( "maxhp" );

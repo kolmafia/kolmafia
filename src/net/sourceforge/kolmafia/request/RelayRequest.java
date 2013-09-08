@@ -2064,6 +2064,10 @@ public class RelayRequest
 		{
 			this.pseudoResponse( "HTTP/1.1 302 Found", this.redirectLocation );
 		}
+		else if ( this.responseCode == 304 )
+		{
+			this.pseudoResponse( "HTTP/1.1 304 Not Modified", null );
+		}
 		else if ( this.responseCode != 200 )
 		{
 			this.sendNotFound();
