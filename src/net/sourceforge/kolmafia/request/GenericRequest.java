@@ -2175,6 +2175,12 @@ public class GenericRequest
 			return;
 		}
 
+		if ( urlString.startsWith( "api.php" ) )
+		{
+			ApiRequest.parseResponse( urlString, this.responseText );
+			return;
+		}
+
 		if ( !this.isChatRequest )
 		{
 			EventManager.checkForNewEvents( this.responseText );

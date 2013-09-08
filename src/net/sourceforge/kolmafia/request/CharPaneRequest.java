@@ -1026,7 +1026,6 @@ public class CharPaneRequest
 		int turnsThisRun = JSON.getInt( "turnsthisrun" );
 		int mafiaTurnsThisRun = KoLCharacter.getCurrentRun();
 		CharPaneRequest.turnsThisRun = turnsThisRun;
-		KoLCharacter.setCurrentRun( turnsThisRun );
 		ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
 
 		JSONObject lastadv = JSON.getJSONObject( "lastadv" );
