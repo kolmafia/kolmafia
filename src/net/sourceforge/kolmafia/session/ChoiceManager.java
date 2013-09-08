@@ -3754,11 +3754,11 @@ public abstract class ChoiceManager
 			{
 				StringBuilder buffer = new StringBuilder();
 				int resistance = KoLCharacter.getElementalResistanceLevels( Element.HOT );
-				int damage = (int)( 250.0 * KoLCharacter.elementalResistanceByLevel( resistance ) );
+				int damage = (int)( 2.50 * (100.0 - KoLCharacter.elementalResistanceByLevel( resistance ) ) );
 				int hp = KoLCharacter.getCurrentHP();
 				buffer.append( "take " );
 				buffer.append( String.valueOf( damage ) );
-				buffer.append( "hot damage, current HP = " );
+				buffer.append( " hot damage, current HP = " );
 				buffer.append( String.valueOf( hp ) );
 				buffer.append( ", current hot resistance = " );
 				buffer.append( String.valueOf( resistance ) );
@@ -3804,11 +3804,11 @@ public abstract class ChoiceManager
 			{
 				StringBuilder buffer = new StringBuilder();
 				int resistance = KoLCharacter.getElementalResistanceLevels( Element.SPOOKY );
-				int damage = (int)( 250.0 * KoLCharacter.elementalResistanceByLevel( resistance ) );
+				int damage = (int)( 2.50 * (100.0 - KoLCharacter.elementalResistanceByLevel( resistance ) ) );
 				int hp = KoLCharacter.getCurrentHP();
 				buffer.append( "take " );
 				buffer.append( String.valueOf( damage ) );
-				buffer.append( "spooky damage, current HP = " );
+				buffer.append( " spooky damage, current HP = " );
 				buffer.append( String.valueOf( hp ) );
 				buffer.append( ", current spooky resistance = " );
 				buffer.append( String.valueOf( resistance ) );
@@ -3862,7 +3862,7 @@ public abstract class ChoiceManager
 			result = new Object[ 3 ];
 			{
 				StringBuilder buffer = new StringBuilder();
-				buffer.append( "6 prismatic damage required, have " );
+				buffer.append( "10 prismatic damage required, have " );
 				buffer.append( String.valueOf( KoLCharacter.currentPrismaticDamage() ) );
 				result[ 0 ] = buffer.toString();
 			}
