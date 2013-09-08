@@ -4859,10 +4859,9 @@ public abstract class ChoiceManager
 		return null;
 	}
 
-	public static final boolean processChoiceAdventure()
+	public static final void processChoiceAdventure()
 	{
 		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, null );
-		return ChoiceManager.CHOICE_HANDLER.containsUpdate;
 	}
 
 	public static final void processChoiceAdventure( int decision )

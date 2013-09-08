@@ -1592,11 +1592,6 @@ public abstract class SorceressLairManager
 				return requiredItemId;
 			}
 
-			if ( !SorceressLairManager.QUEST_HANDLER.containsUpdate )
-			{
-				ApiRequest.updateStatus();
-			}
-
 			RecoveryManager.runBetweenBattleChecks( false );
 
 			if ( requiredItemId != -1 )
