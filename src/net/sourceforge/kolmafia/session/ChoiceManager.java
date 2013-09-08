@@ -6174,8 +6174,9 @@ public abstract class ChoiceManager
 				return;
 			}
 
-			// Visits to The Shore cost 500 meat
-			ResultProcessor.processMeat( -500 );
+			// Visits to The Shore cost 500 meat, or 5 meat in WotSF runs
+			int meat = KoLCharacter.inFistcore() ? 5 : 500;
+			ResultProcessor.processMeat( -meat );
 
 			return;
 		}

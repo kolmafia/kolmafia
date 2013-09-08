@@ -190,8 +190,8 @@ public class AdventureRequest
 			if ( this.adventureId.equals( AdventurePool.THE_SHORE_ID ) )
 			{
 				// The Shore
-				// You need 3 adventures to go on a shore trip
-				if ( KoLCharacter.getAdventuresLeft() < 3 )
+				int adv = KoLCharacter.inFistcore() ? 5 : 3;
+				if ( KoLCharacter.getAdventuresLeft() < adv )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of adventures." );
 					return;
@@ -1108,7 +1108,7 @@ public class AdventureRequest
 		}
 		if ( this.adventureId.equals( AdventurePool.THE_SHORE_ID ) )
 		{
-			return 3;
+			return KoLCharacter.inFistcore() ? 5 : 3;
 		}
 		String zone = AdventureDatabase.getZone( this.adventureName );
 		if ( zone != null && zone.equals( "The Sea" ) )
