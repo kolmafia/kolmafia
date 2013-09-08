@@ -593,6 +593,13 @@ public class CharPaneDecorator
 					buffer.append( "@ " + ( 30 - charges ) );
 			}
 			return buffer;
+
+		case FamiliarPool.STEAM_CHEERLEADER:
+			double steamLevel = Preferences.getInteger( "_cheerleaderSteam" ) / 2.0;
+			buffer.append( steamLevel );
+			buffer.append( "% steam" );
+			return buffer;
+
 		}
 
 		return null;
