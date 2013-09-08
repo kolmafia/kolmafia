@@ -70,7 +70,7 @@ public class FlickerCommand
 			"flickeringPixel5",
 			"Doubt",
 			"A Stupid Dummy",
-			"??? bonus damage",
+			"+300 bonus damage",
 		},
 		{
 			"flickeringPixel6",

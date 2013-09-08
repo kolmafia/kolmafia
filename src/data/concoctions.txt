@@ -2148,7 +2148,7 @@ Crimbo light-up Rudolph doll	SUSE	Super Crimboman Ultra Mega Hypersword
 
 # Psychoanalytic items
 
-Byte	MUSE	flickering pixel (8)
+Byte	SUSE	flickering pixel (8)
 White Dragon Fang	ACOMBINE	magical battery	toy taijijian
 goblin bone hilt	COMBINE	goblin collarbone	wad of spider silk
 loose blade	COMBINE	goblin collarbone	sharp tin strip
