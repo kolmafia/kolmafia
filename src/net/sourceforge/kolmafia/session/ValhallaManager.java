@@ -462,6 +462,7 @@ public class ValhallaManager
 		Preferences.setInteger( "gladiatorBladeMovesKnown", 0 );
 		Preferences.setInteger( "gladiatorNetMovesKnown", 0 );
 		Preferences.setInteger( "miniAdvClass", 0 );
+		Preferences.setInteger( "yearbookCameraUpgrades", Preferences.getInteger( "yearbookCameraAscensions" ) );
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
 		AdventureQueueDatabase.resetQueue();
