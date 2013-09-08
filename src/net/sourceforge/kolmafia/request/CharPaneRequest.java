@@ -1024,14 +1024,15 @@ public class CharPaneRequest
 		throws JSONException
 	{
 		int turnsThisRun = JSON.getInt( "turnsthisrun" );
+		int mafiaTurnsThisRun = KoLCharacter.getCurrentRun();
 		CharPaneRequest.turnsThisRun = turnsThisRun;
 		KoLCharacter.setCurrentRun( turnsThisRun );
+		ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
 
 		JSONObject lastadv = JSON.getJSONObject( "lastadv" );
 		String adventureId = lastadv.getString( "id" );
 		String adventureName = lastadv.getString( "name" );
 		String adventureURL = lastadv.getString( "link" );
-
 		CharPaneRequest.checkNewLocation( adventureName, adventureId, adventureURL );
 
 		int hp = JSON.getInt( "hp" );
