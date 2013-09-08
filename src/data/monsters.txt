@@ -790,7 +790,7 @@ pygmy orderlies	pyg_orderlies	Atk: 152 Def: 142 HP: 158 Init: 20	compression sto
 pygmy shaman	pyg_shaman	Atk: 148 Def: 140 HP: 150 Init: 40	colorful toad (0)	crude voodoo doll (0)	smirking shrunken head (0)
 pygmy witch accountant	pyg_acct	Atk: 150 Def: 138 HP: 148 Init: 50	adder (0)	bone abacus (0)	short calculator (0)	McClusky file (page 1) (100c)	McClusky file (page 2) (100c)	McClusky file (page 3) (100c)	McClusky file (page 4) (100c)	McClusky file (page 5) (100c)
 pygmy witch lawyer	pyg_lawyer	Atk: 150 Def: 142 HP: 145 Init: 40	attorney's badge (0)	short writ of habeas corpus (0)	pygmy briefs (0)
-pygmy witch nurse	pyg_nurse	Atk: 148 Def: 148 HP: 148 Init: 60	tongue depressor (0)	bag of pygmy blood (0)	blood-pressure cuff (0)
+pygmy witch nurse	pyg_nurse	Atk: 148 Def: 148 HP: 148 Init: 60	tongue depressor (0)	bag of pygmy blood (0)	sphygmomanometer (0)
 pygmy witch surgeon	pyg_surgeon	Atk: 145 Def: 142 HP: 145 Init: 80	bloodied surgical dungarees (0)	half-size scalpel (0)	head mirror (0)	surgical apron (0)	surgical mask (0)
 Quantum Mechanic	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80 P: dude	large box (40)	vorpal blade (15)	pile of gold coins (p20)
 Queen Filthworm	filthworm4.gif	BOSS Atk: 173 Def: 155 HP: 195 Init: 50 Meat: 1000 E: stench P: bug	heart of the filthworm queen (100)

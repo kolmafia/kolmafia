@@ -1495,7 +1495,7 @@
 1478	wooden salad bowl	359474761	bowlhelm.gif	hat	t,d	120	bowls, salad, wooden
 1479	football helmet	961239745	fballhelm.gif	hat	t,d	150	football helmets
 1480	chain-mail monokini	122251510	monokini.gif	pants	t,d	30	chain-mail monokinus
-1481	junk-mail pants	174384062	mailpants.gif	pants	t,d	50	junk-mail pant
+1481	union scalemail pants	174384062	mailpants.gif	pants	t,d	50	pairs of union scalemail pants
 1482	paper-plate-mail pants	413652134	platepants.gif	pants	t,d	80	paper-plate-mail pantses, precious
 1483	troutpiece	236081433	troutpiece.gif	pants	t,d	110	troutpieces
 1484	alpha-mail pants	143373243	alphapants.gif	pants	t,d	140	alpha-mail pantses, preciousss
@@ -6729,7 +6729,7 @@
 6712	bone abacus	675213302	boneabacus.gif	offhand	t,d	50	bone abaci
 6713	adder	784906937	adder.gif	none, combat	t,d	80
 6714	short calculator	512565355	littlecalculator.gif	none, combat	t,d	115
-6715	blood-pressure cuff	604339447	bpcuff.gif	accessory	t,d	137
+6715	sphygmomanometer	604339447	bpcuff.gif	accessory	t,d	137	sphygmomanomanomomemeters
 6716	bag of pygmy blood	651126112	energyiv.gif	usable	t,d	95	bags of pygmy blood
 6717	tongue depressor	133442000	popstick.gif	none, combat	t,d	105
 6718	compression stocking	266431523	compsock.gif	accessory	t,d	140

@@ -411,7 +411,6 @@ hobo dungarees	200	Mox: 200
 honeybritches	175	Mox: 72
 hot daub stand	85	Mox: 27
 ironic jogging shorts	40	Mox: 5
-junk-mail pants	50	Mox: 10
 leather chaps	160	Mox: 65
 leotarrrd	90	Mox: 30
 liar's pants	100	none
@@ -476,6 +475,7 @@ trousers of the white knight	60	Mox: 15
 troutpiece	110	Mox: 40
 turtle wax greaves	40	Mox: 5
 turtlemail breeches	80	Mox: 25
+union scalemail pants	50	Mox: 10
 wax pants	50	Mox: 10
 weedy skirt	250	Mox: 200
 white satin pants	40	Mox: 5
@@ -1732,7 +1732,6 @@ blackberry combat boots	180	Mus: 75
 blackberry galoshes	180	Mox: 75
 blackberry moccasins	180	Mys: 75
 blackberry slippers	180	Mys: 75
-blood-pressure cuff	160	Mys: 65
 blue glowstick	20	none
 blue plastic baby	20	none
 blue ribbon	0	none
@@ -1994,6 +1993,7 @@ spaghetti cult rosary	140	Mys: 55
 spark plug earring	180	Mys: 75
 sparkly engagement ring	0	none
 special sauce glove	10	none
+sphygmomanometer	160	Mys: 65
 spiky turtle shoulderpads	130	Mus: 50
 spooky glove	60	Mys: 15
 stainless steel scarf	90	Mys: 30

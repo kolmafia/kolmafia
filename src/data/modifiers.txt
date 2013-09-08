@@ -500,7 +500,6 @@ hobo dungarees	Maximum MP: +500, Mysticality Percent: +5, Familiar Effect: "0.5x
 honeybritches	Muscle Percent: +5, Critical Hit Percent: +5, Weapon Damage: +15, Familiar Effect: "sleaze atk, 1xGhuol, cap 43"
 hot daub stand	Hot Damage: +9, Hot Spell Damage: +9
 ironic jogging shorts	Initiative: +10, Damage Absorption: +20, Moxie: -5, Familiar Effect: "1xGhuol, cap 10"
-junk-mail pants	Familiar Effect: "2xBarrr, cap 12"
 leather chaps	Moxie: +8, Muscle: -4, Familiar Effect: "sleaze atk, 1xBarrr, cap 40"
 leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 1xPotato, cap 22"
 # liar's pants: +30 to All Attributes.  Yeah, +30.  That's the ticket.
@@ -567,6 +566,7 @@ trousers of the white knight	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP:
 troutpiece	Familiar Effect: "1xVolley, 1xBarrr, cap 27"
 turtle wax greaves	Muscle: +2, Familiar Effect: "atk, 3xBarrr, cap 10"
 turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect: "3xBarrr, 1.5xFairy, cap 20"
+union scalemail pants	Familiar Effect: "2xBarrr, cap 12"
 wax pants	Moxie: +7, Initiative: +10
 weedy skirt	Maximum HP: +400, HP Regen Min: 25, HP Regen Max: 50, Initiative: +25
 white satin pants	Sleaze Resistance: +2, Familiar Effect: "prismatic atk, 2xPotato, cap 10"
@@ -1995,7 +1995,6 @@ blackberry combat boots	Muscle: +10, Maximum HP: +45, Weapon Damage: +5, Single 
 blackberry galoshes	Muscle: +7, Mysticality: +7, Moxie: +7, Single Equip
 blackberry moccasins	Moxie: +8, Initiative: +25, Damage Reduction: 3, Single Equip
 blackberry slippers	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +5, Single Equip
-blood-pressure cuff	Maximum HP: +60, HP Regen Min: 5, HP Regen Max: 10
 blue glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 blue plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 blue ribbon	Maximum HP: +5
@@ -2283,6 +2282,7 @@ spark plug earring	MP Regen Min: 3, MP Regen Max: 4, Spooky Resistance: +2
 sparkly engagement ring	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip
 # special sauce glove: Allows you to equip Chefstaves
 special sauce glove	Class: "Sauceror", Single Equip
+sphygmomanometer	Maximum HP: +60, HP Regen Min: 5, HP Regen Max: 10
 # spiky turtle shoulderpads: Damages Attacking Opponent
 spiky turtle shoulderpads	Damage Absorption: +75, Single Equip
 spooky glove	Never Fumble, Moxie: +5, Spooky Damage: +5
