@@ -1952,23 +1952,23 @@ public class FightRequest
 			}
 			else if ( !EncounterManager.ignoreSpecialMonsters &&
 				  ( encounter.equalsIgnoreCase( "Candied Yam Golem" ) ||
-					encounter.equalsIgnoreCase( "Malevolent Tofurkey" ) ||
-					encounter.equalsIgnoreCase( "Possessed Can of Cranberry Sauce" ) ||
-					encounter.equalsIgnoreCase( "Stuffing Golem" ) ||
-					encounter.equalsIgnoreCase( "Hammered Yam Golem" ) ||
-					encounter.equalsIgnoreCase( "Inebriated Tofurkey" ) ||
-					encounter.equalsIgnoreCase( "Plastered Can of Cranberry Sauce" ) ||
-					encounter.equalsIgnoreCase( "Soused Stuffing Golem" ) ||
-					// El/La aren't actually part of the monster's name,
-					// but they have not been removed yet by KoLmafia
-					encounter.equalsIgnoreCase( "El Novio Cad&aacute;ver" ) ||
-					encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
-					encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
-					encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
-					encounter.equalsIgnoreCase( "ambulatory pirate" ) ||
-					encounter.equalsIgnoreCase( "migratory pirate" ) ||
-					encounter.equalsIgnoreCase( "peripatetic pirate" )
-					) )
+				    encounter.equalsIgnoreCase( "Malevolent Tofurkey" ) ||
+				    encounter.equalsIgnoreCase( "Possessed Can of Cranberry Sauce" ) ||
+				    encounter.equalsIgnoreCase( "Stuffing Golem" ) ||
+				    encounter.equalsIgnoreCase( "Hammered Yam Golem" ) ||
+				    encounter.equalsIgnoreCase( "Inebriated Tofurkey" ) ||
+				    encounter.equalsIgnoreCase( "Plastered Can of Cranberry Sauce" ) ||
+				    encounter.equalsIgnoreCase( "Soused Stuffing Golem" ) ||
+				    // El/La aren't actually part of the monster's name,
+				    // but they have not been removed yet by KoLmafia
+				    encounter.equalsIgnoreCase( "El Novio Cad&aacute;ver" ) ||
+				    encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
+				    encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
+				    encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
+				    encounter.equalsIgnoreCase( "ambulatory pirate" ) ||
+				    encounter.equalsIgnoreCase( "migratory pirate" ) ||
+				    encounter.equalsIgnoreCase( "peripatetic pirate" )
+					  ) )
 			{
 				TurnCounter.stopCounting( "Holiday Monster window begin" );
 				TurnCounter.stopCounting( "Holiday Monster window end" );
