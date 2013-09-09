@@ -422,6 +422,16 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "Events", "Sorority House Prop Deportment", this.propDeportmentSelect );
 		this.addChoiceSelect( "Events", "Sorority House Relocked and Reloaded", this.reloadedSelect );
 		this.addChoiceSelect( "Item-Driven", "Sorority Staff Guide", this.sororityGuideSelect );
+		this.addChoiceSelect( "HiddenCity", "Shrine NW", this.hiddenShrineNWSelect );
+		this.addChoiceSelect( "HiddenCity", "Shrine SW", this.hiddenShrineSWSelect );
+		this.addChoiceSelect( "HiddenCity", "Shrine NE", this.hiddenShrineNESelect );
+		this.addChoiceSelect( "HiddenCity", "Shrine SE", this.hiddenShrineSESelect );
+		this.addChoiceSelect( "HiddenCity", "Hidden Apartment", this.hiddenApartmentSelect );
+		this.addChoiceSelect( "HiddenCity", "Hidden Hospital", this.hiddenHospitalSelect );
+		this.addChoiceSelect( "HiddenCity", "Hidden Park", this.hiddenParkSelect );
+		this.addChoiceSelect( "HiddenCity", "Hidden Office", this.hiddenOfficeSelect );
+		this.addChoiceSelect( "HiddenCity", "Hidden Bowling Alley", this.hiddenBowlingAlleySelect );
+		this.addChoiceSelect( "HiddenCity", "Hidden Ziggurat", this.hiddenZigguratSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{

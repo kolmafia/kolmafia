@@ -8263,10 +8263,10 @@ public abstract class ChoiceManager
 			// Option 1 and 2 are not always available. Take appropriate one if option to 
 			// take action is selected. If not, never skip automatically, as this is the only
 			// adventure present and it'll loop.
-			int hiddenApartmentProgress = Preferences.getInteger( "hiddenApartmentProgress" );
 			if ( decision.equals( "1" ) )
 			{
-				return ( hiddenApartmentProgress >= 7 ? "2" : hiddenApartmentProgress <= 1 ? "1" : "0" );
+				int hiddenApartmentProgress = Preferences.getInteger( "hiddenApartmentProgress" );
+				return ( hiddenApartmentProgress >= 7 ? "2" : hiddenApartmentProgress < 1 ? "1" : "0" );
 			}
 			return decision;
 		}
@@ -8277,10 +8277,10 @@ public abstract class ChoiceManager
 			// Option 1 and 2 are not always available. Take appropriate one if option to 
 			// take action is selected. If not, never skip automatically, as this is the only
 			// adventure present and it'll loop.
-			int hiddenHospitalProgress = Preferences.getInteger( "hiddenHospitalProgress" );
 			if ( decision.equals( "1" ) )
 			{
-				return ( hiddenHospitalProgress >= 7 ? "2" : hiddenHospitalProgress <= 1 ? "1" : "0" );
+				int hiddenHospitalProgress = Preferences.getInteger( "hiddenHospitalProgress" );
+				return ( hiddenHospitalProgress >= 7 ? "2" : hiddenHospitalProgress < 1 ? "1" : "0" );
 			}
 			return decision;
 		}
@@ -8291,10 +8291,10 @@ public abstract class ChoiceManager
 			// Option 1 and 2 are not always available. Take appropriate one if option to 
 			// take action is selected. If not, never skip automatically, as this is the only
 			// adventure present and it'll loop.
-			int hiddenOfficeProgress = Preferences.getInteger( "hiddenOfficeProgress" );
 			if ( decision.equals( "1" ) )
 			{
-				return ( hiddenOfficeProgress >= 7 ? "2" : hiddenOfficeProgress <= 1 ? "1" : "0" );
+				int hiddenOfficeProgress = Preferences.getInteger( "hiddenOfficeProgress" );
+				return ( hiddenOfficeProgress >= 7 ? "2" : hiddenOfficeProgress < 1 ? "1" : "0" );
 			}
 			return decision;
 		}
@@ -8303,11 +8303,11 @@ public abstract class ChoiceManager
 		case 786:
 		{
 			// If boss dead, show in browser, fight boss if available, if not, get binder clip if you lack it, if not, fight accountant if you stillneed file
-			int hiddenOfficeProgress = Preferences.getInteger( "hiddenOfficeProgress" );
-			boolean hasMcCluskyFile = InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE ) > 0;
-			boolean hasBinderClip = InventoryManager.getCount( ChoiceManager.BINDER_CLIP ) > 0;
 			if ( decision.equals( "1" ) )
 			{
+				int hiddenOfficeProgress = Preferences.getInteger( "hiddenOfficeProgress" );
+				boolean hasMcCluskyFile = InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE ) > 0;
+				boolean hasBinderClip = InventoryManager.getCount( ChoiceManager.BINDER_CLIP ) > 0;
 				return ( hiddenOfficeProgress >= 7 ? "4" :
 						hasMcCluskyFile ? "1" :
 						!hasBinderClip ? "2" : "3" );
@@ -8321,10 +8321,10 @@ public abstract class ChoiceManager
 			// Option 1 and 2 are not always available. Take appropriate one if option to 
 			// take action is selected. If not, never skip automatically, as this is the only
 			// adventure present and it'll loop.
-			int hiddenBowlingAlleyProgress = Preferences.getInteger( "hiddenBowlingAlleyProgress" );
 			if ( decision.equals( "1" ) )
 			{
-				return ( hiddenBowlingAlleyProgress >= 7 ? "2" : hiddenBowlingAlleyProgress <= 1 ? "1" : "0" );
+				int hiddenBowlingAlleyProgress = Preferences.getInteger( "hiddenBowlingAlleyProgress" );
+				return ( hiddenBowlingAlleyProgress >= 7 ? "2" : hiddenBowlingAlleyProgress < 1 ? "1" : "0" );
 			}
 			return decision;
 		}
