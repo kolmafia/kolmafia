@@ -6949,7 +6949,8 @@ public abstract class ChoiceManager
 
 		case 648:
 			// Slings and Arrows
-			if ( !ChoiceManager.lastResponseText.contains( "Arrows? Ha." ) &&
+			// *** Yes, there supposed to be two spaces there.
+			if ( !ChoiceManager.lastResponseText.contains( "Arrows?  Ha." ) &&
 			     KoLCharacter.getCurrentHP() >= 1000 )
 			{
 				Preferences.setBoolean( "flickeringPixel6", true );
