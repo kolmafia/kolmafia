@@ -1273,7 +1273,7 @@ public class GenericRequest
 				InventoryManager.retrieveItem( ItemPool.CASINO_PASS );
 			}
 		}
-		else if ( location.startsWith( "beach.php?action=woodencity" ) )
+		else if ( location.equals( "place.php?whichplace=desertbeach&action=db_pyramid1" ) )
 		{
 			CreateItemRequest staff = CreateItemRequest.getInstance( ItemPool.STAFF_OF_ED );
 			if ( staff != null && staff.getQuantityPossible() > 0 )
