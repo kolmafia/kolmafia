@@ -142,14 +142,6 @@ public class GenericRequest
 	public static final Pattern JS_REDIRECT_PATTERN =
 		Pattern.compile( ">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";" );
 
-	public static boolean isRatQuest = false;
-	public static boolean isBarrelSmash = false;
-	public static boolean handlingChoices = false;
-	public static boolean ascending = false;
-	public static String itemMonster = null;
-	public static boolean choiceHandled = true;
-	private static boolean suppressUpdate = false;
-
 	protected String encounter = "";
 
 	public static final int MENU_FANCY = 1;
@@ -193,6 +185,15 @@ public class GenericRequest
 	public static String inventoryCookie = null;
 	public static String passwordHash = "";
 	public static String passwordHashValue = "";
+
+	// *** static class variables are always suspect
+	public static boolean isRatQuest = false;
+	public static boolean isBarrelSmash = false;
+	public static boolean handlingChoices = false;
+	public static boolean ascending = false;
+	public static String itemMonster = null;
+	public static boolean choiceHandled = true;
+	private static boolean suppressUpdate = false;
 
 	public static void reset()
 	{

@@ -200,3 +200,8 @@ MONSTER	Shadow Accordion Thief	.	"Your Shadow"
 MONSTER	Shadow Avatar of Boris	.	"Your Shadow"
 MONSTER	Shadow Zombie Master	.	"Your Shadow"
 MONSTER	Shadow Avatar of Jarlsberg	.	"Your Shadow"
+
+MONSTER	La Novia Cadáver	novia\.gif	La Novia Cad&aacute;ver
+MONSTER	El Novio Cadáver	novio\.gif	El Novio Cad&aacute;ver
+MONSTER	El Padre Cadáver	elpriest\.gif	El Padre Cad&aacute;ver
+MONSTER	La Persona Inocente Cadáver	bystander\.gif	La Persona Inocente Cad&aacute;ver
