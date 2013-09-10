@@ -472,7 +472,7 @@ Giant Bird-Creature	pterodactyl.gif	Atk: 100 Def: 81 HP: 90 Init: 20 P: beast
 Giant Desktop Globe	globe.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: construct
 Giant Fried Egg	friedegg.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: slime
 Giant Giant Giant Centipede	centipede.gif	Atk: 142 Def: 124 HP: 142 Init: 50 Meat: 120-180 P: bug	centipede eggs (20)	handful of sand (25)	handful of sand (15)
-Giant Giant Moth	moth.gif	Atk: 16 Def: 14 HP: 11 Init: 60 P: bug
+Giant Giant Moth	moth.gif	Atk: 16 Def: 14 HP: 11 Init: 60 P: bug	giant giant moth dust (0)
 Giant Jungle Python	python.gif	Atk: 90 Def: 81 HP: 100 Init: 40 P: beast
 Giant Octopus	watertentacle.gif	Atk: 90 Def: 90 HP: 90 Init: 80 P: fish
 Giant Pair of Tweezers		HP: 8 Def: 16 Atk: 16

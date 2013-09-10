@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -399,6 +400,35 @@ public class EquipmentManager
 		case ItemPool.BAKULA:
 			KoLCharacter.addAvailableSkill( "Give In To Your Vampiric Urges" );
 			break;
+		case ItemPool.JOYBUZZER:
+			KoLCharacter.addAvailableSkill( "Shake Hands" );
+			break;
+		case ItemPool.V_MASK:
+			KoLCharacter.addAvailableSkill( "Creepy Grin" );
+			break;
+		case ItemPool.MAYFLY_BAIT_NECKLACE:
+			KoLCharacter.addAvailableSkill( "Summon Mayfly Swarm" );
+			break;
+		case ItemPool.HODGMANS_PORKPIE_HAT:
+		case ItemPool.HODGMANS_LOBSTERSKIN_PANTS:
+		case ItemPool.HODGMANS_BOW_TIE:
+			if ( EquipmentManager.isWearingOutfit( OutfitPool.HODGMANS_REGAL_FRIPPERY ) )			
+			{
+				KoLCharacter.addAvailableSkill( "Summon hobo underling" );
+			}
+			break;
+		case ItemPool.WILLOWY_BONNET:
+			KoLCharacter.addAvailableSkill( "Rouse Sapling" );
+			break;
+		case ItemPool.SACCHARINE_MAPLE_PENDANT:
+			KoLCharacter.addAvailableSkill( "Spray Sap" );
+			break;
+		case ItemPool.CROTCHETY_PANTS:
+			KoLCharacter.addAvailableSkill( "Put Down Roots" );
+			break;
+		case ItemPool.FIREWORKS:
+			KoLCharacter.addAvailableSkill( "Fire off a Roman Candle" );
+			break;
 		case ItemPool.HAIKU_KATANA:
 			KoLCharacter.addAvailableSkill( "Spring Raindrop Attack" );
 			KoLCharacter.addAvailableSkill( "Summer Siesta" );
@@ -406,8 +436,28 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Winter's Bite Technique" );
 			KoLCharacter.addAvailableSkill( "The 17 Cuts" );
 			break;
+		case ItemPool.PARASITIC_CLAW:
+		case ItemPool.PARASITIC_TENTACLES:
+		case ItemPool.PARASITIC_HEADGNAWER:
+		case ItemPool.PARASITIC_STRANGLEWORM:
+			if ( EquipmentManager.isWearingOutfit( OutfitPool.MUTANT_COUTURE ) )			
+			{
+				KoLCharacter.addAvailableSkill( "Disarm" );
+				KoLCharacter.addAvailableSkill( "Entangle" );
+				KoLCharacter.addAvailableSkill( "Strangle" );
+			}
+			break;
+		case ItemPool.ELVISH_SUNGLASSES:
+			KoLCharacter.addAvailableSkill( "Play an Accordion Solo" );
+			KoLCharacter.addAvailableSkill( "Play a Guitar Solo" );
+			KoLCharacter.addAvailableSkill( "Play a Drum Solo" );
+			KoLCharacter.addAvailableSkill( "Play a Flute Solo" );
+			break;
 		case ItemPool.BAG_O_TRICKS:
 			KoLCharacter.addAvailableSkill( "Open the Bag o' Tricks" );
+			break;
+		case ItemPool.FOUET_DE_TORTUE_DRESSAGE:
+			KoLCharacter.addAvailableSkill( "Apprivoisez la tortue" );
 			break;
 		case ItemPool.RED_AND_GREEN_SWEATER:
 			KoLCharacter.addAvailableSkill( "Static Shock" );
@@ -415,14 +465,68 @@ public class EquipmentManager
 		case ItemPool.STINKY_CHEESE_EYE:
 			KoLCharacter.addAvailableSkill( "Give Your Opponent the Stinkeye" );
 			break;
+		case ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR:
+			KoLCharacter.addAvailableSkill( "Bashing Slam Smash" );
+			break;
+		case ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS:
+			KoLCharacter.addAvailableSkill( "Turtle of Seven Tails" );
+			break;
+		case ItemPool.WRATH_OF_THE_PASTALORDS:
+			KoLCharacter.addAvailableSkill( "Noodles of Fire" );
+			break;
+		case ItemPool.WINDSOR_PAN_OF_THE_SOURCE:
+			KoLCharacter.addAvailableSkill( "Saucemageddon" );
+			break;
+		case ItemPool.SEEGERS_BANJO:
+			KoLCharacter.addAvailableSkill( "Funk Bluegrass Fusion" );
+			break;
+		case ItemPool.TRICKSTER_TRIKITIXA:
+			KoLCharacter.addAvailableSkill( "Extreme High Note" );
+			break;
+		case ItemPool.BOTTLE_OF_GOLDENSCHNOCKERED:
+			KoLCharacter.addAvailableSkill( "Goldensh&ouml;wer" );
+			break;
 		case ItemPool.SPIDER_RING:
 			KoLCharacter.addAvailableSkill( "Shoot Web" );
+			break;
+		case ItemPool.STRESS_BALL:
+			KoLCharacter.addAvailableSkill( "Squeeze Stress Ball" );
 			break;
 		case ItemPool.PATRIOT_SHIELD:
 			KoLCharacter.addAvailableSkill( "Throw Shield" );
 			break;
 		case ItemPool.PLASTIC_VAMPIRE_FANGS:
 			KoLCharacter.addAvailableSkill( "Feed" );
+			break;
+		case ItemPool.LORD_FLAMEFACES_CLOAK:
+			KoLCharacter.addAvailableSkill( "Swirl Cloak" );
+			break;
+		case ItemPool.RIGHT_BEAR_ARM:
+			KoLCharacter.addAvailableSkill( "Kodiak Moment" );
+			KoLCharacter.addAvailableSkill( "Grizzly Scene" );
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LEFT_BEAR_ARM, 1 ) ) )
+			{
+				KoLCharacter.addAvailableSkill( "Bear Hug" );
+				KoLCharacter.addAvailableSkill( "I Can Bearly Hear You Over the Applause" );
+			}
+			break;
+		case ItemPool.LEFT_BEAR_ARM:
+			KoLCharacter.addAvailableSkill( "Bear-Backrub" );
+			KoLCharacter.addAvailableSkill( "Bear-ly Legal" );
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.RIGHT_BEAR_ARM, 1 ) ) )
+			{
+				KoLCharacter.addAvailableSkill( "Bear Hug" );
+				KoLCharacter.addAvailableSkill( "I Can Bearly Hear You Over the Applause" );
+			}
+			break;
+		case ItemPool.ELECTRONIC_DULCIMER_PANTS:
+			KoLCharacter.addAvailableSkill( "Play Hog Fiddle" );
+			break;
+		case ItemPool.HAGGIS_SOCKS:
+			KoLCharacter.addAvailableSkill( "Haggis Kick" );
+			break;
+		case ItemPool.MARK_V_STEAM_HAT:
+			KoLCharacter.addAvailableSkill( "Fire Death Ray" );
 			break;
 		case ItemPool.VIOLENCE_LENS:
 			KoLCharacter.addAvailableSkill( "Violent Gaze" );
@@ -460,6 +564,16 @@ public class EquipmentManager
 		case ItemPool.REGRET_HOSE:
 			KoLCharacter.addAvailableSkill( "Tear Wave" );
 			break;
+		case ItemPool.GREAT_WOLFS_LEFT_PAW:
+		case ItemPool.GREAT_WOLFS_RIGHT_PAW:
+			KoLCharacter.addAvailableSkill( "Great Slash" );
+			break;
+		case ItemPool.GREAT_WOLFS_ROCKET_LAUNCHER:
+			KoLCharacter.addAvailableSkill( "Fire Rocket" );
+			break;
+		case ItemPool.MAYOR_GHOSTS_GAVEL:
+			KoLCharacter.addAvailableSkill( "Hammer Ghost" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,
@@ -496,6 +610,12 @@ public class EquipmentManager
 		{
 			EquipmentManager.defenseModifier = 1
 				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LOST_GLASSES, 1 ) ) ? 0.15 : 0 )
+				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_SLIPPERS, 1 ) ) ? 0.1 : 0 )
+				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_STAFF, 1 ) ) ? 0.1 : 0 )
+				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_LENS, 1 ) ) ? 0.1 : 0 )
+				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_STONE, 1 ) ) ? 0.1 : 0 )
+				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_PANTS, 1 ) ) ? 0.1 : 0 )
+				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATRED_GIRDLE, 1 ) ) ? 0.1 : 0 )
 				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.CHESTER_GLASSES, 1 ) ) ? 0.15 : 0 );
 		}
 		

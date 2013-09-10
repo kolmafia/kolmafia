@@ -484,9 +484,9 @@
 7160	Dive Into a Puddle	5	0	0
 7161	Hide Under a Rock	5	0	0
 7162
-7163
-7164
-7165
+7163	Hammer Ghost	5	0	0
+7164	Fire Rocket	5	0	0
+7165	Great Slash	5	0	0
 7166	Get a Good Whiff of This Guy	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
