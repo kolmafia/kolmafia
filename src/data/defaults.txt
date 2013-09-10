@@ -207,6 +207,7 @@ user	autoAntidote	0
 user	autoBuyPriceLimit	20000
 user	autoCraft	true
 user	autoEntangle	false
+user	autoGarish	false
 user	autoManaRestore	false
 user	autoOlfact
 user	autoPotionID	false
@@ -215,6 +216,7 @@ user	autoRepairBoxServants	false
 user	autoSphereID	false
 user	autoSteal	true
 user	autostartGalaktikQuest	true
+user	autoTuxedo	false
 user	availableCandyCredits	0
 user	availableDimes	0
 user	availableQuarters	0

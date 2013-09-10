@@ -437,11 +437,18 @@ public class ResultProcessor
 			RequestLogger.updateSessionLog( message );
 		}
 
+		// If Gar-ish is gained or loss, and autoGarish not set, benefit of Lasagna changes
+		if ( effectName.equals( Effect.GARISH.effectName() ) && !Preferences.getBoolean( "autoGarish" ) )
+		{
+			ConcoctionDatabase.setRefreshNeeded( true );
+		}
+
 		if ( message.startsWith( "You lose" ) )
 		{
 			AdventureResult result = EffectPool.get( effectName );
 			AdventureResult.removeResultFromList( KoLConstants.recentEffects, result );
 			AdventureResult.removeResultFromList( KoLConstants.activeEffects, result );
+
 			// If you lose Inigo's, what you can craft changes
 
 			if ( effectName.equals( Effect.INIGO.effectName() ) )

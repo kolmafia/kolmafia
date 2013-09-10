@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -64,6 +65,7 @@ public class DrinkItemRequest
 {
 	private static int permittedOverdrink = 0;
 	private static int askedAboutOde = 0;
+	private static int askedAboutTuxedo = 0;
 	private static AdventureResult queuedDrinkHelper = null;
 	private static int queuedDrinkHelperCount = 0;
 
@@ -344,6 +346,11 @@ public class DrinkItemRequest
 			return false;
 		}
 
+		if ( !DrinkItemRequest.askAboutTuxedo( itemName ) )
+		{
+			return false;
+		}
+
 		if ( !UseItemRequest.askAboutPvP( itemName ) )
 		{
 			return false;
@@ -442,6 +449,58 @@ public class DrinkItemRequest
 		}
 
 		DrinkItemRequest.askedAboutOde = KoLCharacter.getUserId();
+
+		return true;
+	}
+
+	private static final boolean askAboutTuxedo( String itemName )
+	{
+		// Only affects some drinks
+		if ( !ItemDatabase.isMartini( ItemDatabase.getItemId( itemName ) ) )
+		{
+			return true;
+		}
+		
+		// If we've already asked about Tuxedo, don't nag
+		if ( DrinkItemRequest.askedAboutTuxedo == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+
+		// If equipped already or can't be equipped, or we can't get one, no need to ask
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) )
+			|| !EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT )
+			|| !KoLCharacter.canInteract() && !InventoryManager.hasItem( ItemPool.TUXEDO_SHIRT, false ) )
+		{
+			return true;
+		}
+
+		// If autoTuxedo is true, put on Tuxedo
+		if ( Preferences.getBoolean( "autoTuxedo" ) )
+		{
+			if( !InventoryManager.hasItem( ItemPool.TUXEDO_SHIRT, false ) )
+			{
+				// get tuxedo
+				InventoryManager.retrieveItem( ItemPool.TUXEDO_SHIRT );
+			}
+			RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ), EquipmentManager.SHIRT ) );
+			if ( EquipmentManager.getEquipment( EquipmentManager.SHIRT ).getItemId() != ItemPool.TUXEDO_SHIRT )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to equip Tuxedo Shirt." );
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+		if ( !InputFieldUtilities.confirm( "Are you sure you want to drink without Tuxedo ?" ) )
+		{
+			return false;
+		}
+
+		DrinkItemRequest.askedAboutTuxedo = KoLCharacter.getUserId();
 
 		return true;
 	}
