@@ -146,6 +146,11 @@ public class PixelRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=mystic" ) )
+		{
+			return false;
+		}
+
 		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
 		if ( !rowMatcher.find() )
 		{

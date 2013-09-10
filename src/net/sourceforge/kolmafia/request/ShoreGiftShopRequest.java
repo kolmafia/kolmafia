@@ -136,7 +136,7 @@ public class ShoreGiftShopRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.contains( "whichshop=shore" ) )
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=shore" ) )
 		{
 			return false;
 		}

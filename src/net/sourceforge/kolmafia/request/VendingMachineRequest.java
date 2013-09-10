@@ -136,7 +136,7 @@ public class VendingMachineRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.contains( "whichshop=damachine" ) )
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=damachine" ) )
 		{
 			return false;
 		}
