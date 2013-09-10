@@ -2616,10 +2616,31 @@ public abstract class ChoiceManager
 		// Choice 686 is Of Might and Magic
 
 		// Choice 689 is The Final Chest
-		// Choice 690 is The First Chest Isn't the Deepest.
-		// Choice 691 is Second Chest
-		// Choice 692 is I Wanna Be a Door
-		// Choice 693 is It's Almost Certainly a Trap
+		new ChoiceAdventure(
+			"Dungeon", "choiceAdventure689", "The Final Chest",
+			new Object[] { "Get fat loot token" } ),
+
+		// The First Chest Isn't the Deepest.
+		new ChoiceAdventure(
+			"Dungeon", "choiceAdventure690", "The First Chest Isn't the Deepest",
+			new Object[] { "Get item", "Skip to 8th chamber, no turn spent", "Skip to 6th chamber, no turn spent" } ),
+
+		// Second Chest
+		new ChoiceAdventure(
+			"Dungeon", "choiceAdventure691", "Second Chest",
+			new Object[] { "Get item", "Skip to 13th chamber, no turn spent", "Skip to 11th chamber, no turn spent" } ),
+
+		// I Wanna Be a Door
+		new ChoiceAdventure(
+			"Dungeon", "choiceAdventure692", "I Wanna Be a Door",
+			new Object[] { "Suffer trap effects", "Unlock door, no turn spent", "Unlock door, no turn spent",
+				"Muscle test, may suffer trap effects", "Mysticality test, may suffer trap effects", "Moxie test, may suffer trap effects",
+				"Unlock door, no turn spent", "Leave, no turn spent" } ),
+				
+		// It's Almost Certainly a Trap
+		new ChoiceAdventure(
+			"Dungeon", "choiceAdventure693", "It's Almost Certainly a Trap",
+			new Object[] { "Suffer elemental damage, get stats", "Avoid trap, no turn spent", "Leave, no turn spent" } ),
 
 		// Choice 695 is A Drawer of Chests
 
@@ -5676,10 +5697,19 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 689:
+			// The Final Reward
+
+			if ( text.contains( "claim your rightful reward" ) )
+			{
+				// Daily Dungeon Complete
+				Preferences.setBoolean( "dailyDungeonDone", true );
+			}
+			return;
+
 		case 692:
 			// I Wanna Be a Door
 
-			// *** does this still happen?
 			if ( text.contains( "key breaks off in the lock" ) )
 			{
 				// Unfortunately, the key breaks off in the lock.
