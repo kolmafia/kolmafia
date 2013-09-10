@@ -1213,22 +1213,8 @@ public class CreateItemRequest
 		
 		if ( urlString.startsWith( "shop.php" ) )
 		{
-			if ( urlString.contains( "whichshop=mystic" ) )
-			{
-				return PixelRequest.registerRequest( urlString );
-			}
-			else if ( urlString.contains( "whichshop=jarl" ) )
-			{
-				return JarlsbergRequest.registerRequest( urlString );
-			}
-			else if ( urlString.contains( "whichshop=grandma" ) )
-			{
-				return GrandmaRequest.registerRequest( urlString );
-			}
-			else if ( urlString.contains( "whichshop=starchart" ) )
-			{
-				return StarChartRequest.registerRequest( urlString );
-			}
+			// Let shop.php creation methods register themselves
+			return false;
 		}
 
 		if ( urlString.startsWith( "volcanoisland.php" ) )
