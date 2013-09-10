@@ -49,6 +49,8 @@ public class OutfitPool
 	public static final int WAR_HIPPY_OUTFIT = 32;
 	public static final int WAR_FRAT_OUTFIT = 33;
 	public static final int VIBRATO_RELICS = 41;
+	public static final int HODGMANS_REGAL_FRIPPERY = 47;
+	public static final int MUTANT_COUTURE = 49;
 	public static final int DWARVISH_UNIFORM = 50;
 	public static final int LEGENDARY_PASTA_REGALIA = 66;
 }
