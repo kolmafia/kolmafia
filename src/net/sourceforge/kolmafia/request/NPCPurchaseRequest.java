@@ -473,21 +473,16 @@ public class NPCPurchaseRequest
 		}
 
 		String shopId = m.group(1);
-		if ( shopId.equals( "fdkol" ) )
-		{
-			FDKOLRequest.parseResponse( urlString, responseText );
-			return;
-		}
-
-		if ( shopId.equals( "trapper" ) )
-		{
-			TrapperRequest.parseResponse( urlString, responseText );
-			return;
-		}
 
 		if ( shopId.equals( "mystic" ) )
 		{
 			PixelRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "starchart" ) )
+		{
+			StarChartRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
@@ -503,12 +498,6 @@ public class NPCPurchaseRequest
 			return;
 		}
 
-		if ( shopId.equals( "dv" ) )
-		{
-			TerrifiedEagleInnRequest.parseResponse( urlString, responseText );
-			return;
-		}
-
 		if ( shopId.equals( "hiddentavern" ) )
 		{
 			// If Hidden Tavern not already unlocked, new items available
@@ -518,6 +507,37 @@ public class NPCPurchaseRequest
 				Preferences.setInteger( "hiddenTavernUnlock", KoLCharacter.getAscensions() );
 				ConcoctionDatabase.setRefreshNeeded( true );
 			}
+			return;
+		}
+
+		if ( shopId.equals( "dv" ) )
+		{
+			TerrifiedEagleInnRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "grandma" ) )
+		{
+			GrandmaRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "trapper" ) )
+		{
+			TrapperRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "jarl" ) )
+		{
+			JarlsbergRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "fdkol" ) )
+		{
+			FDKOLRequest.parseResponse( urlString, responseText );
+			return;
 		}
 	}
 
@@ -572,19 +592,14 @@ public class NPCPurchaseRequest
 				return false;
 			}
 
-			if ( shopId.equals( "fdkol" ) )
-			{
-				FDKOLRequest.registerRequest( urlString, true );
-			}
-
-			else if ( shopId.equals( "trapper" ) )
-			{
-				TrapperRequest.registerRequest( urlString );
-			}
-
-			else if ( shopId.equals( "mystic" ) )
+			if ( shopId.equals( "mystic" ) )
 			{
 				PixelRequest.registerRequest( urlString );
+			}
+
+			else if ( shopId.equals( "starchart" ) )
+			{
+				StarChartRequest.registerRequest( urlString );
 			}
 
 			else if ( shopId.equals( "damachine" ) )
@@ -600,6 +615,26 @@ public class NPCPurchaseRequest
 			else if ( shopId.equals( "dv" ) )
 			{
 				TerrifiedEagleInnRequest.registerRequest( urlString );
+			}
+
+			else if ( shopId.equals( "grandma" ) )
+			{
+				GrandmaRequest.registerRequest( urlString );
+			}
+
+			else if ( shopId.equals( "trapper" ) )
+			{
+				TrapperRequest.registerRequest( urlString );
+			}
+
+			else if ( shopId.equals( "jarl" ) )
+			{
+				JarlsbergRequest.registerRequest( urlString );
+			}
+
+			else if ( shopId.equals( "fdkol" ) )
+			{
+				FDKOLRequest.registerRequest( urlString, true );
 			}
 
 			return false;
