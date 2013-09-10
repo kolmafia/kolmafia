@@ -156,7 +156,7 @@ Animated Nightstand (White)	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P:
 Anime Smiley	smiley.gif	Atk: 77 Def: 69 HP: 67 Init: 60 P: horror	334 scroll (30)	Tasty Fun Good rice candy (40)	caret (p5)
 Annoying Spooky Gravy Fairy	annoyfairy.gif	Atk: 20 Def: 18 HP: 20 Init: 70 E: spooky P: plant	annoying pitchfork (100)
 Antique Database Server	spiderserver.gif	Atk: [0] Def: [0] HP: 300 Init: -10000 Exp: 60 P: construct	corrupted data (10)	squirming egg sac (5)
-Apathetic Lizardman	lizardman.gif	Atk: 20 Def: 18 HP: 12 Init: 60 Meat: 17-24 P: humanoid
+Apathetic Lizardman	lizardman.gif	Atk: 20 Def: 18 HP: 12 Init: 60 Meat: 17-24 P: humanoid	flavorless gruel (0)
 Arc-welding Elfborg			iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Argarggagarg the Dire Hellseal	2headseal.gif	Atk: 115 Def: 103 HP: 150 Init: 60 P: demon	secret tropical island volcano lair map (100)	Argarggagarg's fang (100)	adorable seal larva (100)
 Astronomer	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation	star chart (100)	sticky stardust (b0)
@@ -637,7 +637,7 @@ Marcus Macurgeon	wraith5.gif	Init: 50 P: undead	jar full of wind (0)	jar full of
 Mariachi Bandolero	bandolero.gif	Atk: 95 Def: 85 HP: 120 Init: 50 P: dude
 Mariachi Bruiser	mar_bruiser.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 Mariachi Calavera	mariachi3.gif	Atk: 22 Def: 19 HP: 30 Init: 50 P: undead	bottle of tequila (30)	marzipan skull (30)	calavera concertina (p5)	callused fingerbone (b0)
-Mayonnaise Wasp	wasp.gif	Atk: 17 Def: 15 HP: 11 Init: 60 "A Little Bit Poisoned" P: bug
+Mayonnaise Wasp	wasp.gif	Atk: 17 Def: 15 HP: 11 Init: 60 "A Little Bit Poisoned" P: bug	glob of spoiled mayo (0)
 Me4t BegZ0r	beggar.gif	Atk: 87 Def: 78 HP: 77 Init: 50 P: dude	meat vortex (100)
 Mean Drunk Duck	duckmeandrunk.gif	Atk: 180 Def: 157 HP: 190 Init: 50 Meat: 174-229 P: beast	bottle of vodka (20)	bottle of tequila (20)	bottle of whiskey (20)	duct tape (5)
 Medusa	cvmedusa.gif	Atk: 75 Def: 76 HP: 80 P: horror	blue pixel (0)	white pixel (0)	white pixel (0)
@@ -751,7 +751,7 @@ Panicking Knott Yeti	yeti.gif	Atk: 105 Def: 92 HP: 90 Init: 60 E: cold Meat: 168
 Panty Raider Frat Boy	warfratpr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 E: sleaze P: orc	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 Paper Towelgeist	ptowels.gif	Atk: 4 Def: 3 HP: 6 Init: 30 P: undead	cardboard katana (5)
 Peanut	peanut.gif	Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror	peanut sauce (0)
-Pencil Golem	pencil.gif	Atk: 15 Def: 13 HP: 11 Init: 60 P: construct
+Pencil Golem	pencil.gif	Atk: 15 Def: 13 HP: 11 Init: 60 P: construct	pencil stub (0)
 Pernicious Puddle of Pesto	pestopuddle.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: slime	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 Perpendicular Bat	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 26-40 P: beast	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)
 Pine Bat	pinebat.gif	Atk: 14 Def: 10 HP: 8 Init: 60 EA: stench Meat: 18-27 P: beast	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
@@ -822,7 +822,7 @@ Rushing Bum	bum.gif	Atk: 1 Def: 0 HP: 1 Init: 40 P: hobo	bum cheek (32)	Mad Trai
 Saboteur Elf			elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Sabre-Toothed Ferret	ferret.gif	Atk: 250 Def: 198 HP: 200 Init: 75 Meat: 160-240 E: stench P: beast	sabre teeth (25)	Spanish fly (c25)
 Sabre-Toothed Goat	toothgoat.gif	Atk: 68 Def: 61 HP: 50 Init: 80 Meat: 44-66 P: beast	goat beard (5)	sabre teeth (5)	billy idol (b0)
-Sabre-Toothed Lime	lime.gif	Atk: 14 Def: 12 HP: 8 Init: 60 P: beast
+Sabre-Toothed Lime	lime.gif	Atk: 14 Def: 12 HP: 8 Init: 60 P: beast	twist of lime (0)
 Safari Jack, Small-Game Hunter	safarijack.gif	Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Safari Jack's moustache (100)	untamable turtle (100)
 Salamander	salamander.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 8-12 P: beast	salamander spleen (100)
 Sassy Pirate	pirate1.gif	Atk: 61 Def: 54 HP: 51 Init: 60 Meat: 17-24 P: pirate	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
@@ -1019,7 +1019,7 @@ Upgraded Ram	ram.gif	Atk: 106 Def: 93 HP: 95 Init: 50 Meat: 83-118 ED: cold P: b
 Uppercase Q	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80 P: humanoid	left parenthesis (40)	right parenthesis (10)	dollar sign (p20)
 Urchin Urchin	urchin.gif	Atk: 400 Def: 315 HP: 600 Init: 20 P: fish	mermaid's purse (0)	bazookafish bubble gum (0)	underwater slingshot (0)
 Vampire Bat	regbat.gif	Atk: 17 Def: 14 HP: 10 Init: 60 Meat: 34-54 P: beast	bat wing (15)	batgut (15)	sonar-in-a-biscuit (10)
-Vampire Clam	vampclam.gif	Atk: 19 Def: 17 HP: 14 Init: 60 P: undead	vampire pearl (p35)
+Vampire Clam	vampclam.gif	Atk: 19 Def: 17 HP: 14 Init: 60 P: undead	vampire chowder (0)	vampire pearl (p35)
 Vampire Duck	duckvampire.gif	Atk: 175 Def: 153 HP: 190 Init: 50 Meat: 131-165 E: spooky P: beast	frightful feather (10)	duct tape (5)	vampire glitter (c0)
 Vanya's Creature	cvcreature.gif	BOSS Atk: 1000 Def: 900 HP: 3000 Init: -10000 Meat: 1200-1800 Phys: 50 E: spooky P: construct	pixel orb (n100)
 Vegetable Gremlin	gremlinveg.gif	Atk: 168 Def: 154 HP: 170 Init: 60 Meat: 40-60 P: humanoid	gremlin juice (3)	molybdenum screwdriver (c0)
