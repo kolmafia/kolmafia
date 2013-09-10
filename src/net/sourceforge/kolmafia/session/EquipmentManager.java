@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -496,6 +497,13 @@ public class EquipmentManager
 			EquipmentManager.defenseModifier = 1
 				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.LOST_GLASSES, 1 ) ) ? 0.15 : 0 )
 				- ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.CHESTER_GLASSES, 1 ) ) ? 0.15 : 0 );
+		}
+		
+		// If Tuxedo Shirt put on or off, and autoTuxedo not set, several booze adventure gains change
+		if  ( !Preferences.getBoolean( "autoTuxedo" ) &&
+			( old.getItemId() == ItemPool.TUXEDO_SHIRT || item.getItemId() == ItemPool.TUXEDO_SHIRT ) )
+		{
+			ConcoctionDatabase.setRefreshNeeded( true );		
 		}
 	}
 	

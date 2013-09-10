@@ -659,6 +659,12 @@ public class UneffectRequest
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 
+		// If Gar-ish is gained or lost and autoGarish isn't set, benefit of Lasagna changes
+		if ( this.effect.getName().equals( Effect.GARISH.effectName() ) && !Preferences.getBoolean( "autoGarish" ) )
+		{
+			ConcoctionDatabase.setRefreshNeeded( true );
+		}
+
 		KoLmafia.updateDisplay( this.effect.getName() + " removed." );
 		RequestFrame.refreshStatus();
 	}

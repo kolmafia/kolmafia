@@ -140,6 +140,7 @@ public class ItemPool
 	public static final int PUNGENT_UNGUENT = 231;
 	public static final int COCKTAIL_KIT = 236;
 	public static final int TOMATO = 246;
+	public static final int MARTINI = 251;
 	public static final int DENSE_STACK = 258;
 	public static final int MULLET_WIG = 267;
 	public static final int PICKET_FENCE = 270;
@@ -184,6 +185,7 @@ public class ItemPool
 	public static final int PRETENTIOUS_PAINTBRUSH = 450;
 	public static final int PRETENTIOUS_PALETTE = 451;
 	public static final int RUSTY_SCREWDRIVER = 454;
+	public static final int DRY_MARTINI = 456;
 	public static final int TRANSFUNCTIONER = 458;
 	public static final int WHITE_PIXEL = 459;
 	public static final int BLACK_PIXEL = 460;
@@ -303,6 +305,7 @@ public class ItemPool
 	public static final int MAFIA_ARIA = 781;
 	public static final int RAFFLE_TICKET = 785;
 	public static final int GOLDEN_MR_ACCESSORY = 792;
+	public static final int ROCKIN_WAGON = 797;
 	public static final int PLUS_SIGN = 818;
 	public static final int MILKY_POTION = 819;
 	public static final int SWIRLY_POTION = 820;
@@ -329,6 +332,8 @@ public class ItemPool
 	public static final int CHERRY_BOMB = 950;
 	public static final int MAID = 1000;
 	public static final int TEQUILA = 1004;
+	public static final int VODKA_MARTINI = 1009;
+	public static final int DRY_VODKA_MARTINI = 1019;
 	public static final int VESPER = 1023;
 	public static final int BODYSLAM = 1024;
 	public static final int SANGRIA_DEL_DIABLO = 1025;
@@ -424,6 +429,8 @@ public class ItemPool
 	public static final int GRIMACITE_GALOSHES = 1544;
 	public static final int GRIMACITE_GORGET = 1545;
 	public static final int GRIMACITE_GUAYABERA = 1546;
+	public static final int VODKA_GIBSON = 1569;
+	public static final int GIBSON = 1570;
 	public static final int CATALYST = 1605;
 	public static final int ULTIMATE_WAD = 1606;
 	public static final int C_CLOCHE = 1615;
@@ -611,6 +618,7 @@ public class ItemPool
 	public static final int GOATSKIN_UMBRELLA = 2451;
 	public static final int ODOR_EXTRACTOR = 2462;
 	public static final int OLFACTION_BOOK = 2463;
+	public static final int TUXEDO_SHIRT = 2489;
 	public static final int SHIRT_KIT = 2491;
 	public static final int TROPICAL_ORCHID = 2492;
 	public static final int MOLYBDENUM_MAGNET = 2497;
@@ -620,6 +628,9 @@ public class ItemPool
 	public static final int MOLYBDENUM_WRENCH = 2501;
 	public static final int JEWELRY_BOOK = 2502;
 	public static final int WOVEN_BALING_WIRE_BRACELETS = 2514;
+	public static final int FISHY_FISH_LASAGNA = 2527;
+	public static final int GNAT_LASAGNA = 2531;
+	public static final int LONG_PORK_LASAGNA = 2535;
 	public static final int TOMB_RATCHET = 2540;
 	public static final int MAYFLOWER_BOUQUET = 2541;
 	public static final int LESSER_GRODULATED_VIOLET = 2542;
@@ -1538,6 +1549,7 @@ public class ItemPool
 	public static final int GNOMISH_ELBOW = 5770;
 	public static final int GNOMISH_KNEE = 5771;
 	public static final int GNOMISH_FOOT = 5772;
+	public static final int SOFT_GREEN_ECHO_ANTIDOTE_MARTINI = 5781;
 	public static final int MORNINGWOOD_PLANK = 5782;
 	public static final int HARDWOOD_PLANK = 5783;
 	public static final int WEIRDWOOD_PLANK = 5784;

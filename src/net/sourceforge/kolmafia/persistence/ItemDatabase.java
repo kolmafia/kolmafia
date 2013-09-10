@@ -39,12 +39,14 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
@@ -72,11 +74,16 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
@@ -791,7 +798,8 @@ public class ItemDatabase
 		int unitCost = ItemDatabase.unitCostByName.get( name ).intValue();
 		int start = ItemDatabase.advStartByName.get( name ).intValue();
 		int end = ItemDatabase.advEndByName.get( name ).intValue();
-
+		int conditional = ItemDatabase.advCheckConditional( name );
+		
 		// Adventure gain modifier #1 is ode or milk, which adds
 		// unitCost adventures to the result.
 
@@ -805,7 +813,7 @@ public class ItemDatabase
 		// 1-3 adventures
 
 		// Consumables that generate no adventures do not benefit from ode or milk.
-		double average = ( start + end ) / 2.0 - advs;
+		double average = ( start + end ) / 2.0 - advs + conditional;
 		boolean benefit = ( average != 0.0 );
 
 		double gain0 = benefit ? ( average ) : 0.0;
@@ -856,6 +864,36 @@ public class ItemDatabase
 
 		// With three effects and munchies pill, average + unitCost * 3 + 2
 		ItemDatabase.addAdventureRange( name, unitCost, true, true, true, true, gain3a );
+	}
+
+	private static final int advCheckConditional( final String name )
+	{
+		if ( ItemDatabase.isMartini( ItemDatabase.getItemId( name ) ) )
+		{
+			// If we have Tuxedo Shirt equipped, or can get it equipped and have autoTuxedo set, apply 1-3 bonus adventures
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) ) 
+				|| Preferences.getBoolean( "autoTuxedo" ) && EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT )
+				&& ( InventoryManager.hasItem( ItemPool.TUXEDO_SHIRT, false ) || KoLCharacter.canInteract() ) ) 
+			{
+				return 2;
+			}
+			return 0;
+		}
+		if ( ItemDatabase.isLasagna( ItemDatabase.getItemId( name ) ) )
+		{
+			// If we have Gar-ish effect, or can get the effect and have autoGarish set, apply 5 bonus adventures
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+			if ( date.get( Calendar.DAY_OF_WEEK ) != Calendar.MONDAY 
+				&& ( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) 
+				|| Preferences.getBoolean( "autoGarish" ) && ( KoLCharacter.canInteract()
+				|| KoLCharacter.hasSkill( SkillPool.CLIP_ART ) && UseSkillRequest.getInstance( SkillPool.CLIP_ART ).getMaximumCast() > 0
+				|| InventoryManager.hasItem( ItemPool.FIELD_GAR_POTION, false ) ) ) )
+			{
+				return 5;
+			}
+			return 0;
+		}
+		return 0;
 	}
 
 	private static final void addAdventureRange( final String name, int unitCost, final boolean gainEffect1, final boolean gainEffect2, final boolean gainEffect3, final boolean gainEffect4, final double result )
@@ -2311,6 +2349,35 @@ public class ItemDatabase
 		return false;
 	}
 
+	public static final boolean isMartini( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.DRY_MARTINI:
+		case ItemPool.DRY_VODKA_MARTINI:
+		case ItemPool.GIBSON:
+		case ItemPool.MARTINI:
+		case ItemPool.ROCKIN_WAGON:
+		case ItemPool.SOFT_GREEN_ECHO_ANTIDOTE_MARTINI:
+		case ItemPool.VODKA_GIBSON:
+		case ItemPool.VODKA_MARTINI:
+			return true;
+		}
+		return false;
+	}
+		
+	public static final boolean isLasagna( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.FISHY_FISH_LASAGNA:
+		case ItemPool.GNAT_LASAGNA:
+		case ItemPool.LONG_PORK_LASAGNA:
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * Returns the kind of consumption associated with an item
 	 *

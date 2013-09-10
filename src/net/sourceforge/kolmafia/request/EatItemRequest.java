@@ -33,6 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,8 +46,12 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -71,6 +78,7 @@ public class EatItemRequest
 	private static int ignoreMilkPrompt = 0;
 	private static int askedAboutMilk = 0;
 	private static int askedAboutLunch = 0;
+	private static int askedAboutGarish = 0;
 	private static AdventureResult queuedFoodHelper = null;
 	private static int queuedFoodHelperCount = 0;
 
@@ -300,6 +308,12 @@ public class EatItemRequest
 
 		String itemName = this.itemUsed.getName();
 		String advGain = ItemDatabase.getAdvRangeByName( itemName );
+
+		if ( !askAboutGarish( itemName ) )
+		{
+			return false;
+		}
+
 		if ( !askAboutMilk( advGain ) )
 		{
 			return false;
@@ -431,6 +445,59 @@ public class EatItemRequest
 				EatItemRequest.askedAboutMilk = KoLCharacter.getUserId();
 			}
 		}
+
+		return true;
+	}
+
+	private static final boolean askAboutGarish( String itemName )
+	{
+		// Only affects lasagna
+		if ( !ItemDatabase.isLasagna( ItemDatabase.getItemId( itemName ) ) )
+		{
+			return true;
+		}
+		
+		// If you've got Garish, or it's Monday, no need to ask
+		Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+		if( KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) || date.get( Calendar.DAY_OF_WEEK ) == Calendar.MONDAY )
+		{
+			return true;
+		}
+		
+		// If we've already asked about Garish, don't nag
+		if ( EatItemRequest.askedAboutGarish == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+
+		// If we don't have skill, all summons are used, and we can't get one, no need to ask
+		if ( ( !KoLCharacter.hasSkill( SkillPool.CLIP_ART ) || UseSkillRequest.getInstance( SkillPool.CLIP_ART ).getMaximumCast() == 0 )
+			&& !KoLCharacter.canInteract() && !InventoryManager.hasItem( ItemPool.FIELD_GAR_POTION, false ) )
+		{
+			return true;
+		}
+
+		// If autoGarish is true, get Gar-ish
+		if ( Preferences.getBoolean( "autoGarish" ) )
+		{
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.FIELD_GAR_POTION ) );
+			if ( !KoLConstants.activeEffects.contains( EffectPool.get( Effect.GARISH ) ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to use Potion of the Field Gar." );
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+		if ( !InputFieldUtilities.confirm( "Are you sure you want to eat Lasagna without Potion of the Field Gar ?" ) )
+		{
+			return false;
+		}
+
+		EatItemRequest.askedAboutGarish = KoLCharacter.getUserId();
 
 		return true;
 	}
