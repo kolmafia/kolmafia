@@ -1353,9 +1353,9 @@ public class ClanLoungeRequest
 			// Do nothing if overeating on basic hot dogs causes you to lose stats
 			// Don't be fooled!
 			//   You lose some of an effect: Got Milk
-			if ( responseText.indexOf( "You don't feel up to eating that" ) != -1 ||
-			     ( responseText.indexOf( "You lose some of an effect" ) == -1 &&
-			       responseText.indexOf( "You lose" ) != -1 ) )
+			if ( responseText.contains( "You don't feel up to eating that" ) ||
+			     ( !responseText.contains( "You lose some of an effect" ) &&
+			       responseText.contains( "You lose" ) ) )
 			{
 				return;
 			}
@@ -1382,6 +1382,7 @@ public class ClanLoungeRequest
 			{
 				Preferences.increment( "currentFullness", fullness );
 			}
+			Preferences.setBoolean( "distentionPillActive", false );
 			String name = ClanLoungeRequest.hotdogIndexToName( index );
 			if ( name.equals( "optimal dog" ) )
 			{

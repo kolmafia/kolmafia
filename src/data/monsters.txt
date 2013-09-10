@@ -504,7 +504,7 @@ Gorgolok, the Demonic Hellseal	1_4a.gif	BOSS Atk: 200 Def: 180 HP: 400 Init: 100
 Gorgolok, the Infernal Seal (Inner Sanctum)	1_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: demon 	Scalp of Gorgolok (100)
 Gorgolok, the Infernal Seal (The Nemesis' Lair)	1_2.gif	BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: demon 	Krakrox's Loincloth (100)
 Gorgolok, the Infernal Seal (Volcanic Cave)	1_3.gif	BOSS Atk: 185 Def: 166 HP: 260 Init: 90 P: demon 
-Goth Giant	giant_goth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 120-180 P: humanoid	awful poetry journal (30)	thin black candle (30)	Warm Subject gift certificate (30)
+Goth Giant	giant_goth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 Meat: 120-180 P: humanoid	awful poetry journal (0)	thin black candle (30)	Warm Subject gift certificate (0)
 Grass Elemental	grasselemental.gif	Atk: 60 Def: 54 HP: 50 Init: 60 P: elemental	leaf of grass (0)
 Grassy Pirate	grasspirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	grassy cutlass (10)
 Grave Rober	rober.gif	Atk: 22 Def: 19 HP: 12 Init: 80 P: dude	coffin lid (2)	dead guy's watch (5)	grave robbing shovel (50)	shysterweed (c0)

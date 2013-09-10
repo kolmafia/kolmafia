@@ -752,6 +752,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.WAX_BUGBEAR:
 			case ItemPool.DOLPHIN_WHISTLE:
 			case ItemPool.ENVYFISH_EGG:
+			case ItemPool.CRUDE_SCULPTURE:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.
