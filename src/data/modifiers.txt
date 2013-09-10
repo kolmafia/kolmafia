@@ -5062,6 +5062,7 @@ gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
 ghost thread	Effect: "Ghost Finger", Effect Duration: 40
 ghostly body paint	Effect: "Haunting Looks", Effect Duration: 30
 giant breath mint	Effect: "Three King-sized Sheets to the Wind", Effect Duration: 30
+giant giant moth dust	Effect: "Slightly Larger Than Usual", Effect Duration: 50
 giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
 gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
 glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
