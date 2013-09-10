@@ -2615,6 +2615,13 @@ public class GenericRequest
 			EncounterManager.ignoreSpecialMonsters();
 			break;
 
+		case ItemPool.CRUDE_SCULPTURE:
+			itemName = "crude monster sculpture";
+			Preferences.setString( "crudeMonster", "" );
+			consumed = true;
+			EncounterManager.ignoreSpecialMonsters();
+			break;
+
 		case ItemPool.DEPLETED_URANIUM_SEAL:
 			itemName = "Infernal Seal Ritual";
 			Preferences.increment( "_sealsSummoned", 1 );

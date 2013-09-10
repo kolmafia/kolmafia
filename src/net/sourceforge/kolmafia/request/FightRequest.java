@@ -5483,6 +5483,14 @@ public class FightRequest
 			}
 			return false;
 
+		case ItemPool.STICKY_CLAY_HOMUNCULUS:
+			if ( responseText.contains( "make a crude sculpture" ) )
+			{
+				Preferences.setString( "crudeMonster", MonsterStatusTracker.getLastMonsterName() );
+				return true;
+			}
+			return false;
+
 		case ItemPool.ANTIDOTE: // Anti-Anti-Antidote
 
 			// You quickly quaff the anti-anti-antidote. You feel

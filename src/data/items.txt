@@ -6681,7 +6681,7 @@
 6664	world's most dangerous birdhouse	440545739	birdhouse.gif	none, combat	q	0
 6665	deathchucks	510828429	deathchucks.gif	weapon	q	0
 6666	giant eraser	530310946	bigeraser.gif	none, combat	q	0
-6667	quasireligious sculpture	521435379 	religious.gif	usable	q	0
+6667	quasireligious sculpture	521435379	religious.gif	usable	q	0
 6668	giant Faraday cage	646917799	faraday.gif	usable	q	0
 6669	modeling claymore	283407190	claymoremine.gif	usable	q	0
 6670	sticky clay homunculus	476523278	clayhomunc.gif	none, combat	q	0
@@ -6691,7 +6691,7 @@
 6674	dirty stinkbomb	888407830	bomb.gif	none, combat	q	0
 6675	superwater	250057853	potion16.gif	usable	q	0
 6676	Thwaitgold bookworm statuette	283482924	thwaitbookworm.gif	none		0
-6677
+6677	crude monster sculpture	578558932	claymonster.gif	usable	q	0
 6678	Yearbook Club Camera	379789481	camera.gif	accessory	q	0
 6679	antique machete	336540829	machetwo.gif	weapon	t,d	120
 6680	Cursed Punch	385025324	cocostraw.gif	drink	t,d	125	cups of Cursed Punch

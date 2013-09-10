@@ -28,6 +28,7 @@ DESC_ITEM	The Landscaper's leafblower	\+(\d+) Monster Level	_leafblowerML=$1
 DESC_ITEM	Spooky Putty monster	a picture of (a|an|something totally unrecognizable|)\s*(.*?)!	spookyPuttyMonster=$2
 DESC_ITEM	shaking 4-d camera	an angry (monster)?(.*?) or something	cameraMonster=$2
 DESC_ITEM	photocopied monster	likeness of (a|an) (.*?) on it	photocopyMonster=$2
+DESC_ITEM	crude monster sculpture	crude sculpture of (a|an|something totally unrecognizable|)\s*(.*?)\.	crudeMonster=$2
 DESC_ITEM	fossilized necklace	(\d+) bat	fossilB=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) serpent	fossilS=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) baboon	fossilN=[min(5,$1)]
