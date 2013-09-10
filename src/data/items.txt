@@ -547,7 +547,7 @@
 530	spray paint	821779253	spraycan.gif	none	t,d	25	cans of spray paint
 531	special sauce glove	368427432	glove.gif	accessory	t,d	2500	special sauce gloves
 532	ladle of mystery	804245262	ladle.gif	accessory	t,d	1500	ladles of mystery
-533	Gnollish toolbox	885780882	briefcase.gif	multiple	t,d	23	Gnollish toolboxes
+533	Gnollish toolbox	885780882	toolbox.gif	multiple	t,d	23	Gnollish toolboxes
 534	abridged dictionary	736466170	cookbook.gif	none	q	0	abridged dictionaries
 535	bridge	332282738	planks.gif	none	q	0	bridges
 536	dictionary	797950903	cookbook.gif	none, combat reusable	q	0	dictionaries
@@ -6433,7 +6433,7 @@
 6416	mana curds	869235275	mueslix.gif	food	t,d	45
 6417	twist of lime	126733688	wiretwist.gif	none	t,d	25
 6418	pencil stub	209681472	pencilstub.gif	none, combat	t,d	60
-6419	giant giant moth dust	115337305	powder.gif	usable	t,d 42
+6419	giant giant moth dust	115337305	powder.gif	usable	t,d	42
 6420	glob of spoiled mayo	732163485	blankoutglob.gif	usable	t,d	37
 6421	tonic djinn	944827285	djinnbottle.gif	usable	t,d	77
 6422	vampire chowder	749554356	soupbowl.gif	food	t,d	35
