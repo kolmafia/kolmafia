@@ -578,7 +578,7 @@ public class RequestEditorKit
 		{
 			IslandDecorator.decoratePostwarIsland( location, buffer );
 		}
-		else if ( location.startsWith( "rabbithole.php" ) )
+		else if ( location.startsWith( "place.php?whichplace=rabbithole" ) )
 		{
 			RabbitHoleManager.decorateRabbitHole( buffer );
 		}

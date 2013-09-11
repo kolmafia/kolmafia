@@ -635,6 +635,10 @@ public class ResponseTextParser
 			{
 				KnollRequest.parseResponse( location, responseText );
 			}
+			else if ( location.contains( "whichplace=rabbithole" ) )
+			{
+				RabbitHoleRequest.parseResponse( location, responseText );
+			}
 		}
 
 		else if ( location.startsWith( "pyramid.php" ) )
@@ -645,11 +649,6 @@ public class ResponseTextParser
 		else if ( location.startsWith( "questlog.php" ) )
 		{
 			QuestLogRequest.registerQuests( true, location, responseText );
-		}
-
-		else if ( location.startsWith( "rabbithole.php" ) )
-		{
-			RabbitHoleRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "raffle.php" ) )

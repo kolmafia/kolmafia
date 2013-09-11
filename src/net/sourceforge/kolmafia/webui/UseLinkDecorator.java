@@ -454,7 +454,7 @@ public abstract class UseLinkDecorator
 		}
 		else if ( effect.equals( "Down the Rabbit Hole" ) )
 		{
-			link = new UseLink( 0, "rabbit hole", "rabbithole.php" );
+			link = new UseLink( 0, "rabbit hole", "place.php?whichplace=rabbithole" );
 		}
 		else if ( effect.equals( "Transpondent" ) )
 		{

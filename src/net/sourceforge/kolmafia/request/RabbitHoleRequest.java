@@ -61,7 +61,7 @@ public class RabbitHoleRequest
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "rabbithole.php" ) )
+		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "whichplace=rabbithole" ) )
 		{
 			return;
 		}
@@ -87,7 +87,7 @@ public class RabbitHoleRequest
 
 	public static boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "rabbithole.php" ) )
+		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "whichplace=rabbithole" ) )
 		{
 			return false;
 		}
