@@ -4692,9 +4692,9 @@ public abstract class ChoiceManager
 				"50 turns of Poetically Licenced (+20% Myst, -20% Muscle, +2 Myst stats/fight, +10% Spell damage)";
 			result[ 2 ] = InventoryManager.getCount( ItemPool.YEARBOOK_CAMERA ) > 0 ? "Turn in yesterday's photo (if you have it)" : "Get Yearbook Camera";
 			result[ 3 ] = Preferences.getBoolean( "_kolhsCutButNotDried" ) ? "Already got Cut But Not Dried today" :
-				"50 turns of Poetically Licenced (+20% Muscle, -20% Moxie, +2 Muscle stats/fight, +10% Weapon damage)";
+				"50 turns of Cut But Not Dried (+20% Muscle, -20% Moxie, +2 Muscle stats/fight, +10% Weapon damage)";
 			result[ 4 ] = Preferences.getBoolean( "_kolhsIsskayLikeAnAshtray" ) ? "Already got Isskay Like An Ashtray today" :
-				"50 turns of Poetically Licenced (+20% Moxie, -20% Myst, +2 Moxie stats/fight, +10% Pickpocket chance)";
+				"50 turns of Isskay Like An Ashtray (+20% Moxie, -20% Myst, +2 Moxie stats/fight, +10% Pickpocket chance)";
 			result[ 5 ] = "Make items";
 			result[ 6 ] = "Make items";
 			result[ 7 ] = "Make items";
