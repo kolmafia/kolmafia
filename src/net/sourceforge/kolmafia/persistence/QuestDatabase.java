@@ -450,6 +450,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "hiddenHospitalProgress" );
 		Preferences.resetToDefault( "hiddenOfficeProgress" );
 		Preferences.resetToDefault( "hiddenBowlingAlleyProgress" );
+		Preferences.resetToDefault( "kolhsTotalSchoolSpirited" );
 	}
 
 	public static void handleCouncilText( String responseText )
