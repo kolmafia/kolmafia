@@ -2832,6 +2832,13 @@ public class FightRequest
 			{
 				WumpusManager.reset();
 			}
+			else if ( monster.equalsIgnoreCase( "drunk pygmy" ) )
+			{
+				if ( responseText.contains( "notices the Bowl of Scorpions" ) )
+				{
+					ResultProcessor.removeItem( ItemPool.BOWL_OF_SCORPIONS );
+				}
+			}
 			else if ( !FightRequest.castCleesh &&
 				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
 					"A Maze of Sewer Tunnels" ) )
@@ -2857,7 +2864,7 @@ public class FightRequest
 					Preferences.increment( "pastamancerGhostExperience", exp );
 				}
 			}
-			
+
 			QuestManager.updateQuestData( responseText, monster );
 		}
 

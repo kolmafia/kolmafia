@@ -1819,6 +1819,7 @@ public class ItemPool
 	public static final int SUPERWATER = 6675;
 	public static final int CRUDE_SCULPTURE = 6677;
 	public static final int YEARBOOK_CAMERA = 6678;
+	public static final int BOWL_OF_SCORPIONS = 6681;
 	public static final int BOOK_OF_MATCHES = 6683;
 	public static final int MCCLUSKY_FILE_PAGE5 = 6693;
 	public static final int BINDER_CLIP = 6694;
