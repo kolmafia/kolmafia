@@ -448,6 +448,7 @@ user	jungCharge	0
 user	kingLiberated	false
 user	kingLiberatedScript
 user	knownAscensions	-1
+user	kolhsTotalSchoolSpirited	0
 user	lassoTraining
 user	lastAdventure
 user	lastArcadeAscension	-1
@@ -930,6 +931,12 @@ user	_jickJarAvailable	unknown
 user	_jingleBellUsed	false
 user	_klawSummons	0
 user	_kolConSixPackUsed	false
+user	_kolhsAdventures	0
+user	_kolhsSavedByTheBell	0
+user	_kolhsSchoolSpirited	false
+user	_kolhsPoeticallyLicenced	false
+user	_kolhsCutButNotDried	false
+user	_kolhsIsskayLikeAnAshtray	false
 user	_lastZomboEye	0
 user	_leafblowerML	1
 user	_legendaryBeat	false

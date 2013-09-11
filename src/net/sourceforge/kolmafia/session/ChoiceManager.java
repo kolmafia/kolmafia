@@ -2758,6 +2758,8 @@ public abstract class ChoiceManager
 
 		// Choice 768 is The Littlest Identity Crisis
 		// Choice 771 is It Was All a Horrible, Horrible Dream
+		
+		// Choice 772 is Saved by the Bell 
 		// Choice 774 is Opening up the Folder Holder
 		// Choice 780 is Action Elevator
 		// Choice 781 is Earthbound and Down
@@ -3178,6 +3180,10 @@ public abstract class ChoiceManager
 			// Yeah, You're for Me, Punk Rock Giant
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Yeah, You're for Me, Punk Rock Giant" );
 
+		case 700:
+			// Delirium in the Cafeterium
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Delirium in the Cafeterium" );
+		
 		case 721:
 			// The Cabin in the Dreadsylvanian Woods
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "The Cabin in the Dreadsylvanian Woods" );
@@ -3339,6 +3345,10 @@ public abstract class ChoiceManager
 		// Choice 764 is The Machine
 		// Choice 765 is Hello Gallows
 
+		case 772:
+			// Saved by the Bell
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "Saved by the Bell");
+		
 		case 780:
 			// Action Elevator
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Action Elevator");
@@ -3928,6 +3938,14 @@ public abstract class ChoiceManager
 			result[ 3 ] = "Raver Choice";
 			return result;
 
+		case 700:
+			// Delirium in the Cafeteria
+			result = new String[ 9 ];
+			result[ 0 ] = KoLConstants.activeEffects.contains( new AdventureResult( "Jamming with the Jocks", 1, true ) ) ? "Gain stats" : "Lose HP";
+			result[ 1 ] = KoLConstants.activeEffects.contains( new AdventureResult( "Nerd is the Word", 1, true ) ) ? "Gain stats" : "Lose HP";
+			result[ 2 ] = KoLConstants.activeEffects.contains( new AdventureResult( "Greaser Lightnin'", 1, true ) ) ? "Gain stats" : "Lose HP";
+			return result;
+			
 		case 721:
 		{
 			// The Cabin in the Dreadsylvanian Woods
@@ -4653,6 +4671,34 @@ public abstract class ChoiceManager
 			result = new Object[ 2 ];
 			result[ 0 ] = buffer.toString();
 			result[ 1 ] = "Run away";
+			return result;
+		}
+
+		case 772:
+		{
+			// Saved by the Bell
+			StringBuilder buffer = new StringBuilder();
+			
+			buffer.append( "Get " );
+			buffer.append( String.valueOf( ( Preferences.getInteger( "kolhsTotalSchoolSpirited" ) + 1 ) * 10 ) );
+			buffer.append( " turns of School Spirited (+100% Meat drop, +50% Item drop)" );
+			
+			// If you reach this encounter and Mafia things you've not spend 40 adventures in KOL High school, correct this
+			Preferences.setInteger( "_kolhsAdventures", 40 );
+			
+			result = new String[ 10 ];
+			result[ 0 ] = Preferences.getBoolean( "_kolhsSchoolSpirited" ) ? "Already got School Spirited today" : buffer.toString();
+			result[ 1 ] = Preferences.getBoolean( "_kolhsPoeticallyLicenced" ) ? "Already got Poetically Licenced today" :
+				"50 turns of Poetically Licenced (+20% Myst, -20% Muscle, +2 Myst stats/fight, +10% Spell damage)";
+			result[ 2 ] = InventoryManager.getCount( ItemPool.YEARBOOK_CAMERA ) > 0 ? "Turn in yesterday's photo (if you have it)" : "Get Yearbook Camera";
+			result[ 3 ] = Preferences.getBoolean( "_kolhsCutButNotDried" ) ? "Already got Cut But Not Dried today" :
+				"50 turns of Poetically Licenced (+20% Muscle, -20% Moxie, +2 Muscle stats/fight, +10% Weapon damage)";
+			result[ 4 ] = Preferences.getBoolean( "_kolhsIsskayLikeAnAshtray" ) ? "Already got Isskay Like An Ashtray today" :
+				"50 turns of Poetically Licenced (+20% Moxie, -20% Myst, +2 Moxie stats/fight, +10% Pickpocket chance)";
+			result[ 5 ] = "Make items";
+			result[ 6 ] = "Make items";
+			result[ 7 ] = "Make items";
+			result[ 9 ] = "Leave";
 			return result;
 		}
 
@@ -6054,6 +6100,31 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 772:
+			// Saved by the Bell
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "_kolhsSchoolSpirited", true );
+				Preferences.increment( "kolhsTotalSchoolSpirited", 1 );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setBoolean( "_kolhsPoeticallyLicenced", true );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				Preferences.setBoolean( "_kolhsCutButNotDried", true );
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				Preferences.setBoolean( "_kolhsIsskayLikeAnAshtray", true );
+			}
+			if ( ChoiceManager.lastDecision != 8 )
+			{
+				Preferences.increment( "_kolhsSavedByTheBell", 1 );
+			}
+			return;			
+		
 		case 780:
 			// Action Elevator
 			if ( ChoiceManager.lastDecision == 1 && text.contains( "penthouse is empty now" ) )
