@@ -4806,13 +4806,13 @@ public abstract class ChoiceManager
 		{
 			// Working Holiday
 			
-			int hiddenApartmentProgress = Preferences.getInteger( "hiddenApartmentProgress" );
-			boolean hasBossUnlock = hiddenApartmentProgress >= 6;
+			int hiddenOfficeProgress = Preferences.getInteger( "hiddenOfficeProgress" );
+			boolean hasBossUnlock = hiddenOfficeProgress >= 6;
 			boolean hasMcCluskyFile = InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE ) > 0;
 			boolean hasBinderClip = InventoryManager.getCount( ChoiceManager.BINDER_CLIP ) > 0;
 			
 			result = new String[ 6 ];
-			result[ 0 ] = ( hiddenApartmentProgress >= 7 ? "office empty" :
+			result[ 0 ] = ( hiddenOfficeProgress >= 7 ? "office empty" :
 					hasMcCluskyFile || hasBossUnlock ? "Fight ancient protector spirit" :
 					"Need McClusky File (complete) to fight ancient protector spirit" );
 			result[ 1 ] = ( hasBinderClip || hasMcCluskyFile || hasBossUnlock ) ? "Get random item" : "Get boring binder clip";
