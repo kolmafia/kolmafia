@@ -4694,7 +4694,8 @@ public abstract class ChoiceManager
 			result[ 0 ] = Preferences.getBoolean( "_kolhsSchoolSpirited" ) ? "Already got School Spirited today" : buffer.toString();
 			result[ 1 ] = Preferences.getBoolean( "_kolhsPoeticallyLicenced" ) ? "Already got Poetically Licenced today" :
 				"50 turns of Poetically Licenced (+20% Myst, -20% Muscle, +2 Myst stats/fight, +10% Spell damage)";
-			result[ 2 ] = InventoryManager.getCount( ItemPool.YEARBOOK_CAMERA ) > 0 ? "Turn in yesterday's photo (if you have it)" : "Get Yearbook Camera";
+			result[ 2 ] = InventoryManager.getCount( ItemPool.YEARBOOK_CAMERA ) > 0 
+				|| KoLCharacter.hasEquipped( ItemPool.get( ItemPool.YEARBOOK_CAMERA, 1 ) ) ? "Turn in yesterday's photo (if you have it)" : "Get Yearbook Camera";
 			result[ 3 ] = Preferences.getBoolean( "_kolhsCutButNotDried" ) ? "Already got Cut But Not Dried today" :
 				"50 turns of Cut But Not Dried (+20% Muscle, -20% Moxie, +2 Muscle stats/fight, +10% Weapon damage)";
 			result[ 4 ] = Preferences.getBoolean( "_kolhsIsskayLikeAnAshtray" ) ? "Already got Isskay Like An Ashtray today" :
