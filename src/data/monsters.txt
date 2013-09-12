@@ -510,7 +510,7 @@ Grave Rober	rober.gif	Atk: 22 Def: 19 HP: 12 Init: 80 P: dude	coffin lid (2)	dea
 Grave Rober Zmobie	zomshovel.gif	Atk: 58 Def: 53 HP: 50 Init: 50 E: spooky Meat: 40-60 P: undead	coffin lid (3)	dead guy's watch (10)	loose teeth (10)	rusty grave robbing shovel (10)	paranormal ricotta (c0)	shysterweed (c0)
 Greasy Duck	duckgreasy.gif	Atk: 173 Def: 162 HP: 185 Init: 70 Meat: 132-170 E: sleaze P: beast	flirtatious feather (10)	duct tape (5)
 Green Ops Soldier	warhipgr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 E: stench "Toad In The Hole" P: hippy	communications windchimes (3)	gas balloon (17)	gas balloon (3)	green clay bead (30)	green smoke bomb (6)	green smoke bomb (3)	henna face paint (8)	round green sunglasses (5)
-Gritty Pirate	gritpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	true grit (30)	keel-haulin' knife (100)
+Gritty Pirate	gritpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	true grit (30)	keel-haulin' knife (0)
 Groar	wingedyeti.gif	Atk: 120 Def: 108 HP: 250 Init: 50 E: cold P: beast
 Groovy Pirate	pirate2.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate	buoybottoms (10)
 Group of cultists	cultistgroup.gif	Atk: 80 Def: 63 HP: 75 Init: 30 P: dude	memory of a cultist's robe (0)
