@@ -3117,6 +3117,10 @@ public abstract class ChoiceManager
 			// Such Great Heights
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Such Great Heights" );
 
+		case 580:
+			// The Hidden Heart of the Hidden Temple
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "The Hidden Heart of the Hidden Temple" );
+
 		case 581:
 			// Such Great Depths
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Such Great Depths" );
@@ -3685,6 +3689,40 @@ public abstract class ChoiceManager
 			result[ 0 ] = "mysticality substats";
 			result[ 1 ] = ( gainNostril ? "gain the Nostril of the Serpent" : "skip adventure" );
 			result[ 2 ] = ( templeAdvs ? "skip adventure" : "gain 3 adventures" );
+			return result;
+
+		case 580:
+			// The Hidden Heart of the Hidden Temple
+			result = new Object[ 3 ];
+
+			haveNostril = ( InventoryManager.getCount( ItemPool.NOSTRIL_OF_THE_SERPENT ) > 0 );
+			boolean buttonsUnconfused = ( Preferences.getInteger( "lastTempleButtonsUnlock" ) == KoLCharacter.getAscensions() );
+			
+			if ( ChoiceManager.lastResponseText.contains( "door_stone.gif" ) )
+			{
+				result[ 0 ] = "muscle substats";
+				result[ 1 ] = ( buttonsUnconfused || haveNostril ? "choose Hidden Heart adventure" : "randomise Hidden Heart adventure" );
+				result[ 2 ] = "moxie substats and 5 turns of Somewhat poisoned";
+			}
+			else if ( ChoiceManager.lastResponseText.contains( "door_sun.gif" ) )
+			{
+				result[ 0 ] = "gain ancient calendar fragment";
+				result[ 1 ] = ( buttonsUnconfused || haveNostril ? "choose Hidden Heart adventure" : "randomise Hidden Heart adventure" );
+				result[ 2 ] = "moxie substats and 5 turns of Somewhat poisoned";
+			}
+			else if ( ChoiceManager.lastResponseText.contains( "door_gargoyle.gif" ) )
+			{
+				result[ 0 ] = "gain mana";
+				result[ 1 ] = ( buttonsUnconfused || haveNostril ? "choose Hidden Heart adventure" : "randomise Hidden Heart adventure" );
+				result[ 2 ] = "moxie substats and 5 turns of Somewhat poisoned";
+			}
+			else if ( ChoiceManager.lastResponseText.contains( "door_pikachu.gif" ) )
+			{
+				result[ 0 ] = "unlock Hidden City";
+				result[ 1 ] = ( buttonsUnconfused || haveNostril ? "choose Hidden Heart adventure" : "randomise Hidden Heart adventure" );
+				result[ 2 ] = "moxie substats and 5 turns of Somewhat poisoned";
+			}
+			
 			return result;
 
 		case 581:
