@@ -757,16 +757,16 @@ public class CharPaneRequest
 		KoLmafia.applyEffects();
 		KoLConstants.activeEffects.retainAll( visibleEffects );
 
-		if ( TurnCounter.isCounting( "Wormwood" ) )
-		{
-			return;
-		}
-
 		CharPaneRequest.startCounters();
 	}
 
 	private static final void startCounters()
 	{
+		if ( TurnCounter.isCounting( "Wormwood" ) )
+		{
+			return;
+		}
+
 		int absintheCount = CharPaneRequest.ABSINTHE.getCount( KoLConstants.activeEffects );
 
 		if ( absintheCount > 8 )
@@ -1077,9 +1077,6 @@ public class CharPaneRequest
 
 		CharPaneRequest.refreshEffects( JSON );
 
-		// If we are Absinthe Minded, start absinthe counters
-		CharPaneRequest.startCounters();
-
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1;
 		KoLCharacter.setHardcore( hardcore );
 
@@ -1208,9 +1205,10 @@ public class CharPaneRequest
 		KoLConstants.activeEffects.addAll( visibleEffects );
 		KoLConstants.activeEffects.sort();
 
-		if ( !TurnCounter.isCounting( "Wormwood" ) )
-		{
-			CharPaneRequest.startCounters();
-		}
+		// If we are Absinthe Minded, start absinthe counters
+		CharPaneRequest.startCounters();
+
+		// Do this now so that familiar weight effects are accounted for
+		KoLCharacter.recalculateAdjustments();
 	}
 }

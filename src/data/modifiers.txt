@@ -3474,7 +3474,7 @@ Eye of the Lihc	Spooky Resistance: +1
 Eye of the Seal	Item Drop: +10
 Eyes of the Dragon	Item Drop: [100*zone(The Sea)]
 Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
-Familial Ties	Familiar Weight: [10*zone(The Sea)]
+Familial Ties	Familiar Weight (hidden): [10*zone(The Sea)]
 Fan-Cooled	Cold Damage: +10
 Fancy Feasted	Moxie Percent: +20
 Far Out	Mysticality: +1
