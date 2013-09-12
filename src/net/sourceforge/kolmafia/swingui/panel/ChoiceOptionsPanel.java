@@ -123,6 +123,7 @@ public class ChoiceOptionsPanel
 	private final JComboBox hiddenOfficeSelect;
 	private final JComboBox hiddenZigguratSelect;
 	private final JComboBox gongSelect;
+	private final JComboBox kolhsCafeteriaSelect;
 	private final JComboBox basementMallSelect;
 	private final JComboBox breakableSelect;
 	private final JComboBox addingSelect;
@@ -376,6 +377,10 @@ public class ChoiceOptionsPanel
 		this.hiddenZigguratSelect.addItem( "show in browser" );
 		this.hiddenZigguratSelect.addItem( "fight Protector Spectre" );
 
+		this.kolhsCafeteriaSelect = new JComboBox();
+		this.kolhsCafeteriaSelect.addItem( "show in browser" );
+		this.kolhsCafeteriaSelect.addItem( "get stats if possible else lose hp" );
+
 		this.gongSelect = new JComboBox();
 		for ( int i = 0; i < GongCommand.GONG_PATHS.length; ++i )
 		{
@@ -432,6 +437,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "HiddenCity", "Hidden Office", this.hiddenOfficeSelect );
 		this.addChoiceSelect( "HiddenCity", "Hidden Bowling Alley", this.hiddenBowlingAlleySelect );
 		this.addChoiceSelect( "HiddenCity", "Hidden Ziggurat", this.hiddenZigguratSelect );
+		this.addChoiceSelect( "KOL High School", "Delirium in the Cafeterium", this.kolhsCafeteriaSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
@@ -894,6 +900,8 @@ public class ChoiceOptionsPanel
 						"0" );
 		Preferences.setString( "choiceAdventure791", String.valueOf( this.hiddenZigguratSelect.getSelectedIndex() ) );
 
+		Preferences.setString( "choiceAdventure700", String.valueOf( this.kolhsCafeteriaSelect.getSelectedIndex() ) );
+		
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
 		Preferences.setInteger( "addingScrolls", this.addingSelect.getSelectedIndex() );
@@ -1174,6 +1182,8 @@ public class ChoiceOptionsPanel
 		int hiddenOfficeIndex = Preferences.getInteger( "choiceAdventure786");
 		this.hiddenOfficeSelect.setSelectedIndex( hiddenOfficeIndex == 1 ? 1 : hiddenOfficeIndex == 3 ? 2 : hiddenOfficeIndex == 6 ? 3 : 0 );
 		this.hiddenZigguratSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure791" ) );
+
+		this.kolhsCafeteriaSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure700" ) );
 
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );

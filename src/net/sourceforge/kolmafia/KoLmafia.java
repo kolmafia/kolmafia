@@ -665,6 +665,12 @@ public abstract class KoLmafia
 			Preferences.setInteger( "currentSpleenUse", 0 );
 		}
 
+		// Reset kolhsTotalSchoolSpirited to 0 if _kolhsSchoolSpirited wasn't set yesterday
+		if ( !Preferences.getBoolean( "_kolhsSchoolSpirited" ) )
+		{
+			Preferences.setInteger( "kolhsTotalSchoolSpirited", 0 );
+		}
+		
 		Preferences.resetDailies();
 		ConsequenceManager.updateOneDesc();
 
