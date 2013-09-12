@@ -691,16 +691,9 @@ public abstract class KoLmafia
 	{
 		KoLmafia.refreshSessionData();
 
-		// Check to see if you need to reset the counters.
+		AdventureFrame.updateFromPreferences();
 
-		boolean shouldResetCounters = false;
-
-		int today = HolidayDatabase.getPhaseStep();
-
-		if ( Preferences.getInteger( "lastCounterDay" ) != today )
-		{
-			shouldResetCounters = true;
-		}
+		boolean shouldResetCounters = Preferences.getInteger( "lastCounterDay" ) != HolidayDatabase.getPhaseStep();
 
 		int ascensions = KoLCharacter.getAscensions();
 		int knownAscensions = Preferences.getInteger( "knownAscensions" );

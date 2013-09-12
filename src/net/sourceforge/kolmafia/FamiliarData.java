@@ -268,17 +268,19 @@ public class FamiliarData
 
 	public final void checkWeight( final int weight, final boolean feasted )
 	{
+		// Called from CharPaneRequest with KoL's idea of current familiar's weight and "well-fed" status.
+		// This does NOT include "hidden" weight modifiers
+
 		// Sanity check: don't adjust NO_FAMILIAR
 		if ( this.id == -1 )
 		{
 			return;
 		}
 
-		// Called from CharPaneRequest with KoL's idea of current
-		// familiar's weight and "well-fed" status.
 		this.feasted = feasted;
 
-		int delta = weight - this.getModifiedWeight();
+		// Get modified weight excluding hidden weight modifiers
+		int delta = weight - this.getModifiedWeight( false );
 		if ( delta != 0 )
 		{
 			// The following is informational, not an error, but it confuses people, so don't print it.
@@ -378,10 +380,11 @@ public class FamiliarData
 		{
 			// Add new familiar to list
 			familiar = new FamiliarData( id );
-			familiar.experience = experience;
-			familiar.setWeight();
 			KoLCharacter.addFamiliar( familiar );
 		}
+
+		familiar.experience = experience;
+		familiar.setWeight();
 		return familiar;
 	}
 
@@ -487,12 +490,18 @@ public class FamiliarData
 
 	public int getModifiedWeight()
 	{
+		return this.getModifiedWeight( true );
+	}
+
+	private int getModifiedWeight( final boolean includeHidden )
+	{
 		// Start with base weight of familiar
 		int weight = this.weight;
 
 		// Get current fixed and percent weight modifiers
 		Modifiers current = KoLCharacter.getCurrentModifiers();
-		double fixed = current.get( Modifiers.FAMILIAR_WEIGHT ) + current.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+		double fixed = current.get( Modifiers.FAMILIAR_WEIGHT );
+		double hidden = current.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
 		double percent = current.get( Modifiers.FAMILIAR_WEIGHT_PCT );
 
 		// If this is not the current familiar, adjust modifiers to
@@ -508,7 +517,7 @@ public class FamiliarData
 				if ( mods != null )
 				{
 					fixed -= mods.get( Modifiers.FAMILIAR_WEIGHT );
-					fixed -= mods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+					hidden -= mods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
 					percent -= mods.get( Modifiers.FAMILIAR_WEIGHT_PCT );
 				}
 			}
@@ -521,7 +530,7 @@ public class FamiliarData
 				if ( mods != null )
 				{
 					fixed += mods.get( Modifiers.FAMILIAR_WEIGHT );
-					fixed += mods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
+					hidden += mods.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
 					percent += mods.get( Modifiers.FAMILIAR_WEIGHT_PCT );
 				}
 			}
@@ -529,6 +538,12 @@ public class FamiliarData
 
 		// Add in fixed modifiers
 		weight += (int) fixed;
+
+		// If want to include hidden modifiers, do so now
+		if ( includeHidden )
+		{
+			weight += (int) hidden;
+		}
 
 		// Adjust by percent modifiers
 		if ( percent != 0.0f )

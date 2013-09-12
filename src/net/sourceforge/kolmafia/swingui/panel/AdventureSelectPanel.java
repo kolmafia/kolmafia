@@ -221,10 +221,8 @@ public class AdventureSelectPanel
 	public void updateFromPreferences()
 	{
 		GoalManager.clearGoals();
-
 		String pref = Preferences.getString( "lastAdventure" );
 		KoLAdventure location = AdventureDatabase.getAdventure( pref );
-
 		this.updateSelectedAdventure( location );
 	}
 
