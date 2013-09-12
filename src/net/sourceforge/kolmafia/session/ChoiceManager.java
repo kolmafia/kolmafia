@@ -141,7 +141,11 @@ public abstract class ChoiceManager
 	private static final AdventureResult MCCLUSKY_FILE = ItemPool.get( ItemPool.MCCLUSKY_FILE, 1 );
 	private static final AdventureResult BINDER_CLIP = ItemPool.get( ItemPool.BINDER_CLIP, 1 );
 	private static final AdventureResult STONE_TRIANGLE = ItemPool.get( ItemPool.STONE_TRIANGLE, 1 );
-
+	
+	private static final AdventureResult JOCK_EFFECT = new AdventureResult( "Jamming with the Jocks", 1, true );
+	private static final AdventureResult NERD_EFFECT = new AdventureResult( "Nerd is the Word", 1, true );
+	private static final AdventureResult GREASER_EFFECT = new AdventureResult( "Greaser Lightnin'", 1, true );
+	
 	// Dreadsylvania items and effects
 	private static final AdventureResult MOON_AMBER_NECKLACE = ItemPool.get( ItemPool.MOON_AMBER_NECKLACE, 1 );
 	private static final AdventureResult BLOODY_KIWITINI = ItemPool.get( ItemPool.BLOODY_KIWITINI, 1 );
@@ -3941,9 +3945,9 @@ public abstract class ChoiceManager
 		case 700:
 			// Delirium in the Cafeteria
 			result = new String[ 9 ];
-			result[ 0 ] = KoLConstants.activeEffects.contains( new AdventureResult( "Jamming with the Jocks", 1, true ) ) ? "Gain stats" : "Lose HP";
-			result[ 1 ] = KoLConstants.activeEffects.contains( new AdventureResult( "Nerd is the Word", 1, true ) ) ? "Gain stats" : "Lose HP";
-			result[ 2 ] = KoLConstants.activeEffects.contains( new AdventureResult( "Greaser Lightnin'", 1, true ) ) ? "Gain stats" : "Lose HP";
+			result[ 0 ] = KoLConstants.activeEffects.contains( ChoiceManager.JOCK_EFFECT ) ? "Gain stats" : "Lose HP";
+			result[ 1 ] = KoLConstants.activeEffects.contains( ChoiceManager.NERD_EFFECT ) ? "Gain stats" : "Lose HP";
+			result[ 2 ] = KoLConstants.activeEffects.contains( ChoiceManager.GREASER_EFFECT ) ? "Gain stats" : "Lose HP";
 			return result;
 			
 		case 721:
@@ -5785,6 +5789,11 @@ public abstract class ChoiceManager
 				// bouquet of swamp roses.
 				ResultProcessor.processItem( ItemPool.SWAMP_ROSE_BOUQUET, -1 );
 			}
+			return;
+
+		case 700:
+			// Delirium in the Cafeterium
+			Preferences.increment( "_kolhsAdventures", 1 );
 			return;
 
 		case 703:
@@ -8235,6 +8244,15 @@ public abstract class ChoiceManager
 
 			return decision;
 
+		// Delirium in the Cafeterium
+		case 700:
+			if ( decision.equals( "1" ) )
+			{
+				return ( KoLConstants.activeEffects.contains( ChoiceManager.JOCK_EFFECT ) ? "1" :
+					KoLConstants.activeEffects.contains( ChoiceManager.NERD_EFFECT ) ? "2" : "3" );
+			}
+			return decision;
+			
 		// The Cabin in the Dreadsylvanian Woods
 		case 721:
 			// Option 5 - "Use a ghost pencil" - is not always available.

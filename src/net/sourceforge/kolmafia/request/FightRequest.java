@@ -2555,6 +2555,12 @@ public class FightRequest
 			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
 		}
 
+		// Handle location counting after each fight, regardless of won/loss/runaway etc
+		if ( KOLHSRequest.isKOLHSLocation( KoLAdventure.lastAdventureId() ) )
+		{
+			Preferences.increment( "_kolhsAdventures", 1 );
+		}
+
 		if ( won )
 		{
 			if ( responseText.contains( "monstermanuel.gif" ) )
