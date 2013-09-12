@@ -26,7 +26,6 @@
 # Baiowulf
 # Count Bakula
 # Crazy Bastard
-# Hockey Elemental
 # Hypnotist of Hey Deze
 # Infinite Meat Bug
 # The Master Of Thieves
@@ -533,7 +532,7 @@ Hellseal guardian	sealguard.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: demon	hell
 Hellseal pup	sealpup.gif	Atk: 85 Def: 76 HP: 85 Init: 85 P: demon	hellseal whisker (0)	hellseal claw (0)
 High Priest of Ki'rhuss	highpriest.gif	Atk: 110 Def: 99 HP: 110 Init: 50 P: humanoid
 Hobelf	elfhobo8.gif	HP: 500 Def: 315 Atk: 350 Init: 100 P: hobo	bindlestocking (0)	hobo nickel (c15)	sleeping stocking (0)	Tales of a Kansas Toymaker (0)	The Joy of Wassailing (0)
-Hockey Elemental		HP: 40 Def: 58 Atk: 65 P: elemental	hockey stick of furious angry rage (100)
+Hockey Elemental		HP: 80 Def: 49 Atk: 55 Init: 100 P: elemental	hockey stick of furious angry rage (100)
 Hodgman, The Hoboverlord	hodgman.gif	BOSS HP: 25000 Def: 675 Atk: 750 Init: 250 P: hobo	Hodgman's bow tie (0)	Hodgman's porkpie hat (0)	Hodgman's lobsterskin pants (0)	Hodgman's almanac (0)	Hodgman's lucky sock (0)	Hodgman's metal detector (0)	Hodgman's varcolac paw (0)	Hodgman's harmonica (0)	Hodgman's garbage sticker (0)	Hodgman's cane (0)	Hodgman's whackin' stick (0)	Hodgman's disgusting technicolor overcoat (0)	Hodgman's imaginary hamster (0)	hobo fortress blueprints (0)	stuffed Hodgman (0)	Hodgman's blanket (0)	tin cup of mulligan stew (0)	Hodgman's journal #1: The Lean Times (0)	Hodgman's journal #2: Entrepreneurythmics (0)	Hodgman's journal #3: Pumping Tin (0)	Hodgman's journal #4: View From The Big Top (0)
 Honey Pot	honeypot.gif	Atk: 152 Def: 136 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
 Hooded Warrior	hooded.gif	Atk: 165 Def: 148 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
