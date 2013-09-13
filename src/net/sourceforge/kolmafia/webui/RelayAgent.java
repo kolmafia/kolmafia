@@ -171,6 +171,7 @@ public class RelayAgent
 		throws IOException
 	{
 		boolean debugging = RequestLogger.isDebugging() && Preferences.getBoolean( "logBrowserInteractions" );
+		boolean tracing = RequestLogger.isTracing();
 
 		this.reader = new BufferedReader( new InputStreamReader( this.socket.getInputStream() ) );
 
@@ -180,6 +181,11 @@ public class RelayAgent
 		{
 			RequestLogger.updateDebugLog( "-----From Browser-----" );
 			RequestLogger.updateDebugLog( requestLine );
+		}
+
+		if ( tracing )
+		{
+			RequestLogger.trace( "From Browser: " + requestLine );
 		}
 
 		if ( requestLine == null )
@@ -546,6 +552,11 @@ public class RelayAgent
 		this.writer.println();
 		this.writer.write( this.request.rawByteBuffer );
 		this.writer.flush();
+
+		if ( RequestLogger.isTracing() )
+		{
+			RequestLogger.trace( "To Browser: " + this.request.statusLine + ": " + this.path );
+		}
 
 		if ( !RequestLogger.isDebugging() )
 		{

@@ -40,19 +40,34 @@ public class DebugRequestCommand
 {
 	public DebugRequestCommand()
 	{
-		this.usage = " [on] | off - start or stop logging of debugging data.";
+		this.usage = " [on] | off | trace [ [on] | off ]- start or stop logging of debugging data.";
 	}
 
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		if ( parameters.equals( "off" ) )
+		String[] split = parameters.split( " " );
+		String command = split[ 0 ];
+
+		if ( command.equals( "" ) || command.equals( "on" ) )
+		{
+			RequestLogger.openDebugLog();
+		}
+		else if ( command.equals( "off" ) )
 		{
 			RequestLogger.closeDebugLog();
 		}
-		else
+		else if ( command.equals( "trace" ) )
 		{
-			RequestLogger.openDebugLog();
+			command = split.length < 2 ? "" : split[ 1 ];
+			if ( command.equals( "" ) || command.equals( "on" ) )
+			{
+				RequestLogger.openTraceStream();
+			}
+			else if ( command.equals( "off" ) )
+			{
+				RequestLogger.closeTraceStream();
+			}
 		}
 	}
 }

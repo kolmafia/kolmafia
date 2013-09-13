@@ -1605,9 +1605,17 @@ public class GenericRequest
 
 	private boolean postClientData()
 	{
-		if ( this.shouldUpdateDebugLog() )
+		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() )
 		{
-			this.printRequestProperties();
+			String URL = this.requestURL();
+			if ( this.shouldUpdateDebugLog() )
+			{
+				this.printRequestProperties( URL );
+			}
+			if ( RequestLogger.isTracing() )
+			{
+				RequestLogger.trace( "Requesting: " + URL );
+			}
 		}
 
 		// Only attempt to post something if there's actually data to
@@ -1777,9 +1785,17 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( this.shouldUpdateDebugLog() )
+		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() )
 		{
-			this.printHeaderFields();
+			String URL = this.requestURL();
+			if ( this.shouldUpdateDebugLog() )
+			{
+				this.printHeaderFields( URL );
+			}
+			if ( RequestLogger.isTracing() )
+			{
+				RequestLogger.trace( "Retrieved: " + URL );
+			}
 		}
 
 		boolean shouldStop = false;
@@ -2860,10 +2876,20 @@ public class GenericRequest
 		Preferences.setString( "userAgent", "" );
 	}
 
+	public String requestURL()
+	{
+		return this.formURL.getProtocol() + "://" + GenericRequest.KOL_HOST + "/" + this.getDisplayURLString();
+	}
+
 	public void printRequestProperties()
 	{
+		this.printRequestProperties( this.requestURL() );
+	}
+
+	private void printRequestProperties( final String URL )
+	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Requesting: " + this.formURL.getProtocol() + "://" + GenericRequest.KOL_HOST + "/" + this.getDisplayURLString() );
+		RequestLogger.updateDebugLog( "Requesting: " + URL );
 
 		Map requestProperties = this.formConnection.getRequestProperties();
 		RequestLogger.updateDebugLog( requestProperties.size() + " request properties" );
@@ -2881,8 +2907,13 @@ public class GenericRequest
 
 	public void printHeaderFields()
 	{
+		this.printHeaderFields( this.requestURL() );
+	}
+
+	private void printHeaderFields( final String URL )
+	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Retrieved: " + this.formURL.getProtocol() + "://" + GenericRequest.KOL_HOST + "/" + this.getDisplayURLString() );
+		RequestLogger.updateDebugLog( "Retrieved: " + this.requestURL() );
 		RequestLogger.updateDebugLog();
 
 		Map headerFields = this.formConnection.getHeaderFields();

@@ -166,6 +166,7 @@ public class RequestLogger
 
 	private static PrintStream sessionStream = NullStream.INSTANCE;
 	private static PrintStream debugStream = NullStream.INSTANCE;
+	private static PrintStream traceStream = NullStream.INSTANCE;
 
 	private static String lastURLString = "";
 	private static String previousUpdateString = "";
@@ -476,6 +477,48 @@ public class RequestLogger
 	public static final void updateDebugLog( final Object o )
 	{
 		RequestLogger.debugStream.println( o.toString() );
+	}
+
+	public static final boolean isTracing()
+	{
+		return RequestLogger.traceStream != NullStream.INSTANCE;
+	}
+
+	public static final PrintStream getTraceStream()
+	{
+		return RequestLogger.traceStream;
+	}
+
+	public static final void openTraceStream()
+	{
+		RequestLogger.traceStream =
+			RequestLogger.openStream(
+				"TRACE_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", RequestLogger.debugStream, true );
+	}
+
+	public static final void closeTraceStream()
+	{
+		try
+		{
+			RequestLogger.traceStream.close();
+			RequestLogger.traceStream = NullStream.INSTANCE;
+		}
+		catch ( Exception e )
+		{
+		}
+	}
+
+	private static StringBuilder traceBuffer = new StringBuilder();
+	public synchronized static final void trace( String message )
+	{
+		if ( RequestLogger.isTracing() )
+		{
+			traceBuffer.setLength( 0 );
+			traceBuffer.append( String.valueOf( ( new Date() ).getTime() ) );
+			traceBuffer.append( ": " );
+			traceBuffer.append( message );
+			RequestLogger.traceStream.println( traceBuffer.toString() );
+		}
 	}
 
 	public static final void registerRequest( final GenericRequest request, final String urlString )
