@@ -116,7 +116,7 @@
 
 92	Club Earth	5	50	0
 93	Carbohydrate Cudgel	5	30	0
-94	Splattersmash	5	5	25	0
+94	Splattersmash	5	25	0
 95	Grab a Cold One	1	30	0
 96	Song of the North	6	100	10
 97	Turtleini	5	35	0
