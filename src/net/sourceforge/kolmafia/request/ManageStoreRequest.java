@@ -73,21 +73,25 @@ public class ManageStoreRequest
 		this.requestType = isStoreLog ? ManageStoreRequest.VIEW_STORE_LOG : ManageStoreRequest.PRICE_MANAGEMENT;
 	}
 
-	public ManageStoreRequest( final int itemId )
-	{
-		this( itemId, true );
-	}
-
 	public ManageStoreRequest( final int itemId, final boolean takeAll )
 	{
-		super( "managestore.php" );
-		this.addFormField( "action", takeAll ? "takeall" : "take" );
-		this.addFormField( "whichitem", String.valueOf( itemId ) );
+		this( itemId, takeAll ? Integer.MAX_VALUE : 1 );
+	}
 
-		this.requestType = ManageStoreRequest.ITEM_REMOVAL;
-		this.takenItemId = itemId;
+	public ManageStoreRequest( final int itemId )
+	{
+		this( itemId, Integer.MAX_VALUE );
+	}
 
-		if ( takeAll )
+	public ManageStoreRequest( final int itemId, final int qty )
+	{
+		super( "backoffice.php" );
+		this.addFormField( "itemid", String.valueOf( itemId ) );
+		this.addFormField( "action", "removeitem" );
+		this.addFormField( "qty", String.valueOf( qty ) );
+		this.addFormField( "ajax", "1" );
+
+		if ( qty > 1 )
 		{
 			AdventureResult item = new AdventureResult( itemId, 1 );
 			if ( KoLConstants.profitableList.contains( item ) )
@@ -95,6 +99,9 @@ public class ManageStoreRequest
 				KoLConstants.profitableList.remove( item );
 			}
 		}
+
+		this.requestType = ManageStoreRequest.ITEM_REMOVAL;
+		this.takenItemId = itemId;
 	}
 
 	public ManageStoreRequest( final int[] itemId, final int[] prices, final int[] limits )
@@ -173,17 +180,12 @@ public class ManageStoreRequest
 
 		super.run();
 
-		Matcher takenItemMatcher =
-			Pattern.compile( "<option value=\"" + this.takenItemId + "\".*?>.*?\\(([\\d,]+)\\)</option>" ).matcher(
-				this.responseText );
+		Matcher takenItemMatcher = Pattern.compile( "updateInv\\(\\{\"" + this.takenItemId + "\":(\\d*)\\}\\)" ).matcher( this.responseText );
 		if ( takenItemMatcher.find() )
 		{
-			ResultProcessor.processResult(
-				takenItem.getInstance( StringUtilities.parseInt( takenItemMatcher.group( 1 ) ) - takenItem.getCount( KoLConstants.inventory ) ) );
+			int taken = StringUtilities.parseInt( takenItemMatcher.group( 1 ) );
+			KoLmafia.updateDisplay( taken + " " + takenItem.getName() + " removed from your store." );
 		}
-
-		StoreManager.update( this.responseText, false );
-		KoLmafia.updateDisplay( takenItem.getName() + " removed from your store." );
 	}
 
 	@Override
