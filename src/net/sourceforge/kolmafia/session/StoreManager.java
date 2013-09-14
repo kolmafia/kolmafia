@@ -75,7 +75,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class StoreManager
 {
-	private static final Pattern LOGSPAN_PATTERN = Pattern.compile( "<span.*?</span>" );
+	private static final Pattern LOGSPAN_PATTERN = Pattern.compile( "<span class=small>.*?</span>" );
 	private static final Pattern ADDER_PATTERN =
 		Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)( *\\((\\d*)\\))?</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" );
 	private static final Pattern PRICER_PATTERN =
