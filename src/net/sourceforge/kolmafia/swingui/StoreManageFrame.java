@@ -647,7 +647,7 @@ public class StoreManageFrame
 
 				JButton removeItemButton = new JButton( JComponentUtilities.getImage( "xred.gif" ) );
 				removeItemButton.setToolTipText( "remove item from store" );
-				removeItemButton.addActionListener( new RemoveItemListener( itemName ) );
+				removeItemButton.addActionListener( new RemoveAllListener( value ) );
 				JComponentUtilities.setComponentSize( removeItemButton, new Dimension( 20, 20 ) );
 				value.add( removeItemButton );
 
@@ -727,20 +727,24 @@ public class StoreManageFrame
 		}
 	}
 
-	private class RemoveItemListener
+	private class RemoveAllListener
 		extends ThreadedListener
 	{
+		private final Vector<Serializable> vector;
 		private final int itemId;
 
-		public RemoveItemListener( final String itemName )
+		public RemoveAllListener( Vector<Serializable> vector )
 		{
+			this.vector = vector;
+			String itemName = (String) vector.get( 0 );
 			this.itemId = ItemDatabase.getItemId( itemName );
 		}
 
 		@Override
 		protected void execute()
 		{
-			RequestThread.postRequest( new ManageStoreRequest( this.itemId ) );
+			Integer max = (Integer) this.vector.get( 3 );
+			RequestThread.postRequest( new ManageStoreRequest( this.itemId, max ) );
 		}
 	}
 
