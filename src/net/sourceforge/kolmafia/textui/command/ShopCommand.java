@@ -182,12 +182,10 @@ public class ShopCommand
 		LockableListModel list = StoreManager.getSoldItemList();
 
 		String[] itemNames = parameters.split( "\\s*,\\s*" );
-		AdventureResult item;
-		int itemId;
 
 		for ( int i = 0; i < itemNames.length; ++i )
 		{
-			item = ItemFinder.getFirstMatchingItem( itemNames[ i ], true );
+			AdventureResult item = ItemFinder.getFirstMatchingItem( itemNames[ i ], true );
 
 			if ( item == null )
 			{
@@ -195,7 +193,7 @@ public class ShopCommand
 				continue;
 			}
 
-			itemId = item.getItemId();
+			int itemId = item.getItemId();
 			
 			SoldItem it = new SoldItem( itemId, 0, 0, 0, 0 );
 			int index = list.indexOf( it );

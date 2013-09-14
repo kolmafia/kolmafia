@@ -341,7 +341,7 @@ public class StoreManageFrame
 	{
 		public StoreManageTable()
 		{
-			super( StoreManager.getSoldItemList(), 11, 7 );
+			super( StoreManager.getSoldItemList(), 11, 8 );
 
 			this.setColumnClasses( new Class[]
 			{
@@ -350,6 +350,7 @@ public class StoreManageFrame
 				Integer.class,
 				Integer.class,
 				Boolean.class,
+				JButton.class,
 				JButton.class,
 				JButton.class
 			} );
@@ -364,6 +365,8 @@ public class StoreManageFrame
 
 		private void doColumnSetup()
 		{
+			this.getColumnModel().getColumn( 7 ).setPreferredWidth( 44 );
+			this.getColumnModel().getColumn( 7 ).setResizable( false );
 			this.getColumnModel().getColumn( 6 ).setPreferredWidth( 44 );
 			this.getColumnModel().getColumn( 6 ).setResizable( false );
 			this.getColumnModel().getColumn( 5 ).setPreferredWidth( 44 );
@@ -620,9 +623,9 @@ public class StoreManageFrame
 		public StoreManageTableModel()
 		{
 			super(
-				new String[] { "Item Name", "Price", "Lowest", "Qty", "Lim", " ", " " },
-				new Class[] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
-				new boolean[] { false, true, false, false, true, false, false },
+				new String[] { "Item Name", "Price", "Lowest", "Qty", "Lim", " ", " ", " " },
+				new Class[] { String.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class, JButton.class },
+				new boolean[] { false, true, false, false, true, false, false, false },
 				StoreManager.getSoldItemList() );
 		}
 
@@ -630,11 +633,17 @@ public class StoreManageFrame
 		public Vector<Serializable> constructVector( final Object o )
 		{
 			Vector<Serializable> value = (Vector<Serializable>) o;
-			if ( value.size() < 7 )
+			if ( value.size() < 8 )
 			{
 				String itemName = (String) value.get( 0 );
 				String displayName = StringUtilities.getDisplayName( itemName );
 				value.set( 0, displayName );
+
+				JButton removeSomeButton = new JButton( JComponentUtilities.getImage( "xgray.gif" ) );
+				removeSomeButton.setToolTipText( "remove some of item from store" );
+				removeSomeButton.addActionListener( new RemoveSomeListener( value ) );
+				JComponentUtilities.setComponentSize( removeSomeButton, new Dimension( 20, 20 ) );
+				value.add( removeSomeButton );
 
 				JButton removeItemButton = new JButton( JComponentUtilities.getImage( "xred.gif" ) );
 				removeItemButton.setToolTipText( "remove item from store" );
@@ -686,6 +695,35 @@ public class StoreManageFrame
 			StoreManager.searchMall( "\"" + searchName + "\"", StoreManageFrame.priceSummary, 10, true );
 
 			KoLmafia.updateDisplay( "Price analysis complete." );
+		}
+	}
+
+	private class RemoveSomeListener
+		extends ThreadedListener
+	{
+		private final Vector<Serializable> vector;
+		private final int itemId;
+
+		public RemoveSomeListener( Vector<Serializable> vector )
+		{
+			this.vector = vector;
+			String itemName = (String) vector.get( 0 );
+			this.itemId = ItemDatabase.getItemId( itemName );
+		}
+
+		@Override
+		protected void execute()
+		{
+			Integer max = (Integer) this.vector.get( 3 );
+			Integer val = InputFieldUtilities.getQuantity( "Remove how many?", max.intValue(), 1 );
+			if ( val != null )
+			{
+				int qty = val.intValue();
+				if ( qty > 0 )
+				{
+					RequestThread.postRequest( new ManageStoreRequest( this.itemId, qty ) );
+				}
+			}
 		}
 	}
 
