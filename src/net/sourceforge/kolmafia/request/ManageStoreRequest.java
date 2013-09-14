@@ -64,7 +64,12 @@ public class ManageStoreRequest
 
 	public ManageStoreRequest( final boolean isStoreLog )
 	{
-		super( isStoreLog ? "storelog.php" : "manageprices.php" );
+		super( isStoreLog ? "backoffice.php" : "manageprices.php" );
+		if ( isStoreLog )
+		{
+			this.addFormField( "which", "3" );
+		}
+
 		this.requestType = isStoreLog ? ManageStoreRequest.VIEW_STORE_LOG : ManageStoreRequest.PRICE_MANAGEMENT;
 	}
 
