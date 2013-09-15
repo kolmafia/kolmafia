@@ -225,7 +225,7 @@ public class UseItemEnqueuePanel
 				this.buttons[ 1 ].setEnabled( true );
 			}
 		}
-		
+
 		if ( isEnabled && this.food )
 		{
 			boolean haveGhost = KoLCharacter.findFamiliar( FamiliarPool.GHOST ) != null;
@@ -236,7 +236,7 @@ public class UseItemEnqueuePanel
 						|| ( KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithMall" ) )
 						|| KoLCharacter.hasSkill( "Song of the Glorious Lunch" )
 						|| CreateItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ), false ).getQuantityPossible() > 0;
-								
+
 			this.buttons[ bingeIndex + 1 ].setEnabled( milkAvailable );
 
 			// We gray out the distend button unless we have a
@@ -686,7 +686,8 @@ public class UseItemEnqueuePanel
 				{
 					AdventureResult item = creation.getItem();
 					String name = item != null ? item.getName() : null;
-					if ( name != null && !name.contains( "brain" ) && !name.equals( "steel lasagna" ) )
+					if ( name != null && !name.equals( "steel lasagna" ) &&
+					     ( ItemDatabase.getNotes( name ) == null || !ItemDatabase.getNotes( name ).startsWith( "Zombie Slayer" ) ) )
 					{
 						return false;
 					}
