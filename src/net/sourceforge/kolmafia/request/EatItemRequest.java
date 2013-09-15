@@ -118,6 +118,13 @@ public class EatItemRequest
 			return 0;
 		}
 
+		if ( KoLCharacter.inZombiecore() && !itemName.equals( "steel margarita" ) &&
+		     ( ItemDatabase.getNotes( itemName ) == null || !ItemDatabase.getNotes( itemName ).startsWith( "Zombie Slayer" ) ) )
+		{
+			UseItemRequest.limiter = "it not being a brain";
+			return 0;
+		}
+
 		switch ( itemId )
 		{
 		case ItemPool.SPAGHETTI_BREAKFAST:

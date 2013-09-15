@@ -60,7 +60,7 @@ blunt cat claw	1	4	awesome	3-5	45-75	0	0	30 Feline Ferocity (+100% weapon dmg)
 bone meal	2	6	awesome	7-9	12-20	12-20	12-20
 boring spaghetti	3	3	good	6-9	6-8	6-8	6-8
 boris's key lime pie	4	6	awesome	14-16	28-33	0	0	Boris's key
-boss brain	1	1	EPIC	6	9-12	9-12	9-12
+boss brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
 bouillabaise coucher avec moi	5	1		5-9	0	0	0
 bowl of bounty-os	3	4	awesome	12-15	16-24	16-24	16-24	20 Broken Fast (+30% item drop)
 bowl of cottage cheese	2	1	crappy	2	0	0	0
@@ -70,7 +70,7 @@ bowl of oriole's nest soup	3	1	decent	3-9	0	0	0
 bowl of rye sprouts	1	2	crappy	1	10-15	0	0
 bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
-brains casserole	5	1	decent	6-14	0	8-10	0
+brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
 brimstone chicken sandwich	3	1	decent	4-6	-15-20	0	15-20
 brown sugar cane	2	7	awesome	6-7	1-5	1-5	5-20	3 Sugar Rush
 brussels sprout stir-fry	3	1	decent	4	0	0	0	10 Healthy, Elfy, and Wise
@@ -146,7 +146,7 @@ cool mushroom	2	1	decent	2-3	0	12-15	0
 cool mushroom casserole	4	1	decent	4-12	0	35-40	0
 corned-beef Reuben	3	9	awesome	12-13	28-34	0	0
 cranberries	1	1	crappy	1	0	0	0
-crappy brain	1	1	crappy	1	1	1	1
+crappy brain	1	1	crappy	1	1	1	1	Zombie Slayer
 crazy dragon shogun buddha roll	5	1	good	10-15	0	0	0
 crazy little turkish delight	1	2	decent	1-3	0	30-40	0
 cream of pointy mushroom soup	2	1	decent	2-5	0	0	35-40	lose 3 HP
@@ -162,7 +162,7 @@ cursed black pearl onion	1	1	crappy	1	0	0	0
 cursed sea biscuit	3	3	good	6-11	0	0	0	10 Curse Magnet
 dead lights pie	2	2	awesome	7-9	5-10	20-40	5-10
 dead meat bun	3	4	decent	5	10	0	0
-decent brain	1	1	decent	2	3-5	3-5	3-5
+decent brain	1	1	decent	2	3-5	3-5	3-5	Zombie Slayer
 dehydrated caviar	1	2	decent	2	0	0	15
 delicious noodles	3	3	good	6-9	0	0	9-25
 delicious salad	3	1	decent	3-5	0	0	0	25% chance of tattoo
@@ -235,7 +235,7 @@ forbidden danish	1	4	awesome	3-5	0	45-75	0	30 Danish Cunning (+25% pickpocket)
 forbidden sausage	2	6	awesome	8	40	40	40	Hot Damage
 fortune cookie	1	1	crappy	1	0	0	0	semi-rare numbers
 frat brats	1	10	good	2-4	0	0	22-30
-fricasseed brains	3	1	decent	3-5	0	4-5	0
+fricasseed brains	3	1	decent	3-5	0	4-5	0	Zombie Slayer
 frozen banquet	6	15	EPIC	42-48	100-289	100-289	100-289
 frozen danish	1	4	awesome	3-5	0	0	45-75	30 Danish Cunning (+25% pickpocket)
 frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
@@ -276,7 +276,7 @@ gnocchetti di nietzsche	6	6	awesome	21-28	0	47-52	0
 goat cheese	2	1	crappy	2-3	0	0	0
 goat cheese pizza	3	2	good	3-10	0	0	15-18
 goat cheese taco	2	1	decent	2-5	0	11-33	0
-good brain	1	1	good	3	5-7	5-7	5-7
+good brain	1	1	good	3	5-7	5-7	5-7	Zombie Slayer
 gr8ps	1	1	crappy	1	0	0	0
 grapefruit	1	1	crappy	1	0	0	0
 grapes	1	1	crappy	1	0	0	0
@@ -305,7 +305,7 @@ hot date	2	7	good	4-5	0	0	20-30
 hot hi mein	5	7	awesome	21-28	71-75	15-20	30-35	5 Hot Breath (combat skill)
 hot wing	1	1	crappy	1	0	2-5	0
 humpty dumplings	4	5	awesome	13-16	0	70-77	0
-hunter brain	1	1	EPIC	6	9-12	9-12	9-12
+hunter brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
 igloo pie	2	2	awesome	7-9	15-20	15-20	5-10
 imitation white russian	2	6	good	4-6	5-10	5-10	5-10
 immaculate egg salad sandwich	4	1	decent	7-9	5-10	30-40	5-10
