@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -57,6 +58,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+
+import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -261,6 +264,16 @@ public class FileUtilities
 					"Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group( 1 ) );
 			}
 		}
+
+		if ( RequestLogger.isDebugging() )
+		{
+			GenericRequest.printRequestProperties( remote, (HttpURLConnection)connection );
+		}
+
+		if ( RequestLogger.isTracing() )
+		{
+			RequestLogger.trace( "Requesting: " + remote );
+		}
 		
 		InputStream istream = null;
 		try
@@ -270,6 +283,16 @@ public class FileUtilities
 		catch ( IOException e )
 		{
 			return;
+		}
+
+		if ( RequestLogger.isDebugging() )
+		{
+			GenericRequest.printHeaderFields( remote, (HttpURLConnection)connection );
+		}
+
+		if ( RequestLogger.isTracing() )
+		{
+			RequestLogger.trace( "Retrieved: " + remote );
 		}
 
 		OutputStream ostream = DataUtilities.getOutputStream( local );

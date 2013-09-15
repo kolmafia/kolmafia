@@ -173,7 +173,7 @@ public abstract class KoLmafia
 	private static boolean SESSION_ENDING = false;
 
 	public static KoLAdventure currentAdventure;
-	public static String statDay;
+	public static String statDay = "None";
 
 	private static final boolean acquireFileLock( final String suffix )
 	{

@@ -1607,14 +1607,13 @@ public class GenericRequest
 	{
 		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() )
 		{
-			String URL = this.requestURL();
 			if ( this.shouldUpdateDebugLog() )
 			{
-				this.printRequestProperties( URL );
+				this.printRequestProperties();
 			}
 			if ( RequestLogger.isTracing() )
 			{
-				RequestLogger.trace( "Requesting: " + URL );
+				RequestLogger.trace( "Requesting: " + this.requestURL() );
 			}
 		}
 
@@ -1787,14 +1786,13 @@ public class GenericRequest
 
 		if ( this.shouldUpdateDebugLog() || RequestLogger.isTracing() )
 		{
-			String URL = this.requestURL();
 			if ( this.shouldUpdateDebugLog() )
 			{
-				this.printHeaderFields( URL );
+				this.printHeaderFields();
 			}
 			if ( RequestLogger.isTracing() )
 			{
-				RequestLogger.trace( "Retrieved: " + URL );
+				RequestLogger.trace( "Retrieved: " + this.requestURL() );
 			}
 		}
 
@@ -2883,17 +2881,16 @@ public class GenericRequest
 
 	public void printRequestProperties()
 	{
-		this.printRequestProperties( this.requestURL() );
+		this.printRequestProperties( this.requestURL(), this.formConnection );
 	}
 
-	private void printRequestProperties( final String URL )
+	public synchronized static void printRequestProperties( final String URL, final HttpURLConnection formConnection )
 	{
 		RequestLogger.updateDebugLog();
 		RequestLogger.updateDebugLog( "Requesting: " + URL );
 
-		Map requestProperties = this.formConnection.getRequestProperties();
+		Map requestProperties = formConnection.getRequestProperties();
 		RequestLogger.updateDebugLog( requestProperties.size() + " request properties" );
-		RequestLogger.updateDebugLog();
 
 		Iterator iterator = requestProperties.entrySet().iterator();
 		while ( iterator.hasNext() )
@@ -2907,16 +2904,15 @@ public class GenericRequest
 
 	public void printHeaderFields()
 	{
-		this.printHeaderFields( this.requestURL() );
+		this.printHeaderFields( this.requestURL(), this.formConnection );
 	}
 
-	private void printHeaderFields( final String URL )
+	public synchronized static void printHeaderFields( final String URL, final HttpURLConnection formConnection )
 	{
 		RequestLogger.updateDebugLog();
-		RequestLogger.updateDebugLog( "Retrieved: " + this.requestURL() );
-		RequestLogger.updateDebugLog();
+		RequestLogger.updateDebugLog( "Retrieved: " + URL );
 
-		Map headerFields = this.formConnection.getHeaderFields();
+		Map headerFields = formConnection.getHeaderFields();
 		RequestLogger.updateDebugLog( headerFields.size() + " header fields" );
 
 		Iterator iterator = headerFields.entrySet().iterator();
