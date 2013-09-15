@@ -163,7 +163,7 @@ public class AutoMallRequest
 	public boolean parseTransfer()
 	{
 		return AutoMallRequest.parseTransfer( this.getURLString(), this.responseText );
-    }
+	}
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )
 	{

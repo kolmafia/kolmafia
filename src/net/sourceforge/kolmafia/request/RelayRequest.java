@@ -348,11 +348,6 @@ public class RelayRequest
 		{
 			StringUtilities.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
 		}
-		else
-		{
-			StringUtilities.globalStringReplace(
-				responseBuffer, "http://images.kingdomofloathing.com/scripts", "/images/scripts" );
-		}
 
 		// Download and link to any Players of Loathing
 		// picture pages locally.
