@@ -85,18 +85,33 @@ public class MapValue
 	@Override
 	public Value remove( final Value key, final Interpreter interpreter )
 	{
+		// Look through all active foreach loops since they are
+		// implemented via iterators and you must use that iterator's
+		// remove method on the current element only.
 		for ( int i = interpreter.iterators.size() - 3; i >= 0; i -= 3 )
 		{
-			if ( interpreter.iterators.get( i + 1 ) == this &&
-				key.equals( (Value) interpreter.iterators.get( i ) ) )
+			AggregateValue slice = (AggregateValue) interpreter.iterators.get( i + 1 );
+			if ( slice != this )
 			{
-				Value rv = this.aref( key, interpreter );
-				((Iterator) interpreter.iterators.get( i + 2 )).remove();
-				// The following is needed in case remove is used more than
-				// once on the same key:
-				interpreter.iterators.set( i, null );
-				return rv;
+				continue;
 			}
+			Value keyValue = (Value) interpreter.iterators.get( i );
+			if ( !key.equals( keyValue ) )
+			{
+				throw interpreter.runtimeException( "Removing non-current key within foreach" );
+			}
+
+			// This is removing the current element of a foreach iterator.
+			// That works.
+			Iterator it = (Iterator) interpreter.iterators.get( i + 2 );
+			Value rv = this.aref( key, interpreter );
+			it.remove();
+
+			// NULL-out the key associated with this iterator in
+			// case remove is used more than once on the same key
+			interpreter.iterators.set( i, null );
+
+			return rv;
 		}
 		
 		TreeMap map = (TreeMap) this.content;
