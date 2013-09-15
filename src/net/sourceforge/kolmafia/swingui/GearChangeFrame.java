@@ -1043,6 +1043,10 @@ public class GearChangeFrame
 			{
 				return false;
 			}
+			if ( EquipmentDatabase.getItemType( currentItem.getItemId() ).equals( "chefstaff" ) )
+			{
+				return false;
+			}
 			// Fall through
 		case KoLConstants.EQUIP_OFFHAND:
 			// See if user wants this type of item
