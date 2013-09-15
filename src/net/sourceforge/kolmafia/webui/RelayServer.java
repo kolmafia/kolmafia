@@ -71,6 +71,7 @@ public class RelayServer
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "basics.js" );
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "chat.html" );
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "cli.html" );
+		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "combatfilter.js" );
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "hotkeys.js" );
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "onfocus.js" );
 		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "palinshelves.js" );

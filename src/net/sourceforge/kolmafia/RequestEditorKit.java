@@ -677,6 +677,11 @@ public class RequestEditorKit
 					StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/onfocus.js\"></script>" );
 				}
 			}
+			
+			if ( location.contains( "fight.php" ) )
+			{
+				StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/combatfilter.js\"></script>" );
+			}
 
 			Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( buffer.toString() );
 			boolean showingEvents = eventMatcher.find();
