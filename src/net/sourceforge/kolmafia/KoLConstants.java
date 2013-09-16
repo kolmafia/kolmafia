@@ -413,13 +413,13 @@ public interface KoLConstants
 	public static final int MALLPRICES_VERSION = 0xF00D5;
 
 	// The current versioned name of each KoLmafia-supplied relay file
-	public static final String BASEMENT_JS = "basement.1.js";
+	public static final String BASEMENT_JS = "basement.js";
 	public static final String BASICS_CSS = "basics.1.css";
-	public static final String BASICS_JS = "basics.1.js";
+	public static final String BASICS_JS = "basics.js";
 	public static final String CHAT_HTML = "chat.html";
 	public static final String CLI_HTML = "cli.html";
 	public static final String COMBATFILTER_JS = "combatfilter.1.js";
-	public static final String HOTKEYS_JS = "hotkeys.1.js";
+	public static final String HOTKEYS_JS = "hotkeys.js";
 	public static final String MACROHELPER_JS = "macrohelper.1.js";
 	public static final String ONFOCUS_JS = "onfocus.1.js";
 	public static final String PALINSHELVES_JS = "palinshelves.1.js";
