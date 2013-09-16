@@ -837,4 +837,31 @@ public abstract class StoreManager
 
 		KoLmafia.updateDisplay( "Undercutting sale complete." );
 	}
+
+	public static void removeItem( int itemId, int quantity )
+	{
+		SoldItem item = new SoldItem( itemId, 0, 0, 0, 0 );
+		int index = StoreManager.soldItemList.indexOf( item );
+		int sortedIndex = StoreManager.sortedSoldItemList.indexOf( item );
+
+		if ( index < 0 )
+		{
+			// Something went wrong, give up
+			return;
+		}
+
+		item = (SoldItem) soldItemList.get( index );
+		int amount = item.getQuantity() - quantity;
+		if ( amount == 0 )
+		{
+			soldItemList.remove( index );
+			sortedSoldItemList.remove( sortedIndex );
+			return;
+		}
+		int price = item.getPrice();
+		int limit = item.getLimit();
+		int lowest = item.getLowest();
+		soldItemList.set( index, new SoldItem( itemId, amount, price, limit, lowest) );
+		sortedSoldItemList.set( sortedIndex, new SoldItem( itemId, amount, price, limit, lowest) );
+	}
 }
