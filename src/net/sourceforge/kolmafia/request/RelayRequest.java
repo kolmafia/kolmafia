@@ -271,13 +271,13 @@ public class RelayRequest
 				{
 					responseBuffer.insert(
 						linkIndex,
-						"<a href=\"cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
+						"<a href=\"" + KoLConstants.CLI_HTML + "\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" );
 				}
 			}
 
 			if ( Preferences.getBoolean( "relayUsesIntegratedChat" ) )
 			{
-				StringUtilities.singleStringReplace( responseBuffer, "lchat.php", "chat.html" );
+				StringUtilities.singleStringReplace( responseBuffer, "lchat.php", KoLConstants.CHAT_HTML );
 			}
 		}
 
@@ -352,7 +352,7 @@ public class RelayRequest
 		// Download and link to any Players of Loathing
 		// picture pages locally.
 
-		StringUtilities.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
+		StringUtilities.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images/playerpics" );
 
 		// Remove the default frame busting script so that
 		// we can detach user interface elements.
@@ -591,14 +591,19 @@ public class RelayRequest
 
 		StringBuffer replyBuffer = this.readContents( DataUtilities.getReader( override ) );
 
-		if ( filename.equals( "chat.html" ) )
+		if ( RelayRequest.builtinRelayFile( filename ) )
 		{
-			StringUtilities.singleStringReplace(
-				replyBuffer, "CHATAUTH",
-				"playerid=" + KoLCharacter.getPlayerId() + "&pwd=" + GenericRequest.passwordHash );
-		}
+			StringUtilities.globalStringReplace( replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash );
 
-		StringUtilities.globalStringReplace( replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash );
+			if ( !filename.endsWith( ".html" ) )
+			{
+				long lastModified = override.lastModified();
+				long now = (new Date()).getTime();
+				long expires = now + ( 1000L * 60 * 60 * 24 * 30 );
+				this.headers.add( "Last-Modified: " + new Date( lastModified ) );
+				this.headers.add( "Expires: " + new Date( expires ) );
+			}
+		}
 
 		// Print the reply buffer to the response buffer for the local
 		// relay server.
@@ -614,6 +619,18 @@ public class RelayRequest
 		}
 
 		this.pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
+	}
+
+	public static boolean builtinRelayFile( final String file )
+	{
+		for ( int i = 0; i < KoLConstants.RELAY_FILES.length; ++i )
+		{
+			if ( file.equals( KoLConstants.RELAY_FILES[ i ] ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void insertAfterEnd( final StringBuffer replyBuffer, final String contents )
@@ -883,7 +900,9 @@ public class RelayRequest
 
 		StringBuilder warning = new StringBuilder();
 
-		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+		warning.append( "<html><head><script language=Javascript src=\"/" );
+		warning.append( KoLConstants.BASICS_JS );
+		warning.append ( "\"></script>" );
 
 		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"></head>" );
 		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
@@ -957,7 +976,9 @@ public class RelayRequest
 
 		StringBuilder warning = new StringBuilder();
 
-		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+		warning.append( "<html><head><script language=Javascript src=\"/" );
+		warning.append( KoLConstants.BASICS_JS );
+		warning.append( "\"></script>" );
 
 		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"></head>" );
 		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
@@ -1069,7 +1090,9 @@ public class RelayRequest
 
 		StringBuilder warning = new StringBuilder();
 
-		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+		warning.append( "<html><head><script language=Javascript src=\"/" );
+		warning.append( KoLConstants.BASICS_JS );
+		warning.append( "\"></script>" );
 
 		warning.append( "<script language=Javascript> " );
 		warning.append( "var default0 = " + mcd0 + "; " );
@@ -1373,7 +1396,9 @@ public class RelayRequest
 	{
 		StringBuilder warning = new StringBuilder();
 
-		warning.append( "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"><script language=\"Javascript\" src=\"/basics.js\"></script></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>" );
+		warning.append( "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"><script language=\"Javascript\" src=\"/" );
+		warning.append( KoLConstants.BASICS_JS );
+		warning.append( "\"></script></head><body><center><table width=95%  cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td>" );
 
 		if ( image != null && !image.equals( "" ) )
 		{
@@ -1418,7 +1443,9 @@ public class RelayRequest
 	{
 		StringBuilder warning = new StringBuilder();
 
-		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+		warning.append( "<html><head><script language=Javascript src=\"/" );
+		warning.append( KoLConstants.BASICS_JS );
+		warning.append( "\"></script>" );
 
 		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"></head>" );
 		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );
@@ -1511,7 +1538,9 @@ public class RelayRequest
 		StringBuilder warning = new StringBuilder();
 		boolean beeCore = KoLCharacter.inBeecore();
 
-		warning.append( "<html><head><script language=Javascript src=\"/basics.js\"></script>" );
+		warning.append( "<html><head><script language=Javascript src=\"/" );
+		warning.append( KoLConstants.BASICS_JS );
+		warning.append( "\"></script>" );
 
 		warning.append( "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"></head>" );
 		warning.append( "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>" );

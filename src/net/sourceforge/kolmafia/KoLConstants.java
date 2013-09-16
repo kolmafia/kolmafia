@@ -412,6 +412,35 @@ public interface KoLConstants
 	// of another one of the data files.
 	public static final int MALLPRICES_VERSION = 0xF00D5;
 
+	// The current versioned name of each KoLmafia-supplied relay file
+	public static final String BASEMENT_JS = "basement.1.js";
+	public static final String BASICS_CSS = "basics.1.css";
+	public static final String BASICS_JS = "basics.1.js";
+	public static final String CHAT_HTML = "chat.html";
+	public static final String CLI_HTML = "cli.html";
+	public static final String COMBATFILTER_JS = "combatfilter.1.js";
+	public static final String HOTKEYS_JS = "hotkeys.1.js";
+	public static final String MACROHELPER_JS = "macrohelper.1.js";
+	public static final String ONFOCUS_JS = "onfocus.1.js";
+	public static final String PALINSHELVES_JS = "palinshelves.1.js";
+	public static final String SORTTABLE_JS = "sorttable.2.js";
+
+	public static final String[] RELAY_FILES =
+	{
+		BASEMENT_JS,
+		BASICS_CSS,
+		BASICS_JS,
+		CHAT_HTML,
+		CLI_HTML,
+		COMBATFILTER_JS,
+		HOTKEYS_JS,
+		MACROHELPER_JS,
+		ONFOCUS_JS,
+		PALINSHELVES_JS,
+		SORTTABLE_JS,
+	};
+
+
 	// Different states of KoLmafia.  Used in order to determine
 	// what is still permitted.
 	public enum MafiaState {

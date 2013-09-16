@@ -66,18 +66,10 @@ public class RelayServer
 
 	private RelayServer()
 	{
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "basics.css" );
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "basement.js" );
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "basics.js" );
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "chat.html" );
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "cli.html" );
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "combatfilter.js" );
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "hotkeys.js" );
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "onfocus.js" );
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "palinshelves.js" );
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "sorttable.js" );
-		FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, "macrohelper.js" );
-
+		for ( int i = 0; i < KoLConstants.RELAY_FILES.length; ++i )
+		{
+			FileUtilities.loadLibrary( KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, KoLConstants.RELAY_FILES[ i ] );
+		}
 		Preferences.setString( "lastRelayUpdate", StaticEntity.getVersion() );
 	}
 
@@ -93,8 +85,7 @@ public class RelayServer
 			return;
 		}
 
-		RelayServer.relayThread = new Thread( RelayServer.INSTANCE,
-			"LocalRelayServer" );
+		RelayServer.relayThread = new Thread( RelayServer.INSTANCE, "LocalRelayServer" );
 		RelayServer.relayThread.start();
 	}
 

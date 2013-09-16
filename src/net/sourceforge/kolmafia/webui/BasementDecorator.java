@@ -147,7 +147,7 @@ public class BasementDecorator
 		}
 
 		buffer.insert(
-			buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/basement.js\"></script></head>" );
+			buffer.indexOf( "</head>" ), "<script language=\"Javascript\" src=\"/" + KoLConstants.BASEMENT_JS + "\"></script></head>" );
 
 		StringBuffer changes = new StringBuffer();
 		changes.append( "<table id=\"basementhelper\" style=\"width:100%;\">" );

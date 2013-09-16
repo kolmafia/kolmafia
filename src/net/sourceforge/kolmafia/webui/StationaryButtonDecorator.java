@@ -444,7 +444,7 @@ public class StationaryButtonDecorator
 		actionBuffer.append( "</center></div>" );
 		buffer.insert( insertionPoint, actionBuffer.toString() );
 
-		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/hotkeys.js\"></script>" );
+		StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.HOTKEYS_JS + "\"></script>" );
 		if ( !Preferences.getBoolean( "macroLens" ) )
 		{	// this would make it impossible to type numbers in the macro field!
 			StringUtilities.insertAfter( buffer, "<body", " onkeyup=\"handleCombatHotkey(event,false);\" onkeydown=\"handleCombatHotkey(event,true);\" " );
