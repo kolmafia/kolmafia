@@ -357,7 +357,7 @@ public class RequestEditorKit
 
 		if ( location.startsWith( "account_combatmacros.php" ) )
 		{
-			StringUtilities.insertAfter( buffer, "</textarea>", "<script language=JavaScript src=\"/macrohelper.js\"></script>" );
+			StringUtilities.insertAfter( buffer, "</textarea>", "<script language=JavaScript src=\"/" + KoLConstants.MACROHELPER_JS + "\"></script>" );
 		}
 		else if ( location.startsWith( "adminmail.php" ) )
 		{
@@ -405,11 +405,11 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "ascensionhistory.php" ) )
 		{
-			// No Javascript inn Java's HTML renderer
+			// No Javascript in Java's HTML renderer
 			if ( addComplexFeatures )
 			{
 				StringUtilities.insertBefore(
-					buffer, "</head>", "<script language=\"Javascript\" src=\"/sorttable.js\"></script>" );
+					buffer, "</head>", "<script language=\"Javascript\" src=\"/" + KoLConstants.SORTTABLE_JS + "\"></script>" );
 				StringUtilities.singleStringReplace(
 					buffer, "<table><tr><td class=small>",
 					"<table class=\"sortable\" id=\"history\"><tr><td class=small>" );
@@ -567,7 +567,7 @@ public class RequestEditorKit
 		else if ( location.startsWith( "palinshelves.php" ) )
 		{
 			StringUtilities.insertBefore(
-				buffer, "</head>", "<script language=\"Javascript\" src=\"/palinshelves.js\"></script>" );
+				buffer, "</head>", "<script language=\"Javascript\" src=\"/" + KoLConstants.PALINSHELVES_JS + "\"></script>" );
 			StringUtilities.singleStringReplace( buffer, "<body>", "<body onload='palinshelve();'>" );
 		}
 		else if ( location.startsWith( "pandamonium.php" ) )
@@ -629,10 +629,10 @@ public class RequestEditorKit
 		if ( addComplexFeatures )
 		{
 			StringUtilities.insertBefore(
-				buffer, "</head>", "<script language=\"Javascript\" src=\"/basics.js\"></script>" );
+				buffer, "</head>", "<script language=\"Javascript\" src=\"/" + KoLConstants.BASICS_JS + "\"></script>" );
 
 			StringUtilities.insertBefore(
-				buffer, "</head>", "<link rel=\"stylesheet\" href=\"/basics.css\" />" );
+				buffer, "</head>", "<link rel=\"stylesheet\" href=\"/" + KoLConstants.BASICS_CSS + "\" />" );
 		}
 
 		// Skip additional decorations for the character pane and the top menu
@@ -668,19 +668,14 @@ public class RequestEditorKit
 			// Always select the contents of text fields when you
 			// click on them to make for easy editing.
 
-			if ( Preferences.getBoolean( "autoHighlightOnFocus" ) )
+			if ( Preferences.getBoolean( "autoHighlightOnFocus" ) && buffer.indexOf( "</html>" ) != -1 )
 			{
-				boolean hasCloseTag = buffer.indexOf( "</html>" ) != -1;
-
-				if ( hasCloseTag )
-				{
-					StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/onfocus.js\"></script>" );
-				}
+				StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.ONFOCUS_JS + "\"></script>" );
 			}
 			
 			if ( location.contains( "fight.php" ) )
 			{
-				StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/combatfilter.js\"></script>" );
+				StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.COMBATFILTER_JS + "\"></script>" );
 			}
 
 			Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( buffer.toString() );
@@ -1078,7 +1073,7 @@ public class RequestEditorKit
 			}
 			StringUtilities.singleStringReplace( buffer,
 				test,
-				"<tr><td><textarea name=\"macrotext\" cols=25 rows=10 placeholder=\"type macro here\"></textarea><script language=JavaScript src=\"/macrohelper.js\"></script></td></tr>" );
+				"<tr><td><textarea name=\"macrotext\" cols=25 rows=10 placeholder=\"type macro here\"></textarea><script language=JavaScript src=\"/" + KoLConstants.MACROHELPER_JS + "\"></script></td></tr>" );
 		}
 
 		if ( buffer.indexOf( "but not before you grab one of its teeth" ) != -1 )

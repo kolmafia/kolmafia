@@ -520,7 +520,7 @@ public abstract class ClanManager
 		File standardFile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "standard.htm" );
 		File softcoreFile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "softcore.htm" );
 		File hardcoreFile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "hardcore.htm" );
-		File sortingScript = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "sorttable.js" );
+		File sortingScript = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + KoLConstants.SORTTABLE_JS );
 
 		// If initialization was unsuccessful, then there isn't
 		// enough data to create a clan ProfileSnapshot.
@@ -543,7 +543,7 @@ public abstract class ClanManager
 			ostream.close();
 
 			String line;
-			BufferedReader script = DataUtilities.getReader( "relay", "sorttable.js" );
+			BufferedReader script = DataUtilities.getReader( "relay", KoLConstants.SORTTABLE_JS );
 
 			ostream = LogStream.openStream( sortingScript, true );
 			while ( ( line = script.readLine() ) != null )

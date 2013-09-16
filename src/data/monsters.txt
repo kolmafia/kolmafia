@@ -340,7 +340,7 @@ Decent White Shark	whiteshark.gif	Atk: 425 Def: 337 HP: 600 Init: 150 Meat: 192-
 Demon of New Wave	5_4a.gif	BOSS Atk: 200 Def: 180 HP: 500 Init: 100 Phys: 40 P: demon	Bling of the New Wave (100)	Instant Karma (c100)	heart of the volcano (c100)
 Demonic Icebox	demfridge.gif	Atk: 4 Def: 4 HP: 5 Meat: 4-6 Init: 50 P: demon	accidental cider (0)	ancient frozen dinner (30)	dire fudgesicle (0)	leftovers of indeterminate origin (40)	hand grenegg (p20)
 Demoninja	demoninja.gif	Atk: 48 Def: 27 HP: 48 Init: 75 E: hot Meat: 40-60 P: demon	demon skin (15)	fraudwort (c50)	hot katana blade (30)	ninja hot pants (5)
-dense liana	liana	Atk: 144 Def: 140 HP: 150 Init: -10000	exotic jungle fruit (0)
+dense liana	liana.gif	Atk: 144 Def: 140 HP: 150 Init: -10000 P: plant	exotic jungle fruit (0)
 Dirty Hippy	hippy2.gif	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (2)	hippy bongo (5)	Spanish fly (c25)
 Dirty Hippy Jewelry Maker	hippy2.gif	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	beach glass bead (10)	clay peace-sign bead (10)	filthy corduroys (5)	filthy knitted dread sack (2)	hemp string (30)	hippy bongo (5)	phat turquoise bead (10)	reodorant (5)	Spanish fly (c25)
 Dirty Hippy Vegan Chef	hippy2.gif	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	carob chunks (30)	double-barreled sling (0)	filthy knitted dread sack (5)	Uncle Jick's Brownie Mix (30)	reodorant (5)	filthy corduroys (2)	filthy pestle (5)	Spanish fly (c25)

@@ -267,7 +267,9 @@ public class ProfileSnapshot
 		strbuf.append( ")</title>" );
 		strbuf.append( KoLConstants.LINE_BREAK );
 
-		strbuf.append( "<script language=\"Javascript\" src=\"sorttable.js\"></script>" );
+		strbuf.append( "<script language=\"Javascript\" src=\"" );
+		strbuf.append( KoLConstants.SORTTABLE_JS );
+		strbuf.append( "\"></script>" );
 		strbuf.append( KoLConstants.LINE_BREAK );
 
 		strbuf.append( "<style> body, td { font-family: sans-serif; } </style></head>" );
