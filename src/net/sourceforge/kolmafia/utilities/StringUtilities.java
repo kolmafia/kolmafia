@@ -38,10 +38,15 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.WeakHashMap;
 
 import java.util.regex.Matcher;
@@ -67,6 +72,43 @@ public class StringUtilities
 
 	private static final Pattern PREPOSITIONS_PATTERN =
 		Pattern.compile( "\\b(?:about|above|across|after|against|along|among|around|at|before|behind|" + "below|beneath|beside|between|beyond|by|down|during|except|for|from|in|inside|" + "into|like|near|of|off|on|onto|out|outside|over|past|through|throughout|to|" + "under|up|upon|with|within|without)\\b" );
+
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat( "EEE, dd MMM yyyy HH:mm:ss zzz" );
+	static {
+		DATE_FORMAT.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+	};
+
+	public static synchronized final long parseDate( final String dateString )
+	{
+		if ( dateString != null )
+		{
+			try
+			{
+				return StringUtilities.DATE_FORMAT.parse( dateString ).getTime();
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+		return 0;
+	}
+
+	public static final String formatDate( final long date )
+	{
+		return StringUtilities.formatDate( new Date( date ) );
+	}
+
+	public static synchronized final String formatDate( final Date date )
+	{
+		try
+		{
+			return StringUtilities.DATE_FORMAT.format( date );
+		}
+		catch ( Exception e )
+		{
+			return "";
+		}
+	}
 
 	/**
 	 * Returns the encoded-encoded version of the provided UTF-8 string.

@@ -129,6 +129,7 @@ public class RelayRequest
 	public List<String> headers = new ArrayList<String>();
 	public byte[] rawByteBuffer = null;
 	public String contentType = null;
+	public long lastModified = 0;
 	public String statusLine = "HTTP/1.1 302 Found";
 
 	public static boolean specialCommandIsAdventure = false;
@@ -450,6 +451,15 @@ public class RelayRequest
 			{
 				this.headers.add( "Content-Type: " + this.contentType );
 			}
+
+			if ( this.lastModified > 0 )
+			{
+				String lastModified = StringUtilities.formatDate( this.lastModified );
+				if ( !lastModified.equals( "" ) )
+				{
+					this.headers.add( "Last-Modified: " + lastModified );
+				}
+			}
 		}
 		else
 		{
@@ -541,12 +551,23 @@ public class RelayRequest
 		this.sendLocalImage( filename );
 	}
 
+	private static String localImagePath( final String filename )
+	{
+		return	filename.endsWith( "favicon.ico" ) ?
+			"http://www.kingdomofloathing.com/favicon.ico" :
+			filename.startsWith( "images" ) ?
+			"http://images.kingdomofloathing.com" + filename.substring( 6 ) :
+			filename;
+	}
+
+	public static File findLocalImage( final String filename )
+	{
+		return FileUtilities.imageFile( RelayRequest.localImagePath( filename ) );
+	}
+
 	private void sendLocalImage( final String filename )
 	{
-		String path = filename.endsWith( "favicon.ico" ) ?
-			"http://www.kingdomofloathing.com/favicon.ico" :
-			"http://images.kingdomofloathing.com" + filename.substring( 6 );
-		File imageFile = FileUtilities.downloadImage( path );
+		File imageFile = FileUtilities.downloadImage( RelayRequest.localImagePath( filename ) );
 
 		if ( imageFile == null )
 		{
@@ -554,6 +575,7 @@ public class RelayRequest
 			return;
 		}
 
+		this.lastModified = imageFile.lastModified();
 		this.rawByteBuffer = ByteBufferUtilities.read( imageFile );
 		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
@@ -602,8 +624,8 @@ public class RelayRequest
 				long lastModified = override.lastModified();
 				long now = (new Date()).getTime();
 				long expires = now + ( 1000L * 60 * 60 * 24 * 30 );
-				this.headers.add( "Last-Modified: " + new Date( lastModified ) );
-				this.headers.add( "Expires: " + new Date( expires ) );
+				this.headers.add( "Last-Modified: " + StringUtilities.formatDate( lastModified ) );
+				this.headers.add( "Expires: " + StringUtilities.formatDate( expires ) );
 			}
 		}
 
