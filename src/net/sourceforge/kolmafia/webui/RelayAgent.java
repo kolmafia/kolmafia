@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.webui;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -417,7 +418,8 @@ public class RelayAgent
 	{
 		if ( this.path.startsWith( "/images" ) )
 		{
-			return true;
+			File imageFile = RelayRequest.findLocalImage( this.path.substring( 1 ) );
+			return imageFile != null && imageFile.exists();
 		}
 
 		if ( this.path.indexOf( "?" ) != -1 )

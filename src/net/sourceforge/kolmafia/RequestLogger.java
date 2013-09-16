@@ -493,7 +493,7 @@ public class RequestLogger
 	{
 		RequestLogger.traceStream =
 			RequestLogger.openStream(
-				"TRACE_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", RequestLogger.debugStream, true );
+				"TRACE_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", RequestLogger.traceStream, true );
 	}
 
 	public static final void closeTraceStream()

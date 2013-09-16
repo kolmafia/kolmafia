@@ -48,6 +48,7 @@ import java.net.URLConnection;
 import java.nio.channels.FileChannel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -329,25 +330,43 @@ public class FileUtilities
 		{
 			local.delete();
 		}
+		else
+		{
+			String lastModifiedString = ((HttpURLConnection)connection).getHeaderField( "Last-Modified" );
+			long lastModified = StringUtilities.parseDate( lastModifiedString );
+			if ( lastModified > 0 )
+			{
+				local.setLastModified( lastModified );
+			}
+		}
 	}
 
 	/**
 	 * Downloads the given file from the KoL images server and stores it locally.
 	 */
 
-	public static final File downloadImage( final String filename )
+	private static final String localImageName( final String filename )
 	{
 		if ( filename == null || filename.equals( "" ) )
 		{
 			return null;
 		}
-
 		String localname = filename.substring( filename.indexOf( "/", "http://".length() ) + 1 );
 		if ( localname.startsWith( "albums/" ) )
 		{
 			localname = localname.substring( 7 );
 		}
+		return localname;
+	}
 
+	public static final File imageFile( final String filename )
+	{
+		return new File( KoLConstants.IMAGE_LOCATION, FileUtilities.localImageName( filename ) );
+	}
+
+	public static final File downloadImage( final String filename )
+	{
+		String localname = FileUtilities.localImageName( filename );
 		File localfile = new File( KoLConstants.IMAGE_LOCATION, localname );
 
 		if ( !localfile.exists() || localfile.length() == 0 )
