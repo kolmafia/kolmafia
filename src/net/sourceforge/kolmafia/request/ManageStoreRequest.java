@@ -42,7 +42,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
-import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -184,6 +183,7 @@ public class ManageStoreRequest
 		if ( takenItemMatcher.find() )
 		{
 			int taken = StringUtilities.parseInt( takenItemMatcher.group( 1 ) );
+			StoreManager.removeItem( this.takenItemId, taken );
 			KoLmafia.updateDisplay( taken + " " + takenItem.getName() + " removed from your store." );
 		}
 	}
