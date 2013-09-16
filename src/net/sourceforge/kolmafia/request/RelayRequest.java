@@ -593,9 +593,11 @@ public class RelayRequest
 
 		if ( RelayRequest.builtinRelayFile( filename ) )
 		{
-			StringUtilities.globalStringReplace( replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash );
-
-			if ( !filename.endsWith( ".html" ) )
+			if ( replyBuffer.indexOf( "MAFIAHIT" ) != -1 )
+			{
+				StringUtilities.globalStringReplace( replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash );
+			}
+			else if ( !filename.endsWith( ".html" ) )
 			{
 				long lastModified = override.lastModified();
 				long now = (new Date()).getTime();
