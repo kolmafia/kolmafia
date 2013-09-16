@@ -139,6 +139,7 @@ public abstract class ChoiceManager
 	private static final AdventureResult CURSE2_EFFECT = new AdventureResult( "Twice-Cursed", 1, true );
 	private static final AdventureResult CURSE3_EFFECT = new AdventureResult( "Thrice-Cursed", 1, true );
 	private static final AdventureResult MCCLUSKY_FILE = ItemPool.get( ItemPool.MCCLUSKY_FILE, 1 );
+	private static final AdventureResult MCCLUSKY_FILE_PAGE5 = ItemPool.get( ItemPool.MCCLUSKY_FILE_PAGE5, 1 );
 	private static final AdventureResult BINDER_CLIP = ItemPool.get( ItemPool.BINDER_CLIP, 1 );
 	private static final AdventureResult STONE_TRIANGLE = ItemPool.get( ItemPool.STONE_TRIANGLE, 1 );
 	
@@ -8460,15 +8461,17 @@ public abstract class ChoiceManager
 		// Working Holiday
 		case 786:
 		{
-			// If boss dead, show in browser, fight boss if available, if not, get binder clip if you lack it, if not, fight accountant if you stillneed file
+			// If boss dead, show in browser, fight boss if available, if not, get binder clip if you lack it, if not, fight accountant if you still need file
 			if ( decision.equals( "1" ) )
 			{
 				int hiddenOfficeProgress = Preferences.getInteger( "hiddenOfficeProgress" );
 				boolean hasMcCluskyFile = InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE ) > 0;
+				boolean hasMcCluskyFilePage5 = InventoryManager.getCount( ChoiceManager.MCCLUSKY_FILE_PAGE5 ) > 0;
 				boolean hasBinderClip = InventoryManager.getCount( ChoiceManager.BINDER_CLIP ) > 0;
 				return ( hiddenOfficeProgress >= 7 ? "4" :
 						hasMcCluskyFile ? "1" :
-						!hasBinderClip ? "2" : "3" );
+						!hasBinderClip ? "2" : 
+						!hasMcCluskyFilePage5 ? "3" : "0" );
 			}
 			return decision;
 		}
