@@ -303,10 +303,22 @@ public class FileUtilities
 			// all the variables point to KoLmafia.
 			if ( remote.endsWith( ".js" ) )
 			{
-				byte[] bytes = ByteBufferUtilities.read( istream ); 
+				byte[] bytes = ByteBufferUtilities.read( istream );
 				String text = new String( bytes );
 				text = StringUtilities.globalStringReplace( text, "location.hostname", "location.host" );
 				ostream.write( text.getBytes() );
+			}
+			else if ( remote.endsWith( ".gif" ) )
+			{
+				byte[] bytes = ByteBufferUtilities.read( istream );
+				String signature = new String( bytes, 0, 3 );
+				// Certain firewalls return garbage if they
+				// prevent you from getting to the image
+				// server. Don't cache that.
+				if ( signature.equals( "GIF" ) )
+				{
+					ostream.write( bytes, 0, bytes.length );
+				}
 			}
 			else
 			{
