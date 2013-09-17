@@ -1169,21 +1169,106 @@ public class ChoiceOptionsPanel
 		this.reloadedSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure553" ) );
 		this.sororityGuideSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure554" ) );
  
-		this.hiddenShrineNWSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure781" ) );
-		this.hiddenShrineSWSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure783" ) );
-		this.hiddenShrineNESelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure785" ) );
-		this.hiddenShrineSESelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure787" ) );
-		int hiddenApartmentIndex = Preferences.getInteger( "choiceAdventure780");
-		this.hiddenApartmentSelect.setSelectedIndex( hiddenApartmentIndex == 1 ? 1 : hiddenApartmentIndex == 3 ? 2 : hiddenApartmentIndex == 6 ? 3 : 0 );
-		this.hiddenHospitalSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure784" ) );
+		int hiddenShrineNWIndex = Preferences.getInteger ( "choiceAdventure781" );
+		if ( hiddenShrineNWIndex <= 1 && hiddenShrineNWIndex >= 0 )
+		{
+			this.hiddenShrineNWSelect.setSelectedIndex( hiddenShrineNWIndex );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + hiddenShrineNWIndex + " for choiceAdventure781." );
+		}
+		int hiddenShrineSWIndex = Preferences.getInteger ( "choiceAdventure783" );
+		if ( hiddenShrineSWIndex <= 1 && hiddenShrineSWIndex >= 0 )
+		{
+			this.hiddenShrineSWSelect.setSelectedIndex( hiddenShrineSWIndex );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + hiddenShrineSWIndex + " for choiceAdventure783." );
+		}
+		int hiddenShrineNEIndex = Preferences.getInteger ( "choiceAdventure785" );
+		if ( hiddenShrineNEIndex <= 1  && hiddenShrineNEIndex >= 0)
+		{
+			this.hiddenShrineNESelect.setSelectedIndex( hiddenShrineNEIndex );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + hiddenShrineNEIndex + " for choiceAdventure785." );
+		}
+		int hiddenShrineSEIndex = Preferences.getInteger ( "choiceAdventure787" );
+		if ( hiddenShrineSEIndex <= 1  && hiddenShrineSEIndex >= 0)
+		{
+			this.hiddenShrineSESelect.setSelectedIndex( hiddenShrineSEIndex );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + hiddenShrineSEIndex + " for choiceAdventure787." );
+		}
+		int hiddenApartmentIndex = Preferences.getInteger( "choiceAdventure780" );
+		if ( hiddenApartmentIndex <= 3  && hiddenApartmentIndex >= 0 )
+		{
+			this.hiddenApartmentSelect.setSelectedIndex( hiddenApartmentIndex == 1 ? 1 : hiddenApartmentIndex == 3 ? 2 : hiddenApartmentIndex == 6 ? 3 : 0 );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + hiddenApartmentIndex + " for choiceAdventure780." );
+		}
+		int hiddenHospitalIndex = Preferences.getInteger ( "choiceAdventure784" );
+		if ( hiddenHospitalIndex <= 1 && hiddenHospitalIndex >= 0 )
+		{
+			this.hiddenHospitalSelect.setSelectedIndex( hiddenHospitalIndex );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + hiddenHospitalIndex + " for choiceAdventure784." );
+		}
 		int hiddenParkIndex = Preferences.getInteger( "choiceAdventure789");
-		this.hiddenParkSelect.setSelectedIndex( hiddenParkIndex == 1 ? 1 : hiddenParkIndex == 2 ? 2 : hiddenParkIndex == 6 ? 3 : 0 );
-		this.hiddenBowlingAlleySelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure788" ) );
+		if ( hiddenParkIndex <= 3 && hiddenParkIndex >= 0 )
+		{
+			this.hiddenParkSelect.setSelectedIndex( hiddenParkIndex == 1 ? 1 : hiddenParkIndex == 2 ? 2 : hiddenParkIndex == 6 ? 3 : 0 );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + hiddenParkIndex + " for choiceAdventure789." );
+		}
+		int hiddenBowlingAlleyIndex = Preferences.getInteger( "choiceAdventure788");
+		if ( hiddenBowlingAlleyIndex <= 1 && hiddenBowlingAlleyIndex >= 0 )
+		{
+			this.hiddenBowlingAlleySelect.setSelectedIndex( hiddenBowlingAlleyIndex );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + hiddenBowlingAlleyIndex + " for choiceAdventure788." );
+		}
 		int hiddenOfficeIndex = Preferences.getInteger( "choiceAdventure786");
-		this.hiddenOfficeSelect.setSelectedIndex( hiddenOfficeIndex == 1 ? 1 : hiddenOfficeIndex == 3 ? 2 : hiddenOfficeIndex == 6 ? 3 : 0 );
-		this.hiddenZigguratSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure791" ) );
+		if ( hiddenOfficeIndex <= 3 && hiddenOfficeIndex >= 0 )
+		{
+			this.hiddenOfficeSelect.setSelectedIndex( hiddenOfficeIndex == 1 ? 1 : hiddenOfficeIndex == 3 ? 2 : hiddenOfficeIndex == 6 ? 3 : 0 );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + hiddenOfficeIndex + " for choiceAdventure786." );
+		}
+		int hiddenZigguratIndex = Preferences.getInteger ( "choiceAdventure791" );
+		if ( hiddenZigguratIndex <= 1 && hiddenZigguratIndex >= 0 )
+		{
+			this.hiddenZigguratSelect.setSelectedIndex( hiddenZigguratIndex );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + hiddenZigguratIndex + " for choiceAdventure791." );
+		}
 
-		this.kolhsCafeteriaSelect.setSelectedIndex( Preferences.getInteger ( "choiceAdventure700" ) );
+		int kolhsCafeteriaIndex = Preferences.getInteger ( "choiceAdventure700" );
+		if ( kolhsCafeteriaIndex <= 1 && kolhsCafeteriaIndex >= 0 )
+		{
+			this.kolhsCafeteriaSelect.setSelectedIndex( kolhsCafeteriaIndex );
+		}
+		else
+		{
+			System.out.println( "Invalid setting " + kolhsCafeteriaIndex + " for choiceAdventure700." );
+		}
 
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );
