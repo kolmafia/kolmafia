@@ -844,7 +844,7 @@ public abstract class UseLinkDecorator
 			switch ( itemId )
 			{
 			case ItemPool.WORM_RIDING_HOOKS:
-				return new UseLink( itemId, itemCount, "wormride", "beach.php?action=woodencity" );
+				return new UseLink( itemId, itemCount, "wormride", "place.php?whichplace=desertbeach&action=db_pyramid1" );
 
 			case ItemPool.PIXEL_CHAIN_WHIP:
 			case ItemPool.PIXEL_MORNING_STAR:
