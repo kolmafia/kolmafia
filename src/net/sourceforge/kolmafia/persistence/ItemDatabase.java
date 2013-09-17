@@ -76,6 +76,8 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -716,9 +718,38 @@ public class ItemDatabase
 		if ( data.length < 8 )
 			return;
 
+		String holiday = HolidayDatabase.getHoliday();
+		boolean isBorisDay = ( holiday.equals( "Feast of Boris" ) || holiday.equals( "Drunksgiving" ) );
+
 		ItemDatabase.levelReqByName.put( name, Integer.valueOf( data[ 2 ] ) );
-		ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( data[ 3 ] ) );
-		ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 4 ] );
+
+		// Some items different on Feast of Boris
+		if ( !isBorisDay )
+		{
+			ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( data[ 3 ] ) );
+			ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 4 ] );
+		}
+		else if( name.equals( "cranberries" ) )
+		{
+			ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( "good" ) );
+			ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), "2-4" );
+		}
+		else if( name.equals( "redrum" ) )
+		{
+			ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( "good" ) );
+			ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), "5-9" );
+		}
+		else if( name.equals( "vodka and cranberries" ) )
+		{
+			ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( "good" ) );
+			ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), "6-9" );
+		}
+		else
+		{
+			ItemDatabase.qualityByName.put( name, ItemDatabase.qualityValue( data[ 3 ] ) );
+			ItemDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 4 ] );
+		}
+		
 		ItemDatabase.muscleByName.put( name, data[ 5 ] );
 		ItemDatabase.mysticalityByName.put( name, data[ 6 ] );
 		ItemDatabase.moxieByName.put( name, data[ 7 ] );
@@ -830,13 +861,33 @@ public class ItemDatabase
 		{
 			return;
 		}
-
+		
+		// calculate munchies pill effect
+		double munchieBonus;
+		if ( end <= 3 )
+		{
+			munchieBonus = 3.0;
+		}
+		else if (start >= 7 )
+		{
+			munchieBonus = 1.0;
+		}
+		else
+		{
+			int munchieTotal = 0;
+			for( int i = start; i <= end ; i++ )
+			{
+				munchieTotal += Math.max( (12-i)/3, 1 );
+			}
+			munchieBonus = (double) munchieTotal / ( end-start + 1 );
+		}
+		
 		double gain2 = benefit ? ( average + unitCost * 2.0 ) : 0.0;
 		double gain3 = benefit ? ( average + unitCost * 3.0 ) : 0.0;
-		double gain0a = benefit ? ( average + 2.0 ) : 0.0;
-		double gain1a = benefit ? ( average + unitCost + 2.0 ) : 0.0;
-		double gain2a = benefit ? ( average + unitCost * 2.0 + 2.0 ) : 0.0;
-		double gain3a = benefit ? ( average + unitCost * 3.0 + 2.0 ) : 0.0;
+		double gain0a = benefit ? ( average + munchieBonus ) : 0.0;
+		double gain1a = benefit ? ( average + unitCost + munchieBonus ) : 0.0;
+		double gain2a = benefit ? ( average + unitCost * 2.0 + munchieBonus ) : 0.0;
+		double gain3a = benefit ? ( average + unitCost * 3.0 + munchieBonus ) : 0.0;
 
 		ItemDatabase.addAdventureRange( name, unitCost, false, true, false, false, gain1 );
 		ItemDatabase.addAdventureRange( name, unitCost, false, false, true, false, gain1 );
