@@ -8258,6 +8258,14 @@ public abstract class ChoiceManager
 			}
 			return "0";
 
+		case 678:
+			// Option 3 isn't always available, but decision to take isn't clear if it's selected, so show in browser
+			if ( decision.equals( "3" ) && !responseText.contains( "Check behind the trash can" ) )
+			{
+				return "0";
+			}
+			return decision;
+			
 		case 690:
 			// The First Chest Isn't the Deepest.
 		case 691:
