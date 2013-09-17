@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 
@@ -6895,6 +6896,14 @@ public abstract class ChoiceManager
 					Preferences.setInteger( "lastYearbookCameraAscension", KoLCharacter.getAscensions() );
 					Preferences.increment( "yearbookbCameraAscensions", 1, 20, false );
 				}
+			}
+			break;
+
+		case 786:
+			if( ChoiceManager.lastDecision == 2 && Preferences.getBoolean( "autoCraft" ) && text.contains( "boring binder clip" ) &&
+				InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 1 && Preferences.getBoolean( "autoCraft" ) )
+			{
+				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.BINDER_CLIP ) );
 			}
 			break;
 		}
