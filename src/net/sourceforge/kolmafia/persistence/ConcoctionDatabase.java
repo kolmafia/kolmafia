@@ -2024,6 +2024,18 @@ public class ConcoctionDatabase
 		{
 			result.append( "Crackpot Mystic" );
 		}
+		else if ( mixingMethod == CraftingType.CHEMCLASS )
+		{
+			result.append( "Chemistry Class" );
+		}
+		else if ( mixingMethod == CraftingType.ARTCLASS )
+		{
+			result.append( "Art Class" );
+		}
+		else if ( mixingMethod == CraftingType.SHOPCLASS )
+		{
+			result.append( "Shop Class" );
+		}
 		else if ( mixingMethod == CraftingType.ROLLING_PIN )
 		{
 			result.append( "rolling pin/unrolling pin" );
@@ -2368,6 +2380,19 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "PIXEL" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.PIXEL;
+		}
+		// Items anybody can create in KOLHS
+		else if ( mix.equals( "CHEMCLASS" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.CHEMCLASS;
+		}
+		else if ( mix.equals( "ARTCLASS" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.ARTCLASS;
+		}
+		else if ( mix.equals( "SHOPCLASS" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.SHOPCLASS;
 		}
 		// Items created with a rolling pin or and an unrolling pin
 		else if ( mix.equals( "ROLL" ) )

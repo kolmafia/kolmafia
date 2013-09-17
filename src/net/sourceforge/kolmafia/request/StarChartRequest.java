@@ -91,21 +91,24 @@ public class StarChartRequest
 		// Since we create one at a time, override processResults so
 		// superclass method doesn't undo ingredient usage.
 
-		StarChartRequest.parseResponse( this.getURLString(), this.responseText );
-	}
-
-	public static void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=starchart" ) )
-		{
-			return;
-		}
+		String urlString = this.getURLString();
+		String responseText = this.responseText;
 
 		// You place the stars and lines on the chart -- the chart bursts into flames
 		// and leaves behind a sweet star item!
 		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You place the stars" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Star chart crafting was unsuccessful." );
+			return;
+		}
+
+		StarChartRequest.parseResponse( urlString, responseText );
+	}
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=starchart" ) )
+		{
 			return;
 		}
 
@@ -118,8 +121,8 @@ public class StarChartRequest
 		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
 		int itemId = ConcoctionPool.rowToId( row );
 
-		CreateItemRequest pixelItem = CreateItemRequest.getInstance( itemId );
-		if ( pixelItem == null )
+		CreateItemRequest item = CreateItemRequest.getInstance( itemId );
+		if ( item == null )
 		{
 			return; // this is an unknown item
 		}
@@ -151,36 +154,36 @@ public class StarChartRequest
 		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
 		int itemId = ConcoctionPool.rowToId( row );
 
-		CreateItemRequest starItem = CreateItemRequest.getInstance( itemId );
-		if ( starItem == null )
+		CreateItemRequest item = CreateItemRequest.getInstance( itemId );
+		if ( item == null )
 		{
 			return true; // this is an unknown item
 		}
 
 		// The quantity is always 1
-		if ( starItem.getQuantityPossible() < 1 )
+		if ( item.getQuantityPossible() < 1 )
 		{
 			return true; // attempt will fail
 		}
 
-		StringBuilder pixelString = new StringBuilder();
-		pixelString.append( "Trade " );
+		StringBuilder buffer = new StringBuilder();
+		buffer.append( "Trade " );
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			if ( i > 0 )
 			{
-				pixelString.append( ", " );
+				buffer.append( ", " );
 			}
 
-			pixelString.append( ingredients[ i ].getCount() );
-			pixelString.append( " " );
-			pixelString.append( ingredients[ i ].getName() );
+			buffer.append( ingredients[ i ].getCount() );
+			buffer.append( " " );
+			buffer.append( ingredients[ i ].getName() );
 		}
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( pixelString.toString() );
+		RequestLogger.updateSessionLog( buffer.toString() );
 
 		return true;
 	}

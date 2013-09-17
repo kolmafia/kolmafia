@@ -581,6 +581,9 @@ public interface KoLConstants
 		CLIPART,	// Tome of Clip Art summons
 		JARLS,		// Items that can only be made by an Avatar of Jarlsberg
 		GRANDMA,	// Items made by Grandma Sea Monkee
+		CHEMCLASS,	// Items made in Chemistry Class at KOLHS
+		ARTCLASS,	// Items made in Art Class at KOLHS
+		SHOPCLASS,	// Items made in Shop Class at KOLHS
 	}
 
 	public enum CraftingRequirements
