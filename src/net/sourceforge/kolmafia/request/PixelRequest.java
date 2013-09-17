@@ -89,7 +89,16 @@ public class PixelRequest
 	@Override
 	public void processResults()
 	{
-		PixelRequest.parseResponse( this.getURLString(), this.responseText );
+		String urlString = this.getURLString();
+		String responseText = this.responseText;
+
+		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Mystic shopping was unsuccessful." );
+			return;
+		}
+
+		PixelRequest.parseResponse( urlString, responseText );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
@@ -99,49 +108,7 @@ public class PixelRequest
 			return;
 		}
 
-		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
-		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Mystic shopping was unsuccessful." );
-			return;
-		}
-
-		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
-		if ( !rowMatcher.find() )
-		{
-			return;
-		}
-
-		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
-		int itemId = ConcoctionPool.rowToId( row );
-
-		CreateItemRequest pixelItem = CreateItemRequest.getInstance( itemId );
-		if ( pixelItem == null )
-		{
-			return; // this is an unknown item
-		}
-
-		int quantity = 1;
-		if ( urlString.contains( "buymax=" ) )
-		{
-			quantity = pixelItem.getQuantityPossible();
-		}
-		else
-		{
-			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
-			if ( quantityMatcher.find() )
-			{
-				String quantityString = quantityMatcher.group( 1 ).trim();
-				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
-			}
-		}
-
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
-
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			ResultProcessor.processResult(
-				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
-		}
+		NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -151,60 +118,6 @@ public class PixelRequest
 			return false;
 		}
 
-		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
-		if ( !rowMatcher.find() )
-		{
-			return true;
-		}
-
-		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
-		int itemId = ConcoctionPool.rowToId( row );
-
-		CreateItemRequest pixelItem = CreateItemRequest.getInstance( itemId );
-		if ( pixelItem == null )
-		{
-			return true; // this is an unknown item
-		}
-
-		int quantity = 1;
-		if ( urlString.contains( "buymax=" ) )
-		{
-			quantity = pixelItem.getQuantityPossible();
-		}
-		else
-		{
-			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
-			if ( quantityMatcher.find() )
-			{
-				String quantityString = quantityMatcher.group( 1 ).trim();
-				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
-			}
-		}
-
-		if ( quantity > pixelItem.getQuantityPossible() )
-		{
-			return true; // attempt will fail
-		}
-
-		StringBuilder pixelString = new StringBuilder();
-		pixelString.append( "Trade " );
-
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			if ( i > 0 )
-			{
-				pixelString.append( ", " );
-			}
-
-			pixelString.append( ingredients[ i ].getCount() * quantity );
-			pixelString.append( " " );
-			pixelString.append( ingredients[ i ].getName() );
-		}
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( pixelString.toString() );
-
-		return true;
+		return NPCPurchaseRequest.registerShopRowRequest( urlString );
 	}
 }

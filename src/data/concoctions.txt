@@ -2249,3 +2249,24 @@ sea mantle	GRANDMA, ROW120	pristine fish scale (5)
 sea shawl	GRANDMA, ROW121	pristine fish scale (5)
 sea cape	GRANDMA, ROW122	pristine fish scale (5)
 saltwaterbed	GRANDMA, ROW123	sea leather (15)
+
+# KOL High School Art Class
+giant eraser	ARTCLASS, ROW163	eraser nubbin (4)
+giant Faraday cage	ARTCLASS, ROW165	twisted piece of wire (8)	angry inch (2)	eraser nubbin (2)	Mountain Stream Code Black Alert (1)
+modeling claymore 	ARTCLASS, ROW166	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracer (2)
+quasireligious sculpture 	ARTCLASS, ROW164	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert(1)
+sticky clay homunculus 	ARTCLASS, ROW167	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert (1)
+
+# KOL High School Chemistry Class
+dirty stinkbomb	CHEMCLASS, ROW171	chlorine crystal (2)	ph balancer (2)	nugget of sodium (4)	surgical tape (1)	illegal firecracker (1)
+grains of salt	CHEMCLASS, ROW169	chlorine crystal (2)	nugget of sodium (2)
+sodium pentasomething	CHEMCLASS, ROW168	nugget of sodium (2)	mysterious chemical residue (4)	Mountain Stream Code Black Alert (1)
+superwater	CHEMCLASS, ROW172	ph balancer (6)	mysterious chemical residue (2)	Mountain Stream Code Black Alert (1)
+yellowcake bomb	CHEMCLASS, ROW170	chlorine crystal (4)	ph balancer (4)	mysterious chemical residue (4)	surgical tape (1)	illegal firecracker (1)
+
+# KOL High School Shop Class
+deathchucks 	SHOPCLASS, ROW162	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal (1)
+miniature suspension bridge 	SHOPCLASS, ROW158	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape (1)
+Staff of the Lunch Lady 	SHOPCLASS, ROW159	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
+universal key	SHOPCLASS, ROW160	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape (1)	scrap metal (1)
+world's most dangerous birdhouse 	SHOPCLASS, ROW161	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)

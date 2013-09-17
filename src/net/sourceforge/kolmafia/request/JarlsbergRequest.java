@@ -161,8 +161,8 @@ public class JarlsbergRequest
 		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
 		int itemId = ConcoctionPool.rowToId( row );
 
-		CreateItemRequest jarlsItem = CreateItemRequest.getInstance( itemId );
-		if ( jarlsItem == null )
+		CreateItemRequest item = CreateItemRequest.getInstance( itemId );
+		if ( item == null )
 		{
 			return true; // this is an unknown item
 		}
@@ -170,7 +170,7 @@ public class JarlsbergRequest
 		int quantity = 1;
 		if ( urlString.contains( "buymax=" ) )
 		{
-			quantity = jarlsItem.getQuantityPossible();
+			quantity = item.getQuantityPossible();
 		}
 		else
 		{
@@ -183,24 +183,29 @@ public class JarlsbergRequest
 		}
 
 		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
-		StringBuilder text = new StringBuilder();
-		text.append( "Using " );
+
+		StringBuilder buffer = new StringBuilder();
+		buffer.append( "Using " );
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			if ( i > 0 )
 			{
-				text.append( " + " );
+				buffer.append( " + " );
 			}
 
-			text.append( ingredients[ i ].getCount() * quantity );
-			text.append( " " );
-			text.append( ingredients[ i ].getName() );
+			buffer.append( ingredients[ i ].getCount() * quantity );
+			buffer.append( " " );
+			buffer.append( ingredients[ i ].getName() );
 		}
-		text.append( " to make " ).append( quantity ).append( " " ).append( jarlsItem.getName() );
+
+		buffer.append( " to make " );
+		buffer.append( quantity );
+		buffer.append( " " );
+		buffer.append( item.getName() );
 
 		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( text.toString() );
+		RequestLogger.updateSessionLog( buffer.toString() );
 
 		return true;
 	}

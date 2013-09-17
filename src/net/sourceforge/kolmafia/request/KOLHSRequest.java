@@ -53,6 +53,19 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class KOLHSRequest
 	extends CreateItemRequest
 {
+	public static final boolean isKOLHSLocation( final int adventureId )
+	{
+		switch ( adventureId )
+		{
+		case AdventurePool.THE_HALLOWED_HALLS:
+		case AdventurePool.SHOP_CLASS:
+		case AdventurePool.CHEMISTRY_CLASS:
+		case AdventurePool.ART_CLASS:
+			return true;
+		}
+		return false;
+	}
+
 	public KOLHSRequest( final Concoction conc )
 	{
 		super( "shop.php", conc );
@@ -72,14 +85,8 @@ public class KOLHSRequest
 	@Override
 	public void processResults()
 	{
-	}
-
-	public static void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "shop.php" ) || !urlString.startsWith( "whichshop=kolhs_" ) )
-		{
-			return;
-		}
+		String urlString = this.getURLString();
+		String responseText = this.responseText;
 
 		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
 		{
@@ -87,111 +94,26 @@ public class KOLHSRequest
 			return;
 		}
 
-		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
-		if ( !rowMatcher.find() )
+		KOLHSRequest.parseResponse( urlString, responseText );
+	}
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=kolhs_" ) )
 		{
 			return;
 		}
 
-		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
-		int itemId = ConcoctionPool.rowToId( row );
-
-		CreateItemRequest KOLHSItem = CreateItemRequest.getInstance( itemId );
-		if ( KOLHSItem == null )
-		{
-			return; // this is an unknown item
-		}
-
-		int quantity = 1;
-		if ( urlString.contains( "buymax=" ) )
-		{
-			quantity = KOLHSItem.getQuantityPossible();
-		}
-		else
-		{
-			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
-			if ( quantityMatcher.find() )
-			{
-				String quantityString = quantityMatcher.group( 1 ).trim();
-				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
-			}
-		}
-
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
-
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			ResultProcessor.processResult(
-				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
-		}
+		NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 	}
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
-		if ( !rowMatcher.find() )
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=kolhs_" ) )
 		{
-			return true;
+			return false;
 		}
 
-		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
-		int itemId = ConcoctionPool.rowToId( row );
-
-		CreateItemRequest KOLHSItem = CreateItemRequest.getInstance( itemId );
-		if ( KOLHSItem == null )
-		{
-			return true; // this is an unknown item
-		}
-
-		int quantity = 1;
-		if ( urlString.contains( "buymax=" ) )
-		{
-			quantity = KOLHSItem.getQuantityPossible();
-		}
-		else
-		{
-			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
-			if ( quantityMatcher.find() )
-			{
-				String quantityString = quantityMatcher.group( 1 ).trim();
-				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
-			}
-		}
-
-		if ( quantity > KOLHSItem.getQuantityPossible() )
-		{
-			return true; // attempt will fail
-		}
-
-		StringBuilder KOLHSString = new StringBuilder();
-		KOLHSString.append( "Trade " );
-
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
-		for ( int i = 0; i < ingredients.length; ++i )
-		{
-			if ( i > 0 )
-			{
-				KOLHSString.append( ", " );
-			}
-
-			KOLHSString.append( ingredients[ i ].getCount() * quantity );
-			KOLHSString.append( " " );
-			KOLHSString.append( ingredients[ i ].getName() );
-		}
-
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( KOLHSString.toString() );
-
-		return true;
-	}
-
-	public static final boolean isKOLHSLocation( final int adventureId )
-	{
-		if ( adventureId == AdventurePool.THE_HALLOWED_HALLS || adventureId == AdventurePool.SHOP_CLASS ||
-			adventureId == AdventurePool.CHEMISTRY_CLASS || adventureId == AdventurePool.ART_CLASS )
-		{
-			return true;
-		}
-		return false;
+		return NPCPurchaseRequest.registerShopRowRequest( urlString );
 	}
 }

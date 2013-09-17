@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -459,6 +461,46 @@ public class NPCPurchaseRequest
 		return true;
 	}
 
+	public static final void parseShopRowResponse( final String urlString, final String responseText )
+	{
+		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
+		if ( !rowMatcher.find() )
+		{
+			return;
+		}
+
+		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
+		int itemId = ConcoctionPool.rowToId( row );
+
+		CreateItemRequest item = CreateItemRequest.getInstance( itemId );
+		if ( item == null )
+		{
+			return; // this is an unknown item
+		}
+
+		int quantity = 1;
+		if ( urlString.contains( "buymax=" ) )
+		{
+			quantity = item.getQuantityPossible();
+		}
+		else
+		{
+			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
+			if ( quantityMatcher.find() )
+			{
+				String quantityString = quantityMatcher.group( 1 ).trim();
+				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
+			}
+		}
+
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			ResultProcessor.processResult(
+				ingredients[ i ].getInstance( -1 * ingredients[ i ].getCount() * quantity ) );
+		}
+	}
+
 	public static final void parseShopResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.startsWith( "shop.php" ) )
@@ -474,17 +516,30 @@ public class NPCPurchaseRequest
 
 		String shopId = m.group(1);
 
-		if ( shopId.equals( "mystic" ) )
+		// The following trade collections of ingredients for an item
+		if ( shopId.equals( "mystic" ) ||
+		     shopId.startsWith( "kolhs_" ) ||
+		     shopId.equals( "grandma" ) )
 		{
-			PixelRequest.parseResponse( urlString, responseText );
+			NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 			return;
 		}
 
+		// The following does too, but always makes a single item
 		if ( shopId.equals( "starchart" ) )
 		{
 			StarChartRequest.parseResponse( urlString, responseText );
 			return;
 		}
+
+		// The following does too, but wants a special message
+		if ( shopId.equals( "jarl" ) )
+		{
+			JarlsbergRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		// The following are coinmasters
 
 		if ( shopId.equals( "damachine" ) )
 		{
@@ -516,21 +571,9 @@ public class NPCPurchaseRequest
 			return;
 		}
 
-		if ( shopId.equals( "grandma" ) )
-		{
-			GrandmaRequest.parseResponse( urlString, responseText );
-			return;
-		}
-
 		if ( shopId.equals( "trapper" ) )
 		{
 			TrapperRequest.parseResponse( urlString, responseText );
-			return;
-		}
-
-		if ( shopId.equals( "jarl" ) )
-		{
-			JarlsbergRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
@@ -539,6 +582,65 @@ public class NPCPurchaseRequest
 			FDKOLRequest.parseResponse( urlString, responseText );
 			return;
 		}
+	}
+
+	public static final boolean registerShopRowRequest( final String urlString )
+	{
+		Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
+		if ( !rowMatcher.find() )
+		{
+			return true;
+		}
+
+		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
+		int itemId = ConcoctionPool.rowToId( row );
+
+		CreateItemRequest item = CreateItemRequest.getInstance( itemId );
+		if ( item == null )
+		{
+			return true; // this is an unknown item
+		}
+
+		int quantity = 1;
+		if ( urlString.contains( "buymax=" ) )
+		{
+			quantity = item.getQuantityPossible();
+		}
+		else
+		{
+			Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher( urlString );
+			if ( quantityMatcher.find() )
+			{
+				String quantityString = quantityMatcher.group( 1 ).trim();
+				quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt( quantityString );
+			}
+		}
+
+		if ( quantity > item.getQuantityPossible() )
+		{
+			return true; // attempt will fail
+		}
+
+		StringBuilder buffer = new StringBuilder();
+		buffer.append( "Trade " );
+
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( itemId );
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			if ( i > 0 )
+			{
+				buffer.append( ", " );
+			}
+
+			buffer.append( ingredients[ i ].getCount() * quantity );
+			buffer.append( " " );
+			buffer.append( ingredients[ i ].getName() );
+		}
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( buffer.toString() );
+
+		return true;
 	}
 
 	public static final boolean registerShopRequest( final String urlString, boolean meatOnly )
@@ -582,8 +684,8 @@ public class NPCPurchaseRequest
 		String itemName = ItemDatabase.getItemName( itemId );
 		int priceVal = NPCStoreDatabase.price( itemName );
 
-		// A "shop" can have items for Meat and also for tokens. If
-		// there is no Meat price, let correct Coinmaster claim it.
+		// A "shop" can have items for Meat and also for tokens.
+		// If  there is no Meat price, let correct class claim it.
 		if ( priceVal == 0 )
 		{
 			// If we've already checked tokens, this is an unknown item
@@ -592,49 +694,51 @@ public class NPCPurchaseRequest
 				return false;
 			}
 
-			if ( shopId.equals( "mystic" ) )
+			// The following trade collections of ingredients for an item
+			if ( shopId.equals( "mystic" ) ||
+			     shopId.startsWith( "kolhs_" ) ||
+			     shopId.equals( "grandma" ) )
 			{
-				PixelRequest.registerRequest( urlString );
+				return NPCPurchaseRequest.registerShopRowRequest( urlString );
 			}
 
-			else if ( shopId.equals( "starchart" ) )
+			// The following does too, but always makes a single item
+			if ( shopId.equals( "starchart" ) )
 			{
-				StarChartRequest.registerRequest( urlString );
+				return StarChartRequest.registerRequest( urlString );
 			}
 
-			else if ( shopId.equals( "damachine" ) )
+			// The following does too, but wants a special message
+			if ( shopId.equals( "jarl" ) )
 			{
-				VendingMachineRequest.registerRequest( urlString );
+				return JarlsbergRequest.registerRequest( urlString );
 			}
 
-			else if ( shopId.equals( "shore" ) )
+			// The following are coinmasters
+
+			if ( shopId.equals( "damachine" ) )
 			{
-				ShoreGiftShopRequest.registerRequest( urlString );
+				return VendingMachineRequest.registerRequest( urlString );
 			}
 
-			else if ( shopId.equals( "dv" ) )
+			if ( shopId.equals( "shore" ) )
 			{
-				TerrifiedEagleInnRequest.registerRequest( urlString );
+				return ShoreGiftShopRequest.registerRequest( urlString );
 			}
 
-			else if ( shopId.equals( "grandma" ) )
+			if ( shopId.equals( "dv" ) )
 			{
-				GrandmaRequest.registerRequest( urlString );
+				return TerrifiedEagleInnRequest.registerRequest( urlString );
 			}
 
-			else if ( shopId.equals( "trapper" ) )
+			if ( shopId.equals( "trapper" ) )
 			{
-				TrapperRequest.registerRequest( urlString );
+				return TrapperRequest.registerRequest( urlString );
 			}
 
-			else if ( shopId.equals( "jarl" ) )
+			if ( shopId.equals( "fdkol" ) )
 			{
-				JarlsbergRequest.registerRequest( urlString );
-			}
-
-			else if ( shopId.equals( "fdkol" ) )
-			{
-				FDKOLRequest.registerRequest( urlString, true );
+				return FDKOLRequest.registerRequest( urlString, true );
 			}
 
 			return false;
