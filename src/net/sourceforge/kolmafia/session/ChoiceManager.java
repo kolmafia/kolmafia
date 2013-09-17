@@ -8499,6 +8499,19 @@ public abstract class ChoiceManager
 				return "2";
 			}
 			return decision;
+
+		// Legend of the Temple in the Hidden City
+		case 791:
+		{
+			// Show in browser if not enough triangles to fight spectre to prevent infinite loop
+			int stoneTriangles = InventoryManager.getCount( ChoiceManager.STONE_TRIANGLE );
+			if ( decision.equals( "1" ) && stoneTriangles < 4 )
+			{
+				return "0";
+			}
+			return decision;
+		}
+		
 		}
 
 		return decision;
