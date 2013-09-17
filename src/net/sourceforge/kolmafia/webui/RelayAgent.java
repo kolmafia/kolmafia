@@ -215,6 +215,7 @@ public class RelayAgent
 		}
 
 		this.request.constructURLString( this.path, usePostMethod );
+		this.isCheckingModified = null;
 
 		String currentLine;
 		int contentLength = 0;
