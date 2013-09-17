@@ -1873,7 +1873,15 @@ public abstract class RuntimeLibrary
 			return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer() );
 		}
 
-		RequestThread.postRequest( relayRequest );
+		while ( true )
+		{
+			RequestThread.postRequest( relayRequest );
+			if ( relayRequest.redirectLocation == null )
+			{
+				break;
+			}
+			relayRequest.constructURLString( relayRequest.redirectLocation, false, false );
+		}
 
 		StringBuffer buffer = new StringBuffer();
 		if ( relayRequest.responseText != null )
