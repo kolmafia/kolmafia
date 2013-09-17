@@ -1938,8 +1938,18 @@ public abstract class RuntimeLibrary
 			return returnValue;
 		}
 
-		// Post the request and get the response!
-		RequestThread.postRequest( request );
+		// Post the request and get the response!  Note that if we are
+		// in a relay script, we have to follow all redirection here.
+		while ( true )
+		{
+			RequestThread.postRequest( request );
+			if ( relayRequest == null || request.redirectLocation == null )
+			{
+				break;
+			}
+			request.constructURLString( request.redirectLocation, false, false );
+		}
+
 		if ( request.responseText != null )
 		{
 			buffer.append( request.responseText );
