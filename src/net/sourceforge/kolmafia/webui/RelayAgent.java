@@ -97,7 +97,7 @@ public class RelayAgent
 
 	private String path;
 	private String requestMethod;
-	private boolean isCheckingModified;
+	private String isCheckingModified;
 	private final RelayRequest request;
 
 	public RelayAgent( final int id )
@@ -241,9 +241,9 @@ public class RelayAgent
 				continue;
 			}
 
-			if ( currentLine.startsWith( "If-Modified-Since" ) )
+			if ( currentLine.startsWith( "If-Modified-Since: " ) )
 			{
-				this.isCheckingModified = true;
+				this.isCheckingModified = currentLine.substring( 19 );
 				continue;
 			}
 
@@ -416,10 +416,16 @@ public class RelayAgent
 
 	private boolean shouldSendNotModified()
 	{
+		if ( this.isCheckingModified == null )
+		{
+			return false;
+		}
+
 		if ( this.path.startsWith( "/images" ) )
 		{
+			long modifiedSince = StringUtilities.parseDate( this.isCheckingModified );
 			File imageFile = RelayRequest.findLocalImage( this.path.substring( 1 ) );
-			return imageFile != null && imageFile.exists();
+			return imageFile != null && imageFile.exists() && modifiedSince < imageFile.lastModified();
 		}
 
 		if ( this.path.indexOf( "?" ) != -1 )
@@ -447,7 +453,7 @@ public class RelayAgent
 		// If not requesting a server-side page, then it is safe
 		// to assume that no changes have been made (save time).
 
-		if ( this.isCheckingModified && this.shouldSendNotModified() )
+		if ( this.shouldSendNotModified() )
 		{
 			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
 			this.request.responseCode = 304;
