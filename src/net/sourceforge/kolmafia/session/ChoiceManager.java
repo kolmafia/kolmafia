@@ -5120,11 +5120,6 @@ public abstract class ChoiceManager
 		String choice = request.getFormField( "whichchoice" );
 		String option = request.getFormField( "option" );
 
-		if ( option == null && choice != null )
-		{
-			ChoiceManager.setCanWalkAway( Integer.parseInt( choice ) );
-		}
-
 		if ( choice == null || option == null )
 		{
 			// Visiting a choice page but not yet making a decision
@@ -6969,6 +6964,8 @@ public abstract class ChoiceManager
 			// This would be a bug in KoL itself.
 			return;
 		}
+
+		ChoiceManager.setCanWalkAway( ChoiceManager.lastChoice );
 
 		switch ( ChoiceManager.lastChoice )
 		{
