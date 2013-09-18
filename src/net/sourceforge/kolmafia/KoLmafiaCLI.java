@@ -667,6 +667,7 @@ public class KoLmafiaCLI
 		new BuffbotCommand().register( "buffbot" );
 		new BurnMpCommand().register( "burn" );
 		new BuyCommand().register( "buy" ).register( "mallbuy" );
+		new CacheCommand().register( "cache" );
 		new CallScriptCommand().register( "verify" ).register( "validate" ).register( "check" ).register( "call" ).register(
 			"run" ).registerPrefix( "exec" ).register( "load" ).register( "start" ).register( "profile" );
 		new CampgroundCommand().registerPrefix( "camp" );
