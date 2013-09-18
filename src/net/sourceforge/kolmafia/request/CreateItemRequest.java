@@ -216,6 +216,11 @@ public class CreateItemRequest
 		return CreateItemRequest.getInstance( ConcoctionPool.get( itemId ), true );
 	}
 
+	public static final CreateItemRequest getInstance( final int itemId, final boolean rNINP )
+	{
+		return CreateItemRequest.getInstance( ConcoctionPool.get( itemId ), rNINP );
+	}
+
 	public static final CreateItemRequest getInstance( final String name )
 	{
 		return CreateItemRequest.getInstance( ConcoctionPool.get( name ), true );
