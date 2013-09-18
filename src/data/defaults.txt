@@ -299,6 +299,7 @@ user	birdformSpooky	0
 user	birdformStench	0
 user	blackPuddingsDefeated	0
 user	blankOutUsed	0
+user	boneAbacusVictories	0
 user	booPeakProgress	100
 user	bootsCharged	false
 user	borisPoints	0

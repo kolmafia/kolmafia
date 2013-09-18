@@ -2854,6 +2854,11 @@ public class FightRequest
 				AdventureResult.addResultToList( KoLConstants.tally, result );
 			}
 
+			if ( responseText.contains( "You move a bone on the abacus to record your victory" ) )
+			{
+				Preferences.increment( "boneAbacusVictories", 1 );
+			}
+
 			// Give your summoned combat entity some experience
 			if ( FightRequest.summonedGhost )
 			{
