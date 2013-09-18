@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -549,6 +550,55 @@ public class RelayRequest
 			}
 		}
 		this.sendLocalImage( filename );
+	}
+
+	private static final FilenameFilter RELAYIMAGES_FILTER = new FilenameFilter()
+	{
+		public boolean accept( final File dir, final String name )
+		{
+			return !name.equals( "relayimages" );
+		}
+	};
+
+	private static final FilenameFilter BUILTIN_SCRIPT_FILTER = new FilenameFilter()
+	{
+		public boolean accept( final File dir, final String name )
+		{
+			return !RelayRequest.builtinRelayFile( name );
+		}
+	};
+
+	private static void clearImageDirectory( File directory, FilenameFilter filter )
+	{
+		File[] files = directory.listFiles( filter );
+		for ( int i = 0; i < files.length; ++i )
+		{
+			File file = files[ i ];
+			if ( file.isDirectory() )
+			{
+				// If this is toplevel "scripts" directory,
+				// filter out builtin scripts
+				FilenameFilter localFilter =
+					filter == RELAYIMAGES_FILTER && file.getName().equals( "scripts" ) ?
+					BUILTIN_SCRIPT_FILTER : null;
+
+				RelayRequest.clearImageDirectory( file, localFilter );
+
+				// If we (possibly) omitted some files from
+				// this directory, retain it.
+				if ( localFilter != null )
+				{
+					continue;
+				}
+			}
+
+			file.delete();
+		}
+	}
+
+	public static void clearImageCache()
+	{
+		RelayRequest.clearImageDirectory( KoLConstants.IMAGE_LOCATION, RELAYIMAGES_FILTER );
 	}
 
 	private static String localImagePath( final String filename )
