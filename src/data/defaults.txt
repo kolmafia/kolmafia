@@ -86,6 +86,7 @@ global	innerChatColor	#ffa98c
 global	innerTabColor	#8ca9ff
 global	itemManagerIndex	0
 global	lastBuffRequestType	0
+global	lastImageCacheClear	0
 global	lastRelayUpdate
 global	lastRssUpdate	0
 global	lastRssVersion

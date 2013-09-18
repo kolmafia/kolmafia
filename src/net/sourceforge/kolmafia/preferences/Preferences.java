@@ -323,6 +323,16 @@ public class Preferences
 		setFloat( null, name, value );
 	}
 
+	public static final void setLong( final String name, final long value )
+	{
+		setLong( null, name, value );
+	}
+
+	public static final long getLong( final String name )
+	{
+		return getLong( null, name );
+	}
+
 	public static final float getFloat( final String name )
 	{
 		return getFloat( null, name );
@@ -440,6 +450,25 @@ public class Preferences
 		return ((Integer) value).intValue();
 	}
 
+	public static final long getLong( final String user, final String name )
+	{
+		TreeMap<String, Object> map = Preferences.getMap( name );
+		Object value = Preferences.getObject( map, user, name );
+
+		if ( value == null )
+		{
+			return 0;
+		}
+
+		if ( !(value instanceof Long) )
+		{
+			value = new Long( StringUtilities.parseLong( value.toString() ) );
+			map.put( name, value );
+		}
+
+		return ((Long) value).longValue();
+	}
+
 	public static final float getFloat( final String user, final String name )
 	{
 		TreeMap<String, Object> map = Preferences.getMap( name );
@@ -499,6 +528,15 @@ public class Preferences
 		if ( old != value )
 		{
 			Preferences.setObject( user, name, String.valueOf( value ), IntegerPool.get( value ) );
+		}
+	}
+
+	public static final void setLong( final String user, final String name, final long value )
+	{
+		long old = Preferences.getLong( user, name );
+		if ( old != value )
+		{
+			Preferences.setObject( user, name, String.valueOf( value ), new Long( value ) );
 		}
 	}
 

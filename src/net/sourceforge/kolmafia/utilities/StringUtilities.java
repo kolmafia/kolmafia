@@ -857,7 +857,14 @@ public class StringUtilities
 			return 0L;
 		}
 
-		return Long.parseLong( string );
+		try
+		{
+			return Long.parseLong( string );
+		}
+		catch ( NumberFormatException e )
+		{
+			return 0L;
+		}
 	}
 
 	public static final float parseFloat( String string )
