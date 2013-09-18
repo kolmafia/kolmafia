@@ -199,11 +199,11 @@ public class FloristRequest
 			return;
 		}
 
-		GenericRequest forestVisit = new GenericRequest( "forestvillage.php?action=floristfriar" );
+		GenericRequest forestVisit = new GenericRequest( "place.php?whichplace=forestvillage&action=fv_friar" );
 		RequestThread.postRequest( forestVisit );
 		if ( !forestVisit.responseText.contains( "The Florist Friar's Cottage" ) )
 		{
-			FloristRequest.setHaveFlorist( forestVisit.responseText.contains( "The Florist Friar's Cottage" ) );
+			FloristRequest.setHaveFlorist( false );
 			return;
 		}
 
