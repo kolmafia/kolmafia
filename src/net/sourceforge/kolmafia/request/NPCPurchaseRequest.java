@@ -472,7 +472,7 @@ public class NPCPurchaseRequest
 		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
 		int itemId = ConcoctionPool.rowToId( row );
 
-		CreateItemRequest item = CreateItemRequest.getInstance( itemId );
+		CreateItemRequest item = CreateItemRequest.getInstance( itemId, false );
 		if ( item == null )
 		{
 			return; // this is an unknown item
@@ -595,7 +595,7 @@ public class NPCPurchaseRequest
 		int row = StringUtilities.parseInt( rowMatcher.group( 1 ) );
 		int itemId = ConcoctionPool.rowToId( row );
 
-		CreateItemRequest item = CreateItemRequest.getInstance( itemId );
+		CreateItemRequest item = CreateItemRequest.getInstance( itemId, false );
 		if ( item == null )
 		{
 			return true; // this is an unknown item

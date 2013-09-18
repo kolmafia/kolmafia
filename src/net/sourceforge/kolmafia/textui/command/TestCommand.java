@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -56,6 +58,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
@@ -185,6 +188,27 @@ public class TestCommand
 
 			String descId = split[ 1 ].trim();
 			EffectDatabase.learnEffectId( null, descId );
+			return;
+		}
+
+		if ( command.equals( "row" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test row #" );
+				return;
+			}
+
+			int row = StringUtilities.parseInt( split[ 1 ] );
+			int itemId = ConcoctionPool.rowToId( row );
+			if ( itemId < 0 )
+			{
+				RequestLogger.printLine( "That row doesn't map to a known item." );
+				return;
+			}
+			String itemName = ItemDatabase.getItemName( itemId );
+			Concoction concoction = ConcoctionPool.get( itemId );
+			RequestLogger.printLine( "Row " + row + " -> \"" + itemName + "\" (" + itemId + ") " + ( concoction == null ? "IS NOT" : "is" ) + " a known " + ( concoction != null ? ( concoction.available() ? "available " : "unavailable " ) : "" ) + "concoction" );
 			return;
 		}
 
