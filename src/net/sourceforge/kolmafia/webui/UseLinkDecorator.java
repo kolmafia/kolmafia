@@ -1300,7 +1300,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.DAMP_OLD_BOOT:
 
 			useType = "old man";
-			useLocation = "oldman.php?action=talk";
+			useLocation = "place.php?whichplace=sea_oldman&action=oldman_oldman";
 			break;
 
 		// Link to use the Black Market Map if you get blackbird parts
