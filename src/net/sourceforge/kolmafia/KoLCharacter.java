@@ -395,6 +395,7 @@ public abstract class KoLCharacter
 
 	private static int autoAttackAction = 0;
 	private static String autosellMode = "";
+	private static boolean ignoreZoneWarnings = false;
 	private static boolean lazyInventory = false;
 	private static boolean unequipFamiliar = false;
 
@@ -3120,6 +3121,16 @@ public abstract class KoLCharacter
 	public static final void setAutoAttackAction( final int autoAttackAction )
 	{
 		KoLCharacter.autoAttackAction = autoAttackAction;
+	}
+
+	public static final void setIgnoreZoneWarnings( boolean ignore )
+	{
+		KoLCharacter.ignoreZoneWarnings = ignore;
+	}
+
+	public static final boolean getIgnoreZoneWarnings()
+	{
+		return KoLCharacter.ignoreZoneWarnings;
 	}
 
 	/**
