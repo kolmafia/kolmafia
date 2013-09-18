@@ -182,6 +182,12 @@ public class ResponseTextParser
 			return false;
 		}
 
+		if ( location.startsWith( "showplayer.php" ) )
+		{
+			// showplayer.php?who=1&action=jung&whichperson=jick
+			return location.contains( "action=jung" );
+		}
+
 		if ( location.endsWith( "menu.php" ) ||
 		     location.startsWith( "actionbar" ) )
 		{
