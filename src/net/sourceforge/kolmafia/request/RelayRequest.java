@@ -560,36 +560,16 @@ public class RelayRequest
 		}
 	};
 
-	private static final FilenameFilter BUILTIN_SCRIPT_FILTER = new FilenameFilter()
-	{
-		public boolean accept( final File dir, final String name )
-		{
-			return !RelayRequest.builtinRelayFile( name );
-		}
-	};
-
 	private static void clearImageDirectory( File directory, FilenameFilter filter )
 	{
 		File[] files = directory.listFiles( filter );
 		for ( int i = 0; i < files.length; ++i )
 		{
 			File file = files[ i ];
+
 			if ( file.isDirectory() )
 			{
-				// If this is toplevel "scripts" directory,
-				// filter out builtin scripts
-				FilenameFilter localFilter =
-					filter == RELAYIMAGES_FILTER && file.getName().equals( "scripts" ) ?
-					BUILTIN_SCRIPT_FILTER : null;
-
-				RelayRequest.clearImageDirectory( file, localFilter );
-
-				// If we (possibly) omitted some files from
-				// this directory, retain it.
-				if ( localFilter != null )
-				{
-					continue;
-				}
+				RelayRequest.clearImageDirectory( file, null );
 			}
 
 			file.delete();
@@ -599,6 +579,7 @@ public class RelayRequest
 	public static void clearImageCache()
 	{
 		RelayRequest.clearImageDirectory( KoLConstants.IMAGE_LOCATION, RELAYIMAGES_FILTER );
+		Preferences.setLong( "lastImageCacheClear", (new Date()).getTime() );
 	}
 
 	private static String localImagePath( final String filename )
