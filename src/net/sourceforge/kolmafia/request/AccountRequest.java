@@ -581,6 +581,9 @@ public class AccountRequest
 		checked = flags.getInt( "swapfam" ) == 1;
 		CharPaneRequest.familiarBelowEffects = checked;
 
+		checked = flags.getInt( "ignorezonewarnings" ) == 1;
+		KoLCharacter.setIgnoreZoneWarnings( checked );
+
 		// Inventory options
 
 		checked = flags.getInt( "sellstuffugly" ) == 1;

@@ -840,6 +840,9 @@ public abstract class RuntimeLibrary
 			new AggregateType( new AggregateType( DataTypes.STRING_TYPE, 3 ),
 			DataTypes.LOCATION_TYPE ), params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_ignore_zone_warnings", DataTypes.BOOLEAN_TYPE, params ) );
+
 		// Basic skill and effect functions, including those used
 		// in custom combat consult scripts.
 
@@ -3693,6 +3696,11 @@ public abstract class RuntimeLibrary
 		}
 
 		return value;
+	}
+
+	public static Value get_ignore_zone_warnings( Interpreter interpreter )
+	{
+		return DataTypes.makeBooleanValue( KoLCharacter.getIgnoreZoneWarnings() );
 	}
 
 	// Basic skill and effect functions, including those used
