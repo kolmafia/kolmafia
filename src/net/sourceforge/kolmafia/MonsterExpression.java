@@ -101,6 +101,10 @@ public class MonsterExpression
 		{
 			return "\u0089";
 		}
+		if ( this.optional( "STAT" ) )
+		{
+			return "\u0090";
+		}
 
 		return null;
 	}

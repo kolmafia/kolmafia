@@ -1805,6 +1805,12 @@ public abstract class KoLCharacter
 		return KoLCharacter.adjustedStats[ 2 ];
 	}
 
+	public static final int getAdjustedHighestStat()
+	{
+		return Math.max( Math.max( KoLCharacter.getAdjustedMuscle(),
+		       KoLCharacter.getAdjustedMysticality() ), KoLCharacter.getAdjustedMoxie() );
+	}
+
 	/**
 	 * Accessor method to set the number of adventures the character has left to spend in this session.
 	 *
