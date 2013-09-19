@@ -159,6 +159,12 @@ public class NPCPurchaseRequest
 			"store.php";
 	}
 
+	public static String getShopId( final String urlString )
+	{
+		Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher( urlString );
+		return m.find() ? m.group( 1 ) : null;
+	}
+
 	public String getStoreId()
 	{
 		return this.npcStoreId;
@@ -508,13 +514,11 @@ public class NPCPurchaseRequest
 			return;
 		}
 
-		Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
-		if ( !m.find() )
+		String shopId = NPCPurchaseRequest.getShopId( urlString );
+		if ( shopId == null )
 		{
 			return;
 		}
-
-		String shopId = m.group(1);
 
 		// The following trade collections of ingredients for an item
 		if ( shopId.equals( "mystic" ) ||
@@ -650,18 +654,17 @@ public class NPCPurchaseRequest
 			return false;
 		}
 
-		Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
-		if ( !m.find() )
+		String shopId = NPCPurchaseRequest.getShopId( urlString );
+		if ( shopId == null )
 		{
 			return false;
 		}
 
-		String shopId = m.group(1);
-		String shopName = NPCStoreDatabase.getStoreName( m.group(1) );
+		String shopName = NPCStoreDatabase.getStoreName( shopId );
 
 		int itemId = -1;
 
-		m = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
+		Matcher m = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
 		if ( m.find() )
 		{
 			itemId = StringUtilities.parseInt( m.group( 1 ) );

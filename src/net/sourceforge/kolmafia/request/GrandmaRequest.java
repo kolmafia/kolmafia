@@ -68,8 +68,6 @@ public class GrandmaRequest
 		this.constructURLString( this.getURLString() );
 	}
 
-
-
 	@Override
 	public void run()
 	{
