@@ -1099,9 +1099,9 @@ Zombie Waltzers	zomwaltz.gif	Atk: 110 Def: 99 HP: 120 Init: 50 Meat: 80-120 E: s
 Zombo	zombo.gif	BOSS HP: 10000 Def: 450 Atk: 500 Init: 200 E: spooky P: undead	Prelude of Precision (0)	voodoo snuff (0)	Zombo's grievous greaves (0)	Zombo's shield (0)	Zombo's skullcap (0)	Zombo's empty eye (f20)	Zombo's shoulder blade (f20)	Zombo's skull ring (f20)
 
 # Talk Like a Pirate Day
-Ambulatory Pirate	pirate2.gif	HP: [(MUS+2+ML)*0.75] Def: [(MUS+2+ML)] Atk: [(MOX+2+ML)] Init: -10000 P: pirate	can of Binarrrca (0)	black spot (0)
-Migratory Pirate	pirate2.gif	HP: [(MUS+2+ML)*0.75] Def: [(MUS+2+ML)] Atk: [(MOX+2+ML)] Init: -10000 P: pirate	can of Binarrrca (0)	black spot (0)
-Peripatetic Pirate	pirate2.gif	HP: [(MUS+2+ML)*0.75] Def: [(MUS+2+ML)] Atk: [(MOX+2+ML)] Init: -10000 P: pirate	can of Binarrrca (0)	black spot (0)
+Ambulatory Pirate	pirate2.gif	HP: [(min(150,MUS+2)+ML)*0.75] Def: [min(150,MUS+2)+ML] Atk: [min(150,MOX+2)+ML] Init: -10000 P: pirate	can of Binarrrca (0)	black spot (0)
+Migratory Pirate	pirate2.gif	HP: [(min(150,MUS+2)+ML)*0.75] Def: [min(150,MUS+2)+ML] Atk: [min(150,MOX+2)+ML] Init: -10000 P: pirate	can of Binarrrca (0)	black spot (0)
+Peripatetic Pirate	pirate2.gif	HP: [(min(150,MUS+2)+ML)*0.75] Def: [min(150,MUS+2)+ML] Atk: [min(150,MOX+2)+ML] Init: -10000 P: pirate	can of Binarrrca (0)	black spot (0)
 
 # Bees Hate You
 Beebee Gunners	beebeegunner.gif	HP: [ceil((MUS+ML)*15/28)] Def: [ceil((MUS+ML)*5/7)] Atk: [ceil((MOX+ML)*5/7)] Init: -10000 P: bug	handful of honey (0)
