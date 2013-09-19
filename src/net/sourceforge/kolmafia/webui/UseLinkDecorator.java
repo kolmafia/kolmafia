@@ -1095,7 +1095,7 @@ public abstract class UseLinkDecorator
 		case ItemPool.RUSTY_SCREWDRIVER:
 
 			useType = "visit untinker";
-			useLocation = "forestvillage.php?place=untinker";
+			useLocation = "place.php?whichplace=forestvillage&action=fv_untinker";
 			break;
 
 		// Hedge maze puzzle and hedge maze key have a link to the maze
