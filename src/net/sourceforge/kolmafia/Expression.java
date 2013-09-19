@@ -412,6 +412,9 @@ public class Expression
 			case '\u0089':
 				v = FightRequest.dreadKisses( "Castle" );
 				break;
+			case '\u0090':
+				v = KoLCharacter.getAdjustedHighestStat();
+				break;
 					
 			default:
 				if ( inst > '\u00FF' )
