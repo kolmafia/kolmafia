@@ -66,9 +66,36 @@ public class KOLHSRequest
 		return false;
 	}
 
+	private static final String getShopId( final Concoction conc )
+	{
+		switch ( conc.getMixingMethod() )
+		{
+		case CHEMCLASS:
+			return "kolhs_chem";
+		case ARTCLASS:
+			return "kolhs_art";
+		case SHOPCLASS:
+			return "kolhs_shop";
+		}
+
+		return "";
+	}
+
+	private static final String shopIDToClassName( final String shopID )
+	{
+		return	shopID.equals( "kolhs_chem" ) ? "Chemistry Class" :
+			shopID.equals( "kolhs_art" ) ? "Art Class" :
+			shopID.equals( "kolhs_shop" ) ? "Shop Class" :
+			shopID;
+	}
+
 	public KOLHSRequest( final Concoction conc )
 	{
 		super( "shop.php", conc );
+		this.addFormField( "whichshop", KOLHSRequest.getShopId( conc ) );
+		this.addFormField( "action", "buyitem" );
+		int row = ConcoctionPool.idToRow( this.getItemId() );
+		this.addFormField( "whichrow", String.valueOf( row ) );
 	}
 
 	@Override
@@ -80,6 +107,23 @@ public class KOLHSRequest
 	@Override
 	public void run()
 	{
+		// Attempt to retrieve the ingredients
+		if ( !this.makeIngredients() )
+		{
+			return;
+		}
+
+		if ( true )
+		{
+			String shopID = NPCPurchaseRequest.getShopId( this.getURLString() );
+			String className = KOLHSRequest.shopIDToClassName( shopID );
+			KoLmafia.updateDisplay( "Visit the " + className + " after school to make that." );
+			return;
+		}
+
+		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
+		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
+		super.run();
 	}
 
 	@Override
@@ -90,7 +134,9 @@ public class KOLHSRequest
 
 		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "KOLHS Class creation was unsuccessful." );
+			String shopID = NPCPurchaseRequest.getShopId( urlString );
+			String className = KOLHSRequest.shopIDToClassName( shopID );
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, className + " creation was unsuccessful." );
 			return;
 		}
 

@@ -1797,6 +1797,22 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.GRANDMA, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.GRANDMA, 0 );
 
+		// KOLHS concoctions are "permitted" so that we can calculate
+		// how many items are allowed given available ingredients
+
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.CHEMCLASS );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.CHEMCLASS, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.CHEMCLASS, 0 );
+
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.ARTCLASS );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.ARTCLASS, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.ARTCLASS, 0 );
+
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SHOPCLASS );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.SHOPCLASS, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SHOPCLASS, 0 );
+
+
 		// You trade tokens to Coin Masters if you have opted in to do so,
 
 		if ( Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) )

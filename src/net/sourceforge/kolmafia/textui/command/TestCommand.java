@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -65,6 +66,7 @@ import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -209,6 +211,20 @@ public class TestCommand
 			String itemName = ItemDatabase.getItemName( itemId );
 			Concoction concoction = ConcoctionPool.get( itemId );
 			RequestLogger.printLine( "Row " + row + " -> \"" + itemName + "\" (" + itemId + ") " + ( concoction == null ? "IS NOT" : "is" ) + " a known " + ( concoction != null ? ( concoction.available() ? "available " : "unavailable " ) : "" ) + "concoction" );
+			return;
+		}
+
+		if ( command.equals( "result" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test result ...text..." );
+				return;
+			}
+			String text = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
+			boolean result = ResultProcessor.processResults( false, text, null );
+			RequestLogger.printLine( "returned " + result );
+			ConcoctionDatabase.refreshConcoctions( true );
 			return;
 		}
 
