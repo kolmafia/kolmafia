@@ -485,7 +485,7 @@ public class RequestEditorKit
 			// Do any monster-specific decoration
 			FightDecorator.decorate( buffer );
 		}
-		else if ( location.startsWith( "forestvillage.php" ) )
+		else if ( location.startsWith( "place.php?whichplace=forestvillage" ) )
 		{
 			UntinkerRequest.decorate( location, buffer );
 		}

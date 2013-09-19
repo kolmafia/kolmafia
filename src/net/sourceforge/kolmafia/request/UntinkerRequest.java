@@ -67,7 +67,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class UntinkerRequest
 	extends GenericRequest
 {
-	private static final GenericRequest AVAILABLE_CHECKER = new GenericRequest( "forestvillage.php?place=untinker" );
+	private static final GenericRequest AVAILABLE_CHECKER = new GenericRequest( "place.php?whichplace=forestvillage&action=fv_untinker" );
 
 	private static boolean canUntinker;
 	private static int lastUserId = -1;
@@ -91,7 +91,7 @@ public class UntinkerRequest
 
 	public UntinkerRequest( final int itemId, final int itemCount )
 	{
-		super( "forestvillage.php" );
+		super( "place.php?whichplace=forestvillage" );
 
 		this.addFormField( "action", "untinker" );
 		this.addFormField( "whichitem", String.valueOf( itemId ) );
@@ -183,7 +183,7 @@ public class UntinkerRequest
 	{
 		// Either place=untinker or action=untinker
 
-		if ( !location.startsWith( "forestvillage.php" ) || ( !location.contains( "untinker" ) && !location.contains( "screwquest" ) ) )
+		if ( !location.startsWith( "place.php?whichplace=forestvillage" ) || ( !location.contains( "fv_untinker" ) && !location.contains( "screwquest" ) ) )
 		{
 			return;
 		}
@@ -257,7 +257,8 @@ public class UntinkerRequest
 
 		if ( KoLCharacter.knollAvailable() )
 		{
-			GenericRequest tinkVisit = new GenericRequest( "forestvillage.php" );
+			GenericRequest tinkVisit = new GenericRequest( "place.php" );
+			tinkVisit.addFormField( "whichplace", "forestvillage" );
 			tinkVisit.run();
 			tinkVisit.addFormField( "action", "screwquest" );
 			tinkVisit.run();
@@ -280,7 +281,8 @@ public class UntinkerRequest
 		// Okay, so they don't have one yet. Complete the
 		// untinkerer's quest automatically.
 
-		GenericRequest tinkVisit = new GenericRequest( "forestvillage.php" );
+		GenericRequest tinkVisit = new GenericRequest( "place.php" );
+		tinkVisit.addFormField( "whichplace", "forestvillage" );
 		tinkVisit.run();
 		tinkVisit.addFormField( "action=screwquest" );
 		tinkVisit.run();
@@ -325,8 +327,7 @@ public class UntinkerRequest
 	{
 		// We decorate simple visits to the untinker and also
 		// accepting his quest
-		if ( urlString.indexOf( "place=untinker" ) == -1 &&
-		     urlString.indexOf( "action=screwquest" ) == -1 )
+		if ( !urlString.contains( "action=screwquest" ) && !urlString.contains( "action=fv_untinker" ) )
 		{
 			return;
 		}
@@ -361,13 +362,13 @@ public class UntinkerRequest
 	{
 		// Either place=untinker or action=untinker
 
-		if ( !urlString.startsWith( "forestvillage.php" ) )
+		if ( !urlString.startsWith( "place.php?whichplace=forestvillage" ) )
 		{
 			return false;
 		}
 
 		String message;
-		if ( urlString.indexOf( "action=untinker" ) != -1 )
+		if ( urlString.indexOf( "action=fv_untinker" ) != -1 )
 		{
 			Matcher matcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
 			if ( !matcher.find() )
