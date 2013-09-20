@@ -37,7 +37,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -92,6 +91,10 @@ public class OrcChasmRequest
 		if ( responseText.contains( "You disassemble it into usable lumber and fasteners." ) )
 		{
 			ResultProcessor.processItem( ItemPool.BRIDGE, -1 );
+		}
+		else if ( responseText.contains( "miniature suspension bridge" ) )
+		{
+			ResultProcessor.removeItem( ItemPool.MINIATURE_SUSPENSION_BRIDGE );
 		}
 	}
 
