@@ -166,7 +166,7 @@ public class MaximizerFrame
 		}
 		else
 		{
-			if ( Preferences.getInteger( "maximizerMRULength" ) > 0 )
+			if ( Preferences.getInteger( "maximizerMRUSize" ) > 0 )
 			{
 				KoLConstants.maximizerMList.updateJComboData( expressionSelect );
 			}
@@ -224,7 +224,7 @@ public class MaximizerFrame
 		{
 			this.listTitle.setText( buff.toString() );
 		}
-		if ( Preferences.getInteger( "maximizerMRULength") > 0)
+		if ( Preferences.getInteger( "maximizerMRUSize") > 0)
 		{
 			KoLConstants.maximizerMList.updateJComboData( expressionSelect );
 		}
