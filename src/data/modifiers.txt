@@ -4842,6 +4842,7 @@ Sugar Cog	Effect: "Sugar Rush", Effect Duration: 5
 Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
 Sweet Sword	Effect: "Sugar Rush", Effect Duration: 10
 Taco Dan's Taco Stand Chillacious Churro	Effect: "Churro Chiaroscuro", Effect Duration: 5
+Tales of Dread	Free Pull
 Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
 Tears of the Quiet Healer	Effect: "No Squealer Healer", Effect Duration: 30
 The Groose in the Hoose	Free Pull
