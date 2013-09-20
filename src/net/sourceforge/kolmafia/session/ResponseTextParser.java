@@ -468,14 +468,6 @@ public class ResponseTextParser
 			DwarfFactoryRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "place.php" ) )
-		{
-			if ( location.contains( "whichplace=forestvillage&action=fv_untinker" ) )
-			{
-				UntinkerRequest.parseResponse( location, responseText );
-			}
-		}
-
 		else if ( location.startsWith( "friars.php" ) )
 		{
 			FriarRequest.parseResponse( location, responseText );
@@ -644,6 +636,10 @@ public class ResponseTextParser
 			else if ( location.contains( "whichplace=rabbithole" ) )
 			{
 				RabbitHoleRequest.parseResponse( location, responseText );
+			}
+			else if ( location.contains( "whichplace=forestvillage&action=fv_untinker" ) )
+			{
+				UntinkerRequest.parseResponse( location, responseText );
 			}
 		}
 
