@@ -468,9 +468,9 @@ public class ResponseTextParser
 			DwarfFactoryRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "forestvillage.php" ) )
+		else if ( location.startsWith( "place.php" ) )
 		{
-			if ( location.contains( "place=untinker" ) )
+			if ( location.contains( "whichplace=forestvillage&action=fv_untinker" ) )
 			{
 				UntinkerRequest.parseResponse( location, responseText );
 			}
