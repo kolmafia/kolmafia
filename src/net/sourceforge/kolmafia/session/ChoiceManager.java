@@ -8434,12 +8434,11 @@ public abstract class ChoiceManager
 		case 781:
 		{
 			// Option 1 and 2 are not always available. Take appropriate one if option to 
-			// take action is selected. If not, never skip automatically, as this is the only
-			// adventure present and it'll loop.
+			// take action is selected. If not,leave.
 			if ( decision.equals( "1" ) )
 			{
 				int hiddenApartmentProgress = Preferences.getInteger( "hiddenApartmentProgress" );
-				return ( hiddenApartmentProgress >= 7 ? "2" : hiddenApartmentProgress < 1 ? "1" : "0" );
+				return ( hiddenApartmentProgress == 7 ? "2" : hiddenApartmentProgress < 1 ? "1" : "6" );
 			}
 			return decision;
 		}
@@ -8448,12 +8447,11 @@ public abstract class ChoiceManager
 		case 783:
 		{
 			// Option 1 and 2 are not always available. Take appropriate one if option to 
-			// take action is selected. If not, never skip automatically, as this is the only
-			// adventure present and it'll loop.
+			// take action is selected. If not, leave.
 			if ( decision.equals( "1" ) )
 			{
 				int hiddenHospitalProgress = Preferences.getInteger( "hiddenHospitalProgress" );
-				return ( hiddenHospitalProgress >= 7 ? "2" : hiddenHospitalProgress < 1 ? "1" : "0" );
+				return ( hiddenHospitalProgress == 7 ? "2" : hiddenHospitalProgress < 1 ? "1" : "6" );
 			}
 			return decision;
 		}
@@ -8462,12 +8460,11 @@ public abstract class ChoiceManager
 		case 785:
 		{
 			// Option 1 and 2 are not always available. Take appropriate one if option to 
-			// take action is selected. If not, never skip automatically, as this is the only
-			// adventure present and it'll loop.
+			// take action is selected. If not, leave.
 			if ( decision.equals( "1" ) )
 			{
 				int hiddenOfficeProgress = Preferences.getInteger( "hiddenOfficeProgress" );
-				return ( hiddenOfficeProgress >= 7 ? "2" : hiddenOfficeProgress < 1 ? "1" : "0" );
+				return ( hiddenOfficeProgress == 7 ? "2" : hiddenOfficeProgress < 1 ? "1" : "6" );
 			}
 			return decision;
 		}
@@ -8494,12 +8491,11 @@ public abstract class ChoiceManager
 		case 787:
 		{
 			// Option 1 and 2 are not always available. Take appropriate one if option to 
-			// take action is selected. If not, never skip automatically, as this is the only
-			// adventure present and it'll loop.
+			// take action is selected. If not, leave.
 			if ( decision.equals( "1" ) )
 			{
 				int hiddenBowlingAlleyProgress = Preferences.getInteger( "hiddenBowlingAlleyProgress" );
-				return ( hiddenBowlingAlleyProgress >= 7 ? "2" : hiddenBowlingAlleyProgress < 1 ? "1" : "0" );
+				return ( hiddenBowlingAlleyProgress == 7 ? "2" : hiddenBowlingAlleyProgress < 1 ? "1" : "6" );
 			}
 			return decision;
 		}
@@ -8517,11 +8513,11 @@ public abstract class ChoiceManager
 		// Legend of the Temple in the Hidden City
 		case 791:
 		{
-			// Show in browser if not enough triangles to fight spectre to prevent infinite loop
+			// Leave if not enough triangles to fight spectre
 			int stoneTriangles = InventoryManager.getCount( ChoiceManager.STONE_TRIANGLE );
 			if ( decision.equals( "1" ) && stoneTriangles < 4 )
 			{
-				return "0";
+				return "6";
 			}
 			return decision;
 		}
