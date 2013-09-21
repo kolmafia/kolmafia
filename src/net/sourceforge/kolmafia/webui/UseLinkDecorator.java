@@ -1518,8 +1518,15 @@ public abstract class UseLinkDecorator
 				this.useLocation += this.itemId;
 			}
 
-			int formIndex = this.useLocation.indexOf( "?" );
-			if ( formIndex != -1 && !this.useLocation.contains( "phash=" ) )
+			if ( this.useLocation.contains( "?" ) && !this.useLocation.contains( "phash=" ) &&
+			     // It's not harmful to include the password hash
+			     // when it is unnecessary, but it is not pretty
+			     !this.useLocation.startsWith( "adventure.php" ) &&
+			     !this.useLocation.startsWith( "place.php" ) &&
+			     !this.useLocation.startsWith( "council.php" ) &&
+			     !this.useLocation.startsWith( "wand.php" ) &&
+			     !this.useLocation.startsWith( "diary.php" ) &&
+			     !this.useLocation.startsWith( "guild.php" ) )
 			{
 				this.useLocation += "&pwd=" + GenericRequest.passwordHash;
 			}
