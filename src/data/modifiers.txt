@@ -229,8 +229,7 @@ grungy bandana	Stench Damage: +10, Sleaze Damage: +10, Familiar Effect: "1xVolle
 guard turtle shell	Maximum HP: +50, Familiar Effect: "atk, 1xFairy, cap 40"
 hangman's hood	Muscle: +50, Weapon Damage: +50, Damage Reduction: 10
 hardened slime hat	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Damage Reduction: 10, Muscle Percent: +20, Familiar Effect: "1xFairy"
-# head mirror: Makes you look like a doctor
-head mirror	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+head mirror	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Surgeonosity: +1
 helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 15"
 helmet turtle	Muscle: +1, Familiar Effect: "atk, cap 2"
 honeycap	Moxie Percent: +5, Item Drop: +10, Ranged Damage: +15, Familiar Effect: "1xPotato, cap 43"
@@ -337,8 +336,7 @@ straw hat	Item Drop: +10, Food Drop: +15, Booze Drop: +15, Familiar Effect: "??"
 sucker kabuto	Damage Reduction: 5
 sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "atk, 2xVolley, 2xLep, cap 25"
 superhero mask	Moxie: +5, Muscle: +5, Mysticality: +5, Softcore Only, Familiar Effect: "?xLep, ?xFairy, cap 2"
-# surgical mask: Makes you look like a doctor
-surgical mask	Maximum MP: +40
+surgical mask	Maximum MP: +40, Surgeonosity: +1
 suspicious-looking fedora	Moxie: +6, Weapon Damage: +6
 tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
@@ -442,8 +440,7 @@ basic meat skirt	Moxie: +1, Familiar Effect: "3xBarrr, 3xFairy, cap 10"
 big pants	Weapon Damage: +25, Spell Damage: +25
 biomechanical crimborg leg armor	Hot Damage: +5, Stench Damage: +5, Familiar Effect: "1xBarrr, 1xGhuol, cap 37"
 black greaves	Muscle: +10, Damage Absorption: +30, Familiar Effect: "atk, 1xBarrr, cap 40"
-# bloodied surgical dungarees: Makes you look like a gross doctor
-bloodied surgical dungarees	MP Regen Min: 3, MP Regen Max: 5
+bloodied surgical dungarees	MP Regen Min: 3, MP Regen Max: 5, Surgeonosity: +1
 bloody clown pants	Spooky Damage: +3, Clownosity: +1, Familiar Effect: "3xPotato, 2xFairy, cap 12"
 boneana hammock	Sleaze Spell Damage: +20, Sleaze Damage: +20, Familiar Effect: "1xVolley, cap 30"
 bounty-hunting pants	Item Drop: +15, Familiar Effect: "1xPotato, 2xFairy, cap 25"
@@ -652,8 +649,7 @@ spangly mariachi vest	Moxie Percent: +10, Initiative: -25
 star shirt	Muscle: +5, Mysticality: +5, Moxie: +5
 sugar shirt	Experience: +3
 supportive bra	Moxie: +3
-# surgical apron: Makes you look like a gross doctor
-surgical apron	Damage Reduction: 6
+surgical apron	Damage Reduction: 6, Surgeonosity: +1
 turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 tuxedo shirt	Moxie: +7
 white hat hacker T-shirt	Critical Hit Percent: +3, Muscle: +2, Mysticality: +2, Moxie: +2
@@ -1073,8 +1069,7 @@ groping claw	Weakens Monster, Spooky Damage: +30
 # haiku katana: Allows use of seasonal attacks
 haiku katana	Muscle Percent: +15, Weapon Damage Percent: +50, Critical Hit Percent: +5, Softcore Only
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
-# half-size scalpel: Makes you look like a doctor
-half-size scalpel	Weapon Damage Percent: +10
+half-size scalpel	Weapon Damage Percent: +10, Surgeonosity: +1
 half-sized guitar	Moxie: +2, Ranged Damage: +4
 halfberd	Weapon Damage: +2
 halibut	Stench Damage: +100, Sleaze Damage: +100, Moxie Percent: -10
