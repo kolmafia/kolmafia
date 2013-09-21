@@ -123,11 +123,9 @@ public class LockableListModel
 
 	private LockableListModel getNextMirror( final Iterator it )
 	{
-		WeakReference ref;
-
 		while ( it.hasNext() )
 		{
-			ref = (WeakReference) it.next();
+			WeakReference ref = (WeakReference) it.next();
 			if ( ref.get() != null )
 			{
 				return (LockableListModel) ref.get();
@@ -186,6 +184,8 @@ public class LockableListModel
 			}
 		}
 	}
+
+
 
 	@Override
 	public void fireContentsChanged( final Object source, final int index0, final int index1 )
@@ -259,7 +259,6 @@ public class LockableListModel
 		synchronized ( this )
 		{
 			this.addVisibleElement( this, index, element );
-
 		}
 
 		synchronized ( this.mirrorList )
@@ -756,7 +755,6 @@ public class LockableListModel
 		synchronized ( this )
 		{
 			this.setVisibleElement( this, index, element, originalValue );
-
 		}
 
 		synchronized ( this.mirrorList )
@@ -846,10 +844,7 @@ public class LockableListModel
 
 	public void updateFilter( final boolean refresh )
 	{
-		synchronized ( this )
-		{
-			this.updateSingleFilter( refresh );
-		}
+		this.updateSingleFilter( refresh );
 
 		synchronized ( this.mirrorList )
 		{
@@ -894,11 +889,11 @@ public class LockableListModel
 					this.fireIntervalRemoved( this, visibleIndex, visibleIndex );
 				}
 			}
+		}
 
-			if ( refresh )
-			{
-				this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
-			}
+		if ( refresh )
+		{
+			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 		}
 	}
 
@@ -945,10 +940,7 @@ public class LockableListModel
 
 	public Object getElementAt( final int index )
 	{
-		synchronized ( this )
-		{
-			return index < 0 || index >= this.visibleElements.size() ? null : this.visibleElements.get( index );
-		}
+		return index < 0 || index >= this.visibleElements.size() ? null : this.visibleElements.get( index );
 	}
 
 	/**
