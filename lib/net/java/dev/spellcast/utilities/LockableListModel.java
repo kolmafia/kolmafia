@@ -148,22 +148,22 @@ public class LockableListModel
 		{
 			Collections.sort( this.actualElements, c );
 			Collections.sort( this.visibleElements, c );
-		}
 
-		synchronized ( this.mirrorList )
-		{
-			Iterator it = this.mirrorList.iterator();
-			while ( it.hasNext() )
+			synchronized ( this.mirrorList )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
-				if ( mirror == null )
+				Iterator it = this.mirrorList.iterator();
+				while ( it.hasNext() )
 				{
-					break;
-				}
+					LockableListModel mirror = this.getNextMirror( it );
+					if ( mirror == null )
+					{
+						break;
+					}
 
-				synchronized ( mirror )
-				{
-					Collections.sort( mirror.visibleElements, c );
+					synchronized ( mirror )
+					{
+						Collections.sort( mirror.visibleElements, c );
+					}
 				}
 			}
 		}
@@ -259,20 +259,20 @@ public class LockableListModel
 		synchronized ( this )
 		{
 			this.addVisibleElement( this, index, element );
-		}
 
-		synchronized ( this.mirrorList )
-		{
-			Iterator it = this.mirrorList.iterator();
-			while ( it.hasNext() )
+			synchronized ( this.mirrorList )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
-				if ( mirror == null )
+				Iterator it = this.mirrorList.iterator();
+				while ( it.hasNext() )
 				{
-					return;
-				}
+					LockableListModel mirror = this.getNextMirror( it );
+					if ( mirror == null )
+					{
+						return;
+					}
 
-				this.addVisibleElement( mirror, index, element );
+					this.addVisibleElement( mirror, index, element );
+				}
 			}
 		}
 	}
@@ -356,21 +356,21 @@ public class LockableListModel
 		synchronized ( this )
 		{
 			this.clearVisibleElements( this );
-		}
 
-		synchronized ( this.mirrorList )
-		{
-			Iterator it = this.mirrorList.iterator();
-
-			while ( it.hasNext() )
+			synchronized ( this.mirrorList )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
-				if ( mirror == null )
-				{
-					return;
-				}
+				Iterator it = this.mirrorList.iterator();
 
-				this.clearVisibleElements( mirror );
+				while ( it.hasNext() )
+				{
+					LockableListModel mirror = this.getNextMirror( it );
+					if ( mirror == null )
+					{
+						return;
+					}
+
+					this.clearVisibleElements( mirror );
+				}
 			}
 		}
 	}
@@ -627,21 +627,21 @@ public class LockableListModel
 		synchronized ( this )
 		{
 			this.removeVisibleElement( this, index, element );
-		}
 
-		synchronized ( this.mirrorList )
-		{
-			Iterator it = this.mirrorList.iterator();
-
-			while ( it.hasNext() )
+			synchronized ( this.mirrorList )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
-				if ( mirror == null )
-				{
-					return;
-				}
+				Iterator it = this.mirrorList.iterator();
 
-				this.removeVisibleElement( mirror, index, element );
+				while ( it.hasNext() )
+				{
+					LockableListModel mirror = this.getNextMirror( it );
+					if ( mirror == null )
+					{
+						return;
+					}
+
+					this.removeVisibleElement( mirror, index, element );
+				}
 			}
 		}
 	}
@@ -752,20 +752,20 @@ public class LockableListModel
 		synchronized ( this )
 		{
 			this.setVisibleElement( this, index, element, originalValue );
-		}
 
-		synchronized ( this.mirrorList )
-		{
-			Iterator it = this.mirrorList.iterator();
-			while ( it.hasNext() )
+			synchronized ( this.mirrorList )
 			{
-				LockableListModel mirror = this.getNextMirror( it );
-				if ( mirror == null )
+				Iterator it = this.mirrorList.iterator();
+				while ( it.hasNext() )
 				{
-					return;
-				}
+					LockableListModel mirror = this.getNextMirror( it );
+					if ( mirror == null )
+					{
+						return;
+					}
 
-				this.setVisibleElement( mirror, index, element, originalValue );
+					this.setVisibleElement( mirror, index, element, originalValue );
+				}
 			}
 		}
 	}
