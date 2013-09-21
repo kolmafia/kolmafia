@@ -679,6 +679,7 @@ public class Modifiers
 	public static final int RAVEOSITY = 5;
 	public static final int MUTEX = 6;
 	public static final int MUTEX_VIOLATIONS = 7;
+	public static final int SURGEONOSITY = 8;
 
 	private static final Object[][] bitmapModifiers =
 	{
@@ -713,6 +714,10 @@ public class Modifiers
 		{ "Mutex Violations",
 		  null,
 		  null
+		},
+		{ "Surgeonosity",
+		  null,
+		  Pattern.compile( "Surgeonosity: (\\+?\\d+)" )
 		},
 	};
 
