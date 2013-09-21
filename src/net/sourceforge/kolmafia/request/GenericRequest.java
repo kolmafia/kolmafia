@@ -1356,13 +1356,18 @@ public class GenericRequest
 			}
 		}
 
+		else if ( location.equals( "lair2.php?preaction=key&whichkey=6663" ) )
+		{
+			ResultProcessor.removeItem( ItemPool.UNIVERSAL_KEY );
+		}
+
 		// To avoid wasting turns, buy a can of hair spray before
 		// climbing the tower. Also, if the person has an NG, make sure
 		// to construct it first.  If there are any tower items sitting
 		// in the closet or that have not been constructed, pull them
 		// out.
 
-		if ( location.startsWith( "lair4.php" ) || location.startsWith( "lair5.php" ) )
+		else if ( location.startsWith( "lair4.php" ) || location.startsWith( "lair5.php" ) )
 		{
 			SorceressLairManager.makeGuardianItems();
 		}
