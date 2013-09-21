@@ -426,15 +426,12 @@ public class LockableListModel
 
 	public Object get( final int index )
 	{
-		synchronized ( this )
+		if ( index < 0 || index >= this.actualElements.size() )
 		{
-			if ( index < 0 || index >= this.actualElements.size() )
-			{
-				return null;
-			}
-
-			return this.actualElements.get( index );
+			return null;
 		}
+
+		return this.actualElements.get( index );
 	}
 
 	/**
