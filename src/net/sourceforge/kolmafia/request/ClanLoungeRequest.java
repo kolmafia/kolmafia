@@ -965,7 +965,15 @@ public class ClanLoungeRequest
 	@Override
 	public void processResults()
 	{
-		ClanLoungeRequest.parseResponse( this.getURLString(), this.responseText );
+		String urlString = this.getURLString();
+		String responseText = this.responseText;
+
+		ClanLoungeRequest.parseResponse( urlString, responseText );
+
+		if ( this.action == ClanLoungeRequest.HOT_DOG_STAND )
+		{
+			ResponseTextParser.learnSkill( urlString, responseText );
+		}
 	}
 
 	private static final Pattern HOTTUB_PATTERN = Pattern.compile( "hottub(\\d).gif" );
