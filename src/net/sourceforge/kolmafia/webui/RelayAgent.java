@@ -71,14 +71,12 @@ public class RelayAgent
 	extends Thread
 {
 	private static final RelayAutoCombatThread COMBAT_THREAD = new RelayAutoCombatThread();
-	private static final Map<String, Boolean> lastModified = new HashMap<String, Boolean>();
 
 	private static GenericRequest errorRequest = null;
 	private static String errorRequestPath = null;
 
 	public static void reset()
 	{
-		RelayAgent.lastModified.clear();
 	}
 
 	public static void setErrorRequest( GenericRequest errorRequest )
@@ -415,52 +413,57 @@ public class RelayAgent
 		}
 	}
 
+	private static boolean modifiedSince( String date, File file )
+	{
+		return	file != null &&
+			file.exists() &&
+			StringUtilities.parseDate( date ) < file.lastModified();
+	}
+
 	private boolean shouldSendNotModified()
 	{
-		if ( this.isCheckingModified == null )
-		{
-			return false;
-		}
-
+		// Things in the "images" directory come from KoL's image server.
+		// We set the modification date to KoL's modification date.
 		if ( this.path.startsWith( "/images" ) )
 		{
-			long modifiedSince = StringUtilities.parseDate( this.isCheckingModified );
-			File imageFile = RelayRequest.findLocalImage( this.path.substring( 1 ) );
-			return imageFile != null && imageFile.exists() && modifiedSince < imageFile.lastModified();
+			return RelayAgent.modifiedSince( this.isCheckingModified, RelayRequest.findLocalImage( this.path.substring( 1 ) ) );
 		}
 
-		if ( this.path.indexOf( "?" ) != -1 )
+		// Things in the "relay" directory are either KoLmafia builtin
+		// files or are provided by user scripts.
+		if ( !this.path.startsWith( "/relay" ) )
 		{
 			return false;
 		}
 
-		if ( !this.path.endsWith( ".js" ) && !this.path.endsWith( ".html" ) )
+		// If this request has arguments, don't check
+		if ( this.path.contains( "?" ) )
 		{
 			return false;
 		}
 
-		if ( RelayAgent.lastModified.containsKey( this.path ) )
-		{
-			return true;
-		}
-
-		RelayAgent.lastModified.put( this.path, Boolean.TRUE );
-		return false;
+		// Otherwise, look at the modification date of the file in the
+		// file system
+		return RelayAgent.modifiedSince( this.isCheckingModified, RelayRequest.findRelayFile( this.path.substring( 1 ) ) );
 	}
 
 	private void readServerResponse()
 		throws IOException
 	{
-		// If not requesting a server-side page, then it is safe
-		// to assume that no changes have been made (save time).
-
-		if ( this.shouldSendNotModified() )
+		// If sending a local page, check modification date of file
+		if ( this.isCheckingModified != null )
 		{
-			this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
-			this.request.responseCode = 304;
-			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
+			if ( this.shouldSendNotModified() )
+			{
+				this.request.pseudoResponse( "HTTP/1.1 304 Not Modified", "" );
+				this.request.responseCode = 304;
+				this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
+				return;
+			}
 
-			return;
+			// Presumably, we should put "If-Checking-Modified"
+			// onto the request header to KoL and handle a Not
+			// Modified response appropriately.
 		}
 
 		if ( errorRequest != null )

@@ -611,21 +611,26 @@ public class RelayRequest
 		this.pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
+	public static File findRelayFile( final String filename )
+	{
+		return new File( KoLConstants.RELAY_LOCATION, filename );
+	}
+
 	private void sendLocalFile( final String filename )
 	{
 		if ( !RelayRequest.overrideMap.containsKey( filename ) )
 		{
-			RelayRequest.overrideMap.put( filename, new File( KoLConstants.RELAY_LOCATION, filename ) );
+			RelayRequest.overrideMap.put( filename, RelayRequest.findRelayFile( filename ) );
 		}
 
 		File override = (File) RelayRequest.overrideMap.get( filename );
-
-		if ( override == null || !override.exists() )
+		if ( override == null )
 		{
 			this.sendNotFound();
 			return;
 		}
 
+		// Make sure that the file is actually in the relay directory
 		try
 		{
 			String overridePath = override.getCanonicalPath();
@@ -639,11 +644,20 @@ public class RelayRequest
 		}
 		catch ( IOException e )
 		{
-
 		}
 
+		// Make sure that the file is in the file system
+		if ( !override.exists() )
+		{
+			this.sendNotFound();
+			return;
+		}
+
+		// Read the file
 		StringBuffer replyBuffer = this.readContents( DataUtilities.getReader( override ) );
 
+		// If it is a KoLmafia built-in file, as opposed to the
+		// user-supplied relay script, do special things
 		if ( RelayRequest.builtinRelayFile( filename ) )
 		{
 			if ( replyBuffer.indexOf( "MAFIAHIT" ) != -1 )
@@ -660,9 +674,6 @@ public class RelayRequest
 			}
 		}
 
-		// Print the reply buffer to the response buffer for the local
-		// relay server.
-
 		if ( this.isChatRequest )
 		{
 			StringUtilities.globalStringReplace( replyBuffer, "<br>", "</font><br>" );
@@ -673,6 +684,7 @@ public class RelayRequest
 			RequestEditorKit.addChatFeatures( replyBuffer );
 		}
 
+		// Return the reply buffer as the response text to the local request
 		this.pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
 	}
 
@@ -2003,6 +2015,8 @@ public class RelayRequest
 	public void run()
 	{
 		String path = this.getBasePath();
+
+		this.lastModified = 0L;
 
 		if ( path.startsWith( "http" ) )
 		{
