@@ -121,7 +121,11 @@ public class ApiRequest
 		}
 
 		this.JSON = null;
+
 		super.run();
+
+		// Save the JSON object so caller can look further at it
+		this.JSON = ApiRequest.getJSON( this.responseText, this.what );
 	}
 
 	@Override
@@ -132,20 +136,10 @@ public class ApiRequest
 			return;
 		}
 
-		// Save the JSON object so caller can look further at it
-		this.JSON = ApiRequest.getJSON( this.responseText, this.what );
-		if ( this.what.equals( "status" ) )
-		{
-			ApiRequest.parseStatus( this.JSON );
-		}
-		else if ( this.what.equals( "inventory" ) )
-		{
-			ApiRequest.parseInventory( this.JSON );
-		}
+		ApiRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	private static final Pattern WHAT_PATTERN =
-		Pattern.compile( "what=([^&]*)");
+	private static final Pattern WHAT_PATTERN = Pattern.compile( "what=([^&]*)");
 
 	public static final void parseResponse( final String location, final String responseText )
 	{
