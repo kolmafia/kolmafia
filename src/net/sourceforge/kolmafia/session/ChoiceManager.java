@@ -249,6 +249,7 @@ public abstract class ChoiceManager
 			return this.item;
 		}
 
+		@Override
 		public String toString()
 		{
 			return this.name;
@@ -6086,7 +6087,6 @@ public abstract class ChoiceManager
 
 				if ( text.contains( "spreading weed seeds all over your skirt" ) )
 				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.DREAD_POD, -1 ) );
 					EquipmentManager.discardEquipment( ItemPool.MUDDY_SKIRT );
 					EquipmentManager.setEquipment( EquipmentManager.PANTS, ItemPool.get( ItemPool.WEEDY_SKIRT, 1 ) );
 				}
