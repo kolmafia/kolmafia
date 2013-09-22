@@ -464,7 +464,7 @@ Georgepaul, the Balldodger	merkinballer2.gif	Atk: 1200 Def: 1150 HP: 1400 Init: 
 ghastly organist	phantom.gif	Atk: 110 Def: 99 HP: 120 Init: 50 P: undead	opera mask (20)
 ghost	cvghost.gif	Atk: 75 Def: 67 HP: 80 Init: 50 P: undead	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)
 ghost miner	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 E: spooky Phys: 100 P: undead	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
-ghostly pickle factory worker	worger.gif	BOSS HP: 180 Def: 180 Atk: 200 Init: 70 P: undead	ghost cucumber (50)	ghost cucumber (20)
+ghostly pickle factory worker	worker.gif	BOSS HP: 180 Def: 180 Atk: 200 Init: 70 P: undead	ghost cucumber (50)	ghost cucumber (20)
 ghuol	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 E: spooky Init: 60 Meat: 30-36 P: undead	ghuol egg (25)	ghuol ears (25)
 giant bee	giantbee.gif	Atk: 99999 Def: 89999 HP: [99999] Init: -10000 P: bug
 giant bird-creature	pterodactyl.gif	Atk: 100 Def: 81 HP: 90 Init: 20 P: beast
