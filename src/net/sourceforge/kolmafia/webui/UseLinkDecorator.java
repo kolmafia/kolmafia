@@ -1526,6 +1526,7 @@ public abstract class UseLinkDecorator
 			     !this.useLocation.startsWith( "council.php" ) &&
 			     !this.useLocation.startsWith( "wand.php" ) &&
 			     !this.useLocation.startsWith( "diary.php" ) &&
+			     !this.useLocation.startsWith( "cobbsknob.php" ) &&
 			     !this.useLocation.startsWith( "guild.php" ) )
 			{
 				this.useLocation += "&pwd=" + GenericRequest.passwordHash;
