@@ -584,6 +584,7 @@ public interface KoLConstants
 		CHEMCLASS,	// Items made in Chemistry Class at KOLHS
 		ARTCLASS,	// Items made in Art Class at KOLHS
 		SHOPCLASS,	// Items made in Shop Class at KOLHS
+		BEER, // Items made with ingredients from A Beer Garden
 	}
 
 	public enum CraftingRequirements

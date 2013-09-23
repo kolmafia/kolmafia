@@ -1812,6 +1812,10 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.SHOPCLASS, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SHOPCLASS, 0 );
 
+		// Making stuff with Beer Garden ingredients is always allowed
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.BEER );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.BEER, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.BEER, 0 );
 
 		// You trade tokens to Coin Masters if you have opted in to do so,
 
@@ -2123,6 +2127,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.GRANDMA )
 		{
 			result.append( "Grandma Sea Monkee" );
+		}
+		else if ( mixingMethod == CraftingType.BEER )
+		{
+			result.append( "Beer Garden" );
 		}
 
 		if ( result.length() == 0 )
@@ -2722,6 +2730,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "GRANDMA" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.GRANDMA;
+		}
+
+		else if ( mix.equals( "BEER" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.BEER;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )

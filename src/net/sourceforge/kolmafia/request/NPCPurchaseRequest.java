@@ -522,7 +522,8 @@ public class NPCPurchaseRequest
 		// The following trade collections of ingredients for an item
 		if ( shopId.equals( "mystic" ) ||
 		     shopId.startsWith( "kolhs_" ) ||
-		     shopId.equals( "grandma" ) )
+		     shopId.equals( "grandma" ) ||
+		     shopId.equals( "beergarden" ) )
 		{
 			NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 			return;
@@ -699,7 +700,8 @@ public class NPCPurchaseRequest
 			// The following trade collections of ingredients for an item
 			if ( shopId.equals( "mystic" ) ||
 			     shopId.startsWith( "kolhs_" ) ||
-			     shopId.equals( "grandma" ) )
+			     shopId.equals( "grandma" ) ||
+			     shopId.equals( "beergarden" ) )
 			{
 				return NPCPurchaseRequest.registerShopRowRequest( urlString );
 			}

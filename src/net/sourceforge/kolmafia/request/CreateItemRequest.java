@@ -361,6 +361,9 @@ public class CreateItemRequest
 		case SHOPCLASS:
 			return new KOLHSRequest( conc );
 
+		case BEER:
+			return new BeerGardenRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}
