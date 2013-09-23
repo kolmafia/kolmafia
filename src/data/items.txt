@@ -6743,3 +6743,48 @@
 6726	dude ranch souvenir crate	241890928	crate.gif	usable	t	0
 6727	tropical island souvenir crate	631078936	crate.gif	usable	t	0
 6728	ski resort souvenir crate	978195555	crate.gif	usable	t	0
+6729
+6730
+6731
+6732
+6733
+6734
+6735
+6736
+6737
+6738
+6739
+6740
+6741
+6742
+6743
+6744
+6745
+6746
+6747
+6748
+6749
+6750	Gordon Beer's Beer Garden Catalog	659532710	beercat.gif	usable	t	0	Gordon Beer's Beer Garden Catalogs
+6751	packet of beer seeds	523573927	beerseeds.gif	usable	0	packets of beer seeds
+6752	handful of barley	244020270	barley.gif	reusable	t,d	5	handfuls of barley
+6753	cluster of hops	410035309	hops.gif	reusable	t,d	5	clusters of hops
+6754	fancy beer bottle	408384403	fancybottle.gif	usable	t,d	10	fancy beer bottles
+6755	fancy beer label	112004209	fancylabel.gif	usable	t,d	10	fancy beer labels
+6756
+6757	can of Br&uuml;talbr&auml;u	785997509	fancycan.gif	drink		t,d	10
+6758	can of Drooling Monk	987647275	fancycan.gif	drink		t,d	10
+6759	can of Impetuous Scofflaw	606040163	fancycan.gif	drink		t,d	10
+6760
+6761
+6762
+6763
+6764
+6765
+6766	fancy tin beer can	916795901	fancycan.gif	multiple	t,d	30
+6769	tin tam	577448815	tintam.gif	hat	t,d	40
+6770	tin cup	136358059	tincup1.gif	usable	t,d	5
+6771	tin foil	262979335	tinfoil.gif	weapon	t,d	80
+6772	tin drum	976976166	tindrum.gif	weapon	t,d	55
+6773
+6774	tin snips	238636086	tinsnips.gif	none, combat reusable	t,d	10
+6775	tin lizzie	677775886	tinlizzie.gif	none	q	0

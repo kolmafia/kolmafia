@@ -2270,3 +2270,16 @@ miniature suspension bridge 	SHOPCLASS, ROW158	wood screw (4)	balsa plank (4)	bl
 Staff of the Lunch Lady 	SHOPCLASS, ROW159	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
 universal key	SHOPCLASS, ROW160	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape (1)	scrap metal (1)
 world's most dangerous birdhouse 	SHOPCLASS, ROW161	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
+
+# Beer Can
+tin cup	SUSE	fancy tin beer can (1)
+tin snips	MUSE	fancy tin beer can (2)
+tin lizzie	MUSE	fancy tin beer can (4)
+tin tam	MUSE	fancy tin beer can (8)
+tin foil	MUSE	fancy tin beer can (11)
+tin drum	MUSE	fancy tin beer can (16)
+
+# Beer Garden
+can of Br&uuml;talbr&auml;u	BEER, ROW214	handful of barley	cluster of hops
+can of Drooling Monk	BEER, ROW215	handful of barley	cluster of hops
+can of Impetuous Scofflaw	BEER, ROW216	handful of barley	cluster of hops

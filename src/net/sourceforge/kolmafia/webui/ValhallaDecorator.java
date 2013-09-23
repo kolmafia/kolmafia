@@ -114,7 +114,7 @@ public class ValhallaDecorator
 		ValhallaDecorator.listCommonTasks( reminders );
 		reminders.append( "</font></td></tr></table></td>" );
 
-                reminders.append( "</tr></table><br><br>" );
+		reminders.append( "</tr></table><br><br>" );
 
 		StringUtilities.singleStringReplace(
 			buffer,
@@ -367,7 +367,8 @@ public class ValhallaDecorator
 		boolean havePumpkin = InventoryManager.hasItem( ItemPool.PUMPKIN_SEEDS );
 		boolean havePeppermint = InventoryManager.hasItem( ItemPool.PEPPERMINT_PACKET );
 		boolean haveSkeleton = InventoryManager.hasItem( ItemPool.DRAGON_TEETH );
-		if ( !havePumpkin && !havePeppermint && !haveSkeleton )
+		boolean haveBeer = InventoryManager.hasItem( ItemPool.BEER_SEEDS );
+		if ( !havePumpkin && !havePeppermint && !haveSkeleton && !haveBeer )
 		{
 			return;
 		}
@@ -408,6 +409,18 @@ public class ValhallaDecorator
 			buffer.append( "+use+packet+of+dragon's+teeth&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
 			buffer.append( "\">skeleton</a>" );
+			needSeparator = true;
+		}
+		if ( haveBeer )
+		{
+			if ( needSeparator )
+			{
+				buffer.append( " or " );
+			}
+			buffer.append( "<a href=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+beer+seeds;" );
+			buffer.append( "+use+packet+of+beer+seeds&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">beer</a>" );
 			needSeparator = true;
 		}
 		AdventureResult crop = CampgroundRequest.getCrop();

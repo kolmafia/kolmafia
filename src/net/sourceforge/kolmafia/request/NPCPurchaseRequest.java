@@ -45,7 +45,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
-import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;

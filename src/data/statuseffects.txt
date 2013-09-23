@@ -1362,3 +1362,5 @@
 1361	Fiery Spirit	fire.gif	f788b27c7141363b355ea9da0e0cd4ba
 1362	Cool Spirit	snowflake.gif	5ebd2e3cb33eb70f5393e618592da3e4
 1363	Resilient Spirit	wallshield.gif	400b6f9f2059b58527c510b69686cf62
+
+1375	Tingling Feeling	tincup1.gif	91b2830c561b74bcbcca410423a21ad3	use 1 tin cup
