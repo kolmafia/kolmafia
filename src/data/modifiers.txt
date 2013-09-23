@@ -340,6 +340,7 @@ surgical mask	Maximum MP: +40, Surgeonosity: +1
 suspicious-looking fedora	Moxie: +6, Weapon Damage: +6
 tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
+tin tam	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Damage Reduction: 5, Experience (Mysticality): +1
 # toy space helmet: Provides Mostly Accurate Battle Statistics During Fights
 toy space helmet	Stench Resistance: +3, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 43"
 turtle wax helmet	Hot Resistance: +1, Familiar Effect: "stun, ?xFairy, cap 10"
@@ -1281,6 +1282,8 @@ teflon spatula	Mysticality Percent: +10, Sleaze Resistance: +3, Spell Damage: +4
 third-hand nunchaku	Weapon Damage: +3
 throwing wrench	Weakens Monster
 time sword	Adventures: +3
+tin drum	Moxie Percent: +10, Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Experience (Moxie): +1
+tin foil	Muscle Percent: +10, Weapon Damage Percent: +10, Experience (Muscle): +1
 tiny ninja sword	Moxie: +1
 tiny plastic sword	Moxie: +1
 titanium assault umbrella	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
@@ -4271,6 +4274,7 @@ Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
 Ticking Clock	Initiative: +30
 Tiffany's Breakfast	Item Drop: [min(40,T)]
 Tin, Man	Damage Reduction: 5
+Tingling Feeling	Meat Drop: +20, Item Drop: +10
 Tingly Biceps	Muscle: +5
 Tingly Elbows	Moxie: +5
 Tingly Wrists	Mysticality: +5
@@ -5348,6 +5352,7 @@ that gum you like	Effect: "Sugar Rush", Effect Duration: 5
 thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 time sleigh	Free Pull
 time's arrow	Free Pull
+tin cup	Effect: "Tingling Feeling", Effect Duration: 20
 tin magnolia	Effect: "Tin, Man", Effect Duration: 10
 tiny bottle of absinthe	Effect: "Absinthe-Minded", Effect Duration: 10
 tiny canopic jar	Effect: "Ham(ster)-Handed", Effect Duration: 30

@@ -80,6 +80,9 @@ buttery knob	2	1	good	4-5	0	0	10-20	5 Gutterminded
 caipifruta	3	3	good	5-10	16-20	0	0
 caipiranha	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 calle de miel	4	4	good	10-14	8-10	0	25-27
+can of br&uuml;talbr&auml;u	1	1	EPIC	5-7	50-60	0	0
+can of drooling monk	1	1	EPIC	5-7	0	50-60	0
+can of impetuous scofflaw	1	1	EPIC	5-7	0	0	50-60
 can of swiller	1	10	good	2-4	10-15	0	0	15-20 MP
 can of the cheapest beer	1	1	decent	2	3	2	2	KOLHS
 candicaine	2	8	awesome	8-9	0	0	30-40	15 Holiday Bliss

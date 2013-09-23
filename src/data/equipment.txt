@@ -265,6 +265,7 @@ surgical mask	155	Mys: 62
 suspicious-looking fedora	60	Mox: 15
 tattered paper crown	60	Mus: 15
 time helmet	100	Mox: 35
+tin tam	100	none
 toy space helmet	175	Mox: 72
 turtle wax helmet	40	Mox: 5
 turtlemail coif	80	Mox: 25
@@ -1128,6 +1129,8 @@ teflon spatula	200	Mys: 85	1-handed utensil
 third-hand nunchaku	30	Mus: 7	2-handed flail
 throwing wrench	30	Mox: 0	1-handed club
 time sword	100	Mus: 35	1-handed sword
+tin drum	100	Mox: 0	2-handed drum
+tin foil	100	Mus: 0	1-handed sword
 tiny ninja sword	20	Mus: 0	1-handed sword
 tiny plastic sword	10	Mus: 0	1-handed sword
 titanium assault umbrella	130	Mus: 50	1-handed umbrella

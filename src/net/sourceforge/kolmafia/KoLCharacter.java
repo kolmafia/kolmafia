@@ -3329,9 +3329,10 @@ public abstract class KoLCharacter
 	public static final boolean desertBeachAccessible()
 	{
 		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.BITCHIN_MEATCAR, 1 ) ) ||
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.DESERT_BUS_PASS, 1 ) ) ||
-				KoLConstants.inventory.contains( ItemPool.get( ItemPool.PUMPKIN_CARRIAGE, 1 ) ) ||
-				Preferences.getString( "questG01Meatcar" ).equals( "finished" );
+		       KoLConstants.inventory.contains( ItemPool.get( ItemPool.DESERT_BUS_PASS, 1 ) ) ||
+		       KoLConstants.inventory.contains( ItemPool.get( ItemPool.PUMPKIN_CARRIAGE, 1 ) ) ||
+		       KoLConstants.inventory.contains( ItemPool.get( ItemPool.TIN_LIZZIE, 1 ) ) ||
+		       Preferences.getString( "questG01Meatcar" ).equals( "finished" );
 	}
 
 	/**
