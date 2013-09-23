@@ -62,7 +62,7 @@ public class LockableListModel
 
 	private boolean actionListenerFired = false;
 	
-	private ArrayList actualElements;
+	protected ArrayList actualElements;
 	private ArrayList visibleElements;
 	private ArrayList mirrorList;
 
@@ -96,7 +96,7 @@ public class LockableListModel
 
 	private LockableListModel( final LockableListModel l, final ListElementFilter f )
 	{
-		synchronized ( l )
+		synchronized ( l.actualElements )
 		{
 			this.actualElements = l.actualElements;
 			this.visibleElements = new ArrayList();
@@ -104,7 +104,11 @@ public class LockableListModel
 			this.selectedValue = null;
 			this.currentFilter = f == null ? LockableListModel.NO_FILTER : f;
 			this.mirrorList = new ArrayList();
-			l.mirrorList.add( new WeakReference( this ) );
+
+			synchronized ( l.mirrorList )
+			{
+				l.mirrorList.add( new WeakReference( this ) );
+			}
 
 			if ( f == LockableListModel.NO_FILTER )
 			{
@@ -144,7 +148,7 @@ public class LockableListModel
 
 	public void sort( final Comparator c )
 	{
-		synchronized ( this )
+		synchronized ( this.actualElements )
 		{
 			Collections.sort( this.actualElements, c );
 			Collections.sort( this.visibleElements, c );
@@ -160,10 +164,7 @@ public class LockableListModel
 						break;
 					}
 
-					synchronized ( mirror )
-					{
-						Collections.sort( mirror.visibleElements, c );
-					}
+					Collections.sort( mirror.visibleElements, c );
 				}
 			}
 		}
@@ -242,7 +243,7 @@ public class LockableListModel
 			return;
 		}
 
-		synchronized ( this )
+		synchronized ( this.actualElements )
 		{
 			if ( this.currentFilter != LockableListModel.NO_FILTER || !this.mirrorList.isEmpty() )
 			{
@@ -256,40 +257,33 @@ public class LockableListModel
 
 	private void addVisibleElement( final int index, final Object element )
 	{
-		synchronized ( this )
+		this.addVisibleElement( this, index, element );
+
+		synchronized ( this.mirrorList )
 		{
-			this.addVisibleElement( this, index, element );
-
-			synchronized ( this.mirrorList )
+			Iterator it = this.mirrorList.iterator();
+			while ( it.hasNext() )
 			{
-				Iterator it = this.mirrorList.iterator();
-				while ( it.hasNext() )
+				LockableListModel mirror = this.getNextMirror( it );
+				if ( mirror == null )
 				{
-					LockableListModel mirror = this.getNextMirror( it );
-					if ( mirror == null )
-					{
-						return;
-					}
-
-					this.addVisibleElement( mirror, index, element );
+					return;
 				}
+
+				this.addVisibleElement( mirror, index, element );
 			}
 		}
 	}
 
 	private void addVisibleElement( final LockableListModel model, final int index, final Object element )
 	{
-		int visibleIndex;
-		synchronized ( model )
+		if ( !model.currentFilter.isVisible( element ) )
 		{
-			if ( !model.currentFilter.isVisible( element ) )
-			{
-				return;
-			}
-
-			visibleIndex = model.computeVisibleIndex( index );
-			model.visibleElements.add( visibleIndex, element );
+			return;
 		}
+
+		int visibleIndex = model.computeVisibleIndex( index );
+		model.visibleElements.add( visibleIndex, element );
 		model.fireIntervalAdded( model, visibleIndex, visibleIndex );
 	}
 
@@ -304,7 +298,7 @@ public class LockableListModel
 			return false;
 		}
 
-		synchronized ( this )
+		synchronized ( this.actualElements )
 		{
 			int originalSize = this.actualElements.size();
 			this.add( originalSize, o );
@@ -318,7 +312,7 @@ public class LockableListModel
 
 	public boolean addAll( final Collection c )
 	{
-		synchronized ( this )
+		synchronized ( this.actualElements )
 		{
 			return this.addAll( this.actualElements.size(), c );
 		}
@@ -330,7 +324,7 @@ public class LockableListModel
 
 	public boolean addAll( final int index, final Collection c )
 	{
-		synchronized ( this )
+		synchronized ( this.actualElements )
 		{
 			boolean result = this.actualElements.addAll( index, c );
 			this.updateFilter( false );
@@ -344,7 +338,7 @@ public class LockableListModel
 
 	public void clear()
 	{
-		synchronized ( this )
+		synchronized ( this.actualElements )
 		{
 			this.actualElements.clear();
 			this.clearVisibleElements();
@@ -353,42 +347,35 @@ public class LockableListModel
 
 	private void clearVisibleElements()
 	{
-		synchronized ( this )
+		this.clearVisibleElements( this );
+
+		synchronized ( this.mirrorList )
 		{
-			this.clearVisibleElements( this );
+			Iterator it = this.mirrorList.iterator();
 
-			synchronized ( this.mirrorList )
+			while ( it.hasNext() )
 			{
-				Iterator it = this.mirrorList.iterator();
-
-				while ( it.hasNext() )
+				LockableListModel mirror = this.getNextMirror( it );
+				if ( mirror == null )
 				{
-					LockableListModel mirror = this.getNextMirror( it );
-					if ( mirror == null )
-					{
-						return;
-					}
-
-					this.clearVisibleElements( mirror );
+					return;
 				}
+
+				this.clearVisibleElements( mirror );
 			}
 		}
 	}
 
 	private void clearVisibleElements( final LockableListModel model )
 	{
-		int originalSize;
-		synchronized ( model )
+		int originalSize = model.visibleElements.size();
+
+		if ( originalSize == 0 )
 		{
-			originalSize = model.visibleElements.size();
-
-			if ( originalSize == 0 )
-			{
-				return;
-			}
-
-			model.visibleElements.clear();
+			return;
 		}
+
+		model.visibleElements.clear();
 		model.fireIntervalRemoved( model, 0, originalSize - 1 );
 	}
 
