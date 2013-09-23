@@ -105,14 +105,15 @@ public class SortedListModel
 	@Override
 	public boolean addAll( final int index, final Collection c )
 	{
-		boolean result = super.addAll( index, c );
-		
-		if ( !result )
+		synchronized (this.actualElements )
 		{
-			return false;
-		}
+			if ( !super.addAll( index, c ) )
+			{
+				return false;
+			}
 		
-		this.sort();
+			this.sort();
+		}
 		return true;
 	}
 
