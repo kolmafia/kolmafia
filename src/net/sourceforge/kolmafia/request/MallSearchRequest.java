@@ -336,7 +336,7 @@ public class MallSearchRequest
 
 			// Handle character entities mangled by KoL.
 
-			String shopName = mangledEntityPattern.matcher( shopMatcher.group( 1 ) ).replaceAll( ";" );
+			String shopName = new String( mangledEntityPattern.matcher( shopMatcher.group( 1 ) ).replaceAll( ";" ) );
 
 			int lastFindIndex = 0;
 			Matcher priceMatcher = MallSearchRequest.STOREPRICE_PATTERN.matcher( this.responseText );
@@ -452,7 +452,7 @@ public class MallSearchRequest
 
 				int shopId = StringUtilities.parseInt( detailsMatcher.group( 1 ) );
 				int price = StringUtilities.parseInt( detailsMatcher.group( 3 ) );
-				String shopName = detailsMatcher.group( 4 ).replaceAll( "<br>", " " );
+				String shopName = new String( detailsMatcher.group( 4 ).replaceAll( "<br>", " " ) );
 
 				this.results.add( new MallPurchaseRequest( itemId, quantity, shopId, shopName, price, limit, canPurchase ) );
 			}
