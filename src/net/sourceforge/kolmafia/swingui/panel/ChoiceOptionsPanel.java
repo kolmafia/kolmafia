@@ -124,6 +124,7 @@ public class ChoiceOptionsPanel
 	private final JComboBox hiddenZigguratSelect;
 	private final JComboBox gongSelect;
 	private final JComboBox kolhsCafeteriaSelect;
+	private final JComboBox dailyDungeonDoorSelect;
 	private final JComboBox basementMallSelect;
 	private final JComboBox breakableSelect;
 	private final JComboBox addingSelect;
@@ -381,6 +382,12 @@ public class ChoiceOptionsPanel
 		this.kolhsCafeteriaSelect.addItem( "show in browser" );
 		this.kolhsCafeteriaSelect.addItem( "get stats if possible else lose hp" );
 
+		this.dailyDungeonDoorSelect = new JComboBox();
+		this.dailyDungeonDoorSelect.addItem( "show in browser" );
+		this.dailyDungeonDoorSelect.addItem( "suffer trap effects" );
+		this.dailyDungeonDoorSelect.addItem( "unlock door" );
+		this.dailyDungeonDoorSelect.addItem( "try to avoid trap" );
+
 		this.gongSelect = new JComboBox();
 		for ( int i = 0; i < GongCommand.GONG_PATHS.length; ++i )
 		{
@@ -438,6 +445,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "HiddenCity", "Hidden Bowling Alley", this.hiddenBowlingAlleySelect );
 		this.addChoiceSelect( "HiddenCity", "Hidden Ziggurat", this.hiddenZigguratSelect );
 		this.addChoiceSelect( "KOL High School", "Delirium in the Cafeterium", this.kolhsCafeteriaSelect );
+		this.addChoiceSelect( "Dungeon", "I Wanna Be a Door", this.dailyDungeonDoorSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
@@ -902,6 +910,15 @@ public class ChoiceOptionsPanel
 
 		Preferences.setString( "choiceAdventure700", String.valueOf( this.kolhsCafeteriaSelect.getSelectedIndex() ) );
 		
+		int dailyDungeonDoorIndex = this.dailyDungeonDoorSelect.getSelectedIndex();
+		String currentSetting = Preferences.getString( "choiceAdventure692" );
+		Preferences.setString( "choiceAdventure692", 
+						dailyDungeonDoorIndex == 0 ? "0" :
+						dailyDungeonDoorIndex == 1 ? "1" :
+						dailyDungeonDoorIndex == 2 ? "11" :
+						dailyDungeonDoorIndex == 3 ? "12" :
+						currentSetting );
+		
 		Preferences.setInteger( "basementMallPrices", this.basementMallSelect.getSelectedIndex() );
 		Preferences.setInteger( "breakableHandling", this.breakableSelect.getSelectedIndex() + 1 );
 		Preferences.setInteger( "addingScrolls", this.addingSelect.getSelectedIndex() );
@@ -1270,6 +1287,30 @@ public class ChoiceOptionsPanel
 			System.out.println( "Invalid setting " + kolhsCafeteriaIndex + " for choiceAdventure700." );
 		}
 
+		switch( Preferences.getInteger( "choiceAdventure692" ) )
+		{
+		case 0:
+			this.dailyDungeonDoorSelect.setSelectedIndex( 0 );
+			break;
+		case 1:
+			this.dailyDungeonDoorSelect.setSelectedIndex( 1 );
+			break;
+		case 2:
+		case 3:
+		case 7:
+		case 11:
+			// unlock door
+			this.dailyDungeonDoorSelect.setSelectedIndex( 2 );
+			break;
+		case 4:
+		case 5:
+		case 6:
+		case 12:
+			// stat test
+			this.dailyDungeonDoorSelect.setSelectedIndex( 3 );
+			break;
+		}
+		
 		this.basementMallSelect.setSelectedIndex( Preferences.getInteger( "basementMallPrices" ) );
 		this.breakableSelect.setSelectedIndex( Math.max( 0, Preferences.getInteger( "breakableHandling" ) - 1 ) );
 
