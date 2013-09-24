@@ -1373,7 +1373,7 @@ public abstract class UseLinkDecorator
 			}
 
 			useType = "artist";
-			useLocation = "town_wrong.php?place=artist";
+			useLocation = "place.php?whichplace=town_wrong&action=townwrong_artist_quest";
 			break;
 
 		case ItemPool.MOLYBDENUM_MAGNET:
