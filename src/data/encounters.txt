@@ -52,6 +52,7 @@ An Overgrown Shrine (Southwest)	STOP	Water You Dune
 An Overgrown Shrine (Northeast)	STOP	Air Apparent
 An Overgrown Shrine (Southeast)	STOP	Fire when Ready
 A Massive Ziggurat	STOP	Legend of the Temple in the Hidden City
+The Daily Dungeon	STOP	The Final Reward
 
 ### Semi-rare Adventures
 8-Bit Realm	SEMIRARE	Some Bricks Do, In Fact, Hang in the Air

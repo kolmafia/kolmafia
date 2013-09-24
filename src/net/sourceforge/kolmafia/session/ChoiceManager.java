@@ -2637,12 +2637,7 @@ public abstract class ChoiceManager
 			"Dungeon", "choiceAdventure691", "Second Chest",
 			new Object[] { "Get item", "Skip to 13th chamber, no turn spent", "Skip to 11th chamber, no turn spent" } ),
 
-		// I Wanna Be a Door
-		new ChoiceAdventure(
-			"Dungeon", "choiceAdventure692", "I Wanna Be a Door",
-			new Object[] { "Suffer trap effects", "Unlock door with key, no turn spent", "Pick lock with lockpicks, no turn spent",
-				"Muscle test, may suffer trap effects", "Mysticality test, may suffer trap effects", "Moxie test, may suffer trap effects",
-				"Open door with card, no turn spent", "Leave, no turn spent" } ),
+		// Choice 692 is I Wanna Be a Door
 				
 		// It's Almost Certainly a Trap
 		new ChoiceAdventure(
@@ -3190,6 +3185,10 @@ public abstract class ChoiceManager
 		case 678:
 			// Yeah, You're for Me, Punk Rock Giant
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Yeah, You're for Me, Punk Rock Giant" );
+
+		case 692:
+			// I Wanna Be a Door
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "I Wanna Be a Door" );
 
 		case 700:
 			// Delirium in the Cafeterium
@@ -3983,6 +3982,19 @@ public abstract class ChoiceManager
 			result[ 3 ] = "Raver Choice";
 			return result;
 
+		case 692:
+			// I Wanna Be a Door
+			result = new String[ 9 ];
+			result[ 0 ] = "suffer trap effects";
+			result[ 1 ] = "unlock door with key, no turn spent";
+			result[ 2 ] = "pick lock with lockpicks, no turn spent";
+			result[ 3 ] = KoLCharacter.getAdjustedMuscle() >= 30 ? "bypass trap with muscle" : "suffer trap effects";
+			result[ 4 ] = KoLCharacter.getAdjustedMysticality() >= 30 ? "bypass trap with mysticality" : "suffer trap effects";
+			result[ 5 ] = KoLCharacter.getAdjustedMoxie() >= 30 ? "bypass trap with moxie" : "suffer trap effects";
+			result[ 6 ] = "open door with card, no turn spent";
+			result[ 7 ] = "leave, no turn spent";
+			return result;
+			
 		case 700:
 			// Delirium in the Cafeteria
 			result = new String[ 9 ];
@@ -8287,6 +8299,47 @@ public abstract class ChoiceManager
 			// Otherwise, if you have pick-o-matic lockpicks, use them
 			// Otherwise, if you have a skeleton key, use it.
 
+			if ( decision.equals( "11" ) )
+			{
+				if ( InventoryManager.getCount( ItemPool.EXPRESS_CARD ) > 0 )
+				{
+					return "7";
+				}
+				else if ( InventoryManager.getCount( ItemPool.PICKOMATIC_LOCKPICKS ) > 0 )
+				{
+					return "3";
+				}
+				else if ( InventoryManager.getCount( ItemPool.SKELETON_KEY ) > 0 )
+				{
+					return "1";
+				}
+				else
+				{
+					// Cannot unlock door
+					return "0";
+				}
+			}
+			
+			// Use highest stat to try to pass door
+			if ( decision.equals( "12" ) )
+			{
+				int buffedMuscle = KoLCharacter.getAdjustedMuscle();
+				int buffedMysticality = KoLCharacter.getAdjustedMysticality();
+				int buffedMoxie = KoLCharacter.getAdjustedMoxie();
+				
+				if ( buffedMuscle >= buffedMysticality && buffedMuscle >= buffedMoxie )
+				{
+					return "4";
+				}
+				else if ( buffedMysticality >= buffedMuscle && buffedMysticality >= buffedMoxie )
+				{
+					return "5";
+				}
+				else
+				{
+					return "6";
+				}
+			}
 			return decision;
 
 		case 693:

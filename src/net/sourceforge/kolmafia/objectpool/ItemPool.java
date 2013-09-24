@@ -145,6 +145,7 @@ public class ItemPool
 	public static final int MULLET_WIG = 267;
 	public static final int PICKET_FENCE = 270;
 	public static final int MOSQUITO_LARVA = 275;
+	public static final int PICKOMATIC_LOCKPICKS = 280;
 	public static final int BORIS_KEY = 282;
 	public static final int JARLSBERG_KEY = 283;
 	public static final int SNEAKY_PETE_KEY = 284;
