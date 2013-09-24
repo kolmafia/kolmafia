@@ -279,7 +279,8 @@ public class ValhallaDecorator
 		if ( InventoryManager.hasItem( ItemPool.RAT_WHISKER )
 			&& Preferences.getString( Quest.ARTIST.getPref() ).equals( QuestDatabase.FINISHED ) )
 		{
-			buffer.append( "<nobr><a href=\"town_wrong.php?place=artist&action=whisker\">trade in rat whiskers for meat</a></nobr><br>" );
+			buffer.append( "<nobr><a href=\"place.php?whichplace=town_wrong&action=townwrong_artist_quest&subaction=whiskers\">" );
+			buffer.append( "trade in rat whiskers for meat</a></nobr><br>" );
 		}
 
 		if ( Preferences.getInteger( "lastEasterEggBalloon" ) != KoLCharacter.getAscensions() )

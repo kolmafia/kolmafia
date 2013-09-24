@@ -56,11 +56,12 @@ public class ArtistRequest
 
 	public ArtistRequest( boolean whiskers )
 	{
-		super( "town_wrong.php" );
-		this.addFormField( "place", "artist" );
+		super( "place.php" );
+		this.addFormField( "whichplace", "town_wrong" );
+		this.addFormField( "action", "townwrong_artist_quest" );
 		if ( whiskers )
 		{
-			this.addFormField( "action", "whisker" );
+			this.addFormField( "subaction", "whisker" );
 		}
 	}
 
@@ -72,18 +73,13 @@ public class ArtistRequest
 
 	public static final void parseResponse( final String location, final String responseText )
 	{
-		if ( !location.startsWith( "town_wrong.php" ) )
-		{
-			return;
-		}
-
-		if ( location.indexOf( "place=artist" ) == -1 && location.indexOf( "action=whisker" ) == -1 )
+		if ( !location.startsWith( "place.php" ) || !location.contains( "action=townwrong_artist_quest" ) )
 		{
 			return;
 		}
 
 		String message = "You have unlocked a new tattoo.";
-		if ( responseText.indexOf( message ) != -1 )
+		if ( responseText.contains( message ) )
 		{
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
@@ -116,8 +112,8 @@ public class ArtistRequest
 			return;
 		}
 
-		if ( location.indexOf( "action=whisker" ) != -1 &&
-		     responseText.indexOf( "Thanks, Adventurer." ) != -1 )
+		if ( location.contains( "subaction=whiskers" ) &&
+		     responseText.contains( "Thanks, Adventurer." ) )
 		{
 			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
 			ResultProcessor.processItem( ItemPool.RAT_WHISKER, -count );
@@ -127,26 +123,22 @@ public class ArtistRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "town_wrong.php" ) )
+		if ( !urlString.startsWith( "place.php" ) || !urlString.contains( "action=townwrong_artist_quest" ) )
 		{
 			return false;
 		}
 
 		String message;
-		if ( urlString.indexOf( "action=whisker" ) != -1 )
+		if ( urlString.contains( "subaction=whisker" ) )
 		{
 			int count = ArtistRequest.WHISKER.getCount( KoLConstants.inventory );
 			message = "Selling " + count + " rat whisker" + ( count > 1 ? "s" : "" ) + " to the pretentious artist";
 		}
-		else if ( urlString.indexOf( "place=artist" ) != -1 )
+		else
 		{
 			RequestLogger.printLine( "" );
 			RequestLogger.updateSessionLog();
 			message = "Visiting the pretentious artist";
-		}
-		else
-		{
-			return false;
 		}
 
 		RequestLogger.printLine( message );
