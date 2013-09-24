@@ -2488,7 +2488,11 @@ public abstract class ChoiceManager
 		// Choice 613 is Behind the door there is a fog
 		// Choice 614 is Near the fog there is an... anvil?
 		// Choice 615 is unknown
+
 		// Choice 616 is He Is the Arm, and He Sounds Like This
+		new Object[]{ IntegerPool.get(616), IntegerPool.get(1),
+		  ItemPool.get( ItemPool.JAR_OF_OIL, -1 ) },
+
 		// Choice 617 is Now It's Dark
 		// Choice 618 is Cabin Fever
 		// Choice 619 is To Meet a Gourd
@@ -3800,8 +3804,6 @@ public abstract class ChoiceManager
 			result[ 1 ] =
 				"need +50% item drop, have " + Math.round( KoLCharacter.getItemDropPercentAdjustment() +
 				KoLCharacter.currentNumericModifier( Modifiers.FOODDROP ) - bonus ) + "%";
-
-			//int oil = InventoryManager.getCount( ItemPool.JAR_OF_OIL );
 			result[ 2 ] = new Option( "need jar of oil", "jar of oil" );
 			result[ 3 ] = "need +40% init, have " + KoLCharacter.getInitiativeAdjustment() + "%";
 			result[ 4 ] = null; //why is there a missing button 5?
