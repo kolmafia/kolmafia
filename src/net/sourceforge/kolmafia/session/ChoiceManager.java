@@ -8311,7 +8311,7 @@ public abstract class ChoiceManager
 				}
 				else if ( InventoryManager.getCount( ItemPool.SKELETON_KEY ) > 0 )
 				{
-					return "1";
+					return "2";
 				}
 				else
 				{
