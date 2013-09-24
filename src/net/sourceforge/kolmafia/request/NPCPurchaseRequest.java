@@ -586,6 +586,14 @@ public class NPCPurchaseRequest
 			FDKOLRequest.parseResponse( urlString, responseText );
 			return;
 		}
+
+		if ( shopId.equals( "elvishp1" ) ||
+		     shopId.equals( "elvishp2" ) ||
+		     shopId.equals( "elvishp3" ) )
+		{
+			SpaaaceRequest.parseResponse( urlString, responseText );
+			return;
+		}
 	}
 
 	public static final boolean registerShopRowRequest( final String urlString )

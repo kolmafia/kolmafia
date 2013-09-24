@@ -109,34 +109,20 @@ public class SpaaaceRequest
 
 	// <input type="radio" name="whichitem" value="5156" /></td><td><img style='vertical-align: middle' class=hand src='http://images.kingdomofloathing.com/itemimages/pl_alielf.gif' onclick='descitem(655683821)'></td><td><span onclick="descitem(655683821)" style="font-weight: bold;">plush alielf</span>&nbsp;&nbsp;</td><td>100 lunar isotopes</td>
 
-	private static final Pattern ITEM_PATTERN = Pattern.compile( "name=\"whichitem\" value=\"([\\d]+)\".*?descitem\\(([\\d]+)\\).*?<span.*?>([^<]*)</span>.*?([\\d,]+) lunar isotopes</td>", Pattern.DOTALL );
+	private static final Pattern ITEM_PATTERN =
+		Pattern.compile( "name=whichrow value=(\\d*).*?<a onClick='javascript:descitem\\((\\d+)\\)'><b>(.*?)</b>.*?</a>.*?<b>([,\\d]*)</b>" );
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "spaaace.php" ) )
+		if ( !urlString.startsWith( "spaaace.php" ) && !( urlString.startsWith( "shop.php" ) && urlString.indexOf( "elvishp" ) != -1 ) )
 		{
 			return;
 		}
 
 		QuestDatabase.setQuestIfBetter( Quest.GENERATOR, QuestDatabase.STARTED );
 
-		if ( urlString.indexOf( "place=shop" ) != -1 )
+		if ( urlString.indexOf( "elvishp" ) != -1 )
 		{
-			// Learn new items by simply visiting a Spaaace shop
-			Matcher matcher = ITEM_PATTERN.matcher( responseText );
-			while ( matcher.find() )
-			{
-				int id = StringUtilities.parseInt( matcher.group(1) );
-				String desc = matcher.group(2);
-				String name = matcher.group(3);
-				String data = ItemDatabase.getItemDataName( id );
-				// String price = matcher.group(4);
-				if ( data == null || !data.equals( name ) )
-				{
-					ItemDatabase.registerItem( id, name, desc );
-				}
-			}
-
 			SpaaaceRequest.parseShopVisit( urlString, responseText );
 			return;
 		}
@@ -161,28 +147,25 @@ public class SpaaaceRequest
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
-	private static final Pattern SHOP_PATTERN = Pattern.compile( "place=shop(\\d+)" );
 	private static CoinmasterData findIsotopeMaster( final String urlString )
 	{
-		Matcher shopMatcher = SpaaaceRequest.SHOP_PATTERN.matcher( urlString );
-		if ( !shopMatcher.find() )
+		String shopId = NPCPurchaseRequest.getShopId( urlString );
+		if ( shopId == null )
 		{
 			return null;
 		}
 
-		String shop = shopMatcher.group(1);
-
-		if ( shop.equals( "1" ) )
+		if ( shopId.equals( "elvishp1" ) )
 		{
 			return IsotopeSmitheryRequest.ISOTOPE_SMITHERY;
 		}
 
-		if ( shop.equals( "2" ) )
+		if ( shopId.equals( "elvishp2" ) )
 		{
 			return DollHawkerRequest.DOLLHAWKER;
 		}
 
-		if ( shop.equals( "3" ) )
+		if ( shopId.equals( "elvishp3" ) )
 		{
 			return LunarLunchRequest.LUNAR_LUNCH;
 		}
