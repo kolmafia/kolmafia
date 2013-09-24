@@ -2640,9 +2640,9 @@ public abstract class ChoiceManager
 		// I Wanna Be a Door
 		new ChoiceAdventure(
 			"Dungeon", "choiceAdventure692", "I Wanna Be a Door",
-			new Object[] { "Suffer trap effects", "Unlock door, no turn spent", "Unlock door, no turn spent",
+			new Object[] { "Suffer trap effects", "Unlock door with key, no turn spent", "Pick lock with lockpicks, no turn spent",
 				"Muscle test, may suffer trap effects", "Mysticality test, may suffer trap effects", "Moxie test, may suffer trap effects",
-				"Unlock door, no turn spent", "Leave, no turn spent" } ),
+				"Open door with card, no turn spent", "Leave, no turn spent" } ),
 				
 		// It's Almost Certainly a Trap
 		new ChoiceAdventure(
