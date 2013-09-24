@@ -228,7 +228,6 @@ public class OptionsFrame
 				{ "relayShowSpoilers", "Show blatant spoilers for choices and puzzles" },
 				{},
 				{ "relayAllowRemoteAccess", "Allow network devices to access relay browser (requires restart)" },
-				{ "relayUsesCachedImages", "Cache KoL images to conserve bandwidth (dialup)" },
 				{ "relayOverridesImages", "Override certain KoL images" },
 				{},
 				{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },

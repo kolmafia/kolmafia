@@ -101,6 +101,7 @@ import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
@@ -292,6 +293,13 @@ public abstract class KoLmafia
 		// Clear out any outdated data files.
 
 		KoLmafia.checkDataOverrides();
+
+		// Clear the image cache for the first time so subsequent image
+		// files loaded into it have the right timestamps
+		if ( Preferences.getLong( "lastImageCacheClear" ) == 0L )
+		{
+			RelayRequest.clearImageCache();
+		}
 
 		// Change the default look and feel to match the player's
 		// preferences. Always do this.
