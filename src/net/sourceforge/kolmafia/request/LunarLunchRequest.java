@@ -53,23 +53,24 @@ public class LunarLunchRequest
 	public static final String master = "Lunar Lunch-o-Mat"; 
 	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( LunarLunchRequest.master );
 	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( LunarLunchRequest.master );
+	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( LunarLunchRequest.master );
 
 	public static final CoinmasterData LUNAR_LUNCH =
 		new CoinmasterData(
 			LunarLunchRequest.master,
 			LunarLunchRequest.class,
-			"spaaace.php?place=shop3",
+			"shop.php?whichshop=elvishp3",
 			"isotope",
 			"You have 0 lunar isotopes",
 			false,
 			SpaaaceRequest.TOKEN_PATTERN,
 			SpaaaceRequest.ISOTOPE,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
 			"quantity",
 			GenericRequest.QUANTITY_PATTERN,
-			"buy",
+			"buyitem",
 			LunarLunchRequest.buyItems,
 			LunarLunchRequest.buyPrices,
 			null,
@@ -77,7 +78,7 @@ public class LunarLunchRequest
 			null,
 			null,
 			true,
-			null
+			LunarLunchRequest.itemRows
 			);
 
 	public LunarLunchRequest()
@@ -112,7 +113,7 @@ public class LunarLunchRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "spaaace.php" ) || urlString.indexOf( "place=shop3" ) == -1 )
+		if ( !urlString.startsWith( "shop.php" ) || urlString.indexOf( "whichshop=elvishp3" ) == -1 )
 		{
 			return false;
 		}

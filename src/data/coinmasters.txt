@@ -262,29 +262,29 @@ A. W. O. L. Quartermaster	buy	50	leather aviator's cap
 
 # Things you can buy with lunar isotopes
 
-Isotope Smithery	buy	1000	Mint-in-box Moonthril Circlet
-Isotope Smithery	buy	1250	Mint-in-box Moonthril Flamberge
-Isotope Smithery	buy	1500	Mint-in-box Moonthril Longbow
-Isotope Smithery	buy	1750	Mint-in-box Moonthril Greaves
-Isotope Smithery	buy	2000	Mint-in-box Moonthril Cuirass
+Isotope Smithery	buy	1000	Mint-in-box Moonthril Circlet	ROW193
+Isotope Smithery	buy	1250	Mint-in-box Moonthril Flamberge	ROW194
+Isotope Smithery	buy	1500	Mint-in-box Moonthril Longbow	ROW195
+Isotope Smithery	buy	1750	Mint-in-box Moonthril Greaves	ROW196
+Isotope Smithery	buy	2000	Mint-in-box Moonthril Cuirass	ROW197
 
-Dollhawker's Emporium	buy	100	plush alielf
-Dollhawker's Emporium	buy	150	plush dogcat
-Dollhawker's Emporium	buy	200	plush hamsterpus
-Dollhawker's Emporium	buy	300	plush ferrelf
-Dollhawker's Emporium	buy	400	plush mutated alielf
-Dollhawker's Emporium	buy	500	plush alien hamsterpus
-Dollhawker's Emporium	buy	1000	plush mutated alielephant
+Dollhawker's Emporium	buy	100	plush alielf	ROW198
+Dollhawker's Emporium	buy	150	plush dogcat	ROW199
+Dollhawker's Emporium	buy	200	plush hamsterpus	ROW200
+Dollhawker's Emporium	buy	300	plush ferrelf	ROW201
+Dollhawker's Emporium	buy	400	plush mutated alielf	ROW202
+Dollhawker's Emporium	buy	500	plush alien hamsterpus	ROW203
+Dollhawker's Emporium	buy	1000	plush mutated alielephant	ROW204
 
-Lunar Lunch-o-Mat	buy	10	Saison du Lune
-Lunar Lunch-o-Mat	buy	50	Moonthril Schnapps
-Lunar Lunch-o-Mat	buy	100	Wrecked Generator
-Lunar Lunch-o-Mat	buy	10	Spaghetti with Moonballs
-Lunar Lunch-o-Mat	buy	50	Crepes a la Lune
-Lunar Lunch-o-Mat	buy	100	Moon Pie
-Lunar Lunch-o-Mat	buy	1	Comet Pop
-Lunar Lunch-o-Mat	buy	5	Flan in the Moon
-Lunar Lunch-o-Mat	buy	10	1/6th Pound Cake
+Lunar Lunch-o-Mat	buy	10	Saison du Lune	ROW205
+Lunar Lunch-o-Mat	buy	50	Moonthril Schnapps	ROW206
+Lunar Lunch-o-Mat	buy	100	Wrecked Generator	ROW207
+Lunar Lunch-o-Mat	buy	10	Spaghetti with Moonballs	ROW208
+Lunar Lunch-o-Mat	buy	50	Crepes a la Lune	ROW209
+Lunar Lunch-o-Mat	buy	100	Moon Pie	ROW210
+Lunar Lunch-o-Mat	buy	1	Comet Pop	ROW211
+Lunar Lunch-o-Mat	buy	5	Flan in the Moon	ROW212
+Lunar Lunch-o-Mat	buy	10	1/6th Pound Cake	ROW213
 
 # Things you can buy with yeti furs
 

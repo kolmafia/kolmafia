@@ -48,23 +48,24 @@ public class IsotopeSmitheryRequest
 	public static final String master = "Isotope Smithery";
 	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( IsotopeSmitheryRequest.master );
 	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( IsotopeSmitheryRequest.master );
+	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( IsotopeSmitheryRequest.master );
 
 	public static final CoinmasterData ISOTOPE_SMITHERY =
 		new CoinmasterData(
 			IsotopeSmitheryRequest.master,
 			IsotopeSmitheryRequest.class,
-			"spaaace.php?place=shop1",
+			"shop.php?whichshop=elvishp1",
 			"isotope",
 			"You have 0 lunar isotopes",
 			false,
 			SpaaaceRequest.TOKEN_PATTERN,
 			SpaaaceRequest.ISOTOPE,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
 			"quantity",
 			GenericRequest.QUANTITY_PATTERN,
-			"buy",
+			"buyitem",
 			IsotopeSmitheryRequest.buyItems,
 			IsotopeSmitheryRequest.buyPrices,
 			null,
@@ -72,7 +73,7 @@ public class IsotopeSmitheryRequest
 			null,
 			null,
 			true,
-			null
+			IsotopeSmitheryRequest.itemRows
 			);
 
 	public IsotopeSmitheryRequest()
@@ -102,7 +103,7 @@ public class IsotopeSmitheryRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "spaaace.php" ) || urlString.indexOf( "place=shop1" ) == -1 )
+		if ( !urlString.startsWith( "shop.php" ) || urlString.indexOf( "whichshop=elvishp1" ) == -1 )
 		{
 			return false;
 		}

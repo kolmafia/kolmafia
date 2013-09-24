@@ -48,23 +48,24 @@ public class DollHawkerRequest
 	public static final String master = "Dollhawker's Emporium";
 	private static final LockableListModel buyItems = CoinmastersDatabase.getBuyItems( DollHawkerRequest.master );
 	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( DollHawkerRequest.master );
+	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( DollHawkerRequest.master );
 
 	public static final CoinmasterData DOLLHAWKER =
 		new CoinmasterData(
 			DollHawkerRequest.master,
 			DollHawkerRequest.class,
-			"spaaace.php?place=shop2",
+			"shop.php?whichshop=elvishp2",
 			"isotope",
 			"You have 0 lunar isotopes",
 			false,
 			SpaaaceRequest.TOKEN_PATTERN,
 			SpaaaceRequest.ISOTOPE,
 			null,
-			"whichitem",
-			GenericRequest.WHICHITEM_PATTERN,
+			"whichrow",
+			GenericRequest.WHICHROW_PATTERN,
 			"quantity",
 			GenericRequest.QUANTITY_PATTERN,
-			"buy",
+			"buyitem",
 			DollHawkerRequest.buyItems,
 			DollHawkerRequest.buyPrices,
 			null,
@@ -72,7 +73,7 @@ public class DollHawkerRequest
 			null,
 			null,
 			true,
-			null
+			DollHawkerRequest.itemRows
 			);
 
 	public DollHawkerRequest()
@@ -102,7 +103,7 @@ public class DollHawkerRequest
 
 	public static final boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "spaaace.php" ) || urlString.indexOf( "place=shop2" ) == -1 )
+		if ( !urlString.startsWith( "shop.php" ) || urlString.indexOf( "whichshop=elvishp2" ) == -1 )
 		{
 			return false;
 		}
