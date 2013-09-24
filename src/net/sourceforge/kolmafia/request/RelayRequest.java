@@ -344,15 +344,10 @@ public class RelayRequest
 		}
 
 		// Load image files locally to reduce bandwidth
-		// and improve mini-browser performance.
 
-		if ( Preferences.getBoolean( "relayUsesCachedImages" ) )
-		{
-			StringUtilities.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
-		}
+		StringUtilities.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
 
-		// Download and link to any Players of Loathing
-		// picture pages locally.
+		// Download and link to any Players of Loathing picture pages locally.
 
 		StringUtilities.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
 
