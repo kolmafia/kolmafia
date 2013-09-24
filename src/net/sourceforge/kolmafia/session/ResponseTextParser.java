@@ -94,7 +94,6 @@ import net.sourceforge.kolmafia.request.GalaktikRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GnomeTinkerRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
-import net.sourceforge.kolmafia.request.GrandmaRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -121,7 +120,6 @@ import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
-import net.sourceforge.kolmafia.request.StarChartRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.SugarSheetRequest;
@@ -641,6 +639,10 @@ public class ResponseTextParser
 			{
 				UntinkerRequest.parseResponse( location, responseText );
 			}
+			else if ( location.contains( "action=townwrong_artist_quest" ) )
+			{
+				ArtistRequest.parseResponse( location, responseText );
+			}
 		}
 
 		else if ( location.startsWith( "pyramid.php" ) )
@@ -743,11 +745,6 @@ public class ResponseTextParser
 		else if ( location.startsWith( "town_sendgift.php" ) )
 		{
 			SendGiftRequest.parseTransfer( location, responseText );
-		}
-
-		else if ( location.startsWith( "town_wrong.php" ) )
-		{
-			ArtistRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "traveler.php" ) )
