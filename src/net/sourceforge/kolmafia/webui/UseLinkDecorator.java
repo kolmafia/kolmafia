@@ -1376,6 +1376,7 @@ public abstract class UseLinkDecorator
 			useLocation = "town_wrong.php?place=artist";
 			break;
 
+		case ItemPool.MOLYBDENUM_MAGNET:
 		case ItemPool.MOLYBDENUM_HAMMER:
 		case ItemPool.MOLYBDENUM_PLIERS:
 		case ItemPool.MOLYBDENUM_SCREWDRIVER:
