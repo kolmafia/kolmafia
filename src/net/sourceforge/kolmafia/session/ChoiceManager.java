@@ -6312,33 +6312,6 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "relocatePygmyJanitor", KoLCharacter.getAscensions() );
 			}
 			return;			
-
-		case 793:
-			// Welcome to The Shore, Inc.
-
-			// Choices 1, 2, and 3 are vacations
-			if ( ChoiceManager.lastDecision != 1 &&
-			     ChoiceManager.lastDecision != 2 &&
-			     ChoiceManager.lastDecision != 3 )
-			{
-				return;
-			}
-
-			// You can no longer enter the travel agency if you are
-			// overdrunk, but what are the failure messages for
-			// other things that prevent taking the vacation?
-
-			// Simpler to detect that you acquire the Ship Trip Scrip
-			if ( !text.contains( "You acquire" ) )
-			{
-				return;
-			}
-
-			// Visits to The Shore cost 500 meat, or 5 meat in WotSF runs
-			int meat = KoLCharacter.inFistcore() ? 5 : 500;
-			ResultProcessor.processMeat( -meat );
-
-			return;
 		}
 
 		// Certain choices cost meat or items when selected
