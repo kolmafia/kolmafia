@@ -2035,8 +2035,8 @@ crusty hula hoop	Mysticality Percent: +15, Spell Damage: +50, Single Equip
 cursed ring finger ring	Spell Damage Percent: +50, Spooky Spell Damage: +30, Spell Critical Percent: +10, Single Equip
 cursed scrunchie	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Single Equip
 cyborg stompin' boot	Damage Reduction: 8, Weapon Damage: +20, Initiative: +30, Single Equip
-# cystalline seal eye	+200% Item Drops from Seals
-cystalline seal eye	Single Equip
+# crystalline seal eye: +200% Item Drops from Seals
+crystalline seal eye	Single Equip
 dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip, Nonstackable Watch
 dead guy's watch	Adventures: +1, Single Equip, Nonstackable Watch
 depleted Grimacite astrolabe	Mysticality Percent: [5*G], PvP Fights: [G], Single Equip
