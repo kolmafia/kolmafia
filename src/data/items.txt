@@ -6788,3 +6788,7 @@
 6773
 6774	tin snips	238636086	tinsnips.gif	none, combat reusable	t,d	10
 6775	tin lizzie	677775886	tinlizzie.gif	none	q	0
+6776	foetid seal tear	373056705	teardrop.gif	usable	t	0
+6777
+6778
+6779	cystalline seal eye	620172789	crystaleye.gif	accessory	t	0

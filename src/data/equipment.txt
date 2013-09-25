@@ -1775,6 +1775,7 @@ crusty hula hoop	200	Mys: 200
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
 cyborg stompin' boot	150	Mus: 60
+cystalline seal eye	0	none
 dead guy's memento	200	Mys: 200
 dead guy's watch	50	Mys: 10
 depleted Grimacite astrolabe	80	Mys: 25
