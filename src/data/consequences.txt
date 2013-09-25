@@ -45,6 +45,7 @@ DESC_ITEM	Staff of the All-Steak	No charges	_jiggleSteak=5
 DESC_ITEM	Staff of the Cream of the Cream	(\d+) charge	_jiggleCream=[5-$1]
 DESC_ITEM	Staff of the Cream of the Cream	No charges	_jiggleCream=5
 DESC_ITEM	Staff of the Cream of the Cream	last used this staff on <b>(a|an|something totally unrecognizable|)\s*([^>]*)</b>	_jiggleCreamedMonster=$2
+DESC_ITEM	bone abacus	defeated (\d+) opponent	boneAbacusVictories=$1
 
 DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=$1
 DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1

@@ -192,7 +192,7 @@ public class SushiRequest
 	private static int nameToId( final String name )
 	{
 		// Bento Boxes do not have special names based on veggie or dippin' sauce
-		if ( name.indexOf( "bento box" ) != -1 )
+		if ( name.contains( "bento box" ) )
 		{
 			return 7;
 		}
@@ -211,7 +211,7 @@ public class SushiRequest
 		for ( int i = 0; i < FILLING1.length; ++i )
 		{
 			Object [] sushi = FILLING1[i];
-			if ( name.indexOf( (String)sushi[0] ) != -1 )
+			if ( name.contains( (String)sushi[0] ) )
 			{
 				return SushiRequest.nameToId( (String)sushi[1] );
 			}
@@ -320,7 +320,7 @@ public class SushiRequest
 		for ( int i = 0; i < FILLING1.length; ++i )
 		{
 			Object [] sushi = FILLING1[i];
-			if ( name.indexOf( (String)sushi[0] ) != -1 )
+			if ( name.contains( (String)sushi[0] ) )
 			{
 				return ((Integer)sushi[2]).intValue();
 			}
@@ -564,7 +564,7 @@ public class SushiRequest
 		// "That looks good, but you're way too full to eat it right
 		// now."
 
-		if ( responseText.indexOf( "too full to eat it" ) != -1 )
+		if ( responseText.contains( "too full to eat it" ) )
 		{
 			return;
 		}
@@ -613,7 +613,7 @@ public class SushiRequest
 		}
 
 		StringBuffer buf = new StringBuffer();
-		buf.append( name.indexOf( "bento" ) != -1 ? "Pack" : "Roll" );
+		buf.append( name.contains( "bento" ) ? "Pack" : "Roll" );
 		buf.append( " and eat " );
 		buf.append( name );
 		buf.append( " from " );
