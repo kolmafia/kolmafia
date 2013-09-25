@@ -6770,22 +6770,24 @@
 6753	cluster of hops	410035309	hops.gif	reusable	t,d	5	clusters of hops
 6754	fancy beer bottle	408384403	fancybottle.gif	usable	t,d	10	fancy beer bottles
 6755	fancy beer label	112004209	fancylabel.gif	usable	t,d	10	fancy beer labels
-6756
+6756	artisanal homebrew sampler	261735266	crate.gif	usable		0	artisanal homebrew samplers
 6757	can of Br&uuml;talbr&auml;u	785997509	fancycan.gif	drink	t,d	10
 6758	can of Drooling Monk	987647275	fancycan.gif	drink	t,d	10
 6759	can of Impetuous Scofflaw	606040163	fancycan.gif	drink	t,d	10
-6760
-6761
-6762
+6760	bottle of Old Pugilist	991747801	fancybrew.gif	drink	t,d	20
+6761	bottle of Professor Beer	617388012	fancybrew.gif	drink	t,d	20
+6762	bottle of Rapier Witbier	858412422	fancybrew.gif	drink	t,d	20
 6763
-6764
-6765
+6764	bottle of Greedy Dog	196644198	fancybrew.gif	drink	t,d	50
+6765	bottle of Lambada Lambic	244327537	fancybrew.gif	drink	t,d	50
 6766	fancy tin beer can	916795901	fancycan.gif	multiple	t,d	30
+6767	artisanal homebrew gift package	773404966	crate.gif	none, curse		0
+6768
 6769	tin tam	577448815	tintam.gif	hat	t,d	40
 6770	tin cup	136358059	tincup1.gif	usable	t,d	5
 6771	tin foil	262979335	tinfoil.gif	weapon	t,d	80
 6772	tin drum	976976166	tindrum.gif	weapon	t,d	55
-6773
+6773	tin roof (rusted)	281581398	tinroof.gif	usable	t	0	tin roofs (rusted)
 6774	tin snips	238636086	tinsnips.gif	none, combat reusable	t,d	10
 6775	tin lizzie	677775886	tinlizzie.gif	none	q	0
 6776	foetid seal tear	373056705	teardrop.gif	usable	t	0
