@@ -1362,6 +1362,16 @@
 1361	Fiery Spirit	fire.gif	f788b27c7141363b355ea9da0e0cd4ba
 1362	Cool Spirit	snowflake.gif	5ebd2e3cb33eb70f5393e618592da3e4
 1363	Resilient Spirit	wallshield.gif	400b6f9f2059b58527c510b69686cf62
-
+1364
+1365
+1366
+1367
+1368	Fightin' Drunk	swords.gif	95a03bb4a245fae880619a84a262fae0	drink 1 bottle of Old Pugilist
+1369	Thinkin' Drunk	realbrain.gif	dd3c0e4196e9fda4a1fc9c4c83cb810c	drink 1 bottle of Professor Beer
+1370
+1371
+1372	Covetin' Drunk	dollarsign.gif	e0ef3fd85372e5a92b55f34cf067e56e	drink 1 bottle of Greedy Dog
+1373	Dancin' Drunk	dance2.gif	6f3566f9e7fd09ffaaf9bd160d0d2a2d	drink 1 bottle of Lambada Lambic
+1374
 1375	Tingling Feeling	tincup1.gif	91b2830c561b74bcbcca410423a21ad3	use 1 tin cup
 1376	Abyssal Tears	teardrop.gif	7064312e83978ab454e3bcfeb2e6c3d5	use 1 foetid seal tear

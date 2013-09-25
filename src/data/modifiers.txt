@@ -3067,6 +3067,7 @@ sandcastle	Base Resting HP: +49, Base Resting MP: +50
 # sleeping stocking
 # spooky scarecrow
 stained mattress	Sleaze Resistance: +2
+tin roof (rusted)	PvP Fights: +5
 
 # Status Effects section of modifiers.txt
 
@@ -3324,6 +3325,7 @@ Corroded Weapon	Weapon Damage: -5
 Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min: 3, HP Regen Max: 5
 Cosmic Flavor	Spell Critical Percent: +10
 # Cotton Mouthed: So dry! It's from yesterday!
+Covetin' Drunk	Meat Drop: +200
 # Covetous Robbery: Increases meat drops from stingy monsters
 # Coy to the Hurled: variable DR
 Cranberry Cordiality	Meat Drop: +10
@@ -3375,6 +3377,7 @@ Cybernetic Muscles	Muscle Percent: +10
 # Daemon Duds: Makes you look like a clean room demo
 Dance Interpreter	Item Drop: +20
 Dances with Tweedles	Meat Drop: +40
+Dancin' Drunk	Item Drop: +100
 Dancing Prowess	Item Drop: +15
 Dang Near Cut In Half	Muscle Percent: -50
 Danish Cunning	Pickpocket Chance: +25
@@ -3494,6 +3497,7 @@ Fever From the Flavor	Cold Resistance: +9
 Fiery Heart	Mysticality: [min(T,20)], MP Regen Min: [ceil(min(T,20)/2)], MP Regen Max: [ceil(min(T,20)/2)]
 Fiery Spirit	Hot Damage: +20, Hot Spell Damage: +20
 Fifty Ways to Bereave Your Lover	Sleaze Damage: +100
+Fightin' Drunk	Muscle: +50, HP Regen Min: 10, HP Regen Max: 20
 Filled with Magic	Spell Damage Percent: +100
 # Filthworm Drone Stench
 # Filthworm Guard Stench
@@ -4270,6 +4274,7 @@ Thicker, Sicker	Damage Reduction: 15
 Thickest, Sickest	Damage Reduction: 30
 # Things Man Was Not Meant to Eat: Full of Loathing
 Things Man Was Not Meant to Eat	Spell Damage Percent: +100, Weapon Damage Percent: +50, Meat Drop: 20, Item Drop: 20, Initiative: 25, Damage Reduction: 10, Pickpocket Chance: 10
+Thinkin' Drunk	Mysticality: +50, MP Regen Min: 10, MP Regen Max: 20
 Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Three Days Slow	Experience (familiar): +3
 # Three King-sized Sheets to the Wind: Makes you look like a Booze Giant
@@ -4911,7 +4916,11 @@ bottle of black cat tonic	Effect: "Contagious Bad Luck", Effect Duration: 10
 bottle of Bloodweiser	Effect: "Blood Porter", Effect Duration: 50
 bottle of bubbles	Effect: "Bubble Vision", Effect Duration: 100
 bottle of goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
+bottle of Greedy Dog	Effect: "Covetin' Drunk", Effect Duration: 20
+bottle of Lambada Lambic	Effect: "Dancin' Drunk", Effect Duration: 20
+bottle of Old Pugilist	Effect: "Fightin' Drunk", Effect Duration: 20
 bottle of pirate juice	Effect: "Piratastic", Effect Duration: 10
+bottle of Professor Beer	Effect: "Thinkin' Drunk", Effect Duration: 20
 bottle of rhinoceros hormones	Effect: "'Roids of the Rhinoceros", Effect Duration: 10
 bottled green pixie	Free Pull
 bottled inspiration	Effect: "Inspired!", Effect Duration: 10
