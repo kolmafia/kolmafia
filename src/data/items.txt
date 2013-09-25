@@ -6791,4 +6791,4 @@
 6776	foetid seal tear	373056705	teardrop.gif	usable	t	0
 6777
 6778
-6779	cystalline seal eye	620172789	crystaleye.gif	accessory	t	0
+6779	crystalline seal eye	620172789	crystaleye.gif	accessory	t	0

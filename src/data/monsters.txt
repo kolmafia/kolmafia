@@ -1531,4 +1531,4 @@ wire sculpture	wiresculpture.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML
 X-fingered Shop Teacher	shopteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6+max(ML,0)] Atk: [MOX+6+max(ML,0)] Exp: [(STAT+6+max(ML,0))/4+100] Init: 100 P: dude	jigsaw blade (100)	wood screw (100)	balsa plank (100)	blob of wood glue (100)
 
 # A Stinking Abyssal Portal
-scout seal	HP: 50 Def: 35 Atk: 30 Init: 300 P: demon	foetid seal tear (0)	cystalline seal eye (0)
+scout seal	HP: 50 Def: 35 Atk: 30 Init: 300 P: demon	foetid seal tear (0)	crystalline seal eye (0)
