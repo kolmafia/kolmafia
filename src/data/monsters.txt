@@ -1529,3 +1529,6 @@ sporto	sporto.gif	HP: [0.75*(MUS+2+max(ML,0))] Def: [MUS+2+max(ML,0)] Atk: [MOX+
 wastoid	wastoid.gif	HP: [0.75*(MUS-1+max(ML,0))] Def: [MUS-1+max(ML,0)] Atk: [MOX-1+max(ML,0)] Exp: [(STAT-1+max(ML,0))/4] Init: -10000 P: dude	fountain 'soda' (0)	illegal firecracker (0)	metal band T-shirt (0)	folder (heavy metal) (0)
 wire sculpture	wiresculpture.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Exp: [(STAT+4+max(ML,0))/4] Init: 40 P: construct	twisted piece of wire (25)	twisted piece of wire (10)
 X-fingered Shop Teacher	shopteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6+max(ML,0)] Atk: [MOX+6+max(ML,0)] Exp: [(STAT+6+max(ML,0))/4+100] Init: 100 P: dude	jigsaw blade (100)	wood screw (100)	balsa plank (100)	blob of wood glue (100)
+
+# A Stinking Abyssal Portal
+scout seal	HP: 50 Def: 35 Atk: 30 Init: 300 P: demon	foetid seal tear (0)	cystalline seal eye (0)
