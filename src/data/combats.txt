@@ -104,7 +104,7 @@ Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Fr
 Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poodle	The Fudge Wizard	The Abominable Fudgeman
 # The "Fun" House	100	bugbear-in-the-box	disease-in-the-box	lemon-in-the-box	scary clown	shaky clown	creepy clown	The Clownlord Beelzebozo: 0
 The Fun House	100	bugbear-in-the-box	disease-in-the-box	lemon-in-the-box	scary clown	shaky clown	creepy clown	The Clownlord Beelzebozo: 0
-Galley	100 angry cavebugbear	trendy bugbear chef
+Galley	100	angry cavebugbear	trendy bugbear chef
 Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Supervisor
 Guano Junction	100	baseball bat	briefcase bat	perpendicular bat	screambat: 0	skullbat	doughbat	vampire bat
 Haert of the Cyrpt	100	Bonerdagon

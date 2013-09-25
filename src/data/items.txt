@@ -6765,15 +6765,15 @@
 6748
 6749
 6750	Gordon Beer's Beer Garden Catalog	659532710	beercat.gif	usable	t	0	Gordon Beer's Beer Garden Catalogs
-6751	packet of beer seeds	523573927	beerseeds.gif	usable	0	packets of beer seeds
+6751	packet of beer seeds	523573927	beerseeds.gif	usable		0	packets of beer seeds
 6752	handful of barley	244020270	barley.gif	reusable	t,d	5	handfuls of barley
 6753	cluster of hops	410035309	hops.gif	reusable	t,d	5	clusters of hops
 6754	fancy beer bottle	408384403	fancybottle.gif	usable	t,d	10	fancy beer bottles
 6755	fancy beer label	112004209	fancylabel.gif	usable	t,d	10	fancy beer labels
 6756
-6757	can of Br&uuml;talbr&auml;u	785997509	fancycan.gif	drink		t,d	10
-6758	can of Drooling Monk	987647275	fancycan.gif	drink		t,d	10
-6759	can of Impetuous Scofflaw	606040163	fancycan.gif	drink		t,d	10
+6757	can of Br&uuml;talbr&auml;u	785997509	fancycan.gif	drink	t,d	10
+6758	can of Drooling Monk	987647275	fancycan.gif	drink	t,d	10
+6759	can of Impetuous Scofflaw	606040163	fancycan.gif	drink	t,d	10
 6760
 6761
 6762
