@@ -1458,6 +1458,7 @@ steely marble	208	Mys: 85
 stinky cheese wheel	100	none	shield
 stop shield	100	Mus: 35	shield
 stress ball	100	Mys: 35
+studded sealhide shield	110	none	shield
 stuffed Baron von Ratsworth	10	none
 stuffed Cheshire bitten	10	none
 stuffed MagiMechTech MicroMechaMech	10	none

@@ -314,6 +314,8 @@ Events	adventure=293	false	unknown	Lord Flameface's Castle Belfry
 Events	adventure=294	false	unknown	Lord Flameface's Throne Room
 
 Events	adventure=357	false	outdoor	A Stinking Abyssal Portal
+Events	adventure=358	false	outdoor	A Scorching Abyssal Portal
+Events	adventure=360	false	outdoor	A Freezing Abyssal Portal
 
 Psychoses	adventure=301	false	outdoor	Anger Man's Level
 Psychoses	adventure=302	false	outdoor	Fear Man's Level
