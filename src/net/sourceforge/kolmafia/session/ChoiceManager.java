@@ -5058,6 +5058,10 @@ public abstract class ChoiceManager
 			String option = "choiceAdventure" + choice;
 			String decision = Preferences.getString( option );
 
+			// If one of the decisions will satisfy a goal, take it
+
+			decision = ChoiceManager.pickGoalChoice( option, decision );
+
 			// If this choice has special handling, convert to real
 			// decision index
 
@@ -5083,11 +5087,6 @@ public abstract class ChoiceManager
 				return;
 			}
 
-			// If user wants to complete an outfit, convert to real
-			// decision index
-
-			decision = ChoiceManager.pickOutfitChoice( option, decision );
-
 			request.addFormField( "whichchoice", String.valueOf( choice ) );
 			request.addFormField( "option", decision );
 			request.addFormField( "pwd", GenericRequest.passwordHash );
@@ -5101,21 +5100,18 @@ public abstract class ChoiceManager
 		String option = "choiceAdventure" + choice;
 		String decision = Preferences.getString( option );
 
+		// If one of the decisions will satisfy a goal, take it
+
+		decision = ChoiceManager.pickGoalChoice( option, decision );
+
 		// If this choice has special handling, convert to real
 		// decision index
 
 		decision = ChoiceManager.specialChoiceDecision( choice, decision, Integer.MAX_VALUE, responseText );
 
+		// Manual choice requested, or unsupported choice
 		if ( decision.equals( "0" ) || decision.equals( "" ) )
-		{	// Manual choice requested, or unsupported choice
-			return 0;
-		}
-
-		// If user wants to complete an outfit, convert to real decision index
-
-		decision = ChoiceManager.pickOutfitChoice( option, decision );
-		if ( decision.equals( "0" ) || decision.equals( "" ) )
-		{	// Manual choice requested, or unsupported choice
+		{
 			return 0;
 		}
 		return StringUtilities.parseInt( decision );
@@ -8580,11 +8576,8 @@ public abstract class ChoiceManager
 		return null;
 	}
 
-	private static final String pickOutfitChoice( final String option, final String decision )
+	private static final String pickGoalChoice( final String option, final String decision )
 	{
-		// Default return value if can't pick a better one
-		String retval = decision.equals( "0" ) ? "1" : decision;
-
 		// Find the options for the choice we've encountered
 
 		Object[] options = null;
@@ -8613,7 +8606,7 @@ public abstract class ChoiceManager
 
 		if ( options == null )
 		{
-			return retval;
+			return decision;
 		}
 
 		// Choose an item in the conditions first, if it's available.
@@ -8646,7 +8639,7 @@ public abstract class ChoiceManager
 		// If none of the options have an associated item, nothing to do.
 		if ( !items )
 		{
-			return retval;
+			return decision;
 		}
 
 		// Find the spoiler corresponding to the chosen decision
@@ -8655,7 +8648,7 @@ public abstract class ChoiceManager
 		// If the player doesn't want to "complete the outfit", nothing to do
 		if ( chosen != null && !chosen.toString().equals( "complete the outfit" ) )
 		{
-			return retval;
+			return decision;
 		}
 
 		// Pick an item that the player doesn't have yet
@@ -8680,8 +8673,8 @@ public abstract class ChoiceManager
 			}
 		}
 
-		// If they have everything, then just use the first choice
-		return "1";
+		// If they have everything, then just return the default
+		return decision;
 	}
 
 	public static final void addGoalButton( final StringBuffer buffer, final String goal )
