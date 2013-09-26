@@ -1532,4 +1532,4 @@ X-fingered Shop Teacher	shopteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6
 
 # A Stinking Abyssal Portal
 scout seal	scoutseal.gif	HP: 50 Def: 35 Atk: 30 Init: 300 P: demon	foetid seal tear (c30)	crystalline seal eye (c0)
-bullwark bull seal	bullseal.gif	HP: 100 Def: 55 Atk: 50 Init: -10000 P: demon	cold seal sweat (c30)	studded sealhide shield (c0)
+bulwark bull seal	bullseal.gif	HP: 100 Def: 55 Atk: 50 Init: -10000 P: demon	cold seal sweat (c30)	studded sealhide shield (c0)
