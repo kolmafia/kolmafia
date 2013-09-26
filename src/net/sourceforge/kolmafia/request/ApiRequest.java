@@ -41,6 +41,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.request.StorageRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -111,6 +113,8 @@ public class ApiRequest
 			"Loading character status..." :
 			this.what.equals( "inventory" ) ?
 			"Updating inventory..." :
+			this.what.equals( "storage" ) ?
+			"Updating storage..." :
 			this.what.equals( "item" ) ?
 			"Looking at item #" + this.id + "..." :
 			null;
@@ -158,6 +162,10 @@ public class ApiRequest
 		else if ( what.equals( "inventory" ) )
 		{
 			ApiRequest.parseInventory( responseText );
+		}
+		else if ( what.equals( "storage" ) )
+		{
+			ApiRequest.parseStorage( responseText );
 		}
 	}
 
@@ -374,6 +382,28 @@ public class ApiRequest
 		try
 		{
 			InventoryManager.parseInventory( JSON );
+		}
+		catch ( JSONException e )
+		{
+			ApiRequest.reportParseError( "inventory", JSON.toString(), e );
+		}
+	}
+
+	public static final void parseStorage( final String responseText )
+	{
+		ApiRequest.parseStorage( ApiRequest.getJSON( responseText, "storage" ) );
+	}
+
+	private static final void parseStorage( final JSONObject JSON )
+	{
+		if ( JSON == null )
+		{
+			return;
+		}
+
+		try
+		{
+			StorageRequest.parseStorage( JSON );
 		}
 		catch ( JSONException e )
 		{

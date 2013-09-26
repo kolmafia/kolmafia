@@ -88,7 +88,7 @@ public class RefreshStatusCommand
 		}
 		else if ( parameters.equals( "storage" ) )
 		{
-			RequestThread.postRequest( new StorageRequest() );
+			StorageRequest.refresh();
 			return;
 		}
 		else if ( parameters.startsWith( "familiar" ) || parameters.equals( "terrarium" ) )

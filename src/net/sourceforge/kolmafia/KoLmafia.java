@@ -819,7 +819,7 @@ public abstract class KoLmafia
 
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{
-			RequestThread.postRequest( new StorageRequest() );
+			StorageRequest.refresh();
 			CafeRequest.pullLARPCard();
 		}
 
