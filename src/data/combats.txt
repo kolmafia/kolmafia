@@ -78,7 +78,7 @@ Cobb's Knob Barracks	-1	Knob Goblin Elite Guard	off-duty Knob Goblin Elite Guard
 Cobb's Knob Harem	100	Knob Goblin Harem Guard	Knob Goblin Harem Girl	Knob Goblin Madam
 Cobb's Knob Kitchens	100	Cobb's Knob oven	Knob Goblin Master Chef	Knob Goblin Sous Chef	Knob Goblin Elite Guard Captain: 0
 Cobb's Knob Laboratory	100	Knob Goblin Alchemist: 1	Knob Goblin Mad Scientist: 2	Knob Goblin Very Mad Scientist: 1
-Cobb's Knob Treasury	-1	Knob Goblin Accountant	Knob Goblin Bean Counter	Knob Goblin MBA	Knob Goblin Embezzler: 0	Infinite Meat Bug: -1
+Cobb's Knob Treasury	-1	Knob Goblin Accountant	Knob Goblin Bean Counter	Knob Goblin MBA	Knob Goblin Embezzler: 0	infinite meat bug: -1
 Convention Hall Lobby	100	booth slime	fan slime	vendor slime
 CRIMBCO cubicles	-1	Best Game Ever	Disorganized Files	Endless Conference Call	Hideous Slide Show	Tedious Spreadsheet	Unoptimized Database	Your Overflowing Inbox	Chatty Coworker	The Book Of Faces	The Tome Of Tropes	The Water Cooler	Totally Malicious 'Zine	The Best Game Ever
 CRIMBCO WC	100	Elf Hobo
