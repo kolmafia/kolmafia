@@ -6532,7 +6532,7 @@
 6515	eerie fetish	959461043	dv_fetish.gif	accessory	t	0
 6516	stinkwater	763823654	moonshine.gif	drink	t	0	jars of stinkwater
 6517	dubious loincloth	966320894	dv_loincloth.gif	pants	t	0
-6518	accidental mutton	878742989	dv_mutton.gif	food	t	0
+6518	accidental mutton	878742989	dv_mutton.gif	food	t	0	haunches of accidental mutton
 6519	drafty drawers	312929410	dv_holypants.gif	pants	t	0
 6520	wolfskull mask	412209059	dv_wolfskull.gif	hat	t	0
 6521	guts necklace	616251462	dv_gutsneck.gif	accessory	t	0
