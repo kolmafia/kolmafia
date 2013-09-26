@@ -64,23 +64,31 @@ import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class StorageRequest
 	extends TransferItemRequest
 {
 	private int moveType;
 
 	public static final int REFRESH = 0;
-	public static final int MEAT = 1;
-	public static final int CONSUMABLES = 2;
-	public static final int EQUIPMENT = 3;
-	public static final int MISCELLANEOUS = 4;
+	public static final int EMPTY_STORAGE = 1;
+	public static final int STORAGE_TO_INVENTORY = 2;
+	public static final int PULL_MEAT_FROM_STORAGE = 3;
 
-	public static final int EMPTY_STORAGE = 5;
-	public static final int STORAGE_TO_INVENTORY = 6;
-	public static final int PULL_MEAT_FROM_STORAGE = 7;
-	public static final int FAVORITE = 8;
+	public static void refresh()
+	{
+		// Clear our current idea of storage
+		KoLConstants.storage.clear();
+		KoLConstants.freepulls.clear();
 
-	private static final List<String> favoriteTabs = new ArrayList<String>();
+		// To refresh storage, we get meat and pulls from the main page
+		// and items from api.php
+
+		RequestThread.postRequest( new StorageRequest( REFRESH ) );
+		RequestThread.postRequest( new ApiRequest( "storage" ) );
+	}
 
 	public StorageRequest()
 	{
@@ -104,12 +112,6 @@ public class StorageRequest
 		this( moveType, new Object[] { attachment } );
 	}
 
-	public StorageRequest( final String tab )
-	{
-		this( FAVORITE, new Object[ 0 ] );
-		this.addFormField( "which", tab );
-	}
-
 	public StorageRequest( final int moveType, final Object[] attachments )
 	{
 		super( "storage.php", attachments );
@@ -120,17 +122,8 @@ public class StorageRequest
 
 		switch ( moveType )
 		{
-		case MEAT:
+		case REFRESH:
 			this.addFormField( "which", "5" );
-			break;
-		case CONSUMABLES:
-			this.addFormField( "which", "1" );
-			break;
-		case EQUIPMENT:
-			this.addFormField( "which", "2" );
-			break;
-		case MISCELLANEOUS:
-			this.addFormField( "which", "3" );
 			break;
 
 		case EMPTY_STORAGE:
@@ -156,10 +149,7 @@ public class StorageRequest
 	@Override
 	protected boolean retryOnTimeout()
 	{
-		return this.moveType == StorageRequest.MEAT ||
-		       this.moveType == StorageRequest.CONSUMABLES ||
-		       this.moveType == StorageRequest.EQUIPMENT ||
-		       this.moveType == StorageRequest.MISCELLANEOUS;
+		return this.moveType == StorageRequest.REFRESH;
 	}
 
 	public int getMoveType()
@@ -243,37 +233,12 @@ public class StorageRequest
 						return;
 					}
 				}
+				break;
 			}
 		}
 
-		if ( this.moveType == REFRESH )
-		{
-			// If we are refreshing storage, we need to do all four pages.
-			KoLmafia.updateDisplay( "Refreshing storage..." );
-
-			// Get the four pages of storage in succession
-			KoLConstants.storage.clear();
-			KoLConstants.freepulls.clear();
-			String tab;
-			RequestThread.postRequest( new StorageRequest( MEAT ) );
-			RequestThread.postRequest( new StorageRequest( CONSUMABLES ) );
-			RequestThread.postRequest( new StorageRequest( EQUIPMENT ) );
-			RequestThread.postRequest( new StorageRequest( MISCELLANEOUS ) );
-
-			Iterator tabIterator = StorageRequest.favoriteTabs.iterator();
-			while ( tabIterator.hasNext() )
-			{
-				tab = (String) tabIterator.next();
-				RequestThread.postRequest( new StorageRequest( tab ) );
-			}
-			StorageRequest.favoriteTabs.clear();
-
-		}
-		else
-		{
-			// If it's a transfer, let TransferItemRequest handle it
-			super.run();
-		}
+		// Let TransferItemRequest handle it
+		super.run();
 	}
 
 	@Override
@@ -282,12 +247,6 @@ public class StorageRequest
 		switch ( this.moveType )
 		{
 		case StorageRequest.REFRESH:
-			return;
-		case StorageRequest.MEAT:
-		case StorageRequest.CONSUMABLES:
-		case StorageRequest.EQUIPMENT:
-		case StorageRequest.MISCELLANEOUS:
-		case StorageRequest.FAVORITE:
 			StorageRequest.parseStorage( this.getURLString(), this.responseText );
 			return;
 		default:
@@ -300,20 +259,6 @@ public class StorageRequest
 		Pattern.compile( "<b>You have ([\\d,]+) meat in long-term storage.</b>" );
 
 	private static final Pattern PULLS_PATTERN = Pattern.compile( "<span class=\"pullsleft\">(\\d+)</span>" );
-
-	// With inventory images:
-	//
-	// <table class='item' id="ic4511" rel="id=4511&s=0&q=0&d=0&g=1&t=1&n=10&m=0&p=0&u=e"><td class="img"><img src="http://images.kingdomofloathing.com/itemimages/soupbowl.gif" class="hand ircm" onClick='descitem(569697802,0, event);'></td><td id='i4511' valign=top><b class="ircm">beautiful soup</b>&nbsp;<span>(10)</span><font size=1><br></font></td></table>
-	//
-	// Without inventory images:
-	//
-	// <table class='item' id="ic4511" rel="id=4511&s=0&q=0&d=0&g=1&t=1&n=10&m=0&p=0&u=e"><td id='i4511' valign=top><b class="ircm"><a onClick='javascript:descitem(569697802,0, event);'>beautiful soup</a></b>&nbsp;<span>(10)</span><font size=1><br></font></td></table>
-
-	private static final Pattern ITEM_PATTERN =
-		Pattern.compile( "<table class='item' id=\"ic([\\d]+)\".*?rel=\"([^\"]*)\">.*?<b class=\"ircm\">(?:<a[^>]*>)?(.*?)(?:</a>)?</b>(?:&nbsp;<span>\\(([\\d]+)\\)</span)?.*?</table>" );
-
-	private static final Pattern TAB_PATTERN =
-		Pattern.compile( "storage.php\\?which=(f[\\d+])\"" );
 
 	private static void parseStorage( final String urlString, final String responseText )
 	{
@@ -328,107 +273,111 @@ public class StorageRequest
 		// These data do not appear on the three item pages, and items
 		// do not appear on page 5.
 
-		if ( urlString.contains( "which=5" ) )
+		if ( !urlString.contains( "which=5" ) )
 		{
-			Matcher meatInStorageMatcher = StorageRequest.STORAGEMEAT_PATTERN.matcher( responseText );
-			if ( meatInStorageMatcher.find() )
-			{
-				int meat = StringUtilities.parseInt( meatInStorageMatcher.group( 1 ) );
-				KoLCharacter.setStorageMeat( meat );
-			}
-			else if ( responseText.indexOf( "Hagnk doesn't have any of your meat" ) != -1 )
-			{
-				KoLCharacter.setStorageMeat( 0 );
-			}
-
-			Matcher pullsMatcher = StorageRequest.PULLS_PATTERN.matcher( responseText );
-			if ( pullsMatcher.find() )
-			{
-				ConcoctionDatabase.setPullsRemaining( StringUtilities.parseInt( pullsMatcher.group( 1 ) ) );
-			}
-			else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
-			{
-				ConcoctionDatabase.setPullsRemaining( 0 );
-			}
-			else
-			{
-				ConcoctionDatabase.setPullsRemaining( -1 );
-			}
-
-			// The list of tabs appears on every page, but we only need to retrieve it once when refreshing
-			StorageRequest.favoriteTabs.clear();
-			Matcher tabMatcher = StorageRequest.TAB_PATTERN.matcher( responseText );
-			while ( tabMatcher.find() )
-			{
-				StorageRequest.favoriteTabs.add( tabMatcher.group( 1 ) );
-			}
-
 			return;
 		}
 
-		if ( urlString.contains( "which=f" ) && responseText.contains( "show&nbsp;items&nbsp;only&nbsp;here" ) )
+		Matcher meatInStorageMatcher = StorageRequest.STORAGEMEAT_PATTERN.matcher( responseText );
+		if ( meatInStorageMatcher.find() )
 		{
-			// The items on this tab were already found in another tab
-			return;
+			int meat = StringUtilities.parseInt( meatInStorageMatcher.group( 1 ) );
+			KoLCharacter.setStorageMeat( meat );
+		}
+		else if ( responseText.indexOf( "Hagnk doesn't have any of your meat" ) != -1 )
+		{
+			KoLCharacter.setStorageMeat( 0 );
 		}
 
-		Matcher matcher = StorageRequest.ITEM_PATTERN.matcher( responseText );
-		int lastFindIndex = 0;
-
-		while ( matcher.find( lastFindIndex ) )
+		Matcher pullsMatcher = StorageRequest.PULLS_PATTERN.matcher( responseText );
+		if ( pullsMatcher.find() )
 		{
-			lastFindIndex = matcher.end();
-			int itemId = StringUtilities.parseInt( matcher.group( 1 ) );
-			//String relString = matcher.group( 2 );
-			String countString = matcher.group( 4 );
-			int count = ( countString == null ) ? 1 : StringUtilities.parseInt( countString );
-			String itemName = StringUtilities.getCanonicalName( ItemDatabase.getItemDataName( itemId ) );
-			String realName = matcher.group( 3 );
-			String canonicalName = StringUtilities.getCanonicalName( realName );
+			ConcoctionDatabase.setPullsRemaining( StringUtilities.parseInt( pullsMatcher.group( 1 ) ) );
+		}
+		else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
+		{
+			ConcoctionDatabase.setPullsRemaining( 0 );
+		}
+		else
+		{
+			ConcoctionDatabase.setPullsRemaining( -1 );
+		}
 
-			if ( itemName == null || !canonicalName.equals( itemName ) )
+		return;
+	}
+
+	public static boolean isFreePull( final AdventureResult item )
+	{
+		// For now, special handling for the few items which are a free
+		// pull only for a specific path. If more path-specific free
+		// pulls are introduced, we'll define a "Free Pull Path"
+		// modifier or something.
+
+		int itemId = item.getItemId();
+
+		if ( ( itemId == ItemPool.BORIS_HELM || itemId == ItemPool.BORIS_HELM_ASKEW ) && !KoLCharacter.inAxecore() )
+		{
+			return false;
+		}
+
+		if ( ( itemId == ItemPool.JARLS_COSMIC_PAN || itemId == ItemPool.JARLS_PAN ) && !KoLCharacter.isJarlsberg() )
+		{
+			return false;
+		}
+
+		return Modifiers.getBooleanModifier( item.getName(), "Free Pull" );
+	}
+
+	public static boolean isNoPull( final AdventureResult item )
+	{
+		return Modifiers.getBooleanModifier( item.getName(), "No Pull" );
+	}
+
+	private static List itemList( final AdventureResult item )
+	{
+		return	KoLCharacter.canInteract() ? KoLConstants.storage :
+			StorageRequest.isFreePull( item ) ? KoLConstants.freepulls :
+			StorageRequest.isNoPull( item ) ? KoLConstants.nopulls :
+			KoLConstants.storage;
+	}
+
+	private static void addStorageItem( AdventureResult item )
+	{
+		List list = StorageRequest.itemList( item );
+		int count = item.getCount();
+		int storageCount = item.getCount( list );
+
+		// Add the difference between your existing count
+		// and the original count.
+
+		if ( storageCount != count )
+		{
+			item = item.getInstance( count - storageCount );
+			AdventureResult.addResultToList( list, item );
+		}
+	}
+
+	public static final void parseStorage( final JSONObject JSON )
+		throws JSONException
+	{
+		// {"1":"1","2":"1" ... }
+		Iterator< ? > keys = JSON.keys();
+
+		while ( keys.hasNext() )
+		{
+			String key = (String) keys.next();
+			int itemId = StringUtilities.parseInt( key );
+			int count = JSON.getInt( key );
+			String name = ItemDatabase.getItemDataName( itemId );
+			if ( name == null )
 			{
-				// Lookup item with api.php for additional info
+				// Fetch descid from api.php?what=item
+				// and register new item.
 				ItemDatabase.registerItem( itemId );
 			}
 
-			AdventureResult item = new AdventureResult( itemId, StringUtilities.parseInt( matcher.group( 4 ) ) );
-
-			// Separate free pulls into a separate list
-			boolean isFreePull = Modifiers.getBooleanModifier( item.getName(), "Free Pull" );
-			
-			boolean isNoPull = Modifiers.getBooleanModifier( item.getName(), "No Pull" );
-
-			// For now, special handling for the few items which
-			// are a free pull only for a specific path. If more
-			// path-specific free pulls are introduced, we'll
-			// define a "Free Pull Path" modifier or something.
-			if ( ( itemId == ItemPool.BORIS_HELM || itemId == ItemPool.BORIS_HELM_ASKEW ) && 
-				 !KoLCharacter.inAxecore() )
-			{
-				isFreePull = false;
-			}
-			if ( ( itemId == ItemPool.JARLS_COSMIC_PAN || itemId == ItemPool.JARLS_PAN ) &&
-				 !KoLCharacter.isJarlsberg() )
-			{
-				isFreePull = false;
-			}
-
-			List list = KoLCharacter.canInteract() ? KoLConstants.storage :
-			            isFreePull ? KoLConstants.freepulls :
-			            isNoPull ? KoLConstants.nopulls :
-			            KoLConstants.storage;
-
-			int storageCount = item.getCount( list );
-
-			// Add the difference between your existing count
-			// and the original count.
-
-			if ( storageCount != count )
-			{
-				item = item.getInstance( count - storageCount );
-				AdventureResult.addResultToList( list, item );
-			}
+			AdventureResult item = new AdventureResult( itemId, count );
+			StorageRequest.addStorageItem( item );
 		}
 	}
 
@@ -465,13 +414,6 @@ public class StorageRequest
 				// Doing a "pull all" in Hagnk's does not tell
 				// you what went into inventory and what went
 				// into the closet.
-				//
-				// Nor does tell you what was left in storage
-				// because it was not Trendy enough or because
-				// it was not one of your "favorite things".
-				//
-				// Therefore, refresh Inventory, the Closet,
-				// and, if necessary, Storage.
 
 				InventoryManager.refresh();
 				CoinmastersFrame.externalUpdate();
@@ -479,10 +421,9 @@ public class StorageRequest
 				// If we are still in a Trendy run or are pulling only
 				// "favorite things", we may have left items in storage.
 
-				// Refresh and check.
 				if ( KoLCharacter.isTrendy() || urlString.indexOf( "favonly=1" ) != -1 )
 				{
-					RequestThread.postRequest( new StorageRequest( REFRESH ) );
+					StorageRequest.refresh();
 					KoLCharacter.updateStatus();
 					return true;
 				}
@@ -645,19 +586,7 @@ public class StorageRequest
 		switch ( this.moveType )
 		{
 		case REFRESH:
-			return "Retrieving storage list";
-
-		case MEAT:
-			return "Examining meat in storage";
-
-		case CONSUMABLES:
-			return "Examining consumables in storage";
-
-		case EQUIPMENT:
-			return "Examining equipment in storage";
-
-		case MISCELLANEOUS:
-			return "Examining miscellaneous items in storage";
+			return "Examining Meat and pulls in storage";
 
 		case EMPTY_STORAGE:
 			return "Emptying storage";
@@ -667,9 +596,6 @@ public class StorageRequest
 
 		case PULL_MEAT_FROM_STORAGE:
 			return "Pulling meat from storage";
-
-		case FAVORITE:
-			return "Examining a custom tab in storage";
 
 		default:
 			return "Unknown request type";
