@@ -1670,6 +1670,7 @@ steely marble	Sleaze Spell Damage: +65
 stinky cheese wheel	Softcore Only, Damage Absorption: [max(1,min(50,floor(pref(_stinkyCheeseCount)/2)))]
 stop shield	Damage Absorption: +10, Damage Reduction: 6
 stress ball	Maximum HP: +100, Maximum MP: +100
+studded sealhide shield	Muscle: +5, Maximum HP: +30, Damage Reduction: 7
 # stuffed Baron von Ratsworth
 # stuffed Cheshire bitten
 # stuffed MagiMechTech MicroMechaMech
@@ -3094,6 +3095,7 @@ A Revolution in Your Mouth	Moxie Percent: -10
 # A Taste of Rainbow: Increases stat gains from food
 Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
+# Abyssal Sweat: The first attack against you will always miss
 # Abyssal Tears: Reduce enemy defense by 20%
 Ack! Barred!	Muscle Percent: +30
 Adrenaline Rush	Muscle Percent: +100
@@ -4960,6 +4962,7 @@ clove-flavored lip balm	Effect: "The Great White Mope", Effect Duration: 30
 coffee sprite	Free Pull
 cold nuggets	Effect: "Frigid Weapon", Effect Duration: 5
 cold powder	Effect: "Insulated Trousers", Effect Duration: 5
+cold seal sweat Effect: "Abyssal Sweat", Effect Duration: 20
 cold-filtered water	Effect: "Purity of Spirit", Effect Duration: 10
 cologne of contempt	Effect: "Contemptible Emanations", Effect Duration: [R]
 colorful toad	Effect: "All Glory To the Toad", Effect Duration: 10
