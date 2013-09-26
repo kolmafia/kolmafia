@@ -413,24 +413,30 @@ public class SushiRequest
 			return "unknown";
 		}
 
-		if ( filling1 > 0 )
+		if ( id == 7 )
 		{
-			name = SushiRequest.filling1ToName( name, filling1 );
-		}
+			// Bento Boxes
+			if ( veggie > 0 )
+			{
+				name = SushiRequest.veggieToName( name, veggie );
+			}
 
-		if ( topping > 0 )
-		{
-			name = SushiRequest.toppingToName( name, topping );
+			if ( dippin > 0 )
+			{
+				name = SushiRequest.dippinToName( name, dippin );
+			}
 		}
-
-		if ( veggie > 0 )
+		else
 		{
-			name = SushiRequest.veggieToName( name, veggie );
-		}
+			if ( filling1 > 0 )
+			{
+				name = SushiRequest.filling1ToName( name, filling1 );
+			}
 
-		if ( dippin > 0 )
-		{
-			name = SushiRequest.dippinToName( name, dippin );
+			if ( topping > 0 )
+			{
+				name = SushiRequest.toppingToName( name, topping );
+			}
 		}
 
 		return name;
