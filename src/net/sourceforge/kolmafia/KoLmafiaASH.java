@@ -99,6 +99,11 @@ public abstract class KoLmafiaASH
 			return false;
 		}
 
+		if ( RequestLogger.isDebugging() )
+		{
+			RequestLogger.updateDebugLog( "Executing relay script: " + toExecute.getName() );
+		}
+
 		synchronized ( relayScript )
 		{
 			RelayRequest relayRequest = new RelayRequest( false );
