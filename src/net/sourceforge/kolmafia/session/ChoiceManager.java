@@ -5009,10 +5009,12 @@ public abstract class ChoiceManager
 		// the options may have that effect, but we must at least run
 		// choice.php to find out which choice it is.
 
+		// Get rid of extra fields - like "action=auto"
+		request.constructURLString( "choice.php" );
+
 		if ( responseText == null )
 		{
 			GoalManager.updateProgress( GoalManager.GOAL_CHOICE );
-			request.constructURLString( "choice.php" );
 			request.run();
 
 			if ( request.responseCode == 302 )
