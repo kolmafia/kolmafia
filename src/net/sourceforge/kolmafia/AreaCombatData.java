@@ -696,15 +696,29 @@ public class AreaCombatData
 				break;
 
 			case 'n':
-				buffer.append( " " );
-				buffer.append( rate1 );
-				buffer.append( "% (no pickpocket)" );
+				if ( rawDropRate > 0 )
+				{
+					buffer.append( " " );
+					buffer.append( rate1 );
+					buffer.append( "% (no pickpocket)" );
+				}
+				else
+				{
+					buffer.append( " (no pickpocket, unknown drop rate)" );
+				}					
 				break;
 
 			case 'c':
-				buffer.append( " " );
-				buffer.append( rate1 );
-				buffer.append( "% (conditional)" );
+				if ( rawDropRate > 0 )
+				{
+					buffer.append( " " );
+					buffer.append( rate1 );
+					buffer.append( "% (conditional)" );
+				}
+				else
+				{
+					buffer.append( " (conditional, unknown drop rate)" );
+				}					
 				break;
 				
 			case 'f':
@@ -722,7 +736,7 @@ public class AreaCombatData
 				}
 				else
 				{
-					buffer.append( " (pickpocket only)" );
+					buffer.append( " (pickpocket only, unknown rate)" );
 				}
 				break;
 
