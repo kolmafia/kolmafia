@@ -2838,6 +2838,13 @@ public class FightRequest
 			{
 				WumpusManager.reset();
 			}
+			else if ( monster.equalsIgnoreCase( "general seal" ) )
+			{
+				if ( responseText.contains( "won some kind of medal" ) )
+				{
+					ResultProcessor.removeItem( ItemPool.ABYSSAL_BATTLE_PLANS );
+				}
+			}
 			else if ( monster.equalsIgnoreCase( "drunk pygmy" ) )
 			{
 				if ( responseText.contains( "notices the Bowl of Scorpions" ) )

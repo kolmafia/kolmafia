@@ -123,7 +123,7 @@ Whitey's Grove	SEMIRARE	Monty of County Crisco
 ### Axecore Clancy Adventures
 A Barroom Brawl	BORIS	Jackin' the Jukebox
 The Knob Shaft	BORIS	A Miner Variation
-Icy Peak	BORIS	Mercury Rising
+The Icy Peak	BORIS	Mercury Rising
 The Middle Chamber	BORIS	Don't You Know Who I Am?
 
 ### Hobo code binder glyph Adventures
