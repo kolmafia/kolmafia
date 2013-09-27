@@ -5058,14 +5058,18 @@ public abstract class ChoiceManager
 			String option = "choiceAdventure" + choice;
 			String decision = Preferences.getString( option );
 
+			// If choice zero is not "Manual Control", adjust it to an actual choice
+
+			decision = ChoiceManager.specialChoiceDecision1( choice, decision, stepCount, request.responseText );
+
 			// If one of the decisions will satisfy a goal, take it
 
 			decision = ChoiceManager.pickGoalChoice( option, decision );
 
-			// If this choice has special handling, convert to real
-			// decision index
+			// If this choice has special handling based on
+			// character state, convert to real decision index
 
-			decision = ChoiceManager.specialChoiceDecision( choice, decision, stepCount, request.responseText );
+			decision = ChoiceManager.specialChoiceDecision2( choice, decision, stepCount, request.responseText );
 
 			// Let user handle the choice manually, if requested
 
@@ -5100,20 +5104,25 @@ public abstract class ChoiceManager
 		String option = "choiceAdventure" + choice;
 		String decision = Preferences.getString( option );
 
+		// If choice zero is not "Manual Control", adjust it to an actual choice
+
+		decision = ChoiceManager.specialChoiceDecision1( choice, decision, Integer.MAX_VALUE, responseText );
+
 		// If one of the decisions will satisfy a goal, take it
 
 		decision = ChoiceManager.pickGoalChoice( option, decision );
 
-		// If this choice has special handling, convert to real
-		// decision index
+		// If this choice has special handling based on
+		// character state, convert to real decision index
 
-		decision = ChoiceManager.specialChoiceDecision( choice, decision, Integer.MAX_VALUE, responseText );
+		decision = ChoiceManager.specialChoiceDecision2( choice, decision, Integer.MAX_VALUE, responseText );
 
 		// Manual choice requested, or unsupported choice
 		if ( decision.equals( "0" ) || decision.equals( "" ) )
 		{
 			return 0;
 		}
+
 		return StringUtilities.parseInt( decision );
 	}
 
@@ -7546,7 +7555,7 @@ public abstract class ChoiceManager
 		return true;
 	}
 
-	private static final String specialChoiceDecision( final int choice, String decision, final int stepCount, final String responseText )
+	private static final String specialChoiceDecision1( final int choice, String decision, final int stepCount, final String responseText )
 	{
 		// A few choices have non-standard options: 0 is not Manual Control
 		switch ( choice )
@@ -7612,10 +7621,7 @@ public abstract class ChoiceManager
 				ChoiceManager.skillUses = 0;
 				return "1";
 			}
-			else
-			{
-				return "2";
-			}
+			return "2";
 
 		// Summon Horde is a skill
 		case 601:
@@ -7635,6 +7641,11 @@ public abstract class ChoiceManager
 			return "0";
 		}
 
+		return decision;
+	}
+
+	private static final String specialChoiceDecision2( final int choice, String decision, final int stepCount, final String responseText )
+	{
 		// If the user wants manual control, let 'em have it.
 		if ( decision.equals( "0" ) )
 		{
@@ -8578,6 +8589,12 @@ public abstract class ChoiceManager
 
 	private static final String pickGoalChoice( final String option, final String decision )
 	{
+		// If the user wants manual control, let 'em have it.
+		if ( decision.equals( "0" ) )
+		{
+			return decision;
+		}
+
 		// Find the options for the choice we've encountered
 
 		Object[] options = null;
@@ -8673,8 +8690,8 @@ public abstract class ChoiceManager
 			}
 		}
 
-		// If they have everything, then just return the default
-		return decision;
+		// If they have everything, then just return choice 1
+		return "1";
 	}
 
 	public static final void addGoalButton( final StringBuffer buffer, final String goal )
