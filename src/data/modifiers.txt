@@ -4365,6 +4365,7 @@ Well-Lubed	Weapon Damage Percent: +10
 Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Well-Swabbed Ear	Initiative: +30
 Well-preserved	HP Regen Min: 150, HP Regen Max: 200
+Well-Rested	Experience: +3
 # Well Excuuuuse Me!: Makes you look like a wacky pirate
 Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
@@ -4412,14 +4413,16 @@ Abs of Tin	Maximum HP Percent: +10
 # Ambidextrous Funkslinging
 Amphibian Sympathy	Familiar Weight: +5
 # Armorcraftiness
+# Audacity of the Otter Critical hits do 3x damage
 Barrel Chested	Muscle Percent: +50
 Best Served Cold	Spell Damage Percent: +100
 Big Boned	Maximum HP Percent: +30
 Big Lungs	HP Regen Min: 8, HP Regen Max: 10
+# Buoyancy of the Beluga Regenerate 1 HP per Adventure for each gallon of Fury
 Chip on your Shoulder	PvP Fights: +5
-Claws of the Otter	Weapon Damage: +3
-Claws of the Walrus	Weapon Damage: +4
+Claws of the Walrus	Weapon Damage: +7
 Cold-Blooded Fearlessness	Spooky Resistance: +2
+# Cold Shoulder Your Smack skills will deal 5 additional Cold Damage
 Cosmic Ugnderstanding	Maximum MP Percent: +5
 # Deep Saucery
 Diminished Gag Reflex	Stench Resistance: +2
@@ -4427,19 +4430,19 @@ Disco Fever	Ranged Damage: [min(L,15)]
 # Double-Fisted Skull Smashing
 Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
-# Eye of the Stoat	+10% critical hits for Thrust Smacks, improve smacks
+# Eye of the Stoat Improves your Smacks
 Fashionably Late	Adventures: +1
 Ferocity	Critical Hit Percent: +25
 # Flavour of Magic
 Food Coma	Base Resting MP: 9999
+Fortitude of the Muskox	HP Regen Min: +1, HP Regen Max: +2
 Gnefarious Pickpocketing	Meat Drop: +10
 Gnomish Hardigness	Maximum HP Percent: +5
 # Good Singing Voice: Doubles duration of Boris songs
 # Gourmand: Increases adventures from food
 Heart of Polyester	Sleaze Resistance: +2
 # Hero of the Half-Shell
-Hide of the Otter	Damage Absorption: +20
-Hide of the Walrus	Damage Absorption: +40
+Hide of the Walrus	Damage Absorption: +50
 His Master's Voice	Familiar Weight: +5
 Hungry Eyes	Food Drop: +100
 Hunter's Sprint	Initiative: +100
@@ -4447,6 +4450,7 @@ Hunter's Sprint	Initiative: +100
 # Impetuous Sauciness: +5 reagent potion duration
 Indefatigable	HP Regen Min: +16, HP Regen Max: +20
 Intrinsic Spiciness	Spell Damage: [min(L,10)]
+# Ire of the Orca Fury capacity increases to 5 gallons
 # Legendary Appetite: Increase stomach capacity by 5
 Legendary Bravado	Muscle: +10, Mysticality: +10, Moxie: +10
 Legendary Girth	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
@@ -4465,9 +4469,11 @@ Nimble Fingers	Meat Drop: +20
 Northern Exposure	Cold Resistance: +2
 Overdeveloped Sense of Self Preservation	Initiative: +20
 Powers of Observatiogn	Item Drop: +10
+# Precision of the Penguin +1% chance of Critical Hit for each gallon of Fury
 # Pulverize
 # Really Expensive Jewelrycrafting
 # Salacious Cocktailcrafting
+# Seething of the Snow Leopard Gain additional bonus damage from Fury
 Sick Pythons	Weapon Damage: +20
 Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 # Skullcracker: +100% Brain Drops from Monsters
@@ -4485,6 +4491,7 @@ Spirit of Ravioli	Maximum HP Percent: +25
 # Tempuramancy
 # The Way of Sauce
 Thick-Skinned (Skill)	Maximum HP: +10, Maximum MP: +10
+# Thirst of the Weasel Your Smacks restore 1-2 HP per gallon of Fury
 Thrift and Grift	Meat Drop: +10
 Tolerance of the Kitchen	Hot Resistance: +2
 # Torso Awaregness
@@ -4495,6 +4502,8 @@ Vigor Mortis	Muscle Percent: +30
 # Virulence: Critical Hits Improve Infectious Bite
 Virulence	Critical Hit Percent: +10
 Wisdom of the Elder Tortoises	Maximum MP Percent: +50
+# Wrath of the Wolverine Lets you build Fury by defeating opponents (up to a maximum of 3 gallons of Fury)
+# Wrath of the Wolverine NOTE: Only true Seal Clubbers have the fortitude needed to contain Fury. Other classes are weak, and would be torn apart by it.
 Zombie Maestro	Mana Cost: -1
 
 # Bad Moon passive skills: the Seven Deadly Sins.
