@@ -86,6 +86,15 @@ var closeCmds = {
 var arglessPreds = {
 // Predicates which take no argument
 	"gotjump": true,
+	"sealclubber": true,
+	"turtletamer": true,
+	"pastamancer": true,
+	"sauceror": true,
+	"discobandit": true,
+	"accordionthief": true,
+	"muscleclass": true,
+	"mysticalityclass": true,
+	"moxieclass": true,
 };
 
 var numPreds = {
