@@ -1963,8 +1963,10 @@ rubber WWtNSD? bracelet	10	none
 rubber gloves	55	Mys: 12
 rum barrel charrrm bracelet	110	Mys: 40
 rusty chain necklace	180	Mys: 75
+scabrous seal epaulets	0	none
 screwing pooch	85	Mys: 27
 sea holster	200	Mys: 85
+seal medal	0	none
 sealhide belt	160	Mys: 65
 sealhide gloves	160	Mys: 65
 sealhide moccasins	160	Mys: 65

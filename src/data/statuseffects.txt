@@ -1376,3 +1376,4 @@
 1375	Tingling Feeling	tincup1.gif	91b2830c561b74bcbcca410423a21ad3	use 1 tin cup
 1376	Abyssal Tears	teardrop.gif	7064312e83978ab454e3bcfeb2e6c3d5	use 1 foetid seal tear
 1377	Abyssal Sweat	teardrop.gif	2d5d270c8cb8017c1d33b5a6327d7ffd	use 1 cold seal sweat
+1378	Abyssal Blood	blooddrop.gif	df4154707c342dec14ca431a74e613e9	use 1 boiling seal blood

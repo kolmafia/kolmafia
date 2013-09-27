@@ -2245,8 +2245,11 @@ round purple sunglasses	Sleaze Resistance: +1, Single Equip
 rubber gloves	Sleaze Resistance: +2
 rum barrel charrrm bracelet	Booze Drop: +5
 rusty chain necklace	Muscle: +9, Maximum HP: +25
+scabrous seal epaulets	Maximum HP: +20, HP Regen Min: 8, HP Regen Max: 10, Single Equip
 screwing pooch	Item Drop: +3
 sea holster	Ranged Damage: +20, Critical Hit Percent: +4, Never Fumble, Single Equip
+# seal medal: 25% chance to gain an extra gallon of Fury when you gain a gallon of Fury.
+seal medal	Muscle: +5, Weapon Damage: +10, Maximum HP: +20
 sealhide belt	Maximum HP: +25, Maximum MP: +25
 sealhide gloves	Weapon Damage: +10
 sealhide moccasins	Muscle: +5, Mysticality: +5, Moxie: +5, Single Equip
@@ -3095,6 +3098,7 @@ A Revolution in Your Mouth	Moxie Percent: -10
 # A Taste of Rainbow: Increases stat gains from food
 Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
+Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min: 40, HP Regen Max: 50
 # Abyssal Sweat: The first attack against you will always miss
 # Abyssal Tears: Reduce enemy defense by 20%
 Ack! Barred!	Muscle Percent: +30
@@ -4873,6 +4877,7 @@ Ye Olde Bawdy Limerick	Effect: "From Nantucket", Effect Duration: 20
 Yummy Tummy bean	Effect: "Sugar Rush", Effect Duration: 3
 a cute angel	Free Pull
 abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
+# abyssal battle plans
 adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 adventurer clone egg	Free Pull
 alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
@@ -4911,6 +4916,7 @@ bloody kiwitini	Effect: "First Blood Kiwi", Effect Duration: 10
 blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
 blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
 blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
+boiling seal blood	Effect: "Abyssal Blood", Effect Duration: 20
 booby trap	Effect: "Ravonovichy", Effect Duration: 100
 bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
 bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10

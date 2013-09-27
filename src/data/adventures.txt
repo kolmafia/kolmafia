@@ -315,7 +315,10 @@ Events	adventure=294	false	unknown	Lord Flameface's Throne Room
 
 Events	adventure=357	false	outdoor	A Stinking Abyssal Portal
 Events	adventure=358	false	outdoor	A Scorching Abyssal Portal
+Events	adventure=359	false	outdoor	A Terrifying Abyssal Portal
 Events	adventure=360	false	outdoor	A Freezing Abyssal Portal
+Events	adventure=361	false	outdoor	An Unsettling Abyssal Portal
+Events	adventure=362	false	outdoor	A Yawning Abyssal Portal
 
 Psychoses	adventure=301	false	outdoor	Anger Man's Level
 Psychoses	adventure=302	false	outdoor	Fear Man's Level
