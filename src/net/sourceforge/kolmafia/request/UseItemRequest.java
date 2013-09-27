@@ -5325,18 +5325,20 @@ public class UseItemRequest
 		int turns = 0;
 		switch ( item.getItemId() )
 		{
+		case ItemPool.ABYSSAL_BATTLE_PLANS:
 		case ItemPool.BLACK_PUDDING:
 		case ItemPool.CARONCH_MAP:
-		case ItemPool.FRATHOUSE_BLUEPRINTS:
+		case ItemPool.CRUDE_SCULPTURE:
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
-		case ItemPool.SPOOKY_PUTTY_MONSTER:
+		case ItemPool.DOLPHIN_WHISTLE:
+		case ItemPool.ENVYFISH_EGG:
+		case ItemPool.FRATHOUSE_BLUEPRINTS:
+		case ItemPool.PHOTOCOPIED_MONSTER:
 		case ItemPool.RAIN_DOH_MONSTER:
 		case ItemPool.SHAKING_CAMERA:
-		case ItemPool.PHOTOCOPIED_MONSTER:
-		case ItemPool.DOLPHIN_WHISTLE:
-		case ItemPool.WAX_BUGBEAR:
-		case ItemPool.ENVYFISH_EGG:
 		case ItemPool.SHAKING_SKULL:
+		case ItemPool.SPOOKY_PUTTY_MONSTER:
+		case ItemPool.WAX_BUGBEAR:
 			// Items that can redirect to a fight
 			turns = 1;
 			break;
@@ -5363,8 +5365,11 @@ public class UseItemRequest
 			// Drum machine doesn't take a turn if you have
 			// worm-riding hooks in inventory or equipped.
 			AdventureResult hooks = ItemPool.get( ItemPool.WORM_RIDING_HOOKS, 1 );
-			turns = ( KoLConstants.inventory.contains( hooks ) ||
-				  KoLCharacter.hasEquipped( hooks, EquipmentManager.WEAPON ) ) ? 0 : 1;
+			if ( KoLConstants.inventory.contains( hooks ) || KoLCharacter.hasEquipped( hooks, EquipmentManager.WEAPON ) )
+			{
+				return 0;
+			}
+			turns = 1;
 			break;
 
 		case ItemPool.GONG:
