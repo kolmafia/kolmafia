@@ -3194,6 +3194,7 @@ Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 Bloody Bloody Bloody!	Spooky Damage: +50
 Bloody Hand	Muscle: -1
 # Bloody-minded	+50 Damage vs. Vampires
+Blubbered Up	Moxie: +5
 Blue Swayed	Familiar Weight: [ceil(min(T,50)/10)], Experience (familiar): [ceil(min(T,50)/5)]
 Blue Tongue	Item Drop: +30
 # Bone Homie: Bites Your Enemies
@@ -3947,6 +3948,7 @@ Prelude of Precision	Critical Hit Percent: +10
 Pretending to Pretend	Weapon Damage Percent: +100
 Prestidigysfunction	Mysticality Percent: -95
 Preternatural Greed	Meat Drop: +100
+Pride of the Puffin	Monster Level: +10
 Pride of the Vampire	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Prince of Seaside Town	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Proficient Pressure	Experience: +8
@@ -4032,6 +4034,7 @@ Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
 Scavengers Scavenging	Item Drop: +20
 Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 School Spirited	Meat Drop: +100, Item Drop: +50
+Scowl of the Auk	Weapon Damage: +10
 Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Seal Clubbing Frenzy	Muscle: +2
 Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25

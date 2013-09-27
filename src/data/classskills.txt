@@ -113,7 +113,6 @@
 89	Drescher's Annoying Noise	3	40	20
 90	Deep Dark Visions	3	100	10
 91	Dog Tired	0	0	0
-
 92	Club Earth	5	50	0
 93	Carbohydrate Cudgel	5	30	0
 94	Splattersmash	5	25	0
@@ -138,12 +137,12 @@
 1001
 1002
 1003	Thrust-Smack	5	3	0	4
-1004	Lunge-Smack	5	5	0
+1004	Lunge-Smack	5	1	0	1
 1005	Lunging Thrust-Smack	5	8	0	10
 1006	Super-Advanced Meatsmithing	0	0	0	5
-1007	Tongue of the Otter	2	7	0	3
-1008	Hide of the Otter	0	0	0	1	1
-1009	Claws of the Otter	0	0	0	2
+1007	Blubber Up	3	7	10	3
+1008	Fortitude of the Muskox	0	0	0	1
+1009	Audacity of the Otter	0	0	0	2
 1010	Tongue of the Walrus	2	10	0	9
 1011	Hide of the Walrus	0	0	0	7
 1012	Claws of the Walrus	0	0	0	8
@@ -160,6 +159,21 @@
 1023	Harpoon!	5	30	0
 1024	Holiday Weight Gain	3	10	10
 1025	Iron Palm Technique	3	5	10
+1026
+1027	Hibernate	2	0	0	2
+1028	Cold Shoulder	0	0	0	3
+1029	Wrath of the Wolverine	0	0	0	4
+1030	Buoyancy of the Beluga	0	0	0	5
+1031	Scowl of the Auk	3	8	10	6
+1032	Furious Wallop	5	5	0	7
+1033	Club Foot	5	8	0	8
+1034	Seething of the Snow Leopard	0	0	0	9
+1035	Ire of the Orca	0	0	0	10
+1036	Thirst of the Weasel	0	0	0	11
+1037	Cavalcade of Fury	5	15	0	12
+1038	Northern Explosion	5	16	0	13
+1039	Precision of the Penguin	0	0	0	14
+1040	Pride of the Puffin	3	30	10	15
 
 # Skills available to Tamers
 
