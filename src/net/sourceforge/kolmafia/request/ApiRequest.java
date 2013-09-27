@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -113,6 +114,8 @@ public class ApiRequest
 			"Loading character status..." :
 			this.what.equals( "inventory" ) ?
 			"Updating inventory..." :
+			this.what.equals( "closet" ) ?
+			"Updating closet..." :
 			this.what.equals( "storage" ) ?
 			"Updating storage..." :
 			this.what.equals( "item" ) ?
@@ -162,6 +165,10 @@ public class ApiRequest
 		else if ( what.equals( "inventory" ) )
 		{
 			ApiRequest.parseInventory( responseText );
+		}
+		else if ( what.equals( "closet" ) )
+		{
+			ApiRequest.parseCloset( responseText );
 		}
 		else if ( what.equals( "storage" ) )
 		{
@@ -389,6 +396,28 @@ public class ApiRequest
 		}
 	}
 
+	public static final void parseCloset( final String responseText )
+	{
+		ApiRequest.parseCloset( ApiRequest.getJSON( responseText, "closet" ) );
+	}
+
+	private static final void parseCloset( final JSONObject JSON )
+	{
+		if ( JSON == null )
+		{
+			return;
+		}
+
+		try
+		{
+			ClosetRequest.parseCloset( JSON );
+		}
+		catch ( JSONException e )
+		{
+			ApiRequest.reportParseError( "closet", JSON.toString(), e );
+		}
+	}
+
 	public static final void parseStorage( final String responseText )
 	{
 		ApiRequest.parseStorage( ApiRequest.getJSON( responseText, "storage" ) );
@@ -407,7 +436,7 @@ public class ApiRequest
 		}
 		catch ( JSONException e )
 		{
-			ApiRequest.reportParseError( "inventory", JSON.toString(), e );
+			ApiRequest.reportParseError( "storage", JSON.toString(), e );
 		}
 	}
 

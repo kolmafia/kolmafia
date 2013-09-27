@@ -112,40 +112,17 @@ public abstract class InventoryManager
 
 	public static void refresh()
 	{
-		// Retrieve the contents of the closet and inventory
-		// We can detect new items in either location
+		// Retrieve the contents of inventory
+		KoLmafia.setIsRefreshing( true );
+		InventoryManager.resetInventory();
+		ConcoctionDatabase.deferRefresh( true );
+		RequestThread.postRequest( new ApiRequest( "inventory" ) );
+		EquipmentManager.updateEquipmentLists();
+		ConcoctionDatabase.deferRefresh( false );
+		KoLmafia.setIsRefreshing( false );
 
-		// Delay Loading of Collapsed Inventory Sections screws up
-		// fetching the content of the closet, at least. Therefore,
-		// turn it off before we read that and restore it afterwards
-		//
-		// account.php?pwd&action=flag_lazyinventory&value=0&ajax=1
-		boolean lazy = KoLCharacter.getLazyInventory();
-
-		try
-		{
-			KoLmafia.setIsRefreshing( true );
-			InventoryManager.resetInventory();
-			ConcoctionDatabase.deferRefresh( true );
-			if ( lazy )
-			{
-				RequestThread.postRequest( new GenericRequest( "account.php?pwd&action=flag_lazyinventory&value=0&ajax=1" ) );
-			}
-			RequestThread.postRequest( new ClosetRequest() );
-			RequestThread.postRequest( new ApiRequest( "inventory" ) );
-		}
-		finally
-		{
-			if ( lazy )
-			{
-				RequestThread.postRequest( new GenericRequest( "account.php?pwd&action=flag_lazyinventory&value=1&ajax=1" ) );
-			}
-			EquipmentManager.updateEquipmentLists();
-			ConcoctionDatabase.deferRefresh( false );
-			KoLmafia.setIsRefreshing( false );
-			// update "Hatter" daily deed
-			PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
-		}
+		// update "Hatter" daily deed
+		PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 	}
 
 	public static final int getCount( final int itemId )
