@@ -598,6 +598,8 @@ public class AdventureRequest
 				image.startsWith( "sororghost" ) ? "sexy sorority ghost" :
 				// Lord Flameface's Castle Entryway
 				image.startsWith( "fireservant" ) ? "Servant Of Lord Flameface" :
+				// Abyssal Portals
+				image.startsWith( "generalseal" ) ? "general seal" :
 				null;
 		}
 
