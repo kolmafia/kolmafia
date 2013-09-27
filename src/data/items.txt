@@ -6792,6 +6792,9 @@
 6775	tin lizzie	677775886	tinlizzie.gif	none	q	0
 6776	foetid seal tear	373056705	teardrop.gif	usable	t	0
 6777	cold seal sweat	127508971	teardrop.gif	usable	t	0
-6778
+6778	boiling seal blood	719099669	blooddrop.gif	usable	t	0
 6779	crystalline seal eye	620172789	crystaleye.gif	accessory	t	0
 6780	studded sealhide shield	921480686	studsealshield.gif	offhand	t	0
+6781	scabrous seal epaulets	683304454	epaulets.gif	accessory	t	0
+6782	abyssal battle plans	657302750	plans.gif	usable		0
+6783	seal medal	884423426	sealmedal.gif	accessory		0

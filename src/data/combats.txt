@@ -49,6 +49,8 @@ A Pile of Old Servers	100	antique database server
 A Scorching Abyssal Portal	100	scout seal
 A Skeleton Invasion!	100	skeleton invader	two skeleton invaders	three skeleton invaders	four skeleton invaders	five skeleton invaders
 A Stinking Abyssal Portal	100	scout seal
+A Terrifying Abyssal Portal	100	scout seal
+A Yawning Abyssal Portal	100	official seal
 An Incredibly Strange Place (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Casey Kasem)	Trippy Floating Head (Grand Moff Tarkin)	Trippy Floating Head (Mona Lisa)	Zombie Baby
 An Incredibly Strange Place (Great Trip)	100	Bustle in the Hedgerow	Gathering of Angels?	Higher Plane Serpents	Angels of Avalon	Elders of the Gentle Race
 An Incredibly Strange Place (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
@@ -57,6 +59,7 @@ An Overgrown Shrine (Northwest)	-1	dense liana
 An Overgrown Shrine (Southwest)	-1	dense liana
 An Overgrown Shrine (Northeast)	-1	dense liana
 An Overgrown Shrine (Southeast)	-1	dense liana
+An Unsettling Abyssal Portal	100	bulwark bull seal
 Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Anemone Mine	-1	Anemone combatant	killer clownfish	Mer-kin miner
 Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture	Fran&ccedil;ois Verte, Art Teacher: 0

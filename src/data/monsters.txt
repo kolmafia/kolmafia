@@ -1507,7 +1507,6 @@ Zombie Homeowners' Association	zombiehoa.gif	P: undead	zombie mariachi hat (c0)	
 Zombie Homeowners' Association (Hard Mode)	zombiehoa_hm.gif	P: undead	zombie mariachi hat (c0)	zombie accordion (c0)	zombie mariachi pants (c0)	HOA regulation book (c0)	HOA zombie eyes (c0)	HOA citation pad (c0)	wriggling severed nose (c0)
 
 # KOLHS
-
 Bunsen burner and beaker	bunsen.gif	HP: [0.75*(MUS+4+max(ML,0))] Def: [MUS+4+max(ML,0)] Atk: [MOX+4+max(ML,0)] Exp: [(STAT+4+max(ML,0))/4] Init: -10000 P: construct	mysterious chemical residue (25)	mysterious chemical residue (10)
 clay golem	claygolem.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Exp: [(STAT+3+max(ML,0))/4] Init: -10000 P: construct	lump of clay (25)	lump of clay (10)
 deadly vise	vice.gif	HP: [0.75*(MUS+3+max(ML,0))] Def: [MUS+3+max(ML,0)] Atk: [MOX+3+max(ML,0)] Exp: [(STAT+3+max(ML,0))/4] Init: -10000 P: construct	blob of wood glue (25)	blob of wood glue (10)
@@ -1531,4 +1530,6 @@ X-fingered Shop Teacher	shopteacher.gif	HP: [0.75*(MUS+6+max(ML,0))] Def: [MUS+6
 
 # A Stinking Abyssal Portal
 scout seal	scoutseal.gif	HP: 50 Def: 35 Atk: 30 Init: 300 P: demon	foetid seal tear (c30)	crystalline seal eye (c0)
-bulwark bull seal	bullseal.gif	HP: 100 Def: 55 Atk: 50 Init: -10000 P: demon	cold seal sweat (c30)	studded sealhide shield (c0)
+bulwark bull seal	bullseal.gif	HP: 100 Def: 55 Atk: 50 Init: -10000 P: demon	cold seal sweat (c30)	studded sealhide shield (c0)	abyssal battle plans (c0)
+official seal	officialseal.gif	HP: 300 Def: 110 Atk: 110 Init: 70 P: demon	boiling seal blood (c30)	scabrous seal epaulets (c0)	abyssal battle plans (c0)
+general seal	generalseal.gif	HP: 1000 Def: 300 Atk: 300 Init: -10000 P: demon	seal medal (c100)
