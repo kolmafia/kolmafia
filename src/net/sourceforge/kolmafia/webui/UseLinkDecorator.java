@@ -742,17 +742,19 @@ public abstract class UseLinkDecorator
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
 
-			case ItemPool.DRUM_MACHINE:
+			case ItemPool.ABYSSAL_BATTLE_PLANS:
 			case ItemPool.CARONCH_MAP:
-			case ItemPool.SPOOKY_PUTTY_MONSTER:
+			case ItemPool.CRUDE_SCULPTURE:
+			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
+			case ItemPool.DOLPHIN_WHISTLE:
+			case ItemPool.DRUM_MACHINE:
+			case ItemPool.ENVYFISH_EGG:
+			case ItemPool.PHOTOCOPIED_MONSTER:
 			case ItemPool.RAIN_DOH_MONSTER:
 			case ItemPool.SHAKING_CAMERA:
-			case ItemPool.PHOTOCOPIED_MONSTER:
-			case ItemPool.CURSED_PIECE_OF_THIRTEEN:
+			case ItemPool.SHAKING_SKULL:
+			case ItemPool.SPOOKY_PUTTY_MONSTER:
 			case ItemPool.WAX_BUGBEAR:
-			case ItemPool.DOLPHIN_WHISTLE:
-			case ItemPool.ENVYFISH_EGG:
-			case ItemPool.CRUDE_SCULPTURE:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.

@@ -2750,6 +2750,15 @@ public class GenericRequest
 			consumed = false;
 			break;
 
+		case ItemPool.SHAKING_SKULL:
+			itemName = "shaking skull";
+			consumed = true;
+			break;
+
+		case ItemPool.ABYSSAL_BATTLE_PLANS:
+			itemName = "abyssal battle plans";
+			break;
+
 		default:
 			return;
 		}

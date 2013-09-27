@@ -1809,6 +1809,15 @@ public class KoLAdventure
 			"you can't visit the Suburbs of Dis",
 			"You are no longer Dis Abled.",
 		},
+
+		// Abyssal Portals
+		//
+		// The area around the portal is quiet. Looks like you took
+		// care of all of the seals. Maybe check back tomorrow.
+		{
+			"area around the portal is quiet",
+			"The Abyssal Portal is quiet.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )
