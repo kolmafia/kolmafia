@@ -2840,10 +2840,7 @@ public class FightRequest
 			}
 			else if ( monster.equalsIgnoreCase( "general seal" ) )
 			{
-				if ( responseText.contains( "won some kind of medal" ) )
-				{
 					ResultProcessor.removeItem( ItemPool.ABYSSAL_BATTLE_PLANS );
-				}
 			}
 			else if ( monster.equalsIgnoreCase( "drunk pygmy" ) )
 			{
