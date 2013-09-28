@@ -1509,7 +1509,9 @@ public class DebugDatabase
 			AdventureResult item = (AdventureResult)it.next();
 			int itemId = item.getItemId();
 			int type = ItemDatabase.getConsumptionType( itemId );
-			if ( type == KoLConstants.EQUIP_OFFHAND || type == KoLConstants.EQUIP_ACCESSORY )
+			if ( type == KoLConstants.EQUIP_OFFHAND ||
+			     type == KoLConstants.EQUIP_ACCESSORY ||
+			     type == KoLConstants.EQUIP_CONTAINER )
 			{
 				DebugDatabase.checkPower( itemId, force );
 			}

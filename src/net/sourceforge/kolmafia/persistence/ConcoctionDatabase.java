@@ -50,10 +50,11 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingMisc;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -741,6 +742,13 @@ public class ConcoctionDatabase
 
 	public static final void handleQueue( boolean food, boolean booze, boolean spleen, int consumptionType )
 	{
+		// consumptionType can be:
+		//
+		// KoLConstants.NO_CONSUME - create or retrieve items
+		// KoLConstants.CONSUME_USE - use food, booze or spleen items
+		// KoLConstants.CONSUME_GHOST - binge ghost with food
+		// KoLConstants.CONSUME_HOBO - binge hobo with booze
+
 		Object [] currentItem;
 		Stack toProcess = new Stack();
 
@@ -756,38 +764,88 @@ public class ConcoctionDatabase
 
 		ConcoctionDatabase.refreshConcoctions( true );
 
-		Concoction c;
-		int quantity = 0;
-
 		SpecialOutfit.createImplicitCheckpoint();
 
+		Stack currentQueue = new Stack();
 		while ( !toProcess.isEmpty() )
 		{
 			currentItem = (Object []) toProcess.pop();
+			Concoction c = (Concoction) currentItem[ 0 ];
+			int quantity = ( (Integer) currentItem[ 1 ] ).intValue();
 
-			c = (Concoction) currentItem[ 0 ];
-			quantity = ( (Integer) currentItem[ 1 ] ).intValue();
-
-			if ( consumptionType != KoLConstants.CONSUME_USE && c.getItem() != null )
+			if ( consumptionType != KoLConstants.CONSUME_USE )
 			{
+				// Binge familiar or create only
+
+				// If it's not an actual item, it's a purchase from a cafe.
+				// Those are invalid for anything except "use"
+				if ( c.getItem() == null )
+				{
+					continue;
+				}
+
 				int consumpt = ItemDatabase.getConsumptionType( c.getItemId() );
+
+				// Skip consumption helpers; we cannot binge a
+				// familiar with them and we don't "create" them
 				if ( consumpt == KoLConstants.CONSUME_FOOD_HELPER ||
 				     consumpt == KoLConstants.CONSUME_DRINK_HELPER )
 				{
 					continue;
 				}
+
+				// Certain items are virtual consumption
+				// helpers, but are "used" first. Skip if
+				// bingeing familiar.
+				if ( ( consumptionType == KoLConstants.CONSUME_GHOST && consumpt != KoLConstants.CONSUME_EAT ) ||
+				     ( consumptionType == KoLConstants.CONSUME_HOBO && consumpt != KoLConstants.CONSUME_DRINK ) )
+				{
+					continue;
+				}
+
+				// Retrieve the desired items, creating if necessary
 				AdventureResult toConsume = c.getItem().getInstance( quantity );
 				InventoryManager.retrieveItem( toConsume );
 
-				if ( consumptionType == KoLConstants.CONSUME_GHOST || consumptionType == KoLConstants.CONSUME_HOBO )
+				if ( consumptionType != KoLConstants.CONSUME_GHOST &&
+				     consumptionType != KoLConstants.CONSUME_HOBO )
 				{
-					RequestThread.postRequest( UseItemRequest.getInstance( consumptionType, toConsume ) );
+					continue;
 				}
+
+				// Binge the familiar!
+				RequestThread.postRequest( UseItemRequest.getInstance( consumptionType, toConsume ) );
 
 				continue;
 			}
 
 			ConcoctionDatabase.consumeItem( c, quantity );
+
+			// If consumption failed, put the item and
+			// remaining unprocessed items back on queue
+			if ( !KoLmafia.permitsContinue() )
+			{
+				// Push current item back on consumption queue
+				ConcoctionDatabase.push( c, quantity );
+
+				// Move items from unprocessed queue back to
+				// consumption queue
+				while ( !toProcess.isEmpty() )
+				{
+					// Pop unprocessed items and push back
+					// on appropriate consumption queue
+					currentItem = (Object []) toProcess.pop();
+					c = (Concoction) currentItem[ 0 ];
+					quantity = ( (Integer) currentItem[ 1 ] ).intValue();
+					ConcoctionDatabase.push( c, quantity );
+				}
+
+				// Done queuing items
+				KoLmafia.forceContinue();
+				ConcoctionDatabase.refreshConcoctions( true );
+				ConcoctionDatabase.getUsables().sort();
+				break;
+			}
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
