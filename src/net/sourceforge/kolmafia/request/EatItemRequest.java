@@ -216,6 +216,7 @@ public class EatItemRequest
 		{
 			if ( !this.allowFoodConsumption() )
 			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + this.itemUsed.getCount() + " " + this.itemUsed.getName() + "." );
 				return;
 			}
 

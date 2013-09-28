@@ -226,6 +226,7 @@ public class DrinkItemRequest
 		{
 			if ( !this.allowBoozeConsumption() )
 			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + this.itemUsed.getCount() + " " + this.itemUsed.getName() + "." );
 				return;
 			}
 

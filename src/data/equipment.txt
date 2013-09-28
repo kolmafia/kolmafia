@@ -2229,19 +2229,19 @@ Drunkula's cape	0	Mys: 250
 Great S-Cape	10	none
 Lord Flameface's cloak	0	Mys: 75
 Mayor Ghost's cloak	300	Mys: 250
-Misty Cape	0	Mox: 75
-Misty Cloak	0	Mus: 75
+Misty Cape	130	Mox: 75
+Misty Cloak	130	Mus: 75
 Misty Robe	130	Mys: 75
 Mr. Container	0	none
 Newbiesport&trade; backpack	0	Mys: 75
 Rain-Doh red wings	100	none
-T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	0	Mus: 85
+T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 anniversary pewter cape	10	none
 auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
 cod cape	0	Mox: 200
 ghost shawl	250	Mys: 200
-giant gym membership card	0	Mus: 75
+giant gym membership card	150	Mus: 75
 hemp backpack	0	Mys: 75
 makeshift cape	100	Mys: 75
 old SCUBA tank	0	Mys: 75
