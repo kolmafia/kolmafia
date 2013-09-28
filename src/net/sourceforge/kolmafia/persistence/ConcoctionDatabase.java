@@ -821,10 +821,20 @@ public class ConcoctionDatabase
 
 			ConcoctionDatabase.consumeItem( c, quantity );
 
-			// If consumption failed, put the item and
-			// remaining unprocessed items back on queue
 			if ( !KoLmafia.permitsContinue() )
 			{
+				// Consumption failed.
+
+				// If the "consumption queue" is not visible to
+				// the user, just quit now.
+				if ( !Preferences.getBoolean( "addCreationQueue" ) )
+				{
+					break;
+				}
+
+				// Otherwise, put the item and remaining
+				// unprocessed items back on queue
+
 				// Push current item back on consumption queue
 				ConcoctionDatabase.push( c, quantity );
 
