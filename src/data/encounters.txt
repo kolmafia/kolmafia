@@ -107,6 +107,7 @@ The Haunted Kitchen	SEMIRARE	Play Misty For Me
 The Haunted Library	SEMIRARE	Like the Sunglasses, But Less Comfortable
 The Haunted Pantry	SEMIRARE	The Pilsbury Doughjerk
 The Heap	SEMIRARE	Juicy!
+The Hidden Park	SEMIRARE	Two Sizes Too Small
 The Hidden Temple	SEMIRARE	Baa'baa'bu'ran
 The Limerick Dungeon	SEMIRARE	The Bleary-Eyed Cyclops
 The Mer-Kin Outpost	SEMIRARE	A Drawer of Chests

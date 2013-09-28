@@ -222,6 +222,7 @@ The Feeding Chamber	100	filthworm drone
 The Filthworm Queen's Chamber	100	queen filthworm
 The Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
 The Goatlet	100	dairy goat	drunk goat	sabre-toothed goat
+The Gourd!	100	tin can conspirator	goblin conspirator	spider conspirator	canned goblin conspirator	spider-goblin conspirator	tin spider conspirator	Fnord the Unspeakable: 0
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant: 0	The Large-Bellied Snitch: 0
 The Haiku Dungeon	90	amateur ninja	ancient insane monk	ferocious bugbear	gelatinous cube	Knob Goblin poseur
 The Hallowed Halls	100	sporto	wastoid	dweebie	motorhead
