@@ -261,8 +261,8 @@ public class UntinkerRequest
 		{
 			GenericRequest tinkVisit = new GenericRequest( "place.php" );
 			tinkVisit.addFormField( "whichplace", "forestvillage" );
-			tinkVisit.run();
-			tinkVisit.addFormField( "action", "screwquest" );
+			tinkVisit.addFormField( "preaction", "screwquest" );
+			tinkVisit.addFormField( "action", "fv_untinker_quest" );
 			tinkVisit.run();
 			GenericRequest knollVisit = new GenericRequest( "place.php" );
 			knollVisit.addFormField( "whichplace", "knoll_friendly" );
@@ -285,8 +285,8 @@ public class UntinkerRequest
 
 		GenericRequest tinkVisit = new GenericRequest( "place.php" );
 		tinkVisit.addFormField( "whichplace", "forestvillage" );
-		tinkVisit.run();
-		tinkVisit.addFormField( "action=screwquest" );
+		tinkVisit.addFormField( "preaction", "screwquest" );
+		tinkVisit.addFormField( "action", "fv_untinker_quest" );
 		tinkVisit.run();
 
 		KoLAdventure sideTripLocation = AdventureDatabase.getAdventureByURL( "adventure.php?snarfblat=354" );
@@ -329,7 +329,7 @@ public class UntinkerRequest
 	{
 		// We decorate simple visits to the untinker and also
 		// accepting his quest
-		if ( !urlString.contains( "action=screwquest" ) && !urlString.contains( "action=fv_untinker" ) )
+		if ( !urlString.contains( "action=fv_untinker" ) )
 		{
 			return;
 		}
@@ -353,8 +353,8 @@ public class UntinkerRequest
 			link = "<font size=1>[<a href=\"place.php?whichplace=knoll_friendly&action=dk_innabox\">visit Innabox</a>]</font>";
 		}
 		else
-			link = "<font size=1>[<a href=\"adventure.php?snarfblat=18\">Degrassi Knoll</a>]</font>";
 		{
+			link = "<font size=1>[<a href=\"adventure.php?snarfblat=18\">Degrassi Knoll</a>]</font>";
 		}
 
 		buffer.insert( index + test.length(), link );
@@ -370,26 +370,24 @@ public class UntinkerRequest
 		}
 
 		String message;
-		if ( urlString.contains( "action=fv_untinker" ) )
-		{
-			Matcher matcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
-			if ( !matcher.find() )
-			{
-				return true;
-			}
-
-			String name = ItemDatabase.getItemName( StringUtilities.parseInt( matcher.group( 1 ) ) );
-			message = "untinker " + ( urlString.indexOf( "untinkerall=on" ) != -1 ? "*" : "1" ) + " " + name;
-		}
-		else if ( urlString.contains( "action=screwquest" ) )
+		if ( urlString.contains( "preaction=screwquest" ) )
 		{
 			message = "Accepting quest to find the Untinker's screwdriver";
 		}
 		else if ( urlString.contains( "action=fv_untinker" ) )
 		{
-			RequestLogger.printLine( "" );
-			RequestLogger.updateSessionLog();
-			message = "Visiting the Untinker";
+			Matcher matcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
+			if ( !matcher.find() )
+			{
+				RequestLogger.printLine( "" );
+				RequestLogger.updateSessionLog();
+				message = "Visiting the Untinker";
+			}
+			else
+			{
+				String name = ItemDatabase.getItemName( StringUtilities.parseInt( matcher.group( 1 ) ) );
+				message = "untinker " + ( urlString.indexOf( "untinkerall=on" ) != -1 ? "*" : "1" ) + " " + name;
+			}
 		}
 		else
 		{
