@@ -556,11 +556,11 @@ public class SushiRequest
 		{
 			KoLmafia.updateDisplay( "Creating/consuming " + this.getName() + " (" + i + " of " + this.getQuantityNeeded() + ")..." );
 			super.run();
-			SushiRequest.parseConsumption( this.getURLString(), this.responseText );
+			SushiRequest.parseConsumption( this.getURLString(), this.responseText, false );
 		}
 	}
 
-	public static void parseConsumption( final String location, final String responseText )
+	public static void parseConsumption( final String location, final String responseText, final boolean updateFullness )
 	{
 		if ( !location.startsWith( "sushi.php" ) )
 		{
@@ -588,11 +588,14 @@ public class SushiRequest
 			ResultProcessor.processResult( ingredient.getInstance( -1 * ingredient.getCount() ) );
 		}
 
-		int fullness = ItemDatabase.getFullness( name );
-		if ( fullness > 0 && !responseText.contains( "Fullness" ) ) // ResultProcessor will handle fullness gain if fullness display is enabled
+		if ( updateFullness )
 		{
-			Preferences.increment( "currentFullness", fullness );
-			KoLCharacter.updateStatus();
+			int fullness = ItemDatabase.getFullness( name );
+			if ( fullness > 0 && !responseText.contains( "Fullness" ) ) // ResultProcessor will handle fullness gain if fullness display is enabled
+			{
+				Preferences.increment( "currentFullness", fullness );
+				KoLCharacter.updateStatus();
+			}
 		}
 
 		// Eating it off of a fancy doily makes it even <i>more</i> delicious!

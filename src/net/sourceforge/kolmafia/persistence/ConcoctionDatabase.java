@@ -859,6 +859,9 @@ public class ConcoctionDatabase
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
+
+		// Refresh again now that ingredients have been deducted
+		ConcoctionDatabase.refreshConcoctions( true );
 	}
 
 	private static final void consumeItem( Concoction c, int quantity )

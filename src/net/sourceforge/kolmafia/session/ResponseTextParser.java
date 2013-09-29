@@ -724,7 +724,7 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "sushi.php" ) )
 		{
-			SushiRequest.parseConsumption( location, responseText );
+			SushiRequest.parseConsumption( location, responseText, true );
 		}
 
 		else if ( location.startsWith( "tavern.php" ) )
