@@ -2490,9 +2490,6 @@ public abstract class ChoiceManager
 		// Choice 615 is unknown
 
 		// Choice 616 is He Is the Arm, and He Sounds Like This
-		new Object[]{ IntegerPool.get(616), IntegerPool.get(1),
-		  ItemPool.get( ItemPool.JAR_OF_OIL, -1 ) },
-
 		// Choice 617 is Now It's Dark
 		// Choice 618 is Cabin Fever
 		// Choice 619 is To Meet a Gourd
@@ -5792,6 +5789,7 @@ public abstract class ChoiceManager
 				int prefval = Preferences.getInteger( "twinPeakProgress" );
 				prefval |= 4;
 				Preferences.setInteger( "twinPeakProgress", prefval );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.JAR_OF_OIL, -1 ) );
 			}
 			return;
 
