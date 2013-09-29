@@ -635,7 +635,7 @@ public class ResponseTextParser
 			{
 				RabbitHoleRequest.parseResponse( location, responseText );
 			}
-			else if ( location.contains( "whichplace=forestvillage&action=fv_untinker" ) )
+			else if ( location.contains( "whichplace=forestvillage" ) && location.contains( "action=fv_untinker" ) )
 			{
 				UntinkerRequest.parseResponse( location, responseText );
 			}
