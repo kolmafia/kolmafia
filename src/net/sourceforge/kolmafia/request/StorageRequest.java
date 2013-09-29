@@ -79,15 +79,70 @@ public class StorageRequest
 
 	public static void refresh()
 	{
-		// Clear our current idea of storage
-		KoLConstants.storage.clear();
-		KoLConstants.freepulls.clear();
-
-		// To refresh storage, we get meat and pulls from the main page
+		// To refresh storage, we get Meat and pulls from the main page
 		// and items from api.php
 
 		RequestThread.postRequest( new StorageRequest( REFRESH ) );
 		RequestThread.postRequest( new ApiRequest( "storage" ) );
+	}
+
+	public static final void parseStorage( final JSONObject JSON )
+	{
+		if ( JSON == null )
+		{
+			return;
+		}
+
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> freepulls = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> nopulls = new ArrayList<AdventureResult>();
+
+		try
+		{
+			// {"1":"1","2":"1" ... }
+			Iterator< ? > keys = JSON.keys();
+
+			while ( keys.hasNext() )
+			{
+				String key = (String) keys.next();
+				int itemId = StringUtilities.parseInt( key );
+				int count = JSON.getInt( key );
+				String name = ItemDatabase.getItemDataName( itemId );
+				if ( name == null )
+				{
+					// Fetch descid from api.php?what=item
+					// and register new item.
+					ItemDatabase.registerItem( itemId );
+				}
+
+				AdventureResult item = new AdventureResult( itemId, count );
+				ArrayList list =
+					KoLCharacter.canInteract() ? items :
+					StorageRequest.isFreePull( item ) ? freepulls :
+					StorageRequest.isNoPull( item ) ? nopulls :
+					items;
+				list.add( item );
+			}
+		}
+		catch ( JSONException e )
+		{
+			ApiRequest.reportParseError( "storage", JSON.toString(), e );
+			return;
+		}
+
+		KoLConstants.storage.clear();
+		KoLConstants.storage.addAll( items );
+
+		KoLConstants.freepulls.clear();
+		KoLConstants.freepulls.addAll( freepulls );
+
+		KoLConstants.nopulls.clear();
+		KoLConstants.nopulls.addAll( nopulls );
+
+		if ( Preferences.getBoolean( "autoSatisfyWithStorage" ) )
+		{
+			ConcoctionDatabase.refreshConcoctions( true );
+		}
 	}
 
 	public StorageRequest()
@@ -331,54 +386,6 @@ public class StorageRequest
 	public static boolean isNoPull( final AdventureResult item )
 	{
 		return Modifiers.getBooleanModifier( item.getName(), "No Pull" );
-	}
-
-	private static List itemList( final AdventureResult item )
-	{
-		return	KoLCharacter.canInteract() ? KoLConstants.storage :
-			StorageRequest.isFreePull( item ) ? KoLConstants.freepulls :
-			StorageRequest.isNoPull( item ) ? KoLConstants.nopulls :
-			KoLConstants.storage;
-	}
-
-	private static void addStorageItem( AdventureResult item )
-	{
-		List list = StorageRequest.itemList( item );
-		int count = item.getCount();
-		int storageCount = item.getCount( list );
-
-		// Add the difference between your existing count
-		// and the original count.
-
-		if ( storageCount != count )
-		{
-			item = item.getInstance( count - storageCount );
-			AdventureResult.addResultToList( list, item );
-		}
-	}
-
-	public static final void parseStorage( final JSONObject JSON )
-		throws JSONException
-	{
-		// {"1":"1","2":"1" ... }
-		Iterator< ? > keys = JSON.keys();
-
-		while ( keys.hasNext() )
-		{
-			String key = (String) keys.next();
-			int itemId = StringUtilities.parseInt( key );
-			int count = JSON.getInt( key );
-			String name = ItemDatabase.getItemDataName( itemId );
-			if ( name == null )
-			{
-				// Fetch descid from api.php?what=item
-				// and register new item.
-				ItemDatabase.registerItem( itemId );
-			}
-
-			AdventureResult item = new AdventureResult( itemId, count );
-			StorageRequest.addStorageItem( item );
-		}
 	}
 
 	@Override
