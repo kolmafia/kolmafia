@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.moods.MoodTrigger;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.CountedConcoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -263,6 +264,10 @@ public class ShowDescriptionList
 		{
 			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (Concoction) item ).getName() ) );
 		}
+		else if ( item instanceof CountedConcoction )
+		{
+			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (CountedConcoction) item ).getName() ) );
+		}
 		else if ( item instanceof CreateItemRequest )
 		{
 			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (CreateItemRequest) item ).getItemId() ) );
@@ -320,6 +325,11 @@ public class ShowDescriptionList
 		else if ( item instanceof Concoction )
 		{
 			name = ( (Concoction) item ).getName();
+			isItem = true;
+		}
+		else if ( item instanceof CountedConcoction )
+		{
+			name = ( (CountedConcoction) item ).getName();
 			isItem = true;
 		}
 		else if ( item instanceof CreateItemRequest )

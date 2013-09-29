@@ -68,7 +68,7 @@ public class UseItemDequeuePanel
 
 	public UseItemDequeuePanel( final boolean food, final boolean booze, final boolean spleen )
 	{
-		super( ConcoctionDatabase.getUsables(), false, false );
+		super( ConcoctionDatabase.getQueue( food, booze, spleen ), false, false );
 		// Remove the default borders inherited from ScrollablePanel.
 		BorderLayout a = (BorderLayout) this.actualPanel.getLayout();
 		a.setVgap( 0 );
@@ -125,7 +125,7 @@ public class UseItemDequeuePanel
 	@Override
 	public AutoFilterTextField getWordFilter()
 	{
-		return new ConsumableFilterField();
+		return new FilterItemField();
 	}
 
 	private class ConsumeListener
@@ -212,71 +212,6 @@ public class UseItemDequeuePanel
 					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
 			ConcoctionDatabase.getUsables().sort();
-		}
-	}
-
-	private class ConsumableFilterField
-		extends FilterItemField
-	{
-		@Override
-		public boolean isVisible( final Object element )
-		{
-			Concoction creation = (Concoction) element;
-
-			if ( creation.getQueued() == 0 )
-			{
-				return false;
-			}
-
-			if ( ItemDatabase.getFullness( creation.getName() ) > 0 )
-			{
-				return UseItemDequeuePanel.this.food && super.isVisible( element );
-			}
-
-			if ( ItemDatabase.getInebriety( creation.getName() ) > 0 )
-			{
-				return UseItemDequeuePanel.this.booze && super.isVisible( element );
-			}
-
-			if ( ItemDatabase.getSpleenHit( creation.getName() ) > 0 )
-			{
-				return UseItemDequeuePanel.this.spleen && super.isVisible( element );
-			}
-
-			switch ( ItemDatabase.getConsumptionType( creation.getName() ) )
-			{
-			case KoLConstants.CONSUME_FOOD_HELPER:
-				if ( UseItemDequeuePanel.this.food )
-				{
-					return true;
-				}
-				break;
-
-			case KoLConstants.CONSUME_DRINK_HELPER:
-				if ( UseItemDequeuePanel.this.booze )
-				{
-					return true;
-				}
-				break;
-
-			case KoLConstants.CONSUME_MULTIPLE:
-				if ( UseItemDequeuePanel.this.food &&
-				     creation.getItemId() == ItemPool.MUNCHIES_PILL )
-				{
-					return true;
-				}
-				break;
-
-			case KoLConstants.CONSUME_USE:
-				if ( UseItemDequeuePanel.this.food &&
-				     creation.getItemId() == ItemPool.DISTENTION_PILL )
-				{
-					return true;
-				}
-				break;
-			}
-
-			return false;
 		}
 	}
 }

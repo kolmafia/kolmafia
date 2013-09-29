@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.CountedConcoction;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -216,6 +217,10 @@ public class AutoFilterTextField
 		if ( element instanceof Concoction )
 		{
 			return ( (Concoction) element ).getName().toLowerCase();
+		}
+		if ( element instanceof CountedConcoction )
+		{
+			return ( (CountedConcoction) element ).getName().toLowerCase();
 		}
 		if ( element instanceof SoldItem )
 		{
