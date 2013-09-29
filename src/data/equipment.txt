@@ -1567,11 +1567,11 @@ Emblem of Ak'gyxoth	0	Mys: 30
 French slippers	10	none
 Frosty's carrot	200	Mus: 200
 Frown Exerciser	10	Mys: 30
-Fuzzy Slippers of Hatred	0	Mox: 125
+Fuzzy Slippers of Hatred	200	Mox: 125
 Gaia beads	175	Mys: 72
 Garter of the Turtle Poacher	150	Mus: 45
 Gauntlets of the Blood Moon	120	none
-Girdle of Hatred	0	Mus: 125
+Girdle of Hatred	200	Mus: 125
 Golden Mr. Accessory	0	none
 Gravyskin Belt of the Sauceblob	150	Mys: 45
 Green Clover of Justice	200	Mys: 85
@@ -2223,9 +2223,9 @@ yellow glowstick	20	none
 # Containers section of equipment.txt
 
 Camp Scout backpack	0	none
-Cloak of Dire Shadows	0	none
+Cloak of Dire Shadows	120	none
 Drapes-You-Regally	300	Mox: 250
-Drunkula's cape	0	Mys: 250
+Drunkula's cape	300	Mys: 250
 Great S-Cape	10	none
 Lord Flameface's cloak	0	Mys: 75
 Mayor Ghost's cloak	300	Mys: 250
@@ -2239,7 +2239,7 @@ T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 anniversary pewter cape	10	none
 auxiliary backbone	0	Mus: 75
 barskin cloak	25	Mys: 75
-cod cape	0	Mox: 200
+cod cape	225	Mox: 200
 ghost shawl	250	Mys: 200
 giant gym membership card	150	Mus: 75
 hemp backpack	0	Mys: 75
