@@ -110,17 +110,14 @@ public class ConcoctionDatabase
 
 	private static int queuedFullness = 0;
 	public static final LockableListModel queuedFood = new LockableListModel();
-	private static final Stack queuedFoodChanges = new Stack();
 	private static final SortedListModel queuedFoodIngredients = new SortedListModel();
 
 	private static int queuedInebriety = 0;
 	public static final LockableListModel queuedBooze = new LockableListModel();
-	private static final Stack queuedBoozeChanges = new Stack();
 	private static final SortedListModel queuedBoozeIngredients = new SortedListModel();
 
 	private static int queuedSpleenHit = 0;
 	public static final LockableListModel queuedSpleen = new LockableListModel();
-	private static final Stack queuedSpleenChanges = new Stack();
 	private static final SortedListModel queuedSpleenIngredients = new SortedListModel();
 
 	public static final Concoction stillsLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
@@ -154,18 +151,18 @@ public class ConcoctionDatabase
 
 	public static final void resetQueue()
 	{
-		Stack queuedChanges = ConcoctionDatabase.queuedFoodChanges;
-		while ( !queuedChanges.empty() )
+		LockableListModel queue = ConcoctionDatabase.queuedFood;
+		while ( queue.size() > 0 )
 		{
 			ConcoctionDatabase.pop( true, false, false );
 		}
-		queuedChanges = ConcoctionDatabase.queuedBoozeChanges;
-		while ( !queuedChanges.empty() )
+		queue = ConcoctionDatabase.queuedBooze;
+		while ( queue.size() > 0 )
 		{
 			ConcoctionDatabase.pop( false, true, false );
 		}
-		queuedChanges = ConcoctionDatabase.queuedSpleenChanges;
-		while ( !queuedChanges.empty() )
+		queue = ConcoctionDatabase.queuedSpleen;
+		while ( queue.size() > 0 )
 		{
 			ConcoctionDatabase.pop( false, false, true );
 		}
@@ -539,8 +536,8 @@ public class ConcoctionDatabase
 	public static final void push( final Concoction c, final int quantity )
 	{
 		LockableListModel queue;
-		Stack queuedChanges;
 		LockableListModel queuedIngredients;
+
 		int id = c.getItemId();
 		int consumpt = ItemDatabase.getConsumptionType( id );
 
@@ -548,110 +545,98 @@ public class ConcoctionDatabase
 		     id == ItemPool.MUNCHIES_PILL || id == ItemPool.DISTENTION_PILL )
 		{
 			queue = ConcoctionDatabase.queuedFood;
-			queuedChanges = ConcoctionDatabase.queuedFoodChanges;
 			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
 			ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
 		}
 		else if ( c.getInebriety() > 0 || consumpt == KoLConstants.CONSUME_DRINK_HELPER )
 		{
 			queue = ConcoctionDatabase.queuedBooze;
-			queuedChanges = ConcoctionDatabase.queuedBoozeChanges;
 			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;
 			ConcoctionDatabase.queuedInebriety += c.getInebriety() * quantity;
 		}
 		else
 		{
 			queue = ConcoctionDatabase.queuedSpleen;
-			queuedChanges = ConcoctionDatabase.queuedSpleenChanges;
 			queuedIngredients = ConcoctionDatabase.queuedSpleenIngredients;
 			ConcoctionDatabase.queuedSpleenHit += c.getSpleenHit() * quantity;
 		}
 
-		int adventureChange = ConcoctionDatabase.queuedAdventuresUsed;
-		int freeCraftChange = ConcoctionDatabase.queuedFreeCraftingTurns;
-		int stillChange = ConcoctionDatabase.queuedStillsUsed;
-		int tomeChange = ConcoctionDatabase.queuedTomesUsed;
-		int pullChange = ConcoctionDatabase.queuedPullsUsed;
-		int meatChange = ConcoctionDatabase.queuedMeatSpent;
+		// Get current values of things that a concoction can consume
+		int meat = ConcoctionDatabase.queuedMeatSpent;
+		int pulls = ConcoctionDatabase.queuedPullsUsed;
+		int tome = ConcoctionDatabase.queuedTomesUsed;
+		int stills = ConcoctionDatabase.queuedStillsUsed;
+		int free = ConcoctionDatabase.queuedFreeCraftingTurns;
+		int advs = ConcoctionDatabase.queuedAdventuresUsed;
 
-		ArrayList ingredientChange = new ArrayList();
-		c.queue( queuedIngredients, ingredientChange, quantity );
+		// Queue the ingredients used by this concoction
+		ArrayList ingredients = new ArrayList();
+		c.queue( queuedIngredients, ingredients, quantity );
 
-		adventureChange = ConcoctionDatabase.queuedAdventuresUsed - adventureChange;
-		if ( adventureChange != 0 )
+		// Adjust lists to account for what just changed
+		meat = ConcoctionDatabase.queuedMeatSpent - meat;
+		if ( meat != 0 )
 		{
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.ADV, adventureChange ) );
+				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, meat ) );
+		}
+
+		pulls = ConcoctionDatabase.queuedPullsUsed - pulls;
+		if ( pulls != 0 )
+		{
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.PULL, pulls ) );
+		}
+
+		tome = ConcoctionDatabase.queuedTomesUsed - tome;
+		if ( tome != 0 )
+		{
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.TOME, tome ) );
+		}
+
+		stills = ConcoctionDatabase.queuedStillsUsed - stills;
+		if ( stills != 0 )
+		{
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.STILL, stills ) );
+		}
+
+		advs = ConcoctionDatabase.queuedAdventuresUsed - advs;
+		if ( advs != 0 )
+		{
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.ADV, advs ) );
 		}
 		
-		freeCraftChange = ConcoctionDatabase.queuedFreeCraftingTurns - freeCraftChange;
-		if ( freeCraftChange != 0 )
+		free = ConcoctionDatabase.queuedFreeCraftingTurns - free;
+		if ( free != 0 )
 		{
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, freeCraftChange ) );
+				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, free ) );
 		}
 
-		stillChange = ConcoctionDatabase.queuedStillsUsed - stillChange;
-		if ( stillChange != 0 )
-		{
-			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.STILL, stillChange ) );
-		}
-
-		tomeChange = ConcoctionDatabase.queuedTomesUsed - tomeChange;
-		if ( tomeChange != 0 )
-		{
-			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.TOME, tomeChange ) );
-		}
-
-		pullChange = ConcoctionDatabase.queuedPullsUsed - pullChange;
-		if ( pullChange != 0 )
-		{
-			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.PULL, pullChange ) );
-		}
-
-		meatChange = ConcoctionDatabase.queuedMeatSpent - meatChange;
-		if ( meatChange != 0 )
-		{
-			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, meatChange ) );
-		}
-
-		queuedChanges.push( IntegerPool.get( meatChange ) );
-		queuedChanges.push( IntegerPool.get( pullChange ) );
-		queuedChanges.push( IntegerPool.get( tomeChange ) );
-		queuedChanges.push( IntegerPool.get( stillChange ) );
-		queuedChanges.push( IntegerPool.get( adventureChange ) );
-		queuedChanges.push( IntegerPool.get( freeCraftChange ) );
-		queuedChanges.push( ingredientChange );
-
-		queue.add( new CountedConcoction( c, quantity ) );
+		queue.add( new QueuedConcoction( c, quantity, ingredients, meat, pulls, tome, stills, advs, free ) );
 	}
 
-	public static final CountedConcoction pop( boolean food, boolean booze, boolean spleen )
+	public static final QueuedConcoction pop( boolean food, boolean booze, boolean spleen )
 	{
 		LockableListModel queue;
-		Stack queuedChanges;
 		LockableListModel queuedIngredients;
 
 		if ( food )
 		{
 			queue = ConcoctionDatabase.queuedFood;
-			queuedChanges = ConcoctionDatabase.queuedFoodChanges;
 			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
 		}
 		else if ( booze )
 		{
 			queue = ConcoctionDatabase.queuedBooze;
-			queuedChanges = ConcoctionDatabase.queuedBoozeChanges;
 			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;
 		}
 		else if ( spleen )
 		{
 			queue = ConcoctionDatabase.queuedSpleen;
-			queuedChanges = ConcoctionDatabase.queuedSpleenChanges;
 			queuedIngredients = ConcoctionDatabase.queuedSpleenIngredients;
 		}
 		else
@@ -664,67 +649,23 @@ public class ConcoctionDatabase
 			return null;
 		}
 
-		CountedConcoction cc = (CountedConcoction)queue.remove( queue.size() - 1 );
-		Concoction c = cc.getConcoction();
-		int quantity = cc.getCount();
-		ArrayList ingredientChange = (ArrayList) queuedChanges.pop();
-
-		Integer freeCraftChange = (Integer) queuedChanges.pop();
-		Integer adventureChange = (Integer) queuedChanges.pop();
-		Integer stillChange = (Integer) queuedChanges.pop();
-		Integer tomeChange = (Integer) queuedChanges.pop();
-		Integer pullChange = (Integer) queuedChanges.pop();
-		Integer meatChange = (Integer) queuedChanges.pop();
+		QueuedConcoction qc = (QueuedConcoction)queue.remove( queue.size() - 1 );
+		Concoction c = qc.getConcoction();
+		int quantity = qc.getCount();
 
 		c.queued -= quantity;
-		c.queuedPulls -= pullChange.intValue();
-		for ( int i = 0; i < ingredientChange.size(); ++i )
+		ConcoctionDatabase.queuedFullness -= c.getFullness() * quantity;
+		ConcoctionDatabase.queuedInebriety -= c.getInebriety() * quantity;
+		ConcoctionDatabase.queuedSpleenHit -= c.getSpleenHit() * quantity;
+
+		ArrayList ingredients = qc.getIngredients();
+		for ( int i = 0; i < ingredients.size(); ++i )
 		{
 			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, ( (AdventureResult) ingredientChange.get( i ) ).getNegation() );
-		}
-		
-		int free = freeCraftChange.intValue();
-		if ( free != 0 )
-		{
-			ConcoctionDatabase.queuedFreeCraftingTurns -= free;
-			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, -free ) );
+				queuedIngredients, ( (AdventureResult) ingredients.get( i ) ).getNegation() );
 		}
 
-		int advs = adventureChange.intValue();
-		if ( advs != 0 )
-		{
-			ConcoctionDatabase.queuedAdventuresUsed -= advs;
-			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.ADV, -advs ) );
-		}
-
-		int stills = stillChange.intValue();
-		if ( stills != 0 )
-		{
-			ConcoctionDatabase.queuedStillsUsed -= stills;
-			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.STILL, -stills ) );
-		}
-
-		int tome = tomeChange.intValue();
-		if ( tome != 0 )
-		{
-			ConcoctionDatabase.queuedTomesUsed -= tome;
-			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.TOME, -tome ) );
-		}
-
-		int pulls = pullChange.intValue();
-		if ( pulls != 0 )
-		{
-			ConcoctionDatabase.queuedPullsUsed -= pulls;
-			AdventureResult.addOrRemoveResultToList(
-				queuedIngredients, new AdventureResult( AdventureResult.PULL, -pulls ) );
-		}
-
-		int meat = meatChange.intValue();
+		int meat = qc.getMeat();
 		if ( meat != 0 )
 		{
 			ConcoctionDatabase.queuedMeatSpent -= meat;
@@ -732,11 +673,48 @@ public class ConcoctionDatabase
 				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, -meat ) );
 		}
 
-		ConcoctionDatabase.queuedFullness -= c.getFullness() * quantity;
-		ConcoctionDatabase.queuedInebriety -= c.getInebriety() * quantity;
-		ConcoctionDatabase.queuedSpleenHit -= c.getSpleenHit() * quantity;
+		int pulls = qc.getPulls();
+		if ( pulls != 0 )
+		{
+			c.queuedPulls -= pulls;
+			ConcoctionDatabase.queuedPullsUsed -= pulls;
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.PULL, -pulls ) );
+		}
 
-		return cc;
+		int tome = qc.getTomes();
+		if ( tome != 0 )
+		{
+			ConcoctionDatabase.queuedTomesUsed -= tome;
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.TOME, -tome ) );
+		}
+
+		int stills = qc.getStills();
+		if ( stills != 0 )
+		{
+			ConcoctionDatabase.queuedStillsUsed -= stills;
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.STILL, -stills ) );
+		}
+
+		int advs = qc.getAdventures();
+		if ( advs != 0 )
+		{
+			ConcoctionDatabase.queuedAdventuresUsed -= advs;
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.ADV, -advs ) );
+		}
+
+		int free = qc.getFreeCrafts();
+		if ( free != 0 )
+		{
+			ConcoctionDatabase.queuedFreeCraftingTurns -= free;
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, -free ) );
+		}
+
+		return qc;
 	}
 
 	public static final void addUsableConcoction( final Concoction c )
@@ -772,8 +750,8 @@ public class ConcoctionDatabase
 		// KoLConstants.CONSUME_GHOST - binge ghost with food
 		// KoLConstants.CONSUME_HOBO - binge hobo with booze
 
-		CountedConcoction currentItem;
-		Stack<CountedConcoction> toProcess = new Stack<CountedConcoction>();
+		QueuedConcoction currentItem;
+		Stack<QueuedConcoction> toProcess = new Stack<QueuedConcoction>();
 
 		while ( ( currentItem = ConcoctionDatabase.pop( food, booze, spleen ) ) != null )
 		{
@@ -2884,15 +2862,31 @@ public class ConcoctionDatabase
 		}
 	}
 
-	public static class CountedConcoction
+	public static class QueuedConcoction
 	{
 		private final Concoction concoction;
 		private final int count;
+		private final ArrayList ingredients;
+		private final int meat;
+		private final int pulls;
+		private final int tomes;
+		private final int stills;
+		private final int adventures;
+		private final int freeCrafts;
 
-		public CountedConcoction( final Concoction c, final int count )
+		public QueuedConcoction( final Concoction c, final int count, final ArrayList ingredients,
+					 final int meat, final int pulls, final int tomes, final int stills,
+					 final int adventures, final int freeCrafts )
 		{
 			this.concoction = c;
 			this.count = count;
+			this.ingredients = ingredients;
+			this.meat = meat;
+			this.pulls = pulls;
+			this.tomes = tomes;
+			this.stills = stills;
+			this.adventures = adventures;
+			this.freeCrafts = freeCrafts;
 		}
 
 		public Concoction getConcoction()
@@ -2903,6 +2897,41 @@ public class ConcoctionDatabase
 		public int getCount()
 		{
 			return this.count;
+		}
+
+		public ArrayList getIngredients()
+		{
+			return this.ingredients;
+		}
+
+		public int getMeat()
+		{
+			return this.meat;
+		}
+
+		public int getPulls()
+		{
+			return this.pulls;
+		}
+
+		public int getTomes()
+		{
+			return this.tomes;
+		}
+
+		public int getStills()
+		{
+			return this.stills;
+		}
+
+		public int getAdventures()
+		{
+			return this.adventures;
+		}
+
+		public int getFreeCrafts()
+		{
+			return this.freeCrafts;
 		}
 
 		public String getName()
@@ -2920,9 +2949,9 @@ public class ConcoctionDatabase
 		public boolean equals( final Object o )
 		{
 			return	o != null &&
-				o instanceof CountedConcoction &&
-				this.concoction.equals( ( (CountedConcoction) o ).concoction ) &&
-				this.count == ( (CountedConcoction) o ).count;
+				o instanceof QueuedConcoction &&
+				this.concoction.equals( ( (QueuedConcoction) o ).concoction ) &&
+				this.count == ( (QueuedConcoction) o ).count;
 		}
 	}
 }
