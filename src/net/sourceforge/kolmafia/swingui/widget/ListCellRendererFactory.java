@@ -50,7 +50,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.CountedConcoction;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -118,9 +118,9 @@ public class ListCellRendererFactory
 					list.getWidth(), isSelected );
 			}
 
-			if ( value instanceof CountedConcoction )
+			if ( value instanceof QueuedConcoction )
 			{
-				return this.getRenderer( defaultComponent, (CountedConcoction) value,
+				return this.getRenderer( defaultComponent, (QueuedConcoction) value,
 					list.getWidth(), isSelected );
 			}
 
@@ -286,7 +286,7 @@ public class ListCellRendererFactory
 			return defaultComponent;
 		}
 
-		public Component getRenderer( final Component defaultComponent, final CountedConcoction item,
+		public Component getRenderer( final Component defaultComponent, final QueuedConcoction item,
 					      final int listWidth, final boolean isSelected )
 		{
 			return this.getRenderer( defaultComponent, item.getConcoction(), listWidth, isSelected, item.getCount() );
