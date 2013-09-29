@@ -47,7 +47,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -68,14 +71,56 @@ public class ClosetRequest
 
 	public static void refresh()
 	{
-		// Clear our current idea of the closet
-		KoLConstants.closet.clear();
-
-		// To refresh closet, we get meat from any page
+		// To refresh closet, we get Meat from any page
 		// and items from api.php
 
 		RequestThread.postRequest( new ClosetRequest( REFRESH ) );
 		RequestThread.postRequest( new ApiRequest( "closet" ) );
+	}
+
+	public static final void parseCloset( final JSONObject JSON )
+	{
+		if ( JSON == null )
+		{
+			return;
+		}
+
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+
+		try
+		{
+			// {"1":"1","2":"1" ... }
+			Iterator< ? > keys = JSON.keys();
+
+			while ( keys.hasNext() )
+			{
+				String key = (String) keys.next();
+				int itemId = StringUtilities.parseInt( key );
+				int count = JSON.getInt( key );
+				String name = ItemDatabase.getItemDataName( itemId );
+				if ( name == null )
+				{
+					// Fetch descid from api.php?what=item
+					// and register new item.
+					ItemDatabase.registerItem( itemId );
+				}
+
+				items.add( new AdventureResult( itemId, count ) );
+
+			}
+		}
+		catch ( JSONException e )
+		{
+			ApiRequest.reportParseError( "closet", JSON.toString(), e );
+			return;
+		}
+
+		KoLConstants.closet.clear();
+		KoLConstants.closet.addAll( items );
+		if ( Preferences.getBoolean( "autoSatisfyWithCloset" ) )
+		{
+			ConcoctionDatabase.refreshConcoctions( true );
+		}
 	}
 
 	public ClosetRequest()
@@ -274,46 +319,6 @@ public class ClosetRequest
 			KoLCharacter.setClosetMeat( StringUtilities.parseInt( meatInCloset ) );
 		}
 
-	}
-
-	private static void addClosetItem( AdventureResult item )
-	{
-		List list = KoLConstants.closet;
-		int count = item.getCount();
-		int closetCount = item.getCount( list );
-
-		// Add the difference between your existing count
-		// and the original count.
-
-		if ( closetCount != count )
-		{
-			item = item.getInstance( count - closetCount );
-			AdventureResult.addResultToList( list, item );
-		}
-	}
-
-	public static final void parseCloset( final JSONObject JSON )
-		throws JSONException
-	{
-		// {"1":"1","2":"1" ... }
-		Iterator< ? > keys = JSON.keys();
-
-		while ( keys.hasNext() )
-		{
-			String key = (String) keys.next();
-			int itemId = StringUtilities.parseInt( key );
-			int count = JSON.getInt( key );
-			String name = ItemDatabase.getItemDataName( itemId );
-			if ( name == null )
-			{
-				// Fetch descid from api.php?what=item
-				// and register new item.
-				ItemDatabase.registerItem( itemId );
-			}
-
-			AdventureResult item = new AdventureResult( itemId, count );
-			ClosetRequest.addClosetItem( item );
-		}
 	}
 
 	public static final boolean parseTransfer( final String urlString, final String responseText )

@@ -291,18 +291,20 @@ public class ClanStashRequest
 		// Start with current stash contents
 		SortedListModel stashContents = ClanManager.getStash();
 
+		// Clear it
+		stashContents.clear();
+
 		// If there's nothing inside the goodies hoard, clear stash and return
 		Matcher stashMatcher = ClanStashRequest.LIST_PATTERN.matcher( responseText );
 		if ( !stashMatcher.find() )
 		{
-			stashContents.clear();
 			return;
 		}
 
-		Matcher matcher = ClanStashRequest.ITEM_PATTERN.matcher( stashMatcher.group() );
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 
+		Matcher matcher = ClanStashRequest.ITEM_PATTERN.matcher( stashMatcher.group() );
 		int lastFindIndex = 0;
-		ArrayList<AdventureResult> intermediateList = new ArrayList<AdventureResult>();
 
 		while ( matcher.find( lastFindIndex ) )
 		{
@@ -325,31 +327,11 @@ public class ClanStashRequest
 				ItemDatabase.registerItem( itemId, itemString, descId );
 			}
 
-			intermediateList.add( new AdventureResult( itemId, quantity ) );
+			items.add( new AdventureResult( itemId, quantity ) );
 		}
 
-		// Remove everything that is no longer in the
-		// clan stash, and THEN update the quantities
-		// of items which are still there.
-
-		int currentCount;
-		AdventureResult currentResult;
-		stashContents.retainAll( intermediateList );
-
-		for ( int i = 0; i < intermediateList.size(); ++i )
-		{
-			currentResult = (AdventureResult) intermediateList.get( i );
-			currentCount = currentResult.getCount( stashContents );
-			if ( currentCount != currentResult.getCount() )
-			{
-				if ( currentCount > 0 )
-				{
-					stashContents.remove( currentResult );
-				}
-
-				stashContents.add( currentResult );
-			}
-		}
+		// Add everything en masse to the stash
+		stashContents.addAll( items );
 	}
 
 	@Override

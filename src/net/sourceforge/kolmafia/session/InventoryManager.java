@@ -112,16 +112,49 @@ public abstract class InventoryManager
 
 	public static void refresh()
 	{
-		// Retrieve the contents of inventory
-		KoLmafia.setIsRefreshing( true );
-		InventoryManager.resetInventory();
-		ConcoctionDatabase.deferRefresh( true );
+		// Retrieve the contents of inventory via api.php
 		RequestThread.postRequest( new ApiRequest( "inventory" ) );
-		EquipmentManager.updateEquipmentLists();
-		ConcoctionDatabase.deferRefresh( false );
-		KoLmafia.setIsRefreshing( false );
+	}
 
-		// update "Hatter" daily deed
+	public static final void parseInventory( final JSONObject JSON )
+	{
+		if ( JSON == null )
+		{
+			return;
+		}
+
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+
+		try
+		{
+			// {"1":"1","2":"1" ... }
+			Iterator< ? > keys = JSON.keys();
+			while ( keys.hasNext() )
+			{
+				String key = (String) keys.next();
+				int itemId = StringUtilities.parseInt( key );
+				int count = JSON.getInt( key );
+				String name = ItemDatabase.getItemDataName( itemId );
+				if ( name == null )
+				{
+					// Fetch descid from api.php?what=item
+					// and register new item.
+					ItemDatabase.registerItem( itemId );
+				}
+
+				items.add( new AdventureResult( itemId, count ) );
+			}
+		}
+		catch ( JSONException e )
+		{
+			ApiRequest.reportParseError( "inventory", JSON.toString(), e );
+			return;
+		}
+
+		KoLConstants.inventory.clear();
+		KoLConstants.inventory.addAll( items );
+		EquipmentManager.updateEquipmentLists();
+		ConcoctionDatabase.refreshConcoctions( true );
 		PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 	}
 
@@ -1739,38 +1772,6 @@ public abstract class InventoryManager
 		public void set( final int index, final ArrayList<WeakReference<PreferenceListener>> value )
 		{
 			this.internalList.set( index, value );
-		}
-	}
-
-	public static final void parseInventory( final JSONObject JSON )
-		throws JSONException
-	{
-		// {"1":"1","2":"1" ... }
-		Iterator< ? > keys = JSON.keys();
-		while ( keys.hasNext() )
-		{
-			String key = (String) keys.next();
-			int itemId = StringUtilities.parseInt( key );
-			int count = JSON.getInt( key );
-			String name = ItemDatabase.getItemDataName( itemId );
-			if ( name == null )
-			{
-				// Fetch descid from api.php?what=item
-				// and register new item.
-				ItemDatabase.registerItem( itemId );
-			}
-
-			AdventureResult item = new AdventureResult( itemId, count );
-			int inventoryCount = item.getCount( KoLConstants.inventory );
-
-			// Add the difference between your existing count
-			// and the original count.
-
-			if ( inventoryCount != count )
-			{
-				item = item.getInstance( count - inventoryCount );
-				ResultProcessor.tallyResult( item, true );
-			}
 		}
 	}
 

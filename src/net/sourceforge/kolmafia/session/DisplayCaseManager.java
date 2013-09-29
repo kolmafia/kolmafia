@@ -220,6 +220,13 @@ public abstract class DisplayCaseManager
 	{
 		DisplayCaseManager.updateShelves( data );
 
+		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+		ArrayList [] shelves = new ArrayList[ DisplayCaseManager.shelves.size() ];
+		for ( int i = 0; i < shelves.length; ++i )
+		{
+			shelves[ i ] = new ArrayList<AdventureResult>();
+		}
+
 		Matcher optionMatcher = DisplayCaseManager.OPTION_PATTERN.matcher( data );
 		while ( optionMatcher.find() )
 		{
@@ -236,24 +243,24 @@ public abstract class DisplayCaseManager
 
 			String countString = optionMatcher.group( 2 );
 			int itemCount = countString == null ? 1 : StringUtilities.parseInt( countString );
+			AdventureResult item = new AdventureResult( itemId, itemCount );
 
 			int shelf = StringUtilities.parseInt( optionMatcher.group( 4 ) );
 
-			DisplayCaseManager.registerItem(
-				new AdventureResult( itemId, itemCount ),
-				shelf );
+			items.add( item );
+			shelves[ shelf ].add( item );
+		}
+
+		KoLConstants.collection.addAll( items );
+		for ( int i = 0; i < DisplayCaseManager.shelves.size(); ++i )
+		{
+			( (SortedListModel) DisplayCaseManager.shelves.get( i ) ).addAll( shelves[ i ] );
 		}
 
 		// Finally, we can account for Golden Mr. A's in your display case
 		InventoryManager.countGoldenMrAccesories();
 
 		DisplayCaseManager.collectionRetrieved = true;
-	}
-
-	private static final void registerItem( final AdventureResult item, final int shelf )
-	{
-		KoLConstants.collection.add( item );
-		( (SortedListModel) DisplayCaseManager.shelves.get( shelf ) ).add( item );
 	}
 
 	private static final void updateShelves( final String data )

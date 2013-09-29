@@ -376,68 +376,17 @@ public class ApiRequest
 
 	public static final void parseInventory( final String responseText )
 	{
-		ApiRequest.parseInventory( ApiRequest.getJSON( responseText, "inventory" ) );
-	}
-
-	private static final void parseInventory( final JSONObject JSON )
-	{
-		if ( JSON == null )
-		{
-			return;
-		}
-
-		try
-		{
-			InventoryManager.parseInventory( JSON );
-		}
-		catch ( JSONException e )
-		{
-			ApiRequest.reportParseError( "inventory", JSON.toString(), e );
-		}
+		InventoryManager.parseInventory( ApiRequest.getJSON( responseText, "inventory" ) );
 	}
 
 	public static final void parseCloset( final String responseText )
 	{
-		ApiRequest.parseCloset( ApiRequest.getJSON( responseText, "closet" ) );
-	}
-
-	private static final void parseCloset( final JSONObject JSON )
-	{
-		if ( JSON == null )
-		{
-			return;
-		}
-
-		try
-		{
-			ClosetRequest.parseCloset( JSON );
-		}
-		catch ( JSONException e )
-		{
-			ApiRequest.reportParseError( "closet", JSON.toString(), e );
-		}
+		ClosetRequest.parseCloset( ApiRequest.getJSON( responseText, "closet" ) );
 	}
 
 	public static final void parseStorage( final String responseText )
 	{
-		ApiRequest.parseStorage( ApiRequest.getJSON( responseText, "storage" ) );
-	}
-
-	private static final void parseStorage( final JSONObject JSON )
-	{
-		if ( JSON == null )
-		{
-			return;
-		}
-
-		try
-		{
-			StorageRequest.parseStorage( JSON );
-		}
-		catch ( JSONException e )
-		{
-			ApiRequest.reportParseError( "storage", JSON.toString(), e );
-		}
+		StorageRequest.parseStorage( ApiRequest.getJSON( responseText, "storage" ) );
 	}
 
 	public static final JSONObject getJSON( final String text, final String what )
@@ -469,7 +418,7 @@ public class ApiRequest
 			responseText.substring( pos );
 	}
 
-	private static final void reportParseError( final String what, final String responseText, final JSONException e )
+	public static final void reportParseError( final String what, final String responseText, final JSONException e )
 	{
 		KoLmafia.updateDisplay( "api.php?what=" + what + " parse error: " + e.getMessage() );
 		StaticEntity.printStackTrace( e, responseText );
