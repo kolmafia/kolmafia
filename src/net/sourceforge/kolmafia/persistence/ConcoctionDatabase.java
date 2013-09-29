@@ -109,14 +109,17 @@ public class ConcoctionDatabase
 	public static int queuedMeatSpent = 0;
 
 	private static int queuedFullness = 0;
+	public static final LockableListModel queuedFood = new LockableListModel();
 	private static final Stack queuedFoodChanges = new Stack();
 	private static final SortedListModel queuedFoodIngredients = new SortedListModel();
 
 	private static int queuedInebriety = 0;
+	public static final LockableListModel queuedBooze = new LockableListModel();
 	private static final Stack queuedBoozeChanges = new Stack();
 	private static final SortedListModel queuedBoozeIngredients = new SortedListModel();
 
 	private static int queuedSpleenHit = 0;
+	public static final LockableListModel queuedSpleen = new LockableListModel();
 	private static final Stack queuedSpleenChanges = new Stack();
 	private static final SortedListModel queuedSpleenIngredients = new SortedListModel();
 
@@ -535,6 +538,7 @@ public class ConcoctionDatabase
 
 	public static final void push( final Concoction c, final int quantity )
 	{
+		LockableListModel queue;
 		Stack queuedChanges;
 		LockableListModel queuedIngredients;
 		int id = c.getItemId();
@@ -543,18 +547,21 @@ public class ConcoctionDatabase
 		if ( c.getFullness() > 0 || consumpt == KoLConstants.CONSUME_FOOD_HELPER ||
 		     id == ItemPool.MUNCHIES_PILL || id == ItemPool.DISTENTION_PILL )
 		{
+			queue = ConcoctionDatabase.queuedFood;
 			queuedChanges = ConcoctionDatabase.queuedFoodChanges;
 			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
 			ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
 		}
 		else if ( c.getInebriety() > 0 || consumpt == KoLConstants.CONSUME_DRINK_HELPER )
 		{
+			queue = ConcoctionDatabase.queuedBooze;
 			queuedChanges = ConcoctionDatabase.queuedBoozeChanges;
 			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;
 			ConcoctionDatabase.queuedInebriety += c.getInebriety() * quantity;
 		}
 		else
 		{
+			queue = ConcoctionDatabase.queuedSpleen;
 			queuedChanges = ConcoctionDatabase.queuedSpleenChanges;
 			queuedIngredients = ConcoctionDatabase.queuedSpleenIngredients;
 			ConcoctionDatabase.queuedSpleenHit += c.getSpleenHit() * quantity;
@@ -618,40 +625,48 @@ public class ConcoctionDatabase
 		queuedChanges.push( IntegerPool.get( stillChange ) );
 		queuedChanges.push( IntegerPool.get( adventureChange ) );
 		queuedChanges.push( IntegerPool.get( freeCraftChange ) );
-
 		queuedChanges.push( ingredientChange );
-		queuedChanges.push( IntegerPool.get( quantity ) );
-		queuedChanges.push( c );
+
+		queue.add( new CountedConcoction( c, quantity ) );
 	}
 
-	public static final Object [] pop( boolean food, boolean booze, boolean spleen )
+	public static final CountedConcoction pop( boolean food, boolean booze, boolean spleen )
 	{
+		LockableListModel queue;
 		Stack queuedChanges;
 		LockableListModel queuedIngredients;
 
 		if ( food )
 		{
+			queue = ConcoctionDatabase.queuedFood;
 			queuedChanges = ConcoctionDatabase.queuedFoodChanges;
 			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
 		}
 		else if ( booze )
 		{
+			queue = ConcoctionDatabase.queuedBooze;
 			queuedChanges = ConcoctionDatabase.queuedBoozeChanges;
 			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;
 		}
-		else
+		else if ( spleen )
 		{
+			queue = ConcoctionDatabase.queuedSpleen;
 			queuedChanges = ConcoctionDatabase.queuedSpleenChanges;
 			queuedIngredients = ConcoctionDatabase.queuedSpleenIngredients;
 		}
-
-		if ( queuedChanges.isEmpty() )
+		else
 		{
 			return null;
 		}
 
-		Concoction c = (Concoction) queuedChanges.pop();
-		Integer quantity = (Integer) queuedChanges.pop();
+		if ( queue.isEmpty() )
+		{
+			return null;
+		}
+
+		CountedConcoction cc = (CountedConcoction)queue.remove( queue.size() - 1 );
+		Concoction c = cc.getConcoction();
+		int quantity = cc.getCount();
 		ArrayList ingredientChange = (ArrayList) queuedChanges.pop();
 
 		Integer freeCraftChange = (Integer) queuedChanges.pop();
@@ -661,7 +676,7 @@ public class ConcoctionDatabase
 		Integer pullChange = (Integer) queuedChanges.pop();
 		Integer meatChange = (Integer) queuedChanges.pop();
 
-		c.queued -= quantity.intValue();
+		c.queued -= quantity;
 		c.queuedPulls -= pullChange.intValue();
 		for ( int i = 0; i < ingredientChange.size(); ++i )
 		{
@@ -717,11 +732,11 @@ public class ConcoctionDatabase
 				queuedIngredients, new AdventureResult( AdventureResult.MEAT_SPENT, -meat ) );
 		}
 
-		ConcoctionDatabase.queuedFullness -= c.getFullness() * quantity.intValue();
-		ConcoctionDatabase.queuedInebriety -= c.getInebriety() * quantity.intValue();
-		ConcoctionDatabase.queuedSpleenHit -= c.getSpleenHit() * quantity.intValue();
+		ConcoctionDatabase.queuedFullness -= c.getFullness() * quantity;
+		ConcoctionDatabase.queuedInebriety -= c.getInebriety() * quantity;
+		ConcoctionDatabase.queuedSpleenHit -= c.getSpleenHit() * quantity;
 
-		return new Object [] { c, quantity };
+		return cc;
 	}
 
 	public static final void addUsableConcoction( final Concoction c )
@@ -740,6 +755,14 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.creatableList;
 	}
 
+	public static final LockableListModel getQueue( boolean food, boolean booze, boolean spleen )
+	{
+		return	food ? ConcoctionDatabase.queuedFood :
+			booze ? ConcoctionDatabase.queuedBooze :
+			spleen ? ConcoctionDatabase.queuedSpleen :
+			null;
+	}
+
 	public static final void handleQueue( boolean food, boolean booze, boolean spleen, int consumptionType )
 	{
 		// consumptionType can be:
@@ -749,8 +772,8 @@ public class ConcoctionDatabase
 		// KoLConstants.CONSUME_GHOST - binge ghost with food
 		// KoLConstants.CONSUME_HOBO - binge hobo with booze
 
-		Object [] currentItem;
-		Stack toProcess = new Stack();
+		CountedConcoction currentItem;
+		Stack<CountedConcoction> toProcess = new Stack<CountedConcoction>();
 
 		while ( ( currentItem = ConcoctionDatabase.pop( food, booze, spleen ) ) != null )
 		{
@@ -766,12 +789,11 @@ public class ConcoctionDatabase
 
 		SpecialOutfit.createImplicitCheckpoint();
 
-		Stack currentQueue = new Stack();
 		while ( !toProcess.isEmpty() )
 		{
-			currentItem = (Object []) toProcess.pop();
-			Concoction c = (Concoction) currentItem[ 0 ];
-			int quantity = ( (Integer) currentItem[ 1 ] ).intValue();
+			currentItem = toProcess.pop();
+			Concoction c = currentItem.getConcoction();
+			int quantity = currentItem.getCount();
 
 			if ( consumptionType != KoLConstants.CONSUME_USE )
 			{
@@ -844,9 +866,9 @@ public class ConcoctionDatabase
 				{
 					// Pop unprocessed items and push back
 					// on appropriate consumption queue
-					currentItem = (Object []) toProcess.pop();
-					c = (Concoction) currentItem[ 0 ];
-					quantity = ( (Integer) currentItem[ 1 ] ).intValue();
+					currentItem = toProcess.pop();
+					c = currentItem.getConcoction();
+					quantity = currentItem.getCount();
 					ConcoctionDatabase.push( c, quantity );
 				}
 
@@ -2859,6 +2881,48 @@ public class ConcoctionDatabase
 		if ( !StaticEntity.isHeadless() )
 		{
 			ItemManageFrame.updatePullsBudgeted( pullsBudgeted );
+		}
+	}
+
+	public static class CountedConcoction
+	{
+		private final Concoction concoction;
+		private final int count;
+
+		public CountedConcoction( final Concoction c, final int count )
+		{
+			this.concoction = c;
+			this.count = count;
+		}
+
+		public Concoction getConcoction()
+		{
+			return this.concoction;
+		}
+
+		public int getCount()
+		{
+			return this.count;
+		}
+
+		public String getName()
+		{
+			return this.concoction.getName();
+		}
+
+		@Override
+		public String toString()
+		{
+			return this.concoction.getName();
+		}
+
+		@Override
+		public boolean equals( final Object o )
+		{
+			return	o != null &&
+				o instanceof CountedConcoction &&
+				this.concoction.equals( ( (CountedConcoction) o ).concoction ) &&
+				this.count == ( (CountedConcoction) o ).count;
 		}
 	}
 }

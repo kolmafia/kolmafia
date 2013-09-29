@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.CountedConcoction;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -114,6 +115,12 @@ public class ListCellRendererFactory
 			if ( value instanceof Concoction )
 			{
 				return this.getRenderer( defaultComponent, (Concoction) value,
+					list.getWidth(), isSelected );
+			}
+
+			if ( value instanceof CountedConcoction )
+			{
+				return this.getRenderer( defaultComponent, (CountedConcoction) value,
 					list.getWidth(), isSelected );
 			}
 
@@ -279,8 +286,20 @@ public class ListCellRendererFactory
 			return defaultComponent;
 		}
 
+		public Component getRenderer( final Component defaultComponent, final CountedConcoction item,
+					      final int listWidth, final boolean isSelected )
+		{
+			return this.getRenderer( defaultComponent, item.getConcoction(), listWidth, isSelected, item.getCount() );
+		}
+
 		public Component getRenderer( final Component defaultComponent, final Concoction item,
-			final int listWidth, final boolean isSelected )
+					      final int listWidth, final boolean isSelected )
+		{
+			return this.getRenderer( defaultComponent, item, listWidth, isSelected, -1 );
+		}
+
+		private Component getRenderer( final Component defaultComponent, final Concoction item,
+					       final int listWidth, final boolean isSelected, int count )
 		{
 			StringBuffer stringForm = new StringBuffer();
 			String name = item.getName();
@@ -309,9 +328,18 @@ public class ListCellRendererFactory
 			stringForm.append( "<b>" );
 			stringForm.append( item.toString() );
 
-			stringForm.append( " (" );
-			boolean pulling = this.appendAmount( stringForm, item );
+			boolean pulling;
 
+			stringForm.append( " (" );
+			if ( count > 0 )
+			{
+				stringForm.append( count );
+				pulling = item.queuedPulls != 0;
+			}
+			else
+			{
+				pulling = this.appendAmount( stringForm, item );
+			}
 			stringForm.append( ")" );
 			stringForm.append( "</b></nobr><br><nobr>&nbsp;" );
 			
@@ -671,13 +699,6 @@ public class ListCellRendererFactory
 		public boolean allowHighlight()
 		{
 			return false;
-		}
-
-		@Override
-		public boolean appendAmount( final StringBuffer stringForm, final Concoction item )
-		{
-			stringForm.append( item.getQueued() );
-			return item.queuedPulls != 0;
 		}
 	}
 
