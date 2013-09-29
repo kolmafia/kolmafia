@@ -416,6 +416,7 @@ public class StorageRequest
 				// into the closet.
 
 				InventoryManager.refresh();
+				ClosetRequest.refresh();
 				CoinmastersFrame.externalUpdate();
 
 				// If we are still in a Trendy run or are pulling only
