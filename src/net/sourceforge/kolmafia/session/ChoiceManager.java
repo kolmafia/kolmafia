@@ -2614,7 +2614,10 @@ public abstract class ChoiceManager
 		// Yeah, You're for Me, Punk Rock Giant
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure678", "Top Punk Rock",
-			new Object[] { "Wearing mohawk wig, turn wheel, otherwise fight Punk Rock Giant", "500 meat", "complete quest", "Raver Choice" } ),
+			new Object[] { "Wearing mohawk wig, turn wheel, otherwise fight Punk Rock Giant",
+				       "500 meat",
+				       "Steampunk Choice",
+				       "Raver Choice" } ),
 
 		// Choice 679 is unknown
 		// Choice 680 is Are you a Man or a Mouse?
@@ -3977,7 +3980,7 @@ public abstract class ChoiceManager
 				"Finish quest (mohawk wig equipped)" :
 				"Fight Punk Rock Giant (mohawk wig not equipped)";
 			result[ 1 ] = "500 meat";
-			result[ 2 ] = "";
+			result[ 2 ] = "Steampunk Choice";
 			result[ 3 ] = "Raver Choice";
 			return result;
 
