@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -46,6 +47,10 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 public class ChatPoller
 	extends Thread
@@ -61,31 +66,34 @@ public class ChatPoller
 	private static String rightClickMenu = "";
 
 	@Override
-	public void run()
-	{
+	public void run() {
 		long lastSeen = 0;
+		long serverLast = serverLastSeen;
 
 		PauseObject pauser = new PauseObject();
-
 		do
 		{
 			try
 			{
-				List<HistoryEntry> entries = ChatPoller.getEntries( lastSeen, false );
-				Iterator<HistoryEntry> entryIterator = entries.iterator();
-
-				while ( entryIterator.hasNext() )
+				if ( serverLast == serverLastSeen )
 				{
-					HistoryEntry entry = (HistoryEntry) entryIterator.next();
-					lastSeen = Math.max( lastSeen, entry.getLocalLastSeen() );
+					List<HistoryEntry> entries = ChatPoller.getEntries( lastSeen, false );
+					Iterator<HistoryEntry> entryIterator = entries.iterator();
+
+					while ( entryIterator.hasNext() ) {
+						HistoryEntry entry = (HistoryEntry) entryIterator.next();
+						lastSeen = Math.max( lastSeen, entry.getLocalLastSeen() );
+					}
 				}
+				serverLast = serverLastSeen;
 			}
 			catch ( Exception e )
 			{
-				StaticEntity.printStackTrace( e );
+				StaticEntity.printStackTrace(e);
 			}
 
-			for ( int i = 0; i < ChatPoller.CHAT_DELAY_COUNT && ChatManager.isRunning(); ++i )
+			for ( int i = 0; i < ChatPoller.CHAT_DELAY_COUNT
+					&& ChatManager.isRunning(); ++i )
 			{
 				pauser.pause( ChatPoller.CHAT_DELAY );
 			}
@@ -203,5 +211,73 @@ public class ChatPoller
 		}
 
 		return ChatPoller.rightClickMenu;
+	}
+
+	public static void handleNewChat( String responseData, String sent ) {
+		try {
+			JSONObject obj = new JSONObject( responseData );
+
+			if ( obj.has( "last" ) ) {
+				serverLastSeen = obj.getLong( "last" );
+			}
+
+			List<ChatMessage> newMessages = new LinkedList<ChatMessage>();
+			// note: output is where /who, /listen, + various game commands
+			// (/use etc) output goes. May exist.
+			String output = obj.optString( "output", null );
+			if ( output != null ) {
+				// TODO: strip channelname so /cli works again.
+				ChatSender.processResponse( newMessages, output, sent );
+			}
+
+			JSONArray msgs = obj.getJSONArray( "msgs" );
+			for ( int i = 0; i < msgs.length(); i++ )
+			{
+				JSONObject msg = msgs.getJSONObject( i );
+				String type = msg.getString( "type" );
+				String sender = msg.has( "who" ) ? msg.getJSONObject( "who" )
+						.getString( "name" ) : null;
+				String senderId = msg.has( "who" ) ? msg.getJSONObject( "who" )
+						.getString( "id" ) : null;
+				String recipient = msg.has( "for" ) ? msg.getJSONObject( "for" )
+						.optString( "name" ) : null;
+				String content = msg.optString( "msg", null );
+				if ( type.equals( "event" ) )
+				{
+					// TODO: handle events
+					newMessages.add( new EventMessage( content, "green" ) );
+					continue;
+				}
+				if ( sender == null ) {
+					ChatSender.processResponse( newMessages, content, sent );
+					continue;
+				}
+				if ( recipient == null ) {
+					if ( type.equals( "system" ) )
+					{
+						newMessages.add( new ModeratorMessage( ChatManager.getCurrentChannel(), sender, senderId, content ) );
+						continue;
+					}
+					recipient = type.equals( "public" ) ? "/" + msg.getString( "channel" ) : KoLCharacter.getUserName();
+				}
+				recipient = recipient.replaceAll( " ", "_" );
+				// Apparently isAction corresponds to /em commands.
+				boolean isAction = "1".equals( msg.optString( "format" ) );
+				if ( isAction )
+				{
+					// username ends with "</b></font></a>"; remove trailing
+					// </i>
+					content = content.substring( content.indexOf("</a>" ) + 4, content.length() - 4 );
+				}
+
+				newMessages.add( new ChatMessage( sender, recipient, content, isAction ) );
+			}
+			ChatManager.processMessages( newMessages );
+		}
+		catch ( JSONException e )
+		{
+			e.printStackTrace();
+		}
+
 	}
 }

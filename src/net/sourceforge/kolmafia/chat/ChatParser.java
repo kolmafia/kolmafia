@@ -85,7 +85,7 @@ public class ChatParser
 
 	private static final Pattern CHANNEL_LISTEN_PATTERN = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" );
 
-	public static void parseChannelList( final List<EnableMessage> chatMessages, final String content )
+	public static void parseChannelList( final List<ChatMessage> newMessages, final String content )
 	{
 		Matcher channelMatcher = ChatParser.CHANNEL_LISTEN_PATTERN.matcher( content );
 
@@ -104,16 +104,16 @@ public class ChatParser
 
 			if ( isCurrentChannel )
 			{
-				chatMessages.add( new EnableMessage( channel, true ) );
+				newMessages.add( new EnableMessage( channel, true ) );
 			}
 			else
 			{
-				chatMessages.add( new EnableMessage( channel, false ) );
+				newMessages.add( new EnableMessage( channel, false ) );
 			}
 		}
 	}
 
-	public static void parseContacts( final List<WhoMessage> chatMessages, final String content, final boolean isClannies )
+	public static void parseContacts( final List<ChatMessage> newMessages, final String content, final boolean isClannies )
 	{
 		Matcher titleMatcher = TITLE_PATTERN.matcher( content );
 
@@ -147,7 +147,7 @@ public class ChatParser
 		WhoMessage message = new WhoMessage( contacts, spacedContent );
 		message.setHidden( Preferences.getBoolean( "useContactsFrame" ) );
 
-		chatMessages.add( message );
+		newMessages.add( message );
 
 		ContactManager.updateContactList( title, contacts );
 	}
@@ -170,7 +170,7 @@ public class ChatParser
 		}
 	}
 
-	public static void parseSwitch( final List<EnableMessage> chatMessages, final String content )
+	public static void parseSwitch( final List<ChatMessage> chatMessages, final String content )
 	{
 		int startIndex = content.indexOf( ":" ) + 2;
 		int dotIndex = content.indexOf( "." );
@@ -236,13 +236,13 @@ public class ChatParser
 				continue;
 			}
 
-			StringBuffer currentLineBuilder = new StringBuffer( lines[ i ] );
+			StringBuilder currentLineBuilder = new StringBuilder( lines[ i ] );
 
 			while ( ++nextLine < lines.length && lines[ nextLine ].indexOf( "<a" ) == -1 )
 			{
 				if ( lines[ nextLine ] != null && lines[ nextLine ].length() > 0 )
 				{
-					currentLineBuilder.append( "<br>" + lines[ nextLine ] );
+					currentLineBuilder.append( "<br>" ).append( lines[ nextLine ] );
 				}
 			}
 

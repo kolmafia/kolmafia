@@ -67,6 +67,8 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatFormatter;
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.ChatMessage;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.ChatSender;
 import net.sourceforge.kolmafia.chat.HistoryEntry;
@@ -1920,21 +1922,35 @@ public class RelayRequest
 		   Erwaro</a>: <span class="guts">Some other tree? Because combat doesn't really do you that much good,
 		   you'll do fine with pounce.</span></div>
 		 */
-		else if ( this.getPath().startsWith( "newchatmessages.php" ) && tabbedChat )
-		{
-			ChatRequest request = new ChatRequest();
-			request.run();
-			chatText = request.responseText;
-		}
-		else if ( this.getPath().startsWith( "submitnewchat.php" ) && tabbedChat )
-		{
-			ChatRequest request = new ChatRequest( this.getFormField( "graf" ) , true );
-			request.run();
-			chatText = request.responseText;
-		}
 		else
 		{
-			chatText = ChatSender.sendMessage( new LinkedList(), this.getFormField( "graf" ), true, false );
+			if ( ChatManager.getCurrentChannel() == null )
+			{
+				ChatSender.sendMessage( null, "/listen", true );
+			}
+			if ( this.getPath().startsWith( "newchatmessages.php" ) && tabbedChat )
+			{
+				ChatRequest request = new ChatRequest();
+				request.run();
+				chatText = request.responseText;
+			}
+			else if ( this.getPath().startsWith( "submitnewchat.php" ) )
+			{
+				if ( ChatManager.getCurrentChannel() == null )
+				{
+					ChatSender.sendMessage( null, "/listen", true );
+				}
+
+				chatText = ChatSender.sendMessage( new LinkedList<ChatMessage>(), this.getFormField( "graf" ), true, false, tabbedChat );
+			}
+			else
+			{
+				chatText = "";
+			}
+		}
+		if ( tabbedChat && chatText != null && chatText.startsWith( "{" ) )
+		{
+			ChatPoller.handleNewChat( chatText, this.getFormField( "graf" ) );
 		}
 
 		if ( Preferences.getBoolean( "relayFormatsChatText" ) )

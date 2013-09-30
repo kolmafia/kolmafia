@@ -95,7 +95,7 @@ public abstract class ChatManager
 	private static String currentChannel = null;
 
 	private static List<String> activeWindows = new ArrayList<String>();
-	private static List<String> activeChannels = new ArrayList<String>();
+	public static List<String> activeChannels = new ArrayList<String>();
 
 	private static TabbedChatFrame tabbedFrame = null;
 
@@ -368,7 +368,11 @@ public abstract class ChatManager
 			ChatManager.faxbotMessage = message;
 		}
 
-		if ( recipient.equals( "/clan" ) ||
+		if ( recipient == null )
+		{
+			ChatManager.processCommand( sender, message.getContent(), recipient );
+		}
+		else if ( recipient.equals( "/clan" ) ||
 		     recipient.equals( "/hobopolis" ) ||
 		     recipient.equals( "/slimetube" ) ||
 		     recipient.equals( "/dread" ) ||
@@ -496,7 +500,7 @@ public abstract class ChatManager
 		// If a buffbot is running, certain commands become active, such
 		// as help, restores, and logoff.
 
-		if ( channel.equals( "" ) && BuffBotHome.isBuffBotActive() )
+		if ( "".equals( channel ) && BuffBotHome.isBuffBotActive() )
 		{
 			if ( content.equalsIgnoreCase( "help" ) )
 			{
@@ -530,7 +534,7 @@ public abstract class ChatManager
 		// Otherwise, sometimes clannies want to take advantage of KoLmafia's
 		// automatic chat logging.  In that case...
 
-		if ( channel.equals( "" ) && content.equalsIgnoreCase( "update" ) )
+		if ( "".equals( channel ) && content.equalsIgnoreCase( "update" ) )
 		{
 			if ( !Preferences.getBoolean( "chatServesUpdates" ) )
 			{
@@ -586,7 +590,7 @@ public abstract class ChatManager
 				channel
 			};
 		}
-		else if ( !channel.equals( "" ) )
+		else if ( !"".equals( channel ) )
 		{
 			return;
 		}
