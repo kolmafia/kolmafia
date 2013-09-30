@@ -68,6 +68,7 @@ public class DrinkItemRequest
 	private static int askedAboutTuxedo = 0;
 	private static AdventureResult queuedDrinkHelper = null;
 	private static int queuedDrinkHelperCount = 0;
+	public static int boozeConsumed = 0;
 
 	public DrinkItemRequest( final AdventureResult item )
 	{
@@ -89,6 +90,13 @@ public class DrinkItemRequest
 	{
 		DrinkItemRequest.queuedDrinkHelper = null;
 		DrinkItemRequest.queuedDrinkHelperCount = 0;
+	}
+
+	public static final AdventureResult currentDrinkHelper()
+	{
+		return ( DrinkItemRequest.queuedDrinkHelper != null && DrinkItemRequest.queuedDrinkHelperCount > 0 ) ?
+			DrinkItemRequest.queuedDrinkHelper.getInstance( DrinkItemRequest.queuedDrinkHelperCount ) :
+			null;
 	}
 
 	public static final int maximumUses( final int itemId, final String itemName, final int inebriety, final boolean allowOverDrink )
@@ -172,7 +180,7 @@ public class DrinkItemRequest
 				DrinkItemRequest.queuedDrinkHelperCount = count;
 			}
 
-			KoLmafia.updateDisplay( "Helper queued for next " + count + " beverage" +
+			KoLmafia.updateDisplay( this.itemUsed.getName() + " queued for next " + count + " beverage" +
 				(count == 1 ? "" : "s") + " drunk." );
 
 			return;
@@ -224,6 +232,7 @@ public class DrinkItemRequest
 
 		for ( int i = 1; i <= iterations && KoLmafia.permitsContinue(); ++i )
 		{
+			DrinkItemRequest.boozeConsumed = i - 1;
 			if ( !this.allowBoozeConsumption() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + this.itemUsed.getCount() + " " + this.itemUsed.getName() + "." );
@@ -236,6 +245,7 @@ public class DrinkItemRequest
 
 		if ( KoLmafia.permitsContinue() )
 		{
+			DrinkItemRequest.boozeConsumed = origCount;
 			KoLmafia.updateDisplay( "Finished drinking " + origCount + " " + this.itemUsed.getName() + "." );
 		}
 	}
@@ -272,7 +282,7 @@ public class DrinkItemRequest
 				}
 			}
 			this.addFormField( "utensil", String.valueOf( helperItemId ) );
-			--DrinkItemRequest.queuedDrinkHelperCount;
+			DrinkItemRequest.queuedDrinkHelperCount -= 1;
 		}
 		else
 		{
@@ -528,16 +538,20 @@ public class DrinkItemRequest
 			switch ( helper.getItemId() )
 			{
 			case ItemPool.DIVINE_FLUTE:
-				// "You pour the <drink> into your divine
-				// champagne flute, and it immediately begins
-				// fizzing over. You drink it quickly, then
-				// throw the flute in front of a plastic
-				// fireplace and break it."
-
-				if ( responseText.indexOf( "a plastic fireplace" ) == -1 )
-				{
-					success = false;
-				}
+				// "You pour the <drink> into your divine champagne flute, and
+				// it immediately begins fizzing over. You drink it quickly,
+				// then throw the flute in front of a plastic fireplace and
+				// break it."
+				//
+				// However, the Wiki says this:
+				// 
+				// "When used with booze which grants special effects (such as
+				// dusty bottles of wine, tiny plastic sword drinks, or gloomy
+				// mushroom wine), all messages related to effects, items, or
+				// HP gains/losses are suppressed (though they still take
+				// place as usual)."
+				//
+				// Therefore, just assume it worked.
 				break;
 
 			case ItemPool.FROSTYS_MUG:
