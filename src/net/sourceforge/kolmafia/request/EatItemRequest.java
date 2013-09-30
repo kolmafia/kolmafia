@@ -81,6 +81,7 @@ public class EatItemRequest
 	private static int askedAboutGarish = 0;
 	private static AdventureResult queuedFoodHelper = null;
 	private static int queuedFoodHelperCount = 0;
+	public static int foodConsumed = 0;
 
 	public EatItemRequest( final AdventureResult item )
 	{
@@ -108,6 +109,13 @@ public class EatItemRequest
 	{
 		EatItemRequest.queuedFoodHelper = null;
 		EatItemRequest.queuedFoodHelperCount = 0;
+	}
+
+	public static final AdventureResult currentFoodHelper()
+	{
+		return ( EatItemRequest.queuedFoodHelper != null && EatItemRequest.queuedFoodHelperCount > 0 ) ?
+			EatItemRequest.queuedFoodHelper.getInstance( EatItemRequest.queuedFoodHelperCount ) :
+			null;
 	}
 
 	public static final int maximumUses( final int itemId, final String itemName, final int fullness )
@@ -162,7 +170,7 @@ public class EatItemRequest
 				EatItemRequest.queuedFoodHelperCount = count;
 			}
 
-			KoLmafia.updateDisplay( "Helper queued for next " + count + " food" +
+			KoLmafia.updateDisplay( this.itemUsed.getName() + " queued for next " + count + " food" +
 				(count == 1 ? "" : "s") + " eaten." );
 
 			return;
@@ -214,6 +222,7 @@ public class EatItemRequest
 
 		for ( int i = 1; i <= iterations && KoLmafia.permitsContinue(); ++i )
 		{
+			EatItemRequest.foodConsumed = i - 1;
 			if ( !this.allowFoodConsumption() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + this.itemUsed.getCount() + " " + this.itemUsed.getName() + "." );
@@ -226,6 +235,7 @@ public class EatItemRequest
 
 		if ( KoLmafia.permitsContinue() )
 		{
+			EatItemRequest.foodConsumed = origCount;
 			KoLmafia.updateDisplay( "Finished eating " + origCount + " " + this.itemUsed.getName() + "." );
 		}
 	}
@@ -262,7 +272,7 @@ public class EatItemRequest
 				}
 			}
 			this.addFormField( "utensil", String.valueOf( helperItemId ) );
-			--EatItemRequest.queuedFoodHelperCount;
+			EatItemRequest.queuedFoodHelperCount -= 1;
 		}
 		else
 		{

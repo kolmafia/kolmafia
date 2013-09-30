@@ -71,6 +71,8 @@ import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
+import net.sourceforge.kolmafia.request.DrinkItemRequest;
+import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
@@ -741,6 +743,32 @@ public class ConcoctionDatabase
 			null;
 	}
 
+	private static final AdventureResult currentConsumptionHelper( boolean food, boolean booze )
+	{
+		return	food ? EatItemRequest.currentFoodHelper() :
+			booze ? DrinkItemRequest.currentDrinkHelper() :
+			null;
+	}
+
+	private static final void clearConsumptionHelper( boolean food, boolean booze )
+	{
+		if ( food )
+		{
+			EatItemRequest.clearFoodHelper();
+		}
+		else if ( booze )
+		{
+			DrinkItemRequest.clearDrinkHelper();
+		}
+	}
+
+	private static final int lastUnconsumed( int quantity, boolean food, boolean booze )
+	{
+		return quantity - ( food ? EatItemRequest.foodConsumed :
+				    booze ? DrinkItemRequest.boozeConsumed :
+				    0 );
+	}
+
 	public static final void handleQueue( boolean food, boolean booze, boolean spleen, int consumptionType )
 	{
 		// consumptionType can be:
@@ -753,20 +781,26 @@ public class ConcoctionDatabase
 		QueuedConcoction currentItem;
 		Stack<QueuedConcoction> toProcess = new Stack<QueuedConcoction>();
 
+		// Remove items in inverse order from the queue and push them on a stack.
 		while ( ( currentItem = ConcoctionDatabase.pop( food, booze, spleen ) ) != null )
 		{
 			toProcess.push( currentItem );
 		}
 
-		// If we happen to have refreshed concoctions while there were
-		// items queued, the creatable amounts will assume that queued
-		// ingredients are already spoken for. Refresh again now that
-		// the queue is empty.
-
+		// If we refreshed concoctions while there were items queued,
+		// the creatable amounts assume that queued ingredients are
+		// already spoken for. Refresh again now that the queue is
+		// empty.
 		ConcoctionDatabase.refreshConcoctions( true );
 
 		SpecialOutfit.createImplicitCheckpoint();
 
+		// Keep track of current consumption helper. These can be
+		// "queued" by simply "using" them. Account for that.
+		AdventureResult helper = ConcoctionDatabase.currentConsumptionHelper( food, booze );
+
+		// Since items were pushed in inverse order from the queue,
+		// popping the stack will get items in actual queued order.
 		while ( !toProcess.isEmpty() )
 		{
 			currentItem = toProcess.pop();
@@ -819,11 +853,22 @@ public class ConcoctionDatabase
 				continue;
 			}
 
+			// "using" the item will either queue a consumption
+			// helper or actually consume the item.
 			ConcoctionDatabase.consumeItem( c, quantity );
 
 			if ( !KoLmafia.permitsContinue() )
 			{
 				// Consumption failed.
+
+				// Get current state of appropriate consumption helper
+				helper = ConcoctionDatabase.currentConsumptionHelper( food, booze );
+
+				// If there was a consumption helper queued, clear it
+				if ( helper != null )
+				{
+					ConcoctionDatabase.clearConsumptionHelper( food, booze );
+				}
 
 				// If the "consumption queue" is not visible to
 				// the user, just quit now.
@@ -835,8 +880,14 @@ public class ConcoctionDatabase
 				// Otherwise, put the item and remaining
 				// unprocessed items back on queue
 
+				// If there is a consumption helper queued, push that first.
+				if ( helper != null )
+				{
+					ConcoctionDatabase.push( ConcoctionPool.get( helper), helper.getCount() );
+				}
+
 				// Push current item back on consumption queue
-				ConcoctionDatabase.push( c, quantity );
+				ConcoctionDatabase.push( c, ConcoctionDatabase.lastUnconsumed( quantity, food, booze ) );
 
 				// Move items from unprocessed queue back to
 				// consumption queue
@@ -856,6 +907,9 @@ public class ConcoctionDatabase
 				ConcoctionDatabase.getUsables().sort();
 				break;
 			}
+
+			// Get current state of appropriate consumption helper
+			helper = ConcoctionDatabase.currentConsumptionHelper( food, booze );
 		}
 
 		SpecialOutfit.restoreImplicitCheckpoint();
