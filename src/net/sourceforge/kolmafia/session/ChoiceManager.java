@@ -2619,7 +2619,7 @@ public abstract class ChoiceManager
 				       "Steampunk Choice",
 				       "Raver Choice" } ),
 
-		// Choice 679 is unknown
+		// Choice 679 is Keep On Turnin' the Wheel in the Sky
 		// Choice 680 is Are you a Man or a Mouse?
 		// Choice 681 is F-F-Fantastic!
 		// Choice 682 is Now Leaving Jarlsberg, Population You
