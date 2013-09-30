@@ -351,7 +351,7 @@ public class SkillDatabase
 		case 9:
 			return revamped ? 4000 : 8000;
 		case 10:
-			return revamped ? 5000 : 10000;
+			return revamped ? 6000 : 10000;
 		case 11:
 			return revamped ? 6250 : 12500;
 		case 12:
