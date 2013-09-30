@@ -82,13 +82,13 @@ public class ChatSender
 
 		ChatRequest request = new ChatRequest( macro );
 
-		List accumulatedMessages = new LinkedList();
+		List<ChatMessage> accumulatedMessages = new LinkedList<ChatMessage>();
 
-		accumulatedMessages.addAll( sendRequest( request ) );
+		accumulatedMessages.addAll( sendRequest( request, false ) );
 
 		ChatPoller.addSentEntry( request.responseText, false );
 
-		Iterator messageIterator = accumulatedMessages.iterator();
+		Iterator<ChatMessage> messageIterator = accumulatedMessages.iterator();
 
 		while ( messageIterator.hasNext() && ChatSender.scriptedMessagesEnabled )
 		{
@@ -123,7 +123,7 @@ public class ChatSender
 
 		Iterator<String> grafIterator = grafs.iterator();
 
-		List accumulatedMessages = new LinkedList();
+		List<ChatMessage> accumulatedMessages = new LinkedList<ChatMessage>();
 
 		while ( grafIterator.hasNext() )
 		{
@@ -135,8 +135,18 @@ public class ChatSender
 		}
 	}
 
-	public static final String sendMessage( List accumulatedMessages, String graf, boolean isRelayRequest, boolean channelRestricted )
+	public static final String sendMessage( List<ChatMessage> accumulatedMessages, String graf, boolean isRelayRequest, boolean channelRestricted )
 	{
+		return sendMessage( accumulatedMessages, graf, isRelayRequest, channelRestricted, false );
+	}
+
+	public static final String sendMessage( List<ChatMessage> accumulatedMessages, String graf, boolean isRelayRequest, boolean channelRestricted, boolean tabbedChat )
+	{
+		if ( graf == null )
+		{
+			return "";
+		}
+
 		if ( !ChatManager.chatLiterate() )
 		{
 			return "";
@@ -171,13 +181,13 @@ public class ChatSender
 			return "";
 		}
 
-		ChatRequest request = new ChatRequest( graf );
+		ChatRequest request = new ChatRequest( graf, tabbedChat );
 
-		accumulatedMessages.addAll( sendRequest( request ) );
+		accumulatedMessages.addAll( sendRequest( request, tabbedChat ) );
 
 		if ( channelRestricted )
 		{
-			Iterator messageIterator = accumulatedMessages.iterator();
+			Iterator<ChatMessage> messageIterator = accumulatedMessages.iterator();
 
 			while ( messageIterator.hasNext() && ChatSender.scriptedMessagesEnabled )
 			{
@@ -198,7 +208,7 @@ public class ChatSender
 		return request.responseText;
 	}
 
-	public static final List sendRequest( ChatRequest request )
+	public static final List<ChatMessage> sendRequest( ChatRequest request, boolean tabbedChat )
 	{
 		if ( !ChatManager.chatLiterate() )
 		{
@@ -212,38 +222,45 @@ public class ChatSender
 			return Collections.EMPTY_LIST;
 		}
 
-		List newMessages = new LinkedList();
+		List<ChatMessage> newMessages = new LinkedList<ChatMessage>();
 
 		String graf = request.getGraf();
-
-		if ( graf.equals( "/listen" ) )
+		if ( !tabbedChat )
 		{
-			ChatParser.parseChannelList( newMessages, request.responseText );
-		}
-		else if ( graf.startsWith( "/l " ) || graf.startsWith( "/listen " ) )
-		{
-			ChatParser.parseListen( newMessages, request.responseText );
-		}
-		else if ( graf.startsWith( "/c " ) || graf.startsWith( "/channel " ) )
-		{
-			ChatParser.parseChannel( newMessages, request.responseText );
-		}
-		else if ( graf.startsWith( "/s " ) || graf.startsWith( "/switch " ) )
-		{
-			ChatParser.parseSwitch( newMessages, request.responseText );
-		}
-		else if ( graf.startsWith( "/who " ) || graf.equals( "/f" ) || graf.equals( "/friends" ) || graf.equals( "/romans" ) || graf.equals( "/clannies" ) )
-		{
-			ChatParser.parseContacts( newMessages, request.responseText, graf.equals( "/clannies" ) );
-		}
-		else
-		{
-			ChatParser.parseLines( newMessages, request.responseText );
+			processResponse( newMessages, request.responseText, graf );
 		}
 
 		ChatManager.processMessages( newMessages );
-
 		return newMessages;
+	}
+
+	public static final void processResponse( List<ChatMessage> newMessages, String responseText, String graf )
+	{
+
+		if ( graf.equals( "/listen" ) )
+		{
+			ChatParser.parseChannelList( newMessages, responseText );
+		}
+		else if ( graf.startsWith( "/l " ) || graf.startsWith( "/listen " ) )
+		{
+			ChatParser.parseListen( newMessages, responseText );
+		}
+		else if ( graf.startsWith( "/c " ) || graf.startsWith( "/channel " ) )
+		{
+			ChatParser.parseChannel( newMessages, responseText );
+		}
+		else if ( graf.startsWith( "/s " ) || graf.startsWith( "/switch " ) )
+		{
+			ChatParser.parseSwitch( newMessages, responseText );
+		}
+		else if ( graf.startsWith( "/who " ) || graf.equals( "/f" ) || graf.equals( "/friends" ) || graf.equals( "/romans" ) || graf.equals( "/clannies" ) || graf.equals( "/countrymen" ) )
+		{
+			ChatParser.parseContacts( newMessages, responseText, graf.equals( "/clannies" ) );
+		}
+		else
+		{
+			ChatParser.parseLines( newMessages, responseText );
+		}
 	}
 
 	private static final List<String> getGrafs( String contact, String message )
@@ -442,19 +459,26 @@ public class ChatSender
 			return false;
 		}
 
+		graf = graf.trim();
+
+		if ( ChatManager.activeChannels.indexOf( graf.split( " " )[0] ) > -1 )
+		{
+			graf = graf.substring( graf.indexOf( " " ) ).trim();
+		}
+
 		if ( graf.equalsIgnoreCase( "/trivia" ) )
 		{
 			ChatManager.startTriviaGame();
 			return true;
 		}
 
-		if ( graf.equalsIgnoreCase( "/endtrivia" ) || graf.equalsIgnoreCase( "/stoptrivia" ) )
+		else if ( graf.equalsIgnoreCase( "/endtrivia" ) || graf.equalsIgnoreCase( "/stoptrivia" ) )
 		{
 			ChatManager.stopTriviaGame();
 			return true;
 		}
 
-		if ( !graf.startsWith( "/do " ) && !graf.startsWith( "/run " ) && !graf.startsWith( "/cli " ) )
+		else if ( !graf.startsWith( "/do " ) && !graf.startsWith( "/run " ) && !graf.startsWith( "/cli " ) )
 		{
 			return false;
 		}
