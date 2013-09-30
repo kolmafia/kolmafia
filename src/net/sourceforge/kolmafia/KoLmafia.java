@@ -384,6 +384,9 @@ public abstract class KoLmafia
 
 		FlaggedItems.initializeLists();
 
+		// Create an images directory if necessary
+		KoLConstants.IMAGE_LOCATION.mkdirs();
+
 		// Create a script directory if necessary
 		KoLConstants.SCRIPT_LOCATION.mkdirs();
 
