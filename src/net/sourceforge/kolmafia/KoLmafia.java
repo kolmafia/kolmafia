@@ -295,6 +295,12 @@ public abstract class KoLmafia
 
 		KoLmafia.checkDataOverrides();
 
+		// Create an images directory if necessary
+		KoLConstants.IMAGE_LOCATION.mkdirs();
+
+		// Create a script directory if necessary
+		KoLConstants.SCRIPT_LOCATION.mkdirs();
+
 		// Clear the image cache for the first time so subsequent image
 		// files loaded into it have the right timestamps
 		if ( Preferences.getLong( "lastImageCacheClear" ) == 0L )
@@ -383,12 +389,6 @@ public abstract class KoLmafia
 		}
 
 		FlaggedItems.initializeLists();
-
-		// Create an images directory if necessary
-		KoLConstants.IMAGE_LOCATION.mkdirs();
-
-		// Create a script directory if necessary
-		KoLConstants.SCRIPT_LOCATION.mkdirs();
 
 		// Now run the main routines for each, so that
 		// you have an interface.
