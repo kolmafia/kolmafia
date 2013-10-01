@@ -651,7 +651,7 @@ public class AreaCombatData
 		}
 
 		double itemModifier = AreaCombatData.getDropRateModifier();
-		boolean stealing = KoLCharacter.isMoxieClass() || KoLConstants.activeEffects.contains( EffectPool.get( Effect.FORM_OF_BIRD ) );
+		boolean stealing = KoLCharacter.canPickpocket();
 		double pocketModifier = ( 100.0 + KoLCharacter.currentNumericModifier( Modifiers.PICKPOCKET_CHANCE ) ) / 100.0;
 
 		for ( int i = 0; i < items.size(); ++i )

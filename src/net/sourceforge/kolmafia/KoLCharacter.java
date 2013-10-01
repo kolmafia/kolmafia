@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -3991,6 +3992,13 @@ public abstract class KoLCharacter
 	public static final boolean canUseMalus()
 	{
 		return KoLCharacter.hasSkill( "Pulverize" ) && KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris();
+	}
+
+	public static final boolean canPickpocket()
+	{
+		return KoLCharacter.isMoxieClass() ||
+		       KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.Effect.FORM_OF_BIRD ) ) ||
+		       KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND );
 	}
 
 	/**
