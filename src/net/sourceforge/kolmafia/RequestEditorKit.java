@@ -885,26 +885,36 @@ public class RequestEditorKit
 			String image = matcher.group(1);
 			String boldloc = matcher.group(2);
 			String locname = matcher.group(3);
+			String url;
 
-			KoLAdventure adventure = AdventureDatabase.getAdventure( locname );
-			if ( adventure == null )
+			if ( locname.contains( "Degrassi Knoll" ) )
 			{
-				if ( locname.startsWith( "The " ) )
-				{
-					adventure = AdventureDatabase.getAdventure( locname.substring( 4) );
-				}
-				else
-				{
-					adventure = AdventureDatabase.getAdventure( "The " + locname );
-				}
+				url = KoLCharacter.knollAvailable() ?
+					"place.php?whichplace=knoll_friendly" :
+					"place.php?whichplace=knoll_hostile";
 			}
-
-			if ( adventure == null )
+			else
 			{
-				continue;
-			}
+				KoLAdventure adventure = AdventureDatabase.getAdventure( locname );
+				if ( adventure == null )
+				{
+					if ( locname.startsWith( "The " ) )
+					{
+						adventure = AdventureDatabase.getAdventure( locname.substring( 4) );
+					}
+					else
+					{
+						adventure = AdventureDatabase.getAdventure( "The " + locname );
+					}
+				}
 
-			String url = adventure.getRequest().getURLString();
+				if ( adventure == null )
+				{
+					continue;
+				}
+
+				url = adventure.getRequest().getURLString();
+			}
 
 			StringBuffer replace = new StringBuffer();
 			replace.append( "<a href=\"" );
