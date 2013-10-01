@@ -100,81 +100,6 @@ public class AdventureDatabase
 
 	private static final HashMap<String, KoLAdventure> locationByBounty = new HashMap<String, KoLAdventure>();
 
-	static
-	{
-		for ( int i = 0; i < AdventureDatabase.adventureTable.length; ++i )
-		{
-			AdventureDatabase.adventureTable[ i ] = new StringArray();
-		}
-
-		AdventureDatabase.refreshZoneTable();
-		AdventureDatabase.refreshAdventureTable();
-		AdventureDatabase.refreshCombatsTable();
-		AdventureDatabase.refreshAdventureList();
-	}
-
-	public static final AdventureResult[] WOODS_ITEMS = new AdventureResult[ 12 ];
-	static
-	{
-		for ( int i = 0; i < 12; ++i )
-		{
-			AdventureDatabase.WOODS_ITEMS[ i ] = new AdventureResult( i + 1, 1 );
-		}
-	}
-
-	// Some adventures don't actually cost a turn
-	public static final String[] FREE_ADVENTURES =
-	{
-		"Rock-a-bye larva",
-		"Cobb's Knob lab key"
-	};
-
-	public static final void refreshZoneTable()
-	{
-		if ( !AdventureDatabase.ZONE_DESCRIPTIONS.isEmpty() )
-		{
-			return;
-		}
-
-		BufferedReader reader = FileUtilities.getVersionedReader( "zonelist.txt", KoLConstants.ZONELIST_VERSION );
-		if ( reader == null )
-		{
-			return;
-		}
-
-		String[] data;
-
-		while ( ( data = FileUtilities.readData( reader ) ) != null )
-		{
-			if ( data.length >= 3 )
-			{
-				String zone = new String( data[ 0 ] );
-				String parent = new String( data[ 1 ] );
-				String description = new String( data[ 2 ] );
-
-				AdventureDatabase.PARENT_ZONES.put( zone, parent );
-				if ( !AdventureDatabase.PARENT_LIST.contains( parent ) )
-				{
-					AdventureDatabase.PARENT_LIST.add( parent );
-				}
-
-				AdventureDatabase.ZONE_DESCRIPTIONS.put( zone, description );
-			}
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
 	// This should be removed eventually
 	private static final String[][] OLD_LOCATIONS =
 	{
@@ -313,6 +238,10 @@ public class AdventureDatabase
 		{
 			"Moxie Vacation",
 			"The Shore, Inc. Travel Agency"
+		},
+		{
+			"The Fun House",
+			"The \"Fun\" House"
 		}
 		// Everything above here added to 16.0, remove after 16.1
 	};
@@ -320,18 +249,93 @@ public class AdventureDatabase
 	// These should be removed eventually
 	private static final ArrayList<String> convertOldNameList = new ArrayList<String>();
 	private static final ArrayList<String> convertNewNameList = new ArrayList<String>();
-	private static String[] convertOldNameArray = new String[ OLD_LOCATIONS.length ];
-	private static String[] convertNewNameArray = new String[ OLD_LOCATIONS.length ];
+	private static String[] convertOldNameArray = null;
+	private static String[] convertNewNameArray = null;
 
 	static
 	{
 		for ( int i = 0; i < OLD_LOCATIONS.length; i++ )
 		{
-			AdventureDatabase.convertOldNameList.add( i, OLD_LOCATIONS[i][0].toLowerCase() );
-			AdventureDatabase.convertNewNameList.add( i, OLD_LOCATIONS[i][1] );
+			AdventureDatabase.convertOldNameList.add( i, StringUtilities.getCanonicalName( OLD_LOCATIONS[i][0] ) );
+			AdventureDatabase.convertNewNameList.add( i, StringUtilities.getCanonicalName( OLD_LOCATIONS[i][1] ) );
 		}
 		convertOldNameArray = convertOldNameList.toArray( new String[ convertOldNameList.size() ] );
 		convertNewNameArray = convertNewNameList.toArray( new String[ convertNewNameList.size() ] );
+	}
+
+	static
+	{
+		for ( int i = 0; i < AdventureDatabase.adventureTable.length; ++i )
+		{
+			AdventureDatabase.adventureTable[ i ] = new StringArray();
+		}
+
+		AdventureDatabase.refreshZoneTable();
+		AdventureDatabase.refreshAdventureTable();
+		AdventureDatabase.refreshCombatsTable();
+		AdventureDatabase.refreshAdventureList();
+	}
+
+	public static final AdventureResult[] WOODS_ITEMS = new AdventureResult[ 12 ];
+	static
+	{
+		for ( int i = 0; i < 12; ++i )
+		{
+			AdventureDatabase.WOODS_ITEMS[ i ] = new AdventureResult( i + 1, 1 );
+		}
+	}
+
+	// Some adventures don't actually cost a turn
+	public static final String[] FREE_ADVENTURES =
+	{
+		"Rock-a-bye larva",
+		"Cobb's Knob lab key"
+	};
+
+	public static final void refreshZoneTable()
+	{
+		if ( !AdventureDatabase.ZONE_DESCRIPTIONS.isEmpty() )
+		{
+			return;
+		}
+
+		BufferedReader reader = FileUtilities.getVersionedReader( "zonelist.txt", KoLConstants.ZONELIST_VERSION );
+		if ( reader == null )
+		{
+			return;
+		}
+
+		String[] data;
+
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
+		{
+			if ( data.length >= 3 )
+			{
+				String zone = new String( data[ 0 ] );
+				String parent = new String( data[ 1 ] );
+				String description = new String( data[ 2 ] );
+
+				AdventureDatabase.PARENT_ZONES.put( zone, parent );
+				if ( !AdventureDatabase.PARENT_LIST.contains( parent ) )
+				{
+					AdventureDatabase.PARENT_LIST.add( parent );
+				}
+
+				AdventureDatabase.ZONE_DESCRIPTIONS.put( zone, description );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
 	}
 
 	public static final void refreshAdventureTable()
@@ -1023,7 +1027,7 @@ public class AdventureDatabase
 
 		public void add( final KoLAdventure value )
 		{
-			this.nameList.add( value.getAdventureName().toLowerCase() );
+			this.nameList.add( StringUtilities.getCanonicalName( value.getAdventureName() ) );
 			this.internalList.add( value );
 		}
 
