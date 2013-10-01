@@ -54,12 +54,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CakeArenaRequest
 	extends GenericRequest
 {
-	private static final Pattern WINCOUNT_PATTERN = Pattern.compile( "You have won (\\d*) time" );
-	private static final Pattern OPPONENT_PATTERN =
-		Pattern.compile( "<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?<b>(.*?)</b> the (.*?)<br/?>(\\d*).*?</tr>" );
-	private static final Pattern OPP_PATTERN = Pattern.compile( "whichopp=(\\d*)" );
-	private static final Pattern EVENT_PATTERN = Pattern.compile( "event=(\\d*)" );
-
 	private boolean isCompetition;
 	private int eventId;
 
@@ -81,6 +75,32 @@ public class CakeArenaRequest
 
 		this.isCompetition = true;
 		this.eventId = eventId;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Arena Battle";
+	}
+
+	@Override
+	public int getAdventuresUsed()
+	{
+		return this.isCompetition ? 1 : 0;
+	}
+
+	private static final Pattern EVENT_PATTERN = Pattern.compile( "event=(\\d*)" );
+	private static int getEvent( final String urlString )
+	{
+		Matcher matcher = EVENT_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : -1;
+	}
+
+	private static final Pattern OPP_PATTERN = Pattern.compile( "whichopp=(\\d*)" );
+	private static int getOpponent( final String urlString )
+	{
+		Matcher matcher = OPP_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : -1;
 	}
 
 	@Override
@@ -146,6 +166,10 @@ public class CakeArenaRequest
 		return ResultProcessor.processResults( false, responseText );
 	}
 
+	private static final Pattern WINCOUNT_PATTERN = Pattern.compile( "You have won (\\d*) time" );
+	private static final Pattern OPPONENT_PATTERN =
+		Pattern.compile( "<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?<b>(.*?)</b> the (.*?)<br/?>(\\d*).*?</tr>" );
+
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		if ( urlString.indexOf( "action=go" ) != -1 )
@@ -157,10 +181,17 @@ public class CakeArenaRequest
 
 			ResultProcessor.processMeat( -100 );
 
-			String suckage = CakeArenaRequest.parseSuckage( CakeArenaRequest.contestLines( responseText ) );
-			if ( suckage != null )
+			int eventId = CakeArenaRequest.getEvent( urlString );
+			String [] lines = CakeArenaRequest.contestLines( responseText );
+
+			// Log all the "special" lines between the start of the
+			// contest and the first result.
+			if ( lines != null )
 			{
-				RequestLogger.updateSessionLog( suckage );
+				for ( int i = 1; i < lines.length && !CakeArenaRequest.isContestResult( eventId, lines[ i ] ); ++i )
+				{
+					RequestLogger.updateSessionLog( CakeArenaRequest.prettyContestLine( lines[ i ] ) );
+				}
 			}
 
 			String message = CakeArenaRequest.resultMessage( responseText );
@@ -202,13 +233,12 @@ public class CakeArenaRequest
 		}
 	}
 
-	public static final Pattern WIN_PATTERN = Pattern.compile( "is the winner, and gains (\\d+) experience" );
-
 	public final int earnedXP()
 	{
 		return CakeArenaRequest.earnedXP( this.responseText );
 	}
 
+	public static final Pattern WIN_PATTERN = Pattern.compile( "is the winner, and gains (\\d+) experience" );
 	private static final int earnedXP( final String responseText )
 	{
 		Matcher matcher = CakeArenaRequest.WIN_PATTERN.matcher( responseText );
@@ -257,6 +287,11 @@ public class CakeArenaRequest
 		return contestMatcher.find() ? contestMatcher.group( 1 ).split( "<p>" ) : null;
 	}
 
+	private static String prettyContestLine( final String line )
+	{
+		return StringUtilities.globalStringReplace( line, "<br>", " / " );
+	}
+
 	private void parseMatch()
 	{
 		this.results = CakeArenaRequest.contestLines( this.responseText );
@@ -265,6 +300,28 @@ public class CakeArenaRequest
 
 	private static final Pattern ENTRY_PATTERN =
 		Pattern.compile( "You enter (.*?) against (.*?) in (?:a game of|an|a) (.*?)(?: race)?\\." );
+
+	private static boolean isContestResult( final int eventId, final String line )
+	{
+		switch ( eventId )
+		{
+		case 1: 
+			// Gorg struggles for 18 rounds, but is eventually knocked out.
+			// Gorg knocks Pork Soda out after 18 rounds.
+			return ( line.contains( "is eventually knocked out" ) ||
+				 ( line.contains( "knocks" ) && line.contains( "out after" ) ) );
+		case 2: 
+			// Gonald finds 12 items from the list.
+			return ( line.contains( "items from the list" ) );
+		case 3: 
+			// Ton makes it through the obstacle course in 199 seconds.
+			return ( line.contains( "makes it through the obstacle course" ) );
+		case 4: 
+			// Trort manages to stay hidden for 30 seconds.
+			return ( line.contains( "manages to stay hidden for" ) );
+		}
+		return false;
+	}
 
 	private static String parseSuckage( String [] lines )
 	{
@@ -277,11 +334,6 @@ public class CakeArenaRequest
 		// The second line might be "your familiar sucks"
 		// ... or "the other familiar sucks"
 		// ... or "the first line of the contest result"
-
-		// "Familiar suckage" messages do not always include the name
-		// of the familiar. Fortunately, for the opponents in the cake
-		// arena, they always do, and the message starts with the
-		// opponent's name
 
 		// Need at least 2 lines of results
 		if ( lines == null || lines.length < 2 )
@@ -297,53 +349,32 @@ public class CakeArenaRequest
 			return null;
 		}
 
-		String familiarName = m.group( 1 );
-		String opponentName = m.group( 2 );
 		int eventId = CakeArenaManager.eventNameToId( m.group( 3 ) );
-
 		String line2 = lines[ 1 ];
 
+		// If the second line is a contest result, neither familiar
+		// sucks at this event.
+		if ( CakeArenaRequest.isContestResult( eventId, line2 ) )
+		{
+			return null;
+		}
+
+		// "Familiar suckage" messages do not always include the name
+		// of the familiar. Fortunately, for the current opponents in
+		// the cake arena, they always do, and the message starts with
+		// the opponent's name.
+		//
+		// *** If KoL ever adds arena opponents that have "special"
+		// *** suckage messages, this will need to change
+
+		String opponentName = m.group( 2 );
 		if ( line2.startsWith( opponentName ) )
 		{
 			// The other familiar sucks but not this one
 			return null;
 		}
 
-		switch ( eventId )
-		{
-		case 1: 
-			// Gorg struggles for 18 rounds, but is eventually knocked out.
-			// Gorg knocks Pork Soda out after 18 rounds.
-			if ( line2.contains( "is eventually knocked out" ) ||
-			     ( line2.contains( "knocks" ) && line2.contains( "out after" ) ) )
-			{
-				return null;
-			}
-			break;
-		case 2: 
-			// Gonald finds 12 items from the list.
-			if ( line2.contains( "items from the list" ) )
-			{
-				return null;
-			}
-			break;
-		case 3: 
-			// Ton makes it through the obstacle course in 199 seconds.
-			if ( line2.contains( "makes it through the obstacle course" ) )
-			{
-				return null;
-			}
-			break;
-		case 4: 
-			// Trort manages to stay hidden for 30 seconds.
-			if ( line2.contains( "manages to stay hidden for" ) )
-			{
-				return null;
-			}
-			break;
-		}
-
-		return new String( StringUtilities.globalStringReplace( line2, "<br>", " / " ) );
+		return new String( CakeArenaRequest.prettyContestLine( line2 ) );
 	}
 
 	public final boolean badContest()
@@ -375,7 +406,7 @@ public class CakeArenaRequest
 			return false;
 		}
 
-		if ( urlString.indexOf( "action=go" ) == -1 )
+		if ( !urlString.contains( "action=go" ) )
 		{
 			return true;
 		}
@@ -426,29 +457,5 @@ public class CakeArenaRequest
 		RequestLogger.updateSessionLog( message4 );
 
 		return true;
-	}
-
-	private static int getOpponent( final String urlString )
-	{
-		Matcher matcher = OPP_PATTERN.matcher( urlString );
-		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : -1;
-	}
-
-	private static int getEvent( final String urlString )
-	{
-		Matcher matcher = EVENT_PATTERN.matcher( urlString );
-		return matcher.find() ? StringUtilities.parseInt( matcher.group(1) ) : -1;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "Arena Battle";
-	}
-
-	@Override
-	public int getAdventuresUsed()
-	{
-		return this.isCompetition ? 1 : 0;
 	}
 }
