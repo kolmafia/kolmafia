@@ -302,7 +302,14 @@ public abstract class CombatActionManager
 					return Preferences.getBoolean( "autoSteal" ) && KoLCharacter.hasEquipped( ItemPool.get(
 						ItemPool.NEW_WAVE_BLING, 1 ) ) ? "try to steal an item" : "skip";
 				case 2:
-					return Preferences.getBoolean( "autoEntangle" ) ? "skill Entangling Noodles" : "skip";
+					if ( KoLCharacter.getClassName().equals( "Seal Clubber") )
+					{
+						return Preferences.getBoolean( "autoEntangle" ) ? "skill Club Foot" : "skip";
+					}
+					else
+					{
+						return Preferences.getBoolean( "autoEntangle" ) ? "skill Entangling Noodles" : "skip";
+					}					
 				case 3:
 					return "special action";
 				default:
