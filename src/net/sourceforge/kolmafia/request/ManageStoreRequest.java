@@ -82,11 +82,12 @@ public class ManageStoreRequest
 		this( itemId, Integer.MAX_VALUE );
 	}
 
-	public ManageStoreRequest( final int itemId, final int qty )
+	public ManageStoreRequest( final int itemId, int qty )
 	{
 		super( "backoffice.php" );
 		this.addFormField( "itemid", String.valueOf( itemId ) );
 		this.addFormField( "action", "removeitem" );
+		qty = Math.max( qty, StoreManager.shopAmount( itemId ) );
 		this.addFormField( "qty", String.valueOf( qty ) );
 		this.addFormField( "ajax", "1" );
 

@@ -729,6 +729,21 @@ public abstract class StoreManager
 		}
 	}
 
+	public static int shopAmount( int itemId )
+	{
+		SoldItem item = new SoldItem( itemId, 0, 0, 0, 0 );
+
+		int index = StoreManager.soldItemList.indexOf( item );
+		if ( index == -1 )
+		{
+			// The item isn't in your store
+			return 0;
+		}
+
+		item = (SoldItem) soldItemList.get( index );
+		return item.getQuantity();
+	}
+
 	public static void priceItemsAtLowestPrice( boolean avoidMinPrice )
 	{
 		RequestThread.postRequest( new ManageStoreRequest() );
