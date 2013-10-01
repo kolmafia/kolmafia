@@ -330,25 +330,25 @@ public class StringUtilities
 			searchString = "";
 		}
 
+		searchString = searchString.trim();
+
 		boolean isExactMatch = searchString.startsWith( "\"" );
 		List<String> matchList = new ArrayList<String>();
 
 		if ( isExactMatch )
 		{
-			String fullString = StringUtilities.getCanonicalName( searchString.trim() );
-
+			String fullString = StringUtilities.getCanonicalName( searchString );
 			if ( Arrays.binarySearch( names, fullString ) >= 0 )
 			{
 				matchList.add( fullString );
 				return matchList;
 			}
 
-			searchString =
-				searchString.substring(
-					1, searchString.endsWith( "\"" ) ? searchString.length() - 1 : searchString.length() );
+			int end = searchString.endsWith( "\"" ) ? searchString.length() - 1 : searchString.length();
+			searchString = searchString.substring( 1, end );
 		}
 
-		searchString = StringUtilities.getCanonicalName( searchString.trim() );
+		searchString = StringUtilities.getCanonicalName( searchString );
 
 		if ( searchString.length() == 0 )
 		{
