@@ -380,6 +380,9 @@ public class Expression
 			case 'X':
 				v = KoLCharacter.getGender();
 				break;
+			case 'Y':
+				v = KoLCharacter.getFury();
+				break;
 			
 			// Valid with MonsterExpression:
 			case '\u0080':
