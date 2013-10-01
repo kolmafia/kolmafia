@@ -61,6 +61,10 @@ public class CakeArenaRequest
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "event=(\\d*)" );
 
 	private boolean isCompetition;
+	private int eventId;
+
+	private String [] results;
+	private String suckage;
 
 	public CakeArenaRequest()
 	{
@@ -74,7 +78,9 @@ public class CakeArenaRequest
 		this.addFormField( "action", "go" );
 		this.addFormField( "whichopp", String.valueOf( opponentId ) );
 		this.addFormField( "event", String.valueOf( eventId ) );
+
 		this.isCompetition = true;
+		this.eventId = eventId;
 	}
 
 	@Override
@@ -112,7 +118,11 @@ public class CakeArenaRequest
 
 		CakeArenaRequest.parseResponse( this.getURLString(), this.responseText );
 
-		if ( !this.isCompetition )
+		if ( this.isCompetition )
+		{
+			this.parseMatch();
+		}
+		else
 		{
 			KoLmafia.updateDisplay( "Opponent list retrieved." );
 		}
@@ -147,10 +157,16 @@ public class CakeArenaRequest
 
 			ResultProcessor.processMeat( -100 );
 
+			String suckage = CakeArenaRequest.parseSuckage( CakeArenaRequest.contestLines( responseText ) );
+			if ( suckage != null )
+			{
+				RequestLogger.updateSessionLog( suckage );
+			}
+
 			String message = CakeArenaRequest.resultMessage( responseText );
 			RequestLogger.updateSessionLog( message );
 
-			if ( message.indexOf( "lost" ) == -1 )
+			if ( message.contains( "lost" ) )
 			{
 				KoLCharacter.setArenaWins( KoLCharacter.getArenaWins() + 1 );
 			}
@@ -186,14 +202,163 @@ public class CakeArenaRequest
 		}
 	}
 
+	public static final Pattern WIN_PATTERN = Pattern.compile( "is the winner, and gains (\\d+) experience" );
+
+	public final int earnedXP()
+	{
+		return CakeArenaRequest.earnedXP( this.responseText );
+	}
+
+	private static final int earnedXP( final String responseText )
+	{
+		Matcher matcher = CakeArenaRequest.WIN_PATTERN.matcher( responseText );
+		return matcher.find() ? Integer.valueOf( matcher.group( 1 ) ).intValue() : 0;
+	}
+
+	// You enter Gorg against Pork Soda in an Ultimate Cage Match.
+	// Gorg is too busy being cute to fight very effectively.
+	// Pork Soda is too busy being cute to fight very effectively.
+	// Gorg struggles for 18 rounds, but is eventually knocked out.
+	// Gorg lost.
+	//    or
+	// Gorg knocks Pork Soda out after 18 rounds.
+	// Gorg is the winner, and gains 2 experience!
+
+	// You enter Gonald against Citrus Maximus in a Scavenger Hunt.
+	// Gonald has no eyes, and so is not exactly the best choice for this event.
+	// Citrus Maximus has no eyes, and so is not exactly the best choice for this event.
+	// Gonald finds 12 items from the list.
+	// Citrus Maximus finds 12 items.
+	// Gonald is the winner, and gains 5 experience!
+	// <b>Gonald gains a pound!</b>
+	// Congratulations on your 290th arena win.  You've earned a prize from the Arena Goodies Sack!
+
+	// You enter Ton against Mr. Joe Bangles in an Obstacle Course race.
+	// Ton is too short to get over most of the obstacles.
+	// Mr. Joe Bangles is too short to get over most of the obstacles.
+	// Ton makes it through the obstacle course in 199 seconds.
+	// Mr. Joe Bangles takes 200 seconds.
+	// Ton is the winner, and gains 5 experience!
+	// <b>Ton gains a pound!</b>
+	// Congratulations!  Only 1 more win until you get a prize from the Arena Goodies Sack!
+
+	// You enter Trort against Pork Soda in a game of Hide and Seek.
+	// Trort buzzes incessantly, making it very difficult to remain concealed.
+	// Trort manages to stay hidden for 30 seconds.
+	// Pork Soda stays hidden for 47 seconds.
+	// Trort lost.
+
+	private static final Pattern CONTEST_PATTERN =
+		Pattern.compile( "<table><tr><td>(You enter.*?)</td></tr></table>" );
+
+	private static String [] contestLines( final String responseText )
+	{
+		Matcher contestMatcher = CakeArenaRequest.CONTEST_PATTERN.matcher( responseText );
+		return contestMatcher.find() ? contestMatcher.group( 1 ).split( "<p>" ) : null;
+	}
+
+	private void parseMatch()
+	{
+		this.results = CakeArenaRequest.contestLines( this.responseText );
+		this.suckage = CakeArenaRequest.parseSuckage( this.results );
+	}
+
+	private static final Pattern ENTRY_PATTERN =
+		Pattern.compile( "You enter (.*?) against (.*?) in (?:a game of|an|a) (.*?)(?: race)?\\." );
+
+	private static String parseSuckage( String [] lines )
+	{
+		// Look for special "this familiar sucks" message. Note the
+		// familiar can still win, even if such a message is present; a
+		// match in which both familiars suck is given to either
+		// contestant at random.
+
+		// The first line is always "You enter X against Y in Z
+		// The second line might be "your familiar sucks"
+		// ... or "the other familiar sucks"
+		// ... or "the first line of the contest result"
+
+		// "Familiar suckage" messages do not always include the name
+		// of the familiar. Fortunately, for the opponents in the cake
+		// arena, they always do, and the message starts with the
+		// opponent's name
+
+		// Need at least 2 lines of results
+		if ( lines == null || lines.length < 2 )
+		{
+			return null;
+		}
+
+		// Line 1 describes the contest
+		String line1 = lines[ 0 ];
+		Matcher m = CakeArenaRequest.ENTRY_PATTERN.matcher( line1 );
+		if ( !m.find() )
+		{
+			return null;
+		}
+
+		String familiarName = m.group( 1 );
+		String opponentName = m.group( 2 );
+		int eventId = CakeArenaManager.eventNameToId( m.group( 3 ) );
+
+		String line2 = lines[ 1 ];
+
+		if ( line2.startsWith( opponentName ) )
+		{
+			// The other familiar sucks but not this one
+			return null;
+		}
+
+		switch ( eventId )
+		{
+		case 1: 
+			// Gorg struggles for 18 rounds, but is eventually knocked out.
+			// Gorg knocks Pork Soda out after 18 rounds.
+			if ( line2.contains( "is eventually knocked out" ) ||
+			     ( line2.contains( "knocks" ) && line2.contains( "out after" ) ) )
+			{
+				return null;
+			}
+			break;
+		case 2: 
+			// Gonald finds 12 items from the list.
+			if ( line2.contains( "items from the list" ) )
+			{
+				return null;
+			}
+			break;
+		case 3: 
+			// Ton makes it through the obstacle course in 199 seconds.
+			if ( line2.contains( "makes it through the obstacle course" ) )
+			{
+				return null;
+			}
+			break;
+		case 4: 
+			// Trort manages to stay hidden for 30 seconds.
+			if ( line2.contains( "manages to stay hidden for" ) )
+			{
+				return null;
+			}
+			break;
+		}
+
+		return new String( StringUtilities.globalStringReplace( line2, "<br>", " / " ) );
+	}
+
+	public final boolean badContest()
+	{
+		return this.suckage != null;
+	}
+
 	private static String resultMessage( final String responseText )
 	{
 		FamiliarData familiar = KoLCharacter.getFamiliar();
-		int xp = CakeArenaManager.earnedXP( responseText );
+		int xp = CakeArenaRequest.earnedXP( responseText );
 
-		boolean gain = responseText.indexOf( "gains a pound" ) != -1;
 		if ( xp > 0 )
 		{
+			boolean gain = responseText.indexOf( "gains a pound" ) != -1;
 			familiar.addNonCombatExperience( xp );
 			return familiar.getName() + " gains " + xp + " experience" + ( gain ? " and a pound." : "." );
 		}
@@ -240,7 +405,7 @@ public class CakeArenaRequest
 		}
 
 		CakeArenaManager.ArenaOpponent ao = CakeArenaManager.getOpponent( opponent );
-		String eventName = CakeArenaManager.getEvent( event );
+		String eventName = CakeArenaManager.eventIdToName( event );
 
 		String message1 = "[" + KoLAdventure.getAdventureCount() + "] Cake-Shaped Arena";
 

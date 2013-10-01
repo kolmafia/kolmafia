@@ -188,7 +188,7 @@ public class CakeArenaFrame
 			String yourSkill = yourSkillValue == 1 ? "1 star (yours)" : yourSkillValue + " stars (yours)";
 
 			int battleCount =
-				StringUtilities.parseInt( InputFieldUtilities.input( "<html>" + CakeArenaFrame.this.opponents.get( this.row ).toString() + ", " + CakeArenaManager.getEvent( this.column ) + "<br>" + yourSkill + " vs. " + this.opponentSkill + "</html>" ) );
+				StringUtilities.parseInt( InputFieldUtilities.input( "<html>" + CakeArenaFrame.this.opponents.get( this.row ).toString() + ", " + CakeArenaManager.eventIdToName( this.column ) + "<br>" + yourSkill + " vs. " + this.opponentSkill + "</html>" ) );
 
 			if ( battleCount > 0 )
 			{

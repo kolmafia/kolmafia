@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 
 public class CakeArenaManager
 {
-	public static final Pattern WIN_PATTERN = Pattern.compile( "is the winner, and gains (\\d+) experience" );
 	private static final LockableListModel opponentList = new LockableListModel();
 
 	/**
@@ -75,25 +74,24 @@ public class CakeArenaManager
 	 * Retrieves the opponents Id based on the string description for the opponent.
 	 */
 
-	public static final void fightOpponent( final String opponent, final int eventId, final int repeatCount )
+	public static final void fightOpponent( final String target, final int eventId, final int repeatCount )
 	{
 		for ( int i = 0; i < CakeArenaManager.opponentList.size(); ++i )
 		{
-			if ( opponent.equals( CakeArenaManager.opponentList.get( i ).toString() ) )
+			ArenaOpponent opponent = (ArenaOpponent) CakeArenaManager.opponentList.get( i );
+			if ( target.equals( opponent.toString() ) )
 			{
 				FamiliarTrainingFrame.getResults().clear();
 
-				Matcher victoryMatcher;
-				Pattern victoryPattern = CakeArenaManager.WIN_PATTERN;
-				CakeArenaRequest request =
-					new CakeArenaRequest( ( (ArenaOpponent) CakeArenaManager.opponentList.get( i ) ).getId(), eventId );
+				int opponentId = opponent.getId();
+				CakeArenaRequest request = new CakeArenaRequest( opponentId, eventId );
 
 				for ( int j = 1; KoLmafia.permitsContinue() && j <= repeatCount; ++j )
 				{
 					KoLmafia.updateDisplay( "Arena battle, round " + j + " in progress..." );
 					RequestThread.postRequest( request );
 
-					victoryMatcher = victoryPattern.matcher( request.responseText );
+					Matcher victoryMatcher = CakeArenaRequest.WIN_PATTERN.matcher( request.responseText );
 					StringBuffer text = new StringBuffer();
 
 					if ( victoryMatcher.find() )
@@ -123,12 +121,6 @@ public class CakeArenaManager
 				return;
 			}
 		}
-	}
-
-	public static final int earnedXP( final String response )
-	{
-		Matcher matcher = CakeArenaManager.WIN_PATTERN.matcher( response );
-		return matcher.find() ? Integer.valueOf( matcher.group( 1 ) ).intValue() : 0;
 	}
 
 	/**
@@ -161,12 +153,12 @@ public class CakeArenaManager
 		return null;
 	}
 
-	public static final String getEvent( final int eventId )
+	public static final String eventIdToName( final int eventId )
 	{
 		switch ( eventId )
 		{
 		case 1:
-			return "Cage Match";
+			return "Ultimate Cage Match";
 		case 2:
 			return "Scavenger Hunt";
 		case 3:
@@ -176,6 +168,15 @@ public class CakeArenaManager
 		default:
 			return "Unknown Event";
 		}
+	}
+
+	public static final int eventNameToId( final String eventName )
+	{
+		return	eventName.equals( "Ultimate Cage Match" ) ? 1 :
+			eventName.equals( "Scavenger Hunt" ) ? 2 :
+			eventName.equals( "Obstacle Course" ) ? 3 :
+			eventName.equals( "Hide and Seek" ) ? 4 :
+			0;
 	}
 
 	/**
