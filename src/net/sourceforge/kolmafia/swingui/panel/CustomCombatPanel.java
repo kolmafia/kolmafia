@@ -106,13 +106,14 @@ public class CustomCombatPanel
 	protected CardLayout combatCards;
 	public JComboBox availableScripts;
 
-	private static ImageIcon stealImg, entangleImg;
+	private static ImageIcon stealImg, entangleImg, clubFootImg;
 	private static ImageIcon potionImg, olfactImg, puttyImg;
 	private static ImageIcon antidoteImg, restoreImg, safeImg;
 	static
 	{
 		CustomCombatPanel.stealImg = CustomCombatPanel.getImage( "knobsack.gif" );
 		CustomCombatPanel.entangleImg = CustomCombatPanel.getImage( "entnoodles.gif" );
+		CustomCombatPanel.clubFootImg = CustomCombatPanel.getImage( "clubfoot.gif" );
 		CustomCombatPanel.potionImg = CustomCombatPanel.getImage( "exclam.gif" );
 		CustomCombatPanel.olfactImg = CustomCombatPanel.getImage( "footprints.gif" );
 		CustomCombatPanel.puttyImg = CustomCombatPanel.getImage( "sputtycopy.gif" );
@@ -220,11 +221,11 @@ public class CustomCombatPanel
 		private final JPanel special;
 		private final JPopupMenu specialPopup;
 
-		private final JLabel stealLabel, entangleLabel;
+		private final JLabel stealLabel, stunLabel;
 		private final JLabel potionLabel, olfactLabel, puttyLabel;
 		private final JLabel antidoteLabel, restoreLabel, safeLabel;
 
-		private final JCheckBoxMenuItem stealItem, entangleItem;
+		private final JCheckBoxMenuItem stealItem, stunItem;
 		private final JCheckBoxMenuItem potionItem, olfactItem, puttyItem;
 		private final JCheckBoxMenuItem restoreItem, safePickpocket;
 		private final JMenu poisonItem;
@@ -245,14 +246,26 @@ public class CustomCombatPanel
 			MouseListener listener = new SpecialPopListener();
 			special.addMouseListener( listener );
 
+			boolean isSealClubber = KoLCharacter.getClassName().equals( "Seal Clubber" );
+			
 			this.stealLabel =
 				this.label(
 					special, listener, CustomCombatPanel.stealImg,
 					"Pickpocketing will be tried (if appropriate) with non-CCS actions." );
-			this.entangleLabel =
-				this.label(
-					special, listener, CustomCombatPanel.entangleImg,
-					"Entangling Noodles will be cast before non-CCS actions." );
+			if ( isSealClubber ) 
+			{
+				this.stunLabel =
+					this.label(
+						special, listener, CustomCombatPanel.clubFootImg,
+						"Club Foot will be cast before non-CCS actions." );
+			}
+			else
+			{
+				this.stunLabel =
+					this.label(
+						special, listener, CustomCombatPanel.entangleImg,
+						"Entangling Noodles will be cast before non-CCS actions." );
+			}
 			this.olfactLabel = this.label( special, listener, CustomCombatPanel.olfactImg, null );
 			this.puttyLabel = this.label( special, listener, CustomCombatPanel.puttyImg, null );
 			this.potionLabel =
@@ -272,7 +285,7 @@ public class CustomCombatPanel
 
 			this.specialPopup = new JPopupMenu( "Special Actions" );
 			this.stealItem = this.checkbox( this.specialPopup, listener, "Pickpocket before simple actions" );
-			this.entangleItem = this.checkbox( this.specialPopup, listener, "Cast Noodles before simple actions" );
+			this.stunItem = this.checkbox( this.specialPopup, listener, isSealClubber ? "Cast Club Foot before simple actions" : "Cast Noodles before simple actions" );
 			this.specialPopup.addSeparator();
 
 			this.olfactItem = this.checkbox( this.specialPopup, listener, "One-time automatic Olfaction..." );
@@ -321,13 +334,19 @@ public class CustomCombatPanel
 
 			CustomCombatPanel.this.actionSelect.setSelectedItem( Preferences.getString( "battleAction" ) );
 
-			if ( KoLCharacter.hasSkill( "Entangling Noodles" ) )
+			boolean isSealClubber = KoLCharacter.getClassName().equals( "Seal Clubber" );
+
+			if ( KoLCharacter.hasSkill( "Entangling Noodles" ) && !isSealClubber )
 			{
-				this.entangleItem.setEnabled( true );
+				this.stunItem.setEnabled( true );
+			}
+			else if ( KoLCharacter.hasSkill( "Club Foot" ) && isSealClubber )
+			{
+				this.stunItem.setEnabled( true );
 			}
 			else
 			{
-				this.entangleItem.setEnabled( false );
+				this.stunItem.setEnabled( false );
 				Preferences.setBoolean( "autoEntangle", false );
 			}
 
@@ -337,8 +356,8 @@ public class CustomCombatPanel
 			this.stealLabel.setVisible( pref );
 			this.stealItem.setSelected( pref );
 			pref = Preferences.getBoolean( "autoEntangle" );
-			this.entangleLabel.setVisible( pref );
-			this.entangleItem.setSelected( pref );
+			this.stunLabel.setVisible( pref );
+			this.stunItem.setSelected( pref );
 			text = Preferences.getString( "autoOlfact" );
 			pref = text.length() > 0;
 			this.olfactLabel.setVisible( pref );
@@ -459,7 +478,7 @@ public class CustomCombatPanel
 				{
 					Preferences.setBoolean( "autoSteal", state );
 				}
-				else if ( source == SpecialActionsPanel.this.entangleItem )
+				else if ( source == SpecialActionsPanel.this.stunItem )
 				{
 					Preferences.setBoolean( "autoEntangle", state );
 				}

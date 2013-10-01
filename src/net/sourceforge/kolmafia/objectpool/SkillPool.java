@@ -85,6 +85,7 @@ public class SkillPool
 	public static final int OTTER_TONGUE = 1007;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int CLOBBER = 1022;
+	public static final int CLUBFOOT = 1033;
 	public static final int TOSS = 2023;
 	public static final int HEAD_KNEE = 2103;
 	public static final int HEAD_SHIELD = 2105;

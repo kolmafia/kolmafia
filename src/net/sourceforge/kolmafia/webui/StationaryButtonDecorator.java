@@ -62,7 +62,12 @@ public class StationaryButtonDecorator
 
 	private static final boolean builtInSkill( final String skillId )
 	{
-		if ( skillId.equals( String.valueOf( SkillPool.ENTANGLING_NOODLES ) ) )
+		if ( skillId.equals( String.valueOf( SkillPool.ENTANGLING_NOODLES ) ) && !KoLCharacter.getClassName().equals( "Seal Clubber") )
+		{
+			return true;
+		}
+
+		if ( skillId.equals( String.valueOf( SkillPool.CLUBFOOT ) ) && KoLCharacter.getClassName().equals( "Seal Clubber") )
 		{
 			return true;
 		}
@@ -322,12 +327,20 @@ public class StationaryButtonDecorator
 				urlString, buffer, actionBuffer, "jiggle", enabled );
 		}
 
-		if ( !inBirdForm && KoLCharacter.hasSkill( "Entangling Noodles" ) )
+		if ( !inBirdForm && KoLCharacter.hasSkill( "Entangling Noodles" ) && !KoLCharacter.getClassName().equals( "Seal Clubber") )
 		{
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
 				FightRequest.canCastNoodles();
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, "3004", enabled );
+		}
+
+		if ( !inBirdForm && KoLCharacter.hasSkill( "Club Foot" ) && KoLCharacter.getClassName().equals( "Seal Clubber") )
+		{
+			boolean enabled = FightRequest.getCurrentRound() > 0 &&
+				FightRequest.canCastClubFoot();
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "1033", enabled );
 		}
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Transcendent Olfaction" ) )
@@ -512,8 +525,15 @@ public class StationaryButtonDecorator
 			{
 				buffer.append( "action=skill&whichskill=" );
 				buffer.append( action );
+				int skillID = StringUtilities.parseInt( action );
 				isEnabled &=
-					SkillDatabase.getMPConsumptionById( StringUtilities.parseInt( action ) ) <= KoLCharacter.getCurrentMP();
+					SkillDatabase.getMPConsumptionById( skillID ) <= KoLCharacter.getCurrentMP();
+				if ( SkillDatabase.getSkillName( skillID ).equals( "Club Foot" ) 
+					|| SkillDatabase.getSkillName( skillID ).equals( "Furious Wallop" )
+					|| SkillDatabase.getSkillName( skillID ).equals( "Cavalcade of Fury" ) )
+				{
+					isEnabled &= KoLCharacter.getFury() > 0;
+				}
 			}
 		}
 

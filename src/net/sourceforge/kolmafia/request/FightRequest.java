@@ -239,6 +239,7 @@ public class FightRequest
 	private static final String OLFACTION_ACTION = "skill" + SkillPool.OLFACTION;
 
 	private static boolean castNoodles = false;
+	private static boolean castClubFoot = false;
 	private static boolean castCleesh = false;
 	private static boolean jiggledChefstaff = false;
 	private static boolean squeezedStressBall = false;
@@ -516,6 +517,11 @@ public class FightRequest
 	{
 		return !FightRequest.castNoodles ||
 			MonsterStatusTracker.getLastMonsterName().equals( "spaghetti demon" );
+	}
+
+	public static final boolean canCastClubFoot()
+	{
+		return !FightRequest.castClubFoot;
 	}
 
 	public static final boolean canOlfact()
@@ -1187,6 +1193,16 @@ public class FightRequest
 		{
 			// You can only use this skill once per combat
 			if ( FightRequest.castNoodles )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Club Foot" ) )
+		{
+			// You can only use this skill once per combat
+			if ( FightRequest.castClubFoot )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -5197,6 +5213,7 @@ public class FightRequest
 		KoLCharacter.resetEffectiveFamiliar();
 		IslandDecorator.startFight();
 		FightRequest.castNoodles = false;
+		FightRequest.castClubFoot = false;
 		FightRequest.castCleesh = false;
 		FightRequest.canOlfact = true;
 		FightRequest.jiggledChefstaff = false;
@@ -5807,6 +5824,10 @@ public class FightRequest
 			FightRequest.castNoodles = true;
 			return;
 
+		case SkillPool.CLUBFOOT:
+			FightRequest.castClubFoot = true;
+			return;
+			
 		case SkillPool.MAYFLY_SWARM:
 			if ( responseText.contains( "mayfly bait and swing it" ) ||
 				 responseText.contains( "May flies when" ) ||
