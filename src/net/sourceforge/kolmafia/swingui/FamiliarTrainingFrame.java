@@ -118,14 +118,6 @@ public class FamiliarTrainingFrame
 		Pattern.compile( "You've earned a prize from the Arena Goodies Sack!.*You acquire an item: <b>(.*?)</b>" );
 	private static final Pattern STEAL_PATTERN =
 		Pattern.compile( "She also drops an item from her mouth.*You acquire an item: <b>(.*?)</b>" );
-	private static final Pattern CAGELOST_PATTERN =
-		Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>.*?(?:\\1|this turtle|Grouper groupies|Chauvinist Pigs).*?[.!]<p>\\1 struggles for" );
-	private static final Pattern HUNTLOST_PATTERN =
-		Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>.*?\\1.*?[.!]<p>\\1 finds" );
-	private static final Pattern COURSELOST_PATTERN =
-		Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>.*?(?:\\1|Urchins).*?[.!]<p>\\1 makes it through the obstacle course" );
-	private static final Pattern HIdELOST_PATTERN =
-		Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>.*?\\1.*?[.!]<p>\\1 manages to stay hidden" );
 
 	private static final StyledChatBuffer results = new StyledChatBuffer( "", "blue", false );
 
@@ -1111,7 +1103,7 @@ public class FamiliarTrainingFrame
 
 				FamiliarTrainingFrame.statusMessage(
 					MafiaState.CONTINUE,
-					CakeArenaManager.getEvent( contest + 1 ) + " rank " + ( rank + 1 ) + ": trial " + trial );
+					CakeArenaManager.eventIdToName( contest + 1 ) + " rank " + ( rank + 1 ) + ": trial " + trial );
 
 				// Choose possible weights
 				int[] weights = status.getWeights();
@@ -1133,7 +1125,7 @@ public class FamiliarTrainingFrame
 					// Informative message only. Do not stop session.
 					FamiliarTrainingFrame.statusMessage(
 						MafiaState.ERROR,
-						"Internal error: Selected " + CakeArenaManager.getEvent( match ) + " rather than " + CakeArenaManager.getEvent( contest + 1 ) );
+						"Internal error: Selected " + CakeArenaManager.eventIdToName( match ) + " rather than " + CakeArenaManager.eventIdToName( contest + 1 ) );
 					// Use contest, even if with bad weight
 					match = contest + 1;
 				}
@@ -1194,7 +1186,7 @@ public class FamiliarTrainingFrame
 		for ( int contest = 0; contest < 4; ++contest )
 		{
 			text.append( "<tr>" );
-			text.append( "<td>" + CakeArenaManager.getEvent( contest + 1 ) + "</td>" );
+			text.append( "<td>" + CakeArenaManager.eventIdToName( contest + 1 ) + "</td>" );
 
 			int bestXP = 0;
 			int bestRank = 0;
@@ -1463,7 +1455,7 @@ public class FamiliarTrainingFrame
 			text.append( " lbs." );
 		}
 		text.append( ") vs. " + opponent.getName() );
-		text.append( " in the " + CakeArenaManager.getEvent( match ) );
+		text.append( " in the " + CakeArenaManager.eventIdToName( match ) );
 		text.append( " event.<br>" );
 
 		FamiliarTrainingFrame.results.append( text.toString() );
@@ -1490,7 +1482,7 @@ public class FamiliarTrainingFrame
 		FamiliarTrainingFrame.printMatch( status, opponent, tool, match );
 
 		// Run the match
-		GenericRequest request = new CakeArenaRequest( opponent.getId(), match );
+		CakeArenaRequest request = new CakeArenaRequest( opponent.getId(), match );
 		RequestThread.postRequest( request );
 		
 		// If the request failed to produce responseText, bail
@@ -1499,58 +1491,14 @@ public class FamiliarTrainingFrame
 			return 0;
 		}
 
-		// Pass the response text to the FamiliarStatus to
-		// add familiar items and deduct a turn.
-		int xp = CakeArenaManager.earnedXP( request.responseText );
-		status.processMatchResult( request.responseText, xp );
+		// Figure out how much xp the familiar earned in this contest
+		int xp = request.earnedXP();
+
+		// Log the results, add familiar items, deduct turn.
+		status.processMatchResult( request, xp );
 
 		// Return the amount of XP the familiar earned
-		return FamiliarTrainingFrame.badContest( request.responseText, match ) ? -1 : xp;
-	}
-
-	private static final boolean badContest( final String response, final int match )
-	{
-		// Look for special "this familiar sucks" message. Note the
-		// familiar can still win, even if such a message is present; a
-		// match in which both familiars suck is given to either
-		// contestant at random.
-
-		Matcher matcher;
-		switch ( match )
-		{
-		case 1: // "You enter Tort against Dirty Pair in an Ultimate
-			// Cage Match.<p>Tort is a lover, not a
-			// fighter.<p>Well, not really -- potatoes just suck at
-			// this event.<p>Tort struggles for 3 rounds, but is
-			// eventually knocked out.<p>Tort lost."
-			matcher = FamiliarTrainingFrame.CAGELOST_PATTERN.matcher( response );
-			break;
-		case 2: // "You enter Trot against Vine Vidi Vici in a
-			// Scavenger Hunt.<p>Trot keeps getting distracted from
-			// the hunt and randomly ramming into things.<p>Trot
-			// finds 12 items from the list.<p>Vine Vidi Vici finds
-			// 17 items.<p>Trot lost."
-			matcher = FamiliarTrainingFrame.HUNTLOST_PATTERN.matcher( response );
-			break;
-		case 3: // "You enter Gort against Pork Soda in an Obstacle
-			// Course race.<p>Gort is too short to get over most of
-			// the obstacles.<p>Gort makes it through the obstacle
-			// course in 49 seconds.<p>Pork Soda takes 29
-			// seconds. <p>Gort lost."
-			matcher = FamiliarTrainingFrame.COURSELOST_PATTERN.matcher( response );
-			break;
-		case 4: // "You enter Tot against Pork Soda in a game of Hide
-			// and Seek.<p>Tot buzzes incessantly, making it very
-			// difficult to remain concealed.<p>Tot manages to stay
-			// hidden for 28 seconds.<p>Pork Soda stays hidden for
-			// 53 seconds.<p>Tot lost."
-			matcher = FamiliarTrainingFrame.HIdELOST_PATTERN.matcher( response );
-			break;
-		default:
-			return false;
-		}
-
-		return matcher.find();
+		return request.badContest() ? -1 : xp;
 	}
 
 	/**
@@ -2601,8 +2549,10 @@ public class FamiliarTrainingFrame
 
 		/** *********************************************************** */
 
-		public void processMatchResult( final String response, final int xp )
+		public void processMatchResult( final CakeArenaRequest request, final int xp )
 		{
+			String response = request.responseText;
+
 			// If the contest did not take place, bail now
 			if ( response.indexOf( "You enter" ) == -1 )
 			{
