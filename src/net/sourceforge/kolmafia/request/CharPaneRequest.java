@@ -554,6 +554,18 @@ public class CharPaneRequest
 			int newAdventures = StringUtilities.parseInt( matcher.group( 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
 			ResultProcessor.processAdventuresLeft( newAdventures - oldAdventures );
 		}
+		
+		pattern = Pattern.compile( ">(\\d+) gal.</span>" );
+		matcher = pattern.matcher( responseText );
+		if ( matcher != null && matcher.find() )
+		{
+			int fury = StringUtilities.parseInt( matcher.group( 1 ) );
+			KoLCharacter.setFury( fury );
+		}
+		else
+		{
+			KoLCharacter.setFury( 0 );
+		}
 	}
 
 	private static final void handleMindControl( final String text, final Pattern [] patterns )

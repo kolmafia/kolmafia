@@ -6798,3 +6798,5 @@
 6781	scabrous seal epaulets	683304454	epaulets.gif	accessory	t	0
 6782	abyssal battle plans	657302750	plans.gif	reusable		0
 6783	seal medal	884423426	sealmedal.gif	accessory		0
+6784	deanimated reanimator's coffin	360812033	coffinlid.gif	grow	t	0
+6785	flask of embalming fluid	534853428	flask.gif	familiar	t,d	75

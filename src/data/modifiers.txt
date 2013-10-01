@@ -37,6 +37,7 @@
 #	U - telescope Upgrades
 #	W - familiar Weight
 #	X - gender (-1=male, 1=female)
+#	Y - furY
 #
 # Items which "change with every new day":
 #
@@ -2625,6 +2626,7 @@ fixed-gear bicycle	Experience: +3, Effect: "stats", Equips On: "Mini-Hipster"
 flaming familiar doppelg&auml;nger	Monster Level: +5, Experience (familiar): +1.5, Softcore Only, Generic
 flaming glowsticks	Familiar Weight: +5
 # flaming nose: Makes Flaming Face More Complete
+# flask of embalming fluid: Helps your Reanimated Reanimator collect body parts
 funky brass fez	Familiar Weight: +5
 gazing shoes	Familiar Weight: +5
 # giant book of ancient carols: Causes the Ancient Yuletide Troll to drop carol pages more frequently
@@ -2942,6 +2944,7 @@ Throne:Purse Rat	Experience: +2
 Throne:Pygmy Bugbear Shaman	Experience (Mysticality): +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne:Ragamuffin Imp	Mysticality Percent: +15
 Throne:Reagnimated Gnome	Spooky Damage: +15
+Throne:Reanimated Reanimator	Experience (Mysticality): +2
 Throne:Reassembled Blackbird	Item Drop: +10
 Throne:Reconstituted Crow	Item Drop: +10
 Throne:RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -4419,6 +4422,7 @@ Best Served Cold	Spell Damage Percent: +100
 Big Boned	Maximum HP Percent: +30
 Big Lungs	HP Regen Min: 8, HP Regen Max: 10
 # Buoyancy of the Beluga Regenerate 1 HP per Adventure for each gallon of Fury
+Buoyancy of the Beluga	HP Regen Min: [Y], HP Regen Max: [Y]
 Chip on your Shoulder	PvP Fights: +5
 Claws of the Walrus	Weapon Damage: +7
 Cold-Blooded Fearlessness	Spooky Resistance: +2
@@ -4470,6 +4474,7 @@ Northern Exposure	Cold Resistance: +2
 Overdeveloped Sense of Self Preservation	Initiative: +20
 Powers of Observatiogn	Item Drop: +10
 # Precision of the Penguin +1% chance of Critical Hit for each gallon of Fury
+Precision of the Penguin	Critical Hit Percent: [Y]
 # Pulverize
 # Really Expensive Jewelrycrafting
 # Salacious Cocktailcrafting
@@ -4504,6 +4509,7 @@ Virulence	Critical Hit Percent: +10
 Wisdom of the Elder Tortoises	Maximum MP Percent: +50
 # Wrath of the Wolverine Lets you build Fury by defeating opponents (up to a maximum of 3 gallons of Fury)
 # Wrath of the Wolverine NOTE: Only true Seal Clubbers have the fortitude needed to contain Fury. Other classes are weak, and would be torn apart by it.
+Wrath of the Wolverine	Weapon Damage: [Y]
 Zombie Maestro	Mana Cost: -1
 
 # Bad Moon passive skills: the Seven Deadly Sins.

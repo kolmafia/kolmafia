@@ -302,6 +302,8 @@ public abstract class KoLCharacter
 	private static long[] triggerSubpoints = new long[ 3 ];
 	private static int[] triggerItem = new int[ 3 ];
 
+	private static int fury = 0;
+	
 	public static final int MAX_BASEPOINTS = 65535;
 
 	static { resetTriggers(); }
@@ -599,6 +601,8 @@ public abstract class KoLCharacter
 		KoLCharacter.decrementPrime = 0L;
 		KoLCharacter.incrementPrime = 25L;
 
+		KoLCharacter.fury = 0;
+		
 		KoLCharacter.pvpRank = 0;
 		KoLCharacter.attacksLeft = 0;
 		KoLCharacter.adjustedStats = new int[ 3 ];
@@ -1092,6 +1096,39 @@ public abstract class KoLCharacter
 		return KoLCharacter.currentLevel;
 	}
 
+	public static final int getFury()
+	{
+		return KoLCharacter.fury;
+	}
+	
+	public static final int getFuryLimit()
+	{
+		// 0 if not Seal Clubber, 3 with only Wrath of the Wolverine, 5 with Ire of the Orca in additon
+		return ( !KoLCharacter.classtype.equals( KoLCharacter.SEAL_CLUBBER ) || !KoLCharacter.hasSkill( "Wrath of the Wolverine" ) ) ? 0 :
+			KoLCharacter.hasSkill( "Ire of the Orca" ) ? 5 : 3;
+	}
+	
+	public static final void setFury( final int newFury )
+	{
+		int furyLimit = KoLCharacter.getFuryLimit();
+		KoLCharacter.fury = newFury > furyLimit ? furyLimit : newFury < 0 ? 0 : newFury;
+	}
+
+	public static final void resetFury()
+	{
+		fury = 0;
+	}
+	
+	public static final void incrementFury( final int incFury )
+	{
+		KoLCharacter.setFury( KoLCharacter.fury + incFury );
+	}		
+	
+	public static final void decrementFury( final int decFury )
+	{
+		KoLCharacter.setFury( KoLCharacter.fury - decFury );
+	}		
+	
 	public static final int getPvpRank()
 	{
 		return KoLCharacter.pvpRank;
