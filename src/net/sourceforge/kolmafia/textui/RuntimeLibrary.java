@@ -779,6 +779,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_fury", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_maxfury", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_meat", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -3568,6 +3571,11 @@ public abstract class RuntimeLibrary
 	public static Value my_fury( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getFury() );
+	}
+
+	public static Value my_maxfury( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getFuryLimit() );
 	}
 
 	public static Value my_meat( Interpreter interpreter )
