@@ -3663,7 +3663,7 @@
 3646	elven <i>limbos</i> gingerbread	970160730	limboswafer.gif	food	t	0	wafers of <i>limbos</i> gingerbread
 3647	elven whittling knife	599279187	shineknife.gif	weapon	t	0	elven whittling knives
 3648	magic dragonfish fry	516748124	smallfry.gif	grow	t	0	magic dragonfish frys
-3649	map to Madness Reef	410531723	map.gif	none	q,t,d	0
+3649	map to Madness Reef	410531723	map.gif	none	t,d	0
 3650	toast with jam	357577494	jamtoast.gif	food	t,d	40	pieces of toast with jam
 3651	miniature antlers	844666131	antlers.gif	familiar	t	0	pairs of miniature antlers
 3652	elven moonshine	668910096	moonshine.gif	drink	t	0	jars of elven moonshine
@@ -3697,7 +3697,7 @@
 3680	glowing esca	576073305	esca.gif	offhand	t,d	150	glowing escae
 3681	bubbling tempura batter	444166276	batter.gif	none, fancy	t	0	blobs of bubbling tempura batter
 3682	globe of Deep Sauce	979149157	potion12.gif	none, fancy	t	0	globes of Deep Sauce
-3683	map to the Marinara Trench	446203324	map.gif	none	q,t,d	0
+3683	map to the Marinara Trench	446203324	map.gif	none	t,d	0
 3684	tempura carrot	763304904	tempura1.gif	food	t,d	375	tempura carrots
 3685	tempura cucumber	747223912	tempura1.gif	food	t,d	375	tempura cucumbers
 3686	tempura avocado	294857873	tempura1.gif	food	t,d	375	tempura avocados
@@ -3715,7 +3715,7 @@
 3698	velcro ore	773082525	velcroore.gif	none	t,d	75	chunks of velcro ore
 3699	teflon ore	900934321	teflonore.gif	none	t,d	75	chunks of teflon ore
 3700	vinyl ore	680710697	vinylore.gif	none	t,d	75	chunks of vinyl ore
-3701	map to Anemone Mine	680600410	map.gif	none	q,t,d	0
+3701	map to Anemone Mine	680600410	map.gif	none	t,d	0
 3702	marine aquamarine	374383060	aquamarine.gif	none	t,d	350	marine aquamarines
 3703	rusty valve wheel	581289316	valvewheel.gif	none	t,d	30	rusty valve wheels
 3704	waterlogged bootstraps	696657364	bootstraps.gif	none	t,d	30	sets of waterlogged bootstraps
@@ -3788,7 +3788,7 @@
 3771	salacious lychee chuhai	832186108	seasaltdrink.gif	drink	t,d	215	salacious lychee chuhai
 3772	Alewife&trade; Ale	641864207	beerbottle.gif	drink	t,d	95	bottles of Alewife&trade; Ale
 3773	seaode	979001983	ccannonball.gif	none, fancy	t,d	155	seaodes
-3774	map to the Dive Bar	872146103	map.gif	none	q,t,d	0
+3774	map to the Dive Bar	872146103	map.gif	none	t,d	0
 3775	Mer-kin pinkslip	988891809	librarycard.gif	none, combat	t,d	85	Mer-kin pinkslips
 3776	pink pinkslip slip	177903260	slip.gif	pants	t,d	111	pink pinkslip slips
 3777	sea salt scrubs	501620697	scrubs.gif	shirt	t,d	140	sea salt scrubs
@@ -4236,7 +4236,7 @@
 4219	skate board	231121495	board.gif	weapon	t,d	155	skate boards
 4220	S.A.V.E. flyer	380053261	document.gif	usable	t,d	15	S.A.V.E. flyers
 4221	yield shield	399891683	shield_yield.gif	offhand		0	yield shields
-4222	map to the Skate Park	552478290	map.gif	none	q,t,d	0
+4222	map to the Skate Park	552478290	map.gif	none	t,d	0
 4223	squamous polyp	486257340	polyp.gif	grow	t	0	squamous polyps
 4224	unspeakable lozenges	541358579	coughdrops.gif	familiar	t,d	75	unspeakable lozengess
 4225	roller skate doll	232702108	miniskate3.gif	none	t,d	100	roller skate dolls
