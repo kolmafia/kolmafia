@@ -979,9 +979,13 @@ public abstract class KoLCharacter
 		{
 			KoLCharacter.setGender( KoLCharacter.FEMALE );
 		}
-		// Unfortunately, lack of '_f' in the avatar doesn't necessarily
-		// indicate a male character - it could be a custom avatar, or a
-		// special avatar such as Birdform that's unisex.
+		else
+		{
+			// Unfortunately, lack of '_f' in the avatar doesn't
+			// necessarily indicate a male character - it could be a custom
+			// avatar, or a special avatar such as Birdform that's unisex.
+			KoLCharacter.setGender();
+		}
 	}
 
 	/**
@@ -995,6 +999,31 @@ public abstract class KoLCharacter
 		return KoLCharacter.avatar;
 	}
 
+	private static final int setGender()
+	{
+		// If we already know our gender, are in Valhalla (where gender
+		// is meaningless), or are not logged in (ditto), nothing to do
+		if ( KoLCharacter.gender != 0 ||
+		     CharPaneRequest.inValhalla() ||
+		     GenericRequest.passwordHash.equals( "" ) )
+		{
+			return KoLCharacter.gender;
+		}
+
+		// Can't tell?	Look at their vinyl boots!
+		String descId = ItemDatabase.getDescriptionId( ItemPool.VINYL_BOOTS );
+		GenericRequest req = new GenericRequest( "desc_item.php?whichitem=" + descId );
+		RequestThread.postRequest( req );
+		if ( req.responseText != null )
+		{
+			KoLCharacter.gender =
+				req.responseText.indexOf( "+15%" ) != -1 ?
+				KoLCharacter.FEMALE : KoLCharacter.MALE;
+		}
+
+		return KoLCharacter.gender;
+	}
+
 	public static final void setGender( final int gender )
 	{
 		KoLCharacter.gender = gender;
@@ -1002,22 +1031,7 @@ public abstract class KoLCharacter
 
 	public static final int getGender()
 	{
-		// We can only ask for the gender if we are logged in
-		// Gender is meaningless if we are in Valhalla
-		if ( KoLCharacter.gender == 0 &&
-		     !CharPaneRequest.inValhalla() &&
-		     !GenericRequest.passwordHash.equals( "" ) )
-		{	// Can't tell?	Look at their vinyl boots!
-			String descId = ItemDatabase.getDescriptionId( ItemPool.VINYL_BOOTS );
-			ConcoctionDatabase.deferRefresh( true );
-			GenericRequest req = new GenericRequest( "desc_item.php?whichitem=" + descId );
-			RequestThread.postRequest( req );
-			KoLCharacter.setGender( req.responseText != null &&
-				req.responseText.indexOf( "+15%" ) != -1 ?
-					KoLCharacter.FEMALE : KoLCharacter.MALE );
-			ConcoctionDatabase.deferRefresh( false );
-		}
-		return KoLCharacter.gender;
+		return KoLCharacter.setGender();
 	}
 
 	/**
