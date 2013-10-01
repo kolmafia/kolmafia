@@ -124,7 +124,6 @@ public class FightRequest
 	extends GenericRequest
 {
 	// Character-class permissions
-	private static boolean canSteal = false;
 	private static boolean canSummon = false;
 
 	private static final PauseObject PAUSER = new PauseObject();
@@ -442,7 +441,6 @@ public class FightRequest
 
 	public static final void initialize()
 	{
-		FightRequest.canSteal = KoLCharacter.isMoxieClass();
 		FightRequest.canSummon = KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER;
 	}
 
@@ -503,9 +501,7 @@ public class FightRequest
 
 		// Must be a Moxie class character or any character in Birdform
 		// or have a tiny black hole equipped.in the offhand slot
-		if ( !( FightRequest.canSteal ||
-			KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) ||
-			KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND ) ) )
+		if ( !KoLCharacter.canPickpocket() )
 		{
 			return false;
 		}
