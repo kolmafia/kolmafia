@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.chat;
 
+import java.awt.Toolkit;
+
 import java.io.File;
 
 import java.util.ArrayList;
@@ -380,6 +382,10 @@ public abstract class ChatManager
 		{
 			ChatManager.clanMessages.add( message );
 			ChatManager.processCommand( sender, message.getContent(), recipient );
+		}
+		else if ( Preferences.getBoolean( "chatBeep" ) && KoLCharacter.getUserName().equalsIgnoreCase( recipient ) )
+		{
+			Toolkit.getDefaultToolkit().beep();
 		}
 
 		String destination = recipient;
