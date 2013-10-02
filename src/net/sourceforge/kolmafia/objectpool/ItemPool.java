@@ -1834,6 +1834,8 @@ public class ItemPool
 	public static final int SHIP_TRIP_SCRIP = 6725;
 	public static final int BEER_SEEDS = 6751;
 	public static final int BARLEY = 6752;
+	public static final int HOPS = 6753;
+	public static final int FANCY_BEER_BOTTLE = 6754;
 	public static final int FANCY_BEER_LABEL = 6755;
 	public static final int TIN_ROOF = 6773;
 	public static final int TIN_LIZZIE = 6775;
