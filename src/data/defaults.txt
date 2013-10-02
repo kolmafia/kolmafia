@@ -472,6 +472,7 @@ user	lastChanceBurn
 user	lastChanceThreshold	100
 user	lastChessboard
 user	lastChasmReset	-1
+user	lastColosseumRoundWon	0
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
 user	lastDispensaryOpen	-1
