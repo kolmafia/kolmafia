@@ -666,7 +666,7 @@ public abstract class UseLinkDecorator
 			{
 			case ItemPool.LOATHING_LEGION_KNIFE:
 			case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE:
-			case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER: {
+			case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:
 				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 				if ( itemId == ItemPool.LOATHING_LEGION_TATTOO_NEEDLE )
 				{
@@ -677,13 +677,12 @@ public abstract class UseLinkDecorator
 					uses.add( new UseLink( itemId, 1, "untinker", "inv_use.php?which=3&whichitem=" ) );
 				}
 				uses.add( new UseLink( itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem=" ) );
-			
+
 				if ( uses.size() == 1 )
 				{
 					return uses.get( 0 );
 				}
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
-			}
 
 			case ItemPool.MACGUFFIN_DIARY:
 
@@ -823,6 +822,12 @@ public abstract class UseLinkDecorator
 					"buy planks",
 					"store.php?phash=" + GenericRequest.passwordHash + "&whichstore=m&buying=Yep.&howmany=1&whichitem=",
 					true );
+
+			case ItemPool.BARLEY:
+			case ItemPool.HOPS:
+			case ItemPool.FANCY_BEER_BOTTLE:
+			case ItemPool.FANCY_BEER_LABEL:
+				return new UseLink( itemId, 1, "Let's Brew", "shop.php?whichshop=beergarden" );
 
 			default:
 
