@@ -139,13 +139,33 @@ public class StationaryButtonDecorator
 
 	private static final void removeButton( final int index, int buttons )
 	{
-		for ( int i = index + 1; i <= buttons; ++i )
+		for ( int i = index ; i <= buttons; ++i )
 		{
-			String next = Preferences.getString( "stationaryButton" + i );
-			Preferences.setString( "stationaryButton" + ( i - 1 ), next );
+			String next = Preferences.getString( "stationaryButton" + ( i+1 ) );
+			Preferences.setString( "stationaryButton" + i, next );
 		}
 	}
 
+	public static final void removeUnsafeButtons()
+	{
+		int buttons = Preferences.getInteger( "relaySkillButtonCount" );
+		int maximumIndex = buttons + 1;
+		
+		// Examine all buttons and find a place for this skill.
+		for ( int i = 1; i < maximumIndex; )
+		{
+			String old = Preferences.getString( "stationaryButton" + i );
+
+			// Remove built-in skills.
+			if ( StationaryButtonDecorator.builtInSkill( old ) )
+			{
+				StationaryButtonDecorator.removeButton( i, buttons );
+				continue;
+			}
+			i++;
+		}
+	}
+	
 	public static final void decorate( final String urlString, final StringBuffer buffer )
 	{
 		if ( Preferences.getBoolean( "hideServerDebugText" ) )
@@ -286,6 +306,8 @@ public class StationaryButtonDecorator
 			return;
 		}
 
+		StationaryButtonDecorator.removeUnsafeButtons();
+		
 		int insertionPoint = buffer.indexOf( "<body" );
 		if ( insertionPoint == -1 )
 		{
@@ -658,11 +680,14 @@ public class StationaryButtonDecorator
 			name = "thrust";
 			break;
 
-		case 1004:	// lunge-smack
-		case 1005:	// lunging thrust-smack
+		case 1004: // lunge-smack
 			name = "lunge";
 			break;
-
+			
+		case 1005:	// lunging thrust-smack
+			name = "lunging";
+			break;
+			
 		case 2:		// Chronic Indigestion
 		case 7009:	// Magic Missile
 		case 3004:	// Entangling Noodles
