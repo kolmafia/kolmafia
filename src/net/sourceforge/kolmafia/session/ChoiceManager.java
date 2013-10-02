@@ -2657,6 +2657,30 @@ public abstract class ChoiceManager
 				       new Option( "skip adventure", 6 ) },
 			1 ),
 
+		// Choice 701 is Ators Gonna Ate
+
+		// Choice 703 is Mer-kin dreadscroll
+		// Choice 704 is Playing the Catalog Card
+		// Choice 705 is Halls Passing in the Night
+
+		//     Shub-Jigguwatt (Violence) path
+		// Choice 706 is In The Temple of Violence, Shine Like Thunder
+		// Choice 707 is Flex Your Pecs in the Narthex
+		// Choice 708 is Don't Falter at the Altar
+		// Choice 709 is You Beat Shub to a Stub, Bub
+
+		//     Yog-Urt (Hatred) path
+		// Choice 710 is They've Got Fun and Games
+		// Choice 711 is They've Got Everything You Want
+		// Choice 712 is Honey, They Know the Names
+		// Choice 713 is You Brought Her To Her Kn-kn-kn-kn-knees, Knees.
+
+		//     Dad Sea Monkee (Loathing) path
+		// Choice 714 is An Unguarded Door (1)
+		// Choice 715 is Life in the Stillness
+		// Choice 716 is An Unguarded Door (2)
+		// Choice 717 is Over. Over Now.
+
 		// Choice 722 is The Kitchen in the Woods
 		// Choice 723 is What Lies Beneath (the Cabin)
 		// Choice 724 is Where it's Attic
