@@ -694,7 +694,7 @@ public abstract class KoLCharacter
 		CoinmasterRegistry.reset();
 		ConcoctionDatabase.resetQueue();
 		ConcoctionDatabase.refreshConcoctions( true );
-		ItemDatabase.setAstralConsumables();
+		ItemDatabase.setVariableConsumables();
 		ItemDatabase.calculateAdventureRanges();
 
 		Modifiers.overrideModifier( "_userMods", Preferences.getString( "_userMods" ) );
@@ -1104,7 +1104,7 @@ public abstract class KoLCharacter
 			{
 				HPRestoreItemList.updateHealthRestored();
 				MPRestoreItemList.updateManaRestored();
-				ItemDatabase.setAstralConsumables();
+				ItemDatabase.setVariableConsumables();
 			}
 		}
 
