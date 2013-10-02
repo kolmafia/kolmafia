@@ -150,28 +150,27 @@ public class CharPaneDecorator
 			return;
 		}
 
-		// First, replace HP information with a restore HP link, if necessary
+		// Replace HP information with a restore HP link, if necessary
+		// Replace MP information with a restore MP link, if necessary
 
-		float current = KoLCharacter.getCurrentHP();
-		float maximum = KoLCharacter.getMaximumHP();
-		//float target = Preferences.getFloat( "hpAutoRecoveryTarget" );
-		//float threshold = maximum; // * target
-		float dangerous = maximum * Preferences.getFloat( "hpAutoRecovery" );
+		float current1 = KoLCharacter.getCurrentHP();
+		float maximum1 = KoLCharacter.getMaximumHP();
+		//float target1 = Preferences.getFloat( "hpAutoRecoveryTarget" );
+		//float threshold1 = maximum1; // * target1
+		float dangerous1 = maximum1 * Preferences.getFloat( "hpAutoRecovery" );
 
-		CharPaneDecorator.addRestoreLink( buffer, true, current, maximum, dangerous ); // replace maximum with threshold if above code is changed
+		float current2 = KoLCharacter.getCurrentMP();
+		float maximum2 = KoLCharacter.getMaximumMP();
+		//target2 = Preferences.getFloat( "mpAutoRecoveryTarget" );
+		//threshold2 = maximum2; // * target2
+		float dangerous2 = maximum2 * Preferences.getFloat( "mpAutoRecovery" );
 
-		// Next, replace MP information with a restore MP link, if necessary
-
-		current = KoLCharacter.getCurrentMP();
-		maximum = KoLCharacter.getMaximumMP();
-		//target = Preferences.getFloat( "mpAutoRecoveryTarget" );
-		//threshold = maximum; // * target
-		dangerous = maximum * Preferences.getFloat( "mpAutoRecovery" );
-
-		CharPaneDecorator.addRestoreLink( buffer, false, current, maximum, dangerous ); // replace maximum with threshold if above code is changed
+		 // replace maximum with threshold if above code is changed
+		CharPaneDecorator.addRestoreLinks( buffer,
+						   "HP", current1, maximum1, dangerous1,
+						   "MP", current2, maximum2, dangerous2 );
 	}
 
-	//
 	// Normal:
 	//
 	//     <td align=center><img src="http://images.kingdomofloathing.com/itemimages/hp.gif" class=hand onclick='doc("hp");' title="Hit Points" alt="Hit Points"><br><span class=black>55&nbsp;/&nbsp;55</span></td>
@@ -180,20 +179,22 @@ public class CharPaneDecorator
 	// Slim HP:
 	//
 	//     <td><img src=http://images.kingdomofloathing.com/itemimages/hp.gif title="Hit Points" alt="Hit Points" onclick='doc("hp");' width=20 height=20></td><td valign=center><span class=black>38&nbsp;/&nbsp;58</span>&nbsp;&nbsp;</td>
-	//     <td><img src=http://images.kingdomofloathing.com/itemimages/mp.gif title="Mana Points" alt="Mana Points" onclick='doc("mp");' width=20 height=20></td><td valign=center><span class=black>70&nbsp;/&nbsp;122</span></td></tr><tr><td>
+	//     <td><img src=http://images.kingdomofloathing.com/itemimages/mp.gif title="Mana Points" alt="Mana Points" onclick='doc("mp");' width=20 height=20></td><td valign=center><span class=black>70&nbsp;/&nbsp;122</span></td>
 	//
 	// Compact:
 	//
 	//   <tr><td align=right>HP:</td><td align=left><b><font color=black>792/792</font></b></td></tr>
 	//   <tr><td align=right>MP:</td><td align=left><b>1398/1628</b></td></tr>
 
-	private static final Pattern POINTS_PATTERN = Pattern.compile( "(doc\\(['\"](hp|mp)[^r]*r><span\\s+class=['\"]?(black|red)['\"]?>)(\\d+)" );
+	private static final Pattern POINTS_PATTERN = Pattern.compile( "(doc\\(['\"](hp|mp).*?<span\\s+class=['\"]?(black|red)['\"]?>)(\\d+)" );
 	private static final Pattern COMPACT_POINTS_PATTERN = Pattern.compile( "((HP|MP):</td><td[^>]*><b>(?:<font\\s+color=['\"]?(black|red)['\"]?>)?)(\\d+)" );
 
-	private static final void addRestoreLink( final StringBuffer buffer, final boolean hp, final float current, final float threshold, final float dangerous )
+	private static final void addRestoreLinks( final StringBuffer buffer,
+						   final String stat1, final float current1, final float threshold1, final float dangerous1,
+						   final String stat2, final float current2, final float threshold2, final float dangerous2 )
 	{
 		// If we don't need restoration, do nothing
-		if ( current >= threshold )
+		if ( current1 >= threshold1 && current2 >= threshold2 )
 		{
 			return;
 		}
@@ -201,30 +202,49 @@ public class CharPaneDecorator
 		Matcher matcher = CharPaneRequest.compactCharacterPane ? COMPACT_POINTS_PATTERN.matcher( buffer ) : POINTS_PATTERN.matcher( buffer );
 		while ( matcher.find() )
 		{
-			String stat = matcher.group( 2 ).toUpperCase();
+			String found = matcher.group( 2 ).toUpperCase();
+			String stat;
+			String color;
 
-			if ( ( stat.equals( "HP" ) && hp ) || ( stat.equals( "MP" ) && !hp ) )
+			if ( found.equals( stat1 ) )
 			{
-				StringBuilder rep = new StringBuilder();
-
-				String color = current > dangerous ? matcher.group( 3 ) == null ? "black" : matcher.group( 3 ) : "red";
-
-				rep.append( matcher.group( 1 ) );
-				rep.append( "<a style=\"color:" );
-				rep.append( color );
-				rep.append( "\" title=\"Restore your " );
-				rep.append( stat );
-				rep.append( "\" href=\"/KoLmafia/sideCommand?cmd=restore+" );
-				rep.append( stat );
-				rep.append( "&pwd=" );
-				rep.append( GenericRequest.passwordHash );
-				rep.append( "\">" );
-				rep.append( matcher.group( 4 ) );
-				rep.append( "</a>" );
-
-				StringUtilities.singleStringReplace( buffer, matcher.group( 0 ), rep.toString() );
-				return;
+				if ( current1 >= threshold1 )
+				{
+					continue;
+				}
+				stat = stat1;
+				color = current1 > dangerous1 ? matcher.group( 3 ) == null ? "black" : matcher.group( 3 ) : "red";
 			}
+			else if ( found.equals( stat2 ) )
+			{
+				if ( current2 >= threshold2 )
+				{
+					continue;
+				}
+				stat = stat2;
+				color = current2 > dangerous2 ? matcher.group( 3 ) == null ? "black" : matcher.group( 3 ) : "red";
+			}
+			else
+			{
+				continue;
+			}
+
+			StringBuilder rep = new StringBuilder();
+
+			rep.append( matcher.group( 1 ) );
+			rep.append( "<a style=\"color:" );
+			rep.append( color );
+			rep.append( "\" title=\"Restore your " );
+			rep.append( stat );
+			rep.append( "\" href=\"/KoLmafia/sideCommand?cmd=restore+" );
+			rep.append( stat );
+			rep.append( "&pwd=" );
+			rep.append( GenericRequest.passwordHash );
+			rep.append( "\">" );
+			rep.append( matcher.group( 4 ) );
+			rep.append( "</a>" );
+
+			StringUtilities.singleStringReplace( buffer, matcher.group( 0 ), rep.toString() );
 		}
 	}
 

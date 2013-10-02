@@ -95,6 +95,7 @@ public class AdventurePool
 	public static final int JUNKYARD_TIRES = 184;
 	public static final int JUNKYARD_CAR = 185;
 	public static final int SEASIDE_MEGALOPOLIS = 206;
+	public static final int MERKIN_COLOSSEUM = 210;
 	public static final int OUTSIDE_THE_CLUB = 219;
 	public static final int BARROOM_BRAWL = 233;
 	public static final int NOOB_CAVE = 240;

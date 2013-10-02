@@ -1780,6 +1780,7 @@ public class FightRequest
 	}
 
 	public static final Pattern ONTURN_PATTERN = Pattern.compile( "onturn = (\\d+)" );
+	public static final Pattern ROUND_PATTERN = Pattern.compile( "<b>\"Round (\\d+)!\"</b>" );
 
 	public static final void updateCombatData( final String location, String encounter, final String responseText )
 	{
@@ -1806,6 +1807,17 @@ public class FightRequest
 				adventure == AdventurePool.MAELSTROM_OF_LOVERS ||
 				adventure == AdventurePool.GLACIER_OF_JERKS ||
 				KoLConstants.activeEffects.contains( FightRequest.anapestEffect );
+
+			// Adventuring in the Mer-kin Colosseum
+			if ( adventure == AdventurePool.MERKIN_COLOSSEUM )
+			{
+				Matcher roundMatcher = FightRequest.ROUND_PATTERN.matcher( responseText );
+				if ( roundMatcher.find() )
+				{
+					int round = StringUtilities.parseInt( roundMatcher.group( 1 ) );
+					Preferences.setInteger( "lastColosseumRoundWon", round - 1 );
+				}
+			}
 
 			// Wearing any piece of papier equipment really messes up the results
 			FightRequest.papier = FightRequest.usingPapierEquipment();
@@ -2567,14 +2579,21 @@ public class FightRequest
 			KoLConstants.activeEffects.remove( KoLAdventure.BEATEN_UP );
 		}
 
+		int adventure = KoLAdventure.lastAdventureId();
+
 		// Handle location counting after each fight, regardless of won/loss/runaway etc
-		if ( KOLHSRequest.isKOLHSLocation( KoLAdventure.lastAdventureId() ) )
+		if ( KOLHSRequest.isKOLHSLocation( adventure ) )
 		{
 			Preferences.increment( "_kolhsAdventures", 1 );
 		}
 
 		if ( won )
 		{
+			if ( adventure == AdventurePool.MERKIN_COLOSSEUM )
+			{
+				Preferences.increment( "lastColosseumRoundWon", 1 );
+			}
+
 			if ( responseText.contains( "monstermanuel.gif" ) )
 			{
 				GoalManager.updateProgress( GoalManager.GOAL_FACTOID );
