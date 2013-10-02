@@ -118,6 +118,7 @@ public class CampgroundRequest
 		ItemPool.MAID,
 		ItemPool.MEAT_GLOBE,
 		ItemPool.PLASMA_BALL,
+		ItemPool.TIN_ROOF,
 
 		// Kitchen
 		ItemPool.SHAKER,
@@ -152,12 +153,16 @@ public class CampgroundRequest
 	public static final AdventureResult PEPPERMINT_SPROUT = ItemPool.get( ItemPool.PEPPERMINT_SPROUT, 1 );
 	public static final AdventureResult GIANT_CANDY_CANE = ItemPool.get( ItemPool.GIANT_CANDY_CANE, 1 );
 	public static final AdventureResult SKELETON = ItemPool.get( ItemPool.SKELETON, 1 );
+	public static final AdventureResult BARLEY = ItemPool.get( ItemPool.BARLEY, 1 );
+	public static final AdventureResult BEER_LABEL = ItemPool.get( ItemPool.FANCY_BEER_LABEL, 1 );
 
 	private enum CropType
 	{
 		PUMPKIN,
 		PEPPERMINT,
-		SKELETON;
+		SKELETON,
+		BEER,
+		;
 
 		@Override
 		public String toString()
@@ -176,6 +181,8 @@ public class CampgroundRequest
 		CROPMAP.put( PEPPERMINT_SPROUT, CropType.PEPPERMINT );
 		CROPMAP.put( GIANT_CANDY_CANE, CropType.PEPPERMINT );
 		CROPMAP.put( SKELETON, CropType.SKELETON );
+		CROPMAP.put( BARLEY, CropType.BEER );
+		CROPMAP.put( BEER_LABEL, CropType.BEER );
 	}
 
 	public static final AdventureResult [] CROPS =
@@ -186,6 +193,8 @@ public class CampgroundRequest
 		CampgroundRequest.PEPPERMINT_SPROUT,
 		CampgroundRequest.GIANT_CANDY_CANE,
 		CampgroundRequest.SKELETON,
+		CampgroundRequest.BARLEY,
+		CampgroundRequest.BEER_LABEL,
 	};
 
 	public static void reset()
@@ -521,31 +530,40 @@ public class CampgroundRequest
 		findImage( responseText, "scarecrow.gif", ItemPool.SCARECROW );
 		findImage( responseText, "golem.gif", ItemPool.MEAT_GOLEM );
 
-		findImage( responseText, "maid.gif", ItemPool.MAID );
-		findImage( responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID );
+		boolean maidFound = false;
+		if ( !maidFound ) maidFound = findImage( responseText, "maid.gif", ItemPool.MAID );
+		if ( !maidFound ) maidFound = findImage( responseText, "maid2.gif", ItemPool.CLOCKWORK_MAID );
 
-		findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 );
-		findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 );
-		findImage( responseText, "pumpkinpatch_2.gif", ItemPool.PUMPKIN, 2 );
-		findImage( responseText, "pumpkinpatch_3.gif", ItemPool.PUMPKIN, 3 );
-		findImage( responseText, "pumpkinpatch_4.gif", ItemPool.PUMPKIN, 4 );
-		findImage( responseText, "pumpkinpatch_giant.gif", ItemPool.HUGE_PUMPKIN, 1 );
-		findImage( responseText, "pumpkinpatch_ginormous.gif", ItemPool.GINORMOUS_PUMPKIN, 1 );
-		findImage( responseText, "pepperpatch_0.gif", ItemPool.PEPPERMINT_SPROUT, 0 );
-		findImage( responseText, "pepperpatch_1.gif", ItemPool.PEPPERMINT_SPROUT, 3 );
-		findImage( responseText, "pepperpatch_2.gif", ItemPool.PEPPERMINT_SPROUT, 6 );
-		findImage( responseText, "pepperpatch_3.gif", ItemPool.PEPPERMINT_SPROUT, 9 );
-		findImage( responseText, "pepperpatch_4.gif", ItemPool.PEPPERMINT_SPROUT, 12 );
-		findImage( responseText, "pepperpatch_huge.gif", ItemPool.GIANT_CANDY_CANE, 1 );
-		findImage( responseText, "bonegarden0.gif", ItemPool.SKELETON, 0 );
-		findImage( responseText, "bonegarden1.gif", ItemPool.SKELETON, 5 );
-		findImage( responseText, "bonegarden2.gif", ItemPool.SKELETON, 10 );
-		findImage( responseText, "bonegarden3.gif", ItemPool.SKELETON, 15 );
-		findImage( responseText, "bonegarden4.gif", ItemPool.SKELETON, 20 );
-		findImage( responseText, "bonegarden5.gif", ItemPool.SKELETON, 25 );
+		boolean gardenFound = false;
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pumpkinpatch_0.gif", ItemPool.PUMPKIN, 0 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pumpkinpatch_1.gif", ItemPool.PUMPKIN, 1 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pumpkinpatch_2.gif", ItemPool.PUMPKIN, 2 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pumpkinpatch_3.gif", ItemPool.PUMPKIN, 3 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pumpkinpatch_4.gif", ItemPool.PUMPKIN, 4 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pumpkinpatch_giant.gif", ItemPool.HUGE_PUMPKIN, 1 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pumpkinpatch_ginormous.gif", ItemPool.GINORMOUS_PUMPKIN, 1 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pepperpatch_0.gif", ItemPool.PEPPERMINT_SPROUT, 0 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pepperpatch_1.gif", ItemPool.PEPPERMINT_SPROUT, 3 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pepperpatch_2.gif", ItemPool.PEPPERMINT_SPROUT, 6 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pepperpatch_3.gif", ItemPool.PEPPERMINT_SPROUT, 9 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pepperpatch_4.gif", ItemPool.PEPPERMINT_SPROUT, 12 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "pepperpatch_huge.gif", ItemPool.GIANT_CANDY_CANE, 1 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "bonegarden0.gif", ItemPool.SKELETON, 0 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "bonegarden1.gif", ItemPool.SKELETON, 5 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "bonegarden2.gif", ItemPool.SKELETON, 10 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "bonegarden3.gif", ItemPool.SKELETON, 15 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "bonegarden4.gif", ItemPool.SKELETON, 20 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "bonegarden5.gif", ItemPool.SKELETON, 25 );
 		// This is day 6 for A Bone Garden.  It triggers a combat, so it should never be automatically picked.
 		// Setting a negative number of items will make it possible to tell that it isn't empty.
-		findImage( responseText, "bonegarden_spoilzlul.gif", ItemPool.SKELETON, -1 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "bonegarden_spoilzlul.gif", ItemPool.SKELETON, -1 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden1.gif", ItemPool.BARLEY, 3 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden2.gif", ItemPool.FANCY_BEER_LABEL, 1 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden3.gif", ItemPool.FANCY_BEER_LABEL, 2 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden4.gif", ItemPool.FANCY_BEER_LABEL, 3 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden5.gif", ItemPool.FANCY_BEER_LABEL, 4 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden6.gif", ItemPool.FANCY_BEER_LABEL, 5 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden7.gif", ItemPool.FANCY_BEER_LABEL, 6 );
 
 		Matcher jungMatcher = JUNG_PATTERN.matcher( responseText );
 		if ( jungMatcher.find() )
@@ -554,7 +572,7 @@ public class CampgroundRequest
 			switch ( jungLink )
 			{
 			case 1:
-				CampgroundRequest.setCampgroundItem( ItemPool.SUSPICIOUS_JAR , 1 );
+				CampgroundRequest.setCampgroundItem( ItemPool.SUSPICIOUS_JAR, 1 );
 				break;
 			case 2:
 				CampgroundRequest.setCampgroundItem( ItemPool.GOURD_JAR , 1 );
