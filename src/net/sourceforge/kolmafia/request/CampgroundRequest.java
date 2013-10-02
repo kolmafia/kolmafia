@@ -557,6 +557,7 @@ public class CampgroundRequest
 		// This is day 6 for A Bone Garden.  It triggers a combat, so it should never be automatically picked.
 		// Setting a negative number of items will make it possible to tell that it isn't empty.
 		if ( !gardenFound ) gardenFound = findImage( responseText, "bonegarden_spoilzlul.gif", ItemPool.SKELETON, -1 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden0.gif", ItemPool.BARLEY, 0 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden1.gif", ItemPool.BARLEY, 3 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden2.gif", ItemPool.FANCY_BEER_LABEL, 1 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "beergarden3.gif", ItemPool.FANCY_BEER_LABEL, 2 );
