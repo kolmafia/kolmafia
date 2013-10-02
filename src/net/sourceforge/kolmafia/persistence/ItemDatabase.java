@@ -2112,7 +2112,7 @@ public class ItemDatabase
 	{
 		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_QUEST );
 	}
-
+	
 	/**
 	 * Returns true if the item is a gift item, otherwise false
 	 *
@@ -2122,6 +2122,31 @@ public class ItemDatabase
 	public static final boolean isGiftItem( final int itemId )
 	{
 		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_GIFT );
+	}
+	/**
+	 * Returns true if the item is a virtual item, as defined below,
+	 * otherwise false
+	 *
+	 * @return true if item is a virtual item
+	 *
+	 */
+	
+	public static final boolean isVirtualItem( final int itemId )
+	{
+		//* For these purposes, a virtual item is an item that has a non-negative
+		//* item number in KoL but does not (can not?) exist in inventory.  These 
+		//* items can be obtained, for example from an NPC store, but they are 
+		//* "used" immediately.  Presently the sea maps are the only virtual items 
+		//* tracked here and the only place the atrribute is used is the 
+		//* ash function, is_displayable().  By definition, if it can't exist
+		//* in inventory then it cannot be moved to a Display Case.
+		int virtualItems[] = {3649, 3683, 3701, 3774, 4222};
+		for (int i = 0; i < virtualItems.length; i++) {
+			if (itemId == virtualItems[i]) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -2581,23 +2606,6 @@ public class ItemDatabase
 		moxie = "0";
 		note = "";
 		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
-		
-		// spaghetti breakfast
-		//
-		// You gain X Adventures.
-		// (You gain 1 Fullness.)
-		//
-		// Adventure gains appear to be 0.5 + (your level/2), capped at level 11.
-		
-		name = "spaghetti breakfast";
-		size = 1;
-		float sbAdv = ( level + 1 ) / 2;
-		adventures = String.valueOf( sbAdv );
-		muscle = "0";
-		mysticality = "0";
-		moxie = "0";
-		note = "";
-		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );		
 	}
 
 	// Support for dusty bottles of wine
