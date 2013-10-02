@@ -677,54 +677,54 @@ public class RequestEditorKit
 			{
 				StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.COMBATFILTER_JS + "\"></script>" );
 			}
+		}
 
-			Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( buffer.toString() );
-			boolean showingEvents = eventMatcher.find();
+		Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( buffer.toString() );
+		boolean showingEvents = eventMatcher.find();
 
-			if ( EventManager.hasEvents() && ( location.indexOf( "main.php" ) != -1 || showingEvents ) )
+		if ( EventManager.hasEvents() && ( showingEvents || location.contains( "main.php" ) ) )
+		{
+			int eventTableInsertIndex = 0;
+
+			if ( showingEvents )
 			{
-				int eventTableInsertIndex = 0;
+				eventTableInsertIndex = eventMatcher.start();
 
-				if ( showingEvents )
-				{
-					eventTableInsertIndex = eventMatcher.start();
-
-					buffer.setLength( 0 );
-					buffer.append( eventMatcher.replaceFirst( "" ) );
-				}
-				else
-				{
-					eventTableInsertIndex = buffer.indexOf( "</div>" ) + 6;
-				}
-
-				StringBuilder eventsTable = new StringBuilder();
-
-				eventsTable.append( "<center><table width=95% cellspacing=0 cellpadding=0>" );
-				eventsTable.append( "<tr><td style=\"color: white;\" align=center bgcolor=orange>" );
-				eventsTable.append( "<b>New Events:</b>" );
-				eventsTable.append( "</td></tr>" );
-				eventsTable.append( "<tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>" );
-
-				Iterator eventHyperTextIterator = EventManager.getEventHyperTexts().iterator();
-
-				while ( eventHyperTextIterator.hasNext() )
-				{
-					eventsTable.append( eventHyperTextIterator.next() );
-
-					if ( eventHyperTextIterator.hasNext() )
-					{
-						eventsTable.append( "<br />" );
-					}
-				}
-
-				eventsTable.append( "</td></tr>" );
-				eventsTable.append( "<tr><td height=4></td></tr>" );
-				eventsTable.append( "</table></center>" );
-
-				buffer.insert( eventTableInsertIndex, eventsTable.toString() );
-
-				EventManager.clearEventHistory();
+				buffer.setLength( 0 );
+				buffer.append( eventMatcher.replaceFirst( "" ) );
 			}
+			else
+			{
+				eventTableInsertIndex = buffer.indexOf( "</div>" ) + 6;
+			}
+
+			StringBuilder eventsTable = new StringBuilder();
+
+			eventsTable.append( "<center><table width=95% cellspacing=0 cellpadding=0>" );
+			eventsTable.append( "<tr><td style=\"color: white;\" align=center bgcolor=orange>" );
+			eventsTable.append( "<b>New Events:</b>" );
+			eventsTable.append( "</td></tr>" );
+			eventsTable.append( "<tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>" );
+
+			Iterator eventHyperTextIterator = EventManager.getEventHyperTexts().iterator();
+
+			while ( eventHyperTextIterator.hasNext() )
+			{
+				eventsTable.append( eventHyperTextIterator.next() );
+
+				if ( eventHyperTextIterator.hasNext() )
+				{
+					eventsTable.append( "<br />" );
+				}
+			}
+
+			eventsTable.append( "</td></tr>" );
+			eventsTable.append( "<tr><td height=4></td></tr>" );
+			eventsTable.append( "</table></center>" );
+
+			buffer.insert( eventTableInsertIndex, eventsTable.toString() );
+
+			EventManager.clearEventHistory();
 		}
 
 		// Having done all the decoration on the page, do things that

@@ -444,6 +444,7 @@ public class ValhallaManager
 		Preferences.setInteger( "pyramidPosition", 0 );
 		Preferences.setBoolean( "pyramidBombUsed", false );
 		Preferences.setInteger( "jungCharge", 0 );
+		Preferences.setInteger( "lastColosseumRoundWon", 0 );
 		Preferences.setInteger( "lastCouncilVisit", 0 );
 		Preferences.setString( "merkinLockkeyMonster", "" );
 		Preferences.setString( "lassoTraining", "" );
