@@ -253,32 +253,32 @@ public class ShowDescriptionList
 		{
 			if ( ( (AdventureResult) item ).isItem() )
 			{
-				StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (AdventureResult) item ).getItemId() ) );
+				StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (AdventureResult) item ).getItemId() ) );
 			}
 			if ( ( (AdventureResult) item ).isStatusEffect() )
 			{
-				StaticEntity.openRequestFrame( "desc_effect.php?whicheffect=" + EffectDatabase.getDescriptionId( EffectDatabase.getEffectId( ( (AdventureResult) item ).getName() ) ) );
+				StaticEntity.openDescriptionFrame( "desc_effect.php?whicheffect=" + EffectDatabase.getDescriptionId( EffectDatabase.getEffectId( ( (AdventureResult) item ).getName() ) ) );
 			}
 		}
 		else if ( item instanceof Concoction )
 		{
-			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (Concoction) item ).getName() ) );
+			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (Concoction) item ).getName() ) );
 		}
 		else if ( item instanceof QueuedConcoction )
 		{
-			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (QueuedConcoction) item ).getName() ) );
+			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (QueuedConcoction) item ).getName() ) );
 		}
 		else if ( item instanceof CreateItemRequest )
 		{
-			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (CreateItemRequest) item ).getItemId() ) );
+			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (CreateItemRequest) item ).getItemId() ) );
 		}
 		else if ( item instanceof PurchaseRequest )
 		{
-			StaticEntity.openRequestFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (PurchaseRequest) item ).getItemId() ) );
+			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (PurchaseRequest) item ).getItemId() ) );
 		}
 		else if ( item instanceof UseSkillRequest )
 		{
-			StaticEntity.openRequestFrame( "desc_skill.php?whichskill=" + ( (UseSkillRequest) item ).getSkillId() + "&self=true" );
+			StaticEntity.openDescriptionFrame( "desc_skill.php?whichskill=" + ( (UseSkillRequest) item ).getSkillId() + "&self=true" );
 		}
 		else if ( item instanceof String )
 		{

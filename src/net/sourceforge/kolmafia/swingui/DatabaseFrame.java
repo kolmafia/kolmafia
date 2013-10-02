@@ -156,7 +156,7 @@ public class DatabaseFrame
 
 		public void showDescription( final Entry entry )
 		{
-			StaticEntity.openRequestFrame( "desc_" + this.type + ".php?" + this.which + "=" + this.getId( entry ) );
+			StaticEntity.openDescriptionFrame( "desc_" + this.type + ".php?" + this.which + "=" + this.getId( entry ) );
 		}
 
 		public String getId( final Entry e )

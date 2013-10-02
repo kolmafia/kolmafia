@@ -70,8 +70,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
-import net.sourceforge.kolmafia.swingui.RequestFrame;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UneffectRequest
@@ -666,7 +664,6 @@ public class UneffectRequest
 		}
 
 		KoLmafia.updateDisplay( this.effect.getName() + " removed." );
-		RequestFrame.refreshStatus();
 	}
 
 	public static final boolean registerRequest( final String location )

@@ -45,8 +45,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.swingui.RequestFrame;
-
 public class FriarRequest
 	extends GenericRequest
 {
@@ -105,7 +103,6 @@ public class FriarRequest
 		}
 
 		KoLmafia.updateDisplay( "You've been blessed." );
-		RequestFrame.refreshStatus();
 	}
 
 	public static final void parseResponse( final String location, final String responseText )

@@ -47,8 +47,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
-import net.sourceforge.kolmafia.swingui.RequestFrame;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HeyDezeRequest
@@ -157,7 +155,6 @@ public class HeyDezeRequest
 		}
 
 		KoLmafia.updateDisplay( "You feel " + this.desc + "." );
-		RequestFrame.refreshStatus();
 	}
 
 	// (cost: 1,600 Meat)
