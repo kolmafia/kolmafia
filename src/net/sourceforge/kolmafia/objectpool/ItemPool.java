@@ -1144,6 +1144,9 @@ public class ItemPool
 	public static final int CRAPPY_MASK = 4282;
 	public static final int GLADIATOR_MASK = 4284;
 	public static final int SCHOLAR_MASK = 4285;
+	public static final int MERKIN_DODGEBALL = 4292;
+	public static final int MERKIN_DRAGNET = 4293;
+	public static final int MERKIN_SWITCHBLADE = 4294;
 	public static final int CRYSTAL_ORB = 4295;
 	public static final int DEPLETED_URANIUM_SEAL = 4296;
 	public static final int VIOLENCE_STOMPERS = 4297;

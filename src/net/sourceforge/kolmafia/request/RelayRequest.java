@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.chat.HistoryEntry;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -153,6 +154,7 @@ public class RelayRequest
 	private static String CONFIRM_KUNGFU = "confirm10";
 	private static String CONFIRM_LIBRARY = "confirm11";
 	private static String CONFIRM_WINEGLASS = "confirm12";
+	private static String CONFIRM_COLOSSEUM = "confirm13";
 
 	public RelayRequest( final boolean allowOverride )
 	{
@@ -733,7 +735,8 @@ public class RelayRequest
 		String location = adventure.getAdventureId();
 
 		// If he's not going on to the battlefield, no problem
-		if ( !location.equals( "132" ) && !location.equals( "140" ) )
+		if ( !location.equals( AdventurePool.FRAT_UNIFORM_BATTLEFIELD_ID ) &&
+		     !location.equals( AdventurePool.HIPPY_UNIFORM_BATTLEFIELD_ID ) )
 		{
 			return false;
 		}
@@ -867,6 +870,98 @@ public class RelayRequest
 			message + " Before you do so, you might want to redeem war loot for dimes and quarters and buy equipment. Click on the image to enter battle, once you are ready.";
 
 		this.sendGeneralWarning( "lucre.gif", message, CONFIRM_TOKENS );
+
+		return true;
+	}
+
+	private boolean sendColosseumWarning( final KoLAdventure adventure )
+	{
+		if ( adventure == null )
+		{
+			return false;
+		}
+
+		String location = adventure.getAdventureId();
+
+		// If he's not going to the Mer-Kin Colosseum, no problem
+		if ( !location.equals( AdventurePool.MERKIN_COLOSSEUM_ID ) )
+		{
+			return false;
+		}
+
+		if ( this.getFormField( CONFIRM_COLOSSEUM ) != null )
+		{
+			return false;
+		}
+
+		// See which opponent he is about to face
+		int lastRound = Preferences.getInteger( "lastColosseumRoundWon" );
+
+		// If he is going in to round 1-3 (lastRound 0-2), no special moves
+		if ( lastRound < 3 )
+		{
+			return false;
+		}
+
+		AdventureResult weapon = null;
+		String image = null;
+		String opponent = null;
+
+		switch ( lastRound % 3 )
+		{
+		case 0:
+			weapon = ItemPool.get( ItemPool.MERKIN_DRAGNET, 1 );
+			image = "dragnet.gif";
+			opponent = lastRound == 12 ? "Georgepaul, the Balldodger" : "a Mer-kin balldodger";
+			break;
+		case 1:
+			weapon = ItemPool.get( ItemPool.MERKIN_SWITCHBLADE, 1 );
+			image = "switchblade.gif";
+			opponent = lastRound == 13 ? "Johnringo, the Netdragger" : "a Mer-kin netdragger";
+			break;
+		case 2:
+			weapon = ItemPool.get( ItemPool.MERKIN_DODGEBALL, 1 );
+			image = "dodgeball.gif";
+			opponent = lastRound == 14 ? "Ringogeorge, the Bladeswitcher" : "a Mer-kin bladeswitcher";
+			break;
+		}
+
+		// If you are equipped with the correct weapon, nothing to warn about
+		if ( KoLCharacter.hasEquipped( weapon.getItemId(), EquipmentManager.WEAPON ) )
+		{
+			return false;
+		}
+
+		// If you don't own the correct weapon, nothing to warn about
+		if ( !KoLConstants.inventory.contains( weapon ) )
+		{
+			return false;
+		}
+
+		StringBuilder warning = new StringBuilder();
+
+		warning.append( "KoLmafia has detected that you are about to fight round " );
+		warning.append( String.valueOf( lastRound + 1 ) );
+		warning.append( " in the Mer-kin Colosseum, where you will face " );
+		warning.append( opponent );
+		warning.append( ". If you are sure you wish to battle him without your " );
+		warning.append( weapon.getName() );
+		warning.append( " equipped, click the icon on the left to adventure. " );
+		warning.append( "If this was an accident, click the icon in the center to equip your " );
+		warning.append( weapon.getName() );
+		warning.append( ". If you want to battle in the Mer-kin Colosseum and not be nagged about your " );
+		warning.append( weapon.getName() );
+		warning.append( ", click the icon on the right to closet it." );
+
+		this.sendOptionalWarning(
+			CONFIRM_COLOSSEUM,
+			warning.toString(),
+			"hand.gif",
+			image,
+			"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + weapon.getItemId() + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);",
+			"/images/closet.gif",
+			"singleUse('fillcloset.php','action=closetpush&whichitem=" + weapon.getItemId() + "&qty=all&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);"
+			);
 
 		return true;
 	}
@@ -1094,7 +1189,7 @@ public class RelayRequest
 		{
 			String location = adventure == null ? null : adventure.getAdventureId();
 
-			if ( location != null && location.equals( "34" ) && KoLCharacter.mcdAvailable() )
+			if ( location != null && location.equals( AdventurePool.BOSSBAT_ID ) && KoLCharacter.mcdAvailable() )
 			{
 				List<?> batQueue = AdventureQueueDatabase.getZoneQueue( "The Boss Bat's Lair" );
 				if ( batQueue == null || batQueue.size() < 4 )
@@ -1433,9 +1528,9 @@ public class RelayRequest
 
 		StringBuilder warning = new StringBuilder();
 
-		warning.append( "KoLmafia has detected that you are about to adventure while overdrunk.	 " );
-		warning.append( "If you are sure you wish to adventure in a Drunken Stupor, click the icon on the left to adventure.  " );
-		warning.append( "If this was an accident, click the icon in the center to equip Drunkula's wineglass.  " );
+		warning.append( "KoLmafia has detected that you are about to adventure while overdrunk. " );
+		warning.append( "If you are sure you wish to adventure in a Drunken Stupor, click the icon on the left to adventure. " );
+		warning.append( "If this was an accident, click the icon in the center to equip Drunkula's wineglass. " );
 		warning.append( "If you want to adventure in a Drunken Stupor and not be nagged, click the icon on the right to closet Drunkula's wineglass." );
 
 		this.sendOptionalWarning(
@@ -2266,6 +2361,11 @@ public class RelayRequest
 		}
 
 		if ( adventureName != null && KoLCharacter.isFallingDown() && this.sendWineglassWarning() )
+		{
+			return true;
+		}
+
+		if ( this.sendColosseumWarning( adventure ) )
 		{
 			return true;
 		}
