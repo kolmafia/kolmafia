@@ -4134,6 +4134,7 @@ public class UseItemRequest
 		case ItemPool.PEPPERMINT_PACKET:
 		case ItemPool.PUMPKIN_SEEDS:
 		case ItemPool.DRAGON_TEETH:
+		case ItemPool.BEER_SEEDS:
 			CampgroundRequest.clearCrop();
 			RequestThread.postRequest( new CampgroundRequest() );
 			return;
