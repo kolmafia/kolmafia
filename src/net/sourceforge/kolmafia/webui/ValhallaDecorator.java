@@ -428,10 +428,11 @@ public class ValhallaDecorator
 		if ( crop != null )
 		{
 			String cropName = crop.getName();
-			String cropString = ( cropName.contains( "peppermint" )
-				|| cropName.contains( "candy cane" ) ) ? "Peppermint"
+			String cropString = 
+				  ( cropName.contains( "peppermint" ) || cropName.contains( "candy cane" ) ) ? "Peppermint"
 				: ( cropName.contains( "pumpkin" ) ) ? "Pumpkin"
 				: ( cropName.contains( "skeleton" ) ) ? "Skeleton"
+				: ( cropName.contains( "barley" ) || cropName.contains( "beer label" ) ) ? "Beer Garden"
 				: "Unknown";
 			buffer.append( " (currently " ).append( cropString ).append( ")" );
 		}
