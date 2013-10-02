@@ -42,8 +42,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.swingui.RequestFrame;
-
 import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class IslandArenaRequest
@@ -192,7 +190,6 @@ public class IslandArenaRequest
 		}
 
 		KoLmafia.updateDisplay( "A music lover is you." );
-		RequestFrame.refreshStatus();
 	}
 
 	public static final void parseResponse( final String location, final String responseText )

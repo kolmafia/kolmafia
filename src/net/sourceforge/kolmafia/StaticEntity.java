@@ -56,8 +56,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
-import net.sourceforge.kolmafia.swingui.RequestFrame;
-import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 
@@ -262,42 +260,14 @@ public abstract class StaticEntity
 	}
 
 	/**
-	 * A method used to open a new <code>RequestFrame</code> which displays the given location, relative to the KoL home
-	 * directory for the current session. This should be called whenever <code>RequestFrame</code>s need to be created
-	 * in order to keep code modular.
+	 * A method used to open a new <code>DescriptionFrame</code> which
+	 * displays the given location, relative to the KoL home directory for
+	 * the current session.
 	 */
 
-	public static final void openRequestFrame( final String location )
+	public static final void openDescriptionFrame( final String location )
 	{
-		GenericRequest request = RequestEditorKit.extractRequest( location );
-
-		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
-		{
-			DescriptionFrame.showRequest( request );
-			return;
-		}
-
-		Frame[] frames = Frame.getFrames();
-		RequestFrame requestHolder = null;
-
-		for ( int i = frames.length - 1; i >= 0; --i )
-		{
-			if ( frames[ i ].getClass() == RequestFrame.class && ( (RequestFrame) frames[ i ] ).hasSideBar() )
-			{
-				requestHolder = (RequestFrame) frames[ i ];
-			}
-		}
-
-		if ( requestHolder == null )
-		{
-			RequestSynchFrame.showRequest( request );
-			return;
-		}
-
-		if ( !location.equals( "main.php" ) )
-		{
-			requestHolder.refresh( request );
-		}
+		DescriptionFrame.showRequest( RequestEditorKit.extractRequest( location ) );
 	}
 
 	public static final boolean executeCountdown( final String message, final int seconds )
