@@ -516,10 +516,10 @@ public class AdventureDatabase
 
 		AdventureDatabase.adventureLookup.put( url, location );
 
-		if ( url.indexOf( "snarfblat=" ) != -1 )
+		if ( url.contains( "snarfblat=" ) )
 		{
 			// The map of the Bat Hole has a bogus URL for the Boss Bat's lair
-			if ( url.indexOf( "snarfblat=34" ) != -1 )
+			if ( url.contains( "snarfblat=34" ) )
 			{
 				AdventureDatabase.adventureLookup.put( url + ";", location );
 			}
@@ -729,7 +729,7 @@ public class AdventureDatabase
 	{
 		for ( int i = 0; i < AdventureDatabase.FREE_ADVENTURES.length; ++i )
 		{
-			if ( text.indexOf( AdventureDatabase.FREE_ADVENTURES[ i ] ) != -1 )
+			if ( text.contains( AdventureDatabase.FREE_ADVENTURES[ i ] ) )
 			{
 				return true;
 			}
@@ -768,15 +768,15 @@ public class AdventureDatabase
 	{
 		if ( urlString.startsWith( "adventure.php" ) )
 		{
-			if ( urlString.indexOf( "snarfblat=118" ) != -1 )
+			if ( urlString.contains( "snarfblat=118" ) )
 			{
 				return null;
 			}
-			if ( urlString.indexOf( "snarfblat=122" ) != -1 )
+			if ( urlString.contains( "snarfblat=122" ) )
 			{
 				return "Oasis in the Desert";
 			}
-			if ( urlString.indexOf( "snarfblat=" ) != -1 )
+			if ( urlString.contains( "snarfblat=" ) )
 			{
 				CharPaneRequest.setCheckNewLocation( true );
 				return "Unknown adventure";
@@ -793,15 +793,19 @@ public class AdventureDatabase
 		}
 		else if ( urlString.startsWith( "cave.php" ) )
 		{
-			if ( urlString.indexOf( "action=sanctum" ) != -1 )
+			if ( urlString.contains( "action=sanctum" ) )
 			{
 				return "Nemesis Cave: Inner Sanctum";
 			}
 			return null;
 		}
+		else if ( urlString.startsWith( "cellar.php" ) )
+		{
+			return TavernRequest.cellarLocationString( urlString );
+		}
 		else if ( urlString.startsWith( "dwarffactory.php" ) )
 		{
-			if ( urlString.indexOf( "action=ware" ) != -1 )
+			if ( urlString.contains( "action=ware" ) )
 			{
 				return "Dwarven Factory Warehouse";
 			}
@@ -811,25 +815,17 @@ public class AdventureDatabase
 		{
 			return "Guild Challenge";
 		}
-		else if ( urlString.startsWith( "pyramid.php" ) )
-		{
-			return PyramidRequest.getPyramidLocationString( urlString );
-		}
-		else if ( urlString.startsWith( "cellar.php" ) )
-		{
-			return TavernRequest.cellarLocationString( urlString );
-		}
 		else if ( urlString.startsWith( "lair4.php" ) )
 		{
-			if ( urlString.indexOf( "action=level1" ) != -1 )
+			if ( urlString.contains( "action=level1" ) )
 			{
 				return "Sorceress Tower: Level 1";
 			}
-			else if ( urlString.indexOf( "action=level2" ) != -1 )
+			else if ( urlString.contains( "action=level2" ) )
 			{
 				return "Sorceress Tower: Level 2";
 			}
-			else if ( urlString.indexOf( "action=level3" ) != -1 )
+			else if ( urlString.contains( "action=level3" ) )
 			{
 				return "Sorceress Tower: Level 3";
 			}
@@ -837,15 +833,15 @@ public class AdventureDatabase
 		}
 		else if ( urlString.startsWith( "lair5.php" ) )
 		{
-			if ( urlString.indexOf( "action=level1" ) != -1 )
+			if ( urlString.contains( "action=level1" ) )
 			{
 				return "Sorceress Tower: Level 4";
 			}
-			else if ( urlString.indexOf( "action=level2" ) != -1 )
+			else if ( urlString.contains( "action=level2" ) )
 			{
 				return "Sorceress Tower: Level 5";
 			}
-			else if ( urlString.indexOf( "action=level3" ) != -1 )
+			else if ( urlString.contains( "action=level3" ) )
 			{
 				return "Sorceress Tower: Level 6";
 			}
@@ -853,44 +849,55 @@ public class AdventureDatabase
 		}
 		else if ( urlString.startsWith( "lair6.php" ) )
 		{
-			if ( urlString.indexOf( "place=0" ) != -1 )
+			if ( urlString.contains( "place=0" ) )
 			{
 				return "Sorceress Tower: Door Puzzles";
 			}
-			else if ( urlString.indexOf( "place=2" ) != -1 )
+			else if ( urlString.contains( "place=2" ) )
 			{
 				return "Sorceress Tower: Shadow Fight";
 			}
-			else if ( urlString.indexOf( "place=5" ) != -1 )
+			else if ( urlString.contains( "place=5" ) )
 			{
 				return "Sorceress Tower: Naughty Sorceress";
 			}
 		}
 		else if ( urlString.startsWith( "mining.php" ) )
 		{
-			if ( urlString.indexOf( "intro=1" ) != -1 )
+			if ( urlString.contains( "intro=1" ) )
 			{
 				return null;
 			}
-			if ( urlString.indexOf( "mine=1" ) != -1 )
+			if ( urlString.contains( "mine=1" ) )
 			{
 				return "Itznotyerzitz Mine (in Disguise)";
 			}
-			if ( urlString.indexOf( "mine=2" ) != -1 )
+			if ( urlString.contains( "mine=2" ) )
 			{
 				return "The Knob Shaft (Mining)";
 			}
-			if ( urlString.indexOf( "mine=3" ) != -1 )
+			if ( urlString.contains( "mine=3" ) )
 			{
 				return "Anemone Mine (Mining)";
 			}
-			if ( urlString.indexOf( "mine=4" ) != -1 )
+			if ( urlString.contains( "mine=4" ) )
 			{
 				return "The Gummi Mine (in Disguise)";
 			}
 
 			Matcher matcher = AdventureDatabase.MINE_PATTERN.matcher( urlString );
 			return matcher.find() ? "Unknown Mine #" + matcher.group(1) : null;
+		}
+		else if ( urlString.startsWith( "pyramid.php" ) )
+		{
+			return PyramidRequest.getPyramidLocationString( urlString );
+		}
+		else if ( urlString.startsWith( "sea_merkin.php" ) )
+		{
+			if ( urlString.contains( "action=temple" ) )
+			{
+				return "Mer-kin Temple";
+			}
 		}
 
 		return null;

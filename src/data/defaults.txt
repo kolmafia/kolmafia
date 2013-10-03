@@ -602,6 +602,7 @@ user	maxManaBurn	1000
 user	mayflyExperience	0
 user	meansuckerPrice	400
 user	meatDropSpading	false
+user	merkinQuestPath	none
 user	merkinLockkeyMonster
 user	merkinVocabularyMastery	0
 user	mineLayout1

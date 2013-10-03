@@ -410,14 +410,8 @@ public class ValhallaManager
 		Preferences.setInteger( "pendingMapReflections", 0 );
 		Preferences.setString( "violetFogLayout", "" );
 		Preferences.setString( "dolphinItem", "" );
-		Preferences.setString( "cameraMonster", "" );
-		Preferences.setString( "rainDohMonster", "" );
-		Preferences.setString( "spookyPuttyMonster", "" );
-		Preferences.setString( "waxMonster", "" );
-		Preferences.setString( "crudeMonster", "" );
 		Preferences.setInteger( "parasolUsed", 0 );
 		Preferences.setInteger( "blankOutUsed", 0 );
-		Preferences.setString( "photocopyMonster", "" );
 		Preferences.setString( "telescope1", "" );
 		Preferences.setString( "telescope2", "" );
 		Preferences.setString( "telescope3", "" );
@@ -426,6 +420,22 @@ public class ValhallaManager
 		Preferences.setString( "telescope6", "" );
 		Preferences.setString( "telescope7", "" );
 		Preferences.setInteger( "singleFamiliarRun", 0 );
+		Preferences.setString( "plantingDate", "");
+		Preferences.setInteger( "plantingDay", -1);
+		Preferences.setInteger( "pyramidPosition", 0 );
+		Preferences.setBoolean( "pyramidBombUsed", false );
+		Preferences.setInteger( "jungCharge", 0 );
+		Preferences.setInteger( "miniAdvClass", 0 );
+		Preferences.setInteger( "yearbookCameraUpgrades", Preferences.getInteger( "yearbookCameraAscensions" ) );
+		// Copied monsters
+		Preferences.setString( "cameraMonster", "" );
+		Preferences.setString( "envyfishMonster", "" );
+		Preferences.setString( "photocopyMonster", "" );
+		Preferences.setString( "rainDohMonster", "" );
+		Preferences.setString( "spookyPuttyMonster", "" );
+		Preferences.setString( "waxMonster", "" );
+		Preferences.setString( "crudeMonster", "" );
+		// Way of the Surprising Fist
 		Preferences.setInteger( "charitableDonations", 0 );
 		Preferences.setInteger( "fistSkillsKnown", 0 );
 		Preferences.setBoolean( "fistTeachingsHaikuDungeon", false);
@@ -439,16 +449,7 @@ public class ValhallaManager
 		Preferences.setBoolean( "fistTeachingsFratHouse", false);
 		Preferences.setBoolean( "fistTeachingsRoad", false);
 		Preferences.setBoolean( "fistTeachingsNinjaSnowmen", false);
-		Preferences.setString( "plantingDate", "");
-		Preferences.setInteger( "plantingDay", -1);
-		Preferences.setInteger( "pyramidPosition", 0 );
-		Preferences.setBoolean( "pyramidBombUsed", false );
-		Preferences.setInteger( "jungCharge", 0 );
-		Preferences.setInteger( "lastColosseumRoundWon", 0 );
-		Preferences.setInteger( "lastCouncilVisit", 0 );
-		Preferences.setString( "merkinLockkeyMonster", "" );
-		Preferences.setString( "lassoTraining", "" );
-		Preferences.setString( "workteaClue", "" );
+		// The Sea
 		Preferences.setInteger( "dreadScroll1", 0 );
 		Preferences.setInteger( "dreadScroll2", 0 );
 		Preferences.setInteger( "dreadScroll3", 0 );
@@ -457,14 +458,18 @@ public class ValhallaManager
 		Preferences.setInteger( "dreadScroll6", 0 );
 		Preferences.setInteger( "dreadScroll7", 0 );
 		Preferences.setInteger( "dreadScroll8", 0 );
-		Preferences.setInteger( "merkinVocabularyMastery", 0 );
-		Preferences.setString( "seahorseName", "" );
-		Preferences.setString( "envyfishMonster", "" );
 		Preferences.setInteger( "gladiatorBallMovesKnown", 0 );
 		Preferences.setInteger( "gladiatorBladeMovesKnown", 0 );
 		Preferences.setInteger( "gladiatorNetMovesKnown", 0 );
-		Preferences.setInteger( "miniAdvClass", 0 );
-		Preferences.setInteger( "yearbookCameraUpgrades", Preferences.getInteger( "yearbookCameraAscensions" ) );
+		Preferences.setInteger( "lastColosseumRoundWon", 0 );
+		Preferences.setInteger( "lastCouncilVisit", 0 );
+		Preferences.setInteger( "merkinVocabularyMastery", 0 );
+		Preferences.setString( "lassoTraining", "" );
+		Preferences.setString( "merkinLockkeyMonster", "" );
+		Preferences.setString( "merkinQuestPath", "none" );
+		Preferences.setString( "seahorseName", "" );
+		Preferences.setString( "workteaClue", "" );
+
 		QuestDatabase.resetQuests();
 		TurnCounter.clearCounters();
 		AdventureQueueDatabase.resetQueue();

@@ -2123,6 +2123,7 @@ public class ItemDatabase
 	{
 		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_GIFT );
 	}
+
 	/**
 	 * Returns true if the item is a virtual item, as defined below,
 	 * otherwise false
@@ -2140,11 +2141,14 @@ public class ItemDatabase
 		//* tracked here and the only place the atrribute is used is the 
 		//* ash function, is_displayable().  By definition, if it can't exist
 		//* in inventory then it cannot be moved to a Display Case.
-		int virtualItems[] = {3649, 3683, 3701, 3774, 4222};
-		for (int i = 0; i < virtualItems.length; i++) {
-			if (itemId == virtualItems[i]) {
-				return true;
-			}
+		switch ( itemId )
+		{
+		case ItemPool.MADNESS_REEF_MAP:
+		case ItemPool.MARINARA_TRENCH_MAP:
+		case ItemPool.ANEMONE_MINE_MAP:
+		case ItemPool.DIVE_BAR_MAP:
+		case ItemPool.SKATE_PARK_MAP:
+			return true;
 		}
 		return false;
 	}

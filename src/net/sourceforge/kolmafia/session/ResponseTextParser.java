@@ -115,6 +115,7 @@ import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RabbitHoleRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
+import net.sourceforge.kolmafia.request.SeaMerkinRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 import net.sourceforge.kolmafia.request.ShrineRequest;
@@ -254,6 +255,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "account_manageoutfits.php" ) )
 		{
 			CustomOutfitRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "adventure.php" ) )
+		{
+			SeaMerkinRequest.parseColosseumResponse( location, responseText );
 		}
 
 		if ( location.startsWith( "api.php" ) )
@@ -658,6 +664,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "raffle.php" ) )
 		{
 			RaffleRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "sea_merkin.php" ) )
+		{
+			SeaMerkinRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "sea_skatepark.php" ) )

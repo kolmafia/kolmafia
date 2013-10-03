@@ -313,16 +313,23 @@ public class AdventureRequest
 
 		// Nothing more to do in this area
 
-		if ( this.formSource.equals( "adventure.php" ) &&
-		     this.responseText.indexOf( "adventure.php" ) == -1 &&
-		     this.responseText.indexOf( "You acquire" ) == -1 )
+		if ( this.formSource.equals( "adventure.php" ) )
 		{
-			if ( !EncounterManager.isAutoStop( this.encounter ) )
+			if ( this.adventureId.equals( AdventurePool.MERKIN_COLOSSEUM ) )
 			{
-				KoLmafia.updateDisplay( MafiaState.PENDING, "Nothing more to do here." );
+				SeaMerkinRequest.parseColosseumResponse( this.getURLString(), this.responseText );
 			}
 
-			return;
+			if ( !this.responseText.contains( "adventure.php" ) &&
+			     !this.responseText.contains( "You acquire" ) )
+			{
+				if ( !EncounterManager.isAutoStop( this.encounter ) )
+				{
+					KoLmafia.updateDisplay( MafiaState.PENDING, "Nothing more to do here." );
+				}
+
+				return;
+			}
 		}
 
 		// If you're at the casino, each of the different slot
