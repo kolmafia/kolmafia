@@ -51,6 +51,12 @@ public class BeerGardenRequest
 	}
 
 	@Override
+	public void reconstructFields()
+	{
+		this.constructURLString( this.getURLString() );
+	}
+
+	@Override
 	public void run()
 	{
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
