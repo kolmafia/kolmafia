@@ -502,6 +502,8 @@
 7164	Fire Rocket	5	0	0
 7165	Great Slash	5	0	0
 7166	Get a Good Whiff of This Guy	5	0	0
+7167	Blinding Flash	5	0	0
+7168	Wink at	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 

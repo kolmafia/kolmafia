@@ -318,10 +318,6 @@ public class FightRequest
 	private static final HashSet<String> INVALID_WITH_RANGED_ATTACK = new HashSet<String>();
 	static
 	{
-		INVALID_WITH_RANGED_ATTACK.add( "1003" );
-		INVALID_WITH_RANGED_ATTACK.add( "skill thrust-smack" );
-		INVALID_WITH_RANGED_ATTACK.add( "1005" );
-		INVALID_WITH_RANGED_ATTACK.add( "skill lunging thrust-smack" );
 		INVALID_WITH_RANGED_ATTACK.add( "2003" );
 		INVALID_WITH_RANGED_ATTACK.add( "skill headbutt" );
 		INVALID_WITH_RANGED_ATTACK.add( "2005" );
@@ -1836,7 +1832,7 @@ public class FightRequest
 				FightRequest.canStomp = true;
 			}
 
-			if ( responseText.indexOf( "hear a wolf whistle" ) != -1 )
+			if ( responseText.contains( "hear a wolf whistle" ) || responseText.contains( "you feel the hairs" ) )
 			{
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_romanticFightsLeft", -1 );
@@ -2272,9 +2268,11 @@ public class FightRequest
 			skillNumber = StringUtilities.parseInt( action.substring( 5 ) );
 		}
 
-		if ( skillNumber == SkillPool.BADLY_ROMANTIC_ARROW && responseText.contains( "fires a badly romantic" ) )
+		if ( ( skillNumber == SkillPool.BADLY_ROMANTIC_ARROW && responseText.contains( "fires a badly romantic" ) ) ||
+		     ( skillNumber == SkillPool.WINK && responseText.contains( "You point a finger" ) ) )
 		{
-			boolean hasQuake = EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
+			boolean hasQuake = ( KoLCharacter.getFamiliar().getId() == FamiliarPool.REANIMATOR ) ||
+			                   EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
 			int fights = hasQuake ? 3 : 2;
 			Preferences.setInteger( "_romanticFightsLeft", fights );
 			Preferences.setString( "romanticTarget", MonsterStatusTracker.getLastMonsterName() );
