@@ -2606,6 +2606,23 @@ public class ItemDatabase
 		moxie = "0";
 		note = "";
 		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
+		
+		// spaghetti breakfast
+		//
+		// You gain X Adventures.
+		// (You gain 1 Fullness.)
+		//
+		// Adventure gains appear to be 0.5 + (your level/2), capped at level 11.
+		
+		name = "spaghetti breakfast";
+		size = 1;
+		float sbAdv = ( level + 1 ) / 2;
+		adventures = String.valueOf( sbAdv );
+		muscle = "0";
+		mysticality = "0";
+		moxie = "0";
+		note = "";
+		ItemDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );		
 	}
 
 	// Support for dusty bottles of wine
