@@ -950,6 +950,7 @@ public class ItemPool
 	public static final int JAMFISH_JAM = 3641;
 	public static final int DRAGONFISH_CAVIAR = 3642;
 	public static final int GRIMACITE_KNEECAPPING_STICK = 3644;
+	public static final int MADNESS_REEF_MAP = 3649;
 	public static final int MINIATURE_ANTLERS = 3651;
 	public static final int SPOOKY_PUTTY_MITRE = 3662;
 	public static final int SPOOKY_PUTTY_LEOTARD = 3663;
@@ -961,11 +962,13 @@ public class ItemPool
 	public static final int MERKIN_PRESSUREGLOBE = 3675;
 	public static final int POTION_OF_PERCEPTION = 3593;
 	public static final int POTION_OF_PROFICIENCY = 3594;
+	public static final int MARINARA_TRENCH_MAP = 3683;
 	public static final int TEMPURA_CARROT = 3684;
 	public static final int TEMPURA_CUCUMBER = 3685;
 	public static final int TEMPURA_AVOCADO = 3686;
 	public static final int TEMPURA_BROCCOLI = 3689;
 	public static final int TEMPURA_CAULIFLOWER = 3690;
+	public static final int ANEMONE_MINE_MAP = 3701;
 	public static final int VINYL_BOOTS = 3716;
 	public static final int GNOLL_EYE = 3731;
 	public static final int BOOZEHOUND_TOKEN = 3739;
@@ -977,6 +980,7 @@ public class ItemPool
 	public static final int SUGARY_CUTENESS = 3757;
 	public static final int DISTURBING_OBSESSION = 3758;
 	public static final int NAUGHTY_INNUENDO = 3759;
+	public static final int DIVE_BAR_MAP = 3774;
 	public static final int MERKIN_PINKSLIP = 3775;
 	public static final int PARANORMAL_RICOTTA = 3784;
 	public static final int SMOKING_TALON = 3785;
@@ -1129,6 +1133,7 @@ public class ItemPool
 	public static final int PACIFIER_NECKLACE = 4195;
 	public static final int MERKIN_CHEATSHEET = 4204;
 	public static final int MERKIN_WORDQUIZ = 4205;
+	public static final int SKATE_PARK_MAP = 4222;
 	public static final int AMPHIBIOUS_TOPHAT = 4229;
 	public static final int HACIENDA_KEY = 4233;
 	public static final int SILVER_PATE_KNIFE = 4234;

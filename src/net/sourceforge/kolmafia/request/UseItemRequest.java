@@ -4388,12 +4388,15 @@ public class UseItemRequest
 
 			if ( responseText.contains( "I guess you're the Mer-kin High Priest now" ) )
 			{
-				// *** Track that, somehow?
+				Preferences.setString( "merkinQuestPath", "scholar" );
 				return;
 			}
 
-			if ( responseText.contains( "The sigil burned into your forehead" ) )
+			if ( !Preferences.getString( "merkinQuestPath" ).equals( "done" ) &&
+			     responseText.contains( "The sigil burned into your forehead" ) )
 			{
+				Preferences.setString( "merkinQuestPath", "gladiator" );
+				Preferences.setInteger( "lastColosseumRoundWon", 15 );
 				return;
 			}
 

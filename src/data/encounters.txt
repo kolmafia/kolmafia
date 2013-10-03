@@ -139,7 +139,7 @@ Pre-Cyrpt Cemetary	GLYPH	They Hate That
 The Battlefield (Frat Uniform)	GLYPH	God Bless, Bra
 The Defiled Nook	GLYPH	They Gave at the Morgue
 The Enormous Greater-Than Sign	GLYPH	Elbereth? Who's Elbereth?
-The Fun House	GLYPH	They Hate Mimes, Too
+The "Fun" House	GLYPH	They Hate Mimes, Too
 The Limerick Dungeon	GLYPH	Thud
 The Noob Cave	GLYPH	How Do I Shot Web?
 The Penultimate Fantasy Airship	GLYPH	Number 163

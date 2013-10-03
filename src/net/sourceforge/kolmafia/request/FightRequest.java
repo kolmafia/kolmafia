@@ -2591,7 +2591,10 @@ public class FightRequest
 		{
 			if ( adventure == AdventurePool.MERKIN_COLOSSEUM )
 			{
-				Preferences.increment( "lastColosseumRoundWon", 1 );
+				if ( Preferences.increment( "lastColosseumRoundWon", 1 ) == 15 )
+				{
+					Preferences.setString( "merkinQuestPath", "gladiator" );
+				}
 			}
 
 			if ( responseText.contains( "monstermanuel.gif" ) )

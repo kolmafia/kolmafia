@@ -5883,10 +5883,19 @@ public abstract class ChoiceManager
 			// Mer-kin dreadscroll
 			if ( text.contains( "I guess you're the Mer-kin High Priest now" ) )
 			{
-				// *** Track that, somehow?
+				Preferences.setString( "merkinQuestPath", "scholar" );
 				ResultProcessor.processItem( ItemPool.DREADSCROLL, -1 );
 				return;
 			}
+			return;
+
+		case 709:
+			// You Beat Shub to a Stub, Bub
+		case 713:
+			// You Brought Her To Her Kn-kn-kn-kn-knees, Knees.
+		case 717:
+			// Over. Over Now.
+			Preferences.setString( "merkinQuestPath", "done" );
 			return;
 
 		case 720:

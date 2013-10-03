@@ -3175,8 +3175,7 @@ public abstract class RuntimeLibrary
 	public static Value is_displayable( Interpreter interpreter, final Value item )
 	{
 		int itemId = (int) item.intValue();
-		return DataTypes.makeBooleanValue( !(ItemDatabase.isQuestItem( itemId )
-				 || ItemDatabase.isVirtualItem( itemId )));
+		return DataTypes.makeBooleanValue( !ItemDatabase.isQuestItem( itemId ) && !ItemDatabase.isVirtualItem( itemId ) );
 	}
 
 	public static Value is_discardable( Interpreter interpreter, final Value item )
