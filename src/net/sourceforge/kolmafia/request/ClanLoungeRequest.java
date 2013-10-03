@@ -359,6 +359,7 @@ public class ClanLoungeRequest
 		Concoction item = new Concoction( itemName );
 		if ( !usables.contains( item ) )
 		{
+			item.freeTotal = 1;
 			usables.add( item );
 		}
 	}
