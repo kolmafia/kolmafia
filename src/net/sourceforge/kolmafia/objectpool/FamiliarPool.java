@@ -104,4 +104,5 @@ public class FamiliarPool
 	public static final int ANGRY_JUNG_MAN = 165;
 	public static final int UNCONSCIOUS_COLLECTIVE = 166;
 	public static final int NANORHINO = 167;
+	public static final int REANIMATOR = 176;
 }
