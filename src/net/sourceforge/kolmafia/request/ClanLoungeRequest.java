@@ -359,7 +359,6 @@ public class ClanLoungeRequest
 		Concoction item = new Concoction( itemName );
 		if ( !usables.contains( item ) )
 		{
-			item.freeTotal = 1;
 			usables.add( item );
 		}
 	}
@@ -1124,6 +1123,9 @@ public class ClanLoungeRequest
 		{
 			ClanLoungeRequest.parseHotDog( hotdogMatcher.group(0) );
 		}
+
+		// Refresh available concoctions with currently available hot dogs
+		ConcoctionDatabase.refreshConcoctions( true );
 	}
 
 	private static final Pattern LOUNGE_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );

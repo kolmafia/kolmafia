@@ -1199,18 +1199,27 @@ public class ConcoctionDatabase
 
 	public static final synchronized void refreshConcoctions( boolean force )
 	{
-		if ( !force && !ConcoctionDatabase.refreshNeeded )
+		if ( force )
 		{
+			// Remember that refresh is forced, even if deferred
+			ConcoctionDatabase.refreshNeeded = true;
+		}
+			
+		if ( !ConcoctionDatabase.refreshNeeded )
+		{
+			// No refresh is currently needed
 			return;
 		}
 
 		if ( ConcoctionDatabase.refreshLevel > 0 )
 		{
+			// Refreshing is deferred
 			return;
 		}
 
 		if ( FightRequest.initializingAfterFight() )
 		{
+			// Implicit defer
 			return;
 		}
 
