@@ -68,6 +68,50 @@ public class QuestLogRequest
 	private static final Pattern BODY_PATTERN = Pattern.compile( "(?<=<b>)(.*?[^<>]*?)</b><br>(.*?)(?=<p>$|<p><b>)", Pattern.DOTALL );
 	private static final Pattern SEAHORSE_PATTERN = Pattern.compile( "You have tamed the mighty seahorse <b>(.*?)</b>", Pattern.DOTALL );
 
+	private static final Object[][] questlogDemons =
+	{
+		{
+		//	"Summoning Chamber",
+			Pattern.compile( ";&middot;([^<]*?), Lord of the Pies<br" , Pattern.DOTALL ),
+			"demonName1",
+		},
+		{
+		//	"Hoom Hah",
+			Pattern.compile( ";&middot;([^<]*?), the Deadest Beat<br" , Pattern.DOTALL ),
+			"demonName2",
+		},
+		{
+		//	"Every Seashell Has a Story to Tell If You're Listening",
+			Pattern.compile( ";&middot;([^<]*?), the Ancient Fishlord<br" , Pattern.DOTALL ),			
+			"demonName3",
+		},
+		{
+		//	"Leavesdropping",
+			Pattern.compile( ";&middot;([^<]*?), Duke of the Underworld<br" , Pattern.DOTALL ),
+			"demonName4",
+		},
+		{
+		//	"These Pipes... Aren't Clean!",
+			Pattern.compile( ";&middot;([^<]*?), the Stankmaster<br" , Pattern.DOTALL ),
+			"demonName5",
+		},
+		{
+		//	"Flying In Circles",
+			Pattern.compile( ";&middot;([^<]*?), the Demonic Lord of Revenge<br" , Pattern.DOTALL ),
+			"demonName8",
+		},
+		{
+		//	"Sinister Ancient Tablet",
+			Pattern.compile( ";&middot;([^<]*?), the Smith<br" , Pattern.DOTALL ),
+			"demonName9",
+		},
+		{
+		//	"Strange Cube",
+			Pattern.compile( ";&middot;([^<]*?[^<]), the Pain Enjoyer<br" , Pattern.DOTALL ),
+			"demonName10",
+		},
+	};
+
 	public QuestLogRequest()
 	{
 		super( "questlog.php" );
@@ -186,6 +230,8 @@ public class QuestLogRequest
 			{
 				Preferences.setString( "seahorseName", new String( matcher.group(1) ) );
 			}
+
+			registerDemonName( responseText );
 		}
 	}
 
@@ -297,5 +343,25 @@ public class QuestLogRequest
 	public static boolean isBeanstalkPlanted()
 	{
 		return QuestLogRequest.beanstalkPlanted;
+	}
+
+	public static final boolean registerDemonName( final String responseText )
+	{
+		for ( int i = 0; i < QuestLogRequest.questlogDemons.length; ++i )
+		{
+			Object [] demons = QuestLogRequest.questlogDemons[ i ];
+			if ( Preferences.getString( (String) demons[ 1 ] ).equals( "" ) )
+			{
+				Pattern pattern = (Pattern) demons[ 0 ];
+				Matcher matcher = pattern.matcher( responseText );
+
+				if ( matcher.find() )
+				{
+					// We found this demon
+					Preferences.setString( (String) demons[ 1 ], matcher.group( 1 ) );
+				}
+			}
+		}
+		return true;
 	}
 }
