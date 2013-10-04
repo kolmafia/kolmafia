@@ -381,28 +381,20 @@ public class FileUtilities
 		String localname = FileUtilities.localImageName( filename );
 		File localfile = new File( KoLConstants.IMAGE_LOCATION, localname );
 
-		if ( !localfile.exists() || localfile.length() == 0 )
-		{
-			if ( JComponentUtilities.getImage( localname ) != null )
-			{
-				loadLibrary( KoLConstants.IMAGE_LOCATION, KoLConstants.IMAGE_DIRECTORY, localname );
-			}
-			else
-			{
-				downloadFile( filename, localfile );
-			}
-		}
-
 		try
 		{
-			String localfilePath = localfile.getCanonicalPath();
-			String imagePath = KoLConstants.IMAGE_LOCATION.getCanonicalPath();
-
-			if ( !localfilePath.startsWith( imagePath ) )
+			if ( !localfile.exists() || localfile.length() == 0 )
 			{
-				return null;
+				if ( JComponentUtilities.getImage( localname ) != null )
+				{
+					loadLibrary( KoLConstants.IMAGE_LOCATION, KoLConstants.IMAGE_DIRECTORY, localname );
+				}
+				else
+				{
+					downloadFile( filename, localfile );
+				}
 			}
-		
+
 			return localfile;
 		}
 		catch ( Exception e )

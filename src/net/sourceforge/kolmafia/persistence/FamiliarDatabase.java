@@ -429,7 +429,11 @@ public class FamiliarDatabase
 		{
 			return FamiliarDatabase.getNoFamiliarImage();
 		}
-		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + location );
+		File file = FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + location );
+		if ( file == null )
+		{
+			return FamiliarDatabase.getNoFamiliarImage();
+		}
 		return JComponentUtilities.getImage( "itemimages/" + location );
 	}
 
