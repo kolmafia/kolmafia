@@ -827,6 +827,18 @@ public abstract class UseLinkDecorator
 					"store.php?phash=" + GenericRequest.passwordHash + "&whichstore=m&buying=Yep.&howmany=1&whichitem=",
 					true );
 
+			case ItemPool.MOSS_COVERED_STONE_SPHERE:
+				return new UseLink( itemId, 1, "[use sphere]", "adventure.php?snarfblat=346" );
+
+			case ItemPool.DRIPPING_STONE_SPHERE:
+				return new UseLink( itemId, 1, "[use sphere]", "adventure.php?snarfblat=347" );
+
+			case ItemPool.CRACKLING_STONE_SPHERE:
+				return new UseLink( itemId, 1, "[use sphere]", "adventure.php?snarfblat=348" );
+
+			case ItemPool.SCORCHED_STONE_SPHERE:
+				return new UseLink( itemId, 1, "[use sphere]", "adventure.php?snarfblat=349" );
+
 			case ItemPool.BARLEY:
 			case ItemPool.HOPS:
 			case ItemPool.FANCY_BEER_BOTTLE:
