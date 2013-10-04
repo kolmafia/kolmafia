@@ -101,7 +101,6 @@ public class Concoction
 
 	public int price;
 	public String property;
-	public boolean special;
 	public int creatable;
 	public int queued;
 	public int queuedPulls;
@@ -111,6 +110,9 @@ public class Concoction
 	public int total;
 	public int visibleTotal;
 	public int freeTotal;
+
+	public boolean special;
+	public boolean fancydog;
 
 	private int fullness, inebriety, spleenhit;
 	private double mainstatGain;

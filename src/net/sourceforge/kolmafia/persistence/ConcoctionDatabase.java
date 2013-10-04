@@ -109,6 +109,7 @@ public class ConcoctionDatabase
 	public static int queuedTomesUsed = 0;
 	public static int queuedPullsUsed = 0;
 	public static int queuedMeatSpent = 0;
+	public static boolean queuedFancyDog = false;
 
 	private static int queuedFullness = 0;
 	public static final LockableListModel queuedFood = new LockableListModel();
@@ -618,6 +619,11 @@ public class ConcoctionDatabase
 				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, free ) );
 		}
 
+		if ( c.fancydog )
+		{
+			ConcoctionDatabase.queuedFancyDog = true;
+		}
+
 		queue.add( new QueuedConcoction( c, quantity, ingredients, meat, pulls, tome, stills, advs, free ) );
 	}
 
@@ -714,6 +720,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.queuedFreeCraftingTurns -= free;
 			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.FREE_CRAFT, -free ) );
+		}
+
+		if ( qc.getConcoction().fancydog )
+		{
+			ConcoctionDatabase.queuedFancyDog = false;
 		}
 
 		return qc;
