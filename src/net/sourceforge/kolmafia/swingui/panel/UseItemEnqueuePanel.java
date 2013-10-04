@@ -726,6 +726,11 @@ public class UseItemEnqueuePanel
 				}
 			}
 
+			if ( creation.fancydog && ConcoctionDatabase.queuedFancyDog )
+			{
+				return false;
+			}
+
 			// turn-free
 			if ( UseItemEnqueuePanel.this.filters[ 1 ].isSelected() )
 			{

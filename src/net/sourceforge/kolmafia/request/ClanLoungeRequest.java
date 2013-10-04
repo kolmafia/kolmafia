@@ -339,6 +339,7 @@ public class ClanLoungeRequest
 			ClanLoungeRequest.ALL_HOTDOGS.add( concoction );
 			if ( i > 0 )
 			{
+				concoction.fancydog = true;
 				ClanLoungeRequest.FANCY_HOTDOGS.add( concoction );
 			}
 		}
