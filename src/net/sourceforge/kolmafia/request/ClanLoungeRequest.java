@@ -33,10 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -197,7 +196,7 @@ public class ClanLoungeRequest
 		},
 	};
 
-	public static final Object [][] HOTDOGS = new Object[][]
+	public static final Object [][] HOTDOG_DATA = new Object[][]
 	{
 		{
 			"basic hot dog",
@@ -283,26 +282,11 @@ public class ClanLoungeRequest
 		},
 	};
 
-	public static final LockableListModel ALL_HOT_DOGS = new LockableListModel();
-
-	static
-	{
-		for ( int i = 0; i < HOTDOGS.length; ++i )
-		{
-			ClanLoungeRequest.ALL_HOT_DOGS.add( HOTDOGS[i][0] );
-		}
-	};
-
-	public static final int hotdogNameToIndex( final String name )
-	{
-		return ClanLoungeRequest.ALL_HOT_DOGS.indexOf( name );
-	}
-
 	public static final int hotdogIdToIndex( int id )
 	{
-		for ( int i = 0; i < HOTDOGS.length; ++i )
+		for ( int i = 0; i < HOTDOG_DATA.length; ++i )
 		{
-			if ( id == ((Integer)ClanLoungeRequest.HOTDOGS[i][1]).intValue() )
+			if ( id == ((Integer)ClanLoungeRequest.HOTDOG_DATA[i][1]).intValue() )
 			{
 				return i;
 			}
@@ -313,72 +297,78 @@ public class ClanLoungeRequest
 	public static final String hotdogIdToName( int id )
 	{
 		int index = ClanLoungeRequest.hotdogIdToIndex( id );
-		return index < 0 ? null : (String)ClanLoungeRequest.HOTDOGS[index][0];
+		return index < 0 ? null : (String)ClanLoungeRequest.HOTDOG_DATA[index][0];
 	}
 
 	public static final String hotdogIndexToName( int index )
 	{
-		return ( index < 0 || index > ClanLoungeRequest.HOTDOGS.length ) ? null : (String)ClanLoungeRequest.HOTDOGS[ index ][0];
+		return ( index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length ) ? null : (String)ClanLoungeRequest.HOTDOG_DATA[ index ][0];
 	}
 
 	public static final Integer hotdogIndexToId( int index )
 	{
-		return ( index < 0 || index > ClanLoungeRequest.HOTDOGS.length ) ? -1 : (Integer)ClanLoungeRequest.HOTDOGS[ index ][1];
+		return ( index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length ) ? -1 : (Integer)ClanLoungeRequest.HOTDOG_DATA[ index ][1];
 	}
 
 	public static final Integer hotdogIndexToFullness( int index )
 	{
-		return ( index < 0 || index > ClanLoungeRequest.HOTDOGS.length ) ? -1 : (Integer)ClanLoungeRequest.HOTDOGS[ index ][2];
+		return ( index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length ) ? -1 : (Integer)ClanLoungeRequest.HOTDOG_DATA[ index ][2];
 	}
 
 	public static final AdventureResult hotdogIndexToItem( int index )
 	{
-		return ( index < 0 || index > ClanLoungeRequest.HOTDOGS.length ) ? null : (AdventureResult)ClanLoungeRequest.HOTDOGS[ index ][3];
+		return ( index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length ) ? null : (AdventureResult)ClanLoungeRequest.HOTDOG_DATA[ index ][3];
 	}
 
 	public static final AdventureResult hotdogIndexToUnlocker( int index )
 	{
-		return ( index < 0 || index > ClanLoungeRequest.HOTDOGS.length ) ? null : (AdventureResult)ClanLoungeRequest.HOTDOGS[ index ][4];
+		return ( index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length ) ? null : (AdventureResult)ClanLoungeRequest.HOTDOG_DATA[ index ][4];
+	}
+
+	public static final ArrayList<String> HOTDOG_NAMES = new ArrayList<String>();
+	public static final ArrayList<Concoction> ALL_HOTDOGS = new ArrayList<Concoction>();
+	public static final ArrayList<Concoction> FANCY_HOTDOGS = new ArrayList<Concoction>();
+
+	static
+	{
+		for ( int i = 0; i < HOTDOG_DATA.length; ++i )
+		{
+			String itemName = (String) HOTDOG_DATA[i][0];
+			Concoction concoction = new Concoction( itemName );
+			ClanLoungeRequest.HOTDOG_NAMES.add( itemName );
+			ClanLoungeRequest.ALL_HOTDOGS.add( concoction );
+			if ( i > 0 )
+			{
+				ClanLoungeRequest.FANCY_HOTDOGS.add( concoction );
+			}
+		}
+	};
+
+	public static final void resetHotdogs()
+	{
+		// Remove all hot dogs from the usable list
+		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.ALL_HOTDOGS );
+	}
+
+	public static final void resetFancyHotdogs()
+	{
+		// Remove fancy hot dogs from the usable list
+		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.FANCY_HOTDOGS );
+	}
+
+	private static final int hotdogNameToIndex( final String name )
+	{
+		return ClanLoungeRequest.HOTDOG_NAMES.indexOf( name );
 	}
 
 	public static final boolean isHotDog( String name )
 	{
-		return ClanLoungeRequest.ALL_HOT_DOGS.contains( name );
+		return ClanLoungeRequest.HOTDOG_NAMES.contains( name );
 	}
 
-	private static void addHotDog( final String itemName )
+	public static final boolean isFancyHotDog( String name )
 	{
-		// Don't bother adding fancy hot dogs if you've already eaten one today.
-		int index = ClanLoungeRequest.hotdogNameToIndex( itemName );
-		if ( index > 0 && Preferences.getBoolean( "_fancyHotDogEaten" ) )
-		{
-			return;
-		}
-
-		LockableListModel usables = ConcoctionDatabase.getUsables();
-		Concoction item = new Concoction( itemName );
-		if ( !usables.contains( item ) )
-		{
-			usables.add( item );
-		}
-	}
-
-	private static final void resetHotdogs( final int start )
-	{
-		// Remove all hot dogs from the usable list
-		LockableListModel usables = ConcoctionDatabase.getUsables();
-		for ( int i = start; i < ClanLoungeRequest.ALL_HOT_DOGS.size(); ++i )
-		{
-			String itemName = (String) ClanLoungeRequest.ALL_HOT_DOGS.get( i );
-			Concoction junk = new Concoction( itemName );
-			usables.remove( junk );
-		}
-	}
-
-	public static final void resetHotdogs()
-	{
-		// Remove all hot dogs from the list
-		ClanLoungeRequest.resetHotdogs( 0 );
+		return ClanLoungeRequest.HOTDOG_NAMES.indexOf( name ) > 0;
 	}
 
 	public static final int findPoolGame( String tag )
@@ -1070,23 +1060,32 @@ public class ClanLoungeRequest
 			buffer.append( String.valueOf( stocked ) );
 			buffer.append( " in stock)" );
 		}
-		// System.out.println( buffer.toString() );
 
-		if ( available )
+		RequestLogger.printLine( buffer.toString() );
+	}
+
+	private static Concoction addHotDog( final String itemName )
+	{
+		// Don't bother adding fancy hot dogs if you've already eaten one today.
+		int index = ClanLoungeRequest.hotdogNameToIndex( itemName );
+		if ( index > 0 && Preferences.getBoolean( "_fancyHotDogEaten" ) )
 		{
-			ClanLoungeRequest.addHotDog( name );
+			return null;
 		}
+
+		Concoction item = ClanLoungeRequest.ALL_HOTDOGS.get( index );
+		return ConcoctionDatabase.getUsables().contains( item ) ? null : item;
 	}
 
 	private static final Pattern HOTDOG_PATTERN = Pattern.compile( 
 		".*?<input class=button type=submit value=Eat( disabled.*?)?>.*?<span onclick='descitem.\"(.*?)_food\".*?<b>(.*?)</b>(?:.*?<img.*?title=\"(.*?)\"(?:.*?<b>x (.*?)</b>.*?([0123456789,]*) in stock)?)?", Pattern.DOTALL );
 
-	private static void parseHotDog( final String hotdog )
+	private static Concoction parseHotDog( final String hotdog )
 	{
 		Matcher matcher = HOTDOG_PATTERN.matcher( hotdog );
 		if ( !matcher.find() )
 		{
-			return;
+			return null;
 		}
 
 		boolean disabled = matcher.group(1) != null;
@@ -1099,7 +1098,9 @@ public class ClanLoungeRequest
 		String stockedString = matcher.group(6);
 		int stocked = stockedString == null ? 0 : StringUtilities.parseInt( stockedString );
 
-		ClanLoungeRequest.registerHotDog( name, itemId, !disabled, supply, needed, stocked );
+		// ClanLoungeRequest.registerHotDog( name, itemId, !disabled, supply, needed, stocked );
+
+		return disabled ? null : ClanLoungeRequest.addHotDog( name );
 	}
 
 	private static final Pattern HOTDOG_STAND_PATTERN = Pattern.compile( "<table>(<tr><form action=clan_viplounge.php method=post>.*?)</table>", Pattern.DOTALL );
@@ -1117,11 +1118,24 @@ public class ClanLoungeRequest
 			return;
 		}
 
+		// Make a list of all currently available hot dogs
+		ArrayList<Concoction> available = new ArrayList<Concoction>();
+
 		String stand = standMatcher.group(1);
 		Matcher hotdogMatcher = HOTDOG_ROW_PATTERN.matcher( stand );
 		while ( hotdogMatcher.find() )
 		{
-			ClanLoungeRequest.parseHotDog( hotdogMatcher.group(0) );
+			Concoction hotdog = ClanLoungeRequest.parseHotDog( hotdogMatcher.group(0) );
+			if ( hotdog != null )
+			{
+				available.add( hotdog );
+			}
+		}
+
+		// Add hot dogs en masse to the usables list
+		if ( available.size() > 0 )
+		{
+			ConcoctionDatabase.getUsables().addAll( available );
 		}
 
 		// Refresh available concoctions with currently available hot dogs
@@ -1374,7 +1388,7 @@ public class ClanLoungeRequest
 			if ( responseText.indexOf( "You aren't in the mood for any more fancy dogs today" ) != -1 )
 			{
 				// Remove fancy hot dogs from the list
-				ClanLoungeRequest.resetHotdogs( 1 );
+				ClanLoungeRequest.resetFancyHotdogs();
 				Preferences.setBoolean( "_fancyHotDogEaten", true );
 				return;
 			}
@@ -1406,7 +1420,7 @@ public class ClanLoungeRequest
 			if ( index > 0 )
 			{
 				// Remove fancy hot dogs from the list
-				ClanLoungeRequest.resetHotdogs( 1 );
+				ClanLoungeRequest.resetFancyHotdogs();
 				Preferences.setBoolean( "_fancyHotDogEaten", true );
 			}
 

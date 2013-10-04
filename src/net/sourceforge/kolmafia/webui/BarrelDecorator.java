@@ -50,7 +50,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BarrelDecorator
 {
-	private static final Pattern UNSMASHED = Pattern.compile( "smash=(\\d+)&pwd=(\\w+)'><img src='http://images.kingdomofloathing.com/otherimages/mountains/smallbarrel.gif'.*?>" );
 	private static long unsmashedSquares = 0;
 	private static int unsmashedUser = -1;
 		
@@ -135,8 +134,15 @@ public abstract class BarrelDecorator
 		return possibles;
 	}
 
+	private static final Pattern UNSMASHED = Pattern.compile( "smash=(\\d+)&pwd=(\\w+)'><img src='http://images.kingdomofloathing.com/otherimages/mountains/smallbarrel.gif'.*?>" );
+
 	public static final void decorate( final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
+
 		int [] possibles = compute();
 
 		Matcher m = UNSMASHED.matcher( buffer.toString() );
@@ -209,15 +215,12 @@ public abstract class BarrelDecorator
 				filename.append( "-" );
 			}
 			
-			if ( Preferences.getBoolean( "relayShowSpoilers" ) )
-			{
-				m.appendReplacement(
-					buffer,
-					"smash=$1&pwd=$2'>" + "<img src='/images/otherimages/barrels/" + filename + ".gif' " + "border=0 alt=\"" + tooltip + "\" title=\"" + tooltip + "\">" );
-			}
+			m.appendReplacement(
+				buffer,
+				"smash=$1&pwd=$2'>" + "<img src='/images/otherimages/barrels/" + filename + ".gif' " + "border=0 alt=\"" + tooltip + "\" title=\"" + tooltip + "\">" );
 		}
-		if ( Preferences.getBoolean( "relayShowSpoilers" ) )
-			m.appendTail( buffer );
+
+		m.appendTail( buffer );
 	}
 
 	private static final Pattern SMASH_PATTERN = Pattern.compile( "smash=(\\d+)" );

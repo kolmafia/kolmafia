@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
@@ -287,6 +288,15 @@ public class TestCommand
 			StringBuffer buffer = new StringBuffer( TestCommand.contents );
 			TestCommand.contents = null;
 			RequestEditorKit.addNewLocationLinks( buffer );
+			TestCommand.dump( buffer.toString() );
+			return;
+		}
+
+		if ( command.equals( "barrel" ) )
+		{
+			StringBuffer buffer = new StringBuffer( TestCommand.contents );
+			TestCommand.contents = null;
+			BarrelDecorator.decorate( buffer );
 			TestCommand.dump( buffer.toString() );
 			return;
 		}
