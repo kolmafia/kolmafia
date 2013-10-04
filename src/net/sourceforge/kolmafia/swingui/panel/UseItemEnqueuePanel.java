@@ -709,9 +709,18 @@ public class UseItemEnqueuePanel
 			if ( KoLCharacter.inHighschool() && UseItemEnqueuePanel.this.booze )
 			{
 				AdventureResult item = creation.getItem();
-				String name = item != null ? item.getName() : null;
-				if ( name != null && !name.equals( "steel margarita" ) &&
-				     ( ItemDatabase.getNotes( name ) == null || !ItemDatabase.getNotes( name ).startsWith( "KOLHS" ) ) )
+				if ( item == null )
+				{
+					return false;
+				}
+				String name = item.getName();
+				if ( name == null )
+				{
+					return false;
+				}
+				String notes = ItemDatabase.getNotes( name );
+				if ( !name.equals( "steel margarita" ) &&
+				     ( notes == null || !notes.startsWith( "KOLHS" ) ) )
 				{
 					return false;
 				}
