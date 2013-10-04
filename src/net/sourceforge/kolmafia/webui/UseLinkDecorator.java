@@ -582,6 +582,10 @@ public abstract class UseLinkDecorator
 
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 			}
+
+			case ItemPool.HOT_WING:
+				return new UseLink( itemId, InventoryManager.getCount( itemId ), "javascript:return false;" );
+
 			}
 
 			if ( !KoLCharacter.canEat() )
