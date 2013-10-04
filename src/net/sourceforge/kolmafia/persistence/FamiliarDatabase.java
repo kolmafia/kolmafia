@@ -434,7 +434,8 @@ public class FamiliarDatabase
 		{
 			return FamiliarDatabase.getNoFamiliarImage();
 		}
-		return JComponentUtilities.getImage( "itemimages/" + location );
+		ImageIcon icon = JComponentUtilities.getImage( "itemimages/" + location );
+		return icon != null ? icon : FamiliarDatabase.getNoFamiliarImage();
 	}
 
 	public static final ImageIcon getNoFamiliarImage()
