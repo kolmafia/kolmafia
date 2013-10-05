@@ -318,6 +318,11 @@ public class Maximizer
 					{
 						continue;
 					}
+					// Can get Box of Sunshine in hardcore/ronin, but can't use it
+					else if ( !KoLCharacter.canInteract() && cmd.startsWith( "use 1 box of sunshine" ) )
+					{
+						continue;
+					}
 					else
 					{
 						item = ItemFinder.getFirstMatchingItem(
