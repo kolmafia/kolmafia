@@ -411,6 +411,7 @@ user	fossilS	0
 user	fossilW	0
 user	fratboysDefeated	0
 user	friarsBlessingReceived	false
+user	gameProBossSpecialPower	Unknown
 user	ghostPencil1	false
 user	ghostPencil2	false
 user	ghostPencil3	false
