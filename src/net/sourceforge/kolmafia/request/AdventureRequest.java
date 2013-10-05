@@ -315,7 +315,7 @@ public class AdventureRequest
 
 		if ( this.formSource.equals( "adventure.php" ) )
 		{
-			if ( this.adventureId.equals( AdventurePool.MERKIN_COLOSSEUM ) )
+			if ( this.adventureId.equals( AdventurePool.MERKIN_COLOSSEUM_ID ) )
 			{
 				SeaMerkinRequest.parseColosseumResponse( this.getURLString(), this.responseText );
 			}
