@@ -178,10 +178,20 @@ giant candy cane	candycaine powder
 7-inch discus	sea salt crystal
 aerated diving helmet	sea salt crystal
 amber aviator shades	sea salt crystal
+aquamariner's necklace	sea salt crystal
+aquamariner's ring	sea salt crystal
+Ass-Stompers of Violence	sea salt crystal
+Belt of Loathing	sea salt crystal
 bezoar ring	sea salt crystal
 brand new key	sea salt crystal
+Brand of Violence	sea salt crystal
 brass dorsal fin	sea salt crystal
+Cold Stone of Hatred	sea salt crystal
 collapsible baton	sea salt crystal
+cozy bazooka	sea salt crystal
+cozy scimitar	sea salt crystal
+crappy Mer-kin mask	sea salt crystal
+crappy Mer-kin tailpiece	sea salt crystal
 deep six-shooter	sea salt crystal
 diving muff	sea salt crystal
 eelskin shield	sea salt crystal
@@ -190,30 +200,65 @@ eelskin pants	sea salt crystal
 fish scimitar	sea salt crystal
 fish stick	sea salt crystal
 fish bazooka	sea salt crystal
+Fuzzy Slippers of Hatred	sea salt crystal
 ganger bandana	sea salt crystal
+Girdle of Hatred	sea salt crystal
 glowing esca	sea salt crystal
+Goggles of Loathing	sea salt crystal
 halibut	sea salt crystal
+jam band	sea salt crystal
+Jeans of Loathing	sea salt crystal
+Jodhpurs of Violence	sea salt crystal
+Lens of Hatred	sea salt crystal
+Lens of Violence	sea salt crystal
+long-forgotten necklace	sea salt crystal
+Mer-kin begsign	sea salt crystal
 Mer-kin breastplate	sea salt crystal
+Mer-kin bunwig	sea salt crystal
+Mer-kin dodgeball	sea salt crystal
+Mer-kin dragbelt	sea salt crystal
+Mer-kin dragnet	sea salt crystal
+Mer-kin eyeglasses	sea salt crystal
+Mer-kin finpaddle	sea salt crystal
+Mer-kin gladiator mask	sea salt crystal
+Mer-kin gladiator tailpiece	sea salt crystal
+Mer-kin headguard	sea salt crystal
 Mer-kin hookspear	sea salt crystal
 Mer-kin digpick	sea salt crystal
 Mer-kin prayerbeads	sea salt crystal
 Mer-kin roundshield	sea salt crystal
+Mer-kin scholar mask	sea salt crystal
+Mer-kin scholar tailpiece	sea salt crystal
 Mer-kin sneakmask	sea salt crystal
+Mer-kin stopwatch	sea salt crystal
+Mer-kin switchblade	sea salt crystal
 Mer-kin takebag	sea salt crystal
+Mer-kin thighguard	sea salt crysta
 moist sailor's cap	sea salt crystal
 non-stick pugil stick	sea salt crystal
+Novelty Belt Buckle of Violence	sea salt crystal
 nurse's hat	sea salt crystal
 octopus's spade	sea salt crystal
+Pantaloons of Hatred	sea salt crystal
+pearl diver's necklace	sea salt crystal
+pearl diver's ring	sea salt crystal
+Pigsticker of Violence	sea salt crystal
 pink pinkslip slip	sea salt crystal
 Pocket Square of Loathing	corrupted stardust
 PVC staff	sea salt crystal
 rusty compass	sea salt crystal
-rusty speargun	sea salt crystal
 rusty diving helmet	sea salt crystal
+rusty speargun	sea salt crystal
+rusty staff	sea salt crystal
+scale-mail underwear	sea salt crystal
+Scepter of Loathing	sea salt crystal
+sea cape	sea salt crystal
 sea chaps	sea salt crystal
 sea cowboy hat	sea salt crystal
 sea holster	sea salt crystal
+sea mantle	sea salt crystal
 sea salt scrubs	sea salt crystal
+sea shawl	sea salt crystal
 shark jumper	sea salt crystal
 shark tooth necklace	sea salt crystal
 skate blade	sea salt crystal
@@ -221,10 +266,14 @@ skate board	sea salt crystal
 sponge helmet	sea salt crystal
 spongy shield	sea salt crystal
 square sponge pants	sea salt crystal
+Staff of Simmering Hatred	sea salt crystal
+Staff of the Cozy Fish	sea salt crystal
+Stick-Knife of Loathing	sea salt crystal
 straw hat	sea salt crystal
 teflon shield	sea salt crystal
 teflon spatula	sea salt crystal
 teflon swim fins	sea salt crystal
+Treads of Loathing	sea salt crystal
 velcro boots	sea salt crystal
 velcro broadsword	sea salt crystal
 velcro paddle ball	sea salt crystal
@@ -322,6 +371,18 @@ Loathing Legion pizza stone	nosmash
 Loathing Legion rollerblades	nosmash
 Loathing Legion tape measure	nosmash
 plastic vampire fangs	nosmash
+Rain-Doh yellow laser gun	nosmash
+Rain-Doh violet bo	nosmash
+Rain-Doh green lantern	nosmash
+Rain-Doh red wings	nosmash
+Boris's Helm	nosmash
+Boris's Helm (askew)	nosmash
+Camp Scout backpack	nosmash
+right bear arm	nosmash
+left bear arm	nosmash
+Jarlsberg's pan	nosmash
+Jarlsberg's pan (Cosmic portal mode)	nosmash
+over-the-shoulder Folder Holder	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
