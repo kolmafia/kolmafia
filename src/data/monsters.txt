@@ -165,7 +165,7 @@ Baa'baa'bu'ran	stone_serpent.gif	HP: [(min(100,MOX+10)+ML)*0.75] Def: [min(100,M
 baa-relief sheep	stone_sheep.gif	HP: [(min(50,MOX)+ML)*0.75] Def: [min(50,MUS)+ML] Atk: [min(50,MOX)+ML] Exp: [(min(50,STAT)+ML)/4] Init: -10000 P: construct	stone wool (25)
 Bad ASCII Art	badascii.gif	Atk: 85 Def: 76 HP: 75 Init: 50 P: construct	ASCII shirt (c100)	30669 scroll (100)	33398 scroll (100)	334 scroll (100)	334 scroll (100)
 Bailey's Beetle	warhipmo.gif	Atk: 195 Def: 175 HP: 210 Init: 70 E: stench P: hippy	green clay bead (30)	floorboard cruft (30)	battered hubcap (30)	communications windchimes (12)	reinforced beaded headband (1)	round purple sunglasses (2)	bullet-proof corduroys (4)
-Baiowulf		HP: 20 Def: 13 Atk: 15 Init: 10000	P: dude	Talisman of Baio (100)
+Baiowulf		HP: 20 Def: 13 Atk: 15 Init: 10000 P: dude	Talisman of Baio (100)
 Bangyomaman Warrior	bangyomama.gif	Atk: 150 Def: 126 HP: 160 Init: 20 P: dude	neurostim pill (0)	X-37 gun (0)	essence of heat (c100)	 Bangyomaman battle juice (c0)
 banshee librarian	banshee.gif	Atk: 57 Def: 46 HP: 69 Init: -10000 ED: spooky P: undead	disintegrating quill pen (20)
 bar	bar.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 12-20 P: beast	bar skin (25)
