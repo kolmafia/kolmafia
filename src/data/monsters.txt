@@ -23,7 +23,6 @@
 #
 # Questionable data:
 #
-# Baiowulf
 # Count Bakula
 # Crazy Bastard
 # Hypnotist of Hey Deze
