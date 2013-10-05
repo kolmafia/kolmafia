@@ -827,18 +827,6 @@ public abstract class UseLinkDecorator
 					"store.php?phash=" + GenericRequest.passwordHash + "&whichstore=m&buying=Yep.&howmany=1&whichitem=",
 					true );
 
-			case ItemPool.MOSS_COVERED_STONE_SPHERE:
-				return new UseLink( itemId, 1, "[use sphere]", "adventure.php?snarfblat=346" );
-
-			case ItemPool.DRIPPING_STONE_SPHERE:
-				return new UseLink( itemId, 1, "[use sphere]", "adventure.php?snarfblat=347" );
-
-			case ItemPool.CRACKLING_STONE_SPHERE:
-				return new UseLink( itemId, 1, "[use sphere]", "adventure.php?snarfblat=348" );
-
-			case ItemPool.SCORCHED_STONE_SPHERE:
-				return new UseLink( itemId, 1, "[use sphere]", "adventure.php?snarfblat=349" );
-
 			case ItemPool.BARLEY:
 			case ItemPool.HOPS:
 			case ItemPool.FANCY_BEER_BOTTLE:
@@ -1060,7 +1048,6 @@ public abstract class UseLinkDecorator
 
 		switch ( itemId )
 		{
-
 		// Subject 37 File goes to Cell #37
 		case ItemPool.SUBJECT_37_FILE:
 			useType = "cell #37";
@@ -1477,6 +1464,18 @@ public abstract class UseLinkDecorator
 			useLocation = "inv_use.php?which=3&whichitem=";
 			itemId = ItemPool.TOMB_RATCHET;
 			break;
+
+		case ItemPool.MOSS_COVERED_STONE_SPHERE:
+			return new UseLink( itemId, 1, "use sphere", "adventure.php?snarfblat=346" );
+
+		case ItemPool.DRIPPING_STONE_SPHERE:
+			return new UseLink( itemId, 1, "use sphere", "adventure.php?snarfblat=347" );
+
+		case ItemPool.CRACKLING_STONE_SPHERE:
+			return new UseLink( itemId, 1, "use sphere", "adventure.php?snarfblat=348" );
+
+		case ItemPool.SCORCHED_STONE_SPHERE:
+			return new UseLink( itemId, 1, "use sphere", "adventure.php?snarfblat=349" );
 
 		default:
 
