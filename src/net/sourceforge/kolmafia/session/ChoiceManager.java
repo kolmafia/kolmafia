@@ -7596,6 +7596,20 @@ public abstract class ChoiceManager
 		// A few choices have non-standard options: 0 is not Manual Control
 		switch ( choice )
 		{
+		case 48: case 49: case 50: case 51: case 52:
+		case 53: case 54: case 55: case 56: case 57:
+		case 58: case 59: case 60: case 61: case 62:
+		case 63: case 64: case 65: case 66: case 67:
+		case 68: case 69: case 70:
+			// Choices in the Violet Fog
+
+			if ( decision.equals( "" ) )
+			{
+				return VioletFogManager.handleChoice( choice );
+			}
+
+			return decision;
+
 		// Out in the Garden
 		case 89:
 
@@ -7719,20 +7733,6 @@ public abstract class ChoiceManager
 				{
 					return choice == 26 ? String.valueOf( i / 4 + 1 ) : String.valueOf( i % 4 / 2 + 1 );
 				}
-			}
-
-			return decision;
-
-		case 48: case 49: case 50: case 51: case 52:
-		case 53: case 54: case 55: case 56: case 57:
-		case 58: case 59: case 60: case 61: case 62:
-		case 63: case 64: case 65: case 66: case 67:
-		case 68: case 69: case 70:
-
-			// Choices in the Violet Fog
-			if ( decision.equals( "" ) )
-			{
-				return VioletFogManager.handleChoice( choice );
 			}
 
 			return decision;
