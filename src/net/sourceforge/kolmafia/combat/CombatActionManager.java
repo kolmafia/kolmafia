@@ -219,7 +219,9 @@ public abstract class CombatActionManager
 	public static final String encounterKey( String line, final boolean changeCase )
 	{
 		line = StringUtilities.globalStringReplace( line.trim(), "  ", " " );
+
 		String key = StringUtilities.getCanonicalName( line );
+		line = StringUtilities.getEntityEncode( line );
 
 		if ( key.startsWith( "a " ) )
 		{
