@@ -38,11 +38,14 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import java.nio.charset.Charset;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -56,6 +59,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -69,6 +73,7 @@ import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -147,9 +152,10 @@ public class TestCommand
 			}
 			
 			byte[] bytes = ByteBufferUtilities.read( file );
-			TestCommand.contents = new String( bytes );
+			String string = StringUtilities.getEncodedString( bytes, "UTF-8" );
+			TestCommand.contents = string;
 
-			KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( bytes.length ) + " bytes" );
+			KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( bytes.length ) + " bytes into a " + string.length() + " character string" );
 		}
 
 		if ( command.equals( "hedgepuzzle" ) )
@@ -226,6 +232,25 @@ public class TestCommand
 			boolean result = ResultProcessor.processResults( false, text, null );
 			RequestLogger.printLine( "returned " + result );
 			ConcoctionDatabase.refreshConcoctions( true );
+			return;
+		}
+
+		if ( command.equals( "canonical" ) )
+		{
+			String string;
+			if ( TestCommand.contents == null )
+			{
+				int index = parameters.indexOf( " " );
+				string = parameters.substring( index + 1 );
+			}
+			else
+			{
+				string = TestCommand.contents.trim();
+				TestCommand.contents = null;
+			}
+			String canonical = StringUtilities.getEntityEncode( string, false );
+			String escaped = CharacterEntities.escape( canonical );
+			RequestLogger.printLine( "canonical(" + canonical.length() + ") = \"" + escaped + "\"" );
 			return;
 		}
 

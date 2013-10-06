@@ -246,7 +246,7 @@ public class MonsterDatabase
 			if ( !bogus )
 			{
 				monster.doneWithItems();
-				String keyName = CombatActionManager.encounterKey( data[ 0 ], true );
+				String keyName = CombatActionManager.encounterKey( data[ 0 ] );
 				StringUtilities.registerPrepositions( keyName );
 				MonsterDatabase.MONSTER_DATA.put( keyName, monster );
 				if ( !image.equals( "" ) )
@@ -310,7 +310,7 @@ public class MonsterDatabase
 
 	public static final MonsterData findMonster( final String name, boolean trySubstrings )
 	{
-		String keyName = CombatActionManager.encounterKey( name, true );
+		String keyName = CombatActionManager.encounterKey( name );
 		MonsterData match = (MonsterData) MonsterDatabase.MONSTER_DATA.get( keyName );
 
 		// If no monster with that name exists, maybe it's

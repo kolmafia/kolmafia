@@ -110,6 +110,18 @@ public class StringUtilities
 		}
 	}
 
+	public static final String getEncodedString( final byte [] bytes, final String encoding )
+	{
+		try
+		{
+			return new String( bytes, encoding );
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			return "";
+		}
+	}
+
 	/**
 	 * Returns the encoded-encoded version of the provided UTF-8 string.
 	 */

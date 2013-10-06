@@ -430,7 +430,7 @@ public class AdventureRequest
 			if ( type.equals( "Combat" ) )
 			{
 				encounter = AdventureRequest.translateGenericType( encounter, responseText );
-				AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation() , encounter );
+				AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation(), encounter );
 			}
 			else if ( type.equals( "Noncombat" ) )
 			{
