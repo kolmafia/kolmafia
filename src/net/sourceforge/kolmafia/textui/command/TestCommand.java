@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
@@ -232,6 +233,20 @@ public class TestCommand
 			boolean result = ResultProcessor.processResults( false, text, null );
 			RequestLogger.printLine( "returned " + result );
 			ConcoctionDatabase.refreshConcoctions( true );
+			return;
+		}
+
+		if ( command.equals( "cturns" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test cturns URL" );
+				return;
+			}
+			String URL = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
+			GenericRequest request = new GenericRequest( URL );
+			int turns = CreateItemRequest.getAdventuresUsed( request );
+			RequestLogger.printLine( "That will require " + turns + " turns" );
 			return;
 		}
 

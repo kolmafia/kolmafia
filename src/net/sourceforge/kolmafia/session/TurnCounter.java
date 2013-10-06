@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -464,60 +465,12 @@ public class TurnCounter
 			return Crimbo09Request.getTurnsUsed( request );
 		}
 
-		int turnMultiplier = 0;
-
-		if ( path.equals( "craft.php" )	 )
+		if ( path.equals( "craft.php" )	|| path.equals( "guild.php" ) )
 		{
-			String mode = request.getFormField( "mode" );
-
-			if ( mode == null )
-			{
-				return 0;
-			}
-			else if ( mode.equals( "cook" ) )
-			{
-				turnMultiplier = KoLCharacter.hasChef() ? 0 : 1;
-			}
-			else if ( mode.equals( "cocktail" ) )
-			{
-				turnMultiplier = KoLCharacter.hasBartender() ? 0 : 1;
-			}
-			else if ( mode.equals( "smith" ) )
-			{
-				turnMultiplier = 1;
-			}
-			else if ( mode.equals( "jewelry" ) )
-			{
-				turnMultiplier = 3;
-			}
-		}
-		else if ( path.equals( "guild.php" ) )
-		{
-			String action = request.getFormField( "action" );
-
-			if ( action == null )
-			{
-				return 0;
-			}
-			if ( action.equals( "wokcook" ) )
-			{
-				turnMultiplier = 1;
-			}
+			return CreateItemRequest.getAdventuresUsed( request );
 		}
 
-		if ( turnMultiplier == 0 )
-		{
-			return 0;
-		}
-
-		String quantity = request.getFormField( "quantity" );
-
-		if ( quantity == null || quantity.length() == 0 )
-		{
-			return 0;
-		}
-
-		return turnMultiplier * StringUtilities.parseInt( quantity );
+		return 0;
 	}
 
 	public static final void deleteByHash( final int hash )

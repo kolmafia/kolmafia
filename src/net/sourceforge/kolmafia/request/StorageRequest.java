@@ -86,6 +86,11 @@ public class StorageRequest
 		RequestThread.postRequest( new ApiRequest( "storage" ) );
 	}
 
+	public static void emptyStorage()
+	{
+		RequestThread.postRequest( new StorageRequest( EMPTY_STORAGE ) );
+	}
+
 	public static final void parseStorage( final JSONObject JSON )
 	{
 		if ( JSON == null )

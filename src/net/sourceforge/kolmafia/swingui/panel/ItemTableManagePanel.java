@@ -71,12 +71,15 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
-import net.sourceforge.kolmafia.swingui.button.RequestButton;
+import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 
+import net.sourceforge.kolmafia.swingui.listener.InvocationListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
@@ -103,7 +106,19 @@ public class ItemTableManagePanel
 	public JRadioButton[] movers;
 
 	protected final AutoFilterTextField filterfield;
-	private JPanel buttonPanel;
+	protected JPanel buttonPanel;
+	protected JButton refreshButton;
+
+	private static boolean shouldAddRefreshButton( final LockableListModel elementModel )
+	{
+		return ( elementModel == KoLConstants.tally ||
+			 elementModel == KoLConstants.inventory ||
+			 elementModel == KoLConstants.closet ||
+			 elementModel == KoLConstants.storage ||
+			 elementModel == KoLConstants.freepulls ||
+			 elementModel == ConcoctionDatabase.getCreatables() ||
+			 elementModel == ConcoctionDatabase.getUsables() );
+	}
 
 	public ItemTableManagePanel( final String confirmedText, final String cancelledText, final LockableListModel elementModel )
 	{
@@ -112,11 +127,19 @@ public class ItemTableManagePanel
 			cancelledText,
 			elementModel,
 			true,
-			elementModel == KoLConstants.tally ||
-			elementModel == KoLConstants.inventory ||
-			elementModel == KoLConstants.closet ||
-			elementModel == ConcoctionDatabase.getCreatables() ||
-			elementModel == ConcoctionDatabase.getUsables(),
+			ItemTableManagePanel.shouldAddRefreshButton( elementModel ),
+			new boolean[] { false, false });
+	}
+
+	public ItemTableManagePanel( final String confirmedText, final String cancelledText, final LockableListModel elementModel,
+				     final boolean addFilterField, final boolean addRefreshButton )
+	{
+		this(
+			confirmedText,
+			cancelledText,
+			elementModel,
+			addFilterField,
+			addRefreshButton,
 			new boolean[] { false, false });
 	}
 	
@@ -127,16 +150,12 @@ public class ItemTableManagePanel
 			cancelledText,
 			elementModel,
 			true,
-			elementModel == KoLConstants.tally ||
-			elementModel == KoLConstants.inventory ||
-			elementModel == KoLConstants.closet ||
-			elementModel == ConcoctionDatabase.getCreatables() ||
-			elementModel == ConcoctionDatabase.getUsables(),
+			ItemTableManagePanel.shouldAddRefreshButton( elementModel ),
 			flags);
 	}
 
-	public ItemTableManagePanel( final String confirmedText, final String cancelledText,
-		final LockableListModel elementModel, final boolean addFilterField, final boolean addRefreshButton, final boolean[] flags )
+	public ItemTableManagePanel( final String confirmedText, final String cancelledText, final LockableListModel elementModel,
+				     final boolean addFilterField, final boolean addRefreshButton, final boolean[] flags )
 	{
 		super( "", confirmedText, cancelledText, new ShowDescriptionTable( elementModel, flags ), false );
 
@@ -155,7 +174,8 @@ public class ItemTableManagePanel
 
 		if ( addRefreshButton )
 		{
-			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
+			this.refreshButton = new RefreshButton( this.elementList.getOriginalModel() );
+			this.eastPanel.add( this.refreshButton, BorderLayout.SOUTH );
 		}
 
 		this.northPanel = new JPanel( new BorderLayout() );
@@ -182,12 +202,8 @@ public class ItemTableManagePanel
 		this(
 			elementModel,
 			true,
-			elementModel == KoLConstants.tally ||
-			elementModel == KoLConstants.inventory ||
-			elementModel == KoLConstants.closet ||
-			elementModel == ConcoctionDatabase.getCreatables() ||
-			elementModel == ConcoctionDatabase.getUsables(),
-			new boolean[] {false, false});
+			ItemTableManagePanel.shouldAddRefreshButton( elementModel ),
+			new boolean[] {false, false} );
 	}
 	
 	public ItemTableManagePanel( final LockableListModel elementModel, final boolean[] flags )
@@ -195,16 +211,22 @@ public class ItemTableManagePanel
 		this(
 			elementModel,
 			true,
-			elementModel == KoLConstants.tally ||
-			elementModel == KoLConstants.inventory ||
-			elementModel == KoLConstants.closet ||
-			elementModel == ConcoctionDatabase.getCreatables() ||
-			elementModel == ConcoctionDatabase.getUsables(),
+			ItemTableManagePanel.shouldAddRefreshButton( elementModel ),
 			flags);
 	}
 
 	public ItemTableManagePanel( final LockableListModel elementModel, final boolean addFilterField,
-		final boolean addRefreshButton, final boolean[] flags )
+				     final boolean addRefreshButton )
+	{
+		this(
+			elementModel,
+			addFilterField,
+			addRefreshButton,
+			new boolean[] {false, false} );
+	}
+
+	public ItemTableManagePanel( final LockableListModel elementModel, final boolean addFilterField,
+				     final boolean addRefreshButton, final boolean[] flags )
 	{
 		super( "", null, null, new ShowDescriptionTable( elementModel, flags ), false );
 
@@ -223,7 +245,8 @@ public class ItemTableManagePanel
 
 		if ( addRefreshButton )
 		{
-			this.eastPanel.add( new RefreshButton(), BorderLayout.SOUTH );
+			this.refreshButton = new RefreshButton( this.elementList.getOriginalModel() );
+			this.eastPanel.add( this.refreshButton, BorderLayout.SOUTH );
 		}
 	}
 
@@ -1070,12 +1093,23 @@ public class ItemTableManagePanel
 		}
 	}
 
-	protected class RefreshButton
-		extends RequestButton
+	private static InvocationListener getRefreshListener( final LockableListModel elementModel )
 	{
-		public RefreshButton()
+		return	elementModel == KoLConstants.closet ?
+			new InvocationListener( null, ClosetRequest.class, "refresh" ) :
+			( elementModel == KoLConstants.storage || elementModel == KoLConstants.freepulls )  ?
+			new InvocationListener( null, StorageRequest.class, "refresh" ) :
+			( elementModel == ConcoctionDatabase.getCreatables() || elementModel == ConcoctionDatabase.getUsables() ) ?
+			new InvocationListener( null, ConcoctionDatabase.class, "refreshConcoctions" ) :
+			new InvocationListener( null, InventoryManager.class, "refresh" );
+	}
+
+	protected class RefreshButton
+		extends ThreadedButton
+	{
+		public RefreshButton( LockableListModel elementModel )
 		{
-			super( "refresh", new EquipmentRequest( EquipmentRequest.REFRESH ) );
+			super( "refresh", ItemTableManagePanel.getRefreshListener( elementModel ) );
 		}
 	}
 }
