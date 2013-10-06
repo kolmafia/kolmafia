@@ -228,6 +228,12 @@ public class AutoSellRequest
 				continue;
 			}
 
+			// Do not try to autosell items that cannot be discarded
+			if ( !ItemDatabase.isDiscardable( item.getItemId() ) )
+			{
+				continue;
+			}
+
 			// If this item is already on the "sell all" list, skip
 			if ( all.contains( item ) )
 			{
