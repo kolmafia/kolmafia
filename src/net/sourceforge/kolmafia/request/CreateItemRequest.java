@@ -1191,25 +1191,109 @@ public class CreateItemRequest
 	@Override
 	public int getAdventuresUsed()
 	{
-		switch ( this.mixingMethod )
+		return	CreateItemRequest.getMultiplier( this.mixingMethod ) > 0 ?
+			CreateItemRequest.getAdventuresUsed( this.mixingMethod, this.quantityNeeded ) : 0;
+	}
+
+	public static int getAdventuresUsed( final GenericRequest request )
+	{
+		String urlString = request.getURLString();
+		String path = request.getPath();
+
+		CraftingType mixingMethod = CreateItemRequest.findMixingMethod( urlString );
+
+		if ( mixingMethod == CraftingType.NOCREATE )
+		{
+			return 0;
+		}
+
+		int multiplier = CreateItemRequest.getMultiplier( mixingMethod );
+		if ( multiplier == 0 )
+		{
+			return 0;
+		}
+
+		AdventureResult [] ingredients = CreateItemRequest.findIngredients( urlString );
+		int quantity = CreateItemRequest.getQuantity( urlString, ingredients, multiplier );
+		return CreateItemRequest.getAdventuresUsed( mixingMethod, quantity );
+	}
+
+	private static final CraftingType findMixingMethod( final String urlString )
+	{
+		if ( urlString.startsWith( "guild.php" ) )
+		{
+			return urlString.contains( "action=wokcook" ) ? CraftingType.WOK: CraftingType.NOCREATE;
+		}
+		Concoction concoction = CreateItemRequest.findConcoction( urlString );
+		return concoction == null ? CraftingType.NOCREATE: concoction.getMixingMethod();
+	}
+
+	private static final Concoction findConcoction( final String urlString )
+	{
+		if ( urlString.startsWith( "craft.php" ) )
+		{
+			if ( urlString.contains( "target" ) )
+			{
+				Matcher targetMatcher = CreateItemRequest.TARGET_PATTERN.matcher( urlString );
+				if ( targetMatcher.find() )
+				{
+					return null;
+				}
+				return ConcoctionPool.get( StringUtilities.parseInt( targetMatcher.group( 1 ) ) );
+			}
+			return ConcoctionPool.findConcoction( CreateItemRequest.findIngredients( urlString ) );
+		}
+
+		return null;
+	}
+
+	private static int getMultiplier( final CraftingType mixingMethod )
+	{
+		switch ( mixingMethod )
 		{
 		case SMITH:
-			return ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+			return ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) ? 0 : 1;
 
 		case SSMITH:
-			return Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+			return 1;
 
 		case JEWELRY:
-			return Math.max( 0, ( ( 3 * this.quantityNeeded ) - ConcoctionDatabase.getFreeCraftingTurns() ) );
+			return 3;
 
 		case COOK_FANCY:
-			return KoLCharacter.hasChef() ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+			return KoLCharacter.hasChef() ? 0 : 1;
 
 		case MIX_FANCY:
-			return KoLCharacter.hasBartender() ? 0 : Math.max( 0, ( this.quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+			return KoLCharacter.hasBartender() ? 0 : 1;
 
 		case WOK:
-			return this.quantityNeeded;
+			return 1;
+		}
+
+		return 0;
+	}
+
+	private static int getAdventuresUsed( final CraftingType mixingMethod, final int quantityNeeded )
+	{
+		switch ( mixingMethod )
+		{
+		case SMITH:
+			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+
+		case SSMITH:
+			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+
+		case JEWELRY:
+			return Math.max( 0, ( ( 3 * quantityNeeded ) - ConcoctionDatabase.getFreeCraftingTurns() ) );
+
+		case COOK_FANCY:
+			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+
+		case MIX_FANCY:
+			return Math.max( 0, ( quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns() ) );
+
+		case WOK:
+			return quantityNeeded;
 		}
 
 		return 0;

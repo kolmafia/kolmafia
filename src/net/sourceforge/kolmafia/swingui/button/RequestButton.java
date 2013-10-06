@@ -65,6 +65,5 @@ public class RequestButton
 		{
 			this.request.run();
 		}
-}
-
+	}
 }

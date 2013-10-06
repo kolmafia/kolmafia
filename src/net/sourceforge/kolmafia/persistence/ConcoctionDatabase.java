@@ -431,18 +431,7 @@ public class ConcoctionDatabase
 			}
 		}
 
-		Iterator it = ConcoctionPool.iterator();
-
-		while ( it.hasNext() )
-		{
-			Concoction current = (Concoction) it.next();
-			if ( current.hasIngredients( ingredients ) )
-			{
-				return true;
-			}
-		}
-
-		return false;
+		return ConcoctionPool.findConcoction( ingredients ) != null;
 	}
 
 	public static final SortedListModel getKnownUses( final int itemId )
@@ -1207,6 +1196,11 @@ public class ConcoctionDatabase
 	 * Returns the concoctions which are available given the list of ingredients. The list returned contains formal
 	 * requests for item creation.
 	 */
+
+	public static final void refreshConcoctions()
+	{
+		ConcoctionDatabase.refreshConcoctions( true );
+	}
 
 	public static final synchronized void refreshConcoctions( boolean force )
 	{
@@ -2900,11 +2894,6 @@ public class ConcoctionDatabase
 
 	public static final void setPullsRemaining( final int pullsRemaining )
 	{
-		if ( ConcoctionDatabase.pullsRemaining == pullsRemaining )
-		{
-			return;
-		}
-		
 		ConcoctionDatabase.pullsRemaining = pullsRemaining;
 
 		if ( !StaticEntity.isHeadless() )

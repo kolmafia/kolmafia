@@ -179,6 +179,21 @@ public class ConcoctionPool
 		return null;
 	}
 
+	public static final Concoction findConcoction( final AdventureResult[] ingredients )
+	{
+		Iterator it = ConcoctionPool.iterator();
+		while ( it.hasNext() )
+		{
+			Concoction current = (Concoction) it.next();
+			if ( current.hasIngredients( ingredients ) )
+			{
+				return current;
+			}
+		}
+
+		return null;
+	}
+
 	/**
 	 * Internal class which functions exactly an array of concoctions,
 	 * except it uses "sets" and "gets" like a list.

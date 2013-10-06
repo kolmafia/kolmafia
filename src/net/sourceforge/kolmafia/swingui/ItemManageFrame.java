@@ -41,6 +41,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -86,6 +87,8 @@ import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemDequeuePanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemEnqueuePanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemPanel;
+
+import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
@@ -479,6 +482,14 @@ public class ItemManageFrame
 		{
 			super( "pull item", isEquipmentOnly ? "pull & equip" : "closet item", KoLConstants.storage, isEquipmentOnly );
 
+			this.setButtons( new ActionListener[] {} );
+
+			this.addButtons( new JButton[] {
+				this.confirmedButton,
+				this.cancelledButton,
+				new InvocationButton( "empty", StorageRequest.class, "emptyStorage" ),
+				} );
+
 			this.addFilters();
 			this.addMovers();
 			this.elementList.setCellRenderer( ListCellRendererFactory.getStorageRenderer() );
@@ -510,7 +521,12 @@ public class ItemManageFrame
 				box.add( Box.createVerticalStrut( 5 ) );
 				box.add( ItemManageFrame.pullsRemainingLabel2 );
 			}
-			this.eastPanel.add( box, BorderLayout.SOUTH );
+
+			JPanel southeastPanel = new JPanel( new BorderLayout( 0, 5 ) );
+			southeastPanel.add( box, BorderLayout.CENTER );
+			southeastPanel.add( this.refreshButton, BorderLayout.SOUTH );
+
+			this.eastPanel.add( southeastPanel, BorderLayout.SOUTH );
 		}
 
 		@Override
