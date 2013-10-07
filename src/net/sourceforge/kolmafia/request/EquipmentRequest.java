@@ -144,9 +144,11 @@ public class EquipmentRequest
 		"acc2",
 		"acc3",
 		"familiar",
+		"crown-of-thrones",
 		"sticker1",
 		"sticker2",
 		"sticker3",
+		"card-sleeve",
 		"fakehand"
 	};
 
@@ -163,9 +165,11 @@ public class EquipmentRequest
 		"acc2",
 		"acc3",
 		"familiarequip",
+		"crownofthrones",
 		"st1",
 		"st2",
 		"st3",
+		"cardsleeve",
 		"fakehand"
 	};
 
@@ -250,16 +254,22 @@ public class EquipmentRequest
 
 	public EquipmentRequest( final AdventureResult changeItem, final int equipmentSlot, final boolean force )
 	{
-		super( equipmentSlot >= EquipmentManager.STICKER1 ? "bedazzle.php" : "inv_equip.php" );
+		super( EquipmentRequest.chooseEquipmentLocation( equipmentSlot ) );
 
 		this.error = null;
 
-		if ( equipmentSlot >= EquipmentManager.STICKER1 )
+		switch ( equipmentSlot )
 		{
+		case EquipmentManager.CROWN_OF_THRONES:
+			break;
+		case EquipmentManager.STICKER1:
+		case EquipmentManager.STICKER2:
+		case EquipmentManager.STICKER3:
 			this.initializeStickerData( changeItem, equipmentSlot, force );
-		}
-		else
-		{
+			break;
+		case EquipmentManager.CARD_SLEEVE:
+			break;
+		default:
 			this.initializeChangeData( changeItem, equipmentSlot, force );
 		}
 	}
@@ -280,7 +290,16 @@ public class EquipmentRequest
 		this.error = null;
 	}
 
-	public static  boolean isEquipmentChange( final String path )
+	private static final String chooseEquipmentLocation( final int slot )
+	{
+		return	slot < EquipmentManager.SLOTS ? "inv_equip.php" :
+			slot == EquipmentManager.CROWN_OF_THRONES ? "bogus.php" :
+			( slot >= EquipmentManager.STICKER1 && slot <= EquipmentManager.STICKER3 ) ? "bedazzle.php" :
+			slot == EquipmentManager.CARD_SLEEVE ? "bogus.php" :
+			"bogus.php";
+	}
+
+	public static boolean isEquipmentChange( final String path )
 	{
 		return	path.startsWith( "inv_equip.php" ) &&
 			// Saving a custom outfit is OK
@@ -347,8 +366,7 @@ public class EquipmentRequest
 	private void initializeStickerData( final AdventureResult sticker, final int equipmentSlot, final boolean force )
 	{
 		this.equipmentSlot = equipmentSlot;
-		this.addFormField( "slot",
-			String.valueOf( equipmentSlot - EquipmentManager.STICKER1 + 1 ) );
+		this.addFormField( "slot", String.valueOf( equipmentSlot - EquipmentManager.STICKER1 + 1 ) );
 
 		if ( sticker.equals( EquipmentRequest.UNEQUIP ) )
 		{

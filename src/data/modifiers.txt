@@ -3001,6 +3001,50 @@ scratch 'n' sniff rock band sticker	Weapon Damage: +20, Spell Damage: +20
 scratch 'n' sniff unicorn sticker	Item Drop: +25
 scratch 'n' sniff wrestler sticker	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 
+# Alice's Army section of modifiers.txt
+
+Alices's Army Alchemist	Spell Damage: +15
+Alices's Army Bowman	Ranged Damage: +10
+Alices's Army Cleric	HP Regen Min: 10, HP Regen Max: 20
+Alices's Army Coward	Initiative: +20
+# Alices's Army Dervish	Weapon Damage +1-20
+Alices's Army Guard	Damage Reduction: 3
+Alices's Army Halberder	Weapon Damage: +5
+Alices's Army Hammerman	Critical Hit Percent: +1
+Alices's Army Horseman	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
+Alices's Army Lanceman	PvP Fights: +2
+# Alices's Army Mad Bomber	Weapon Damage +1-15
+Alices's Army Martyr	Damage Reduction: 5
+Alices's Army Ninja	Monster Level: +5
+Alices's Army Nurse	HP Regen Min: 5, HP Regen Max: 10
+Alices's Army Page	Weapon Damage: +5
+Alices's Army Shieldmaiden	Damage Reduction: 3
+Alices's Army Sniper	Weapon Damage: +10
+Alices's Army Spearsman	Weapon Damage: +5
+Alices's Army Swordsman	Weapon Damage: +5
+Alices's Army Wallman	Damage Reduction: 3
+
+Alices's Army Foil Alchemist	Spell Damage: +45
+Alices's Army Foil Bowman	Ranged Damage: +30
+Alices's Army Foil Cleric	HP Regen Min: 30, HP Regen Max: 60
+Alices's Army Foil Coward	Initiative: +60
+# Alices's Army Foil Dervish	Weapon Damage +1-60
+Alices's Army Foil Guard	Damage Reduction: 9
+Alices's Army Foil Halberder	Weapon Damage: +15
+Alices's Army Foil Hammerman	Critical Hit Percent: +3
+Alices's Army Foil Horseman	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+Alices's Army Foil Lanceman	PvP Fights: +6
+# Alices's Army Foil Mad Bomber	Weapon Damage +1-45
+Alices's Army Foil Martyr	Damage Reduction: 15
+Alices's Army Foil Ninja	Monster Level: +15
+Alices's Army Foil Nurse	HP Regen Min: 15, HP Regen Max: 30
+Alices's Army Foil Page	Weapon Damage: +15
+Alices's Army Foil Shieldmaiden	Damage Reduction: 9
+Alices's Army Foil Sniper	Weapon Damage: +30
+Alices's Army Foil Spearsman	Weapon Damage: +15
+Alices's Army Foil Swordsman	Weapon Damage: +15
+Alices's Army Foil Wallman	Damage Reduction: 9
+
 # Folder section of modifiers.txt
 
 # folder (barbarian): Increased physical damage as you take damage

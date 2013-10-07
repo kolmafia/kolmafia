@@ -533,6 +533,7 @@ public interface KoLConstants
 	public static final int CONSUME_STICKER = 23;
 	public static final int CONSUME_GUARDIAN = 24;
 	public static final int MULTI_USE = 25;
+	public static final int CONSUME_CARD = 26;
 
 	public static final int CONSUME_MIMIC = 96;
 	public static final int CONSUME_SLIME = 97;

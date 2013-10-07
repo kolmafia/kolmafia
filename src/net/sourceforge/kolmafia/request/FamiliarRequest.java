@@ -183,8 +183,7 @@ public class FamiliarRequest
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		if ( this.enthrone )
 		{
-			if ( EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId()
-				!= ItemPool.HATSEAT )
+			if ( EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId() != ItemPool.HATSEAT )
 			{
 				return;
 			}
