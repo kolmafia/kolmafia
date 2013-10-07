@@ -655,6 +655,7 @@ public class DebugDatabase
 		case KoLConstants.CONSUME_STICKER:
 			return descType == KoLConstants.NO_CONSUME ||
 			       descType == KoLConstants.CONSUME_USE;
+		case KoLConstants.CONSUME_CARD:
 		case KoLConstants.CONSUME_SPHERE:
 		case KoLConstants.CONSUME_ZAP:
 			return descType == KoLConstants.NO_CONSUME;

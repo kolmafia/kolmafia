@@ -390,7 +390,7 @@ public class GearChangeFrame
 			GearChangeFrame.this.outfitButton = this.cancelledButton;
 			this.modifiersWidth = this.eastContainer.getPreferredSize().width;
 			this.modifiersLabel = new JLabel();
-			this.eastContainer.add( this.modifiersLabel, BorderLayout.CENTER );
+			this.confirmedButton.getParent().getParent().add( this.modifiersLabel, BorderLayout.CENTER );
 			this.setEnabled( true );
 		}
 
@@ -528,7 +528,7 @@ public class GearChangeFrame
 
 			this.modifiersWidth = this.eastContainer.getPreferredSize().width;
 			this.modifiersLabel = new JLabel();
-			this.eastContainer.add( this.modifiersLabel, BorderLayout.CENTER );
+			this.confirmedButton.getParent().getParent().add( this.modifiersLabel, BorderLayout.CENTER );
 			this.setEnabled( true );
 		}
 
