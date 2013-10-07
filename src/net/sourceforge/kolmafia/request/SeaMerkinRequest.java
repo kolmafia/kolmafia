@@ -124,7 +124,7 @@ public class SeaMerkinRequest
 		}
 
 		String action = GenericRequest.getAction( urlString );
-		if ( action.equals( "temple" ) )
+		if ( action != null && action.equals( "temple" ) )
 		{
 			// Defer to AdventureDatabase, since it is an adventure
 			return false;
