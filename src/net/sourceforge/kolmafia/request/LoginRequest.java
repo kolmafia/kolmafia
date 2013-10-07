@@ -262,6 +262,7 @@ public class LoginRequest
 
 		if ( this.responseCode != 200 )
 		{
+			KoLmafia.updateDisplay( MafiaState.ABORT, "Could not connect to the Kingdom of Loathing." );
 			return;
 		}
 
