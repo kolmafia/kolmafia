@@ -78,8 +78,7 @@ public class EnthroneCommand
 				return;
 			}
 
-			RequestThread.postRequest( FamiliarRequest.enthroneRequest(
-				FamiliarData.NO_FAMILIAR ) );
+			RequestThread.postRequest( FamiliarRequest.enthroneRequest( FamiliarData.NO_FAMILIAR ) );
 			return;
 		}
 		else if ( parameters.indexOf( "(no change)" ) != -1 )
@@ -138,16 +137,14 @@ public class EnthroneCommand
 
 			if ( KoLCharacter.getFamiliar().equals( change ) )
 			{
-				RequestThread.postRequest( new FamiliarRequest(
-					FamiliarData.NO_FAMILIAR ) );
+				RequestThread.postRequest( new FamiliarRequest( FamiliarData.NO_FAMILIAR ) );
 			}
-			RequestThread.postRequest( new EquipmentRequest( HATSEAT,
-				EquipmentManager.HAT ) );
-			if ( KoLmafia.permitsContinue() &&
-				!KoLCharacter.getEnthroned().equals( change ) )
+
+			RequestThread.postRequest( new EquipmentRequest( HATSEAT, EquipmentManager.HAT ) );
+
+			if ( KoLmafia.permitsContinue() && !KoLCharacter.getEnthroned().equals( change ) )
 			{
-				RequestThread.postRequest(
-					FamiliarRequest.enthroneRequest( change ) );
+				RequestThread.postRequest( FamiliarRequest.enthroneRequest( change ) );
 			}
 		}
 		else

@@ -1381,6 +1381,7 @@ public class ItemPool
 	public static final int SUBJECT_37_FILE = 4961;
 	public static final int EVILOMETER = 4964;
 	public static final int CARD_GAME_BOOK = 4965;
+	public static final int CARD_SLEEVE = 5009;
 	public static final int EVIL_EYE = 5010;
 	public static final int SNACK_VOUCHER = 5012;
 	public static final int WASABI_FOOD = 5013;

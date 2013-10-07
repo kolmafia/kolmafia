@@ -4,7 +4,7 @@
 #	PRIMARY_USE: none, food, drink, usable, multiple, grow, zap,
 #	familiar, accessory, hat, pants, shirt, weapon, offhand, mp,
 #	message, hp, hpmp, reusable, container, sphere, food helper,
-#	drink helper, sticker, guardian
+#	drink helper, card, sticker, guardian
 #
 #	SECONDARY_USE: usable, multiple, reusable, combat, combat
 #	reusable, single, solo, curse, bounty, candy
@@ -4981,47 +4981,47 @@
 4964	Evilometer	402664251	evilometer.gif	reusable	q	0
 4965	Sorcerers of the Shore Grimoire	991520082	book3.gif	usable	t	0
 4966	Pack of Alice's Army Cards	814202201	aapack.gif	usable	t	0
-4967	Alice's Army Swordsman	842989556	aacard.gif	none	t,d	5	Alice's Army Swordsmen
-4968	Alice's Army Spearsman	115802013	aacard.gif	none	t,d	5	Alice's Army Spearsmen
-4969	Alice's Army Halberder	816871582	aacard.gif	none	t,d	5
-4970	Alice's Army Guard	585472899	aacard.gif	none	t,d	5
-4971	Alice's Army Wallman	174155198	aacard.gif	none	t,d	5	Alice's Army Wallmen
-4972	Alice's Army Ninja	270094671	aacard.gif	none	t,d	5
-4973	Alice's Army Alchemist	862257791	aacard.gif	none	t,d	5
-4974	Alice's Army Page	355117500	aacard.gif	none	t,d	5
-4975	Alice's Army Shieldmaiden	303618798	aacard.gif	none	t,d	5
-4976	Alice's Army Mad Bomber	123218442	aacard.gif	none	t,d	5
-4977	Alice's Army Nurse	443218913	aacard.gif	none	t,d	5
-4978	Alice's Army Hammerman	891184619	aacard.gif	none	t,d	10	Alice's Army Hammermen
-4979	Alice's Army Bowman	120482809	aacard.gif	none	t,d	10	Alice's Army Bowmen
-4980	Alice's Army Lanceman	867651869	aacard.gif	none	t,d	10	Alice's Army Lancemen
-4981	Alice's Army Horseman	301603491	aacard.gif	none	t,d	10	Alice's Army Horsemen
-4982	Alice's Army Coward	747881993	aacard.gif	none	t,d	10
-4983	Alice's Army Cleric	117206577	aacard.gif	none	t,d	10	Alice's Army Clerix
-4984	Alice's Army Sniper	509113065	aacard.gif	none	t,d	15
-4985	Alice's Army Dervish	312591672	aacard.gif	none	t,d	15
-4986	Alice's Army Martyr	760613762	aacard.gif	none	t,d	15
+4967	Alice's Army Swordsman	842989556	aacard.gif	card	t,d	5	Alice's Army Swordsmen
+4968	Alice's Army Spearsman	115802013	aacard.gif	card	t,d	5	Alice's Army Spearsmen
+4969	Alice's Army Halberder	816871582	aacard.gif	card	t,d	5
+4970	Alice's Army Guard	585472899	aacard.gif	card	t,d	5
+4971	Alice's Army Wallman	174155198	aacard.gif	card	t,d	5	Alice's Army Wallmen
+4972	Alice's Army Ninja	270094671	aacard.gif	card	t,d	5
+4973	Alice's Army Alchemist	862257791	aacard.gif	card	t,d	5
+4974	Alice's Army Page	355117500	aacard.gif	card	t,d	5
+4975	Alice's Army Shieldmaiden	303618798	aacard.gif	card	t,d	5
+4976	Alice's Army Mad Bomber	123218442	aacard.gif	card	t,d	5
+4977	Alice's Army Nurse	443218913	aacard.gif	card	t,d	5
+4978	Alice's Army Hammerman	891184619	aacard.gif	card	t,d	10	Alice's Army Hammermen
+4979	Alice's Army Bowman	120482809	aacard.gif	card	t,d	10	Alice's Army Bowmen
+4980	Alice's Army Lanceman	867651869	aacard.gif	card	t,d	10	Alice's Army Lancemen
+4981	Alice's Army Horseman	301603491	aacard.gif	card	t,d	10	Alice's Army Horsemen
+4982	Alice's Army Coward	747881993	aacard.gif	card	t,d	10
+4983	Alice's Army Cleric	117206577	aacard.gif	card	t,d	10	Alice's Army Clerix
+4984	Alice's Army Sniper	509113065	aacard.gif	card	t,d	15
+4985	Alice's Army Dervish	312591672	aacard.gif	card	t,d	15
+4986	Alice's Army Martyr	760613762	aacard.gif	card	t,d	15
 4987	Pack of Alice's Army Foil Cards	440406862	aapack.gif	usable	t	0
-4988	Alice's Army Foil Swordsman	976392363	aacard.gif	none	t,d	1000	Alice's Army Foil Swordsmen
-4989	Alice's Army Foil Spearsman	947180375	aacard.gif	none	t,d	1000	Alice's Army Foil Spearsmen
-4990	Alice's Army Foil Halberder	282212126	aacard.gif	none	t,d	1000
-4991	Alice's Army Foil Guard	354378668	aacard.gif	none	t,d	1000
-4992	Alice's Army Foil Wallman	690685400	aacard.gif	none	t,d	1000	Alice's Army Foil Wallmen
-4993	Alice's Army Foil Ninja	922991566	aacard.gif	none	t,d	1000
-4994	Alice's Army Foil Alchemist	148826234	aacard.gif	none	t,d	1000
-4995	Alice's Army Foil Page	396187611	aacard.gif	none	t,d	1000
-4996	Alice's Army Foil Shieldmaiden	427972743	aacard.gif	none	t,d	1000
-4997	Alice's Army Foil Mad Bomber	671525476	aacard.gif	none	t,d	1000
-4998	Alice's Army Foil Nurse	566571306	aacard.gif	none	t,d	1000
-4999	Alice's Army Foil Hammerman	565082335	aacard.gif	none	t,d	5000	Alice's Army Foil Hammermen
-5000	Alice's Army Foil Bowman	137647172	aacard.gif	none	t,d	5000	Alice's Army Foil Bowmen
-5001	Alice's Army Foil Lanceman	367206615	aacard.gif	none	t,d	5000	Alice's Army Foil Lancemen
-5002	Alice's Army Foil Horseman	873505389	aacard.gif	none	t,d	5000	Alice's Army Foil Horsemen
-5003	Alice's Army Foil Coward	287329084	aacard.gif	none	t,d	5000
-5004	Alice's Army Foil Cleric	581085126	aacard.gif	none	t,d	5000	Alice's Army Foil Clerix
-5005	Alice's Army Foil Sniper	927064834	aacard.gif	none	t,d	20000
-5006	Alice's Army Foil Dervish	745741623	aacard.gif	none	t,d	20000
-5007	Alice's Army Foil Martyr	267211165	aacard.gif	none	t,d	20000
+4988	Alice's Army Foil Swordsman	976392363	aacard.gif	card	t,d	1000	Alice's Army Foil Swordsmen
+4989	Alice's Army Foil Spearsman	947180375	aacard.gif	card	t,d	1000	Alice's Army Foil Spearsmen
+4990	Alice's Army Foil Halberder	282212126	aacard.gif	card	t,d	1000
+4991	Alice's Army Foil Guard	354378668	aacard.gif	card	t,d	1000
+4992	Alice's Army Foil Wallman	690685400	aacard.gif	card	t,d	1000	Alice's Army Foil Wallmen
+4993	Alice's Army Foil Ninja	922991566	aacard.gif	card	t,d	1000
+4994	Alice's Army Foil Alchemist	148826234	aacard.gif	card	t,d	1000
+4995	Alice's Army Foil Page	396187611	aacard.gif	card	t,d	1000
+4996	Alice's Army Foil Shieldmaiden	427972743	aacard.gif	card	t,d	1000
+4997	Alice's Army Foil Mad Bomber	671525476	aacard.gif	card	t,d	1000
+4998	Alice's Army Foil Nurse	566571306	aacard.gif	card	t,d	1000
+4999	Alice's Army Foil Hammerman	565082335	aacard.gif	card	t,d	5000	Alice's Army Foil Hammermen
+5000	Alice's Army Foil Bowman	137647172	aacard.gif	card	t,d	5000	Alice's Army Foil Bowmen
+5001	Alice's Army Foil Lanceman	367206615	aacard.gif	card	t,d	5000	Alice's Army Foil Lancemen
+5002	Alice's Army Foil Horseman	873505389	aacard.gif	card	t,d	5000	Alice's Army Foil Horsemen
+5003	Alice's Army Foil Coward	287329084	aacard.gif	card	t,d	5000
+5004	Alice's Army Foil Cleric	581085126	aacard.gif	card	t,d	5000	Alice's Army Foil Clerix
+5005	Alice's Army Foil Sniper	927064834	aacard.gif	card	t,d	20000
+5006	Alice's Army Foil Dervish	745741623	aacard.gif	card	t,d	20000
+5007	Alice's Army Foil Martyr	267211165	aacard.gif	card	t,d	20000
 5008	Single Alice's Army Foil	358154228	aapack.gif	usable	t	0	Packets of Single Alice's Army Foils
 5009	card sleeve	251309076	cardsleeve.gif	offhand	t	0
 5010	evil eye	272996974	zomboeye.gif	usable	q	0

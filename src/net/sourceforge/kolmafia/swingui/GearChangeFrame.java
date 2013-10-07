@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -109,8 +110,6 @@ public class GearChangeFrame
 	private final OutfitComboBox outfitSelect, customSelect;
 	private final FamiliarComboBox familiarSelect;
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
-	private int modifiersWidth;
-	private JLabel modifiersLabel;
 	private FamLockCheckbox famLockCheckbox;
 
 	public GearChangeFrame()
@@ -150,7 +149,12 @@ public class GearChangeFrame
 		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
 		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
-		this.setCenterComponent( new JScrollPane( new EquipPanel() ) );
+		this.tabs.addTab( "Equipment", new EquipmentPanel() );
+		this.tabs.addTab( "Customizable", new CustomizablePanel() );
+
+		JPanel gearPanel = new JPanel( new BorderLayout() );
+		gearPanel.add( this.tabs, BorderLayout.CENTER );
+		this.setCenterComponent( gearPanel );
 
 		GearChangeFrame.INSTANCE = this;
 
@@ -159,17 +163,6 @@ public class GearChangeFrame
 
 	public void update()
 	{
-		this.removeCenterComponent();
-		this.setCenterComponent( new JScrollPane( new EquipPanel() ) );
-		this.invalidate();
-		this.validate();
-		this.doLayout();
-	}
-
-	@Override
-	public JTabbedPane getTabbedPane()
-	{
-		return null;
 	}
 
 	public static void showModifiers( Object value, boolean isFamiliarItem )
@@ -178,6 +171,8 @@ public class GearChangeFrame
 		{
 			return;
 		}
+
+		EquipmentTabPanel pane = (EquipmentTabPanel)GearChangeFrame.INSTANCE.tabs.getSelectedComponent();
 
 		String name = null;
 		if ( value instanceof AdventureResult )
@@ -198,7 +193,7 @@ public class GearChangeFrame
 		Modifiers mods = Modifiers.getModifiers( name );
 		if ( mods == null )
 		{
-			GearChangeFrame.INSTANCE.modifiersLabel.setText( "" );
+			pane.getModifiersLabel().setText( "" );
 			return;
 		}
 		name = mods.getString( Modifiers.INTRINSIC_EFFECT );
@@ -212,7 +207,7 @@ public class GearChangeFrame
 
 		StringBuilder buff = new StringBuilder();
 		buff.append( "<html><table><tr><td width=" );
-		buff.append( GearChangeFrame.INSTANCE.modifiersWidth );
+		buff.append( pane.getModifiersWidth() );
 		buff.append( ">" );
 
 		for ( int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i )
@@ -278,29 +273,48 @@ public class GearChangeFrame
 		}
 
 		buff.append( "</td></tr></table></html>" );
-		GearChangeFrame.INSTANCE.modifiersLabel.setText( buff.toString() );
+		pane.getModifiersLabel().setText( buff.toString() );
 	}
 
-	private static int equipmentRows()
-	{
-		return 22;
-	}
-
-	private class EquipPanel
+	private abstract class EquipmentTabPanel
 		extends GenericPanel
 	{
-		public EquipPanel()
+		protected int modifiersWidth;
+		protected JLabel modifiersLabel;
+
+		public EquipmentTabPanel( final String confirmedText, final String cancelledText, Dimension left, Dimension right )
 		{
-			super( "change gear", "save as outfit",
-			       new Dimension( 100, GearChangeFrame.equipmentRows() ),
-			       new Dimension( 320, GearChangeFrame.equipmentRows() ) );
+			super( confirmedText, cancelledText, left, right );
+		}
 
-			VerifiableElement[] elements = new VerifiableElement[ GearChangeFrame.equipmentRows() ];
+		public EquipmentTabPanel( final String confirmedText, Dimension left, Dimension right )
+		{
+			super( confirmedText, null, left, right );
+		}
 
-			int row = 0;
+		public int getModifiersWidth()
+		{
+			return this.modifiersWidth;
+		}
 
-			elements[ row++ ] = new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] );
-			elements[ row++ ] = new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[ EquipmentManager.WEAPON ] );
+		public JLabel getModifiersLabel()
+		{
+			return this.modifiersLabel;
+		}
+	}
+
+	private class EquipmentPanel
+		extends EquipmentTabPanel
+	{
+		public EquipmentPanel()
+		{
+			super( "change gear", "save as outfit", new Dimension( 120, 20 ), new Dimension( 300, 20 ) );
+
+			ArrayList rows = new ArrayList<VerifiableElement>();
+			VerifiableElement element;
+
+			rows.add( new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] ) );
+			rows.add( new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[ EquipmentManager.WEAPON ] ) );
 
 			JPanel radioPanel1 = new JPanel( new GridLayout( 1, 4 ) );
 			ButtonGroup radioGroup1 = new ButtonGroup();
@@ -321,9 +335,9 @@ public class GearChangeFrame
 			radioPanel1.add( GearChangeFrame.this.weapon1H );
 			GearChangeFrame.this.weapon1H.addActionListener( new RefilterListener() );
 
-			elements[ row++ ] = new VerifiableElement( "", radioPanel1 );
+			rows.add( new VerifiableElement( "", radioPanel1 ) );
 
-			elements[ row++ ] = new VerifiableElement( "Off-Hand: ", GearChangeFrame.this.equipment[ EquipmentManager.OFFHAND ] );
+			rows.add( new VerifiableElement( "Off-Hand: ", GearChangeFrame.this.equipment[ EquipmentManager.OFFHAND ] ) );
 
 			JPanel radioPanel2 = new JPanel( new GridLayout( 1, 5 ) );
 			ButtonGroup radioGroup2 = new ButtonGroup();
@@ -340,53 +354,43 @@ public class GearChangeFrame
 				radioPanel2.add( GearChangeFrame.this.offhandTypes[ i ] );
 				GearChangeFrame.this.offhandTypes[ i ].addActionListener( new RefilterListener() );
 			}
-			elements[ row++ ] = new VerifiableElement( "", radioPanel2 );
 
-			elements[ row++ ] =
-				new VerifiableElement( "Back: ", GearChangeFrame.this.equipment[ EquipmentManager.CONTAINER ] );
+			rows.add( new VerifiableElement( "", radioPanel2 ) );
 
-			elements[ row++ ] = new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] );
-			elements[ row++ ] = new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] );
+			rows.add( new VerifiableElement( "Back: ", GearChangeFrame.this.equipment[ EquipmentManager.CONTAINER ] ) );
 
+			rows.add( new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] ) );
+			rows.add( new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] ) );
 
-			elements[ row++ ] = new VerifiableElement();
+			rows.add( new VerifiableElement() );
 
-			elements[ row++ ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] );
-			elements[ row++ ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] );
-			elements[ row++ ] = new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] );
+			rows.add( new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] ) );
+			rows.add( new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] ) );
+			rows.add( new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] ) );
 
-			elements[ row++ ] = new VerifiableElement();
+			rows.add( new VerifiableElement() );
 
-			elements[ row++ ] = new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect );
-			elements[ row++ ] = new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] );
+			rows.add( new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect ) );
+			rows.add( new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] ) );
 
 			GearChangeFrame.this.famLockCheckbox = new FamLockCheckbox();
 			JPanel boxholder = new JPanel( new BorderLayout() );
 			boxholder.add( GearChangeFrame.this.famLockCheckbox );
-			elements[ row++ ] = new VerifiableElement( "", boxholder );
+			rows.add( new VerifiableElement( "", boxholder ) );
 			GearChangeFrame.updateFamiliarLock();
 
-			elements[ row++ ] = new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect );
-			elements[ row++ ] = new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect );
+			rows.add( new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect ) );
+			rows.add( new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect ) );
 
-			elements[ row++ ] = new VerifiableElement();
-
-			elements[ row ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
-			GearChangeFrame.this.sticker1Label = elements[ row++ ].getLabel();
-			elements[ row ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
-			GearChangeFrame.this.sticker2Label = elements[ row++ ].getLabel();
-			elements[ row ] = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
-			GearChangeFrame.this.sticker3Label = elements[ row++ ].getLabel();
+			VerifiableElement[] elements = new VerifiableElement[ rows.size() ];
+			elements = (VerifiableElement[])rows.toArray( elements );
 
 			this.setContent( elements );
 
 			GearChangeFrame.this.outfitButton = this.cancelledButton;
-			GearChangeFrame.this.modifiersWidth =
-				this.eastContainer.getPreferredSize().width;
-			JLabel mods = new JLabel();
-			GearChangeFrame.this.modifiersLabel = mods;
-			this.cancelledButton.getParent().getParent().add(
-				mods, BorderLayout.CENTER );
+			this.modifiersWidth = this.eastContainer.getPreferredSize().width;
+			this.modifiersLabel = new JLabel();
+			this.eastContainer.add( this.modifiersLabel, BorderLayout.CENTER );
 			this.setEnabled( true );
 		}
 
@@ -395,6 +399,10 @@ public class GearChangeFrame
 		{
 			super.setEnabled( isEnabled );
 			GearChangeFrame.this.isEnabled = isEnabled;
+
+			GearChangeFrame.this.outfitSelect.setEnabled( isEnabled );
+			GearChangeFrame.this.customSelect.setEnabled( isEnabled );
+			GearChangeFrame.this.familiarSelect.setEnabled( isEnabled );
 
 			GearChangeFrame.this.outfitButton.setEnabled( isEnabled );
 			GearChangeFrame.updateFamiliarLock();
@@ -437,7 +445,7 @@ public class GearChangeFrame
 
 		AdventureResult[] pieces = new AdventureResult[ EquipmentManager.ALL_SLOTS ];
 
-		for ( int i = 0; i < pieces.length; ++i )
+		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
 		{
 			pieces[ i ] = (AdventureResult) this.equipment[ i ].getSelectedItem();
 			if ( EquipmentManager.getEquipment( i ).equals( pieces[ i ] ) )
@@ -470,6 +478,107 @@ public class GearChangeFrame
 			}
 		}
 
+		if ( KoLCharacter.getFamiliar().canEquip( famitem ) )
+		{
+			RequestThread.postRequest( new EquipmentRequest( famitem, EquipmentManager.FAMILIAR ) );
+		}
+	}
+
+	private class CustomizablePanel
+		extends EquipmentTabPanel
+	{
+		private final AutoHighlightTextField fakeHands;
+
+		public CustomizablePanel()
+		{
+			super( "change gear", new Dimension( 120, 20 ), new Dimension( 300, 20 ) );
+
+			ArrayList rows = new ArrayList<VerifiableElement>();
+			VerifiableElement element;
+
+			rows.add(  new VerifiableElement( "Crown of Thrones: ", GearChangeFrame.this.equipment[ EquipmentManager.CROWN_OF_THRONES ] ) );
+
+			rows.add( new VerifiableElement() );
+
+			element = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
+			GearChangeFrame.this.sticker1Label = element.getLabel();
+			rows.add( element );
+
+			element = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
+			GearChangeFrame.this.sticker2Label = element.getLabel();
+			rows.add( element );
+
+			element = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
+			GearChangeFrame.this.sticker3Label = element.getLabel();
+			rows.add( element );
+
+			rows.add( new VerifiableElement() );
+
+			this.fakeHands = new AutoHighlightTextField();
+			rows.add( new VerifiableElement( "Fake Hands: ", this.fakeHands ) );
+
+			rows.add( new VerifiableElement() );
+
+			rows.add( new VerifiableElement( "Card Sleeve: ", GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ] ) );
+
+			VerifiableElement[] elements = new VerifiableElement[ rows.size() ];
+			elements = (VerifiableElement[])rows.toArray( elements );
+
+			this.setContent( elements );
+
+			this.modifiersWidth = this.eastContainer.getPreferredSize().width;
+			this.modifiersLabel = new JLabel();
+			this.eastContainer.add( this.modifiersLabel, BorderLayout.CENTER );
+			this.setEnabled( true );
+		}
+
+		@Override
+		public void setEnabled( final boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+
+			// EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId() == ItemPool.HATSEAT
+			GearChangeFrame.this.equipment[ EquipmentManager.CROWN_OF_THRONES ].setEnabled( false );
+
+			this.fakeHands.setEnabled( false );
+
+			// EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).getItemId() == ItemPool.CARD_SLEEVE
+			GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ].setEnabled( false );
+		}
+
+		@Override
+		public void actionConfirmed()
+		{
+			synchronized ( GearChangeFrame.class )
+			{
+				GearChangeFrame.this.customizeItems();
+			}
+		}
+
+		@Override
+		public void actionCancelled()
+		{
+		}
+	}
+
+	private void customizeItems()
+	{
+		// Find out what changed
+
+		AdventureResult[] pieces = new AdventureResult[ EquipmentManager.ALL_SLOTS ];
+
+		// Start with first pseudo-slot
+		for ( int i = EquipmentManager.SLOTS; i < pieces.length; ++i )
+		{
+			pieces[ i ] = (AdventureResult) this.equipment[ i ].getSelectedItem();
+			if ( EquipmentManager.getEquipment( i ).equals( pieces[ i ] ) )
+			{
+				pieces[ i ] = null;
+			}
+		}
+
+		// *** Crown of Thrones
+
 		for ( int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i )
 		{
 			if ( pieces[ i ] != null )
@@ -479,10 +588,8 @@ public class GearChangeFrame
 			}
 		}
 
-		if ( KoLCharacter.getFamiliar().canEquip( famitem ) )
-		{
-			RequestThread.postRequest( new EquipmentRequest( famitem, EquipmentManager.FAMILIAR ) );
-		}
+		// *** fake hands
+		// *** card sleeve
 	}
 
 	public static final void validateSelections()

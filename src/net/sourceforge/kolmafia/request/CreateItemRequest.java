@@ -1191,8 +1191,8 @@ public class CreateItemRequest
 	@Override
 	public int getAdventuresUsed()
 	{
-		return	CreateItemRequest.getMultiplier( this.mixingMethod ) > 0 ?
-			CreateItemRequest.getAdventuresUsed( this.mixingMethod, this.quantityNeeded ) : 0;
+		this.reconstructFields();
+		return CreateItemRequest.getAdventuresUsed( this );
 	}
 
 	public static int getAdventuresUsed( final GenericRequest request )

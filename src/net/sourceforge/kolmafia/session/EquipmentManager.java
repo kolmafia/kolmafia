@@ -101,14 +101,18 @@ public class EquipmentManager
 	public static final int SLOTS = 10;
 
 	// Pseudo-equipment slots
-	public static final int STICKER1 = 10;
-	public static final int STICKER2 = 11;
-	public static final int STICKER3 = 12;
+	public static final int CROWN_OF_THRONES = 10;
 
-	// Count of all equipment slots: HAT to STICKER3
-	public static final int ALL_SLOTS = 13;
+	public static final int STICKER1 = 11;
+	public static final int STICKER2 = 12;
+	public static final int STICKER3 = 13;
 
-	public static final int FAKEHAND = 13;
+	public static final int CARD_SLEEVE = 14;
+
+	// Count of all equipment slots: HAT to CARD_SLEEVE
+	public static final int ALL_SLOTS = 15;
+
+	public static final int FAKEHAND = 15;
 
 	private static LockableListModel equipment = new LockableListModel();
 	private static final LockableListModel accessories = new SortedListModel();
@@ -1343,6 +1347,8 @@ public class EquipmentManager
 		case EquipmentManager.STICKER2:
 		case EquipmentManager.STICKER3:
 			return KoLConstants.CONSUME_STICKER;
+		case EquipmentManager.CARD_SLEEVE:
+			return KoLConstants.CONSUME_CARD;
 		default:
 			return -1;
 		}
@@ -1836,9 +1842,11 @@ public class EquipmentManager
 		//    "acc3":"1226",
 		//    "container":"482",
 		//    "familiarequip":"3343",
-		//    "fake hands":0
+		//    "fake hands":0,
+		//    "cardsleeve":"4968"
 		// },
 		// "stickers":[0,0,0],
+		// "locked":false,
 
 		AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray();
 		int fakeHands = 0;
@@ -1874,6 +1882,13 @@ public class EquipmentManager
 		}
 
 		EquipmentManager.setEquipment( equipment );
+
+		// Check if familiar equipment is locked
+		EquipmentManager.lockedFamiliarItem = 
+			JSON.getBoolean( "locked" ) ?
+			equipment[ EquipmentManager.FAMILIAR ] :
+			EquipmentRequest.UNEQUIP;
+
 		EquipmentManager.setFakeHands( fakeHands );
 
 		// Read stickers
@@ -1901,8 +1916,5 @@ public class EquipmentManager
 
 			EquipmentManager.setEquipment( EquipmentManager.STICKER1 + i, item );
 		}
-
-		// Check if familiar equipment is locked
-		// *** how?
 	}
 }

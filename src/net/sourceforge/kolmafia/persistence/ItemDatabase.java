@@ -275,6 +275,7 @@ public class ItemDatabase
 		ItemDatabase.definePrimaryUse( "food helper", KoLConstants.CONSUME_FOOD_HELPER );
 		ItemDatabase.definePrimaryUse( "drink helper", KoLConstants.CONSUME_DRINK_HELPER );
 		ItemDatabase.definePrimaryUse( "sticker", KoLConstants.CONSUME_STICKER );
+		ItemDatabase.definePrimaryUse( "card", KoLConstants.CONSUME_CARD );
 		ItemDatabase.definePrimaryUse( "guardian", KoLConstants.CONSUME_GUARDIAN );
 
 		ItemDatabase.defineSecondaryUse( "usable", ItemDatabase.ATTR_USABLE );
