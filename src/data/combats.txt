@@ -313,7 +313,6 @@ Icy Peak of the Past	-1
 # Areas with no combats
 
 Anemone Mine (Mining)	0
-Arrrboretum	0
 Frat House In Disguise	0
 Friar Ceremony Location	0
 Goat Party	0
@@ -329,6 +328,7 @@ Pump Up Mysticality	0
 # St. Sneaky Pete's Day is unusual in that although it has no combats,
 # you might want a between-battle script to execute.
 St. Sneaky Pete's Day Stupor	-1
+The Arrrboretum	0
 The Knob Shaft (Mining)	0
 The Limerick Dungeon	0
 The Poker Room	0
