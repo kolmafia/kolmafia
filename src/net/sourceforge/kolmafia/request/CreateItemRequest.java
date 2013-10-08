@@ -355,7 +355,7 @@ public class CreateItemRequest
 
 		case GRANDMA:
 			return new GrandmaRequest( conc );
- 
+
 		case CHEMCLASS:
 		case ARTCLASS:
 		case SHOPCLASS:
@@ -363,6 +363,9 @@ public class CreateItemRequest
 
 		case BEER:
 			return new BeerGardenRequest( conc );
+
+		case JUNK:
+			return new JunkMagazineRequest( conc );
 
 		default:
 			return new CreateItemRequest( conc );

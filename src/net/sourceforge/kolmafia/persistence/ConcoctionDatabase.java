@@ -1956,6 +1956,11 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.BEER, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.BEER, 0 );
 
+		// Making stuff with the Junk Magazine is always allowed
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.JUNK );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.JUNK, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JUNK, 0 );
+
 		// You trade tokens to Coin Masters if you have opted in to do so,
 
 		if ( Preferences.getBoolean( "autoSatisfyWithCoinmasters" ) )
@@ -2270,6 +2275,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.BEER )
 		{
 			result.append( "Beer Garden" );
+		}
+		else if ( mixingMethod == CraftingType.JUNK )
+		{
+			result.append( "Worse Homes and Gardens" );
 		}
 
 		if ( result.length() == 0 )
@@ -2874,6 +2883,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "BEER" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.BEER;
+		}
+
+		else if ( mix.equals( "JUNK" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.JUNK;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )
