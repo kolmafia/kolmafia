@@ -580,6 +580,10 @@ public class AdventureRequest
 				image.startsWith( "slhobo" ) ? "Sleaze Hobo" :
 				// Slime Tube
 				image.startsWith( "slime" ) ? "Slime" + image.charAt( 5 ) :
+				// The Old Landfill
+				image.startsWith( "js_bender" ) ? "junksprite bender" :
+				image.startsWith( "js_melter" ) ? "junksprite melter" :
+				image.startsWith( "js_sharpener" ) ? "junksprite sharpener" :
 				// GamePro Bosses
 				image.startsWith( "faq_boss" ) ? "Video Game Boss" :
 				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :

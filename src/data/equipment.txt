@@ -412,6 +412,7 @@ hobo dungarees	200	Mox: 200
 honeybritches	175	Mox: 72
 hot daub stand	85	Mox: 27
 ironic jogging shorts	40	Mox: 5
+junk trunks	60	Mox: 15
 leather chaps	160	Mox: 65
 leotarrrd	90	Mox: 30
 liar's pants	100	none
@@ -541,6 +542,7 @@ grungy flannel shirt	150	Mox: 60
 hairshirt	150	Mus: 40
 harem girl t-shirt	25	none
 hipposkin poncho	120	Mus: 45
+junk-mail shirt	60	Mus: 15
 letterman's jacket	200	Mus: 200
 loathing eagle baby-doll shirt	45	Mus: 7
 metal band T-shirt	40	Mus: 5
@@ -769,6 +771,7 @@ black kettle drum	140	Mox: 55	2-handed drum
 black sword	160	Mus: 65	1-handed sword
 blammer	50	Mus: 0	1-handed club
 blunt icepick	50	Mus: 0	1-handed club
+boilgun	80	Mox: 25	2-handed rifle
 bone and arrows	120	Mox: 45	2-handed bow
 bone crusher	120	Mus: 45	1-handed club
 bone flute	110	Mox: 40	2-handed flute
@@ -1123,6 +1126,7 @@ super-sweet boom box	200	Mox: 75	1-handed radio
 sweet ninja sword	20	Mus: 0	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
 sword of static	75	Mus: 22	1-handed sword
+swordzall	80	Mus: 25	1-handed sword
 tail o' nine cats	30	Mus: 0	1-handed whip
 tambourine	50	Mox: 10	1-handed drum
 teflon spatula	200	Mys: 85	1-handed utensil
@@ -1280,6 +1284,7 @@ anniversary balloon	10	none
 anniversary chutney sculpture	10	none
 antique shield	230	Mus: 85	shield
 antique spyglass	225	Mys: 200
+arm buzzer	80	Mus: 25	shield
 arrow'd heart balloon	10	none
 astral shield	50	none	shield
 astral statuette	50	none
@@ -1860,6 +1865,7 @@ intergalactic pom poms	0	none
 ironic oversized sunglasses	40	Mys: 5
 jam band	200	Mys: 85
 jar of anniversary jam	10	none
+junk band	0	Mys: 15
 kick-ass kicks	160	Mys: 65
 knobby kneepads	20	none
 kumquartz ring	0	none
