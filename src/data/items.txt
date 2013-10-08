@@ -6777,7 +6777,7 @@
 6760	bottle of Old Pugilist	991747801	fancybrew.gif	drink	t,d	20
 6761	bottle of Professor Beer	617388012	fancybrew.gif	drink	t,d	20
 6762	bottle of Rapier Witbier	858412422	fancybrew.gif	drink	t,d	20
-6763
+6763	bottle of Race Car Red	245021730	fancybrew.gif	drink	t,d	50
 6764	bottle of Greedy Dog	196644198	fancybrew.gif	drink	t,d	50
 6765	bottle of Lambada Lambic	244327537	fancybrew.gif	drink	t,d	50
 6766	fancy tin beer can	916795901	fancycan.gif	multiple	t,d	30

@@ -3580,6 +3580,7 @@ Flop Sweat	Sleaze Resistance: +7
 Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
 Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 # Fly for a White Guy: Makes you look like a Gnollish Flyslayer
+Flyin' Drunk	Initiative: +100, Damage Reduction: 25
 # Foe-Splattered: Can't use Bifurcating Blow
 Fondid	Monster Level: +15
 # Form of...Bird!: You're a Bird
@@ -3782,6 +3783,7 @@ Jerky, Boy	Mysticality Percent: +25
 Jiggu... What?	Mana Cost: +100
 # Jingle Jangle Jingle
 # Jinkies!: Makes you look like Norville Rogers
+Jokin' Drunk	Moxie: +50, Pickpocket Chance: +20
 Joyful Resolve	Item Drop: +15
 Juiced	Muscle Percent: -100, Mysticality Percent: -100, Moxie Percent: +200
 Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
@@ -4993,6 +4995,8 @@ bottle of Lambada Lambic	Effect: "Dancin' Drunk", Effect Duration: 20
 bottle of Old Pugilist	Effect: "Fightin' Drunk", Effect Duration: 20
 bottle of pirate juice	Effect: "Piratastic", Effect Duration: 10
 bottle of Professor Beer	Effect: "Thinkin' Drunk", Effect Duration: 20
+bottle of Race Car Red	Effect: "Flyin' Drunk", Effect Duration: 20
+bottle of Rapier Witbier	Effect: "Jokin' Drunk", Effect Duration: 20
 bottle of rhinoceros hormones	Effect: "'Roids of the Rhinoceros", Effect Duration: 10
 bottled green pixie	Free Pull
 bottled inspiration	Effect: "Inspired!", Effect Duration: 10
