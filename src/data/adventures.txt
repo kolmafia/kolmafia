@@ -78,6 +78,7 @@ Manor0	adventure=180	true	underground	The Haunted Wine Cellar (Southwest)		20 di
 Manor0	adventure=181	true	underground	The Haunted Wine Cellar (Southeast)		20 disintegrating cork
 Woods	adventure=15	true	outdoor	The Spooky Forest	1 mosquito larva|1 spooky sapling, 1 Spooky Temple map, 1 Spooky-Gro fertilizer|+1 fake blood	3 triffid bark
 Woods	adventure=280	true	indoor	The Hidden Temple	3 choiceadv
+Woods	adventure=356	true	outdoor	The Old Landfill
 HiddenCity	adventure=341	false	indoor	The Hidden Apartment Building	1 moss-covered stone sphere
 HiddenCity	adventure=342	false	indoor	The Hidden Hospital	1 dripping stone sphere
 HiddenCity	adventure=343	false	indoor	The Hidden Office Building	1 crackling stone sphere

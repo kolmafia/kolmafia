@@ -104,27 +104,48 @@ public class GameproManager
 		}
 		//Boss special power
 		String bossPower = "Undetermined";
-		if (responseText.contains("is totally immune to ice-element attacks")) {
+		if ( responseText.contains( "is totally immune to ice-element attacks" ) )
+		{
 			bossPower = "Cold immunity";
-		} else if (responseText.contains("evil black heart deals ice damage just by being near")) {
+		}
+		else if ( responseText.contains( "evil black heart deals ice damage just by being near" ) )
+		{
 			bossPower = "Cold aura";
-		} else if (responseText.contains(" is 100 percent immune to fire, so don't even bother wasting your MP on that Flame Cloud")) {
+		}
+		else if ( responseText.contains( "is 100 percent immune to fire, so don't even bother wasting your MP on that Flame Cloud" ) )
+		{
 			bossPower = "Hot immunity";
-		} else if (responseText.contains("throne room is super hot inside, and ")) {
+		}
+		else if (responseText.contains( "throne room is super hot inside, and" ) )
+		{
 			bossPower = "Hot aura";
-		} else if (responseText.contains("because he ignores a lot of your armor")) {
+		}
+		else if ( responseText.contains( "because he ignores a lot of your armor" ) )
+		{
 			bossPower = "Ignores armor";
-			} else if (responseText.contains("doesn't stand around passively")) {
+		}
+		else if ( responseText.contains( "doesn't stand around passively") )
+		{
 			bossPower = "Blocks combat items";
-		} else if (responseText.contains("is pretty strong against regular attacks, ")) {
+		}
+		else if ( responseText.contains( "is pretty strong against regular attacks, " ) )
+		{
 			bossPower = "Reduced physical damage";
-			} else if (responseText.contains("is resistant to spells, and takes less damage from them")) {
+		}
+		else if ( responseText.contains( "is resistant to spells, and takes less damage from them" ) )
+		{
 			bossPower = "Reduced damage from spells";
-		} else if (responseText.contains("is totally stun-resistant. Yeah, like, don't even bother trying it.")) {
+		}
+		else if ( responseText.contains( "is totally stun-resistant. Yeah, like, don't even bother trying it." ) )
+		{
 			bossPower = "Stun resistance";
-			} else if (responseText.contains("elemental alignment is totally neutral, so")) {
+		}
+		else if ( responseText.contains( "elemental alignment is totally neutral, so" ) )
+		{
 			bossPower = "Elemental Reistance";
-		} else if (responseText.contains("spiky armor will do damage to you if you try to hit him i")) {
+		}
+		else if ( responseText.contains( "spiky armor will do damage to you if you try to hit him i" ) )
+		{
 			bossPower = "Passive damage";
 		}
 		Preferences.setString( "gameProBossSpecialPower", bossPower );

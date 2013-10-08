@@ -6744,18 +6744,18 @@
 6727	tropical island souvenir crate	631078936	crate.gif	usable	t	0
 6728	ski resort souvenir crate	978195555	crate.gif	usable	t	0
 6729
-6730
-6731
-6732
+6730	funky junk key	612371887	junkkey.gif		none	t	0	funky junk keys
+6731	Worse Homes and Gardens	722890896	junkmag.gif	reusable	q	0
+6732	old claw-foot bathtub	801855013	junktub.gif	none	q	0
 6733
-6734
-6735
-6736
-6737
-6738
-6739
-6740
-6741
+6734	antique cigar sign	611387934	junksail.gif	none	q	0
+6735	junk junk	829260367	junkboat.gif	none	q	0
+6736	Junk-Bond	528398817	junkbond.gif	none, combat	t,d	30	Junk-Bonds
+6737	tangle of copper wire	851929149	junkwire.gif	none	t,d	500	tangles of copper wire
+6738	jagged scrap metal	604483636	junkjagged.gif	none, combat	t,d	15	pieces of jagged scrap metal
+6739	bent scrap metal	575469506	junkbent.gif	usable	t,d	15	pieces of bent scrap metal
+6740	molten scrap metal	730390936	junkmolten.gif	none, combat	t,d	15	pieces of molten scrap metal
+6741	eternal car battery	708939693	junkbattery.gif	reusable		0
 6742
 6743
 6744

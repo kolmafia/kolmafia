@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -537,6 +536,10 @@ public class AdventureRequest
 			// still be fought due to the Fax Machine.  Due to monster copying,
 			// any of these monsters can show up in any zone, or in no zone.
 			override =
+				// The Old Landfill
+				image.equals( "js_bender" ) ? "junksprite bender" :
+				image.equals( "js_melter" ) ? "junksprite melter" :
+				image.equals( "js_sharpener" ) ? "junksprite sharpener" :
 				// Dreadsylvania
 				image.startsWith( "dvcoldbear" ) ? "cold bugbear" :
 				image.startsWith( "dvcoldghost" ) ? "cold ghost" :

@@ -833,6 +833,9 @@ public abstract class UseLinkDecorator
 			case ItemPool.FANCY_BEER_LABEL:
 				return new UseLink( itemId, 1, "Let's Brew", "shop.php?whichshop=beergarden" );
 
+			case ItemPool.WORSE_HOMES_GARDENS:
+				return new UseLink( itemId, 1, "read", "shop.php?whichshop=junkmagazine" );
+
 			default:
 
 				return new UseLink( itemId, itemCount, 

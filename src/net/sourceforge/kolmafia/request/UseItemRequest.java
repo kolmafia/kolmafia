@@ -935,6 +935,10 @@ public class UseItemRequest
 		case ItemPool.BRASS_DREAD_FLASK:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_brassDreadFlaskUsed" ) ? 0 : 1;
+
+		case ItemPool.ETERNAL_CAR_BATTERY:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_eternalCarBatteryUsed" ) ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -4454,6 +4458,10 @@ public class UseItemRequest
 				Preferences.setInteger( "hiddenTavernUnlock", KoLCharacter.getAscensions() );
 				ConcoctionDatabase.setRefreshNeeded( true );
 			}
+			return;
+
+		case ItemPool.ETERNAL_CAR_BATTERY:
+			Preferences.setBoolean( "_eternalCarBatteryUsed", true );
 			return;
 		}
 	}
