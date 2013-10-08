@@ -2288,3 +2288,14 @@ bottle of Old Pugilist	BEER, ROW217	handful of barley	cluster of hops	fancy beer
 bottle of Professor Beer	BEER, ROW218	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
 bottle of Rapier Witbier	BEER, ROW219	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
 artisanal homebrew gift package	BEER, ROW220	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
+
+# Junk Magazine
+junk junk	JUNK, ROW184	old claw-foot bathtub	old clothesline pole	antique cigar sign
+junk food	JUNK, ROW188	jagged scrap metal	bent scrap metal	molten scrap metal
+junk yard	JUNK, ROW189	jagged scrap metal	bent scrap metal	molten scrap metal
+junk band	JUNK, ROW185	bent scrap metal	molten scrap metal (2)	tangle of copper wire	Junk-Bond
+junk trunks	JUNK, ROW186	jagged scrap metal (2)	bent scrap metal	tangle of copper wire
+junk-mail shirt	JUNK, ROW187	jagged scrap metal	bent scrap metal (2)	Junk-Bond
+arm buzzer	JUNK, ROW191	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+boilgun	JUNK, ROW192	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+swordzall	JUNK, ROW190	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
