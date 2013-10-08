@@ -2819,6 +2819,7 @@ Fam:Mutant Cactus Bud	Leprechaun Effectiveness: [1.3-0.15*G]
 Fam:Mutant Fire Ant	Fairy Effectiveness: [1.3-0.15*G]
 Fam:Oily Woim	Initiative: [2*W]
 Fam:Purse Rat	Monster Level: [floor(W/2)]
+Fam:Reanimated Reanimator	Volleyball: 1, Meat Drop: [max(sqrt(220*pref(reanimatorSkulls))+2*pref(reanimatorSkulls)-6,0)], Item Drop: [max(sqrt(55*pref(reanimatorLegs))+pref(reanimatorLegs)-3,0)]
 Fam:Rock Lobster	Underwater Familiar
 Fam:Squamous Gibberer	Underwater Familiar
 Fam:Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]

@@ -451,6 +451,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "hiddenOfficeProgress" );
 		Preferences.resetToDefault( "hiddenBowlingAlleyProgress" );
 		Preferences.resetToDefault( "kolhsTotalSchoolSpirited" );
+		Preferences.resetToDefault( "haciendaLayout" );
 	}
 
 	public static void handleCouncilText( String responseText )
