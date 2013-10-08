@@ -109,10 +109,16 @@ public class EquipmentManager
 
 	public static final int CARD_SLEEVE = 14;
 
-	// Count of all equipment slots: HAT to CARD_SLEEVE
-	public static final int ALL_SLOTS = 15;
+	public static final int FOLDER1 = 15;
+	public static final int FOLDER2 = 16;
+	public static final int FOLDER3 = 17;
+	public static final int FOLDER4 = 18;
+	public static final int FOLDER5 = 19;
 
-	public static final int FAKEHAND = 15;
+	// Count of all equipment slots: HAT to FOLDER5
+	public static final int ALL_SLOTS = 20;
+
+	public static final int FAKEHAND = 20;
 
 	private static LockableListModel equipment = new LockableListModel();
 	private static final LockableListModel accessories = new SortedListModel();
@@ -1346,6 +1352,12 @@ public class EquipmentManager
 			return KoLConstants.CONSUME_STICKER;
 		case EquipmentManager.CARD_SLEEVE:
 			return KoLConstants.CONSUME_CARD;
+		case EquipmentManager.FOLDER1:
+		case EquipmentManager.FOLDER2:
+		case EquipmentManager.FOLDER3:
+		case EquipmentManager.FOLDER4:
+		case EquipmentManager.FOLDER5:
+			return KoLConstants.CONSUME_FOLDER;
 		default:
 			return -1;
 		}
@@ -1375,6 +1387,8 @@ public class EquipmentManager
 			return EquipmentManager.STICKER1;
 		case KoLConstants.CONSUME_CARD:
 			return EquipmentManager.CARD_SLEEVE;
+		case KoLConstants.CONSUME_FOLDER:
+			return EquipmentManager.STICKER1;
 		default:
 			return -1;
 		}
@@ -1827,6 +1841,24 @@ public class EquipmentManager
 		return null;
 	}
 
+	private static AdventureResult equippedItem( final int itemId )
+	{
+		if ( itemId == 0 )
+		{
+			return EquipmentRequest.UNEQUIP;
+		}
+
+		String name = ItemDatabase.getItemDataName( itemId );
+		if ( name == null )
+		{
+			// Fetch descid from api.php?what=item
+			// and register new item.
+			ItemDatabase.registerItem( itemId );
+		}
+
+		return ItemPool.get( itemId, 1 );
+	}
+
 	public static final void parseStatus( final JSONObject JSON )
 		throws JSONException
 	{
@@ -1842,7 +1874,7 @@ public class EquipmentManager
 		//    "container":"482",
 		//    "familiarequip":"3343",
 		//    "fakehands":0,
-		//    "cardsleeve":"4968"
+		//    "card sleeve":"4968"
 		// },
 		// "stickers":[0,0,0],
 		// "folder_holder":["01","22","12","00","00"]
@@ -1867,58 +1899,33 @@ public class EquipmentManager
 				continue;
 			}
 
-			int itemId = equip.getInt( slotName );
-			AdventureResult item;
-			if ( itemId == 0 )
-			{
-				item = EquipmentRequest.UNEQUIP;
-			}
-			else
-			{
-				String name = ItemDatabase.getItemDataName( itemId );
-				if ( name == null )
-				{
-					// Fetch descid from api.php?what=item
-					// and register new item.
-					ItemDatabase.registerItem( itemId );
-				}
-				item = ItemPool.get( itemId, 1 );
-			}
-
-			equipment[ slot ] = item;
+			equipment[ slot ] = EquipmentManager.equippedItem( equip.getInt( slotName ) );
 		}
 
+		// Set all regular equipment slots
 		EquipmentManager.setEquipment( equipment );
-		EquipmentManager.setEquipment( EquipmentManager.CARD_SLEEVE, equipment[ EquipmentManager.CARD_SLEEVE ] );
 
 		// *** Locked familiar item
 
+		// pseudo-slots must be handled separately
+		EquipmentManager.setEquipment( EquipmentManager.CARD_SLEEVE, equipment[ EquipmentManager.CARD_SLEEVE ] );
 		EquipmentManager.setFakeHands( fakeHands );
 
 		// Read stickers
 		JSONArray stickers = JSON.getJSONArray( "stickers" );
 		for ( int i = 0; i < 3; ++i )
 		{
-			int itemId = stickers.getInt( i );
-			AdventureResult item;
-			if ( itemId == 0 )
-			{
-				item = EquipmentRequest.UNEQUIP;
-			}
-			else
-			{
-				String name = ItemDatabase.getItemDataName( itemId );
-				if ( name == null )
-				{
-					// Fetch descid from api.php?what=item
-					// and register new item.
-					ItemDatabase.registerItem( itemId );
-				}
-
-				item = ItemPool.get( itemId, 1 );
-			}
-
+			AdventureResult item = EquipmentManager.equippedItem( stickers.getInt( i ) );
 			EquipmentManager.setEquipment( EquipmentManager.STICKER1 + i, item );
+		}
+
+		// Read folders
+		JSONArray folders = JSON.getJSONArray( "folder_holder" );
+		for ( int i = 0; i < 5; ++i )
+		{
+			int folder = folders.getInt( i );
+			AdventureResult item = folder == 0 ? EquipmentRequest.UNEQUIP : ItemPool.get( ItemPool.FOLDER_01 - 1 + folder, 1 );
+			EquipmentManager.setEquipment( EquipmentManager.FOLDER1 + i, item );
 		}
 	}
 }

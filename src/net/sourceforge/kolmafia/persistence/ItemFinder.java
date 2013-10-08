@@ -260,6 +260,8 @@ public class ItemFinder
 				case KoLConstants.EQUIP_OFFHAND:
 				case KoLConstants.EQUIP_CONTAINER:
 				case KoLConstants.CONSUME_STICKER:
+				case KoLConstants.CONSUME_CARD:
+				case KoLConstants.CONSUME_FOLDER:
 					break;
 
 				default:

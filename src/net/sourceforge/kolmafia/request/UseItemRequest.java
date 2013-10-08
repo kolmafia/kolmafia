@@ -1138,6 +1138,8 @@ public class UseItemRequest
 		switch ( this.consumptionType )
 		{
 		case KoLConstants.CONSUME_STICKER:
+		case KoLConstants.CONSUME_CARD:
+		case KoLConstants.CONSUME_FOLDER:
 		case KoLConstants.EQUIP_HAT:
 		case KoLConstants.EQUIP_WEAPON:
 		case KoLConstants.EQUIP_OFFHAND:
