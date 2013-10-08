@@ -5371,6 +5371,10 @@ public abstract class ChoiceManager
 			TurnCounter.startCounting( 40, "Silent Invasion window end loc=*", "rparen.gif" );
 			break;
 
+		case 774:
+			EquipmentRequest.parseFolders( ChoiceManager.lastResponseText );
+			break;
+
 		case 794:
 			ResultProcessor.removeItem( ItemPool.FUNKY_JUNK_KEY );
 			break;
@@ -6316,6 +6320,10 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 774:
+			EquipmentRequest.parseFolders( text );
+			return;
+
 		case 780:
 			// Action Elevator
 			if ( ChoiceManager.lastDecision == 1 && text.contains( "penthouse is empty now" ) )
@@ -6329,8 +6337,8 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "relocatePygmyLawyer", KoLCharacter.getAscensions() );
 			}
-			return;			
-		
+			return;
+
 		case 781:
 			// Earthbound and Down
 			if ( ChoiceManager.lastDecision == 1 )
@@ -6346,7 +6354,7 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SIX_BALL, -1 ) );
 			}
-			return;			
+			return;
 
 		case 783:
 			// Water You Dune
@@ -6363,7 +6371,7 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.TWO_BALL, -1 ) );
 			}
-			return;			
+			return;
 
 		case 785:
 			// Air Apparent
@@ -6380,7 +6388,7 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.ONE_BALL, -1 ) );
 			}
-			return;			
+			return;
 
 		case 786:
 			// Working Holiday
@@ -6398,7 +6406,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "hiddenOfficeProgress", 6 );
 			}
-			return;			
+			return;
 
 		case 787:
 			// Fire when Ready
@@ -6415,7 +6423,7 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.FIVE_BALL, -1 ) );
 			}
-			return;			
+			return;
 
 		case 788:
 			// Life is Like a Cherry of Bowls

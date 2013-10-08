@@ -94,6 +94,7 @@ public class EquipmentRequest
 	private static final Pattern OUTFITLIST_PATTERN = Pattern.compile( "<select name=whichoutfit>.*?</select>" );
 	private static final Pattern STICKER_PATTERN = Pattern.compile(
 		"<td>\\s*(shiny|dull)?\\s*([^<]+)<a [^>]+action=peel|<td>\\s*<img [^>]+magnify" );
+	private static final Pattern FOLDER_PATTERN = Pattern.compile( "descitem\\(([\\d]+)?\\)" );
 
 	private static final Pattern OUTFIT_ACTION_PATTERN = Pattern.compile(
 		"([a-zA-Z])=([^=]+)(?!=)" );
@@ -1016,6 +1017,39 @@ public class EquipmentRequest
 					EquipmentManager.setTurns( slot, 6, 15 );
 				}
 			}
+		}
+	}
+
+	public static final void parseFolders( String responseText )
+	{
+		int startIndex = responseText.indexOf( "Contents of your Folder Holder" );
+		int stopIndex = responseText.indexOf( "Folders in your Inventory" );
+		if ( startIndex == -1 || stopIndex == -1 )
+		{
+			return;
+		}
+
+		String text = responseText.substring( startIndex, stopIndex );
+		Matcher folderMatcher = EquipmentRequest.FOLDER_PATTERN.matcher( text );
+
+		int slot = EquipmentManager.FOLDER1;
+		while ( folderMatcher.find() )
+		{
+			String descitem = folderMatcher.group( 1 );
+			if ( descitem == null )
+			{
+				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
+			}
+			else
+			{
+				int itemId = ItemDatabase.getItemIdFromDescription( descitem );
+				EquipmentManager.setEquipment( slot, ItemPool.get( itemId, 1 ) );
+			}
+			slot++;
+		}
+		for ( int i = slot; i <= EquipmentManager.FOLDER5; i++ )
+		{
+			EquipmentManager.setEquipment( i, EquipmentRequest.UNEQUIP );
 		}
 	}
 
