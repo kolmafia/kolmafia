@@ -499,6 +499,7 @@ hobo dungarees	Maximum MP: +500, Mysticality Percent: +5, Familiar Effect: "0.5x
 honeybritches	Muscle Percent: +5, Critical Hit Percent: +5, Weapon Damage: +15, Familiar Effect: "sleaze atk, 1xGhuol, cap 43"
 hot daub stand	Hot Damage: +9, Hot Spell Damage: +9
 ironic jogging shorts	Initiative: +10, Damage Absorption: +20, Moxie: -5, Familiar Effect: "1xGhuol, cap 10"
+junk trunks	Muscle: +5
 leather chaps	Moxie: +8, Muscle: -4, Familiar Effect: "sleaze atk, 1xBarrr, cap 40"
 leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 1xPotato, cap 22"
 # liar's pants: +30 to All Attributes.  Yeah, +30.  That's the ticket.
@@ -631,6 +632,7 @@ grungy flannel shirt	Moxie: +11
 hairshirt	Monster Level: [50-10*G]
 harem girl t-shirt	Moxie: +3
 hipposkin poncho	Monster Level: +10
+junk-mail shirt	Muscle: +4, Mysticality: +4, Moxie: +4
 letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 loathing eagle baby-doll shirt	Moxie: +3
 metal band T-shirt	Monster Level: +15
@@ -899,6 +901,7 @@ black kettle drum	Moxie: +5, Maximum HP: +30, Maximum MP: +30
 black sword	Critical Hit Percent: +7, Weapon Damage: +7
 blammer	Critical Hit Percent: +7, Weakens Monster
 blunt icepick	Cold Damage: +15
+boilgun	Hot Damage: +8, Maximum MP: +10
 # bone and arrow: +30 Damage vs. Skeletons
 # bone crusher: +30 Damage vs. Skeletons
 bone flute	Spooky Damage: +11
@@ -1277,6 +1280,7 @@ super-sweet boom box	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percen
 # sweet ninja sword
 sword behind inappropriate prepositions	Muscle: +7, Adventures: +5
 sword of static	Muscle: +3, Moxie: +2, MP Regen Min: 2, MP Regen Max: 3
+swordzall	Weapon Damage: +8, Maximum MP: +10
 tail o' nine cats	Initiative: +15, Monster Level: +5
 tambourine	Maximum HP: +20, Maximum MP: +20
 teflon spatula	Mysticality Percent: +10, Sleaze Resistance: +3, Spell Damage: +40
@@ -1481,6 +1485,7 @@ anniversary chutney sculpture	Muscle: +1, Mysticality: +1, Moxie: +1
 antique shield	Initiative: -10, Damage Reduction: 15
 # antique spyglass: Reduce enemy defense by 15%
 antique spyglass	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+arm buzzer	Damage Reduction: 6, Maximum MP: +25
 # arrow'd heart balloon
 astral shield	Muscle Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Damage Reduction: 15
 astral statuette	Mysticality Percent: +25, Spell Damage Percent: +50, Adventures: +4
@@ -2130,6 +2135,7 @@ intergalactic pom poms	Moxie: +20, Initiative: +30
 ironic oversized sunglasses	Single Equip
 jar of anniversary jam	Muscle: +1, Mysticality: +1, Moxie: +1
 jam band	Item Drop: +5, Booze Drop: +20, Food Drop: +35
+junk band	Spell Damage: +11
 kick-ass kicks	Sleaze Damage: +10, Moxie: +3, Single Equip
 knobby kneepads	Weapon Damage: +3
 # kumquartz ring: (only in the Candy Diorama)

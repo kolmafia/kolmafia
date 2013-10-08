@@ -95,6 +95,7 @@ Woods	adventure=73	true	outdoor	8-Bit Realm	1 digital key|+1 fire flower
 Woods	adventure=100	true	outdoor	Whitey's Grove	1 bird rib, 1 lion oil|+5 piece of wedding cake|+3 white rice|+1 bag of lard	8 white lint
 Woods	adventure=99	true	outdoor	The Road to White Citadel
 Woods	adventure=111	true	outdoor	The Black Forest	1 black market map|1 black market map, 1 sunken eyes, 1 broken wings|1 black market map, 1 bird brain, 1 busted wings|1 adder bladder|1 black picnic basket|1 Black No. 2
+Woods	adventure=356	false	outdoor	The Old Landfill
 BatHole	adventure=30	true	underground	The Bat Hole Entrance	1 Pine-Fresh air freshener	14 pink bat eye
 BatHole	adventure=31	true	underground	Guano Junction	3 sonar-in-a-biscuit, 1 broken skull|3 sonar-in-a-biscuit|1 sonar-in-a-biscuit|1 baseball|+1 Eau de Guaneau
 BatHole	adventure=32	true	underground	The Batrat and Ratbat Burrow	+1 Dogsgotnonoz pills

@@ -6747,7 +6747,7 @@
 6730	funky junk key	612371887	junkkey.gif		none	t	0	funky junk keys
 6731	Worse Homes and Gardens	722890896	junkmag.gif	reusable	q	0
 6732	old claw-foot bathtub	801855013	junktub.gif	none	q	0
-6733
+6733	old clothesline pole	634767158	junkpole.gif	none	q	0
 6734	antique cigar sign	611387934	junksail.gif	none	q	0
 6735	junk junk	829260367	junkboat.gif	none	q	0
 6736	Junk-Bond	528398817	junkbond.gif	none, combat	t,d	30	Junk-Bonds
@@ -6756,14 +6756,14 @@
 6739	bent scrap metal	575469506	junkbent.gif	usable	t,d	15	pieces of bent scrap metal
 6740	molten scrap metal	730390936	junkmolten.gif	none, combat	t,d	15	pieces of molten scrap metal
 6741	eternal car battery	708939693	junkbattery.gif	reusable		0
-6742
-6743
-6744
-6745
-6746
-6747
-6748
-6749
+6742	junk band	972509168	junkring.gif	accessory	t,d	65
+6743	junk trunks	835736626	junkpants.gif	pants	t,d	65
+6744	junk-mail shirt	685262566	junkshirt.gif	shirt	t,d	65
+6745	junk food	557595058	junknuts.gif	food	t,d	65
+6746	junk yard	137535179	junkbeer.gif	drink	t,d	65
+6747	swordzall	623343381	junksword.gif	weapon	t,d	105
+6748	arm buzzer	472763061	junkshield.gif	shield	t,d	105
+6749	boilgun	335405974	junkgun.gif	weapon	t,d	105
 6750	Gordon Beer's Beer Garden Catalog	659532710	beercat.gif	usable	t	0	Gordon Beer's Beer Garden Catalogs
 6751	packet of beer seeds	523573927	beerseeds.gif	usable		0	packets of beer seeds
 6752	handful of barley	244020270	barley.gif	reusable	t,d	5	handfuls of barley
