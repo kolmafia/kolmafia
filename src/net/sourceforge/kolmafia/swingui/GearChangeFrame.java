@@ -196,6 +196,7 @@ public class GearChangeFrame
 			pane.getModifiersLabel().setText( "" );
 			return;
 		}
+
 		name = mods.getString( Modifiers.INTRINSIC_EFFECT );
 		if ( name.length() > 0 )
 		{
@@ -279,8 +280,8 @@ public class GearChangeFrame
 	private abstract class EquipmentTabPanel
 		extends GenericPanel
 	{
-		protected int modifiersWidth;
 		protected JLabel modifiersLabel;
+		protected int modifiersWidth;
 
 		public EquipmentTabPanel( final String confirmedText, final String cancelledText, Dimension left, Dimension right )
 		{
@@ -292,14 +293,14 @@ public class GearChangeFrame
 			super( confirmedText, null, left, right );
 		}
 
-		public int getModifiersWidth()
-		{
-			return this.modifiersWidth;
-		}
-
 		public JLabel getModifiersLabel()
 		{
 			return this.modifiersLabel;
+		}
+
+		public int getModifiersWidth()
+		{
+			return this.modifiersWidth;
 		}
 	}
 
@@ -388,9 +389,10 @@ public class GearChangeFrame
 			this.setContent( elements );
 
 			GearChangeFrame.this.outfitButton = this.cancelledButton;
-			this.modifiersWidth = this.eastContainer.getPreferredSize().width;
+
 			this.modifiersLabel = new JLabel();
 			this.confirmedButton.getParent().getParent().add( this.modifiersLabel, BorderLayout.CENTER );
+			this.modifiersWidth = this.eastContainer.getPreferredSize().width;
 			this.setEnabled( true );
 		}
 
@@ -526,9 +528,9 @@ public class GearChangeFrame
 
 			this.setContent( elements );
 
-			this.modifiersWidth = this.eastContainer.getPreferredSize().width;
 			this.modifiersLabel = new JLabel();
 			this.confirmedButton.getParent().getParent().add( this.modifiersLabel, BorderLayout.CENTER );
+			this.modifiersWidth = this.eastContainer.getPreferredSize().width;
 			this.setEnabled( true );
 		}
 

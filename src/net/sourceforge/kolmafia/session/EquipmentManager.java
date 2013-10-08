@@ -252,12 +252,9 @@ public class EquipmentManager
 			// types of stickers, and no reason to believe that
 			// there will ever be many (or even any) more, so this
 			// duplication should not present a problem.
-			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ 
-				EquipmentManager.STICKER1 ], item );
-			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ 
-				EquipmentManager.STICKER2 ], item );
-			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ 
-				EquipmentManager.STICKER3 ], item );
+			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.STICKER1 ], item );
+			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.STICKER2 ], item );
+			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.STICKER3 ], item );
 			
 			// Make sure the current sticker in each slot remains
 			// in the list, even if there are no more of that type
@@ -1376,6 +1373,8 @@ public class EquipmentManager
 			return EquipmentManager.FAMILIAR;
 		case KoLConstants.CONSUME_STICKER:
 			return EquipmentManager.STICKER1;
+		case KoLConstants.CONSUME_CARD:
+			return EquipmentManager.CARD_SLEEVE;
 		default:
 			return -1;
 		}
@@ -1847,7 +1846,6 @@ public class EquipmentManager
 		// },
 		// "stickers":[0,0,0],
 		// "folder_holder":["01","22","12","00","00"]
-		// "locked":false,
 
 		AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray();
 		int fakeHands = 0;
