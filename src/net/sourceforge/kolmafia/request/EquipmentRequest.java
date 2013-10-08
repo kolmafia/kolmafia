@@ -149,6 +149,11 @@ public class EquipmentRequest
 		"sticker2",
 		"sticker3",
 		"card-sleeve",
+		"folder1",
+		"folder2",
+		"folder3",
+		"folder4",
+		"folder5",
 		"fakehand"
 	};
 
@@ -170,6 +175,11 @@ public class EquipmentRequest
 		"st2",
 		"st3",
 		"cardsleeve",
+		"folder1",
+		"folder2",
+		"folder3",
+		"folder4",
+		"folder5",
 		"fakehand"
 	};
 
