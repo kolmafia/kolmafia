@@ -252,7 +252,7 @@ jackhammer	2	4	awesome	6-7	20-30	0	0	10 Mortarfied
 jar of fermented pickle juice	5	13	EPIC	29-34	80-100	80-100	80-100	-5 spleen
 jar of squeeze	7	8	awesome	25-30	25-45	25-45	25-45
 jerkitini	5	1		12-13	0	0	0	15 Jerky, Boy
-junk yard	2	1	good	0	0	0	0
+junk yard	2	1	good	4-5	4-5	4-5	4-5
 kamicorpse-ee	3	1	good	5-10	0	0	31-35
 knob mushroom wine	3	6	awesome	10-14	0	4-6	0
 knoll mushroom wine	3	6	awesome	10-14	4-6	0	0
