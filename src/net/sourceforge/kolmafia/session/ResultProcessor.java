@@ -1393,6 +1393,8 @@ public class ResultProcessor
 			break;
 			
 		case ItemPool.CRACKLING_STONE_SPHERE:
+			// Lose McClusky File when you kill the Protector Spirit
+			ResultProcessor.processItem( ItemPool.MCCLUSKY_FILE, -1 );
 			Preferences.setInteger( "hiddenOfficeProgress", 7 );
 			break;
 			

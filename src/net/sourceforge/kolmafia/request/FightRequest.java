@@ -1863,7 +1863,7 @@ public class FightRequest
 
 			if ( encounter.equalsIgnoreCase( "Ancient Protector Spirit" ) )
  			{
-				// Update appropriate quest to status 6 if lower. If in Hidden Office Building, starting fight removes McClusky File (complete).
+				// Update appropriate quest to status 6 if lower.
 				if ( adventure == AdventurePool.HIDDEN_APARTMENT )
 				{
 					if ( Preferences.getInteger( "hiddenApartmentProgress" ) < 6 )
@@ -1882,7 +1882,6 @@ public class FightRequest
 				{
 					if ( Preferences.getInteger( "hiddenOfficeProgress" ) < 6 )
 					{
-						ResultProcessor.processItem( ItemPool.MCCLUSKY_FILE, -1 );
 						Preferences.setInteger( "hiddenOfficeProgress", 6 );
 					}
 				}
