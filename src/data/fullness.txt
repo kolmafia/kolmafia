@@ -328,7 +328,7 @@ jumping bean burrito	3	1	decent	3-8	0	0	11-14
 jumping bean taco	1	1	decent	2	0	0	4-20
 jungle floor wax	2	6	good	5-7	5-10	5-10	10-20	20 Wax On Your Shoes
 juniper berries	1	2	crappy	1	0	0	10-15
-junk food	2	1	good	0	0	0	0
+junk food	2	1	good	4-5	4-5	4-5	4-5
 junkyard dog	3	1	awesome	12-14	0	0	0	30 Dog Breath
 ketchup	1	1	crappy	1	0	0	0
 king cookie	1	13	EPIC	4-6	15-30	15-30	15-30	30 The Royal We (+25..50 exp)
