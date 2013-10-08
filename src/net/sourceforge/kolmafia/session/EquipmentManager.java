@@ -184,9 +184,9 @@ public class EquipmentManager
 
 	public static AdventureResult[] emptyEquipmentArray()
 	{
-		AdventureResult[] array = new AdventureResult[ EquipmentManager.SLOTS ];
+		AdventureResult[] array = new AdventureResult[ EquipmentManager.ALL_SLOTS ];
 
-		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
 		{
 			array[ i ] = EquipmentRequest.UNEQUIP;
 		}
@@ -846,7 +846,7 @@ public class EquipmentManager
 	{
 		// Sanity check: must set ALL equipment slots
 
-		if ( equipment.length != EquipmentManager.SLOTS )
+		if ( equipment.length < EquipmentManager.SLOTS )
 		{
 			StaticEntity.printStackTrace( "Equipment array slot mismatch: " + EquipmentManager.SLOTS + " expected, " + equipment.length + " provided." );
 			return;
@@ -1842,7 +1842,7 @@ public class EquipmentManager
 		//    "acc3":"1226",
 		//    "container":"482",
 		//    "familiarequip":"3343",
-		//    "fake hands":0,
+		//    "fakehands":0,
 		//    "cardsleeve":"4968"
 		// },
 		// "stickers":[0,0,0],
@@ -1863,11 +1863,6 @@ public class EquipmentManager
 				continue;
 			}
 
-			if ( slotName.equals( "cardsleeve" ) )
-			{
-				continue;
-			}
-
 			int slot = EquipmentRequest.phpSlotNumber( slotName );
 			if ( slot == -1 )
 			{
@@ -1875,19 +1870,28 @@ public class EquipmentManager
 			}
 
 			int itemId = equip.getInt( slotName );
-			String name = ItemDatabase.getItemDataName( itemId );
-			if ( name == null )
+			AdventureResult item;
+			if ( itemId == 0 )
 			{
-				// Fetch descid from api.php?what=item
-				// and register new item.
-				ItemDatabase.registerItem( itemId );
+				item = EquipmentRequest.UNEQUIP;
+			}
+			else
+			{
+				String name = ItemDatabase.getItemDataName( itemId );
+				if ( name == null )
+				{
+					// Fetch descid from api.php?what=item
+					// and register new item.
+					ItemDatabase.registerItem( itemId );
+				}
+				item = ItemPool.get( itemId, 1 );
 			}
 
-			AdventureResult item = ItemPool.get( itemId, 1 );
 			equipment[ slot ] = item;
 		}
 
 		EquipmentManager.setEquipment( equipment );
+		EquipmentManager.setEquipment( EquipmentManager.CARD_SLEEVE, equipment[ EquipmentManager.CARD_SLEEVE ] );
 
 		// Check if familiar equipment is locked
 		EquipmentManager.lockedFamiliarItem = 
