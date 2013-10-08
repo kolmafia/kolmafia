@@ -6800,3 +6800,6 @@
 6783	seal medal	884423426	sealmedal.gif	accessory		0
 6784	deanimated reanimator's coffin	360812033	coffinlid.gif	grow	t	0
 6785	flask of embalming fluid	534853428	flask.gif	familiar	t,d	75
+6786
+6787
+6788	blank diary	248829997	book3.gif	usable	t	0

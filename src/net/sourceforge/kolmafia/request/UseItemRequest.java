@@ -4980,7 +4980,7 @@ public class UseItemRequest
 			return false;
 		}
 
-		// Special handing for twisting Jarlsberg's pan when it is equipped
+		// Special handing for shaking Jarlsberg's pan when it is equipped
 		if ( item == null && urlString.contains( "action=shakepan" ) )
 		{
 			AdventureResult before = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
