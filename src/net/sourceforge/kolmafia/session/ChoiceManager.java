@@ -80,6 +80,8 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.HaciendaManager;
+
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -126,6 +128,11 @@ public abstract class ChoiceManager
 	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
 	private static final Pattern URL_OPTION_PATTERN = Pattern.compile( "option=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
+	private static final Pattern REANIMATOR_ARM_PATTERN = Pattern.compile( "(\\d+) arms??<br>" );
+	private static final Pattern REANIMATOR_LEG_PATTERN = Pattern.compile( "(\\d+) legs??<br>" );
+	private static final Pattern REANIMATOR_SKULL_PATTERN = Pattern.compile( "(\\d+) skulls??<br>" );
+	private static final Pattern REANIMATOR_WEIRDPART_PATTERN = Pattern.compile( "(\\d+) weird random parts??<br>" );
+	private static final Pattern REANIMATOR_WING_PATTERN = Pattern.compile( "(\\d+) wings??<br>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -2808,6 +2815,8 @@ public abstract class ChoiceManager
 			new Object[] { "Muscle Vacation",
 				       "Mysticality Vacation",
 				       "Moxie Vacation" } ),
+					   
+		// Choice 801 is A Reanimated Conversation
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -3127,6 +3136,18 @@ public abstract class ChoiceManager
 			// Wumpus Hunt
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "The Jungles of Ancient Loathing" );
 
+		case 410:
+		case 411:
+		case 412:
+		case 413:
+		case 414:
+		case 415:
+		case 416:
+		case 417:
+		case 418:
+			// The Barracks
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "The Barracks" );
+
 		case 442:
 			// A Moment of Reflection
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Rabbit Hole" );
@@ -3426,7 +3447,12 @@ public abstract class ChoiceManager
 		case 791:
 			// Legend of the Temple in the Hidden City
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Legend of the Temple in the Hidden City");
+
+		case 801:
+			// A Reanimated Conversation
+			return ChoiceManager.dynamicChoiceSpoilers( choice, "A Reanimated Conversation" );
 		}
+			
 		return null;
 	}
 
@@ -3627,6 +3653,20 @@ public abstract class ChoiceManager
 			// Wumpus Hunt
 			return WumpusManager.dynamicChoiceOptions( ChoiceManager.lastResponseText );
 
+		case 410:
+		case 411:
+		case 412:
+		case 413:
+		case 414:
+		case 415:
+		case 416:
+		case 417:
+		case 418:
+			// The Barracks
+			result = new Object[ 3 ];
+			result = HaciendaManager.getSpoilers( choice );
+			return result;
+			
 		case 442:
 			// A Moment of Reflection
 			result = new Object[ 6 ];
@@ -4923,6 +4963,19 @@ public abstract class ChoiceManager
 			return result;
 		}
 
+		case 801:
+		
+			// A Reanimated Conversation
+			result = new String[ 7 ];
+			result[ 0 ] = "skulls increase meat drops";
+			result[ 1 ] = "arms deal extra damage";
+			result[ 2 ] = "legs increase item drops";
+			result[ 3 ] = "wings sometimes delevel at start of combat";
+			result[ 4 ] = "weird parts sometimes block enemy attacks";
+			result[ 5 ] = "get rid of all collected parts";
+			result[ 6 ] = "no changes";
+			return result;
+
 		}
 		return null;
 	}
@@ -5534,6 +5587,15 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+
+		case 413:
+		case 414:
+		case 415:
+		case 416:
+		case 417:
+		case 418:
+			HaciendaManager.parseRoom( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
+			break;
 
 		case 443:
 			// Chess Puzzle
@@ -6353,6 +6415,18 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "relocatePygmyJanitor", KoLCharacter.getAscensions() );
 			}
 			return;			
+
+		case 801:
+			// A Reanimated Conversation
+			if ( ChoiceManager.lastDecision == 6 )
+			{
+				Preferences.setInteger( "reanimatorArms", 0 );
+				Preferences.setInteger( "reanimatorLegs", 0 );
+				Preferences.setInteger( "reanimatorSkulls", 0 );
+				Preferences.setInteger( "reanimatorWeirdParts", 0 );
+				Preferences.setInteger( "reanimatorWings", 0 );
+			}
+			return;		
 		}
 
 		// Certain choices cost meat or items when selected
@@ -7177,6 +7251,57 @@ public abstract class ChoiceManager
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SKULL_CAPACITOR, -1 ) );
 			}
 			break;
+			
+		case 801:
+		{
+			// A Reanimated Conversation
+			Matcher matcher = ChoiceManager.REANIMATOR_ARM_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "reanimatorArms", StringUtilities.parseInt( matcher.group(1) ) );
+			}
+			else
+			{
+				Preferences.setInteger( "reanimatorArms", 0 );
+			}
+			matcher = ChoiceManager.REANIMATOR_LEG_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "reanimatorLegs", StringUtilities.parseInt( matcher.group(1) ) );
+			}
+			else
+			{
+				Preferences.setInteger( "reanimatorLegs", 0 );
+			}
+			matcher = ChoiceManager.REANIMATOR_SKULL_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "reanimatorSkulls", StringUtilities.parseInt( matcher.group(1) ) );
+			}
+			else
+			{
+				Preferences.setInteger( "reanimatorSkulls", 0 );
+			}
+			matcher = ChoiceManager.REANIMATOR_WEIRDPART_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "reanimatorWeirdParts", StringUtilities.parseInt( matcher.group(1) ) );
+			}
+			else
+			{
+				Preferences.setInteger( "reanimatorWeirdParts", 0 );
+			}
+			matcher = ChoiceManager.REANIMATOR_WING_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "reanimatorWings", StringUtilities.parseInt( matcher.group(1) ) );
+			}
+			else
+			{
+				Preferences.setInteger( "reanimatorWings", 0 );
+			}
+			break;
+		}
 		}
 	}
 
@@ -8916,6 +9041,7 @@ public abstract class ChoiceManager
 			case 767: // Tales of Dread
 			case 774: // Opening up the Folder Holder
 			case 793: // Welcome to The Shore, Inc.
+			case 801: // A Reanimated Conversation
 				ChoiceManager.canWalkAway = true;
 				break;
 

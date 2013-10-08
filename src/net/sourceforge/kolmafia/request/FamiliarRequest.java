@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -227,6 +229,13 @@ public class FamiliarRequest
 
 		super.run();
 
+		if ( this.changeTo.getId() == FamiliarPool.REANIMATOR && !this.enthrone )
+		{
+			// Visit chat to familiar page to get current parts
+			KoLmafia.updateDisplay( "Getting current parts information for " + this.changeTo.getName() + " the " + this.changeTo.getRace() + "." );
+			RequestThread.postRequest( new GenericRequest( "main.php?talktoreanimator=1" ) );
+		}
+		
 		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
 		// If we want the new familiar to be naked, unequip and return
 		if ( unequip )

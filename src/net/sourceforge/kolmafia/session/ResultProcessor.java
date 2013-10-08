@@ -74,6 +74,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.HaciendaManager;
+
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1493,6 +1495,18 @@ public class ResultProcessor
 
 		case ItemPool.DECODED_CULT_DOCUMENTS:
 			ResultProcessor.processItem( ItemPool.CULT_MEMO, -5 );
+			break;
+
+		// If you acquire this item you've just completed Nemesis quest
+		// Contents of Hacienda for Accordion Thief changes
+		case ItemPool.BELT_BUCKLE_OF_LOPEZ:
+			HaciendaManager.questCompleted();
+		case ItemPool.INFERNAL_SEAL_CLAW:
+		case ItemPool.TURTLE_POACHER_GARTER:
+		case ItemPool.SPAGHETTI_BANDOLIER:
+		case ItemPool.SAUCEBLOB_BELT:
+		case ItemPool.NEW_WAVE_BLING:
+			Preferences.setString( "questG04Nemesis", "finished" );
 			break;
 
 		case ItemPool.PIXEL_CHAIN_WHIP:

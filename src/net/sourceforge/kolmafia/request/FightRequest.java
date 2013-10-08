@@ -2839,6 +2839,59 @@ public class FightRequest
 				int dec = KoLCharacter.hasEquipped( ItemPool.SPIRIT_SOCKET_SET, EquipmentManager.FAMILIAR ) ? 1 : 2;
 				Preferences.decrement( "_cheerleaderSteam", dec, 0 );
 				break;
+			
+			case FamiliarPool.REANIMATOR:
+				if ( responseText.contains( "injects an arm" )
+					|| responseText.contains( "reanimates an arm" )
+					|| responseText.contains( "injects one of your opponent's arms" )
+					|| responseText.contains( "injects the arm" )
+					|| responseText.contains( "arm drags itself off" )
+					|| responseText.contains( "grabs  your opponent's left arm" )
+					|| responseText.contains( "reanimate an arm" )
+					|| responseText.contains( "reanimates one of your opponent's arms" )
+					|| responseText.contains( "grabs the arm and reanimates it" ) )
+				{
+					Preferences.increment( "reanimatorArms", 1 );
+				}
+				else if ( responseText.contains( "injects one of your opponent's legs" )
+					|| responseText.contains( "animates one of your opponent's legs" )
+					|| responseText.contains( "severs one of your opponent's legs" )
+					|| responseText.contains( "This leg is precisely what the swarm needs!" )
+					|| responseText.contains( "grabs a right leg to animate" ) )
+				{
+					Preferences.increment( "reanimatorLegs", 1 );
+				}
+				else if ( responseText.contains( "grabs  your opponent's head" )
+					|| responseText.contains( "grabs your  your opponent's head" )
+					|| responseText.contains( "lops off  your opponent's head" )
+					|| responseText.contains( "takes a skull to use later" ) )
+				{
+					Preferences.increment( "reanimatorSkulls", 1 );
+				}
+				else if ( responseText.contains( "grabs a part off  your opponent" )
+					|| responseText.contains( "grabs a chunk of  your opponent" )
+					|| responseText.contains( "animates a weird bit of  your opponent" )
+					|| responseText.contains( "animates a weird part from  your opponent" )
+					|| responseText.contains( "animates a weird part of  your opponent" )
+					|| responseText.contains( "animates a...thing...from your opponent" )
+					|| responseText.contains( "animates an unconventional part of  your opponent" )
+					|| responseText.contains( "cuts a chunk off of  your opponent" ) )
+				{
+					Preferences.increment( "reanimatorWeirdParts", 1 );
+				}
+				else if ( responseText.contains( "yanks off one of your opponent's wings" )
+					|| responseText.contains( "into one of your opponent's wings" )
+					|| responseText.contains( "The wing detaches" )
+					|| responseText.contains( "wing would be a perfect addition" )
+					|| responseText.contains( "reanimates a wing" )
+					|| responseText.contains( "reanimates one of your opponent's wings" )
+					|| responseText.contains( "takes one of your opponent's wings" )
+					|| responseText.contains( "injects one of your opponent's wings" )
+					|| responseText.contains( "wing is aerodynamically perfect" ) )
+				{
+					Preferences.increment( "reanimatorWings", 1 );
+				}
+				break;
 			}
 
 			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.HATSEAT, 1 ) ) &&

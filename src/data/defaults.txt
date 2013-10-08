@@ -433,6 +433,7 @@ user	grimoire3Summons	0
 user	guardTurtlesFreed	0
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
+user	haciendaLayout	000000000000000000
 user	heroDonationBoris	0
 user	heroDonationJarlsberg	0
 user	heroDonationSneakyPete	0
@@ -706,6 +707,11 @@ user	raveCombo4
 user	raveCombo5
 user	raveCombo6
 user	reagentSummons	0
+user	reanimatorArms	0
+user	reanimatorLegs	0
+user	reanimatorSkulls	0
+user	reanimatorWeirdParts	0
+user	reanimatorWings	0
 user	recentLocations	5
 user	recoveryScript
 user	relayCounters
