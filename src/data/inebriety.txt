@@ -64,6 +64,7 @@ bottle of pete's sake	3	2	decent	4-8	0	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 bottle of pinot renoir	2	4	good	4-8	30	18	0
 bottle of popskull	2	1	decent	2-4	0	0	0	lose 3 HP
 bottle of professor beer	2	6	EPIC	0	0	0	0
+bottle of race car red	3	11	EPIC	0	0	0	0
 bottle of rapier witbier	2	6	EPIC	0	0	0	0
 bottle of realpagne	2	2	awesome	5-8	0	0	12-18	10 The Real Deal (+20 HP/MP regen)
 bottle of rum	3	1	crappy	3	0	0	0

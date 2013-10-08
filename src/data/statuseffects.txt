@@ -1368,8 +1368,8 @@
 1367	Pride of the Puffin	trophy.gif	e2c20a6b5f99d594264e60b9aff4e14b	cast 1 Pride of the Puffin
 1368	Fightin' Drunk	swords.gif	95a03bb4a245fae880619a84a262fae0	drink 1 bottle of Old Pugilist
 1369	Thinkin' Drunk	realbrain.gif	dd3c0e4196e9fda4a1fc9c4c83cb810c	drink 1 bottle of Professor Beer
-1370
-1371
+1370	Jokin' Drunk	hahahaha.gif	98ec5db24e78e90023980da24b9a44ac	drink 1 bottle of Rapier Witbier
+1371	Flyin' Drunk	wings.gif	e25fcfcce0a9b70f094f65daef95a6d6	drink 1 bottle of Race Car Red
 1372	Covetin' Drunk	dollarsign.gif	e0ef3fd85372e5a92b55f34cf067e56e	drink 1 bottle of Greedy Dog
 1373	Dancin' Drunk	dance2.gif	6f3566f9e7fd09ffaaf9bd160d0d2a2d	drink 1 bottle of Lambada Lambic
 1374
