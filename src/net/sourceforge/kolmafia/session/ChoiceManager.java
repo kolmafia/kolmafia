@@ -2815,6 +2815,31 @@ public abstract class ChoiceManager
 			new Object[] { "Muscle Vacation",
 				       "Mysticality Vacation",
 				       "Moxie Vacation" } ),
+		
+		// Choice 794 is Once More Unto the Junk
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure794", "The Old Landfill",
+			new Object[] { "The Bathroom of Ten Men",
+				       "The Den of Iquity",
+				       "Let's Workshop This a Little" } ),
+		// Choice 795 is The Bathroom of Ten Men
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure795", "The Bathroom of Ten Men",
+			new Object[] { new Option( "old claw-foot bathtub", "old claw-foot bathtub" ),
+				       "fight junksprite",
+				       "make lots of noise" } ),
+		// Choice 796 is The Den of Iquity
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure796", "The Den of Iquity",
+			new Object[] { "make lots of noise",
+				       new Option( "old clothesline pole", "old clothesline pole" ),
+				       new Option( "tangle of copper wire", "tangle of copper wire" ) } ),
+		// Choice 797 is Let's Workshop This a Little
+		new ChoiceAdventure(
+			"Woods", "choiceAdventure797", "Let's Workshop This a Little",
+			new Object[] { new Option( "Junk-Bond", "Junk-Bond" ),
+				       "make lots of noise",
+				       new Option( "antique cigar sign", "antique cigar sign" ) } ),
 					   
 		// Choice 801 is A Reanimated Conversation
 	};
