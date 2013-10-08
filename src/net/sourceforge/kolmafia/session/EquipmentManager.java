@@ -1893,11 +1893,7 @@ public class EquipmentManager
 		EquipmentManager.setEquipment( equipment );
 		EquipmentManager.setEquipment( EquipmentManager.CARD_SLEEVE, equipment[ EquipmentManager.CARD_SLEEVE ] );
 
-		// Check if familiar equipment is locked
-		EquipmentManager.lockedFamiliarItem = 
-			JSON.getBoolean( "locked" ) ?
-			equipment[ EquipmentManager.FAMILIAR ] :
-			EquipmentRequest.UNEQUIP;
+		// *** Locked familiar item
 
 		EquipmentManager.setFakeHands( fakeHands );
 
