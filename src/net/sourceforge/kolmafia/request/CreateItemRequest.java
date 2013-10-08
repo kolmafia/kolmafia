@@ -1191,7 +1191,6 @@ public class CreateItemRequest
 	@Override
 	public int getAdventuresUsed()
 	{
-		this.reconstructFields();
 		return CreateItemRequest.getAdventuresUsed( this );
 	}
 
