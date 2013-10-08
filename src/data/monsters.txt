@@ -346,7 +346,7 @@ dirty old lihc	dirtyoldlihc.gif	Atk: 60 Def: 54 HP: 50 Init: 50 E: spooky P: und
 dirty thieving brigand	bandit.gif	Atk: 169 Def: 153 HP: 185 Init: 50 Meat: 800-1200 P: dude	brigand brittle (c0)
 disease-in-the-box	dinbox.gif	Atk: 18 Def: 16 HP: 14 Init: 80 P: construct	box (30)	disease (40)
 diving belle	divingbelle.gif	Atk: 400 Def: 450 HP: 750 Init: 50 E: spooky P: undead	diving muff (n3)	salinated mint julep (32)	water-polo mitt (c0)	comb jelly (0)
-Doctor Oh, the Junksprite Boss	js_oh.gif	Atk: 40 Def: 40 HP: 60 Init: -10000 P: humanoid	electric car battery (n100)
+Doctor Oh, the Junksprite Boss	js_oh.gif	Atk: 40 Def: 40 HP: 60 Init: -10000 P: humanoid	eternal car battery (n100)
 dodecapede	pede.gif	Atk: 12 Def: 10 HP: 8 Init: 60 "A Little Bit Poisoned" P: bug	clutch of dodecapede eggs (0)
 Don Crimbo		HP: 1000000 Def: 89999 Atk: 99999 Init: 100 Phys: 100
 dopey 7-Foot Dwarf	dwarf_dopey.gif	Atk: 53 Def: 47 HP: 40 Init: 50 Meat: 32-48 P: humanoid	miner's helmet (9)
