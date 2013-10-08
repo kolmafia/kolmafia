@@ -346,6 +346,7 @@ dirty old lihc	dirtyoldlihc.gif	Atk: 60 Def: 54 HP: 50 Init: 50 E: spooky P: und
 dirty thieving brigand	bandit.gif	Atk: 169 Def: 153 HP: 185 Init: 50 Meat: 800-1200 P: dude	brigand brittle (c0)
 disease-in-the-box	dinbox.gif	Atk: 18 Def: 16 HP: 14 Init: 80 P: construct	box (30)	disease (40)
 diving belle	divingbelle.gif	Atk: 400 Def: 450 HP: 750 Init: 50 E: spooky P: undead	diving muff (n3)	salinated mint julep (32)	water-polo mitt (c0)	comb jelly (0)
+Doctor Oh, the Junksprite Boss	js_oh.gif	Atk: 40 Def: 40 HP: 60 Init: -10000 P: humanoid	electric car battery (n100)
 dodecapede	pede.gif	Atk: 12 Def: 10 HP: 8 Init: 60 "A Little Bit Poisoned" P: bug	clutch of dodecapede eggs (0)
 Don Crimbo		HP: 1000000 Def: 89999 Atk: 99999 Init: 100 Phys: 100
 dopey 7-Foot Dwarf	dwarf_dopey.gif	Atk: 53 Def: 47 HP: 40 Init: 50 Meat: 32-48 P: humanoid	miner's helmet (9)
@@ -561,6 +562,9 @@ Johnringo, the Netdragger	merkindragger2.gif	Atk: 1250 Def: 1200 HP: 1500 Init: 
 jungle baboon	orangutan.gif	Atk: 50 Def: 54 HP: 50 Init: 80 P: beast	banana peel (0)	glass of baboon milk (0)
 jungle scabie	scabie_jungle.gif	Atk: 90 Def: 81 HP: 100 Init: 60 P: bug	big glob of skin (0)
 Junk	thejunk.gif	Atk: 159 Def: 143 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
+junksprite bender	js_bender.gif	Atk: 32 Def: 33 HP: 25 Init: -10000 P: humanoid
+junksprite melter	js_melter.gif	Atk: 37 Def: 32 HP: 21 Init: -10000 P: humanoid
+junksprite sharpener	js_sharpener.gif	Atk: 37 Def: 30 HP: 22 Init: -10000 P: humanoid
 juvenile delinquent orquette	orquette2.gif	Atk: 50 Def: 45 HP: 100 Init: 75 E: sleaze P: orc	orquette's phone number (c100)
 Keese	keese.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast	blue pixel (70)	blue pixel (70)	blue pixel (70)
 killer clownfish	clownfish.gif	Atk: 500 Def: 450 HP: 700 Init: 75 E: sleaze Meat: 240-360 P: horror	high-pressure seltzer bottle (n25)	midget clownfish (c1)	rough fish scale (n5)

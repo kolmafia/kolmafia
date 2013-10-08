@@ -685,7 +685,9 @@ public class KoLAdventure
 
 		if ( this.zone.equals( "Island" ) )
 		{
-			this.isValidAdventure = InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) || InventoryManager.hasItem( ItemPool.SKIFF );
+			this.isValidAdventure = InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) ||
+							InventoryManager.hasItem( ItemPool.SKIFF ) ||
+							InventoryManager.hasItem( ItemPool.JUNK_JUNK );
 			if ( this.isValidAdventure )
 			{
 				return;

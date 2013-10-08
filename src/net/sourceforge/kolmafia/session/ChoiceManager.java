@@ -5346,6 +5346,10 @@ public abstract class ChoiceManager
 			TurnCounter.startCounting( 40, "Silent Invasion window end loc=*", "rparen.gif" );
 			break;
 
+		case 794:
+			ResultProcessor.removeItem( ItemPool.FUNKY_JUNK_KEY );
+			break;
+
 		}
 	}
 
@@ -6285,8 +6289,8 @@ public abstract class ChoiceManager
 			{
 				Preferences.increment( "_kolhsSavedByTheBell", 1 );
 			}
-			return;			
-		
+			return;
+
 		case 780:
 			// Action Elevator
 			if ( ChoiceManager.lastDecision == 1 && text.contains( "penthouse is empty now" ) )
@@ -6370,7 +6374,7 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "hiddenOfficeProgress", 6 );
 			}
 			return;			
-		
+
 		case 787:
 			// Fire when Ready
 			if ( ChoiceManager.lastDecision == 1 )
@@ -6388,8 +6392,8 @@ public abstract class ChoiceManager
 			}
 			return;			
 
- 		case 788:
- 			// Life is Like a Cherry of Bowls
+		case 788:
+			// Life is Like a Cherry of Bowls
 			if ( ChoiceManager.lastDecision == 1 && text.contains( "without a frustrated ghost to torment" ) )
 			{
 				if ( Preferences.getInteger( "hiddenBowlingAlleyProgress" ) < 7 )
@@ -6399,14 +6403,14 @@ public abstract class ChoiceManager
 			}
 			else if ( ChoiceManager.lastDecision == 1 )
 			{
- 				ResultProcessor.removeItem( ItemPool.BOWLING_BALL );
+				ResultProcessor.removeItem( ItemPool.BOWLING_BALL );
 				int bowlCount = Preferences.getInteger( "hiddenBowlingAlleyProgress" );
 				if ( bowlCount < 6 )
 				{
 					Preferences.setInteger( "hiddenBowlingAlleyProgress" , ( bowlCount < 2 ? 2 : bowlCount + 1 ) );
 				}
- 			}
- 			return;
+			}
+			return;
 
 		case 789:
 			// Where Does The Lone Ranger Take His Garbagester?
@@ -6414,7 +6418,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "relocatePygmyJanitor", KoLCharacter.getAscensions() );
 			}
-			return;			
+			return;
 
 		case 801:
 			// A Reanimated Conversation

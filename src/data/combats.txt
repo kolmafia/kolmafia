@@ -263,6 +263,7 @@ The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanct
 The Nightmare Meatrealm	100	bacon snake	cold cutter	groast	pork butterfly	salaminder	The Beefhemoth: 0
 The Noob Cave	100	crate
 The Oasis	100	blur	oasis monster	rolling stone	swarm of scarab beatles
+The Old Landfill	100	junksprite bender	junksprite melter	junksprite sharpener	Doctor Oh, the Junksprite Boss: 0
 The Old Man's Bathtime Adventures	-1	fearsome giant squid	ferocious roc	giant man-eating shark	Bristled Man-O-War	The Cray-Kin	Deadly Hydra
 The Outer Compound	100	guard turtle
 The Outskirts of Cobb's Knob	80	Knob Goblin Assistant Chef	sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team

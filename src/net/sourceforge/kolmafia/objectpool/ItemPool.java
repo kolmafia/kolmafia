@@ -1841,6 +1841,10 @@ public class ItemPool
 	public static final int SCORCHED_STONE_SPHERE = 6700;
 	public static final int STONE_TRIANGLE = 6701;
 	public static final int SHIP_TRIP_SCRIP = 6725;
+	public static final int FUNKY_JUNK_KEY = 6730;
+	public static final int WORSE_HOMES_GARDENS = 6731;
+	public static final int JUNK_JUNK = 6735;
+	public static final int ETERNAL_CAR_BATTERY = 6741;
 	public static final int BEER_SEEDS = 6751;
 	public static final int BARLEY = 6752;
 	public static final int HOPS = 6753;
