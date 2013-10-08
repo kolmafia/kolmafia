@@ -206,7 +206,7 @@ public class LoginRequest
 		byte[] nonNegativeBytes = new byte[ bytes.length + 1 ];
 		System.arraycopy( bytes, 0, nonNegativeBytes, 1, bytes.length );
 
-		StringBuffer hexString = new StringBuffer( 64 );
+		StringBuilder hexString = new StringBuilder( 64 );
 
 		hexString.append( "00000000000000000000000000000000" );
 		hexString.append( new BigInteger( nonNegativeBytes ).toString( 16 ) );
@@ -262,7 +262,6 @@ public class LoginRequest
 
 		if ( this.responseCode != 200 )
 		{
-			KoLmafia.updateDisplay( MafiaState.ABORT, "Could not connect to the Kingdom of Loathing." );
 			return;
 		}
 
