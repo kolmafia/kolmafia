@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -523,6 +524,13 @@ public class GearChangeFrame
 
 			rows.add( new VerifiableElement( "Card Sleeve: ", GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ] ) );
 
+			rows.add( new VerifiableElement() );
+			rows.add( new VerifiableElement( "Folder: ", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER1 ] ) );
+			rows.add( new VerifiableElement( "Folder: ", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER2 ] ) );
+			rows.add( new VerifiableElement( "Folder: ", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER3 ] ) );
+			rows.add( new VerifiableElement( "Folder: ", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER4 ] ) );
+			rows.add( new VerifiableElement( "Folder: ", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER5 ] ) );
+
 			VerifiableElement[] elements = new VerifiableElement[ rows.size() ];
 			elements = (VerifiableElement[])rows.toArray( elements );
 
@@ -546,6 +554,16 @@ public class GearChangeFrame
 
 			// EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).getItemId() == ItemPool.CARD_SLEEVE
 			GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ].setEnabled( false );
+
+			AdventureResult folderHolder = ItemPool.get( ItemPool.FOLDER_HOLDER, 1 );
+			boolean hasFolderHolder = folderHolder.getCount( KoLConstants.inventory ) > 0 || KoLCharacter.hasEquipped( folderHolder );
+			boolean inHighSchool = KoLCharacter.inHighschool();
+
+			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER1 ].setEnabled( hasFolderHolder );
+			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER2 ].setEnabled( hasFolderHolder );
+			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER3 ].setEnabled( hasFolderHolder );
+			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER4 ].setEnabled( hasFolderHolder && inHighSchool );
+			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER5 ].setEnabled( hasFolderHolder && inHighSchool );
 		}
 
 		@Override
@@ -592,6 +610,7 @@ public class GearChangeFrame
 
 		// *** fake hands
 		// *** card sleeve
+		// *** folders
 	}
 
 	public static final void validateSelections()

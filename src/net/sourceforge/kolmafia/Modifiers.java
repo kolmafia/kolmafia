@@ -2801,6 +2801,8 @@ public class Modifiers
 		Map containers = new TreeMap();
 		Map famitems = new TreeMap();
 		Map bedazzlements = new TreeMap();
+		Map cards = new TreeMap();
+		Map folders = new TreeMap();
 		Map freepulls = new TreeMap();
 		Map potions = new TreeMap();
 		Map wikiname = new TreeMap();
@@ -2842,6 +2844,12 @@ public class Modifiers
 				break;
 			case KoLConstants.CONSUME_STICKER:
 				bedazzlements.put( name, null );
+				break;
+			case KoLConstants.CONSUME_CARD:
+				cards.put( name, null );
+				break;
+			case KoLConstants.CONSUME_FOLDER:
+				folders.put( name, null );
 				break;
 			default:
 				Modifiers mods = Modifiers.getModifiers( name );
@@ -3045,6 +3053,10 @@ public class Modifiers
 		Modifiers.writeModifierCategory( writer, familiars, "Familiars" );
 		writer.println();
 		Modifiers.writeModifierCategory( writer, bedazzlements, "Bedazzlements" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, cards, "Alice's Army" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, folders, "Folder" );
 		writer.println();
 		Modifiers.writeModifierCategory( writer, campground, "Campground equipment" );
 		writer.println();

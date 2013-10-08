@@ -4369,6 +4369,16 @@ public abstract class KoLCharacter
 				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.STICKER2 ) ||
 				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.STICKER3 );
 
+		case KoLConstants.CONSUME_CARD:
+			return	KoLCharacter.hasEquipped( equipment, item, EquipmentManager.CARD_SLEEVE );
+
+		case KoLConstants.CONSUME_FOLDER:
+			return	KoLCharacter.hasEquipped( equipment, item, EquipmentManager.FOLDER1 ) ||
+				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.FOLDER2 ) ||
+				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.FOLDER3 ) ||
+				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.FOLDER4 ) ||
+				KoLCharacter.hasEquipped( equipment, item, EquipmentManager.FOLDER5 );
+
 		case KoLConstants.EQUIP_FAMILIAR:
 			return KoLCharacter.hasEquipped( equipment, item, EquipmentManager.FAMILIAR );
 		}
@@ -4423,6 +4433,24 @@ public abstract class KoLCharacter
 				EquipmentManager.STICKER2 :
 			KoLCharacter.hasEquipped( item, EquipmentManager.STICKER3 ) ?
 				EquipmentManager.STICKER3 :
+			EquipmentManager.NONE;
+
+		case KoLConstants.CONSUME_CARD:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.CARD_SLEEVE ) ?
+				EquipmentManager.CARD_SLEEVE :
+			EquipmentManager.NONE;
+
+		case KoLConstants.CONSUME_FOLDER:
+			return KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER1 ) ?
+				EquipmentManager.FOLDER1 :
+			KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER2 ) ?
+				EquipmentManager.FOLDER2 :
+			KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER3 ) ?
+				EquipmentManager.FOLDER3 :
+			KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER4 ) ?
+				EquipmentManager.FOLDER4 :
+			KoLCharacter.hasEquipped( item, EquipmentManager.FOLDER5 ) ?
+				EquipmentManager.FOLDER5 :
 			EquipmentManager.NONE;
 
 		case KoLConstants.EQUIP_FAMILIAR:

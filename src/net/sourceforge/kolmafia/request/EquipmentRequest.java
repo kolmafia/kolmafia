@@ -533,6 +533,12 @@ public class EquipmentRequest
 		case KoLConstants.CONSUME_STICKER:
 			return EquipmentRequest.availableSticker();
 
+		case KoLConstants.CONSUME_CARD:
+			return EquipmentManager.CARD_SLEEVE;
+
+		case KoLConstants.CONSUME_FOLDER:
+			return EquipmentRequest.availableFolder();
+
 		default:
 			return -1;
 		}
@@ -562,28 +568,46 @@ public class EquipmentRequest
 		return EquipmentManager.ACCESSORY1;
 	}
 
+	private static final int availableSlot( final int [] slots )
+	{
+		for ( int i = 0; i < slots.length; ++i )
+		{
+			int slot = slots[ i ];
+			AdventureResult test = EquipmentManager.getEquipment( slot );
+			if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
+			{
+				return slot;
+			}
+		}
+
+		// All slots are in use.  Abort rather than risk peeling the wrong one.
+		return -1;
+	}
+
+	public static final int [] STICKER_SLOTS = new int[]
+	{
+		EquipmentManager.STICKER1,
+		EquipmentManager.STICKER2,
+		EquipmentManager.STICKER3,
+	};
+
 	private static final int availableSticker()
 	{
-		AdventureResult test = EquipmentManager.getEquipment( EquipmentManager.STICKER1 );
-		if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
-		{
-			return EquipmentManager.STICKER1;
-		}
+		return EquipmentRequest.availableSlot( STICKER_SLOTS );
+	}
 
-		test = EquipmentManager.getEquipment( EquipmentManager.STICKER2 );
-		if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
-		{
-			return EquipmentManager.STICKER2;
-		}
+	public static final int [] FOLDER_SLOTS = new int[]
+	{
+		EquipmentManager.FOLDER1,
+		EquipmentManager.FOLDER2,
+		EquipmentManager.FOLDER3,
+		EquipmentManager.FOLDER4,
+		EquipmentManager.FOLDER5,
+	};
 
-		test = EquipmentManager.getEquipment( EquipmentManager.STICKER3 );
-		if ( test == null || test.equals( EquipmentRequest.UNEQUIP ) )
-		{
-			return EquipmentManager.STICKER3;
-		}
-
-		// All sticker slots are in use.  Abort rather than risk peeling the wrong one.
-		return -1;
+	private static final int availableFolder()
+	{
+		return EquipmentRequest.availableSlot( FOLDER_SLOTS );
 	}
 
 	public String getOutfitName()

@@ -4,7 +4,7 @@
 #	PRIMARY_USE: none, food, drink, usable, multiple, grow, zap,
 #	familiar, accessory, hat, pants, shirt, weapon, offhand, mp,
 #	message, hp, hpmp, reusable, container, sphere, food helper,
-#	drink helper, card, sticker, guardian
+#	drink helper, sticker, guardian, card, folder
 #
 #	SECONDARY_USE: usable, multiple, reusable, combat, combat
 #	reusable, single, solo, curse, bounty, candy
@@ -6632,34 +6632,34 @@
 6615	Cold One	700464462	coldone.gif	drink	d	5
 6616	spaghetti breakfast	364296536	spaghetti.gif	food	d	5
 6617	over-the-shoulder Folder Holder	868830919	folderholder2.gif	accessory		0
-6618	folder (red)	803733525	otherimages/folders/folder01.gif	usable	t,d	5
-6619	folder (blue)	968651348	otherimages/folders/folder02.gif	usable	t,d	5
-6620	folder (green)	984869155	otherimages/folders/folder03.gif	usable	t,d	5
-6621	folder (magenta)	302387587	otherimages/folders/folder04.gif	usable	t,d	5
-6622	folder (cyan)	216029862	otherimages/folders/folder05.gif	usable	t,d	5
-6623	folder (yellow)	475171939	otherimages/folders/folder06.gif	usable	t,d	5
-6624	folder (smiley face)	792818237	otherimages/folders/folder07.gif	usable	t,d	5
-6625	folder (wizard)	643671224	otherimages/folders/folder08.gif	usable	t,d	5
-6626	folder (space skeleton)	777758783	otherimages/folders/folder09.gif	usable	t,d	5
-6627	folder (D-Team)	730238914	otherimages/folders/folder10.gif	usable	t,d	5
-6628	folder (Ex-Files)	456123625	otherimages/folders/folder11.gif	usable	t,d	5
-6629	folder (skull and crossbones)	838609166	otherimages/folders/folder12.gif	usable	t,d	5
-6630	folder (Knight Writer)	466701064	otherimages/folders/folder13.gif	usable	t,d	5
-6631	folder (Jackass Plumber)	155094068	otherimages/folders/folder14.gif	usable	t,d	5
-6632	folder (holographic fractal)	314549869	otherimages/folders/folder15.gif	usable	t,d	5
-6633	folder (barbarian)	617183321	otherimages/folders/folder16.gif	usable	t,d	5
-6634	folder (rainbow unicorn)	810587327	otherimages/folders/folder17.gif	usable	t,d	5
-6635	folder (Seawolf)	925690280	otherimages/folders/folder18.gif	usable	t,d	5
-6636	folder (dancing dolphins)	189052288	otherimages/folders/folder19.gif	usable	t,d	5
-6637	folder (catfish)	722128507	otherimages/folders/folder20.gif	usable	t,d	5
-6638	folder (tranquil landscape)	595837547	otherimages/folders/folder21.gif	usable	t,d	5
-6639	folder (owl)	898277246	otherimages/folders/folder22.gif	usable	t,d	5
-6640	folder (Stinky Trash Kid)	680871241	otherimages/folders/folder23.gif	usable	t,d	5
-6641	folder (sports car)	507166502	otherimages/folders/folder24.gif	usable	t,d	5
-6642	folder (sportsballs)	695645927	otherimages/folders/folder25.gif	usable	t,d	5
-6643	folder (heavy metal)	479340389	otherimages/folders/folder26.gif	usable	t,d	5
-6644	folder (Yedi)	329538987	otherimages/folders/folder27.gif	usable	t,d	5
-6645	folder (KOLHS)	183683198	otherimages/folders/folder28.gif	usable	t,d	5
+6618	folder (red)	803733525	otherimages/folders/folder01.gif	folder	t,d	5
+6619	folder (blue)	968651348	otherimages/folders/folder02.gif	folder	t,d	5
+6620	folder (green)	984869155	otherimages/folders/folder03.gif	folder	t,d	5
+6621	folder (magenta)	302387587	otherimages/folders/folder04.gif	folder	t,d	5
+6622	folder (cyan)	216029862	otherimages/folders/folder05.gif	folder	t,d	5
+6623	folder (yellow)	475171939	otherimages/folders/folder06.gif	folder	t,d	5
+6624	folder (smiley face)	792818237	otherimages/folders/folder07.gif	folder	t,d	5
+6625	folder (wizard)	643671224	otherimages/folders/folder08.gif	folder	t,d	5
+6626	folder (space skeleton)	777758783	otherimages/folders/folder09.gif	folder	t,d	5
+6627	folder (D-Team)	730238914	otherimages/folders/folder10.gif	folder	t,d	5
+6628	folder (Ex-Files)	456123625	otherimages/folders/folder11.gif	folder	t,d	5
+6629	folder (skull and crossbones)	838609166	otherimages/folders/folder12.gif	folder	t,d	5
+6630	folder (Knight Writer)	466701064	otherimages/folders/folder13.gif	folder	t,d	5
+6631	folder (Jackass Plumber)	155094068	otherimages/folders/folder14.gif	folder	t,d	5
+6632	folder (holographic fractal)	314549869	otherimages/folders/folder15.gif	folder	t,d	5
+6633	folder (barbarian)	617183321	otherimages/folders/folder16.gif	folder	t,d	5
+6634	folder (rainbow unicorn)	810587327	otherimages/folders/folder17.gif	folder	t,d	5
+6635	folder (Seawolf)	925690280	otherimages/folders/folder18.gif	folder	t,d	5
+6636	folder (dancing dolphins)	189052288	otherimages/folders/folder19.gif	folder	t,d	5
+6637	folder (catfish)	722128507	otherimages/folders/folder20.gif	folder	t,d	5
+6638	folder (tranquil landscape)	595837547	otherimages/folders/folder21.gif	folder	t,d	5
+6639	folder (owl)	898277246	otherimages/folders/folder22.gif	folder	t,d	5
+6640	folder (Stinky Trash Kid)	680871241	otherimages/folders/folder23.gif	folder	t,d	5
+6641	folder (sports car)	507166502	otherimages/folders/folder24.gif	folder	t,d	5
+6642	folder (sportsballs)	695645927	otherimages/folders/folder25.gif	folder	t,d	5
+6643	folder (heavy metal)	479340389	otherimages/folders/folder26.gif	folder	t,d	5
+6644	folder (Yedi)	329538987	otherimages/folders/folder27.gif	folder	t,d	5
+6645	folder (KOLHS)	183683198	otherimages/folders/folder28.gif	folder	t,d	5
 6646
 6647
 6648	slide rule	729302490	sliderule.gif	weapon	t,d	40

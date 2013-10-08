@@ -653,6 +653,7 @@ public class DebugDatabase
 		case KoLConstants.CONSUME_FOOD_HELPER:
 		case KoLConstants.CONSUME_DRINK_HELPER:
 		case KoLConstants.CONSUME_STICKER:
+		case KoLConstants.CONSUME_FOLDER:
 			return descType == KoLConstants.NO_CONSUME ||
 			       descType == KoLConstants.CONSUME_USE;
 		case KoLConstants.CONSUME_CARD:
