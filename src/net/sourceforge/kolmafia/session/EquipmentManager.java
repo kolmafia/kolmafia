@@ -1846,6 +1846,7 @@ public class EquipmentManager
 		//    "cardsleeve":"4968"
 		// },
 		// "stickers":[0,0,0],
+		// "folder_holder":["01","22","12","00","00"]
 		// "locked":false,
 
 		AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray();
@@ -1859,6 +1860,11 @@ public class EquipmentManager
 			if ( slotName.equals( "fakehands" ) )
 			{
 				fakeHands = equip.getInt( slotName );
+				continue;
+			}
+
+			if ( slotName.equals( "cardsleeve" ) )
+			{
 				continue;
 			}
 
