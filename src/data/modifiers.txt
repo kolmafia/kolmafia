@@ -218,7 +218,7 @@ ganger bandana	Muscle Percent: +5, Weapon Damage Percent: +15, Familiar Effect: 
 gasmask	Stench Resistance: +3, Familiar Effect: "1xBarrr, cap 12"
 giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
 goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
-gold crown	Sleaze Resistance: +3, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +10, Familiar Effect: "cap 37"
+gold crown	Sleaze Resistance: +3, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +10, Familiar Effect: "3xGhoul, cap 37"
 goofily-plumed helmet	Familiar Effect: "atk, cap 17"
 googly-ball hat	Mysticality: +10, Experience (Mysticality): +3
 googly-heart hat	Moxie: +10, Experience (Moxie): +3
