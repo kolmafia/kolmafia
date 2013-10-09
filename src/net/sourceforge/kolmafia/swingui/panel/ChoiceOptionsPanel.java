@@ -360,8 +360,8 @@ public class ChoiceOptionsPanel
 		
 		this.hiddenParkSelect = new JComboBox();
 		this.hiddenParkSelect.addItem( "show in browser" );
-		this.hiddenParkSelect.addItem( "relocate pygmy janitors then get random items" );
 		this.hiddenParkSelect.addItem( "get random items" );
+		this.hiddenParkSelect.addItem( "relocate pygmy janitors then get random items" );
 		this.hiddenParkSelect.addItem( "skip adventure" );
 		
 		this.hiddenBowlingAlleySelect = new JComboBox();
