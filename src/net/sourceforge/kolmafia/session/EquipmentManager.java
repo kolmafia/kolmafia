@@ -934,7 +934,11 @@ public class EquipmentManager
 
 	public static final void setFakeHands( final int hands )
 	{
-		EquipmentManager.fakeHandCount = hands;
+		if ( EquipmentManager.fakeHandCount != hands )
+		{
+			EquipmentManager.fakeHandCount = hands;
+			GearChangeFrame.updateFakeHands();
+		}
 	}
 
 	public static final int getStinkyCheeseLevel()

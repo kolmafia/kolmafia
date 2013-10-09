@@ -55,6 +55,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
@@ -69,6 +72,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -84,6 +88,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 
+import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
@@ -108,10 +113,20 @@ public class GearChangeFrame
 	private final SortedListModel weapons = new SortedListModel();
 	private final SortedListModel offhands = new SortedListModel();
 	private final SortedListModel familiars = new SortedListModel();
+
+	private final EquipmentPanel equipmentPanel;
+	private final CustomizablePanel customizablePanel;
+
 	private final OutfitComboBox outfitSelect, customSelect;
 	private final FamiliarComboBox familiarSelect;
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
 	private FamLockCheckbox famLockCheckbox;
+	private FakeHandsSpinner fakeHands;
+
+	private final static AdventureResult fakeHand = ItemPool.get( ItemPool.FAKE_HAND, 1 );
+	private final static AdventureResult crownOfThrones = ItemPool.get( ItemPool.HATSEAT, 1 );
+	private final static AdventureResult cardSleeve = ItemPool.get( ItemPool.CARD_SLEEVE, 1 );
+	private final static AdventureResult folderHolder = ItemPool.get( ItemPool.FOLDER_HOLDER, 1 );
 
 	public GearChangeFrame()
 	{
@@ -143,15 +158,18 @@ public class GearChangeFrame
 				break;
 			}
 
-			this.equipment[ i ] = new EquipmentComboBox( list, i == EquipmentManager.FAMILIAR );
+			this.equipment[ i ] = new EquipmentComboBox( list, i );
 		}
 
 		this.familiarSelect = new FamiliarComboBox( this.familiars );
 		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
 		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
-		this.tabs.addTab( "Equipment", new EquipmentPanel() );
-		this.tabs.addTab( "Customizable", new CustomizablePanel() );
+		this.equipmentPanel = new EquipmentPanel();
+		this.customizablePanel = new CustomizablePanel();
+
+		this.tabs.addTab( "Equipment", equipmentPanel );
+		this.tabs.addTab( "Customizable", this.customizablePanel );
 
 		JPanel gearPanel = new JPanel( new BorderLayout() );
 		gearPanel.add( this.tabs, BorderLayout.CENTER );
@@ -490,8 +508,6 @@ public class GearChangeFrame
 	private class CustomizablePanel
 		extends EquipmentTabPanel
 	{
-		private final AutoHighlightTextField fakeHands;
-
 		public CustomizablePanel()
 		{
 			super( "change gear", new Dimension( 120, 20 ), new Dimension( 300, 20 ) );
@@ -517,8 +533,9 @@ public class GearChangeFrame
 
 			rows.add( new VerifiableElement() );
 
-			this.fakeHands = new AutoHighlightTextField();
-			rows.add( new VerifiableElement( "Fake Hands: ", this.fakeHands ) );
+			GearChangeFrame.this.fakeHands = new FakeHandsSpinner();
+			GearChangeFrame.this.fakeHands.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
+			rows.add( new VerifiableElement( "Fake Hands: ", GearChangeFrame.this.fakeHands ) );
 
 			rows.add( new VerifiableElement() );
 
@@ -547,16 +564,19 @@ public class GearChangeFrame
 		{
 			super.setEnabled( isEnabled );
 
-			// EquipmentManager.getEquipment( EquipmentManager.HAT ).getItemId() == ItemPool.HATSEAT
+			boolean hasCrownOfThrones = GearChangeFrame.crownOfThrones.getCount( KoLConstants.inventory ) > 0 ||
+				KoLCharacter.hasEquipped( GearChangeFrame.crownOfThrones );
 			GearChangeFrame.this.equipment[ EquipmentManager.CROWN_OF_THRONES ].setEnabled( false );
 
-			this.fakeHands.setEnabled( false );
+			boolean hasFakeHands = GearChangeFrame.this.fakeHands.getAvailableFakeHands() > 0;
+			GearChangeFrame.this.fakeHands.setEnabled( isEnabled && hasFakeHands );
 
-			// EquipmentManager.getEquipment( EquipmentManager.OFFHAND ).getItemId() == ItemPool.CARD_SLEEVE
-			GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ].setEnabled( false );
+			boolean hasCardSleeve = GearChangeFrame.cardSleeve.getCount( KoLConstants.inventory ) > 0 ||
+				KoLCharacter.hasEquipped( GearChangeFrame.cardSleeve );
+			GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ].setEnabled( hasCardSleeve );
 
-			AdventureResult folderHolder = ItemPool.get( ItemPool.FOLDER_HOLDER, 1 );
-			boolean hasFolderHolder = folderHolder.getCount( KoLConstants.inventory ) > 0 || KoLCharacter.hasEquipped( folderHolder );
+			boolean hasFolderHolder = GearChangeFrame.folderHolder.getCount( KoLConstants.inventory ) > 0 ||
+				KoLCharacter.hasEquipped( GearChangeFrame.folderHolder );
 			boolean inHighSchool = KoLCharacter.inHighschool();
 
 			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER1 ].setEnabled( hasFolderHolder );
@@ -583,34 +603,42 @@ public class GearChangeFrame
 
 	private void customizeItems()
 	{
-		// Find out what changed
-
-		AdventureResult[] pieces = new AdventureResult[ EquipmentManager.ALL_SLOTS ];
-
-		// Start with first pseudo-slot
-		for ( int i = EquipmentManager.SLOTS; i < pieces.length; ++i )
-		{
-			pieces[ i ] = (AdventureResult) this.equipment[ i ].getSelectedItem();
-			if ( EquipmentManager.getEquipment( i ).equals( pieces[ i ] ) )
-			{
-				pieces[ i ] = null;
-			}
-		}
-
 		// *** Crown of Thrones
 
-		for ( int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i )
+		// Start with first pseudo-slot
+		for ( int i = EquipmentManager.SLOTS; i < EquipmentManager.ALL_SLOTS; ++i )
 		{
-			if ( pieces[ i ] != null )
+			if ( i == EquipmentManager.CROWN_OF_THRONES )
 			{
-				RequestThread.postRequest( new EquipmentRequest( pieces[ i ], i, true ) );
-				pieces[ i ] = null;
+				continue;
+			}
+
+			AdventureResult item = (AdventureResult) this.equipment[ i ].getSelectedItem();
+			if ( !EquipmentManager.getEquipment( i ).equals( item ) )
+			{
+				RequestThread.postRequest( new EquipmentRequest( item, i, true ) );
 			}
 		}
 
-		// *** fake hands
-		// *** card sleeve
-		// *** folders
+		int oldFakeHands = EquipmentManager.getFakeHands();
+		int newFakeHands = ((Integer)this.fakeHands.getValue()).intValue();
+		if ( oldFakeHands != newFakeHands )
+		{
+			// If we want fewer fake hands than we currently have, unequip one - which will unequip all of them.
+			if ( newFakeHands < oldFakeHands )
+			{
+				EquipmentRequest request = new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.FAKEHAND );
+				RequestThread.postRequest( request );
+				oldFakeHands = 0;
+			}
+
+			// Equip fake hands one at a time until we have enough
+			while ( oldFakeHands++ < newFakeHands )
+			{
+				EquipmentRequest request = new EquipmentRequest( GearChangeFrame.fakeHand, EquipmentManager.FAKEHAND );
+				RequestThread.postRequest( request );
+			}
+		}
 	}
 
 	public static final void validateSelections()
@@ -683,14 +711,25 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.offhands.clear();
 	}
 
+	public static final void updateFakeHands()
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+
+		GearChangeFrame.INSTANCE.fakeHands.updateFakeHands();
+	}
+
 	private class EquipmentComboBox
 		extends JComboBox
 	{
-		public EquipmentComboBox( final LockableListModel slot, boolean familiarItems )
+		public EquipmentComboBox( final LockableListModel model, final int slot )
 		{
-			super( slot );
+			super( model );
 
-			DefaultListCellRenderer renderer = familiarItems ?
+			DefaultListCellRenderer renderer =
+				( slot == EquipmentManager.FAMILIAR ) ?
 				ListCellRendererFactory.getFamiliarEquipmentRenderer() :
 				ListCellRendererFactory.getUsableEquipmentRenderer();
 
@@ -1124,6 +1163,11 @@ public class GearChangeFrame
 		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
 		{
 			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
+			// Fake hands are handled specially
+			if ( currentItem.getItemId() == ItemPool.FAKE_HAND )
+			{
+				continue;
+			}
 			if ( !items.contains( currentItem ) && this.validOffhandItem( currentItem, weapons, type ) )
 			{
 				items.add( currentItem );
@@ -1277,9 +1321,57 @@ public class GearChangeFrame
 		currentItems.setSelectedItem( equippedItem );
 	}
 
+	private class FakeHandsSpinner
+		extends AutoHighlightSpinner
+		implements ChangeListener
+	{
+		private int currentFakeHands = 0;
+		private int availableFakeHands = 0;
+
+		public FakeHandsSpinner()
+		{
+			super();
+			this.updateFakeHands();
+			this.setValue( IntegerPool.get( this.currentFakeHands ) );
+			this.addChangeListener( this );
+		}
+
+		public void stateChanged( final ChangeEvent e )
+		{
+			int maximum = this.availableFakeHands;
+			if ( maximum == 0 )
+			{
+				this.setValue( IntegerPool.get( 0 ) );
+				return;
+			}
+
+			int desired = InputFieldUtilities.getValue( this, maximum );
+			if ( desired == maximum + 1 )
+			{
+				this.setValue( IntegerPool.get( 0 ) );
+			}
+			else if ( desired < 0 || desired > maximum )
+			{
+				this.setValue( IntegerPool.get( maximum ) );
+			}
+		}
+
+		public int getAvailableFakeHands()
+		{
+			return this.availableFakeHands;
+		}
+
+		public void updateFakeHands()
+		{
+			this.currentFakeHands = EquipmentManager.getFakeHands();
+			int available = GearChangeFrame.fakeHand.getCount( KoLConstants.inventory );
+			this.availableFakeHands = this.currentFakeHands + available;
+		}
+	}
+
 	private class FamLockCheckbox
-	extends JCheckBox
-	implements ActionListener
+		extends JCheckBox
+		implements ActionListener
 	{
 		public FamLockCheckbox()
 		{
