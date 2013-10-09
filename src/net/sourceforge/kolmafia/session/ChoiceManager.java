@@ -8736,10 +8736,10 @@ public abstract class ChoiceManager
 		// Where Does The Lone Ranger Take His Garbagester?
 		case 789:
 			// Only relocate pygmy janitors once, then get random items
-			if ( decision.equals( "1" ) && 
-				Preferences.getInteger( "relocatedPygmyJanitors" ) != KoLCharacter.getAscensions() )
+			if ( decision.equals( "2" ) && 
+				Preferences.getInteger( "relocatePygmyJanitors" ) != KoLCharacter.getAscensions() )
 			{
-				return "2";
+				return "1";
 			}
 			return decision;
 
