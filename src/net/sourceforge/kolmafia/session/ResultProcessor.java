@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.HaciendaManager;
 
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
+import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1076,6 +1077,10 @@ public class ResultProcessor
 		case ItemPool.TRANSPORTER_TRANSPONDER:
 			// You can go to spaaace with a transponder
 			CoinmastersFrame.externalUpdate();
+			break;
+
+		case ItemPool.FAKE_HAND:
+			GearChangeFrame.updateFakeHands();
 			break;
 		}
 

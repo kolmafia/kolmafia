@@ -415,6 +415,7 @@ public class ItemPool
 	public static final int MINIATURE_DORMOUSE = 1489;
 	public static final int HILARIOUS_BOOK = 1498;
 	public static final int RUBBER_EMO_ROE = 1503;
+	public static final int FAKE_HAND = 1511;
 	public static final int VAMPIRE_HEART = 1518;
 	public static final int BAKULA = 1519;
 	public static final int RADIO_KOL_COFFEE_MUG = 1520;
