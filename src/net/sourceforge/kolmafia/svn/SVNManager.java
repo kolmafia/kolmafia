@@ -970,7 +970,10 @@ public class SVNManager
 			StringBuilder message = new StringBuilder( "<html>New file(s) will overwrite local files:<p>" );
 			for ( int i = 0; i < skipFiles.size(); ++i )
 			{
-				message.append( "<b>file</b>: " + skipFiles.get( i ) + "<p>" );
+				File rebase = SVNManager.getRebase( skipFiles.get( i ) );
+				String rerebase = FileUtilities.getRelativePath( KoLConstants.ROOT_LOCATION , rebase );
+
+				message.append( "<b>file</b>: " + rerebase + "<p>" );
 				try
 				{
 					SVN_LOCK.lock();
@@ -1037,8 +1040,9 @@ public class SVNManager
 
 		if ( rebase.exists() )
 		{
+			String rerebase = FileUtilities.getRelativePath( KoLConstants.ROOT_LOCATION , rebase );
 			if ( rebase.delete() )
-				RequestLogger.printLine( rebase.getName() + " => DELETED" );
+				RequestLogger.printLine( rerebase + " => DELETED" );
 		}
 	}
 
@@ -1393,8 +1397,9 @@ public class SVNManager
 
 				if ( rebase != null )
 				{
+					String rerebase = FileUtilities.getRelativePath( KoLConstants.ROOT_LOCATION , rebase );
 					if ( rebase.delete() )
-						RequestLogger.printLine( relpath + " => DELETED" );
+						RequestLogger.printLine( rerebase + " => DELETED" );
 				}
 			}
 		}
