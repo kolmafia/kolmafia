@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
@@ -2789,6 +2790,9 @@ public abstract class KoLCharacter
 			// Breakfast may want to be re-run, for various reasons
 			Preferences.setBoolean( "breakfastCompleted", false );
 
+			// Available hermit items and clover numbers may have changed
+			HermitRequest.initialize();
+			
 			// If we are in Bad Moon, we can use the bookshelf and
 			// telescope again.
 			if ( KoLCharacter.inBadMoon() )
