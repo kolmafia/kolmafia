@@ -87,7 +87,7 @@ public class ManageStoreRequest
 		super( "backoffice.php" );
 		this.addFormField( "itemid", String.valueOf( itemId ) );
 		this.addFormField( "action", "removeitem" );
-		qty = Math.max( qty, StoreManager.shopAmount( itemId ) );
+		qty = Math.min( qty, StoreManager.shopAmount( itemId ) );
 		this.addFormField( "qty", String.valueOf( qty ) );
 		this.addFormField( "ajax", "1" );
 
