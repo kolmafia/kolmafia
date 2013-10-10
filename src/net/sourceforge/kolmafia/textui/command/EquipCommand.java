@@ -113,7 +113,7 @@ public class EquipCommand
 			}
 
 			// It's not equipped. Choose a slot for it
-			slot = EquipmentRequest.chooseEquipmentSlot( ItemDatabase.getConsumptionType( match.getItemId() ) );
+			slot = EquipmentRequest.chooseEquipmentSlot( match.getItemId() );
 
 			// If it can't be equipped, give up
 			if ( slot == -1 )

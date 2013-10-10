@@ -185,7 +185,7 @@ public class Speculation
 				}
 				if ( slot == -1 )
 				{
-					slot = EquipmentRequest.chooseEquipmentSlot( ItemDatabase.getConsumptionType( match.getItemId() ) );
+					slot = EquipmentRequest.chooseEquipmentSlot( match.getItemId() );
 		
 					// If it can't be equipped, give up
 					if ( slot == -1 )
