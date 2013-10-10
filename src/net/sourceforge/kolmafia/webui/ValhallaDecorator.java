@@ -162,14 +162,6 @@ public class ValhallaDecorator
 		{
 			int skillId = startingPoint + i;
 
-			// Special case: don't torment Seal Clubbers by listing
-			// Lunge-Smack as a purchasable skill. If you already
-			// have it, it IS permable
-			if ( skillId == 1004 )
-			{
-				continue;
-			}
-
 			String skillName = SkillDatabase.getSkillName( skillId );
 			if ( skillName == null )
 			{
