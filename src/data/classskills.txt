@@ -137,7 +137,7 @@
 1001
 1002
 1003	Thrust-Smack	5	3	0	4
-1004	Lunge-Smack	5	1	0	1
+1004	Lunge Smack	5	1	0	1
 1005	Lunging Thrust-Smack	5	8	0	10
 1006	Super-Advanced Meatsmithing	0	0	0	5
 1007	Blubber Up	3	7	10	3
