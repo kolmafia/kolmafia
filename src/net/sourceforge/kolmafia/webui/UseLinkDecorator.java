@@ -910,19 +910,19 @@ public abstract class UseLinkDecorator
 			     !EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ).equals( EquipmentRequest.UNEQUIP ) )
 			{
 				uses.add( new UseLink( itemId, itemCount,
-					getEquipmentSpeculation( "acc1", itemId, 0,  EquipmentManager.ACCESSORY1 ),
+					getEquipmentSpeculation( "acc1", itemId,  EquipmentManager.ACCESSORY1 ),
 					"inv_equip.php?which=2&action=equip&slot=1&whichitem=" ) );
 				uses.add( new UseLink( itemId, itemCount,
-					getEquipmentSpeculation( "acc2", itemId, 0,  EquipmentManager.ACCESSORY2 ),
+					getEquipmentSpeculation( "acc2", itemId,  EquipmentManager.ACCESSORY2 ),
 					 "inv_equip.php?which=2&action=equip&slot=2&whichitem=" ) );
 				uses.add( new UseLink( itemId, itemCount,
-					getEquipmentSpeculation( "acc3", itemId, 0,  EquipmentManager.ACCESSORY3 ),
+					getEquipmentSpeculation( "acc3", itemId,  EquipmentManager.ACCESSORY3 ),
 					 "inv_equip.php?which=2&action=equip&slot=3&whichitem=" ) );
 			}
 			else
 			{
 				uses.add( new UseLink( itemId, itemCount,
-					getEquipmentSpeculation( "equip", itemId, consumeMethod, -1 ),
+					getEquipmentSpeculation( "equip", itemId, -1 ),
 					"inv_equip.php?which=2&action=equip&whichitem=" ) );
 
 				// Quietly, stealthily, you reach out and steal the pants from your
@@ -946,7 +946,7 @@ public abstract class UseLinkDecorator
 				KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) )
 			{
 				uses.add( new UseLink( itemId, itemCount,
-					getEquipmentSpeculation( "offhand", itemId, 0, EquipmentManager.OFFHAND ),
+					getEquipmentSpeculation( "offhand", itemId, EquipmentManager.OFFHAND ),
 					"inv_equip.php?which=2&action=dualwield&whichitem=" ) );
 			}
 			
@@ -954,7 +954,7 @@ public abstract class UseLinkDecorator
 				KoLCharacter.getFamiliar().canEquip( ItemPool.get( itemId, 1 ) ) )
 			{
 				uses.add( new UseLink( itemId, itemCount,
-					getEquipmentSpeculation( "familiar", itemId, 0, EquipmentManager.FAMILIAR ),
+					getEquipmentSpeculation( "familiar", itemId, EquipmentManager.FAMILIAR ),
 					"inv_equip.php?which=2&action=hatrack&whichitem=" ) );
 			}
 
@@ -1014,11 +1014,11 @@ public abstract class UseLinkDecorator
 		return "<span style='position: relative;' onMouseOver=\"document.getElementById('" + id + "').style.visibility='visible';\" onMouseOut=\"document.getElementById('" + id + "').style.visibility='hidden';\">" + table + label + "</span>";
 	}
 
-	private static final String getEquipmentSpeculation( String label, int itemId, int consumpt, int slot )
+	private static final String getEquipmentSpeculation( String label, int itemId, int slot )
 	{
 		if ( slot == -1 )
 		{
-			slot = EquipmentRequest.chooseEquipmentSlot( consumpt );
+			slot = EquipmentRequest.chooseEquipmentSlot( itemId );
 		}
 		Speculation spec = new Speculation();
 		spec.equip( slot, ItemPool.get( itemId, 1 ) );
