@@ -646,8 +646,8 @@ menacing construct	vib1.gif	Atk: 400 Def: 315 HP: 400 Init: 65 P: construct	El V
 menacing lawn gnome	lawngnome1.gif	Atk: 50 Def: 45 HP: 75 Init: 50 P: humanoid	machetito (0)	pointy red hat (0)	stick-on gnome beard (c0)
 menacing thug	nemesisthug.gif	Atk: 55 Def: 49 HP: 75 Init: 30 P: dude
 Mer-kin alphabetizer	merkinalphabet.gif	Atk: 750 Def: 800 HP: 900 Init: 100 P: mer-kin	Mer-kin smartjuice (0)	Mer-kin worktea (0)
-Mer-kin balldodger	merkinballer.gif	Init: -10000 P: mer-kin
-Mer-kin bladeswitcher	merkinswitcher.gif	Init: -10000 P: mer-kin
+Mer-kin balldodger	merkinballer.gif	Atk: [820+30*pref(lastColosseumRoundWon)] Def: [770+30*pref(lastColosseumRoundWon)] HP: [750+50*pref(lastColosseumRoundWon)] Init: -10000 P: mer-kin
+Mer-kin bladeswitcher	merkinswitcher.gif	Atk: [820+30*pref(lastColosseumRoundWon)] Def: [770+30*pref(lastColosseumRoundWon)] HP: [750+50*pref(lastColosseumRoundWon)] Init: -10000 P: mer-kin
 Mer-kin burglar	merkinburglar.gif	Atk: 650 Def: 720 HP: 650 Init: 150 Meat: 200-300 P: mer-kin	Mer-kin foodbucket (n6)	Mer-kin hidepaint (n10)	Mer-kin sneakmask (n2)	Mer-kin takebag (n2)
 Mer-kin diver	merkindiver.gif	Atk: 475 Def: 427 HP: 700 Init: 75 Meat: 160-240 P: mer-kin	Mer-kin foodbucket (n15)	Mer-kin hookspear (n2)	Mer-kin pressureglobe (n9)	Mer-kin thingpouch (n25)
 Mer-kin drifter	merkindrifter.gif	Atk: 850 Def: 800 HP: 1000 Init: 25 P: mer-kin	Mer-kin knucklebone (0)	Mer-kin begsign (0)	Mer-kin cooljuice (0)
@@ -655,7 +655,7 @@ Mer-kin healer	merkinhealer.gif	Atk: 650 Def: 585 HP: 600 Init: 75 Meat: 120-180
 Mer-kin juicer	merkinjuicer.gif	Atk: 780 Def: 650 HP: 900 Init: 50 P: mer-kin	Mer-kin dragbelt (0)	Mer-kin ragejuice (0)
 Mer-kin miner	merkinminer.gif	Atk: 450 Def: 405 HP: 750 Init: 50 Meat: 160-240 P: mer-kin	Mer-kin foodbucket (n5)	Mer-kin digpick (n10)	Mer-kin thingpouch (n25)
 Mer-kin monitor	merkinmonitor.gif	Atk: 650 Def: 650 HP: 750 Init: 100 P: mer-kin	Mer-kin cheatsheet (0)	Mer-kin eyeglasses (0)	Mer-kin hallpass (0)
-Mer-kin netdragger	merkindragger.gif	Init: -10000 P: mer-kin
+Mer-kin netdragger	merkindragger.gif	Atk: [820+30*pref(lastColosseumRoundWon)] Def: [770+30*pref(lastColosseumRoundWon)] HP: [750+50*pref(lastColosseumRoundWon)] Init: -10000 P: mer-kin
 Mer-kin poseur	merkinposeur.gif	Atk: 720 Def: 750 HP: 750 Init: 125 P: mer-kin	Mer-kin fitbrine (0)	Mer-kin gutgirdle (0)
 Mer-kin punisher	merkinpunisher.gif	Atk: 700 Def: 600 HP: 800 Init: 75 P: mer-kin	Mer-kin mouthsoap (0)	Mer-kin finpaddle (0)	Mer-kin hallpass (0)
 Mer-kin raider	merkinraider.gif	Atk: 750 Def: 585 HP: 800 Init: 50 Meat: 200-300 P: mer-kin	Mer-kin breastplate (c2)	Mer-kin foodbucket (n10)	Mer-kin hookspear (n2)	Mer-kin roundshield (n2)
@@ -666,9 +666,6 @@ Mer-kin specter	merkinghost.gif	Atk: 750 Def: 600 HP: 600 Init: 100 P: undead
 Mer-kin teacher	merkinteacher.gif	Atk: 600 Def: 700 HP: 700 Init: 50 P: mer-kin	Mer-kin lipstick (0)	Mer-kin bunwig (0)	Mer-kin hallpass (0)	folder (catfish) (c0)
 Mer-kin tippler	merkintippler.gif	Atk: 600 Def: 360 HP: 750 Init: 25 Meat: 160-240 P: mer-kin	Alewife&trade; Ale (40)	Mer-kin foodbucket (n5)	Mer-kin pinkslip (n5)	slug of vodka (21)	Mer-kin weaksauce (0)
 Mer-kin trainer	merkintrainer.gif	Atk: 750 Def: 700 HP: 800 Init: 75 P: mer-kin	Mer-kin strongjuice (0)	Mer-kin stopwatch (0)
-# Mer-kin balldodger		Atk: [790+30*Round No] Def: [740+30*Round No] HP: [700+50*Round No] Init: -10000 P: mer-kin
-# Mer-kin netdragger		Atk: [790+30*Round No] Def: [740+30*Round No] HP: [700+50*Round No] Init: -10000 P: mer-kin
-# Mer-kin bladeswitcher		Atk: [790+30*Round No] Def: [740+30*Round No] HP: [700+50*Round No] Init: -10000 P: mer-kin
 Mesmerizing Penguin	pengmesmer.gif	Init: -10000 P: penguin	Crimbuck (0)	pocketwatch on a chain (0)	spiraling shape (c100)
 mimic	lowerm.gif	BOSS Atk: 45 Def: 40 HP: 50 Init: 70 P: weird	dead mimic (n100)
 mimic (Bottom 2 Rows)	barrel.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird
