@@ -959,7 +959,6 @@ public class UseSkillRequest
 
 			switch ( this.skillId )
 			{
-			case SkillPool.OTTER_TONGUE:
 			case SkillPool.WALRUS_TONGUE:
 			case SkillPool.DISCO_NAP:
 			case SkillPool.POWER_NAP:
@@ -1554,7 +1553,6 @@ public class UseSkillRequest
 			ConcoctionDatabase.getUsables().sort();
 			break;
 
-		case SkillPool.OTTER_TONGUE:
 		case SkillPool.WALRUS_TONGUE:
 		case SkillPool.DISCO_NAP:
 		case SkillPool.POWER_NAP:
