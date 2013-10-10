@@ -59,6 +59,12 @@ public class BeerGardenRequest
 	@Override
 	public void run()
 	{
+		// Attempt to retrieve the ingredients
+		if ( !this.makeIngredients() )
+		{
+			return;
+		}
+
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
 		this.addFormField( "quantity", String.valueOf( this.getQuantityNeeded() ) );
 		super.run();
