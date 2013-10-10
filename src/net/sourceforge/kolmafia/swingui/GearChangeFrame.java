@@ -113,12 +113,14 @@ public class GearChangeFrame
 	private final SortedListModel weapons = new SortedListModel();
 	private final SortedListModel offhands = new SortedListModel();
 	private final SortedListModel familiars = new SortedListModel();
+	private final SortedListModel crownFamiliars = new SortedListModel();
 
 	private final EquipmentPanel equipmentPanel;
 	private final CustomizablePanel customizablePanel;
 
 	private final OutfitComboBox outfitSelect, customSelect;
 	private final FamiliarComboBox familiarSelect;
+	private final EnthronableComboBox crownSelect;
 	private JLabel sticker1Label, sticker2Label, sticker3Label;
 	private FamLockCheckbox famLockCheckbox;
 	private FakeHandsSpinner fakeHands;
@@ -162,6 +164,7 @@ public class GearChangeFrame
 		}
 
 		this.familiarSelect = new FamiliarComboBox( this.familiars );
+		this.crownSelect = new EnthronableComboBox( this.crownFamiliars );
 		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
 		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
 
@@ -207,6 +210,14 @@ public class GearChangeFrame
 		else if ( value instanceof SpecialOutfit )
 		{
 			name = ((SpecialOutfit) value).getName();
+		}
+		else if ( value instanceof FamiliarData && pane == GearChangeFrame.INSTANCE.customizablePanel )
+		{
+			name = "Throne:" + ((FamiliarData) value).getRace();
+		}
+		else
+		{
+			return;
 		}
 
 		Modifiers mods = Modifiers.getModifiers( name );
@@ -515,7 +526,7 @@ public class GearChangeFrame
 			ArrayList rows = new ArrayList<VerifiableElement>();
 			VerifiableElement element;
 
-			rows.add(  new VerifiableElement( "Crown of Thrones: ", GearChangeFrame.this.equipment[ EquipmentManager.CROWN_OF_THRONES ] ) );
+			rows.add(  new VerifiableElement( "Crown of Thrones: ", GearChangeFrame.this.crownSelect ) );
 
 			rows.add( new VerifiableElement() );
 
@@ -564,26 +575,25 @@ public class GearChangeFrame
 		{
 			super.setEnabled( isEnabled );
 
-			boolean hasCrownOfThrones = GearChangeFrame.crownOfThrones.getCount( KoLConstants.inventory ) > 0 ||
-				KoLCharacter.hasEquipped( GearChangeFrame.crownOfThrones );
-			GearChangeFrame.this.equipment[ EquipmentManager.CROWN_OF_THRONES ].setEnabled( false );
+			boolean hasCrownOfThrones = KoLCharacter.hasEquipped( GearChangeFrame.crownOfThrones );
+			GearChangeFrame.this.crownSelect.setEnabled( isEnabled && hasCrownOfThrones );
 
 			boolean hasFakeHands = GearChangeFrame.this.fakeHands.getAvailableFakeHands() > 0;
 			GearChangeFrame.this.fakeHands.setEnabled( isEnabled && hasFakeHands );
 
 			boolean hasCardSleeve = GearChangeFrame.cardSleeve.getCount( KoLConstants.inventory ) > 0 ||
 				KoLCharacter.hasEquipped( GearChangeFrame.cardSleeve );
-			GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ].setEnabled( hasCardSleeve );
+			GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ].setEnabled( isEnabled && hasCardSleeve );
 
 			boolean hasFolderHolder = GearChangeFrame.folderHolder.getCount( KoLConstants.inventory ) > 0 ||
 				KoLCharacter.hasEquipped( GearChangeFrame.folderHolder );
 			boolean inHighSchool = KoLCharacter.inHighschool();
 
-			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER1 ].setEnabled( hasFolderHolder );
-			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER2 ].setEnabled( hasFolderHolder );
-			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER3 ].setEnabled( hasFolderHolder );
-			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER4 ].setEnabled( hasFolderHolder && inHighSchool );
-			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER5 ].setEnabled( hasFolderHolder && inHighSchool );
+			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER1 ].setEnabled( isEnabled && hasFolderHolder );
+			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER2 ].setEnabled( isEnabled && hasFolderHolder );
+			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER3 ].setEnabled( isEnabled && hasFolderHolder );
+			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER4 ].setEnabled( isEnabled && hasFolderHolder && inHighSchool );
+			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER5 ].setEnabled( isEnabled && hasFolderHolder && inHighSchool );
 		}
 
 		@Override
@@ -603,7 +613,13 @@ public class GearChangeFrame
 
 	private void customizeItems()
 	{
-		// *** Crown of Thrones
+		// Crown of Thrones
+		FamiliarData familiar = (FamiliarData) crownSelect.getSelectedItem();
+		FamiliarData enthronedFamiliar = KoLCharacter.getEnthroned();
+		if ( familiar != enthronedFamiliar )
+		{
+			RequestThread.postRequest( FamiliarRequest.enthroneRequest( familiar ) );
+		}
 
 		// Start with first pseudo-slot
 		for ( int i = EquipmentManager.SLOTS; i < EquipmentManager.ALL_SLOTS; ++i )
@@ -806,7 +822,8 @@ public class GearChangeFrame
 			return;
 		}
 
-		GearChangeFrame.INSTANCE.familiars.setSelectedItem( KoLCharacter.getFamiliar() );
+		FamiliarData current = KoLCharacter.getFamiliar();
+		GearChangeFrame.INSTANCE.familiars.setSelectedItem( current );
 		GearChangeFrame.INSTANCE.ensureValidSelections();
 	}
 
@@ -820,12 +837,23 @@ public class GearChangeFrame
 		GearChangeFrame.INSTANCE.familiars.clear();
 	}
 
+	private class EnthronableComboBox
+		extends JComboBox
+	{
+		public EnthronableComboBox( final LockableListModel model )
+		{
+			super( model );
+			DefaultListCellRenderer renderer = ListCellRendererFactory.getFamiliarRenderer();
+			this.setRenderer( renderer );
+		}
+	}
+
 	private class FamiliarComboBox
 		extends JComboBox
 	{
-		public FamiliarComboBox( final LockableListModel slot )
+		public FamiliarComboBox( final LockableListModel model )
 		{
-			super( slot );
+			super( model );
 			this.addActionListener( new ChangeFamiliarListener() );
 		}
 
@@ -947,8 +975,10 @@ public class GearChangeFrame
 		{
 			selectedFamiliar = currentFamiliar;
 		}
-		List familiars = this.validFamiliars( currentFamiliar );
-		this.updateEquipmentList( this.familiars, familiars, selectedFamiliar );
+		this.updateEquipmentList( this.familiars, this.validFamiliars( currentFamiliar ), selectedFamiliar );
+
+		FamiliarData enthronedFamiliar = KoLCharacter.getEnthroned();
+		this.updateEquipmentList( this.crownFamiliars, this.enthronableFamiliars( currentFamiliar ), enthronedFamiliar );
 	}
 
 	private List validHatItems( final AdventureResult currentHat )
@@ -1311,8 +1341,48 @@ public class GearChangeFrame
 		return familiar.canEquip();
 	}
 
-	private void updateEquipmentList( final LockableListModel currentItems, final List newItems,
-		final Object equippedItem )
+	private List enthronableFamiliars( final FamiliarData currentFamiliar )
+	{
+		List<FamiliarData> familiars = new ArrayList<FamiliarData>();
+
+		// Look at terrarium
+
+		Iterator it = KoLCharacter.getFamiliarList().iterator();
+		while ( it.hasNext() )
+		{
+			FamiliarData fam = (FamiliarData) it.next();
+
+			// Cannot put current familiar into the throne
+			if ( fam == currentFamiliar )
+			{
+				continue;
+			}
+
+			// Certain familiars cannot ride in the throne
+			if ( !fam.enthroneable() )
+			{
+				continue;
+			}
+
+			// Only add it once
+			if ( familiars.contains( fam ) )
+			{
+				continue;
+			}
+
+			familiars.add( fam );
+		}
+
+		// Add "(none)"
+		if ( !familiars.contains( FamiliarData.NO_FAMILIAR ) )
+		{
+			familiars.add( FamiliarData.NO_FAMILIAR );
+		}
+
+		return familiars;
+	}
+
+	private void updateEquipmentList( final LockableListModel currentItems, final List newItems, final Object equippedItem )
 	{
 		currentItems.retainAll( newItems );
 		newItems.removeAll( currentItems );

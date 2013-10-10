@@ -42,6 +42,7 @@ import javax.swing.JList;
 import javax.swing.UIManager;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
@@ -852,6 +853,37 @@ public class ListCellRendererFactory
 				(JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			defaultComponent.setText( stringForm );
 			return defaultComponent;
+		}
+	}
+
+	public static final DefaultListCellRenderer getFamiliarRenderer()
+	{
+		return new FamiliarRenderer();
+	}
+
+	private static class FamiliarRenderer
+		extends DefaultListCellRenderer
+	{
+		public FamiliarRenderer()
+		{
+			this.setOpaque( true );
+		}
+
+		@Override
+		public Component getListCellRendererComponent( final JList list, final Object value, final int index,
+			final boolean isSelected, final boolean cellHasFocus )
+		{
+			if ( value == null || !( value instanceof FamiliarData ) )
+			{
+				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+			}
+
+			if ( isSelected )
+			{
+				GearChangeFrame.showModifiers( value, false );
+			}
+
+			return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 		}
 	}
 
