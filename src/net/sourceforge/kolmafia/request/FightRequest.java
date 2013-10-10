@@ -1777,6 +1777,7 @@ public class FightRequest
 
 	public static final Pattern ONTURN_PATTERN = Pattern.compile( "onturn = (\\d+)" );
 	public static final Pattern ROUND_PATTERN = Pattern.compile( "<b>\"Round (\\d+)!\"</b>" );
+	private static final Pattern CHAMBER_PATTERN = Pattern.compile( "chamber <b>#(\\d+)</b>" );
 
 	public static final void updateCombatData( final String location, String encounter, final String responseText )
 	{
@@ -1812,6 +1813,17 @@ public class FightRequest
 				{
 					int round = StringUtilities.parseInt( roundMatcher.group( 1 ) );
 					Preferences.setInteger( "lastColosseumRoundWon", round - 1 );
+				}
+			}
+
+			// Adventuring in the Daily Dungeon
+			if ( adventure == AdventurePool.THE_DAILY_DUNGEON )
+			{
+				Matcher chamberMatcher = FightRequest.CHAMBER_PATTERN.matcher( responseText );
+				if ( chamberMatcher.find() )
+				{
+					int round = StringUtilities.parseInt( chamberMatcher.group( 1 ) );
+					Preferences.setInteger( "_lastDailyDungeonRoom", round - 1 );
 				}
 			}
 
@@ -2592,6 +2604,11 @@ public class FightRequest
 				{
 					Preferences.setString( "merkinQuestPath", "gladiator" );
 				}
+			}
+			
+			if ( adventure == AdventurePool.THE_DAILY_DUNGEON )
+			{
+				Preferences.increment( "_lastDailyDungeonRoom", 1 );
 			}
 
 			if ( responseText.contains( "monstermanuel.gif" ) )
