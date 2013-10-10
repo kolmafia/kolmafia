@@ -82,7 +82,6 @@ public class SkillPool
 	public static final int GRAB_A_COLD_ONE = 95;
 	public static final int SPAGHETTI_BREAKFAST = 101;
 	public static final int SHADOW_NOODLES = 102;
-	public static final int OTTER_TONGUE = 1007;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int CLOBBER = 1022;
 	public static final int CLUBFOOT = 1033;
@@ -92,7 +91,7 @@ public class SkillPool
 	public static final int KNEE_SHIELD = 2106;
 	public static final int HEAD_KNEE_SHIELD = 2107;
 	public static final int ENTANGLING_NOODLES = 3004;
-	public static final int	TRANSCENDENTAL_NOODLES = 3006;
+	public static final int TRANSCENDENTAL_NOODLES = 3006;
 	public static final int BANDAGES = 3009;
 	public static final int COCOON = 3012;
 	public static final int SPAGHETTI_SPEAR = 3020;

@@ -46,7 +46,6 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
-import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -137,7 +136,6 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ),
 		new HPRestoreItem( "cast", 17 ),
 		new HPRestoreItem( "cotton candy smidgen", 17 ),
-		new HPRestoreItem( "Tongue of the Otter", 15 ),
 		new HPRestoreItem( "sugar shard", 15 ),
 		new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14, 120 ),
 		HPRestoreItemList.OINTMENT,
