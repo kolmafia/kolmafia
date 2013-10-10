@@ -2146,6 +2146,8 @@ public class FightRequest
 			return;
 		}
 
+		String monster = MonsterStatusTracker.getLastMonsterName();
+
 		// Look for special effects
 		FightRequest.updateMonsterHealth( responseText );
 
@@ -2286,7 +2288,7 @@ public class FightRequest
 			                   EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
 			int fights = hasQuake ? 3 : 2;
 			Preferences.setInteger( "_romanticFightsLeft", fights );
-			Preferences.setString( "romanticTarget", MonsterStatusTracker.getLastMonsterName() );
+			Preferences.setString( "romanticTarget", monster );
 
 			TurnCounter.stopCounting( "Romantic Monster window begin" );
 			TurnCounter.stopCounting( "Romantic Monster window end" );
@@ -2296,14 +2298,14 @@ public class FightRequest
 
 		else if ( skillNumber == SkillPool.OLFACTION && responseText.contains( "fill your entire being" ) )
 		{
-			Preferences.setString( "olfactedMonster", MonsterStatusTracker.getLastMonsterName() );
+			Preferences.setString( "olfactedMonster", monster );
 			Preferences.setString( "autoOlfact", "" );
 			FightRequest.canOlfact = false;
 		}
 
 		else if ( skillNumber == SkillPool.UNLEASH_NANITES && responseText.contains( "You roar with sudden power" ) )
 		{
-			Preferences.setString( "_nanorhinoBanishedMonster", MonsterStatusTracker.getLastMonsterName() );
+			Preferences.setString( "_nanorhinoBanishedMonster", monster );
 		}
 
 		// Casting Carbohydrate Cudgel uses Dry Noodles
@@ -2376,9 +2378,9 @@ public class FightRequest
 
 		// Banishing Shout has lots of success messages.  Check for the failure message instead
 		if ( ( skillNumber == SkillPool.BANISHING_SHOUT && !responseText.contains( "but this foe refuses" ) ) ||
-			   skillNumber == SkillPool.HOWL_ALPHA && responseText.contains( "your opponent turns and runs" ) )
+		     ( skillNumber == SkillPool.HOWL_ALPHA && responseText.contains( "your opponent turns and runs" ) ) )
 		{
-			String pref = MonsterStatusTracker.getLastMonsterName();
+			String pref = monster;
 			String[] monsters = Preferences.getString( "banishingShoutMonsters" ).split( "\\|" );
 			for ( int i = 0; i < monsters.length && i < 2; ++i )
 			{
@@ -2598,12 +2600,18 @@ public class FightRequest
 
 		if ( won )
 		{
-			if ( adventure == AdventurePool.MERKIN_COLOSSEUM )
+			if ( ( adventure == AdventurePool.MERKIN_COLOSSEUM ) &&
+			     // Do not increment round for wandering monsters
+			     ( monster.equalsIgnoreCase( "Mer-kin balldodger" ) ||
+			       monster.equalsIgnoreCase( "Mer-kin netdragger" ) ||
+			       monster.equalsIgnoreCase( "Mer-kin bladeswitcher" ) ||
+			       monster.equalsIgnoreCase( "Georgepaul, the Balldodger" ) ||
+			       monster.equalsIgnoreCase( "Johnringo, the Netdragger" ) ||
+			       monster.equalsIgnoreCase( "Ringogeorge, the Bladeswitcher" ) ) &&
+			     // Do mark path chosen unless won round 15
+			     ( Preferences.increment( "lastColosseumRoundWon", 1 ) == 15 ) )
 			{
-				if ( Preferences.increment( "lastColosseumRoundWon", 1 ) == 15 )
-				{
-					Preferences.setString( "merkinQuestPath", "gladiator" );
-				}
+				Preferences.setString( "merkinQuestPath", "gladiator" );
 			}
 			
 			if ( adventure == AdventurePool.THE_DAILY_DUNGEON )
@@ -2920,8 +2928,6 @@ public class FightRequest
 			{
 				Preferences.increment( "_snowSuitCount", 1, 75, false );
 			}
-
-			String monster = MonsterStatusTracker.getLastMonsterName();
 
 			if ( monster.equalsIgnoreCase( "Black Pudding" ) )
 			{
