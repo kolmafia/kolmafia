@@ -133,6 +133,7 @@ public abstract class ChoiceManager
 	private static final Pattern REANIMATOR_SKULL_PATTERN = Pattern.compile( "(\\d+) skulls??<br>" );
 	private static final Pattern REANIMATOR_WEIRDPART_PATTERN = Pattern.compile( "(\\d+) weird random parts??<br>" );
 	private static final Pattern REANIMATOR_WING_PATTERN = Pattern.compile( "(\\d+) wings??<br>" );
+	private static final Pattern CHAMBER_PATTERN = Pattern.compile( "Chamber <b>#(\\d+)</b>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -5927,21 +5928,45 @@ public abstract class ChoiceManager
 
 		case 689:
 			// The Final Reward
-
 			if ( text.contains( "claim your rightful reward" ) )
 			{
 				// Daily Dungeon Complete
 				Preferences.setBoolean( "dailyDungeonDone", true );
+				Preferences.setInteger( "_lastDailyDungeonRoom", 15 );
+			}
+			return;
+
+		case 690:
+		case 691:
+			// The First Chest Isn't the Deepest and Second Chest
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.increment( "_lastDailyDungeonRoom", 3 );
+			}
+			else
+			{
+				Preferences.increment( "_lastDailyDungeonRoom", 1 );
 			}
 			return;
 
 		case 692:
 			// I Wanna Be a Door
-
 			if ( text.contains( "key breaks off in the lock" ) )
 			{
 				// Unfortunately, the key breaks off in the lock.
 				ResultProcessor.processItem( ItemPool.SKELETON_KEY, -1 );
+			}
+			if ( ChoiceManager.lastDecision != 8 )
+			{
+				Preferences.increment( "_lastDailyDungeonRoom", 1 );
+			}
+			return;
+
+		case 693:
+			// It's Almost Certainly a Trap
+			if ( ChoiceManager.lastDecision != 3 )
+			{
+				Preferences.increment( "_lastDailyDungeonRoom", 1 );
 			}
 			return;
 
@@ -7267,6 +7292,32 @@ public abstract class ChoiceManager
 			     KoLCharacter.currentPrismaticDamage() >= 60 )
 			{
 				Preferences.setBoolean( "flickeringPixel8", true );
+			}
+			break;
+
+		case 689:
+			// The Final Reward
+			Preferences.setInteger( "_lastDailyDungeonRoom", 14 );
+			break;
+
+		case 690:
+			// The First Chest Isn't the Deepest
+			Preferences.setInteger( "_lastDailyDungeonRoom", 4 );
+			break;
+
+		case 691:
+			// Second Chest
+			Preferences.setInteger( "_lastDailyDungeonRoom", 9 );
+			break;
+
+		case 692:
+		case 693:
+			// I Wanna Be a Door and It's Almost Certainly a Trap
+			Matcher chamberMatcher = ChoiceManager.CHAMBER_PATTERN.matcher( ChoiceManager.lastResponseText );
+			if ( chamberMatcher.find() )
+			{
+				int round = StringUtilities.parseInt( chamberMatcher.group( 1 ) );
+				Preferences.setInteger( "_lastDailyDungeonRoom", round - 1 );
 			}
 			break;
 
