@@ -190,9 +190,15 @@ public class EquipmentManager
 
 	public static AdventureResult[] emptyEquipmentArray()
 	{
-		AdventureResult[] array = new AdventureResult[ EquipmentManager.ALL_SLOTS ];
+		return EquipmentManager.emptyEquipmentArray( false );
+	}
 
-		for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
+	public static AdventureResult[] emptyEquipmentArray( boolean all )
+	{
+		int length = all ? EquipmentManager.ALL_SLOTS : EquipmentManager.SLOTS;
+		AdventureResult[] array = new AdventureResult[ length ];
+
+		for ( int i = 0; i < length; ++i )
 		{
 			array[ i ] = EquipmentRequest.UNEQUIP;
 		}
@@ -855,9 +861,13 @@ public class EquipmentManager
 			return;
 		}
 
-		for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
+		for ( int i = 0; i < EquipmentManager.ALL_SLOTS && i < equipment.length; ++i )
 		{
-			if ( equipment[ i ] == null || equipment[ i ].equals( EquipmentRequest.UNEQUIP ) )
+			if ( equipment[ i ] == null )
+			{
+				continue;
+			}
+			else if ( equipment[ i ].equals( EquipmentRequest.UNEQUIP ) )
 			{
 				setEquipment( i, EquipmentRequest.UNEQUIP );
 			}
@@ -1883,7 +1893,7 @@ public class EquipmentManager
 		// "stickers":[0,0,0],
 		// "folder_holder":["01","22","12","00","00"]
 
-		AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray();
+		AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray( true );
 		int fakeHands = 0;
 
 		JSONObject equip = JSON.getJSONObject( "equipment" );
@@ -1906,21 +1916,12 @@ public class EquipmentManager
 			equipment[ slot ] = EquipmentManager.equippedItem( equip.getInt( slotName ) );
 		}
 
-		// Set all regular equipment slots
-		EquipmentManager.setEquipment( equipment );
-
-		// *** Locked familiar item
-
-		// pseudo-slots must be handled separately
-		EquipmentManager.setEquipment( EquipmentManager.CARD_SLEEVE, equipment[ EquipmentManager.CARD_SLEEVE ] );
-		EquipmentManager.setFakeHands( fakeHands );
-
 		// Read stickers
 		JSONArray stickers = JSON.getJSONArray( "stickers" );
 		for ( int i = 0; i < 3; ++i )
 		{
 			AdventureResult item = EquipmentManager.equippedItem( stickers.getInt( i ) );
-			EquipmentManager.setEquipment( EquipmentManager.STICKER1 + i, item );
+			equipment[ EquipmentManager.STICKER1 + i ] = item;
 		}
 
 		// Read folders
@@ -1929,7 +1930,15 @@ public class EquipmentManager
 		{
 			int folder = folders.getInt( i );
 			AdventureResult item = folder == 0 ? EquipmentRequest.UNEQUIP : ItemPool.get( ItemPool.FOLDER_01 - 1 + folder, 1 );
-			EquipmentManager.setEquipment( EquipmentManager.FOLDER1 + i, item );
+			equipment[ EquipmentManager.FOLDER1 + i ] = item;
 		}
+
+		// Set all regular equipment slots
+		EquipmentManager.setEquipment( equipment );
+
+		// *** Locked familiar item
+
+		// Fake hands must be handled separately
+		EquipmentManager.setFakeHands( fakeHands );
 	}
 }
