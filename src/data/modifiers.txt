@@ -3060,8 +3060,7 @@ Alice's Army Foil Wallman	Damage Reduction: 9
 folder (blue)	Mysticality: +20
 folder (catfish)	Familiar Weight: [15*zone(The Sea)]
 folder (cyan)	Mysticality: +15, Moxie: +15
-folder (dancing dolphins)	Item Drop Percent: [50*zone(The Sea)]
-# folder (D-Team): +1 of Each Stat After Battle
+folder (dancing dolphins)	Item Drop: [50*zone(The Sea)]
 folder (D-Team)	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 folder (Ex-Files)	Combat Rate: +5
 folder (green)	Moxie: +20
@@ -3069,9 +3068,9 @@ folder (heavy metal)	Familiar Weight: +5
 folder (holographic fractal)	Cold Resistance: +4, Hot Resistance: +4, Sleaze Resistance: +4, Spooky Resistance: +4, Stench Resistance: +4
 folder (Jackass Plumber)	Monster Level: +25
 folder (Knight Writer)	Initiative: +40
-# folder (KOLHS): +50% Item Drops (KoL High School zones only)
+folder (KOLHS)	Item Drop: [50*zone(KOL High School)]
 folder (magenta)	Muscle: +15, Mysticality: +15
-folder (owl)	Item Drop Percent: [500*zone(Dreadsylvania)]
+folder (owl)	Item Drop: [500*zone(Dreadsylvania)]
 # folder (rainbow unicorn): Deals Prismatic Damage to Attackers
 folder (red)	Muscle: +20
 folder (Seawolf)	Initiative Penalty: [10*zone(The Sea)], Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)]
