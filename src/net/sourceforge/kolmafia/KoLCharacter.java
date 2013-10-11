@@ -4598,6 +4598,7 @@ public abstract class KoLCharacter
 		AdventureResult item;
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
+			int rslot = slot;
 			if ( slot == EquipmentManager.OFFHAND )
 			{	// Must do this slot last, since there may be Hobo Power
 				// modifiers in all other slots.
@@ -4606,19 +4607,22 @@ public abstract class KoLCharacter
 			else if ( slot == EquipmentManager.FAMILIAR + 1 )
 			{	// Deferred offhand
 				Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
-				item = equipment[ EquipmentManager.OFFHAND ];
+				rslot = EquipmentManager.OFFHAND;
+				item = equipment[ rslot ];
 			}
 			else
 			{	// Normal slot
 				item = equipment[ slot ];
 			}
+
 			if ( item == null || item == EquipmentRequest.UNEQUIP )
 			{
 				continue;
 			}
+
 			int id = item.getItemId();
 			boolean onHand = false;
-			if ( slot == EquipmentManager.FAMILIAR )
+			if ( rslot == EquipmentManager.FAMILIAR )
 			{
 				switch ( ItemDatabase.getConsumptionType( id ) )
 				{
@@ -4660,9 +4664,18 @@ public abstract class KoLCharacter
 			}
 			newModifiers.add( imod );
 
-			switch ( slot )
+			switch ( rslot )
 			{
 			case EquipmentManager.OFFHAND:
+				if ( id == ItemPool.CARD_SLEEVE )
+				{
+					item = equipment[ EquipmentManager.CARD_SLEEVE ];
+					if ( item != null && item != EquipmentRequest.UNEQUIP )
+					{
+						newModifiers.add( Modifiers.getModifiers( item.getName() ) );
+					}
+					break;
+				}
 				if ( ItemDatabase.getConsumptionType( id ) != KoLConstants.EQUIP_WEAPON )
 				{
 					break;
@@ -4677,8 +4690,7 @@ public abstract class KoLCharacter
 			case EquipmentManager.HAT:
 				if ( id == ItemPool.HATSEAT )
 				{
-					newModifiers.add( Modifiers.getModifiers( "Throne:" +
-						enthroned.getRace() ) );
+					newModifiers.add( Modifiers.getModifiers( "Throne:" + enthroned.getRace() ) );
 				}
 				/*FALLTHRU*/
 			case EquipmentManager.PANTS:
@@ -4697,6 +4709,22 @@ public abstract class KoLCharacter
 					newModifiers.add( Modifiers.getModifiers( "Snowsuit:" + KoLCharacter.getSnowsuit() ) );
 				}
 				break;
+
+			case EquipmentManager.ACCESSORY1:
+			case EquipmentManager.ACCESSORY2:
+			case EquipmentManager.ACCESSORY3:
+				if ( id == ItemPool.FOLDER_HOLDER )
+				{
+					for ( int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i )
+					{
+						item = equipment[ i ];
+						if ( item != null && item != EquipmentRequest.UNEQUIP )
+						{
+							newModifiers.add( Modifiers.getModifiers( item.getName() ) );
+						}
+					}
+				}
+				break;
 			}
 		}
 
@@ -4713,6 +4741,13 @@ public abstract class KoLCharacter
 
 				newModifiers.add( Modifiers.getModifiers( item.getName() ) );
 			}
+		}
+
+		// Consider fake hands
+		int fakeHands = EquipmentManager.getFakeHands();
+		if ( fakeHands > 0 )
+		{
+			newModifiers.add( Modifiers.WEAPON_DAMAGE, -1 * fakeHands, "fake hand (" + String.valueOf( fakeHands ) + ")" );
 		}
 
 		int brimstoneMonsterLevel = 1 << newModifiers.getBitmap( Modifiers.BRIMSTONE );
