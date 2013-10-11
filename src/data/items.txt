@@ -100,7 +100,7 @@
 83	rusty metal shaft	228339790	rustyshaft.gif	none	t,d	5	rusty metal shafts
 84	Orcish meat locker	221122907	meatlocker.gif	usable	t,d	5	Orcish meat lockers
 85	unlocked meat locker	343964219	meatlocker.gif	usable	t	0	unlocked meat lockers
-86	rusty metal key	518345878	rustykey.gif	usable	t,d	8	rusty metal keys
+86	rusty metal key	518345878	rustykey.gif	none	t,d	8	rusty metal keys
 87	meat from yesterday	653772183	meat.gif	none	t,d	5	meats from yesterday
 88	meat stack	814092432	meatstack.gif	none	t,d	100	meat stacks
 89	sword hilt	579389111	basichilt.gif	none	t,d	50	sword hilts
