@@ -302,6 +302,10 @@ public class ItemFinder
 		// explicitly referred to, and have names similar to other items
 		// (such as the NS Tower keys).
 
+		// If this process results in filtering EVERYTHING in our list, that's not helpful.
+		// Make a backup of nameList to restore from in such a case.
+		List<String> nameListCopy = new ArrayList<String>(nameList);
+
 		nameIterator = nameList.iterator();
 
 		while ( nameIterator.hasNext() )
@@ -314,6 +318,10 @@ public class ItemFinder
 					ItemDatabase.ATTR_TRADEABLE | ItemDatabase.ATTR_MATCHABLE | ItemDatabase.ATTR_QUEST ) &&
 				!NPCStoreDatabase.contains( itemName ) );
 		}
+
+		// restore from last step iff we filtered _everything_
+		if ( nameList.size() == 0 )
+			nameList.addAll( nameListCopy );
 	}
 
 	private static final void conditionalRemove( Iterator<String> iterator, boolean condition )
