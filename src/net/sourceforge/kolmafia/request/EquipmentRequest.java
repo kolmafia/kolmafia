@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -112,6 +113,7 @@ public class EquipmentRequest
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
 	public static final AdventureResult TRUSTY = ItemPool.get( ItemPool.TRUSTY, 1 );
 	private static final AdventureResult SPECTACLES = ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 );
+	public final static AdventureResult cardSleeve = ItemPool.get( ItemPool.CARD_SLEEVE, 1 );
 
 	public static final int REFRESH = 0;
 	public static final int EQUIPMENT = 1;
@@ -277,6 +279,7 @@ public class EquipmentRequest
 			this.initializeStickerData( changeItem, equipmentSlot, force );
 			break;
 		case EquipmentManager.CARD_SLEEVE:
+			this.initializeCardSleeveData( changeItem );
 			break;
 		default:
 			this.initializeChangeData( changeItem, equipmentSlot, force );
@@ -304,7 +307,7 @@ public class EquipmentRequest
 		return	slot < EquipmentManager.SLOTS ? "inv_equip.php" :
 			slot == EquipmentManager.CROWN_OF_THRONES ? "bogus.php" :
 			( slot >= EquipmentManager.STICKER1 && slot <= EquipmentManager.STICKER3 ) ? "bedazzle.php" :
-			slot == EquipmentManager.CARD_SLEEVE ? "bogus.php" :
+			slot == EquipmentManager.CARD_SLEEVE ? "inv_use.php" :
 			slot == EquipmentManager.FAKEHAND ? "inv_equip.php" :
 			"bogus.php";
 	}
@@ -411,6 +414,35 @@ public class EquipmentRequest
 			this.addFormField( "action", "juststick" );
 			this.removeFormField( "slot" );
 		}
+	}
+
+	private void initializeCardSleeveData( final AdventureResult card )
+	{
+		this.equipmentSlot = EquipmentManager.CARD_SLEEVE;
+		this.addFormField( "whichitem", String.valueOf( ItemPool.CARD_SLEEVE ) );
+
+		if ( card.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			this.requestType = EquipmentRequest.REMOVE_ITEM;
+			this.addFormField( "removecard", "1" );
+			return;
+		}
+
+		// Find out what item is being equipped
+		this.itemId = card.getItemId();
+
+		// Find out what kind of item it is
+		this.equipmentType = ItemDatabase.getConsumptionType( this.itemId );
+
+		if ( this.equipmentType != KoLConstants.CONSUME_CARD )
+		{
+			this.error = "You can't slide a " + ItemDatabase.getItemName( this.itemId ) + " into a card sleeze.";
+			return;
+		}
+
+		this.addFormField( "sleevecard", String.valueOf( this.itemId ) );
+		this.requestType = EquipmentRequest.CHANGE_ITEM;
+		this.changeItem = card.getCount() == 1 ? card : card.getInstance( 1 );
 	}
 
 	private String getAction( final boolean force )
@@ -828,11 +860,17 @@ public class EquipmentRequest
 			break;
 
 		case EquipmentRequest.CHANGE_ITEM:
-			KoLmafia.updateDisplay( ( this.equipmentSlot == EquipmentManager.WEAPON ? "Wielding " : this.equipmentSlot == EquipmentManager.OFFHAND ? "Holding " : "Putting on " ) + ItemDatabase.getItemName( this.itemId ) + "..." );
+			KoLmafia.updateDisplay( 
+				( this.equipmentSlot == EquipmentManager.WEAPON ? "Wielding " :
+				  this.equipmentSlot == EquipmentManager.OFFHAND ? "Holding " :
+				  this.equipmentSlot == EquipmentManager.CARD_SLEEVE ? "Sliding in " :
+				  "Putting on " ) +
+				ItemDatabase.getItemName( this.itemId ) + "..." );
 			break;
 
 		case EquipmentRequest.REMOVE_ITEM:
-			KoLmafia.updateDisplay( "Taking off " + 
+			KoLmafia.updateDisplay( ( this.equipmentSlot == EquipmentManager.CARD_SLEEVE ? "Sliding out " :
+						  "Taking off " ) + 
 						( this.equipmentSlot == EquipmentManager.FAKEHAND ?
 						  "fake hands" :
 						  EquipmentManager.getEquipment( this.equipmentSlot ).getName() ) +
@@ -844,11 +882,31 @@ public class EquipmentRequest
 			break;
 		}
 
-		super.run();
+		// You can only change a card in the card sleeve while it is in inventory
+		boolean changeCardSleeve =
+			this.equipmentSlot == EquipmentManager.CARD_SLEEVE &&
+			KoLCharacter.hasEquipped( EquipmentRequest.cardSleeve );
 
-		if ( !KoLmafia.permitsContinue() )
+		try
 		{
-			return;
+			if ( changeCardSleeve )
+			{
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) );
+			}
+
+			super.run();
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				return;
+			}
+		}
+		finally
+		{
+			if ( changeCardSleeve )
+			{
+				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.cardSleeve, EquipmentManager.OFFHAND ) );
+			}
 		}
 
 		switch ( this.requestType )
@@ -930,6 +988,7 @@ public class EquipmentRequest
 				     !result.contains( "You equip" ) &&
 				     !result.contains( "Item equipped" ) &&
 				     !result.contains( "equips an item" ) &&
+				     !result.contains( "You take the existing card out of the sleeve to make room" ) &&
 				     !result.contains( "You apply the shiny sticker" ) &&
 				     !result.contains( "fold it into an impromptu sword" ) )
 				{
@@ -1075,12 +1134,12 @@ public class EquipmentRequest
 
 		AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
 		int oldFakeHands = EquipmentManager.getFakeHands();
+		int newFakeHands = 0;
 
 		// Ensure that the inventory stays up-to-date by switching
 		// items around, as needed.
 
 		AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray();
-		int fakeHands = 0;
 
 		EquipmentRequest.parseEquipment( responseText, equipment,
 						 "unequip&type=hat", EquipmentRequest.HAT_PATTERN,
@@ -1116,7 +1175,7 @@ public class EquipmentRequest
 		int index = 0;
 		while ( ( index = responseText.indexOf( "unequip&type=fakehand", index ) ) != -1 )
 		{
-			++fakeHands;
+			newFakeHands += 1;
 			index += 21;
 		}
 
@@ -1127,12 +1186,11 @@ public class EquipmentRequest
 
 		// Adjust inventory of fake hands
 
-		int newFakeHands = EquipmentManager.getFakeHands();
 		if ( oldFakeHands != newFakeHands )
 		{
 			AdventureResult.addResultToList( KoLConstants.inventory,
-							 ItemPool.get( ItemPool.FAKE_HAND, newFakeHands - oldFakeHands ) );
-			EquipmentManager.setFakeHands( fakeHands );
+							 ItemPool.get( ItemPool.FAKE_HAND, oldFakeHands - newFakeHands ) );
+			EquipmentManager.setFakeHands( newFakeHands );
 		}
 
 		// Look for custom outfits

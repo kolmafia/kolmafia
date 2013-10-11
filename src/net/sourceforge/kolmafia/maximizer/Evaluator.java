@@ -899,6 +899,16 @@ public class Evaluator
 			}
 		}
 
+		boolean cardsleeveUseful = false;
+		{
+			Modifiers mods = Modifiers.getModifiers( "_cardsleeve" );
+			if ( mods != null &&
+				this.getScore( mods ) - nullScore > 0.0 )
+			{
+				cardsleeveUseful = true;
+			}
+		}
+
 		// This relies on the special sauce glove having a lower ID
 		// than any chefstaff.
 		boolean gloveAvailable = false;
@@ -1104,6 +1114,8 @@ public class Evaluator
 						EquipmentManager.isStickerWeapon( item ) ) ||
 					( folderholderUseful &&
 						id == ItemPool.FOLDER_HOLDER ) ||
+					( cardsleeveUseful &&
+						id == ItemPool.CARD_SLEEVE ) ||
 					( this.clownosity > 0 &&
 						mods.getRawBitmap( Modifiers.CLOWNOSITY ) != 0 ) ||
 					( this.raveosity > 0 &&

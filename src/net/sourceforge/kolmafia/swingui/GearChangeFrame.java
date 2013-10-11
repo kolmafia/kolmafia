@@ -127,7 +127,6 @@ public class GearChangeFrame
 
 	private final static AdventureResult fakeHand = ItemPool.get( ItemPool.FAKE_HAND, 1 );
 	private final static AdventureResult crownOfThrones = ItemPool.get( ItemPool.HATSEAT, 1 );
-	private final static AdventureResult cardSleeve = ItemPool.get( ItemPool.CARD_SLEEVE, 1 );
 	private final static AdventureResult folderHolder = ItemPool.get( ItemPool.FOLDER_HOLDER, 1 );
 
 	public GearChangeFrame()
@@ -339,13 +338,13 @@ public class GearChangeFrame
 	{
 		public EquipmentPanel()
 		{
-			super( "change gear", "save as outfit", new Dimension( 120, 20 ), new Dimension( 300, 20 ) );
+			super( "change gear", "save as outfit", new Dimension( 120, 20 ), new Dimension( 320, 20 ) );
 
 			ArrayList rows = new ArrayList<VerifiableElement>();
 			VerifiableElement element;
 
-			rows.add( new VerifiableElement( "Hat: ", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] ) );
-			rows.add( new VerifiableElement( "Weapon: ", GearChangeFrame.this.equipment[ EquipmentManager.WEAPON ] ) );
+			rows.add( new VerifiableElement( "Hat:", GearChangeFrame.this.equipment[ EquipmentManager.HAT ] ) );
+			rows.add( new VerifiableElement( "Weapon:", GearChangeFrame.this.equipment[ EquipmentManager.WEAPON ] ) );
 
 			JPanel radioPanel1 = new JPanel( new GridLayout( 1, 4 ) );
 			ButtonGroup radioGroup1 = new ButtonGroup();
@@ -368,9 +367,9 @@ public class GearChangeFrame
 
 			rows.add( new VerifiableElement( "", radioPanel1 ) );
 
-			rows.add( new VerifiableElement( "Off-Hand: ", GearChangeFrame.this.equipment[ EquipmentManager.OFFHAND ] ) );
+			rows.add( new VerifiableElement( "Off-Hand:", GearChangeFrame.this.equipment[ EquipmentManager.OFFHAND ] ) );
 
-			JPanel radioPanel2 = new JPanel( new GridLayout( 1, 5 ) );
+			JPanel radioPanel2 = new JPanel( new GridLayout( 1, 4 ) );
 			ButtonGroup radioGroup2 = new ButtonGroup();
 			GearChangeFrame.this.offhandTypes = new JRadioButton[ 4 ];
 
@@ -388,21 +387,21 @@ public class GearChangeFrame
 
 			rows.add( new VerifiableElement( "", radioPanel2 ) );
 
-			rows.add( new VerifiableElement( "Back: ", GearChangeFrame.this.equipment[ EquipmentManager.CONTAINER ] ) );
+			rows.add( new VerifiableElement( "Back:", GearChangeFrame.this.equipment[ EquipmentManager.CONTAINER ] ) );
 
-			rows.add( new VerifiableElement( "Shirt: ", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] ) );
-			rows.add( new VerifiableElement( "Pants: ", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] ) );
-
-			rows.add( new VerifiableElement() );
-
-			rows.add( new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] ) );
-			rows.add( new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] ) );
-			rows.add( new VerifiableElement( "Accessory: ", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] ) );
+			rows.add( new VerifiableElement( "Shirt:", GearChangeFrame.this.equipment[ EquipmentManager.SHIRT ] ) );
+			rows.add( new VerifiableElement( "Pants:", GearChangeFrame.this.equipment[ EquipmentManager.PANTS ] ) );
 
 			rows.add( new VerifiableElement() );
 
-			rows.add( new VerifiableElement( "Familiar: ", GearChangeFrame.this.familiarSelect ) );
-			rows.add( new VerifiableElement( "Fam Item: ", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] ) );
+			rows.add( new VerifiableElement( "Accessory:", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY1 ] ) );
+			rows.add( new VerifiableElement( "Accessory:", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY2 ] ) );
+			rows.add( new VerifiableElement( "Accessory:", GearChangeFrame.this.equipment[ EquipmentManager.ACCESSORY3 ] ) );
+
+			rows.add( new VerifiableElement() );
+
+			rows.add( new VerifiableElement( "Familiar:", GearChangeFrame.this.familiarSelect ) );
+			rows.add( new VerifiableElement( "Fam Item:", GearChangeFrame.this.equipment[ EquipmentManager.FAMILIAR ] ) );
 
 			GearChangeFrame.this.famLockCheckbox = new FamLockCheckbox();
 			JPanel boxholder = new JPanel( new BorderLayout() );
@@ -410,8 +409,8 @@ public class GearChangeFrame
 			rows.add( new VerifiableElement( "", boxholder ) );
 			GearChangeFrame.updateFamiliarLock();
 
-			rows.add( new VerifiableElement( "Outfit: ", GearChangeFrame.this.outfitSelect ) );
-			rows.add( new VerifiableElement( "Custom: ", GearChangeFrame.this.customSelect ) );
+			rows.add( new VerifiableElement( "Outfit:", GearChangeFrame.this.outfitSelect ) );
+			rows.add( new VerifiableElement( "Custom:", GearChangeFrame.this.customSelect ) );
 
 			VerifiableElement[] elements = new VerifiableElement[ rows.size() ];
 			elements = (VerifiableElement[])rows.toArray( elements );
@@ -526,19 +525,19 @@ public class GearChangeFrame
 			ArrayList rows = new ArrayList<VerifiableElement>();
 			VerifiableElement element;
 
-			rows.add(  new VerifiableElement( "Crown of Thrones: ", GearChangeFrame.this.crownSelect ) );
+			rows.add(  new VerifiableElement( "Crown of Thrones:", GearChangeFrame.this.crownSelect ) );
 
 			rows.add( new VerifiableElement() );
 
-			element = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
+			element = new VerifiableElement( "Sticker:", GearChangeFrame.this.equipment[ EquipmentManager.STICKER1 ]  );
 			GearChangeFrame.this.sticker1Label = element.getLabel();
 			rows.add( element );
 
-			element = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
+			element = new VerifiableElement( "Sticker:", GearChangeFrame.this.equipment[ EquipmentManager.STICKER2 ]  );
 			GearChangeFrame.this.sticker2Label = element.getLabel();
 			rows.add( element );
 
-			element = new VerifiableElement( "Sticker: ", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
+			element = new VerifiableElement( "Sticker:", GearChangeFrame.this.equipment[ EquipmentManager.STICKER3 ]  );
 			GearChangeFrame.this.sticker3Label = element.getLabel();
 			rows.add( element );
 
@@ -546,18 +545,18 @@ public class GearChangeFrame
 
 			GearChangeFrame.this.fakeHands = new FakeHandsSpinner();
 			GearChangeFrame.this.fakeHands.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
-			rows.add( new VerifiableElement( "Fake Hands: ", GearChangeFrame.this.fakeHands ) );
+			rows.add( new VerifiableElement( "Fake Hands:", GearChangeFrame.this.fakeHands ) );
 
 			rows.add( new VerifiableElement() );
 
-			rows.add( new VerifiableElement( "Card Sleeve: ", GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ] ) );
+			rows.add( new VerifiableElement( "Card Sleeve:", GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ] ) );
 
 			rows.add( new VerifiableElement() );
-			rows.add( new VerifiableElement( "Folder: ", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER1 ] ) );
-			rows.add( new VerifiableElement( "Folder: ", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER2 ] ) );
-			rows.add( new VerifiableElement( "Folder: ", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER3 ] ) );
-			rows.add( new VerifiableElement( "Folder: ", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER4 ] ) );
-			rows.add( new VerifiableElement( "Folder: ", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER5 ] ) );
+			rows.add( new VerifiableElement( "Folder:", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER1 ] ) );
+			rows.add( new VerifiableElement( "Folder:", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER2 ] ) );
+			rows.add( new VerifiableElement( "Folder:", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER3 ] ) );
+			rows.add( new VerifiableElement( "Folder:", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER4 ] ) );
+			rows.add( new VerifiableElement( "Folder:", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER5 ] ) );
 
 			VerifiableElement[] elements = new VerifiableElement[ rows.size() ];
 			elements = (VerifiableElement[])rows.toArray( elements );
@@ -581,8 +580,8 @@ public class GearChangeFrame
 			boolean hasFakeHands = GearChangeFrame.this.fakeHands.getAvailableFakeHands() > 0;
 			GearChangeFrame.this.fakeHands.setEnabled( isEnabled && hasFakeHands );
 
-			boolean hasCardSleeve = GearChangeFrame.cardSleeve.getCount( KoLConstants.inventory ) > 0 ||
-				KoLCharacter.hasEquipped( GearChangeFrame.cardSleeve );
+			boolean hasCardSleeve = EquipmentRequest.cardSleeve.getCount( KoLConstants.inventory ) > 0 ||
+				KoLCharacter.hasEquipped( EquipmentRequest.cardSleeve );
 			GearChangeFrame.this.equipment[ EquipmentManager.CARD_SLEEVE ].setEnabled( isEnabled && hasCardSleeve );
 
 			boolean hasFolderHolder = GearChangeFrame.folderHolder.getCount( KoLConstants.inventory ) > 0 ||
@@ -630,10 +629,12 @@ public class GearChangeFrame
 			}
 
 			AdventureResult item = (AdventureResult) this.equipment[ i ].getSelectedItem();
-			if ( !EquipmentManager.getEquipment( i ).equals( item ) )
+			if ( EquipmentManager.getEquipment( i ).equals( item ) )
 			{
-				RequestThread.postRequest( new EquipmentRequest( item, i, true ) );
+				continue;
 			}
+
+			RequestThread.postRequest( new EquipmentRequest( item, i, true ) );
 		}
 
 		int oldFakeHands = EquipmentManager.getFakeHands();
@@ -1402,7 +1403,6 @@ public class GearChangeFrame
 		{
 			super();
 			this.updateFakeHands();
-			this.setValue( IntegerPool.get( this.currentFakeHands ) );
 			this.addChangeListener( this );
 		}
 
@@ -1433,9 +1433,10 @@ public class GearChangeFrame
 
 		public void updateFakeHands()
 		{
-			this.currentFakeHands = EquipmentManager.getFakeHands();
 			int available = GearChangeFrame.fakeHand.getCount( KoLConstants.inventory );
+			this.currentFakeHands = EquipmentManager.getFakeHands();
 			this.availableFakeHands = this.currentFakeHands + available;
+			this.setValue( IntegerPool.get( this.currentFakeHands ) );
 		}
 	}
 
