@@ -889,6 +889,16 @@ public class Evaluator
 			}
 		}
 
+		boolean folderholderUseful = false;
+		{
+			Modifiers mods = Modifiers.getModifiers( "_folderholder" );
+			if ( mods != null &&
+				this.getScore( mods ) - nullScore > 0.0 )
+			{
+				folderholderUseful = true;
+			}
+		}
+
 		// This relies on the special sauce glove having a lower ID
 		// than any chefstaff.
 		boolean gloveAvailable = false;
@@ -1092,6 +1102,8 @@ public class Evaluator
 						mods.get( Modifiers.SLIME_HATES_IT ) > 0.0 ) ||
 					( stickersUseful &&
 						EquipmentManager.isStickerWeapon( item ) ) ||
+					( folderholderUseful &&
+						id == ItemPool.FOLDER_HOLDER ) ||
 					( this.clownosity > 0 &&
 						mods.getRawBitmap( Modifiers.CLOWNOSITY ) != 0 ) ||
 					( this.raveosity > 0 &&
