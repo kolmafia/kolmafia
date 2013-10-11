@@ -4595,153 +4595,13 @@ public abstract class KoLCharacter
 		}
 
 		// Look at items
-		AdventureResult item;
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
-			int rslot = slot;
-			if ( slot == EquipmentManager.OFFHAND )
-			{	// Must do this slot last, since there may be Hobo Power
-				// modifiers in all other slots.
-				continue;
-			}
-			else if ( slot == EquipmentManager.FAMILIAR + 1 )
-			{	// Deferred offhand
-				Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
-				rslot = EquipmentManager.OFFHAND;
-				item = equipment[ rslot ];
-			}
-			else
-			{	// Normal slot
-				item = equipment[ slot ];
-			}
-
-			if ( item == null || item == EquipmentRequest.UNEQUIP )
-			{
-				continue;
-			}
-
-			int id = item.getItemId();
-			boolean onHand = false;
-			if ( rslot == EquipmentManager.FAMILIAR )
-			{
-				switch ( ItemDatabase.getConsumptionType( id ) )
-				{
-				case KoLConstants.EQUIP_HAT:
-				case KoLConstants.EQUIP_PANTS:
-					// Hatrack hats don't get their normal enchantments
-					// Scarecrow pants don't get their normal enchantments
-					continue;
-				case KoLConstants.EQUIP_WEAPON:
-					// Disembodied Hand weapons don't give all enchantments
-					onHand = true;
-					newModifiers.add( Modifiers.WEAPON_DAMAGE,
-						EquipmentDatabase.getPower( id ) * 0.15f,
-						"15% weapon power" );
-					break;
-				}
-			}
-
-			String name = item.getName();
-			Modifiers imod = Modifiers.getModifiers( name );
-			if ( onHand && imod != null )
-			{
-				Modifiers hand = new Modifiers();
-				hand.set( imod );
-				hand.set( Modifiers.SLIME_HATES_IT, 0.0f );
-				hand.set( Modifiers.BRIMSTONE, 0 );
-				hand.set( Modifiers.CLOATHING, 0 );
-				hand.set( Modifiers.SYNERGETIC, 0 );
-				imod = hand;
-				// Possibly cache the modified modifiers?
-			}
-			if ( applyIntrinsics && imod != null )
-			{
-				String intrinsic = imod.getString( Modifiers.INTRINSIC_EFFECT );
-				if ( intrinsic.length() > 0 )
-				{
-					newModifiers.add( Modifiers.getModifiers( intrinsic ) );
-				}
-			}
-			newModifiers.add( imod );
-
-			switch ( rslot )
-			{
-			case EquipmentManager.OFFHAND:
-				if ( id == ItemPool.CARD_SLEEVE )
-				{
-					item = equipment[ EquipmentManager.CARD_SLEEVE ];
-					if ( item != null && item != EquipmentRequest.UNEQUIP )
-					{
-						newModifiers.add( Modifiers.getModifiers( item.getName() ) );
-					}
-					break;
-				}
-				if ( ItemDatabase.getConsumptionType( id ) != KoLConstants.EQUIP_WEAPON )
-				{
-					break;
-				}
-				/*FALLTHRU*/
-			case EquipmentManager.WEAPON:
-				newModifiers.add( Modifiers.WEAPON_DAMAGE,
-					EquipmentDatabase.getPower( id ) * 0.15f,
-					"15% weapon power" );
-				break;
-
-			case EquipmentManager.HAT:
-				if ( id == ItemPool.HATSEAT )
-				{
-					newModifiers.add( Modifiers.getModifiers( "Throne:" + enthroned.getRace() ) );
-				}
-				/*FALLTHRU*/
-			case EquipmentManager.PANTS:
-				newModifiers.add( Modifiers.DAMAGE_ABSORPTION, taoFactor *
-					EquipmentDatabase.getPower( id ), "hat/pants power" );
-				break;
-
-			case EquipmentManager.SHIRT:
-				newModifiers.add( Modifiers.DAMAGE_ABSORPTION,
-					EquipmentDatabase.getPower( id ), "shirt power" );
-				break;
-
-			case EquipmentManager.FAMILIAR:
-				if ( id == ItemPool.SNOW_SUIT )
-				{
-					newModifiers.add( Modifiers.getModifiers( "Snowsuit:" + KoLCharacter.getSnowsuit() ) );
-				}
-				break;
-
-			case EquipmentManager.ACCESSORY1:
-			case EquipmentManager.ACCESSORY2:
-			case EquipmentManager.ACCESSORY3:
-				if ( id == ItemPool.FOLDER_HOLDER )
-				{
-					for ( int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i )
-					{
-						item = equipment[ i ];
-						if ( item != null && item != EquipmentRequest.UNEQUIP )
-						{
-							newModifiers.add( Modifiers.getModifiers( item.getName() ) );
-						}
-					}
-				}
-				break;
-			}
+			AdventureResult item = equipment[ slot ];
+			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, applyIntrinsics, taoFactor );
 		}
 
-		// Possibly look at stickers
-		if ( EquipmentManager.usingStickerWeapon( equipment ) )
-		{
-			for ( int slot = EquipmentManager.STICKER1; slot <= EquipmentManager.STICKER3; ++slot )
-			{
-				item = equipment[ slot ];
-				if ( item == null )
-				{
-					continue;
-				}
-
-				newModifiers.add( Modifiers.getModifiers( item.getName() ) );
-			}
-		}
+		Modifiers.hoboPower = newModifiers.get( Modifiers.HOBO_POWER );
 
 		// Consider fake hands
 		int fakeHands = EquipmentManager.getFakeHands();
@@ -4793,7 +4653,7 @@ public abstract class KoLCharacter
 		// Add modifiers from campground equipment.
 		for ( int i = 0; i< KoLConstants.campground.size(); ++i )
 		{
-			item = (AdventureResult) KoLConstants.campground.get( i );
+			AdventureResult item = (AdventureResult) KoLConstants.campground.get( i );
 			// Skip ginormous pumpkin growing in garden
 			if ( item.getItemId() == ItemPool.GINORMOUS_PUMPKIN )
 			{
@@ -4807,8 +4667,8 @@ public abstract class KoLCharacter
 		}
 
 		// Add modifiers from dwelling
-		item = CampgroundRequest.getCurrentDwelling();
-		newModifiers.add( Modifiers.getModifiers( item.getName() ) );
+		AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
+		newModifiers.add( Modifiers.getModifiers( dwelling.getName() ) );
 
 		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.COMFY_BLANKET, 1 ) ) )
 		{
@@ -4918,6 +4778,144 @@ public abstract class KoLCharacter
 		}
 
 		return newModifiers;
+	}
+
+	private static final void addItemAdjustment( Modifiers newModifiers, int slot, AdventureResult item,
+						     AdventureResult[] equipment, FamiliarData enthroned,
+						     boolean applyIntrinsics, int taoFactor )
+	{
+		if ( item == null || item == EquipmentRequest.UNEQUIP )
+		{
+			return;
+		}
+
+		int itemId = item.getItemId();
+		int consume = ItemDatabase.getConsumptionType( itemId );
+
+		if ( slot == EquipmentManager.FAMILIAR &&
+		     ( consume == KoLConstants.EQUIP_HAT || consume == KoLConstants.EQUIP_PANTS ) )
+		{
+			// Hatrack hats don't get their normal enchantments
+			// Scarecrow pants don't get their normal enchantments
+			return;
+		}
+
+		String name = item.getName();
+		Modifiers imod = Modifiers.getModifiers( name );
+
+		if ( slot == EquipmentManager.FAMILIAR && consume == KoLConstants.EQUIP_WEAPON )
+		{
+			// Disembodied Hand weapons don't give all enchantments
+			if ( imod != null )
+			{
+				Modifiers hand = new Modifiers( imod );
+				hand.set( Modifiers.SLIME_HATES_IT, 0.0f );
+				hand.set( Modifiers.BRIMSTONE, 0 );
+				hand.set( Modifiers.CLOATHING, 0 );
+				hand.set( Modifiers.SYNERGETIC, 0 );
+				imod = hand;
+				// Possibly cache the modified modifiers?
+			}
+			newModifiers.add( Modifiers.WEAPON_DAMAGE,
+					  EquipmentDatabase.getPower( itemId ) * 0.15f,
+					  "15% weapon power" );
+		}
+
+		if ( imod != null )
+		{
+			if ( applyIntrinsics )
+			{
+				String intrinsic = imod.getString( Modifiers.INTRINSIC_EFFECT );
+				if ( intrinsic.length() > 0 )
+				{
+					newModifiers.add( Modifiers.getModifiers( intrinsic ) );
+				}
+			}
+
+			newModifiers.add( imod );
+		}
+
+		// Do appropriate things for specific items
+		switch ( itemId )
+		{
+		case ItemPool.STICKER_SWORD:
+		case ItemPool.STICKER_CROSSBOW:
+			// Apply stickers
+			for ( int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i )
+			{
+				AdventureResult sticker = equipment[ i ];
+				if ( sticker != null && sticker != EquipmentRequest.UNEQUIP )
+				{
+					newModifiers.add( Modifiers.getModifiers( sticker.getName() ) );
+				}
+			}
+			break;
+
+		case ItemPool.CARD_SLEEVE:
+		{
+			// Apply card
+			AdventureResult card = equipment[ EquipmentManager.CARD_SLEEVE ];
+			if ( card != null && card != EquipmentRequest.UNEQUIP )
+			{
+				newModifiers.add( Modifiers.getModifiers( card.getName() ) );
+			}
+			break;
+		}
+
+		case ItemPool.FOLDER_HOLDER:
+			// Apply folders
+			for ( int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i )
+			{
+				AdventureResult folder = equipment[ i ];
+				if ( folder != null && folder != EquipmentRequest.UNEQUIP )
+				{
+					newModifiers.add( Modifiers.getModifiers( folder.getName() ) );
+				}
+			}
+			break;
+
+		case ItemPool.HATSEAT:
+			// Apply enthroned familiar
+			newModifiers.add( Modifiers.getModifiers( "Throne:" + enthroned.getRace() ) );
+			break;
+		}
+
+		// Add modifiers that depend on equipment power
+		switch ( slot )
+		{
+		case EquipmentManager.OFFHAND:
+			if ( consume != KoLConstants.EQUIP_WEAPON )
+			{
+				break;
+			}
+			/*FALLTHRU*/
+		case EquipmentManager.WEAPON:
+			newModifiers.add( Modifiers.WEAPON_DAMAGE,
+					  EquipmentDatabase.getPower( itemId ) * 0.15f,
+					  "15% weapon power" );
+			break;
+
+		case EquipmentManager.HAT:
+			newModifiers.add( Modifiers.DAMAGE_ABSORPTION,
+					  taoFactor * EquipmentDatabase.getPower( itemId ), "hat power" );
+			break;
+		case EquipmentManager.PANTS:
+			newModifiers.add( Modifiers.DAMAGE_ABSORPTION,
+					  taoFactor * EquipmentDatabase.getPower( itemId ), "pants power" );
+			break;
+
+		case EquipmentManager.SHIRT:
+			newModifiers.add( Modifiers.DAMAGE_ABSORPTION,
+					  EquipmentDatabase.getPower( itemId ), "shirt power" );
+			break;
+
+		case EquipmentManager.FAMILIAR:
+			if ( itemId == ItemPool.SNOW_SUIT )
+			{
+				newModifiers.add( Modifiers.getModifiers( "Snowsuit:" + KoLCharacter.getSnowsuit() ) );
+			}
+			break;
+		}
 	}
 
 	// Per-character settings that change each ascension
