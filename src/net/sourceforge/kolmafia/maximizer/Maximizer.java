@@ -88,6 +88,7 @@ public class Maximizer
 		"_cloathing",
 		"_slimeHate",
 		"_stickers",
+		"_folderholder",
 	};
 
 	static MaximizerSpeculation best;
