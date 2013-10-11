@@ -1229,6 +1229,12 @@ public class Modifiers
 		this.reset();
 	};
 
+	public Modifiers( Modifiers copy )
+	{
+		this();	
+		this.set( copy );
+	};
+
 	public final void reset()
 	{
 		Arrays.fill( this.doubles, 0.0 );
