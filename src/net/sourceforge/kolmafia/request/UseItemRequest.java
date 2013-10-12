@@ -1645,6 +1645,12 @@ public class UseItemRequest
 		UseItemRequest.lastItemUsed = null;
 		UseItemRequest.lastHelperUsed = null;
 
+		if ( item.getItemId() == ItemPool.CARD_SLEEVE )
+		{
+			EquipmentRequest.parseCardSleeve( responseText );
+			return;
+		}
+
 		// If you are in Beecore, certain items can't B used
 		// "You are too scared of Bs to xxx that item."
 		if ( KoLCharacter.inBeecore() &&
@@ -4964,6 +4970,11 @@ public class UseItemRequest
 		}
 
 		AdventureResult item = UseItemRequest.extractItem( urlString );
+
+		if ( item != null && item.getItemId() == ItemPool.CARD_SLEEVE )
+		{
+			return EquipmentRequest.registerCardSleeve( urlString );
+		}
 
 		// Special handing for twisting Boris's Helm when it is equipped
 		if ( item == null && urlString.contains( "action=twisthorns" ) )
