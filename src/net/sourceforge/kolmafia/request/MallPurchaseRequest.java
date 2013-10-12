@@ -136,6 +136,16 @@ public class MallPurchaseRequest
 	}
 
 	@Override
+	public String color()
+	{
+		return	!this.canPurchase ?
+			"gray" :
+			KoLCharacter.canInteract() ?
+			( KoLCharacter.getAvailableMeat() >= this.price ? null : "gray" ) :
+			( KoLCharacter.getStorageMeat() >= this.price ? "blue" : "gray" );
+	}
+
+	@Override
 	public void run()
 	{
 		if ( this.shopId == KoLCharacter.getUserId() )

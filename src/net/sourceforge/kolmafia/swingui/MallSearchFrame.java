@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -55,6 +56,7 @@ import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -121,14 +123,17 @@ public class MallSearchFrame
 
 		private final JCheckBox forceSortingCheckBox;
 		private final JCheckBox limitPurchasesCheckBox;
+		private final JLabel inventoryBalanceLabel;
+		private final JLabel storageBalanceLabel;
 
 		public MallSearchPanel()
 		{
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 
 			this.searchField =
-				Preferences.getBoolean( "cacheMallSearches" ) ? (JComponent) new AutoFilterComboBox(
-					MallSearchFrame.pastSearches, true ) : (JComponent) new AutoHighlightTextField();
+				Preferences.getBoolean( "cacheMallSearches" ) ?
+				(JComponent) new AutoFilterComboBox( MallSearchFrame.pastSearches, true ) :
+				(JComponent) new AutoHighlightTextField();
 
 			this.countField = new AutoHighlightTextField();
 
@@ -146,10 +151,20 @@ public class MallSearchFrame
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
 			this.limitPurchasesCheckBox.setSelected( true );
 
-			VerifiableElement[] elements = new VerifiableElement[ 3 ];
+			JPanel balancePanel = new JPanel( new GridLayout( 1, 2 ) );
+			this.inventoryBalanceLabel = new JLabel( "", JLabel.CENTER );
+			this.inventoryBalanceLabel.setForeground( Color.BLACK );
+			this.storageBalanceLabel = new JLabel( "", JLabel.CENTER );
+			this.storageBalanceLabel.setForeground( Color.BLUE );
+			balancePanel.add( this.inventoryBalanceLabel );
+			balancePanel.add( this.storageBalanceLabel );
+			this.setBalance();
+
+			VerifiableElement[] elements = new VerifiableElement[ 4 ];
 			elements[ 0 ] = new VerifiableElement( "Item to Find: ", this.searchField );
 			elements[ 1 ] = new VerifiableElement( "Search Limit: ", this.countField );
 			elements[ 2 ] = new VerifiableElement( " ", checkBoxPanels, false );
+			elements[ 3 ] = new VerifiableElement( "", balancePanel, false );
 
 			int searchCount = Preferences.getInteger( "defaultLimit" );
 			this.countField.setText( searchCount <= 0 ? "5" : String.valueOf( searchCount ) );
@@ -164,6 +179,26 @@ public class MallSearchFrame
 			this.setFocusTraversalPolicy( new DefaultComponentFocusTraversalPolicy( this.searchField ) );
 
 			this.addFocusListener( this );
+		}
+
+		public void setBalance()
+		{
+			if ( KoLCharacter.canInteract() )
+			{
+				this.inventoryBalanceLabel.setText( "" );
+				this.storageBalanceLabel.setText( "" );
+				return;
+			}
+
+			StringBuilder buffer = new StringBuilder();
+			buffer.append( "Meat in inventory: " );
+			buffer.append( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
+			this.inventoryBalanceLabel.setText( buffer.toString() );
+
+			buffer.setLength( 0 );
+			buffer.append( "Meat in storage: " );
+			buffer.append( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getStorageMeat() ) );
+			this.storageBalanceLabel.setText( buffer.toString() );
 		}
 
 		public void focusGained( FocusEvent e )
