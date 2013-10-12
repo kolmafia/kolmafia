@@ -107,6 +107,11 @@ public class ListCellRendererFactory
 			{
 				return this.getRenderer( defaultComponent, (AdventureResult) value, isSelected );
 			}
+			
+			if ( value instanceof PurchaseRequest )
+			{
+				return this.getRenderer( defaultComponent, (PurchaseRequest) value, isSelected );
+			}
 
 			if ( value instanceof CreateItemRequest )
 			{
@@ -125,6 +130,65 @@ public class ListCellRendererFactory
 					list.getWidth(), isSelected );
 			}
 
+			return defaultComponent;
+		}
+
+		private Component getRenderer( Component defaultComponent, PurchaseRequest value, boolean isSelected )
+		{
+			StringBuilder buffer = new StringBuilder();
+			String color = null;
+			if ( isSelected )
+			{
+				setForeground( UIManager.getColor( "textHighlightText" ) );
+			}
+			else
+			{
+				color = value.color();
+			}
+
+			buffer.append( "<html>" );
+			if ( color != null )
+			{
+				buffer.append( "<nobr style=\"color:" );
+				buffer.append( color );
+				buffer.append( "\">" );
+			}
+
+			buffer.append( value.getItem() );
+			buffer.append( " (" );
+
+			if ( value.getQuantity() == PurchaseRequest.MAX_QUANTITY )
+			{
+				buffer.append( "unlimited" );
+			}
+			else if ( value.getQuantity() < 0 )
+			{
+				buffer.append( "unknown" );
+			}
+			else
+			{
+				buffer.append( KoLConstants.COMMA_FORMAT.format( value.getQuantity() ) );
+
+				if ( value.getLimit() < value.getQuantity() || !value.canPurchase() )
+				{
+					buffer.append( " limit " );
+					buffer.append( KoLConstants.COMMA_FORMAT.format( value.getLimit() ) );
+				}
+			}
+
+			buffer.append( " @ " );
+			buffer.append( value.getPriceString() );
+			buffer.append( "): " );
+			buffer.append( value.getShopName() );
+
+			if ( color != null )
+			{
+				buffer.append( "</font>" );
+			}
+
+			buffer.append( "</nobr></html>" );
+
+			( (JLabel) defaultComponent ).setText( buffer.toString() );
 			return defaultComponent;
 		}
 
