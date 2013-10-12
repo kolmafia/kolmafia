@@ -110,6 +110,14 @@ public class MallSearchFrame
 		return null;
 	}
 
+	public static void updateMeat()
+	{
+		if ( MallSearchFrame.INSTANCE != null )
+		{
+			MallSearchFrame.INSTANCE.mallSearch.setBalance();
+		}
+	}
+
 	/**
 	 * An internal class which represents the panel used for mall searches in the <code>AdventureFrame</code>.
 	 */
