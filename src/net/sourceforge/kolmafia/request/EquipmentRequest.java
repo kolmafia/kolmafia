@@ -1114,7 +1114,6 @@ public class EquipmentRequest
 		// You pull the card out of the sleeve.
 		// You acquire an item: Alice's Army Sniper
 		// Your card sleeve is currently empty.
-		System.out.println( "parsing card sleeve" );
 
 		Matcher acquiresMatcher = EquipmentRequest.ACQUIRE_PATTERN.matcher( responseText );
 		String acquired = acquiresMatcher.find() ? acquiresMatcher.group( 1 ) : null;
@@ -1122,7 +1121,6 @@ public class EquipmentRequest
 		String contains = containsMatcher.find() ? containsMatcher.group( 1 ) : null;
 		AdventureResult oldItem = acquired != null ? new AdventureResult( acquired, 1, false) : EquipmentRequest.UNEQUIP;
 		AdventureResult newItem = contains != null ? new AdventureResult( contains, 1, false) : EquipmentRequest.UNEQUIP;
-		System.out.println( "acquired = " + acquired + " contains = " + contains );
 
 		if ( acquired != null )
 		{
@@ -1134,6 +1132,7 @@ public class EquipmentRequest
 
 		// Put the old item into inventory and remove the new one
 		EquipmentRequest.switchItem( oldItem, newItem );
+		EquipmentManager.setEquipment( EquipmentManager.CARD_SLEEVE, newItem );
 	}
 
 	public static final void parseFolders( String responseText )
