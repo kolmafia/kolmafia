@@ -175,11 +175,14 @@ public abstract class PurchaseRequest
 	public String toString()
 	{
 		StringBuilder buffer = new StringBuilder();
+		String color = this.color();
 
-		buffer.append( "<html><nobr>" );
-		if ( !this.canPurchase() )
+		buffer.append( "<html>" );
+		if ( color != null )
 		{
-			buffer.append( "<font color=gray>" );
+			buffer.append( "<nobr style=\"color:" );
+			buffer.append( color );
+			buffer.append( "\">" );
 		}
 
 		buffer.append( this.item.getName() );
@@ -209,7 +212,7 @@ public abstract class PurchaseRequest
 		buffer.append( "): " );
 		buffer.append( this.shopName );
 
-		if ( !this.canPurchase() )
+		if ( color != null )
 		{
 			buffer.append( "</font>" );
 		}
@@ -232,6 +235,11 @@ public abstract class PurchaseRequest
 	public boolean canPurchase()
 	{
 		return this.canPurchase && KoLCharacter.getAvailableMeat() >= this.price;
+	}
+
+	public String color()
+	{
+		return this.canPurchase && KoLCharacter.getAvailableMeat() >= this.price ? null : "gray";
 	}
 
 	public boolean canPurchaseIgnoringMeat()

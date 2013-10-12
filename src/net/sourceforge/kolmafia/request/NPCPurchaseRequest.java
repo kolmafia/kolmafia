@@ -192,6 +192,12 @@ public class NPCPurchaseRequest
 	}
 
 	@Override
+	public String color()
+	{
+		return null;
+	}
+
+	@Override
 	public void run()
 	{
 		this.addFormField( this.quantityField, String.valueOf( this.limit ) );

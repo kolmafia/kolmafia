@@ -131,6 +131,12 @@ public class CoinMasterPurchaseRequest
 	}
 
 	@Override
+	public String color()
+	{
+		return this.canPurchase && this.affordableCount() > 0 ? null : "gray";
+	}
+
+	@Override
 	public boolean isAccessible()
 	{
 		return this.data.isAccessible();
