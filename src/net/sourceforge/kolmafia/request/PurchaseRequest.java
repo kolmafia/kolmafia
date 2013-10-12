@@ -177,10 +177,10 @@ public abstract class PurchaseRequest
 		StringBuilder buffer = new StringBuilder();
 		String color = this.color();
 
-		buffer.append( "<html>" );
+		buffer.append( "<html><nobr>" );
 		if ( color != null )
 		{
-			buffer.append( "<nobr style=\"color:" );
+			buffer.append( "<font color=\"" );
 			buffer.append( color );
 			buffer.append( "\">" );
 		}
