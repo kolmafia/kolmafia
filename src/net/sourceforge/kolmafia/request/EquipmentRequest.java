@@ -887,26 +887,21 @@ public class EquipmentRequest
 			this.equipmentSlot == EquipmentManager.CARD_SLEEVE &&
 			KoLCharacter.hasEquipped( EquipmentRequest.cardSleeve );
 
-		try
+		if ( changeCardSleeve )
 		{
-			if ( changeCardSleeve )
-			{
-				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) );
-			}
-
-			super.run();
-
-			if ( !KoLmafia.permitsContinue() )
-			{
-				return;
-			}
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, EquipmentManager.OFFHAND ) );
 		}
-		finally
+
+		super.run();
+
+		if ( !KoLmafia.permitsContinue() )
 		{
-			if ( changeCardSleeve )
-			{
-				RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.cardSleeve, EquipmentManager.OFFHAND ) );
-			}
+			return;
+		}
+
+		if ( changeCardSleeve )
+		{
+			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.cardSleeve, EquipmentManager.OFFHAND ) );
 		}
 
 		switch ( this.requestType )
@@ -1001,10 +996,15 @@ public class EquipmentRequest
 		case EquipmentRequest.SAVE_OUTFIT:
 		case EquipmentRequest.REMOVE_ITEM:
 		case EquipmentRequest.UNEQUIP_ALL:
-			if ( this.getURLString().contains( "ajax=1" ) )
+			if ( this.equipmentSlot == EquipmentManager.CARD_SLEEVE )
+			{
+				EquipmentRequest.parseCardSleeve( responseText );
+			}
+			else if ( this.getURLString().contains( "ajax=1" ) )
 			{
 				EquipmentRequest.parseEquipmentChange( urlString, responseText );
 			}
+
 			return;
 		}
 	}
@@ -1090,6 +1090,50 @@ public class EquipmentRequest
 				}
 			}
 		}
+	}
+
+	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire an item: <b>(.*?)</b>" );
+	private static final Pattern CONTAINS_PATTERN = Pattern.compile( "Your card sleeve currently contains an <b>(.*?)</b>" );
+
+	public static final void parseCardSleeve( final String responseText )
+	{
+		// Putting a card into an empty card sleeve
+		//
+		// You put the Alice's Army Sniper in the card sleeve.
+		// Your card sleeve currently contains an Alice's Army Sniper.
+		//
+		// Putting a card into an occupied card sleeve
+		//
+		// You take the existing card out of the sleeve to make room:
+		// You acquire an item: Alice's Army Sniper
+		// You put the Alice's Army Bowman in the card sleeve.
+		// Your card sleeve currently contains an Alice's Army Bowman.
+		//
+		// Removing a card from a card sleeve
+		//
+		// You pull the card out of the sleeve.
+		// You acquire an item: Alice's Army Sniper
+		// Your card sleeve is currently empty.
+		System.out.println( "parsing card sleeve" );
+
+		Matcher acquiresMatcher = EquipmentRequest.ACQUIRE_PATTERN.matcher( responseText );
+		String acquired = acquiresMatcher.find() ? acquiresMatcher.group( 1 ) : null;
+		Matcher containsMatcher = EquipmentRequest.CONTAINS_PATTERN.matcher( responseText );
+		String contains = containsMatcher.find() ? containsMatcher.group( 1 ) : null;
+		AdventureResult oldItem = acquired != null ? new AdventureResult( acquired, 1, false) : EquipmentRequest.UNEQUIP;
+		AdventureResult newItem = contains != null ? new AdventureResult( contains, 1, false) : EquipmentRequest.UNEQUIP;
+		System.out.println( "acquired = " + acquired + " contains = " + contains );
+
+		if ( acquired != null )
+		{
+			// *** result processing added it to inventory and tally.
+			AdventureResult remove = oldItem.getInstance( -1 );
+			AdventureResult.addResultToList( KoLConstants.tally, remove );
+			AdventureResult.addResultToList( KoLConstants.inventory, remove );
+		}
+
+		// Put the old item into inventory and remove the new one
+		EquipmentRequest.switchItem( oldItem, newItem );
 	}
 
 	public static final void parseFolders( String responseText )
@@ -1797,6 +1841,11 @@ public class EquipmentRequest
 			return true;
 		}
 
+		if ( urlString.startsWith( "inv_use.php" ) && urlString.contains( "whichitem=5009" ) )
+		{
+			return EquipmentRequest.registerCardSleeve( urlString );
+		}
+
 		if ( !urlString.startsWith( "inv_equip.php" ) )
 		{
 			return false;
@@ -1890,6 +1939,26 @@ public class EquipmentRequest
 				RequestLogger.updateSessionLog();
 				RequestLogger.updateSessionLog( "equip " + EquipmentRequest.slotNames[ slot ] + " " + itemName );
 			}
+		}
+
+		return true;
+	}
+
+	private static final Pattern SLEEVECARD_PATTERN = Pattern.compile( "sleevecard=(\\d+)" );
+	public static final boolean registerCardSleeve( final String urlString )
+	{
+		UseItemRequest.setLastItemUsed( ItemPool.get( ItemPool.CARD_SLEEVE, 1 ) );
+		Matcher m = SLEEVECARD_PATTERN.matcher( urlString );
+		String message =
+			m.find() ?
+			"equip card-sleeve " + ItemDatabase.getItemName( StringUtilities.parseInt( m.group( 1 ) ) ) :
+			urlString.contains( "removecard=1" ) ?
+			"unequip card-sleeve " :
+			null;
+		if ( message != null )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( message );
 		}
 
 		return true;
