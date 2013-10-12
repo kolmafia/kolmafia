@@ -107,6 +107,7 @@ import net.sourceforge.kolmafia.session.WumpusManager;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
+import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 
 import net.sourceforge.kolmafia.textui.DataFileCache;
 
@@ -1415,12 +1416,20 @@ public abstract class KoLCharacter
 
 	public static final void setStorageMeat( final int storageMeat )
 	{
-		KoLCharacter.storageMeat = storageMeat;
+		if ( KoLCharacter.storageMeat != storageMeat )
+		{
+			KoLCharacter.storageMeat = storageMeat;
+			MallSearchFrame.updateMeat();
+		}
 	}
 
 	public static final void addStorageMeat( final int meat )
 	{
-		KoLCharacter.storageMeat += meat;
+		if ( meat != 0 )
+		{
+			KoLCharacter.storageMeat += meat;
+			MallSearchFrame.updateMeat();
+		}
 	}
 
 	/**
@@ -1451,6 +1460,7 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.availableMeat != availableMeat )
 		{
 			KoLCharacter.availableMeat = availableMeat;
+			MallSearchFrame.updateMeat();
 		}
 	}
 
