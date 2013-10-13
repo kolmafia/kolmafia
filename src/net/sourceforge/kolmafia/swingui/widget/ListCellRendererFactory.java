@@ -169,7 +169,7 @@ public class ListCellRendererFactory
 			{
 				buffer.append( KoLConstants.COMMA_FORMAT.format( value.getQuantity() ) );
 
-				if ( value.getLimit() < value.getQuantity() || !value.canPurchase() )
+				if ( value.getLimit() < value.getQuantity() )
 				{
 					buffer.append( " limit " );
 					buffer.append( KoLConstants.COMMA_FORMAT.format( value.getLimit() ) );

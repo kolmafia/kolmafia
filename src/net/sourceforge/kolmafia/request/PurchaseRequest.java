@@ -200,7 +200,7 @@ public abstract class PurchaseRequest
 		{
 			buffer.append( KoLConstants.COMMA_FORMAT.format( this.quantity ) );
 
-			if ( this.limit < this.quantity || !this.canPurchase() )
+			if ( this.limit < this.quantity )
 			{
 				buffer.append( " limit " );
 				buffer.append( KoLConstants.COMMA_FORMAT.format( this.limit ) );
@@ -222,6 +222,11 @@ public abstract class PurchaseRequest
 		return buffer.toString();
 	}
 
+	public int getAvailableMeat()
+	{
+		return KoLCharacter.getAvailableMeat();
+	}
+
 	public void setCanPurchase( final boolean canPurchase )
 	{
 		this.canPurchase = canPurchase;
@@ -229,17 +234,17 @@ public abstract class PurchaseRequest
 
 	public void setCanPurchase()
 	{
-		this.setCanPurchase( KoLCharacter.getAvailableMeat() >= this.price );
+		this.setCanPurchase( this.getAvailableMeat() >= this.price );
 	}
 
 	public boolean canPurchase()
 	{
-		return this.canPurchase && KoLCharacter.getAvailableMeat() >= this.price;
+		return this.canPurchase && this.getAvailableMeat() >= this.price;
 	}
 
 	public String color()
 	{
-		return this.canPurchase && KoLCharacter.getAvailableMeat() >= this.price ? null : "gray";
+		return this.canPurchase && this.getAvailableMeat() >= this.price ? null : "gray";
 	}
 
 	public boolean canPurchaseIgnoringMeat()
@@ -249,7 +254,7 @@ public abstract class PurchaseRequest
 
 	public int affordableCount()
 	{
-		return KoLCharacter.getAvailableMeat() / this.price;
+		return this.getAvailableMeat() / this.price;
 	}
 
 	public boolean isAccessible()
@@ -284,7 +289,7 @@ public abstract class PurchaseRequest
 
 		// Make sure we have enough Meat to buy what we want.
 
-		if ( KoLCharacter.getAvailableMeat() < this.limit * this.price )
+		if ( this.getAvailableMeat() < this.limit * this.price )
 		{
 			return;
 		}
@@ -299,10 +304,15 @@ public abstract class PurchaseRequest
 		// Now that we're ready, make the purchase!
 
 		KoLmafia.updateDisplay( "Purchasing " + this.item.getName() + " (" + KoLConstants.COMMA_FORMAT.format( this.limit ) + " @ " + this.getPriceString() + ")..." );
-
-		this.initialCount = this.item.getCount( KoLConstants.inventory );
+		
+		this.initialCount = this.getCurrentCount();
 
 		super.run();
+	}
+
+	public int getCurrentCount()
+	{
+		return this.item.getCount( KoLConstants.inventory );
 	}
 
 	public static final void setUsePriceComparison( final boolean usePriceComparison )

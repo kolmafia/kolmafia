@@ -1593,7 +1593,7 @@ public abstract class KoLmafia
 		}
 
 		AdventureResult itemToBuy = ItemPool.get( itemId, 0 );
-		int initialCount = itemToBuy.getCount( KoLConstants.inventory );
+		int initialCount = currentRequest.getCurrentCount();
 		int currentCount = initialCount;
 		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
 
@@ -1612,14 +1612,14 @@ public abstract class KoLmafia
 
 			if ( currentRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY )
 			{
-				if ( !KoLCharacter.canInteract() || isAutomated && !Preferences.getBoolean( "autoSatisfyWithMall" ) )
+				if ( isAutomated && !Preferences.getBoolean( "autoSatisfyWithMall" ) )
 				{
 					continue;
 				}
 			}
 
 			if ( ( priceLimit > 0 && currentPrice > priceLimit ) ||
-				( isAutomated && currentPrice > Preferences.getInteger( "autoBuyPriceLimit" ) ) )
+			     ( isAutomated && currentPrice > Preferences.getInteger( "autoBuyPriceLimit" ) ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR,
 					"Stopped purchasing " + currentRequest.getItemName() + " @ " + KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
@@ -1632,7 +1632,7 @@ public abstract class KoLmafia
 
 			previousLimit = currentRequest.getLimit();
 			currentRequest.setLimit( Math.min(
-				KoLCharacter.getAvailableMeat() / currentPrice,
+				currentRequest.getAvailableMeat() / currentPrice,
 				Math.min( previousLimit, desiredCount - currentCount ) ) );
 			RequestThread.postRequest( currentRequest );
 
@@ -1668,7 +1668,7 @@ public abstract class KoLmafia
 			// Now update how many you actually have for the next
 			// iteration of the loop.
 
-			currentCount = itemToBuy.getCount( KoLConstants.inventory );
+			currentCount = currentRequest.getCurrentCount();
 		}
 
 		// With all that information parsed out, we should

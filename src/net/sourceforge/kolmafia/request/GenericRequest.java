@@ -2452,15 +2452,11 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "mallstore.php" ) )
 		{
-			// Mall stores themselves can only contain processable
-			// results when actually buying an item, and then only
-			// at the very top of the page.
-			if ( this.getFormField( "whichitem" ) != null )
-			{
-				ResultProcessor.processResults( false, this.responseText.substring( 0, this.responseText.indexOf( "</table>" ) ) );
-			}
+			// MallPurchaseRequest.parseResponse will sort this out.
+			return;
 		}
-		else if ( urlString.startsWith( "fight.php" ) )
+
+		if ( urlString.startsWith( "fight.php" ) )
 		{
 			FightRequest.processResults( this.responseText );
 		}
