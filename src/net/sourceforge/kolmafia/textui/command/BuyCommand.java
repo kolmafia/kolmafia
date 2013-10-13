@@ -78,12 +78,6 @@ public class BuyCommand
 			}
 			int priceLimit = pieces.length < 2 ? 0 : StringUtilities.parseInt( pieces[ 1 ] );
 
-			if ( !KoLCharacter.canInteract() && !NPCStoreDatabase.contains( match.getName() ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, match.getName() + ": you are not yet out of ronin, and are unable to buy this item from a NPC store." );
-				return;
-			}
-
 			ArrayList results = StoreManager.searchMall( match );
 			KoLmafia.makePurchases( results, results.toArray(), match.getCount(), false, priceLimit );
 			StoreManager.updateMallPrice( match, results );

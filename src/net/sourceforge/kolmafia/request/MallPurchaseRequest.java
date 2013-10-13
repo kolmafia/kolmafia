@@ -33,7 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,7 +59,6 @@ public class MallPurchaseRequest
 	private static final Pattern YIELD_PATTERN =
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
 	private static Pattern MALLSTOREID_PATTERN = Pattern.compile( "whichstore\\d?=(\\d+)" );
-	private static Pattern MEAT_PATTERN = Pattern.compile( "You spent ([\\d,]+) Meat" );
 
 	private final int shopId;
 
@@ -136,6 +137,12 @@ public class MallPurchaseRequest
 	}
 
 	@Override
+	public int getAvailableMeat()
+	{
+		return KoLCharacter.canInteract() ? KoLCharacter.getAvailableMeat() : KoLCharacter.getStorageMeat();
+	}
+
+	@Override
 	public String color()
 	{
 		return	!this.canPurchase ?
@@ -159,13 +166,19 @@ public class MallPurchaseRequest
 		super.run();
 	}
 
+	@Override
+	public int getCurrentCount()
+	{
+		List list = KoLCharacter.canInteract() ? KoLConstants.inventory : KoLConstants.storage;
+		return this.item.getCount( list );
+	}
 
 	@Override
 	public void processResults()
 	{
 		MallPurchaseRequest.parseResponse( this.getURLString(), this.responseText );
 
-		int quantityAcquired = this.item.getCount( KoLConstants.inventory ) - this.initialCount;
+		int quantityAcquired = this.getCurrentCount() - this.initialCount;
 		if ( quantityAcquired > 0 )
 		{
 			return;
@@ -280,12 +293,50 @@ public class MallPurchaseRequest
 		}
 	}
 
+	private static Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>", Pattern.DOTALL );
+
+	// You acquire an item: <b>tiny plastic Charity the Zombie Hunter</b> (stored in Hagnk's Ancestral Mini-Storage)
+	// You acquire <b>2 tiny plastic Charities the Zombie Hunters</b> (stored in Hagnk's Ancestral Mini-Storage)
+	private static Pattern ITEM_PATTERN = Pattern.compile( "You acquire .*?<b>(.*?)</b>( \\(stored in Hagnk's Ancestral Mini-Storage\\))?", Pattern.DOTALL );
+
+	// (You spent 1,900 meat from Hagnk's.<br />You have XXX meat left.)
+	private static Pattern MEAT_PATTERN = Pattern.compile( "You spent ([\\d,]+) [Mm]eat( from Hagnk's.*?You have ([\\d,]+) [Mm]eat left)?", Pattern.DOTALL );
+
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "mallstore.php" ) )
+		if ( !urlString.startsWith( "mallstore.php" ) || !urlString.contains( "whichitem" ) )
 		{
 			return;
 		}
+
+		// Mall stores themselves can only contain processable results
+		// when actually buying an item, and then only at the very top
+		// of the page.
+		Matcher tableMatcher = MallPurchaseRequest.TABLE_PATTERN.matcher( responseText );
+		if ( !tableMatcher.find() )
+		{
+			return;
+		}
+
+		Matcher itemMatcher = MallPurchaseRequest.ITEM_PATTERN.matcher( tableMatcher.group( 0 ) );
+		if ( !itemMatcher.find() )
+		{
+			return;
+		}
+
+		String result = itemMatcher.group( 0 );
+		ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
+		ResultProcessor.processResults( false, result, results );
+
+		if ( results.isEmpty() )
+		{
+			// Shouldn't happen
+			return;
+		}
+
+		AdventureResult item = results.get( 0 );
+		List list = itemMatcher.group( 2 ) == null ? KoLConstants.inventory : KoLConstants.storage;
+		AdventureResult.addResultToList( list, item );
 
 		Matcher meatMatcher = MallPurchaseRequest.MEAT_PATTERN.matcher( responseText );
 		if ( !meatMatcher.find() )
@@ -294,9 +345,16 @@ public class MallPurchaseRequest
 		}
 
 		int cost = StringUtilities.parseInt( meatMatcher.group( 1 ) );
-
-		ResultProcessor.processMeat( -cost );
-		KoLCharacter.updateStatus();
+		if ( meatMatcher.group( 2 ) != null )
+		{
+			int balance = StringUtilities.parseInt( meatMatcher.group( 3 ) );
+			KoLCharacter.setStorageMeat( balance );
+		}
+		else
+		{
+			ResultProcessor.processMeat( -cost );
+			KoLCharacter.updateStatus();
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
