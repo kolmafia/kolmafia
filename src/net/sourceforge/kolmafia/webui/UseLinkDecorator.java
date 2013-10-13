@@ -86,6 +86,13 @@ public abstract class UseLinkDecorator
 			return;
 		}
 
+		// You CAN buy from the mall in Hardcore or Ronin, but any
+		// results go into Hagnk's storage.
+		if ( location.startsWith( "mallstore.php" ) && !KoLCharacter.canInteract() )
+		{
+			return;
+		}
+
 		boolean inCombat = location.startsWith( "fight.php" );
 		boolean inChoice = location.startsWith( "choice.php" );
 		if ( !inCombat && !inChoice && buffer.indexOf( "You acquire" ) == -1 &&
