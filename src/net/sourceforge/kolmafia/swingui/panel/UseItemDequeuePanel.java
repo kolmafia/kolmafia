@@ -134,18 +134,19 @@ public class UseItemDequeuePanel
 		@Override
 		protected void execute()
 		{
-			ConcoctionDatabase.handleQueue( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen, KoLConstants.CONSUME_USE );
-
 			if ( UseItemDequeuePanel.this.food )
 			{
+				ConcoctionDatabase.handleQueue( true, false, false, KoLConstants.CONSUME_EAT );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
 			if ( UseItemDequeuePanel.this.booze )
 			{
+				ConcoctionDatabase.handleQueue( false, true, false, KoLConstants.CONSUME_DRINK );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
 			if ( UseItemDequeuePanel.this.spleen )
 			{
+				ConcoctionDatabase.handleQueue( false, false, true, KoLConstants.CONSUME_USE );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
 			ConcoctionDatabase.getUsables().sort();
@@ -164,18 +165,19 @@ public class UseItemDequeuePanel
 		@Override
 		protected void execute()
 		{
-			ConcoctionDatabase.handleQueue( UseItemDequeuePanel.this.food, UseItemDequeuePanel.this.booze, UseItemDequeuePanel.this.spleen, KoLConstants.NO_CONSUME );
-
 			if ( UseItemDequeuePanel.this.food )
 			{
+				ConcoctionDatabase.handleQueue( true, false, false, KoLConstants.NO_CONSUME );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
 			if ( UseItemDequeuePanel.this.booze )
 			{
+				ConcoctionDatabase.handleQueue( false, true, false, KoLConstants.NO_CONSUME );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
 			if ( UseItemDequeuePanel.this.spleen )
 			{
+				ConcoctionDatabase.handleQueue( false, false, true, KoLConstants.NO_CONSUME );
 				UseItemDequeuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
 			ConcoctionDatabase.getUsables().sort();

@@ -376,22 +376,20 @@ public class UseItemEnqueuePanel
 				return;
 			}
 
-			ConcoctionDatabase.handleQueue( UseItemEnqueuePanel.this.food, UseItemEnqueuePanel.this.booze, UseItemEnqueuePanel.this.spleen, KoLConstants.CONSUME_USE );
-
 			if ( UseItemEnqueuePanel.this.food )
 			{
-				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
-					0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
+				ConcoctionDatabase.handleQueue( true, false, false, KoLConstants.CONSUME_EAT );
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedFullness() + " Full Queued" );
 			}
 			if ( UseItemEnqueuePanel.this.booze )
 			{
-				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
-					0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
+				ConcoctionDatabase.handleQueue( false, true, false, KoLConstants.CONSUME_DRINK );
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued" );
 			}
 			if ( UseItemEnqueuePanel.this.spleen )
 			{
-				UseItemEnqueuePanel.this.queueTabs.setTitleAt(
-					0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
+				ConcoctionDatabase.handleQueue( false, false, true, KoLConstants.CONSUME_USE );
+				UseItemEnqueuePanel.this.queueTabs.setTitleAt( 0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued" );
 			}
 			ConcoctionDatabase.getUsables().sort();
 		}

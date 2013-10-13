@@ -335,8 +335,14 @@ public class MallPurchaseRequest
 		}
 
 		AdventureResult item = results.get( 0 );
-		List list = itemMatcher.group( 2 ) == null ? KoLConstants.inventory : KoLConstants.storage;
-		AdventureResult.addResultToList( list, item );
+		if ( itemMatcher.group( 2 ) == null)
+		{
+			ResultProcessor.processItem( item.getItemId(), item.getCount() );
+		}
+		else
+		{
+			AdventureResult.addResultToList( KoLConstants.storage, item );
+		}
 
 		Matcher meatMatcher = MallPurchaseRequest.MEAT_PATTERN.matcher( responseText );
 		if ( !meatMatcher.find() )
