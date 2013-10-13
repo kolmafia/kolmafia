@@ -100,6 +100,7 @@ import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.IslandArenaRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.JarlsbergRequest;
+import net.sourceforge.kolmafia.request.JunkMagazineRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.KOLHSRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
@@ -1015,6 +1016,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof JarlsbergRequest || isExternal ) && JarlsbergRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof JunkMagazineRequest || isExternal ) && JunkMagazineRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

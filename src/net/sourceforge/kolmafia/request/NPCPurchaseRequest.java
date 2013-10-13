@@ -529,7 +529,8 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "mystic" ) ||
 		     shopId.startsWith( "kolhs_" ) ||
 		     shopId.equals( "grandma" ) ||
-		     shopId.equals( "beergarden" ) )
+		     shopId.equals( "beergarden" ) ||
+		     shopId.equals( "junkmagazine" ) )
 		{
 			NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 			return;
