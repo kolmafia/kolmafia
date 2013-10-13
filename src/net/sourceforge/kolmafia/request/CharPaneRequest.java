@@ -61,6 +61,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
+import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -130,7 +131,11 @@ public class CharPaneRequest
 
 	public static final void setInteraction( final boolean interaction )
 	{
-		CharPaneRequest.canInteract = interaction;
+		if ( CharPaneRequest.canInteract != interaction )
+		{
+			CharPaneRequest.canInteract = interaction;
+			MallSearchFrame.updateMeat();
+		}
 		if ( interaction )
 		{
 			ConcoctionDatabase.setPullsRemaining( -1 );

@@ -6771,9 +6771,9 @@
 6754	fancy beer bottle	408384403	fancybottle.gif	usable	t,d	10	fancy beer bottles
 6755	fancy beer label	112004209	fancylabel.gif	usable	t,d	10	fancy beer labels
 6756	artisanal homebrew sampler	261735266	crate.gif	usable		0	artisanal homebrew samplers
-6757	can of Br&uuml;talbr&auml;u	785997509	fancycan.gif	drink	t,d	10
-6758	can of Drooling Monk	987647275	fancycan.gif	drink	t,d	10
-6759	can of Impetuous Scofflaw	606040163	fancycan.gif	drink	t,d	10
+6757	can of Br&uuml;talbr&auml;u	785997509	fancycan.gif	drink, usable	t,d	10
+6758	can of Drooling Monk	987647275	fancycan.gif	drink, usable	t,d	10
+6759	can of Impetuous Scofflaw	606040163	fancycan.gif	drink, usable	t,d	10
 6760	bottle of Old Pugilist	991747801	fancybrew.gif	drink	t,d	20
 6761	bottle of Professor Beer	617388012	fancybrew.gif	drink	t,d	20
 6762	bottle of Rapier Witbier	858412422	fancybrew.gif	drink	t,d	20
