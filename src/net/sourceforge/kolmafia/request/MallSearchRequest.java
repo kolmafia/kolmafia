@@ -261,7 +261,6 @@ public class MallSearchRequest
 		// known not to be tradeable to see if there's an exact match.
 
 		Iterator itemIterator = itemNames.iterator();
-		boolean canInteract = KoLCharacter.canInteract();
 		int npcItemCount = 0;
 		int untradeableCount = 0;
 
@@ -295,11 +294,10 @@ public class MallSearchRequest
 			return exact;
 		}
 
-		// If the results contain only untradeable NPC items, or only
-		// NPC items, period, and you can't interact, then you don't
-		// need to run a mall search.
+		// If the results contain only untradeable NPC items, then you
+		// don't need to run a mall search.
 
-		if ( count == untradeableCount || ( !canInteract && count == npcItemCount ) )
+		if ( count == untradeableCount )
 		{
 			this.finalizeList( itemNames );
 			return false;
