@@ -774,7 +774,9 @@ public class ConcoctionDatabase
 		// consumptionType can be:
 		//
 		// KoLConstants.NO_CONSUME - create or retrieve items
-		// KoLConstants.CONSUME_USE - use food, booze or spleen items
+		// KoLConstants.CONSUME_EAT - eat food items
+		// KoLConstants.CONSUME_DRINK - drink booze items
+		// KoLConstants.CONSUME_USE - use spleen items
 		// KoLConstants.CONSUME_GHOST - binge ghost with food
 		// KoLConstants.CONSUME_HOBO - binge hobo with booze
 
@@ -807,7 +809,9 @@ public class ConcoctionDatabase
 			Concoction c = currentItem.getConcoction();
 			int quantity = currentItem.getCount();
 
-			if ( consumptionType != KoLConstants.CONSUME_USE )
+			if ( consumptionType != KoLConstants.CONSUME_EAT &&
+			     consumptionType != KoLConstants.CONSUME_DRINK &&
+			     consumptionType != KoLConstants.CONSUME_USE)
 			{
 				// Binge familiar or create only
 
@@ -855,7 +859,7 @@ public class ConcoctionDatabase
 
 			// "using" the item will either queue a consumption
 			// helper or actually consume the item.
-			ConcoctionDatabase.consumeItem( c, quantity );
+			ConcoctionDatabase.consumeItem( c, quantity, consumptionType );
 
 			if ( !KoLmafia.permitsContinue() )
 			{
@@ -918,7 +922,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.refreshConcoctions( true );
 	}
 
-	private static final void consumeItem( Concoction c, int quantity )
+	private static final void consumeItem( Concoction c, int quantity, int consumptionType )
 	{
 		AdventureResult item = c.getItem();
 
@@ -934,7 +938,7 @@ public class ConcoctionDatabase
 				int initial = Math.min( quantity, InventoryManager.getCount( item.getItemId() ) );
 				if ( initial > 0 )
 				{
-					request = UseItemRequest.getInstance( item.getInstance( initial ) );
+					request = UseItemRequest.getInstance( consumptionType, item.getInstance( initial ) );
 					RequestThread.postRequest( request );
 					quantity -= initial;
 				}
