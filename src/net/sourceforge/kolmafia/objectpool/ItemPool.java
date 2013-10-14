@@ -1574,6 +1574,9 @@ public class ItemPool
 	public static final int GOOD_BRAIN = 5754;
 	public static final int BOSS_BRAIN = 5755;
 	public static final int HUNTER_BRAIN = 5756;
+	public static final int FUZZY_BUSBY = 5764;
+	public static final int FUZZY_EARMUFFS = 5765;
+	public static final int FUZZY_MONTERA = 5766;
 	public static final int GNOMISH_EAR = 5768;
 	public static final int GNOMISH_LUNG = 5769;
 	public static final int GNOMISH_ELBOW = 5770;
