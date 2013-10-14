@@ -629,9 +629,9 @@ public class GearChangeFrame
 
 		// Stickers
 		AdventureResult[] stickers = new AdventureResult[] {
-			EquipmentManager.getEquipment( EquipmentManager.STICKER1 ),
-			EquipmentManager.getEquipment( EquipmentManager.STICKER2 ),
-			EquipmentManager.getEquipment( EquipmentManager.STICKER3 ),
+			(AdventureResult) this.equipment[ EquipmentManager.STICKER1 ].getSelectedItem(),
+			(AdventureResult) this.equipment[ EquipmentManager.STICKER2 ].getSelectedItem(),
+			(AdventureResult) this.equipment[ EquipmentManager.STICKER3 ].getSelectedItem(),
 		};
 
 		for ( int i = 0; i < stickers.length; ++i )
@@ -646,11 +646,11 @@ public class GearChangeFrame
 
 		// Folders
 		AdventureResult[] folders = new AdventureResult[] {
-			EquipmentManager.getEquipment( EquipmentManager.FOLDER1 ),
-			EquipmentManager.getEquipment( EquipmentManager.FOLDER2 ),
-			EquipmentManager.getEquipment( EquipmentManager.FOLDER3 ),
-			EquipmentManager.getEquipment( EquipmentManager.FOLDER4 ),
-			EquipmentManager.getEquipment( EquipmentManager.FOLDER5 ),
+			(AdventureResult) this.equipment[ EquipmentManager.FOLDER1 ].getSelectedItem(),
+			(AdventureResult) this.equipment[ EquipmentManager.FOLDER2 ].getSelectedItem(),
+			(AdventureResult) this.equipment[ EquipmentManager.FOLDER3 ].getSelectedItem(),
+			(AdventureResult) this.equipment[ EquipmentManager.FOLDER4 ].getSelectedItem(),
+			(AdventureResult) this.equipment[ EquipmentManager.FOLDER5 ].getSelectedItem(),
 		};
 
 		for ( int i = 0; i < folders.length; ++i )
