@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -51,7 +52,7 @@ public class AutoSellCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		Object[] items = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
+		AdventureResult[] items = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters );
 		if ( items.length == 0 )
 		{
 			return;

@@ -111,15 +111,15 @@ public class MuseumFrame
 			AdventureResult[] display = new AdventureResult[ KoLConstants.collection.size() ];
 			KoLConstants.collection.toArray( display );
 
-			int itemCount;
-			ArrayList items = new ArrayList();
+			ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
 
 			for ( int i = 0; i < display.length; ++i )
 			{
-				itemCount = display[ i ].getCount( KoLConstants.inventory );
-				if ( itemCount > 0 && display[ i ].getCount() > 1 )
+				AdventureResult item = display[ i ];
+				int itemCount = item.getCount( KoLConstants.inventory );
+				if ( itemCount > 0 && item.getCount() > 1 )
 				{
-					items.add( display[ i ].getInstance( itemCount ) );
+					items.add( item.getInstance( itemCount ) );
 				}
 			}
 
@@ -128,7 +128,7 @@ public class MuseumFrame
 				return;
 			}
 
-			RequestThread.postRequest( new DisplayCaseRequest( items.toArray(), true ) );
+			RequestThread.postRequest( new DisplayCaseRequest( (AdventureResult[])items.toArray(), true ) );
 		}
 
 		@Override
@@ -172,17 +172,17 @@ public class MuseumFrame
 			this.displayPanel.setEnabled( isEnabled );
 		}
 
-		private Object[] getSelectedValues( final Object[] selection, boolean moveAll )
+		private AdventureResult[] getSelectedValues( final AdventureResult[] selection, boolean moveAll )
 		{
 			if ( !moveAll )
 			{
 				for ( int i = 0; i < selection.length; ++i )
 				{
+					AdventureResult item = selection[ i ];
 					Integer value = InputFieldUtilities.getQuantity(
-							"Moving " + ( (AdventureResult) selection[ i ] ).getName() + "...",
-							( (AdventureResult) selection[ i ] ).getCount(), 1 );
+							"Moving " + item.getName() + "...", item.getCount(), 1 );
 					int count = ( value == null ) ? 0 : value.intValue();
-					selection[ i ] = ( (AdventureResult) selection[ i ] ).getInstance( count );
+					selection[ i ] = item.getInstance( count );
 				}
 			}
 
@@ -202,8 +202,9 @@ public class MuseumFrame
 
 			private void move( final boolean moveAll )
 			{
-				RequestThread.postRequest( new DisplayCaseRequest( AddRemovePanel.this.getSelectedValues(
-					this.elementList.getSelectedValues(), moveAll ), true ) );
+				AdventureResult[] selection = (AdventureResult[])this.elementList.getSelectedItems();
+				AdventureResult[] items = AddRemovePanel.this.getSelectedValues( selection, moveAll );
+				RequestThread.postRequest( new DisplayCaseRequest( items, true ) );
 				RequestThread.postRequest( new DisplayCaseRequest() );
 			}
 
@@ -233,8 +234,9 @@ public class MuseumFrame
 
 			private void move( final boolean moveAll )
 			{
-				RequestThread.postRequest( new DisplayCaseRequest( AddRemovePanel.this.getSelectedValues(
-					this.elementList.getSelectedValues(), moveAll ), false ) );
+				AdventureResult[] selection = (AdventureResult[])this.elementList.getSelectedItems();
+				AdventureResult[] items = AddRemovePanel.this.getSelectedValues( selection, moveAll );
+				RequestThread.postRequest( new DisplayCaseRequest( items, false ) );
 				RequestThread.postRequest( new DisplayCaseRequest() );
 			}
 
@@ -314,7 +316,8 @@ public class MuseumFrame
 		@Override
 		public void actionCancelled()
 		{
-			RequestThread.postRequest( new DisplayCaseRequest( this.elementList.getSelectedValues(), false ) );
+			AdventureResult[] items = (AdventureResult[])this.elementList.getSelectedValues();
+			RequestThread.postRequest( new DisplayCaseRequest( items, false ) );
 			RequestThread.postRequest( new DisplayCaseRequest() );
 		}
 

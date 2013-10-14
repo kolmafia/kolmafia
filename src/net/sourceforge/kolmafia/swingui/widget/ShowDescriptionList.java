@@ -204,6 +204,18 @@ public class ShowDescriptionList
 		return this.originalModel;
 	}
 
+	public AdventureResult[] getSelectedItems()
+	{
+		// Obviously, this only works if the model contains AdventureResults
+		Object[] values = this.getSelectedValues();
+		AdventureResult[] result = new AdventureResult[ values.length ];
+		for ( int i = 0; i < values.length; ++i )
+		{
+			result[ i ] = (AdventureResult)values[ i ];
+		}
+		return result;
+	}
+
 	/**
 	 * Shows and hides the applicable context menu item. Actually all it does is show it -- the VM will handle hiding
 	 * it.
@@ -812,10 +824,10 @@ public class ShowDescriptionList
 		@Override
 		public void executeAction()
 		{
-			Object[] items = ShowDescriptionList.this.getSelectedValues();
+			AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				AdventureResult.addResultToList( KoLConstants.tally, ( (AdventureResult) items[ i ] ).getNegation() );
+				AdventureResult.addResultToList( KoLConstants.tally, items[ i ].getNegation() );
 			}
 		}
 	}
@@ -831,8 +843,8 @@ public class ShowDescriptionList
 				return;
 			}
 
-			RequestThread.postRequest( new AutoSellRequest(
-				ShowDescriptionList.this.getSelectedValues() ) );
+			AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
+			RequestThread.postRequest( new AutoSellRequest( items ) );
 		}
 	}
 
@@ -847,8 +859,8 @@ public class ShowDescriptionList
 				return;
 			}
 
-			RequestThread.postRequest( new AutoMallRequest(
-				ShowDescriptionList.this.getSelectedValues() ) );
+			AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
+			RequestThread.postRequest( new AutoMallRequest( items ) );
 		}
 	}
 
@@ -863,11 +875,10 @@ public class ShowDescriptionList
 				return;
 			}
 
-			Object[] items = ShowDescriptionList.this.getSelectedValues();
-
+			AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( UseItemRequest.getInstance( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( items[ i ] ) );
 			}
 		}
 	}
@@ -883,11 +894,10 @@ public class ShowDescriptionList
 				return;
 			}
 
-			Object[] items = ShowDescriptionList.this.getSelectedValues();
-
+			AdventureResult[] items = ShowDescriptionList.this.getSelectedItems();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new PulverizeRequest( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( new PulverizeRequest( items[ i ] ) );
 			}
 		}
 	}

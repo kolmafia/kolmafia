@@ -101,6 +101,7 @@ import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
@@ -275,6 +276,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "arena.php" ) )
 		{
 			CakeArenaRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "backoffice.php" ) )
+		{
+			ManageStoreRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "basement.php" ) )

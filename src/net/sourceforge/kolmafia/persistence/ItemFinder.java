@@ -510,12 +510,12 @@ public class ItemFinder
 		return itemCount <= 0 ? null : firstMatch;
 	}
 
-	public static Object[] getMatchingItemList( List<?> sourceList, String itemList )
+	public static AdventureResult[] getMatchingItemList( List<?> sourceList, String itemList )
 	{
 		return getMatchingItemList( sourceList, itemList, true );
 	}
 
-	public static Object[] getMatchingItemList( List<?> sourceList, String itemList, boolean errorOnFailure )
+	public static AdventureResult[] getMatchingItemList( List<?> sourceList, String itemList, boolean errorOnFailure )
 	{
 		String[] itemNames = itemList.split( "\\s*,\\s*" );
 
@@ -563,7 +563,7 @@ public class ItemFinder
 			}
 		}
 
-		return items.toArray();
+		return (AdventureResult[])items.toArray();
 	}
 
 }

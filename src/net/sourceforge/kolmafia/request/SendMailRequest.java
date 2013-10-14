@@ -93,7 +93,7 @@ public class SendMailRequest
 		this.isInternal = true;
 	}
 
-	public SendMailRequest( final String recipient, final String message, final Object[] attachments,
+	public SendMailRequest( final String recipient, final String message, final AdventureResult[] attachments,
 		boolean isInternal )
 	{
 		super( "sendmessage.php", attachments );
@@ -125,7 +125,7 @@ public class SendMailRequest
 	}
 
 	@Override
-	public TransferItemRequest getSubInstance( final Object[] attachments )
+	public TransferItemRequest getSubInstance( final AdventureResult[] attachments )
 	{
 		return new SendMailRequest( this.recipient, this.message, attachments, this.isInternal );
 	}

@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -84,7 +85,7 @@ public class ClanStashCommand
 			return;
 		}
 
-		Object[] itemList = ItemFinder.getMatchingItemList( list, parameters );
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( list, parameters );
 		if ( itemList.length == 0 )
 		{
 			return;

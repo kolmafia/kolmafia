@@ -131,7 +131,7 @@ public class ClosetRequest
 
 	public ClosetRequest( final int moveType )
 	{
-		this( moveType, new Object[ 0 ] );
+		this( moveType, new AdventureResult[ 0 ] );
 		this.moveType = moveType;
 	}
 
@@ -140,12 +140,12 @@ public class ClosetRequest
 		this( moveType, new AdventureResult( AdventureResult.MEAT, amount ) );
 	}
 
-	public ClosetRequest( final int moveType, final Object attachment )
+	public ClosetRequest( final int moveType, final AdventureResult attachment )
 	{
-		this( moveType, new Object[] { attachment } );
+		this( moveType, new AdventureResult[] { attachment } );
 	}
 
-	public ClosetRequest( final int moveType, final Object[] attachments )
+	public ClosetRequest( final int moveType, final AdventureResult[] attachments )
 	{
 		super( ClosetRequest.pickURL( moveType ), attachments );
 		this.moveType = moveType;
@@ -270,7 +270,7 @@ public class ClosetRequest
 	}
 
 	@Override
-	public TransferItemRequest getSubInstance( final Object[] attachments )
+	public TransferItemRequest getSubInstance( final AdventureResult[] attachments )
 	{
 		return new ClosetRequest( this.moveType, attachments );
 	}

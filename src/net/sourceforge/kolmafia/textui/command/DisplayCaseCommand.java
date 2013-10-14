@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -88,7 +89,7 @@ public class DisplayCaseCommand
 			return;
 		}
 
-		Object[] items = ItemFinder.getMatchingItemList( sourceList, itemName );
+		AdventureResult[] items = ItemFinder.getMatchingItemList( sourceList, itemName );
 
 		if ( items.length == 0 )
 		{

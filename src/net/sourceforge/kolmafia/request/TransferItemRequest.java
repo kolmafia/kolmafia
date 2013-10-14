@@ -70,7 +70,7 @@ public abstract class TransferItemRequest
 	private static boolean hadSendMessageFailure = false;
 	private static boolean updateDisplayOnFailure = true;
 
-	public Object[] attachments;
+	public AdventureResult[] attachments;
 	public List source = KoLConstants.inventory;
 	public List destination = new ArrayList();
 	public boolean isSubInstance = false;
@@ -78,18 +78,18 @@ public abstract class TransferItemRequest
 	public TransferItemRequest( final String formSource )
 	{
 		super( formSource );
-		this.attachments = new Object[ 0 ];
+		this.attachments = new AdventureResult[ 0 ];
 	}
 
 	public TransferItemRequest( final String formSource, final AdventureResult attachment )
 	{
 		this( formSource );
 
-		this.attachments = new Object[ 1 ];
+		this.attachments = new AdventureResult[ 1 ];
 		this.attachments[ 0 ] = attachment;
 	}
 
-	public TransferItemRequest( final String formSource, final Object[] attachments )
+	public TransferItemRequest( final String formSource, final AdventureResult[] attachments )
 	{
 		this( formSource );
 		this.attachments = attachments;
@@ -137,7 +137,7 @@ public abstract class TransferItemRequest
 
 	public abstract int getCapacity();
 
-	public abstract TransferItemRequest getSubInstance( Object[] attachments );
+	public abstract TransferItemRequest getSubInstance( AdventureResult[] attachments );
 
 	public abstract String getStatusMessage();
 
@@ -195,7 +195,7 @@ public abstract class TransferItemRequest
 
 			do
 			{
-				AdventureResult item = (AdventureResult) this.attachments[ index++ ];
+				AdventureResult item = this.attachments[ index++ ];
 
 				if ( item == null )
 				{
@@ -245,11 +245,13 @@ public abstract class TransferItemRequest
 			while ( index < this.attachments.length && nextAttachments.size() < capacity );
 
 			// For each broken-up request, create a new request
-			// which will has the appropriate data to post.
+			// which has the appropriate data to post.
 
 			if ( !nextAttachments.isEmpty() )
 			{
-				TransferItemRequest subinstance = this.getSubInstance( nextAttachments.toArray() );
+				AdventureResult[] subAttachments = new AdventureResult[ nextAttachments.size() ]; 
+				subAttachments = (AdventureResult[])nextAttachments.toArray( subAttachments);
+				TransferItemRequest subinstance = this.getSubInstance( subAttachments );
 				subinstance.isSubInstance = true;
 				subinstances.add( subinstance );
 			}
@@ -414,7 +416,7 @@ public abstract class TransferItemRequest
 		final List source, final List destination,
 		final int defaultQuantity )
 	{
-		ArrayList itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
+		ArrayList<AdventureResult> itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
 
 		if ( itemList.isEmpty() )
 		{
@@ -471,9 +473,9 @@ public abstract class TransferItemRequest
 		return count;
 	}
 
-	public static final ArrayList getItemList( final String urlString,
-		final Pattern itemPattern, final Pattern quantityPattern,
-		final List source, final int defaultQuantity )
+	public static final ArrayList<AdventureResult> getItemList( final String urlString,
+								    final Pattern itemPattern, final Pattern quantityPattern,
+								    final List source, final int defaultQuantity )
 	{
 		ArrayList<AdventureResult> itemList = new ArrayList<AdventureResult>();
 
@@ -513,9 +515,9 @@ public abstract class TransferItemRequest
 		return itemList;
 	}
 
-	public static final ArrayList getItemList( final String urlString,
-		final Pattern itemPattern, final Pattern quantityPattern,
-		final List source )
+	public static final ArrayList<AdventureResult> getItemList( final String urlString,
+								    final Pattern itemPattern, final Pattern quantityPattern,
+								    final List source )
 	{
 		// Return only items that are on the source list - no default
 
@@ -565,7 +567,7 @@ public abstract class TransferItemRequest
 		final Pattern itemPattern,
 		final List source, final List destination )
 	{
-		ArrayList itemList = TransferItemRequest.getItemList( responseText, itemPattern );
+		ArrayList<AdventureResult> itemList = TransferItemRequest.getItemList( responseText, itemPattern );
 
 		if ( itemList.isEmpty() )
 		{
@@ -578,12 +580,12 @@ public abstract class TransferItemRequest
 	public static final Pattern ITEM_PATTERN1 = Pattern.compile( "(.*?) \\((\\d+)\\)" );
 	public static final Pattern ITEM_PATTERN2 = Pattern.compile( "^(\\d+) ([^,]*)" );
 
-	public static final ArrayList getItemList( final String responseText, final Pattern itemPattern )
+	public static final ArrayList<AdventureResult> getItemList( final String responseText, final Pattern itemPattern )
 	{
 		return TransferItemRequest.getItemList( responseText, itemPattern, TransferItemRequest.ITEM_PATTERN1, TransferItemRequest.ITEM_PATTERN2 );
 	}
 
-	public static final ArrayList getItemList( final String responseText, final Pattern outerPattern,
+	public static final ArrayList<AdventureResult> getItemList( final String responseText, final Pattern outerPattern,
 						   final Pattern innerPattern1, final Pattern innerPattern2 )
 	{
 		ArrayList<AdventureResult> itemList = new ArrayList<AdventureResult>();
@@ -679,13 +681,13 @@ public abstract class TransferItemRequest
 	}
 
 	public static final boolean registerRequest( final String command, final String urlString,
-		final Pattern itemPattern, final Pattern quantityPattern,
-		final List source, final int defaultQuantity,
-		final String meatField )
+						     final Pattern itemPattern, final Pattern quantityPattern,
+						     final List source, final int defaultQuantity,
+						     final String meatField )
 	{
 		Matcher recipientMatcher = TransferItemRequest.RECIPIENT_PATTERN.matcher( urlString );
 		boolean recipients = recipientMatcher.find();
-		ArrayList itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
+		ArrayList<AdventureResult> itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
 		int meat = TransferItemRequest.transferredMeat( urlString, meatField );
 
 		if ( !recipients && itemList.isEmpty() && meat == 0 )

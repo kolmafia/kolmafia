@@ -145,6 +145,14 @@ public class ManageStoreRequest
 		}
 	}
 
+	public static final void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "backoffice.php" ) )
+		{
+			return;
+		}
+	}
+
 	private void viewStoreLogs()
 	{
 		KoLmafia.updateDisplay( "Examining store logs..." );

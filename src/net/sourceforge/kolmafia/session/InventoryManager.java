@@ -1212,7 +1212,7 @@ public abstract class InventoryManager
 		if ( !attachmentList.isEmpty() )
 		{
 			int moveType = moveToCloset ? ClosetRequest.INVENTORY_TO_CLOSET : ClosetRequest.CLOSET_TO_INVENTORY;
-			RequestThread.postRequest( new ClosetRequest( moveType, attachmentList.toArray() ) );
+			RequestThread.postRequest( new ClosetRequest( moveType, (AdventureResult[])attachmentList.toArray() ) );
 		}
 	}
 

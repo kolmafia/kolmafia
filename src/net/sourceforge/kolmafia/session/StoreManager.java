@@ -834,12 +834,12 @@ public abstract class StoreManager
 
 		if ( autosell.size() > 0 && KoLmafia.permitsContinue() )
 		{
-			RequestThread.postRequest( new AutoSellRequest( autosell.toArray() ) );
+			RequestThread.postRequest( new AutoSellRequest( (AdventureResult[])autosell.toArray() ) );
 		}
 
 		if ( automall.size() > 0 && KoLmafia.permitsContinue() )
 		{
-			RequestThread.postRequest( new AutoMallRequest( automall.toArray() ) );
+			RequestThread.postRequest( new AutoMallRequest( (AdventureResult[])automall.toArray() ) );
 		}
 
 		// Now, remove all the items that you intended
