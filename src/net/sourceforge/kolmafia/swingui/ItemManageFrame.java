@@ -381,14 +381,13 @@ public class ItemManageFrame
 		@Override
 		public void actionConfirmed()
 		{
-			AdventureResult current;
 			AdventureResult[] items = new AdventureResult[ KoLConstants.singletonList.size() ];
 			for ( int i = 0; i < KoLConstants.singletonList.size(); ++i )
 			{
-				current = (AdventureResult) KoLConstants.singletonList.get( i );
-				items[ i ] =
-					current.getInstance( Math.min( current.getCount( KoLConstants.inventory ), Math.max(
-						0, 1 - current.getCount( KoLConstants.closet ) ) ) );
+				AdventureResult current = (AdventureResult) KoLConstants.singletonList.get( i );
+				int icount = current.getCount( KoLConstants.inventory );
+				int ccount = current.getCount( KoLConstants.closet );
+				items[ i ] = current.getInstance( Math.min( icount, Math.max( 0, 1 - ccount ) ) );
 			}
 
 			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, items ) );
@@ -562,10 +561,10 @@ public class ItemManageFrame
 			}
 		}
 
-		private Object[] pullItems( final boolean isPullingForUse )
+		private AdventureResult[] pullItems( final boolean isPullingForUse )
 		{
 			this.isPullingForUse = isPullingForUse;
-			Object[] items = this.getDesiredItems( "Pulling" );
+			AdventureResult[] items = this.getDesiredItems( "Pulling" );
 
 			if ( items == null )
 			{
@@ -577,7 +576,7 @@ public class ItemManageFrame
 			{
 				for ( int i = 0; i < items.length; ++i )
 				{
-					AdventureResult item = (AdventureResult) items[ i ];
+					AdventureResult item = items[ i ];
 					String itemName = item.getName();
 					if ( !TrendyRequest.isTrendy( "Items", itemName ) )
 					{
@@ -607,7 +606,7 @@ public class ItemManageFrame
 		@Override
 		public void actionCancelled()
 		{
-			Object[] items = this.pullItems( this.isEquipmentOnly );
+			AdventureResult[] items = this.pullItems( this.isEquipmentOnly );
 			if ( items == null )
 			{
 				return;
@@ -617,7 +616,7 @@ public class ItemManageFrame
 			{
 				for ( int i = 0; i < items.length; ++i )
 				{
-					RequestThread.postRequest( new EquipmentRequest( (AdventureResult) items[ i ] ) );
+					RequestThread.postRequest( new EquipmentRequest( items[ i ] ) );
 				}
 			}
 			else
@@ -645,9 +644,9 @@ public class ItemManageFrame
 			super.addMovers();
 		}
 
-		private Object[] pullItems()
+		private AdventureResult[] pullItems()
 		{
-			Object[] items = this.getDesiredItems( "Pulling" );
+			AdventureResult[] items = this.getDesiredItems( "Pulling" );
 
 			if ( items == null )
 			{
@@ -667,7 +666,7 @@ public class ItemManageFrame
 		@Override
 		public void actionCancelled()
 		{
-			Object[] items = this.pullItems();
+			AdventureResult[] items = this.pullItems();
 			if ( items == null )
 			{
 				return;

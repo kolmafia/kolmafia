@@ -252,8 +252,8 @@ public class SendMessageFrame
 
 	public void sendMessage()
 	{
-		Object[] attachmentsArray = new Object[ this.attachments.size() + 1 ];
-		this.attachments.toArray( attachmentsArray );
+		AdventureResult[] attachmentsArray = new AdventureResult[ this.attachments.size() + 1 ];
+		attachmentsArray = (AdventureResult[])this.attachments.toArray( attachmentsArray );
 
 		attachmentsArray[ this.attachments.size() ] =
 			new AdventureResult( AdventureResult.MEAT, InputFieldUtilities.getValue( this.attachedMeat, 0 ) );

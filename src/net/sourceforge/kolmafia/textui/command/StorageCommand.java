@@ -63,7 +63,7 @@ public class StorageCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		Object[] items;
+		AdventureResult[] items;
 		if ( parameters.trim().equals( "all" ) )
  		{
 			if ( !KoLCharacter.canInteract() )
@@ -98,7 +98,7 @@ public class StorageCommand
 				KoLmafia.updateDisplay( "You have all of the pieces of outfit '" + name + "' in inventory already." );
 				return;
 			}
-			items = needed.toArray();
+			items = (AdventureResult[])needed.toArray();
 		}
 		else
 		{
@@ -114,10 +114,10 @@ public class StorageCommand
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( ( (AdventureResult) items[ i ] ).getName().equals( AdventureResult.MEAT ) )
+			AdventureResult item = items[ i ];
+			if ( item.getName().equals( AdventureResult.MEAT ) )
 			{
-				RequestThread.postRequest( new StorageRequest(
-					StorageRequest.PULL_MEAT_FROM_STORAGE, ( (AdventureResult) items[ i ] ).getCount() ) );
+				RequestThread.postRequest( new StorageRequest( StorageRequest.PULL_MEAT_FROM_STORAGE, item.getCount() ) );
 
 				items[ i ] = null;
 				++meatAttachmentCount;
@@ -134,11 +134,16 @@ public class StorageCommand
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			AdventureResult item = (AdventureResult) items[ i ];
+			AdventureResult item = items[ i ];
+			if ( item == null )
+			{
+				continue;
+			}
+
 			String itemName = item.getName();
 			int storageCount = item.getCount( KoLConstants.storage ) + item.getCount( KoLConstants.freepulls );
 
-			if ( items[ i ] != null && storageCount < item.getCount() )
+			if ( storageCount < item.getCount() )
 			{
 				KoLmafia.updateDisplay(
 					MafiaState.ERROR,

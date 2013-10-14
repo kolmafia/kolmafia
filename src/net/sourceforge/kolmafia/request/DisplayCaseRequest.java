@@ -57,7 +57,7 @@ public class DisplayCaseRequest
 		this.isWithdrawal = false;
 	}
 
-	public DisplayCaseRequest( final Object[] attachments, boolean isDeposit )
+	public DisplayCaseRequest( final AdventureResult[] attachments, boolean isDeposit )
 	{
 		super( "managecollection.php", attachments );
 		if ( isDeposit )
@@ -121,7 +121,7 @@ public class DisplayCaseRequest
 	}
 
 	@Override
-	public TransferItemRequest getSubInstance( final Object[] attachments )
+	public TransferItemRequest getSubInstance( final AdventureResult[] attachments )
 	{
 		return new DisplayCaseRequest( attachments, this.isDeposit );
 	}
@@ -201,7 +201,7 @@ public class DisplayCaseRequest
 				return false;
 			}
 
-			ArrayList itemList = TransferItemRequest.getItemList( responseText,
+			ArrayList<AdventureResult> itemList = TransferItemRequest.getItemList( responseText,
 						ITEM_PATTERN2, TransferItemRequest.ITEM_PATTERN1, (Pattern) null );
 
 			if ( itemList.isEmpty() )
@@ -215,7 +215,7 @@ public class DisplayCaseRequest
 
 			for ( int i = 0; i < itemList.size(); ++i )
 			{
-				AdventureResult item = ( (AdventureResult) itemList.get( i ) );
+				AdventureResult item = itemList.get( i );
 				KoLmafia.updateDisplay( "You acquire " + item );
 			}
 

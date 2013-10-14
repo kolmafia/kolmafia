@@ -158,7 +158,7 @@ public class StorageRequest
 
 	public StorageRequest( final int moveType )
 	{
-		this( moveType, new Object[ 0 ] );
+		this( moveType, new AdventureResult[ 0 ] );
 		this.moveType = moveType;
 	}
 
@@ -167,12 +167,12 @@ public class StorageRequest
 		this( moveType, new AdventureResult( AdventureResult.MEAT, amount ) );
 	}
 
-	public StorageRequest( final int moveType, final Object attachment )
+	public StorageRequest( final int moveType, final AdventureResult attachment )
 	{
-		this( moveType, new Object[] { attachment } );
+		this( moveType, new AdventureResult[] { attachment } );
 	}
 
-	public StorageRequest( final int moveType, final Object[] attachments )
+	public StorageRequest( final int moveType, final AdventureResult[] attachments )
 	{
 		super( "storage.php", attachments );
 		this.moveType = moveType;
@@ -265,7 +265,7 @@ public class StorageRequest
 	}
 
 	@Override
-	public TransferItemRequest getSubInstance( final Object[] attachments )
+	public TransferItemRequest getSubInstance( final AdventureResult[] attachments )
 	{
 		return new StorageRequest( this.moveType, attachments );
 	}
@@ -286,10 +286,10 @@ public class StorageRequest
 			case STORAGE_TO_INVENTORY:
 				for ( int i = 0; i < this.attachments.length; i++ )
 				{
-					if ( !KoLConstants.freepulls.contains( (AdventureResult) this.attachments[i] ) )
+					if ( !KoLConstants.freepulls.contains( this.attachments[i] ) )
 					{
 						KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot pull a " + 
-							  ((AdventureResult) this.attachments[i]).getName() + " in Hardcore." );
+							  this.attachments[i].getName() + " in Hardcore." );
 						return;
 					}
 				}
@@ -620,7 +620,7 @@ public class StorageRequest
 	 * Handle lots of items being received at once (specifically, from emptying Hangk's),
 	 * deferring updates to the end as much as possible.
 	 */
-	private static void processBulkItems( Object[] items )
+	private static void processBulkItems( AdventureResult[] items )
 	{
 		if ( items.length == 0 )
 		{
@@ -636,7 +636,7 @@ public class StorageRequest
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			AdventureResult result = (AdventureResult) items[ i ];
+			AdventureResult result = items[ i ];
 
 			AdventureResult.addResultToList( KoLConstants.inventory, result );
 			EquipmentManager.processResult( result );

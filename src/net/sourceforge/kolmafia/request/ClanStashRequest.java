@@ -91,9 +91,9 @@ public class ClanStashRequest
 		this.destination = new ArrayList();
 	}
 
-	public ClanStashRequest( Object attachment, final int moveType )
+	public ClanStashRequest( AdventureResult attachment, final int moveType )
 	{
-		this( new Object[] { attachment }, moveType );
+		this( new AdventureResult[] { attachment }, moveType );
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class ClanStashRequest
 	 * @param attachments The list of attachments involved in the request
 	 */
 
-	public ClanStashRequest( final Object[] attachments, final int moveType )
+	public ClanStashRequest( final AdventureResult[] attachments, final int moveType )
 	{
 		super( "clan_stash.php", attachments );
 		this.moveType = moveType;
@@ -175,7 +175,7 @@ public class ClanStashRequest
 	}
 
 	@Override
-	public TransferItemRequest getSubInstance( final Object[] attachments )
+	public TransferItemRequest getSubInstance( final AdventureResult[] attachments )
 	{
 		return new ClanStashRequest( attachments, this.moveType );
 	}

@@ -358,7 +358,7 @@ public class ClanManageFrame
 			@Override
 			protected void execute()
 			{
-				Object[] items = StoragePanel.this.getDesiredItems( "Deposit" );
+				AdventureResult[] items = StoragePanel.this.getDesiredItems( "Deposit" );
 				if ( items == null )
 				{
 					return;
@@ -409,14 +409,14 @@ public class ClanManageFrame
 					return;
 				}
 
-				Object[] items;
+				AdventureResult[] items;
 
 				if ( this.moveType == ClanManageFrame.MOVE_ALL_BUT )
 				{
-					items = WithdrawPanel.this.elementList.getSelectedValues();
+					items = (AdventureResult[])WithdrawPanel.this.elementList.getSelectedValues();
 					if ( items.length == 0 )
 					{
-						items = WithdrawPanel.this.elementModel.toArray();
+						items = (AdventureResult[])WithdrawPanel.this.elementModel.toArray();
 					}
 
 					if ( items.length == 0 )
@@ -435,7 +435,7 @@ public class ClanManageFrame
 
 					for ( int i = 0; i < items.length; ++i )
 					{
-						AdventureResult currentItem = (AdventureResult) items[ i ];
+						AdventureResult currentItem = items[ i ];
 						items[ i ] = currentItem.getInstance( Math.max( 0, currentItem.getCount() - quantity ) );
 					}
 				}

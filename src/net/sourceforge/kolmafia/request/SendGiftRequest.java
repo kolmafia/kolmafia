@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 
@@ -112,13 +113,13 @@ public class SendGiftRequest
 	}
 
 	public SendGiftRequest( final String recipient, final String message, final int desiredCapacity,
-		final Object[] attachments )
+				final AdventureResult[] attachments )
 	{
 		this( recipient, message, desiredCapacity, attachments, false );
 	}
 
 	public SendGiftRequest( final String recipient, final String message, final int desiredCapacity,
-		final Object[] attachments, final boolean isFromStorage )
+				final AdventureResult[] attachments, final boolean isFromStorage )
 	{
 		super( "town_sendgift.php", attachments );
 
@@ -159,7 +160,7 @@ public class SendGiftRequest
 	}
 
 	@Override
-	public TransferItemRequest getSubInstance( final Object[] attachments )
+	public TransferItemRequest getSubInstance( final AdventureResult[] attachments )
 	{
 		return new SendGiftRequest(
 			this.recipient, this.message, this.desiredCapacity, attachments, this.source == KoLConstants.storage );

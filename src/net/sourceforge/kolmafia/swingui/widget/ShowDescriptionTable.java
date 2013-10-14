@@ -1178,11 +1178,10 @@ public class ShowDescriptionTable
 		@Override
 		public void executeAction()
 		{
-			Object[] items = ShowDescriptionTable.this.getSelectedValues();
+			AdventureResult[] items = (AdventureResult[])ShowDescriptionTable.this.getSelectedValues();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				AdventureResult.addResultToList( KoLConstants.tally,
-					( (AdventureResult) items[ i ] ).getNegation() );
+				AdventureResult.addResultToList( KoLConstants.tally, items[ i ].getNegation() );
 			}
 		}
 	}
@@ -1198,8 +1197,8 @@ public class ShowDescriptionTable
 				return;
 			}
 
-			RequestThread
-				.postRequest( new AutoSellRequest( ShowDescriptionTable.this.getSelectedValues() ) );
+			AdventureResult[] items = (AdventureResult[])ShowDescriptionTable.this.getSelectedValues();
+			RequestThread.postRequest( new AutoSellRequest( items ) );
 		}
 	}
 
@@ -1215,8 +1214,8 @@ public class ShowDescriptionTable
 				return;
 			}
 
-			RequestThread
-				.postRequest( new AutoMallRequest( ShowDescriptionTable.this.getSelectedValues() ) );
+			AdventureResult[] items = (AdventureResult[])ShowDescriptionTable.this.getSelectedValues();
+			RequestThread.postRequest( new AutoMallRequest( items ) );
 		}
 	}
 
@@ -1231,11 +1230,10 @@ public class ShowDescriptionTable
 				return;
 			}
 
-			Object[] items = ShowDescriptionTable.this.getSelectedValues();
-
+			AdventureResult[] items = (AdventureResult[])ShowDescriptionTable.this.getSelectedValues();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( UseItemRequest.getInstance( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( items[ i ] ) );
 			}
 		}
 	}
@@ -1252,11 +1250,10 @@ public class ShowDescriptionTable
 				return;
 			}
 
-			Object[] items = ShowDescriptionTable.this.getSelectedValues();
-
+			AdventureResult[] items = (AdventureResult[])ShowDescriptionTable.this.getSelectedValues();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new PulverizeRequest( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( new PulverizeRequest( items[ i ] ) );
 			}
 		}
 	}

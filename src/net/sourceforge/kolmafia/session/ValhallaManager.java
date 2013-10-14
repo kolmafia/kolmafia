@@ -177,7 +177,7 @@ public class ValhallaManager
 
 		if ( items.size() > 0 )
 		{
-			AutoSellRequest request = new AutoSellRequest( items.toArray() );
+			AutoSellRequest request = new AutoSellRequest( (AdventureResult[])items.toArray() );
 			RequestThread.postRequest( request );
 		}
 

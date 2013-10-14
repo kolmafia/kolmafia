@@ -269,7 +269,7 @@ public class InventoryPanel
 		@Override
 		protected void execute()
 		{
-			Object [] items = InventoryPanel.this.getDesiredItems( "Feed" );
+			AdventureResult[] items = InventoryPanel.this.getDesiredItems( "Feed" );
 
 			if ( items == null )
 			{
@@ -278,7 +278,7 @@ public class InventoryPanel
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				AdventureResult item = (AdventureResult) items[ i ];
+				AdventureResult item = items[ i ];
 
 				RequestThread.postRequest( UseItemRequest.getInstance( KoLConstants.CONSUME_SLIME, item ) );
 			}

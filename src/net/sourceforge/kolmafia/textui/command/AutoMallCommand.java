@@ -65,13 +65,13 @@ public class AutoMallCommand
 		int itemCount;
 
 		AdventureResult currentItem;
-		Object[] items = KoLConstants.profitableList.toArray();
+		AdventureResult[] items = (AdventureResult[])KoLConstants.profitableList.toArray();
 
-		ArrayList sellList = new ArrayList();
+		ArrayList<AdventureResult> sellList = new ArrayList<AdventureResult>();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			currentItem = (AdventureResult) items[ i ];
+			currentItem = items[ i ];
 
 			if ( KoLConstants.mementoList.contains( currentItem ) )
 			{
@@ -93,7 +93,7 @@ public class AutoMallCommand
 
 		if ( !sellList.isEmpty() )
 		{
-			RequestThread.postRequest( new AutoMallRequest( sellList.toArray() ) );
+			RequestThread.postRequest( new AutoMallRequest( (AdventureResult[])sellList.toArray() ) );
 		}
 	}
 }

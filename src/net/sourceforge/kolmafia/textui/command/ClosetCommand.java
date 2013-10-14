@@ -88,7 +88,7 @@ public class ClosetCommand
 		}
 
 		boolean isTake = parameters.startsWith( "take" );
-		Object[] itemList =
+		AdventureResult[] itemList =
 			ItemFinder.getMatchingItemList(
 				isTake ? KoLConstants.closet : KoLConstants.inventory, parameters.substring( 4 ).trim() );
 
@@ -101,11 +101,12 @@ public class ClosetCommand
 
 		for ( int i = 0; i < itemList.length; ++i )
 		{
-			if ( ( (AdventureResult) itemList[ i ] ).getName().equals( AdventureResult.MEAT ) )
+			AdventureResult item = itemList[ i ];
+			if ( item.getName().equals( AdventureResult.MEAT ) )
 			{
 				RequestThread.postRequest( new ClosetRequest(
 					isTake ? ClosetRequest.MEAT_TO_INVENTORY : ClosetRequest.MEAT_TO_CLOSET,
-					( (AdventureResult) itemList[ i ] ).getCount() ) );
+					item.getCount() ) );
 
 				itemList[ i ] = null;
 				++meatAttachmentCount;
@@ -124,7 +125,7 @@ public class ClosetCommand
 		for ( int i = 0; i < itemList.length; ++i )
 		{
 			// update "Hatter" daily deed
-			if ( EquipmentDatabase.isHat( (AdventureResult) itemList[ i ] ) )
+			if ( EquipmentDatabase.isHat( itemList[ i ] ) )
 			{
 				PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 			}

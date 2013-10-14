@@ -369,7 +369,7 @@ public class UseItemEnqueuePanel
 
 			UseItemEnqueuePanel.this.setEnabled( false );
 
-			Object [] items = UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
+			AdventureResult [] items = UseItemEnqueuePanel.this.getDesiredItems( "Consume" );
 
 			if ( items == null )
 			{
@@ -468,7 +468,7 @@ public class UseItemEnqueuePanel
 				return;
 			}
 
-			Object [] items = UseItemEnqueuePanel.this.getDesiredItems( "Feed" );
+			AdventureResult [] items = UseItemEnqueuePanel.this.getDesiredItems( "Feed" );
 
 			if ( items == null )
 			{

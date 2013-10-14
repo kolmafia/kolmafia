@@ -158,10 +158,9 @@ public class ShopCommand
 
 		if ( items.size() > 0 )
 		{
-			RequestThread.postRequest( new AutoMallRequest(
-			      items.toArray(),
-			      prices.toArray(),
-			      limits.toArray() ) );
+			RequestThread.postRequest( new AutoMallRequest( (AdventureResult[])items.toArray(),
+									(int[])prices.toArray(),
+									(int[])limits.toArray() ) );
 		}
 	}
 

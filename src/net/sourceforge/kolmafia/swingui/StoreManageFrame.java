@@ -734,7 +734,7 @@ public class StoreManageFrame
 		@Override
 		public void actionConfirmed()
 		{
-			Object[] items = this.getDesiredItems( "Mallsell" );
+			AdventureResult[] items = this.getDesiredItems( "Mallsell" );
 			if ( items == null )
 			{
 				return;
@@ -747,7 +747,7 @@ public class StoreManageFrame
 		@Override
 		public void actionCancelled()
 		{
-			Object[] items = this.getDesiredItems( "Autosell" );
+			AdventureResult[] items = this.getDesiredItems( "Autosell" );
 			if ( items == null )
 			{
 				return;

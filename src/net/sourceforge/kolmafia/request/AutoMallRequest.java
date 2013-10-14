@@ -53,17 +53,15 @@ public class AutoMallRequest
 
 	public AutoMallRequest( final AdventureResult item, final int price, final int limit )
 	{
-		this( new AdventureResult[] { item },
-		      new int[] { price },
-		      new int[] { limit } );
+		this( new AdventureResult[] { item }, new int[] { price }, new int[] { limit } );
 	}
 
-	public AutoMallRequest( final Object[] items )
+	public AutoMallRequest( final AdventureResult[] items )
 	{
 		this( items, new int[ 0 ], new int[ 0 ] );
 	}
 
-	public AutoMallRequest( final Object[] items, final int[] prices, final int[] limits )
+	public AutoMallRequest( final AdventureResult[] items, final int[] prices, final int[] limits )
 	{
 		super( "managestore.php", items );
 
@@ -124,7 +122,7 @@ public class AutoMallRequest
 	}
 
 	@Override
-	public TransferItemRequest getSubInstance( final Object[] attachments )
+	public TransferItemRequest getSubInstance( final AdventureResult[] attachments )
 	{
 		int[] prices = new int[ this.prices.length == 0 ? 0 : attachments.length ];
 		int[] limits = new int[ this.prices.length == 0 ? 0 : attachments.length ];

@@ -62,7 +62,7 @@ public class UseItemPanel
 	@Override
 	public void actionConfirmed()
 	{
-		Object[] items = this.getDesiredItems( "Consume" );
+		AdventureResult[] items = this.getDesiredItems( "Consume" );
 		if ( items == null )
 		{
 			return;
@@ -70,7 +70,7 @@ public class UseItemPanel
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			RequestThread.postRequest( UseItemRequest.getInstance( (AdventureResult) items[ i ] ) );
+			RequestThread.postRequest( UseItemRequest.getInstance( items[ i ] ) );
 		}
 	}
 

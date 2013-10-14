@@ -104,7 +104,7 @@ public class SendMessageCommand
 		itemList = itemList.trim() + ",";
 		itemList = itemList.trim();
 
-		Object[] attachments = ItemFinder.getMatchingItemList( KoLConstants.inventory, itemList );
+		AdventureResult[] attachments = ItemFinder.getMatchingItemList( KoLConstants.inventory, itemList );
 
 		if ( attachments.length == 0 && ( itemList.length() > 1 || message == KoLConstants.DEFAULT_KMAIL ) )
 		{
@@ -112,17 +112,18 @@ public class SendMessageCommand
 		}
 
 		int meatAmount = 0;
-		List attachmentList = new ArrayList();
+		ArrayList<AdventureResult> attachmentList = new ArrayList<AdventureResult>();
 
 		for ( int i = 0; i < attachments.length; ++i )
 		{
-			if ( ( (AdventureResult) attachments[ i ] ).getName().equals( AdventureResult.MEAT ) )
+			AdventureResult attachment = attachments[ i ];
+			if ( attachment.getName().equals( AdventureResult.MEAT ) )
 			{
-				meatAmount += ( (AdventureResult) attachments[ i ] ).getCount();
+				meatAmount += attachment.getCount();
 			}
 			else
 			{
-				AdventureResult.addResultToList( attachmentList, (AdventureResult) attachments[ i ] );
+				AdventureResult.addResultToList( attachmentList, attachment );
 			}
 		}
 
@@ -142,11 +143,11 @@ public class SendMessageCommand
 			AdventureResult.addResultToList( attachmentList, new AdventureResult( AdventureResult.MEAT, meatAmount ) );
 		}
 
-		SendMessageCommand.send( recipient, message, attachmentList.toArray(), false, true );
+		SendMessageCommand.send( recipient, message, (AdventureResult[])attachmentList.toArray(), false, true );
 	}
 
-	public static void send( final String recipient, final String message, final Object[] attachments,
-		final boolean usingStorage, final boolean isInternal )
+	public static void send( final String recipient, final String message, final AdventureResult[] attachments,
+				 final boolean usingStorage, final boolean isInternal )
 	{
 		if ( !usingStorage )
 		{

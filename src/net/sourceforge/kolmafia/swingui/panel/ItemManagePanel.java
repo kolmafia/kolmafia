@@ -382,7 +382,7 @@ public class ItemManagePanel
 		}
 	}
 
-	public Object[] getDesiredItems( final String message )
+	public AdventureResult[] getDesiredItems( final String message )
 	{
 		if ( this.movers == null || this.movers[ 2 ].isSelected() )
 		{
@@ -396,7 +396,7 @@ public class ItemManagePanel
 			this.movers[ 0 ].isSelected() ? ItemManagePanel.TAKE_ALL : this.movers[ 1 ].isSelected() ? ItemManagePanel.TAKE_ALL_BUT_USABLE : ItemManagePanel.TAKE_ONE );
 	}
 
-	public Object[] getDesiredItems( final String message, final int quantityType )
+	public AdventureResult[] getDesiredItems( final String message, final int quantityType )
 	{
 		Object[] items = this.elementList.getSelectedValues();
 		if ( items.length == 0 )
@@ -420,19 +420,19 @@ public class ItemManagePanel
 
 			if ( items[ i ] instanceof AdventureResult )
 			{
-				itemName = ( (AdventureResult) items[ i ] ).getName();
-				itemCount =
-					isTally ? ( (AdventureResult) items[ i ] ).getCount( KoLConstants.inventory ) : ( (AdventureResult) items[ i ] ).getCount();
+				AdventureResult item = (AdventureResult) items[ i ];
+				itemName = item.getName();
+				itemCount = isTally ? item.getCount( KoLConstants.inventory ) : item.getCount();
 			}
 			else
 			{
-				itemName = ( (Concoction) items[ i ] ).getName();
-				itemCount = ( (Concoction) items[ i ] ).getAvailable();
+				Concoction concoction = ( (Concoction) items[ i ] );
+				itemName = concoction.getName();
+				itemCount = concoction.getAvailable();
 			}
 
 			quantity =
-				Math.min(
-					this.getDesiredItemAmount( items[ i ], itemName, itemCount, message, quantityType ), itemCount );
+				Math.min( this.getDesiredItemAmount( items[ i ], itemName, itemCount, message, quantityType ), itemCount );
 			if ( quantity == Integer.MIN_VALUE )
 			{
 				return null;
@@ -454,25 +454,21 @@ public class ItemManagePanel
 			{
 				ConcoctionDatabase.push( (Concoction) items[ i ], quantity );
 				items[ i ] = null;
+				--neededSize;
 			}
 		}
 
 		// Otherwise, shrink the array which will be
 		// returned so that it removes any nulled values.
 
-		if ( neededSize == 0 )
-		{
-			return null;
-		}
-
-		Object[] desiredItems = new Object[ neededSize ];
+		AdventureResult[] desiredItems = new AdventureResult[ neededSize ];
 		neededSize = 0;
 
 		for ( int i = 0; i < items.length; ++i )
 		{
 			if ( items[ i ] != null )
 			{
-				desiredItems[ neededSize++ ] = items[ i ];
+				desiredItems[ neededSize++ ] = (AdventureResult)items[ i ];
 			}
 		}
 
@@ -623,17 +619,19 @@ public class ItemManagePanel
 			this.retrieveFromClosetFirst = retrieveFromClosetFirst;
 		}
 
-		public Object[] initialSetup()
+		public AdventureResult[] initialSetup()
 		{
-			return this.retrieveItems( ItemManagePanel.this.getDesiredItems( this.description ) );
+			AdventureResult[] items = ItemManagePanel.this.getDesiredItems( this.description );
+			return this.retrieveItems( items );
 		}
 
-		public Object[] initialSetup( final int transferType )
+		public AdventureResult[] initialSetup( final int transferType )
 		{
-			return this.retrieveItems( ItemManagePanel.this.getDesiredItems( this.description, transferType ) );
+			AdventureResult[] items = ItemManagePanel.this.getDesiredItems( this.description, transferType );
+			return this.retrieveItems( items );
 		}
 
-		private Object[] retrieveItems( final Object[] items )
+		private AdventureResult[] retrieveItems( final AdventureResult[] items )
 		{
 			if ( items == null )
 			{
@@ -666,7 +664,7 @@ public class ItemManagePanel
 		@Override
 		protected void execute()
 		{
-			Object[] items = this.initialSetup();
+			AdventureResult[] items = this.initialSetup();
 			if ( items == null || items.length == 0 )
 			{
 				return;
@@ -674,8 +672,7 @@ public class ItemManagePanel
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				AdventureResult item = (AdventureResult) items[ i ];
-				RequestThread.postRequest( UseItemRequest.getInstance( (AdventureResult) items[ i ] ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( items[ i ] ) );
 			}
 		}
 
@@ -697,7 +694,7 @@ public class ItemManagePanel
 		@Override
 		protected void execute()
 		{
-			Object[] items = this.initialSetup();
+			AdventureResult[] items = this.initialSetup();
 			if ( items == null || items.length == 0 )
 			{
 				return;
@@ -705,7 +702,7 @@ public class ItemManagePanel
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				AdventureResult item = (AdventureResult) items[ i ];
+				AdventureResult item = items[ i ];
 				int usageType = ItemDatabase.getConsumptionType( item.getItemId() );
 
 				switch ( usageType )
@@ -742,7 +739,7 @@ public class ItemManagePanel
 		@Override
 		protected void execute()
 		{
-			Object[] items = this.initialSetup();
+			AdventureResult[] items = this.initialSetup();
 			if ( items == null )
 			{
 				return;
@@ -791,7 +788,7 @@ public class ItemManagePanel
 				return;
 			}
 
-			Object[] items = this.initialSetup();
+			AdventureResult[] items = this.initialSetup();
 			if ( items == null )
 			{
 				return;
@@ -825,7 +822,7 @@ public class ItemManagePanel
 		@Override
 		protected void execute()
 		{
-			Object[] items = this.initialSetup();
+			AdventureResult[] items = this.initialSetup();
 			if ( items == null )
 			{
 				return;
@@ -852,7 +849,7 @@ public class ItemManagePanel
 		@Override
 		protected void execute()
 		{
-			Object[] items = this.initialSetup();
+			AdventureResult[] items = this.initialSetup();
 			if ( items == null )
 			{
 				return;
@@ -885,7 +882,7 @@ public class ItemManagePanel
 		@Override
 		protected void execute()
 		{
-			Object[] items = this.initialSetup();
+			AdventureResult[] items = this.initialSetup();
 			if ( items == null || items.length == 0 )
 			{
 				return;

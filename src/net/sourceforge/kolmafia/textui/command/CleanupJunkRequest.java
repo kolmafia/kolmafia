@@ -74,7 +74,7 @@ public class CleanupJunkRequest
 		int itemCount;
 		AdventureResult currentItem;
 
-		Object[] items = KoLConstants.junkList.toArray();
+		AdventureResult[] items = (AdventureResult[])KoLConstants.junkList.toArray();
 
 		// Before doing anything else, go through the list of items
 		// which are traditionally used and use them. Also, if the item
@@ -84,24 +84,25 @@ public class CleanupJunkRequest
 		boolean madeUntinkerRequest = false;
 		boolean canUntinker = UntinkerRequest.canUntinker();
 
-		ArrayList closetList = new ArrayList();
+		ArrayList<AdventureResult> closetList = new ArrayList();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( !KoLConstants.singletonList.contains( items[ i ] ) || KoLConstants.closet.contains( items[ i ] ) )
+			AdventureResult item = items[ i ];
+			if ( !KoLConstants.singletonList.contains( item ) || KoLConstants.closet.contains( item ) )
 			{
 				continue;
 			}
 
-			if ( KoLConstants.inventory.contains( items[ i ] ) )
+			if ( KoLConstants.inventory.contains( item ) )
 			{
-				closetList.add( ( (AdventureResult) items[ i ] ).getInstance( 1 ) );
+				closetList.add( item.getInstance( 1 ) );
 			}
 		}
 
 		if ( closetList.size() > 0 )
 		{
-			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, closetList.toArray() ) );
+			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, (AdventureResult[])closetList.toArray() ) );
 		}
 
 		do
@@ -110,7 +111,7 @@ public class CleanupJunkRequest
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				currentItem = (AdventureResult) items[ i ];
+				currentItem = items[ i ];
 				itemCount = currentItem.getCount( KoLConstants.inventory );
 
 				if ( itemCount == 0 )
@@ -161,7 +162,7 @@ public class CleanupJunkRequest
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				currentItem = (AdventureResult) items[ i ];
+				currentItem = items[ i ];
 
 				if ( KoLConstants.mementoList.contains( currentItem ) )
 				{
@@ -219,11 +220,11 @@ public class CleanupJunkRequest
 		// Now you've got all the items used up, go ahead and prepare to
 		// sell anything that's left.
 
-		ArrayList sellList = new ArrayList();
+		ArrayList<AdventureResult> sellList = new ArrayList<AdventureResult>();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			currentItem = (AdventureResult) items[ i ];
+			currentItem = items[ i ];
 
 			if ( KoLConstants.mementoList.contains( currentItem ) )
 			{
@@ -244,7 +245,7 @@ public class CleanupJunkRequest
 
 		if ( !sellList.isEmpty() )
 		{
-			RequestThread.postRequest( new AutoSellRequest( sellList.toArray() ) );
+			RequestThread.postRequest( new AutoSellRequest( (AdventureResult[])sellList.toArray() ) );
 			sellList.clear();
 		}
 
@@ -252,7 +253,7 @@ public class CleanupJunkRequest
 		{
 			for ( int i = 0; i < items.length; ++i )
 			{
-				currentItem = (AdventureResult) items[ i ];
+				currentItem = items[ i ];
 
 				if ( KoLConstants.mementoList.contains( currentItem ) )
 				{
@@ -273,7 +274,7 @@ public class CleanupJunkRequest
 
 			if ( !sellList.isEmpty() )
 			{
-				RequestThread.postRequest( new AutoSellRequest( sellList.toArray() ) );
+				RequestThread.postRequest( new AutoSellRequest( (AdventureResult[])sellList.toArray() ) );
 			}
 		}
 	}

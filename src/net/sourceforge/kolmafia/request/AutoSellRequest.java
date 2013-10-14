@@ -70,7 +70,7 @@ public class AutoSellRequest
 		this( new AdventureResult[] { item } );
 	}
 
-	public AutoSellRequest( final Object[] items )
+	public AutoSellRequest( final AdventureResult[] items )
 	{
 		super( AutoSellRequest.getSellPage(), items );
 		this.addFormField( "action", "sell" );
@@ -216,7 +216,7 @@ public class AutoSellRequest
 
 		for ( int index = 0; index < this.attachments.length; ++index )
 		{
-			AdventureResult item = (AdventureResult) this.attachments[ index ];
+			AdventureResult item = this.attachments[ index ];
 
 			if ( item == null )
 			{
@@ -282,13 +282,13 @@ public class AutoSellRequest
 		// its own subinstance
 		while ( others.size() > 0 )
 		{
-			ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+			ArrayList<AdventureResult> sublist = new ArrayList<AdventureResult>();
 			Iterator it = others.iterator();
 
 			int count = -1;
 			while ( it.hasNext() )
 			{
-				AdventureResult item = (AdventureResult) it.next();
+				AdventureResult item = (AdventureResult)it.next();
 				int icount = item.getCount();
 				if ( count == -1 )
 				{
@@ -297,25 +297,31 @@ public class AutoSellRequest
 				if ( count == icount )
 				{
 					it.remove();
-					items.add( item );
+					sublist.add( item );
 				}
 			}
 
-			TransferItemRequest subinstance = this.getSubInstance( items.toArray() );
+			AdventureResult[] items = new AdventureResult[ sublist.size() ];
+			sublist.toArray( items );
+			TransferItemRequest subinstance = this.getSubInstance( items );
 			subinstance.isSubInstance = true;
 			subinstances.add( subinstance );
 		}
 
 		if ( allButOne.size() > 0 )
 		{
-			TransferItemRequest subinstance = this.getSubInstance( allButOne.toArray() );
+			AdventureResult[] items = new AdventureResult[ allButOne.size() ];
+			allButOne.toArray( items );
+			TransferItemRequest subinstance = this.getSubInstance( items );
 			subinstance.isSubInstance = true;
 			subinstances.add( subinstance );
 		}
 
 		if ( all.size() > 0 )
 		{
-			TransferItemRequest subinstance = this.getSubInstance( all.toArray() );
+			AdventureResult[] items = new AdventureResult[ all.size() ];
+			all.toArray( items );
+			TransferItemRequest subinstance = this.getSubInstance( items );
 			subinstance.isSubInstance = true;
 			subinstances.add( subinstance );
 		}
@@ -324,7 +330,7 @@ public class AutoSellRequest
 	}
 
 	@Override
-	public TransferItemRequest getSubInstance( final Object[] attachments )
+	public TransferItemRequest getSubInstance( final AdventureResult[] attachments )
 	{
 		return new AutoSellRequest( attachments );
 	}
@@ -423,7 +429,7 @@ public class AutoSellRequest
 		return true;
 	}
 
-	private static void processMeat( ArrayList itemList, String responseText )
+	private static void processMeat( ArrayList<AdventureResult> itemList, String responseText )
 	{
 		if ( KoLCharacter.inFistcore() )
 		{
@@ -431,7 +437,7 @@ public class AutoSellRequest
 
 			for ( int i = 0; i < itemList.size(); ++i )
 			{
-				AdventureResult item = ( (AdventureResult) itemList.get( i ) );
+				AdventureResult item = itemList.get( i );
 				int price = ItemDatabase.getPriceById( item.getItemId() );
 				int count = item.getCount();
 				donation += price * count;
