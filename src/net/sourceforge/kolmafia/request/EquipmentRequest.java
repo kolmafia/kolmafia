@@ -281,6 +281,13 @@ public class EquipmentRequest
 		case EquipmentManager.CARD_SLEEVE:
 			this.initializeCardSleeveData( changeItem );
 			break;
+		case EquipmentManager.FOLDER1:
+		case EquipmentManager.FOLDER2:
+		case EquipmentManager.FOLDER3:
+		case EquipmentManager.FOLDER4:
+		case EquipmentManager.FOLDER5:
+			this.initializeFolderData( changeItem, equipmentSlot );
+			break;
 		default:
 			this.initializeChangeData( changeItem, equipmentSlot, force );
 		}
@@ -309,6 +316,7 @@ public class EquipmentRequest
 			( slot >= EquipmentManager.STICKER1 && slot <= EquipmentManager.STICKER3 ) ? "bedazzle.php" :
 			slot == EquipmentManager.CARD_SLEEVE ? "inv_use.php" :
 			slot == EquipmentManager.FAKEHAND ? "inv_equip.php" :
+			( slot >= EquipmentManager.FOLDER1 && slot <= EquipmentManager.FOLDER5 ) ? "choice.php" :
 			"bogus.php";
 	}
 
@@ -443,6 +451,46 @@ public class EquipmentRequest
 		this.addFormField( "sleevecard", String.valueOf( this.itemId ) );
 		this.requestType = EquipmentRequest.CHANGE_ITEM;
 		this.changeItem = card.getCount() == 1 ? card : card.getInstance( 1 );
+	}
+
+	private void initializeFolderData( final AdventureResult folder, final int slot )
+	{
+		this.equipmentSlot = slot;
+		this.addFormField( "whichchoice", "774" );
+
+		if ( folder.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			this.requestType = EquipmentRequest.REMOVE_ITEM;
+			this.addFormField( "slot", String.valueOf( slot - EquipmentManager.FOLDER1 ) );
+			this.addFormField( "option", "2" );
+			return;
+		}
+
+		for ( int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; i++ )
+		{
+			if ( i != slot && folder.equals( EquipmentManager.getEquipment( i ) ) )
+			{
+				this.error = "You can't equip two of the same folder";
+				return;
+			}
+		}
+
+		// Find out what item is being equipped
+		this.itemId = folder.getItemId();
+
+		// Find out what kind of item it is
+		this.equipmentType = ItemDatabase.getConsumptionType( this.itemId );
+
+		if ( this.equipmentType != KoLConstants.CONSUME_FOLDER )
+		{
+			this.error = "You can't equip a " + ItemDatabase.getItemName( this.itemId ) + " in a folder slot.";
+			return;
+		}
+
+		this.requestType = EquipmentRequest.CHANGE_ITEM;
+		this.changeItem = folder;
+		this.addFormField( "option", "1" );
+		this.addFormField( "folder", String.valueOf( this.itemId - ItemPool.FOLDER_01 + 1 ) );
 	}
 
 	private String getAction( final boolean force )
@@ -826,8 +874,10 @@ public class EquipmentRequest
 				return;
 			}
 
-			if ( this.equipmentSlot >= EquipmentManager.STICKER1 &&
-			     this.equipmentSlot <= EquipmentManager.STICKER3 &&
+			// Must remove an existing sticker or folder before
+			// installing a new one in the same slot.
+			if ( ( ( this.equipmentSlot >= EquipmentManager.STICKER1 && this.equipmentSlot <= EquipmentManager.STICKER3 ) ||
+			       ( this.equipmentSlot >= EquipmentManager.FOLDER1 && this.equipmentSlot <= EquipmentManager.FOLDER5 ) ) &&
 			     !EquipmentManager.getEquipment( this.equipmentSlot ).equals( EquipmentRequest.UNEQUIP ) )
 			{
 				( new EquipmentRequest( EquipmentRequest.UNEQUIP, this.equipmentSlot ) ).run();
@@ -839,6 +889,11 @@ public class EquipmentRequest
 		     EquipmentManager.getEquipment( this.equipmentSlot ).equals( EquipmentRequest.UNEQUIP ) )
 		{
 			return;
+		}
+
+		if ( this.equipmentSlot >= EquipmentManager.FOLDER1 && this.equipmentSlot <= EquipmentManager.FOLDER5 )
+		{
+			( new GenericRequest( "inventory.php?action=useholder" ) ).run();
 		}
 
 		switch ( this.requestType )
@@ -934,6 +989,12 @@ public class EquipmentRequest
 		if ( urlString.startsWith( "bedazzle.php" ) )
 		{
 			EquipmentRequest.parseBedazzlements( responseText );
+			return;
+		}
+ 
+		if ( urlString.startsWith( "choice.php" ) && urlString.contains( "whichchoice=774" ) )
+		{
+			EquipmentRequest.parseFolders( responseText );
 			return;
 		}
 
@@ -1162,6 +1223,7 @@ public class EquipmentRequest
 			}
 			slot++;
 		}
+
 		for ( int i = slot; i <= EquipmentManager.FOLDER5; i++ )
 		{
 			EquipmentManager.setEquipment( i, EquipmentRequest.UNEQUIP );
