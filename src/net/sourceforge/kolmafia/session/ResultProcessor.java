@@ -1849,6 +1849,12 @@ public class ResultProcessor
 		case ItemPool.YEARBOOK_CAMERA:
 			ResultProcessor.checkCamera();
 			break;
+
+		case ItemPool.FUZZY_BUSBY:
+		case ItemPool.FUZZY_EARMUFFS:
+		case ItemPool.FUZZY_MONTERA:
+			ResultProcessor.removeItem( ItemPool.GROARS_FUR );
+			break;
 		}
 
 		// Gaining items can achieve goals.
