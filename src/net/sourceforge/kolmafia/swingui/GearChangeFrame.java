@@ -620,21 +620,47 @@ public class GearChangeFrame
 			RequestThread.postRequest( FamiliarRequest.enthroneRequest( familiar ) );
 		}
 
-		// Start with first pseudo-slot
-		for ( int i = EquipmentManager.SLOTS; i < EquipmentManager.ALL_SLOTS; ++i )
+		// Card Sleeve
+		AdventureResult card = (AdventureResult) this.equipment[ EquipmentManager.CARD_SLEEVE ].getSelectedItem();
+		if ( !EquipmentManager.getEquipment( EquipmentManager.CARD_SLEEVE ).equals( card ) )
 		{
-			if ( i == EquipmentManager.CROWN_OF_THRONES )
-			{
-				continue;
-			}
+			RequestThread.postRequest( new EquipmentRequest( card, EquipmentManager.CARD_SLEEVE, true ) );
+		}
 
-			AdventureResult item = (AdventureResult) this.equipment[ i ].getSelectedItem();
-			if ( EquipmentManager.getEquipment( i ).equals( item ) )
-			{
-				continue;
-			}
+		// Stickers
+		AdventureResult[] stickers = new AdventureResult[] {
+			EquipmentManager.getEquipment( EquipmentManager.STICKER1 ),
+			EquipmentManager.getEquipment( EquipmentManager.STICKER2 ),
+			EquipmentManager.getEquipment( EquipmentManager.STICKER3 ),
+		};
 
-			RequestThread.postRequest( new EquipmentRequest( item, i, true ) );
+		for ( int i = 0; i < stickers.length; ++i )
+		{
+			AdventureResult sticker = stickers[ i ];
+			int slot = EquipmentManager.STICKER1 + i;
+			if ( !EquipmentManager.getEquipment( slot ).equals( sticker ) )
+			{
+				RequestThread.postRequest( new EquipmentRequest( sticker, slot, true ) );
+			}
+		}
+
+		// Folders
+		AdventureResult[] folders = new AdventureResult[] {
+			EquipmentManager.getEquipment( EquipmentManager.FOLDER1 ),
+			EquipmentManager.getEquipment( EquipmentManager.FOLDER2 ),
+			EquipmentManager.getEquipment( EquipmentManager.FOLDER3 ),
+			EquipmentManager.getEquipment( EquipmentManager.FOLDER4 ),
+			EquipmentManager.getEquipment( EquipmentManager.FOLDER5 ),
+		};
+
+		for ( int i = 0; i < folders.length; ++i )
+		{
+			AdventureResult folder = folders[ i ];
+			int slot = EquipmentManager.FOLDER1 + i;
+			if ( !EquipmentManager.getEquipment( slot ).equals( folder ) )
+			{
+				RequestThread.postRequest( new EquipmentRequest( folder, slot, true ) );
+			}
 		}
 
 		int oldFakeHands = EquipmentManager.getFakeHands();
