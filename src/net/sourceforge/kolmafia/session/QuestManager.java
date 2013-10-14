@@ -434,6 +434,7 @@ public class QuestManager
 		else if ( responseText.contains( "Yeehaw!  I heard the noise" ) )
 		{
 			Preferences.setInteger( "lastTr4pz0rQuest", KoLCharacter.getAscensions() );
+			ResultProcessor.removeItem( ItemPool.GROARS_FUR );
 			QuestDatabase.setQuestProgress( Quest.TRAPPER, QuestDatabase.FINISHED );
 		}
 	}
