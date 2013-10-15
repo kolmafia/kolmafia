@@ -139,7 +139,7 @@ public class UseItemCommand
 			ItemFinder.setMatchType( ItemFinder.USE_MATCH );
 		}
 
-		Object[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters, !sim );
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters, !sim );
 
 		ItemFinder.setMatchType( ItemFinder.ANY_MATCH );
 
@@ -149,7 +149,7 @@ public class UseItemCommand
 			// level=2: use all items in list, buy/make as needed
 			for ( int i = 0; i < itemList.length; ++i )
 			{
-				AdventureResult currentMatch = (AdventureResult) itemList[ i ];
+				AdventureResult currentMatch = itemList[ i ];
 				int consumpt = ItemDatabase.getConsumptionType( currentMatch.getItemId() );
 
 				if ( command.equals( "eat" ) && consumpt == KoLConstants.CONSUME_FOOD_HELPER )
