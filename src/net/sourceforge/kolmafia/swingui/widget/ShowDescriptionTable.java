@@ -852,6 +852,18 @@ public class ShowDescriptionTable
 		return selectedValues;
 	}
 
+	public AdventureResult[] getSelectedItems()
+	{
+		// Obviously, this only works if the model contains AdventureResults
+		Object[] values = this.getSelectedValues();
+		AdventureResult[] result = new AdventureResult[ values.length ];
+		for ( int i = 0; i < values.length; ++i )
+		{
+			result[ i ] = (AdventureResult)values[ i ];
+		}
+		return result;
+	}
+
 	private class ForceExecuteRunnable
 		extends ContextMenuListener
 	{
@@ -1198,7 +1210,7 @@ public class ShowDescriptionTable
 				return;
 			}
 
-			AdventureResult[] items = (AdventureResult[])ShowDescriptionTable.this.getSelectedValues();
+			AdventureResult[] items = ShowDescriptionTable.this.getSelectedItems();
 			RequestThread.postRequest( new AutoSellRequest( items ) );
 		}
 	}
@@ -1215,7 +1227,7 @@ public class ShowDescriptionTable
 				return;
 			}
 
-			AdventureResult[] items = (AdventureResult[])ShowDescriptionTable.this.getSelectedValues();
+			AdventureResult[] items = ShowDescriptionTable.this.getSelectedItems();
 			RequestThread.postRequest( new AutoMallRequest( items ) );
 		}
 	}
@@ -1231,10 +1243,10 @@ public class ShowDescriptionTable
 				return;
 			}
 
-			AdventureResult[] items = (AdventureResult[])ShowDescriptionTable.this.getSelectedValues();
+			Object[] items = ShowDescriptionTable.this.getSelectedValues();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( UseItemRequest.getInstance( items[ i ] ) );
+				RequestThread.postRequest( UseItemRequest.getInstance( (AdventureResult)items[ i ] ) );
 			}
 		}
 	}
@@ -1251,10 +1263,10 @@ public class ShowDescriptionTable
 				return;
 			}
 
-			AdventureResult[] items = (AdventureResult[])ShowDescriptionTable.this.getSelectedValues();
+			Object[] items = ShowDescriptionTable.this.getSelectedValues();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new PulverizeRequest( items[ i ] ) );
+				RequestThread.postRequest( new PulverizeRequest( (AdventureResult)items[ i ] ) );
 			}
 		}
 	}
