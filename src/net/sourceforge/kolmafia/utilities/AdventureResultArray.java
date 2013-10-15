@@ -48,16 +48,11 @@ public class AdventureResultArray
 
 	public AdventureResult get( final int index )
 	{
-		return index < 0 || index >= this.internalList.size() ? null : this.internalList.get( index );
+		return this.internalList.get( index );
 	}
 
 	public void set( final int index, final AdventureResult value )
 	{
-		while ( index >= this.internalList.size() )
-		{
-			this.internalList.add( null );
-		}
-
 		this.internalList.set( index, value );
 	}
 
@@ -85,7 +80,7 @@ public class AdventureResultArray
 
 	public boolean isEmpty()
 	{
-		return this.internalList.size() == 0;
+		return this.internalList.isEmpty();
 	}
 
 	public boolean contains( AdventureResult ar )
