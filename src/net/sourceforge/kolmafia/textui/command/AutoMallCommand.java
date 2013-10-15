@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
+
 public class AutoMallCommand
 	extends AbstractCommand
 {
@@ -68,7 +70,7 @@ public class AutoMallCommand
 		AdventureResult[] itemsArray = new AdventureResult[ KoLConstants.profitableList.size() ];
 		AdventureResult[] items = (AdventureResult[])KoLConstants.profitableList.toArray( itemsArray );
 
-		ArrayList<AdventureResult> sellList = new ArrayList<AdventureResult>();
+		AdventureResultArray sellList = new AdventureResultArray();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
@@ -94,8 +96,7 @@ public class AutoMallCommand
 
 		if ( !sellList.isEmpty() )
 		{
-			AdventureResult[] sellArray = new AdventureResult[ sellList.size() ];
-			RequestThread.postRequest( new AutoMallRequest( (AdventureResult[])sellList.toArray( sellArray ) ) );
+			RequestThread.postRequest( new AutoMallRequest( sellList.toArray() ) );
 		}
 	}
 }

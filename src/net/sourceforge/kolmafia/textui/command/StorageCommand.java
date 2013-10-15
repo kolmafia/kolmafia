@@ -52,6 +52,8 @@ import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
+
 public class StorageCommand
 	extends AbstractCommand
 {
@@ -85,7 +87,7 @@ public class StorageCommand
 				return;
 			}
 			AdventureResult[] pieces = outfit.getPieces();
-			ArrayList<AdventureResult> needed = new ArrayList<AdventureResult>();
+			AdventureResultArray needed = new AdventureResultArray();
 			for ( int i = 0; i < pieces.length; ++i )
 			{
 				if ( !InventoryManager.hasItem( pieces[ i ] ) )
@@ -98,8 +100,7 @@ public class StorageCommand
 				KoLmafia.updateDisplay( "You have all of the pieces of outfit '" + name + "' in inventory already." );
 				return;
 			}
-			AdventureResult[] neededArray = new AdventureResult[ needed.size() ];
-			items = (AdventureResult[])needed.toArray( neededArray );
+			items = needed.toArray();
 		}
 		else
 		{

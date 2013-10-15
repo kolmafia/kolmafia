@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class TransferItemRequest
@@ -186,7 +187,7 @@ public abstract class TransferItemRequest
 
 		int meatAttachment = 0;
 
-		ArrayList<AdventureResult> nextAttachments = new ArrayList<AdventureResult>();
+		AdventureResultArray nextAttachments = new AdventureResultArray();
 		int index = 0;
 
 		while ( index < this.attachments.length )
@@ -249,9 +250,7 @@ public abstract class TransferItemRequest
 
 			if ( !nextAttachments.isEmpty() )
 			{
-				AdventureResult[] subAttachments = new AdventureResult[ nextAttachments.size() ]; 
-				subAttachments = (AdventureResult[])nextAttachments.toArray( subAttachments);
-				TransferItemRequest subinstance = this.getSubInstance( subAttachments );
+				TransferItemRequest subinstance = this.getSubInstance( nextAttachments.toArray() );
 				subinstance.isSubInstance = true;
 				subinstances.add( subinstance );
 			}

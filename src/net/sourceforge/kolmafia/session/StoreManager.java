@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -798,8 +799,8 @@ public abstract class StoreManager
 		AdventureResult[] items = new AdventureResult[ KoLConstants.inventory.size() ];
 		KoLConstants.inventory.toArray( items );
 
-		ArrayList<AdventureResult> autosell = new ArrayList<AdventureResult>();
-		ArrayList<AdventureResult> automall = new ArrayList<AdventureResult>();
+		AdventureResultArray autosell = new AdventureResultArray();
+		AdventureResultArray automall = new AdventureResultArray();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
@@ -834,14 +835,12 @@ public abstract class StoreManager
 
 		if ( autosell.size() > 0 && KoLmafia.permitsContinue() )
 		{
-			AdventureResult[] autosellArray = new AdventureResult[ autosell.size() ];
-			RequestThread.postRequest( new AutoSellRequest( (AdventureResult[])autosell.toArray( autosellArray ) ) );
+			RequestThread.postRequest( new AutoSellRequest( autosell.toArray() ) );
 		}
 
 		if ( automall.size() > 0 && KoLmafia.permitsContinue() )
 		{
-			AdventureResult[] automallArray = new AdventureResult[ automall.size() ];
-			RequestThread.postRequest( new AutoMallRequest( (AdventureResult[])automall.toArray( automallArray) ) );
+			RequestThread.postRequest( new AutoMallRequest( automall.toArray() ) );
 		}
 
 		// Now, remove all the items that you intended

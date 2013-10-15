@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1190,7 +1191,7 @@ public abstract class InventoryManager
 		List< ? > source = moveToCloset ? KoLConstants.inventory : KoLConstants.closet;
 		List< ? > destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
 
-		List<AdventureResult> attachmentList = new ArrayList<AdventureResult>();
+		AdventureResultArray attachmentList = new AdventureResultArray();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
@@ -1212,8 +1213,7 @@ public abstract class InventoryManager
 		if ( !attachmentList.isEmpty() )
 		{
 			int moveType = moveToCloset ? ClosetRequest.INVENTORY_TO_CLOSET : ClosetRequest.CLOSET_TO_INVENTORY;
-			AdventureResult[] itemsArray = new AdventureResult[ attachmentList.size() ];
-			RequestThread.postRequest( new ClosetRequest( moveType, (AdventureResult[])attachmentList.toArray( itemsArray ) ) );
+			RequestThread.postRequest( new ClosetRequest( moveType, attachmentList.toArray() ) );
 		}
 	}
 

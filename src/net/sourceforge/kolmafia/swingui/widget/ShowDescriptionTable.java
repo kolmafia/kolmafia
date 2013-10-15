@@ -1178,10 +1178,11 @@ public class ShowDescriptionTable
 		@Override
 		public void executeAction()
 		{
-			AdventureResult[] items = (AdventureResult[])ShowDescriptionTable.this.getSelectedValues();
+			Object[] items = ShowDescriptionTable.this.getSelectedValues();
 			for ( int i = 0; i < items.length; ++i )
 			{
-				AdventureResult.addResultToList( KoLConstants.tally, items[ i ].getNegation() );
+				AdventureResult item = (AdventureResult)items[ i ];
+				AdventureResult.addResultToList( KoLConstants.tally, item.getNegation() );
 			}
 		}
 	}
