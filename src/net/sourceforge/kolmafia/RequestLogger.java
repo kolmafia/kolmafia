@@ -105,6 +105,7 @@ import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.KOLHSRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
@@ -1046,6 +1047,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof LunarLunchRequest || isExternal ) && LunarLunchRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof ManageStoreRequest || isExternal ) && ManageStoreRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

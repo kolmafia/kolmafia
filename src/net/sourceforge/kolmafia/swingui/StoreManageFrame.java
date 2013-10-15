@@ -741,7 +741,7 @@ public class StoreManageFrame
 			}
 
 			RequestThread.postRequest( new AutoMallRequest( items ) );
-			RequestThread.postRequest( new ManageStoreRequest( false ) );
+			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 
 		@Override
@@ -788,7 +788,9 @@ public class StoreManageFrame
 
 			for ( int i = 0; i < items.length; ++i )
 			{
-				RequestThread.postRequest( new ManageStoreRequest( ( (SoldItem) items[ i ] ).getItemId(), takeAll ) );
+				SoldItem soldItem = ( (SoldItem) items[ i ] );
+				int count = takeAll ? soldItem.getQuantity() : 1;
+				RequestThread.postRequest( new ManageStoreRequest( soldItem.getItemId(), count ) );
 			}
 
 			RequestThread.postRequest( new ManageStoreRequest() );

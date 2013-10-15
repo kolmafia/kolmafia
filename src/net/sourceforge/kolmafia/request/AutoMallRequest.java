@@ -96,7 +96,7 @@ public class AutoMallRequest
 	@Override
 	public String getMeatField()
 	{
-		return "sendmeat";
+		return "";
 	}
 
 	@Override

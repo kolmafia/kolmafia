@@ -34,8 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.ArrayList;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
+import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -43,7 +42,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
@@ -167,11 +165,25 @@ public class ShopCommand
 
 	public static void take( String parameters )
 	{
-		boolean takeAll = parameters.trim().startsWith( "all " );
+		boolean takeAll = false;
+		int qty = 1;
 
-		if ( takeAll )
+		parameters = parameters.trim();
+
+		int space = parameters.indexOf( " " );
+		if ( space != -1 )
 		{
-			parameters = parameters.substring( 4 ).trim();
+			String token = parameters.substring( 0, space );
+			if ( token.equals( "all" ) )
+			{
+				takeAll = true;
+				parameters = parameters.substring( space + 1 ).trim();
+			}
+			else if ( StringUtilities.isNumeric( token ) )
+			{
+				qty = StringUtilities.parseInt( parameters );
+				parameters = parameters.substring( space + 1 ).trim();
+			}
 		}
 
 		if ( !StoreManager.soldItemsRetrieved )
@@ -179,7 +191,7 @@ public class ShopCommand
 			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 
-		LockableListModel list = StoreManager.getSoldItemList();
+		List list = StoreManager.getSoldItemList();
 
 		String[] itemNames = parameters.split( "\\s*,\\s*" );
 
@@ -204,7 +216,10 @@ public class ShopCommand
 				continue;
 			}
 
-			RequestThread.postRequest( new ManageStoreRequest( itemId, takeAll ) );
+			SoldItem soldItem = (SoldItem) list.get( index );
+
+			int count = takeAll ? soldItem.getQuantity() : qty;
+			RequestThread.postRequest( new ManageStoreRequest( itemId, count ) );
 		}
 	}
 }

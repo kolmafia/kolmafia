@@ -2965,16 +2965,13 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 
-
 		LockableListModel list = StoreManager.getSoldItemList();
-		SoldItem item;
 
 		for ( int i = 0; i < list.size(); ++i )
 		{
-			item = ( (SoldItem) list.get( i ) );
-			value.aset(
-				DataTypes.parseItemValue( item.getItemName(), true ),
-				new Value( item.getQuantity() ) );
+			SoldItem item = ( (SoldItem) list.get( i ) );
+			value.aset( DataTypes.parseItemValue( item.getItemName(), true ),
+				    new Value( item.getQuantity() ) );
 		}
 
 		return value;

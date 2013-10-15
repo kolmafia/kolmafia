@@ -42,6 +42,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -54,37 +56,33 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ManageStoreRequest
 	extends GenericRequest
 {
-	private static final int ITEM_REMOVAL = 1;
-	private static final int PRICE_MANAGEMENT = 2;
-	private static final int VIEW_STORE_LOG = 3;
+	private static Pattern ITEMID_PATTERN = Pattern.compile( "itemid=(h)?(\\d+)" );
+	private static Pattern PRICE_PATTERN = Pattern.compile( "price=(\\d+)?" );
+	private static Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+|\\*|)" );
+	private static Pattern LIMIT_PATTERN = Pattern.compile( "limit=(\\d+)?" );
+
+	// (2) breath mints stocked for 999,999,999 meat each.
+	private static Pattern STOCKED_PATTERN = Pattern.compile( "\\(([\\d,]+)\\) (.*?) stocked for ([\\d,]+) meat each( \\(([\\d,]+)/day\\))?" );
+
+	private static final int ITEM_ADDITION = 1;
+	private static final int ITEM_REMOVAL = 2;
+	private static final int PRICE_MANAGEMENT = 3;
+	private static final int VIEW_STORE_LOG = 4;
 
 	private int takenItemId;
 	private final int requestType;
 
 	public ManageStoreRequest()
 	{
-		this( false );
+		super( "manageprices.php" );
+		this.requestType = ManageStoreRequest.PRICE_MANAGEMENT;
 	}
 
 	public ManageStoreRequest( final boolean isStoreLog )
 	{
-		super( isStoreLog ? "backoffice.php" : "manageprices.php" );
-		if ( isStoreLog )
-		{
-			this.addFormField( "which", "3" );
-		}
-
-		this.requestType = isStoreLog ? ManageStoreRequest.VIEW_STORE_LOG : ManageStoreRequest.PRICE_MANAGEMENT;
-	}
-
-	public ManageStoreRequest( final int itemId, final boolean takeAll )
-	{
-		this( itemId, takeAll ? Integer.MAX_VALUE : 1 );
-	}
-
-	public ManageStoreRequest( final int itemId )
-	{
-		this( itemId, Integer.MAX_VALUE );
+		super( "backoffice.php" );
+		this.addFormField( "which", "3" );
+		this.requestType =  ManageStoreRequest.VIEW_STORE_LOG;
 	}
 
 	public ManageStoreRequest( final int itemId, int qty )
@@ -92,10 +90,9 @@ public class ManageStoreRequest
 		super( "backoffice.php" );
 		this.addFormField( "itemid", String.valueOf( itemId ) );
 		this.addFormField( "action", "removeitem" );
-		qty = Math.min( qty, StoreManager.shopAmount( itemId ) );
-		this.addFormField( "qty", String.valueOf( qty ) );
-		this.addFormField( "ajax", "1" );
 
+		// Cannot ask for more to be removed than are really in the store
+		qty = Math.min( qty, StoreManager.shopAmount( itemId ) );
 		if ( qty > 1 )
 		{
 			AdventureResult item = new AdventureResult( itemId, 1 );
@@ -104,6 +101,9 @@ public class ManageStoreRequest
 				KoLConstants.profitableList.remove( item );
 			}
 		}
+
+		this.addFormField( "qty", String.valueOf( qty ) );
+		this.addFormField( "ajax", "1" );
 
 		this.requestType = ManageStoreRequest.ITEM_REMOVAL;
 		this.takenItemId = itemId;
@@ -136,6 +136,10 @@ public class ManageStoreRequest
 	{
 		switch ( this.requestType )
 		{
+		case ITEM_ADDITION:
+			this.addItem();
+			break;
+
 		case ITEM_REMOVAL:
 			this.removeItem();
 			break;
@@ -150,18 +154,28 @@ public class ManageStoreRequest
 		}
 	}
 
-	private void viewStoreLogs()
+	private void addItem()
 	{
-		KoLmafia.updateDisplay( "Examining store logs..." );
+		// AdventureResult takenItem = new AdventureResult( this.takenItemId, 0 );
+		// String name = takenItem.getName();
 
+		// KoLmafia.updateDisplay( "Removing " + name + " from store..." );
 		super.run();
+		// KoLmafia.updateDisplay( takenItem.getCount() + " " + name + " removed from your store." );
 
-		if ( this.responseText != null )
-		{
-			StoreManager.parseLog( this.responseText );
-		}
+		ManageStoreRequest.parseResponse( this.getURLString(), this.responseText );
+	}
 
-		KoLmafia.updateDisplay( "Store purchase logs retrieved." );
+	private void removeItem()
+	{
+		AdventureResult takenItem = new AdventureResult( this.takenItemId, 0 );
+		String name = takenItem.getName();
+
+		KoLmafia.updateDisplay( "Removing " + name + " from store..." );
+		super.run();
+		KoLmafia.updateDisplay( takenItem.getCount() + " " + name + " removed from your store." );
+
+		ManageStoreRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	private void managePrices()
@@ -178,16 +192,18 @@ public class ManageStoreRequest
 		KoLmafia.updateDisplay( "Store inventory request complete." );
 	}
 
-	private void removeItem()
+	private void viewStoreLogs()
 	{
-		AdventureResult takenItem = new AdventureResult( this.takenItemId, 0 );
-		String name = takenItem.getName();
+		KoLmafia.updateDisplay( "Examining store logs..." );
 
-		KoLmafia.updateDisplay( "Removing " + name + " from store..." );
 		super.run();
-		KoLmafia.updateDisplay( takenItem.getCount() + " " + name + " removed from your store." );
 
-		ManageStoreRequest.parseResponse( this.getURLString(), this.responseText );
+		if ( this.responseText != null )
+		{
+			StoreManager.parseLog( this.responseText );
+		}
+
+		KoLmafia.updateDisplay( "Store purchase logs retrieved." );
 	}
 
 	@Override
@@ -203,37 +219,100 @@ public class ManageStoreRequest
 		}
 
 		String action = GenericRequest.getAction( urlString );
-		if ( action == null || !action.equals( "removeitem" ) )
+		if ( action == null )
 		{
 			return;
 		}
 
-		Matcher itemMatcher = MallPurchaseRequest.ITEM_PATTERN.matcher( responseText );
-		if ( !itemMatcher.find() )
+		if ( action.equals( "additem" ) )
 		{
+			// (2) breath mints stocked for 999,999,999 meat each.
+			Matcher stockedMatcher = ManageStoreRequest.STOCKED_PATTERN.matcher( responseText );
+			if ( !stockedMatcher.find() )
+			{
+				return;
+			}
+
+			int quantity = StringUtilities.parseInt( stockedMatcher.group( 1 ) );
+			int price = StringUtilities.parseInt( stockedMatcher.group( 3 ) );
+			int limit = stockedMatcher.group( 4 ) == null ? 0 : StringUtilities.parseInt( stockedMatcher.group( 5 ) );
+
+			// backoffice.php?itemid=h362&price=180&quantity=1&limit=&pwd&action=additem&ajax=1
+			// backoffice.php?itemid=362&price=180&quantity=1&limit=&pwd&action=additem&ajax=1
+
+			// get the item ID - and whether it is from Hagnk's - from the URL submitted.
+			// ignore price, quantity, and limit, since the response told us those
+
+			Matcher itemMatcher = ManageStoreRequest.ITEMID_PATTERN.matcher( urlString );
+			if ( !itemMatcher.find() )
+			{
+				return;
+			}
+
+			boolean storage = itemMatcher.group( 1 ) != null;
+			int itemId = StringUtilities.parseInt( itemMatcher.group( 2 ) );
+
+			AdventureResult item = ItemPool.get( itemId, -quantity );
+			if ( storage)
+			{
+				AdventureResult.addResultToList( KoLConstants.storage, item );
+			}
+			else
+			{
+				ResultProcessor.processItem( itemId, -quantity );
+			}
+
+			StoreManager.addItem( itemId, quantity, price, limit );
+
 			return;
 		}
 
-		String result = itemMatcher.group( 0 );
-		ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
-		ResultProcessor.processResults( false, result, results );
-
-		if ( results.isEmpty() )
+		if ( action.equals( "removeitem" ) )
 		{
-			// Shouldn't happen
+			// backoffice.php?qty=1&pwd&action=removeitem&itemid=362&ajax=1
+
+			Matcher itemMatcher = MallPurchaseRequest.ITEM_PATTERN.matcher( responseText );
+			if ( !itemMatcher.find() )
+			{
+				return;
+			}
+
+			String result = itemMatcher.group( 0 );
+			ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
+			ResultProcessor.processResults( false, result, results );
+
+			if ( results.isEmpty() )
+			{
+				// Shouldn't happen
+				return;
+			}
+
+			AdventureResult item = results.get( 0 );
+			if ( itemMatcher.group( 2 ) == null)
+			{
+				ResultProcessor.processItem( item.getItemId(), item.getCount() );
+			}
+			else
+			{
+				AdventureResult.addResultToList( KoLConstants.storage, item );
+			}
+
+			StoreManager.removeItem( item.getItemId(), item.getCount() );
 			return;
 		}
+	}
 
-		AdventureResult item = results.get( 0 );
-		if ( itemMatcher.group( 2 ) == null)
+	public static boolean registerRequest( final String urlString )
+	{
+		// backoffice.php?itemid=h362&price=180&quantity=1&limit=&pwd&action=additem&ajax=1
+		// backoffice.php?itemid=362&price=180&quantity=1&limit=&pwd&action=additem&ajax=1
+		// backoffice.php?qty=1&pwd&action=removeitem&itemid=362&ajax=1
+
+		if ( urlString.startsWith( "backoffice.php" ) )
 		{
-			ResultProcessor.processItem( item.getItemId(), item.getCount() );
-		}
-		else
-		{
-			AdventureResult.addResultToList( KoLConstants.storage, item );
+			return false;
 		}
 
-		StoreManager.removeItem( item.getItemId(), item.getCount() );
+		return false;
 	}
 }
