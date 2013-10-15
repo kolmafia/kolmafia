@@ -74,7 +74,8 @@ public class CleanupJunkRequest
 		int itemCount;
 		AdventureResult currentItem;
 
-		AdventureResult[] items = (AdventureResult[])KoLConstants.junkList.toArray();
+		AdventureResult[] itemsArray = new AdventureResult[ KoLConstants.junkList.size() ];
+		AdventureResult[] items = (AdventureResult[])KoLConstants.junkList.toArray( itemsArray );
 
 		// Before doing anything else, go through the list of items
 		// which are traditionally used and use them. Also, if the item
@@ -102,7 +103,8 @@ public class CleanupJunkRequest
 
 		if ( closetList.size() > 0 )
 		{
-			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, (AdventureResult[])closetList.toArray() ) );
+			AdventureResult[] closetArray = new AdventureResult[ closetList.size() ];
+			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, (AdventureResult[])closetList.toArray( closetArray ) ) );
 		}
 
 		do
@@ -245,7 +247,8 @@ public class CleanupJunkRequest
 
 		if ( !sellList.isEmpty() )
 		{
-			RequestThread.postRequest( new AutoSellRequest( (AdventureResult[])sellList.toArray() ) );
+			AdventureResult[] sellArray = new AdventureResult[ sellList.size() ];
+			RequestThread.postRequest( new AutoSellRequest( (AdventureResult[])sellList.toArray( sellArray ) ) );
 			sellList.clear();
 		}
 
@@ -274,7 +277,8 @@ public class CleanupJunkRequest
 
 			if ( !sellList.isEmpty() )
 			{
-				RequestThread.postRequest( new AutoSellRequest( (AdventureResult[])sellList.toArray() ) );
+				AdventureResult[] sellArray = new AdventureResult[ sellList.size() ];
+				RequestThread.postRequest( new AutoSellRequest( (AdventureResult[])sellList.toArray( sellArray ) ) );
 			}
 		}
 	}

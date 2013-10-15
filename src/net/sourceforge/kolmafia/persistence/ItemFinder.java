@@ -564,8 +564,7 @@ public class ItemFinder
 		}
 
 		AdventureResult[] result = new AdventureResult[ items.size() ];
-		items.toArray( result );
-		return result;
+		return items.toArray( result );
 	}
 
 }

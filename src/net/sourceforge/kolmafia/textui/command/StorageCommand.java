@@ -98,7 +98,8 @@ public class StorageCommand
 				KoLmafia.updateDisplay( "You have all of the pieces of outfit '" + name + "' in inventory already." );
 				return;
 			}
-			items = (AdventureResult[])needed.toArray();
+			AdventureResult[] neededArray = new AdventureResult[ needed.size() ];
+			items = (AdventureResult[])needed.toArray( neededArray );
 		}
 		else
 		{

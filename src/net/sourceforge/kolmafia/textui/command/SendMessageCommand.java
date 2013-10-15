@@ -143,7 +143,8 @@ public class SendMessageCommand
 			AdventureResult.addResultToList( attachmentList, new AdventureResult( AdventureResult.MEAT, meatAmount ) );
 		}
 
-		SendMessageCommand.send( recipient, message, (AdventureResult[])attachmentList.toArray(), false, true );
+		AdventureResult[] items = new AdventureResult[ attachmentList.size() ];
+		SendMessageCommand.send( recipient, message, (AdventureResult[])attachmentList.toArray( items ), false, true );
 	}
 
 	public static void send( final String recipient, final String message, final AdventureResult[] attachments,

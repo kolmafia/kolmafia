@@ -303,7 +303,7 @@ public class AutoSellRequest
 
 			AdventureResult[] items = new AdventureResult[ sublist.size() ];
 			sublist.toArray( items );
-			TransferItemRequest subinstance = this.getSubInstance( items );
+			TransferItemRequest subinstance = this.getSubInstance( sublist.toArray( items ) );
 			subinstance.isSubInstance = true;
 			subinstances.add( subinstance );
 		}
