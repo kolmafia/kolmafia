@@ -128,7 +128,8 @@ public class MuseumFrame
 				return;
 			}
 
-			RequestThread.postRequest( new DisplayCaseRequest( (AdventureResult[])items.toArray(), true ) );
+			AdventureResult[] itemsArray = new AdventureResult[ items.size() ];
+			RequestThread.postRequest( new DisplayCaseRequest( (AdventureResult[])items.toArray( itemsArray ), true ) );
 		}
 
 		@Override

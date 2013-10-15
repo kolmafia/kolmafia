@@ -416,7 +416,8 @@ public class ClanManageFrame
 					items = (AdventureResult[])WithdrawPanel.this.elementList.getSelectedValues();
 					if ( items.length == 0 )
 					{
-						items = (AdventureResult[])WithdrawPanel.this.elementModel.toArray();
+						AdventureResult[] itemsArray = new AdventureResult[ WithdrawPanel.this.elementModel.size() ];
+						items = (AdventureResult[])WithdrawPanel.this.elementModel.toArray( itemsArray );
 					}
 
 					if ( items.length == 0 )
