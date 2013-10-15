@@ -2456,6 +2456,12 @@ public class GenericRequest
 			return;
 		}
 
+		if ( urlString.startsWith( "backoffice.php" ) )
+		{
+			// ManageStoreRequest.parseResponse will sort this out.
+			return;
+		}
+
 		if ( urlString.startsWith( "fight.php" ) )
 		{
 			FightRequest.processResults( this.responseText );

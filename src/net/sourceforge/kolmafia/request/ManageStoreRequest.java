@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +44,9 @@ import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -145,14 +150,6 @@ public class ManageStoreRequest
 		}
 	}
 
-	public static final void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "backoffice.php" ) )
-		{
-			return;
-		}
-	}
-
 	private void viewStoreLogs()
 	{
 		KoLmafia.updateDisplay( "Examining store logs..." );
@@ -183,22 +180,60 @@ public class ManageStoreRequest
 
 	private void removeItem()
 	{
-		KoLmafia.updateDisplay( "Removing " + ItemDatabase.getItemName( this.takenItemId ) + " from store..." );
 		AdventureResult takenItem = new AdventureResult( this.takenItemId, 0 );
+		String name = takenItem.getName();
 
+		KoLmafia.updateDisplay( "Removing " + name + " from store..." );
 		super.run();
+		KoLmafia.updateDisplay( takenItem.getCount() + " " + name + " removed from your store." );
 
-		Matcher takenItemMatcher = Pattern.compile( "updateInv\\(\\{\"" + this.takenItemId + "\":(\\d*)\\}\\)" ).matcher( this.responseText );
-		if ( takenItemMatcher.find() )
-		{
-			int taken = StringUtilities.parseInt( takenItemMatcher.group( 1 ) );
-			StoreManager.removeItem( this.takenItemId, taken );
-			KoLmafia.updateDisplay( taken + " " + takenItem.getName() + " removed from your store." );
-		}
+		ManageStoreRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	@Override
 	public void processResults()
 	{
+	}
+
+	public static final void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "backoffice.php" ) )
+		{
+			return;
+		}
+
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null || !action.equals( "removeitem" ) )
+		{
+			return;
+		}
+
+		Matcher itemMatcher = MallPurchaseRequest.ITEM_PATTERN.matcher( responseText );
+		if ( !itemMatcher.find() )
+		{
+			return;
+		}
+
+		String result = itemMatcher.group( 0 );
+		ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
+		ResultProcessor.processResults( false, result, results );
+
+		if ( results.isEmpty() )
+		{
+			// Shouldn't happen
+			return;
+		}
+
+		AdventureResult item = results.get( 0 );
+		if ( itemMatcher.group( 2 ) == null)
+		{
+			ResultProcessor.processItem( item.getItemId(), item.getCount() );
+		}
+		else
+		{
+			AdventureResult.addResultToList( KoLConstants.storage, item );
+		}
+
+		StoreManager.removeItem( item.getItemId(), item.getCount() );
 	}
 }

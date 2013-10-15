@@ -563,7 +563,9 @@ public class ItemFinder
 			}
 		}
 
-		return (AdventureResult[])items.toArray();
+		AdventureResult[] result = new AdventureResult[ items.size() ];
+		items.toArray( result );
+		return result;
 	}
 
 }

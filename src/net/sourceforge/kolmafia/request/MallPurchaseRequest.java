@@ -297,7 +297,7 @@ public class MallPurchaseRequest
 
 	// You acquire an item: <b>tiny plastic Charity the Zombie Hunter</b> (stored in Hagnk's Ancestral Mini-Storage)
 	// You acquire <b>2 tiny plastic Charities the Zombie Hunters</b> (stored in Hagnk's Ancestral Mini-Storage)
-	private static Pattern ITEM_PATTERN = Pattern.compile( "You acquire .*?<b>(.*?)</b>( \\(stored in Hagnk's Ancestral Mini-Storage\\))?", Pattern.DOTALL );
+	public static Pattern ITEM_PATTERN = Pattern.compile( "You acquire .*?<b>(.*?)</b>( \\(stored in Hagnk's Ancestral Mini-Storage\\))?", Pattern.DOTALL );
 
 	// (You spent 1,900 meat from Hagnk's.<br />You have XXX meat left.)
 	private static Pattern MEAT_PATTERN = Pattern.compile( "You spent ([\\d,]+) [Mm]eat( from Hagnk's.*?You have ([\\d,]+) [Mm]eat left)?", Pattern.DOTALL );

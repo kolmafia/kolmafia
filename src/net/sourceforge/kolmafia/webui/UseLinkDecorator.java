@@ -88,7 +88,8 @@ public abstract class UseLinkDecorator
 
 		// You CAN buy from the mall in Hardcore or Ronin, but any
 		// results go into Hagnk's storage.
-		if ( location.startsWith( "mallstore.php" ) && !KoLCharacter.canInteract() )
+		if ( ( location.startsWith( "mallstore.php" ) || location.startsWith( "backoffice.php" ) ) &&
+		     !KoLCharacter.canInteract() )
 		{
 			return;
 		}
