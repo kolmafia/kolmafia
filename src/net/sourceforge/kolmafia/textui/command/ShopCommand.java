@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -89,7 +90,7 @@ public class ShopCommand
 	{
 		String[] itemNames = parameters.split( "\\s*,\\s*" );
 
-		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+		AdventureResultArray items = new AdventureResultArray();
 		IntegerArray prices = new IntegerArray();
 		IntegerArray limits = new IntegerArray();
 
@@ -158,8 +159,7 @@ public class ShopCommand
 
 		if ( items.size() > 0 )
 		{
-			AdventureResult[] itemsArray = new AdventureResult[ items.size() ];
-			RequestThread.postRequest( new AutoMallRequest( (AdventureResult[])items.toArray( itemsArray ),
+			RequestThread.postRequest( new AutoMallRequest( items.toArray(),
 									(int[])prices.toArray(),
 									(int[])limits.toArray() ) );
 		}

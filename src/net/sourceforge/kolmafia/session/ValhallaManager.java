@@ -68,6 +68,8 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
+
 public class ValhallaManager
 
 {
@@ -164,7 +166,7 @@ public class ValhallaManager
 
 		// Sell autosellable quest items
 
-		ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+		AdventureResultArray items = new AdventureResultArray();
 		for ( int i = 0; i < ValhallaManager.AUTOSELLABLE.length; ++i )
 		{
 			AdventureResult item = ValhallaManager.AUTOSELLABLE[i];
@@ -177,8 +179,7 @@ public class ValhallaManager
 
 		if ( items.size() > 0 )
 		{
-			AdventureResult[] itemsArray = new AdventureResult[ items.size() ];
-			AutoSellRequest request = new AutoSellRequest( (AdventureResult[])items.toArray( itemsArray ) );
+			AutoSellRequest request = new AutoSellRequest( items.toArray() );
 			RequestThread.postRequest( request );
 		}
 

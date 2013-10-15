@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.AccountRequest.Tab;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutoSellRequest
@@ -210,8 +211,8 @@ public class AutoSellRequest
 		// Look at all of the attachments and divide them into groups:
 		// all, all but one, another quantity
 
-		ArrayList<AdventureResult> all = new ArrayList<AdventureResult>();
-		ArrayList<AdventureResult> allButOne = new ArrayList<AdventureResult>();
+		AdventureResultArray all = new AdventureResultArray();
+		AdventureResultArray allButOne = new AdventureResultArray();
 		HashSet<AdventureResult> others = new HashSet<AdventureResult>();
 
 		for ( int index = 0; index < this.attachments.length; ++index )
@@ -282,7 +283,7 @@ public class AutoSellRequest
 		// its own subinstance
 		while ( others.size() > 0 )
 		{
-			ArrayList<AdventureResult> sublist = new ArrayList<AdventureResult>();
+			AdventureResultArray sublist = new AdventureResultArray();
 			Iterator it = others.iterator();
 
 			int count = -1;
@@ -301,27 +302,21 @@ public class AutoSellRequest
 				}
 			}
 
-			AdventureResult[] items = new AdventureResult[ sublist.size() ];
-			sublist.toArray( items );
-			TransferItemRequest subinstance = this.getSubInstance( sublist.toArray( items ) );
+			TransferItemRequest subinstance = this.getSubInstance( sublist.toArray() );
 			subinstance.isSubInstance = true;
 			subinstances.add( subinstance );
 		}
 
 		if ( allButOne.size() > 0 )
 		{
-			AdventureResult[] items = new AdventureResult[ allButOne.size() ];
-			allButOne.toArray( items );
-			TransferItemRequest subinstance = this.getSubInstance( items );
+			TransferItemRequest subinstance = this.getSubInstance( allButOne.toArray() );
 			subinstance.isSubInstance = true;
 			subinstances.add( subinstance );
 		}
 
 		if ( all.size() > 0 )
 		{
-			AdventureResult[] items = new AdventureResult[ all.size() ];
-			all.toArray( items );
-			TransferItemRequest subinstance = this.getSubInstance( items );
+			TransferItemRequest subinstance = this.getSubInstance( all.toArray() );
 			subinstance.isSubInstance = true;
 			subinstances.add( subinstance );
 		}

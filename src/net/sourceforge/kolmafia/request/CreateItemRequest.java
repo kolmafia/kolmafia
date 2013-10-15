@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CreateItemRequest
@@ -1544,7 +1545,7 @@ public class CreateItemRequest
 			return ConcoctionDatabase.getIngredients( itemId );
 		}
 
-		ArrayList<AdventureResult> ingredients = new ArrayList<AdventureResult>();
+		AdventureResultArray ingredients = new AdventureResultArray();
 		Matcher matcher;
 
 		if ( urlString.startsWith( "craft.php" ) )
@@ -1570,10 +1571,7 @@ public class CreateItemRequest
 			ingredients.add( ItemPool.get( ItemPool.MSG, 1 ) );
 		}
 
-		AdventureResult [] ingredientArray = new AdventureResult[ ingredients.size() ];
-		ingredients.toArray( ingredientArray );
-
-		return ingredientArray;
+		return ingredients.toArray();
 	}
 
 	private static final AdventureResult getIngredient( final String itemId )

@@ -56,6 +56,8 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
+
 public class CleanupJunkRequest
 	extends AbstractCommand
 {
@@ -85,7 +87,7 @@ public class CleanupJunkRequest
 		boolean madeUntinkerRequest = false;
 		boolean canUntinker = UntinkerRequest.canUntinker();
 
-		ArrayList<AdventureResult> closetList = new ArrayList();
+		AdventureResultArray closetList = new AdventureResultArray();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
@@ -103,8 +105,7 @@ public class CleanupJunkRequest
 
 		if ( closetList.size() > 0 )
 		{
-			AdventureResult[] closetArray = new AdventureResult[ closetList.size() ];
-			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, (AdventureResult[])closetList.toArray( closetArray ) ) );
+			RequestThread.postRequest( new ClosetRequest( ClosetRequest.INVENTORY_TO_CLOSET, closetList.toArray() ) );
 		}
 
 		do
@@ -222,7 +223,7 @@ public class CleanupJunkRequest
 		// Now you've got all the items used up, go ahead and prepare to
 		// sell anything that's left.
 
-		ArrayList<AdventureResult> sellList = new ArrayList<AdventureResult>();
+		AdventureResultArray sellList = new AdventureResultArray();
 
 		for ( int i = 0; i < items.length; ++i )
 		{
@@ -247,8 +248,7 @@ public class CleanupJunkRequest
 
 		if ( !sellList.isEmpty() )
 		{
-			AdventureResult[] sellArray = new AdventureResult[ sellList.size() ];
-			RequestThread.postRequest( new AutoSellRequest( (AdventureResult[])sellList.toArray( sellArray ) ) );
+			RequestThread.postRequest( new AutoSellRequest( sellList.toArray() ) );
 			sellList.clear();
 		}
 
@@ -277,8 +277,7 @@ public class CleanupJunkRequest
 
 			if ( !sellList.isEmpty() )
 			{
-				AdventureResult[] sellArray = new AdventureResult[ sellList.size() ];
-				RequestThread.postRequest( new AutoSellRequest( (AdventureResult[])sellList.toArray( sellArray ) ) );
+				RequestThread.postRequest( new AutoSellRequest( sellList.toArray() ) );
 			}
 		}
 	}

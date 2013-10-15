@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MuseumFrame
@@ -111,7 +112,7 @@ public class MuseumFrame
 			AdventureResult[] display = new AdventureResult[ KoLConstants.collection.size() ];
 			KoLConstants.collection.toArray( display );
 
-			ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+			AdventureResultArray items = new AdventureResultArray();
 
 			for ( int i = 0; i < display.length; ++i )
 			{
@@ -128,8 +129,7 @@ public class MuseumFrame
 				return;
 			}
 
-			AdventureResult[] itemsArray = new AdventureResult[ items.size() ];
-			RequestThread.postRequest( new DisplayCaseRequest( (AdventureResult[])items.toArray( itemsArray ), true ) );
+			RequestThread.postRequest( new DisplayCaseRequest( items.toArray(), true ) );
 		}
 
 		@Override
