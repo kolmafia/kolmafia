@@ -8788,7 +8788,7 @@ public abstract class ChoiceManager
 		case 789:
 			// Only relocate pygmy janitors once, then get random items
 			if ( decision.equals( "2" ) && 
-				Preferences.getInteger( "relocatePygmyJanitors" ) != KoLCharacter.getAscensions() )
+				Preferences.getInteger( "relocatePygmyJanitors" ) == KoLCharacter.getAscensions() )
 			{
 				return "1";
 			}
