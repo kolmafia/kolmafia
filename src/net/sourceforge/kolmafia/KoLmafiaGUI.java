@@ -415,7 +415,7 @@ public class KoLmafiaGUI
 			}
 
 			StoreManager.clearCache();
-			RequestThread.postRequest( new ManageStoreRequest( false ) );
+			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 
 		( new CreateFrameRunnable( frameClass ) ).run();

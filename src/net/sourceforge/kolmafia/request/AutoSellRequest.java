@@ -92,7 +92,7 @@ public class AutoSellRequest
 	@Override
 	public String getMeatField()
 	{
-		return "sendmeat";
+		return "";
 	}
 
 	private static final String getSellPage()
