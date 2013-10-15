@@ -1828,7 +1828,7 @@ Grimacite gauntlets	Meat Drop: +30, Muscle Percent: [10*G], Single Equip
 Grimacite girdle	Spell Damage: +20, Mysticality Percent: [10*G], Single Equip
 Grimacite go-go boots	Item Drop: +30, Moxie Percent: [10*G], Single Equip
 Grimacite gorget	Item Drop: +25, Muscle Percent: [10*G]
-HOA zombie eyes	Combat Rate: +5, Muscle Percent: -100, Mysticality Percent: -100, Moxie Percent: -100, Experience: +10
+HOA zombie eyes	Combat Rate: +5, Muscle Percent: -100, Mysticality Percent: -100, Moxie Percent: -100, Experience: +10, Single Equip
 Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip
 Hodgman's bow tie	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Single Equip
 Hodgman's lucky sock	Hobo Power: +50, Single Equip
