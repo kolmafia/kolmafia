@@ -60,6 +60,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -719,9 +720,20 @@ public class StoreManageFrame
 	}
 
 	private class StoreAddPanel
-		extends ItemManagePanel
+		extends JTabbedPane
 	{
 		public StoreAddPanel()
+		{
+			super( JTabbedPane.LEFT );
+			this.addTab( "Inventory", new StoreAddFromInventoryPanel() );
+			this.addTab( "Storage", new StoreAddFromStoragePanel() );
+		}
+	}
+
+	private class StoreAddFromInventoryPanel
+		extends ItemManagePanel
+	{
+		public StoreAddFromInventoryPanel()
 		{
 			super( "mallsell", "autosell", KoLConstants.inventory );
 			this.addFilters();
@@ -753,6 +765,38 @@ public class StoreManageFrame
 				return;
 			}
 			RequestThread.postRequest( new AutoSellRequest( items ) );
+		}
+	}
+
+	private class StoreAddFromStoragePanel
+		extends ItemManagePanel
+	{
+		public StoreAddFromStoragePanel()
+		{
+			super( "mallsell", null, KoLConstants.storage );
+			this.addFilters();
+
+			this.filters[ 4 ].setSelected( false );
+			this.filters[ 4 ].setEnabled( false );
+			this.filterItems();
+		}
+
+		@Override
+		public void actionConfirmed()
+		{
+			AdventureResult[] items = this.getDesiredItems( "Mallsell" );
+			if ( items == null )
+			{
+				return;
+			}
+
+			RequestThread.postRequest( new ManageStoreRequest( items, true ) );
+			RequestThread.postRequest( new ManageStoreRequest() );
+		}
+
+		@Override
+		public void actionCancelled()
+		{
 		}
 	}
 
