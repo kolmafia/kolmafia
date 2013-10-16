@@ -151,7 +151,6 @@ public class UseItemCommand
 		else
 		{
 			ItemFinder.setMatchType( ItemFinder.USE_MATCH );
-			consumptionType = KoLConstants.CONSUME_USE;
 		}
 
 		AdventureResult[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters, !sim );
@@ -222,7 +221,11 @@ public class UseItemCommand
 					}
 					else
 					{
-						UseItemRequest request = UseItemRequest.getInstance( consumptionType, currentMatch );
+						UseItemRequest request =
+							consumptionType != KoLConstants.NO_CONSUME ? 
+							UseItemRequest.getInstance( consumptionType, currentMatch ) :
+							UseItemRequest.getInstance( currentMatch );
+
 						if ( sim )
 						{
 							// UseItemRequest doesn't really have a "sim" mode, but we can do a pretty good approximation
