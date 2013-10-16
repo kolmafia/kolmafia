@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
 
@@ -44,7 +45,17 @@ import net.sourceforge.kolmafia.AdventureResult;
 
 public class AdventureResultArray
 {
-	private final ArrayList<AdventureResult> internalList = new ArrayList<AdventureResult>();
+	private final ArrayList<AdventureResult> internalList;
+
+	public AdventureResultArray()
+	{
+		this.internalList = new ArrayList<AdventureResult>();
+	}
+
+	public AdventureResultArray( final List data )
+	{
+		this.internalList = new ArrayList<AdventureResult>( data );
+	}
 
 	public AdventureResult get( final int index )
 	{

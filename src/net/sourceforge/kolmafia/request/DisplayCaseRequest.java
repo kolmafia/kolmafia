@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.ArrayList;
-
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -42,6 +40,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 
 public class DisplayCaseRequest
 	extends TransferItemRequest
@@ -201,7 +201,7 @@ public class DisplayCaseRequest
 				return false;
 			}
 
-			ArrayList<AdventureResult> itemList = TransferItemRequest.getItemList( responseText,
+			AdventureResultArray itemList = TransferItemRequest.getItemList( responseText,
 						ITEM_PATTERN2, TransferItemRequest.ITEM_PATTERN1, (Pattern) null );
 
 			if ( itemList.isEmpty() )

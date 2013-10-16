@@ -854,31 +854,57 @@ public abstract class StoreManager
 		KoLmafia.updateDisplay( "Undercutting sale complete." );
 	}
 
+	public static void addItems( AdventureResult[] items, int[] prices, int[] limits )
+	{
+		for ( int i = 0; i < items.length; ++i )
+		{
+			StoreManager.addItem( items[ i ], prices[ i ], limits[ i ] );
+		}
+
+		StoreManager.sortItemsByName = true;
+		Collections.sort( StoreManager.soldItemList );
+		StoreManager.sortItemsByName = false;
+		Collections.sort( StoreManager.sortedSoldItemList );
+	}
+
 	public static void addItem( int itemId, int quantity, int price, int limit )
 	{
-		SoldItem item = new SoldItem( itemId, quantity, price, limit, 0);
-		int index = StoreManager.soldItemList.indexOf( item );
+		StoreManager.addItem( ItemPool.get( itemId, quantity ), price, limit );
+
+		StoreManager.sortItemsByName = true;
+		Collections.sort( StoreManager.soldItemList );
+		StoreManager.sortItemsByName = false;
+		Collections.sort( StoreManager.sortedSoldItemList );
+	}
+
+	private static void addItem( AdventureResult item, int price, int limit )
+	{
+		int itemId = item.getItemId();
+		int quantity = item.getCount();
+
+		SoldItem soldItem = new SoldItem( itemId, quantity, price, limit, 0);
+		int index = StoreManager.soldItemList.indexOf( soldItem );
 
 		if ( index < 0 )
 		{
-			StoreManager.soldItemList.add( item );
-			StoreManager.sortedSoldItemList.add( item );
-			Collections.sort( StoreManager.sortedSoldItemList );
-			return;
+			StoreManager.soldItemList.add( soldItem );
+			StoreManager.sortedSoldItemList.add( soldItem );
 		}
+		else
+		{
+			int sortedIndex = StoreManager.sortedSoldItemList.indexOf( soldItem );
+			soldItem = (SoldItem) soldItemList.get( index );
 
-		int sortedIndex = StoreManager.sortedSoldItemList.indexOf( item );
-		item = (SoldItem) soldItemList.get( index );
+			int amount = soldItem.getQuantity() + quantity;
+			price = soldItem.getPrice();
+			limit = soldItem.getLimit();
+			int lowest = soldItem.getLowest();
 
-		int amount = item.getQuantity() + quantity;
-		price = item.getPrice();
-		limit = item.getLimit();
-		int lowest = item.getLowest();
+			soldItem = new SoldItem( itemId, amount, price, limit, lowest);
 
-		item = new SoldItem( itemId, amount, price, limit, lowest);
-
-		StoreManager.soldItemList.set( index, item );
-		StoreManager.sortedSoldItemList.set( sortedIndex, item );
+			StoreManager.soldItemList.set( index, soldItem );
+			StoreManager.sortedSoldItemList.set( sortedIndex, soldItem );
+		}
 	}
 
 	public static void removeItem( int itemId, int quantity )

@@ -415,7 +415,7 @@ public abstract class TransferItemRequest
 		final List source, final List destination,
 		final int defaultQuantity )
 	{
-		ArrayList<AdventureResult> itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
+		AdventureResultArray itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
 
 		if ( itemList.isEmpty() )
 		{
@@ -425,13 +425,13 @@ public abstract class TransferItemRequest
 		TransferItemRequest.transferItems( itemList, source, destination );
 	}
 
-	public static final int transferItems( ArrayList itemList,
+	public static final int transferItems( AdventureResultArray itemList,
 		final List source, final List destination )
 	{
 		int count = 0;
 		for ( int i = 0; i < itemList.size(); ++i )
 		{
-			AdventureResult item = ( (AdventureResult) itemList.get( i ) );
+			AdventureResult item =  itemList.get( i );
 			count += item.getCount();
 			if ( source != null )
 			{
@@ -472,11 +472,11 @@ public abstract class TransferItemRequest
 		return count;
 	}
 
-	public static final ArrayList<AdventureResult> getItemList( final String urlString,
-								    final Pattern itemPattern, final Pattern quantityPattern,
-								    final List source, final int defaultQuantity )
+	public static final AdventureResultArray getItemList( final String urlString,
+							      final Pattern itemPattern, final Pattern quantityPattern,
+							      final List source, final int defaultQuantity )
 	{
-		ArrayList<AdventureResult> itemList = new ArrayList<AdventureResult>();
+		AdventureResultArray itemList = new AdventureResultArray();
 
 		Matcher itemMatcher = itemPattern.matcher( urlString );
 		Matcher quantityMatcher = quantityPattern == null ? null : quantityPattern.matcher( urlString );
@@ -514,13 +514,13 @@ public abstract class TransferItemRequest
 		return itemList;
 	}
 
-	public static final ArrayList<AdventureResult> getItemList( final String urlString,
-								    final Pattern itemPattern, final Pattern quantityPattern,
-								    final List source )
+	public static final AdventureResultArray getItemList( final String urlString,
+							      final Pattern itemPattern, final Pattern quantityPattern,
+							      final List source )
 	{
 		// Return only items that are on the source list - no default
 
-		ArrayList<AdventureResult> itemList = new ArrayList<AdventureResult>();
+		AdventureResultArray itemList = new AdventureResultArray();
 
 		Matcher itemMatcher = itemPattern.matcher( urlString );
 		Matcher quantityMatcher = quantityPattern == null ? null : quantityPattern.matcher( urlString );
@@ -563,10 +563,10 @@ public abstract class TransferItemRequest
 	}
 
 	public static final void transferItems( final String responseText,
-		final Pattern itemPattern,
-		final List source, final List destination )
+						final Pattern itemPattern,
+						final List source, final List destination )
 	{
-		ArrayList<AdventureResult> itemList = TransferItemRequest.getItemList( responseText, itemPattern );
+		AdventureResultArray itemList = TransferItemRequest.getItemList( responseText, itemPattern );
 
 		if ( itemList.isEmpty() )
 		{
@@ -579,15 +579,15 @@ public abstract class TransferItemRequest
 	public static final Pattern ITEM_PATTERN1 = Pattern.compile( "(.*?) \\((\\d+)\\)" );
 	public static final Pattern ITEM_PATTERN2 = Pattern.compile( "^(\\d+) ([^,]*)" );
 
-	public static final ArrayList<AdventureResult> getItemList( final String responseText, final Pattern itemPattern )
+	public static final AdventureResultArray getItemList( final String responseText, final Pattern itemPattern )
 	{
 		return TransferItemRequest.getItemList( responseText, itemPattern, TransferItemRequest.ITEM_PATTERN1, TransferItemRequest.ITEM_PATTERN2 );
 	}
 
-	public static final ArrayList<AdventureResult> getItemList( final String responseText, final Pattern outerPattern,
-						   final Pattern innerPattern1, final Pattern innerPattern2 )
+	public static final AdventureResultArray getItemList( final String responseText, final Pattern outerPattern,
+							      final Pattern innerPattern1, final Pattern innerPattern2 )
 	{
-		ArrayList<AdventureResult> itemList = new ArrayList<AdventureResult>();
+		AdventureResultArray itemList = new AdventureResultArray();
 		Matcher itemMatcher = outerPattern.matcher( responseText );
 
 		while ( itemMatcher.find() )
@@ -600,7 +600,7 @@ public abstract class TransferItemRequest
 		return itemList;
 	}
 
-	public static final void getItemCount( List<AdventureResult> list, String text, final Pattern pattern )
+	public static final void getItemCount( AdventureResultArray list, String text, final Pattern pattern )
 	{
 		if ( pattern == null )
 		{
@@ -618,7 +618,7 @@ public abstract class TransferItemRequest
 		}
 	}
 
-	public static final void getCountItem( List<AdventureResult> list, String text, final Pattern pattern )
+	public static final void getCountItem( AdventureResultArray list, String text, final Pattern pattern )
 	{
 		if ( pattern == null )
 		{
@@ -686,7 +686,7 @@ public abstract class TransferItemRequest
 	{
 		Matcher recipientMatcher = TransferItemRequest.RECIPIENT_PATTERN.matcher( urlString );
 		boolean recipients = recipientMatcher.find();
-		ArrayList<AdventureResult> itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
+		AdventureResultArray itemList = TransferItemRequest.getItemList( urlString, itemPattern, quantityPattern, source, defaultQuantity );
 		int meat = TransferItemRequest.transferredMeat( urlString, meatField );
 
 		if ( !recipients && itemList.isEmpty() && meat == 0 )

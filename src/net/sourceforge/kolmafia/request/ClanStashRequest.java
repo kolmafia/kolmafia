@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ClanStashRequest
@@ -253,11 +254,11 @@ public class ClanStashRequest
 
 			// Parse the actual number of items moved from the
 			// responseText, rather than believing the URL
-			ArrayList items = TransferItemRequest.getItemList( responseText,
+			AdventureResultArray items = TransferItemRequest.getItemList( responseText,
 						ITEM_PATTERN1, (Pattern) null, ITEM_PATTERN2 );
 			TransferItemRequest.transferItems( items,
-					KoLConstants.inventory,
-					ClanManager.getStash() );
+							   KoLConstants.inventory,
+							   ClanManager.getStash() );
 		}
 		else if ( urlString.indexOf( "action=contribute" ) != -1 )
 		{

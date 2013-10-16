@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.json.JSONException;
@@ -381,7 +382,7 @@ public class ClosetRequest
 			}
 
 			TransferItemRequest.transferItems(
-				new ArrayList( KoLConstants.closet ),
+				new AdventureResultArray( KoLConstants.closet ),
 				KoLConstants.closet,
 				KoLConstants.inventory );
 			success = true;
