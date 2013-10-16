@@ -946,7 +946,7 @@ public class ConcoctionDatabase
 				// Second, let UseItemRequest acquire remaining items.
 				if ( quantity > 0 )
 				{
-					request = UseItemRequest.getInstance( item.getInstance( quantity ) );
+					request = UseItemRequest.getInstance( consumptionType, item.getInstance( quantity ) );
 					RequestThread.postRequest( request );
 				}
 				return;
