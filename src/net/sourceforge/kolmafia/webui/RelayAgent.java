@@ -555,6 +555,17 @@ public class RelayAgent
 				return;
 			}
 
+			StringBuffer responseBuffer = new StringBuffer( this.request.responseText );
+
+			// Load image files locally to reduce bandwidth
+			StringUtilities.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
+
+			// Download and link to any Players of Loathing picture pages locally.
+			StringUtilities.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
+
+			this.request.responseText = responseBuffer.toString();
+
+			// Convert the responseText into a byte buffer
 			this.request.rawByteBuffer = this.request.responseText.getBytes( "UTF-8" );
 		}
 
