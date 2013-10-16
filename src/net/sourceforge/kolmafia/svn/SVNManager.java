@@ -847,8 +847,14 @@ public class SVNManager
 			}
 
 			StringBuilder message = new StringBuilder( "<html>New file(s) requesting confirmation:<p>" );
+			int extra = 0;
 			for ( int i = 0; i < skipFiles.size(); ++i )
 			{
+				if ( i > 9 )
+				{
+					extra += 1;
+					continue;
+				}
 				message.append( "<b>file</b>: " + skipFiles.get( i ) + "<p>" );
 				try
 				{
@@ -868,6 +874,10 @@ public class SVNManager
 				{
 					SVN_LOCK.unlock();
 				}
+			}
+			if ( extra > 0 )
+			{
+				message.append( "<b>and " + extra + " more...</b>" );
 			}
 			//message.append( "<br>SVN info:<p>" );
 
