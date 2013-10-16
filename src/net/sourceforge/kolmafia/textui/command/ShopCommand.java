@@ -60,7 +60,7 @@ public class ShopCommand
 {
 	public ShopCommand()
 	{
-		this.usage = " put <item> [[@] <price> [[limit] <num>]] [, <another>] | take [all] <item> [, <another>] - sell or remove from Mall..";
+		this.usage = " put <item> [[@] <price> [[limit] <num>]] [, <another>] | take [all|<num>] <item> [, <another>] - sell or remove from Mall..";
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class ShopCommand
 			}
 			else if ( StringUtilities.isNumeric( token ) )
 			{
-				qty = StringUtilities.parseInt( parameters );
+				qty = StringUtilities.parseInt( token );
 				parameters = parameters.substring( space + 1 ).trim();
 			}
 		}
