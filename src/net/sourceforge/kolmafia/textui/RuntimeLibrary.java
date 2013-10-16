@@ -646,6 +646,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "npc_price", DataTypes.INT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "shop_price", DataTypes.INT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.COINMASTER_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buys_item", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -666,6 +669,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "daily_special", DataTypes.ITEM_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "refresh_shop", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "refresh_stash", DataTypes.BOOLEAN_TYPE, params ) );
@@ -3209,6 +3215,21 @@ public abstract class RuntimeLibrary
 			NPCStoreDatabase.contains( it, true ) ?
 			NPCStoreDatabase.price( it ) : 0 );
 	}
+ 
+	public static Value shop_price( Interpreter interpreter, final Value item )
+	{
+		if ( !KoLCharacter.hasStore() )
+		{
+			return DataTypes.ZERO_VALUE;
+		}
+
+		if ( !StoreManager.soldItemsRetrieved )
+		{
+			RequestThread.postRequest( new ManageStoreRequest() );
+		}
+
+		return new Value( StoreManager.getPrice( (int) item.intValue() ) );
+	}
 
 	// Coinmaster functions
 
@@ -3256,6 +3277,12 @@ public abstract class RuntimeLibrary
 			KoLCharacter.gnomadsAvailable() ? MicroBreweryRequest.getDailySpecial() : KoLCharacter.canadiaAvailable() ? ChezSnooteeRequest.getDailySpecial() : null;
 
 		return special == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( special.getName(), true );
+	}
+
+	public static Value refresh_shop( Interpreter interpreter )
+	{
+		RequestThread.postRequest( new ManageStoreRequest() );
+		return RuntimeLibrary.continueValue();
 	}
 
 	public static Value refresh_stash( Interpreter interpreter )
