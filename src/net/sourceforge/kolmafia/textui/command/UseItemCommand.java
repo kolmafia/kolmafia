@@ -121,22 +121,37 @@ public class UseItemCommand
 
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
+		int consumptionType = KoLConstants.NO_CONSUME;
 
-		if ( command.equals( "eat" ) || command.equals( "eatsilent" ) || command.equals( "ghost" ) )
+		if ( command.equals( "eat" ) || command.equals( "eatsilent" ) )
 		{
 			ItemFinder.setMatchType( ItemFinder.FOOD_MATCH );
+			consumptionType = KoLConstants.CONSUME_EAT;
 		}
-		else if ( command.equals( "drink" ) || command.equals( "overdrink" ) || command.equals( "hobo" ) )
+		else if ( command.equals( "ghost" ) )
+		{
+			ItemFinder.setMatchType( ItemFinder.FOOD_MATCH );
+			consumptionType = KoLConstants.CONSUME_GHOST;
+		}
+		else if ( command.equals( "drink" ) || command.equals( "overdrink" ) )
 		{
 			ItemFinder.setMatchType( ItemFinder.BOOZE_MATCH );
+			consumptionType = KoLConstants.CONSUME_DRINK;
+		}
+		else if ( command.equals( "hobo" ) )
+		{
+			ItemFinder.setMatchType( ItemFinder.BOOZE_MATCH );
+			consumptionType = KoLConstants.CONSUME_HOBO;
 		}
 		else if ( command.equals( "slimeling" ) )
 		{
 			ItemFinder.setMatchType( ItemFinder.EQUIP_MATCH );
+			consumptionType = KoLConstants.CONSUME_SLIME;
 		}
 		else
 		{
 			ItemFinder.setMatchType( ItemFinder.USE_MATCH );
+			consumptionType = KoLConstants.CONSUME_USE;
 		}
 
 		AdventureResult[] itemList = ItemFinder.getMatchingItemList( KoLConstants.inventory, parameters, !sim );
@@ -207,20 +222,13 @@ public class UseItemCommand
 					}
 					else
 					{
-						UseItemRequest request =
-							command.equals( "hobo" ) ?
-							UseItemRequest.getInstance( KoLConstants.CONSUME_HOBO, currentMatch ) :
-							command.equals( "ghost" ) ?
-							UseItemRequest.getInstance( KoLConstants.CONSUME_GHOST, currentMatch ) :
-							command.equals( "slimeling" ) ?
-							UseItemRequest.getInstance( KoLConstants.CONSUME_SLIME, currentMatch ) :
-							UseItemRequest.getInstance( currentMatch );
+						UseItemRequest request = UseItemRequest.getInstance( consumptionType, currentMatch );
 						if ( sim )
 						{
 							// UseItemRequest doesn't really have a "sim" mode, but we can do a pretty good approximation
 							// by checking if maximumUses > 0 and we can physically retrieve the item.
-							return UseItemRequest.maximumUses( currentMatch.getItemId() ) > 0 && !InventoryManager.simRetrieveItem(
-								currentMatch ).equalsIgnoreCase( "fail" );
+							return	UseItemRequest.maximumUses( currentMatch.getItemId() ) > 0 &&
+								!InventoryManager.simRetrieveItem( currentMatch ).equalsIgnoreCase( "fail" );
 						}
 						RequestThread.postRequest( request );
 					}
