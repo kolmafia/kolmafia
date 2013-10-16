@@ -375,7 +375,7 @@ public class AutoSellRequest
 			quantity = 0;
 		}
 
-		ArrayList itemList = TransferItemRequest.getItemList( urlString,
+		AdventureResultArray itemList = TransferItemRequest.getItemList( urlString,
 			TransferItemRequest.ITEMID_PATTERN,
 			null,
 			KoLConstants.inventory, quantity );
@@ -409,7 +409,7 @@ public class AutoSellRequest
 			quantity = -1;
 		}
 
-		ArrayList itemList = TransferItemRequest.getItemList( urlString,
+		AdventureResultArray itemList = TransferItemRequest.getItemList( urlString,
 			AutoSellRequest.EMBEDDED_ID_PATTERN,
 			null,
 			KoLConstants.inventory, quantity );
@@ -424,7 +424,7 @@ public class AutoSellRequest
 		return true;
 	}
 
-	private static void processMeat( ArrayList<AdventureResult> itemList, String responseText )
+	private static void processMeat( AdventureResultArray itemList, String responseText )
 	{
 		if ( KoLCharacter.inFistcore() )
 		{
