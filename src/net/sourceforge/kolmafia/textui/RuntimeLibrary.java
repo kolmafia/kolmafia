@@ -580,7 +580,7 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "take_shop", DataTypes.BOOLEAN_TYPE, params ) );
 
-		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.BOOLEAN_TYPE };
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "take_shop", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
@@ -2851,12 +2851,13 @@ public abstract class RuntimeLibrary
 
 	public static Value take_shop( Interpreter interpreter, final Value item )
 	{
-		return RuntimeLibrary.take_shop( interpreter, item, DataTypes.TRUE_VALUE );
+		RuntimeLibrary.batchCommand( interpreter, "shop", "take", "all \u00B6" + item.intValue() );
+		return RuntimeLibrary.continueValue();
 	}
 
-	public static Value take_shop( Interpreter interpreter, final Value item, final Value takeAll )
+	public static Value take_shop( Interpreter interpreter, final Value num, final Value item )
 	{
-		RuntimeLibrary.batchCommand( interpreter, "shop", "take", ( takeAll.intValue() == 1 ? "all " : "" ) + "\u00B6" + (int) item.intValue() );
+		RuntimeLibrary.batchCommand( interpreter, "shop", "take", num.intValue() + " \u00B6" + item.intValue() );
 		return RuntimeLibrary.continueValue();
 	}
 
