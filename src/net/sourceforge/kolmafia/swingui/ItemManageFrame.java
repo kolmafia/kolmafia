@@ -479,13 +479,18 @@ public class ItemManageFrame
 
 		public HagnkStoragePanel( final boolean isEquipmentOnly )
 		{
-			super( "pull item", isEquipmentOnly ? "pull & equip" : "closet item", KoLConstants.storage, isEquipmentOnly );
+			super( "pull item", isEquipmentOnly ? "pull & equip" : "put in closet", KoLConstants.storage, isEquipmentOnly );
 
 			this.setButtons( new ActionListener[] {} );
+
+			ActionListener mallListener = new StorageToMallListener();
+			JButton mallButton = new JButton( mallListener.toString() );
+			mallButton.addActionListener( mallListener );
 
 			this.addButtons( new JButton[] {
 				this.confirmedButton,
 				this.cancelledButton,
+				mallButton,
 				new InvocationButton( "empty", StorageRequest.class, "emptyStorage" ),
 				} );
 
@@ -631,7 +636,7 @@ public class ItemManageFrame
 	{
 		public FreePullsPanel()
 		{
-			super( "pull item", "closet item", KoLConstants.freepulls, false );
+			super( "pull item", "put in closet", KoLConstants.freepulls, false );
 
 			this.addFilters();
 			this.addMovers();

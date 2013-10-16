@@ -71,8 +71,14 @@ public class ManageStoreRequest
 	private static final int PRICE_MANAGEMENT = 3;
 	private static final int VIEW_STORE_LOG = 4;
 
-	private AdventureResult item;
 	private final int requestType;
+
+	// For action=removeitem
+	private AdventureResult item;
+
+	// For action=additem
+	private AdventureResult[] items;
+	private boolean storage;
 
 	public ManageStoreRequest()
 	{
@@ -111,6 +117,17 @@ public class ManageStoreRequest
 		this.item = ItemPool.get( itemId, qty );
 	}
 
+	public ManageStoreRequest( final AdventureResult[] items, boolean storage )
+	{
+		super( "backoffice.php" );
+		this.addFormField( "action", "additem" );
+		this.addFormField( "ajax", "1" );
+
+		this.requestType = ManageStoreRequest.ITEM_ADDITION;
+		this.items = items;
+		this.storage = storage;
+	}
+
 	public ManageStoreRequest( final int[] itemId, final int[] prices, final int[] limits )
 	{
 		super( "manageprices.php" );
@@ -139,7 +156,7 @@ public class ManageStoreRequest
 		switch ( this.requestType )
 		{
 		case ITEM_ADDITION:
-			this.addItem();
+			this.addItems();
 			break;
 
 		case ITEM_REMOVAL:
@@ -156,13 +173,23 @@ public class ManageStoreRequest
 		}
 	}
 
-	private void addItem()
+	private void addItems()
 	{
-		String name = this.item.getName();
+		for ( int i = 0; KoLmafia.permitsContinue() && i < this.items.length; ++i )
+		{
+			// backoffice.php?itemid=h362&price=180&quantity=1&limit=&pwd&action=additem&ajax=1
+			AdventureResult item = this.items[ i ];
+			String name = item.getName();
 
-		KoLmafia.updateDisplay( "Adding " + name + " to store..." );
-		super.run();
-		KoLmafia.updateDisplay( this.item.getCount() + " " + name + " added to your store." );
+			this.addFormField( "itemid", ( this.storage ? "h" : "" ) + String.valueOf( item.getItemId() ) );
+			this.addFormField( "price", "" );
+			this.addFormField( "quantity", String.valueOf( item.getCount() ) );
+			this.addFormField( "limit", "" );
+
+			KoLmafia.updateDisplay( "Adding " + name + " to store..." );
+			super.run();
+			KoLmafia.updateDisplay( item.getCount() + " " + name + " added to your store." );
+		}
 	}
 
 	private void removeItem()

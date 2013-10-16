@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -861,6 +862,44 @@ public class ItemTableManagePanel
 		public String toString()
 		{
 			return this.autosell ? "auto sell" : "place in mall";
+		}
+	}
+
+	public class StorageToMallListener
+		extends TransferListener
+	{
+		public StorageToMallListener()
+		{
+			super( "Mallselling", false );
+		}
+
+		@Override
+		protected void execute()
+		{
+			if ( !KoLCharacter.hasStore() )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a store in the mall." );
+				return;
+			}
+
+			if ( !InputFieldUtilities.confirm( "Are you sure you would like to place the selected items in your store?" ) )
+			{
+				return;
+			}
+
+			AdventureResult[] items = this.initialSetup();
+			if ( items == null )
+			{
+				return;
+			}
+
+			RequestThread.postRequest( new ManageStoreRequest( items, true ) );
+		}
+
+		@Override
+		public String toString()
+		{
+			return "place in mall";
 		}
 	}
 
