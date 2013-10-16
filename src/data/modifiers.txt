@@ -2109,7 +2109,7 @@ grumpy old man charrrm bracelet	Monster Level: +7, Single Equip
 gummi bowtie	Moxie: +5
 guts necklace	Stench Resistance: +4, Single Equip
 # haggis socks: Allows you to deliver disgusting kicks
-haggis socks	Initiative: +5
+haggis socks	Initiative: +5, Single Equip
 hamethyst bracelet	Muscle: +3, Critical Hit Percent: +5, Single Equip
 hamethyst earring	Muscle: +3, Critical Hit Percent: +5
 hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +2, Single Equip
