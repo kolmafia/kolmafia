@@ -469,6 +469,8 @@ user	lastBangPotionReset	-1
 user	lastBarrelSmashed	0
 user	lastBattlefieldReset	-1
 user	lastBreakfast	-1
+user	lastCastleGroundUnlock	-1
+user	lastCastleTopUnlock	-1
 user	lastCellarReset	-1
 user	lastChanceBurn
 user	lastChanceThreshold	100
