@@ -145,7 +145,7 @@ public class HedgePuzzleRequest
 		HedgePuzzleRequest.lastResponseText = responseText;
 
 		// You don't have a hedge puzzle. 
-		if ( responseText.indexOf( "You don't have a hedge puzzle." ) != -1 )
+		if ( responseText.contains( "You don't have a hedge puzzle." ) )
 		{
 			int count = HedgePuzzleRequest.PUZZLE_PIECE.getCount( KoLConstants.inventory );
 			if ( count != 0 )
@@ -159,7 +159,7 @@ public class HedgePuzzleRequest
 		// Just as you rotate the puzzle piece, a Topiary Golem leaps
 		// out from behind a nearby bush and grabs the puzzle from you.
 		// It screeches, and dives back into the foliage.
-		if ( responseText.indexOf( "Topiary Golem" ) != -1 )
+		if ( responseText.contains( "Topiary Golem" ) )
 		{
 			ResultProcessor.processResult( HedgePuzzleRequest.PUZZLE_PIECE.getNegation() );
 			return;
@@ -400,7 +400,7 @@ public class HedgePuzzleRequest
 		// the key.
 
 		if ( KoLConstants.inventory.contains( HedgePuzzleRequest.HEDGE_KEY ) ||
-		     HedgePuzzleRequest.lastResponseText.indexOf( "There is a key here." ) == -1 )
+		     !HedgePuzzleRequest.lastResponseText.contains( "There is a key here." ) )
 		{
 			return;
 		}
@@ -620,7 +620,7 @@ public class HedgePuzzleRequest
 		HedgePuzzleRequest.printPuzzle();
 		int[] source = interest[ 0 ];
 		int[] destination =
-			HedgePuzzleRequest.lastResponseText.indexOf( "key" ) != -1 ?
+			HedgePuzzleRequest.lastResponseText.contains( "key" ) ?
 			interest[ 1 ] : interest[ 2 ];
 		int[][] solution = HedgePuzzleRequest.computeSolution( source, destination );
 		HedgePuzzleRequest.printSolution( solution );
@@ -646,9 +646,15 @@ public class HedgePuzzleRequest
 		// The hedge maze has been properly rotated! Visit the maze again.
 
 		RequestThread.postRequest( HedgePuzzleRequest.HEDGE_REQUEST );
+
+		if ( !KoLmafia.permitsContinue() )
+		{
+			return;
+		}
+
 		HedgePuzzleRequest.lastResponseText = HedgePuzzleRequest.HEDGE_REQUEST.responseText;
 
-		if ( HedgePuzzleRequest.lastResponseText.indexOf( "You're out of adventures." ) != -1 )
+		if ( HedgePuzzleRequest.lastResponseText.contains( "You're out of adventures." ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Ran out of adventures." );
 		}
@@ -666,7 +672,7 @@ public class HedgePuzzleRequest
 			// "Click one of the puzzle sections to rotate that
 			// section 90 degrees to the right."
 
-			if ( HedgePuzzleRequest.lastResponseText.indexOf( "Click one" ) == -1 )
+			if ( !HedgePuzzleRequest.lastResponseText.contains( "Click one" ) )
 			{
 				return;
 			}
