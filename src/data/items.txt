@@ -6383,12 +6383,12 @@
 6366	pulled violet taffy	469187244	taffy6.gif	multiple, combat	t,d	5	pulled violet taffies
 6367	pulled red taffy	340638314	taffy7.gif	multiple, combat	t,d	5	pulled red taffies
 6368	Mer-kin hallpass	492118546	lamcard.gif	none	t,d	35
-6369	lump of clay	224876067	clayglob.gif	usable	t,d	8
-6370	twisted piece of wire	562580616	wiretwist.gif	none, combat	t,d	7
-6371	can of the cheapest beer	189574585	beer.gif	drink	t,d	5
-6372	bottle of fruity &quot;wine&quot;	317445968	wine.gif	drink	t,d	10
-6373	single swig of vodka	907908271	bottle.gif	drink	t,d	20
-6374	angry inch	834940676	angryinch.gif	none, combat	t,d	5
+6369	lump of clay	224876067	clayglob.gif	usable	t,d	8	lumps of clay
+6370	twisted piece of wire	562580616	wiretwist.gif	none, combat	t,d	7	twisted pieces of wire
+6371	can of the cheapest beer	189574585	beer.gif	drink	t,d	5	cans of the cheapest beer
+6372	bottle of fruity &quot;wine&quot;	317445968	wine.gif	drink	t,d	10	bottles of fruity &quot;wine&quot;
+6373	single swig of vodka	907908271	bottle.gif	drink	t,d	20	single swigs of vodka
+6374	angry inch	834940676	angryinch.gif	none, combat	t,d	5	angry inches
 6375
 6376
 6377
@@ -6396,12 +6396,12 @@
 6379	chlorine crystal	481172470	chloride.gif	none, combat	t,d	5
 6380	ph balancer	690213297	blooddrops.gif	usable	t,d	9
 6381	mysterious chemical residue	411486357	residue.gif	usable	t,d	3
-6382	nugget of sodium	225372142	sodium.gif	none, combat	t,d	4
-6383	root beer	526349353	tankard.gif	food	t,d	23
+6382	nugget of sodium	225372142	sodium.gif	none, combat	t,d	4	nuggets of sodium
+6383	root beer	526349353	tankard.gif	food	t,d	23	bottles of root beer
 6384	jigsaw blade	315032879	jigsaw.gif	none, combat	t,d	8
 6385	wood screw	774261858	longscrew.gif	none, combat	t,d	4
 6386	balsa plank	971684051	balsa.gif	usable	t,d	6
-6387	blob of wood glue	550275315	glueglob.gif	none, combat	t,d	2
+6387	blob of wood glue	550275315	glueglob.gif	none, combat	t,d	2	blobs of wood glue
 6388	envyfish egg	651790358	roe.gif	usable	q	0	envyfish eggs
 6389	Mer-kin rocksalt	820963347	saltcandy1.gif	usable	t	0	Mer-kin rocksalt candies
 6390	Mer-kin saltmint	964380486	saltcandy2.gif	usable	t	0	Mer-kin saltmints
