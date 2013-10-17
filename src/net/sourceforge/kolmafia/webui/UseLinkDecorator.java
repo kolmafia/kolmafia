@@ -670,6 +670,13 @@ public abstract class UseLinkDecorator
 
 			return new UseLink( itemId, useCount, use, "multiuse.php?passitem=" );
 
+		case KoLConstants.CONSUME_FOLDER:
+
+			// Not inline, since the redirection to a choice
+			// doesn't work ajaxified.
+
+			return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
+
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.INFINITE_USES:
@@ -726,29 +733,6 @@ public abstract class UseLinkDecorator
 			case ItemPool.CEO_OFFICE_CARD:
 			case ItemPool.DREADSCROLL:
 			case ItemPool.RUSTY_HEDGE_TRIMMERS:
-			case ItemPool.FOLDER_01:
-			case ItemPool.FOLDER_02:
-			case ItemPool.FOLDER_03:
-			case ItemPool.FOLDER_04:
-			case ItemPool.FOLDER_05:
-			case ItemPool.FOLDER_06:
-			case ItemPool.FOLDER_07:
-			case ItemPool.FOLDER_08:
-			case ItemPool.FOLDER_09:
-			case ItemPool.FOLDER_10:
-			case ItemPool.FOLDER_11:
-			case ItemPool.FOLDER_12:
-			case ItemPool.FOLDER_13:
-			case ItemPool.FOLDER_14:
-			case ItemPool.FOLDER_15:
-			case ItemPool.FOLDER_16:
-			case ItemPool.FOLDER_17:
-			case ItemPool.FOLDER_18:
-			case ItemPool.FOLDER_19:
-			case ItemPool.FOLDER_20:
-			case ItemPool.FOLDER_21:
-			case ItemPool.FOLDER_22:
-			case ItemPool.FOLDER_23:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.

@@ -669,7 +669,12 @@ public class EquipmentRequest
 
 	private static final int availableSlot( final int [] slots )
 	{
-		for ( int i = 0; i < slots.length; ++i )
+		return EquipmentRequest.availableSlot( slots, slots.length );
+	}
+
+	private static final int availableSlot( final int [] slots, final int count )
+	{
+		for ( int i = 0; i < count; ++i )
 		{
 			int slot = slots[ i ];
 			AdventureResult test = EquipmentManager.getEquipment( slot );
@@ -704,9 +709,9 @@ public class EquipmentRequest
 		EquipmentManager.FOLDER5,
 	};
 
-	private static final int availableFolder()
+	public static final int availableFolder()
 	{
-		return EquipmentRequest.availableSlot( FOLDER_SLOTS );
+		return EquipmentRequest.availableSlot( FOLDER_SLOTS, KoLCharacter.inHighschool() ? 5 : 3 );
 	}
 
 	public String getOutfitName()

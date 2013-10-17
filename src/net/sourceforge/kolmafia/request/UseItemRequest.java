@@ -939,6 +939,32 @@ public class UseItemRequest
 		case ItemPool.ETERNAL_CAR_BATTERY:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_eternalCarBatteryUsed" ) ? 0 : 1;
+
+		case ItemPool.FOLDER_01:
+		case ItemPool.FOLDER_02:
+		case ItemPool.FOLDER_03:
+		case ItemPool.FOLDER_04:
+		case ItemPool.FOLDER_05:
+		case ItemPool.FOLDER_06:
+		case ItemPool.FOLDER_07:
+		case ItemPool.FOLDER_08:
+		case ItemPool.FOLDER_09:
+		case ItemPool.FOLDER_10:
+		case ItemPool.FOLDER_11:
+		case ItemPool.FOLDER_12:
+		case ItemPool.FOLDER_13:
+		case ItemPool.FOLDER_14:
+		case ItemPool.FOLDER_15:
+		case ItemPool.FOLDER_16:
+		case ItemPool.FOLDER_17:
+		case ItemPool.FOLDER_18:
+		case ItemPool.FOLDER_19:
+		case ItemPool.FOLDER_20:
+		case ItemPool.FOLDER_21:
+		case ItemPool.FOLDER_22:
+		case ItemPool.FOLDER_23:
+			UseItemRequest.limiter = "folder holder";
+			return EquipmentRequest.availableFolder() == -1 ? 0 : 1;
 		}
 
 		switch ( consumptionType )
@@ -1351,6 +1377,12 @@ public class UseItemRequest
 		return true;
 	}
 
+	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		return true;
+	}
+
 	public void useOnce( final int currentIteration, final int totalIterations, String useTypeAsString )
 	{
 		UseItemRequest.lastUpdate = "";
@@ -1473,23 +1505,6 @@ public class UseItemRequest
 		KoLmafia.updateDisplay( message.toString() );
 
 		super.run();
-
-		if ( this.responseCode == 302 )
-		{
-			if ( this.redirectLocation.startsWith( "inventory" ) )
-			{
-				GenericRequest request = new GenericRequest( this.redirectLocation );
-				request.run();
-				// GenericRequest.processResults will call UseItemRequest.parseConsumption.
-				ResponseTextParser.learnRecipe( this.getURLString(), request.responseText );
-			}
-			else if ( this.redirectLocation.startsWith( "choice.php" ) )
-			{
-				// The choice has already been handled by GenericRequest,
-				// but we still need to account for the item used.
-				this.parseConsumption();
-			}
-		}
 	}
 
 	public static String elementalHelper( String remove, Element resist, int amount )
