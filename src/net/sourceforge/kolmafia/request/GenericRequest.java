@@ -1809,17 +1809,6 @@ public class GenericRequest
 			{
 				shouldStop = this.retrieveServerReply( istream );
 				istream.close();
-				if ( shouldStop && this.responseText != null && this.responseText.length() < 200 )
-				{
-					// This may be a JavaScript redirect.
-					Matcher m = GenericRequest.JS_REDIRECT_PATTERN.matcher( this.responseText );
-					if ( m.find() )
-					{
-						this.redirectLocation = m.group( 1 );
-						this.redirectMethod = "GET";
-						shouldStop = this.handleServerRedirect();
-					}
-				}
 			}
 			else
 			{
@@ -2145,16 +2134,31 @@ public class GenericRequest
 			}
 		}
 
-		if ( this.responseText != null )
+		if ( this.responseText == null )
 		{
-			try
+			return true;
+		}
+
+		if ( this.responseText.length() < 200 )
+		{
+			// This may be a JavaScript redirect.
+			Matcher m = GenericRequest.JS_REDIRECT_PATTERN.matcher( this.responseText );
+			if ( m.find() )
 			{
-				this.processResponse();
+				this.redirectLocation = m.group( 1 );
+				this.redirectMethod = "GET";
+				// Do NOT call processResults for a redirection
+				return this.handleServerRedirect();
 			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
+		}
+
+		try
+		{
+			this.processResponse();
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
 		}
 
 		return true;
