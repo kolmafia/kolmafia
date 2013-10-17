@@ -254,40 +254,39 @@ public class EquipmentManager
 		}
 		else if ( consumeType == KoLConstants.CONSUME_STICKER )
 		{
-			// The available stickers cannot be combined into a
-			// single list, as is done with accessories, since
-			// stickers cannot be moved to a different slot.  If a
-			// slot contains your last sticker of a particular
-			// type, then that type must only appear for that slot
-			// (so that it can be the initially selected value),
-			// not in the other two slots.	There are only six
-			// types of stickers, and no reason to believe that
-			// there will ever be many (or even any) more, so this
-			// duplication should not present a problem.
-			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.STICKER1 ], item );
-			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.STICKER2 ], item );
-			AdventureResult.addResultToList( EquipmentManager.equipmentLists[ EquipmentManager.STICKER3 ], item );
-			
-			// Make sure the current sticker in each slot remains
-			// in the list, even if there are no more of that type
-			// in inventory.
-			if ( !EquipmentManager.equipmentLists[ EquipmentManager.STICKER1 ].contains(
-				EquipmentManager.getEquipment( EquipmentManager.STICKER1 ) ) )
+			// The stickers cannot be combined into a single list, as is done with
+			// accessories, since stickers cannot be moved to a different slot.  If a
+			// slot contains your last sticker of a particular type, then that type must
+			// only appear for that slot (so that it can be the initially selected
+			// value), not in the other two slots. There are only six types of stickers,
+			// and no reason to believe that there will ever be many (or even any) more,
+			// so this duplication should not present a problem.
+			//
+			// Make sure the current sticker in each slot remains in the list, even if
+			// there are no more of that type in inventory.
+
+			for ( int slot = EquipmentManager.STICKER1; slot <= EquipmentManager.STICKER3; ++slot )
 			{
-				EquipmentManager.equipmentLists[ EquipmentManager.STICKER1 ].add(
-					EquipmentManager.getEquipment( EquipmentManager.STICKER1 ) );
+				AdventureResult current = EquipmentManager.getEquipment( slot );
+				AdventureResult.addResultToList( EquipmentManager.equipmentLists[ slot ], item );
+				if ( !EquipmentManager.equipmentLists[ slot ].contains( current ) )
+				{
+					EquipmentManager.equipmentLists[ slot ].add( current );
+				}
 			}
-			if ( !EquipmentManager.equipmentLists[ EquipmentManager.STICKER2 ].contains(
-				EquipmentManager.getEquipment( EquipmentManager.STICKER2 ) ) )
+		}
+		else if ( consumeType == KoLConstants.CONSUME_FOLDER )
+		{
+			// Folders are similar to stickers
+
+			for ( int slot = EquipmentManager.FOLDER1; slot <= EquipmentManager.FOLDER5; ++slot )
 			{
-				EquipmentManager.equipmentLists[ EquipmentManager.STICKER2 ].add(
-					EquipmentManager.getEquipment( EquipmentManager.STICKER2 ) );
-			}
-			if ( !EquipmentManager.equipmentLists[ EquipmentManager.STICKER3 ].contains(
-				EquipmentManager.getEquipment( EquipmentManager.STICKER3 ) ) )
-			{
-				EquipmentManager.equipmentLists[ EquipmentManager.STICKER3 ].add(
-					EquipmentManager.getEquipment( EquipmentManager.STICKER3 ) );
+				AdventureResult current = EquipmentManager.getEquipment( slot );
+				AdventureResult.addResultToList( EquipmentManager.equipmentLists[ slot ], item );
+				if ( !EquipmentManager.equipmentLists[ slot ].contains( current ) )
+				{
+					EquipmentManager.equipmentLists[ slot ].add( current );
+				}
 			}
 		}
 		else if ( itemId == ItemPool.HATSEAT )
