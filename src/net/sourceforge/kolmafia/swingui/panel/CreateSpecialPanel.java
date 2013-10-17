@@ -130,7 +130,7 @@ public class CreateSpecialPanel
 	@Override
 	public void actionConfirmed()
 	{
-		Object[] items = this.elementList.getSelectedValues();
+		Object[] items = this.getSelectedValues();
 		// Disabled for now
 		for ( int i = 0; i < 0*items.length; ++i )
 		{
@@ -166,7 +166,7 @@ public class CreateSpecialPanel
 	@Override
 	public void actionCancelled()
 	{
-		Object[] items = this.elementList.getSelectedValues();
+		Object[] items = this.getSelectedValues();
 		// Disabled for now
 		for ( int i = 0; i < 0*items.length; ++i )
 		{

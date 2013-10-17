@@ -111,7 +111,7 @@ public class CreateItemPanel
 	@Override
 	public void actionConfirmed()
 	{
-		Object[] items = this.elementList.getSelectedValues();
+		Object[] items = this.getSelectedValues();
 		for ( int i = 0; i < items.length; ++i )
 		{
 			CreateItemRequest selection = (CreateItemRequest) items[ i ];
@@ -146,7 +146,7 @@ public class CreateItemPanel
 	@Override
 	public void actionCancelled()
 	{
-		Object[] items = this.elementList.getSelectedValues();
+		Object[] items = this.getSelectedValues();
 		for ( int i = 0; i < items.length; ++i )
 		{
 			CreateItemRequest selection = (CreateItemRequest) items[ i ];

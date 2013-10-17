@@ -41,6 +41,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.ListSelectionModel;
@@ -70,6 +71,7 @@ import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -83,7 +85,7 @@ import net.sourceforge.kolmafia.swingui.listener.InvocationListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -99,17 +101,17 @@ public class ItemManagePanel
 
 	public JPanel northPanel;
 	public LockableListModel elementModel;
-	public ShowDescriptionList elementList;
+	public JComponent elementList;
 
 	public JButton[] buttons;
 	public JCheckBox[] filters;
 	public JRadioButton[] movers;
 
 	protected final AutoFilterTextField filterfield;
-	private JPanel buttonPanel;
+	protected JPanel buttonPanel;
 	protected JButton refreshButton;
 
-	private static boolean shouldAddRefreshButton( final LockableListModel elementModel )
+	protected static boolean shouldAddRefreshButton( final LockableListModel elementModel )
 	{
 		return ( elementModel == KoLConstants.tally ||
 			 elementModel == KoLConstants.inventory ||
@@ -120,26 +122,17 @@ public class ItemManagePanel
 			 elementModel == ConcoctionDatabase.getUsables() );
 	}
 
-	public ItemManagePanel( final String confirmedText, final String cancelledText, final LockableListModel elementModel )
-	{
-		this(
-			confirmedText,
-			cancelledText,
-			elementModel,
-			true,
-			ItemManagePanel.shouldAddRefreshButton( elementModel ) );
-	}
-
 	public ItemManagePanel( final String confirmedText, final String cancelledText,
-		final LockableListModel elementModel, final boolean addFilterField, final boolean addRefreshButton )
+				final LockableListModel elementModel, final JComponent scrollComponent,
+				final boolean addFilterField, final boolean addRefreshButton )
 	{
-		super( "", confirmedText, cancelledText, new ShowDescriptionList( elementModel ), false );
+		super( "", confirmedText, cancelledText, scrollComponent, false );
 
-		this.elementList = (ShowDescriptionList) this.scrollComponent;
-		this.elementModel = (LockableListModel) this.elementList.getModel();
+		this.elementList = this.scrollComponent;
+		this.elementModel = elementModel;
 
-		this.elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-		this.elementList.setVisibleRowCount( 8 );
+		this.northPanel = new JPanel( new BorderLayout() );
+		this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
 
 		this.filterfield = this.getWordFilter();
 
@@ -150,12 +143,14 @@ public class ItemManagePanel
 
 		if ( addRefreshButton )
 		{
-			this.refreshButton = new RefreshButton( this.elementList.getOriginalModel() );
+			this.refreshButton = new RefreshButton( elementModel );
 			this.eastPanel.add( this.refreshButton, BorderLayout.SOUTH );
 		}
+	}
 
-		this.northPanel = new JPanel( new BorderLayout() );
-		this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
+	public Object[] getSelectedValues()
+	{
+		return new Object[0];
 	}
 
 	protected AutoFilterTextField getWordFilter()
@@ -171,39 +166,6 @@ public class ItemManagePanel
 	protected void listenToRadioButton( final JRadioButton button )
 	{
 		button.addActionListener( this.filterfield );
-	}
-
-	public ItemManagePanel( final LockableListModel elementModel )
-	{
-		this(
-			elementModel,
-			true,
-			ItemManagePanel.shouldAddRefreshButton( elementModel ) );
-	}
-
-	public ItemManagePanel( final LockableListModel elementModel, final boolean addFilterField,
-		final boolean addRefreshButton )
-	{
-		super( "", null, null, new ShowDescriptionList( elementModel ), false );
-
-		this.elementList = (ShowDescriptionList) this.scrollComponent;
-		this.elementModel = (LockableListModel) this.elementList.getModel();
-
-		this.northPanel = new JPanel( new BorderLayout() );
-		this.actualPanel.add( this.northPanel, BorderLayout.NORTH );
-
-		this.filterfield = this.getWordFilter();
-
-		if ( addFilterField )
-		{
-			this.centerPanel.add( this.filterfield, BorderLayout.NORTH );
-		}
-
-		if ( addRefreshButton )
-		{
-			this.refreshButton = new RefreshButton( this.elementList.getOriginalModel() );
-			this.eastPanel.add( this.refreshButton, BorderLayout.SOUTH );
-		}
 	}
 
 	@Override
@@ -372,7 +334,7 @@ public class ItemManagePanel
 	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
-		if ( this.elementList == null || this.buttons == null )
+		if ( this.scrollComponent == null || this.buttons == null )
 		{
 			super.setEnabled( isEnabled );
 			return;
@@ -384,7 +346,7 @@ public class ItemManagePanel
 			return;
 		}
 
-		this.elementList.setEnabled( isEnabled );
+		this.scrollComponent.setEnabled( isEnabled );
 		for ( int i = 0; i < this.buttons.length; ++i )
 		{
 			this.buttons[ i ].setEnabled( isEnabled );
@@ -407,14 +369,14 @@ public class ItemManagePanel
 
 	public AdventureResult[] getDesiredItems( final String message, final int quantityType )
 	{
-		Object[] items = this.elementList.getSelectedValues();
+		Object[] items = this.getSelectedValues();
 		if ( items.length == 0 )
 		{
 			return null;
 		}
 
 		int neededSize = items.length;
-		boolean isTally = this.elementList.getOriginalModel() == KoLConstants.tally;
+		boolean isTally = this.elementModel == KoLConstants.tally;
 
 		String itemName;
 		int itemCount, quantity;
@@ -820,6 +782,44 @@ public class ItemManagePanel
 		}
 	}
 
+	public class StorageToMallListener
+		extends TransferListener
+	{
+		public StorageToMallListener()
+		{
+			super( "Mallselling", false );
+		}
+
+		@Override
+		protected void execute()
+		{
+			if ( !KoLCharacter.hasStore() )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't own a store in the mall." );
+				return;
+			}
+
+			if ( !InputFieldUtilities.confirm( "Are you sure you would like to place the selected items in your store?" ) )
+			{
+				return;
+			}
+
+			AdventureResult[] items = this.initialSetup();
+			if ( items == null )
+			{
+				return;
+			}
+
+			RequestThread.postRequest( new ManageStoreRequest( items, true ) );
+		}
+
+		@Override
+		public String toString()
+		{
+			return "place in mall";
+		}
+	}
+
 	public class GiveToClanListener
 		extends TransferListener
 	{
@@ -922,7 +922,7 @@ public class ItemManagePanel
 
 		public FilterItemField()
 		{
-			super( ItemManagePanel.this.elementList );
+			super( ItemManagePanel.this.elementModel );
 
 			this.food = true;
 			this.booze = true;

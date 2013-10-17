@@ -59,7 +59,7 @@ import net.sourceforge.kolmafia.session.DisplayCaseManager;
 
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 
-import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.panel.ItemListManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollableFilteredPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
@@ -328,7 +328,7 @@ public class MuseumFrame
 	}
 
 	public class OrderingPanel
-		extends ItemManagePanel
+		extends ItemListManagePanel
 	{
 		public OrderingPanel()
 		{
@@ -348,7 +348,7 @@ public class MuseumFrame
 		{
 			public void actionPerformed( final ActionEvent e )
 			{
-				int selectedIndex = OrderingPanel.this.elementList.getSelectedIndex();
+				int selectedIndex = OrderingPanel.this.getElementList().getSelectedIndex();
 				if ( selectedIndex < 1 )
 				{
 					return;
@@ -356,7 +356,7 @@ public class MuseumFrame
 
 				Object removed = OrderingPanel.this.elementModel.remove( selectedIndex );
 				OrderingPanel.this.elementModel.add( selectedIndex - 1, removed );
-				OrderingPanel.this.elementList.setSelectedIndex( selectedIndex - 1 );
+				OrderingPanel.this.getElementList().setSelectedIndex( selectedIndex - 1 );
 			}
 
 			@Override
@@ -371,7 +371,7 @@ public class MuseumFrame
 		{
 			public void actionPerformed( final ActionEvent e )
 			{
-				int selectedIndex = OrderingPanel.this.elementList.getSelectedIndex();
+				int selectedIndex = OrderingPanel.this.getElementList().getSelectedIndex();
 				if ( selectedIndex < 0 || selectedIndex == OrderingPanel.this.elementModel.size() - 1 )
 				{
 					return;
@@ -379,7 +379,7 @@ public class MuseumFrame
 
 				Object removed = OrderingPanel.this.elementModel.remove( selectedIndex );
 				OrderingPanel.this.elementModel.add( selectedIndex + 1, removed );
-				OrderingPanel.this.elementList.setSelectedIndex( selectedIndex + 1 );
+				OrderingPanel.this.getElementList().setSelectedIndex( selectedIndex + 1 );
 			}
 
 			@Override

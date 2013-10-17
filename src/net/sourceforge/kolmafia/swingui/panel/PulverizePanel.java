@@ -72,7 +72,7 @@ import net.sourceforge.kolmafia.textui.command.SendMessageCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class PulverizePanel
-	extends ItemManagePanel
+	extends ItemListManagePanel
 {
 	private JTable yields;
 
@@ -88,7 +88,7 @@ public class PulverizePanel
 				new WadbotListener(),
 		} );
 
-		this.elementList.setCellRenderer( ListCellRendererFactory.getPulverizationRenderer() );
+		this.getElementList().setCellRenderer( ListCellRendererFactory.getPulverizationRenderer() );
 		this.movers[ 2 ].setSelected( true );
 	}
 
@@ -197,7 +197,7 @@ public class PulverizePanel
 
 		public EquipmentFilterField()
 		{
-			super( PulverizePanel.this.elementList );
+			super( PulverizePanel.this.getElementList() );
 		}
 
 		public void valueChanged( ListSelectionEvent e )
@@ -292,7 +292,7 @@ public class PulverizePanel
 					KoLConstants.pulverizeQueue.remove( item );
 					KoLConstants.pulverizeQueue.add( item );
 					LockableListModel inv = (LockableListModel)
-						PulverizePanel.this.elementList.getModel();
+						PulverizePanel.this.getElementList().getModel();
 					int index = inv.indexOf( item );
 					inv.fireContentsChanged( inv, index, index );
 				}
@@ -330,7 +330,7 @@ public class PulverizePanel
 				{
 					KoLConstants.pulverizeQueue.remove( item );
 					LockableListModel inv = (LockableListModel)
-						PulverizePanel.this.elementList.getModel();
+						PulverizePanel.this.getElementList().getModel();
 					int index = inv.indexOf( item );
 					inv.fireContentsChanged( inv, index, index );
 				}
@@ -352,7 +352,7 @@ public class PulverizePanel
 		{
 			KoLConstants.pulverizeQueue.clear();
 			LockableListModel inv = (LockableListModel)
-				PulverizePanel.this.elementList.getModel();
+				PulverizePanel.this.getElementList().getModel();
 			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
 		}
 
@@ -385,7 +385,7 @@ public class PulverizePanel
 			KoLConstants.pulverizeQueue.toArray( items );
 			KoLConstants.pulverizeQueue.clear();
 			LockableListModel inv = (LockableListModel)
-				PulverizePanel.this.elementList.getModel();
+				PulverizePanel.this.getElementList().getModel();
 			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
 			for ( int i = 0; i < items.length; ++i )
 			{
@@ -475,7 +475,7 @@ public class PulverizePanel
 			KoLConstants.pulverizeQueue.toArray( items );
 			KoLConstants.pulverizeQueue.clear();
 			LockableListModel inv = (LockableListModel)
-				PulverizePanel.this.elementList.getModel();
+				PulverizePanel.this.getElementList().getModel();
 			inv.fireContentsChanged( inv, 0, inv.size() - 1 );
 			SendMessageCommand.send( "wadbot", selected.toMessage(),
 				items, false, true );

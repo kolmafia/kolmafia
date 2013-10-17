@@ -61,7 +61,7 @@ import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 public class UseItemDequeuePanel
-	extends ItemManagePanel
+	extends ItemListManagePanel
 {
 	private final JTabbedPane queueTabs;
 	private final boolean food, booze, spleen;
@@ -101,11 +101,11 @@ public class UseItemDequeuePanel
 
 		JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
-		this.elementList.setCellRenderer( ListCellRendererFactory.getCreationQueueRenderer() );
-		this.elementList.setFixedCellHeight( (int) ( test.getPreferredSize().getHeight() * 2.5f ) );
+		this.getElementList().setCellRenderer( ListCellRendererFactory.getCreationQueueRenderer() );
+		this.getElementList().setFixedCellHeight( (int) ( test.getPreferredSize().getHeight() * 2.5f ) );
 
-		this.elementList.setVisibleRowCount( 3 );
-		this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+		this.getElementList().setVisibleRowCount( 3 );
+		this.getElementList().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 		this.actualPanel.add( this.queueTabs, BorderLayout.CENTER );
 
@@ -120,12 +120,6 @@ public class UseItemDequeuePanel
 	public JTabbedPane getQueueTabs()
 	{
 		return this.queueTabs;
-	}
-
-	@Override
-	public AutoFilterTextField getWordFilter()
-	{
-		return new FilterItemField();
 	}
 
 	private class ConsumeListener

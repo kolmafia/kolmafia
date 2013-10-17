@@ -74,7 +74,7 @@ public class InventoryPanel
 	{
 		super( elementModel );
 		
-		this.elementList.setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
+		this.getElementList().setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
 		this.addFilters();
 	}
 
@@ -102,11 +102,11 @@ public class InventoryPanel
 
 		if ( this.isEquipmentOnly )
 		{
-			this.elementList.setCellRenderer( ListCellRendererFactory.getEquipmentPowerRenderer() );
+			this.getElementList().setCellRenderer( ListCellRendererFactory.getEquipmentPowerRenderer() );
 		}
 		else
 		{
-			this.elementList.setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
+			this.getElementList().setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
 		}
 
 		if ( this.movers != null )
@@ -125,11 +125,11 @@ public class InventoryPanel
 
 		if ( this.isEquipmentOnly )
 		{
-			this.elementList.setCellRenderer( ListCellRendererFactory.getEquipmentPowerRenderer() );
+			this.getElementList().setCellRenderer( ListCellRendererFactory.getEquipmentPowerRenderer() );
 		}
 		else
 		{
-			this.elementList.setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
+			this.getElementList().setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
 		}
 	}
 

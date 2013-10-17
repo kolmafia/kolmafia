@@ -77,7 +77,7 @@ import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.panel.ItemListManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 
 import net.sourceforge.kolmafia.swingui.table.ButtonRenderer;
@@ -343,7 +343,7 @@ public class ClanManageFrame
 	}
 
 	private class StoragePanel
-		extends ItemManagePanel
+		extends ItemListManagePanel
 	{
 		public StoragePanel()
 		{
@@ -380,7 +380,7 @@ public class ClanManageFrame
 	 */
 
 	private class WithdrawPanel
-		extends ItemManagePanel
+		extends ItemListManagePanel
 	{
 		public WithdrawPanel()
 		{
@@ -388,7 +388,7 @@ public class ClanManageFrame
 
 			this.setButtons( new ActionListener[] { new WithdrawListener( ClanManageFrame.MOVE_ALL ), new WithdrawListener(
 				ClanManageFrame.MOVE_ALL_BUT ), new RequestButton( "refresh", new ClanStashRequest() ) } );
-			this.elementList.setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
+			this.getElementList().setCellRenderer( ListCellRendererFactory.getDefaultRenderer() );
 		}
 
 		private class WithdrawListener
@@ -413,7 +413,7 @@ public class ClanManageFrame
 
 				if ( this.moveType == ClanManageFrame.MOVE_ALL_BUT )
 				{
-					items = (AdventureResult[])WithdrawPanel.this.elementList.getSelectedValues();
+					items = (AdventureResult[])WithdrawPanel.this.getSelectedValues();
 					if ( items.length == 0 )
 					{
 						AdventureResult[] itemsArray = new AdventureResult[ WithdrawPanel.this.elementModel.size() ];
