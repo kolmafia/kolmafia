@@ -82,7 +82,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class UseItemEnqueuePanel
-	extends ItemManagePanel
+	extends ItemListManagePanel
 {
 	private boolean food, booze, spleen;
 	private final JCheckBox[] filters;
@@ -142,10 +142,10 @@ public class UseItemEnqueuePanel
 
 		JLabel test = new JLabel( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 
-		this.elementList.setFixedCellHeight( (int) ( test.getPreferredSize().getHeight() * 2.5f ) );
+		this.getElementList().setFixedCellHeight( (int) ( test.getPreferredSize().getHeight() * 2.5f ) );
 
-		this.elementList.setVisibleRowCount( 6 );
-		this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+		this.getElementList().setVisibleRowCount( 6 );
+		this.getElementList().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 		this.filters = new JCheckBox[ food || booze || spleen ? 8 : 7 ];
 
@@ -218,7 +218,7 @@ public class UseItemEnqueuePanel
 		}
 		else
 		{
-			this.elementList.setEnabled( true );
+			this.getElementList().setEnabled( true );
 			this.buttons[ 0 ].setEnabled( true );
 			if ( bingeIndex == 2 )
 			{

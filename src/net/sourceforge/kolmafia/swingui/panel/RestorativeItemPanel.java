@@ -80,7 +80,7 @@ public class RestorativeItemPanel
 	public void actionCancelled()
 	{
 		String name;
-		Object[] values = this.elementList.getSelectedValues();
+		Object[] values = this.getSelectedValues();
 
 		for ( int i = 0; i < values.length; ++i )
 		{

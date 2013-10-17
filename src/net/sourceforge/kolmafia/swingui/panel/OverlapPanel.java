@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 public class OverlapPanel
-	extends ItemManagePanel
+	extends ItemListManagePanel
 {
 	private final boolean isOverlap;
 	private final LockableListModel overlapModel;
@@ -58,10 +58,10 @@ public class OverlapPanel
 
 		if ( this.isOverlap )
 		{
-			this.elementList.setCellRenderer( ListCellRendererFactory.getNameOnlyRenderer() );
+			this.getElementList().setCellRenderer( ListCellRendererFactory.getNameOnlyRenderer() );
 		}
 
-		this.elementList.addKeyListener( new OverlapAdapter() );
+		this.getElementList().addKeyListener( new OverlapAdapter() );
 		this.addFilters();
 	}
 
@@ -97,8 +97,8 @@ public class OverlapPanel
 				return;
 			}
 
-			Object[] items = OverlapPanel.this.elementList.getSelectedValues();
-			OverlapPanel.this.elementList.clearSelection();
+			Object[] items = OverlapPanel.this.getSelectedValues();
+			OverlapPanel.this.getElementList().clearSelection();
 
 			for ( int i = 0; i < items.length; ++i )
 			{

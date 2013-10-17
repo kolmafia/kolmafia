@@ -94,9 +94,9 @@ public class DatabaseFrame
 			this.type = type;
 			this.which = which;
 
-			this.elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			this.elementList.addMouseListener( new ShowEntryListener() );
-			this.elementList.contextMenu.add( new ThreadedMenuItem( "Game description", new DescriptionListener() ), 0 );
+			this.getElementList().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			this.getElementList().addMouseListener( new ShowEntryListener() );
+			this.getElementList().contextMenu.add( new ThreadedMenuItem( "Game description", new DescriptionListener() ), 0 );
 			
 			this.setPreferredSize( new Dimension(400, 400) );
 
@@ -119,10 +119,10 @@ public class DatabaseFrame
 			@Override
 			protected void execute()
 			{
-				int index = ItemLookupPanel.this.elementList.getSelectedIndex();
+				int index = ItemLookupPanel.this.getElementList().getSelectedIndex();
 				if ( index != -1 )
 				{
-					Entry entry = (Entry) ItemLookupPanel.this.elementList.getDisplayModel().getElementAt( index );
+					Entry entry = (Entry) ItemLookupPanel.this.getElementList().getDisplayModel().getElementAt( index );
 					ItemLookupPanel.this.showDescription( entry );
 				}
 			}
@@ -141,15 +141,15 @@ public class DatabaseFrame
 					return;
 				}
 
-				int index = ItemLookupPanel.this.elementList.locationToIndex( e.getPoint() );
-				Object entry = ItemLookupPanel.this.elementList.getDisplayModel().getElementAt( index );
+				int index = ItemLookupPanel.this.getElementList().locationToIndex( e.getPoint() );
+				Object entry = ItemLookupPanel.this.getElementList().getDisplayModel().getElementAt( index );
 
 				if ( !( entry instanceof Entry ) )
 				{
 					return;
 				}
 
-				ItemLookupPanel.this.elementList.ensureIndexIsVisible( index );
+				ItemLookupPanel.this.getElementList().ensureIndexIsVisible( index );
 				ItemLookupPanel.this.showDescription( (Entry) entry );
 			}
 		}

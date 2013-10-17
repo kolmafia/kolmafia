@@ -103,7 +103,7 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
-import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.panel.ItemListManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
@@ -549,7 +549,7 @@ public class CoinmastersFrame
 
 		public Object[] getDesiredItems()
 		{
-			Object[] items = this.buyPanel.elementList.getSelectedValues();
+			Object[] items = this.buyPanel.getSelectedValues();
 			return this.getDesiredBuyItems( items, false );
 		}
 
@@ -1066,7 +1066,7 @@ public class CoinmastersFrame
 		}
 
 		public class SellPanel
-			extends ItemManagePanel
+			extends ItemListManagePanel
 		{
 			public SellPanel()
 			{
@@ -1076,7 +1076,7 @@ public class CoinmastersFrame
 					} );
 
 				Map sellPrices = CoinmasterPanel.this.data.getSellPrices();
-				this.elementList.setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, sellPrices, false, null ) );
+				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, sellPrices, false, null ) );
 				this.setEnabled( true );
 				this.filterItems();
 			}
@@ -1171,7 +1171,7 @@ public class CoinmastersFrame
 		}
 
 		public class BuyPanel
-			extends ItemManagePanel
+			extends ItemListManagePanel
 		{
 			public BuyPanel( ActionListener[] listeners )
 			{
@@ -1186,8 +1186,8 @@ public class CoinmastersFrame
 
 				Map buyPrices = CoinmasterPanel.this.data.getBuyPrices();
 				String side = CoinmasterPanel.this.lighthouseSide();
-				this.elementList.setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, buyPrices, true, side ) );
-				this.elementList.setVisibleRowCount( 6 );
+				this.getElementList().setCellRenderer( getCoinmasterRenderer( CoinmasterPanel.this.data, buyPrices, true, side ) );
+				this.getElementList().setVisibleRowCount( 6 );
 				this.setEnabled( true );
 			}
 
@@ -1243,7 +1243,7 @@ public class CoinmastersFrame
 
 			public Object[] getDesiredItems( final boolean fromStorage )
 			{
-				Object[] items = this.elementList.getSelectedValues();
+				Object[] items = this.getSelectedValues();
 				return CoinmasterPanel.this.getDesiredBuyItems( items, fromStorage );
 			}
 

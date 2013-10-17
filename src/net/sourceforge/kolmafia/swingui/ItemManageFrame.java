@@ -496,7 +496,7 @@ public class ItemManageFrame
 
 			this.addFilters();
 			this.addMovers();
-			this.elementList.setCellRenderer( ListCellRendererFactory.getStorageRenderer() );
+			this.getElementList().setCellRenderer( ListCellRendererFactory.getStorageRenderer() );
 
 			Box box = Box.createVerticalBox();
 			JLabel budget = new JLabel( "Budget:" );
@@ -640,7 +640,7 @@ public class ItemManageFrame
 
 			this.addFilters();
 			this.addMovers();
-			this.elementList.setCellRenderer( ListCellRendererFactory.getFreePullsRenderer() );
+			this.getElementList().setCellRenderer( ListCellRendererFactory.getFreePullsRenderer() );
 		}
 
 		@Override

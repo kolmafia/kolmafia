@@ -144,6 +144,12 @@ public class AutoFilterTextField
 		this.list.clearSelection();
 	}
 
+	public void setModel( final LockableListModel model )
+	{
+		this.model = model;
+		this.model.setFilter( this );
+	}
+
 	public void actionPerformed( final ActionEvent e )
 	{
 		this.prepareUpdate();

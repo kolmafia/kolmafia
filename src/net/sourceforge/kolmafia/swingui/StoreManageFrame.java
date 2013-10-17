@@ -104,7 +104,7 @@ import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.panel.ItemListManagePanel;
 import net.sourceforge.kolmafia.swingui.table.IntegerRenderer;
 import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
@@ -731,7 +731,7 @@ public class StoreManageFrame
 	}
 
 	private class StoreAddFromInventoryPanel
-		extends ItemManagePanel
+		extends ItemListManagePanel
 	{
 		public StoreAddFromInventoryPanel()
 		{
@@ -769,7 +769,7 @@ public class StoreManageFrame
 	}
 
 	private class StoreAddFromStoragePanel
-		extends ItemManagePanel
+		extends ItemListManagePanel
 	{
 		public StoreAddFromStoragePanel()
 		{
@@ -801,7 +801,7 @@ public class StoreManageFrame
 	}
 
 	private class StoreRemovePanel
-		extends ItemManagePanel
+		extends ItemListManagePanel
 	{
 		public StoreRemovePanel()
 		{
@@ -828,7 +828,7 @@ public class StoreManageFrame
 		{
 			StoreManageFrame.cancelTableEditing();
 
-			Object[] items = this.elementList.getSelectedValues();
+			Object[] items = this.getElementList().getSelectedValues();
 
 			for ( int i = 0; i < items.length; ++i )
 			{
@@ -873,7 +873,7 @@ public class StoreManageFrame
 	}
 
 	private class StoreLogPanel
-		extends ItemManagePanel
+		extends ItemListManagePanel
 	{
 		public StoreLogPanel()
 		{
