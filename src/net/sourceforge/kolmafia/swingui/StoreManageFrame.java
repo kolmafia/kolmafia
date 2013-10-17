@@ -773,7 +773,7 @@ public class StoreManageFrame
 	{
 		public StoreAddFromStoragePanel()
 		{
-			super( "mallsell", null, KoLConstants.storage );
+			super( "mallsell", null, KoLConstants.storage, true, true );
 			this.addFilters();
 
 			this.filters[ 4 ].setSelected( false );
