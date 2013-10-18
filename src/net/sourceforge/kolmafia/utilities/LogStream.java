@@ -103,14 +103,15 @@ public class LogStream
 
 			newStream.println( versionData.toString() );
 
-			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-			newStream.println( " Please note: do not post this log in the KoLmafia thread. If you" );
-			newStream.println( " would like the dev team to look at it, please write a bug report" );
-			newStream.println( " at kolmafia.us. Include specific information about what you were " );
-			newStream.println( " doing when you made this and include the log as an attachment." );
-			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			newStream.println( " Please note: do not post this log in the KoLmafia thread of KoL's" );
+			newStream.println( " Gameplay-Discussion forum. If you would like the KoLmafia dev team" );
+			newStream.println( " to look at it, please write a bug report at kolmafia.us. Include" );
+			newStream.println( " specific information about what you were doing when you made this" );
+			newStream.println( " and include this log as an attachment." );
+			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			newStream.println( " Timestamp: " + ( new Date() ).toString() );
-			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			newStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 			newStream.println();
 			newStream.println();
 		}
