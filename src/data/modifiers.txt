@@ -1866,7 +1866,7 @@ Mer-kin eyeglasses	Maximum MP: -300, Experience (Mysticality): [20*zone(The Sea)
 Mer-kin gutgirdle	Maximum HP: -300, Experience (Moxie): [20*zone(The Sea)], Single Equip
 # Mer-kin prayerbeads: Makes you feel uneasy...
 Mer-kin waistrope	Mysticality Percent: +10
-Mesmereyes&trade; contact lenses	Mysticality Percent: +15
+Mesmereyes&trade; contact lenses	Mysticality Percent: +15, Single Equip
 Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
 Mr. Eh?	Muscle: +13, Mysticality: +13, Moxie: +13, Softcore Only
@@ -2165,7 +2165,7 @@ moon-amber necklace	Spell Damage Percent: 50, Maximum MP: 200, Mysticality Perce
 musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 mysterious silver lapel pin	HP Regen Min: 5, HP Regen Max: 9, Meat Drop: +5, Single Equip
 natty blue ascot	Meat Drop: +20
-navel ring of navel gazing	Damage Reduction: 12, Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Item Drop (sporadic): 20, Meat Drop (sporadic): 20, Single Equip, Softcore Only
+navel ring of navel gazing	Damage Reduction: [L], Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Item Drop (sporadic): 20, Meat Drop (sporadic): 20, Single Equip, Softcore Only
 novelty tattoo sleeves	Muscle: +6, PvP Fights: +1
 night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 observational glasses	Item Drop: +5
