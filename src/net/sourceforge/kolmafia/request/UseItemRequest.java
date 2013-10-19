@@ -1505,6 +1505,14 @@ public class UseItemRequest
 		KoLmafia.updateDisplay( message.toString() );
 
 		super.run();
+
+		if ( this.getPath().startsWith( "choice.php" ) )
+		{
+			// A UseItemRequest counts as automation. If this
+			// choice option is not complete, let ChoiceManager
+			// automate it.
+			ChoiceManager.processChoiceAdventure( this.responseText );
+		}
 	}
 
 	public static String elementalHelper( String remove, Element resist, int amount )
@@ -1772,7 +1780,7 @@ public class UseItemRequest
 			// SingleUseRequest or MultiUseRequest removed all the
 			// ingredients.
 
-			if ( responseText.indexOf( "You acquire" ) != -1 )
+			if ( responseText.contains( "You acquire" ) )
 			{
 				// If the user navigates to the equipment page,
 				// we will be called again with inventory page
@@ -4483,6 +4491,12 @@ public class UseItemRequest
 
 		case ItemPool.ETERNAL_CAR_BATTERY:
 			Preferences.setBoolean( "_eternalCarBatteryUsed", true );
+			return;
+
+		case ItemPool.SKELETON:
+			// Put this back in inventory, since we detect its loss
+			// via the choice adventure.
+			ResultProcessor.processResult( item );
 			return;
 		}
 	}

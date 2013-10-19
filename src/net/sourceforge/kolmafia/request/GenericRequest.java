@@ -189,7 +189,6 @@ public class GenericRequest
 	// *** static class variables are always suspect
 	public static boolean isRatQuest = false;
 	public static boolean isBarrelSmash = false;
-	public static boolean handlingChoices = false;
 	public static boolean ascending = false;
 	public static String itemMonster = null;
 	public static boolean choiceHandled = true;
@@ -2066,9 +2065,7 @@ public class GenericRequest
 				return true;
 			}
 
-			GenericRequest.handlingChoices = true;
 			ChoiceManager.processChoiceAdventure();
-			GenericRequest.handlingChoices = false;
 			return !LoginRequest.isInstanceRunning();
 		}
 
@@ -2264,7 +2261,7 @@ public class GenericRequest
 		if ( !GenericRequest.choiceHandled && !this.isChatRequest )
 		{
 			// Handle choices AFTER result processing
-			GenericRequest.choiceHandled = this.responseText.indexOf( "choice.php" ) == -1;
+			GenericRequest.choiceHandled = !this.responseText.contains( "choice.php" );
 			ChoiceManager.postChoice2( this );
 		}
 
