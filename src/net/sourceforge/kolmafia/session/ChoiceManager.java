@@ -90,6 +90,8 @@ import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 
 public abstract class ChoiceManager
 {
+	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
+
 	public static int lastChoice = 0;
 	public static int lastDecision = 0;
 	public static String lastResponseText = "";
@@ -137,8 +139,6 @@ public abstract class ChoiceManager
 	private static final Pattern YEARBOOK_TARGET_PATTERN = Pattern.compile( "<b>Results:</b>.*?<b>(.*?)</b>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
-
-	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
 
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	private static final AdventureResult MAIDEN_EFFECT = new AdventureResult( "Dreams and Lights", 1, true );
@@ -5095,15 +5095,21 @@ public abstract class ChoiceManager
 		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, null );
 	}
 
+	public static final void processChoiceAdventure( final String responseText )
+	{
+		ChoiceManager.processChoiceAdventure( ChoiceManager.CHOICE_HANDLER, responseText );
+	}
+
 	public static final void processChoiceAdventure( int decision )
 	{
 		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
+
 		request.constructURLString( "choice.php" );
 		request.addFormField( "whichchoice", String.valueOf( ChoiceManager.lastChoice ) );
 		request.addFormField( "option", String.valueOf( decision ) );
 		request.addFormField( "pwd", GenericRequest.passwordHash );
-
 		request.run();
+
 		ChoiceManager.processChoiceAdventure( request, request.responseText );
 	}
 
@@ -5845,7 +5851,10 @@ public abstract class ChoiceManager
 
 		case 603:
 			// Skeletons and The Closet
-			ResultProcessor.removeItem( ItemPool.SKELETON );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				ResultProcessor.removeItem( ItemPool.SKELETON );
+			}
 			return;
 
 		case 607:
@@ -9138,6 +9147,7 @@ public abstract class ChoiceManager
 	{
 		switch ( choice )
 		{
+			case 603: // Skeletons and The Closet
 			case 664: // The Crackpot Mystic's Shed
 			case 720: // The Florist Friar's Cottage
 			case 767: // Tales of Dread
