@@ -134,7 +134,7 @@ public abstract class ChoiceManager
 	private static final Pattern REANIMATOR_WEIRDPART_PATTERN = Pattern.compile( "(\\d+) weird random parts??<br>" );
 	private static final Pattern REANIMATOR_WING_PATTERN = Pattern.compile( "(\\d+) wings??<br>" );
 	private static final Pattern CHAMBER_PATTERN = Pattern.compile( "Chamber <b>#(\\d+)</b>" );
-	private static final Pattern YEARBOOK_TARGET_PATTERN = Pattern.compile( "<div id=\"results\">.*?<b>(.*?)</b>" );
+	private static final Pattern YEARBOOK_TARGET_PATTERN = Pattern.compile( "<b>Results:</b>.*?<b>(.*?)</b>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
