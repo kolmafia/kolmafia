@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool.Effect;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -2361,6 +2362,50 @@ public abstract class SorceressLairManager
 		String orig = gateMatcher.group(0);
 		int index = buffer.indexOf( orig ) + orig.length();
 		buffer.insert( index, spoiler );
+	}
+
+	public static final Pattern WHICHKEY_PATTERN = Pattern.compile( "whichkey=(\\d+)" );
+	public static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire an item: <b>(.*?)</b>)" );
+
+	public static final void decorateKey( final String location, final StringBuffer buffer )
+	{
+		Matcher matcher = SorceressLairManager.WHICHKEY_PATTERN.matcher( location );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		int key = StringUtilities.parseInt( matcher.group( 1 ) );
+
+		if ( key == ItemPool.UNIVERSAL_KEY )
+		{
+			// The key instantly morphs into another shape.
+			//   You acquire an item: <b>xxx</b>
+			//
+			// or
+			// 
+			// You can't figure out anything else to do with your universal key.
+
+			if ( buffer.indexOf( "You can't figure out anything else to do with your universal key" ) != -1 )
+			{
+				return;
+			}
+
+			matcher = SorceressLairManager.ACQUIRE_PATTERN.matcher( location );
+			if ( !matcher.find() )
+			{
+				return;
+			}
+
+			key = ItemDatabase.getItemId( matcher.group( 1 ) );
+
+			// *** Do we successfully add the key to inventory?
+		}
+
+		if ( key == ItemPool.DIGITAL_KEY )
+		{
+			SorceressLairManager.decorateDigitalKey( buffer );
+		}
 	}
 
 	public static final void decorateDigitalKey( final StringBuffer buffer )

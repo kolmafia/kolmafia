@@ -511,9 +511,9 @@ public class RequestEditorKit
 		{
 			SorceressLairManager.decorateGates( buffer );
 		}
-		else if ( location.startsWith( "lair2.php?preaction=key&whichkey=691" ) )
+		else if ( location.startsWith( "lair2.php?preaction=key" ) )
 		{
-			SorceressLairManager.decorateDigitalKey( buffer );
+			SorceressLairManager.decorateKey( location, buffer );
 		}
 		else if ( location.startsWith( "lair6.php?preaction=heavydoor" ) )
 		{
