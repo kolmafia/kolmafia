@@ -1023,6 +1023,7 @@ user	_vitachocCapsulesUsed	0
 user	_vmaskAdv	0
 user	_vmaskBanisherUsed	false
 user	_whiteRiceDrops	0
+user	_yearbookCameraTarget
 user	_zapCount	0
 user	choiceAdventure2	2
 user	choiceAdventure3	3

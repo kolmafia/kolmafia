@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class SkeletonCommand
 	extends AbstractCommand
@@ -108,8 +108,9 @@ public class SkeletonCommand
 			return;
 		}
 
-		Preferences.setString( "choiceAdventure603", String.valueOf( option ) );
-		AdventureResult skeleton = ItemPool.get( ItemPool.SKELETON, 1 );
-		RequestThread.postRequest( UseItemRequest.getInstance( skeleton ) );
+		GenericRequest request = new GenericRequest( "inv_use.php?which=3&whichitem=" + ItemPool.SKELETON ) ;
+		RequestThread.postRequest( request );
+		request.constructURLString( "choice.php?whichchoice=603&option=" + option );
+		RequestThread.postRequest( request );
 	}
 }

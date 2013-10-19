@@ -134,6 +134,7 @@ public abstract class ChoiceManager
 	private static final Pattern REANIMATOR_WEIRDPART_PATTERN = Pattern.compile( "(\\d+) weird random parts??<br>" );
 	private static final Pattern REANIMATOR_WING_PATTERN = Pattern.compile( "(\\d+) wings??<br>" );
 	private static final Pattern CHAMBER_PATTERN = Pattern.compile( "Chamber <b>#(\\d+)</b>" );
+	private static final Pattern YEARBOOK_TARGET_PATTERN = Pattern.compile( "<div id=\"results\">.*?<b>(.*?)</b>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)><input class=button type=submit value=\"(.*?)\">" );
 
@@ -5842,6 +5843,11 @@ public abstract class ChoiceManager
 
 			return;
 
+		case 603:
+			// Skeletons and The Closet
+			ResultProcessor.removeItem( ItemPool.SKELETON );
+			return;
+
 		case 607:
 			// Room 237
 			// Twin Peak first choice
@@ -6330,6 +6336,14 @@ public abstract class ChoiceManager
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
 				Preferences.setBoolean( "_kolhsPoeticallyLicenced", true );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Matcher matcher = YEARBOOK_TARGET_PATTERN.matcher( text );
+				if ( matcher.find() )
+				{
+					Preferences.setString( "_yearbookCameraTarget", matcher.group( 1 ) );
+				}
 			}
 			else if ( ChoiceManager.lastDecision == 4 )
 			{
