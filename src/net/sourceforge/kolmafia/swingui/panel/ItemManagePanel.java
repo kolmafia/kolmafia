@@ -89,7 +89,7 @@ import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
-public class ItemManagePanel
+public abstract class ItemManagePanel
 	extends ScrollablePanel
 {
 	public static final int USE_MULTIPLE = 0;
@@ -148,10 +148,7 @@ public class ItemManagePanel
 		}
 	}
 
-	public Object[] getSelectedValues()
-	{
-		return new Object[0];
-	}
+	public abstract Object[] getSelectedValues();
 
 	protected AutoFilterTextField getWordFilter()
 	{
