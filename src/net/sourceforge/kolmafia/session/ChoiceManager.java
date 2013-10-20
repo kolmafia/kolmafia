@@ -2844,6 +2844,14 @@ public abstract class ChoiceManager
 				       new Option( "antique cigar sign", "antique cigar sign" ) } ),
 					   
 		// Choice 801 is A Reanimated Conversation
+
+		// Choice 803 is Behind the Music.  Literally.
+		new ChoiceAdventure(
+			"Town", "choiceAdventure803", "Behind the Music.  Literally.",
+			new Object[] { new Option( "gain 2-3 horoscopes", 1 ),
+				       new Option( "find out about room L17", 3 ),
+				       new Option( "find room L17", 4 ),
+				       new Option( "not yet available", 6 ) } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

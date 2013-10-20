@@ -3184,8 +3184,10 @@ Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent:
 Anytwo Five Elevenis?	Muscle: +10
 Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Apoplectic with Rage	Mysticality Percent: -10
+Aquarius Rising	Spell Damage: +30
 Arabian Knighthood	Muscle Percent: +5
 Arcane in the Brain	Mana Cost (stackable): -3
+Aries Rising	Weapon Damage: +30
 Armor-Plated	Damage Reduction: 10
 Army of One	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Arresistible	Moxie: +50
@@ -3299,8 +3301,10 @@ Cake Caked	Mysticality Percent: +50
 Can Has Cyborger	Moxie Percent: +10
 Can't Be a Chooser	Meat Drop: +30
 Can't Smell Nothin'	Stench Resistance: +9
+Cancer Rising	Maximum MP Percent: +100
 # Canadianity: Makes you feel more Canadian
 Candied Skeleton	Weapon Damage: -10, Spooky Damage: +10
+Capricorn Rising	Item Drop: +5
 Carlweather's Cantata of Confrontation	Combat Rate: +5
 Carne Obsesionada	Meat Drop: 20
 Carol of the Bones	Muscle Percent: +10
@@ -3627,6 +3631,7 @@ Gaze of the Trickster God	Ranged Damage: +30, Sleaze Damage: +30, Experience (Mo
 Gaze of the Volcano God	Weapon Damage Percent: +50, Hot Damage: +25, Experience (Muscle): +3, HP Regen Min: 8, HP Regen Max: 10
 # Gearhead Gear: Makes you look like a Gnollish Gearhead
 Gelded	Monster Level: +5
+Gemini Rising	Maximum HP Percent: +100
 # Get Me Off This Crazy Thing!: Jane!
 # Ghost Finger: +100 Damage vs. Ghosts
 Ghostly Shell	Damage Absorption: +80
@@ -3814,9 +3819,11 @@ La Bamba	Item Drop: +3
 Lapdog	Initiative: +30, Stench Damage: +25, Monster Level: +20
 Leash of Linguini	Familiar Weight: +5
 Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
+Leo Rising	Meat Drop: +10
 Less Pervious	Damage Reduction: 3
 Less Vincible	HP Regen Min: 2, HP Regen Max: 5
 Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
+Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 # Light!
 # Light-Headed: Increased chance of fumbling
 Light-Headed	Mysticality Percent: -30
@@ -3987,6 +3994,7 @@ Pill Party!	Muscle: -20, Mysticality: -20, Moxie: -20
 Piratastic	Moxie: +100
 Piratey Flavor	Critical Hit Percent: +5
 Pisces in the Skyces	Spell Damage Percent: +150
+Pisces Rising	Mysticality Percent: +50
 Pla-see-bo	Item Drop: +10
 Pneumatic	Adventure Underwater
 Pockets of Fire	Hot Damage: +10
@@ -4070,6 +4078,7 @@ Riqueza de Pasta	Experience: 2
 # Robbin' Like a Goblin: Makes you look like a Knob Goblin Embezzler
 Rootin' Around	Candy Drop: +25
 Rushin' Hands	Weapon Damage: +3
+Sagittarius Rising	Ranged Damage: +30
 Salamander In Your Stomach	Mysticality: +25
 Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
 Salt Rockin'	Moxie: +30
@@ -4091,6 +4100,7 @@ Scarysauce	Sleaze Resistance: +2, Cold Resistance: +2
 Scavengers Scavenging	Item Drop: +20
 Scent of a Kitchen Elf	Mysticality: +40, Familiar Weight Percent: -50
 School Spirited	Meat Drop: +100, Item Drop: +50
+Scorpio Rising	Initiative: +25
 Scowl of the Auk	Weapon Damage: +10
 Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
 Seal Clubbing Frenzy	Muscle: +2
@@ -4288,6 +4298,7 @@ Tangled Up	Moxie Percent: -20
 # Tar-Struck: Continually take damage
 Tar-Struck	Stench Damage: +20
 # Taste the Inferno: It burns! It burns!
+Taurus Rising	Muscle Percent: +50
 Tea-hee	Experience: +5
 Tearful, Fearful	Item Drop: +30
 Techno Bliss	Item Drop: +10
@@ -4395,6 +4406,7 @@ Video... Games	Muscle 5, Mysticality: 5, Moxie: 5, Muscle Percent: 5, Mysticalit
 Video Game Hot Dog	Item Drop: 25, Meat Drop: 25
 Vinegavotte	Item Drop: +20
 Violent Night	Critical Hit Percent: +5
+Virgo Rising	Moxie Percent: +50
 # Visibly Goth: Makes you look like a Goth Giant
 Visions of the Deep Dark Deeps	Spell Damage Percent: +50
 Vitamin-Maxed	Muscle Percent: +10
@@ -5090,6 +5102,18 @@ deodorant	Effect: "Fresh Scent", Effect Duration: 10
 desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
 devilish folio	Effect: "Dis Abled", Effect Duration: 30
 digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
+disco horoscope (Aquarius)	Effect: "Aquarius Rising", Effect Duration: 10
+disco horoscope (Aries)	Effect: "Aries Rising", Effect Duration: 10
+disco horoscope (Cancer)	Effect: "Cancer Rising", Effect Duration: 10
+disco horoscope (Capricorn)	Effect: "Capricorn Rising", Effect Duration: 10
+disco horoscope (Gemini)	Effect: "Gemini Rising", Effect Duration: 10
+disco horoscope (Leo)	Effect: "Leo Rising", Effect Duration: 10
+disco horoscope (Libra)	Effect: "Libra Rising", Effect Duration: 10
+disco horoscope (Pisces)	Effect: "Pisces Rising", Effect Duration: 10
+disco horoscope (Sagittarius)	Effect: "Sagittarius Rising", Effect Duration: 10
+disco horoscope (Scorpio)	Effect: "Scorpio Rising", Effect Duration: 10
+disco horoscope (Taurus)	Effect: "Taurus Rising", Effect Duration: 10
+disco horoscope (Virgo)	Effect: "Virgo Rising", Effect Duration: 10
 disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 10
 donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10
 doppelshifter egg	Free Pull

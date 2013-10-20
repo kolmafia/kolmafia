@@ -1377,3 +1377,18 @@
 1376	Abyssal Tears	teardrop.gif	7064312e83978ab454e3bcfeb2e6c3d5	use 1 foetid seal tear
 1377	Abyssal Sweat	teardrop.gif	2d5d270c8cb8017c1d33b5a6327d7ffd	use 1 cold seal sweat
 1378	Abyssal Blood	blooddrop.gif	df4154707c342dec14ca431a74e613e9	use 1 boiling seal blood
+1379
+1380
+1381
+1382	Aquarius Rising	zod_aquarius.gif	353e7a67e647b47007dd45485c046e69	use 1 disco horoscope (Aquarius)
+1383	Pisces Rising	zod_pisces.gif	f22a1d7cc95252b7f167159bc70d0401	use 1 disco horoscope (Pisces)
+1384	Aries Rising	zod_aries.gif	18c069286d93eb622032ebde9ac88b52	use 1 disco horoscope (Aries)
+1385	Taurus Rising	zod_taurus.gif	c6f6e5460f2a087e6404d3e89a1816f9	use 1 disco horoscope (Taurus)
+1386	Gemini Rising	zod_gemini.gif	2dc70bcf0c29dffc0a377e970646b4d9	use 1 disco horoscope (Gemini)
+1387	Cancer Rising	zod_cancer.gif	ba9b1ecca34ae15eb9f0a902b77d69fd	use 1 disco horoscope (Cancer)
+1388	Leo Rising	zod_leo.gif	93bfd38fba50b9c8deb00a61a5987163	use 1 disco horoscope (Leo)
+1389	Virgo Rising	zod_virgo.gif	0d677bea1db3f582b8a82e3095214f56	use 1 disco horoscope (Virgo)
+1390	Libra Rising	zod_libra.gif	869a2548c2c9c08c748cbba728975b57	use 1 disco horoscope (Libra)
+1391	Scorpio Rising	zod_scorpio.gif	7d5b4aa210970a9f8728fb2f42a85902	use 1 disco horoscope (Scorpio)
+1392	Sagittarius Rising	zod_sagittarius.gif	dcc63a6b03706ccfe5a21103acfbf1d9	use 1 disco horoscope (Sagittarius)
+1393	Capricorn Rising	zod_capricorn.gif	dac97dada4b2a65773d06d4dbae4fe4a	use 1 disco horoscope (Capricorn)

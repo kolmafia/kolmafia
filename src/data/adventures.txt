@@ -62,6 +62,7 @@ Town	adventure=112	true	outdoor	The Sleazy Back Alley	1 spider web|pail of prete
 Town	adventure=244	true	unknown	A Skeleton Invasion!
 Town	adventure=245	true	unknown	The Cannon Museum
 Town	adventure=268	true	unknown	A Pile of Old Servers
+Town	adventure=363	false	indoor	The Space Odyssey Discotheque
 Manor1	adventure=113	true	indoor	The Haunted Pantry	1 razor-sharp can lid|pretentious palette|+3 tasty tart	13 shredded can label
 Manor1	adventure=102	true	indoor	The Haunted Kitchen	1 chef's hat|1 leftovers of indeterminate origin|+1 freezerburned ice cube
 Manor1	adventure=103	true	indoor	The Haunted Conservatory	1 Spookyraven gallery key
