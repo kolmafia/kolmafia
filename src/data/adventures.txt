@@ -59,10 +59,6 @@ The Sea	adventure=210	false	underwater	Mer-kin Colosseum
 The Sea	adventure=337	false	underwater	The Caliginous Abyss
 The Sea	mining=3	false	none	Anemone Mine (Mining)
 Town	adventure=112	true	outdoor	The Sleazy Back Alley	1 spider web|pail of pretentious paint|+3 distilled fortified wine	8 hobo gristle
-Town	adventure=244	true	unknown	A Skeleton Invasion!
-Town	adventure=245	true	unknown	The Cannon Museum
-Town	adventure=268	true	unknown	A Pile of Old Servers
-Town	adventure=363	false	indoor	The Space Odyssey Discotheque
 Manor1	adventure=113	true	indoor	The Haunted Pantry	1 razor-sharp can lid|pretentious palette|+3 tasty tart	13 shredded can label
 Manor1	adventure=102	true	indoor	The Haunted Kitchen	1 chef's hat|1 leftovers of indeterminate origin|+1 freezerburned ice cube
 Manor1	adventure=103	true	indoor	The Haunted Conservatory	1 Spookyraven gallery key
@@ -108,7 +104,6 @@ RabbitHole	adventure=225	true	outdoor	The Red Queen's Garden	+1 reflection of a 
 Suburbs	adventure=277	true	outdoor	The Clumsiness Grove	1 furious stone, 1 vanity stone
 Suburbs	adventure=278	true	outdoor	The Maelstrom of Lovers	1 lecherous stone, 1 jealousy stone
 Suburbs	adventure=279	true	outdoor	The Glacier of Jerks	1 avarice stone, 1 gluttonous stone
-Landscaper	adventure=224	true	outdoor	The Landscaper's Lair	3 grass clippings
 Mothership	adventure=281	true	indoor	Medbay
 Mothership	adventure=282	true	indoor	Waste Processing
 Mothership	adventure=283	true	indoor	Sonar
@@ -252,6 +247,8 @@ Memories	adventure=206	true	indoor	Seaside Megalopolis
 Spaaace	adventure=265	true	indoor	Domed City of Ronaldus
 Spaaace	adventure=266	true	indoor	Domed City of Grimacia
 Spaaace	adventure=267	true	indoor	Hamburglaris Shield Generator
+
+Landscaper	adventure=224	true	outdoor	The Landscaper's Lair	3 grass clippings
 Jacking	adventure=227	true	indoor	Professor Jacking's Small-O-Fier	1 world's most unappetizing beverage|1 can-you-dig-it?
 Jacking	adventure=228	true	indoor	Professor Jacking's Huge-A-Ma-tron	1 Crazyleg's razor, 1 squirmy violent party snack
 Vanya's Castle	adventure=229	true	indoor	Foyer
@@ -259,6 +256,7 @@ Vanya's Castle	adventure=230	true	unknown	Chapel
 Kegger	adventure=231	true	outdoor	Kegger in the Woods
 Magic Commune	adventure=232	true	outdoor	The Electric Lemonade Acid Parade
 Ellsbury's Claim	adventure=236	true	outdoor	Neckback Crick
+
 Holiday	trickortreat=Yep.	true	none	Trick-or-Treating
 Holiday	adventure=23	true	outdoor	Drunken Stupor
 Holiday	adventure=84	true	outdoor	St. Sneaky Pete's Day Stupor
@@ -299,6 +297,10 @@ WhiteWed	adventure=59	true	unknown	Icy Peak of the Past
 
 Events	adventure=216	true	unknown	Shivering Timbers
 
+Events	adventure=244	true	unknown	A Skeleton Invasion!
+Events	adventure=245	true	unknown	The Cannon Museum
+Events	adventure=268	true	unknown	A Pile of Old Servers
+
 Events	invasion=1	true	none	A Swarm of Yeti-Mounted Skeletons
 Events	invasion=2	true	none	The Bonewall
 Events	invasion=3	true	none	A Massive Flying Battleship
@@ -320,6 +322,8 @@ Events	adventure=359	false	outdoor	A Terrifying Abyssal Portal
 Events	adventure=360	false	outdoor	A Freezing Abyssal Portal
 Events	adventure=361	false	outdoor	An Unsettling Abyssal Portal
 Events	adventure=362	false	outdoor	A Yawning Abyssal Portal
+
+Events	adventure=363	false	indoor	The Space Odyssey Discotheque
 
 Psychoses	adventure=301	false	outdoor	Anger Man's Level
 Psychoses	adventure=302	false	outdoor	Fear Man's Level
