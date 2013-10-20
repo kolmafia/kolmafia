@@ -6803,3 +6803,21 @@
 6786
 6787
 6788	blank diary	248829997	book3.gif	usable	t	0
+6789
+6790
+6791
+6792
+6793
+6794
+6795	disco horoscope (Aquarius)	400988957	horoscope.gif	usable	t	0
+6796	disco horoscope (Pisces)	906812600	horoscope.gif	usable	t	0
+6797	disco horoscope (Aries)	654685679	horoscope.gif	usable	t	0
+6798	disco horoscope (Taurus)	750824447	horoscope.gif	usable	t	0
+6799	disco horoscope (Gemini)	293631534	horoscope.gif	usable	t	0
+6800	disco horoscope (Cancer)	605200124	horoscope.gif	usable	t	0
+6801	disco horoscope (Leo)	676217746	horoscope.gif	usable	t	0
+6802	disco horoscope (Virgo)	831145136	horoscope.gif	usable	t	0
+6803	disco horoscope (Libra)	419197675	horoscope.gif	usable	t	0
+6804	disco horoscope (Scorpio)	704995906	horoscope.gif	usable	t	0
+6805	disco horoscope (Sagittarius)	540226653	horoscope.gif	usable	t	0
+6806	disco horoscope (Capricorn)	138779006	horoscope.gif	usable	t	0
