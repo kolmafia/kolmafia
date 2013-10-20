@@ -5949,6 +5949,16 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 669:
+		case 670:
+		case 671:
+			// All New Area Unlocked messages unlock the Ground Floor but check for it specifically in case future changes unlock areas with message.
+			if ( text.contains( "New Area Unlocked" ) && text.contains( "The Ground Floor" ) )
+			{
+				Preferences.setInteger( "lastCastleGroundUnlock", KoLCharacter.getAscensions() );
+			}
+			break;			
+
 		case 689:
 			// The Final Reward
 			if ( text.contains( "claim your rightful reward" ) )
