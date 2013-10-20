@@ -2365,7 +2365,7 @@ public abstract class SorceressLairManager
 	}
 
 	public static final Pattern WHICHKEY_PATTERN = Pattern.compile( "whichkey=(\\d+)" );
-	public static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire an item: <b>(.*?)</b>)" );
+	public static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire an item: <b>(.*?)</b>" );
 
 	public static final void decorateKey( final String location, final StringBuffer buffer )
 	{
