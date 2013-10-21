@@ -164,3 +164,4 @@ Unkillable Skeleton's skullcap, Unkillable Skeleton's breastplate, Unkillable Sk
 goblin collarbone, sharp tin strip, wad of spider silk
 pulled red taffy, pulled orange taffy, pulled blue taffy, pulled violet taffy
 bottle of Race Car Red, bottle of Greedy Dog, bottle of Lambada Lambic
+disco horoscope (Aquarius), disco horoscope (Pisces), disco horoscope (Aries), disco horoscope (Taurus), disco horoscope (Gemini), disco horoscope (Cancer), disco horoscope (Leo), disco horoscope (Virgo), disco horoscope (Libra), disco horoscope (Scorpio), disco horoscope (Sagittarius), disco horoscope (Capricorn)

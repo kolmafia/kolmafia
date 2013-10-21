@@ -1041,9 +1041,19 @@ public class CharPaneRequest
 		throws JSONException
 	{
 		int turnsThisRun = JSON.getInt( "turnsthisrun" );
-		int mafiaTurnsThisRun = KoLCharacter.getCurrentRun();
 		CharPaneRequest.turnsThisRun = turnsThisRun;
-		ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
+
+		if ( KoLmafia.isRefreshing() )
+		{
+			// If we are refreshing status, simply set turns used
+			KoLCharacter.setCurrentRun( turnsThisRun );
+		}
+		else
+		{
+			// Otherwise, increment them
+			int mafiaTurnsThisRun = KoLCharacter.getCurrentRun();
+			ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
+		}
 
 		JSONObject lastadv = JSON.getJSONObject( "lastadv" );
 		String adventureId = lastadv.getString( "id" );
