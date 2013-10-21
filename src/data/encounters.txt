@@ -136,7 +136,7 @@ Desert (Unhydrated)	GLYPH	How Dry I Am
 Lair of the Ninja Snowmen	GLYPH	Not So Much With the Corncob Pipes, Either.
 Pre-Cyrpt Cemetary	GLYPH	They Hate That
 The Battlefield (Frat Uniform)	GLYPH	God Bless, Bra
-The Bugbear Pens	GLYPH	Bacon Bacon Bacon
+The Bugbear Pen	GLYPH	Bacon Bacon Bacon
 The Defiled Nook	GLYPH	They Gave at the Morgue
 The Enormous Greater-Than Sign	GLYPH	Elbereth? Who's Elbereth?
 The "Fun" House	GLYPH	They Hate Mimes, Too
