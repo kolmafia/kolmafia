@@ -793,7 +793,7 @@
 792	Everything Looks Red	eyes.gif	6d848baf68e1532b64bca6ab60df9144
 793	The Pleasures of the Flesh	reallytan.gif	9605e2488f42b665ff46f92b56c4506b	summon 10
 794
-795
+795	Unmotivated	angry.gif	78d9c0fb5a4346f26db6f5773db052b8
 796	Mystic Circle	crimbcookie1.gif	8e52b4076a2ab7451407c007b5a0544d	eat 1 circular CRIMBCOOKIE
 797	Triangle, Man	crimbcookie3.gif	662a1f193983ba6e809c891606148880	eat 1 triangular CRIMBCOOKIE
 798	Square to be Hip	crimbcookie2.gif	39c662ca50f95d1b2d405fb614d8cde4	eat 1 square CRIMBCOOKIE

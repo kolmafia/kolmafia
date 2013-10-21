@@ -4819,9 +4819,9 @@
 4802
 4803
 4804	Essence of Annoyance	929376084	testtube.gif	usable		0
-4805
-4806
-4807
+4805	Unmotivator: Crashed Orca	837220901	subcard.gif	none, curse	g	0	Unmotivator: Crashed Orcas
+4806	Unmotivator: Success Warrior	680797177	subcard.gif	none, curse	g	0	Unmotivator: Success Warriors
+4807	Unmotivator: Crashed Meat Car	473690694	subcard.gif	none, curse	g	0	Unmotivator: Crashed Meat Cars
 4808
 4809
 4810

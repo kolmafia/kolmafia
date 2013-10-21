@@ -4395,6 +4395,7 @@ Twinkly Weapon	Weapon Damage: +3
 # Ultrahydrated: Glug, Glug
 Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
 # Uncertain: Muscle and Moxie +/- ???
+# Unmotivated: You're feeling really unmotivated. 
 Unpopular	Monster Level: +30
 Unusual Fashion Sense	Damage Absorption: +50
 Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
