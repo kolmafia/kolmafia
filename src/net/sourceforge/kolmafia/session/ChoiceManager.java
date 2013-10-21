@@ -2849,9 +2849,10 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Events", "choiceAdventure803", "Behind the Music.  Literally.",
 			new Object[] { new Option( "gain 2-3 horoscopes", 1 ),
-				       new Option( "find out about room L17", 3 ),
-				       new Option( "find room L17", 4 ),
-				       new Option( "not yet available", 6 ) } ),
+				       new Option( "find interesting room", 3 ),
+				       new Option( "investigate interesting room", 4 ),
+				       new Option( "investigate trap door", 5 ),
+				       new Option( "investigate elevator", 6 ) } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

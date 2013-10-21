@@ -1392,3 +1392,6 @@
 1391	Scorpio Rising	zod_scorpio.gif	7d5b4aa210970a9f8728fb2f42a85902	use 1 disco horoscope (Scorpio)
 1392	Sagittarius Rising	zod_sagittarius.gif	dcc63a6b03706ccfe5a21103acfbf1d9	use 1 disco horoscope (Sagittarius)
 1393	Capricorn Rising	zod_capricorn.gif	dac97dada4b2a65773d06d4dbae4fe4a	use 1 disco horoscope (Capricorn)
+1394
+1395
+1396	Disco Neuropathy	dance2.gif	0daf820ab0d738826e0ad1e9640231c1	drink 1 discocktail

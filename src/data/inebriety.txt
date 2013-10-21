@@ -139,6 +139,7 @@ dew yoana salacious lei	4	8	good	10-14	0	60-115	0	30 Brined Liver
 das sauerlager	3	1	decent	4-5	0	20-30	10-20
 dirty martini	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 disappointed russian	4	1	decent	7-9	0	0	30-40
+discocktail	3	1	good	8-10	0	0	8-10	10 Disco Neuropathy (+15 DB Combat Damage, +30% DB Skill Weaken)
 distilled fortified wine	1	1	EPIC	5-6	5-6	5-6	5-6
 divine	4	6	awesome	14-18	16-20	25-27	0
 doublepunchplanter	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy

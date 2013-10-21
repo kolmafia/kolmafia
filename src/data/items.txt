@@ -6821,3 +6821,26 @@
 6804	disco horoscope (Scorpio)	704995906	horoscope.gif	multiple	t	0
 6805	disco horoscope (Sagittarius)	540226653	horoscope.gif	multiple	t	0
 6806	disco horoscope (Capricorn)	138779006	horoscope.gif	multiple	t	0
+6807
+6807
+6808
+6809
+6810
+6811
+6812
+6813
+6814
+6815
+6816
+6817
+6818
+6819
+6820
+6821
+6822
+6823
+6824
+6825
+6826
+6827
+6828	discocktail	225359522	martini.gif	drink	t	0

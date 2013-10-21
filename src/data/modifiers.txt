@@ -3467,6 +3467,8 @@ Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 # Dis Abled: Grants access to the Suburb of Dis
 Disco Concentration	Item Drop: +20
 Disco Inferno	Moxie: +5, Hot Damage: +3
+# Disco Neuropathy: Disco Bandit Combat Skills weaken enemies by an additional 30%
+Disco Neuropathy	DB Combat Damage: +15
 Disco Nirvana	Meat Drop: +30
 Disco State of Mind	Moxie: +2
 Discomfited	Initiative: +30
@@ -5114,6 +5116,7 @@ disco horoscope (Sagittarius)	Effect: "Sagittarius Rising", Effect Duration: 10
 disco horoscope (Scorpio)	Effect: "Scorpio Rising", Effect Duration: 10
 disco horoscope (Taurus)	Effect: "Taurus Rising", Effect Duration: 10
 disco horoscope (Virgo)	Effect: "Virgo Rising", Effect Duration: 10
+discocktail	Effect: "Disco Neuropathy", Effect Duration: 30
 disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 10
 donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10
 doppelshifter egg	Free Pull
