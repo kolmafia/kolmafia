@@ -560,8 +560,8 @@ public class FightRequest
 
 	public static final boolean wonInitiative( String text )
 	{
-		// Regular encounter
-		if ( text.indexOf( "You get the jump" ) != -1 )
+		// Regular encounter or on Seahorse underwater
+		if ( text.toLowerCase().contains( "you get the jump" ) )
 			return true;
 
 		// Can Has Cyborger
