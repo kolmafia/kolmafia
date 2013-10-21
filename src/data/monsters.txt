@@ -1505,6 +1505,6 @@ official seal	officialseal.gif	HP: 300 Def: 110 Atk: 110 Init: 70 P: demon	boili
 general seal	generalseal.gif	HP: 1000 Def: 300 Atk: 300 Init: -10000 P: demon	seal medal (c100)
 
 # The Space Odyssey Discotheque
-awkward disco dancer	disco_awkward.gif	HP: [0.75*(min(MUS,3000)+max(ML,0))] Def: [min(MUS,3000)+max(ML,0)] Atk: [min(MOX,3000)+max(ML,0)] Exp: [(min(STAT,3000)+max(ML,0))/4] Init: 100 P: dude	discocktail (0)
-flexible disco dancer	disco_flexible.gif	HP: [0.75*(min(MUS,3000)+max(ML,0))] Def: [min(MUS,3000)+max(ML,0)] Atk: [min(MOX,3000)+max(ML,0)] Exp: [(min(STAT,3000)+max(ML,0))/4] Init: 50 P: dude	discocktail (0)
-stiff disco dancer	disco_flexible.gif	HP: [0.75*(min(MUS,3000)+max(ML,0))] Def: [min(MUS,3000)+max(ML,0)] Atk: [min(MOX,3000)+max(ML,0)] Exp: [(min(STAT,3000)+max(ML,0))/4] Init: -10000 P: construct	discocktail (0)
+awkward disco dancer	disco_awkward.gif	HP: [0.75*(min(MUS,3000)+max(ML,0))] Def: [min(MUS,3000)+max(ML,0)] Atk: [min(MOX,3000)+max(ML,0)] Exp: [(min(STAT,3000)+max(ML,0))/4] Init: 100 P: dude	discocktail (c0)
+flexible disco dancer	disco_flexible.gif	HP: [0.75*(min(MUS,3000)+max(ML,0))] Def: [min(MUS,3000)+max(ML,0)] Atk: [min(MOX,3000)+max(ML,0)] Exp: [(min(STAT,3000)+max(ML,0))/4] Init: 50 P: dude	discocktail (c0)
+stiff disco dancer	disco_flexible.gif	HP: [0.75*(min(MUS,3000)+max(ML,0))] Def: [min(MUS,3000)+max(ML,0)] Atk: [min(MOX,3000)+max(ML,0)] Exp: [(min(STAT,3000)+max(ML,0))/4] Init: -10000 P: construct	discocktail (c0)
