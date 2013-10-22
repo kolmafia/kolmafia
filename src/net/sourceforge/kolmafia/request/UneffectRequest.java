@@ -401,6 +401,29 @@ public class UneffectRequest
 		removableEffects.add( "Sleepy" );
 		removableEffects.add( "Sunburned" );
 		removableEffects.add( "Wussiness" );
+		if ( KoLCharacter.hasSkill( "Adventurer of Leisure" ) )
+		{
+			removableEffects.add( "Affronted Decency" );
+			removableEffects.add( "A Little Bit Poisoned" );
+			removableEffects.add( "Apathy" );
+			removableEffects.add( "Consumed by Fear" );
+			removableEffects.add( "Cunctatitis" );
+			removableEffects.add( "Easily Embarrassed" );
+			removableEffects.add( "Existential Torment" );
+			removableEffects.add( "Hardly Poisoned at All" );
+			removableEffects.add( "Light-Headed" );
+			removableEffects.add( "Majorly Poisoned" );
+			removableEffects.add( "N-Spatial vision" );
+			removableEffects.add( "Prestidigysfunction" );
+			removableEffects.add( "Rainy Soul Miasma" );
+			removableEffects.add( "Really Quite Poisoned" );
+			removableEffects.add( "Socialismydia" );
+			removableEffects.add( "Somewhat Poisoned" );
+			removableEffects.add( "Tenuous Grip on Reality" );
+			removableEffects.add( "Tetanus" );
+			removableEffects.add( "The Colors..." );
+			removableEffects.add( "\"The Disease\"" );
+		}
 
 		removableEffects = new HashSet<String>();
 		removeWithSkillMap.put( "Pep Talk", removableEffects );
