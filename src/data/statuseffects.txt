@@ -1377,9 +1377,9 @@
 1376	Abyssal Tears	teardrop.gif	7064312e83978ab454e3bcfeb2e6c3d5	use 1 foetid seal tear
 1377	Abyssal Sweat	teardrop.gif	2d5d270c8cb8017c1d33b5a6327d7ffd	use 1 cold seal sweat
 1378	Abyssal Blood	blooddrop.gif	df4154707c342dec14ca431a74e613e9	use 1 boiling seal blood
-1379
-1380
-1381
+1379	Disco Fever	discomask.gif	382f85a0e939c9ce2d346c91d184b927	cast 1 Disco Fever
+1380	Disco Smirk	wink.gif	31f9d96bec006de06ea097682472b8b3	cast 1 Disco Smirk
+1381	Disco Leer	discoleer.gif	bc3d4aad3454fcd82c066ef3949749ca	cast 1 Disco Leer
 1382	Aquarius Rising	zod_aquarius.gif	353e7a67e647b47007dd45485c046e69	use 1 disco horoscope (Aquarius)
 1383	Pisces Rising	zod_pisces.gif	f22a1d7cc95252b7f167159bc70d0401	use 1 disco horoscope (Pisces)
 1384	Aries Rising	zod_aries.gif	18c069286d93eb622032ebde9ac88b52	use 1 disco horoscope (Aries)

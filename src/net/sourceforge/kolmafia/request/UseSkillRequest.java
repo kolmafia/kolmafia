@@ -961,7 +961,6 @@ public class UseSkillRequest
 			{
 			case SkillPool.WALRUS_TONGUE:
 			case SkillPool.DISCO_NAP:
-			case SkillPool.POWER_NAP:
 			case SkillPool.BANDAGES:
 			case SkillPool.COCOON:
 
@@ -1555,7 +1554,6 @@ public class UseSkillRequest
 
 		case SkillPool.WALRUS_TONGUE:
 		case SkillPool.DISCO_NAP:
-		case SkillPool.POWER_NAP:
 			UneffectRequest.removeEffectsWithSkill( skillId );
 			break;
 

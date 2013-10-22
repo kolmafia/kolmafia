@@ -353,7 +353,7 @@ public class CampgroundRequest
 	{
 		int freerests = 0;
 		if ( KoLCharacter.hasSkill( "Disco Nap" ) ) ++freerests;
-		if ( KoLCharacter.hasSkill( "Disco Power Nap" ) ) freerests += 2;
+		if ( KoLCharacter.hasSkill( "Adventurer of Leisure" ) ) freerests += 2;
 		if ( KoLCharacter.hasSkill( "Executive Narcolepsy" ) ) ++freerests;
 		if ( KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE ) != null ) freerests += 3;
 		if ( KoLCharacter.hasSkill( "Food Coma" ) ) freerests += 10;

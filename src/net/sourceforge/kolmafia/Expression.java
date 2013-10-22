@@ -352,6 +352,9 @@ public class Expression
 			case 'H':
 				v = Modifiers.hoboPower;
 				break;
+			case 'I':
+				v = KoLCharacter.getDiscoMomentum();
+				break;
 			case 'J':
 				v = HolidayDatabase.getHoliday().equals( "Festival of Jarlsberg" ) ? 1.0 : 0.0;
 				break;

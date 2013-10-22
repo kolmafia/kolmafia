@@ -334,6 +334,7 @@ Pantaloons of Hatred	200	Mys: 125
 Radio Free Pants	150	Mox: 60
 Spooky Putty leotard	100	none
 The Necbromancer's Shorts	200	Mox: 200
+The Sagittarian's leisure pants	75	none
 Travoltan trousers	100	none
 Tropical Crimbo Shorts	100	Mox: 35
 Uncle Hobo's gift baggy pants	200	Mox: 200
@@ -1085,6 +1086,7 @@ slime-covered speargun	200	Mox: 200	1-handed pistol
 slime-covered staff	200	Mys: 200	2-handed staff
 slingshot	20	Mox: 0	2-handed slingshot
 smoldering staff	125	Mus: 45	2-handed staff
+soap knife	200	Mus: 60	1-handed knife
 soul knife	100	Mus: 0	1-handed knife
 soup-chucks	15	Mus: 0	2-handed flail
 soylent staff	100	Mus: 35	2-handed staff

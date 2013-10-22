@@ -403,28 +403,6 @@ public class UneffectRequest
 		removableEffects.add( "Wussiness" );
 
 		removableEffects = new HashSet<String>();
-		removeWithSkillMap.put( "Disco Power Nap", removableEffects );
-		removableEffects.add( "Affronted Decency" );
-		removableEffects.add( "Apathy" );
-		removableEffects.add( "Confused" );
-		removableEffects.add( "Cunctatitis" );
-		removableEffects.add( "Embarrassed" );
-		removableEffects.add( "Easily Embarrassed" );
-		removableEffects.add( "Existential Torment" );
-		removableEffects.add( "Light Headed" );
-		removableEffects.add( "N-Spatial vision" );
-		removableEffects.add( "Prestidigysfunction" );
-		removableEffects.add( "Rainy Soul Miasma" );
-		removableEffects.add( "Sleepy" );
-		removableEffects.add( "Socialismydia" );
-		removableEffects.add( "Sunburned" );
-		removableEffects.add( "Tenuous Grip on Reality" );
-		removableEffects.add( "Tetanus" );
-		removableEffects.add( "The Colors..." );
-		removableEffects.add( "\"The Disease\"" );
-		removableEffects.add( "Wussiness" );
-
-		removableEffects = new HashSet<String>();
 		removeWithSkillMap.put( "Pep Talk", removableEffects );
 		removableEffects.add( "Overconfident" );
 

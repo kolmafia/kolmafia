@@ -28,6 +28,7 @@
 #	F - Fullness
 #	G - Grimace darkness (0..5)
 #	H - Hobo Power
+#	I - Disco Momentum
 #	J - 1 on Festival of Jarlsberg, 0 otherwise
 #	L - player Level
 #	M - total Moonlight (0..9)
@@ -414,6 +415,8 @@ Pantaloons of Hatred	Adventures: +4, Spell Damage Percent: +60, Familiar Effect:
 Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only, Familiar Effect: "1.5xVolley, cap 25"
 The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 2xGhuol"
+# The Sagittarian's leisure pants: Disco Bandit Combat Skills weaken enemies by an additional 20%
+The Sagittarian's leisure pants	DB Combat Damage: +13
 # Travoltan trousers: 5-Finger Discount
 # Travoltan trousers: Moxie used to determine Maximum MP
 # Travoltan trousers: (unless Mysticality is higher)
@@ -3466,10 +3469,13 @@ Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 # Dirty Pear: All Bonus Sleaze Damage is doubled
 # Dis Abled: Grants access to the Suburb of Dis
 Disco Concentration	Item Drop: +20
+Disco Fever	Ranged Damage: +10, Moxie Percent: +10
 Disco Inferno	Moxie: +5, Hot Damage: +3
+Disco Leer	Meat Drop: +10
 # Disco Neuropathy: Disco Bandit Combat Skills weaken enemies by an additional 30%
 Disco Neuropathy	DB Combat Damage: +15
 Disco Nirvana	Meat Drop: +30
+Disco Smirk	Moxie: +10
 Disco State of Mind	Moxie: +2
 Discomfited	Initiative: +30
 Disquiet Riot	Combat Rate: -20
@@ -4482,6 +4488,7 @@ Zomg WTF	Monster Level: +30
 # Passive Skills section of modifiers.txt
 
 Abs of Tin	Maximum HP Percent: +10
+# Adventurer of Leisure +2 Free Rests/day
 # Ambidextrous Funkslinging
 Amphibian Sympathy	Familiar Weight: +5
 # Armorcraftiness
@@ -4498,8 +4505,10 @@ Cold-Blooded Fearlessness	Spooky Resistance: +2
 # Cold Shoulder Your Smack skills will deal 5 additional Cold Damage
 Cosmic Ugnderstanding	Maximum MP Percent: +5
 # Deep Saucery
+# Deft Hands +25% damage from combat items
 Diminished Gag Reflex	Stench Resistance: +2
-Disco Fever	Ranged Damage: [min(L,15)]
+Disco Bravado	Experience: [1+0.5*I]
+Disco Greed	Item Drop: [10*I]
 # Double-Fisted Skull Smashing
 Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
@@ -4507,6 +4516,7 @@ Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 Fashionably Late	Adventures: +1
 Ferocity	Critical Hit Percent: +25
 # Flavour of Magic
+# Flashy Dancer Opponents cannot act during Disco Dances
 Food Coma	Base Resting MP: 9999
 Fortitude of the Muskox	HP Regen Min: +1, HP Regen Max: +2
 Gnefarious Pickpocketing	Meat Drop: +10
@@ -4571,6 +4581,7 @@ Thrift and Grift	Meat Drop: +10
 Tolerance of the Kitchen	Hot Resistance: +2
 # Torso Awaregness
 # Transcendental Noodlecraft
+# Tricky Knifework Use knifes as if Muscle=Moxie if Moxie higher
 Undying Greed	Meat Drop: +25
 Unyielding Flesh	Damage Absorption: +100, Damage Reduction: 5
 Vigor Mortis	Muscle Percent: +30

@@ -306,6 +306,7 @@ public abstract class KoLCharacter
 	private static int[] triggerItem = new int[ 3 ];
 
 	private static int fury = 0;
+	private static int disco_momentum = 0;
 	
 	public static final int MAX_BASEPOINTS = 65535;
 
@@ -605,6 +606,7 @@ public abstract class KoLCharacter
 		KoLCharacter.incrementPrime = 25L;
 
 		KoLCharacter.fury = 0;
+		KoLCharacter.disco_momentum = 0;
 		
 		KoLCharacter.pvpRank = 0;
 		KoLCharacter.attacksLeft = 0;
@@ -1145,6 +1147,21 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.setFury( KoLCharacter.fury - decFury );
 	}		
+	
+	public static final int getDiscoMomentum()
+	{
+		return KoLCharacter.disco_momentum;
+	}
+	
+	public static final void setDiscoMomentum( final int newDiscoMomentum )
+	{
+		KoLCharacter.disco_momentum = newDiscoMomentum;
+	}
+
+	public static final void resetDiscoMomentum()
+	{
+		disco_momentum = 0;
+	}
 	
 	public static final int getPvpRank()
 	{

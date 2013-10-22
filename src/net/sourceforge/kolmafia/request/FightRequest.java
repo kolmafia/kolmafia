@@ -212,6 +212,9 @@ public class FightRequest
 	private static final Pattern KEYOTRON_PATTERN =
 		Pattern.compile( "key-o-tron emits (\\d) short" );
 	
+	private static final Pattern DISCO_MOMENTUM_PATTERN =
+		Pattern.compile( "discomo(\\d).gif" );
+	
 	private static final Pattern SEAHORSE_PATTERN =
 		Pattern.compile( "I shall name you &quot;(.*?),&quot; you say." );
 
@@ -2158,6 +2161,13 @@ public class FightRequest
 		DreadScrollManager.handleKillscroll( responseText );
 		DreadScrollManager.handleHealscroll( responseText );
 
+		// Check for Disco Momentum
+		Matcher DiscoMatcher = FightRequest.DISCO_MOMENTUM_PATTERN.matcher( FightRequest.lastResponseText );
+		if ( DiscoMatcher.find() )
+		{
+				KoLCharacter.setDiscoMomentum( StringUtilities.parseInt( DiscoMatcher.group( 1 ) ) );
+		}
+
 		// Check for equipment breakage that can happen at any time.
 		if ( responseText.indexOf( "Your antique helmet, weakened" ) != -1 )
 		{
@@ -2577,6 +2587,9 @@ public class FightRequest
 
 		// Cancel any combat modifiers
 		Modifiers.overrideModifier( "fightMods", null );
+
+		// Lose Disco Momentum
+		KoLCharacter.resetDiscoMomentum();
 
 		// "You pull out your personal massager and use it to work the
 		// kinks out of your neck and your back. You stop there,

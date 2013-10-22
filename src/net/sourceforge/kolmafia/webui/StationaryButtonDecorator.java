@@ -727,6 +727,10 @@ public class StationaryButtonDecorator
 			name = "dance2";
 			break;
 
+		case 5036:	// Disco Dance 3: Back in the Habit
+			name = "dance3";
+			break;
+
 		case 5012:	// Disco Face Stab
 			name = "facestab";
 			break;
