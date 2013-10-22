@@ -62,7 +62,9 @@ public class StationaryButtonDecorator
 
 	private static final boolean builtInSkill( final String skillId )
 	{
-		if ( skillId.equals( String.valueOf( SkillPool.ENTANGLING_NOODLES ) ) && !KoLCharacter.getClassName().equals( "Seal Clubber") )
+		if ( skillId.equals( String.valueOf( SkillPool.ENTANGLING_NOODLES ) ) 
+			&& !KoLCharacter.getClassName().equals( "Seal Clubber" )
+			&& !KoLCharacter.getClassName().equals( "Disco Bandit" ) )
 		{
 			return true;
 		}
@@ -349,7 +351,9 @@ public class StationaryButtonDecorator
 				urlString, buffer, actionBuffer, "jiggle", enabled );
 		}
 
-		if ( !inBirdForm && KoLCharacter.hasSkill( "Entangling Noodles" ) && !KoLCharacter.getClassName().equals( "Seal Clubber") )
+		if ( !inBirdForm && KoLCharacter.hasSkill( "Entangling Noodles" ) 
+			&& !KoLCharacter.getClassName().equals( "Seal Clubber" )
+			&& !KoLCharacter.getClassName().equals( "Disco Bandit" ) )
 		{
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
 				FightRequest.canCastNoodles();
