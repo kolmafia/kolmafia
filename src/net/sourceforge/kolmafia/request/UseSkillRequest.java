@@ -546,12 +546,8 @@ public class UseSkillRequest
 			maximumCast = Math.max( maximumCast - Preferences.getInteger( "reagentSummons" ), 0 );
 			break;
 
-		// Superhuman Cocktailcrafting affects # of summons for
-		// Advanced Cocktailcrafting
-
-		case SkillPool.SUPERHUMAN_COCKTAIL:
-			maximumCast = KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) ? 5 : 3;
-			maximumCast = Math.max( maximumCast - Preferences.getInteger( "cocktailSummons" ), 0 );
+		case SkillPool.ADVANCED_COCKTAIL:
+			maximumCast = ( Preferences.getInteger( "cocktailSummons" ) == 0 ) ? 1 : 0;
 			break;
 
 		case SkillPool.THINGFINDER:
@@ -1620,7 +1616,7 @@ public class UseSkillRequest
 			Preferences.increment( "reagentSummons", count );
 			break;
 
-		case SkillPool.SUPERHUMAN_COCKTAIL:
+		case SkillPool.ADVANCED_COCKTAIL:
 			Preferences.increment( "cocktailSummons", count );
 			break;
 
