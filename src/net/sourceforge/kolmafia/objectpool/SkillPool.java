@@ -107,7 +107,7 @@ public class SkillPool
 	public static final int JABANERO_SAUCESPHERE = 4011;
 	public static final int SALSABALL = 4020;
 	public static final int DISCO_NAP = 5007;
-	public static final int POWER_NAP = 5011;
+	public static final int ADVENTURER_OF_LEISURE = 5011;
 	public static final int SUPERHUMAN_COCKTAIL = 5014;
 	public static final int SUCKERPUNCH = 5021;
 	public static final int ODE_TO_BOOZE = 6014;

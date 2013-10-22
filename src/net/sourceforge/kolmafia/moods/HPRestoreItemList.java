@@ -120,7 +120,6 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "green pixel potion", 50 ),
 		new HPRestoreItem( "cartoon heart", 50 ),
 		new HPRestoreItem( "phonics down", 48 ),
-		new HPRestoreItem( "Disco Power Nap", 40 ),
 		new HPRestoreItem( "cotton candy cone", 39 ),
 		new HPRestoreItem( "palm-frond fan", 37 ),
 		new HPRestoreItem( "honey-dipped locust", 36 ),

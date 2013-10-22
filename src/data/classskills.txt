@@ -278,16 +278,16 @@
 5000	Disco Aerobics	3	1	5	0
 5001
 5002
-5003	Disco Eye-Poke	5	3	0	1
+5003	Disco Eye-Poke	5	2	0	1
 5004	Nimble Fingers	0	0	0	6
-5005	Disco Dance of Doom	5	5	0	4
+5005	Disco Dance of Doom	5	3	0	2
 5006	Mad Looting Skillz	0	0	0	8
 5007	Disco Nap	2	8	0	3
-5008	Disco Dance II: Electric Boogaloo	5	7	0	7
-5009	Disco Fever	0	0	0	11
+5008	Disco Dance II: Electric Boogaloo	5	4	0	4
+5009	Disco Fever	3	13	0	13
 5010	Overdeveloped Sense of Self Preservation	0	0	0	2
-5011	Disco Power Nap	2	12	0	9
-5012	Disco Face Stab	5	10	0	10
+5011	Adventurer of Leisure	0	0	0	11
+5012	Disco Face Stab	5	8	0	6
 5013
 5014	Advanced Cocktailcrafting	1	10	0	5
 5015	Ambidextrous Funkslinging	0	0	0	12
@@ -299,6 +299,21 @@
 5022	Salacious Cocktailcrafting	0	0	0
 5023	Stealth Mistletoe	5	5	0
 5024	Kung Fu Hustler	0	0	0
+5025	Deft Hands	0	0	0	1
+5026	Disco State of Mind	5	0	0	3
+5027	Frantic Gyrations	5	0	0	4
+5028	That's Not a Knife	1	0	0	5
+5029	Tricky Knifework	0	0	0	7
+5030	Flashy Dancer	0	0	0	7
+5031	Disco Smirk	3	10	0	8
+5032	Disco Greed	0	0	0	9
+5033	Knife in the Dark	5	10	0	9
+5034	Disco Bravado	0	0	0	10
+5035	Disco Shank	5	13	0	10
+5036	Disco Dance 3: Back in the Habit	5	10	0	11
+5037	Disco Inferno	5	15	0	12
+5038	Sensitive Fingers	0	0	0	14
+5039	Disco Leer	3	10	0	15
 
 # Skills available to Thieves
 

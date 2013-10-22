@@ -321,7 +321,7 @@ public class SkillDatabase
 	public static final int getSkillPurchaseCost( final int skillId )
 	{
 		// Seal Clubber skills half price as number doubled, guessing this might be true on other classes too
-		Boolean revamped = ( KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER );
+		Boolean revamped = ( KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER || KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT ); 
 	
 		if ( ( skillId / 1000 == 11 ) || ( skillId / 1000 == 12 ) )
 		{
