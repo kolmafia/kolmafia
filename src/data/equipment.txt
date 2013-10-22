@@ -657,7 +657,7 @@ Ol' Scratch's infernal pitchfork	200	Mus: 200	2-handed polearm
 PVC staff	200	Mus: 85	2-handed staff
 Pasta of Peril	50	Mys: 10	1-handed utensil
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
-Pigsticker of Violence	200	Mox: 125	1-handed knife
+Pigsticker of Violence	200	Mus: 100	1-handed knife
 Radio Free Foil	150	Mus: 60	2-handed sword
 Rain-Doh violet bo	100	Mus: 0	2-handed staff
 Rain-Doh yellow laser gun	100	Mox: 0	1-handed pistol
