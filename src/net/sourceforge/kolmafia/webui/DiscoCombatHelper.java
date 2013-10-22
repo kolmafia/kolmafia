@@ -56,24 +56,16 @@ public class DiscoCombatHelper
 	public static boolean canCombo;
 
 	private static final int UNKNOWN = -1;
-	public static final int DISCO_EYE_POKE = 0;
-	public static final int DISCO_DANCE_OF_DOOM = 1;
-	public static final int DISCO_DANCE_II = 2;
-	public static final int DISCO_FACE_STAB = 3;
-	public static final int BREAK_IT_ON_DOWN = 4;
-	public static final int POP_AND_LOCK_IT = 5;
-	public static final int RUN_LIKE_THE_WIND = 6;
+	public static final int BREAK_IT_ON_DOWN = 0;
+	public static final int POP_AND_LOCK_IT = 1;
+	public static final int RUN_LIKE_THE_WIND = 2;
 
-	public static final int FIRST_RAVE_SKILL = 4;
-	public static final int LAST_RAVE_SKILL = 6;
-	public static final int NUM_SKILLS = 7;
+	public static final int FIRST_RAVE_SKILL = 0;
+	public static final int LAST_RAVE_SKILL = 2;
+	public static final int NUM_SKILLS = 3;
 
 	public static final String [] SKILLS = new String[]
 	{
-		"Disco Eye-Poke",
-		"Disco Dance of Doom",
-		"Disco Dance II: Electric Boogaloo",
-		"Disco Face Stab",
 		"Break It On Down",
 		"Pop and Lock It",
 		"Run Like the Wind",
@@ -81,10 +73,6 @@ public class DiscoCombatHelper
 
 	public static final int [] SKILL_ID = new int[]
 	{
-		5003,
-		5005,
-		5008,
-		5012,
 		50,
 		51,
 		52,
@@ -92,10 +80,6 @@ public class DiscoCombatHelper
 
 	public static final String [] BUTTON_NAME = new String[]
 	{
-		"Eye-Poke",
-		"Dance",
-		"Dance II",
-		"Face Stab",
 		"Break",
 		"Pop",
 		"Run",
@@ -103,45 +87,19 @@ public class DiscoCombatHelper
 
 	public static final boolean [] knownSkill = new boolean[ NUM_SKILLS ];
 
-	public static final int DISCO_CONCENTRATION = 0;
-	public static final int DISCO_NIRVANA = 1;
-	public static final int DISCO_INFERNO = 2;
-	public static final int DISCO_BLEEDING = 3;
-	public static final int DISCO_BLINDNESS = 4;
+	public static final int RAVE_CONCENTRATION = 0;
+	public static final int RAVE_NIRVANA = 1;
+	public static final int RAVE_KNOCKOUT = 2;
+	public static final int RAVE_BLEEDING = 3;
+	public static final int RAVE_STEAL = 4;
+	public static final int RAVE_SUBSTATS = 5;
+	public static final int RANDOM_RAVE = 6;
 
-	public static final int RAVE_CONCENTRATION = 5;
-	public static final int RAVE_NIRVANA = 6;
-	public static final int RAVE_KNOCKOUT = 7;
-	public static final int RAVE_BLEEDING = 8;
-	public static final int RAVE_STEAL = 9;
-	public static final int RAVE_SUBSTATS = 10;
-	public static final int RANDOM_RAVE = 11;
-
-	public static final int FIRST_RAVE_COMBO = 5;
-	public static final int NUM_COMBOS = 12;
+	public static final int FIRST_RAVE_COMBO = 0;
+	public static final int NUM_COMBOS = 7;
 
 	public static final String [][] COMBOS =
 	{
-		{
-			"Disco Concentration",
-			"Item Drop +20",
-		},
-		{
-			"Disco Nirvana",
-			"Meat Drop +30",
-		},
-		{
-			"Disco Inferno",
-			"Moxie +5, Hot Damage +3",
-		},
-		{
-			"Disco Bleeding",
-			"Recurring damage",
-		},
-		{
-			"Disco Blindness",
-			"Monster stunned",
-		},
 		{
 			"Rave Concentration",
 			"Item Drop +30",
@@ -176,32 +134,6 @@ public class DiscoCombatHelper
 
 	private static int[][][] COMBO_SKILLS =
 	{
-		// Disco Concentration
-		{
-			{ DISCO_EYE_POKE },
-			{ DISCO_DANCE_OF_DOOM },
-			{ DISCO_DANCE_II },
-		},
-		// Disco Nirvana
-		{
-			{ DISCO_DANCE_OF_DOOM },
-			{ DISCO_DANCE_II },
-		},
-		// Disco Inferno
-		{
-			{ DISCO_EYE_POKE },
-			{ DISCO_DANCE_II },
-		},
-		// Disco Bleeding
-		{
-			{ DISCO_DANCE_OF_DOOM, DISCO_DANCE_II },
-			{ DISCO_FACE_STAB },
-		},
-		// Disco Blindness
-		{
-			{ DISCO_DANCE_OF_DOOM, DISCO_DANCE_II },
-			{ DISCO_EYE_POKE },
-		},
 		// Rave Concentration
 		{
 			{ UNKNOWN },
@@ -819,6 +751,7 @@ public class DiscoCombatHelper
 			}
 			buffer.append( "</caption>" );
 		}
+
 		for ( int i = 0; i < NUM_COMBOS; ++i )
 		{
 			if ( !knownCombo[ i ] )
