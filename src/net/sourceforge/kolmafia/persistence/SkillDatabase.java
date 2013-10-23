@@ -810,12 +810,14 @@ public class SkillDatabase
 	{
 		switch ( skillId )
 		{
-			case SkillPool.SMILE_OF_MR_A:
-			case SkillPool.SUMMON_MINION:
-			case SkillPool.SUMMON_HORDE:
-				return true;
-			default:
-				return false;
+		case SkillPool.SMILE_OF_MR_A:
+		case SkillPool.SUMMON_MINION:
+		case SkillPool.SUMMON_HORDE:
+		case SkillPool.HIBERNATE:
+		case SkillPool.THATS_NOT_A_KNIFE:
+			return true;
+		default:
+			return false;
 		}
 	}
 
