@@ -43,8 +43,12 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.moods.HPRestoreItemList;
+
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.request.UneffectRequest;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
@@ -411,12 +415,16 @@ public class CharSheetRequest
 
 			token = cleanContent.nextToken();
 		}
-
+		
 		// Finally, set the class name that we figured out.
 		KoLCharacter.setClassName( className );
 
 		KoLCharacter.setAvailableSkills( newSkillSet );
 		KoLCharacter.setPermedSkills( permedSkillSet );
+
+		// Update uneffect methods and heal amounts for updated skills
+		UneffectRequest.reset();
+		HPRestoreItemList.updateHealthRestored();
 	}
 
 	/**
