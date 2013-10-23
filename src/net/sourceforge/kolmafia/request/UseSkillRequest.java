@@ -1214,52 +1214,6 @@ public class UseSkillRequest
 		return this.skillId;
 	}
 
-	public static final UseSkillRequest getInstance( final int skillId )
-	{
-		return UseSkillRequest.getInstance( SkillDatabase.getSkillName( skillId ) );
-	}
-
-	public static final UseSkillRequest getInstance( final String skillName, final Concoction conc )
-	{
-		return UseSkillRequest.getInstance( skillName, KoLCharacter.getUserName(), 1, conc );
-	}
-
-	public static final UseSkillRequest getInstance( final String skillName, final int buffCount )
-	{
-		return UseSkillRequest.getInstance( skillName, KoLCharacter.getUserName(), buffCount, null );
-	}
-
-	public static final UseSkillRequest getInstance( final String skillName, final String target, final int buffCount )
-	{
-		return UseSkillRequest.getInstance( skillName, target, buffCount, null );
-	}
-
-	public static final UseSkillRequest getInstance( final String skillName, final String target, final int buffCount, final Concoction conc )
-	{
-		UseSkillRequest instance = UseSkillRequest.getInstance( skillName );
-		if ( instance == null )
-		{
-			return null;
-		}
-
-		instance.setTarget( target == null || target.equals( "" ) ? KoLCharacter.getUserName() : target );
-		instance.setBuffCount( buffCount );
-
-		// Clip Art request
-		if ( conc != null )
-		{
-			int clip1 = ( conc.getParam() >> 16 ) & 0xFF;
-			int clip2 = ( conc.getParam() >> 8  ) & 0xFF;
-			int clip3 = conc.getParam() & 0xFF;
-
-			instance.addFormField( "clip1", String.valueOf( clip1 ) );
-			instance.addFormField( "clip2", String.valueOf( clip2 ) );
-			instance.addFormField( "clip3", String.valueOf( clip3 ) );
-		}
-
-		return instance;
-	}
-
 	public static final UseSkillRequest getUnmodifiedInstance( String skillName )
 	{
 		if ( skillName == null || !SkillDatabase.contains( skillName ) )
@@ -1280,21 +1234,56 @@ public class UseSkillRequest
 
 	public static final UseSkillRequest getInstance( String skillName )
 	{
-		if ( skillName == null || !SkillDatabase.contains( skillName ) )
+		UseSkillRequest request = UseSkillRequest.getUnmodifiedInstance( skillName );
+		if ( request != null )
 		{
-			return null;
+			request.setTarget( KoLCharacter.getUserName() );
+			request.setBuffCount( 0 );
+		}
+		return request;
+	}
+
+	public static final UseSkillRequest getInstance( final int skillId )
+	{
+		return UseSkillRequest.getInstance( SkillDatabase.getSkillName( skillId ) );
+	}
+
+	public static final UseSkillRequest getInstance( final String skillName, final int buffCount )
+	{
+		return UseSkillRequest.getInstance( skillName, null, buffCount );
+	}
+
+	public static final UseSkillRequest getInstance( final String skillName, final String target, final int buffCount )
+	{
+		UseSkillRequest request = UseSkillRequest.getUnmodifiedInstance( skillName );
+		if ( request != null )
+		{
+			request.setTarget( target == null || target.equals( "" ) ? KoLCharacter.getUserName() : target );
+			request.setBuffCount( buffCount );
+		}
+		return request;
+	}
+
+	public static final UseSkillRequest getInstance( final String skillName, final Concoction conc )
+	{
+		// Summon Clip Art
+
+		UseSkillRequest request = UseSkillRequest.getUnmodifiedInstance( skillName );
+		if ( request != null )
+		{
+			request.setTarget( null );
+			request.setBuffCount( 1 );
+
+			int param = conc.getParam();
+			int clip1 = ( param >> 16 ) & 0xFF;
+			int clip2 = ( param >>  8 ) & 0xFF;
+			int clip3 = ( param       ) & 0xFF;
+
+			request.addFormField( "clip1", String.valueOf( clip1 ) );
+			request.addFormField( "clip2", String.valueOf( clip2 ) );
+			request.addFormField( "clip3", String.valueOf( clip3 ) );
 		}
 
-		skillName = StringUtilities.getCanonicalName( skillName );
-		UseSkillRequest request = (UseSkillRequest) UseSkillRequest.ALL_SKILLS.get( skillName );
-		if ( request == null )
-		{
-			request = new UseSkillRequest( skillName );
-			UseSkillRequest.ALL_SKILLS.put( skillName, request );
-		}
-
-		request.setTarget( KoLCharacter.getUserName() );
-		request.setBuffCount( 0 );
 		return request;
 	}
 
