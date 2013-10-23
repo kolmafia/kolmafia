@@ -328,7 +328,7 @@ public class StationaryButtonDecorator
 			urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
 
 		boolean inBirdForm = KoLConstants.activeEffects.contains( FightRequest.BIRDFORM );
-		if ( inBirdForm || KoLCharacter.isMoxieClass() )
+		if ( KoLCharacter.canPickpocket() )
 		{
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, "steal", FightRequest.canStillSteal() );
