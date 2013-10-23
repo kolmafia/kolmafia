@@ -145,6 +145,7 @@ chisel	useless powder
 
 # Summoned Disco Knives are useless.
 boot knife	useless powder
+broken beer bottle	useless powder
 sharpened spoon	useless powder
 candy knife	useless powder
 soap knife	useless powder
