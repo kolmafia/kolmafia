@@ -2391,15 +2391,13 @@ public abstract class SorceressLairManager
 				return;
 			}
 
-			matcher = SorceressLairManager.ACQUIRE_PATTERN.matcher( location );
+			matcher = SorceressLairManager.ACQUIRE_PATTERN.matcher( buffer );
 			if ( !matcher.find() )
 			{
 				return;
 			}
 
 			key = ItemDatabase.getItemId( matcher.group( 1 ) );
-
-			// *** Do we successfully add the key to inventory?
 		}
 
 		if ( key == ItemPool.DIGITAL_KEY )

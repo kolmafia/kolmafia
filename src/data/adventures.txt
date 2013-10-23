@@ -299,13 +299,13 @@ Events	adventure=216	true	unknown	Shivering Timbers
 
 Events	adventure=244	true	unknown	A Skeleton Invasion!
 Events	adventure=245	true	unknown	The Cannon Museum
-Events	adventure=268	true	unknown	A Pile of Old Servers
-
 Events	invasion=1	true	none	A Swarm of Yeti-Mounted Skeletons
 Events	invasion=2	true	none	The Bonewall
 Events	invasion=3	true	none	A Massive Flying Battleship
 Events	invasion=4	true	none	A Supply Train
 Events	invasion=5	true	none	The Bone Star
+
+Events	adventure=268	true	unknown	A Pile of Old Servers
 
 Events	adventure=269	true	unknown	The Haunted Sorority House	1 choiceadv
 
