@@ -724,8 +724,8 @@ public abstract class KoLCharacter
 		KoLConstants.buffSkills.clear();
 		KoLConstants.availableSkills.clear();
 		KoLConstants.availableSkillsMap.clear();
-		KoLConstants.availableConditionalSkills.clear();
-		KoLConstants.availableConditionalSkillsMap.clear();
+		KoLConstants.availableCombatSkills.clear();
+		KoLConstants.availableCombatSkillsMap.clear();
 		KoLConstants.combatSkills.clear();
 
 		// All characters get the option to
@@ -3590,25 +3590,25 @@ public abstract class KoLCharacter
 	 * Adds a single skill to the list of skills temporarily possessed by this character.
 	 */
 
-	private static final void addAvailableConditionalSkill( final UseSkillRequest skill )
+	private static final void addAvailableCombatSkill( final UseSkillRequest skill )
 	{
 		if ( skill == null )
 		{
 			return;
 		}
 
-		if ( KoLConstants.availableConditionalSkillsMap.containsKey( skill ) )
+		if ( KoLConstants.availableCombatSkillsMap.containsKey( skill ) )
 		{
 			return;
 		}
 
-		KoLConstants.availableConditionalSkills.add( skill );
-		KoLConstants.availableConditionalSkillsMap.put( skill, null );
+		KoLConstants.availableCombatSkills.add( skill );
+		KoLConstants.availableCombatSkillsMap.put( skill, null );
 	}
 
-	public static final void addAvailableConditionalSkill( final String name )
+	public static final void addAvailableCombatSkill( final String name )
 	{
-		KoLCharacter.addAvailableConditionalSkill( UseSkillRequest.getInstance( name ) );
+		KoLCharacter.addAvailableCombatSkill( UseSkillRequest.getInstance( name ) );
 	}
 
 	/**
