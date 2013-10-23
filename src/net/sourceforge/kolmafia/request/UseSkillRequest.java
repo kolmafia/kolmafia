@@ -360,7 +360,7 @@ public class UseSkillRequest
 		int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
 		if ( mpCost == 0 )
 		{
-			this.buffCount = 0;
+			this.buffCount = buffCount;
 			return;
 		}
 

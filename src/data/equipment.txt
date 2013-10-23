@@ -785,6 +785,7 @@ bounty-hunting rifle	100	Mox: 25	2-handed rifle
 bow staff	100	Mus: 35	2-handed staff
 boxing glove on a spring	55	Mox: 12	1-handed club
 brand new key	200	Mus: 85	1-handed knife
+broken beer bottle	75	Mus: 10	1-handed knife
 broken sword	135	Mus: 52	1-handed sword
 bubble bauble bow	80	Mox: 25	2-handed bow
 bubblewrap crossbow	60	Mox: 15	2-handed crossbow
