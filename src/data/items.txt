@@ -6803,10 +6803,10 @@
 6786
 6787
 6788	blank diary	248829997	book3.gif	usable	t	0
-6789
+6789	boot knife	256242909	bootknife.gif	weapon	t,d	5
 6790
 6791	sharpened spoon	256242909	spooknife.gif	weapon	t,d	5
-6792
+6792	candy knife	995423616	candyknife.gif	weapon	t,d	5
 6793	soap knife	312384075	soapknife.gif	weapon	t,d	5
 6794
 6795	disco horoscope (Aquarius)	400988957	horoscope.gif	multiple	t	0
