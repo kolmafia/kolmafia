@@ -1471,6 +1471,12 @@ public class EquipmentManager
 			( includeEffect && KoLConstants.activeEffects.contains( EquipmentManager.IRON_PALM ) && type.equals( "sword" ) );
 	}
 
+	public static final boolean wieldingKnife()
+	{
+		String type = EquipmentDatabase.getItemType( EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() );
+		return type.equals( "knife" );
+	}
+
 	/**
 	 * Accessor method to determine if character is currently using a shield
 	 *
@@ -1508,6 +1514,12 @@ public class EquipmentManager
 		case RANGED:
 			return Stat.MOXIE;
 		default:
+			if ( KoLCharacter.getAdjustedMoxie() > KoLCharacter.getAdjustedMuscle() 
+				&& EquipmentManager.wieldingKnife()
+				&& KoLCharacter.hasSkill( "Tricky Knifework" ) )
+			{
+				return Stat.MOXIE;
+			}
 			return Stat.MUSCLE;
 		}
 	}
