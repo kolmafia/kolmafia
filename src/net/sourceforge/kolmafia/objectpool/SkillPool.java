@@ -84,6 +84,7 @@ public class SkillPool
 	public static final int SHADOW_NOODLES = 102;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int CLOBBER = 1022;
+	public static final int HIBERNATE = 1027;
 	public static final int CLUBFOOT = 1033;
 	public static final int TOSS = 2023;
 	public static final int HEAD_KNEE = 2103;
@@ -110,6 +111,7 @@ public class SkillPool
 	public static final int ADVENTURER_OF_LEISURE = 5011;
 	public static final int ADVANCED_COCKTAIL = 5014;
 	public static final int SUCKERPUNCH = 5021;
+	public static final int THATS_NOT_A_KNIFE = 5028;
 	public static final int ODE_TO_BOOZE = 6014;
 	public static final int THINGFINDER = 6020;
 	public static final int BENETTONS = 6021;
