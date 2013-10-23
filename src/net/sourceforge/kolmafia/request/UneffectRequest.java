@@ -334,7 +334,7 @@ public class UneffectRequest
 	private static Set REMOVABLE_BY_ITEM;
 	private static final Map<Integer, Set<String>> removeWithItemMap = new LinkedHashMap<Integer, Set<String>>();
 
-	static
+	public static final void reset()
 	{
 		Set<String> removableEffects;
 
@@ -382,10 +382,6 @@ public class UneffectRequest
 		UneffectRequest.REMOVABLE_BY_ITEM = removeWithItemMap.entrySet();
 
 		removableEffects = new HashSet<String>();
-		removeWithSkillMap.put( "Tongue of the Otter", removableEffects );
-		removableEffects.add( "Beaten Up" );
-
-		removableEffects = new HashSet<String>();
 		removeWithSkillMap.put( "Tongue of the Walrus", removableEffects );
 		removableEffects.add( "Axe Wound" );
 		removableEffects.add( "Beaten Up" );
@@ -424,7 +420,12 @@ public class UneffectRequest
 		removeWithSkillMap.put( "Pep Talk", removableEffects );
 		removableEffects.add( "Overconfident" );
 
-		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();
+		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();	
+	}
+	
+	static
+	{
+		UneffectRequest.reset();
 	}
 
 	public static void removeEffectsWithItem( final int itemId )

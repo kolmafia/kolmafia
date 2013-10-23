@@ -76,6 +76,7 @@ public abstract class HPRestoreItemList
 	private static final HPRestoreItem SOFA = new HPRestoreItem( "sleep on your clan sofa", Integer.MAX_VALUE );
 	private static final HPRestoreItem CAMPGROUND = new HPRestoreItem( "rest at your campground", 40 );
 	private static final HPRestoreItem DISCOREST = new HPRestoreItem( "free disco rest", 40 );
+	private static final HPRestoreItem DISCONAP = new HPRestoreItem( "Disco Nap", 20 );
 
 	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", 1, 10 );
 	private static final HPRestoreItem NUNS = new HPRestoreItem( "visit the nuns", 1000 );
@@ -130,7 +131,7 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "cotton candy plug", 28 ),
 		new HPRestoreItem( "tiny house", 22 ),
 		new HPRestoreItem( "cotton candy skoshe", 22 ),
-		new HPRestoreItem( "Disco Nap", 20 ),
+		HPRestoreItemList.DISCONAP,
 		new HPRestoreItem( "Lasagna Bandages", 20 ),
 		new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ),
 		new HPRestoreItem( "cast", 17 ),
@@ -167,6 +168,7 @@ public abstract class HPRestoreItemList
 			KoLCharacter.getRestingHP();
 		HPRestoreItemList.SOFA.healthPerUse = KoLCharacter.getLevel() * 5 + 1;
 		HPRestoreItemList.GALAKTIK.purchaseCost = QuestLogRequest.galaktikCuresAvailable() ? 6 : 10;
+		HPRestoreItemList.DISCONAP.healthPerUse = KoLCharacter.hasSkill( "Adventurer of Leisure" ) ? 40 : 20;
 	}
 
 	public static final boolean contains( final AdventureResult item )

@@ -39,7 +39,10 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.moods.HPRestoreItemList;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -373,7 +376,13 @@ public class GuildRequest
 				{
 					ResultProcessor.processMeat( -cost );
 				}
+				// New skill may affect concocoction list or uneffect methods or amound healed.
 				ConcoctionDatabase.refreshConcoctions( true );
+				if ( skillId == SkillPool.ADVENTURER_OF_LEISURE )
+				{
+					UneffectRequest.reset();
+					HPRestoreItemList.updateHealthRestored();
+				}
 			}
 			return;
 		}
