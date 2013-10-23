@@ -1068,7 +1068,7 @@ seal-clubbing club	10	Mus: 0	1-handed club
 sealhide whip	35	Mus: 2	1-handed whip
 serpentine sword	115	Mus: 42	1-handed sword
 severed flipper	80	Mus: 25	1-handed club
-sharpened spoon	100	Mus: 20 1-handed knife
+sharpened spoon	100	Mus: 20	1-handed knife
 shiny butcherknife	30	Mys: 0	1-handed utensil
 short-handled mop	165	Mus: 67	1-handed
 shuddersword	125	Mus: 45	2-handed sword

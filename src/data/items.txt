@@ -6805,7 +6805,7 @@
 6788	blank diary	248829997	book3.gif	usable	t	0
 6789
 6790
-6791	sharpened spoon	256242909	spooknife.gif	weapon t,d	5
+6791	sharpened spoon	256242909	spooknife.gif	weapon	t,d	5
 6792
 6793	soap knife	312384075	soapknife.gif	weapon	t,d	5
 6794
