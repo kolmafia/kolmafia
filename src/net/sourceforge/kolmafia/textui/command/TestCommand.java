@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -156,7 +157,9 @@ public class TestCommand
 			String string = StringUtilities.getEncodedString( bytes, "UTF-8" );
 			TestCommand.contents = string;
 
-			KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( bytes.length ) + " bytes into a " + string.length() + " character string" );
+			KoLmafia.updateDisplay( "Read " + KoLConstants.COMMA_FORMAT.format( bytes.length ) +
+						" bytes into a " + KoLConstants.COMMA_FORMAT.format( string.length() ) +
+						" character string" );
 		}
 
 		if ( command.equals( "hedgepuzzle" ) )
@@ -346,6 +349,16 @@ public class TestCommand
 			String tale = TaleOfDreadCommand.extractTale( TestCommand.contents );
 			TestCommand.contents = null;
 			RequestLogger.printLine( tale );
+			return;
+		}
+
+		if ( command.equals( "digital" ) )
+		{
+			String location = "lair2.php?preaction=key&whichkey=6663";
+			StringBuffer buffer = new StringBuffer( TestCommand.contents );
+			TestCommand.contents = null;
+			SorceressLairManager.decorateKey( location, buffer );
+			TestCommand.dump( buffer.toString() );
 			return;
 		}
 	}
