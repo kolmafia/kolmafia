@@ -173,7 +173,7 @@ public class FightRequest
 	private static int dreadCastleKisses = 0;
 
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
-	private static final Pattern CONDITIONAL_COMBATSKILL_PATTERN = Pattern.compile( "<option[^>]*?value=\"(7\\d{3,3})[^>]*?>[^>]*?\\((\\d+)[^<]*</option>" );
+	private static final Pattern AVAILABLE_COMBATSKILL_PATTERN = Pattern.compile( "<option[^>]*?value=\"(\\d+)[^>]*?>[^>]*?\\((\\d+)[^<]*</option>" );
 
 	public static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
@@ -3405,7 +3405,7 @@ public class FightRequest
 		}
 	}
 
-	public static final void parseConditionalCombatSkills( String responseText )
+	public static final void parseAvailableCombatSkills( String responseText )
 	{
 		// The current round will be zero when the fight is over.
 		// If you run with the WOWbar, the skills dropdown will
@@ -3426,14 +3426,14 @@ public class FightRequest
 			return;
 		}
 
-		KoLConstants.availableConditionalSkills.clear();
-		KoLConstants.availableConditionalSkillsMap.clear();
+		KoLConstants.availableCombatSkills.clear();
+		KoLConstants.availableCombatSkillsMap.clear();
 
-		Matcher m = FightRequest.CONDITIONAL_COMBATSKILL_PATTERN.matcher( responseText.substring( startIndex, endIndex ) );
+		Matcher m = FightRequest.AVAILABLE_COMBATSKILL_PATTERN.matcher( responseText.substring( startIndex, endIndex ) );
 		while ( m.find() )
 		{
 			int skillId = StringUtilities.parseInt( m.group( 1 ) );
-			KoLCharacter.addAvailableConditionalSkill( SkillDatabase.getSkillName( skillId ) );
+			KoLCharacter.addAvailableCombatSkill( SkillDatabase.getSkillName( skillId ) );
 		}
 	}
 

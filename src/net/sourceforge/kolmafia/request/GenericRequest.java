@@ -2250,7 +2250,7 @@ public class GenericRequest
 		{ // This has to be done after parseResults() to properly
 			// deal with combat items received during combat.
 			FightRequest.parseCombatItems( this.responseText );
-			FightRequest.parseConditionalCombatSkills( this.responseText );
+			FightRequest.parseAvailableCombatSkills( this.responseText );
 		}
 
 		// Now let the main method of result processing for

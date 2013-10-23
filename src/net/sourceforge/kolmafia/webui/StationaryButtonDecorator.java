@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -355,24 +356,27 @@ public class StationaryButtonDecorator
 			&& !KoLCharacter.getClassName().equals( "Seal Clubber" )
 			&& !KoLCharacter.getClassName().equals( "Disco Bandit" ) )
 		{
+			UseSkillRequest noodleRequest = UseSkillRequest.getInstance( "Entangling Noodles" );
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
-				FightRequest.canCastNoodles();
+				KoLConstants.availableCombatSkills.contains( noodleRequest );
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, "3004", enabled );
 		}
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Club Foot" ) && KoLCharacter.getClassName().equals( "Seal Clubber") )
 		{
+			UseSkillRequest noodleRequest = UseSkillRequest.getInstance( "Club Foot" );
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
-				FightRequest.canCastClubFoot();
+				KoLConstants.availableCombatSkills.contains( noodleRequest );
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, "1033", enabled );
 		}
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Transcendent Olfaction" ) )
 		{
+			UseSkillRequest noodleRequest = UseSkillRequest.getInstance( "Transcendent Olfaction" );
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
-				FightRequest.canOlfact();
+				KoLConstants.availableCombatSkills.contains( noodleRequest );
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, "19", enabled );
 		}
@@ -444,17 +448,20 @@ public class StationaryButtonDecorator
 		// Add conditionally available combat skills
 		// parsed from the fight page
 
-		for ( int i = 0; i < KoLConstants.availableConditionalSkills.size(); ++i )
+		for ( int i = 0; i < KoLConstants.availableCombatSkills.size(); ++i )
 		{
-			UseSkillRequest current = (UseSkillRequest) KoLConstants.availableConditionalSkills.get( i );
-			String action = String.valueOf( current.getSkillId() );
-
-			StationaryButtonDecorator.addFightButton(
-				urlString,
-				buffer,
-				actionBuffer,
-				action,
-				FightRequest.getCurrentRound() > 0 );
+			UseSkillRequest current = (UseSkillRequest) KoLConstants.availableCombatSkills.get( i );
+			int actionId = current.getSkillId();
+			String action = String.valueOf( actionId );
+			if ( actionId >= 7000 && actionId < 8000 )
+			{
+				StationaryButtonDecorator.addFightButton(
+					urlString,
+					buffer,
+					actionBuffer,
+					action,
+					FightRequest.getCurrentRound() > 0 );
+			}
 		}
 
 		if ( StationaryButtonDecorator.combatHotkeys.isEmpty() )
@@ -552,14 +559,8 @@ public class StationaryButtonDecorator
 				buffer.append( "action=skill&whichskill=" );
 				buffer.append( action );
 				int skillID = StringUtilities.parseInt( action );
-				isEnabled &=
-					SkillDatabase.getMPConsumptionById( skillID ) <= KoLCharacter.getCurrentMP();
-				if ( SkillDatabase.getSkillName( skillID ).equals( "Club Foot" ) 
-					|| SkillDatabase.getSkillName( skillID ).equals( "Furious Wallop" )
-					|| SkillDatabase.getSkillName( skillID ).equals( "Cavalcade of Fury" ) )
-				{
-					isEnabled &= KoLCharacter.getFury() > 0;
-				}
+				UseSkillRequest actionRequest = UseSkillRequest.getInstance( skillID );
+				isEnabled &= KoLConstants.availableCombatSkills.contains( actionRequest );
 			}
 		}
 
