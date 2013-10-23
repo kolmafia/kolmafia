@@ -144,7 +144,9 @@ hemp string	useless powder
 chisel	useless powder
 
 # Summoned Disco Knives are useless.
+boot knife	useless powder
 sharpened spoon	useless powder
+candy knife	useless powder
 soap knife	useless powder
 
 # Anniversary items do not appear in the Pulverize menu online, however they

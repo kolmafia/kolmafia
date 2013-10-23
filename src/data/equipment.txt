@@ -779,6 +779,7 @@ bone flute	110	Mox: 40	2-handed flute
 bone rattle	30	Mox: 0	1-handed rattle
 bonerang	20	Mox: 0	1-handed boomerang
 boning knife	20	Mus: 0	1-handed knife
+boot knife	50	Mus: 0	1-handed knife
 bottle-rocket crossbow	100	Mox: 0	1-handed crossbow
 bounty-hunting rifle	100	Mox: 25	2-handed rifle
 bow staff	100	Mus: 35	2-handed staff
@@ -798,6 +799,7 @@ can cannon	75	Mox: 22	2-handed crossbow
 can of fake snow	100	Mox: 35	1-handed can
 can of maces	50	Mox: 10	1-handed club
 can-you-dig-it?	10	Mus: 0	1-handed spade
+candy knife	150	Mus: 40	1-handed knife
 candy knuckles	10	Mus: 0	1-handed knuckles
 cardboard crossbow	60	Mox: 15	2-handed crossbow
 cardboard katana	30	Mus: 0	1-handed sword
