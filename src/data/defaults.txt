@@ -880,6 +880,7 @@ user	_defectiveTokenUsed	false
 user	_deluxeKlawSummons	0
 user	_defectiveTokenChecked	false
 user	_demandSandwich	0
+user	_discoKnife	false
 user	_distentionPillUsed	false
 user	_donhosCasts	0
 user	_dreamJarDrops	0

@@ -438,14 +438,19 @@ public class UseSkillRequest
 			maximumCast = Preferences.getBoolean( "_lunchBreak" ) ? 0 : 1;
 			break;
 
-		// Spaghetti Breakfast
+		// Spaghetti Breakfast once a day
 		case SkillPool.SPAGHETTI_BREAKFAST:
 			maximumCast = Preferences.getBoolean( "_spaghettiBreakfast" ) ? 0 : 1;
 			break;
 
-		// Grab a Cold One
+		// Grab a Cold One once a day
 		case SkillPool.GRAB_A_COLD_ONE:
 			maximumCast = Preferences.getBoolean( "_coldOne" ) ? 0 : 1;
+			break;
+
+		// That's Not a Knife once a day
+		case SkillPool.THATS_NOT_A_KNIFE:
+			maximumCast = Preferences.getBoolean( "_discoKnife" ) ? 0 : 1;
 			break;
 
 		// Summon "Boner Battalion" can be used once per day
@@ -1575,6 +1580,10 @@ public class UseSkillRequest
 
 		case SkillPool.GRAB_A_COLD_ONE:
 			Preferences.setBoolean( "_coldOne", true );
+			break;
+
+		case SkillPool.THATS_NOT_A_KNIFE:
+			Preferences.setBoolean( "_discoKnife", true );
 			break;
 
 		case SkillPool.SUMMON_BONERS:
