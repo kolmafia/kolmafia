@@ -40,7 +40,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -375,18 +374,17 @@ public class StationaryButtonDecorator
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Club Foot" ) && KoLCharacter.getClassName().equals( "Seal Clubber") )
 		{
-			UseSkillRequest noodleRequest = UseSkillRequest.getInstance( "Club Foot" );
+			UseSkillRequest clubFootRequest = UseSkillRequest.getInstance( "Club Foot" );
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
-				KoLConstants.availableCombatSkills.contains( noodleRequest );
+				KoLConstants.availableCombatSkills.contains( clubFootRequest );
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, "1033", enabled );
 		}
 
 		if ( !inBirdForm && KoLCharacter.hasSkill( "Transcendent Olfaction" ) )
 		{
-			UseSkillRequest noodleRequest = UseSkillRequest.getInstance( "Transcendent Olfaction" );
 			boolean enabled = FightRequest.getCurrentRound() > 0 &&
-				KoLConstants.availableCombatSkills.contains( noodleRequest );
+				FightRequest.canOlfact();
 			StationaryButtonDecorator.addFightButton(
 				urlString, buffer, actionBuffer, "19", enabled );
 		}
