@@ -722,6 +722,8 @@ public abstract class KoLCharacter
 		KoLConstants.remedySkills.clear();
 		KoLConstants.selfOnlySkills.clear();
 		KoLConstants.buffSkills.clear();
+		KoLConstants.songSkills.clear();
+		KoLConstants.expressionSkills.clear();
 		KoLConstants.availableSkills.clear();
 		KoLConstants.availableSkillsMap.clear();
 		KoLConstants.availableCombatSkills.clear();
@@ -3442,6 +3444,8 @@ public abstract class KoLCharacter
 		KoLConstants.remedySkills.sort();
 		KoLConstants.selfOnlySkills.sort();
 		KoLConstants.buffSkills.sort();
+		KoLConstants.songSkills.sort();
+		KoLConstants.expressionSkills.sort();
 
 		int battleIndex = KoLCharacter.battleSkillNames.indexOf( Preferences.getString( "battleAction" ) );
 		KoLCharacter.battleSkillNames.setSelectedIndex( battleIndex == -1 ? 0 : battleIndex );
@@ -3566,6 +3570,10 @@ public abstract class KoLCharacter
 		case SkillDatabase.SONG:
 			KoLConstants.usableSkills.add( skill );
 			KoLConstants.usableSkills.sort();
+			KoLConstants.selfOnlySkills.add( skill );
+			KoLConstants.selfOnlySkills.sort();
+			KoLConstants.songSkills.add( skill );
+			KoLConstants.songSkills.sort();
 			break;
 
 		case SkillDatabase.COMBAT:
@@ -3583,6 +3591,16 @@ public abstract class KoLCharacter
 		case SkillDatabase.COMBAT_PASSIVE:
 			KoLCharacter.addCombatSkill( skill.getSkillName() );
 			break;
+
+		case SkillDatabase.EXPRESSION:
+			KoLConstants.usableSkills.add( skill );
+			KoLConstants.usableSkills.sort();
+			KoLConstants.selfOnlySkills.add( skill );
+			KoLConstants.selfOnlySkills.sort();
+			KoLConstants.expressionSkills.add( skill );
+			KoLConstants.expressionSkills.sort();
+			break;
+
 		}
 	}
 

@@ -236,6 +236,8 @@ public class SkillBuffFrame
 			addItem( "Remedies" );
 			addItem( "Self-Only" );
 			addItem( "Buffs" );
+			addItem( "Songs" );
+			addItem( "Expressions" );
 			addActionListener( new SkillTypeListener() );
 		}
 
@@ -266,6 +268,14 @@ public class SkillBuffFrame
 				case 4:
 					// Buff skills
 					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.buffSkills );
+					break;
+				case 5:
+					// Song skills
+					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.songSkills );
+					break;
+				case 6:
+					// Expression skills
+					SkillBuffFrame.this.skillSelect.setModel( KoLConstants.expressionSkills );
 					break;
 				}
 			}

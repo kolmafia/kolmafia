@@ -486,6 +486,7 @@ public class ProxyRecordValue
 			.add( "buff", DataTypes.BOOLEAN_TYPE )
 			.add( "combat", DataTypes.BOOLEAN_TYPE )
 			.add( "song", DataTypes.BOOLEAN_TYPE )
+			.add( "expression", DataTypes.BOOLEAN_TYPE )
 			.add( "permable", DataTypes.BOOLEAN_TYPE )
 			.add( "dailylimit", DataTypes.INT_TYPE )
 			.add( "timescast", DataTypes.INT_TYPE )
@@ -535,6 +536,11 @@ public class ProxyRecordValue
 		public boolean get_song()
 		{
 			return SkillDatabase.isSong( (int)this.contentLong );
+		}
+
+		public boolean get_expression()
+		{
+			return SkillDatabase.isExpression( (int)this.contentLong );
 		}
 
 		public boolean get_permable()
