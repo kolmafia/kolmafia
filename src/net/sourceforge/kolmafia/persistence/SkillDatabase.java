@@ -92,6 +92,7 @@ public class SkillDatabase
 	public static final int SONG = 6;
 	public static final int COMBAT_NONCOMBAT_REMEDY = 7;
 	public static final int COMBAT_PASSIVE = 8;
+	public static final int EXPRESSION = 9;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String CONDITIONAL = "conditional";
@@ -746,7 +747,7 @@ public class SkillDatabase
 			return false;
 		int type = ( (Integer) skillType ).intValue();
 		return type == SUMMON || type == REMEDY || type == SELF_ONLY ||
-			   type == SONG || type == COMBAT_NONCOMBAT_REMEDY;
+			   type == SONG || type == COMBAT_NONCOMBAT_REMEDY || type == EXPRESSION;
 	}
 
 	/**
@@ -794,6 +795,17 @@ public class SkillDatabase
 	public static final boolean isSong( final int skillId )
 	{
 		return SkillDatabase.isType( skillId, SkillDatabase.SONG );
+	}
+
+	/**
+	 * Returns whether or not the skill is an expression
+	 *
+	 * @return <code>true</code> if the skill is an expression
+	 */
+
+	public static final boolean isExpression( final int skillId )
+	{
+		return SkillDatabase.isType( skillId, SkillDatabase.EXPRESSION );
 	}
 
 	/**
@@ -991,7 +1003,8 @@ public class SkillDatabase
 			else if ( type == SkillDatabase.CASTABLE )
 			{
 				shouldAdd = skillType == SUMMON || skillType == REMEDY || skillType == SELF_ONLY || 
-							skillType == BUFF || skillType == SONG || skillType == COMBAT_NONCOMBAT_REMEDY;
+							skillType == BUFF || skillType == SONG || skillType == COMBAT_NONCOMBAT_REMEDY ||
+							skillType == EXPRESSION;
 			}
 			else if ( type == SkillDatabase.COMBAT )
 			{

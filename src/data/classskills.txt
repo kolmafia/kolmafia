@@ -11,6 +11,7 @@
 #     6 (One-at-a-time Noncombat Song)
 #     7 (Combat/Noncombat healing)
 #     8 (Combat/Passive)
+#     9 (One-at-a-time Noncombat Expression)
 
 1	Liver of Steel	0	0	0
 2	Chronic Indigestion	5	5	0
@@ -153,7 +154,7 @@
 1017	Double-Fisted Skull Smashing	0	0	0	12
 1018	Northern Exposure	0	0	0	13
 1019	Musk of the Moose	3	10	10	14
-1020	Snarl of the Timberwolf	3	10	10
+1020	Snarl of the Timberwolf	9	10	10
 1021
 1022	Clobber	5	1	0	0
 1023	Harpoon!	5	30	0
@@ -164,7 +165,7 @@
 1028	Cold Shoulder	0	0	0	3
 1029	Wrath of the Wolverine	0	0	0	4
 1030	Buoyancy of the Beluga	0	0	0	5
-1031	Scowl of the Auk	3	8	10	6
+1031	Scowl of the Auk	9	8	10	6
 1032	Furious Wallop	5	5	0	7
 1033	Club Foot	5	8	0	8
 1034	Seething of the Snow Leopard	0	0	0	9
@@ -305,7 +306,7 @@
 5028	That's Not a Knife	1	0	0	5
 5029	Tricky Knifework	0	0	0	7
 5030	Flashy Dancer	0	0	0	7
-5031	Disco Smirk	3	10	0	8
+5031	Disco Smirk	9	10	0	8
 5032	Disco Greed	0	0	0	9
 5033	Knife in the Dark	5	10	0	9
 5034	Disco Bravado	0	0	0	10
@@ -313,7 +314,7 @@
 5036	Disco Dance 3: Back in the Habit	5	10	0	11
 5037	Disco Inferno	5	15	0	12
 5038	Sensitive Fingers	0	0	0	14
-5039	Disco Leer	3	10	0	15
+5039	Disco Leer	9	10	0	15
 
 # Skills available to Thieves
 
