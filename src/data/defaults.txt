@@ -150,6 +150,7 @@ global	relayOverridesImages	false
 global	relayRunsAfterAdventureScript	false
 global	relayRunsBeforeBattleScript	false
 global	relayRunsBeforePVPScript	false
+global	relayScriptButtonFirst	false
 global	relaySkillButtonCount	5
 global	relayTextualizesEffects	false
 global	relayTrimsZapList	false

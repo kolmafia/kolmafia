@@ -323,10 +323,20 @@ public class StationaryButtonDecorator
 		actionBuffer.append( "<div id=\"mafiabuttons\"><center>" );
 		actionBuffer.append( "<table width=\"95%\"><tr><td align=left>" );
 
-		StationaryButtonDecorator.addFightButton( urlString, buffer, actionBuffer, "attack", true );
+		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
+		{
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "script", true );
 
-		StationaryButtonDecorator.addFightButton(
-			urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
+			StationaryButtonDecorator.addFightButton( urlString, buffer, actionBuffer, "attack", FightRequest.getCurrentRound() > 0 );
+		}
+		else
+		{
+			StationaryButtonDecorator.addFightButton( urlString, buffer, actionBuffer, "attack", true );
+
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "script", FightRequest.getCurrentRound() > 0 );
+		}
 
 		boolean inBirdForm = KoLConstants.activeEffects.contains( FightRequest.BIRDFORM );
 		if ( KoLCharacter.canPickpocket() )
@@ -500,7 +510,15 @@ public class StationaryButtonDecorator
 	private static final void addFightButton( final String urlString, final StringBuffer response,
 		final StringBuffer buffer, final String action, boolean isEnabled )
 	{
-		boolean forceFocus = action.equals( "attack" );
+		boolean forceFocus = false;
+		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
+		{
+			forceFocus = action.equals( "script" );
+		}
+		else
+		{
+			forceFocus = action.equals( "attack" );
+		}
 
 		String name = StationaryButtonDecorator.getActionName( action );
 		buffer.append( "<input type=\"button\" onClick=\"document.location.href='" );
@@ -637,12 +655,22 @@ public class StationaryButtonDecorator
 
 	private static final String getActionName( final String action )
 	{
-		if ( action.equals( "attack" ) )
+		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
 		{
-			return FightRequest.getCurrentRound() == 0 ? "again" : "attack";
+			if ( action.equals( "script" ) )
+			{
+				return FightRequest.getCurrentRound() == 0 ? "again" : "script";
+			}
+		}
+		else
+		{
+			if ( action.equals( "attack" ) )
+			{
+				return FightRequest.getCurrentRound() == 0 ? "again" : "attack";
+			}
 		}
 
-		if ( action.equals( "steal" ) || action.equals( "jiggle" ) || action.equals( "summon" ) || action.equals( "script" ) )
+		if ( action.equals( "steal" ) || action.equals( "jiggle" ) || action.equals( "summon" ) || action.equals( "attack" ) || action.equals( "script" ) )
 		{
 			return action;
 		}
