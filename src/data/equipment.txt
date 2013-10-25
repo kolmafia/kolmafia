@@ -1508,6 +1508,7 @@ stuffed undead elbow macaroni	10	none
 stuffed yeti	10	none
 stuffed yo-yo	10	none
 stuffed zmobie	10	none
+sturdy cane	0	Mus: 10
 sucker bucket	50	none
 tailbone shield	250	Mus: 200	shield
 teflon shield	220	Mus: 85	shield

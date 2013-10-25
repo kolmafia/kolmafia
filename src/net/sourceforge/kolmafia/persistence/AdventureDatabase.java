@@ -899,6 +899,13 @@ public class AdventureDatabase
 				return "Mer-kin Temple";
 			}
 		}
+		else if ( urlString.startsWith( "town.php" ) )
+		{
+			if ( urlString.contains( "action=trickortreat" ) )
+			{
+				return "Trick-or-Treating";
+			}
+		}
 
 		return null;
 	}

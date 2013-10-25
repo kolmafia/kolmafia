@@ -1718,6 +1718,7 @@ studded sealhide shield	Muscle: +5, Maximum HP: +30, Damage Reduction: 7
 # stuffed yeti
 # stuffed yo-yo
 # stuffed zmobie
+sturdy cane	PvP Fights: +4, Fumble: 2, Initiative: -25
 sucker bucket	Candy Drop: +50
 # tailbone shield: Deals 80-100 Stench Damage to attackers
 tailbone shield	Stench Damage: +40, Damage Reduction: 16
