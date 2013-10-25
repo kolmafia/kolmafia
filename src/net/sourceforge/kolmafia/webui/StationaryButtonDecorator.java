@@ -389,6 +389,27 @@ public class StationaryButtonDecorator
 				urlString, buffer, actionBuffer, "19", enabled );
 		}
 
+		if ( !inBirdForm && FightRequest.canPirateInsult() )
+		{
+			boolean enabled = FightRequest.getCurrentRound() > 0;
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "insult", enabled );
+		}
+
+		if ( !inBirdForm && FightRequest.canJamFlyer() )
+		{
+			boolean enabled = FightRequest.getCurrentRound() > 0;
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "jam flyer", enabled );
+		}
+
+		if ( !inBirdForm && FightRequest.canRockFlyer() )
+		{
+			boolean enabled = FightRequest.getCurrentRound() > 0;
+			StationaryButtonDecorator.addFightButton(
+				urlString, buffer, actionBuffer, "rock flyer", enabled );
+		}
+
 		int buttons = Preferences.getInteger( "relaySkillButtonCount" );
 		for ( int i = 1; i <= buttons; ++i )
 		{
@@ -570,6 +591,32 @@ public class StationaryButtonDecorator
 				buffer.append( "action=summon" );
 				isEnabled &= FightRequest.canStillSummon();
 			}
+			else if ( action.equals( "insult" ) )
+			{
+				buffer.append( "action=useitem&whichitem=" );
+				if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.PIRATE_INSULT_BOOK, 1 ) )
+					&& !KoLCharacter.inBeecore() )
+				{
+					buffer.append( "2947" );
+				}
+				else if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.MARAUDER_MOCKERY_MANUAL, 1 ) )
+					&& KoLCharacter.inBeecore() )
+				{
+					buffer.append( "5120" );
+				}
+				else
+				{
+					isEnabled = false;
+				}
+			}
+			else if ( action.equals( "jam flyer" ) )
+			{
+				buffer.append( "action=useitem&whichitem=2404" );
+			}
+			else if ( action.equals( "rock flyer" ) )
+			{
+				buffer.append( "action=useitem&whichitem=2405" );
+			}
 			else
 			{
 				buffer.append( "action=skill&whichskill=" );
@@ -668,7 +715,9 @@ public class StationaryButtonDecorator
 			}
 		}
 
-		if ( action.equals( "steal" ) || action.equals( "jiggle" ) || action.equals( "summon" ) || action.equals( "attack" ) || action.equals( "script" ) )
+		if ( action.equals( "steal" ) || action.equals( "jiggle" ) || action.equals( "summon" ) 
+			|| action.equals( "attack" ) || action.equals( "script" ) || action.equals( "insult" )
+			|| action.equals( "jam flyer" ) || action.equals( "rock flyer" ) )
 		{
 			return action;
 		}

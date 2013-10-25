@@ -244,6 +244,8 @@ public class FightRequest
 	private static boolean castNoodles = false;
 	private static boolean castClubFoot = false;
 	private static boolean castCleesh = false;
+	private static boolean insultedPirate = false;
+	private static boolean usedFlyer = false;
 	private static boolean jiggledChefstaff = false;
 	private static boolean squeezedStressBall = false;
 	private static boolean canOlfact = true;
@@ -528,6 +530,60 @@ public class FightRequest
 		return FightRequest.canOlfact && !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
 	}
 
+	public static final boolean isPirate()
+	{
+		AreaCombatData barr = AdventureDatabase.getAreaCombatData( "Barrrney's Barrr" );
+		AreaCombatData belowdecks = AdventureDatabase.getAreaCombatData( "Belowdecks" );
+		AreaCombatData cove = AdventureDatabase.getAreaCombatData( "The Obligatory Pirate's Cove" );
+		AreaCombatData fcle = AdventureDatabase.getAreaCombatData( "The F'c'le" );
+		AreaCombatData poopDeck = AdventureDatabase.getAreaCombatData( "The Poop Deck" );
+		
+		MonsterData monster = MonsterDatabase.findMonster( MonsterStatusTracker.getLastMonsterName(), false );
+		
+		if( barr.hasMonster( monster )
+			|| belowdecks.hasMonster( monster )
+			|| cove.hasMonster( monster )
+			|| fcle.hasMonster( monster )
+			|| poopDeck.hasMonster( monster ) )
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public static final boolean canPirateInsult()
+	{
+		return ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.PIRATE_INSULT_BOOK, 1 ) )
+			|| KoLConstants.inventory.contains( ItemPool.get( ItemPool.MARAUDER_MOCKERY_MANUAL, 1 ) ) )
+			&& BeerPongRequest.countPirateInsults() != 8 && insultedPirate == false && isPirate();
+	}
+	
+	public static final boolean isBattlefieldMonster()
+	{
+		AreaCombatData fratbattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Frat Uniform)" );
+		AreaCombatData hippybattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Hippy Uniform)" );
+		
+		MonsterData monster = MonsterDatabase.findMonster( MonsterStatusTracker.getLastMonsterName(), false );
+		
+		if( fratbattlefield.hasMonster( monster ) || hippybattlefield.hasMonster( monster ) )
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public static final boolean canJamFlyer()
+	{
+		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.JAM_BAND_FLYERS, 1 ) )
+			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !isBattlefieldMonster();
+	}
+	
+	public static final boolean canRockFlyer()
+	{
+		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.ROCK_BAND_FLYERS, 1 ) )
+			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !isBattlefieldMonster();
+	}
+	
 	public static void initializeAfterFight()
 	{
 		FightRequest.initializeAfterFight = true;
@@ -3209,6 +3265,8 @@ public class FightRequest
 			return;
 		}
 
+		insultedPirate = true;
+		
 		KoLCharacter.ensureUpdatedPirateInsults();
 		if ( !Preferences.getBoolean( "lastPirateInsult" + insult ) )
 		{	// it's a new one
@@ -3274,6 +3332,7 @@ public class FightRequest
 			AdventureResult result = AdventureResult.tallyItem( "Arena flyer ML", ML, false );
 			AdventureResult.addResultToList( KoLConstants.tally, result );
 			GoalManager.updateProgress( result );
+			usedFlyer = true;
 		}
 	}
 
@@ -5323,6 +5382,8 @@ public class FightRequest
 		FightRequest.castNoodles = false;
 		FightRequest.castClubFoot = false;
 		FightRequest.castCleesh = false;
+		FightRequest.insultedPirate = false;
+		FightRequest.usedFlyer = false;
 		FightRequest.canOlfact = true;
 		FightRequest.jiggledChefstaff = false;
 		FightRequest.squeezedStressBall = false;
