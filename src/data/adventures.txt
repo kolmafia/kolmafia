@@ -257,7 +257,7 @@ Kegger	adventure=231	true	outdoor	Kegger in the Woods
 Magic Commune	adventure=232	true	outdoor	The Electric Lemonade Acid Parade
 Ellsbury's Claim	adventure=236	true	outdoor	Neckback Crick
 
-Holiday	trickortreat=Yep.	true	none	Trick-or-Treating
+Holiday	town=trickortreat	true	none	Trick-or-Treating
 Holiday	adventure=23	true	outdoor	Drunken Stupor
 Holiday	adventure=84	true	outdoor	St. Sneaky Pete's Day Stupor
 Holiday	adventure=163	true	outdoor	The Yuletide Bonfire
