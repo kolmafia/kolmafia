@@ -2,6 +2,7 @@
 # Hats section of equipment.txt
 
 Admiral's hat	200	Mox: 85
+All-Hallow's Steve's fright wig	100	Mox: 35
 Ancient Saucehelm	100	Mys: 15
 BRICKO hat	30	none
 Baron von Ratsworth's tophat	75	Mox: 22
