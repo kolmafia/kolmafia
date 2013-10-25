@@ -1443,6 +1443,7 @@ scissor duck	0	none
 sealhide buckler	160	Mus: 65	shield
 sealskin drum	160	Mus: 150
 sebaceous shield	35	Mus: 2	shield
+security flashlight	0	Mys: 10
 set of jacks	20	none
 sewer turtle	20	none	shield
 shadowy seal eye	100	Mus: 35

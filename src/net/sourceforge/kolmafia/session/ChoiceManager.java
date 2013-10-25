@@ -9173,6 +9173,7 @@ public abstract class ChoiceManager
 			case 774: // Opening up the Folder Holder
 			case 793: // Welcome to The Shore, Inc.
 			case 801: // A Reanimated Conversation
+			case 804: // Trick or Treat!
 				ChoiceManager.canWalkAway = true;
 				break;
 
