@@ -1399,10 +1399,11 @@
 1398	Dweeby	dweebs.gif	6df499796f5af6ddca95e30d6b93ab9e	use 1 box of Dweebs
 1399	Just the Brown Ones	wandws.gif	bc3810e0ee6da266d6ce1cc4f9aaf512	use 1 bag of W&Ws
 1400
-1401
-1402
-1403
-1404
-1405
-1406
+1401	Hood Ridin'	redjamjar.gif	897524cce84cd40788c9a31b07cf2a33	use 1 little red jam
+1402	Spooky Blur	fast.gif	3596c59d5715ff20d8c6302da289fb8c	use 1 Whenchamacallit bar
+1403	Banono	8bitbanana.gif	bd78fb53fcfb951ca6b50ade15ec22df	use 1 8-bit banana
+1404	Blood-Gorged	blooddrops.gif	4e98848d9e180e379abf7740ca2060f0	use 1 vial of blood simple syrup
+1405	Bone Chilling	bonebon.gif	5cea618bfa7300dbf77225e5413fc03e	use 1 bone bons
+1406	Deeply Ironic	ironmint.gif	e1e512a758d8f48ce7ba804cedacf755	use 1 ironic mint
 1407	Winning Smile	waxlips.gif	0c43171dafa1826fea4d864040c3318d	use 1 Effermint&trade; tablets
+1408	Bugbear in Tooth and Claw	3claws.gif	241b5c741a73a9223688f6f7d3314681	use 1 Bugbearclaw Donut

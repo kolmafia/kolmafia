@@ -6845,20 +6845,20 @@
 6828	discocktail	225359522	martini.gif	drink	t	0
 6829
 6830
-6831	Tallowcreme Halloween Pumpkin	631586523	mallowpumpkin.gif	usable	t,d	25
+6831	Tallowcreme Halloween Pumpkin	631586523	mallowpumpkin.gif	usable, candy	t,d	25
 6832	Way More Tears&trade; pepper spray	135109366	bodyspray.gif	none, combat	t,d	35
-6833	Milk Studs	212342492	milkstuds.gif	usable	t,d	15
-6834	box of Dweebs	449530455	dweebs.gif	usable	t,d	15
-6835	bag of W&Ws	787691763	wandws.gif	usable	t,d	15
+6833	Milk Studs	212342492	milkstuds.gif	usable, candy	t,d	15
+6834	box of Dweebs	449530455	dweebs.gif	usable, candy	t,d	15
+6835	bag of W&Ws	787691763	wandws.gif	usable, candy	t,d	15
 6836	PEEZ dispenser	168804605	peez.gif	usable	t,d	15
-6837	Swizzler	653273118	swizzler.gif	usable	t,d	15
-6838
-6839
-6840
-6841
-6842
-6843
-6844
+6837	Swizzler	653273118	swizzler.gif	usable, candy	t,d	15
+6838	Bugbearclaw Donut	723480931	bugbearclaw.gif	usable, candy	t,d	25
+6839	little red jam	347947486	redjamjar.gif	usable, candy	t,d	25
+6840	Whenchamacallit bar	812046783	whenbar.gif	usable, candy	t,d	25
+6841	8-bit banana	603852187	8bitbanana.gif	usable, candy	t,d	25
+6842	vial of blood simple syrup	976862806	bloodvial.gif	usable, candy	t,d	25
+6843	bone bons	405110026	bonebon.gif	usable, candy	t,d	25
+6844	ironic mint	800270383	ironmint.gif	usable, candy	t,d	25
 6845	unused walkie-talkie	515507078	walkietalkie.gif	usable	t	0
 6846	walkie talkie	879889967	walkietalkie.gif	usable		0
 6847
