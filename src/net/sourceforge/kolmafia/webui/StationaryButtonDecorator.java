@@ -646,7 +646,7 @@ public class StationaryButtonDecorator
 	}
 
 	private static final Pattern BODY_PATTERN = Pattern.compile( "<body>.*</body>", Pattern.DOTALL );
-	private static final Pattern LOCATION_PATTERN = Pattern.compile( "<a href=[\"']?([^\"'>]*)", Pattern.DOTALL );
+	private static final Pattern LOCATION_PATTERN = Pattern.compile( "<[aA] href=[\"']?([^\"'>]*)", Pattern.DOTALL );
 
 	private static final String getAdventureAgainLocation( StringBuffer response )
 	{

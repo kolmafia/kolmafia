@@ -6840,7 +6840,7 @@
 6823
 6824
 6825
-6826
+6826	All-Hallow's Steve's fright wig	870153445	frightwig.gif	hat		0
 6827
 6828	discocktail	225359522	martini.gif	drink	t	0
 6829
