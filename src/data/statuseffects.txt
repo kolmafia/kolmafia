@@ -1395,3 +1395,14 @@
 1394
 1395
 1396	Disco Neuropathy	dance2.gif	0daf820ab0d738826e0ad1e9640231c1	drink 1 discocktail
+1397	Milk Studly	milkstuds.gif	51ea6d6e1264fc3aab8656d33d5f309b	use 1 Milk Studs
+1398	Dweeby	dweebs.gif	6df499796f5af6ddca95e30d6b93ab9e	use 1 box of Dweebs
+1399	Just the Brown Ones	wandws.gif	bc3810e0ee6da266d6ce1cc4f9aaf512	use 1 bag of W&Ws
+1400
+1401
+1402
+1403
+1404
+1405
+1406
+1407	Winning Smile	waxlips.gif	0c43171dafa1826fea4d864040c3318d	use 1 Effermint&trade; tablets

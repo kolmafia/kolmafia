@@ -585,6 +585,10 @@ public class AdventureRequest
 				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :
 				// KOLHS
 				image.equals( "shopteacher" ) ? "X-fingered Shop Teacher" :
+				// Trick or Treat
+				image.equals( "vandalkid" ) ? "vandal kid" :
+				image.equals( "paulblart" ) ? "suburban security civilian" :
+				image.equals( "tooold" ) ? "kid who is too old to be Trick-or-Treating" :
 				// Bugbear Invasion
 				image.equals( "bb_caveman" ) ? "Angry Cavebugbear" :
 				// Crimbo 2012 wandering elves
