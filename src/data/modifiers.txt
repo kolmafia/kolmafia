@@ -3213,6 +3213,7 @@ Badger Underfoot	Meat Drop: +20
 Bailando, Fernando	Item Drop: 10
 Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 # Bandananit: Makes you look like a dirty thieving brigand
+Banono	Stench Damage: +40, Stench Spell Damage: +40
 Barking Dogs	Muscle Percent: -50, Initiative: -50
 Barking Mad	Mysticality Percent: +100
 Bastard!	Weapon Damage: +12
@@ -3252,6 +3253,7 @@ Blessing of Charcoatl	Hot Damage: +10, Hot Spell Damage: +10
 Blessing of Pikachutlotal	Initiative: +30
 Blessing of Squirtlcthulli	HP Regen Min: 2, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
 Block-Rockin' Beet	Damage Reduction: 15
+Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 # Bloody-minded: +50 Damage vs. Vampires
 Bloody Bloody Bloody!	Spooky Damage: +50
@@ -3260,6 +3262,7 @@ Bloody Hand	Muscle: -1
 Blubbered Up	Moxie: +5
 Blue Swayed	Familiar Weight: [ceil(min(T,50)/10)], Experience (familiar): [ceil(min(T,50)/5)]
 Blue Tongue	Item Drop: +30
+Bone Chilling	Cold Damage: +40, Cold Spell Damage: +40
 # Bone Homie: Bites Your Enemies
 # Boned Up: Makes you look like a Smart Skelton
 Bonelording	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Spooky Damage: +25
@@ -3291,6 +3294,7 @@ Brother Smothers's Blessing	Booze Drop: +30
 Bubble, Bubble	Moxie: -5, Muscle: +5
 Bubble Vision	Item Drop: [max(0,101-T)]
 Buff as a Baobab	Experience Percent (Muscle): +20
+Bugbear in Tooth and Claw	Weapon Damage: +40, Spell Damage: +40
 # Buggy Flavor: 25% chance of poisoning opponent
 Bureaucratized	Familiar Weight: +10
 Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
@@ -3462,6 +3466,7 @@ Deadly Lampblade	Spooky Damage: +75
 Deep-Fried	Hot Resistance: +2, Stench Vulnerability, Sleaze Vulnerability
 # Deep-Seated Rage: +100 Damage vs. Mer-kin
 Deep-Tainted Mind	Mysticality Percent: -50
+Deeply Ironic	Damage Reduction: 5, HP Regen Min: 5, HP Regen Max: 8
 Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Demonic Taint	Stench Damage: +30
 Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
@@ -3744,6 +3749,7 @@ Hobonic	Hobo Power: +5
 Hoity Toity	Item Drop: +30
 Holiday Bliss	Item Drop: +20, Meat Drop: +20
 Hombre Muerto Caminando	Initiative: +20, Spooky Resistance: +1, Maximum MP: +20
+Hood Ridin'	Hot Damage: +40, Hot Spell Damage: +40
 Hooked Up	Moxie Percent: -100, MP Regen Min: 10, MP Regen Max: 15
 Hopped Up on Goofballs	Muscle Percent: +20, Moxie Percent: +20
 Hoppyness	Initiative: +100
@@ -4228,6 +4234,7 @@ Spirit of Peppermint	Spell Damage: +10
 # Spirit of Wormwood: All Spells Cast Are Spooky
 Spirit of Wormwood	Spell Damage: +10
 # Spirit of Nothing: Removes any of the other Flavour of Magic effects
+Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 # Spooky Breath: Can breathe terrifying air in combat
 Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
 Spooky Flavor	Spooky Damage: +10, Spooky Resistance: +2
@@ -4820,6 +4827,7 @@ _cardsleeve	Spell Damage: +45, Ranged Damage: +30, HP Regen Min: 30, HP Regen Ma
 &quot;DRINK ME&quot; potion	Effect: "Down the Rabbit Hole", Effect Duration: 20
 1/6th Pound Cake	Effect: "Heal Thy Nanoself", Effect Duration: 100
 37x37x37 puzzle cube	Effect: "Puzzle Fury", Effect Duration: 10
+8-bit banana	Effect: "Banono", Effect Duration: 20
 A muse-bouche	Effect: "Pros Only", Effect Duration: 30
 Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
 Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
@@ -4837,6 +4845,7 @@ Blood 'n' Plenty	Effect: "Sugar Rush", Effect Duration: 10
 Boss Drops	Effect: "Chief Executive Optimism", Effect Duration: 5
 BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 Bright Water	Effect: "Bright!", Effect Duration: 10
+Bugbearclaw Donut	Effect: "Bugbear in Tooth and Claw", Effect Duration: 20
 Charity's choker	Effect: "Beginning at Home", Effect Duration: 100
 Cheshire Bitten	Free Pull
 Clan VIP Lounge invitation	Free Pull
@@ -4983,6 +4992,7 @@ Uncle Greenspan's Bathroom Finance Guide	Effect: "Buy!  Sell!  Buy!  Sell!", Eff
 Underworld acorn	Free Pull
 Valentine	Free Pull
 Wax Flask	Effect: "Over the Ocean"
+Whenchamacallit bar	Effect: "Spooky Blur", Effect Duration: 20
 White Chocolate Golem Seeds	Effect: "Chocolate Reign", Effect Duration: 30
 Wint-O-Fresh mint	Effect: "Sugar Rush", Effect Duration: 3
 Ye Olde Bawdy Limerick	Effect: "From Nantucket", Effect Duration: 20
@@ -5031,6 +5041,7 @@ blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 20
 blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
 blue snowcone	Effect: "Blue Tongue", Effect Duration: 20
 boiling seal blood	Effect: "Abyssal Blood", Effect Duration: 20
+bone bons	Effect: "Bone Chilling", Effect Duration: 20
 booby trap	Effect: "Ravonovichy", Effect Duration: 100
 bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
 bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
@@ -5271,6 +5282,7 @@ hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
 incense bath ball	Effect: "Incensed", Effect Duration: 10
 infant sandworm	Free Pull
 invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
+ironic mint	Effect: "Deeply Ironic", Effect Duration: 20
 irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
 irresistibility potion	Effect: "Simply Irresistible", Effect Duration: 20
 irritability potion	Effect: "Simply Irritable", Effect Duration: 20
@@ -5293,6 +5305,7 @@ libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R]
 licorice root	Effect: "Rootin' Around", Effect Duration: 20
 lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
+little red jam	Effect: "Hood Ridin'", Effect Duration: 20
 llama lama cria	Free Pull
 lotion of coldness	Effect: "Cold Hands", Effect Duration: [R]
 lotion of hotness	Effect: "Hot Hands", Effect Duration: [R]
@@ -5524,6 +5537,7 @@ unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
 unwound cymbal-playing monkey	Free Pull
 upsy daisy	Effect: "Ass Over Teakettle", Effect Duration: 10
 vial of baconstone juice	Effect: "Baconstoned", Effect Duration: 5
+vial of blood simple syrup	Effect: "Blood-Gorged", Effect Duration: 20
 vial of brown slime	Effect: "A Little Bit Poisoned", Effect Duration: 5
 vial of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 5
 vial of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 5
