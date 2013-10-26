@@ -411,7 +411,7 @@ public class ListCellRendererFactory
 			switch ( item.getItemId() )
 			{
 			case ItemPool.DISTENTION_PILL:
-				stringForm.append( "-1 full from next food eaten" );
+				stringForm.append( "increase fullness by 1" );
 				break;
 
 			case ItemPool.MUNCHIES_PILL:

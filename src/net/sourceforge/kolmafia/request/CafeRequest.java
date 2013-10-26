@@ -206,9 +206,6 @@ public class CafeRequest
 			Preferences.increment( "currentFullness", fullness );
 		}
 
-		// If distention pill is active, no message will be printed, but it will take effect nonetheless.
-		Preferences.setBoolean( "distentionPillActive", false );
-
 		KoLmafia.updateDisplay( "Goodie purchased." );
 	}
 

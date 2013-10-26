@@ -791,7 +791,7 @@ public abstract class KoLCharacter
 
 		int baseFullness = 15;
 
-		if ( Preferences.getBoolean( "distentionPillActive" ) )
+		if ( Preferences.getBoolean( "_distentionPillUsed" ) )
 		{
 			baseFullness++;
 		}
