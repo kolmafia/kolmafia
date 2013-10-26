@@ -654,16 +654,6 @@ public class UseItemRequest
 			return Preferences.getBoolean( "_syntheticDogHairPillUsed" ) ? 0 : 1;
 
 		case ItemPool.DISTENTION_PILL:
-			// boolean stomachAvailable = ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) > 0;
-
-			// The distention pill is not usable when you're full.
-			// Even if you plan on eating a 1-full food.
-			// UPDATE: distention pill now usable when full.  Also, does not reset at rollover.
-			/*if ( !stomachAvailable )
-			{
-				UseItemRequest.limiter = "remaining fullness";
-				return 0;
-			}*/
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_distentionPillUsed" ) ? 0 : 1;
 
@@ -3437,7 +3427,6 @@ public class UseItemRequest
 			else if ( responseText.indexOf( "stomach feels rather stretched" ) != -1 )
 			{
 				Preferences.setBoolean( "_distentionPillUsed", true );
-				Preferences.setBoolean( "distentionPillActive", true );
 				KoLCharacter.updateStatus();
 				ConcoctionDatabase.getUsables().sort();
 			}

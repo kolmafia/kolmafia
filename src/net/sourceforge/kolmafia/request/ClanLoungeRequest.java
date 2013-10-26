@@ -1408,7 +1408,6 @@ public class ClanLoungeRequest
 			{
 				Preferences.increment( "currentFullness", fullness );
 			}
-			Preferences.setBoolean( "distentionPillActive", false );
 			String name = ClanLoungeRequest.hotdogIndexToName( index );
 			if ( name.equals( "optimal dog" ) )
 			{

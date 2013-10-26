@@ -422,7 +422,7 @@ public class EatItemRequest
 		String name = this.itemUsed.getName();
 		int fullness = ItemDatabase.getFullness( name );
 		int count = this.itemUsed.getCount();
-		int consumptionTurns = count * fullness - ( Preferences.getBoolean( "distentionPillActive" ) ? 1 : 0 );
+		int consumptionTurns = count * fullness;
 
 		// Check for Glorious Lunch
 		if ( !skipLunchNag && canLunch )
@@ -657,28 +657,6 @@ public class EatItemRequest
 		}
 
 		int fullnessUsed = fullness * count;
-
-		// If we ate a distention pill, the next thing we eat should
-		// detect the extra message and decrement fullness by 1.
-		if ( responseText.indexOf( "feel your stomach shrink" ) != -1 )
-		{
-			// If we got this message, the distention effect was active.
-			String message = "Incrementing fullness by " + ( fullnessUsed - 1 )
-					+ " instead of " + fullnessUsed
-					+ " because your stomach was distended.";
-			fullnessUsed--;
-			RequestLogger.updateSessionLog( message );
-			RequestLogger.printLine( message );
-			Preferences.setBoolean( "distentionPillActive", false );
-		}
-
-		// If we eat a non-zero fullness item and we DON'T get the
-		// shrinking message, we must be out of sync with KoL. Fix
-		// that.
-		else if ( Preferences.getBoolean( "distentionPillActive" ) )
-		{
-			Preferences.setBoolean( "distentionPillActive", false );
-		}
 
 		// The food was consumed successfully
 		// If the user has fullness display turned on ( "You gain x Fullness" ) DON'T touch fullness here.  It is handled in ResultProcessor.

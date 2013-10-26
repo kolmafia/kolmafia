@@ -245,9 +245,8 @@ public class UseItemEnqueuePanel
 			// The "flush" listener is the last button
 			int flushIndex = this.buttons.length - 1;
 			boolean havepill = InventoryManager.getCount( ItemPool.DISTENTION_PILL ) > 0;
-			boolean activepill = Preferences.getBoolean( "distentionPillActive" );
 			boolean usedpill = Preferences.getBoolean( "_distentionPillUsed" );
-			boolean canFlush = ( havepill && !activepill && !usedpill );
+			boolean canFlush = ( havepill && !usedpill );
 			this.buttons[ flushIndex ].setEnabled( canFlush );
 		}
 
@@ -642,14 +641,6 @@ public class UseItemEnqueuePanel
 			case KoLConstants.CONSUME_MULTIPLE:
 				if ( !UseItemEnqueuePanel.this.food ||
 				     creation.getItemId() != ItemPool.MUNCHIES_PILL )
-				{
-					return false;
-				}
-				return super.isVisible( element );
-
-			case KoLConstants.CONSUME_USE:
-				if ( !UseItemEnqueuePanel.this.food ||
-				     creation.getItemId() != ItemPool.DISTENTION_PILL )
 				{
 					return false;
 				}
