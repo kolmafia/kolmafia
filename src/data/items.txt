@@ -6866,5 +6866,5 @@
 6849	Effermint&trade; tablets	230478466	effermint.gif	multiple	t,d	35
 6850	sturdy cane	183101962	cane.gif	offhand	t,d	40
 6851	huge bowl of candy	614007421	candybowl.gif	usable	t	0
-6852
+6852	Ultra Mega Sour Ball	637571586	plasticball.gif	usable	t	0
 6853	carton of rotten eggs	407091480	eggcarton.gif	none, combat	t,d	10

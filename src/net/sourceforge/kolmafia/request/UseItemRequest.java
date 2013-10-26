@@ -636,6 +636,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "spiceMelangeUsed" ) ? 0 : 1;
 
+		case ItemPool.ULTRA_MEGA_SOUR_BALL:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_ultraMegaSourBallUsed" ) ? 0 : 1;
+
 		case ItemPool.BORROWED_TIME:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_borrowedTimeUsed" ) ? 0 : 1;
@@ -3387,6 +3391,24 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.ULTRA_MEGA_SOUR_BALL:
+
+			// You pop the candy in your mouth, and it immediately absorbs almost all of the moisture in your body.
+			if ( responseText.contains( "too scared to eat any more of that candy today" ) )
+			{
+				Preferences.setBoolean( "_ultraMegaSourBallUsed", true );
+				ResultProcessor.processResult( item );
+			}
+			else if ( responseText.contains( "You pop the candy in your mouth, and it immediately absorbs almost all of the moisture in your body" ) )
+			{
+				Preferences.setInteger( "currentFullness", Math.max( 0, Preferences.getInteger( "currentFullness" ) - 3 ) );
+				KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
+				Preferences.setBoolean( "_ultraMegaSourBallUsed", true );
+				KoLCharacter.updateStatus();
+				ConcoctionDatabase.getUsables().sort();
+			}
+			return;
+
 		case ItemPool.SYNTHETIC_DOG_HAIR_PILL:
 
 			//Your liver feels better! And quivers a bit.
@@ -5145,6 +5167,10 @@ public class UseItemRequest
 
 		case ItemPool.SPICE_MELANGE:
 			Preferences.setBoolean( "spiceMelangeUsed", true );
+			break;
+
+		case ItemPool.ULTRA_MEGA_SOUR_BALL:
+			Preferences.setBoolean( "_ultraMegaSourBallUsed", true );
 			break;
 
 		case ItemPool.MUNCHIES_PILL:

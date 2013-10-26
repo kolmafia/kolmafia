@@ -199,6 +199,9 @@ public class DailyDeedsPanel
 			"Special", "Melange",
 		},
 		{
+			"Special", "Ultra Mega Sour Ball",
+		},
+		{
 			"Special", "Stills",
 		},
 		{
@@ -256,7 +259,9 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Avatar of Jarlberg Staves" ) )
+		if ( deed.equals( "Ultra Mega Sour Ball" ) )
+			return 8;
+		else if ( deed.equals( "Avatar of Jarlberg Staves" ) )
 			return 6;
 		else if ( deed.equals( "Swimming Pool" ) )
 			return 5;
@@ -925,6 +930,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Melange" ) )
 		{
 			this.add( new MelangeDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Ultra Mega Sour Ball" ) )
+		{
+			this.add( new UltraMegaSourBallDaily() );
 		}
 		else if ( deedsString[ 1 ].equals( "Stills" ) )
 		{
@@ -2333,6 +2342,33 @@ public class DailyDeedsPanel
 			{
 				this.setShown( have > 0 );
 				this.setText( "spice melange not used, have " + have );
+			}
+		}
+	}
+
+	public static class UltraMegaSourBallDaily
+		extends Daily
+	{
+		public UltraMegaSourBallDaily()
+		{
+			this.addItem( ItemPool.ULTRA_MEGA_SOUR_BALL );
+			this.addListener( "_ultraMegaSourBallUsed" );
+			this.addLabel( "" );
+		}
+
+		@Override
+		public void update()
+		{
+			int have = InventoryManager.getCount( ItemPool.ULTRA_MEGA_SOUR_BALL );
+			if ( Preferences.getBoolean( "_ultraMegaSourBallUsed" ) )
+			{
+				this.setShown( true );
+				this.setText( "ULTRA MEGA SOUR BALL USED, have " + have );
+			}
+			else
+			{
+				this.setShown( have > 0 );
+				this.setText( "ultra mega sour ball not used, have " + have );
 			}
 		}
 	}
