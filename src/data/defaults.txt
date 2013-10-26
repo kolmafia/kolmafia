@@ -46,8 +46,8 @@ global	connectViaAddress	false
 global	cookies.inventory
 global	copyAsHTML	false
 global	customizedTabs	false
-global	dailyDeedsOptions	Breakfast,Daily Dungeon,Submit Spading Data,Chips,Library Card,Telescope,Ball Pit,Styx Pixie,VIP Pool,Swimming Pool,April Shower,Bag o' Tricks,Legendary Beat,Outrageous Sombrero,Feast,Friars,Skate Park,Concert,Demon Summoning,Rage Gland,Free Rests,Hot Tub,Nuns,Oscus' Soda,Express Card,Flush Mojo,Pudding,Hatter,Melange,Stills,Photocopy,Putty,Camera,Banished Monsters,Romantic Arrow,Avatar of Jarlberg Staves,Bonus Adventures,Familiar Drops,Free Fights,Free Runaways,Defective Token
-global	dailyDeedsVersion	7
+global	dailyDeedsOptions	Breakfast,Daily Dungeon,Submit Spading Data,Chips,Library Card,Telescope,Ball Pit,Styx Pixie,VIP Pool,Swimming Pool,April Shower,Bag o' Tricks,Legendary Beat,Outrageous Sombrero,Feast,Friars,Skate Park,Concert,Demon Summoning,Rage Gland,Free Rests,Hot Tub,Nuns,Oscus' Soda,Express Card,Flush Mojo,Pudding,Hatter,Melange,Ultra Mega Sour Ball,Stills,Photocopy,Putty,Camera,Banished Monsters,Romantic Arrow,Avatar of Jarlberg Staves,Bonus Adventures,Familiar Drops,Free Fights,Free Runaways,Defective Token
+global	dailyDeedsVersion	8
 global	debugBuy	false
 global	debugConsequences	false
 global	debugFoxtrotRemoval	false
@@ -1020,6 +1020,7 @@ user	_transponderDrops	0
 user	_treasuryEliteMeatCollected	false
 user	_treasuryHaremMeatCollected	false
 user	_trivialAvocationsGame	false
+user	_ultraMegaSourBallUsed	false
 user	_userMods
 user	_vitachocCapsulesUsed	0
 user	_vmaskAdv	0

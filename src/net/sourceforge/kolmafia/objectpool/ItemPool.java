@@ -1858,6 +1858,7 @@ public class ItemPool
 	public static final int TIN_ROOF = 6773;
 	public static final int TIN_LIZZIE = 6775;
 	public static final int ABYSSAL_BATTLE_PLANS = 6782;
+	public static final int ULTRA_MEGA_SOUR_BALL = 6852;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

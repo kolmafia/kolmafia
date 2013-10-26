@@ -293,6 +293,7 @@ Throne Room	100	Knob Goblin King
 Thugnderdome	100	gnarly gnome	gnasty gnome	gnefarious gnome	Gnomester Blomester	Gnu Jack Gnome	vicious gnauga
 Tower Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
 Triad Factory	100	clean-room daemon	fabricator gu&agrave;i	triad code wizard	The Sierpinski brothers: 0
+Trick-or-Treating	100	vandal kid	suburban security civilian	kid who is too old to be Trick-or-Treating	All-Hallow's Steve: 0
 Twin Peak	80	bearpig topiary animal	Big Wheelin' Twins	Bubblemint Twins	Creepy Ginger Twin	elephant (meatcar?) topiary animal	Mismatched Twins	spider (duck?) topiary animal	Troll Twins
 Video Game Level 1	-1	Video Game Minion (weak)
 Video Game Level 2	-1	Video Game Minion (moderate)	Video Game Miniboss: 0
@@ -336,4 +337,3 @@ The Limerick Dungeon	0
 The Poker Room	0
 The Roulette Tables	0
 The Shore, Inc. Travel Agency	0
-Trick-or-Treating	0
