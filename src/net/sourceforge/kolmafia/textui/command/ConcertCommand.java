@@ -33,9 +33,11 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.request.IslandArenaRequest;
+import net.sourceforge.kolmafia.request.IslandRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -50,15 +52,18 @@ public class ConcertCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		IslandArenaRequest request = null;
+		String arg = parameters.trim();
 
-		if ( Character.isDigit( parameters.charAt( 0 ) ) )
+		IslandRequest request =
+			Character.isDigit( arg.charAt( 0 ) ) ?
+			IslandRequest.getConcertRequest( StringUtilities.parseInt( arg ) ) :
+			IslandRequest.getConcertRequest( arg );
+
+		if ( request == null )
 		{
-			request = new IslandArenaRequest( StringUtilities.parseInt( parameters ) );
-		}
-		else
-		{
-			request = new IslandArenaRequest( parameters );
+			String error = IslandRequest.concertError( arg );
+			KoLmafia.updateDisplay( MafiaState.ERROR, error );
+			return;
 		}
 
 		RequestThread.postRequest( request );

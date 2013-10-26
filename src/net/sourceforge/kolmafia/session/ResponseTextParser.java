@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
+import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.KnollRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -112,7 +113,6 @@ import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PhineasRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
-import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RabbitHoleRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
@@ -306,6 +306,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "bhh.php" ) )
 		{
 			BountyHunterHunterRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "bigisland.php" ) || location.startsWith( "postwarisland.php" ) )
+		{
+			IslandRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "bone_altar.php" ) )
@@ -795,10 +800,6 @@ public class ResponseTextParser
 			ZapRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.indexOf( "action=pyro" ) != -1 )
-		{
-			PyroRequest.parseResponse( location, responseText );
-		}
 		else if ( location.startsWith( "crypt.php" ) )
 		{
 			// Check if crypt areas have unexpectedly vanished and correct if so

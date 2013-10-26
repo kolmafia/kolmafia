@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.moods.ManaBurnManager;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.IslandRequest;
 
 public class NunneryCommand
 	extends AbstractCommand
@@ -69,12 +69,14 @@ public class NunneryCommand
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Nun of the nuns are available right now." );
 			return;
 		}
+
 		String side = Preferences.getString( "sidequestNunsCompleted" );
 		if ( !side.equals( "fratboy" ) && !side.equals( "hippy" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You have not opened the Nunnery yet." );
 			return;
 		}
+
 		if ( side.equals( "hippy" ) && parameters.equalsIgnoreCase( "mp" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Only HP restoration is available from the nuns." );
@@ -84,10 +86,14 @@ public class NunneryCommand
 		{
 			ManaBurnManager.burnMana( KoLCharacter.getMaximumMP() - 1000 );
 		}
-		String url =
-			Preferences.getString( "warProgress" ).equals( "finished" ) ? "postwarisland.php" : "bigisland.php";
+
+		IslandRequest request = IslandRequest.getNunneryRequest();
+		if ( request == null )
+		{
+			return;
+		}
 
 		KoLmafia.updateDisplay( "Get thee to a nunnery!" );
-		RequestThread.postRequest( new GenericRequest( url + "?place=nunnery&pwd&action=nuns" ) );
+		RequestThread.postRequest( request );
 	}
 }

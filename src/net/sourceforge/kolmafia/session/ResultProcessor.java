@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.HaciendaManager;
+import net.sourceforge.kolmafia.session.IslandManager;
 
 import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
@@ -83,7 +84,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.CellarDecorator;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
 
 public class ResultProcessor
 {
@@ -565,7 +565,7 @@ public class ResultProcessor
 
 		if ( won && nunnery )
 		{
-			IslandDecorator.addNunneryMeat( result );
+			IslandManager.addNunneryMeat( result );
 			return false;
 		}
 
@@ -1199,7 +1199,7 @@ public class ResultProcessor
 
 		case ItemPool.MOLYBDENUM_MAGNET:
 			// When you get the molybdenum magnet, tell quest handler
-			IslandDecorator.startJunkyardQuest();
+			IslandManager.startJunkyardQuest();
 			break;
 
 		case ItemPool.MOLYBDENUM_HAMMER:
@@ -1207,7 +1207,7 @@ public class ResultProcessor
 		case ItemPool.MOLYBDENUM_PLIERS:
 		case ItemPool.MOLYBDENUM_WRENCH:
 			// When you get a molybdenum item, tell quest handler
-			IslandDecorator.resetGremlinTool();
+			IslandManager.resetGremlinTool();
 			break;
 
 		case ItemPool.SPOOKY_BICYCLE_CHAIN:

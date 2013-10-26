@@ -97,7 +97,7 @@ import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HedgePuzzleRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
-import net.sourceforge.kolmafia.request.IslandArenaRequest;
+import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.JarlsbergRequest;
 import net.sourceforge.kolmafia.request.JunkMagazineRequest;
@@ -118,7 +118,6 @@ import net.sourceforge.kolmafia.request.PixelRequest;
 import net.sourceforge.kolmafia.request.PortalRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.RabbitHoleRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
@@ -728,15 +727,6 @@ public class RequestLogger
 			return;
 		}
 
-		// Check for Big Island specific requests before checking
-		// things which can happen on either the wartime or postwar island
-
-		if ( urlString.startsWith( "bigisland.php" ) && IslandDecorator.registerIslandRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
 		// The following lists all the remaining requests in
 		// alphabetical order.
 
@@ -1004,7 +994,7 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof IslandArenaRequest || isExternal ) && IslandArenaRequest.registerRequest( urlString ) )
+		if ( ( request instanceof IslandRequest || isExternal ) && IslandRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -1107,12 +1097,6 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof PurchaseRequest || isExternal ) && PurchaseRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( ( request instanceof PyroRequest || isExternal ) && PyroRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

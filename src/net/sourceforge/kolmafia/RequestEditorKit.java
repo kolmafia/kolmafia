@@ -100,6 +100,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -2195,7 +2196,7 @@ public class RequestEditorKit
 			return;
 		}
 
-		String war = Preferences.getString( "warProgress" );
+		String war = IslandManager.warProgress();
 		String test;
 		String url;
 

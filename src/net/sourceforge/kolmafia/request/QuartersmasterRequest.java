@@ -54,8 +54,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
-
-import net.sourceforge.kolmafia.webui.IslandDecorator;
+import net.sourceforge.kolmafia.session.IslandManager;
 
 public class QuartersmasterRequest
 	extends CoinMasterRequest
@@ -145,9 +144,7 @@ public class QuartersmasterRequest
 
 	public static String accessible()
 	{
-		IslandDecorator.ensureUpdatedBigIsland();
-
-		if ( !Preferences.getString( "warProgress" ).equals( "started" ) )
+		if ( !IslandManager.warProgress().equals( "started" ) )
 		{
 			return "You're not at war.";
 		}

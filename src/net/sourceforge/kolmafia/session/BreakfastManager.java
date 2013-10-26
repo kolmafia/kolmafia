@@ -59,7 +59,7 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
-import net.sourceforge.kolmafia.request.PyroRequest;
+import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
@@ -493,7 +493,7 @@ public class BreakfastManager
 			visitHippy();
 		}
 
-		if ( !Preferences.getString( "warProgress" ).equals( "started" ) )
+		if ( !IslandManager.warProgress().equals( "started" ) )
 		{
 			return;
 		}
@@ -585,16 +585,22 @@ public class BreakfastManager
 
 	public static void visitFarmer()
 	{
-		KoLmafia.updateDisplay( "Collecting produce from farmer..." );
-		RequestThread.postRequest( new GenericRequest( "bigisland.php?place=farm&action=farmer&pwd" ) );
-		KoLmafia.forceContinue();
+		IslandRequest request = IslandRequest.getFarmerRequest();
+		if ( request != null )
+		{
+			RequestThread.postRequest( request );
+			KoLmafia.forceContinue();
+		}
 	}
 
 	public static void visitPyro()
 	{
-		KoLmafia.updateDisplay( "Collecting bombs from pyro..." );
-		RequestThread.postRequest( new PyroRequest() );
-		KoLmafia.forceContinue();
+		IslandRequest request = IslandRequest.getPyroRequest();
+		if ( request != null )
+		{
+			RequestThread.postRequest( request );
+			KoLmafia.forceContinue();
+		}
 	}
 
 	private static SpecialOutfit nextOutfit( final SpecialOutfit one, final SpecialOutfit two )
