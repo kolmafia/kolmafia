@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
@@ -111,7 +112,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 
 import org.htmlcleaner.CleanerProperties;
@@ -2405,12 +2405,12 @@ public class FightRequest
 		case AdventurePool.JUNKYARD_TIRES:
 		case AdventurePool.JUNKYARD_CAR:
 			// Quest gremlins might have a tool.
-			IslandDecorator.handleGremlin( responseText );
+			IslandManager.handleGremlin( responseText );
 			break;
 
 		case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
 		case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
-			IslandDecorator.handleBattlefield( responseText );
+			IslandManager.handleBattlefield( responseText );
 			break;
 
 		case AdventurePool.HOBOPOLIS_TOWN_SQUARE:
@@ -5378,7 +5378,7 @@ public class FightRequest
 	private static final void clearInstanceData()
 	{
 		KoLCharacter.resetEffectiveFamiliar();
-		IslandDecorator.startFight();
+		IslandManager.startFight();
 		FightRequest.castNoodles = false;
 		FightRequest.castClubFoot = false;
 		FightRequest.castCleesh = false;
@@ -5518,7 +5518,6 @@ public class FightRequest
 			if ( responseText.indexOf( "bang out a series of chimes" ) != -1 ||
 			     responseText.indexOf( "ringing your windchimes" ) != -1 )
 			{
-				IslandDecorator.ensureUpdatedBigIsland();
 				Preferences.setInteger( "lastHippyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
 				// http://alliancefromhell.com/forum/viewtopic.php?t=1398
@@ -5545,7 +5544,6 @@ public class FightRequest
 			if ( responseText.indexOf( "punch a few buttons on the phone" ) != -1 ||
 			     responseText.indexOf( "send a message to HQ" ) != -1 )
 			{
-				IslandDecorator.ensureUpdatedBigIsland();
 				Preferences.setInteger( "lastFratboyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
 				// http://alliancefromhell.com/forum/viewtopic.php?t=1398

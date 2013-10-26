@@ -63,8 +63,8 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
-import net.sourceforge.kolmafia.request.PyroRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1344,7 +1344,7 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.GUNPOWDER:
 			useType = String.valueOf( InventoryManager.getCount( itemId ) );
-			useLocation = PyroRequest.pyroURL();
+			useLocation = IslandRequest.getPyroURL();
 			break;
 
 		case ItemPool.TOWEL:

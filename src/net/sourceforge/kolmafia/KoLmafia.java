@@ -113,6 +113,7 @@ import net.sourceforge.kolmafia.session.BadMoonManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -704,6 +705,9 @@ public abstract class KoLmafia
 		KoLmafia.refreshSessionData();
 
 		AdventureFrame.updateFromPreferences();
+
+		// It would be nice to not have to do this
+		IslandManager.ensureUpdatedBigIsland();
 
 		boolean shouldResetCounters = Preferences.getInteger( "lastCounterDay" ) != HolidayDatabase.getPhaseStep();
 

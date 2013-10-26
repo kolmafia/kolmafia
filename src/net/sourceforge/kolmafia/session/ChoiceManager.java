@@ -5340,6 +5340,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 3 )
 			{
 				QuestDatabase.setQuestProgress( Quest.ISLAND_WAR, "step1" );
+				Preferences.setString( "warProgress", "started" );
 			}
 			break;
 

@@ -389,9 +389,6 @@ public class ValhallaManager
 		Preferences.setInteger( "crimboTreeDays", 7 );
 		Preferences.setString( "currentHippyStore", "none" );
 		Preferences.setString( "currentWheelPosition", "muscle" );
-		Preferences.setString( "warProgress", "unstarted" );
-		Preferences.setInteger( "fratboysDefeated", 0 );
-		Preferences.setInteger( "hippiesDefeated", 0 );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
 		Preferences.setInteger( "carboLoading", 0 );
@@ -473,6 +470,8 @@ public class ValhallaManager
 		Preferences.setString( "workteaClue", "" );
 
 		QuestDatabase.resetQuests();
+		IslandManager.resetIsland();
+
 		TurnCounter.clearCounters();
 		AdventureQueueDatabase.resetQueue();
 	}

@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -110,7 +111,6 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import net.sourceforge.kolmafia.webui.IslandDecorator;
 import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
@@ -760,7 +760,7 @@ public class RelayRequest
 
 	private boolean checkCampVisit( final String urlString )
 	{
-		CoinmasterData data = IslandDecorator.findCampMaster( urlString );
+		CoinmasterData data = IslandManager.findCampMaster( urlString );
 
 		// If he's not attempting to enter a camp, no problem.
 		if ( data == null )
@@ -807,8 +807,8 @@ public class RelayRequest
 
 	private boolean checkBattle( final int outfitId )
 	{
-		int fratboysDefeated = IslandDecorator.fratboysDefeated();
-		int hippiesDefeated = IslandDecorator.hippiesDefeated();
+		int fratboysDefeated = IslandManager.fratboysDefeated();
+		int hippiesDefeated = IslandManager.hippiesDefeated();
 
 		if ( fratboysDefeated == 999 && hippiesDefeated == 999 )
 		{
@@ -818,7 +818,7 @@ public class RelayRequest
 		if ( fratboysDefeated == 999 && outfitId == OutfitPool.WAR_HIPPY_OUTFIT )
 		{
 			// In hippy uniform and about to defeat last fratboy.
-			int factor = IslandDecorator.hippiesDefeatedPerBattle();
+			int factor = IslandManager.hippiesDefeatedPerBattle();
 			if ( hippiesDefeated < 999 && ( 999 - hippiesDefeated ) % factor == 0 )
 			{
 				return this.sendWossnameWarning( QuartersmasterRequest.FRATBOY );
@@ -828,7 +828,7 @@ public class RelayRequest
 		if ( hippiesDefeated == 999 && outfitId == OutfitPool.WAR_FRAT_OUTFIT )
 		{
 			// In fratboy uniform and about to defeat last hippy.
-			int factor = IslandDecorator.fratboysDefeatedPerBattle();
+			int factor = IslandManager.fratboysDefeatedPerBattle();
 			if ( fratboysDefeated < 999 && ( 999 - fratboysDefeated ) % factor == 0 )
 			{
 				return this.sendWossnameWarning( DimemasterRequest.HIPPY );

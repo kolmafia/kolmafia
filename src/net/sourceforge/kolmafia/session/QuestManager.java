@@ -38,10 +38,16 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -51,8 +57,10 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.WineCellarRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -64,15 +72,6 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
-import net.sourceforge.kolmafia.webui.IslandDecorator;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.SpecialOutfit;
-import net.sourceforge.kolmafia.objectpool.AdventurePool;
-import net.sourceforge.kolmafia.objectpool.OutfitPool;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 public class QuestManager
 {
@@ -102,10 +101,6 @@ public class QuestManager
 		else if ( location.startsWith( "barrel" ) )
 		{
 			BarrelDecorator.parseResponse( location, responseText );
-		}
-		else if ( location.startsWith( "bigisland" ) )
-		{
-			IslandDecorator.parseBigIsland( location, responseText );
 		}
 		else if ( location.startsWith( "cobbsknob.php" ) )
 		{
@@ -167,10 +162,6 @@ public class QuestManager
 			{
 				handleChasmChange( responseText );
 			}
-		}
-		else if ( location.startsWith( "postwarisland" ) )
-		{
-			IslandDecorator.parsePostwarIsland( location, responseText );
 		}
 		else if ( location.startsWith( "questlog" ) )
 		{
