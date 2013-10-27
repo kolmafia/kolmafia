@@ -6183,7 +6183,7 @@
 6166	miniature deck cannon	229535128	minicannon.gif	weapon	d	400
 6167	ornamental sextant	804330681	sextant.gif	accessory	d	600
 6168	Bloodbath	788202773	bloodbath.gif	weapon		0
-6169	Hundred Headed IPA	230929468	beerbottle.gif	drink	t,d	75
+6169	Hundred Headed IPA	230929468	beerbottle.gif	drink	t,d	75	Bottles of Hundred Headed IPA
 6170	old chum	985900785	gooball.gif	food	t,d	25	chunks of old chum
 6171	crude crudit&eacute;s	929056652	crudites.gif	usable	t,d	5
 6172	candy crayons	790925279	candycrayons.gif	usable	t	0

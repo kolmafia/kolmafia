@@ -3943,7 +3943,7 @@ Newt Gets In Your Eyes	Moxie: +25
 Night Vision	Meat Drop: +30
 Nightstalkin'	Critical Hit Percent: +10
 # Nihao You Doin'?: Makes you look like a lucky cat statue
-Ninja, Please	Critical Hit Percent: +15
+Ninja, Please	Critical Hit Percent: +15, Spell Critical Percent: +15
 # Ninjas Just Tryin' to Get Paid: Makes you look like a salary ninja
 # No Squealer Healer: Makes you look like a Quiet Healer
 No Vertigo	Initiative: +20
