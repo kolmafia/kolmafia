@@ -1472,7 +1472,7 @@ public class IslandManager
 		// He gazes at you thoughtfully for a few seconds, then a smile
 		// lights up his face and he says "My life... er... my bombs
 		// for you. My bombs for you, bumpty-bumpty-bump!"
-		if ( responseText.contains( "My bombs for you" ) )
+		if ( !responseText.contains( "My bombs for you" ) )
 		{
 			return;
 		}
