@@ -261,7 +261,7 @@ public class IslandDecorator
 		for ( int i = 0; i < IslandDecorator.GREMLIN_TOOLS.length; ++i )
 		{
 			String tool = IslandDecorator.GREMLIN_TOOLS[ i ];
-			if ( buffer.indexOf( tool ) != -1 )
+			if ( buffer.contains( tool ) )
 			{
 				// Make the message pink
 				StringUtilities.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
@@ -452,13 +452,13 @@ public class IslandDecorator
 	public static final void decorateArena( final String urlString, final StringBuffer buffer )
 	{
 		// If he's not visiting the arena, punt
-		if ( urlString.indexOf( "place=concert" ) == -1 )
+		if ( !urlString.contains( "place=concert" ) )
 		{
 			return;
 		}
 
 		// If there's no concert available, see if quest is in progress
-		if ( buffer.indexOf( "value=\"concert\"" ) == -1 )
+		if ( !buffer.contains( "value=\"concert\"" ) )
 		{
 			if ( Preferences.getString( "warProgress" ).equals( "finished" ) ||
 			     !Preferences.getString( "sidequestArenaCompleted" ).equals( "none" ) )
@@ -517,7 +517,7 @@ public class IslandDecorator
 	public static final void decorateNunnery( final String urlString, final StringBuffer buffer )
 	{
 		// If he's not visiting the nunnery, punt
-		if ( urlString.indexOf( "place=nunnery" ) == -1 )
+		if ( !urlString.contains( "place=nunnery" ) )
 		{
 			return;
 		}
