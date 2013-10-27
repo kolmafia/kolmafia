@@ -289,6 +289,12 @@ public class IslandRequest
 				return;
 			}
 
+			if ( !this.responseText.contains( "You acquire an effect" ) )
+			{
+				KoLmafia.updateDisplay( "You couldn't get to the Mysterious Island Arena." );
+				return;
+			}
+
 			KoLmafia.updateDisplay( "A music lover is you." );
 			break;
 
@@ -318,7 +324,12 @@ public class IslandRequest
 
 		if ( action.equals( "concert" ) )
 		{
-			Preferences.setBoolean( "concertVisited", true );
+			if ( responseText.contains( "You acquire an effect" ) ||
+			     responseText.contains( "pretty much tapped out" ) ||
+			     responseText.contains( "You're all rocked out" ) )
+			{
+				Preferences.setBoolean( "concertVisited", true );
+			}
 			return;
 		}
 
