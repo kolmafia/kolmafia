@@ -261,7 +261,7 @@ public class IslandDecorator
 		for ( int i = 0; i < IslandDecorator.GREMLIN_TOOLS.length; ++i )
 		{
 			String tool = IslandDecorator.GREMLIN_TOOLS[ i ];
-			if ( buffer.contains( tool ) )
+			if ( buffer.indexOf( tool ) != -1 )
 			{
 				// Make the message pink
 				StringUtilities.singleStringReplace( buffer, tool, "<font color=#DD00FF>" + tool + "</font>" );
@@ -458,7 +458,7 @@ public class IslandDecorator
 		}
 
 		// If there's no concert available, see if quest is in progress
-		if ( !buffer.contains( "value=\"concert\"" ) )
+		if ( buffer.indexOf( "value=\"concert\"" ) == -1 )
 		{
 			if ( Preferences.getString( "warProgress" ).equals( "finished" ) ||
 			     !Preferences.getString( "sidequestArenaCompleted" ).equals( "none" ) )
