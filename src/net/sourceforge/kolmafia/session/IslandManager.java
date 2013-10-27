@@ -938,7 +938,7 @@ public class IslandManager
 	public static final void handleBattlefield( final String responseText )
 	{
 		// Nothing to do until battle is done
-		if ( responseText.contains( "WINWINWIN" ) )
+		if ( !responseText.contains( "WINWINWIN" ) )
 		{
 			return;
 		}
@@ -1404,7 +1404,7 @@ public class IslandManager
 		// "Is that... it is! The heart of the filthworm queen! You've
 		// done it! You've freed our orchard from the tyranny of
 		// nature!"
-		if ( responseText.contains( "tyranny of nature" ) )
+		if ( !responseText.contains( "tyranny of nature" ) )
 		{
 			return;
 		}
@@ -1501,7 +1501,7 @@ public class IslandManager
 
 	public static void parseCamp( final String location, final String responseText )
 	{
-		if ( location.contains( "whichcamp" ) )
+		if ( !location.contains( "whichcamp" ) )
 		{
 			return;
 		}
