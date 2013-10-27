@@ -97,10 +97,10 @@ public class CreateItemRequest
 	private CraftingType mixingMethod;
 	private EnumSet<CraftingRequirements> requirements;
 
-	private int beforeQuantity;
+	protected int beforeQuantity;
 	private int yield;
 
-	private int quantityNeeded, quantityPossible, quantityPullable;
+	protected int quantityNeeded, quantityPossible, quantityPullable;
 
 	private static final int[][] DOUGH_DATA =
 	{
@@ -425,9 +425,7 @@ public class CreateItemRequest
 
 		SpecialOutfit.createImplicitCheckpoint();
 
-		int createdQuantity = 0;
-
-		do
+		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() )
 		{
 			if ( !this.autoRepairBoxServant() )
 			{
@@ -436,6 +434,7 @@ public class CreateItemRequest
 			}
 
 			this.reconstructFields();
+
 			this.beforeQuantity = this.createdItem.getCount( KoLConstants.inventory );
 
 			switch ( this.mixingMethod )
@@ -484,7 +483,7 @@ public class CreateItemRequest
 
 			// Figure out how many items were created
 
-			createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
+			int createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
 
 			// If we created none, log error and stop iterating
 
@@ -503,7 +502,6 @@ public class CreateItemRequest
 			KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
 			this.quantityNeeded -= createdQuantity;
 		}
-		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() );
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 	}

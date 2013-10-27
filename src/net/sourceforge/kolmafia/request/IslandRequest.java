@@ -316,13 +316,13 @@ public class IslandRequest
 			return;
 		}
 
-		if ( action.equals( "action=concert" ) )
+		if ( action.equals( "concert" ) )
 		{
 			Preferences.setBoolean( "concertVisited", true );
 			return;
 		}
 
-		if ( action.equals( "action=pyro" ) )
+		if ( action.equals( "pyro" ) )
 		{
 			// "The Lighthouse Keeper's eyes light up as he sees your
 			// gunpowder.<p>&quot;Big boom!	 Big big boom!	Give me those,
