@@ -131,6 +131,7 @@ public class UseSkillRequest
 	public static int lastSkillCount = 0;
 
 	private final int skillId;
+	private final boolean isBuff;
 	private final String skillName;
 	private String target;
 	private int buffCount;
@@ -230,10 +231,12 @@ public class UseSkillRequest
 		{
 			RequestLogger.printLine( "Unrecognized skill: " + skillName );
 			this.skillName = skillName;
+			this.isBuff = false;
 		}
 		else
 		{
 			this.skillName = SkillDatabase.getSkillName( this.skillId );
+			this.isBuff = SkillDatabase.isBuff( this.skillId );
 		}
 		this.target = "yourself";
 
@@ -327,7 +330,7 @@ public class UseSkillRequest
 
 	public void setTarget( final String target )
 	{
-		if ( SkillDatabase.isBuff( this.skillId ) )
+		if ( this.isBuff )
 		{
 			this.countFieldId = "bufftimes";
 
@@ -978,7 +981,6 @@ public class UseSkillRequest
 			{
 				// Attempt to cast the buff.
 
-				this.buffCount = currentCast;
 				UseSkillRequest.optimizeEquipment( this.skillId );
 
 				if ( KoLmafia.refusesContinue() )
@@ -987,9 +989,15 @@ public class UseSkillRequest
 					return;
 				}
 
-				this.setTarget( originalTarget );
+				if ( this.isBuff )
+				{
+					this.setTarget( originalTarget );
+				}
 
-				this.addFormField( this.countFieldId, String.valueOf( currentCast ), false );
+				if ( this.countFieldId != null )
+				{
+					this.addFormField( this.countFieldId, String.valueOf( currentCast ), false );
+				}
 
 				if ( this.target == null || this.target.trim().length() == 0 )
 				{
@@ -1276,8 +1284,9 @@ public class UseSkillRequest
 		UseSkillRequest request = UseSkillRequest.getUnmodifiedInstance( skillName );
 		if ( request != null )
 		{
-			request.setTarget( null );
-			request.setBuffCount( 1 );
+			request.buffCount = 1;
+			request.countFieldId = null;
+			request.target = null;
 
 			int param = conc.getParam();
 			int clip1 = ( param >> 16 ) & 0xFF;

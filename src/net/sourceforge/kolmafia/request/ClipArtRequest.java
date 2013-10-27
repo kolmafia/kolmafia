@@ -62,19 +62,13 @@ public class ClipArtRequest
 		}
 
 		KoLmafia.updateDisplay( "Creating " + this.getQuantityNeeded() + " " + this.getName() + "..." );
-
 		UseSkillRequest request = UseSkillRequest.getInstance( "Summon Clip Art", this.concoction );
 
-		int createdQuantity = 0;
-		int beforeQuantity;
-
-		do
+		while ( this.getQuantityNeeded() > 0 && KoLmafia.permitsContinue() )
 		{
-			beforeQuantity = this.createdItem.getCount( KoLConstants.inventory );
-
+			this.beforeQuantity = this.createdItem.getCount( KoLConstants.inventory );
 			request.run();
-
-			createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - beforeQuantity;
+			int createdQuantity = this.createdItem.getCount( KoLConstants.inventory ) - this.beforeQuantity;
 
 			if ( createdQuantity == 0 )
 			{
@@ -87,8 +81,7 @@ public class ClipArtRequest
 			}
 
 			KoLmafia.updateDisplay( "Successfully created " + this.getName() + " (" + createdQuantity + ")" );
-			this.setQuantityNeeded( this.getQuantityNeeded() - createdQuantity );
+			this.quantityNeeded -= createdQuantity;
 		}
-		while ( this.getQuantityNeeded() > 0 && KoLmafia.permitsContinue() );
 	}
 }
