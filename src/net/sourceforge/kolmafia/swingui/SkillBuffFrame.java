@@ -54,10 +54,17 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.preferences.PreferenceListener;
+import net.sourceforge.kolmafia.preferences.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
@@ -134,6 +141,7 @@ public class SkillBuffFrame
 
 	private class SkillBuffPanel
 		extends GenericPanel
+		implements PreferenceListener
 	{
 		public SkillBuffPanel()
 		{
@@ -153,8 +161,194 @@ public class SkillBuffFrame
 			elements[ 3 ] = new VerifiableElement( "The Victim: ", SkillBuffFrame.this.targetSelect );
 
 			this.setContent( elements );
+			
+			this.update();
+			this.setSkillListeners();
 		}
 
+		private final String[][] DAILY_LIMITED_SKILLS =
+		{
+			{
+				"The Smile of Mr. A.", "_smilesOfMrA", "integer", "5",
+			},
+			{
+				"Rainbow Gravitation", "prismaticSummons", "integer", "3",
+			},
+			{
+				"Vent Rage Gland", "rageGlandVented", "boolean", "true",
+			},
+			{
+				"Summon Crimbo Candy", "_candySummons", "integer", "1",
+			},
+			{
+				"Lunch Break", "_lunchBreak", "boolean", "true",
+			},
+			{
+				"Summon &quot;Boner Battalion&quot;", "_bonersSummoned", "boolean", "true",
+			},
+			{
+				"Request Sandwich", "_requestSandwichSucceeded", "boolean", "true",
+			},
+			{
+				"Grab a Cold One", "_coldOne", "boolean", "true",
+			},
+			{
+				"Spaghetti Breakfast", "_spaghettiBreakfast", "boolean", "true",
+			},
+			{
+				"Pastamastery", "noodleSummons", "variable", "noodlesummons",
+			},
+			{
+				"Canticle of Carboloading", "_carboLoaded", "boolean", "true",
+			},
+			{
+				"Advanced Saucecrafting", "reagentSummons", "variable", "reagentsummons",
+			},
+			{
+				"That's Not a Knife", "_discoKnife", "boolean", "true",
+			},
+			{
+				"Advanced Cocktailcrafting", "cocktailSummons", "integer", "1",
+			},
+			{
+				"The Ballad of Richie Thingfinder", "_thingfinderCasts", "integer", "10",
+			},
+			{
+				"Benetton's Medley of Diversity", "_benettonsCasts", "integer", "10",
+			},
+			{
+				"Elron's Explosive Etude", "_elronsCasts", "integer", "10",
+			},
+			{
+				"Chorale of Companionship", "_companionshipCasts", "integer", "10",
+			},
+			{
+				"Prelude of Precision", "_precisionCasts", "integer", "10",
+			},
+			{
+				"Donho's Bubbly Ballad", "_donhosCasts", "integer", "50",
+			},
+			{
+				"Inigo's Incantation of Inspiration", "_inigosCasts", "integer", "5",
+			},
+			{
+				"Summon Snowcones", "_snowconeSummons", "variable", "tomesummons",
+			},
+			{
+				"Summon Stickers", "_stickerSummons", "variable", "tomesummons",
+			},
+			{
+				"Summon Sugar Sheets", "_sugarSummons", "variable", "tomesummons",
+			},
+			{
+				"Summon Clip Art", "_clipartSummons", "variable", "tomesummons",
+			},
+			{
+				"Summon Rad Libs", "_radlibSummons", "variable", "tomesummons",
+			},
+			{
+				"Summon Hilarious Objects", "grimoire1Summons", "integer", "1",
+			},
+			{
+				"Summon Tasteful Items", "grimoire2Summons", "integer", "1",
+			},
+			{
+				"Summon Alice's Army Cards", "grimoire3Summons", "integer", "1",
+			},
+			{
+				"Summon Geeky Gifts", "_grimoireGeekySummons", "integer", "1",
+			},
+			{
+				"Demand Sandwich", "_demandSandwich", "integer", "3",
+			},
+			{
+				"Conjure Eggs", "_jarlsEggsSummoned", "boolean", "true",
+			},
+			{
+				"Conjure Dough", "_jarlsDoughSummoned", "boolean", "true",
+			},
+			{
+				"Conjure Vegetables", "_jarlsVeggiesSummoned", "boolean", "true",
+			},
+			{
+				"Conjure Cheese", "_jarlsCheeseSummoned", "boolean", "true",
+			},
+			{
+				"Conjure Meat Product", "_jarlsMeatSummoned", "boolean", "true",
+			},
+			{
+				"Conjure Potato", "_jarlsPotatoSummoned", "boolean", "true",
+			},
+			{
+				"Conjure Cream", "_jarlsCreamSummoned", "boolean", "true",
+			},
+			{
+				"Conjure Fruit", "_jarlsFruitSummoned", "boolean", "true",
+			},
+		};
+		
+		private void setSkillListeners()
+		{
+			for ( int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i )
+			{
+				PreferenceListenerRegistry.registerListener( DAILY_LIMITED_SKILLS[ i ][ 1 ], this );
+			}
+		}
+		
+		@Override
+		public void update()
+		{
+			for ( int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i )
+			{
+				boolean skillDisable = false;
+				
+				// Handle Boolean Preferences
+				if ( DAILY_LIMITED_SKILLS[ i ][ 2 ].equals( "boolean" ) )
+				{
+					skillDisable = Preferences.getBoolean( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) == Boolean.valueOf( DAILY_LIMITED_SKILLS[ i ][ 3 ] );
+				}
+				else if ( DAILY_LIMITED_SKILLS[ i ][ 2 ].equals( "integer" ) )
+				{
+					skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) == Integer.valueOf( DAILY_LIMITED_SKILLS[ i ][ 3 ] );
+				}
+				else if ( DAILY_LIMITED_SKILLS[ i ][ 2 ].equals( "variable" ) )
+				{
+					if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "noodlesummons" ) )
+					{
+						int maxCast = KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) ? 5 : 3;
+						skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) == maxCast;
+					}
+					else if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "reagentsummons" ) )
+					{
+						int maxCast = KoLCharacter.hasSkill( "The Way of Sauce" ) ? 5 : 3;
+						if ( KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR ) &&
+							( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SAUCEBLOB_BELT, 1 ) ) ||
+							InventoryManager.getCount( ItemPool.SAUCEBLOB_BELT ) > 0 ) )
+						{
+							maxCast += 3;
+						}
+						skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) == maxCast;
+					}
+					else if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "tomesummons" ) )
+					{
+						int maxCast = KoLCharacter.canInteract() ? Math.max( 3 - Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ), 0 ) :
+							Math.max( 3 - Preferences.getInteger( "tomeSummons" ), 0 );
+						skillDisable = maxCast == 0;
+					}
+				}
+				
+				for ( int j = 0 ; j < SkillBuffFrame.this.skillSelect.getItemCount() ; j++ )
+				{
+					if ( SkillBuffFrame.this.skillSelect.getItemAt( j ).toString().contains( DAILY_LIMITED_SKILLS[ i ][ 0 ] ) )
+					{
+						
+						SkillBuffFrame.this.skillSelect.setDisabledIndex( j, skillDisable );
+						continue;
+					}
+				}
+			}
+		}
+		
 		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
