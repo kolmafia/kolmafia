@@ -6599,7 +6599,7 @@
 6582	Clan hot dog stand	346032932	crate.gif	usable	t	0	Clan hot dog stand
 6583	vicious spiked collar	981852802	spikycollar.gif	familiar	t,d	75	vicious spiked collars
 6584	ancient hot dog wrapper	111886283	wrapper.gif	offhand	t,d	5	ancient hot dog wrappers
-6585	debonair deboner	582791637	deboner.gif	weapon	t,d	180	180	debonair deboners
+6585	debonair deboner	582791637	deboner.gif	weapon	t,d	180	debonair deboners
 6586	chicle de salchicha	978763944	chicle.gif	usable	t,d	40	pieces of chicle de salchicha
 6587	jar of frostigkraut	406876387	frostigkraut.gif	offhand	t,d	70
 6588	gnawed-up dog bone	222503659	dogbone.gif	weapon	t,d	66	gnawed-up dog bones
