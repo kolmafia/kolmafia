@@ -1909,7 +1909,7 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"The Sea", "choiceAdventure401", "Mer-kin Elementary School",
 			new Object[] { "fight a Mer-kin punisher ",
-				       new Option( "Mer-kin wordquizz", "Mer-kin wordquizz" ) } ),
+				       new Option( "Mer-kin wordquiz", "Mer-kin wordquiz" ) } ),
 
 		// Don't Hold a Grudge
 		new ChoiceAdventure(
@@ -2671,6 +2671,12 @@ public abstract class ChoiceManager
 		// Choice 703 is Mer-kin dreadscroll
 		// Choice 704 is Playing the Catalog Card
 		// Choice 705 is Halls Passing in the Night
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure705", "Mer-kin Elementary School",
+			new Object[] { "fight a Mer-kin spectre",
+				       new Option( "Mer-kin sawdust", "Mer-kin sawdust" ),
+				       new Option( "Mer-kin cancerstick", "Mer-kin cancerstick" ),
+				       new Option( "Mer-kin wordquiz", "Mer-kin wordquiz" ) } ),
 
 		//     Shub-Jigguwatt (Violence) path
 		// Choice 706 is In The Temple of Violence, Shine Like Thunder
@@ -8631,6 +8637,23 @@ public abstract class ChoiceManager
 			{
 				return ( KoLConstants.activeEffects.contains( ChoiceManager.JOCK_EFFECT ) ? "1" :
 					KoLConstants.activeEffects.contains( ChoiceManager.NERD_EFFECT ) ? "2" : "3" );
+			}
+			return decision;
+			
+		// Halls Passing in the Night 
+		case 705:
+			// Option 2-4 aren't always available, but decision to take isn't clear if it's selected, so show in browser
+			if ( decision.equals( "2" ) && !responseText.contains( "Go to the janitor's closet" ) )
+			{
+				return "0";
+			}
+			if ( decision.equals( "3" ) && !responseText.contains( "Head to the bathroom" ) )
+			{
+				return "0";
+			}
+			if ( decision.equals( "4" ) && !responseText.contains( "Check out the teacher's lounge" ) )
+			{
+				return "0";
 			}
 			return decision;
 			
