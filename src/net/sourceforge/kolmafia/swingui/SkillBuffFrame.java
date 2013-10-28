@@ -343,6 +343,10 @@ public class SkillBuffFrame
 					{
 						
 						SkillBuffFrame.this.skillSelect.setDisabledIndex( j, skillDisable );
+						if ( j == SkillBuffFrame.this.skillSelect.getSelectedIndex() )
+						{
+							SkillBuffFrame.this.skillSelect.setSelectedIndex( -1 );
+						}
 						continue;
 					}
 				}
