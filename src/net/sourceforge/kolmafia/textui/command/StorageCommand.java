@@ -65,9 +65,14 @@ public class StorageCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		AdventureResult[] items;
+		if ( KoLCharacter.isHardcore() )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot pull things from storage when you are in Hardcore." );
+			return;
+		}
+
 		if ( parameters.trim().equals( "all" ) )
- 		{
+		{
 			if ( !KoLCharacter.canInteract() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot pull everything while your pulls are limited." );
@@ -77,7 +82,10 @@ public class StorageCommand
 			RequestThread.postRequest( new StorageRequest( StorageRequest.EMPTY_STORAGE ) );
 			return;
 		}
-		else if ( parameters.startsWith( "outfit " ) )
+
+		AdventureResult[] items;
+
+		if ( parameters.startsWith( "outfit " ) )
 		{
 			String name = parameters.substring( 7 ).trim();
 			SpecialOutfit outfit = EquipmentManager.getMatchingOutfit( name );
@@ -86,20 +94,58 @@ public class StorageCommand
 				KoLmafia.updateDisplay( MafiaState.ERROR, "No such outfit." );
 				return;
 			}
-			AdventureResult[] pieces = outfit.getPieces();
+
+			AdventureResultArray have = new AdventureResultArray();
+			AdventureResultArray missing = new AdventureResultArray();
 			AdventureResultArray needed = new AdventureResultArray();
+
+			AdventureResult[] pieces = outfit.getPieces();
 			for ( int i = 0; i < pieces.length; ++i )
 			{
-				if ( !InventoryManager.hasItem( pieces[ i ] ) )
+				AdventureResult piece = pieces[ i ];
+
+				// Count of item from all "autoSatisfy" source
+				int availableCount = InventoryManager.getAccessibleCount( piece );
+
+				// Count of item in storage
+				int storageCount = piece.getCount( KoLConstants.storage );
+
+				if ( ( availableCount > storageCount ) )
 				{
-					needed.add( pieces[ i ] );
+					// Don't need to pull; it's in inventory or closet or equipped
+					KoLmafia.updateDisplay( piece.getName() + " is available without pulling." );
+					have.add( piece );
+					continue;
 				}
+
+				if ( storageCount == 0 )
+				{
+					// None available outside of storage - and none in storage
+					KoLmafia.updateDisplay( piece.getName() + " is not in storage." );
+					missing.add( piece );
+					continue;
+				}
+
+				needed.add( piece );
 			}
-			if ( needed.size() == 0 )
+
+			if ( missing.size() > 0 )
 			{
-				KoLmafia.updateDisplay( "You have all of the pieces of outfit '" + name + "' in inventory already." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You are missing " + missing.size() + " pieces of outfit '" + outfit.getName() + "'; pull aborted." );
 				return;
 			}
+
+			if ( needed.size() == 0 )
+			{
+				KoLmafia.updateDisplay( "All pieces of outfit '" + outfit.getName() + "' are available without pulling." );
+				return;
+			}
+
+			if ( have.size() > 0 )
+			{
+				KoLmafia.updateDisplay( have.size() + " pieces of outfit '" + outfit.getName() + "' are available without pulling; the remaining " + needed.size() + " will be pulled." );
+			}
+
 			items = needed.toArray();
 		}
 		else
@@ -161,6 +207,7 @@ public class StorageCommand
 		}
 
 		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
+
 		if ( !KoLCharacter.canInteract() )
 		{
 			int pulls = ConcoctionDatabase.getPullsRemaining();
