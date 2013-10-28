@@ -750,7 +750,7 @@ Pumpkin Tree			petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky 
 Punk Rock Giant	giant_punk.gif	Atk: 150 Def: 140 Atk: 150 Init: 50 Meat: 50 P: humanoid	giant safety pin (0)	punk rock jacket (0)	stolen sushi (0)	folder (smiley face) (c0)
 pygmy assault squad	pyg_squad.gif	Atk: 152 Def: 136 HP: 148 Init: 50 Meat: 102-145 P: dude	bottle of alcohol (40)	pygmy pygment (25)	pygmy spear (5)	jungle drum (10)
 pygmy blowgunner	pyg_blowgunner.gif	Atk: 156 Def: 130 HP: 147 Init: 90 Meat: 86-118 P: dude	big bad voodoo mask (5)	pygmy blowgun (30)	pygmy nose-bone (10)	pygmy dart (c0)
-pygmy bowler	pyg_bowler.gif	Atk: 154 Def: 135 HP: 155 Init: 30 P: dude	bowling ball (50)	imitation White Russian (0)	tiny bowler (0)
+pygmy bowler	pyg_bowler.gif	Atk: 154 Def: 135 HP: 155 Init: 30 P: dude	bowling ball (40)	imitation White Russian (25)	tiny bowler (5)
 pygmy headhunter	pyg_headhunter.gif	Atk: 146 Def: 138 HP: 150 Init: 30 E: sleaze Meat: 143-207 P: dude	briefcase (60)	headhunter necktie (5)	pointed stick (10)	world's smallest violin (5)	pygmy papers (c0)
 pygmy janitor	pyg_janitor	Atk: 142 Def: 150 HP: 155 Init: 10 P: dude	all-purpose cleaner (0)	book of matches (0)	jungle floor wax (0)	short-handled mop (0)
 pygmy orderlies	pyg_orderlies	Atk: 152 Def: 142 HP: 158 Init: 20 P: dude	compression stocking (0)	midriff scrubs (0)	pill cup (0)
