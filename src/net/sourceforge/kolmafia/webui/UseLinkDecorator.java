@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -108,7 +109,7 @@ public abstract class UseLinkDecorator
 		boolean usedMafiaMacro = location.indexOf( "action=done" ) != -1;
 		boolean usedMacro = inCombat && ( usedNativeMacro || usedMafiaMacro );
 		boolean duringCombat = inCombat && FightRequest.getCurrentRound() != 0;
-		boolean duringChoice = inChoice && buffer.indexOf( "action=choice.php" ) != -1;
+		boolean duringChoice = inChoice && buffer.indexOf( "action=choice.php" ) != -1 && !ChoiceManager.canWalkAway();
 		boolean deferrable = inCombat || inChoice;
 		boolean deferring = duringCombat || duringChoice;
 
