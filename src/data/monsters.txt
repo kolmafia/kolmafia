@@ -15,7 +15,6 @@
 # Count Bakula
 # Crazy Bastard
 # Hypnotist of Hey Deze
-# Time Bandit
 #
 # Scaling monsters:
 #
@@ -560,7 +559,7 @@ Knob Goblin Mutant	kg_mutant.gif	Atk: 53 Def: 47 HP: 43 Init: 70 Meat: 46-50 P: 
 Knob Goblin poseur	kg_poseur.gif	Atk: 4 Def: 3 HP: 5 Init: 50 Meat: 16-24 P: goblin	dope gangsta bling-bling (10)	out-of-tune biwa (10)	terrible poem (20)
 Knob Goblin Sous Chef	kg_souschef.gif	Atk: 20 Def: 18 HP: 15 Init: 60 Meat: 16-24 P: goblin	Knob Goblin spatula (7)	Knob sausage (15)	tomato (15)	wad of dough (15)
 Knob Goblin Very Mad Scientist	kg_verymadsci.gif	Atk: 45 Def: 40 HP: 30 Init: 70 Meat: 36-57 P: goblin	Knob Goblin melon baller (5)	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	bunch of square grapes (c19)	smudged alchemical recipe (p5)	Cobb's Knob Menagerie key (c0)	Subject 37 file (c0)	broken petri dish (b0)
-Knott Slanding		E: cold Meat: 970-1335	Dallas Dynasty Falcon Crest shield (100)
+Knott Slanding	slanding.gif	Atk: 150 Def: 135 HP: 150 Init: 10000 E: cold Meat: 970-1335 P: beast	Dallas Dynasty Falcon Crest shield (100)
 Knott Yeti	yeti.gif	Atk: 105 Def: 92 HP: 90 Init: 60 E: cold Meat: 168-234 P: beast	yeti fur (30)
 Koopa Troopa	koopa.gif	Atk: 20 Def: 18 HP: 15 Init: 60 P: beast	black pixel (50)	green pixel (80)	white pixel (50)
 L imp	limp.gif	Atk: 44 Def: 39 HP: 44 Init: 60 E: hot Meat: 24-36 P: demon	Imp Ale (30)	cast (30)	flaming crutch (30)
@@ -941,7 +940,7 @@ The Man	theman.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: sleaze P: dude	r
 The Mariachi With No Name	darkmariachi.gif	Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
 The Master of Thieves	masterat.gif	Atk: 70 Def: 63 HP: 70 Init: 10000 P: dude	Platinum Yendorian Express Card (100)
 The Sagittarian	sagittarian.gif	Atk: 100 Def: 100 HP: 500 Init: 1000 P: dude	The Sagittarian's leisure pants (100)
-The Temporal Bandit		HP: 50	Counterclockwise Watch (100)
+The Temporal Bandit	timebandit.gif	Atk: 36 Def: 31 HP: 35 Init: 10000 P: dude	Counterclockwise Watch (100)
 The Terrible Pinch	thepinch.gif	BOSS Atk: 150 Def: 135 HP: 1000 Init: 100 P: humanoid	lecherous stone (100)
 The Thing with No Name	thething.gif	BOSS Atk: 200 Def: 225 HP: 1000 Init: -10000 P: humanoid	green eggnog (0)	green hamhock (0)	The Thorax's Codex of Tormenting Plants (0)	Ghost Pinching Quarterly (0)	The Snitch's Manifesto (0)
 The Thorax	thethorax.gif	BOSS Atk: 150 Def: 135 HP: 9500 Init: 100 P: beast	furious stone (100)
