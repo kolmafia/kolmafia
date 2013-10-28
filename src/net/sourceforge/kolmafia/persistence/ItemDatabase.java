@@ -1255,6 +1255,12 @@ public class ItemDatabase
 		ConcoctionDatabase.addUsableConcoction( c );
 	}
 
+	public static final void registerPlural( final int itemId, final String plural )
+	{
+		ItemDatabase.pluralById.set( itemId, plural );
+		ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), IntegerPool.get( itemId ) );
+	}
+
 	private static void parseItemDescription( final Integer id, final String descId, int power )
 	{
 		int itemId = id.intValue();

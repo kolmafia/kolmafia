@@ -95,12 +95,6 @@ public class ResultProcessor
 	private static boolean receivedDisassembledClover = false;
 	private static boolean autoCrafting = false;
 
-	// This number changes every time an item is processed, and can be used
-	// by other code to tell if an item is received, without necessarily
-	// knowing which item it was.
-
-	public static int itemSequenceCount = 0;
-
 	public static boolean receivedClover()
 	{
 		return ResultProcessor.receivedClover;
@@ -404,8 +398,6 @@ public class ResultProcessor
 		}
 
 		ResultProcessor.processResult( combatResults, result );
-
-		++ResultProcessor.itemSequenceCount;
 	}
 
 	private static boolean processEffect( StringTokenizer parsedResults, String acquisition, List<AdventureResult> data )
