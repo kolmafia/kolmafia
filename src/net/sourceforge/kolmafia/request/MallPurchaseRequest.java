@@ -62,8 +62,6 @@ public class MallPurchaseRequest
 
 	private final int shopId;
 
-	private int itemSequenceCount = 0;	// for detecting renamed items
-
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> with the given
 	 * values. Note that the only value which can be modified at a later
@@ -160,7 +158,6 @@ public class MallPurchaseRequest
 			return;
 		}
 
-		this.itemSequenceCount = ResultProcessor.itemSequenceCount;
 		this.addFormField( "quantity", String.valueOf( this.limit ) );
 
 		super.run();
@@ -173,6 +170,21 @@ public class MallPurchaseRequest
 		return this.item.getCount( list );
 	}
 
+	private static int extractItemId( final String urlString )
+	{
+		Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return -1;
+		}
+
+		// whichitem=2272000000246
+		// the last 9 characters of idString are the price, with leading zeros
+
+		String idString = itemMatcher.group( 1 );
+		return StringUtilities.parseInt( idString.substring( 0, idString.length() - 9 ) );
+	}
+
 	@Override
 	public void processResults()
 	{
@@ -181,13 +193,6 @@ public class MallPurchaseRequest
 		int quantityAcquired = this.getCurrentCount() - this.initialCount;
 		if ( quantityAcquired > 0 )
 		{
-			return;
-		}
-
-		if ( this.itemSequenceCount != ResultProcessor.itemSequenceCount )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR,
-				"Wrong item received - possibly its name or plural has changed." );
 			return;
 		}
 
@@ -207,7 +212,7 @@ public class MallPurchaseRequest
 		// purchasing the item.	 If that's the case, just return
 		// without doing anything; nothing left to do.
 
-		if ( this.responseText.indexOf( "You can't afford" ) != -1 )
+		if ( this.responseText.contains( "You can't afford" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Not enough funds." );
 			return;
@@ -215,7 +220,7 @@ public class MallPurchaseRequest
 
 		// If you are on a player's ignore list, you can't buy from his store
 
-		if ( this.responseText.indexOf( "That player will not sell to you" ) != -1 )
+		if ( this.responseText.contains( "That player will not sell to you" ) )
 		{
 			KoLmafia.updateDisplay( "You are on this shop's ignore list (#" + this.shopId + "). Skipping..." );
 			RequestLogger.updateSessionLog( "You are on this shop's ignore list (#" + this.shopId + "). Skipping...");
@@ -227,7 +232,7 @@ public class MallPurchaseRequest
 		// to yield" message.  In that case, you may wish to
 		// re-attempt the purchase.
 
-		if ( this.responseText.indexOf( "This store doesn't" ) != -1 || this.responseText.indexOf( "failed to yield" ) != -1 )
+		if ( this.responseText.contains( "This store doesn't" ) || this.responseText.contains( "failed to yield" ) )
 		{
 			Matcher itemChangedMatcher =
 				Pattern.compile(
@@ -335,12 +340,38 @@ public class MallPurchaseRequest
 		}
 
 		AdventureResult item = results.get( 0 );
+
+		if ( item.getItemId() == -1 )
+		{
+			KoLmafia.updateDisplay( "Wrong item received - possibly its name or plural has changed." );
+
+			// Assume that KoL really is giving us the item we asked for.
+			int itemId = MallPurchaseRequest.extractItemId( urlString );
+			int count = item.getCount();
+			String name = item.getName();
+
+			if ( count > 1 )
+			{
+				// Register new plural
+				ItemDatabase.registerPlural( itemId, name );
+			}
+			else
+			{
+				// Register new item name
+				ItemDatabase.registerItem( itemId );
+			}
+
+			item = new AdventureResult( itemId, count );
+		}
+
 		if ( itemMatcher.group( 2 ) == null)
 		{
+			// Add the item to inventory
 			ResultProcessor.processItem( item.getItemId(), item.getCount() );
 		}
 		else
 		{
+			// Add the item to storage
 			AdventureResult.addResultToList( KoLConstants.storage, item );
 		}
 
