@@ -4,14 +4,14 @@
 
 # no.	name	image	type	larva	item	CM	SH	OC	H&S
 
-1	Mosquito	familiar1.gif	combat	275	hypodermic needle	2	1	3	0
+1	Mosquito	familiar1.gif	combat, sorceress	275	hypodermic needle	2	1	3	0
 2	Leprechaun	familiar2.gif	meat0	276	Meat detector	1	3	0	2
-3	Levitating Potato	familiar3.gif	none	288	many-eyed glasses	0	1	2	3
-4	Angry Goat	familiar4.gif	combat	327	prosthetic forehead	3	0	2	1
-5	Sabre-Toothed Lime	familiar5.gif	combat	335	tiny shaker of salt	3	0	2	1
+3	Levitating Potato	familiar3.gif	none, sorceress	288	many-eyed glasses	0	1	2	3
+4	Angry Goat	familiar4.gif	combat, sorceress	327	prosthetic forehead	3	0	2	1
+5	Sabre-Toothed Lime	familiar5.gif	combat, sorceress	335	tiny shaker of salt	3	0	2	1
 6	Fuzzy Dice	familiar6.gif	combat	387	meatcar model	2	2	2	2
 7	Spooky Pirate Skeleton	familiar7.gif	combat	408	blundarrrbus	2	3	1	0
-8	Barrrnacle	familiar8.gif	none	412	sucky decal	0	2	1	3
+8	Barrrnacle	familiar8.gif	none, sorceress	412	sucky decal	0	2	1	3
 9	Howling Balloon Monkey	familiar9.gif	combat	436	tiny balloon knife	1	3	2	0
 10	Stab Bat	familiar10.gif	combat	523	shock collar	3	2	1	0
 11	Grue	familiar11.gif	combat	525	moonglasses	2	0	1	3
@@ -20,7 +20,7 @@
 14	Ghuol Whelp	familiar14.gif	none	529	tiny knife and fork	1	2	0	3
 15	Baby Gravy Fairy	familiar15.gif	item0	561	eye-pod	0	3	1	2
 16	Cocoabo	familiar16.gif	combat	591	chocolate spurs	2	3	0	1
-17	Star Starfish	familiar17.gif	combat	664	magnifying glass	2	1	3	0
+17	Star Starfish	familiar17.gif	combat, sorceress	664	magnifying glass	2	1	3	0
 18	Hovering Sombrero	hat2.gif	stat1	1165	tiny maracas	0	3	2	1
 19	Ghost Pickle on a Stick	familiar19.gif	combat	766	skewer-mounted razor blade	3	1	0	2
 20	Killer Bee	familiar20.gif	combat	828	brass stinger	3	1	2	0

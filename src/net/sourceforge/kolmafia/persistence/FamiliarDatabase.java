@@ -84,6 +84,7 @@ public class FamiliarDatabase
 	private static final BooleanArray sombreroById = new BooleanArray();
 	private static final BooleanArray meatDropById = new BooleanArray();
 	private static final BooleanArray fairyById = new BooleanArray();
+	private static final BooleanArray sorceressById = new BooleanArray();
 
 	private static final Map[] eventSkillByName = new HashMap[ 4 ];
 
@@ -154,7 +155,7 @@ public class FamiliarDatabase
 				FamiliarDatabase.sombreroById.set( familiarId.intValue(), familiarType.indexOf( "stat1" ) != -1 );
 				FamiliarDatabase.fairyById.set( familiarId.intValue(), familiarType.indexOf( "item0" ) != -1 );
 				FamiliarDatabase.meatDropById.set( familiarId.intValue(), familiarType.indexOf( "meat0" ) != -1 );
-
+				FamiliarDatabase.sorceressById.set( familiarId.intValue(), familiarType.indexOf( "sorceress" ) != -1 );
 				String canonical = StringUtilities.getCanonicalName( data[ 1 ] );
 				for ( int i = 0; i < 4; ++i )
 				{
@@ -325,6 +326,11 @@ public class FamiliarDatabase
 	public static final boolean isMeatDropType( final int familiarId )
 	{
 		return FamiliarDatabase.meatDropById.get( familiarId );
+	}
+
+	public static final boolean isSorceressFamiliar( final int familiarId )
+	{
+		return FamiliarDatabase.sorceressById.get( familiarId );
 	}
 
 	public static final String getFamiliarItem( final int familiarId )
