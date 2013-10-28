@@ -1048,6 +1048,13 @@ public class IslandManager
 			return;
 		}
 
+		// You can fax in monsters even after the war is over. Nothing
+		// special to do in that case.
+		if ( Preferences.getString( "warProgress").equals( "finished" ) )
+		{
+			return;
+		}
+
 		MonsterData monster = MonsterDatabase.findMonster( monsterName, false );
 
 		// Decide whether we defeated a hippy or a fratboy warrior
