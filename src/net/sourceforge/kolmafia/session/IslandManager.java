@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -70,14 +71,40 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class IslandManager
 {
+	private static AreaCombatData fratboyBattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Frat Uniform)" );
+	private static AreaCombatData hippyBattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Hippy Uniform)" );
+	
+	public static final boolean isBattlefieldMonster()
+	{
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		return IslandManager.isBattlefieldMonster( monster );
+	}
+
+	public static final boolean isBattlefieldMonster( final String name )
+	{
+		MonsterData monster = MonsterDatabase.findMonster( name, false );
+		return IslandManager.isBattlefieldMonster( monster );
+	}
+
+	public static final boolean isBattlefieldMonster( MonsterData monster )
+	{
+		return	IslandManager.fratboyBattlefield.hasMonster( monster ) ||
+			IslandManager.hippyBattlefield.hasMonster( monster );
+	}
+
+	public static final boolean isFratboyBattlefieldMonster( MonsterData monster )
+	{
+		return	IslandManager.fratboyBattlefield.hasMonster( monster );
+	}
+
+	public static final boolean isHippyBattlefieldMonster( MonsterData monster )
+	{
+		return	IslandManager.fratboyBattlefield.hasMonster( monster );
+	}
+
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
 	private static final Pattern JUNKYARD_PATTERN =
 		Pattern.compile( "(?:The last time I saw my|muttering something about a(?: pair of)?) (.*?)(?:, it was|, they were| and) (.*?)[.<]", Pattern.DOTALL );
-
-	private static AreaCombatData fratboyBattlefield =
-		AdventureDatabase.getAreaCombatData( "The Battlefield (Frat Uniform)" );
-	private static AreaCombatData hippyBattlefield =
-		AdventureDatabase.getAreaCombatData( "The Battlefield (Hippy Uniform)" );
 
 	private static String missingGremlinTool = null;
 
@@ -943,18 +970,12 @@ public class IslandManager
 			return;
 		}
 
-		IslandManager.lastFratboysDefeated = IslandManager.fratboysDefeated;
-		IslandManager.lastHippiesDefeated = IslandManager.hippiesDefeated;
-
-		// Just in case
-		PrintStream sessionStream = RequestLogger.getSessionStream();
-
 		// We only count known monsters
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		if ( monster == null )
 		{
 			// The monster is not in the monster database.
-			sessionStream.println( "Unknown monster found on battlefield: " + FightRequest.getLastMonsterName() );
+			RequestLogger.updateSessionLog( "Unknown monster found on battlefield: " + FightRequest.getLastMonsterName() );
 			return;
 		}
 
@@ -978,22 +999,75 @@ public class IslandManager
 			IslandManager.handleEndOfWar( "fratboys" );
 			return;
 		}
+	}
+
+	private static final void handleEndOfWar( final String loser )
+	{
+		String message;
+
+		if ( loser.equals( "fratboys" ) )
+		{
+			IslandManager.fratboysDefeated = 1000;
+			Preferences.setInteger( "fratboysDefeated", 1000 );
+			message = "War finished: fratboys defeated";
+		}
+		else if ( loser.equals( "hippies" ) )
+		{
+			IslandManager.hippiesDefeated = 1000;
+			Preferences.setInteger( "hippiesDefeated", 1000 );
+			message = "War finished: hippies defeated";
+		}
+		else if ( loser.equals( "both" ) )
+		{
+			IslandManager.fratboysDefeated = 1000;
+			Preferences.setInteger( "fratboysDefeated", 1000 );
+			IslandManager.hippiesDefeated = 1000;
+			Preferences.setInteger( "hippiesDefeated", 1000 );
+			message = "War finished: both sides defeated";
+		}
+		else
+		{
+			// Say what?
+			return;
+		}
+
+		RequestLogger.updateSessionLog( message );
+		RequestLogger.printLine( message );
+
+		Preferences.setString( "sideDefeated", loser );
+		Preferences.setString( "warProgress", "finished" );
+		QuestDatabase.setQuestProgress( QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED );
+		CoinmastersFrame.externalUpdate();
+	}
+
+	public static final void handleBattlefieldMonster( final String responseText, final String monsterName )
+	{
+		// Nothing to do until battle is done
+		if ( !responseText.contains( "WINWINWIN" ) )
+		{
+			return;
+		}
+
+		MonsterData monster = MonsterDatabase.findMonster( monsterName, false );
 
 		// Decide whether we defeated a hippy or a fratboy warrior
-		if ( IslandManager.fratboyBattlefield.hasMonster( monster ) )
+		if ( IslandManager.isFratboyBattlefieldMonster( monster ) )
 		{
 			IslandManager.fratboy = false;
 		}
-		else if ( IslandManager.hippyBattlefield.hasMonster( monster ) )
+		else if ( IslandManager.isHippyBattlefieldMonster( monster ) )
 		{
 			IslandManager.fratboy = true;
 		}
 		else
 		{
 			// Known but unexpected monster on battlefield.
-			sessionStream.println( "Unexpected monster found on battlefield: " + FightRequest.getLastMonsterName() );
+			RequestLogger.updateSessionLog( "Unexpected monster found on battlefield: " + monsterName );
 			return;
 		}
+
+		IslandManager.lastFratboysDefeated = IslandManager.fratboysDefeated;
+		IslandManager.lastHippiesDefeated = IslandManager.hippiesDefeated;
 
 		// Figure out how many enemies were defeated
 		String[][] table = IslandManager.fratboy ? IslandManager.FRAT_MESSAGES : IslandManager.HIPPY_MESSAGES;
@@ -1049,45 +1123,6 @@ public class IslandManager
 			RequestLogger.updateSessionLog( message );
 			RequestLogger.printLine( message );
 		}
-	}
-
-	private static final void handleEndOfWar( final String loser )
-	{
-		String message;
-
-		if ( loser.equals( "fratboys" ) )
-		{
-			IslandManager.fratboysDefeated = 1000;
-			Preferences.setInteger( "fratboysDefeated", 1000 );
-			message = "War finished: fratboys defeated";
-		}
-		else if ( loser.equals( "hippies" ) )
-		{
-			IslandManager.hippiesDefeated = 1000;
-			Preferences.setInteger( "hippiesDefeated", 1000 );
-			message = "War finished: hippies defeated";
-		}
-		else if ( loser.equals( "both" ) )
-		{
-			IslandManager.fratboysDefeated = 1000;
-			Preferences.setInteger( "fratboysDefeated", 1000 );
-			IslandManager.hippiesDefeated = 1000;
-			Preferences.setInteger( "hippiesDefeated", 1000 );
-			message = "War finished: both sides defeated";
-		}
-		else
-		{
-			// Say what?
-			return;
-		}
-
-		RequestLogger.updateSessionLog( message );
-		RequestLogger.printLine( message );
-
-		Preferences.setString( "sideDefeated", loser );
-		Preferences.setString( "warProgress", "finished" );
-		QuestDatabase.setQuestProgress( QuestDatabase.Quest.ISLAND_WAR, QuestDatabase.FINISHED );
-		CoinmastersFrame.externalUpdate();
 	}
 
 	public static final void parseIsland( final String location, final String responseText )

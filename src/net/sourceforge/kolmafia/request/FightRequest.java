@@ -558,30 +558,16 @@ public class FightRequest
 			&& BeerPongRequest.countPirateInsults() != 8 && insultedPirate == false && isPirate();
 	}
 	
-	public static final boolean isBattlefieldMonster()
-	{
-		AreaCombatData fratbattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Frat Uniform)" );
-		AreaCombatData hippybattlefield = AdventureDatabase.getAreaCombatData( "The Battlefield (Hippy Uniform)" );
-		
-		MonsterData monster = MonsterDatabase.findMonster( MonsterStatusTracker.getLastMonsterName(), false );
-		
-		if( fratbattlefield.hasMonster( monster ) || hippybattlefield.hasMonster( monster ) )
-		{
-			return true;
-		}
-		return false;
-	}
-	
 	public static final boolean canJamFlyer()
 	{
 		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.JAM_BAND_FLYERS, 1 ) )
-			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !isBattlefieldMonster();
+			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !IslandManager.isBattlefieldMonster();
 	}
 	
 	public static final boolean canRockFlyer()
 	{
 		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.ROCK_BAND_FLYERS, 1 ) )
-			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !isBattlefieldMonster();
+			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !IslandManager.isBattlefieldMonster();
 	}
 	
 	public static void initializeAfterFight()
@@ -2221,7 +2207,7 @@ public class FightRequest
 		Matcher DiscoMatcher = FightRequest.DISCO_MOMENTUM_PATTERN.matcher( FightRequest.lastResponseText );
 		if ( DiscoMatcher.find() )
 		{
-				KoLCharacter.setDiscoMomentum( StringUtilities.parseInt( DiscoMatcher.group( 1 ) ) );
+			KoLCharacter.setDiscoMomentum( StringUtilities.parseInt( DiscoMatcher.group( 1 ) ) );
 		}
 
 		// Check for equipment breakage that can happen at any time.
@@ -2998,7 +2984,11 @@ public class FightRequest
 				Preferences.increment( "_snowSuitCount", 1, 75, false );
 			}
 
-			if ( monster.equalsIgnoreCase( "Black Pudding" ) )
+			if ( IslandManager.isBattlefieldMonster( monster ) )
+			{
+				IslandManager.handleBattlefieldMonster( responseText, monster );
+			}
+			else if ( monster.equalsIgnoreCase( "Black Pudding" ) )
 			{
 				Preferences.increment( "blackPuddingsDefeated", 1 );
 			}
