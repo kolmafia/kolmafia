@@ -6502,7 +6502,7 @@ public abstract class ChoiceManager
 					Preferences.setInteger( "hiddenBowlingAlleyProgress", 7 );
 				}
 			}
-			else if ( ChoiceManager.lastDecision == 1 )
+			if ( ChoiceManager.lastDecision == 1 )
 			{
 				ResultProcessor.removeItem( ItemPool.BOWLING_BALL );
 				int bowlCount = Preferences.getInteger( "hiddenBowlingAlleyProgress" );
