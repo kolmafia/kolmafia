@@ -1611,9 +1611,11 @@ public class ItemPool
 	public static final int ARTIST_JAR = 5902;
 	public static final int MEATSMITH_JAR = 5903;
 	public static final int JICK_JAR = 5905;
+	public static final int CHIBIBUDDY_ON = 5908;
 	public static final int BEET_MEDIOCREBAR = 5915;
 	public static final int CORN_MEDIOCREBAR = 5916;
 	public static final int CABBAGE_MEDIOCREBAR = 5917;
+	public static final int CHIBIBUDDY_OFF = 5925;
 	public static final int ELECTRONIC_DULCIMER_PANTS = 5963;
 	public static final int BOO_CLUE = 5964;
 	public static final int INFURIATING_SILENCE_RECORD = 5971;
