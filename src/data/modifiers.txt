@@ -5534,6 +5534,7 @@ unemployed hunchbacked minion	Free Pull
 unholy water	Effect: "Shocking Biology", Effect Duration: 30
 uniclops egg	Free Pull
 unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
+unused walkie-talkie	Free Pull
 unwound cymbal-playing monkey	Free Pull
 upsy daisy	Effect: "Ass Over Teakettle", Effect Duration: 10
 vial of baconstone juice	Effect: "Baconstoned", Effect Duration: 5
@@ -5546,6 +5547,7 @@ vial of The Glistening	Effect: "The Glistening", Effect Duration: 15
 violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 votive candle	Effect: "Clerical Aura", Effect Duration: 100
 wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
+walkie talkie	Free Pull
 wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15
 weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
 wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
