@@ -734,6 +734,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.CEO_OFFICE_CARD:
 			case ItemPool.DREADSCROLL:
 			case ItemPool.RUSTY_HEDGE_TRIMMERS:
+			case ItemPool.WALKIE_TALKIE:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
