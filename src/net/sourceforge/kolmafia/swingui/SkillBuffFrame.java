@@ -309,14 +309,14 @@ public class SkillBuffFrame
 				}
 				else if ( DAILY_LIMITED_SKILLS[ i ][ 2 ].equals( "integer" ) )
 				{
-					skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) == Integer.valueOf( DAILY_LIMITED_SKILLS[ i ][ 3 ] );
+					skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) >= Integer.valueOf( DAILY_LIMITED_SKILLS[ i ][ 3 ] );
 				}
 				else if ( DAILY_LIMITED_SKILLS[ i ][ 2 ].equals( "variable" ) )
 				{
 					if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "noodlesummons" ) )
 					{
 						int maxCast = KoLCharacter.hasSkill( "Transcendental Noodlecraft" ) ? 5 : 3;
-						skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) == maxCast;
+						skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) >= maxCast;
 					}
 					else if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "reagentsummons" ) )
 					{
@@ -327,7 +327,7 @@ public class SkillBuffFrame
 						{
 							maxCast += 3;
 						}
-						skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) == maxCast;
+						skillDisable = Preferences.getInteger( DAILY_LIMITED_SKILLS[ i ][ 1 ] ) >= maxCast;
 					}
 					else if ( DAILY_LIMITED_SKILLS[ i ][ 3 ].equals( "tomesummons" ) )
 					{
