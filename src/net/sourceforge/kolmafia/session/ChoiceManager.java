@@ -9195,6 +9195,8 @@ public abstract class ChoiceManager
 		case 720: // The Florist Friar's Cottage
 		case 767: // Tales of Dread
 		case 774: // Opening up the Folder Holder
+		case 770: // The Institute for Canadian Studies
+		case 792: // The Degrassi Knoll Gym
 		case 793: // Welcome to The Shore, Inc.
 		case 801: // A Reanimated Conversation
 		case 804: // Trick or Treat!
