@@ -6860,7 +6860,7 @@
 6843	bone bons	405110026	bonebon.gif	usable, candy	t,d	25
 6844	ironic mint	800270383	ironmint.gif	usable, candy	t,d	25
 6845	unused walkie-talkie	515507078	walkietalkie.gif	usable	t	0
-6846	walkie talkie	879889967	walkietalkie.gif	usable		0
+6846	walkie talkie	879889967	walkietalkie.gif	reusable		0
 6847
 6848	security flashlight	327985938	flashlight.gif	offhand	t,d	40
 6849	Effermint&trade; tablets	230478466	effermint.gif	multiple	t,d	35

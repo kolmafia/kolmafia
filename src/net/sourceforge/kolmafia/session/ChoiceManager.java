@@ -9190,20 +9190,21 @@ public abstract class ChoiceManager
 	{
 		switch ( choice )
 		{
-			case 603: // Skeletons and The Closet
-			case 664: // The Crackpot Mystic's Shed
-			case 720: // The Florist Friar's Cottage
-			case 767: // Tales of Dread
-			case 774: // Opening up the Folder Holder
-			case 793: // Welcome to The Shore, Inc.
-			case 801: // A Reanimated Conversation
-			case 804: // Trick or Treat!
-				ChoiceManager.canWalkAway = true;
-				break;
+		case 603: // Skeletons and The Closet
+		case 664: // The Crackpot Mystic's Shed
+		case 720: // The Florist Friar's Cottage
+		case 767: // Tales of Dread
+		case 774: // Opening up the Folder Holder
+		case 793: // Welcome to The Shore, Inc.
+		case 801: // A Reanimated Conversation
+		case 804: // Trick or Treat!
+		case 807: // Breaker Breaker!
+			ChoiceManager.canWalkAway = true;
+			break;
 
-			default:
-				ChoiceManager.canWalkAway = false;
+		default:
+			ChoiceManager.canWalkAway = false;
+			break;
 		}
 	}
-
 }
