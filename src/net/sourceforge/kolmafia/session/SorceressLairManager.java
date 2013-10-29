@@ -2303,7 +2303,7 @@ public abstract class SorceressLairManager
 		SorceressLairManager.decorateGate( buffer, gateMatcher );
 	}
 
-	public static final void decorateGate( final StringBuffer buffer, final Matcher gateMatcher )
+	private static final void decorateGate( final StringBuffer buffer, final Matcher gateMatcher )
 	{
 		if ( !gateMatcher.find() )
 		{
@@ -2369,6 +2369,11 @@ public abstract class SorceressLairManager
 
 	public static final void decorateKey( final String location, final StringBuffer buffer )
 	{
+		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		{
+			return;
+		}
+
 		Matcher matcher = SorceressLairManager.WHICHKEY_PATTERN.matcher( location );
 		if ( !matcher.find() )
 		{
@@ -2400,18 +2405,34 @@ public abstract class SorceressLairManager
 			key = ItemDatabase.getItemId( matcher.group( 1 ) );
 		}
 
-		if ( key == ItemPool.DIGITAL_KEY )
+		switch ( key )
 		{
+		case ItemPool.BORIS_KEY:
+			SorceressLairManager.decorateLegendKey( buffer, "fish" );
+			return;
+		case ItemPool.JARLSBERG_KEY:
+			SorceressLairManager.decorateLegendKey( buffer, "phish" );
+			return;
+		case ItemPool.SNEAKY_PETE_KEY:
+			SorceressLairManager.decorateLegendKey( buffer, "fsh" );
+			return;
+		case ItemPool.DIGITAL_KEY:
 			SorceressLairManager.decorateDigitalKey( buffer );
+			return;
 		}
 	}
 
-	public static final void decorateDigitalKey( final StringBuffer buffer )
+	private static final void decorateLegendKey( final StringBuffer buffer, final String answer )
 	{
-		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
+		int index = buffer.indexOf( "name=answer" );
+		if ( index != -1 )
 		{
-			return;
+			buffer.insert( index+11, " value=\"" + answer + "\"" );
 		}
+	}
+
+	private static final void decorateDigitalKey( final StringBuffer buffer )
+	{
 		SorceressLairManager.decorateDigitalKey( buffer, "seq1", "up" );
 		SorceressLairManager.decorateDigitalKey( buffer, "seq2", "up" );
 		SorceressLairManager.decorateDigitalKey( buffer, "seq3", "down" );

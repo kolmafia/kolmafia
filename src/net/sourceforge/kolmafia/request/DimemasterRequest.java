@@ -126,10 +126,7 @@ public class DimemasterRequest
 	@Override
 	public void processResults()
 	{
-		// Do NOT parse the response here, since CouncilFrame.handleQuestChange
-		// sends all bigisland.php responses to IslandDecorator.parseBigIsland
-		// which will call that itself for all requests, external or internal
-		// CoinMasterRequest.parseResponse( this.data, this.getURLString(), this.responseText );
+		CoinMasterRequest.parseResponse( DimemasterRequest.HIPPY, this.getURLString(), this.responseText );
 	}
 
 	public static final boolean registerRequest( final String urlString )
