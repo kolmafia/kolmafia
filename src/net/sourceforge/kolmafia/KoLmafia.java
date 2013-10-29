@@ -696,6 +696,8 @@ public abstract class KoLmafia
 		TurnCounter.stopCounting( "Romantic Monster window end" );
 		TurnCounter.stopCounting( "Holiday Monster window begin" );
 		TurnCounter.stopCounting( "Holiday Monster window end" );
+		TurnCounter.stopCounting( "Event Monster window begin" );
+		TurnCounter.stopCounting( "Event Monster window end" );
 		TurnCounter.stopCounting( "Taco Elf window begin" );
 		TurnCounter.stopCounting( "Taco Elf window end" );
 	}
