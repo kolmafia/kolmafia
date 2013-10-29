@@ -290,9 +290,11 @@ public class ClanRumpusRequest
 			// If we can do inside Degrassi Knoll use the gym.
 			if ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() )
 			{
-				this.constructURLString( "place.php" );
-				this.addFormField( "whichplace", "knoll_friendly" );
-				this.addFormField( "action", "dk_gym" );
+				// First load the choice adventure page
+				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=knoll_friendly&action=dk_gym" ) );
+				this.constructURLString( "choice.php" );
+				this.addFormField( "whichchoice", "792" );
+				this.addFormField( "option", "1" );
 			}
 			// Otherwise, use the one in our clan - if we're in one.
 			else
