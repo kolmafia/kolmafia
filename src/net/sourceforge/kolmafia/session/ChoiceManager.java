@@ -9200,7 +9200,7 @@ public abstract class ChoiceManager
 		case 793: // Welcome to The Shore, Inc.
 		case 801: // A Reanimated Conversation
 		case 804: // Trick or Treat!
-		case 807: // Breaker Breaker!
+		// case 807: // Breaker Breaker!
 			ChoiceManager.canWalkAway = true;
 			break;
 
