@@ -410,20 +410,16 @@ public class ListCellRendererFactory
 			
 			switch ( item.getItemId() )
 			{
-			case ItemPool.DISTENTION_PILL:
-				stringForm.append( "increase fullness by 1" );
-				break;
-
 			case ItemPool.MUNCHIES_PILL:
 				stringForm.append( "+1-3 adv from next food eaten" );
 				break;
 
 			case ItemPool.SUSHI_DOILY:
-				stringForm.append( "+3 adv from next sushi eaten" );
+				stringForm.append( "+3 adv from next sushi eaten (automatically used from inventory)" );
 				break;
 
 			case ItemPool.GRAINS_OF_SALT:
-				stringForm.append( "+3 adv from next food eaten" );
+				stringForm.append( "+3 adv from next food eaten (automatically used from inventory)" );
 				break;
 
 			case ItemPool.SCRATCHS_FORK:
