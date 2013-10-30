@@ -103,147 +103,16 @@ public class AdventureDatabase
 	// This should be removed eventually
 	private static final String[][] OLD_LOCATIONS =
 	{
+		
 		{
-			"Ninja Snowmen",
-			"Lair of the Ninja Snowmen"
+			"Desert (Unhydrated)",
+			"The Arid, Extra-Dry Desert"
 		},
 		{
-			"Fantasy Airship",
-			"The Penultimate Fantasy Airship"
+			"Desert (Ultrahydrated)",
+			"The Arid, Extra-Dry Desert"
 		},
-		{
-			"Giant's Castle (Basement)",
-			"The Castle in the Clouds in the Sky (Basement)"
-		},
-		{
-			"Giant's Castle (Ground Floor)",
-			"The Castle in the Clouds in the Sky (Ground Floor)"
-		},
-		{
-			"Giant's Castle (Top Floor)",
-			"The Castle in the Clouds in the Sky (Top Floor)"
-		},
-		{
-			"Greater-Than Sign",
-			"The Enormous Greater-Than Sign"
-		},
-		{
-			"Pirate Cove",
-			"The Obligatory Pirate's Cove"
-		},
-		{
-			"The Domed City of Ronaldus",
-			"Domed City of Ronaldus"
-		},
-		{
-			"The Domed City of Grimacia",
-			"Domed City of Grimacia"
-		},
-		{
-			"Outskirts of The Knob",
-			"The Outskirts of Cobb's Knob"
-		},
-		{
-			"Bat Hole Entryway",
-			"The Bat Hole Entrance"
-		},
-		{
-			"Barn",
-			"McMillicancuddy's Barn"
-		},
-		{
-			"Pond",
-			"McMillicancuddy's Pond"
-		},
-		{
-			"Back 40",
-			"McMillicancuddy's Back 40"
-		},
-		{
-			"Other Back 40",
-			"McMillicancuddy's Other Back 40"
-		},
-		{
-			"Granary",
-			"McMillicancuddy's Granary"
-		},
-		{
-			"Bog",
-			"McMillicancuddy's Bog"
-		},
-		{
-			"Family Plot",
-			"McMillicancuddy's Family Plot"
-		},
-		{
-			"Shady Thicket",
-			"McMillicancuddy's Shady Thicket"
-		},
-		{
-			"Belilafs Comedy Club",
-			"The Laugh Floor"
-		},
-		{
-			"Hey Deze Arena",
-			"Infernal Rackets Backstage"
-		},
-		{
-			"Oasis in the Desert",
-			"The Oasis"
-		},
-		{
-			"Guards' Chamber",
-			"The Royal Guard Chamber"
-		},
-		{
-			"Wartime Sonofa Beach",
-			"Sonofa Beach"
-		},
-		{
-			"Post-War Sonofa Beach",
-			"Sonofa Beach"
-		},
-		{
-			"Orc Chasm",
-			"The Valley of Rof L'm Fao"
-		},
-		{
-			"Fernswarthy's Ruins",
-			"Tower Ruins"
-		},
-		{
-			"A Well-Groomed Lawn",
-			"The Landscaper's Lair"
-		},
-		{
-			"Astral Mushroom (Bad Trip)",
-			"An Incredibly Strange Place (Bad Trip)"
-		},
-		{
-			"Astral Mushroom (Mediocre Trip)",
-			"An Incredibly Strange Place (Mediocre Trip)"
-		},
-		{
-			"Astral Mushroom (Great Trip)",
-			"An Incredibly Strange Place (Great Trip)"
-		},
-		{
-			"Muscle Vacation",
-			"The Shore, Inc. Travel Agency"
-		},
-		{
-			"Mysticality Vacation",
-			"The Shore, Inc. Travel Agency"
-		},
-		{
-			"Moxie Vacation",
-			"The Shore, Inc. Travel Agency"
-		},
-		{
-			"The Fun House",
-			"The \"Fun\" House"
-		}
-		// Everything above here added to 16.0, remove after 16.1
+		// Everything above here added to 16.1, remove after 16.2
 	};
 
 	// These should be removed eventually

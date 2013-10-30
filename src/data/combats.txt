@@ -91,7 +91,6 @@ Crimbo Town Toy Factory	100	Amateur Elf	Auteur Elf	bolt-cuttin' elf	monkey wrenc
 Crimbokutown Toy Factory	100	circuit-soldering animelf	plastic-extruding animelf	quality control animelf	tiny-screwing animelf	toy assembling animelf
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
 The Daily Dungeon	-1	apathetic lizardman	dairy ooze	dodecapede	giant giant moth	mayonnaise wasp	pencil golem	sabre-toothed lime	tonic water elemental	vampire clam
-Desert (Ultrahydrated)	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
 Domed City of Ronaldus	100	dogcat	ferrelf	hamsterpus	overarmed survivor	primitive survivor	unlikely survivor
 Domed City of Grimacia	100	alielf	cat-alien	dog-alien	grizzled survivor	unhinged survivor	whiny survivor
 Doubt Man's Level	-1	judgmental eye	reproachful heart	work hat	Doubt Man: 0
@@ -177,6 +176,7 @@ The Stately Pleasure Dome	70	Ancient Mariner	angry poet	Kubla Khan	roller-skatin
 Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
 Tavern Cellar	-1	drunken rat	Baron Von Ratsworth: 0
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
+The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
 The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0
 The Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0

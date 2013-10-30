@@ -8,10 +8,8 @@ Gyms	clan_hobopolis=1	false	none	Richard's Hobo Mysticality
 Gyms	clan_hobopolis=2	false	none	Richard's Hobo Moxie
 Gyms	clan_hobopolis=3	false	none	Richard's Hobo Muscle
 Beach	adventure=45	true	outdoor	South of the Border	1 mariachi G-string|1 Meleegra&trade; pills|+1 donkey flipbook	4 callused fingerbone
-Beach	adventure=121	true	outdoor	Desert (Unhydrated)
-Beach	adventure=123	true	outdoor	Desert (Ultrahydrated)	1 bronzed locust
 Beach	adventure=122	true	outdoor	The Oasis	1 stone rose, 1 drum machine|worm-riding manual pages 3-15
-Beach	adventure=156	true	unknown	Grim Grimacite Site
+Beach	adventure=364	true	outdoor	The Arid, Extra-Dry Desert	1 bronzed locust
 Beach	adventure=355	true	indoor	The Shore, Inc. Travel Agency
 Pyramid	adventure=124	true	underground	The Upper Chamber	1 carved wooden wheel|1 canopic jar|9 tomb ratchet|11 tomb ratchet
 Pyramid	adventure=125	true	underground	The Middle Chamber	3 choiceadv|4 choiceadv|1 canopic jar|1 choiceadv
@@ -304,6 +302,8 @@ Events	invasion=2	true	none	The Bonewall
 Events	invasion=3	true	none	A Massive Flying Battleship
 Events	invasion=4	true	none	A Supply Train
 Events	invasion=5	true	none	The Bone Star
+
+Events	adventure=156	true	unknown	Grim Grimacite Site
 
 Events	adventure=268	true	unknown	A Pile of Old Servers
 
