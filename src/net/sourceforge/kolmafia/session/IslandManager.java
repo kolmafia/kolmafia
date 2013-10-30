@@ -99,7 +99,7 @@ public class IslandManager
 
 	public static final boolean isHippyBattlefieldMonster( MonsterData monster )
 	{
-		return	IslandManager.fratboyBattlefield.hasMonster( monster );
+		return	IslandManager.hippyBattlefield.hasMonster( monster );
 	}
 
 	private static final Pattern MAP_PATTERN = Pattern.compile( "bfleft(\\d*).*bfright(\\d*)", Pattern.DOTALL );
