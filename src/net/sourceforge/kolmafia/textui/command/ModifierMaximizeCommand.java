@@ -55,6 +55,7 @@ public class ModifierMaximizeCommand
 
 		if ( !isSpeculateOnly )
 		{
+			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( command + " " + parameters );
 		}
 	
