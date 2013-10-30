@@ -557,5 +557,6 @@ The Shore, Inc. Gift Shop	buy	1	tropical island souvenir crate	ROW181
 The Shore, Inc. Gift Shop	buy	1	ski resort souvenir crate	ROW182
 The Shore, Inc. Gift Shop	buy	1	meat globe	ROW178
 The Shore, Inc. Gift Shop	buy	3	cheap toaster	ROW179
+The Shore, Inc. Gift Shop	buy	1	UV-resistant compass	ROW183
 The Shore, Inc. Gift Shop	buy	3	dinghy plans	ROW176
 The Shore, Inc. Gift Shop	buy	5	fuzzy dice	ROW177

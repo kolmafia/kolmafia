@@ -136,7 +136,7 @@ Bad ASCII Art	badascii.gif	Atk: 85 Def: 76 HP: 75 Init: 50 P: construct	ASCII sh
 Bailey's Beetle	warhipmo.gif	Atk: 195 Def: 175 HP: 210 Init: 70 E: stench P: hippy	green clay bead (30)	floorboard cruft (30)	battered hubcap (30)	communications windchimes (12)	reinforced beaded headband (1)	round purple sunglasses (2)	bullet-proof corduroys (4)
 Baiowulf		HP: 20 Def: 13 Atk: 15 Init: 10000 P: dude	Talisman of Baio (100)
 Bangyomaman Warrior	bangyomama.gif	Atk: 150 Def: 126 HP: 160 Init: 20 P: dude	neurostim pill (0)	X-37 gun (0)	essence of heat (c100)	Bangyomaman battle juice (c0)
-banshee librarian	banshee.gif	Atk: 57 Def: 46 HP: 69 Init: -10000 ED: spooky P: undead	disintegrating quill pen (20)
+banshee librarian	banshee.gif	Atk: 57 Def: 46 HP: 69 Init: -10000 ED: spooky P: undead	disintegrating quill pen (20)	killing jar (10)
 bar	bar.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 12-20 P: beast	bar skin (25)
 # Baron von Ratsworth		Atk: 20 Def: 20 HP: 25
 Baron von Ratsworth	ratsworth.gif	BOSS HP: [HP*1.2] Def: [MUS+min(12,3+A)] Atk: [MOX+min(12,3+A)] Init: 80 P: beast	Baron von Ratsworth's monocle (c100)	Baron von Ratsworth's money clip (c100)	Baron von Ratsworth's tophat (c100)

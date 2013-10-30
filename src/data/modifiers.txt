@@ -1474,6 +1474,7 @@ Tiki lighter	Experience: +1, Stat Tuning: "Moxie"
 Tuesday's ruby	none
 # Unkillable Skeleton's shield: Deals damage to attackers
 Unkillable Skeleton's shield	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Maximum MP: -300, Damage Reduction: 23
+# UV-resistant compass: Aids in desert exploration
 Victor, the Insult Comic Hellhound Puppet	Monster Level: +5
 # Wand of Oscus: All Spells Cast Are Stinky
 Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"

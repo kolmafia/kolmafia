@@ -1279,6 +1279,7 @@ The Spirit of Crimbo	0	none
 Tiki lighter	20	none
 Tuesday's ruby	120	Mys: 45
 Unkillable Skeleton's shield	350	Mus: 100	shield
+UV-resistant compass	0	none
 Victor, the Insult Comic Hellhound Puppet	10	none
 Wand of Oscus	200	Mys: 200
 Whatsian Ionic Pliers	110	Mys: 40
