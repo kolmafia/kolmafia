@@ -52,6 +52,11 @@ public class ModifierMaximizeCommand
 	public void run( final String command, final String parameters )
 	{
 		boolean isSpeculateOnly = KoLmafiaCLI.isExecutingCheckOnlyCommand;
+
+		if ( !isSpeculateOnly )
+		{
+			RequestLogger.updateSessionLog( command + " " + parameters );
+		}
 	
 		if ( !Maximizer.maximize( parameters, 0, 0, isSpeculateOnly ) && !isSpeculateOnly )
 		{

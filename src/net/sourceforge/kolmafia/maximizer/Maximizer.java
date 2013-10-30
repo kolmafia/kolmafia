@@ -138,7 +138,7 @@ public class Maximizer
 		if ( maxPrice <= 0 )
 		{
 			maxPrice = Math.min( Preferences.getInteger( "autoBuyPriceLimit" ),
-				KoLCharacter.getAvailableMeat() );
+					     KoLCharacter.getAvailableMeat() );
 		}
 
 		KoLmafia.updateDisplay( Maximizer.firstTime ?
@@ -790,9 +790,9 @@ public class Maximizer
 		AdventureResult curr = EquipmentManager.getEquipment( slot );
 		if ( curr.equals( item ) )
 		{
-			if ( slot >= EquipmentManager.STICKER1 ||
-				curr.equals( EquipmentRequest.UNEQUIP ) ||
-				equipLevel == -1 )
+			if ( slot >= EquipmentManager.SLOTS ||
+			     curr.equals( EquipmentRequest.UNEQUIP ) ||
+			     equipLevel == -1 )
 			{
 				return equipLevel;
 			}
