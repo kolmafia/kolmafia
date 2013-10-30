@@ -648,6 +648,13 @@ public class EatItemRequest
 			return;
 		}
 
+		// You chase it with that salt you made in the chemistry
+		// lab. Man. Teenagers will eat anything.
+		if ( responseText.contains( "You chase it with that salt you made" ) )
+		{
+			ResultProcessor.processItem( ItemPool.GRAINS_OF_SALT, -1 );
+		}
+
 		// You feel the canticle take hold, and feel suddenly bloated
 		// as the pasta expands in your belly.
 		if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
