@@ -447,7 +447,7 @@ black greaves	Muscle: +10, Damage Absorption: +30, Familiar Effect: "atk, 1xBarr
 bloodied surgical dungarees	MP Regen Min: 3, MP Regen Max: 5, Surgeonosity: +1, Familiar Effect: "1xPotato, 1xFairy, cap 38"
 bloody clown pants	Spooky Damage: +3, Clownosity: +1, Familiar Effect: "3xPotato, 2xFairy, cap 12"
 boneana hammock	Sleaze Spell Damage: +20, Sleaze Damage: +20, Familiar Effect: "sleaze atk, 1xVolley, cap 30"
-bounty-hunting pants	Item Drop: +15, Familiar Effect: "1xPotato, 2xFairy, cap 25"
+bounty-hunting pants	Item Drop: +20, Familiar Effect: "1xPotato, 2xFairy, cap 25"
 bowlegged pants	Moxie: +5, Familiar Effect: "1xGhoul, cap 25"
 bugbear bungguard	Familiar Effect: "5xBarrr, cap 7"
 bullet-proof corduroys	Maximum MP: +40, Damage Reduction: 2, Familiar Effect: "stench atk, 1xBarrr, cap 42"
