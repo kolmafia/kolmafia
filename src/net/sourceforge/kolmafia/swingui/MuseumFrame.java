@@ -203,7 +203,7 @@ public class MuseumFrame
 
 			private void move( final boolean moveAll )
 			{
-				AdventureResult[] selection = (AdventureResult[])this.elementList.getSelectedItems();
+				AdventureResult[] selection = this.elementList.getSelectedItems();
 				AdventureResult[] items = AddRemovePanel.this.getSelectedValues( selection, moveAll );
 				RequestThread.postRequest( new DisplayCaseRequest( items, true ) );
 				RequestThread.postRequest( new DisplayCaseRequest() );
@@ -235,7 +235,7 @@ public class MuseumFrame
 
 			private void move( final boolean moveAll )
 			{
-				AdventureResult[] selection = (AdventureResult[])this.elementList.getSelectedItems();
+				AdventureResult[] selection = this.elementList.getSelectedItems();
 				AdventureResult[] items = AddRemovePanel.this.getSelectedValues( selection, moveAll );
 				RequestThread.postRequest( new DisplayCaseRequest( items, false ) );
 				RequestThread.postRequest( new DisplayCaseRequest() );
@@ -317,7 +317,7 @@ public class MuseumFrame
 		@Override
 		public void actionCancelled()
 		{
-			AdventureResult[] items = (AdventureResult[])this.elementList.getSelectedValues();
+			AdventureResult[] items = this.elementList.getSelectedItems();
 			RequestThread.postRequest( new DisplayCaseRequest( items, false ) );
 			RequestThread.postRequest( new DisplayCaseRequest() );
 		}
