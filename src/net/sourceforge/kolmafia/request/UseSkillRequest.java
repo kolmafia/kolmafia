@@ -181,6 +181,7 @@ public class UseSkillRequest
 		new BuffTool( ItemPool.BAL_MUSETTE_ACCORDION, 5, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.CAJUN_ACCORDION, 5, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.QUIRKY_ACCORDION, 5, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.SKIPPERS_ACCORDION, 5, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.ROCK_N_ROLL_LEGEND, 5, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.GUANCERTINA, 4, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.MAMAS_SQUEEZEBOX, 3, false, KoLCharacter.ACCORDION_THIEF ),
