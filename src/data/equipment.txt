@@ -755,6 +755,7 @@ astral bludgeon	50	Mus: 0	2-handed club
 astral longbow	50	Mox: 0	2-handed bow
 astral mace	50	Mus: 0	1-handed club
 astral pistol	50	Mox: 0	1-handed pistol
+autocalliope	130	Mox: 50	2-handed accordion
 automatic catapult	150	Mox: 60	2-handed autopult
 bad-ass club	130	Mus: 50	2-handed club
 bag of unfinished business	225	Mox: 200	2-handed doggie bag
@@ -784,6 +785,7 @@ blammer	50	Mus: 0	1-handed club
 blunt icepick	50	Mus: 0	1-handed club
 boilgun	80	Mox: 25	2-handed rifle
 bone and arrows	120	Mox: 45	2-handed bow
+bone bandoneon	80	Mox: 25	2-handed accordion
 bone crusher	120	Mus: 45	1-handed club
 bone flute	110	Mox: 40	2-handed flute
 bone rattle	30	Mox: 0	1-handed rattle
@@ -943,6 +945,7 @@ grassy cutlass	150	Mus: 60	1-handed sword
 grave robbing shovel	30	Mus: 0	2-handed polearm
 grease gun	65	Mox: 17	1-handed pistol
 groping claw	225	Mus: 200	1-handed claw
+guancertina	50	Mox: 10	2-handed accordion
 haiku katana	100	Mus: 0	1-handed sword
 hairy staff	135	Mus: 45	2-handed staff
 half-size scalpel	155	Mus: 62	1-handed knife
@@ -998,6 +1001,7 @@ lupine sword	115	Mus: 42	1-handed sword
 machetito	110	Mus: 40	1-handed sword
 magic whistle	85	Mox: 27	1-handed whistle
 magilaser blastercannon	155	Mox: 62	2-handed laser cannon
+mama's squeezebox	40	Mox: 5	2-handed accordion
 mannequin leg	110	Mus: 40	1-handed club
 massive sitar	190	Mox: 80	2-handed sitar
 meatspout staff	125	Mus: 45	2-handed staff
@@ -1049,6 +1053,7 @@ pottery yo-yo	50	Mox: 0	1-handed yo-yo
 poutine pole	55	Mus: 12	2-handed staff
 prehistoric spear	100	Mox: 35	1-handed spear
 projectile icemaker	125	Mox: 45	2-handed crossbow
+pygmy concertinette	150	Mox: 60	1-handed accordion
 pygmy spear	165	Mus: 67	1-handed spear
 quantum disintegrator pistol	75	Mox: 22	1-handed pistol
 quirky accordion	50	Mox: 0	2-handed accordion
