@@ -106,7 +106,7 @@ public class CustomCombatPanel
 	protected CardLayout combatCards;
 	public JComboBox availableScripts;
 
-	private static ImageIcon stealImg, entangleImg, clubFootImg;
+	private static ImageIcon stealImg, entangleImg, clubFootImg, accordionBashImg;
 	private static ImageIcon potionImg, olfactImg, puttyImg;
 	private static ImageIcon antidoteImg, restoreImg, safeImg;
 	static
@@ -114,6 +114,7 @@ public class CustomCombatPanel
 		CustomCombatPanel.stealImg = CustomCombatPanel.getImage( "knobsack.gif" );
 		CustomCombatPanel.entangleImg = CustomCombatPanel.getImage( "entnoodles.gif" );
 		CustomCombatPanel.clubFootImg = CustomCombatPanel.getImage( "clubfoot.gif" );
+		CustomCombatPanel.accordionBashImg = CustomCombatPanel.getImage( "acc1.gif" );
 		CustomCombatPanel.potionImg = CustomCombatPanel.getImage( "exclam.gif" );
 		CustomCombatPanel.olfactImg = CustomCombatPanel.getImage( "footprints.gif" );
 		CustomCombatPanel.puttyImg = CustomCombatPanel.getImage( "sputtycopy.gif" );
@@ -247,6 +248,8 @@ public class CustomCombatPanel
 			special.addMouseListener( listener );
 
 			boolean isSealClubber = KoLCharacter.getClassName().equals( "Seal Clubber" );
+			boolean isDiscoBandit = KoLCharacter.getClassName().equals( "Disco Bandit" );
+			boolean isAccordionThief = KoLCharacter.getClassName().equals( "Accordion Thief" );
 			
 			this.stealLabel =
 				this.label(
@@ -258,6 +261,13 @@ public class CustomCombatPanel
 					this.label(
 						special, listener, CustomCombatPanel.clubFootImg,
 						"Club Foot will be cast before non-CCS actions." );
+			}
+			else if ( isAccordionThief ) 
+			{
+				this.stunLabel =
+					this.label(
+						special, listener, CustomCombatPanel.accordionBashImg,
+						"Accordion Bash will be cast before non-CCS actions." );
 			}
 			else
 			{
@@ -285,7 +295,8 @@ public class CustomCombatPanel
 
 			this.specialPopup = new JPopupMenu( "Special Actions" );
 			this.stealItem = this.checkbox( this.specialPopup, listener, "Pickpocket before simple actions" );
-			this.stunItem = this.checkbox( this.specialPopup, listener, isSealClubber ? "Cast Club Foot before simple actions" : "Cast Noodles before simple actions" );
+			this.stunItem = this.checkbox( this.specialPopup, listener, isSealClubber ? "Cast Club Foot before simple actions" : 
+																		isAccordionThief ? "Cast Accordion Bash before simple actions" : "Cast Noodles before simple actions" );
 			this.specialPopup.addSeparator();
 
 			this.olfactItem = this.checkbox( this.specialPopup, listener, "One-time automatic Olfaction..." );
@@ -335,12 +346,18 @@ public class CustomCombatPanel
 			CustomCombatPanel.this.actionSelect.setSelectedItem( Preferences.getString( "battleAction" ) );
 
 			boolean isSealClubber = KoLCharacter.getClassName().equals( "Seal Clubber" );
+			boolean isDiscoBandit = KoLCharacter.getClassName().equals( "Disco Bandit" );
+			boolean isAccordionThief = KoLCharacter.getClassName().equals( "Accordion Thief" );
 
-			if ( KoLCharacter.hasSkill( "Entangling Noodles" ) && !isSealClubber )
+			if ( KoLCharacter.hasSkill( "Entangling Noodles" ) && !isSealClubber && !isDiscoBandit && !isAccordionThief )
 			{
 				this.stunItem.setEnabled( true );
 			}
 			else if ( KoLCharacter.hasSkill( "Club Foot" ) && isSealClubber )
+			{
+				this.stunItem.setEnabled( true );
+			}
+			else if ( KoLCharacter.hasSkill( "Accordion Bash" ) && isAccordionThief )
 			{
 				this.stunItem.setEnabled( true );
 			}
