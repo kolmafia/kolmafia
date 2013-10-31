@@ -146,30 +146,39 @@ public class UseSkillRequest
 
 	public static final BuffTool[] TAMER_TOOLS = new BuffTool[]
 	{
-		new BuffTool( ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 15, false ),
-		new BuffTool( ItemPool.CHELONIAN_MORNINGSTAR, 10, false ),
-		new BuffTool( ItemPool.MACE_OF_THE_TORTOISE, 5, true ),
-		new BuffTool( ItemPool.TURTLE_TOTEM, 0, false ),
+		new BuffTool( ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 15, false, null ),
+		new BuffTool( ItemPool.CHELONIAN_MORNINGSTAR, 10, false, null ),
+		new BuffTool( ItemPool.MACE_OF_THE_TORTOISE, 5, true, null ),
+		new BuffTool( ItemPool.TURTLE_TOTEM, 0, false , null ),
 	};
 
 	public static final BuffTool[] SAUCE_TOOLS = new BuffTool[]
 	{
-		new BuffTool( ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 15, false ),
-		new BuffTool( ItemPool.FRYING_BRAINPAN, 15, false ),
-		new BuffTool( ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 10, false ),
-		new BuffTool( ItemPool.OIL_PAN, 7, true ),
-		new BuffTool( ItemPool.FIVE_ALARM_SAUCEPAN, 5, false ),
-		new BuffTool( ItemPool.SAUCEPAN, 0, false ),
+		new BuffTool( ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 15, false, null ),
+		new BuffTool( ItemPool.FRYING_BRAINPAN, 15, false, null ),
+		new BuffTool( ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 10, false, null ),
+		new BuffTool( ItemPool.OIL_PAN, 7, true, null ),
+		new BuffTool( ItemPool.FIVE_ALARM_SAUCEPAN, 5, false, null ),
+		new BuffTool( ItemPool.SAUCEPAN, 0, false, null ),
 	};
 
 	public static final BuffTool[] THIEF_TOOLS = new BuffTool[]
 	{
-		new BuffTool( ItemPool.TRICKSTER_TRIKITIXA, 15, false ),
-		new BuffTool( ItemPool.ZOMBIE_ACCORDION, 15, false ),
-		new BuffTool( ItemPool.SQUEEZEBOX_OF_THE_AGES, 10, false ),
-		new BuffTool( ItemPool.ROCK_N_ROLL_LEGEND, 5, true ),
-		new BuffTool( ItemPool.CALAVERA_CONCERTINA, 2, false ),
-		new BuffTool( ItemPool.STOLEN_ACCORDION, 0, false ),
+		new BuffTool( ItemPool.TRICKSTER_TRIKITIXA, 15, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.ZOMBIE_ACCORDION, 15, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.SQUEEZEBOX_OF_THE_AGES, 10, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.PENTATONIC_ACCORDION, 7, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.ANTIQUE_ACCORDION, 5, true, null ),
+		new BuffTool( ItemPool.ACCORD_ION, 5, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.BAL_MUSETTE_ACCORDION, 5, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.CAJUN_ACCORDION, 5, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.QUIRKY_ACCORDION, 5, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.ROCK_N_ROLL_LEGEND, 5, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.BARITONE_ACCORDION, 2, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.CALAVERA_CONCERTINA, 2, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.BEER_BATTERED_ACCORDION, 1, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.STOLEN_ACCORDION, 0, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.TOY_ACCORDION, 0, false, null ),
 	};
 
 	public static final AdventureResult PLEXI_PENDANT = ItemPool.get( ItemPool.PLEXIGLASS_PENDANT, 1 );
@@ -1094,7 +1103,7 @@ public class UseSkillRequest
 			{
 				BuffTool tool = options[ i ];
 				// If we have the tool, we are good to go
-				if ( tool.hasItem( false ) )
+				if ( tool.hasItem( false ) && ( !tool.isClassLimited() || KoLCharacter.getClassType() == tool.getClassType() ) )
 				{
 					// If it is not equipped, get it into inventory
 					if ( !tool.hasEquipped() )
@@ -1132,7 +1141,7 @@ public class UseSkillRequest
 		for ( int i = 0; i < options.length; ++i )
 		{
 			BuffTool tool = options[ i ];
-			if ( !tool.hasItem( false ) )
+			if ( !tool.hasItem( false ) || ( tool.isClassLimited() && !(KoLCharacter.getClassType() == tool.getClassType()) ) )
 			{
 				continue;
 			}
@@ -1147,7 +1156,7 @@ public class UseSkillRequest
 		}
 
 		// If we don't have any of the tools, try to retrieve the
-		// weakest one via sewer fishing.
+		// weakest one via purchase/sewer fishing.
 		if ( bestTool == null )
 		{
 			BuffTool weakestTool = options[ options.length - 1 ];
@@ -1908,12 +1917,14 @@ public class UseSkillRequest
 		final AdventureResult item;
 		final int bonusTurns;
 		final boolean def;
+		final String classType;
 
-		public BuffTool( final int itemId, final int bonusTurns, final boolean def )
+		public BuffTool( final int itemId, final int bonusTurns, final boolean def, final String classType )
 		{
 			this.item = ItemPool.get( itemId, 1 );
 			this.bonusTurns = bonusTurns;
 			this.def = def;
+			this.classType = classType;
 		}
 
 		public final AdventureResult getItem()
@@ -1924,6 +1935,16 @@ public class UseSkillRequest
 		public final int getBonusTurns()
 		{
 			return this.bonusTurns;
+		}
+
+		public final boolean isClassLimited()
+		{
+			return this.classType != null;
+		}
+
+		public final String getClassType()
+		{
+			return this.classType;
 		}
 
 		public final boolean isDefault()

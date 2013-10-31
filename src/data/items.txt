@@ -6822,16 +6822,16 @@
 6805	disco horoscope (Sagittarius)	540226653	horoscope.gif	multiple	t	0
 6806	disco horoscope (Capricorn)	138779006	horoscope.gif	multiple	t	0
 6807	The Sagittarian's leisure pants	828883981	discopants.gif	pants		0
-6808
-6809
-6810
-6811
+6808 	toy accordion	228906554	accordion.gif	weapon	t,d	75
+6809	antique accordion	372349773	backcordion.gif	weapon	t,d	1000
+6810	beer-battered accordion	945061907	acc1.gif	weapon	t,d	5
+6811	baritone accordion	768971486	acc5.gif	weapon	t,d	10
 6812
 6813
 6814
-6815
+6815	accord ion	467784170	acc14.gif	weapon	t,d	20
 6816
-6817
+6817	pentatonic accordion	672614528	acc3.gif	weapon	t,d	30
 6818
 6819
 6820
@@ -6868,3 +6868,8 @@
 6851	huge bowl of candy	614007421	candybowl.gif	usable	t	0
 6852	Ultra Mega Sour Ball	637571586	plasticball.gif	usable	t	0
 6853	carton of rotten eggs	407091480	eggcarton.gif	none, combat	t,d	10
+6854
+6855
+6856	Bal-musette accordion	831125179	acc3.gif	weapon	t,d	10
+6857	Cajun accordion	251825525	acc6.gif	weapon	t,d	10
+6858	quirky accordion	695881664	acc7.gif	weapon	t,d	10

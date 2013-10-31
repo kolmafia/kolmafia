@@ -322,7 +322,7 @@ public class SkillDatabase
 	public static final int getSkillPurchaseCost( final int skillId )
 	{
 		// Seal Clubber skills half price as number doubled, guessing this might be true on other classes too
-		Boolean revamped = ( KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER || KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT ); 
+		Boolean revamped = ( KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER || KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT || KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF ); 
 	
 		if ( ( skillId / 1000 == 11 ) || ( skillId / 1000 == 12 ) )
 		{
@@ -352,7 +352,7 @@ public class SkillDatabase
 		case 9:
 			return revamped ? 4000 : 8000;
 		case 10:
-			return revamped ? 6000 : 10000;
+			return revamped ? 5000 : 10000;
 		case 11:
 			return revamped ? 6250 : 12500;
 		case 12:
@@ -725,7 +725,7 @@ public class SkillDatabase
 			}
 
 			if ( current > inventoryDuration && 
-			     KoLConstants.inventory.contains( tool.getItem() ) )
+			     KoLConstants.inventory.contains( tool.getItem() ) && ( !tool.isClassLimited() || KoLCharacter.getClassType() == tool.getClassType() ) )
 			{
 				inventoryDuration = current;
 			}

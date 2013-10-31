@@ -175,6 +175,7 @@ Gno-Mart	n	flask of Gnomochloric acid	1000
 Gno-Mart	n	jug of Gnomochloric acid	5000
 
 Uncle P's Antiques	p	Clancy's crumhorn	2500
+Uncle P's Antiques	p	antique accordion	2500
 Uncle P's Antiques	p	fancy black tie	1000000
 Uncle P's Antiques	p	fancy tophat	1000000
 Uncle P's Antiques	p	fancy tuxedo pants	1000000
@@ -235,7 +236,7 @@ Armory and Leggery	z	25-meat staff	525
 Armory and Leggery	z	bamboo bokuto	750
 Armory and Leggery	z	two-handed depthsword	900
 Armory and Leggery	z	bill bec-de-bardiche glaive-guisarme	1125
-Armory and Leggery	z	slingshot	150
+Armory and Leggery	z	toy accordion	150
 Armory and Leggery	z	slightly peevedbow	450
 Armory and Leggery	z	lead yo-yo	600
 Armory and Leggery	z	sack of doorknobs	825
