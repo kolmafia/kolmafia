@@ -205,6 +205,7 @@ public class Modifiers
 	public static final int MUS_LIMIT = 100;
 	public static final int MYS_LIMIT = 101;
 	public static final int MOX_LIMIT = 102;
+	public static final int SONG_DURATION = 103;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -666,6 +667,10 @@ public class Modifiers
 		{ "Moxie Limit",
 		  null,
 		  Pattern.compile( "Moxie Limit: " + EXPR )
+		},
+		{ "Song Duration",
+		  Pattern.compile( "Song Duration: ([+-]\\d+) Adventures" ), 
+		  Pattern.compile( "Song Duration: " + EXPR )
 		},
 	};
 
@@ -2299,14 +2304,27 @@ public class Modifiers
 		return null;
 	}
 
-	private static final Pattern DURATION_PATTERN = Pattern.compile( "Duration: <b>([\\d]*) Adventures</b>" );
+	private static final Pattern EFFECT_DURATION_PATTERN = Pattern.compile( "Effect Duration: <b>([\\d]*) Adventures</b>" );
 
-	public static final String parseDuration( final String text )
+	public static final String parseEffectDuration( final String text )
 	{
-		Matcher matcher = Modifiers.DURATION_PATTERN.matcher( text );
+		Matcher matcher = Modifiers.EFFECT_DURATION_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
 			return Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.EFFECT_DURATION ) + ": " + matcher.group( 1 );
+		}
+
+		return null;
+	}
+
+	private static final Pattern SONG_DURATION_PATTERN = Pattern.compile( "Song Duration: <b>([\\d]*) Adventures</b>" );
+
+	public static final String parseSongDuration( final String text )
+	{
+		Matcher matcher = Modifiers.SONG_DURATION_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			return Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.SONG_DURATION ) + ": " + matcher.group( 1 );
 		}
 
 		return null;

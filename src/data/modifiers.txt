@@ -676,6 +676,7 @@ yak anorak	MP Regen Min: 3, MP Regen Max: 4
 7-inch discus	Moxie Percent: +5, Weapon Damage Percent: +10
 # Ax of L'rose
 BRICKO sword	Weapon Damage: +6
+Bal-musette accordion	PvP Fights: +4, Class: "Accordion Thief", Song Duration: 10
 Barney's rake	Spooky Damage: +3, Muscle: +3
 Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11, Adventures: +3
 Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
@@ -687,6 +688,7 @@ Bugfinder Blade	Muscle: +7, Mysticality: +7, Moxie: +7
 Byte	Spell Damage Percent: +100, Spell Critical Percent: +15
 C.B.F.G.	Hot Damage: +10, Stench Damage: +10
 C.H.U.M. knife	Stench Damage: +30
+Cajun accordion	Maximum HP: +15, Maximum MP: +15, Class: "Accordion Thief", Song Duration: 10
 Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
 Chelonian Morningstar	Muscle: +11, Never Fumble
 Chester's bag of candy	Sleaze Damage: +30, Moxie Percent: +10, Class: "Disco Bandit"
@@ -770,7 +772,7 @@ Rain-Doh yellow laser gun	Weakens Monster, Softcore Only
 Rain-Doh violet bo	Sleaze Damage: +11, Moxie: +11, Softcore Only
 # Red Rover BB gun: You'll Put Your Eye Out!
 Red Rover BB gun	Critical Hit Percent: +3
-Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief"
+Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief", Song Duration: 10
 # Ruby Rod
 # Seeger's Unstoppable Banjo: Special Attack: Funk Bluegrass Fusion
 Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23, Class: "Disco Bandit", DB Combat Damage: +15
@@ -782,7 +784,7 @@ Sledgehammer of the V&aelig;lkyr	Weapon Damage Percent: +20, Muscle: +23, Critic
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical Hit Percent: +20
 Spooky Putty ball	Spooky Damage: +10, Softcore Only
 Spooky Putty snake	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
-Squeezebox of the Ages	Moxie: +11, Ranged Damage: +15
+Squeezebox of the Ages	Moxie: +11, Ranged Damage: +15, Song Duration: 15
 Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
 # Staff of Fruit Salad: Jiggle: Deal Some Prismatic Damage
 Staff of Fruit Salad	Spell Damage: +10, Moxie: +10, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Prismatic dmg"
@@ -835,7 +837,7 @@ Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold D
 The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
 The Necbromancer's Wizard Staff	Spell Damage Percent: +200, Sleaze Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
 # The Trickster's Trikitixa: Special Attack: Extreme High Note
-The Trickster's Trikitixa	Moxie: +15, Ranged Damage: +23, Item Drop: +11, Class: "Accordion Thief"
+The Trickster's Trikitixa	Moxie: +15, Ranged Damage: +23, Item Drop: +11, Class: "Accordion Thief", Song Duration: 20
 # Totally Gay Claymore
 Tropical Crimbo Sword	Weapon Damage: +5
 Trusty	Muscle: +5
@@ -861,11 +863,13 @@ Wrath of the Capsaician Pastalords	Mysticality: +15, Food Drop: +50, Initiative:
 Zim Merman's guitar	Ranged Damage: +20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 a butt tuba	Sleaze Damage: +15
+accord ion	Hot Damage: +10, Class: "Accordion Thief", Song Duration: 10
 acoustic guitarrr	Meat Drop: +8
 # airblaster gun: Blasts Air (Duh.)
 ancient ice cream scoop	Spell Damage: +20
 ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 anger blaster	Hot Damage: +10
+antique accordion	Song Duration: 10
 antique machete	Muscle Percent: +5
 antique spear	Initiative: -30, Weakens Monster
 # archaeologing shovel
@@ -885,6 +889,7 @@ bag of unfinished business	Stench Damage: +40, Familiar Weight: +5
 balloon sword	Never Fumble, Weapon Damage: -2, Clownosity: +2
 # bamboo bokuto
 bar whip	Familiar Weight: +2
+baritone accordion	HP Regen Min: 2, HP Regen Max: 4, Class: "Accordion Thief", Song Duration: 7
 basic meat crossbow	Moxie: +1
 basic meat spork	Muscle: +3, Weapon Damage: +3
 basic meat staff	Mysticality: +1
@@ -892,6 +897,7 @@ basic meat sword	Muscle: +1
 bat whip	Spell Damage: +10, Monster Level: +5
 batblade	Weapon Damage: +15
 beaver spear	Muscle: +5, Weapon Damage: +10
+beer-battered accordion	Sleaze Damage: +2, Class: "Accordion Thief", Song Duration: 6
 beer bong	Stench Damage: +15, Monster Level: +5
 beer-a-pult	Stench Damage: +10, Sleaze Damage: +10
 beer-soaked mop	Sleaze Damage: +3
@@ -927,7 +933,7 @@ bucket of anniversary lard	Muscle: +1, Mysticality: +1, Moxie: +1
 buffalo blade	Muscle: +5, Hot Damage: +3, Sleaze Damage: +2
 bugbear-smiting sword	Weapon Damage: +10, Muscle: +10
 butterfly knife	Moxie: +6
-calavera concertina	Moxie: +3
+calavera concertina	Moxie: +3, Song Duration: 7
 can cannon	Moxie: +3, Monster Level: +3, Weapon Damage: +3
 can of fake snow	Cold Damage: +5
 can of maces	Weapon Damage: +2, Sleaze Resistance: +1
@@ -1162,6 +1168,7 @@ papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Pe
 parasitic claw	Weapon Damage: [min(L,15)]
 # pasta spoon
 penguin whip	Meat Drop: +3
+pentatonic accordion	Cold Damage: +9, Class: "Accordion Thief", Song Duration: 12
 perforated battle paddle	Weapon Damage: +10
 pernicious cudgel	Slime Hates It: +1, Sleaze Damage: +30, Critical Hit Percent: +10
 pestoblade	Muscle: +3, Stench Damage: +3
@@ -1188,6 +1195,7 @@ prehistoric spear	Critical Hit Percent: +5
 projectile icemaker	Moxie: +7, Spell Damage: +7, Cold Damage: +5
 pygmy spear	Muscle: +7
 # quantum disintegrator pistol: +15 Damage vs. Bugbears
+quirky accordion	Monster Level: +5, Class: "Accordion Thief", Song Duration: 10
 rainbow crossbow	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 ram stick	Moxie: +5
 ram-battering staff	Hot Spell Damage: +10, Moxie: +5
@@ -1269,7 +1277,7 @@ starchy sword	Muscle: +3
 steel sword	Weapon Damage: +15, HP Regen Min: 2, HP Regen Max: 4, Moxie: +5
 stinkin' bindle	Item Drop: +10, Stench Damage: +25
 stinky cheese sword	Softcore Only, Stench Damage: [max(1,min(33,floor(pref(_stinkyCheeseCount)/3)))]
-# stolen accordion
+stolen accordion, Song Duration: 5
 stone banjo	Moxie: +1
 # stuffed crazy bastard sword
 styrofoam crossbow	Moxie: +3, Monster Level: +3
@@ -1296,6 +1304,7 @@ tin foil	Muscle Percent: +10, Weapon Damage Percent: +10, Experience (Muscle): +
 tiny ninja sword	Moxie: +1
 tiny plastic sword	Moxie: +1
 titanium assault umbrella	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+toy accordion	Song Duration: 5
 toy ray gun	Hot Damage: +5, Critical Hit Percent: +5
 # trout fang: 25% chance of poisoning opponent
 trout fang	Weapon Damage: +15
@@ -1324,7 +1333,7 @@ world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 yak whip	Weakens Monster
 yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
-zombie accordion	Ranged Damage: +50, Item Drop: +10, Additional Song, Class: "Accordion Thief", Single Equip
+zombie accordion	Ranged Damage: +50, Item Drop: +10, Additional Song, Class: "Accordion Thief", Song Duration: 20, Single Equip
 
 # Offhand section of modifiers.txt
 

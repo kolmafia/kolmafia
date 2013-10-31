@@ -1860,8 +1860,17 @@ public class ItemPool
 	public static final int TIN_ROOF = 6773;
 	public static final int TIN_LIZZIE = 6775;
 	public static final int ABYSSAL_BATTLE_PLANS = 6782;
+	public static final int TOY_ACCORDION = 6808;
+	public static final int ANTIQUE_ACCORDION = 6809;
+	public static final int BEER_BATTERED_ACCORDION = 6810;
+	public static final int BARITONE_ACCORDION = 6811;
+	public static final int ACCORD_ION = 6815;
+	public static final int PENTATONIC_ACCORDION = 6817;
 	public static final int WALKIE_TALKIE = 6846;
 	public static final int ULTRA_MEGA_SOUR_BALL = 6852;
+	public static final int BAL_MUSETTE_ACCORDION = 6856;
+	public static final int CAJUN_ACCORDION = 6857;
+	public static final int QUIRKY_ACCORDION = 6858;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

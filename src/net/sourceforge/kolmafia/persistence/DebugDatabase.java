@@ -1041,8 +1041,11 @@ public class DebugDatabase
 		String effect = Modifiers.parseEffect( text );
 		known = DebugDatabase.appendModifier( known, effect );
 
-		String duration = Modifiers.parseDuration( text );
-		known = DebugDatabase.appendModifier( known, duration );
+		String effectDuration = Modifiers.parseEffectDuration( text );
+		known = DebugDatabase.appendModifier( known, effectDuration );
+
+		String songDuration = Modifiers.parseSongDuration( text );
+		known = DebugDatabase.appendModifier( known, songDuration );
 
 		if ( type == KoLConstants.EQUIP_FAMILIAR )
 		{
