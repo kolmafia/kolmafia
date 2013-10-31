@@ -581,6 +581,7 @@ yak anorak	115	Mus: 42
 5-Alarm Saucepan	50	Mys: 10	1-handed saucepan
 7-Foot Dwarven mattock	80	Mus: 25	2-handed axe
 7-inch discus	200	Mox: 85	1-handed boomerang
+Accordion of Jordion	105	Mox: 37	2-handed accordion
 Ax of L'rose	50	Mus: 0	2-handed axe
 BRICKO sword	60	Mus: 0	2-handed club
 Bal-musette accordion	50	Mox: 0	2-handed accordion
@@ -733,6 +734,8 @@ Zim Merman's guitar	200	Mox: 85	2-handed guitar
 Zombo's shoulder blade	200	Mus: 200	2-handed sword
 a butt tuba	145	Mox: 57	2-handed horn
 accord ion	70	Mox: 20	1-handed accordion
+accordion file	60	Mox: 15	2-handed accordion
+accordionoid rocca	160	Mox: 65	2-handed accordion
 acoustic guitarrr	140	Mox: 55	2-handed guitar
 airblaster gun	10	Mox: 0	1-handed pistol
 ancient ice cream scoop	170	Mys: 70	1-handed utensil
@@ -915,6 +918,7 @@ frozen nunchaku	80	Mus: 25	2-handed flail
 frozen seal spine	140	Mus: 55	1-handed club
 ga-ga radio	125	Mox: 47	2-handed radio
 gatorskin umbrella	140	Mus: 100	1-handed umbrella
+ghost accordion	140	Mox: 55	2-handed accordion
 giant artisanal rice peeler	150	Mys: 60	1-handed utensil
 giant cactus quill	160	Mus: 65	1-handed spear
 giant candy cane	100	Mus: 0	2-handed staff
@@ -1001,6 +1005,7 @@ miniature deck cannon	200	Mox: 85	2-handed handcannon
 muculent machete	60	Mus: 15	1-handed sword
 nasty-ass club	160	Mus: 65	2-handed club
 ninja mop	90	Mus: 30	2-handed polearm
+non-Euclidean non-accordion	115	Mox: 42	2-handed accordion
 non-stick pugil stick	200	Mus: 85	2-handed club
 obsidian dagger	30	Mus: 10	1-handed knife
 ocarina of space	120	Mox: 45	2-handed flute

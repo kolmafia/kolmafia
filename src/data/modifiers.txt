@@ -674,6 +674,7 @@ yak anorak	MP Regen Min: 3, MP Regen Max: 4
 7-Foot Dwarven mattock	Weakens Monster
 # 7-inch discus: On Critical Hit Percent: Music Snobbery!
 7-inch discus	Moxie Percent: +5, Weapon Damage Percent: +10
+Accordion of Jordion	Item Drop: +5, Meat Drop: +10, Class: "Accordion Thief", Song Duration: 14
 # Ax of L'rose
 BRICKO sword	Weapon Damage: +6
 Bal-musette accordion	PvP Fights: +4, Class: "Accordion Thief", Song Duration: 10
@@ -864,6 +865,8 @@ Zim Merman's guitar	Ranged Damage: +20
 Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 a butt tuba	Sleaze Damage: +15
 accord ion	Hot Damage: +10, Class: "Accordion Thief", Song Duration: 10
+accordion file	MP Regen Min: 2, MP Regen Max: 4, Class: "Accordion Thief", Song Duration: 10
+accordionoid rocca	Damage Reduction: 10, Class: "Accordion Thief", Song Duration: 18
 acoustic guitarrr	Meat Drop: +8
 # airblaster gun: Blasts Air (Duh.)
 ancient ice cream scoop	Spell Damage: +20
@@ -1054,6 +1057,7 @@ frozen nunchaku	Weapon Damage: +3, Cold Damage: +3
 frozen seal spine	Cold Damage: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Class: "Seal Clubber"
 ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
 gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
+ghost accordion	Spooky Damage: +5, Booze Drop: +15, Class: "Accordion Thief", Song Duration: 16
 giant artisanal rice peeler	Spell Damage: +15
 giant cactus quill	Critical Hit Percent: +7, Maximum HP: +30
 giant candy cane	Candy Drop: +40
@@ -1146,6 +1150,7 @@ miniature deck cannon	Ranged Damage: +25, HP Regen Min: 10, HP Regen Max: 20, MP
 muculent machete	Muscle: +2, Meat Drop: +5
 nasty-ass club	Weapon Damage: +25, Monster Level: +15, Stench Damage: +15, Class: "Seal Clubber"
 ninja mop	Weapon Damage: +5
+non-Euclidean non-accordion	Initiative: +15, Class: "Accordion Thief", Song Duration: 15
 # non-stick pugil stick: On Critical Hit Percent:  Stuns Opponent
 non-stick pugil stick	Muscle Percent: +10, Weapon Damage Percent: +10
 obsidian dagger	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
