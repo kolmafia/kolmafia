@@ -1156,7 +1156,6 @@ nasty-ass club	Weapon Damage: +25, Monster Level: +15, Stench Damage: +15, Class
 ninja mop	Weapon Damage: +5
 non-Euclidean non-accordion	Initiative: +15, Class: "Accordion Thief", Song Duration: 15
 # non-stick pugil stick: On Critical Hit Percent:  Stuns Opponent
-non-Euclidean non-accordion	Initiative: +15, Class: "Accordion Thief", Song Duration: 15
 non-stick pugil stick	Muscle Percent: +10, Weapon Damage Percent: +10
 obsidian dagger	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 ocarina of space	Muscle: +4, Mysticality: +4, Moxie: +4, Ranged Damage: +5, Experience: +2
