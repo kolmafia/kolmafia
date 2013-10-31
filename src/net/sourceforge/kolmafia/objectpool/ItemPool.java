@@ -1864,8 +1864,13 @@ public class ItemPool
 	public static final int ANTIQUE_ACCORDION = 6809;
 	public static final int BEER_BATTERED_ACCORDION = 6810;
 	public static final int BARITONE_ACCORDION = 6811;
+	public static final int ACCORDION_FILE = 6814;
 	public static final int ACCORD_ION = 6815;
 	public static final int PENTATONIC_ACCORDION = 6817;
+	public static final int NON_EUCLIDEAN_NON_ACCORDION = 6818;
+	public static final int ACCORDION_OF_JORDION = 6819;
+	public static final int ACCORDIONOID_ROCCA = 6821;
+	public static final int GHOST_ACCORDION = 6823;
 	public static final int WALKIE_TALKIE = 6846;
 	public static final int ULTRA_MEGA_SOUR_BALL = 6852;
 	public static final int BAL_MUSETTE_ACCORDION = 6856;

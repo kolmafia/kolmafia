@@ -6828,16 +6828,16 @@
 6811	baritone accordion	768971486	acc5.gif	weapon	t,d	10
 6812
 6813
-6814
+6814	accordion file	253184422	acc12.gif	weapon	t,d	20
 6815	accord ion	467784170	acc14.gif	weapon	t,d	20
 6816
 6817	pentatonic accordion	672614528	acc3.gif	weapon	t,d	30
-6818
-6819
+6818	non-Euclidean non-accordion	415378679	acc9.gif	weapon	t,d	40
+6819	Accordion of Jordion	778779285	acc17.gif	weapon	t,d	35
 6820
-6821
+6821	accordionoid rocca	262883082	acc18.gif	weapon	t,d	45
 6822
-6823
+6823	ghost accordion	444275086	acc16.gif	weapon	t,d	40
 6824
 6825
 6826	All-Hallow's Steve's fright wig	870153445	frightwig.gif	hat		0
