@@ -2767,6 +2767,10 @@ public class GenericRequest
 			itemName = "abyssal battle plans";
 			break;
 
+		case ItemPool.SUSPICIOUS_ADDRESS:
+			itemName = "a suspicious address";
+			break;
+
 		default:
 			return;
 		}

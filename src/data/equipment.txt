@@ -670,6 +670,7 @@ Rock and Roll Legend	50	Mox: 10	2-handed accordion
 Ruby Rod	120	Mus: 40	1-handed rod
 Seeger's Unstoppable Banjo	200	Mox: 60	2-handed banjo
 Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
+Skipper's accordion	50	Mox: 10	2-handed accordion
 Sledgehammer of the V&aelig;lkyr	200	Mus: 60	1-handed club
 Space Tourist Phaser	100	Mox: 35	1-handed pistol
 Spirit Precipice	135	Mus: 45	2-handed sword
