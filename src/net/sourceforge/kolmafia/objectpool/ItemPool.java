@@ -1878,9 +1878,11 @@ public class ItemPool
 	public static final int GHOST_ACCORDION = 6823;
 	public static final int WALKIE_TALKIE = 6846;
 	public static final int ULTRA_MEGA_SOUR_BALL = 6852;
+	public static final int SUSPICIOUS_ADDRESS = 6855;
 	public static final int BAL_MUSETTE_ACCORDION = 6856;
 	public static final int CAJUN_ACCORDION = 6857;
 	public static final int QUIRKY_ACCORDION = 6858;
+	public static final int SKIPPERS_ACCORDION = 6859;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

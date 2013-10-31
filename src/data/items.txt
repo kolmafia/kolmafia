@@ -6869,7 +6869,8 @@
 6852	Ultra Mega Sour Ball	637571586	plasticball.gif	usable	t	0
 6853	carton of rotten eggs	407091480	eggcarton.gif	none, combat	t,d	10
 6854
-6855
+6855	a suspicious address	755826043	document.gif	reusable		0
 6856	Bal-musette accordion	831125179	acc3.gif	weapon	t,d	10
 6857	Cajun accordion	251825525	acc6.gif	weapon	t,d	10
 6858	quirky accordion	695881664	acc7.gif	weapon	t,d	10
+6859	Skipper's accordion	668604660	acc10.gif	weapon		0

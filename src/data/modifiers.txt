@@ -778,6 +778,7 @@ Rock and Roll Legend	Moxie: +7, Class: "Accordion Thief", Song Duration: 10
 # Seeger's Unstoppable Banjo: Special Attack: Funk Bluegrass Fusion
 Seeger's Unstoppable Banjo	Moxie: +11, Meat Drop: +23, Class: "Disco Bandit", DB Combat Damage: +15
 Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7
+Skipper's accordion	Pickpocket Chance: +10, Moxie Percent: +15, Class: "Accordion Thief", Song Duration: 10
 # Sledgehammer of the V&aelig;lkyr: +20% Physical Damage (currently approximated with Weapon Damage)
 # Sledgehammer of the V&aelig;lkyr: Special Attack: Bashing Slam Smash
 Sledgehammer of the V&aelig;lkyr	Weapon Damage Percent: +20, Muscle: +23, Critical Hit Percent: +10, Class: "Seal Clubber"
