@@ -183,7 +183,10 @@ public class NPCPurchaseRequest
 
 	private static int currentPrice( final int price )
 	{
-		return !NPCPurchaseRequest.usingTrousers() ? price : (int) ( price * 0.95f );
+		double factor = 1.0;
+		if ( NPCPurchaseRequest.usingTrousers() ) factor -= 0.05;
+		if ( KoLCharacter.hasSkill( "Five Finger Discount" ) ) factor -= 0.05;
+		return (int) ( price * factor );
 	}
 
 	private static boolean usingTrousers()
