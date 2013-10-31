@@ -886,6 +886,7 @@ astral bludgeon	Muscle Percent: +25, Weapon Damage: +20, Critical Hit Percent: +
 astral longbow	Moxie Percent: +25, Ranged Damage: +20, Meat Drop: +30
 astral mace	Muscle Percent: +25, Weapon Damage: +20, PvP Fights: +4
 astral pistol	Moxie Percent: +25, Ranged Damage: +20, PvP Fights: +4
+autocalliope	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Class: "Accordion Thief", Song Duration: 15
 # automatic catapult
 bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
 bag of unfinished business	Stench Damage: +40, Familiar Weight: +5
@@ -916,6 +917,7 @@ blammer	Critical Hit Percent: +7, Weakens Monster
 blunt icepick	Cold Damage: +15
 boilgun	Hot Damage: +8, Maximum MP: +10
 # bone and arrow: +30 Damage vs. Skeletons
+bone bandoneon	Spooky Damage: +7, Class: "Accordion Thief", Song Duration: 11
 # bone crusher: +30 Damage vs. Skeletons
 bone flute	Spooky Damage: +11
 bone rattle	Spooky Damage: +4
@@ -1085,6 +1087,7 @@ grassy cutlass	Weapon Damage: +11
 grave robbing shovel	Spooky Damage: +3, Initiative: -10
 grease gun	Moxie: +3, Weapon Damage: +3, Sleaze Damage: +3
 groping claw	Weakens Monster, Spooky Damage: +30
+guancertina	Stench Damage: +4, Class: "Accordion Thief", Song Duration: 9
 # haiku katana: Allows use of seasonal attacks
 haiku katana	Muscle Percent: +15, Weapon Damage Percent: +50, Critical Hit Percent: +5, Softcore Only
 hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
@@ -1143,6 +1146,7 @@ lupine sword	Spooky Damage: +9, Synergetic
 machetito	Weapon Damage: +9
 magic whistle	Monster Level: +4, Familiar Weight: +1
 magilaser blastercannon	Ranged Damage: +15, Hot Damage: +5
+mama's squeezebox	Moxie: +3, Class: "Accordion Thief", Song Duration: 8
 mannequin leg	Sleaze Damage: +20, Moxie: +5, Class: "Seal Clubber"
 massive sitar	Mysticality: +12, Spell Damage: +20
 meatspout staff	Mysticality: +7, Adventures: +3, Meat Drop: +15
@@ -1152,6 +1156,7 @@ nasty-ass club	Weapon Damage: +25, Monster Level: +15, Stench Damage: +15, Class
 ninja mop	Weapon Damage: +5
 non-Euclidean non-accordion	Initiative: +15, Class: "Accordion Thief", Song Duration: 15
 # non-stick pugil stick: On Critical Hit Percent:  Stuns Opponent
+non-Euclidean non-accordion	Initiative: +15, Class: "Accordion Thief", Song Duration: 15
 non-stick pugil stick	Muscle Percent: +10, Weapon Damage Percent: +10
 obsidian dagger	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 ocarina of space	Muscle: +4, Mysticality: +4, Moxie: +4, Ranged Damage: +5, Experience: +2
@@ -1198,6 +1203,7 @@ pottery yo-yo	Hot Damage: +5
 poutine pole	Mysticality: +3, Sleaze Damage: +3
 prehistoric spear	Critical Hit Percent: +5
 projectile icemaker	Moxie: +7, Spell Damage: +7, Cold Damage: +5
+pygmy concertinette	Weapon Damage: +10, Class: "Accordion Thief", Song Duration: 17
 pygmy spear	Muscle: +7
 # quantum disintegrator pistol: +15 Damage vs. Bugbears
 quirky accordion	Monster Level: +5, Class: "Accordion Thief", Song Duration: 10
