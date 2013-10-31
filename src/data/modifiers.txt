@@ -4522,6 +4522,7 @@ Zomg WTF	Monster Level: +30
 # Passive Skills section of modifiers.txt
 
 Abs of Tin	Maximum HP Percent: +10
+# Accordion Appreciation Double-strength enchantments on accordions
 # Adventurer of Leisure +2 Free Rests/day
 # Ambidextrous Funkslinging
 Amphibian Sympathy	Familiar Weight: +5
@@ -4538,6 +4539,7 @@ Claws of the Walrus	Weapon Damage: +7
 Cold-Blooded Fearlessness	Spooky Resistance: +2
 # Cold Shoulder Your Smack skills will deal 5 additional Cold Damage
 Cosmic Ugnderstanding	Maximum MP Percent: +5
+# Crab Claw Technique Makes your accordion attacks significantly more accurate
 # Deep Saucery
 # Deft Hands +25% damage from combat items
 Diminished Gag Reflex	Stench Resistance: +2
@@ -4551,6 +4553,7 @@ Fashionably Late	Adventures: +1
 Ferocity	Critical Hit Percent: +25
 # Flavour of Magic
 # Flashy Dancer Opponents cannot act during Disco Dances
+# Five Finger Discount Items in stores cost 5% less Meat
 Food Coma	Base Resting MP: 9999
 Fortitude of the Muskox	HP Regen Min: +1, HP Regen Max: +2
 Gnefarious Pickpocketing	Meat Drop: +10
@@ -4577,6 +4580,8 @@ Legendary Impatience	Initiative: +100
 # Louder Bellows: Improves Intimidating Bellow
 Mad Looting Skillz	Item Drop: +20
 Marginally Insane	Maximum MP Percent: +10
+Mariachi Memory	Additional Song
+Master Accordion Master Thief	Pickpocket Chance: +10
 Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: +10, Unarmed
 More to Love	Minstrel Level: +3
 Natural Born Scrabbler	Item Drop: +5
@@ -4603,6 +4608,7 @@ Slimy Synapses	Maximum MP: [pref(skillLevel47)]
 Spirit of Ravioli	Maximum HP Percent: +25
 # Spirit of Rigatoni: allows wielding of chefstaves
 # Spleen of Steel
+# Sticky Fingers Pickpocketing also gives Meat
 # Stomach of Steel
 # Super-Advanced Meatsmithing
 # Superhuman Cocktailcrafting
@@ -4610,6 +4616,7 @@ Spirit of Ravioli	Maximum HP Percent: +25
 # Tempuramancy
 # The Way of Sauce
 Thick-Skinned (Skill)	Maximum HP: +10, Maximum MP: +10
+Thief Among the Honorable	Item Drop: +5
 # Thirst of the Weasel Your Smacks restore 1-2 HP per gallon of Fury
 Thrift and Grift	Meat Drop: +10
 Tolerance of the Kitchen	Hot Resistance: +2
