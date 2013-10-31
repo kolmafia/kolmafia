@@ -1519,4 +1519,4 @@ All-Hallow's Steve	steve.gif	HP: [0.75*(MUS+30+max(ML,0))] Def: [MUS+30+max(ML,0
 depressing French accordionist	wanderacc1.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: dude
 lively Cajun accordionist	wanderacc2.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: dude
 quirky indie-rock accordionist	wanderacc3.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: dude
-Frank "Skipper" Dan, the Accordion Lord	accboss.gif	HP: [0.75*(MUS+7+max(ML,0))] Def: [MUS+10+max(ML,0)] Atk: [MOX+10+max(ML,0)] Exp: [(STAT+10+max(ML,0))/4] Init: -10000 P:dude	Skipper's accordion (100)
+Frank &quot;Skipper&quot; Dan, the Accordion Lord	accboss.gif	HP: [0.75*(MUS+7+max(ML,0))] Def: [MUS+10+max(ML,0)] Atk: [MOX+10+max(ML,0)] Exp: [(STAT+10+max(ML,0))/4] Init: -10000 P: dude	Skipper's accordion (100)
