@@ -243,6 +243,7 @@ public class FightRequest
 
 	private static boolean castNoodles = false;
 	private static boolean castClubFoot = false;
+	private static boolean castAccordionBash = false;
 	private static boolean castCleesh = false;
 	private static boolean insultedPirate = false;
 	private static boolean usedFlyer = false;
@@ -523,6 +524,11 @@ public class FightRequest
 	public static final boolean canCastClubFoot()
 	{
 		return !FightRequest.castClubFoot;
+	}
+
+	public static final boolean canCastAccordionBash()
+	{
+		return !FightRequest.castAccordionBash;
 	}
 
 	public static final boolean canOlfact()
@@ -1244,6 +1250,16 @@ public class FightRequest
 		{
 			// You can only use this skill once per combat
 			if ( FightRequest.castClubFoot )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Accordion Bash" ) )
+		{
+			// You can only use this skill once per combat
+			if ( FightRequest.castAccordionBash )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -5382,6 +5398,7 @@ public class FightRequest
 		IslandManager.startFight();
 		FightRequest.castNoodles = false;
 		FightRequest.castClubFoot = false;
+		FightRequest.castAccordionBash = false;
 		FightRequest.castCleesh = false;
 		FightRequest.insultedPirate = false;
 		FightRequest.usedFlyer = false;
@@ -5994,6 +6011,10 @@ public class FightRequest
 
 		case SkillPool.CLUBFOOT:
 			FightRequest.castClubFoot = true;
+			return;
+			
+		case SkillPool.ACCORDION_BASH:
+			FightRequest.castAccordionBash = true;
 			return;
 			
 		case SkillPool.MAYFLY_SWARM:
