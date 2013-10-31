@@ -116,7 +116,7 @@ public class SVNManager
 
 	private static Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/(.*?)/code(.*)", Pattern.DOTALL );
 	private static Pattern GOOGLECODE_HOST_PATTERN = Pattern.compile( "([^\\.]+)\\.googlecode\\.com", Pattern.DOTALL );
-	private static List<String> permissibles = Arrays.asList( "scripts", "data", "images", "relay", "ccs" );
+	private static List<String> permissibles = Arrays.asList( "scripts", "data", "images", "relay", "ccs", "planting" );
 
 	/**
 	 * Initializes the library to work with a repository via different protocols.
