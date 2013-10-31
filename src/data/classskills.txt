@@ -306,7 +306,7 @@
 5028	That's Not a Knife	1	0	0	5
 5029	Tricky Knifework	0	0	0	7
 5030	Flashy Dancer	0	0	0	7
-5031	Disco Smirk	9	10	0	8
+5031	Disco Smirk	9	10	10	8
 5032	Disco Greed	0	0	0	9
 5033	Knife in the Dark	5	10	0	9
 5034	Disco Bravado	0	0	0	10
@@ -314,7 +314,7 @@
 5036	Disco Dance 3: Back in the Habit	5	10	0	11
 5037	Disco Inferno	5	15	0	12
 5038	Sensitive Fingers	0	0	0	14
-5039	Disco Leer	9	10	0	15
+5039	Disco Leer	9	10	10	15
 
 # Skills available to Thieves
 
@@ -347,6 +347,21 @@
 6026	Donho's Bubbly Ballad	4	75	5
 6027	Cringle's Curative Carol	4	5	5
 6028	Inigo's Incantation of Inspiration	4	100	5
+6029	Dissonant Riff	5	2	0	1
+6030	Cadenza	5	0	0	2
+6031	Crab Claw Technique	0	0	0	3
+6032	Accordion Bash	5	5	0	4
+6033	Accordion Appreciation	0	0	0	5
+6034	Concerto de los Muertos	5	8	0	6
+6035	Five Finger Discount	0	0	0	7
+6036	Suspicious Gaze	9	10	10	8
+6037	Bawdy Refrain	9	11	0	9
+6038	Thief Among the Honorable	0	0	0	10
+6039	Sticky Fingers	0	0	0	11
+6040	Cone of Zydeco	5	15	0	12
+6041	Master Accordion Master Thief	0	0	0	13
+6042	Knowing Smile	9	10	10	14
+6043	Mariachi Memory	0	0	0	15
 
 # Skills granted conditionally
 
