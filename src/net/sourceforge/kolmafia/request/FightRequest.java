@@ -3033,7 +3033,11 @@ public class FightRequest
 			}
 			else if ( monster.equalsIgnoreCase( "general seal" ) )
 			{
-					ResultProcessor.removeItem( ItemPool.ABYSSAL_BATTLE_PLANS );
+				ResultProcessor.removeItem( ItemPool.ABYSSAL_BATTLE_PLANS );
+			}
+			else if ( monster.equalsIgnoreCase( "Frank &quot;Skipper&quot; Dan, the Accordion Lord" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.SUSPICIOUS_ADDRESS );
 			}
 			else if ( monster.equalsIgnoreCase( "drunk pygmy" ) )
 			{
