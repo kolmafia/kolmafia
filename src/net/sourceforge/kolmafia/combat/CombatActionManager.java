@@ -370,7 +370,9 @@ public abstract class CombatActionManager
 			return action;
 		}
 
-		if ( action.indexOf( "pick" ) != -1 || ( action.indexOf( "steal" ) != -1 && action.indexOf( "stealth" ) == -1 && action.indexOf( "combo" ) == -1 ) )
+		if ( action.contains( "pick" ) ||
+		     ( action.contains( "steal" ) && !action.contains( "stealth" ) &&
+		      !action.contains( "combo" ) && !action.contains( "accordion" ) ) )
 		{
 			return "try to steal an item";
 		}
@@ -584,7 +586,9 @@ public abstract class CombatActionManager
 			return "abort";
 		}
 
-		if ( action.indexOf( "pick" ) != -1 || ( action.indexOf( "steal" ) != -1 && action.indexOf( "stealth" ) == -1 && action.indexOf( "combo" ) == -1 ) )
+		if ( action.contains( "pick" ) ||
+		     ( action.contains( "steal" ) && !action.contains( "stealth" ) &&
+		      !action.contains( "combo" ) && !action.contains( "accordion" ) ) )
 		{
 			return "steal";
 		}

@@ -971,8 +971,9 @@ public class FightRequest
 
 		// Actually steal if the action says to steal
 
-		if ( FightRequest.nextAction.indexOf( "steal" ) != -1 &&
-		     FightRequest.nextAction.indexOf( "stealth" ) == -1 )
+		if ( FightRequest.nextAction.contains( "steal" ) &&
+		     !FightRequest.nextAction.contains( "stealth" ) &&
+		     !FightRequest.nextAction.contains( "accordion" ) )
 		{
 			if ( FightRequest.canStillSteal() && MonsterStatusTracker.shouldSteal() )
 			{
