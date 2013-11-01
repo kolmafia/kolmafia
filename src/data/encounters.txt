@@ -35,16 +35,16 @@ The Frat House (Bombed Back to the Stone Age)	STOP	Me Just Want Fly
 # Giant's castle end
 The Castle in the Clouds in the Sky (Top Floor)	STOP	Keep On Turnin' the Wheel in the Sky
 # Adventure in the Arid, Extra-Dry desert until you find the Oasis
-Desert (Ultrahydrated)	STOP	Let's Make a Deal!
+The Arid, Extra-Dry Desert	STOP	Let's Make a Deal!
 # Get Ultra-hydrated and adventure in the Arid, Extra-Dry desert until you are given the task to find a stone rose.
-Desert (Ultrahydrated)	STOP	A Sietch in Time
+The Arid, Extra-Dry Desert	STOP	A Sietch in Time
 # Adventure in Oasis until you have a stone rose and a drum machine. Buy black paint.
 # Come back to the Arid, Extra-Dry Desert and adventure until you are tasked to find the missing pages from the worm-riding manual.
-Desert (Ultrahydrated)	STOP	Walk Without Rhythm
+The Arid, Extra-Dry Desert	STOP	Walk Without Rhythm
 # Adventure in Oasis until you have worm-riding manual pages 3-15.
 # Adventure in Arid, Extra-Dry Desert until you have worm-riding hooks.
 # The following is unnecessary, since you can use "worm-riding hooks" as a goal
-Desert (Ultrahydrated)	STOP	The Sleeper Has Awakened
+The Arid, Extra-Dry Desert	STOP	The Sleeper Has Awakened
 # Adventure that finishes filling the Extreme Meter
 The eXtreme Slope	STOP	3 eXXXtreme 4ever 6pack
 An Overgrown Shrine (Northwest)	STOP	Earthbound and Down
@@ -132,7 +132,7 @@ Battlefield (No Uniform)	GLYPH	A Funny Thing Happened On the Way
 Belowdecks	GLYPH	My Little Stowaway
 Camp Logging Camp	GLYPH	Stumped
 Cobb's Knob Menagerie, Level 3	GLYPH	He's a Melancholy Drunk
-Desert (Unhydrated)	GLYPH	How Dry I Am
+The Arid, Extra-Dry Desert	GLYPH	How Dry I Am
 Lair of the Ninja Snowmen	GLYPH	Not So Much With the Corncob Pipes, Either.
 Pre-Cyrpt Cemetary	GLYPH	They Hate That
 The Battlefield (Frat Uniform)	GLYPH	God Bless, Bra

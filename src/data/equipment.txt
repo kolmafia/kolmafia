@@ -740,6 +740,7 @@ accordion file	60	Mox: 15	2-handed accordion
 accordionoid rocca	160	Mox: 65	2-handed accordion
 acoustic guitarrr	140	Mox: 55	2-handed guitar
 airblaster gun	10	Mox: 0	1-handed pistol
+alarm accordion	180	Mox: 75	2-handed accordion
 ancient ice cream scoop	170	Mys: 70	1-handed utensil
 ancient stone fist	85	Mus: 27	1-handed club
 anger blaster	85	Mox: 30	1-handed forearm replacement
@@ -1029,6 +1030,7 @@ papier-m&acirc;ch&eacute;te	100	Mus: 20	1-handed sword
 papier-m&acirc;chine gun	100	Mox: 20	1-handed pistol
 parasitic claw	30	Mus: 0	1-handed club
 pasta spoon	10	Mys: 0	1-handed utensil
+peace accordion	170	Mox: 70	2-handed accordion
 penguin whip	20	Mus: 0	1-handed whip
 pentatonic accordion	90	Mox: 30	2-handed accordion
 perforated battle paddle	175	Mus: 72	2-handed club

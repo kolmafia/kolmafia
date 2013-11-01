@@ -1392,8 +1392,8 @@
 1391	Scorpio Rising	zod_scorpio.gif	7d5b4aa210970a9f8728fb2f42a85902	use 1 disco horoscope (Scorpio)
 1392	Sagittarius Rising	zod_sagittarius.gif	dcc63a6b03706ccfe5a21103acfbf1d9	use 1 disco horoscope (Sagittarius)
 1393	Capricorn Rising	zod_capricorn.gif	dac97dada4b2a65773d06d4dbae4fe4a	use 1 disco horoscope (Capricorn)
-1394
-1395
+1394	Suspicious Gaze	susgaze.gif	43bfb50d024c59669acc33397b490b04	cast 1 Suspicious Gaze
+1395	Knowing Smile	coolsmile.gif	b713588cf0f1e011d11f6f7f51bc770e	cast 1 Knowing Smile
 1396	Disco Neuropathy	dance2.gif	0daf820ab0d738826e0ad1e9640231c1	drink 1 discocktail
 1397	Milk Studly	milkstuds.gif	51ea6d6e1264fc3aab8656d33d5f309b	use 1 Milk Studs
 1398	Dweeby	dweebs.gif	6df499796f5af6ddca95e30d6b93ab9e	use 1 box of Dweebs
