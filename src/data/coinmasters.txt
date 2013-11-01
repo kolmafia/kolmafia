@@ -535,7 +535,7 @@ FDKOL Tent	buy	1500	fire hose	ROW11
 FDKOL Tent	buy	1500	enchanted fire extinguisher	ROW8
 FDKOL Tent	buy	3500	Hjodor's Guide to Arctic Dalmatians	ROW9
 
-# Things you can buy with Freddy Krueggerands
+# Things you can buy with Freddy Kruegerands
 
 The Terrified Eagle Inn	buy	1	hot Dreadsylvanian cocoa	ROW156
 The Terrified Eagle Inn	buy	10	Dreadsylvanian stew	ROW149

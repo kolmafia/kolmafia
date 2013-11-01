@@ -65,18 +65,18 @@ public class TerrifiedEagleInnRequest
 	private static final Map buyPrices = CoinmastersDatabase.getBuyPrices( TerrifiedEagleInnRequest.master );
 	private static Map<String, Integer> itemRows = CoinmastersDatabase.getRows( TerrifiedEagleInnRequest.master );
 
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>(\\w+) Freddy Krueggerand(?:s?)</td>" );
-	public static final AdventureResult KRUEGGERAND = ItemPool.get( ItemPool.KRUEGGERAND, 1 );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>(\\w+) Freddy Kruegerand(?:s?)</td>" );
+	public static final AdventureResult KRUEGERAND = ItemPool.get( ItemPool.KRUEGERAND, 1 );
 	public static final CoinmasterData TERRIFIED_EAGLE_INN =
 		new CoinmasterData(
 			TerrifiedEagleInnRequest.master,
 			TerrifiedEagleInnRequest.class,
 			"shop.php?whichshop=dv",
-			"Freddy Krueggerand",
+			"Freddy Kruegerand",
 			null,
 			false,
 			TerrifiedEagleInnRequest.TOKEN_PATTERN,
-			TerrifiedEagleInnRequest.KRUEGGERAND,
+			TerrifiedEagleInnRequest.KRUEGERAND,
 			null,
 			"whichrow",
 			GenericRequest.WHICHROW_PATTERN,
