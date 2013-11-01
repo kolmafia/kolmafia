@@ -413,6 +413,10 @@ Oscus's flypaper pants	Moxie Percent: +20, Damage Absorption: +50, Familiar Effe
 # Pantaloons of Hatred: Reduce enemy defense by 10%
 # Pantaloons of Hatred: Generates a lot of static electricity
 Pantaloons of Hatred	Adventures: +4, Spell Damage Percent: +60, Familiar Effect: "hot atk, 2xVolley"
+# Pantsgiving: Lets you cram in slightly more food.
+# Pantsgiving: Improves resting
+# Pantsgiving: Lets you use various Thanksgivingy skills
+Pantsgiving	Experience: +2, Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Item Drop: +15, Meat Drop: +30, Softcore Only
 Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only, Familiar Effect: "1.5xVolley, cap 25"
 The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 2xGhuol"

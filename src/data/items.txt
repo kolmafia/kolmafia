@@ -6874,3 +6874,4 @@
 6857	Cajun accordion	251825525	acc6.gif	weapon	t,d	10
 6858	quirky accordion	695881664	acc7.gif	weapon	t,d	10
 6859	Skipper's accordion	668604660	acc10.gif	weapon		0
+6860	Pantsgiving	388777250	pantsgiving.gif	pants	t	0
