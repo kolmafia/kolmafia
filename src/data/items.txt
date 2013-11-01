@@ -6875,3 +6875,18 @@
 6858	quirky accordion	695881664	acc7.gif	weapon	t,d	10
 6859	Skipper's accordion	668604660	acc10.gif	weapon		0
 6860	Pantsgiving	388777250	pantsgiving.gif	pants	t	0
+6861
+6862	high-calorie sugar substitute	812237742	sugarpacket.gif	food	t,d	1
+6863	pat of butter	310457727	butterpat.gif	food	t,d	1
+6864
+6865	cold mashed potatoes	955524104	coldmash.gif	food	t,d	1
+6866
+6867	deviled egg	886155748	deviledegg.gif	food	t,d	2
+6868	finger exerciser	895527807	fingerciser.gif	usable	t,d	1
+6869	dented spoon	370832456	bentspoon.gif	usable	t,d	1
+6870
+6871
+6872	nail file	496758740	nailfile.gif	usable	t,d	1
+6873	old candy wrapper	769989020	candywrapper.gif	usable	t,d	0
+6874
+6875	post-holiday sale coupon	343572534	coupon.gif	usable	t,d	1
