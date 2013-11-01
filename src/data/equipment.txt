@@ -332,6 +332,7 @@ Orcish cargo shorts	60	Mox: 15
 Oscus's dumpster waders	200	Mys: 200
 Oscus's flypaper pants	200	Mox: 200
 Pantaloons of Hatred	200	Mys: 125
+Pantsgiving	100	none
 Radio Free Pants	150	Mox: 60
 Spooky Putty leotard	100	none
 The Necbromancer's Shorts	200	Mox: 200
@@ -510,7 +511,6 @@ Knob Goblin elite shirt	35	Mus: 2
 Mer-kin breastplate	200	Mus: 85
 Moonthril Cuirass	100	Mus: 40
 Mr. Shirt	30	none
-Pantsgiving	100	none
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none
 Thinknerd T-Shirt	10	none

@@ -2513,6 +2513,13 @@ public class FightRequest
 				"Your sugar shorts shattered." );
 		}
 
+		// You groan and loosen your overtaxed belt.  
+		// Y'know, you're full, but you could probably make room for <i>one more thing</i>...
+		if ( responseText.contains( "could probably make room for <i>one more thing</i>" ) )
+		{
+			Preferences.increment( "_pantsgivingFullness" );
+		}
+
 		// The Great Wolf of the Air emits an ear-splitting final
 		// howl. Your necklace shatters like a champagne flute in a
 		// Memorex comercial[sic].
