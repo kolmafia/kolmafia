@@ -166,6 +166,8 @@ public class UseSkillRequest
 	{
 		new BuffTool( ItemPool.TRICKSTER_TRIKITIXA, 15, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.ZOMBIE_ACCORDION, 15, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.ALARM_ACCORDION, 15, false, KoLCharacter.ACCORDION_THIEF ),
+		new BuffTool( ItemPool.PEACE_ACCORDION, 14, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.ACCORDIONOID_ROCCA, 13, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.PYGMY_CONCERTINETTE, 12, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.GHOST_ACCORDION, 11, false, KoLCharacter.ACCORDION_THIEF ),

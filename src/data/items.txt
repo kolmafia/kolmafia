@@ -6838,8 +6838,8 @@
 6821	accordionoid rocca	262883082	acc18.gif	weapon	t,d	45
 6822	pygmy concertinette	749803694	acc15.gif	weapon	t,d	45
 6823	ghost accordion	444275086	acc16.gif	weapon	t,d	40
-6824
-6825
+6824	peace accordion	916719936	acc7.gif	weapon	t,d	50
+6825	alarm accordion	663112425	acc5.gif	weapon	t,d	50
 6826	All-Hallow's Steve's fright wig	870153445	frightwig.gif	hat		0
 6827
 6828	discocktail	225359522	martini.gif	drink	t	0

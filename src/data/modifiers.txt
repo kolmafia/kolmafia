@@ -874,6 +874,7 @@ accordion file	MP Regen Min: 2, MP Regen Max: 4, Class: "Accordion Thief", Song 
 accordionoid rocca	Damage Reduction: 10, Class: "Accordion Thief", Song Duration: 18
 acoustic guitarrr	Meat Drop: +8
 # airblaster gun: Blasts Air (Duh.)
+alarm accordion	Adventures: +3, Initiative: +20, Class: "Accordion Thief", Song Duration: 20
 ancient ice cream scoop	Spell Damage: +20
 ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 anger blaster	Hot Damage: +10
@@ -1181,6 +1182,7 @@ papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality
 papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 parasitic claw	Weapon Damage: [min(L,15)]
 # pasta spoon
+peace accordion	Stench Damage: +12, Class: "Accordion Thief", Song Duration: 19
 penguin whip	Meat Drop: +3
 pentatonic accordion	Cold Damage: +9, Class: "Accordion Thief", Song Duration: 12
 perforated battle paddle	Weapon Damage: +10
@@ -3855,6 +3857,7 @@ Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Knob Goblin Lust Frenzy	Moxie: +2
 # Knob Goblin Perfume
+Knowing Smile	Experience (Moxie): +1
 Koyaaniskumquatsi	Mysticality Percent: +100, Monster Level: +30
 Kung Fu Fighting	Weapon Damage: [3*L]
 # L'instinct F&eacute;lin: Makes you better at sleeping
@@ -4327,6 +4330,7 @@ Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Pe
 Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Superhuman Sarcasm	Moxie Percent: +100
 Surreally Buff	Muscle Percent: +20
+Suspicious Gaze	Initiative: +20
 Sweet Heart	Muscle: [min(T,20)], Meat Drop: [2*min(T,20)]
 Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
 Sweet and Red	Spell Damage: +10, Spell Damage Percent: +10
