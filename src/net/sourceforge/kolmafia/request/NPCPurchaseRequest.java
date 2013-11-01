@@ -72,6 +72,7 @@ public class NPCPurchaseRequest
 	private final static AdventureResult SUPER_VISION = EffectPool.get( "Super Vision" );
 	private final static AdventureResult SUPER_SPEED = EffectPool.get( "Super Speed" );
 	private final static AdventureResult SUPER_ACCURACY = EffectPool.get( "Super Accuracy" );
+	private final static AdventureResult BLACK_DAY = EffectPool.get( "Black Day" );
 
 	public static final Pattern PIRATE_EPHEMERA_PATTERN =
 		Pattern.compile( "pirate (?:brochure|pamphlet|tract)" );
@@ -186,6 +187,7 @@ public class NPCPurchaseRequest
 		double factor = 1.0;
 		if ( NPCPurchaseRequest.usingTrousers() ) factor -= 0.05;
 		if ( KoLCharacter.hasSkill( "Five Finger Discount" ) ) factor -= 0.05;
+		if ( KoLConstants.activeEffects.contains( NPCPurchaseRequest.BLACK_DAY ) ) factor -= 0.1;
 		return (int) ( price * factor );
 	}
 
