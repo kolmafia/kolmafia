@@ -965,6 +965,7 @@ user	_nanorhinoBanishedMonster
 user	_navelRunaways	0
 user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
+user	_pantsgivingFullness	0
 user	_pasteDrops	0
 user	_photocopyUsed	false
 user	_pieDrops	0

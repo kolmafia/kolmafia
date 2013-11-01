@@ -796,6 +796,9 @@ public abstract class KoLCharacter
 			baseFullness++;
 		}
 
+		// Pantsgiving
+		baseFullness += Preferences.getInteger( "_pantsgivingFullness" );
+
 		if ( KoLCharacter.inBeecore() || KoLCharacter.isTrendy() ||
 			 KoLCharacter.inBugcore() || KoLCharacter.inClasscore() )
 		{
