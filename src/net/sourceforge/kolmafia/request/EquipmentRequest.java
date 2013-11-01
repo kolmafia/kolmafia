@@ -1454,6 +1454,12 @@ public class EquipmentRequest
 
 		if ( action.equals( "equip" ) )
 		{
+			// Detect failure to equip
+			if ( !responseText.contains( "You equip an item" ) && !responseText.contains( "Item equipped" ) )
+			{
+				return;
+			}
+
 			// We equipped an item.
 			int itemId = EquipmentRequest.parseItemId( location );
 			if ( itemId < 0 )
@@ -1481,6 +1487,12 @@ public class EquipmentRequest
 		// inv_equip.php?action=dualwield&whichitem=1325&ajax=1
 		if ( action.equals( "dualwield" ) )
 		{
+			// Detect failure to equip
+			if ( !responseText.contains( "You equip an item" ) && !responseText.contains( "Item equipped" ) )
+			{
+				return;
+			}
+
 			// We equipped an item.
 			int itemId = EquipmentRequest.parseItemId( location );
 			if ( itemId < 0 )
@@ -1531,6 +1543,12 @@ public class EquipmentRequest
 		// inv_equip.php?action=unequip&type=acc3&ajax=1
 		if ( action.equals( "unequip" ) )
 		{
+			// Detect failure to equip
+			if ( !responseText.contains( "Item unequipped" ) )
+			{
+				return;
+			}
+
 			// We unequipped an item.
 			String slotName = EquipmentRequest.parseSlotName( location );
 			if ( slotName == null )
@@ -1563,6 +1581,12 @@ public class EquipmentRequest
 		// inv_equip.php?action=hatrack&whichitem=308&ajax=1
 		if ( action.equals( "hatrack" ) )
 		{
+			// Detect failure to equip
+			if ( !responseText.contains( "equips an item" ) )
+			{
+				return;
+			}
+
 			// We equipped an item.
 			int itemId = EquipmentRequest.parseItemId( location );
 			if ( itemId < 0 )
@@ -1581,6 +1605,12 @@ public class EquipmentRequest
 		// inv_equip.php?action=customoutfit&outfitname=Backup
 		if ( action.equals( "customoutfit" ) )
 		{
+			// Detect failure to equip
+			if ( !responseText.contains( "Your custom outfit has been saved" ) )
+			{
+				return;
+			}
+
 			// We saved a custom outfit. KoL assigned a new outfit
 			// ID to it and was kind enough to tell it to us in an
 			// HTML comment: <!-- outfitid: 61 -->
@@ -1624,6 +1654,12 @@ public class EquipmentRequest
 		// inv_equip.php?action=outfit&whichoutfit=-28&ajax=1
 		if ( action.equals( "outfit" ) )
 		{
+			// Detect failure to equip
+			if ( !responseText.contains( "You put on" ) )
+			{
+				return;
+			}
+
 			// We changed into an outfit.
 
 			// Since KoL doesn't tell us where accessories end up,
