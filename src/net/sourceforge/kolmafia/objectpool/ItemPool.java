@@ -1718,7 +1718,7 @@ public class ItemPool
 	public static final int DREADSYLVANIAN_SKELETON_KEY = 6424;
 	public static final int BRASS_DREAD_FLASK = 6428;
 	public static final int SILVER_DREAD_FLASK = 6429;
-	public static final int KRUEGGERAND = 6433;
+	public static final int KRUEGERAND = 6433;
 	public static final int MARK_OF_THE_BUGBEAR = 6434;
 	public static final int MARK_OF_THE_WEREWOLF = 6435;
 	public static final int MARK_OF_THE_ZOMBIE = 6436;

@@ -186,7 +186,7 @@ dilapidated wizard hat	Hot Damage: +10, Hot Spell Damage: +15, Familiar Effect: 
 disco mask	Moxie: +1, Familiar Effect: "atk, cap 2"
 double-ice cap	MP Regen Min: 5, MP Regen Max: 9, Cold Damage: +10, Familiar Effect: "1xPotato, 1xFairy, cap 17"
 draggin' ball hat	Moxie: +6, Muscle: -3, Familiar Effect: "atk, 1xVolley, cap 25"
-# dreadful fedora: Lets you find 5% more Krueggerands
+# dreadful fedora: Lets you find 5% more Kruegerands
 dreadful fedora	Spooky Damage: +25, Spooky Spell Damage: +25, Familiar Effect: "spooky atk, 1xLep"
 duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
 # dwarvish war helmet: Heads Up!
@@ -623,7 +623,7 @@ clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clownosity: +2
 coconut bikini top	Mysticality: +5
 cool iron breastplate	Damage Reduction: 20, Maximum HP: +200
 demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
-# dreadful sweater: Lets you find 5% more Krueggerands
+# dreadful sweater: Lets you find 5% more Kruegerands
 dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 duct tape shirt	Moxie: +9, Meat Drop: +20
 eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
@@ -1014,7 +1014,7 @@ didgeridooka	Moxie: +9
 dishrag	Stench Damage: +3
 double-barreled sling	Sleaze Damage: +5, Cold Resistance: +1
 doubt cannon	Weakens Monster
-# dreadful glove: Lets you find 5% more Krueggerands
+# dreadful glove: Lets you find 5% more Kruegerands
 dreadful glove	Critical Hit Percent: +5
 dreadlock whip	Sleaze Damage: +5, Stench Damage: +5, Monster Level: +10
 dripping meat crossbow	Moxie: +2
@@ -1823,7 +1823,7 @@ Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: 
 # CRIMBCO lanyard: Lets you work harder!
 CRIMBCO lanyard	Single Equip
 Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
-# Dreadsylvania Auditor's badge: Lets you find 5% more Krueggerands
+# Dreadsylvania Auditor's badge: Lets you find 5% more Kruegerands
 Dreadsylvania Auditor's badge	Item Drop: +10, Single Equip
 # Drunkula's ring of haze: The first attack against you will always miss
 Drunkula's ring of haze	Weapon Damage Percent: -100, Maximum HP: -200, Maximum MP: +300, Single Equip
