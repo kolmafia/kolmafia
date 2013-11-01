@@ -549,10 +549,6 @@ public class RequestEditorKit
 		{
 			MallSearchRequest.decorateMallSearch( buffer );
 		}
-		else if ( location.startsWith( "manor2.php" ) )
-		{
-			RequestEditorKit.add2ndFloorSpoilers( buffer );
-		}
 		else if ( location.startsWith( "manor3.php" ) )
 		{
 			RequestEditorKit.addWineCellarSpoilers( buffer );
@@ -582,6 +578,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "place.php?whichplace=rabbithole" ) )
 		{
 			RabbitHoleManager.decorateRabbitHole( buffer );
+		}
+		else if ( location.startsWith( "place.php?whichplace=spookyraven2" ) )
+		{
+			RequestEditorKit.add2ndFloorSpoilers( buffer );
 		}
 		else if ( location.startsWith( "searchplayer.php" ) )
 		{
@@ -1416,7 +1416,7 @@ public class RequestEditorKit
 			spoiler.insert( 0, "<small><center>" );
 			spoiler.append( "</center></small>" );
 			StringUtilities.singleStringReplace( buffer,
-				"<img src=\"http://images.kingdomofloathing.com/otherimages/manor/sm2_3.gif\" height=100 width=100 border=0>",
+				"<img src=\"http://images.kingdomofloathing.com/otherimages/manor/sm2_3.gif\" width=100 height=100 border=0 alt=\"\" title=\"\">",
 				spoiler.toString() );
 		}
 	}
