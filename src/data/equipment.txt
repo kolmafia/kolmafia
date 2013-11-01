@@ -510,6 +510,7 @@ Knob Goblin elite shirt	35	Mus: 2
 Mer-kin breastplate	200	Mus: 85
 Moonthril Cuirass	100	Mus: 40
 Mr. Shirt	30	none
+Pantsgiving	100	none
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Radio Free Jersey	0	none
 Thinknerd T-Shirt	10	none
