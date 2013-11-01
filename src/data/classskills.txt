@@ -535,9 +535,9 @@
 7166	Get a Good Whiff of This Guy	5	0	0
 7167	Blinding Flash	5	0	0
 7168	Wink at	5	0	0
-7169
-7170
-7171
+7169	Talk About Politics	5	0	0
+7170	Pocket Crumbs	5	0	0
+7171	Air Dirty Laundry	5	0	0
 7172	Steal Accordion	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf

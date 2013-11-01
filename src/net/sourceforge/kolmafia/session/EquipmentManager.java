@@ -586,6 +586,11 @@ public class EquipmentManager
 		case ItemPool.MAYOR_GHOSTS_GAVEL:
 			KoLCharacter.addAvailableSkill( "Hammer Ghost" );
 			break;
+		case ItemPool.PANTSGIVING:
+			KoLCharacter.addAvailableSkill( "Talk About Politics" );
+			KoLCharacter.addAvailableSkill( "Pocket Crumbs" );
+			KoLCharacter.addAvailableSkill( "Air Dirty Laundry" );
+			break;
 		}
 
 		// If we are either swapping out or in a stinky cheese item,

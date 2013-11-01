@@ -1324,6 +1324,18 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Talk About Politics" ) )
+		{
+			// You can only use 5 Pantsgiving banishes per day
+
+			if ( Preferences.getInteger( "_pantsgivingBanish" ) >= 5 ||
+			    !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PANTSGIVING, 1 ) ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
 		else if ( skillName.equals( "Release the Boots" ) )
 		{
 			// You can only release the boots 7 times per day
@@ -2382,6 +2394,11 @@ public class FightRequest
 			FightRequest.canOlfact = false;
 		}
 
+		else if ( skillNumber == SkillPool.TALK_ABOUT_POLITICS && responseText.contains( "won't be seeing <i>it</i> for a while" ) )
+		{
+			Preferences.increment( "_pantsgivingBanish" );
+		}
+
 		else if ( skillNumber == SkillPool.UNLEASH_NANITES && responseText.contains( "You roar with sudden power" ) )
 		{
 			Preferences.setString( "_nanorhinoBanishedMonster", monster );
@@ -2511,13 +2528,6 @@ public class FightRequest
 		{
 			EquipmentManager.breakEquipment( ItemPool.SUGAR_SHORTS,
 				"Your sugar shorts shattered." );
-		}
-
-		// You groan and loosen your overtaxed belt.  
-		// Y'know, you're full, but you could probably make room for <i>one more thing</i>...
-		if ( responseText.contains( "could probably make room for <i>one more thing</i>" ) )
-		{
-			Preferences.increment( "_pantsgivingFullness" );
 		}
 
 		// The Great Wolf of the Air emits an ear-splitting final
@@ -3065,6 +3075,13 @@ public class FightRequest
 			if ( responseText.contains( "You move a bone on the abacus to record your victory" ) )
 			{
 				Preferences.increment( "boneAbacusVictories", 1 );
+			}
+
+			// You groan and loosen your overtaxed belt.  
+			// Y'know, you're full, but you could probably make room for <i>one more thing</i>...
+			if ( responseText.contains( "could probably make room for <i>one more thing</i>" ) )
+			{
+				Preferences.increment( "_pantsgivingFullness" );
 			}
 
 			// Give your summoned combat entity some experience

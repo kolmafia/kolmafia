@@ -3269,6 +3269,7 @@ Bilious Briskness	Moxie Percent: +100
 Billiards Belligerence	Weapon Damage Percent: +50, Familiar Weight: +5
 # Biologically Shocked: Unleash strange forces in combat
 Bitterskin	Slime Hates It: +1
+# Black Day: Get any one item from any store for 10% less Meat
 Black Face	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
 Black Sweat	Spooky Resistance: +7
 Black Tongue	Familiar Weight: +5, Experience: +3, Meat Drop: +50, Item Drop: +30, HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20, Experience (familiar): +2
@@ -3579,6 +3580,7 @@ Everything's Zen	Experience Percent (Mysticality): +20
 # Existential Torment: Who are you? Who are you <i>really</i>?
 Expert Oiliness	Equalize: "Mysticality"
 Expert Timing	Item Drop: +20
+Extra-Sharp Weapon	Weapon Damage Percent: +30
 Extra-Wet	Hot Resistance: +3
 Extra Sensory Perception	Item Drop: +50
 Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
@@ -3879,6 +3881,7 @@ Light-Headed	Mysticality Percent: -30
 Liquid Courage	Experience: +3
 # Literally Insane
 Litterboxing	Stench Damage: +30, Item Drop: +15
+Litterbug	Monster Level: +25
 Livin' Large	Meat Drop: +10
 Lobos Fresh	Muscle Percent: [10+25*M], Mysticality Percent: [10+25*M], Moxie Percent: [10+25*M]
 Locks Like the Raven	Moxie: +15
@@ -4306,6 +4309,7 @@ Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
 Strawberry Alarm	Initiative: +50
 Strength of Ten Ettins	Muscle Percent: +25
+Strong Grip	Muscle: +20
 Strong Resolve	Experience (Muscle): +2
 Strong Spirit	Muscle: +15
 # Stuck-Up Hair: Damages Attacking Opponents
@@ -4393,6 +4397,7 @@ The Sonata of Sneakiness	Combat Rate: -5
 The Sweats	Stench Resistance: +5
 # The Tunger&trade;: +3 Adventures from the next thing you eat
 The Vitus Virus	Item Drop: +50, Experience: -5
+There Is A Spoon	Mysticality: +20
 # There is No Spoon
 There Wolf	Weapon Damage Percent: +100
 Thick-Skinned	Maximum HP: +50
@@ -5172,6 +5177,7 @@ defective Game Grid token	Effect: "Video... Games", Effect Duration: 5
 deflated inflatable dodecapede	Free Pull
 delicious comfit?	Effect: "Discomfited", Effect Duration: 10
 demonic surgical gloves	Effect: "Daemon Duds", Effect Duration: 50
+dented spoon	Effect: "There Is A Spoon", Effect Duration: 20
 deodorant	Effect: "Fresh Scent", Effect Duration: 10
 desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
 devilish folio	Effect: "Dis Abled", Effect Duration: 30
@@ -5231,6 +5237,7 @@ fat loot token	No Pull
 filthworm drone scent gland	Effect: "Filthworm Drone Stench", Effect Duration: 10
 filthworm hatchling scent gland	Effect: "Filthworm Larva Stench", Effect Duration: 10
 filthworm royal guard scent gland	Effect: "Filthworm Guard Stench", Effect Duration: 10
+finger exerciser	Effect: "Strong Grip", Effect Duration: 20
 fireclutch	Effect: "Ginger Fightis", Effect Duration: 50
 fire flower	Effect: "Flamingly Floral", Effect Duration: 10
 fish juice box	Effect: "Fishy", Effect Duration: 20
@@ -5365,6 +5372,7 @@ mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 motivational poster	Effect: "Loco Motives", Effect Duration: 10
 myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Incensed", Effect Duration: 10
 mysterious chest	Free Pull
+nail file	Effect: "Extra-Sharp Weapon", Effect Duration: 20
 natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
 necrotizing body spray	Effect: "Dead Sexy", Effect Duration: 30
 nervous tick egg	Free Pull
@@ -5374,6 +5382,7 @@ oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
 oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
 oil of stability	Effect: "Stabilizing Oiliness", Effect Duration: [R]
 ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R]
+old candy wrapper	Effect: "Litterbug", Effect Duration: 5
 orange-frosted astral cupcake	Effect: "Shiny Happy Cupcake", Effect Duration: 20
 orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5
 orange candy heart	Effect: "Heart of Orange", Effect Duration: 10
@@ -5421,6 +5430,7 @@ pirate tract	Effect: "Carrrsmic", Effect Duration: 10
 pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
 plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 possibility potion	Effect: "Always In Motion", Effect Duration: 10
+post-holiday sale coupon	Effect: "Black Day", Effect Duration: 1
 potent potion of potency	Effect: "Ponderous Potency", Effect Duration: [R]
 potion of X-ray vision	Effect: "X-Ray Vision", Effect Duration: 30
 potion of animal rage	Effect: "Raging Animal", Effect Duration: 30

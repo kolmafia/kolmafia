@@ -1407,3 +1407,9 @@
 1406	Deeply Ironic	ironmint.gif	e1e512a758d8f48ce7ba804cedacf755	use 1 ironic mint
 1407	Winning Smile	waxlips.gif	0c43171dafa1826fea4d864040c3318d	use 1 Effermint&trade; tablets
 1408	Bugbear in Tooth and Claw	3claws.gif	241b5c741a73a9223688f6f7d3314681	use 1 Bugbearclaw Donut
+1409	Strong Grip	fingerciser.gif	51658bbb3bb992e769ac0744ea4bcfc2	use 1 finger exerciser
+1410	There Is A Spoon	bentspoon.gif	174f71f3497795eeafb009eed8afabd1	use 1 dented spoon
+1411
+1412	Extra-Sharp Weapon	straightrazor.gif	68acb17c4731eef699ca1e3f8db79704	use 1 nail file
+1413	Litterbug	beetle.gif	d2684d87f37e7d1e46dc32bf7bcafaa9	use 1 old candy wrapper
+1414	Black Day	coupon.gif	6eaa7a64ccc96eed78675082f126d197	use 1 post-holiday sale coupon
