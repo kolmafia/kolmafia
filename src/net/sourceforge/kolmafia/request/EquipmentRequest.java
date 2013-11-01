@@ -95,7 +95,7 @@ public class EquipmentRequest
 	private static final Pattern OUTFITLIST_PATTERN = Pattern.compile( "<select name=whichoutfit>.*?</select>" );
 	private static final Pattern STICKER_PATTERN = Pattern.compile(
 		"<td>\\s*(shiny|dull)?\\s*([^<]+)<a [^>]+action=peel|<td>\\s*<img [^>]+magnify" );
-	private static final Pattern FOLDER_PATTERN = Pattern.compile( "descitem\\(([\\d]+)?\\)" );
+	private static final Pattern FOLDER_PATTERN = Pattern.compile( "folders/folder(\\d+).gif" );
 
 	private static final Pattern OUTFIT_ACTION_PATTERN = Pattern.compile(
 		"([a-zA-Z])=([^=]+)(?!=)" );
@@ -1201,6 +1201,14 @@ public class EquipmentRequest
 		EquipmentManager.setEquipment( EquipmentManager.CARD_SLEEVE, newItem );
 	}
 
+	public static final AdventureResult idToFolder( final String id )
+	{
+		int itemId = ItemPool.FOLDER_01 + StringUtilities.parseInt( id ) - 1;
+		return ( itemId < ItemPool.FOLDER_01 || itemId > ItemPool.FOLDER_28 ) ?
+			EquipmentRequest.UNEQUIP :
+			ItemPool.get( itemId, 1 );
+	}
+
 	public static final void parseFolders( String responseText )
 	{
 		int startIndex = responseText.indexOf( "Contents of your Folder Holder" );
@@ -1214,24 +1222,15 @@ public class EquipmentRequest
 		Matcher folderMatcher = EquipmentRequest.FOLDER_PATTERN.matcher( text );
 
 		int slot = EquipmentManager.FOLDER1;
-		while ( folderMatcher.find() )
+		while ( folderMatcher.find() && slot <= EquipmentManager.FOLDER5 )
 		{
-			String descitem = folderMatcher.group( 1 );
-			if ( descitem == null )
-			{
-				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
-			}
-			else
-			{
-				int itemId = ItemDatabase.getItemIdFromDescription( descitem );
-				EquipmentManager.setEquipment( slot, ItemPool.get( itemId, 1 ) );
-			}
-			slot++;
+			AdventureResult folder = EquipmentRequest.idToFolder( folderMatcher.group( 1 ) );
+			EquipmentManager.setEquipment( slot++, folder );
 		}
 
-		for ( int i = slot; i <= EquipmentManager.FOLDER5; i++ )
+		while ( slot <= EquipmentManager.FOLDER5 )
 		{
-			EquipmentManager.setEquipment( i, EquipmentRequest.UNEQUIP );
+			EquipmentManager.setEquipment( slot++, EquipmentRequest.UNEQUIP );
 		}
 	}
 

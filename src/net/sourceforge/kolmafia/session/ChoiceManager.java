@@ -128,6 +128,7 @@ public abstract class ChoiceManager
 	}
 
 	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
+	private static final Pattern URL_FORCEOPTION_PATTERN = Pattern.compile( "forceoption=(\\d+)" );
 	private static final Pattern URL_OPTION_PATTERN = Pattern.compile( "option=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 	private static final Pattern REANIMATOR_ARM_PATTERN = Pattern.compile( "(\\d+) arms??<br>" );
@@ -5395,10 +5396,6 @@ public abstract class ChoiceManager
 			TurnCounter.startCounting( 40, "Silent Invasion window end loc=*", "rparen.gif" );
 			break;
 
-		case 774:
-			EquipmentRequest.parseFolders( ChoiceManager.lastResponseText );
-			break;
-
 		case 794:
 			ResultProcessor.removeItem( ItemPool.FUNKY_JUNK_KEY );
 			break;
@@ -6394,10 +6391,6 @@ public abstract class ChoiceManager
 			}
 			return;
 
-		case 774:
-			EquipmentRequest.parseFolders( text );
-			return;
-
 		case 780:
 			// Action Elevator
 			if ( ChoiceManager.lastDecision == 1 && text.contains( "penthouse is empty now" ) )
@@ -7112,6 +7105,26 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 774:
+			// Opening up the Folder Holder
+
+			// Choice 1 is adding a folder.
+			if ( ChoiceManager.lastDecision == 1 &&
+			     text.contains( "You carefully place your new folder in the holder" ) )
+			{
+				// Figure out which one it was from the URL
+				String id = request.getFormField( "folder" );
+				AdventureResult folder = EquipmentRequest.idToFolder( id );
+				ResultProcessor.removeItem( folder.getItemId() );
+			}
+
+			// Choice 2 is removing a folder. Since the folder is
+			// destroyed, it does not go back to inventory.
+
+			// Set all folder slots from the response text
+			EquipmentRequest.parseFolders( text );
+			return;
+
 		case 786:
 			if( ChoiceManager.lastDecision == 2 && Preferences.getBoolean( "autoCraft" ) && text.contains( "boring binder clip" ) &&
 				InventoryManager.getCount( ItemPool.MCCLUSKY_FILE_PAGE5 ) == 1 && Preferences.getBoolean( "autoCraft" ) )
@@ -7386,6 +7399,16 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastResponseText.contains( "You plug it in" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SKULL_CAPACITOR, -1 ) );
+			}
+			break;
+
+		case 774:
+			// Opening up the Folder Holder
+
+			String option = request.getFormField( "forceoption" );
+			if ( option != null )
+			{
+				ChoiceManager.lastDecision = StringUtilities.parseInt( option );
 			}
 			break;
 			
