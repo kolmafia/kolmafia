@@ -368,7 +368,6 @@ public class ListCellRendererFactory
 		{
 			StringBuffer stringForm = new StringBuffer();
 			String name = item.getName();
-			boolean meetsRequirement = ItemDatabase.meetsLevelRequirement( name );
 
 			stringForm.append( "<html><nobr>" );
 

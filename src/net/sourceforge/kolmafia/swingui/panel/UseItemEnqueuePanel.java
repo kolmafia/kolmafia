@@ -715,7 +715,8 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( creation.fancydog && ConcoctionDatabase.queuedFancyDog )
+			if ( creation.fancydog && 
+			     ( ConcoctionDatabase.queuedFancyDog || Preferences.getBoolean( "_fancyHotDogEaten" ) ) )
 			{
 				return false;
 			}

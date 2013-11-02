@@ -37,10 +37,15 @@ import java.util.HashMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public final class ColorFactory
@@ -118,25 +123,17 @@ public final class ColorFactory
 	public static String getConcoctionColor( Concoction item )
 	{
 		String name = item.getName();
-		boolean meetsRequirement = ItemDatabase.meetsLevelRequirement( name );
-		String color = null;
 
-		color = checkOptionalColors( item.getItemId() );
+		String color = checkOptionalColors( item.getItemId() );
 
 		if ( color != null )
 		{
 			return color;
 		}
 
-		if ( !meetsRequirement )
-		{
-			color = getNotAvailableColor();
-		}
-		else
-		{
-			color = ColorFactory.getQualityColor( name );
-		}
-		return color;
+		return	ItemDatabase.meetsLevelRequirement( name ) ?
+			ColorFactory.getQualityColor( name ) :
+			getNotAvailableColor();
 	}
 
 	public static String getStorageColor( AdventureResult ar )
