@@ -3915,6 +3915,7 @@ Meatwise	Meat Drop: +35
 Meaty and Cheesy	Muscle Percent: [min(200,5*T)]
 Melancholy Burden	Item Drop: +60
 Memento Moir&eacute;	Experience: +3
+Memories of Puppy Love	Moxie: +20
 Memory of Aggressiveness	Monster Level: +30
 Memory of Attractiveness	Moxie Percent: +100
 Memory of Resilience	Damage Absorption: +200
@@ -5383,6 +5384,7 @@ oil of slipperiness	Effect: "Slippery Oiliness", Effect Duration: [R]
 oil of stability	Effect: "Stabilizing Oiliness", Effect Duration: [R]
 ointment of the occult	Effect: "Mystically Oiled", Effect Duration: [R]
 old candy wrapper	Effect: "Litterbug", Effect Duration: 5
+old love note	Effect: "Memories of Puppy Love", Effect Duration: 20
 orange-frosted astral cupcake	Effect: "Shiny Happy Cupcake", Effect Duration: 20
 orange and black Crimboween candy	Effect: "Sugar Rush", Effect Duration: 5
 orange candy heart	Effect: "Heart of Orange", Effect Duration: 10
