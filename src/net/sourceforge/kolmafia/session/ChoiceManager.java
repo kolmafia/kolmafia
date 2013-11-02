@@ -2860,6 +2860,10 @@ public abstract class ChoiceManager
 				       new Option( "investigate interesting room", 4 ),
 				       new Option( "investigate trap door", 5 ),
 				       new Option( "investigate elevator", 6 ) } ),
+
+		// Choice 804 is Trick or Treat!
+		// Choice 805 is A Sietch in Time
+
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -6529,6 +6533,27 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "reanimatorSkulls", 0 );
 				Preferences.setInteger( "reanimatorWeirdParts", 0 );
 				Preferences.setInteger( "reanimatorWings", 0 );
+			}
+			return;		
+
+		case 805:
+			// A Sietch in Time
+			switch ( ChoiceManager.lastDecision )
+			{
+			case 2:
+				ResultProcessor.removeItem( ItemPool.STONE_ROSE );
+				break;
+			case 3:
+				ResultProcessor.removeItem( ItemPool.BLACK_PAINT );
+				break;
+			case 4:
+				ResultProcessor.removeItem( ItemPool.KILLING_JAR );
+				break;
+			case 5:
+				// Turn in 15 worm-riding manual pages to get
+				// worm-riding hooks. Handled as part of item
+				// acquisition of the latter
+				break;
 			}
 			return;		
 		}

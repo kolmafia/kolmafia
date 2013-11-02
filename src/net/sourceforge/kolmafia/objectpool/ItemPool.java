@@ -1877,6 +1877,7 @@ public class ItemPool
 	public static final int PEACE_ACCORDION = 6824;
 	public static final int ALARM_ACCORDION = 6825;
 	public static final int WALKIE_TALKIE = 6846;
+	public static final int KILLING_JAR = 6847;
 	public static final int ULTRA_MEGA_SOUR_BALL = 6852;
 	public static final int SUSPICIOUS_ADDRESS = 6855;
 	public static final int BAL_MUSETTE_ACCORDION = 6856;
