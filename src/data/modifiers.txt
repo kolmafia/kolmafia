@@ -2195,6 +2195,7 @@ monster bait	Combat Rate: +5, Single Equip
 monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Synergetic
 # mood ring
 moon-amber necklace	Spell Damage Percent: 50, Maximum MP: 200, Mysticality Percent: [5*G], Single Equip
+moustache sock	Moxie: +20, Muscle: -5, Mysticality: -5, Initiative: +20, Single Equip
 musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 mysterious silver lapel pin	HP Regen Min: 5, HP Regen Max: 9, Meat Drop: +5, Single Equip
 natty blue ascot	Meat Drop: +20
@@ -2244,6 +2245,7 @@ porquoise bracelet	Moxie: +4, Never Fumble
 porquoise eyebrow ring	Moxie: +4, Never Fumble
 porquoise necklace	Moxie: +4, Meat Drop: +10, Single Equip
 porquoise ring	Moxie: +5, Maximum HP: +5, Maximum MP: +5, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Single Equip
+power sock	Muscle: +20, Mysticality: -5, Moxie: -5, Weapon Damage Percent: +20, Single Equip
 # psychoanalytic jar
 pulled porquoise earring	Moxie: +9, Never Fumble
 pulled porquoise pendant	Moxie: +10, Meat Drop: +15, Single Equip
@@ -2545,6 +2547,7 @@ wheel	Initiative: +10
 white belt	Muscle: +3, Weapon Damage: +3, Single Equip
 white collar	Meat Drop: +3, Moxie: +1
 witch wart	Mysticality: +5, MP Regen Min: 6, MP Regen Max: 8
+wool sock	Mysticality: +20, Muscle: -5, Moxie: -5, Spell Damage Percent: +40, Single Equip
 woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 wrench bracelet	Muscle: +5, Weapon Damage: +9
 wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip, Nonstackable Watch

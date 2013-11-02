@@ -1920,6 +1920,7 @@ monster bait	10	none
 monstrous monocle	160	Mus: 65
 mood ring	10	none
 moon-amber necklace	250	Mys: 200
+moustache sock	0	Mus: 10
 musty moccasins	160	Mox: 65
 mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
@@ -1963,6 +1964,7 @@ porquoise bracelet	50	Mys: 10
 porquoise eyebrow ring	50	Mys: 10
 porquoise necklace	50	Mys: 10
 porquoise ring	50	Mys: 10
+power sock	0	Mys: 10
 pulled porquoise earring	110	Mys: 40
 pulled porquoise pendant	110	Mys: 40
 pulled porquoise ring	110	Mys: 40
@@ -2252,6 +2254,7 @@ wheel	30	none
 white belt	40	Mys: 5
 white collar	20	none
 witch wart	125	Mys: 47
+wool sock	0	Mox: 10
 woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 wristwatch of the white knight	60	Mys: 15
