@@ -325,14 +325,13 @@ public class EatItemRequest
 		}
 
 		String itemName = this.itemUsed.getName();
-		String advGain = ItemDatabase.getAdvRangeByName( itemName );
 
 		if ( !askAboutGarish( itemName ) )
 		{
 			return false;
 		}
 
-		if ( !askAboutMilk( advGain ) )
+		if ( !EatItemRequest.askAboutMilk( itemName, this.itemUsed.getCount() ) )
 		{
 			return false;
 		}
@@ -374,7 +373,7 @@ public class EatItemRequest
 		return true;
 	}
 
-	private final boolean askAboutMilk( String advGain )
+	public static boolean askAboutMilk( final String name, final int count )
 	{
 		// If user specifically said not to worry about milk, don't nag
 		int myUserId = KoLCharacter.getUserId();
@@ -384,6 +383,7 @@ public class EatItemRequest
 		}
 		
 		// If the item doesn't give any adventures, it won't benefit from using milk
+		String advGain = ItemDatabase.getAdvRangeByName( name );
 		if ( advGain.equals( "0" ) )
 		{
 			return true;
@@ -408,7 +408,7 @@ public class EatItemRequest
 		UseSkillRequest lunch = UseSkillRequest.getInstance( "Song of the Glorious Lunch" );
 		boolean canLunch = KoLCharacter.inAxecore() && KoLConstants.availableSkills.contains( lunch );
 
-		// See if the character can has (or can buy) a milk of magnesium.
+		// See if the character has (or can buy) a milk of magnesium.
 		boolean canMilk = InventoryManager.hasItem( ItemPool.MILK_OF_MAGNESIUM, true) || KoLCharacter.canInteract();
 
 		// If you either can't get or don't care about both effects, don't nag
@@ -419,9 +419,7 @@ public class EatItemRequest
 
 		// Calculate how much fullness we are about to add
 
-		String name = this.itemUsed.getName();
 		int fullness = ItemDatabase.getFullness( name );
-		int count = this.itemUsed.getCount();
 		int consumptionTurns = count * fullness;
 
 		// Check for Glorious Lunch

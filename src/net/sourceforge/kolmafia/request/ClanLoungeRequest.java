@@ -587,6 +587,15 @@ public class ClanLoungeRequest
 		}
 	}
 
+	public static boolean canVisitLounge()
+	{
+		// Pull a key from storage, if necessary
+		ClanLoungeRequest.pullVIPKey();
+
+		// If we have no Clan VIP Lounge key, nothing to do
+		return VIP_KEY.getCount( KoLConstants.inventory ) > 0;
+	}
+
 	public static boolean visitLounge( final int location )
 	{
 		// Pull a key from storage, if necessary
@@ -1065,15 +1074,16 @@ public class ClanLoungeRequest
 		RequestLogger.printLine( buffer.toString() );
 	}
 
+	public static boolean availableHotDog( final String itemName )
+	{
+		int index = ClanLoungeRequest.hotdogNameToIndex( itemName );
+		Concoction item = ClanLoungeRequest.ALL_HOTDOGS.get( index );
+		return ConcoctionDatabase.getUsables().contains( item );
+	}
+
 	private static Concoction addHotDog( final String itemName )
 	{
-		// Don't bother adding fancy hot dogs if you've already eaten one today.
 		int index = ClanLoungeRequest.hotdogNameToIndex( itemName );
-		if ( index > 0 && Preferences.getBoolean( "_fancyHotDogEaten" ) )
-		{
-			return null;
-		}
-
 		Concoction item = ClanLoungeRequest.ALL_HOTDOGS.get( index );
 		return ConcoctionDatabase.getUsables().contains( item ) ? null : item;
 	}
