@@ -79,7 +79,7 @@ bunch of square grapes	2	7	awesome	6-7	1-5	5-20	1-5
 c.h.u.m. chum	3	1	crappy	1	0	0	0	20 Majorly Poisoned
 cactus fruit	2	7	awesome	6-7	6-20	1-5	1-5	lose 8-10 HP
 can of franks 'n' beans	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
-can of sardines	1	4	awesome	0	0	0	0
+can of sardines	1	4	awesome	3-4	20-25	0	0
 can-shaped gelatinous cranberry sauce	3	6	awesome	9-17	0	0	71-74
 candied yams	3	5	awesome	7-14	0	72-75	0
 candy cane	1	4	good	1-5	10-20	10-20	10-20
@@ -113,7 +113,7 @@ cob of corn	1	2	crappy	1	0	10-15	0
 cocktail onion	1	2	decent	2	0	0	0
 cocoa eggshell fragment	1	1	crappy	1	0	0	0
 cold hi mein	5	7	awesome	21-28	71-75	30-35	15-20	5 Cold Breath (combat skill)
-cold mashed potatoes	1	4	awesome	0	0	0	0
+cold mashed potatoes	1	4	awesome	4-5	0	0	0
 congratulatory cake	3	1	crappy	3	0	0	0
 consummate bacon	3	1	decent	4-5	10-20	20-30	0
 consummate bagel	4	1	decent	5-7	10-20	20-30	0
@@ -173,8 +173,9 @@ delicious swamp muck	5	4	decent	7-8	20-30	20-30	20-30
 desiccated apricot	1	2	decent	2	15-17	0	0
 devil dog	3	1	awesome	12-14	0	0	0	+5 PVP fights, 30 Devil Inside
 devil's-food cake	3	1	crappy	3	0	0	0
-deviled egg	1	5	EPIC	0	0	0	0
+deviled egg	1	5	EPIC	5-6	2-4	2-4	2-4
 digital key lime pie	4	6	awesome	14-16	10-22	10-22	10-22	8-10 white pixels
+dinner roll	1	4	awesome	4-5	0	0	0
 dire fudgesicle	2	1	decent	2-4	0	8-10	0	lose 2 HP
 disc-shaped nutrition unit	4	5		6-9	0	0	0
 double bacon beelzeburger	3	1	decent	4-6	15-20	-15-20	0
@@ -300,7 +301,7 @@ hell broth	4	3	good	7-14	-5-9	0	-5-9
 hell ramen	6	6	awesome	22-29	23-28	23-28	23-28	20-29 meat
 herb brownies	2	1	decent	2-5	0	0	8-9	5 Confused (-30% mys)
 herbal stuffing	4	7	awesome	15-21	0	0	70-75
-high-calorie sugar substitute	1	4	awesome	0	0	0	0
+high-calorie sugar substitute	1	4	awesome	3-4	0	20-25	0
 hippy herbal tea	1	1	decent	2	0	4-7	0	5 Sleepy (-30% mus)
 holiday cheese log	3	1	good	8-10	10-20	10-20	10-20	Stands Alone (+10 Stench dmg)
 honey-dew	2	2	good	4-7	13-15	0	0	10 Mmmmmelon (+30% item drop)
@@ -675,7 +676,7 @@ white citadel fries	2	1	decent	2-5	0	0	0
 white rabbit roll	3	1		9-14	0	28-46	0	45/55 Fishy
 white rice	1	1	crappy	1	1	1-2	1-2
 whole roasted chicken	3	9	awesome	15	18-22	18-22	18-22
-whole turkey leg	1	4	awesome	0	0	0	0
+whole turkey leg	1	4	awesome	4-5	0	0	0
 wild honey pie	2	1	decent	4-6	5-7	5-7	5-7	10 Sugar Rush
 wise dragon roll	3	1		9-14	20-30	8-16	0	45/55 Fishy
 wizened master roll	3	1		9-14	20-30	28-46	20-30	45/55 Fishy
