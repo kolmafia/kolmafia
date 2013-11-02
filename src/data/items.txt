@@ -6878,9 +6878,9 @@
 6861	can of sardines	724707278	sardinecan.gif	food	t,d	1
 6862	high-calorie sugar substitute	812237742	sugarpacket.gif	food	t,d	1	packets of high-calorie sugar substitute
 6863	pat of butter	310457727	butterpat.gif	food	t,d	1
-6864
-6865	cold mashed potatoes	955524104	coldmash.gif	food	t,d	1	handfuls of cold mashed potatoes
-6866	whole turkey leg	847918903	bigturkeyleg.gif	food	t,d	1
+6864	dinner roll	223372463	roll.gif	food, combat	t,d	1
+6865	cold mashed potatoes	955524104	coldmash.gif	food, combat	t,d	1	handfuls of cold mashed potatoes
+6866	whole turkey leg	847918903	bigturkeyleg.gif	food, combat	t,d	1
 6867	deviled egg	886155748	deviledegg.gif	food	t,d	2
 6868	finger exerciser	895527807	fingerciser.gif	usable	t,d	1
 6869	dented spoon	370832456	bentspoon.gif	usable	t,d	1
@@ -6888,7 +6888,7 @@
 6871	old-school beer pull tab	354368969	pulltab.gif	none, combat	t,d	1
 6872	nail file	496758740	nailfile.gif	usable	t,d	1
 6873	old candy wrapper	769989020	candywrapper.gif	usable	t,d	0
-6874
+6874	gym membership card	264919912	gymmember.gif	usable	t,d	1
 6875	post-holiday sale coupon	343572534	coupon.gif	usable	t,d	1
 6876	dry cleaning receipt	738017170	receipt.gif	usable	t,d	1
 6877
