@@ -1382,7 +1382,10 @@ public class UseSkillRequest
 			return false;
 		}
 
-		if ( responseText.indexOf( "too many songs" ) != -1 )
+		// You can't fit anymore songs in your head right now
+		// XXX can't fit anymore songs in their head right now.
+		if ( responseText.contains( "can't fit anymore songs" ) ||
+		     responseText.contains( "can't fit any more songs" ) )
 		{
 			UseSkillRequest.lastUpdate = "Selected target has the maximum number of AT buffs already.";
 			return false;
