@@ -42,7 +42,11 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -216,5 +220,73 @@ public class RestaurantCommand
 		}
 
 		return false;
+	}
+
+	public static boolean makeHotDogStandRequest( final String command, final String parameters )
+	{
+		String[] splitParameters = AbstractCommand.splitCountAndName( parameters );
+		String hotdog = splitParameters[ 1 ];
+
+		// We claim any request to eat a hot dog
+		if ( !ClanLoungeRequest.isHotDog( hotdog ) )
+		{
+			return false;
+		}
+
+		if ( !ClanLoungeRequest.canVisitLounge() )
+		{
+			KoLmafia.updateDisplay( "Since you have no access to the Clan VIP lounge, you may not visit the Hot Dog Stand." );
+			return true;
+		}
+
+		if ( !ClanLoungeRequest.availableHotDog( hotdog ) )
+		{
+			KoLmafia.updateDisplay( "The '" + hotdog + "' is not currently available in your clan" );
+			return true;
+		}
+
+		String countString = splitParameters[ 0 ];
+		int count = countString == null ? 1 : StringUtilities.parseInt( countString );
+
+		boolean isFancy = ClanLoungeRequest.isFancyHotDog( hotdog );
+		if ( isFancy )
+		{
+			if ( Preferences.getBoolean( "_fancyHotDogEaten" ) )
+			{
+				KoLmafia.updateDisplay( "You've already eaten a fancy hot dog today." );
+				return true;
+			}
+			if ( count > 1 )
+			{
+				KoLmafia.updateDisplay( "(You can only eat 1 fancy hot dog per day; reducing count to 1.)" );
+				count = 1;
+			}
+
+			int available = KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness();
+			int fullness = ItemDatabase.getFullness( hotdog );
+			if ( fullness > available )
+			{
+				KoLmafia.updateDisplay( "You are too full to eat a " + hotdog );
+				return true;
+			}
+		}
+
+		if ( !command.equals( "eatsilent" ) && !EatItemRequest.askAboutMilk( hotdog, count ) )
+		{
+			return true;
+		}
+
+		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+		{
+			RequestLogger.printLine( hotdog );
+			return true;
+		}
+
+		// Everything checks out. Eat it!
+		for ( int j = 0; j < count; ++j )
+		{
+			RequestThread.postRequest( ClanLoungeRequest.buyHotDogRequest( hotdog ) );	
+		}
+		return true;
 	}
 }

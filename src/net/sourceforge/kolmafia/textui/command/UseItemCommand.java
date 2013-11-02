@@ -105,6 +105,10 @@ public class UseItemCommand
 			{
 				return false;
 			}
+			if ( RestaurantCommand.makeHotDogStandRequest( command, parameters ) )
+			{
+				return false;
+			}
 		}
 
 		if ( !sim && ( command.equals( "drink" ) || command.equals( "overdrink" ) ) )
