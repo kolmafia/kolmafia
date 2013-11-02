@@ -1398,8 +1398,6 @@ public class ClanLoungeRequest
 			// If consumption of a fancy hot dog failed, remember
 			if ( responseText.indexOf( "You aren't in the mood for any more fancy dogs today" ) != -1 )
 			{
-				// Remove fancy hot dogs from the list
-				ClanLoungeRequest.resetFancyHotdogs();
 				Preferences.setBoolean( "_fancyHotDogEaten", true );
 				return;
 			}
@@ -1429,8 +1427,6 @@ public class ClanLoungeRequest
 			}
 			if ( index > 0 )
 			{
-				// Remove fancy hot dogs from the list
-				ClanLoungeRequest.resetFancyHotdogs();
 				Preferences.setBoolean( "_fancyHotDogEaten", true );
 			}
 
