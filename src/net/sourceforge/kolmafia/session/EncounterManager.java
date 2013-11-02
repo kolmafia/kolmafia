@@ -285,28 +285,6 @@ public abstract class EncounterManager
 			return;
 		}
 
-		if ( encounterName.equalsIgnoreCase( "No Colors Anymore" ) )
-		{
-			if ( InventoryManager.hasItem( ItemPool.STONE_ROSE ) )
-			{
-				ResultProcessor.processItem( ItemPool.STONE_ROSE, -1 );
-			}
-			if ( InventoryManager.hasItem( ItemPool.BLACK_PAINT ) )
-			{
-				ResultProcessor.processItem( ItemPool.BLACK_PAINT, -1 );
-			}
-			return;
-		}
-
-		if ( encounterName.equalsIgnoreCase( "Still No Colors Anymore" ) )
-		{
-			if ( InventoryManager.hasItem( ItemPool.BLACK_PAINT ) )
-			{
-				ResultProcessor.processItem( ItemPool.BLACK_PAINT, -1 );
-			}
-			return;
-		}
-
 		if ( encounterName.equalsIgnoreCase( "Granny, Does Your Dogfish Bite?" ) )
 		{
 			if ( InventoryManager.hasItem( ItemPool.GRANDMAS_MAP ) )
