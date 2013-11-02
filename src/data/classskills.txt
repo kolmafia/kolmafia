@@ -355,7 +355,7 @@
 6034	Concerto de los Muertos	5	8	0	6
 6035	Five Finger Discount	0	0	0	7
 6036	Suspicious Gaze	9	10	10	8
-6037	Bawdy Refrain	9	11	0	9
+6037	Bawdy Refrain	5	11	0	9
 6038	Thief Among the Honorable	0	0	0	10
 6039	Sticky Fingers	0	0	0	11
 6040	Cone of Zydeco	5	15	0	12
