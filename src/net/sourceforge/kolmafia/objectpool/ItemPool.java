@@ -576,9 +576,7 @@ public class ItemPool
 	public static final int ANCIENT_BRONZE_TOKEN = 2317;
 	public static final int ANCIENT_BOMB = 2318;
 	public static final int CARVED_WOODEN_WHEEL = 2319;
-	public static final int WORM_RIDING_MANUAL_1 = 2320;
-	public static final int WORM_RIDING_MANUAL_2 = 2321;
-	public static final int WORM_RIDING_MANUAL_3_15 = 2322;
+	public static final int WORM_RIDING_MANUAL_PAGE = 2320;
 	public static final int HEADPIECE_OF_ED = 2323;
 	public static final int STAFF_OF_ED = 2325;
 	public static final int STONE_ROSE = 2326;
