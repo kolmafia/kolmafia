@@ -1413,22 +1413,12 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.PALINDOME, QuestDatabase.FINISHED );
 			break;
 			
-		case ItemPool.WORM_RIDING_MANUAL_1:
+		case ItemPool.WORM_RIDING_MANUAL_PAGE:
 			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step7" );
-			break;
-			
-		case ItemPool.WORM_RIDING_MANUAL_2:
-			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step8" );
-			break;
-			
-		case ItemPool.WORM_RIDING_MANUAL_3_15:
-			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step9" );
 			break;
 
 		case ItemPool.WORM_RIDING_HOOKS:
-			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_1, -1 );
-			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_2, -1 );
-			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_3_15, -1 );
+			ResultProcessor.processItem( ItemPool.WORM_RIDING_MANUAL_PAGE, -15 );
 			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step10" );
 			break;
 			

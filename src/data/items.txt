@@ -2334,7 +2334,7 @@
 2317	ancient bronze token	791009073	token.gif	none	q	0
 2318	ancient bomb	487030570	bigbomb.gif	none	q	0
 2319	carved wooden wheel	698872877	woodenwheel.gif	none	q	0
-2320	worm-riding manual page 1	956772450	page.gif	none	q	0
+2320	worm-riding manual page	956772450	page.gif	none	q	0	worm-riding manual pages
 2321	worm-riding manual page 2	159106276	page.gif	none	q	0
 2322	worm-riding manual pages 3-15	754742505	pages.gif	none	q	0
 2323	headpiece of the Staff of Ed	544136881	headpiece.gif	none	q	0
