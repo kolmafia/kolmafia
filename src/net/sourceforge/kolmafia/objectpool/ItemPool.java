@@ -1846,6 +1846,7 @@ public class ItemPool
 	public static final int SCORCHED_STONE_SPHERE = 6700;
 	public static final int STONE_TRIANGLE = 6701;
 	public static final int SHIP_TRIP_SCRIP = 6725;
+	public static final int UV_RESISTANT_COMPASS = 6729;
 	public static final int FUNKY_JUNK_KEY = 6730;
 	public static final int WORSE_HOMES_GARDENS = 6731;
 	public static final int JUNK_JUNK = 6735;
@@ -1879,6 +1880,7 @@ public class ItemPool
 	public static final int WALKIE_TALKIE = 6846;
 	public static final int KILLING_JAR = 6847;
 	public static final int ULTRA_MEGA_SOUR_BALL = 6852;
+	public static final int DESERT_PAMPHLET = 6854;
 	public static final int SUSPICIOUS_ADDRESS = 6855;
 	public static final int BAL_MUSETTE_ACCORDION = 6856;
 	public static final int CAJUN_ACCORDION = 6857;

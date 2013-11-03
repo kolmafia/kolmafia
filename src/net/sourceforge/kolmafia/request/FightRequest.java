@@ -2700,24 +2700,33 @@ public class FightRequest
 
 		if ( won )
 		{
-			if ( ( adventure == AdventurePool.MERKIN_COLOSSEUM ) &&
-			     // Do not increment round for wandering monsters
-			     ( monster.equalsIgnoreCase( "Mer-kin balldodger" ) ||
-			       monster.equalsIgnoreCase( "Mer-kin netdragger" ) ||
-			       monster.equalsIgnoreCase( "Mer-kin bladeswitcher" ) ||
-			       monster.equalsIgnoreCase( "Georgepaul, the Balldodger" ) ||
-			       monster.equalsIgnoreCase( "Johnringo, the Netdragger" ) ||
-			       monster.equalsIgnoreCase( "Ringogeorge, the Bladeswitcher" ) ) &&
-			     // Do mark path chosen unless won round 15
-			     ( Preferences.increment( "lastColosseumRoundWon", 1 ) == 15 ) )
+			switch ( adventure )
 			{
-				Preferences.setString( "merkinQuestPath", "gladiator" );
+				case AdventurePool.MERKIN_COLOSSEUM:
+					// Do not increment round for wandering monsters
+					if ( ( monster.equalsIgnoreCase( "Mer-kin balldodger" ) ||
+					       monster.equalsIgnoreCase( "Mer-kin netdragger" ) ||
+					       monster.equalsIgnoreCase( "Mer-kin bladeswitcher" ) ||
+					       monster.equalsIgnoreCase( "Georgepaul, the Balldodger" ) ||
+					       monster.equalsIgnoreCase( "Johnringo, the Netdragger" ) ||
+					       monster.equalsIgnoreCase( "Ringogeorge, the Bladeswitcher" ) ) &&
+					     // Do mark path chosen unless won round 15
+					     ( Preferences.increment( "lastColosseumRoundWon", 1 ) == 15 ) )
+					{
+						Preferences.setString( "merkinQuestPath", "gladiator" );
+					}
+					break;
+				
+				case AdventurePool.THE_DAILY_DUNGEON:
+					Preferences.increment( "_lastDailyDungeonRoom", 1 );
+					break;
+					
+				case AdventurePool.ARID_DESERT:
+					int explored = KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS, EquipmentManager.OFFHAND ) ? 2 : 1;
+					Preferences.increment( "desertExploration", explored );
+					break;
 			}
-			
-			if ( adventure == AdventurePool.THE_DAILY_DUNGEON )
-			{
-				Preferences.increment( "_lastDailyDungeonRoom", 1 );
-			}
+
 
 			if ( responseText.contains( "monstermanuel.gif" ) )
 			{

@@ -1135,11 +1135,6 @@ public class AdventureRequest
 		{
 			return this.override;
 		}
-		if ( this.adventureId.equals( "123" ) )
-		{	// Desert (Ultrahydrated) may also visit the Oasis
-			return KoLConstants.activeEffects.contains(
-				EffectPool.get( Effect.HYDRATED ) ) ? 1 : 2;
-		}
 		if ( this.adventureId.equals( AdventurePool.THE_SHORE_ID ) )
 		{
 			return KoLCharacter.inFistcore() ? 5 : 3;
