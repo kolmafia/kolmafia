@@ -835,7 +835,8 @@ public abstract class KoLmafia
 			CafeRequest.pullLARPCard();
 		}
 
-		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.KEYOTRON, 1 ) ) && Preferences.getInteger( "lastKeyotronUse" ) != KoLCharacter.getAscensions() )
+		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.KEYOTRON, 1 ) ) &&
+		     Preferences.getInteger( "lastKeyotronUse" ) != KoLCharacter.getAscensions() )
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.KEYOTRON ) );
 		}

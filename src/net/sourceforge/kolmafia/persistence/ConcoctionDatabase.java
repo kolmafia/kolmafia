@@ -1213,7 +1213,7 @@ public class ConcoctionDatabase
 			// Remember that refresh is forced, even if deferred
 			ConcoctionDatabase.refreshNeeded = true;
 		}
-			
+
 		if ( !ConcoctionDatabase.refreshNeeded )
 		{
 			// No refresh is currently needed
