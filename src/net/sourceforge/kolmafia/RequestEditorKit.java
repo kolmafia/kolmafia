@@ -1162,6 +1162,15 @@ public class RequestEditorKit
 			matcher.appendTail( buffer );
 		}
 
+		String monster = FightRequest.getLastMonsterName();
+
+		// We want to decorate battlefield monsters, whether or not you
+		// actually find them on the battlefield.
+		if ( IslandManager.isBattlefieldMonster( monster ) )
+		{
+			IslandDecorator.decorateBattlefieldFight( buffer );
+		}
+
 		switch ( KoLAdventure.lastAdventureId() )
 		{
 		case AdventurePool.THEMTHAR_HILLS:
@@ -1174,11 +1183,6 @@ public class RequestEditorKit
 		case AdventurePool.JUNKYARD_CAR:
 			// Quest gremlins might have a tool.
 			IslandDecorator.decorateGremlinFight( buffer );
-			break;
-
-		case AdventurePool.FRAT_UNIFORM_BATTLEFIELD:
-		case AdventurePool.HIPPY_UNIFORM_BATTLEFIELD:
-			IslandDecorator.decorateBattlefieldFight( buffer );
 			break;
 
 		case AdventurePool.SEASIDE_MEGALOPOLIS:
