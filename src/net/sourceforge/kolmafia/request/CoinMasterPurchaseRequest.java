@@ -121,7 +121,7 @@ public class CoinMasterPurchaseRequest
 	@Override
 	public boolean canPurchase()
 	{
-		return this.canPurchase && this.affordableCount() > 0;
+		return this.canPurchase && this.data.isAccessible() && this.affordableCount() > 0;
 	}
 
 	@Override

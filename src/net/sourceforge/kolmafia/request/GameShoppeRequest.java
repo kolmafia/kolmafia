@@ -214,6 +214,11 @@ public class GameShoppeRequest
 		CoinMasterRequest.parseBalance( data, responseText );
 	}
 
+	public static String accessible()
+	{
+		return null;
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "gamestore.php" ) )

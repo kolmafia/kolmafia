@@ -263,6 +263,11 @@ public class TravelingTraderRequest
 		CoinMasterRequest.parseResponse( data, urlString, responseText );
 	}
 
+	public static String accessible()
+	{
+		return null;
+	}
+
 	public static boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "traveler.php" ) )

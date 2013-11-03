@@ -179,6 +179,11 @@ public class TerrifiedEagleInnRequest
 		CoinMasterRequest.parseBalance( data, responseText );
 	}
 
+	public static String accessible()
+	{
+		return null;
+	}
+
 	public static boolean registerRequest( final String urlString )
 	{
 		// shop.php?pwd&whichshop=dv

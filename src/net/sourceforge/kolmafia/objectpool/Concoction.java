@@ -870,6 +870,7 @@ public class Concoction
 	{
 		return canMake( requested, visited, false );
 	}
+
 	private int canMake( int requested, ArrayList<Concoction> visited, boolean turnFreeOnly )
 	{
 		if ( !this.visited )

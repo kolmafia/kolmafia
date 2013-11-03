@@ -511,6 +511,11 @@ public class HermitRequest
 		}
 	}
 
+	public static String accessible()
+	{
+		return null;
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "hermit.php" ) )

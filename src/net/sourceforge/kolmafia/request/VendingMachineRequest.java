@@ -134,6 +134,11 @@ public class VendingMachineRequest
 		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
+	public static String accessible()
+	{
+		return null;
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=damachine" ) )

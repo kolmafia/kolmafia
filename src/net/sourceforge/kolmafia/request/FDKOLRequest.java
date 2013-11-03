@@ -42,6 +42,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -123,6 +124,15 @@ public class FDKOLRequest
 		}
 
 		CoinMasterRequest.parseResponse( data, location, responseText );
+	}
+
+	public static String accessible()
+	{
+		if ( FDKOLRequest.FDKOL_TOKEN.getCount( KoLConstants.inventory ) == 0 )
+		{
+			return "You do not have an FDKOL commendation in inventory";
+		}
+		return null;
 	}
 
 	public static final boolean registerRequest( final String urlString, final boolean noMeat )
