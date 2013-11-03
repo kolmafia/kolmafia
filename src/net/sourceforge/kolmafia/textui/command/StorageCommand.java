@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.ArrayList;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -45,6 +43,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
@@ -110,7 +109,12 @@ public class StorageCommand
 				// Count of item in storage
 				int storageCount = piece.getCount( KoLConstants.storage );
 
-				if ( ( !KoLCharacter.canInteract() && availableCount > 0 ) || availableCount > storageCount )
+				if ( KoLCharacter.canInteract() && Preferences.getBoolean( "autoSatisfyWithStorage" ) )
+				{
+					availableCount -= storageCount;
+				}
+
+				if ( availableCount > 0 )
 				{
 					// Don't need to pull; it's in inventory or closet or equipped
 					KoLmafia.updateDisplay( piece.getName() + " is available without pulling." );
