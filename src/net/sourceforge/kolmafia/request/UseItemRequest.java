@@ -2987,8 +2987,7 @@ public class UseItemRequest
 
 		case ItemPool.DRUM_MACHINE:
 
-			// "Dammit! Your hooks were still on there! Oh well. At
-			// least now you know where the pyramid is."
+			// "And dammit, your hooks were still on there! Oh well."
 
 			if ( responseText.indexOf( "hooks were still on" ) != -1 )
 			{
@@ -3004,7 +3003,10 @@ public class UseItemRequest
 					ResultProcessor.processItem( ItemPool.WORM_RIDING_HOOKS, -1 );
 				}
 
-				QuestDatabase.setQuestProgress( Quest.PYRAMID, "step11" );
+				Preferences.increment( "desertExploration", 30 );
+
+				// Move this to where it actually needs to go
+				//QuestDatabase.setQuestProgress( Quest.PYRAMID, "step11" );
 				return;
 			}
 
