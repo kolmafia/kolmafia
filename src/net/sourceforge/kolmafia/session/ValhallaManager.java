@@ -233,7 +233,6 @@ public class ValhallaManager
 
 		EquipmentManager.updateEquipmentLists();
 
-		ConcoctionDatabase.setRefreshNeeded( true );
 		ConcoctionDatabase.refreshConcoctions( true );
 
 		// Reset certain settings that the player almost certainly will
