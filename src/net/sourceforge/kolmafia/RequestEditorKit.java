@@ -1345,6 +1345,9 @@ public class RequestEditorKit
 					monsterData.append( rate );
 					monsterData.append( " no mod)" );
 					break;
+				case 'a':
+					monsterData.append( " (stealable accordion)" );
+					break;
 				default:
 					monsterData.append( " (" );
 					monsterData.append( rate );
