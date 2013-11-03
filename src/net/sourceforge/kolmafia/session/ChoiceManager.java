@@ -2638,36 +2638,32 @@ public abstract class ChoiceManager
 
 		// Choice 689 is The Final Chest
 		new ChoiceAdventure(
-			"Dungeon", "choiceAdventure689", "The Final Chest",
+			"Dungeon", "choiceAdventure689", "Daily Dungeon",
 			new Object[] { "Get fat loot token" } ),
 
 		// The First Chest Isn't the Deepest.
 		new ChoiceAdventure(
-			"Dungeon", "choiceAdventure690", "The First Chest Isn't the Deepest",
+			"Dungeon", "choiceAdventure690", "Daily Dungeon",
 			new Object[] { "Get item", "Skip to 8th chamber, no turn spent", "Skip to 6th chamber, no turn spent" } ),
 
 		// Second Chest
 		new ChoiceAdventure(
-			"Dungeon", "choiceAdventure691", "Second Chest",
+			"Dungeon", "choiceAdventure691", "Daily Dungeon",
 			new Object[] { "Get item", "Skip to 13th chamber, no turn spent", "Skip to 11th chamber, no turn spent" } ),
 
 		// Choice 692 is I Wanna Be a Door
 				
 		// It's Almost Certainly a Trap
 		new ChoiceAdventure(
-			"Dungeon", "choiceAdventure693", "It's Almost Certainly a Trap",
+			"Dungeon", "choiceAdventure693", "Daily Dungeon",
 			new Object[] { "Suffer elemental damage, get stats", "Avoid trap, no turn spent", "Leave, no turn spent" } ),
 
 		// Choice 695 is A Drawer of Chests
 
-		// The Cabin in the Dreadsylvanian Woods
-		new ChoiceAdventure(
-			"Dreadsylvania", "choiceAdventure721", "Cabin",
-			new Object[] { new Option( "learn shortcut", 5),
-				       new Option( "skip adventure", 6 ) },
-			1 ),
-
 		// Choice 701 is Ators Gonna Ate
+		new ChoiceAdventure(
+			"The Sea", "choiceAdventure701", "Mer-kin Gymnasium",
+			new Object[] { "get an item", "skip adventure" } ),
 
 		// Choice 703 is Mer-kin dreadscroll
 		// Choice 704 is Playing the Catalog Card
@@ -2696,6 +2692,13 @@ public abstract class ChoiceManager
 		// Choice 715 is Life in the Stillness
 		// Choice 716 is An Unguarded Door (2)
 		// Choice 717 is Over. Over Now.
+
+		// The Cabin in the Dreadsylvanian Woods
+		new ChoiceAdventure(
+			"Dreadsylvania", "choiceAdventure721", "Cabin",
+			new Object[] { new Option( "learn shortcut", 5),
+				       new Option( "skip adventure", 6 ) },
+			1 ),
 
 		// Choice 722 is The Kitchen in the Woods
 		// Choice 723 is What Lies Beneath (the Cabin)

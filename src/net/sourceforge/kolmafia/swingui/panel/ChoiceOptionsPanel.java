@@ -445,7 +445,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "HiddenCity", "Hidden Bowling Alley", this.hiddenBowlingAlleySelect );
 		this.addChoiceSelect( "HiddenCity", "Hidden Ziggurat", this.hiddenZigguratSelect );
 		this.addChoiceSelect( "KOL High School", "Delirium in the Cafeterium", this.kolhsCafeteriaSelect );
-		this.addChoiceSelect( "Dungeon", "I Wanna Be a Door", this.dailyDungeonDoorSelect );
+		this.addChoiceSelect( "Dungeon", "Daily Dungeon", this.dailyDungeonDoorSelect );
 
 		for ( int i = 0; i < this.optionSelects.length; ++i )
 		{
