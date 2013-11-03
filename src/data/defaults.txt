@@ -367,6 +367,7 @@ user	demonName8
 user	demonName9
 user	demonName10
 user	demonSummoned	false
+user	desertExploration	0
 user	desktopHeight	600
 user	desktopWidth	800
 user	dolphinItem

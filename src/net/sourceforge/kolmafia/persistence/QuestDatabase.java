@@ -446,6 +446,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "oilPeakProgress" );
 		Preferences.resetToDefault( "twinPeakProgress" );
 		Preferences.resetToDefault( "booPeakProgress" );
+		Preferences.resetToDefault( "desertExploration" );
 		Preferences.resetToDefault( "hiddenApartmentProgress" );
 		Preferences.resetToDefault( "hiddenHospitalProgress" );
 		Preferences.resetToDefault( "hiddenOfficeProgress" );
