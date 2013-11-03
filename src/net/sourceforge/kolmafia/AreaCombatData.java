@@ -740,6 +740,10 @@ public class AreaCombatData
 				}
 				break;
 
+			case 'a':
+				buffer.append( " (stealable accordion)" );
+				break;
+
 			default:
 				if ( stealing )
 				{
