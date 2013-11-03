@@ -6541,24 +6541,22 @@ public abstract class ChoiceManager
 
 		case 805:
 			// A Sietch in Time
-			switch ( ChoiceManager.lastDecision )
+			if ( text.contains( "give the stone rose to Gnasir" ) )
 			{
-			case 2:
 				ResultProcessor.removeItem( ItemPool.STONE_ROSE );
-				break;
-			case 3:
-				ResultProcessor.removeItem( ItemPool.BLACK_PAINT );
-				break;
-			case 4:
-				ResultProcessor.removeItem( ItemPool.KILLING_JAR );
-				break;
-			case 5:
-				// Turn in 15 worm-riding manual pages to get
-				// worm-riding hooks. Handled as part of item
-				// acquisition of the latter
-				break;
 			}
-			return;		
+			else if ( text.contains( "hold up the bucket of black paint" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.BLACK_PAINT );
+			}
+			else if ( text.contains( "hand Gnasir the glass jar" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.KILLING_JAR );
+			}
+			// Turn in 15 worm-riding manual pages to get
+			// worm-riding hooks. Handled as part of item
+			// acquisition of the latter
+			return;
 		}
 
 		// Certain choices cost meat or items when selected

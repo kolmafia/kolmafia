@@ -77,8 +77,6 @@ public class AdventurePool
 	public static final String OUTSKIRTS_OF_THE_KNOB_ID = "114";
 	public static final String PALINDOME_ID = "119";
 	public static final String HAUNTED_WINE_CELLAR_ID = "120";
-	public static final String OASIS_ID = "122";
-	public static final int ARID_DESERT = 123;
 	public static final int THEMTHAR_HILLS = 126;
 	public static final int FRAT_UNIFORM_BATTLEFIELD = 132;
 	public static final String FRAT_UNIFORM_BATTLEFIELD_ID = "132";
@@ -136,4 +134,5 @@ public class AdventurePool
 	public static final int DEGRASSI_KNOLL_GARAGE = 354;
 	public static final String THE_SHORE_ID = "355";
 	public static final int THE_SHORE = 355;
+	public static final int ARID_DESERT = 364;
 }

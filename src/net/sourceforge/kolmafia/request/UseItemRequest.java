@@ -4514,6 +4514,10 @@ public class UseItemRequest
 			// Using the "off" item gives you the "on" item.
 			ResultProcessor.processItem( ItemPool.CHIBIBUDDY_ON, 1 );
 			return;
+
+		case ItemPool.DESERT_PAMPHLET:
+			Preferences.increment( "desertExploration", 15 );
+			return;
 		}
 	}
 

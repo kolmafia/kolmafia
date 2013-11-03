@@ -1271,17 +1271,6 @@ public class KoLAdventure
 
 			switch ( id )
 			{
-			case AdventurePool.ARID_DESERT:
-				AdventureResult hydrated = EffectPool.get( Effect.HYDRATED );
-				if ( !KoLConstants.activeEffects.contains( hydrated ) )
-				{
-					( new AdventureRequest( "Oasis in the Desert", "adventure.php", AdventurePool.OASIS_ID ) ).run();
-				}
-				if ( !KoLConstants.activeEffects.contains( hydrated ) )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Ultrahydration failed!" );
-				}
-				break;
 
 			case AdventurePool.FCLE:
 				AdventureResult mop = ItemPool.get( ItemPool.MIZZENMAST_MOP, 1 );
