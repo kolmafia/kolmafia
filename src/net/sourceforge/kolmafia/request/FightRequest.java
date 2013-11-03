@@ -2395,7 +2395,7 @@ public class FightRequest
 			FightRequest.canOlfact = false;
 		}
 
-		else if ( skillNumber == SkillPool.TALK_ABOUT_POLITICS && responseText.contains( "won't be seeing <i>it</i> for a while" ) )
+		else if ( skillNumber == SkillPool.TALK_ABOUT_POLITICS && responseText.contains( "won't be seeing" ) )
 		{
 			Preferences.increment( "_pantsgivingBanish" );
 		}
