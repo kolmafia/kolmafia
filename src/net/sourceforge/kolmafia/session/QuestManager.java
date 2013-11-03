@@ -147,6 +147,10 @@ public class QuestManager
 			{
 				handlePlainsChange( responseText );
 			}
+			else if ( location.contains( "whichplace=desertbeach" ) )
+			{
+				handleBeachChange( responseText );
+			}
 			else if ( location.contains( "whichplace=mclargehuge" ) )
 			{
 				if ( location.contains( "action=trappercabin" ) )
@@ -401,6 +405,18 @@ public class QuestManager
 		if ( responseText.contains( "dome.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, "step1" );
+		}
+	}
+
+	private static final Pattern EXP_PATTERN = Pattern.compile( "\\(([\\d]+)%explored\\)" );
+	private static final void handleBeachChange( final String responseText )
+	{
+		String expString = ResponseTextParser.parseDivLabel( "db_l11desertlabel", responseText );
+		Matcher matcher = QuestManager.EXP_PATTERN.matcher( expString );
+		if ( matcher.find() )
+		{
+			int explored = StringUtilities.parseInt( matcher.group( 1 ) );
+			Preferences.setInteger( "desertExploration", explored );
 		}
 	}
 

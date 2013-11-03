@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
@@ -281,6 +282,20 @@ public class TestCommand
 		{
 			CharPaneRequest.processResults( TestCommand.contents );
 			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "div" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test div LABEL" );
+				return;
+			}
+			String label = split[ 1 ].trim();
+			String string = ResponseTextParser.parseDivLabel( label, TestCommand.contents );
+			TestCommand.contents = null;
+			RequestLogger.printLine( "string = \"" + string + "\"" );
 			return;
 		}
 

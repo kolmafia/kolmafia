@@ -833,6 +833,49 @@ public class ResponseTextParser
 		ResponseTextParser.learnRecipe( location, responseText );
 	}
 
+	private static final Pattern DIV_LINK_PATTERN = Pattern.compile( "<div id=([^ ]+)[^>]*><a .*?</a></div>", Pattern.DOTALL );
+	public static String parseDivLabel( final String label, final String responseText )
+	{
+		Matcher matcher = ResponseTextParser.DIV_LINK_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			if ( matcher.group( 1 ).equals( label ) )
+			{
+				return parseDivLabel( matcher.group( 0 ) );
+			}
+		}
+		return "";
+	}
+
+	// <img src="http://images.kingdomofloathing.com/otherimages/zonefont/percent.gif" height="10" border="0" style="margin-right: 4px"/>
+	private static final Pattern DIV_CHAR_PATTERN = Pattern.compile( "otherimages/zonefont/(.*?)\\.gif" );
+	public static String parseDivLabel( final String divText )
+	{
+		StringBuilder string = new StringBuilder();
+		Matcher matcher = ResponseTextParser.DIV_CHAR_PATTERN.matcher( divText );
+		while ( matcher.find() )
+		{
+			String c = matcher.group( 1 );
+			if ( c.length() == 1 )
+			{
+				string.append( c.charAt( 0 ) );
+			}
+			else if ( c.equals( "lparen" ) )
+			{
+				string.append( "(" );
+			}
+			else if ( c.equals( "percent" ) )
+			{
+				string.append( "%" );
+			}
+			else if ( c.equals( "rparen" ) )
+			{
+				string.append( ")" );
+			}
+		}
+		return string.toString();
+	}
+
 	private static final Pattern [] RECIPE_PATTERNS =
 	{
 		Pattern.compile( "You learn to .*?craft.*? a new item:.*?<b>(.*?)</b>" ),
