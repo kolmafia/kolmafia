@@ -110,7 +110,7 @@ public class StorageCommand
 				// Count of item in storage
 				int storageCount = piece.getCount( KoLConstants.storage );
 
-				if ( ( availableCount > storageCount ) )
+				if ( ( !KoLCharacter.canInteract() && availableCount > 0 ) || availableCount > storageCount )
 				{
 					// Don't need to pull; it's in inventory or closet or equipped
 					KoLmafia.updateDisplay( piece.getName() + " is available without pulling." );
