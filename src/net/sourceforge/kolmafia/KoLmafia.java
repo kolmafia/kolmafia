@@ -121,6 +121,7 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
+import net.sourceforge.kolmafia.swingui.CoinmastersFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
@@ -853,6 +854,9 @@ public abstract class KoLmafia
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
 		KoLmafia.isRefreshing = false;
+
+		// Inventory may have changed
+		CoinmastersFrame.externalUpdate();
 
 		ConcoctionDatabase.refreshConcoctions( true );
 
