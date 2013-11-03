@@ -127,6 +127,16 @@ public class FreeSnackRequest
 		}
 	}
 
+	public static final void  buy( final int itemId, final int count )
+	{
+		RequestThread.postRequest( new FreeSnackRequest( "buysnack", itemId, count ) );
+	}
+
+	public static String accessible()
+	{
+		return null;
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		// We only claim gamestore.php?action=buysnack
@@ -137,10 +147,5 @@ public class FreeSnackRequest
 
 		CoinmasterData data = FreeSnackRequest.FREESNACKS;
 		return CoinMasterRequest.registerRequest( data, urlString );
-	}
-
-	public static final void  buy( final int itemId, final int count )
-	{
-		RequestThread.postRequest( new FreeSnackRequest( "buysnack", itemId, count ) );
 	}
 }

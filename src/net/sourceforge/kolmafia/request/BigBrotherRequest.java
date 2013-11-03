@@ -167,6 +167,7 @@ public class BigBrotherRequest
 			InventoryManager.getAccessibleCount( BigBrotherRequest.SCHOLAR_MASK ) > 0 ||
 			InventoryManager.getAccessibleCount( BigBrotherRequest.GLADIATOR_MASK ) > 0 ||
 			InventoryManager.getAccessibleCount( BigBrotherRequest.BUBBLIN_STONE ) > 0;
+
 		if ( !BigBrotherRequest.rescuedBigBrother )
 		{
 			return;

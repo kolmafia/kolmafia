@@ -172,7 +172,10 @@ public class SwaggerShopRequest
 
 	public static String accessible()
 	{
-
+		if ( KoLCharacter.isHardcore() || KoLCharacter.inRonin() )
+		{
+			return "Characters in Hardcore or Ronin cannot redeem Swagger";
+		}
 		return null;
 	}
 }

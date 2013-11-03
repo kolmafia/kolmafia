@@ -41,6 +41,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -132,6 +133,15 @@ public class ShoreGiftShopRequest
 		}
 
 		CoinMasterRequest.parseResponse( data, location, responseText );
+	}
+
+	public static String accessible()
+	{
+		if ( !KoLCharacter.desertBeachAccessible() )
+		{
+			return "You can't get to the desert beach";
+		}
+		return null;
 	}
 
 	public static final boolean registerRequest( final String urlString )

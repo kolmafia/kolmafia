@@ -118,6 +118,16 @@ public class TicketCounterRequest
 		return false;
 	}
 
+	public static final void buy( final int itemId, final int count )
+	{
+		RequestThread.postRequest( new TicketCounterRequest( "redeem", itemId, count ) );
+	}
+
+	public static String accessible()
+	{
+		return null;
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		// We only claim arcade.php?action=redeem
@@ -129,9 +139,4 @@ public class TicketCounterRequest
 		CoinmasterData data = TicketCounterRequest.TICKET_COUNTER;
 		return CoinMasterRequest.registerRequest( data, urlString );
 	}
-
-	public static final void buy( final int itemId, final int count )
-	{
-		RequestThread.postRequest( new TicketCounterRequest( "redeem", itemId, count ) );
-	}
-	}
+}

@@ -167,15 +167,18 @@ public class CoinmasterData
 	public final int availableTokens()
 	{
 		AdventureResult item = this.item;
-		String property = this.property;
-		int count =
-			item != null ? (
-				item.getItemId() == ItemPool.WORTHLESS_ITEM ?
+		if ( item != null )
+		{
+			return  item.getItemId() == ItemPool.WORTHLESS_ITEM ?
 				HermitRequest.getWorthlessItemCount() :
-				item.getCount( KoLConstants.inventory ) ) :
-			property != null ? Preferences.getInteger( property ) :
-			0;
-		return count;
+				item.getCount( KoLConstants.inventory );
+		}
+		String property = this.property;
+		if ( property != null )
+		{
+			return Preferences.getInteger( property );
+		}
+		return 0;
 	}
 
 	public final int availableStorageTokens()
