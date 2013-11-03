@@ -105,7 +105,7 @@ acid blob	lower_b.gif	Atk: 58 Def: 52 Init: 40 HP: 70 P: slime	magic whistle (15
 acoustic electric eel	electriceel.gif	Atk: 400 Def: 360 HP: 500 Init: 200 Meat: 192-288 P: fish	dull fish scale (n15)	eel battery (c9)	eel sauce (c10)	eel skin (n4)
 actual orcish frat boy	1boy2cups.gif	HP: 100 Def: 63 Atk: 45 Init: 60 E: sleaze P: orc	plastic cup of beer (100)	plastic cup of beer (100)
 albino bat	whitebat.gif	Atk: 12 Def: 12 HP: 8 Init: 60 Meat: 16-26 P: beast	batgut (10)	bat guano (10)	pink bat eye (b0)
-alert mariachi	mar_alert.gif	HP: 250 Def: 180 Atk: 200 Init: 300 P: dude	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)	 alarm accordion (a0)
+alert mariachi	mar_alert.gif	HP: 250 Def: 180 Atk: 200 Init: 300 P: dude	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)	alarm accordion (a0)
 Alphabet Giant	giant_alphabet.gif	Atk: 145 Def: 130 HP: 150 Init: 80 Meat: 120-180 P: humanoid	heavy D (0)	original G (0)
 Amateur Elf			elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 amateur ninja	ninja.gif	Atk: 4 Def: 5 HP: 5 Init: 75 Meat: 16-24 P: dude	bargain flash powder (20)	cheap plastic blowgun (10)	third-hand nunchaku (10)
@@ -290,7 +290,7 @@ crusty hippy	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: stench P: hippy	filth
 crusty hippy jewelry maker	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 70 E: stench P: hippy	hemp string (30)	filthy knitted dread sack (3)	reodorant (5)	filthy corduroys (2)	phat turquoise bead (10)	beach glass bead (10)	clay peace-sign bead (10)	hippy bongo (5)	Spanish fly (c25)
 crusty hippy Vegan chef	hippy3.gif	Atk: 41 Def: 36 HP: 30 Init: 70 E: stench P: hippy	filthy corduroys (3)	filthy knitted dread sack (5)	filthy pestle (10)	herbs (30)	reodorant (5)	hippy bongo (5)	Spanish fly (c25)
 crusty pirate	crustpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 ED: stench Meat: 52-76 P: pirate	barrrnacle (15)	tarrrnish charrrm (10)
-cubist bull	cubistbull.gif	Atk: 105 Def: 94 HP: 110 Init: 50 Meat: 160-240 P: beast	broken sword (5)	4-dimensional guitar (5)	non-Euclidean hoof (b0)	 non-Euclidean non-accordion (a0)
+cubist bull	cubistbull.gif	Atk: 105 Def: 94 HP: 110 Init: 50 Meat: 160-240 P: beast	broken sword (5)	4-dimensional guitar (5)	non-Euclidean hoof (b0)	non-Euclidean non-accordion (a0)
 curmudgeonly pirate	curmpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 P: pirate	all-purpose cleaner (25)	curmudgel (5)	grumpy old man charrrm (10)	handful of sawdust (30)	mizzenmast mop (c30)
 cyborg policeman	cybercop.gif	Atk: 160 Def: 144 HP: 160 Init: 50 P: construct	physiostim pill (0)	protein paste (0)	oil-filled donut (c0)
 Cyrus the Virus		BOSS HP: 100000 Def: 100000 Atk: 100000 Init: 0 Phys: 100 P: plant
@@ -720,7 +720,7 @@ paper towelgeist	ptowels.gif	Atk: 4 Def: 3 HP: 6 Init: 30 P: undead	cardboard ka
 Peanut	peanut.gif	Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror	peanut sauce (0)
 pencil golem	pencil.gif	Atk: 15 Def: 13 HP: 11 Init: 60 P: construct	pencil stub (0)
 pernicious puddle of pesto	pestopuddle.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: slime	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
-perpendicular bat	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 26-40 P: beast	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)	perpendicular guano (c0)	 guancertina (a0)
+perpendicular bat	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 26-40 P: beast	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)	perpendicular guano (c0)	guancertina (a0)
 pine bat	pinebat.gif	Atk: 14 Def: 10 HP: 8 Init: 60 EA: stench Meat: 18-27 P: beast	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
 plaque of locusts	plaque.gif	Atk: 134 Def: 124 HP: 140 Init: 30 P: bug	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
 plastered frat orc	drunkfrat.gif	Atk: 10 Def: 7 HP: 7 Init: 40 P: orc	ice-cold fotie (20)	ice-cold Sir Schlitz (20)	ice-cold Willer (20)
@@ -1518,6 +1518,6 @@ All-Hallow's Steve	steve.gif	HP: [0.75*(MUS+30+max(ML,0))] Def: [MUS+30+max(ML,0
 
 # Accordion Thief Revamp Lead-in
 depressing French accordionist	wanderacc1.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: dude	Bal-musette accordion (a0)
-lively Cajun accordionist	wanderacc2.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: dude	 Cajun accordion (a0)
+lively Cajun accordionist	wanderacc2.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: dude	Cajun accordion (a0)
 quirky indie-rock accordionist	wanderacc3.gif	HP: [0.75*(min(MUS-3,10000)+max(ML,0))] Def: [min(MUS-3,10000)+max(ML,0)] Atk: [min(MOX-3,10000)+max(ML,0)] Exp: [(min(STAT-3,10000)+max(ML,0))/4] Init: -10000 P: dude	quirky accordion (a0)
 Frank &quot;Skipper&quot; Dan, the Accordion Lord	accboss.gif	HP: [0.75*(MUS+7+max(ML,0))] Def: [MUS+10+max(ML,0)] Atk: [MOX+10+max(ML,0)] Exp: [(STAT+10+max(ML,0))/4] Init: -10000 P: dude	Skipper's accordion (100)
