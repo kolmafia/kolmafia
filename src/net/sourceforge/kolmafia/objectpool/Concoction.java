@@ -470,15 +470,6 @@ public class Concoction
 		return this.request;
 	}
 
-	public boolean available()
-	{
-		if ( this.mixingMethod == CraftingType.COINMASTER )
-		{
-			return this.purchaseRequest != null && this.purchaseRequest.isAccessible();
-		}
-		return true;
-	}
-
 	public PurchaseRequest getPurchaseRequest()
 	{
 		return this.purchaseRequest;

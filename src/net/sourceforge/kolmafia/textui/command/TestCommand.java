@@ -222,7 +222,7 @@ public class TestCommand
 			}
 			String itemName = ItemDatabase.getItemName( itemId );
 			Concoction concoction = ConcoctionPool.get( itemId );
-			RequestLogger.printLine( "Row " + row + " -> \"" + itemName + "\" (" + itemId + ") " + ( concoction == null ? "IS NOT" : "is" ) + " a known " + ( concoction != null ? ( concoction.available() ? "available " : "unavailable " ) : "" ) + "concoction" );
+			RequestLogger.printLine( "Row " + row + " -> \"" + itemName + "\" (" + itemId + ") " + ( concoction == null ? "IS NOT" : "is" ) + " a known concoction" );
 			return;
 		}
 

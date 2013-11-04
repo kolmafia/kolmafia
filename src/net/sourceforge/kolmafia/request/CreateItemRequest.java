@@ -245,12 +245,6 @@ public class CreateItemRequest
 			return null;
 		}
 
-		if ( !conc.available() )
-		{
-			ConcoctionDatabase.excuse = null;
-			return null;
-		}
-
 		CreateItemRequest instance = conc.getRequest();
 
 		if ( instance == null )
