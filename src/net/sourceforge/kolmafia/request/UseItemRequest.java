@@ -4513,6 +4513,28 @@ public class UseItemRequest
 		case ItemPool.DESERT_PAMPHLET:
 			QuestManager.incrementDesertExploration( 15 );
 			return;
+
+		case ItemPool.MODELING_CLAYMORE:
+			// You bury the claymore in the clay (what a coincidence!)
+			// in the middle of the battlefield on the Mysterious
+			// Island of Mystery. Then you hide behind a tree and
+			// watch as it goes off, covering dozens of hippies and
+			// frat boys with globs of wet clay, and forcing them
+			// to head home and take showers.
+			// 
+			// Well, the frat boys leave to take showers. The
+			// hippies just leave because they're lazy.
+			if ( responseText.contains( "You bury the claymore in the clay" ) )
+			{
+				// Look at the island map and make our best
+				// effort to synch up the kill count
+				RequestThread.postRequest( new IslandRequest() );
+				return;
+			}
+
+			// Otherwise, it is not consumed
+			ResultProcessor.processResult( item );
+			return;
 		}
 	}
 
