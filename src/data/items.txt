@@ -6891,10 +6891,10 @@
 6874	gym membership card	264919912	gymmember.gif	usable	t,d	1
 6875	post-holiday sale coupon	343572534	coupon.gif	usable	t,d	1
 6876	dry cleaning receipt	738017170	receipt.gif	usable	t,d	1
-6877
-6878
+6877	pocket lint (blue)	512141706	lint.gif	useable	t,d	0
+6878	pocket lint (green)	285536907	lint.gif	useable	t,d	0
 6879
-6880
+6880	pocket lint (orange)	928718132	lint.gif	useable	t,d	0
 6881
 6882	power sock	713414059	sock1.gif	accessory	t,d	1
 6883	wool sock	340341351	sock2.gif	accessory	t,d	1
