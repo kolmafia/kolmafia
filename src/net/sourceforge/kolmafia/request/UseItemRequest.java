@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -3003,10 +3004,7 @@ public class UseItemRequest
 					ResultProcessor.processItem( ItemPool.WORM_RIDING_HOOKS, -1 );
 				}
 
-				Preferences.increment( "desertExploration", 30 );
-
-				// Move this to where it actually needs to go
-				//QuestDatabase.setQuestProgress( Quest.PYRAMID, "step11" );
+				QuestManager.incrementDesertExploration( 30 );
 				return;
 			}
 
@@ -4513,7 +4511,7 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.DESERT_PAMPHLET:
-			Preferences.increment( "desertExploration", 15 );
+			QuestManager.incrementDesertExploration( 15 );
 			return;
 		}
 	}
