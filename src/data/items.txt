@@ -5939,7 +5939,7 @@
 5922	tiny plastic MechaElf	885310660	tpmechaelf.gif	accessory	t	0
 5923	plastic ingot	474225680	plasticbit.gif	none	t,d	1
 5924	electrical thingamabob	658585635	elecbit.gif	none	t,d	1
-5925	ChibiBuddy&trade; (off)	682477216	chibibuddy.gif	usable	t	0	ChibiBuddies&trade; (off)
+5925	ChibiBuddy&trade; (off)	682477216	chibibuddy.gif	reusable	t	0	ChibiBuddies&trade; (off)
 5926	BittyCar MeatCar	140747634	bittycar.gif	reusable	t	0
 5927	BittyCar HotCar	537171372	bittycar.gif	reusable	t	0
 5928	brainwave-controlled unicorn horn	298286476	unihorn.gif	hat	t	0

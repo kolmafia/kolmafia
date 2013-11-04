@@ -2516,7 +2516,7 @@ public abstract class ChoiceManager
 		// Choice 630 is unknown
 		// Choice 631 is unknown
 		// Choice 632 is unknown
-		// Choice 633 is ChibiBuddy�
+		// Choice 633 is ChibiBuddy&trade;
 		// Choice 634 is Goodbye Fnord
 		// Choice 635 is unknown
 		// Choice 636 is unknown
@@ -7034,6 +7034,15 @@ public abstract class ChoiceManager
 					RequestLogger.printLine( message );
 					RequestLogger.updateSessionLog( message );
 				}
+			}
+			break;
+
+		case 633:
+			// ChibiBuddy&trade;
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ResultProcessor.processItem( ItemPool.CHIBIBUDDY_OFF, -1 );
+				ResultProcessor.processItem( ItemPool.CHIBIBUDDY_ON, 1 );
 			}
 			break;
 
