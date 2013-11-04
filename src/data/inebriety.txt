@@ -57,15 +57,15 @@ bottle of greedy dog	3	11	EPIC	18-20	40-60	40-60	40-60
 bottle of jorge sinsonte	3	2	decent	4-8	0	0	0
 bottle of lambada lambic	3	11	EPIC	18-20	40-60	40-60	40-60
 bottle of lieutenant freeman	3	2	decent	4-8	0	0	0
-bottle of old pugilist	2	6	EPIC	10-12	20-30	20-30	20-30
+bottle of old pugilist	2	6	EPIC	10-12	20-30	20-30	20-30	20 Fightin' Drunk (+50 Mus, +10-20 HP regen)
 bottle of ooze-o	3	1	crappy	0	0	0	0	20 Really Quite Poisoned, lose 70 HP
 bottle of peppermint schnapps	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
 bottle of pete's sake	3	2	decent	4-8	0	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
 bottle of pinot renoir	2	4	good	4-8	30	18	0
 bottle of popskull	2	1	decent	2-4	0	0	0	lose 3 HP
-bottle of professor beer	2	6	EPIC	10-12	20-30	20-30	20-30
+bottle of professor beer	2	6	EPIC	10-12	20-30	20-30	20-30	20 Thinkin' Drunk (+50 Mys, +10-20 MP regen)
 bottle of race car red	3	11	EPIC	18-20	40-60	40-60	40-60
-bottle of rapier witbier	2	6	EPIC	10-12	20-30	20-30	20-30
+bottle of rapier witbier	2	6	EPIC	10-12	20-30	20-30	20-30	20 Jokin' Drunk (+50 Mox, +20% Pickpocket chance)
 bottle of realpagne	2	2	awesome	5-8	0	0	12-18	10 The Real Deal (+20 HP/MP regen)
 bottle of rum	3	1	crappy	3	0	0	0
 bottle of sake	3	1	crappy	3	0	0	0
