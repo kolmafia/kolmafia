@@ -1005,6 +1005,7 @@ user	_stabonicScrollUsed	false
 user	_stickerSummons	0
 user	_stinkyCheeseCount	0
 user	_stinkyCheeseBanisherUsed	false
+user	_stolenAccordions
 user	_stressBallSqueezes	0
 user	_stuffedPocketwatchUsed	false
 user	_styxSprayUsed	false

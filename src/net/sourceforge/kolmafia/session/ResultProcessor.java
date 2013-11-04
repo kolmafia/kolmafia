@@ -1087,7 +1087,8 @@ public class ResultProcessor
 			PreferenceListenerRegistry.firePreferenceChanged( "(hats)" );
 		}
 
-		switch ( result.getItemId() )
+		int itemId = result.getItemId();
+		switch ( itemId )
 		{
 		case ItemPool.GMOB_POLLEN:
 			if ( combatResults )
@@ -1507,7 +1508,7 @@ public class ResultProcessor
 
 				AdventureResult whip = ItemPool.get( ItemPool.PIXEL_WHIP, 1 );
 				EquipmentManager.transformEquipment( whip, result );
-				ResultProcessor.processItem( result.getItemId(), -1 );
+				ResultProcessor.processItem( itemId, -1 );
 			}
 			break;
 
@@ -1520,7 +1521,7 @@ public class ResultProcessor
 
 				AdventureResult chainWhip = ItemPool.get( ItemPool.PIXEL_CHAIN_WHIP, 1 );
 				EquipmentManager.transformEquipment( chainWhip, result );
-				ResultProcessor.processItem( result.getItemId(), -1 );
+				ResultProcessor.processItem( itemId, -1 );
 			}
 			break;
 
@@ -1830,6 +1831,34 @@ public class ResultProcessor
 
 		case ItemPool.YEARBOOK_CAMERA:
 			ResultProcessor.checkCamera();
+			break;
+
+		case ItemPool.BEER_BATTERED_ACCORDION:
+		case ItemPool.BARITONE_ACCORDION:
+		case ItemPool.MAMAS_SQUEEZEBOX:
+		case ItemPool.GUANCERTINA:
+		case ItemPool.ACCORDION_FILE:
+		case ItemPool.ACCORD_ION:
+		case ItemPool.BONE_BANDONEON:
+		case ItemPool.PENTATONIC_ACCORDION:
+		case ItemPool.NON_EUCLIDEAN_NON_ACCORDION:
+		case ItemPool.ACCORDION_OF_JORDION:
+		case ItemPool.AUTOCALLIOPE:
+		case ItemPool.ACCORDIONOID_ROCCA:
+		case ItemPool.PYGMY_CONCERTINETTE:
+		case ItemPool.GHOST_ACCORDION:
+		case ItemPool.PEACE_ACCORDION:
+		case ItemPool.ALARM_ACCORDION:
+			if ( combatResults )
+			{
+				StringBuilder buffer = new StringBuilder( Preferences.getString( "_stolenAccordions" ) );
+				if ( buffer.length() > 0 )
+				{
+					buffer.append( "," );
+				}
+				buffer.append( itemId );
+				Preferences.setString( "_stolenAccordions", buffer.toString() );
+			}
 			break;
 		}
 

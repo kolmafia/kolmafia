@@ -72,6 +72,11 @@ public class IntegerArray
 		return this.internalList.size();
 	}
 
+	public boolean contains( final int value )
+	{
+		return this.internalList.contains( IntegerPool.get( value ) );
+	}
+
 	public int[] toArray()
 	{
 		int[] array = new int[ this.internalList.size() ];
