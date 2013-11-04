@@ -1849,6 +1849,9 @@ public class ResultProcessor
 		case ItemPool.GHOST_ACCORDION:
 		case ItemPool.PEACE_ACCORDION:
 		case ItemPool.ALARM_ACCORDION:
+		case ItemPool.BAL_MUSETTE_ACCORDION:
+		case ItemPool.CAJUN_ACCORDION:
+		case ItemPool.QUIRKY_ACCORDION:
 			if ( combatResults )
 			{
 				StringBuilder buffer = new StringBuilder( Preferences.getString( "_stolenAccordions" ) );

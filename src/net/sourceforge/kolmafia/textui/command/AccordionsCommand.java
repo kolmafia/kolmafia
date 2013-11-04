@@ -67,7 +67,10 @@ public class AccordionsCommand
 		new Accordion( ItemPool.PYGMY_CONCERTINETTE, "drunk pygmy" ),
 		new Accordion( ItemPool.ACCORDIONOID_ROCCA, "drab bard" ),
 		new Accordion( ItemPool.PEACE_ACCORDION, "War Hippy (space) Cadet" ),
-		new Accordion( ItemPool.ALARM_ACCORDION, "alarm accordion" ),
+		new Accordion( ItemPool.ALARM_ACCORDION, "alert mariachi" ),
+		new Accordion( ItemPool.BAL_MUSETTE_ACCORDION, "depressing French accordionist" ),
+		new Accordion( ItemPool.CAJUN_ACCORDION, "lively Cajun accordionist" ),
+		new Accordion( ItemPool.QUIRKY_ACCORDION, "quirky indie-rock accordionist" ),
 	};
 
 	public AccordionsCommand()
