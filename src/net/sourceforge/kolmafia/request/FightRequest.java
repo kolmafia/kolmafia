@@ -2723,10 +2723,9 @@ public class FightRequest
 					
 				case AdventurePool.ARID_DESERT:
 					int explored = KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS, EquipmentManager.OFFHAND ) ? 2 : 1;
-					Preferences.increment( "desertExploration", explored );
+					QuestManager.incrementDesertExploration( explored );
 					break;
 			}
-
 
 			if ( responseText.contains( "monstermanuel.gif" ) )
 			{

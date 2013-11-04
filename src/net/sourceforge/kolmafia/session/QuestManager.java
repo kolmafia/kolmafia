@@ -416,7 +416,40 @@ public class QuestManager
 		if ( matcher.find() )
 		{
 			int explored = StringUtilities.parseInt( matcher.group( 1 ) );
-			Preferences.setInteger( "desertExploration", explored );
+			QuestManager.setDesertExploration( explored );
+		}
+	}
+
+	private static final void setDesertExploration( final int explored )
+	{
+		int current = Preferences.getInteger( "desertExploration" );
+		QuestManager.setDesertExploration( current, explored - current );
+	}
+
+	public static final void incrementDesertExploration( final int increment )
+	{
+		int current = Preferences.getInteger( "desertExploration" );
+		QuestManager.setDesertExploration( current, increment );
+	}
+
+	private static final void setDesertExploration( final int current, final int increment )
+	{
+		// If we've already registered complete desert exploration, we're done
+		if ( current == 100 )
+		{
+			return;
+		}
+
+		// Peg new exploration percentage at 100
+		int explored = Math.min( current + increment, 100 );
+
+		// Save new exploration percentage
+		Preferences.setInteger( "desertExploration", explored );
+
+		// If we are done, update the quest
+		if ( explored == 100 )
+		{
+			QuestDatabase.setQuestProgress( Quest.PYRAMID, "step11" );
 		}
 	}
 
