@@ -1289,7 +1289,7 @@ public class ConcoctionDatabase
 			}
 
 			PurchaseRequest purchaseRequest = item.getPurchaseRequest();
-			if (  purchaseRequest != null )
+			if ( purchaseRequest != null )
 			{
 				purchaseRequest.setCanPurchase();
 				int acquirable = purchaseRequest.canPurchase() ?
