@@ -179,6 +179,12 @@ public abstract class EncounterManager
 		       encounterType == EncounterType.BADMOON;
 	}
 
+	public static boolean isRomanticEncounter( String responseText )
+	{
+		return responseText.contains( "hear a wolf whistle" ) ||
+		       responseText.contains( "you feel the hairs" );
+	}
+
 	// Used to ignore special monsters re-encountered via copying
 	public static boolean ignoreSpecialMonsters = false;
 
@@ -198,7 +204,7 @@ public abstract class EncounterManager
 
 		if ( encounterType == EncounterType.SEMIRARE &&
 		     !ignoreSpecialMonsters &&
-		     responseText.indexOf( "hear a wolf whistle" ) == -1 )
+		     !EncounterManager.isRomanticEncounter( responseText ) )
 		{
 			KoLCharacter.registerSemirare();
 			return;

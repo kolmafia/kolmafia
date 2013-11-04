@@ -1918,7 +1918,7 @@ public class FightRequest
 				FightRequest.canStomp = true;
 			}
 
-			if ( responseText.contains( "hear a wolf whistle" ) || responseText.contains( "you feel the hairs" ) )
+			if ( EncounterManager.isRomanticEncounter( responseText ) )
 			{
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_romanticFightsLeft", -1 );
