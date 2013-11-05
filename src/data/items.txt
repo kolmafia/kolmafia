@@ -6496,10 +6496,10 @@
 6479	Unkillable Skeleton's sawsword	364869957	sk_sword.gif	weapon		0
 6480	Unkillable Skeleton's shield	574670113	sk_shield.gif	offhand		0
 6481	Unkillable Skeleton's restless leg	138108100	sk_leg.gif	weapon		0
-6482	Staff of the Roaring Hearth	467328835	sk_staff.gif	weapon		0
+6482	Staff of the Roaring Hearth	467328835	sk_staff.gif	weapon		0	Staves of the Roaring Hearth
 6483	electric Kool-Aid	363523121	sk_koolaid.gif	food	t	0	glasses of electric Kool-Aid
 6484	dread tarragon	575782784	dv_tarragon.gif	none	t	0	bottles of dread tarragon
-6485	bone flour	348000600	disease.gif	none	t	0
+6485	bone flour	348000600	disease.gif	none	t	0	piles of bone flour
 6486	dreadful roast	528470996	dv_meat.gif	none	t	0
 6487	stinking agaricus	759942326	dv_fungus.gif	none	t	0	slices of stinking agaricus
 6488	Dreadsylvanian shepherd's pie	751241762	pie.gif	food		0
