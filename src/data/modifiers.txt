@@ -790,7 +790,7 @@ Sledgehammer of the V&aelig;lkyr	Weapon Damage Percent: +20, Muscle: +23, Critic
 Spirit Precipice	Muscle: +7, Mysticality: +5, Critical Hit Percent: +20
 Spooky Putty ball	Spooky Damage: +10, Softcore Only
 Spooky Putty snake	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only
-Squeezebox of the Ages	Moxie: +11, Ranged Damage: +15, Song Duration: 15
+Squeezebox of the Ages	Moxie: +11, Ranged Damage: +15, Class: "Accordion Thief", Song Duration: 15
 Staff of Blood and Pudding	Spell Damage Percent: +25, Maximum HP: +15, MP Regen Min: 2, MP Regen Max: 3
 # Staff of Fruit Salad: Jiggle: Deal Some Prismatic Damage
 Staff of Fruit Salad	Spell Damage: +10, Moxie: +10, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Prismatic dmg"
@@ -1350,7 +1350,7 @@ world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 yak whip	Weakens Monster
 yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
-zombie accordion	Ranged Damage: +50, Item Drop: +10, Additional Song, Class: "Accordion Thief", Song Duration: 20, Single Equip
+zombie accordion	Ranged Damage: +50, Item Drop: +10, Additional Song, Single Equip, Class: "Accordion Thief", Song Duration: 20
 
 # Offhand section of modifiers.txt
 
