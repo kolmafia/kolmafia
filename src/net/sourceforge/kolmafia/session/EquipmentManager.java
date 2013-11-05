@@ -1519,7 +1519,7 @@ public class EquipmentManager
 		case RANGED:
 			return Stat.MOXIE;
 		default:
-			if ( KoLCharacter.getAdjustedMoxie() > KoLCharacter.getAdjustedMuscle() 
+			if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle() 
 				&& EquipmentManager.wieldingKnife()
 				&& KoLCharacter.hasSkill( "Tricky Knifework" ) )
 			{

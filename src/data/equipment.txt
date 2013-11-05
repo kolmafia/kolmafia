@@ -1339,6 +1339,7 @@ box	10	none
 box turtle	50	Mus: 10	shield
 box-in-the-box	20	none
 box-in-the-box-in-the-box	30	none
+bowl of petunias	0	Mys: 44
 brass dorsal fin	200	Mus: 85	shield
 brown crock marble	202	Mys: 85
 bumblebee marble	205	Mys: 85

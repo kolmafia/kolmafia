@@ -1887,6 +1887,10 @@ public class ItemPool
 	public static final int QUIRKY_ACCORDION = 6858;
 	public static final int SKIPPERS_ACCORDION = 6859;
 	public static final int PANTSGIVING = 6860;
+	public static final int BLUE_LINT = 6877;
+	public static final int GREEN_LINT = 6878;
+	public static final int WHITE_LINT = 6879;
+	public static final int ORANGE_LINT = 6880;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

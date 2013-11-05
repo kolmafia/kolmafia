@@ -4535,6 +4535,20 @@ public class UseItemRequest
 			// Otherwise, it is not consumed
 			ResultProcessor.processResult( item );
 			return;
+			
+		case ItemPool.BLUE_LINT:
+		case ItemPool.GREEN_LINT:
+		case ItemPool.WHITE_LINT:
+		case ItemPool.ORANGE_LINT:
+			if ( responseText.contains( "very improbable thing happens" ) )
+			{
+				// Remove lint
+				ResultProcessor.processItem( ItemPool.BLUE_LINT, -1 );
+				ResultProcessor.processItem( ItemPool.GREEN_LINT, -1 );
+				ResultProcessor.processItem( ItemPool.WHITE_LINT, -1 );
+				ResultProcessor.processItem( ItemPool.ORANGE_LINT, -1 );
+			}
+			return;
 		}
 	}
 
