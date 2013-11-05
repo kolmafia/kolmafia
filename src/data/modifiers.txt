@@ -1541,6 +1541,7 @@ box	Meat Drop: +1
 box turtle	Muscle: +1, Damage Reduction: 3
 box-in-the-box	Meat Drop: +2
 box-in-the-box-in-the-box	Meat Drop: +3
+bowl of petunias	Muscle: +4, Mysticality: +4, Moxie: +4, Experience: +4, PvP Fights: +4	, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8
 brass dorsal fin	Weapon Damage Percent: +20, Damage Reduction: 13
 brown crock marble	Stench Spell Damage: +35
 bumblebee marble	Spell Damage: +50

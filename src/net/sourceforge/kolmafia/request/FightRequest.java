@@ -3091,6 +3091,9 @@ public class FightRequest
 			if ( responseText.contains( "could probably make room for <i>one more thing</i>" ) )
 			{
 				Preferences.increment( "_pantsgivingFullness" );
+				String updateMessage = "Pantsgiving increases max fullness by one to " + KoLCharacter.getFullnessLimit() + ".";
+				RequestLogger.updateSessionLog( updateMessage );
+				KoLmafia.updateDisplay( updateMessage );
 			}
 
 			// Give your summoned combat entity some experience
