@@ -1294,7 +1294,7 @@ starchy sword	Muscle: +3
 steel sword	Weapon Damage: +15, HP Regen Min: 2, HP Regen Max: 4, Moxie: +5
 stinkin' bindle	Item Drop: +10, Stench Damage: +25
 stinky cheese sword	Softcore Only, Stench Damage: [max(1,min(33,floor(pref(_stinkyCheeseCount)/3)))]
-stolen accordion, Song Duration: 5
+stolen accordion	Song Duration: 5
 stone banjo	Moxie: +1
 # stuffed crazy bastard sword
 styrofoam crossbow	Moxie: +3, Monster Level: +3
