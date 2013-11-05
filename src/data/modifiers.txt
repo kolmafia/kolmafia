@@ -1350,7 +1350,7 @@ world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 yak whip	Weakens Monster
 yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
-zombie accordion	Ranged Damage: +50, Item Drop: +10, Additional Song, Single Equip, Class: "Accordion Thief", Song Duration: 20
+zombie accordion	Ranged Damage: +50, Item Drop: +5, Additional Song, Single Equip, Class: "Accordion Thief", Song Duration: 20
 
 # Offhand section of modifiers.txt
 
