@@ -73,7 +73,6 @@ Belowdecks	100	gaudy pirate	grassy pirate	gritty pirate	groovy pirate	grungy pir
 The Bugbear Pen	100	Angry Bugbear: 3	Bugged Bugbear: 3	Mad Bugbears: 3	Revolting Bugbear: 3	Revolving Bugbear: 3	Annoying Spooky Gravy Fairy: 2
 Burnbarrel Blvd.	-1	Hot hobo	Ol' Scratch: 0
 Camp Logging Camp	80	decent lumberjack	lumberjack supervisor	lumberjill	lumberjuan	Hockey Elemental: -1
-Chapel	100
 Chemistry Class	100	dropped base	sodium golem	Bunsen burner and beaker	possessed eyewashing station	Mrs. K, the Chemistry Teacher: 0
 Chinatown Shops	-1	grinning pork bun	lucky cat statue	roasted duck golem	yakuza courier: 0
 Chinatown Tenement	-1	desperate gold farmer	rabid MMO addict	yakuza thug	The Server: 0	White Bone Demon: 0
@@ -338,3 +337,4 @@ The Limerick Dungeon	0
 The Poker Room	0
 The Roulette Tables	0
 The Shore, Inc. Travel Agency	0
+Vanya's Castle Chapel	0
