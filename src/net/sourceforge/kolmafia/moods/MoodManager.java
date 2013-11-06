@@ -409,7 +409,7 @@ public abstract class MoodManager
 
 			String skillName = skills[ i ].getSkillName();
 
-			if ( skillId > 6000 && skillId < 7000 && SkillDatabase.isBuff( skillId ) )
+			if ( SkillDatabase.isAccordionThiefSong( skillId ) )
 			{
 				thiefSkills.add( skillName );
 				continue;
@@ -575,7 +575,7 @@ public abstract class MoodManager
 			if ( SkillDatabase.contains( skillName ) )
 			{
 				int skillId = SkillDatabase.getSkillId( skillName );
-				if ( skillId > 6000 && skillId < 7000 && SkillDatabase.isBuff( skillId ) )
+				if ( SkillDatabase.isAccordionThiefSong( skillId ) )
 				{
 					thiefBuffs.add( effects[ i ] );
 				}
