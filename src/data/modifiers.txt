@@ -3161,6 +3161,7 @@ pagoda plans	Resting HP Percent: +100, Resting MP Percent: +100, Adventures: +3
 saltwaterbed	Item Drop Penalty: [10*zone(The Sea)], Meat Drop Penalty: [10*zone(The Sea)], Initiative Penalty: [10*zone(The Sea)]
 sandcastle	Base Resting HP: +49, Base Resting MP: +50
 # sleeping stocking
+# spirit bed 20 turns of Spirit Schooled (+20% max MP)
 # spooky scarecrow
 stained mattress	Sleaze Resistance: +2
 tin roof (rusted)	PvP Fights: +5
@@ -4258,6 +4259,7 @@ Spicy Limeness	Muscle: -5, Moxie: +5
 Spicy Mouth	Mysticality: +5, Moxie: -5
 # Spike-and-span: Makes you look like a spiny skelelton
 Spiky Hair	Muscle: +6, Moxie: +6
+Spirit Bubble	Damage Reduction: 10, Spooky Damage: +10, Spooky Spell Damage: +10
 Spirit of Alph	Muscle Percent: +10
 # Spirit of Bacon Grease: All Spells Cast Are Sleazy
 Spirit of Bacon Grease	Spell Damage: +10
@@ -4282,6 +4284,7 @@ Spookypants	Spooky Resistance: +1
 Stopping to Smell the Flowers	Experience: +3
 # Spore-Wreathed: Reduce enemy defense by 20%
 Springy Fusilli	Initiative: +40
+Spirit Schooled	Maximum MP Percent: +20
 # Square Jaw And Everything Else: Makes you look like Scott the Miner
 Square to be Hip	Moxie Percent: +10
 Squatting and Thrusting	Experience (Muscle): +7
@@ -5533,6 +5536,7 @@ sodium pentasomething	Effect: "Truthful", Effect Duration: 20
 sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
 sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
+spirit gum	Effect: "Spirit Bubble", Effect Duration: 10
 spooky eyeliner	Effect: "Gothy", Effect Duration: 10
 spooky gravy fairy warlock hat	Effect: "Warlock Fairy Wizard Sorcerer", Effect Duration: 50
 spooky lipstick	Effect: "Gothy", Effect Duration: 10

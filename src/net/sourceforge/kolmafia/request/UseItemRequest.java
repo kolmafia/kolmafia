@@ -328,6 +328,7 @@ public class UseItemRequest
 		case ItemPool.BEANBAG_CHAIR:
 		case ItemPool.GAUZE_HAMMOCK:
 		case ItemPool.SALTWATERBED:
+		case ItemPool.SPIRIT_BED:
 			return CampgroundRequest.getCurrentBed() != null;
 
 		case ItemPool.MACARONI_FRAGMENTS:
@@ -590,6 +591,7 @@ public class UseItemRequest
 		case ItemPool.SPOOKY_BEDDING:
 		case ItemPool.SLEAZE_BEDDING:
 		case ItemPool.SALTWATERBED:
+		case ItemPool.SPIRIT_BED:
 		case ItemPool.BLACK_BLUE_LIGHT:
 		case ItemPool.LOUDMOUTH_LARRY:
 		case ItemPool.PLASMA_BALL:
@@ -1132,6 +1134,7 @@ public class UseItemRequest
 		case ItemPool.SPOOKY_BEDDING:
 		case ItemPool.SLEAZE_BEDDING:
 		case ItemPool.SALTWATERBED:
+		case ItemPool.SPIRIT_BED:
 		case ItemPool.BEANBAG_CHAIR:
 		case ItemPool.GAUZE_HAMMOCK:
 			AdventureResult bed = CampgroundRequest.getCurrentBed();
@@ -3495,6 +3498,7 @@ public class UseItemRequest
 		case ItemPool.SLEEPING_STOCKING:
 		case ItemPool.LAZYBONES_RECLINER:
 		case ItemPool.SALTWATERBED:
+		case ItemPool.SPIRIT_BED:
 		
 			if ( responseText.contains( "You've already got" ) || responseText.contains( "You don't have" ) )
 			{
@@ -4547,6 +4551,19 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.GREEN_LINT, -1 );
 				ResultProcessor.processItem( ItemPool.WHITE_LINT, -1 );
 				ResultProcessor.processItem( ItemPool.ORANGE_LINT, -1 );
+			}
+			return;
+		case ItemPool.SPIRIT_PILLOW:
+		case ItemPool.SPIRIT_SHEET:
+		case ItemPool.SPIRIT_MATTRESS:
+		case ItemPool.SPIRIT_BLANKET:
+			if ( responseText.contains( "spirit bed" ) )
+			{
+				// Remove lint
+				ResultProcessor.processItem( ItemPool.SPIRIT_PILLOW, -1 );
+				ResultProcessor.processItem( ItemPool.SPIRIT_SHEET, -1 );
+				ResultProcessor.processItem( ItemPool.SPIRIT_MATTRESS, -1 );
+				ResultProcessor.processItem( ItemPool.SPIRIT_BLANKET, -1 );
 			}
 			return;
 		}
