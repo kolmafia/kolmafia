@@ -2857,7 +2857,7 @@ public abstract class ChoiceManager
 
 		// Choice 803 is Behind the Music.  Literally.
 		new ChoiceAdventure(
-			"Events", "choiceAdventure803", "Behind the Music.  Literally.",
+			"Events", "choiceAdventure803", "The Space Odyssey Discotheque",
 			new Object[] { new Option( "gain 2-3 horoscopes", 1 ),
 				       new Option( "find interesting room", 3 ),
 				       new Option( "investigate interesting room", 4 ),
@@ -2867,6 +2867,11 @@ public abstract class ChoiceManager
 		// Choice 804 is Trick or Treat!
 		// Choice 805 is A Sietch in Time
 
+		// Choice 808 is Silence at Last.
+		new ChoiceAdventure(
+			"Events", "choiceAdventure808", "The Spirit World",
+			new Object[] { new Option( "gain spirit bed piece" ) } ),
+			
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

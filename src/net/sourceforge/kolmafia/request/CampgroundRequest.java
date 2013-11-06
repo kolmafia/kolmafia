@@ -105,6 +105,7 @@ public class CampgroundRequest
 		ItemPool.STENCH_BEDDING,
 		ItemPool.SLEEPING_STOCKING,
 		ItemPool.SALTWATERBED,
+		ItemPool.SPIRIT_BED,
 
 		// Inside dwelling
 		ItemPool.BLACK_BLUE_LIGHT,
@@ -801,6 +802,7 @@ public class CampgroundRequest
 		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.LOUDMOUTH_LARRY, 1 ) );
 		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.PLASMA_BALL, 1 ) );
 		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SALTWATERBED, 1 ) );
+		CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.SPIRIT_BED, 1 ) );
 	}
 
 	public static AdventureResult getCurrentBed()
@@ -878,6 +880,7 @@ public class CampgroundRequest
 		case ItemPool.SPOOKY_BEDDING:
 		case ItemPool.SLEAZE_BEDDING:
 		case ItemPool.SALTWATERBED:
+		case ItemPool.SPIRIT_BED:
 			return true;
 		}
 		return false;

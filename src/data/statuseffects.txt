@@ -1413,3 +1413,28 @@
 1412	Extra-Sharp Weapon	straightrazor.gif	68acb17c4731eef699ca1e3f8db79704	use 1 nail file
 1413	Litterbug	beetle.gif	d2684d87f37e7d1e46dc32bf7bcafaa9	use 1 old candy wrapper
 1414	Black Day	coupon.gif	6eaa7a64ccc96eed78675082f126d197	use 1 post-holiday sale coupon
+1415
+1416
+1417
+1418
+1419
+1420
+1421
+1422
+1423
+1424
+1425
+1426
+1427
+1428
+1429
+1430
+1431
+1432
+1433
+1434
+1435
+1436
+1437
+1438	Spirit Bubble	sphere.gif	e0175cc5f83e7d239a7535bde4154ef3	use 1 spirit gum
+1439	Spirit Schooled	spiritbed.gif	72f14039f806484867a6db8ee483dfab

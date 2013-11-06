@@ -6899,3 +6899,10 @@
 6882	power sock	713414059	sock1.gif	accessory	t,d	1
 6883	wool sock	340341351	sock2.gif	accessory	t,d	1
 6884	moustache sock	115671108	sockdolager.gif	accessory	t,d	1
+6885	spirit gum	791109479	spiritgum.gif	usable	t,d	5
+6886	spirit pillow	837578037	spiritpillow.gif	reusable	t	0
+6887	spirit sheet	873296406	spiritsheet.gif	reusable	t	0
+6888	spirit mattress	225865373	spiritmattress.gif	reusable	t	0
+6889	spirit blanket	806445121	spiritblanket.gif	reusable	t	0
+6890	spirit bed	528640837	spiritbed.gif	usable	t	0
+

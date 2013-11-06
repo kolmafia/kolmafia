@@ -1891,6 +1891,11 @@ public class ItemPool
 	public static final int GREEN_LINT = 6878;
 	public static final int WHITE_LINT = 6879;
 	public static final int ORANGE_LINT = 6880;
+	public static final int SPIRIT_PILLOW = 6886;
+	public static final int SPIRIT_SHEET = 6887;
+	public static final int SPIRIT_MATTRESS = 6888;
+	public static final int SPIRIT_BLANKET = 6889;
+	public static final int SPIRIT_BED = 6890;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
