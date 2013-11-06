@@ -1260,6 +1260,16 @@ public class Modifiers
 
 	public double get( final String name )
 	{
+		if ( name.equals( "Prismatic Damage" ) )
+		{
+			double damage = this.doubles[ Modifiers.COLD_DAMAGE ];
+			damage = Math.min( damage, this.doubles[ Modifiers.HOT_DAMAGE ] );
+			damage = Math.min( damage, this.doubles[ Modifiers.SLEAZE_DAMAGE ] );
+			damage = Math.min( damage, this.doubles[ Modifiers.SPOOKY_DAMAGE ] );
+			damage = Math.min( damage, this.doubles[ Modifiers.STENCH_DAMAGE ] );
+			return damage;
+		}
+
 		int index = Modifiers.findName( Modifiers.doubleModifiers, name );
 		if ( index < 0 || index >= this.doubles.length )
 		{
@@ -1351,6 +1361,13 @@ public class Modifiers
 
 	public String getString( final String name )
 	{
+		// Can't cache this as expressions can be dependent on things
+		// that can change within a session, like character level.
+		if ( name.equals( "Evaluated Modifiers" ) )
+		{
+			return Modifiers.evaluateModifiers( this.strings[ Modifiers.MODIFIERS ] );
+		}
+
 		int index = Modifiers.findName( Modifiers.stringModifiers, name );
 		if ( index < 0 || index >= this.strings.length )
 		{
@@ -1763,6 +1780,88 @@ public class Modifiers
 		Modifiers.modifiersByName.put( name, newMods );
 
 		return newMods;
+	}
+
+	public final static String evaluateModifiers( final String modifiers )
+	{
+		// Nothing to do if no expressions
+		if ( !modifiers.contains( "[" ) )
+		{
+			return modifiers;
+		}
+
+		// Otherwise, break apart the string and rebuild it with all
+		// expressions evaluated.
+		String[] mods = modifiers.split( ", " );
+		StringBuilder buffer = new StringBuilder();
+		for ( int i = 0; i < mods.length; ++i )
+		{
+			if ( i > 0 )
+			{
+				buffer.append( ", " );
+			}
+			String mod = mods[ i ];
+			int lb = mod.indexOf( "[" );
+			if ( lb == -1 )
+			{
+				buffer.append( mod );
+				continue;
+			}
+			int rb = mod.indexOf( "]", lb );
+			if ( rb == -1 )
+			{
+				buffer.append( mod );
+				continue;
+			}
+			int colon = mod.indexOf( ":" );
+			if ( colon == -1 )
+			{
+				buffer.append( mod );
+				continue;
+			}
+			String name = mod.substring( 0, colon );
+			ModifierExpression expr = new ModifierExpression( mod.substring( lb + 1, rb ), name );
+			if ( expr.hasErrors() )
+			{
+				buffer.append( mod );
+				continue;
+			}
+
+			int val = (int)expr.eval();
+
+			buffer.append( name );
+			buffer.append( ": " );
+			buffer.append( val > 0 ? "+" : "" );
+			buffer.append( val );
+		}
+		return buffer.toString();
+	}
+
+	public final static String trimModifiers( final String modifiers, final String remove )
+	{
+		String[] mods = modifiers.split( ", " );
+		StringBuilder buffer = new StringBuilder();
+		for ( int i = 0; i < mods.length; ++i )
+		{
+			if ( i > 0 )
+			{
+				buffer.append( ", " );
+			}
+			String mod = mods[ i ];
+			int colon = mod.indexOf( ":" );
+			if ( colon == -1 )
+			{
+				buffer.append( mod );
+				continue;
+			}
+			String name = mod.substring( 0, colon );
+			if ( name.equals( remove ) )
+			{
+				continue;
+			}
+			buffer.append( mod );
+		}
+		return buffer.toString();
 	}
 
 	private boolean override( final String name )

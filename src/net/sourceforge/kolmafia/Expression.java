@@ -76,6 +76,11 @@ public class Expression
 		return this.error;
 	}
 
+	public boolean hasErrors()
+	{
+		return this.error != null;
+	}
+
 	public String getExpressionErrors()
 	{
 		if ( this.error == null )

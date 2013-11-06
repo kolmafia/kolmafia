@@ -4553,13 +4553,14 @@ public class UseItemRequest
 				ResultProcessor.processItem( ItemPool.ORANGE_LINT, -1 );
 			}
 			return;
+
 		case ItemPool.SPIRIT_PILLOW:
 		case ItemPool.SPIRIT_SHEET:
 		case ItemPool.SPIRIT_MATTRESS:
 		case ItemPool.SPIRIT_BLANKET:
 			if ( responseText.contains( "spirit bed" ) )
 			{
-				// Remove lint
+				// Remove bedding
 				ResultProcessor.processItem( ItemPool.SPIRIT_PILLOW, -1 );
 				ResultProcessor.processItem( ItemPool.SPIRIT_SHEET, -1 );
 				ResultProcessor.processItem( ItemPool.SPIRIT_MATTRESS, -1 );
