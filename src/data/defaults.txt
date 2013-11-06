@@ -185,6 +185,7 @@ global	useCrimboToysSoftcore	true
 global	useDecoratedTabs
 global	useDevProxyServer	false
 global	useDockIconBadge	false
+global	useImageCache	true
 global	useLastUserAgent	false
 global	useNaiveSecureLogin	false
 global	useSecureLogin	false
