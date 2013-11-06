@@ -151,7 +151,7 @@ public class MoodTrigger
 				this.isThiefTrigger =
 					this.skillId > 6000 &&
 					this.skillId < 7000 &&
-					SkillDatabase.getSkillType( this.skillId ) == SkillDatabase.BUFF;
+					SkillDatabase.isBuff( this.skillId );
 			}
 		}
 
